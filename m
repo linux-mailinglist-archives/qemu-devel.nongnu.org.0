@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDFE6481E8
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:43:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE5A6481BE
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 12:30:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3bXj-0006TJ-JW; Fri, 09 Dec 2022 06:27:51 -0500
+	id 1p3bXI-0005xQ-HR; Fri, 09 Dec 2022 06:27:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bVy-0004X5-1h
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:03 -0500
+ id 1p3bVm-0004SH-Em
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:25:55 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p3bVp-0001Oa-Sx
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:26:01 -0500
+ id 1p3bVU-0001Qe-Gp
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 06:25:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670585123;
+ s=mimecast20190719; t=1670585126;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OKffBOnQ3NCwm5mK91PnkEuN7WOMVA1WCIp8ukU17gM=;
- b=Mwr5Om6wZ8h4/NPh8NaoBmM9qyhyUV8LTR2yg46DuhJxU/VjrDsvw0guAgn5/BJ6fdCdXU
- gUQPnhnKgWVdii+mfFCenyXs5i0QVZp63D7411y1whtdTqtw6IsjSvjxewLdhlNH6t1ulv
- 5JR1TS6ou79o1QvGHIOqj9xRlNJEmKs=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pR26OFOoy6QKEyt1tQyJHyljdRra3eCvOh/6b4sB30I=;
+ b=Ms/RJHvzCNdi9+1zmi+RoHZ9gTnrx/ku2RrZ7shZP3xmQqx9jnG20Y/Bi2K9kvCZXPJ3eW
+ J36Y+vZSL6Kwcmdk/ANzWaaasYsTC6qkBWOX3HDJ8XH0gvbwYwkH5+4cNqXfT3FRxfindI
+ EN+ISyctjQQbFvHsdiF/tVHtVu75vUQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-o6wO_WBFO5C9rMUXTzUXPw-1; Fri, 09 Dec 2022 06:25:21 -0500
-X-MC-Unique: o6wO_WBFO5C9rMUXTzUXPw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- qw20-20020a1709066a1400b007af13652c92so2951867ejc.20
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:25:21 -0800 (PST)
+ us-mta-352-eS_KCv_oMOuB_tcmctgXKg-1; Fri, 09 Dec 2022 06:25:25 -0500
+X-MC-Unique: eS_KCv_oMOuB_tcmctgXKg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ x20-20020a05640226d400b0046cbe2b85caso1206410edd.3
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 03:25:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OKffBOnQ3NCwm5mK91PnkEuN7WOMVA1WCIp8ukU17gM=;
- b=mIPeBbPaEy8rE8mT4Po+4WLYRsNsTv4OF57EqUJrIcE4XcvwhthkJWRUgyFn2JyjNV
- xm4ZXekFq1N/8BbqamUKKJhNKMnFxzDowgLulATd0EhQF/qiz7GmZ8FTvg/N+Iuz6TYT
- Om/ezCz4ws6Dk3/Z/0sXnEpqAkPiU960/RM2TxgWqAqJGz66ART7SGSnLP5VsnkwpYuX
- X0fJc48Xbl84ZFeV84G2DKk9MC2TQwgLsBqVwiurmf90gtWEDAFSttOBQG4L41Y6ewya
- Io7mvhSpwjp7hvAKppBDAvN6HG+HL0XKcYq+s2YKdP8pJ4LaLylLFbYyO5mE4d9ibj/b
- X+QQ==
-X-Gm-Message-State: ANoB5pnmT1nv8AL+VObAWrjoUP0eMIaH87xje+Io/Vbc0UW1rRDymdRU
- 4FQFzmYHPYxcKHHgdpxlb9ikNE7Sg37dvsK9mykjmww3Rh7CqRxnTbq7nC/qtX+NK9V6ekg0GMt
- nUSE4ELApRZVjJxQCEPX30MI0jjFfwkxxbzhIhFcMJ03btLJW3wjHECbY4cS+J+t50bA=
-X-Received: by 2002:a17:906:9d9f:b0:7c0:f90e:e5b6 with SMTP id
- fq31-20020a1709069d9f00b007c0f90ee5b6mr3738652ejc.31.1670585120464; 
- Fri, 09 Dec 2022 03:25:20 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5fLbJbYKcpdIUaMe2hQVEcC3YHp6wRO5jvkomxA32e+99/fpzbTV3BuxbQPk7kCSSOxmnHmg==
-X-Received: by 2002:a17:906:9d9f:b0:7c0:f90e:e5b6 with SMTP id
- fq31-20020a1709069d9f00b007c0f90ee5b6mr3738637ejc.31.1670585120080; 
- Fri, 09 Dec 2022 03:25:20 -0800 (PST)
+ bh=pR26OFOoy6QKEyt1tQyJHyljdRra3eCvOh/6b4sB30I=;
+ b=UVCzWJ3zQqcbyM875buYBcod5q/LrTBQW4meudQK3khpRcSb7JKeu+OMiuIlLqEw2P
+ mUTHuINAwShT/LXLKjFopnTiMr+E3jAYwNaeGjMQqcWX2RsIea0O5XZytdM9nkSZjxAT
+ qhrlpfdSTJSbJtmdVIBaZ76nA/wcWmM2pR1YdZ1Gflxe6WYz4b/wqQKAL+X8+rV43dtC
+ Ce3AHdVj/ui+OiAsszuOAp7s643kQB2mQBenwuqSu9VCRgaAYp3SSSxqo695R3o/X3SY
+ tAMpVk0HzMcbhbafufKobXj3Km16hbDRWZlcZUntrnKTpACoBbIJa9DXF+V9RzdTydTI
+ AmnA==
+X-Gm-Message-State: ANoB5pnVSgDZrcnUfjBLh7lmOXRBFSL7qzKtDrhbAbAEAaTQVLeYcf5L
+ FZSzIUv9+stq9y2qSsaxQJFfP7nZuY7fdHOSn0dWfW5SItg20dV5AFX99StozBB9TncbKgQEuIJ
+ xBai7EJzXADkltoq0nib1vyc80AmRoMtDgcpuWLKNAPOmXQSBKuzkxCsvdQhZ4vvz/7U=
+X-Received: by 2002:a17:907:3e91:b0:7c1:13b5:c434 with SMTP id
+ hs17-20020a1709073e9100b007c113b5c434mr7128924ejc.35.1670585123586; 
+ Fri, 09 Dec 2022 03:25:23 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5SIPZST8b0DzEQ+7k2Zp/FUmA/QDhn5mthLOmEOCR/T9zehUQvUqFFhAhG46mWwl6eoUkbXw==
+X-Received: by 2002:a17:907:3e91:b0:7c1:13b5:c434 with SMTP id
+ hs17-20020a1709073e9100b007c113b5c434mr7128897ejc.35.1670585123227; 
+ Fri, 09 Dec 2022 03:25:23 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- er18-20020a056402449200b004588ef795easm524492edb.34.2022.12.09.03.25.19
+ 17-20020a170906211100b0073d71792c8dsm434522ejt.180.2022.12.09.03.25.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Dec 2022 03:25:19 -0800 (PST)
+ Fri, 09 Dec 2022 03:25:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/30] configure, meson: move --enable-debug-info to Meson
-Date: Fri,  9 Dec 2022 12:23:58 +0100
-Message-Id: <20221209112409.184703-20-pbonzini@redhat.com>
+Subject: [PATCH 20/30] meson: prepare move of QEMU_CFLAGS to meson
+Date: Fri,  9 Dec 2022 12:23:59 +0100
+Message-Id: <20221209112409.184703-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221209112409.184703-1-pbonzini@redhat.com>
 References: <20221209112409.184703-1-pbonzini@redhat.com>
@@ -99,80 +99,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Older versions of Meson had an unclear description of the -Ddebug option,
-but this is fixed in 0.63.0 that is required now.
+Clean up the handling of compiler flags in meson.build, splitting
+the general flags that should be included in subprojects as well,
+from warning flags that only apply to QEMU itself.  The two were
+mixed in both configure tests and meson tests.
+
+This split makes it easier to move the compiler tests piecewise
+from configure to Meson.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 5 -----
- scripts/meson-buildoptions.py | 2 ++
- scripts/meson-buildoptions.sh | 3 +++
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ meson.build | 53 +++++++++++++++++++++++++++++------------------------
+ 1 file changed, 29 insertions(+), 24 deletions(-)
 
-diff --git a/configure b/configure
-index 26d10aeffd82..b0df6c3cf754 100755
---- a/configure
-+++ b/configure
-@@ -700,10 +700,6 @@ for opt do
-   ;;
-   --cross-prefix-*)
-   ;;
--  --enable-debug-info) meson_option_add -Ddebug=true
--  ;;
--  --disable-debug-info) meson_option_add -Ddebug=false
--  ;;
-   --cpu=*)
-   ;;
-   --target-list=*) target_list="$optarg"
-@@ -995,7 +991,6 @@ cat << EOF
-   bsd-user        all BSD usermode emulation targets
-   pie             Position Independent Executables
-   debug-tcg       TCG debugging (default is disabled)
--  debug-info      debugging information
-   safe-stack      SafeStack Stack Smash Protection. Depends on
-                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
+diff --git a/meson.build b/meson.build
+index 99c1bde4d154..dac343d14797 100644
+--- a/meson.build
++++ b/meson.build
+@@ -190,10 +190,23 @@ endif
+ # Compiler flags #
+ ##################
  
-diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
-index 3e2b4785388f..8e4e5c4e8bd6 100755
---- a/scripts/meson-buildoptions.py
-+++ b/scripts/meson-buildoptions.py
-@@ -35,6 +35,7 @@
- OPTION_NAMES = {
-     "b_coverage": "gcov",
-     "b_lto": "lto",
-+    "debug": "debug-info",
-     "malloc": "enable-malloc",
-     "pkgversion": "with-pkgversion",
-     "qemu_firmwarepath": "firmwarepath",
-@@ -45,6 +46,7 @@
- BUILTIN_OPTIONS = {
-     "b_coverage",
-     "b_lto",
-+    "debug",
-     "datadir",
-     "includedir",
-     "libdir",
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index f91797741eef..cb277347bb18 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -10,6 +10,7 @@ meson_options_help() {
-   printf "%s\n" '                           affects only QEMU, not tools like qemu-img)'
-   printf "%s\n" '  --datadir=VALUE          Data file directory [share]'
-   printf "%s\n" '  --disable-coroutine-pool coroutine freelist (better performance)'
-+  printf "%s\n" '  --disable-debug-info     Enable debug symbols and other information'
-   printf "%s\n" '  --disable-install-blobs  install provided firmware blobs'
-   printf "%s\n" '  --docdir=VALUE           Base directory for documentation installation'
-   printf "%s\n" '                           (can be empty) [share/doc]'
-@@ -242,6 +243,8 @@ _meson_option_parse() {
-     --datadir=*) quote_sh "-Ddatadir=$2" ;;
-     --enable-dbus-display) printf "%s" -Ddbus_display=enabled ;;
-     --disable-dbus-display) printf "%s" -Ddbus_display=disabled ;;
-+    --enable-debug-info) printf "%s" -Ddebug=true ;;
-+    --disable-debug-info) printf "%s" -Ddebug=false ;;
-     --enable-debug-mutex) printf "%s" -Ddebug_mutex=true ;;
-     --disable-debug-mutex) printf "%s" -Ddebug_mutex=false ;;
-     --enable-debug-stack-usage) printf "%s" -Ddebug_stack_usage=true ;;
+-qemu_cflags = config_host['QEMU_CFLAGS'].split()
++qemu_common_flags = []
++qemu_cflags = []
++foreach arg : config_host['QEMU_CFLAGS'].split()
++  if arg.startswith('-W')
++    qemu_cflags += arg
++  else
++    qemu_common_flags += arg
++  endif
++endforeach
+ qemu_objcflags = config_host['QEMU_OBJCFLAGS'].split()
+ qemu_ldflags = config_host['QEMU_LDFLAGS'].split()
+ 
++if get_option('gprof')
++  qemu_common_flags += ['-p']
++  qemu_ldflags += ['-p']
++endif
++
+ if get_option('prefer_static')
+   qemu_ldflags += get_option('b_pie') ? '-static-pie' : '-static'
+ endif
+@@ -207,10 +220,9 @@ if targetos == 'windows'
+   qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase', '-Wl,--high-entropy-va')
+ endif
+ 
+-if get_option('gprof')
+-  qemu_cflags += ['-p']
+-  qemu_objcflags += ['-p']
+-  qemu_ldflags += ['-p']
++# Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
++if targetos != 'sunos' and not config_host.has_key('CONFIG_TSAN')
++  qemu_ldflags += cc.get_supported_link_arguments('-Wl,--warn-common')
+ endif
+ 
+ # Specify linker-script with add_project_link_arguments so that it is not placed
+@@ -230,8 +242,7 @@ if get_option('fuzzing')
+                   name: '-fsanitize-coverage-allowlist=/dev/null',
+                  args: ['-fsanitize-coverage-allowlist=/dev/null',
+                         '-fsanitize-coverage=trace-pc'] )
+-    add_global_arguments('-fsanitize-coverage-allowlist=instrumentation-filter',
+-                         native: false, language: all_languages)
++    qemu_common_flags += ['-fsanitize-coverage-allowlist=instrumentation-filter']
+   endif
+ 
+   if get_option('fuzzing_engine') == ''
+@@ -239,10 +250,8 @@ if get_option('fuzzing')
+     # compiled code.  To build non-fuzzer binaries with --enable-fuzzing, link
+     # everything with fsanitize=fuzzer-no-link. Otherwise, the linker will be
+     # unable to bind the fuzzer-related callbacks added by instrumentation.
+-    add_global_arguments('-fsanitize=fuzzer-no-link',
+-                         native: false, language: all_languages)
+-    add_global_link_arguments('-fsanitize=fuzzer-no-link',
+-                              native: false, language: all_languages)
++    qemu_common_flags += ['-fsanitize=fuzzer-no-link']
++    qemu_ldflags += ['-fsanitize=fuzzer-no-link']
+     # For the actual fuzzer binaries, we need to link against the libfuzzer
+     # library. They need to be configurable, to support OSS-Fuzz
+     fuzz_exe_ldflags = ['-fsanitize=fuzzer']
+@@ -253,6 +262,9 @@ if get_option('fuzzing')
+   endif
+ endif
+ 
++add_global_arguments(qemu_common_flags, native: false, language: all_languages)
++add_global_link_arguments(qemu_ldflags, native: false, language: all_languages)
++
+ # Check that the C++ compiler exists and works with the C compiler.
+ link_language = 'c'
+ linker = cc
+@@ -276,16 +288,9 @@ if 'cpp' in all_languages
+   endif
+ endif
+ 
+-# Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
+-if targetos != 'sunos' and not config_host.has_key('CONFIG_TSAN')
+-  qemu_ldflags += linker.get_supported_link_arguments('-Wl,--warn-common')
+-endif
+-
+-add_global_link_arguments(qemu_ldflags, native: false, language: all_languages)
+-
+-add_global_arguments(qemu_cflags, native: false, language: 'c')
+-add_global_arguments(qemu_cxxflags, native: false, language: 'cpp')
+-add_global_arguments(qemu_objcflags, native: false, language: 'objc')
++add_project_arguments(qemu_cflags, native: false, language: 'c')
++add_project_arguments(qemu_cxxflags, native: false, language: 'cpp')
++add_project_arguments(qemu_objcflags, native: false, language: 'objc')
+ if targetos == 'linux'
+   add_project_arguments('-isystem', meson.current_source_dir() / 'linux-headers',
+                         '-isystem', 'linux-headers',
+@@ -3778,12 +3783,12 @@ link_args = get_option(link_language + '_link_args')
+ if link_args.length() > 0
+   summary_info += {'LDFLAGS':         ' '.join(link_args)}
+ endif
+-summary_info += {'QEMU_CFLAGS':       ' '.join(qemu_cflags)}
++summary_info += {'QEMU_CFLAGS':       ' '.join(qemu_common_flags + qemu_cflags)}
+ if 'cpp' in all_languages
+-  summary_info += {'QEMU_CXXFLAGS':     ' '.join(qemu_cxxflags)}
++  summary_info += {'QEMU_CXXFLAGS':     ' '.join(qemu_common_flags + qemu_cxxflags)}
+ endif
+ if 'objc' in all_languages
+-  summary_info += {'QEMU_OBJCFLAGS':    ' '.join(qemu_objcflags)}
++  summary_info += {'QEMU_OBJCFLAGS':    ' '.join(qemu_common_flags + qemu_objcflags)}
+ endif
+ summary_info += {'QEMU_LDFLAGS':      ' '.join(qemu_ldflags)}
+ summary_info += {'profiler':          get_option('profiler')}
 -- 
 2.38.1
 
