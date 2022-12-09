@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA2664807D
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 10:57:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C7C6480BC
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 11:14:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3a8I-0002eu-R4; Fri, 09 Dec 2022 04:57:31 -0500
+	id 1p3a8A-0002eC-BD; Fri, 09 Dec 2022 04:57:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+70dbbb0d34525a3cd306+7047+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p3a7N-0002SU-15
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:35 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ <BATV+00235e7d7be18c3eb674+7047+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p3a7S-0002Ss-UO
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:41 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+70dbbb0d34525a3cd306+7047+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p3a7I-0006pP-So
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:32 -0500
+ <BATV+00235e7d7be18c3eb674+7047+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p3a7Q-0006qh-Gi
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 04:56:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=GAVY2oYMGh9a7gapK4qpBFJ0kJvbuYtCCVfUGDMCI/M=; b=dycRG1xN/ZskCJWqcAgs6sDcKs
- cLgk9Ca1Wez20z4lspseGj6P+PqcPNwi9yxyYChlvMSKs0rG8qcmVfrc4a90eErclbhU/rsLels5p
- u0+7Ybzm3JH7gxARjBKoU+FQEqQxAFnZSN9c+ejQvWktGh/Ty43hwcOHSzQmROTgFCToYor3JRBMz
- 6/OzyJ8BzbFdd3MOI1TCqR59pea6+JArLuQO6mCoG29dwgE+vAGc/nRR/IgUJvskqDHuTOnCh0Vqh
- tK1iw+Re3fE3/v2GMEv/oJA4nb+zV/Q8laoVzAud98n7oD28ZMuwABP0uCSZZkQrMhEJRDeFOp0lE
- HOdn9c+g==;
+ bh=lIlMBcPXH64zUVREtRgY4luMAzD6i7RUuD8FuaojD9k=; b=uxcd4XjPooP927bsK7Vw8yf/UE
+ IfnuKD5QtCw9LWYQioIHi+FRmb68Rj0sIl41C1osgFsSrQPXrVMrHUxke3SrOqseY4Igy8VfdmIq8
+ ktQ6Os2xiIrmnWhKTmNMhpV+4rvC7lT6L/+D6dF/CO9Ei4tGkElVNId5EDS/GK1LwRT/l+ohkPzhm
+ gIdGlyEysjUAIN/O/lMEwfMnkCw0otxyM4j0a+tDZJ368ekTyG6+P9cvYofAKJa6oC7/W9dne80oO
+ x7XMxUYvvUXmofWPSAqVS86cRsscfMbO6PpAJjhWdfgd7A66827M1eL24GxIWbscmCatXkXJjZODK
+ a2Liu0tQ==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p3a78-008l4M-Hx; Fri, 09 Dec 2022 09:56:20 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1p3a7G-007tiW-HC; Fri, 09 Dec 2022 09:56:26 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p3a78-002tZ4-3k; Fri, 09 Dec 2022 09:56:18 +0000
+ Hat Linux)) id 1p3a78-002tZ8-4Z; Fri, 09 Dec 2022 09:56:18 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,19 +46,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v2 14/22] i386/xen: implement HYPERVISOR_hvm_op
-Date: Fri,  9 Dec 2022 09:56:04 +0000
-Message-Id: <20221209095612.689243-15-dwmw2@infradead.org>
+Subject: [RFC PATCH v2 15/22] i386/xen: implement HYPERVISOR_vcpu_op
+Date: Fri,  9 Dec 2022 09:56:05 +0000
+Message-Id: <20221209095612.689243-16-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221209095612.689243-1-dwmw2@infradead.org>
 References: <20221209095612.689243-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+70dbbb0d34525a3cd306+7047+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+00235e7d7be18c3eb674+7047+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -83,56 +83,66 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-This is when guest queries for support for HVMOP_pagetable_dying.
+This is simply when guest tries to register a vcpu_info
+and since vcpu_info placement is optional in the minimum ABI
+therefore we can just fail with -ENOSYS
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- target/i386/xen.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ target/i386/xen.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/target/i386/xen.c b/target/i386/xen.c
-index ddd144039a..2847b4f864 100644
+index 2847b4f864..9d1daadee1 100644
 --- a/target/i386/xen.c
 +++ b/target/i386/xen.c
-@@ -18,6 +18,7 @@
- #include "hw/i386/kvm/xen_overlay.h"
+@@ -19,6 +19,7 @@
  #include "standard-headers/xen/version.h"
  #include "standard-headers/xen/memory.h"
-+#include "standard-headers/xen/hvm/hvm_op.h"
+ #include "standard-headers/xen/hvm/hvm_op.h"
++#include "standard-headers/xen/vcpu.h"
  
  static int kvm_gva_rw(CPUState *cs, uint64_t gva, void *_buf, size_t sz,
                        bool is_write)
-@@ -180,6 +181,19 @@ static bool kvm_xen_hcall_memory_op(struct kvm_xen_exit *exit,
-     return true;
+@@ -194,6 +195,25 @@ static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit,
+     }
  }
  
-+static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit,
-+                                 int cmd, uint64_t arg)
++static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
++                                  int cmd, int vcpu_id, uint64_t arg)
 +{
++    int err;
++
 +    switch (cmd) {
-+    case HVMOP_pagetable_dying:
-+            exit->u.hcall.result = -ENOSYS;
-+            return true;
++    case VCPUOP_register_vcpu_info:
++        /* no vcpu info placement for now */
++        err = -ENOSYS;
++        break;
 +
 +    default:
-+            return false;
++        return false;
 +    }
++
++    exit->u.hcall.result = err;
++    return true;
 +}
 +
  static bool __kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
  {
      uint16_t code = exit->u.hcall.input;
-@@ -190,6 +204,9 @@ static bool __kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+@@ -204,6 +224,11 @@ static bool __kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
      }
  
      switch (code) {
-+    case __HYPERVISOR_hvm_op:
-+        return kvm_xen_hcall_hvm_op(exit, exit->u.hcall.params[0],
-+                                    exit->u.hcall.params[1]);
-     case __HYPERVISOR_memory_op:
-         return kvm_xen_hcall_memory_op(exit, exit->u.hcall.params[0],
-                                        exit->u.hcall.params[1], cpu);
++    case __HYPERVISOR_vcpu_op:
++        return kvm_xen_hcall_vcpu_op(exit, cpu,
++                                     exit->u.hcall.params[0],
++                                     exit->u.hcall.params[1],
++                                     exit->u.hcall.params[2]);
+     case __HYPERVISOR_hvm_op:
+         return kvm_xen_hcall_hvm_op(exit, exit->u.hcall.params[0],
+                                     exit->u.hcall.params[1]);
 -- 
 2.35.3
 
