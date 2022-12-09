@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FC864839A
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 15:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98A546483A3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Dec 2022 15:19:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3eBp-00086Q-MU; Fri, 09 Dec 2022 09:17:32 -0500
+	id 1p3eE5-0000Y6-Rk; Fri, 09 Dec 2022 09:19:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3eBn-00082r-9n
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:17:23 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3eDz-0000WI-UE
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:19:43 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p3eBl-00022F-0D
- for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:17:22 -0500
-Received: by mail-wr1-x436.google.com with SMTP id h12so5316352wrv.10
- for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 06:17:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p3eDx-0002JB-Qw
+ for qemu-devel@nongnu.org; Fri, 09 Dec 2022 09:19:39 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id c13so3783763pfp.5
+ for <qemu-devel@nongnu.org>; Fri, 09 Dec 2022 06:19:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VlBH39uho/s6lige9gbj+m8/guN/6qW4QGNMonGWlpo=;
- b=PXp7MP8aTwu73fbEe7sJt1Q22NcBeLoE/oNo2Z/X1EqSANH83+nrANhd4Oqcb6s7mz
- rdhz4wVFOud+ykcBjEne+bKgVGqSz2fCMrK1A3Ll3a/U0rlmUCTuDTyEYWymYURQ1nRS
- QSxIiZiOrnI7K9kqGwVj67AZdPNDvALtGhi7LBnlJ4xzrPPVe1cYpiNLc1mlcjynkiXd
- Cr6UyT/3Ikq+tQpmArroYr4RJkV/nK/A+V10G2xLTs27vtYfWsVvzxkS9WGEsnW8L9/o
- tSZUtNMBdJ79AMxUUDn3p4rkEYmxveWIw/X2gVwiVzJIXiDeg/RvEdeg3baftphn0TR1
- qMwA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1VBpzBzMHVCOLGpV8AuWE3F+P/ZttBlPEcoL2wdCd88=;
+ b=LbNlyhOEf3eO2b+GbvU/Df0BSLBzP9AaOqzOEhaxsQXUBw09B4Ndnwp6aBuH/G41iQ
+ AVJK/XOL8R1GKUMr87yFNOJQFPphCGyLDD3rHgEVECNSx2hEB4m8f0f5t6yEY10Ei6mt
+ oSBbE+RSF4uzU/gSiVhVLKdPQorfsFh8AyvOIn6bQq4qFpD6tKLFHSWKJvLnaigXv+Dw
+ DgpRmY+fgMmwN/r1YK7aCAP2TeoCDhRKG7ms/WHoaw50WIFJqGuZA7iRkfrdkqkuWJd9
+ foNZaja8B1kLSYZU+r2PvdHMkjtRUHoJRF7ZcrDugYUyhehiQhCvQ/NOPyC7EEN/ha8I
+ Oe4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VlBH39uho/s6lige9gbj+m8/guN/6qW4QGNMonGWlpo=;
- b=CGXzJetqeLjvIVHXdfAsh6EzJdgcFgyG9o7NeQ5CK2NcVQWn3x8dzu8b7z/qNIgNo2
- yMLGcuhMnBtxVs2U0vtU40apnKJb1qOjAx1KV+YWTGp4ls73hvgq0/Fiz1Ni+UgKKG21
- FmhAgTfo2+RgDjJEpQZ4uqjoB8xDjzyfGkLEJEhk345JJO87GrIUV7Huuy+0o2pRwUZW
- AeUPWII3ZxQlDMl2bjtE+o2a+5vsuJMZ3wC/4+p9djTqTWbkaSHk5S8xZL3UOM+QsSNK
- 5JZP88uwESxHbInIk8XDPzb9rEmFB0WN6mDV7hZRYG73BDlru+E3QE0bU5Kj0CLXJJMR
- /YwA==
-X-Gm-Message-State: ANoB5plVxqYIJ45t+Jju6Ggg/CS2N11yAiQBrhz1d/k4muSJ2PaiaMyl
- +WjbkVDjLi8E0p//nTGH50Y+Sg==
-X-Google-Smtp-Source: AA0mqf6sfMEfXkAnA/Ur7+rkWODgM4mV/i8Z0V+GGkrHiPNm5WHwXA4blp49juRvnVuQVVucjTWuBQ==
-X-Received: by 2002:a05:6000:910:b0:22e:6227:56fc with SMTP id
- bz16-20020a056000091000b0022e622756fcmr4677522wrb.0.1670595439573; 
- Fri, 09 Dec 2022 06:17:19 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- ba17-20020a0560001c1100b0024245e543absm1555408wrb.88.2022.12.09.06.17.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Dec 2022 06:17:19 -0800 (PST)
-Message-ID: <6a48aed4-3387-2bcc-6c3c-c1e82463873b@linaro.org>
-Date: Fri, 9 Dec 2022 15:17:18 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1VBpzBzMHVCOLGpV8AuWE3F+P/ZttBlPEcoL2wdCd88=;
+ b=kJwGBaCl2befVSMoZsXRWeUsiZPHGAYMNyCndTZ0stOY/e0dMtbUP0EXXEQU9eXcBR
+ SpJPAKHPnkw+bJqP824vmw8OzmfxQib21hO5eUzAAxLGjV3bd0UJI5CvuBIhpHKtJqMg
+ yXIwl9ouNgzyT+6VNHPoTmt2yTOTR2S/2qtyut0S/nL55lmFJWeqHCLpRAvaW63wNJMH
+ /Wn/YB12GexTh5ZD0O/FB5zPQo6ylasUKUfxftekCKvreN5Bbuu4Mv7UrAw2bcT7c0ba
+ p9FdmPZulTQKk3tGo752lBaKrtJ571CpUisaq6shCC6PVq7B3kI5y6ykDHCTeaKtWJN+
+ MiSQ==
+X-Gm-Message-State: ANoB5pkzu6JoLG3qc3s97FHMk9fmzaZvDbPNR3hgxaVDMqyRVmMEhY4z
+ 8P2j616z9Wpuo+bdAyLHabOz4byzk4Rj4ZKqKi4/aQ==
+X-Google-Smtp-Source: AA0mqf46u4r4IUUqFlkWT/dJUIIijRbFCs84xmA4A2SmDPrYDZfPakQD4gBi7q9om2I8OljwcvY8o1ODrwBBPOZuOEI=
+X-Received: by 2002:a62:5f81:0:b0:56b:bb06:7dd5 with SMTP id
+ t123-20020a625f81000000b0056bbb067dd5mr78908608pfb.3.1670595576046; Fri, 09
+ Dec 2022 06:19:36 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 5/5] include/hw/pci: Include hw/pci/pci.h where needed
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, ben.widawsky@intel.com,
- jonathan.cameron@huawei.com
-References: <20221209134802.3642942-1-armbru@redhat.com>
- <20221209134802.3642942-6-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221209134802.3642942-6-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-28-pbonzini@redhat.com>
+ <CAFEAcA_9wJy47nUpfkuonB_Fcu74MoC-14dj8dwi8i9HggWQKg@mail.gmail.com>
+ <af52a8d4-839e-cb0e-abb1-a15782fb071c@redhat.com>
+In-Reply-To: <af52a8d4-839e-cb0e-abb1-a15782fb071c@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Dec 2022 14:19:24 +0000
+Message-ID: <CAFEAcA-3koo6XksOObkxcUT+jjHbqqiUm31h62cho-GJv25C0A@mail.gmail.com>
+Subject: Re: [PATCH 27/30] build: move compiler version check to meson
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.288,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,18 +85,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/12/22 14:48, Markus Armbruster wrote:
-> hw/pci/pcie_sriov.h needs PCI_NUM_REGIONS.  Without the previous
-> commit, this would close an inclusion loop: hw/pci/pci.h used to
-> include hw/pci/pcie.h for PCIExpressDevice, which includes
-> pcie_sriov.h for PCIESriovPF, which now includes hw/pci/pci.h for
-> PCI_NUM_REGIONS.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   include/hw/pci/pcie_sriov.h | 2 ++
->   1 file changed, 2 insertions(+)
+On Fri, 9 Dec 2022 at 14:09, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 12/9/22 12:52, Peter Maydell wrote:
+> > The new code makes it much harder to move our compiler version
+> > requirements forward in future, because there's no longer a simple
+> > "check for normal clang X or apple clang Y" test where we can
+> > bump up X and Y based on what's provided in the various host
+> > platforms we have to support. Doesn't meson provide a way to do
+> > the version check on the version number the way we were doing
+> > previously?
+>
+> Yes, I could just do the check with #error just like before.
+>
+> For GCC I used the nicer "compiler.version().version_compare('>=x.y')"
+> check.  For clang we have to deal with both upstream and Apple version
+> numbers; it's also possible to check for __apple_build_version__ to
+> distinguish between the two and then do version_compare(), but at that
+> point it's easier to just use cc.compiles() and #error.
+>
+> While it's possible to learn the upstream version corresponding to Apple
+> compilers with "c++ --verbose", it is not really machine-friendly so
+> Meson does not attempt to parse it and neither did QEMU's configure script.
+>
+> So I went for the trick of using -Wpragma-pack, which was extracted from
+> https://github.com/simd-everywhere/simde/blob/master/simde/simde-detect-clang.h.
+>   The advantage is that you only have one check, the disadvantage is of
+> course that it obscures what's going on.  I can add a clearer comment
+> around the check, or switch to #error and add a pointer to
+> https://trac.macports.org/wiki/XcodeVersionInfo where the mapping can be
+> found, or really anything else that is your preference.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I think really I just don't want a check that is "we happen to
+know that this particular option switch is supported only
+from these versions onward", because as soon as we say
+"OK, we can move forward to a clang 7 baseline" we either
+need to search around for an equivalent clever trick, or
+else we need to get rid of all this code anyway and have
+the version number check. So I don't mind how we do this
+as long as there's a straightforward bit of code that
+currently has "6 "and "10" in it and where we can change it to
+"7" and "11 "in future and it does what we intend.
 
+thanks
+-- PMM
 
