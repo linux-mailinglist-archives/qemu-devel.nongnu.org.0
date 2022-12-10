@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA27648EE7
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Dec 2022 14:41:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31960648EF2
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Dec 2022 14:49:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p404s-0005Wa-HS; Sat, 10 Dec 2022 08:39:42 -0500
+	id 1p40DE-0002P7-2W; Sat, 10 Dec 2022 08:48:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p404g-0005T9-3D
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 08:39:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1p40D9-0002Od-CI
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 08:48:18 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p404d-0005mS-6A
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 08:39:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670679566;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nauq0/8fo/Ao/Vhukag+8e/aSRrTi6h6T3TEcWsF790=;
- b=fk+aG4N0xJp5AOcynRjfuwhngDM8sfUZDUAve4HZZlXyDjII1EiRcoy2lQrMosg00YhQUM
- /vzwCU6qtp1AfRi+rCvK/nTWktqpDl41VZkSOu78BK/YO/GQuwC05Lx70+CuEJaE8/S+4r
- hBFweMQayYsSyUmqzj3A6zZgE0Pqxn0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-497-5XOSqbZcOz2V-qdsYRz0gQ-1; Sat, 10 Dec 2022 08:39:21 -0500
-X-MC-Unique: 5XOSqbZcOz2V-qdsYRz0gQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C40229AA3B4;
- Sat, 10 Dec 2022 13:39:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5A7440C6EC2;
- Sat, 10 Dec 2022 13:39:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 986B521E6936; Sat, 10 Dec 2022 14:39:15 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
- peter.maydell@linaro.org, laurent@vivier.eu, edgar.iglesias@gmail.com,
- Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
- marcel.apfelbaum@gmail.com, yangxiaojuan@loongson.cn, gaosong@loongson.cn,
- richard.henderson@linaro.org, deller@gmx.de, jasowang@redhat.com,
- vikram.garhwal@amd.com, francisco.iglesias@amd.com, clg@kaod.org,
- kraxel@redhat.com, marcandre.lureau@redhat.com, riku.voipio@iki.fi,
- qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-ppc@nongnu.org,
- crwulff@gmail.com, marex@denx.de
-Subject: [PATCH 2/2] include: Include headers where needed
-Date: Sat, 10 Dec 2022 14:39:15 +0100
-Message-Id: <20221210133915.4104305-3-armbru@redhat.com>
-In-Reply-To: <20221210133915.4104305-1-armbru@redhat.com>
-References: <20221210133915.4104305-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1p40D7-0001G0-1J
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 08:48:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4e9f48/bK1R9bnJwzJrjuI3+9CQZ4hfP9Qsjq0QHjTc=; b=mLc49cIHy+HOzQy9B7z+5Dbyaa
+ /V0zAh3VUtPFNtA27KW2OS6ItmHXq1+tLZi0285pPktXtkDpFZl1C8G5HYQzTqVYp2EIgYJkRWRxU
+ xsYiBqV/EGo2ecEUljCt7mfNlbRZgEbqZ3vRnGkuvKma7WgjD62AAgXeyqobm8BTx0mDl1Bga1PvE
+ XCooihI5LeH8eJQLKGhTBLh5eAi3RePdRw31CsCOPvAFz48JpcG6nD+yx1BdGSzhYOib1GrFwUWF3
+ lu8y73EzHjzsv0IZ/P6iu9xRMX+bxYaIS4OK0dXSVaFGC7KehdYQAEOdC2GQ6yQ/jlz2awNzU9AKo
+ 4qGr7xENj/yfSVpGeQG/4OfEVPhKhxh5uNLwNww6rSFudtOwp6dSamE/xs7xKOjL/xixfYlzVOMci
+ wdjUUcjZ5OXUNU5C6R/IWF+4n/zvlJPfIfnZcDEq8fzhTRYkE1HPawmAjE41LAnmimwz111iosQYo
+ C7JjSn/uR2O7DSeRRwB24oJRcltcV/PGm7k8TPsTjeLw+tajtEs3sql0rFOG75OPlrIVsTCmi7Jb1
+ NARb1myDDlsQtH22zYVTNtZg7XsbZnZ5eRR0j14cNsEGkSqdApqs6oTN4qdnnppiotQV6ZenaUnd7
+ CtLwxI5NrxAY/5i44yZIK6QEfU0cYR5ZiEUDHkfOo=;
+Received: from [2a00:23c4:8ba9:9200:322a:ac7b:c3c3:b65b]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1p40Cn-000Avh-0k; Sat, 10 Dec 2022 13:47:57 +0000
+Message-ID: <a9e8d0ef-e4cb-2319-d8d3-f657e167c729@ilande.co.uk>
+Date: Sat, 10 Dec 2022 13:48:00 +0000
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>
+Cc: Michael S Tsirkin <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20221209111556.110757-1-thuth@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20221209111556.110757-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba9:9200:322a:ac7b:c3c3:b65b
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 for-8.0] hw/rtc/mc146818rtc: Make this rtc device
+ target independent
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.288,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,626 +83,292 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A number of headers neglect to include everything they need.  They
-compile only if the headers they need are already included from
-elsewhere.  Fix that.
+On 09/12/2022 11:15, Thomas Huth wrote:
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- include/exec/plugin-gen.h                   | 1 +
- include/hw/acpi/erst.h                      | 3 +++
- include/hw/char/cmsdk-apb-uart.h            | 1 +
- include/hw/char/goldfish_tty.h              | 1 +
- include/hw/char/xilinx_uartlite.h           | 1 +
- include/hw/cris/etraxfs.h                   | 1 +
- include/hw/display/macfb.h                  | 3 ++-
- include/hw/dma/sifive_pdma.h                | 2 ++
- include/hw/i386/ioapic_internal.h           | 1 +
- include/hw/i386/sgx-epc.h                   | 1 +
- include/hw/intc/goldfish_pic.h              | 2 ++
- include/hw/intc/loongarch_pch_msi.h         | 2 ++
- include/hw/intc/loongarch_pch_pic.h         | 2 ++
- include/hw/intc/nios2_vic.h                 | 2 ++
- include/hw/misc/mchp_pfsoc_dmc.h            | 2 ++
- include/hw/misc/mchp_pfsoc_ioscb.h          | 2 ++
- include/hw/misc/mchp_pfsoc_sysreg.h         | 2 ++
- include/hw/misc/pvpanic.h                   | 1 +
- include/hw/misc/sifive_e_prci.h             | 3 ++-
- include/hw/misc/sifive_u_otp.h              | 3 ++-
- include/hw/misc/sifive_u_prci.h             | 3 ++-
- include/hw/misc/virt_ctrl.h                 | 2 ++
- include/hw/misc/xlnx-versal-pmc-iou-slcr.h  | 1 +
- include/hw/net/lasi_82596.h                 | 2 +-
- include/hw/net/xlnx-zynqmp-can.h            | 1 +
- include/hw/ppc/pnv_psi.h                    | 2 +-
- include/hw/riscv/boot_opensbi.h             | 2 ++
- include/hw/riscv/microchip_pfsoc.h          | 3 +++
- include/hw/riscv/numa.h                     | 1 +
- include/hw/riscv/sifive_u.h                 | 2 ++
- include/hw/riscv/spike.h                    | 2 +-
- include/hw/riscv/virt.h                     | 2 +-
- include/hw/ssi/sifive_spi.h                 | 3 +++
- include/hw/timer/sse-timer.h                | 1 +
- include/hw/usb/hcd-dwc3.h                   | 1 +
- include/hw/usb/hcd-musb.h                   | 2 ++
- include/hw/usb/xlnx-usb-subsystem.h         | 2 ++
- include/hw/usb/xlnx-versal-usb2-ctrl-regs.h | 3 +++
- include/hw/virtio/virtio-mmio.h             | 2 +-
- include/qemu/plugin-memory.h                | 3 +++
- include/sysemu/dirtyrate.h                  | 2 ++
- include/sysemu/dump.h                       | 1 +
- include/user/syscall-trace.h                | 1 +
- 43 files changed, 71 insertions(+), 9 deletions(-)
+> The only reason for this code being target dependent is the apic-related
+> code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
+> simple, we can easily move them into a new, separate file (apic_irqcount.c)
+> which will always be compiled and linked if either APIC or the mc146818 device
+> are required. This way we can get rid of the #ifdef TARGET_I386 switches in
+> mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
+> that the code only gets compiled once for all targets.
 
-diff --git a/include/exec/plugin-gen.h b/include/exec/plugin-gen.h
-index 5004728c61..5f5506f1cc 100644
---- a/include/exec/plugin-gen.h
-+++ b/include/exec/plugin-gen.h
-@@ -12,6 +12,7 @@
- #ifndef QEMU_PLUGIN_GEN_H
- #define QEMU_PLUGIN_GEN_H
- 
-+#include "exec/cpu_ldst.h"
- #include "qemu/plugin.h"
- #include "tcg/tcg.h"
- 
-diff --git a/include/hw/acpi/erst.h b/include/hw/acpi/erst.h
-index b747fe7739..b2ff663ddc 100644
---- a/include/hw/acpi/erst.h
-+++ b/include/hw/acpi/erst.h
-@@ -11,6 +11,9 @@
- #ifndef HW_ACPI_ERST_H
- #define HW_ACPI_ERST_H
- 
-+#include "hw/acpi/bios-linker-loader.h"
-+#include "qom/object.h"
-+
- void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
-                 const char *oem_id, const char *oem_table_id);
- 
-diff --git a/include/hw/char/cmsdk-apb-uart.h b/include/hw/char/cmsdk-apb-uart.h
-index 9daff0eeee..64b0a3d534 100644
---- a/include/hw/char/cmsdk-apb-uart.h
-+++ b/include/hw/char/cmsdk-apb-uart.h
-@@ -15,6 +15,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
- #include "chardev/char-fe.h"
-+#include "qapi/error.h"
- #include "qom/object.h"
- 
- #define TYPE_CMSDK_APB_UART "cmsdk-apb-uart"
-diff --git a/include/hw/char/goldfish_tty.h b/include/hw/char/goldfish_tty.h
-index 7503d2fa1e..d59733e5ae 100644
---- a/include/hw/char/goldfish_tty.h
-+++ b/include/hw/char/goldfish_tty.h
-@@ -12,6 +12,7 @@
- 
- #include "qemu/fifo8.h"
- #include "chardev/char-fe.h"
-+#include "hw/sysbus.h"
- 
- #define TYPE_GOLDFISH_TTY "goldfish_tty"
- OBJECT_DECLARE_SIMPLE_TYPE(GoldfishTTYState, GOLDFISH_TTY)
-diff --git a/include/hw/char/xilinx_uartlite.h b/include/hw/char/xilinx_uartlite.h
-index bb32d0fcb3..dd09c06801 100644
---- a/include/hw/char/xilinx_uartlite.h
-+++ b/include/hw/char/xilinx_uartlite.h
-@@ -17,6 +17,7 @@
- 
- #include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
-+#include "qapi/error.h"
- 
- static inline DeviceState *xilinx_uartlite_create(hwaddr addr,
-                                         qemu_irq irq,
-diff --git a/include/hw/cris/etraxfs.h b/include/hw/cris/etraxfs.h
-index 8b01ed67d3..467b529dc0 100644
---- a/include/hw/cris/etraxfs.h
-+++ b/include/hw/cris/etraxfs.h
-@@ -29,6 +29,7 @@
- #include "hw/cris/etraxfs_dma.h"
- #include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
-+#include "qapi/error.h"
- 
- DeviceState *etraxfs_eth_init(NICInfo *nd, hwaddr base, int phyaddr,
-                               struct etraxfs_dma_client *dma_out,
-diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-index 55a50d3fb0..27cebefc9e 100644
---- a/include/hw/display/macfb.h
-+++ b/include/hw/display/macfb.h
-@@ -15,9 +15,10 @@
- 
- #include "exec/memory.h"
- #include "hw/irq.h"
-+#include "hw/nubus/nubus.h"
-+#include "hw/sysbus.h"
- #include "ui/console.h"
- #include "qemu/timer.h"
--#include "qom/object.h"
- 
- typedef enum  {
-     MACFB_DISPLAY_APPLE_21_COLOR = 0,
-diff --git a/include/hw/dma/sifive_pdma.h b/include/hw/dma/sifive_pdma.h
-index e319bbd6c4..8c6cfa7f32 100644
---- a/include/hw/dma/sifive_pdma.h
-+++ b/include/hw/dma/sifive_pdma.h
-@@ -23,6 +23,8 @@
- #ifndef SIFIVE_PDMA_H
- #define SIFIVE_PDMA_H
- 
-+#include "hw/sysbus.h"
-+
- struct sifive_pdma_chan {
-     uint32_t control;
-     uint32_t next_config;
-diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_internal.h
-index 9880443cc7..e8ff338d7f 100644
---- a/include/hw/i386/ioapic_internal.h
-+++ b/include/hw/i386/ioapic_internal.h
-@@ -23,6 +23,7 @@
- #define QEMU_IOAPIC_INTERNAL_H
- 
- #include "exec/memory.h"
-+#include "hw/i386/ioapic.h"
- #include "hw/sysbus.h"
- #include "qemu/notify.h"
- #include "qom/object.h"
-diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
-index 581fac389a..3e00efd870 100644
---- a/include/hw/i386/sgx-epc.h
-+++ b/include/hw/i386/sgx-epc.h
-@@ -12,6 +12,7 @@
- #ifndef QEMU_SGX_EPC_H
- #define QEMU_SGX_EPC_H
- 
-+#include "hw/qdev-core.h"
- #include "hw/i386/hostmem-epc.h"
- 
- #define TYPE_SGX_EPC "sgx-epc"
-diff --git a/include/hw/intc/goldfish_pic.h b/include/hw/intc/goldfish_pic.h
-index e9d552f796..3e79580367 100644
---- a/include/hw/intc/goldfish_pic.h
-+++ b/include/hw/intc/goldfish_pic.h
-@@ -10,6 +10,8 @@
- #ifndef HW_INTC_GOLDFISH_PIC_H
- #define HW_INTC_GOLDFISH_PIC_H
- 
-+#include "hw/sysbus.h"
-+
- #define TYPE_GOLDFISH_PIC "goldfish_pic"
- OBJECT_DECLARE_SIMPLE_TYPE(GoldfishPICState, GOLDFISH_PIC)
- 
-diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
-index 6d67560dea..2810665ef7 100644
---- a/include/hw/intc/loongarch_pch_msi.h
-+++ b/include/hw/intc/loongarch_pch_msi.h
-@@ -5,6 +5,8 @@
-  * Copyright (C) 2021 Loongson Technology Corporation Limited
-  */
- 
-+#include "hw/sysbus.h"
-+
- #define TYPE_LOONGARCH_PCH_MSI "loongarch_pch_msi"
- OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHMSI, LOONGARCH_PCH_MSI)
- 
-diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
-index 2d4aa9ed6f..5d5dee9280 100644
---- a/include/hw/intc/loongarch_pch_pic.h
-+++ b/include/hw/intc/loongarch_pch_pic.h
-@@ -5,6 +5,8 @@
-  * Copyright (c) 2021 Loongson Technology Corporation Limited
-  */
- 
-+#include "hw/sysbus.h"
-+
- #define TYPE_LOONGARCH_PCH_PIC "loongarch_pch_pic"
- #define PCH_PIC_NAME(name) TYPE_LOONGARCH_PCH_PIC#name
- OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHPIC, LOONGARCH_PCH_PIC)
-diff --git a/include/hw/intc/nios2_vic.h b/include/hw/intc/nios2_vic.h
-index ac507b9d74..5c975a2ac4 100644
---- a/include/hw/intc/nios2_vic.h
-+++ b/include/hw/intc/nios2_vic.h
-@@ -35,6 +35,8 @@
- #ifndef HW_INTC_NIOS2_VIC_H
- #define HW_INTC_NIOS2_VIC_H
- 
-+#include "hw/sysbus.h"
-+
- #define TYPE_NIOS2_VIC "nios2-vic"
- OBJECT_DECLARE_SIMPLE_TYPE(Nios2VIC, NIOS2_VIC)
- 
-diff --git a/include/hw/misc/mchp_pfsoc_dmc.h b/include/hw/misc/mchp_pfsoc_dmc.h
-index 2baa1413b0..3bc1581e0f 100644
---- a/include/hw/misc/mchp_pfsoc_dmc.h
-+++ b/include/hw/misc/mchp_pfsoc_dmc.h
-@@ -23,6 +23,8 @@
- #ifndef MCHP_PFSOC_DMC_H
- #define MCHP_PFSOC_DMC_H
- 
-+#include "hw/sysbus.h"
-+
- /* DDR SGMII PHY module */
- 
- #define MCHP_PFSOC_DDR_SGMII_PHY_REG_SIZE   0x1000
-diff --git a/include/hw/misc/mchp_pfsoc_ioscb.h b/include/hw/misc/mchp_pfsoc_ioscb.h
-index 9235523e33..bab83a96a6 100644
---- a/include/hw/misc/mchp_pfsoc_ioscb.h
-+++ b/include/hw/misc/mchp_pfsoc_ioscb.h
-@@ -23,6 +23,8 @@
- #ifndef MCHP_PFSOC_IOSCB_H
- #define MCHP_PFSOC_IOSCB_H
- 
-+#include "hw/sysbus.h"
-+
- typedef struct MchpPfSoCIoscbState {
-     SysBusDevice parent;
-     MemoryRegion container;
-diff --git a/include/hw/misc/mchp_pfsoc_sysreg.h b/include/hw/misc/mchp_pfsoc_sysreg.h
-index 546ba68f6a..a2fd1c9f07 100644
---- a/include/hw/misc/mchp_pfsoc_sysreg.h
-+++ b/include/hw/misc/mchp_pfsoc_sysreg.h
-@@ -23,6 +23,8 @@
- #ifndef MCHP_PFSOC_SYSREG_H
- #define MCHP_PFSOC_SYSREG_H
- 
-+#include "hw/sysbus.h"
-+
- #define MCHP_PFSOC_SYSREG_REG_SIZE  0x2000
- 
- typedef struct MchpPfSoCSysregState {
-diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
-index e520566ab0..fab94165d0 100644
---- a/include/hw/misc/pvpanic.h
-+++ b/include/hw/misc/pvpanic.h
-@@ -15,6 +15,7 @@
- #ifndef HW_MISC_PVPANIC_H
- #define HW_MISC_PVPANIC_H
- 
-+#include "exec/memory.h"
- #include "qom/object.h"
- 
- #define TYPE_PVPANIC_ISA_DEVICE "pvpanic"
-diff --git a/include/hw/misc/sifive_e_prci.h b/include/hw/misc/sifive_e_prci.h
-index 262ca16181..6aa949e910 100644
---- a/include/hw/misc/sifive_e_prci.h
-+++ b/include/hw/misc/sifive_e_prci.h
-@@ -18,7 +18,8 @@
- 
- #ifndef HW_SIFIVE_E_PRCI_H
- #define HW_SIFIVE_E_PRCI_H
--#include "qom/object.h"
-+
-+#include "hw/sysbus.h"
- 
- enum {
-     SIFIVE_E_PRCI_HFROSCCFG = 0x0,
-diff --git a/include/hw/misc/sifive_u_otp.h b/include/hw/misc/sifive_u_otp.h
-index 5d0d7df455..170d2148f2 100644
---- a/include/hw/misc/sifive_u_otp.h
-+++ b/include/hw/misc/sifive_u_otp.h
-@@ -18,7 +18,8 @@
- 
- #ifndef HW_SIFIVE_U_OTP_H
- #define HW_SIFIVE_U_OTP_H
--#include "qom/object.h"
-+
-+#include "hw/sysbus.h"
- 
- #define SIFIVE_U_OTP_PA         0x00
- #define SIFIVE_U_OTP_PAIO       0x04
-diff --git a/include/hw/misc/sifive_u_prci.h b/include/hw/misc/sifive_u_prci.h
-index d9ebf40b7f..4d2491ad46 100644
---- a/include/hw/misc/sifive_u_prci.h
-+++ b/include/hw/misc/sifive_u_prci.h
-@@ -18,7 +18,8 @@
- 
- #ifndef HW_SIFIVE_U_PRCI_H
- #define HW_SIFIVE_U_PRCI_H
--#include "qom/object.h"
-+
-+#include "hw/sysbus.h"
- 
- #define SIFIVE_U_PRCI_HFXOSCCFG     0x00
- #define SIFIVE_U_PRCI_COREPLLCFG0   0x04
-diff --git a/include/hw/misc/virt_ctrl.h b/include/hw/misc/virt_ctrl.h
-index 25a237e518..81346cf017 100644
---- a/include/hw/misc/virt_ctrl.h
-+++ b/include/hw/misc/virt_ctrl.h
-@@ -7,6 +7,8 @@
- #ifndef VIRT_CTRL_H
- #define VIRT_CTRL_H
- 
-+#include "hw/sysbus.h"
-+
- #define TYPE_VIRT_CTRL "virt-ctrl"
- OBJECT_DECLARE_SIMPLE_TYPE(VirtCtrlState, VIRT_CTRL)
- 
-diff --git a/include/hw/misc/xlnx-versal-pmc-iou-slcr.h b/include/hw/misc/xlnx-versal-pmc-iou-slcr.h
-index 2170420f01..f7d24c93c4 100644
---- a/include/hw/misc/xlnx-versal-pmc-iou-slcr.h
-+++ b/include/hw/misc/xlnx-versal-pmc-iou-slcr.h
-@@ -54,6 +54,7 @@
- #ifndef XLNX_VERSAL_PMC_IOU_SLCR_H
- #define XLNX_VERSAL_PMC_IOU_SLCR_H
- 
-+#include "hw/sysbus.h"
- #include "hw/register.h"
- 
- #define TYPE_XILINX_VERSAL_PMC_IOU_SLCR "xlnx.versal-pmc-iou-slcr"
-diff --git a/include/hw/net/lasi_82596.h b/include/hw/net/lasi_82596.h
-index 7b62b04833..3ef2f47ba2 100644
---- a/include/hw/net/lasi_82596.h
-+++ b/include/hw/net/lasi_82596.h
-@@ -10,7 +10,7 @@
- 
- #include "net/net.h"
- #include "hw/net/i82596.h"
--#include "qom/object.h"
-+#include "hw/sysbus.h"
- 
- #define TYPE_LASI_82596 "lasi_82596"
- typedef struct SysBusI82596State SysBusI82596State;
-diff --git a/include/hw/net/xlnx-zynqmp-can.h b/include/hw/net/xlnx-zynqmp-can.h
-index eb1558708b..fd2aa77760 100644
---- a/include/hw/net/xlnx-zynqmp-can.h
-+++ b/include/hw/net/xlnx-zynqmp-can.h
-@@ -30,6 +30,7 @@
- #ifndef XLNX_ZYNQMP_CAN_H
- #define XLNX_ZYNQMP_CAN_H
- 
-+#include "hw/sysbus.h"
- #include "hw/register.h"
- #include "net/can_emu.h"
- #include "net/can_host.h"
-diff --git a/include/hw/ppc/pnv_psi.h b/include/hw/ppc/pnv_psi.h
-index 8253469b8f..2a6f715350 100644
---- a/include/hw/ppc/pnv_psi.h
-+++ b/include/hw/ppc/pnv_psi.h
-@@ -23,7 +23,7 @@
- #include "hw/sysbus.h"
- #include "hw/ppc/xics.h"
- #include "hw/ppc/xive.h"
--#include "qom/object.h"
-+#include "hw/qdev-core.h"
- 
- #define TYPE_PNV_PSI "pnv-psi"
- OBJECT_DECLARE_TYPE(PnvPsi, PnvPsiClass,
-diff --git a/include/hw/riscv/boot_opensbi.h b/include/hw/riscv/boot_opensbi.h
-index c19cad4818..1b749663dc 100644
---- a/include/hw/riscv/boot_opensbi.h
-+++ b/include/hw/riscv/boot_opensbi.h
-@@ -8,6 +8,8 @@
- #ifndef RISCV_BOOT_OPENSBI_H
- #define RISCV_BOOT_OPENSBI_H
- 
-+#include "exec/cpu-defs.h"
-+
- /** Expected value of info magic ('OSBI' ascii string in hex) */
- #define FW_DYNAMIC_INFO_MAGIC_VALUE     0x4942534f
- 
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index a757b240e0..9e806b09b1 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -22,13 +22,16 @@
- #ifndef HW_MICROCHIP_PFSOC_H
- #define HW_MICROCHIP_PFSOC_H
- 
-+#include "hw/boards.h"
- #include "hw/char/mchp_pfsoc_mmuart.h"
-+#include "hw/cpu/cluster.h"
- #include "hw/dma/sifive_pdma.h"
- #include "hw/misc/mchp_pfsoc_dmc.h"
- #include "hw/misc/mchp_pfsoc_ioscb.h"
- #include "hw/misc/mchp_pfsoc_sysreg.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/sd/cadence_sdhci.h"
-+#include "hw/riscv/riscv_hart.h"
- 
- typedef struct MicrochipPFSoCState {
-     /*< private >*/
-diff --git a/include/hw/riscv/numa.h b/include/hw/riscv/numa.h
-index fcce942cee..1a9cce3344 100644
---- a/include/hw/riscv/numa.h
-+++ b/include/hw/riscv/numa.h
-@@ -19,6 +19,7 @@
- #ifndef RISCV_NUMA_H
- #define RISCV_NUMA_H
- 
-+#include "hw/boards.h"
- #include "hw/sysbus.h"
- #include "sysemu/numa.h"
- 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 8f63a183c4..a43304292c 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -19,6 +19,8 @@
- #ifndef HW_SIFIVE_U_H
- #define HW_SIFIVE_U_H
- 
-+#include "hw/boards.h"
-+#include "hw/cpu/cluster.h"
- #include "hw/dma/sifive_pdma.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/riscv/riscv_hart.h"
-diff --git a/include/hw/riscv/spike.h b/include/hw/riscv/spike.h
-index 73d69234de..73bf2a9aad 100644
---- a/include/hw/riscv/spike.h
-+++ b/include/hw/riscv/spike.h
-@@ -19,9 +19,9 @@
- #ifndef HW_RISCV_SPIKE_H
- #define HW_RISCV_SPIKE_H
- 
-+#include "hw/boards.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/sysbus.h"
--#include "qom/object.h"
- 
- #define SPIKE_CPUS_MAX 8
- #define SPIKE_SOCKETS_MAX 8
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index be4ab8fe7f..3007bb3646 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -19,10 +19,10 @@
- #ifndef HW_RISCV_VIRT_H
- #define HW_RISCV_VIRT_H
- 
-+#include "hw/boards.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/sysbus.h"
- #include "hw/block/flash.h"
--#include "qom/object.h"
- 
- #define VIRT_CPUS_MAX_BITS             9
- #define VIRT_CPUS_MAX                  (1 << VIRT_CPUS_MAX_BITS)
-diff --git a/include/hw/ssi/sifive_spi.h b/include/hw/ssi/sifive_spi.h
-index 47d0d6a47c..d0c40cdb11 100644
---- a/include/hw/ssi/sifive_spi.h
-+++ b/include/hw/ssi/sifive_spi.h
-@@ -22,6 +22,9 @@
- #ifndef HW_SIFIVE_SPI_H
- #define HW_SIFIVE_SPI_H
- 
-+#include "qemu/fifo8.h"
-+#include "hw/sysbus.h"
-+
- #define SIFIVE_SPI_REG_NUM  (0x78 / 4)
- 
- #define TYPE_SIFIVE_SPI "sifive.spi"
-diff --git a/include/hw/timer/sse-timer.h b/include/hw/timer/sse-timer.h
-index b4ee8e7f6c..265ad32400 100644
---- a/include/hw/timer/sse-timer.h
-+++ b/include/hw/timer/sse-timer.h
-@@ -25,6 +25,7 @@
- #define SSE_TIMER_H
- 
- #include "hw/sysbus.h"
-+#include "qemu/timer.h"
- #include "qom/object.h"
- #include "hw/timer/sse-counter.h"
- 
-diff --git a/include/hw/usb/hcd-dwc3.h b/include/hw/usb/hcd-dwc3.h
-index 7c804d536d..f752a27e94 100644
---- a/include/hw/usb/hcd-dwc3.h
-+++ b/include/hw/usb/hcd-dwc3.h
-@@ -26,6 +26,7 @@
- #ifndef HCD_DWC3_H
- #define HCD_DWC3_H
- 
-+#include "hw/register.h"
- #include "hw/usb/hcd-xhci.h"
- #include "hw/usb/hcd-xhci-sysbus.h"
- 
-diff --git a/include/hw/usb/hcd-musb.h b/include/hw/usb/hcd-musb.h
-index f30a26f7f4..4d4b1ec0fc 100644
---- a/include/hw/usb/hcd-musb.h
-+++ b/include/hw/usb/hcd-musb.h
-@@ -13,6 +13,8 @@
- #ifndef HW_USB_HCD_MUSB_H
- #define HW_USB_HCD_MUSB_H
- 
-+#include "exec/hwaddr.h"
-+
- enum musb_irq_source_e {
-     musb_irq_suspend = 0,
-     musb_irq_resume,
-diff --git a/include/hw/usb/xlnx-usb-subsystem.h b/include/hw/usb/xlnx-usb-subsystem.h
-index 5b730abd84..40f9e97e09 100644
---- a/include/hw/usb/xlnx-usb-subsystem.h
-+++ b/include/hw/usb/xlnx-usb-subsystem.h
-@@ -25,6 +25,8 @@
- #ifndef XLNX_USB_SUBSYSTEM_H
- #define XLNX_USB_SUBSYSTEM_H
- 
-+#include "hw/register.h"
-+#include "hw/sysbus.h"
- #include "hw/usb/xlnx-versal-usb2-ctrl-regs.h"
- #include "hw/usb/hcd-dwc3.h"
- 
-diff --git a/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h b/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
-index 633bf3013a..6a502006b0 100644
---- a/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
-+++ b/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
-@@ -26,6 +26,9 @@
- #ifndef XLNX_VERSAL_USB2_CTRL_REGS_H
- #define XLNX_VERSAL_USB2_CTRL_REGS_H
- 
-+#include "hw/register.h"
-+#include "hw/sysbus.h"
-+
- #define TYPE_XILINX_VERSAL_USB2_CTRL_REGS "xlnx.versal-usb2-ctrl-regs"
- 
- #define XILINX_VERSAL_USB2_CTRL_REGS(obj) \
-diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
-index 090f7730e7..aa49262022 100644
---- a/include/hw/virtio/virtio-mmio.h
-+++ b/include/hw/virtio/virtio-mmio.h
-@@ -22,8 +22,8 @@
- #ifndef HW_VIRTIO_MMIO_H
- #define HW_VIRTIO_MMIO_H
- 
-+#include "hw/sysbus.h"
- #include "hw/virtio/virtio-bus.h"
--#include "qom/object.h"
- 
- /* QOM macros */
- /* virtio-mmio-bus */
-diff --git a/include/qemu/plugin-memory.h b/include/qemu/plugin-memory.h
-index 8ad13c110c..6fd539022a 100644
---- a/include/qemu/plugin-memory.h
-+++ b/include/qemu/plugin-memory.h
-@@ -9,6 +9,9 @@
- #ifndef PLUGIN_MEMORY_H
- #define PLUGIN_MEMORY_H
- 
-+#include "exec/cpu-defs.h"
-+#include "exec/hwaddr.h"
-+
- struct qemu_plugin_hwaddr {
-     bool is_io;
-     bool is_store;
-diff --git a/include/sysemu/dirtyrate.h b/include/sysemu/dirtyrate.h
-index 4d3b9a4902..20813f303f 100644
---- a/include/sysemu/dirtyrate.h
-+++ b/include/sysemu/dirtyrate.h
-@@ -13,6 +13,8 @@
- #ifndef QEMU_DIRTYRATE_H
- #define QEMU_DIRTYRATE_H
- 
-+#include "qapi/qapi-types-migration.h"
-+
- typedef struct VcpuStat {
-     int nvcpu; /* number of vcpu */
-     DirtyRateVcpu *rates; /* array of dirty rate for each vcpu */
-diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index 4ffed0b659..7008d43d04 100644
---- a/include/sysemu/dump.h
-+++ b/include/sysemu/dump.h
-@@ -15,6 +15,7 @@
- #define DUMP_H
- 
- #include "qapi/qapi-types-dump.h"
-+#include "qemu/thread.h"
- 
- #define MAKEDUMPFILE_SIGNATURE      "makedumpfile"
- #define MAX_SIZE_MDF_HEADER         (4096) /* max size of makedumpfile_header */
-diff --git a/include/user/syscall-trace.h b/include/user/syscall-trace.h
-index b4e53d3870..c5a220da34 100644
---- a/include/user/syscall-trace.h
-+++ b/include/user/syscall-trace.h
-@@ -10,6 +10,7 @@
- #ifndef SYSCALL_TRACE_H
- #define SYSCALL_TRACE_H
- 
-+#include "exec/user/abitypes.h"
- #include "trace/trace-root.h"
- 
- /*
--- 
-2.37.3
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
+Looks much better!
+
+> ---
+>   v2: Move the apic functions into a separate file instead of using
+>       an ugly function pointer
+> 
+>   include/hw/i386/apic.h          |  1 +
+>   include/hw/i386/apic_internal.h |  1 -
+>   include/hw/rtc/mc146818rtc.h    |  1 +
+>   hw/intc/apic_common.c           | 27 -----------------
+>   hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
+>   hw/rtc/mc146818rtc.c            | 25 +++++-----------
+>   hw/intc/meson.build             |  6 +++-
+>   hw/rtc/meson.build              |  3 +-
+>   8 files changed, 68 insertions(+), 49 deletions(-)
+>   create mode 100644 hw/intc/apic_irqcount.c
+> 
+> diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
+> index da1d2fe155..96b9939425 100644
+> --- a/include/hw/i386/apic.h
+> +++ b/include/hw/i386/apic.h
+> @@ -9,6 +9,7 @@ int apic_accept_pic_intr(DeviceState *s);
+>   void apic_deliver_pic_intr(DeviceState *s, int level);
+>   void apic_deliver_nmi(DeviceState *d);
+>   int apic_get_interrupt(DeviceState *s);
+> +void apic_report_irq_delivered(int delivered);
+>   void apic_reset_irq_delivered(void);
+>   int apic_get_irq_delivered(void);
+>   void cpu_set_apic_base(DeviceState *s, uint64_t val);
+> diff --git a/include/hw/i386/apic_internal.h b/include/hw/i386/apic_internal.h
+> index c175e7e718..e61ad04769 100644
+> --- a/include/hw/i386/apic_internal.h
+> +++ b/include/hw/i386/apic_internal.h
+> @@ -199,7 +199,6 @@ typedef struct VAPICState {
+>   
+>   extern bool apic_report_tpr_access;
+>   
+> -void apic_report_irq_delivered(int delivered);
+>   bool apic_next_timer(APICCommonState *s, int64_t current_time);
+>   void apic_enable_tpr_access_reporting(DeviceState *d, bool enable);
+>   void apic_enable_vapic(DeviceState *d, hwaddr paddr);
+> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+> index 1db0fcee92..45bcd6f040 100644
+> --- a/include/hw/rtc/mc146818rtc.h
+> +++ b/include/hw/rtc/mc146818rtc.h
+> @@ -55,5 +55,6 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+>                                qemu_irq intercept_irq);
+>   void rtc_set_memory(ISADevice *dev, int addr, int val);
+>   int rtc_get_memory(ISADevice *dev, int addr);
+> +void qmp_rtc_reset_reinjection(Error **errp);
+>   
+>   #endif /* HW_RTC_MC146818RTC_H */
+> diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
+> index 2a20982066..b0f85f9384 100644
+> --- a/hw/intc/apic_common.c
+> +++ b/hw/intc/apic_common.c
+> @@ -33,7 +33,6 @@
+>   #include "hw/sysbus.h"
+>   #include "migration/vmstate.h"
+>   
+> -static int apic_irq_delivered;
+>   bool apic_report_tpr_access;
+>   
+>   void cpu_set_apic_base(DeviceState *dev, uint64_t val)
+> @@ -122,32 +121,6 @@ void apic_handle_tpr_access_report(DeviceState *dev, target_ulong ip,
+>       vapic_report_tpr_access(s->vapic, CPU(s->cpu), ip, access);
+>   }
+>   
+> -void apic_report_irq_delivered(int delivered)
+> -{
+> -    apic_irq_delivered += delivered;
+> -
+> -    trace_apic_report_irq_delivered(apic_irq_delivered);
+> -}
+> -
+> -void apic_reset_irq_delivered(void)
+> -{
+> -    /* Copy this into a local variable to encourage gcc to emit a plain
+> -     * register for a sys/sdt.h marker.  For details on this workaround, see:
+> -     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
+> -     */
+> -    volatile int a_i_d = apic_irq_delivered;
+> -    trace_apic_reset_irq_delivered(a_i_d);
+> -
+> -    apic_irq_delivered = 0;
+> -}
+> -
+> -int apic_get_irq_delivered(void)
+> -{
+> -    trace_apic_get_irq_delivered(apic_irq_delivered);
+> -
+> -    return apic_irq_delivered;
+> -}
+> -
+
+Just a comment whilst reviewing this patch: apic_irq_delivered is also used by 
+hw/i386/kvm/i8259.c which seems incorrect since it is a PIC rather than an APIC, but 
+that's why it isn't immediately possible to move apic_irq_delivered into APICCommonState.
+
+I suspect what should happen is that PICCommonState should have its own KVM irq 
+delivery count rather than relying on the APIC one, which might actually be the 
+reason that this dependency between mc146818rtc and APIC exists in the first place. 
+Any x86 people care to comment?
+
+>   void apic_deliver_nmi(DeviceState *dev)
+>   {
+>       APICCommonState *s = APIC_COMMON(dev);
+> diff --git a/hw/intc/apic_irqcount.c b/hw/intc/apic_irqcount.c
+> new file mode 100644
+> index 0000000000..0aadef1cb5
+> --- /dev/null
+> +++ b/hw/intc/apic_irqcount.c
+> @@ -0,0 +1,53 @@
+> +/*
+> + * APIC support - functions for counting the delivered IRQs.
+> + * (this code is in a separate file since it is used from the
+> + * mc146818rtc code on targets without APIC, too)
+> + *
+> + *  Copyright (c) 2011      Jan Kiszka, Siemens AG
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/i386/apic.h"
+> +#include "trace.h"
+> +
+> +static int apic_irq_delivered;
+> +
+> +void apic_report_irq_delivered(int delivered)
+> +{
+> +    apic_irq_delivered += delivered;
+> +
+> +    trace_apic_report_irq_delivered(apic_irq_delivered);
+> +}
+> +
+> +void apic_reset_irq_delivered(void)
+> +{
+> +    /*
+> +     * Copy this into a local variable to encourage gcc to emit a plain
+> +     * register for a sys/sdt.h marker.  For details on this workaround, see:
+> +     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
+> +     */
+> +    volatile int a_i_d = apic_irq_delivered;
+> +    trace_apic_reset_irq_delivered(a_i_d);
+> +
+> +    apic_irq_delivered = 0;
+> +}
+> +
+> +int apic_get_irq_delivered(void)
+> +{
+> +    trace_apic_get_irq_delivered(apic_irq_delivered);
+> +
+> +    return apic_irq_delivered;
+> +}
+> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> index 1ebb412479..afb1f385a3 100644
+> --- a/hw/rtc/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -43,11 +43,7 @@
+>   #include "qapi/qapi-events-misc.h"
+>   #include "qapi/visitor.h"
+>   #include "hw/rtc/mc146818rtc_regs.h"
+> -
+> -#ifdef TARGET_I386
+> -#include "qapi/qapi-commands-misc-target.h"
+>   #include "hw/i386/apic.h"
+> -#endif
+>   
+>   //#define DEBUG_CMOS
+>   //#define DEBUG_COALESCED
+> @@ -112,7 +108,6 @@ static void rtc_coalesced_timer_update(RTCState *s)
+>   static QLIST_HEAD(, RTCState) rtc_devices =
+>       QLIST_HEAD_INITIALIZER(rtc_devices);
+>   
+> -#ifdef TARGET_I386
+>   void qmp_rtc_reset_reinjection(Error **errp)
+>   {
+>       RTCState *s;
+> @@ -145,13 +140,6 @@ static void rtc_coalesced_timer(void *opaque)
+>   
+>       rtc_coalesced_timer_update(s);
+>   }
+> -#else
+> -static bool rtc_policy_slew_deliver_irq(RTCState *s)
+> -{
+> -    assert(0);
+> -    return false;
+> -}
+> -#endif
+>   
+>   static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+>   {
+> @@ -922,14 +910,15 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+>       rtc_set_date_from_host(isadev);
+>   
+>       switch (s->lost_tick_policy) {
+> -#ifdef TARGET_I386
+> -    case LOST_TICK_POLICY_SLEW:
+> -        s->coalesced_timer =
+> -            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+> -        break;
+> -#endif
+>       case LOST_TICK_POLICY_DISCARD:
+>           break;
+> +    case LOST_TICK_POLICY_SLEW:
+> +        /* Slew tick policy is only available if the machine has an APIC */
+> +        if (object_resolve_path_type("", "apic-common", NULL) != NULL) {
+
+Hmmm. These days we should be using TYPE_APIC_COMMON, however it seems that 
+APICCommonState is defined in apic_internal.h rather than apic.h which seems wrong 
+(it prevents you from passing an APICCommonState as an object link property as well 
+as from using TYPE_APIC_COMMON).
+
+> +            s->coalesced_timer = timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+> +            break;
+> +        }
+> +        /* fallthrough */
+>       default:
+>           error_setg(errp, "Invalid lost tick policy.");
+>           return;
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index bcbf22ff51..036ad1936b 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -25,8 +25,12 @@ softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_intc.c'))
+>   softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-ipi.c'))
+>   softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-pmu-iomod-intc.c'))
+>   
+> -specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
+> +if config_all_devices.has_key('CONFIG_APIC') or config_all_devices.has_key('CONFIG_MC146818RTC')
+> +    softmmu_ss.add(files('apic_irqcount.c'))
+> +endif
+>   specific_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c', 'apic_common.c'))
+> +
+> +specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
+>   specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif_common.c'))
+>   specific_ss.add(when: 'CONFIG_ARM_GICV3_TCG', if_true: files('arm_gicv3_cpuif.c'))
+>   specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
+> diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
+> index dc33973384..34a4d316fa 100644
+> --- a/hw/rtc/meson.build
+> +++ b/hw/rtc/meson.build
+> @@ -13,5 +13,4 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
+>   softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
+>   softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
+>   softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
+> -
+> -specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
+> +softmmu_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
+
+Fixing up the headers to allow TYPE_APIC_COMMON rather than hard-coding "apic-common" 
+would be my preference, however there is a lot of legacy code here and the fear would 
+be that once you pull on that string then more will keep unravelling... so if that 
+isn't something you can easily get to work I'm inclined to give a:
+
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+regardless since it nudges things in the right direction until we can get some 
+guidance from more knowledgeable x86 people.
+
+
+ATB,
+
+Mark.
 
