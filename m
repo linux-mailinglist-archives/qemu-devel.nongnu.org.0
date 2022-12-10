@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5381648EE9
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Dec 2022 14:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C5F648EE8
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Dec 2022 14:41:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p404s-0005Wb-H7; Sat, 10 Dec 2022 08:39:42 -0500
+	id 1p404q-0005UD-GJ; Sat, 10 Dec 2022 08:39:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p404f-0005T6-T0
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 08:39:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p404d-0005Qt-DM
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 08:39:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p404b-0005lp-JG
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 08:39:28 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p404b-0005lw-LU
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 08:39:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1670679564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TU7eJccUUt/l14We8LmySPSQAyLTydiJfTGGkgJuGAU=;
- b=Hvsf+s7B20V1mehm7DHK8pNu9tB8u0Lo8glIZuvIyUCwa8OYNfBvyzCJQMy8xTqCfJO56f
- rDoF9+20SF9zPF93hnJTMS1HyLjgU0zYadf2+XBFfqfAiKNJUdK2mhWyoS0Jv6uvDB3xKA
- 5CMLO5uEBMEh0LV78P/UdokFSq2n/HM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6XWI7v9ZGslokbyHWaV533+cNnkX5zeauW58/eQhQBA=;
+ b=XRnPzQ+3ZHklIzkNF718GacR16VSHxtJBB2mWjfWPdgqwIw5fJtWtF/eDlOH2XYkXJY51Y
+ froL/ljdiNkr1w+VGCUZwCsTlMTK9nNFhB61jrA29FUlBybBwJ2eRkRUXqP7tBNukAXT54
+ 3aAKre2IIq6ty1XxygwoHeyVPHQE3kw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-cpwdbstzNn2N00YNc_oK5g-1; Sat, 10 Dec 2022 08:39:21 -0500
-X-MC-Unique: cpwdbstzNn2N00YNc_oK5g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-495-LNx24vWGOZCexWMVcaaT4w-1; Sat, 10 Dec 2022 08:39:21 -0500
+X-MC-Unique: LNx24vWGOZCexWMVcaaT4w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 519D2802A61;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FF49101A52A;
  Sat, 10 Dec 2022 13:39:20 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5AB840C2065;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A5A3C1121331;
  Sat, 10 Dec 2022 13:39:18 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9262621E6921; Sat, 10 Dec 2022 14:39:15 +0100 (CET)
+ id 9487921E6930; Sat, 10 Dec 2022 14:39:15 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
@@ -52,14 +53,16 @@ Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
  kraxel@redhat.com, marcandre.lureau@redhat.com, riku.voipio@iki.fi,
  qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-ppc@nongnu.org,
  crwulff@gmail.com, marex@denx.de
-Subject: [PATCH 0/2] Clean up includes
-Date: Sat, 10 Dec 2022 14:39:13 +0100
-Message-Id: <20221210133915.4104305-1-armbru@redhat.com>
+Subject: [PATCH 1/2] include/hw/virtio: Break inclusion loop
+Date: Sat, 10 Dec 2022 14:39:14 +0100
+Message-Id: <20221210133915.4104305-2-armbru@redhat.com>
+In-Reply-To: <20221210133915.4104305-1-armbru@redhat.com>
+References: <20221210133915.4104305-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,95 +86,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Back in 2016, we discussed[1] rules for headers, and these were
-generally liked:
+hw/virtio/virtio.h and hw/virtio/vhost.h include each other.  The
+former doesn't actually need the latter, so drop that inclusion to
+break the loop.
 
-1. Have a carefully curated header that's included everywhere first.  We
-   got that already thanks to Peter: osdep.h.
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ include/hw/virtio/virtio.h | 1 -
+ hw/virtio/virtio.c         | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-2. Headers should normally include everything they need beyond osdep.h.
-   If exceptions are needed for some reason, they must be documented in
-   the header.  If all that's needed from a header is typedefs, put
-   those into qemu/typedefs.h instead of including the header.
-
-3. Cyclic inclusion is forbidden.
-
-This series fixes a number of rule violations.
-
-It is based on
-
-    [PATCH 0/4] hw/ppc: Clean up includes
-    [PATCH 0/5] include/hw/pci include/hw/cxl: Clean up includes
-    [PATCH 0/3] block: Clean up includes
-    [PATCH 0/4] coroutine: Clean up includes
-
-With all of these applied, just three inclusion loops remain reachable
-from include/:
-
-    target/microblaze/cpu.h target/microblaze/mmu.h
-
-    target/nios2/cpu.h target/nios2/mmu.h
-
-    target/riscv/cpu.h target/riscv/pmp.h
-
-Breaking them would be nice, but I'm out of steam.
-
-[1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
-    https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
-
-Based-on: <20221210112140.4057731-1-armbru@redhat.com>
-
-Markus Armbruster (2):
-  include/hw/virtio: Break inclusion loop
-  include: Include headers where needed
-
- include/exec/plugin-gen.h                   | 1 +
- include/hw/acpi/erst.h                      | 3 +++
- include/hw/char/cmsdk-apb-uart.h            | 1 +
- include/hw/char/goldfish_tty.h              | 1 +
- include/hw/char/xilinx_uartlite.h           | 1 +
- include/hw/cris/etraxfs.h                   | 1 +
- include/hw/display/macfb.h                  | 3 ++-
- include/hw/dma/sifive_pdma.h                | 2 ++
- include/hw/i386/ioapic_internal.h           | 1 +
- include/hw/i386/sgx-epc.h                   | 1 +
- include/hw/intc/goldfish_pic.h              | 2 ++
- include/hw/intc/loongarch_pch_msi.h         | 2 ++
- include/hw/intc/loongarch_pch_pic.h         | 2 ++
- include/hw/intc/nios2_vic.h                 | 2 ++
- include/hw/misc/mchp_pfsoc_dmc.h            | 2 ++
- include/hw/misc/mchp_pfsoc_ioscb.h          | 2 ++
- include/hw/misc/mchp_pfsoc_sysreg.h         | 2 ++
- include/hw/misc/pvpanic.h                   | 1 +
- include/hw/misc/sifive_e_prci.h             | 3 ++-
- include/hw/misc/sifive_u_otp.h              | 3 ++-
- include/hw/misc/sifive_u_prci.h             | 3 ++-
- include/hw/misc/virt_ctrl.h                 | 2 ++
- include/hw/misc/xlnx-versal-pmc-iou-slcr.h  | 1 +
- include/hw/net/lasi_82596.h                 | 2 +-
- include/hw/net/xlnx-zynqmp-can.h            | 1 +
- include/hw/ppc/pnv_psi.h                    | 2 +-
- include/hw/riscv/boot_opensbi.h             | 2 ++
- include/hw/riscv/microchip_pfsoc.h          | 3 +++
- include/hw/riscv/numa.h                     | 1 +
- include/hw/riscv/sifive_u.h                 | 2 ++
- include/hw/riscv/spike.h                    | 2 +-
- include/hw/riscv/virt.h                     | 2 +-
- include/hw/ssi/sifive_spi.h                 | 3 +++
- include/hw/timer/sse-timer.h                | 1 +
- include/hw/usb/hcd-dwc3.h                   | 1 +
- include/hw/usb/hcd-musb.h                   | 2 ++
- include/hw/usb/xlnx-usb-subsystem.h         | 2 ++
- include/hw/usb/xlnx-versal-usb2-ctrl-regs.h | 3 +++
- include/hw/virtio/virtio-mmio.h             | 2 +-
- include/hw/virtio/virtio.h                  | 1 -
- include/qemu/plugin-memory.h                | 3 +++
- include/sysemu/dirtyrate.h                  | 2 ++
- include/sysemu/dump.h                       | 1 +
- include/user/syscall-trace.h                | 1 +
- hw/virtio/virtio.c                          | 1 +
- 45 files changed, 72 insertions(+), 10 deletions(-)
-
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index a973811cbf..8b68b69e00 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -22,7 +22,6 @@
+ #include "standard-headers/linux/virtio_config.h"
+ #include "standard-headers/linux/virtio_ring.h"
+ #include "qom/object.h"
+-#include "hw/virtio/vhost.h"
+ 
+ /*
+  * A guest should never accept this. It implies negotiation is broken
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index eb6347ab5d..faedf886da 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -26,6 +26,7 @@
+ #include "qemu/module.h"
+ #include "qom/object_interfaces.h"
+ #include "hw/virtio/virtio.h"
++#include "hw/virtio/vhost.h"
+ #include "migration/qemu-file-types.h"
+ #include "qemu/atomic.h"
+ #include "hw/virtio/virtio-bus.h"
 -- 
 2.37.3
 
