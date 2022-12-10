@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA23648E66
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Dec 2022 12:23:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7244648E78
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Dec 2022 12:42:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p3xvh-0004CF-PN; Sat, 10 Dec 2022 06:22:05 -0500
+	id 1p3yEI-000593-7T; Sat, 10 Dec 2022 06:41:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3xvg-0004Bz-0j
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 06:22:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p3yEG-00055J-0G
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 06:41:16 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p3xve-0004qN-6N
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 06:22:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670671321;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=00/J5VGRYZGRVKtf+4XQ1b5g2OtTI0SBZf5sT9ERSQI=;
- b=W0tYEHybb/DsWjghRGhc9N0qzxBgui4sBbgrDXkLM6k1zPLUzIGZqESXvKszvpzP7QuvYK
- r2H8zlnFYc7+tdmPGUJJqHdtCSjGijnaIe62wodY7YQo1OSAWAinUv9sD5BFXZA2TJI71z
- rahrR7tKq56yV+XiEGuSenTJ6pMZe2g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-e2AcyroPMNWCYvcDMT83Sg-1; Sat, 10 Dec 2022 06:21:43 -0500
-X-MC-Unique: e2AcyroPMNWCYvcDMT83Sg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A54A3C025C2;
- Sat, 10 Dec 2022 11:21:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53768C15BB1;
- Sat, 10 Dec 2022 11:21:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4C85F21E66CB; Sat, 10 Dec 2022 12:21:40 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: clg@kaod.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH 4/4] include/hw/ppc include/hw/pci-host: Drop extra typedefs
-Date: Sat, 10 Dec 2022 12:21:40 +0100
-Message-Id: <20221210112140.4057731-5-armbru@redhat.com>
-In-Reply-To: <20221210112140.4057731-1-armbru@redhat.com>
-References: <20221210112140.4057731-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p3yEC-0001ka-Me
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 06:41:15 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.235])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DCDA914A29627;
+ Sat, 10 Dec 2022 12:41:06 +0100 (CET)
+Received: from kaod.org (37.59.142.108) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Sat, 10 Dec
+ 2022 12:41:06 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-108S002d222ab95-44ce-44ea-bc79-244e90c8271a,
+ 44AACDB81BE59B98CC36297FC0CE4402BB499AC8) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <131d8f98-5d2d-b79e-2734-ee4f9fe76dcb@kaod.org>
+Date: Sat, 10 Dec 2022 12:41:05 +0100
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 1/4] include/hw/ppc: Split pnv_chip.h off pnv.h
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, <qemu-devel@nongnu.org>
+CC: <qemu-ppc@nongnu.org>
+References: <20221210112140.4057731-1-armbru@redhat.com>
+ <20221210112140.4057731-2-armbru@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221210112140.4057731-2-armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Originating-IP: [37.59.142.108]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: cc5d70b4-4c28-4c31-ab65-75bf4d51f57f
+X-Ovh-Tracer-Id: 8093531481791302621
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeggdeftdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrrhhmsghruhesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.288,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,156 +72,474 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PnvChip is typedef'ed in five places, and PnvPhb4PecState in two.
-Keep one, drop the others.
+On 12/10/22 12:21, Markus Armbruster wrote:
+> PnvChipClass, PnvChip, Pnv8Chip, Pnv9Chip, and Pnv10Chip are defined
+> in pnv.h.  Many users of the header don't actually need them.  One
+> instance is this inclusion loop: hw/ppc/pnv_homer.h includes
+> hw/ppc/pnv.h for typedef PnvChip, and vice versa for struct PnvHomer.
+> 
+> Similar structs live in their own headers: PnvHomerClass and PnvHomer
+> in pnv_homer.h, PnvLpcClass and PnvLpcController in pci_lpc.h,
+> PnvPsiClass, PnvPsi, Pnv8Psi, Pnv9Psi, Pnv10Psi in pnv_psi.h, ...
+> 
+> Move PnvChipClass, PnvChip, Pnv8Chip, Pnv9Chip, and Pnv10Chip to new
+> pnv_chip.h, and adjust include directives.  This breaks the inclusion
+> loop mentioned above.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- hw/pci-host/pnv_phb.h          | 1 -
- include/hw/pci-host/pnv_phb3.h | 1 -
- include/hw/pci-host/pnv_phb4.h | 2 --
- include/hw/ppc/pnv_core.h      | 3 +--
- include/hw/ppc/pnv_homer.h     | 2 +-
- include/hw/ppc/pnv_lpc.h       | 8 ++------
- include/hw/ppc/pnv_xive.h      | 7 +++----
- 7 files changed, 7 insertions(+), 17 deletions(-)
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
-index 202de8796c..eb429d529f 100644
---- a/hw/pci-host/pnv_phb.h
-+++ b/hw/pci-host/pnv_phb.h
-@@ -15,7 +15,6 @@
- #include "hw/ppc/pnv.h"
- #include "qom/object.h"
- 
--typedef struct PnvChip PnvChip;
- typedef struct PnvPhb4PecState PnvPhb4PecState;
- 
- struct PnvPHB {
-diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-index f791ebda9b..d62b3091ac 100644
---- a/include/hw/pci-host/pnv_phb3.h
-+++ b/include/hw/pci-host/pnv_phb3.h
-@@ -15,7 +15,6 @@
- #include "hw/pci-host/pnv_phb.h"
- 
- typedef struct PnvPHB3 PnvPHB3;
--typedef struct PnvChip PnvChip;
- 
- /*
-  * PHB3 XICS Source for MSIs
-diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index b4f2b29fb5..1f3237c9d5 100644
---- a/include/hw/pci-host/pnv_phb4.h
-+++ b/include/hw/pci-host/pnv_phb4.h
-@@ -16,10 +16,8 @@
- #include "hw/ppc/xive.h"
- #include "qom/object.h"
- 
--typedef struct PnvPhb4PecState PnvPhb4PecState;
- typedef struct PnvPhb4PecStack PnvPhb4PecStack;
- typedef struct PnvPHB4 PnvPHB4;
--typedef struct PnvChip PnvChip;
- 
- /*
-  * We have one such address space wrapper per possible device under
-diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-index c22eab2e1f..3d75706e95 100644
---- a/include/hw/ppc/pnv_core.h
-+++ b/include/hw/ppc/pnv_core.h
-@@ -22,14 +22,13 @@
- 
- #include "hw/cpu/core.h"
- #include "target/ppc/cpu.h"
-+#include "hw/ppc/pnv.h"
- #include "qom/object.h"
- 
- #define TYPE_PNV_CORE "powernv-cpu-core"
- OBJECT_DECLARE_TYPE(PnvCore, PnvCoreClass,
-                     PNV_CORE)
- 
--typedef struct PnvChip PnvChip;
--
- struct PnvCore {
-     /*< private >*/
-     CPUCore parent_obj;
-diff --git a/include/hw/ppc/pnv_homer.h b/include/hw/ppc/pnv_homer.h
-index 07e8b19311..b1c5d498dc 100644
---- a/include/hw/ppc/pnv_homer.h
-+++ b/include/hw/ppc/pnv_homer.h
-@@ -39,7 +39,7 @@ DECLARE_INSTANCE_CHECKER(PnvHomer, PNV10_HOMER,
- struct PnvHomer {
-     DeviceState parent;
- 
--    struct PnvChip *chip;
-+    PnvChip *chip;
-     MemoryRegion pba_regs;
-     MemoryRegion regs;
- };
-diff --git a/include/hw/ppc/pnv_lpc.h b/include/hw/ppc/pnv_lpc.h
-index 001eee27d7..5d22c45570 100644
---- a/include/hw/ppc/pnv_lpc.h
-+++ b/include/hw/ppc/pnv_lpc.h
-@@ -21,6 +21,7 @@
- #define PPC_PNV_LPC_H
- 
- #include "exec/memory.h"
-+#include "hw/ppc/pnv.h"
- #include "hw/qdev-core.h"
- 
- #define TYPE_PNV_LPC "pnv-lpc"
-@@ -93,13 +94,8 @@ struct PnvLpcClass {
-     DeviceRealize parent_realize;
- };
- 
--/*
-- * Old compilers error on typdef forward declarations. Keep them happy.
-- */
--struct PnvChip;
--
- ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bool use_cpld, Error **errp);
--int pnv_dt_lpc(struct PnvChip *chip, void *fdt, int root_offset,
-+int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_offset,
-                uint64_t lpcm_addr, uint64_t lpcm_size);
- 
- #endif /* PPC_PNV_LPC_H */
-diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
-index b5d91505e5..9c48430ee4 100644
---- a/include/hw/ppc/pnv_xive.h
-+++ b/include/hw/ppc/pnv_xive.h
-@@ -10,12 +10,11 @@
- #ifndef PPC_PNV_XIVE_H
- #define PPC_PNV_XIVE_H
- 
-+#include "hw/ppc/pnv.h"
- #include "hw/ppc/xive.h"
- #include "qom/object.h"
- #include "hw/ppc/xive2.h"
- 
--struct PnvChip;
--
- #define TYPE_PNV_XIVE "pnv-xive"
- OBJECT_DECLARE_TYPE(PnvXive, PnvXiveClass,
-                     PNV_XIVE)
-@@ -31,7 +30,7 @@ struct PnvXive {
-     XiveRouter    parent_obj;
- 
-     /* Owning chip */
--    struct PnvChip *chip;
-+    PnvChip *chip;
- 
-     /* XSCOM addresses giving access to the controller registers */
-     MemoryRegion  xscom_regs;
-@@ -106,7 +105,7 @@ typedef struct PnvXive2 {
-     Xive2Router   parent_obj;
- 
-     /* Owning chip */
--    struct PnvChip *chip;
-+    PnvChip *chip;
- 
-     /* XSCOM addresses giving access to the controller registers */
-     MemoryRegion  xscom_regs;
--- 
-2.37.3
+Thanks,
+
+C.
+
+
+> ---
+>   include/hw/ppc/pnv.h       | 143 +-----------------------------------
+>   include/hw/ppc/pnv_chip.h  | 147 +++++++++++++++++++++++++++++++++++++
+>   hw/intc/pnv_xive.c         |   1 +
+>   hw/intc/pnv_xive2.c        |   1 +
+>   hw/pci-host/pnv_phb3.c     |   1 +
+>   hw/pci-host/pnv_phb4_pec.c |   1 +
+>   hw/ppc/pnv.c               |   3 +
+>   hw/ppc/pnv_core.c          |   1 +
+>   hw/ppc/pnv_homer.c         |   1 +
+>   hw/ppc/pnv_lpc.c           |   1 +
+>   hw/ppc/pnv_xscom.c         |   1 +
+>   11 files changed, 160 insertions(+), 141 deletions(-)
+>   create mode 100644 include/hw/ppc/pnv_chip.h
+> 
+> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> index 9ef7e2d0dc..ca49e4281d 100644
+> --- a/include/hw/ppc/pnv.h
+> +++ b/include/hw/ppc/pnv.h
+> @@ -20,158 +20,19 @@
+>   #ifndef PPC_PNV_H
+>   #define PPC_PNV_H
+>   
+> +#include "cpu.h"
+>   #include "hw/boards.h"
+>   #include "hw/sysbus.h"
+>   #include "hw/ipmi/ipmi.h"
+> -#include "hw/ppc/pnv_lpc.h"
+>   #include "hw/ppc/pnv_pnor.h"
+> -#include "hw/ppc/pnv_psi.h"
+> -#include "hw/ppc/pnv_occ.h"
+> -#include "hw/ppc/pnv_sbe.h"
+> -#include "hw/ppc/pnv_homer.h"
+> -#include "hw/ppc/pnv_xive.h"
+> -#include "hw/ppc/pnv_core.h"
+> -#include "hw/pci-host/pnv_phb3.h"
+> -#include "hw/pci-host/pnv_phb4.h"
+>   #include "hw/pci-host/pnv_phb.h"
+> -#include "qom/object.h"
+>   
+>   #define TYPE_PNV_CHIP "pnv-chip"
+> -OBJECT_DECLARE_TYPE(PnvChip, PnvChipClass,
+> -                    PNV_CHIP)
+>   
+> -struct PnvChip {
+> -    /*< private >*/
+> -    SysBusDevice parent_obj;
+> -
+> -    /*< public >*/
+> -    uint32_t     chip_id;
+> -    uint64_t     ram_start;
+> -    uint64_t     ram_size;
+> -
+> -    uint32_t     nr_cores;
+> -    uint32_t     nr_threads;
+> -    uint64_t     cores_mask;
+> -    PnvCore      **cores;
+> -
+> -    uint32_t     num_pecs;
+> -
+> -    MemoryRegion xscom_mmio;
+> -    MemoryRegion xscom;
+> -    AddressSpace xscom_as;
+> -
+> -    MemoryRegion *fw_mr;
+> -    gchar        *dt_isa_nodename;
+> -};
+> -
+> -#define TYPE_PNV8_CHIP "pnv8-chip"
+> +typedef struct PnvChip PnvChip;
+>   typedef struct Pnv8Chip Pnv8Chip;
+> -DECLARE_INSTANCE_CHECKER(Pnv8Chip, PNV8_CHIP,
+> -                         TYPE_PNV8_CHIP)
+> -
+> -struct Pnv8Chip {
+> -    /*< private >*/
+> -    PnvChip      parent_obj;
+> -
+> -    /*< public >*/
+> -    MemoryRegion icp_mmio;
+> -
+> -    PnvLpcController lpc;
+> -    Pnv8Psi      psi;
+> -    PnvOCC       occ;
+> -    PnvHomer     homer;
+> -
+> -#define PNV8_CHIP_PHB3_MAX 4
+> -    /*
+> -     * The array is used to allow quick access to the phbs by
+> -     * pnv_ics_get_child() and pnv_ics_resend_child().
+> -     */
+> -    PnvPHB       *phbs[PNV8_CHIP_PHB3_MAX];
+> -    uint32_t     num_phbs;
+> -
+> -    XICSFabric    *xics;
+> -};
+> -
+> -#define TYPE_PNV9_CHIP "pnv9-chip"
+>   typedef struct Pnv9Chip Pnv9Chip;
+> -DECLARE_INSTANCE_CHECKER(Pnv9Chip, PNV9_CHIP,
+> -                         TYPE_PNV9_CHIP)
+> -
+> -struct Pnv9Chip {
+> -    /*< private >*/
+> -    PnvChip      parent_obj;
+> -
+> -    /*< public >*/
+> -    PnvXive      xive;
+> -    Pnv9Psi      psi;
+> -    PnvLpcController lpc;
+> -    PnvOCC       occ;
+> -    PnvSBE       sbe;
+> -    PnvHomer     homer;
+> -
+> -    uint32_t     nr_quads;
+> -    PnvQuad      *quads;
+> -
+> -#define PNV9_CHIP_MAX_PEC 3
+> -    PnvPhb4PecState pecs[PNV9_CHIP_MAX_PEC];
+> -};
+> -
+> -/*
+> - * A SMT8 fused core is a pair of SMT4 cores.
+> - */
+> -#define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+> -#define PNV9_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
+> -
+> -#define TYPE_PNV10_CHIP "pnv10-chip"
+>   typedef struct Pnv10Chip Pnv10Chip;
+> -DECLARE_INSTANCE_CHECKER(Pnv10Chip, PNV10_CHIP,
+> -                         TYPE_PNV10_CHIP)
+> -
+> -struct Pnv10Chip {
+> -    /*< private >*/
+> -    PnvChip      parent_obj;
+> -
+> -    /*< public >*/
+> -    PnvXive2     xive;
+> -    Pnv9Psi      psi;
+> -    PnvLpcController lpc;
+> -    PnvOCC       occ;
+> -    PnvSBE       sbe;
+> -    PnvHomer     homer;
+> -
+> -    uint32_t     nr_quads;
+> -    PnvQuad      *quads;
+> -
+> -#define PNV10_CHIP_MAX_PEC 2
+> -    PnvPhb4PecState pecs[PNV10_CHIP_MAX_PEC];
+> -};
+> -
+> -#define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+> -#define PNV10_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
+> -
+> -struct PnvChipClass {
+> -    /*< private >*/
+> -    SysBusDeviceClass parent_class;
+> -
+> -    /*< public >*/
+> -    uint64_t     chip_cfam_id;
+> -    uint64_t     cores_mask;
+> -    uint32_t     num_pecs;
+> -    uint32_t     num_phbs;
+> -
+> -    DeviceRealize parent_realize;
+> -
+> -    uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
+> -    void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
+> -    void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
+> -    void (*intc_destroy)(PnvChip *chip, PowerPCCPU *cpu);
+> -    void (*intc_print_info)(PnvChip *chip, PowerPCCPU *cpu, Monitor *mon);
+> -    ISABus *(*isa_create)(PnvChip *chip, Error **errp);
+> -    void (*dt_populate)(PnvChip *chip, void *fdt);
+> -    void (*pic_print_info)(PnvChip *chip, Monitor *mon);
+> -    uint64_t (*xscom_core_base)(PnvChip *chip, uint32_t core_id);
+> -    uint32_t (*xscom_pcba)(PnvChip *chip, uint64_t addr);
+> -};
+>   
+>   #define PNV_CHIP_TYPE_SUFFIX "-" TYPE_PNV_CHIP
+>   #define PNV_CHIP_TYPE_NAME(cpu_model) cpu_model PNV_CHIP_TYPE_SUFFIX
+> diff --git a/include/hw/ppc/pnv_chip.h b/include/hw/ppc/pnv_chip.h
+> new file mode 100644
+> index 0000000000..53e1d921d7
+> --- /dev/null
+> +++ b/include/hw/ppc/pnv_chip.h
+> @@ -0,0 +1,147 @@
+> +#ifndef PPC_PNV_CHIP_H
+> +#define PPC_PNV_CHIP_H
+> +
+> +#include "hw/pci-host/pnv_phb4.h"
+> +#include "hw/ppc/pnv_core.h"
+> +#include "hw/ppc/pnv_homer.h"
+> +#include "hw/ppc/pnv_lpc.h"
+> +#include "hw/ppc/pnv_occ.h"
+> +#include "hw/ppc/pnv_psi.h"
+> +#include "hw/ppc/pnv_sbe.h"
+> +#include "hw/ppc/pnv_xive.h"
+> +#include "hw/sysbus.h"
+> +
+> +OBJECT_DECLARE_TYPE(PnvChip, PnvChipClass,
+> +                    PNV_CHIP)
+> +
+> +struct PnvChip {
+> +    /*< private >*/
+> +    SysBusDevice parent_obj;
+> +
+> +    /*< public >*/
+> +    uint32_t     chip_id;
+> +    uint64_t     ram_start;
+> +    uint64_t     ram_size;
+> +
+> +    uint32_t     nr_cores;
+> +    uint32_t     nr_threads;
+> +    uint64_t     cores_mask;
+> +    PnvCore      **cores;
+> +
+> +    uint32_t     num_pecs;
+> +
+> +    MemoryRegion xscom_mmio;
+> +    MemoryRegion xscom;
+> +    AddressSpace xscom_as;
+> +
+> +    MemoryRegion *fw_mr;
+> +    gchar        *dt_isa_nodename;
+> +};
+> +
+> +#define TYPE_PNV8_CHIP "pnv8-chip"
+> +DECLARE_INSTANCE_CHECKER(Pnv8Chip, PNV8_CHIP,
+> +                         TYPE_PNV8_CHIP)
+> +
+> +struct Pnv8Chip {
+> +    /*< private >*/
+> +    PnvChip      parent_obj;
+> +
+> +    /*< public >*/
+> +    MemoryRegion icp_mmio;
+> +
+> +    PnvLpcController lpc;
+> +    Pnv8Psi      psi;
+> +    PnvOCC       occ;
+> +    PnvHomer     homer;
+> +
+> +#define PNV8_CHIP_PHB3_MAX 4
+> +    /*
+> +     * The array is used to allow quick access to the phbs by
+> +     * pnv_ics_get_child() and pnv_ics_resend_child().
+> +     */
+> +    PnvPHB       *phbs[PNV8_CHIP_PHB3_MAX];
+> +    uint32_t     num_phbs;
+> +
+> +    XICSFabric    *xics;
+> +};
+> +
+> +#define TYPE_PNV9_CHIP "pnv9-chip"
+> +DECLARE_INSTANCE_CHECKER(Pnv9Chip, PNV9_CHIP,
+> +                         TYPE_PNV9_CHIP)
+> +
+> +struct Pnv9Chip {
+> +    /*< private >*/
+> +    PnvChip      parent_obj;
+> +
+> +    /*< public >*/
+> +    PnvXive      xive;
+> +    Pnv9Psi      psi;
+> +    PnvLpcController lpc;
+> +    PnvOCC       occ;
+> +    PnvSBE       sbe;
+> +    PnvHomer     homer;
+> +
+> +    uint32_t     nr_quads;
+> +    PnvQuad      *quads;
+> +
+> +#define PNV9_CHIP_MAX_PEC 3
+> +    PnvPhb4PecState pecs[PNV9_CHIP_MAX_PEC];
+> +};
+> +
+> +/*
+> + * A SMT8 fused core is a pair of SMT4 cores.
+> + */
+> +#define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+> +#define PNV9_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
+> +
+> +#define TYPE_PNV10_CHIP "pnv10-chip"
+> +DECLARE_INSTANCE_CHECKER(Pnv10Chip, PNV10_CHIP,
+> +                         TYPE_PNV10_CHIP)
+> +
+> +struct Pnv10Chip {
+> +    /*< private >*/
+> +    PnvChip      parent_obj;
+> +
+> +    /*< public >*/
+> +    PnvXive2     xive;
+> +    Pnv9Psi      psi;
+> +    PnvLpcController lpc;
+> +    PnvOCC       occ;
+> +    PnvSBE       sbe;
+> +    PnvHomer     homer;
+> +
+> +    uint32_t     nr_quads;
+> +    PnvQuad      *quads;
+> +
+> +#define PNV10_CHIP_MAX_PEC 2
+> +    PnvPhb4PecState pecs[PNV10_CHIP_MAX_PEC];
+> +};
+> +
+> +#define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+> +#define PNV10_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
+> +
+> +struct PnvChipClass {
+> +    /*< private >*/
+> +    SysBusDeviceClass parent_class;
+> +
+> +    /*< public >*/
+> +    uint64_t     chip_cfam_id;
+> +    uint64_t     cores_mask;
+> +    uint32_t     num_pecs;
+> +    uint32_t     num_phbs;
+> +
+> +    DeviceRealize parent_realize;
+> +
+> +    uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
+> +    void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
+> +    void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
+> +    void (*intc_destroy)(PnvChip *chip, PowerPCCPU *cpu);
+> +    void (*intc_print_info)(PnvChip *chip, PowerPCCPU *cpu, Monitor *mon);
+> +    ISABus *(*isa_create)(PnvChip *chip, Error **errp);
+> +    void (*dt_populate)(PnvChip *chip, void *fdt);
+> +    void (*pic_print_info)(PnvChip *chip, Monitor *mon);
+> +    uint64_t (*xscom_core_base)(PnvChip *chip, uint32_t core_id);
+> +    uint32_t (*xscom_pcba)(PnvChip *chip, uint64_t addr);
+> +};
+> +
+> +#endif
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index c7b75ed12e..622f9d28b7 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -18,6 +18,7 @@
+>   #include "monitor/monitor.h"
+>   #include "hw/ppc/fdt.h"
+>   #include "hw/ppc/pnv.h"
+> +#include "hw/ppc/pnv_chip.h"
+>   #include "hw/ppc/pnv_core.h"
+>   #include "hw/ppc/pnv_xscom.h"
+>   #include "hw/ppc/pnv_xive.h"
+> diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
+> index f22ce5ca59..7176d70234 100644
+> --- a/hw/intc/pnv_xive2.c
+> +++ b/hw/intc/pnv_xive2.c
+> @@ -16,6 +16,7 @@
+>   #include "monitor/monitor.h"
+>   #include "hw/ppc/fdt.h"
+>   #include "hw/ppc/pnv.h"
+> +#include "hw/ppc/pnv_chip.h"
+>   #include "hw/ppc/pnv_core.h"
+>   #include "hw/ppc/pnv_xscom.h"
+>   #include "hw/ppc/xive2.h"
+> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+> index 9054c393a2..7a21497cf8 100644
+> --- a/hw/pci-host/pnv_phb3.c
+> +++ b/hw/pci-host/pnv_phb3.c
+> @@ -16,6 +16,7 @@
+>   #include "hw/pci/pcie_host.h"
+>   #include "hw/pci/pcie_port.h"
+>   #include "hw/ppc/pnv.h"
+> +#include "hw/ppc/pnv_chip.h"
+>   #include "hw/irq.h"
+>   #include "hw/qdev-properties.h"
+>   #include "qom/object.h"
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index 9871f462cd..43267a428f 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+> @@ -17,6 +17,7 @@
+>   #include "hw/pci/pci_bridge.h"
+>   #include "hw/pci/pci_bus.h"
+>   #include "hw/ppc/pnv.h"
+> +#include "hw/ppc/pnv_chip.h"
+>   #include "hw/qdev-properties.h"
+>   #include "sysemu/sysemu.h"
+>   
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 3d01e26f84..44b1fbbc93 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -44,9 +44,12 @@
+>   #include "target/ppc/mmu-hash64.h"
+>   #include "hw/pci/msi.h"
+>   #include "hw/pci-host/pnv_phb.h"
+> +#include "hw/pci-host/pnv_phb3.h"
+> +#include "hw/pci-host/pnv_phb4.h"
+>   
+>   #include "hw/ppc/xics.h"
+>   #include "hw/qdev-properties.h"
+> +#include "hw/ppc/pnv_chip.h"
+>   #include "hw/ppc/pnv_xscom.h"
+>   #include "hw/ppc/pnv_pnor.h"
+>   
+> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+> index 9ee79192dd..410f31bdf8 100644
+> --- a/hw/ppc/pnv_core.c
+> +++ b/hw/ppc/pnv_core.c
+> @@ -25,6 +25,7 @@
+>   #include "target/ppc/cpu.h"
+>   #include "hw/ppc/ppc.h"
+>   #include "hw/ppc/pnv.h"
+> +#include "hw/ppc/pnv_chip.h"
+>   #include "hw/ppc/pnv_core.h"
+>   #include "hw/ppc/pnv_xscom.h"
+>   #include "hw/ppc/xics.h"
+> diff --git a/hw/ppc/pnv_homer.c b/hw/ppc/pnv_homer.c
+> index ea73919e54..f9a203d11d 100644
+> --- a/hw/ppc/pnv_homer.c
+> +++ b/hw/ppc/pnv_homer.c
+> @@ -25,6 +25,7 @@
+>   #include "hw/qdev-core.h"
+>   #include "hw/qdev-properties.h"
+>   #include "hw/ppc/pnv.h"
+> +#include "hw/ppc/pnv_chip.h"
+>   #include "hw/ppc/pnv_homer.h"
+>   #include "hw/ppc/pnv_xscom.h"
+>   
+> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+> index ee890e7ab4..71143b7692 100644
+> --- a/hw/ppc/pnv_lpc.c
+> +++ b/hw/ppc/pnv_lpc.c
+> @@ -26,6 +26,7 @@
+>   #include "hw/isa/isa.h"
+>   #include "hw/qdev-properties.h"
+>   #include "hw/ppc/pnv.h"
+> +#include "hw/ppc/pnv_chip.h"
+>   #include "hw/ppc/pnv_lpc.h"
+>   #include "hw/ppc/pnv_xscom.h"
+>   #include "hw/ppc/fdt.h"
+> diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+> index 79f10de57f..d820e05e40 100644
+> --- a/hw/ppc/pnv_xscom.c
+> +++ b/hw/ppc/pnv_xscom.c
+> @@ -26,6 +26,7 @@
+>   
+>   #include "hw/ppc/fdt.h"
+>   #include "hw/ppc/pnv.h"
+> +#include "hw/ppc/pnv_chip.h"
+>   #include "hw/ppc/pnv_xscom.h"
+>   
+>   #include <libfdt.h>
 
 
