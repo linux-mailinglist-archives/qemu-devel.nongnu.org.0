@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1F4648F68
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Dec 2022 16:17:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746D6648FA6
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Dec 2022 17:13:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p41ZX-0002TH-GI; Sat, 10 Dec 2022 10:15:27 -0500
+	id 1p42Rd-0006Sn-0o; Sat, 10 Dec 2022 11:11:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p41ZT-0002Su-13
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 10:15:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p41ZR-0006aj-3A
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 10:15:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670685319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2vfa4q+cOjwUp+DXb8p3P7GsnzuMPGgH/AB4pskqd0o=;
- b=bSjJw1zq6+Ubr3lGJo/iwTfwgV1V/TljVOla1rn6IXQZgdxPw4A8TC5EHgG6Y3L/AXHYfI
- gNvDFU8n3uMAvU6mJKUsBY26ReQwewcPK/pW96mxBg+UJ/q3Mo3PUaZgX28ZIlJi2xJQs0
- v0s88YOox4tQLO1tlOwbnlWs/UiRpLI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-669-vGM7nS5ENGu--hBhC6JeBQ-1; Sat, 10 Dec 2022 10:15:18 -0500
-X-MC-Unique: vGM7nS5ENGu--hBhC6JeBQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- o5-20020a05600c510500b003cfca1a327fso1447244wms.8
- for <qemu-devel@nongnu.org>; Sat, 10 Dec 2022 07:15:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p42RR-0006SD-Ac
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 11:11:09 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p42RL-0004Sa-3N
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 11:11:09 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ o1-20020a17090a678100b00219cf69e5f0so11261878pjj.2
+ for <qemu-devel@nongnu.org>; Sat, 10 Dec 2022 08:10:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=svS1jgou4gzKkdyGGBqNw+0FNwCtYxwSY4KCSX/3IVI=;
+ b=AyYzLiW8sbKiDO7dej8VrmnczXwa6/QpR+vOy6KQQJS9gNIfpigroxOp6GJp05aDTg
+ HYzxjz8fJ/woAWPD5DTJ2+26ed8KXle2Ne4Vd9FxgQ/OHkF0HnB1Vy6acUl7chI20tmv
+ l80HiLeBpP9EEeWWQDCgwribdkBGsM4Chi4uKJr8eXL8ZAbP0zyZvRpTjH0R79/6pg7l
+ hCRCL2jBmQ3V1YgTl3ZlLj4cjXcLZK6PJoox6mTqrHhYjkBbPlH8hZIhL5QdiPsnS/XL
+ dH9DQbTUxruDlfMWM5u9DeIjJqqwZSvEaJyi4hxpPzV6hITu8veuUJSoNc1XmD8vv2A2
+ rrUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2vfa4q+cOjwUp+DXb8p3P7GsnzuMPGgH/AB4pskqd0o=;
- b=vdtd+5NBmrlqaoXZIf7pyi1z7v/t6jz0IahB90AIbbVhMjZxMr1B1pnepJ+VfqeQ5y
- 3MpngfhFZADlvcro7b3nOzHm5G8AyjIi5wnZMy9B3m5iLkCsnIX8dPAlDJZHiuJ92wXj
- awKKV+x1R6HHcb+v3w4kexGBUfBjji106vd5M3/EuwTuTK6ZASvGJrGHHfh5/rOiuwmi
- MeeNSPzs8YSH1n6sKQPPlxusoeIBhVkI9TJumjoDfvOUfWb8Y1lJipPmXsjDVh5GdlLu
- xnrSExdihBHrwneqVhIgO9yN06BxvFHwGgnbKiccaOMoqHf5kVVrI0PhybXn6rGoZKMy
- o2lA==
-X-Gm-Message-State: ANoB5plaor4ubdiz8ybZKiLPMGgWjlsFZhJA8XkOoMCgzPZQFyX9sNZN
- qmd1BYrXKJqjy7PbiHAK1JA58Q9QDuboBvCUU9zsyAN7LprRvr50cBDowoKlHnfhbcjdvSb7cj7
- FgF9Au31D4fFy9e4=
-X-Received: by 2002:a5d:564a:0:b0:24c:f1ca:b2df with SMTP id
- j10-20020a5d564a000000b0024cf1cab2dfmr1744211wrw.67.1670685301936; 
- Sat, 10 Dec 2022 07:15:01 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4QFL8eUclQsyDuzcIa+Lu5/2vl4IGI0gnWAmHDI7ThPGgO2lGw4h/Z+27G8WPfBQxD8sPK1Q==
-X-Received: by 2002:a05:6402:4006:b0:46c:d5e8:30e4 with SMTP id
- d6-20020a056402400600b0046cd5e830e4mr10093438eda.23.1670684499434; 
- Sat, 10 Dec 2022 07:01:39 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-176-216.web.vodafone.de.
- [109.43.176.216]) by smtp.gmail.com with ESMTPSA id
- ch17-20020a0564021bd100b0046c2eee21a2sm1749082edb.11.2022.12.10.07.01.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 10 Dec 2022 07:01:38 -0800 (PST)
-Message-ID: <f2ce619b-1ca5-7c75-3d71-27bbadf918a2@redhat.com>
-Date: Sat, 10 Dec 2022 16:01:37 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=svS1jgou4gzKkdyGGBqNw+0FNwCtYxwSY4KCSX/3IVI=;
+ b=ChAyaBZsENnTbQ7yDytYcUOYcN20CQbGSb4gVA06x8BbxJ+PbtXV5JYXP5wLHD2KAr
+ OtU7XqzECcsDIgKcJADH54ptNffg6LxfXlZU31DSi4Sw4FEqkMcR9rhw7JbC1u2xtYRJ
+ 6+w1pK3jIPElGWFTbHc++3S4D/xzt8jD3tlwvyXmN3EklO2B0v+RFCNJ7I5+AMtEDndd
+ AJ2ltCsPqLx48Kz9XITBM9a2WzY6R4SVOnra8PLIUCqLj7GpKmhP1JZxHVK4kebW0jZM
+ syc+06jCjzcA0uPhFEKV+yipI4QRJ6ZmAfBGoFpCFopHTLupsznVCQQgORJKSdkzae51
+ zmzQ==
+X-Gm-Message-State: ANoB5plXnhyDJ6EnwUE1MGa727X0hxjIhowM7NuVQwaewUwHZ0VVgeWp
+ aoVS6LZHwRNBgvqwyViyi298I4ZC+ik=
+X-Google-Smtp-Source: AA0mqf5WgdUxI+tlNOAJOHpQmuqvOVfDtL0DNpGtqgMnocBu2nqodx2K/s7CaKGHGzuuZjMn84NapQ==
+X-Received: by 2002:a9d:6452:0:b0:667:20b:b999 with SMTP id
+ m18-20020a9d6452000000b00667020bb999mr4718122otl.2.1670686066383; 
+ Sat, 10 Dec 2022 07:27:46 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ t21-20020a9d7495000000b006705829996fsm1899149otk.56.2022.12.10.07.27.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 10 Dec 2022 07:27:46 -0800 (PST)
+Date: Sat, 10 Dec 2022 07:27:44 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp, balaton@eik.bme.hu
+Subject: Re: [PATCH v2] target/sh4: Fix TB_FLAG_UNALIGN
+Message-ID: <20221210152744.GA2275483@roeck-us.net>
+References: <20220901101509.145758-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20221209170042.71169-1-philmd@linaro.org>
- <20221209170042.71169-3-philmd@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH-for-8.0 2/3] hw/intc: Move omap_lcdc.c out of
- target-specific source set
-In-Reply-To: <20221209170042.71169-3-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.288, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220901101509.145758-1-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=groeck7@gmail.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,67 +88,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
-I suggest to change the subject since you move more than just the omap 
-controller.
-
-On 09/12/2022 18.00, Philippe Mathieu-Daudé wrote:
-> The Goldfish interrupt controller is not target specific.
+On Thu, Sep 01, 2022 at 11:15:09AM +0100, Richard Henderson wrote:
+> The value previously chosen overlaps GUSA_MASK.
 > 
-> While the Exynos interrupt combiner is only used by the ARM
-> targets, we can build this device once for all.
+> Rename all DELAY_SLOT_* and GUSA_* defines to emphasize
+> that they are included in TB_FLAGs.  Add aliases for the
+> FPSCR and SR bits that are included in TB_FLAGS, so that
+> we don't accidentally reassign those bits.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   hw/intc/meson.build | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-> index bcbf22ff51..2ad8648366 100644
-> --- a/hw/intc/meson.build
-> +++ b/hw/intc/meson.build
-> @@ -13,6 +13,8 @@ softmmu_ss.add(when: 'CONFIG_ARM_GICV3_TCG', if_true: files(
->     'arm_gicv3_redist.c',
->   ))
->   softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_pic.c'))
-> +softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_combiner.c'))
-> +softmmu_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
->   softmmu_ss.add(when: 'CONFIG_HEATHROW_PIC', if_true: files('heathrow_pic.c'))
->   softmmu_ss.add(when: 'CONFIG_I8259', if_true: files('i8259_common.c', 'i8259.c'))
->   softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_avic.c', 'imx_gpcv2.c'))
-> @@ -33,7 +35,7 @@ specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
->   specific_ss.add(when: ['CONFIG_ARM_GIC_KVM', 'TARGET_AARCH64'], if_true: files('arm_gicv3_kvm.c', 'arm_gicv3_its_kvm.c'))
->   specific_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_nvic.c'))
->   specific_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_vic.c'))
+> Fixes: 4da06fb3062 ("target/sh4: Implement prctl_unalign_sigbus")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/856
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-I think aspeed_vic.c could be moved to softmmu_ss, too?
+I noticed that my sh4 emulations crash randomly with qemu v7.2-rc4.
+This happens with all Linux kernel versions. Testing shows that this
+patch is responsible. Reverting it fixes the problem.
 
-> -specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_gic.c', 'exynos4210_combiner.c'))
-> +specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_gic.c'))
+Some of the symptoms are attached below.
 
-I just gave it a try, and it seems like exynos4210_gic.c can be moved to 
-softmmu_ss, too? Did it fail for you?
+Guenter
 
->   specific_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_irqmp.c'))
->   specific_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
->   specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_true: files('loongson_liointc.c'))
-> @@ -60,7 +62,6 @@ specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('xics_spapr.c', 'spapr_xi
->   specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
->   specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
->   		if_true: files('spapr_xive_kvm.c'))
-> -specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
->   specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
->   specific_ss.add(when: 'CONFIG_NIOS2_VIC', if_true: files('nios2_vic.c'))
->   specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
+---
+Symptoms:
 
-While you're at it, it seems like these could be moved, too:
+- Random crashes, such as
 
-  CONFIG_ALLWINNER_A10_PIC / allwinner-a10-pic.c
-  CONFIG_OMAP / omap_intc.c
-  CONFIG_RASPI / bcm2835_ic.c , bcm2836_control.c
+Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+CPU: 0 PID: 1 Comm: init Not tainted 5.10.158 #1
+Stack: (0x8c821e60 to 0x8c822000)
+1e60: 8c436726 00000000 8c5db1fc 8c011a64 8ca7aa80 8c821e9c ab2577ac 8c021fca 
+1e80: 8c011a64 8c81dde0 00020000 8c81dda0 00000000 0000000b 8c81f8e0 0000000b 
+1ea0: 8c81f8e0 00000001 00000000 8c81fb9c 00000000 8c821eb0 8c821f5c 8c821fa4 
+1ec0: 8c81fa5c 8c81fc1c 000000cd 00000000 00000000 00000000 ab2577ac 8c022af8 
+1ee0: 8c81dda0 8c81dde0 00020000 8c821f5c 8c81dde0 8c81dda0 0000000b 8c02b1e8 
+1f00: 8c821f5c 400004d8 8c821f48 8c011a64 0000000a 0000000a 8c81ca60 8c012db4 
+1f20: 29558c9c 00000406 295f9294 8c821fe4 8c57702c 8c821fa4 09000002 8c821f68 
+1f40: 8c011a64 295f9294 8c02b0d2 29558c9c 00000406 8c57702c 0000000b 0000000b 
+1f60: 00000000 00000001 00000008 00000000 00000000 00000000 00000000 00000000 
+1f80: ab2577ac 8c0150f8 29558c9c 00000406 295f9294 00000000 40008000 8c0150ec 
+1fa0: 8c820000 7bfcfadc ffffffff 00000040 000080f0 cfffffff 00000000 00000000 
+1fc0: 8c820000 295fae80 0d39ad3d 295fae80 295630ee 295f9294 00000406 29558c9c 
+1fe0: 7bfcfadc 295af5ac 295af6ea 00008100 295fafbc 00000000 0d39acf0 ffffffff 
 
-What do you think?
+Call trace:
+ [<8c436d88>] printk+0x0/0x48
+ [<8c011a64>] arch_local_irq_restore+0x0/0x24
+ [<8c021fca>] do_exit+0x8a6/0x8f0
+ [<8c011a64>] arch_local_irq_restore+0x0/0x24
+ [<8c022af8>] do_group_exit+0x34/0x90
+ [<8c02b1e8>] get_signal+0xd8/0x5f8
+ [<8c011a64>] arch_local_irq_restore+0x0/0x24
+ [<8c012db4>] do_notify_resume+0x6c/0x54c
+ [<8c011a64>] arch_local_irq_restore+0x0/0x24
+ [<8c02b0d2>] force_sig_fault_to_task+0x3a/0x6c
+ [<8c0150f8>] resume_userspace+0x0/0x10
+ [<8c0150ec>] ret_from_exception+0x0/0xc
 
-  Thomas
+Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b^M
+^M
+CPU: 0 PID: 1 Comm: init Not tainted 4.14.301 #1^M
+Stack: (0x8fc19e08 to 0x8fc1a000)^M
+...
+
+- Alleged FPU use
+
+BUG: FPU is used in kernel mode.
+------------[ cut here ]------------
+kernel BUG at arch/sh/kernel/cpu/fpu.c:60!
+Kernel BUG: 003e [#1]
+Modules linked in:
+
+CPU: 0 PID: 1166 Comm: sh Not tainted 4.14.301-rc2-00084-gdd6fc0ede260 #1
+task: 8ff38800 task.stack: 8f40e000
+PC is at fpu_state_restore+0x60/0x88
+PR is at fpu_state_restore+0x60/0x88
+PC  : 8c01969c SP  : 8fc2be6c SR  : 400080f1
+TEA : 004382e8
+R0  : 00000020 R1  : 8c4f21a4 R2  : 8c4f21a4 R3  : 8c011be8
+R4  : 000000f0 R5  : 00000000 R6  : 00000023 R7  : 8c1b97e0
+R8  : 8fc2bec0 R9  : 8ff38800 R10 : 8c0196c4 R11 : 00000000
+R12 : 8c011be0 R13 : 8ff38800 R14 : 8f40fe24
+MACH: 000003de MACL: 00000184 GBR : 295fafbc PR  : 8c01969c
+
+Call trace:
+ [<8c0196d0>] fpu_state_restore_trap_handler+0xc/0x18
+ [<8c0196c4>] fpu_state_restore_trap_handler+0x0/0x18
+ [<8c0150ec>] ret_from_exception+0x0/0xc
+ [<8c0150ec>] ret_from_exception+0x0/0xc
+ [<8c3cb1dc>] __schedule+0x1bc/0x50c
+ [<8c011be0>] arch_local_save_flags+0x0/0x8
+ [<8c017016>] save_fpu+0x16/0x80
+ [<8c011fd6>] __switch_to+0x5a/0x8c
+ [<8c3cb1dc>] __schedule+0x1bc/0x50c
+ [<8c011be0>] arch_local_save_flags+0x0/0x8
+ ...
+
+- Alleged unhandled unaligned access errors in different locations
+  (varies per run)
+
+Fixing up unaligned userspace access in "S40network" pid=1111 pc=0x0043761e ins=0x112d
+Fixing up unaligned userspace access in "S40network" pid=1111 pc=0x0043761e ins=0x112d
+Sending SIGBUS to "S40network" due to unaligned access (PC 43761e PR 295b6796)
+Bus error
+
+Fixing up unaligned userspace access in "sh" pid=1122 pc=0x295b1714 ins=0x1123
+Fixing up unaligned userspace access in "sh" pid=1122 pc=0x295b1714 ins=0x1123
+Sending SIGBUS to "sh" due to unaligned access (PC 295b1714 PR 295b170c)
+
+Fixing up unaligned userspace access in "klogd" pid=1084 pc=0x295ac464 ins=0x2922
+Fixing up unaligned userspace access in "klogd" pid=1084 pc=0x295ac464 ins=0x2922
+Sending SIGBUS to "klogd" due to unaligned access (PC 295ac464 PR 295ac45c)
 
 
