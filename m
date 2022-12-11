@@ -2,64 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B13649547
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 18:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D706495F1
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 20:00:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4Q1n-0004Qm-3p; Sun, 11 Dec 2022 12:22:16 -0500
+	id 1p4RXA-0008Q9-Pj; Sun, 11 Dec 2022 13:58:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p4Q1g-0004Pe-7a
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 12:22:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1p4R3v-0003LF-QV; Sun, 11 Dec 2022 13:28:31 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p4Q1e-00078z-Cj
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 12:22:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670779325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lLqLdZuujbncSEP7zyEKW6N0cB4PfpQ/zvzMpGScaHY=;
- b=U2IzCv+/sWaiPBS8UiSAO7TdDOZev6uGAf0jWltPAlsVItEr/4NkO3v1Jk6LFL56oRUFnC
- NyMcmsYwejoeqqj1w1sXN805rlFgiYGtTYUg6jOyJap6mxLGGTmIiBJpigXW1q3Q7zCYtf
- EVggfH+UR5z/oduwDHl3SHf/SayLjGs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-ElXrl-nZNxOx6aosW3yw4g-1; Sun, 11 Dec 2022 12:22:04 -0500
-X-MC-Unique: ElXrl-nZNxOx6aosW3yw4g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0FE7F3C0E448
- for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 17:22:04 +0000 (UTC)
-Received: from server.redhat.com (ovpn-12-92.pek2.redhat.com [10.72.12.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 198B72024CC8;
- Sun, 11 Dec 2022 17:22:01 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v20 10/10] virtio-pci: add support for configure interrupt
-Date: Mon, 12 Dec 2022 01:20:42 +0800
-Message-Id: <20221211172042.3969410-11-lulu@redhat.com>
-In-Reply-To: <20221211172042.3969410-1-lulu@redhat.com>
-References: <20221211172042.3969410-1-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1p4R3s-0000wS-4X; Sun, 11 Dec 2022 13:28:31 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BBDgFNq017647; Sun, 11 Dec 2022 18:28:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=/tpup7HYGd2qlJeRGnG9Nn1AxxHXNO5rtuwu7oWqIgU=;
+ b=EqdZAA/81mq9snucu7W6eJXsEMR5dYu7TnNDCf49cWKpyfOKMeWVr31Ppeyz33znVNB1
+ ekmR0X0nimoClwsqEtjoTRXDHwEF8pxI5t9GRoj/eiddSSa3LEJ79sX1BEUnmH3NYvTE
+ WgnSYm1azwB7c2JOnVNS9gvsAKCeFtBl4/doRnnO4TO4CbvPU1MvYn+sg92hAOs2rjGy
+ TT90Fm7Ldf329ONjXnk964wBTftVkNL+GqqRhYEhSQrcrMDecUfFZheE444ofci0pb1V
+ SkZf1kOQ209YD4ObCxfu8IeRmmhFSuX48qTM+sAdaR/1AVc7j6Gf9WSwTj2e8urP2GY3 xA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3md491dgk0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 11 Dec 2022 18:28:16 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BBISFtW031953;
+ Sun, 11 Dec 2022 18:28:15 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3md491dgjq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 11 Dec 2022 18:28:15 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BBGtTBj011441;
+ Sun, 11 Dec 2022 18:28:14 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
+ by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3mchr68j17-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 11 Dec 2022 18:28:14 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
+ [10.39.53.228])
+ by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BBISDeL36635258
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 11 Dec 2022 18:28:13 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CDD2D5804B;
+ Sun, 11 Dec 2022 18:28:13 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C6CFE58068;
+ Sun, 11 Dec 2022 18:28:09 +0000 (GMT)
+Received: from [9.43.104.144] (unknown [9.43.104.144])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Sun, 11 Dec 2022 18:28:09 +0000 (GMT)
+Message-ID: <93d6b1dd-54a9-ec82-10c5-6261ffcda91a@linux.ibm.com>
+Date: Sun, 11 Dec 2022 23:58:07 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2 1/2] target/ppc: Implement the DEXCR and HDEXCR
+To: Nicholas Miehlbradt <nicholas@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au, groug@kaod.org,
+ victor.colombo@eldorado.org.br, mikey@neuling.org
+References: <20221209061308.1735802-1-nicholas@linux.ibm.com>
+ <20221209061308.1735802-2-nicholas@linux.ibm.com>
+Content-Language: en-US
+From: Harsh Prateek Bora <harshpb@linux.ibm.com>
+In-Reply-To: <20221209061308.1735802-2-nicholas@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: _6oSvWNKJ4NORVajzaqJoR4V-QbMF9ip
+X-Proofpoint-GUID: kDrholIaCDiWIk56wwffnnn_wloLKe8L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-10_10,2022-12-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 impostorscore=0
+ mlxlogscore=999 clxscore=1011 priorityscore=1501 malwarescore=0
+ bulkscore=0 adultscore=0 phishscore=0 spamscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212110169
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 11 Dec 2022 13:58:41 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,255 +118,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add process to handle the configure interrupt, The function's
-logic is the same with vq interrupt.Add extra process to check
-the configure interrupt
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/virtio-pci.c         | 118 +++++++++++++++++++++++++++------
- include/hw/virtio/virtio-pci.h |   4 +-
- 2 files changed, 102 insertions(+), 20 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ec816ea367..3f00e91718 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -751,7 +751,8 @@ static int virtio_pci_get_notifier(VirtIOPCIProxy *proxy, int queue_no,
-     VirtQueue *vq;
- 
-     if (queue_no == VIRTIO_CONFIG_IRQ_IDX) {
--        return -1;
-+        *n = virtio_config_get_guest_notifier(vdev);
-+        *vector = vdev->config_vector;
-     } else {
-         if (!virtio_queue_get_num(vdev, queue_no)) {
-             return -1;
-@@ -811,7 +812,7 @@ undo:
-     }
-     return ret;
- }
--static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-+static int kvm_virtio_pci_vector_vq_use(VirtIOPCIProxy *proxy, int nvqs)
- {
-     int queue_no;
-     int ret = 0;
-@@ -826,6 +827,10 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-     return ret;
- }
- 
-+static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
-+{
-+    return kvm_virtio_pci_vector_use_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
- 
- static void kvm_virtio_pci_vector_release_one(VirtIOPCIProxy *proxy,
-                                               int queue_no)
-@@ -850,7 +855,7 @@ static void kvm_virtio_pci_vector_release_one(VirtIOPCIProxy *proxy,
-     kvm_virtio_pci_vq_vector_release(proxy, vector);
- }
- 
--static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-+static void kvm_virtio_pci_vector_vq_release(VirtIOPCIProxy *proxy, int nvqs)
- {
-     int queue_no;
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-@@ -863,6 +868,11 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-     }
- }
- 
-+static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
-+{
-+    kvm_virtio_pci_vector_release_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
-+
- static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
-                                        unsigned int queue_no,
-                                        unsigned int vector,
-@@ -944,9 +954,19 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
--
-+    /* unmask config intr */
-+    if (vector == vdev->config_vector) {
-+        n = virtio_config_get_guest_notifier(vdev);
-+        ret = virtio_pci_one_vector_unmask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector,
-+                                           msg, n);
-+        if (ret < 0) {
-+            goto undo_config;
-+        }
-+    }
-     return 0;
--
-+undo_config:
-+    n = virtio_config_get_guest_notifier(vdev);
-+    virtio_pci_one_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
- undo:
-     vq = virtio_vector_first_queue(vdev, vector);
-     while (vq && unmasked >= 0) {
-@@ -980,6 +1000,11 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
-+
-+    if (vector == vdev->config_vector) {
-+        n = virtio_config_get_guest_notifier(vdev);
-+        virtio_pci_one_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
-+    }
- }
- 
- static void virtio_pci_vector_poll(PCIDevice *dev,
-@@ -1011,6 +1036,34 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
-             msix_set_pending(dev, vector);
-         }
-     }
-+    /* poll the config intr */
-+    ret = virtio_pci_get_notifier(proxy, VIRTIO_CONFIG_IRQ_IDX, &notifier,
-+                                  &vector);
-+    if (ret < 0) {
-+        return;
-+    }
-+    if (vector < vector_start || vector >= vector_end ||
-+        !msix_is_masked(dev, vector)) {
-+        return;
-+    }
-+    if (k->guest_notifier_pending) {
-+        if (k->guest_notifier_pending(vdev, VIRTIO_CONFIG_IRQ_IDX)) {
-+            msix_set_pending(dev, vector);
-+        }
-+    } else if (event_notifier_test_and_clear(notifier)) {
-+        msix_set_pending(dev, vector);
-+    }
-+}
-+
-+void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
-+                                              int n, bool assign,
-+                                              bool with_irqfd)
-+{
-+    if (n == VIRTIO_CONFIG_IRQ_IDX) {
-+        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
-+    } else {
-+        virtio_queue_set_guest_notifier_fd_handler(vq, assign, with_irqfd);
-+    }
- }
- 
- static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-@@ -1019,17 +1072,25 @@ static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-     VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
--    VirtQueue *vq = virtio_get_queue(vdev, n);
--    EventNotifier *notifier = virtio_queue_get_guest_notifier(vq);
-+    VirtQueue *vq = NULL;
-+    EventNotifier *notifier = NULL;
-+
-+    if (n == VIRTIO_CONFIG_IRQ_IDX) {
-+        notifier = virtio_config_get_guest_notifier(vdev);
-+    } else {
-+        vq = virtio_get_queue(vdev, n);
-+        notifier = virtio_queue_get_guest_notifier(vq);
-+    }
- 
-     if (assign) {
-         int r = event_notifier_init(notifier, 0);
-         if (r < 0) {
-             return r;
-         }
--        virtio_queue_set_guest_notifier_fd_handler(vq, true, with_irqfd);
-+        virtio_pci_set_guest_notifier_fd_handler(vdev, vq, n, true, with_irqfd);
-     } else {
--        virtio_queue_set_guest_notifier_fd_handler(vq, false, with_irqfd);
-+        virtio_pci_set_guest_notifier_fd_handler(vdev, vq, n, false,
-+                                                 with_irqfd);
-         event_notifier_cleanup(notifier);
-     }
- 
-@@ -1072,10 +1133,13 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-     proxy->nvqs_with_notifiers = nvqs;
- 
-     /* Must unset vector notifier while guest notifier is still assigned */
--    if ((proxy->vector_irqfd || k->guest_notifier_mask) && !assign) {
-+    if ((proxy->vector_irqfd ||
-+         (vdev->use_guest_notifier_mask && k->guest_notifier_mask)) &&
-+        !assign) {
-         msix_unset_vector_notifiers(&proxy->pci_dev);
-         if (proxy->vector_irqfd) {
--            kvm_virtio_pci_vector_release(proxy, nvqs);
-+            kvm_virtio_pci_vector_vq_release(proxy, nvqs);
-+            kvm_virtio_pci_vector_config_release(proxy);
-             g_free(proxy->vector_irqfd);
-             proxy->vector_irqfd = NULL;
-         }
-@@ -1091,20 +1155,30 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-             goto assign_error;
-         }
-     }
--
-+    r = virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, assign,
-+                                      with_irqfd);
-+    if (r < 0) {
-+        goto config_assign_error;
-+    }
-     /* Must set vector notifier after guest notifier has been assigned */
--    if ((with_irqfd || k->guest_notifier_mask) && assign) {
-+    if ((with_irqfd ||
-+         (vdev->use_guest_notifier_mask && k->guest_notifier_mask)) &&
-+        assign) {
-         if (with_irqfd) {
-             proxy->vector_irqfd =
-                 g_malloc0(sizeof(*proxy->vector_irqfd) *
-                           msix_nr_vectors_allocated(&proxy->pci_dev));
--            r = kvm_virtio_pci_vector_use(proxy, nvqs);
-+            r = kvm_virtio_pci_vector_vq_use(proxy, nvqs);
-+            if (r < 0) {
-+                goto config_assign_error;
-+            }
-+            r = kvm_virtio_pci_vector_config_use(proxy);
-             if (r < 0) {
--                goto assign_error;
-+                goto config_error;
-             }
-         }
--        r = msix_set_vector_notifiers(&proxy->pci_dev,
--                                      virtio_pci_vector_unmask,
-+
-+        r = msix_set_vector_notifiers(&proxy->pci_dev, virtio_pci_vector_unmask,
-                                       virtio_pci_vector_mask,
-                                       virtio_pci_vector_poll);
-         if (r < 0) {
-@@ -1117,9 +1191,15 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
- notifiers_error:
-     if (with_irqfd) {
-         assert(assign);
--        kvm_virtio_pci_vector_release(proxy, nvqs);
-+        kvm_virtio_pci_vector_vq_release(proxy, nvqs);
-     }
--
-+config_error:
-+    if (with_irqfd) {
-+        kvm_virtio_pci_vector_config_release(proxy);
-+    }
-+config_assign_error:
-+    virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, !assign,
-+                                  with_irqfd);
- assign_error:
-     /* We get here on assignment failure. Recover by undoing for VQs 0 .. n. */
-     assert(assign);
-diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
-index 938799e8f6..c02e278f46 100644
---- a/include/hw/virtio/virtio-pci.h
-+++ b/include/hw/virtio/virtio-pci.h
-@@ -256,5 +256,7 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
-  * @fixed_queues.
-  */
- unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
--
-+void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
-+                                              int n, bool assign,
-+                                              bool with_irqfd);
- #endif
--- 
-2.34.3
+On 12/9/22 11:43, Nicholas Miehlbradt wrote:
+> Define the DEXCR and HDEXCR as special purpose registers.
+> 
+> Each register occupies two SPR indicies, one which can be read in an
+> unprivileged state and one which can be modified in the appropriate
+> priviliged state, however both indicies refer to the same underlying
+> value.
+> 
+> Note that the ISA uses the abbreviation UDEXCR in two different
+> contexts: the userspace DEXCR, the SPR index which can be read from
+> userspace (implemented in this patch), and the ultravisor DEXCR, the
+> equivalent register for the ultravisor state (not implemented).
+> 
+> Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
+> ---
+> v2: Clearing of upper 32 bits of DEXCR is now performed on read from
+> problem state rather than on write in privileged state.
+> ---
+>   target/ppc/cpu.h        | 19 +++++++++++++++++++
+>   target/ppc/cpu_init.c   | 25 +++++++++++++++++++++++++
+>   target/ppc/spr_common.h |  1 +
+>   target/ppc/translate.c  | 19 +++++++++++++++++++
+>   4 files changed, 64 insertions(+)
+> 
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 81d4263a07..0ed9f2ae35 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1068,6 +1068,21 @@ struct ppc_radix_page_info {
+>       uint32_t entries[PPC_PAGE_SIZES_MAX_SZ];
+>   };
+>   
+> +/*****************************************************************************/
+> +/* Dynamic Execution Control Register */
+> +
+> +#define DEXCR_ASPECT(name, num)                    \
+> +FIELD(DEXCR, PNH_##name, PPC_BIT_NR(num), 1)       \
+> +FIELD(DEXCR, PRO_##name, PPC_BIT_NR(num + 32), 1)  \
+> +FIELD(HDEXCR, HNU_##name, PPC_BIT_NR(num), 1)      \
+> +FIELD(HDEXCR, ENF_##name, PPC_BIT_NR(num + 32), 1) \
+> +
+> +DEXCR_ASPECT(SBHE, 0)
+> +DEXCR_ASPECT(IDRTPB, 1)
+                 ^^^^^^ IBRTPD ?
+> +DEXCR_ASPECT(SRAPD, 4)
+> +DEXCR_ASPECT(NPHIE, 5)
+> +DEXCR_ASPECT(PHIE, 6)
+> +
+>   /*****************************************************************************/
+>   /* The whole PowerPC CPU context */
+>   
+> @@ -1674,9 +1689,11 @@ void ppc_compat_add_property(Object *obj, const char *name,
+>   #define SPR_BOOKE_GIVOR13     (0x1BC)
+>   #define SPR_BOOKE_GIVOR14     (0x1BD)
+>   #define SPR_TIR               (0x1BE)
+> +#define SPR_UHDEXCR           (0x1C7)
+>   #define SPR_PTCR              (0x1D0)
+>   #define SPR_HASHKEYR          (0x1D4)
+>   #define SPR_HASHPKEYR         (0x1D5)
+> +#define SPR_HDEXCR            (0x1D7)
+>   #define SPR_BOOKE_SPEFSCR     (0x200)
+>   #define SPR_Exxx_BBEAR        (0x201)
+>   #define SPR_Exxx_BBTAR        (0x202)
+> @@ -1865,8 +1882,10 @@ void ppc_compat_add_property(Object *obj, const char *name,
+>   #define SPR_RCPU_L2U_RA2      (0x32A)
+>   #define SPR_MPC_MD_DBRAM1     (0x32A)
+>   #define SPR_RCPU_L2U_RA3      (0x32B)
+> +#define SPR_UDEXCR            (0x32C)
+>   #define SPR_TAR               (0x32F)
+>   #define SPR_ASDR              (0x330)
+> +#define SPR_DEXCR             (0x33C)
+>   #define SPR_IC                (0x350)
+>   #define SPR_VTB               (0x351)
+>   #define SPR_MMCRC             (0x353)
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index cbf0081374..6433f4fdfd 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -5727,6 +5727,30 @@ static void register_power10_hash_sprs(CPUPPCState *env)
+>               hashpkeyr_initial_value);
+>   }
+>   
+> +static void register_power10_dexcr_sprs(CPUPPCState *env)
+> +{
+> +    spr_register(env, SPR_DEXCR, "DEXCR",
+> +            SPR_NOACCESS, SPR_NOACCESS,
+> +            &spr_read_generic, &spr_write_generic,
+> +            0);
+> +
+> +    spr_register(env, SPR_UDEXCR, "DEXCR",
+> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
+> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
+> +            0);
+> +
+> +    spr_register_hv(env, SPR_HDEXCR, "HDEXCR",
+> +            SPR_NOACCESS, SPR_NOACCESS,
+> +            SPR_NOACCESS, SPR_NOACCESS,
+> +            &spr_read_generic, &spr_write_generic,
+> +            0);
+> +
+> +    spr_register(env, SPR_UHDEXCR, "HDEXCR",
+> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
+> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
+> +            0);
+> +}
+> +
+>   /*
+>    * Initialize PMU counter overflow timers for Power8 and
+>    * newer Power chips when using TCG.
+> @@ -6402,6 +6426,7 @@ static void init_proc_POWER10(CPUPPCState *env)
+>       register_power8_rpr_sprs(env);
+>       register_power9_mmu_sprs(env);
+>       register_power10_hash_sprs(env);
+> +    register_power10_dexcr_sprs(env);
+>   
+>       /* FIXME: Filter fields properly based on privilege level */
+>       spr_register_kvm_hv(env, SPR_PSSCR, "PSSCR", NULL, NULL, NULL, NULL,
+> diff --git a/target/ppc/spr_common.h b/target/ppc/spr_common.h
+> index b5a5bc6895..91a74cec0f 100644
+> --- a/target/ppc/spr_common.h
+> +++ b/target/ppc/spr_common.h
+> @@ -195,6 +195,7 @@ void spr_read_ebb_upper32(DisasContext *ctx, int gprn, int sprn);
+>   void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn);
+>   void spr_write_hmer(DisasContext *ctx, int sprn, int gprn);
+>   void spr_write_lpcr(DisasContext *ctx, int sprn, int gprn);
+> +void spr_read_dexcr_ureg(DisasContext *ctx, int sprn, int gprn);
 
+Order of sprn, gprn appears different in funcn defn below, need to 
+correct at either place.
+
+>   #endif
+>   
+>   void register_low_BATs(CPUPPCState *env);
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 19c1d17cb0..fcb1180712 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -1249,6 +1249,25 @@ void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn)
+>       gen_fscr_facility_check(ctx, SPR_FSCR, FSCR_EBB, sprn, FSCR_IC_EBB);
+>       spr_write_prev_upper32(ctx, sprn, gprn);
+>   }
+> +
+> +void spr_read_dexcr_ureg(DisasContext *ctx, int gprn, int sprn)
+> +{
+> +    TCGv t0 = tcg_temp_new();
+> +
+> +    /*
+> +     * Access to the (H)DEXCR in problem state is done using seperate
+> +     * SPR indexes which are 16 below the SPR indexes which have full
+> +     * access to the (H)DEXCR in privileged state. Problem state may
+s/may/can ?
+> +     * only read bits 32:63, bits 0:31 return 0.
+> +     *
+> +     * See section 9.3.1-9.3.2 of PowerISA v3.1B
+> +     */
+> +
+> +    gen_load_spr(t0, sprn + 16);
+> +    tcg_gen_ext32u_tl(cpu_gpr[gprn], t0);
+> +
+> +    tcg_temp_free(t0);
+> +}
+>   #endif
+>   
+>   #define GEN_HANDLER(name, opc1, opc2, opc3, inval, type)                      \
+
+Otherwise, looks good to me!
 
