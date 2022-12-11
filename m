@@ -2,109 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1644649686
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 22:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C56664973A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 00:43:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4Tv3-0003Je-DR; Sun, 11 Dec 2022 16:31:33 -0500
+	id 1p4VxU-0002Yz-0f; Sun, 11 Dec 2022 18:42:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1p4TbD-0001Wb-Fu; Sun, 11 Dec 2022 16:11:03 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1p4Tb7-000804-Cr; Sun, 11 Dec 2022 16:10:59 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BBKK0LC014086; Sun, 11 Dec 2022 21:10:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=jFgBonsqtw1ziADZ98lf6A00F6zapHWp4q939gO7CC4=;
- b=QMayklmury+3F+HVGrL01vmSrtjsI13UtWb0jHoDFGkwDydze7PeBzO6Z65gKqPpMIFF
- nrtJFRRKk5nYdLRfEoj0Taxhj7OkqsznOiU9t0hb2jTK1UTgTe9juNz+J3f3RfVzDOeu
- 2l8PgGhTrft56RGCcBqJQeZYOnhHVoRaJXFBb9UOPsnGKB+pjTweams28kisQCxDWCMs
- yoq8H/2/nctM232fNL5APJaWF4sdFNeXwYpXXTRlbIT30r9iR1/s1PHAfrxpSI9oIvOj
- YxGiW06FOPnXoA7ZFDO4rwx0YmnIqeR9K9i7h9sW9jKdwEMDkWVv7lqO/Or5ghzErOdF 1w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md468qn1v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 11 Dec 2022 21:10:35 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BBL6bOx019496;
- Sun, 11 Dec 2022 21:10:34 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md468qn1e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 11 Dec 2022 21:10:34 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BBKTEmV004395;
- Sun, 11 Dec 2022 21:10:33 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
- by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3mchr695rw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 11 Dec 2022 21:10:33 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
- [10.241.53.105])
- by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BBLAVhY53870866
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 11 Dec 2022 21:10:32 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B90705805E;
- Sun, 11 Dec 2022 21:10:31 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 308FE5805D;
- Sun, 11 Dec 2022 21:10:27 +0000 (GMT)
-Received: from [9.43.60.209] (unknown [9.43.60.209])
- by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Sun, 11 Dec 2022 21:10:26 +0000 (GMT)
-Message-ID: <8f3c2487-4403-2f87-4e43-336d8cea472b@linux.ibm.com>
-Date: Mon, 12 Dec 2022 02:40:25 +0530
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4VxS-0002Yq-94
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 18:42:10 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4VxP-0004vq-UM
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 18:42:09 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id b2so23930882eja.7
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 15:42:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:from:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xxXva8ICo2juLeRUEfsSUjHUCal67NLzLrUd3X/kO4M=;
+ b=SuKqmSSvvuQUxUcZ0ZOYlz3cdAdWBgLOOFk0PjGIRCzuBNODe/iD1NS5QnCMMngXGN
+ JMIHcj3D8VaHEXDQJ8q/0UmnT/o2D8vV0e2kW2OSNeRBkRe2/CF+h1hm5frKPaVwtrBC
+ 5XRnhSfdlERFw4mR/UsjQf0QsU7fxwpe+YAYnZYL4+ecU0zJmkGfKDSTpvxZLen20nwV
+ wXvZ1YZ+qr72cUYltuTrzh0bHUbedBy/M/bpnsR/Khu+vZKeAoL4DUj+C14yrC99uWC8
+ 3Xkv/yggDe2wxUhhONpt4KeV6lrOzPUlXnv/JOWKzEwPWaXhdqIRHf87q5vve+Xc6MQD
+ MQrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:from:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=xxXva8ICo2juLeRUEfsSUjHUCal67NLzLrUd3X/kO4M=;
+ b=PdiviaQe8S4TtozX4JIe+XoywzqM5J3x72fIDqXii/Y68Fzaox/NT8RkFk5X0HRVW8
+ qS90zInwGSzo6VwddLttCqTgASveJjDQcL4vEqIG8VTSENjoOW3dmbTz98LJVuzx3L5Q
+ brGpMImcVtCFN0ATcK7axYsCNItiF6+fGl0KvnHmwYflfwFlEwkxufFCgwz6Gjok9h02
+ HfevYCr6zkQ5sHk5dVksT0z8up5JgHLdiIxHunmr93uQc7B3SzSoXpBlgcI7vCFQZb9x
+ l9d+o5HOqVqYniACbJyMM7qAf2o+8p+n5pmM2LQ4WoOZsoIiSJOYLVuzSLDuVR9B+a7E
+ kXgg==
+X-Gm-Message-State: ANoB5pmHf+RR2KU73kiaZZjeQEE6FheKKGkOiuznu4Ng+ymU5ODxva7c
+ XSnW7X9j7wvLOUvFrAgwffTuJA==
+X-Google-Smtp-Source: AA0mqf40/gVHpNOVcIkTa8Vh85u3rCB2RuO+eVJ26+7isK3JqhVfJlcHwk6LGafwnbUKKZFB5AA/pg==
+X-Received: by 2002:a17:907:970c:b0:78d:f455:b4ba with SMTP id
+ jg12-20020a170907970c00b0078df455b4bamr14814173ejc.33.1670802124976; 
+ Sun, 11 Dec 2022 15:42:04 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ de39-20020a1709069be700b007c0f45ad6bcsm2563961ejc.109.2022.12.11.15.42.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Dec 2022 15:42:04 -0800 (PST)
+Message-ID: <936e1ac4-cef8-08b4-c688-e5b1e057208b@linaro.org>
+Date: Mon, 12 Dec 2022 00:41:59 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 2/2] target/ppc: Check DEXCR on hash{st, chk}
- instructions
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
 Content-Language: en-US
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-To: Nicholas Miehlbradt <nicholas@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au, groug@kaod.org,
- victor.colombo@eldorado.org.br, mikey@neuling.org
-References: <20221209061308.1735802-1-nicholas@linux.ibm.com>
- <20221209061308.1735802-3-nicholas@linux.ibm.com>
- <1f5179fd-9bee-c62c-e15c-8633a5b021aa@linux.ibm.com>
-In-Reply-To: <1f5179fd-9bee-c62c-e15c-8633a5b021aa@linux.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Subject: Single system binary & Dynamic machine model (KVM developers
+ conference call 2022-12-13)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Mark Burton <mburton@qti.qualcomm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>
+Cc: Bernhard Beschow <shentey@gmail.com>, Brian Cain <bcain@quicinc.com>,
+ Warner Losh <imp@bsdimp.com>, Luc Michel <luc@lmichel.fr>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Alessandro Di Federico
+ <ale@rev.ng>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Jim Shu <jim.shu@sifive.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Anton Johansson <anjo@rev.ng>, Michal Privoznik <mprivozn@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Dominik Csapak <d.csapak@proxmox.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Dongli Zhang <dongli.zhang@oracle.com>, afaerber@suse.de,
+ andrea.arcangeli@redhat.com, bazulay@redhat.com, bbauman@redhat.com,
+ cjia@nvidia.com, cw@f00f.org, digitaleric@google.com,
+ dustin.kirkland@canonical.com, Eric Blake <eblake@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Eric Auger <eric.auger@redhat.com>, felipe@nutanix.com, iggy@theiggy.com,
+ Warner Losh <imp@bsdimp.com>, Jan Kiszka <jan.kiszka@web.de>,
+ Jason Gunthorpe <jgg@nvidia.com>, jidong.xiao@gmail.com,
+ jjherne@linux.vnet.ibm.com, Joao Martins <joao.m.martins@oracle.com>,
+ mburton@qti.qualcom.com, mdean@redhat.com, mimu@linux.vnet.ibm.com,
+ Stefan Hajnoczi <stefanha@gmail.com>, z.huo@139.com, zwu.kernel@gmail.com,
+ Laurent Vivier <lvivier@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: A5vWWDycgsYqgtU0shW4KofUJ6nq27LD
-X-Proofpoint-ORIG-GUID: 5k5AYzey5CsLQKY0xo0gkG9R2AtZJJH9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-10_10,2022-12-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- adultscore=0 malwarescore=0 mlxlogscore=942 phishscore=0 spamscore=0
- mlxscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212110196
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=harshpb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 11 Dec 2022 16:31:31 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,139 +129,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
+In the last years we had few discussions on "simplifying" QEMU (system 
+emulation / virtualization), in particular for the "management layer".
 
-On 12/12/22 00:06, Harsh Prateek Bora wrote:
-> 
-> 
-> On 12/9/22 11:43, Nicholas Miehlbradt wrote:
->> Adds checks to the hashst and hashchk instructions to only execute if
->> enabled by the relevant aspect in the DEXCR and HDEXCR.
->>
->> This behaviour is guarded behind TARGET_PPC64 since Power10 is
->> currently the only implementation which has the DEXCR.
->>
->> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
->> ---
->>   target/ppc/excp_helper.c | 58 +++++++++++++++++++++++++++++-----------
->>   1 file changed, 43 insertions(+), 15 deletions(-)
->>
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index 94adcb766b..add4d54ae7 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -2902,29 +2902,57 @@ static uint64_t hash_digest(uint64_t ra, 
->> uint64_t rb, uint64_t key)
->>       return stage1_h ^ stage1_l;
->>   }
->> +static void do_hash(CPUPPCState *env, target_ulong ea, target_ulong ra,
->> +                    target_ulong rb, uint64_t key, bool store)
->> +{
->> +    uint64_t calculated_hash = hash_digest(ra, rb, key), loaded_hash;
->> +
->> +    if (store) {
->> +        cpu_stq_data_ra(env, ea, calculated_hash, GETPC());
->> +    } else {
->> +        loaded_hash = cpu_ldq_data_ra(env, ea, GETPC());
->> +        if (loaded_hash != calculated_hash) {
->> +            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
->> +                POWERPC_EXCP_TRAP, GETPC());
->> +        }
->> +    }
->> +}
->> +
->>   #include "qemu/guest-random.h"
->> -#define HELPER_HASH(op, key, 
->> store)                                           \
->> +#ifdef TARGET_PPC64
->> +#define HELPER_HASH(op, key, store, 
->> dexcr_aspect)                             \
->>   void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong 
->> ra,          \
->>                    target_ulong 
->> rb)                                             \
->>   { 
-> 
-> Conditional compilation could be contained within function, so that 
-> duplicate lines of code in each macro block could be avoided and would 
-> look simpler.
-Ok, I see that's not feasible within macro expansion. Please ignore.
+Some of us are interested in having QEMU able to dynamically create
+machine models. Mark Burton's current approach is via a Python script
+which generates QMP commands. This is just another case of "management
+layer".
 
-> 
->     \
->> -    uint64_t calculated_hash = hash_digest(ra, rb, key), 
->> loaded_hash;         \
->> -                                                                              \
->> -    if (store) 
->> {                                                              \
->> -        cpu_stq_data_ra(env, ea, calculated_hash, 
->> GETPC());                   \
->> -    } else 
->> {                                                                  \
->> -        loaded_hash = cpu_ldq_data_ra(env, ea, 
->> GETPC());                      \
->> -        if (loaded_hash != calculated_hash) 
->> {                                 \
->> -            raise_exception_err_ra(env, 
->> POWERPC_EXCP_PROGRAM,                 \
->> -                POWERPC_EXCP_TRAP, 
->> GETPC());                                  \
->> -        
->> }                                                                     \
->> +    if (env->msr & R_MSR_PR_MASK) 
->> {                                           \
->> +        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PRO_##dexcr_aspect##_MASK 
->> ||      \
->> +            env->spr[SPR_HDEXCR] & 
->> R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
->> +            
->> return;                                                           \
->> +    } else if (!(env->msr & R_MSR_HV_MASK)) 
->> {                                 \
->> +        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PNH_##dexcr_aspect##_MASK 
->> ||      \
->> +            env->spr[SPR_HDEXCR] & 
->> R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
->> +            
->> return;                                                           \
->> +    } else if (!(env->msr & R_MSR_S_MASK)) 
->> {                                  \
->> +        if (!(env->spr[SPR_HDEXCR] & 
->> R_HDEXCR_HNU_##dexcr_aspect##_MASK))     \
->> +            
->> return;                                                           \
->>       
->> }                                                                         \
->> +                                                                              \
->> +    do_hash(env, ea, ra, rb, key, 
->> store);                                     \
->> +}
->> +#else
->> +#define HELPER_HASH(op, key, store, 
->> dexcr_aspect)                             \
->> +void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong 
->> ra,          \
->> +                 target_ulong 
->> rb)                                             \
->> +{                                                                             \
->> +    do_hash(env, ea, ra, rb, key, 
->> store);                                     \
->>   }
->> +#endif /* TARGET_PPC64 */
->> -HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
->> -HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
->> -HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
->> -HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
->> +HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true, NPHIE)
->> +HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false, NPHIE)
->> +HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true, PHIE)
->> +HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false, PHIE)
->>   #endif /* CONFIG_TCG */
->>   #if !defined(CONFIG_USER_ONLY)
-> 
-> Otherwise, looks good to me!
-> 
-> regards,
-> Harsh Prateek Bora
+Various problems have been raised regarding the current limitations of
+QEMU's APIs. We'd like to remember / get a broader idea on these limits
+and look at some ideas / proposals which have been discussed / posted
+on this list.
+
+Feel free to complete your thoughts on this public etherpad:
+https://etherpad.opendev.org/p/qemu-emulation-bof%402022-12-13
+
+Topic I remember which can be good starters:
+
+- Current limitations of QAPI (& QMP) model (Markus Armbruster)
+
+- Adding a new qemu-runtime-$TARGET / QMP-only binary without today's
+   limitations (Daniel P. Berrangé & Paolo Bonzini)
+
+- Problem with x-exit-preconfig, reworking MachinePhaseInit state
+   machine (Paolo Bonzini)
+
+Markus / Daniel / Paolo expressed their ideas on the list (the
+historical threads are referenced in the etherpad) so reading the
+relevant threads before the call will help to get in the topic.
+These people don't have to be in the call, but if they can attend
+that would be very nice :)
+
+The call will be Tuesday, December 13 at 3pm CET on this Bluejeans link:
+http://bluejeans.com/quintela
+
+You can subscribe to the 'KVM developers conference call' calendar here:
+https://calendar.google.com/calendar/u/0/embed?src=eged7cki05lmu1tngvkl3thids@group.calendar.google.com
+
+Regards,
+
+Phil.
 
