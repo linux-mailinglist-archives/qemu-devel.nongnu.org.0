@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA4864923D
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:22:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252DA649240
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:23:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4Cp7-0003OO-Eo; Sat, 10 Dec 2022 22:16:17 -0500
+	id 1p4CpE-0003UX-TF; Sat, 10 Dec 2022 22:16:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1p4Cp4-0003NG-7j
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 22:16:14 -0500
-Received: from bg4.exmail.qq.com ([43.154.221.58])
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1p4CpC-0003Sy-1p; Sat, 10 Dec 2022 22:16:22 -0500
+Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1p4Coz-0007Nn-Ss
- for qemu-devel@nongnu.org; Sat, 10 Dec 2022 22:16:13 -0500
-X-QQ-mid: bizesmtp68t1670728113tw1prms0
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1p4Cp9-0007Wu-Tx; Sat, 10 Dec 2022 22:16:21 -0500
+X-QQ-mid: bizesmtp68t1670728116tlzl42ne
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Sun, 11 Dec 2022 11:08:33 +0800 (CST)
-X-QQ-SSF: 00200000000000B0C000000A0000000
-X-QQ-FEAT: FwowAM4HOqD0MX4fr09g1gU+O9pSWhElRWSrQMTZQAvohQVhkR2TtjhHVWaki
- xrL9WLw/+9C4mxo1/TyLonie/pkgtQ7TcLYcEbFPOOB7E8M9utjpyL7OOaNWVEdpQ/Gn6Nk
- LxqW8KropxFeiZwoKLxXb8qw8sZ/cNffqTsc/dOIQH1PUIe+Coy7Ndfm1LWlTqj9/Ww/q/y
- wQ18aeNO4CGXiWht//PIv/8muMUQg+uDSFHCPVISW6Yp8uOkaKMMmD0GgaGzSoRnDTIjELe
- v+ywrI1OCFSQwyGF4mR1USHcOClYiPHpfcB3u/AzLzdSCbCHS47mfQoHXqW5q4M4irR7kPu
- w/wTYj+xld/7ID+/2Xd3FlcEkzfq50RPXt//Zv/
+ id ; Sun, 11 Dec 2022 11:08:35 +0800 (CST)
+X-QQ-SSF: 01200000000000B0C000000A0000000
+X-QQ-FEAT: y2QbpjJ0aruSxrKTIG5PW74A+O0T4sgG+OOobB4xdBVQahU9+eZBv8t6qzf1q
+ 63QEHvPwrMF5aoNk50xaX9dpf/W31a1QKGh2TGJHTOv58AOGoSEQtJX+/FVj4JW8LGnPYbh
+ 2CKwtmVnW4fS8lRLq/sMiUI3jRahw+pro82i5GwRePC0Dqbt2zMWW/cD2D2YWNbjd5gNrdX
+ QuTi//+tXvC2vQUxjixoAD/YJhNaZR45AdJgYz59qEAUvnxtsm/RVTGTilx3ZlKXPY1tkDq
+ YXaMkeYDF49LHysK8OJsHKJvmSxoc+Zahu4yKCWnvIk8N4NlQ1+pLmdG82GyEU7ATJArCGQ
+ /AUU7fYtjW9/+qU6lYJ3s/cjhKAJgH75dpTf6Y2
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Anup Patel <anup.patel@wdc.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PATCH v3 02/16] hw/intc: Select MSI_NONBROKEN in RISC-V AIA
- interrupt controllers
-Date: Sun, 11 Dec 2022 11:08:15 +0800
-Message-Id: <20221211030829.802437-2-bmeng@tinylab.org>
+Cc: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v3 03/16] hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
+Date: Sun, 11 Dec 2022 11:08:16 +0800
+Message-Id: <20221211030829.802437-3-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221211030829.802437-1-bmeng@tinylab.org>
 References: <20221211030829.802437-1-bmeng@tinylab.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
+Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
  helo=bg4.exmail.qq.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,40 +65,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-hw/pci/Kconfig says MSI_NONBROKEN should be selected by interrupt
-controllers regardless of how MSI is implemented. msi_nonbroken is
-initialized to true in both riscv_aplic_realize() and
-riscv_imsic_realize().
-
-Select MSI_NONBROKEN in RISCV_APLIC and RISCV_IMSIC.
+Since commit ef6310064820 ("hw/riscv: opentitan: Update to the latest build")
+the IBEX PLIC model was replaced with the SiFive PLIC model in the
+'opentitan' machine but we forgot the add the dependency there.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
 
 (no changes since v1)
 
- hw/intc/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/riscv/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index 1d4573e803..21441d0a0c 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -72,9 +72,11 @@ config RISCV_ACLINT
- 
- config RISCV_APLIC
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index 167dc4cca6..1e4b58024f 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -19,6 +19,7 @@ config MICROCHIP_PFSOC
+ config OPENTITAN
      bool
-+    select MSI_NONBROKEN
+     select IBEX
++    select SIFIVE_PLIC
+     select UNIMP
  
- config RISCV_IMSIC
-     bool
-+    select MSI_NONBROKEN
- 
- config SIFIVE_PLIC
-     bool
+ config SHAKTI_C
 -- 
 2.34.1
+
 
 
