@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCFA649510
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 17:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039F4649514
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 17:25:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4P37-0005I4-RT; Sun, 11 Dec 2022 11:19:33 -0500
+	id 1p4P8O-0006VC-2b; Sun, 11 Dec 2022 11:25:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4P32-0005Hg-Ux
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 11:19:29 -0500
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
+ id 1p4P8L-0006V3-Nh
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 11:24:57 -0500
+Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4P31-0003Fd-FN
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 11:19:28 -0500
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-14455716674so5779296fac.7
- for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 08:19:26 -0800 (PST)
+ id 1p4P8J-000430-7V
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 11:24:56 -0500
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-1445ca00781so5810676fac.1
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 08:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=htcOxVKjG96eVQoBp+oziytQG+YXvEk5RE0Q2BZh7wQ=;
- b=DcezSFXx7ZByJZ2fGZ8010QmgkIYlXQ4FrUBS9fsrAY6M7a9jFVIIbWW0SZgvrNeji
- S+HTn2FsQwDJ5tx1Ju/ig/680veQPN8WJrRomJ3ZZE8OpZrCSv+PNn3MIllG+3stWBNz
- J4RSR1mty4GpUc4J2CqRu0NRMDJSxC51etu5h/Dzqyp9lPjeHrk6m59gE016brs80HzM
- aQW16a7qp5Kscgm6jOjAVse9zD1ZoUOtZYjnuPTJrNiyAefYLID6HlD06GziDklRP77O
- Ks3TMtKs/3lMJZmOajysE6A2hTJVB825NWxfhrb2CuFsQ+o0CnvaK11ymsNiUMBFcF+/
- SgEg==
+ bh=O/E3YJOQjdQ0vtE2MCN13iZTfGILQbDTSd2RGsxouBg=;
+ b=JfzFlA/aqX3LWIbiIAoSvSVXda4IILq0Q98OGaz5KOD+WZQON1a5wYH4/Tu5/O17up
+ Mh4GBDmFD8oAbkHYRPBl3Uh4me6KGBfvFkAdtMF7lFUrsX72MMw7Sxcd+ZHRxzjhx4Q8
+ IF2rgULu4Sh6Q5F0dXoh0N7jggvIBwk0FhrvjNhdQNN3+EMtHLbLfX86pO2wlUD2doSS
+ T1s/YuEsPmlYjM2D8X2wFrpuKJnUTdOA1b1gIHN4wj8qk4vi+cP9zffwU9PkhuVrHiHx
+ 7e3dmQtrZg4N6EZa69FsVxByDFE/8ovNuvkX1O98sDuD241mBo3Oz8nWyddhnKQIIhrQ
+ 6XOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=htcOxVKjG96eVQoBp+oziytQG+YXvEk5RE0Q2BZh7wQ=;
- b=GU0t3oIlunkZ9QxJVSsxOyKjWfIxbAss7/W/t/tWYD1YNuDbgC0oOQuFvybR+I5S20
- gOUosQl8k7kVh+MXCX5wkLjAOf+Ly7y9Dk2i+FAEdfQhgSRJIfsAbA9hyFoFJx9XXTBp
- Zz4q2TAuhu5qa5l4FKzmx+PdChTyS2OvhcuZPOOaMaukB5J2izEwRNBErJTd2a5QvkyX
- zbdhNeMH3uoH2BjjpcaiRDpaMEh2dPs4argS9vclZjYRt82/VxdPRTolUTBUywlMBlda
- 3EriMuVvmB4GQMg4RRulZsnXMXbpaWxDPgbocwxMTRosVGjqfUw6TNstySUxs0Bklv2O
- Z9cw==
-X-Gm-Message-State: ANoB5plFkCWGXj1sMI0fvGiXbuedLcNI7giz66Zhz7Q/YPMw8qTY3Mk1
- MJPB/RV+PzAXtaV3A/orgdn9bA==
-X-Google-Smtp-Source: AA0mqf7JRAKdm3cWal0pwBVzOblH1L/WsyMZPm3e3Hd1t+/mfNn+sA+vep0yjhfI9S61Huaqul2kyg==
-X-Received: by 2002:a05:6870:2044:b0:13b:cead:54b9 with SMTP id
- l4-20020a056870204400b0013bcead54b9mr6467148oad.26.1670775565779; 
- Sun, 11 Dec 2022 08:19:25 -0800 (PST)
+ bh=O/E3YJOQjdQ0vtE2MCN13iZTfGILQbDTSd2RGsxouBg=;
+ b=EkFJM07RSkysyrAN608sF8asGPSCRr1WsTZpo5GKHZV4OkF23S3/budQMIldYmbMAG
+ Xbe/73kMqPkUpKxoV5qWwomSlVxbLby1FFx6NNdahmbdhecllBFxbnPEPGC+TYWvk+Io
+ 3KUJKi3Gu1DB7ubCdV9hW42MJIELvpm39jSKpeNVQbBCQ4VLC7Ul0kb4bsxVinRKUC95
+ bu+U+joA0gSMymTc2JLfpIOyeu5GnTQLB8Z0lUCz8HLOUuiqllKf0ZlBTnyTRj4ooLEX
+ QrX2sAWUMBH01+lPDYi3Tdxp+ql3oxhDI5EZ842EaYmJ/9T0pV1O5/UqPXX6SOhEvtGk
+ +JkA==
+X-Gm-Message-State: ANoB5pnplnO9pd5e9ciJAS6WTuaFVk1roDFxJHGpphDhFjVf78ql4mBI
+ VNhMQDVnmnZgPXQRCyPgmL28IQ==
+X-Google-Smtp-Source: AA0mqf4ELX04sbqJ9/hwT/hUWwHcW7zepxPLNdf8JCtTr+2YG2po87PtUDhn0zi8GK6cWpIk6vohqw==
+X-Received: by 2002:a05:6870:5ccb:b0:148:1e16:8ca1 with SMTP id
+ et11-20020a0568705ccb00b001481e168ca1mr2118513oab.45.1670775893550; 
+ Sun, 11 Dec 2022 08:24:53 -0800 (PST)
 Received: from ?IPV6:2806:102e:18:2efc:7b4f:f28b:eca6:b583?
  ([2806:102e:18:2efc:7b4f:f28b:eca6:b583])
  by smtp.gmail.com with ESMTPSA id
- w21-20020a056870e2d500b0012d939eb0bfsm3845410oad.34.2022.12.11.08.19.24
+ m17-20020a056870561100b0012763819bcasm3850934oao.50.2022.12.11.08.24.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Dec 2022 08:19:25 -0800 (PST)
-Message-ID: <5872a501-f4fe-723b-6279-5f2cca523945@linaro.org>
-Date: Sun, 11 Dec 2022 10:19:22 -0600
+ Sun, 11 Dec 2022 08:24:53 -0800 (PST)
+Message-ID: <334a4beb-9c14-508c-9855-a723779eb239@linaro.org>
+Date: Sun, 11 Dec 2022 10:24:50 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH-for-8.0 3/7] hw/mips/bootloader: Implement nanoMIPS NOP
+Subject: Re: [PATCH-for-8.0 5/7] hw/mips/bootloader: Implement nanoMIPS SW
  opcode
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
@@ -72,13 +72,14 @@ Cc: Milica Lazarevic <milica.lazarevic@syrmia.com>,
  Djordje Todorovic <djordje.todorovic@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>
 References: <20221210155502.74609-1-philmd@linaro.org>
- <20221210155502.74609-4-philmd@linaro.org>
+ <20221210155502.74609-6-philmd@linaro.org>
+ <ffe60d4d-551a-bf4c-403e-7d64aed30a78@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221210155502.74609-4-philmd@linaro.org>
+In-Reply-To: <ffe60d4d-551a-bf4c-403e-7d64aed30a78@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2b.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,33 +102,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/10/22 09:54, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   hw/mips/bootloader.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+On 12/10/22 10:02, Philippe Mathieu-Daudé wrote:
+> On 10/12/22 16:55, Philippe Mathieu-Daudé wrote:
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   hw/mips/bootloader.c | 24 +++++++++++++++++++++++-
+>>   1 file changed, 23 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
+>> index 997e74ee52..cc3df385df 100644
+>> --- a/hw/mips/bootloader.c
+>> +++ b/hw/mips/bootloader.c
+>> @@ -150,9 +150,31 @@ static void bl_gen_lui(void **p, bl_reg rt, uint32_t imm32)
+>>       }
+>>   }
+>> +static void bl_gen_ori_nm(void **ptr, bl_reg rt, bl_reg rs, uint16_t imm)
+>> +{
+>> +    uint16_t *p = (uint16_t *)*ptr;
+>> +    uint32_t insn = 0;
+> 
+> Similarly, we should check whether imm fits in 12-bit.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I think you should simply split at the "li" level instead of lui+ori.
+
 
 r~
 
 > 
-> diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
-> index 3a4573118c..7f7d938f2e 100644
-> --- a/hw/mips/bootloader.c
-> +++ b/hw/mips/bootloader.c
-> @@ -59,7 +59,11 @@ static void bl_gen_nop(void **ptr)
->   {
->       uint32_t *p = (uint32_t *)*ptr;
->   
-> -    stl_p(p, 0);
-> +    if (bootcpu_supports_isa(ISA_NANOMIPS32)) {
-> +        stl_p(p, 0x8000c000);
-> +    } else {
-> +        stl_p(p, 0);
-> +    }
->       p++;
->       *ptr = p;
->   }
+>> +    insn = deposit32(insn, 26, 6, 0b100000);
+>> +    insn = deposit32(insn, 21, 5, rt);
+>> +    insn = deposit32(insn, 16, 5, rs);
+>> +    insn = deposit32(insn, 0, 12, imm);
+>> +
+>> +    stw_p(p, insn >> 16);
+>> +    p++;
+>> +    stw_p(p, insn >> 0);
+>> +    p++;
+>> +
+>> +    *ptr = p;
+>> +}
+> 
+> 
 
 
