@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703AE649655
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 21:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B587964965B
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 21:48:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4TDF-0005Gf-Md; Sun, 11 Dec 2022 15:46:17 -0500
+	id 1p4TDK-0005Gx-Gi; Sun, 11 Dec 2022 15:46:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4TDB-0005GA-UJ
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 15:46:13 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4TDH-0005Go-QP
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 15:46:20 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4TDA-0003Sj-9U
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 15:46:13 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id z92so10333556ede.1
- for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 12:46:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4TDG-0003TE-9N
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 15:46:19 -0500
+Received: by mail-ej1-x634.google.com with SMTP id tz12so644880ejc.9
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 12:46:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+eknjn/+ALn7qsOcWBIprFo8Hn74KPp/Z/Hjsxlzbs0=;
- b=s3vkzJsH6q9f9cwlXQrvVMJkDAEWJXzUDowR+VZWI4vreNwCCLdhshk/tnIgGKwugm
- npC7/f7ZwIvohUo0Wjs/u0is0LkhYNwmfqhVBYaSoQZJSvLvZEy8Aygr+h2QeUWpNVXU
- d2I5ViSoHcugTo8mxeim9ZCVdMBt5+mtKDDQvHFsXDmj+2rIR5eKC66XwRpMtO2Wo2O7
- JlyQbiP09Jtwp1NgfK1qtUoxbGqFeZM1/gJKq/YCBuzRJmngahevhNMPUxfvNGoGtnEI
- PL68r1OMMJTyrXKIlFA7AlfRQqPiGvzoJdnKr01FAqxb685r92jLsaBwu+yGHutt3QU9
- udaw==
+ bh=vOKkbdF2wzJddWGZH9AQVNLA5ppkIMO9XidfsUUqFe0=;
+ b=W0QUG/+RIA47c9sJHUpKHf1fH9Y8SfZg9zCe7wQvwc7DCiKbwaFznJlYlxcWjL2Cd5
+ ZF8YM0Yv8ZVtZBN8g/BMigHMuLb/vMCVxG6JXlo5VpfQ2wMbAMNQJXAxTtOLhqh4koze
+ yqrClRol7w0/Fbe3SF/vCUjWt5dHGPUpheQjWwSBWfiCbyr3ORT4/OPRYAM1iAuQU8dY
+ AK4H2yjYNxpiChJMajXkXA/vWWe/BWBNSLuFDPkwHIw37Ve4LdJLrUaGTvfA9PD5+4p9
+ XxtNXNVa38Tjqi/hooa5I4orJDR2OzkY0cngRlazLeQRoSb7U7nY+xhOLcRZRQMgjINw
+ N1lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+eknjn/+ALn7qsOcWBIprFo8Hn74KPp/Z/Hjsxlzbs0=;
- b=APEmMGw8XD6nCLwTz6e8WCYd8HX7ovQGci5Oq2XdnI64CMJML/xs/iO/2OEp/T4syl
- 5OSNj173WIwajK1GhD0B56bLui7kYqibk1f2TtJGLPuKMhn0QYpNu6upt3zKhr+ye7WI
- ccJKlrcdZnmI3jF4udyL1ThXv2HVP6Oyb3D7g/iLO/HG8m8CIkq1Dw6VFPYV0EGY3v/p
- QUqib1rduoyOgISzeXoFR9hYgsC0SBVMpdNHgMLuV0FniXaJmv/uQcABNJZix0sV0sfr
- Nfn3gdop4xu/tEIoCyTGal4xmtB5jB/Iz0AAOzJZO1eRyeL5V0P4Rokq71tjL/OAgDaU
- P6HA==
-X-Gm-Message-State: ANoB5pml7db66GqGHsTnOdSrp89PowfTUUTKZxXZuAq7T7qEOQTrQ70I
- slzidy74aNOwxqn0KUKUfn22UaiLmkVk3E8C+Os=
-X-Google-Smtp-Source: AA0mqf4epwX7GZElmWkQm8Rao/lZQNCq40CPY7vy5zViDchNtvGf0TB1sZozfdFjikPq+wzboI3LGw==
-X-Received: by 2002:a05:6402:c43:b0:469:ae36:b954 with SMTP id
- cs3-20020a0564020c4300b00469ae36b954mr16916645edb.30.1670791570857; 
- Sun, 11 Dec 2022 12:46:10 -0800 (PST)
+ bh=vOKkbdF2wzJddWGZH9AQVNLA5ppkIMO9XidfsUUqFe0=;
+ b=BDFKKK3Sl5CUusbJe+p37Bi7mHO47HaxTI+pc6KWi2kheakCFspL4Yfvib4VXIlwo1
+ CciEXNR6X5VU5cQrPmVCYwz9MMEgqXiV8vekw0xl67+RkBahhccevkYwKfAbg9uf4hKn
+ wpG3ZzsUzm2IWRGyGyRxsGKeomo/Cg83pK5+H9z1YwyDeEoNrHhR0zCOY6FOrAdP3BIi
+ m5TixHUrhptvyGEa1RSFK++WV+nNgcM+C/EBk639NARo/0lJXS8ShAaR8Nf3b61MfDcR
+ mcC0SShNRukREJOex/Vvr73PRb+AW1eGJ4KYkk+Gk3aZ00UW59fvgXyTeYnPAbk02qmu
+ kAYw==
+X-Gm-Message-State: ANoB5pk27m15DM4HxZcBqz1ZKy6n9a1/89PGwL0KOIoifkPfscsmEMAI
+ M51OBOq5A+snjyx47Ub8AeQZoywjYsoaSKOVuXk=
+X-Google-Smtp-Source: AA0mqf72Kmsd480274CADTRUx3Me7TMJnUNdbC8WlEoGYoX/AT0D+t0d0jtING3QqluZ7JYevXS0Tw==
+X-Received: by 2002:a17:906:3781:b0:7ac:8e6a:a674 with SMTP id
+ n1-20020a170906378100b007ac8e6aa674mr11686082ejc.2.1670791576802; 
+ Sun, 11 Dec 2022 12:46:16 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- i15-20020a50fd0f000000b0046b4e0fae75sm3042011eds.40.2022.12.11.12.46.09
+ o20-20020a170906769400b0077a11b79b9bsm2412231ejm.133.2022.12.11.12.46.15
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 11 Dec 2022 12:46:10 -0800 (PST)
+ Sun, 11 Dec 2022 12:46:16 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
@@ -61,18 +61,18 @@ Cc: Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Djordje Todorovic <djordje.todorovic@syrmia.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH-for-8.0 v2 06/11] hw/mips/malta: Use bootloader generator API
- for nanoMIPS CPUs (1/5)
-Date: Sun, 11 Dec 2022 21:45:28 +0100
-Message-Id: <20221211204533.85359-7-philmd@linaro.org>
+Subject: [PATCH-for-8.0 v2 07/11] hw/mips/malta: Use bootloader generator API
+ for nanoMIPS CPUs (2/5)
+Date: Sun, 11 Dec 2022 21:45:29 +0100
+Message-Id: <20221211204533.85359-8-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221211204533.85359-1-philmd@linaro.org>
 References: <20221211204533.85359-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,93 +95,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Similarly to how commit 0c8427baf0 ("hw/mips/malta: Use bootloader
-helper to set BAR registers") converted write_bootloader(), convert
-the equivalent write_bootloader_nanomips(), allowing us to modify
-the bootloader code more easily in the future.
-
-Part 1/5: Convert PCI0 MEM1 BAR setup
+Part 2/5: Convert PCI0 MEM0 BAR setup
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/mips/malta.c | 34 +++++++++++++++-------------------
- 1 file changed, 15 insertions(+), 19 deletions(-)
+ hw/mips/malta.c | 35 ++++++-----------------------------
+ 1 file changed, 6 insertions(+), 29 deletions(-)
 
 diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 8f84846f97..30ca4e0000 100644
+index 30ca4e0000..3e80a12221 100644
 --- a/hw/mips/malta.c
 +++ b/hw/mips/malta.c
-@@ -614,6 +614,7 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
-                                       uint64_t kernel_entry)
- {
-     uint16_t *p;
-+    void *v;
- 
-     /* Small bootloader */
-     p = (uint16_t *)base;
-@@ -687,13 +688,13 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+@@ -687,7 +687,6 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+      * Load BAR registers as done by YAMON:
       *
       *  - set up PCI0 I/O BARs from 0x18000000 to 0x181fffff
-      *  - set up PCI0 MEM0 at 0x10000000, size 0x8000000
--     *  - set up PCI0 MEM1 at 0x18200000, size 0xbe00000
+-     *  - set up PCI0 MEM0 at 0x10000000, size 0x8000000
       *
       */
      stw_p(p++, 0xe040); stw_p(p++, 0x0681);
-                                 /* lui t1, %hi(0xb4000000)      */
+@@ -723,20 +722,6 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+     stw_p(p++, 0xe020); stw_p(p++, 0x0001);
+                                 /* lui t0, %hi(0x80000000)      */
  
- #if TARGET_BIG_ENDIAN
-+#define cpu_to_gt32 cpu_to_le32
- 
-     stw_p(p++, 0xe020); stw_p(p++, 0x0be1);
-                                 /* lui t0, %hi(0xdf000000)      */
-@@ -736,14 +737,8 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
-     stw_p(p++, 0xe020); stw_p(p++, 0x0821);
-                                 /* lui t0, %hi(0xc1000000)      */
- 
--    /* 0x80 corresponds to GT_PCI0M1LD                          */
--    stw_p(p++, 0x8422); stw_p(p++, 0x9080);
--                                /* sw t0, 0x80(t1)              */
+-    /* 0x58 corresponds to GT_PCI0M0LD                          */
+-    stw_p(p++, 0x8422); stw_p(p++, 0x9058);
+-                                /* sw t0, 0x58(t1)              */
 -
--    stw_p(p++, 0xe020); stw_p(p++, 0x0bc0);
--                                /* lui t0, %hi(0x5e000000)      */
+-    stw_p(p++, 0xe020); stw_p(p++, 0x07e0);
+-                                /* lui t0, %hi(0x3f000000)      */
+-
+-    /* 0x60 corresponds to GT_PCI0M0HD                          */
+-    stw_p(p++, 0x8422); stw_p(p++, 0x9060);
+-                                /* sw t0, 0x60(t1)              */
+-
+-    stw_p(p++, 0xe020); stw_p(p++, 0x0821);
+-                                /* lui t0, %hi(0xc1000000)      */
 -
  #else
-+#define cpu_to_gt32 cpu_to_be32
+ #define cpu_to_gt32 cpu_to_be32
  
-     stw_p(p++, 0x0020); stw_p(p++, 0x00df);
-                                 /* addiu[32] t0, $0, 0xdf       */
-@@ -786,19 +781,20 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+@@ -767,24 +752,16 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
  
-     stw_p(p++, 0x0020); stw_p(p++, 0x00c1);
-                                 /* addiu[32] t0, $0, 0xc1       */
+     stw_p(p++, 0x0020); stw_p(p++, 0x0080);
+                                 /* addiu[32] t0, $0, 0x80       */
 -
--    /* 0x80 corresponds to GT_PCI0M1LD                          */
--    stw_p(p++, 0x8422); stw_p(p++, 0x9080);
--                                /* sw t0, 0x80(t1)              */
+-    /* 0x58 corresponds to GT_PCI0M0LD                          */
+-    stw_p(p++, 0x8422); stw_p(p++, 0x9058);
+-                                /* sw t0, 0x58(t1)              */
 -
--    stw_p(p++, 0x0020); stw_p(p++, 0x005e);
--                                /* addiu[32] t0, $0, 0x5e       */
+-    stw_p(p++, 0x0020); stw_p(p++, 0x003f);
+-                                /* addiu[32] t0, $0, 0x3f       */
 -
+-    /* 0x60 corresponds to GT_PCI0M0HD                          */
+-    stw_p(p++, 0x8422); stw_p(p++, 0x9060);
+-                                /* sw t0, 0x60(t1)              */
+-
+-    stw_p(p++, 0x0020); stw_p(p++, 0x00c1);
+-                                /* addiu[32] t0, $0, 0xc1       */
  #endif
-+    v = p;
+     v = p;
  
--    /* 0x88 corresponds to GT_PCI0M1HD                          */
--    stw_p(p++, 0x8422); stw_p(p++, 0x9088);
--                                /* sw t0, 0x88(t1)              */
-+    /* setup PCI0 mem windows */
-+    bl_gen_write_u32(&v, /* GT_PCI0M1LD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x80),
-+                     cpu_to_gt32(0x18200000 << 3));
-+    bl_gen_write_u32(&v, /* GT_PCI0M1HD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x88),
-+                     cpu_to_gt32(0x0bc00000 << 3));
-+
-+    p = v;
-+
-+#undef cpu_to_gt32
- 
-     stw_p(p++, 0xe320 | NM_HI1(kernel_entry));
- 
+     /* setup PCI0 mem windows */
++    bl_gen_write_u32(&v, /* GT_PCI0M0LD */
++                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x58),
++                     cpu_to_gt32(0x10000000 << 3));
++    bl_gen_write_u32(&v, /* GT_PCI0M0HD */
++                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x60),
++                     cpu_to_gt32(0x07e00000 << 3));
+     bl_gen_write_u32(&v, /* GT_PCI0M1LD */
+                      cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x80),
+                      cpu_to_gt32(0x18200000 << 3));
 -- 
 2.38.1
 
