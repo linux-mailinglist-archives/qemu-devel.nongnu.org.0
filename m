@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6590F649234
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:18:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E5064923E
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:23:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4Cpd-0003bY-RH; Sat, 10 Dec 2022 22:16:49 -0500
+	id 1p4Cpb-0003at-72; Sat, 10 Dec 2022 22:16:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4CpX-0003Zr-7J; Sat, 10 Dec 2022 22:16:43 -0500
+ id 1p4CpX-0003Zt-Qk; Sat, 10 Dec 2022 22:16:44 -0500
 Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4CpU-000095-Vf; Sat, 10 Dec 2022 22:16:42 -0500
-X-QQ-mid: bizesmtp68t1670728139t52hm0w7
+ id 1p4CpV-0000B0-Th; Sat, 10 Dec 2022 22:16:43 -0500
+X-QQ-mid: bizesmtp68t1670728142ti9f4g4u
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Sun, 11 Dec 2022 11:08:58 +0800 (CST)
+ id ; Sun, 11 Dec 2022 11:09:01 +0800 (CST)
 X-QQ-SSF: 01200000000000B0C000000A0000000
-X-QQ-FEAT: znfcQSa1hKaXpp03g6dMijOvFN+4DHqUoJOhx19v0wa1cHzp1XxvbHYiuagdP
- 2t/0mHcvmdgPgeLTZr75+hJ7UoL5zyw2f7n5+N+lGo9SrqdAQdLJQ/6AvOCsbII4qd+ngJw
- qwRadq9neOBG5RUmCuQgIpC4WO8h8JS7H0ShHGfZ6478agZU18a3Ya+0aTgdlR6OaMqoBcq
- 4CaAQWdzz/ApSjhVqGWIkmNryXiz/srzoS59JXU18j/tFNZEy8UdnPk3C/9D8b7R7j4pD1W
- McFpys3S/mdJftMMeBoHfgv+AqHtDhdVd6DzNCn5TknOtAefKipo1w5BG2Zbdayit47M4Gf
- r/GXAefOCwv9aGKGHMbQR2hpK0XQbrIYmtRID+rLtyZ39IbwmKKlQCY6/8Htg==
+X-QQ-FEAT: Xz3VOcA7Mr1CNgl934T2T0ZMcHTEOn7Ggyl57is+ZeNvYWUnB/hfDyPMgqDJe
+ mB4/tMJ1fmV+iSIC3YiZT0NoRoWVQ08FVDV+B4W5Plj94Kkbaamo05XddJOIdFp6om+YOkN
+ A1f2sBcX/1oFCZNkpuaUyO4OGvjulNfNMSTfXR/qpHnBAPFFHsQgpKWVMndDBpcF0NUAFgX
+ czPyKzB2FN/UCqF3DgISs/7cNig8tHYCmuWLoZiUDN4tM0Th15xBTVV06QPZjXRlCQBOFLW
+ jt4L7hMSNthP8YUBP1gTw4jR6EqutwtdOuRgiAitGB7g0Y1jeWwMxM7ZJKkNGRIvkCjgcp/
+ 7kmhTw2ooQCOjBwi/SQrDL9k+ooH/MuFqHTWul1c9IR25egGnM=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
@@ -34,10 +34,10 @@ Cc: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH v3 11/16] hw/riscv: sifive_e: Fix the number of interrupt
- sources of PLIC
-Date: Sun, 11 Dec 2022 11:08:24 +0800
-Message-Id: <20221211030829.802437-11-bmeng@tinylab.org>
+Subject: [PATCH v3 12/16] hw/riscv: sifive_u: Avoid using magic number for
+ "riscv, ndev"
+Date: Sun, 11 Dec 2022 11:08:25 +0800
+Message-Id: <20221211030829.802437-12-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221211030829.802437-1-bmeng@tinylab.org>
 References: <20221211030829.802437-1-bmeng@tinylab.org>
@@ -67,21 +67,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Per chapter 10 in Freedom E310 manuals [1][2][3], E310 G002 and G003
-supports 52 interrupt sources while G000 supports 51 interrupt sources.
+At present magic number is used to create "riscv,ndev" property
+in the dtb. Let's use the macro SIFIVE_U_PLIC_NUM_SOURCES that
+is used to instantiate the PLIC model instead.
 
-We use the value of G002 and G003, so it is 53 (including source 0).
-
-[1] G000 manual:
-https://sifive.cdn.prismic.io/sifive/4faf3e34-4a42-4c2f-be9e-c77baa4928c7_fe310-g000-manual-v3p2.pdf
-
-[2] G002 manual:
-https://sifive.cdn.prismic.io/sifive/034760b5-ac6a-4b1c-911c-f4148bb2c4a5_fe310-g002-v1p5.pdf
-
-[3] G003 manual:
-https://sifive.cdn.prismic.io/sifive/3af39c59-6498-471e-9dab-5355a0d539eb_fe310-g003-manual.pdf
-
-Fixes: eb637edb1241 ("SiFive Freedom E Series RISC-V Machine")
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -89,27 +78,23 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 (no changes since v1)
 
- include/hw/riscv/sifive_e.h | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_u.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index d738745925..9e58247fd8 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -82,7 +82,12 @@ enum {
- };
- 
- #define SIFIVE_E_PLIC_HART_CONFIG "M"
--#define SIFIVE_E_PLIC_NUM_SOURCES 127
-+/*
-+ * Freedom E310 G002 and G003 supports 52 interrupt sources while
-+ * Freedom E310 G000 supports 51 interrupt sources. We use the value
-+ * of G002 and G003, so it is 53 (including interrupt source 0).
-+ */
-+#define SIFIVE_E_PLIC_NUM_SOURCES 53
- #define SIFIVE_E_PLIC_NUM_PRIORITIES 7
- #define SIFIVE_E_PLIC_PRIORITY_BASE 0x04
- #define SIFIVE_E_PLIC_PENDING_BASE 0x1000
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index b139824aab..b40a4767e2 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -287,7 +287,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop_cells(fdt, nodename, "reg",
+         0x0, memmap[SIFIVE_U_DEV_PLIC].base,
+         0x0, memmap[SIFIVE_U_DEV_PLIC].size);
+-    qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev", 0x35);
++    qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev",
++                          SIFIVE_U_PLIC_NUM_SOURCES - 1);
+     qemu_fdt_setprop_cell(fdt, nodename, "phandle", plic_phandle);
+     plic_phandle = qemu_fdt_get_phandle(fdt, nodename);
+     g_free(cells);
 -- 
 2.34.1
 
