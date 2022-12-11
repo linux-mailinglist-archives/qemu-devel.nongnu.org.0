@@ -2,42 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E5064923E
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4C464923F
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:23:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4Cpb-0003at-72; Sat, 10 Dec 2022 22:16:47 -0500
+	id 1p4Cpb-0003aw-Em; Sat, 10 Dec 2022 22:16:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4CpX-0003Zt-Qk; Sat, 10 Dec 2022 22:16:44 -0500
+ id 1p4CpZ-0003Zy-4h; Sat, 10 Dec 2022 22:16:45 -0500
 Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4CpV-0000B0-Th; Sat, 10 Dec 2022 22:16:43 -0500
-X-QQ-mid: bizesmtp68t1670728142ti9f4g4u
+ id 1p4CpX-0000Gr-4R; Sat, 10 Dec 2022 22:16:44 -0500
+X-QQ-mid: bizesmtp68t1670728145t527c6ec
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Sun, 11 Dec 2022 11:09:01 +0800 (CST)
+ id ; Sun, 11 Dec 2022 11:09:04 +0800 (CST)
 X-QQ-SSF: 01200000000000B0C000000A0000000
-X-QQ-FEAT: Xz3VOcA7Mr1CNgl934T2T0ZMcHTEOn7Ggyl57is+ZeNvYWUnB/hfDyPMgqDJe
- mB4/tMJ1fmV+iSIC3YiZT0NoRoWVQ08FVDV+B4W5Plj94Kkbaamo05XddJOIdFp6om+YOkN
- A1f2sBcX/1oFCZNkpuaUyO4OGvjulNfNMSTfXR/qpHnBAPFFHsQgpKWVMndDBpcF0NUAFgX
- czPyKzB2FN/UCqF3DgISs/7cNig8tHYCmuWLoZiUDN4tM0Th15xBTVV06QPZjXRlCQBOFLW
- jt4L7hMSNthP8YUBP1gTw4jR6EqutwtdOuRgiAitGB7g0Y1jeWwMxM7ZJKkNGRIvkCjgcp/
- 7kmhTw2ooQCOjBwi/SQrDL9k+ooH/MuFqHTWul1c9IR25egGnM=
+X-QQ-FEAT: jXjag1m6xl4y/hPcg2G9182G4RzQrQHr4Ch+7KbZN7BPyydt5MDu/zOXpg8lI
+ 8rDaSt37HLWsN2qoXMd+duyeExuvN5qlFlUcoLOUOsVNbUDRa3FT63xG8DBfYCkSNunMds9
+ Ep4zGiik03ArSZry4YcIr5+JJ2vl0WGRkSkXRuG90F3Z0N2t1+gIrodjw8gnyv64M823dMD
+ N8HoCSOOkbQj47eUu3xf/muFPhW6hlW3COs4rqsDQ3pZXm5WI3Syjyh1hfPzJB+mK0s1uT/
+ 104IF4XHuw1uBjB7mRmnOQXEjf34q8Mj8cQJJPVKTOhzJQgT0elTB29oSNzUxWsgNNNkrBj
+ GcHdpQlPxz8m79j3x7ycvZ+Ma82PhTAuLWC+YxzMu2dKQe36Lc=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
-Cc: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH v3 12/16] hw/riscv: sifive_u: Avoid using magic number for
- "riscv, ndev"
-Date: Sun, 11 Dec 2022 11:08:25 +0800
-Message-Id: <20221211030829.802437-12-bmeng@tinylab.org>
+Subject: [PATCH v3 13/16] hw/riscv: virt: Fix the value of "riscv,
+ ndev" in the dtb
+Date: Sun, 11 Dec 2022 11:08:26 +0800
+Message-Id: <20221211030829.802437-13-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221211030829.802437-1-bmeng@tinylab.org>
 References: <20221211030829.802437-1-bmeng@tinylab.org>
@@ -67,34 +65,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At present magic number is used to create "riscv,ndev" property
-in the dtb. Let's use the macro SIFIVE_U_PLIC_NUM_SOURCES that
-is used to instantiate the PLIC model instead.
+Commit 28d8c281200f ("hw/riscv: virt: Add optional AIA IMSIC support to virt machine")
+changed the value of VIRT_IRQCHIP_NUM_SOURCES from 127 to 53, which
+is VIRTIO_NDEV and also used as the value of "riscv,ndev" property
+in the dtb. Unfortunately this is wrong as VIRT_IRQCHIP_NUM_SOURCES
+should include interrupt source 0 but "riscv,ndev" does not.
 
+While we are here, we also fix the comments of platform bus irq range
+which is now "64 to 96", but should be "64 to 95", introduced since
+commit 1832b7cb3f64 ("hw/riscv: virt: Create a platform bus").
+
+Fixes: 28d8c281200f ("hw/riscv: virt: Add optional AIA IMSIC support to virt machine")
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
 (no changes since v1)
 
- hw/riscv/sifive_u.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/hw/riscv/virt.h | 5 ++---
+ hw/riscv/virt.c         | 3 ++-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index b139824aab..b40a4767e2 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -287,7 +287,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop_cells(fdt, nodename, "reg",
-         0x0, memmap[SIFIVE_U_DEV_PLIC].base,
-         0x0, memmap[SIFIVE_U_DEV_PLIC].size);
--    qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev", 0x35);
-+    qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev",
-+                          SIFIVE_U_PLIC_NUM_SOURCES - 1);
-     qemu_fdt_setprop_cell(fdt, nodename, "phandle", plic_phandle);
-     plic_phandle = qemu_fdt_get_phandle(fdt, nodename);
-     g_free(cells);
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index 62513e075c..e1ce0048af 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -87,14 +87,13 @@ enum {
+     VIRTIO_IRQ = 1, /* 1 to 8 */
+     VIRTIO_COUNT = 8,
+     PCIE_IRQ = 0x20, /* 32 to 35 */
+-    VIRT_PLATFORM_BUS_IRQ = 64, /* 64 to 96 */
+-    VIRTIO_NDEV = 96 /* Arbitrary maximum number of interrupts */
++    VIRT_PLATFORM_BUS_IRQ = 64, /* 64 to 95 */
+ };
+ 
+ #define VIRT_PLATFORM_BUS_NUM_IRQS 32
+ 
+ #define VIRT_IRQCHIP_NUM_MSIS 255
+-#define VIRT_IRQCHIP_NUM_SOURCES VIRTIO_NDEV
++#define VIRT_IRQCHIP_NUM_SOURCES 96
+ #define VIRT_IRQCHIP_NUM_PRIO_BITS 3
+ #define VIRT_IRQCHIP_MAX_GUESTS_BITS 3
+ #define VIRT_IRQCHIP_MAX_GUESTS ((1U << VIRT_IRQCHIP_MAX_GUESTS_BITS) - 1U)
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 6cf9355b99..94ff2a1584 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -468,7 +468,8 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
+         plic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 4);
+     qemu_fdt_setprop_cells(mc->fdt, plic_name, "reg",
+         0x0, plic_addr, 0x0, memmap[VIRT_PLIC].size);
+-    qemu_fdt_setprop_cell(mc->fdt, plic_name, "riscv,ndev", VIRTIO_NDEV);
++    qemu_fdt_setprop_cell(mc->fdt, plic_name, "riscv,ndev",
++                          VIRT_IRQCHIP_NUM_SOURCES - 1);
+     riscv_socket_fdt_write_id(mc, mc->fdt, plic_name, socket);
+     qemu_fdt_setprop_cell(mc->fdt, plic_name, "phandle",
+         plic_phandles[socket]);
 -- 
 2.34.1
 
