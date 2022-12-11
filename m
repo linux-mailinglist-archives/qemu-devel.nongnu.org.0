@@ -2,62 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E206F64931F
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 08:56:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6B864935D
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 10:46:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4HBF-0005Om-V9; Sun, 11 Dec 2022 02:55:25 -0500
+	id 1p4ItG-0003bE-GW; Sun, 11 Dec 2022 04:44:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p4HBD-0005O0-46
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 02:55:23 -0500
-Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p4HBA-0004ug-Il
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 02:55:22 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 69F562FAA8;
- Sun, 11 Dec 2022 07:55:18 +0000 (UTC)
-Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Sun, 11 Dec
- 2022 08:55:17 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-109S0032047fb81-4d82-461c-a658-ba9f6a516f7e,
- A320C9500CC3D72269AA063E984CC4177386D8D3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <781d3278-f55a-4eb6-feb5-8a48381a831f@kaod.org>
-Date: Sun, 11 Dec 2022 08:55:12 +0100
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p4ItE-0003as-GM
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 04:44:56 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p4ItC-0007RX-UQ
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 04:44:56 -0500
+Received: by mail-ej1-x631.google.com with SMTP id vv4so21201733ejc.2
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 01:44:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YRXWqDDPinPlkBaZUxp05Ejq9Z29bCl98FLwZOUyN3k=;
+ b=K28BFt590V0IcVkzzNMve+TxmWLesEmk7MmrKoToqVhNyPUXyLBjCa9WBCh7jSIz+U
+ +Sphf9CI0VQSnX5conOM9Nfjoh1w6sblDwzFfmB7ylXIyWXNlICpZp8irbkPYQ1Dnb0w
+ aewxY7yifUg5r5A+gAPsBhxFEdSVGxhprUmbYTFDsktqDeiYu3ffoUMad0YT82lm4lBL
+ CIb7fFWZ/jgpYeEIa68lwYtPpmlYjFHjK9W4Dko4hGjSzUfCeHHLk1jMxCCfq4Y9aKY/
+ WRZ6VJf8TxT4hnjzHYD9+HZnj98bt/BmTP5UpbJ5T3xSmZoxj6nW943qjZBzuf1IKpic
+ N0zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YRXWqDDPinPlkBaZUxp05Ejq9Z29bCl98FLwZOUyN3k=;
+ b=icl+tRJerCp49m8wfXEPb/pbI/6IPfwb0Y+xZBpv/nS/iVLJ+HXmjyWn4jUg3h+AX5
+ Qq7EmOVIdZrRiB25v+g6+ZDCcWitH+lsuam3jeyREPtGlUZ4d4Xo+k1AglzuR5PaTEQJ
+ 5k9jgfU+XLxCMa4UgFW8Q+pEi8LGOTGQyDfcF65WrXMB6j9UJzeJfxv/W7Qggo+qhqHV
+ RiiBHXV/4Bb9k1Mevau2HEU4vP0+RnbSZPwXjGrbicNCixCM1CuZVpUdgZp6YNgwzUOW
+ O2riEXwkdEMH+dcprvy+j2ZStAf4IaqNE3TkzIJIsJyAhrkwj0hAF3Z6UktVoBm0nM+D
+ l8Sw==
+X-Gm-Message-State: ANoB5pk0P1hbgoIhNqnqEHv6Rvx2rIU7VkKCvKJKS3jKzbJs6UyHDGc5
+ dpeoQIoupTm+QknW0EyQR48=
+X-Google-Smtp-Source: AA0mqf7W8Wxr6x6VVr4TgP1xlIttuIEAJ4a80MwUhsRdjQI2GTelHaRLfy53Mq1gnXgqUU2UJKLAkA==
+X-Received: by 2002:a17:906:30d3:b0:78d:f454:ba10 with SMTP id
+ b19-20020a17090630d300b0078df454ba10mr11004895ejb.15.1670751892271; 
+ Sun, 11 Dec 2022 01:44:52 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb200150f11b7b1e9e208.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:150f:11b7:b1e9:e208])
+ by smtp.gmail.com with ESMTPSA id
+ fl16-20020a1709072a9000b007aef930360asm1927687ejc.59.2022.12.11.01.44.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Dec 2022 01:44:51 -0800 (PST)
+Date: Sun, 11 Dec 2022 09:44:43 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+CC: Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Djordje Todorovic <djordje.todorovic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH-for-8=2E0_5/7=5D_hw/mips/boot?=
+ =?US-ASCII?Q?loader=3A_Implement_nanoMIPS_SW_opcode?=
+In-Reply-To: <20221210155502.74609-6-philmd@linaro.org>
+References: <20221210155502.74609-1-philmd@linaro.org>
+ <20221210155502.74609-6-philmd@linaro.org>
+Message-ID: <65608DF2-D03F-4862-B6EA-057C3B10065B@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 4/4] include/hw/ppc include/hw/pci-host: Drop extra
- typedefs
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, <qemu-devel@nongnu.org>
-CC: <qemu-ppc@nongnu.org>
-References: <20221210112140.4057731-1-armbru@redhat.com>
- <20221210112140.4057731-5-armbru@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221210112140.4057731-5-armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 97de298f-6a7f-4a03-ace9-40b79b67045c
-X-Ovh-Tracer-Id: 10152802412564089821
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehgdduudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghrmhgsrhhusehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
- helo=8.mo552.mail-out.ovh.net
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.288,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,163 +97,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/10/22 12:21, Markus Armbruster wrote:
-> PnvChip is typedef'ed in five places, and PnvPhb4PecState in two.
-> Keep one, drop the others.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
 
 
-> ---
->   hw/pci-host/pnv_phb.h          | 1 -
->   include/hw/pci-host/pnv_phb3.h | 1 -
->   include/hw/pci-host/pnv_phb4.h | 2 --
->   include/hw/ppc/pnv_core.h      | 3 +--
->   include/hw/ppc/pnv_homer.h     | 2 +-
->   include/hw/ppc/pnv_lpc.h       | 8 ++------
->   include/hw/ppc/pnv_xive.h      | 7 +++----
->   7 files changed, 7 insertions(+), 17 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
-> index 202de8796c..eb429d529f 100644
-> --- a/hw/pci-host/pnv_phb.h
-> +++ b/hw/pci-host/pnv_phb.h
-> @@ -15,7 +15,6 @@
->   #include "hw/ppc/pnv.h"
->   #include "qom/object.h"
->   
-> -typedef struct PnvChip PnvChip;
->   typedef struct PnvPhb4PecState PnvPhb4PecState;
->   
->   struct PnvPHB {
-> diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-> index f791ebda9b..d62b3091ac 100644
-> --- a/include/hw/pci-host/pnv_phb3.h
-> +++ b/include/hw/pci-host/pnv_phb3.h
-> @@ -15,7 +15,6 @@
->   #include "hw/pci-host/pnv_phb.h"
->   
->   typedef struct PnvPHB3 PnvPHB3;
-> -typedef struct PnvChip PnvChip;
->   
->   /*
->    * PHB3 XICS Source for MSIs
-> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-> index b4f2b29fb5..1f3237c9d5 100644
-> --- a/include/hw/pci-host/pnv_phb4.h
-> +++ b/include/hw/pci-host/pnv_phb4.h
-> @@ -16,10 +16,8 @@
->   #include "hw/ppc/xive.h"
->   #include "qom/object.h"
->   
-> -typedef struct PnvPhb4PecState PnvPhb4PecState;
->   typedef struct PnvPhb4PecStack PnvPhb4PecStack;
->   typedef struct PnvPHB4 PnvPHB4;
-> -typedef struct PnvChip PnvChip;
->   
->   /*
->    * We have one such address space wrapper per possible device under
-> diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-> index c22eab2e1f..3d75706e95 100644
-> --- a/include/hw/ppc/pnv_core.h
-> +++ b/include/hw/ppc/pnv_core.h
-> @@ -22,14 +22,13 @@
->   
->   #include "hw/cpu/core.h"
->   #include "target/ppc/cpu.h"
-> +#include "hw/ppc/pnv.h"
->   #include "qom/object.h"
->   
->   #define TYPE_PNV_CORE "powernv-cpu-core"
->   OBJECT_DECLARE_TYPE(PnvCore, PnvCoreClass,
->                       PNV_CORE)
->   
-> -typedef struct PnvChip PnvChip;
-> -
->   struct PnvCore {
->       /*< private >*/
->       CPUCore parent_obj;
-> diff --git a/include/hw/ppc/pnv_homer.h b/include/hw/ppc/pnv_homer.h
-> index 07e8b19311..b1c5d498dc 100644
-> --- a/include/hw/ppc/pnv_homer.h
-> +++ b/include/hw/ppc/pnv_homer.h
-> @@ -39,7 +39,7 @@ DECLARE_INSTANCE_CHECKER(PnvHomer, PNV10_HOMER,
->   struct PnvHomer {
->       DeviceState parent;
->   
-> -    struct PnvChip *chip;
-> +    PnvChip *chip;
->       MemoryRegion pba_regs;
->       MemoryRegion regs;
->   };
-> diff --git a/include/hw/ppc/pnv_lpc.h b/include/hw/ppc/pnv_lpc.h
-> index 001eee27d7..5d22c45570 100644
-> --- a/include/hw/ppc/pnv_lpc.h
-> +++ b/include/hw/ppc/pnv_lpc.h
-> @@ -21,6 +21,7 @@
->   #define PPC_PNV_LPC_H
->   
->   #include "exec/memory.h"
-> +#include "hw/ppc/pnv.h"
->   #include "hw/qdev-core.h"
->   
->   #define TYPE_PNV_LPC "pnv-lpc"
-> @@ -93,13 +94,8 @@ struct PnvLpcClass {
->       DeviceRealize parent_realize;
->   };
->   
-> -/*
-> - * Old compilers error on typdef forward declarations. Keep them happy.
-> - */
-> -struct PnvChip;
-> -
->   ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bool use_cpld, Error **errp);
-> -int pnv_dt_lpc(struct PnvChip *chip, void *fdt, int root_offset,
-> +int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_offset,
->                  uint64_t lpcm_addr, uint64_t lpcm_size);
->   
->   #endif /* PPC_PNV_LPC_H */
-> diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
-> index b5d91505e5..9c48430ee4 100644
-> --- a/include/hw/ppc/pnv_xive.h
-> +++ b/include/hw/ppc/pnv_xive.h
-> @@ -10,12 +10,11 @@
->   #ifndef PPC_PNV_XIVE_H
->   #define PPC_PNV_XIVE_H
->   
-> +#include "hw/ppc/pnv.h"
->   #include "hw/ppc/xive.h"
->   #include "qom/object.h"
->   #include "hw/ppc/xive2.h"
->   
-> -struct PnvChip;
-> -
->   #define TYPE_PNV_XIVE "pnv-xive"
->   OBJECT_DECLARE_TYPE(PnvXive, PnvXiveClass,
->                       PNV_XIVE)
-> @@ -31,7 +30,7 @@ struct PnvXive {
->       XiveRouter    parent_obj;
->   
->       /* Owning chip */
-> -    struct PnvChip *chip;
-> +    PnvChip *chip;
->   
->       /* XSCOM addresses giving access to the controller registers */
->       MemoryRegion  xscom_regs;
-> @@ -106,7 +105,7 @@ typedef struct PnvXive2 {
->       Xive2Router   parent_obj;
->   
->       /* Owning chip */
-> -    struct PnvChip *chip;
-> +    PnvChip *chip;
->   
->       /* XSCOM addresses giving access to the controller registers */
->       MemoryRegion  xscom_regs;
+Am 10=2E Dezember 2022 15:55:00 UTC schrieb "Philippe Mathieu-Daud=C3=A9" =
+<philmd@linaro=2Eorg>:
 
+s/SW/ORI/ in the title?
+
+Best regards,
+Bernhard
+
+>Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>---
+> hw/mips/bootloader=2Ec | 24 +++++++++++++++++++++++-
+> 1 file changed, 23 insertions(+), 1 deletion(-)
+>
+>diff --git a/hw/mips/bootloader=2Ec b/hw/mips/bootloader=2Ec
+>index 997e74ee52=2E=2Ecc3df385df 100644
+>--- a/hw/mips/bootloader=2Ec
+>+++ b/hw/mips/bootloader=2Ec
+>@@ -150,9 +150,31 @@ static void bl_gen_lui(void **p, bl_reg rt, uint32_t=
+ imm32)
+>     }
+> }
+>=20
+>+static void bl_gen_ori_nm(void **ptr, bl_reg rt, bl_reg rs, uint16_t imm=
+)
+>+{
+>+    uint16_t *p =3D (uint16_t *)*ptr;
+>+    uint32_t insn =3D 0;
+>+
+>+    insn =3D deposit32(insn, 26, 6, 0b100000);
+>+    insn =3D deposit32(insn, 21, 5, rt);
+>+    insn =3D deposit32(insn, 16, 5, rs);
+>+    insn =3D deposit32(insn, 0, 12, imm);
+>+
+>+    stw_p(p, insn >> 16);
+>+    p++;
+>+    stw_p(p, insn >> 0);
+>+    p++;
+>+
+>+    *ptr =3D p;
+>+}
+>+
+> static void bl_gen_ori(void **p, bl_reg rt, bl_reg rs, uint16_t imm)
+> {
+>-    bl_gen_i_type(p, 0x0d, rs, rt, imm);
+>+    if (bootcpu_supports_isa(ISA_NANOMIPS32)) {
+>+        bl_gen_ori_nm(p, rt, rs, imm);
+>+    } else {
+>+        bl_gen_i_type(p, 0x0d, rs, rt, imm);
+>+    }
+> }
+>=20
+> static void bl_gen_sw(void **p, bl_reg rt, uint8_t base, uint16_t offset=
+)
 
