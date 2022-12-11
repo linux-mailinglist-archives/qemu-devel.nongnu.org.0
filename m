@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1D06494DC
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 16:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294476494D3
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 16:29:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4OFg-0006DC-T2; Sun, 11 Dec 2022 10:28:28 -0500
+	id 1p4OFh-0006FN-3t; Sun, 11 Dec 2022 10:28:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4OFS-00067g-8E
+ id 1p4OFS-00067f-6o
  for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:14 -0500
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334])
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4OFO-0007OJ-SM
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:12 -0500
-Received: by mail-ot1-x334.google.com with SMTP id
- x25-20020a056830115900b00670932eff32so425376otq.3
- for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 07:28:10 -0800 (PST)
+ id 1p4OFP-0007Sy-N5
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:13 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id e205so9048135oif.11
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 07:28:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IGLX0Cs15IlKWTTXtOO+M8h3aNhN01p2E9gXW34hDOU=;
- b=NQUbg+1kFKvm7/Nk2AE+cFaIZ9O1FvlXnnb1KIVN3Yei7AS8oe8Ta0LTd3xE6Amp01
- CUull64ko7Nfh4d82T8V+5LjPsSFUNBKWxjHhca0g6OceRvjocPyoaOuievBCmId/+E/
- +DPg5XO32mb3y4TKl9/d3GKqBNFmSVgnkJg4YQxQ6FDIpVAUhsSu6GZO1dDqDiNF2fSr
- alV37BvaBxpdGcO4V/YXDHqjK8KKLOQyzusTHUFOWf5HU/fnJVfIs7iTaIs4KQNnSzlR
- JdDSnsT7UMvNgWjne2HvyPBlMNLE/laxXscXVO8bfjoCR2QTTdegMWmEWEKsLcJHtEJD
- AgVg==
+ bh=r88aN3ONQOrYoR5TjuSp7kfzVMmJ7L52pXjl2Gd7WK4=;
+ b=uK/dKTWOHnTcP03XcZTPj69DyaOBaJbRklf7sJKLe2TLOnHOA3s9xA64k5ECI7WFbq
+ 4o66oRFt/VDHJSzo6aeqqytrPd1f31QcLXkkVjOsIntmVApa57j2Nvuyd9WJZ/d28nIM
+ 290HU7LqhlwWD/4OdhghNsxt7GNgtmqJ/39PG1XSPY3iYUq8GG9Au5GNuJIqiIZcpuys
+ Z8Q0znyn1MnGcsa2YyA/i534jJCeppIRT5ZukfLC+knbW86f7F40YwQAvYvZtEMeksZo
+ Wag+1LMORqn+b2NSOaMrVdKPlKiQh4EeBtoaHkOaJwQeJyOmev9J/APGPl5qOscul8Es
+ 3jtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IGLX0Cs15IlKWTTXtOO+M8h3aNhN01p2E9gXW34hDOU=;
- b=VwnQuDDH4QOJB0CkVnrHDmiAlSaDDazo31wMei1VZZjrXSTUJVmV5NU/GIYds7q+HE
- qOJiZXSIoXOTYclWTx21IpYx3jEJbI/fC26FHzCAeXm2QgajFVE0058IJ2xAWQ0DtSGy
- 7w+SnsWc1kcJLtSasnVwUnezfDjiuXwd493U+pbk5oQZ2f1KfCt+OFHBBgxTiOmFUG7b
- /gFGjoCn6VTYi+Ue6J3ugs+g/WCLeGY1NODlJIsPJA5HdynzBb/OYrJq0yviQFzMDuj/
- BoTgz/Usw6WIr8LXuNYzarJwMfP7ZYHxL80T3CejMzfPLWB858Irv8J8er9LJz8dFU4S
- nq4Q==
-X-Gm-Message-State: ANoB5pkyl+CfcxbonEMc3vPbojBp7AeJe9KTJ0s4GSNjTREicW2OkewI
- BZUgEEn/uXpeTuQyl6YOExMl1hq+4TyyUa+nw8Y=
-X-Google-Smtp-Source: AA0mqf7gNxkV3s4vDxq6LSc6VsEHQIL4WFYTtaM+Avi9MLJrB5hgIZik7TnW46oiQXvJYt4QhKrW6w==
-X-Received: by 2002:a9d:84e:0:b0:670:5549:9b63 with SMTP id
- 72-20020a9d084e000000b0067055499b63mr7135886oty.6.1670772489334; 
- Sun, 11 Dec 2022 07:28:09 -0800 (PST)
+ bh=r88aN3ONQOrYoR5TjuSp7kfzVMmJ7L52pXjl2Gd7WK4=;
+ b=obmcXVXjYTQf9Nzn3lMMHbAN/Q9wVXG9C5rXrUhrAfgJ/J1zrNKiH08Bv5WxKfQhs0
+ avg4a3OCCi2f8ViJs3QeqjdE8uDQhLR42vTUVDOXikcOWsX2NP+Dn3FoiBtPnBrHXKld
+ m7ndabo1ehGwsz2R1GVw9b3jtqBEM9jLxS+8Q03x8fZtSWpfaNPZ6abgxbc6/0ETQ/HB
+ maCPHxlSGJ53k62aW72k+UAuDqoQUA14CAQGQRtkVdFUAtv7oQckVI3jZVZ5Pzce30gd
+ jKMFn1XC15AVHc0uFgdAkav++VrsBk9CXlalbQofgLCcvxStpMV5JNywsOBKyXegNvFo
+ KLeA==
+X-Gm-Message-State: ANoB5pn1AFUhjeDJ1WcYIaN7j8aA1hRn5J/wShj3/2JFje8pufVJaE4b
+ zBly0l5slF09SvPs68v8lBnmUDpMxz1obxX2ZUU=
+X-Google-Smtp-Source: AA0mqf4fteRsqijt6v6bKnhQzvEJIC42DdnsR9MeIqP1xi2g+cAwjHEW3+akBbCeBeP87gzayv8qcA==
+X-Received: by 2002:a05:6808:210d:b0:359:e30c:d86a with SMTP id
+ r13-20020a056808210d00b00359e30cd86amr8783183oiw.8.1670772490528; 
+ Sun, 11 Dec 2022 07:28:10 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:2efc:7b4f:f28b:eca6:b583])
  by smtp.gmail.com with ESMTPSA id
- q24-20020a056830233800b006708d2cd8bcsm938140otg.65.2022.12.11.07.28.08
+ q24-20020a056830233800b006708d2cd8bcsm938140otg.65.2022.12.11.07.28.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Dec 2022 07:28:08 -0800 (PST)
+ Sun, 11 Dec 2022 07:28:10 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-s390x@nongnu.org,
 	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 04/27] target/s390x: Use tcg_constant_* in
- translate_vx.c.inc
-Date: Sun, 11 Dec 2022 09:27:39 -0600
-Message-Id: <20221211152802.923900-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 05/27] tests/tcg/s390x: Add bal.S
+Date: Sun, 11 Dec 2022 09:27:40 -0600
+Message-Id: <20221211152802.923900-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221211152802.923900-1-richard.henderson@linaro.org>
 References: <20221211152802.923900-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,193 +90,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In most cases, this is a simple local allocate and free
-replaced by tcg_constant_*.  In three cases, a variable
-temp was initialized with a constant value -- reorg to
-localize the constant.  In gen_acc, this fixes a leak.
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Add a small test to prevent regressions.
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Message-Id: <20221103130011.2670186-1-iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/tcg/translate_vx.c.inc | 45 +++++++++++++----------------
- 1 file changed, 20 insertions(+), 25 deletions(-)
+ tests/tcg/s390x/Makefile.softmmu-target |  1 +
+ tests/tcg/s390x/bal.S                   | 24 ++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
+ create mode 100644 tests/tcg/s390x/bal.S
 
-diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-index d39ee81cd6..3fadc82e5c 100644
---- a/target/s390x/tcg/translate_vx.c.inc
-+++ b/target/s390x/tcg/translate_vx.c.inc
-@@ -319,12 +319,10 @@ static void gen_gvec128_4_i64(gen_gvec128_4_i64_fn fn, uint8_t d, uint8_t a,
- static void gen_addi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
-                           uint64_t b)
- {
--    TCGv_i64 bl = tcg_const_i64(b);
--    TCGv_i64 bh = tcg_const_i64(0);
-+    TCGv_i64 bl = tcg_constant_i64(b);
-+    TCGv_i64 bh = tcg_constant_i64(0);
+diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
+index a34fa68473..295df08491 100644
+--- a/tests/tcg/s390x/Makefile.softmmu-target
++++ b/tests/tcg/s390x/Makefile.softmmu-target
+@@ -7,3 +7,4 @@ QEMU_OPTS=-action panic=exit-failure -kernel
+ 		-Wl,--build-id=none $< -o $@
  
-     tcg_gen_add2_i64(dl, dh, al, ah, bl, bh);
--    tcg_temp_free_i64(bl);
--    tcg_temp_free_i64(bh);
- }
- 
- static DisasJumpType op_vbperm(DisasContext *s, DisasOps *o)
-@@ -609,9 +607,8 @@ static DisasJumpType op_vlei(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    tmp = tcg_const_i64((int16_t)get_field(s, i2));
-+    tmp = tcg_constant_i64((int16_t)get_field(s, i2));
-     write_vec_element_i64(tmp, get_field(s, v1), enr, es);
--    tcg_temp_free_i64(tmp);
-     return DISAS_NEXT;
- }
- 
-@@ -1107,11 +1104,13 @@ static DisasJumpType op_vseg(DisasContext *s, DisasOps *o)
- 
- static DisasJumpType op_vst(DisasContext *s, DisasOps *o)
- {
--    TCGv_i64 tmp = tcg_const_i64(16);
-+    TCGv_i64 tmp;
- 
-     /* Probe write access before actually modifying memory */
--    gen_helper_probe_write_access(cpu_env, o->addr1, tmp);
-+    gen_helper_probe_write_access(cpu_env, o->addr1,
-+                                  tcg_constant_i64(16));
- 
-+    tmp = tcg_temp_new_i64();
-     read_vec_element_i64(tmp,  get_field(s, v1), 0, ES_64);
-     tcg_gen_qemu_st_i64(tmp, o->addr1, get_mem_index(s), MO_TEUQ);
-     gen_addi_and_wrap_i64(s, o->addr1, o->addr1, 8);
-@@ -1270,9 +1269,10 @@ static DisasJumpType op_vstm(DisasContext *s, DisasOps *o)
-     }
- 
-     /* Probe write access before actually modifying memory */
--    tmp = tcg_const_i64((v3 - v1 + 1) * 16);
--    gen_helper_probe_write_access(cpu_env, o->addr1, tmp);
-+    gen_helper_probe_write_access(cpu_env, o->addr1,
-+                                  tcg_constant_i64((v3 - v1 + 1) * 16));
- 
-+    tmp = tcg_temp_new_i64();
-     for (;; v1++) {
-         read_vec_element_i64(tmp, v1, 0, ES_64);
-         tcg_gen_qemu_st_i64(tmp, o->addr1, get_mem_index(s), MO_TEUQ);
-@@ -1359,7 +1359,7 @@ static DisasJumpType op_va(DisasContext *s, DisasOps *o)
- static void gen_acc(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b, uint8_t es)
- {
-     const uint8_t msb_bit_nr = NUM_VEC_ELEMENT_BITS(es) - 1;
--    TCGv_i64 msb_mask = tcg_const_i64(dup_const(es, 1ull << msb_bit_nr));
-+    TCGv_i64 msb_mask = tcg_constant_i64(dup_const(es, 1ull << msb_bit_nr));
-     TCGv_i64 t1 = tcg_temp_new_i64();
-     TCGv_i64 t2 = tcg_temp_new_i64();
-     TCGv_i64 t3 = tcg_temp_new_i64();
-@@ -1416,7 +1416,7 @@ static void gen_acc2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al,
- {
-     TCGv_i64 th = tcg_temp_new_i64();
-     TCGv_i64 tl = tcg_temp_new_i64();
--    TCGv_i64 zero = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     tcg_gen_add2_i64(tl, th, al, zero, bl, zero);
-     tcg_gen_add2_i64(tl, th, th, zero, ah, zero);
-@@ -1425,7 +1425,6 @@ static void gen_acc2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al,
- 
-     tcg_temp_free_i64(th);
-     tcg_temp_free_i64(tl);
--    tcg_temp_free_i64(zero);
- }
- 
- static DisasJumpType op_vacc(DisasContext *s, DisasOps *o)
-@@ -1455,15 +1454,14 @@ static void gen_ac2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
-                         TCGv_i64 bl, TCGv_i64 bh, TCGv_i64 cl, TCGv_i64 ch)
- {
-     TCGv_i64 tl = tcg_temp_new_i64();
--    TCGv_i64 th = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     /* extract the carry only */
-     tcg_gen_extract_i64(tl, cl, 0, 1);
-     tcg_gen_add2_i64(dl, dh, al, ah, bl, bh);
--    tcg_gen_add2_i64(dl, dh, dl, dh, tl, th);
-+    tcg_gen_add2_i64(dl, dh, dl, dh, tl, zero);
- 
-     tcg_temp_free_i64(tl);
--    tcg_temp_free_i64(th);
- }
- 
- static DisasJumpType op_vac(DisasContext *s, DisasOps *o)
-@@ -1484,7 +1482,7 @@ static void gen_accc2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
- {
-     TCGv_i64 tl = tcg_temp_new_i64();
-     TCGv_i64 th = tcg_temp_new_i64();
--    TCGv_i64 zero = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     tcg_gen_andi_i64(tl, cl, 1);
-     tcg_gen_add2_i64(tl, th, tl, zero, al, zero);
-@@ -1495,7 +1493,6 @@ static void gen_accc2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
- 
-     tcg_temp_free_i64(tl);
-     tcg_temp_free_i64(th);
--    tcg_temp_free_i64(zero);
- }
- 
- static DisasJumpType op_vaccc(DisasContext *s, DisasOps *o)
-@@ -1597,14 +1594,13 @@ static void gen_avgl_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
- static void gen_avgl_i64(TCGv_i64 dl, TCGv_i64 al, TCGv_i64 bl)
- {
-     TCGv_i64 dh = tcg_temp_new_i64();
--    TCGv_i64 zero = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     tcg_gen_add2_i64(dl, dh, al, zero, bl, zero);
-     gen_addi2_i64(dl, dh, dl, dh, 1);
-     tcg_gen_extract2_i64(dl, dl, dh, 1);
- 
-     tcg_temp_free_i64(dh);
--    tcg_temp_free_i64(zero);
- }
- 
- static DisasJumpType op_vavgl(DisasContext *s, DisasOps *o)
-@@ -2440,7 +2436,7 @@ static void gen_scbi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al,
- {
-     TCGv_i64 th = tcg_temp_new_i64();
-     TCGv_i64 tl = tcg_temp_new_i64();
--    TCGv_i64 zero = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     tcg_gen_sub2_i64(tl, th, al, zero, bl, zero);
-     tcg_gen_andi_i64(th, th, 1);
-@@ -2452,7 +2448,6 @@ static void gen_scbi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al,
- 
-     tcg_temp_free_i64(th);
-     tcg_temp_free_i64(tl);
--    tcg_temp_free_i64(zero);
- }
- 
- static DisasJumpType op_vscbi(DisasContext *s, DisasOps *o)
-@@ -2572,11 +2567,12 @@ static DisasJumpType op_vsumq(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    sumh = tcg_const_i64(0);
-+    sumh = tcg_temp_new_i64();
-     suml = tcg_temp_new_i64();
--    zero = tcg_const_i64(0);
-+    zero = tcg_constant_i64(0);
-     tmpl = tcg_temp_new_i64();
- 
-+    tcg_gen_mov_i64(sumh, zero);
-     read_vec_element_i64(suml, get_field(s, v3), max_idx, es);
-     for (idx = 0; idx <= max_idx; idx++) {
-         read_vec_element_i64(tmpl, get_field(s, v2), idx, es);
-@@ -2587,7 +2583,6 @@ static DisasJumpType op_vsumq(DisasContext *s, DisasOps *o)
- 
-     tcg_temp_free_i64(sumh);
-     tcg_temp_free_i64(suml);
--    tcg_temp_free_i64(zero);
-     tcg_temp_free_i64(tmpl);
-     return DISAS_NEXT;
- }
+ TESTS += unaligned-lowcore
++TESTS += bal
+diff --git a/tests/tcg/s390x/bal.S b/tests/tcg/s390x/bal.S
+new file mode 100644
+index 0000000000..e54d8874ff
+--- /dev/null
++++ b/tests/tcg/s390x/bal.S
+@@ -0,0 +1,24 @@
++    .org 0x200                         /* lowcore padding */
++    .globl _start
++_start:
++    lpswe start24_psw
++_start24:
++    lgrl %r0,initial_r0
++    lgrl %r1,expected_r0
++    bal %r0,0f
++0:
++    cgrjne %r0,%r1,1f
++    lpswe success_psw
++1:
++    lpswe failure_psw
++    .align 8
++start24_psw:
++    .quad 0x160000000000,_start24      /* 24-bit mode, cc = 1, pm = 6 */
++initial_r0:
++    .quad 0x1234567887654321
++expected_r0:
++    .quad 0x1234567896000000 + 0b      /* ilc = 2, cc = 1, pm = 6 */
++success_psw:
++    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
++failure_psw:
++    .quad 0x2000000000000,0            /* disabled wait */
 -- 
 2.34.1
 
