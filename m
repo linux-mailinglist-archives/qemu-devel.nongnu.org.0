@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCB96494DA
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 16:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3D46494EC
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 16:37:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4OFt-0006TI-R3; Sun, 11 Dec 2022 10:28:41 -0500
+	id 1p4OFn-0006Pl-6M; Sun, 11 Dec 2022 10:28:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4OFm-0006Pr-PD
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:34 -0500
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e])
+ id 1p4OFk-0006Lk-CU
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:32 -0500
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4OFf-0007YF-S1
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:34 -0500
-Received: by mail-ot1-x32e.google.com with SMTP id
- m6-20020a9d7e86000000b0066ec505ae93so5830764otp.9
- for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 07:28:19 -0800 (PST)
+ id 1p4OFf-0007Zb-Q7
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:31 -0500
+Received: by mail-oi1-x22c.google.com with SMTP id c129so9114650oia.0
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 07:28:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eHRilwMZdGux1mMQrrcCyZM7FyweWHMuqYamGhTtaNE=;
- b=YsJyGK2OcvrRZgby+DNpi/NYWNZ5iNb2um2AdTxxz1/CG85MCmRa5+bvkdxyyLiGi1
- Hv6jhNVc2KewIOHf9u3pcZRpIMTbk7ZOyHu06dU2e7ix+2P9iePe1j9FxidQiOmDo9pg
- TYMOEY0AZ7EeVgKYk1RI1kSx0NwQfB9g3algsQpd8gEVYr50+K4B8xYX6gRpL6P5BoVU
- X85Bwc7FWw3sj5+qhoITZU62LWwp5Kcr2ucfCAdOqw4+4QQjWMDzNQ8CTJ6xJtCmrIKv
- GBj1psQE8cZeenNIjQMpBz6PKmp1P6lXTWclJ8ZcheABBtDrfQvlFkWbqKzYkQJ1gM+n
- u+fA==
+ bh=0KchuaBzJWkMTjJsrbnSjZVRKRaS7lDJ8+obmeMmkCQ=;
+ b=g+LqkYsgUDtCAlBppJgT4y4Gconq2Lt0FEREdxDXBCwmfQry6Zz0p+ge4Z5Pmdy3Kh
+ dmg0cAxIFxAxV/d7HkMml4uz3dSIfZOMcGX64hhKlPyWj2N5u/cYCBfJV6pmimZe5Enc
+ YaO7LvsRTAtXz/O46KUDigz7zcMxASLjh7/qBW58R7fm+dUNWhtqR4ZZWEFwQre8VdEB
+ AFqt6Eov0v/oDGSTm+z1fv3A+iIO0DfATp0/Obj0R5n9n9gk5zJr0yuA70u2VVuSoo3y
+ aaJoUFB9EQQVycRuD3lksJ9wIE8sxho3T7PF1HkQGW4xtVwCtf9xSQ2D7XqWWj7ZyAOR
+ 6vYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eHRilwMZdGux1mMQrrcCyZM7FyweWHMuqYamGhTtaNE=;
- b=hJGzwNd3y1B2q5hxrxjZE1YRBuuGTaI3WUn4b6demsETeep4VL9MOV8m7bUvX+XUsv
- 2Ono2DQq+/3Gd56fUhTXCcgUoMCo4EScg2Kpnc3GgMy1OYYeCRGVKalNUlgtvZEnVGgp
- mvsgR1cvzB4YY7Y+sKA4EAmF1rYQQknp2YLNGWVdLjSfcyuRjb5A6FFwTmQzNeo0zAse
- qxblpoDwkpeP2XC+INv0Qaxl7QNI4kiaq490lY4zj1oVMqvl0SAJmhKOWsiqg6mOKViI
- sP/FCISXeaghmzLj5VETRjtbuMvoPk4OUAlNceWwz/sguJQntuumcEkdTPbh0MbQmfP6
- r+Ww==
-X-Gm-Message-State: ANoB5pm9Rl89pveoidsHfEHR9hCGPF3JDG6fWCvs1u9SliycAZbqSUQJ
- xe+iz8O9RqQ2fZGLcSCO74WB00c68YeQr2QzvC8=
-X-Google-Smtp-Source: AA0mqf4hmH7WV7B6TnwTt/KlDMot1k9nSjiOT5tvDGfoOGpuXUdL4/ug0Bs5Sldde12Ni6olbgS1ng==
-X-Received: by 2002:a9d:7699:0:b0:661:dfe6:9732 with SMTP id
- j25-20020a9d7699000000b00661dfe69732mr5648803otl.1.1670772499197; 
- Sun, 11 Dec 2022 07:28:19 -0800 (PST)
+ bh=0KchuaBzJWkMTjJsrbnSjZVRKRaS7lDJ8+obmeMmkCQ=;
+ b=5tKaR5UaxVTE8DHlHL4AJB9YtQ2t7mxY9hpSuluJ3RyCFcwZyxTW24dzlU4hqaoNBp
+ 7fuPcbYyJ6y+5wqNpeyAmJCSAEHy1TuEV8LXzEPTJQCNHne4ItdmdAc7E6kcQLE/dmbY
+ qxtqLLmM97EnLWCrntKQ84pO6wuoBhtysz4jUIZ/3zQ9D3bqLVrVynaDUihCU+hX53/b
+ j00MwYcF7PtEjNeDbjKpIbth3bk2VYsOvC7ZcnrdVhy7Q+uNWVsVS64ZfQZlcWMwr5Nt
+ PsZjKiLjEsT0llinIyvJf8NnvGiAFv0cuFU7wmvFQEy7hdz4Kki59PJQARpaa03TzQTJ
+ p0mQ==
+X-Gm-Message-State: ANoB5pkcv5adTHxGNMyACV1ZQ6LrZK9/avygZA9JzDHINrfBnbpkNzkG
+ TVt2XypPsW3ztcjEl9bzf81Am5Nl0oOxaNFgbMw=
+X-Google-Smtp-Source: AA0mqf70ywEtqjVNcK6tkxkEv5c7AvwLi8vLwAYyYcHCYoYEH777c6WFWDhZSrLtJIW29DEhhVfyUQ==
+X-Received: by 2002:a05:6808:13c1:b0:355:1de8:bc79 with SMTP id
+ d1-20020a05680813c100b003551de8bc79mr7336829oiw.27.1670772500292; 
+ Sun, 11 Dec 2022 07:28:20 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:2efc:7b4f:f28b:eca6:b583])
  by smtp.gmail.com with ESMTPSA id
- q24-20020a056830233800b006708d2cd8bcsm938140otg.65.2022.12.11.07.28.18
+ q24-20020a056830233800b006708d2cd8bcsm938140otg.65.2022.12.11.07.28.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Dec 2022 07:28:18 -0800 (PST)
+ Sun, 11 Dec 2022 07:28:19 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-s390x@nongnu.org,
 	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 12/27] target/s390x: Use gen_psw_addr_disp in op_sam
-Date: Sun, 11 Dec 2022 09:27:47 -0600
-Message-Id: <20221211152802.923900-13-richard.henderson@linaro.org>
+Subject: [PATCH v2 13/27] target/s390x: Use ilen instead in branches
+Date: Sun, 11 Dec 2022 09:27:48 -0600
+Message-Id: <20221211152802.923900-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221211152802.923900-1-richard.henderson@linaro.org>
 References: <20221211152802.923900-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,75 +90,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Complicated because we may now require a runtime jump.
+Remove the remaining uses of pc_tmp, and remove the variable.
 
 Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/tcg/translate.c | 40 +++++++++++++++++++++++++-----------
- 1 file changed, 28 insertions(+), 12 deletions(-)
+ target/s390x/tcg/translate.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index b317767a7d..96bd37426f 100644
+index 96bd37426f..c9afa28c60 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -3922,7 +3922,7 @@ static DisasJumpType op_sacf(DisasContext *s, DisasOps *o)
- static DisasJumpType op_sam(DisasContext *s, DisasOps *o)
- {
-     int sam = s->insn->data;
--    TCGv_i64 tsam;
-+    TCGLabel *fault = NULL;
-     uint64_t mask;
- 
-     switch (sam) {
-@@ -3937,20 +3937,36 @@ static DisasJumpType op_sam(DisasContext *s, DisasOps *o)
-         break;
+@@ -141,12 +141,6 @@ struct DisasContext {
+     TCGOp *insn_start;
+     DisasFields fields;
+     uint64_t ex_value;
+-    /*
+-     * During translate_one(), pc_tmp is used to determine the instruction
+-     * to be executed after base.pc_next - e.g. next sequential instruction
+-     * or a branch target.
+-     */
+-    uint64_t pc_tmp;
+     uint32_t ilen;
+     enum cc_op cc_op;
+     bool exit_to_mainloop;
+@@ -1198,7 +1192,7 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+         goto egress;
+     }
+     if (is_imm) {
+-        if (dest == s->pc_tmp) {
++        if (disp == s->ilen) {
+             /* Branch to next.  */
+             per_branch(s, true);
+             ret = DISAS_NEXT;
+@@ -1222,7 +1216,7 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+         }
      }
  
--    /* Bizarre but true, we check the address of the current insn for the
--       specification exception, not the next to be executed.  Thus the PoO
--       documents that Bad Things Happen two bytes before the end.  */
--    if (s->base.pc_next & ~mask) {
--        gen_program_exception(s, PGM_SPECIFICATION);
--        return DISAS_NORETURN;
--    }
--    s->pc_tmp &= mask;
-+    /*
-+     * Bizarre but true, we check the address of the current insn for the
-+     * specification exception, not the next to be executed.  Thus the PoO
-+     * documents that Bad Things Happen two bytes before the end.
-+     */
-+    if (mask != -1) {
-+        TCGv_i64 t = tcg_temp_new_i64();
-+        fault = gen_new_label();
+-    if (use_goto_tb(s, s->pc_tmp)) {
++    if (use_goto_tb(s, s->base.pc_next + s->ilen)) {
+         if (is_imm && use_goto_tb(s, dest)) {
+             /* Both exits can use goto_tb.  */
+             update_cc_op(s);
+@@ -6253,7 +6247,6 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
+             g_assert_not_reached();
+         }
+     }
+-    s->pc_tmp = s->base.pc_next + ilen;
+     s->ilen = ilen;
  
--    tsam = tcg_constant_i64(sam);
--    tcg_gen_deposit_i64(psw_mask, psw_mask, tsam, 31, 2);
-+        gen_psw_addr_disp(s, t, 0);
-+        tcg_gen_andi_i64(t, t, ~mask);
-+        tcg_gen_brcondi_i64(TCG_COND_NE, t, 0, fault);
-+        tcg_temp_free_i64(t);
-+    }
-+
-+    update_cc_op(s);
-+
-+    tcg_gen_deposit_i64(psw_mask, psw_mask, tcg_constant_i64(sam), 31, 2);
-+
-+    gen_psw_addr_disp(s, psw_addr, s->ilen);
-+    tcg_gen_andi_i64(psw_addr, psw_addr, mask);
+     /* We can't actually determine the insn format until we've looked up
+@@ -6490,7 +6483,7 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
  
-     /* Always exit the TB, since we (may have) changed execution mode.  */
--    return DISAS_TOO_MANY;
-+    tcg_gen_lookup_and_goto_ptr();
-+
-+    if (mask != -1) {
-+        gen_set_label(fault);
-+        gen_program_exception(s, PGM_SPECIFICATION);
-+    }
-+    return DISAS_NORETURN;
+ out:
+     /* Advance to the next instruction.  */
+-    s->base.pc_next = s->pc_tmp;
++    s->base.pc_next += s->ilen;
+     return ret;
  }
  
- static DisasJumpType op_sar(DisasContext *s, DisasOps *o)
 -- 
 2.34.1
 
