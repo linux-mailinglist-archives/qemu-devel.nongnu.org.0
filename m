@@ -2,47 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5225B649233
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C67F64923B
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:22:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4CpC-0003Sp-4q; Sat, 10 Dec 2022 22:16:22 -0500
+	id 1p4CpG-0003Vn-Jd; Sat, 10 Dec 2022 22:16:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4CpA-0003RO-U9; Sat, 10 Dec 2022 22:16:20 -0500
+ id 1p4CpE-0003VV-Rs; Sat, 10 Dec 2022 22:16:24 -0500
 Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4Cp9-0007Wl-4X; Sat, 10 Dec 2022 22:16:20 -0500
-X-QQ-mid: bizesmtp68t1670728119t0ghsmmn
+ id 1p4CpC-0007XT-PH; Sat, 10 Dec 2022 22:16:24 -0500
+X-QQ-mid: bizesmtp68t1670728122tisddqwg
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Sun, 11 Dec 2022 11:08:38 +0800 (CST)
-X-QQ-SSF: 00200000000000B0C000000A0000000
-X-QQ-FEAT: zX46NWeZQGHoHS66B3Jgp9avNVV9u++s/YTUUQ5Rs0XJy2BTZlYgCvVs4gQoW
- xXu7KeZW2QQAWGcdNCyD2WEoeonjaJl9BhtCjcTIhy1NpQ7Pkj8dqju5/0QM1dLS4OuInV2
- VmAGn1UX050N6mDTAZgJM0BS7AVyZ0dSljaV9oPgnGw22IPNT2FOwegIph5mOqwnthEQ7ku
- FpBoGmvurOoWN77w+3OXdTYt33p3RtvroKeSztFvAm8qJbFRul4wBzMnsmhZwqPKp7pN09V
- /3qU+8iZqhv99p5fBW8YpHzQbEaY9vNAbNAr+bxlv/JjqZvChkkX/27yqBRr91wRi9qRvB7
- yrQlh8OlWrhLy/4fY4h3drJrVNDJg==
+ id ; Sun, 11 Dec 2022 11:08:41 +0800 (CST)
+X-QQ-SSF: 01200000000000B0C000000A0000000
+X-QQ-FEAT: 9fp+MOMfZT3gk7kymZjfv0yphUuIY1WxNT3NbK6XuIvNuU8LmEoyk4RSBD8t3
+ qUaOOp7vX+YxkWU4fDVyj1sl2SCYADEEE5XekUYzy46IyWP7yzoeu2oWOwrbS5cs6GvjrA7
+ 3LuvIKc9cQC9NN/+nUxcmaJshBECON2o9vrTtLYVbHjw8JrHdSB7tRIzBfGGwjp/z5l6iF3
+ LsJ+Rgr/hjXMJYyq0byEbvW4PbqpJhlfRN/zitezbYbOIES6YPW2IOkLDkViD4pr5ygq+1N
+ HB+IwEKASuB/EcF0Aojn2HdmZJM9fS7ZmtZuWEUDH5rkIqn+8cjhH40ndDn9L/mfYb4MLSn
+ AmvZHHoI65iAPCLVSn+KbKjsiAPcBZJ3XkF/H9N
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+Cc: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH v3 04/16] hw/riscv: Sort machines Kconfig options in
- alphabetical order
-Date: Sun, 11 Dec 2022 11:08:17 +0800
-Message-Id: <20221211030829.802437-4-bmeng@tinylab.org>
+Subject: [PATCH v3 05/16] hw/riscv: spike: Remove misleading comments
+Date: Sun, 11 Dec 2022 11:08:18 +0800
+Message-Id: <20221211030829.802437-5-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221211030829.802437-1-bmeng@tinylab.org>
 References: <20221211030829.802437-1-bmeng@tinylab.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
@@ -68,60 +65,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-SHAKTI_C machine Kconfig option was inserted in disorder. Fix it.
+PLIC is not included in the 'spike' machine.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
 (no changes since v1)
 
- hw/riscv/Kconfig | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ hw/riscv/spike.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 1e4b58024f..4550b3b938 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -4,6 +4,8 @@ config RISCV_NUMA
- config IBEX
-     bool
- 
-+# RISC-V machines in alphabetical order
-+
- config MICROCHIP_PFSOC
-     bool
-     select CADENCE_SDHCI
-@@ -22,13 +24,6 @@ config OPENTITAN
-     select SIFIVE_PLIC
-     select UNIMP
- 
--config SHAKTI_C
--    bool
--    select UNIMP
--    select SHAKTI_UART
--    select RISCV_ACLINT
--    select SIFIVE_PLIC
--
- config RISCV_VIRT
-     bool
-     imply PCI_DEVICES
-@@ -50,6 +45,13 @@ config RISCV_VIRT
-     select FW_CFG_DMA
-     select PLATFORM_BUS
- 
-+config SHAKTI_C
-+    bool
-+    select RISCV_ACLINT
-+    select SHAKTI_UART
-+    select SIFIVE_PLIC
-+    select UNIMP
-+
- config SIFIVE_E
-     bool
-     select RISCV_ACLINT
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 1e1d752c00..13946acf0d 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -8,7 +8,6 @@
+  *
+  * 0) HTIF Console and Poweroff
+  * 1) CLINT (Timer and IPI)
+- * 2) PLIC (Platform Level Interrupt Controller)
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
 -- 
 2.34.1
 
