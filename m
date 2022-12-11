@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4554649232
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:18:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA4864923D
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:22:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4CpC-0003Sh-1k; Sat, 10 Dec 2022 22:16:22 -0500
+	id 1p4Cp7-0003OO-Eo; Sat, 10 Dec 2022 22:16:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4CpA-0003RG-JU; Sat, 10 Dec 2022 22:16:20 -0500
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1p4Cp4-0003NG-7j
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 22:16:14 -0500
 Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4Cp8-0007Wg-8B; Sat, 10 Dec 2022 22:16:20 -0500
-X-QQ-mid: bizesmtp68t1670728110tx1pmwpw
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1p4Coz-0007Nn-Ss
+ for qemu-devel@nongnu.org; Sat, 10 Dec 2022 22:16:13 -0500
+X-QQ-mid: bizesmtp68t1670728113tw1prms0
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Sun, 11 Dec 2022 11:08:29 +0800 (CST)
+ id ; Sun, 11 Dec 2022 11:08:33 +0800 (CST)
 X-QQ-SSF: 00200000000000B0C000000A0000000
-X-QQ-FEAT: XBN7tc9DADJqvexO6rI5B1p2fLY19wLNDS5rGT+S3Thr+Oeyk50kfF8rUUA7N
- ejGfnsuVIDYfQtVgsT6kIgD0eFjPPhyJYQY7+VGN7XlaL1E3SP+9/yOf0Mxdl5qIr+OR/E1
- QgfBdmnn9zgs/uzaTLTsfgO9Oi7pU9+blZEGmtX+40ogUJ13DencYb8z90GQpX/K0tQFpnd
- t7qi4SMsmAfOIMXWxWgcg4rJRzitFafkkL5hQ7koK6+bZINFPBYyVzrJOp5P4YGEAtzgVj+
- kS4U984ROnqzge0EZRWS/iW1YagkUwV7edP7raDaeK1XzsJoYh3+/nwj8MfhZv5s3Ke0wkN
- 4RNtiWk6mwAUVrMVY0=
+X-QQ-FEAT: FwowAM4HOqD0MX4fr09g1gU+O9pSWhElRWSrQMTZQAvohQVhkR2TtjhHVWaki
+ xrL9WLw/+9C4mxo1/TyLonie/pkgtQ7TcLYcEbFPOOB7E8M9utjpyL7OOaNWVEdpQ/Gn6Nk
+ LxqW8KropxFeiZwoKLxXb8qw8sZ/cNffqTsc/dOIQH1PUIe+Coy7Ndfm1LWlTqj9/Ww/q/y
+ wQ18aeNO4CGXiWht//PIv/8muMUQg+uDSFHCPVISW6Yp8uOkaKMMmD0GgaGzSoRnDTIjELe
+ v+ywrI1OCFSQwyGF4mR1USHcOClYiPHpfcB3u/AzLzdSCbCHS47mfQoHXqW5q4M4irR7kPu
+ w/wTYj+xld/7ID+/2Xd3FlcEkzfq50RPXt//Zv/
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
 Cc: Alistair Francis <alistair.francis@wdc.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Subject: [PATCH v3 01/16] hw/riscv: Select MSI_NONBROKEN in SIFIVE_PLIC
-Date: Sun, 11 Dec 2022 11:08:14 +0800
-Message-Id: <20221211030829.802437-1-bmeng@tinylab.org>
+ Anup Patel <anup.patel@wdc.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Subject: [PATCH v3 02/16] hw/intc: Select MSI_NONBROKEN in RISC-V AIA
+ interrupt controllers
+Date: Sun, 11 Dec 2022 11:08:15 +0800
+Message-Id: <20221211030829.802437-2-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221211030829.802437-1-bmeng@tinylab.org>
+References: <20221211030829.802437-1-bmeng@tinylab.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -67,78 +70,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 hw/pci/Kconfig says MSI_NONBROKEN should be selected by interrupt
 controllers regardless of how MSI is implemented. msi_nonbroken is
-initialized to true in sifive_plic_realize().
+initialized to true in both riscv_aplic_realize() and
+riscv_imsic_realize().
 
-Let SIFIVE_PLIC select MSI_NONBROKEN and drop the selection from
-RISC-V machines.
+Select MSI_NONBROKEN in RISCV_APLIC and RISCV_IMSIC.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 ---
 
 (no changes since v1)
 
- hw/intc/Kconfig  | 1 +
- hw/riscv/Kconfig | 5 -----
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ hw/intc/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index ecd2883ceb..1d4573e803 100644
+index 1d4573e803..21441d0a0c 100644
 --- a/hw/intc/Kconfig
 +++ b/hw/intc/Kconfig
-@@ -78,6 +78,7 @@ config RISCV_IMSIC
+@@ -72,9 +72,11 @@ config RISCV_ACLINT
  
- config SIFIVE_PLIC
+ config RISCV_APLIC
      bool
 +    select MSI_NONBROKEN
  
- config GOLDFISH_PIC
+ config RISCV_IMSIC
      bool
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 79ff61c464..167dc4cca6 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -11,7 +11,6 @@ config MICROCHIP_PFSOC
-     select MCHP_PFSOC_IOSCB
-     select MCHP_PFSOC_MMUART
-     select MCHP_PFSOC_SYSREG
--    select MSI_NONBROKEN
-     select RISCV_ACLINT
-     select SIFIVE_PDMA
-     select SIFIVE_PLIC
-@@ -37,7 +36,6 @@ config RISCV_VIRT
-     imply TPM_TIS_SYSBUS
-     select RISCV_NUMA
-     select GOLDFISH_RTC
--    select MSI_NONBROKEN
-     select PCI
-     select PCI_EXPRESS_GENERIC_BRIDGE
-     select PFLASH_CFI01
-@@ -53,7 +51,6 @@ config RISCV_VIRT
++    select MSI_NONBROKEN
  
- config SIFIVE_E
+ config SIFIVE_PLIC
      bool
--    select MSI_NONBROKEN
-     select RISCV_ACLINT
-     select SIFIVE_GPIO
-     select SIFIVE_PLIC
-@@ -64,7 +61,6 @@ config SIFIVE_E
- config SIFIVE_U
-     bool
-     select CADENCE
--    select MSI_NONBROKEN
-     select RISCV_ACLINT
-     select SIFIVE_GPIO
-     select SIFIVE_PDMA
-@@ -82,6 +78,5 @@ config SPIKE
-     bool
-     select RISCV_NUMA
-     select HTIF
--    select MSI_NONBROKEN
-     select RISCV_ACLINT
-     select SIFIVE_PLIC
 -- 
 2.34.1
 
