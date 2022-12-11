@@ -2,99 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B58C6493AE
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 11:41:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C7E6493C5
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 11:49:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4JlH-0001js-JX; Sun, 11 Dec 2022 05:40:47 -0500
+	id 1p4JsZ-0004Br-7J; Sun, 11 Dec 2022 05:48:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1p4Jl5-0001i5-Ey
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 05:40:38 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1p4Jl3-0002Tx-QQ
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 05:40:35 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 283E35C00D6;
- Sun, 11 Dec 2022 05:40:33 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Sun, 11 Dec 2022 05:40:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1670755233; x=
- 1670841633; bh=4VrTx4nyhEck2DyKOQ4C7AD1h+sWiUppPEXwBq4JA+k=; b=T
- qVD8JqtRNxFEw3muyLuhRyaRMrY389CiJK5UfhOqGILCmhJQ2WX4p3rFq2B/+iHg
- p0B0+5BWS1Sm7QVJCqGEAOX3qg/dcjZC5coixURUP111fu1mnx6FIuLKYPhMhNCx
- T1tHkq8CISNVpLg8prvODgXJw9a71pHD+mdwVPpFDgV4qFVZ/G0uzN9sFkM13Y6s
- 2TdPr1sPHRJcxPMNZITUE549cd+FTrkr7kw/ET9gy7qP2AX4hS9vRmyvC3t836DU
- Yy8pPcfZj6ePavmGNLlS565wTyNc7BaJ/z71DOMl7PALvK0q54yLp2XjLk1+pGcS
- +DofwpH4oOVwtTKUoD7ng==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1670755233; x=
- 1670841633; bh=4VrTx4nyhEck2DyKOQ4C7AD1h+sWiUppPEXwBq4JA+k=; b=P
- RF1TmI7/+aCoYx2ClppLcp95IAey0/T0l3aEzDWV8eAdH3H8OwUBpGdPZwht3FUE
- Ri9ieznMxUICxSCr7f49+0/dr8o99Bl2KwZUGxgpjXLr2dyBOjh/vZ+FK/axtA12
- e0ptVtRTY2pXgL7ZWwDpxNDFnZasqskMzMxn5Y4kBgxfs/VmynB58dTFwYqwEXbm
- NROhpXTxhRM8sJeObK65QjRPiTAUrfC1vzwuAs6ZHhbjCF/v1nQrwkKcmuzrk35k
- HDshz0rWH8CJ/O0eQBkpGq6IEv5A2jM84pGW5CT/KGRuuNbu4zSj8OZKHb6tnc8E
- 8pgAE+IXSwJibk3OGAR9A==
-X-ME-Sender: <xms:oLOVY1JhsCIoWYyUE4wchsMAShwOCRNyjFb1uL8oznqbQ2TO774SSg>
- <xme:oLOVYxI4F1jfy4nXRihAF6X-63oaK9D7HuBnLCQplCGf0WK74rADuYhiowKuRIRuR
- tzbpzLujXC7lIoT1jQ>
-X-ME-Received: <xmr:oLOVY9tjO6Lw1jLs60Ktw7yC3Hb1WLQAthG8vpea8wx8BzZEq3H4P-wy-olyAxCMKScU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeigddukecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheplfhirgig
- uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpedutdejffetteefkeejieehfeeuieeguedtveeijeeviefhffel
- vdfgudeihfdvtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:obOVY2ayx6u-DeQXx3JHabCrn0pWSJ4huYvzXmObu6piPAWDq6YptA>
- <xmx:obOVY8ZdmrQFib7UdJw6By9KKrNg0nUQ9ojicEr4OmKr-DkZu04djA>
- <xmx:obOVY6BtaD100BQsf8C46h7Eafu7gpiCVgSSgI6PKW4fCy04AqgIog>
- <xmx:obOVY7x2E3Kc6WWeAQxZNRPXtI-W8213PmjPI2-sjQcg_thUBC-TfA>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 11 Dec 2022 05:40:31 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: [PATCH-for-8.0 6/7] hw/mips/bootloader: Implement nanoMIPS SW
- opcode
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20221210155502.74609-7-philmd@linaro.org>
-Date: Sun, 11 Dec 2022 10:40:20 +0000
-Cc: BALATON Zoltan via <qemu-devel@nongnu.org>,
- Milica Lazarevic <milica.lazarevic@syrmia.com>,
- Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Djordje Todorovic <djordje.todorovic@syrmia.com>,
- Bernhard Beschow <shentey@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0F927603-2DFB-486C-B61D-3CDBB0324F8A@flygoat.com>
-References: <20221210155502.74609-1-philmd@linaro.org>
- <20221210155502.74609-7-philmd@linaro.org>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=jiaxun.yang@flygoat.com;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1p4JsU-0004Bf-Fi
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 05:48:14 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1p4JsR-0007UY-9w
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 05:48:14 -0500
+Received: by mail-pl1-x634.google.com with SMTP id t2so6261124ply.2
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 02:48:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=AiDm+83/VDbozzVf3AWSlrdlCGBECNCktU5HJHthiAs=;
+ b=VS6+ksV8eaaAXSlBA5ZSltuFWyms6zYCinT4+IDsZ/vZMCPFmSHFKvag971CGJ5O/l
+ 0A4QNLMTwrEm4L2ow9KccAZJEqIAvLmI2q0805bosSmK94it4jcGFD5z2Vagb0F8Hu7H
+ V/CeXGpDJVupb+lJ9Uwem17Ms9CIsUxTleeEwzHkIUaTIDSyxCZ/xo3dl2R7jM6TlPgf
+ XK4AioBF0Avg/jRx8zt5xivG98lwuuYfKogCx3AtlAktQwRH4Z0EtLNneaZPALrshDbj
+ oNzlEaoe9YgRDuSuzWh8nEs7vU3Lo44vSn2YzW7FQl+/BfWjoFEQrTtrC+r2pnPnvh9W
+ G7bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AiDm+83/VDbozzVf3AWSlrdlCGBECNCktU5HJHthiAs=;
+ b=qGvQxYV8jPJlI6vtEEzgs0jcTa1IZAOcEhahseFIDkIFL9O+5+aHL1AHfREoD8FnSc
+ LXwOc/lJNYXlU87pRr4t7asZavmPEmhA2WL2tm0+E30tVZ3DO5pofj4Rmu/ZVoadxish
+ zXMJKMUossaWFeR9/09LIAV49mBYBAx8pxmU78nf3UvnPf5fqP1+cwNotA8VN32JNv7B
+ t2M/yS6ONQA59/+z3cLl4X67Mlkojv8KFvAOJ8g4HUvHKpG668Hw0+clXOc2jUnwsX5n
+ Pa0pURm5xYhJuBvKfIP+xCG942ZucYFiwQNn6GOTNgxV8+PH8GjeC2BqFpSOI5a1z840
+ w02A==
+X-Gm-Message-State: ANoB5pnFgn4V1/d/g00ORG/wmD31a9tOYOIMfVdWtkfmvSpqTQTqFugz
+ oD6MaY2aMLNlkXmR+6oGty9DLA==
+X-Google-Smtp-Source: AA0mqf4RgQmEqN5LawTq4ZemZtoCyxmFmF2Ij5zFlJElCdtjVDBVa77NhAfO+taoo3oYOedjtLrQlw==
+X-Received: by 2002:a17:902:6b08:b0:186:644f:bef1 with SMTP id
+ o8-20020a1709026b0800b00186644fbef1mr13052972plk.6.1670755688566; 
+ Sun, 11 Dec 2022 02:48:08 -0800 (PST)
+Received: from localhost.localdomain ([139.177.225.230])
+ by smtp.gmail.com with ESMTPSA id
+ b2-20020a1709027e0200b0018963b8e131sm4115118plm.290.2022.12.11.02.48.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 11 Dec 2022 02:48:08 -0800 (PST)
+From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
+ Connor Kuehl <ckuehl@redhat.com>
+Subject: [PATCH] virtiofsd: support setting multiple request virtqueues
+Date: Sun, 11 Dec 2022 18:47:43 +0800
+Message-Id: <20221211104743.27333-1-zhangjiachen.jaycee@bytedance.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,66 +89,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Add an option '-o num_request_queues' to configure the queue number,
+currently the total number of vqs should be (1 hiprio queue +
+num_request_queues).
 
+The code is based on Connor's previous version in the virtio-fs
+mailing-list [1], but change the semantic of the new option from total
+queue number to request queue number.
 
-> 2022=E5=B9=B412=E6=9C=8810=E6=97=A5 15:55=EF=BC=8CPhilippe =
-Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
-> hw/mips/bootloader.c | 25 ++++++++++++++++++++++++-
-> 1 file changed, 24 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
-> index cc3df385df..541b59bf84 100644
-> --- a/hw/mips/bootloader.c
-> +++ b/hw/mips/bootloader.c
-> @@ -177,9 +177,32 @@ static void bl_gen_ori(void **p, bl_reg rt, =
-bl_reg rs, uint16_t imm)
->     }
-> }
->=20
-> +static void bl_gen_sw_nm(void **ptr, bl_reg rt, uint8_t rs, uint16_t =
-offset)
-> +{
-> +    uint16_t *p =3D (uint16_t *)*ptr;
-> +    uint32_t insn =3D 0;
-> +
-> +    insn =3D deposit32(insn, 26, 6, 0b100001);
-> +    insn =3D deposit32(insn, 21, 5, rt);
-> +    insn =3D deposit32(insn, 16, 5, rs);
-> +    insn =3D deposit32(insn, 12, 4, 0b1001);
-> +    insn =3D deposit32(insn, 0, 12, offset);
-> +
-> +    stw_p(p, insn >> 16);
-> +    p++;
-> +    stw_p(p, insn >> 0);
-> +    p++;
+The corresponding virtio-fs kernel part modification can be found at the
+mail [2].
 
-Think we can have a helper function like st_nm32_p.
+Link:
+[1] https://www.mail-archive.com/virtio-fs@redhat.com/msg03333.html
+[2] https://lore.kernel.org/linux-fsdevel/20221211103857.25805-1-zhangjiachen.jaycee@bytedance.com/
+Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Connor Kuehl <ckuehl@redhat.com>
+Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+---
+ tools/virtiofsd/fuse_lowlevel.c  |  4 ++--
+ tools/virtiofsd/fuse_lowlevel.h  |  2 +-
+ tools/virtiofsd/fuse_virtio.c    | 20 +++-----------------
+ tools/virtiofsd/fuse_virtio.h    |  2 +-
+ tools/virtiofsd/helper.c         |  4 ++++
+ tools/virtiofsd/passthrough_ll.c | 12 +++++++++++-
+ 6 files changed, 22 insertions(+), 22 deletions(-)
 
-Thanks
-- Jiaxun
-
-> +
-> +    *ptr =3D p;
-> +}
-> +
-> static void bl_gen_sw(void **p, bl_reg rt, uint8_t base, uint16_t =
-offset)
-> {
-> -    bl_gen_i_type(p, 0x2b, base, rt, offset);
-> +    if (bootcpu_supports_isa(ISA_NANOMIPS32)) {
-> +        bl_gen_sw_nm(p, rt, base, offset);
-> +    } else {
-> +        bl_gen_i_type(p, 0x2b, base, rt, offset);
-> +    }
-> }
->=20
-> static void bl_gen_sd(void **p, bl_reg rt, uint8_t base, uint16_t =
-offset)
-> --=20
-> 2.38.1
->=20
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index 2f08471627..528492d2cf 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -2708,9 +2708,9 @@ out1:
+     return NULL;
+ }
+ 
+-int fuse_session_mount(struct fuse_session *se)
++int fuse_session_mount(struct fuse_session *se, unsigned int num_queues)
+ {
+-    return virtio_session_mount(se);
++    return virtio_session_mount(se, num_queues);
+ }
+ 
+ int fuse_session_fd(struct fuse_session *se)
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+index b889dae4de..aee02d3e91 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -1856,7 +1856,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
+  *
+  * @return 0 on success, -1 on failure.
+  **/
+-int fuse_session_mount(struct fuse_session *se);
++int fuse_session_mount(struct fuse_session *se, unsigned int num_queues);
+ 
+ /**
+  * Enter a single threaded, blocking event loop.
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 9368e292e4..a3ebcbea8e 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -762,20 +762,6 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
+              started);
+     assert(qidx >= 0);
+ 
+-    /*
+-     * Ignore additional request queues for now.  passthrough_ll.c must be
+-     * audited for thread-safety issues first.  It was written with a
+-     * well-behaved client in mind and may not protect against all types of
+-     * races yet.
+-     */
+-    if (qidx > 1) {
+-        fuse_log(FUSE_LOG_ERR,
+-                 "%s: multiple request queues not yet implemented, please only "
+-                 "configure 1 request queue\n",
+-                 __func__);
+-        exit(EXIT_FAILURE);
+-    }
+-
+     if (started) {
+         /* Fire up a thread to watch this queue */
+         if (qidx >= vud->nqueues) {
+@@ -1011,7 +997,7 @@ static int fv_create_listen_socket(struct fuse_session *se)
+     return 0;
+ }
+ 
+-int virtio_session_mount(struct fuse_session *se)
++int virtio_session_mount(struct fuse_session *se, unsigned int num_queues)
+ {
+     int ret;
+ 
+@@ -1057,8 +1043,8 @@ int virtio_session_mount(struct fuse_session *se)
+     se->vu_socketfd = data_sock;
+     se->virtio_dev->se = se;
+     pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
+-    if (!vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, NULL,
+-                 fv_set_watch, fv_remove_watch, &fv_iface)) {
++    if (!vu_init(&se->virtio_dev->dev, num_queues, se->vu_socketfd,
++                fv_panic, NULL, fv_set_watch, fv_remove_watch, &fv_iface)) {
+         fuse_log(FUSE_LOG_ERR, "%s: vu_init failed\n", __func__);
+         return -1;
+     }
+diff --git a/tools/virtiofsd/fuse_virtio.h b/tools/virtiofsd/fuse_virtio.h
+index 111684032c..a0e78b9b84 100644
+--- a/tools/virtiofsd/fuse_virtio.h
++++ b/tools/virtiofsd/fuse_virtio.h
+@@ -18,7 +18,7 @@
+ 
+ struct fuse_session;
+ 
+-int virtio_session_mount(struct fuse_session *se);
++int virtio_session_mount(struct fuse_session *se, unsigned int num_queues);
+ void virtio_session_close(struct fuse_session *se);
+ int virtio_loop(struct fuse_session *se);
+ 
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index f5f66f292c..b5138ce17d 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -191,6 +191,10 @@ void fuse_cmdline_help(void)
+            "    -o killpriv_v2/no_killpriv_v2\n"
+            "                               Enable/Disable FUSE_HANDLE_KILLPRIV_V2.\n"
+            "                               (default: enabled as long as client supports it)\n"
++           "    -o num_request_queues=<num>\n"
++           "                               set maximum number of request virtqueues\n"
++           "                               supported by virtiofsd"
++           "                               default: 1\n"
+            );
+ }
+ 
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 20f0f41f99..f9d8075835 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -182,6 +182,7 @@ struct lo_data {
+     /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
+     bool use_fscreate;
+     int user_security_label;
++    int num_request_queues;
+ };
+ 
+ static const struct fuse_opt lo_opts[] = {
+@@ -218,6 +219,8 @@ static const struct fuse_opt lo_opts[] = {
+     { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
+     { "security_label", offsetof(struct lo_data, user_security_label), 1 },
+     { "no_security_label", offsetof(struct lo_data, user_security_label), 0 },
++    { "num_request_queues=%d",
++      offsetof(struct lo_data, num_request_queues), 1 },
+     FUSE_OPT_END
+ };
+ static bool use_syslog = false;
+@@ -4479,6 +4482,12 @@ int main(int argc, char *argv[])
+ 
+     lo.use_statx = true;
+ 
++    if (lo.num_request_queues < 1) {
++        fuse_log(FUSE_LOG_ERR, "num_request_queues must be at least 1 (got %d)"
++                 "\n", lo.num_request_queues);
++        exit(1);
++    }
++
+     se = fuse_session_new(&args, &lo_oper, sizeof(lo_oper), &lo);
+     if (se == NULL) {
+         goto err_out1;
+@@ -4488,7 +4497,8 @@ int main(int argc, char *argv[])
+         goto err_out2;
+     }
+ 
+-    if (fuse_session_mount(se) != 0) {
++    /* There will be 1 hirpio queue plus lo.num_request_queues request queues */
++    if (fuse_session_mount(se, lo.num_request_queues + 1) != 0) {
+         goto err_out3;
+     }
+ 
+-- 
+2.20.1
 
 
