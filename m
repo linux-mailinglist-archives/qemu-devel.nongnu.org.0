@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3FAF649661
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 21:52:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FABF649662
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 21:53:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4TDn-0005wz-7z; Sun, 11 Dec 2022 15:46:51 -0500
+	id 1p4TJr-0005R2-O0; Sun, 11 Dec 2022 15:53:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4TDk-0005uj-5y
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 15:46:48 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4TJp-0005Qq-UN
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 15:53:05 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4TDi-0003Xa-8s
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 15:46:47 -0500
-Received: by mail-ed1-x534.google.com with SMTP id f7so10307985edc.6
- for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 12:46:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4TJo-00071x-Bh
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 15:53:05 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id kw15so23308792ejc.10
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 12:53:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+2k1G1pmT56KOvkf35By/qtvt/7hQagB/gjT4uBwXvA=;
- b=dl005hTBxa8Gzs7Yja2fgwAbVxVipV2I/oysViaUJC8EbeQkUedvDTkMHs6sHAo4Vj
- If+ooiYsbh7z+fB/RFMpdbcNrHsC1GvBHzMA25gBYPVFvywp3ptC21EogXFDfp1+M6wr
- jh6tQDeAAe9URQ15WKrAlRI8OB1Uhl1fJFNn2txMr8g08c9khQo459k2rNqVgtqWYSIw
- lYtQgVQwVetTFOpbHVGHxtFlG3XvZALC6TpA2d0fft0fMpm1JRPGD0/7HbjR0c5VdNAJ
- SIqGNblbJyMnbZEAfpgQKvLe6GkMK9IjVb5Fob+OIrP6MD2KzLv/LdKVM20w9b1xvyst
- DwyQ==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=iFHULDTanQ4i4cmzOgkuiI+yGO2lSz7h8RXzgTm0PGM=;
+ b=g2M8sYoreouQu88WBRTlNrUmXhwg9Z9m+a/Pb81h2aDRWqIUjQOXBCwHa+HE6n+/gg
+ 94j7JAjqCE+22va+BvBF9IAut9y/WyCIBW4WHPPojmxQqXIH15OoZ9OPbS/2JNypOUA7
+ Et+fS5+O9numDeOAPedvFXtLeRRnPJBc6Qit8p/NuC96BuOIQsiKyAO2k55zTsqRXiRU
+ JtY3ij7deJZXjczm2hKmFvYCZoChs0mifxCu90OVEy1EKBkufSqPBxFbi3Fqo3sSlYve
+ UzwHI4U5YKC9ktbKSE/lnFFmEuKQE91tGVc0R1klhJipG+YbXZSgJETkx7bUisOjnUds
+ 6Pzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+2k1G1pmT56KOvkf35By/qtvt/7hQagB/gjT4uBwXvA=;
- b=nX06QbIfKx2R3Nk+YG8dtmwuPjPJkaW50Spd3mWgJnx1n9xvkW/0X9LOa1cdXiJf/U
- ld6d0WKWI6XFIfMHXsoYcj5qUYUumAz6m27n0V0xaLw9vHHjWDpRyJ3sGq53DQbbjR6d
- IsTj5dOyH0H9Ai/8w+18EEfjplL4CWLFPfLzfpq4pKo9WTDPToqWqJtG9vqr7VVz7Efo
- tA7PQullWzztChQU9io4/8VsXC+8Suo0W4JVphh2Q8HtbWMShfToTY+exZicXTJsvvEo
- NfSDkmcuJ6Bn9A4vLzy2RiwfieyWfrObVYTH99My8g64MSnPRUPMTj7SfQgGGAMzeuXp
- yFuQ==
-X-Gm-Message-State: ANoB5pn28HkrpFawt7N9IicCJQl3A+maxhiNHPdIJkB2lTlCyQBsIHU5
- NM1sOfbzhK/Ve30BBlk9MzHQQwihwG7Sh28UChc=
-X-Google-Smtp-Source: AA0mqf64rSrNGMdn9s7aE586moLHZX3JefKUCsN4tIWGTwAW88w/cxdsXoWdLBesQPAj1a+xtWWmjg==
-X-Received: by 2002:a05:6402:5299:b0:45c:835b:9461 with SMTP id
- en25-20020a056402529900b0045c835b9461mr11418747edb.29.1670791603759; 
- Sun, 11 Dec 2022 12:46:43 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iFHULDTanQ4i4cmzOgkuiI+yGO2lSz7h8RXzgTm0PGM=;
+ b=mdpFX5MB9VpQxRKXxLgRbnTbnUC5+w20jkqsygT3N/xx9N8ROp1MFOC8Hi5JyHu1Ee
+ CaMNwQibnmwCpvIyQEp2JqM6JZWF6w4JlMTHCQtQ8sgazlSa2rv4DzSMS0Co64RT6+jS
+ 28wYLVLjXGzgX41vg0AdkJxMfQkT4++Jfj64il9TVikvjpdBFut94NnlpkYzLPlGoOj6
+ S6WcVvrnZCNHfAhgWmganNkxw0WgOHdAGSj+BWOfTxh+ovdcbxT2/xAsvPMlJH54fjYA
+ Ag/DXtS+e1wdOuEIZMM2L7g7pLqiiRlkVIRhCF4NZ5BHgHIa71pBgw4EtEfN/edq6OWr
+ wr+A==
+X-Gm-Message-State: ANoB5pn5zmvrY9UmOLXCwP+eYychVg5uJxQ5EyzBBK4WAY1PmlgNuRYc
+ dQw9VA+8pdoitI1sne3IBQ7x6M2WcCgaot8CzcY=
+X-Google-Smtp-Source: AA0mqf7jwQRHiTUhJ0A6l5Vy4AdV+bIqUhMU99G64nqQZWi7r/e7mz+7x01nKiDcbB6im2DiW82pfA==
+X-Received: by 2002:a17:906:2ada:b0:7c0:969a:ca7f with SMTP id
+ m26-20020a1709062ada00b007c0969aca7fmr11102581eje.76.1670791982372; 
+ Sun, 11 Dec 2022 12:53:02 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f5-20020a05640214c500b00458b41d9460sm2991699edx.92.2022.12.11.12.46.42
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 11 Dec 2022 12:46:43 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ g16-20020a1709065d1000b007adf2e4c6f7sm2416400ejt.195.2022.12.11.12.53.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Dec 2022 12:53:01 -0800 (PST)
+Message-ID: <dc1751e4-221d-dd00-f1cb-feab1dc8f9eb@linaro.org>
+Date: Sun, 11 Dec 2022 21:52:58 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH-for-8.0 v2 01/11] hw/mips/bootloader: Handle buffers as
+ opaque arrays
+Content-Language: en-US
 To: qemu-devel@nongnu.org
 Cc: Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
  Milica Lazarevic <milica.lazarevic@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Djordje Todorovic <djordje.todorovic@syrmia.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH-for-8.0 v2 11/11] hw/mips/malta: Merge common BL code as
- bl_setup_gt64120_jump_kernel()
-Date: Sun, 11 Dec 2022 21:45:33 +0100
-Message-Id: <20221211204533.85359-12-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221211204533.85359-1-philmd@linaro.org>
 References: <20221211204533.85359-1-philmd@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ <20221211204533.85359-2-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221211204533.85359-2-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,207 +97,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Merge common code shared between write_bootloader() and
-write_bootloader_nanomips() into bl_setup_gt64120_jump_kernel().
+On 11/12/22 21:45, Philippe Mathieu-Daudé wrote:
+> It is irrelevant to the API what the buffers to fill are made of.
+> In particular, some MIPS ISA have 16-bit wide instructions.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/mips/bootloader.c         | 55 +++++++++++++++++++++---------------
+>   hw/mips/malta.c              | 19 +++++++------
+>   include/hw/mips/bootloader.h | 10 +++----
+>   3 files changed, 48 insertions(+), 36 deletions(-)
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+> diff --git a/include/hw/mips/bootloader.h b/include/hw/mips/bootloader.h
+> index fffb0b7da8..c32f6c2835 100644
+> --- a/include/hw/mips/bootloader.h
+> +++ b/include/hw/mips/bootloader.h
+> @@ -11,16 +11,16 @@
+>   
+>   #include "exec/cpu-defs.h"
+>   
+> -void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr);
+> -void bl_gen_jump_kernel(uint32_t **p,
+> +void bl_gen_jump_to(void **ptr, target_ulong jump_addr);
+> +void bl_gen_jump_kernel(void **ptr,
+>                           bool set_sp, target_ulong sp,
+>                           bool set_a0, target_ulong a0,
+>                           bool set_a1, target_ulong a1,
+>                           bool set_a2, target_ulong a2,
+>                           bool set_a3, target_ulong a3,
+>                           target_ulong kernel_addr);
+> -void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val);
+> -void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val);
+> -void bl_gen_write_u64(uint32_t **p, target_ulong addr, uint64_t val);
+> +void bl_gen_write_ulong(void **ptr, target_ulong addr, target_ulong val);
+> +void bl_gen_write_u32(void **ptr, target_ulong addr, uint32_t val);
+> +void bl_gen_write_u64(void **ptr, target_ulong addr, uint64_t val);
+
+And I forgot to squash this...:
+
+-- >8 --
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index edda87e23c..b6dd9fb200 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -323,7 +323,7 @@ static void boston_register_types(void)
+  }
+  type_init(boston_register_types)
+
+-static void gen_firmware(uint32_t *p, hwaddr kernel_entry, hwaddr fdt_addr)
++static void gen_firmware(void *p, hwaddr kernel_entry, hwaddr fdt_addr)
+  {
+      uint64_t regaddr;
+
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 34befa5dd5..cfc8ca6ae4 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -179,7 +179,7 @@ static void write_bootloader(CPUMIPSState *env, 
+uint8_t *base,
+      /* Second part of the bootloader */
+      p = (uint32_t *)(base + 0x040);
+
+-    bl_gen_jump_kernel(&p,
++    bl_gen_jump_kernel((void **)&p,
+                         true, ENVP_VADDR - 64,
+                         true, 2, true, ENVP_VADDR,
+                         true, ENVP_VADDR + 8,
 ---
- hw/mips/malta.c | 155 +++++++++++++++++-------------------------------
- 1 file changed, 56 insertions(+), 99 deletions(-)
-
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 876bc26a7f..9cd59c13e4 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -610,11 +610,64 @@ static void network_init(PCIBus *pci_bus)
-     }
- }
- 
-+static void bl_setup_gt64120_jump_kernel(void **p, uint64_t run_addr,
-+                                         uint64_t kernel_entry)
-+{
-+    /* Bus endianess is always reversed */
-+#if TARGET_BIG_ENDIAN
-+#define cpu_to_gt32 cpu_to_le32
-+#else
-+#define cpu_to_gt32 cpu_to_be32
-+#endif
-+
-+    /* setup MEM-to-PCI0 mapping as done by YAMON */
-+
-+    /* move GT64120 registers from 0x14000000 to 0x1be00000 */
-+    bl_gen_write_u32(p, /* GT_ISD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x14000000 + 0x68),
-+                     cpu_to_gt32(0x1be00000 << 3));
-+
-+    /* setup PCI0 io window to 0x18000000-0x181fffff */
-+    bl_gen_write_u32(p, /* GT_PCI0IOLD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x48),
-+                     cpu_to_gt32(0x18000000 << 3));
-+    bl_gen_write_u32(p, /* GT_PCI0IOHD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x50),
-+                     cpu_to_gt32(0x08000000 << 3));
-+
-+    /* setup PCI0 mem windows */
-+    bl_gen_write_u32(p, /* GT_PCI0M0LD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x58),
-+                     cpu_to_gt32(0x10000000 << 3));
-+    bl_gen_write_u32(p, /* GT_PCI0M0HD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x60),
-+                     cpu_to_gt32(0x07e00000 << 3));
-+    bl_gen_write_u32(p, /* GT_PCI0M1LD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x80),
-+                     cpu_to_gt32(0x18200000 << 3));
-+    bl_gen_write_u32(p, /* GT_PCI0M1HD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x88),
-+                     cpu_to_gt32(0x0bc00000 << 3));
-+
-+#undef cpu_to_gt32
-+
-+    bl_gen_jump_kernel(p,
-+                       true, ENVP_VADDR - 64,
-+                       /*
-+                        * If semihosting is used, arguments have already
-+                        * been passed, so we preserve $a0.
-+                        */
-+                       !semihosting_get_argc(), 2,
-+                       true, ENVP_VADDR,
-+                       true, ENVP_VADDR + 8,
-+                       true, loaderparams.ram_low_size,
-+                       kernel_entry);
-+}
-+
- static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
-                                       uint64_t kernel_entry)
- {
-     uint16_t *p;
--    void *v;
- 
-     /* Small bootloader */
-     p = (uint16_t *)base;
-@@ -638,55 +691,7 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
- 
-     /* to_here: */
- 
--#if TARGET_BIG_ENDIAN
--#define cpu_to_gt32 cpu_to_le32
--#else
--#define cpu_to_gt32 cpu_to_be32
--#endif
--    v = p;
--
--    /* setup MEM-to-PCI0 mapping as done by YAMON */
--
--    /* move GT64120 registers from 0x14000000 to 0x1be00000 */
--    bl_gen_write_u32(&v, /* GT_ISD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x14000000 + 0x68),
--                     cpu_to_gt32(0x1be00000 << 3));
--
--    /* setup PCI0 io window to 0x18000000-0x181fffff */
--    bl_gen_write_u32(&v, /* GT_PCI0IOLD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x48),
--                     cpu_to_gt32(0x18000000 << 3));
--    bl_gen_write_u32(&v, /* GT_PCI0IOHD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x50),
--                     cpu_to_gt32(0x08000000 << 3));
--
--    /* setup PCI0 mem windows */
--    bl_gen_write_u32(&v, /* GT_PCI0M0LD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x58),
--                     cpu_to_gt32(0x10000000 << 3));
--    bl_gen_write_u32(&v, /* GT_PCI0M0HD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x60),
--                     cpu_to_gt32(0x07e00000 << 3));
--    bl_gen_write_u32(&v, /* GT_PCI0M1LD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x80),
--                     cpu_to_gt32(0x18200000 << 3));
--    bl_gen_write_u32(&v, /* GT_PCI0M1HD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x88),
--                     cpu_to_gt32(0x0bc00000 << 3));
--
--#undef cpu_to_gt32
--
--    bl_gen_jump_kernel(&v,
--                       true, ENVP_VADDR - 64,
--                       /*
--                        * If semihosting is used, arguments have already been
--                        * passed, so we preserve $a0.
--                        */
--                       !semihosting_get_argc(), 2,
--                       true, ENVP_VADDR,
--                       true, ENVP_VADDR + 8,
--                       true, loaderparams.ram_low_size,
--                       kernel_entry);
-+    bl_setup_gt64120_jump_kernel((void **)&p, run_addr, kernel_entry);
- }
- 
- /*
-@@ -752,55 +757,8 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
-      *
-      */
- 
--    /* Bus endianess is always reversed */
--#if TARGET_BIG_ENDIAN
--#define cpu_to_gt32 cpu_to_le32
--#else
--#define cpu_to_gt32 cpu_to_be32
--#endif
-     v = p;
--
--    /* move GT64120 registers from 0x14000000 to 0x1be00000 */
--    bl_gen_write_u32(&v, /* GT_ISD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x14000000 + 0x68),
--                     cpu_to_gt32(0x1be00000 << 3));
--
--    /* setup MEM-to-PCI0 mapping */
--    /* setup PCI0 io window to 0x18000000-0x181fffff */
--    bl_gen_write_u32(&v, /* GT_PCI0IOLD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x48),
--                     cpu_to_gt32(0x18000000 << 3));
--    bl_gen_write_u32(&v, /* GT_PCI0IOHD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x50),
--                     cpu_to_gt32(0x08000000 << 3));
--    /* setup PCI0 mem windows */
--    bl_gen_write_u32(&v, /* GT_PCI0M0LD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x58),
--                     cpu_to_gt32(0x10000000 << 3));
--    bl_gen_write_u32(&v, /* GT_PCI0M0HD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x60),
--                     cpu_to_gt32(0x07e00000 << 3));
--
--    bl_gen_write_u32(&v, /* GT_PCI0M1LD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x80),
--                     cpu_to_gt32(0x18200000 << 3));
--    bl_gen_write_u32(&v, /* GT_PCI0M1HD */
--                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x88),
--                     cpu_to_gt32(0x0bc00000 << 3));
--
--#undef cpu_to_gt32
--
--    bl_gen_jump_kernel(&v,
--                       true, ENVP_VADDR - 64,
--                       /*
--                        * If semihosting is used, arguments have already been
--                        * passed, so we preserve $a0.
--                        */
--                       !semihosting_get_argc(), 2,
--                       true, ENVP_VADDR,
--                       true, ENVP_VADDR + 8,
--                       true, loaderparams.ram_low_size,
--                       kernel_entry);
-+    bl_setup_gt64120_jump_kernel(&v, run_addr, kernel_entry);
-     p = v;
- 
-     /* YAMON subroutines */
-@@ -845,7 +803,6 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
-     stl_p(p++, 0x00000000);                  /* nop */
-     stl_p(p++, 0x03e00009);                  /* jalr ra */
-     stl_p(p++, 0xa1040000);                  /* sb a0,0(t0) */
--
- }
- 
- static void G_GNUC_PRINTF(3, 4) prom_set(uint32_t *prom_buf, int index,
--- 
-2.38.1
 
 
