@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBACE6494E6
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 16:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFAB86494DE
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 16:33:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4OFj-0006Jf-Gx; Sun, 11 Dec 2022 10:28:31 -0500
+	id 1p4OG6-0006ZY-J2; Sun, 11 Dec 2022 10:28:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4OFh-0006Gl-HO
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:29 -0500
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
+ id 1p4OFn-0006Qi-Ag
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:35 -0500
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4OFR-0007Vx-Lu
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:29 -0500
-Received: by mail-ot1-x330.google.com with SMTP id
- m6-20020a9d7e86000000b0066ec505ae93so5830652otp.9
- for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 07:28:12 -0800 (PST)
+ id 1p4OFf-0007WJ-Uk
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 10:28:34 -0500
+Received: by mail-ot1-x336.google.com with SMTP id
+ l8-20020a056830054800b006705fd35eceso5835720otb.12
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 07:28:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7Jm8IvT8OnM6ntzNw++ITlfcs7TcV+gT1sswHnCP9Os=;
- b=u0ZvssAhiAAk9OWwbe8eJL5SCmZz7ZW61x+6ocrg/H+hbTLn+/qtM44m2YM7B0vzYe
- iKjpnVMd9XtwNdeo9jOUgFTUnergEd9tkd5CflQyEnlDiXjXtXWYkQXPopSxsCLjxsWp
- w+IZR9c/eFaDq640uTTl52h3s02KN+kezPOhYwiFPsjUMvjUuKxqI3q+vSpFBTXDAtN3
- KU1CBDN2+YL+q2uChS9giFS7ADF4CrBDCZCpGt4gUD4DIV2FRaZmNmSboUJkFMRC670B
- Qw9rkjIA7C//Nfa+QueThaN1R9fNOQXREDE0EKs2zAUDo5HjPwS1nKWyLqE6z33kAreJ
- Gs1g==
+ bh=Oqz5leAJw9u6Pyeo/01GA+MzzGo02lOxdG/HYsszSs4=;
+ b=m3LRO9QuPFT3YvRefJCeEPNzFHFlQ4z4Kz42wYyjziGZjY4QMUI2khFa+d75o9i/KH
+ TK3keZXarVC23UsjHs84uuISXqMOP4oI1aG+G0eHuvbrkr5mvGk3r+nu0OvmrcCjjW7R
+ MINq6JkKFVV0ZRNWYBUeoaXgbE1rhS60DBIDo6DXPmutHvpr9grI2jUMtFz6De1WguCW
+ a3E9CPQwG7ZmwyquSwXYNUms9QSpEJo5FHeuvuG5dgy5y2+a+7bqik6z+pPPtpbMhCRr
+ s9jRB6RlwEdvVk6v/qDX9Pk8LVOqu5iG5KJ0GHkHBGfg7HD6VbgAm8R3nR8OM/2NgMJ7
+ LRPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7Jm8IvT8OnM6ntzNw++ITlfcs7TcV+gT1sswHnCP9Os=;
- b=KtwEocKhWAjMQcQcO/WVoeW7AWU5MpDhESt8rsQIKMorijwK0gUKz6kHfiv6gCvPdI
- TahOvf0F64ssY1bDVao9xcx1UOqYHtgZY/BzLzfswT6PR/auHvm2nQheDDb47N7oLur5
- KD1G78vhQNBmwwsi3lbfmmtYCnwrwR+MoruxB1zIWngerl/OnpKefaHGu0ZfTVT+K9t4
- pqDWyAMNCxL7e0xRYh0Xr++8X1HrgROl7z207/qocwjNtpzjfs7kTcQCSIGWLh65TzHk
- NDQppnk8Yqc8Duy44P8tas+mR28QrZpAqW3mro+lDLd2m4H4e9dSnHsQdcNgXFOvqOdJ
- kGvA==
-X-Gm-Message-State: ANoB5pnuXhWhI7aAxYRJL4M5ZuhOlHIHz637BMPjcv2fR0/Y3tOxdUSd
- ZrAGdgENnA+smC6aFucFi8jWz0vN9U45OeH/Ilg=
-X-Google-Smtp-Source: AA0mqf5h+3iEIJJuBSFbLzvjtETA14lUaEKrc+c/nxorZDzXeHZlaVGjABt/bzmUkt89fXZCO4J5Rw==
-X-Received: by 2002:a9d:6d82:0:b0:66e:b9f0:b662 with SMTP id
- x2-20020a9d6d82000000b0066eb9f0b662mr5926429otp.25.1670772491708; 
- Sun, 11 Dec 2022 07:28:11 -0800 (PST)
+ bh=Oqz5leAJw9u6Pyeo/01GA+MzzGo02lOxdG/HYsszSs4=;
+ b=3QIVUPOtvmopbrB6z9whkaoa9a/sUrHSBUJVqRltoIjlk5P7wMq5YklrLHVnlz+00S
+ pmMSC759wNtk0DtsPw0c2Mj2wEcISS3EuBMLptZB/2LdrsDd+D5XOCj3rx/rhhKD+SQN
+ A08966N0NU8FLjsKAAeWds0Kgs/g6pNYTKxclBA12Usp04npjTnTkOSN8ePHOYfjuXvV
+ 45ARxYfRrt1N5mLs/NElT1QXm8H5DCU3hkjIWk0jCrcMhfogQ2mZoD76CKpKPh527Zym
+ Aq5J4D9fvUoN3Jl9kxdx/6ZW5DJKux46uZfxeSSS+Jseo88u0hJJAmmqdB9peUYaRfAQ
+ O2pw==
+X-Gm-Message-State: ANoB5pmPoySSk7SXKLwSxUGRTPwi5n7l/SU3nJwOa4mZB5NdlLYLp1QV
+ P2pbLNNY8sLCYms5iKyZJL6GVqAPGGJFEs8efBg=
+X-Google-Smtp-Source: AA0mqf6y7OmlnKmHBAQMSErjUmucVBGNZIrnFYV1PMnXmGBRer1N5GVyQx6GXKKL1stb/AC49vmF+Q==
+X-Received: by 2002:a9d:17e8:0:b0:661:dfeb:f88d with SMTP id
+ j95-20020a9d17e8000000b00661dfebf88dmr5858069otj.20.1670772493030; 
+ Sun, 11 Dec 2022 07:28:13 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:2efc:7b4f:f28b:eca6:b583])
  by smtp.gmail.com with ESMTPSA id
- q24-20020a056830233800b006708d2cd8bcsm938140otg.65.2022.12.11.07.28.10
+ q24-20020a056830233800b006708d2cd8bcsm938140otg.65.2022.12.11.07.28.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Dec 2022 07:28:11 -0800 (PST)
+ Sun, 11 Dec 2022 07:28:12 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-s390x@nongnu.org,
 	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 06/27] tests/tcg/s390x: Add sam.S
-Date: Sun, 11 Dec 2022 09:27:41 -0600
-Message-Id: <20221211152802.923900-7-richard.henderson@linaro.org>
+Subject: [PATCH v2 07/27] target/s390x: Change help_goto_direct to work on
+ displacements
+Date: Sun, 11 Dec 2022 09:27:42 -0600
+Message-Id: <20221211152802.923900-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221211152802.923900-1-richard.henderson@linaro.org>
 References: <20221211152802.923900-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x330.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,101 +92,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
 
-Add a small test to prevent regressions.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20221129015328.55439-1-iii@linux.ibm.com>
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/s390x/Makefile.softmmu-target |  1 +
- tests/tcg/s390x/sam.S                   | 67 +++++++++++++++++++++++++
- 2 files changed, 68 insertions(+)
- create mode 100644 tests/tcg/s390x/sam.S
+ target/s390x/tcg/translate.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
-index 295df08491..d6ca8d7342 100644
---- a/tests/tcg/s390x/Makefile.softmmu-target
-+++ b/tests/tcg/s390x/Makefile.softmmu-target
-@@ -8,3 +8,4 @@ QEMU_OPTS=-action panic=exit-failure -kernel
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 1f9dca671d..f755909aeb 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -1145,8 +1145,10 @@ struct DisasInsn {
+ /* ====================================================================== */
+ /* Miscellaneous helpers, used by several operations.  */
  
- TESTS += unaligned-lowcore
- TESTS += bal
-+TESTS += sam
-diff --git a/tests/tcg/s390x/sam.S b/tests/tcg/s390x/sam.S
-new file mode 100644
-index 0000000000..4cab2dd200
---- /dev/null
-+++ b/tests/tcg/s390x/sam.S
-@@ -0,0 +1,67 @@
-+/* DAT on, home-space mode, 64-bit mode */
-+#define DAT_PSWM 0x400c00180000000
-+#define VIRTUAL_BASE 0x123456789abcd000
+-static DisasJumpType help_goto_direct(DisasContext *s, uint64_t dest)
++static DisasJumpType help_goto_direct(DisasContext *s, int64_t disp)
+ {
++    uint64_t dest = s->base.pc_next + disp;
 +
-+    .org 0x8e
-+program_interruption_code:
-+    .org 0x150
-+program_old_psw:
-+    .org 0x1d0                         /* program new PSW */
-+    .quad 0,pgm_handler
-+    .org 0x200                         /* lowcore padding */
-+
-+    .globl _start
-+_start:
-+    lctlg %c13,%c13,hasce
-+    lpswe dat_psw
-+start_dat:
-+    sam24
-+sam24_suppressed:
-+    /* sam24 should fail */
-+fail:
-+    basr %r12,%r0
-+    lpswe failure_psw-.(%r12)
-+pgm_handler:
-+    chhsi program_interruption_code,6  /* specification exception? */
-+    jne fail
-+    clc suppressed_psw(16),program_old_psw  /* correct location? */
-+    jne fail
-+    lpswe success_psw
-+
-+    .align 8
-+dat_psw:
-+    .quad DAT_PSWM,VIRTUAL_BASE+start_dat
-+suppressed_psw:
-+    .quad DAT_PSWM,VIRTUAL_BASE+sam24_suppressed
-+success_psw:
-+    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
-+failure_psw:
-+    .quad 0x2000000000000,0            /* disabled wait */
-+hasce:
-+    /* DT = 0b11 (region-first-table), TL = 3 (2k entries) */
-+    .quad region_first_table + (3 << 2) + 3
-+    .align 0x1000
-+region_first_table:
-+    .org region_first_table + ((VIRTUAL_BASE >> 53) & 0x7ff) * 8
-+    /* TT = 0b11 (region-first-table), TL = 3 (2k entries) */
-+    .quad region_second_table + (3 << 2) + 3
-+    .org region_first_table + 0x800 * 8
-+region_second_table:
-+    .org region_second_table + ((VIRTUAL_BASE >> 42) & 0x7ff) * 8
-+    /* TT = 0b10 (region-second-table), TL = 3 (2k entries) */
-+    .quad region_third_table + (2 << 2) + 3
-+    .org region_second_table + 0x800 * 8
-+region_third_table:
-+    .org region_third_table + ((VIRTUAL_BASE >> 31) & 0x7ff) * 8
-+    /* TT = 0b01 (region-third-table), TL = 3 (2k entries) */
-+    .quad segment_table + (1 << 2) + 3
-+    .org region_third_table + 0x800 * 8
-+segment_table:
-+    .org segment_table + ((VIRTUAL_BASE >> 20) & 0x7ff) * 8
-+    /* TT = 0b00 (segment-table) */
-+    .quad page_table
-+    .org segment_table + 0x800 * 8
-+page_table:
-+    .org page_table + ((VIRTUAL_BASE >> 12) & 0xff) * 8
-+    .quad 0
-+    .org page_table + 0x100 * 8
+     if (dest == s->pc_tmp) {
+         per_branch(s, true);
+         return DISAS_NEXT;
+@@ -1169,7 +1171,8 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+                                  bool is_imm, int imm, TCGv_i64 cdest)
+ {
+     DisasJumpType ret;
+-    uint64_t dest = s->base.pc_next + (int64_t)imm * 2;
++    int64_t disp = (int64_t)imm * 2;
++    uint64_t dest = s->base.pc_next + disp;
+     TCGLabel *lab;
+ 
+     /* Take care of the special cases first.  */
+@@ -1185,7 +1188,7 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+             goto egress;
+         }
+         if (c->cond == TCG_COND_ALWAYS) {
+-            ret = help_goto_direct(s, dest);
++            ret = help_goto_direct(s, disp);
+             goto egress;
+         }
+     } else {
+@@ -1558,7 +1561,7 @@ static DisasJumpType op_bal(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_basi(DisasContext *s, DisasOps *o)
+ {
+     pc_to_link_info(o->out, s, s->pc_tmp);
+-    return help_goto_direct(s, s->base.pc_next + (int64_t)get_field(s, i2) * 2);
++    return help_goto_direct(s, (int64_t)get_field(s, i2) * 2);
+ }
+ 
+ static DisasJumpType op_bc(DisasContext *s, DisasOps *o)
 -- 
 2.34.1
 
