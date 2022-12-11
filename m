@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06FC64923C
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:22:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E88649236
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Dec 2022 04:19:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4Cpc-0003ax-NO; Sat, 10 Dec 2022 22:16:48 -0500
+	id 1p4Cpe-0003c2-3Z; Sat, 10 Dec 2022 22:16:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4CpO-0003Ye-Oj; Sat, 10 Dec 2022 22:16:41 -0500
+ id 1p4CpW-0003ZU-0j; Sat, 10 Dec 2022 22:16:42 -0500
 Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1p4CpM-00089R-Pp; Sat, 10 Dec 2022 22:16:34 -0500
-X-QQ-mid: bizesmtp68t1670728133toeojcbf
+ id 1p4CpT-000075-QA; Sat, 10 Dec 2022 22:16:41 -0500
+X-QQ-mid: bizesmtp68t1670728136tabkocsb
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Sun, 11 Dec 2022 11:08:53 +0800 (CST)
+ id ; Sun, 11 Dec 2022 11:08:55 +0800 (CST)
 X-QQ-SSF: 01200000000000B0C000000A0000000
-X-QQ-FEAT: swyrzWPvyR0HQ9x1Sj8nFAIZ7J1JkeyN5l4hVf5VjhJUF04+OKWHMy5JmR6Ts
- VyMgWpmE8G/85qCuXSo7AyLD+xZP2WEQkFl5KhP+4GmmYCAb1kZqln5cFqyK8zrPV/upoYD
- njr9dg4DchJBfuyNx9zfDMbj/xJYtfj6mqvD5osHAqTlH84FrM2TE3yQq9MQzLeO5i8bzxe
- mESxnaY9A7Qf4l46XJHMccDVgZbopSZ/hYMRehZ4WvUr55iJpXaNQdT5qYLiTABVUVMB+jS
- IYLfHzZU1SuIc3iJ8CeHBPqYPZUaYTGE6I6PoM5BG9uy4HGA9x6vYazPKoE3IQ5x5gOwcsA
- 85lIAk5tDikbIVG11SRiJJthrfFqFRY0wg57kNVDJFOgYnAeyI=
+X-QQ-FEAT: uGhnJwy6xZLcg2lLg+Pu2d1ews1CSomWPjNsV0kYmcsPbP2gT2YM8cVpUV5vT
+ LcVTSDZTCF87eQoGFNXyjDCAaRxD0fCBgEk7G7Q0lGnwDx5mkAcmuYVCZccieqEvjr3NDME
+ u5cpGvrR3bpbCHIj0RE7l9zp8lo4wua+WTYpiW0n7LdoZo/fqk8ewPcLt4QlwFYOPJ/3da/
+ e4e8ocnuiEsbZDmV1N7QIo/3fdGQRAx4oHgzNfyq1hXrbwhEd91KxX12bLEEMu18Qywh/hR
+ KiDQ+UxTYJU79UOciaDuWqcVtNfNdILbEt+6qnj5jAtCezMWEIQhDaRSCpLZS6+hX1nqGnp
+ Q4a2IUfNTsplRdrPT2dzcJcFoNDIBVYeenKezgnAzg7llR9Rug=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
+Cc: Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
  Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH v3 09/16] hw/intc: sifive_plic: Update "num-sources" property
- default value
-Date: Sun, 11 Dec 2022 11:08:22 +0800
-Message-Id: <20221211030829.802437-9-bmeng@tinylab.org>
+Subject: [PATCH v3 10/16] hw/riscv: microchip_pfsoc: Fix the number of
+ interrupt sources of PLIC
+Date: Sun, 11 Dec 2022 11:08:23 +0800
+Message-Id: <20221211030829.802437-10-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221211030829.802437-1-bmeng@tinylab.org>
 References: <20221211030829.802437-1-bmeng@tinylab.org>
@@ -66,61 +67,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At present the default value of "num-sources" property is zero,
-which does not make a lot of sense, as in sifive_plic_realize()
-we see s->bitfield_words is calculated by:
+Per chapter 6.5.2 in [1], the number of interupt sources including
+interrupt source 0 should be 187.
 
-  s->bitfield_words = (s->num_sources + 31) >> 5;
+[1] PolarFire SoC MSS TRM:
+https://ww1.microchip.com/downloads/aemDocuments/documents/FPGA/ProductDocuments/ReferenceManuals/PolarFire_SoC_FPGA_MSS_Technical_Reference_Manual_VC.pdf
 
-if the we don't configure "num-sources" property its default value
-zero makes s->bitfield_words zero too, which isn't true because
-interrupt source 0 still occupies one word.
-
-Let's change the default value to 1 meaning that only interrupt
-source 0 is supported by default and a sanity check in realize().
-
-While we are here, add a comment to describe the exact meaning of
-this property that the number should include interrupt source 0.
-
+Fixes: 56f6e31e7b7e ("hw/riscv: Initial support for Microchip PolarFire SoC Icicle Kit board")
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 ---
 
-(no changes since v2)
+(no changes since v1)
 
-Changes in v2:
-- use error_setg() to propagate the error up via errp instead
+ include/hw/riscv/microchip_pfsoc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- hw/intc/sifive_plic.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index 9cb4c6d6d4..1edeb1e1ed 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -363,6 +363,11 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
+diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+index 69a686b54a..577efad0c4 100644
+--- a/include/hw/riscv/microchip_pfsoc.h
++++ b/include/hw/riscv/microchip_pfsoc.h
+@@ -153,7 +153,7 @@ enum {
+ #define MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT    1
+ #define MICROCHIP_PFSOC_COMPUTE_CPU_COUNT       4
  
-     parse_hart_config(s);
- 
-+    if (!s->num_sources) {
-+        error_setg(errp, "plic: invalid number of interrupt sources");
-+        return;
-+    }
-+
-     s->bitfield_words = (s->num_sources + 31) >> 5;
-     s->num_enables = s->bitfield_words * s->num_addrs;
-     s->source_priority = g_new0(uint32_t, s->num_sources);
-@@ -420,7 +425,8 @@ static const VMStateDescription vmstate_sifive_plic = {
- static Property sifive_plic_properties[] = {
-     DEFINE_PROP_STRING("hart-config", SiFivePLICState, hart_config),
-     DEFINE_PROP_UINT32("hartid-base", SiFivePLICState, hartid_base, 0),
--    DEFINE_PROP_UINT32("num-sources", SiFivePLICState, num_sources, 0),
-+    /* number of interrupt sources including interrupt source 0 */
-+    DEFINE_PROP_UINT32("num-sources", SiFivePLICState, num_sources, 1),
-     DEFINE_PROP_UINT32("num-priorities", SiFivePLICState, num_priorities, 0),
-     DEFINE_PROP_UINT32("priority-base", SiFivePLICState, priority_base, 0),
-     DEFINE_PROP_UINT32("pending-base", SiFivePLICState, pending_base, 0),
+-#define MICROCHIP_PFSOC_PLIC_NUM_SOURCES        185
++#define MICROCHIP_PFSOC_PLIC_NUM_SOURCES        187
+ #define MICROCHIP_PFSOC_PLIC_NUM_PRIORITIES     7
+ #define MICROCHIP_PFSOC_PLIC_PRIORITY_BASE      0x04
+ #define MICROCHIP_PFSOC_PLIC_PENDING_BASE       0x1000
 -- 
 2.34.1
 
