@@ -2,92 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B90C64AA37
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 23:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9FE64AA3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 23:27:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4rFn-0006bm-Q6; Mon, 12 Dec 2022 17:26:31 -0500
+	id 1p4rGT-0007Fk-7Q; Mon, 12 Dec 2022 17:27:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4rFl-0006ak-OU
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:26:29 -0500
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1p4rGQ-0007CQ-UY
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:27:10 -0500
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4rFk-00021j-26
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:26:29 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1p4rGP-0002BQ-52
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:27:10 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BCKoiQS020531; Mon, 12 Dec 2022 22:26:25 GMT
+ 2BCLfqw3011687
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 22:27:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=Emc41FyCVmDg9zKEPXkDMAp7DR9nDMsqx7oSOcbcHZM=;
- b=pZfkfbBtgMrtdRJwiPV6BXFq9qCV896OU40xbHU/OmOfidgNkRGzUNKlONK/Fld34pNa
- o3PkFUNCXRm9yZOs1cH4AnBsddPDFy4BpL7ovcDE0eUd4rbtjWUHtfMPYg8MzDoF0Jql
- gVCKkfU4Q9WrSNGYAo6tCFp0KBFBhPdIbzmFpIfBzotKngUg4BVW3kdIy486OSOG8SGP
- 9Nd4Cs3zZSATYpfZBYv9Lz6+dFaIEZfmrIGa21v1fD/m+8Pbvl+JhpiugRlAuy0cPt1o
- yr8D+i96v77QW32BxQlpEQJxn2OGbAZIFrMh3SaMPAazo5lTeKtJX2hs0Esx8wqBolui eA== 
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : content-transfer-encoding : mime-version; s=pp1;
+ bh=7iDLcBfD3hx6+kUe1tYXYGbp8Ybjo5f46J9l+CIvzVI=;
+ b=GGbdN/qWssyt6t6Ix0MRN+s7BltICUKD2yzV3ktjXDQDL2T/04es3wkmfQBdn8bQ/V3o
+ 4mu8EeOxp4gru3UFKK+0zEmdBghbnuQqEr+t7nwnDIYW4mpGPYEUPHV6E00UeElfYtc3
+ f6ykNjEommCNGHjz8cQnNuMSghOgbC8VFCjPkDBfExPFT0Ckke/+QcDXHO7hXOWtPWzO
+ EKc685ytZJEFcabWYe+it9V0djLLwUkesuUOzxy1rlijfiYQyP/BFEGM4jy05QMqtSf6
+ 3LE26/bQCmIeDOVODZQI7rHO8EcaAyTTCcIWtE7CuJSaGeEeU5R0RopAqn3L9BBUJHXe 0w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mebpqt5cb-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mecem91m2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 22:27:07 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCMH2E9016591
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 22:27:06 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mecem91kh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 22:26:25 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCM1O1Q026790;
- Mon, 12 Dec 2022 22:26:25 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mebpqt5bh-1
+ Mon, 12 Dec 2022 22:27:06 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BCKvtZe011509;
+ Mon, 12 Dec 2022 22:27:05 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
+ by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3mchr6fmcb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 22:26:25 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BCDbI9s030834;
- Mon, 12 Dec 2022 22:26:22 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3mchr5u86f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 22:26:22 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BCMQKbH21037372
+ Mon, 12 Dec 2022 22:27:05 +0000
+Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
+ by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BCMR4GB8323594
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Dec 2022 22:26:20 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7757E2006A;
- Mon, 12 Dec 2022 22:26:20 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3948B20067;
- Mon, 12 Dec 2022 22:26:20 +0000 (GMT)
-Received: from heavy (unknown [9.179.26.201])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Mon, 12 Dec 2022 22:26:20 +0000 (GMT)
-Date: Mon, 12 Dec 2022 23:26:18 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: thuth@redhat.com
-Subject: Re: [PATCH v4 08/27] tcg/s390x: Check for load-on-condition facility
- at startup
-Message-ID: <20221212222618.p6fpsxbljtoxpn25@heavy>
-References: <20221209020530.396391-1-richard.henderson@linaro.org>
- <20221209020530.396391-9-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221209020530.396391-9-richard.henderson@linaro.org>
+ Mon, 12 Dec 2022 22:27:04 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D59F67805E;
+ Mon, 12 Dec 2022 23:44:12 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 17F287805C;
+ Mon, 12 Dec 2022 23:44:11 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.163.25.229])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Dec 2022 23:44:11 +0000 (GMT)
+Message-ID: <289ef2dceb2d94312019d288a3b49c4e786df934.camel@linux.ibm.com>
+Subject: Re: [PATCH] tpm: add backend for mssim
+From: James Bottomley <jejb@linux.ibm.com>
+To: Stefan Berger <stefanb@linux.ibm.com>, "Daniel P."
+ =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Date: Mon, 12 Dec 2022 17:27:02 -0500
+In-Reply-To: <f7119c81-e571-382b-84c6-628747cd9e0b@linux.ibm.com>
+References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
+ <Y5dNC77CubqrfXku@redhat.com>
+ <b06d31496117c8dd8b8fe60c4bebd96377ca3ff1.camel@linux.ibm.com>
+ <f76810cb-3658-84b0-e4b4-a684dff99f38@linux.ibm.com>
+ <8066be497c4c81827b24a672a550a805e06eec68.camel@linux.ibm.com>
+ <c3fa7405-7d4c-a686-d4c3-a3ff74864467@linux.ibm.com>
+ <92daee895872aab2047c3768a9c67b1839406568.camel@linux.ibm.com>
+ <dc520ab2-04db-b8cb-15fd-871bb1da0d1b@linux.ibm.com>
+ <d2262d8bd5a1d53cb1d4c32e0424dc8727372265.camel@linux.ibm.com>
+ <f7119c81-e571-382b-84c6-628747cd9e0b@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: xGCGmY_xs3v7qdSdlUwtGBP0-3azqVUt
-X-Proofpoint-GUID: UyJt7jlH9SA4M9WAhbHsiziGcY2eGW0a
+X-Proofpoint-ORIG-GUID: euCjbXIViwvEU_7wtNCL2Vo46n8yPfbh
+X-Proofpoint-GUID: lYMRPGEm8hOh9v0NfVdoD6vDwS6_NJ0j
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 suspectscore=0 phishscore=0 priorityscore=1501
- impostorscore=0 mlxscore=0 spamscore=0 malwarescore=0 mlxlogscore=744
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212120189
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ suspectscore=0 malwarescore=0
+ mlxscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=721 clxscore=1015
+ bulkscore=0 priorityscore=1501 phishscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2212120189
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -107,19 +120,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 08, 2022 at 08:05:11PM -0600, Richard Henderson wrote:
-> The general-instruction-extension facility was introduced in z196,
-> which itself was end-of-life in 2021.  In addition, z196 is the
-> minimum CPU supported by our set of supported operating systems:
-> RHEL 7 (z196), SLES 12 (z196) and Ubuntu 16.04 (zEC12).
+On Mon, 2022-12-12 at 17:02 -0500, Stefan Berger wrote:
 > 
-> Check for facility number 45, which will be the consilidated check
-> for several facilities.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> On 12/12/22 16:36, James Bottomley wrote:
+> > On Mon, 2022-12-12 at 14:32 -0500, Stefan Berger wrote:
+[...]
+> > >   Either way, what is the latency that this introduces because I
+> > > would expect that this slows down IMA since the PCR extensions &
+> > > TPM 2 response now go back and forth across the network?
+> > 
+> > Most data centre protocols are now encrypted and networked (NVMeoF
+> > would probably be the poster child) with no real ill effects.  In
+> > terms of a TPM, the competition is an underpowered discrete chip
+> > over a slow serial bus, so I think we'll actually improve the
+> > latency not diminish it.
+> 
+> Compared to QEMU and swtpm talking over a local socket you probably
+> have a decent amount of slow-down if this is over the network.
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+I can only repeat that doesn't happen with other much more volume and
+latency bound networked protocols.
+
+> I still fail to see the advantage over what we have at the moment.
+> Also I don't see what advantage the mssim protocol brings over what
+> swtpm provides.
+
+I think I've said a couple of times now: The primary advantage is that
+it talks to the reference implementation over its native protocol.
+
+>  If you are willing to do a 'dnf -y install swtpm_setup' and start
+> the VM via libvirt it really doesn't matter what protocol the TPM is
+> running underneath since it's all transparent.
+
+Swtpm currently isn't building for Leap:
+
+https://build.opensuse.org/package/show/security/swtpm
+
+And, as I said, this is primarily for testing, so I need the reference
+implementation ... swtpm has started deviating from it.
+
+James
+
+
+
 
