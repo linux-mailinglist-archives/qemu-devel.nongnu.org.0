@@ -2,103 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E1164A9EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 23:07:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552C164A9F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 23:08:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4qwD-0002KB-7Y; Mon, 12 Dec 2022 17:06:17 -0500
+	id 1p4qxc-00037b-Uy; Mon, 12 Dec 2022 17:07:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p4qwA-0002Jt-G4
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:06:14 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from
+ <BATV+5ec29efc44e57fa89795+7050+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p4qxY-00037E-ME
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:07:40 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p4qw8-0000SE-Cz
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:06:13 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BCKDmbZ027590
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 22:06:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=dpOoeDhT7Ckg2uRK9TTFNX/jZWoBTE7t46hi1hHhIHk=;
- b=RWLPZRvt7rdP4TU0cW3doEGw9/xMxOZzvj1Qvix6ZDEBqzz96M7mlagfirsnCibjqJSg
- Mdy+uOfwBhjM2tIhMxXEIhafpyufh0mtKs13j8wxQtl9d6ZiymF9mCpJOpzfH5XARswS
- Cl/GcGpmIDDnVnzLvsMHoF8ijaycIow5xW+Znj1UqDrDBXWmvshEHHPaf1G21xfJH6dT
- MXSIvmkXZrA9GdwzXHhnpOvg8yHDFftD+cY5Jw+0cH3kg3RbBFJS6uTTLT2taWcG39ED
- ejSM3PbReX1FaB2Zz8R+MwOAOVEuaG0VQs48Bg5tflHNalxEajS0LTHpmTuVlWX9ygKG Nw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3meb57a8s9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 22:06:10 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCLum7W011308
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 22:06:10 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3meb57a8rc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 22:06:09 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BCL09w8004339;
- Mon, 12 Dec 2022 22:06:09 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
- by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3mchr6fjav-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 22:06:09 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BCM67Me56427002
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Dec 2022 22:06:08 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 307B77805E;
- Mon, 12 Dec 2022 23:23:15 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5A5537805C;
- Mon, 12 Dec 2022 23:23:14 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.163.25.229])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 12 Dec 2022 23:23:13 +0000 (GMT)
-Message-ID: <bbe14f32fcf19ba4c800953c7db6486a340d5b14.camel@linux.ibm.com>
-Subject: Re: [PATCH] tpm: add backend for mssim
-From: James Bottomley <jejb@linux.ibm.com>
-To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Berger <stefanb@linux.ibm.com>, Markus
- Armbruster <armbru@redhat.com>
-Date: Mon, 12 Dec 2022 17:06:05 -0500
-In-Reply-To: <Y5dNC77CubqrfXku@redhat.com>
-References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
- <Y5dNC77CubqrfXku@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+ (Exim 4.90_1) (envelope-from
+ <BATV+5ec29efc44e57fa89795+7050+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p4qxV-0001Gx-Uk
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:07:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=Lf1L5i74mAdly/NX0XxHkm87dpfECsxGqVHWVUGBgY4=; b=TQ+NwH+j7tMzCLCv47e/7I96K3
+ 24IRekm4HfdroBnAtSNGAiTm5fw2C6i1QJ07Mmsftg0+2y+xNkfxJy0I64p9S1+UGRKMA/xPygYRI
+ o8IcQF1ZkNNzMGxaSgkE3FJtAqAuyiOK7Dk70VDclBkaDJUEyN1XPBEs7VmcnhltzjYOGLbMiRvsJ
+ qcm6eWsl7/48OGmevXqaOW6ifocfYEFEEB3zPILbHCAkKWSvu0zXDiaYLpaA1zKJ4pqkc2ZLzc780
+ vsDHTaHsRNnjPT23QS/JiKCuDZyaoD+7S4RGahAGcAsVoTtl4RAHX1vVjipNuxpSJebkDnF8+6A5U
+ 8LvOHjLQ==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1p4qxW-00BV4j-Hu; Mon, 12 Dec 2022 22:07:38 +0000
+Message-ID: <1dda1dd3d89349c0748c728e1e2e815d82b0b366.camel@infradead.org>
+Subject: Re: [RFC PATCH v2 05/22] xen-platform-pci: allow its creation with
+ XEN_EMULATE mode
+From: David Woodhouse <dwmw2@infradead.org>
+To: Paul Durrant <xadimgnik@gmail.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
+ <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>, 
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>, Alex
+ =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>
+Date: Mon, 12 Dec 2022 22:07:28 +0000
+In-Reply-To: <b1690fb8-fec9-3694-3438-f00a7364ecfb@xen.org>
+References: <20221209095612.689243-1-dwmw2@infradead.org>
+ <20221209095612.689243-6-dwmw2@infradead.org>
+ <b1690fb8-fec9-3694-3438-f00a7364ecfb@xen.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-U65Lksn5WQJZ+kIGXe/i"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Su8y61C0f1R1rLUteOlOifokF0-BsjsT
-X-Proofpoint-GUID: FPoZFZD3KPNF3vSGCtbNCg2L16bj_09c
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 mlxscore=0 suspectscore=0 spamscore=0 clxscore=1015
- adultscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
- bulkscore=0 mlxlogscore=882 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212120189
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+5ec29efc44e57fa89795+7050+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,95 +79,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2022-12-12 at 15:47 +0000, Daniel P. Berrangé wrote:
-> Copy'ing Markus for QAPI design feedback.
-> 
-> On Sat, Dec 10, 2022 at 12:10:18PM -0500, James Bottomley wrote:
-[...]
-> > +##
-> > +# @TPMmssimOptions:
-> > +#
-> > +# Information for the mssim emulator connection
-> > +#
-> > +# @host: host name or IP address to connect to
-> > +# @port: port for the standard TPM commands
-> > +# @ctrl: control port for TPM state changes
-> > +#
-> > +# Since: 7.2.0
-> > +##
-> > +{ 'struct': 'TPMmssimOptions',
-> > +  'data': {
-> > +      'host': 'str',
-> > +      'port': 'str',
-> > +      'ctrl': 'str' },
-> > +  'if': 'CONFIG_TPM' }
-> 
-> We don't want to be adding new code using plain host/port combos,
-> as that misses extra functionality for controlling IPv4 vs IPv6
-> usage.
-> 
-> The existing 'emulator' backend references a chardev, but I'm
-> not especially in favour of using the chardev indirection either,
-> when all we should really need is a SocketAddress
-> 
-> IOW, from a QAPI design POV, IMHO the best practice would be
-> 
->  { 'struct': 'TPMmssimOptions',
->    'data': {
->        'command': 'SocketAddress',
->        'control': 'SocketAddress' },
->    'if': 'CONFIG_TPM' }
-> 
-> 
-> The main wrinkle with this is that exprssing nested struct fields
-> with QemuOpts is a disaster zone, and -tpmdev doesn't yet support
-> JSON syntax.
-> 
-> IMHO we should just fix the latter problem, as I don't think it
-> ought to be too hard. Probably a cut+paste / search/replace job
-> on the chanmge we did for -device in:
-> 
->   commit 5dacda5167560b3af8eadbce5814f60ba44b467e
->   Author: Kevin Wolf <kwolf@redhat.com>
->   Date:   Fri Oct 8 15:34:42 2021 +0200
-> 
->     vl: Enable JSON syntax for -device
-> 
-> This would mean we could use plain -tpmdev for a local instance
-> 
->    -tpmdev mssim,id=tpm0 \
->     -device tpm-crb,tpmdev=tpm0 \
-> 
-> but to use a remote emulator we would use
-> 
->     -tpmdev "{'backend': 'mssim', 'id': 'tpm0',
->               'command': {
->                  'type': 'inet',
->                  'host': 'remote',
->                  'port': '4455'
->                },
->               'control': {
->                  'type': 'inet',
->                  'host': 'remote',
->                  'port': '4456'
->                }}"
-> 
-> (without the whitepace/newlines, which i just used for sake of
-> clarity)
 
-Just on this, might it not be easier for the commandline to do what
-gluster does?  just use the '.' as a separator and subqdict extraction,
-so you'd specify
+--=-U65Lksn5WQJZ+kIGXe/i
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--tpmdev mssim,id=tpm0,command.type=inet,command.host=remote,command.port=4455,control.type=inet,control.host=remote,control.port=4456
+On Mon, 2022-12-12 at 13:24 +0000, Paul Durrant wrote:
+> On 09/12/2022 09:55, David Woodhouse wrote:
+> > --- a/hw/i386/xen/xen_platform.c
+> > +++ b/hw/i386/xen/xen_platform.c
+> > @@ -271,7 +271,10 @@ static void platform_fixed_ioport_writeb(void *opa=
+que, uint32_t addr, uint32_t v
+> >        case 0: /* Platform flags */ {
+> >            hvmmem_type_t mem_type =3D (val & PFFLAG_ROM_LOCK) ?
+> >                HVMMEM_ram_ro : HVMMEM_ram_rw;
+> > -        if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
+> > +        if (xen_mode =3D=3D XEN_EMULATE) {
+> > +            /* XXX */
+> > +            s->flags =3D val & PFFLAG_ROM_LOCK;
+> > +        } else if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) =
+{
+> >                DPRINTF("unable to change ro/rw state of ROM memory area=
+!\n");
+> >            } else {
+> >                s->flags =3D val & PFFLAG_ROM_LOCK;
+>=20
+>=20
+>=20
+> Surely this would cleaner as:
+>=20
+>=20
+>=20
+> if (xen_mode !=3D XEN_EMULATE && xen_set_mem_type(xen_domid, mem_type, 0x=
+c0, 0x40))
+>      DPRINTF("unable to change ro/rw state of ROM memory area!\n");
+> else
+>      s->flags =3D val & PFFLAG_ROM_LOCK;
 
-With the added bonus that X.type could be defaulted to inet and
-control.host could follow command.host and so on?
+Or maybe it should actually call into the PIIX code for frobbing the
+read-only state of the UMBs? Do we even implement that in qemu? But
+again, this part is just the necessary evil to make the thing testable
+with -M xenfv for now.
 
-James
+I'm going to take a closer look at Paolo's suggestion which should
+reduce the amount of such noise before we get to the real parts.
+
+
+--=-U65Lksn5WQJZ+kIGXe/i
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjEyMjIwNzI4WjAvBgkqhkiG9w0BCQQxIgQg3dmgIa0k
+z4lhkD+jGTniRwtgFNwPfCHWWaQ6yBhlMdcwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBZIB+/jIG16XDcMBc/H7W+KM/wpYjIp7qo
+l40tPuNyr/UhSkW3ua3ZPVjgAl85/clm7dasvaUxk3ZHHlFZUlQrfrjc4dgFkwaxkKT2lpRYuGu5
+0QELuq1I+qiNC0DAK5VS0O3Umfwt6nWYbI3u06Q0GdemSus4/P6m0wQ48foFWt3dUqQQ11NjJw8G
+o8zBesM4yWRMJr+FJx/IXOeO1P6nWZNj/UBNZ9CnBmu0ecoLdAsF7fOcsxgatwxkDB67f0jq8VAN
+Cyqyc/HsBfDyInlXFugnAGKsVT7mqtVSpn3dEnj2Vcx5HB/QVCvthLn/IbHUELb00tR2FWuq71jK
+bSJYFkP3dlJFpnsfdcTpBWsN81vyO4IghAGMo0vUQS8PTkMrP4fFA1UShL/brtx/dFbJe/UL1/N/
+9aVURggOsaIBMkoc3RnqbZnpZ/H7LbHRJ4H6micS2Ho/zi1/xJZllW5cfzZjI4qucPEOW9CdcUip
+Qlr+RsylfXlLzu/vmppDoV78q3/MNaq5GLeWxlMOWsQEs9JTxkw66MacO4WRhhcLAdrSM6eXLtN0
+2X7waKNTj++WJ+nO2PK+CYkmIvy5NbNKC50K5ExUfVj+bG5W94rDWtdpkphKL28vJ16iYqOefd3c
+1xkQvZZMvZtv6rSeVxWihnIEwBuwU54Yb2BpiZ4+8wAAAAAAAA==
+
+
+--=-U65Lksn5WQJZ+kIGXe/i--
 
 
