@@ -2,98 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3AD964A9D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 22:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9079A64A9D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 22:55:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4qjQ-00047R-Uy; Mon, 12 Dec 2022 16:53:04 -0500
+	id 1p4qle-00054V-3j; Mon, 12 Dec 2022 16:55:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4qjN-00046B-Sw
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 16:53:01 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4qjM-0004BR-BD
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 16:53:01 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BCKdGkQ012685; Mon, 12 Dec 2022 21:52:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=X7+4Ee6nnM+X/M/qFX4xLsFmIUtCLbyQ+J3RZfB3Az4=;
- b=GZJbZ9GVFSskWs5CkV5hcK9wgZXiyl4O+wMYAB2kseCvV0PAsVZuzl5/vtCHPf0vIaOu
- 2cMMUt4ie0CT1V6xsysNatP2NljOxCYfB56IJFpzCjItE4P+MiHxjGXgqlgKcxHDrjax
- R8aIiPdLeU20Cvsz9kb+Q7Y9wOJnjsoXGAnxqhaV9kMrS77aZFBO8rCjzF3giZhhkWjg
- rT2NNnkNauI1KYvV5IiPvmgXR5BjuC7DvNpep5QftpO56hZrK9FzFS6w03Cz5OHrcjuG
- 4svuMS/NeqOaMK8bZpt5P2aEJdsqTWSvUnXXo0eyMuXuwl2Zr2JaWejTE+mauGSAzawN uw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3me9c4cnvs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 21:52:57 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCLalqr003043;
- Mon, 12 Dec 2022 21:52:57 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3me9c4cnv9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 21:52:56 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BCAi6pv024547;
- Mon, 12 Dec 2022 21:52:54 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3mchr5tb06-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 21:52:54 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BCLqqVL45351238
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Dec 2022 21:52:52 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 07A1220040;
- Mon, 12 Dec 2022 21:52:52 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE22A20049;
- Mon, 12 Dec 2022 21:52:51 +0000 (GMT)
-Received: from heavy (unknown [9.179.26.201])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Mon, 12 Dec 2022 21:52:51 +0000 (GMT)
-Date: Mon, 12 Dec 2022 22:52:50 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: thuth@redhat.com
-Subject: Re: [PATCH v4 04/27] tcg/s390x: Remove USE_LONG_BRANCHES
-Message-ID: <20221212215250.rwbtyqs62whftss5@heavy>
-References: <20221209020530.396391-1-richard.henderson@linaro.org>
- <20221209020530.396391-5-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p4qlV-00053t-3M; Mon, 12 Dec 2022 16:55:13 -0500
+Received: from mail-vk1-xa2d.google.com ([2607:f8b0:4864:20::a2d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p4qlR-0005fT-7f; Mon, 12 Dec 2022 16:55:12 -0500
+Received: by mail-vk1-xa2d.google.com with SMTP id t191so661564vkb.4;
+ Mon, 12 Dec 2022 13:55:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XPiBMYA7XKdkc+Oy7C8yxmNgKSdp63gV9UUUHz0Nito=;
+ b=cWxI311RE2Oxh+LkXxe/bKjLEQYn5/lXbAz2cv6NZj9Ez1wyDOHcSvf6liK+Hxse9g
+ 6AQqgH3T0ltxdleZkxEzjVnCi/Y5njfNXgs0KrSuIoid1YqROXVH0TwNhtRlUOByYzEu
+ 5DRnoesxedTsdIvMsaSntZ8LFMKPqQV7wy9n0DXLTkl8HEHhvhAeHUKakm59/z+5gsSr
+ xh4JdZA7MMISu4JCxFJ+V9aR8THsGXoEolMzvMigGjzIN7k4+PwcOSvm78Ib7hj20xJE
+ 5pRizBZKW6dk2W8eMZjtKTshbEx7H0U0ARKhzuVbULso2wccAJ+p/ZHVBauhH4hGqg7A
+ wRig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XPiBMYA7XKdkc+Oy7C8yxmNgKSdp63gV9UUUHz0Nito=;
+ b=GeoCNsSYNbOpbAY6RmpgW33OLp5IJZBr+nKAonlsfTtcRzcXp+Sv8kcLsb3VBkKGBY
+ VILhDtRPD3efdLsMKg6GmhJ+YtJCN4Uged6go87W8tZ3OUfsDtdKAYHElwIELh9vrgqm
+ GjBskSYSCrhjZuonSSDfW2H5+X3pZMv7qUfAP6eR6Ey4ItlXytVxnnOB4F8vwWrTZ+Si
+ 1mKLCVBVvtpeV1rbUTrBE3nHz79lJIG9HMxKn9qEyNiP5xPcFL4UDi39N38ogkSXdRng
+ QCbK3TuDXYbEr+9ED8yJ4AYH6pJ16NGUU0pNcYOzfohHdCgYZ0FY2SvXRM1lF2ILdk0u
+ mbDw==
+X-Gm-Message-State: ANoB5pk8TPSg7DrrNHBj6dmLg7OVTHLfvL8GCQGXy7Ilyg/EtGgFnq6K
+ KOtDTT60c0e+YhVetttXB879nDvbeun4l2IBAfs=
+X-Google-Smtp-Source: AA0mqf5vIni3XClXu55GQZHm64G1fJ5gUhgEq/Yp3V8/JLdgXVHtZb5C6cJ326vlMa/B+KoBaxUOML9zeYaNHX1cmmc=
+X-Received: by 2002:a1f:3846:0:b0:3bc:c843:c7b5 with SMTP id
+ f67-20020a1f3846000000b003bcc843c7b5mr31346195vka.30.1670882106923; Mon, 12
+ Dec 2022 13:55:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221209020530.396391-5-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 1QP5PDvH_ASoYeqdQKxmXU8IoSLAdKtZ
-X-Proofpoint-GUID: ebvigU4gWquONVe8WSa09tdINgiRqlh1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 mlxlogscore=623
- priorityscore=1501 phishscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212120187
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221212070431.306727-1-armbru@redhat.com>
+In-Reply-To: <20221212070431.306727-1-armbru@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 13 Dec 2022 07:54:40 +1000
+Message-ID: <CAKmqyKMDXaEM-eO0t_cQPQ-TobY4Xzy1TC5-8btHDon-JuR+SQ@mail.gmail.com>
+Subject: Re: [PATCH] include: Don't include qemu/osdep.h
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, imp@bsdimp.com, kevans@freebsd.org, 
+ berrange@redhat.com, jonathan.cameron@huawei.com, 
+ kbastian@mail.uni-paderborn.de, jasowang@redhat.com, michael.roth@amd.com, 
+ kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com, 
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2d;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,14 +85,190 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 08, 2022 at 08:05:07PM -0600, Richard Henderson wrote:
-> The size of a compiled TB is limited by the uint16_t used by
-> gen_insn_end_off[] -- there is no need for a 32-bit branch.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/s390x/tcg-target.c.inc | 9 ---------
->  1 file changed, 9 deletions(-)
+On Mon, Dec 12, 2022 at 5:05 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> docs/devel/style.rst mandates:
+>
+>     The "qemu/osdep.h" header contains preprocessor macros that affect
+>     the behavior of core system headers like <stdint.h>.  It must be
+>     the first include so that core system headers included by external
+>     libraries get the preprocessor macros that QEMU depends on.
+>
+>     Do not include "qemu/osdep.h" from header files since the .c file
+>     will have already included it.
+>
+> A few violations have crept in.  Fix them.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  bsd-user/qemu.h                 | 1 -
+>  crypto/block-luks-priv.h        | 1 -
+>  include/hw/cxl/cxl_host.h       | 1 -
+>  include/hw/input/pl050.h        | 1 -
+>  include/hw/tricore/triboard.h   | 1 -
+>  include/qemu/userfaultfd.h      | 1 -
+>  net/vmnet_int.h                 | 1 -
+>  qga/cutils.h                    | 1 -
+>  target/hexagon/hex_arch_types.h | 1 -
+>  target/hexagon/mmvec/macros.h   | 1 -
+>  target/riscv/pmu.h              | 1 -
+>  qga/cutils.c                    | 3 ++-
+>  12 files changed, 2 insertions(+), 12 deletions(-)
+>
+> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+> index be6105385e..0ceecfb6df 100644
+> --- a/bsd-user/qemu.h
+> +++ b/bsd-user/qemu.h
+> @@ -17,7 +17,6 @@
+>  #ifndef QEMU_H
+>  #define QEMU_H
+>
+> -#include "qemu/osdep.h"
+>  #include "cpu.h"
+>  #include "qemu/units.h"
+>  #include "exec/cpu_ldst.h"
+> diff --git a/crypto/block-luks-priv.h b/crypto/block-luks-priv.h
+> index 90a20d432b..1066df0307 100644
+> --- a/crypto/block-luks-priv.h
+> +++ b/crypto/block-luks-priv.h
+> @@ -18,7 +18,6 @@
+>   *
+>   */
+>
+> -#include "qemu/osdep.h"
+>  #include "qapi/error.h"
+>  #include "qemu/bswap.h"
+>
+> diff --git a/include/hw/cxl/cxl_host.h b/include/hw/cxl/cxl_host.h
+> index a1b662ce40..c9bc9c7c50 100644
+> --- a/include/hw/cxl/cxl_host.h
+> +++ b/include/hw/cxl/cxl_host.h
+> @@ -7,7 +7,6 @@
+>   * COPYING file in the top-level directory.
+>   */
+>
+> -#include "qemu/osdep.h"
+>  #include "hw/cxl/cxl.h"
+>  #include "hw/boards.h"
+>
+> diff --git a/include/hw/input/pl050.h b/include/hw/input/pl050.h
+> index 89ec4fafc9..4cb8985f31 100644
+> --- a/include/hw/input/pl050.h
+> +++ b/include/hw/input/pl050.h
+> @@ -10,7 +10,6 @@
+>  #ifndef HW_PL050_H
+>  #define HW_PL050_H
+>
+> -#include "qemu/osdep.h"
+>  #include "hw/sysbus.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/input/ps2.h"
+> diff --git a/include/hw/tricore/triboard.h b/include/hw/tricore/triboard.h
+> index 094c8bd563..4fdd2d7d97 100644
+> --- a/include/hw/tricore/triboard.h
+> +++ b/include/hw/tricore/triboard.h
+> @@ -18,7 +18,6 @@
+>   * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+>   */
+>
+> -#include "qemu/osdep.h"
+>  #include "qapi/error.h"
+>  #include "hw/boards.h"
+>  #include "sysemu/sysemu.h"
+> diff --git a/include/qemu/userfaultfd.h b/include/qemu/userfaultfd.h
+> index 6b74f92792..55c95998e8 100644
+> --- a/include/qemu/userfaultfd.h
+> +++ b/include/qemu/userfaultfd.h
+> @@ -13,7 +13,6 @@
+>  #ifndef USERFAULTFD_H
+>  #define USERFAULTFD_H
+>
+> -#include "qemu/osdep.h"
+>  #include "exec/hwaddr.h"
+>  #include <linux/userfaultfd.h>
+>
+> diff --git a/net/vmnet_int.h b/net/vmnet_int.h
+> index adf6e8c20d..d0b90594f2 100644
+> --- a/net/vmnet_int.h
+> +++ b/net/vmnet_int.h
+> @@ -10,7 +10,6 @@
+>  #ifndef VMNET_INT_H
+>  #define VMNET_INT_H
+>
+> -#include "qemu/osdep.h"
+>  #include "vmnet_int.h"
+>  #include "clients.h"
+>
+> diff --git a/qga/cutils.h b/qga/cutils.h
+> index f0f30a7d28..2bfaf554a8 100644
+> --- a/qga/cutils.h
+> +++ b/qga/cutils.h
+> @@ -1,7 +1,6 @@
+>  #ifndef CUTILS_H_
+>  #define CUTILS_H_
+>
+> -#include "qemu/osdep.h"
+>
+>  int qga_open_cloexec(const char *name, int flags, mode_t mode);
+>
+> diff --git a/target/hexagon/hex_arch_types.h b/target/hexagon/hex_arch_types.h
+> index 885f68f760..52a7f2b2f3 100644
+> --- a/target/hexagon/hex_arch_types.h
+> +++ b/target/hexagon/hex_arch_types.h
+> @@ -18,7 +18,6 @@
+>  #ifndef HEXAGON_HEX_ARCH_TYPES_H
+>  #define HEXAGON_HEX_ARCH_TYPES_H
+>
+> -#include "qemu/osdep.h"
+>  #include "mmvec/mmvec.h"
+>  #include "qemu/int128.h"
+>
+> diff --git a/target/hexagon/mmvec/macros.h b/target/hexagon/mmvec/macros.h
+> index 8345753580..6a463a7db3 100644
+> --- a/target/hexagon/mmvec/macros.h
+> +++ b/target/hexagon/mmvec/macros.h
+> @@ -18,7 +18,6 @@
+>  #ifndef HEXAGON_MMVEC_MACROS_H
+>  #define HEXAGON_MMVEC_MACROS_H
+>
+> -#include "qemu/osdep.h"
+>  #include "qemu/host-utils.h"
+>  #include "arch.h"
+>  #include "mmvec/system_ext_mmvec.h"
+> diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
+> index 3004ce37b6..0c819ca983 100644
+> --- a/target/riscv/pmu.h
+> +++ b/target/riscv/pmu.h
+> @@ -16,7 +16,6 @@
+>   * this program.  If not, see <http://www.gnu.org/licenses/>.
+>   */
+>
+> -#include "qemu/osdep.h"
+>  #include "qemu/log.h"
+>  #include "cpu.h"
+>  #include "qemu/main-loop.h"
+> diff --git a/qga/cutils.c b/qga/cutils.c
+> index b8e142ef64..b21bcf3683 100644
+> --- a/qga/cutils.c
+> +++ b/qga/cutils.c
+> @@ -2,8 +2,9 @@
+>   * This work is licensed under the terms of the GNU GPL, version 2 or later.
+>   * See the COPYING file in the top-level directory.
+>   */
+> -#include "cutils.h"
+>
+> +#include "qemu/osdep.h"
+> +#include "cutils.h"
+>  #include "qapi/error.h"
+>
+>  /**
+> --
+> 2.37.3
+>
+>
 
