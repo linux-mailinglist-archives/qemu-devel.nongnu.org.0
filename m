@@ -2,92 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9CB64A44B
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 16:38:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79AA864A45F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 16:46:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4ksk-0001Ua-4x; Mon, 12 Dec 2022 10:38:18 -0500
+	id 1p4kyr-0006jP-To; Mon, 12 Dec 2022 10:44:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4ksh-0001UC-8x
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:38:15 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4kyp-0006jC-91
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:44:35 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4ksf-0006fU-I0
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:38:14 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- h8-20020a1c2108000000b003d1efd60b65so5534162wmh.0
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 07:38:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4kyn-0008H3-Ht
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:44:35 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ b24-20020a05600c4a9800b003d21efdd61dso4016887wmp.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 07:44:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=wpvunxIuHO66zeFXqcFgCwF66wHnts8F+UDqx9Z9dno=;
- b=cHCKLk9JqjU/h5rJxZPgsxTYCNHvnwj20Ab4lbFUqvGLbeT6CgDuzSgPJ6I0idRvM3
- nKQ5MbssurIHHKPLDJEQEmPr6nh0YUBEfT3PIfz47Mp+FsdCCo79jjjywW8SbnruLPgF
- k0kAcf2pw80azvPdbY80/H2pVMi8BK9uyrtmY486DVh2bDYfFZm0voRsv2KKg4xTvpd+
- c2krYqa4aAehoOCjf7eVnIOo4NImIzW1JYj5XWxFlcxJ4zKbzdjKzDCsiJSfWjHjqgUD
- x4xwiUMKPgxU9m5TNNKKnN2dbu8QNgV2cD6LR709dVTWKIfonsZbtIBY7JzwFSyO0CMP
- zJVQ==
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WQIRe/e8xlbW1LgwHbUsvWTYrVEekqbr16vaUt+PDZ0=;
+ b=km/dZIc3CufPzaLM+2g5iQSWnGCMnWzq1fPuvM0KmzlMeS2bAq3vllUBCmwA6s/3ru
+ 1wrrZUVpniLDl3Q7goiS7yPhX/4OVhjw0P/YBStWo8gRPUwhQAOIy7H3LnLcjgIdSPeR
+ +Ie9+dyc0f58ZQNYIMZNxA/+X4wp5s8tyNu/gB32xXLH9NIg4C7IgOYovKJmBjqJPy85
+ 4OYRvljSS3MBz+WItM6GYaWFG+V8nzoejqyjTFo6+w8yXUZocZ5HHNSccRVcZLCAYmmK
+ hbWuWokMzEeg7VxADbzxGy+jtbiYihuRCwmM5fYPPYUzpnOe9AgXXDoG5tfgZvXVNHb7
+ 3G7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wpvunxIuHO66zeFXqcFgCwF66wHnts8F+UDqx9Z9dno=;
- b=4NLExNel/O0anR/g+47Iemms/Ah7XWut7qc+bUyTsZSOQmKSEI3e53wGSEezIVZYrR
- OSozlWZiaRodkyp/J5uCfCjG4xSngp8LUFTWcVV+4CVFvdGVcc0vVMDkLm+A8yHU4523
- u1lKrASJO5xcGNa61+h728YtC9z2dqJK/9PtXU9LlCm89isAIH+hr0zCT7oXjPvf3K1I
- I/Eh6Chz5lDysObzbhSfVZ9kcoQX4zsIljH/ClE02ElgOeMcUMfAunkpzQGXit6mJyhD
- wyyz3fRbaTSmr9zZSmxJwrie43OPI/fHf+exOp+Eu4egsgHWo9kgCBbMaZhExbLjqueN
- cf/Q==
-X-Gm-Message-State: ANoB5pnNspIXG6B5qvtYBtVAWACZtoP4fdW/ITBYYjx0EtrnjvxiogX6
- zo2SkH/iNfOObKQOqPT438Y=
-X-Google-Smtp-Source: AA0mqf45M09/2PNB1RZiLqUcQd1cPSxeXxEC8T8FWe5bVcCvQ2jWbOMoF3+wZlolADqlGkW6a3i4ZQ==
-X-Received: by 2002:a05:600c:6899:b0:3d1:cf66:3afa with SMTP id
- fn25-20020a05600c689900b003d1cf663afamr12706988wmb.19.1670859491989; 
- Mon, 12 Dec 2022 07:38:11 -0800 (PST)
-Received: from [192.168.4.46] (54-240-197-233.amazon.com. [54.240.197.233])
- by smtp.gmail.com with ESMTPSA id
- a12-20020a05600c348c00b003d070e45574sm9691708wmq.11.2022.12.12.07.38.10
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WQIRe/e8xlbW1LgwHbUsvWTYrVEekqbr16vaUt+PDZ0=;
+ b=EV4UVSKx0nNEb53b7wKyzL0+9PrqyHJ1noeXHradONt/pKf5tWNET5guQqt42brmCq
+ po1eCdwjpV6sXXQ5rr7RrUALq3CJvnd0QW9cx46WNBwlZ3SLv7Uf0mS+nISqmPfcEV1/
+ eR2d42wLAsOEYAaeSL+mbTsEnffEhVVp6MHy7R+J4WT2FSabSQ0LftRSJWlY1qYYpa4P
+ fivjoT/uuy5Vi7KUIzMpfPwE2BbLrOKZ6Z0ViCNeXf79ZMZwSIaSGLpvQMOza2ttaue4
+ B2putDIMM6f8SVmD2WLwk9SydLrk1WIMFpOGSsQ75DRgRF7A0zGRkpMUrI9XOZKQ8HIk
+ RkQg==
+X-Gm-Message-State: ANoB5pl7YHNwonxmRtnsB/Ajjce/2D2nOsW8obcfd/9AxAm9ligH9kbh
+ Lder4z5klAL4J3FUh/gCg+zMig==
+X-Google-Smtp-Source: AA0mqf5K8AhqdUdkgYrgfh6+dE25RKcLhvkzKmEKcOtqt0YeFR/f0xmPPt1OTMN9ZSjQbec14XSLRA==
+X-Received: by 2002:a05:600c:4f93:b0:3cf:6e85:eda7 with SMTP id
+ n19-20020a05600c4f9300b003cf6e85eda7mr13391853wmq.14.1670859871633; 
+ Mon, 12 Dec 2022 07:44:31 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ l29-20020a05600c1d1d00b003b4a699ce8esm11115238wms.6.2022.12.12.07.44.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 07:38:11 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <4bacfc56-7d9b-b020-c048-dd8995e51418@xen.org>
-Date: Mon, 12 Dec 2022 15:38:07 +0000
+ Mon, 12 Dec 2022 07:44:31 -0800 (PST)
+Message-ID: <02e4ebf7-908b-28f6-9f90-d917ee2b307b@linaro.org>
+Date: Mon, 12 Dec 2022 16:44:29 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 18/22] i386/xen: handle
- VCPUOP_register_runstate_memory_area
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH v3] hw/rtc/mc146818rtc: Make this rtc device target
+ independent
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
-References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-19-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20221209095612.689243-19-dwmw2@infradead.org>
+To: Thomas Huth <thuth@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Bernhard Beschow <shentey@gmail.com>
+Cc: Michael S Tsirkin <mst@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>
+References: <20221212075600.17408-1-thuth@redhat.com>
+ <12d9fcbf-e00f-1154-63e0-36420e89f619@ilande.co.uk>
+ <dd94d639-ff48-554a-c462-ae7fe2399d4e@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <dd94d639-ff48-554a-c462-ae7fe2399d4e@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x329.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,39 +96,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/12/2022 09:56, David Woodhouse wrote:
-> From: Joao Martins <joao.m.martins@oracle.com>
+On 12/12/22 14:48, Thomas Huth wrote:
+> On 12/12/2022 14.39, Mark Cave-Ayland wrote:
+>> On 12/12/2022 07:56, Thomas Huth wrote:
+>>
+>>> The only reason for this code being target dependent is the apic-related
+>>> code in rtc_policy_slew_deliver_irq(). Since these apic functions are 
+>>> rather
+>>> simple, we can easily move them into a new, separate file 
+>>> (apic_irqcount.c)
+>>> which will always be compiled and linked if either APIC or the 
+>>> mc146818 device
+>>> are required. This way we can get rid of the #ifdef TARGET_I386 
+>>> switches in
+>>> mc146818rtc.c and declare it in the softmmu_ss instead of 
+>>> specific_ss, so
+>>> that the code only gets compiled once for all targets.
+>>>
+>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>   v3: Move TYPE_APIC_COMMON from apic_internal.h to apic.h and use it
+>>>
+>>>   include/hw/i386/apic.h          |  2 ++
+>>>   include/hw/i386/apic_internal.h |  2 --
+>>>   include/hw/rtc/mc146818rtc.h    |  1 +
+>>>   hw/intc/apic_common.c           | 27 -----------------
+>>>   hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
+>>>   hw/rtc/mc146818rtc.c            | 25 +++++-----------
+>>>   hw/intc/meson.build             |  6 +++-
+>>>   hw/rtc/meson.build              |  3 +-
+>>>   8 files changed, 69 insertions(+), 50 deletions(-)
+>>>   create mode 100644 hw/intc/apic_irqcount.c
+>>>
+>>> diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
+>>> index da1d2fe155..24069fb961 100644
+>>> --- a/include/hw/i386/apic.h
+>>> +++ b/include/hw/i386/apic.h
+>>> @@ -1,6 +1,7 @@
+>>>   #ifndef APIC_H
+>>>   #define APIC_H
+>>> +#define TYPE_APIC_COMMON "apic-common"
+>>
+>> Ah sorry, I should have been more specific here: what I was suggesting 
+>> was to move the entire QOM type information into apic.h as per the 
+>> normal convention, as opposed to just the #define. At first glance 
+>> that would involve lines 128-190 in apic_internal.h which would also 
+>> bring in APICCommonClass and APICCommonState - possibly the change may 
+>> warrant its own commit.
 > 
-> Allow guest to setup the vcpu runstates which is used as
-> steal clock.
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   target/i386/cpu.h     |  1 +
->   target/i386/kvm/kvm.c |  9 +++++++++
->   target/i386/machine.c |  4 +++-
->   target/i386/xen.c     | 35 +++++++++++++++++++++++++++++++++++
->   4 files changed, 48 insertions(+), 1 deletion(-)
-> 
-[snip]
-> +static int vcpuop_register_runstate_info(CPUState *cs, CPUState *target,
-> +                                         uint64_t arg)
-> +{
-> +    struct vcpu_register_runstate_memory_area rma;
-> +    uint64_t gpa;
-> +    size_t len;
-> +
-> +    if (kvm_copy_from_gva(cs, arg, &rma, sizeof(*rma.addr.v))) {
-> +        return -EFAULT;
-> +    }
-> +
-> +    if (!kvm_gva_to_gpa(cs, rma.addr.p, &gpa, &len, false) ||
-> +        len < sizeof(struct vcpu_time_info)) {
-> +        return -EFAULT;
-> +    }
+> At least APICCommonState is target specific since it uses "X86CPU" ...
 
-Again, Xen stashes the GVA for this and not the GPA.
+Replace it by ArchCPU ;)
+> so moving that to apic.h would be very counterproductive here.
+> 
+> Anyway, moving those structs is certainly way more than what is required 
+> for this patch, so if we decide to move anything else related to the 
+> APIC, it should be done in a separate patch later.
 
-   Paul
+I concur.
+
 
