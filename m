@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2F264A51A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B42E64A53E
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:50:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4lpy-00071a-Lj; Mon, 12 Dec 2022 11:39:30 -0500
+	id 1p4lz9-0001iR-4P; Mon, 12 Dec 2022 11:48:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4lpw-00070T-2a
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:39:28 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4lpu-0006MM-9Y
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:39:27 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id ja17so3046656wmb.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:39:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=4t6dUerYxHF6CoM2aKg/0xJ6z+ZkRCzD/QW3MIhL/ds=;
- b=MCFxJIO7iC8UMlW35mTVHgUv8B2mlSMmZIv3DUUJ/aOuAC+rxoqpP1e66zFYoWX4ri
- phKmTBchooSIMep36H7JZQ+FtyXlJ+e6z4oL8vv7vtD2cihioqaFFTFV7mY1OmWu8YKV
- A4ZyZYhpXy3zI9OmwQkUrVBrFvTOM5NSV4c2IdK1YsUs0ZWPbgXEpa9Uq9y767U7M+da
- 6fwBBwyC5+RhLtwkLJ76t+JsOMpic/UxqN2HWNHp6YXMX5xmfxV3X8UT3A5SLbmh7Z6m
- 0V8s2LR54mV2vRLzFxsfgclaacqk4ZszHwRN4d/eM1FN5i0Zzjv+9ukt73DBx9KQN0Td
- xXrA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4lz2-0001hy-Hi
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:48:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4lz0-0001hk-Ud
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:48:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670863729;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E+yK7F0omTnM6FNu70B6R0PoNRirz7c4yNUbRlJUvMg=;
+ b=fS7298/AfONZXcXxQZNxOPHRsXEZ0xQdK9hzl6eniEqvjUGwa9tqXzwWpy8+nZ+TbXEi1P
+ hWbNXWRN0AytVp0ZyKgzx8i8Vr/VcUGCLOcujylNE1CMytEvrToC+tSNAZyofJhtGuCjYu
+ V11JiL8BqV9a6BtMdbOsQOj1Gdnwl4k=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-221-vFRfOSg7PhW_HspC10jcAA-1; Mon, 12 Dec 2022 11:48:47 -0500
+X-MC-Unique: vFRfOSg7PhW_HspC10jcAA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ x1-20020adfbb41000000b002426b33b618so2376665wrg.7
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:48:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4t6dUerYxHF6CoM2aKg/0xJ6z+ZkRCzD/QW3MIhL/ds=;
- b=VMCyvts7iR5KsuCRktjkmJJHHGm6u55eKpgzDo9F5xj70TtSbLsVRwtfIYDO1w21Ck
- 6xMz+gAw7O4dEawOmBqjCY9pntVmC879MJeuH5qtwncXS5DgsGoOulTa9O3nIzqwSddV
- tnNhiC5Z5ga4wmb5aYQPzukTWNH4oxSejDbju2F22p9VCbpa3q1EkO+jc+GU5aZHrXTS
- 1ddjlNrrdd8iOqRj9KsLl5p65WFWvUbSogewxjAwuHwAbpc+ytYEEsGsIH1sXOqCzzd1
- u+d2Lho9WODqQhRz9kNtIEqikNem9Y18XsK0sltoxpvS+/7vqUubppRjFZKD69yziZiZ
- ulTQ==
-X-Gm-Message-State: ANoB5pmfbvV+rN5b/rHCj9J4tmVKVLYPTLljm5XBLyySxpIe8SGncnY9
- +gJoiUkIdh0l9wFNmQy+qgI=
-X-Google-Smtp-Source: AA0mqf5VJYkwLGYqX053N50Ze/bN0qDOfZ8ASkGbHqF3YCgQzrxvBmGctJ0ewnyGzaDRHpvkUKLZPg==
-X-Received: by 2002:a05:600c:1e25:b0:3cf:9ac8:c4eb with SMTP id
- ay37-20020a05600c1e2500b003cf9ac8c4ebmr12541656wmb.24.1670863164791; 
- Mon, 12 Dec 2022 08:39:24 -0800 (PST)
-Received: from [192.168.4.46] (54-240-197-233.amazon.com. [54.240.197.233])
- by smtp.gmail.com with ESMTPSA id
- d4-20020adfe2c4000000b00236488f62d6sm9387563wrj.79.2022.12.12.08.39.23
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=E+yK7F0omTnM6FNu70B6R0PoNRirz7c4yNUbRlJUvMg=;
+ b=cIS7b0NlceotTKQ9fOoGNfLfVDb7LkMJS+vFQVVKKCdEWVYj9+kqnyjUTeKel5wg8g
+ QrijPUYU9kLqG89q5AQLJTiOuqTLEHVHgrAWbvhRKrnP9xlebbFgYh2OY4gnMDmZUwKl
+ l8IHQie1AEDuv6bnq+T+MKcfJjyYtVh9cvjH5yb05J/b7LybSUkRMaU0EhKD1C2VhVkk
+ NfGTJizjAp3SmW4oQeCmSGOEz8ErbCJjy8HBaKLN7dhkZsgZTEO7UXsFK2vP+ChiJVJS
+ Ed3ctjxIciIv7ZUp/zLMLTOX+1KhdaXdgroNAnmg/2WvO/MznRJ5KVw8yQo06fZnxUkI
+ Na+w==
+X-Gm-Message-State: ANoB5pkA+PvGu/i2ufYWCsGk1D6jeyBX82wTbCIHumCMehKO80EFlBua
+ I6RRqFkz8BPnyOYhW8wwRYPoQx/tFpMNS3CyItewfdGf5oqwabqqJVmUCkcEzQ61QocxHyNFL+p
+ nJr1Yaatp6uE5q/k=
+X-Received: by 2002:adf:fec2:0:b0:242:8664:e71e with SMTP id
+ q2-20020adffec2000000b002428664e71emr10435590wrs.36.1670863726789; 
+ Mon, 12 Dec 2022 08:48:46 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5ql/0D3NxoJOxW8NZs/gcRS1/1l/nFAT0YUqPp9RzAKUkYjgHWrN2cAsHul+YI2gcuBNkMoQ==
+X-Received: by 2002:adf:fec2:0:b0:242:8664:e71e with SMTP id
+ q2-20020adffec2000000b002428664e71emr10435572wrs.36.1670863726527; 
+ Mon, 12 Dec 2022 08:48:46 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ e4-20020a5d5004000000b0022e57e66824sm10798218wrt.99.2022.12.12.08.48.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 08:39:24 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <65ccf311-be94-7cf2-6610-360549b547ab@xen.org>
-Date: Mon, 12 Dec 2022 16:39:19 +0000
+ Mon, 12 Dec 2022 08:48:45 -0800 (PST)
+Message-ID: <b7ce9b86-811d-b7e5-8dad-82e7b825ae0b@redhat.com>
+Date: Mon, 12 Dec 2022 17:48:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 20/22] i386/xen: HVMOP_set_param /
- HVM_PARAM_CALLBACK_IRQ
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH 30/30] meson: always log qemu-iotests verbosely
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
-References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-21-dwmw2@infradead.org>
- <f4b7feff-c41a-25c6-d098-c4eab9b94eb1@xen.org>
- <9dbe4265d43063348a8fe6ddd2b732615f0631b9.camel@infradead.org>
-Organization: Xen Project
-In-Reply-To: <9dbe4265d43063348a8fe6ddd2b732615f0631b9.camel@infradead.org>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-31-pbonzini@redhat.com>
+ <CAJ+F1CJcVTX5DO4Jrs9P7MLL9qQr-Jy3N5LSpPWKWFzyLCgUEg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAJ+F1CJcVTX5DO4Jrs9P7MLL9qQr-Jy3N5LSpPWKWFzyLCgUEg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,29 +105,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/2022 16:26, David Woodhouse wrote:
-> On Mon, 2022-12-12 at 16:16 +0000, Paul Durrant wrote:
->> On 09/12/2022 09:56, David Woodhouse wrote:
->>> From: Ankur Arora <ankur.a.arora@oracle.com>
->>> The HVM_PARAM_CALLBACK_IRQ parameter controls the system-wide event
->>> channel upcall method.  The vector support is handled by KVM internally,
->>> when the evtchn_upcall_pending field in the vcpu_info is set.
->>> The GSI and PCI_INTX delivery methods are not supported. yet; those
->>> need to simulate a level-triggered event on the I/OAPIC.
->>
->> That's gonna be somewhat limiting if anyone runs a Windows guest with
->> upcall vector support turned off... which is an option at:
->>
->> https://xenbits.xen.org/gitweb/?p=pvdrivers/win/xenbus.git;a=blob;f=src/xenbus/evtchn.c;;hb=HEAD#l1928
-> 
-> Sure. And as you know, I also added the 'xen_no_vector_callback' option
-> to the Linux command line to allow for that mode to be tested with
-> Linux too: https://git.kernel.org/torvalds/c/b36b0fe96a
-> 
-> The GSI and PCI_INTX modes will be added in time, but not yet.
+On 12/12/22 15:02, Marc-André Lureau wrote:
+> Sounds fine, but I like silence too. Could you give a bit of motivation details?
+> thanks!
 
-Ok, but maybe worth calling out the limitation in the commit comment for 
-those wishing to kick the tyres.
+One qemu-iotests TAP testcase is comparable to a test() invocation 
+elsewhere (in terms of both runtime and kind of test).  This makes it 
+useful to see the last logged test.
 
-   Paul
+Paolo
+
 
