@@ -2,97 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DB664A368
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:33:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C579D64A385
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:38:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4jrI-00020H-VZ; Mon, 12 Dec 2022 09:32:44 -0500
+	id 1p4jvB-0004cI-W4; Mon, 12 Dec 2022 09:36:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p4jrF-0001wY-VY
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:32:42 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p4jr4-0002NH-Ij
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:32:32 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BCEGtRn000516
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 14:32:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=/VbnEixlu1Wn3/9FNPVcPCWcdpP77obPMxtJ74qK4h0=;
- b=DgemhOxlaH6eukPSTpF0oEKm4qJ+uarAI4RN0FiAJllCsyMkdauKa/DlL+jZ0oo0BYMN
- QbVD/wTxi5AomUZH2alAMQcO/3atxamc4Ql1jbk3HAj5tAcA/KvVwHq2lqdgXhYUpMo8
- wYBQt/yykVtDPhuFSX/GKEck69sikpcCjVlEuC8nosBt9rmBK81RnB/EjD1Tti6zfoDA
- KkTS2+Tg+vbwnJ7X5k4jozWWYzNFIajPTwAJ9qCx6pOx9vZwV68LcaOWNwH8n+xJ3+gu
- sH2kH+WGcQeN9ehA36A4xm0F6pTCrtIvc0VSHEHwIzkuktimupAXOc4PqbDAORemRw+8 LQ== 
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3me5x38bx3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 14:32:24 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BCCeHJY014270
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 14:32:24 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
- by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3mchr6rv9a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 14:32:23 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BCEWLrW66388292
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Dec 2022 14:32:22 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0F7597805E;
- Mon, 12 Dec 2022 15:49:16 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7A65A7805C;
- Mon, 12 Dec 2022 15:49:15 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.163.25.229])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 12 Dec 2022 15:49:15 +0000 (GMT)
-Message-ID: <4dae1219d816277085fcb82979cf6cded6a1bd6b.camel@linux.ibm.com>
-Subject: Re: [PATCH] tpm: add backend for mssim
-From: James Bottomley <jejb@linux.ibm.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-Date: Mon, 12 Dec 2022 09:32:19 -0500
-In-Reply-To: <b1cf9866-d28a-05c3-1f10-8745f9e43c44@linux.ibm.com>
-References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
- <b81db56b-9044-d569-7de2-5388f6958461@linux.ibm.com>
- <b7c4c45c2bcbcf5c2b111a978297c5bb07b49498.camel@linux.ibm.com>
- <b1cf9866-d28a-05c3-1f10-8745f9e43c44@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: nu4_Ljq4cefF0dtI_BXGIMmDaV_ucuwT
-X-Proofpoint-GUID: nu4_Ljq4cefF0dtI_BXGIMmDaV_ucuwT
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p4juT-0004HP-Q3
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:36:04 -0500
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p4juR-0003A4-PP
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:36:01 -0500
+Received: by mail-oi1-x22a.google.com with SMTP id q186so11354556oia.9
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 06:35:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gl6okLhHEnpjhOBaT8jDqJmPQ5x4+bycrjuC86Swg6Y=;
+ b=ry/Nzqtp1i2mO9IsbAYEufWmdX6xT7C8hlsRbLGxvkweHJWvKONlfA0HtAobcM5aVF
+ voSffUQDOlJ9uAER01D6b8uK1iBK6kje3aSqU3AcWGH4hdkOVDKO4UV7g4WtBmKnRnb4
+ pWe5CRwWYyKDwDs34n9Kf6k9y6zR151y3r3Wd8Rm7ZK+nneuq2Lc0BiRN9rII7d9k23T
+ 8IGSCKWUKjQFT1IoH9VJNRTHvT6x19JuyZnvY82MEuD7UWD7neqBR7mPIEa3t/WqUHO6
+ L2/igo4U0KXBoWtlbpIudLJB0pyjR9eBiucGBSZ3YHLrjhjlnCZBCVEN0rYzweN40XsW
+ Xvgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gl6okLhHEnpjhOBaT8jDqJmPQ5x4+bycrjuC86Swg6Y=;
+ b=VkjfIDkjmTYqXcIj+xd43am+UKBg9JGl/xR5DI0zfShTv04WmgfwUq150IZYekMxc9
+ vFU63xei0v3WZpFkCjVd4ztOhUMWblKiimRzJypx43fjqHxkdNgXDzIXyM6gdoirdvMU
+ nD/rxvCTZIk+3hqoBn2DJYwdeA2/RxBjk2VlgCt/LnP6ML9Yig27gAsrZXx+QZslvtvM
+ F/siBsgQGydFixmeN8WTUweYM2PK3LlE0+/asLqQhYoAM0ivKakgkeEFgkdkvWdwTOtp
+ ERJG4qpq/V/JdYW3P0rLiFEPP6wFPaoYAf+nLKGPcqe2/F1hMOa0xSoDNw5Kou3dTrz+
+ 6xpg==
+X-Gm-Message-State: ANoB5pmvjvW18nTfNuovXtJDvS8vNJDPZx7F8CQzZas/FGXivGR7iZsO
+ 4V5ZDY496BrKixb4QAdyUCX7wg==
+X-Google-Smtp-Source: AA0mqf5ocf7FEZlGEQABf0kfc4GyHaihlZlHiY/bo55mA242/XG/j/pqca1dmiLo+WlsATsaMq4mrg==
+X-Received: by 2002:aca:c28b:0:b0:35a:1139:3828 with SMTP id
+ s133-20020acac28b000000b0035a11393828mr6994847oif.38.1670855753465; 
+ Mon, 12 Dec 2022 06:35:53 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:2efc:20f0:1d0e:8e1f:fff0?
+ ([2806:102e:18:2efc:20f0:1d0e:8e1f:fff0])
+ by smtp.gmail.com with ESMTPSA id
+ bh4-20020a056808180400b0035a81480ffcsm3599434oib.38.2022.12.12.06.35.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 06:35:52 -0800 (PST)
+Message-ID: <bff25f0e-d052-8083-9f43-740fe5179d38@linaro.org>
+Date: Mon, 12 Dec 2022 08:35:50 -0600
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-12_02,2022-12-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- impostorscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 spamscore=0
- mlxlogscore=824 phishscore=0 clxscore=1015 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212120133
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH-for-8.0 v2 07/11] hw/mips/malta: Use bootloader generator
+ API for nanoMIPS CPUs (2/5)
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
+ Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Djordje Todorovic <djordje.todorovic@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
+References: <20221211204533.85359-1-philmd@linaro.org>
+ <20221211204533.85359-8-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221211204533.85359-8-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,63 +97,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2022-12-12 at 09:27 -0500, Stefan Berger wrote:
+On 12/11/22 14:45, Philippe Mathieu-Daudé wrote:
+> Part 2/5: Convert PCI0 MEM0 BAR setup
 > 
-> 
-> On 12/12/22 08:59, James Bottomley wrote:
-> > On Mon, 2022-12-12 at 08:43 -0500, Stefan Berger wrote:
-> > > 
-> > > 
-> > > On 12/10/22 12:10, James Bottomley wrote:
-> > > > The Microsoft Simulator (mssim) is the reference emulation
-> > > > platform
-> > > > for the TCG TPM 2.0 specification.
-> > > > 
-> > > > https://github.com/Microsoft/ms-tpm-20-ref.git
-> > > > 
-> > > > It exports a fairly simple network socket baset protocol on two
-> > > 
-> > > baset -> based.
-> > > 
-> > > > sockets, one for command (default 2321) and one for control
-> > > > (default 2322).  This patch adds a simple backend that can
-> > > > speak the mssim protocol over the network.  It also allows the
-> > > > host, and two ports to be specified on the qemu command line. 
-> > > > The benefits are twofold: firstly it gives us a backend that
-> > > > actually speaks a standard TPM emulation protocol instead of
-> > > > the linux specific TPM driver format of the current emulated
-> > > > TPM backend and secondly, using the microsoft protocol, the end
-> > > > point of the emulator can be anywhere on the network,
-> > > > facilitating the cloud use case where a central TPM ervice can
-> > > > be used over a control network.
-> > > > 
-> > > > The implementation does basic control commands like power
-> > > > off/on, but doesn't implement cancellation or startup.  The
-> > > > former because cancellation is pretty much useless on a fast
-> > > > operating TPM emulator and the latter because this emulator is
-> > > > designed to be used with OVMF which itself does TPM startup and
-> > > > I wanted to validate that.
-> > > 
-> > > How did you implement VM suspend/resume and snapshotting support?
-> > 
-> > TPM2 doesn't need to.  The mssim follows the reference model which
-> 
-> 
-> You mean TPM2 doesn't need to resume at the point where the VM
-> resumes (I am not talking about ACPI resume but virsh save/restore)
-> after for example a host reboot?
-> What does this have to do with the mssim reference model and
-> TPM2_Shutdown protocol?
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/mips/malta.c | 35 ++++++-----------------------------
+>   1 file changed, 6 insertions(+), 29 deletions(-)
 
-Running S3 suspend/resume before doing VM save/restore could fix a lot
-of issue with passthrough PCI and when QEMU gets around to doing that a
-TPM following the standard model should just work.  It's useful to have
-a driver supporting this work.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-James
+
+r~
+
+> 
+> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> index 30ca4e0000..3e80a12221 100644
+> --- a/hw/mips/malta.c
+> +++ b/hw/mips/malta.c
+> @@ -687,7 +687,6 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+>        * Load BAR registers as done by YAMON:
+>        *
+>        *  - set up PCI0 I/O BARs from 0x18000000 to 0x181fffff
+> -     *  - set up PCI0 MEM0 at 0x10000000, size 0x8000000
+>        *
+>        */
+>       stw_p(p++, 0xe040); stw_p(p++, 0x0681);
+> @@ -723,20 +722,6 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+>       stw_p(p++, 0xe020); stw_p(p++, 0x0001);
+>                                   /* lui t0, %hi(0x80000000)      */
+>   
+> -    /* 0x58 corresponds to GT_PCI0M0LD                          */
+> -    stw_p(p++, 0x8422); stw_p(p++, 0x9058);
+> -                                /* sw t0, 0x58(t1)              */
+> -
+> -    stw_p(p++, 0xe020); stw_p(p++, 0x07e0);
+> -                                /* lui t0, %hi(0x3f000000)      */
+> -
+> -    /* 0x60 corresponds to GT_PCI0M0HD                          */
+> -    stw_p(p++, 0x8422); stw_p(p++, 0x9060);
+> -                                /* sw t0, 0x60(t1)              */
+> -
+> -    stw_p(p++, 0xe020); stw_p(p++, 0x0821);
+> -                                /* lui t0, %hi(0xc1000000)      */
+> -
+>   #else
+>   #define cpu_to_gt32 cpu_to_be32
+>   
+> @@ -767,24 +752,16 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+>   
+>       stw_p(p++, 0x0020); stw_p(p++, 0x0080);
+>                                   /* addiu[32] t0, $0, 0x80       */
+> -
+> -    /* 0x58 corresponds to GT_PCI0M0LD                          */
+> -    stw_p(p++, 0x8422); stw_p(p++, 0x9058);
+> -                                /* sw t0, 0x58(t1)              */
+> -
+> -    stw_p(p++, 0x0020); stw_p(p++, 0x003f);
+> -                                /* addiu[32] t0, $0, 0x3f       */
+> -
+> -    /* 0x60 corresponds to GT_PCI0M0HD                          */
+> -    stw_p(p++, 0x8422); stw_p(p++, 0x9060);
+> -                                /* sw t0, 0x60(t1)              */
+> -
+> -    stw_p(p++, 0x0020); stw_p(p++, 0x00c1);
+> -                                /* addiu[32] t0, $0, 0xc1       */
+>   #endif
+>       v = p;
+>   
+>       /* setup PCI0 mem windows */
+> +    bl_gen_write_u32(&v, /* GT_PCI0M0LD */
+> +                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x58),
+> +                     cpu_to_gt32(0x10000000 << 3));
+> +    bl_gen_write_u32(&v, /* GT_PCI0M0HD */
+> +                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x60),
+> +                     cpu_to_gt32(0x07e00000 << 3));
+>       bl_gen_write_u32(&v, /* GT_PCI0M1LD */
+>                        cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x80),
+>                        cpu_to_gt32(0x18200000 << 3));
 
 
