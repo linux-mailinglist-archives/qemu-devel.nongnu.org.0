@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EBE46498E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 07:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732C6649921
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 08:02:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4c2t-0000YR-1V; Mon, 12 Dec 2022 01:12:11 -0500
+	id 1p4coE-0002Bq-Bw; Mon, 12 Dec 2022 02:01:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p4c2q-0000Y8-Vm; Mon, 12 Dec 2022 01:12:09 -0500
-Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p4c2p-0005I9-Ap; Mon, 12 Dec 2022 01:12:08 -0500
-Received: by mail-vk1-xa31.google.com with SMTP id f68so5003333vkc.8;
- Sun, 11 Dec 2022 22:12:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rchOpqelyiDC+hFlq8o4W1DSxH1mwbC+KTYPlKqHtkE=;
- b=I/0a1dUVwCZXFxGIR27JuKx/F4etj2v1LZiXraHtL/doCcZIsAojk3NjGMVJ8VwWU6
- PggTvfjlS4EJk07XtB8KF7/bGOrJzxWOZI9QHEN6HtcwZNlrDCSV2mcCIE+iBxwnBcqk
- 8vrNpJLB1bEWO87Q1/M0w87yAr4R7xfsVGXssJ8iEvthspUBfwGi63/pAVsiP0KhWFzL
- eQ8fLq0y7bysEbsVXlbEiwtf8r31weEbHrh0uhH5PEOCEFbtRTncYZRxHc6dEhYUIU2P
- k8yduQwNJhHYr2RzvlBngI00zhNQuUKhYko/0TALmK2VnvCKBRo/FhXhqnc/bVPERm4R
- NyXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rchOpqelyiDC+hFlq8o4W1DSxH1mwbC+KTYPlKqHtkE=;
- b=CP7QfOgANVraAMCBcPK59V1x0j5DDqAMTY41a8O5I82KS+/dZ+kevPh/jJdXkjpQto
- ruTHEVeGA41pBsWC72jiCB8mElHOuaU0rEZ27eBfYATH9vy/xvgCGeRI0NgO6MXYtZ7z
- CMAA/T9ehkJ8UIt3uMcd7kNJEmWMZRl6i/rnpf7jVjwctOgKEE1WZnfOJ9gU6z1VFcIN
- 45woYhpnEkF/OR4HSyf6S31jWbv3jQPX01bpiXoFNBQFZ5m9aTh+Ah3MA6lK+uFYge7S
- kBCGAzb1B6bgJzBCvUYpzWf/yNgJra/Aun5kFa+zL8nHU1WkI0WsC3W15GQP8sW3hAFY
- tvmQ==
-X-Gm-Message-State: ANoB5plUIp1hheP4ccCO0E1fJwxsq0MFCvUmHYtYglzf+HujECwL0KgA
- HHujymEo0o67EphVYufXYedQZJ+GXmcCfgGGyA0=
-X-Google-Smtp-Source: AA0mqf6MMlwT04gZ2COAcq88GpUq241OnEFvcXlCFYlTR1xgHao6zJSaOi0DHmGmwzp11MlJ+xvImqogZkXqG4KHG/w=
-X-Received: by 2002:a1f:1409:0:b0:3c1:2fa:82e1 with SMTP id
- 9-20020a1f1409000000b003c102fa82e1mr149233vku.7.1670825525940; Sun, 11 Dec
- 2022 22:12:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4co7-0002AC-Vw
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 02:00:59 -0500
+Received: from mout.gmx.net ([212.227.15.19])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4co5-0005rn-Jq
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 02:00:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1670828447; bh=p0B55hDZ6iPP/bor3LBrzxxfGzPW1ikFpE21hNWWt1c=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=RTqwYWGe7U4ZOPqdXFuePpUKi5emglbJ/g8BnBTWkZkdXY58v78FC2rQ3i5KX81jI
+ yvM0kLLuboBFZ7z7KNVBaxhMagiTVejPVRRPu9Q7xUEPYQPHOAG1rwx6D8M2IA8jLI
+ 0U8Be0MQwFP7VCD5/YOUEpQhZR62I6WtL6/zY1U1dyt/Oat4GJmwO+W0pPYRn6ZUkf
+ nlFr+NjklupL+ePX/HQ6ejAkM5MO53lIZspSIgU0owtqqCsei9dPnLN9+J82ZcnR1g
+ 1qbCz/Lp6XXdj/o3EOcBfQcQXrVN+wjN/Lv1eEUnu1Pm2bJR9iJRw39JKKg4t6b7PY
+ c1mtO5baqMmXg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100 ([92.116.137.92]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7iCW-1oqgl316n4-014je0; Mon, 12
+ Dec 2022 08:00:47 +0100
+Date: Mon, 12 Dec 2022 08:00:45 +0100
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Vitaly Buka <vitalybuka@google.com>, qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Add emulation for MADV_WIPEONFORK and
+ MADV_KEEPONFORK in madvise()
+Message-ID: <Y5bRnRaiSOUKRjdW@p100>
 MIME-Version: 1.0
-References: <20221211030829.802437-1-bmeng@tinylab.org>
- <20221211030829.802437-16-bmeng@tinylab.org>
-In-Reply-To: <20221211030829.802437-16-bmeng@tinylab.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 12 Dec 2022 16:11:39 +1000
-Message-ID: <CAKmqyKOwHaQCuohCdr5WfL4uDzCeq2W64ECAKequAqKpdni-cg@mail.gmail.com>
-Subject: Re: [PATCH v3 16/16] hw/intc: sifive_plic: Fix the pending register
- range check
-To: Bin Meng <bmeng@tinylab.org>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
- envelope-from=alistair23@gmail.com; helo=mail-vk1-xa31.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:4hcwySHZHkELp7Pq4zMyIE0oieNZk2j5/y/cUYaF9jDnPe8ZxkL
+ 4yj6Hx7xG9pmRWhyDjtG20VpFsh8Yu4csm6YNbOv17dT9zgHEiK82oGCxituIMQKtRiQn7A
+ w9mVtRN8k2qX3jHDLYcNi1Y2q9kZ260cwVQRJ9D/r3wriw5F9LsjHpzuN0Vd/XaNu01HaEZ
+ VPlG8TH+MvC1E6kQ09xZw==
+UI-OutboundReport: notjunk:1;M01:P0:ZxpX6EmLGXU=;/gnkvwTsWUdSETWzt+DTZH/Dni3
+ O6sd1fyn+9QAZBvKJJ7d9JQTgehM91apPVY7JCooXyvRicGynzpj9P3lNitQYeeWVBqd8Ds66
+ yIk/Xk6iNn7CT94G0/6iXBv085WG11pQvYyua1vyJhsmFr0EwQVdnFgC65qa606AQKo4MZZ0L
+ e+otz/haWIJShtjoWDYX7o9CkX6UiR5H39GCpQuq+47xpFcMwwIYMuGYQxWsTZ8osXvFBsgQ/
+ YdBVU2LYx1TgLGnG/jzKmooW/ILz6XJejvUzmTwZuuFcqOZEhoMdNaW/YN1zUuKAFgIPD1xz2
+ tWucrPTRH9rBBuOuveEnDUFZUa2uuczbW4kGd91DAubMeeoRDvMJ8NO4sEkRHiFcTjYOFR9cL
+ 9qqVBx9jn9nRv6YAfBvrrkdvPIBREWRgIpk6PH8idsDh+C2pGJhOHQjzxGDnozwq049Sqe7TB
+ 4H5hfHSCryE2cKzt8M9mOqQHMZ0+sx0dzV9C93wWTL69dymOx3uHEqFFfZS+3psbDOEHnY/QQ
+ +NwVIeYBULvUMzjOAMo/t8P1Of3gD+3pK3wLPz185O+uJVrdFm2PrO9uH+Xk3fLr1PfuKb9TU
+ /A/kZFQgqwhmfrsa6FjAWatmgMTxzdj4/0wigCKLcWf8Ruxrej0XeVe/2lDSj0IoSXhURs7z5
+ vxNA6aH1gbPeNcjlnN7E+A9jhuYDEVc+szv23XLfYXKdqiIUcMX1C/jdmrzoS/ij4zYy+vsYM
+ MeHYEOx86o/qd9a/93IgYjOH1qCXtnoYOHbUDQux10gwLZQUNfmm0ke0Ho4MYLeehxGB8lDur
+ B1Mh/dEOAoIpNTVzabj8pa+Uk3vzxLftQOCTNALiYGPs5SThZDkzROKwIblPZwCTOF4N9xuWb
+ wWONyhJms97tH65T8jSNv2AODIHk7x+WPMdsPSBL1VnbRklQ6aVVKQQzorvsXOnKk9OYgT4iu
+ DWY170pGQiPArQyDkM8Yy+b0HaM=
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,56 +85,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Dec 11, 2022 at 1:21 PM Bin Meng <bmeng@tinylab.org> wrote:
->
-> The pending register upper limit is currently set to
-> plic->num_sources >> 3, which is wrong, e.g.: considering
-> plic->num_sources is 7, the upper limit becomes 0 which fails
-> the range check if reading the pending register at pending_base.
->
-> Fixes: 1e24429e40df ("SiFive RISC-V PLIC Block")
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Both parameters have a different value on the parisc platform, so first
+translate the target value into a host value for usage in the native
+madvise() syscall.
 
-Thanks!
+Those parameters are often used by security sensitive applications (e.g.
+tor browser, boringssl, ...) which expect the call to return a proper
+return code on failure, so return -EINVAL if qemu fails to forward the
+syscall to the host OS.
 
-Applied to riscv-to-apply.next
+Tested with testcase of tor browser when running hppa-linux guest on
+x86-64 host.
 
-Alistair
+Signed-off-by: Helge Deller <deller@gmx.de>
 
->
-> ---
->
-> (no changes since v1)
->
->  hw/intc/sifive_plic.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index 1a792cc3f5..5522ede2cf 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -143,7 +143,8 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr addr, unsigned size)
->          uint32_t irq = (addr - plic->priority_base) >> 2;
->
->          return plic->source_priority[irq];
-> -    } else if (addr_between(addr, plic->pending_base, plic->num_sources >> 3)) {
-> +    } else if (addr_between(addr, plic->pending_base,
-> +                            (plic->num_sources + 31) >> 3)) {
->          uint32_t word = (addr - plic->pending_base) >> 2;
->
->          return plic->pending[word];
-> @@ -202,7 +203,7 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
->              sifive_plic_update(plic);
->          }
->      } else if (addr_between(addr, plic->pending_base,
-> -                            plic->num_sources >> 3)) {
-> +                            (plic->num_sources + 31) >> 3)) {
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s: invalid pending write: 0x%" HWADDR_PRIx "",
->                        __func__, addr);
-> --
-> 2.34.1
->
->
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 10f5079331..c75342108c 100644
+=2D-- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -901,11 +901,25 @@ abi_long target_madvise(abi_ulong start, abi_ulong l=
+en_in, int advice)
+         return -TARGET_EINVAL;
+     }
+
++    /* Translate for some architectures which have different MADV_xxx val=
+ues */
++    switch (advice) {
++    case TARGET_MADV_DONTNEED:      /* alpha */
++        advice =3D MADV_DONTNEED;
++        break;
++    case TARGET_MADV_WIPEONFORK:    /* parisc */
++        advice =3D MADV_WIPEONFORK;
++        break;
++    case TARGET_MADV_KEEPONFORK:    /* parisc */
++        advice =3D MADV_KEEPONFORK;
++        break;
++    /* we do not care about the other MADV_xxx values yet */
++    }
++
+     /*
+      * A straight passthrough may not be safe because qemu sometimes turn=
+s
+      * private file-backed mappings into anonymous mappings.
+      *
+-     * This is a hint, so ignoring and returning success is ok.
++     * For MADV_DONTNEED, which is a hint, ignoring and returning success=
+ is ok.
+      *
+      * This breaks MADV_DONTNEED, completely implementing which is quite
+      * complicated. However, there is one low-hanging fruit: mappings tha=
+t are
+@@ -913,11 +927,17 @@ abi_long target_madvise(abi_ulong start, abi_ulong l=
+en_in, int advice)
+      * passthrough is safe, so do it.
+      */
+     mmap_lock();
+-    if (advice =3D=3D TARGET_MADV_DONTNEED &&
+-        can_passthrough_madv_dontneed(start, end)) {
+-        ret =3D get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED=
+));
+-        if (ret =3D=3D 0) {
+-            page_reset_target_data(start, start + len);
++    switch (advice) {
++    case MADV_WIPEONFORK:
++    case MADV_KEEPONFORK:
++        ret =3D -EINVAL;
++        /* fall through */
++    case MADV_DONTNEED:
++        if (can_passthrough_madv_dontneed(start, end)) {
++            ret =3D get_errno(madvise(g2h_untagged(start), len, advice));
++            if ((advice =3D=3D MADV_DONTNEED) && (ret =3D=3D 0)) {
++                page_reset_target_data(start, start + len);
++            }
+         }
+     }
+     mmap_unlock();
 
