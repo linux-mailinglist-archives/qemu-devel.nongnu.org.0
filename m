@@ -2,100 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BD0649E2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E984B649E25
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:49:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4hEk-00065h-C9; Mon, 12 Dec 2022 06:44:46 -0500
+	id 1p4hGl-00070Z-J8; Mon, 12 Dec 2022 06:46:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p4hEN-0005zl-VD; Mon, 12 Dec 2022 06:44:23 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p4hEM-0003Ml-D6; Mon, 12 Dec 2022 06:44:23 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 128125C0151;
- Mon, 12 Dec 2022 06:44:21 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 12 Dec 2022 06:44:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1670845461; x=
- 1670931861; bh=vZ+OOsnZYJL8GkKEt4CioC1k5V+A7SG820NOYkn+cXE=; b=U
- 14bREhcVi6EtRbfAQW4+7TQ28+TFq/nADAUj6470Fy+aggfWqa5HmeO5Q4K7jO7b
- nG9UURV0IScRg/7MtoP/IQFjpx5CgLgBeLgp/pYosXE2DKZOtFX02SGJsAyjq8Tj
- rKSk1YLdVQwtw1dNBTZfd+ZuD82PP9Imea8ikjf4HMr6iN3KHrORIDPCGq1HHlAC
- CUxp/6dAM9k/kYBrlNejCACFwaQ2T3E/ikQeq1fyuwAVD91laL7TFxd4VDLxrcou
- MZv2+YMf5JaMTExLhxXTwVqi1r6vXLQLcLLgLu+JcVsa7LYnC1XzvrchBCLgrRYC
- VNnoZLApSXhjmTenEcUZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1670845461; x=1670931861; bh=vZ+OOsnZYJL8G
- kKEt4CioC1k5V+A7SG820NOYkn+cXE=; b=upg01wsIGAzAUSSK+jLA+bykhog5q
- w2mjsmbMHfouQIXin6013T70lrTyo3w4nHxnBd2KR3C24htK4uph60DwD2PYaARd
- Ahk30iGRTQcj9v7kZ3+LoIqSUSNrv36SOrZxILvEHLHZP/WodY8bChHbA2YjdXdY
- XZUGD/90XQXMDgCcIEP819WRwrGLBGYW4Ryy8lIikzX+ZHEA63BHqM+ncJsSzxuj
- cZZ82mNKaXWnkG0RUvUoyqKA0fbQjZHvDhO4Fd892OgUFgFmivtNeJY5CFbuQrtZ
- lOoNKqOAodZzegXCIH1IMlmVqELv1iQO4/xhijNwDmWG8mXejRJ4M/Jhg==
-X-ME-Sender: <xms:FBSXY2xreXBSMQzNY7K9jgqtiN3dGuk8VXRDZ8HvmaJ3GqFt5UanvQ>
- <xme:FBSXYyThu_ESiPpUyyxgMhL7bdEoUnWVz9shM-oWMyQ6ct9d8gl6C0AbvSfuv_cCc
- OM5yzXbiKufsCavkjQ>
-X-ME-Received: <xmr:FBSXY4WM1XV5XJzUlPuVzoQSI9mlGeOwWs7t_xpQg3KQSc8FfAppTaQLT9Hs8DVcylu5dfRk1CctqUYrv90_hS_--5SGH795LkydtQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgddtkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedujedu
- geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:FBSXY8i-qy0RQMJXKBLyESkhciApFv7HgkVw0w_cl86UeSRurd2Y2g>
- <xmx:FBSXY4CvK0y9rT_sTw1UnFZIcyREMFxmNS4eHYQsMFeqG5TVaD42ww>
- <xmx:FBSXY9JVLflRpS6SA4dnBjWHei5_mQQx6b6bp45FPXu141aH6-I9pg>
- <xmx:FRSXY2D8L08fUqA0_vPM6VCirTnneFOOzvH-eB5_sRezUjAYRYFgLQ>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 12 Dec 2022 06:44:19 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
- Keith Busch <kbusch@kernel.org>, Jinhao Fan <fanjinhao21s@ict.ac.cn>,
- Guenter Roeck <linux@roeck-us.net>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-stable@nongnu.org, qemu-riscv@nongnu.org
-Subject: [PATCH v4 4/4] hw/nvme: fix missing cq eventidx update
-Date: Mon, 12 Dec 2022 12:44:09 +0100
-Message-Id: <20221212114409.34972-5-its@irrelevant.dk>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221212114409.34972-1-its@irrelevant.dk>
-References: <20221212114409.34972-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4hGQ-0006yV-2G
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:46:31 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4hGN-000534-5f
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:46:28 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ v124-20020a1cac82000000b003cf7a4ea2caso4880082wme.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 03:46:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=H9bUusv80zjpCwJ8icqDiD5n4RyV6nPKD7KvVR4XEJU=;
+ b=wRSfToyCCmS2fzzYHsWccWFEeRoBspAVEbe5d6UR4SKdbL+pQzfnncWIiP+o94Jo7F
+ 8Zd6DdzoAYIYS7Ty5TLJiR4uBpwpKeDHPRpbpVSomoV0xBwbVrKQNuNovBn2AZKeUoVl
+ BAlQvEK/msjdYYP3niRYHvx1e4/tQEl1nSE0XWQw8nnmR9FfYcZTDQ58NGPxVfCnzwnM
+ pOH9xKrs+Z1PyZxhwIF3IPR3HHaYEzVLi8wKGlSbgfIaP99EolJqkcx419q2rLBS+R/t
+ opEseoqQXUBaGNb8ZoRh/H1xabYcl2nJpOfEfir2HL/oy8LJbpDZuU6WeDTTINRuR0xV
+ C4bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=H9bUusv80zjpCwJ8icqDiD5n4RyV6nPKD7KvVR4XEJU=;
+ b=bwPm24YucHrdle7cYu3MLHSSjxgCuHXq8WIc5ZSJ2E960+K751ZWsjsZRH/bM3+rE8
+ LfXsRIAkGEybFcatkplGSSzaOoXYxuMXbIw3YoUmIW4Qyn9y/u+lbBkqnZuM+p5VZHro
+ 9XO2g8znhkTTWw9kPxMW40ny3Td0/DlDWc3HkZJIR7aMWP48lMdij+MKUUilwv36lbZu
+ 4UagiJOBedVLPHBqhgMk2DMuKNlImtaRb6tO2nt7FAEt5h3hbBYqaQjSfcFwBurhKPW7
+ lvQ+OnGmQ4RaTzU7SrzE0Wp8H8uJJAxOIT2Cf4GXjqy2EqVwWeEdD2DvXqT6+mNL5jCo
+ Am/Q==
+X-Gm-Message-State: ANoB5pnEHgOojL+4GmqsVi84EXOKp4W0UJZfilZk2qhTxaKWGZr1UsXz
+ uTl7C+/yzpUUB8SJqZ0PGkshoSadORhUjqpgd/g=
+X-Google-Smtp-Source: AA0mqf7FD15lWSS/ybUuMMbIvEWO+R/ccPqm0vlsLA6/bXSydkcAztdWLIrM3c6g+ZqlnuIU87u1Sw==
+X-Received: by 2002:a05:600c:600c:b0:3d0:8c7:65dc with SMTP id
+ az12-20020a05600c600c00b003d008c765dcmr11786201wmb.0.1670845585817; 
+ Mon, 12 Dec 2022 03:46:25 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ g23-20020a05600c4c9700b003cf4ec90938sm8673695wmp.21.2022.12.12.03.46.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 03:46:25 -0800 (PST)
+Message-ID: <b44cbf94-051c-6e3a-9d6e-af60d817e222@linaro.org>
+Date: Mon, 12 Dec 2022 12:46:24 +0100
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1368; i=k.jensen@samsung.com;
- h=from:subject; bh=aoxzJKx0O6Lh8Uwyoz0I0J6X3ZQ9AYZS1frBhrJxaH8=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGOXFAn4JT/RXbSN0djv0q7720auhySmj6ZktG2k
- oNtrDeicEYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjlxQJAAoJEE3hrzFtTw3pR2
- gH/3Hip0LUeBk37fBjirn7KRFbkooCOW3s23ATqkwvHonUmHsCdVwtNcixh1xRgmVKFHmn5dweCIU9
- P4VjtQawawuIGvoH0tecvf73b9TvJGqHXI+ef5Ij6w8Y3OpoiHj8EtBBBIlM1q3KNN8XUTH+CYZhS+
- ML+tuvEW8g7A7lNO0iqYmI7rOY86XIcgo7SbFKDOjSkdQhqbsYPZb+wZrKhEtoMP8ycX+okfjrPly3
- 8xXgcmJYQPfgtuWTHkxLeADSCz9TxNRsZ09WJ2uXLIOxZZ7QdIfR+W/Pd6WF5+71zqJJ2HVQ2dC1Xq
- /I5u4xlAEZnWVGRVg6Jb4BSRoL78LJRdJlFa3C
-X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
- fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH v1 06/24] vfio-user: Define type vfio_user_pci_dev_info
+Content-Language: en-US
+To: John Levon <levon@movementarian.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@redhat.com>
+Cc: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
+References: <cover.1667542066.git.john.g.johnson@oracle.com>
+ <957361f0e497e0b95f10a3caf617fe04d9c6fb72.1667542066.git.john.g.johnson@oracle.com>
+ <78476e9d-0d40-12e8-075c-ec4ac84aab32@redhat.com>
+ <Y5cKhIY/F4/BwORD@movementarian.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y5cKhIY/F4/BwORD@movementarian.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,52 +94,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 12/12/22 12:03, John Levon wrote:
+> On Mon, Dec 12, 2022 at 10:01:33AM +0100, Cédric Le Goater wrote:
+> 
+>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>>> index 80b03a2..dc19869 100644
+>>> --- a/hw/vfio/pci.c
+>>> +++ b/hw/vfio/pci.c
+>>> @@ -19,6 +19,7 @@
+>>>     */
+>>>    #include "qemu/osdep.h"
+>>> +#include CONFIG_DEVICES
+>>>    #include <linux/vfio.h>
+>>>    #include <sys/ioctl.h>
+>>> @@ -3421,3 +3422,91 @@ static void register_vfio_pci_dev_type(void)
+>>>    }
+>>>    type_init(register_vfio_pci_dev_type)
+>>> +
+>>> +
+>>> +#ifdef CONFIG_VFIO_USER_PCI
+>>
+>> Why not introduce a new file hw/vfio/user.c file ? It would be
+>> cleaner.
+> 
+> user.c is in this series, and holds the vfio-user implementation - it's not a
+> PCI specific thing. So it would have to be hw/vfio/user_pci.c or something
 
-Prior to reading the shadow doorbell cq head, we have to update the
-eventidx. Otherwise, we risk that the driver will skip an mmio doorbell
-write. This happens on riscv64, as reported by Guenter.
-
-Adding the missing update to the cq eventidx fixes the issue.
-
-Fixes: 3f7fe8de3d49 ("hw/nvme: Implement shadow doorbell buffer support")
-Cc: qemu-stable@nongnu.org
-Cc: qemu-riscv@nongnu.org
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index bb505131f5f9..3df29ea68b2f 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1334,6 +1334,15 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
-     }
- }
- 
-+static void nvme_update_cq_eventidx(const NvmeCQueue *cq)
-+{
-+    uint32_t v = cpu_to_le32(cq->head);
-+
-+    trace_pci_nvme_update_cq_eventidx(cq->cqid, cq->head);
-+
-+    pci_dma_write(PCI_DEVICE(cq->ctrl), cq->ei_addr, &v, sizeof(v));
-+}
-+
- static void nvme_update_cq_head(NvmeCQueue *cq)
- {
-     uint32_t v;
-@@ -1358,6 +1367,7 @@ static void nvme_post_cqes(void *opaque)
-         hwaddr addr;
- 
-         if (n->dbbuf_enabled) {
-+            nvme_update_cq_eventidx(cq);
-             nvme_update_cq_head(cq);
-         }
- 
--- 
-2.38.1
-
+Or hw/vfio/pci-user.c
 
