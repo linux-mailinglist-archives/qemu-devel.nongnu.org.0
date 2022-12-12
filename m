@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732C6649921
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 08:02:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 376F064992C
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 08:05:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4coE-0002Bq-Bw; Mon, 12 Dec 2022 02:01:06 -0500
+	id 1p4cro-0003Ya-B5; Mon, 12 Dec 2022 02:04:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4co7-0002AC-Vw
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 02:00:59 -0500
-Received: from mout.gmx.net ([212.227.15.19])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p4crk-0003Xu-50
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 02:04:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4co5-0005rn-Jq
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 02:00:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1670828447; bh=p0B55hDZ6iPP/bor3LBrzxxfGzPW1ikFpE21hNWWt1c=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=RTqwYWGe7U4ZOPqdXFuePpUKi5emglbJ/g8BnBTWkZkdXY58v78FC2rQ3i5KX81jI
- yvM0kLLuboBFZ7z7KNVBaxhMagiTVejPVRRPu9Q7xUEPYQPHOAG1rwx6D8M2IA8jLI
- 0U8Be0MQwFP7VCD5/YOUEpQhZR62I6WtL6/zY1U1dyt/Oat4GJmwO+W0pPYRn6ZUkf
- nlFr+NjklupL+ePX/HQ6ejAkM5MO53lIZspSIgU0owtqqCsei9dPnLN9+J82ZcnR1g
- 1qbCz/Lp6XXdj/o3EOcBfQcQXrVN+wjN/Lv1eEUnu1Pm2bJR9iJRw39JKKg4t6b7PY
- c1mtO5baqMmXg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from p100 ([92.116.137.92]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7iCW-1oqgl316n4-014je0; Mon, 12
- Dec 2022 08:00:47 +0100
-Date: Mon, 12 Dec 2022 08:00:45 +0100
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Vitaly Buka <vitalybuka@google.com>, qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Add emulation for MADV_WIPEONFORK and
- MADV_KEEPONFORK in madvise()
-Message-ID: <Y5bRnRaiSOUKRjdW@p100>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p4cri-0006LR-5u
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 02:04:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670828681;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WWALxUfQCpa383poR110/D0s7IoIHYpt8D5fWWOmDgA=;
+ b=Jy6dJA0IuukUShE8XobLGm63n2rhpFuCcwIQtyLDonqOJUspqXnI06ETTd1JSaZ/src0gZ
+ qtJapLfX9sly3X6LHiUgRAdCSYN6sfcudJwLpcIZpkldyQXsUY1Ikkj47RPRwmgl/haltO
+ yIdquxdD4LsLZHdYH0CSQIFG6jEHhJY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-mlzsDVEiOvmPSITZRLbzMw-1; Mon, 12 Dec 2022 02:04:37 -0500
+X-MC-Unique: mlzsDVEiOvmPSITZRLbzMw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 18D681C068F4;
+ Mon, 12 Dec 2022 07:04:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C2D51121333;
+ Mon, 12 Dec 2022 07:04:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E6C2721E6900; Mon, 12 Dec 2022 08:04:31 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
+ jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
+ jasowang@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
+ tsimpson@quicinc.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org
+Subject: [PATCH] include: Don't include qemu/osdep.h
+Date: Mon, 12 Dec 2022 08:04:31 +0100
+Message-Id: <20221212070431.306727-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:4hcwySHZHkELp7Pq4zMyIE0oieNZk2j5/y/cUYaF9jDnPe8ZxkL
- 4yj6Hx7xG9pmRWhyDjtG20VpFsh8Yu4csm6YNbOv17dT9zgHEiK82oGCxituIMQKtRiQn7A
- w9mVtRN8k2qX3jHDLYcNi1Y2q9kZ260cwVQRJ9D/r3wriw5F9LsjHpzuN0Vd/XaNu01HaEZ
- VPlG8TH+MvC1E6kQ09xZw==
-UI-OutboundReport: notjunk:1;M01:P0:ZxpX6EmLGXU=;/gnkvwTsWUdSETWzt+DTZH/Dni3
- O6sd1fyn+9QAZBvKJJ7d9JQTgehM91apPVY7JCooXyvRicGynzpj9P3lNitQYeeWVBqd8Ds66
- yIk/Xk6iNn7CT94G0/6iXBv085WG11pQvYyua1vyJhsmFr0EwQVdnFgC65qa606AQKo4MZZ0L
- e+otz/haWIJShtjoWDYX7o9CkX6UiR5H39GCpQuq+47xpFcMwwIYMuGYQxWsTZ8osXvFBsgQ/
- YdBVU2LYx1TgLGnG/jzKmooW/ILz6XJejvUzmTwZuuFcqOZEhoMdNaW/YN1zUuKAFgIPD1xz2
- tWucrPTRH9rBBuOuveEnDUFZUa2uuczbW4kGd91DAubMeeoRDvMJ8NO4sEkRHiFcTjYOFR9cL
- 9qqVBx9jn9nRv6YAfBvrrkdvPIBREWRgIpk6PH8idsDh+C2pGJhOHQjzxGDnozwq049Sqe7TB
- 4H5hfHSCryE2cKzt8M9mOqQHMZ0+sx0dzV9C93wWTL69dymOx3uHEqFFfZS+3psbDOEHnY/QQ
- +NwVIeYBULvUMzjOAMo/t8P1Of3gD+3pK3wLPz185O+uJVrdFm2PrO9uH+Xk3fLr1PfuKb9TU
- /A/kZFQgqwhmfrsa6FjAWatmgMTxzdj4/0wigCKLcWf8Ruxrej0XeVe/2lDSj0IoSXhURs7z5
- vxNA6aH1gbPeNcjlnN7E+A9jhuYDEVc+szv23XLfYXKdqiIUcMX1C/jdmrzoS/ij4zYy+vsYM
- MeHYEOx86o/qd9a/93IgYjOH1qCXtnoYOHbUDQux10gwLZQUNfmm0ke0Ho4MYLeehxGB8lDur
- B1Mh/dEOAoIpNTVzabj8pa+Uk3vzxLftQOCTNALiYGPs5SThZDkzROKwIblPZwCTOF4N9xuWb
- wWONyhJms97tH65T8jSNv2AODIHk7x+WPMdsPSBL1VnbRklQ6aVVKQQzorvsXOnKk9OYgT4iu
- DWY170pGQiPArQyDkM8Yy+b0HaM=
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,79 +79,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Both parameters have a different value on the parisc platform, so first
-translate the target value into a host value for usage in the native
-madvise() syscall.
+docs/devel/style.rst mandates:
 
-Those parameters are often used by security sensitive applications (e.g.
-tor browser, boringssl, ...) which expect the call to return a proper
-return code on failure, so return -EINVAL if qemu fails to forward the
-syscall to the host OS.
+    The "qemu/osdep.h" header contains preprocessor macros that affect
+    the behavior of core system headers like <stdint.h>.  It must be
+    the first include so that core system headers included by external
+    libraries get the preprocessor macros that QEMU depends on.
 
-Tested with testcase of tor browser when running hppa-linux guest on
-x86-64 host.
+    Do not include "qemu/osdep.h" from header files since the .c file
+    will have already included it.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+A few violations have crept in.  Fix them.
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 10f5079331..c75342108c 100644
-=2D-- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -901,11 +901,25 @@ abi_long target_madvise(abi_ulong start, abi_ulong l=
-en_in, int advice)
-         return -TARGET_EINVAL;
-     }
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ bsd-user/qemu.h                 | 1 -
+ crypto/block-luks-priv.h        | 1 -
+ include/hw/cxl/cxl_host.h       | 1 -
+ include/hw/input/pl050.h        | 1 -
+ include/hw/tricore/triboard.h   | 1 -
+ include/qemu/userfaultfd.h      | 1 -
+ net/vmnet_int.h                 | 1 -
+ qga/cutils.h                    | 1 -
+ target/hexagon/hex_arch_types.h | 1 -
+ target/hexagon/mmvec/macros.h   | 1 -
+ target/riscv/pmu.h              | 1 -
+ qga/cutils.c                    | 3 ++-
+ 12 files changed, 2 insertions(+), 12 deletions(-)
 
-+    /* Translate for some architectures which have different MADV_xxx val=
-ues */
-+    switch (advice) {
-+    case TARGET_MADV_DONTNEED:      /* alpha */
-+        advice =3D MADV_DONTNEED;
-+        break;
-+    case TARGET_MADV_WIPEONFORK:    /* parisc */
-+        advice =3D MADV_WIPEONFORK;
-+        break;
-+    case TARGET_MADV_KEEPONFORK:    /* parisc */
-+        advice =3D MADV_KEEPONFORK;
-+        break;
-+    /* we do not care about the other MADV_xxx values yet */
-+    }
-+
-     /*
-      * A straight passthrough may not be safe because qemu sometimes turn=
-s
-      * private file-backed mappings into anonymous mappings.
-      *
--     * This is a hint, so ignoring and returning success is ok.
-+     * For MADV_DONTNEED, which is a hint, ignoring and returning success=
- is ok.
-      *
-      * This breaks MADV_DONTNEED, completely implementing which is quite
-      * complicated. However, there is one low-hanging fruit: mappings tha=
-t are
-@@ -913,11 +927,17 @@ abi_long target_madvise(abi_ulong start, abi_ulong l=
-en_in, int advice)
-      * passthrough is safe, so do it.
-      */
-     mmap_lock();
--    if (advice =3D=3D TARGET_MADV_DONTNEED &&
--        can_passthrough_madv_dontneed(start, end)) {
--        ret =3D get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED=
-));
--        if (ret =3D=3D 0) {
--            page_reset_target_data(start, start + len);
-+    switch (advice) {
-+    case MADV_WIPEONFORK:
-+    case MADV_KEEPONFORK:
-+        ret =3D -EINVAL;
-+        /* fall through */
-+    case MADV_DONTNEED:
-+        if (can_passthrough_madv_dontneed(start, end)) {
-+            ret =3D get_errno(madvise(g2h_untagged(start), len, advice));
-+            if ((advice =3D=3D MADV_DONTNEED) && (ret =3D=3D 0)) {
-+                page_reset_target_data(start, start + len);
-+            }
-         }
-     }
-     mmap_unlock();
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index be6105385e..0ceecfb6df 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -17,7 +17,6 @@
+ #ifndef QEMU_H
+ #define QEMU_H
+ 
+-#include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "qemu/units.h"
+ #include "exec/cpu_ldst.h"
+diff --git a/crypto/block-luks-priv.h b/crypto/block-luks-priv.h
+index 90a20d432b..1066df0307 100644
+--- a/crypto/block-luks-priv.h
++++ b/crypto/block-luks-priv.h
+@@ -18,7 +18,6 @@
+  *
+  */
+ 
+-#include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "qemu/bswap.h"
+ 
+diff --git a/include/hw/cxl/cxl_host.h b/include/hw/cxl/cxl_host.h
+index a1b662ce40..c9bc9c7c50 100644
+--- a/include/hw/cxl/cxl_host.h
++++ b/include/hw/cxl/cxl_host.h
+@@ -7,7 +7,6 @@
+  * COPYING file in the top-level directory.
+  */
+ 
+-#include "qemu/osdep.h"
+ #include "hw/cxl/cxl.h"
+ #include "hw/boards.h"
+ 
+diff --git a/include/hw/input/pl050.h b/include/hw/input/pl050.h
+index 89ec4fafc9..4cb8985f31 100644
+--- a/include/hw/input/pl050.h
++++ b/include/hw/input/pl050.h
+@@ -10,7 +10,6 @@
+ #ifndef HW_PL050_H
+ #define HW_PL050_H
+ 
+-#include "qemu/osdep.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "hw/input/ps2.h"
+diff --git a/include/hw/tricore/triboard.h b/include/hw/tricore/triboard.h
+index 094c8bd563..4fdd2d7d97 100644
+--- a/include/hw/tricore/triboard.h
++++ b/include/hw/tricore/triboard.h
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "hw/boards.h"
+ #include "sysemu/sysemu.h"
+diff --git a/include/qemu/userfaultfd.h b/include/qemu/userfaultfd.h
+index 6b74f92792..55c95998e8 100644
+--- a/include/qemu/userfaultfd.h
++++ b/include/qemu/userfaultfd.h
+@@ -13,7 +13,6 @@
+ #ifndef USERFAULTFD_H
+ #define USERFAULTFD_H
+ 
+-#include "qemu/osdep.h"
+ #include "exec/hwaddr.h"
+ #include <linux/userfaultfd.h>
+ 
+diff --git a/net/vmnet_int.h b/net/vmnet_int.h
+index adf6e8c20d..d0b90594f2 100644
+--- a/net/vmnet_int.h
++++ b/net/vmnet_int.h
+@@ -10,7 +10,6 @@
+ #ifndef VMNET_INT_H
+ #define VMNET_INT_H
+ 
+-#include "qemu/osdep.h"
+ #include "vmnet_int.h"
+ #include "clients.h"
+ 
+diff --git a/qga/cutils.h b/qga/cutils.h
+index f0f30a7d28..2bfaf554a8 100644
+--- a/qga/cutils.h
++++ b/qga/cutils.h
+@@ -1,7 +1,6 @@
+ #ifndef CUTILS_H_
+ #define CUTILS_H_
+ 
+-#include "qemu/osdep.h"
+ 
+ int qga_open_cloexec(const char *name, int flags, mode_t mode);
+ 
+diff --git a/target/hexagon/hex_arch_types.h b/target/hexagon/hex_arch_types.h
+index 885f68f760..52a7f2b2f3 100644
+--- a/target/hexagon/hex_arch_types.h
++++ b/target/hexagon/hex_arch_types.h
+@@ -18,7 +18,6 @@
+ #ifndef HEXAGON_HEX_ARCH_TYPES_H
+ #define HEXAGON_HEX_ARCH_TYPES_H
+ 
+-#include "qemu/osdep.h"
+ #include "mmvec/mmvec.h"
+ #include "qemu/int128.h"
+ 
+diff --git a/target/hexagon/mmvec/macros.h b/target/hexagon/mmvec/macros.h
+index 8345753580..6a463a7db3 100644
+--- a/target/hexagon/mmvec/macros.h
++++ b/target/hexagon/mmvec/macros.h
+@@ -18,7 +18,6 @@
+ #ifndef HEXAGON_MMVEC_MACROS_H
+ #define HEXAGON_MMVEC_MACROS_H
+ 
+-#include "qemu/osdep.h"
+ #include "qemu/host-utils.h"
+ #include "arch.h"
+ #include "mmvec/system_ext_mmvec.h"
+diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
+index 3004ce37b6..0c819ca983 100644
+--- a/target/riscv/pmu.h
++++ b/target/riscv/pmu.h
+@@ -16,7 +16,6 @@
+  * this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include "qemu/osdep.h"
+ #include "qemu/log.h"
+ #include "cpu.h"
+ #include "qemu/main-loop.h"
+diff --git a/qga/cutils.c b/qga/cutils.c
+index b8e142ef64..b21bcf3683 100644
+--- a/qga/cutils.c
++++ b/qga/cutils.c
+@@ -2,8 +2,9 @@
+  * This work is licensed under the terms of the GNU GPL, version 2 or later.
+  * See the COPYING file in the top-level directory.
+  */
+-#include "cutils.h"
+ 
++#include "qemu/osdep.h"
++#include "cutils.h"
+ #include "qapi/error.h"
+ 
+ /**
+-- 
+2.37.3
+
 
