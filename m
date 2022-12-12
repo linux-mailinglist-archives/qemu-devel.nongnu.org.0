@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9D664AB1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 00:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B5364AB22
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 00:08:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4rrz-0007Bu-3j; Mon, 12 Dec 2022 18:05:59 -0500
+	id 1p4rs3-0007Ek-V6; Mon, 12 Dec 2022 18:06:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rrn-0007B7-Ak
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:05:47 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rrv-0007Bi-EZ
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:05:58 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rrk-0004Jb-Uo
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:05:46 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id i15so15332703edf.2
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:05:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rrr-0004Ka-46
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:05:55 -0500
+Received: by mail-ed1-x533.google.com with SMTP id s5so15310785edc.12
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:05:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HtZ4cgzKl55c5IR/jgqaC1y4yIycxamtTp9YNAr02b8=;
- b=i+mxb/y8kZlNdVca1eTR33mPDMnFi3jtMyjpBrIIrvb3Q66D6X0aU4Q1X8eiAUxedn
- gyYdnX6e/av1w/QkvI9N+f70WLcgfPRb2L61JVHKYfm9HHftzQsnktMvDlLxh6ZJnUW0
- yhokDs1HM3K7v2uS7dMUmU/Wmv2a1u+AXC/+JrAZs0bpEvEBi+mftv7y/PTN8SRq2T7v
- Xz+XQALSyETcWDK1hDL5bm7XGHuAAqPKwftHhoYramHsOZHb9EkS31LsSBWKfwKQq6xo
- 5NpPO3ILTPd2fRZJlfxXDoXvu3NFlD0DU6PFOEnd1G99iXH/l8B4TgPVpl2s3xKJ5pdP
- 3duQ==
+ bh=848st9nOEdesAEHizNg+a/35pp/GvtwuWxwzSYyp8k8=;
+ b=mNpiwHGvjxg4p6/vsYQ1pxW0pu+dyTMGrG/45eyiCxDtuKLYGlRSjcBSTEUYs23X7L
+ mZONym+qOBGSuom3KEC0VtbtuciK/OW0Sl7rdcXH1xqnT9k9pajpMtPEfVLQIcSjZTuv
+ +D5qoY7q/upW2z4SGXcLdn5yTERFWwwFDWj87YUGp90RtA3pOMoP7cKg5uS9p20tHus9
+ KiLoZK1DXLj/ZGxCsJj//BUr3MZ35bePhPTVsIhtScW7mGgftCBF+3jvR0JNZL3gUGY2
+ PsjEXIqo2MlqeCHC1uf5m2Mln47Jiem9gQXFOQmw0MQxkAZ50DO5wLnIIosOudAs31pv
+ M+ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HtZ4cgzKl55c5IR/jgqaC1y4yIycxamtTp9YNAr02b8=;
- b=ebRSExVX9mYKsGXb0Bqp9+PiAM/jVNWlr/mWbFLDVn2h+WpoWND48r48buZNLeKzyY
- g7vGCTtPoP+Ux6WKrJ8B6ir1g63jgloy0Vt2fWBaXtj4SEohjLz9rNk9WAlUOs3dxyib
- dBOKnhgC5LtGaKgo5IoOpPV1JganTm4rE0UlROHgtTyCImraGECEjKAy9jeliomx+jPG
- R/12kxDqTKRfkl2D73kuuqfgIitTv3JQuGtyK7/kX+j4ppNd5iRMzE/WbJRRO+zSfJX/
- nabiPbrYRfcIk451sCpqf8bMXxTmsxL0T/R2WM6fs9hk2PrJcBMBvtS3N47rRUW50kV5
- L3tA==
-X-Gm-Message-State: ANoB5pkN9icUA/DHngpW3824q66xOO4G4tf0cTG0BxexorRW81mFTfJa
- yXVgrlgzHWc9pUDFcLHVxRFmES+0cNrpcCYww+Y=
-X-Google-Smtp-Source: AA0mqf7LpZFoK6i0QspyY2CUHjxyVK4G2nFURGUWepQdLKbl51ViVT2h9mRBJjgDOaPZR1wSZk5jBw==
-X-Received: by 2002:aa7:cb81:0:b0:467:86c7:c4a8 with SMTP id
- r1-20020aa7cb81000000b0046786c7c4a8mr13773841edt.41.1670886342976; 
- Mon, 12 Dec 2022 15:05:42 -0800 (PST)
+ bh=848st9nOEdesAEHizNg+a/35pp/GvtwuWxwzSYyp8k8=;
+ b=b83xu6e/Uzbw+puyjIb2OTUkX4n2skrnMZjQcFjEv4ofOdfJ5PWNZsePdb2b7ACETf
+ JqRM7nuia/mp069fTE5f6WTbU0ntWwNjyolIuWAabvjHyD/q3zjPg5OCnTnC8jdjWM/g
+ mY35O8p0ZVYc5IYs8BLNABXKINz6uNjR0QkIxROd7cZxNJZcwGWiSo0opQbhglCk0eXC
+ v7EIbGWVW2p7PG7jolPzAC4QKRWhUsL46Xy/DHAkYh8T7fnsAwT3TsTXgZaRKGP3dJ9Z
+ QuvB+X+kW3iIIevs5hJz+ILG7ZAC42DEy4Pb2MtvW0/wMKe1A1/HED729qo/pwDsnKa1
+ Wkfw==
+X-Gm-Message-State: ANoB5plxS/TqwUYKEgKfBxIUtn+LsFqxsAiqsV2ML6tcSyrmgrOoQFVy
+ VPp4y3xJ/10GDlad6oVx2bVtKmE44IWxq84eicg=
+X-Google-Smtp-Source: AA0mqf6U8w6LVB7FE6+pyHSh6FZXyMahuQTtYCLZ8HdACpO8jpFIGSCJCor8nAw6OJB98xVd9Bt4dA==
+X-Received: by 2002:a05:6402:2491:b0:46f:fe46:acd4 with SMTP id
+ q17-20020a056402249100b0046ffe46acd4mr3844426eda.27.1670886348549; 
+ Mon, 12 Dec 2022 15:05:48 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- l20-20020a50d6d4000000b00463b9d47e1fsm4353425edj.71.2022.12.12.15.05.41
+ 1-20020a170906200100b0073d71792c8dsm3760510ejo.180.2022.12.12.15.05.47
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 12 Dec 2022 15:05:42 -0800 (PST)
+ Mon, 12 Dec 2022 15:05:48 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
@@ -64,25 +64,24 @@ Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH-for-8.0 04/10] hw/virtio: Extract config read/write accessors
- to virtio-config.c
-Date: Tue, 13 Dec 2022 00:05:11 +0100
-Message-Id: <20221212230517.28872-5-philmd@linaro.org>
+Subject: [PATCH-for-8.0 05/10] hw/virtio: Extract QMP related code virtio-qmp.c
+Date: Tue, 13 Dec 2022 00:05:12 +0100
+Message-Id: <20221212230517.28872-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221212230517.28872-1-philmd@linaro.org>
 References: <20221212230517.28872-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,36 +97,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These config helpers use the target-dependent LD/ST API.
+The monitor decoders are the only functions using the CONFIG_xxx
+definitions declared in the target specific CONFIG_DEVICES header.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/virtio/meson.build     |   1 +
- hw/virtio/virtio-config.c | 204 ++++++++++++++++++++++++++++++++++++++
- hw/virtio/virtio.c        | 190 -----------------------------------
- 3 files changed, 205 insertions(+), 190 deletions(-)
- create mode 100644 hw/virtio/virtio-config.c
+ hw/virtio/meson.build  |   2 +-
+ hw/virtio/virtio-qmp.c | 631 +++++++++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-qmp.h |  20 ++
+ hw/virtio/virtio.c     | 607 +--------------------------------------
+ 4 files changed, 654 insertions(+), 606 deletions(-)
+ create mode 100644 hw/virtio/virtio-qmp.c
+ create mode 100644 hw/virtio/virtio-qmp.h
 
 diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 23a980efaa..097220b4b5 100644
+index 097220b4b5..eb7ee8ea92 100644
 --- a/hw/virtio/meson.build
 +++ b/hw/virtio/meson.build
-@@ -5,6 +5,7 @@ softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'
+@@ -5,7 +5,7 @@ softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'
  
  specific_virtio_ss = ss.source_set()
  specific_virtio_ss.add(files('virtio.c'))
-+specific_virtio_ss.add(files('virtio-config.c'))
+-specific_virtio_ss.add(files('virtio-config.c'))
++specific_virtio_ss.add(files('virtio-config.c', 'virtio-qmp.c'))
  
  if have_vhost
    specific_virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
-diff --git a/hw/virtio/virtio-config.c b/hw/virtio/virtio-config.c
+diff --git a/hw/virtio/virtio-qmp.c b/hw/virtio/virtio-qmp.c
 new file mode 100644
-index 0000000000..ad78e0b9bc
+index 0000000000..63d03cc6db
 --- /dev/null
-+++ b/hw/virtio/virtio-config.c
-@@ -0,0 +1,204 @@
++++ b/hw/virtio/virtio-qmp.c
+@@ -0,0 +1,631 @@
 +/*
-+ * Virtio Support
++ * Virtio QMP helpers
 + *
 + * Copyright IBM, Corp. 2007
 + *
@@ -139,405 +142,1296 @@ index 0000000000..ad78e0b9bc
 +
 +#include "qemu/osdep.h"
 +#include "hw/virtio/virtio.h"
-+#include "cpu.h"
++#include "virtio-qmp.h"
 +
-+uint32_t virtio_config_readb(VirtIODevice *vdev, uint32_t addr)
++#include "standard-headers/linux/virtio_ids.h"
++#include "standard-headers/linux/vhost_types.h"
++#include "standard-headers/linux/virtio_blk.h"
++#include "standard-headers/linux/virtio_console.h"
++#include "standard-headers/linux/virtio_gpu.h"
++#include "standard-headers/linux/virtio_net.h"
++#include "standard-headers/linux/virtio_scsi.h"
++#include "standard-headers/linux/virtio_i2c.h"
++#include "standard-headers/linux/virtio_balloon.h"
++#include "standard-headers/linux/virtio_iommu.h"
++#include "standard-headers/linux/virtio_mem.h"
++#include "standard-headers/linux/virtio_vsock.h"
++
++#include CONFIG_DEVICES
++
++#define FEATURE_ENTRY(name, desc) (qmp_virtio_feature_map_t) \
++    { .virtio_bit = name, .feature_desc = desc }
++
++enum VhostUserProtocolFeature {
++    VHOST_USER_PROTOCOL_F_MQ = 0,
++    VHOST_USER_PROTOCOL_F_LOG_SHMFD = 1,
++    VHOST_USER_PROTOCOL_F_RARP = 2,
++    VHOST_USER_PROTOCOL_F_REPLY_ACK = 3,
++    VHOST_USER_PROTOCOL_F_NET_MTU = 4,
++    VHOST_USER_PROTOCOL_F_SLAVE_REQ = 5,
++    VHOST_USER_PROTOCOL_F_CROSS_ENDIAN = 6,
++    VHOST_USER_PROTOCOL_F_CRYPTO_SESSION = 7,
++    VHOST_USER_PROTOCOL_F_PAGEFAULT = 8,
++    VHOST_USER_PROTOCOL_F_CONFIG = 9,
++    VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD = 10,
++    VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
++    VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
++    VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
++    VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS = 14,
++    VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
++    VHOST_USER_PROTOCOL_F_MAX
++};
++
++/* Virtio transport features mapping */
++static const qmp_virtio_feature_map_t virtio_transport_map[] = {
++    /* Virtio device transport features */
++#ifndef VIRTIO_CONFIG_NO_LEGACY
++    FEATURE_ENTRY(VIRTIO_F_NOTIFY_ON_EMPTY, \
++            "VIRTIO_F_NOTIFY_ON_EMPTY: Notify when device runs out of avail. "
++            "descs. on VQ"),
++    FEATURE_ENTRY(VIRTIO_F_ANY_LAYOUT, \
++            "VIRTIO_F_ANY_LAYOUT: Device accepts arbitrary desc. layouts"),
++#endif /* !VIRTIO_CONFIG_NO_LEGACY */
++    FEATURE_ENTRY(VIRTIO_F_VERSION_1, \
++            "VIRTIO_F_VERSION_1: Device compliant for v1 spec (legacy)"),
++    FEATURE_ENTRY(VIRTIO_F_IOMMU_PLATFORM, \
++            "VIRTIO_F_IOMMU_PLATFORM: Device can be used on IOMMU platform"),
++    FEATURE_ENTRY(VIRTIO_F_RING_PACKED, \
++            "VIRTIO_F_RING_PACKED: Device supports packed VQ layout"),
++    FEATURE_ENTRY(VIRTIO_F_IN_ORDER, \
++            "VIRTIO_F_IN_ORDER: Device uses buffers in same order as made "
++            "available by driver"),
++    FEATURE_ENTRY(VIRTIO_F_ORDER_PLATFORM, \
++            "VIRTIO_F_ORDER_PLATFORM: Memory accesses ordered by platform"),
++    FEATURE_ENTRY(VIRTIO_F_SR_IOV, \
++            "VIRTIO_F_SR_IOV: Device supports single root I/O virtualization"),
++    /* Virtio ring transport features */
++    FEATURE_ENTRY(VIRTIO_RING_F_INDIRECT_DESC, \
++            "VIRTIO_RING_F_INDIRECT_DESC: Indirect descriptors supported"),
++    FEATURE_ENTRY(VIRTIO_RING_F_EVENT_IDX, \
++            "VIRTIO_RING_F_EVENT_IDX: Used & avail. event fields enabled"),
++    { -1, "" }
++};
++
++/* Vhost-user protocol features mapping */
++static const qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_MQ, \
++            "VHOST_USER_PROTOCOL_F_MQ: Multiqueue protocol supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_LOG_SHMFD, \
++            "VHOST_USER_PROTOCOL_F_LOG_SHMFD: Shared log memory fd supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_RARP, \
++            "VHOST_USER_PROTOCOL_F_RARP: Vhost-user back-end RARP broadcasting "
++            "supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_REPLY_ACK, \
++            "VHOST_USER_PROTOCOL_F_REPLY_ACK: Requested operation status ack. "
++            "supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_NET_MTU, \
++            "VHOST_USER_PROTOCOL_F_NET_MTU: Expose host MTU to guest supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_SLAVE_REQ, \
++            "VHOST_USER_PROTOCOL_F_SLAVE_REQ: Socket fd for back-end initiated "
++            "requests supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CROSS_ENDIAN, \
++            "VHOST_USER_PROTOCOL_F_CROSS_ENDIAN: Endianness of VQs for legacy "
++            "devices supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CRYPTO_SESSION, \
++            "VHOST_USER_PROTOCOL_F_CRYPTO_SESSION: Session creation for crypto "
++            "operations supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_PAGEFAULT, \
++            "VHOST_USER_PROTOCOL_F_PAGEFAULT: Request servicing on userfaultfd "
++            "for accessed pages supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CONFIG, \
++            "VHOST_USER_PROTOCOL_F_CONFIG: Vhost-user messaging for virtio "
++            "device configuration space supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD, \
++            "VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD: Slave fd communication "
++            "channel supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_HOST_NOTIFIER, \
++            "VHOST_USER_PROTOCOL_F_HOST_NOTIFIER: Host notifiers for specified "
++            "VQs supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD, \
++            "VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD: Shared inflight I/O buffers "
++            "supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_RESET_DEVICE, \
++            "VHOST_USER_PROTOCOL_F_RESET_DEVICE: Disabling all rings and "
++            "resetting internal device state supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS, \
++            "VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS: In-band messaging "
++            "supported"),
++    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS, \
++            "VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS: Configuration for "
++            "memory slots supported"),
++    { -1, "" }
++};
++
++/* virtio device configuration statuses */
++static const qmp_virtio_feature_map_t virtio_config_status_map[] = {
++    FEATURE_ENTRY(VIRTIO_CONFIG_S_DRIVER_OK, \
++            "VIRTIO_CONFIG_S_DRIVER_OK: Driver setup and ready"),
++    FEATURE_ENTRY(VIRTIO_CONFIG_S_FEATURES_OK, \
++            "VIRTIO_CONFIG_S_FEATURES_OK: Feature negotiation complete"),
++    FEATURE_ENTRY(VIRTIO_CONFIG_S_DRIVER, \
++            "VIRTIO_CONFIG_S_DRIVER: Guest OS compatible with device"),
++    FEATURE_ENTRY(VIRTIO_CONFIG_S_NEEDS_RESET, \
++            "VIRTIO_CONFIG_S_NEEDS_RESET: Irrecoverable error, device needs "
++            "reset"),
++    FEATURE_ENTRY(VIRTIO_CONFIG_S_FAILED, \
++            "VIRTIO_CONFIG_S_FAILED: Error in guest, device failed"),
++    FEATURE_ENTRY(VIRTIO_CONFIG_S_ACKNOWLEDGE, \
++            "VIRTIO_CONFIG_S_ACKNOWLEDGE: Valid virtio device found"),
++    { -1, "" }
++};
++
++/* virtio-blk features mapping */
++const qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
++    FEATURE_ENTRY(VIRTIO_BLK_F_SIZE_MAX, \
++            "VIRTIO_BLK_F_SIZE_MAX: Max segment size is size_max"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_SEG_MAX, \
++            "VIRTIO_BLK_F_SEG_MAX: Max segments in a request is seg_max"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_GEOMETRY, \
++            "VIRTIO_BLK_F_GEOMETRY: Legacy geometry available"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_RO, \
++            "VIRTIO_BLK_F_RO: Device is read-only"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_BLK_SIZE, \
++            "VIRTIO_BLK_F_BLK_SIZE: Block size of disk available"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_TOPOLOGY, \
++            "VIRTIO_BLK_F_TOPOLOGY: Topology information available"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_MQ, \
++            "VIRTIO_BLK_F_MQ: Multiqueue supported"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_DISCARD, \
++            "VIRTIO_BLK_F_DISCARD: Discard command supported"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_WRITE_ZEROES, \
++            "VIRTIO_BLK_F_WRITE_ZEROES: Write zeroes command supported"),
++#ifndef VIRTIO_BLK_NO_LEGACY
++    FEATURE_ENTRY(VIRTIO_BLK_F_BARRIER, \
++            "VIRTIO_BLK_F_BARRIER: Request barriers supported"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_SCSI, \
++            "VIRTIO_BLK_F_SCSI: SCSI packet commands supported"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_FLUSH, \
++            "VIRTIO_BLK_F_FLUSH: Flush command supported"),
++    FEATURE_ENTRY(VIRTIO_BLK_F_CONFIG_WCE, \
++            "VIRTIO_BLK_F_CONFIG_WCE: Cache writeback and writethrough modes "
++            "supported"),
++#endif /* !VIRTIO_BLK_NO_LEGACY */
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
++            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
++            "negotiation supported"),
++    { -1, "" }
++};
++
++/* virtio-serial features mapping */
++const qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
++    FEATURE_ENTRY(VIRTIO_CONSOLE_F_SIZE, \
++            "VIRTIO_CONSOLE_F_SIZE: Host providing console size"),
++    FEATURE_ENTRY(VIRTIO_CONSOLE_F_MULTIPORT, \
++            "VIRTIO_CONSOLE_F_MULTIPORT: Multiple ports for device supported"),
++    FEATURE_ENTRY(VIRTIO_CONSOLE_F_EMERG_WRITE, \
++            "VIRTIO_CONSOLE_F_EMERG_WRITE: Emergency write supported"),
++    { -1, "" }
++};
++
++/* virtio-gpu features mapping */
++const qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
++    FEATURE_ENTRY(VIRTIO_GPU_F_VIRGL, \
++            "VIRTIO_GPU_F_VIRGL: Virgl 3D mode supported"),
++    FEATURE_ENTRY(VIRTIO_GPU_F_EDID, \
++            "VIRTIO_GPU_F_EDID: EDID metadata supported"),
++    FEATURE_ENTRY(VIRTIO_GPU_F_RESOURCE_UUID, \
++            "VIRTIO_GPU_F_RESOURCE_UUID: Resource UUID assigning supported"),
++    FEATURE_ENTRY(VIRTIO_GPU_F_RESOURCE_BLOB, \
++            "VIRTIO_GPU_F_RESOURCE_BLOB: Size-based blob resources supported"),
++    FEATURE_ENTRY(VIRTIO_GPU_F_CONTEXT_INIT, \
++            "VIRTIO_GPU_F_CONTEXT_INIT: Context types and synchronization "
++            "timelines supported"),
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
++            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
++            "negotiation supported"),
++    { -1, "" }
++};
++
++/* virtio-input features mapping */
++const qmp_virtio_feature_map_t virtio_input_feature_map[] = {
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
++            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
++            "negotiation supported"),
++    { -1, "" }
++};
++
++/* virtio-net features mapping */
++const qmp_virtio_feature_map_t virtio_net_feature_map[] = {
++    FEATURE_ENTRY(VIRTIO_NET_F_CSUM, \
++            "VIRTIO_NET_F_CSUM: Device handling packets with partial checksum "
++            "supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_CSUM, \
++            "VIRTIO_NET_F_GUEST_CSUM: Driver handling packets with partial "
++            "checksum supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_GUEST_OFFLOADS, \
++            "VIRTIO_NET_F_CTRL_GUEST_OFFLOADS: Control channel offloading "
++            "reconfig. supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_MTU, \
++            "VIRTIO_NET_F_MTU: Device max MTU reporting supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_MAC, \
++            "VIRTIO_NET_F_MAC: Device has given MAC address"),
++    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_TSO4, \
++            "VIRTIO_NET_F_GUEST_TSO4: Driver can receive TSOv4"),
++    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_TSO6, \
++            "VIRTIO_NET_F_GUEST_TSO6: Driver can receive TSOv6"),
++    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_ECN, \
++            "VIRTIO_NET_F_GUEST_ECN: Driver can receive TSO with ECN"),
++    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_UFO, \
++            "VIRTIO_NET_F_GUEST_UFO: Driver can receive UFO"),
++    FEATURE_ENTRY(VIRTIO_NET_F_HOST_TSO4, \
++            "VIRTIO_NET_F_HOST_TSO4: Device can receive TSOv4"),
++    FEATURE_ENTRY(VIRTIO_NET_F_HOST_TSO6, \
++            "VIRTIO_NET_F_HOST_TSO6: Device can receive TSOv6"),
++    FEATURE_ENTRY(VIRTIO_NET_F_HOST_ECN, \
++            "VIRTIO_NET_F_HOST_ECN: Device can receive TSO with ECN"),
++    FEATURE_ENTRY(VIRTIO_NET_F_HOST_UFO, \
++            "VIRTIO_NET_F_HOST_UFO: Device can receive UFO"),
++    FEATURE_ENTRY(VIRTIO_NET_F_MRG_RXBUF, \
++            "VIRTIO_NET_F_MRG_RXBUF: Driver can merge receive buffers"),
++    FEATURE_ENTRY(VIRTIO_NET_F_STATUS, \
++            "VIRTIO_NET_F_STATUS: Configuration status field available"),
++    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_VQ, \
++            "VIRTIO_NET_F_CTRL_VQ: Control channel available"),
++    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_RX, \
++            "VIRTIO_NET_F_CTRL_RX: Control channel RX mode supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_VLAN, \
++            "VIRTIO_NET_F_CTRL_VLAN: Control channel VLAN filtering supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_RX_EXTRA, \
++            "VIRTIO_NET_F_CTRL_RX_EXTRA: Extra RX mode control supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_ANNOUNCE, \
++            "VIRTIO_NET_F_GUEST_ANNOUNCE: Driver sending gratuitous packets "
++            "supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_MQ, \
++            "VIRTIO_NET_F_MQ: Multiqueue with automatic receive steering "
++            "supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_MAC_ADDR, \
++            "VIRTIO_NET_F_CTRL_MAC_ADDR: MAC address set through control "
++            "channel"),
++    FEATURE_ENTRY(VIRTIO_NET_F_HASH_REPORT, \
++            "VIRTIO_NET_F_HASH_REPORT: Hash reporting supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_RSS, \
++            "VIRTIO_NET_F_RSS: RSS RX steering supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_RSC_EXT, \
++            "VIRTIO_NET_F_RSC_EXT: Extended coalescing info supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_STANDBY, \
++            "VIRTIO_NET_F_STANDBY: Device acting as standby for primary "
++            "device with same MAC addr. supported"),
++    FEATURE_ENTRY(VIRTIO_NET_F_SPEED_DUPLEX, \
++            "VIRTIO_NET_F_SPEED_DUPLEX: Device set linkspeed and duplex"),
++#ifndef VIRTIO_NET_NO_LEGACY
++    FEATURE_ENTRY(VIRTIO_NET_F_GSO, \
++            "VIRTIO_NET_F_GSO: Handling GSO-type packets supported"),
++#endif /* !VIRTIO_NET_NO_LEGACY */
++    FEATURE_ENTRY(VHOST_NET_F_VIRTIO_NET_HDR, \
++            "VHOST_NET_F_VIRTIO_NET_HDR: Virtio-net headers for RX and TX "
++            "packets supported"),
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
++            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
++            "negotiation supported"),
++    { -1, "" }
++};
++
++/* virtio-scsi features mapping */
++const qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
++    FEATURE_ENTRY(VIRTIO_SCSI_F_INOUT, \
++            "VIRTIO_SCSI_F_INOUT: Requests including read and writable data "
++            "buffers suppoted"),
++    FEATURE_ENTRY(VIRTIO_SCSI_F_HOTPLUG, \
++            "VIRTIO_SCSI_F_HOTPLUG: Reporting and handling hot-plug events "
++            "supported"),
++    FEATURE_ENTRY(VIRTIO_SCSI_F_CHANGE, \
++            "VIRTIO_SCSI_F_CHANGE: Reporting and handling LUN changes "
++            "supported"),
++    FEATURE_ENTRY(VIRTIO_SCSI_F_T10_PI, \
++            "VIRTIO_SCSI_F_T10_PI: T10 info included in request header"),
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
++            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
++            "negotiation supported"),
++    { -1, "" }
++};
++
++/* virtio/vhost-user-fs features mapping */
++const qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
++            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
++            "negotiation supported"),
++    { -1, "" }
++};
++
++/* virtio/vhost-user-i2c features mapping */
++const qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
++    FEATURE_ENTRY(VIRTIO_I2C_F_ZERO_LENGTH_REQUEST, \
++            "VIRTIO_I2C_F_ZERO_LEGNTH_REQUEST: Zero length requests supported"),
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
++            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
++            "negotiation supported"),
++    { -1, "" }
++};
++
++/* virtio/vhost-vsock features mapping */
++const qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
++    FEATURE_ENTRY(VIRTIO_VSOCK_F_SEQPACKET, \
++            "VIRTIO_VSOCK_F_SEQPACKET: SOCK_SEQPACKET supported"),
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
++            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
++            "negotiation supported"),
++    { -1, "" }
++};
++
++/* virtio-balloon features mapping */
++const qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
++    FEATURE_ENTRY(VIRTIO_BALLOON_F_MUST_TELL_HOST, \
++            "VIRTIO_BALLOON_F_MUST_TELL_HOST: Tell host before reclaiming "
++            "pages"),
++    FEATURE_ENTRY(VIRTIO_BALLOON_F_STATS_VQ, \
++            "VIRTIO_BALLOON_F_STATS_VQ: Guest memory stats VQ available"),
++    FEATURE_ENTRY(VIRTIO_BALLOON_F_DEFLATE_ON_OOM, \
++            "VIRTIO_BALLOON_F_DEFLATE_ON_OOM: Deflate balloon when guest OOM"),
++    FEATURE_ENTRY(VIRTIO_BALLOON_F_FREE_PAGE_HINT, \
++            "VIRTIO_BALLOON_F_FREE_PAGE_HINT: VQ reporting free pages enabled"),
++    FEATURE_ENTRY(VIRTIO_BALLOON_F_PAGE_POISON, \
++            "VIRTIO_BALLOON_F_PAGE_POISON: Guest page poisoning enabled"),
++    FEATURE_ENTRY(VIRTIO_BALLOON_F_REPORTING, \
++            "VIRTIO_BALLOON_F_REPORTING: Page reporting VQ enabled"),
++    { -1, "" }
++};
++
++/* virtio-crypto features mapping */
++const qmp_virtio_feature_map_t virtio_crypto_feature_map[] = {
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    { -1, "" }
++};
++
++/* virtio-iommu features mapping */
++const qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
++    FEATURE_ENTRY(VIRTIO_IOMMU_F_INPUT_RANGE, \
++            "VIRTIO_IOMMU_F_INPUT_RANGE: Range of available virtual addrs. "
++            "available"),
++    FEATURE_ENTRY(VIRTIO_IOMMU_F_DOMAIN_RANGE, \
++            "VIRTIO_IOMMU_F_DOMAIN_RANGE: Number of supported domains "
++            "available"),
++    FEATURE_ENTRY(VIRTIO_IOMMU_F_MAP_UNMAP, \
++            "VIRTIO_IOMMU_F_MAP_UNMAP: Map and unmap requests available"),
++    FEATURE_ENTRY(VIRTIO_IOMMU_F_BYPASS, \
++            "VIRTIO_IOMMU_F_BYPASS: Endpoints not attached to domains are in "
++            "bypass mode"),
++    FEATURE_ENTRY(VIRTIO_IOMMU_F_PROBE, \
++            "VIRTIO_IOMMU_F_PROBE: Probe requests available"),
++    FEATURE_ENTRY(VIRTIO_IOMMU_F_MMIO, \
++            "VIRTIO_IOMMU_F_MMIO: VIRTIO_IOMMU_MAP_F_MMIO flag available"),
++    FEATURE_ENTRY(VIRTIO_IOMMU_F_BYPASS_CONFIG, \
++            "VIRTIO_IOMMU_F_BYPASS_CONFIG: Bypass field of IOMMU config "
++            "available"),
++    { -1, "" }
++};
++
++/* virtio-mem features mapping */
++const qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
++#ifndef CONFIG_ACPI
++    FEATURE_ENTRY(VIRTIO_MEM_F_ACPI_PXM, \
++            "VIRTIO_MEM_F_ACPI_PXM: node_id is an ACPI PXM and is valid"),
++#endif /* !CONFIG_ACPI */
++    FEATURE_ENTRY(VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE, \
++            "VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE: Unplugged memory cannot be "
++            "accessed"),
++    { -1, "" }
++};
++
++/* virtio-rng features mapping */
++const qmp_virtio_feature_map_t virtio_rng_feature_map[] = {
++    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
++            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
++    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
++            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
++            "negotiation supported"),
++    { -1, "" }
++};
++
++#define CONVERT_FEATURES(type, map, is_status, bitmap)   \
++    ({                                                   \
++        type *list = NULL;                               \
++        type *node;                                      \
++        for (i = 0; map[i].virtio_bit != -1; i++) {      \
++            if (is_status) {                             \
++                bit = map[i].virtio_bit;                 \
++            }                                            \
++            else {                                       \
++                bit = 1ULL << map[i].virtio_bit;         \
++            }                                            \
++            if ((bitmap & bit) == 0) {                   \
++                continue;                                \
++            }                                            \
++            node = g_new0(type, 1);                      \
++            node->value = g_strdup(map[i].feature_desc); \
++            node->next = list;                           \
++            list = node;                                 \
++            bitmap ^= bit;                               \
++        }                                                \
++        list;                                            \
++    })
++
++VirtioDeviceStatus *qmp_decode_status(uint8_t bitmap)
 +{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint8_t val;
++    VirtioDeviceStatus *status;
++    uint8_t bit;
++    int i;
 +
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
++    status = g_new0(VirtioDeviceStatus, 1);
++    status->statuses = CONVERT_FEATURES(strList, virtio_config_status_map,
++                                        1, bitmap);
++    status->has_unknown_statuses = bitmap != 0;
++    if (status->has_unknown_statuses) {
++        status->unknown_statuses = bitmap;
 +    }
 +
-+    k->get_config(vdev, vdev->config);
-+
-+    val = ldub_p(vdev->config + addr);
-+    return val;
++    return status;
 +}
 +
-+uint32_t virtio_config_readw(VirtIODevice *vdev, uint32_t addr)
++VhostDeviceProtocols *qmp_decode_protocols(uint64_t bitmap)
 +{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint16_t val;
++    VhostDeviceProtocols *vhu_protocols;
++    uint64_t bit;
++    int i;
 +
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
++    vhu_protocols = g_new0(VhostDeviceProtocols, 1);
++    vhu_protocols->protocols =
++                    CONVERT_FEATURES(strList,
++                                     vhost_user_protocol_map, 0, bitmap);
++    vhu_protocols->has_unknown_protocols = bitmap != 0;
++    if (vhu_protocols->has_unknown_protocols) {
++        vhu_protocols->unknown_protocols = bitmap;
 +    }
 +
-+    k->get_config(vdev, vdev->config);
-+
-+    val = lduw_p(vdev->config + addr);
-+    return val;
++    return vhu_protocols;
 +}
 +
-+uint32_t virtio_config_readl(VirtIODevice *vdev, uint32_t addr)
++VirtioDeviceFeatures *qmp_decode_features(uint16_t device_id, uint64_t bitmap)
 +{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint32_t val;
++    VirtioDeviceFeatures *features;
++    uint64_t bit;
++    int i;
 +
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
++    features = g_new0(VirtioDeviceFeatures, 1);
++    features->has_dev_features = true;
++
++    /* transport features */
++    features->transports = CONVERT_FEATURES(strList, virtio_transport_map, 0,
++                                            bitmap);
++
++    /* device features */
++    switch (device_id) {
++#ifdef CONFIG_VIRTIO_SERIAL
++    case VIRTIO_ID_CONSOLE:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_serial_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_BLK
++    case VIRTIO_ID_BLOCK:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_blk_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_GPU
++    case VIRTIO_ID_GPU:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_gpu_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_NET
++    case VIRTIO_ID_NET:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_net_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_SCSI
++    case VIRTIO_ID_SCSI:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_scsi_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_BALLOON
++    case VIRTIO_ID_BALLOON:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_balloon_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_IOMMU
++    case VIRTIO_ID_IOMMU:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_iommu_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_INPUT
++    case VIRTIO_ID_INPUT:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_input_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VHOST_USER_FS
++    case VIRTIO_ID_FS:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_fs_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VHOST_VSOCK
++    case VIRTIO_ID_VSOCK:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_vsock_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_CRYPTO
++    case VIRTIO_ID_CRYPTO:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_crypto_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_MEM
++    case VIRTIO_ID_MEM:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_mem_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_I2C_ADAPTER
++    case VIRTIO_ID_I2C_ADAPTER:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_i2c_feature_map, 0, bitmap);
++        break;
++#endif
++#ifdef CONFIG_VIRTIO_RNG
++    case VIRTIO_ID_RNG:
++        features->dev_features =
++            CONVERT_FEATURES(strList, virtio_rng_feature_map, 0, bitmap);
++        break;
++#endif
++    /* No features */
++    case VIRTIO_ID_9P:
++    case VIRTIO_ID_PMEM:
++    case VIRTIO_ID_IOMEM:
++    case VIRTIO_ID_RPMSG:
++    case VIRTIO_ID_CLOCK:
++    case VIRTIO_ID_MAC80211_WLAN:
++    case VIRTIO_ID_MAC80211_HWSIM:
++    case VIRTIO_ID_RPROC_SERIAL:
++    case VIRTIO_ID_MEMORY_BALLOON:
++    case VIRTIO_ID_CAIF:
++    case VIRTIO_ID_SIGNAL_DIST:
++    case VIRTIO_ID_PSTORE:
++    case VIRTIO_ID_SOUND:
++    case VIRTIO_ID_BT:
++    case VIRTIO_ID_RPMB:
++    case VIRTIO_ID_VIDEO_ENCODER:
++    case VIRTIO_ID_VIDEO_DECODER:
++    case VIRTIO_ID_SCMI:
++    case VIRTIO_ID_NITRO_SEC_MOD:
++    case VIRTIO_ID_WATCHDOG:
++    case VIRTIO_ID_CAN:
++    case VIRTIO_ID_DMABUF:
++    case VIRTIO_ID_PARAM_SERV:
++    case VIRTIO_ID_AUDIO_POLICY:
++    case VIRTIO_ID_GPIO:
++        break;
++    default:
++        g_assert_not_reached();
 +    }
 +
-+    k->get_config(vdev, vdev->config);
++    features->has_unknown_dev_features = bitmap != 0;
++    if (features->has_unknown_dev_features) {
++        features->unknown_dev_features = bitmap;
++    }
 +
-+    val = ldl_p(vdev->config + addr);
-+    return val;
++    return features;
 +}
+diff --git a/hw/virtio/virtio-qmp.h b/hw/virtio/virtio-qmp.h
+new file mode 100644
+index 0000000000..075fc27030
+--- /dev/null
++++ b/hw/virtio/virtio-qmp.h
+@@ -0,0 +1,20 @@
++/*
++ * Virtio QMP helpers
++ *
++ * Copyright IBM, Corp. 2007
++ *
++ * Authors:
++ *  Anthony Liguori   <aliguori@us.ibm.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#ifndef HW_VIRTIO_QMP_H
++#define HW_VIRTIO_QMP_H
 +
-+void virtio_config_writeb(VirtIODevice *vdev, uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint8_t val = data;
++#include "qapi/qapi-types-virtio.h"
 +
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
++VirtioDeviceStatus *qmp_decode_status(uint8_t bitmap);
++VhostDeviceProtocols *qmp_decode_protocols(uint64_t bitmap);
++VirtioDeviceFeatures *qmp_decode_features(uint16_t device_id, uint64_t bitmap);
 +
-+    stb_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+void virtio_config_writew(VirtIODevice *vdev, uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint16_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stw_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+void virtio_config_writel(VirtIODevice *vdev, uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint32_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stl_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+uint32_t virtio_config_modern_readb(VirtIODevice *vdev, uint32_t addr)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint8_t val;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
-+    }
-+
-+    k->get_config(vdev, vdev->config);
-+
-+    val = ldub_p(vdev->config + addr);
-+    return val;
-+}
-+
-+uint32_t virtio_config_modern_readw(VirtIODevice *vdev, uint32_t addr)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint16_t val;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
-+    }
-+
-+    k->get_config(vdev, vdev->config);
-+
-+    val = lduw_le_p(vdev->config + addr);
-+    return val;
-+}
-+
-+uint32_t virtio_config_modern_readl(VirtIODevice *vdev, uint32_t addr)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint32_t val;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
-+    }
-+
-+    k->get_config(vdev, vdev->config);
-+
-+    val = ldl_le_p(vdev->config + addr);
-+    return val;
-+}
-+
-+void virtio_config_modern_writeb(VirtIODevice *vdev,
-+                                 uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint8_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stb_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+void virtio_config_modern_writew(VirtIODevice *vdev,
-+                                 uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint16_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stw_le_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+void virtio_config_modern_writel(VirtIODevice *vdev,
-+                                 uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint32_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stl_le_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
++#endif
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index f54cc23304..1f19c8e0f0 100644
+index 1f19c8e0f0..09b1a0e3d9 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -18,7 +18,6 @@
+@@ -16,7 +16,6 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qapi-commands-virtio.h"
  #include "qapi/qapi-commands-qom.h"
- #include "qapi/qapi-visit-virtio.h"
+-#include "qapi/qapi-visit-virtio.h"
  #include "qapi/qmp/qjson.h"
--#include "cpu.h"
  #include "trace.h"
  #include "qemu/error-report.h"
- #include "qemu/log.h"
-@@ -2552,195 +2551,6 @@ void virtio_reset(void *opaque)
-     }
+@@ -33,6 +32,8 @@
+ #include "hw/virtio/virtio-access.h"
+ #include "sysemu/dma.h"
+ #include "sysemu/runstate.h"
++#include "virtio-qmp.h"
++
+ #include "standard-headers/linux/virtio_ids.h"
+ #include "standard-headers/linux/vhost_types.h"
+ #include "standard-headers/linux/virtio_blk.h"
+@@ -45,7 +46,6 @@
+ #include "standard-headers/linux/virtio_iommu.h"
+ #include "standard-headers/linux/virtio_mem.h"
+ #include "standard-headers/linux/virtio_vsock.h"
+-#include CONFIG_DEVICES
+ 
+ /* QAPI list of realized VirtIODevices */
+ static QTAILQ_HEAD(, VirtIODevice) virtio_list;
+@@ -55,412 +55,6 @@ static QTAILQ_HEAD(, VirtIODevice) virtio_list;
+  */
+ #define VHOST_USER_MAX_CONFIG_SIZE 256
+ 
+-#define FEATURE_ENTRY(name, desc) (qmp_virtio_feature_map_t) \
+-    { .virtio_bit = name, .feature_desc = desc }
+-
+-enum VhostUserProtocolFeature {
+-    VHOST_USER_PROTOCOL_F_MQ = 0,
+-    VHOST_USER_PROTOCOL_F_LOG_SHMFD = 1,
+-    VHOST_USER_PROTOCOL_F_RARP = 2,
+-    VHOST_USER_PROTOCOL_F_REPLY_ACK = 3,
+-    VHOST_USER_PROTOCOL_F_NET_MTU = 4,
+-    VHOST_USER_PROTOCOL_F_SLAVE_REQ = 5,
+-    VHOST_USER_PROTOCOL_F_CROSS_ENDIAN = 6,
+-    VHOST_USER_PROTOCOL_F_CRYPTO_SESSION = 7,
+-    VHOST_USER_PROTOCOL_F_PAGEFAULT = 8,
+-    VHOST_USER_PROTOCOL_F_CONFIG = 9,
+-    VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD = 10,
+-    VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
+-    VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
+-    VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
+-    VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS = 14,
+-    VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
+-    VHOST_USER_PROTOCOL_F_MAX
+-};
+-
+-/* Virtio transport features mapping */
+-static const qmp_virtio_feature_map_t virtio_transport_map[] = {
+-    /* Virtio device transport features */
+-#ifndef VIRTIO_CONFIG_NO_LEGACY
+-    FEATURE_ENTRY(VIRTIO_F_NOTIFY_ON_EMPTY, \
+-            "VIRTIO_F_NOTIFY_ON_EMPTY: Notify when device runs out of avail. "
+-            "descs. on VQ"),
+-    FEATURE_ENTRY(VIRTIO_F_ANY_LAYOUT, \
+-            "VIRTIO_F_ANY_LAYOUT: Device accepts arbitrary desc. layouts"),
+-#endif /* !VIRTIO_CONFIG_NO_LEGACY */
+-    FEATURE_ENTRY(VIRTIO_F_VERSION_1, \
+-            "VIRTIO_F_VERSION_1: Device compliant for v1 spec (legacy)"),
+-    FEATURE_ENTRY(VIRTIO_F_IOMMU_PLATFORM, \
+-            "VIRTIO_F_IOMMU_PLATFORM: Device can be used on IOMMU platform"),
+-    FEATURE_ENTRY(VIRTIO_F_RING_PACKED, \
+-            "VIRTIO_F_RING_PACKED: Device supports packed VQ layout"),
+-    FEATURE_ENTRY(VIRTIO_F_IN_ORDER, \
+-            "VIRTIO_F_IN_ORDER: Device uses buffers in same order as made "
+-            "available by driver"),
+-    FEATURE_ENTRY(VIRTIO_F_ORDER_PLATFORM, \
+-            "VIRTIO_F_ORDER_PLATFORM: Memory accesses ordered by platform"),
+-    FEATURE_ENTRY(VIRTIO_F_SR_IOV, \
+-            "VIRTIO_F_SR_IOV: Device supports single root I/O virtualization"),
+-    /* Virtio ring transport features */
+-    FEATURE_ENTRY(VIRTIO_RING_F_INDIRECT_DESC, \
+-            "VIRTIO_RING_F_INDIRECT_DESC: Indirect descriptors supported"),
+-    FEATURE_ENTRY(VIRTIO_RING_F_EVENT_IDX, \
+-            "VIRTIO_RING_F_EVENT_IDX: Used & avail. event fields enabled"),
+-    { -1, "" }
+-};
+-
+-/* Vhost-user protocol features mapping */
+-static const qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_MQ, \
+-            "VHOST_USER_PROTOCOL_F_MQ: Multiqueue protocol supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_LOG_SHMFD, \
+-            "VHOST_USER_PROTOCOL_F_LOG_SHMFD: Shared log memory fd supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_RARP, \
+-            "VHOST_USER_PROTOCOL_F_RARP: Vhost-user back-end RARP broadcasting "
+-            "supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_REPLY_ACK, \
+-            "VHOST_USER_PROTOCOL_F_REPLY_ACK: Requested operation status ack. "
+-            "supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_NET_MTU, \
+-            "VHOST_USER_PROTOCOL_F_NET_MTU: Expose host MTU to guest supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_SLAVE_REQ, \
+-            "VHOST_USER_PROTOCOL_F_SLAVE_REQ: Socket fd for back-end initiated "
+-            "requests supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CROSS_ENDIAN, \
+-            "VHOST_USER_PROTOCOL_F_CROSS_ENDIAN: Endianness of VQs for legacy "
+-            "devices supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CRYPTO_SESSION, \
+-            "VHOST_USER_PROTOCOL_F_CRYPTO_SESSION: Session creation for crypto "
+-            "operations supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_PAGEFAULT, \
+-            "VHOST_USER_PROTOCOL_F_PAGEFAULT: Request servicing on userfaultfd "
+-            "for accessed pages supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CONFIG, \
+-            "VHOST_USER_PROTOCOL_F_CONFIG: Vhost-user messaging for virtio "
+-            "device configuration space supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD, \
+-            "VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD: Slave fd communication "
+-            "channel supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_HOST_NOTIFIER, \
+-            "VHOST_USER_PROTOCOL_F_HOST_NOTIFIER: Host notifiers for specified "
+-            "VQs supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD, \
+-            "VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD: Shared inflight I/O buffers "
+-            "supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_RESET_DEVICE, \
+-            "VHOST_USER_PROTOCOL_F_RESET_DEVICE: Disabling all rings and "
+-            "resetting internal device state supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS, \
+-            "VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS: In-band messaging "
+-            "supported"),
+-    FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS, \
+-            "VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS: Configuration for "
+-            "memory slots supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio device configuration statuses */
+-static const qmp_virtio_feature_map_t virtio_config_status_map[] = {
+-    FEATURE_ENTRY(VIRTIO_CONFIG_S_DRIVER_OK, \
+-            "VIRTIO_CONFIG_S_DRIVER_OK: Driver setup and ready"),
+-    FEATURE_ENTRY(VIRTIO_CONFIG_S_FEATURES_OK, \
+-            "VIRTIO_CONFIG_S_FEATURES_OK: Feature negotiation complete"),
+-    FEATURE_ENTRY(VIRTIO_CONFIG_S_DRIVER, \
+-            "VIRTIO_CONFIG_S_DRIVER: Guest OS compatible with device"),
+-    FEATURE_ENTRY(VIRTIO_CONFIG_S_NEEDS_RESET, \
+-            "VIRTIO_CONFIG_S_NEEDS_RESET: Irrecoverable error, device needs "
+-            "reset"),
+-    FEATURE_ENTRY(VIRTIO_CONFIG_S_FAILED, \
+-            "VIRTIO_CONFIG_S_FAILED: Error in guest, device failed"),
+-    FEATURE_ENTRY(VIRTIO_CONFIG_S_ACKNOWLEDGE, \
+-            "VIRTIO_CONFIG_S_ACKNOWLEDGE: Valid virtio device found"),
+-    { -1, "" }
+-};
+-
+-/* virtio-blk features mapping */
+-const qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
+-    FEATURE_ENTRY(VIRTIO_BLK_F_SIZE_MAX, \
+-            "VIRTIO_BLK_F_SIZE_MAX: Max segment size is size_max"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_SEG_MAX, \
+-            "VIRTIO_BLK_F_SEG_MAX: Max segments in a request is seg_max"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_GEOMETRY, \
+-            "VIRTIO_BLK_F_GEOMETRY: Legacy geometry available"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_RO, \
+-            "VIRTIO_BLK_F_RO: Device is read-only"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_BLK_SIZE, \
+-            "VIRTIO_BLK_F_BLK_SIZE: Block size of disk available"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_TOPOLOGY, \
+-            "VIRTIO_BLK_F_TOPOLOGY: Topology information available"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_MQ, \
+-            "VIRTIO_BLK_F_MQ: Multiqueue supported"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_DISCARD, \
+-            "VIRTIO_BLK_F_DISCARD: Discard command supported"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_WRITE_ZEROES, \
+-            "VIRTIO_BLK_F_WRITE_ZEROES: Write zeroes command supported"),
+-#ifndef VIRTIO_BLK_NO_LEGACY
+-    FEATURE_ENTRY(VIRTIO_BLK_F_BARRIER, \
+-            "VIRTIO_BLK_F_BARRIER: Request barriers supported"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_SCSI, \
+-            "VIRTIO_BLK_F_SCSI: SCSI packet commands supported"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_FLUSH, \
+-            "VIRTIO_BLK_F_FLUSH: Flush command supported"),
+-    FEATURE_ENTRY(VIRTIO_BLK_F_CONFIG_WCE, \
+-            "VIRTIO_BLK_F_CONFIG_WCE: Cache writeback and writethrough modes "
+-            "supported"),
+-#endif /* !VIRTIO_BLK_NO_LEGACY */
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
+-            "negotiation supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio-serial features mapping */
+-const qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
+-    FEATURE_ENTRY(VIRTIO_CONSOLE_F_SIZE, \
+-            "VIRTIO_CONSOLE_F_SIZE: Host providing console size"),
+-    FEATURE_ENTRY(VIRTIO_CONSOLE_F_MULTIPORT, \
+-            "VIRTIO_CONSOLE_F_MULTIPORT: Multiple ports for device supported"),
+-    FEATURE_ENTRY(VIRTIO_CONSOLE_F_EMERG_WRITE, \
+-            "VIRTIO_CONSOLE_F_EMERG_WRITE: Emergency write supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio-gpu features mapping */
+-const qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
+-    FEATURE_ENTRY(VIRTIO_GPU_F_VIRGL, \
+-            "VIRTIO_GPU_F_VIRGL: Virgl 3D mode supported"),
+-    FEATURE_ENTRY(VIRTIO_GPU_F_EDID, \
+-            "VIRTIO_GPU_F_EDID: EDID metadata supported"),
+-    FEATURE_ENTRY(VIRTIO_GPU_F_RESOURCE_UUID, \
+-            "VIRTIO_GPU_F_RESOURCE_UUID: Resource UUID assigning supported"),
+-    FEATURE_ENTRY(VIRTIO_GPU_F_RESOURCE_BLOB, \
+-            "VIRTIO_GPU_F_RESOURCE_BLOB: Size-based blob resources supported"),
+-    FEATURE_ENTRY(VIRTIO_GPU_F_CONTEXT_INIT, \
+-            "VIRTIO_GPU_F_CONTEXT_INIT: Context types and synchronization "
+-            "timelines supported"),
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
+-            "negotiation supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio-input features mapping */
+-const qmp_virtio_feature_map_t virtio_input_feature_map[] = {
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
+-            "negotiation supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio-net features mapping */
+-const qmp_virtio_feature_map_t virtio_net_feature_map[] = {
+-    FEATURE_ENTRY(VIRTIO_NET_F_CSUM, \
+-            "VIRTIO_NET_F_CSUM: Device handling packets with partial checksum "
+-            "supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_CSUM, \
+-            "VIRTIO_NET_F_GUEST_CSUM: Driver handling packets with partial "
+-            "checksum supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_GUEST_OFFLOADS, \
+-            "VIRTIO_NET_F_CTRL_GUEST_OFFLOADS: Control channel offloading "
+-            "reconfig. supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_MTU, \
+-            "VIRTIO_NET_F_MTU: Device max MTU reporting supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_MAC, \
+-            "VIRTIO_NET_F_MAC: Device has given MAC address"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_TSO4, \
+-            "VIRTIO_NET_F_GUEST_TSO4: Driver can receive TSOv4"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_TSO6, \
+-            "VIRTIO_NET_F_GUEST_TSO6: Driver can receive TSOv6"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_ECN, \
+-            "VIRTIO_NET_F_GUEST_ECN: Driver can receive TSO with ECN"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_UFO, \
+-            "VIRTIO_NET_F_GUEST_UFO: Driver can receive UFO"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_HOST_TSO4, \
+-            "VIRTIO_NET_F_HOST_TSO4: Device can receive TSOv4"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_HOST_TSO6, \
+-            "VIRTIO_NET_F_HOST_TSO6: Device can receive TSOv6"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_HOST_ECN, \
+-            "VIRTIO_NET_F_HOST_ECN: Device can receive TSO with ECN"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_HOST_UFO, \
+-            "VIRTIO_NET_F_HOST_UFO: Device can receive UFO"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_MRG_RXBUF, \
+-            "VIRTIO_NET_F_MRG_RXBUF: Driver can merge receive buffers"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_STATUS, \
+-            "VIRTIO_NET_F_STATUS: Configuration status field available"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_VQ, \
+-            "VIRTIO_NET_F_CTRL_VQ: Control channel available"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_RX, \
+-            "VIRTIO_NET_F_CTRL_RX: Control channel RX mode supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_VLAN, \
+-            "VIRTIO_NET_F_CTRL_VLAN: Control channel VLAN filtering supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_RX_EXTRA, \
+-            "VIRTIO_NET_F_CTRL_RX_EXTRA: Extra RX mode control supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_GUEST_ANNOUNCE, \
+-            "VIRTIO_NET_F_GUEST_ANNOUNCE: Driver sending gratuitous packets "
+-            "supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_MQ, \
+-            "VIRTIO_NET_F_MQ: Multiqueue with automatic receive steering "
+-            "supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_CTRL_MAC_ADDR, \
+-            "VIRTIO_NET_F_CTRL_MAC_ADDR: MAC address set through control "
+-            "channel"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_HASH_REPORT, \
+-            "VIRTIO_NET_F_HASH_REPORT: Hash reporting supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_RSS, \
+-            "VIRTIO_NET_F_RSS: RSS RX steering supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_RSC_EXT, \
+-            "VIRTIO_NET_F_RSC_EXT: Extended coalescing info supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_STANDBY, \
+-            "VIRTIO_NET_F_STANDBY: Device acting as standby for primary "
+-            "device with same MAC addr. supported"),
+-    FEATURE_ENTRY(VIRTIO_NET_F_SPEED_DUPLEX, \
+-            "VIRTIO_NET_F_SPEED_DUPLEX: Device set linkspeed and duplex"),
+-#ifndef VIRTIO_NET_NO_LEGACY
+-    FEATURE_ENTRY(VIRTIO_NET_F_GSO, \
+-            "VIRTIO_NET_F_GSO: Handling GSO-type packets supported"),
+-#endif /* !VIRTIO_NET_NO_LEGACY */
+-    FEATURE_ENTRY(VHOST_NET_F_VIRTIO_NET_HDR, \
+-            "VHOST_NET_F_VIRTIO_NET_HDR: Virtio-net headers for RX and TX "
+-            "packets supported"),
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
+-            "negotiation supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio-scsi features mapping */
+-const qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
+-    FEATURE_ENTRY(VIRTIO_SCSI_F_INOUT, \
+-            "VIRTIO_SCSI_F_INOUT: Requests including read and writable data "
+-            "buffers suppoted"),
+-    FEATURE_ENTRY(VIRTIO_SCSI_F_HOTPLUG, \
+-            "VIRTIO_SCSI_F_HOTPLUG: Reporting and handling hot-plug events "
+-            "supported"),
+-    FEATURE_ENTRY(VIRTIO_SCSI_F_CHANGE, \
+-            "VIRTIO_SCSI_F_CHANGE: Reporting and handling LUN changes "
+-            "supported"),
+-    FEATURE_ENTRY(VIRTIO_SCSI_F_T10_PI, \
+-            "VIRTIO_SCSI_F_T10_PI: T10 info included in request header"),
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
+-            "negotiation supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio/vhost-user-fs features mapping */
+-const qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
+-            "negotiation supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio/vhost-user-i2c features mapping */
+-const qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
+-    FEATURE_ENTRY(VIRTIO_I2C_F_ZERO_LENGTH_REQUEST, \
+-            "VIRTIO_I2C_F_ZERO_LEGNTH_REQUEST: Zero length requests supported"),
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
+-            "negotiation supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio/vhost-vsock features mapping */
+-const qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
+-    FEATURE_ENTRY(VIRTIO_VSOCK_F_SEQPACKET, \
+-            "VIRTIO_VSOCK_F_SEQPACKET: SOCK_SEQPACKET supported"),
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
+-            "negotiation supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio-balloon features mapping */
+-const qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
+-    FEATURE_ENTRY(VIRTIO_BALLOON_F_MUST_TELL_HOST, \
+-            "VIRTIO_BALLOON_F_MUST_TELL_HOST: Tell host before reclaiming "
+-            "pages"),
+-    FEATURE_ENTRY(VIRTIO_BALLOON_F_STATS_VQ, \
+-            "VIRTIO_BALLOON_F_STATS_VQ: Guest memory stats VQ available"),
+-    FEATURE_ENTRY(VIRTIO_BALLOON_F_DEFLATE_ON_OOM, \
+-            "VIRTIO_BALLOON_F_DEFLATE_ON_OOM: Deflate balloon when guest OOM"),
+-    FEATURE_ENTRY(VIRTIO_BALLOON_F_FREE_PAGE_HINT, \
+-            "VIRTIO_BALLOON_F_FREE_PAGE_HINT: VQ reporting free pages enabled"),
+-    FEATURE_ENTRY(VIRTIO_BALLOON_F_PAGE_POISON, \
+-            "VIRTIO_BALLOON_F_PAGE_POISON: Guest page poisoning enabled"),
+-    FEATURE_ENTRY(VIRTIO_BALLOON_F_REPORTING, \
+-            "VIRTIO_BALLOON_F_REPORTING: Page reporting VQ enabled"),
+-    { -1, "" }
+-};
+-
+-/* virtio-crypto features mapping */
+-const qmp_virtio_feature_map_t virtio_crypto_feature_map[] = {
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    { -1, "" }
+-};
+-
+-/* virtio-iommu features mapping */
+-const qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
+-    FEATURE_ENTRY(VIRTIO_IOMMU_F_INPUT_RANGE, \
+-            "VIRTIO_IOMMU_F_INPUT_RANGE: Range of available virtual addrs. "
+-            "available"),
+-    FEATURE_ENTRY(VIRTIO_IOMMU_F_DOMAIN_RANGE, \
+-            "VIRTIO_IOMMU_F_DOMAIN_RANGE: Number of supported domains "
+-            "available"),
+-    FEATURE_ENTRY(VIRTIO_IOMMU_F_MAP_UNMAP, \
+-            "VIRTIO_IOMMU_F_MAP_UNMAP: Map and unmap requests available"),
+-    FEATURE_ENTRY(VIRTIO_IOMMU_F_BYPASS, \
+-            "VIRTIO_IOMMU_F_BYPASS: Endpoints not attached to domains are in "
+-            "bypass mode"),
+-    FEATURE_ENTRY(VIRTIO_IOMMU_F_PROBE, \
+-            "VIRTIO_IOMMU_F_PROBE: Probe requests available"),
+-    FEATURE_ENTRY(VIRTIO_IOMMU_F_MMIO, \
+-            "VIRTIO_IOMMU_F_MMIO: VIRTIO_IOMMU_MAP_F_MMIO flag available"),
+-    FEATURE_ENTRY(VIRTIO_IOMMU_F_BYPASS_CONFIG, \
+-            "VIRTIO_IOMMU_F_BYPASS_CONFIG: Bypass field of IOMMU config "
+-            "available"),
+-    { -1, "" }
+-};
+-
+-/* virtio-mem features mapping */
+-const qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
+-#ifndef CONFIG_ACPI
+-    FEATURE_ENTRY(VIRTIO_MEM_F_ACPI_PXM, \
+-            "VIRTIO_MEM_F_ACPI_PXM: node_id is an ACPI PXM and is valid"),
+-#endif /* !CONFIG_ACPI */
+-    FEATURE_ENTRY(VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE, \
+-            "VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE: Unplugged memory cannot be "
+-            "accessed"),
+-    { -1, "" }
+-};
+-
+-/* virtio-rng features mapping */
+-const qmp_virtio_feature_map_t virtio_rng_feature_map[] = {
+-    FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+-            "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+-    FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-            "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features "
+-            "negotiation supported"),
+-    { -1, "" }
+-};
+-
+ /*
+  * The alignment to use between consumer and producer parts of vring.
+  * x86 pagesize again. This is the default, used by transports like PCI
+@@ -4268,203 +3862,6 @@ static VirtIODevice *virtio_device_find(const char *path)
+     return NULL;
  }
  
--uint32_t virtio_config_readb(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint8_t val;
+-#define CONVERT_FEATURES(type, map, is_status, bitmap)   \
+-    ({                                                   \
+-        type *list = NULL;                               \
+-        type *node;                                      \
+-        for (i = 0; map[i].virtio_bit != -1; i++) {      \
+-            if (is_status) {                             \
+-                bit = map[i].virtio_bit;                 \
+-            }                                            \
+-            else {                                       \
+-                bit = 1ULL << map[i].virtio_bit;         \
+-            }                                            \
+-            if ((bitmap & bit) == 0) {                   \
+-                continue;                                \
+-            }                                            \
+-            node = g_new0(type, 1);                      \
+-            node->value = g_strdup(map[i].feature_desc); \
+-            node->next = list;                           \
+-            list = node;                                 \
+-            bitmap ^= bit;                               \
+-        }                                                \
+-        list;                                            \
+-    })
 -
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
+-static VirtioDeviceStatus *qmp_decode_status(uint8_t bitmap)
+-{
+-    VirtioDeviceStatus *status;
+-    uint8_t bit;
+-    int i;
+-
+-    status = g_new0(VirtioDeviceStatus, 1);
+-    status->statuses = CONVERT_FEATURES(strList, virtio_config_status_map,
+-                                        1, bitmap);
+-    status->has_unknown_statuses = bitmap != 0;
+-    if (status->has_unknown_statuses) {
+-        status->unknown_statuses = bitmap;
 -    }
 -
--    k->get_config(vdev, vdev->config);
--
--    val = ldub_p(vdev->config + addr);
--    return val;
+-    return status;
 -}
 -
--uint32_t virtio_config_readw(VirtIODevice *vdev, uint32_t addr)
+-static VhostDeviceProtocols *qmp_decode_protocols(uint64_t bitmap)
 -{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint16_t val;
+-    VhostDeviceProtocols *vhu_protocols;
+-    uint64_t bit;
+-    int i;
 -
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
+-    vhu_protocols = g_new0(VhostDeviceProtocols, 1);
+-    vhu_protocols->protocols =
+-                    CONVERT_FEATURES(strList,
+-                                     vhost_user_protocol_map, 0, bitmap);
+-    vhu_protocols->has_unknown_protocols = bitmap != 0;
+-    if (vhu_protocols->has_unknown_protocols) {
+-        vhu_protocols->unknown_protocols = bitmap;
 -    }
 -
--    k->get_config(vdev, vdev->config);
--
--    val = lduw_p(vdev->config + addr);
--    return val;
+-    return vhu_protocols;
 -}
 -
--uint32_t virtio_config_readl(VirtIODevice *vdev, uint32_t addr)
+-static VirtioDeviceFeatures *qmp_decode_features(uint16_t device_id,
+-                                                 uint64_t bitmap)
 -{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint32_t val;
+-    VirtioDeviceFeatures *features;
+-    uint64_t bit;
+-    int i;
 -
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
+-    features = g_new0(VirtioDeviceFeatures, 1);
+-    features->has_dev_features = true;
+-
+-    /* transport features */
+-    features->transports = CONVERT_FEATURES(strList, virtio_transport_map, 0,
+-                                            bitmap);
+-
+-    /* device features */
+-    switch (device_id) {
+-#ifdef CONFIG_VIRTIO_SERIAL
+-    case VIRTIO_ID_CONSOLE:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_serial_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_BLK
+-    case VIRTIO_ID_BLOCK:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_blk_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_GPU
+-    case VIRTIO_ID_GPU:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_gpu_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_NET
+-    case VIRTIO_ID_NET:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_net_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_SCSI
+-    case VIRTIO_ID_SCSI:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_scsi_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_BALLOON
+-    case VIRTIO_ID_BALLOON:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_balloon_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_IOMMU
+-    case VIRTIO_ID_IOMMU:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_iommu_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_INPUT
+-    case VIRTIO_ID_INPUT:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_input_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VHOST_USER_FS
+-    case VIRTIO_ID_FS:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_fs_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VHOST_VSOCK
+-    case VIRTIO_ID_VSOCK:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_vsock_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_CRYPTO
+-    case VIRTIO_ID_CRYPTO:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_crypto_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_MEM
+-    case VIRTIO_ID_MEM:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_mem_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_I2C_ADAPTER
+-    case VIRTIO_ID_I2C_ADAPTER:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_i2c_feature_map, 0, bitmap);
+-        break;
+-#endif
+-#ifdef CONFIG_VIRTIO_RNG
+-    case VIRTIO_ID_RNG:
+-        features->dev_features =
+-            CONVERT_FEATURES(strList, virtio_rng_feature_map, 0, bitmap);
+-        break;
+-#endif
+-    /* No features */
+-    case VIRTIO_ID_9P:
+-    case VIRTIO_ID_PMEM:
+-    case VIRTIO_ID_IOMEM:
+-    case VIRTIO_ID_RPMSG:
+-    case VIRTIO_ID_CLOCK:
+-    case VIRTIO_ID_MAC80211_WLAN:
+-    case VIRTIO_ID_MAC80211_HWSIM:
+-    case VIRTIO_ID_RPROC_SERIAL:
+-    case VIRTIO_ID_MEMORY_BALLOON:
+-    case VIRTIO_ID_CAIF:
+-    case VIRTIO_ID_SIGNAL_DIST:
+-    case VIRTIO_ID_PSTORE:
+-    case VIRTIO_ID_SOUND:
+-    case VIRTIO_ID_BT:
+-    case VIRTIO_ID_RPMB:
+-    case VIRTIO_ID_VIDEO_ENCODER:
+-    case VIRTIO_ID_VIDEO_DECODER:
+-    case VIRTIO_ID_SCMI:
+-    case VIRTIO_ID_NITRO_SEC_MOD:
+-    case VIRTIO_ID_WATCHDOG:
+-    case VIRTIO_ID_CAN:
+-    case VIRTIO_ID_DMABUF:
+-    case VIRTIO_ID_PARAM_SERV:
+-    case VIRTIO_ID_AUDIO_POLICY:
+-    case VIRTIO_ID_GPIO:
+-        break;
+-    default:
+-        g_assert_not_reached();
 -    }
 -
--    k->get_config(vdev, vdev->config);
+-    features->has_unknown_dev_features = bitmap != 0;
+-    if (features->has_unknown_dev_features) {
+-        features->unknown_dev_features = bitmap;
+-    }
 -
--    val = ldl_p(vdev->config + addr);
--    return val;
+-    return features;
 -}
 -
--void virtio_config_writeb(VirtIODevice *vdev, uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint8_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stb_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--void virtio_config_writew(VirtIODevice *vdev, uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint16_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stw_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--void virtio_config_writel(VirtIODevice *vdev, uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint32_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stl_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--uint32_t virtio_config_modern_readb(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint8_t val;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
--    }
--
--    k->get_config(vdev, vdev->config);
--
--    val = ldub_p(vdev->config + addr);
--    return val;
--}
--
--uint32_t virtio_config_modern_readw(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint16_t val;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
--    }
--
--    k->get_config(vdev, vdev->config);
--
--    val = lduw_le_p(vdev->config + addr);
--    return val;
--}
--
--uint32_t virtio_config_modern_readl(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint32_t val;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
--    }
--
--    k->get_config(vdev, vdev->config);
--
--    val = ldl_le_p(vdev->config + addr);
--    return val;
--}
--
--void virtio_config_modern_writeb(VirtIODevice *vdev,
--                                 uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint8_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stb_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--void virtio_config_modern_writew(VirtIODevice *vdev,
--                                 uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint16_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stw_le_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--void virtio_config_modern_writel(VirtIODevice *vdev,
--                                 uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint32_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stl_le_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
- void virtio_queue_set_addr(VirtIODevice *vdev, int n, hwaddr addr)
+ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
  {
-     if (!vdev->vq[n].vring.num) {
+     VirtIODevice *vdev;
 -- 
 2.38.1
 
