@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96964649F89
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:11:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7F4649F6A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:08:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4iW0-0006Ww-T0; Mon, 12 Dec 2022 08:06:40 -0500
+	id 1p4iXS-0007mA-Fz; Mon, 12 Dec 2022 08:08:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p4iVo-0006TB-3f
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:06:29 -0500
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1p4iXP-0007jT-KC
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:08:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p4iVl-0003GO-6b
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:06:27 -0500
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 089333FBC0
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 13:06:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1670850361;
- bh=c7z+KV9Fu4SgXJCnCCn0gQWZW4BqXd9TG8z4dU4SQmc=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=Ou8CPrG3A5biLa4z/hx4XuReWHTzoDOCjJRKBpyLpFyIJE3me/xA3Nw0R1FE1o1e6
- l145/phQsBCyIJqX5FX5eDV9rhrQJQJPltOT5ERR8G62OkaghdBXaTHb+T03pZ7C2x
- nQTk2RB1IjQp2S9zNXAaTbArD3tunsRW/xHIHZXc+o5IDZD2GG5zQ/ehTf00GSxilQ
- /Mtdul6NeBe6i9yF11VE1pODxI8WB7oK0wMbUzm0LZ5RM6t0xAifHUya0T11SokaVs
- 1fjuniqymKut2c0GiUo62tf70Gbac/9pN6+vq5h9nGruS5fOBOJxU6OA+Zk7FPJkJ+
- Z3cfmqFU+wMbA==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id F19373F30D
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 13:05:52 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1p4iXN-0003gn-Dg
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:08:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670850484;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Mhx7Awm1BMqJGE63n7utR1Q/D9C47ehWXGl9X3Gc+E=;
+ b=DCHKvz6IXkVM5lx7Qimeg20OA8ZqaUWmqI5ZqpcO4HtXSAa939x8OyjBrH15ZPa7UHnePS
+ M7HVdM9nquLFzZNEPupBViAwYWRE8mTfJ56hKWJ4Jof8j5NWAgXrXyXfKZHTuJpirWGw+c
+ bg/PiVNWMH8BKnnCM5VufI+ay+h82XY=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-638-Y8CPt6Z7Mi6ERQ3KzJW9lg-1; Mon, 12 Dec 2022 08:08:02 -0500
+X-MC-Unique: Y8CPt6Z7Mi6ERQ3KzJW9lg-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ a186-20020a6766c3000000b003b141732496so2961763vsc.14
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:08:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3Mhx7Awm1BMqJGE63n7utR1Q/D9C47ehWXGl9X3Gc+E=;
+ b=rawy/T3kjxuUkFvbiN4hLwhDP1ZQPVgwcsQv48V/lCPaly5YlXzIB4LLy8/A/Yxf5/
+ uz1mZj+J/AaZia7TduWwUP4Eq15xQavTk4cugfMv8uYkfYTodcXPGOi1MUAVNPQThFtc
+ UulG/wRZtCsYTX+N7V2NozTbVw+9f6ws39vqsy1O+1cToYpk/stwQ3wKMOI4aKuNItoL
+ GPq9jRm9J1qKWuonSghkSJ1FE8YN0w0yWtS+8Vbpw3PKS/KLluUbPA0DOEy81mFWVyzI
+ QYuPSJu38YFqg1STSNDl+LYNdN/yxfAG9veLJblWlod1GlZQdsvx9N/+dNqD7vpp1NrB
+ eCpA==
+X-Gm-Message-State: ANoB5pnlDt9lOqT3+Xxlvvcjj4x5G9DDZ9P+EZmhJ90mdO/z/L+/UId3
+ BLFsIradynuET9Cmv5A//bt8bPfTIuzrYzn8Ks/xGuc+yae8xanDcYxb/E129uK1HnyFE5oi042
+ UJoUAik+GGUzBP7L/QZ9S2AMff3QZSsw=
+X-Received: by 2002:a67:42c2:0:b0:3aa:31b2:ff09 with SMTP id
+ p185-20020a6742c2000000b003aa31b2ff09mr45958520vsa.66.1670850482388; 
+ Mon, 12 Dec 2022 05:08:02 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5ITTsvsaT395qa4UQ3p1njLYP1Tp+lOUHQgSuyKe3m1e1D8GeLQr2wHX5sl63sWhRMYfaH85IEqEongGGKfd8=
+X-Received: by 2002:a67:42c2:0:b0:3aa:31b2:ff09 with SMTP id
+ p185-20020a6742c2000000b003aa31b2ff09mr45958514vsa.66.1670850482155; Mon, 12
+ Dec 2022 05:08:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Dec 2022 12:59:49 -0000
-From: mohammadreza nasrabadi <1523246@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: trim virtio windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jamespharvey20 manouchehri mareza mikemol
- rustamabd socketpair stefanha th-huth
-X-Launchpad-Bug-Reporter: David Manouchehri (manouchehri)
-X-Launchpad-Bug-Modifier: mohammadreza nasrabadi (mareza)
-References: <20151206150708.14182.82430.malonedeb@wampee.canonical.com>
-Message-Id: <167084999038.59960.9995200360397383429.malone@angus.canonical.com>
-Subject: [Bug 1523246] Re: Virtio-blk does not support TRIM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c3f9a3a8c5fffd8b8763824e1f305083a4e9705e"; Instance="production"
-X-Launchpad-Hash: 474449da233e8bc903ff2088d8135b10954b0fb6
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221128130221.389454-1-andrey.drobyshev@virtuozzo.com>
+ <4b6c5e90-4240-95c3-c27c-47fd81d24ae2@virtuozzo.com>
+In-Reply-To: <4b6c5e90-4240-95c3-c27c-47fd81d24ae2@virtuozzo.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Mon, 12 Dec 2022 15:07:51 +0200
+Message-ID: <CAPMcbCrKQDJ0e=rsiXrQ_zeSQ0njH=ufaWPeijB8jhNc2pKefQ@mail.gmail.com>
+Subject: Re: [PATCH] qga-win: replace libpcre with libpcre2 in MSI package
+To: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
+Cc: qemu-trivial@nongnu.org, den@virtuozzo.com, Stefan Weil <sw@weilnetz.de>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ QEMU <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000007643de05efa1313c"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,48 +91,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1523246 <1523246@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I've checked the size of disk file with ls -alh  and du --apparent-size
-commands
+--0000000000007643de05efa1313c
+Content-Type: text/plain; charset="UTF-8"
 
-I downloaded the 1G size file 5 times to make sure about sparse blocks
-issue, but the problem still exists
+Hi Andrey,
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1523246
+Unfortunately, I can't merge your patch as is.
+There are several OS officially supported by QEMU that have GLib2 < 2.73.2
+For example, we support Fedora 35 (GLib2 = 2.69.2) for cross-compilation and
+we run CI tests on Fedora 35.
 
-Title:
-  Virtio-blk does not support TRIM
+Also, currently, QEMU support GLib2 2.56 (
+https://github.com/qemu/qemu/blob/ea3a008d2d9ced9c4f93871c823baee237047f93/configure#L1466
+)
+So, the build process should check the GLib2 version and select libpcre2 or
+libpcre.
 
-Status in QEMU:
-  Fix Released
+Best Regards,
+Konstantin Kostiuk.
 
-Bug description:
-  When model=3Dvirtio is used, TRIM is not supported.
 
-  # mount -o discard /dev/vda4 /mnt
-  # mount | tail -1
-  /dev/vda4 on /mnt type fuseblk (rw,nosuid,nodev,relatime,user_id=3D0,grou=
-p_id=3D0,allow_other,blksize=3D4096)
-  # fstrim /mnt/
-  fstrim: /mnt/: the discard operation is not supported
+On Mon, Dec 12, 2022 at 2:23 PM Andrey Drobyshev <
+andrey.drobyshev@virtuozzo.com> wrote:
 
-  Booting without model=3Dvirtio allows using TRIM (in Windows as well).
+> On 11/28/22 15:02, Andrey Drobyshev wrote:
+> > According to GLib changelog [1], since version 2.73.2 GLib is using
+> > libpcre2 instead of libpcre.  As a result, qemu-ga MSI installation
+> > fails due to missing DLL.
+> >
+> > This commit makes wixl to put libpcre2-8-0.dll into the MSI bundle.
+> >
+> > [1] https://gitlab.gnome.org/GNOME/glib/-/releases#2.73.2
+> >
+> > Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
+> > ---
+> >  qga/installer/qemu-ga.wxs | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > [...]
+>
+> Ping
+>
+>
 
-  Full QEMU line:
+--0000000000007643de05efa1313c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  qemu-system-x86_64 -enable-kvm -cpu host -bios
-  /usr/share/ovmf/ovmf_x64.bin -smp 2 -m 7G -vga qxl -usbdevice tablet
-  -net nic,model=3Dvirtio -net user -drive discard=3Dunmap,detect-
-  zeroes=3Dunmap,cache=3Dnone,file=3Dvms/win10.hd.img.vmdk,format=3Dvmdk,if=
-=3Dvirtio
+<div dir=3D"ltr"><div>Hi Andrey,</div><div><br></div><div>Unfortunately, I =
+can&#39;t merge your patch as is.</div><div>There are several OS officially=
+ supported by QEMU that have GLib2 &lt; 2.73.2</div><div>For example, we su=
+pport Fedora 35 (GLib2 =3D 2.69.2) for cross-compilation and</div><div>we r=
+un CI tests on Fedora 35.</div><div><br></div><div>Also, currently, QEMU su=
+pport GLib2 2.56 (<a href=3D"https://github.com/qemu/qemu/blob/ea3a008d2d9c=
+ed9c4f93871c823baee237047f93/configure#L1466">https://github.com/qemu/qemu/=
+blob/ea3a008d2d9ced9c4f93871c823baee237047f93/configure#L1466</a>)</div><di=
+v>So, the build process should check the GLib2 version and select libpcre2 =
+or libpcre.</div><div><br></div><div><div><div dir=3D"ltr" class=3D"gmail_s=
+ignature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>Best Reg=
+ards,</div><div>Konstantin Kostiuk.</div></div></div></div><br></div></div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon=
+, Dec 12, 2022 at 2:23 PM Andrey Drobyshev &lt;<a href=3D"mailto:andrey.dro=
+byshev@virtuozzo.com">andrey.drobyshev@virtuozzo.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">On 11/28/22 15:02, Andr=
+ey Drobyshev wrote:<br>
+&gt; According to GLib changelog [1], since version 2.73.2 GLib is using<br=
+>
+&gt; libpcre2 instead of libpcre.=C2=A0 As a result, qemu-ga MSI installati=
+on<br>
+&gt; fails due to missing DLL.<br>
+&gt; <br>
+&gt; This commit makes wixl to put libpcre2-8-0.dll into the MSI bundle.<br=
+>
+&gt; <br>
+&gt; [1] <a href=3D"https://gitlab.gnome.org/GNOME/glib/-/releases#2.73.2" =
+rel=3D"noreferrer" target=3D"_blank">https://gitlab.gnome.org/GNOME/glib/-/=
+releases#2.73.2</a><br>
+&gt; <br>
+&gt; Signed-off-by: Andrey Drobyshev &lt;<a href=3D"mailto:andrey.drobyshev=
+@virtuozzo.com" target=3D"_blank">andrey.drobyshev@virtuozzo.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 qga/installer/qemu-ga.wxs | 6 +++---<br>
+&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
+&gt; <br>
+&gt; [...]<br>
+<br>
+Ping<br>
+<br>
+</blockquote></div>
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1523246/+subscriptions
+--0000000000007643de05efa1313c--
 
 
