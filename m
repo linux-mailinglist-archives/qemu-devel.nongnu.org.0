@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76D6649E56
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:02:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB7F649E60
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:03:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4hTT-0006xP-Mz; Mon, 12 Dec 2022 06:59:59 -0500
+	id 1p4hWA-0000d2-Og; Mon, 12 Dec 2022 07:02:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4hTL-0006tI-ST
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:59:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4hTK-00075t-6I
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:59:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670846388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=slYIY5elq2zYs2NJWPvmcwxdpul+fPF9di2UKBy4lzg=;
- b=e7dHNfwu1vN/lkdkFdJ8mRGck5ximJPNIeMlvw77T/R3ilhVAbS/ka6/6eQgl/PVCcQ2xs
- ZsElyM9YWxrzr1W3yAyYs3D17WrwZH/3olax5wmUreHwzihT3iwRDjUiWsFrTMuNDqYYT6
- 8wpM66F7dAMk5m7DniTH1ll3o9E3F7U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-356-Akc4rNHtOlqofZZxKIWE-Q-1; Mon, 12 Dec 2022 06:59:47 -0500
-X-MC-Unique: Akc4rNHtOlqofZZxKIWE-Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c187-20020a1c35c4000000b003cfee3c91cdso3258351wma.6
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 03:59:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4hVw-0000aY-VE
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:02:32 -0500
+Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4hVr-0007zC-SI
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:02:31 -0500
+Received: by mail-lj1-x236.google.com with SMTP id l8so12231198ljh.13
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:02:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vMSzEUElMx6ZIkrBJiNo4X/z9im0Qcwapl1RGX9DUKw=;
+ b=JHSppdWDSSNep+gLrLWBgqPL7AaOs56OgoigBKLjEpK7cwVCX4wDZoifuGLPRFkIMr
+ ev482m62oi/EzxegvVZ+N317XAtFMid9F53HqaFqQ6vEgHE2+CW66kBPiCutvyrjrTfc
+ PjjmUBV/zMHp8TkUFY7Y4TbnPjpsRYvXKdamFlSroTm2Uzdy71aWlYFo3eO+xn6l4tPq
+ IWXtoWJ4jjeLHiEzkD3ArhUZowtMw3rePMJL5CGm7KmdP+ZJLuxq7XO+4/sLYScx8jQw
+ h2EuXBwqzcFCHMRDp07JZomFyMkkgqtOgpaUXRJF9kx5//0t1cTu82rzagTZUCaPcXIn
+ c/9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=slYIY5elq2zYs2NJWPvmcwxdpul+fPF9di2UKBy4lzg=;
- b=l2oUjj7S8DBnL22/EKt7jB3rTWo32XSL9zgbsdmfRl7AUvBKoxLhzvXjZgbHcqJOpV
- ZpvCYLjeOvyy9/PShfiI75AKgRt4Zp+CLEXxeCD0jPvkaoIrFa5AhyAhwlSvv3c7RTRQ
- y90FuCiJ97r7gItF1YzRiIT627/xEoE4Uq5IjhW6YEW9OG7o2Wq5oB3KPirxaoawHCU8
- zHydYuaejHxXM+5mYAr9ROABSxu8F3yMqabwiDcjm6MdrmADoHHKgcJrM/Oa25+7Yf7C
- rY0oVIGzWV4GgMUUnmKTBeqV+wddwDzTvRPu1ifFGGthNUWX5qk0fBxZoYUL5tfWLNQX
- KwxA==
-X-Gm-Message-State: ANoB5pma0yDa0AQWGX9F0xJq0UEHs8DF6m4zchigPhLpHg7hc+l6X/JA
- SHgk3S7YUe+3QKA3rOGpThrQHbuc4m2YX4O0icIeLhAu0NrRld97rP6UidY7AFuioWCaixfyFWd
- IH8/WVaMz9R84Q1o=
-X-Received: by 2002:adf:da42:0:b0:232:be5d:4899 with SMTP id
- r2-20020adfda42000000b00232be5d4899mr10399281wrl.13.1670846386206; 
- Mon, 12 Dec 2022 03:59:46 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5ThAkxKeGJ0sfWopEugkkl3nu7kpWXro0XU9Xrhc3yU9U57TLaHG+4IZhIGapgLCvisE+n2g==
-X-Received: by 2002:adf:da42:0:b0:232:be5d:4899 with SMTP id
- r2-20020adfda42000000b00232be5d4899mr10399263wrl.13.1670846386007; 
- Mon, 12 Dec 2022 03:59:46 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-127.web.vodafone.de.
- [109.43.178.127]) by smtp.gmail.com with ESMTPSA id
- v3-20020a5d6103000000b002423edd7e50sm8694581wrt.32.2022.12.12.03.59.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 03:59:45 -0800 (PST)
-Message-ID: <bb6eab21-79d3-62a4-ec3d-1060fd0a61f0@redhat.com>
-Date: Mon, 12 Dec 2022 12:59:44 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vMSzEUElMx6ZIkrBJiNo4X/z9im0Qcwapl1RGX9DUKw=;
+ b=bC/HYSiBaCG9ismAVfSONRt1RdC2FC+UrvEU+XtYmUyJXWnQqh8bL/gi/A9X/ciaa/
+ cuUSAkGHVthJ4T4ytyM3WUm1qFefqoPs58FmMBWRSKCp17BSkLwFxrHB6SvkCl3L17pW
+ 7ejZ8XGZ8v1nQggtiHBfmToxGtnEbdk4PIb4+FvM790rrjfKsUedCcv8W6jtpcUgHlUf
+ WMCLvoveR0B3s3FqnervyRJeT9h359IyMiAN8odBfw6gXl8QMwN5lKTl9RATxhTfH/Ol
+ dqAYng06MOgSjNGTkTt0yGYqyNVZ7HHu29rk3Rs15eQinYkVn9wfk1yELambsG98nmc4
+ z4ag==
+X-Gm-Message-State: ANoB5pnMSsFM+lghxuI7PE2mnfNnftMEya4ptfua3wwOKV2d6W8uFZUa
+ TiFv/vJbgcrwPzqa4aaqpPEyqwtnOxPEBikz17w=
+X-Google-Smtp-Source: AA0mqf6I/zi3aHM3q6Qbq2dSt60V3h/UV/r7P9TX0abpXoQWW+Q7AxU18/b/g31U4a2IFbelNMa6bEvw/ppOqRgObr0=
+X-Received: by 2002:a05:651c:200c:b0:279:3d7a:c240 with SMTP id
+ s12-20020a05651c200c00b002793d7ac240mr26398765ljo.289.1670846545254; Mon, 12
+ Dec 2022 04:02:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/qtest/libqos/e1000e: Correctly group register
- accesses
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Yan Vugenfirer <yan@daynix.com>
-References: <20221110114549.66081-1-akihiko.odaki@daynix.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221110114549.66081-1-akihiko.odaki@daynix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-21-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-21-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 12 Dec 2022 16:02:13 +0400
+Message-ID: <CAJ+F1CLRpekpsg7aBW5A81VG0s_CfCX8pB8kjxpz=WY1UXxy1A@mail.gmail.com>
+Subject: Re: [PATCH 20/30] meson: prepare move of QEMU_CFLAGS to meson
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::236;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x236.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,32 +85,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/2022 12.45, Akihiko Odaki wrote:
-> Add a newline after E1000_TCTL write and make it clear that E1000_TCTL
-> write is what enabling transmit.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+On Fri, Dec 9, 2022 at 3:34 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Clean up the handling of compiler flags in meson.build, splitting
+> the general flags that should be included in subprojects as well,
+> from warning flags that only apply to QEMU itself.  The two were
+> mixed in both configure tests and meson tests.
+>
+> This split makes it easier to move the compiler tests piecewise
+> from configure to Meson.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 > ---
->   tests/qtest/libqos/e1000e.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
-> index 80b3e3db90..0e5cceafe4 100644
-> --- a/tests/qtest/libqos/e1000e.c
-> +++ b/tests/qtest/libqos/e1000e.c
-> @@ -152,6 +152,7 @@ static void e1000e_pci_start_hw(QOSGraphObject *obj)
->   
->       /* Enable transmit */
->       e1000e_macreg_write(&d->e1000e, E1000_TCTL, E1000_TCTL_EN);
+>  meson.build | 53 +++++++++++++++++++++++++++++------------------------
+>  1 file changed, 29 insertions(+), 24 deletions(-)
+>
+> diff --git a/meson.build b/meson.build
+> index 99c1bde4d154..dac343d14797 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -190,10 +190,23 @@ endif
+>  # Compiler flags #
+>  ##################
+>
+> -qemu_cflags =3D config_host['QEMU_CFLAGS'].split()
+> +qemu_common_flags =3D []
+> +qemu_cflags =3D []
+> +foreach arg : config_host['QEMU_CFLAGS'].split()
+> +  if arg.startswith('-W')
+> +    qemu_cflags +=3D arg
+> +  else
+> +    qemu_common_flags +=3D arg
+> +  endif
+> +endforeach
+>  qemu_objcflags =3D config_host['QEMU_OBJCFLAGS'].split()
+>  qemu_ldflags =3D config_host['QEMU_LDFLAGS'].split()
+>
+> +if get_option('gprof')
+> +  qemu_common_flags +=3D ['-p']
+> +  qemu_ldflags +=3D ['-p']
+> +endif
 > +
->       e1000e_macreg_write(&d->e1000e, E1000_RDBAL,
->                              (uint32_t)d->e1000e.rx_ring);
->       e1000e_macreg_write(&d->e1000e, E1000_RDBAH,
+>  if get_option('prefer_static')
+>    qemu_ldflags +=3D get_option('b_pie') ? '-static-pie' : '-static'
+>  endif
+> @@ -207,10 +220,9 @@ if targetos =3D=3D 'windows'
+>    qemu_ldflags +=3D cc.get_supported_link_arguments('-Wl,--dynamicbase',=
+ '-Wl,--high-entropy-va')
+>  endif
+>
+> -if get_option('gprof')
+> -  qemu_cflags +=3D ['-p']
+> -  qemu_objcflags +=3D ['-p']
+> -  qemu_ldflags +=3D ['-p']
+> +# Exclude --warn-common with TSan to suppress warnings from the TSan lib=
+raries.
+> +if targetos !=3D 'sunos' and not config_host.has_key('CONFIG_TSAN')
+> +  qemu_ldflags +=3D cc.get_supported_link_arguments('-Wl,--warn-common')
+>  endif
+>
+>  # Specify linker-script with add_project_link_arguments so that it is no=
+t placed
+> @@ -230,8 +242,7 @@ if get_option('fuzzing')
+>                    name: '-fsanitize-coverage-allowlist=3D/dev/null',
+>                   args: ['-fsanitize-coverage-allowlist=3D/dev/null',
+>                          '-fsanitize-coverage=3Dtrace-pc'] )
+> -    add_global_arguments('-fsanitize-coverage-allowlist=3Dinstrumentatio=
+n-filter',
+> -                         native: false, language: all_languages)
+> +    qemu_common_flags +=3D ['-fsanitize-coverage-allowlist=3Dinstrumenta=
+tion-filter']
+>    endif
+>
+>    if get_option('fuzzing_engine') =3D=3D ''
+> @@ -239,10 +250,8 @@ if get_option('fuzzing')
+>      # compiled code.  To build non-fuzzer binaries with --enable-fuzzing=
+, link
+>      # everything with fsanitize=3Dfuzzer-no-link. Otherwise, the linker =
+will be
+>      # unable to bind the fuzzer-related callbacks added by instrumentati=
+on.
+> -    add_global_arguments('-fsanitize=3Dfuzzer-no-link',
+> -                         native: false, language: all_languages)
+> -    add_global_link_arguments('-fsanitize=3Dfuzzer-no-link',
+> -                              native: false, language: all_languages)
+> +    qemu_common_flags +=3D ['-fsanitize=3Dfuzzer-no-link']
+> +    qemu_ldflags +=3D ['-fsanitize=3Dfuzzer-no-link']
+>      # For the actual fuzzer binaries, we need to link against the libfuz=
+zer
+>      # library. They need to be configurable, to support OSS-Fuzz
+>      fuzz_exe_ldflags =3D ['-fsanitize=3Dfuzzer']
+> @@ -253,6 +262,9 @@ if get_option('fuzzing')
+>    endif
+>  endif
+>
+> +add_global_arguments(qemu_common_flags, native: false, language: all_lan=
+guages)
+> +add_global_link_arguments(qemu_ldflags, native: false, language: all_lan=
+guages)
+> +
+>  # Check that the C++ compiler exists and works with the C compiler.
+>  link_language =3D 'c'
+>  linker =3D cc
+> @@ -276,16 +288,9 @@ if 'cpp' in all_languages
+>    endif
+>  endif
+>
+> -# Exclude --warn-common with TSan to suppress warnings from the TSan lib=
+raries.
+> -if targetos !=3D 'sunos' and not config_host.has_key('CONFIG_TSAN')
+> -  qemu_ldflags +=3D linker.get_supported_link_arguments('-Wl,--warn-comm=
+on')
+> -endif
+> -
+> -add_global_link_arguments(qemu_ldflags, native: false, language: all_lan=
+guages)
+> -
+> -add_global_arguments(qemu_cflags, native: false, language: 'c')
+> -add_global_arguments(qemu_cxxflags, native: false, language: 'cpp')
+> -add_global_arguments(qemu_objcflags, native: false, language: 'objc')
+> +add_project_arguments(qemu_cflags, native: false, language: 'c')
+> +add_project_arguments(qemu_cxxflags, native: false, language: 'cpp')
+> +add_project_arguments(qemu_objcflags, native: false, language: 'objc')
+>  if targetos =3D=3D 'linux'
+>    add_project_arguments('-isystem', meson.current_source_dir() / 'linux-=
+headers',
+>                          '-isystem', 'linux-headers',
+> @@ -3778,12 +3783,12 @@ link_args =3D get_option(link_language + '_link_a=
+rgs')
+>  if link_args.length() > 0
+>    summary_info +=3D {'LDFLAGS':         ' '.join(link_args)}
+>  endif
+> -summary_info +=3D {'QEMU_CFLAGS':       ' '.join(qemu_cflags)}
+> +summary_info +=3D {'QEMU_CFLAGS':       ' '.join(qemu_common_flags + qem=
+u_cflags)}
+>  if 'cpp' in all_languages
+> -  summary_info +=3D {'QEMU_CXXFLAGS':     ' '.join(qemu_cxxflags)}
+> +  summary_info +=3D {'QEMU_CXXFLAGS':     ' '.join(qemu_common_flags + q=
+emu_cxxflags)}
+>  endif
+>  if 'objc' in all_languages
+> -  summary_info +=3D {'QEMU_OBJCFLAGS':    ' '.join(qemu_objcflags)}
+> +  summary_info +=3D {'QEMU_OBJCFLAGS':    ' '.join(qemu_common_flags + q=
+emu_objcflags)}
+>  endif
+>  summary_info +=3D {'QEMU_LDFLAGS':      ' '.join(qemu_ldflags)}
+>  summary_info +=3D {'profiler':          get_option('profiler')}
+> --
+> 2.38.1
+>
+>
 
-Thanks, queued:
 
-  https://gitlab.com/thuth/qemu/-/commits/testing-next/
-
-  Thomas
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
