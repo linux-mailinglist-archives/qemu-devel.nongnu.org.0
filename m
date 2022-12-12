@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B0A64A364
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB9064A363
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:31:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4jpo-0000jF-Lk; Mon, 12 Dec 2022 09:31:12 -0500
+	id 1p4jpx-0000u5-DM; Mon, 12 Dec 2022 09:31:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4jpS-0000cs-Qm
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:30:55 -0500
-Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32])
+ id 1p4jpu-0000r7-Mp
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:31:18 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4jpQ-0008Og-FH
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:30:50 -0500
-Received: by mail-oo1-xc32.google.com with SMTP id
- e22-20020a4a5516000000b004a3d3028bafso884923oob.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 06:30:47 -0800 (PST)
+ id 1p4jpt-0000kg-4L
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:31:18 -0500
+Received: by mail-oi1-x230.google.com with SMTP id c129so11400433oia.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 06:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WTIv/AXMIVxsoFpNNe3fVaJR9gqLfCqZD4obOQsZpB8=;
- b=gBNUre0Ya88hFatP5rbJuBEleE5SOlTsPXrAN/EY2bV2cWpP0w6cF9u+7h/NorjOP4
- P0fKkiYdoOGQLhv6WIo1zmVtIX91mzopmCMAN7PcdBWmMFU6rL0NiI56DEtRdkGWWysj
- BlQDgYq/unn7YSGXH9hS96ytcRUImfz+l5TKqlE3CLy1eGkJEna2/8bi3hKy6cAndk1y
- +ODFul1EgY5wWd1VWgtvG3hj32pLwbrR4k6G4IpnoZ/NSMpr+07BY4+kPu5GEpDZC2WY
- uOHnLu7uy6X4wjMVBjagMXk7UWelMQCj+K2lj15DuIiIF2d8GA7N3yZzJyBZ+NIePXun
- UKmA==
+ bh=TooInRFNPUnJXPrRT0XlcEsCnVocukj/48ur3E6pUBI=;
+ b=ohrO/j0oSzbKgNZMp/kaqfc0ExrvZCQ/GVsPKFIHc/2QVODheN6+oBB5TZfQEgNt6J
+ md0VsoVYjkWgf6neZYmnHXzihNvHWgl8/A2K86rJyV5P8kgOWodXfP5b4lA/UWv3i+Ep
+ TcXTJO5JEKyqkAXeyqVPAkbJ0B3HDC1V6YOTl1DXiCdAJTG/tRL05FAbEveUVWdrWxPg
+ rWrPjnfwIGQsNYOyBtdJFHle7OeMjlIqwjnGJeDGXuBEqZQ/ZLDFi+lEMVm+koJVMg2S
+ v2cWTdZwq4u78yff49vj4fhDDeYYKEcYv0MQ3IP5IFJkX+fnRgdd39oHaVBAVYiZjS7z
+ VHag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WTIv/AXMIVxsoFpNNe3fVaJR9gqLfCqZD4obOQsZpB8=;
- b=AnqiFepFqOkOq7753sf3CtTMaME1IhCj3JxwERD3v0j0AdALsbRrTph0bGgsM46kI3
- mHs6G6JY630lyUM1Glck0A4jTc7pP2MTk/QE/Awu3ObWUpqmIqfrMUYoyZ5+djhbubPv
- TEdesGcDv3aiOKBrBrZcisn/6aDTNfUGPuULawGKYl/5Rt1+w5N6AxaEXCiaKARwqaBG
- CU4Nf78jVrqQO1R5Gj77XgqqLjT/hdU1vYjDdeYRWQANaFwAP7FMjpqVdxBdrloco2kv
- g7OOjaxZJyxNYK2VzjJ2kKuvb7U4EwRKJVPQ4k3JJrmDn2FkeIgEC8ejD9bfZ7u3YAAW
- KNmw==
-X-Gm-Message-State: ANoB5pl7DPpAaRWXaGDZxFxwyrHjs55J1nMI+0BhnCrzzjrUFdT7VS4R
- nJe8FQi2w8MBZVnICKJnj2hv8g==
-X-Google-Smtp-Source: AA0mqf5aFOQ2CAfDAFHJ5PPCKFZJF4fl82Qpo8u1KYzf0Icxocbl5XyZYDCObExiJeCdWnuU12VpeQ==
-X-Received: by 2002:a4a:d549:0:b0:4a4:224:736f with SMTP id
- q9-20020a4ad549000000b004a40224736fmr662059oos.6.1670855445455; 
- Mon, 12 Dec 2022 06:30:45 -0800 (PST)
+ bh=TooInRFNPUnJXPrRT0XlcEsCnVocukj/48ur3E6pUBI=;
+ b=P79OgymUSk1JKBd/gPUKW/XR7Mt26pcFwgNKAZuFDlz26m5hlOgb5FamZHwmdVnSJz
+ eA9o363a8I7sjDeA1VvWQxW2l/LZeCFxXHXTyzov+9GXMy1yeAZjhDexsYm+V14n2Poa
+ u9KSGIBlzksZDFPU2dVgdInY/BIAb1mKAB1Ky3rthFXR0LK8sGRensIGR5NFqqrm3vfB
+ 7fATRmeUXwyjlZrxjXAz1KrQLxzvnWp9HDBhbosidprL7f4zCwoifqnsUWPwy1MSIYtf
+ 038PdJoFxUysUZSyBppm7kzHLX6X6J317yzd0vbh/njlK3F82rEg+4UH9tnWfOZw7EtJ
+ iq+w==
+X-Gm-Message-State: ANoB5pmuYo9CVP5T20JRJbQ7qF9RZSrQrRQ7YJGeGvaaqKSttpjC+bNA
+ YovQdg0owgBi9JJKTumAIJ+WjQ==
+X-Google-Smtp-Source: AA0mqf4SnTbszZYzrbyk1imaD23pvVxZteLWmc2ZE9msAEe1bKDuXYsX9abw46q0ASsR6uB70wdsSg==
+X-Received: by 2002:a05:6808:1a14:b0:355:1deb:107a with SMTP id
+ bk20-20020a0568081a1400b003551deb107amr9462157oib.4.1670855475785; 
+ Mon, 12 Dec 2022 06:31:15 -0800 (PST)
 Received: from ?IPV6:2806:102e:18:2efc:20f0:1d0e:8e1f:fff0?
  ([2806:102e:18:2efc:20f0:1d0e:8e1f:fff0])
  by smtp.gmail.com with ESMTPSA id
- n8-20020a4ad628000000b0049ef7712ee5sm3577664oon.11.2022.12.12.06.30.44
+ j12-20020aca654c000000b0034d9042758fsm3543313oiw.24.2022.12.12.06.31.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 06:30:44 -0800 (PST)
-Message-ID: <375e840f-a823-b1e8-3d3c-3b1b4298188e@linaro.org>
-Date: Mon, 12 Dec 2022 08:30:42 -0600
+ Mon, 12 Dec 2022 06:31:15 -0800 (PST)
+Message-ID: <aa38c4dc-4d61-3733-bbd4-26d5d3ec4596@linaro.org>
+Date: Mon, 12 Dec 2022 08:31:12 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2] target/sh4: Fix TB_FLAG_UNALIGN
+Subject: Re: [PATCH-for-8.0 v2 06/11] hw/mips/malta: Use bootloader generator
+ API for nanoMIPS CPUs (1/5)
 Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp, balaton@eik.bme.hu
-References: <20220901101509.145758-1-richard.henderson@linaro.org>
- <20221210152744.GA2275483@roeck-us.net>
- <20221212011345.GA2235238@roeck-us.net>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
+ Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Djordje Todorovic <djordje.todorovic@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
+References: <20221211204533.85359-1-philmd@linaro.org>
+ <20221211204533.85359-7-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221212011345.GA2235238@roeck-us.net>
+In-Reply-To: <20221211204533.85359-7-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc32.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,68 +100,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/11/22 19:13, Guenter Roeck wrote:
-> On Sat, Dec 10, 2022 at 07:27:46AM -0800, Guenter Roeck wrote:
->> Hi,
->>
->> On Thu, Sep 01, 2022 at 11:15:09AM +0100, Richard Henderson wrote:
->>> The value previously chosen overlaps GUSA_MASK.
->>>
->>> Rename all DELAY_SLOT_* and GUSA_* defines to emphasize
->>> that they are included in TB_FLAGs.  Add aliases for the
->>> FPSCR and SR bits that are included in TB_FLAGS, so that
->>> we don't accidentally reassign those bits.
->>>
->>> Fixes: 4da06fb3062 ("target/sh4: Implement prctl_unalign_sigbus")
->>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/856
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>
->> I noticed that my sh4 emulations crash randomly with qemu v7.2-rc4.
->> This happens with all Linux kernel versions. Testing shows that this
->> patch is responsible. Reverting it fixes the problem.
->>
+On 12/11/22 14:45, Philippe Mathieu-Daudé wrote:
+> Similarly to how commit 0c8427baf0 ("hw/mips/malta: Use bootloader
+> helper to set BAR registers") converted write_bootloader(), convert
+> the equivalent write_bootloader_nanomips(), allowing us to modify
+> the bootloader code more easily in the future.
 > 
-> The patch below fixes the problem for me.
+> Part 1/5: Convert PCI0 MEM1 BAR setup
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Thanks for the investigation.
-
-
-> +++ b/target/sh4/cpu.c
-> @@ -47,7 +47,7 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
->       SuperHCPU *cpu = SUPERH_CPU(cs);
->   
->       cpu->env.pc = tb_pc(tb);
-> -    cpu->env.flags = tb->flags;
-> +    cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
-
-Only this hunk should be necessary.
-
-
-
->   }
->   
->   static void superh_restore_state_to_opc(CPUState *cs,
-> diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-> index 7db3468b01..546c182463 100644
-> --- a/target/sh4/translate.c
-> +++ b/target/sh4/translate.c
-> @@ -2270,7 +2270,6 @@ static void sh4_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->                     (tbflags & (1 << SR_RB))) * 0x10;
->       ctx->fbank = tbflags & FPSCR_FR ? 0x10 : 0;
->   
-> -#ifdef CONFIG_USER_ONLY
->       if (tbflags & TB_FLAG_GUSA_MASK) {
->           /* In gUSA exclusive region. */
->           uint32_t pc = ctx->base.pc_next;
-> @@ -2290,7 +2289,6 @@ static void sh4_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->               return;
->           }
->       }
-> -#endif
-
-This one is actively wrong.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
 
