@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1489A649FDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:16:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE1A64A0E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:32:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4idi-0004ka-68; Mon, 12 Dec 2022 08:14:38 -0500
+	id 1p4igd-0006bv-Mq; Mon, 12 Dec 2022 08:17:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4idB-0004dD-NG
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:14:10 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4id7-0004zx-TJ
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:14:05 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so5092033wmb.2
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:13:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=mJzGzq0Y0P2zwuiOKR3kXZAzUEFxxQdYmSrYWkHoLf0=;
- b=d/fXXpLewbsOYliDvGAOn77LsXMsAJwrwNy59OiYvd1xADq2QBKlrGoQZJKbkQFKw+
- SMwVi/twEvDUAaiTeWpePazS/qqN9whl6Pz3xgg2LF7QNBOwCl/8yI6SB7QGiE5B3pwy
- 5JhZgsNOCnj1ymItr740aHaadVLKLZSnfPvRVBsh/nkORhxR7p3v2cWxgiTq7lKlqtws
- CNVq/zwaLAl2KsGw7sD4b06IIuieapF8NSyLMFRaXX7W9tlcpoKTKl/hc40veLOZ1fOa
- bnIQvCIUaxtATYFyefi2qwlEyvLVUwS6XH2Oaqp6uaXQh5JhjUYOoVrCN4YSzM/FTHxJ
- j/UA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4igB-0006UJ-P8
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:17:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4ig7-0004HA-IU
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:17:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670851026;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=htf5nVEve2PXFrR4GWdn1LXbbNm9+3Lwxmj8z29C6to=;
+ b=a21WmpSyXzQ8w7lgCwbG+4cKH0DXsnro1rN6n1gmXov5cbiw8eXeTt0lQo9MkyTtYvOVgl
+ 0CkUz5p6XdgJJeVncFgEMW7G6WFWGm5PD91PAftGuGYK0NcOz298LRY9znZVL/ZFLZbTiw
+ 02+aHNZfLqEmEu0xVMFLp0R3rNt8Yes=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-674-NuxIYxSOPxm7XwjaznXJgw-1; Mon, 12 Dec 2022 08:17:05 -0500
+X-MC-Unique: NuxIYxSOPxm7XwjaznXJgw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i132-20020a1c3b8a000000b003d0f49bc21bso4158581wma.6
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:17:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mJzGzq0Y0P2zwuiOKR3kXZAzUEFxxQdYmSrYWkHoLf0=;
- b=lFRdx3MwBz5PZK08m4r8LLZfCTlc5x+HRemJhPUUDsiMU4HvYkVrcRSHOdeh3qF3YW
- jlJxTWSBuy0620reRJTzXJhe20/1jiB3E4By4CIGVnEuBea0XNRQu67yjFjolLUNAeAA
- N4rw9fopSFIy3dJfO6tdajgvUYe2HdnDR9CAynTR/I/tBzZhthqlS8Gsivf6Qds0ANhN
- h23Ua/50xnbaxp0f31bJcIsrqDVaRiK9ily3rHmqG1g/yYkyNpZ+3XQkrFNayHCxV6bQ
- oVkRGlnTwvgquAtuN32E/jhhoGl/SHXfBJenhBGBOnTq9/pHLtCdp5GAzuQjd7DDg1zQ
- ah/g==
-X-Gm-Message-State: ANoB5pl/lVa9iCbVtbtj6MYiRFXYNUieC2xZ/0lBXpZcisybFyT8t8YP
- /I9N6k3q4YkM4Lvd6XNjnAc=
-X-Google-Smtp-Source: AA0mqf5ooTkxKbVRktqfLn5MwgKfRFcW2lcaYKxN07SoB1CGuwMQyhV5KJy3WYrSbHessQIgjDNYWQ==
-X-Received: by 2002:a05:600c:1c93:b0:3d0:7026:f0ad with SMTP id
- k19-20020a05600c1c9300b003d07026f0admr12289348wms.38.1670850836936; 
- Mon, 12 Dec 2022 05:13:56 -0800 (PST)
-Received: from ?IPV6:2a00:23c5:5785:9a01:a16d:8ab1:4623:169?
- ([2a00:23c5:5785:9a01:a16d:8ab1:4623:169])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=htf5nVEve2PXFrR4GWdn1LXbbNm9+3Lwxmj8z29C6to=;
+ b=0I2Nzsw6HDeZcqePT94Vy7A5/7VzSbv/jxueLfHmvZwISqvg9aU0RQjbizkCr05ct/
+ 5VrFsnAdGmtzCEuutBQCGgPeNAK/kzegRylfCsbAS0cC/YhQMsxKMC0kBpmJvl4u/XEo
+ 1EiPumYuzHmvo4qanDnCG4ofCW2zPlsnAkXR9A3Qin7ZVbocriaX/N11Wd2b1ahPkSxr
+ UC0G7c3bX3PQLgdT7ORAIZo4LiGpitAdh/GXCrnzfGjhXmYO5SLwVEQJ1tiqk8JoXF8s
+ qtVD+YAJcuClqEgbgBHj9PLs6YGtWWatEInwowOORVX4TA9hS5ZBZ1Yj4esQj3vf5uTp
+ wvGA==
+X-Gm-Message-State: ANoB5pm3Hf8Cy5YV6pWTm8l4QY9K0Qlb1lkZccuVGCxhnMeiLC4OqZp0
+ CPteF5bayDMH2RCnJUvHPctetYR7Pe8/3bENo0Y730jxyDn3v7EIQ6oxcvwtdsaiLbqqApsImsz
+ wF7Os1ddXM+S3TAAox+e2zpTCazSgXMU86zCZE+jCsvF/XzB9JoW7Ad3yt0lPdHYh+Fk=
+X-Received: by 2002:a5d:4090:0:b0:24d:5829:4e59 with SMTP id
+ o16-20020a5d4090000000b0024d58294e59mr5559303wrp.58.1670851024018; 
+ Mon, 12 Dec 2022 05:17:04 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6sADQW9Cq5eEFfFMxqa7FoZ5ENheW5+Hvu14AUMxRHx3dZGs5x0Bbx5a79qStK+9qBqCe7Eg==
+X-Received: by 2002:a5d:4090:0:b0:24d:5829:4e59 with SMTP id
+ o16-20020a5d4090000000b0024d58294e59mr5559283wrp.58.1670851023686; 
+ Mon, 12 Dec 2022 05:17:03 -0800 (PST)
+Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- n22-20020a05600c3b9600b003cfd0bd8c0asm10000106wms.30.2022.12.12.05.13.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 05:13:56 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <52d82630-f1e6-1381-6f34-7d912171b4eb@xen.org>
-Date: Mon, 12 Dec 2022 13:13:52 +0000
+ y11-20020adff14b000000b002365b759b65sm8847719wro.86.2022.12.12.05.17.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Dec 2022 05:17:03 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org,
+	kwolf@redhat.com
+Subject: [PATCH 0/3] block: remove separate bdrv_file_open callback
+Date: Mon, 12 Dec 2022 14:16:57 +0100
+Message-Id: <20221212131700.250209-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 04/22] i386/kvm: handle Xen HVM cpuid leaves
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
-References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-5-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20221209095612.689243-5-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32a.google.com
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,85 +97,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/12/2022 09:55, David Woodhouse wrote:
-> From: Joao Martins <joao.m.martins@oracle.com>
-> 
-> Introduce support for emulating CPUID for Xen HVM guests. It doesn't make
-> sense to advertise the KVM leaves to a Xen guest, so do it unconditionally
-> when the xen-version machine property is set.
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> [dwmw2: Obtain xen_version from machine property, make it automatic]
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-[snip]
-> -    if (cpu->expose_kvm) {
-> +    xen_version = kvm_arch_xen_version(MACHINE(qdev_get_machine()));
-> +    if (xen_version) {
-> +#ifdef CONFIG_XEN_EMU
-> +        struct kvm_cpuid_entry2 *xen_max_leaf;
-> +
-> +        memcpy(signature, "XenVMMXenVMM", 12);
-> +
-> +        xen_max_leaf = c = &cpuid_data.entries[cpuid_i++];
-> +        c->function = kvm_base + XEN_CPUID_SIGNATURE;
-> +        c->eax = kvm_base + XEN_CPUID_TIME;
-> +        c->ebx = signature[0];
-> +        c->ecx = signature[1];
-> +        c->edx = signature[2];
-> +
-> +        c = &cpuid_data.entries[cpuid_i++];
-> +        c->function = kvm_base + XEN_CPUID_VENDOR;
-> +        c->eax = xen_version;
-> +        c->ebx = 0;
-> +        c->ecx = 0;
-> +        c->edx = 0;
-> +
-> +        c = &cpuid_data.entries[cpuid_i++];
-> +        c->function = kvm_base + XEN_CPUID_HVM_MSR;
-> +        /* Number of hypercall-transfer pages */
-> +        c->eax = 1;
-> +        /* Hypercall MSR base address */
-> +        c->ebx = XEN_HYPERCALL_MSR;
-> +        c->ecx = 0;
-> +        c->edx = 0;
-> +
-> +        c = &cpuid_data.entries[cpuid_i++];
-> +        c->function = kvm_base + XEN_CPUID_TIME;
-> +        c->eax = ((!!tsc_is_stable_and_known(env) << 1) |
-> +            (!!(env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_RDTSCP) << 2));
-> +        /* default=0 (emulate if necessary) */
-> +        c->ebx = 0;
-> +        /* guest tsc frequency */
-> +        c->ecx = env->user_tsc_khz;
-> +        /* guest tsc incarnation (migration count) */
-> +        c->edx = 0;
-> +
-> +        c = &cpuid_data.entries[cpuid_i++];
-> +        c->function = kvm_base + XEN_CPUID_HVM;
-> +        xen_max_leaf->eax = kvm_base + XEN_CPUID_HVM;
-> +        if (xen_version >= XEN_VERSION(4,5)) {
-> +            c->function = kvm_base + XEN_CPUID_HVM;
-> +
-> +            if (cpu->xen_vapic) {
-> +                c->eax |= XEN_HVM_CPUID_APIC_ACCESS_VIRT;
-> +                c->eax |= XEN_HVM_CPUID_X2APIC_VIRT;
-> +            }
-> +
-> +            c->eax |= XEN_HVM_CPUID_IOMMU_MAPPINGS;
-> +
-> +            if (xen_version >= XEN_VERSION(4,6)) {
-> +                c->eax |= XEN_HVM_CPUID_VCPU_ID_PRESENT;
-> +                c->ebx = cs->cpu_index;
-> +            }
-> +        }
-> +
-> +        kvm_base += 0x100;
+The presence of the bdrv_file_open callback is used in some parts of the
+code to distinguish protocol and format drivers.  Use the existing
+.protocol_name field instead, and unify .bdrv_open with .bdrv_file_open.
 
-Ok, this tells me that we are intending to handle Hyper-V enlightenments 
-being simultaneously enabled... in which case that MSR above needs to 
-move, along with the cpuid leaves. It should be 0x40000200 in this case.
+Paolo
 
-   Paul
+Paolo Bonzini (3):
+  block: apply assertion more widely
+  block: do not check bdrv_file_open
+  block: remove separate bdrv_file_open callback
 
+ block.c                          | 17 +++++++----------
+ block/blkdebug.c                 |  2 +-
+ block/blkio.c                    |  2 +-
+ block/blkverify.c                |  2 +-
+ block/curl.c                     |  8 ++++----
+ block/file-posix.c               |  8 ++++----
+ block/file-win32.c               |  4 ++--
+ block/gluster.c                  |  8 ++++----
+ block/iscsi.c                    |  4 ++--
+ block/nbd.c                      |  6 +++---
+ block/nfs.c                      |  2 +-
+ block/null.c                     |  4 ++--
+ block/nvme.c                     |  2 +-
+ block/rbd.c                      |  3 ++-
+ block/ssh.c                      |  2 +-
+ block/vvfat.c                    |  2 +-
+ include/block/block_int-common.h |  3 ---
+ 17 files changed, 37 insertions(+), 42 deletions(-)
+
+-- 
+2.38.1
 
 
