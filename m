@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A0564A4B8
+	by mail.lfdr.de (Postfix) with ESMTPS id A619064A4B7
 	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:25:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4lau-0007n6-AX; Mon, 12 Dec 2022 11:23:56 -0500
+	id 1p4lbC-0007om-Lw; Mon, 12 Dec 2022 11:24:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4las-0007mx-3P
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:23:54 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p4lbA-0007oF-Ic
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:24:12 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4laq-0001Xo-HR
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:23:53 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- b24-20020a05600c4a9800b003d21efdd61dso4131325wmp.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:23:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=THiHIuB0p7h9vC4l7JndhlvgHdjQAH3vgMdil1nHSoM=;
- b=gedRsSXdFf6L/CMQjyLqO/+jB7nTOb2dxQQ0gjZl5F48IOBIP4kUhTZnhzRXGnGS3q
- iO57tGqTBbXmVq7kGq3roQ4sM5J3pYJizfDVnavo7jgtwKuQRag6weqvoS505CHVrcDm
- jMs6tLU4lt15Ea0yS7dnfM0/WaA3t90W2wFbUeZXg7K0O8l/NOWtY1Zm6UuH23AXXKLG
- FbC0wOENewlhGRQt+wjJF+w3GrXkCZMUQG5gvwJ05ZfKCZeyAuYcpza5wn1T/czeyqRe
- pnKLy10KUTIrcWgymS1x8osDuoFXeFU//V+t9lhUiEeN81ZvX6Di7dkntTAFUoGQb1Bk
- iVcw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p4lb8-0001se-Py
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:24:12 -0500
+Received: by mail-pg1-x531.google.com with SMTP id f9so8525020pgf.7
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:24:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LvVfFVK3vKVzAik5xzIQabEKNIzAm0AWEGiR4m5NOEU=;
+ b=RHCKVK+DGi7AFPByw6vSAgxf3yHWEC9+Le1THjSD/zkY9GBBLsC+s6eoUaKw9nZz57
+ kirQtfs/zmWLz3L8HdyhFCX7ohsxBCeWEK6pQxf9utG3FJy+MLL3FewEbsHc9oj4SIn6
+ HbktEcpVgPyThHsG1ZYLU7LBZI572bnAtCsHXxCkt2bB2nTdI9BNqfQAOLQ5s0+G2Gdp
+ NX2B45xvTZPI6aScwuN3gYhNVkQ9la1clsTL+Fs8e0wJ7+ZO6I05X+ZICpmyjk3ac7IP
+ ywkloPc5e3sfywQ5RtmEjCM1KJKbmLCxBJ9l6csQV+YaCR7svZArzy48GVtdQf0wIkMO
+ pl8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=THiHIuB0p7h9vC4l7JndhlvgHdjQAH3vgMdil1nHSoM=;
- b=W8dUAzY6wdL5vygWQL1dXqm1MLqQtQIiuj2QI5DC5BcPggvsK1FPpEmTTibFVif3S2
- J/oc5Kos9Y356KfOVYWxNCTSKqYMHwLFATd4HNypGwtTfJW8U+Cq8dgw2ZAq8R93cSze
- KQ3kJsllYEfsj6TWpgrhEdlIg+hd5RXVo1qWHCo8OltfVVnzt/G7VG6Vt1gHAsUD6odP
- vsXoiHyWrcMe6eh7Gq5IGGI7XiSPcjGsd3dfTL1vy4isf9PRhuldVDcecDeh3TDSGNgT
- h/0YQpeQpocQpjK7MvdHE6EGN7cQ7IcGGlN/iZjaPy0SmVzuweg7rteTsrLhomDXQtKW
- tkHQ==
-X-Gm-Message-State: ANoB5pm5qQNMkSnAn54rfPfAW0pLUiZ/3yi7zYHZIJaR/dE+1tf1c7vq
- Tj58BphGBfK9PGwguitL5Kc=
-X-Google-Smtp-Source: AA0mqf4acYsLn+swPZzpQmUXH7qBbFAVu/BBA6ZmwR4Zjf+xFIN3odl4bzmM83qwvF63D+CIuNaIlw==
-X-Received: by 2002:a05:600c:688c:b0:3d0:73f5:b2c0 with SMTP id
- fn12-20020a05600c688c00b003d073f5b2c0mr13272123wmb.20.1670862230941; 
- Mon, 12 Dec 2022 08:23:50 -0800 (PST)
-Received: from [192.168.4.46] (54-240-197-233.amazon.com. [54.240.197.233])
- by smtp.gmail.com with ESMTPSA id
- h67-20020a1c2146000000b003d1de805de5sm10033640wmh.16.2022.12.12.08.23.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 08:23:50 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <c2aea82a-388b-5e6e-6f2b-3fd6b7e1c848@xen.org>
-Date: Mon, 12 Dec 2022 16:23:45 +0000
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LvVfFVK3vKVzAik5xzIQabEKNIzAm0AWEGiR4m5NOEU=;
+ b=54IYpe2RxILvvqbPJRksRz19OFZEQyoDo0AwbAGdKESSRFtaSzD8UWhclSefMQZd+/
+ bSP3s4+WY9JL5CGsFfJJ9x0lfGC1P2Vl8G61Imz9xvBCFZ/oRuChI1WaGJZqfhNreE6D
+ Eb4zOKKJAXS3dtiWBkBaMYGop6uRGr3aIBbLmeWetFRB2RZnWUnrLMIHYH5XdpJK9yJQ
+ gv9ytGPOacWqgB80B4H0sqmEMlxzP+B0j554deaWYBbNSln8gh9BcJC9vIquK2JOZJVL
+ 46xsriGP0MlwlJf+MwWX9lwjU0TTSVzasoSLX5Lm+gPf6H6Ni3sAe+H4HX5oCI1ipDAt
+ 7rog==
+X-Gm-Message-State: ANoB5pnAaptd1WK3S/XX4VGBv2Jq1NCUHWliG0IRNc5AFae0Azm0Db4s
+ kG5dL0K07G72SygcUieTzpozEbZBzoFj5bBGm7LUlA==
+X-Google-Smtp-Source: AA0mqf6uGxuXDYXJcQrUN0olgSKE/PDFKMuQNXtZZbTOf0e3DRtq08Im49Iq8PMGRvLkZLHfsi78QL6tBGTONMaLlc8=
+X-Received: by 2002:a63:d20d:0:b0:479:18a:8359 with SMTP id
+ a13-20020a63d20d000000b00479018a8359mr4932844pgg.105.1670862249363; Mon, 12
+ Dec 2022 08:24:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 21/22] i386/xen: implement
- HYPERVISOR_event_channel_op
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
-References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-22-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20221209095612.689243-22-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x335.google.com
+References: <20221209110823.59495-1-philmd@linaro.org>
+In-Reply-To: <20221209110823.59495-1-philmd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 12 Dec 2022 16:23:57 +0000
+Message-ID: <CAFEAcA8sGbS0oJV1afSja13npZR3tFk4VNAKR2o5+0hCsGUN1w@mail.gmail.com>
+Subject: Re: [PATCH-for-8.0] target/arm: Restrict arm_cpu_exec_interrupt() to
+ TCG accelerator
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Fabiano Rosas <farosas@linux.ibm.com>,
+ qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,88 +86,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/12/2022 09:56, David Woodhouse wrote:
-> From: Joao Martins <joao.m.martins@oracle.com>
-> 
-> Additionally set XEN_INTERFACE_VERSION to most recent in order to
-> exercise both event_channel_op and event_channel_op_compat.
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+On Fri, 9 Dec 2022 at 11:08, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
+> wrote:
+>
+> When building with --disable-tcg on Darwin we get:
+>
+>   target/arm/cpu.c:725:16: error: incomplete definition of type 'struct T=
+CGCPUOps'
+>     cc->tcg_ops->do_interrupt(cs);
+>     ~~~~~~~~~~~^
+>
+> Commit 083afd18a9 ("target/arm: Restrict cpu_exec_interrupt()
+> handler to sysemu") limited this block to system emulation,
+> but neglected to also limit it to TCG.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > ---
->   target/i386/xen.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 45 insertions(+)
-> 
-> diff --git a/target/i386/xen.c b/target/i386/xen.c
-> index 1af336d9e5..f102c40f04 100644
-> --- a/target/i386/xen.c
-> +++ b/target/i386/xen.c
-> @@ -18,11 +18,14 @@
->   #include "hw/i386/kvm/xen_overlay.h"
->   #include "hw/i386/kvm/xen_evtchn.h"
->   
-> +#define __XEN_INTERFACE_VERSION__ 0x00040400
-> +
 
-Xen is actually at:
+Applied to target-arm-for-8.0, thanks.
 
-#define __XEN_LATEST_INTERFACE_VERSION__ 0x00040e00
-
-now.
-
->   #include "standard-headers/xen/version.h"
->   #include "standard-headers/xen/memory.h"
->   #include "standard-headers/xen/hvm/hvm_op.h"
->   #include "standard-headers/xen/hvm/params.h"
->   #include "standard-headers/xen/vcpu.h"
-> +#include "standard-headers/xen/event_channel.h"
->   
->   static bool kvm_gva_to_gpa(CPUState *cs, uint64_t gva, uint64_t *gpa,
->                              size_t *len, bool is_write)
-> @@ -452,6 +455,42 @@ static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
->       return true;
->   }
->   
-> +static bool kvm_xen_hcall_evtchn_op_compat(struct kvm_xen_exit *exit,
-> +                                          X86CPU *cpu, uint64_t arg)
-> +{
-> +    struct evtchn_op op;
-> +    int err = -EFAULT;
-> +
-> +    if (kvm_copy_from_gva(CPU(cpu), arg, &op, sizeof(op))) {
-> +        goto err;
-> +    }
-> +
-> +    switch (op.cmd) {
-> +    default:
-> +        return false;
-> +    }
-> +err:
-> +    exit->u.hcall.result = err;
-> +    return true;
-> +}
-> +
-> +static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
-> +                                    int cmd, uint64_t arg)
-> +{
-> +    int err = -ENOSYS;
-> +
-> +    switch (cmd) {
-> +    case EVTCHNOP_init_control:
-> +        err = -ENOSYS;
-
-Why? It already has that value.
-
-   Paul
-
-> +        break;
-> +    default:
-> +        return false;
-> +    }
-> +
-> +    exit->u.hcall.result = err;
-> +    return true;
-> +}
-> +
-
+-- PMM
 
