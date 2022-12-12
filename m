@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707AE649745
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 01:04:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5254564974F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 01:14:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4WHV-0006CW-Of; Sun, 11 Dec 2022 19:02:54 -0500
+	id 1p4WRX-0001SP-Ui; Sun, 11 Dec 2022 19:13:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p4WHT-0006CB-TZ
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 19:02:51 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p4WRW-0001S2-B1
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 19:13:14 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p4WHR-0005MA-T6
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 19:02:51 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id o5so10488827wrm.1
- for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 16:02:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p4WRU-0003Ac-PJ
+ for qemu-devel@nongnu.org; Sun, 11 Dec 2022 19:13:14 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id m18so24025353eji.5
+ for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 16:13:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ECOgeY2l4qJ8bUdCFDpaDU3eqVFS/5s/8xO+Ai7+oMk=;
- b=lmYti8PsRIooASsTL8DUYdJGOembCbdD1f11G+vI1E6fHumYfGHPtX1X8dGzAcPm0B
- ERbABOsccjzmfWmaG6omtgpYXy0s9y07LfqrE/fcNmMFfD7Sl95DPMWsVgPrGTUdgzkm
- VPCAlxFbEJuFnnDCcogfElLOZf41iHzxDbxCfBujNAFzzWHqlTGO2a4Uq8pDvH1eGa6m
- zYOiGDk3m4npSj6TPiCi4olBilBFASS+Vztn+AczlXRpaBoIjMqbqF6DXIL06sXIHk0x
- bKpLC0qxyKTYRSo8zZ8ShAsLVOW2SEtqtE5LjBK6p1mlhvKWhnQPq6jN/XEUKdThmdEe
- 3uUw==
+ bh=C26Caob0uxj1wKDD8f61QvG6qeV9/egdxmevA5TelBo=;
+ b=LzZa/JCJpGmtZymqwShz3jb9c2La+JETGLFNI1GiJZGi1sC7kgNmMoKC/ZlztCy03M
+ bqrHO6U7V/dJOjgNqj7M1jqMnture3IQGu3HBf3aYdbLmNjg6p8+AvXqUkH3jYBJq1B6
+ TETRBwE8WzcPuLjcsv0OHRd0xPNPuXtfQ7I9glUXGEyHkZI3KgszDDYFlUuyhSvjdiUV
+ pH+dYx7NVXeZo4SDJK+dN/e8zEPRL54VVMSV6PVDp6NKF/dpxq9AdPihK+VumJXyTnTV
+ RDtfwt71wzkB5+828xCXfKphkpa1pekzkLTrf7jAQ+Lw+FA/Ddg4lPGDUHXef8SzHrho
+ EmwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ECOgeY2l4qJ8bUdCFDpaDU3eqVFS/5s/8xO+Ai7+oMk=;
- b=RJxUD9By+QlCSUgOCO5+WVLt0rY2KlVNhpi7cEtHYuVA9pK0VNktuBt2Ghhu92h+4l
- jRimV999gh2rHFeqiYt2pzWujnOUuAZ8S/vHA2pUgAaDJVv0Ezt67Cqqu3m5eNK86VBU
- DL67/av45WfyO8jJWjdARNemcS08T9tjvvBZ+RU2nY4jKfaDw8kNluxRSOw4ZKmTdvuu
- lFEtVdNM2BfWwTponbRoLJWifDA77QQlssJw1IUtZ2EnOKjtvrN+3ghyHhwthwWRbazH
- sv8Le4uW/udnhbz8HdNg2DyGIyqv8txGPURLilfhlU8CCir5R7zM1+xkLcREk7IK8SH7
- 0LZg==
-X-Gm-Message-State: ANoB5pnRgG6yMmo5Ui2loRYv0lws0KM+CbV1xN8VtL38cGUJxGDp6MqF
- 4+Tb1/hDLI+BgDfczOK0h40=
-X-Google-Smtp-Source: AA0mqf7e4L1NFgznRUgFNG98P/Cd21eB/hgOSazW5je1oIlhDgLcqSHHv8HyGjfqif9TGfZG22cTLA==
-X-Received: by 2002:a5d:4448:0:b0:242:7195:47c6 with SMTP id
- x8-20020a5d4448000000b00242719547c6mr9198440wrr.15.1670803368166; 
- Sun, 11 Dec 2022 16:02:48 -0800 (PST)
+ bh=C26Caob0uxj1wKDD8f61QvG6qeV9/egdxmevA5TelBo=;
+ b=PTU5uZxUPHwZY7OlQgg9U4CLEWiz93xDGusQiuxuat2eqeZ3NoV3Dn89KH6kI04axh
+ d2Mt7IT45xum8KgbYzPK8tk3nHyJ4z/5mo+w6EaF0dJut3JBROMCIO4q0bsVMCv0qOeY
+ szy6FKSn114E2ZlxxQbEuIh4XjIHAMBKKg5AWzN5pshdYlHvHcmH7X0q8R7fKs2oEvvI
+ i4wf/dSX+/KoKEWSYRqeENzkQQ+ecBNIkeP2+hXMTiqZSkIKqkBwKOJ7CRud8x1Ngctf
+ UKETH0iqQ0rr1I64PqzKuQXmM2tN7jQljbjiEiIGoNxm0zHub+E5/jsVt0Syl3R1eW7/
+ d+gg==
+X-Gm-Message-State: ANoB5pkGUyJBwfImA8cr2RV9TvlNUwXLnER4aOBffd3RxpPaxwcQpOnt
+ oD7aK51orh3ZLyyYuYvRsOg=
+X-Google-Smtp-Source: AA0mqf4jC2QZSy1BXlLXtNl2LTDAB5TDsZQ2f6+axI8cn9vf0q/7fgQtXWZEUzPKJc3C36k5Z8HUOA==
+X-Received: by 2002:a17:906:d18f:b0:7b2:75c6:6d3c with SMTP id
+ c15-20020a170906d18f00b007b275c66d3cmr12381976ejz.74.1670803991147; 
+ Sun, 11 Dec 2022 16:13:11 -0800 (PST)
 Received: from ?IPv6:::1?
  (p200300faaf0bb200150f11b7b1e9e208.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:150f:11b7:b1e9:e208])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a5d5109000000b002421ce6a275sm7199911wrt.114.2022.12.11.16.02.47
+ q23-20020a17090676d700b007c154037a81sm2064596ejn.73.2022.12.11.16.13.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Dec 2022 16:02:47 -0800 (PST)
-Date: Mon, 12 Dec 2022 00:02:42 +0000
+ Sun, 11 Dec 2022 16:13:10 -0800 (PST)
+Date: Mon, 12 Dec 2022 00:13:05 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -63,18 +63,19 @@ CC: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?ISO-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-8.0 7/7] hw/mips/gt64xxx_pci: Move it to hw/pci-host/
-In-Reply-To: <20221209151533.69516-8-philmd@linaro.org>
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH-for-8=2E0_1/7=5D_hw/mips/Kconfig=3A_Int?=
+ =?US-ASCII?Q?roduce_CONFIG=5FGT64120_to_select_gt64xxx=5Fpci=2Ec?=
+In-Reply-To: <20221209151533.69516-2-philmd@linaro.org>
 References: <20221209151533.69516-1-philmd@linaro.org>
- <20221209151533.69516-8-philmd@linaro.org>
-Message-ID: <BB697AAF-67A9-43DA-832F-E6E70321D97F@gmail.com>
+ <20221209151533.69516-2-philmd@linaro.org>
+Message-ID: <2C6A80F9-BAD4-43D6-8DFD-7D50E477CFFB@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,163 +100,57 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 9=2E Dezember 2022 15:15:33 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+Am 9=2E Dezember 2022 15:15:27 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
 philmd@linaro=2Eorg>:
->From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
+>From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat=2Ecom>
 >
->The GT-64120 is a north-bridge, and it is not MIPS specific=2E
->Move it with the other north-bridge devices=2E
->
->Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
+>Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat=2Ecom>
 >---
-> MAINTAINERS                                   | 2 +-
-> hw/mips/Kconfig                               | 6 ------
-> hw/mips/meson=2Ebuild                           | 1 -
-> hw/mips/trace-events                          | 6 ------
-> hw/pci-host/Kconfig                           | 6 ++++++
-> hw/{mips/gt64xxx_pci=2Ec =3D> pci-host/gt64120=2Ec} | 0
-> hw/pci-host/meson=2Ebuild                       | 1 +
-> hw/pci-host/trace-events                      | 7 +++++++
-> meson=2Ebuild                                   | 1 -
-> 9 files changed, 15 insertions(+), 15 deletions(-)
-> delete mode 100644 hw/mips/trace-events
-> rename hw/{mips/gt64xxx_pci=2Ec =3D> pci-host/gt64120=2Ec} (100%)
+> hw/mips/Kconfig     | 6 ++++++
+> hw/mips/meson=2Ebuild | 3 ++-
+> 2 files changed, 8 insertions(+), 1 deletion(-)
 >
->diff --git a/MAINTAINERS b/MAINTAINERS
->index 6966490c94=2E=2Ee558b53e85 100644
->--- a/MAINTAINERS
->+++ b/MAINTAINERS
->@@ -1226,7 +1226,7 @@ S: Odd Fixes
-> F: hw/isa/piix4=2Ec
-> F: hw/acpi/piix4=2Ec
-> F: hw/mips/malta=2Ec
->-F: hw/mips/gt64xxx_pci=2Ec
->+F: hw/pci-host/gt64120=2Ec
-> F: include/hw/southbridge/piix=2Eh
-> F: tests/avocado/linux_ssh_mips_malta=2Epy
-> F: tests/avocado/machine_mips_malta=2Epy
 >diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
->index 8f7bce38fb=2E=2E7a55143f8a 100644
+>index 725525358d=2E=2Ed6bbbe7069 100644
 >--- a/hw/mips/Kconfig
 >+++ b/hw/mips/Kconfig
->@@ -60,9 +60,3 @@ config MIPS_BOSTON
+>@@ -1,5 +1,6 @@
+> config MALTA
+>     bool
+>+    select GT64120
+>     select ISA_SUPERIO
+>=20
+> config MIPSSIM
+>@@ -59,3 +60,8 @@ config MIPS_BOSTON
 >=20
 > config FW_CFG_MIPS
 >     bool
->-
->-config GT64120
->-    bool
->-    select PCI
->-    select EMPTY_SLOT
->-    select I8259
->diff --git a/hw/mips/meson=2Ebuild b/hw/mips/meson=2Ebuild
->index 152103f15f=2E=2E900613fc08 100644
->--- a/hw/mips/meson=2Ebuild
->+++ b/hw/mips/meson=2Ebuild
->@@ -3,7 +3,6 @@ mips_ss=2Eadd(files('bootloader=2Ec', 'mips_int=2Ec'))
-> mips_ss=2Eadd(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg=2Ec'))
-> mips_ss=2Eadd(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp=
-=2Ec', 'loongson3_virt=2Ec'))
-> mips_ss=2Eadd(when: 'CONFIG_MALTA', if_true: files('malta=2Ec'))
->-softmmu_ss=2Eadd(when: 'CONFIG_GT64120', if_true: files('gt64xxx_pci=2Ec=
-'))
-> mips_ss=2Eadd(when: 'CONFIG_MIPS_CPS', if_true: files('cps=2Ec'))
->=20
-> if 'CONFIG_TCG' in config_all
->diff --git a/hw/mips/trace-events b/hw/mips/trace-events
->deleted file mode 100644
->index 13ee731a48=2E=2E0000000000
->--- a/hw/mips/trace-events
->+++ /dev/null
->@@ -1,6 +0,0 @@
->-# gt64xxx_pci=2Ec
->-gt64120_read(uint64_t addr, uint64_t value) "gt64120 read 0x%03"PRIx64" =
-value:0x%08" PRIx64
->-gt64120_write(uint64_t addr, uint64_t value) "gt64120 write 0x%03"PRIx64=
-" value:0x%08" PRIx64
->-gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) =
-"gt64120 read %s size:%u value:0x%08" PRIx64
->-gt64120_write_intreg(const char *regname, unsigned size, uint64_t value)=
- "gt64120 write %s size:%u value:0x%08" PRIx64
->-gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_=
-length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" P=
-RIx64 "@0x%08" PRIx64
->diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
->index 38fd2ee8f3=2E=2Ea07070eddf 100644
->--- a/hw/pci-host/Kconfig
->+++ b/hw/pci-host/Kconfig
->@@ -81,3 +81,9 @@ config MV64361
-> config DINO
->     bool
->     select PCI
 >+
 >+config GT64120
 >+    bool
 >+    select PCI
->+    select EMPTY_SLOT
 >+    select I8259
 
-While at it: s/select I8259/depends on I8259/ since the model needs but do=
-esn't provide I8259?
+s/select I8259/depends on I8259/ since the model needs but doesn't provide=
+ I8259? Then just take my mail regarding the last patch as a reminder=2E
 
-Best regards,
-Bernhard
+Otherwise:
+Reviewed-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
->diff --git a/hw/mips/gt64xxx_pci=2Ec b/hw/pci-host/gt64120=2Ec
->similarity index 100%
->rename from hw/mips/gt64xxx_pci=2Ec
->rename to hw/pci-host/gt64120=2Ec
->diff --git a/hw/pci-host/meson=2Ebuild b/hw/pci-host/meson=2Ebuild
->index e832babc9d=2E=2E9a813d552e 100644
->--- a/hw/pci-host/meson=2Ebuild
->+++ b/hw/pci-host/meson=2Ebuild
->@@ -1,6 +1,7 @@
-> pci_ss =3D ss=2Esource_set()
-> pci_ss=2Eadd(when: 'CONFIG_PAM', if_true: files('pam=2Ec'))
-> pci_ss=2Eadd(when: 'CONFIG_PCI_BONITO', if_true: files('bonito=2Ec'))
->+pci_ss=2Eadd(when: 'CONFIG_GT64120', if_true: files('gt64120=2Ec'))
-> pci_ss=2Eadd(when: 'CONFIG_PCI_EXPRESS_DESIGNWARE', if_true: files('desi=
-gnware=2Ec'))
-> pci_ss=2Eadd(when: 'CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', if_true: files('=
-gpex=2Ec'))
-> pci_ss=2Eadd(when: ['CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', 'CONFIG_ACPI'],=
- if_true: files('gpex-acpi=2Ec'))
->diff --git a/hw/pci-host/trace-events b/hw/pci-host/trace-events
->index 437e66ff50=2E=2E9d216bb89f 100644
->--- a/hw/pci-host/trace-events
->+++ b/hw/pci-host/trace-events
->@@ -6,6 +6,13 @@ bonito_spciconf_small_access(uint64_t addr, unsigned siz=
-e) "PCI config address i
-> # grackle=2Ec
-> grackle_set_irq(int irq_num, int level) "set_irq num %d level %d"
+>diff --git a/hw/mips/meson=2Ebuild b/hw/mips/meson=2Ebuild
+>index dd0101ad4d=2E=2E6ccd385df0 100644
+>--- a/hw/mips/meson=2Ebuild
+>+++ b/hw/mips/meson=2Ebuild
+>@@ -2,7 +2,8 @@ mips_ss =3D ss=2Esource_set()
+> mips_ss=2Eadd(files('bootloader=2Ec', 'mips_int=2Ec'))
+> mips_ss=2Eadd(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg=2Ec'))
+> mips_ss=2Eadd(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp=
+=2Ec', 'loongson3_virt=2Ec'))
+>-mips_ss=2Eadd(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci=2Ec', 'm=
+alta=2Ec'))
+>+mips_ss=2Eadd(when: 'CONFIG_MALTA', if_true: files('malta=2Ec'))
+>+mips_ss=2Eadd(when: 'CONFIG_GT64120', if_true: files('gt64xxx_pci=2Ec'))
+> mips_ss=2Eadd(when: 'CONFIG_MIPS_CPS', if_true: files('cps=2Ec'))
 >=20
->+# gt64120=2Ec
->+gt64120_read(uint64_t addr, uint64_t value) "gt64120 read 0x%03"PRIx64" =
-value:0x%08" PRIx64
->+gt64120_write(uint64_t addr, uint64_t value) "gt64120 write 0x%03"PRIx64=
-" value:0x%08" PRIx64
->+gt64120_read_intreg(const char *regname, unsigned size, uint64_t value) =
-"gt64120 read %s size:%u value:0x%08" PRIx64
->+gt64120_write_intreg(const char *regname, unsigned size, uint64_t value)=
- "gt64120 write %s size:%u value:0x%08" PRIx64
->+gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_=
-length, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" P=
-RIx64 "@0x%08" PRIx64
->+
-> # mv64361=2Ec
-> mv64361_region_map(const char *name, uint64_t poffs, uint64_t size, uint=
-64_t moffs) "Mapping %s 0x%"PRIx64"+0x%"PRIx64" @ 0x%"PRIx64
-> mv64361_region_enable(const char *op, int num) "Should %s region %d"
->diff --git a/meson=2Ebuild b/meson=2Ebuild
->index 5c6b5a1c75=2E=2Ebd5774f32f 100644
->--- a/meson=2Ebuild
->+++ b/meson=2Ebuild
->@@ -2944,7 +2944,6 @@ if have_system
->     'hw/intc',
->     'hw/isa',
->     'hw/mem',
->-    'hw/mips',
->     'hw/misc',
->     'hw/misc/macio',
->     'hw/net',
+> if 'CONFIG_TCG' in config_all
 
