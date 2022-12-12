@@ -2,94 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B42E64A53E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:50:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F3764A541
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:51:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4lz9-0001iR-4P; Mon, 12 Dec 2022 11:48:59 -0500
+	id 1p4m0k-00028a-Tt; Mon, 12 Dec 2022 11:50:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4lz2-0001hy-Hi
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:48:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4lz0-0001hk-Ud
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:48:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670863729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E+yK7F0omTnM6FNu70B6R0PoNRirz7c4yNUbRlJUvMg=;
- b=fS7298/AfONZXcXxQZNxOPHRsXEZ0xQdK9hzl6eniEqvjUGwa9tqXzwWpy8+nZ+TbXEi1P
- hWbNXWRN0AytVp0ZyKgzx8i8Vr/VcUGCLOcujylNE1CMytEvrToC+tSNAZyofJhtGuCjYu
- V11JiL8BqV9a6BtMdbOsQOj1Gdnwl4k=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-221-vFRfOSg7PhW_HspC10jcAA-1; Mon, 12 Dec 2022 11:48:47 -0500
-X-MC-Unique: vFRfOSg7PhW_HspC10jcAA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x1-20020adfbb41000000b002426b33b618so2376665wrg.7
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:48:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1p4m0U-00023o-5L
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:50:22 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1p4m0J-0002ho-IJ
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:50:13 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ v13-20020a17090a6b0d00b00219c3be9830so440419pjj.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:50:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FORGBh/Pt4RiKOxYB/KoZdU5uzlKmJzHzUWMhfSn3HY=;
+ b=Y2OuRGm92zhn1ZOWW2IJl4+1qjBhEIgiKj5memJSHC7ZRO4N4dPW1Tlgys7Kyul03J
+ jqGw54VqkhlVmXNVH0dZf+xw0OoPquflykwZM/Q9ofUbt4qZPj/SYZE50MUfqP5hoiEX
+ LkwZK715+5ZFtVuKGIFM5Yp1aFzQeBCTDhOPJGKXNFG5qjoF++eeBUGFr9nd6ABpUlhV
+ 0GE6fUr5i7A2nccwIx0nUVk6P4kySqghznEmY/V/kb00qQw8E4EMArkgAHN6UllSBMzM
+ PWfxb2jdU8Y77uZbRmCbj56ts4XEBPyO/noD6o0mHPl30kBShuDTwSHFT7WuizUd0hC7
+ vrtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=E+yK7F0omTnM6FNu70B6R0PoNRirz7c4yNUbRlJUvMg=;
- b=cIS7b0NlceotTKQ9fOoGNfLfVDb7LkMJS+vFQVVKKCdEWVYj9+kqnyjUTeKel5wg8g
- QrijPUYU9kLqG89q5AQLJTiOuqTLEHVHgrAWbvhRKrnP9xlebbFgYh2OY4gnMDmZUwKl
- l8IHQie1AEDuv6bnq+T+MKcfJjyYtVh9cvjH5yb05J/b7LybSUkRMaU0EhKD1C2VhVkk
- NfGTJizjAp3SmW4oQeCmSGOEz8ErbCJjy8HBaKLN7dhkZsgZTEO7UXsFK2vP+ChiJVJS
- Ed3ctjxIciIv7ZUp/zLMLTOX+1KhdaXdgroNAnmg/2WvO/MznRJ5KVw8yQo06fZnxUkI
- Na+w==
-X-Gm-Message-State: ANoB5pkA+PvGu/i2ufYWCsGk1D6jeyBX82wTbCIHumCMehKO80EFlBua
- I6RRqFkz8BPnyOYhW8wwRYPoQx/tFpMNS3CyItewfdGf5oqwabqqJVmUCkcEzQ61QocxHyNFL+p
- nJr1Yaatp6uE5q/k=
-X-Received: by 2002:adf:fec2:0:b0:242:8664:e71e with SMTP id
- q2-20020adffec2000000b002428664e71emr10435590wrs.36.1670863726789; 
- Mon, 12 Dec 2022 08:48:46 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5ql/0D3NxoJOxW8NZs/gcRS1/1l/nFAT0YUqPp9RzAKUkYjgHWrN2cAsHul+YI2gcuBNkMoQ==
-X-Received: by 2002:adf:fec2:0:b0:242:8664:e71e with SMTP id
- q2-20020adffec2000000b002428664e71emr10435572wrs.36.1670863726527; 
- Mon, 12 Dec 2022 08:48:46 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- e4-20020a5d5004000000b0022e57e66824sm10798218wrt.99.2022.12.12.08.48.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 08:48:45 -0800 (PST)
-Message-ID: <b7ce9b86-811d-b7e5-8dad-82e7b825ae0b@redhat.com>
-Date: Mon, 12 Dec 2022 17:48:44 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FORGBh/Pt4RiKOxYB/KoZdU5uzlKmJzHzUWMhfSn3HY=;
+ b=MakEjio2Cc2bIDBpWzlXHsnZph5Bt5g7baV6i67f8bMUdBSGT50sALtqCZA/xb+1gO
+ FDlOrkKWh+y75ZsDOL/JY4KFftSVDPmnOdPNJ5UST699Kg2mDX6P+5Zl//lsWW239A+4
+ YY3KUF5uJkVTGNzQDCnd+Mrxct4JXnS41zvvVLrbIPlTtWmRlSqqRdBCJH8Rlw+V5uIL
+ qPpCUl7YFGhV6MqNTv7C6F3U9s3QABxK6VQrLMh2hRmshFgyFHFq5CTSGx0W165XnNzL
+ ZLGU+wugnOKxu8SzT6jz+wuVF8XPwfbicFVBRWACQgT/PQ4b/mwcmzNZq+Nnr8snvtns
+ UJVA==
+X-Gm-Message-State: ANoB5pnMWtPdoTfirUvAjhYsolj9Q0w6m/o1Z9WGtKWsxQTGTrOXFNfI
+ fUM5lD9pUKFlDcwl0dzHAHOqFKTcKyDqPvgC
+X-Google-Smtp-Source: AA0mqf45zzxY55J25hxD7S8SjgRGjkwG4FFQXuwQJw07P4NW94RYzke++35cOvaB3EpRN7Rkl5Vurg==
+X-Received: by 2002:a17:902:ced0:b0:18f:9b13:5fc0 with SMTP id
+ d16-20020a170902ced000b0018f9b135fc0mr5577384plg.52.1670863805679; 
+ Mon, 12 Dec 2022 08:50:05 -0800 (PST)
+Received: from n250-032-048.byted.org ([221.194.189.28])
+ by smtp.gmail.com with ESMTPSA id
+ x21-20020a170902ea9500b0018f69009f3esm3012125plb.284.2022.12.12.08.50.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Dec 2022 08:50:05 -0800 (PST)
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+To: qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, quintela@redhat.com, peterx@redhat.com,
+ zhouyibo@bytedance.com
+Subject: [RFC v2 0/3] migration: reduce time of loading non-iterable vmstate
+Date: Tue, 13 Dec 2022 00:49:39 +0800
+Message-Id: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 30/30] meson: always log qemu-iotests verbosely
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-31-pbonzini@redhat.com>
- <CAJ+F1CJcVTX5DO4Jrs9P7MLL9qQr-Jy3N5LSpPWKWFzyLCgUEg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAJ+F1CJcVTX5DO4Jrs9P7MLL9qQr-Jy3N5LSpPWKWFzyLCgUEg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,14 +89,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/22 15:02, Marc-André Lureau wrote:
-> Sounds fine, but I like silence too. Could you give a bit of motivation details?
-> thanks!
 
-One qemu-iotests TAP testcase is comparable to a test() invocation 
-elsewhere (in terms of both runtime and kind of test).  This makes it 
-useful to see the last logged test.
+Hi!
 
-Paolo
+In this version:
+
+- rebase to latest upstream.
+- add sanity check to address_space_to_flatview().
+- postpone the init of the vring cache until migration's loading completes. 
+
+Please review, Chuang.
+
+[v1]
+
+The duration of loading non-iterable vmstate accounts for a significant
+portion of downtime (starting with the timestamp of source qemu stop and
+ending with the timestamp of target qemu start). Most of the time is spent
+committing memory region changes repeatedly.
+
+This patch packs all the changes to memory region during the period of
+loading non-iterable vmstate in a single memory transaction. With the
+increase of devices, this patch will greatly improve the performance.
+
+Here are the test results:
+test vm info:
+- 32 CPUs 128GB RAM
+- 8 16-queue vhost-net device
+- 16 4-queue vhost-user-blk device.
+
+	time of loading non-iterable vmstate
+before		about 210 ms
+after		about 40 ms
 
 
