@@ -2,111 +2,162 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870F764A8B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 21:25:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D933E64A8B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 21:29:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4pLW-0007XN-CO; Mon, 12 Dec 2022 15:24:18 -0500
+	id 1p4pPi-0000fu-P7; Mon, 12 Dec 2022 15:28:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p4pLU-0007XE-1O
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 15:24:16 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
+ id 1p4pPg-0000fh-7w
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 15:28:36 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p4pLR-0004zY-W7
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 15:24:15 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BCKDm3A027593
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 20:24:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=gOstau9ndveLWu3YEp3Zjdbo/4p/PSoHzeDx0Ufoc0I=;
- b=MuvUDGILDmHKJMiixaNVE6xe8O0URrsCf4DY/limJvjnNkKU8lrFRZP8ZSYsWe1rBt/t
- 7HHpm2EeOp8eexEfbELn4YRn69PuTmz59/03FJCzEXGtBp2oVd41LkeGPJpMUEutbJsv
- Ai6N4Q/rvEpi907NJvxMp4IJBC1/w/fMIWgIcKLYlbF/xiyWHHBs/PCgvV++9Fg5ZXAw
- dwXQj8CDE0DYaWdnfnbKxeS3BWbWqQ8RJYUKkmadKPdEjU9/1IdD94PoVNNtvCHAryEM
- Jx03hBSrfFyj//7jP5TsN4Y6fldXzAjhCkL6vHdW4D+BJNAZ2FpxzV1f6CpGkhanEYjX BA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3meb5786x5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 20:24:11 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCKF8ke032102
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 20:24:11 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3meb5786wy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 20:24:11 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BCK9Gu6030189;
- Mon, 12 Dec 2022 20:24:10 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
- by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3mchr6jws1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 20:24:10 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
- [10.241.53.105])
- by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BCKO9Jx31523204
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Dec 2022 20:24:09 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9F8A558043;
- Mon, 12 Dec 2022 20:24:09 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2140458059;
- Mon, 12 Dec 2022 20:24:09 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 12 Dec 2022 20:24:08 +0000 (GMT)
-Message-ID: <92b60c63-16a2-6b0e-da38-923d180040da@linux.ibm.com>
-Date: Mon, 12 Dec 2022 15:24:08 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] tpm: add backend for mssim
+ (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
+ id 1p4pPd-0007Ey-Ct
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 15:28:35 -0500
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BCGwrYp002674; Mon, 12 Dec 2022 20:28:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2022-7-12;
+ bh=gQcjkK+8LcdlFxdTNbXuIN95wTRulu+FQOiE8XhJ3Ho=;
+ b=G1Uw0iEZy6eVWSuYjgT5SOEe5xfd58WApVHeztE2JkXpQwnLu4NNo4rwKsBJ1csmft1w
+ VK4ASVJsY5AelLLxZ8L8OV2f6pto4M5FTRRazPpPYfTI3W6L6Bl80RxE5UwVcWmz6sbK
+ bgUwE6gn+e1AZhvcWFQ0887XzJFJplJR0k0F70WGV+77LmPrFJocHMNrRkjyFH32cN3/
+ kDfbR8hYb5XNiu0SIM2UxIWrUnRfz1rDv0MIJ7se33SFzfxz9Xmt6HqssrhK/+MsgFIL
+ 4RPb+MCOUUCxn7UPV1mMKt78FmoGowm/mEVFXHtcOEVr8lu9/nU4GY3n6AM/fWR4dYTI Fg== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3mcjnsurx5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 20:28:26 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 2BCKExoU032993; Mon, 12 Dec 2022 20:28:25 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3mcgjb459y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 20:28:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SpmRSP0XOeIU0Suyk03/S3i+7in9nf3Ud83xW4TUMDq+uXqOR3Z4pMznocogxvW3HpTTeawyvEOZUexg4YUBm7bVxejKoCEd+ZK4vwoDt/P66/8J4aRvv2WCleGkJ8h/weHOlTxVF12pe1UBi+omVU/kI48NIhA0rPTbvIbhW1NFc559W6BVRvPC7s0MXmJgS3IB3fhenlaklRgiQHk6NHGB2z7TIbNi+X61LZOT/Wk7DifzgrOB0yTzOZGYcj0cpqiK15xnrEF0FnldOtdmOgEBtSpWLeXZkfMhJip4twCVxAvN62mgz8KhivyzAbOc3e0DQuPA2iKOnaJSe7Vg9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gQcjkK+8LcdlFxdTNbXuIN95wTRulu+FQOiE8XhJ3Ho=;
+ b=Z2AFuHA+PUWQvfZAGpZ4A0TXanytEQOGQDzFLGAqHfDj3uKNrtmuYVrZI55XA20V6CPy1su/JN2n9rerVeMdPw3f0nTxYBqo1mkNs1L2T2NY6lCQFsnTISBl1Nam6N3NzRwoqbZxziBSKOJOStJJnsZJuSSbLjNk5Pc9fKrKpp+B3/zoE/2QnCAYw1rJeZDciHj2RVhk33HCFFfwhC75KhNhBX+U9Bn2BZvWdK3UOX+niliXCq6SqweIRIImNTVchAXL4jxnkImFvprbf2tsvK6Ec5y312ikEZ+oMom3QQx23CagNKiQYToJibKBlkTKIIqi5QxOpERvPwX3+P4uTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gQcjkK+8LcdlFxdTNbXuIN95wTRulu+FQOiE8XhJ3Ho=;
+ b=RfB5PJk4FgTqkwE94ifforwzJNQtdObIoVmWkyBHP0zfCMjCDMMhaC6iH1y+h4ROExiWnr/LFASBR24XaNd1GDZnKA3xuBgdhfeguqxmnpZq0jzqh3vwUvukLNCVVPVa2jQKP3c0rI7fvmUsQqOXE6KKKKdj9z2SVBR4Rrielsg=
+Received: from BYAPR10MB3255.namprd10.prod.outlook.com (2603:10b6:a03:156::22)
+ by DS7PR10MB4845.namprd10.prod.outlook.com (2603:10b6:5:38e::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Mon, 12 Dec
+ 2022 20:28:23 +0000
+Received: from BYAPR10MB3255.namprd10.prod.outlook.com
+ ([fe80::4636:bc4:6c76:2486]) by BYAPR10MB3255.namprd10.prod.outlook.com
+ ([fe80::4636:bc4:6c76:2486%4]) with mapi id 15.20.5880.019; Mon, 12 Dec 2022
+ 20:28:23 +0000
+From: John Johnson <john.g.johnson@oracle.com>
+To: John Levon <levon@movementarian.org>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v1 10/24] vfio-user: get device info
+Thread-Topic: [PATCH v1 10/24] vfio-user: get device info
+Thread-Index: AQHY86IYNOoWGWhxOkW/zzfHmu2YdK5l5r6AgAUCjYA=
+Date: Mon, 12 Dec 2022 20:28:23 +0000
+Message-ID: <6496E4C5-A83A-4343-A042-4013AA4549BF@oracle.com>
+References: <cover.1667542066.git.john.g.johnson@oracle.com>
+ <d0fcc3415ab22bf66bbd86c1d69d4dade8c023bb.1667542066.git.john.g.johnson@oracle.com>
+ <Y5NbBeoTnXLV/dwL@movementarian.org>
+In-Reply-To: <Y5NbBeoTnXLV/dwL@movementarian.org>
+Accept-Language: en-US
 Content-Language: en-US
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: jejb@linux.ibm.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
- <Y5dNC77CubqrfXku@redhat.com>
- <b06d31496117c8dd8b8fe60c4bebd96377ca3ff1.camel@linux.ibm.com>
- <f76810cb-3658-84b0-e4b4-a684dff99f38@linux.ibm.com>
- <8066be497c4c81827b24a672a550a805e06eec68.camel@linux.ibm.com>
- <c3fa7405-7d4c-a686-d4c3-a3ff74864467@linux.ibm.com>
- <92daee895872aab2047c3768a9c67b1839406568.camel@linux.ibm.com>
- <dc520ab2-04db-b8cb-15fd-871bb1da0d1b@linux.ibm.com>
-In-Reply-To: <dc520ab2-04db-b8cb-15fd-871bb1da0d1b@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: t2LtTxgx4PjF-CIFRMdfWiyusZ_vuErX
-X-Proofpoint-GUID: frNPZZz_Pl7qjjxlng_k4X_bwY_rfqIU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.120.41.1.1)
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR10MB3255:EE_|DS7PR10MB4845:EE_
+x-ms-office365-filtering-correlation-id: dae7b634-53a0-4cd5-4157-08dadc7f6acf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: hDOmhxuiNpcXJ/++KZJ8+DTv752wDT9YzUqJ5uWgI4hLqllb8zF6MJARxpU/DHH8j3VXAd0XHkII94+h4E5EpvHML8klWeTyXJBkb41LLlJ2VwboszwqMyRiqXMdrK/+W/gSAbPAokm+U+OQnc+ZYev2sB86fOPx1UTC4Z8SRDofcKBG++QQXp4IkY6NZt1+11M1qDGdYOLkHxVw/87bNbUoJG/znPSwHN9XwJ7qCR8Ym2RKWUzAOU950wFD+GHwZejIL9mnsT1zFVm5XBuRPFENltyZUQU2a1/VDa2/rqLRkfmWQHM24lPumACMJmW2ESX0Cf13YJya949Ou9xySQ7BxjIrTaVjkaoeUedw8SO+GprpRTvnYfiDVFbWVthy1J6egEMxEsRV0eLAbMydpDM5yD61p0H2kXzQNrdZPbxlrSkbBL8SmBJERouo71envNDXYgci5SLshGxsfqnQq2R4K8qzciOcJ6zO+L8zn+aIfqwEyITJMh0LotwcxuOHGcfaMAk9mHiTOY2IRWGjLkGtw/098Zgy1YTpe9AC3Gr+WY6ygvwClw8Zre7ot26VAfAVqHXoIVkAw5UzfyXXokRvFHk8dek6ZLGkbGnKKggPvGTRjvVl6SnJrsSEBJQyjfYlNpxZDiIWz7dFHagNsPbVVtbTlfnYU9dQhM7RL4oZ6fAzWAgwjtO+ZGn0CX1keLY7uUghRjCqM0T3P+MuumzEXDwMAuqMfYr/fiO6mTI=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB3255.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(136003)(396003)(376002)(39860400002)(346002)(366004)(451199015)(36756003)(33656002)(66476007)(38100700002)(83380400001)(316002)(76116006)(8676002)(66946007)(6916009)(66446008)(66556008)(64756008)(122000001)(86362001)(6486002)(6506007)(53546011)(38070700005)(8936002)(5660300002)(4744005)(2906002)(4326008)(6512007)(186003)(478600001)(2616005)(26005)(41300700001)(71200400001)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pfx1mNNvF8i+4m+EYVtwXxsYwD1ZklCYr4bzth7pqZJQOYm1Pmtt9fz4L/9u?=
+ =?us-ascii?Q?vBNwd3RvGfe+HqGeDgSIQng37BS/xTWiulT6IqIZS8TefPP7hQ7bFKCGlJZW?=
+ =?us-ascii?Q?uxAry0jC8sNYkzdmMBe6tKHOYe+BqJLiSPt7bsS3iKMChe5k2B2vvutIWvE/?=
+ =?us-ascii?Q?7p8aPztG3GhaocRmfgDyfRDqDdd1H/jHmGBQo7e9Ne/LLyaKhJLHYsi4n+UX?=
+ =?us-ascii?Q?9yHMc0uF1zM59knuoeJbv5wpPyvffSHpZGYw7EbYQjSfrpkxF1/TeKrKCesD?=
+ =?us-ascii?Q?8QwhTWGGZM6TWh5hPRDunYfDEOr2+43DaPVSWwLcYEQzFLoH42ZX1jF/0IXK?=
+ =?us-ascii?Q?a5hRI/kXOb4FnUYWRVzd9Ayd+gjY08hNCvvYj8D8cZ4/COGro4DtaA/13LjZ?=
+ =?us-ascii?Q?jCrbIme2QGvkSGJBWR/p9Mxa30Oda5pk81876enHpmJoHVEIE9qhMvCMqYoW?=
+ =?us-ascii?Q?fTbKG24Rp/8tgBH37KVSIyPTIcbi4SUSPS64cz8MKE4G4L6/9m7aYaesSbLd?=
+ =?us-ascii?Q?KAnMiG85DDAk402iHQB08f+bSbkjHVx4BfAs7+gXMAQWM+tSWUuw6Vj+I0/R?=
+ =?us-ascii?Q?PkF9Yl8sX91h/jCyNacfGC685zaCA4/L4jIeYbcVbNDrwIX6rheXZDxdBtJS?=
+ =?us-ascii?Q?YfCX/KJ8ZRMgdAn/iGZoaK9krdY1zo7xlBVFUoPE0nkMzvJu0NM+HVmHERMO?=
+ =?us-ascii?Q?47HIaj+i5FX3K33oZCl3f+BbCrgs/MdmUdbLeWknWizGzZQoMas8tg2BiqLI?=
+ =?us-ascii?Q?U77GsRzPUi+ULCwNGmLG0V/B13XWERJ2rWGsZ67lBcdhEhLvLf/qeF1CHTyr?=
+ =?us-ascii?Q?NECwCIS7IIU0wGYFa+0Y3IOOVLU0pm/4pYGwgz77ZVIjSwcfyIFwcTwbi4Pm?=
+ =?us-ascii?Q?EtTp7ptev53oh7gA4xcNsjXoFLxloftPHRDpFX/5lsAoHfT3fC/8VzE9yMz8?=
+ =?us-ascii?Q?ZLWfqqr4jEltOL9HvkU2Loor0tb0CceY4t5gYYnGuHNehi7uNSzDfaSymy67?=
+ =?us-ascii?Q?Eo7S+iKAxMhum90lA/MdviQVwXgPhLPCBAJnGgAeim5cGF2Ruve2D6iSYPdr?=
+ =?us-ascii?Q?X15zVJSiVboJ5hryigL/IUM88p06GKiXN1cnqPBVy/RDOHLfgx3zccO2YyzW?=
+ =?us-ascii?Q?sh8oY/UQBdQiTBq2VC29W5yYGwMTO8qZ8oxFfJnrT4+cHnZLprmEBPlErXM1?=
+ =?us-ascii?Q?l0aRn5DIUh08U3/cfzuniagg6RMhrGiT99+i4kXFfir0jHjaZJw5xqPVuHIg?=
+ =?us-ascii?Q?EsvviOWTlSypJjxYEIfuC3TdaRdfBzHONFQtiC7T8bDV3kro8yqZB3w1kAkN?=
+ =?us-ascii?Q?R6OtxxGhjZx09SHE9Ombf2/YUA9rUPT2TPY9f48j3cfdvT3lNtlh3aSVLGRe?=
+ =?us-ascii?Q?PySelQBN+1f9wTfE6OWgLyjI+x4MMnIxr25GiXV38OLFie28L+XHaSDIOwol?=
+ =?us-ascii?Q?penowsm8rxUYX0JWS/KP3BxEGMPp2rwN8BfBNCTZ78b6gGmhIkRokr9i6SmX?=
+ =?us-ascii?Q?/n8wu3Co7r0sMZPgcrWmBzvHRjulKj5LeW797L6hgtKPUvPofGynk4O13Rrh?=
+ =?us-ascii?Q?oqGWWmqYGTu9zDOTW4ZQmsIuRkmKpOzQpCyIBGT/ZLk/OKrWfOauuYt7BIMl?=
+ =?us-ascii?Q?sA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <516A997238CB5144A8B87F538B31F919@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3255.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dae7b634-53a0-4cd5-4157-08dadc7f6acf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2022 20:28:23.6958 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Qj5j/6ihgFYhfqD9rN47KHSzGiZCeHqJ6FivLRnhkf5lE3VX06yrVShPUKXmgv17lYIqxevj5e82WJN6OlMTAm5+OA1DWtTyMo1KCeWtd70=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4845
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 mlxscore=0 suspectscore=0 spamscore=0 clxscore=1015
- adultscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
- bulkscore=0 mlxlogscore=582 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212120179
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 bulkscore=0
+ suspectscore=0 mlxlogscore=920 phishscore=0 mlxscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2212120181
+X-Proofpoint-GUID: qQos6l-lmj_X5_n-MXMtnURwblhqPFHt
+X-Proofpoint-ORIG-GUID: qQos6l-lmj_X5_n-MXMtnURwblhqPFHt
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=john.g.johnson@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -126,51 +177,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 12/12/22 14:32, Stefan Berger wrote:
-> 
-> 
-> On 12/12/22 14:12, James Bottomley wrote:
->> On Mon, 2022-12-12 at 13:58 -0500, Stefan Berger wrote:
->>> On 12/12/22 13:48, James Bottomley wrote:
->>>> On Mon, 2022-12-12 at 11:59 -0500, Stefan Berger wrote:
->>>>> On 12/12/22 11:38, James Bottomley wrote:
->> [...]
->>>>>> the kernel use of the TPM, but I'm trying to fix that.  The
->>>>>> standard mssim server is too simplistic to do transport layer
->>>>>> security, but like everything that does this (or rather doesn't
->>>>>> do this), you can front it with stunnel4.
->>>>>
->>>>> And who or what is going to set this up?
->>>>
->>>> I'm not sure I understand the question.  Stunnel4 is mostly used to
->>>> convert unencrypted proxies like imap on 143 or smtp on 25 to the
->>>> secure version.  Most people who run servers are fairly familiar
->>>> with using it.  It's what IBM used for encrypted migration
->>>> initially.  You can run stunnel on both ends, or the qemu side
->>>> could be built in using the qemu tls-creds way of doing things but
->>>> anything running the standard MS server would have to front it with
->>>> stunnel still.
->>>
->>> So it's up to libvirt to setup stunnel to support a completely
->>> different setup than what it has for swtpm already?
->>
->> I don't think so, no.  Libvirt doesn't usually help with server setup
->> (witness the complexity of setting up a server side vtpm proxy) so in
->> the case tls-creds were built in, it would just work if the object is
-> 
-> I see, so you are extending the TPM emulator with TLS on the client side so you don't need another tool to setup a TLS connection from the QEMU/client side.
+> On Dec 9, 2022, at 7:57 AM, John Levon <levon@movementarian.org> wrote:
+>=20
+> On Tue, Nov 08, 2022 at 03:13:32PM -0800, John Johnson wrote:
+>=20
+>> +/*
+>> + * VFIO_USER_DEVICE_GET_INFO
+>> + * imported from struct_device_info
+>> + */
+>> +typedef struct {
+>> +    VFIOUserHdr hdr;
+>> +    uint32_t argsz;
+>> +    uint32_t flags;
+>> +    uint32_t num_regions;
+>> +    uint32_t num_irqs;
+>> +    uint32_t cap_offset;
+>> +} VFIOUserDeviceInfo;
+>=20
+> The server doesn't have or populate cap_offset - and this isn't in the pr=
+otocol
+> either.
+>=20
 
-s/TPM emulator/TPM backend/
+	I can just delete it from VFIOUserDeviceInfo
 
-> 
-> Is the server side across the network or on the same host? Either way, what is the latency that this introduces because I would expect that this slows down IMA since the PCR extensions & TPM 2 response now go back and forth across the network?
-> 
->      Stefan
-> 
->> specified.  The complexity is all on the server side to front it with
->> stunnel.
->>
->> James
->>
-> 
+					JJ
+
+
 
