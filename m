@@ -2,81 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B9A649B75
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B19B8649B88
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:59:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4fSO-0004xS-3u; Mon, 12 Dec 2022 04:50:44 -0500
+	id 1p4fZo-00070n-Vc; Mon, 12 Dec 2022 04:58:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p4fSK-0004x9-U0
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:50:41 -0500
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1p4fZk-0006z2-3B
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:58:20 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p4fSI-0002T4-JK
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:50:40 -0500
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id F0BF2405CB
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 09:50:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1670838628;
- bh=3UpWA9xrQtFTtJIjXb2Po1zDFVNTDD5n4na2k7BeQx8=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=T0/je5cL5lDmwtRwgPkIic26Vp/HPv7xaZjkevcslcpMsQJFFqNFdTnfkFro1+n8a
- AE0bY4/qW+HY2ZF1ElFNIs/A/NU+hLbO274B3g5C7lyf+0yHjIJpcJVd6skKTljL0q
- hNN6qCLh46KGHk2Aa0d5zvUiSqq3xH4Ap+tCQgwNWBt+hJh6o4mjm5drrX5A1MOZrF
- 3b1ATjMVEidtjQ2qAmUyXitooj7oDwCTbPafud4WIMJUXQ2t9JaHifhqbmbXUGVQUj
- C2EwP5LPMEaQAcuDXbIJiTiVpUo8lQ6Ji8cbaZfOqlMhxsb+Mhw/fevJ3qEjI0icTT
- 4ylrEEq68XESQ==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id 9BA373F2DD
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 09:50:28 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1p4fZh-00041Q-Ri
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:58:19 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id E08645C0055;
+ Mon, 12 Dec 2022 04:58:13 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 12 Dec 2022 04:58:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1670839093; x=1670925493; bh=LY
+ AiM8f3leZ/PIhr3G7EU7Whf6lNbW6pvgNn7vVeU84=; b=VPSf1J88H78yg+N/jm
+ n2yVDIx9AX4GTkij7zJL+knsD/el0wjpEVgzJDf+/fgOHlqocqHaeaY95jb9dDgo
+ /LLhlkn7JT1SqGU7Fvy5sWe/uBmCR/qaddGpPQIQHH+jSgaOD8ixdjEzbhmDt8wv
+ 2t1DjDpvg9GJqkKEODTBml+VbFDdxtp5H1OPPvgcjn6Kh8gxGLtvCHLDleQca4LR
+ 4cw2r2zVHE7CyU6sR6zj14UrW4AxeRvEFF50j6DDrAfq/IGzqBTddkkHWG6QInDz
+ qqbutlxleYQi10JHqnLmBxCrdzGyZ6xJpfpDM6QCxmA1c2NFwLgLoj0Kt/531b1w
+ U2EA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1670839093; x=1670925493; bh=LYAiM8f3leZ/PIhr3G7EU7Whf6lN
+ bW6pvgNn7vVeU84=; b=MSoyOBtdYR3isRDJi30drpA0LShTjBUiR8jtLpFh1GUm
+ rwDPmGQc+5q9NrHMWbpH2Ausq4OQ7Cx4M5AZ2H3g2xBEDdNsVrwA6aeqjHtW+9Zo
+ vu0JWE2te2Xw4BWhg2t78VaFKyrRr5WA4Z0A0uhtVaDyLXxa+OffnGkXgMU71o1Q
+ neaWgX5tnUh8MHwtsnC2F1vTjHT7ncEastl+8lzmRPDr4uxbgt7dNpT3sMt7l14b
+ G3by21YOFq6UDZYNkDQpfy51L2ZESFwWSiqJizn8E1UIuWjnd6H8CVbiVlrazXfK
+ w+X3qlbJcrCNgpdk/i66j/O0qFVhHjB8wjnM+DfooA==
+X-ME-Sender: <xms:NPuWYy6cNvGxdBQrX34Ak--EOonFfgiWswwuEznxWxqBMqk3SavS8A>
+ <xme:NPuWY77v7-qvKNBcWepJ_RdQeGuPsdpAJbDPKeu2FKM3IS6agPvfOnVPHb3cjIQDL
+ 2CDORfbkeLaIsy5lRA>
+X-ME-Received: <xmr:NPuWYxcgFlh3tjGZx1bFYb985sdDlrofGluRuLz6muXF0762om4MYjrtpRMHd_dCqohlkTO1fwijjwDlPzKPOgsJnnrkKA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdejgddufeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
+ elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:NPuWY_K_Vy5YWCxcyfIatGnhM3ydWNdebSpKfGG9ZcCubHxr5dXz_Q>
+ <xmx:NPuWY2LqK51ypd0O-3GsMERtrEmBcuCYdtVFuLf1U6azcT4FPNG13g>
+ <xmx:NPuWYwx0he9b7XK0KVv-ZcBrZe_FDv1o83WIiJt3ZoFI3DlqPFhvsA>
+ <xmx:NfuWYy3Pq-KtI4u2gdc_uj71UkNDbAtxcFPTWFl8ADgS8CcgWvuCRg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 12 Dec 2022 04:58:11 -0500 (EST)
+Date: Mon, 12 Dec 2022 10:58:09 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel@nongnu.org,
+ kbusch@kernel.org
+Subject: Re: [PATCH v3 1/2] hw/nvme: Implement shadow doorbell buffer support
+Message-ID: <Y5b7Mdtklu0xA5bJ@cormorant.local>
+References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
+ <20220616123408.3306055-2-fanjinhao21s@ict.ac.cn>
+ <20221207174918.GA1151796@roeck-us.net>
+ <Y5GPRiO0g2mgA3FS@cormorant.local>
+ <Y5GbbF68N5ZiYNdv@cormorant.local>
+ <20221208184740.GA3380017@roeck-us.net>
+ <20221208201353.GA928427@roeck-us.net>
+ <20221208203955.GA1367659@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Dec 2022 09:43:18 -0000
-From: mohammadreza nasrabadi <1523246@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: trim virtio windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jamespharvey20 manouchehri mareza mikemol
- rustamabd socketpair stefanha th-huth
-X-Launchpad-Bug-Reporter: David Manouchehri (manouchehri)
-X-Launchpad-Bug-Modifier: mohammadreza nasrabadi (mareza)
-References: <20151206150708.14182.82430.malonedeb@wampee.canonical.com>
-Message-Id: <167083819808.2839.3561093072943203202.malone@gac.canonical.com>
-Subject: [Bug 1523246] Re: Virtio-blk does not support TRIM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c3f9a3a8c5fffd8b8763824e1f305083a4e9705e"; Instance="production"
-X-Launchpad-Hash: bf35b97a1bd029c22b6515848a5a7181bfc0ea75
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="BrxpUS6E/HY6MTXN"
+Content-Disposition: inline
+In-Reply-To: <20221208203955.GA1367659@roeck-us.net>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,62 +103,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1523246 <1523246@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On which version of qemu the discard option is supported?
 
-I have emulated a VM with below qemu options related to disk type:
+--BrxpUS6E/HY6MTXN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--drive file=3Ddisk.img,if=3Dnone,id=3Ddisk0,l2-cache-
-size=3D8M,format=3Dqcow2,discard=3Don,detect-zeroes=3Dunmap,aio=3Dio_uring =
--device
-virtio-blk-pci,drive=3Ddisk0,scsi=3Doff,bootindex=3D2
+On Dec  8 12:39, Guenter Roeck wrote:
+> On Thu, Dec 08, 2022 at 12:13:55PM -0800, Guenter Roeck wrote:
+> > On Thu, Dec 08, 2022 at 10:47:42AM -0800, Guenter Roeck wrote:
+> > > >=20
+> > > > A cq head doorbell mmio is skipped... And it is not the fault of the
+> > > > kernel. The kernel is in it's good right to skip the mmio since the=
+ cq
+> > > > eventidx is not properly updated.
+> > > >=20
+> > > > Adding that and it boots properly on riscv. But I'm perplexed as to=
+ why
+> > > > this didnt show up on our regularly tested platforms.
+> > > >=20
+> > > > Gonna try to get this in for 7.2!
+> > >=20
+> > > I see another problem with sparc64.
+> > >=20
+> > > [    5.261508] could not locate request for tag 0x0
+> > > [    5.261711] nvme nvme0: invalid id 0 completed on queue 1
+> > >=20
+> > > That is seen repeatedly until the request times out. I'll test with
+> > > your patch to see if it resolves this problem as well, and will bisect
+> > > otherwise.
+> > >=20
+> > The second problem is unrelated to the doorbell problem.
+> > It is first seen in qemu v7.1. I'll try to bisect.
+> >=20
+>=20
+> Unfortunately, the problem observed with sparc64 also bisects to this
+> patch. Making things worse, "hw/nvme: fix missing cq eventidx update"
+> does not fix it (which is why I initially thought it was unrelated).
+>=20
+> I used the following qemu command line.
+>=20
+> qemu-system-sparc64 -M sun4v -cpu "TI UltraSparc IIi" -m 512 -snapshot \
+>     -device nvme,serial=3Dfoo,drive=3Dd0,bus=3DpciB \
+>     -drive file=3Drootfs.ext2,if=3Dnone,format=3Draw,id=3Dd0 \
+>     -kernel arch/sparc/boot/image -no-reboot \
+>     -append "root=3D/dev/nvme0n1 console=3DttyS0" \
+>     -nographic -monitor none
+>=20
 
-the disk file on the host side is located on xfs mountpoint on RAID
-level 10 array.
+Hi Guenter,
 
-After I downloaded a file with 1GB size on the guest OS, I saw the size
-of the disk file on the host has been increased as well.
+Thank you very much for the detailed reports and I apologize for the
+fallout of this.
 
-But when I delete the downloaded file and issue fstrim --all -v command,
-the disk file on host has not been decreased.
+I think this is related to missing endian conversions when handling the
+shadow doorbells. I'm not sure if there is a kernel issue here as well,
+because as far as I can tell, the shadow doorbells are updated like so:
 
-The version of qemu I'm using is 5.2.0
+  old_value =3D *dbbuf_db;
+  *dbbuf_db =3D value;
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1523246
+(where `value` is the new head/tail value depending on if this is an sq
+or cq).
 
-Title:
-  Virtio-blk does not support TRIM
+Keith, is the kernel doing something magically here I am not aware of,
+or isn't this missing some cpu_to_le32() / le32_to_cpu() calls as well?
 
-Status in QEMU:
-  Fix Released
+--BrxpUS6E/HY6MTXN
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Bug description:
-  When model=3Dvirtio is used, TRIM is not supported.
+-----BEGIN PGP SIGNATURE-----
 
-  # mount -o discard /dev/vda4 /mnt
-  # mount | tail -1
-  /dev/vda4 on /mnt type fuseblk (rw,nosuid,nodev,relatime,user_id=3D0,grou=
-p_id=3D0,allow_other,blksize=3D4096)
-  # fstrim /mnt/
-  fstrim: /mnt/: the discard operation is not supported
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmOW+zEACgkQTeGvMW1P
+DemPiwgAo0V0tKGwebsBL3geLNxDsdUA06nXL8AnH29RSAp5JYngU4QTVcMnpaLf
+MKBi9UhcF+TTDXcuH4DChSdOO6H+j/uS7yJ6ekDRM/1YNb+aac3kjc2bFqREva8L
+M5EpVhfMYCiMLAF0I5qO9smpmyjr46vqa38BVw9XyYQU66xN2HZxGh9bd0ooVP0V
+Z5QN2PeIjVR825zcyd6jvUZGz5/4pWjwtRayxa0RkIcLSH77OOL/ojauHi6l3sRI
+ONbe77wpnEkv9AjaVcuYW6NDlr91TggMX8AB9OLFdk9/ty7hU1fyt0eESuGPsj68
+4AXgGAiP9iCJQFghx4hE7Vkz/SXqNQ==
+=Lvub
+-----END PGP SIGNATURE-----
 
-  Booting without model=3Dvirtio allows using TRIM (in Windows as well).
-
-  Full QEMU line:
-
-  qemu-system-x86_64 -enable-kvm -cpu host -bios
-  /usr/share/ovmf/ovmf_x64.bin -smp 2 -m 7G -vga qxl -usbdevice tablet
-  -net nic,model=3Dvirtio -net user -drive discard=3Dunmap,detect-
-  zeroes=3Dunmap,cache=3Dnone,file=3Dvms/win10.hd.img.vmdk,format=3Dvmdk,if=
-=3Dvirtio
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1523246/+subscriptions
-
+--BrxpUS6E/HY6MTXN--
 
