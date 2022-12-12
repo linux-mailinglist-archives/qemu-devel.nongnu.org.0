@@ -2,99 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A24664A9D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 22:55:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 750C364A9DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 22:58:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4qlW-00053s-Mq; Mon, 12 Dec 2022 16:55:14 -0500
+	id 1p4qnl-0006hu-Qs; Mon, 12 Dec 2022 16:57:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4qlT-00053h-7o
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 16:55:11 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4qlP-0005bM-Es
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 16:55:10 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BCLoU6b013217; Mon, 12 Dec 2022 21:55:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=01VqomEvIsrH6OrjIbH62Vz131N+rOpkNRtBd0ZLVeY=;
- b=o2KFfVDR9BAg4SiH+oHpxyqHX8qj484TDQjfgcv9xiRL+VjJ5LnXfPV4nRfTWf9bcjcX
- 78js2hJWfgXzpscH0aVho8ML9ZHCpkYSA2JIUNiqyeATBRc5Bia/nsxTJHhmnin3n98H
- GiKCdU1TDZy+Bia0058oo4T+FylBBYLTbFTWEf0bTF3uPg1oDQldCQlmr0EqVpQQ0nm6
- 7SyuSdfrvVtVLOd+M5OEpRIhv9ExLuI6igMyCdBEBbGl8To9ha1c/S1ZktxwxblPuX26
- IHKI+SjFQDLiPcE7VVfg/EJbCLHh7zGS/utFxIrRST5s7q+vZHo1S5L/OLPphtXcCYk8 WQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mecjs020g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 21:55:04 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCLspqC006248;
- Mon, 12 Dec 2022 21:55:04 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mecjs01ya-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 21:55:04 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BCAWFLp030145;
- Mon, 12 Dec 2022 21:55:01 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3mchr62b4c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 21:55:01 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BCLsxOw22938114
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Dec 2022 21:54:59 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 58C4720043;
- Mon, 12 Dec 2022 21:54:59 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 10E1920040;
- Mon, 12 Dec 2022 21:54:59 +0000 (GMT)
-Received: from heavy (unknown [9.179.26.201])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Mon, 12 Dec 2022 21:54:58 +0000 (GMT)
-Date: Mon, 12 Dec 2022 22:54:57 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: thuth@redhat.com
-Subject: Re: [PATCH v4 05/27] tcg/s390x: Check for long-displacement facility
- at startup
-Message-ID: <20221212215457.tipv77exxnlapvsa@heavy>
-References: <20221209020530.396391-1-richard.henderson@linaro.org>
- <20221209020530.396391-6-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4qnj-0006h4-Bp
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 16:57:31 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4qnh-0006Tb-H6
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 16:57:31 -0500
+Received: by mail-ed1-x534.google.com with SMTP id d20so15166300edn.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 13:57:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=A/V27+CW2nqPGk5XuXVsJjs5cYPQEQbbw1TqXTeQMIc=;
+ b=wFQe3FTTwOQjs/U4LeLiCzC9O1wsFKS8usLDTQ4/zSNqfA4alBu4pOLRAnhe7jyT23
+ 8d/QnXptGPsidb7Gf7VoiUzvlCmOgyg7TtbqKTQ6ddkpCM1f4a+QMSjihDWzYfXZWlLo
+ 7Z4S1ZE9Z6Qvxe9jvYlHwPNDNxJaWprywYAdi0RhVXcWSht11pp5vHJfvYT6NAsgR1O0
+ 5LFAt/bF/DkVVArzcn09K1lvl/miPj14dT+mSp/t7eRDce68BPUu/7+q6JQAIAKhn9Et
+ px+DdSPtphLjeHcnMMDf1T7r9IPr1UeXSWYa9HIfJco9lAiLvRMZnLl4L2U6VWZczf6w
+ 3EPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=A/V27+CW2nqPGk5XuXVsJjs5cYPQEQbbw1TqXTeQMIc=;
+ b=SyfhTs+e2NdDLFMA84ftkLB3Y98ljj8ZFPIa5IQNfp+5bBJGESmCbE10oLEjAe+dx0
+ sFA4Jlp6tnkS0Rpq9v4zTcl19aSiVwY5k4ea90OfNxmNYfLBJzKdFWVsAXfvlSTVGDLv
+ sSb8zO/0UfPLgFHQNy7b5RKAkYHNga//Wny05UQ/XM+zOrjGfrXJG6qrpewAbh5aKPFm
+ C7wUtvpA3Z5zu8y+Fz1zqI12XyOlghITcXaCqp6vZ4pDMW3XSjFnbFzh31jbVRbVjBUm
+ vC26A/ZAeVuwKzmJUdt4WWO/Nsj/1/HFA99mDISLjfo9jnWjmC1ZQ9EqnJYs5SWHLoNJ
+ KKxQ==
+X-Gm-Message-State: ANoB5pmuacVs8WhtPoOZ6K9i3ksDhi5W0aCB3Q90pPU+1dnvaF0j/2jJ
+ mgd2kjz1amA6UX29SsQOucFYbw==
+X-Google-Smtp-Source: AA0mqf6jWuDdcmFugd/wIhbmklo8wpj749j5KQxaVWt9tFu5cqKzRdrDvezBI3ku7M8lq846G9qqZQ==
+X-Received: by 2002:a50:fd8e:0:b0:46f:97fb:1321 with SMTP id
+ o14-20020a50fd8e000000b0046f97fb1321mr9287513edt.35.1670882247471; 
+ Mon, 12 Dec 2022 13:57:27 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ n13-20020aa7d04d000000b00457b5ba968csm4170003edo.27.2022.12.12.13.57.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 13:57:26 -0800 (PST)
+Message-ID: <b194cca1-872a-6690-efcf-afdf14dd9cb4@linaro.org>
+Date: Mon, 12 Dec 2022 22:57:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221209020530.396391-6-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _iN_DWrvV14QjToGXYZHJnM0mAWj3oee
-X-Proofpoint-ORIG-GUID: Yajq3jwPxLJysRVODjsEB1NPMXZ_BKGN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=689 phishscore=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 mlxscore=0
- spamscore=0 priorityscore=1501 clxscore=1015 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2212120187
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH] target/tricore: Fix gdbstub write to address registers
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221212204959.1353838-1-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221212204959.1353838-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,15 +89,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 08, 2022 at 08:05:08PM -0600, Richard Henderson wrote:
-> We are already assuming the existance of long-displacement, but were
-> not being explicit about it.  This has been present since z990.
+On 12/12/22 21:49, Richard Henderson wrote:
+> Typo had double-writes to data registers.
 > 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1363
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/s390x/tcg-target.h     |  6 ++++--
->  tcg/s390x/tcg-target.c.inc | 15 +++++++++++++++
->  2 files changed, 19 insertions(+), 2 deletions(-)
+>   target/tricore/gdbstub.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
