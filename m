@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9182A64A4AC
+	by mail.lfdr.de (Postfix) with ESMTPS id 9918164A4AD
 	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:18:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4lTz-0004oF-Kn; Mon, 12 Dec 2022 11:16:47 -0500
+	id 1p4lUI-0004rN-DD; Mon, 12 Dec 2022 11:17:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4lTu-0004o2-SR
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:16:44 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p4lUE-0004qm-Fw
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:17:02 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4lTs-0007or-Qg
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:16:42 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- k22-20020a05600c1c9600b003d1ee3a6289so5651194wms.2
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:16:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=q4Di0xGG+z93gU14wE62HkF4eqVpZWQhIXEwtjdGXiE=;
- b=VG89Vg0+O86UMc258Yfi/wXMQBVZt883ofm8/stm6rpbGJFB+AXvFwE0YDNki3Rgxd
- zZ9TfteF/NlE/Hrl0F+1e05sjjo0hKIW/mFv/fEbcM8x6abAWpB/sTD512gkwf2y6npa
- pIsWyXZAlT8uRw2BGQyShBYhGgX/FjJvcqiKP6WKqaiunmuoV/UDp2mW0fRxFMiRe74W
- m2elo8BeaWh3dHFx4Pw2m94Iz8M7wpsj+VBvyolw0ZXrgbPc6e720ftVUu4fN72sNzAk
- kZrRUa3kbyyNg79ZBQVuMcd9j7esN3IRRUg00IdRZJLQoZEe8v6ConTQDa9dEE6hxxph
- y+Lg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p4lUC-0008JP-RQ
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:17:02 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ z8-20020a17090abd8800b00219ed30ce47so317850pjr.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:17:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5uOiTnX4huuSRRuxb+Xsfwnc2vZE5IebtoMrPgdsREI=;
+ b=Tl3+8AvtiOO2Ze8iFAJHJLY+DFy5vhzFwAgp1qOO3bfyBZFaX7NV3/qW8psifhsoLF
+ bC8C3HOB5uHuH3ojRYhdEk3KdVNxzTiGUwq/dIYeqJ/xgKNrMT+LyaIaLQbMGU5t6gE6
+ DEEZgFMdLUMmUrH7m5mHzG5rKt9tckNw+5oLTefiQe5p3bqgQb2bqmtAyH9My0qggozA
+ tStgKBm/tIskxVfUkI3Yp+NdV83JxlAPaIWg4qWcDYyZBq4K+YjiTUJQ0KhiO8b5arir
+ 7h3uieJgcmW8Qiaz+fjj/oz+9boeOv8qyYCP4Fl8fvp97ckPVYcCJ13KOAecQ1AYcApz
+ E4sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q4Di0xGG+z93gU14wE62HkF4eqVpZWQhIXEwtjdGXiE=;
- b=zZZ6NU9BQA6dBlUR2KxTQV6RizKy1lTVSHM4IrAGbF+NTFEWXgj0LHdlROQLAwLWkg
- UUzhtGBB3raHfrTLmLOtoMfIawYOKvOC/qAEOl79WUFwgQaWKLv26HaT6b/CRVfmltP6
- +bHi0T0kv25ShwV2idmmOgS63rDyDImRgTTNwid7fWDLAINm+3+8etKPO2Fih0AwSo8I
- jtFfzfPGBPSLOrZSRRiQ4/QQGiX/t4J6w/5wYRBBzhucWrTRDf+sJVpnpBGHRECkXzWi
- 7Veqf5nv2HXjv0mJ0f2/ecoZ9lcvOboI6OTvb2ncoX0nHiFpNmw1h//irdi5/ShFU/+Y
- 24qQ==
-X-Gm-Message-State: ANoB5plMtcjGe35OwIdeziFM+5mCIpQmYZA5to9pRNDns8m8vH/+lYyv
- obCJTTVheu0tTKZikJnMEKU=
-X-Google-Smtp-Source: AA0mqf6UfCRMn4qjz7V9VAfBEPCMJfqLawi42ajAmwDRIl9+aNs0NbITbGI/DzjsUvwy9y2OEVReBg==
-X-Received: by 2002:a05:600c:991:b0:3cf:ab99:6b46 with SMTP id
- w17-20020a05600c099100b003cfab996b46mr12420536wmp.35.1670861799099; 
- Mon, 12 Dec 2022 08:16:39 -0800 (PST)
-Received: from [192.168.4.46] (54-240-197-233.amazon.com. [54.240.197.233])
- by smtp.gmail.com with ESMTPSA id
- m127-20020a1c2685000000b003d1d5a83b2esm9733512wmm.35.2022.12.12.08.16.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 08:16:38 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <f4b7feff-c41a-25c6-d098-c4eab9b94eb1@xen.org>
-Date: Mon, 12 Dec 2022 16:16:33 +0000
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5uOiTnX4huuSRRuxb+Xsfwnc2vZE5IebtoMrPgdsREI=;
+ b=qPc1Xb9RKIeGwUxlVLOU3PwKobGX6+hsFSZN9Ry5UpJr756nRu+mtD+Io9Kg76Yp4g
+ LClmlVGRI2+8SfxM870mEKtPzmqwZZloupE6lORPv0IAeI31Y0WsjxF67nLpkU0JvqWH
+ 1c6lum3YkCRuImg3GqgXB9+TqudRvvROUjPfSLbGYVox5b7YztydK+BlDMhgIhw+D34d
+ Nru+N3kuBTZsVVPPQ4a8FHMxn+lmTm/Ng7xA0CxFTsMfRQ/rptBRO2DEx8yZ8j5icSp3
+ ktUWUi4+JWXj4sufYywzS2kSXZIcBgDb2cvetcX/LhaFv5hFECFCXXl4NajehbNkbcPA
+ Tk9A==
+X-Gm-Message-State: ANoB5pk0nX3ESFWmPXwUgjiZKyFhd8PlVA4v39TrjY1UxAAzjaDYUZZf
+ W8oRfs4XnD0TEHpAV5v9yrz/WEJHT62f76lB4TWXtw==
+X-Google-Smtp-Source: AA0mqf7yF5K+WEblXjnxcNYOLVN/fj+5blWB5eitiFbcN1C2+XDBtzLY6b/dmQM5rxak6rBwhxZ6gSxEFF3Z/KoIO2w=
+X-Received: by 2002:a17:90b:3c0b:b0:219:e2f1:81ad with SMTP id
+ pb11-20020a17090b3c0b00b00219e2f181admr17833071pjb.19.1670861819371; Mon, 12
+ Dec 2022 08:16:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 20/22] i386/xen: HVMOP_set_param /
- HVM_PARAM_CALLBACK_IRQ
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
-References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-21-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20221209095612.689243-21-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x330.google.com
+References: <20221116174749.65175-1-fcagnin@quarkslab.com>
+ <20221116174749.65175-3-fcagnin@quarkslab.com>
+In-Reply-To: <20221116174749.65175-3-fcagnin@quarkslab.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 12 Dec 2022 16:16:47 +0000
+Message-ID: <CAFEAcA_QvfancWKj2hL3KxbyLm8FxkteSbgxvkF8QO119H7SNA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] hvf: implement guest debugging on Apple Silicon
+ hosts
+To: francesco.cagnin@gmail.com
+Cc: qemu-devel@nongnu.org, mads@ynddal.dk, dirty@apple.com, 
+ qemu-arm@nongnu.org, agraf@csgraf.de, pbonzini@redhat.com, 
+ alex.bennee@linaro.org, Francesco Cagnin <fcagnin@quarkslab.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,314 +87,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/12/2022 09:56, David Woodhouse wrote:
-> From: Ankur Arora <ankur.a.arora@oracle.com>
-> 
-> The HVM_PARAM_CALLBACK_IRQ parameter controls the system-wide event
-> channel upcall method.  The vector support is handled by KVM internally,
-> when the evtchn_upcall_pending field in the vcpu_info is set.
-> 
-> The GSI and PCI_INTX delivery methods are not supported. yet; those
-> need to simulate a level-triggered event on the I/OAPIC.
+On Wed, 16 Nov 2022 at 17:48, <francesco.cagnin@gmail.com> wrote:
+>
+> From: Francesco Cagnin <fcagnin@quarkslab.com>
+>
+> Support is added for single-stepping, software breakpoints, hardware
+> breakpoints and watchpoints. The code has been structured like the KVM
+> counterpart (and many parts are basically identical).
+>
+> Guests can be debugged through the gdbstub.
+>
+> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
 
-That's gonna be somewhat limiting if anyone runs a Windows guest with 
-upcall vector support turned off... which is an option at:
+Hi; sorry it's taken me a while to get to this patchset.
 
-https://xenbits.xen.org/gitweb/?p=pvdrivers/win/xenbus.git;a=blob;f=src/xenbus/evtchn.c;;hb=HEAD#l1928
-
-> 
-> Add a 'xen_evtchn' device to host the migration state, as we'll shortly
-> be adding a full event channel table there too.
-> 
-> Signed-off-by: Ankur Arora <ankur.a.arora@oracle.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> [dwmw2: Rework for upstream kernel changes, split from per-VCPU vector]
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   hw/i386/kvm/meson.build  |   5 +-
->   hw/i386/kvm/xen_evtchn.c | 117 +++++++++++++++++++++++++++++++++++++++
->   hw/i386/kvm/xen_evtchn.h |  13 +++++
->   hw/i386/pc_piix.c        |   2 +
->   target/i386/xen.c        |  44 +++++++++++++--
->   5 files changed, 174 insertions(+), 7 deletions(-)
->   create mode 100644 hw/i386/kvm/xen_evtchn.c
->   create mode 100644 hw/i386/kvm/xen_evtchn.h
-> 
-> diff --git a/hw/i386/kvm/meson.build b/hw/i386/kvm/meson.build
-> index 6165cbf019..cab64df339 100644
-> --- a/hw/i386/kvm/meson.build
-> +++ b/hw/i386/kvm/meson.build
-> @@ -4,6 +4,9 @@ i386_kvm_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c'))
->   i386_kvm_ss.add(when: 'CONFIG_I8254', if_true: files('i8254.c'))
->   i386_kvm_ss.add(when: 'CONFIG_I8259', if_true: files('i8259.c'))
->   i386_kvm_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
-> -i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files('xen_overlay.c'))
-> +i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files(
-> +  'xen_overlay.c',
-> +  'xen_evtchn.c',
-> +  ))
->   
->   i386_ss.add_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
-> diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-> new file mode 100644
-> index 0000000000..1ca0c034e7
-> --- /dev/null
-> +++ b/hw/i386/kvm/xen_evtchn.c
-> @@ -0,0 +1,117 @@
-> +/*
-> + * QEMU Xen emulation: Shared/overlay pages support
-> + *
-> + * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-> + *
-> + * Authors: David Woodhouse <dwmw2@infradead.org>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/host-utils.h"
-> +#include "qemu/module.h"
-> +#include "qemu/main-loop.h"
-> +#include "qapi/error.h"
-> +#include "qom/object.h"
-> +#include "exec/target_page.h"
-> +#include "exec/address-spaces.h"
-> +#include "migration/vmstate.h"
-> +
-> +#include "hw/sysbus.h"
-> +#include "hw/xen/xen.h"
-> +#include "xen_evtchn.h"
-> +
-> +#include "sysemu/kvm.h"
-> +#include <linux/kvm.h>
-> +
-> +#include "standard-headers/xen/memory.h"
-> +#include "standard-headers/xen/hvm/params.h"
-> +
-> +#define TYPE_XEN_EVTCHN "xenevtchn"
-> +OBJECT_DECLARE_SIMPLE_TYPE(XenEvtchnState, XEN_EVTCHN)
-> +
-> +struct XenEvtchnState {
-> +    /*< private >*/
-> +    SysBusDevice busdev;
-> +    /*< public >*/
-> +
-> +    uint64_t callback_param;
-> +};
-> +
-> +struct XenEvtchnState *xen_evtchn_singleton;
-> +
-> +static int xen_evtchn_post_load(void *opaque, int version_id)
+> +void hvf_arch_update_guest_debug(CPUState *cpu)
 > +{
-> +    XenEvtchnState *s = opaque;
+> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
+> +    CPUARMState *env = &arm_cpu->env;
+> +    hv_return_t r = HV_SUCCESS;
+> +    bool trap_debug_exceptions = false;
 > +
-> +    if (s->callback_param) {
-> +        xen_evtchn_set_callback_param(s->callback_param);
+> +    cpu_synchronize_state(cpu);
+> +
+> +    if (cpu->singlestep_enabled) {
+> +        trap_debug_exceptions = true;
+> +
+> +        env->cp15.mdscr_el1 =
+> +            deposit64(env->cp15.mdscr_el1, MDSCR_EL1_SS_SHIFT, 1, 1);
+> +        pstate_write(env, pstate_read(env) | PSTATE_SS);
+> +    } else {
+> +        env->cp15.mdscr_el1 =
+> +            deposit64(env->cp15.mdscr_el1, MDSCR_EL1_SS_SHIFT, 1, 0);
 > +    }
 > +
-> +    return 0;
-> +}
-> +
-> +static bool xen_evtchn_is_needed(void *opaque)
-> +{
-> +    return xen_mode == XEN_EMULATE;
-> +}
-> +
-> +static const VMStateDescription xen_evtchn_vmstate = {
-> +    .name = "xen_evtchn",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = xen_evtchn_is_needed,
-> +    .post_load = xen_evtchn_post_load,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT64(callback_param, XenEvtchnState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void xen_evtchn_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->vmsd = &xen_evtchn_vmstate;
-> +}
-> +
-> +static const TypeInfo xen_evtchn_info = {
-> +    .name          = TYPE_XEN_EVTCHN,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(XenEvtchnState),
-> +    .class_init    = xen_evtchn_class_init,
-> +};
-> +
-> +void xen_evtchn_create(void)
-> +{
-> +    xen_evtchn_singleton = XEN_EVTCHN(sysbus_create_simple(TYPE_XEN_EVTCHN, -1, NULL));
-> +}
-> +
-> +static void xen_evtchn_register_types(void)
-> +{
-> +    type_register_static(&xen_evtchn_info);
-> +}
-> +
-> +type_init(xen_evtchn_register_types)
-> +
-> +
-> +#define CALLBACK_VIA_TYPE_SHIFT       56
-> +
-> +int xen_evtchn_set_callback_param(uint64_t param)
-> +{
-> +    int ret = -ENOSYS;
-> +
-> +    if (param >> CALLBACK_VIA_TYPE_SHIFT == HVM_PARAM_CALLBACK_TYPE_VECTOR) {
-> +        struct kvm_xen_hvm_attr xa = {
-> +            .type = KVM_XEN_ATTR_TYPE_UPCALL_VECTOR,
-> +            .u.vector = (uint8_t)param,
-> +        };
-> +
-> +        ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &xa);
-> +        if (!ret && xen_evtchn_singleton)
-> +            xen_evtchn_singleton->callback_param = param;
-> +    }
-> +    return ret;
-> +}
-> diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-> new file mode 100644
-> index 0000000000..11c6ed22a0
-> --- /dev/null
-> +++ b/hw/i386/kvm/xen_evtchn.h
-> @@ -0,0 +1,13 @@
-> +/*
-> + * QEMU Xen emulation: Event channel support
-> + *
-> + * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-> + *
-> + * Authors: David Woodhouse <dwmw2@infradead.org>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +void xen_evtchn_create(void);
-> +int xen_evtchn_set_callback_param(uint64_t param);
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index c3c61eedde..18540084a0 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -60,6 +60,7 @@
->   #endif
->   #ifdef CONFIG_XEN_EMU
->   #include "hw/i386/kvm/xen_overlay.h"
-> +#include "hw/i386/kvm/xen_evtchn.h"
->   #endif
->   #include "migration/global_state.h"
->   #include "migration/misc.h"
-> @@ -417,6 +418,7 @@ static void pc_xen_hvm_init(MachineState *machine)
->   #ifdef CONFIG_XEN_EMU
->       if (xen_mode == XEN_EMULATE) {
->               xen_overlay_create();
-> +            xen_evtchn_create();
->       }
->   #endif
->   }
-> diff --git a/target/i386/xen.c b/target/i386/xen.c
-> index 2583c00a6b..1af336d9e5 100644
-> --- a/target/i386/xen.c
-> +++ b/target/i386/xen.c
-> @@ -16,6 +16,8 @@
->   #include "xen.h"
->   #include "trace.h"
->   #include "hw/i386/kvm/xen_overlay.h"
-> +#include "hw/i386/kvm/xen_evtchn.h"
-> +
->   #include "standard-headers/xen/version.h"
->   #include "standard-headers/xen/memory.h"
->   #include "standard-headers/xen/hvm/hvm_op.h"
-> @@ -287,24 +289,53 @@ static bool kvm_xen_hcall_memory_op(struct kvm_xen_exit *exit,
->       return true;
->   }
->   
-> +static int handle_set_param(struct kvm_xen_exit *exit, X86CPU *cpu,
-> +                            uint64_t arg)
-> +{
-> +    CPUState *cs = CPU(cpu);
-> +    struct xen_hvm_param hp;
-> +    int err = 0;
-> +
-> +    if (kvm_copy_from_gva(cs, arg, &hp, sizeof(hp))) {
-> +        err = -EFAULT;
-> +        goto out;
+> +    if (hvf_sw_breakpoints_active(cpu)) {
+> +        trap_debug_exceptions = true;
 > +    }
 > +
-> +    if (hp.domid != DOMID_SELF) {
-
-Xen actually allows the domain's own id to be specified as well as the 
-magic DOMID_SELF.
-
-> +        err = -EINVAL;
-
-And this should be -ESRCH.
-
-> +        goto out;
-> +    }
+> +    if (hvf_arm_hw_debug_active(cpu)) {
+> +        trap_debug_exceptions = true;
 > +
-> +    switch (hp.index) {
-> +    case HVM_PARAM_CALLBACK_IRQ:
-> +        err = xen_evtchn_set_callback_param(hp.value);
-> +        break;
-> +    default:
-> +        return false;
-> +    }
+> +        env->cp15.mdscr_el1 =
+> +            deposit64(env->cp15.mdscr_el1, MDSCR_EL1_MDE_SHIFT, 1, 1);
 > +
-> +out:
-> +    exit->u.hcall.result = err;
+> +        int i;
+> +        for (i = 0; i < cur_hw_bps; i++) {
+> +            HWBreakpoint *bp = get_hw_bp(i);
+> +            env->cp15.dbgbcr[i] = bp->bcr;
+> +            env->cp15.dbgbvr[i] = bp->bvr;
+> +        }
+> +        for (i = 0; i < cur_hw_wps; i++) {
+> +            HWWatchpoint *bp = get_hw_wp(i);
+> +            env->cp15.dbgwcr[i] = bp->wcr;
+> +            env->cp15.dbgwvr[i] = bp->wvr;
+> +        }
 
-This is a bit on the ugly side isn't it? Why not return the err and have 
-kvm_xen_hcall_hvm_op() deal with passing it back?
+Can you explain how the patches keep the guest's idea of the debug
+registers distinct from the QEMU debugstub's values from them?
+Looking at this patch it seems like we just directly set the
+cp15.* values with what the debug stub wants them to be here;
+but in patch 3 any trapped guest writes to the debug registers
+also simply write to the same env fields.
 
-> +    return true;
-> +}
-> +
->   static int kvm_xen_hcall_evtchn_upcall_vector(struct kvm_xen_exit *exit,
->                                                 X86CPU *cpu, uint64_t arg)
->   {
-> -    struct xen_hvm_evtchn_upcall_vector *up;
-> +    struct xen_hvm_evtchn_upcall_vector up;
->       CPUState *target_cs;
->       int vector;
->   
-> -    up = gva_to_hva(CPU(cpu), arg);
-> -    if (!up) {
-> +    if (kvm_copy_from_gva(CPU(cpu), arg, &up, sizeof(up))) {
->           return -EFAULT;
->       }
->   
-> -    vector = up->vector;
-> +    vector = up.vector;
->       if (vector < 0x10) {
->           return -EINVAL;
->       }
->   
-> -    target_cs = qemu_get_cpu(up->vcpu);
-> +    target_cs = qemu_get_cpu(up.vcpu);
->       if (!target_cs) {
->           return -EINVAL;
->       }
+With KVM, this is handled by the host kernel: QEMU tells KVM
+that it wants to do guest debug, and then uses the KVM_SET_GUEST_DEBUG
+ioctl to say what the bp/wp etc register values should be. The
+KVM kernel then uses those values when it runs the VM, as well
+as ensuring that debug exceptions go to EL2 rather than EL1,
+and that EL1 accesses to the debug regs are also trapped to EL2.
+Guest attempts to access the debug registers are then handled by
+having reads and writes access fields which correspond to the
+guest's view of the debug registers, which is separate from the
+values that the QEMU debug stub is using. The effect is that while
+QEMU is doing debug of the VM, the guest can still read and write
+the debug registers, they just don't have any effect. The guest
+can't do anything that messes with the state of the debug registers
+that QEMU's debug stub is relying on. If/when QEMU says it's
+done with doing guest debug, then the host kernel goes back to using
+the guest's values of the debug registers. (In the kernel sources
+this is done in arch/arm64/kvm/debug.c, with the trapping of debug
+registers done in arch/arm64/kvm/sys_regs.c.)
 
-These changes to kvm_xen_hcall_evtchn_upcall_vector() seem to have 
-nothing to do with the rest of the patch. Am I missing something?
+I suspect that with HVF we need to do the equivalent of this ourselves
+in QEMU.
 
-   Paul
-
-> @@ -325,7 +356,8 @@ static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit, X86CPU *cpu,
->       case HVMOP_pagetable_dying:
->               ret = -ENOSYS;
->               break;
-> -
-> +    case HVMOP_set_param:
-> +            return handle_set_param(exit, cpu, arg);
->       default:
->               return false;
->       }
-
+thanks
+-- PMM
 
