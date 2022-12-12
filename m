@@ -2,96 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBA964A1E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2157E64A1F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:47:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4j8S-00018p-3m; Mon, 12 Dec 2022 08:46:24 -0500
+	id 1p4j9D-0001l5-GI; Mon, 12 Dec 2022 08:47:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1p4j82-00013m-Bx
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:46:00 -0500
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1p4j80-0001G3-3v
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:45:58 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 854283200564;
- Mon, 12 Dec 2022 08:45:53 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 12 Dec 2022 08:45:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1670852753; x=1670939153; bh=p5
- F7H+WhYPA2/F3AWx2N0Wrgzy00+zkyZej5kLEpbO8=; b=Z3LLcQm3+pCQOyNekw
- FfviXQFNh0FryueboRVBeio9Dmq1sT6NSCRb7sVnXz2aN5ZvXdBIAZYWRjTySvxd
- CLuUIOkqUAchSSTdpWwFqWE4/SjhWcVlzzpAXRtkVJbbIhL1HbJD+0S7hAIb0IJq
- 675V1/uOBZC/cYReA36l6Y5GllgYevTdWH1/SpcAewtcfj1ujMT0RRRKUODXmHyF
- Cy6mC3ewvTZ+xzCsocG1z8yUYE/GYYZnF7g7OGbIf+nQQ6sYmaf5XEpC+QpCNAMQ
- zR03B6m8NDITaUMr16pxDxcaJVHATJ1A5kJeLIQKMpQoOYSfuJwQMw3OkLEVRcbc
- yZsw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1670852753; x=1670939153; bh=p5F7H+WhYPA2/F3AWx2N0Wrgzy00
- +zkyZej5kLEpbO8=; b=p9Gnc8Y2s5Vl2jG7LrWHE+oCuhkrg3Y8dKgIABSbe9Ke
- iAav08p0/+2jy3e+so1CdjCDgll3MDQWw1MRLctrxqombFIwrDqD2tKeB2CL3KpG
- bmqvvUVVCYhqyiNxMCCYn2rw4fCKGgB9S6iGQ5BIPOzomEZnWqUs2PvDBSEqKAew
- cgre9+6AtTEMga2dpErlt0B+On29C6iisXPMHF/Y94r9FT49kV2UoA/TDzLT3q0y
- g9rEB5zdzCeEYlgieezlMEZNrXBzJNMVbEkRSqE24sAc8KRoc05L0pB87O6EZ4xg
- oMbbsTsHfH1Isa61okRedAw/CqTo02KwgeVG/Mib+w==
-X-ME-Sender: <xms:kDCXYya-f17obyeevBkQ497aw9vP__31EA3YkF_uCyYHJslLq5Su_A>
- <xme:kDCXY1Y2OIjDsI2O_MD-lYxq0gm2l-nYUGJOoIa33b-ulB1A9AjWWxaftO4C4OLs1
- IDN-_6qGyNNVghMjC0>
-X-ME-Received: <xmr:kDCXY8--aCOXds3C1p8mMPCepKIIN6yBxU7A_BlLq74_OH2W_iht9jW3Qwc1kVwa74ynfvMlZTAPGyFmviPnhUCOugBPPw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgdefvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesghdtre
- ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
- vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjefgjeefffdvuefhieefhffggfeule
- ehudekveejvedtuddugeeigeetffffjeevnecuvehluhhsthgvrhfuihiivgeptdenucfr
- rghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:kDCXY0qkvtwwAs5latH6Z68KKvof3O5SOi5TxHfwu3EEppuWbH5mFQ>
- <xmx:kDCXY9ozQiEKO3-kc_XgtYIwpnLRmDR8iWZe1OMJxv8Fcmkqfi3VtQ>
- <xmx:kDCXYySMpP3BuzxwGvlFY8vw_q8_HrB5y_KZgwCQCb2aAvJsJcLf0g>
- <xmx:kTCXY0XSHGgCZFzNeSV_J3u-Ipmluk0s25iz8pPEo1wz5B_BjJQdRQ>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 12 Dec 2022 08:45:51 -0500 (EST)
-Date: Mon, 12 Dec 2022 14:45:49 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel@nongnu.org,
- kbusch@kernel.org
-Subject: Re: [PATCH v3 1/2] hw/nvme: Implement shadow doorbell buffer support
-Message-ID: <Y5cwjfmTN4SVcZdk@cormorant.local>
-References: <20220616123408.3306055-1-fanjinhao21s@ict.ac.cn>
- <20220616123408.3306055-2-fanjinhao21s@ict.ac.cn>
- <20221207174918.GA1151796@roeck-us.net>
- <Y5GPRiO0g2mgA3FS@cormorant.local>
- <Y5GbbF68N5ZiYNdv@cormorant.local>
- <20221208184740.GA3380017@roeck-us.net>
- <20221208201353.GA928427@roeck-us.net>
- <20221208203955.GA1367659@roeck-us.net>
- <Y5b7Mdtklu0xA5bJ@cormorant.local>
- <c09eaf86-f6b1-cc74-1732-e3c7576e9d88@roeck-us.net>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p4j91-0001gk-Oy
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:46:59 -0500
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p4j8z-0001Vj-1p
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:46:59 -0500
+Received: by mail-ot1-x331.google.com with SMTP id
+ v19-20020a9d5a13000000b0066e82a3872dso7293552oth.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:46:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mvVUqfY+vBiJ/I/vUi5mCtlvmhfRC7pFnMmc9bg4800=;
+ b=cKSACtG1zg4qawIANbpBMuI1n8SIUf4+e2rliRkJgXBFcBV0Aw8n+hJ6GUvTW8tEEe
+ egahl8TJ7k+YQoMDNiY9UeCAacVWb/wktKvpbe9qg9JajIMwE6Q5Xm6JMmC4F+X2bLyJ
+ 1eZPkF5qhVpHOSujEvA4HnzQdNo+nwx0OyeA1OSG/NvT9GU8t/JQHWg6wfzD+dqfN2+q
+ 8coFyt72jufRRdeSaEmkNfwe84kFRO+u6heXEES8zKvpD4JYC0b6aJTNI3NvtXNSVcTH
+ 5HmNZWnITYZyl51LjpAB7xKQFI5JnGBZ1GM1OC0VtPa+iETl3u+pt+Ebz1IdQUrwGyfX
+ QioQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mvVUqfY+vBiJ/I/vUi5mCtlvmhfRC7pFnMmc9bg4800=;
+ b=Yt+gDqx+N4Yx7eQpiDrNxTej7et8hidvqxYg72GTiSNYESYUbKU2QxGlCwCHGwoSiz
+ JTZp+rhQl4ENAa4EaVRpHJWGOOuvyqI8cN38IZkqWi/drXT8cwYb5ebNZp7oZvOnJk0h
+ e7gc7Ty2CdNjY0K/grp2kZYRpg9QfJYhbfaGqq2rQo+hy+kGJeon7IaWXyFDC0TVGRT9
+ 9E2BaG2IsoqqJWGa+h9+UKGusnxLJTaLtAEBHFXBmsKkiUAqYQP4YrNGoEFV+ivqrWsF
+ cGXB0s/hHvF583PUDB8neSPLpPwlhq/JYzHhnFMzYVXnYt1TzaDlbyMRtNieekfoa7qI
+ UoPg==
+X-Gm-Message-State: ANoB5pml4rIDwHqSnVaIxHn5PyEei3+2H9oWLWt6wOseWDCndE2qvcPR
+ EQ8C2PJLjvqKdL/1G+E10Z8y1w==
+X-Google-Smtp-Source: AA0mqf5aHKTwoD2PbP/NqzHR1mJPVqKjm0ZGxLdRBaIkaxVISlYU67+Hv/yDEZt6nDoG9m13MCkHMQ==
+X-Received: by 2002:a05:6830:1297:b0:661:dfeb:a96e with SMTP id
+ z23-20020a056830129700b00661dfeba96emr8630035otp.25.1670852810480; 
+ Mon, 12 Dec 2022 05:46:50 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:2efc:20f0:1d0e:8e1f:fff0?
+ ([2806:102e:18:2efc:20f0:1d0e:8e1f:fff0])
+ by smtp.gmail.com with ESMTPSA id
+ q9-20020a9d4b09000000b006706dc07b51sm4040199otf.4.2022.12.12.05.46.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 05:46:49 -0800 (PST)
+Message-ID: <848525ae-83e2-1dbd-14c4-d9b0192c4089@linaro.org>
+Date: Mon, 12 Dec 2022 07:46:46 -0600
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="j/IwTc/6xzAI0XOB"
-Content-Disposition: inline
-In-Reply-To: <c09eaf86-f6b1-cc74-1732-e3c7576e9d88@roeck-us.net>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH-for-8.0 v2 01/11] hw/mips/bootloader: Handle buffers as
+ opaque arrays
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
+ Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Djordje Todorovic <djordje.todorovic@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
+References: <20221211204533.85359-1-philmd@linaro.org>
+ <20221211204533.85359-2-philmd@linaro.org>
+ <dc1751e4-221d-dd00-f1cb-feab1dc8f9eb@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <dc1751e4-221d-dd00-f1cb-feab1dc8f9eb@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,106 +102,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 12/11/22 14:52, Philippe Mathieu-Daudé wrote:
+> On 11/12/22 21:45, Philippe Mathieu-Daudé wrote:
+>> It is irrelevant to the API what the buffers to fill are made of.
+>> In particular, some MIPS ISA have 16-bit wide instructions.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   hw/mips/bootloader.c         | 55 +++++++++++++++++++++---------------
+>>   hw/mips/malta.c              | 19 +++++++------
+>>   include/hw/mips/bootloader.h | 10 +++----
+>>   3 files changed, 48 insertions(+), 36 deletions(-)
+> 
+> 
+>> diff --git a/include/hw/mips/bootloader.h b/include/hw/mips/bootloader.h
+>> index fffb0b7da8..c32f6c2835 100644
+>> --- a/include/hw/mips/bootloader.h
+>> +++ b/include/hw/mips/bootloader.h
+>> @@ -11,16 +11,16 @@
+>>   #include "exec/cpu-defs.h"
+>> -void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr);
+>> -void bl_gen_jump_kernel(uint32_t **p,
+>> +void bl_gen_jump_to(void **ptr, target_ulong jump_addr);
+>> +void bl_gen_jump_kernel(void **ptr,
+>>                           bool set_sp, target_ulong sp,
+>>                           bool set_a0, target_ulong a0,
+>>                           bool set_a1, target_ulong a1,
+>>                           bool set_a2, target_ulong a2,
+>>                           bool set_a3, target_ulong a3,
+>>                           target_ulong kernel_addr);
+>> -void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val);
+>> -void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val);
+>> -void bl_gen_write_u64(uint32_t **p, target_ulong addr, uint64_t val);
+>> +void bl_gen_write_ulong(void **ptr, target_ulong addr, target_ulong val);
+>> +void bl_gen_write_u32(void **ptr, target_ulong addr, uint32_t val);
+>> +void bl_gen_write_u64(void **ptr, target_ulong addr, uint64_t val);
+> 
+> And I forgot to squash this...:
 
---j/IwTc/6xzAI0XOB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-On Dec 12 05:39, Guenter Roeck wrote:
-> On 12/12/22 01:58, Klaus Jensen wrote:
-> > On Dec  8 12:39, Guenter Roeck wrote:
-> > > On Thu, Dec 08, 2022 at 12:13:55PM -0800, Guenter Roeck wrote:
-> > > > On Thu, Dec 08, 2022 at 10:47:42AM -0800, Guenter Roeck wrote:
-> > > > > >=20
-> > > > > > A cq head doorbell mmio is skipped... And it is not the fault o=
-f the
-> > > > > > kernel. The kernel is in it's good right to skip the mmio since=
- the cq
-> > > > > > eventidx is not properly updated.
-> > > > > >=20
-> > > > > > Adding that and it boots properly on riscv. But I'm perplexed a=
-s to why
-> > > > > > this didnt show up on our regularly tested platforms.
-> > > > > >=20
-> > > > > > Gonna try to get this in for 7.2!
-> > > > >=20
-> > > > > I see another problem with sparc64.
-> > > > >=20
-> > > > > [    5.261508] could not locate request for tag 0x0
-> > > > > [    5.261711] nvme nvme0: invalid id 0 completed on queue 1
-> > > > >=20
-> > > > > That is seen repeatedly until the request times out. I'll test wi=
-th
-> > > > > your patch to see if it resolves this problem as well, and will b=
-isect
-> > > > > otherwise.
-> > > > >=20
-> > > > The second problem is unrelated to the doorbell problem.
-> > > > It is first seen in qemu v7.1. I'll try to bisect.
-> > > >=20
-> > >=20
-> > > Unfortunately, the problem observed with sparc64 also bisects to this
-> > > patch. Making things worse, "hw/nvme: fix missing cq eventidx update"
-> > > does not fix it (which is why I initially thought it was unrelated).
-> > >=20
-> > > I used the following qemu command line.
-> > >=20
-> > > qemu-system-sparc64 -M sun4v -cpu "TI UltraSparc IIi" -m 512 -snapsho=
-t \
-> > >      -device nvme,serial=3Dfoo,drive=3Dd0,bus=3DpciB \
-> > >      -drive file=3Drootfs.ext2,if=3Dnone,format=3Draw,id=3Dd0 \
-> > >      -kernel arch/sparc/boot/image -no-reboot \
-> > >      -append "root=3D/dev/nvme0n1 console=3DttyS0" \
-> > >      -nographic -monitor none
-> > >=20
-> >=20
-> > Hi Guenter,
-> >=20
-> > Thank you very much for the detailed reports and I apologize for the
-> > fallout of this.
-> >=20
-> > I think this is related to missing endian conversions when handling the
-> > shadow doorbells. I'm not sure if there is a kernel issue here as well,
-> > because as far as I can tell, the shadow doorbells are updated like so:
-> >=20
-> >    old_value =3D *dbbuf_db;
-> >    *dbbuf_db =3D value;
-> >=20
-> > (where `value` is the new head/tail value depending on if this is an sq
-> > or cq).
-> >=20
-> > Keith, is the kernel doing something magically here I am not aware of,
-> > or isn't this missing some cpu_to_le32() / le32_to_cpu() calls as well?
->=20
-> Wouldn't that mean that nvme doorbell support would be broken in Linux
-> on all big endian systems ? Maybe it is, but it seems a bit unlikely.
->=20
 
-No, not broken in general - only for shadow doorbells. On regular MMIO,
-the linux helpers takes care of endianness (and so does the MMIO
-callbacks in QEMU). However, for shadow doorbells, the doorbell value is
-written to host memory - and Linux (and QEMU) does not handle that
-correctly wrt. endianness.
+r~
 
-I got it all working with the series I just posted for QEMU (v4) and
-fixing endianness conversion for the above in the kernel (patch pending
-for linux-nvme).
+> 
+> -- >8 --
+> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+> index edda87e23c..b6dd9fb200 100644
+> --- a/hw/mips/boston.c
+> +++ b/hw/mips/boston.c
+> @@ -323,7 +323,7 @@ static void boston_register_types(void)
+>   }
+>   type_init(boston_register_types)
+> 
+> -static void gen_firmware(uint32_t *p, hwaddr kernel_entry, hwaddr fdt_addr)
+> +static void gen_firmware(void *p, hwaddr kernel_entry, hwaddr fdt_addr)
+>   {
+>       uint64_t regaddr;
+> 
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 34befa5dd5..cfc8ca6ae4 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -179,7 +179,7 @@ static void write_bootloader(CPUMIPSState *env, uint8_t *base,
+>       /* Second part of the bootloader */
+>       p = (uint32_t *)(base + 0x040);
+> 
+> -    bl_gen_jump_kernel(&p,
+> +    bl_gen_jump_kernel((void **)&p,
+>                          true, ENVP_VADDR - 64,
+>                          true, 2, true, ENVP_VADDR,
+>                          true, ENVP_VADDR + 8,
+> ---
+> 
 
---j/IwTc/6xzAI0XOB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmOXMIwACgkQTeGvMW1P
-Dem4ewf+KWLs4IaHPuK/tk0td9AUs7xcfomk55yrkVe+kr75tsNhQxuUcreQqYwO
-/P/FmtxDTGBsQS81LONMjSSgw35l98rRp8fCnUjfL9JiRANOgxv/ws5pDDHGtndH
-GI4IqXMi18lMN+/OUKZOF/2NExF+QElMpj0T6hd64vW4wFO/4DxQzrLvmax53uEC
-J1rPmSg80N65qWoFrPo7ZVVx9tjgqmcgg7f2e721rjfcO72bj7YuF+r7vf4Ewm4i
-ts+1YXAVrrHElEjI5SYU2JNPiqoM17bFsAqU65+a3n4sEQjtrQvI1bgFqsKkYeTD
-a/mvKkBLRRD/Yi1H5gqZlUQIJeYxlQ==
-=fwi5
------END PGP SIGNATURE-----
-
---j/IwTc/6xzAI0XOB--
 
