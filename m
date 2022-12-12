@@ -2,91 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48BE864AA1F
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 23:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854D664AA23
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 23:22:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4r9P-0001sr-RR; Mon, 12 Dec 2022 17:19:56 -0500
+	id 1p4rBZ-00043x-Co; Mon, 12 Dec 2022 17:22:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4r9H-0001rM-LO
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:19:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4rBT-00043I-Se
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:22:03 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4r9F-0008VR-8N
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:19:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670883584;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IHI9gKRF5+vXRTGhLgS/mHuw6rkz+FhOHNOI5K062/w=;
- b=ILk65os4MN2HHZjDzH8IkINKkIG7YKQNCCr0irfxah9OFC3fa9uJ9QRPsoN2z0QsJNyxhd
- jdvhOu54IS5vw4opPIMmUi7k3fmkRCcO+kaLUthZhBx/2mSEbupqx+5upga08hXvDpQpMw
- Mid0wSK5Iqpfcxthcfy9WBkTIoZnmMA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-515-CBrUmYOwOQS5xRLtmyqbPA-1; Mon, 12 Dec 2022 17:19:43 -0500
-X-MC-Unique: CBrUmYOwOQS5xRLtmyqbPA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h81-20020a1c2154000000b003d1c8e519fbso4713052wmh.2
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 14:19:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IHI9gKRF5+vXRTGhLgS/mHuw6rkz+FhOHNOI5K062/w=;
- b=dY4iM/yzvbTjQ9dXjFA9JwwO/jj5a80PhDRHGkOUaaxv4R98Qs4m+fc3M6TsHK5X9d
- PZy084SqftkcnerMk9oocHWQFe7T+SiZZ9xpOjGUfwE9n1uM0xLarpYgKjoxsQnsGdov
- kBPD4nQodJaoD9Bik+2aVK0KF2vIqTUSZrc9VlCOnmeExCYNXGhPxcmmASq+Qv8guxSa
- SGqpViVprTA03UGz0jPF00wDtIHt9OO5/xjzo9j7xCCc9Dy/FPIvHrW/W9X2yw0r2kO+
- dtsRkyS7/NR7vCfBjgSTXzVu6sQxHWxzvffwTt1nRPiJiyICb9EweDgfLj5dGB6o2rP0
- dg/Q==
-X-Gm-Message-State: ANoB5pmy0rYSyrcQYgutCAlMpJCbNgqTxkCypTVVDKrbcD3V83WPchl3
- ZaIsRpTluVk5FVP4qXGCCmEq04xRzUIl4KEdhUrOxVh2v+gjzqnnahQTNBd/HfWJerOB14G0RUd
- BQT5Za8JFnZT0Wz0=
-X-Received: by 2002:a05:600c:3d96:b0:3cf:7704:50ce with SMTP id
- bi22-20020a05600c3d9600b003cf770450cemr13402448wmb.38.1670883582023; 
- Mon, 12 Dec 2022 14:19:42 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4Jl4CGH41WyYLjRvF06rh/+MaTo7mFD/CtOfTXZ+BklhbskWEeMwcgol2+jDPVIDVp7jc1QA==
-X-Received: by 2002:a05:600c:3d96:b0:3cf:7704:50ce with SMTP id
- bi22-20020a05600c3d9600b003cf770450cemr13402434wmb.38.1670883581760; 
- Mon, 12 Dec 2022 14:19:41 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- i2-20020a1c5402000000b003c6c182bef9sm12979260wmb.36.2022.12.12.14.19.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 14:19:41 -0800 (PST)
-Message-ID: <c623ec7a-657d-09e2-b205-09e455924154@redhat.com>
-Date: Mon, 12 Dec 2022 23:19:40 +0100
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4rBR-0000yq-Va
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:22:03 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BCLofrc013931; Mon, 12 Dec 2022 22:21:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=8tuOC3fhH2pFchoriF5SuhaHkHS8lbgDXgqtilqQ7wk=;
+ b=Qi56uLzkHUQrYGjRQ/apwo9+n+QPwTYUlERqAYjusmeyzLIVmYxiRmE92pFfYoXbhRKv
+ F8p3ibJ0RZ2njePNgr0/qG7usnJ8uQWdF8HyVWK4DDRDUieOyBV8tDwk5kQXgDbO3tEB
+ W5sGGLuxweKjrrR7vH9WERCV3r7/BhthiekbpG9BW78E9UeFULgy0lBgwfFhfancb1wO
+ AdvoudUWbNZrebF8ebkO2XEG0XO2ddIekh81embTb6EnPtq4YahOjUyzjjMbOukMcUln
+ mhI6DjJes5uEckx/ihb2XFmAjnWbysh9BzearCq0goTMiIegZZSzIvychBBJQV+EWw8f Kg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mecjs0rjt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 22:21:59 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCLpiN1019786;
+ Mon, 12 Dec 2022 22:21:59 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mecjs0rhr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 22:21:58 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BCB9Ysh020894;
+ Mon, 12 Dec 2022 22:21:56 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3mchr62bf4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 22:21:56 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BCMLrxf23331364
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 22:21:54 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DB1CD20065;
+ Mon, 12 Dec 2022 22:21:53 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 92A5620063;
+ Mon, 12 Dec 2022 22:21:53 +0000 (GMT)
+Received: from heavy (unknown [9.179.26.201])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Mon, 12 Dec 2022 22:21:53 +0000 (GMT)
+Date: Mon, 12 Dec 2022 23:21:52 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com
+Subject: Re: [PATCH v4 07/27] tcg/s390x: Check for
+ general-instruction-extension facility at startup
+Message-ID: <20221212222152.xy7xvlzm5wwcoqtp@heavy>
+References: <20221209020530.396391-1-richard.henderson@linaro.org>
+ <20221209020530.396391-8-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH 1/3] include/block: Untangle inclusion loops
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org
-References: <20221208143939.2775453-1-armbru@redhat.com>
- <20221208143939.2775453-2-armbru@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20221208143939.2775453-2-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221209020530.396391-8-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 8Q70NPzwk2kdVjPA5GTacYsnGU8pr3RX
+X-Proofpoint-ORIG-GUID: m8qQ3H_zg3xln0dpyESM2BWbn04IZHQ5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=829 phishscore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 mlxscore=0
+ spamscore=0 priorityscore=1501 clxscore=1015 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2212120189
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,16 +110,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/8/22 15:39, Markus Armbruster wrote:
->    * Global state (GS) API. These functions run under the BQL.
->    *
->    * See include/block/block-global-state.h for more information about
-> - * the GS API.
-> + * the GS API.b
->    */
+On Thu, Dec 08, 2022 at 08:05:10PM -0600, Richard Henderson wrote:
+> The general-instruction-extension facility was introduced in z10,
+> which itself was end-of-life in 2019.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/s390x/tcg-target.h     |  10 ++--
+>  tcg/s390x/tcg-target.c.inc | 100 ++++++++++++++++---------------------
+>  2 files changed, 49 insertions(+), 61 deletions(-)
 
-One-character typo.
-
-Paolo
-
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
