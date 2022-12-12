@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3732F64A420
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 16:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DFF64A43D
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 16:36:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4kjb-0005HT-25; Mon, 12 Dec 2022 10:28:51 -0500
+	id 1p4kpN-0000Eu-Lb; Mon, 12 Dec 2022 10:34:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4kjZ-0005HL-H5
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:28:49 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4kpL-0000CN-B8
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:34:47 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p4kjX-0000zW-ST
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:28:49 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id q186so11506346oia.9
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 07:28:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4kpI-0005xA-Ro
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:34:46 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id ja17so2850809wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 07:34:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=f5mew2/uMhtUIctFRzkhzjnISgw5SWYDtQaU/rgQpzc=;
- b=EuMHfTwirBpXvljnkWuURuv5TBufAU9WIXA0CHuDRYc4V/l35ApGbCHUNGiUzue9RW
- o0YhrNlUeCHduVsY4NplYTpcjtGIcYCRBxdho2hxHH2Mm8gEgUXqGxPMF7QucCAB6BDx
- JsJHpyHILDnuY1tm8/Gf5WNgnLOQ6m8vkeiGi/oIe/uKxTa1S5bxL+u7UIFZojMMtLw/
- vdVbzYsxNgbRlCC2RBI675s+8NG2Wj0fThc6CPSmtpkS3BmUcQum7KK20IYIiUIoeqBe
- lT3z+u3oWKorDF3kDXSqEcSmGck/CdZduGEZj+SDxVQOuCMn9EX2yHrZEW8U6E+oDBwN
- f5Tg==
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=DUEk9rLxcxeX94kOOQMv4/OgIDkNDdMiC0fxIOfiL3I=;
+ b=OwIcBTVCqwLlzww24J07Z1tJpt3aujV56DzEtPju0XPleRn6i1CsGM+6GLI4fpcz1/
+ DidceH/plDhhmZA7JdcrrDfwY+y5idT9qbCMa/Ts0LdQJvPgeDTqzcGBDBcWio/GWk7I
+ Emw+a4dSYK7h2NQ0oTyNQ+SUU/rqinq9hzskCtqnfGcvPLyFA+7hds/zjOeYBjcxpZmS
+ bQyV9bshnDLiIbRVBr2NAZduqYOayvV0evI/Fzfu217s+oUupLeYt0pp2F4YyB8Ih0+7
+ 6UzgWuNpUWEFCkQaeAN8L+Nq8RvhMBpFk/0s6ObVHgSHHntqvIbV/g7wgj2ujvvcenTN
+ BTOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f5mew2/uMhtUIctFRzkhzjnISgw5SWYDtQaU/rgQpzc=;
- b=CcbimeDf5fa6in66TG0qgKSt/AzXO25iKrS3ziHE9x7eMI4goz5TlHQ9zdARp0WR+r
- GLFqb1Tco1xNXZH7ac8ht02I0Idg/ZHpSWCu4A9M1jwBrVgyUymwaw3fTXuBnBVLuYWI
- lujzXqfrYaatckL4jneiuWR0ZFRbmbeOwHWCyzlj6QvmLUYNliDE4Wfhov+NHmiOuOSZ
- kCHYTdUvEc+bIqf1SF6QYOtXe5SZ2sg274/np01bLAiWj3vTa2IYmQsPdswnHOIhlGBv
- z2Mw48xRhnvGfmH+49VqhNJdQ3Q2x0e4fcNFDmCGKSeVLjLc8Yf0IoyiiRNoqpG82stc
- ok3w==
-X-Gm-Message-State: ANoB5pmKkQepeVtCr9d0EvjhmLO7FdaO/ykjiwdTLpWwHe0q+D1AC6Kw
- fz9rPxNN8obobgcs1i9jvHyONQ==
-X-Google-Smtp-Source: AA0mqf6+Yk3ydvElF5JrCzWEx9GrmdyKrKez/+o4PyBLHKV57YDXMREI44/g3pHanDUjsSzlvZEISw==
-X-Received: by 2002:a05:6808:1ab2:b0:35e:6a35:fc56 with SMTP id
- bm50-20020a0568081ab200b0035e6a35fc56mr4511961oib.5.1670858926067; 
- Mon, 12 Dec 2022 07:28:46 -0800 (PST)
-Received: from ?IPV6:2806:102e:18:2efc:20f0:1d0e:8e1f:fff0?
- ([2806:102e:18:2efc:20f0:1d0e:8e1f:fff0])
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DUEk9rLxcxeX94kOOQMv4/OgIDkNDdMiC0fxIOfiL3I=;
+ b=6P3IgBuoWVj+6jiN+y7haTf4wubiemyIJNOefB8PqX69PNjMnr/bcKbkvjlftCgCAN
+ Snr+sNXtPhdcPmjkfsiBa5bUO3U+AgIsvf/IujUQlC5lSCy9tbTmAPp75/qjMRshN54m
+ lp/3HSMzd91/ZVTUZcWwI+XyV9rclAm8qFYC9JzGYC5wFAOPYwF3LDE+dMVOnt+0RApG
+ J8sDI/TIFo0ztGY8mRQU6GnPRW7RkrDHNDu4LsFYdAYmYvQ6nnLnDifCZeKsKQKQRKXs
+ c/SxfvHPSpjorpVSBIXvEA8vrGN0RCl04hWBzOVEnmhBj08BOiC9oPh2qPwYyU1e48m5
+ EU7Q==
+X-Gm-Message-State: ANoB5plLbT5yoQSX9B5mIsTObJKhlT4zZ0jzijj6zGagnxs3NanxGF36
+ 7sy8JFu/Z5LEG6stwy8soco=
+X-Google-Smtp-Source: AA0mqf69focTdojT274TXwNcp37AJnrcmcU3cZwAadJ4KW1mT+7sieKQu4DxpwQhz2bT50o8097F0w==
+X-Received: by 2002:a05:600c:4e41:b0:3cf:8b72:e6fd with SMTP id
+ e1-20020a05600c4e4100b003cf8b72e6fdmr12900891wmq.20.1670859283058; 
+ Mon, 12 Dec 2022 07:34:43 -0800 (PST)
+Received: from [192.168.4.46] (54-240-197-233.amazon.com. [54.240.197.233])
  by smtp.gmail.com with ESMTPSA id
- k18-20020a4abd92000000b004a382acad85sm34255oop.15.2022.12.12.07.28.44
+ x8-20020a05600c21c800b003cf6e1df4a8sm9318794wmj.15.2022.12.12.07.34.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 07:28:45 -0800 (PST)
-Message-ID: <6006a739-9474-4c27-c42e-b642a957e346@linaro.org>
-Date: Mon, 12 Dec 2022 09:28:43 -0600
+ Mon, 12 Dec 2022 07:34:42 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <de303284-0604-ed40-bf8a-ec25a7b11776@xen.org>
+Date: Mon, 12 Dec 2022 15:34:37 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 7/8] accel/tcg: Move PageDesc tree into tb-maint.c for
- system
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH v2 17/22] i386/xen: handle
+ VCPUOP_register_vcpu_time_info
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
-References: <20221209051914.398215-1-richard.henderson@linaro.org>
- <20221209051914.398215-8-richard.henderson@linaro.org>
- <953275ef-a900-0a44-d2a4-1d990a1522a8@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <953275ef-a900-0a44-d2a4-1d990a1522a8@linaro.org>
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20221209095612.689243-1-dwmw2@infradead.org>
+ <20221209095612.689243-18-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20221209095612.689243-18-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,63 +103,203 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/9/22 01:22, Philippe Mathieu-Daudé wrote:
-> On 9/12/22 06:19, Richard Henderson wrote:
->> Now that PageDesc is not used for user-only, and for system
->> it is only used for tb maintenance, move the implementation
->> into tb-main.c appropriately ifdefed.
->>
->> We have not yet eliminated all references to PageDesc for
->> user-only, so retain a typedef to the structure without definition.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   accel/tcg/internal.h      |  49 +++-----------
->>   accel/tcg/tb-maint.c      | 130 ++++++++++++++++++++++++++++++++++++--
->>   accel/tcg/translate-all.c |  95 ----------------------------
->>   3 files changed, 134 insertions(+), 140 deletions(-)
+On 09/12/2022 09:56, David Woodhouse wrote:
+> From: Joao Martins <joao.m.martins@oracle.com>
 > 
+> In order to support Linux vdso in Xen.
 > 
->> -/*
->> - * In system mode we want L1_MAP to be based on ram offsets,
->> - * while in user mode we want it to be based on virtual addresses.
->> - *
->> - * TODO: For user mode, see the caveat re host vs guest virtual
->> - * address spaces near GUEST_ADDR_MAX.
->> - */
->> -#if !defined(CONFIG_USER_ONLY)
->> -#if HOST_LONG_BITS < TARGET_PHYS_ADDR_SPACE_BITS
->> -# define L1_MAP_ADDR_SPACE_BITS  HOST_LONG_BITS
->> -#else
->> -# define L1_MAP_ADDR_SPACE_BITS  TARGET_PHYS_ADDR_SPACE_BITS
->> -#endif
->> -#else
->> -# define L1_MAP_ADDR_SPACE_BITS  MIN(HOST_LONG_BITS, TARGET_ABI_BITS)
->> -#endif
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   target/i386/cpu.h     |  1 +
+>   target/i386/kvm/kvm.c |  9 ++++++
+>   target/i386/machine.c |  4 ++-
+>   target/i386/xen.c     | 70 ++++++++++++++++++++++++++++++++++++-------
+>   4 files changed, 72 insertions(+), 12 deletions(-)
 > 
-> 
->> diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
->> index 20e86c813d..9b996bbeb2 100644
->> --- a/accel/tcg/tb-maint.c
->> +++ b/accel/tcg/tb-maint.c
->> @@ -127,6 +127,121 @@ static PageForEachNext foreach_tb_next(PageForEachNext tb,
->>   }
->>   #else
->> +/*
->> + * In system mode we want L1_MAP to be based on ram offsets.
->> + */
->> +#if HOST_LONG_BITS < TARGET_PHYS_ADDR_SPACE_BITS
->> +# define L1_MAP_ADDR_SPACE_BITS  HOST_LONG_BITS
->> +#else
->> +# define L1_MAP_ADDR_SPACE_BITS  TARGET_PHYS_ADDR_SPACE_BITS
->> +#endif
-> So you removed L1_MAP_ADDR_SPACE_BITS in this patch. If you ever respin,
-> I'd rather have it cleaned in the previous patch, along with the comment
-> updated and TODO removed.
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 109b2e5669..96c2d0d5cb 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1790,6 +1790,7 @@ typedef struct CPUArchState {
+>       struct kvm_nested_state *nested_state;
+>       uint64_t xen_vcpu_info_gpa;
+>       uint64_t xen_vcpu_info_default_gpa;
+> +    uint64_t xen_vcpu_time_info_gpa;
+>   #endif
+>   #if defined(CONFIG_HVF)
+>       HVFX86LazyFlags hvf_lflags;
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index fa45e2f99a..3f19fff21f 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -1813,6 +1813,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>   
+>       env->xen_vcpu_info_gpa = UINT64_MAX;
+>       env->xen_vcpu_info_default_gpa = UINT64_MAX;
+> +    env->xen_vcpu_time_info_gpa = UINT64_MAX;
 
-I don't agree.  I move all of the PageDesc symbols together in this patch.  I think that 
-it would get in the way of the main point of the previous patch.
+Another few candidates for INVALID_GPA.
 
+>   
+>       xen_version = kvm_arch_xen_version(MACHINE(qdev_get_machine()));
+>       if (xen_version) {
+> @@ -4744,6 +4745,14 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
+>                   return ret;
+>               }
+>           }
+> +
+> +        gpa = x86_cpu->env.xen_vcpu_time_info_gpa;
+> +        if (gpa != UINT64_MAX) {
+> +            ret = kvm_xen_set_vcpu_attr(cpu, KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO, gpa);
+> +            if (ret < 0) {
+> +                return ret;
+> +            }
+> +        }
+>       }
+>   #endif
+>   
+> diff --git a/target/i386/machine.c b/target/i386/machine.c
+> index 104cd6047c..9acef102a3 100644
+> --- a/target/i386/machine.c
+> +++ b/target/i386/machine.c
+> @@ -1263,7 +1263,8 @@ static bool xen_vcpu_needed(void *opaque)
+>       CPUX86State *env = &cpu->env;
+>   
+>       return (env->xen_vcpu_info_gpa != UINT64_MAX ||
+> -            env->xen_vcpu_info_default_gpa != UINT64_MAX);
+> +            env->xen_vcpu_info_default_gpa != UINT64_MAX ||
+> +            env->xen_vcpu_time_info_gpa != UINT64_MAX);
+>   }
+>   
+>   static const VMStateDescription vmstate_xen_vcpu = {
+> @@ -1274,6 +1275,7 @@ static const VMStateDescription vmstate_xen_vcpu = {
+>       .fields = (VMStateField[]) {
+>           VMSTATE_UINT64(env.xen_vcpu_info_gpa, X86CPU),
+>           VMSTATE_UINT64(env.xen_vcpu_info_default_gpa, X86CPU),
+> +        VMSTATE_UINT64(env.xen_vcpu_time_info_gpa, X86CPU),
+>           VMSTATE_END_OF_LIST()
+>       }
+>   };
+> diff --git a/target/i386/xen.c b/target/i386/xen.c
+> index cd816bb711..427729ab4d 100644
+> --- a/target/i386/xen.c
+> +++ b/target/i386/xen.c
+> @@ -21,28 +21,41 @@
+>   #include "standard-headers/xen/hvm/hvm_op.h"
+>   #include "standard-headers/xen/vcpu.h"
+>   
+> +static bool kvm_gva_to_gpa(CPUState *cs, uint64_t gva, uint64_t *gpa,
+> +                           size_t *len, bool is_write)
+> +{
+> +        struct kvm_translation tr = {
+> +            .linear_address = gva,
+> +        };
+> +
+> +        if (len) {
+> +                *len = TARGET_PAGE_SIZE - (gva & ~TARGET_PAGE_MASK);
+> +        }
+> +
+> +        if (kvm_vcpu_ioctl(cs, KVM_TRANSLATE, &tr) || !tr.valid ||
+> +            (is_write && !tr.writeable)) {
+> +            return false;
+> +        }
+> +        *gpa = tr.physical_address;
+> +        return true;
+> +}
+> +
+>   static int kvm_gva_rw(CPUState *cs, uint64_t gva, void *_buf, size_t sz,
+>                         bool is_write)
+>   {
+>       uint8_t *buf = (uint8_t *)_buf;
+>       size_t i = 0, len = 0;
+> -    int ret;
+>   
+>       for (i = 0; i < sz; i+= len) {
+> -        struct kvm_translation tr = {
+> -            .linear_address = gva + i,
+> -        };
+> +        uint64_t gpa;
+>   
+> -        len = TARGET_PAGE_SIZE - (tr.linear_address & ~TARGET_PAGE_MASK);
+> +        if (!kvm_gva_to_gpa(cs, gva + i, &gpa, &len, is_write)) {
+> +                return -EFAULT;
+> +        }
+>           if (len > sz)
+>               len = sz;
+>   
+> -        ret = kvm_vcpu_ioctl(cs, KVM_TRANSLATE, &tr);
+> -        if (ret || !tr.valid || (is_write && !tr.writeable)) {
+> -            return -EFAULT;
+> -        }
+> -
+> -        cpu_physical_memory_rw(tr.physical_address, buf + i, len, is_write);
+> +        cpu_physical_memory_rw(gpa, buf + i, len, is_write);
+>       }
+>   
+>       return 0;
+> @@ -166,6 +179,17 @@ static void do_set_vcpu_info_gpa(CPUState *cs, run_on_cpu_data data)
+>                             env->xen_vcpu_info_gpa);
+>   }
+>   
+> +static void do_set_vcpu_time_info_gpa(CPUState *cs, run_on_cpu_data data)
+> +{
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    CPUX86State *env = &cpu->env;
+> +
+> +    env->xen_vcpu_time_info_gpa = data.host_ulong;
+> +
+> +    kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO,
+> +                          env->xen_vcpu_time_info_gpa);
+> +}
+> +
+>   static int xen_set_shared_info(CPUState *cs, uint64_t gfn)
+>   {
+>       uint64_t gpa = gfn << TARGET_PAGE_BITS;
+> @@ -258,6 +282,27 @@ static int vcpuop_register_vcpu_info(CPUState *cs, CPUState *target,
+>       return 0;
+>   }
+>   
+> +static int vcpuop_register_vcpu_time_info(CPUState *cs, CPUState *target,
+> +                                          uint64_t arg)
+> +{
+> +    struct vcpu_register_time_memory_area tma;
+> +    uint64_t gpa;
+> +    size_t len;
+> +
+> +    if (kvm_copy_from_gva(cs, arg, &tma, sizeof(*tma.addr.v))) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    if (!kvm_gva_to_gpa(cs, tma.addr.p, &gpa, &len, false) ||
+> +        len < sizeof(tma)) {
+> +        return -EFAULT;
+> +    }
 
-r~
+Xen stashes the GVA, not the GPA, and so it would be possible to 
+register the same GVA on different vcpus to point at different areas of 
+memory.
+
+   Paul
+
+> +
+> +    async_run_on_cpu(target, do_set_vcpu_time_info_gpa,
+> +                     RUN_ON_CPU_HOST_ULONG(gpa));
+> +    return 0;
+> +}
+> +
+>   static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+>                                     int cmd, int vcpu_id, uint64_t arg)
+>   {
+> @@ -266,6 +311,9 @@ static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+>       int err;
+>   
+>       switch (cmd) {
+> +    case VCPUOP_register_vcpu_time_memory_area:
+> +            err = vcpuop_register_vcpu_time_info(cs, dest, arg);
+> +            break;
+>       case VCPUOP_register_vcpu_info:
+>               err = vcpuop_register_vcpu_info(cs, dest, arg);
+>               break;
+
 
