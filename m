@@ -2,86 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908BD64A8B3
+	by mail.lfdr.de (Postfix) with ESMTPS id 870F764A8B2
 	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 21:25:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4pKs-0007Dr-FF; Mon, 12 Dec 2022 15:23:38 -0500
+	id 1p4pLW-0007XN-CO; Mon, 12 Dec 2022 15:24:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p4pKr-0007Di-7G
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 15:23:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p4pLU-0007XE-1O
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 15:24:16 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p4pKp-0004v3-Ka
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 15:23:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670876614;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nksRuEvqqfM7e1Msj+xrwqaSGnEvJWzgIG0D1WI/W58=;
- b=JJ3mF6SM7ErkmJM64sRMc538OjcjJqv7MR6OnoUXgJ1G6VXokUAKA4ygcP5WdzRKs2xyay
- shg3cB8UGhhCRW8GX6CkY9y7PdTjiLL/Dl93VXlBN4V2kBCP/C1zYqn1VmLhZMS9P/GBF9
- 8w0PfKd7gw6yARJMK7uqVCmna6f00Lg=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-98-p-XJ970hN4SlEeTz_KWCvQ-1; Mon, 12 Dec 2022 15:23:33 -0500
-X-MC-Unique: p-XJ970hN4SlEeTz_KWCvQ-1
-Received: by mail-vs1-f71.google.com with SMTP id
- i28-20020a05610220dc00b003aeef5a8714so3388968vsr.12
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 12:23:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nksRuEvqqfM7e1Msj+xrwqaSGnEvJWzgIG0D1WI/W58=;
- b=u/t0MqLylVC6xCOhhQ/mf+x4uiOfEMRlnSylus0b48lEV/mPFn11jT1kTZ5LgXKOKP
- u13pj+TkJMdNZKH0bIR01xqBjWZKn5NmlFtH5eeMEILU0E2kCMFNE632KuGjQvsO1usv
- ehzBVMIiH9JZmxgP64X++Dx5HcrqEkjduMm5dgNk6zIFp7+USiZNL4PmOQr0Vp8kxrfD
- z7sXts5dZpatO9AVa94wxCCyav4ol2eTeTxliwVFgJF9jwwrTCbJiRmCSaKnPTrXaxZu
- 3Y1BgRiacJfYXZ7oPP3i3DyosTJsZ9ZaCIMmFScBre4uF9QpxvkBiS0pNXYU03W3lHwS
- B5/g==
-X-Gm-Message-State: ANoB5pn7E4doiJbCRuprq44eh6lxj8cQvv/DOtlRUMOujUa7uJO97Ues
- JBDUCFGG0bVfk4muEL95A7Z2hOZ9IzcENnKShCZeLL0quYvmAg00u6ZMKLfbCqgJ9mYs7vGHbbp
- BElPXXu2Lel/3dBM=
-X-Received: by 2002:a05:6102:a24:b0:3b3:294:bbc1 with SMTP id
- 4-20020a0561020a2400b003b30294bbc1mr9185745vsb.12.1670876612553; 
- Mon, 12 Dec 2022 12:23:32 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf47JYmUNMfVxz05YK6pDx17jTK1uzQiU3FspjGI2QkiKCoEQ8tDQiaIpVGe/Sngft6JmIxlDw==
-X-Received: by 2002:a05:6102:a24:b0:3b3:294:bbc1 with SMTP id
- 4-20020a0561020a2400b003b30294bbc1mr9185726vsb.12.1670876612319; 
- Mon, 12 Dec 2022 12:23:32 -0800 (PST)
-Received: from x1n ([70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- n11-20020a05620a294b00b006b5cc25535fsm6556151qkp.99.2022.12.12.12.23.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Dec 2022 12:23:31 -0800 (PST)
-Date: Mon, 12 Dec 2022 15:23:26 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Chuang Xu <xuchuangxclwt@bytedance.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
- zhouyibo@bytedance.com
-Subject: Re: [RFC v2 0/3] migration: reduce time of loading non-iterable
- vmstate
-Message-ID: <Y5eNvj7XFc88edIi@x1n>
-References: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p4pLR-0004zY-W7
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 15:24:15 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BCKDm3A027593
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 20:24:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=gOstau9ndveLWu3YEp3Zjdbo/4p/PSoHzeDx0Ufoc0I=;
+ b=MuvUDGILDmHKJMiixaNVE6xe8O0URrsCf4DY/limJvjnNkKU8lrFRZP8ZSYsWe1rBt/t
+ 7HHpm2EeOp8eexEfbELn4YRn69PuTmz59/03FJCzEXGtBp2oVd41LkeGPJpMUEutbJsv
+ Ai6N4Q/rvEpi907NJvxMp4IJBC1/w/fMIWgIcKLYlbF/xiyWHHBs/PCgvV++9Fg5ZXAw
+ dwXQj8CDE0DYaWdnfnbKxeS3BWbWqQ8RJYUKkmadKPdEjU9/1IdD94PoVNNtvCHAryEM
+ Jx03hBSrfFyj//7jP5TsN4Y6fldXzAjhCkL6vHdW4D+BJNAZ2FpxzV1f6CpGkhanEYjX BA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3meb5786x5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 20:24:11 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCKF8ke032102
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 20:24:11 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3meb5786wy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 20:24:11 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BCK9Gu6030189;
+ Mon, 12 Dec 2022 20:24:10 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3mchr6jws1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 20:24:10 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
+ [10.241.53.105])
+ by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BCKO9Jx31523204
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 20:24:09 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9F8A558043;
+ Mon, 12 Dec 2022 20:24:09 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2140458059;
+ Mon, 12 Dec 2022 20:24:09 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Dec 2022 20:24:08 +0000 (GMT)
+Message-ID: <92b60c63-16a2-6b0e-da38-923d180040da@linux.ibm.com>
+Date: Mon, 12 Dec 2022 15:24:08 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] tpm: add backend for mssim
+Content-Language: en-US
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: jejb@linux.ibm.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
+ <Y5dNC77CubqrfXku@redhat.com>
+ <b06d31496117c8dd8b8fe60c4bebd96377ca3ff1.camel@linux.ibm.com>
+ <f76810cb-3658-84b0-e4b4-a684dff99f38@linux.ibm.com>
+ <8066be497c4c81827b24a672a550a805e06eec68.camel@linux.ibm.com>
+ <c3fa7405-7d4c-a686-d4c3-a3ff74864467@linux.ibm.com>
+ <92daee895872aab2047c3768a9c67b1839406568.camel@linux.ibm.com>
+ <dc520ab2-04db-b8cb-15fd-871bb1da0d1b@linux.ibm.com>
+In-Reply-To: <dc520ab2-04db-b8cb-15fd-871bb1da0d1b@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: t2LtTxgx4PjF-CIFRMdfWiyusZ_vuErX
+X-Proofpoint-GUID: frNPZZz_Pl7qjjxlng_k4X_bwY_rfqIU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ impostorscore=0 mlxscore=0 suspectscore=0 spamscore=0 clxscore=1015
+ adultscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
+ bulkscore=0 mlxlogscore=582 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2212120179
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,32 +124,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 13, 2022 at 12:49:39AM +0800, Chuang Xu wrote:
+
+
+On 12/12/22 14:32, Stefan Berger wrote:
 > 
-> Hi!
+> 
+> On 12/12/22 14:12, James Bottomley wrote:
+>> On Mon, 2022-12-12 at 13:58 -0500, Stefan Berger wrote:
+>>> On 12/12/22 13:48, James Bottomley wrote:
+>>>> On Mon, 2022-12-12 at 11:59 -0500, Stefan Berger wrote:
+>>>>> On 12/12/22 11:38, James Bottomley wrote:
+>> [...]
+>>>>>> the kernel use of the TPM, but I'm trying to fix that.  The
+>>>>>> standard mssim server is too simplistic to do transport layer
+>>>>>> security, but like everything that does this (or rather doesn't
+>>>>>> do this), you can front it with stunnel4.
+>>>>>
+>>>>> And who or what is going to set this up?
+>>>>
+>>>> I'm not sure I understand the question.  Stunnel4 is mostly used to
+>>>> convert unencrypted proxies like imap on 143 or smtp on 25 to the
+>>>> secure version.  Most people who run servers are fairly familiar
+>>>> with using it.  It's what IBM used for encrypted migration
+>>>> initially.  You can run stunnel on both ends, or the qemu side
+>>>> could be built in using the qemu tls-creds way of doing things but
+>>>> anything running the standard MS server would have to front it with
+>>>> stunnel still.
+>>>
+>>> So it's up to libvirt to setup stunnel to support a completely
+>>> different setup than what it has for swtpm already?
+>>
+>> I don't think so, no.  Libvirt doesn't usually help with server setup
+>> (witness the complexity of setting up a server side vtpm proxy) so in
+>> the case tls-creds were built in, it would just work if the object is
+> 
+> I see, so you are extending the TPM emulator with TLS on the client side so you don't need another tool to setup a TLS connection from the QEMU/client side.
 
-Chuang,
+s/TPM emulator/TPM backend/
 
 > 
-> In this version:
+> Is the server side across the network or on the same host? Either way, what is the latency that this introduces because I would expect that this slows down IMA since the PCR extensions & TPM 2 response now go back and forth across the network?
 > 
-> - rebase to latest upstream.
-> - add sanity check to address_space_to_flatview().
-> - postpone the init of the vring cache until migration's loading completes. 
-
-Since there'll be other changes besides migration, please consider also
-copy the relevant maintainers too on either memory and virtio in your next
-post:
-
-$ ./scripts/get_maintainer.pl -f softmmu/memory.c -f hw/virtio/virtio.c
-Paolo Bonzini <pbonzini@redhat.com> (supporter:Memory API)
-Peter Xu <peterx@redhat.com> (supporter:Memory API)
-David Hildenbrand <david@redhat.com> (supporter:Memory API)
-"Philippe Mathieu-Daudé" <philmd@linaro.org> (reviewer:Memory API)
-"Michael S. Tsirkin" <mst@redhat.com> (supporter:virtio)
-qemu-devel@nongnu.org (open list:All patches CC here)
-
--- 
-Peter Xu
-
+>      Stefan
+> 
+>> specified.  The complexity is all on the server side to front it with
+>> stunnel.
+>>
+>> James
+>>
+> 
 
