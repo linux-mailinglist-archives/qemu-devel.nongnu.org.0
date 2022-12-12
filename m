@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC89564A2F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E9564A2EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:12:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4jQj-0004Xk-QD; Mon, 12 Dec 2022 09:05:17 -0500
+	id 1p4jX1-00085a-Ur; Mon, 12 Dec 2022 09:11:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4jQf-0004UW-Gy
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:05:13 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1p4jWz-00081d-PA
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:11:45 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4jQd-0002R3-FJ
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:05:12 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id h10so12195364wrx.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 06:05:11 -0800 (PST)
+ id 1p4jWy-0003yf-2T
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:11:45 -0500
+Received: by mail-wm1-x331.google.com with SMTP id ay40so5494410wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 06:11:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:from:to:cc:subject:date:message-id:reply-to;
- bh=QpfD64l+rEnpRGgYGmn31YTTewDcIj1X6K4Z0AmsmYw=;
- b=mEhO+EW9oi7XOpJthXA0O8wEx62yf4NTgKvigm3mdCX7EGWGvE15OyGhvysU0uHJiK
- TnVVtGB8K/lEighf2n5VRNHarUspgP9ub2vuiwqvpGR1pfCoFcnJrfDJNBOzzzovT395
- Lkgnb2DKmfsqyLTzwIng+CpDeL8+XigKyEYtAG2JrTieQ1I2pAY69nCz2trVeDyU2Yg/
- Ik+j148xzebQV6aGsK3HC3lJUbwd/qqxOusaHrh++w6LqM4Mg+muiaYPwg+OOdJNVwi9
- FeMe9ycnV9YFvsy1GqaJijp4wtHnUOSAwTSz3Jq8oG31yYbbgrBP8hLS8/3wA84E49+/
- +8ag==
+ bh=wvL3yP/YDvFpCEgA3N+/O8tHFYFBAZ458f9XsqZVp20=;
+ b=A59g+wUbpE5JGuwCChJSvDtFAYBjigODFcMiWtaOk4nwKFX7baKZrk0TFPlHRLvkr+
+ HJKX2BAPFytlm9SihP6TP5jg4I9znmU73PbBB3v3GEecdrb84Htks/bUrB/bOlkP7Zrb
+ bzTmb3xnC/a1Z+rjHHFEgDwqIaMBT69paQfMVRrloaUlJ9iDe5wG7AHRDsD8qGgcEat0
+ f+d4Yn96x7Yt3zwkFu0XOzAah/PjIk0qFsFjXYJWGMFetjcheu5hvcZBzSTrjK7BDZBQ
+ vjBmCwRd8NJVRQ9b7fgBjaZi9lYyHRUZdbQ2oN3Jx/k0/PnyQSj+tp0QoAz8KZ/lTy6f
+ Vg8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QpfD64l+rEnpRGgYGmn31YTTewDcIj1X6K4Z0AmsmYw=;
- b=VL/JCtLGqc/7lprTDvJo4xhEZoFFxmE4tym6UtX+iDLijh1Kw6H22w+Ox0tQCX0s58
- yStngfnZa23rHicN/52cj7XHrgwg/Wqwq8Aa0y8oyswtxsHufGrQi3Ex2rGJARuTg3eE
- /FB2vigM08X4mITEABPkurBlo7Ue34GV8o1bgssdH7Iaw2Il+6mUhvSBLWypx3Hg8Cjl
- /qAcr8NWsVKgxm8T6F841jvfVNfPn9h42JZoEHR1zpxfOchV+6caAiVwuA2Xf+OKehEi
- ijMWBEWmi1TWGrVnXIZaJGVOPa/9X2A+mTkM0OwVmMzektNdw//Q2bvR5chvBVFnwzie
- O3DQ==
-X-Gm-Message-State: ANoB5pm/7MRamRg2ylR8Tz7RMq5zz+vya5F6LC6GbUqaDTCaSbeaOHUo
- QEWdkMhn93egcUI2ko6AksY=
-X-Google-Smtp-Source: AA0mqf7f1DiSR+jjhLW5YLC8TL3MhmGk+NJ+4a6sKcKrNJMwcLi2y+5QZ9Zgxh0+dWui2nUCfZtJrw==
-X-Received: by 2002:a5d:4344:0:b0:232:be5d:48c5 with SMTP id
- u4-20020a5d4344000000b00232be5d48c5mr9542325wrr.57.1670853909791; 
- Mon, 12 Dec 2022 06:05:09 -0800 (PST)
+ bh=wvL3yP/YDvFpCEgA3N+/O8tHFYFBAZ458f9XsqZVp20=;
+ b=Czf4rdwrXwWaiPBeCCUm7HiXficqzMop/SNw6nUbALKcFu5pth1Zlvn8XD9pQ/W5ny
+ /8ASPqt12eDwgWepESlfwsGiAuFzT7gyAMKBUt044BVYp+htftErCn+PdHuZM3hEsOp2
+ fJY0/24gxzVFTP2Hc9jHaegRjM6iwNrldD8mPX7/WFh+2jYTO+VUhBvOZxQIommfPsi3
+ rhHL/AkkLEu76n9oyacdn31waXcN0zYlqmkDX1YOam+wBvrjGtFJ4obQ0AL4X9QX2nun
+ VUJwDZ/EJAFvt6P+nJ2nK5ZCSphBgvwHnTJgSXSstLSQ3TtW7am0oK3Cw+hZSYQChG/9
+ I6kw==
+X-Gm-Message-State: ANoB5pm8Q7a5pvce5lIQ6JH26BmDr3RflTrIQDnB4K8jA2kvUzXawKDE
+ JSKKGeFQxa5NlsONiaU6xj0=
+X-Google-Smtp-Source: AA0mqf6VD0fCFdWYuzM/HJA6pEBrCU8P9JMdGx0w4zCFXom6kdqGBNXGMiwxjOxxMJP2MysMgmsQhg==
+X-Received: by 2002:a05:600c:4e90:b0:3d0:898e:9bab with SMTP id
+ f16-20020a05600c4e9000b003d0898e9babmr12550116wmq.2.1670854302343; 
+ Mon, 12 Dec 2022 06:11:42 -0800 (PST)
 Received: from ?IPV6:2a00:23c5:5785:9a01:a16d:8ab1:4623:169?
  ([2a00:23c5:5785:9a01:a16d:8ab1:4623:169])
  by smtp.gmail.com with ESMTPSA id
- m18-20020adff392000000b00242109cf587sm8938758wro.28.2022.12.12.06.05.08
+ z10-20020a05600c0a0a00b003d07de1698asm10615976wmp.46.2022.12.12.06.11.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 06:05:09 -0800 (PST)
+ Mon, 12 Dec 2022 06:11:41 -0800 (PST)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <ec04702e-8475-e43d-75a4-618a942448b6@xen.org>
-Date: Mon, 12 Dec 2022 14:05:05 +0000
+Message-ID: <8b91d5ac-e3bb-20da-dcf0-a6902de6ebd7@xen.org>
+Date: Mon, 12 Dec 2022 14:11:37 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 09/22] pc_piix: allow xenfv machine with XEN_EMULATE
+Subject: Re: [RFC PATCH v2 10/22] i386/xen: handle guest hypercalls
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -74,13 +74,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
 References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-10-dwmw2@infradead.org>
+ <20221209095612.689243-11-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20221209095612.689243-10-dwmw2@infradead.org>
+In-Reply-To: <20221209095612.689243-11-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,18 +103,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/12/2022 09:55, David Woodhouse wrote:
+On 09/12/2022 09:56, David Woodhouse wrote:
 > From: Joao Martins <joao.m.martins@oracle.com>
 > 
-> This allows -machine xenfv to work with Xen emulated guests.
+> This means handling the new exit reason for Xen but still
+> crashing on purpose. As we implement each of the hypercalls
+> we will then return the right return code.
 > 
 > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> [dwmw2: Add CPL to hypercall tracing, disallow hypercalls from CPL > 0]
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   hw/i386/pc_piix.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   target/i386/kvm/kvm.c    |  5 +++++
+>   target/i386/trace-events |  3 +++
+>   target/i386/xen.c        | 39 +++++++++++++++++++++++++++++++++++++++
+>   target/i386/xen.h        |  1 +
+>   4 files changed, 48 insertions(+)
 > 
+[snip]
+> +int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+> +{
+> +    if (exit->type != KVM_EXIT_XEN_HCALL)
+> +        return -1;
+> +
+> +    if (!__kvm_xen_handle_exit(cpu, exit)) {
+> +        /* Some hypercalls will be deliberately "implemented" by returning
+> +         * -ENOSYS. This case is for hypercalls which are unexpected. */
+> +        exit->u.hcall.result = -ENOSYS;
+> +        qemu_log_mask(LOG_GUEST_ERROR, "Unimplemented Xen hypercall %"
+> +                      PRId64 " (0x%" PRIx64 " 0x%" PRIx64 " 0x%" PRIx64 ")\n",
+> +                      (uint64_t)exit->u.hcall.input, (uint64_t)exit->u.hcall.params[0],
+> +                      (uint64_t)exit->u.hcall.params[1], (uint64_t)exit->u.hcall.params[1]);
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+This could get a little noisy; would a trace not be better? Then only 
+those interested in it need be bothered by it. As we know, some ancient 
+guests attempt to use some hypercalls which have long been consigned to 
+the waste-bin of history.
+
+   Paul
+
+> +    }
+> +
+> +    trace_kvm_xen_hypercall(CPU(cpu)->cpu_index, exit->u.hcall.cpl,
+> +                            exit->u.hcall.input, exit->u.hcall.params[0],
+> +                            exit->u.hcall.params[1], exit->u.hcall.params[2],
+> +                            exit->u.hcall.result);
+> +    return 0;
+> +}
 
 
