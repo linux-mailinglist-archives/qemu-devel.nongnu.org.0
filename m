@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6906499DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 09:04:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BA36499F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 09:20:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4dnN-0000MJ-1Y; Mon, 12 Dec 2022 03:04:17 -0500
+	id 1p4e2B-0004s3-8V; Mon, 12 Dec 2022 03:19:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4dn0-0000Kh-Oc
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:03:58 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4e1l-0004lk-BH
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:19:13 -0500
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4dmx-0001Zj-Ti
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:03:53 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- h8-20020a1c2108000000b003d1efd60b65so4440138wmh.0
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 00:03:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gUfCtbh3cl/odd2fgaDaAZ5M71KPbUootDMJ3DsjExU=;
- b=TT3/LUy8eF/yXrm3f1TZQNDh3zwMxLgF5IDkEOcyBaG/jp9/Sc5x6NDA5Qzo77v9rZ
- peQp4K1DJshvYBNEDerqxVScZWqbKT7mBp3kPmK61wxkmvDr1saIplgCTYyj4hnoVXjh
- GIAiD6AeCyU6nLbt9Rh40lCuuTjpXPUeABrnXjCdj8Yk4zqG29l/C6EoJyfH8nKIU1Gq
- QjJyIUaW6zU7BuOF2bnJOblcLbM5FpTxAScXKTSDGKavgFJY8QwLeFIxO3pCGFzhkYmy
- ciiVuI5l/1GelUXUMM5ec/Ku+qi6rVeDR1yShiqS5MOLOjtiG1h09DZR2mnI8ShoYuqQ
- y7EA==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4e1j-0000KO-FS
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:19:09 -0500
+Received: by mail-lj1-x231.google.com with SMTP id v11so2009899ljk.12
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 00:19:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JEi4Hcm6GS43MsQZ0z6r512uMyVXFbxKNWTFAOqm8Pk=;
+ b=ClByYPaSqcfsunaBEf+jRslH+3BhOWgS5Q6lppcU7L+QhArDHxFnt0qugkMy3Jh40A
+ lA40X8deUhmYyChhPAeldjsQJIVVA2MyfLbOv4rm/WmZ9/e+bRS6jxQAxfBegV4lUFz5
+ wcdRGx5QfW+lrd2CL+/CCXgZdY3l5LMPTpM7wn4LWHoFHgSeKJPzZzP6Q9JoAeNUqGAG
+ YHqFI2X3BoUaXzfE8chygI6TLPFFb21s9+cjp2WU+gEqo54F9qosfVWgr0aZRZWKH17Y
+ ZqnBoRC5Ek2Cokg7SX0Qf2NupeSGxMkOU5675Qw8ecxwAfpzGWgb/LnxmpvjHgRRHdER
+ 7ZqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gUfCtbh3cl/odd2fgaDaAZ5M71KPbUootDMJ3DsjExU=;
- b=s/bbYcEZxjSYmkDv63lErHZIapgyHE5MqaKafW/3WN9E63i8gJp8Ch8k+4OocRN8kk
- GKfvgE57ZkMgETXBp7u3w1sHuSoL5gN1gHLbVoTlGBz32xQwUYNSuWbpZ4hEPU+5bamp
- DiZeYVv283JTTsdQpr2cpgV0aAOFGOZ5oOx71JVQYZefuBGjQrrIfLouD6mYoduoJZZC
- i1674vyfORvsvwzj83UOPPBcN9CCIlT1q4BDV3egdsDIe2bh2vZsoI5K2ciy86uBnoWe
- /1p0BFEr+YzNoOgwnYWygUKFgAfgMz8rjJ56d0sNaHNZyefhQ9Z1aq6v+nYIyvezWrGq
- 6wug==
-X-Gm-Message-State: ANoB5plALAjrsMZQtRbJT7REhn5F3IwXkbKF8FyaIcjEDg5l3NYKrYQq
- VzeKqip3kkAedpCGEkn8599SAw==
-X-Google-Smtp-Source: AA0mqf5IcMHOpUja57s4d6Qrfx0YMMUBjWswz3YWSwqfg15vClON7+gjNfHhj8VMOyMxRCJvY8R0xw==
-X-Received: by 2002:a7b:c417:0:b0:3c6:e63e:8155 with SMTP id
- k23-20020a7bc417000000b003c6e63e8155mr11125131wmi.12.1670832230292; 
- Mon, 12 Dec 2022 00:03:50 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o25-20020a05600c511900b003c6f8d30e40sm8788139wms.31.2022.12.12.00.03.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 00:03:49 -0800 (PST)
-Message-ID: <0c93d5c5-3252-4a9f-0abf-c0ea39453ae6@linaro.org>
-Date: Mon, 12 Dec 2022 09:03:48 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JEi4Hcm6GS43MsQZ0z6r512uMyVXFbxKNWTFAOqm8Pk=;
+ b=lPe6WVtM9vj7t4TeqiJlx75y3oKTStQxYciF2YMnN9h+dQouI34PtCFiClgbV7vVCT
+ COFF09DTGOj38Si9Jl38KyoV8bQQucMWT9pus5QAeb7359EKll4LN1sOl5z7VTfrSoqA
+ FFxroe6FD7GI9k7IQ7QA+FgmFpPIuuMLsURLWl+DcKkrsa4cZgHXiEHXRjidf3ek7Kod
+ q644Qb/YFZZjO1p6PyfDXcRAnvMFhxQ7ofDo1KkuOXOk3iKlsAB8kZ6uHIMmt2PD36lk
+ FxzSXafybxja+FvWzh8M9a63MC0Tb5B7n5YNUs8CiitxtHKLTxvc+dJViP4v5uZqzKO2
+ 3hZQ==
+X-Gm-Message-State: ANoB5pkK+3QpXVYkJvScx2oIWzTHiveGB4XcYIVIeCGXj6nBsaACrrU8
+ taiVDHrAUAnBP+v1v5hfInSGLB0xxuRph+tpgsE=
+X-Google-Smtp-Source: AA0mqf5kMFPcTPGNI+VDMuPKrVV1hO4bdwtxNDYNfb0f/Eyl6ZoF8RhkibqtYpi0Rfpik2dz9i/KJGxTLhOvnqJbUtc=
+X-Received: by 2002:a2e:583:0:b0:27a:51d:274c with SMTP id
+ 125-20020a2e0583000000b0027a051d274cmr4646345ljf.94.1670833145421; 
+ Mon, 12 Dec 2022 00:19:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v3] hw/rtc/mc146818rtc: Make this rtc device target
- independent
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Michael S Tsirkin <mst@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>
-References: <20221212075600.17408-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221212075600.17408-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-7-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-7-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 12 Dec 2022 12:18:53 +0400
+Message-ID: <CAJ+F1CKL9RGT=L=B5E0T6XU1CYEooifThcyUDzJby++fWaBLkQ@mail.gmail.com>
+Subject: Re: [PATCH 06/30] meson: tweak hardening options for Windows
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,32 +85,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/22 08:56, Thomas Huth wrote:
-> The only reason for this code being target dependent is the apic-related
-> code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
-> simple, we can easily move them into a new, separate file (apic_irqcount.c)
-> which will always be compiled and linked if either APIC or the mc146818 device
-> are required. This way we can get rid of the #ifdef TARGET_I386 switches in
-> mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
-> that the code only gets compiled once for all targets.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Hi
+
+On Fri, Dec 9, 2022 at 3:36 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> -Wl,--dynamicbase has been enabled for DLLs upstream for roughly 2
+> years (https://sourceware.org/bugzilla/show_bug.cgi?id=3D19011), and
+> also by some distros including Debian for 6 years even
+> (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D836365), so
+> just enable it unconditionally.
+>
+> Also add -Wl,--high-entropy-va.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   v3: Move TYPE_APIC_COMMON from apic_internal.h to apic.h and use it
+>  meson.build | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/meson.build b/meson.build
+> index 5c6b5a1c757f..d61c7a82f112 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -193,10 +193,7 @@ qemu_ldflags +=3D cc.get_supported_link_arguments('-=
+Wl,-z,relro', '-Wl,-z,now')
+>
+>  if targetos =3D=3D 'windows'
+>    qemu_ldflags +=3D cc.get_supported_link_arguments('-Wl,--no-seh', '-Wl=
+,--nxcompat')
+> -  # Disable ASLR for debug builds to allow debugging with gdb
+> -  if get_option('optimization') =3D=3D '0'
+> -    qemu_ldflags +=3D cc.get_supported_link_arguments('-Wl,--dynamicbase=
+')
+> -  endif
+> +  qemu_ldflags +=3D cc.get_supported_link_arguments('-Wl,--dynamicbase',=
+ '-Wl,--high-entropy-va')
 
-Ah, clever.
+What about the comment for disabling ASLR on debug builds?
 
->   include/hw/i386/apic.h          |  2 ++
->   include/hw/i386/apic_internal.h |  2 --
->   include/hw/rtc/mc146818rtc.h    |  1 +
->   hw/intc/apic_common.c           | 27 -----------------
->   hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
->   hw/rtc/mc146818rtc.c            | 25 +++++-----------
->   hw/intc/meson.build             |  6 +++-
->   hw/rtc/meson.build              |  3 +-
->   8 files changed, 69 insertions(+), 50 deletions(-)
->   create mode 100644 hw/intc/apic_irqcount.c
+I wonder if we really have to add those flags ourself. Imho, we can
+leave them to the compiler default or distrib.. I bet most of the deps
+don't use those flags explicitly either.
 
+--=20
+Marc-Andr=C3=A9 Lureau
 
