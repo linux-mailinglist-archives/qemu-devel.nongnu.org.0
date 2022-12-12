@@ -2,74 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48980649AD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B33F649ACF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:13:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4enH-0001Pc-6y; Mon, 12 Dec 2022 04:08:15 -0500
+	id 1p4epa-00025p-Tc; Mon, 12 Dec 2022 04:10:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4en2-0001Ma-EY
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:08:04 -0500
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4emy-0008NU-2O
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:08:00 -0500
-Received: by mail-lj1-x230.google.com with SMTP id b9so11810740ljr.5
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:07:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MOJEqmx/l/AUcJDzXmZ1SM5RxRCxP9ANXaMq3frhM2I=;
- b=fJIXF7SImgM4AW5ef5qlY5CWiBxV/3321BVuoAgUMz+sPoRJM6Hf6bqDVCvdbDcYtf
- kydJHIeZHKPzcPuokn5W/BGTZTZUD1s3AQGwFPw7jkSn4rB3dNKH3R3lM7n2y/6A0o/+
- hvnqTv/UJ+oMaaYXr2YgF+wuPTjYRa9o0uOf6tHQ8ZgnKlwNzsdmI2nyn3/yk7WNdPlq
- uZdVFpLndUk0Hp8Sd4rWszm76abJBYBRfj633vIwQt0bZy70Xz95SBOs2lGl+XDCOSU/
- vxG7BTx9ohux5RCITrMsLOLrfEegCOOFEp0PVQJ6UU6leqsPY85nA2CauzEgCISxZZa3
- 0T0A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4eot-00021c-3N
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:09:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4eob-0000GK-A5
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:09:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670836175;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U1rCfddrQj3YOxnuhaHqdc6pBpsaCJF8SPqoQDCFTD4=;
+ b=hNmHKElgavaBwHZQ37bjz6npSVJylZZ6DJVs6u6A3md77LemA8guIwWVAfIzjnyplwTrEY
+ 5Em8P6oLnjHLt7bKo6GiCr8LhxyCOV71IzwfQBtdkn0oGzI/Wm3G/R/4K2ShlqG9FCyqv8
+ eRnoPes5A/7v7N0r9dw2XdYYetcpBoo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-403-S6N_Dc3HONu0jiGTWtzWiA-1; Mon, 12 Dec 2022 04:09:26 -0500
+X-MC-Unique: S6N_Dc3HONu0jiGTWtzWiA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i9-20020a1c3b09000000b003d21fa95c38so1075873wma.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:09:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MOJEqmx/l/AUcJDzXmZ1SM5RxRCxP9ANXaMq3frhM2I=;
- b=Hwq741RTcjRpFWkne+K/jjgFzSW+BjeuUKPtMtIQTbsvgK1BxxHDjOccVDfCEIzkO+
- R2QRUuAWsIOP9CCqCB9CikxOMfriUy2xwE+996VBsT7zqu1uX5O7XrHYlJknt0tPDKQ5
- 6kozwpY6CP1s/nOoXjO07uWQNN0+hmFJ1fhg/rlXPG67CA8Kp/eR7NIYXmF+WHUrKfj3
- qxrIczORjRGISyY3S6U36O2hJ7y1qzgCeB+1Vge1Jy418AyltTyiklXKBuoH+X7LreFi
- Rj+OnXkubB1cEBQ6U03d0rzPaczPp14HS/JWMDkoN1gzdCnHenDu8CMaGMqel3O4La2G
- ZbFg==
-X-Gm-Message-State: ANoB5plkQDPUr9jOdZ3ELgrCKbPljN9HRPyIzZ7HAALB6NsBFrnnlTMU
- ++mF0PJe0nSUkBw9JCW7e4b9opW0sLyOjiTCIFPxj1tmy+w=
-X-Google-Smtp-Source: AA0mqf7OCnHoKEY6sPn62e4UC3OXBAY5T+MEXBKMVPOfkeDH5k8nmXBpvNQLhaH3qZZ3JNTC4L6Qxz/uZsYmMXDn0xU=
-X-Received: by 2002:a05:651c:1256:b0:279:e860:fe55 with SMTP id
- h22-20020a05651c125600b00279e860fe55mr6929158ljh.267.1670836074123; Mon, 12
- Dec 2022 01:07:54 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:subject:references:cc:to:from
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=U1rCfddrQj3YOxnuhaHqdc6pBpsaCJF8SPqoQDCFTD4=;
+ b=dRe+m9trSSWYO1iztd6Snrf8JvxJSGl4KiQVjRJLQivWpNaLCGZMo+vQOKuUokQoVO
+ e0CAuu/q+NJ8qsYIi9neWAPRrgwYqKy3KVPF5YkOuNEABgtA55OqzwzbMz7Zh7vDpssH
+ rNWuFi4rVHEJ6d6afa35IhdqyvYUX26nx163APCRbYiZTf5Z6VZnUFG4XUrd5C0IV/NG
+ KlRk+FF5jHR49DteJaiLwU/oajdKNAFlsQkrgiYtsGEvPeltErML7mNg+on3ohYMobV+
+ uVvkTk8aVqXnuDG64qw9N81gmAI9OX1wyH8GcsJOWlOEcSuCX2N/l3JA5R96ygQAsuAs
+ JDqA==
+X-Gm-Message-State: ANoB5pn4mrz3fLwnwpKbHv+jxYD0Ydd5TAj3uFPKA3rQPMM4eBDIzCgC
+ v1P2lildyoSvbXxqS0MeANoe0OKbAdb8evrhKuNOwQbHQeezvY+3JQH3g6T6QB7MJkbjuuRpjD1
+ MFP2bICldNBll8g0=
+X-Received: by 2002:adf:e801:0:b0:242:4f41:4da8 with SMTP id
+ o1-20020adfe801000000b002424f414da8mr9327647wrm.9.1670836164208; 
+ Mon, 12 Dec 2022 01:09:24 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7fmEH3AJcnV5zQufl4jr2xSyo47HIkdLIQjP9HXY2PkZJXbNMG+60uKXD0ju1jpW7cTHVJ0w==
+X-Received: by 2002:adf:e801:0:b0:242:4f41:4da8 with SMTP id
+ o1-20020adfe801000000b002424f414da8mr9327626wrm.9.1670836163769; 
+ Mon, 12 Dec 2022 01:09:23 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ o11-20020a5d4a8b000000b002425be3c9e2sm8253500wrq.60.2022.12.12.01.09.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 01:09:23 -0800 (PST)
+Message-ID: <3f099e9f-cdf6-6a2a-12d2-59349d4ca751@redhat.com>
+Date: Mon, 12 Dec 2022 10:09:22 +0100
 MIME-Version: 1.0
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-19-pbonzini@redhat.com>
-In-Reply-To: <20221209112409.184703-19-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 12 Dec 2022 13:07:41 +0400
-Message-ID: <CAJ+F1CLuVNhy6iYkwPfu-tnTqKzo=UymrjGpqQ4Gp9LV-ga6kw@mail.gmail.com>
-Subject: Re: [PATCH 18/30] configure, meson: move --enable-modules to Meson
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::230;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x230.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Content-Language: en-US
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: eesposit@redhat.com, stefanha@redhat.com, hreitz@redhat.com,
+ vsementsov@yandex-team.ru, qemu-devel@nongnu.org
+References: <20221118174110.55183-1-kwolf@redhat.com>
+ <20221118174110.55183-15-kwolf@redhat.com>
+ <30eec378-779a-26ca-42f3-a7980a647ad7@redhat.com>
+Subject: Re: [PATCH v2 14/15] block: Don't poll in bdrv_replace_child_noperm()
+In-Reply-To: <30eec378-779a-26ca-42f3-a7980a647ad7@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,159 +105,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 9, 2022 at 3:44 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 12/9/22 17:53, Paolo Bonzini wrote:
+> On 11/18/22 18:41, Kevin Wolf wrote:
+>> In order to make sure that bdrv_replace_child_noperm() doesn't have to
+>> poll any more, get rid of the bdrv_parent_drained_begin_single() call.
+>>
+>> This is possible now because we can require that the parent is already
+>> drained through the child in question when the function is called and we
+>> don't call the parent drain callbacks more than once.
+>>
+>> The additional drain calls needed in callers cause the test case to run
+>> its code in the drain handler too early (bdrv_attach_child() drains
+>> now), so modify it to only enable the code after the test setup has
+>> completed.
+>>
+>> Signed-off-by: Kevin Wolf<kwolf@redhat.com>
+> 
+> I hate to bear bad news, but this breaks the Windows builds on github 
+> (msys-32bit, msys-64bit) with an obscure but 100% reproducible
+> 
+> 51/88 qemu:unit / test-bdrv-drain ERROR           1.30s   (exit status 
+> 3221225477 or signal 3221225349 SIGinvalid)
+> 
+> The exit status is 0xC0000005 aka a Windows SIGSEGV.  With some luck it 
+> could be reproducible with Wine (but no gdb).
 
-On Fri, Dec 9, 2022 at 3:39 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> All uses of pkg-config have been moved to Meson.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+I am testing dropping this patch and squashing
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+diff --git a/block.c b/block.c
+index 1a2a8d9de907..bb9c85222168 100644
+--- a/block.c
++++ b/block.c
+@@ -2870,7 +2870,9 @@ static void bdrv_replace_child_noperm(BdrvChild 
+*child,
+       */
+      new_bs_quiesce_counter = (new_bs ? new_bs->quiesce_counter : 0);
+      if (new_bs_quiesce_counter && !child->quiesced_parent) {
+-        bdrv_parent_drained_begin_single(child, true);
++        bdrv_parent_drained_begin_single(child);
++        AIO_WAIT_WHILE(bdrv_child_get_parent_aio_context(child),
++                       bdrv_parent_drained_poll_single(c));
+      }
 
-> ---
->  configure                     | 21 +--------------------
->  meson.build                   |  7 ++++++-
->  meson_options.txt             |  2 ++
->  scripts/meson-buildoptions.sh |  3 +++
->  4 files changed, 12 insertions(+), 21 deletions(-)
->
-> diff --git a/configure b/configure
-> index 9c336203d8d9..26d10aeffd82 100755
-> --- a/configure
-> +++ b/configure
-> @@ -273,7 +273,6 @@ sanitizers=3D"no"
->  tsan=3D"no"
->  fortify_source=3D"yes"
->  EXESUF=3D""
-> -modules=3D"no"
->  prefix=3D"/usr/local"
->  qemu_suffix=3D"qemu"
->  softmmu=3D"yes"
-> @@ -705,12 +704,6 @@ for opt do
->    ;;
->    --disable-debug-info) meson_option_add -Ddebug=3Dfalse
->    ;;
-> -  --enable-modules)
-> -      modules=3D"yes"
-> -  ;;
-> -  --disable-modules)
-> -      modules=3D"no"
-> -  ;;
->    --cpu=3D*)
->    ;;
->    --target-list=3D*) target_list=3D"$optarg"
-> @@ -1001,7 +994,6 @@ cat << EOF
->    linux-user      all linux usermode emulation targets
->    bsd-user        all BSD usermode emulation targets
->    pie             Position Independent Executables
-> -  modules         modules support (non-Windows)
->    debug-tcg       TCG debugging (default is disabled)
->    debug-info      debugging information
->    safe-stack      SafeStack Stack Smash Protection. Depends on
-> @@ -1260,16 +1252,8 @@ else
->    QEMU_CFLAGS=3D"$QEMU_CFLAGS -Wno-missing-braces"
->  fi
->
-> -# Our module code doesn't support Windows
-> -if test "$modules" =3D "yes" && test "$mingw32" =3D "yes" ; then
-> -  error_exit "Modules are not available for Windows"
-> -fi
-> -
-> -# Static linking is not possible with plugins, modules or PIE
-> +# Resolve default for --enable-plugins
->  if test "$static" =3D "yes" ; then
-> -  if test "$modules" =3D "yes" ; then
-> -    error_exit "static and modules are mutually incompatible"
-> -  fi
->    if test "$plugins" =3D "yes"; then
->      error_exit "static and plugins are mutually incompatible"
->    else
-> @@ -2229,9 +2213,6 @@ if test "$solaris" =3D "yes" ; then
->  fi
->  echo "SRC_PATH=3D$source_path" >> $config_host_mak
->  echo "TARGET_DIRS=3D$target_list" >> $config_host_mak
-> -if test "$modules" =3D "yes"; then
-> -  echo "CONFIG_MODULES=3Dy" >> $config_host_mak
-> -fi
->
->  # XXX: suppress that
->  if [ "$bsd" =3D "yes" ] ; then
-> diff --git a/meson.build b/meson.build
-> index f63ab7f83bed..99c1bde4d154 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -16,7 +16,6 @@ fs =3D import('fs')
->
->  sh =3D find_program('sh')
->  config_host =3D keyval.load(meson.current_build_dir() / 'config-host.mak=
-')
-> -enable_modules =3D 'CONFIG_MODULES' in config_host
->  targetos =3D host_machine.system()
->
->  cc =3D meson.get_compiler('c')
-> @@ -84,6 +83,12 @@ have_ga =3D get_option('guest_agent') \
->    .require(targetos in ['sunos', 'linux', 'windows', 'freebsd'],
->             error_message: 'unsupported OS for QEMU guest agent') \
->    .allowed()
-> +enable_modules =3D get_option('modules') \
-> +  .require(targetos !=3D 'windows',
-> +           error_message: 'Modules are not available for Windows') \
-> +  .require(not get_option('prefer_static'),
-> +           error_message: 'Modules are incompatible with static linking'=
-) \
-> +  .allowed()
->  have_block =3D have_system or have_tools
->
->  python =3D import('python').find_installation()
-> diff --git a/meson_options.txt b/meson_options.txt
-> index 4b749ca54900..e492aaa73fbc 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -44,6 +44,8 @@ option('fuzzing', type : 'boolean', value: false,
->         description: 'build fuzzing targets')
->  option('gettext', type : 'feature', value : 'auto',
->         description: 'Localization of the GTK+ user interface')
-> +option('modules', type : 'feature', value : 'disabled',
-> +       description: 'modules support (non Windows)')
->  option('module_upgrades', type : 'boolean', value : false,
->         description: 'try to load modules from alternate paths for upgrad=
-es')
->  option('install_blobs', type : 'boolean', value : true,
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.s=
-h
-> index aa6e30ea911e..f91797741eef 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -119,6 +119,7 @@ meson_options_help() {
->    printf "%s\n" '  lzo             lzo compression support'
->    printf "%s\n" '  malloc-trim     enable libc malloc_trim() for memory =
-optimization'
->    printf "%s\n" '  membarrier      membarrier system call (for Linux 4.1=
-4+ or Windows'
-> +  printf "%s\n" '  modules         modules support (non Windows)'
->    printf "%s\n" '  mpath           Multipath persistent reservation pass=
-through'
->    printf "%s\n" '  multiprocess    Out of process device emulation suppo=
-rt'
->    printf "%s\n" '  netmap          netmap network backend support'
-> @@ -338,6 +339,8 @@ _meson_option_parse() {
->      --disable-membarrier) printf "%s" -Dmembarrier=3Ddisabled ;;
->      --enable-module-upgrades) printf "%s" -Dmodule_upgrades=3Dtrue ;;
->      --disable-module-upgrades) printf "%s" -Dmodule_upgrades=3Dfalse ;;
-> +    --enable-modules) printf "%s" -Dmodules=3Denabled ;;
-> +    --disable-modules) printf "%s" -Dmodules=3Ddisabled ;;
->      --enable-mpath) printf "%s" -Dmpath=3Denabled ;;
->      --disable-mpath) printf "%s" -Dmpath=3Ddisabled ;;
->      --enable-multiprocess) printf "%s" -Dmultiprocess=3Denabled ;;
-> --
-> 2.38.1
->
->
+      if (old_bs) {
 
+in patch 15/15, which should at least allow me to keep a lot of the 
+cleanups I had on top of this series.
 
---=20
-Marc-Andr=C3=A9 Lureau
+Paolo
+
 
