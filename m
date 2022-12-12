@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3177164AA49
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 23:31:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05ED64AA82
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 23:43:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4rK1-0000Tu-Ue; Mon, 12 Dec 2022 17:30:53 -0500
+	id 1p4rUp-0004UJ-SP; Mon, 12 Dec 2022 17:42:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4rJz-0000Ss-GW
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:30:51 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4rUn-0004Ox-9N
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:42:01 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4rJx-0004Tj-Jx
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:30:51 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p4rUl-00089m-3f
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 17:42:01 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BCJn2SQ015420; Mon, 12 Dec 2022 22:30:48 GMT
+ 2BCMbW9p021191; Mon, 12 Dec 2022 22:41:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=date : from : to : cc :
  subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=y95LR1GRmISrFEqWRIIB2YM5KrgaWNvnfRkIYVBmyMY=;
- b=ZWaYVhObgg1fvH/uRHFRtkVnwCWzjS6PdOjG1MGELTuYdUVbZSN7LqB+JYAp691pBf1s
- u/b/+eOoJWgUuQDpLMgzFka3m9JPq0/vsvb/cn04Y9tXmnuEXhMKl/56g/ea8pz0LWoG
- ifiALl4xVlx5Z1lZAzLjG/sfhLogqadw3a9KsKaXet+yK7HlR3tJM5C6vRYiozOr9joF
- 7CtE8DxH37Zf1iCF005QswyWb6WBnkdyalnrinjl5UEX2K0ReCHSZURMkdU53Wu1G8cX
- 4amD0McH1y9MJzchXVsimdFL3FEw4v7WULyNbiOMW5jZsVZCIKG/QNf6l1zbZkjhiakY iQ== 
+ in-reply-to; s=pp1; bh=+6HTtORTG14cutmiI4rzof5vpZY71mUnAgpLnFqAOtw=;
+ b=etb30NQ8iVajmHAhwZryzcgXftS65+CVcDm0NyMRuyAy/nm/Jv7G9Iyj3xgyidLk7JCD
+ 6n0wAKAkfc2T6+ARWyDY+pGcirvAFsu4NfTp1ozpQqWnukWkIOk4ivFoZm8f/eG7aHD8
+ duS0hFNZMrLkpvw1TriRSmmkaeqrgD3Q89fzoqTbOtVMXaZ3D4aXek0yQLyTW5F/+Tmd
+ 2RMmHwYSOR5r/r3925pEclZ7VrRDLp80mtQkCZYk100Sm5H/VQVy79WdoQdUN7bqjifx
+ uZEBlK+81NnTCFKGOwshei4Dq6GJjLaozzNrTRMWk1WirOrd59eSI9YI+jyk9SNB8yMj uA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3me87xqcab-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mebpqtard-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 22:30:48 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCMIkNN018489;
- Mon, 12 Dec 2022 22:30:47 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3me87xqc9y-1
+ Mon, 12 Dec 2022 22:41:56 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCMdPIj030632;
+ Mon, 12 Dec 2022 22:41:55 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mebpqtaqg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 22:30:47 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BCAWUUf018163;
- Mon, 12 Dec 2022 22:30:46 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3mchr62btj-1
+ Mon, 12 Dec 2022 22:41:55 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BCDM3IR028342;
+ Mon, 12 Dec 2022 22:41:53 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3mchr638y1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 22:30:45 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BCMUhpl48300518
+ Mon, 12 Dec 2022 22:41:53 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BCMfp6924445234
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Dec 2022 22:30:43 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 96F2720049;
- Mon, 12 Dec 2022 22:30:43 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4CD7620040;
- Mon, 12 Dec 2022 22:30:43 +0000 (GMT)
+ Mon, 12 Dec 2022 22:41:51 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F253820043;
+ Mon, 12 Dec 2022 22:41:50 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B3A7720040;
+ Mon, 12 Dec 2022 22:41:50 +0000 (GMT)
 Received: from heavy (unknown [9.179.26.201])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Mon, 12 Dec 2022 22:30:43 +0000 (GMT)
-Date: Mon, 12 Dec 2022 23:30:41 +0100
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Mon, 12 Dec 2022 22:41:50 +0000 (GMT)
+Date: Mon, 12 Dec 2022 23:41:49 +0100
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: thuth@redhat.com
-Subject: Re: [PATCH v4 16/27] tcg/s390x: Issue XILF directly for xor_i32
-Message-ID: <20221212223041.owhvpoct66nrn3vg@heavy>
+Subject: Re: [PATCH v4 17/27] tcg/s390x: Tighten constraints for or_i64 and
+ xor_i64
+Message-ID: <20221212224149.puwqhkq3zsbtrrhf@heavy>
 References: <20221209020530.396391-1-richard.henderson@linaro.org>
- <20221209020530.396391-17-richard.henderson@linaro.org>
+ <20221209020530.396391-18-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221209020530.396391-17-richard.henderson@linaro.org>
+In-Reply-To: <20221209020530.396391-18-richard.henderson@linaro.org>
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NvEnvJxCDCFrD5_zs8qYETYcCqcvadPZ
-X-Proofpoint-GUID: IjoTRpZZhyMF4Mg3lu-0kpeslYLfLLlT
+X-Proofpoint-ORIG-GUID: eT73sF8kI53I5HnagyUXISODgyqTw5_p
+X-Proofpoint-GUID: aGjl7U47qgCisX4gyd3yaLuwUl5t8bnQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 clxscore=1015 impostorscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 phishscore=0 mlxlogscore=510 spamscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212120189
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ clxscore=1015
+ lowpriorityscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 mlxscore=0 spamscore=0 malwarescore=0 mlxlogscore=687
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120194
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -109,9 +110,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 08, 2022 at 08:05:19PM -0600, Richard Henderson wrote:
-> There is only one instruction that is applicable
-> to a 32-bit immediate xor.
+On Thu, Dec 08, 2022 at 08:05:20PM -0600, Richard Henderson wrote:
+> Drop support for sequential OR and XOR, as the serial dependency is
+> slower than loading the constant first.  Let the register allocator
+> handle such immediates by matching only what one insn can achieve.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
