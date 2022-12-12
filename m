@@ -2,89 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2152F649AA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:07:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84864649AA3
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:07:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4ehJ-0006Lj-UI; Mon, 12 Dec 2022 04:02:06 -0500
+	id 1p4ekL-00083F-Re; Mon, 12 Dec 2022 04:05:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p4egx-0006J5-Ez
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:01:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p4egt-0007WA-TE
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:01:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670835698;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Sv+1L92Q/2OezajP7dtxgrBnly7suoA6qZxY/zrYjsQ=;
- b=Kjt276FGusoN2A3UFGD71caP+1SHZ83wihAu+HmggoDmVA3V54Sx+fmTZPAGgkB/OgUYp1
- a/5BLi0OwlJuFpYUaAM6DpH3weKAVQOGK+ppbCNMStjhowL9qvxnHF7d9OdAsxTDj3EVdE
- 2aJwYr9PipuVm/KV4C5EQgF0zjYGyN0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-352-Kdlf7PlyNNyhDznGJMPrAQ-1; Mon, 12 Dec 2022 04:01:36 -0500
-X-MC-Unique: Kdlf7PlyNNyhDznGJMPrAQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- g3-20020ac84b63000000b003a529c62a92so11084006qts.23
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:01:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4ekD-00081X-4d
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:05:06 -0500
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4ekB-0003bQ-0T
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:05:04 -0500
+Received: by mail-lf1-x129.google.com with SMTP id s8so17442866lfc.8
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:05:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W1670J5ValjmZbflAVtWvQVmpmtcajij6dNTjFKJBpA=;
+ b=UU4n0kjGQOeAcYcgP+UHyaLO3wvPS8NI4Wb5qgOf3g2KUqT2MBoluL4RzVhLLo98CI
+ SJLkd5uov1VG9CqlTCEeb7SYWnn+Q2A2WK5Tu6youR7jahtr494GcPivsV4rhsZeACNW
+ 0xv4XHTljOb4puj8PnrdHbbVqk3x47CVpFNijrSPhOhMsVAuU0lTFunEaDutKbql6iKE
+ EKpHfZiS5bdwA4ej2zgsNCW6OpditvUcB8Y222stWRhGRH3V5JtutUPuih09ISKTKFEl
+ pyr81oHSd9pOFy4QfLtDAIB+ijxDpyHF4U6/0pH77jPGv3pRKK4WUN7AGvCCpxk/ll7K
+ A/6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Sv+1L92Q/2OezajP7dtxgrBnly7suoA6qZxY/zrYjsQ=;
- b=qCtrevJB8uBs6bK1yUSDsYWcHD4jzIO8Y+A89aEWLVawX1ODBRcU4kmdLa0o7/vgHa
- n/QAZwxqA7uHvB6TCnEcN6a7HQmDEoGyXKqB16AVabSGFAt7oQqcBw9rQ2Ah+YtDctuU
- ftyxZnZYCzRFhnENTtsukM9q1eKRp3t/Aj+njCIp2qA9mAeoqLSKLzu+HN9acSZqANPD
- NflKoteh3eKpcyJI5seWdK8pUV/ElVN/bL/PQPcK4rI/sM4y2bd5F7hRdQsNu8J2AEb3
- OWGSA55lJk+Trxzq8TyOjqV90z/agSL7XNVwyrG4u5REbbMMhPv5aRuKNOjUd1PMwUvd
- 4rng==
-X-Gm-Message-State: ANoB5plHYAos0fuJaxLRbfDWhrxYAyLd4uwVfdlskZ/nGxLcumeOFapJ
- eeASf2h1+TmynVaX3BsYZP1VAa8m3xc9MpwJGE+MkxU0THgABRJLhAaswFG3xfTkkdSiEQJQ41/
- Ktfe4nHai12sH7E4=
-X-Received: by 2002:ac8:644:0:b0:3a8:128:82a9 with SMTP id
- e4-20020ac80644000000b003a8012882a9mr18616537qth.5.1670835696239; 
- Mon, 12 Dec 2022 01:01:36 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5azv4w9mUEQAZxRp9afVJv1xXV1j4mora9SMMrgqirAcXn1BLF7xTAuj5QmHAWS/B2M7UeBw==
-X-Received: by 2002:ac8:644:0:b0:3a8:128:82a9 with SMTP id
- e4-20020ac80644000000b003a8012882a9mr18616507qth.5.1670835695911; 
- Mon, 12 Dec 2022 01:01:35 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0?
- ([2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0])
- by smtp.gmail.com with ESMTPSA id
- f1-20020ac84981000000b003a7fc70d59csm5496639qtq.41.2022.12.12.01.01.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 01:01:35 -0800 (PST)
-Message-ID: <78476e9d-0d40-12e8-075c-ec4ac84aab32@redhat.com>
-Date: Mon, 12 Dec 2022 10:01:33 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W1670J5ValjmZbflAVtWvQVmpmtcajij6dNTjFKJBpA=;
+ b=KkE2OUZON4guO1BXmf2Qf5uklBRKysp/F4N2SwNEyZsYE4xQp6ZzJHX9EZNJA6mwGo
+ AmQSKWJ+lmVaC13SVKeVPBhTjesxyDi6vpiSTm+rq+R64vB9xXqLCMH7aVSxUL1Iz4A9
+ c4B0NO42JTG6QKoIndv2lSrblgCWZqpXfH51jgAgMDYXC9a0PVNdbxjIyVlda5zmvQTz
+ tVOJSOqF6RLFbGc1CCkSIH4GNU7LGLPQ98HUfk/O+LE1uG8EMx2QqQ6H4isCz+4Hvyf5
+ y3FR0qaG5ZdyIqXwEBEw26Q1NaJ7JULDOyQtRqi74dM0cZQNtrEKuZRgb4q3g424cW1N
+ YUfg==
+X-Gm-Message-State: ANoB5pnuercdt+OBYvgqj/JBsI4yY01jo9u4gC2g8SUUBvDScMaaY+Lv
+ EspjiJiVKJ2P5Ql5BKPuVXmtNVxc98G6atS0LM8=
+X-Google-Smtp-Source: AA0mqf6KdUH7ceZ3ObywE3zxmHpebQLi5POoJJcGDJtRqwWWxZ11EsDpiXimRUP/mDs6o1D8zlMg7pStxobMGJT8C74=
+X-Received: by 2002:a19:f016:0:b0:4b5:886b:d4af with SMTP id
+ p22-20020a19f016000000b004b5886bd4afmr5016018lfc.276.1670835900630; Mon, 12
+ Dec 2022 01:05:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v1 06/24] vfio-user: Define type vfio_user_pci_dev_info
-Content-Language: en-US
-To: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1667542066.git.john.g.johnson@oracle.com>
- <957361f0e497e0b95f10a3caf617fe04d9c6fb72.1667542066.git.john.g.johnson@oracle.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <957361f0e497e0b95f10a3caf617fe04d9c6fb72.1667542066.git.john.g.johnson@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=clg@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-16-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-16-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 12 Dec 2022 13:04:48 +0400
+Message-ID: <CAJ+F1CLofgNKL606x2PDHtvbbMjzpoD6icE7SoNc=GuWDBt3Lg@mail.gmail.com>
+Subject: Re: [PATCH 15/30] meson: cleanup compiler detection
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x129.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,207 +85,221 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/9/22 00:13, John Johnson wrote:
-> New class for vfio-user with its class and instance
-> constructors and destructors, and its pci ops.
-> 
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+On Fri, Dec 9, 2022 at 3:29 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Detect all compilers at the beginning of meson.build, and store
+> the available languages in an array.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 > ---
->   hw/vfio/Kconfig  | 10 +++++++
->   hw/vfio/common.c |  5 ++++
->   hw/vfio/pci.c    | 89 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->   hw/vfio/pci.h    |  8 +++++
->   4 files changed, 112 insertions(+)
-> 
-> diff --git a/hw/vfio/Kconfig b/hw/vfio/Kconfig
-> index 7cdba05..301894e 100644
-> --- a/hw/vfio/Kconfig
-> +++ b/hw/vfio/Kconfig
-> @@ -2,6 +2,10 @@ config VFIO
->       bool
->       depends on LINUX
->   
-> +config VFIO_USER
-> +    bool
-> +    depends on VFIO
+>  meson.build | 62 ++++++++++++++++++++++++++++++-----------------------
+>  1 file changed, 35 insertions(+), 27 deletions(-)
+>
+> diff --git a/meson.build b/meson.build
+> index 8a9ed5628317..c4fa82ae8ba4 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -15,9 +15,21 @@ ss =3D import('sourceset')
+>  fs =3D import('fs')
+>
+>  sh =3D find_program('sh')
+> -cc =3D meson.get_compiler('c')
+>  config_host =3D keyval.load(meson.current_build_dir() / 'config-host.mak=
+')
+>  enable_modules =3D 'CONFIG_MODULES' in config_host
+> +targetos =3D host_machine.system()
 > +
->   config VFIO_PCI
->       bool
->       default y
-> @@ -9,6 +13,12 @@ config VFIO_PCI
->       select EDID
->       depends on LINUX && PCI
->   
-> +config VFIO_USER_PCI
-> +    bool
-> +    default y
-> +    select VFIO_USER
-> +    depends on VFIO_PCI
-> +
->   config VFIO_CCW
->       bool
->       default y
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index c7bf0aa..c589bd9 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -1774,6 +1774,11 @@ void vfio_reset_handler(void *opaque)
->       QLIST_FOREACH(group, &vfio_group_list, next) {
->           QLIST_FOREACH(vbasedev, &group->device_list, next) {
->               if (vbasedev->dev->realized && vbasedev->needs_reset) {
-> +                if (vbasedev->ops->vfio_hot_reset_multi == NULL) {
-> +                    error_printf("%s: No hot reset handler specified\n",
-> +                                 vbasedev->name);
-> +                    continue;
-> +                }
+> +cc =3D meson.get_compiler('c')
+> +all_languages =3D ['c']
+> +if add_languages('cpp', required: false, native: false)
+> +  all_languages +=3D ['cpp']
+> +  cxx =3D meson.get_compiler('cpp')
+> +endif
+> +if targetos =3D=3D 'darwin' and \
+> +   add_languages('objc', required: get_option('cocoa'), native: false)
+> +  all_languages +=3D ['objc']
+> +  objc =3D meson.get_compiler('objc')
+> +endif
+>
+>  # Temporary directory used for files created while
+>  # configure runs. Since it is in the build directory
+> @@ -54,8 +66,6 @@ if cpu in ['riscv32', 'riscv64']
+>    cpu =3D 'riscv'
+>  endif
+>
+> -targetos =3D host_machine.system()
+> -
+>  target_dirs =3D config_host['TARGET_DIRS'].split()
+>  have_linux_user =3D false
+>  have_bsd_user =3D false
+> @@ -161,7 +171,7 @@ if 'dtrace' in get_option('trace_backends')
+>      # semaphores are linked into the main binary and not the module's sh=
+ared
+>      # object.
+>      add_global_arguments('-DSTAP_SDT_V2',
+> -                         native: false, language: ['c', 'cpp', 'objc'])
+> +                         native: false, language: all_languages)
+>    endif
+>  endif
+>
+> @@ -203,7 +213,7 @@ endif
+>  if get_option('fuzzing')
+>    add_project_link_arguments(['-Wl,-T,',
+>                                (meson.current_source_dir() / 'tests/qtest=
+/fuzz/fork_fuzz.ld')],
+> -                             native: false, language: ['c', 'cpp', 'objc=
+'])
+> +                             native: false, language: all_languages)
+>
+>    # Specify a filter to only instrument code that is directly related to
+>    # virtual-devices.
+> @@ -216,7 +226,7 @@ if get_option('fuzzing')
+>                   args: ['-fsanitize-coverage-allowlist=3D/dev/null',
+>                          '-fsanitize-coverage=3Dtrace-pc'] )
+>      add_global_arguments('-fsanitize-coverage-allowlist=3Dinstrumentatio=
+n-filter',
+> -                         native: false, language: ['c', 'cpp', 'objc'])
+> +                         native: false, language: all_languages)
+>    endif
+>
+>    if get_option('fuzzing_engine') =3D=3D ''
+> @@ -225,9 +235,9 @@ if get_option('fuzzing')
+>      # everything with fsanitize=3Dfuzzer-no-link. Otherwise, the linker =
+will be
+>      # unable to bind the fuzzer-related callbacks added by instrumentati=
+on.
+>      add_global_arguments('-fsanitize=3Dfuzzer-no-link',
+> -                         native: false, language: ['c', 'cpp', 'objc'])
+> +                         native: false, language: all_languages)
+>      add_global_link_arguments('-fsanitize=3Dfuzzer-no-link',
+> -                              native: false, language: ['c', 'cpp', 'obj=
+c'])
+> +                              native: false, language: all_languages)
+>      # For the actual fuzzer binaries, we need to link against the libfuz=
+zer
+>      # library. They need to be configurable, to support OSS-Fuzz
+>      fuzz_exe_ldflags =3D ['-fsanitize=3Dfuzzer']
+> @@ -238,15 +248,11 @@ if get_option('fuzzing')
+>    endif
+>  endif
+>
+> -add_global_arguments(qemu_cflags, native: false, language: ['c'])
+> -add_global_arguments(qemu_objcflags, native: false, language: ['objc'])
+> -
+>  # Check that the C++ compiler exists and works with the C compiler.
+>  link_language =3D 'c'
+>  linker =3D cc
+>  qemu_cxxflags =3D []
+> -if add_languages('cpp', required: false, native: false)
+> -  cxx =3D meson.get_compiler('cpp')
+> +if 'cpp' in all_languages
+>    add_global_arguments(['-D__STDC_LIMIT_MACROS', '-D__STDC_CONSTANT_MACR=
+OS', '-D__STDC_FORMAT_MACROS'],
+>                         native: false, language: 'cpp')
+>    foreach k: qemu_cflags
+> @@ -255,7 +261,6 @@ if add_languages('cpp', required: false, native: fals=
+e)
+>        qemu_cxxflags +=3D [k]
+>      endif
+>    endforeach
+> -  add_global_arguments(qemu_cxxflags, native: false, language: 'cpp')
+>
+>    if cxx.links(files('scripts/main.c'), args: qemu_cflags)
+>      link_language =3D 'cpp'
+> @@ -271,22 +276,21 @@ if targetos !=3D 'sunos' and not config_host.has_ke=
+y('CONFIG_TSAN')
+>    qemu_ldflags +=3D linker.get_supported_link_arguments('-Wl,--warn-comm=
+on')
+>  endif
+>
+> -add_global_link_arguments(qemu_ldflags, native: false, language: ['c', '=
+cpp', 'objc'])
+> +add_global_link_arguments(qemu_ldflags, native: false, language: all_lan=
+guages)
+>
+> +add_global_arguments(qemu_cflags, native: false, language: 'c')
+> +add_global_arguments(qemu_cxxflags, native: false, language: 'cpp')
+> +add_global_arguments(qemu_objcflags, native: false, language: 'objc')
+>  if targetos =3D=3D 'linux'
+>    add_project_arguments('-isystem', meson.current_source_dir() / 'linux-=
+headers',
+>                          '-isystem', 'linux-headers',
+> -                        language: ['c', 'cpp'])
+> +                        language: all_languages)
+>  endif
+>
+>  add_project_arguments('-iquote', '.',
+>                        '-iquote', meson.current_source_dir(),
+>                        '-iquote', meson.current_source_dir() / 'include',
+> -                      language: ['c', 'cpp', 'objc'])
+> -
+> -if host_machine.system() =3D=3D 'darwin'
+> -  add_languages('objc', required: false, native: false)
+> -endif
+> +                      language: all_languages)
+>
+>  sparse =3D find_program('cgcc', required: get_option('sparse'))
+>  if sparse.found()
+> @@ -468,7 +472,7 @@ if get_option('tcg').allowed()
+>      tcg_arch =3D 'ppc'
+>    endif
+>    add_project_arguments('-iquote', meson.current_source_dir() / 'tcg' / =
+tcg_arch,
+> -                        language: ['c', 'cpp', 'objc'])
+> +                        language: all_languages)
+>
+>    accelerators +=3D 'CONFIG_TCG'
+>    config_host +=3D { 'CONFIG_TCG': 'y' }
+> @@ -494,7 +498,7 @@ endif
+>  # The path to glib.h is added to all compilation commands.  This was
+>  # grandfathered in from the QEMU Makefiles.
+>  add_project_arguments(config_host['GLIB_CFLAGS'].split(),
+> -                      native: false, language: ['c', 'cpp', 'objc'])
+> +                      native: false, language: all_languages)
+>  glib =3D declare_dependency(compile_args: config_host['GLIB_CFLAGS'].spl=
+it(),
+>                            link_args: config_host['GLIB_LIBS'].split(),
+>                            version: config_host['GLIB_VERSION'],
+> @@ -1674,8 +1678,8 @@ if get_option('cfi')
+>        error('-fno-sanitize-trap=3Dcfi-icall is not supported by the comp=
+iler')
+>      endif
+>    endif
+> -  add_global_arguments(cfi_flags, native: false, language: ['c', 'cpp', =
+'objc'])
+> -  add_global_link_arguments(cfi_flags, native: false, language: ['c', 'c=
+pp', 'objc'])
+> +  add_global_arguments(cfi_flags, native: false, language: all_languages=
+)
+> +  add_global_link_arguments(cfi_flags, native: false, language: all_lang=
+uages)
+>  endif
+>
+>  have_host_block_device =3D (targetos !=3D 'darwin' or
+> @@ -3713,8 +3717,12 @@ if link_args.length() > 0
+>    summary_info +=3D {'LDFLAGS':         ' '.join(link_args)}
+>  endif
+>  summary_info +=3D {'QEMU_CFLAGS':       ' '.join(qemu_cflags)}
+> -summary_info +=3D {'QEMU_CXXFLAGS':     ' '.join(qemu_cxxflags)}
+> -summary_info +=3D {'QEMU_OBJCFLAGS':    ' '.join(qemu_objcflags)}
+> +if 'cpp' in all_languages
+> +  summary_info +=3D {'QEMU_CXXFLAGS':     ' '.join(qemu_cxxflags)}
+> +endif
+> +if 'objc' in all_languages
+> +  summary_info +=3D {'QEMU_OBJCFLAGS':    ' '.join(qemu_objcflags)}
+> +endif
+>  summary_info +=3D {'QEMU_LDFLAGS':      ' '.join(qemu_ldflags)}
+>  summary_info +=3D {'profiler':          get_option('profiler')}
+>  summary_info +=3D {'link-time optimization (LTO)': get_option('b_lto')}
+> --
+> 2.38.1
+>
+>
 
-Since needs_reset is false, which is the case for VFIO User,
-vfio_hot_reset_multi won't be called. I don't think we care
-much about adding this error message. In another patch, may be.
 
->                   vbasedev->ops->vfio_hot_reset_multi(vbasedev);
->               }
->           }
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 80b03a2..dc19869 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -19,6 +19,7 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include CONFIG_DEVICES
->   #include <linux/vfio.h>
->   #include <sys/ioctl.h>
->   
-> @@ -3421,3 +3422,91 @@ static void register_vfio_pci_dev_type(void)
->   }
->   
->   type_init(register_vfio_pci_dev_type)
-> +
-> +
-> +#ifdef CONFIG_VFIO_USER_PCI
-
-Why not introduce a new file hw/vfio/user.c file ? It would be
-cleaner.
-
-> +
-> +/*
-> + * vfio-user routines.
-> + */
-> +
-> +/*
-> + * Emulated devices don't use host hot reset
-> + */
-> +static void vfio_user_compute_needs_reset(VFIODevice *vbasedev)
-> +{
-> +    vbasedev->needs_reset = false;
-> +}
-> +
-> +static VFIODeviceOps vfio_user_pci_ops = {
-> +    .vfio_compute_needs_reset = vfio_user_compute_needs_reset,
-> +    .vfio_eoi = vfio_intx_eoi,
-> +    .vfio_get_object = vfio_pci_get_object,
-> +    .vfio_save_config = vfio_pci_save_config,
-> +    .vfio_load_config = vfio_pci_load_config,
-> +};
-> +
-> +static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +    VFIOUserPCIDevice *udev = VFIO_USER_PCI(pdev);
-> +    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-> +    VFIODevice *vbasedev = &vdev->vbasedev;
-> +
-> +    /*
-> +     * TODO: make option parser understand SocketAddress
-> +     * and use that instead of having scalar options
-> +     * for each socket type.
-> +     */
-> +    if (!udev->sock_name) {
-> +        error_setg(errp, "No socket specified");
-> +        error_append_hint(errp, "Use -device vfio-user-pci,socket=<name>\n");
-> +        return;
-> +    }
-> +
-> +    vbasedev->name = g_strdup_printf("VFIO user <%s>", udev->sock_name);
-> +    vbasedev->ops = &vfio_user_pci_ops;
-> +    vbasedev->type = VFIO_DEVICE_TYPE_PCI;
-> +    vbasedev->dev = DEVICE(vdev);
-> +
-> +}
-> +
-> +static void vfio_user_instance_finalize(Object *obj)
-> +{
-> +    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
-> +
-> +    vfio_put_device(vdev);
-> +}
-> +
-> +static Property vfio_user_pci_dev_properties[] = {
-> +    DEFINE_PROP_STRING("socket", VFIOUserPCIDevice, sock_name),
-
-This looks like a good candidate for using a chardev. It could only
-support AF_UNIX to start with if fd passing is the required feature.
-But at least, the model would be using a well known backend. I think
-vhost has the same kind of constraints.
-
-Thanks,
-
-C.
-
-
-
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void vfio_user_pci_dev_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
-> +
-> +    device_class_set_props(dc, vfio_user_pci_dev_properties);
-> +    dc->desc = "VFIO over socket PCI device assignment";
-> +    pdc->realize = vfio_user_pci_realize;
-> +}
-> +
-> +static const TypeInfo vfio_user_pci_dev_info = {
-> +    .name = TYPE_VFIO_USER_PCI,
-> +    .parent = TYPE_VFIO_PCI_BASE,
-> +    .instance_size = sizeof(VFIOUserPCIDevice),
-> +    .class_init = vfio_user_pci_dev_class_init,
-> +    .instance_init = vfio_instance_init,
-> +    .instance_finalize = vfio_user_instance_finalize,
-> +};
-> +
-> +static void register_vfio_user_dev_type(void)
-> +{
-> +    type_register_static(&vfio_user_pci_dev_info);
-> +}
-> +
-> +type_init(register_vfio_user_dev_type)
-> +
-> +#endif /* VFIO_USER_PCI */
-> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-> index 7c5c8ec..27db931 100644
-> --- a/hw/vfio/pci.h
-> +++ b/hw/vfio/pci.h
-> @@ -189,6 +189,14 @@ struct VFIOKernPCIDevice {
->       VFIOPCIDevice device;
->   };
->   
-> +#define TYPE_VFIO_USER_PCI "vfio-user-pci"
-> +OBJECT_DECLARE_SIMPLE_TYPE(VFIOUserPCIDevice, VFIO_USER_PCI)
-> +
-> +struct VFIOUserPCIDevice {
-> +    VFIOPCIDevice device;
-> +    char *sock_name;
-> +};
-> +
->   /* Use uin32_t for vendor & device so PCI_ANY_ID expands and cannot match hw */
->   static inline bool vfio_pci_is(VFIOPCIDevice *vdev, uint32_t vendor, uint32_t device)
->   {
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
