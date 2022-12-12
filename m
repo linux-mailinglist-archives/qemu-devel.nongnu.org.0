@@ -2,94 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9161464A213
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B7264A22C
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:50:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4jAm-0002ue-M9; Mon, 12 Dec 2022 08:48:48 -0500
+	id 1p4jCD-000497-5r; Mon, 12 Dec 2022 08:50:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4jAY-0002mD-Hy
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:48:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4jAW-0001mL-JC
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:48:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670852910;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g1aAgUUt9NQz5ix9XMQ3xwMR9B1WJdeUG1VIrP5CSnw=;
- b=WOtVWYz5IjnA301VMhdwYzXvzmZcd5gOL+jRR+5w1okbBCxsbCiRXmMQleecOb5ij2GRmx
- VBQxTJylyRHw+4MWw+OC3GmfpYuLSshwUwxKO4mHGZIK2zMQaopEZbUkguTyaKVMvQnLR0
- qrl/nqNSdUcPkMhP/5K7mWw6X37SELQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-235-xbHjHMHEMZiVyfi1gcQ9Aw-1; Mon, 12 Dec 2022 08:48:29 -0500
-X-MC-Unique: xbHjHMHEMZiVyfi1gcQ9Aw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- i9-20020a1c3b09000000b003d21fa95c38so1392064wma.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:48:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p4jC9-00048D-QA
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:50:14 -0500
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p4jC8-0002Hn-3D
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:50:13 -0500
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso8399565fac.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:50:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+/Q06khh1J5GcWfV2io4Fm1kdLvvwuXP3aCFyxvox10=;
+ b=rVTQKl1lS/oRsDV0acOZuM18dTjqGb2xBx2GY48zuyn2VH3/wDeMwOOZc7/+22GHuY
+ nExXCxcoxUmQAA3gR319FWWwBqDdWhL2RnDri5s3A0gASI+SrpQw9nJpz5xaW6dPervJ
+ D3DkVTfZhjHtqnDjwiRK8IpUZ3Q8SGLS3rP4N7D3jWB12k+4keyv8F5xOq/LuyunfKVr
+ zW7PWq/gE6O+qF2JoFLOPOtxOHKFNZrlyJdqv8Lydd6P343iiQesfhfGCdqacMe9Wqyb
+ 6jg30Bx38RQFwmz+nZfRw5c67ZVnUUuea/rK99ogWUTN0AGmkTyD3cCajBevo1Dfi+rx
+ Mn/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=g1aAgUUt9NQz5ix9XMQ3xwMR9B1WJdeUG1VIrP5CSnw=;
- b=g4oU5axsGKOK5oKe6MQcXhr583ywVXvPDw2bXLPJSRDxSwua/oGGfwV0sGUHsg6dOA
- laLNq7lnktS/YmuByDWfsTGDSe8spRp9F4P8HaWkcyTdecmMRdiUqmkpqmypK/udmKb+
- gzDuQFbrda/KgD5TtkU6lTeUHm1HaCsNrAdarTOHJReCacn5K3uBsrmXKwPU3nHnafU3
- mkO0lM1lLL5drIg2TAohT9Wr3Lza6x7vgniIEqQU6iX0PWmTJH+UmdHtWJStPCglBHLM
- 0SjutnPFjYTvVRaoVOwlEsUd/H5y2RaFeNAiYED1DyuCS7f0/SlU1fDYVHYzIoCsCuPi
- iNIg==
-X-Gm-Message-State: ANoB5pl89PEz220abk9XFIukQ4As2jq8cDIoXn78jX+xQlkUqtTzD+Od
- y742hK/h+s0T7i2HHemBI0+z4jtT5mFfhzV0au5cYS9U2vWCOY/oBlFGp5vwm5vRsdKey8Kt5zA
- iiknoTfHrsPeWAqQ=
-X-Received: by 2002:a05:600c:3c92:b0:3cf:a851:d2f2 with SMTP id
- bg18-20020a05600c3c9200b003cfa851d2f2mr12573736wmb.21.1670852908211; 
- Mon, 12 Dec 2022 05:48:28 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5LiLRaTLPKbjau2ahOJsSuLuJAyHFbIsSifRwtpE4hHVUWj1NaXWVewqHeI5dyyUICJAfIEA==
-X-Received: by 2002:a05:600c:3c92:b0:3cf:a851:d2f2 with SMTP id
- bg18-20020a05600c3c9200b003cfa851d2f2mr12573721wmb.21.1670852908007; 
- Mon, 12 Dec 2022 05:48:28 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-127.web.vodafone.de.
- [109.43.178.127]) by smtp.gmail.com with ESMTPSA id
- q11-20020a05600c46cb00b003d1cf67460esm10377756wmo.40.2022.12.12.05.48.26
+ bh=+/Q06khh1J5GcWfV2io4Fm1kdLvvwuXP3aCFyxvox10=;
+ b=oZu7ymgaZJbfL5iZdi0WV+8G62S32TzqHH44Q5+MGj9NcIWaSdlWk1gojTwbwnLXLU
+ 6ZGNLDmXkf8CuwTd731NxfrDmPWWavotiH59hzfaIjQLMvYl0HipEU/h+MjkvCSy+1df
+ 9eBVssQWxKEKtm+U5TAaqmLKRxtd9tDEZINxeYVC04+2V5pnfMKjiWsOwcQUueTsS/Vn
+ 9EKUsHf3Q9jxblL+m42aCLzegyVvRZLl6dWerM6MAUjnGytJjaPNB0M29O4Zvy8uSy3Q
+ SXm0kBHb621wTUWTg+ksHtht9cA8l1BsYUr62E+nEN7R6skikhj5G6DS388Mx7JwEEgG
+ 00cg==
+X-Gm-Message-State: ANoB5pnXfkYpgKUTqH6wJDX+XvwkTyEVHK3A/vYNSGlEF+KAQXe04hEt
+ qmAet7LHfUa1VIgy75KxGjy0vA==
+X-Google-Smtp-Source: AA0mqf5VmeNLRxLMooTVt+HZoCiJ+HkstP9Ot+lEbPtcKDJl0+Oekr3Ngij3Qs1WUQDCvGUAv2+Lfg==
+X-Received: by 2002:a05:6870:aa8c:b0:143:f29b:2f0b with SMTP id
+ gr12-20020a056870aa8c00b00143f29b2f0bmr8299463oab.30.1670853010480; 
+ Mon, 12 Dec 2022 05:50:10 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:2efc:20f0:1d0e:8e1f:fff0?
+ ([2806:102e:18:2efc:20f0:1d0e:8e1f:fff0])
+ by smtp.gmail.com with ESMTPSA id
+ p33-20020a0568708a2100b0013b0b19100fsm4958438oaq.32.2022.12.12.05.50.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 05:48:27 -0800 (PST)
-Message-ID: <dd94d639-ff48-554a-c462-ae7fe2399d4e@redhat.com>
-Date: Mon, 12 Dec 2022 14:48:25 +0100
+ Mon, 12 Dec 2022 05:50:09 -0800 (PST)
+Message-ID: <ace38f47-df82-11d0-b80f-7b9fbef585b4@linaro.org>
+Date: Mon, 12 Dec 2022 07:50:07 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3] hw/rtc/mc146818rtc: Make this rtc device target
- independent
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH-for-8.0 v2 03/11] hw/mips/bootloader: Implement nanoMIPS
+ SW opcode generator
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Bernhard Beschow <shentey@gmail.com>
-Cc: Michael S Tsirkin <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20221212075600.17408-1-thuth@redhat.com>
- <12d9fcbf-e00f-1154-63e0-36420e89f619@ilande.co.uk>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <12d9fcbf-e00f-1154-63e0-36420e89f619@ilande.co.uk>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
+ Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Djordje Todorovic <djordje.todorovic@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
+References: <20221211204533.85359-1-philmd@linaro.org>
+ <20221211204533.85359-4-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221211204533.85359-4-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,58 +101,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/2022 14.39, Mark Cave-Ayland wrote:
-> On 12/12/2022 07:56, Thomas Huth wrote:
+On 12/11/22 14:45, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/mips/bootloader.c | 20 +++++++++++++++++++-
+>   1 file changed, 19 insertions(+), 1 deletion(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 > 
->> The only reason for this code being target dependent is the apic-related
->> code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
->> simple, we can easily move them into a new, separate file (apic_irqcount.c)
->> which will always be compiled and linked if either APIC or the mc146818 
->> device
->> are required. This way we can get rid of the #ifdef TARGET_I386 switches in
->> mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
->> that the code only gets compiled once for all targets.
->>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   v3: Move TYPE_APIC_COMMON from apic_internal.h to apic.h and use it
->>
->>   include/hw/i386/apic.h          |  2 ++
->>   include/hw/i386/apic_internal.h |  2 --
->>   include/hw/rtc/mc146818rtc.h    |  1 +
->>   hw/intc/apic_common.c           | 27 -----------------
->>   hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
->>   hw/rtc/mc146818rtc.c            | 25 +++++-----------
->>   hw/intc/meson.build             |  6 +++-
->>   hw/rtc/meson.build              |  3 +-
->>   8 files changed, 69 insertions(+), 50 deletions(-)
->>   create mode 100644 hw/intc/apic_irqcount.c
->>
->> diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
->> index da1d2fe155..24069fb961 100644
->> --- a/include/hw/i386/apic.h
->> +++ b/include/hw/i386/apic.h
->> @@ -1,6 +1,7 @@
->>   #ifndef APIC_H
->>   #define APIC_H
->> +#define TYPE_APIC_COMMON "apic-common"
-> 
-> Ah sorry, I should have been more specific here: what I was suggesting was 
-> to move the entire QOM type information into apic.h as per the normal 
-> convention, as opposed to just the #define. At first glance that would 
-> involve lines 128-190 in apic_internal.h which would also bring in 
-> APICCommonClass and APICCommonState - possibly the change may warrant its 
-> own commit.
-
-At least APICCommonState is target specific since it uses "X86CPU" ... so 
-moving that to apic.h would be very counterproductive here.
-
-Anyway, moving those structs is certainly way more than what is required for 
-this patch, so if we decide to move anything else related to the APIC, it 
-should be done in a separate patch later.
-
-  Thomas
+> diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
+> index 0035f37335..3e1e73360f 100644
+> --- a/hw/mips/bootloader.c
+> +++ b/hw/mips/bootloader.c
+> @@ -143,9 +143,27 @@ static void bl_gen_ori(void **p, bl_reg rt, bl_reg rs, uint16_t imm)
+>       bl_gen_i_type(p, 0x0d, rs, rt, imm);
+>   }
+>   
+> +static void bl_gen_sw_nm(void **ptr, bl_reg rt, uint8_t rs, uint16_t ofs12)
+> +{
+> +    uint32_t insn = 0;
+> +
+> +    assert(extract32(ofs12, 0, 12) == ofs12);
+> +    insn = deposit32(insn, 26, 6, 0b100001);
+> +    insn = deposit32(insn, 21, 5, rt);
+> +    insn = deposit32(insn, 16, 5, rs);
+> +    insn = deposit32(insn, 12, 4, 0b1001);
+> +    insn = deposit32(insn, 0, 12, ofs12);
+> +
+> +    st_nm32_p(ptr, insn);
+> +}
+> +
+>   static void bl_gen_sw(void **p, bl_reg rt, uint8_t base, uint16_t offset)
+>   {
+> -    bl_gen_i_type(p, 0x2b, base, rt, offset);
+> +    if (bootcpu_supports_isa(ISA_NANOMIPS32)) {
+> +        bl_gen_sw_nm(p, rt, base, offset);
+> +    } else {
+> +        bl_gen_i_type(p, 0x2b, base, rt, offset);
+> +    }
+>   }
+>   
+>   static void bl_gen_sd(void **p, bl_reg rt, uint8_t base, uint16_t offset)
 
 
