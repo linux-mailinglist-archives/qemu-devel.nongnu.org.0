@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1C0649AED
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17504649AF8
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:19:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4ewj-000788-5E; Mon, 12 Dec 2022 04:18:01 -0500
+	id 1p4eyF-0008Cf-2O; Mon, 12 Dec 2022 04:19:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4ewQ-00073X-AK
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:17:49 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ id 1p4ey8-0008B6-0o
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:19:28 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4ewO-0006RG-AB
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:17:41 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id q7so11368632wrr.8
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:17:39 -0800 (PST)
+ id 1p4ey5-0006Yo-Sw
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:19:27 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ c65-20020a1c3544000000b003cfffd00fc0so4567996wma.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:19:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:from:to:cc:subject:date:message-id:reply-to;
- bh=GJVjChcLJxTKlfhC88nS1TPruEEgjC6NzumW+f9vnYw=;
- b=F0jnGTFHia6TCDYItpMnsfsmmJF7k5R2v6TF7hfOA+KlSpXWa7dODBCO5Er6i9u1s5
- nZA9l+Vk8ei2yX57g+vt2X3p+CIb8oORZvYk5xl/RYGLHp0UnLqnBLxERt6TSKIr2u2/
- HgxsVAGJBE9uReFz2jPlvWfKlNwvnJeN1/WRAcrSzaMpu+OOkWn88cwh4+zblqYe9Epj
- AV5KADjSy7c3XtBa/kWW2ZSKgzZZ0F0KGlGYBG8I6oy4wRCZ3Dd8WDlOUo5Q4cq7X3gJ
- e3pZTLp2HaLQdvvmWGxQdc7pmEJjEglIUgfQ/KuMDxFOF+Z0Sx13FdEMMCVpVcFPcUmx
- YEOQ==
+ bh=uaoxRmYCrB465YH25Qhwozf3ZGBHtWY4NXCayLPef0g=;
+ b=V1DW27liOsegRShTOApl1z2Rbo0IgUoopGJUyTdi+Qd9nCIJIEUAlU+JpMrMN++lFW
+ FSQddPRkaVZbZ2rRbB2+MPoPa94LGQMPuNZJvpYpHhUCoRqOoA9fWPaXSCtaPFL87ykt
+ LMkgltGvWYc9EmV2v9qLLCXNachTVrpLoaV9cZWl5mVC7tYdBOFLWSpgHkICoehnLZy7
+ AlFH4DHoQMf4zWxZyBpkwXu3hJDVyWwWKbfWPIj6xcrw8nFVuS2zukCSndIXBhqVY7pG
+ sqTvTXsyTLeZIyqtYyJeMkwrtfPOnHl3/5YN/WthFpZw91o2Ab+HW5eoBGCFk/Iee+bv
+ 5fiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GJVjChcLJxTKlfhC88nS1TPruEEgjC6NzumW+f9vnYw=;
- b=WgJ+82I9liTIQzVKzX4RtfRrPs6FGIP4bP+tuqF+ACKH5NX50DvF+7EfVIhYO7VOwd
- GvGq66B7cseB7p4cuMAezrMHyXDZHyxfi8oxDXVaRopgCqyntu8To2l3WGMNKwxaNMh/
- HI3Bl1NbpUZ11UbWhzM4RJ/17bz4wG+GPXe5C8qxodKVMWh9Q6e+SY3CJCe2o/WcFCEd
- QB5sgE+YO4MWGF995mKyIBovK5gYVt6U7zhbDmz7yc33HhM7tPD2mQ6r+b4/CnPEH3AM
- PhKKOInHPU3mRKW0AjO5Qy7Jcr1pP0lJbFtGjFOZ34C+xXNqXoyexXHUVbSNHf3Oc0fX
- Xicw==
-X-Gm-Message-State: ANoB5pmiksquaLu98aL6fG7Zhys8HNna+J21qHPjwy2WN7vNDvevsmRo
- pTkC3Ko1htr02q6HenKkt9Q=
-X-Google-Smtp-Source: AA0mqf6tD7C0Sz/t7YdovK+NloLtrlgw0dGDLB4jIuiKtFWQoiu0Q6mWlkgfhCh2Ao8P11c2ZN/ErA==
-X-Received: by 2002:adf:e199:0:b0:242:809e:1428 with SMTP id
- az25-20020adfe199000000b00242809e1428mr10633440wrb.5.1670836658094; 
- Mon, 12 Dec 2022 01:17:38 -0800 (PST)
-Received: from [192.168.2.171] (54-240-197-233.amazon.com. [54.240.197.233])
+ bh=uaoxRmYCrB465YH25Qhwozf3ZGBHtWY4NXCayLPef0g=;
+ b=NisIAOVJk4Tw7lghrMusfbNo1+yQ99LHrj5fbj4nGpQk2OeKE3jii0Ez1LxXhOO6fY
+ RKtumDtbheAVIO2KjoOu4D8zOXtdAqhfws4mKOqmi7juJvUJsXqD6d6qxAdrMTghoO6/
+ 1swwe3prShaD98dI12ynkDAQNakkYe5bLzDxaXietG8yyIwsxk2ciIyBopjsnSqYcKjH
+ DLmqRuZhS+HfePUeFP+JV7hZP02NgfGdL+XJzER6lygpFyC3t3BLLcpd2OCWyCgf/JTS
+ uVgFiOqVZS/MAlDEmKHa0tP0YEOtB0Fieclxducz6WhLoaa86bk2kiUMRPIabKPWnOlt
+ TfHg==
+X-Gm-Message-State: ANoB5pkrLrL8o/5pKHdJQ0mrnW79vdVB+/CG9V0XP1daERTrmsh1VaBF
+ jCCxThtq1apZfAO3uQ7cYIs=
+X-Google-Smtp-Source: AA0mqf5oPgduIfcdJOYn5Cg/DEG4Y2D0YhzZXtqkLzF5vPOhxwnAAU2yz66kHT6zTUZhgkCaY20AFQ==
+X-Received: by 2002:a1c:7504:0:b0:3cf:98e5:f72 with SMTP id
+ o4-20020a1c7504000000b003cf98e50f72mr11811052wmc.3.1670836764102; 
+ Mon, 12 Dec 2022 01:19:24 -0800 (PST)
+Received: from [192.168.2.171] (54-240-197-225.amazon.com. [54.240.197.225])
  by smtp.gmail.com with ESMTPSA id
- v15-20020a5d6b0f000000b002366553eca7sm8313894wrw.83.2022.12.12.01.17.37
+ p28-20020a1c545c000000b003a84375d0d1sm8551595wmi.44.2022.12.12.01.19.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 01:17:37 -0800 (PST)
+ Mon, 12 Dec 2022 01:19:23 -0800 (PST)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <d213bd5b-4efd-8de3-c78f-90b74a81e3dc@xen.org>
-Date: Mon, 12 Dec 2022 09:17:33 +0000
+Message-ID: <4639a3eb-fd3f-6498-7cdd-fd2c59f097d0@xen.org>
+Date: Mon, 12 Dec 2022 09:19:19 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 01/22] include: import xen public headers
+Subject: Re: [RFC PATCH v2 02/22] xen: add CONFIG_XENFV_MACHINE and
+ CONFIG_XEN_EMU options for Xen emulation
+Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Joao Martins <joao.m.martins@oracle.com>,
@@ -72,14 +75,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
 References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-2-dwmw2@infradead.org>
-Content-Language: en-US
+ <20221209095612.689243-3-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20221209095612.689243-2-dwmw2@infradead.org>
+In-Reply-To: <20221209095612.689243-3-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,48 +105,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 09/12/2022 09:55, David Woodhouse wrote:
-> From: Joao Martins <joao.m.martins@oracle.com>
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> [dwmw2: Update to Xen public headers from 4.16.2 release]
+> The XEN_EMU option will cover core Xen support in target/, which exists
+> only for x86 with KVM today but could theoretically also be implemented
+> on Arm/Aarch64 and with TCG or other accelerators. It will also cover
+> the support for architecture-independent grant table and event channel
+> support which will be added in hw/xen/.
+> 
+> The XENFV_MACHINE option is for the xenfv platform support, which will
+> now be used both by XEN_EMU and by real Xen.
+> 
+> The XEN option remains dependent on the Xen runtime libraries, and covers
+> support for real Xen. Some code which currently resides under CONFIG_XEN
+> will be moving to CONFIG_XENFV_MACHINE over time.
+> 
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   include/standard-headers/xen/arch-x86/cpuid.h |  118 ++
->   .../xen/arch-x86/xen-x86_32.h                 |  194 +++
->   .../xen/arch-x86/xen-x86_64.h                 |  241 ++++
->   include/standard-headers/xen/arch-x86/xen.h   |  398 +++++++
->   include/standard-headers/xen/event_channel.h  |  388 ++++++
->   include/standard-headers/xen/features.h       |  143 +++
->   include/standard-headers/xen/grant_table.h    |  686 +++++++++++
->   include/standard-headers/xen/hvm/hvm_op.h     |  395 +++++++
->   include/standard-headers/xen/hvm/params.h     |  318 +++++
->   include/standard-headers/xen/memory.h         |  754 ++++++++++++
->   include/standard-headers/xen/physdev.h        |  383 ++++++
->   include/standard-headers/xen/sched.h          |  202 ++++
->   include/standard-headers/xen/trace.h          |  341 ++++++
->   include/standard-headers/xen/vcpu.h           |  248 ++++
->   include/standard-headers/xen/version.h        |  113 ++
->   include/standard-headers/xen/xen-compat.h     |   46 +
->   include/standard-headers/xen/xen.h            | 1049 +++++++++++++++++
->   17 files changed, 6017 insertions(+)
->   create mode 100644 include/standard-headers/xen/arch-x86/cpuid.h
->   create mode 100644 include/standard-headers/xen/arch-x86/xen-x86_32.h
->   create mode 100644 include/standard-headers/xen/arch-x86/xen-x86_64.h
->   create mode 100644 include/standard-headers/xen/arch-x86/xen.h
->   create mode 100644 include/standard-headers/xen/event_channel.h
->   create mode 100644 include/standard-headers/xen/features.h
->   create mode 100644 include/standard-headers/xen/grant_table.h
->   create mode 100644 include/standard-headers/xen/hvm/hvm_op.h
->   create mode 100644 include/standard-headers/xen/hvm/params.h
->   create mode 100644 include/standard-headers/xen/memory.h
->   create mode 100644 include/standard-headers/xen/physdev.h
->   create mode 100644 include/standard-headers/xen/sched.h
->   create mode 100644 include/standard-headers/xen/trace.h
->   create mode 100644 include/standard-headers/xen/vcpu.h
->   create mode 100644 include/standard-headers/xen/version.h
->   create mode 100644 include/standard-headers/xen/xen-compat.h
->   create mode 100644 include/standard-headers/xen/xen.h
+>   accel/Kconfig  | 1 +
+>   hw/Kconfig     | 1 +
+>   hw/xen/Kconfig | 3 +++
+>   meson.build    | 1 +
+>   target/Kconfig | 4 ++++
+>   5 files changed, 10 insertions(+)
+>   create mode 100644 hw/xen/Kconfig
 > 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
+
 
