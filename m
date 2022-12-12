@@ -2,83 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A7F649D3D
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC4E649E05
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:37:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4gjn-00047E-Cj; Mon, 12 Dec 2022 06:12:47 -0500
+	id 1p4h38-0000XM-Ns; Mon, 12 Dec 2022 06:32:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1p4gjc-00045I-5Y
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:12:36 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1p4gja-0006ue-9o
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:12:35 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- z8-20020a17090abd8800b00219ed30ce47so15329304pjr.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 03:12:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Sf0UZ4il3EIhaGajJ2rvWe7Dl58A73/cedFrnuwjG08=;
- b=PRuDDf1HhlHba/vvO3gF3zTNRLe1CS2Rpna8bw2SSZDdP6O2/uegZiqAd6BniD5USO
- 426/Z5udjVctDgUQH+AvutwE8Cchjqs2CDLMA6k0uZPUnw1+pBBuZtP5aoN5/YwBYXol
- x6D3oEoBximzOPTpl5W4qoyaHtDZkAWp1pBQHLR4ssDMAMpNGekmZlBzxWl2WO0iafyr
- bPIcQzyAZ8JdNQ6p/EPoXqVfmIr5VUIBmGlB+ZzV5xM1BdX71cMi0mkGoCQD3vPtsril
- SYhc73DnRoq+7Wla4tOZekVzJtCMUu7hhUd1hNTu9xu3kE0RolaG7AjJJ8ywRS7ht3GL
- fvfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Sf0UZ4il3EIhaGajJ2rvWe7Dl58A73/cedFrnuwjG08=;
- b=hy7TL28PeJplaWAVu35ZS1ug/6jRNXCR5fXLB4stpVSPfjWZ3vouE2j2FQy2z76Igx
- ljG8YmOmqA0EAS6PJdhFzLDtUZmRizfD9xqj33PHTjDRfqjrNtEvuxLTrfOrPeTw2Qfg
- KfDBbe5aYl6E3ROrLKsvoHNDkDGw6e42a2bVyWEoe//PWcphynFeJr2dPTgU3hThlpjh
- KyBmzlE89P3+7BcC9WfeIdwWlD8dTfrt6Uk9xlprnivrgqyy+BwIUbHfmWlX24S1D93h
- hVubvKjR3R57j3ZT5zu/VbfRzIrVHSTSilI2kbsB/Qmtx54GKmbwIFT8eKymaVJDaTuW
- MBRQ==
-X-Gm-Message-State: ANoB5pkGs8Eqnvsf1Gpg8+U+nD7+SYRBsi06JgwAEkwdrU9kJ+h68fJe
- 7/xB6iHWKrFYDNaQW2phgEwU6df/nbXEiI/MP98prw==
-X-Google-Smtp-Source: AA0mqf5MbfgeRYacJ8mUXlp6WHN1olo7vTfYtMPGA76fP+aoX5jf4Du/kZCbBwCrBTNKJn5WrnlR78TR8aeuVEvtnVA=
-X-Received: by 2002:a17:902:e20c:b0:189:a934:ee37 with SMTP id
- u12-20020a170902e20c00b00189a934ee37mr41671013plb.141.1670843552126; Mon, 12
- Dec 2022 03:12:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1p4h2m-0000VP-9p; Mon, 12 Dec 2022 06:32:25 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1p4h2j-0000K0-Vk; Mon, 12 Dec 2022 06:32:24 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id A725F5C00D0;
+ Mon, 12 Dec 2022 06:32:19 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 12 Dec 2022 06:32:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1670844739; x=1670931139; bh=sr
+ T4kPzfysePBbfBv1gvqK5lIVry48ZoP1+PaM6sX9Q=; b=mEUdIC5sZvdGd207Eh
+ E8YrLThXxUQCkEGNJz1TVJmVNJgfbZkEZ580/86KlRfACtBzJrX6SUyy8upi5PLq
+ TcCDgLryHTHNm+4CWjCQZWxFpCnEFsCeevF2rDnr1ouJPk/VDkuumr4kxdkBZCVY
+ eZV+EsI0yF01avGniWufuGaq9x5/NucXXNy7WxyJFiZD4AzqmpHs6XRrYm0jmRhK
+ FY8oL6dWNeaNb/YZzrJ0ogdA93dLjhEOlEDsSH210Tua2ykrtmb7h0Wvl6g7deu0
+ vVDyDI/pNlkFL89C4Z9y18H1V1EAwxdEbvOdjF3cYZYnucQD1n5o7f6lz9fKB/ec
+ 2Kqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1670844739; x=1670931139; bh=srT4kPzfysePB
+ bfBv1gvqK5lIVry48ZoP1+PaM6sX9Q=; b=HFxE0Yc/+QFT23/lEWH2Gnwd06oir
+ CyWxA8Tw9U/cKxX9UKr2yrumWuX2OFuxpY4TFFhzA6vUJkoyhgYzuyd84CuJ3ehb
+ 9/Agl2LWj+PTHH23+vKpZssfUatC9vQon6tmMOdd0ZolXkGj6p92mmqughmGz7Kv
+ IprDSWil5VUKWhdKwQGpxzmYYwrThZ4+B3789bQoxfiBhPxIUKVarmqP7Clj5sEq
+ dMVylqe03qFsDYrOxRXDrIflzzvS2dlj6ZOxQn75kbsvwcORTWWp4C76HuxAYHPT
+ 0rEP53cVmof0H3+5LlFC8l4WIIAR1mpfOprC3tEzbX8fBDzgUI9657awg==
+X-ME-Sender: <xms:QhGXY5XJWA95q9kCGLG00x8pp5ShF7rGLRCuDADEw0IFSgn2j4KvBQ>
+ <xme:QhGXY5nOO6ExAkWyG9bqz1CM4joihQbjSXV-37J-1XU738YYkyn5_-vD0KdjqXoiO
+ LBUFx5f_Bq9BrT7Y7Y>
+X-ME-Received: <xmr:QhGXY1bFgHzUJyWWCeQY1-enGycqSGcnaoUb7n-GhlYnhvzoUi9roLm7znk_s_6CvYouUXU8ONIeh1RDC13AMMkdqeAwHn6MqDqMCw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgddthecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepheetfedtgeekueeltefgudfgtddtleeflefgjefgueeggffgvddvhefhleeuhefh
+ necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:QhGXY8W1SniqoMcIVRDKL2sgg-wiERbHFRBOlPr1v2Be1Rn0ER2Fow>
+ <xmx:QhGXYzkn_vqY-qFm0g7JRx5YifWfhcoDkwJRy8ju1kkghKbmnQAR-A>
+ <xmx:QhGXY5eF5kxSVzzYU2B6l19CmLyaonh5zomoJmihVnhGxhf9o4WL6w>
+ <xmx:QxGXY-tLrI42uO3PFlsmauYlb7SOGz_3WBZApBN81vBmLRiP4ukPBA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 12 Dec 2022 06:32:17 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Jinhao Fan <fanjinhao21s@ict.ac.cn>, Klaus Jensen <its@irrelevant.dk>,
+ Guenter Roeck <linux@roeck-us.net>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH v3 0/4] hw/nvme: fix broken shadow doorbells on some platforms
+Date: Mon, 12 Dec 2022 12:32:11 +0100
+Message-Id: <20221212113215.33135-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221108125703.1463577-1-apatel@ventanamicro.com>
- <20221108125703.1463577-3-apatel@ventanamicro.com>
- <CAKmqyKP+hc4N6Z2AqkQpCmF=oyTE_rf-XfSsTHChwcUWRE5gsg@mail.gmail.com>
- <CAK9=C2Uu1bCcZht+ydiazSmgnkD_hhLetXP4WcA92DypE4m9=A@mail.gmail.com>
- <CAKmqyKPw54F0uVy+7SjoY16o7RYyW6qwLhaYaKR7aNpP4Nz27Q@mail.gmail.com>
-In-Reply-To: <CAKmqyKPw54F0uVy+7SjoY16o7RYyW6qwLhaYaKR7aNpP4Nz27Q@mail.gmail.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Mon, 12 Dec 2022 16:42:20 +0530
-Message-ID: <CAK9=C2V21JcgyUKub1JGVT0DEaeyzJ1GXQYcyaZy4Xv26F5fyA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] target/riscv: Update VS timer whenever htimedelta
- changes
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Atish Patra <atishp@atishpatra.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=apatel@ventanamicro.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1376; i=k.jensen@samsung.com;
+ h=from:subject; bh=tsNqer2jIkbKZlEw8VZ0Q6mKrfj52nCRS5Eceik96aA=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGOXET56RILQ2EEAL2aoRkUAAx5BvfXM8Tz81fVy
+ m/bA7bCHV4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjlxE+AAoJEE3hrzFtTw3pn9
+ 0H/RsxPkVy9SoCi9Es/dJeI1qDjwJ7DnDIGIZdML+1L2dCihPAqO8+o3RSS3TkMvEKQHZYEMfKneKi
+ xsHIrxMrPhRex21sHNXxWt7ob+Lyt/01jSV/IRCKWhKiBuL3e2N51otFZNL8hbe/VZ9NN8ttmNO4gH
+ eirhA7+iG61TgC+W8ZCHQ6f3n3GK0bLL7ZEY1ctdXKI8PAr77laxXex8ogmvc26RE6vKdD7OoPChpZ
+ QhRjgC8MnGHm/3GOlw2JlkEhjde+0oLU+TCzYbXrw3eL+jTpJ8FExh9SIyXSAvC4Oh5kymT4HzZwAh
+ Msz4Aom2dDSNz6Vq2yr+qIY79ErdGRBJiZsKmw
+X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
+ fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,125 +110,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 12, 2022 at 11:23 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Thu, Dec 8, 2022 at 6:41 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> >
-> > On Thu, Dec 8, 2022 at 9:00 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > >
-> > > On Tue, Nov 8, 2022 at 11:07 PM Anup Patel <apatel@ventanamicro.com> wrote:
-> > > >
-> > > > The htimedelta[h] CSR has impact on the VS timer comparison so we
-> > > > should call riscv_timer_write_timecmp() whenever htimedelta changes.
-> > > >
-> > > > Fixes: 3ec0fe18a31f ("target/riscv: Add vstimecmp suppor")
-> > > > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-> > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > >
-> > > This patch breaks my Xvisor test. When running OpenSBI and Xvisor like this:
-> > >
-> > > qemu-system-riscv64 -machine virt \
-> > >     -m 1G -serial mon:stdio -serial null -nographic \
-> > >     -append 'vmm.console=uart@10000000 vmm.bootcmd="vfs mount initrd
-> > > /;vfs run /boot.xscript;vfs cat /system/banner.txt; guest kick guest0;
-> > > vserial bind guest0/uart0"' \
-> > >     -smp 4 -d guest_errors \
-> > >     -bios none \
-> > >     -device loader,file=./images/qemuriscv64/vmm.bin,addr=0x80200000 \
-> > >     -kernel ./images/qemuriscv64/fw_jump.elf \
-> > >     -initrd ./images/qemuriscv64/vmm-disk-linux.img -cpu rv64,h=true
-> > >
-> > > Running:
-> > >
-> > > Xvisor v0.3.0-129-gbc33f339 (Jan  1 1970 00:00:00)
-> > >
-> > > I see this failure:
-> > >
-> > > INIT: bootcmd:  guest kick guest0
-> > >
-> > > guest0: Kicked
-> > >
-> > > INIT: bootcmd:  vserial bind guest0/uart0
-> > >
-> > > [guest0/uart0] cpu_vcpu_stage2_map: guest_phys=0x000000003B9AC000
-> > > size=0x4096 map failed
-> > >
-> > > do_error: CPU3: VCPU=guest0/vcpu0 page fault failed (error -1)
-> > >
-> > >        zero=0x0000000000000000          ra=0x0000000080001B4E
-> > >
-> > >          sp=0x000000008001CF80          gp=0x0000000000000000
-> > >
-> > >          tp=0x0000000000000000          s0=0x000000008001CFB0
-> > >
-> > >          s1=0x0000000000000000          a0=0x0000000010001048
-> > >
-> > >          a1=0x0000000000000000          a2=0x0000000000989680
-> > >
-> > >          a3=0x000000003B9ACA00          a4=0x0000000000000048
-> > >
-> > >          a5=0x0000000000000000          a6=0x0000000000019000
-> > >
-> > >          a7=0x0000000000000000          s2=0x0000000000000000
-> > >
-> > >          s3=0x0000000000000000          s4=0x0000000000000000
-> > >
-> > >          s5=0x0000000000000000          s6=0x0000000000000000
-> > >
-> > >          s7=0x0000000000000000          s8=0x0000000000000000
-> > >
-> > >          s9=0x0000000000000000         s10=0x0000000000000000
-> > >
-> > >         s11=0x0000000000000000          t0=0x0000000000004000
-> > >
-> > >          t1=0x0000000000000100          t2=0x0000000000000000
-> > >
-> > >          t3=0x0000000000000000          t4=0x0000000000000000
-> > >
-> > >          t5=0x0000000000000000          t6=0x0000000000000000
-> > >
-> > >        sepc=0x0000000080001918     sstatus=0x0000000200004120
-> > >
-> > >     hstatus=0x00000002002001C0     sp_exec=0x0000000010A64000
-> > >
-> > >      scause=0x0000000000000017       stval=0x000000003B9ACAF8
-> > >
-> > >       htval=0x000000000EE6B2BE      htinst=0x0000000000D03021
-> > >
-> > > I have tried updating to a newer Xvisor release, but with that I don't
-> > > get any serial output.
-> > >
-> > > Can you help get the Xvisor tests back up and running?
-> >
-> > I tried the latest Xvisor-next (https://github.com/avpatel/xvisor-next)
-> > with your QEMU riscv-to-apply.next branch and it works fine (both
-> > with and without Sstc).
->
-> Does it work with the latest release?
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Yes, the latest Xvisor-next repo works for QEMU v7.2.0-rc4 and
-your riscv-to-apply.next branch (commit 51bb9de2d188)
+Guenter reports that hw/nvme is broken on riscv64[1] and big endian
+platforms[2].
 
-Regards,
-Anup
+This is a regression since 7.1, so this does not warrent an rc5 for 7.2.
+I'm sure Guenter can carry this patch in his tree, and maybe we can get
+this out in a stable release.
 
->
-> Alistair
->
-> >
-> > Here's the QEMU command which I use:
-> >
-> > qemu-system-riscv64 -M virt -m 512M -nographic \
-> > -bios opensbi/build/platform/generic/firmware/fw_jump.bin \
-> > -kernel ../xvisor-next/build/vmm.bin \
-> > -initrd rbd_v64.img \
-> > -append "vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs
-> > cat /system/banner.txt\"" \
-> > -smp 4
-> >
-> > Also, I will be releasing Xvisor-0.3.2 by the end of Dec 2022 so I
-> > suggest using this upcoming release in your test.
-> >
-> > Regards,
-> > Anup
+On riscv, the issue is a missing cq eventidx update. I really wonder why
+this issue only shows up on riscv64. We have not observed this on other
+platforms (yet).
+
+Further, Guenter also reported problems on big-endian platforms. The
+issue here is missing endian conversions which patch 3 addresses. This
+also requires a fix for the Linux kernel that I am posting separately
+(can't link to it, chicken and egg problem).
+
+  [1]: https://lore.kernel.org/qemu-devel/20221207174918.GA1151796@roeck-us.net/
+  [2]: https://lore.kernel.org/qemu-devel/20221209110022.GA3396194@roeck-us.net/
+
+v3:
+ - add patch to fix big-endian platforms
+
+v2:
+ - use QOM accessor (Philippe)
+ - added some cleanup patches in front
+
+Klaus Jensen (4):
+  hw/nvme: use QOM accessors
+  hw/nvme: rename shadow doorbell related trace events
+  hw/nvme: fix missing endian conversions for doorbell buffers
+  hw/nvme: fix missing cq eventidx update
+
+ hw/nvme/ctrl.c       | 121 ++++++++++++++++++++++++++-----------------
+ hw/nvme/trace-events |   8 +--
+ 2 files changed, 78 insertions(+), 51 deletions(-)
+
+-- 
+2.38.1
+
 
