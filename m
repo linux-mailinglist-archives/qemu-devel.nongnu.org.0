@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F63564AB1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 00:07:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F24A64AB2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 00:09:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4rsH-0007I0-CI; Mon, 12 Dec 2022 18:06:17 -0500
+	id 1p4rsN-0007J7-OR; Mon, 12 Dec 2022 18:06:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rsF-0007HU-JV
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:06:15 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rsL-0007Ia-Sv
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:06:21 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rsD-0004NT-Pe
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:06:15 -0500
-Received: by mail-ej1-x635.google.com with SMTP id m18so32179967eji.5
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:06:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rsJ-0004OJ-BL
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:06:21 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id vv4so32222177ejc.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:06:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=a+yLOOTWW5RTMZqFbarXXQFRPj78oIVaFPvsMYq9Uqc=;
- b=fiFCDIm+EKkVAK23HboGpSRrjMsjKykCCZckVXf3RsUXvuUJeT0DysQUybE1XemEZi
- 6m3hyez/T1BmZRTdPCV6PQc5h11TmIwDavybln43tuwJp8gYLTK4bsh8F9cH51x0C9/2
- mvAnYS3jInbwsq8ObVP2lYYosVTOXoRZtRG51wvmef6AMFIcGl+/q3IQt+zsz6C020hQ
- BNm9PFqOsTu4esNp8tSctCVNkjpY44/h21GXlkSQ9HyR026uItjGJ8ugNj6oUd3fDEj5
- wlE/4KTbK/a7aAxaelNR1eT11PSEViNTs2W1zRVd/Zv+8YM791tPDlqmyAi2X2wPCau1
- 1Bkg==
+ bh=u3KQxbigNwbnJFF/mMfcF9eoBZIT7al/IuHf3vRLTZ0=;
+ b=kKokPyOpV2qBsO9BWR5tIVuN8EzG65HxeM1W1RARp5lDUWfwp6sjI2QusU3guuqP5F
+ xkLIBwityHWRgnelFlJIdz441Vsv6bae54CQEy7t1zG0qXWg/ImhJNSWjn3H/VeaaPxA
+ BCJ8ugJdF2bGTPIVegEABvAI05vlLBRmUdpYAleGhZjV/CJMb9B99MlylV8bgwNKDPZ8
+ GQexpeCnNvAPC/9g3LMBiW0/+KY1NFKXc4yttkb34UfSPIE97adD95R4Fh0inW8HfnVT
+ DV2x1W7qcyr4CdPHdjABE3j28LvcmUQa4mVlEFcJJStkeDmqTrsF4+7IVukd8hgZW+5v
+ uzaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=a+yLOOTWW5RTMZqFbarXXQFRPj78oIVaFPvsMYq9Uqc=;
- b=mMoJCQ1BHpuH7N75KGcrqELPmbLlCXVPuhYWxzNuYvnjK1sukpF3Dd8AJD/DsbSRWT
- dLlo/o/iDSiGtTZddfY/mRDLx8tvg/0fTiajXxDqwp8yrO2JLv/0sb6Nd5sIXy7ZGS7R
- o4rHftQwnTHAlW7REnsOoRmIyeTnY5tfn1887VHDi/u86S0O9yjFLFFzw0qlaKbQXh2G
- US+qH5CN6k4wXq6lpEC/C9k4fvnrSDDBZH+A9DOuAPXXcWMvmYTNuInVaG0pi5Vl+XdO
- SVe3jWNbFlOxTwnNsqd2psHWQC40v5CcRkjInCi0iwA+vGv47sII4Iz19qitKyVWyo4C
- dH+A==
-X-Gm-Message-State: ANoB5pkrp8IokE1KpGWhH2s/BPPqyq0otc3kBRtpnpcjo+jFgDpq7A7M
- 8hGsksiq5j/s1pcjvoEd9PJIfCAj4xz8pS09cOs=
-X-Google-Smtp-Source: AA0mqf4QW8+FE8WCSm5LezIob3+dxBcbWQcKocW3fEpy3QWXxQXK7S3O3Ox13OST8umLeTwm9Ujp/Q==
-X-Received: by 2002:a17:906:1805:b0:7b2:7b66:9ed4 with SMTP id
- v5-20020a170906180500b007b27b669ed4mr20604503eje.47.1670886372185; 
- Mon, 12 Dec 2022 15:06:12 -0800 (PST)
+ bh=u3KQxbigNwbnJFF/mMfcF9eoBZIT7al/IuHf3vRLTZ0=;
+ b=LMN4D/MjSnkj9J1FdJigwTLx+KKLatkQEf52Tsiws8OxlkzmvS51vgC7vcCYNV1enZ
+ icmDCvtSl5/h2DhDJSE7xdcymYjaEtXflWpIvkGoG6lYgLgkbDKGKfbQGKALim9sf62o
+ 3ei0dmbRuOKq9h/stiIJPY6/J56NCr77TRpo2c3kgIs2fPFggkjqGE7YNXHsUFzqvX6t
+ RB5+ft195+pY4GyaICMfMcd3b/oTOzwh91ZKM7qAaNOdHjROSi4LD6MaqR7ivdGWDYi5
+ sWch1IqhOJky21ABBjoJRSkc+BWnxVDKh06nOUFp8tTSWi/lBbej92NJNZbs91dZqiSV
+ eN/A==
+X-Gm-Message-State: ANoB5pn6KF14+OWso+Ts4XqhDoan9/par1hQIvqS5JRikBtUnuDRRjSc
+ mLOVYDhGKLdYystupaCzsuTFQXdYIzkY/yqqogM=
+X-Google-Smtp-Source: AA0mqf4RngbzXkgnewJRkJ3bSStLLyUTNkirK9OY5L9amU6VYQpoUkpgbK2bxvP6vAtr0Euh9A9q3Q==
+X-Received: by 2002:a17:906:f1cb:b0:7c1:2529:b25e with SMTP id
+ gx11-20020a170906f1cb00b007c12529b25emr16596600ejb.43.1670886377762; 
+ Mon, 12 Dec 2022 15:06:17 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- h20-20020a170906111400b007c0deb2449fsm3792478eja.82.2022.12.12.15.06.10
+ hb14-20020a170906b88e00b007c10d47e748sm3846903ejb.36.2022.12.12.15.06.16
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 12 Dec 2022 15:06:11 -0800 (PST)
+ Mon, 12 Dec 2022 15:06:17 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
@@ -64,25 +64,25 @@ Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [RFC PATCH-for-8.0 09/10] hw/virtio: Extract
- vhost_user_ram_slots_max() to vhost-user-target.c
-Date: Tue, 13 Dec 2022 00:05:16 +0100
-Message-Id: <20221212230517.28872-10-philmd@linaro.org>
+Subject: [RFC PATCH-for-8.0 10/10] hw/virtio: Make most of virtio devices
+ target-independent
+Date: Tue, 13 Dec 2022 00:05:17 +0100
+Message-Id: <20221212230517.28872-11-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221212230517.28872-1-philmd@linaro.org>
 References: <20221212230517.28872-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,167 +98,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The current definition of VHOST_USER_MAX_RAM_SLOTS is
-target specific. By converting this definition to a runtime
-vhost_user_ram_slots_max() helper declared in a target
-specific unit, we can have the rest of vhost-user.c target
-independent.
-
-To avoid variable length array or using the heap to store
-arrays of vhost_user_ram_slots_max() elements, we simply
-declare an array of the biggest VHOST_USER_MAX_RAM_SLOTS,
-and each target uses up to vhost_user_ram_slots_max()
-elements of it. Ensure arrays are big enough by adding an
-assertion in vhost_user_init().
+Except the following files:
+- virtio-config.c
+- virtio-qmp.c
+- virtio-iommu.c
+- virtio-mem.c
+- vhost-user-target.c
+- vhost-vdpa.c
+all other virtio related files are target independent and
+can be compiled only once for a system emulation build,
+avoiding compiling hundreds of objects.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
-RFC: Should I add VHOST_USER_MAX_RAM_SLOTS to vhost-user.h
-     or create an internal header for it?
+RFC: Cross-built on ppc64le/s390x but not tested there.
 ---
- hw/virtio/meson.build          |  1 +
- hw/virtio/vhost-user-target.c  | 29 +++++++++++++++++++++++++++++
- hw/virtio/vhost-user.c         | 26 +++++---------------------
- include/hw/virtio/vhost-user.h |  7 +++++++
- 4 files changed, 42 insertions(+), 21 deletions(-)
- create mode 100644 hw/virtio/vhost-user-target.c
+ hw/9pfs/meson.build            |  2 +-
+ hw/block/dataplane/meson.build |  2 +-
+ hw/block/meson.build           |  4 ++--
+ hw/char/meson.build            |  2 +-
+ hw/net/meson.build             |  2 +-
+ hw/virtio/meson.build          | 38 +++++++++++++++++-----------------
+ 6 files changed, 25 insertions(+), 25 deletions(-)
 
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
+index 12443b6ad5..ef37532dbf 100644
+--- a/hw/9pfs/meson.build
++++ b/hw/9pfs/meson.build
+@@ -18,4 +18,4 @@ fs_ss.add(when: 'CONFIG_DARWIN', if_true: files('9p-util-darwin.c'))
+ fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
+ softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
+ 
+-specific_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-9p-device.c'))
++softmmu_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-9p-device.c'))
+diff --git a/hw/block/dataplane/meson.build b/hw/block/dataplane/meson.build
+index 12c6a264f1..e2f3721ce2 100644
+--- a/hw/block/dataplane/meson.build
++++ b/hw/block/dataplane/meson.build
+@@ -1,2 +1,2 @@
+-specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
++softmmu_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
+ specific_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
+diff --git a/hw/block/meson.build b/hw/block/meson.build
+index b434d5654c..8a3ca43a5c 100644
+--- a/hw/block/meson.build
++++ b/hw/block/meson.build
+@@ -17,7 +17,7 @@ softmmu_ss.add(when: 'CONFIG_SWIM', if_true: files('swim.c'))
+ softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
+ softmmu_ss.add(when: 'CONFIG_TC58128', if_true: files('tc58128.c'))
+ 
+-specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c', 'virtio-blk-common.c'))
+-specific_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk.c', 'virtio-blk-common.c'))
++softmmu_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c', 'virtio-blk-common.c'))
++softmmu_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk.c', 'virtio-blk-common.c'))
+ 
+ subdir('dataplane')
+diff --git a/hw/char/meson.build b/hw/char/meson.build
+index 7b594f51b8..afd35649cd 100644
+--- a/hw/char/meson.build
++++ b/hw/char/meson.build
+@@ -18,6 +18,7 @@ softmmu_ss.add(when: 'CONFIG_SERIAL_PCI', if_true: files('serial-pci.c'))
+ softmmu_ss.add(when: 'CONFIG_SERIAL_PCI_MULTI', if_true: files('serial-pci-multi.c'))
+ softmmu_ss.add(when: 'CONFIG_SHAKTI_UART', if_true: files('shakti_uart.c'))
+ softmmu_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-console.c'))
++softmmu_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
+ softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen_console.c'))
+ softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_uartlite.c'))
+ 
+@@ -35,7 +36,6 @@ softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_MMUART', if_true: files('mchp_pfsoc_mmua
+ 
+ specific_ss.add(when: 'CONFIG_HTIF', if_true: files('riscv_htif.c'))
+ specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
+-specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
+ specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_vty.c'))
+ 
+ specific_ss.add(when: 'CONFIG_GOLDFISH_TTY', if_true: files('goldfish_tty.c'))
+diff --git a/hw/net/meson.build b/hw/net/meson.build
+index ebac261542..8035aaa560 100644
+--- a/hw/net/meson.build
++++ b/hw/net/meson.build
+@@ -44,7 +44,7 @@ specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_llan.c'))
+ specific_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'))
+ 
+ softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('net_rx_pkt.c'))
+-specific_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net.c'))
++softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net.c'))
+ 
+ if have_vhost_net
+   softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('vhost_net.c'), if_false: files('vhost_net-stub.c'))
 diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index eb7ee8ea92..bf7e35fa8a 100644
+index bf7e35fa8a..23be895c8e 100644
 --- a/hw/virtio/meson.build
 +++ b/hw/virtio/meson.build
-@@ -11,6 +11,7 @@ if have_vhost
-   specific_virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
+@@ -1,38 +1,38 @@
+ softmmu_virtio_ss = ss.source_set()
+-softmmu_virtio_ss.add(files('virtio-bus.c'))
++softmmu_virtio_ss.add(files('virtio.c', 'virtio-bus.c'))
+ softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_PCI', if_true: files('virtio-pci.c'))
+ softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'))
+ 
+ specific_virtio_ss = ss.source_set()
+-specific_virtio_ss.add(files('virtio.c'))
+ specific_virtio_ss.add(files('virtio-config.c', 'virtio-qmp.c'))
++specific_virtio_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu.c'))
++specific_virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
+ 
+ if have_vhost
+-  specific_virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
++  softmmu_virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
    if have_vhost_user
-     specific_virtio_ss.add(files('vhost-user.c'))
-+    specific_virtio_ss.add(files('vhost-user-target.c'))
+-    specific_virtio_ss.add(files('vhost-user.c'))
++    softmmu_virtio_ss.add(files('vhost-user.c'))
+     specific_virtio_ss.add(files('vhost-user-target.c'))
    endif
    if have_vhost_vdpa
-     specific_virtio_ss.add(files('vhost-vdpa.c', 'vhost-shadow-virtqueue.c'))
-diff --git a/hw/virtio/vhost-user-target.c b/hw/virtio/vhost-user-target.c
-new file mode 100644
-index 0000000000..6a0d0f53d0
---- /dev/null
-+++ b/hw/virtio/vhost-user-target.c
-@@ -0,0 +1,29 @@
-+/*
-+ * vhost-user target-specific helpers
-+ *
-+ * Copyright (c) 2013 Virtual Open Systems Sarl.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/virtio/vhost-user.h"
-+
-+#if defined(TARGET_X86) || defined(TARGET_X86_64) || \
-+    defined(TARGET_ARM) || defined(TARGET_ARM_64)
-+#include "hw/acpi/acpi.h"
-+#elif defined(TARGET_PPC) || defined(TARGET_PPC64)
-+#include "hw/ppc/spapr.h"
-+#endif
-+
-+unsigned int vhost_user_ram_slots_max(void)
-+{
-+#if defined(TARGET_X86) || defined(TARGET_X86_64) || \
-+    defined(TARGET_ARM) || defined(TARGET_ARM_64)
-+    return ACPI_MAX_RAM_SLOTS;
-+#elif defined(TARGET_PPC) || defined(TARGET_PPC64)
-+    return SPAPR_MAX_RAM_SLOTS;
-+#else
-+    return 512;
-+#endif
-+}
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 8f635844af..21fc176725 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -41,24 +41,7 @@
- #define VHOST_MEMORY_BASELINE_NREGIONS    8
- #define VHOST_USER_F_PROTOCOL_FEATURES 30
- #define VHOST_USER_SLAVE_MAX_FDS     8
--
--/*
-- * Set maximum number of RAM slots supported to
-- * the maximum number supported by the target
-- * hardware plaform.
-- */
--#if defined(TARGET_X86) || defined(TARGET_X86_64) || \
--    defined(TARGET_ARM) || defined(TARGET_ARM_64)
--#include "hw/acpi/acpi.h"
--#define VHOST_USER_MAX_RAM_SLOTS ACPI_MAX_RAM_SLOTS
--
--#elif defined(TARGET_PPC) || defined(TARGET_PPC64)
--#include "hw/ppc/spapr.h"
--#define VHOST_USER_MAX_RAM_SLOTS SPAPR_MAX_RAM_SLOTS
--
--#else
- #define VHOST_USER_MAX_RAM_SLOTS 512
--#endif
+-    specific_virtio_ss.add(files('vhost-vdpa.c', 'vhost-shadow-virtqueue.c'))
++    specific_virtio_ss.add(files('vhost-vdpa.c'))
++    softmmu_virtio_ss.add(files('vhost-shadow-virtqueue.c'))
+   endif
+ else
+   softmmu_virtio_ss.add(files('vhost-stub.c'))
+ endif
  
- /*
-  * Maximum size of virtio device config space
-@@ -935,7 +918,7 @@ static int vhost_user_add_remove_regions(struct vhost_dev *dev,
+-specific_virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock.c', 'vhost-vsock-common.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock.c', 'vhost-vsock-common.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
+-specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_GPIO', if_true: files('vhost-user-gpio.c'))
+-specific_virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_GPIO'], if_true: files('vhost-user-gpio-pci.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock.c', 'vhost-vsock-common.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock.c', 'vhost-vsock-common.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
++softmmu_virtio_ss.add(when: 'CONFIG_VHOST_USER_GPIO', if_true: files('vhost-user-gpio.c'))
++softmmu_virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_GPIO'], if_true: files('vhost-user-gpio-pci.c'))
  
-     if (track_ramblocks) {
-         memcpy(u->postcopy_client_bases, shadow_pcb,
--               sizeof(uint64_t) * VHOST_USER_MAX_RAM_SLOTS);
-+               sizeof(uint64_t) * vhost_user_ram_slots_max());
-         /*
-          * Now we've registered this with the postcopy code, we ack to the
-          * client, because now we're in the position to be able to deal with
-@@ -956,7 +939,7 @@ static int vhost_user_add_remove_regions(struct vhost_dev *dev,
- err:
-     if (track_ramblocks) {
-         memcpy(u->postcopy_client_bases, shadow_pcb,
--               sizeof(uint64_t) * VHOST_USER_MAX_RAM_SLOTS);
-+               sizeof(uint64_t) * vhost_user_ram_slots_max());
-     }
+ virtio_pci_ss = ss.source_set()
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
+@@ -59,7 +59,7 @@ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem-pci.c'
+ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu-pci.c'))
+ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
  
-     return ret;
-@@ -1030,7 +1013,7 @@ static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
-         }
+-specific_virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
++softmmu_virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
  
-         memset(u->postcopy_client_bases, 0,
--               sizeof(uint64_t) * VHOST_USER_MAX_RAM_SLOTS);
-+               sizeof(uint64_t) * vhost_user_ram_slots_max());
- 
-         /*
-          * They're in the same order as the regions that were sent
-@@ -2169,7 +2152,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
-                 return -EINVAL;
-             }
- 
--            u->user->memory_slots = MIN(ram_slots, VHOST_USER_MAX_RAM_SLOTS);
-+            u->user->memory_slots = MIN(ram_slots, vhost_user_ram_slots_max());
-         }
-     }
- 
-@@ -2649,6 +2632,7 @@ static void vhost_user_state_destroy(gpointer data)
- 
- bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
- {
-+    assert(vhost_user_ram_slots_max() <= VHOST_USER_MAX_RAM_SLOTS);
-     if (user->chr) {
-         error_setg(errp, "Cannot initialize vhost-user state");
-         return false;
-diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
-index 191216a74f..e13584ade8 100644
---- a/include/hw/virtio/vhost-user.h
-+++ b/include/hw/virtio/vhost-user.h
-@@ -86,4 +86,11 @@ void vhost_user_async_close(DeviceState *d,
-                             CharBackend *chardev, struct vhost_dev *vhost,
-                             vu_async_close_fn cb);
- 
-+/**
-+ * vhost_user_ram_slots_max()
-+ *
-+ * Return: maximum number of RAM slots supported by the target hardware plaform.
-+ */
-+unsigned int vhost_user_ram_slots_max(void);
-+
- #endif
+ softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
+ softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
 -- 
 2.38.1
 
