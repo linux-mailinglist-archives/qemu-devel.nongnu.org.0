@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C736649B62
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:42:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B9A649B75
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:52:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4fJf-0001ZJ-4s; Mon, 12 Dec 2022 04:41:43 -0500
+	id 1p4fSO-0004xS-3u; Mon, 12 Dec 2022 04:50:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4fJd-0001Yx-5G
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:41:41 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4fJb-0007Ss-A6
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:41:40 -0500
-Received: by mail-wr1-x429.google.com with SMTP id q7so11433194wrr.8
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:41:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5Qsewi+DCF7zklyg/Jsvv7vPTfaqMDt0yPiH+bSo6XE=;
- b=ZXREA+7MNPpAsxrqK8MT+AzAc6mNu9BsFHTPAvam0zlP+DY1xJxj5nfIVHR3C3uFXB
- 12GRDUK6bDwD4muAp77wz/kzCyVoGGemb+gx66Jdy2c114r4B5fNFbI94rIjKep43EMr
- leYFTFdPoOq54r4v1d28/cQIw0C9/zkYDw4xy6/Ak6fPWklUwLPZJ2DmTYDhpu4nxmSO
- toQ2nl79uurd9r5JcyX4z6WIBvfZDpmELMMax45ZgMEYlJkoCi6MkhK+e5Z31cjGN4dQ
- FJdcaxwolHsjqAqeUMNUQYg/ojESekRrswOpKh56HnSKVFLx2gth2sAZk97JvHWXGMlW
- /KLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5Qsewi+DCF7zklyg/Jsvv7vPTfaqMDt0yPiH+bSo6XE=;
- b=PeDUpyr228fT/blM6x+nwOuj8+Cu3fhcB0IvOHsQA6CJDaBjq6l4FxBpqhMqas9P3u
- mT7UGwHCKCO2iOynYTh56L9jphOcLWOdlrROONQ/dLYyN08Kgy6P0KhW1W2vdWYZzwd+
- Pj6Hwwh5Ba7sm9/OsENKZBcuuRw390rKqTE9qdRwh14hx749WuBqn8NUEVhnxiQ7Sb2X
- IfVi8dvMt66fK6/87brh9tD59+AGcdDGRzHuywLXAxiwn5tBQCdJL/Dip4nQOQWOXCNU
- JHhtPkEgBMweQhdM2UuhBCNGW43uoIjo0y0tbHGAoHIG9ZI4NCS11of4334LPNsnemGY
- p5KQ==
-X-Gm-Message-State: ANoB5plzq9caPy3EYs+Hm3tb5UBP2Y9ngeGTdjXEBJ+175dbwS4T2LTa
- XRpUV/ZU8urLmATwUZOVcS5j9g==
-X-Google-Smtp-Source: AA0mqf7drWs9V77G8KKyOO076U6TUL9YBKaVdEE9HSympXANLp1wmAd3C/tEu3oUAIc12eTfM/iVpA==
-X-Received: by 2002:a5d:4481:0:b0:232:be5a:f580 with SMTP id
- j1-20020a5d4481000000b00232be5af580mr11992907wrq.10.1670838097473; 
- Mon, 12 Dec 2022 01:41:37 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h20-20020adfaa94000000b002367ad808a9sm8378085wrc.30.2022.12.12.01.41.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 01:41:37 -0800 (PST)
-Message-ID: <4bc3f966-63d2-6dcd-bcbb-7f95306c7b3b@linaro.org>
-Date: Mon, 12 Dec 2022 10:41:36 +0100
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1p4fSK-0004x9-U0
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:50:41 -0500
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1p4fSI-0002T4-JK
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:50:40 -0500
+Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id F0BF2405CB
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 09:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1670838628;
+ bh=3UpWA9xrQtFTtJIjXb2Po1zDFVNTDD5n4na2k7BeQx8=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=T0/je5cL5lDmwtRwgPkIic26Vp/HPv7xaZjkevcslcpMsQJFFqNFdTnfkFro1+n8a
+ AE0bY4/qW+HY2ZF1ElFNIs/A/NU+hLbO274B3g5C7lyf+0yHjIJpcJVd6skKTljL0q
+ hNN6qCLh46KGHk2Aa0d5zvUiSqq3xH4Ap+tCQgwNWBt+hJh6o4mjm5drrX5A1MOZrF
+ 3b1ATjMVEidtjQ2qAmUyXitooj7oDwCTbPafud4WIMJUXQ2t9JaHifhqbmbXUGVQUj
+ C2EwP5LPMEaQAcuDXbIJiTiVpUo8lQ6Ji8cbaZfOqlMhxsb+Mhw/fevJ3qEjI0icTT
+ 4ylrEEq68XESQ==
+Received: from
+ juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
+ (localhost [127.0.0.1])
+ by scripts-1.lp.internal (Postfix) with ESMTP id 9BA373F2DD
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 09:50:28 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v1 00/24] vfio-user client
-Content-Language: en-US
-To: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1667542066.git.john.g.johnson@oracle.com>
-Cc: Mark Burton <mburton@qti.qualcomm.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <cover.1667542066.git.john.g.johnson@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 12 Dec 2022 09:43:18 -0000
+From: mohammadreza nasrabadi <1523246@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug-Tags: trim virtio windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jamespharvey20 manouchehri mareza mikemol
+ rustamabd socketpair stefanha th-huth
+X-Launchpad-Bug-Reporter: David Manouchehri (manouchehri)
+X-Launchpad-Bug-Modifier: mohammadreza nasrabadi (mareza)
+References: <20151206150708.14182.82430.malonedeb@wampee.canonical.com>
+Message-Id: <167083819808.2839.3561093072943203202.malone@gac.canonical.com>
+Subject: [Bug 1523246] Re: Virtio-blk does not support TRIM
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c3f9a3a8c5fffd8b8763824e1f305083a4e9705e"; Instance="production"
+X-Launchpad-Hash: bf35b97a1bd029c22b6515848a5a7181bfc0ea75
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,64 +85,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1523246 <1523246@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cc'ing Mark & Edgar.
+On which version of qemu the discard option is supported?
 
-On 9/11/22 00:13, John Johnson wrote:
-> Hello,
-> 
-> This is the 6th revision of the vfio-user client implementation.
-> It is the first patch series (the previous revisions were RFCs)
-> 
-> First of all, thank you for your time reviewing the RFC versions.
-> 
-> The vfio-user framework consists of 3 parts:
->   1) The VFIO user protocol specification.
->   2) A client - the VFIO device in QEMU that encapsulates VFIO messages
->      and sends them to the server.
->   3) A server - a remote process that emulates a device.
-> 
-> This patchset implements parts 1 and 2.
-> 
-> The libvfio-user project (https://github.com/nutanix/libvfio-user)
-> can be used by a remote process to handle the protocol to implement the third part.
-> We also have upstreamed a patch series that implement a server using QEMU.
-> 
-> 
-> Contributors:
-> 
-> John G Johnson <john.g.johnson@oracle.com>
-> John Levon <john.levon@nutanix.com>
-> Thanos Makatos <thanos.makatos@nutanix.com>
-> Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Jagannathan Raman <jag.raman@oracle.com>
-> 
-> John Johnson (23):
->    vfio-user: add VFIO base abstract class
->    vfio-user: add container IO ops vector
->    vfio-user: add region cache
->    vfio-user: add device IO ops vector
->    vfio-user: Define type vfio_user_pci_dev_info
->    vfio-user: connect vfio proxy to remote server
->    vfio-user: define socket receive functions
->    vfio-user: define socket send functions
->    vfio-user: get device info
->    vfio-user: get region info
->    vfio-user: region read/write
->    vfio-user: pci_user_realize PCI setup
->    vfio-user: get and set IRQs
->    vfio-user: forward msix BAR accesses to server
->    vfio-user: proxy container connect/disconnect
->    vfio-user: dma map/unmap operations
->    vfio-user: add dma_unmap_all
->    vfio-user: secure DMA support
->    vfio-user: dma read/write operations
->    vfio-user: pci reset
->    vfio-user: add 'x-msg-timeout' option that specifies msg wait times
->    vfio-user: add coalesced posted writes
->    vfio-user: add trace points
+I have emulated a VM with below qemu options related to disk type:
 
+-drive file=3Ddisk.img,if=3Dnone,id=3Ddisk0,l2-cache-
+size=3D8M,format=3Dqcow2,discard=3Don,detect-zeroes=3Dunmap,aio=3Dio_uring =
+-device
+virtio-blk-pci,drive=3Ddisk0,scsi=3Doff,bootindex=3D2
+
+the disk file on the host side is located on xfs mountpoint on RAID
+level 10 array.
+
+After I downloaded a file with 1GB size on the guest OS, I saw the size
+of the disk file on the host has been increased as well.
+
+But when I delete the downloaded file and issue fstrim --all -v command,
+the disk file on host has not been decreased.
+
+The version of qemu I'm using is 5.2.0
+
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1523246
+
+Title:
+  Virtio-blk does not support TRIM
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  When model=3Dvirtio is used, TRIM is not supported.
+
+  # mount -o discard /dev/vda4 /mnt
+  # mount | tail -1
+  /dev/vda4 on /mnt type fuseblk (rw,nosuid,nodev,relatime,user_id=3D0,grou=
+p_id=3D0,allow_other,blksize=3D4096)
+  # fstrim /mnt/
+  fstrim: /mnt/: the discard operation is not supported
+
+  Booting without model=3Dvirtio allows using TRIM (in Windows as well).
+
+  Full QEMU line:
+
+  qemu-system-x86_64 -enable-kvm -cpu host -bios
+  /usr/share/ovmf/ovmf_x64.bin -smp 2 -m 7G -vga qxl -usbdevice tablet
+  -net nic,model=3Dvirtio -net user -drive discard=3Dunmap,detect-
+  zeroes=3Dunmap,cache=3Dnone,file=3Dvms/win10.hd.img.vmdk,format=3Dvmdk,if=
+=3Dvirtio
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1523246/+subscriptions
 
 
