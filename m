@@ -2,95 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89B964A5EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 18:32:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC9364A607
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 18:35:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4meK-0000cW-Fa; Mon, 12 Dec 2022 12:31:32 -0500
+	id 1p4mhJ-0003Cr-Ni; Mon, 12 Dec 2022 12:34:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4meI-0000c8-8Z
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:31:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4mhH-0003CP-Uv
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:34:35 -0500
+Received: from mout.gmx.net ([212.227.17.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4meG-0005Rq-PV
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:31:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670866288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=42hm0tIAGXaE7XKjkXZdflFmxg7Trs9UGA5GR2ReUlo=;
- b=FIpGOTo6JHU15GsO5JAE/zqrwI50oXNgtY5+MZwtD1PmcFo30PjVwKZM7lMcr3d8UM1O1u
- kAEGjxoHyJq1ojEyL/goVignbIhb3GfwBhInqWL3xDZ4w7LHy9Pcm234pCdb34b8Hf7lKX
- +BDt556bkRBfDHufGAo+HsDBtBsSjlM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-199-wxrvvCzLNE6De22CZGmp8A-1; Mon, 12 Dec 2022 12:31:16 -0500
-X-MC-Unique: wxrvvCzLNE6De22CZGmp8A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r129-20020a1c4487000000b003d153a83d27so3682461wma.0
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 09:31:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=42hm0tIAGXaE7XKjkXZdflFmxg7Trs9UGA5GR2ReUlo=;
- b=7EwBYieJYoqSVpPGo5g8AGQujJKUHFJ9x0SVWoYPBXhtoUmORc/Gv0xnD7ahJ142Ms
- nXJT79gvDpCMD+n9e3c23vpfyRwNZ+Q7R+Lwr9qjWUBz6Xit6sMYyaSJZFMYiqNaWvwR
- ziTBZ+Wf1dpWV/glXLg1OFuTzdDYrWIxqj1mOhVD6B0UleFsRy2KVj231Vch8QyvPuYO
- AdyDUNiBDk/SCT3seThC+kCYtjtEktlfcLXqnZ2r/0Lp3yDXRYB+x8StqUa+B+pHC4Fo
- /LLQa9/QFrxpl5S8K1LKqiVaCyacTSMl3AvZX96CqArvTIrVm3gH7nHRh5Bs1RN4RGtm
- 88SQ==
-X-Gm-Message-State: ANoB5pkvCrdFpoOCiHAkc7ixmu5fLfNI8wwi4f0NnuBhXbDo01hkbG6j
- U6TzGLF7edfwx3VG6YBLg5tWlYfxcDt5gY7nJtDAlevoaIutuecxIVLUqDkvnfYJrRT9vGT1mck
- Nnj52LcUqchBycmw=
-X-Received: by 2002:adf:f1c5:0:b0:242:1f46:fb8c with SMTP id
- z5-20020adff1c5000000b002421f46fb8cmr10706965wro.41.1670866275708; 
- Mon, 12 Dec 2022 09:31:15 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4p6lVyy+Swa6wLjo7tAtkYOTG+6mTyKMPMmIeqmJuUqNlqPzmtAEcB3wGxeu7FbKNpdw5ZVQ==
-X-Received: by 2002:adf:f1c5:0:b0:242:1f46:fb8c with SMTP id
- z5-20020adff1c5000000b002421f46fb8cmr10706953wro.41.1670866275536; 
- Mon, 12 Dec 2022 09:31:15 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- p7-20020adff207000000b002425dc49024sm9424573wro.43.2022.12.12.09.31.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 09:31:15 -0800 (PST)
-Message-ID: <77fe1c70-16f9-d872-f1b7-5c31c8d06534@redhat.com>
-Date: Mon, 12 Dec 2022 18:31:14 +0100
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4mhG-0005tn-7S
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:34:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1670866469; bh=5YFM20v6DzpqIRAHt/qL9cI5Ml3SHGz65BhEgBhfTyw=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=CurWGrHbSi+Lu0cvdhXrCU8VCJcRcSRG/UOl0DhAMjj2989tXIWsxfqgV2y5XaG59
+ ZdL3feur55S3clc4CCJ3Vu1T3l544lbzU4Ci4R1hcN616X9mZ91wNkE0dMorLc+8l2
+ 81YDVTlGk0e+jh16zuqC1MP4b3qUmHcFuLAnG6QKZ8jq4jq2ZGXxvmFSBvEBsMw4sF
+ zpzqtep5zt0dC0EVAgJ1aj8UvcpsuvgueXBKbDqvH3lAY577DqKknNnKPFm/t5MGsu
+ 0aEtW9nxSKMuIMY0YpeFRUZ03IAakQLYSRZCCc7tLkvgVXsdiaNfwxjB3LvMI5j/XI
+ VgFlKvbXyfYvQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100.fritz.box ([92.116.137.92]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MQMyf-1pHesv3dS5-00MKmv; Mon, 12
+ Dec 2022 18:34:28 +0100
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Helge Deller <deller@gmx.de>
+Subject: [PATCH 1/2] linux-user: Implement SOL_ALG encryption support
+Date: Mon, 12 Dec 2022 18:34:15 +0100
+Message-Id: <20221212173416.90590-1-deller@gmx.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 14/15] block: Don't poll in bdrv_replace_child_noperm()
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, eesposit@redhat.com, stefanha@redhat.com,
- hreitz@redhat.com, vsementsov@yandex-team.ru, qemu-devel@nongnu.org
-References: <20221118174110.55183-1-kwolf@redhat.com>
- <20221118174110.55183-15-kwolf@redhat.com>
- <30eec378-779a-26ca-42f3-a7980a647ad7@redhat.com>
- <Y5dPU7CDisZwKYy5@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Y5dPU7CDisZwKYy5@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:qHQeIbpFohxS87vlF437ePmf2RsAn3XrsoOzP/CXeirD4TQq7dH
+ bcYWEGxv6giFixBD9xyecirDlJXN98q+5TFDc0KyMoUo9AxgXf8iClOSC8FXlBHZUoTIqBo
+ 2L9cRCGg0bO5H3iuKXvfrrVdGfb8S0HJw29s3ZU+gjcoX4btnh3AS3FVCV08VixjWuEfz98
+ PY1yK7ja6v8bm00Qxqr8g==
+UI-OutboundReport: notjunk:1;M01:P0:dkufGFSddGc=;grirZ2YKXr1bNIwj5TxN6gmpv2L
+ qh2+38JY7wDNFESJ8WGpgPtr604o377FkyPSOYVCYSVvwGyGLOaRc3pCYGJdAzIKAIl+K5i/g
+ 0EoR7rvLIPtBH1x1paTYgO9bXe6nOY/zoCha1teUx7aiyb2a5LlZ6eBFar/RFyFPd6uF/79us
+ Ztu+08oG1/FFf4BFqa8Ghah5n531X9sotLYaU5ypoHhvLmBEwWghN7QhBHGU7GOPpn/8apVmm
+ OG1MNargAZWiiLQxCvtDPzWBI+uOHlW+t8mjs7AUyEld/PVifVVs16qtXewg2IFIKPHePOFQi
+ cgNZ6AIjpQ7pNc5h5Pj9jrze9LkZMRyrv5WwvMhbtGKHytfiU6iOheYn04wvdUhIV95CKx2Zs
+ d8xcCkJbhEAmWpII5uMFRRb5Byk5cwbR0ZasbI66oXQomakdzcv+B2YehuPXPXuEc1xqbE0Kp
+ njChF+GU9n0FptvuUGKUkaP5SK/6z14FDl9JUEUboYAYh6/AhDBI/YsHc04o9NPbQgNaBPq6F
+ 83V1g/HA8iBaPwrsXWkJOTwAqY2ZQY7RkPXHLC+6WEdH4MHKHM956OFvVhukRK7uDrMTxt1tE
+ dh8aTYBu3aadOYIUXTVdTYy4B0QAwc5/z3kLJikQILMjFyMESSsT4fqWcMkuFfApur0EsY6/7
+ hyIEh3LJO+/f+wtJIWuLXZxG0WLucOJFrKuuLc0xwq+4tn5RC3WeR8Dap7TSZjXovXAuQoyzm
+ jIDwK+cIQoE7b87ceNe0y/mUgsiO5j8J8VGS60fEuQtKqIXUguV5AK4UE5gloPQJ0gAfA7J6P
+ hAefJfpUYbdW+hvTOwUY+R6G1BnhJBIgjFdatLEDBIYcATy4dj38M+jV95ZIyrugpS3ISmwT9
+ gSyD2/825Ap7ZTc1gJK8y3W/WdwCrwOY9GqHgvIuFxiwDAClocMncCrkOPhX0nU3fW2WmbI4v
+ 13SmIbfQ+PDz+6iC7/WyFShr5ck=
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,18 +82,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/22 16:57, Kevin Wolf wrote:
-> I looks to me like this is a problem with the test case rather than the
-> change per se. It seems to be fixed with this patch that is already
-> posted as part of the next series:
-> 
-> [PATCH 09/18] test-bdrv-drain: Fix incorrrect drain assumptions
-> https://lists.gnu.org/archive/html/qemu-block/2022-12/msg00165.html
+Add suport to handle SOL_ALG packets via sendmsg() and recvmsg().
+This allows emulated userspace to use encryption functionality.
 
-Cool, thanks.  I'll retest once the series hits block-next.  In the 
-meanwhile you can ignore the first three patches of 
-http://patchew.org/QEMU/20221212125920.248567-1-pbonzini@redhat.com.
+Tested with the debian ell package with hppa guest on x86_64 host.
 
-Paolo
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+ linux-user/syscall.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 71ae867024..a365903a3a 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -1871,6 +1871,14 @@ static inline abi_long target_to_host_cmsg(struct m=
+sghdr *msgh,
+             __get_user(cred->pid, &target_cred->pid);
+             __get_user(cred->uid, &target_cred->uid);
+             __get_user(cred->gid, &target_cred->gid);
++        } else if (cmsg->cmsg_level =3D=3D SOL_ALG) {
++            uint32_t *dst =3D (uint32_t *)data;
++
++            memcpy(dst, target_data, len);
++            /* fix endianess of first 32-bit word */
++            if (len >=3D sizeof(uint32_t)) {
++                *dst =3D tswap32(*dst);
++            }
+         } else {
+             qemu_log_mask(LOG_UNIMP, "Unsupported ancillary data: %d/%d\n=
+",
+                           cmsg->cmsg_level, cmsg->cmsg_type);
+=2D-
+2.38.1
 
 
