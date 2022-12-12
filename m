@@ -2,73 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF64649A57
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 09:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4238C649A67
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 09:52:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4eTH-0006s5-Hm; Mon, 12 Dec 2022 03:47:35 -0500
+	id 1p4eXQ-0000s7-Ei; Mon, 12 Dec 2022 03:51:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4eT7-0006nY-Aq
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:47:32 -0500
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4eT5-0008Sa-52
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:47:25 -0500
-Received: by mail-lf1-x129.google.com with SMTP id q6so7307384lfm.10
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 00:47:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IPUnMJZFnZ+0CyZaPG5jOGdLyvgLRMYIIDKp+BYVl08=;
- b=oszT6vZqK3PtINQI9jfnA8acnx9CUAynoap4NLQt9qxRwo1zl+EE8usR3pSTvumrG6
- XI3Bpbllx5hlfx9LBi76TCLkQMTkA7yM5T3vRyE/HtGed+qOjkbevTi+eAjnRSh6cQg3
- cLWUdtQnVTrk8XYU4GzxWNtBqh5BL9TbwrXmLWgbvySHMehLsJJ0exia2Ppm8eyvMOgw
- uHFzU0l2Ai6YOkBToFPdQJi/gHzsNtGzK/rclE2xm84wp6h6HcuDxJL/gVytHogEm4aW
- b7DAPmHL4oNLAHHdDfJGowFLTI007rNAL/4zwMMAurwzJc6ImMQQGkrbm5dJXAUlRFZS
- DX+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IPUnMJZFnZ+0CyZaPG5jOGdLyvgLRMYIIDKp+BYVl08=;
- b=ImGunaxFPnTdM3vj1lHvFa8a0Sal65C+2gNrPALFWF+S5O03cPbge0DSktSKlOawN7
- sAXSrwo5nKOC85DTjf+JomyFfkf3vZR5MvpVI+BCnss7UUJbb6H1jhA7UT7OUmCMohT9
- mqDkaiod+OgFFEAIPAAFp8EhUtf+Q/q6p9nenzkfCTCpdkMs1PTPsRGx9Y5CYNb2VC6A
- AoiwUc/DOZbq33Oa6L8DDJNjvELi63H8G63+n57HsGCk/uZFA0FcPOWSVO4ZVVqu07Pr
- Jl8V4jd0EnGapLe56ioJ1ln3u2RlpjKuyGoxQPFJobonwZ0vdOjd0pJXcePIybFHhF5E
- fqqQ==
-X-Gm-Message-State: ANoB5pkLdUFF4ZmJZo9Oee439TWcCJlu7XcHYhH3jnk6votkEPJvbsuL
- KIlpG3CBqSHngfQx5Ba39t8gyrvnG35qgf6wGbY=
-X-Google-Smtp-Source: AA0mqf7pof9A6hxQTI4csJbkz2VTqZDUEVUZQW7RCemPNykE/aZRwcuVbfSKl+6CVp57ZenecuAuvziO9e8pL1GI350=
-X-Received: by 2002:ac2:55b5:0:b0:4b5:b787:623c with SMTP id
- y21-20020ac255b5000000b004b5b787623cmr879840lfg.328.1670834835091; Mon, 12
- Dec 2022 00:47:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p4eX0-0000pD-Uc; Mon, 12 Dec 2022 03:51:28 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p4eWy-0001kJ-L8; Mon, 12 Dec 2022 03:51:26 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BC8aOKo011976; Mon, 12 Dec 2022 08:51:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=JBXjQCImaFukSoxP5Ug682SQ3wmFJA9c+KzwN4XOPhk=;
+ b=rEhtIqRxAswPbvp03OmfGyOMt57PvLr9Ro7qcB7etVXDIVQEyvMPjQF7zIv2Gsuw702P
+ RxJ2ZIJFx1fOu38RAmFo5k/ulroQufP9TRCOmR0tJDFjUN9SU9og3ghyg2OtZstEOpDX
+ d2Y6TjEtRkyNtkzn8Hc3U9rhtHG7NTh6Br4Z08D+GiJZHAm6kWgjZ59MUaqvGIYjtKyp
+ QbfjmZ6ZjQ1pkg8PBAGKHU/wR4RlbFwoaoFa3qYPG3PREeNLgpSrBSRMPlOzbRSJB3c+
+ G6fYbgtohzdXGYt7fqffAktELcv9Y18a4+saH67MmL9bXEir29VNCyFZ/BwN0hjYv/A4 Yw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md3vcbkx5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 08:51:13 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BC8cAXs018684;
+ Mon, 12 Dec 2022 08:51:13 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md3vcbkw6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 08:51:12 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BC6YlKW011845;
+ Mon, 12 Dec 2022 08:51:10 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3mchr61pfc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 08:51:10 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BC8p5FJ44630380
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 08:51:06 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 46A6220040;
+ Mon, 12 Dec 2022 08:51:05 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ABE2F2004B;
+ Mon, 12 Dec 2022 08:51:03 +0000 (GMT)
+Received: from [9.171.10.222] (unknown [9.171.10.222])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Dec 2022 08:51:03 +0000 (GMT)
+Message-ID: <60f006f4-d29e-320a-d656-600b2fd4a11a@linux.ibm.com>
+Date: Mon, 12 Dec 2022 09:51:03 +0100
 MIME-Version: 1.0
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-13-pbonzini@redhat.com>
-In-Reply-To: <20221209112409.184703-13-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 12 Dec 2022 12:47:03 +0400
-Message-ID: <CAJ+F1CLthA-jTHb3RaM_vukeux2tzo95zMRnwKg7-qt07qEOtw@mail.gmail.com>
-Subject: Re: [PATCH 12/30] modinfo: lookup compile_commands.json by object
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v13 0/7] s390x: CPU Topology
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
+ clg@kaod.org
+References: <20221208094432.9732-1-pmorel@linux.ibm.com>
+ <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: m96byv4qYfOJ4DWcQl3AZ1_OUAkeGv3o
+X-Proofpoint-ORIG-GUID: wc42q8Uin9VSo9_oh6lwwk9QZXviYmid
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_01,2022-12-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ phishscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2212120080
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,125 +120,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 9, 2022 at 3:43 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> With Meson 0.63 having fixed various issues with extract_objects, the
-> compile_commands.json lookups can be simplified.  If the lookup uses
-> the object file as key, there is no need to use the command line to
-> distinguish among all entries for a given source.
->
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
-> ---
->  meson.build                | 14 ++++----------
->  scripts/modinfo-collect.py | 23 +++++++++++------------
->  2 files changed, 15 insertions(+), 22 deletions(-)
->
-> diff --git a/meson.build b/meson.build
-> index 9ccbe0f6e4ee..8a9ed5628317 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -3123,16 +3123,11 @@ foreach d, list : modules
->          softmmu_mods +=3D sl
->        endif
->        if module_ss.sources() !=3D []
-> -        # FIXME: Should use sl.extract_all_objects(recursive: true) as
-> -        # input. Sources can be used multiple times but objects are
-> -        # unique when it comes to lookup in compile_commands.json.
-> -        # Depnds on a mesion version with
-> -        # https://github.com/mesonbuild/meson/pull/8900
->          modinfo_files +=3D custom_target(d + '-' + m + '.modinfo',
->                                         output: d + '-' + m + '.modinfo',
-> -                                       input: module_ss.sources() + genh=
-,
-> +                                       input: sl.extract_all_objects(rec=
-ursive: true),
->                                         capture: true,
-> -                                       command: [modinfo_collect, module=
-_ss.sources()])
-> +                                       command: [modinfo_collect, '@INPU=
-T@'])
->        endif
->      else
->        if d =3D=3D 'block'
-> @@ -3165,12 +3160,11 @@ foreach d, list : target_modules
->                                  c_args: c_args,
->                                  pic: true)
->              softmmu_mods +=3D sl
-> -            # FIXME: Should use sl.extract_all_objects(recursive: true) =
-too.
->              modinfo_files +=3D custom_target(module_name + '.modinfo',
->                                             output: module_name + '.modin=
-fo',
-> -                                           input: target_module_ss.sourc=
-es() + genh,
-> +                                           input: sl.extract_all_objects=
-(recursive: true),
->                                             capture: true,
-> -                                           command: [modinfo_collect, '-=
--target', target, target_module_ss.sources()])
-> +                                           command: [modinfo_collect, '-=
--target', target, '@INPUT@'])
->            endif
->          endif
->        endforeach
-> diff --git a/scripts/modinfo-collect.py b/scripts/modinfo-collect.py
-> index 4e7584df6676..48bd92bd6180 100755
-> --- a/scripts/modinfo-collect.py
-> +++ b/scripts/modinfo-collect.py
-> @@ -7,15 +7,6 @@
->  import shlex
->  import subprocess
->
-> -def find_command(src, target, compile_commands):
-> -    for command in compile_commands:
-> -        if command['file'] !=3D src:
-> -            continue
-> -        if target !=3D '' and command['command'].find(target) =3D=3D -1:
-> -            continue
-> -        return command['command']
-> -    return 'false'
-> -
->  def process_command(src, command):
->      skip =3D False
->      out =3D []
-> @@ -43,14 +34,22 @@ def main(args):
->          print("MODINFO_DEBUG target %s" % target)
->          arch =3D target[:-8] # cut '-softmmu'
->          print("MODINFO_START arch \"%s\" MODINFO_END" % arch)
-> +
->      with open('compile_commands.json') as f:
-> -        compile_commands =3D json.load(f)
-> -    for src in args:
-> +        compile_commands_json =3D json.load(f)
-> +    compile_commands =3D { x['output']: x for x in compile_commands_json=
- }
-> +
-> +    for obj in args:
-> +        entry =3D compile_commands.get(obj, None)
-> +        if not entry:
-> +            sys.stderr.print('modinfo: Could not find object file', obj)
-> +            sys.exit(1)
-> +        src =3D entry['file']
->          if not src.endswith('.c'):
->              print("MODINFO_DEBUG skip %s" % src)
->              continue
-> +        command =3D entry['command']
->          print("MODINFO_DEBUG src %s" % src)
-> -        command =3D find_command(src, target, compile_commands)
->          cmdline =3D process_command(src, command)
->          print("MODINFO_DEBUG cmd", cmdline)
->          result =3D subprocess.run(cmdline, stdout =3D subprocess.PIPE,
-> --
-> 2.38.1
->
->
+On 12/9/22 14:32, Thomas Huth wrote:
+> On 08/12/2022 10.44, Pierre Morel wrote:
+>> Hi,
+>>
+>> Implementation discussions
+>> ==========================
+>>
+>> CPU models
+>> ----------
+>>
+>> Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
+>> for old QEMU we could not activate it as usual from KVM but needed
+>> a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
+>> Checking and enabling this capability enables
+>> S390_FEAT_CONFIGURATION_TOPOLOGY.
+>>
+>> Migration
+>> ---------
+>>
+>> Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
+>> host the STFL(11) is provided to the guest.
+>> Since the feature is already in the CPU model of older QEMU,
+>> a migration from a new QEMU enabling the topology to an old QEMU
+>> will keep STFL(11) enabled making the guest get an exception for
+>> illegal operation as soon as it uses the PTF instruction.
+> 
+> I now thought that it is not possible to enable "ctop" on older QEMUs 
+> since the don't enable the KVM capability? ... or is it still somehow 
+> possible? What did I miss?
+> 
+>   Thomas
 
+Enabling ctop with ctop=on on old QEMU is not possible, this is right.
+But, if STFL(11) is enable in the source KVM by a new QEMU, I can see 
+that even with -ctop=off the STFL(11) is migrated to the destination.
 
---=20
-Marc-Andr=C3=A9 Lureau
+It is highly possible that I missed something in the cpu model.
+
+A solution proposed by Cedric was to add a new machine but we did not 
+want this because we decided that we do not want to wait for a new machine.
+
+Another solution could be to have a we can have a new CPU feature 
+overruling ctop like S390_FEAT_CPU_TOPOLOGY in the last series version 12.
+I am not sure it must be linked with the creation of a new machine.
+
+The solution here in this series is to add a VMState which will block 
+the migration with older QEMU if the topology is activated with ctop on 
+a new QEMU.
+
+Regards,
+Pierre
+
+> 
+> 
+>> A VMState keeping track of the S390_FEAT_CONFIGURATION_TOPOLOGY
+>> allows to forbid the migration in such a case.
+>>
+>> Note that the VMState will be used to hold information on the
+>> topology once we implement topology change for a running guest.
+> 
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
