@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E984B649E25
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BB3649E57
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:02:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4hGl-00070Z-J8; Mon, 12 Dec 2022 06:46:51 -0500
+	id 1p4hNs-0002be-OZ; Mon, 12 Dec 2022 06:54:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4hGQ-0006yV-2G
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:46:31 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4hGN-000534-5f
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:46:28 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso4880082wme.5
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 03:46:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=H9bUusv80zjpCwJ8icqDiD5n4RyV6nPKD7KvVR4XEJU=;
- b=wRSfToyCCmS2fzzYHsWccWFEeRoBspAVEbe5d6UR4SKdbL+pQzfnncWIiP+o94Jo7F
- 8Zd6DdzoAYIYS7Ty5TLJiR4uBpwpKeDHPRpbpVSomoV0xBwbVrKQNuNovBn2AZKeUoVl
- BAlQvEK/msjdYYP3niRYHvx1e4/tQEl1nSE0XWQw8nnmR9FfYcZTDQ58NGPxVfCnzwnM
- pOH9xKrs+Z1PyZxhwIF3IPR3HHaYEzVLi8wKGlSbgfIaP99EolJqkcx419q2rLBS+R/t
- opEseoqQXUBaGNb8ZoRh/H1xabYcl2nJpOfEfir2HL/oy8LJbpDZuU6WeDTTINRuR0xV
- C4bA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4hNq-0002bO-Fw
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:54:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4hNo-0005xe-UT
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:54:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670846047;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pgoXeIThR9MrLvc3AjpAFdrRWXs2Zo6NM//oReEfL2Q=;
+ b=Ro5g0gvYHkJux2srDxi/qUUf4fuNh8iEfkypFd2a0yAiHeszaNQsqbpRrpii+veQB20GSU
+ 6Dog2r2eHyKl7hWQhokMooD/+VDZ56xuNxYVeXaS9HCe1FJGbxTKA5230eZAsV6Of3WhgE
+ zP6AtekrUm/E1z2BYnQ+lFhKIIHziSo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-650-8xz_i8XzOGeiJbU8yi8EbQ-1; Mon, 12 Dec 2022 06:54:04 -0500
+X-MC-Unique: 8xz_i8XzOGeiJbU8yi8EbQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c187-20020a1c35c4000000b003cfee3c91cdso3251689wma.6
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 03:54:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H9bUusv80zjpCwJ8icqDiD5n4RyV6nPKD7KvVR4XEJU=;
- b=bwPm24YucHrdle7cYu3MLHSSjxgCuHXq8WIc5ZSJ2E960+K751ZWsjsZRH/bM3+rE8
- LfXsRIAkGEybFcatkplGSSzaOoXYxuMXbIw3YoUmIW4Qyn9y/u+lbBkqnZuM+p5VZHro
- 9XO2g8znhkTTWw9kPxMW40ny3Td0/DlDWc3HkZJIR7aMWP48lMdij+MKUUilwv36lbZu
- 4UagiJOBedVLPHBqhgMk2DMuKNlImtaRb6tO2nt7FAEt5h3hbBYqaQjSfcFwBurhKPW7
- lvQ+OnGmQ4RaTzU7SrzE0Wp8H8uJJAxOIT2Cf4GXjqy2EqVwWeEdD2DvXqT6+mNL5jCo
- Am/Q==
-X-Gm-Message-State: ANoB5pnEHgOojL+4GmqsVi84EXOKp4W0UJZfilZk2qhTxaKWGZr1UsXz
- uTl7C+/yzpUUB8SJqZ0PGkshoSadORhUjqpgd/g=
-X-Google-Smtp-Source: AA0mqf7FD15lWSS/ybUuMMbIvEWO+R/ccPqm0vlsLA6/bXSydkcAztdWLIrM3c6g+ZqlnuIU87u1Sw==
-X-Received: by 2002:a05:600c:600c:b0:3d0:8c7:65dc with SMTP id
- az12-20020a05600c600c00b003d008c765dcmr11786201wmb.0.1670845585817; 
- Mon, 12 Dec 2022 03:46:25 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- g23-20020a05600c4c9700b003cf4ec90938sm8673695wmp.21.2022.12.12.03.46.24
+ bh=pgoXeIThR9MrLvc3AjpAFdrRWXs2Zo6NM//oReEfL2Q=;
+ b=AamALnDG7H3F0kbyFOprQ1cwL+bQEDUG6a6jTm5J9MHeH78TwsJQmxnlFOnh5ov9ds
+ LkZHOspCd0LlyCl4gCuBduqoOfQ7bkGPOWg2kuZmroIgiVb6hswJ8sVz7FIuQDS+rfsq
+ Jbsgi3zS+sWj/RII9hJaG73DlHNKlrZ0FY9FMOFPJUIq6ye3g6geaMATHeM4FnmeOBcj
+ LcprPvOAOvDpoimoq3L1FqzOv6dbSE0Pwo0IJ01L/YoW0qrdOr/Jga5VrHrDz0C7jcUc
+ 4W5XB7le+xqBlvYu1JOJQ2mRlYuuvtzBVUjuFKvSCBMSlRw17UMoA3jrJ1+qpu90Rvgq
+ J0FA==
+X-Gm-Message-State: ANoB5plv7qicjRDixrSwxj0VxPbCa9yve+p1PXsRb7asEt+HVzBdLm4l
+ v26GcDKnGQC5IgQbrLz2+df/ewD8xtwlxn9l0FC1z1XsmenUmuEMZhnTGOh53ono/A/7rWSSD1H
+ mb9Pzz7cYlpiKdFo=
+X-Received: by 2002:adf:ce03:0:b0:242:6583:acc1 with SMTP id
+ p3-20020adfce03000000b002426583acc1mr9777193wrn.57.1670846043183; 
+ Mon, 12 Dec 2022 03:54:03 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4okreIjvkh9Zb6K8pn/eqiPNlqguq3B9E8K3wViY/KFxzIjNszzMmTELeHf40RBXZdTI6DHA==
+X-Received: by 2002:adf:ce03:0:b0:242:6583:acc1 with SMTP id
+ p3-20020adfce03000000b002426583acc1mr9777183wrn.57.1670846042965; 
+ Mon, 12 Dec 2022 03:54:02 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-178-127.web.vodafone.de.
+ [109.43.178.127]) by smtp.gmail.com with ESMTPSA id
+ k10-20020a5d66ca000000b00242257f2672sm8668400wrw.77.2022.12.12.03.54.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 03:46:25 -0800 (PST)
-Message-ID: <b44cbf94-051c-6e3a-9d6e-af60d817e222@linaro.org>
-Date: Mon, 12 Dec 2022 12:46:24 +0100
+ Mon, 12 Dec 2022 03:54:02 -0800 (PST)
+Message-ID: <2de63570-bdfe-d350-b6d8-1ac5048b5b04@redhat.com>
+Date: Mon, 12 Dec 2022 12:54:00 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v1 06/24] vfio-user: Define type vfio_user_pci_dev_info
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/qtest/e1000e-test: De-duplicate constants
 Content-Language: en-US
-To: John Levon <levon@movementarian.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@redhat.com>
-Cc: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1667542066.git.john.g.johnson@oracle.com>
- <957361f0e497e0b95f10a3caf617fe04d9c6fb72.1667542066.git.john.g.johnson@oracle.com>
- <78476e9d-0d40-12e8-075c-ec4ac84aab32@redhat.com>
- <Y5cKhIY/F4/BwORD@movementarian.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y5cKhIY/F4/BwORD@movementarian.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Yan Vugenfirer <yan@daynix.com>
+References: <20221110114426.65951-1-akihiko.odaki@daynix.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221110114426.65951-1-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,31 +102,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/22 12:03, John Levon wrote:
-> On Mon, Dec 12, 2022 at 10:01:33AM +0100, Cédric Le Goater wrote:
+On 10/11/2022 12.44, Akihiko Odaki wrote:
+> De-duplicate constants found in e1000e_send_verify() to avoid mismatch
+> and improve readability.
 > 
->>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->>> index 80b03a2..dc19869 100644
->>> --- a/hw/vfio/pci.c
->>> +++ b/hw/vfio/pci.c
->>> @@ -19,6 +19,7 @@
->>>     */
->>>    #include "qemu/osdep.h"
->>> +#include CONFIG_DEVICES
->>>    #include <linux/vfio.h>
->>>    #include <sys/ioctl.h>
->>> @@ -3421,3 +3422,91 @@ static void register_vfio_pci_dev_type(void)
->>>    }
->>>    type_init(register_vfio_pci_dev_type)
->>> +
->>> +
->>> +#ifdef CONFIG_VFIO_USER_PCI
->>
->> Why not introduce a new file hw/vfio/user.c file ? It would be
->> cleaner.
-> 
-> user.c is in this series, and holds the vfio-user implementation - it's not a
-> PCI specific thing. So it would have to be hw/vfio/user_pci.c or something
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   tests/qtest/e1000e-test.c | 19 +++++++++----------
+>   1 file changed, 9 insertions(+), 10 deletions(-)
 
-Or hw/vfio/pci-user.c
+Thanks, I added e1000e_receive_verify() to the commit description (since 
+you've modified that, too) and added this to my testing-next branch:
+
+  https://gitlab.com/thuth/qemu/-/commits/testing-next/
+
+  Thomas
+
 
