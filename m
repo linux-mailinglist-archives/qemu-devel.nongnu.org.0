@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58B6649F44
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90ED649F43
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:00:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4iPD-0000hJ-2K; Mon, 12 Dec 2022 07:59:39 -0500
+	id 1p4iPN-0000vT-A9; Mon, 12 Dec 2022 07:59:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4iPB-0000g1-FK
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:59:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1p4iPH-0000qi-6q
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:59:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4iP9-0000Yg-Ob
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:59:37 -0500
+ id 1p4iPF-0000Zc-BN
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:59:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670849975;
+ s=mimecast20190719; t=1670849980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7AHE4B+LCR9BTgpv+4FWDIQZFuMe4/pVoEPr5P/DUCA=;
- b=i+fYLJahZv2Qv1wWYrhM0P968GAdCxWaUGlvP/V+NWS5VjIBqDT66VDcof6HbSHTe6XjHW
- SxHRNrQuagtUXZ0lqU4RsNJorZHCT88k0YH/KtRq6jivOA5unY/7J/wUOKdpJ4TE6sgkEh
- 66DpaavWE/lYXnOfzHODCArhNaKLRDI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VbsEJKW9F3PhNnVVdbZPvZl4EDjDR53UnrFcZTkNxbk=;
+ b=aj7CoYR6A41oDQ55UyiNfuwGXNLKHXozxNZYi8HewuKX7BsgZtEZ2J33fhvZEvNdUjIyGz
+ Uy4CtB01KMN9jZq89udQk6HG5bx0pwXCOoMCH3ZyANE/xCI5ZlYlcgkZ/88+Wwir6+r4KW
+ lHQXhrEXDWpwX9MH+5EMxcwCXR5Kuvo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-632-guFTiXTiNHK3Sw3qPaqO8Q-1; Mon, 12 Dec 2022 07:59:33 -0500
-X-MC-Unique: guFTiXTiNHK3Sw3qPaqO8Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h81-20020a1c2154000000b003d1c8e519fbso4139170wmh.2
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:59:33 -0800 (PST)
+ us-mta-209-13RiYR62PN2Utp7arV06aw-1; Mon, 12 Dec 2022 07:59:39 -0500
+X-MC-Unique: 13RiYR62PN2Utp7arV06aw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c187-20020a1c35c4000000b003cfee3c91cdso3323784wma.6
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:59:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7AHE4B+LCR9BTgpv+4FWDIQZFuMe4/pVoEPr5P/DUCA=;
- b=zVdhpXeRbuDDtLpcyFlkHltfRjC+cjUuN4lSKw5gwUjUhxSPvsnX4tirhWOUn2Ehrl
- fU0GDNoDw78JZL8QLNO1HLuRShDSz3kYPfNuiJsWUdUQce14YAGeW9XMZYZQX6gn2UEO
- yklisdIrxhyYrYoXz5SnYv1ytfTLox8tHISokFAvgvTpLgORvjnKUqGvIqpXJhZLPjKh
- h2/ESTtPQEIHMGWRI0bav24jvHN+TuMGXNTwfxTzBk1jIDjEsacMm5a+8Flh7NurtjZj
- gnK3G/tMQEppLBtKXbmW+UOF1W31nB3E39QH4wshUNzSNuciP8O9FygGm//I+YvJQgtD
- hwEA==
-X-Gm-Message-State: ANoB5pkCeWH2uviiWefm83wNQpDTtqQp5JF3F7M9syZMCbHRIL/mBYUB
- 2icHE1+akjmU2Pb4IkpyKKJt3rz0cKn7Dyzlc7P8kT9BRSyUZH3cTrXN/SNsu8lz/yaF9eHmpp5
- kYI3FqfQ74r9KxExMnufohz+9P3pUi4p3ujNok+2X/dAgtWNEEZnCpX37SghNlntikwg=
-X-Received: by 2002:a5d:574f:0:b0:242:5b60:e23c with SMTP id
- q15-20020a5d574f000000b002425b60e23cmr8965785wrw.19.1670849972208; 
- Mon, 12 Dec 2022 04:59:32 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5ioof3TY8/eu2ajKYSR8Fe7Vq6qYhIncjragpAKhaeOmbYFTkwkGlD1inzuBdd2Fgp88EGtA==
-X-Received: by 2002:a5d:574f:0:b0:242:5b60:e23c with SMTP id
- q15-20020a5d574f000000b002425b60e23cmr8965766wrw.19.1670849971875; 
- Mon, 12 Dec 2022 04:59:31 -0800 (PST)
+ bh=VbsEJKW9F3PhNnVVdbZPvZl4EDjDR53UnrFcZTkNxbk=;
+ b=wGYsFWZQju3sFQhSGDiN8szGY9pOzZaQITNKLyTSQQpDfIM0pyGDLz/h1xrAmyS7id
+ qpmeo+g+7bRapyUj3ip0J6rgBRsVVGEHy1m7VR2PnxkY+MkDZJlBez3Rm4RtDFvKYezb
+ NdXcfXqVE8j5Y15gqkIoHnMXAcs4eCrMLeJSUVKN2D/caTyaMhx71rcEzZWD2IHwfSXQ
+ YFk+NjjYkh/9pkJYh4yor020pObNskQZjwWfQE0JssVj+ehbAJDhUl4bT87EHqfh5pea
+ h587Hr1/Isp31GP0aR56bP5AwkVhLNKCDY+PXK5j7xm7Hs4XGtGbjD2F+X3g/pNtavAP
+ wq5g==
+X-Gm-Message-State: ANoB5pnPKJkq/6IlTC8bs+MOX2hxNjKpMjI3Nb94M3Y4UcL4lTQhk9RU
+ HdRoOgO8L7Tgw0JwFW55snxbGP3Tzy8pNjN1q+FanihBcMhkn6rHPXm6cOrhtJb4KDY3tPGhn4r
+ Akub24JgO1WlZGQj/u+b4ZBJ/mcW93yJPvo0Ox0f8M1/5N2iwC9s7uSRkbm9gtU5+6Dg=
+X-Received: by 2002:a05:600c:1c9e:b0:3d2:7a7:5cc6 with SMTP id
+ k30-20020a05600c1c9e00b003d207a75cc6mr10288532wms.18.1670849978084; 
+ Mon, 12 Dec 2022 04:59:38 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4E8DqwvsoJwSrBffwYTWyWfGVeX6dSyCB0WT4qrV1Zb6sxPqpOuig3C55p8/dGdg+YY0+koQ==
+X-Received: by 2002:a05:600c:1c9e:b0:3d2:7a7:5cc6 with SMTP id
+ k30-20020a05600c1c9e00b003d207a75cc6mr10288513wms.18.1670849977760; 
+ Mon, 12 Dec 2022 04:59:37 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- l5-20020a5d6685000000b0024194bba380sm8860338wru.22.2022.12.12.04.59.31
+ w8-20020a5d5448000000b0022584c82c80sm8758395wrv.19.2022.12.12.04.59.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Dec 2022 04:59:31 -0800 (PST)
+ Mon, 12 Dec 2022 04:59:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org,
 	eesposit@redhat.com,
 	kwolf@redhat.com
-Subject: [PATCH 03/15] block: Pull polling out of
- bdrv_parent_drained_begin_single()
-Date: Mon, 12 Dec 2022 13:59:08 +0100
-Message-Id: <20221212125920.248567-4-pbonzini@redhat.com>
+Subject: [PATCH 05/15] tests/unit/test-bdrv-drain.c: graph setup functions
+ can't run in coroutines
+Date: Mon, 12 Dec 2022 13:59:10 +0100
+Message-Id: <20221212125920.248567-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221212125920.248567-1-pbonzini@redhat.com>
 References: <20221212125920.248567-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,138 +102,224 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Only one caller of bdrv_parent_drained_begin_single() passes poll=true;
-move the polling to that one caller.
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-While this requires exposing bdrv_parent_drained_poll_single to outside
-block/io.c, this is not a big deal because the bdrv_parent_drained_*_single
-functions are really internal between block.c and block/io.c.  So make
-that clear while we're at it, by moving them to block_int-io.h.
+Graph initialization functions like blk_new(), bdrv_new() and so on
+should not run in a coroutine. In fact, they might invoke a drain
+(for example blk_insert_bs eventually calls bdrv_replace_child_noperm)
+that in turn can invoke callbacks like bdrv_do_drained_begin_quiesce(),
+that asserts exactly that we are not in a coroutine.
 
-Based on a patch by Kevin Wolf <kwolf@redhat.com>.
+Move the initialization phase of test_drv_cb and test_quiesce_common
+outside the coroutine logic.
 
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-Id: <20220314131854.2202651-9-eesposit@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block.c                      |  4 +++-
- block/io.c                   | 10 +++-------
- include/block/block-io.h     | 15 ---------------
- include/block/block_int-io.h | 21 +++++++++++++++++++++
- 4 files changed, 27 insertions(+), 23 deletions(-)
+ tests/unit/test-bdrv-drain.c | 110 ++++++++++++++++++++++-------------
+ 1 file changed, 69 insertions(+), 41 deletions(-)
 
-diff --git a/block.c b/block.c
-index 2f2123f4a4e5..c542a0a33358 100644
---- a/block.c
-+++ b/block.c
-@@ -2830,7 +2830,9 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
-      */
-     new_bs_quiesce_counter = (new_bs ? new_bs->quiesce_counter : 0);
-     if (new_bs_quiesce_counter && !child->quiesced_parent) {
--        bdrv_parent_drained_begin_single(child, true);
-+        bdrv_parent_drained_begin_single(child);
-+        AIO_WAIT_WHILE(bdrv_child_get_parent_aio_context(child),
-+                       bdrv_parent_drained_poll_single(child));
-     }
- 
-     if (old_bs) {
-diff --git a/block/io.c b/block/io.c
-index 571ff8c6493a..f4444b7777d9 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -53,7 +53,7 @@ static void bdrv_parent_drained_begin(BlockDriverState *bs, BdrvChild *ignore)
-         if (c == ignore) {
-             continue;
-         }
--        bdrv_parent_drained_begin_single(c, false);
-+        bdrv_parent_drained_begin_single(c);
-     }
+diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
+index 3be214f30186..f677f1d9fc25 100644
+--- a/tests/unit/test-bdrv-drain.c
++++ b/tests/unit/test-bdrv-drain.c
+@@ -126,7 +126,8 @@ static void aio_ret_cb(void *opaque, int ret)
  }
  
-@@ -81,7 +81,7 @@ static void bdrv_parent_drained_end(BlockDriverState *bs, BdrvChild *ignore)
-     }
- }
+ typedef struct CallInCoroutineData {
+-    void (*entry)(void);
++    void (*entry)(void *);
++    void *arg;
+     bool done;
+ } CallInCoroutineData;
  
--static bool bdrv_parent_drained_poll_single(BdrvChild *c)
-+bool bdrv_parent_drained_poll_single(BdrvChild *c)
+@@ -134,15 +135,16 @@ static coroutine_fn void call_in_coroutine_entry(void *opaque)
  {
-     if (c->klass->drained_poll) {
-         return c->klass->drained_poll(c);
-@@ -105,9 +105,8 @@ static bool bdrv_parent_drained_poll(BlockDriverState *bs, BdrvChild *ignore,
-     return busy;
+     CallInCoroutineData *data = opaque;
+ 
+-    data->entry();
++    data->entry(data->arg);
+     data->done = true;
  }
  
--void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
-+void bdrv_parent_drained_begin_single(BdrvChild *c)
+-static void call_in_coroutine(void (*entry)(void))
++static void call_in_coroutine(void (*entry)(void *), void *arg)
  {
--    AioContext *ctx = bdrv_child_get_parent_aio_context(c);
-     IO_OR_GS_CODE();
+     Coroutine *co;
+     CallInCoroutineData data = {
+         .entry  = entry,
++        .arg    = arg,
+         .done   = false,
+     };
  
-     assert(!c->quiesced_parent);
-@@ -116,9 +115,6 @@ void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
-     if (c->klass->drained_begin) {
-         c->klass->drained_begin(c);
+@@ -199,26 +201,28 @@ static void do_drain_end_unlocked(enum drain_type drain_type, BlockDriverState *
      }
--    if (poll) {
--        AIO_WAIT_WHILE(ctx, bdrv_parent_drained_poll_single(c));
--    }
  }
  
- static void bdrv_merge_limits(BlockLimits *dst, const BlockLimits *src)
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 0e0cd1249705..10659a3f246c 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -305,21 +305,6 @@ bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
- int co_wrapper_mixed
- bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
+-static void test_drv_cb_common(enum drain_type drain_type, bool recursive)
+-{
++typedef struct TestDriverCBData {
++    enum drain_type drain_type;
++    bool recursive;
+     BlockBackend *blk;
+     BlockDriverState *bs, *backing;
+-    BDRVTestState *s, *backing_s;
++} TestDriverCBData;
++
++static void test_drv_cb_common(void *arg)
++{
++    TestDriverCBData *data = arg;
++    BlockBackend *blk = data->blk;
++    BlockDriverState *bs = data->bs;
++    BlockDriverState *backing = data->backing;
++    enum drain_type drain_type = data->drain_type;
++    bool recursive = data->recursive;
++    BDRVTestState *s = bs->opaque;
++    BDRVTestState *backing_s = backing->opaque;
+     BlockAIOCB *acb;
+     int aio_ret;
  
--/**
-- * bdrv_parent_drained_begin_single:
-- *
-- * Begin a quiesced section for the parent of @c. If @poll is true, wait for
-- * any pending activity to cease.
-- */
--void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll);
--
--/**
-- * bdrv_parent_drained_end_single:
-- *
-- * End a quiesced section for the parent of @c.
-- */
--void bdrv_parent_drained_end_single(BdrvChild *c);
--
- /**
-  * bdrv_drain_poll:
-  *
-diff --git a/include/block/block_int-io.h b/include/block/block_int-io.h
-index 8bc061ebb895..0ced9c025acb 100644
---- a/include/block/block_int-io.h
-+++ b/include/block/block_int-io.h
-@@ -179,4 +179,25 @@ void bdrv_bsc_invalidate_range(BlockDriverState *bs,
-  */
- void bdrv_bsc_fill(BlockDriverState *bs, int64_t offset, int64_t bytes);
+     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, NULL, 0);
  
-+/**
-+ * bdrv_parent_drained_begin_single:
-+ *
-+ * Begin a quiesced section for the parent of @c.
-+ */
-+void bdrv_parent_drained_begin_single(BdrvChild *c);
+-    blk = blk_new(qemu_get_aio_context(), BLK_PERM_ALL, BLK_PERM_ALL);
+-    bs = bdrv_new_open_driver(&bdrv_test, "test-node", BDRV_O_RDWR,
+-                              &error_abort);
+-    s = bs->opaque;
+-    blk_insert_bs(blk, bs, &error_abort);
+-
+-    backing = bdrv_new_open_driver(&bdrv_test, "backing", 0, &error_abort);
+-    backing_s = backing->opaque;
+-    bdrv_set_backing_hd(bs, backing, &error_abort);
+-
+     /* Simple bdrv_drain_all_begin/end pair, check that CBs are called */
+     g_assert_cmpint(s->drain_count, ==, 0);
+     g_assert_cmpint(backing_s->drain_count, ==, 0);
+@@ -252,44 +256,67 @@ static void test_drv_cb_common(enum drain_type drain_type, bool recursive)
+ 
+     g_assert_cmpint(s->drain_count, ==, 0);
+     g_assert_cmpint(backing_s->drain_count, ==, 0);
++}
+ 
+-    bdrv_unref(backing);
+-    bdrv_unref(bs);
+-    blk_unref(blk);
++static void test_common_cb(enum drain_type drain_type, bool in_coroutine,
++                           void (*cb)(void *))
++{
++    TestDriverCBData data;
 +
-+/**
-+ * bdrv_parent_drained_begin_single:
-+ *
-+ * Check whether the parent of @c has quiesced.
-+ */
-+bool bdrv_parent_drained_poll_single(BdrvChild *c);
++    data.drain_type = drain_type;
++    data.recursive = (drain_type != BDRV_DRAIN);
 +
-+/**
-+ * bdrv_parent_drained_end_single:
-+ *
-+ * End a quiesced section for the parent of @c.
-+ */
-+void bdrv_parent_drained_end_single(BdrvChild *c);
++    data.blk = blk_new(qemu_get_aio_context(), BLK_PERM_ALL, BLK_PERM_ALL);
++    data.bs = bdrv_new_open_driver(&bdrv_test, "test-node", BDRV_O_RDWR,
++                              &error_abort);
++    blk_insert_bs(data.blk, data.bs, &error_abort);
 +
- #endif /* BLOCK_INT_IO_H */
++    data.backing = bdrv_new_open_driver(&bdrv_test, "backing", 0, &error_abort);
++    bdrv_set_backing_hd(data.bs, data.backing, &error_abort);
++
++    if (in_coroutine) {
++        call_in_coroutine(cb, &data);
++    } else {
++        cb(&data);
++    }
++
++    bdrv_unref(data.backing);
++    bdrv_unref(data.bs);
++    blk_unref(data.blk);
++}
++
++static void test_drv_cb(enum drain_type drain_type, bool in_coroutine)
++{
++    test_common_cb(drain_type, in_coroutine, test_drv_cb_common);
+ }
+ 
+ static void test_drv_cb_drain_all(void)
+ {
+-    test_drv_cb_common(BDRV_DRAIN_ALL, true);
++    test_drv_cb(BDRV_DRAIN_ALL, false);
+ }
+ 
+ static void test_drv_cb_drain(void)
+ {
+-    test_drv_cb_common(BDRV_DRAIN, false);
++    test_drv_cb(BDRV_DRAIN, false);
+ }
+ 
+ static void test_drv_cb_co_drain_all(void)
+ {
+-    call_in_coroutine(test_drv_cb_drain_all);
++    test_drv_cb(BDRV_DRAIN_ALL, true);
+ }
+ 
+ static void test_drv_cb_co_drain(void)
+ {
+-    call_in_coroutine(test_drv_cb_drain);
++    test_drv_cb(BDRV_DRAIN, true);
+ }
+ 
+-static void test_quiesce_common(enum drain_type drain_type, bool recursive)
++static void test_quiesce_common(void *arg)
+ {
+-    BlockBackend *blk;
+-    BlockDriverState *bs, *backing;
+-
+-    blk = blk_new(qemu_get_aio_context(), BLK_PERM_ALL, BLK_PERM_ALL);
+-    bs = bdrv_new_open_driver(&bdrv_test, "test-node", BDRV_O_RDWR,
+-                              &error_abort);
+-    blk_insert_bs(blk, bs, &error_abort);
+-
+-    backing = bdrv_new_open_driver(&bdrv_test, "backing", 0, &error_abort);
+-    bdrv_set_backing_hd(bs, backing, &error_abort);
++    TestDriverCBData *data = arg;
++    BlockDriverState *bs = data->bs;
++    BlockDriverState *backing = data->backing;
++    enum drain_type drain_type = data->drain_type;
++    bool recursive = data->recursive;
+ 
+     g_assert_cmpint(bs->quiesce_counter, ==, 0);
+     g_assert_cmpint(backing->quiesce_counter, ==, 0);
+@@ -307,30 +334,31 @@ static void test_quiesce_common(enum drain_type drain_type, bool recursive)
+ 
+     g_assert_cmpint(bs->quiesce_counter, ==, 0);
+     g_assert_cmpint(backing->quiesce_counter, ==, 0);
++}
+ 
+-    bdrv_unref(backing);
+-    bdrv_unref(bs);
+-    blk_unref(blk);
++static void test_quiesce(enum drain_type drain_type, bool in_coroutine)
++{
++    test_common_cb(drain_type, in_coroutine, test_quiesce_common);
+ }
+ 
+ static void test_quiesce_drain_all(void)
+ {
+-    test_quiesce_common(BDRV_DRAIN_ALL, true);
++    test_quiesce(BDRV_DRAIN_ALL, false);
+ }
+ 
+ static void test_quiesce_drain(void)
+ {
+-    test_quiesce_common(BDRV_DRAIN, false);
++    test_quiesce(BDRV_DRAIN, false);
+ }
+ 
+ static void test_quiesce_co_drain_all(void)
+ {
+-    call_in_coroutine(test_quiesce_drain_all);
++    test_quiesce(BDRV_DRAIN_ALL, true);
+ }
+ 
+ static void test_quiesce_co_drain(void)
+ {
+-    call_in_coroutine(test_quiesce_drain);
++    test_quiesce(BDRV_DRAIN, true);
+ }
+ 
+ static void test_nested(void)
 -- 
 2.38.1
 
