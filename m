@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679A8649DF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF60649DF0
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:33:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4h3A-0000Zv-Sb; Mon, 12 Dec 2022 06:32:48 -0500
+	id 1p4h3B-0000aZ-3O; Mon, 12 Dec 2022 06:32:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p4h2o-0000Vz-R8; Mon, 12 Dec 2022 06:32:28 -0500
+ id 1p4h2s-0000WX-16; Mon, 12 Dec 2022 06:32:31 -0500
 Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p4h2n-0000Kf-9H; Mon, 12 Dec 2022 06:32:26 -0500
+ id 1p4h2p-0000Kz-MF; Mon, 12 Dec 2022 06:32:29 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 784965C00E2;
- Mon, 12 Dec 2022 06:32:24 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id A04B95C00BC;
+ Mon, 12 Dec 2022 06:32:26 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 12 Dec 2022 06:32:24 -0500
+ by compute4.internal (MEProxy); Mon, 12 Dec 2022 06:32:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1670844744; x=
- 1670931144; bh=ywVj1WQrBqf/jjrsMoCRj00Qgrvf0S9EkuFWlVJfFoQ=; b=S
- exmuQHwZghQ862wrCPwpH4n0buDyGBwsSyoeyVXauatF7clStYZz+LBklZ1CDUem
- 5qqT4mfS19sQgN2JLwyDCG0u8/HBPK0V6wfAuCRVHdyRaRIt14BTJhZqpyPnx5I+
- G5R1mkKUVmlyDTbyj+pAsIJsQfZExBPjtwj9arBdAvwWlvgg8+5p0FgiVBnLnqFg
- qtNK526dKI3C9lwkzumjxi6EweQT+YzqfWNHrYI9dgWtC6UlmPRupIgOT48zrbJ6
- 0i0yOo2nLXwUmF00ondbVRW8lvp5X+Fup8q/PcZEPEP6dmlDu13NsBMAHt+2G31g
- x1SJImUEJ+k4FDqcBYBIw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
+ h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1670844744; x=
- 1670931144; bh=ywVj1WQrBqf/jjrsMoCRj00Qgrvf0S9EkuFWlVJfFoQ=; b=R
- ue+4OLkEJS0Dd2JkgswSBo7me/9UKjLn7foQyNs4aKUwH4caMAwq9u3d4ErNxQj9
- vP0Oa3nFdr/V/IDOBIEE+d2V/nZiB7h4M3hRj4k3QTCflW1fDlIzAP1guuWVYTY7
- YqUeIaGpEkTzYYy3voVhySKTy/8AR2LYNO1jSYkp4z82rt+bsmUOY8FNY0qxqPbT
- Cfh+N/wCSFnoe+46iW7m0YSF5VxkFwGZ19Yxs51IlABc1zdDkR46J/i6BDkbDHD8
- 02f2hmD3U6GbDUmvF3qhYwhK6+IfST3ZiDTtbyX6W5PiHKO93jIOan7rpSJkiEyU
- Gq62QCdvGdTDO0374wRng==
-X-ME-Sender: <xms:RxGXYzDNpwk7IKAiJPPMeU2r9YsfsR2jNaHMnUd_sF9hrzcp359T5A>
- <xme:RxGXY5iZAe_M_hJuU5DScIfpiU3uV4-XO11e-9ktqa3BwCry_CMA57ybnULOH0fZG
- nLZ03AX0Q-g-CJsqdQ>
-X-ME-Received: <xmr:RxGXY-lNLZOG__3Sq2h1NsbTIzEeGdvUR0R7tevR4vjHjEmj7PxFVjseP3zt9f-eYnnwb_QU3HNpQtJql7JXUkDzI2bKTjrLhdExFA>
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1670844746; x=
+ 1670931146; bh=8m1c8E059mbxuZppqTwytxsEXCJIhX1yfXNd1wf97cg=; b=c
+ Sj3+U+IiVzytdqCKIVO749N2GCk0ZGaiT62yJL4F9abiSWstLDbvJ+4AKcnWunmx
+ vL8n981EpLXWbERtrOMCSwMNH6QdGfCKUSOD2tdSDWz75YXR8mE53fwHJCEYe22E
+ kNk5uh04PyfnD/YFkUSudXrrcH6I6Ui9zX+G/WDZ7TzuWx6VEfj/ieabwvSaOVEp
+ 1RNG2rFJyb9SlVi9I5xXG2wpMLCImcOzoeqWI5bNNDdOzLXlqNvEH07TeOImMYD7
+ trS2Et1baPuxOAunoSXsexuO34DyGsmHbadLNLXGwgnjYuK8jcAnLYE2XYQLykwk
+ 6GaWbNv6yAkoPe9chXsVA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1670844746; x=1670931146; bh=8m1c8E059mbxu
+ ZppqTwytxsEXCJIhX1yfXNd1wf97cg=; b=m3dNUdzSFIkPdhrjw/P41LwGx3xHj
+ /tEoAk3rtH4YmIEazdn411qFfxl0yeM+pnsf1Qikd21uYQACKeC85vW2Y/FX5DVF
+ 6qZgPZCMLUl0a8Fl39MwBA1jde3fIO3w8O7uHBYQz02GFaCbPmZ5yX+UKiAaCnFZ
+ FFtiwnZliU5jFEky4hx3AJCwMqV9pQizcBaL9yiCs5GNd25x6I4+hLtUVhTO+/x4
+ +Wo3lrP3sKq1R+wae8IUk+aje67IsVWizJK+Q+g1HMw+kjjRlW+W6rf+7xRbQ8Un
+ AE9lUUM+23Ln5JOTTFsfpqpE+zbPmEJAAH302kJ+l+R1LlZOjxMs45++A==
+X-ME-Sender: <xms:ShGXY_-eo3KzzefOfreBeDhlqsgc7_sOOnULbyA-Vfmj-b9EEbBCmA>
+ <xme:ShGXY7vojc3wQw1aWawBoD73UchKBDHS7SDhIonVgjJqVV4H0f_X07_FV8FYueWeT
+ qwOedOTeZgzf2AosXM>
+X-ME-Received: <xmr:ShGXY9BxSLISjXRuyZZirlEbKBdkKI2BZ0-zluycWRnPMlj7UZ6rKOhlqrR_ugqJjscpawLKAEouNWc_2gbh_Jt_Nzo6UW10QN3C4Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgddthecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepfeevtdeuteeuudffvefggfdtfedtueelfffhieegffekgeefjeefffetjeei
- hfdvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:RxGXY1zu-IPrz4VZIOuxxGmMACu_8HpoeDV2-ONux6sDROwOihDpgQ>
- <xmx:RxGXY4TpN5jJ4bHwkbTivjJY_v4_zhz6c6BiVT91iv0oIJwh2VMVjQ>
- <xmx:RxGXY4ahMUqEVTqtpFcvEZ4I8dEbeiJ_GOvauYpaFw2eZ81iEOwwzg>
- <xmx:SBGXY3HeYmgzHDQpNTptW4BluErJ_3C1NLpez1XGofHhou7MtlAiPw>
+ fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedujedu
+ geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:ShGXY7fBvI9BTwK9aV84-tjWVJXIOZjggEC3ML4VX-zeqD9mTBWglA>
+ <xmx:ShGXY0OpYEwsh_5E3UPlkNIp0pnetO_FrJwFcHEpfm5QY7HQ5ZaUeQ>
+ <xmx:ShGXY9nf5AFoibD_YUUPOxdddh9YhzVB7GyKq-MxcnuzCHdFdbddTg>
+ <xmx:ShGXYwDCwrkofKdR6TQSwpFIU_8bZfWLCT9v1EWrUXTNYl6mp5z5gg>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 12 Dec 2022 06:32:21 -0500 (EST)
+ 12 Dec 2022 06:32:24 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Jinhao Fan <fanjinhao21s@ict.ac.cn>, Klaus Jensen <its@irrelevant.dk>,
  Guenter Roeck <linux@roeck-us.net>, Klaus Jensen <k.jensen@samsung.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 2/4] hw/nvme: rename shadow doorbell related trace events
-Date: Mon, 12 Dec 2022 12:32:13 +0100
-Message-Id: <20221212113215.33135-3-its@irrelevant.dk>
+ qemu-stable@nongnu.org
+Subject: [PATCH v3 3/4] hw/nvme: fix missing endian conversions for doorbell
+ buffers
+Date: Mon, 12 Dec 2022 12:32:14 +0100
+Message-Id: <20221212113215.33135-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221212113215.33135-1-its@irrelevant.dk>
 References: <20221212113215.33135-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4099; i=k.jensen@samsung.com;
- h=from:subject; bh=N2PUz42ZQqJ+DBcFpFxR1tE5k9Erfcus0SAQB1SKFk0=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGOXET4fxaAeV+23kgFTE0fos3Fph08Dj8OCP2/5
- GG/HV3MFnIkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjlxE+AAoJEE3hrzFtTw3p79
- 4IAJ3xIsiuIptot3CTc9tbbwt4WjBe+NRAOJVEwO5U8vC2dTXm1hMk7ZAnteEznBy907jUU0uOZecc
- Y3Hsv/CSQh+BfxVjwUsiq6dQv0J4fyVXY7B+2YyxRg7nOcmHiYTgzGfJOD3E41FSc7N/01tVJqxiTT
- D8QrTiNoDkyzFHTgmHhjm+zjQ+SM+tUIHDESTcofW23iIQcBhLHZqp4JPc22xmlZASPg0OI308/o5x
- 4vXR+mN2YFSl0ix80EIJxselYXqpauJCUgtf4R23DYp74/TIlyyeJOge+vQ3tdrc6ELtCBAjgYzPCb
- UQZYLjgQFBDvgl0oU0PAb+HKeuFQ3O9MjHbKi9
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1319; i=k.jensen@samsung.com;
+ h=from:subject; bh=doT5nRT0xvow8F5EsCaGBtk1nH8Pm4/JHwZAe+CxHQ0=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGOXET8DvQfZOBxT5OOoqNnYGXWAbUHsmCEPgB/2
+ AGxVxn7PKYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjlxE/AAoJEE3hrzFtTw3pNK
+ YH/0S5snsNAwJAErsuEkTuJFX8rC4crDwMKUJehCTJ/fOUA2SOMoO3+32Z/vINn+cTQIFte4EoPD5n
+ rIYSW6M6XsBWd1pnpsXbnQQt1W1c/5yphoiXC0ZPjzGV1crWo/6wuJtWcspymNpX5F2hajwQSAjjjC
+ mRsa5bgFVN0KPjnYmrzkFsHmMCqd5G5ZZAqce43GQDzqb0hr1UDWkupk/t4PtzJ1iMrj8Poe+s15ZO
+ ytOv0NFVlkJKEFIkJmN92jThJnOIXuL9ZkXgf001XwCRE2ZqLqYLY809xk+h/zI5sZ8bTYW+1/M2mc
+ K/3jMMGb3610HzXWnPphCiTSGuQBwOEVP3EaUF
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -116,80 +115,46 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Rename the trace events related to writing the event index and reading
-the doorbell value to make it more clear that the event is associated
-with an actual update (write or read respectively).
+The eventidx and doorbell value are not handling endianness correctly.
+Fix this.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fixes: 3f7fe8de3d49 ("hw/nvme: Implement shadow doorbell buffer support")
+Cc: qemu-stable@nongnu.org
+Reported-by: Guenter Roeck <linux@roeck-us.net>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c       | 11 +++++++----
- hw/nvme/trace-events |  8 ++++----
- 2 files changed, 11 insertions(+), 8 deletions(-)
+ hw/nvme/ctrl.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 6b70c1e39831..cfab21b3436e 100644
+index cfab21b3436e..8af70f0216f0 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -1337,8 +1337,9 @@ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
- static void nvme_update_cq_head(NvmeCQueue *cq)
- {
-     pci_dma_read(PCI_DEVICE(cq->ctrl), cq->db_addr, &cq->head,
--            sizeof(cq->head));
--    trace_pci_nvme_shadow_doorbell_cq(cq->cqid, cq->head);
-+                 sizeof(cq->head));
-+
-+    trace_pci_nvme_update_cq_head(cq->cqid, cq->head);
- }
- 
- static void nvme_post_cqes(void *opaque)
-@@ -6147,16 +6148,18 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+@@ -6148,16 +6148,20 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
  
  static void nvme_update_sq_eventidx(const NvmeSQueue *sq)
  {
-+    trace_pci_nvme_update_sq_eventidx(sq->sqid, sq->tail);
++    uint32_t v = cpu_to_le32(sq->tail);
 +
-     pci_dma_write(PCI_DEVICE(sq->ctrl), sq->ei_addr, &sq->tail,
-                   sizeof(sq->tail));
--    trace_pci_nvme_eventidx_sq(sq->sqid, sq->tail);
+     trace_pci_nvme_update_sq_eventidx(sq->sqid, sq->tail);
+ 
+-    pci_dma_write(PCI_DEVICE(sq->ctrl), sq->ei_addr, &sq->tail,
+-                  sizeof(sq->tail));
++    pci_dma_write(PCI_DEVICE(sq->ctrl), sq->ei_addr, &v, sizeof(v));
  }
  
  static void nvme_update_sq_tail(NvmeSQueue *sq)
  {
-     pci_dma_read(PCI_DEVICE(sq->ctrl), sq->db_addr, &sq->tail,
-                  sizeof(sq->tail));
--    trace_pci_nvme_shadow_doorbell_sq(sq->sqid, sq->tail);
+-    pci_dma_read(PCI_DEVICE(sq->ctrl), sq->db_addr, &sq->tail,
+-                 sizeof(sq->tail));
++    uint32_t v;
 +
-+    trace_pci_nvme_update_sq_tail(sq->sqid, sq->tail);
- }
++    pci_dma_read(PCI_DEVICE(sq->ctrl), sq->db_addr, &v, sizeof(v));
++
++    sq->tail = le32_to_cpu(v);
  
- static void nvme_process_sq(void *opaque)
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index fccb79f48973..b16f2260b4fd 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -84,8 +84,8 @@ pci_nvme_enqueue_event_noqueue(int queued) "queued %d"
- pci_nvme_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
- pci_nvme_no_outstanding_aers(void) "ignoring event; no outstanding AERs"
- pci_nvme_enqueue_req_completion(uint16_t cid, uint16_t cqid, uint32_t dw0, uint32_t dw1, uint16_t status) "cid %"PRIu16" cqid %"PRIu16" dw0 0x%"PRIx32" dw1 0x%"PRIx32" status 0x%"PRIx16""
--pci_nvme_eventidx_cq(uint16_t cqid, uint16_t new_eventidx) "cqid %"PRIu16" new_eventidx %"PRIu16""
--pci_nvme_eventidx_sq(uint16_t sqid, uint16_t new_eventidx) "sqid %"PRIu16" new_eventidx %"PRIu16""
-+pci_nvme_update_cq_eventidx(uint16_t cqid, uint16_t new_eventidx) "cqid %"PRIu16" new_eventidx %"PRIu16""
-+pci_nvme_update_sq_eventidx(uint16_t sqid, uint16_t new_eventidx) "sqid %"PRIu16" new_eventidx %"PRIu16""
- pci_nvme_mmio_read(uint64_t addr, unsigned size) "addr 0x%"PRIx64" size %d"
- pci_nvme_mmio_write(uint64_t addr, uint64_t data, unsigned size) "addr 0x%"PRIx64" data 0x%"PRIx64" size %d"
- pci_nvme_mmio_doorbell_cq(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
-@@ -102,8 +102,8 @@ pci_nvme_mmio_start_success(void) "setting controller enable bit succeeded"
- pci_nvme_mmio_stopped(void) "cleared controller enable bit"
- pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
- pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
--pci_nvme_shadow_doorbell_cq(uint16_t cqid, uint16_t new_shadow_doorbell) "cqid %"PRIu16" new_shadow_doorbell %"PRIu16""
--pci_nvme_shadow_doorbell_sq(uint16_t sqid, uint16_t new_shadow_doorbell) "sqid %"PRIu16" new_shadow_doorbell %"PRIu16""
-+pci_nvme_update_cq_head(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
-+pci_nvme_update_sq_tail(uint16_t sqid, uint16_t new_tail) "sqid %"PRIu16" new_tail %"PRIu16""
- pci_nvme_open_zone(uint64_t slba, uint32_t zone_idx, int all) "open zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_close_zone(uint64_t slba, uint32_t zone_idx, int all) "close zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_finish_zone(uint64_t slba, uint32_t zone_idx, int all) "finish zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
+     trace_pci_nvme_update_sq_tail(sq->sqid, sq->tail);
+ }
 -- 
 2.38.1
 
