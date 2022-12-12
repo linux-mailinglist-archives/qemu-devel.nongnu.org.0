@@ -2,74 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A6CB649AD2
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36BA649AD0
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:13:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4elO-0000Ku-FB; Mon, 12 Dec 2022 04:06:18 -0500
+	id 1p4en0-0001LR-8o; Mon, 12 Dec 2022 04:07:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4elI-0000F5-8e
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:06:15 -0500
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4elF-0003vY-2n
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:06:10 -0500
-Received: by mail-lf1-x136.google.com with SMTP id b13so17468850lfo.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:06:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sbnwi5Y4irZ+7olrSmEjRgVLrFNkVTrJyFImmezumUo=;
- b=brirgBweDyZ5/aKoalzlraYB6zUx6Me2Sezv82KNJOz68znCKbk0N9ANUyx4H9Cjzh
- 0Krh0fm1mFdAb4NFT3qJCHx0mIrNC31MmVksiC72m77Wv1UA4lCAIxQ7HHBq4Hly8Oa1
- tmWYo5M8cKHzFhUatYEmwnH/yC0F1BRm+nj5NGISPHULJgouTjUc4Sj7xyYFFvUecMJp
- bOttIthn1eta3Ou5+68C5wXJ3uBY7COvTQ1/ulKUm149KbXrYjozNNldjykxaebuRGFc
- gUwkLrhjTYP9c0HFZ+mKPix/qJj2LPnpL5EltthGA9ChIJaOr22JgqSu46iDBbyGGF9g
- wJYQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4emo-0001If-BG
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:07:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4emj-0008Do-RY
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:07:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670836060;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0sBPYy4SSrrjZw+jrVOMWp6jQwmm3JH0xQisWa/AP0s=;
+ b=Nf9YrT1B1qVQzukGRJDWlB1wNFhSjbzCgEWl73RP3bJZ7GnfrRketHacgNDAoEcUALKGDe
+ XWdDx33Qo7Napk0+Fi5GUxqDIh/+jzzV/8/ZSBpLAmowjxioS4bUPHWMV/RLDJnx+0SZ2v
+ UXebCmJ4o62OwcGjj39XUV7e2BB/E8Y=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-159-0PjmKi2wNFKL-XXeraWwYg-1; Mon, 12 Dec 2022 04:07:24 -0500
+X-MC-Unique: 0PjmKi2wNFKL-XXeraWwYg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b47-20020a05600c4aaf00b003d031aeb1b6so3872383wmp.9
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:07:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sbnwi5Y4irZ+7olrSmEjRgVLrFNkVTrJyFImmezumUo=;
- b=kI7UhMYEtTfm4xKOiW1lhexRW3hppEjVinG1FEZIJbRQayx9TxzhNOxLH9KpopayFb
- ytMqsZo/tNG2oQ6wtWv54hpEMrd9HPvOQrhfo4lTPW7ZO/ZRZCQKUtrfJOLP5HTro5U3
- riDK0eFZzG9EwhX0G/l254fvdbNgx4lrgIJMOuDeF601N1p5/MqNl7SSmXZiImC+XpHh
- qVFxMyVIm2FIqugxPHDm1WjsDE6m2R41QbvCtOkag5X4exdpXEQGkG9BOyuVWht6JYh/
- 08R3ELy9euvIeBZSeWMO5SgOr62Ip+RPV8rBwWdYw/jQg73xtTmr/LCG84FomVKbbD0y
- Zx/Q==
-X-Gm-Message-State: ANoB5pmoEEMvYT1CUNP1USQ5gzerR197UVZq9YRAEgJvV3VNH9Rb+61W
- NSKqotXm/F/a1Un9wjIrSPkoJBf58AwDaTkrLgEIGV2mC2s=
-X-Google-Smtp-Source: AA0mqf7sdxTT6/tduOysYJv3vs0udTlgGrThyQ5Qu7Np9aLNFWFPL3dB4M4jE5yBMIkvXbgQ0etwmFx/p36EMI5TfDY=
-X-Received: by 2002:ac2:41c6:0:b0:4b0:4b08:6873 with SMTP id
- d6-20020ac241c6000000b004b04b086873mr35173239lfi.329.1670835966214; Mon, 12
- Dec 2022 01:06:06 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0sBPYy4SSrrjZw+jrVOMWp6jQwmm3JH0xQisWa/AP0s=;
+ b=CICu5+ButzVFbYkd9ao3Tzfe2gdPjqM2ctO2DJaBc0eSMiFOgR2PXljTMPZ2VpR2/v
+ lCI5NYj7JgK8As7C+msPRHJu1W8IwbdK6zQSWVo8Q0UgaJnSzeoGFNOpjPU+yFb3VghS
+ mt2U1RPOaPWg0vxyAUfmxBf80Ej/ZSeStoPUvj/z66Z3KRF4V9M5f3gOBBM3dErTYA6f
+ X4lX7LFHS8H5AWJYcGzCppJRYNK2YaYmPZt9xCs4uMyLhEUsQdc1T2fXueJeJ51IY3tY
+ 15/B4oW/v4JhxQOKkxAw5+yBLf9ty0MXcoKN6NmmqbxDLRv4arO27sU5CqqOlFOnuDly
+ ZJ9Q==
+X-Gm-Message-State: ANoB5pn8jHKh/Kkapn+8W4eDVSx9gnNZ2+NxRcCr+2IbJNNmAnjyrpex
+ jlsPGOcraN0XNlRqna+DIWIACBv+EBFTATOhrso/f5r4JA9nFHjXIFj9B95X/VONO9Q2fL9Azw7
+ RfdUzenPDXrBrCog=
+X-Received: by 2002:a1c:6a17:0:b0:3cf:7031:bdcc with SMTP id
+ f23-20020a1c6a17000000b003cf7031bdccmr11708035wmc.11.1670836042944; 
+ Mon, 12 Dec 2022 01:07:22 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7sxv4VwcGxfQEfikpi6mNn4cuetCJzNaAH/YbFwkvO1oDoL/87hj0D7aTF883KxWU5Rv1LFQ==
+X-Received: by 2002:a1c:6a17:0:b0:3cf:7031:bdcc with SMTP id
+ f23-20020a1c6a17000000b003cf7031bdccmr11708010wmc.11.1670836042743; 
+ Mon, 12 Dec 2022 01:07:22 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-178-127.web.vodafone.de.
+ [109.43.178.127]) by smtp.gmail.com with ESMTPSA id
+ f9-20020a05600c154900b003d2157627a8sm9127452wmg.47.2022.12.12.01.07.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 01:07:22 -0800 (PST)
+Message-ID: <864cc127-2dbd-3792-8851-937ef4689503@redhat.com>
+Date: Mon, 12 Dec 2022 10:07:20 +0100
 MIME-Version: 1.0
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-18-pbonzini@redhat.com>
-In-Reply-To: <20221209112409.184703-18-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 12 Dec 2022 13:05:54 +0400
-Message-ID: <CAJ+F1C+uYT9gvKgagufhEnF06ivYcVPRYB6bVUi3yxugQUvrcA@mail.gmail.com>
-Subject: Re: [PATCH 17/30] configure: remove pkg-config functions
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x136.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v13 0/7] s390x: CPU Topology
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20221208094432.9732-1-pmorel@linux.ibm.com>
+ <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
+ <60f006f4-d29e-320a-d656-600b2fd4a11a@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <60f006f4-d29e-320a-d656-600b2fd4a11a@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,92 +106,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 9, 2022 at 3:39 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> All uses of pkg-config have been moved to Meson.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 12/12/2022 09.51, Pierre Morel wrote:
+> 
+> 
+> On 12/9/22 14:32, Thomas Huth wrote:
+>> On 08/12/2022 10.44, Pierre Morel wrote:
+>>> Hi,
+>>>
+>>> Implementation discussions
+>>> ==========================
+>>>
+>>> CPU models
+>>> ----------
+>>>
+>>> Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
+>>> for old QEMU we could not activate it as usual from KVM but needed
+>>> a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
+>>> Checking and enabling this capability enables
+>>> S390_FEAT_CONFIGURATION_TOPOLOGY.
+>>>
+>>> Migration
+>>> ---------
+>>>
+>>> Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
+>>> host the STFL(11) is provided to the guest.
+>>> Since the feature is already in the CPU model of older QEMU,
+>>> a migration from a new QEMU enabling the topology to an old QEMU
+>>> will keep STFL(11) enabled making the guest get an exception for
+>>> illegal operation as soon as it uses the PTF instruction.
+>>
+>> I now thought that it is not possible to enable "ctop" on older QEMUs 
+>> since the don't enable the KVM capability? ... or is it still somehow 
+>> possible? What did I miss?
+>>
+>>   Thomas
+> 
+> Enabling ctop with ctop=on on old QEMU is not possible, this is right.
+> But, if STFL(11) is enable in the source KVM by a new QEMU, I can see that 
+> even with -ctop=off the STFL(11) is migrated to the destination.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Is this with the "host" CPU model or another one? And did you explicitly 
+specify "ctop=off" at the command line, or are you just using the default 
+setting by not specifying it?
 
-> ---
->  configure                   | 19 +++----------------
->  docs/devel/build-system.rst |  4 ----
->  2 files changed, 3 insertions(+), 20 deletions(-)
->
-> diff --git a/configure b/configure
-> index fb28dd3963bd..9c336203d8d9 100755
-> --- a/configure
-> +++ b/configure
-> @@ -365,11 +365,7 @@ smbd=3D"$SMBD"
->  strip=3D"${STRIP-${cross_prefix}strip}"
->  widl=3D"${WIDL-${cross_prefix}widl}"
->  windres=3D"${WINDRES-${cross_prefix}windres}"
-> -pkg_config_exe=3D"${PKG_CONFIG-${cross_prefix}pkg-config}"
-> -query_pkg_config() {
-> -    "${pkg_config_exe}" ${QEMU_PKG_CONFIG_FLAGS} "$@"
-> -}
-> -pkg_config=3Dquery_pkg_config
-> +pkg_config=3D"${PKG_CONFIG-${cross_prefix}pkg-config}"
->  sdl2_config=3D"${SDL2_CONFIG-${cross_prefix}sdl2-config}"
->
->  # default flags for all hosts
-> @@ -745,9 +741,7 @@ for opt do
->    ;;
->    --without-default-features) # processed above
->    ;;
-> -  --static)
-> -    static=3D"yes"
-> -    QEMU_PKG_CONFIG_FLAGS=3D"--static $QEMU_PKG_CONFIG_FLAGS"
-> +  --static) static=3D"yes"
->    ;;
->    --bindir=3D*) bindir=3D"$optarg"
->    ;;
-> @@ -1419,13 +1413,6 @@ EOF
->    fi
->  fi
->
-> -##########################################
-> -# pkg-config probe
-> -
-> -if ! has "$pkg_config_exe"; then
-> -  error_exit "pkg-config binary '$pkg_config_exe' not found"
-> -fi
-> -
->  ##########################################
->  # fdt probe
->
-> @@ -2423,7 +2410,7 @@ if test "$skip_meson" =3D no; then
->    test -n "$objcc" && echo "objc =3D [$(meson_quote $objcc $CPU_CFLAGS)]=
-" >> $cross
->    echo "ar =3D [$(meson_quote $ar)]" >> $cross
->    echo "nm =3D [$(meson_quote $nm)]" >> $cross
-> -  echo "pkgconfig =3D [$(meson_quote $pkg_config_exe)]" >> $cross
-> +  echo "pkgconfig =3D [$(meson_quote $pkg_config)]" >> $cross
->    echo "ranlib =3D [$(meson_quote $ranlib)]" >> $cross
->    if has $sdl2_config; then
->      echo "sdl2-config =3D [$(meson_quote $sdl2_config)]" >> $cross
-> diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-> index 9db18aff159e..66cfe7b8bdc8 100644
-> --- a/docs/devel/build-system.rst
-> +++ b/docs/devel/build-system.rst
-> @@ -103,10 +103,6 @@ developers in checking for system features:
->     Print $MESSAGE to stderr, followed by $MORE... and then exit from the
->     configure script with non-zero status
->
-> -``query_pkg_config $ARGS...``
-> -   Run pkg-config passing it $ARGS. If QEMU is doing a static build,
-> -   then --static will be automatically added to $ARGS
-> -
->
->  Stage 2: Meson
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --
-> 2.38.1
->
->
+  Thomas
 
-
---=20
-Marc-Andr=C3=A9 Lureau
 
