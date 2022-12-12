@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32B064A3B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCFD64A3BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:51:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4k6k-0006Xt-UP; Mon, 12 Dec 2022 09:48:42 -0500
+	id 1p4k90-0008Qk-VA; Mon, 12 Dec 2022 09:51:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p4k6j-0006X5-67
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:48:41 -0500
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p4k6h-0006c4-2q
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:48:40 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id o127so13897368yba.5
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 06:48:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+NCGXCy8cHGedqrgwIj9wHgp5yP6/TmJRn8G8LEkS30=;
- b=jCva7noA2aMthLXg+APh76sBPB7VlIv1py7NLGHqxorNOhOhAbxefOalunYBv26VKH
- vAZBNPGTUfv57nWjA34pRS4cDFFz28wgyd+Pci5o7ZChKcKRTv40fkPUqCNH0Pe+DUe0
- enHoSizVD/bq8XWiAsGiMk67KTXGz2v9E0LoMKtLZRHRCqMTE3aNOJHKre/q0yQMVmLr
- TpQof2QR1gTBHS4+qVS+ynxnnO+Sr1W73AouRxB4yxe4LVcMaK8GpM0Y/zHkNeqjJv7f
- fveiMifgxT8T8WIWHSoZHq6C8+07osj6JSO4VWWVZ3kAPNBvmf3owQR8xQPsWeKTcg3J
- zA9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+NCGXCy8cHGedqrgwIj9wHgp5yP6/TmJRn8G8LEkS30=;
- b=UprjPTpnYo1TcWYnezDpfDasaLlU8BqTx3CPS7ISjeL1JSvurj0DCLwal3Dv0CWE3Z
- 3ve5CyDWoHN1dI1kwrX4+CMSH4peCN9RGT+QTv8oNow7UOZd2lEzxvN2UYhRgo4f7PvQ
- UwU8z+Z6KeAxDByR3jw8PIXNQ0Xg2pbonado8JjZB9UNz+wuiKN8zDkr5a1Czch+nKCn
- duXW5DcZQMLdXfpUVloEdFFHy2AcmXekVa++lVKNUPBTm0QSUI0VL/47A6wtNOrfScyn
- F+mYaRFdRTNMR5ajXXcwDMdlph/kgFSVpdSFlgLRB5psfpqpUWDagGS8U90/5rRU4Pmq
- A46g==
-X-Gm-Message-State: ANoB5pl0ZRQSLhIXO6q8ApexVcar27m1eBgNPqNaVrDN91084md93AOL
- vDPopAJTTye0cM/cFx7KK01FCDgmfPXM6Jx1Vo/NJWN+A+I=
-X-Google-Smtp-Source: AA0mqf5lHnQ119qlJG//MreL9EMhELwXaZgv255vlkludk1aw0ziwvgUpqbMpFSjHizQmAyyTzP1RFzT5axtFk5owRU=
-X-Received: by 2002:a05:6902:4ca:b0:722:bbac:cbd with SMTP id
- v10-20020a05690204ca00b00722bbac0cbdmr472853ybs.207.1670856517633; Mon, 12
- Dec 2022 06:48:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <BATV+5ec29efc44e57fa89795+7050+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p4k8t-0008NA-Gy
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:50:56 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+5ec29efc44e57fa89795+7050+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p4k8k-0007Dx-9V
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:50:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=wBjPeINNpM0j6fPxGso3bTeG/1LiitF0b2zeb9wOji0=; b=qfvRBvWY1aENl3FJuAPsBDmdYp
+ 4LPgzpKmjQ2DC3HJ8VikaW30l9gsBO7pIM87QRFz+W+EXvEsy6sHiYg68NTjEeQvoRC8ZXWT7rtBq
+ CcT2SoT1HMwc2ACqLeZRmBaB3wRNBm8HQoYkoYbBzbB70eMRnfAHwCt7/VOEg7xPgp7iIOzw6wDJD
+ nKpb46/WjtI1WH0qNgS3fZIRp3A4he6EsAUPxmffhEWBHqeEhGiEU8Y4QOEgmREHwbBjcOLqJ3X1B
+ q88yoyR73r5/retInyjShAOmCwEqpuc0RYFb7Uk3w5su1UQwxqJv0TJhhoN2kfZDQLQ4xdV96l0Nw
+ lFYapCPw==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1p4k8o-00B9To-BP; Mon, 12 Dec 2022 14:50:50 +0000
+Message-ID: <9cf1d1166cfafb26853ac4fc2a55ee1e44449b23.camel@infradead.org>
+Subject: Re: [RFC PATCH v2 07/22] pc_piix: handle XEN_EMULATE backend init
+From: David Woodhouse <dwmw2@infradead.org>
+To: Paul Durrant <xadimgnik@gmail.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
+ <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>, 
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>, Alex
+ =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>
+Date: Mon, 12 Dec 2022 14:50:40 +0000
+In-Reply-To: <3f49e738-277b-5a44-4c05-6a7df235dbe0@xen.org>
+References: <20221209095612.689243-1-dwmw2@infradead.org>
+ <20221209095612.689243-8-dwmw2@infradead.org>
+ <3f49e738-277b-5a44-4c05-6a7df235dbe0@xen.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-z45P9UFzm8GLAQoVsPQd"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-References: <20221211104743.27333-1-zhangjiachen.jaycee@bytedance.com>
-In-Reply-To: <20221211104743.27333-1-zhangjiachen.jaycee@bytedance.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 12 Dec 2022 09:48:25 -0500
-Message-ID: <CAJSP0QW2fugP4PPZ=sN4bmPA8HPzQxc=AzPKHe+OUeu++TUKog@mail.gmail.com>
-Subject: Re: [PATCH] virtiofsd: support setting multiple request virtqueues
-To: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, virtio-fs@redhat.com, 
- qemu-devel@nongnu.org, Connor Kuehl <ckuehl@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+5ec29efc44e57fa89795+7050+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,195 +81,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 11 Dec 2022 at 05:49, Jiachen Zhang
-<zhangjiachen.jaycee@bytedance.com> wrote:
->
-> Add an option '-o num_request_queues' to configure the queue number,
-> currently the total number of vqs should be (1 hiprio queue +
-> num_request_queues).
->
-> The code is based on Connor's previous version in the virtio-fs
-> mailing-list [1], but change the semantic of the new option from total
-> queue number to request queue number.
->
-> The corresponding virtio-fs kernel part modification can be found at the
-> mail [2].
->
-> Link:
-> [1] https://www.mail-archive.com/virtio-fs@redhat.com/msg03333.html
-> [2] https://lore.kernel.org/linux-fsdevel/20221211103857.25805-1-zhangjiachen.jaycee@bytedance.com/
-> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Connor Kuehl <ckuehl@redhat.com>
-> Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-> ---
->  tools/virtiofsd/fuse_lowlevel.c  |  4 ++--
->  tools/virtiofsd/fuse_lowlevel.h  |  2 +-
->  tools/virtiofsd/fuse_virtio.c    | 20 +++-----------------
->  tools/virtiofsd/fuse_virtio.h    |  2 +-
->  tools/virtiofsd/helper.c         |  4 ++++
->  tools/virtiofsd/passthrough_ll.c | 12 +++++++++++-
->  6 files changed, 22 insertions(+), 22 deletions(-)
 
-QEMU's C virtiofsd is no longer actively developed. New development
-happens in the Rust https://gitlab.com/virtio-fs/virtiofsd codebase.
-Are you sure you want to continue using C virtiofsd?
+--=-z45P9UFzm8GLAQoVsPQd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index 2f08471627..528492d2cf 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -2708,9 +2708,9 @@ out1:
->      return NULL;
->  }
->
-> -int fuse_session_mount(struct fuse_session *se)
-> +int fuse_session_mount(struct fuse_session *se, unsigned int num_queues)
->  {
-> -    return virtio_session_mount(se);
-> +    return virtio_session_mount(se, num_queues);
->  }
->
->  int fuse_session_fd(struct fuse_session *se)
-> diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-> index b889dae4de..aee02d3e91 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.h
-> +++ b/tools/virtiofsd/fuse_lowlevel.h
-> @@ -1856,7 +1856,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
->   *
->   * @return 0 on success, -1 on failure.
->   **/
-> -int fuse_session_mount(struct fuse_session *se);
-> +int fuse_session_mount(struct fuse_session *se, unsigned int num_queues);
->
->  /**
->   * Enter a single threaded, blocking event loop.
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index 9368e292e4..a3ebcbea8e 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -762,20 +762,6 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
->               started);
->      assert(qidx >= 0);
->
-> -    /*
-> -     * Ignore additional request queues for now.  passthrough_ll.c must be
-> -     * audited for thread-safety issues first.  It was written with a
-> -     * well-behaved client in mind and may not protect against all types of
-> -     * races yet.
-> -     */
-> -    if (qidx > 1) {
-> -        fuse_log(FUSE_LOG_ERR,
-> -                 "%s: multiple request queues not yet implemented, please only "
-> -                 "configure 1 request queue\n",
-> -                 __func__);
-> -        exit(EXIT_FAILURE);
-> -    }
+On Mon, 2022-12-12 at 13:47 +0000, Paul Durrant wrote:
+>=20
+> > @@ -155,6 +156,10 @@ static void pc_init1(MachineState *machine,
+> >                x86ms->above_4g_mem_size =3D 0;
+> >                x86ms->below_4g_mem_size =3D machine->ram_size;
+> >            }
+> > +
+> > +        if (pcms->xen_version && !xen_be_xenstore_open()) {
+>=20
+> So, this is a bit subtle... it's only *because* using real Xen results=
+=20
+> in xen_version being 0 that this is sane? Also does this not mean that=
+=20
+> we are now relying on libxenstore? Shouldn't that be called out in the=
+=20
+> config?
 
-Please include an explanation of why it's safe to drop this now. Have
-the thread-safety issues mentioned in the comment been resolved?
+None of the CONFIG_XENFV_MACHINE code builds right now unless
+CONFIG_XEN is set anyway. We can move code around and use #ifdef
+appropriately once the dust has settled on how the config options are
+going to relate to one another; doing that too soon seemed like
+pointless churn. I know I didn't *quite* do the config options the way
+that Philippe said, so figured it was better to wait until we have
+consensus.
 
-> -
->      if (started) {
->          /* Fire up a thread to watch this queue */
->          if (qidx >= vud->nqueues) {
-> @@ -1011,7 +997,7 @@ static int fv_create_listen_socket(struct fuse_session *se)
->      return 0;
->  }
->
-> -int virtio_session_mount(struct fuse_session *se)
-> +int virtio_session_mount(struct fuse_session *se, unsigned int num_queues)
->  {
->      int ret;
->
-> @@ -1057,8 +1043,8 @@ int virtio_session_mount(struct fuse_session *se)
->      se->vu_socketfd = data_sock;
->      se->virtio_dev->se = se;
->      pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
-> -    if (!vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, NULL,
-> -                 fv_set_watch, fv_remove_watch, &fv_iface)) {
-> +    if (!vu_init(&se->virtio_dev->dev, num_queues, se->vu_socketfd,
-> +                fv_panic, NULL, fv_set_watch, fv_remove_watch, &fv_iface)) {
->          fuse_log(FUSE_LOG_ERR, "%s: vu_init failed\n", __func__);
->          return -1;
->      }
-> diff --git a/tools/virtiofsd/fuse_virtio.h b/tools/virtiofsd/fuse_virtio.h
-> index 111684032c..a0e78b9b84 100644
-> --- a/tools/virtiofsd/fuse_virtio.h
-> +++ b/tools/virtiofsd/fuse_virtio.h
-> @@ -18,7 +18,7 @@
->
->  struct fuse_session;
->
-> -int virtio_session_mount(struct fuse_session *se);
-> +int virtio_session_mount(struct fuse_session *se, unsigned int num_queues);
->  void virtio_session_close(struct fuse_session *se);
->  int virtio_loop(struct fuse_session *se);
->
-> diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-> index f5f66f292c..b5138ce17d 100644
-> --- a/tools/virtiofsd/helper.c
-> +++ b/tools/virtiofsd/helper.c
-> @@ -191,6 +191,10 @@ void fuse_cmdline_help(void)
->             "    -o killpriv_v2/no_killpriv_v2\n"
->             "                               Enable/Disable FUSE_HANDLE_KILLPRIV_V2.\n"
->             "                               (default: enabled as long as client supports it)\n"
-> +           "    -o num_request_queues=<num>\n"
-> +           "                               set maximum number of request virtqueues\n"
-> +           "                               supported by virtiofsd"
-> +           "                               default: 1\n"
->             );
->  }
->
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 20f0f41f99..f9d8075835 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -182,6 +182,7 @@ struct lo_data {
->      /* Keeps track if /proc/<pid>/attr/fscreate should be used or not */
->      bool use_fscreate;
->      int user_security_label;
-> +    int num_request_queues;
->  };
->
->  static const struct fuse_opt lo_opts[] = {
-> @@ -218,6 +219,8 @@ static const struct fuse_opt lo_opts[] = {
->      { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
->      { "security_label", offsetof(struct lo_data, user_security_label), 1 },
->      { "no_security_label", offsetof(struct lo_data, user_security_label), 0 },
-> +    { "num_request_queues=%d",
-> +      offsetof(struct lo_data, num_request_queues), 1 },
->      FUSE_OPT_END
->  };
->  static bool use_syslog = false;
-> @@ -4479,6 +4482,12 @@ int main(int argc, char *argv[])
->
->      lo.use_statx = true;
->
-> +    if (lo.num_request_queues < 1) {
-> +        fuse_log(FUSE_LOG_ERR, "num_request_queues must be at least 1 (got %d)"
-> +                 "\n", lo.num_request_queues);
-> +        exit(1);
-> +    }
-> +
->      se = fuse_session_new(&args, &lo_oper, sizeof(lo_oper), &lo);
->      if (se == NULL) {
->          goto err_out1;
-> @@ -4488,7 +4497,8 @@ int main(int argc, char *argv[])
->          goto err_out2;
->      }
->
-> -    if (fuse_session_mount(se) != 0) {
-> +    /* There will be 1 hirpio queue plus lo.num_request_queues request queues */
+As noted in the cover letter, "For now, we just need to be able to use
+the xenfv machine in order to instantiate the shinfo and evtchn
+objects."
 
-s/hirpio/hiprio/
+So for now I've basically just stuck with what was in the original
+patchset, and this is going to change.
 
-> +    if (fuse_session_mount(se, lo.num_request_queues + 1) != 0) {
->          goto err_out3;
->      }
->
-> --
-> 2.20.1
->
->
+Ideally, I'd like to avoid the external xenstore completely. We could
+have a completely internal implementation which is private to the
+guest. Since this isn't true Xen, the guest has no way of talking to
+anything other than qemu itself, which will play the r=C3=B4le of dom0.
+
+
+--=-z45P9UFzm8GLAQoVsPQd
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjEyMTQ1MDQwWjAvBgkqhkiG9w0BCQQxIgQgceLfM8Mm
+GURJLBo7cQ2NR0nbMMAvKeN9/yeEx4QPAG4wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgARfGRLcE6U7RZdAtNYYVOwxOqpsEk8izxe
+6Bu/C09Pna0YxBIdBF3GRqfPUfgg98qyaxlighQOj9joMCyPX398e31M8Y8TtyiVY60WwDifVaX7
+oFLMg1GX/oi0ds/1cJx6GEQaaqr5czlgK45jqJrJQcyLvqf+8Aq2mRCtp5LlOFYPjPAHg6B1D7gP
+1BUYloS4T12/GaTnCOVWXSxb9n9SBCNpE1NYGczE1/0piV4JKsD+S5L4ebYgYdeTHhT97d1+xRQ3
+mKtgc4qYY1QZYSsl31mFcmkwGhmhzRyFqVGAGAqREb/H3W+Wf7MKqh3hxSkpt5KoipCkmifor8un
+RvMfEoEX34gi/UZQ+lGyqjNDutlWQ/J9QE8/NvqWrPDyfiUR4JQ6/Bg5AA0mDwPm3h48VI8T4XAf
+iKhzUpgkFI3l8BRZ2nBgV1LIHyArlprktjccVcm4JnR8H+cIrU2+I5+jg3rCUoF0NG8JmIJ6R0Rr
+Pjg1T6fHgzPDfmMVybBw8N1IV1W4YFi5PRfd0NrJEnE3jSY0JGBv/Uwydlm6mtTrQELaBIMmyNLL
+x6q5gk4qN6ial2OTyEf4Ot7M/RSEdSEaQxiPVRwDQHFRx4RP2n47Lxh+JXqsrtz3dR8T0KSNq1Z9
+YEPzCDWeweR9PGqX+iKXG8aolABxnkVCwl3SWKNTGAAAAAAAAA==
+
+
+--=-z45P9UFzm8GLAQoVsPQd--
+
 
