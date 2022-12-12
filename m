@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F275649FB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96964649F89
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:11:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4iQN-0001iJ-R5; Mon, 12 Dec 2022 08:00:51 -0500
+	id 1p4iW0-0006Ww-T0; Mon, 12 Dec 2022 08:06:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4iPm-0001NS-CY
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:00:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1p4iVo-0006TB-3f
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:06:29 -0500
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4iPk-0000sy-3y
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:00:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670850011;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Gd/g5oZBc2il3aJRL+xDn5boPt0eOLClpJBG9Q7t/O0=;
- b=GognHn6eeUwd1lt24P8ngE6FdOrMBk3qU/IKFWaWQ7HgApghkpP7KfXRqSHt2qvBoBZSg3
- t1i/W8yaAiIdwwN96NJzWrmDg+ASMg+rD6LPYowBqsAvm4UwER7XpZv3hqpQgrZTCHBz2G
- YbztR7GPpq/v0IZgIXs4syiuwUat898=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-126-nFGcYlG0P2C6539lyW5FEg-1; Mon, 12 Dec 2022 08:00:10 -0500
-X-MC-Unique: nFGcYlG0P2C6539lyW5FEg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c187-20020a1c35c4000000b003cfee3c91cdso3324495wma.6
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:00:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Gd/g5oZBc2il3aJRL+xDn5boPt0eOLClpJBG9Q7t/O0=;
- b=aWbcyk5iYXrsszsCpWOdKjscnSlrm1s90FtY5ZwRkX3G3JGrKBxEpn7GIJK5nISVQn
- v4pRzUPRYgLoLB43++iuI9GXnExBo0pywzWqbWT1K1dmQSNfYiNaCmpDbGrGRUmtqvdV
- 9DxgEqlXG/93PGfrDBVBHNVlw2vRTvL4v6WKfiVDndiQH+Jxau+pwQOhVZP+UCZqREgC
- S6x/IZraYX0d6uS/4qTvQLO8uLT3uWCPb8nnmalQl9h6e1IJytLpmU++6W34Re51nGNp
- SGwhVPz6CrZrXiBGOumrnGNCf3wbLuN8u5z/mOP0cTi5krQ5NDfO7R2lgHczK+k8F8Fv
- B1DQ==
-X-Gm-Message-State: ANoB5pmZe0HAy8w9Yh37beiK0fUld39/ClmFn9R7z28mXPkqBS3HNUzT
- xHOYzeP0nNsgqSybMVJAGgAiOlHAVMVVwE2hasGLyZY70Vsxn7I1TuUoS58eCM1Ed9+yR1nCpf5
- n+DmKABI7HdaS/WxCbUHMucmTslIP7uAzcdYwm4AGkadVmfscLh8yi7iv3z52z520EpU=
-X-Received: by 2002:adf:db01:0:b0:241:c600:39a2 with SMTP id
- s1-20020adfdb01000000b00241c60039a2mr9274210wri.22.1670850008535; 
- Mon, 12 Dec 2022 05:00:08 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7SiG9LHrN5b+W/CeYIQZafBUXBoCS8xXfGOxMhVOCmhkhs87cnElEUqRxMFlKZYU6HNf5hVg==
-X-Received: by 2002:adf:db01:0:b0:241:c600:39a2 with SMTP id
- s1-20020adfdb01000000b00241c60039a2mr9274188wri.22.1670850008147; 
- Mon, 12 Dec 2022 05:00:08 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- l4-20020a5d5604000000b00241ce5d605dsm8837072wrv.110.2022.12.12.05.00.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Dec 2022 05:00:07 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org,
-	eesposit@redhat.com,
-	kwolf@redhat.com
-Subject: [PATCH 15/15] block: only get out of coroutine context for polling
-Date: Mon, 12 Dec 2022 13:59:20 +0100
-Message-Id: <20221212125920.248567-16-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221212125920.248567-1-pbonzini@redhat.com>
-References: <20221212125920.248567-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1p4iVl-0003GO-6b
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:06:27 -0500
+Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 089333FBC0
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 13:06:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1670850361;
+ bh=c7z+KV9Fu4SgXJCnCCn0gQWZW4BqXd9TG8z4dU4SQmc=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=Ou8CPrG3A5biLa4z/hx4XuReWHTzoDOCjJRKBpyLpFyIJE3me/xA3Nw0R1FE1o1e6
+ l145/phQsBCyIJqX5FX5eDV9rhrQJQJPltOT5ERR8G62OkaghdBXaTHb+T03pZ7C2x
+ nQTk2RB1IjQp2S9zNXAaTbArD3tunsRW/xHIHZXc+o5IDZD2GG5zQ/ehTf00GSxilQ
+ /Mtdul6NeBe6i9yF11VE1pODxI8WB7oK0wMbUzm0LZ5RM6t0xAifHUya0T11SokaVs
+ 1fjuniqymKut2c0GiUo62tf70Gbac/9pN6+vq5h9nGruS5fOBOJxU6OA+Zk7FPJkJ+
+ Z3cfmqFU+wMbA==
+Received: from
+ juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
+ (localhost [127.0.0.1])
+ by scripts-1.lp.internal (Postfix) with ESMTP id F19373F30D
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 13:05:52 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 12 Dec 2022 12:59:49 -0000
+From: mohammadreza nasrabadi <1523246@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug-Tags: trim virtio windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jamespharvey20 manouchehri mareza mikemol
+ rustamabd socketpair stefanha th-huth
+X-Launchpad-Bug-Reporter: David Manouchehri (manouchehri)
+X-Launchpad-Bug-Modifier: mohammadreza nasrabadi (mareza)
+References: <20151206150708.14182.82430.malonedeb@wampee.canonical.com>
+Message-Id: <167084999038.59960.9995200360397383429.malone@angus.canonical.com>
+Subject: [Bug 1523246] Re: Virtio-blk does not support TRIM
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c3f9a3a8c5fffd8b8763824e1f305083a4e9705e"; Instance="production"
+X-Launchpad-Hash: 474449da233e8bc903ff2088d8135b10954b0fb6
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -98,181 +84,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1523246 <1523246@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The drained_begin callbacks are not polling, all they do is schedule
-any operations that must complete before bdrv_drained_end().  As such,
-they can be called before bdrv_co_yield_to_drain().  Thus, the only
-remaining task left for bdrv_co_drain_bh_cb() is the BDRV_POLL_WHILE()
-loop.  This patch extracts it into two new functions bdrv_drain_wait()
-and bdrv_drain_all_wait(), so that it is easily accessible from
-bdrv_co_drain_bh_cb().
+I've checked the size of disk file with ls -alh  and du --apparent-size
+commands
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/io.c | 77 +++++++++++++++++++++++++++---------------------------
- 1 file changed, 38 insertions(+), 39 deletions(-)
+I downloaded the 1G size file 5 times to make sure about sparse blocks
+issue, but the problem still exists
 
-diff --git a/block/io.c b/block/io.c
-index a75f42ee13cb..fc4bc38ee9d5 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -245,13 +245,8 @@ bool bdrv_drain_poll(BlockDriverState *bs, bool ignore_bds_parents)
-     return false;
- }
- 
--static bool bdrv_drain_poll_top_level(BlockDriverState *bs)
--{
--    return bdrv_drain_poll(bs, false);
--}
--
--static void bdrv_do_drained_begin(BlockDriverState *bs, bool poll);
--
-+static void bdrv_drain_wait(BlockDriverState *bs);
-+static void bdrv_drain_all_wait(void);
- static void bdrv_co_drain_bh_cb(void *opaque)
- {
-     BdrvCoDrainData *data = opaque;
-@@ -262,18 +257,17 @@ static void bdrv_co_drain_bh_cb(void *opaque)
-         AioContext *ctx = bdrv_get_aio_context(bs);
-         aio_context_acquire(ctx);
-         bdrv_dec_in_flight(bs);
--        bdrv_do_drained_begin(bs, data->poll);
-+        bdrv_drain_wait(bs);
-         aio_context_release(ctx);
-     } else {
--        bdrv_drain_all_begin();
-+        bdrv_drain_all_wait();
-     }
- 
-     data->done = true;
-     aio_co_wake(co);
- }
- 
--static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs,
--                                                bool poll)
-+static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs)
- {
-     BdrvCoDrainData data;
-     Coroutine *self = qemu_coroutine_self();
-@@ -288,7 +282,6 @@ static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs,
-         .co = self,
-         .bs = bs,
-         .done = false,
--        .poll = poll,
-     };
- 
-     if (bs) {
-@@ -319,15 +312,10 @@ static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs,
-     }
- }
- 
--static void bdrv_do_drained_begin(BlockDriverState *bs, bool poll)
-+void bdrv_do_drained_begin_quiesce(BlockDriverState *bs)
- {
-     IO_OR_GS_CODE();
- 
--    if (qemu_in_coroutine()) {
--        bdrv_co_yield_to_drain(bs, poll);
--        return;
--    }
--
-     /* Stop things in parent-to-child order */
-     if (qatomic_fetch_inc(&bs->quiesce_counter) == 0) {
-         aio_disable_external(bdrv_get_aio_context(bs));
-@@ -336,6 +324,23 @@ static void bdrv_do_drained_begin(BlockDriverState *bs, bool poll)
-             bs->drv->bdrv_drain_begin(bs);
-         }
-     }
-+}
-+
-+void bdrv_drained_begin(BlockDriverState *bs)
-+{
-+    IO_OR_GS_CODE();
-+    bdrv_do_drained_begin_quiesce(bs);
-+    bdrv_drain_wait(bs);
-+}
-+
-+static void bdrv_drain_wait(BlockDriverState *bs)
-+{
-+    IO_OR_GS_CODE();
-+
-+    if (qemu_in_coroutine()) {
-+        bdrv_co_yield_to_drain(bs);
-+        return;
-+    }
- 
-     /*
-      * Wait for drained requests to finish.
-@@ -346,20 +351,7 @@ static void bdrv_do_drained_begin(BlockDriverState *bs, bool poll)
-      * includes other nodes in the same AioContext and therefore all child
-      * nodes.
-      */
--    if (poll) {
--        BDRV_POLL_WHILE(bs, bdrv_drain_poll_top_level(bs));
--    }
--}
--
--void bdrv_do_drained_begin_quiesce(BlockDriverState *bs)
--{
--    bdrv_do_drained_begin(bs, false);
--}
--
--void bdrv_drained_begin(BlockDriverState *bs)
--{
--    IO_OR_GS_CODE();
--    bdrv_do_drained_begin(bs, true);
-+    BDRV_POLL_WHILE(bs, bdrv_drain_poll(bs, false));
- }
- 
- /**
-@@ -438,11 +430,6 @@ void bdrv_drain_all_begin(void)
-     BlockDriverState *bs = NULL;
-     GLOBAL_STATE_CODE();
- 
--    if (qemu_in_coroutine()) {
--        bdrv_co_yield_to_drain(NULL, true);
--        return;
--    }
--
-     /*
-      * bdrv queue is managed by record/replay,
-      * waiting for finishing the I/O requests may
-@@ -464,18 +451,30 @@ void bdrv_drain_all_begin(void)
-         AioContext *aio_context = bdrv_get_aio_context(bs);
- 
-         aio_context_acquire(aio_context);
--        bdrv_do_drained_begin(bs, false);
-+        bdrv_do_drained_begin_quiesce(bs);
-         aio_context_release(aio_context);
-     }
- 
-     /* Now poll the in-flight requests */
--    AIO_WAIT_WHILE(NULL, bdrv_drain_all_poll());
-+    bdrv_drain_all_wait();
- 
-     while ((bs = bdrv_next_all_states(bs))) {
-         bdrv_drain_assert_idle(bs);
-     }
- }
- 
-+static void bdrv_drain_all_wait(void)
-+{
-+    GLOBAL_STATE_CODE();
-+
-+    if (qemu_in_coroutine()) {
-+        bdrv_co_yield_to_drain(NULL);
-+        return;
-+    }
-+
-+    AIO_WAIT_WHILE(NULL, bdrv_drain_all_poll());
-+}
-+
- void bdrv_drain_all_end_quiesce(BlockDriverState *bs)
- {
-     GLOBAL_STATE_CODE();
--- 
-2.38.1
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1523246
+
+Title:
+  Virtio-blk does not support TRIM
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  When model=3Dvirtio is used, TRIM is not supported.
+
+  # mount -o discard /dev/vda4 /mnt
+  # mount | tail -1
+  /dev/vda4 on /mnt type fuseblk (rw,nosuid,nodev,relatime,user_id=3D0,grou=
+p_id=3D0,allow_other,blksize=3D4096)
+  # fstrim /mnt/
+  fstrim: /mnt/: the discard operation is not supported
+
+  Booting without model=3Dvirtio allows using TRIM (in Windows as well).
+
+  Full QEMU line:
+
+  qemu-system-x86_64 -enable-kvm -cpu host -bios
+  /usr/share/ovmf/ovmf_x64.bin -smp 2 -m 7G -vga qxl -usbdevice tablet
+  -net nic,model=3Dvirtio -net user -drive discard=3Dunmap,detect-
+  zeroes=3Dunmap,cache=3Dnone,file=3Dvms/win10.hd.img.vmdk,format=3Dvmdk,if=
+=3Dvirtio
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1523246/+subscriptions
 
 
