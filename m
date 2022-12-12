@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5003764979F
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 02:15:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51466498AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 06:47:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4XOE-0003dO-PB; Sun, 11 Dec 2022 20:13:54 -0500
+	id 1p4bdg-0006Eh-U6; Mon, 12 Dec 2022 00:46:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p4XOC-0003d0-PQ
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 20:13:52 -0500
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p4bdY-0006Dz-BN; Mon, 12 Dec 2022 00:46:00 -0500
+Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p4XOA-0000Cc-GV
- for qemu-devel@nongnu.org; Sun, 11 Dec 2022 20:13:52 -0500
-Received: by mail-ot1-x335.google.com with SMTP id
- v19-20020a9d5a13000000b0066e82a3872dso6398877oth.5
- for <qemu-devel@nongnu.org>; Sun, 11 Dec 2022 17:13:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p4bdW-0006jr-SP; Mon, 12 Dec 2022 00:46:00 -0500
+Received: by mail-vs1-xe32.google.com with SMTP id h26so10167799vsr.5;
+ Sun, 11 Dec 2022 21:45:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=lgsZv1M65lsaY6Ol4g9YztbC5aDAo8USWLt7N0/+F5c=;
- b=QZKeJ5b8qeNc0X1FRFl1Rt9PAPuRh67pdUo75XXa6fXqHdj7cP1U6GCsG5hDQygM1N
- mN1L51VAr59M9VDz7BCd8vMMxW29eF89VzhaGQpeTUfVQqH1GJ+g1m+5WaSJ1KPnEtwO
- 53ECPW20DmBpFGHU0sdGe6xvYJhFm71lsVnqkPb2sCRsh4shZ6OKe75Ax1YyZwDRHhVS
- lc4HppgV8jEwzSIYDWINe+9L21xZNZClgS/EsqqTc+NtTRFDXe8TJvHTirAXXJaZDkfk
- FV4iMVBx1KeXM6SndKZkOUZulhQxjdungOw2iVpBdBI5g/pCyGLmwteJKlI+pijTwRbl
- Wg6g==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=MzFJnwjXjfVhxBZI+liKe0vwbxTAUty4M9Dc7fH7HNw=;
+ b=HjOqTCjX+L5Nz59xFfwUUbgYnOIHdBTVCOke5mf9fYKWo05vYSd7bnr1p2kVYlhQBX
+ pBOTEeS2t07DHEW4l6lj9+/Yue98pDj08xyE9vaz5i6bGkOHvploqu1cxyhj0036qMJG
+ jOYdgKgl+9DiHfF7FDtTWtdU4Rp9e0d+KjLmu0y2oxKXSlMYQQPMp1AGxrKtKP2K8NYG
+ yxiSz7c6CHXOgf602pizyUMFTh/gLv/VJnS5W3EYjl0uraO4EHSssnTSok01D//QusLp
+ MDNackOFuGIPXYFAkItPmCgS46Py4pTSwNUmptWm4EiroxgWDILlx+7c2wBL0lyFkyTM
+ 5nCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lgsZv1M65lsaY6Ol4g9YztbC5aDAo8USWLt7N0/+F5c=;
- b=wn5+mMob+10gCWKOSJaY3sMpJ1uSg53/um1jmlTeXK+PJUUTlPxMhS2+hgjJBnOems
- OWyZ3EI0gkZb8UOCQT0rKbFhpMUUdveGsffI//CH4doctPdpY0NRJfdQFmuIPvvqm+ao
- tiwnkcNyNBhUVLrzphwxl8EtFyEDerVYJ1mgvPhgoiFjBS0CIIvWQPy1HTszJSfVQ5DK
- lV18UEfHHsSoQFuA6sHjVAI0M8iCJewfIH0iAL1FmXS4RY04Xw3ASFSfEGetOb88vYNI
- Opcc5qhfMGNlAsQI1zzR/+c3wdtkippzJm9KseAzyMYZgKM0Ry+8PR0Rw+nXCMY0qq4x
- X4Cg==
-X-Gm-Message-State: ANoB5pnYcZDSkXwY4dnSMAFJ+r3z4lDKB1BQb2LCbop4AsVh2Q8nCagz
- YcDmtdfOYx8ppW9ivXm/MUw=
-X-Google-Smtp-Source: AA0mqf639iJZWvX2TwU1BPoOOBiFyZSwtzz0aL4aByQlWeFSX7vxF+dYeHA2b+MqsEGIrwHsV5q2XA==
-X-Received: by 2002:a9d:6453:0:b0:66c:2d80:c833 with SMTP id
- m19-20020a9d6453000000b0066c2d80c833mr7943186otl.7.1670807627718; 
- Sun, 11 Dec 2022 17:13:47 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- t22-20020a0568301e3600b0066bb73cce68sm3470145otr.69.2022.12.11.17.13.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Dec 2022 17:13:47 -0800 (PST)
-Date: Sun, 11 Dec 2022 17:13:45 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp, balaton@eik.bme.hu
-Subject: Re: [PATCH v2] target/sh4: Fix TB_FLAG_UNALIGN
-Message-ID: <20221212011345.GA2235238@roeck-us.net>
-References: <20220901101509.145758-1-richard.henderson@linaro.org>
- <20221210152744.GA2275483@roeck-us.net>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MzFJnwjXjfVhxBZI+liKe0vwbxTAUty4M9Dc7fH7HNw=;
+ b=wcoxQngBaKfahrM7fCm31rRJvvp6CozkDDOipniNvy5EUluB39XMJpTV8L2MWQM3u6
+ vDzoY9nNJUx86ixzzsFBl2lJQzx1kngYcJQoPmHzxCy654tfWgTq8z/fdh3P6n0VYYhL
+ kIHmuWA89/P45A0Vgv7Mf7LMK+vojcjkIZrTEj208JN9/f+XKZm9I2cyP/458VBtR6O/
+ m/xPO5/i0yyYx6+aCul1iP6U81nOLAr+obgH6zqBR8L3IwRtOEHO5upwFxA+eryPV7G9
+ UuDx/ZhaADaEj7qfaWR4kAUtXXXOX4F1C4TUGhwA5+8gvDRjrXgYJimwRymPNscQfxsR
+ tEAA==
+X-Gm-Message-State: ANoB5pkuYhRO5dw/x3BkvLZbcX6tcBXJ2A9sDS7BzaDVixlwrOdA/aGp
+ wT9j9FjwxEARC0dNZl06QgYBR2CLvFyusISuo44c6iJaIWU=
+X-Google-Smtp-Source: AA0mqf42KLwkXCzSzGvvF9bORrFKbpW+5gR8mnkbBbTPOR8tSmqhsnL9/qIsPtxZe5wnXGdGnB0L4L5h69OW+BCqAdA=
+X-Received: by 2002:a05:6102:302b:b0:3b0:f936:788b with SMTP id
+ v11-20020a056102302b00b003b0f936788bmr18356064vsa.54.1670823955586; Sun, 11
+ Dec 2022 21:45:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221210152744.GA2275483@roeck-us.net>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x335.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+References: <20221211030829.802437-1-bmeng@tinylab.org>
+ <20221211030829.802437-15-bmeng@tinylab.org>
+In-Reply-To: <20221211030829.802437-15-bmeng@tinylab.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 12 Dec 2022 15:45:29 +1000
+Message-ID: <CAKmqyKN_mWDCvwfvBoghcnHN2RnoAnGGv_xLSu6pdhhKGHLX+g@mail.gmail.com>
+Subject: Re: [PATCH v3 15/16] hw/riscv: opentitan: Drop "hartid-base" and
+ "priority-base" initialization
+To: Bin Meng <bmeng@tinylab.org>
+Cc: qemu-devel@nongnu.org, Wilfred Mallawa <wilfred.mallawa@wdc.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,103 +85,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Dec 10, 2022 at 07:27:46AM -0800, Guenter Roeck wrote:
-> Hi,
-> 
-> On Thu, Sep 01, 2022 at 11:15:09AM +0100, Richard Henderson wrote:
-> > The value previously chosen overlaps GUSA_MASK.
-> > 
-> > Rename all DELAY_SLOT_* and GUSA_* defines to emphasize
-> > that they are included in TB_FLAGs.  Add aliases for the
-> > FPSCR and SR bits that are included in TB_FLAGS, so that
-> > we don't accidentally reassign those bits.
-> > 
-> > Fixes: 4da06fb3062 ("target/sh4: Implement prctl_unalign_sigbus")
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/856
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> I noticed that my sh4 emulations crash randomly with qemu v7.2-rc4.
-> This happens with all Linux kernel versions. Testing shows that this
-> patch is responsible. Reverting it fixes the problem.
-> 
+On Sun, Dec 11, 2022 at 1:22 PM Bin Meng <bmeng@tinylab.org> wrote:
+>
+> "hartid-base" and "priority-base" are zero by default. There is no
+> need to initialize them to zero again.
+>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-The patch below fixes the problem for me.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Guenter
+Alistair
 
----
-From d488bcad383f360e522dbffe0d21f8ad39d33c61 Mon Sep 17 00:00:00 2001
-From: Guenter Roeck <linux@roeck-us.net>
-Date: Sun, 11 Dec 2022 14:14:47 -0800
-Subject: [PATCH] target/sh4: Fix unaligned handling
-
-Commit ab419fd8a035 ("target/sh4: Fix TB_FLAG_UNALIGN") made a number
-of changes which seemed unrelated to the problem being fixed. In addition
-to updating updating masks, it eliminated various mask operations.
-This results in a number of inexplicable crashes, often associated
-with alleged unaligned operations.
-
-Improve alignment with the original code. Reintroduce mask operations,
-and undo an added '#ifdef CONFIG_USER_ONLY'.
-
-While I have no real idea what I am doing, the resulting code no longer
-crashes, so it must do some good.
-
-Fixes: ab419fd8a035 ("target/sh4: Fix TB_FLAG_UNALIGN")
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
- linux-user/sh4/signal.c | 2 +-
- target/sh4/cpu.c        | 2 +-
- target/sh4/translate.c  | 2 --
- 3 files changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/linux-user/sh4/signal.c b/linux-user/sh4/signal.c
-index c4ba962708..2135e2b881 100644
---- a/linux-user/sh4/signal.c
-+++ b/linux-user/sh4/signal.c
-@@ -161,7 +161,7 @@ static void restore_sigcontext(CPUSH4State *regs, struct target_sigcontext *sc)
-     __get_user(regs->fpul, &sc->sc_fpul);
- 
-     regs->tra = -1;         /* disable syscall checks */
--    regs->flags = 0;
-+    regs->flags &= ~(TB_FLAG_DELAY_SLOT_MASK | TB_FLAG_GUSA_MASK);
- }
- 
- void setup_frame(int sig, struct target_sigaction *ka,
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 453268392b..827cee25af 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -47,7 +47,7 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
-     SuperHCPU *cpu = SUPERH_CPU(cs);
- 
-     cpu->env.pc = tb_pc(tb);
--    cpu->env.flags = tb->flags;
-+    cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
- }
- 
- static void superh_restore_state_to_opc(CPUState *cs,
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 7db3468b01..546c182463 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -2270,7 +2270,6 @@ static void sh4_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-                   (tbflags & (1 << SR_RB))) * 0x10;
-     ctx->fbank = tbflags & FPSCR_FR ? 0x10 : 0;
- 
--#ifdef CONFIG_USER_ONLY
-     if (tbflags & TB_FLAG_GUSA_MASK) {
-         /* In gUSA exclusive region. */
-         uint32_t pc = ctx->base.pc_next;
-@@ -2290,7 +2289,6 @@ static void sh4_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-             return;
-         }
-     }
--#endif
- 
-     /* Since the ISA is fixed-width, we can bound by the number
-        of instructions remaining on the page.  */
--- 
-2.36.2
-
+> ---
+>
+> (no changes since v1)
+>
+>  hw/riscv/opentitan.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 78f895d773..85ffdac5be 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -173,10 +173,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>
+>      /* PLIC */
+>      qdev_prop_set_string(DEVICE(&s->plic), "hart-config", "M");
+> -    qdev_prop_set_uint32(DEVICE(&s->plic), "hartid-base", 0);
+>      qdev_prop_set_uint32(DEVICE(&s->plic), "num-sources", 180);
+>      qdev_prop_set_uint32(DEVICE(&s->plic), "num-priorities", 3);
+> -    qdev_prop_set_uint32(DEVICE(&s->plic), "priority-base", 0x00);
+>      qdev_prop_set_uint32(DEVICE(&s->plic), "pending-base", 0x1000);
+>      qdev_prop_set_uint32(DEVICE(&s->plic), "enable-base", 0x2000);
+>      qdev_prop_set_uint32(DEVICE(&s->plic), "enable-stride", 32);
+> --
+> 2.34.1
+>
+>
 
