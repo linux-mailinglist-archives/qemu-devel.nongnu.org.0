@@ -2,83 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9A164A6D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 19:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEF664A77A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 19:49:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4nPG-0005CV-TW; Mon, 12 Dec 2022 13:20:02 -0500
+	id 1p4nqe-00056h-HF; Mon, 12 Dec 2022 13:48:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4nOz-00059M-Az
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 13:19:45 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4nOx-0003R9-C2
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 13:19:44 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id kw15so30231453ejc.10
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 10:19:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=v0Wo5EBw16RluQBM65ToWfg2piA5WsEkfndughiUEIk=;
- b=mJGJ1v1tFNv4lQ/Hhtg4PF6fWH2yDcxCLCKlejlTH3ZKvzqpgP6IPz0rMODE9FJRt/
- jq20FT9r3dMe0R/v1lA1ZEhcaEvvoUxDMtbb0Z6oJVmyqXQBTgHSo5+Dg/S9uzbaj/+6
- PYdHN0b/gfxsaMJqaBq7BER//AxntSqndGeP32ZTVq8gYNkPPi4OAodiX8JWALGE2yAk
- FYHKkr+Wd9kGTNDdlqILtQ0UZ1fr9OJAcqvRmf6TCqyzaEMhiYMJogYLCOllTgM1l/QL
- /VZNvZqiEXjGKTQZM4qn++ApvcetUQkqj7lGg4qCl2fbk1kTNetmIyWvRHW6HBg1s1eW
- z8Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v0Wo5EBw16RluQBM65ToWfg2piA5WsEkfndughiUEIk=;
- b=kyeRBS1sGkTv51i/cRS8Q9ymIWJ7/OykxTh0Icd99GEJoelu/Kh18g55Cm3IStKA2B
- K2X0Vc7VST5+jOdHg+CboJPnRAOZpUQbiARXqXU9Lnl09voA6JkD8YkiWe7kQ9Ei8l58
- DsaqkXbxZW1TclNrslUWQ2TR378iRIFLNMwfTrD1IwjkfS5WUfQPBYA1v6v5jFh8f9av
- Lq1D7gUe1ZXJ6svKA1gU7+KdsFgZX90gy5ufDRaEWhl3Usxx8tZ9V2xj5M6lzMntZAhX
- l7SWj92Grl8A+V7/Eqgz9AuxgtcBwkUEXJvZ7hjo6OVAylPBC89hMuwSMmT8C6DXAF26
- Io4Q==
-X-Gm-Message-State: ANoB5pksL73GC/72o8FCazm6uIPWQU4Fu/0lwpOF60hnJ4cueSgY5bF6
- eDPBnqrIrCh35nCCya51YSYYVCg8H9pEfDebzSw=
-X-Google-Smtp-Source: AA0mqf4Ydy8P87ZMl8DSlPyvj4zofbR37OEOLp5pDoqu8PvZtEdnnY0xwRXDSWlJh/NHdTra/op7oA==
-X-Received: by 2002:a17:906:2b46:b0:7c1:bb5:5704 with SMTP id
- b6-20020a1709062b4600b007c10bb55704mr14714030ejg.26.1670869181083; 
- Mon, 12 Dec 2022 10:19:41 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- ky20-20020a170907779400b0073d7b876621sm3515530ejc.205.2022.12.12.10.19.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 10:19:40 -0800 (PST)
-Message-ID: <48d7f9d7-fb60-525b-8632-470cc54285ae@linaro.org>
-Date: Mon, 12 Dec 2022 19:19:39 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v3 7/8] accel/tcg: Move PageDesc tree into tb-maint.c for
- system
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
-References: <20221209051914.398215-1-richard.henderson@linaro.org>
- <20221209051914.398215-8-richard.henderson@linaro.org>
- <953275ef-a900-0a44-d2a4-1d990a1522a8@linaro.org>
- <6006a739-9474-4c27-c42e-b642a957e346@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <6006a739-9474-4c27-c42e-b642a957e346@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1p4nqU-000560-N7
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 13:48:10 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1p4nqS-0007cq-Di
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 13:48:10 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BCI8nY0021657
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 18:48:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : content-transfer-encoding : mime-version; s=pp1;
+ bh=RweV1gJCxCok0vXBs43WBTAySwhA06JFdYGFib+4/wo=;
+ b=Ua0AtK2gDVSRD96RAK+lK8fzT4rhCrb59pYfksOetxxWuTh0joXwLiTWBj5gY6e/j9WG
+ g/BQPoUXho9X6awMOxB/a4VwSsva/VgdPlu1N1q9X44xMPX5tP4Eu8YSkbQb/BjMtnUF
+ t+UmGOipGdt8V0ej99SCn6i1GydXgwD5dlo/ZAf1F0+78w/ODV/kfj7TDjFw1fo2BT+l
+ 2SvpkxUDw/YPtv63J8ruvtMiog+EAhBYTG1VM11x24Gtb1fqhpn0R+JQG7Q/XxTOK098
+ MidD/8NnGmKBPN47ForPchu+Fffq8zzVUGwNURIjIib4SNiG7cFCK1+s1Mr95L+ORCOG 2w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3me3x722r8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 18:48:06 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCI9GNa023776
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 18:48:06 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3me3x722qx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 18:48:06 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BCHRFO7004398;
+ Mon, 12 Dec 2022 18:48:05 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
+ by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3mchr6epac-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 18:48:05 +0000
+Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
+ by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BCIm3SU65864060
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 18:48:04 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A12E67805E;
+ Mon, 12 Dec 2022 20:05:05 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CC3967805C;
+ Mon, 12 Dec 2022 20:05:04 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.163.25.229])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Dec 2022 20:05:04 +0000 (GMT)
+Message-ID: <8066be497c4c81827b24a672a550a805e06eec68.camel@linux.ibm.com>
+Subject: Re: [PATCH] tpm: add backend for mssim
+From: James Bottomley <jejb@linux.ibm.com>
+To: Stefan Berger <stefanb@linux.ibm.com>, "Daniel P."
+ =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Date: Mon, 12 Dec 2022 13:48:01 -0500
+In-Reply-To: <f76810cb-3658-84b0-e4b4-a684dff99f38@linux.ibm.com>
+References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
+ <Y5dNC77CubqrfXku@redhat.com>
+ <b06d31496117c8dd8b8fe60c4bebd96377ca3ff1.camel@linux.ibm.com>
+ <f76810cb-3658-84b0-e4b4-a684dff99f38@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: b2zYoWGoL7OHYNRMxK6UUosgEe2g2s00
+X-Proofpoint-GUID: meu-2l3kZoBH9jauK2PD9VnMNb5MSqDx
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ mlxlogscore=658 mlxscore=0 suspectscore=0 impostorscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120168
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,69 +114,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/22 16:28, Richard Henderson wrote:
-> On 12/9/22 01:22, Philippe Mathieu-Daudé wrote:
->> On 9/12/22 06:19, Richard Henderson wrote:
->>> Now that PageDesc is not used for user-only, and for system
->>> it is only used for tb maintenance, move the implementation
->>> into tb-main.c appropriately ifdefed.
->>>
->>> We have not yet eliminated all references to PageDesc for
->>> user-only, so retain a typedef to the structure without definition.
->>>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   accel/tcg/internal.h      |  49 +++-----------
->>>   accel/tcg/tb-maint.c      | 130 ++++++++++++++++++++++++++++++++++++--
->>>   accel/tcg/translate-all.c |  95 ----------------------------
->>>   3 files changed, 134 insertions(+), 140 deletions(-)
->>
->>
->>> -/*
->>> - * In system mode we want L1_MAP to be based on ram offsets,
->>> - * while in user mode we want it to be based on virtual addresses.
->>> - *
->>> - * TODO: For user mode, see the caveat re host vs guest virtual
->>> - * address spaces near GUEST_ADDR_MAX.
->>> - */
->>> -#if !defined(CONFIG_USER_ONLY)
->>> -#if HOST_LONG_BITS < TARGET_PHYS_ADDR_SPACE_BITS
->>> -# define L1_MAP_ADDR_SPACE_BITS  HOST_LONG_BITS
->>> -#else
->>> -# define L1_MAP_ADDR_SPACE_BITS  TARGET_PHYS_ADDR_SPACE_BITS
->>> -#endif
->>> -#else
->>> -# define L1_MAP_ADDR_SPACE_BITS  MIN(HOST_LONG_BITS, TARGET_ABI_BITS)
->>> -#endif
->>
->>
->>> diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
->>> index 20e86c813d..9b996bbeb2 100644
->>> --- a/accel/tcg/tb-maint.c
->>> +++ b/accel/tcg/tb-maint.c
->>> @@ -127,6 +127,121 @@ static PageForEachNext 
->>> foreach_tb_next(PageForEachNext tb,
->>>   }
->>>   #else
->>> +/*
->>> + * In system mode we want L1_MAP to be based on ram offsets.
->>> + */
->>> +#if HOST_LONG_BITS < TARGET_PHYS_ADDR_SPACE_BITS
->>> +# define L1_MAP_ADDR_SPACE_BITS  HOST_LONG_BITS
->>> +#else
->>> +# define L1_MAP_ADDR_SPACE_BITS  TARGET_PHYS_ADDR_SPACE_BITS
->>> +#endif
->> So you removed L1_MAP_ADDR_SPACE_BITS in this patch. If you ever respin,
->> I'd rather have it cleaned in the previous patch, along with the comment
->> updated and TODO removed.
+On Mon, 2022-12-12 at 11:59 -0500, Stefan Berger wrote:
 > 
-> I don't agree.  I move all of the PageDesc symbols together in this 
-> patch.  I think that it would get in the way of the main point of the 
-> previous patch.
+> 
+> On 12/12/22 11:38, James Bottomley wrote:
+> > On Mon, 2022-12-12 at 15:47 +0000, Daniel P. Berrangé wrote:
+> > > Copy'ing Markus for QAPI design feedback.
+> > > 
+> > > On Sat, Dec 10, 2022 at 12:10:18PM -0500, James Bottomley wrote:
+> > > > The Microsoft Simulator (mssim) is the reference emulation
+> > > > platform for the TCG TPM 2.0 specification.
+> > > > 
+> > > > https://github.com/Microsoft/ms-tpm-20-ref.git
+> > > > 
+> > > > It exports a fairly simple network socket baset protocol on two
+> > > > sockets, one for command (default 2321) and one for control
+> > > > (default 2322).  This patch adds a simple backend that can
+> > > > speak the mssim protocol over the network.  It also allows the
+> > > > host, and two ports to be specified on the qemu command line. 
+> > > > The benefits are twofold: firstly it gives us a backend that
+> > > > actually speaks a standard TPM emulation protocol instead of
+> > > > the linux specific TPM driver format of the current emulated
+> > > > TPM backend and secondly, using the microsoft protocol, the end
+> > > > point of the emulator can be anywhere on the network,
+> > > > facilitating the cloud use case where a central TPM service can
+> > > > be used over a control network.
+> > > 
+> > > What's the story with security for this ?  The patch isn't using
+> > > TLS, so talking to any emulator over anything other than
+> > > localhost looks insecure, unless I'm missing something.
+> > 
+> > Pretty much every TPM application fears interposers and should thus
+> > be using the TPM transport security anyway. *If* this is the case,
+> > then the transport is secure.  Note that this currently isn't the
+> > case for
+> 
+> What about all the older kernels that are out there?
 
-OK then :)
+No current kernel uses transport security.  In the event the patch
+eventually gets upstream, the kernel be secure against interposer
+attacks going forwards.  I would imagine there might be pressure to
+backport the patch given the current level of worry about interposers.
+
+> > the kernel use of the TPM, but I'm trying to fix that.  The
+> > standard mssim server is too simplistic to do transport layer
+> > security, but like everything that does this (or rather doesn't do
+> > this), you can front it with stunnel4.
+> 
+> And who or what is going to set this up?
+
+I'm not sure I understand the question.  Stunnel4 is mostly used to
+convert unencrypted proxies like imap on 143 or smtp on 25 to the
+secure version.  Most people who run servers are fairly familiar with
+using it.  It's what IBM used for encrypted migration initially.  You
+can run stunnel on both ends, or the qemu side could be built in using
+the qemu tls-creds way of doing things but anything running the
+standard MS server would have to front it with stunnel still.
+
+James
 
 
