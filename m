@@ -2,68 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E9564A3D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:59:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F07864A3DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 16:00:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4kGJ-00042h-00; Mon, 12 Dec 2022 09:58:35 -0500
+	id 1p4kGs-0004PF-OT; Mon, 12 Dec 2022 09:59:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1p4kGC-00040v-Ex
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:58:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1p4kG9-000176-9V
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:58:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670857103;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uyBPOCYTlm8buL/eo+jVVWH/ySNEx049dp5TL0XCRd0=;
- b=APW7UfYcVvMohwjC4fbPt+TTRN1OMA9nszmX21C0hKfSlS2bQ/LOOo4gjaztzeDUfPweI4
- WqIfN+nNeT2BGxVqHBWrw31JWiSfs9o+Fyx+ufKfKb1oCCq5w/pEFr6278RkQGQleBiSbN
- idDwlpDBUFQiofFkj9ZMjy7f/hoRQoM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-GmPJeMPlOyecFc2arvJ1TQ-1; Mon, 12 Dec 2022 09:58:19 -0500
-X-MC-Unique: GmPJeMPlOyecFc2arvJ1TQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 73D988039A2;
- Mon, 12 Dec 2022 14:58:19 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA64B492B01;
- Mon, 12 Dec 2022 14:58:18 +0000 (UTC)
-Date: Mon, 12 Dec 2022 09:58:15 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- qemu-trivial@nongnu.org
-Subject: Re: [PATCH] mailmap: Fix Stefan Weil author email
-Message-ID: <Y5dBh5Ssw8Aotmzo@fedora>
-References: <20221208155535.28363-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4kGY-0004NK-9E
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:58:50 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4kGV-0001Lt-RP
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:58:50 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so5400175wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 06:58:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=g4TN9OWzUKBwbGLYbyNtztzR8lR8Srm/z0Jp+C6j0QM=;
+ b=g9HlKtODl+WmmH80sTkoCCVaU578HT41MsExoMZgHzR9K/M+g+oeLN86ogkTbENpIk
+ FcC9Lf3fKlhKUpXMNpWqbLNM8G0QaykCLJYb1st4BubyU8Jn8Nb8OKASh4LaKZAxCJBc
+ tBwW3RZv32B3urcVLVSGtAUQzbJS6+fEPjABJKqK1qHJIdxMzIteG8NQm94N/nUmn3V6
+ HqTqssnkaIYwtmKQFq2/349ScDR6gEadpDKD/j6YnesJP1KuFZZvp4beFaPGZbzuEPkt
+ OYa0opcjIOlW+wQgx1sgARdGVr3XFlplAvKeGMi/eO1DVX/O7Qq43rcxCx+kzu5Xej9w
+ CLaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=g4TN9OWzUKBwbGLYbyNtztzR8lR8Srm/z0Jp+C6j0QM=;
+ b=rvWJkWHEevnCVESl9WkDW8MdEAn2diM+86UqGs5WN2Y/m4++VpJFImBPd5jGxus0+g
+ ENxZyQAtHmKK3B5kt6TapVq/MFwos+j53K9axZmPBJBYmIPY4xgyJ/Dl+d6bSwvBSiXv
+ y5ezc2Q+uPznG4//pXx7XXodKNnkuCn7FbjVftyKa5t7I/bdZgNidiHuZeS+6dzk+5Ka
+ jMX1ZznoBa0ubg43p6+QRL2YRa8MDIxaMx9l5KJue9W6BQ92NpyxtHHgIvksC2qao9uQ
+ 6odOf9Y6q/Zd7DEkwOpOru3D55p4DDA1vF25+IjEneCPEbF9ywA4BdehwU7k+ub9wgZF
+ Vf/g==
+X-Gm-Message-State: ANoB5pkVfeoJkbT/M5Nyq0ouiYqsc70q1VzXPlId7fbKuQQWo7HDQbSx
+ onvVxojr7hF6YKF4IySea4I=
+X-Google-Smtp-Source: AA0mqf6UGKFpU63UhXOw7/9ExO8xue2JI+cJp8Vv3BBF6GGhfLGx3E84MvfIC35Ol8CrZhSvQH3IBQ==
+X-Received: by 2002:a05:600c:6010:b0:3d1:f496:e25f with SMTP id
+ az16-20020a05600c601000b003d1f496e25fmr12234744wmb.16.1670857122968; 
+ Mon, 12 Dec 2022 06:58:42 -0800 (PST)
+Received: from ?IPV6:2a00:23c5:5785:9a01:a16d:8ab1:4623:169?
+ ([2a00:23c5:5785:9a01:a16d:8ab1:4623:169])
+ by smtp.gmail.com with ESMTPSA id
+ r7-20020a05600c458700b003b47b80cec3sm10204931wmo.42.2022.12.12.06.58.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 06:58:42 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <689e729a-3c5e-5380-c010-44ca37bf5497@xen.org>
+Date: Mon, 12 Dec 2022 14:58:38 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NQDKM8IakA9wkc/5"
-Content-Disposition: inline
-In-Reply-To: <20221208155535.28363-1-philmd@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH v2 16/22] i386/xen: handle VCPUOP_register_vcpu_info
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20221209095612.689243-1-dwmw2@infradead.org>
+ <20221209095612.689243-17-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20221209095612.689243-17-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,66 +104,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---NQDKM8IakA9wkc/5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Dec 08, 2022 at 04:55:35PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Fix authorship of commits 266aaedc37~..ac14949821. See commit
-> 3bd2608db7 ("maint: Add .mailmap entries for patches claiming
-> list authorship") for rationale.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@linaro.org>
+On 09/12/2022 09:56, David Woodhouse wrote:
+> From: Joao Martins <joao.m.martins@oracle.com>
+> 
+> Handle the hypercall to set a per vcpu info, and also wire up the default
+> vcpu_info in the shared_info page for the first 32 vCPUs.
+> 
+> To avoid deadlock within KVM a vCPU thread must set its *own* vcpu_info
+> rather than it being set from the context in which the hypercall is
+> invoked.
+> 
+> Add the vcpu_info (and default) GPA to the vmstate_x86_cpu for migration,
+> and restore it in kvm_arch_put_registers() appropriately.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->  .mailmap | 1 +
->  1 file changed, 1 insertion(+)
+>   target/i386/cpu.h        |  2 ++
+>   target/i386/kvm/kvm.c    | 19 +++++++++++
+>   target/i386/machine.c    | 21 ++++++++++++
+>   target/i386/trace-events |  1 +
+>   target/i386/xen.c        | 74 +++++++++++++++++++++++++++++++++++++---
+>   target/i386/xen.h        |  1 +
+>   6 files changed, 113 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index c6c57baed5..109b2e5669 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1788,6 +1788,8 @@ typedef struct CPUArchState {
+>   #endif
+>   #if defined(CONFIG_KVM)
+>       struct kvm_nested_state *nested_state;
+> +    uint64_t xen_vcpu_info_gpa;
+> +    uint64_t xen_vcpu_info_default_gpa;
+>   #endif
+>   #if defined(CONFIG_HVF)
+>       HVFX86LazyFlags hvf_lflags;
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index ebde6bc204..fa45e2f99a 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -1811,6 +1811,9 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>           has_msr_hv_hypercall = true;
+>       }
+>   
+> +    env->xen_vcpu_info_gpa = UINT64_MAX;
+> +    env->xen_vcpu_info_default_gpa = UINT64_MAX;
 
-Sorry about that! I didn't notice I merged commits with mangled email
-addresses.
 
-I'll merge this after the release has been made on Tuesday.
+There was an INVALID_GPA definition for shared info. Looks like we could 
+use it here too.
 
-Stefan
+> +
+>       xen_version = kvm_arch_xen_version(MACHINE(qdev_get_machine()));
+>       if (xen_version) {
+>   #ifdef CONFIG_XEN_EMU
+> @@ -4728,6 +4731,22 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
+>           kvm_arch_set_tsc_khz(cpu);
+>       }
+>   
+> +#ifdef CONFIG_XEN_EMU
+> +    if (level == KVM_PUT_FULL_STATE) {
+> +        uint64_t gpa = x86_cpu->env.xen_vcpu_info_gpa;
+> +        if (gpa == UINT64_MAX) {
+> +            gpa = x86_cpu->env.xen_vcpu_info_default_gpa;
+> +        }
+> +
+> +        if (gpa != UINT64_MAX) {
+> +            ret = kvm_xen_set_vcpu_attr(cpu, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, gpa);
+> +            if (ret < 0) {
+> +                return ret;
+> +            }
+> +        }
+> +    }
+> +#endif
+> +
+>       ret = kvm_getput_regs(x86_cpu, 1);
+>       if (ret < 0) {
+>           return ret;
+[snip]
+> @@ -195,19 +240,38 @@ static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit,
+>       }
+>   }
+>   
+> +static int vcpuop_register_vcpu_info(CPUState *cs, CPUState *target,
+> +                                     uint64_t arg)
+> +{
+> +    struct vcpu_register_vcpu_info rvi;
+> +    uint64_t gpa;
+> +
+> +    if (!target)
+> +            return -ENOENT;
+> +
+> +    if (kvm_copy_from_gva(cs, arg, &rvi, sizeof(rvi))) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    gpa = ((rvi.mfn << TARGET_PAGE_BITS) + rvi.offset);
 
->=20
-> diff --git a/.mailmap b/.mailmap
-> index 35dddbe27b..fad2aff5aa 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -45,6 +45,7 @@ Ed Swierk <eswierk@skyportsystems.com> Ed Swierk via Qe=
-mu-devel <qemu-devel@nong
->  Ian McKellar <ianloic@google.com> Ian McKellar via Qemu-devel <qemu-deve=
-l@nongnu.org>
->  Julia Suvorova <jusual@mail.ru> Julia Suvorova via Qemu-devel <qemu-deve=
-l@nongnu.org>
->  Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-dev=
-el <qemu-devel@nongnu.org>
-> +Stefan Weil <sw@weilnetz.de> Stefan Weil via <qemu-devel@nongnu.org>
-> =20
->  # Next, replace old addresses by a more recent one.
->  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markov=
-ic@mips.com>
-> --=20
-> 2.38.1
->=20
+Some sanity checks wouldn't go a miss here...
 
---NQDKM8IakA9wkc/5
-Content-Type: application/pgp-signature; name="signature.asc"
+rvi.offset should:
+a) be < TARGET_PAGE_SIZE, and
+b) ba aligned to vcpu_info_t size
 
------BEGIN PGP SIGNATURE-----
+   Paul
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmOXQYYACgkQnKSrs4Gr
-c8hikQf/bOCbo0iKa5aGrURsAhRzcabVP00vpJC+e0PtlhIoIOr7jqpA/JgcbU0U
-EJZ266k0WySw+G3Lw0MK20xLFR7HZ/UGBzTMW0r2lI+WhvouCoXqx3m1nqBM7PTC
-OYb41PFyrJotn7gIlKxJf+bXdsiNsJhbE1gE2rKKFwiGJqbTZwj//Mz5WuXzEL1Q
-D1ZearM8CwUiMLZ2I5MqpwG0EJRFUlvYJf89H6pvmzswOEWZFVSF9EP0T9zCemIz
-4wzBVrnKsSnRtMvqXEdBdBLMuK4s+I+kI0Nxp7ZB5TLub1KsiKF0Gpz3HId/V0u9
-dN/MAbq8rLeb4K63A+CNqyLPiKBipg==
-=ssUG
------END PGP SIGNATURE-----
-
---NQDKM8IakA9wkc/5--
+> +    async_run_on_cpu(target, do_set_vcpu_info_gpa, RUN_ON_CPU_HOST_ULONG(gpa));
+> +    return 0;
+> +}
+> +
 
 
