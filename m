@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE8B64A544
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:51:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4603964A542
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:51:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4m0l-0002HU-Rm; Mon, 12 Dec 2022 11:50:40 -0500
+	id 1p4m1J-0002K5-Do; Mon, 12 Dec 2022 11:51:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p4m0c-0002Cu-Rf
+ id 1p4m0e-0002DE-3k
  for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:50:34 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p4m0Y-00032C-4y
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:50:27 -0500
-Received: by mail-pl1-x629.google.com with SMTP id g10so12651328plo.11
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:50:25 -0800 (PST)
+ id 1p4m0c-000380-K7
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:50:31 -0500
+Received: by mail-pl1-x630.google.com with SMTP id jl24so12659654plb.8
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:50:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DHygLy2vPOJV/Fky9RB+7iOYpBea60FaHFYeg5SQFYY=;
- b=OJjcFdwH7d262/CzFZShlW9lXF/StOZiII2rtlfXMNcBlSZBrZaKNloahfYxS6JPR5
- VarIZ52qRG4K1iJAG6WgsSf/2gzPv6GyXOW4ApIWDBQdSAt2zmJK6GwVz3NhZ1rQ5WTa
- 3yndoCO/E23S7oITbxEeuo69xUyCeGXQCaeUiMtV7XZXtaM6jhZd36KqLoEPu7/T1ON0
- 4WMvHoqou0nLZt4mS5lixHKVCkuXMp4IksN3USuGLHvIDCJ2T2qUGb9yn12aqP4/D9h0
- mALbnkD82y6wMfJrwKhyOu3KzoPefXqDzknVJdEIo+gnisiMhtbstHlJfBah2GAvN6vD
- VIKg==
+ bh=GJg5zSq9kdDfSLar49onFW0ftLsHi0KtswppGKlIvwI=;
+ b=TDL8Y/CKGjF6zhHvVjWrt44P+M/z9U/ZmV2+yCq3sMXNSzzwZX06uuLrwJhoOymRD9
+ WOxIssj+1+yp6np8uHYnc9JYKNzSqudKH/Z82fGMaTy3O+g3Argwg9EkUIUSG91D0X1L
+ q1EiPVy4xJE8bZjkze2IlHtqleTSOF+Yq+pD9vDhNdQTYKH/2gzsDKyKW18+WSqtYY5U
+ 3eE11VoOVshl+HtHXZ1kiDMnf0RNYnrjtdVhAqc4Drutj+eA1TZo6cTdQqW47xJW4WXz
+ xTnU2M0FdXi82pKeT7JepRYlAqvvdPZHUe7kX+1PhPzIKHDHCiM38xWhaxnpX900AjIT
+ MXFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DHygLy2vPOJV/Fky9RB+7iOYpBea60FaHFYeg5SQFYY=;
- b=ihUTqYABfX5qOKTVFYARdHsIilcRmKog4/Vv4tyyNJP4fjFwEZgEWHD33zblpPJFUq
- qGWihvE+ZJw+DycWoZQumCVJia4M+cMH70kLM9GfyU8vQbh9pLEz0c/02x3SGEl758yN
- P17Ac+PlnEdHF+b46xrrmIfOxC449EGl5QEsTM1Wi9CuVj6yP1I077vub6oXoscCJ8yI
- eWhcJG6mlPq1O7g1v0n5mQeg+Y4t4Q0WuRVJxUuDi4CLNEbIfuxubl2zWyP3mv4aXo0N
- eZEmRzJ8e8V1WiYR+xu3rYRq39yir5BHIcChoE3JUSmKt4WemN/2TEy7TmYkTTqawopL
- FPXQ==
-X-Gm-Message-State: ANoB5pla10l9qz1MrzuTFUN/AfsHH41b7KmqalW01+DjZvMEYoQMFnG0
- o3Kpmt4RodTrpT1K7PUCxE7UjU0LchU8vUcj
-X-Google-Smtp-Source: AA0mqf7E2gghMP4NSRj6ptdVIqtHGsGFp7J//xbb07TCmGgs8/RT9yDWrYbXrcQkYoV6X2dasRyAkQ==
-X-Received: by 2002:a17:902:edc5:b0:187:3a79:6038 with SMTP id
- q5-20020a170902edc500b001873a796038mr18934469plk.18.1670863823071; 
- Mon, 12 Dec 2022 08:50:23 -0800 (PST)
+ bh=GJg5zSq9kdDfSLar49onFW0ftLsHi0KtswppGKlIvwI=;
+ b=ZYhCJiR0rrEOkfvzWAq5Umh1uh4dNvYqlkFwjEEZp7/RaDFAtzSgMlxtrTXAe/5lSa
+ nAVavbfUtCQ6zjFSAzbsLS+y6ZXf4cW//7b3CRXKGRSdM0shw13IWZnNGYDg6Xti3fRT
+ d8Crn/7Djqtparx7DRk3ZHcTu5KV81A3+Ox9rtfwkohXLahElKZAxTSSgYtOdlN0AVtR
+ W+zVjWO8hTgVxOhvRak1SGtwaY4hqbL6saJ8K97gFGGgkXEm4AkmPz8Iar0q7YjaTIAu
+ Gf1lNLn4eMT432bbfDccCc/2JAFteKJLqnq44SAGXC3jUcz0WYxR0+kbepJXWoFF6nut
+ CGqw==
+X-Gm-Message-State: ANoB5pkPPNZrSRoW/1tfgaqhp2H9mjOb5EoKnBe8t8akF8zK73ZvebZH
+ LRX1rdpzNMO9fcRUfCuuiKeiOvQ1CeIaVT36
+X-Google-Smtp-Source: AA0mqf7/sLvMcCKZENMSJTjW6NapWh4CF2xdHQDbqU8cUjfiL5Y9DJ2uE+/33jtg2HCP8GryFSs1+A==
+X-Received: by 2002:a17:903:240d:b0:185:441f:70b1 with SMTP id
+ e13-20020a170903240d00b00185441f70b1mr17605959plo.54.1670863827708; 
+ Mon, 12 Dec 2022 08:50:27 -0800 (PST)
 Received: from n250-032-048.byted.org ([221.194.189.28])
  by smtp.gmail.com with ESMTPSA id
- x21-20020a170902ea9500b0018f69009f3esm3012125plb.284.2022.12.12.08.50.21
+ x21-20020a170902ea9500b0018f69009f3esm3012125plb.284.2022.12.12.08.50.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Dec 2022 08:50:22 -0800 (PST)
+ Mon, 12 Dec 2022 08:50:27 -0800 (PST)
 From: Chuang Xu <xuchuangxclwt@bytedance.com>
 To: qemu-devel@nongnu.org
 Cc: dgilbert@redhat.com, quintela@redhat.com, peterx@redhat.com,
  zhouyibo@bytedance.com, Chuang Xu <xuchuangxclwt@bytedance.com>
-Subject: [RFC v2 2/3] virtio: support delay of checks in virtio_load()
-Date: Tue, 13 Dec 2022 00:49:41 +0800
-Message-Id: <20221212164942.3614611-3-xuchuangxclwt@bytedance.com>
+Subject: [RFC v2 3/3] migration: reduce time of loading non-iterable vmstate
+Date: Tue, 13 Dec 2022 00:49:42 +0800
+Message-Id: <20221212164942.3614611-4-xuchuangxclwt@bytedance.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
 References: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: 6
 X-Spam_score: 0.6
 X-Spam_bar: /
@@ -91,109 +91,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Delay checks in virtio_load() to avoid possible address_space_to_flatview() call
-during memory region's begin/commit.
+The duration of loading non-iterable vmstate accounts for a significant
+portion of downtime (starting with the timestamp of source qemu stop and
+ending with the timestamp of target qemu start). Most of the time is spent
+committing memory region changes repeatedly.
+
+This patch packs all the changes to memory region during the period of
+loading non-iterable vmstate in a single memory transaction. With the
+increase of devices, this patch will greatly improve the performance.
+
+Here are the test results:
+test vm info:
+- 32 CPUs 128GB RAM
+- 8 16-queue vhost-net device
+- 16 4-queue vhost-user-blk device.
+
+	time of loading non-iterable vmstate
+before		about 210 ms
+after		about 40 ms
 
 Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
 ---
- hw/virtio/virtio.c      | 33 ++++++++++++++++++++++-----------
- include/sysemu/sysemu.h |  1 +
- softmmu/globals.c       |  3 +++
- 3 files changed, 26 insertions(+), 11 deletions(-)
+ migration/savevm.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index eb6347ab5d..3e3fa2a89d 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -33,6 +33,7 @@
- #include "hw/virtio/virtio-access.h"
- #include "sysemu/dma.h"
- #include "sysemu/runstate.h"
-+#include "sysemu/sysemu.h"
- #include "standard-headers/linux/virtio_ids.h"
- #include "standard-headers/linux/vhost_types.h"
- #include "standard-headers/linux/virtio_blk.h"
-@@ -3642,8 +3643,20 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
-         vdev->start_on_kick = true;
-     }
+diff --git a/migration/savevm.c b/migration/savevm.c
+index a0cdb714f7..68a7a99b79 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2617,6 +2617,9 @@ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis)
+     uint8_t section_type;
+     int ret = 0;
  
-+    if (vdc->post_load) {
-+        ret = vdc->post_load(vdev);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
++    /* call memory_region_transaction_begin() before loading vmstate */
++    memory_region_transaction_begin();
 +
-+    return 0;
-+}
-+
-+static void virtio_load_check_delay(VirtIODevice *vdev)
-+{
-     RCU_READ_LOCK_GUARD();
--    for (i = 0; i < num; i++) {
-+    for (int i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-         if (vdev->vq[i].vring.desc) {
-             uint16_t nheads;
- 
-@@ -3696,19 +3709,12 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
-                              i, vdev->vq[i].vring.num,
-                              vdev->vq[i].last_avail_idx,
-                              vdev->vq[i].used_idx);
--                return -1;
-+                abort();
-             }
+ retry:
+     while (true) {
+         section_type = qemu_get_byte(f);
+@@ -2684,6 +2687,16 @@ out:
+             goto retry;
          }
      }
- 
--    if (vdc->post_load) {
--        ret = vdc->post_load(vdev);
--        if (ret) {
--            return ret;
--        }
--    }
--
--    return 0;
-+    return;
++
++    /*
++     * call memory_region_transaction_commit() after loading non-iterable
++     * vmstate, make sure the migration_enable_load_check_delay flag is
++     * true during commit.
++     */
++    migration_enable_load_check_delay = true;
++    memory_region_transaction_commit();
++    migration_enable_load_check_delay = false;
++
+     return ret;
  }
  
- void virtio_cleanup(VirtIODevice *vdev)
-@@ -4158,7 +4164,12 @@ static void virtio_memory_listener_commit(MemoryListener *listener)
-         if (vdev->vq[i].vring.num == 0) {
-             break;
-         }
--        virtio_init_region_cache(vdev, i);
-+
-+        if (migration_enable_load_check_delay) {
-+            virtio_load_check_delay(vdev);
-+        } else {
-+            virtio_init_region_cache(vdev, i);
-+        }
-     }
- }
- 
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 6a7a31e64d..0523091445 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -12,6 +12,7 @@ extern int only_migratable;
- extern const char *qemu_name;
- extern QemuUUID qemu_uuid;
- extern bool qemu_uuid_set;
-+extern bool migration_enable_load_check_delay;
- 
- const char *qemu_get_vm_name(void);
- 
-diff --git a/softmmu/globals.c b/softmmu/globals.c
-index 527edbefdd..1bd8f6c978 100644
---- a/softmmu/globals.c
-+++ b/softmmu/globals.c
-@@ -65,3 +65,6 @@ bool qemu_uuid_set;
- uint32_t xen_domid;
- enum xen_mode xen_mode = XEN_EMULATE;
- bool xen_domid_restrict;
-+
-+bool migration_enable_load_check_delay;
-+
 -- 
 2.20.1
 
