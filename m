@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F3764A541
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF18A64A540
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:51:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4m0k-00028a-Tt; Mon, 12 Dec 2022 11:50:39 -0500
+	id 1p4m0l-0002F2-4T; Mon, 12 Dec 2022 11:50:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p4m0U-00023o-5L
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:50:22 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ id 1p4m0V-00027P-Ry
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:50:24 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p4m0J-0002ho-IJ
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:50:13 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- v13-20020a17090a6b0d00b00219c3be9830so440419pjj.4
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:50:07 -0800 (PST)
+ id 1p4m0T-0002y7-UI
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:50:23 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id u5so338307pjy.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:50:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=FORGBh/Pt4RiKOxYB/KoZdU5uzlKmJzHzUWMhfSn3HY=;
- b=Y2OuRGm92zhn1ZOWW2IJl4+1qjBhEIgiKj5memJSHC7ZRO4N4dPW1Tlgys7Kyul03J
- jqGw54VqkhlVmXNVH0dZf+xw0OoPquflykwZM/Q9ofUbt4qZPj/SYZE50MUfqP5hoiEX
- LkwZK715+5ZFtVuKGIFM5Yp1aFzQeBCTDhOPJGKXNFG5qjoF++eeBUGFr9nd6ABpUlhV
- 0GE6fUr5i7A2nccwIx0nUVk6P4kySqghznEmY/V/kb00qQw8E4EMArkgAHN6UllSBMzM
- PWfxb2jdU8Y77uZbRmCbj56ts4XEBPyO/noD6o0mHPl30kBShuDTwSHFT7WuizUd0hC7
- vrtQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0u/ggCD2dpzlHztgUVICOjgPHyTnEFx12/17GnxGqa0=;
+ b=ch+4PeWlXRtcybXSgMcUtBhLUcnMOGnIb7H6NisLQXo9Dm1+7U7upvRGNYX8NF1f9p
+ yUYJQoQVz/5aaczI6BUPfoSPe+R1GCo8CwmbhUCJWVR4eDivkkuxvoq7lNTkABuyMUCo
+ cnwHXWUZZQ5XAQKC3fkOQvnifEQKjX2HSUHMM6qOMDVGUp3X85f1APVe8gfhSSfFekaq
+ tS9ZIMGeSUlH1CIj2hXw115Zw/lFc9Hxco2mXmVLfJz+hGKqgUTOzcDlf6TowEZ5l2Co
+ PlV6yfzBCIowJ2fLL+sVUf8MemcPGl2c6BGfeBkcU7XXBOFrn00NErbysI7UrQgf0VGd
+ 7BRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FORGBh/Pt4RiKOxYB/KoZdU5uzlKmJzHzUWMhfSn3HY=;
- b=MakEjio2Cc2bIDBpWzlXHsnZph5Bt5g7baV6i67f8bMUdBSGT50sALtqCZA/xb+1gO
- FDlOrkKWh+y75ZsDOL/JY4KFftSVDPmnOdPNJ5UST699Kg2mDX6P+5Zl//lsWW239A+4
- YY3KUF5uJkVTGNzQDCnd+Mrxct4JXnS41zvvVLrbIPlTtWmRlSqqRdBCJH8Rlw+V5uIL
- qPpCUl7YFGhV6MqNTv7C6F3U9s3QABxK6VQrLMh2hRmshFgyFHFq5CTSGx0W165XnNzL
- ZLGU+wugnOKxu8SzT6jz+wuVF8XPwfbicFVBRWACQgT/PQ4b/mwcmzNZq+Nnr8snvtns
- UJVA==
-X-Gm-Message-State: ANoB5pnMWtPdoTfirUvAjhYsolj9Q0w6m/o1Z9WGtKWsxQTGTrOXFNfI
- fUM5lD9pUKFlDcwl0dzHAHOqFKTcKyDqPvgC
-X-Google-Smtp-Source: AA0mqf45zzxY55J25hxD7S8SjgRGjkwG4FFQXuwQJw07P4NW94RYzke++35cOvaB3EpRN7Rkl5Vurg==
-X-Received: by 2002:a17:902:ced0:b0:18f:9b13:5fc0 with SMTP id
- d16-20020a170902ced000b0018f9b135fc0mr5577384plg.52.1670863805679; 
- Mon, 12 Dec 2022 08:50:05 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0u/ggCD2dpzlHztgUVICOjgPHyTnEFx12/17GnxGqa0=;
+ b=ToYDU85PeYCGFpBD/XY4CdBxM6icxvr3IGosiL7MIPWz2sq6t9hC6S+pwQNa7OJsGC
+ kI1zO8JTTIZhsV2odEUN0cSOIYV91JyKazdnpeXeC3As80QKoptlt/fUDwndxhV5HMjC
+ f6VcJIWDmaPfP3Tm7VlvfRFBRzzVqWhJwiLXxJBgZK2bRvMzFG/rTYFsGIRFmhykS+60
+ qUq3kX8EEpcWwT+4h9oyo/FaMEHh4LNHALy1Cw4EAfOn7V5FsdS8Oi9UJiie4UdLjqTQ
+ hNDw/5+1Ak1jkvZyO6V0O9Cqmk9fK4qchGsdhFC+JhsiumJFEktFzV1wKdkNcf9HwwOw
+ v3/Q==
+X-Gm-Message-State: ANoB5pmhqWEnZJv27WE424VKwQdKYIO1CLa7wMJJCaEhxavsKpENdQnL
+ ZQkPaHkupnfQEmxD/4i4KQ+eoSoC2BL6CRvi
+X-Google-Smtp-Source: AA0mqf4z9maOoX5LlcSApKYQDLtCee9WRKcD7ieQ4yxFf9hQY5Mqmo54AWBVlXyHbxS0e2QTQgwQ/w==
+X-Received: by 2002:a17:902:c3c3:b0:18d:6138:e4f6 with SMTP id
+ j3-20020a170902c3c300b0018d6138e4f6mr13467483plj.29.1670863816390; 
+ Mon, 12 Dec 2022 08:50:16 -0800 (PST)
 Received: from n250-032-048.byted.org ([221.194.189.28])
  by smtp.gmail.com with ESMTPSA id
- x21-20020a170902ea9500b0018f69009f3esm3012125plb.284.2022.12.12.08.50.03
+ x21-20020a170902ea9500b0018f69009f3esm3012125plb.284.2022.12.12.08.50.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Dec 2022 08:50:05 -0800 (PST)
+ Mon, 12 Dec 2022 08:50:16 -0800 (PST)
 From: Chuang Xu <xuchuangxclwt@bytedance.com>
 To: qemu-devel@nongnu.org
 Cc: dgilbert@redhat.com, quintela@redhat.com, peterx@redhat.com,
- zhouyibo@bytedance.com
-Subject: [RFC v2 0/3] migration: reduce time of loading non-iterable vmstate
-Date: Tue, 13 Dec 2022 00:49:39 +0800
-Message-Id: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
+ zhouyibo@bytedance.com, Chuang Xu <xuchuangxclwt@bytedance.com>
+Subject: [RFC v2 1/3] memory: add depth assert in address_space_to_flatview
+Date: Tue, 13 Dec 2022 00:49:40 +0800
+Message-Id: <20221212164942.3614611-2-xuchuangxclwt@bytedance.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
+References: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: 6
 X-Spam_score: 0.6
 X-Spam_bar: /
@@ -89,36 +91,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Before using any flatview, sanity check we're not during a memory
+region transaction or the map can be invalid.
 
-Hi!
+Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
+---
+ include/exec/memory.h | 9 +++++++++
+ softmmu/memory.c      | 1 -
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-In this version:
-
-- rebase to latest upstream.
-- add sanity check to address_space_to_flatview().
-- postpone the init of the vring cache until migration's loading completes. 
-
-Please review, Chuang.
-
-[v1]
-
-The duration of loading non-iterable vmstate accounts for a significant
-portion of downtime (starting with the timestamp of source qemu stop and
-ending with the timestamp of target qemu start). Most of the time is spent
-committing memory region changes repeatedly.
-
-This patch packs all the changes to memory region during the period of
-loading non-iterable vmstate in a single memory transaction. With the
-increase of devices, this patch will greatly improve the performance.
-
-Here are the test results:
-test vm info:
-- 32 CPUs 128GB RAM
-- 8 16-queue vhost-net device
-- 16 4-queue vhost-user-blk device.
-
-	time of loading non-iterable vmstate
-before		about 210 ms
-after		about 40 ms
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 91f8a2395a..b43cd46084 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1069,8 +1069,17 @@ struct FlatView {
+     MemoryRegion *root;
+ };
+ 
++static unsigned memory_region_transaction_depth;
++
+ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+ {
++    /*
++     * Before using any flatview, sanity check we're not during a memory
++     * region transaction or the map can be invalid.  Note that this can
++     * also be called during commit phase of memory transaction, but that
++     * should also only happen when the depth decreases to 0 first.
++     */
++    assert(memory_region_transaction_depth == 0);
+     return qatomic_rcu_read(&as->current_map);
+ }
+ 
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index bc0be3f62c..f177c40cd8 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -37,7 +37,6 @@
+ 
+ //#define DEBUG_UNASSIGNED
+ 
+-static unsigned memory_region_transaction_depth;
+ static bool memory_region_update_pending;
+ static bool ioeventfd_update_pending;
+ unsigned int global_dirty_tracking;
+-- 
+2.20.1
 
 
