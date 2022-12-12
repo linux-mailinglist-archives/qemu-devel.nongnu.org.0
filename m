@@ -2,71 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5012649BB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 11:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DD6649BBF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 11:10:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4fjM-0001Mm-Sq; Mon, 12 Dec 2022 05:08:16 -0500
+	id 1p4flW-0002kc-RH; Mon, 12 Dec 2022 05:10:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p4fjK-0001MO-Lv
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 05:08:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p4flU-0002je-7n; Mon, 12 Dec 2022 05:10:28 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p4fjI-0005YD-Tn
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 05:08:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670839691;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NDMUKz/SYdxm9bFiKLsyxuCMucn4LZbrznWLwI716us=;
- b=HZ+bY0pfzHrSLhRQiQdTc4DNjoLk5GV68SSU6eoD0g+HuuHl27L3LYVPzcZqd8+VlEEsab
- OYW54zM1id2HWoOG8j2FKvDBO6ybgGBo8hfPQzxGtrlutuUcoyj/BQMVX2C24jAWFUCrPd
- DXarSCbIpjBBVNetZsnhF4ZQvrJQkOY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-HlGr6F2wO5i4WxX7p9EpaQ-1; Mon, 12 Dec 2022 05:08:10 -0500
-X-MC-Unique: HlGr6F2wO5i4WxX7p9EpaQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27E7685A59D;
- Mon, 12 Dec 2022 10:08:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E85281121331;
- Mon, 12 Dec 2022 10:08:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D048321E6900; Mon, 12 Dec 2022 11:08:06 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com,  dgilbert@redhat.com,  berrange@redhat.com,
- philmd@linaro.org
-Subject: Re: [PATCH v2 11/14] ui: Move HMP commands from monitor to new
- ui/ui-hmp-cmds.c
-References: <20221202100512.4161901-1-armbru@redhat.com>
- <20221202100512.4161901-12-armbru@redhat.com>
-Date: Mon, 12 Dec 2022 11:08:06 +0100
-In-Reply-To: <20221202100512.4161901-12-armbru@redhat.com> (Markus
- Armbruster's message of "Fri, 2 Dec 2022 11:05:09 +0100")
-Message-ID: <87sfhl6ik9.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p4flS-0005xM-AT; Mon, 12 Dec 2022 05:10:27 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BC8KaxB024640; Mon, 12 Dec 2022 10:10:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=lxLtjmrvAbbmAhNFMQykLPMrN+QULFSwJyNvCNlSIuY=;
+ b=Y6+s8/fUGzKf5bN9D6g8BuZGoi1ngNGvoxMcuUUU/5P/yejj9IWUTNW7jz8NNGFZRzzJ
+ 9JkGWROLF5KTb+11gvk3i0XtpWo7rG5gYRlxqueb0C0Gc7eWCyjFgAr44RyAs/YOMctk
+ 6pW8GxFi4fZgGcxWKHpboAAAOY0PZmlACG4h7SkTuyuI0GlTcEtEHS5vRfZCqHru6eYt
+ 5IsCnQKnJzZCE5Fc2h3NyWAfx5JR3Mhd19I+ti2Oo/8/KjKmXQorjUWqfr/K8rvNT3Jg
+ vqjps+Zkvxb8J/Thz5SDNp956lZ4VmlVCbFNYRY7ADPG01l241WTE0u8qo/ZCBQKOYmM eg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md3ynw8am-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 10:10:16 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BC9ePjG014771;
+ Mon, 12 Dec 2022 10:10:16 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md3ynw89y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 10:10:16 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BC4Bt5J015546;
+ Mon, 12 Dec 2022 10:10:14 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3mchr5srgt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 10:10:14 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BCAAAqr22348080
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 10:10:10 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F254D20075;
+ Mon, 12 Dec 2022 10:10:09 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72F4D20076;
+ Mon, 12 Dec 2022 10:10:08 +0000 (GMT)
+Received: from [9.171.10.222] (unknown [9.171.10.222])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Dec 2022 10:10:08 +0000 (GMT)
+Message-ID: <90514038-f10c-33e7-3600-e3131138a44d@linux.ibm.com>
+Date: Mon, 12 Dec 2022 11:10:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v13 0/7] s390x: CPU Topology
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
+ clg@kaod.org
+References: <20221208094432.9732-1-pmorel@linux.ibm.com>
+ <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
+ <60f006f4-d29e-320a-d656-600b2fd4a11a@linux.ibm.com>
+ <864cc127-2dbd-3792-8851-937ef4689503@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <864cc127-2dbd-3792-8851-937ef4689503@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 93y19EgCRjDDbrcCqqO7S42pYRllNucu
+X-Proofpoint-ORIG-GUID: lQosFleFsNh1dqakp7j29M05ub0nX8QF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_02,2022-12-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ malwarescore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
+ phishscore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120088
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,43 +122,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> writes:
 
-> This moves these commands from MAINTAINERS section "Human
-> Monitor (HMP)" to "Graphics".
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-[...]
+On 12/12/22 10:07, Thomas Huth wrote:
+> On 12/12/2022 09.51, Pierre Morel wrote:
+>>
+>>
+>> On 12/9/22 14:32, Thomas Huth wrote:
+>>> On 08/12/2022 10.44, Pierre Morel wrote:
+>>>> Hi,
+>>>>
+>>>> Implementation discussions
+>>>> ==========================
+>>>>
+>>>> CPU models
+>>>> ----------
+>>>>
+>>>> Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
+>>>> for old QEMU we could not activate it as usual from KVM but needed
+>>>> a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
+>>>> Checking and enabling this capability enables
+>>>> S390_FEAT_CONFIGURATION_TOPOLOGY.
+>>>>
+>>>> Migration
+>>>> ---------
+>>>>
+>>>> Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
+>>>> host the STFL(11) is provided to the guest.
+>>>> Since the feature is already in the CPU model of older QEMU,
+>>>> a migration from a new QEMU enabling the topology to an old QEMU
+>>>> will keep STFL(11) enabled making the guest get an exception for
+>>>> illegal operation as soon as it uses the PTF instruction.
+>>>
+>>> I now thought that it is not possible to enable "ctop" on older QEMUs 
+>>> since the don't enable the KVM capability? ... or is it still somehow 
+>>> possible? What did I miss?
+>>>
+>>>   Thomas
+>>
+>> Enabling ctop with ctop=on on old QEMU is not possible, this is right.
+>> But, if STFL(11) is enable in the source KVM by a new QEMU, I can see 
+>> that even with -ctop=off the STFL(11) is migrated to the destination.
+> 
+> Is this with the "host" CPU model or another one? And did you explicitly 
+> specify "ctop=off" at the command line, or are you just using the 
+> default setting by not specifying it?
 
-> diff --git a/ui/ui-hmp-cmds.c b/ui/ui-hmp-cmds.c
-> new file mode 100644
-> index 0000000000..c26a1f00d0
-> --- /dev/null
-> +++ b/ui/ui-hmp-cmds.c
-> @@ -0,0 +1,361 @@
-> +/*
-> + * Human Monitor Interface commands
+With explicit cpumodel and using ctop=off like in
 
-Make this
+sudo /usr/local/bin/qemu-system-s390x_master \
+      -m 512M \
+      -enable-kvm -smp 4,sockets=4,cores=2,maxcpus=8 \
+      -cpu z14,ctop=off \
+      -machine s390-ccw-virtio-7.2,accel=kvm \
+      ...
 
-    * HMP commands related to UI
 
-> + *
-> + * Copyright IBM, Corp. 2011
-> + *
-> + * Authors:
-> + *  Anthony Liguori   <aliguori@us.ibm.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2.  See
-> + * the COPYING file in the top-level directory.
-> + *
-> + * Contributions after 2012-01-13 are licensed under the terms of the
-> + * GNU GPL, version 2 or (at your option) any later version.
-> + */
+regards,
+Pierre
 
-[...]
-
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
