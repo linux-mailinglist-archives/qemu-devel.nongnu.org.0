@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36BA649AD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48980649AD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:13:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4en0-0001LR-8o; Mon, 12 Dec 2022 04:07:58 -0500
+	id 1p4enH-0001Pc-6y; Mon, 12 Dec 2022 04:08:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4emo-0001If-BG
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:07:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4emj-0008Do-RY
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:07:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670836060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0sBPYy4SSrrjZw+jrVOMWp6jQwmm3JH0xQisWa/AP0s=;
- b=Nf9YrT1B1qVQzukGRJDWlB1wNFhSjbzCgEWl73RP3bJZ7GnfrRketHacgNDAoEcUALKGDe
- XWdDx33Qo7Napk0+Fi5GUxqDIh/+jzzV/8/ZSBpLAmowjxioS4bUPHWMV/RLDJnx+0SZ2v
- UXebCmJ4o62OwcGjj39XUV7e2BB/E8Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-159-0PjmKi2wNFKL-XXeraWwYg-1; Mon, 12 Dec 2022 04:07:24 -0500
-X-MC-Unique: 0PjmKi2wNFKL-XXeraWwYg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b47-20020a05600c4aaf00b003d031aeb1b6so3872383wmp.9
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:07:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4en2-0001Ma-EY
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:08:04 -0500
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4emy-0008NU-2O
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:08:00 -0500
+Received: by mail-lj1-x230.google.com with SMTP id b9so11810740ljr.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:07:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MOJEqmx/l/AUcJDzXmZ1SM5RxRCxP9ANXaMq3frhM2I=;
+ b=fJIXF7SImgM4AW5ef5qlY5CWiBxV/3321BVuoAgUMz+sPoRJM6Hf6bqDVCvdbDcYtf
+ kydJHIeZHKPzcPuokn5W/BGTZTZUD1s3AQGwFPw7jkSn4rB3dNKH3R3lM7n2y/6A0o/+
+ hvnqTv/UJ+oMaaYXr2YgF+wuPTjYRa9o0uOf6tHQ8ZgnKlwNzsdmI2nyn3/yk7WNdPlq
+ uZdVFpLndUk0Hp8Sd4rWszm76abJBYBRfj633vIwQt0bZy70Xz95SBOs2lGl+XDCOSU/
+ vxG7BTx9ohux5RCITrMsLOLrfEegCOOFEp0PVQJ6UU6leqsPY85nA2CauzEgCISxZZa3
+ 0T0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0sBPYy4SSrrjZw+jrVOMWp6jQwmm3JH0xQisWa/AP0s=;
- b=CICu5+ButzVFbYkd9ao3Tzfe2gdPjqM2ctO2DJaBc0eSMiFOgR2PXljTMPZ2VpR2/v
- lCI5NYj7JgK8As7C+msPRHJu1W8IwbdK6zQSWVo8Q0UgaJnSzeoGFNOpjPU+yFb3VghS
- mt2U1RPOaPWg0vxyAUfmxBf80Ej/ZSeStoPUvj/z66Z3KRF4V9M5f3gOBBM3dErTYA6f
- X4lX7LFHS8H5AWJYcGzCppJRYNK2YaYmPZt9xCs4uMyLhEUsQdc1T2fXueJeJ51IY3tY
- 15/B4oW/v4JhxQOKkxAw5+yBLf9ty0MXcoKN6NmmqbxDLRv4arO27sU5CqqOlFOnuDly
- ZJ9Q==
-X-Gm-Message-State: ANoB5pn8jHKh/Kkapn+8W4eDVSx9gnNZ2+NxRcCr+2IbJNNmAnjyrpex
- jlsPGOcraN0XNlRqna+DIWIACBv+EBFTATOhrso/f5r4JA9nFHjXIFj9B95X/VONO9Q2fL9Azw7
- RfdUzenPDXrBrCog=
-X-Received: by 2002:a1c:6a17:0:b0:3cf:7031:bdcc with SMTP id
- f23-20020a1c6a17000000b003cf7031bdccmr11708035wmc.11.1670836042944; 
- Mon, 12 Dec 2022 01:07:22 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7sxv4VwcGxfQEfikpi6mNn4cuetCJzNaAH/YbFwkvO1oDoL/87hj0D7aTF883KxWU5Rv1LFQ==
-X-Received: by 2002:a1c:6a17:0:b0:3cf:7031:bdcc with SMTP id
- f23-20020a1c6a17000000b003cf7031bdccmr11708010wmc.11.1670836042743; 
- Mon, 12 Dec 2022 01:07:22 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-127.web.vodafone.de.
- [109.43.178.127]) by smtp.gmail.com with ESMTPSA id
- f9-20020a05600c154900b003d2157627a8sm9127452wmg.47.2022.12.12.01.07.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 01:07:22 -0800 (PST)
-Message-ID: <864cc127-2dbd-3792-8851-937ef4689503@redhat.com>
-Date: Mon, 12 Dec 2022 10:07:20 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MOJEqmx/l/AUcJDzXmZ1SM5RxRCxP9ANXaMq3frhM2I=;
+ b=Hwq741RTcjRpFWkne+K/jjgFzSW+BjeuUKPtMtIQTbsvgK1BxxHDjOccVDfCEIzkO+
+ R2QRUuAWsIOP9CCqCB9CikxOMfriUy2xwE+996VBsT7zqu1uX5O7XrHYlJknt0tPDKQ5
+ 6kozwpY6CP1s/nOoXjO07uWQNN0+hmFJ1fhg/rlXPG67CA8Kp/eR7NIYXmF+WHUrKfj3
+ qxrIczORjRGISyY3S6U36O2hJ7y1qzgCeB+1Vge1Jy418AyltTyiklXKBuoH+X7LreFi
+ Rj+OnXkubB1cEBQ6U03d0rzPaczPp14HS/JWMDkoN1gzdCnHenDu8CMaGMqel3O4La2G
+ ZbFg==
+X-Gm-Message-State: ANoB5plkQDPUr9jOdZ3ELgrCKbPljN9HRPyIzZ7HAALB6NsBFrnnlTMU
+ ++mF0PJe0nSUkBw9JCW7e4b9opW0sLyOjiTCIFPxj1tmy+w=
+X-Google-Smtp-Source: AA0mqf7OCnHoKEY6sPn62e4UC3OXBAY5T+MEXBKMVPOfkeDH5k8nmXBpvNQLhaH3qZZ3JNTC4L6Qxz/uZsYmMXDn0xU=
+X-Received: by 2002:a05:651c:1256:b0:279:e860:fe55 with SMTP id
+ h22-20020a05651c125600b00279e860fe55mr6929158ljh.267.1670836074123; Mon, 12
+ Dec 2022 01:07:54 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v13 0/7] s390x: CPU Topology
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221208094432.9732-1-pmorel@linux.ibm.com>
- <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
- <60f006f4-d29e-320a-d656-600b2fd4a11a@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <60f006f4-d29e-320a-d656-600b2fd4a11a@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-19-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-19-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 12 Dec 2022 13:07:41 +0400
+Message-ID: <CAJ+F1CLuVNhy6iYkwPfu-tnTqKzo=UymrjGpqQ4Gp9LV-ga6kw@mail.gmail.com>
+Subject: Re: [PATCH 18/30] configure, meson: move --enable-modules to Meson
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x230.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,49 +85,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/2022 09.51, Pierre Morel wrote:
-> 
-> 
-> On 12/9/22 14:32, Thomas Huth wrote:
->> On 08/12/2022 10.44, Pierre Morel wrote:
->>> Hi,
->>>
->>> Implementation discussions
->>> ==========================
->>>
->>> CPU models
->>> ----------
->>>
->>> Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
->>> for old QEMU we could not activate it as usual from KVM but needed
->>> a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
->>> Checking and enabling this capability enables
->>> S390_FEAT_CONFIGURATION_TOPOLOGY.
->>>
->>> Migration
->>> ---------
->>>
->>> Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
->>> host the STFL(11) is provided to the guest.
->>> Since the feature is already in the CPU model of older QEMU,
->>> a migration from a new QEMU enabling the topology to an old QEMU
->>> will keep STFL(11) enabled making the guest get an exception for
->>> illegal operation as soon as it uses the PTF instruction.
->>
->> I now thought that it is not possible to enable "ctop" on older QEMUs 
->> since the don't enable the KVM capability? ... or is it still somehow 
->> possible? What did I miss?
->>
->>   Thomas
-> 
-> Enabling ctop with ctop=on on old QEMU is not possible, this is right.
-> But, if STFL(11) is enable in the source KVM by a new QEMU, I can see that 
-> even with -ctop=off the STFL(11) is migrated to the destination.
+On Fri, Dec 9, 2022 at 3:44 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Is this with the "host" CPU model or another one? And did you explicitly 
-specify "ctop=off" at the command line, or are you just using the default 
-setting by not specifying it?
+On Fri, Dec 9, 2022 at 3:39 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> All uses of pkg-config have been moved to Meson.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-  Thomas
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+> ---
+>  configure                     | 21 +--------------------
+>  meson.build                   |  7 ++++++-
+>  meson_options.txt             |  2 ++
+>  scripts/meson-buildoptions.sh |  3 +++
+>  4 files changed, 12 insertions(+), 21 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 9c336203d8d9..26d10aeffd82 100755
+> --- a/configure
+> +++ b/configure
+> @@ -273,7 +273,6 @@ sanitizers=3D"no"
+>  tsan=3D"no"
+>  fortify_source=3D"yes"
+>  EXESUF=3D""
+> -modules=3D"no"
+>  prefix=3D"/usr/local"
+>  qemu_suffix=3D"qemu"
+>  softmmu=3D"yes"
+> @@ -705,12 +704,6 @@ for opt do
+>    ;;
+>    --disable-debug-info) meson_option_add -Ddebug=3Dfalse
+>    ;;
+> -  --enable-modules)
+> -      modules=3D"yes"
+> -  ;;
+> -  --disable-modules)
+> -      modules=3D"no"
+> -  ;;
+>    --cpu=3D*)
+>    ;;
+>    --target-list=3D*) target_list=3D"$optarg"
+> @@ -1001,7 +994,6 @@ cat << EOF
+>    linux-user      all linux usermode emulation targets
+>    bsd-user        all BSD usermode emulation targets
+>    pie             Position Independent Executables
+> -  modules         modules support (non-Windows)
+>    debug-tcg       TCG debugging (default is disabled)
+>    debug-info      debugging information
+>    safe-stack      SafeStack Stack Smash Protection. Depends on
+> @@ -1260,16 +1252,8 @@ else
+>    QEMU_CFLAGS=3D"$QEMU_CFLAGS -Wno-missing-braces"
+>  fi
+>
+> -# Our module code doesn't support Windows
+> -if test "$modules" =3D "yes" && test "$mingw32" =3D "yes" ; then
+> -  error_exit "Modules are not available for Windows"
+> -fi
+> -
+> -# Static linking is not possible with plugins, modules or PIE
+> +# Resolve default for --enable-plugins
+>  if test "$static" =3D "yes" ; then
+> -  if test "$modules" =3D "yes" ; then
+> -    error_exit "static and modules are mutually incompatible"
+> -  fi
+>    if test "$plugins" =3D "yes"; then
+>      error_exit "static and plugins are mutually incompatible"
+>    else
+> @@ -2229,9 +2213,6 @@ if test "$solaris" =3D "yes" ; then
+>  fi
+>  echo "SRC_PATH=3D$source_path" >> $config_host_mak
+>  echo "TARGET_DIRS=3D$target_list" >> $config_host_mak
+> -if test "$modules" =3D "yes"; then
+> -  echo "CONFIG_MODULES=3Dy" >> $config_host_mak
+> -fi
+>
+>  # XXX: suppress that
+>  if [ "$bsd" =3D "yes" ] ; then
+> diff --git a/meson.build b/meson.build
+> index f63ab7f83bed..99c1bde4d154 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -16,7 +16,6 @@ fs =3D import('fs')
+>
+>  sh =3D find_program('sh')
+>  config_host =3D keyval.load(meson.current_build_dir() / 'config-host.mak=
+')
+> -enable_modules =3D 'CONFIG_MODULES' in config_host
+>  targetos =3D host_machine.system()
+>
+>  cc =3D meson.get_compiler('c')
+> @@ -84,6 +83,12 @@ have_ga =3D get_option('guest_agent') \
+>    .require(targetos in ['sunos', 'linux', 'windows', 'freebsd'],
+>             error_message: 'unsupported OS for QEMU guest agent') \
+>    .allowed()
+> +enable_modules =3D get_option('modules') \
+> +  .require(targetos !=3D 'windows',
+> +           error_message: 'Modules are not available for Windows') \
+> +  .require(not get_option('prefer_static'),
+> +           error_message: 'Modules are incompatible with static linking'=
+) \
+> +  .allowed()
+>  have_block =3D have_system or have_tools
+>
+>  python =3D import('python').find_installation()
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 4b749ca54900..e492aaa73fbc 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -44,6 +44,8 @@ option('fuzzing', type : 'boolean', value: false,
+>         description: 'build fuzzing targets')
+>  option('gettext', type : 'feature', value : 'auto',
+>         description: 'Localization of the GTK+ user interface')
+> +option('modules', type : 'feature', value : 'disabled',
+> +       description: 'modules support (non Windows)')
+>  option('module_upgrades', type : 'boolean', value : false,
+>         description: 'try to load modules from alternate paths for upgrad=
+es')
+>  option('install_blobs', type : 'boolean', value : true,
+> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.s=
+h
+> index aa6e30ea911e..f91797741eef 100644
+> --- a/scripts/meson-buildoptions.sh
+> +++ b/scripts/meson-buildoptions.sh
+> @@ -119,6 +119,7 @@ meson_options_help() {
+>    printf "%s\n" '  lzo             lzo compression support'
+>    printf "%s\n" '  malloc-trim     enable libc malloc_trim() for memory =
+optimization'
+>    printf "%s\n" '  membarrier      membarrier system call (for Linux 4.1=
+4+ or Windows'
+> +  printf "%s\n" '  modules         modules support (non Windows)'
+>    printf "%s\n" '  mpath           Multipath persistent reservation pass=
+through'
+>    printf "%s\n" '  multiprocess    Out of process device emulation suppo=
+rt'
+>    printf "%s\n" '  netmap          netmap network backend support'
+> @@ -338,6 +339,8 @@ _meson_option_parse() {
+>      --disable-membarrier) printf "%s" -Dmembarrier=3Ddisabled ;;
+>      --enable-module-upgrades) printf "%s" -Dmodule_upgrades=3Dtrue ;;
+>      --disable-module-upgrades) printf "%s" -Dmodule_upgrades=3Dfalse ;;
+> +    --enable-modules) printf "%s" -Dmodules=3Denabled ;;
+> +    --disable-modules) printf "%s" -Dmodules=3Ddisabled ;;
+>      --enable-mpath) printf "%s" -Dmpath=3Denabled ;;
+>      --disable-mpath) printf "%s" -Dmpath=3Ddisabled ;;
+>      --enable-multiprocess) printf "%s" -Dmultiprocess=3Denabled ;;
+> --
+> 2.38.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
