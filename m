@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55773649E99
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8948649E9F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:26:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4hpT-0006LO-TB; Mon, 12 Dec 2022 07:22:43 -0500
+	id 1p4htL-0001fT-06; Mon, 12 Dec 2022 07:26:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4hp6-00068l-9Z
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:22:29 -0500
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4hp2-0007yn-8R
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:22:19 -0500
-Received: by mail-lf1-x12a.google.com with SMTP id x28so18236125lfn.6
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:22:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GC4BcWek+RzV+0m03d8K/6mQ13znqZZvV7iq8AffMNg=;
- b=dzyz5upivGku8vOSDv8Ug9pFJZReIzp9szOBdeRI0oohKoeUe3iJSDd1nb2Gpna92Z
- jfBBvrqRpqQC9DF4A3J0C5whja3ZMyc3Eg9CVWlu8wYvUr8mKthTsornPMnMrNEPSerc
- avd29P1/3/DWzVZ3kqAz/TbZOiSBqSDz9qQNCrndHWI52egwZAQghe6+9RidPQ8whQni
- yEFfzVKDlsS2yRR+3KiQj57pMbluBf8GUpZaNv5zlZsYb0DGjoq9bRcowxYGQEIqw8B8
- yz1CxHTpeXgmGHAzK+yZKqVjCenR/aWvekpk+fLmLm9wSHuVhYpwYOD4LfCvbBJxVzW/
- srBA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4htJ-0001ci-3D
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:26:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4htG-0000et-H7
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:26:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670847997;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0J1iA4fZ1+9C1Q06Cyz4wKoCHdmzpabHHru3fMT6Ys8=;
+ b=UUmciSO5AL25BVC+IhKkkpPN4bekuFXv8rA6yqr4MYS0KsWJ97V3cPNnolkFYLfAkIfRl1
+ dXNJRESWUnksGbqeMUgvS8mlakl2Rls/g4e2juFYiI2jxKkWOWpFyZ8ZnUeC4XepicRXQY
+ Nxfn4HmgfQvfBCS2b+4V827ReMO1n24=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-312-Yv17MUaZMQmYyyaCpqr-kA-1; Mon, 12 Dec 2022 07:26:36 -0500
+X-MC-Unique: Yv17MUaZMQmYyyaCpqr-kA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay19-20020a05600c1e1300b003cf758f1617so4098351wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:26:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GC4BcWek+RzV+0m03d8K/6mQ13znqZZvV7iq8AffMNg=;
- b=KdtOM65DRzbS02NFfMHC2nOojChx2XNBIIDSCFkuS2qDVYCgIxhAaSCnDjH+u5Dc9D
- SKGVBxP80c+/SoaSM6iCPgy3u0WNoljZGFvx4lX6OGcj0xv9/1r6H84hHyqsg4F0He0t
- O/WU+3e+IgBsl1DqUkudy5x9ksuSEIHNsvMXvFdu5vmu+UE0H/sr5LHhgZH2ly07MLER
- q+f78QahE01S5hrAew2MAeSgK22BkMEgbzmQ/Kq6bmmfZNFlWzhw4ezwm0KFm/16B4ls
- jlrkGV5UYRgVJh2X0cGH+yn4s6XQigT1d2Ml3KnwvKa8+GEHlC9YvZ1fNdu4HaoLp5RH
- P09w==
-X-Gm-Message-State: ANoB5pmV37EpYpc4sZ2Fiw1pkez6Vh9Mu78Mi5/ZJtMb56EeIT665Snu
- Y+vkVxAoGKiRmZyvvKbamLBmhwDNxMRfky6VR2k=
-X-Google-Smtp-Source: AA0mqf4VRFkyeaTrtpAbL6kB3v4D9RzuQchYGsx4h4kOt18nmXFQUTMTlL5d2G/evv1dPf77XKND8mEJCwcmSVjxEeo=
-X-Received: by 2002:ac2:41c6:0:b0:4b0:4b08:6873 with SMTP id
- d6-20020ac241c6000000b004b04b086873mr35229109lfi.329.1670847733399; Mon, 12
- Dec 2022 04:22:13 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0J1iA4fZ1+9C1Q06Cyz4wKoCHdmzpabHHru3fMT6Ys8=;
+ b=UPEfkyOXGIfGfzbd3eM5djLECJ31zWwxak/+icn79Vx4rhkQhXcYI7PMeR9EjqpQnE
+ rPyX0CnzYLfVDM7Y7fPJ8aCO12avVts2XbHON3eUTSxCAUXmI1hIA6/538SiXJX/5RRN
+ NMLB0yz13zZ21YJ1T+682eJhdibxG1Vu+yFeyErD/9PloFAC0Wr0P9eTxMcvC0McEP/e
+ ZIZ+b1PX5au8Lm0y91koGrBMW6kWIv8Jpm/PBtta25v4i7wjY/bISQctsYp2OmhxtOcx
+ FQmnJ453u0cliUA6x8HYUk+IDz6ZPdTvxH06hNWizzsyBD3ilB8imedGoGSJdyVsQnAx
+ 9OpA==
+X-Gm-Message-State: ANoB5pmxxZEonsaXMW2xG+8KFY22MAERQvdOkELb2QEUUeFIs8Ki4h09
+ DjDrm2cYrC2jylCXVeZ/0HUG5onbbcf1I67PyWK7BtUTFXF160d9UjzuIuq3iL/ZiwgBt0+DvJp
+ 6+dsNoWvTGgpoJYE=
+X-Received: by 2002:a05:6000:16c2:b0:24d:58b3:e543 with SMTP id
+ h2-20020a05600016c200b0024d58b3e543mr5222881wrf.20.1670847995008; 
+ Mon, 12 Dec 2022 04:26:35 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5jiN4MfF1TWPdEVckkHoagCO3yEuvejDthjAMOpCZ0x0h41Wuw3SeZdol7sYqLj2iAOxsyeg==
+X-Received: by 2002:a05:6000:16c2:b0:24d:58b3:e543 with SMTP id
+ h2-20020a05600016c200b0024d58b3e543mr5222866wrf.20.1670847994770; 
+ Mon, 12 Dec 2022 04:26:34 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-178-127.web.vodafone.de.
+ [109.43.178.127]) by smtp.gmail.com with ESMTPSA id
+ az13-20020adfe18d000000b0024228b0b932sm10847471wrb.27.2022.12.12.04.26.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 04:26:34 -0800 (PST)
+Message-ID: <fd07821c-70d7-17cc-4420-0ae28954ad9a@redhat.com>
+Date: Mon, 12 Dec 2022 13:26:32 +0100
 MIME-Version: 1.0
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-25-pbonzini@redhat.com>
-In-Reply-To: <20221209112409.184703-25-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 12 Dec 2022 16:22:01 +0400
-Message-ID: <CAJ+F1CL9cOnou91xuphgkVbRyAA3QE8oA36u1JOHdQo5qwZjQA@mail.gmail.com>
-Subject: Re: [PATCH 24/30] build: move stack protector flag selection to meson
-To: Paolo Bonzini <pbonzini@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] FreeBSD: Upgrade to 12.4 release
+Content-Language: en-US
+To: Brad Smith <brad@comstyle.com>, Alex Benn_e <alex.bennee@linaro.org>,
+ Philippe Mathieu-Daud_ <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Warner Losh <imp@bsdimp.com>,
+ Kyle Evans <kevans@freebsd.org>
 Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12a.google.com
+References: <Y5GJpW/1s+NEah98@humpty.home.comstyle.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <Y5GJpW/1s+NEah98@humpty.home.comstyle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,221 +104,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
-
-On Fri, Dec 9, 2022 at 3:42 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
+On 08/12/2022 07.52, Brad Smith wrote:
+> FreeBSD: Upgrade to 12.4 release
+> 
+> Signed-off-by: Brad Smith <brad@comstyle.com>
 > ---
->  configure                     | 44 ++---------------------------------
->  meson.build                   | 28 +++++++++++++++++++++-
->  meson_options.txt             |  2 ++
->  scripts/meson-buildoptions.sh |  3 +++
->  4 files changed, 34 insertions(+), 43 deletions(-)
->
-> diff --git a/configure b/configure
-> index 1f7c5bbba4b9..5d31294f316f 100755
-> --- a/configure
-> +++ b/configure
-> @@ -175,7 +175,7 @@ compile_prog() {
->    local_cflags=3D"$1"
->    local_ldflags=3D"$2"
->    do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cfla=
-gs -o $TMPE $TMPC \
-> -      $LDFLAGS $EXTRA_LDFLAGS $CONFIGURE_LDFLAGS $QEMU_LDFLAGS $local_ld=
-flags
-> +      $LDFLAGS $EXTRA_LDFLAGS $CONFIGURE_LDFLAGS $local_ldflags
->  }
->
->  # symbolically link $1 to $2.  Portable version of "ln -sf".
-> @@ -221,7 +221,6 @@ static=3D"no"
->  cross_compile=3D"no"
->  cross_prefix=3D""
->  host_cc=3D"cc"
-> -stack_protector=3D""
->  use_containers=3D"yes"
->  gdb_bin=3D$(command -v "gdb-multiarch" || command -v "gdb")
->
-> @@ -370,8 +369,6 @@ sdl2_config=3D"${SDL2_CONFIG-${cross_prefix}sdl2-conf=
-ig}"
->  QEMU_CFLAGS=3D"-fno-strict-aliasing -fno-common -fwrapv"
->  QEMU_CFLAGS=3D"-D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURC=
-E $QEMU_CFLAGS"
->
-> -QEMU_LDFLAGS=3D
-> -
->  # Flags that are needed during configure but later taken care of by Meso=
-n
->  CONFIGURE_CFLAGS=3D"-std=3Dgnu11 -Wall"
->  CONFIGURE_LDFLAGS=3D
-> @@ -773,10 +770,6 @@ for opt do
->    ;;
->    --disable-werror) werror=3D"no"
->    ;;
-> -  --enable-stack-protector) stack_protector=3D"yes"
-> -  ;;
-> -  --disable-stack-protector) stack_protector=3D"no"
-> -  ;;
->    --enable-cfi)
->        cfi=3D"true";
->        meson_option_add -Db_lto=3Dtrue
-> @@ -944,7 +937,6 @@ Advanced options (experts only):
->    --with-devices-ARCH=3DNAME override default configs/devices
->    --enable-debug           enable common debug build options
->    --disable-werror         disable compilation abort on warning
-> -  --disable-stack-protector disable compiler-provided stack protection
->    --cpu=3DCPU                Build for host CPU [$cpu]
->    --enable-plugins
->                             enable plugins via shared library loading
-> @@ -1157,7 +1149,7 @@ EOF
->      optflag=3D"$(echo $1 | sed -e 's/^-Wno-/-W/')"
->      do_objc -Werror $optflag \
->        $OBJCFLAGS $EXTRA_OBJCFLAGS $CONFIGURE_OBJCFLAGS $QEMU_OBJCFLAGS \
-> -      -o $TMPE $TMPM $QEMU_LDFLAGS
-> +      -o $TMPE $TMPM
->  }
->
->  for flag in $gcc_flags; do
-> @@ -1169,37 +1161,6 @@ for flag in $gcc_flags; do
->      fi
->  done
->
-> -if test "$stack_protector" !=3D "no"; then
-> -  cat > $TMPC << EOF
-> -int main(int argc, char *argv[])
-> -{
-> -    char arr[64], *p =3D arr, *c =3D argv[argc - 1];
-> -    while (*c) {
-> -        *p++ =3D *c++;
-> -    }
-> -    return 0;
-> -}
-> -EOF
-> -  gcc_flags=3D"-fstack-protector-strong -fstack-protector-all"
-> -  sp_on=3D0
-> -  for flag in $gcc_flags; do
-> -    # We need to check both a compile and a link, since some compiler
-> -    # setups fail only on a .c->.o compile and some only at link time
-> -    if compile_object "-Werror $flag" &&
-> -       compile_prog "-Werror $flag" ""; then
-> -      QEMU_CFLAGS=3D"$QEMU_CFLAGS $flag"
-> -      QEMU_LDFLAGS=3D"$QEMU_LDFLAGS $flag"
-> -      sp_on=3D1
-> -      break
-> -    fi
-> -  done
-> -  if test "$stack_protector" =3D yes; then
-> -    if test $sp_on =3D 0; then
-> -      error_exit "Stack protector not supported"
-> -    fi
-> -  fi
-> -fi
-> -
->  # Disable -Wmissing-braces on older compilers that warn even for
->  # the "universal" C zero initializer {0}.
->  cat > $TMPC << EOF
-> @@ -1968,7 +1929,6 @@ echo "PKG_CONFIG=3D${pkg_config_exe}" >> $config_ho=
-st_mak
->  echo "CC=3D$cc" >> $config_host_mak
->  echo "QEMU_CFLAGS=3D$QEMU_CFLAGS" >> $config_host_mak
->  echo "QEMU_OBJCFLAGS=3D$QEMU_OBJCFLAGS" >> $config_host_mak
-> -echo "QEMU_LDFLAGS=3D$QEMU_LDFLAGS" >> $config_host_mak
->  echo "EXESUF=3D$EXESUF" >> $config_host_mak
->
->  # use included Linux headers
-> diff --git a/meson.build b/meson.build
-> index b9df49667a19..c5a8dce9e1d6 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -200,7 +200,7 @@ foreach arg : config_host['QEMU_CFLAGS'].split()
->    endif
->  endforeach
->  qemu_objcflags =3D config_host['QEMU_OBJCFLAGS'].split()
-> -qemu_ldflags =3D config_host['QEMU_LDFLAGS'].split()
-> +qemu_ldflags =3D []
->
->  if get_option('gprof')
->    qemu_common_flags +=3D ['-p']
-> @@ -211,6 +211,32 @@ if get_option('prefer_static')
->    qemu_ldflags +=3D get_option('b_pie') ? '-static-pie' : '-static'
->  endif
->
-> +if not get_option('stack_protector').disabled()
-> +  stack_protector_probe =3D '''
-> +    int main(int argc, char *argv[])
-> +    {
-> +      char arr[64], *p =3D arr, *c =3D argv[argc - 1];
-> +      while (*c) {
-> +          *p++ =3D *c++;
-> +      }
-> +      return 0;
-> +    }'''
-> +  have_stack_protector =3D false
-> +  foreach arg : ['-fstack-protector-strong', '-fstack-protector-all']
-> +    # We need to check both a compile and a link, since some compiler
-> +    # setups fail only on a .c->.o compile and some only at link time
-> +    if cc.compiles(stack_protector_probe, args: ['-Werror', arg]) and \
-> +       cc.links(stack_protector_probe, args: ['-Werror', arg])
-> +      have_stack_protector =3D true
-> +      qemu_cflags +=3D arg
-> +      qemu_ldflags +=3D arg
-> +      break
-> +    endif
-> +  endforeach
-> +  get_option('stack_protector') \
-> +    .require(have_stack_protector, error_message: 'Stack protector not s=
-upported')
-> +endif
-> +
->  coroutine_backend =3D get_option('coroutine_backend')
->  ucontext_probe =3D '''
->    #include <ucontext.h>
-> diff --git a/meson_options.txt b/meson_options.txt
-> index 126f89517e9a..98456b7cf2ea 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -93,6 +93,8 @@ option('sanitizers', type: 'boolean', value: false,
->         description: 'enable default sanitizers')
->  option('tsan', type: 'boolean', value: false,
->         description: 'enable thread sanitizer')
-> +option('stack_protector', type: 'feature', value: 'auto',
-> +       description: 'compiler-provided stack protection')
->  option('cfi', type: 'boolean', value: false,
->         description: 'Control-Flow Integrity (CFI)')
->  option('cfi_debug', type: 'boolean', value: false,
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.s=
-h
-> index 29695ac88eea..a87b3702e955 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -157,6 +157,7 @@ meson_options_help() {
->    printf "%s\n" '  sparse          sparse checker'
->    printf "%s\n" '  spice           Spice server support'
->    printf "%s\n" '  spice-protocol  Spice protocol support'
-> +  printf "%s\n" '  stack-protector compiler-provided stack protection'
->    printf "%s\n" '  tcg             TCG support'
->    printf "%s\n" '  tools           build support utilities that come wit=
-h QEMU'
->    printf "%s\n" '  tpm             TPM support'
-> @@ -424,6 +425,8 @@ _meson_option_parse() {
->      --disable-spice) printf "%s" -Dspice=3Ddisabled ;;
->      --enable-spice-protocol) printf "%s" -Dspice_protocol=3Denabled ;;
->      --disable-spice-protocol) printf "%s" -Dspice_protocol=3Ddisabled ;;
-> +    --enable-stack-protector) printf "%s" -Dstack_protector=3Denabled ;;
-> +    --disable-stack-protector) printf "%s" -Dstack_protector=3Ddisabled =
-;;
->      --enable-strip) printf "%s" -Dstrip=3Dtrue ;;
->      --disable-strip) printf "%s" -Dstrip=3Dfalse ;;
->      --sysconfdir=3D*) quote_sh "-Dsysconfdir=3D$2" ;;
-> --
-> 2.38.1
->
->
+>   .gitlab-ci.d/cirrus.yml | 2 +-
+>   tests/vm/freebsd        | 4 ++--
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+
+Thanks, queued to my testing-next branch:
+
+  https://gitlab.com/thuth/qemu/-/commits/testing-next/
+
+  Thomas
 
 
---=20
-Marc-Andr=C3=A9 Lureau
 
