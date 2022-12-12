@@ -2,151 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61C964A55D
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B50664A563
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 18:00:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4m6W-0007gV-M2; Mon, 12 Dec 2022 11:56:36 -0500
+	id 1p4m9K-0000bm-6l; Mon, 12 Dec 2022 11:59:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1p4m6U-0007cY-24; Mon, 12 Dec 2022 11:56:34 -0500
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p4m9H-0000bS-Md
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:59:27 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1p4m6S-0001dE-7S; Mon, 12 Dec 2022 11:56:33 -0500
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BCE8AEI027503; Mon, 12 Dec 2022 16:55:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=25kRt6C5edUeVcOSmKVh/W5Ap15949bU9qlKOKoa3FA=;
- b=VCr1/SD8nkYs9Q+1vlPfHqrFcdwRf10bg4iB/vq7O6UPWBJzGnUFRe6lwuXxEu2KasVJ
- ig0y7WiP5jLccedrjTvsMqBXzkq42EvQ2Tid+Yb1N4wa8R9UUuXr2EH+MCaB7BDS2U6a
- g586J3m9SdJIZHhgeHLcj2ntoUt0g40npGkSaUa8fzS7zwo177xUNqzesKSyaqWVsYvD
- Qzzq+q3dsMABME4sjcv6clOBRAJX4gpdvpqyj+ztsYff5YaP6GdiWYpoerMBRmjDmQgO
- gvFG7mWiK/x7a/1dNhKIbfOTTcThGzcuK1HymRWBSAbRwFdLn5Tq48xDVbUUXNJDOhQd aQ== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mcjb94jbn-1
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p4m9F-00022Z-Oo
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:59:27 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BCG4fCT028878
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 16:59:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=S0zvxd7aI3VMJEvXstZVaMONT7zY35sPquoqA19eGTs=;
+ b=GGa0kFuYr+NPwCVFOuRTT05ZawF4krAwrrGZP0VQl0biwSaDrLBCJQoAGxUKhZZPRXGd
+ tqeNPKJfA5W6MYTKDhIUH2a5n52JDNCo/xm6lV/x9MWanykiJ4AHwEiMgr/qe876bkue
+ LDLQdBXEa4PGSYDPrhH5z5a1olLumt0x5WyfEwg+0fAhoa9xnF66+5g1toHdRqlpV57Y
+ E6u+G7+0iTHxRNDwzDfXqaiqT5Fa+rT+a2PIeDa0/u3RwJssMwg2q9W4X6SevVs1LN/Q
+ GH4QaFXt71VFslJAZFHmZX3mCIbLNO8eCSuKRo1Wf70KqFeOX2B+rTYqtn36ZGzvFZtu fw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3me7gnshfm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 16:59:24 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCGtrfb024868
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 16:59:23 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3me7gnshfd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 16:55:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mOIwIJGZN2k8Q6JSKdh7LSR5WajaAzLdbEizBGqxj37q2zQd+Z2eSsXupj8iP00CzTQyNUfEDwfFj3OERUAAk4QFAH3LYflloJ+A8Rdltsf4VO15hMc/VwYdQTBcLfEoC6UCsUwW96rW2jLZ5aeM/IYE5Y0xHxHWCwkLid9XFhbqW3RYPOtd3NmeE9eSKJacpFwFmkdNFZVpMVrGk1Z2NL7ParV7bneIeHO5Q9pza94tcV2l/xZb6hcfXhvrYUfly7vakM4U33vbBXxEhymu+YTS73lvKE9KrhyGUrCF7aaoCinMtTv+GCx/OIbsmE+AcGzkqnkMTkGKE35FCjdxiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=25kRt6C5edUeVcOSmKVh/W5Ap15949bU9qlKOKoa3FA=;
- b=kNccDBG9wN0OMW2lKsFEuj1V/NVsN280ADVniMQf4dYHVvMRKoar8Fo5Uu/3C1i5nPLz5zbzVcVlO6tVFSozoUjij8K0pc2xRo6lpFbfpreeIDh4E5Lr9lLPpALNAeJe8GjzK6n/hnPr9zv0v6oXZOW29ohgb2TH5uuIX/cp1l/xHy3+a7MRcHeS3EIoSZHlsAxY6t3Xqi8Na2EuZSyz0oE5KfD9cqETWCWqyAmXxwBsSTq/wSPnPJKILkixPopZXNXYRQQQv6t+WN134qoduBbYrxM03OxtjWSI9RE5og6MwCLKxwC86TH8jbtV1B5F2YKnONLjIA2fciAMtbQWgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by CH2PR02MB7013.namprd02.prod.outlook.com
- (2603:10b6:610:5c::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Mon, 12 Dec
- 2022 16:55:55 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::caac:2d02:279d:4270]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::caac:2d02:279d:4270%9]) with mapi id 15.20.5880.019; Mon, 12 Dec 2022
- 16:55:55 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Markus Armbruster <armbru@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "imp@bsdimp.com" <imp@bsdimp.com>, "kevans@freebsd.org"
- <kevans@freebsd.org>, "berrange@redhat.com" <berrange@redhat.com>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
- "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
- "jasowang@redhat.com" <jasowang@redhat.com>, "michael.roth@amd.com"
- <michael.roth@amd.com>, "kkostiuk@redhat.com" <kkostiuk@redhat.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>, "alistair.francis@wdc.com"
- <alistair.francis@wdc.com>, "bin.meng@windriver.com"
- <bin.meng@windriver.com>, "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>
-Subject: RE: [PATCH] include: Don't include qemu/osdep.h
-Thread-Topic: [PATCH] include: Don't include qemu/osdep.h
-Thread-Index: AQHZDfgFslR1ZGc/50G3a4nahR00Ga5qd+ZA
-Date: Mon, 12 Dec 2022 16:55:55 +0000
-Message-ID: <SN4PR0201MB8808461347A55B9870BB6C4ADEE29@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20221212070431.306727-1-armbru@redhat.com>
-In-Reply-To: <20221212070431.306727-1-armbru@redhat.com>
-Accept-Language: en-US
+ Mon, 12 Dec 2022 16:59:23 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BCEqNfe030360;
+ Mon, 12 Dec 2022 16:59:23 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3mchr6hrew-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 16:59:22 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
+ [10.241.53.104])
+ by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BCGxLNR56230352
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 16:59:21 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EF4A658056;
+ Mon, 12 Dec 2022 16:59:20 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8AC8158052;
+ Mon, 12 Dec 2022 16:59:20 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Dec 2022 16:59:20 +0000 (GMT)
+Message-ID: <f76810cb-3658-84b0-e4b4-a684dff99f38@linux.ibm.com>
+Date: Mon, 12 Dec 2022 11:59:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] tpm: add backend for mssim
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|CH2PR02MB7013:EE_
-x-ms-office365-filtering-correlation-id: fdf68dc7-fffb-4a5c-05b5-08dadc61bc7a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LZBhnAEMbzmQnN7njkhwMqBvl4S8rBn5DFHzQ/LTTfOOSRboIDmsd2uKoBXyeBOomrRXv54LnvVrJH1nQsMxg/LCud7mXHUu+obGZAKIE87jGPzccxK3CtVAODGltsy2PM8BNU1mvokGPT4vfHRlflrVOJQCMY17cKg/cKxf8oShjoP/P/wmoBxFSDA+BvFD4SjW4520vwikeCjllhdWpZ/PCYLraAbWx8pBSO4QuCgn7IXHuYgQ5WcHp80jTzzDIktt+Z8i5BIC3TwoxPAX3B3+KwYJQs86x/W7fltHdost9anpmLameMbPf557j7FpQgQC1zWWMs1cQJ0XPcfK/zTE2tTxLwxMU10JH2BGYt79ppbyCyxI+uWVyA/PpY5gWnRUr3BC7q5CHy2w+btrjgM3l7z697acAarzhBXs3UW8MrL//yjXWXX/zj00oQaqcgpy3JWJtNySC+DS/aHdgeyengZpTwLp/5smXtbRWwT118g6w5cpANm4ZTfwE1Nm8x7XoVqySi7QSqmZot37NGQ+/jGGCcNh5ebTXpfqyBiYVciu+EUVfmJwfBHrbAtt1zvLk2bkfhjA8wntS/B+vkOahHBTzBTYxmLzHIMyXPjvOPREdkpTMDfFpl8jdLQ5l/1hfegYnl8gpRElwec6+K2fpLAARkGy9LhRPZPJ+yR4G9lLuOASF7qDufDCZ132n/l95eycWWKQbp9UmJHBPw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(366004)(396003)(376002)(346002)(136003)(451199015)(66556008)(7416002)(66446008)(8936002)(66946007)(66476007)(76116006)(52536014)(54906003)(316002)(2906002)(33656002)(83380400001)(186003)(110136005)(7696005)(9686003)(38100700002)(86362001)(55016003)(71200400001)(6506007)(53546011)(26005)(122000001)(38070700005)(41300700001)(5660300002)(478600001)(8676002)(4326008)(64756008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lFBy5IYDisSktiDTQs4xDEv+2msAvVLOffG2HT3BoPIdokAlxUOmhFfSPXdy?=
- =?us-ascii?Q?bflBvfJPsVq1s7Tpg8O4CULzAhIUpV45fNr01S1h7lOlDuV7IEiB56zqY6ra?=
- =?us-ascii?Q?B5njNFDYck9QGoB7FeJae8DH/5PoXxDZx8GxWSywbpDI8IiMtcZn9GJ8ugxE?=
- =?us-ascii?Q?a/kInK/4vJ0oGX0pPIu2RVWX6U0m8Y3uQ0IOMLUoxzyA5Sl8FPPdYYPtzjMX?=
- =?us-ascii?Q?LaYGeOIVu2wQNu4s6R2BPyLzcI9hawlj2gtOiKb3NRIwawCKCEgu3WkIuCPE?=
- =?us-ascii?Q?jx7dGCeF6FYMjfl2GUmZ1Ac5D8emxXRg2LGhXy0JjaJXa9ywxQ7l7SajXyrA?=
- =?us-ascii?Q?XUzM8Qax87o7SpCU8nyUUiQJ3x00AhZGFhaulsynaQw0qL3Z8N6qZK//XdRB?=
- =?us-ascii?Q?zOBTrmg9p1UT83HQtAuUrDkExIPmNg1h4fu6qQnjVHDWkf4Y4pTU4SiUiTZR?=
- =?us-ascii?Q?lyBwhTahu/krc/xal6Emf5jHQTpAy45dy74gZKXcz9iL1DCkALpd+rP+LirK?=
- =?us-ascii?Q?JeWypxnQuOlb+AVNDBuE3shlChP4MPjMdpYd8j4a3tUpadGytsfyZITjz6xH?=
- =?us-ascii?Q?/tu7UQiYmCBNz9JM/xE0AJRP9NBMGiH9OHfhf9bEt55228GyYM4dUbsatzdl?=
- =?us-ascii?Q?wavInCJ9YhJZZzzskMXLGJJPwIV+4gH1RlkfmelR0Cb3Ze1VZDoumSCIVfS3?=
- =?us-ascii?Q?zmKP5WRd7XQaQCr1WGaLtBJsgCMRbTcdoIKQIZOREH/P+kyslacI4+HZ8s1K?=
- =?us-ascii?Q?6+VWjPDHW9y3686EOJiMUYovh4g8hSZ/SqF5DPpUw/EslT+RqipB+i41biNd?=
- =?us-ascii?Q?9jNG0Tvwmo9lh7g5TKPCuEX3FtKFG0+8tYRoG2/g4Xo95p6FIi0b9vdz+EsF?=
- =?us-ascii?Q?k97nr4J/qMyp7u2J3sGSUP21boGs9W8lCo9MGDEAALr9K8plfomNolvQFtLk?=
- =?us-ascii?Q?BHP1Pg+jEy0DSQa/j1gMhWkUr95SL05hvO8xODmXd1mRVMZMzbFwHrdrBQK+?=
- =?us-ascii?Q?UxVmylLmFvdOenHuK8HV38pxK4pBCMh1TeGkXOJFItv+XjkNvgNYCfD3sVFd?=
- =?us-ascii?Q?rryuuyHrZL1d8XEIkHyupagtbJvNzOj9TETq9PufhiVcMHBR2KfPIvYAjMvM?=
- =?us-ascii?Q?y8rVIjeAbuGb3AZpRXyGY3yTgVcov5deU4U3eRlyeHMs2G0lwmRAP9pcJHAH?=
- =?us-ascii?Q?Qkyr2kkRi9XFmcF6Aj2bPF6TxFdGAzNDT88b8/YyPauR+ALk14b+EAX+ada+?=
- =?us-ascii?Q?8xbd/XcBXrgVm0437hrEHSidax8L20EMLLtjYDy06ucDxhVIqumeb5bX/epD?=
- =?us-ascii?Q?NTr/sXPk658DogbMyOUY8Hbw0HGa3fW+TIH1/TH9uwkBrkldSVHhIcNj6bkC?=
- =?us-ascii?Q?3eIoLmEmBuw1lG/Tvt/76BB/uwUHY+WaJxOQ20SdnkeFeF2qHIVq+bWYxMck?=
- =?us-ascii?Q?ZFG5QKn5yBM44AbWmbXZ6Zt4CjGAVS6cKxN13q3xKJRidkQ08hKxBavHvyEF?=
- =?us-ascii?Q?mpfz6+EN4LZo5riB9aAw8m6i4DzETy4vgcLmdFYkJ7wgiWbiE92YKj3QcGDh?=
- =?us-ascii?Q?DB0R3jJqPfp/W90gVQCrXY/SKVRKeQbUhxNx58qY?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: jejb@linux.ibm.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
+ <Y5dNC77CubqrfXku@redhat.com>
+ <b06d31496117c8dd8b8fe60c4bebd96377ca3ff1.camel@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <b06d31496117c8dd8b8fe60c4bebd96377ca3ff1.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: C7Uhrex9H8jeXuL3loygnsrtMaTeFceI
+X-Proofpoint-GUID: 5p4xprljmhST3flSeC8H6PVPAr0tLh_k
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdf68dc7-fffb-4a5c-05b5-08dadc61bc7a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2022 16:55:55.8242 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dm3giIILDzqULegbPVcXysDxO5tcC79RwMLpr9mt6Ar3rdiTKbU+ZcULk0agEeeHSUhI42YMUKjEgm4kkulBFw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB7013
-X-Proofpoint-GUID: NmlL9_j9dhwS6AygmRC3kSLL0FHKZue0
-X-Proofpoint-ORIG-GUID: NmlL9_j9dhwS6AygmRC3kSLL0FHKZue0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-12_02,2022-12-12_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxscore=0
- malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212120153
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ priorityscore=1501 mlxscore=0
+ suspectscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=622
+ phishscore=0 spamscore=0 bulkscore=0 impostorscore=0 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120150
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -165,61 +123,44 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-> -----Original Message-----
-> From: Markus Armbruster <armbru@redhat.com>
-> Sent: Monday, December 12, 2022 1:05 AM
-> To: qemu-devel@nongnu.org
-> Cc: imp@bsdimp.com; kevans@freebsd.org; berrange@redhat.com;
-> jonathan.cameron@huawei.com; kbastian@mail.uni-paderborn.de;
-> jasowang@redhat.com; michael.roth@amd.com; kkostiuk@redhat.com;
-> Taylor Simpson <tsimpson@quicinc.com>; palmer@dabbelt.com;
-> alistair.francis@wdc.com; bin.meng@windriver.com; qemu-
-> riscv@nongnu.org
-> Subject: [PATCH] include: Don't include qemu/osdep.h
->=20
-> docs/devel/style.rst mandates:
->=20
->     The "qemu/osdep.h" header contains preprocessor macros that affect
->     the behavior of core system headers like <stdint.h>.  It must be
->     the first include so that core system headers included by external
->     libraries get the preprocessor macros that QEMU depends on.
->=20
->     Do not include "qemu/osdep.h" from header files since the .c file
->     will have already included it.
->=20
-> A few violations have crept in.  Fix them.
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  bsd-user/qemu.h                 | 1 -
->  crypto/block-luks-priv.h        | 1 -
->  include/hw/cxl/cxl_host.h       | 1 -
->  include/hw/input/pl050.h        | 1 -
->  include/hw/tricore/triboard.h   | 1 -
->  include/qemu/userfaultfd.h      | 1 -
->  net/vmnet_int.h                 | 1 -
->  qga/cutils.h                    | 1 -
->  target/hexagon/hex_arch_types.h | 1 -
->  target/hexagon/mmvec/macros.h   | 1 -
->  target/riscv/pmu.h              | 1 -
->  qga/cutils.c                    | 3 ++-
->  12 files changed, 2 insertions(+), 12 deletions(-)
->=20
-> diff --git a/target/hexagon/hex_arch_types.h
-> b/target/hexagon/hex_arch_types.h index 885f68f760..52a7f2b2f3 100644
-> --- a/target/hexagon/hex_arch_types.h
-> +++ b/target/hexagon/hex_arch_types.h
-> @@ -18,7 +18,6 @@
->  #ifndef HEXAGON_HEX_ARCH_TYPES_H
->  #define HEXAGON_HEX_ARCH_TYPES_H
->=20
-> -#include "qemu/osdep.h"
->  #include "mmvec/mmvec.h"
->  #include "qemu/int128.h"
+On 12/12/22 11:38, James Bottomley wrote:
+> On Mon, 2022-12-12 at 15:47 +0000, Daniel P. Berrangé wrote:
+>> Copy'ing Markus for QAPI design feedback.
+>>
+>> On Sat, Dec 10, 2022 at 12:10:18PM -0500, James Bottomley wrote:
+>>> The Microsoft Simulator (mssim) is the reference emulation platform
+>>> for the TCG TPM 2.0 specification.
+>>>
+>>> https://github.com/Microsoft/ms-tpm-20-ref.git
+>>>
+>>> It exports a fairly simple network socket baset protocol on two
+>>> sockets, one for command (default 2321) and one for control
+>>> (default 2322).  This patch adds a simple backend that can speak
+>>> the mssim protocol over the network.  It also allows the host, and
+>>> two ports to be specified on the qemu command line.  The benefits
+>>> are twofold: firstly it gives us a backend that actually speaks a
+>>> standard TPM emulation protocol instead of the linux specific TPM
+>>> driver format of the current emulated TPM backend and secondly,
+>>> using the microsoft protocol, the end point of the emulator can be
+>>> anywhere on the network, facilitating the cloud use case where a
+>>> central TPM service can be used over a control network.
+>>
+>> What's the story with security for this ?  The patch isn't using
+>> TLS, so talking to any emulator over anything other than localhost
+>> looks insecure, unless I'm missing something.
+> 
+> Pretty much every TPM application fears interposers and should thus be
+> using the TPM transport security anyway. *If* this is the case, then
+> the transport is secure.  Note that this currently isn't the case for
 
-Please change the copyright year in this file from "2019-2021" to "2019-202=
-2".
+What about all the older kernels that are out there?
 
-Otherwise
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+> the kernel use of the TPM, but I'm trying to fix that.  The standard
+> mssim server is too simplistic to do transport layer security, but like
+> everything that does this (or rather doesn't do this), you can front it
+> with stunnel4.
+
+And who or what is going to set this up?
+
+    Stefan
 
