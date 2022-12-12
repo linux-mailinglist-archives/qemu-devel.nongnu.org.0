@@ -2,77 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE78864A3BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E1C649F90
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:12:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4k7q-0007p2-Qs; Mon, 12 Dec 2022 09:49:50 -0500
+	id 1p4iP7-0000Ww-ST; Mon, 12 Dec 2022 07:59:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lilydjwg@gmail.com>)
- id 1p4eQp-0006Sb-Te; Mon, 12 Dec 2022 03:45:03 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lilydjwg@gmail.com>)
- id 1p4eQo-0007aM-7E; Mon, 12 Dec 2022 03:45:03 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- k88-20020a17090a4ce100b00219d0b857bcso11458549pjh.1; 
- Mon, 12 Dec 2022 00:45:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UmXPjAUajQdk1U2qMMfcyJGlLHMeT9O8lEpVL9CZ6nE=;
- b=RwG5DFtSz45JyPeI5Jn9LerZp46JXznB02rxZEisZNG37PeYpclbw5UAEfcYjEmyyZ
- Flir1Z8Kr4qF7T+i9qF4EXTo7qohX/xYvimyhRXS0dVQq8pmPQPv/pSH7IB1I5/O25z1
- wW//nip3De8mZwTrNskOugnE2123Mb49RICvwSea0KqVaVltX2NH3kclbewk9opH8LFK
- xFiQqgqsPVhpuSrZAl5+TunmUEVVnDqcO+78rct+UobZRVudTuVrj8Gc2Ftt4IDP5rLP
- jdDsdxzwYxk5wKFzSXQ8G498NFj4pcVYY7prYt8fLooRFF1HA5D9l6gPc7f2l651YFAe
- hJZQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4iP3-0000TD-6d
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:59:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4iP1-0000X6-A7
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:59:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670849966;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=i24EeqZTZ6h8iyIpdY1D6GnWqc5hXVy2mIGsj1z8Mmg=;
+ b=MxMj/6gGy4tFk6mBJLp53QiY/EBXww4UqhgbS5ltAwCiLdyGv6L6RhDrGkIQEpoRC9f/Mv
+ oXXwSKCuP3mS4XuXYoqwNfxhEGUSKqd0YsvkTxJ3hbFLj4U93Rsjb3rCNmtr2mdzIh85Gt
+ Sesn/UQpIjjlg1ApNPyjbljb2z1cWbA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-313-iKKHrT-bNoiemKZ56QR3MQ-1; Mon, 12 Dec 2022 07:59:25 -0500
+X-MC-Unique: iKKHrT-bNoiemKZ56QR3MQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ b47-20020a05600c4aaf00b003d031aeb1b6so4132799wmp.9
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:59:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UmXPjAUajQdk1U2qMMfcyJGlLHMeT9O8lEpVL9CZ6nE=;
- b=Vd0x/tEp416aGd7rgDvEw5IZTumuPwlNdCLLA/o/qBBZcP8zX1NlrjGLkUsyB+5L9P
- FYK211zz477PrUejPE8pXcgFjfw38rG/D4zuu7bZy17msn8KAHZ34KSrJPlK5cthRxEr
- FHXMVVztOh1w3bx6lS1zvHbZSTV0RfS01ZNTaQ5fBrYQa+7bqMt7A6HpQG4glKy/kdg4
- YPkX2/7hQrIueTxsWnYBl4E74FNL2MT/v981PoRWKaBbIHckEYiN3TMYfG6/3xgYT78c
- j3jC+a9+dIhOhz1f8sizcjNbpXvZSJrYZ8sAKJkIx/709xanOET7tFsxceS67lo6Vj4I
- i+xw==
-X-Gm-Message-State: ANoB5plLbTuCrZY0NCgQpknI6Xxld8uRyl2ujvwVv1yCyTdONqAvX0f8
- Es74FNa30f0l10CvC15pRVOrvMBiqZqBvITm
-X-Google-Smtp-Source: AA0mqf7Ed899neyFH7orxQIWpnXUfoof5fPI3h7jGUhUdggBek4sDmg2HEuRMWeXom/SKkcEDxSqPA==
-X-Received: by 2002:a17:90b:38f:b0:219:9331:2781 with SMTP id
- ga15-20020a17090b038f00b0021993312781mr15958480pjb.17.1670834699089; 
- Mon, 12 Dec 2022 00:44:59 -0800 (PST)
-Received: from localhost ([2a0c:b641:69c:e9b8:1::1])
+ bh=i24EeqZTZ6h8iyIpdY1D6GnWqc5hXVy2mIGsj1z8Mmg=;
+ b=fQu2TbKGGA6fEkqisNCbX8iTTuD/+oaFvmab0asZv02IJIlMS+pfpsKf57QmEHHEVl
+ 7Icrw3inXoGNnB/GmWSIDU8FtaQjXOY+roEgLLOuiL1rGpaSD4SGWPHxafke46Xy3PzW
+ gNdL8M/pmav8cypwZxqqEouhIt32Wv3ffv+g7+0F1Be6LTH+XasKj+w321JFi5ToKx8D
+ tbNlEUAllO6NOaljKSjo0fxN31kOhWDWsFArXe7ZGI4mt3d3pl/Cub6L8fh+6QDXiVMz
+ p9PkjOIsxSQ0zq5t1sS3slw+iTnXMfT3VNfrM2+zTuO8/j6IM1wPgEhrdfLeL+tAAhiO
+ FcDg==
+X-Gm-Message-State: ANoB5pmJ+Rh5C6BFU3OSupXO18+4CWwKLdZcmk9uHzXTJUju01ipINkO
+ uRNV2HzJHQ4g2uZwhhyM5+G7fmzJdhgb3akYX1tPXNH/jTkvIhTfkblyj1K0R8ZoUuzm86/y/wi
+ +P10q5TAzmRs2BjSymN+FVCuU+ARJ7w3sC41smA5n+rscVz5eNZ7Ia3M4txLlnyTWwuQ=
+X-Received: by 2002:a5d:4537:0:b0:242:4835:8e69 with SMTP id
+ j23-20020a5d4537000000b0024248358e69mr9648450wra.46.1670849963846; 
+ Mon, 12 Dec 2022 04:59:23 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7Qggk+mDK5M6tgGEWmUtv3AtRehUQQxkboD72c4Rbc/69X6RwRvSXxlRTogSZJFQMILHyPoA==
+X-Received: by 2002:a5d:4537:0:b0:242:4835:8e69 with SMTP id
+ j23-20020a5d4537000000b0024248358e69mr9648431wra.46.1670849963515; 
+ Mon, 12 Dec 2022 04:59:23 -0800 (PST)
+Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- 71-20020a17090a09cd00b002191ffeac8esm4922471pjo.20.2022.12.12.00.44.57
+ l4-20020a5d5604000000b00241ce5d605dsm8835380wrv.110.2022.12.12.04.59.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Dec 2022 00:44:58 -0800 (PST)
-From: lilydjwg@gmail.com
+ Mon, 12 Dec 2022 04:59:22 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- lilydjwg <lilydjwg@gmail.com>
-Subject: [PATCH] ui/gtk: use correct scale for cursors
-Date: Mon, 12 Dec 2022 16:44:43 +0800
-Message-Id: <20221212084443.1064207-1-lilydjwg@gmail.com>
+Cc: qemu-block@nongnu.org,
+	eesposit@redhat.com,
+	kwolf@redhat.com
+Subject: [PATCH 00/12] More cleanups and fixes for drain
+Date: Mon, 12 Dec 2022 13:59:05 +0100
+Message-Id: <20221212125920.248567-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=lilydjwg@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 12 Dec 2022 09:49:46 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,50 +98,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: lilydjwg <lilydjwg@gmail.com>
+There are a few more lines of code that can be removed around draining
+code, but especially the logic can be simplified by removing unnecessary
+parameters.
 
-gdk_cursor_new_from_pixbuf always uses scale=1 and causes blurry large
-cursors on HiDPI screens (scale=2). Create a cairo surface ourselves to
-pass the desired scale.
+Due to the failure of the block-next branch, the first three patches
+drop patches 14+15 of Kevin's drain cleanup series, and then redo
+patch 15 in a slightly less satisfactory way that still enables the
+remaining cleanups.  These reverts are not supposed to be applied;
+either the offending patches are dropped from the branch, or if the
+issue is fixed then my first three patches can go away.
 
-Signed-off-by: lilydjwg <lilydjwg@gmail.com>
----
- ui/gtk.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+The next three are taken from Emanuele's old subtree drain attempt
+at removing the AioContext.  The main one is the second, which is needed
+to avoid testcase failures, but I included all of them for simplicity.
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 4817623c8f..984a5a4c67 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -469,7 +469,10 @@ static void gd_cursor_define(DisplayChangeListener *dcl,
- {
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
-     GdkPixbuf *pixbuf;
-+    GdkWindow *window;
-     GdkCursor *cursor;
-+    cairo_surface_t *surface;
-+    int scale;
- 
-     if (!gtk_widget_get_realized(vc->gfx.drawing_area)) {
-         return;
-@@ -479,10 +482,14 @@ static void gd_cursor_define(DisplayChangeListener *dcl,
-                                       GDK_COLORSPACE_RGB, true, 8,
-                                       c->width, c->height, c->width * 4,
-                                       NULL, NULL);
--    cursor = gdk_cursor_new_from_pixbuf
-+    window = gtk_widget_get_window(vc->gfx.drawing_area);
-+    scale = gdk_window_get_scale_factor(window);
-+    surface = gdk_cairo_surface_create_from_pixbuf(pixbuf, scale, window);
-+    cursor = gdk_cursor_new_from_surface
-         (gtk_widget_get_display(vc->gfx.drawing_area),
--         pixbuf, c->hot_x, c->hot_y);
--    gdk_window_set_cursor(gtk_widget_get_window(vc->gfx.drawing_area), cursor);
-+         surface, c->hot_x / scale, c->hot_y / scale);
-+    cairo_surface_destroy(surface);
-+    gdk_window_set_cursor(window, cursor);
-     g_object_unref(pixbuf);
-     g_object_unref(cursor);
- }
+Patch 7 fixes another latent bug exposed by the later cleanups, and while
+looking for a fix I noticed a general lack of thread-safety in BlockBackend's
+drain code.  There are some global properties that only need to be documented
+and enforced to be set only at creation time (patches 8/9), but also
+queued_requests is not protected by any mutex, which is fixed in patch 10.
+
+Finally, patches 11-15 are the actual simplification.
+
+Applies on top of block-next.
+
+Paolo
+
+Emanuele Giuseppe Esposito (3):
+  test-bdrv-drain.c: remove test_detach_by_parent_cb()
+  tests/unit/test-bdrv-drain.c: graph setup functions can't run in
+    coroutines
+  tests/qemu-iotests/030: test_stream_parallel should use
+    auto_finalize=False
+
+Paolo Bonzini (12):
+  Revert "block: Remove poll parameter from
+    bdrv_parent_drained_begin_single()"
+  Revert "block: Don't poll in bdrv_replace_child_noperm()"
+  block: Pull polling out of bdrv_parent_drained_begin_single()
+  block-backend: enter aio coroutine only after drain
+  nbd: a BlockExport always has a BlockBackend
+  block-backend: make global properties write-once
+  block-backend: always wait for drain before starting operation
+  block-backend: make queued_requests thread-safe
+  block: limit bdrv_co_yield_to_drain to drain_begin
+  block: second argument of bdrv_do_drained_end is always NULL
+  block: second argument of bdrv_do_drained_begin and bdrv_drain_poll is
+    always NULL
+  block: only get out of coroutine context for polling
+
+ block.c                           | 109 ++++----------------
+ block/block-backend.c             |  91 +++++++++-------
+ block/commit.c                    |   4 +-
+ block/export/export.c             |   2 +-
+ block/io.c                        | 136 +++++++++---------------
+ block/mirror.c                    |   4 +-
+ block/parallels.c                 |   2 +-
+ block/qcow.c                      |   2 +-
+ block/qcow2.c                     |   2 +-
+ block/qed.c                       |   2 +-
+ block/stream.c                    |   4 +-
+ block/vdi.c                       |   2 +-
+ block/vhdx.c                      |   2 +-
+ block/vmdk.c                      |   4 +-
+ block/vpc.c                       |   2 +-
+ include/block/block-io.h          |  29 +-----
+ include/block/block_int-io.h      |  21 ++++
+ include/sysemu/block-backend-io.h |   6 +-
+ nbd/server.c                      |  15 ++-
+ tests/qemu-iotests/030            |  12 +--
+ tests/unit/test-bdrv-drain.c      | 166 +++++++++++++++---------------
+ tests/unit/test-block-iothread.c  |   2 +-
+ 22 files changed, 258 insertions(+), 361 deletions(-)
+
 -- 
 2.38.1
 
