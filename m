@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7CF649E4D
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210F3649E49
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:58:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4hA7-000432-T2; Mon, 12 Dec 2022 06:39:59 -0500
+	id 1p4hD1-000559-5w; Mon, 12 Dec 2022 06:42:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p4hA1-00041g-UI; Mon, 12 Dec 2022 06:39:56 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1p4hA0-0002ID-BV; Mon, 12 Dec 2022 06:39:53 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 808675C00A2;
- Mon, 12 Dec 2022 06:39:50 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 12 Dec 2022 06:39:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1670845190; x=1670931590; bh=j7
- e4fCadnwlksvcgN0S6QDOmE7UW/EzPjW87V5ui2go=; b=NPfd5Sd/BwVkYlLtt6
- 1m6mLI/Gb4xos21zfDrmTBnNYpqJoMber6UTRcpFef9i2npdpXhvcJov6cgv4mfi
- C1ko0Oc+ujE9TwYWws6jRhjLPzic/O87Uj5nqUReFKvHrqjDZeBRkDY1xv/EgW7v
- MxNTBlLVVuuye9Ypmyl0ypKnmzThnE+uFHG/hQS3hmyvhGYGkE2p2cco1tZ4l+R6
- 8QnRlasJ9FWPotobkVg2ul7Ww4FW6gSSanSparPo5vRYmUIZJLHl18fKlZcq+s9E
- 0buuS4MBjccQe8dYQQ50fH8PJturNNPOO0TJJ+Ody32RdmJuri9M8lZHoIUZ7K4H
- /zcQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1670845190; x=1670931590; bh=j7e4fCadnwlksvcgN0S6QDOmE7UW
- /EzPjW87V5ui2go=; b=ey+ZCjRefG00U8SlahvWOhyTuKUXrltYqu9ZlFF1L1gf
- my21SP253efzm6qH+ZllBrYFRX/4AleQPZHgPh1M3Z+HQlOcGi1kYMYEMhvPj/xB
- vSrFzTL+0QwijW3gGEEkL9c2UKDiZJBgDElgCxd2sl1KNXQN8kjvA6KX8Sh7Hvqq
- WlUvtFZM/rOBCpgJWgMCDgawgnW80hWfIaLl5nr1mF5wAHrsKWy+8/z1A2QaEMFd
- kwjxGfqA4BizDEveo3qNVpCM2BLjCgq4QbVrmHAp/hOZwNuBDStxFj0ocj2vvx5V
- tt08B9vfxHkM3eo9OhiBHo4dAGPFT9ybInSTp9n6gA==
-X-ME-Sender: <xms:BhOXY7RhiyAI3MatqziwF_3Dnf0wTfI1GZ5hQVayNIri1SAMAQuMEg>
- <xme:BhOXY8xtBocPpeAPzud3DRi1yZwdn0tp7Khr7larwqC-b6xJY7PKqqkef-Q4IHawB
- cmtA7Kl3H2ua7xQwpY>
-X-ME-Received: <xmr:BhOXYw1g0lursLGciTs1-ibaFR5KOnl4bu9u_OI5Lbgp6taYobBxfZMQNMVQmltCtYd0gF0lEAEFwHZAQMIrVHEqIp18Ag>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgddtjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
- veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:BhOXY7D_vTFUOK5KQeQwV8tbBBpNQgIuGNEHZYsQ8axCHcapyahMNQ>
- <xmx:BhOXY0jCIXQLtTtFT2HJtMQhHtItpAAuAT0q-YEG8-aT09QvJMWxTg>
- <xmx:BhOXY_oEM9IEfvkd-iQRXzWwH15npaVPdAhO85fXk3X8sz6-7B3lqA>
- <xmx:BhOXY9VlvZI8NMRJf0Bh8E28K8ZtHH20BvZTSfYAZJs44OjcbyXhOA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 12 Dec 2022 06:39:48 -0500 (EST)
-Date: Mon, 12 Dec 2022 12:39:46 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Keith Busch <kbusch@kernel.org>, Jinhao Fan <fanjinhao21s@ict.ac.cn>,
- Guenter Roeck <linux@roeck-us.net>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-stable@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: Re: [PATCH v3 4/4] hw/nvme: fix missing cq eventidx update
-Message-ID: <Y5cTAtSanJicK5FM@cormorant.local>
-References: <20221212113215.33135-1-its@irrelevant.dk>
- <20221212113215.33135-5-its@irrelevant.dk>
- <93658dff-fcba-590e-ba53-e5fdb3d841c1@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4hCy-00053P-K7
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:42:56 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4hCw-0003EM-UI
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:42:56 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h11so11745084wrw.13
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 03:42:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HxzysJAGbTRtgzR8PcATgaReEVjJ2wbRqRTmaQhOyss=;
+ b=P7ZmpDUW1VdXi4L9koebN28A5tnJAe4DyfN7MP717EZZRXYLgwbE2qJjreqGN4wk0U
+ UubvHz4KMlYrRsOBaPhrxKQ+8/G/8Hudo/R24Qnon1DiVZPkmWXudjNgV6Eub3OPIhXg
+ KcmOJYtfjkCmlEYesD1Hm34xqVXQcdN9M2Gh+ozkpPWWvUdmZGECiKmyRW2L2Jt1wnQk
+ +cnR9U/z+Z6ZxFOTGmgyxuvioP5KaP2xW9Ql2nu2apxnsajiOLGNUon4iezPXJjY+Q6L
+ 6pDio6sSm7Y/pDg1xF3GCxWRJ2RPTBfWObHabcE5AHEqRSHrQIlUqgg9CXvuAOMk3Dj8
+ AbGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HxzysJAGbTRtgzR8PcATgaReEVjJ2wbRqRTmaQhOyss=;
+ b=SWOnp9uUw3M0T7p1GeQNMiredf+LjcHMQAgezM0CpocPkuNK1gst2jXsOY/B+ucZZZ
+ Si+He2N4mz7kSmaYKyWWhNdxgGA5KzcO6FTulGfk0x2iduKLyJX8nPY/SJklLhXuS6aT
+ mEZU5t27N+/plgQfNPb5ZqcKYA1vJbaYBK4cnSZNZLNd/Cp9YASHLMJlSWUvTmlh2Uqh
+ 9BPfqMped6g/hKU5cjeKBo4BJieunCyR+3cbSRshOJ1aii3SJKiA4Y+cJ0amABTisbsq
+ fmolZp3NfEnrF0ffu6y90WF4rYezaCkFVzqyzpWQ5NAjiF4+eFXkJSJu/PsQPDPWk+8m
+ U6qA==
+X-Gm-Message-State: ANoB5pm4VhF00QVV8epyDVCmUZMEeCa8FpS2xAhhFAMTHlobF+gr2qIU
+ D+SUWX2pn43Z2rbCeq5wgUlEXA==
+X-Google-Smtp-Source: AA0mqf4vVzs/kMtU3+qiLzZa0cmGOZ9NkXvGmdaRA+SZC8FkOwqwRYY2u6BszmBI54Td+jmMDAHIdA==
+X-Received: by 2002:a5d:6304:0:b0:242:736f:d3c5 with SMTP id
+ i4-20020a5d6304000000b00242736fd3c5mr9306594wru.57.1670845373378; 
+ Mon, 12 Dec 2022 03:42:53 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ e17-20020a5d5951000000b0024278304ef6sm8635966wri.13.2022.12.12.03.42.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 03:42:52 -0800 (PST)
+Message-ID: <a311c0a1-4f08-4ed6-be8a-9cf9033afc26@linaro.org>
+Date: Mon, 12 Dec 2022 12:42:51 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="Maq7jjWapbkfJdLr"
-Content-Disposition: inline
-In-Reply-To: <93658dff-fcba-590e-ba53-e5fdb3d841c1@linaro.org>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH v1 04/24] vfio-user: add region cache
+Content-Language: en-US
+To: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
+References: <cover.1667542066.git.john.g.johnson@oracle.com>
+ <9440b5c4c72085055eaa9cdb1f4671adb04d78a4.1667542066.git.john.g.johnson@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <9440b5c4c72085055eaa9cdb1f4671adb04d78a4.1667542066.git.john.g.johnson@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,71 +89,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 9/11/22 00:13, John Johnson wrote:
+> cache VFIO_DEVICE_GET_REGION_INFO results to reduce
+> memory alloc/free cycles and as prep work for vfio-user
+> 
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>   hw/vfio/ccw.c                 |  5 -----
+>   hw/vfio/common.c              | 41 +++++++++++++++++++++++++++++++++++------
+>   hw/vfio/igd.c                 | 23 +++++++++--------------
+>   hw/vfio/migration.c           |  2 --
+>   hw/vfio/pci-quirks.c          | 19 +++++--------------
+>   hw/vfio/pci.c                 |  8 --------
+>   include/hw/vfio/vfio-common.h |  2 ++
+>   7 files changed, 51 insertions(+), 49 deletions(-)
 
---Maq7jjWapbkfJdLr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Dec 12 12:37, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 12/12/22 12:32, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > Prior to reading the shadow doorbell cq head, we have to update the
-> > eventidx. Otherwise, we risk that the driver will skip an mmio doorbell
-> > write. This happens on riscv64, as reported by Guenter.
-> >=20
-> > Adding the missing update to the cq eventidx fixes the issue.
-> >=20
-> > Fixes: 3f7fe8de3d49 ("hw/nvme: Implement shadow doorbell buffer support=
-")
-> > Cc: qemu-stable@nongnu.org
-> > Cc: qemu-riscv@nongnu.org
-> > Reported-by: Guenter Roeck <linux@roeck-us.net>
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > ---
-> >   hw/nvme/ctrl.c | 17 +++++++++++++++--
-> >   1 file changed, 15 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> > index 8af70f0216f0..3df29ea68b2f 100644
-> > --- a/hw/nvme/ctrl.c
-> > +++ b/hw/nvme/ctrl.c
-> > @@ -1334,10 +1334,22 @@ static inline void nvme_blk_write(BlockBackend =
-*blk, int64_t offset,
-> >       }
-> >   }
->=20
->=20
-> >   static void nvme_update_cq_head(NvmeCQueue *cq)
-> >   {
-> > -    pci_dma_read(PCI_DEVICE(cq->ctrl), cq->db_addr, &cq->head,
-> > -                 sizeof(cq->head));
-> > +    uint32_t v;
-> > +
-> > +    pci_dma_read(PCI_DEVICE(cq->ctrl), cq->db_addr, &v, sizeof(v));
-> > +
-> > +    cq->head =3D le32_to_cpu(v);
->=20
-> Isn't this be part of the previous patch?
->=20
+>   void vfio_put_base_device(VFIODevice *vbasedev)
+>   {
+> +    if (vbasedev->regions != NULL) {
+> +        int i;
+> +
+> +        for (i = 0; i < vbasedev->num_regions; i++) {
+> +            g_free(vbasedev->regions[i]);
+> +        }
+> +        g_free(vbasedev->regions);
+> +        vbasedev->regions = NULL;
+> +    }
+> +
+>       if (!vbasedev->group) {
+>           return;
+>       }
+> @@ -2432,6 +2451,17 @@ int vfio_get_region_info(VFIODevice *vbasedev, int index,
+>   {
+>       size_t argsz = sizeof(struct vfio_region_info);
+>   
+> +    /* create region cache */
+> +    if (vbasedev->regions == NULL) {
+> +        vbasedev->regions = g_new0(struct vfio_region_info *,
+> +                                   vbasedev->num_regions);
+> +    }
+> +    /* check cache */
+> +    if (vbasedev->regions[index] != NULL) {
+> +        *info = vbasedev->regions[index];
+> +        return 0;
+> +    }
 
-Argh, I screwed it up. I'll fix it.
-
---Maq7jjWapbkfJdLr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmOXEwIACgkQTeGvMW1P
-DemicAgAuNwa4OA+dA7AvWBKT58pEpX+O+0Gjk8X8massui6cLX1PtHp9w1usuMH
-AGnYnk8mdetMawjz98A04IBVAAASjvkq2Y66YTqP/q+/GWvc9OjHX1/uGJDSm6Gd
-eEErU70aD6CHXBk/bxSdE4DxRVrKqx5F9nvqUnT8yP93TXHGOFXNKbqAASV+eSzK
-ykxcnwPdGv8iwlV8Ja2b6rv1FBb/VQi0esymgKe3nz24bunoNonzHEQ3uoYXTYNm
-aNQBmF9G427rquNj3a8ZC0KxoLhP2HIC+BhOljxr+31mDuvvT47uGPSRYl9cpTPz
-FpzN6Lm1A8MqX+4efo4z2EwmRsPSng==
-=cwN7
------END PGP SIGNATURE-----
-
---Maq7jjWapbkfJdLr--
+What about simply allocating/releasing once regions[] in
+vfio_instance_init / vfio_instance_finalize?
 
