@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97561649C4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 11:38:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4812F649C19
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 11:27:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4gBE-0007LB-Be; Mon, 12 Dec 2022 05:37:04 -0500
+	id 1p4g0e-0002BR-EU; Mon, 12 Dec 2022 05:26:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p4gAq-0007ID-Bu
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 05:36:40 -0500
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p4gAn-0000v0-Oq
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 05:36:40 -0500
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 05AD33F249
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 10:36:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1670841388;
- bh=NdhnHPfJdfCzschasDFK/Y95aYZZx+V8tOJhpyNeqow=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=CBj04imXqFukYngqpJcue1PXQTnk7Sgc1wS3rIF1NsmLYm5NUnDzfi6I5YW5devUv
- XtJh4zmZwzBuBA4k/0e/u3xh4Ex+LYa2XsNartjmXt0TE5VFO7KdN7M30RnIzfDoPz
- OgiEFtHEkXSB/Ni0M962IbaCbYafsHrOQuu0+2pb4X+TAArj6X+3lBa81S0PZsNEWH
- RgzFW8GokGIx9PnQ+5Z9dwoZgqeMeBIdqbCumIadvzoMJ4Sbl+OZQwrPoQQypYhzjr
- gmhupu/ovmFnXn/PIGrvLl0s4Z20DQBl5POMxO1JLkwKlFaN0BdVaeELly2VZun4A6
- GtrEajU1F55DA==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id 5C2CA3F2E3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 10:36:22 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p4g0I-000250-Kb; Mon, 12 Dec 2022 05:25:49 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p4g0F-0000m7-CY; Mon, 12 Dec 2022 05:25:44 -0500
+Received: by mail-ej1-x636.google.com with SMTP id bj12so26663645ejb.13;
+ Mon, 12 Dec 2022 02:25:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fW8IR3Va4lE4dsyn33tm7sal5rJRGK2GnmYBDkaNsAk=;
+ b=T7R9avpRKnVU0VM/6qVS+FvVqX5wUFbAxKsts8h7pLQ+lwgx5Ry9Aprknr3Lxtc8pu
+ W8AkyDvi/RFOzorA9pdlU8ST6QapwM52v3D7EBR3nX/WMLWx2BqrJ+omiSsfuy1pAMMg
+ CNZLn5ChUt8GV1HstmbC6I8UEhYbJCKd960XkzkctElWjkefT6CnQrlxVa0EKPYZ8qLc
+ 3dsOpp8kRYhqx0nSlq/ztBj1YLjffAYfzy6PFEdnHrhvpb5FN8XL1L5tfrOqK2IUD1qR
+ GLBkrYRkmc6Ed4CaVknaSM0S/PpK1RD39W9PZLkC3qLfoD5QzvkeZ8E3mA8X6HauqXT4
+ p7zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fW8IR3Va4lE4dsyn33tm7sal5rJRGK2GnmYBDkaNsAk=;
+ b=BNdR3+vYuZwdMKyQh/J07Y+AQSCx+6T1i6DZGEpdo+VLk7qlj0LZtHedxCcWCCXywU
+ vkMY0vZdbcdnRmSACjFOeykAts5wvBmPaD0YFemhzoi65L4ad4QJTNxgP521wow43CsW
+ 6YzHQef4DJoSWbF1dPRqN3hrnj7791pmophzId75I25eFKyIff9h+rcsyj5nc57T7CQm
+ SF76RrYeGhtUGiYqdnp35XfI/Jr6xdgnxZxOmKN7eCBThUfr1FJvf3ATNdv4+kIcE/sd
+ zXxyqhnDqzJW84y0EiFrIFtSu7GLAsyaLLjn/qcf43rkj+672AeItepDQetzLzQ9F93X
+ c76w==
+X-Gm-Message-State: ANoB5pkjqcfgtrsjTey+B4dsoLJvde18GgfFxSn+FnC4yCxsdlvJcbnK
+ Ej74zyglZf76eyuofuWRLFEY0/lXPsCYHk5h6iM=
+X-Google-Smtp-Source: AA0mqf7F73CG4nOhhjCutDkN6J6uaymPGz0zmGLhRm/fNpEknGSbchvAYHHxCdks9uDkN9nECpEHp6vuvfrk4Bp2nS0=
+X-Received: by 2002:a17:906:17da:b0:7bb:d55e:417f with SMTP id
+ u26-20020a17090617da00b007bbd55e417fmr55818588eje.13.1670840741096; Mon, 12
+ Dec 2022 02:25:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Dec 2022 10:25:14 -0000
-From: Thomas Huth <1523246@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: trim virtio windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jamespharvey20 manouchehri mareza mikemol
- rustamabd socketpair stefanha th-huth
-X-Launchpad-Bug-Reporter: David Manouchehri (manouchehri)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20151206150708.14182.82430.malonedeb@wampee.canonical.com>
-Message-Id: <167084071433.33081.6500991418205581168.malone@daniels.canonical.com>
-Subject: [Bug 1523246] Re: Virtio-blk does not support TRIM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c3f9a3a8c5fffd8b8763824e1f305083a4e9705e"; Instance="production"
-X-Launchpad-Hash: 45cf3fe79afea81866aeb4a3e1bd4e6825cd48c8
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221212070431.306727-1-armbru@redhat.com>
+In-Reply-To: <20221212070431.306727-1-armbru@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 12 Dec 2022 18:25:29 +0800
+Message-ID: <CAEUhbmVKz4xsF33FGmZjNMB2BHGa1yfU=gg-dSfxyWXQaYmrvw@mail.gmail.com>
+Subject: Re: [PATCH] include: Don't include qemu/osdep.h
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, imp@bsdimp.com, kevans@freebsd.org, 
+ berrange@redhat.com, jonathan.cameron@huawei.com, 
+ kbastian@mail.uni-paderborn.de, jasowang@redhat.com, michael.roth@amd.com, 
+ kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com, 
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,48 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1523246 <1523246@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-$ git tag --contains 37b06f8d46fe602e630e4 | grep ^v | sort | head -n1
-v4.0.0
+On Mon, Dec 12, 2022 at 3:05 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> docs/devel/style.rst mandates:
+>
+>     The "qemu/osdep.h" header contains preprocessor macros that affect
+>     the behavior of core system headers like <stdint.h>.  It must be
+>     the first include so that core system headers included by external
+>     libraries get the preprocessor macros that QEMU depends on.
+>
+>     Do not include "qemu/osdep.h" from header files since the .c file
+>     will have already included it.
+>
+> A few violations have crept in.  Fix them.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  bsd-user/qemu.h                 | 1 -
+>  crypto/block-luks-priv.h        | 1 -
+>  include/hw/cxl/cxl_host.h       | 1 -
+>  include/hw/input/pl050.h        | 1 -
+>  include/hw/tricore/triboard.h   | 1 -
+>  include/qemu/userfaultfd.h      | 1 -
+>  net/vmnet_int.h                 | 1 -
+>  qga/cutils.h                    | 1 -
+>  target/hexagon/hex_arch_types.h | 1 -
+>  target/hexagon/mmvec/macros.h   | 1 -
+>  target/riscv/pmu.h              | 1 -
+>  qga/cutils.c                    | 3 ++-
+>  12 files changed, 2 insertions(+), 12 deletions(-)
+>
 
-How did you check the size of the file? It might appear bigger than it
-is due to sparse blocks.
-
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1523246
-
-Title:
-  Virtio-blk does not support TRIM
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  When model=3Dvirtio is used, TRIM is not supported.
-
-  # mount -o discard /dev/vda4 /mnt
-  # mount | tail -1
-  /dev/vda4 on /mnt type fuseblk (rw,nosuid,nodev,relatime,user_id=3D0,grou=
-p_id=3D0,allow_other,blksize=3D4096)
-  # fstrim /mnt/
-  fstrim: /mnt/: the discard operation is not supported
-
-  Booting without model=3Dvirtio allows using TRIM (in Windows as well).
-
-  Full QEMU line:
-
-  qemu-system-x86_64 -enable-kvm -cpu host -bios
-  /usr/share/ovmf/ovmf_x64.bin -smp 2 -m 7G -vga qxl -usbdevice tablet
-  -net nic,model=3Dvirtio -net user -drive discard=3Dunmap,detect-
-  zeroes=3Dunmap,cache=3Dnone,file=3Dvms/win10.hd.img.vmdk,format=3Dvmdk,if=
-=3Dvirtio
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1523246/+subscriptions
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
