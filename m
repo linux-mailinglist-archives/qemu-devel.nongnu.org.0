@@ -2,81 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB093649EA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:31:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D0D649F0C
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:45:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4hwo-0003wG-Sk; Mon, 12 Dec 2022 07:30:18 -0500
+	id 1p4i9t-0001Tk-Ud; Mon, 12 Dec 2022 07:43:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p4hwe-0003vu-UK
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:30:08 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4i9q-0001TQ-LN
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:43:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p4hwc-0001lc-SB
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:30:08 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4i9o-0004oG-SM
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:43:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670848204;
+ s=mimecast20190719; t=1670849023;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ETVRY8gLPmL7Zk6XrKutB7oeRWEyzONMpdjIrrMfA2o=;
- b=bfRfUbcMCGTBBEgc4rSIRP3pn1B10cl4NTWfb+WBNVWWLS8aYm6IOSGbNMeUOloJv/Pmw+
- gQlJCwZ66gsTJQdj71eBuwLPTMUymXDECXkk+LyeH+45juf44lBk6h/omalas0iLwS0i0H
- jArsoBGwOs34eH1QxqHh8djz2N76V+Y=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O4MGQCuTOyzayUSFNUpN0X+InL/+GMmjkp7efri2xOo=;
+ b=YSi7CZ6uSnlBa11qWOSf6+fu58yuew1OFNqJ2DBOMaKObzUu0wmaRmRhwBm19r90Pxdy4w
+ Y7oqyZa/9mN/5r3gR9MwpSvNbYnTNMTEvCs4if3i3dx7FvzP4CkoyUV08QGX3+fA5Om4W4
+ 3UpGioTXR2coDPSNGDpu/tpQ06Mq7eo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-306-qhKMFw-JMDGrR5Qb24U5Xg-1; Mon, 12 Dec 2022 07:30:02 -0500
-X-MC-Unique: qhKMFw-JMDGrR5Qb24U5Xg-1
-Received: by mail-ua1-f72.google.com with SMTP id
- t7-20020ab04ac7000000b004199dbe4e01so5226150uae.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:30:02 -0800 (PST)
+ us-mta-368-uk3XRvJNNu-JD3OsP11uew-1; Mon, 12 Dec 2022 07:43:40 -0500
+X-MC-Unique: uk3XRvJNNu-JD3OsP11uew-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v14-20020adf8b4e000000b0024174021277so2211231wra.13
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:43:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ETVRY8gLPmL7Zk6XrKutB7oeRWEyzONMpdjIrrMfA2o=;
- b=NySqfTz8y1FrPxwed7Q8fVdUI5r22VlBzrP4c5tViFp601V+YA9WVpTPgguZPmDVP2
- cT6CL9599qCK9Qg0GN4BwOTadB0B1csSCVYTUNUQSzAmlBIvrdJgg+mm1oAqrYpKLok4
- WmKhyK5ztYMuFXURddR99D9081DhQ+qFw235SB9MdGprvYN/pdRXi+iy7VVq5chAhG+v
- wIrWW3xfV+yweH/hj80VQVTN5bFXKFPdEm7N4u7R0pwSS0AlqC4KZwH6YIAoZ/IW4CJ+
- xKwIn5VPXk6IQ69Loz9za+FORzTdmIJGIBEFJ9KkboWDCIyHDlyx+30TePwQj2cfJMGc
- AGAg==
-X-Gm-Message-State: ANoB5pkvyV0Vnq/kGWsCI1iKgIbVlAhSVcvmoq2yK9rKzBYKdwAvBZax
- B0sI4+5mwbLlethH+y89WCyrlCgV5CdvxNGGVaKM6rIGF78kY2FqU6MQy+q0jYICn0+F5V6Nzng
- 0/qA64HNDUxJIeDCRotInHZaezMKaBwM=
-X-Received: by 2002:a05:6122:c94:b0:3b5:ee70:5cf6 with SMTP id
- ba20-20020a0561220c9400b003b5ee705cf6mr45316440vkb.20.1670848202007; 
- Mon, 12 Dec 2022 04:30:02 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4PXlChdf2p05dNZyrAzPXVP79O2aVn9iifKBI2IUt8gJEfNcK45UF85XOSrZ+DtTtka7lcF1aBnvWRSeJP3BA=
-X-Received: by 2002:a05:6122:c94:b0:3b5:ee70:5cf6 with SMTP id
- ba20-20020a0561220c9400b003b5ee705cf6mr45316434vkb.20.1670848201720; Mon, 12
- Dec 2022 04:30:01 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=O4MGQCuTOyzayUSFNUpN0X+InL/+GMmjkp7efri2xOo=;
+ b=kGH6szyqjB723o2upPIwmcpGBdefqcs65cz2boynLjzSUeU/x6ZCZ/eSOvB+FLDrs6
+ k4uoBBb7ap8SAmPTSBuce7Myyfv47joymmKp9GHz9WHJUp+ykLro9ydosJfA1uWaTIWF
+ ZvQcp9uKSDdcVHqd/LhOnJNkK2qCjNFEsbZanNXo+O9AotBq3uv69QMF932vrF5mYH7r
+ JORDrA06S3S/PwGdqwa0So1Cf6aqT0EfqE4nbSTzDpl6OtmuM0YJLdJfHzu5vVMiVP3K
+ TPKQ5kd580lPCY3thfvk0Gb/Vya2qYhTQOfDJgh/Bg9DVgnE2gx3jO7HjZOEWjqCx9cs
+ Vj/w==
+X-Gm-Message-State: ANoB5plGrrddn2DonNWBRruRjg9ZrOWcqII1ojTnxZO/qXZ6GRlv46YN
+ /ZmCexJmXdqFXTvH1ynMhp665eb0KrShPyFyEv0miVz177e9SG7Z6kitEf/AEmxHham5hklIUG0
+ PqnzCMuiLu9etRkw=
+X-Received: by 2002:a05:600c:a4f:b0:3c6:e63e:89b3 with SMTP id
+ c15-20020a05600c0a4f00b003c6e63e89b3mr12742163wmq.15.1670849019301; 
+ Mon, 12 Dec 2022 04:43:39 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5ZCe8x/aJvg/71Rs2x8PjWKiOv5LuU9upncPvdtElEW7Ii0dWipacfPNKCUkadseKSPX7rUg==
+X-Received: by 2002:a05:600c:a4f:b0:3c6:e63e:89b3 with SMTP id
+ c15-20020a05600c0a4f00b003c6e63e89b3mr12742143wmq.15.1670849018976; 
+ Mon, 12 Dec 2022 04:43:38 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-178-127.web.vodafone.de.
+ [109.43.178.127]) by smtp.gmail.com with ESMTPSA id
+ m16-20020a7bcb90000000b003cf37c5ddc0sm8933466wmi.22.2022.12.12.04.43.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 04:43:38 -0800 (PST)
+Message-ID: <f88cceed-4df3-ff08-86d8-07807e48c9b0@redhat.com>
+Date: Mon, 12 Dec 2022 13:43:37 +0100
 MIME-Version: 1.0
-References: <20221129173809.544174-1-andrey.drobyshev@virtuozzo.com>
- <a0d15083-c257-6170-a3c7-2baf1ec58a9a@virtuozzo.com>
-In-Reply-To: <a0d15083-c257-6170-a3c7-2baf1ec58a9a@virtuozzo.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 12 Dec 2022 14:29:50 +0200
-Message-ID: <CAPMcbCoEfeZW0YQRN1To6zdGEP4g4GV3PBS9EDGqs_dYFNTF4g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] qga: improve "syslog" domain logging
-To: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
-Cc: qemu-devel@nongnu.org, den@virtuozzo.com, marcandre.lureau@gmail.com, 
- Stefan Weil <sw@weilnetz.de>
-Content-Type: multipart/alternative; boundary="000000000000899e2005efa0a93f"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/qtest/vhost-user-blk-test: don't abort all qtests
+ on missing envar
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: Coiby Xu <coiby.xu@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <E1oybRD-0005D5-5r@lizzy.crudebyte.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <E1oybRD-0005D5-5r@lizzy.crudebyte.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,97 +100,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000899e2005efa0a93f
-Content-Type: text/plain; charset="UTF-8"
+On 25/11/2022 16.58, Christian Schoenebeck wrote:
+> This test requires environment variable QTEST_QEMU_STORAGE_DAEMON_BINARY
+> to be defined for running. If not, it would immediately abort all qtests
+> and prevent other, unrelated tests from running.
+> 
+> To fix that, just skip vhost-user-blk-test instead and log a message
+> about missing environment variable.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+> 
+>   I also tried g_test_skip(errmsg) from the setup handlers instead, but it
+>   always caused the tests to abort with an error:
+>   
+>   ../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process
+>   but encountered exit status 1 (expected 0)
+>   
+>   I haven't further investigated.
+> 
+>   tests/qtest/vhost-user-blk-test.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
+> index 07a4c2d500..dc37f5af4d 100644
+> --- a/tests/qtest/vhost-user-blk-test.c
+> +++ b/tests/qtest/vhost-user-blk-test.c
+> @@ -983,6 +983,12 @@ static void register_vhost_user_blk_test(void)
+>           .before = vhost_user_blk_test_setup,
+>       };
+>   
+> +    if (!getenv("QTEST_QEMU_STORAGE_DAEMON_BINARY")) {
+> +        g_test_message("QTEST_QEMU_STORAGE_DAEMON_BINARY not defined, "
+> +                       "skipping vhost-user-blk-test");
+> +        return;
+> +    }
+> +
+>       /*
+>        * tests for vhost-user-blk and vhost-user-blk-pci
+>        * The tests are borrowed from tests/virtio-blk-test.c. But some tests
 
-Currently, there is a code freeze in QEMU for release 7.2.
-I will merge this after it https://wiki.qemu.org/Planning/7.2
+Thanks, queued to my testing-next branch now:
 
-Best Regards,
-Konstantin Kostiuk.
+  https://gitlab.com/thuth/qemu/-/commits/testing-next/
 
-
-On Mon, Dec 12, 2022 at 2:17 PM Andrey Drobyshev <
-andrey.drobyshev@virtuozzo.com> wrote:
-
-> On 11/29/22 19:38, Andrey Drobyshev wrote:
-> > These patches extend QGA logging interface, primarily under Windows
-> > guests.  They enable QGA to write to Windows event log, much like
-> > syslog() on *nix.  In addition we get rid of hardcoded log level used by
-> > ga_log().
-> >
-> > v2:
-> > * Close event_log handle when doing cleanup_agent()
-> > * Fix switch cases indentation as reported by scripts/checkpatch.pl
-> >
-> > Andrey Drobyshev (2):
-> >   qga-win: add logging to Windows event log
-> >   qga: map GLib log levels to system levels
-> >
-> >  configure                 |  3 +++
-> >  qga/installer/qemu-ga.wxs |  5 ++++
-> >  qga/main.c                | 50 +++++++++++++++++++++++++++++++++++----
-> >  qga/meson.build           | 19 ++++++++++++++-
-> >  qga/messages-win32.mc     |  9 +++++++
-> >  5 files changed, 81 insertions(+), 5 deletions(-)
-> >  create mode 100644 qga/messages-win32.mc
-> >
->
-> Could you please clarify the status of these patches?
->
->
-
---000000000000899e2005efa0a93f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Currently, there is a code freeze in QEMU for release=
- 7.2.<br></div>I will merge this after it <a href=3D"https://wiki.qemu.org/=
-Planning/7.2">https://wiki.qemu.org/Planning/7.2</a><div><br clear=3D"all">=
-<div><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmai=
-l_signature"><div dir=3D"ltr"><div>Best Regards,</div><div>Konstantin Kosti=
-uk.</div></div></div></div><br></div></div></div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 12, 2022 at 2:17 PM =
-Andrey Drobyshev &lt;<a href=3D"mailto:andrey.drobyshev@virtuozzo.com">andr=
-ey.drobyshev@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On 11/29/22 19:38, Andrey Drobyshev wrote:<br>
-&gt; These patches extend QGA logging interface, primarily under Windows<br=
->
-&gt; guests.=C2=A0 They enable QGA to write to Windows event log, much like=
-<br>
-&gt; syslog() on *nix.=C2=A0 In addition we get rid of hardcoded log level =
-used by<br>
-&gt; ga_log().<br>
-&gt; <br>
-&gt; v2:<br>
-&gt; * Close event_log handle when doing cleanup_agent()<br>
-&gt; * Fix switch cases indentation as reported by scripts/<a href=3D"http:=
-//checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">checkpatch.pl</a><br>
-&gt; <br>
-&gt; Andrey Drobyshev (2):<br>
-&gt;=C2=A0 =C2=A0qga-win: add logging to Windows event log<br>
-&gt;=C2=A0 =C2=A0qga: map GLib log levels to system levels<br>
-&gt; <br>
-&gt;=C2=A0 configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 3 +++<br>
-&gt;=C2=A0 qga/installer/qemu-ga.wxs |=C2=A0 5 ++++<br>
-&gt;=C2=A0 qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 50 +++++++++++++++++++++++++++++++++++----<br>
-&gt;=C2=A0 qga/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 19 +++=
-+++++++++++-<br>
-&gt;=C2=A0 qga/<a href=3D"http://messages-win32.mc" rel=3D"noreferrer" targ=
-et=3D"_blank">messages-win32.mc</a>=C2=A0 =C2=A0 =C2=A0|=C2=A0 9 +++++++<br=
->
-&gt;=C2=A0 5 files changed, 81 insertions(+), 5 deletions(-)<br>
-&gt;=C2=A0 create mode 100644 qga/<a href=3D"http://messages-win32.mc" rel=
-=3D"noreferrer" target=3D"_blank">messages-win32.mc</a><br>
-&gt; <br>
-<br>
-Could you please clarify the status of these patches?<br>
-<br>
-</blockquote></div>
-
---000000000000899e2005efa0a93f--
+  Thomas
 
 
