@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC9364A607
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 18:35:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8852464A606
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 18:35:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4mhJ-0003Cr-Ni; Mon, 12 Dec 2022 12:34:37 -0500
+	id 1p4mhK-0003DN-Dg; Mon, 12 Dec 2022 12:34:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4mhH-0003CP-Uv
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:34:35 -0500
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4mhH-0003CQ-W0
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:34:36 -0500
 Received: from mout.gmx.net ([212.227.17.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4mhG-0005tn-7S
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p4mhG-0005u3-E2
  for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:34:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1670866469; bh=5YFM20v6DzpqIRAHt/qL9cI5Ml3SHGz65BhEgBhfTyw=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=CurWGrHbSi+Lu0cvdhXrCU8VCJcRcSRG/UOl0DhAMjj2989tXIWsxfqgV2y5XaG59
- ZdL3feur55S3clc4CCJ3Vu1T3l544lbzU4Ci4R1hcN616X9mZ91wNkE0dMorLc+8l2
- 81YDVTlGk0e+jh16zuqC1MP4b3qUmHcFuLAnG6QKZ8jq4jq2ZGXxvmFSBvEBsMw4sF
- zpzqtep5zt0dC0EVAgJ1aj8UvcpsuvgueXBKbDqvH3lAY577DqKknNnKPFm/t5MGsu
- 0aEtW9nxSKMuIMY0YpeFRUZ03IAakQLYSRZCCc7tLkvgVXsdiaNfwxjB3LvMI5j/XI
- VgFlKvbXyfYvQ==
+ t=1670866472; bh=GuPxCVZcDKjDXkUI5yddoq53qjUKXs4MIQ/JW+el3nY=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=WqSqSwOrWWLzuc/oPc692znVxfiwJLZWjGbbDvPksiUZD83FsB7KMgBGl0ncGCh06
+ dXHuGAQpj9yvN7kt8YJdAw06eJEM5xpXBkH2cV53sXv3s1RKBqu9VQc5jpKDsTBvDg
+ 2zDXaf1Le/pFhdogu8dzfwGO80XbKr7S4G7ymd8slTuFBGhklj2lUPh+FGOt+VmllK
+ OZSYVWFhfrNgIDeypOK7LQaUpod6kWTh+W3UuJlfAUHFcfrnowatdsXK0ncZuEicXC
+ L3XJnt1OLpimEaLy4Gqx2cUX728VijOYLKsVhQrDvRJTqAtRZXWmxEZn2biPI4SW1n
+ 1r+LOGh+WLOjQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from p100.fritz.box ([92.116.137.92]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MQMyf-1pHesv3dS5-00MKmv; Mon, 12
- Dec 2022 18:34:28 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M2f9b-1p53wd1wkB-004EbP; Mon, 12
+ Dec 2022 18:34:32 +0100
 From: Helge Deller <deller@gmx.de>
 To: Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>
-Subject: [PATCH 1/2] linux-user: Implement SOL_ALG encryption support
-Date: Mon, 12 Dec 2022 18:34:15 +0100
-Message-Id: <20221212173416.90590-1-deller@gmx.de>
+Subject: [PATCH 2/2] linux-user: Allow sendmsg() without IOV
+Date: Mon, 12 Dec 2022 18:34:16 +0100
+Message-Id: <20221212173416.90590-2-deller@gmx.de>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221212173416.90590-1-deller@gmx.de>
+References: <20221212173416.90590-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qHQeIbpFohxS87vlF437ePmf2RsAn3XrsoOzP/CXeirD4TQq7dH
- bcYWEGxv6giFixBD9xyecirDlJXN98q+5TFDc0KyMoUo9AxgXf8iClOSC8FXlBHZUoTIqBo
- 2L9cRCGg0bO5H3iuKXvfrrVdGfb8S0HJw29s3ZU+gjcoX4btnh3AS3FVCV08VixjWuEfz98
- PY1yK7ja6v8bm00Qxqr8g==
-UI-OutboundReport: notjunk:1;M01:P0:dkufGFSddGc=;grirZ2YKXr1bNIwj5TxN6gmpv2L
- qh2+38JY7wDNFESJ8WGpgPtr604o377FkyPSOYVCYSVvwGyGLOaRc3pCYGJdAzIKAIl+K5i/g
- 0EoR7rvLIPtBH1x1paTYgO9bXe6nOY/zoCha1teUx7aiyb2a5LlZ6eBFar/RFyFPd6uF/79us
- Ztu+08oG1/FFf4BFqa8Ghah5n531X9sotLYaU5ypoHhvLmBEwWghN7QhBHGU7GOPpn/8apVmm
- OG1MNargAZWiiLQxCvtDPzWBI+uOHlW+t8mjs7AUyEld/PVifVVs16qtXewg2IFIKPHePOFQi
- cgNZ6AIjpQ7pNc5h5Pj9jrze9LkZMRyrv5WwvMhbtGKHytfiU6iOheYn04wvdUhIV95CKx2Zs
- d8xcCkJbhEAmWpII5uMFRRb5Byk5cwbR0ZasbI66oXQomakdzcv+B2YehuPXPXuEc1xqbE0Kp
- njChF+GU9n0FptvuUGKUkaP5SK/6z14FDl9JUEUboYAYh6/AhDBI/YsHc04o9NPbQgNaBPq6F
- 83V1g/HA8iBaPwrsXWkJOTwAqY2ZQY7RkPXHLC+6WEdH4MHKHM956OFvVhukRK7uDrMTxt1tE
- dh8aTYBu3aadOYIUXTVdTYy4B0QAwc5/z3kLJikQILMjFyMESSsT4fqWcMkuFfApur0EsY6/7
- hyIEh3LJO+/f+wtJIWuLXZxG0WLucOJFrKuuLc0xwq+4tn5RC3WeR8Dap7TSZjXovXAuQoyzm
- jIDwK+cIQoE7b87ceNe0y/mUgsiO5j8J8VGS60fEuQtKqIXUguV5AK4UE5gloPQJ0gAfA7J6P
- hAefJfpUYbdW+hvTOwUY+R6G1BnhJBIgjFdatLEDBIYcATy4dj38M+jV95ZIyrugpS3ISmwT9
- gSyD2/825Ap7ZTc1gJK8y3W/WdwCrwOY9GqHgvIuFxiwDAClocMncCrkOPhX0nU3fW2WmbI4v
- 13SmIbfQ+PDz+6iC7/WyFShr5ck=
+X-Provags-ID: V03:K1:SAW1mxBDLxoydLS8wO7RPxVV1dX38NY510CNAt43GoFBwJh+K0s
+ xP7jJ7h63mEAktWWp5SpEATfS8awVVrPJg3OokaIDSfbhTUttqlcsthheazOxXfBmonrmaz
+ Eot9rjK2H0CbVp2Qv4W9Pj57OOJwgZFFUA5OUGBFE7bc54ZGJ7ATBKYES9rq6/dPfOy8TJ6
+ o2tdHlywczT09jRQfhv7w==
+UI-OutboundReport: notjunk:1;M01:P0:XOgB7zVsOJM=;lAcVTT7mo/H/mTgOKUGdVWQK4Cg
+ /P7IKVsK63qBHp/8CqbShfZu8GwbkOhemfi5gr+V+AFmgjvpbFoZY8MlRTfPnDiel6T7Q2MC/
+ Lny789vbY0D4N0uFegy5JJB1KA65uUDEKgUsLe9xNBemuDfuJnY5+4RhUucuVjlyrqrHJh/q2
+ MPMC9KtY8UAkUVaiyrGkgDq4f1cy6rMCpMf9+/EZoyVpAmFIWwEgs1Or+hU0rA0DPwyQGoHSA
+ IDkYRrQA2SzDnz5rL9bGh9ngIYKMZUynlHmEabcH9Hn4p/IdCXgDZP9Nh69h5KR+jV+4DqEzY
+ Ggrt5pOdH3k5Ul351/3FOHO68S2h4405I8gKBoG5sk/+tzhPIdzKWANsPBW89zbw6nGXChT+Q
+ EquJ4HXkZbbGh9mVDyX3sRdz2WlA84oyqOK4jnryvXvETsluPalmj/yxKOQfH5O44eV2QGdI1
+ MRSyPvuKS2hZkxY+hkYwOJ8TbPtz/Rf423Y4fXwXuE7VzRDkVRYfAw4v8BBCwGg8mQSLX8MF9
+ UWSpMZWGtGvJD3aatQlKxr1Kl7MBbg9/l+WJaztRzusvI0F+GRyF72dwjaqndmQ0jGSScEZsf
+ ZvMpLQCihPxG0yI8dp0jbGALrtQ7P8UF17p8MOaXtcho6ZUb4kLQZuMt/4JMUMSn0FqtmZ+hY
+ fZ+DSMpQzXQD/8LFH9ilLrCiCmeNY3YhReDYcDvjctOjuT7WdkQWACH51FZFz9WTPEKLdvs4x
+ +qHIeJ+AdKEcSvxHU81XIFoDOd7zHEieljZKe+S+VB6HtdhYK2ppIXlOUHarKFmEVfCKRo7da
+ lu0R9QsY8Wpi7jUPQCCIykFiIFc63xQ65i9ZAujupZObuPAvlqO4XV+29HJjdlaMtSZgvn4I+
+ C7+ouwnOvmvHjwaS4ag2dyEdnls8m8ypOCFyCOaVmk0AY/1FznCsrmQPzZsWbcTztU9GirMjR
+ lIRYNQ==
 Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -27
@@ -82,37 +84,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add suport to handle SOL_ALG packets via sendmsg() and recvmsg().
-This allows emulated userspace to use encryption functionality.
+Applications do call sendmsg() without any IOV, e.g.:
+ sendmsg(4, {msg_name=3DNULL, msg_namelen=3D0, msg_iov=3DNULL, msg_iovlen=
+=3D0,
+            msg_control=3D[{cmsg_len=3D36, cmsg_level=3DSOL_ALG, cmsg_type=
+=3D0x2}],
+            msg_controllen=3D40, msg_flags=3D0}, MSG_MORE) =3D 0
+ sendmsg(4, {msg_name=3DNULL, msg_namelen=3D0, msg_iov=3D[{iov_base=3D"The=
+ quick brown fox jumps over t"..., iov_len=3D183}],
+            msg_iovlen=3D1, msg_control=3D[{cmsg_len=3D20, cmsg_level=3DSO=
+L_ALG, cmsg_type=3D0x3}],
+            msg_controllen=3D24, msg_flags=3D0}, 0) =3D 183
 
-Tested with the debian ell package with hppa guest on x86_64 host.
+The function do_sendrecvmsg_locked() is used for sndmsg() and recvmsg()
+and calls lock_iovec() to lock the IOV into memory. For the first
+sendmsg() above it returns NULL and thus wrongly skips the call the host
+sendmsg() syscall, which will break the calling application.
+
+Fix this issue by:
+- allowing sendmsg() even with empty IOV
+- skip recvmsg() if IOV is NULL
+- skip both if the return code of do_sendrecvmsg_locked() !=3D 0, which
+  indicates some failure like EFAULT on the IOV
+
+Tested with the debian "ell" package with hppa guest on x86_64 host.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/syscall.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ linux-user/syscall.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 71ae867024..a365903a3a 100644
+index a365903a3a..9e2c0a18fc 100644
 =2D-- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -1871,6 +1871,14 @@ static inline abi_long target_to_host_cmsg(struct m=
-sghdr *msgh,
-             __get_user(cred->pid, &target_cred->pid);
-             __get_user(cred->uid, &target_cred->uid);
-             __get_user(cred->gid, &target_cred->gid);
-+        } else if (cmsg->cmsg_level =3D=3D SOL_ALG) {
-+            uint32_t *dst =3D (uint32_t *)data;
-+
-+            memcpy(dst, target_data, len);
-+            /* fix endianess of first 32-bit word */
-+            if (len >=3D sizeof(uint32_t)) {
-+                *dst =3D tswap32(*dst);
-+            }
-         } else {
-             qemu_log_mask(LOG_UNIMP, "Unsupported ancillary data: %d/%d\n=
-",
-                           cmsg->cmsg_level, cmsg->cmsg_type);
+@@ -3330,7 +3330,10 @@ static abi_long do_sendrecvmsg_locked(int fd, struc=
+t target_msghdr *msgp,
+                      target_vec, count, send);
+     if (vec =3D=3D NULL) {
+         ret =3D -host_to_target_errno(errno);
+-        goto out2;
++        /* allow sending packet without any iov, e.g. with MSG_MORE flag =
+*/
++        if (!send || ret) {
++            goto out2;
++        }
+     }
+     msg.msg_iovlen =3D count;
+     msg.msg_iov =3D vec;
+@@ -3382,7 +3385,9 @@ static abi_long do_sendrecvmsg_locked(int fd, struct=
+ target_msghdr *msgp,
+     }
+
+ out:
+-    unlock_iovec(vec, target_vec, count, !send);
++    if (vec) {
++        unlock_iovec(vec, target_vec, count, !send);
++    }
+ out2:
+     return ret;
+ }
 =2D-
 2.38.1
 
