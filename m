@@ -2,93 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27618649A77
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 09:53:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE357649A78
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 09:53:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4eXu-00016f-RV; Mon, 12 Dec 2022 03:52:22 -0500
+	id 1p4eYH-0001Fm-8J; Mon, 12 Dec 2022 03:52:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4eXq-00015R-Vo
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:52:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p4eYE-0001FG-8q; Mon, 12 Dec 2022 03:52:42 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p4eXp-0002yx-DH
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:52:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670835136;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ry6aSjwwpqjUGAScw3y259OMw3ivgb+B2cfWv50Eyb4=;
- b=VxPByLAGuxSHC26C6DwALExZCfFk2LwfgvhvSUwLxqEDm0ClN0IOviLVV39Tq8PxUzi+bA
- VgDmD8hF4SSw6AXNJBwudov7SfkVOFVgC+KoIahHKBC59btCL5j51/llw9I1lAwb42nAMZ
- iEnfP/pgJirxtFjHoFVj3PnMJBOjtMU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-111-L2T9_dbNNNuPEyxyQ2njfw-1; Mon, 12 Dec 2022 03:52:14 -0500
-X-MC-Unique: L2T9_dbNNNuPEyxyQ2njfw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r67-20020a1c4446000000b003d09b0fbf54so3865539wma.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 00:52:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ry6aSjwwpqjUGAScw3y259OMw3ivgb+B2cfWv50Eyb4=;
- b=tc0FEM/m5FDmZV8YmHcU/ylbRXhiG5aq2hfDePPg8wXD1KiZyxHuNPGJlptBpAAt50
- 4h3ZSTFw64UclmpXtm+hTEW+6SAIwh2e2WTIRmhdNwDCQG/4N97ZYlFJtQ59EIoccQRp
- 0SqFio1jGjBelZpQM9BChzDtrpkF97c0ZrGaw5Jgq2wM7ufobnun8HhKsBh5ar92YIyf
- SeFgIQxgJZoCv09hR50gTSJ0c72ONilfD3irG/yIQBsREZce9jj6RS8miqfFB1v9WeHS
- 83sUHumJQ5ut8OTabpElqfMOTPoGuZzvwmDWLoidgr9Uw/yz6ERRNpGIWjsgFt1qgMTq
- sgfg==
-X-Gm-Message-State: ANoB5pkyLrDx9wO3u13BZg/R113Q7RuFe8IlEBC4J52a+1NU2VNDdyA4
- yQxpOkINj9RceI3hmYfg+Jaf9Vrjt+nZPrlttqysD0tuc3A/ONkOwqJIt/qpcyzcJteyiUwW8Vk
- BuhhuED7DdaIH+Qw=
-X-Received: by 2002:a5d:52cb:0:b0:236:f1a1:b45d with SMTP id
- r11-20020a5d52cb000000b00236f1a1b45dmr8861269wrv.54.1670835133164; 
- Mon, 12 Dec 2022 00:52:13 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7H7Sr/RVTpYOUrzTT2GVxVqBh+lRnYXfHCHhjBA+LjIxe2WpMpZ1IvCpAr7GnTGXAaKIXI9Q==
-X-Received: by 2002:a5d:52cb:0:b0:236:f1a1:b45d with SMTP id
- r11-20020a5d52cb000000b00236f1a1b45dmr8861265wrv.54.1670835132848; 
- Mon, 12 Dec 2022 00:52:12 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- e11-20020a5d500b000000b00241fde8fe04sm8293228wrt.7.2022.12.12.00.52.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 00:52:12 -0800 (PST)
-Message-ID: <5d021127-74a9-7357-5a49-4518855a8101@redhat.com>
-Date: Mon, 12 Dec 2022 09:52:10 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1p4eYB-0003A7-Bk; Mon, 12 Dec 2022 03:52:41 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BC8Xemd015486; Mon, 12 Dec 2022 08:52:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=JIW1UOv9PTAtbrreF6XgFeoV5ZJbetlM980Ww8PhpJQ=;
+ b=UHEe/CiGLoCPSIkSohrlzn+58iCiBbNZ25Q6CRGnnaow+jcPoS21brDXh3DgCa5a/5KM
+ e1d4IquCFoW/7NgTFXrGHKJQ1jeMjBzYIkdQFwtj2vrZD1r+jVW1hJkV9V0d6xUs6nbR
+ lohxh1p1uBZkwefzk6n3LaPlTjzf+Vm0JKunsSA6vQ/l1FliSFEC6LKHFdS5Z0FZ2BDm
+ tyEbzUoy/u+ibTQ3KBztNA5elAyqc9WQj7GwWDmoCE7EOyhK0OahTgONh4ZmJWyygnmF
+ Bfk3qC53ETnS8aaaKBrSvMLF51W5rIWXEiKtcWi4CabB7SBUp7pRSUXzyZmBjIqqvFfH oQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md3sjkcag-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 08:52:29 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BC8pl3S011518;
+ Mon, 12 Dec 2022 08:52:29 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md3sjkc9x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 08:52:29 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BBNRN1B007817;
+ Mon, 12 Dec 2022 08:52:27 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3mchcf2c2t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Dec 2022 08:52:27 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BC8qNKO23593416
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 08:52:23 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 24FE520043;
+ Mon, 12 Dec 2022 08:52:23 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 14BD620040;
+ Mon, 12 Dec 2022 08:52:21 +0000 (GMT)
+Received: from [9.171.10.222] (unknown [9.171.10.222])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Dec 2022 08:52:20 +0000 (GMT)
+Message-ID: <ff8d4db0-a01c-a833-e861-8525b2a71738@linux.ibm.com>
+Date: Mon, 12 Dec 2022 09:52:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 06/30] meson: tweak hardening options for Windows
+Subject: Re: [PATCH v13 1/7] s390x/cpu topology: Creating CPU topology device
 Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-7-pbonzini@redhat.com>
- <CAJ+F1CKL9RGT=L=B5E0T6XU1CYEooifThcyUDzJby++fWaBLkQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAJ+F1CKL9RGT=L=B5E0T6XU1CYEooifThcyUDzJby++fWaBLkQ@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
+ clg@kaod.org
+References: <20221208094432.9732-1-pmorel@linux.ibm.com>
+ <20221208094432.9732-2-pmorel@linux.ibm.com>
+ <be4571a6-edaa-3291-1b31-6f309c00a9f9@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <be4571a6-edaa-3291-1b31-6f309c00a9f9@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: thbLjlvDSdMv3XVqhq1YHsWlg6YWrIr3
+X-Proofpoint-ORIG-GUID: QDmlJKfEFxpvmxj0c62e1ZhRr_r_1sxb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_01,2022-12-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0
+ suspectscore=0 clxscore=1015 phishscore=0 malwarescore=0 mlxscore=0
+ impostorscore=0 priorityscore=1501 mlxlogscore=999 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120080
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,29 +121,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/22 09:18, Marc-André Lureau wrote:
->> -  # Disable ASLR for debug builds to allow debugging with gdb
->> -  if get_option('optimization') == '0'
->> -    qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase')
->> -  endif
->> +  qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase', '-Wl,--high-entropy-va')
->
-> What about the comment for disabling ASLR on debug builds?
 
-The problem with that line is that it _enables_ ASLR for debug builds, 
-and nobody has complained about gdb since last April...  And nobody has 
-complained to Debian or other distros that have enabled the flag for 
-years now.
 
-I'll clarify the commit message.
+On 12/9/22 14:50, Thomas Huth wrote:
+> On 08/12/2022 10.44, Pierre Morel wrote:
+>> We will need a Topology device to transfer the topology
+>> during migration and to implement machine reset.
+>>
+>> The device creation is fenced by s390_has_topology().
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+> [...]
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> new file mode 100644
+>> index 0000000000..b3e59873f6
+>> --- /dev/null
+>> +++ b/hw/s390x/cpu-topology.c
+>> @@ -0,0 +1,149 @@
+>> +/*
+>> + * CPU Topology
+>> + *
+>> + * Copyright IBM Corp. 2022
+>> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+>> +
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or 
+>> (at
+>> + * your option) any later version. See the COPYING file in the top-level
+>> + * directory.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>> +#include "qemu/error-report.h"
+>> +#include "hw/qdev-properties.h"
+>> +#include "hw/boards.h"
+>> +#include "qemu/typedefs.h"
+>> +#include "target/s390x/cpu.h"
+>> +#include "hw/s390x/s390-virtio-ccw.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>> +
+>> +/**
+>> + * s390_has_topology
+>> + *
+>> + * Return false until the commit activating the topology is
+>> + * commited.
+>> + */
+>> +bool s390_has_topology(void)
+>> +{
+>> +    return false;
+>> +}
+>> +
+>> +/**
+>> + * s390_get_topology
+>> + *
+>> + * Returns a pointer to the topology.
+>> + *
+>> + * This function is called when we know the topology exist.
+>> + * Testing if the topology exist is done with s390_has_topology()
+>> + */
+>> +S390Topology *s390_get_topology(void)
+>> +{
+>> +    static S390Topology *s390Topology;
+>> +
+>> +    if (!s390Topology) {
+>> +        s390Topology = S390_CPU_TOPOLOGY(
+>> +            object_resolve_path(TYPE_S390_CPU_TOPOLOGY, NULL));
+>> +    }
+>> +
+>> +    assert(s390Topology);
+> 
+> I think you can move the assert() into the body of the if-statement.
 
-> I wonder if we really have to add those flags ourself. Imho, we can
-> leave them to the compiler default or distrib.. I bet most of the deps
-> don't use those flags explicitly either.
+Yes, clearly.
 
-I think so, at least Firefox does.  In general QEMU tries to do more 
-build-time hardening than the average pacakge.
+> 
+>> +    return s390Topology;
+>> +}
+>> +
+>> +/**
+>> + * s390_init_topology
+>> + * @machine: The Machine state, used to retrieve the SMP parameters
+>> + * @errp: the error pointer in case of problem
+>> + *
+>> + * This function creates and initialize the S390Topology with
+>> + * the QEMU -smp parameters we will use during adding cores to the
+>> + * topology.
+>> + */
+>> +void s390_init_topology(MachineState *machine, Error **errp)
+>> +{
+>> +    DeviceState *dev;
+>> +
+>> +    if (machine->smp.threads > 1) {
+>> +        error_setg(errp, "CPU Topology do not support multithreading");
+> 
+> s/CPU Toplogy do/CPU topology does/
 
-Paolo
+Yes, thanks.
 
+Regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
