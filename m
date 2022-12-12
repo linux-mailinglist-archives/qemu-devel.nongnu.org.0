@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD6564AB25
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 00:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978EC64AB19
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 00:06:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4rrd-00076X-Sy; Mon, 12 Dec 2022 18:05:37 -0500
+	id 1p4rrj-0007AL-Ep; Mon, 12 Dec 2022 18:05:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rrb-00074g-Lh
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:05:35 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rrh-00079v-8J
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:05:41 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rrZ-0004Bp-L2
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:05:35 -0500
-Received: by mail-ej1-x635.google.com with SMTP id gh17so32212066ejb.6
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:05:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4rre-0004G6-To
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 18:05:41 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id vv4so32218033ejc.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:05:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jbPrC1EppR72Ye7FiBlVhG5eby+ePW/9OVleOE7ggh8=;
- b=wDmSII9+XHWe//xfo+zznt/rqMY4lSEas0zvtmnNmOEKIDKUfk+s/ZnmQFkh792D6y
- GgzCaEDY1uqg1wqdTLhJq6XOl539797tQ7I4zxpMfRMKOIOxgLadtpGZPDu5Z1oIUwrs
- EuUg+X9S+ncM+0Jab1s77QTYVYzDi0P/8PS9rcIpyWVqtVM8TPBqHucHAPCVdmq9O6zd
- 6rNxdgvQxdABNkyMYRYVVfsuossqFtox+6UugnWnyIIyLjbDgSn+HWU9PaaivkAm0QAf
- x3SiixdZAE17isqGc1QdNOXNStATYAeMZR0/I7RlR4WjgyMskbE8KCJRBJgZhOvoal6g
- 2U7Q==
+ bh=blM7A2ZtBOEvrOOyVb68rTbl2nGKVpaDUjZZ/09ilWY=;
+ b=EWTAYxZnd09SLTtGq6/R674WKwfn22bKGpZb8sy41dZvq2ttMSNDKqeU/qJ4hnZdRo
+ yoVTgbFRtCPGvZWzAPNeD/7IV54U/qyp3J7mwJVORO71fpP0c4o18ZsSyvl9j3NY0Ew/
+ b90X7QRdoBtGb+X3fcblpWteGD2Gnn2q8xOKKC55WFsrUcFGCZV0X+rMbYD0Ju1pbIiw
+ ggfMjFaY7K6fW0oboEyC0vbgkoYgh6yCqUhco5tIF/avla2b0AC1iHUl/QBT1yU0Pnw2
+ mitf0TJsdS2Pa0fh2MMbRDo+EwFHkDT/Xity0hHAi6rO8qYxqFw7jhyFYFl33OkmgkDY
+ WFmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jbPrC1EppR72Ye7FiBlVhG5eby+ePW/9OVleOE7ggh8=;
- b=oqv7GdmhiZ2lbQohxtJO7sRVdTWLQpBg93a9yX0BBvHd/THYfSl4kpJAoYjIPhTtIG
- UzBOa1JNoVnnETuyHj9UsLcYpgFzafzq8HWKqZtdrYeeygRHPjbIJaly1ZKICa6/X0R9
- i0hnOY9VPugLCtSBPqjCFnYBGRo7pa8CXMZLzbgJFKpaVEaUq2TNRBfCV0Y7zsrApMMP
- 5ODGaNnIwiuJ38uwGw3PTYSWrLm4qBeEZkjRuEQaUZ9AfhAGAfMWsaV1JCreaOXXXidO
- RYLO9v+1gtJkxx7oN2rlm8BPyb9g/AzA5Ri+57BjkRqB+JhRiPQctfajZYvOjI0NChrV
- 8SCw==
-X-Gm-Message-State: ANoB5pkgfVcX8pQNTwjtdE+AT1bYBo3ydkfY2VsQ0cP3T0HXcP1j0QRQ
- THz0Las8UxDx5J7UoTsFRKntD9qFtuqxyNO2lPs=
-X-Google-Smtp-Source: AA0mqf6jtnyCU8ruo2UpS6QWSKYFGCHydLnq0oegm88NNzN7+sJ0xlzIFxuP5xgiENPvbB4y2mpT9g==
-X-Received: by 2002:a17:906:2449:b0:7c0:f44d:984 with SMTP id
- a9-20020a170906244900b007c0f44d0984mr20762701ejb.74.1670886331812; 
- Mon, 12 Dec 2022 15:05:31 -0800 (PST)
+ bh=blM7A2ZtBOEvrOOyVb68rTbl2nGKVpaDUjZZ/09ilWY=;
+ b=5cP4B4jeuOMKDjx3/v+Liz5gnmm1hYBPuxphxqe9DkfRxF0S9EQqln8sV0GbRvXO4b
+ ZYysrYt2wjgtyFJ9YQ0UAPFBDR7wYLeVcICnIRyNQU/X73ZmigddfjxDuHowli0rCYkj
+ mzeeZPNqvZqbA4I463UTglp/+hIbaGZI8XVmmN/HJ2JwB1yrIC9DLSqMqoszAfNdzG3M
+ HHu6aofaNUwUROZwngI3CcDKVeoZGr32zp8FjJnzQfD9f/HjaZNrcmUcw6nYmNs9rB10
+ 9RrSwIKgLOjAEhMO5OtQgCKqPaABDO6sbtQ9KP1W9UZuQPRlzxVB4BtH1k5jwV+mD0aT
+ jnZg==
+X-Gm-Message-State: ANoB5pn91dxcfWF1pCSgeWifEcyiYdLCn2F+LJ7rBqdl27v6cFYUOOpN
+ A+K7GSD9a567r5W8ezfINr9ocXR9xlbl3lk7nEY=
+X-Google-Smtp-Source: AA0mqf4KSeWFI6Q4yu8UJ7M1ePah6fRR2IWK9GojluCZN4xls3Q+UvDO46GIUJsQVn5HXRW8LCj/dA==
+X-Received: by 2002:a17:906:25c7:b0:7c1:8ba6:6eb3 with SMTP id
+ n7-20020a17090625c700b007c18ba66eb3mr409887ejb.35.1670886337134; 
+ Mon, 12 Dec 2022 15:05:37 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- 23-20020a170906309700b00788c622fa2csm3776296ejv.135.2022.12.12.15.05.30
+ l9-20020a1709060cc900b007b5903e595bsm3774463ejh.84.2022.12.12.15.05.35
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 12 Dec 2022 15:05:31 -0800 (PST)
+ Mon, 12 Dec 2022 15:05:36 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
@@ -64,18 +64,17 @@ Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH-for-8.0 02/10] hw/virtio: Rename virtio_ss[] ->
- specific_virtio_ss[]
-Date: Tue, 13 Dec 2022 00:05:09 +0100
-Message-Id: <20221212230517.28872-3-philmd@linaro.org>
+Subject: [PATCH-for-8.0 03/10] hw/virtio: Constify qmp_virtio_feature_map_t[]
+Date: Tue, 13 Dec 2022 00:05:10 +0100
+Message-Id: <20221212230517.28872-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221212230517.28872-1-philmd@linaro.org>
 References: <20221212230517.28872-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,86 +97,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since virtio_ss[] is added to specific_ss[], rename it as
-specific_virtio_ss[] to make it clearer.
+These arrays are only accessed read-only, move them to .rodata.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/virtio/meson.build | 41 +++++++++++++++++++++--------------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+ hw/virtio/virtio.c | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index dfed1e7af5..23a980efaa 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -3,34 +3,34 @@ softmmu_virtio_ss.add(files('virtio-bus.c'))
- softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_PCI', if_true: files('virtio-pci.c'))
- softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'))
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 5817f4cbc9..f54cc23304 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -80,7 +80,7 @@ enum VhostUserProtocolFeature {
+ };
  
--virtio_ss = ss.source_set()
--virtio_ss.add(files('virtio.c'))
-+specific_virtio_ss = ss.source_set()
-+specific_virtio_ss.add(files('virtio.c'))
+ /* Virtio transport features mapping */
+-static qmp_virtio_feature_map_t virtio_transport_map[] = {
++static const qmp_virtio_feature_map_t virtio_transport_map[] = {
+     /* Virtio device transport features */
+ #ifndef VIRTIO_CONFIG_NO_LEGACY
+     FEATURE_ENTRY(VIRTIO_F_NOTIFY_ON_EMPTY, \
+@@ -111,7 +111,7 @@ static qmp_virtio_feature_map_t virtio_transport_map[] = {
+ };
  
- if have_vhost
--  virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
-+  specific_virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
-   if have_vhost_user
--    virtio_ss.add(files('vhost-user.c'))
-+    specific_virtio_ss.add(files('vhost-user.c'))
-   endif
-   if have_vhost_vdpa
--    virtio_ss.add(files('vhost-vdpa.c', 'vhost-shadow-virtqueue.c'))
-+    specific_virtio_ss.add(files('vhost-vdpa.c', 'vhost-shadow-virtqueue.c'))
-   endif
- else
-   softmmu_virtio_ss.add(files('vhost-stub.c'))
- endif
+ /* Vhost-user protocol features mapping */
+-static qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
++static const qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
+     FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_MQ, \
+             "VHOST_USER_PROTOCOL_F_MQ: Multiqueue protocol supported"),
+     FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_LOG_SHMFD, \
+@@ -161,7 +161,7 @@ static qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
+ };
  
--virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
--virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
--virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs.c'))
--virtio_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem.c'))
--virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock.c', 'vhost-vsock-common.c'))
--virtio_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock.c', 'vhost-vsock-common.c'))
--virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng.c'))
--virtio_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu.c'))
--virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
--virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
--virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
--virtio_ss.add(when: 'CONFIG_VHOST_USER_GPIO', if_true: files('vhost-user-gpio.c'))
--virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_GPIO'], if_true: files('vhost-user-gpio-pci.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock.c', 'vhost-vsock-common.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_VSOCK', if_true: files('vhost-user-vsock.c', 'vhost-vsock-common.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-rng.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
-+specific_virtio_ss.add(when: 'CONFIG_VHOST_USER_GPIO', if_true: files('vhost-user-gpio.c'))
-+specific_virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_GPIO'], if_true: files('vhost-user-gpio-pci.c'))
+ /* virtio device configuration statuses */
+-static qmp_virtio_feature_map_t virtio_config_status_map[] = {
++static const qmp_virtio_feature_map_t virtio_config_status_map[] = {
+     FEATURE_ENTRY(VIRTIO_CONFIG_S_DRIVER_OK, \
+             "VIRTIO_CONFIG_S_DRIVER_OK: Driver setup and ready"),
+     FEATURE_ENTRY(VIRTIO_CONFIG_S_FEATURES_OK, \
+@@ -179,7 +179,7 @@ static qmp_virtio_feature_map_t virtio_config_status_map[] = {
+ };
  
- virtio_pci_ss = ss.source_set()
- virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
-@@ -57,11 +57,12 @@ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem-pci.c'
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
+ /* virtio-blk features mapping */
+-qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_BLK_F_SIZE_MAX, \
+             "VIRTIO_BLK_F_SIZE_MAX: Max segment size is size_max"),
+     FEATURE_ENTRY(VIRTIO_BLK_F_SEG_MAX, \
+@@ -218,7 +218,7 @@ qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
+ };
  
--virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
-+specific_virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
+ /* virtio-serial features mapping */
+-qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_CONSOLE_F_SIZE, \
+             "VIRTIO_CONSOLE_F_SIZE: Host providing console size"),
+     FEATURE_ENTRY(VIRTIO_CONSOLE_F_MULTIPORT, \
+@@ -229,7 +229,7 @@ qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
+ };
  
--specific_ss.add_all(when: 'CONFIG_VIRTIO', if_true: virtio_ss)
- softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
- softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
- softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('virtio-stub.c'))
- softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
- softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('virtio-stub.c'))
-+
-+specific_ss.add_all(when: 'CONFIG_VIRTIO', if_true: specific_virtio_ss)
+ /* virtio-gpu features mapping */
+-qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_GPU_F_VIRGL, \
+             "VIRTIO_GPU_F_VIRGL: Virgl 3D mode supported"),
+     FEATURE_ENTRY(VIRTIO_GPU_F_EDID, \
+@@ -250,7 +250,7 @@ qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
+ };
+ 
+ /* virtio-input features mapping */
+-qmp_virtio_feature_map_t virtio_input_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_input_feature_map[] = {
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+@@ -260,7 +260,7 @@ qmp_virtio_feature_map_t virtio_input_feature_map[] = {
+ };
+ 
+ /* virtio-net features mapping */
+-qmp_virtio_feature_map_t virtio_net_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_net_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_NET_F_CSUM, \
+             "VIRTIO_NET_F_CSUM: Device handling packets with partial checksum "
+             "supported"),
+@@ -338,7 +338,7 @@ qmp_virtio_feature_map_t virtio_net_feature_map[] = {
+ };
+ 
+ /* virtio-scsi features mapping */
+-qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_SCSI_F_INOUT, \
+             "VIRTIO_SCSI_F_INOUT: Requests including read and writable data "
+             "buffers suppoted"),
+@@ -359,7 +359,7 @@ qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
+ };
+ 
+ /* virtio/vhost-user-fs features mapping */
+-qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+@@ -369,7 +369,7 @@ qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
+ };
+ 
+ /* virtio/vhost-user-i2c features mapping */
+-qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_I2C_F_ZERO_LENGTH_REQUEST, \
+             "VIRTIO_I2C_F_ZERO_LEGNTH_REQUEST: Zero length requests supported"),
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+@@ -381,7 +381,7 @@ qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
+ };
+ 
+ /* virtio/vhost-vsock features mapping */
+-qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_VSOCK_F_SEQPACKET, \
+             "VIRTIO_VSOCK_F_SEQPACKET: SOCK_SEQPACKET supported"),
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+@@ -393,7 +393,7 @@ qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
+ };
+ 
+ /* virtio-balloon features mapping */
+-qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_BALLOON_F_MUST_TELL_HOST, \
+             "VIRTIO_BALLOON_F_MUST_TELL_HOST: Tell host before reclaiming "
+             "pages"),
+@@ -411,14 +411,14 @@ qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
+ };
+ 
+ /* virtio-crypto features mapping */
+-qmp_virtio_feature_map_t virtio_crypto_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_crypto_feature_map[] = {
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+     { -1, "" }
+ };
+ 
+ /* virtio-iommu features mapping */
+-qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_IOMMU_F_INPUT_RANGE, \
+             "VIRTIO_IOMMU_F_INPUT_RANGE: Range of available virtual addrs. "
+             "available"),
+@@ -441,7 +441,7 @@ qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
+ };
+ 
+ /* virtio-mem features mapping */
+-qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
+ #ifndef CONFIG_ACPI
+     FEATURE_ENTRY(VIRTIO_MEM_F_ACPI_PXM, \
+             "VIRTIO_MEM_F_ACPI_PXM: node_id is an ACPI PXM and is valid"),
+@@ -453,7 +453,7 @@ qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
+ };
+ 
+ /* virtio-rng features mapping */
+-qmp_virtio_feature_map_t virtio_rng_feature_map[] = {
++const qmp_virtio_feature_map_t virtio_rng_feature_map[] = {
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
 -- 
 2.38.1
 
