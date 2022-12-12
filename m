@@ -2,136 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87ECD649E9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:23:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28277649E8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:20:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4hpT-0006JB-Ae; Mon, 12 Dec 2022 07:22:43 -0500
+	id 1p4hlw-0003ki-SB; Mon, 12 Dec 2022 07:19:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.drobyshev@virtuozzo.com>)
- id 1p4hpD-0006Cr-SZ
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:22:29 -0500
-Received: from mail-am6eur05on20720.outbound.protection.outlook.com
- ([2a01:111:f400:7e1b::720]
- helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.drobyshev@virtuozzo.com>)
- id 1p4hp2-0007yp-H4
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:22:21 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IgU8NOmG844KVsluBtoTAc2SEnSNCZ5R9d8nHpzWpgTzQ1gB3dmsYUxWOkIFgxJ4C1auFeTPDenL6myBOA/4ZS89qJK6gDhmq9yiEG86DyfimZ24gOSjgdxuXmiQG8q5w4o/SciIiX5cOyUipXkE1OgyZlp/3s3WquDB73tc6zlGO1QZR97xcVBTS1QIBQB74lKjebSJLAEGp2c9Hi+dLKZ881ZsnzR6x/VxC6+xpbl9vfd2FqxpVOxJkCmbEqiGQHnyOFu0pzIzPsk5kfXc5a+bd0LHhi++WVFrwVvKG3GJGSEyAVAB1YYOk3fnvaIXaYkF2esGXWTAK3UJUjSm3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4PXowseSApGj4a3Qr6SoXAcR/8+EsjXUp40JE3PEPm8=;
- b=W9XO7+tGtxqN2m/YpL2tdRUogm2QzsuhFDT8J7He7aqKXhtHn4lOxGOFgXiNzN7krAlTJ2e8W+NvuvwGdq53bSvtA14kBzGm/EYxk0gv8079ptPDDUrrSknRZ7gf6zMuKwD0cEsruMN+WnL7tY1WG3HuG7VCKEO8hw4pxxfgrJcnfAOC+HpmULa/xskMJVXfubwX09iJCnBhAT2dH/LnqsqlYhbqG0vNQndReYiDZm610Te2r8ghuXZa9xYy/gJY5ew43GDt8ZDXsQ1YZRBAda5DBIi7zdw0WjWdV3DIC9OjMJeH34UfRgOSY8WZI2yAh1xbdnxIXWUbaAvbTNar9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4PXowseSApGj4a3Qr6SoXAcR/8+EsjXUp40JE3PEPm8=;
- b=Hkw+al33rTo6Zhqt7wxmuzzmXtjjU4m2rZJMCCPH8sNf4AVV61U2qGHslx6H6vr21bwBYlDV5u7rMGPBlzcei9yNbziX4mkcg8vhrC1pHKFCxfLPWDFrqau5xVcLUZ5lM/DGwaokRwBtWlvq96YBOFMuyVjgarCxg5OWz2gvG2rBu05SbQHyvn5UKfv3Yo0fTbD7uUDpLMLZKOz9Gzka3Ayx8e6XW5onDyA6135o3gPNDJb6EKHmLhmqF4J/NdOlYpjuJ4HugWui/xgNNfuYJnjQsQ0x4Q6GBvhkZIwpG082Pk21SZVKWRV3834BQjxwiDtmXLybOCIGhrNCd8Z0EQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM4PR08MB2932.eurprd08.prod.outlook.com (2603:10a6:205:e::33)
- by GV1PR08MB8283.eurprd08.prod.outlook.com (2603:10a6:150:a4::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.9; Mon, 12 Dec
- 2022 12:17:09 +0000
-Received: from AM4PR08MB2932.eurprd08.prod.outlook.com
- ([fe80::d342:b36a:8ff5:8156]) by AM4PR08MB2932.eurprd08.prod.outlook.com
- ([fe80::d342:b36a:8ff5:8156%3]) with mapi id 15.20.5924.008; Mon, 12 Dec 2022
- 12:17:08 +0000
-Message-ID: <a0d15083-c257-6170-a3c7-2baf1ec58a9a@virtuozzo.com>
-Date: Mon, 12 Dec 2022 14:18:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2 0/2] qga: improve "syslog" domain logging
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: den@virtuozzo.com, marcandre.lureau@gmail.com,
- Konstantin Kostiuk <kkostiuk@redhat.com>, Stefan Weil <sw@weilnetz.de>
-References: <20221129173809.544174-1-andrey.drobyshev@virtuozzo.com>
-From: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
-In-Reply-To: <20221129173809.544174-1-andrey.drobyshev@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FRYP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::19)
- To AM4PR08MB2932.eurprd08.prod.outlook.com
- (2603:10a6:205:e::33)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4hlo-0003jA-AY
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:18:57 -0500
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1p4hld-0006cB-SF
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:18:49 -0500
+Received: by mail-lf1-x12d.google.com with SMTP id q6so8156738lfm.10
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:18:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aoINO2admwNQDDsHO1OBCsLlbnJhhXYVP89XEdE6/Bg=;
+ b=G/N2kDXNHY1Uosr5RPyL14gDAT8Ss2j/PRXEiHrr9Qryp94ah3kUgx8mWMHaorEhgk
+ CLFEvlcH0miIhXJtc/up5P1UAv7CVomU9LI7XknXOeQMf+BO7g23m0ltKJ9iM+wpc9MH
+ c7mdXXvSHKXEFKUkAgo13lw368Wu7LGW51WhywgICjpfffQBy6jeZTB6tQ/mx7xWwkaT
+ iAFU+NsNPNNtABQJGf5oslCqTBX0Qv1V1oZuWcjrEOEzi+7BmNIKHGMn2fqS6hc10x9i
+ has/wa5EryBtxolbffGiv3PZsMZUApBPWw1GC06Gt9JiC2hisRnV85o09U3HuVM+KFyC
+ 8MiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aoINO2admwNQDDsHO1OBCsLlbnJhhXYVP89XEdE6/Bg=;
+ b=HnE/LwvdHiKJuR73yQjdAIonvtlFjP5WppuXpJQ7oyIik4/8Bir2rWkM7pcf8d5uF1
+ j/RC7kEz7fP5BeQucSyUo8fQmcPQ7y+y3CudXcAB4AnU9Qxp8rnjo5QC17XEXH7Gixvg
+ VhXTffmZRJYeJHe7MhGEmNsy+YYCUuR6v+A47790YawNlZRtdNSLqqeRkGXxJS/wP0XN
+ 0A/h/tajaQl33BKwUMjqA9y5o0tuey4PUWzVpTAhtpxj2hjQ2hk7A4oLCFeKTZSivVnT
+ lS3Cs612xWfS060VP0okxMUJjdZa7e3LKMn3g1a9DMwQMQZibTXae0srsqtPu2L/aaK0
+ dI+w==
+X-Gm-Message-State: ANoB5pml5YMjmNM1NLtRE6Q/ZsA0w4NPO3hGPdncbx6lIOwa47qpS+oH
+ ee9E4sxLeBdQsfMN4FfRJo3qQxXF4oRfbSaf6f4slyCMfzE=
+X-Google-Smtp-Source: AA0mqf71jtMSGC++zP3mAdooaZRmdUBH3eGQLg/2A8T23Ig0sCefxgUezGV2H/UX3MeX9rbyYj+SEwJKRg/cgIjaRfM=
+X-Received: by 2002:a19:f016:0:b0:4b5:886b:d4af with SMTP id
+ p22-20020a19f016000000b004b5886bd4afmr5078997lfc.276.1670847522552; Mon, 12
+ Dec 2022 04:18:42 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PR08MB2932:EE_|GV1PR08MB8283:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1bf0e58b-af27-4835-c569-08dadc3ac9d0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C7nwSrjIf1QXv5ePzjvwYOIpapTsmqfHQyS8Oqlp4ld8h3buH3DXN5iJw8hhxfyjkFLP8htRP0f93MHa8X28VEiRETsPOFdk0wr0veePNOEIHRVrlEmwiVtgWPo6hgX3KcKmHhU8db6cWAxm4NzMR54bUhSE2OYD4oIljIlZR0crmFjJhU8dX8iQRrTPXoiwqcONT18742IZ4AewdnaFqX3/USOBQiD17bBuXeuYo+VyQjXMlcfLR4dINeeCapfh6fmivzu3zFVXKTQ2MpIXuvRqZHPzWQLNPBWStQ+pji5N0B8Z8QZBllNwp5yWjJg7hlUFa+oMAsHEua1VtPnP5TaelmV0KzjpTo11lfr0bqDvcga64TIyPoc8DPwXtenFqO+nncBLwl9f9FglFoAh/EejVMZHoJ542TNme2iV3+G4fwxvi0Q2l9QracFzsHLt1dXqmiDV9fhmrOkdc5nTl5vdM94SrAOBqiTvK2T2nXGtA17EkGFm7gdyKFVMYrQdlN+cuUzU6J9KCGi1cQd2U3FaSjSLkDDFJxYJPw5Btwc6G4eTMNJpzehnL8U1prQMV+auNtwbwb5e9YKsHO4jLzRTDgAnAq4X5XpwNd9Q9FH/lwhOZUAY3yNCNpQS1JVJfNPi/K7CHQXMK1NnKJqechA48EZiyjZY9h2Mit6zwNbWaQXrcYXY25ac9mVpaE8qe0jrye9W+KVTPlHuK1dRg4PqoUh5m5YQSo1w11SYE+8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM4PR08MB2932.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(346002)(39850400004)(136003)(366004)(396003)(451199015)(2906002)(38100700002)(4744005)(44832011)(186003)(8936002)(86362001)(4326008)(66946007)(31696002)(66476007)(8676002)(66556008)(6512007)(41300700001)(26005)(2616005)(5660300002)(36756003)(53546011)(54906003)(6916009)(31686004)(6666004)(6486002)(6506007)(316002)(83380400001)(478600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTBCWElpZEVqZHl1RGs0WERrOXI0Q2hzdnYxUHIzcVJ0OEpyRnBZK0RxejRR?=
- =?utf-8?B?V0Ivd0doZ21MVWtiaENxVlV5VHpaTENSRkVkT29QcUFLbFR3QXBZOGcvOEFx?=
- =?utf-8?B?bzYxS3RIVTRHaXZuY3BBalUxSHpRc1BjUFVSWk1MUVVpaXVxdCtDTHBqTko0?=
- =?utf-8?B?NmNVTFU3U0M4dUFxUW5ZUmdzUGlxeVVSWEFUSTVSWlBxZVJKVG4wOTlmVkpM?=
- =?utf-8?B?cGU0TlVCalk1VlJ0d3lNT3VuYXhrcFhRQ0NqcUVnbWdNdnRLemxNQjZkMVBn?=
- =?utf-8?B?TXIzM0dsYVJRaHVibW1YUW8yWldUbVB2dEhDTkVid2NtbzI1ZEsvcXhzSldS?=
- =?utf-8?B?RWNkQTFMYk1SMHQ2N0N0TzN3YUJrejdVenJpVEdaOTJ1WnFuckZEOTFSaVQr?=
- =?utf-8?B?eG5lZE1zaEYwR3I5TWRhV3cxU2Zqb1JESUhFQmk2YWt5b0xwSEl1anRlTm10?=
- =?utf-8?B?WmVXbGhseGNya3FrTE5jOElCUEloaU95d1lUNUlUNTA4SzhIK3JpeEhtNHNk?=
- =?utf-8?B?MXFjaU9BTGRQOEJGR2xNRHUyNUNKdHE0azVKSzY1RXNuMWJmcFpIWVJQY0cw?=
- =?utf-8?B?Mmt5REpaRnF4TTh2M29MVXJoWnZMWURZK3ZBYzMxQzczM0JlWmVqRGQ3Nkty?=
- =?utf-8?B?ZVJpMTVHWTFGYXZmM0tYN0c2cWJtSlRHczFJMnlaYldUUzlNbzY5K2dPbW1J?=
- =?utf-8?B?S0RVZkYzK0paTHF4UDRoUGpVYnZ1SFkxV1daS0pDdUI4SjhMUCtYRG1PSXA0?=
- =?utf-8?B?QXdCOHNHdDVmcXFuWWExc1hlMXFJNkZFRHhGY3psRkdOZ01CaTZDWDRWSVVK?=
- =?utf-8?B?RDVQdmxwbU1ON3N0ZWFjZDdIZjF6aUxBKzIwVGk1bTBhTm9saUErUVd2QUdx?=
- =?utf-8?B?L1V0RnYyVVdkVjExd1BncE9KSisweVZlV2pXNUthbk5Id2h5R3F4aHlWb2hJ?=
- =?utf-8?B?ckdFejdENjdML2F0c0Nrb2hDeGl3Y2FXbVNtQnlZNm1UOVRjSzBaN05GUDUr?=
- =?utf-8?B?c0s5cjBTTmF1Z0VzK0dTR1RxNzRDZm56SmtZNGl0WGJFUU92MW82aS9xd2hV?=
- =?utf-8?B?WDFnSTM5cUNzNUNWcExiVzRmTUU3L0ZTQXdzTWx5NFpOSXBlZXMrajlwdWxz?=
- =?utf-8?B?Mkg0WTY1MDdOMVN2SG5aR3AwM1VvcndQTmVzRndHOFFPNyt5cGVnTkRGV1Ny?=
- =?utf-8?B?NmNzZzRsTFJBcjEwNzJnN1l0WlBIUENUVE45R1ZNM1F2MjVQak0yWGZ0VWVF?=
- =?utf-8?B?TkpwRWdoUEY1NkRBa2gvYlJEQ0RUS1lBYWsyb1RNUHMzb1AwRTJoZnV6WWhJ?=
- =?utf-8?B?SEI4UWc1UkJkbi9PdktEMmxOOUVKZENiRjZxcHE3eVhITHR5ZGpWK1U2dWY4?=
- =?utf-8?B?VEZHUkNLdUJVa3ZxTUFHNTdJTENWYmhWSThheFl4bVVtM3YvRzNtbjNVQTN1?=
- =?utf-8?B?L2EzbjlOQTdnV2k5eGRRN0I4ZlE1cS9mMFFzTDI5VTJiWjZXL1lvMXZ2TVIr?=
- =?utf-8?B?a0h0UmZzeU1acDRSQ0hEWEw4MS95dlovZHp5TTB4VVNnRWttWThISURsWDVW?=
- =?utf-8?B?NkZOdXJaOGU2dlBSWExSZ3pxR21JY0dqOEZMREttWUxuMHZkSTR1cXp4YkVM?=
- =?utf-8?B?ZmR0TXJIOUxjOXJZT2pBY0JZRDdKK0FYdXliSzIyM3gxdktwMVJiVEhReGgr?=
- =?utf-8?B?WXJ5YjdIeDBsRTAyaTZPUTRjN0JmWkd4dzdqVDdhZlM0Rzd1M2tVUzkxOG1k?=
- =?utf-8?B?NG9KZUVkTmozampJK2lBVlZWK2h1V2pzcTc4UjNxNkZSaWRUS1RBRHZiNzVB?=
- =?utf-8?B?MVZqRU5UeHAwT05iMHQ5VldsSWFEY21KTWNVZUg2bG1HaTUydjllNWJPc0Mx?=
- =?utf-8?B?SGR2aU1ia2V3T28vU29DUjNXNEpVRllRdXk2MVVIbW9XaVRCTEFpUjhXQUR3?=
- =?utf-8?B?VkYzb1dJNk5UcFIrRmMrcW5VbDRBTTROY0VYWVcrczNoSy9wWmp1TmsyVThZ?=
- =?utf-8?B?d0JDNmkwajNLVThycG9HLzV5VVZGWGNGU1FTVDhDTytNT0I2cFZ3bkRUN2Nr?=
- =?utf-8?B?d2NkRHNmdVFCd04zMGdtR1FLeFVJbHBCMm5aa1dubW10TzQ4bWhZbElRcEtR?=
- =?utf-8?B?QkJ5ZHN2dm5EakYrb0hncnFUVlR1MTk5L1pVdmY1RE0wM2hELytNUjJDWWxJ?=
- =?utf-8?B?NUE9PQ==?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bf0e58b-af27-4835-c569-08dadc3ac9d0
-X-MS-Exchange-CrossTenant-AuthSource: AM4PR08MB2932.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2022 12:17:08.7680 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k4yxXFYBqbHdQ7OSa+PIJIhxfPjuq1YFFzNeECMvGuF/7pjCmZ+xCfRPQH8z/O2WRfcA3uRDr1pggdpRaQ4v/hnbygq9faRW3p8YgnPz3U8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8283
-Received-SPF: pass client-ip=2a01:111:f400:7e1b::720;
- envelope-from=andrey.drobyshev@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-24-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-24-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 12 Dec 2022 16:18:30 +0400
+Message-ID: <CAJ+F1CK=kSUdf0mdek+Pm7GD5N0H_Rdf3yK8fMjnR2HTcCwxyQ@mail.gmail.com>
+Subject: Re: [PATCH 23/30] build: move coroutine backend selection to meson
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -148,28 +85,274 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/29/22 19:38, Andrey Drobyshev wrote:
-> These patches extend QGA logging interface, primarily under Windows
-> guests.  They enable QGA to write to Windows event log, much like
-> syslog() on *nix.  In addition we get rid of hardcoded log level used by
-> ga_log().
-> 
-> v2:
-> * Close event_log handle when doing cleanup_agent()
-> * Fix switch cases indentation as reported by scripts/checkpatch.pl
-> 
-> Andrey Drobyshev (2):
->   qga-win: add logging to Windows event log
->   qga: map GLib log levels to system levels
-> 
->  configure                 |  3 +++
->  qga/installer/qemu-ga.wxs |  5 ++++
->  qga/main.c                | 50 +++++++++++++++++++++++++++++++++++----
->  qga/meson.build           | 19 ++++++++++++++-
->  qga/messages-win32.mc     |  9 +++++++
->  5 files changed, 81 insertions(+), 5 deletions(-)
->  create mode 100644 qga/messages-win32.mc
-> 
+On Fri, Dec 9, 2022 at 3:37 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> To simplify the code, rename coroutine-win32.c to match the option
+> passed to configure.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Could you please clarify the status of these patches?
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+> ---
+>  configure                                     | 62 -------------------
+>  meson.build                                   | 32 +++++++++-
+>  meson_options.txt                             |  3 +
+>  scripts/meson-buildoptions.py                 |  1 +
+>  scripts/meson-buildoptions.sh                 |  3 +
+>  ...{coroutine-win32.c =3D> coroutine-windows.c} |  0
+>  util/meson.build                              |  2 +-
+>  7 files changed, 38 insertions(+), 65 deletions(-)
+>  rename util/{coroutine-win32.c =3D> coroutine-windows.c} (100%)
+>
+> diff --git a/configure b/configure
+> index fea9cbf3abd0..1f7c5bbba4b9 100755
+> --- a/configure
+> +++ b/configure
+> @@ -275,7 +275,6 @@ softmmu=3D"yes"
+>  linux_user=3D""
+>  bsd_user=3D""
+>  pie=3D""
+> -coroutine=3D""
+>  plugins=3D"$default_feature"
+>  meson=3D""
+>  ninja=3D""
+> @@ -792,8 +791,6 @@ for opt do
+>    ;;
+>    --enable-fdt=3D*) fdt=3D"$optarg"
+>    ;;
+> -  --with-coroutine=3D*) coroutine=3D"$optarg"
+> -  ;;
+>    --with-git=3D*) git=3D"$optarg"
+>    ;;
+>    --with-git-submodules=3D*)
+> @@ -949,8 +946,6 @@ Advanced options (experts only):
+>    --disable-werror         disable compilation abort on warning
+>    --disable-stack-protector disable compiler-provided stack protection
+>    --cpu=3DCPU                Build for host CPU [$cpu]
+> -  --with-coroutine=3DBACKEND coroutine backend. Supported options:
+> -                           ucontext, sigaltstack, windows
+>    --enable-plugins
+>                             enable plugins via shared library loading
+>    --disable-containers     don't use containers for cross-building
+> @@ -1373,61 +1368,6 @@ case "$fdt" in
+>      ;;
+>  esac
+>
+> -##########################################
+> -# check and set a backend for coroutine
+> -
+> -# We prefer ucontext, but it's not always possible. The fallback
+> -# is sigcontext. On Windows the only valid backend is the Windows
+> -# specific one.
+> -
+> -ucontext_works=3Dno
+> -if test "$darwin" !=3D "yes"; then
+> -  cat > $TMPC << EOF
+> -#include <ucontext.h>
+> -#ifdef __stub_makecontext
+> -#error Ignoring glibc stub makecontext which will always fail
+> -#endif
+> -int main(void) { makecontext(0, 0, 0); return 0; }
+> -EOF
+> -  if compile_prog "" "" ; then
+> -    ucontext_works=3Dyes
+> -  fi
+> -fi
+> -
+> -if test "$coroutine" =3D ""; then
+> -  if test "$mingw32" =3D "yes"; then
+> -    coroutine=3Dwin32
+> -  elif test "$ucontext_works" =3D "yes"; then
+> -    coroutine=3Ducontext
+> -  else
+> -    coroutine=3Dsigaltstack
+> -  fi
+> -else
+> -  case $coroutine in
+> -  windows)
+> -    if test "$mingw32" !=3D "yes"; then
+> -      error_exit "'windows' coroutine backend only valid for Windows"
+> -    fi
+> -    # Unfortunately the user visible backend name doesn't match the
+> -    # coroutine-*.c filename for this case, so we have to adjust it here=
+.
+> -    coroutine=3Dwin32
+> -    ;;
+> -  ucontext)
+> -    if test "$ucontext_works" !=3D "yes"; then
+> -      error_exit "'ucontext' backend requested but makecontext not avail=
+able"
+> -    fi
+> -    ;;
+> -  sigaltstack)
+> -    if test "$mingw32" =3D "yes"; then
+> -      error_exit "only the 'windows' coroutine backend is valid for Wind=
+ows"
+> -    fi
+> -    ;;
+> -  *)
+> -    error_exit "unknown coroutine backend $coroutine"
+> -    ;;
+> -  esac
+> -fi
+> -
+>  ########################################
+>  # check if ccache is interfering with
+>  # semantic analysis of macros
+> @@ -2002,8 +1942,6 @@ if [ "$bsd" =3D "yes" ] ; then
+>    echo "CONFIG_BSD=3Dy" >> $config_host_mak
+>  fi
+>
+> -echo "CONFIG_COROUTINE_BACKEND=3D$coroutine" >> $config_host_mak
+> -
+>  if test "$plugins" =3D "yes" ; then
+>      echo "CONFIG_PLUGIN=3Dy" >> $config_host_mak
+>  fi
+> diff --git a/meson.build b/meson.build
+> index 7ee9f081d0a1..b9df49667a19 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -211,6 +211,34 @@ if get_option('prefer_static')
+>    qemu_ldflags +=3D get_option('b_pie') ? '-static-pie' : '-static'
+>  endif
+>
+> +coroutine_backend =3D get_option('coroutine_backend')
+> +ucontext_probe =3D '''
+> +  #include <ucontext.h>
+> +  #ifdef __stub_makecontext
+> +  #error Ignoring glibc stub makecontext which will always fail
+> +  #endif
+> +  int main(void) { makecontext(0, 0, 0); return 0; }'''
+> +
+> +# On Windows the only valid backend is the Windows specific one.
+> +# For POSIX prefer ucontext, but it's not always possible. The fallback
+> +# is sigcontext.
+> +supported_backends =3D []
+> +if targetos =3D=3D 'windows'
+> +  supported_backends +=3D ['windows']
+> +else
+> +  if targetos !=3D 'darwin' and cc.links(ucontext_probe)
+> +    supported_backends +=3D ['ucontext']
+> +  endif
+> +  supported_backends +=3D ['sigaltstack']
+> +endif
+> +
+> +if coroutine_backend =3D=3D 'auto'
+> +  coroutine_backend =3D supported_backends[0]
+> +elif coroutine_backend not in supported_backends
+> +  error('"@0@" backend requested but not available.  Available backends:=
+ @1@' \
+> +        .format(coroutine_backend, ', '.join(supported_backends)))
+> +endif
+> +
+>  # Compiles if SafeStack *not* enabled
+>  safe_stack_probe =3D '''
+>    int main(void)
+> @@ -232,7 +260,7 @@ if get_option('safe_stack') !=3D not cc.compiles(safe=
+_stack_probe)
+>    qemu_cflags +=3D safe_stack_arg
+>    qemu_ldflags +=3D safe_stack_arg
+>  endif
+> -if get_option('safe_stack') and config_host['CONFIG_COROUTINE_BACKEND'] =
+!=3D 'ucontext'
+> +if get_option('safe_stack') and coroutine_backend !=3D 'ucontext'
+>    error('SafeStack is only supported with the ucontext coroutine backend=
+')
+>  endif
+>
+> @@ -3949,7 +3977,7 @@ summary(summary_info, bool_yn: true, section: 'Targ=
+ets and accelerators')
+>
+>  # Block layer
+>  summary_info =3D {}
+> -summary_info +=3D {'coroutine backend': config_host['CONFIG_COROUTINE_BA=
+CKEND']}
+> +summary_info +=3D {'coroutine backend': coroutine_backend}
+>  summary_info +=3D {'coroutine pool':    have_coroutine_pool}
+>  if have_block
+>    summary_info +=3D {'Block whitelist (rw)': get_option('block_drv_rw_wh=
+itelist')}
+> diff --git a/meson_options.txt b/meson_options.txt
+> index d39d2a060ae7..126f89517e9a 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -33,6 +33,9 @@ option('fuzzing_engine', type : 'string', value : '',
+>         description: 'fuzzing engine library for OSS-Fuzz')
+>  option('trace_file', type: 'string', value: 'trace',
+>         description: 'Trace file prefix for simple backend')
+> +option('coroutine_backend', type: 'combo',
+> +       choices: ['ucontext', 'sigaltstack', 'windows', 'auto'],
+> +       value: 'auto', description: 'coroutine backend to use')
+>
+>  # Everything else can be set via --enable/--disable-* option
+>  # on the configure script command line.  After adding an option
+> diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.p=
+y
+> index 8e4e5c4e8bd6..66a79cf37ea8 100755
+> --- a/scripts/meson-buildoptions.py
+> +++ b/scripts/meson-buildoptions.py
+> @@ -35,6 +35,7 @@
+>  OPTION_NAMES =3D {
+>      "b_coverage": "gcov",
+>      "b_lto": "lto",
+> +    "coroutine_backend": "with-coroutine",
+>      "debug": "debug-info",
+>      "malloc": "enable-malloc",
+>      "pkgversion": "with-pkgversion",
+> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.s=
+h
+> index 237220d9b308..29695ac88eea 100644
+> --- a/scripts/meson-buildoptions.sh
+> +++ b/scripts/meson-buildoptions.sh
+> @@ -59,6 +59,8 @@ meson_options_help() {
+>    printf "%s\n" '  --sysconfdir=3DVALUE       Sysconf data directory [et=
+c]'
+>    printf "%s\n" '  --tls-priority=3DVALUE     Default TLS protocol/ciphe=
+r priority string'
+>    printf "%s\n" '                           [NORMAL]'
+> +  printf "%s\n" '  --with-coroutine=3DCHOICE  coroutine backend to use (=
+choices:'
+> +  printf "%s\n" '                           auto/sigaltstack/ucontext/wi=
+ndows)'
+>    printf "%s\n" '  --with-pkgversion=3DVALUE  use specified string as su=
+b-version of the'
+>    printf "%s\n" '                           package'
+>    printf "%s\n" '  --with-trace-file=3DVALUE  Trace file prefix for simp=
+le backend [trace]'
+> @@ -236,6 +238,7 @@ _meson_option_parse() {
+>      --disable-cocoa) printf "%s" -Dcocoa=3Ddisabled ;;
+>      --enable-coreaudio) printf "%s" -Dcoreaudio=3Denabled ;;
+>      --disable-coreaudio) printf "%s" -Dcoreaudio=3Ddisabled ;;
+> +    --with-coroutine=3D*) quote_sh "-Dcoroutine_backend=3D$2" ;;
+>      --enable-coroutine-pool) printf "%s" -Dcoroutine_pool=3Dtrue ;;
+>      --disable-coroutine-pool) printf "%s" -Dcoroutine_pool=3Dfalse ;;
+>      --enable-crypto-afalg) printf "%s" -Dcrypto_afalg=3Denabled ;;
+> diff --git a/util/coroutine-win32.c b/util/coroutine-windows.c
+> similarity index 100%
+> rename from util/coroutine-win32.c
+> rename to util/coroutine-windows.c
+> diff --git a/util/meson.build b/util/meson.build
+> index 25b9b61f9817..b2a0aea21beb 100644
+> --- a/util/meson.build
+> +++ b/util/meson.build
+> @@ -74,7 +74,7 @@ if have_block or have_ga
+>    util_ss.add(files('lockcnt.c'))
+>    util_ss.add(files('main-loop.c'))
+>    util_ss.add(files('qemu-coroutine.c', 'qemu-coroutine-lock.c', 'qemu-c=
+oroutine-io.c'))
+> -  util_ss.add(files('coroutine-@0@.c'.format(config_host['CONFIG_COROUTI=
+NE_BACKEND'])))
+> +  util_ss.add(files(f'coroutine-@coroutine_backend@.c'))
+>    util_ss.add(files('thread-pool.c', 'qemu-timer.c'))
+>    util_ss.add(files('qemu-sockets.c'))
+>  endif
+> --
+> 2.38.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
