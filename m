@@ -2,89 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFA2649E5F
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD050649E24
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 12:49:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4hDu-0005jt-QH; Mon, 12 Dec 2022 06:43:54 -0500
+	id 1p4hEN-0005yo-V6; Mon, 12 Dec 2022 06:44:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4hDm-0005j0-LM
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:43:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1p4hEG-0005wp-LD; Mon, 12 Dec 2022 06:44:18 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4hDk-0003Hd-V4
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 06:43:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670845422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mCXhacbFgrNawDNfj2mihAB29oocsMTwOZEHs32cv+M=;
- b=hhtQu1aGCwPQFs9PW8Y4soAuXu+Wqe+1bBVxMZtVIDKk5qAAytmKfcBSpOlEBYROMVunk0
- qpqNsYEgtHYciIfOr9zuJn/SnJ1IA8fUIiul6+O5wGsILUCJtdDm3m40SyzwIxEiIxMem3
- LnnAp1OddoyXFvfkJexBW0hvpXPFnAQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-220-S4LshnkSMLicdslhx05ang-1; Mon, 12 Dec 2022 06:43:41 -0500
-X-MC-Unique: S4LshnkSMLicdslhx05ang-1
-Received: by mail-wr1-f70.google.com with SMTP id
- w11-20020adfbacb000000b002418a90da01so2150816wrg.16
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 03:43:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mCXhacbFgrNawDNfj2mihAB29oocsMTwOZEHs32cv+M=;
- b=4j+UsNp/RJBb/WDmsxSlGuurivzqZUNU4TtjaZhA9aRppcw6tfnNeE4fN7LL6uDHUP
- qGrnO2UQNeYCXU7YKU3A4+qP5NhSIA943oF1DD7tA56JWg8LCpNA0/tHs2am0IryevV8
- L2xLlXOeD1E/UAbiirsIuv4U/jADJNyjElpFMobw+YoeNF/AG+X+Dx8sRTNuCpB2vAkQ
- wmIYtKiHPjlMBFnT+kUzPa/0mqzXkaqcUCRhfoWj7MiT6YrbBnOgdi1RPs+ajCmBriNT
- m6FcDPmdvnrvphxAI+AmKDiUqmuROZGbY1Gffkiu/oK7vIoA/V7ijk3sAdHpSgKkDIBr
- hGEQ==
-X-Gm-Message-State: ANoB5pl9kcf4ssuEdKqOyl9kZMkf5RokUqa3cBx4HEGVQoZHPn4TF3Fz
- AoLTF8lo6tTZfQEfgHq33i1CPDOlHVinLEBmq8+6Zls7sdA6w3r9kMe0z0vdTw4N3j5u9xFU5OU
- JbydGN9kezyrLaYQ=
-X-Received: by 2002:a1c:6a01:0:b0:3cf:d365:1e86 with SMTP id
- f1-20020a1c6a01000000b003cfd3651e86mr15415529wmc.31.1670845420262; 
- Mon, 12 Dec 2022 03:43:40 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf54H2BOcwGRk0KDzcjr9CNDqAGhnctQYhJ2XDSot4WcvpXwI1ser8Q9xP8ciB9Ihkoguvlezw==
-X-Received: by 2002:a1c:6a01:0:b0:3cf:d365:1e86 with SMTP id
- f1-20020a1c6a01000000b003cfd3651e86mr15415513wmc.31.1670845420045; 
- Mon, 12 Dec 2022 03:43:40 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-127.web.vodafone.de.
- [109.43.178.127]) by smtp.gmail.com with ESMTPSA id
- l8-20020a05600c4f0800b003cf54b77bfesm9308735wmq.28.2022.12.12.03.43.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 03:43:39 -0800 (PST)
-Message-ID: <82b094fa-01de-8e40-8a79-b1ad72e938ab@redhat.com>
-Date: Mon, 12 Dec 2022 12:43:38 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1p4hED-0003Lc-Az; Mon, 12 Dec 2022 06:44:16 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3630E5C0113;
+ Mon, 12 Dec 2022 06:44:12 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 12 Dec 2022 06:44:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1670845452; x=1670931852; bh=0A
+ ShId48Mq0yxZu5VLr7qUuEFk5jlDlvs3nLXSW1P/g=; b=n2GFpUUYLZHcawVcQR
+ L0mY+Daco31Ug5t5J1pHxZbo9dsKCyTqxU/HbeShB6y+mTXQaYghMdusK4euMOI0
+ WLFb+LSL8ulDNTuOzXZksAwhhV6nFCADtW+mAmCaRlCnVL9oKQMZvjfEOsmQ++BS
+ PP4sF2Dnhhp5gzrKB8PPmtF1O1dZdNZbPvEV9Z1NHINb/TI+xIkc9xWxqfvQsVxQ
+ tkij4QFgof1Y3Zr6/AkKhmoYOrIaJ5CZDuyM38De6J6AUYDBw0BceztDT8hYvAsr
+ DPPCtI2Vce0pRVciHSgzFzz3t73r8o+seS4eJUjSJxKmHvbzh4sO/qje60c9wpE8
+ QW4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1670845452; x=1670931852; bh=0AShId48Mq0yx
+ Zu5VLr7qUuEFk5jlDlvs3nLXSW1P/g=; b=QP3uF8zH+KLWtdyfRmFyGnmGY5FKp
+ nroNrRAAYvnXHFe42JfdIeqkLllmkTqB6n94Iz/7ygFm79V7TYf7kckcM/ToGgCT
+ +NrDeBwv2ToGdC8W4CE8Sf8RdkRK0jw+xShqV/ogGkueF1mPhCjADa5h9QancH1L
+ qR7A9QXe0WDj0PB/11oTlm+w9yslKaaRLGgqOP+PJa5yVcSu0eAMTKmTWT608hgB
+ pJJEk6W/QsZI1a1DtuxST5YgA1Vcto37END9VTiVZ1y0DTGtSt/bP+fbCVJpsYG/
+ 0oqi7OZr/P3ZclJu20Ro0QM4EqgZS9+WhQpGAJ83YMe1Xec+KkxFxSkPQ==
+X-ME-Sender: <xms:CxSXY_VpnBtOz67jSPCwDE_1HQuyzUWJ4ywuv5uY0jzcL3pSLhrqqg>
+ <xme:CxSXY3lXnbTr8SuUuqiTCGB8SHEj9BdvFWyexGG5R-Z_9NkRy8Iup1POBRXqzHknE
+ MvmtxVr3rwyCZ-Kd1o>
+X-ME-Received: <xmr:CxSXY7ZMgczSflQSrcg0Qu8JLLl8l6dyekl7_S2WAZd0H_WRUjJ8XYRe2fyuN1cfkSaffehb20wNxr1EoT9MUARwOncousePiLl1ng>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgddtkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepheetfedtgeekueeltefgudfgtddtleeflefgjefgueeggffgvddvhefhleeuhefh
+ necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:CxSXY6WZpA6RfcwrOMPARkVbD4pBYZHRt3tbdqC4skTthvhDw13PHg>
+ <xmx:CxSXY5ltfxQByLd2r5hn0H5BCmYOZsWgpmk_lstktd1ZSuU375whZg>
+ <xmx:CxSXY3e8q25IiPOaX3e6A466l8NSvydVIIy4d1UiE5x-9r9xT1_-wQ>
+ <xmx:DBSXY8vpBjilD_RzzMcsyjVP_r1zfEvXay34DlrHKuJDtV3TEikfyA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 12 Dec 2022 06:44:10 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
+ Keith Busch <kbusch@kernel.org>, Jinhao Fan <fanjinhao21s@ict.ac.cn>,
+ Guenter Roeck <linux@roeck-us.net>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH v4 0/4] hw/nvme: fix broken shadow doorbells on some platforms
+Date: Mon, 12 Dec 2022 12:44:05 +0100
+Message-Id: <20221212114409.34972-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/qtest/libqos/e1000e: Remove "other" interrupts
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20221110114045.65544-1-akihiko.odaki@daynix.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221110114045.65544-1-akihiko.odaki@daynix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1420; i=k.jensen@samsung.com;
+ h=from:subject; bh=Gzt7Eur5tzyOMdU1rwypib05vx5YxAsHA8dnwhlvrK0=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGOXFAgs7eIwG+hS4D7exT/I6hXsUR2ejx20S1I3
+ g5wpEfHdBIkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjlxQIAAoJEE3hrzFtTw3pqb
+ IH/inTOr48cun7ruf//xrLZQW7SNWGvNbxTX/D+I6PCx0dHl8vJks1/nhOA+PoecovP+s46wz8Hcgo
+ LuxNPe/Lp0nsb7Oe8u7ncBFKGIhvtwlbAGnE4A3KrzSYn/Ruk42JfotrkMfyT3YfPcjiITQaLrXZiH
+ 8rcNmRjWi1dGJqRG4+dW1+mCpMBTwrlfJA4Cci+SSLzJ6uPjss1MWwP8EUA90VZCMwmeYqZZCsq1N5
+ XmdZPnbTR57PT8jy7xoH337rcsjgIDX2zJ1sOcR5OHcOSqDCjpcpoaBlPqc/wkf1RSOCuEGsKOTPaV
+ 6k5kXDu3Zc9tGwp2GI6XluR8bY91M5gzHpi6qe
+X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
+ fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,42 +110,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/2022 12.40, Akihiko Odaki wrote:
-> The "other" kind of interrupts are not used in the tests.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->   tests/qtest/libqos/e1000e.h | 1 -
->   tests/qtest/libqos/e1000e.c | 1 -
->   2 files changed, 2 deletions(-)
-> 
-> diff --git a/tests/qtest/libqos/e1000e.h b/tests/qtest/libqos/e1000e.h
-> index a22f5fdbad..3bf285af42 100644
-> --- a/tests/qtest/libqos/e1000e.h
-> +++ b/tests/qtest/libqos/e1000e.h
-> @@ -24,7 +24,6 @@
->   
->   #define E1000E_RX0_MSG_ID           (0)
->   #define E1000E_TX0_MSG_ID           (1)
-> -#define E1000E_OTHER_MSG_ID         (2)
->   
->   #define E1000E_TDLEN    (0x3808)
->   #define E1000E_TDT      (0x3818)
-> diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
-> index 80b3e3db90..3b51bafcb7 100644
-> --- a/tests/qtest/libqos/e1000e.c
-> +++ b/tests/qtest/libqos/e1000e.c
-> @@ -32,7 +32,6 @@
->   #define E1000E_IVAR_TEST_CFG \
->       (((E1000E_RX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_RXQ0_SHIFT) | \
->        ((E1000E_TX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_TXQ0_SHIFT) | \
-> -     ((E1000E_OTHER_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_OTHER_SHIFT) | \
->        E1000_IVAR_TX_INT_EVERY_WB)
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Thanks, queued to my testing-next branch now:
+Guenter reports that hw/nvme is broken on riscv64[1] and big endian
+platforms[2].
 
-  https://gitlab.com/thuth/qemu/-/commits/testing-next/
+This is a regression since 7.1, so this does not warrent an rc5 for 7.2.
+I'm sure Guenter can carry this patch in his tree, and maybe we can get
+this out in a stable release.
 
-  Thomas
+On riscv, the issue is a missing cq eventidx update. I really wonder why
+this issue only shows up on riscv64. We have not observed this on other
+platforms (yet).
+
+Further, Guenter also reported problems on big-endian platforms. The
+issue here is missing endian conversions which patch 3 addresses. This
+also requires a fix for the Linux kernel that I am posting separately
+(can't link to it, chicken and egg problem).
+
+  [1]: https://lore.kernel.org/qemu-devel/20221207174918.GA1151796@roeck-us.net/
+  [2]: https://lore.kernel.org/qemu-devel/20221209110022.GA3396194@roeck-us.net/
+
+v4:
+ - screwed up the rebase (Philippe)
+
+v3:
+ - add patch to fix big-endian platforms
+
+v2:
+ - use QOM accessor (Philippe)
+ - added some cleanup patches in front
+
+Klaus Jensen (4):
+  hw/nvme: use QOM accessors
+  hw/nvme: rename shadow doorbell related trace events
+  hw/nvme: fix missing endian conversions for doorbell buffers
+  hw/nvme: fix missing cq eventidx update
+
+ hw/nvme/ctrl.c       | 121 ++++++++++++++++++++++++++-----------------
+ hw/nvme/trace-events |   8 +--
+ 2 files changed, 78 insertions(+), 51 deletions(-)
+
+-- 
+2.38.1
 
 
