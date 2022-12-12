@@ -2,92 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CDB564A207
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9161464A213
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:49:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4jAO-0002gC-II; Mon, 12 Dec 2022 08:48:31 -0500
+	id 1p4jAm-0002ue-M9; Mon, 12 Dec 2022 08:48:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4j9m-0002Nl-Hi
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:47:56 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4j9k-0001f5-9I
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:47:46 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id bg10so5415411wmb.1
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:47:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=q3uMHAY8V6R6gIw1Sdw8xUXTMSyY2KswLh/KJIMrmbI=;
- b=CEA9yFF3Z9t9MI6DCZv3qDiB3b489G6CUtI9Uky4QyV86hu3dMUXPkch8LsX8OlSyB
- lz9oNxKyjpKKR/EzLYs9W+FRtz846uIKdZlA+M2KVXFWtsJOIZXQJ8F+O4WsNgZaplN2
- GyetHy6OKE4BuzhdHKcewze0bZZxhsZoaejE/KCMRTzQryQkqfyzVn7GIS0mFAqf2aw2
- wGhTSrm7b7AR39Cc6Oy1KiLpd1n5VAiCVJahrByKWoEm/mJmvmrh0P23gvgmT8v4Cf8/
- gkgPdyCurtkjnDDHAMYl05QqgbHipdYL3TzJUDYQkl0JLxuLMFBUFBmn+2yplS6CW89o
- X8ww==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4jAY-0002mD-Hy
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:48:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4jAW-0001mL-JC
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:48:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670852910;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g1aAgUUt9NQz5ix9XMQ3xwMR9B1WJdeUG1VIrP5CSnw=;
+ b=WOtVWYz5IjnA301VMhdwYzXvzmZcd5gOL+jRR+5w1okbBCxsbCiRXmMQleecOb5ij2GRmx
+ VBQxTJylyRHw+4MWw+OC3GmfpYuLSshwUwxKO4mHGZIK2zMQaopEZbUkguTyaKVMvQnLR0
+ qrl/nqNSdUcPkMhP/5K7mWw6X37SELQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-235-xbHjHMHEMZiVyfi1gcQ9Aw-1; Mon, 12 Dec 2022 08:48:29 -0500
+X-MC-Unique: xbHjHMHEMZiVyfi1gcQ9Aw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i9-20020a1c3b09000000b003d21fa95c38so1392064wma.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:48:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q3uMHAY8V6R6gIw1Sdw8xUXTMSyY2KswLh/KJIMrmbI=;
- b=YuFY+xg0F3dQOWjPS1dIvc1Bk0/PqYhvgjVXAPvMgpwzMW8FN64ik3jO3cAUBjXa9y
- yh02GP9/IV4Lfio7Tna6QlkAOTPtu4h7h1n4Vm/PrdFXcoHfRuhnP2jy10IwAYFAZ/l5
- aDgZRuKpqFPyuimt58Ulpwm8G/5X0KMFs+LR5JRqY7qppgdlu1PY9ZujfnVEfq58MsOU
- 7Y25lHTQUrXmQbfZoQ9thcOeSxEr49rp0/jXww5JxHfQUVNyjGUx1AWwDtQYehqcGHt0
- G4UWQm1SOowHJ1Y48ub5jRDz9pueWN7ROCAFdp0noO0/+ISNzt+5tmNXe6kbMlne9ro0
- deiA==
-X-Gm-Message-State: ANoB5pmXtPHNldx+pom/b6L7W0XAU1Izs6mM68jNAgM3o4dHkf6Uv4yR
- 3yMkcFPR86VZlTNV1aKeneE=
-X-Google-Smtp-Source: AA0mqf6+zF1l6bwRIHS+XoSkEckZCEaUPXdPG4BxrhosJ7UkAqlDFUMM4y2eczTBjC7A68RLL8+NQQ==
-X-Received: by 2002:a05:600c:5385:b0:3c6:e61e:ae71 with SMTP id
- hg5-20020a05600c538500b003c6e61eae71mr15797269wmb.1.1670852854937; 
- Mon, 12 Dec 2022 05:47:34 -0800 (PST)
-Received: from ?IPV6:2a00:23c5:5785:9a01:a16d:8ab1:4623:169?
- ([2a00:23c5:5785:9a01:a16d:8ab1:4623:169])
- by smtp.gmail.com with ESMTPSA id
- k62-20020a1ca141000000b003b492753826sm9384868wme.43.2022.12.12.05.47.34
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=g1aAgUUt9NQz5ix9XMQ3xwMR9B1WJdeUG1VIrP5CSnw=;
+ b=g4oU5axsGKOK5oKe6MQcXhr583ywVXvPDw2bXLPJSRDxSwua/oGGfwV0sGUHsg6dOA
+ laLNq7lnktS/YmuByDWfsTGDSe8spRp9F4P8HaWkcyTdecmMRdiUqmkpqmypK/udmKb+
+ gzDuQFbrda/KgD5TtkU6lTeUHm1HaCsNrAdarTOHJReCacn5K3uBsrmXKwPU3nHnafU3
+ mkO0lM1lLL5drIg2TAohT9Wr3Lza6x7vgniIEqQU6iX0PWmTJH+UmdHtWJStPCglBHLM
+ 0SjutnPFjYTvVRaoVOwlEsUd/H5y2RaFeNAiYED1DyuCS7f0/SlU1fDYVHYzIoCsCuPi
+ iNIg==
+X-Gm-Message-State: ANoB5pl89PEz220abk9XFIukQ4As2jq8cDIoXn78jX+xQlkUqtTzD+Od
+ y742hK/h+s0T7i2HHemBI0+z4jtT5mFfhzV0au5cYS9U2vWCOY/oBlFGp5vwm5vRsdKey8Kt5zA
+ iiknoTfHrsPeWAqQ=
+X-Received: by 2002:a05:600c:3c92:b0:3cf:a851:d2f2 with SMTP id
+ bg18-20020a05600c3c9200b003cfa851d2f2mr12573736wmb.21.1670852908211; 
+ Mon, 12 Dec 2022 05:48:28 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5LiLRaTLPKbjau2ahOJsSuLuJAyHFbIsSifRwtpE4hHVUWj1NaXWVewqHeI5dyyUICJAfIEA==
+X-Received: by 2002:a05:600c:3c92:b0:3cf:a851:d2f2 with SMTP id
+ bg18-20020a05600c3c9200b003cfa851d2f2mr12573721wmb.21.1670852908007; 
+ Mon, 12 Dec 2022 05:48:28 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-178-127.web.vodafone.de.
+ [109.43.178.127]) by smtp.gmail.com with ESMTPSA id
+ q11-20020a05600c46cb00b003d1cf67460esm10377756wmo.40.2022.12.12.05.48.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 05:47:34 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <3f49e738-277b-5a44-4c05-6a7df235dbe0@xen.org>
-Date: Mon, 12 Dec 2022 13:47:30 +0000
+ Mon, 12 Dec 2022 05:48:27 -0800 (PST)
+Message-ID: <dd94d639-ff48-554a-c462-ae7fe2399d4e@redhat.com>
+Date: Mon, 12 Dec 2022 14:48:25 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 07/22] pc_piix: handle XEN_EMULATE backend init
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3] hw/rtc/mc146818rtc: Make this rtc device target
+ independent
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Bernhard Beschow <shentey@gmail.com>
+Cc: Michael S Tsirkin <mst@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
-References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-8-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20221209095612.689243-8-dwmw2@infradead.org>
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20221212075600.17408-1-thuth@redhat.com>
+ <12d9fcbf-e00f-1154-63e0-36420e89f619@ilande.co.uk>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <12d9fcbf-e00f-1154-63e0-36420e89f619@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,110 +105,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/12/2022 09:55, David Woodhouse wrote:
-> From: Joao Martins <joao.m.martins@oracle.com>
+On 12/12/2022 14.39, Mark Cave-Ayland wrote:
+> On 12/12/2022 07:56, Thomas Huth wrote:
 > 
-> And use newly added xen_emulated_machine_init() to iniitalize
-> the xenstore and the sysdev bus for future emulated devices.
+>> The only reason for this code being target dependent is the apic-related
+>> code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
+>> simple, we can easily move them into a new, separate file (apic_irqcount.c)
+>> which will always be compiled and linked if either APIC or the mc146818 
+>> device
+>> are required. This way we can get rid of the #ifdef TARGET_I386 switches in
+>> mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
+>> that the code only gets compiled once for all targets.
+>>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   v3: Move TYPE_APIC_COMMON from apic_internal.h to apic.h and use it
+>>
+>>   include/hw/i386/apic.h          |  2 ++
+>>   include/hw/i386/apic_internal.h |  2 --
+>>   include/hw/rtc/mc146818rtc.h    |  1 +
+>>   hw/intc/apic_common.c           | 27 -----------------
+>>   hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
+>>   hw/rtc/mc146818rtc.c            | 25 +++++-----------
+>>   hw/intc/meson.build             |  6 +++-
+>>   hw/rtc/meson.build              |  3 +-
+>>   8 files changed, 69 insertions(+), 50 deletions(-)
+>>   create mode 100644 hw/intc/apic_irqcount.c
+>>
+>> diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
+>> index da1d2fe155..24069fb961 100644
+>> --- a/include/hw/i386/apic.h
+>> +++ b/include/hw/i386/apic.h
+>> @@ -1,6 +1,7 @@
+>>   #ifndef APIC_H
+>>   #define APIC_H
+>> +#define TYPE_APIC_COMMON "apic-common"
 > 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> [dwmw2: Move it to xen-legacy-backend.c]
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   hw/i386/pc_piix.c                   |  5 +++++
->   hw/xen/xen-legacy-backend.c         | 22 ++++++++++++++++------
->   include/hw/xen/xen-legacy-backend.h |  2 ++
->   3 files changed, 23 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 13286d0739..3dcac2f4b6 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -47,6 +47,7 @@
->   #include "hw/sysbus.h"
->   #include "hw/i2c/smbus_eeprom.h"
->   #include "hw/xen/xen-x86.h"
-> +#include "hw/xen/xen-legacy-backend.h"
->   #include "exec/memory.h"
->   #include "hw/acpi/acpi.h"
->   #include "hw/acpi/piix4.h"
-> @@ -155,6 +156,10 @@ static void pc_init1(MachineState *machine,
->               x86ms->above_4g_mem_size = 0;
->               x86ms->below_4g_mem_size = machine->ram_size;
->           }
-> +
-> +        if (pcms->xen_version && !xen_be_xenstore_open()) {
+> Ah sorry, I should have been more specific here: what I was suggesting was 
+> to move the entire QOM type information into apic.h as per the normal 
+> convention, as opposed to just the #define. At first glance that would 
+> involve lines 128-190 in apic_internal.h which would also bring in 
+> APICCommonClass and APICCommonState - possibly the change may warrant its 
+> own commit.
 
-So, this is a bit subtle... it's only *because* using real Xen results 
-in xen_version being 0 that this is sane? Also does this not mean that 
-we are now relying on libxenstore? Shouldn't that be called out in the 
-config?
+At least APICCommonState is target specific since it uses "X86CPU" ... so 
+moving that to apic.h would be very counterproductive here.
 
-> +            xen_emulated_machine_init();
-> +        }
->       }
->   
->       pc_machine_init_sgx_epc(pcms);
-> diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-> index 694e7bbc54..60a7bc7ab6 100644
-> --- a/hw/xen/xen-legacy-backend.c
-> +++ b/hw/xen/xen-legacy-backend.c
-> @@ -31,6 +31,7 @@
->   #include "qapi/error.h"
->   #include "hw/xen/xen-legacy-backend.h"
->   #include "hw/xen/xen_pvdev.h"
-> +#include "hw/xen/xen-bus.h"
->   #include "monitor/qdev.h"
->   
->   DeviceState *xen_sysdev;
-> @@ -294,13 +295,15 @@ static struct XenLegacyDevice *xen_be_get_xendev(const char *type, int dom,
->       xendev->debug      = debug;
->       xendev->local_port = -1;
->   
-> -    xendev->evtchndev = xenevtchn_open(NULL, 0);
-> -    if (xendev->evtchndev == NULL) {
-> -        xen_pv_printf(NULL, 0, "can't open evtchn device\n");
-> -        qdev_unplug(DEVICE(xendev), NULL);
-> -        return NULL;
-> +    if (xen_mode != XEN_EMULATE) {
-> +        xendev->evtchndev = xenevtchn_open(NULL, 0);
+Anyway, moving those structs is certainly way more than what is required for 
+this patch, so if we decide to move anything else related to the APIC, it 
+should be done in a separate patch later.
 
-Doesn't this need stubbing out so that we can build without libxenevtchn?
-
-   Paul
-
-> +        if (xendev->evtchndev == NULL) {
-> +            xen_pv_printf(NULL, 0, "can't open evtchn device\n");
-> +            qdev_unplug(DEVICE(xendev), NULL);
-> +            return NULL;
-> +        }
-> +        qemu_set_cloexec(xenevtchn_fd(xendev->evtchndev));
->       }
-> -    qemu_set_cloexec(xenevtchn_fd(xendev->evtchndev));
->   
->       xen_pv_insert_xendev(xendev);
->   
-> @@ -859,3 +862,10 @@ static void xenbe_register_types(void)
->   }
->   
->   type_init(xenbe_register_types)
-> +
-> +void xen_emulated_machine_init(void)
-> +{
-> +    xen_bus_init();
-> +    xen_be_sysdev_init();
-> +    xen_be_register_common();
-> +}
-> diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
-> index 0aa171f6c2..aa09015662 100644
-> --- a/include/hw/xen/xen-legacy-backend.h
-> +++ b/include/hw/xen/xen-legacy-backend.h
-> @@ -105,4 +105,6 @@ int xen_config_dev_vfb(int vdev, const char *type);
->   int xen_config_dev_vkbd(int vdev);
->   int xen_config_dev_console(int vdev);
->   
-> +void xen_emulated_machine_init(void);
-> +
->   #endif /* HW_XEN_LEGACY_BACKEND_H */
+  Thomas
 
 
