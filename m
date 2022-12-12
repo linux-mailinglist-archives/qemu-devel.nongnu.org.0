@@ -2,109 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4238C649A67
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 09:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27618649A77
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 09:53:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4eXQ-0000s7-Ei; Mon, 12 Dec 2022 03:51:53 -0500
+	id 1p4eXu-00016f-RV; Mon, 12 Dec 2022 03:52:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p4eX0-0000pD-Uc; Mon, 12 Dec 2022 03:51:28 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4eXq-00015R-Vo
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:52:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1p4eWy-0001kJ-L8; Mon, 12 Dec 2022 03:51:26 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BC8aOKo011976; Mon, 12 Dec 2022 08:51:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=JBXjQCImaFukSoxP5Ug682SQ3wmFJA9c+KzwN4XOPhk=;
- b=rEhtIqRxAswPbvp03OmfGyOMt57PvLr9Ro7qcB7etVXDIVQEyvMPjQF7zIv2Gsuw702P
- RxJ2ZIJFx1fOu38RAmFo5k/ulroQufP9TRCOmR0tJDFjUN9SU9og3ghyg2OtZstEOpDX
- d2Y6TjEtRkyNtkzn8Hc3U9rhtHG7NTh6Br4Z08D+GiJZHAm6kWgjZ59MUaqvGIYjtKyp
- QbfjmZ6ZjQ1pkg8PBAGKHU/wR4RlbFwoaoFa3qYPG3PREeNLgpSrBSRMPlOzbRSJB3c+
- G6fYbgtohzdXGYt7fqffAktELcv9Y18a4+saH67MmL9bXEir29VNCyFZ/BwN0hjYv/A4 Yw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md3vcbkx5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 08:51:13 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BC8cAXs018684;
- Mon, 12 Dec 2022 08:51:13 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md3vcbkw6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 08:51:12 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BC6YlKW011845;
- Mon, 12 Dec 2022 08:51:10 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3mchr61pfc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 08:51:10 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BC8p5FJ44630380
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Dec 2022 08:51:06 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 46A6220040;
- Mon, 12 Dec 2022 08:51:05 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ABE2F2004B;
- Mon, 12 Dec 2022 08:51:03 +0000 (GMT)
-Received: from [9.171.10.222] (unknown [9.171.10.222])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 12 Dec 2022 08:51:03 +0000 (GMT)
-Message-ID: <60f006f4-d29e-320a-d656-600b2fd4a11a@linux.ibm.com>
-Date: Mon, 12 Dec 2022 09:51:03 +0100
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4eXp-0002yx-DH
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 03:52:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670835136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ry6aSjwwpqjUGAScw3y259OMw3ivgb+B2cfWv50Eyb4=;
+ b=VxPByLAGuxSHC26C6DwALExZCfFk2LwfgvhvSUwLxqEDm0ClN0IOviLVV39Tq8PxUzi+bA
+ VgDmD8hF4SSw6AXNJBwudov7SfkVOFVgC+KoIahHKBC59btCL5j51/llw9I1lAwb42nAMZ
+ iEnfP/pgJirxtFjHoFVj3PnMJBOjtMU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-111-L2T9_dbNNNuPEyxyQ2njfw-1; Mon, 12 Dec 2022 03:52:14 -0500
+X-MC-Unique: L2T9_dbNNNuPEyxyQ2njfw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r67-20020a1c4446000000b003d09b0fbf54so3865539wma.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 00:52:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ry6aSjwwpqjUGAScw3y259OMw3ivgb+B2cfWv50Eyb4=;
+ b=tc0FEM/m5FDmZV8YmHcU/ylbRXhiG5aq2hfDePPg8wXD1KiZyxHuNPGJlptBpAAt50
+ 4h3ZSTFw64UclmpXtm+hTEW+6SAIwh2e2WTIRmhdNwDCQG/4N97ZYlFJtQ59EIoccQRp
+ 0SqFio1jGjBelZpQM9BChzDtrpkF97c0ZrGaw5Jgq2wM7ufobnun8HhKsBh5ar92YIyf
+ SeFgIQxgJZoCv09hR50gTSJ0c72ONilfD3irG/yIQBsREZce9jj6RS8miqfFB1v9WeHS
+ 83sUHumJQ5ut8OTabpElqfMOTPoGuZzvwmDWLoidgr9Uw/yz6ERRNpGIWjsgFt1qgMTq
+ sgfg==
+X-Gm-Message-State: ANoB5pkyLrDx9wO3u13BZg/R113Q7RuFe8IlEBC4J52a+1NU2VNDdyA4
+ yQxpOkINj9RceI3hmYfg+Jaf9Vrjt+nZPrlttqysD0tuc3A/ONkOwqJIt/qpcyzcJteyiUwW8Vk
+ BuhhuED7DdaIH+Qw=
+X-Received: by 2002:a5d:52cb:0:b0:236:f1a1:b45d with SMTP id
+ r11-20020a5d52cb000000b00236f1a1b45dmr8861269wrv.54.1670835133164; 
+ Mon, 12 Dec 2022 00:52:13 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7H7Sr/RVTpYOUrzTT2GVxVqBh+lRnYXfHCHhjBA+LjIxe2WpMpZ1IvCpAr7GnTGXAaKIXI9Q==
+X-Received: by 2002:a5d:52cb:0:b0:236:f1a1:b45d with SMTP id
+ r11-20020a5d52cb000000b00236f1a1b45dmr8861265wrv.54.1670835132848; 
+ Mon, 12 Dec 2022 00:52:12 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ e11-20020a5d500b000000b00241fde8fe04sm8293228wrt.7.2022.12.12.00.52.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 00:52:12 -0800 (PST)
+Message-ID: <5d021127-74a9-7357-5a49-4518855a8101@redhat.com>
+Date: Mon, 12 Dec 2022 09:52:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v13 0/7] s390x: CPU Topology
+Subject: Re: [PATCH 06/30] meson: tweak hardening options for Windows
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
- clg@kaod.org
-References: <20221208094432.9732-1-pmorel@linux.ibm.com>
- <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-7-pbonzini@redhat.com>
+ <CAJ+F1CKL9RGT=L=B5E0T6XU1CYEooifThcyUDzJby++fWaBLkQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAJ+F1CKL9RGT=L=B5E0T6XU1CYEooifThcyUDzJby++fWaBLkQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: m96byv4qYfOJ4DWcQl3AZ1_OUAkeGv3o
-X-Proofpoint-ORIG-GUID: wc42q8Uin9VSo9_oh6lwwk9QZXviYmid
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-12_01,2022-12-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0 spamscore=0
- phishscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2212120080
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,70 +104,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 12/12/22 09:18, Marc-André Lureau wrote:
+>> -  # Disable ASLR for debug builds to allow debugging with gdb
+>> -  if get_option('optimization') == '0'
+>> -    qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase')
+>> -  endif
+>> +  qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase', '-Wl,--high-entropy-va')
+>
+> What about the comment for disabling ASLR on debug builds?
 
+The problem with that line is that it _enables_ ASLR for debug builds, 
+and nobody has complained about gdb since last April...  And nobody has 
+complained to Debian or other distros that have enabled the flag for 
+years now.
 
-On 12/9/22 14:32, Thomas Huth wrote:
-> On 08/12/2022 10.44, Pierre Morel wrote:
->> Hi,
->>
->> Implementation discussions
->> ==========================
->>
->> CPU models
->> ----------
->>
->> Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
->> for old QEMU we could not activate it as usual from KVM but needed
->> a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
->> Checking and enabling this capability enables
->> S390_FEAT_CONFIGURATION_TOPOLOGY.
->>
->> Migration
->> ---------
->>
->> Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
->> host the STFL(11) is provided to the guest.
->> Since the feature is already in the CPU model of older QEMU,
->> a migration from a new QEMU enabling the topology to an old QEMU
->> will keep STFL(11) enabled making the guest get an exception for
->> illegal operation as soon as it uses the PTF instruction.
-> 
-> I now thought that it is not possible to enable "ctop" on older QEMUs 
-> since the don't enable the KVM capability? ... or is it still somehow 
-> possible? What did I miss?
-> 
->   Thomas
+I'll clarify the commit message.
 
-Enabling ctop with ctop=on on old QEMU is not possible, this is right.
-But, if STFL(11) is enable in the source KVM by a new QEMU, I can see 
-that even with -ctop=off the STFL(11) is migrated to the destination.
+> I wonder if we really have to add those flags ourself. Imho, we can
+> leave them to the compiler default or distrib.. I bet most of the deps
+> don't use those flags explicitly either.
 
-It is highly possible that I missed something in the cpu model.
+I think so, at least Firefox does.  In general QEMU tries to do more 
+build-time hardening than the average pacakge.
 
-A solution proposed by Cedric was to add a new machine but we did not 
-want this because we decided that we do not want to wait for a new machine.
+Paolo
 
-Another solution could be to have a we can have a new CPU feature 
-overruling ctop like S390_FEAT_CPU_TOPOLOGY in the last series version 12.
-I am not sure it must be linked with the creation of a new machine.
-
-The solution here in this series is to add a VMState which will block 
-the migration with older QEMU if the topology is activated with ctop on 
-a new QEMU.
-
-Regards,
-Pierre
-
-> 
-> 
->> A VMState keeping track of the S390_FEAT_CONFIGURATION_TOPOLOGY
->> allows to forbid the migration in such a case.
->>
->> Note that the VMState will be used to hold information on the
->> topology once we implement topology change for a running guest.
-> 
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
