@@ -2,84 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AA864A45F
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 16:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C706864A465
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 16:48:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4kyr-0006jP-To; Mon, 12 Dec 2022 10:44:37 -0500
+	id 1p4l1L-0008I7-EU; Mon, 12 Dec 2022 10:47:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4kyp-0006jC-91
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:44:35 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4kyn-0008H3-Ht
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:44:35 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- b24-20020a05600c4a9800b003d21efdd61dso4016887wmp.3
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 07:44:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WQIRe/e8xlbW1LgwHbUsvWTYrVEekqbr16vaUt+PDZ0=;
- b=km/dZIc3CufPzaLM+2g5iQSWnGCMnWzq1fPuvM0KmzlMeS2bAq3vllUBCmwA6s/3ru
- 1wrrZUVpniLDl3Q7goiS7yPhX/4OVhjw0P/YBStWo8gRPUwhQAOIy7H3LnLcjgIdSPeR
- +Ie9+dyc0f58ZQNYIMZNxA/+X4wp5s8tyNu/gB32xXLH9NIg4C7IgOYovKJmBjqJPy85
- 4OYRvljSS3MBz+WItM6GYaWFG+V8nzoejqyjTFo6+w8yXUZocZ5HHNSccRVcZLCAYmmK
- hbWuWokMzEeg7VxADbzxGy+jtbiYihuRCwmM5fYPPYUzpnOe9AgXXDoG5tfgZvXVNHb7
- 3G7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WQIRe/e8xlbW1LgwHbUsvWTYrVEekqbr16vaUt+PDZ0=;
- b=EV4UVSKx0nNEb53b7wKyzL0+9PrqyHJ1noeXHradONt/pKf5tWNET5guQqt42brmCq
- po1eCdwjpV6sXXQ5rr7RrUALq3CJvnd0QW9cx46WNBwlZ3SLv7Uf0mS+nISqmPfcEV1/
- eR2d42wLAsOEYAaeSL+mbTsEnffEhVVp6MHy7R+J4WT2FSabSQ0LftRSJWlY1qYYpa4P
- fivjoT/uuy5Vi7KUIzMpfPwE2BbLrOKZ6Z0ViCNeXf79ZMZwSIaSGLpvQMOza2ttaue4
- B2putDIMM6f8SVmD2WLwk9SydLrk1WIMFpOGSsQ75DRgRF7A0zGRkpMUrI9XOZKQ8HIk
- RkQg==
-X-Gm-Message-State: ANoB5pl7YHNwonxmRtnsB/Ajjce/2D2nOsW8obcfd/9AxAm9ligH9kbh
- Lder4z5klAL4J3FUh/gCg+zMig==
-X-Google-Smtp-Source: AA0mqf5K8AhqdUdkgYrgfh6+dE25RKcLhvkzKmEKcOtqt0YeFR/f0xmPPt1OTMN9ZSjQbec14XSLRA==
-X-Received: by 2002:a05:600c:4f93:b0:3cf:6e85:eda7 with SMTP id
- n19-20020a05600c4f9300b003cf6e85eda7mr13391853wmq.14.1670859871633; 
- Mon, 12 Dec 2022 07:44:31 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l29-20020a05600c1d1d00b003b4a699ce8esm11115238wms.6.2022.12.12.07.44.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 07:44:31 -0800 (PST)
-Message-ID: <02e4ebf7-908b-28f6-9f90-d917ee2b307b@linaro.org>
-Date: Mon, 12 Dec 2022 16:44:29 +0100
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p4l1B-0008Gp-F8
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:47:03 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p4l19-0000WH-8z
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:47:01 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BCE8s4N030224
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:46:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=BApjecGSsNCkvyto4huFV04lLz3pQSltQGD/oouWTzA=;
+ b=JPXk4tDBWrxjUs08IUp/ncKIGQSldo9ZZcU8e2pbtmQSBU4XmUNHH8M8g5NGmHghUts7
+ UWYmw+T6poAqqXkBUc0/MMF6a+wlUKYpq6+JMZvhaPSI7+XDBxGCH0+y7lQlSdsWgadN
+ fBak0gvhEfvcSRpY1+ZjmzoCo7k41STGTFJJ75JO1CbNXRMSCwKS1wPWNfbOIh2dIyUS
+ ZLxJ+X+J00RizImXjGwGmMgyaOD0zVIW1fgWwFxKQltGNWMbor6AezSgGLA367kS3YOc
+ CGIEqeWAxib2ZehPVTfZF+vpNJfOiHEZzgoRu2cg1u5aZi2ZRWrk/k0VT0JNjxFX9VgE 6g== 
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md40kv63y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:46:57 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BCEefV7011450
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:46:55 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([9.208.130.99])
+ by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3mchr6duex-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 15:46:55 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
+ [10.241.53.104])
+ by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BCFksvD23397042
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 15:46:54 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5D89558056;
+ Mon, 12 Dec 2022 15:46:54 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 19FD35804C;
+ Mon, 12 Dec 2022 15:46:54 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Dec 2022 15:46:53 +0000 (GMT)
+Message-ID: <82627f1c-c162-7304-98c3-08ace0b3f2c6@linux.ibm.com>
+Date: Mon, 12 Dec 2022 10:46:53 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v3] hw/rtc/mc146818rtc: Make this rtc device target
- independent
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] tpm: add backend for mssim
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Bernhard Beschow <shentey@gmail.com>
-Cc: Michael S Tsirkin <mst@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>
-References: <20221212075600.17408-1-thuth@redhat.com>
- <12d9fcbf-e00f-1154-63e0-36420e89f619@ilande.co.uk>
- <dd94d639-ff48-554a-c462-ae7fe2399d4e@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <dd94d639-ff48-554a-c462-ae7fe2399d4e@redhat.com>
+To: jejb@linux.ibm.com, qemu-devel@nongnu.org
+References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
+ <b81db56b-9044-d569-7de2-5388f6958461@linux.ibm.com>
+ <b7c4c45c2bcbcf5c2b111a978297c5bb07b49498.camel@linux.ibm.com>
+ <b1cf9866-d28a-05c3-1f10-8745f9e43c44@linux.ibm.com>
+ <4dae1219d816277085fcb82979cf6cded6a1bd6b.camel@linux.ibm.com>
+ <9cc63b28-6700-59b3-1d4d-b89a4744a09b@linux.ibm.com>
+ <43465b20acc0b120ed49330d2f985534d0b2fc60.camel@linux.ibm.com>
+ <d7529c39-8236-5490-a1c0-59249ca61e46@linux.ibm.com>
+ <4f719a60a82c1d3d335ff8a35fe65ffb3cf23be7.camel@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <4f719a60a82c1d3d335ff8a35fe65ffb3cf23be7.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tunAX_RbpN2w5p1618vu7PonPvNnLw8Z
+X-Proofpoint-ORIG-GUID: tunAX_RbpN2w5p1618vu7PonPvNnLw8Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_02,2022-12-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ phishscore=0 mlxlogscore=901 impostorscore=0 suspectscore=0 spamscore=0
+ mlxscore=0 clxscore=1015 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120141
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,65 +116,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/22 14:48, Thomas Huth wrote:
-> On 12/12/2022 14.39, Mark Cave-Ayland wrote:
->> On 12/12/2022 07:56, Thomas Huth wrote:
+
+
+On 12/12/22 10:28, James Bottomley wrote:
+> On Mon, 2022-12-12 at 10:20 -0500, Stefan Berger wrote:
+>> On 12/12/22 09:47, James Bottomley wrote:
+> [...]
+>>> I don't actually use virsh in my harness.  I'm mostly interested in
+>>> the running the kernel TPM selftests against the reference model.
+>>> But I anticipate it wouldn't currently work because I don't believe
+>>> virsh triggers a S3 event which is why snapshot and migration
+>>> doesn't always work with PCI passthrough.
 >>
->>> The only reason for this code being target dependent is the apic-related
->>> code in rtc_policy_slew_deliver_irq(). Since these apic functions are 
->>> rather
->>> simple, we can easily move them into a new, separate file 
->>> (apic_irqcount.c)
->>> which will always be compiled and linked if either APIC or the 
->>> mc146818 device
->>> are required. This way we can get rid of the #ifdef TARGET_I386 
->>> switches in
->>> mc146818rtc.c and declare it in the softmmu_ss instead of 
->>> specific_ss, so
->>> that the code only gets compiled once for all targets.
->>>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   v3: Move TYPE_APIC_COMMON from apic_internal.h to apic.h and use it
->>>
->>>   include/hw/i386/apic.h          |  2 ++
->>>   include/hw/i386/apic_internal.h |  2 --
->>>   include/hw/rtc/mc146818rtc.h    |  1 +
->>>   hw/intc/apic_common.c           | 27 -----------------
->>>   hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
->>>   hw/rtc/mc146818rtc.c            | 25 +++++-----------
->>>   hw/intc/meson.build             |  6 +++-
->>>   hw/rtc/meson.build              |  3 +-
->>>   8 files changed, 69 insertions(+), 50 deletions(-)
->>>   create mode 100644 hw/intc/apic_irqcount.c
->>>
->>> diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
->>> index da1d2fe155..24069fb961 100644
->>> --- a/include/hw/i386/apic.h
->>> +++ b/include/hw/i386/apic.h
->>> @@ -1,6 +1,7 @@
->>>   #ifndef APIC_H
->>>   #define APIC_H
->>> +#define TYPE_APIC_COMMON "apic-common"
->>
->> Ah sorry, I should have been more specific here: what I was suggesting 
->> was to move the entire QOM type information into apic.h as per the 
->> normal convention, as opposed to just the #define. At first glance 
->> that would involve lines 128-190 in apic_internal.h which would also 
->> bring in APICCommonClass and APICCommonState - possibly the change may 
->> warrant its own commit.
+>> Then I think you should at least add a blocker to your model so that
+>> suspend/resume/snapshotting/migration are all disabled because the
+>> mssim reference implementation doesn't support permanent & volatile
+>> state suspend/resume (and upgrading!) without significant work on it
+>> as can be seen in libtpms.
 > 
-> At least APICCommonState is target specific since it uses "X86CPU" ...
+> Actually, I would think adding support, if that's what people wanted,
+> would be pretty simple.  Since the network end point is the identifier,
+There's VM snapshotting as well where things are not as simple. Host reboot is a bit of a challenge when your TPM 2 emulator doesn't support permanent AND volatile state marshalling and unmarshalling. Upgrading the reference model has also been a challenge in the past where it couldn't read old state anymore when new pieces were added to the state. These were areas where efforts went into libtpms for example. This is not to say that everything is perfect with libtpms and swptm since they have thier own challenges but they have at least resolved some of the issues.
 
-Replace it by ArchCPU ;)
-> so moving that to apic.h would be very counterproductive here.
+> the protocol would be not to power down the TPM on suspend/resume and
+> simply to send TPM_STOP to close down the sockets gracefully.  Then the
+> next connection picks up the state where the previous one left off.
 > 
-> Anyway, moving those structs is certainly way more than what is required 
-> for this patch, so if we decide to move anything else related to the 
-> APIC, it should be done in a separate patch later.
+>> Why would we support another model for the backend that provides no
+>> advantages over what is there right now?
+> 
+> The advantages were what was stated: ability to connect to the MS
+> reference model directly and no dependence on the Linux VTPM_PROXY
+> protocol.
 
-I concur.
+We already have a working TPM 2 emulator that does support VM suspend/resume/snapshotting and migration. If you want to become maintainer of your backend model and everything associated with it, please add yourself to the MAINTAINERS list.
 
+> 
+> James
+> 
 
