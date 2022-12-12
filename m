@@ -2,62 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777BA64A637
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 18:50:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B0464A657
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 18:56:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4mv8-0008PW-Qi; Mon, 12 Dec 2022 12:48:54 -0500
+	id 1p4n1L-0001nk-Fu; Mon, 12 Dec 2022 12:55:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4mv6-0008P7-Ng
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:48:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p4mv4-0003GT-O2
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:48:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670867329;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WOW9Zon+awUoDJZ6fp7jle2QxCdJk2iYBOjv0ZKyl78=;
- b=CqoUqKT+Xx942/tA0G+SSvM/akFwXfw6EK8uXoeseXFM32BPAAx3lFrIwtSja/iNjKmTjr
- DJp+aN7rvlNaZGlaOQgPGDp7dZYFlnitw0WEODotA4udWYb3O4tmvKhQg/8DhIf6amWKW4
- zXWwQQaVCkuzQHerR01vqxxD0SSLU7s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-USyfkwoLPyCnzdKrr4NOLQ-1; Mon, 12 Dec 2022 12:48:46 -0500
-X-MC-Unique: USyfkwoLPyCnzdKrr4NOLQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F914185A79C;
- Mon, 12 Dec 2022 17:48:46 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 931791121331;
- Mon, 12 Dec 2022 17:48:45 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-Subject: [PATCH] MAINTAINERS: Add documentation files to the corresponding
- sections
-Date: Mon, 12 Dec 2022 18:48:41 +0100
-Message-Id: <20221212174841.201003-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4n1F-0001mq-3y
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:55:13 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4n1D-0006E4-LN
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 12:55:12 -0500
+Received: by mail-wr1-x436.google.com with SMTP id u12so12932669wrr.11
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 09:55:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FfjtVk8xPMU5CAXqjSq1lJ0a4QMS0sKtPMAGPrj/R+g=;
+ b=bQsk7fc7WXd34bHyYSE3Yz6dIfeTTPzk4lg4mX6EWOV4masL0NxLxUKboyh8w+8DzU
+ EQN34xQH+LwFhMcXsm5snjtKPkqQDaPr2OQOU9b7kfmbX/F0aCxv9C9Fwsh3Il0Ry92T
+ sLEUy0Kxn5TjXNO5La1AlfqgQgjkKMwFttn1O819N8r4gTh8RiT9ZPeqTDW7Kn/Psm6z
+ l+gBzeCabwPd1dJsXpnVacHHHKiKDqEVtU46ARq4YbqXpu1iB5Nwq5mB/FNuF0wPmVr+
+ eXHWCItFKPe8Fj2ZWSYZj5kxixAirYckJ+NZ76Hk21KBnSNN6B5ZEhj5mB/x4vQat5IS
+ w9Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FfjtVk8xPMU5CAXqjSq1lJ0a4QMS0sKtPMAGPrj/R+g=;
+ b=k+3h+BiW7O2bZG14kteqeJEn2hIlDBq2B+SuwsVPIeqhsonRgfbnFJw9OB9ELpf2fj
+ LxzRrZJoOwzTap4fZkOJ51hqacKtAJrcaeV+OUo8heqIocJjjMuLQY8kagWNH7QFjwhF
+ O/6xK7w0z3SaoY25BrysGeHLfAwLDK6ZCtTTbCdTGJMkOmr9kt+YSoIjRw5MC8lNTTyJ
+ 3vzouuYt2+92GIvs3Zj5QYWrXsPnSEW2EjTq2LtP9qEvFfEhQTX70v+q5HcrfEM0O14k
+ Mo07b5oqapflUZ8p+/MUbSU9AFIY/7BPgpXbhKO5ajVjhSfKJUsZOe/mWORdKFVvWjhy
+ wCAQ==
+X-Gm-Message-State: ANoB5pk88tbuVPhK/6nBapUs7L8MtQLkCV+S4Jq8M9t5O8/Oy6Qc4Ofx
+ MXnOE1BtEQ8g+IVBGTi/V9o=
+X-Google-Smtp-Source: AA0mqf5nhbqlADGtJD1ajeqIA2CSPbg1+cVn0smjrKGey09WYRxkZVi8c/02SxV5qQvv88k+BnoQMA==
+X-Received: by 2002:a05:6000:1111:b0:242:1b08:25ba with SMTP id
+ z17-20020a056000111100b002421b0825bamr10266357wrw.39.1670867710236; 
+ Mon, 12 Dec 2022 09:55:10 -0800 (PST)
+Received: from [192.168.4.46] (54-240-197-233.amazon.com. [54.240.197.233])
+ by smtp.gmail.com with ESMTPSA id
+ bt4-20020a056000080400b002365cd93d05sm9500299wrb.102.2022.12.12.09.55.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 09:55:09 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <b7b13808-c0b0-1ba2-74f8-380480a9aa0b@xen.org>
+Date: Mon, 12 Dec 2022 17:55:05 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH v2 03/22] i386/xen: Add xen-version machine property
+ and init KVM Xen support
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse
+ <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20221209095612.689243-1-dwmw2@infradead.org>
+ <20221209095612.689243-4-dwmw2@infradead.org>
+ <8495140d-3301-7693-b804-0554166802da@redhat.com>
+Organization: Xen Project
+In-Reply-To: <8495140d-3301-7693-b804-0554166802da@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,153 +104,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A lot of files in the docs directory do not have a maintainer according to
-our MAINTAINERS file, though they can be clearly associated with one of the
-sections in there. Add the files now so that our scripts/get_maintainer.pl
-script can output the right maintainer for them.
+On 12/12/2022 17:30, Paolo Bonzini wrote:
+[snip]
+> 
+> The platform device can be created either in mc->kvm_type or manually 
+> (not sure if it makes sense to have a "XenVMMXenVMM" CPUID + emulated 
+> hypercalls but no platform device---would it still use pvclock for 
+> example?).
+> 
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- MAINTAINERS | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+Not sure it's wise but the platform device is certainly optional in 
+xl.cfg so you can easily bring up a VM without it.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4e0e2ba36f..a0d8e9b086 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -78,6 +78,7 @@ M: Laurent Vivier <laurent@vivier.eu>
- S: Maintained
- L: qemu-trivial@nongnu.org
- K: ^Subject:.*(?i)trivial
-+F: docs/devel/trivial-patches.rst
- T: git git://git.corpit.ru/qemu.git trivial-patches
- T: git https://github.com/vivier/qemu.git trivial-patches
- 
-@@ -131,6 +132,7 @@ F: util/cacheinfo.c
- F: util/cacheflush.c
- F: scripts/decodetree.py
- F: docs/devel/decodetree.rst
-+F: docs/devel/tcg*
- F: include/exec/cpu*.h
- F: include/exec/exec-all.h
- F: include/exec/helper*.h
-@@ -256,6 +258,7 @@ F: tests/docker/dockerfiles/debian-nios2-cross.d/build-toolchain.sh
- OpenRISC TCG CPUs
- M: Stafford Horne <shorne@gmail.com>
- S: Odd Fixes
-+F: docs/system/openrisc/cpu-features.rst
- F: target/openrisc/
- F: hw/openrisc/
- F: tests/tcg/openrisc/
-@@ -334,6 +337,7 @@ F: target/i386/tcg/
- F: tests/tcg/i386/
- F: tests/tcg/x86_64/
- F: hw/i386/
-+F: docs/system/i386/cpu.rst
- F: docs/system/cpu-models-x86*
- T: git https://gitlab.com/ehabkost/qemu.git x86-next
- 
-@@ -875,6 +879,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
- R: Jean-Christophe Dubois <jcd@tribudubois.net>
- L: qemu-arm@nongnu.org
- S: Odd Fixes
-+F: docs/system/arm/sabrelite.rst
- F: hw/arm/sabrelite.c
- F: hw/arm/fsl-imx6.c
- F: hw/misc/imx6_*.c
-@@ -1275,6 +1280,7 @@ OpenRISC Machines
- or1k-sim
- M: Jia Liu <proljc@gmail.com>
- S: Maintained
-+F: docs/system/openrisc/or1k-sim.rst
- F: hw/openrisc/openrisc_sim.c
- 
- PowerPC Machines
-@@ -2018,6 +2024,7 @@ F: hw/virtio/trace-events
- F: qapi/virtio.json
- F: net/vhost-user.c
- F: include/hw/virtio/
-+F: docs/devel/virtio*
- 
- virtio-balloon
- M: Michael S. Tsirkin <mst@redhat.com>
-@@ -2110,7 +2117,7 @@ F: tests/qtest/virtio-rng-test.c
- vhost-user-rng
- M: Mathieu Poirier <mathieu.poirier@linaro.org>
- S: Supported
--F: docs/tools/vhost-user-rng.rst
-+F: docs/system/devices/vhost-user-rng.rst
- F: hw/virtio/vhost-user-rng.c
- F: hw/virtio/vhost-user-rng-pci.c
- F: include/hw/virtio/vhost-user-rng.h
-@@ -2148,7 +2155,7 @@ S: Supported
- F: hw/nvme/*
- F: include/block/nvme.h
- F: tests/qtest/nvme-test.c
--F: docs/system/nvme.rst
-+F: docs/system/devices/nvme.rst
- T: git git://git.infradead.org/qemu-nvme.git nvme-next
- 
- megasas
-@@ -2698,6 +2705,7 @@ GDB stub
- M: Alex Bennée <alex.bennee@linaro.org>
- R: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Maintained
-+F: docs/system/gdb.rst
- F: gdbstub/*
- F: include/exec/gdbstub.h
- F: gdb-xml/
-@@ -2755,6 +2763,7 @@ F: ui/
- F: include/ui/
- F: qapi/ui.json
- F: util/drm.c
-+F: docs/devel/ui.rst
- 
- Cocoa graphics
- M: Peter Maydell <peter.maydell@linaro.org>
-@@ -2932,6 +2941,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
- R: Daniel P. Berrange <berrange@redhat.com>
- R: Eduardo Habkost <eduardo@habkost.net>
- S: Supported
-+F: docs/devel/qom.rst
- F: docs/qdev-device-use.txt
- F: hw/core/qdev*
- F: hw/core/bus.c
-@@ -2980,6 +2990,7 @@ F: softmmu/qtest.c
- F: accel/qtest/
- F: tests/qtest/
- F: docs/devel/qgraph.rst
-+F: docs/devel/qtest.rst
- X: tests/qtest/bios-tables-test*
- 
- Device Fuzzing
-@@ -3046,6 +3057,7 @@ F: include/sysemu/tpm*
- F: qapi/tpm.json
- F: backends/tpm/
- F: tests/qtest/*tpm*
-+F: docs/specs/tpm.rst
- T: git https://github.com/stefanberger/qemu-tpm.git tpm-next
- 
- Checkpatch
-@@ -3197,7 +3209,8 @@ F: replay/*
- F: block/blkreplay.c
- F: net/filter-replay.c
- F: include/sysemu/replay.h
--F: docs/replay.txt
-+F: docs/devel/replay.rst
-+F: docs/system/replay.rst
- F: stubs/replay.c
- F: tests/avocado/replay_kernel.py
- F: tests/avocado/replay_linux.py
-@@ -3721,6 +3734,7 @@ F: tests/docker/
- F: tests/vm/
- F: tests/lcitool/
- F: scripts/archive-source.sh
-+F: docs/devel/testing.rst
- W: https://gitlab.com/qemu-project/qemu/pipelines
- W: https://travis-ci.org/qemu/qemu
- 
--- 
-2.31.1
+   Paul
+
+
 
 
