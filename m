@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C171164A675
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 19:05:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B478064A6BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 19:17:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4n9t-0005Jt-UW; Mon, 12 Dec 2022 13:04:10 -0500
+	id 1p4nLY-0003IN-FN; Mon, 12 Dec 2022 13:16:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p4n9s-0005JV-5n
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 13:04:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p4n9p-0004L6-3o
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 13:04:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670868241;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=jseHD3Y4fIpK5xrCC4dxUw8dsedjwqMCIGTi3Z9Hoxo=;
- b=bCOyVseQgZKTILN5CCvgUj/hfDzY8QJ7vZMGIcseze/L7G6ti6oxDhkKG2GnbKXM3rvaLU
- 4SOUYiEWxEoCUdapXeloyX8lDIiWA46Xj5Rlbqk/D7ox6flSEHRsf2Edq6wnS2T4Kgl8LM
- QjuS9pTqtOIyvTQt8Jpl0XAE6EYpZQs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-GGwK5ospPd6BWeiy9Z4-jQ-1; Mon, 12 Dec 2022 13:03:57 -0500
-X-MC-Unique: GGwK5ospPd6BWeiy9Z4-jQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D4553806701;
- Mon, 12 Dec 2022 18:03:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46F04410B30F;
- Mon, 12 Dec 2022 18:03:50 +0000 (UTC)
-Date: Mon, 12 Dec 2022 18:03:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "imp@bsdimp.com" <imp@bsdimp.com>,
- "kevans@freebsd.org" <kevans@freebsd.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
- "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "michael.roth@amd.com" <michael.roth@amd.com>,
- "kkostiuk@redhat.com" <kkostiuk@redhat.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "alistair.francis@wdc.com" <alistair.francis@wdc.com>,
- "bin.meng@windriver.com" <bin.meng@windriver.com>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH] include: Don't include qemu/osdep.h
-Message-ID: <Y5dtAUGVrBwJ1SUx@redhat.com>
-References: <20221212070431.306727-1-armbru@redhat.com>
- <SN4PR0201MB8808461347A55B9870BB6C4ADEE29@SN4PR0201MB8808.namprd02.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4nLW-0003Hl-NS
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 13:16:10 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4nLR-0001ZR-IP
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 13:16:10 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id c17so14084344edj.13
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 10:16:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rmcd/T4V4SjMDzX976K/j6+F5P6q6tnRSzQ2Vom5NL8=;
+ b=GPFMGHwirWmBQSFec5auQMfenZdo9q+RxTE5zOifAfP1ohEZEWmTsuBN0Qfn8k6dYN
+ uFUBPHdyf7vzG8+q/0K6dcZNoaS6P0ReotTmsqhUUU2tB7JqHzpeU3tdXpb+p5ux4SN1
+ gjVvjjz1jNJgUsFwKfsgq0OLtgTEZDAj2Vi2kGJHdkxEIMvy10/GaqNXBNj/hup3rKqo
+ 6xPPT7Tc43lybLLZvqGXuCqF6EFTrhhx4n0Ltg8yqkl5dY/g0NRDoGeQH17wVNi/Zegx
+ SISN9iqMT3158jw4VZ8etE1ONnmHlc+4L5aFI5kxNgol+hRroLEEhh0371BQygfKqoNx
+ Actg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rmcd/T4V4SjMDzX976K/j6+F5P6q6tnRSzQ2Vom5NL8=;
+ b=JPrcY83Kg/DMscmqeOyNgsUtYP5UiN4+fPL9MvXA+RFbGZZYdv8WCNGxGpYR5f+vGa
+ iyZ/xvXNi6gCQ/Nylo64fs5NcUri5De+JxA6dFv+2f7KPdK6xamnYsfnnDwGI+wlT8hM
+ l20TGiKT4yjp3kMtz5vY0HkZOCjoaoYNGK96Bn/zSi4bAGIU+ZYrpixT8yLeW3ADOLhF
+ BOZAvW0MbYtB5dZzMrkil8+v1cptjRMJ+pIwIlzpoXQeVIL/lESU9FI1pB68o4qe2Uki
+ BM4Ul/pFB2jVJBGgZH65V04ZAleVxXE2TwH8tJK46+NEXFDXsXgwUoD8eGZagsEDUqR6
+ wwsw==
+X-Gm-Message-State: ANoB5pmZnDgBQlG5QlcJMVo3TmZMt72Kb/gLQHO5EDigLu/5m4ND28i5
+ dqVJUdj7Kv+l0jt4eOA13xN68A==
+X-Google-Smtp-Source: AA0mqf659nD22V4PEbdeZRvjP3BGEZZuEr09P+d95OEEtJDiLhdJqTPcp9v956JekPVb5+FciwiVwA==
+X-Received: by 2002:a05:6402:e09:b0:467:91bc:f523 with SMTP id
+ h9-20020a0564020e0900b0046791bcf523mr16416320edh.36.1670868963972; 
+ Mon, 12 Dec 2022 10:16:03 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ e8-20020a170906748800b007be2687186fsm3563546ejl.21.2022.12.12.10.16.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 10:16:03 -0800 (PST)
+Message-ID: <56c93019-8892-ef8c-146a-6321c0bff0ec@linaro.org>
+Date: Mon, 12 Dec 2022 19:16:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SN4PR0201MB8808461347A55B9870BB6C4ADEE29@SN4PR0201MB8808.namprd02.prod.outlook.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH] MAINTAINERS: Add documentation files to the corresponding
+ sections
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+References: <20221212174841.201003-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221212174841.201003-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,82 +88,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 12, 2022 at 04:55:55PM +0000, Taylor Simpson wrote:
+On 12/12/22 18:48, Thomas Huth wrote:
+> A lot of files in the docs directory do not have a maintainer according to
+> our MAINTAINERS file, though they can be clearly associated with one of the
+> sections in there. Add the files now so that our scripts/get_maintainer.pl
+> script can output the right maintainer for them.
 > 
-> 
-> > -----Original Message-----
-> > From: Markus Armbruster <armbru@redhat.com>
-> > Sent: Monday, December 12, 2022 1:05 AM
-> > To: qemu-devel@nongnu.org
-> > Cc: imp@bsdimp.com; kevans@freebsd.org; berrange@redhat.com;
-> > jonathan.cameron@huawei.com; kbastian@mail.uni-paderborn.de;
-> > jasowang@redhat.com; michael.roth@amd.com; kkostiuk@redhat.com;
-> > Taylor Simpson <tsimpson@quicinc.com>; palmer@dabbelt.com;
-> > alistair.francis@wdc.com; bin.meng@windriver.com; qemu-
-> > riscv@nongnu.org
-> > Subject: [PATCH] include: Don't include qemu/osdep.h
-> > 
-> > docs/devel/style.rst mandates:
-> > 
-> >     The "qemu/osdep.h" header contains preprocessor macros that affect
-> >     the behavior of core system headers like <stdint.h>.  It must be
-> >     the first include so that core system headers included by external
-> >     libraries get the preprocessor macros that QEMU depends on.
-> > 
-> >     Do not include "qemu/osdep.h" from header files since the .c file
-> >     will have already included it.
-> > 
-> > A few violations have crept in.  Fix them.
-> > 
-> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> > ---
-> >  bsd-user/qemu.h                 | 1 -
-> >  crypto/block-luks-priv.h        | 1 -
-> >  include/hw/cxl/cxl_host.h       | 1 -
-> >  include/hw/input/pl050.h        | 1 -
-> >  include/hw/tricore/triboard.h   | 1 -
-> >  include/qemu/userfaultfd.h      | 1 -
-> >  net/vmnet_int.h                 | 1 -
-> >  qga/cutils.h                    | 1 -
-> >  target/hexagon/hex_arch_types.h | 1 -
-> >  target/hexagon/mmvec/macros.h   | 1 -
-> >  target/riscv/pmu.h              | 1 -
-> >  qga/cutils.c                    | 3 ++-
-> >  12 files changed, 2 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/target/hexagon/hex_arch_types.h
-> > b/target/hexagon/hex_arch_types.h index 885f68f760..52a7f2b2f3 100644
-> > --- a/target/hexagon/hex_arch_types.h
-> > +++ b/target/hexagon/hex_arch_types.h
-> > @@ -18,7 +18,6 @@
-> >  #ifndef HEXAGON_HEX_ARCH_TYPES_H
-> >  #define HEXAGON_HEX_ARCH_TYPES_H
-> > 
-> > -#include "qemu/osdep.h"
-> >  #include "mmvec/mmvec.h"
-> >  #include "qemu/int128.h"
-> 
-> Please change the copyright year in this file from "2019-2021" to "2019-2022".
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   MAINTAINERS | 20 +++++++++++++++++---
+>   1 file changed, 17 insertions(+), 3 deletions(-)
 
-No, that would be inappropriate.
-
-The Copyright line is attributed to Qualcomm, and Markus doesn't
-work for, nor assign copyright to, Qualcomm, so he must not change
-the Qualcomm copyright line. Further, merely deleting a line of
-code is not a significant change from POV of claiming copyright.
-
-> Otherwise
-> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
