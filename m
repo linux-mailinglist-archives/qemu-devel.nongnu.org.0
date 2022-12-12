@@ -2,73 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF5F64A18C
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F6564A1BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:44:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4j2e-0004OY-My; Mon, 12 Dec 2022 08:40:24 -0500
+	id 1p4j6C-0008BY-U4; Mon, 12 Dec 2022 08:44:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p4j2T-0004MI-20
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:40:13 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p4j69-0008BQ-W2
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:44:02 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p4j2N-0005De-Sg
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:40:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=iGjoorqUnWcZKifgVnKgFDFQR9seB5jCCkn/ueSzYT0=; b=o8HaV+XUGkTIJAxFM2yxET7cgE
- twjVwFHDkVfsOkGxi6srn7Jj2SDH2VI5Wpp6SKrzh1JmBsGTAxcGBR/TL24oHVNv4WUpZPD8mY68c
- dxyfA3SrNM0Xoibh3iEQlYR5KtvGbn87DGcTkeonzuvoRJblI7w5PTN/V49ZCi0Ug7Es1kJpgLE7J
- NyTJ6xP3HpoYEdPzf1haL5Cyjx9QWk0caHVKlqq4gac2rUAd1f/CyNCyQrs0fu4HETTEfx2RTRqDp
- RjaFNTBu5Pu8OfkiLUSM0/MIRdCCRycK5+lkvrqbHdg+bIoFlMT5MUs8A2XU03xBcoqaH7/u+4G5e
- 5efd5sXtdIQrYJvl0eEsd1j/Uove2IULZc40D+6T1tVGUwkae63HIeqdYcpRWRK5NI2Ixy+Ae4f2R
- 0wU1PpuvNWqvQ0zswDrObgdqi2UnTXJcBf2rImboHEqNsb3Tw6+JH+vbhX1eZuCfte6jaAZ8827Ph
- KLevCPv/8hCxTC3MtPYVeJrNHu4Fofp3KZZvUHwR11cVrfGqZm7qU+DzUfzUsE1SzbiYi4cX06lNP
- EDYDEM2RKRt0MVAAF5cB3NND23IUcu0bNemJaVqMFFuo6dDLm2sl0b8TYF4T+zGyMqm+pTZX1cJ71
- JZGsWT2Hbcfq3eGhf/8xFbL/15YfsdRG1Yq+yiie0=;
-Received: from host86-149-46-27.range86-149.btcentralplus.com ([86.149.46.27]
- helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p4j21-00016b-R0; Mon, 12 Dec 2022 13:39:50 +0000
-Message-ID: <12d9fcbf-e00f-1154-63e0-36420e89f619@ilande.co.uk>
-Date: Mon, 12 Dec 2022 13:39:54 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p4j67-0000PN-5p
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:44:01 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BCDXouC029723
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 13:43:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=t6fS51adwFqrAxKKIpnXNWthENqBgSBJFitD2ub9fPs=;
+ b=mm9Hp6W7ISamn23zjw9quaXMYMgqZSHBnh4HwStU/MuIbjZ8qN6wdRea6VN0fd7SasZv
+ PobWF4rFJSRg3pT9aJIo8ZFi1pmihlrPEMhdK9QtJFwPXkv/uZNU6BihAj7K57FamSoF
+ 8GCE0zluuEDcIFKSm77NPlt0Yf9IsArdFYsbQRgr1R6A9AwPe0iGhF7MF3UDlxX+e+g5
+ rdr+shhTo5/fnEVOZmJZ48sqogx9qtA8suSk64njcenz0ug0i22EqfSdgyXd0d2Algzh
+ 2D4A/ta7e4zHbhBnwse83Z2OjqW/LVgSCGFHGvpruu5lGpDGL4jODRx2WunNZRINDGSV Nw== 
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3md3sjsw0s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 13:43:56 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BCDEUOc018820
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 13:43:55 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
+ by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3md7ec1utn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 13:43:54 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com
+ [10.241.53.103])
+ by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BCDhq9v6357596
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Dec 2022 13:43:53 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B77735805A;
+ Mon, 12 Dec 2022 13:43:52 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 602CE5804E;
+ Mon, 12 Dec 2022 13:43:52 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Dec 2022 13:43:52 +0000 (GMT)
+Message-ID: <b81db56b-9044-d569-7de2-5388f6958461@linux.ibm.com>
+Date: Mon, 12 Dec 2022 08:43:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] tpm: add backend for mssim
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>
-Cc: Michael S Tsirkin <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20221212075600.17408-1-thuth@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20221212075600.17408-1-thuth@redhat.com>
+To: jejb@linux.ibm.com, qemu-devel@nongnu.org
+References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.149.46.27
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3] hw/rtc/mc146818rtc: Make this rtc device target
- independent
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: eLsBjHSn0Szyr_fuCrfLtajtW13lPtD6
+X-Proofpoint-ORIG-GUID: eLsBjHSn0Szyr_fuCrfLtajtW13lPtD6
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_02,2022-12-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0
+ suspectscore=0 clxscore=1011 phishscore=0 malwarescore=0 mlxscore=0
+ impostorscore=0 priorityscore=1501 mlxlogscore=999 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120125
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,289 +109,512 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/2022 07:56, Thomas Huth wrote:
 
-> The only reason for this code being target dependent is the apic-related
-> code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
-> simple, we can easily move them into a new, separate file (apic_irqcount.c)
-> which will always be compiled and linked if either APIC or the mc146818 device
-> are required. This way we can get rid of the #ifdef TARGET_I386 switches in
-> mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
-> that the code only gets compiled once for all targets.
+
+On 12/10/22 12:10, James Bottomley wrote:
+> The Microsoft Simulator (mssim) is the reference emulation platform
+> for the TCG TPM 2.0 specification.
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> https://github.com/Microsoft/ms-tpm-20-ref.git
+> 
+> It exports a fairly simple network socket baset protocol on two
+
+baset -> based.
+
+> sockets, one for command (default 2321) and one for control (default
+> 2322).  This patch adds a simple backend that can speak the mssim
+> protocol over the network.  It also allows the host, and two ports to
+> be specified on the qemu command line.  The benefits are twofold:
+> firstly it gives us a backend that actually speaks a standard TPM
+> emulation protocol instead of the linux specific TPM driver format of
+> the current emulated TPM backend and secondly, using the microsoft
+> protocol, the end point of the emulator can be anywhere on the
+> network, facilitating the cloud use case where a central TPM service
+> can be used over a control network.
+> 
+> The implementation does basic control commands like power off/on, but
+> doesn't implement cancellation or startup.  The former because
+> cancellation is pretty much useless on a fast operating TPM emulator
+> and the latter because this emulator is designed to be used with OVMF
+> which itself does TPM startup and I wanted to validate that.
+
+How did you implement VM suspend/resume and snapshotting support?
+
+    Stefan
+
+> 
+> To run this, simply download an emulator based on the MS specification
+> (package ibmswtpm2 on openSUSE) and run it, then add these two lines
+> to the qemu command and it will use the emulator.
+> 
+>      -tpmdev mssim,id=tpm0 \
+>      -device tpm-crb,tpmdev=tpm0 \
+> 
+> to use a remote emulator replace the first line with
+> 
+>      -tpmdev mssim,it=tpm0,host=remote.host,port=4455,ctrl=4457 \
+> 
+> tpm-tis also works as the backend.
+> 
+> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
 > ---
->   v3: Move TYPE_APIC_COMMON from apic_internal.h to apic.h and use it
+>   backends/tpm/Kconfig     |   5 +
+>   backends/tpm/meson.build |   1 +
+>   backends/tpm/tpm_mssim.c | 266 +++++++++++++++++++++++++++++++++++++++
+>   backends/tpm/tpm_mssim.h |  43 +++++++
+>   monitor/hmp-cmds.c       |   6 +
+>   qapi/tpm.json            |  35 +++++-
+>   6 files changed, 353 insertions(+), 3 deletions(-)
+>   create mode 100644 backends/tpm/tpm_mssim.c
+>   create mode 100644 backends/tpm/tpm_mssim.h
 > 
->   include/hw/i386/apic.h          |  2 ++
->   include/hw/i386/apic_internal.h |  2 --
->   include/hw/rtc/mc146818rtc.h    |  1 +
->   hw/intc/apic_common.c           | 27 -----------------
->   hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
->   hw/rtc/mc146818rtc.c            | 25 +++++-----------
->   hw/intc/meson.build             |  6 +++-
->   hw/rtc/meson.build              |  3 +-
->   8 files changed, 69 insertions(+), 50 deletions(-)
->   create mode 100644 hw/intc/apic_irqcount.c
-> 
-> diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
-> index da1d2fe155..24069fb961 100644
-> --- a/include/hw/i386/apic.h
-> +++ b/include/hw/i386/apic.h
-> @@ -1,6 +1,7 @@
->   #ifndef APIC_H
->   #define APIC_H
->   
-> +#define TYPE_APIC_COMMON "apic-common"
-
-Ah sorry, I should have been more specific here: what I was suggesting was to move 
-the entire QOM type information into apic.h as per the normal convention, as opposed 
-to just the #define. At first glance that would involve lines 128-190 in 
-apic_internal.h which would also bring in APICCommonClass and APICCommonState - 
-possibly the change may warrant its own commit.
-
-On the plus side if nothing else is using TYPE_APIC_COMMON then it's likely that the 
-changes will be minimal, or that's the theory anyway...
-
->   /* apic.c */
->   void apic_deliver_irq(uint8_t dest, uint8_t dest_mode, uint8_t delivery_mode,
-> @@ -9,6 +10,7 @@ int apic_accept_pic_intr(DeviceState *s);
->   void apic_deliver_pic_intr(DeviceState *s, int level);
->   void apic_deliver_nmi(DeviceState *d);
->   int apic_get_interrupt(DeviceState *s);
-> +void apic_report_irq_delivered(int delivered);
->   void apic_reset_irq_delivered(void);
->   int apic_get_irq_delivered(void);
->   void cpu_set_apic_base(DeviceState *s, uint64_t val);
-> diff --git a/include/hw/i386/apic_internal.h b/include/hw/i386/apic_internal.h
-> index c175e7e718..ff018f1778 100644
-> --- a/include/hw/i386/apic_internal.h
-> +++ b/include/hw/i386/apic_internal.h
-> @@ -125,7 +125,6 @@
->   
->   typedef struct APICCommonState APICCommonState;
->   
-> -#define TYPE_APIC_COMMON "apic-common"
->   typedef struct APICCommonClass APICCommonClass;
->   DECLARE_OBJ_CHECKERS(APICCommonState, APICCommonClass,
->                        APIC_COMMON, TYPE_APIC_COMMON)
-> @@ -199,7 +198,6 @@ typedef struct VAPICState {
->   
->   extern bool apic_report_tpr_access;
->   
-> -void apic_report_irq_delivered(int delivered);
->   bool apic_next_timer(APICCommonState *s, int64_t current_time);
->   void apic_enable_tpr_access_reporting(DeviceState *d, bool enable);
->   void apic_enable_vapic(DeviceState *d, hwaddr paddr);
-> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-> index 1db0fcee92..45bcd6f040 100644
-> --- a/include/hw/rtc/mc146818rtc.h
-> +++ b/include/hw/rtc/mc146818rtc.h
-> @@ -55,5 +55,6 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
->                                qemu_irq intercept_irq);
->   void rtc_set_memory(ISADevice *dev, int addr, int val);
->   int rtc_get_memory(ISADevice *dev, int addr);
-> +void qmp_rtc_reset_reinjection(Error **errp);
->   
->   #endif /* HW_RTC_MC146818RTC_H */
-> diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-> index 2a20982066..b0f85f9384 100644
-> --- a/hw/intc/apic_common.c
-> +++ b/hw/intc/apic_common.c
-> @@ -33,7 +33,6 @@
->   #include "hw/sysbus.h"
->   #include "migration/vmstate.h"
->   
-> -static int apic_irq_delivered;
->   bool apic_report_tpr_access;
->   
->   void cpu_set_apic_base(DeviceState *dev, uint64_t val)
-> @@ -122,32 +121,6 @@ void apic_handle_tpr_access_report(DeviceState *dev, target_ulong ip,
->       vapic_report_tpr_access(s->vapic, CPU(s->cpu), ip, access);
->   }
->   
-> -void apic_report_irq_delivered(int delivered)
-> -{
-> -    apic_irq_delivered += delivered;
-> -
-> -    trace_apic_report_irq_delivered(apic_irq_delivered);
-> -}
-> -
-> -void apic_reset_irq_delivered(void)
-> -{
-> -    /* Copy this into a local variable to encourage gcc to emit a plain
-> -     * register for a sys/sdt.h marker.  For details on this workaround, see:
-> -     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
-> -     */
-> -    volatile int a_i_d = apic_irq_delivered;
-> -    trace_apic_reset_irq_delivered(a_i_d);
-> -
-> -    apic_irq_delivered = 0;
-> -}
-> -
-> -int apic_get_irq_delivered(void)
-> -{
-> -    trace_apic_get_irq_delivered(apic_irq_delivered);
-> -
-> -    return apic_irq_delivered;
-> -}
-> -
->   void apic_deliver_nmi(DeviceState *dev)
->   {
->       APICCommonState *s = APIC_COMMON(dev);
-> diff --git a/hw/intc/apic_irqcount.c b/hw/intc/apic_irqcount.c
+> diff --git a/backends/tpm/Kconfig b/backends/tpm/Kconfig
+> index 5d91eb89c2..d6d6fa53e9 100644
+> --- a/backends/tpm/Kconfig
+> +++ b/backends/tpm/Kconfig
+> @@ -12,3 +12,8 @@ config TPM_EMULATOR
+>       bool
+>       default y
+>       depends on TPM_BACKEND
+> +
+> +config TPM_MSSIM
+> +    bool
+> +    default y
+> +    depends on TPM_BACKEND
+> diff --git a/backends/tpm/meson.build b/backends/tpm/meson.build
+> index 7f2503f84e..c7c3c79125 100644
+> --- a/backends/tpm/meson.build
+> +++ b/backends/tpm/meson.build
+> @@ -3,4 +3,5 @@ if have_tpm
+>     softmmu_ss.add(files('tpm_util.c'))
+>     softmmu_ss.add(when: 'CONFIG_TPM_PASSTHROUGH', if_true: files('tpm_passthrough.c'))
+>     softmmu_ss.add(when: 'CONFIG_TPM_EMULATOR', if_true: files('tpm_emulator.c'))
+> +  softmmu_ss.add(when: 'CONFIG_TPM_MSSIM', if_true: files('tpm_mssim.c'))
+>   endif
+> diff --git a/backends/tpm/tpm_mssim.c b/backends/tpm/tpm_mssim.c
 > new file mode 100644
-> index 0000000000..0aadef1cb5
+> index 0000000000..6864b1fbc0
 > --- /dev/null
-> +++ b/hw/intc/apic_irqcount.c
-> @@ -0,0 +1,53 @@
+> +++ b/backends/tpm/tpm_mssim.c
+> @@ -0,0 +1,266 @@
 > +/*
-> + * APIC support - functions for counting the delivered IRQs.
-> + * (this code is in a separate file since it is used from the
-> + * mc146818rtc code on targets without APIC, too)
+> + * Emulator TPM driver which connects over the mssim protocol
+> + * SPDX-License-Identifier: GPL-2.0-or-later
 > + *
-> + *  Copyright (c) 2011      Jan Kiszka, Siemens AG
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>
+> + * Copyright (c) 2022
+> + * Author: James Bottomley <jejb@linux.ibm.com>
 > + */
 > +
 > +#include "qemu/osdep.h"
-> +#include "hw/i386/apic.h"
-> +#include "trace.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/sockets.h"
 > +
-> +static int apic_irq_delivered;
+> +#include "qapi/clone-visitor.h"
+> +#include "qapi/qapi-visit-tpm.h"
 > +
-> +void apic_report_irq_delivered(int delivered)
+> +#include "io/channel-socket.h"
+> +
+> +#include "sysemu/tpm_backend.h"
+> +#include "sysemu/tpm_util.h"
+> +
+> +#include "qom/object.h"
+> +
+> +#include "tpm_int.h"
+> +#include "tpm_mssim.h"
+> +
+> +#define ERROR_PREFIX "TPM mssim Emulator: "
+> +
+> +#define TYPE_TPM_MSSIM "tpm-mssim"
+> +OBJECT_DECLARE_SIMPLE_TYPE(TPMmssim, TPM_MSSIM)
+> +
+> +struct TPMmssim {
+> +    TPMBackend parent;
+> +
+> +    TPMmssimOptions opts;
+> +
+> +    QIOChannel *cmd_qc, *ctrl_qc;
+> +};
+> +
+> +static int tpm_send_ctrl(TPMmssim *t, uint32_t cmd, Error **errp)
 > +{
-> +    apic_irq_delivered += delivered;
+> +    int ret;
 > +
-> +    trace_apic_report_irq_delivered(apic_irq_delivered);
+> +    cmd = htonl(cmd);
+> +    ret = qio_channel_write_all(t->ctrl_qc, (char *)&cmd, sizeof(cmd), errp);
+> +    if (ret != 0)
+> +        return ret;
+> +    ret = qio_channel_read_all(t->ctrl_qc, (char *)&cmd, sizeof(cmd), errp);
+> +    if (ret != 0)
+> +        return ret;
+> +    if (cmd != 0) {
+> +        error_setg(errp, ERROR_PREFIX "Incorrect ACK recieved on control channel 0x%x\n", cmd);
+> +        return -1;
+> +    }
+> +    return 0;
 > +}
 > +
-> +void apic_reset_irq_delivered(void)
+> +static void tpm_mssim_instance_init(Object *obj)
 > +{
-> +    /*
-> +     * Copy this into a local variable to encourage gcc to emit a plain
-> +     * register for a sys/sdt.h marker.  For details on this workaround, see:
-> +     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
-> +     */
-> +    volatile int a_i_d = apic_irq_delivered;
-> +    trace_apic_reset_irq_delivered(a_i_d);
-> +
-> +    apic_irq_delivered = 0;
 > +}
 > +
-> +int apic_get_irq_delivered(void)
+> +static void tpm_mssim_instance_finalize(Object *obj)
 > +{
-> +    trace_apic_get_irq_delivered(apic_irq_delivered);
+> +    TPMmssim *t = TPM_MSSIM(obj);
 > +
-> +    return apic_irq_delivered;
+> +    tpm_send_ctrl(t, TPM_SIGNAL_POWER_OFF, NULL);
+> +
+> +    object_unref(OBJECT(t->ctrl_qc));
+> +    object_unref(OBJECT(t->cmd_qc));
 > +}
-> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-> index 1ebb412479..d524dc02c2 100644
-> --- a/hw/rtc/mc146818rtc.c
-> +++ b/hw/rtc/mc146818rtc.c
-> @@ -43,11 +43,7 @@
->   #include "qapi/qapi-events-misc.h"
->   #include "qapi/visitor.h"
->   #include "hw/rtc/mc146818rtc_regs.h"
-> -
-> -#ifdef TARGET_I386
-> -#include "qapi/qapi-commands-misc-target.h"
->   #include "hw/i386/apic.h"
-> -#endif
+> +
+> +static void tpm_mssim_cancel_cmd(TPMBackend *tb)
+> +{
+> +        return;
+> +}
+> +
+> +static TPMVersion tpm_mssim_get_version(TPMBackend *tb)
+> +{
+> +    return TPM_VERSION_2_0;
+> +}
+> +
+> +static size_t tpm_mssim_get_buffer_size(TPMBackend *tb)
+> +{
+> +    /* TCG standard profile max buffer size */
+> +    return 4096;
+> +}
+> +
+> +static TpmTypeOptions *tpm_mssim_get_opts(TPMBackend *tb)
+> +{
+> +    TPMmssim *t = TPM_MSSIM(tb);
+> +    TpmTypeOptions *opts = g_new0(TpmTypeOptions, 1);
+> +
+> +    opts->type = TPM_TYPE_MSSIM;
+> +    opts->u.mssim.data = QAPI_CLONE(TPMmssimOptions, &t->opts);
+> +
+> +    return opts;
+> +}
+> +
+> +static void tpm_mssim_handle_request(TPMBackend *tb, TPMBackendCmd *cmd,
+> +                                     Error **errp)
+> +{
+> +    TPMmssim *t = TPM_MSSIM(tb);
+> +    uint32_t header, len;
+> +    uint8_t locality = cmd->locty;
+> +    struct iovec iov[4];
+> +    int ret;
+> +
+> +    header = htonl(TPM_SEND_COMMAND);
+> +    len = htonl(cmd->in_len);
+> +
+> +    iov[0].iov_base = &header;
+> +    iov[0].iov_len = sizeof(header);
+> +    iov[1].iov_base = &locality;
+> +    iov[1].iov_len = sizeof(locality);
+> +    iov[2].iov_base = &len;
+> +    iov[2].iov_len = sizeof(len);
+> +    iov[3].iov_base = (void *)cmd->in;
+> +    iov[3].iov_len = cmd->in_len;
+> +
+> +    ret = qio_channel_writev_all(t->cmd_qc, iov, 4, errp);
+> +    if (ret != 0)
+> +        goto fail;
+> +
+> +    ret = qio_channel_read_all(t->cmd_qc, (char *)&len, sizeof(len), errp);
+> +    if (ret != 0)
+> +        goto fail;
+> +    len = ntohl(len);
+> +    if (len > cmd->out_len) {
+> +        error_setg(errp, "receive size is too large");
+> +        goto fail;
+> +    }
+> +    ret = qio_channel_read_all(t->cmd_qc, (char *)cmd->out, len, errp);
+> +    if (ret != 0)
+> +        goto fail;
+> +    /* ACK packet */
+> +    ret = qio_channel_read_all(t->cmd_qc, (char *)&header, sizeof(header), errp);
+> +    if (ret != 0)
+> +        goto fail;
+> +    if (header != 0) {
+> +        error_setg(errp, "incorrect ACK received on command channel 0x%x", len);
+> +        goto fail;
+> +    }
+> +
+> +    return;
+> +
+> + fail:
+> +    error_prepend(errp, ERROR_PREFIX);
+> +    tpm_util_write_fatal_error_response(cmd->out, cmd->out_len);
+> +}
+> +
+> +static TPMBackend *tpm_mssim_create(QemuOpts *opts)
+> +{
+> +    TPMBackend *be = TPM_BACKEND(object_new(TYPE_TPM_MSSIM));
+> +    TPMmssim *t = TPM_MSSIM(be);
+> +    InetSocketAddress cmd_s, ctl_s;
+> +    int sock;
+> +    const char *host, *port, *ctrl;
+> +    Error *errp = NULL;
+> +
+> +    host = qemu_opt_get(opts, "host");
+> +    if (!host)
+> +        host = "localhost";
+> +    t->opts.host = g_strdup(host);
+> +
+> +    port = qemu_opt_get(opts, "port");
+> +    if (!port)
+> +        port = "2321";
+> +    t->opts.port = g_strdup(port);
+> +
+> +    ctrl = qemu_opt_get(opts, "ctrl");
+> +    if (!ctrl)
+> +        ctrl = "2322";
+> +    t->opts.ctrl = g_strdup(ctrl);
+> +
+> +    cmd_s.host = (char *)host;
+> +    cmd_s.port = (char *)port;
+> +
+> +    ctl_s.host = (char *)host;
+> +    ctl_s.port = (char *)ctrl;
+> +
+> +    sock = inet_connect_saddr(&cmd_s, &errp);
+> +    if (sock < 0)
+> +        goto fail;
+> +    t->cmd_qc = QIO_CHANNEL(qio_channel_socket_new_fd(sock, &errp));
+> +    if (errp)
+> +        goto fail;
+> +    sock = inet_connect_saddr(&ctl_s, &errp);
+> +    if (sock < 0)
+> +        goto fail_unref_cmd;
+> +    t->ctrl_qc = QIO_CHANNEL(qio_channel_socket_new_fd(sock, &errp));
+> +    if (errp)
+> +        goto fail_unref_cmd;
+> +
+> +    /* reset the TPM using a power cycle sequence, in case someone
+> +     * has previously powered it up */
+> +    sock = tpm_send_ctrl(t, TPM_SIGNAL_POWER_OFF, &errp);
+> +    if (sock != 0)
+> +        goto fail_unref;
+> +    sock = tpm_send_ctrl(t, TPM_SIGNAL_POWER_ON, &errp);
+> +    if (sock != 0)
+> +        goto fail_unref;
+> +    sock = tpm_send_ctrl(t, TPM_SIGNAL_NV_ON, &errp);
+> +    if (sock != 0)
+> +        goto fail_unref;
+> +
+> +    return be;
+> + fail_unref:
+> +    object_unref(OBJECT(t->ctrl_qc));
+> + fail_unref_cmd:
+> +    object_unref(OBJECT(t->cmd_qc));
+> + fail:
+> +    error_prepend(&errp, ERROR_PREFIX);
+> +    error_report_err(errp);
+> +    object_unref(OBJECT(be));
+> +
+> +    return NULL;
+> +}
+> +
+> +static const QemuOptDesc tpm_mssim_cmdline_opts[] = {
+> +    TPM_STANDARD_CMDLINE_OPTS,
+> +    {
+> +        .name = "host",
+> +        .type = QEMU_OPT_STRING,
+> +        .help = "name or IP address of host to connect to (deault localhost)",
+> +    },
+> +    {
+> +        .name = "port",
+> +        .type = QEMU_OPT_STRING,
+> +        .help = "port number for standard TPM commands (default 2321)",
+> +    },
+> +    {
+> +        .name = "ctrl",
+> +        .type = QEMU_OPT_STRING,
+> +        .help = "control port for TPM commands (default 2322)",
+> +    },
+> +};
+> +
+> +static void tpm_mssim_class_init(ObjectClass *klass, void *data)
+> +{
+> +    TPMBackendClass *cl = TPM_BACKEND_CLASS(klass);
+> +
+> +    cl->type = TPM_TYPE_MSSIM;
+> +    cl->opts = tpm_mssim_cmdline_opts;
+> +    cl->desc = "TPM mssim emulator backend driver";
+> +    cl->create = tpm_mssim_create;
+> +    cl->cancel_cmd = tpm_mssim_cancel_cmd;
+> +    cl->get_tpm_version = tpm_mssim_get_version;
+> +    cl->get_buffer_size = tpm_mssim_get_buffer_size;
+> +    cl->get_tpm_options = tpm_mssim_get_opts;
+> +    cl->handle_request = tpm_mssim_handle_request;
+> +}
+> +
+> +static const TypeInfo tpm_mssim_info = {
+> +    .name = TYPE_TPM_MSSIM,
+> +    .parent = TYPE_TPM_BACKEND,
+> +    .instance_size = sizeof(TPMmssim),
+> +    .class_init = tpm_mssim_class_init,
+> +    .instance_init = tpm_mssim_instance_init,
+> +    .instance_finalize = tpm_mssim_instance_finalize,
+> +};
+> +
+> +static void tpm_mssim_register(void)
+> +{
+> +    type_register_static(&tpm_mssim_info);
+> +}
+> +
+> +type_init(tpm_mssim_register)
+> diff --git a/backends/tpm/tpm_mssim.h b/backends/tpm/tpm_mssim.h
+> new file mode 100644
+> index 0000000000..04a270338a
+> --- /dev/null
+> +++ b/backends/tpm/tpm_mssim.h
+> @@ -0,0 +1,43 @@
+> +/*
+> + * SPDX-License-Identifier: BSD-2-Clause
+> + *
+> + * The code below is copied from the Microsoft/TCG Reference implementation
+> + *
+> + *  https://github.com/Microsoft/ms-tpm-20-ref.git
+> + *
+> + * In file TPMCmd/Simulator/include/TpmTcpProtocol.h
+> + */
+> +
+> +#define TPM_SIGNAL_POWER_ON         1
+> +#define TPM_SIGNAL_POWER_OFF        2
+> +#define TPM_SIGNAL_PHYS_PRES_ON     3
+> +#define TPM_SIGNAL_PHYS_PRES_OFF    4
+> +#define TPM_SIGNAL_HASH_START       5
+> +#define TPM_SIGNAL_HASH_DATA        6
+> +        // {uint32_t BufferSize, uint8_t[BufferSize] Buffer}
+> +#define TPM_SIGNAL_HASH_END         7
+> +#define TPM_SEND_COMMAND            8
+> +        // {uint8_t Locality, uint32_t InBufferSize, uint8_t[InBufferSize] InBuffer} ->
+> +        //     {uint32_t OutBufferSize, uint8_t[OutBufferSize] OutBuffer}
+> +
+> +#define TPM_SIGNAL_CANCEL_ON        9
+> +#define TPM_SIGNAL_CANCEL_OFF       10
+> +#define TPM_SIGNAL_NV_ON            11
+> +#define TPM_SIGNAL_NV_OFF           12
+> +#define TPM_SIGNAL_KEY_CACHE_ON     13
+> +#define TPM_SIGNAL_KEY_CACHE_OFF    14
+> +
+> +#define TPM_REMOTE_HANDSHAKE        15
+> +#define TPM_SET_ALTERNATIVE_RESULT  16
+> +
+> +#define TPM_SIGNAL_RESET            17
+> +#define TPM_SIGNAL_RESTART          18
+> +
+> +#define TPM_SESSION_END             20
+> +#define TPM_STOP                    21
+> +
+> +#define TPM_GET_COMMAND_RESPONSE_SIZES  25
+> +
+> +#define TPM_ACT_GET_SIGNALED        26
+> +
+> +#define TPM_TEST_FAILURE_MODE       30
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 01b789a79e..f4cd030eab 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -841,6 +841,7 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
+>       unsigned int c = 0;
+>       TPMPassthroughOptions *tpo;
+>       TPMEmulatorOptions *teo;
+> +    TPMmssimOptions *tmo;
 >   
->   //#define DEBUG_CMOS
->   //#define DEBUG_COALESCED
-> @@ -112,7 +108,6 @@ static void rtc_coalesced_timer_update(RTCState *s)
->   static QLIST_HEAD(, RTCState) rtc_devices =
->       QLIST_HEAD_INITIALIZER(rtc_devices);
->   
-> -#ifdef TARGET_I386
->   void qmp_rtc_reset_reinjection(Error **errp)
->   {
->       RTCState *s;
-> @@ -145,13 +140,6 @@ static void rtc_coalesced_timer(void *opaque)
->   
->       rtc_coalesced_timer_update(s);
->   }
-> -#else
-> -static bool rtc_policy_slew_deliver_irq(RTCState *s)
-> -{
-> -    assert(0);
-> -    return false;
-> -}
-> -#endif
->   
->   static uint32_t rtc_periodic_clock_ticks(RTCState *s)
->   {
-> @@ -922,14 +910,15 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
->       rtc_set_date_from_host(isadev);
->   
->       switch (s->lost_tick_policy) {
-> -#ifdef TARGET_I386
-> -    case LOST_TICK_POLICY_SLEW:
-> -        s->coalesced_timer =
-> -            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
-> -        break;
-> -#endif
->       case LOST_TICK_POLICY_DISCARD:
->           break;
-> +    case LOST_TICK_POLICY_SLEW:
-> +        /* Slew tick policy is only available if the machine has an APIC */
-> +        if (object_resolve_path_type("", TYPE_APIC_COMMON, NULL) != NULL) {
-> +            s->coalesced_timer = timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+>       info_list = qmp_query_tpm(&err);
+>       if (err) {
+> @@ -874,6 +875,11 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
+>               teo = ti->options->u.emulator.data;
+>               monitor_printf(mon, ",chardev=%s", teo->chardev);
+>               break;
+> +        case TPM_TYPE_MSSIM:
+> +            tmo = ti->options->u.mssim.data;
+> +            monitor_printf(mon, ",host=%s,port=%s,ctl=%s", tmo->host,
+> +                           tmo->port, tmo->host);
 > +            break;
-> +        }
-> +        /* fallthrough */
->       default:
->           error_setg(errp, "Invalid lost tick policy.");
->           return;
-> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-> index bcbf22ff51..036ad1936b 100644
-> --- a/hw/intc/meson.build
-> +++ b/hw/intc/meson.build
-> @@ -25,8 +25,12 @@ softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_intc.c'))
->   softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-ipi.c'))
->   softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-pmu-iomod-intc.c'))
+>           case TPM_TYPE__MAX:
+>               break;
+>           }
+> diff --git a/qapi/tpm.json b/qapi/tpm.json
+> index 4e2ea9756a..d92065043e 100644
+> --- a/qapi/tpm.json
+> +++ b/qapi/tpm.json
+> @@ -49,7 +49,7 @@
+>   #
+>   # Since: 1.5
+>   ##
+> -{ 'enum': 'TpmType', 'data': [ 'passthrough', 'emulator' ],
+> +{ 'enum': 'TpmType', 'data': [ 'passthrough', 'emulator', 'mssim' ],
+>     'if': 'CONFIG_TPM' }
 >   
-> -specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
-> +if config_all_devices.has_key('CONFIG_APIC') or config_all_devices.has_key('CONFIG_MC146818RTC')
-> +    softmmu_ss.add(files('apic_irqcount.c'))
-> +endif
->   specific_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c', 'apic_common.c'))
+>   ##
+> @@ -64,7 +64,7 @@
+>   # Example:
+>   #
+>   # -> { "execute": "query-tpm-types" }
+> -# <- { "return": [ "passthrough", "emulator" ] }
+> +# <- { "return": [ "passthrough", "emulator", "mssim" ] }
+>   #
+>   ##
+>   { 'command': 'query-tpm-types', 'returns': ['TpmType'],
+> @@ -99,6 +99,24 @@
+>   { 'struct': 'TPMEmulatorOptions', 'data': { 'chardev' : 'str' },
+>     'if': 'CONFIG_TPM' }
+>   
+> +##
+> +# @TPMmssimOptions:
+> +#
+> +# Information for the mssim emulator connection
+> +#
+> +# @host: host name or IP address to connect to
+> +# @port: port for the standard TPM commands
+> +# @ctrl: control port for TPM state changes
+> +#
+> +# Since: 7.2.0
+> +##
+> +{ 'struct': 'TPMmssimOptions',
+> +  'data': {
+> +      'host': 'str',
+> +      'port': 'str',
+> +      'ctrl': 'str' },
+> +  'if': 'CONFIG_TPM' }
 > +
-> +specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
->   specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif_common.c'))
->   specific_ss.add(when: 'CONFIG_ARM_GICV3_TCG', if_true: files('arm_gicv3_cpuif.c'))
->   specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
-> diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
-> index dc33973384..34a4d316fa 100644
-> --- a/hw/rtc/meson.build
-> +++ b/hw/rtc/meson.build
-> @@ -13,5 +13,4 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
->   softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
->   softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
->   softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
-> -
-> -specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-> +softmmu_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-
-
-ATB,
-
-Mark.
+>   ##
+>   # @TPMPassthroughOptionsWrapper:
+>   #
+> @@ -117,6 +135,15 @@
+>     'data': { 'data': 'TPMEmulatorOptions' },
+>     'if': 'CONFIG_TPM' }
+>   
+> +##
+> +# @TPMmssimOptionsWrapper:
+> +#
+> +# Since: 7.2.0
+> +##
+> +{ 'struct': 'TPMmssimOptionsWrapper',
+> +  'data' : { 'data': 'TPMmssimOptions' },
+> +  'if': 'CONFIG_TPM' }
+> +
+>   ##
+>   # @TpmTypeOptions:
+>   #
+> @@ -124,6 +151,7 @@
+>   #
+>   # @type: - 'passthrough' The configuration options for the TPM passthrough type
+>   #        - 'emulator' The configuration options for TPM emulator backend type
+> +#        - 'mssim' The configuration options for TPM emulator mssim type
+>   #
+>   # Since: 1.5
+>   ##
+> @@ -131,7 +159,8 @@
+>     'base': { 'type': 'TpmType' },
+>     'discriminator': 'type',
+>     'data': { 'passthrough' : 'TPMPassthroughOptionsWrapper',
+> -            'emulator': 'TPMEmulatorOptionsWrapper' },
+> +            'emulator': 'TPMEmulatorOptionsWrapper',
+> +            'mssim': 'TPMmssimOptionsWrapper' },
+>     'if': 'CONFIG_TPM' }
+>   
+>   ##
 
