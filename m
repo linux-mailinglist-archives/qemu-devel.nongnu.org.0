@@ -2,103 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0495364A3EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 16:05:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F131364A3FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 16:18:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4kLu-0007lc-21; Mon, 12 Dec 2022 10:04:22 -0500
+	id 1p4kYT-00068q-Jg; Mon, 12 Dec 2022 10:17:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1p4kLW-0007bs-En; Mon, 12 Dec 2022 10:03:59 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1p4kLS-0002vl-I5; Mon, 12 Dec 2022 10:03:58 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BCEGncW040624; Mon, 12 Dec 2022 15:03:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=YKePmJ8wFE4JFWXTQ4BDCk8B2zp7i+kTLiohRMNb0Fw=;
- b=LV+cRSyjKgkBmG1sjXuhyDwuUHqDNHwX75pU57FwcwFpAfKmGVqPFV9S/g1e4v2HfvZo
- A7vBj1wdQAimi2n7vEWH6f6NAkhKPhzHbAYVDUUuIgsCGDY2XcNAUiQIfgFlPu9bkIhC
- f+QOpVscGyTK1xRYqQXJ+2qsDWXwBs3M4M1n49IxwdKg2ALyvUwyIx8xjQPvkQEBarCv
- P9rLZ8c8y/U3ZRk+aYjfrXk0YGcAtY7q0DN4e7hWD5wlYOc9NfPkK2/Lm2aE/2EiLWx9
- gs1hleS5z/jFwDK66d2C7yrdkLnmnP40xOfsYHWX/0ySO82B9j02ml5hZUXyD8ettBbv Ig== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3me5x399bx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 15:03:49 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BCEGnRf040646;
- Mon, 12 Dec 2022 15:03:48 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3me5x399bb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 15:03:48 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BCEgSZn004323;
- Mon, 12 Dec 2022 15:03:47 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([9.208.130.99])
- by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3mchr6dnqm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Dec 2022 15:03:47 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
- [10.39.53.230])
- by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BCF3jHn30998914
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Dec 2022 15:03:46 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CAFEF5805C;
- Mon, 12 Dec 2022 15:03:45 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 86CA358058;
- Mon, 12 Dec 2022 15:03:44 +0000 (GMT)
-Received: from li-479af74c-31f9-11b2-a85c-e4ddee11713b.ibm.com (unknown
- [9.60.89.68]) by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 12 Dec 2022 15:03:44 +0000 (GMT)
-Message-ID: <5286577c87bed5509a08ea658ec5aa7dc062c5c5.camel@linux.ibm.com>
-Subject: Re: [PATCH] s390x/pci: reset ISM passthrough devices on shutdown
- and system reset
-From: Eric Farman <farman@linux.ibm.com>
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: pmorel@linux.ibm.com, schnelle@linux.ibm.com, thuth@redhat.com,
- pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, iii@linux.ibm.com,
- qemu-devel@nongnu.org
-Date: Mon, 12 Dec 2022 10:03:44 -0500
-In-Reply-To: <20221209195700.263824-1-mjrosato@linux.ibm.com>
-References: <20221209195700.263824-1-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p4kYJ-00067R-Jb
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:17:11 -0500
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1p4kYH-0003DU-OD
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 10:17:11 -0500
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-1433ef3b61fso8696034fac.10
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 07:17:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=cINKPtgt2p2sS7Bsd5DDbc2XXSyc8hSOkUAE981tAv4=;
+ b=g6R3xnTgtyV94FxHt6X7+/N5BIloSAdvmJ8k/oBqneNJjx6qyej4QASrTYhuQuGDoN
+ 50G4zNdDVGnYDC11BnbPFaRfinE33iY1kGX8Umkn9ycT5R0Cv6Vx9TK03EBMgBuqVMfJ
+ KSu5bHy0xRl7rKfUt/6tNgNpAzyb4RKxWOhQHsGZMNNKIVTGYVnP8ySwj91OX3EQwC73
+ MgrSl1VNTUauzlaLe9wddBdMfiI0Uf3P3yoPAW1YjYDJZRF7dIsYHAwkW+E+OlsU81Dw
+ BbaVJOHe+Hy+BSJR+FCJPMcePew0pX8fv/f3p9n8PWgX6uPlodjqe9FJkZ7TkmB76dF3
+ Pb/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cINKPtgt2p2sS7Bsd5DDbc2XXSyc8hSOkUAE981tAv4=;
+ b=5DD1x++v5PMLZHby32aW5uVQS9L7aJoMnPZp0aC9Yqiu7ZjkGgG8pSfD119xMcxWqA
+ uhsAaylYdHCHMbIvLd1hB8s2OHm3bkCV5PkaVLYBT97Hhv4A2gX4ZZhdt2AI1rE5Ic6B
+ duYBaFkwdb0cgViVPLN8WdUzIknE5AtnluQfYJ6Cgh4v8CbganwysX3RFOdDHI83k9ZP
+ g5rH1f+mKFzAm11CwexW05Y1Md6/WkreMfWbJTZuhlGnuTUbKHJQoNK83HoLRkMj2rHk
+ L0WucU0qgu5dORpCFQba2CS9pRs0CFgMpXr0ohki6vLWsaoc+nW+J8JXOeVl8Z98yBV1
+ p0qQ==
+X-Gm-Message-State: ANoB5pmjOPCU02YAnPibVTa3/oKQjzM/ef/kLfoNA00vyNJf1LtfH8ua
+ o0/gZX+xcLYWjDaK4dLuIRw=
+X-Google-Smtp-Source: AA0mqf6k2oSyiJOFYcmUh133EYLV4CiqggXebiqpQprzr6DI1//r/dhDpoLdTde19SYPGm9Rc2B8bg==
+X-Received: by 2002:a05:6871:4197:b0:144:c008:f517 with SMTP id
+ lc23-20020a056871419700b00144c008f517mr8737919oab.31.1670858228364; 
+ Mon, 12 Dec 2022 07:17:08 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ kw32-20020a056870ac2000b0013b911d5960sm5048785oab.49.2022.12.12.07.17.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 07:17:08 -0800 (PST)
+Message-ID: <82be0c6e-3c5e-7ba8-c49f-9c709f161ee8@roeck-us.net>
+Date: Mon, 12 Dec 2022 07:17:06 -0800
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: rloNJRsT8yd2GSTPay4etnOEUfN9uRZo
-X-Proofpoint-GUID: wWeRiDMRWoZEktiuPyyeq4EqHcWojLep
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-12_02,2022-12-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- impostorscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 spamscore=0
- mlxlogscore=999 phishscore=0 clxscore=1011 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212120138
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2] target/sh4: Fix TB_FLAG_UNALIGN
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp, balaton@eik.bme.hu
+References: <20220901101509.145758-1-richard.henderson@linaro.org>
+ <20221210152744.GA2275483@roeck-us.net>
+ <20221212011345.GA2235238@roeck-us.net>
+ <375e840f-a823-b1e8-3d3c-3b1b4298188e@linaro.org>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <375e840f-a823-b1e8-3d3c-3b1b4298188e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=groeck7@gmail.com; helo=mail-oa1-x36.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,164 +98,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 2022-12-09 at 14:57 -0500, Matthew Rosato wrote:
-> ISM device firmware stores unique state information that can
-> can cause a wholesale unmap of the associated IOMMU (e.g. when
-> we get a termination signal for QEMU) to trigger firmware errors
-> because firmware believes we are attempting to invalidate entries
-> that are still in-use by the guest OS (when in fact that guest is
-> in the process of being terminated or rebooted).
-> To alleviate this, register both a shutdown notifier (for unexpected
-> termination cases e.g. virsh destroy) as well as a reset callback
-> (for cases like guest OS reboot).=C2=A0 For each of these scenarios,
-> trigger
-> PCI device reset; this is enough to indicate to firmware that the
-> IOMMU
-> is no longer in-use by the guest OS, making it safe to invalidate any
-> associated IOMMU entries.
->=20
-> Fixes: 15d0e7942d3b ("s390x/pci: don't fence interpreted devices
-> without MSI-X")
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+On 12/12/22 06:30, Richard Henderson wrote:
+> On 12/11/22 19:13, Guenter Roeck wrote:
+>> On Sat, Dec 10, 2022 at 07:27:46AM -0800, Guenter Roeck wrote:
+>>> Hi,
+>>>
+>>> On Thu, Sep 01, 2022 at 11:15:09AM +0100, Richard Henderson wrote:
+>>>> The value previously chosen overlaps GUSA_MASK.
+>>>>
+>>>> Rename all DELAY_SLOT_* and GUSA_* defines to emphasize
+>>>> that they are included in TB_FLAGs.  Add aliases for the
+>>>> FPSCR and SR bits that are included in TB_FLAGS, so that
+>>>> we don't accidentally reassign those bits.
+>>>>
+>>>> Fixes: 4da06fb3062 ("target/sh4: Implement prctl_unalign_sigbus")
+>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/856
+>>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>>
+>>> I noticed that my sh4 emulations crash randomly with qemu v7.2-rc4.
+>>> This happens with all Linux kernel versions. Testing shows that this
+>>> patch is responsible. Reverting it fixes the problem.
+>>>
+>>
+>> The patch below fixes the problem for me.
+> 
+> Thanks for the investigation.
+> 
+> 
+>> +++ b/target/sh4/cpu.c
+>> @@ -47,7 +47,7 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
+>>       SuperHCPU *cpu = SUPERH_CPU(cs);
+>>       cpu->env.pc = tb_pc(tb);
+>> -    cpu->env.flags = tb->flags;
+>> +    cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
+> 
+> Only this hunk should be necessary.
+> 
 
-I realize Thomas already queued this, but for the record:
+I'll give it a try.
 
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
-
-> ---
-> =C2=A0hw/s390x/s390-pci-bus.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 28 ++++++++++++++++++++++++++++
-> =C2=A0hw/s390x/s390-pci-vfio.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 2 ++
-> =C2=A0include/hw/s390x/s390-pci-bus.h |=C2=A0 5 +++++
-> =C2=A03 files changed, 35 insertions(+)
->=20
-> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-> index 977e7daa15..02751f3597 100644
-> --- a/hw/s390x/s390-pci-bus.c
-> +++ b/hw/s390x/s390-pci-bus.c
-> @@ -24,6 +24,8 @@
-> =C2=A0#include "hw/pci/msi.h"
-> =C2=A0#include "qemu/error-report.h"
-> =C2=A0#include "qemu/module.h"
-> +#include "sysemu/reset.h"
-> +#include "sysemu/runstate.h"
-> =C2=A0
-> =C2=A0#ifndef DEBUG_S390PCI_BUS
-> =C2=A0#define DEBUG_S390PCI_BUS=C2=A0 0
-> @@ -150,10 +152,30 @@ out:
-> =C2=A0=C2=A0=C2=A0=C2=A0 psccb->header.response_code =3D cpu_to_be16(rc);
-> =C2=A0}
-> =C2=A0
-> +static void s390_pci_shutdown_notifier(Notifier *n, void *opaque)
-> +{
-> +=C2=A0=C2=A0=C2=A0 S390PCIBusDevice *pbdev =3D container_of(n, S390PCIBu=
-sDevice,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 shutdown_notifier);
-> +
-> +=C2=A0=C2=A0=C2=A0 pci_device_reset(pbdev->pdev);
-> +}
-> +
-> +static void s390_pci_reset_cb(void *opaque)
-> +{
-> +=C2=A0=C2=A0=C2=A0 S390PCIBusDevice *pbdev =3D opaque;
-> +
-> +=C2=A0=C2=A0=C2=A0 pci_device_reset(pbdev->pdev);
-> +}
-> +
-> =C2=A0static void s390_pci_perform_unplug(S390PCIBusDevice *pbdev)
-> =C2=A0{
-> =C2=A0=C2=A0=C2=A0=C2=A0 HotplugHandler *hotplug_ctrl;
-> =C2=A0
-> +=C2=A0=C2=A0=C2=A0 if (pbdev->pft =3D=3D ZPCI_PFT_ISM) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 notifier_remove(&pbdev->shutd=
-own_notifier);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_unregister_reset(s390_pc=
-i_reset_cb, pbdev);
-> +=C2=A0=C2=A0=C2=A0 }
-> +
-> =C2=A0=C2=A0=C2=A0=C2=A0 /* Unplug the PCI device */
-> =C2=A0=C2=A0=C2=A0=C2=A0 if (pbdev->pdev) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DeviceState *pdev =3D DE=
-VICE(pbdev->pdev);
-> @@ -1111,6 +1133,12 @@ static void s390_pcihost_plug(HotplugHandler
-> *hotplug_dev, DeviceState *dev,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 pbdev->fh |=3D FH_SHM_VFIO;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 pbdev->forwarding_assist =3D false;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-}
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Re=
-gister shutdown notifier and reset callback for ISM
-> devices */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (p=
-bdev->pft =3D=3D ZPCI_PFT_ISM) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 pbdev->shutdown_notifier.notify =3D
-> s390_pci_shutdown_notifier;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 qemu_register_shutdown_notifier(&pbdev-
-> >shutdown_notifier);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 qemu_register_reset(s390_pci_reset_cb, pbdev);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-pbdev->fh |=3D FH_SHM_EMUL;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-/* Always intercept emulated devices */
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index 5f0adb0b4a..419763f829 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -122,6 +122,8 @@ static void s390_pci_read_base(S390PCIBusDevice
-> *pbdev,
-> =C2=A0=C2=A0=C2=A0=C2=A0 /* The following values remain 0 until we suppor=
-t other FMB
-> formats */
-> =C2=A0=C2=A0=C2=A0=C2=A0 pbdev->zpci_fn.fmbl =3D 0;
-> =C2=A0=C2=A0=C2=A0=C2=A0 pbdev->zpci_fn.pft =3D 0;
-> +=C2=A0=C2=A0=C2=A0 /* Store function type separately for type-specific b=
-ehavior */
-> +=C2=A0=C2=A0=C2=A0 pbdev->pft =3D cap->pft;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static bool get_host_fh(S390PCIBusDevice *pbdev, struct
-> vfio_device_info *info,
-> diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-
-> pci-bus.h
-> index 0605fcea24..4c812c65db 100644
-> --- a/include/hw/s390x/s390-pci-bus.h
-> +++ b/include/hw/s390x/s390-pci-bus.h
-> @@ -39,6 +39,9 @@
-> =C2=A0#define UID_CHECKING_ENABLED 0x01
-> =C2=A0#define ZPCI_DTSM 0x40
-> =C2=A0
-> +/* zPCI Function Types */
-> +#define ZPCI_PFT_ISM 5
-> +
-> =C2=A0OBJECT_DECLARE_SIMPLE_TYPE(S390pciState, S390_PCI_HOST_BRIDGE)
-> =C2=A0OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBus, S390_PCI_BUS)
-> =C2=A0OBJECT_DECLARE_SIMPLE_TYPE(S390PCIBusDevice, S390_PCI_DEVICE)
-> @@ -343,6 +346,7 @@ struct S390PCIBusDevice {
-> =C2=A0=C2=A0=C2=A0=C2=A0 uint16_t noi;
-> =C2=A0=C2=A0=C2=A0=C2=A0 uint16_t maxstbl;
-> =C2=A0=C2=A0=C2=A0=C2=A0 uint8_t sum;
-> +=C2=A0=C2=A0=C2=A0 uint8_t pft;
-> =C2=A0=C2=A0=C2=A0=C2=A0 S390PCIGroup *pci_group;
-> =C2=A0=C2=A0=C2=A0=C2=A0 ClpRspQueryPci zpci_fn;
-> =C2=A0=C2=A0=C2=A0=C2=A0 S390MsixInfo msix;
-> @@ -351,6 +355,7 @@ struct S390PCIBusDevice {
-> =C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion msix_notify_mr;
-> =C2=A0=C2=A0=C2=A0=C2=A0 IndAddr *summary_ind;
-> =C2=A0=C2=A0=C2=A0=C2=A0 IndAddr *indicator;
-> +=C2=A0=C2=A0=C2=A0 Notifier shutdown_notifier;
-> =C2=A0=C2=A0=C2=A0=C2=A0 bool pci_unplug_request_processed;
-> =C2=A0=C2=A0=C2=A0=C2=A0 bool unplug_requested;
-> =C2=A0=C2=A0=C2=A0=C2=A0 bool interp;
+Thanks,
+Guenter
 
 
