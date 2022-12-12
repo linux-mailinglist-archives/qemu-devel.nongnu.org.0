@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A86649B61
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C736649B62
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 10:42:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4fIU-0000yu-7y; Mon, 12 Dec 2022 04:40:30 -0500
+	id 1p4fJf-0001ZJ-4s; Mon, 12 Dec 2022 04:41:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4fIB-0000yZ-9p
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:40:11 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4fJd-0001Yx-5G
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:41:41 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4fI5-00073p-T4
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:40:11 -0500
-Received: by mail-wr1-x434.google.com with SMTP id m14so11423030wrh.7
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:40:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4fJb-0007Ss-A6
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 04:41:40 -0500
+Received: by mail-wr1-x429.google.com with SMTP id q7so11433194wrr.8
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 01:41:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/ZFe0mAjkEr7c5fF+DPqUNeB5pvwSAEiE/xZMEkAoqI=;
- b=q7lRFGeoiURYEtg5PrEEMqSsnA4GARNA5+3bD2TgBlr90qi8GY5BwRuyMquhatEiXa
- RZLLSHgFz790JgaaJqE7YFRngLHPwMdRR+7OGRia6M16h5CE17CP8BlGp/VtRt37HHF8
- XJb+hfANd8cTDNXsFOdijY+OYUlU6NuwIPBTCbu2QvQ8X29e2qdwALQIpItTPMLeg8Sg
- Joz+pETF3yX+8jUeDWXr6QwwaN9kFeZUVrHmoYh6v0P4we86os/pkjPwlIA0NJm7noZv
- x23YJi7yDyt01MIeEMueSMctqUgjU/oGJAms+BG6DP7Id+waxeblbfaM1JTLyjiOc3C7
- TSMw==
+ bh=5Qsewi+DCF7zklyg/Jsvv7vPTfaqMDt0yPiH+bSo6XE=;
+ b=ZXREA+7MNPpAsxrqK8MT+AzAc6mNu9BsFHTPAvam0zlP+DY1xJxj5nfIVHR3C3uFXB
+ 12GRDUK6bDwD4muAp77wz/kzCyVoGGemb+gx66Jdy2c114r4B5fNFbI94rIjKep43EMr
+ leYFTFdPoOq54r4v1d28/cQIw0C9/zkYDw4xy6/Ak6fPWklUwLPZJ2DmTYDhpu4nxmSO
+ toQ2nl79uurd9r5JcyX4z6WIBvfZDpmELMMax45ZgMEYlJkoCi6MkhK+e5Z31cjGN4dQ
+ FJdcaxwolHsjqAqeUMNUQYg/ojESekRrswOpKh56HnSKVFLx2gth2sAZk97JvHWXGMlW
+ /KLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/ZFe0mAjkEr7c5fF+DPqUNeB5pvwSAEiE/xZMEkAoqI=;
- b=PmwaMIdMGVwzcPKQf5ATG4cmgaE2k2CkntjOKCVdwz+RuhymXWn8KYR1umdF1Tmdyy
- bMUfEvv8qyRFLyR4AmauWVSXvL8/llYN1fqSb0+b5puFSUsEio5ZIoYgRLherJBa3MMt
- D/IkZe6pT1enD7oy5cxCuLM85Pu8oguyMehfiGpky42Np0aKc3Tyj3kUcQW4gFhq9BuU
- nsRd+r8YgqkoO0W0XXeMMyDnHJIEk79AeMX6EU1qe1OHhfJ3B9cNqlVQP+sqhK5Lltsu
- sgCxOP/YV5XfkQ3+xs+RKAyhKQpLucPvWef/EvK9g7xFNAJ093PTVL7cjkBEwsHkKSb/
- ts1Q==
-X-Gm-Message-State: ANoB5pk+FX3eutw8RJIg0cZjhVdlneixZExqk1SMsCM29xv4n5SGBJ2E
- wOdFensXaE8YsqbXLi1vQt6xNg==
-X-Google-Smtp-Source: AA0mqf5bPYESP7dNSA9hBwfVU9rDdyRDmAgFjT9UtLNzCFsRsGB2yuxqD23D+Y57xpjB8afnvwe0Wg==
-X-Received: by 2002:adf:b64f:0:b0:242:6a47:1ad5 with SMTP id
- i15-20020adfb64f000000b002426a471ad5mr9866835wre.58.1670838004204; 
- Mon, 12 Dec 2022 01:40:04 -0800 (PST)
+ bh=5Qsewi+DCF7zklyg/Jsvv7vPTfaqMDt0yPiH+bSo6XE=;
+ b=PeDUpyr228fT/blM6x+nwOuj8+Cu3fhcB0IvOHsQA6CJDaBjq6l4FxBpqhMqas9P3u
+ mT7UGwHCKCO2iOynYTh56L9jphOcLWOdlrROONQ/dLYyN08Kgy6P0KhW1W2vdWYZzwd+
+ Pj6Hwwh5Ba7sm9/OsENKZBcuuRw390rKqTE9qdRwh14hx749WuBqn8NUEVhnxiQ7Sb2X
+ IfVi8dvMt66fK6/87brh9tD59+AGcdDGRzHuywLXAxiwn5tBQCdJL/Dip4nQOQWOXCNU
+ JHhtPkEgBMweQhdM2UuhBCNGW43uoIjo0y0tbHGAoHIG9ZI4NCS11of4334LPNsnemGY
+ p5KQ==
+X-Gm-Message-State: ANoB5plzq9caPy3EYs+Hm3tb5UBP2Y9ngeGTdjXEBJ+175dbwS4T2LTa
+ XRpUV/ZU8urLmATwUZOVcS5j9g==
+X-Google-Smtp-Source: AA0mqf7drWs9V77G8KKyOO076U6TUL9YBKaVdEE9HSympXANLp1wmAd3C/tEu3oUAIc12eTfM/iVpA==
+X-Received: by 2002:a5d:4481:0:b0:232:be5a:f580 with SMTP id
+ j1-20020a5d4481000000b00232be5af580mr11992907wrq.10.1670838097473; 
+ Mon, 12 Dec 2022 01:41:37 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- e17-20020a5d5951000000b0024278304ef6sm8333344wri.13.2022.12.12.01.40.03
+ h20-20020adfaa94000000b002367ad808a9sm8378085wrc.30.2022.12.12.01.41.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 01:40:03 -0800 (PST)
-Message-ID: <cc1fd59b-10ad-2d43-1055-a4aa67adafc6@linaro.org>
-Date: Mon, 12 Dec 2022 10:40:02 +0100
+ Mon, 12 Dec 2022 01:41:37 -0800 (PST)
+Message-ID: <4bc3f966-63d2-6dcd-bcbb-7f95306c7b3b@linaro.org>
+Date: Mon, 12 Dec 2022 10:41:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v1 03/24] vfio-user: add container IO ops vector
+Subject: Re: [PATCH v1 00/24] vfio-user client
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
- John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
+To: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
 References: <cover.1667542066.git.john.g.johnson@oracle.com>
- <d357c8c243ef839cc8e41fc1ae5c8db2d98fc2cc.1667542066.git.john.g.johnson@oracle.com>
- <f3cda64b-ed4b-5e4d-5a0d-82c3b3861d41@redhat.com>
+Cc: Mark Burton <mburton@qti.qualcomm.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <f3cda64b-ed4b-5e4d-5a0d-82c3b3861d41@redhat.com>
+In-Reply-To: <cover.1667542066.git.john.g.johnson@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,50 +90,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/12/22 17:10, Cédric Le Goater wrote:
-> Hello John,
-> 
-> On 11/9/22 00:13, John Johnson wrote:
->> Used for communication with VFIO driver
->> (prep work for vfio-user, which will communicate over a socket)
->>
->> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
->> ---
->>   hw/vfio/common.c              | 126 
->> ++++++++++++++++++++++++++++--------------
->>   include/hw/vfio/vfio-common.h |  33 +++++++++++
->>   2 files changed, 117 insertions(+), 42 deletions(-)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index ace9562..83d69b9 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -432,12 +432,12 @@ static int vfio_dma_unmap_bitmap(VFIOContainer 
->> *container,
->>           goto unmap_exit;
->>       }
->> -    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
->> +    ret = CONT_DMA_UNMAP(container, unmap, bitmap);
-> 
-> I am not sure these macros are very useful, compared to :
-> 
->      container->ops->dma_unmap(container, unmap, bitmap);
+Cc'ing Mark & Edgar.
 
-I was going to report the same.
-
-
->> +/*
->> + * The next 2 ops vectors are how Devices and Containers
->> + * communicate with the server.  The default option is
->> + * through ioctl() to the kernel VFIO driver, but vfio-user
->> + * can use a socket to a remote process.
->> + */
->> +
->> +struct VFIOContIO {
+On 9/11/22 00:13, John Johnson wrote:
+> Hello,
 > 
-> VFIOContainerOps seems more adequate with the current VFIO terminology
-> in QEMU.
+> This is the 6th revision of the vfio-user client implementation.
+> It is the first patch series (the previous revisions were RFCs)
+> 
+> First of all, thank you for your time reviewing the RFC versions.
+> 
+> The vfio-user framework consists of 3 parts:
+>   1) The VFIO user protocol specification.
+>   2) A client - the VFIO device in QEMU that encapsulates VFIO messages
+>      and sends them to the server.
+>   3) A server - a remote process that emulates a device.
+> 
+> This patchset implements parts 1 and 2.
+> 
+> The libvfio-user project (https://github.com/nutanix/libvfio-user)
+> can be used by a remote process to handle the protocol to implement the third part.
+> We also have upstreamed a patch series that implement a server using QEMU.
+> 
+> 
+> Contributors:
+> 
+> John G Johnson <john.g.johnson@oracle.com>
+> John Levon <john.levon@nutanix.com>
+> Thanos Makatos <thanos.makatos@nutanix.com>
+> Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Jagannathan Raman <jag.raman@oracle.com>
+> 
+> John Johnson (23):
+>    vfio-user: add VFIO base abstract class
+>    vfio-user: add container IO ops vector
+>    vfio-user: add region cache
+>    vfio-user: add device IO ops vector
+>    vfio-user: Define type vfio_user_pci_dev_info
+>    vfio-user: connect vfio proxy to remote server
+>    vfio-user: define socket receive functions
+>    vfio-user: define socket send functions
+>    vfio-user: get device info
+>    vfio-user: get region info
+>    vfio-user: region read/write
+>    vfio-user: pci_user_realize PCI setup
+>    vfio-user: get and set IRQs
+>    vfio-user: forward msix BAR accesses to server
+>    vfio-user: proxy container connect/disconnect
+>    vfio-user: dma map/unmap operations
+>    vfio-user: add dma_unmap_all
+>    vfio-user: secure DMA support
+>    vfio-user: dma read/write operations
+>    vfio-user: pci reset
+>    vfio-user: add 'x-msg-timeout' option that specifies msg wait times
+>    vfio-user: add coalesced posted writes
+>    vfio-user: add trace points
 
-Yes please, abbreviated "Cont" is not helpful.
 
 
