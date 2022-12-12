@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7B264A4BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:27:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC39A64A503
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 17:39:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4ldn-0002H0-QL; Mon, 12 Dec 2022 11:26:55 -0500
+	id 1p4loN-0005RR-4W; Mon, 12 Dec 2022 11:37:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p4ldm-0002G6-3D
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:26:54 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p4ldk-00038E-Fi
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:26:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wMzcqMFiAudPSBY37HDUohos9kgByHmIyvrvK7Qd5bw=; b=NLFJNpJjejPmUvYqzAavStBUtl
- TT6iTBQLOuGFdHqFRYdGnvzXj34OK1URg7TwfupsOKdstSckb6dszAoObB2qSfmuNBn7dY3ZSBwer
- wsUtz/ZRWG0zZfWtZBvodQGg1wlmQcFeiPW9bVLKEg8RBfZX673hqnBtn7tYNIWTJxr93g9K8BDLn
- ftyEB0oXRGayWVh4m+W3UzRTEluuQynW2xVDPiF3hKUIcD/p/ua1+VIjdDhWhzNHCPAvEkSobUyvO
- jxUPS+z3f4MWFJnguiZ7BTd+7mQ/652ulaxwaozeyWGVz9RxnNJggKlBnDwm/o/7pSdW0XYk8JYV7
- idBFZx1OMaPhFQEMCDtJy9Q0mq9ZIkFsAvxmMkHjf+T1Dd7FSexjTzOBfUhbHSOvIkpTfXmbZAxzY
- evYextYqLgAfKGWrsndq5K9oqPZL0ABGFp77uOxbHlEGqQxe+1uKAJAEORjzc3mH/y9pQjEI3BoUo
- tDaK86wceegfU5ioPj260iUASiUyITy3Y/vhdFcpoMFRBWjYDnTBzOKX/IcClTwjBzfteMoEeI0w5
- EXMDPc6+cm/4j5LC4AkgpLgLuv1fojLLWsQVd46qINSEzC5c9n7Q3M+eDPK+cvIVcFcXFZO7zp13g
- DU7Zyb2VjLmrC/AUMlVLquNzMSJWqyMVgnim8U/CU=;
-Received: from host86-149-46-27.range86-149.btcentralplus.com ([86.149.46.27]
- helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1p4ldR-00029R-DL; Mon, 12 Dec 2022 16:26:37 +0000
-Message-ID: <b9d1f3c1-e98d-cf98-5dfc-dd40b82412a0@ilande.co.uk>
-Date: Mon, 12 Dec 2022 16:26:45 +0000
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4loK-0005R5-Ot
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:37:48 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4loI-000655-WD
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 11:37:48 -0500
+Received: by mail-wr1-x430.google.com with SMTP id m14so12682126wrh.7
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 08:37:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QiDuDdCaMjafgx1tQnaOl8mhe69zk7CS2gsURtvapDE=;
+ b=PV4ezaZVL9ntj6dayekwsRkI/lOLF0mmSNNtAtOg9kAL8qHczMAb8EeZWPS8ujuXhE
+ 9zCbJbqZ9ryWmJ0p0E0Omi1C2pTvjAynZMz3vvSSq6C4pkQGlkvkBIyevE+7cGDJrITD
+ lWFv3RyyVO+6B4W1wbEg6SFQvHiTg9Gjgqyz7hbFTbKGcZG3H1e9I8dsO1oxftkhoYpP
+ myLu6c2jQgZakZofBxRgM4d4RO4SSErUq2xfm4f657ILek4/lBINBZ6Nk+Q1yBoBLJ9d
+ OkZMU29naYVZdRrdXnEafncf80D/spMzO+oXNiNwnX3sf4tQiuQUYp2vRr8JcXj1SbWz
+ WU+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QiDuDdCaMjafgx1tQnaOl8mhe69zk7CS2gsURtvapDE=;
+ b=IkqzVli3pPCm9Xifa2XI5Rs7po99sET5f2Y3vt6kJJ7Hyu9eXShLxjQ+cYDMpaHzDe
+ MIT7KALcpDiDFf9u+tvT/gwnUtWP9104e3nLn8BkvzrG9qUCGz3jFXarngFCklLsC/6f
+ hBuxDOZHwffqoCTBkfH8TYTJFOu9hxqf+2c74L7kOfwsqXjXTqfsnv7V9ea4Ao+ZlX5e
+ Iezh4xIXkhcxBqW6xkEG5m4DXfHAG8fV3fEIHkTO95LF2YN9Y1lMhlNyDEYi7uLNu9Wv
+ /NtynkRxGHrCh8ejsCaTJ3M67wOXfggke71df+HA9p4iqWeX00rs0LzWhJ7QpX+/LCMB
+ ycWw==
+X-Gm-Message-State: ANoB5pnzD0/ctHOKv9a3ysDGts2LV6bAYVtdzj2erLpSPe3uXQ6waCZe
+ yF59zNfF5LTgTfGLUAn0j7c=
+X-Google-Smtp-Source: AA0mqf7F9DHb0Zi6Tu4QNwlmUi1ZRH/mkaq0OJ4fUe0zmlCLbtF+tLIcBuFwKd1g9y4sI+PFyUZjsw==
+X-Received: by 2002:a5d:4cd2:0:b0:242:368:7665 with SMTP id
+ c18-20020a5d4cd2000000b0024203687665mr10409043wrt.60.1670863065489; 
+ Mon, 12 Dec 2022 08:37:45 -0800 (PST)
+Received: from [192.168.4.46] (54-240-197-233.amazon.com. [54.240.197.233])
+ by smtp.gmail.com with ESMTPSA id
+ h20-20020adfaa94000000b002367ad808a9sm9323405wrc.30.2022.12.12.08.37.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 08:37:45 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <c396f138-0f3d-5ffa-1062-6149478d187e@xen.org>
+Date: Mon, 12 Dec 2022 16:37:40 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH v2 22/22] i386/xen: implement HYPERVISOR_sched_op
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>
-Cc: Michael S Tsirkin <mst@redhat.com>,
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20221212075600.17408-1-thuth@redhat.com>
- <12d9fcbf-e00f-1154-63e0-36420e89f619@ilande.co.uk>
- <dd94d639-ff48-554a-c462-ae7fe2399d4e@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <dd94d639-ff48-554a-c462-ae7fe2399d4e@redhat.com>
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20221209095612.689243-1-dwmw2@infradead.org>
+ <20221209095612.689243-23-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20221209095612.689243-23-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.149.46.27
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3] hw/rtc/mc146818rtc: Make this rtc device target
- independent
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,65 +102,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/12/2022 13:48, Thomas Huth wrote:
-
-> On 12/12/2022 14.39, Mark Cave-Ayland wrote:
->> On 12/12/2022 07:56, Thomas Huth wrote:
->>
->>> The only reason for this code being target dependent is the apic-related
->>> code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
->>> simple, we can easily move them into a new, separate file (apic_irqcount.c)
->>> which will always be compiled and linked if either APIC or the mc146818 device
->>> are required. This way we can get rid of the #ifdef TARGET_I386 switches in
->>> mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
->>> that the code only gets compiled once for all targets.
->>>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   v3: Move TYPE_APIC_COMMON from apic_internal.h to apic.h and use it
->>>
->>>   include/hw/i386/apic.h          |  2 ++
->>>   include/hw/i386/apic_internal.h |  2 --
->>>   include/hw/rtc/mc146818rtc.h    |  1 +
->>>   hw/intc/apic_common.c           | 27 -----------------
->>>   hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
->>>   hw/rtc/mc146818rtc.c            | 25 +++++-----------
->>>   hw/intc/meson.build             |  6 +++-
->>>   hw/rtc/meson.build              |  3 +-
->>>   8 files changed, 69 insertions(+), 50 deletions(-)
->>>   create mode 100644 hw/intc/apic_irqcount.c
->>>
->>> diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
->>> index da1d2fe155..24069fb961 100644
->>> --- a/include/hw/i386/apic.h
->>> +++ b/include/hw/i386/apic.h
->>> @@ -1,6 +1,7 @@
->>>   #ifndef APIC_H
->>>   #define APIC_H
->>> +#define TYPE_APIC_COMMON "apic-common"
->>
->> Ah sorry, I should have been more specific here: what I was suggesting was to move 
->> the entire QOM type information into apic.h as per the normal convention, as 
->> opposed to just the #define. At first glance that would involve lines 128-190 in 
->> apic_internal.h which would also bring in APICCommonClass and APICCommonState - 
->> possibly the change may warrant its own commit.
+On 09/12/2022 09:56, David Woodhouse wrote:
+> From: Joao Martins <joao.m.martins@oracle.com>
 > 
-> At least APICCommonState is target specific since it uses "X86CPU" ... so moving that 
-> to apic.h would be very counterproductive here.
+> It allows to shutdown itself via hypercall with any of the 3 reasons:
+>    1) self-reboot
+>    2) shutdown
+>    3) crash
+> 
+> Implementing SCHEDOP_shutdown sub op let us handle crashes gracefully rather
+> than leading to triple faults if it remains unimplemented.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   target/i386/xen.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 45 insertions(+)
+> 
+> diff --git a/target/i386/xen.c b/target/i386/xen.c
+> index f102c40f04..5f3b91450d 100644
+> --- a/target/i386/xen.c
+> +++ b/target/i386/xen.c
+> @@ -17,6 +17,7 @@
+>   #include "trace.h"
+>   #include "hw/i386/kvm/xen_overlay.h"
+>   #include "hw/i386/kvm/xen_evtchn.h"
+> +#include "sysemu/runstate.h"
+>   
+>   #define __XEN_INTERFACE_VERSION__ 0x00040400
+>   
+> @@ -25,6 +26,7 @@
+>   #include "standard-headers/xen/hvm/hvm_op.h"
+>   #include "standard-headers/xen/hvm/params.h"
+>   #include "standard-headers/xen/vcpu.h"
+> +#include "standard-headers/xen/sched.h"
+>   #include "standard-headers/xen/event_channel.h"
+>   
+>   static bool kvm_gva_to_gpa(CPUState *cs, uint64_t gva, uint64_t *gpa,
+> @@ -491,6 +493,45 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
+>       return true;
+>   }
+>   
+> +static int schedop_shutdown(CPUState *cs, uint64_t arg)
+> +{
+> +    struct sched_shutdown shutdown;
+> +
+> +    if (kvm_copy_from_gva(cs, arg, &shutdown, sizeof(shutdown))) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    if (shutdown.reason == SHUTDOWN_crash) {
+> +        cpu_dump_state(cs, stderr, CPU_DUMP_CODE);
+> +        qemu_system_guest_panicked(NULL);
+> +    } else if (shutdown.reason == SHUTDOWN_reboot) {
+> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+> +    } else if (shutdown.reason == SHUTDOWN_poweroff) {
+> +        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+> +    }
 
-Ah okay I see now - sorry I didn't spot that earlier.
+Why not a switch() statement? I think it would look neater and be more 
+consistent with other code.
+With that change...
 
-> Anyway, moving those structs is certainly way more than what is required for this 
-> patch, so if we decide to move anything else related to the APIC, it should be done 
-> in a separate patch later.
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-Agreed, it makes sense to fix the build issue first and then sort out the headers 
-later given that it seems to be less than straightforward :/
-
-
-ATB,
-
-Mark.
 
