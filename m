@@ -2,91 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F265264A39E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0FB64A396
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 15:41:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4jwc-0005PC-Qy; Mon, 12 Dec 2022 09:38:14 -0500
+	id 1p4jyc-00063v-EZ; Mon, 12 Dec 2022 09:40:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4jwa-0005OO-7g
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:38:12 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p4jyT-00062d-EE
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:40:10 -0500
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p4jwY-0003Pa-H3
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:38:11 -0500
-Received: by mail-wr1-x430.google.com with SMTP id h16so3341856wrz.12
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 06:38:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p4jyQ-00040O-QQ
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 09:40:09 -0500
+Received: by mail-oi1-x229.google.com with SMTP id r11so11355564oie.13
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 06:40:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=WdyUBncrOgqQK8UyZLpCx0/I08vn7RmlANTua+8rRzI=;
- b=N/M0UIGOzhM5i9j0bU0RhKvYyIm4H/euKq6ZMNlQiaE97Vj1udqpLJ02XBLRLJRGEn
- ZF4wXK1IbFVuSaPcMckPZiMnSHPdV49XFiOVG3r6EPOhJLPqvfMdqFq9Nsut8dXaAnlW
- x+YnUoLT7iVgpPGmI+ubLGCfrwqr8rauXLEY8vPVId5lVMTX2W/erUfb0vldzvBILNrm
- gwCLtnMIbgIWf55zjchLIOLc3vGkA97gypYj8SJbbQ7jR00jm1RULeubHDYiinAKX+ef
- ZsQStnKq0bcu8UMFmgRxo1+JWdh4a35cpX8ZZh4/oQiycExxGEUIaRpLMj6OVkNaBW4I
- o/2Q==
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=quS64DInaPKN2UOVECH1ChB1ou/c1CJk5pgwdFpGbBk=;
+ b=jSqwYGDsLjAOS4qucneW4csZLbgNDjPSPUHgjMS05ROserVoXMebc/i7hrtPBy9/XE
+ XgzfACiQJoGYe+Y4A8oQHWwKWSfmPa7s/hKwq8WH0w2tbkIxHy1CcOU1kzTfsbBSY6s1
+ adHA04vtX/hEAWCCBHdFN4FjGxBHQatyZbzcPWWCptz0H1zPjiGnL/E7Mv0XutyNSE1g
+ zE3yuT2XwBPM2cJQY+LaC0hBU3f/3YovnZHV4JYu3bFhWWcur89VQzljkutDpfU2524k
+ xJpXMISnJOWecZKzkZehv/6P1LRs9rNrRhJIACs6WePJSHeJ6Xj6xbTkj9SZLVZVl13z
+ PM/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WdyUBncrOgqQK8UyZLpCx0/I08vn7RmlANTua+8rRzI=;
- b=h26GbKO7kP2wFTGZgIUznLWREFWmsJuODZTVpHN2N7D7EqCaagqznEl2Zig8/WSRqJ
- WcjlpB4PhrbRR6ofnekkIMsZmGhHRNawZi4oQA2cqtao6A5NsyMHuhr9+/M6rFWAlBtB
- 17m/sHOGxzOG1BJbKXuGZqqvsq0FmCOJJ9JBBD5FpJj8KRpkPcciY37GO9s2OUuhekuE
- DKeqSveeU4/4zWLE4PDIZg1eODrbP5/IzLsGVFMk4Hv2uj0mIBdxNWTNz/98hPPBMeHQ
- vkbkOj6i143/bzuLGR4CyZoD9zL/71SnvcnhaRPB6o6JkfG0I6HLci6OIiLkecDAXivk
- l2cA==
-X-Gm-Message-State: ANoB5pm3bLCzrJ2AbE08wlrKeHNM6gI+NZtajjx9qDMfuwMksJ6Pq1Dk
- KQbycYGyEJbNpRMQp54qt3c=
-X-Google-Smtp-Source: AA0mqf4WmEKh8fsdrd84+wOj5qCT6sw6Q7rv7oUzXZgop72YXUDjoFdCoJN94hUk/wnKLNeMXHsifw==
-X-Received: by 2002:a5d:6407:0:b0:242:2cb4:6fa2 with SMTP id
- z7-20020a5d6407000000b002422cb46fa2mr10253130wru.31.1670855887578; 
- Mon, 12 Dec 2022 06:38:07 -0800 (PST)
-Received: from ?IPV6:2a00:23c5:5785:9a01:a16d:8ab1:4623:169?
- ([2a00:23c5:5785:9a01:a16d:8ab1:4623:169])
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=quS64DInaPKN2UOVECH1ChB1ou/c1CJk5pgwdFpGbBk=;
+ b=mPw2dOzvHOBYrlxc92eQtLdFWepeiX8CXSJ4ruwH17zI5BtR2dvqEeP8rbTIL1LxXg
+ ZcsEEGAO2derL9IrrX9PgPfEK5QKTMBIKY+WD+jSd5xOS4ZsAsnfV/PuziHQM1EUkrvl
+ 9qUG7H02g2TXBKCAlTbKaG/MO2bEaV2PnW8cqNr9WurtEzX2eWPjYV6bt3u9AS/ynj9h
+ uEtFkX5H/wxrBMqXhfuUxyaxT2TR8xep2/VAkMPvcLVznj69tcJg2DH1nXx71/ZSg37Y
+ USZUWX4yBu+8VTDtQcskhuWnKLMHYXkAQPoS4nzRFqAqLAWTqlzTgTfWRKjLmBQYun0o
+ ifxA==
+X-Gm-Message-State: ANoB5pns86337+mScESUFRRHvUvs+jlztz7N4TYQXXzsRzI8zkagD80f
+ /2WtCgQOHgnndUEu2/97PGn59Q==
+X-Google-Smtp-Source: AA0mqf55+xAaz1NbRHKnIqXHMmkuKDqId1+j0JIDkNQFL674wZK0Wq3Tj6lv14LSEOy14AFOV25UwA==
+X-Received: by 2002:aca:1911:0:b0:35e:2553:f006 with SMTP id
+ l17-20020aca1911000000b0035e2553f006mr6460362oii.9.1670856005450; 
+ Mon, 12 Dec 2022 06:40:05 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:2efc:20f0:1d0e:8e1f:fff0?
+ ([2806:102e:18:2efc:20f0:1d0e:8e1f:fff0])
  by smtp.gmail.com with ESMTPSA id
- q12-20020adfcd8c000000b0024216d2e386sm9130487wrj.16.2022.12.12.06.38.06
+ d14-20020a056830044e00b006706e4f6863sm4078433otc.75.2022.12.12.06.40.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 06:38:07 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <e6b1859e-e006-a859-d598-7d75b6c33fd7@xen.org>
-Date: Mon, 12 Dec 2022 14:38:03 +0000
+ Mon, 12 Dec 2022 06:40:04 -0800 (PST)
+Message-ID: <af9a145d-2eb6-9493-7a02-af6636dd5b5e@linaro.org>
+Date: Mon, 12 Dec 2022 08:40:02 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH v2 13/22] i386/xen: implement HYPERVISOR_memory_op
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH-for-8.0 v2 09/11] hw/mips/malta: Use bootloader generator
+ API for nanoMIPS CPUs (4/5)
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
-References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-14-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20221209095612.689243-14-dwmw2@infradead.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
+ Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Djordje Todorovic <djordje.todorovic@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
+References: <20221211204533.85359-1-philmd@linaro.org>
+ <20221211204533.85359-10-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221211204533.85359-10-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x430.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x229.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,60 +100,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/12/2022 09:56, David Woodhouse wrote:
-> From: Joao Martins <joao.m.martins@oracle.com>
+On 12/11/22 14:45, Philippe Mathieu-Daudé wrote:
+> Part 4/5: Convert GT64120 ISD base address setup
 > 
-> Specifically XENMEM_add_to_physmap with space XENMAPSPACE_shared_info to
-> allow the guest to set its shared_info page.
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> [dwmw2: Use the xen_overlay device]
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
+
 > ---
->   target/i386/trace-events |  1 +
->   target/i386/xen.c        | 59 +++++++++++++++++++++++++++++++++++++++-
->   2 files changed, 59 insertions(+), 1 deletion(-)
->
-[snip]
-> +static bool kvm_xen_hcall_memory_op(struct kvm_xen_exit *exit,
-> +                                   int cmd, uint64_t arg, X86CPU *cpu)
-> +{
-> +    CPUState *cs = CPU(cpu);
-> +    int err = 0;
+>   hw/mips/malta.c | 40 +++++++---------------------------------
+>   1 file changed, 7 insertions(+), 33 deletions(-)
+> 
+> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> index 16161b1b03..451908b217 100644
+> --- a/hw/mips/malta.c
+> +++ b/hw/mips/malta.c
+> @@ -683,46 +683,20 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+>       stw_p(p++, 0x80e7); stw_p(p++, NM_LO(loaderparams.ram_low_size));
+>                                   /* ori a3,a3,%lo(loaderparams.ram_low_size) */
+>   
+> -    /*
+> -     * Load BAR registers as done by YAMON:
+> -     */
+> -    stw_p(p++, 0xe040); stw_p(p++, 0x0681);
+> -                                /* lui t1, %hi(0xb4000000)      */
+> -
+>   #if TARGET_BIG_ENDIAN
+>   #define cpu_to_gt32 cpu_to_le32
+> -
+> -    stw_p(p++, 0xe020); stw_p(p++, 0x0be1);
+> -                                /* lui t0, %hi(0xdf000000)      */
+> -
+> -    /* 0x68 corresponds to GT_ISD (from hw/mips/gt64xxx_pci.c)  */
+> -    stw_p(p++, 0x8422); stw_p(p++, 0x9068);
+> -                                /* sw t0, 0x68(t1)              */
+> -
+> -    stw_p(p++, 0xe040); stw_p(p++, 0x077d);
+> -                                /* lui t1, %hi(0xbbe00000)      */
+> -
+> -    stw_p(p++, 0xe020); stw_p(p++, 0x0801);
+> -                                /* lui t0, %hi(0xc0000000)      */
+>   #else
+>   #define cpu_to_gt32 cpu_to_be32
+> -
+> -    stw_p(p++, 0x0020); stw_p(p++, 0x00df);
+> -                                /* addiu[32] t0, $0, 0xdf       */
+> -
+> -    /* 0x68 corresponds to GT_ISD                               */
+> -    stw_p(p++, 0x8422); stw_p(p++, 0x9068);
+> -                                /* sw t0, 0x68(t1)              */
+> -
+> -    /* Use kseg2 remapped address 0x1be00000                    */
+> -    stw_p(p++, 0xe040); stw_p(p++, 0x077d);
+> -                                /* lui t1, %hi(0xbbe00000)      */
+> -
+> -    stw_p(p++, 0x0020); stw_p(p++, 0x00c0);
+> -                                /* addiu[32] t0, $0, 0xc0       */
+>   #endif
+>       v = p;
+>   
+> +    /* setup MEM-to-PCI0 mapping as done by YAMON */
 > +
-> +    switch (cmd) {
-> +    case XENMEM_add_to_physmap: {
-> +            struct xen_add_to_physmap xatp;
+> +    /* move GT64120 registers from 0x14000000 to 0x1be00000 */
+> +    bl_gen_write_u32(&v, /* GT_ISD */
+> +                     cpu_mips_phys_to_kseg1(NULL, 0x14000000 + 0x68),
+> +                     cpu_to_gt32(0x1be00000 << 3));
 > +
-> +            err = kvm_copy_from_gva(cs, arg, &xatp, sizeof(xatp));
-> +            if (err) {
-> +                break;
-> +            }
-> +
-> +            switch (xatp.space) {
-> +            case XENMAPSPACE_shared_info:
-> +                break;
-> +            default:
-> +                err = -ENOSYS;
-> +                break;
-
-Don't you want to return false here?
-
-   Paul
-
-> +            }
-> +
-> +            err = xen_set_shared_info(cs, xatp.gpfn);
-> +            break;
-> +         }
-> +
-> +    default:
-> +            return false;
-> +    }
-> +
-> +    exit->u.hcall.result = err;
-> +    return true;
-> +}
-> +
+>       /* setup PCI0 io window to 0x18000000-0x181fffff */
+>       bl_gen_write_u32(&v, /* GT_PCI0IOLD */
+>                        cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x48),
 
 
