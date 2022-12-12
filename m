@@ -2,83 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E7F4649F6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:08:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1489A649FDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 14:16:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4iXS-0007mA-Fz; Mon, 12 Dec 2022 08:08:10 -0500
+	id 1p4idi-0004ka-68; Mon, 12 Dec 2022 08:14:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p4iXP-0007jT-KC
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:08:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p4iXN-0003gn-Dg
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:08:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670850484;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3Mhx7Awm1BMqJGE63n7utR1Q/D9C47ehWXGl9X3Gc+E=;
- b=DCHKvz6IXkVM5lx7Qimeg20OA8ZqaUWmqI5ZqpcO4HtXSAa939x8OyjBrH15ZPa7UHnePS
- M7HVdM9nquLFzZNEPupBViAwYWRE8mTfJ56hKWJ4Jof8j5NWAgXrXyXfKZHTuJpirWGw+c
- bg/PiVNWMH8BKnnCM5VufI+ay+h82XY=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-638-Y8CPt6Z7Mi6ERQ3KzJW9lg-1; Mon, 12 Dec 2022 08:08:02 -0500
-X-MC-Unique: Y8CPt6Z7Mi6ERQ3KzJW9lg-1
-Received: by mail-vs1-f72.google.com with SMTP id
- a186-20020a6766c3000000b003b141732496so2961763vsc.14
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:08:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4idB-0004dD-NG
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:14:10 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p4id7-0004zx-TJ
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 08:14:05 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so5092033wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 05:13:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mJzGzq0Y0P2zwuiOKR3kXZAzUEFxxQdYmSrYWkHoLf0=;
+ b=d/fXXpLewbsOYliDvGAOn77LsXMsAJwrwNy59OiYvd1xADq2QBKlrGoQZJKbkQFKw+
+ SMwVi/twEvDUAaiTeWpePazS/qqN9whl6Pz3xgg2LF7QNBOwCl/8yI6SB7QGiE5B3pwy
+ 5JhZgsNOCnj1ymItr740aHaadVLKLZSnfPvRVBsh/nkORhxR7p3v2cWxgiTq7lKlqtws
+ CNVq/zwaLAl2KsGw7sD4b06IIuieapF8NSyLMFRaXX7W9tlcpoKTKl/hc40veLOZ1fOa
+ bnIQvCIUaxtATYFyefi2qwlEyvLVUwS6XH2Oaqp6uaXQh5JhjUYOoVrCN4YSzM/FTHxJ
+ j/UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3Mhx7Awm1BMqJGE63n7utR1Q/D9C47ehWXGl9X3Gc+E=;
- b=rawy/T3kjxuUkFvbiN4hLwhDP1ZQPVgwcsQv48V/lCPaly5YlXzIB4LLy8/A/Yxf5/
- uz1mZj+J/AaZia7TduWwUP4Eq15xQavTk4cugfMv8uYkfYTodcXPGOi1MUAVNPQThFtc
- UulG/wRZtCsYTX+N7V2NozTbVw+9f6ws39vqsy1O+1cToYpk/stwQ3wKMOI4aKuNItoL
- GPq9jRm9J1qKWuonSghkSJ1FE8YN0w0yWtS+8Vbpw3PKS/KLluUbPA0DOEy81mFWVyzI
- QYuPSJu38YFqg1STSNDl+LYNdN/yxfAG9veLJblWlod1GlZQdsvx9N/+dNqD7vpp1NrB
- eCpA==
-X-Gm-Message-State: ANoB5pnlDt9lOqT3+Xxlvvcjj4x5G9DDZ9P+EZmhJ90mdO/z/L+/UId3
- BLFsIradynuET9Cmv5A//bt8bPfTIuzrYzn8Ks/xGuc+yae8xanDcYxb/E129uK1HnyFE5oi042
- UJoUAik+GGUzBP7L/QZ9S2AMff3QZSsw=
-X-Received: by 2002:a67:42c2:0:b0:3aa:31b2:ff09 with SMTP id
- p185-20020a6742c2000000b003aa31b2ff09mr45958520vsa.66.1670850482388; 
- Mon, 12 Dec 2022 05:08:02 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5ITTsvsaT395qa4UQ3p1njLYP1Tp+lOUHQgSuyKe3m1e1D8GeLQr2wHX5sl63sWhRMYfaH85IEqEongGGKfd8=
-X-Received: by 2002:a67:42c2:0:b0:3aa:31b2:ff09 with SMTP id
- p185-20020a6742c2000000b003aa31b2ff09mr45958514vsa.66.1670850482155; Mon, 12
- Dec 2022 05:08:02 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mJzGzq0Y0P2zwuiOKR3kXZAzUEFxxQdYmSrYWkHoLf0=;
+ b=lFRdx3MwBz5PZK08m4r8LLZfCTlc5x+HRemJhPUUDsiMU4HvYkVrcRSHOdeh3qF3YW
+ jlJxTWSBuy0620reRJTzXJhe20/1jiB3E4By4CIGVnEuBea0XNRQu67yjFjolLUNAeAA
+ N4rw9fopSFIy3dJfO6tdajgvUYe2HdnDR9CAynTR/I/tBzZhthqlS8Gsivf6Qds0ANhN
+ h23Ua/50xnbaxp0f31bJcIsrqDVaRiK9ily3rHmqG1g/yYkyNpZ+3XQkrFNayHCxV6bQ
+ oVkRGlnTwvgquAtuN32E/jhhoGl/SHXfBJenhBGBOnTq9/pHLtCdp5GAzuQjd7DDg1zQ
+ ah/g==
+X-Gm-Message-State: ANoB5pl/lVa9iCbVtbtj6MYiRFXYNUieC2xZ/0lBXpZcisybFyT8t8YP
+ /I9N6k3q4YkM4Lvd6XNjnAc=
+X-Google-Smtp-Source: AA0mqf5ooTkxKbVRktqfLn5MwgKfRFcW2lcaYKxN07SoB1CGuwMQyhV5KJy3WYrSbHessQIgjDNYWQ==
+X-Received: by 2002:a05:600c:1c93:b0:3d0:7026:f0ad with SMTP id
+ k19-20020a05600c1c9300b003d07026f0admr12289348wms.38.1670850836936; 
+ Mon, 12 Dec 2022 05:13:56 -0800 (PST)
+Received: from ?IPV6:2a00:23c5:5785:9a01:a16d:8ab1:4623:169?
+ ([2a00:23c5:5785:9a01:a16d:8ab1:4623:169])
+ by smtp.gmail.com with ESMTPSA id
+ n22-20020a05600c3b9600b003cfd0bd8c0asm10000106wms.30.2022.12.12.05.13.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Dec 2022 05:13:56 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <52d82630-f1e6-1381-6f34-7d912171b4eb@xen.org>
+Date: Mon, 12 Dec 2022 13:13:52 +0000
 MIME-Version: 1.0
-References: <20221128130221.389454-1-andrey.drobyshev@virtuozzo.com>
- <4b6c5e90-4240-95c3-c27c-47fd81d24ae2@virtuozzo.com>
-In-Reply-To: <4b6c5e90-4240-95c3-c27c-47fd81d24ae2@virtuozzo.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 12 Dec 2022 15:07:51 +0200
-Message-ID: <CAPMcbCrKQDJ0e=rsiXrQ_zeSQ0njH=ufaWPeijB8jhNc2pKefQ@mail.gmail.com>
-Subject: Re: [PATCH] qga-win: replace libpcre with libpcre2 in MSI package
-To: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
-Cc: qemu-trivial@nongnu.org, den@virtuozzo.com, Stefan Weil <sw@weilnetz.de>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000007643de05efa1313c"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH v2 04/22] i386/kvm: handle Xen HVM cpuid leaves
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20221209095612.689243-1-dwmw2@infradead.org>
+ <20221209095612.689243-5-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20221209095612.689243-5-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,97 +104,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000007643de05efa1313c
-Content-Type: text/plain; charset="UTF-8"
+On 09/12/2022 09:55, David Woodhouse wrote:
+> From: Joao Martins <joao.m.martins@oracle.com>
+> 
+> Introduce support for emulating CPUID for Xen HVM guests. It doesn't make
+> sense to advertise the KVM leaves to a Xen guest, so do it unconditionally
+> when the xen-version machine property is set.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> [dwmw2: Obtain xen_version from machine property, make it automatic]
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+[snip]
+> -    if (cpu->expose_kvm) {
+> +    xen_version = kvm_arch_xen_version(MACHINE(qdev_get_machine()));
+> +    if (xen_version) {
+> +#ifdef CONFIG_XEN_EMU
+> +        struct kvm_cpuid_entry2 *xen_max_leaf;
+> +
+> +        memcpy(signature, "XenVMMXenVMM", 12);
+> +
+> +        xen_max_leaf = c = &cpuid_data.entries[cpuid_i++];
+> +        c->function = kvm_base + XEN_CPUID_SIGNATURE;
+> +        c->eax = kvm_base + XEN_CPUID_TIME;
+> +        c->ebx = signature[0];
+> +        c->ecx = signature[1];
+> +        c->edx = signature[2];
+> +
+> +        c = &cpuid_data.entries[cpuid_i++];
+> +        c->function = kvm_base + XEN_CPUID_VENDOR;
+> +        c->eax = xen_version;
+> +        c->ebx = 0;
+> +        c->ecx = 0;
+> +        c->edx = 0;
+> +
+> +        c = &cpuid_data.entries[cpuid_i++];
+> +        c->function = kvm_base + XEN_CPUID_HVM_MSR;
+> +        /* Number of hypercall-transfer pages */
+> +        c->eax = 1;
+> +        /* Hypercall MSR base address */
+> +        c->ebx = XEN_HYPERCALL_MSR;
+> +        c->ecx = 0;
+> +        c->edx = 0;
+> +
+> +        c = &cpuid_data.entries[cpuid_i++];
+> +        c->function = kvm_base + XEN_CPUID_TIME;
+> +        c->eax = ((!!tsc_is_stable_and_known(env) << 1) |
+> +            (!!(env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_RDTSCP) << 2));
+> +        /* default=0 (emulate if necessary) */
+> +        c->ebx = 0;
+> +        /* guest tsc frequency */
+> +        c->ecx = env->user_tsc_khz;
+> +        /* guest tsc incarnation (migration count) */
+> +        c->edx = 0;
+> +
+> +        c = &cpuid_data.entries[cpuid_i++];
+> +        c->function = kvm_base + XEN_CPUID_HVM;
+> +        xen_max_leaf->eax = kvm_base + XEN_CPUID_HVM;
+> +        if (xen_version >= XEN_VERSION(4,5)) {
+> +            c->function = kvm_base + XEN_CPUID_HVM;
+> +
+> +            if (cpu->xen_vapic) {
+> +                c->eax |= XEN_HVM_CPUID_APIC_ACCESS_VIRT;
+> +                c->eax |= XEN_HVM_CPUID_X2APIC_VIRT;
+> +            }
+> +
+> +            c->eax |= XEN_HVM_CPUID_IOMMU_MAPPINGS;
+> +
+> +            if (xen_version >= XEN_VERSION(4,6)) {
+> +                c->eax |= XEN_HVM_CPUID_VCPU_ID_PRESENT;
+> +                c->ebx = cs->cpu_index;
+> +            }
+> +        }
+> +
+> +        kvm_base += 0x100;
 
-Hi Andrey,
+Ok, this tells me that we are intending to handle Hyper-V enlightenments 
+being simultaneously enabled... in which case that MSR above needs to 
+move, along with the cpuid leaves. It should be 0x40000200 in this case.
 
-Unfortunately, I can't merge your patch as is.
-There are several OS officially supported by QEMU that have GLib2 < 2.73.2
-For example, we support Fedora 35 (GLib2 = 2.69.2) for cross-compilation and
-we run CI tests on Fedora 35.
+   Paul
 
-Also, currently, QEMU support GLib2 2.56 (
-https://github.com/qemu/qemu/blob/ea3a008d2d9ced9c4f93871c823baee237047f93/configure#L1466
-)
-So, the build process should check the GLib2 version and select libpcre2 or
-libpcre.
-
-Best Regards,
-Konstantin Kostiuk.
-
-
-On Mon, Dec 12, 2022 at 2:23 PM Andrey Drobyshev <
-andrey.drobyshev@virtuozzo.com> wrote:
-
-> On 11/28/22 15:02, Andrey Drobyshev wrote:
-> > According to GLib changelog [1], since version 2.73.2 GLib is using
-> > libpcre2 instead of libpcre.  As a result, qemu-ga MSI installation
-> > fails due to missing DLL.
-> >
-> > This commit makes wixl to put libpcre2-8-0.dll into the MSI bundle.
-> >
-> > [1] https://gitlab.gnome.org/GNOME/glib/-/releases#2.73.2
-> >
-> > Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
-> > ---
-> >  qga/installer/qemu-ga.wxs | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > [...]
->
-> Ping
->
->
-
---0000000000007643de05efa1313c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Andrey,</div><div><br></div><div>Unfortunately, I =
-can&#39;t merge your patch as is.</div><div>There are several OS officially=
- supported by QEMU that have GLib2 &lt; 2.73.2</div><div>For example, we su=
-pport Fedora 35 (GLib2 =3D 2.69.2) for cross-compilation and</div><div>we r=
-un CI tests on Fedora 35.</div><div><br></div><div>Also, currently, QEMU su=
-pport GLib2 2.56 (<a href=3D"https://github.com/qemu/qemu/blob/ea3a008d2d9c=
-ed9c4f93871c823baee237047f93/configure#L1466">https://github.com/qemu/qemu/=
-blob/ea3a008d2d9ced9c4f93871c823baee237047f93/configure#L1466</a>)</div><di=
-v>So, the build process should check the GLib2 version and select libpcre2 =
-or libpcre.</div><div><br></div><div><div><div dir=3D"ltr" class=3D"gmail_s=
-ignature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>Best Reg=
-ards,</div><div>Konstantin Kostiuk.</div></div></div></div><br></div></div>=
-<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon=
-, Dec 12, 2022 at 2:23 PM Andrey Drobyshev &lt;<a href=3D"mailto:andrey.dro=
-byshev@virtuozzo.com">andrey.drobyshev@virtuozzo.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">On 11/28/22 15:02, Andr=
-ey Drobyshev wrote:<br>
-&gt; According to GLib changelog [1], since version 2.73.2 GLib is using<br=
->
-&gt; libpcre2 instead of libpcre.=C2=A0 As a result, qemu-ga MSI installati=
-on<br>
-&gt; fails due to missing DLL.<br>
-&gt; <br>
-&gt; This commit makes wixl to put libpcre2-8-0.dll into the MSI bundle.<br=
->
-&gt; <br>
-&gt; [1] <a href=3D"https://gitlab.gnome.org/GNOME/glib/-/releases#2.73.2" =
-rel=3D"noreferrer" target=3D"_blank">https://gitlab.gnome.org/GNOME/glib/-/=
-releases#2.73.2</a><br>
-&gt; <br>
-&gt; Signed-off-by: Andrey Drobyshev &lt;<a href=3D"mailto:andrey.drobyshev=
-@virtuozzo.com" target=3D"_blank">andrey.drobyshev@virtuozzo.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 qga/installer/qemu-ga.wxs | 6 +++---<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
-&gt; <br>
-&gt; [...]<br>
-<br>
-Ping<br>
-<br>
-</blockquote></div>
-
---0000000000007643de05efa1313c--
 
 
