@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068D2649F2E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8950B649F3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:59:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4iOB-00089a-AP; Mon, 12 Dec 2022 07:58:35 -0500
+	id 1p4iPB-0000eH-7R; Mon, 12 Dec 2022 07:59:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4iO9-00089H-KS
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:58:33 -0500
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4iO7-0000LA-A5
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:58:33 -0500
-Received: by mail-lj1-x233.google.com with SMTP id s10so12423575ljg.1
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:58:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PPFp8P36B5bKzCzUhh2QSwoQ7jaUlnotjUAxLhdMWN4=;
- b=iM8Ye2FinQkkEC30pr1M/JiyR5eAkY2wasTI6YzF8MHlSz6CFFNHEo5TJu8mLe+hxQ
- j8DHwmSxbztnYZxnTuvm9DM96uAY21GSJ/tK27ZL9sAr9BhNhjoGzVuUFfVdXjYXpckX
- qegzbqAWoF3zTMQ+RGO+34WozR8Q2G/CzM+yfyMb7qzpvOelvr6QckZk096OX58bC36h
- yxkMhHgT2+atpdhcR3/k20wq73S+7rMigi+O8MM8PxzrZtsfPdIenw9y1zISoMXfPGKi
- ptxYaWzIks0byTzcb9XzqJWNLmKE/ApX/0siuCZ2mXB5XivsbNMBPDEo+FwYD8Yu1Qrj
- RkYg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4iP8-0000ab-T3
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:59:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p4iP7-0000YK-0L
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:59:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670849972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rSV1TeijoZsmxAvrhyYs0t9/sSLc9dqrPATrVhnl4kI=;
+ b=Mt2UNvefytq8mcfBt6dAQV9qrxArqa+v/ai9LWqXiK52Nff3wKRdcqwaiJjXagxhXnBw1U
+ JJIMyYeIQCZddCga7/cOjkR5PhxNR3KmNQ4XAFQbV3sIYfdOeDpb0vFv/7sTYL7qoPRyQh
+ 4Kfrys9nJ7va8bDWtI2HRfXjv8YquOk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-616-JjHThkunPl6MY_O5ADbXqA-1; Mon, 12 Dec 2022 07:59:31 -0500
+X-MC-Unique: JjHThkunPl6MY_O5ADbXqA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ t24-20020a1c7718000000b003d1fd0b866fso1972351wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:59:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PPFp8P36B5bKzCzUhh2QSwoQ7jaUlnotjUAxLhdMWN4=;
- b=hhxsGQV5bTAqomY+TkReOYzEfDtVbWwHt6hmjcSihfaEAmGJx9fEx0fuVPakborN9m
- F07ovK5/Pm9uzRnSe7yHWBotZ1tdvlgt8+VTaP+vA/xPsmiw/Wl46Texwvfg2JWjBnCg
- 1bxaDCJjBzL4CaPXdV3AyKbEkl01tGIhJZeJoCRr4Yv6/ZMsmqXZNY9XN7balpGcsqvo
- QDTtOFPW5nEs0BJenzExggcq9PfGeNoHvH6Do1LQxbdsv44FdSL+h3FcBAeWTyun1oga
- eUmpz0Z5g0/zw6Qe46eqrJuR70EoNYpXaKTZmyPxFrgobSYKzoFRg6PoL3dT3MYGoLEq
- Fbhw==
-X-Gm-Message-State: ANoB5pnggkef/HB3zbuNd8va+M8kuWXEFgj2ehtVTY5SnUk1cEuHPK9A
- 7yqfrssBcQjJ5vR5YhR/ZQCXADWv8dDOlKyXyWA=
-X-Google-Smtp-Source: AA0mqf4ubl6Z1c+FZx7JZ6BJez1XQqLayD9nZqsWEgB+SkjsJlVV1gD2xRJ2U07ZprwVcjtVczOHDEhSJidfSQ8pvqw=
-X-Received: by 2002:a2e:6a06:0:b0:27b:574a:2d08 with SMTP id
- f6-20020a2e6a06000000b0027b574a2d08mr29789ljc.449.1670849909146; Mon, 12 Dec
- 2022 04:58:29 -0800 (PST)
+ bh=rSV1TeijoZsmxAvrhyYs0t9/sSLc9dqrPATrVhnl4kI=;
+ b=DgWCDNPQeQxz4sgthkMw30BdM8lcKaAiS1wo62a90E2nDKjTFmW1CVfWgKEG3huTW7
+ ZYVvk3YnpJxNqJr+fD8oquIpBcr0yjJF7C2dNBj9/MVY8lcrQ8dQARgNEvShLn7ToqmM
+ 54Ijl76QSYixCC/3sJOye+7XFQOFhFyxPLM4hadKlC++akgKlJ4TpGIvjXrmvlBHvyDx
+ 4ECFlTVetKnq1Q/pp4vQ5sR4piSFkyEnmjymJvO3C+lDFET9g5aBJdqzwBg0msICRoa4
+ U287Om+ZX1o/8erA3TweLfo1c4ITRGgPPUKkpisxkwYEpPiy/ZGQKfIIvP/yFt1byWoO
+ ddwA==
+X-Gm-Message-State: ANoB5pmb1BwQilZjcpffnpgexuxkiY6x+vuwhjDeoKBhVITMLfcKU8AT
+ ALe+V/BW7H0VmpPWp7iExKu0X3RAi+m2wPlraR9TVyaPeBY+e96kYX/OiP5mElQWTZy/36Yq+3N
+ 5J0jH1nUOH4Gh+Fzd6g97iQ6UoCpIvFPBvSt7nTByFWIF9jOzrI5dzqFOfGYCdQ06hjY=
+X-Received: by 2002:a05:600c:3d19:b0:3d0:bd9:edd4 with SMTP id
+ bh25-20020a05600c3d1900b003d00bd9edd4mr12339469wmb.0.1670849969852; 
+ Mon, 12 Dec 2022 04:59:29 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5/UqhHoj7+mwT9ZDOmXABBepgcA1dgGsGzskUgJghdLD7clnC2xMzw7j5RvUH3O2unyxZZUw==
+X-Received: by 2002:a05:600c:3d19:b0:3d0:bd9:edd4 with SMTP id
+ bh25-20020a05600c3d1900b003d00bd9edd4mr12339441wmb.0.1670849969216; 
+ Mon, 12 Dec 2022 04:59:29 -0800 (PST)
+Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ iw3-20020a05600c54c300b003d220ef3232sm5885669wmb.34.2022.12.12.04.59.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Dec 2022 04:59:28 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org,
+	eesposit@redhat.com,
+	kwolf@redhat.com
+Subject: [PATCH 02/15] Revert "block: Don't poll in
+ bdrv_replace_child_noperm()"
+Date: Mon, 12 Dec 2022 13:59:07 +0100
+Message-Id: <20221212125920.248567-3-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221212125920.248567-1-pbonzini@redhat.com>
+References: <20221212125920.248567-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-26-pbonzini@redhat.com>
-In-Reply-To: <20221209112409.184703-26-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 12 Dec 2022 16:58:16 +0400
-Message-ID: <CAJ+F1CKrOUOcSzZj2kLUdrvzrQMhynRg8GrkUs+GHckvdKKEXA@mail.gmail.com>
-Subject: Re: [PATCH 25/30] build: move warning flag selection to meson
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x233.google.com
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,300 +102,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+This reverts commit a4e5c80a45b22359cf9c187f0df4f8544812c55c.
 
-On Fri, Dec 9, 2022 at 3:48 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> Meson already knows to test with the positive form of the flag, which
-> simplifies the test.  Warnings are now tested explicitly for the C++
-> compiler, instead of hardcoding those that are only available for
-> the C language.
->
-> At this point all compiler flags in QEMU_CFLAGS are global and only
-> depend on the OS.  No feature tests are performed in configure.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block.c                      | 103 +++++------------------------------
+ block/io.c                   |   2 +-
+ include/block/block-io.h     |   8 ---
+ tests/unit/test-bdrv-drain.c |  10 ----
+ 4 files changed, 15 insertions(+), 108 deletions(-)
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+diff --git a/block.c b/block.c
+index 87022f4cd971..2f2123f4a4e5 100644
+--- a/block.c
++++ b/block.c
+@@ -2367,20 +2367,6 @@ static void bdrv_replace_child_abort(void *opaque)
+ 
+     GLOBAL_STATE_CODE();
+     /* old_bs reference is transparently moved from @s to @s->child */
+-    if (!s->child->bs) {
+-        /*
+-         * The parents were undrained when removing old_bs from the child. New
+-         * requests can't have been made, though, because the child was empty.
+-         *
+-         * TODO Make bdrv_replace_child_noperm() transactionable to avoid
+-         * undraining the parent in the first place. Once this is done, having
+-         * new_bs drained when calling bdrv_replace_child_tran() is not a
+-         * requirement any more.
+-         */
+-        bdrv_parent_drained_begin_single(s->child, false);
+-        assert(!bdrv_parent_drained_poll_single(s->child));
+-    }
+-    assert(s->child->quiesced_parent);
+     bdrv_replace_child_noperm(s->child, s->old_bs);
+     bdrv_unref(new_bs);
+ }
+@@ -2396,19 +2382,12 @@ static TransactionActionDrv bdrv_replace_child_drv = {
+  *
+  * Note: real unref of old_bs is done only on commit.
+  *
+- * Both @child->bs and @new_bs (if non-NULL) must be drained. @new_bs must be
+- * kept drained until the transaction is completed.
+- *
+  * The function doesn't update permissions, caller is responsible for this.
+  */
+ static void bdrv_replace_child_tran(BdrvChild *child, BlockDriverState *new_bs,
+                                     Transaction *tran)
+ {
+     BdrvReplaceChildState *s = g_new(BdrvReplaceChildState, 1);
+-
+-    assert(child->quiesced_parent);
+-    assert(!new_bs || new_bs->quiesce_counter);
+-
+     *s = (BdrvReplaceChildState) {
+         .child = child,
+         .old_bs = child->bs,
+@@ -2831,14 +2810,6 @@ uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm)
+     return permissions[qapi_perm];
+ }
+ 
+-/*
+- * Replaces the node that a BdrvChild points to without updating permissions.
+- *
+- * If @new_bs is non-NULL, the parent of @child must already be drained through
+- * @child.
+- *
+- * This function does not poll.
+- */
+ static void bdrv_replace_child_noperm(BdrvChild *child,
+                                       BlockDriverState *new_bs)
+ {
+@@ -2846,28 +2817,6 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+     int new_bs_quiesce_counter;
+ 
+     assert(!child->frozen);
+-
+-    /*
+-     * If we want to change the BdrvChild to point to a drained node as its new
+-     * child->bs, we need to make sure that its new parent is drained, too. In
+-     * other words, either child->quiesce_parent must already be true or we must
+-     * be able to set it and keep the parent's quiesce_counter consistent with
+-     * that, but without polling or starting new requests (this function
+-     * guarantees that it doesn't poll, and starting new requests would be
+-     * against the invariants of drain sections).
+-     *
+-     * To keep things simple, we pick the first option (child->quiesce_parent
+-     * must already be true). We also generalise the rule a bit to make it
+-     * easier to verify in callers and more likely to be covered in test cases:
+-     * The parent must be quiesced through this child even if new_bs isn't
+-     * currently drained.
+-     *
+-     * The only exception is for callers that always pass new_bs == NULL. In
+-     * this case, we obviously never need to consider the case of a drained
+-     * new_bs, so we can keep the callers simpler by allowing them not to drain
+-     * the parent.
+-     */
+-    assert(!new_bs || child->quiesced_parent);
+     assert(old_bs != new_bs);
+     GLOBAL_STATE_CODE();
+ 
+@@ -2875,6 +2824,15 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+         assert(bdrv_get_aio_context(old_bs) == bdrv_get_aio_context(new_bs));
+     }
+ 
++    /*
++     * If the new child node is drained but the old one was not, flush
++     * all outstanding requests to the old child node.
++     */
++    new_bs_quiesce_counter = (new_bs ? new_bs->quiesce_counter : 0);
++    if (new_bs_quiesce_counter && !child->quiesced_parent) {
++        bdrv_parent_drained_begin_single(child, true);
++    }
++
+     if (old_bs) {
+         if (child->klass->detach) {
+             child->klass->detach(child);
+@@ -2894,9 +2852,11 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+     }
+ 
+     /*
+-     * If the parent was drained through this BdrvChild previously, but new_bs
+-     * is not drained, allow requests to come in only after the new node has
+-     * been attached.
++     * If the old child node was drained but the new one is not, allow
++     * requests to come in only after the new node has been attached.
++     *
++     * Update new_bs_quiesce_counter because bdrv_parent_drained_begin_single()
++     * polls, which could have changed the value.
+      */
+     new_bs_quiesce_counter = (new_bs ? new_bs->quiesce_counter : 0);
+     if (!new_bs_quiesce_counter && child->quiesced_parent) {
+@@ -3033,24 +2993,6 @@ static BdrvChild *bdrv_attach_child_common(BlockDriverState *child_bs,
+     }
+ 
+     bdrv_ref(child_bs);
+-    /*
+-     * Let every new BdrvChild start with a drained parent. Inserting the child
+-     * in the graph with bdrv_replace_child_noperm() will undrain it if
+-     * @child_bs is not drained.
+-     *
+-     * The child was only just created and is not yet visible in global state
+-     * until bdrv_replace_child_noperm() inserts it into the graph, so nobody
+-     * could have sent requests and polling is not necessary.
+-     *
+-     * Note that this means that the parent isn't fully drained yet, we only
+-     * stop new requests from coming in. This is fine, we don't care about the
+-     * old requests here, they are not for this child. If another place enters a
+-     * drain section for the same parent, but wants it to be fully quiesced, it
+-     * will not run most of the the code in .drained_begin() again (which is not
+-     * a problem, we already did this), but it will still poll until the parent
+-     * is fully quiesced, so it will not be negatively affected either.
+-     */
+-    bdrv_parent_drained_begin_single(new_child, false);
+     bdrv_replace_child_noperm(new_child, child_bs);
+ 
+     BdrvAttachChildCommonState *s = g_new(BdrvAttachChildCommonState, 1);
+@@ -5096,24 +5038,12 @@ static void bdrv_remove_child(BdrvChild *child, Transaction *tran)
+     }
+ 
+     if (child->bs) {
+-        BlockDriverState *bs = child->bs;
+-        bdrv_drained_begin(bs);
+         bdrv_replace_child_tran(child, NULL, tran);
+-        bdrv_drained_end(bs);
+     }
+ 
+     tran_add(tran, &bdrv_remove_child_drv, child);
+ }
+ 
+-static void undrain_on_clean_cb(void *opaque)
+-{
+-    bdrv_drained_end(opaque);
+-}
+-
+-static TransactionActionDrv undrain_on_clean = {
+-    .clean = undrain_on_clean_cb,
+-};
+-
+ static int bdrv_replace_node_noperm(BlockDriverState *from,
+                                     BlockDriverState *to,
+                                     bool auto_skip, Transaction *tran,
+@@ -5123,11 +5053,6 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
+ 
+     GLOBAL_STATE_CODE();
+ 
+-    bdrv_drained_begin(from);
+-    bdrv_drained_begin(to);
+-    tran_add(tran, &undrain_on_clean, from);
+-    tran_add(tran, &undrain_on_clean, to);
+-
+     QLIST_FOREACH_SAFE(c, &from->parents, next_parent, next) {
+         assert(c->bs == from);
+         if (!should_update_child(c, to)) {
+diff --git a/block/io.c b/block/io.c
+index aee6e70c1496..571ff8c6493a 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -81,7 +81,7 @@ static void bdrv_parent_drained_end(BlockDriverState *bs, BdrvChild *ignore)
+     }
+ }
+ 
+-bool bdrv_parent_drained_poll_single(BdrvChild *c)
++static bool bdrv_parent_drained_poll_single(BdrvChild *c)
+ {
+     if (c->klass->drained_poll) {
+         return c->klass->drained_poll(c);
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 75d043204355..0e0cd1249705 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -313,14 +313,6 @@ bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
+  */
+ void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll);
+ 
+-/**
+- * bdrv_parent_drained_poll_single:
+- *
+- * Returns true if there is any pending activity to cease before @c can be
+- * called quiesced, false otherwise.
+- */
+-bool bdrv_parent_drained_poll_single(BdrvChild *c);
+-
+ /**
+  * bdrv_parent_drained_end_single:
+  *
+diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
+index 2686a8aceee1..172bc6debc23 100644
+--- a/tests/unit/test-bdrv-drain.c
++++ b/tests/unit/test-bdrv-drain.c
+@@ -1654,7 +1654,6 @@ static void test_drop_intermediate_poll(void)
+ 
+ 
+ typedef struct BDRVReplaceTestState {
+-    bool setup_completed;
+     bool was_drained;
+     bool was_undrained;
+     bool has_read;
+@@ -1739,10 +1738,6 @@ static void bdrv_replace_test_drain_begin(BlockDriverState *bs)
+ {
+     BDRVReplaceTestState *s = bs->opaque;
+ 
+-    if (!s->setup_completed) {
+-        return;
+-    }
+-
+     if (!s->drain_count) {
+         s->drain_co = qemu_coroutine_create(bdrv_replace_test_drain_co, bs);
+         bdrv_inc_in_flight(bs);
+@@ -1774,10 +1769,6 @@ static void bdrv_replace_test_drain_end(BlockDriverState *bs)
+ {
+     BDRVReplaceTestState *s = bs->opaque;
+ 
+-    if (!s->setup_completed) {
+-        return;
+-    }
+-
+     g_assert(s->drain_count > 0);
+     if (!--s->drain_count) {
+         s->was_undrained = true;
+@@ -1876,7 +1867,6 @@ static void do_test_replace_child_mid_drain(int old_drain_count,
+     bdrv_ref(old_child_bs);
+     bdrv_attach_child(parent_bs, old_child_bs, "child", &child_of_bds,
+                       BDRV_CHILD_COW, &error_abort);
+-    parent_s->setup_completed = true;
+ 
+     for (i = 0; i < old_drain_count; i++) {
+         bdrv_drained_begin(old_child_bs);
+-- 
+2.38.1
 
-> ---
->  configure                | 94 ----------------------------------------
->  contrib/plugins/Makefile |  3 +-
->  meson.build              | 72 ++++++++++++++++++++----------
->  3 files changed, 51 insertions(+), 118 deletions(-)
->
-> diff --git a/configure b/configure
-> index 5d31294f316f..6df61f4337e4 100755
-> --- a/configure
-> +++ b/configure
-> @@ -75,7 +75,6 @@ fi
->  TMPB=3D"qemu-conf"
->  TMPC=3D"${TMPDIR1}/${TMPB}.c"
->  TMPO=3D"${TMPDIR1}/${TMPB}.o"
-> -TMPM=3D"${TMPDIR1}/${TMPB}.m"
->  TMPE=3D"${TMPDIR1}/${TMPB}.exe"
->
->  rm -f config.log
-> @@ -157,15 +156,6 @@ do_cc() {
->      do_compiler_werror "$cc" $CPU_CFLAGS "$@"
->  }
->
-> -do_objc() {
-> -    do_compiler_werror "$objcc" $CPU_CFLAGS "$@"
-> -}
-> -
-> -# Append $2 to the variable named $1, with space separation
-> -add_to() {
-> -    eval $1=3D\${$1:+\"\$$1 \"}\$2
-> -}
-> -
->  compile_object() {
->    local_cflags=3D"$1"
->    do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cfla=
-gs -c -o $TMPO $TMPC
-> @@ -1091,89 +1081,6 @@ if ! compile_prog "" "" ; then
->      error_exit "You need at least GCC v7.4 or Clang v6.0 (or XCode Clang=
- v10.0)"
->  fi
->
-> -# Accumulate -Wfoo and -Wno-bar separately.
-> -# We will list all of the enable flags first, and the disable flags seco=
-nd.
-> -# Note that we do not add -Werror, because that would enable it for all
-> -# configure tests. If a configure test failed due to -Werror this would
-> -# just silently disable some features, so it's too error prone.
-> -
-> -warn_flags=3D
-> -add_to warn_flags -Wundef
-> -add_to warn_flags -Wwrite-strings
-> -add_to warn_flags -Wmissing-prototypes
-> -add_to warn_flags -Wstrict-prototypes
-> -add_to warn_flags -Wredundant-decls
-> -add_to warn_flags -Wold-style-declaration
-> -add_to warn_flags -Wold-style-definition
-> -add_to warn_flags -Wtype-limits
-> -add_to warn_flags -Wformat-security
-> -add_to warn_flags -Wformat-y2k
-> -add_to warn_flags -Winit-self
-> -add_to warn_flags -Wignored-qualifiers
-> -add_to warn_flags -Wempty-body
-> -add_to warn_flags -Wnested-externs
-> -add_to warn_flags -Wendif-labels
-> -add_to warn_flags -Wexpansion-to-defined
-> -add_to warn_flags -Wimplicit-fallthrough=3D2
-> -
-> -nowarn_flags=3D
-> -add_to nowarn_flags -Wno-initializer-overrides
-> -add_to nowarn_flags -Wno-missing-include-dirs
-> -add_to nowarn_flags -Wno-shift-negative-value
-> -add_to nowarn_flags -Wno-string-plus-int
-> -add_to nowarn_flags -Wno-typedef-redefinition
-> -add_to nowarn_flags -Wno-tautological-type-limit-compare
-> -add_to nowarn_flags -Wno-psabi
-> -add_to nowarn_flags -Wno-gnu-variable-sized-type-not-at-end
-> -
-> -gcc_flags=3D"$warn_flags $nowarn_flags"
-> -
-> -cc_has_warning_flag() {
-> -    write_c_skeleton;
-> -
-> -    # Use the positive sense of the flag when testing for -Wno-wombat
-> -    # support (gcc will happily accept the -Wno- form of unknown
-> -    # warning options).
-> -    optflag=3D"$(echo $1 | sed -e 's/^-Wno-/-W/')"
-> -    compile_prog "-Werror $optflag" ""
-> -}
-> -
-> -objcc_has_warning_flag() {
-> -    cat > $TMPM <<EOF
-> -int main(void) { return 0; }
-> -EOF
-> -
-> -    # Use the positive sense of the flag when testing for -Wno-wombat
-> -    # support (gcc will happily accept the -Wno- form of unknown
-> -    # warning options).
-> -    optflag=3D"$(echo $1 | sed -e 's/^-Wno-/-W/')"
-> -    do_objc -Werror $optflag \
-> -      $OBJCFLAGS $EXTRA_OBJCFLAGS $CONFIGURE_OBJCFLAGS $QEMU_OBJCFLAGS \
-> -      -o $TMPE $TMPM
-> -}
-> -
-> -for flag in $gcc_flags; do
-> -    if cc_has_warning_flag $flag ; then
-> -        QEMU_CFLAGS=3D"$QEMU_CFLAGS $flag"
-> -    fi
-> -    if objcc_has_warning_flag $flag ; then
-> -        QEMU_OBJCFLAGS=3D"$QEMU_OBJCFLAGS $flag"
-> -    fi
-> -done
-> -
-> -# Disable -Wmissing-braces on older compilers that warn even for
-> -# the "universal" C zero initializer {0}.
-> -cat > $TMPC << EOF
-> -struct {
-> -  int a[2];
-> -} x =3D {0};
-> -EOF
-> -if compile_object "-Werror" "" ; then
-> -  :
-> -else
-> -  QEMU_CFLAGS=3D"$QEMU_CFLAGS -Wno-missing-braces"
-> -fi
-> -
->  # Resolve default for --enable-plugins
->  if test "$static" =3D "yes" ; then
->    if test "$plugins" =3D "yes"; then
-> @@ -1928,7 +1835,6 @@ echo "NINJA=3D$ninja" >> $config_host_mak
->  echo "PKG_CONFIG=3D${pkg_config_exe}" >> $config_host_mak
->  echo "CC=3D$cc" >> $config_host_mak
->  echo "QEMU_CFLAGS=3D$QEMU_CFLAGS" >> $config_host_mak
-> -echo "QEMU_OBJCFLAGS=3D$QEMU_OBJCFLAGS" >> $config_host_mak
->  echo "EXESUF=3D$EXESUF" >> $config_host_mak
->
->  # use included Linux headers
-> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
-> index 8a316cd76f2f..b2b9db9f51af 100644
-> --- a/contrib/plugins/Makefile
-> +++ b/contrib/plugins/Makefile
-> @@ -27,8 +27,7 @@ SONAMES :=3D $(addsuffix .so,$(addprefix lib,$(NAMES)))
->  # The main QEMU uses Glib extensively so it's perfectly fine to use it
->  # in plugins (which many example do).
->  CFLAGS :=3D $(shell $(PKG_CONFIG) --cflags glib-2.0)
-> -CFLAGS +=3D -fPIC -Wall $(filter -W%, $(QEMU_CFLAGS))
-> -CFLAGS +=3D $(if $(findstring no-psabi,$(QEMU_CFLAGS)),-Wpsabi)
-> +CFLAGS +=3D -fPIC -Wall
->  CFLAGS +=3D $(if $(CONFIG_DEBUG_TCG), -ggdb -O0)
->  CFLAGS +=3D -I$(SRC_PATH)/include/qemu
->
-> diff --git a/meson.build b/meson.build
-> index c5a8dce9e1d6..4ec8104b73a3 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -190,16 +190,8 @@ endif
->  # Compiler flags #
->  ##################
->
-> -qemu_common_flags =3D []
-> +qemu_common_flags =3D config_host['QEMU_CFLAGS'].split()
->  qemu_cflags =3D []
-> -foreach arg : config_host['QEMU_CFLAGS'].split()
-> -  if arg.startswith('-W')
-> -    qemu_cflags +=3D arg
-> -  else
-> -    qemu_common_flags +=3D arg
-> -  endif
-> -endforeach
-> -qemu_objcflags =3D config_host['QEMU_OBJCFLAGS'].split()
->  qemu_ldflags =3D []
->
->  if get_option('gprof')
-> @@ -380,20 +372,49 @@ endif
->  add_global_arguments(qemu_common_flags, native: false, language: all_lan=
-guages)
->  add_global_link_arguments(qemu_ldflags, native: false, language: all_lan=
-guages)
->
-> +# Collect warnings that we want to enable
-> +
-> +warn_flags =3D [
-> +  '-Wundef',
-> +  '-Wwrite-strings',
-> +  '-Wmissing-prototypes',
-> +  '-Wstrict-prototypes',
-> +  '-Wredundant-decls',
-> +  '-Wold-style-declaration',
-> +  '-Wold-style-definition',
-> +  '-Wtype-limits',
-> +  '-Wformat-security',
-> +  '-Wformat-y2k',
-> +  '-Winit-self',
-> +  '-Wignored-qualifiers',
-> +  '-Wempty-body',
-> +  '-Wnested-externs',
-> +  '-Wendif-labels',
-> +  '-Wexpansion-to-defined',
-> +  '-Wimplicit-fallthrough=3D2',
-> +  '-Wno-initializer-overrides',
-> +  '-Wno-missing-include-dirs',
-> +  '-Wno-shift-negative-value',
-> +  '-Wno-string-plus-int',
-> +  '-Wno-typedef-redefinition',
-> +  '-Wno-tautological-type-limit-compare',
-> +  '-Wno-psabi',
-> +  '-Wno-gnu-variable-sized-type-not-at-end',
-> +]
-> +
-> +if not cc.compiles('''
-> +  struct {
-> +    int a[2];
-> +  } x =3D {0};''', args: ['-Werror'])
-> +  warn_flags +=3D ['-Wno-missing-braces']
-> +endif
-> +
->  # Check that the C++ compiler exists and works with the C compiler.
->  link_language =3D 'c'
->  linker =3D cc
->  qemu_cxxflags =3D []
->  if 'cpp' in all_languages
-> -  add_global_arguments(['-D__STDC_LIMIT_MACROS', '-D__STDC_CONSTANT_MACR=
-OS', '-D__STDC_FORMAT_MACROS'],
-> -                       native: false, language: 'cpp')
-> -  foreach k: qemu_cflags
-> -    if k not in ['-Wstrict-prototypes', '-Wmissing-prototypes', '-Wneste=
-d-externs',
-> -                 '-Wold-style-declaration', '-Wold-style-definition', '-=
-Wredundant-decls']
-> -      qemu_cxxflags +=3D [k]
-> -    endif
-> -  endforeach
-> -
-> +  qemu_cxxflags =3D ['-D__STDC_LIMIT_MACROS', '-D__STDC_CONSTANT_MACROS'=
-, '-D__STDC_FORMAT_MACROS'] + qemu_cflags
->    if cxx.links(files('scripts/main.c'), args: qemu_cflags)
->      link_language =3D 'cpp'
->      linker =3D cxx
-> @@ -413,9 +434,16 @@ if get_option('optimization') !=3D '0' and targetos =
-=3D=3D 'linux'
->    endif
->  endif
->
-> -add_project_arguments(qemu_cflags, native: false, language: 'c')
-> -add_project_arguments(qemu_cxxflags, native: false, language: 'cpp')
-> -add_project_arguments(qemu_objcflags, native: false, language: 'objc')
-> +add_project_arguments(qemu_cflags, native: false, language: 'objc')
-> +add_project_arguments(cc.get_supported_arguments(warn_flags), native: fa=
-lse, language: 'c')
-> +if 'cpp' in all_languages
-> +  add_project_arguments(qemu_cxxflags, native: false, language: 'cpp')
-> +  add_project_arguments(cxx.get_supported_arguments(warn_flags), native:=
- false, language: 'cpp')
-> +endif
-> +if 'objc' in all_languages
-> +  # Note sanitizer flags are not applied to Objective-C sources!
-> +  add_project_arguments(objc.get_supported_arguments(warn_flags), native=
-: false, language: 'objc')
-> +endif
->  if targetos =3D=3D 'linux'
->    add_project_arguments('-isystem', meson.current_source_dir() / 'linux-=
-headers',
->                          '-isystem', 'linux-headers',
-> @@ -3927,7 +3955,7 @@ if 'cpp' in all_languages
->    summary_info +=3D {'QEMU_CXXFLAGS':     ' '.join(qemu_common_flags + q=
-emu_cxxflags)}
->  endif
->  if 'objc' in all_languages
-> -  summary_info +=3D {'QEMU_OBJCFLAGS':    ' '.join(qemu_common_flags + q=
-emu_objcflags)}
-> +  summary_info +=3D {'QEMU_OBJCFLAGS':    ' '.join(qemu_common_flags)}
->  endif
->  summary_info +=3D {'QEMU_LDFLAGS':      ' '.join(qemu_ldflags)}
->  summary_info +=3D {'profiler':          get_option('profiler')}
-> --
-> 2.38.1
->
->
-
-
---=20
-Marc-Andr=C3=A9 Lureau
 
