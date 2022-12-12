@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28277649E8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:20:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55773649E99
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Dec 2022 13:23:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4hlw-0003ki-SB; Mon, 12 Dec 2022 07:19:05 -0500
+	id 1p4hpT-0006LO-TB; Mon, 12 Dec 2022 07:22:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4hlo-0003jA-AY
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:18:57 -0500
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
+ id 1p4hp6-00068l-9Z
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:22:29 -0500
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1p4hld-0006cB-SF
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:18:49 -0500
-Received: by mail-lf1-x12d.google.com with SMTP id q6so8156738lfm.10
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:18:44 -0800 (PST)
+ id 1p4hp2-0007yn-8R
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 07:22:19 -0500
+Received: by mail-lf1-x12a.google.com with SMTP id x28so18236125lfn.6
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 04:22:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aoINO2admwNQDDsHO1OBCsLlbnJhhXYVP89XEdE6/Bg=;
- b=G/N2kDXNHY1Uosr5RPyL14gDAT8Ss2j/PRXEiHrr9Qryp94ah3kUgx8mWMHaorEhgk
- CLFEvlcH0miIhXJtc/up5P1UAv7CVomU9LI7XknXOeQMf+BO7g23m0ltKJ9iM+wpc9MH
- c7mdXXvSHKXEFKUkAgo13lw368Wu7LGW51WhywgICjpfffQBy6jeZTB6tQ/mx7xWwkaT
- iAFU+NsNPNNtABQJGf5oslCqTBX0Qv1V1oZuWcjrEOEzi+7BmNIKHGMn2fqS6hc10x9i
- has/wa5EryBtxolbffGiv3PZsMZUApBPWw1GC06Gt9JiC2hisRnV85o09U3HuVM+KFyC
- 8MiA==
+ bh=GC4BcWek+RzV+0m03d8K/6mQ13znqZZvV7iq8AffMNg=;
+ b=dzyz5upivGku8vOSDv8Ug9pFJZReIzp9szOBdeRI0oohKoeUe3iJSDd1nb2Gpna92Z
+ jfBBvrqRpqQC9DF4A3J0C5whja3ZMyc3Eg9CVWlu8wYvUr8mKthTsornPMnMrNEPSerc
+ avd29P1/3/DWzVZ3kqAz/TbZOiSBqSDz9qQNCrndHWI52egwZAQghe6+9RidPQ8whQni
+ yEFfzVKDlsS2yRR+3KiQj57pMbluBf8GUpZaNv5zlZsYb0DGjoq9bRcowxYGQEIqw8B8
+ yz1CxHTpeXgmGHAzK+yZKqVjCenR/aWvekpk+fLmLm9wSHuVhYpwYOD4LfCvbBJxVzW/
+ srBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aoINO2admwNQDDsHO1OBCsLlbnJhhXYVP89XEdE6/Bg=;
- b=HnE/LwvdHiKJuR73yQjdAIonvtlFjP5WppuXpJQ7oyIik4/8Bir2rWkM7pcf8d5uF1
- j/RC7kEz7fP5BeQucSyUo8fQmcPQ7y+y3CudXcAB4AnU9Qxp8rnjo5QC17XEXH7Gixvg
- VhXTffmZRJYeJHe7MhGEmNsy+YYCUuR6v+A47790YawNlZRtdNSLqqeRkGXxJS/wP0XN
- 0A/h/tajaQl33BKwUMjqA9y5o0tuey4PUWzVpTAhtpxj2hjQ2hk7A4oLCFeKTZSivVnT
- lS3Cs612xWfS060VP0okxMUJjdZa7e3LKMn3g1a9DMwQMQZibTXae0srsqtPu2L/aaK0
- dI+w==
-X-Gm-Message-State: ANoB5pml5YMjmNM1NLtRE6Q/ZsA0w4NPO3hGPdncbx6lIOwa47qpS+oH
- ee9E4sxLeBdQsfMN4FfRJo3qQxXF4oRfbSaf6f4slyCMfzE=
-X-Google-Smtp-Source: AA0mqf71jtMSGC++zP3mAdooaZRmdUBH3eGQLg/2A8T23Ig0sCefxgUezGV2H/UX3MeX9rbyYj+SEwJKRg/cgIjaRfM=
-X-Received: by 2002:a19:f016:0:b0:4b5:886b:d4af with SMTP id
- p22-20020a19f016000000b004b5886bd4afmr5078997lfc.276.1670847522552; Mon, 12
- Dec 2022 04:18:42 -0800 (PST)
+ bh=GC4BcWek+RzV+0m03d8K/6mQ13znqZZvV7iq8AffMNg=;
+ b=KdtOM65DRzbS02NFfMHC2nOojChx2XNBIIDSCFkuS2qDVYCgIxhAaSCnDjH+u5Dc9D
+ SKGVBxP80c+/SoaSM6iCPgy3u0WNoljZGFvx4lX6OGcj0xv9/1r6H84hHyqsg4F0He0t
+ O/WU+3e+IgBsl1DqUkudy5x9ksuSEIHNsvMXvFdu5vmu+UE0H/sr5LHhgZH2ly07MLER
+ q+f78QahE01S5hrAew2MAeSgK22BkMEgbzmQ/Kq6bmmfZNFlWzhw4ezwm0KFm/16B4ls
+ jlrkGV5UYRgVJh2X0cGH+yn4s6XQigT1d2Ml3KnwvKa8+GEHlC9YvZ1fNdu4HaoLp5RH
+ P09w==
+X-Gm-Message-State: ANoB5pmV37EpYpc4sZ2Fiw1pkez6Vh9Mu78Mi5/ZJtMb56EeIT665Snu
+ Y+vkVxAoGKiRmZyvvKbamLBmhwDNxMRfky6VR2k=
+X-Google-Smtp-Source: AA0mqf4VRFkyeaTrtpAbL6kB3v4D9RzuQchYGsx4h4kOt18nmXFQUTMTlL5d2G/evv1dPf77XKND8mEJCwcmSVjxEeo=
+X-Received: by 2002:ac2:41c6:0:b0:4b0:4b08:6873 with SMTP id
+ d6-20020ac241c6000000b004b04b086873mr35229109lfi.329.1670847733399; Mon, 12
+ Dec 2022 04:22:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-24-pbonzini@redhat.com>
-In-Reply-To: <20221209112409.184703-24-pbonzini@redhat.com>
+ <20221209112409.184703-25-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-25-pbonzini@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 12 Dec 2022 16:18:30 +0400
-Message-ID: <CAJ+F1CK=kSUdf0mdek+Pm7GD5N0H_Rdf3yK8fMjnR2HTcCwxyQ@mail.gmail.com>
-Subject: Re: [PATCH 23/30] build: move coroutine backend selection to meson
+Date: Mon, 12 Dec 2022 16:22:01 +0400
+Message-ID: <CAJ+F1CL9cOnou91xuphgkVbRyAA3QE8oA36u1JOHdQo5qwZjQA@mail.gmail.com>
+Subject: Re: [PATCH 24/30] build: move stack protector flag selection to meson
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,268 +85,215 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 9, 2022 at 3:37 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> To simplify the code, rename coroutine-win32.c to match the option
-> passed to configure.
+Hi
+
+On Fri, Dec 9, 2022 at 3:42 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 > ---
->  configure                                     | 62 -------------------
->  meson.build                                   | 32 +++++++++-
->  meson_options.txt                             |  3 +
->  scripts/meson-buildoptions.py                 |  1 +
->  scripts/meson-buildoptions.sh                 |  3 +
->  ...{coroutine-win32.c =3D> coroutine-windows.c} |  0
->  util/meson.build                              |  2 +-
->  7 files changed, 38 insertions(+), 65 deletions(-)
->  rename util/{coroutine-win32.c =3D> coroutine-windows.c} (100%)
+>  configure                     | 44 ++---------------------------------
+>  meson.build                   | 28 +++++++++++++++++++++-
+>  meson_options.txt             |  2 ++
+>  scripts/meson-buildoptions.sh |  3 +++
+>  4 files changed, 34 insertions(+), 43 deletions(-)
 >
 > diff --git a/configure b/configure
-> index fea9cbf3abd0..1f7c5bbba4b9 100755
+> index 1f7c5bbba4b9..5d31294f316f 100755
 > --- a/configure
 > +++ b/configure
-> @@ -275,7 +275,6 @@ softmmu=3D"yes"
->  linux_user=3D""
->  bsd_user=3D""
->  pie=3D""
-> -coroutine=3D""
->  plugins=3D"$default_feature"
->  meson=3D""
->  ninja=3D""
-> @@ -792,8 +791,6 @@ for opt do
+> @@ -175,7 +175,7 @@ compile_prog() {
+>    local_cflags=3D"$1"
+>    local_ldflags=3D"$2"
+>    do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cfla=
+gs -o $TMPE $TMPC \
+> -      $LDFLAGS $EXTRA_LDFLAGS $CONFIGURE_LDFLAGS $QEMU_LDFLAGS $local_ld=
+flags
+> +      $LDFLAGS $EXTRA_LDFLAGS $CONFIGURE_LDFLAGS $local_ldflags
+>  }
+>
+>  # symbolically link $1 to $2.  Portable version of "ln -sf".
+> @@ -221,7 +221,6 @@ static=3D"no"
+>  cross_compile=3D"no"
+>  cross_prefix=3D""
+>  host_cc=3D"cc"
+> -stack_protector=3D""
+>  use_containers=3D"yes"
+>  gdb_bin=3D$(command -v "gdb-multiarch" || command -v "gdb")
+>
+> @@ -370,8 +369,6 @@ sdl2_config=3D"${SDL2_CONFIG-${cross_prefix}sdl2-conf=
+ig}"
+>  QEMU_CFLAGS=3D"-fno-strict-aliasing -fno-common -fwrapv"
+>  QEMU_CFLAGS=3D"-D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURC=
+E $QEMU_CFLAGS"
+>
+> -QEMU_LDFLAGS=3D
+> -
+>  # Flags that are needed during configure but later taken care of by Meso=
+n
+>  CONFIGURE_CFLAGS=3D"-std=3Dgnu11 -Wall"
+>  CONFIGURE_LDFLAGS=3D
+> @@ -773,10 +770,6 @@ for opt do
 >    ;;
->    --enable-fdt=3D*) fdt=3D"$optarg"
+>    --disable-werror) werror=3D"no"
 >    ;;
-> -  --with-coroutine=3D*) coroutine=3D"$optarg"
+> -  --enable-stack-protector) stack_protector=3D"yes"
 > -  ;;
->    --with-git=3D*) git=3D"$optarg"
->    ;;
->    --with-git-submodules=3D*)
-> @@ -949,8 +946,6 @@ Advanced options (experts only):
+> -  --disable-stack-protector) stack_protector=3D"no"
+> -  ;;
+>    --enable-cfi)
+>        cfi=3D"true";
+>        meson_option_add -Db_lto=3Dtrue
+> @@ -944,7 +937,6 @@ Advanced options (experts only):
+>    --with-devices-ARCH=3DNAME override default configs/devices
+>    --enable-debug           enable common debug build options
 >    --disable-werror         disable compilation abort on warning
->    --disable-stack-protector disable compiler-provided stack protection
+> -  --disable-stack-protector disable compiler-provided stack protection
 >    --cpu=3DCPU                Build for host CPU [$cpu]
-> -  --with-coroutine=3DBACKEND coroutine backend. Supported options:
-> -                           ucontext, sigaltstack, windows
 >    --enable-plugins
 >                             enable plugins via shared library loading
->    --disable-containers     don't use containers for cross-building
-> @@ -1373,61 +1368,6 @@ case "$fdt" in
->      ;;
->  esac
+> @@ -1157,7 +1149,7 @@ EOF
+>      optflag=3D"$(echo $1 | sed -e 's/^-Wno-/-W/')"
+>      do_objc -Werror $optflag \
+>        $OBJCFLAGS $EXTRA_OBJCFLAGS $CONFIGURE_OBJCFLAGS $QEMU_OBJCFLAGS \
+> -      -o $TMPE $TMPM $QEMU_LDFLAGS
+> +      -o $TMPE $TMPM
+>  }
 >
-> -##########################################
-> -# check and set a backend for coroutine
-> -
-> -# We prefer ucontext, but it's not always possible. The fallback
-> -# is sigcontext. On Windows the only valid backend is the Windows
-> -# specific one.
-> -
-> -ucontext_works=3Dno
-> -if test "$darwin" !=3D "yes"; then
+>  for flag in $gcc_flags; do
+> @@ -1169,37 +1161,6 @@ for flag in $gcc_flags; do
+>      fi
+>  done
+>
+> -if test "$stack_protector" !=3D "no"; then
 > -  cat > $TMPC << EOF
-> -#include <ucontext.h>
-> -#ifdef __stub_makecontext
-> -#error Ignoring glibc stub makecontext which will always fail
-> -#endif
-> -int main(void) { makecontext(0, 0, 0); return 0; }
+> -int main(int argc, char *argv[])
+> -{
+> -    char arr[64], *p =3D arr, *c =3D argv[argc - 1];
+> -    while (*c) {
+> -        *p++ =3D *c++;
+> -    }
+> -    return 0;
+> -}
 > -EOF
-> -  if compile_prog "" "" ; then
-> -    ucontext_works=3Dyes
+> -  gcc_flags=3D"-fstack-protector-strong -fstack-protector-all"
+> -  sp_on=3D0
+> -  for flag in $gcc_flags; do
+> -    # We need to check both a compile and a link, since some compiler
+> -    # setups fail only on a .c->.o compile and some only at link time
+> -    if compile_object "-Werror $flag" &&
+> -       compile_prog "-Werror $flag" ""; then
+> -      QEMU_CFLAGS=3D"$QEMU_CFLAGS $flag"
+> -      QEMU_LDFLAGS=3D"$QEMU_LDFLAGS $flag"
+> -      sp_on=3D1
+> -      break
+> -    fi
+> -  done
+> -  if test "$stack_protector" =3D yes; then
+> -    if test $sp_on =3D 0; then
+> -      error_exit "Stack protector not supported"
+> -    fi
 > -  fi
 > -fi
 > -
-> -if test "$coroutine" =3D ""; then
-> -  if test "$mingw32" =3D "yes"; then
-> -    coroutine=3Dwin32
-> -  elif test "$ucontext_works" =3D "yes"; then
-> -    coroutine=3Ducontext
-> -  else
-> -    coroutine=3Dsigaltstack
-> -  fi
-> -else
-> -  case $coroutine in
-> -  windows)
-> -    if test "$mingw32" !=3D "yes"; then
-> -      error_exit "'windows' coroutine backend only valid for Windows"
-> -    fi
-> -    # Unfortunately the user visible backend name doesn't match the
-> -    # coroutine-*.c filename for this case, so we have to adjust it here=
-.
-> -    coroutine=3Dwin32
-> -    ;;
-> -  ucontext)
-> -    if test "$ucontext_works" !=3D "yes"; then
-> -      error_exit "'ucontext' backend requested but makecontext not avail=
-able"
-> -    fi
-> -    ;;
-> -  sigaltstack)
-> -    if test "$mingw32" =3D "yes"; then
-> -      error_exit "only the 'windows' coroutine backend is valid for Wind=
-ows"
-> -    fi
-> -    ;;
-> -  *)
-> -    error_exit "unknown coroutine backend $coroutine"
-> -    ;;
-> -  esac
-> -fi
-> -
->  ########################################
->  # check if ccache is interfering with
->  # semantic analysis of macros
-> @@ -2002,8 +1942,6 @@ if [ "$bsd" =3D "yes" ] ; then
->    echo "CONFIG_BSD=3Dy" >> $config_host_mak
->  fi
+>  # Disable -Wmissing-braces on older compilers that warn even for
+>  # the "universal" C zero initializer {0}.
+>  cat > $TMPC << EOF
+> @@ -1968,7 +1929,6 @@ echo "PKG_CONFIG=3D${pkg_config_exe}" >> $config_ho=
+st_mak
+>  echo "CC=3D$cc" >> $config_host_mak
+>  echo "QEMU_CFLAGS=3D$QEMU_CFLAGS" >> $config_host_mak
+>  echo "QEMU_OBJCFLAGS=3D$QEMU_OBJCFLAGS" >> $config_host_mak
+> -echo "QEMU_LDFLAGS=3D$QEMU_LDFLAGS" >> $config_host_mak
+>  echo "EXESUF=3D$EXESUF" >> $config_host_mak
 >
-> -echo "CONFIG_COROUTINE_BACKEND=3D$coroutine" >> $config_host_mak
-> -
->  if test "$plugins" =3D "yes" ; then
->      echo "CONFIG_PLUGIN=3Dy" >> $config_host_mak
->  fi
+>  # use included Linux headers
 > diff --git a/meson.build b/meson.build
-> index 7ee9f081d0a1..b9df49667a19 100644
+> index b9df49667a19..c5a8dce9e1d6 100644
 > --- a/meson.build
 > +++ b/meson.build
-> @@ -211,6 +211,34 @@ if get_option('prefer_static')
+> @@ -200,7 +200,7 @@ foreach arg : config_host['QEMU_CFLAGS'].split()
+>    endif
+>  endforeach
+>  qemu_objcflags =3D config_host['QEMU_OBJCFLAGS'].split()
+> -qemu_ldflags =3D config_host['QEMU_LDFLAGS'].split()
+> +qemu_ldflags =3D []
+>
+>  if get_option('gprof')
+>    qemu_common_flags +=3D ['-p']
+> @@ -211,6 +211,32 @@ if get_option('prefer_static')
 >    qemu_ldflags +=3D get_option('b_pie') ? '-static-pie' : '-static'
 >  endif
 >
-> +coroutine_backend =3D get_option('coroutine_backend')
-> +ucontext_probe =3D '''
-> +  #include <ucontext.h>
-> +  #ifdef __stub_makecontext
-> +  #error Ignoring glibc stub makecontext which will always fail
-> +  #endif
-> +  int main(void) { makecontext(0, 0, 0); return 0; }'''
-> +
-> +# On Windows the only valid backend is the Windows specific one.
-> +# For POSIX prefer ucontext, but it's not always possible. The fallback
-> +# is sigcontext.
-> +supported_backends =3D []
-> +if targetos =3D=3D 'windows'
-> +  supported_backends +=3D ['windows']
-> +else
-> +  if targetos !=3D 'darwin' and cc.links(ucontext_probe)
-> +    supported_backends +=3D ['ucontext']
-> +  endif
-> +  supported_backends +=3D ['sigaltstack']
+> +if not get_option('stack_protector').disabled()
+> +  stack_protector_probe =3D '''
+> +    int main(int argc, char *argv[])
+> +    {
+> +      char arr[64], *p =3D arr, *c =3D argv[argc - 1];
+> +      while (*c) {
+> +          *p++ =3D *c++;
+> +      }
+> +      return 0;
+> +    }'''
+> +  have_stack_protector =3D false
+> +  foreach arg : ['-fstack-protector-strong', '-fstack-protector-all']
+> +    # We need to check both a compile and a link, since some compiler
+> +    # setups fail only on a .c->.o compile and some only at link time
+> +    if cc.compiles(stack_protector_probe, args: ['-Werror', arg]) and \
+> +       cc.links(stack_protector_probe, args: ['-Werror', arg])
+> +      have_stack_protector =3D true
+> +      qemu_cflags +=3D arg
+> +      qemu_ldflags +=3D arg
+> +      break
+> +    endif
+> +  endforeach
+> +  get_option('stack_protector') \
+> +    .require(have_stack_protector, error_message: 'Stack protector not s=
+upported')
 > +endif
 > +
-> +if coroutine_backend =3D=3D 'auto'
-> +  coroutine_backend =3D supported_backends[0]
-> +elif coroutine_backend not in supported_backends
-> +  error('"@0@" backend requested but not available.  Available backends:=
- @1@' \
-> +        .format(coroutine_backend, ', '.join(supported_backends)))
-> +endif
-> +
->  # Compiles if SafeStack *not* enabled
->  safe_stack_probe =3D '''
->    int main(void)
-> @@ -232,7 +260,7 @@ if get_option('safe_stack') !=3D not cc.compiles(safe=
-_stack_probe)
->    qemu_cflags +=3D safe_stack_arg
->    qemu_ldflags +=3D safe_stack_arg
->  endif
-> -if get_option('safe_stack') and config_host['CONFIG_COROUTINE_BACKEND'] =
-!=3D 'ucontext'
-> +if get_option('safe_stack') and coroutine_backend !=3D 'ucontext'
->    error('SafeStack is only supported with the ucontext coroutine backend=
-')
->  endif
->
-> @@ -3949,7 +3977,7 @@ summary(summary_info, bool_yn: true, section: 'Targ=
-ets and accelerators')
->
->  # Block layer
->  summary_info =3D {}
-> -summary_info +=3D {'coroutine backend': config_host['CONFIG_COROUTINE_BA=
-CKEND']}
-> +summary_info +=3D {'coroutine backend': coroutine_backend}
->  summary_info +=3D {'coroutine pool':    have_coroutine_pool}
->  if have_block
->    summary_info +=3D {'Block whitelist (rw)': get_option('block_drv_rw_wh=
-itelist')}
+>  coroutine_backend =3D get_option('coroutine_backend')
+>  ucontext_probe =3D '''
+>    #include <ucontext.h>
 > diff --git a/meson_options.txt b/meson_options.txt
-> index d39d2a060ae7..126f89517e9a 100644
+> index 126f89517e9a..98456b7cf2ea 100644
 > --- a/meson_options.txt
 > +++ b/meson_options.txt
-> @@ -33,6 +33,9 @@ option('fuzzing_engine', type : 'string', value : '',
->         description: 'fuzzing engine library for OSS-Fuzz')
->  option('trace_file', type: 'string', value: 'trace',
->         description: 'Trace file prefix for simple backend')
-> +option('coroutine_backend', type: 'combo',
-> +       choices: ['ucontext', 'sigaltstack', 'windows', 'auto'],
-> +       value: 'auto', description: 'coroutine backend to use')
->
->  # Everything else can be set via --enable/--disable-* option
->  # on the configure script command line.  After adding an option
-> diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.p=
-y
-> index 8e4e5c4e8bd6..66a79cf37ea8 100755
-> --- a/scripts/meson-buildoptions.py
-> +++ b/scripts/meson-buildoptions.py
-> @@ -35,6 +35,7 @@
->  OPTION_NAMES =3D {
->      "b_coverage": "gcov",
->      "b_lto": "lto",
-> +    "coroutine_backend": "with-coroutine",
->      "debug": "debug-info",
->      "malloc": "enable-malloc",
->      "pkgversion": "with-pkgversion",
+> @@ -93,6 +93,8 @@ option('sanitizers', type: 'boolean', value: false,
+>         description: 'enable default sanitizers')
+>  option('tsan', type: 'boolean', value: false,
+>         description: 'enable thread sanitizer')
+> +option('stack_protector', type: 'feature', value: 'auto',
+> +       description: 'compiler-provided stack protection')
+>  option('cfi', type: 'boolean', value: false,
+>         description: 'Control-Flow Integrity (CFI)')
+>  option('cfi_debug', type: 'boolean', value: false,
 > diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.s=
 h
-> index 237220d9b308..29695ac88eea 100644
+> index 29695ac88eea..a87b3702e955 100644
 > --- a/scripts/meson-buildoptions.sh
 > +++ b/scripts/meson-buildoptions.sh
-> @@ -59,6 +59,8 @@ meson_options_help() {
->    printf "%s\n" '  --sysconfdir=3DVALUE       Sysconf data directory [et=
-c]'
->    printf "%s\n" '  --tls-priority=3DVALUE     Default TLS protocol/ciphe=
-r priority string'
->    printf "%s\n" '                           [NORMAL]'
-> +  printf "%s\n" '  --with-coroutine=3DCHOICE  coroutine backend to use (=
-choices:'
-> +  printf "%s\n" '                           auto/sigaltstack/ucontext/wi=
-ndows)'
->    printf "%s\n" '  --with-pkgversion=3DVALUE  use specified string as su=
-b-version of the'
->    printf "%s\n" '                           package'
->    printf "%s\n" '  --with-trace-file=3DVALUE  Trace file prefix for simp=
-le backend [trace]'
-> @@ -236,6 +238,7 @@ _meson_option_parse() {
->      --disable-cocoa) printf "%s" -Dcocoa=3Ddisabled ;;
->      --enable-coreaudio) printf "%s" -Dcoreaudio=3Denabled ;;
->      --disable-coreaudio) printf "%s" -Dcoreaudio=3Ddisabled ;;
-> +    --with-coroutine=3D*) quote_sh "-Dcoroutine_backend=3D$2" ;;
->      --enable-coroutine-pool) printf "%s" -Dcoroutine_pool=3Dtrue ;;
->      --disable-coroutine-pool) printf "%s" -Dcoroutine_pool=3Dfalse ;;
->      --enable-crypto-afalg) printf "%s" -Dcrypto_afalg=3Denabled ;;
-> diff --git a/util/coroutine-win32.c b/util/coroutine-windows.c
-> similarity index 100%
-> rename from util/coroutine-win32.c
-> rename to util/coroutine-windows.c
-> diff --git a/util/meson.build b/util/meson.build
-> index 25b9b61f9817..b2a0aea21beb 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -74,7 +74,7 @@ if have_block or have_ga
->    util_ss.add(files('lockcnt.c'))
->    util_ss.add(files('main-loop.c'))
->    util_ss.add(files('qemu-coroutine.c', 'qemu-coroutine-lock.c', 'qemu-c=
-oroutine-io.c'))
-> -  util_ss.add(files('coroutine-@0@.c'.format(config_host['CONFIG_COROUTI=
-NE_BACKEND'])))
-> +  util_ss.add(files(f'coroutine-@coroutine_backend@.c'))
->    util_ss.add(files('thread-pool.c', 'qemu-timer.c'))
->    util_ss.add(files('qemu-sockets.c'))
->  endif
+> @@ -157,6 +157,7 @@ meson_options_help() {
+>    printf "%s\n" '  sparse          sparse checker'
+>    printf "%s\n" '  spice           Spice server support'
+>    printf "%s\n" '  spice-protocol  Spice protocol support'
+> +  printf "%s\n" '  stack-protector compiler-provided stack protection'
+>    printf "%s\n" '  tcg             TCG support'
+>    printf "%s\n" '  tools           build support utilities that come wit=
+h QEMU'
+>    printf "%s\n" '  tpm             TPM support'
+> @@ -424,6 +425,8 @@ _meson_option_parse() {
+>      --disable-spice) printf "%s" -Dspice=3Ddisabled ;;
+>      --enable-spice-protocol) printf "%s" -Dspice_protocol=3Denabled ;;
+>      --disable-spice-protocol) printf "%s" -Dspice_protocol=3Ddisabled ;;
+> +    --enable-stack-protector) printf "%s" -Dstack_protector=3Denabled ;;
+> +    --disable-stack-protector) printf "%s" -Dstack_protector=3Ddisabled =
+;;
+>      --enable-strip) printf "%s" -Dstrip=3Dtrue ;;
+>      --disable-strip) printf "%s" -Dstrip=3Dfalse ;;
+>      --sysconfdir=3D*) quote_sh "-Dsysconfdir=3D$2" ;;
 > --
 > 2.38.1
 >
