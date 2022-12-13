@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A388B64B510
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0F364B511
 	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 13:22:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p54II-0004CN-T3; Tue, 13 Dec 2022 07:21:58 -0500
+	id 1p54II-0004Ef-T3; Tue, 13 Dec 2022 07:21:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p54Hr-0004BK-Rq
+ id 1p54Hr-0004BJ-Rq
  for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:21:38 -0500
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p54Hl-0001Rt-20
+ id 1p54Hn-0001SA-8V
  for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:21:29 -0500
-Received: by mail-qt1-x831.google.com with SMTP id fu10so11632660qtb.0
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 04:21:21 -0800 (PST)
+Received: by mail-qv1-xf2f.google.com with SMTP id a17so10312649qvt.9
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 04:21:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:references:from
+ h=cc:to:subject:message-id:date:mime-version:from:references
  :user-agent:in-reply-to:from:to:cc:subject:date:message-id:reply-to;
- bh=OECgLK2fDRqtBdc4RLXQ8q6wchI96hrArWUYGSqz1yI=;
- b=cTfJd748/+TpDB1DM7kfbT5588Q2eVNclwMzTe7fJUlYdgijtzBeh2uGKa54DWx/5k
- t5T+G+N0yge7mesLs5QbLaY6AUaEbODBD+XfE9Wm744SLku0dzURXPf5lDEI9OSnNlVg
- dkg4QfRfpmVKprka3elJDEpiy+OyhDERKCtJ4mvga0tC2OlulYCNwMe/hx2qcCcCNBEx
- MPwYi/G1pLu8TTO7yYfwpIJXt6i8gm6HpHnU2MLpnIot4Hs3ZKE/Qd0sUnweA3CtpfqP
- ieYBltK3roZ3d3FxfzM1b+8/gUfMg+fnZh+MV+qQ1i3CwGW9Gi7xD5gm4SGFOVwggISg
- 9yIg==
+ bh=Wu0p79YXvUNv4LELcT0FlPOlP4fbtXH5LQ5QxzILN0g=;
+ b=G9BU34XIE9DI27Fk6x7PlbEhKd9DB+/e8CM4GWHSbIigEV4XudyQL2GyrGZ0xSjz/V
+ KCerv0iXF60eYlw0up8sE0icz9ku+QnGwMONGebpv6ZERnXQyIhaG4e10F2B68nOMPtX
+ avapHEd0R1TWRkXAoPhizEh0h7/txhJ10nc44burzaOyJ6tx2EWMqDJflA8Ck8X12ZWq
+ Zazsy3lqt2mYpJO1zjBSQeb6wNGX/izUDk0+jwS7WDtxR/H11FfDPdviNjFUystNTUYR
+ 9gm4/hVUuwKt8iYt8YZE3nUL94H4lkylJ5oSL0BFZDfCfUyNtPe1wVJBgFjB2elWaj+8
+ aqqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:references:from
+ h=cc:to:subject:message-id:date:mime-version:from:references
  :user-agent:in-reply-to:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OECgLK2fDRqtBdc4RLXQ8q6wchI96hrArWUYGSqz1yI=;
- b=JEpc0LC+inQo7Yad6PhkftK6eihzmpO4heqxfhYEN7s/5/n/h8yQxLDrbO9ziBEHtB
- JiHaGlCAu07hmlPI+9S13zLw6ELYCQy5HGHXxVXHxJtjyDtArCEYIuF0v3yEsP3Gawxk
- zmkS2x0QPUbMmlsm2Q9mNZure+TYORS1frpywrGjdDoMXgOLvGdTfniHUu3ZXKsUpYxG
- iCNogzLU6TIsp402IZnw+TfD4/Fl+mWwfDjqCB6pqqX/Oz86o7sQmBXeRFNSezIjQrCH
- xbZxDHhpaNWtouC7AUjnK9IwEGrOOxx5cR8151Knfeqa6EycnUWZrMt7xm1Ru67CnOkx
- Q4eQ==
-X-Gm-Message-State: ANoB5pnUDfyGLiligSaTiUaibPcwTgJv8oWEf+Yk7Hrc2SAqDtyAweJ3
- KP5YHvGKrvBXYlXZxbh2kOrFLp0BXRCL0FPxwfHltA==
-X-Google-Smtp-Source: AA0mqf5XjDAj4ZHMurn4e0lH+yqkkdrYqofmPZfo33Gh+rCFUodGauD55LKl9t0K2g1Z10aMlSDEHrDtY6OYUb4nM+k=
-X-Received: by 2002:ac8:5313:0:b0:3a8:23ab:2211 with SMTP id
- t19-20020ac85313000000b003a823ab2211mr127371qtn.65.1670934080903; Tue, 13 Dec
- 2022 04:21:20 -0800 (PST)
+ bh=Wu0p79YXvUNv4LELcT0FlPOlP4fbtXH5LQ5QxzILN0g=;
+ b=7vYijQqkbFZIKKkY6XR/CHN6LAagwhkJhhEj9a5SBQIJCPtgOZoK8UVSi8Su8JpYzL
+ tO9mk3F/+zxC/L7wwf7TJjyvBCcj5LGz0iGcobkzvW8nDo+zC8LGjg8RReKBddcbUyIh
+ 4910TNPQfWF4H1tJKc3tak0RqPUsUIMvOoWJxLzCKMiR4/vMYJBJ8EvgVPtVeHOW3XJ3
+ iRa6RvMJbm+haamRm0Cut3y+w3ZRMzM/DtW3J8rz+e7Llze9UkWk7nFMgPbOvaoynLFw
+ FTSoeXu+Ompi+Dl/b6O5//lJafwcULxFBk0Ubhz4Rk69X8Kly8wFMMPT4Ctl6u+CZotn
+ u8WQ==
+X-Gm-Message-State: ANoB5pn6C2U60T9rouTezMcopNcuStoe/s43RN1G++RS3bHNgCuT+YCl
+ ngrIFTp7ePLSfbpTQ8lNvXaHLKTJASa0bkd07+zPJg==
+X-Google-Smtp-Source: AA0mqf7ogLqBJR4KGDeOjykiq0ITJd65W1k//bkxD6O4XfCmNAfigDaYmVqZXxjOfMjSNS0tcwhiytrkPDk+0OJox50=
+X-Received: by 2002:ad4:57a9:0:b0:4bb:699e:4cec with SMTP id
+ g9-20020ad457a9000000b004bb699e4cecmr69944911qvx.6.1670934085429; Tue, 13 Dec
+ 2022 04:21:25 -0800 (PST)
 Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Tue, 13 Dec 2022 04:21:20 -0800
-In-Reply-To: <Y5eNvj7XFc88edIi@x1n>
+ Tue, 13 Dec 2022 04:21:25 -0800
+In-Reply-To: <Y5eMfZci3AazVOFl@x1n>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
 References: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
- <Y5eNvj7XFc88edIi@x1n>
+ <20221212164942.3614611-3-xuchuangxclwt@bytedance.com> <Y5eMfZci3AazVOFl@x1n>
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
 Mime-Version: 1.0
-Date: Tue, 13 Dec 2022 04:21:20 -0800
-Message-ID: <CALophuuXLGMwzwJWTVsE+z5B16cDD7c6mNmxzpcbMg-dZW-Y5g@mail.gmail.com>
-Subject: Re: [RFC v2 0/3] migration: reduce time of loading non-iterable
- vmstate
+Date: Tue, 13 Dec 2022 04:21:25 -0800
+Message-ID: <CALophutKKqk5nDK99to-eQDK9UDxpYcwWsFeXWRGDZiZSfGSEw@mail.gmail.com>
+Subject: Re: [RFC v2 2/3] virtio: support delay of checks in virtio_load()
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com, 
  zhouyibo@bytedance.com, Paolo Bonzini <pbonzini@redhat.com>, david@redhat.com, 
  philmd@linaro.org, mst@redhat.com
-Content-Type: multipart/alternative; boundary="00000000000055f90305efb4a8be"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qt1-x831.google.com
+Content-Type: multipart/alternative; boundary="0000000000009b0adb05efb4a8db"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qv1-xf2f.google.com
 X-Spam_score_int: 29
 X-Spam_score: 2.9
 X-Spam_bar: ++
@@ -92,48 +91,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000055f90305efb4a8be
+--0000000000009b0adb05efb4a8db
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 2022/12/13 =E4=B8=8A=E5=8D=884:23, Peter Xu wrote:
+On 2022/12/13 =E4=B8=8A=E5=8D=884:18, Peter Xu wrote:
 
-On Tue, Dec 13, 2022 at 12:49:39AM +0800, Chuang Xu wrote:
+On Tue, Dec 13, 2022 at 12:49:41AM +0800, Chuang Xu wrote:
 
-Hi!
++bool migration_enable_load_check_delay;
 
-Chuang,
+I'm just afraid this is still too hacky.
 
+One thing is because this variable itself to be only set at specific phase
+during migration to cover that commit().  The other thing is I'm not sure
+we can always rely on the commit() being happen 100% - what if there's no
+memory layout changes throughout the whole process of vm load?  That'll be
+skipped if memory_region_update_pending=3D=3Dfalse as I said.
 
-In this version:
+Yes, you're right. I wanted to set memory_region_update_pending to true at
+the beginning of qemu_loadvm_state_main(), but somehow I forgot this detail=
+..=F0=9F=98=AD
 
-- rebase to latest upstream.
-- add sanity check to address_space_to_flatview().
-- postpone the init of the vring cache until migration's loading completes.
+So far the best I can come up with is we allow each virtio device to
+register a vm state change handler (during virtio_load) to do the rest,
+then in the handler it unregisters itself so it only runs once right before
+the VM starts.  But I'm not sure whether the virtio developers will be
+happy with it.  Maybe worth a try.
 
-Since there'll be other changes besides migration, please consider also
-copy the relevant maintainers too on either memory and virtio in your next
-post:
+Feel free to have a look at like kvmvapic_vm_state_change() if you think
+that idea worth exploring.
 
-$ ./scripts/get_maintainer.pl -f softmmu/memory.c -f hw/virtio/virtio.c
-Paolo Bonzini <pbonzini@redhat.com> <pbonzini@redhat.com> (supporter:Memory=
- API)
-Peter Xu <peterx@redhat.com> <peterx@redhat.com> (supporter:Memory API)
-David Hildenbrand <david@redhat.com> <david@redhat.com> (supporter:Memory A=
-PI)
-"Philippe Mathieu-Daud=C3=A9" <philmd@linaro.org> <philmd@linaro.org>
-(reviewer:Memory API)
-"Michael S. Tsirkin" <mst@redhat.com> <mst@redhat.com>
-(supporter:virtio)qemu-devel@nongnu.org (open list:All patches CC
-here)
+That's a good idea!
 
+But I don't think it's necessary to register a new vm state change handler.
+Maybe we just need to add a delay_check flag to VirtIODevice and do those
+delayed checks in virtio_vmstate_change() when delay_check is true.
 
+Later I'll upload the v3 patches.
 
-Sorry I forgot to update the cc list..
+Thanks!
 
-Thanks for your reminder!
-
---00000000000055f90305efb4a8be
+--0000000000009b0adb05efb4a8db
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -144,58 +143,61 @@ Content-Transfer-Encoding: quoted-printable
   <body>
     <p><br>
     </p>
-    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-562a0c0f08af1=
-0d853a4e027f1715992">On 2022/12/13 =E4=B8=8A=E5=8D=884:23, Peter Xu wrote:<=
+    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-804744c4b3741=
+b79a4a539300be2c4b2">On 2022/12/13 =E4=B8=8A=E5=8D=884:18, Peter Xu wrote:<=
 br>
     </div></div>
-    <blockquote type=3D"cite" cite=3D"mid:Y5eNvj7XFc88edIi@x1n">
-      <pre class=3D"moz-quote-pre">On Tue, Dec 13, 2022 at 12:49:39AM +0800=
+    <blockquote type=3D"cite" cite=3D"mid:Y5eMfZci3AazVOFl@x1n">
+      <pre class=3D"moz-quote-pre">On Tue, Dec 13, 2022 at 12:49:41AM +0800=
 , Chuang Xu wrote:
 </pre>
       <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre">Hi!
+        <pre class=3D"moz-quote-pre">+bool migration_enable_load_check_dela=
+y;
 </pre>
       </blockquote>
-      <pre class=3D"moz-quote-pre">Chuang,
+      <pre class=3D"moz-quote-pre">I&#39;m just afraid this is still too ha=
+cky.
 
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre">In this version:
+One thing is because this variable itself to be only set at specific phase
+during migration to cover that commit().  The other thing is I&#39;m not su=
+re
+we can always rely on the commit() being happen 100% - what if there&#39;s =
+no
+memory layout changes throughout the whole process of vm load?  That&#39;ll=
+ be
+skipped if memory_region_update_pending=3D=3Dfalse as I said.</pre>
+    </blockquote>
+    <pre>Yes, you&#39;re right. I wanted to set memory_region_update_pendin=
+g to true at=20
+the beginning of qemu_loadvm_state_main(), but somehow I forgot this detail=
+..=F0=9F=98=AD</pre>
+    <blockquote type=3D"cite" cite=3D"mid:Y5eMfZci3AazVOFl@x1n">
+      <pre class=3D"moz-quote-pre">So far the best I can come up with is we=
+ allow each virtio device to
+register a vm state change handler (during virtio_load) to do the rest,
+then in the handler it unregisters itself so it only runs once right before
+the VM starts.  But I&#39;m not sure whether the virtio developers will be
+happy with it.  Maybe worth a try.
 
-- rebase to latest upstream.
-- add sanity check to address_space_to_flatview().
-- postpone the init of the vring cache until migration&#39;s loading comple=
-tes.=20
-</pre>
-      </blockquote>
-      <pre><span>Since there&#39;ll be other changes besides migration, ple=
-ase consider also
-copy the relevant maintainers too on either memory and virtio in your next
-post:
-
-$ ./scripts/<a href=3D"get_maintainer.pl" target=3D"_blank">get_maintainer.=
-pl</a> -f softmmu/memory.c -f hw/virtio/virtio.c
-Paolo Bonzini </span><a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:pbon=
-zini@redhat.com">&lt;pbonzini@redhat.com&gt;</a> (supporter:Memory API)
-Peter Xu <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:peterx@redhat.co=
-m">&lt;peterx@redhat.com&gt;</a> (supporter:Memory API)
-David Hildenbrand <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:david@r=
-edhat.com">&lt;david@redhat.com&gt;</a> (supporter:Memory API)
-&quot;Philippe Mathieu-Daud=C3=A9&quot; <a class=3D"moz-txt-link-rfc2396E" =
-href=3D"mailto:philmd@linaro.org">&lt;philmd@linaro.org&gt;</a> (reviewer:M=
-emory API)
-&quot;Michael S. Tsirkin&quot; <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
-ailto:mst@redhat.com">&lt;mst@redhat.com&gt;</a> (supporter:virtio)
-<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:qemu-devel@nongnu.org"=
->qemu-devel@nongnu.org</a> (open list:All patches CC here)
-
-
+Feel free to have a look at like kvmvapic_vm_state_change() if you think
+that idea worth exploring.
 </pre>
     </blockquote>
-    <pre>Sorry I forgot to update the cc list..</pre>
-    <pre>Thanks for your reminder!</pre>
+    <pre class=3D"moz-quote-pre">That&#39;s a good idea!=20
+
+But I don&#39;t think it&#39;s necessary to register a new vm state change =
+handler.=20
+Maybe we just need to add a delay_check flag to VirtIODevice and do those=
+=20
+delayed checks in virtio_vmstate_change() when delay_check is true.
+
+Later I&#39;ll upload the v3 patches.
+
+Thanks!
+</pre>
  =20
 </body></html>
 
---00000000000055f90305efb4a8be--
+--0000000000009b0adb05efb4a8db--
 
