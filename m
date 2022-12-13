@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954E964BE8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:36:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4164964BE75
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:32:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Cmz-0000iV-F1; Tue, 13 Dec 2022 16:26:13 -0500
+	id 1p5Cmz-0000ik-Nw; Tue, 13 Dec 2022 16:26:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5Cmw-0000h2-Og
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:26:10 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ id 1p5Cmx-0000hD-1D
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:26:11 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5Cmu-0003Dw-QI
+ id 1p5Cmv-0003D0-DP
  for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:26:10 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id v70so1050002oie.3
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 13:26:07 -0800 (PST)
+Received: by mail-oi1-x236.google.com with SMTP id l127so1028567oia.8
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 13:26:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QFUsNAuul+J55fC7tXSY0WCt3qBCcqJEW4LFQbi3f+k=;
- b=VccumtVuwewimi/cUVu4XEDvuSAlRKh9q3tJP0rNqXR9hr8hbqn5jv0rUaieYRKvj3
- ZmU6L5EGH9nEteYUPwg6/7wmlPR6MEJL9tQVl8UQYgB++3uNkP/SiCTMx5yvbMJAp9N0
- qlCeQOIVeR4yd+l+pEUKT52iksA9OFi+KZlAz2vLzsQiJ067/RDuVSJVcmkLkTSfE7Cc
- uU8hN2r5dT6bkQfQy0c5nT2lalEzSrrOEBvKnIcjV8OIqd05dey1Y83v56orDFxPlBTW
- kQ36PVdI1Kpr4iRnTtwu1YF/u6QI5uCu4sQD4cxLqc845r6757zRYVfouFk3zmk6CQFb
- lbYQ==
+ bh=7o/uTcMX+wfPe8sHfpNtvUDYBEo1al5HudozA0YE4Gk=;
+ b=xKI1dESWd2pYyhQUd6WIcEc11vhstWeuqvoC4ADEoizfZaQp4fhZtQIGU5C7EW9lxC
+ W0XtoyVsl99lAUdqMLcskX6a4yh65clr4GnEOya7ry+8gRMgGykNB/j2L9g9l0aovrZF
+ Pbt0vY3vFmPb607r84Wed3xlB2xXcL4P3jM9mHIpIoKhqnHw8P40oYsZ2xjgVrH0cLfW
+ Sh0215CnMGcqGI7sZZJxTFVmID7JwpUGqx1VCROGW6CBDcpNA+Fwam9/el7mAD71KUaN
+ Y/VRRG9KtRYpPdY+19+XPyejEfCItYYA+4a/VjnzpYqdqdAydroGVdL5FJNxmiT7fBqa
+ reSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QFUsNAuul+J55fC7tXSY0WCt3qBCcqJEW4LFQbi3f+k=;
- b=U3qxo04I85vkIWswN14WOwg5pi0seLrQl7nrfnu1uzA254YgkTBs7H2q2QPtfC6Z6o
- Z3ks7YAO3hxUh/4H0QdhEO7FVV/kM3hVlxP9IgdCWShybeUuy8kIdZwnzzjcasgvYgpm
- tpnNKsrO8Ij2fWSqbnxXIL8LuNTa6IV9f3hEVGngqOOTYo0poajN3arQF6iES5TtTwr3
- qjmXxxSijSoH3s4seJDF43lCt1TqLl7QTgktPP8jy+H7FAc7ZLN299IgXLU3fyW7xi1b
- Uv2tcWqqvBwK1wVWv5PUPNse8EQPx5tM1G3U7lrytNSclQttxFNv8yNTZjdIhZg6pLZD
- +Q5g==
-X-Gm-Message-State: ANoB5plhqNeHudvcyYr0A0xa40zAHAK0I+4MY9RZGrgiIViEZP0GBJbt
- lfjUlsgWgIzjtHxLHFNRoLPaTUumXZ578pMFDvQ=
-X-Google-Smtp-Source: AA0mqf713G84k2alDtMS5LYcQn08OSfD6+v+sJ8NKjNJd5Sx7CbePRIMQ3i7q10mwh8GxtCK99jDdA==
-X-Received: by 2002:a05:6808:1b1e:b0:35e:4589:19cf with SMTP id
- bx30-20020a0568081b1e00b0035e458919cfmr13206339oib.42.1670966767685; 
- Tue, 13 Dec 2022 13:26:07 -0800 (PST)
+ bh=7o/uTcMX+wfPe8sHfpNtvUDYBEo1al5HudozA0YE4Gk=;
+ b=7WO1wBp/aaSIDYf/Mh05GsiudbssRaIX8++2fwgjNQDvY7TBglkmEMvl4/Fm/QqrAI
+ 0KJXsRRi824NkXNWDrCYHPR8AIbh9y96Vrsbimx5FvRu9bwIbst4/7UzeO1yp6fhmy3m
+ VotP0/L6bMIVddcgfy5MjWX4DUFjZIGVoy3yRjjOleS3ZP45TORN1cXMbGx62hiwZHR/
+ 9Ugm0933n+Ty3i/KRAClr+QxUeXHbe0FaYYqeRekQQUCTR8mENsP5k5PzrJcERqDq5r1
+ CcWtv1S64fi/+xyaLZf/vsLpapHsmUqNQe2urDhZ5o8/5yfeRGP4eKtGgTIerJgQrfpO
+ OA3g==
+X-Gm-Message-State: ANoB5pmdU3pVPBtR+xgnWRI7BcTynxJ3rzGvapZvlGnI9DLvK9UUnT2F
+ Ax6UuOV6mQEwkNa+D5KhoWKqYZGLMSGXsqemT8c=
+X-Google-Smtp-Source: AA0mqf7sEEzmlRLAAQP9PBSNUcFOdoKkpkZs63Mc0kuB5zYarUiijHnzhW65LPXz7J6wYtOh9pXwuQ==
+X-Received: by 2002:a05:6808:2085:b0:35e:915c:f0b4 with SMTP id
+ s5-20020a056808208500b0035e915cf0b4mr5552667oiw.16.1670966768708; 
+ Tue, 13 Dec 2022 13:26:08 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:2efc:c63:85ed:4256:8ad0])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a056808098700b0035c073aa0d8sm5006831oic.18.2022.12.13.13.26.06
+ a7-20020a056808098700b0035c073aa0d8sm5006831oic.18.2022.12.13.13.26.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 13:26:07 -0800 (PST)
+ Tue, 13 Dec 2022 13:26:08 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 23/27] tcg: Convert typecode_to_ffi from array to function
-Date: Tue, 13 Dec 2022 15:25:37 -0600
-Message-Id: <20221213212541.1820840-24-richard.henderson@linaro.org>
+Subject: [PATCH v4 24/27] tcg: Factor init_ffi_layouts() out of
+ tcg_context_init()
+Date: Tue, 13 Dec 2022 15:25:38 -0600
+Message-Id: <20221213212541.1820840-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221213212541.1820840-1-richard.henderson@linaro.org>
 References: <20221213212541.1820840-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,72 +93,116 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-In the unlikely case of invalid typecode mask, the function
-will abort instead of returning a NULL pointer.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Message-Id: <20221111074101.2069454-27-richard.henderson@linaro.org>
 [PMD: Split from bigger patch]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221122180804.938-2-philmd@linaro.org>
+Message-Id: <20221122180804.938-3-philmd@linaro.org>
 ---
- tcg/tcg.c | 30 ++++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+ tcg/tcg.c | 83 +++++++++++++++++++++++++++++--------------------------
+ 1 file changed, 44 insertions(+), 39 deletions(-)
 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 74f7491d73..46cce228a0 100644
+index 46cce228a0..3c3bb2d422 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -555,14 +555,24 @@ static GHashTable *helper_table;
- #ifdef CONFIG_TCG_INTERPRETER
- static GHashTable *ffi_table;
- 
--static ffi_type * const typecode_to_ffi[8] = {
--    [dh_typecode_void] = &ffi_type_void,
--    [dh_typecode_i32]  = &ffi_type_uint32,
--    [dh_typecode_s32]  = &ffi_type_sint32,
--    [dh_typecode_i64]  = &ffi_type_uint64,
--    [dh_typecode_s64]  = &ffi_type_sint64,
--    [dh_typecode_ptr]  = &ffi_type_pointer,
--};
-+static ffi_type *typecode_to_ffi(int argmask)
+@@ -573,7 +573,49 @@ static ffi_type *typecode_to_ffi(int argmask)
+     }
+     g_assert_not_reached();
+ }
+-#endif
++
++static void init_ffi_layouts(void)
 +{
-+    switch (argmask) {
-+    case dh_typecode_void:
-+        return &ffi_type_void;
-+    case dh_typecode_i32:
-+        return &ffi_type_uint32;
-+    case dh_typecode_s32:
-+        return &ffi_type_sint32;
-+    case dh_typecode_i64:
-+        return &ffi_type_uint64;
-+    case dh_typecode_s64:
-+        return &ffi_type_sint64;
-+    case dh_typecode_ptr:
-+        return &ffi_type_pointer;
++    /* g_direct_hash/equal for direct comparisons on uint32_t.  */
++    ffi_table = g_hash_table_new(NULL, NULL);
++    for (int i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
++        uint32_t typemask = all_helpers[i].typemask;
++        gpointer hash = (gpointer)(uintptr_t)typemask;
++        struct {
++            ffi_cif cif;
++            ffi_type *args[];
++        } *ca;
++        ffi_status status;
++        int nargs;
++
++        if (g_hash_table_lookup(ffi_table, hash)) {
++            continue;
++        }
++
++        /* Ignoring the return type, find the last non-zero field. */
++        nargs = 32 - clz32(typemask >> 3);
++        nargs = DIV_ROUND_UP(nargs, 3);
++
++        ca = g_malloc0(sizeof(*ca) + nargs * sizeof(ffi_type *));
++        ca->cif.rtype = typecode_to_ffi(typemask & 7);
++        ca->cif.nargs = nargs;
++
++        if (nargs != 0) {
++            ca->cif.arg_types = ca->args;
++            for (int j = 0; j < nargs; ++j) {
++                int typecode = extract32(typemask, (j + 1) * 3, 3);
++                ca->args[j] = typecode_to_ffi(typecode);
++            }
++        }
++
++        status = ffi_prep_cif(&ca->cif, FFI_DEFAULT_ABI, nargs,
++                              ca->cif.rtype, ca->cif.arg_types);
++        assert(status == FFI_OK);
++
++        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
 +    }
-+    g_assert_not_reached();
 +}
- #endif
++#endif /* CONFIG_TCG_INTERPRETER */
  
  typedef struct TCGCumulativeArgs {
-@@ -779,14 +789,14 @@ static void tcg_context_init(unsigned max_cpus)
-         nargs = DIV_ROUND_UP(nargs, 3);
+     int arg_idx;                /* tcg_gen_callN args[] */
+@@ -768,44 +810,7 @@ static void tcg_context_init(unsigned max_cpus)
+     }
  
-         ca = g_malloc0(sizeof(*ca) + nargs * sizeof(ffi_type *));
--        ca->cif.rtype = typecode_to_ffi[typemask & 7];
-+        ca->cif.rtype = typecode_to_ffi(typemask & 7);
-         ca->cif.nargs = nargs;
+ #ifdef CONFIG_TCG_INTERPRETER
+-    /* g_direct_hash/equal for direct comparisons on uint32_t.  */
+-    ffi_table = g_hash_table_new(NULL, NULL);
+-    for (i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
+-        struct {
+-            ffi_cif cif;
+-            ffi_type *args[];
+-        } *ca;
+-        uint32_t typemask = all_helpers[i].typemask;
+-        gpointer hash = (gpointer)(uintptr_t)typemask;
+-        ffi_status status;
+-        int nargs;
+-
+-        if (g_hash_table_lookup(ffi_table, hash)) {
+-            continue;
+-        }
+-
+-        /* Ignoring the return type, find the last non-zero field. */
+-        nargs = 32 - clz32(typemask >> 3);
+-        nargs = DIV_ROUND_UP(nargs, 3);
+-
+-        ca = g_malloc0(sizeof(*ca) + nargs * sizeof(ffi_type *));
+-        ca->cif.rtype = typecode_to_ffi(typemask & 7);
+-        ca->cif.nargs = nargs;
+-
+-        if (nargs != 0) {
+-            ca->cif.arg_types = ca->args;
+-            for (int j = 0; j < nargs; ++j) {
+-                int typecode = extract32(typemask, (j + 1) * 3, 3);
+-                ca->args[j] = typecode_to_ffi(typecode);
+-            }
+-        }
+-
+-        status = ffi_prep_cif(&ca->cif, FFI_DEFAULT_ABI, nargs,
+-                              ca->cif.rtype, ca->cif.arg_types);
+-        assert(status == FFI_OK);
+-
+-        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
+-    }
++    init_ffi_layouts();
+ #endif
  
-         if (nargs != 0) {
-             ca->cif.arg_types = ca->args;
-             for (int j = 0; j < nargs; ++j) {
-                 int typecode = extract32(typemask, (j + 1) * 3, 3);
--                ca->args[j] = typecode_to_ffi[typecode];
-+                ca->args[j] = typecode_to_ffi(typecode);
-             }
-         }
- 
+     tcg_target_init(s);
 -- 
 2.34.1
 
