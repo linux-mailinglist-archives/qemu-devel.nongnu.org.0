@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BC264B4F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 13:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A388B64B510
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 13:22:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p54CD-0002XH-HP; Tue, 13 Dec 2022 07:15:41 -0500
+	id 1p54II-0004CN-T3; Tue, 13 Dec 2022 07:21:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1p54Bv-0002MZ-KF
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:15:26 -0500
-Received: from mga09.intel.com ([134.134.136.24])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1p54Bs-0005Fn-Cu
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:15:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1670933720; x=1702469720;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=tsxThtPRlNwB3axmd7mnhr1gEw5wKcTXGj/7Ul85Ke0=;
- b=IKBTSOMiydTSbGv7yOyBlHk0V81mQLJPnvlG7MYwuizgFmWqzDEk1kQt
- 0wwGVIXoaQHEH5MySH/VrrXMZK2sbppGb0ktE1TK+uw/mfz2DdDnySRA+
- IHUJ/txXX7Vt9ry6eZZpGbQV9GGqdmm4Wf83hk3svJ51lKNqQiNQc3Mh+
- mnH/hWp/dHSoUQTZ4OEvel0QNsHhTn3mEugDr2vaTrH+njdfRtqf93Dkl
- k9d3CGzG0ISDQZKnV5BEQpPCFownOSVc9bW6sgjpejjn+uRjH3Z3h/K8z
- Fjofmt1Kg6SsVqoKIZCBzzhYBdPfwCIm+2aG1yMfmUAaTCrtmzqc9b7Q2 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="319261713"
-X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; d="scan'208";a="319261713"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2022 04:15:14 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10559"; a="642087091"
-X-IronPort-AV: E=Sophos;i="5.96,241,1665471600"; d="scan'208";a="642087091"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.31.20])
- ([10.255.31.20])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2022 04:15:12 -0800
-Message-ID: <514d47b2-ec42-8e8f-6215-7c0df611c2d1@intel.com>
-Date: Tue, 13 Dec 2022 20:15:10 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.5.1
-Subject: Re: [PATCH v3 6/8] target/i386/intel-pt: Enable host pass through of
- Intel PT
-Content-Language: en-US
-To: Chenyi Qiang <chenyi.qiang@intel.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20221208062513.2589476-1-xiaoyao.li@intel.com>
- <20221208062513.2589476-7-xiaoyao.li@intel.com>
- <79e68a2b-ba65-98bb-a175-68605303d2e5@intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <79e68a2b-ba65-98bb-a175-68605303d2e5@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=xiaoyao.li@intel.com;
- helo=mga09.intel.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1p54Hr-0004BK-Rq
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:21:38 -0500
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1p54Hl-0001Rt-20
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:21:29 -0500
+Received: by mail-qt1-x831.google.com with SMTP id fu10so11632660qtb.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 04:21:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:mime-version:references:from
+ :user-agent:in-reply-to:from:to:cc:subject:date:message-id:reply-to;
+ bh=OECgLK2fDRqtBdc4RLXQ8q6wchI96hrArWUYGSqz1yI=;
+ b=cTfJd748/+TpDB1DM7kfbT5588Q2eVNclwMzTe7fJUlYdgijtzBeh2uGKa54DWx/5k
+ t5T+G+N0yge7mesLs5QbLaY6AUaEbODBD+XfE9Wm744SLku0dzURXPf5lDEI9OSnNlVg
+ dkg4QfRfpmVKprka3elJDEpiy+OyhDERKCtJ4mvga0tC2OlulYCNwMe/hx2qcCcCNBEx
+ MPwYi/G1pLu8TTO7yYfwpIJXt6i8gm6HpHnU2MLpnIot4Hs3ZKE/Qd0sUnweA3CtpfqP
+ ieYBltK3roZ3d3FxfzM1b+8/gUfMg+fnZh+MV+qQ1i3CwGW9Gi7xD5gm4SGFOVwggISg
+ 9yIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:mime-version:references:from
+ :user-agent:in-reply-to:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OECgLK2fDRqtBdc4RLXQ8q6wchI96hrArWUYGSqz1yI=;
+ b=JEpc0LC+inQo7Yad6PhkftK6eihzmpO4heqxfhYEN7s/5/n/h8yQxLDrbO9ziBEHtB
+ JiHaGlCAu07hmlPI+9S13zLw6ELYCQy5HGHXxVXHxJtjyDtArCEYIuF0v3yEsP3Gawxk
+ zmkS2x0QPUbMmlsm2Q9mNZure+TYORS1frpywrGjdDoMXgOLvGdTfniHUu3ZXKsUpYxG
+ iCNogzLU6TIsp402IZnw+TfD4/Fl+mWwfDjqCB6pqqX/Oz86o7sQmBXeRFNSezIjQrCH
+ xbZxDHhpaNWtouC7AUjnK9IwEGrOOxx5cR8151Knfeqa6EycnUWZrMt7xm1Ru67CnOkx
+ Q4eQ==
+X-Gm-Message-State: ANoB5pnUDfyGLiligSaTiUaibPcwTgJv8oWEf+Yk7Hrc2SAqDtyAweJ3
+ KP5YHvGKrvBXYlXZxbh2kOrFLp0BXRCL0FPxwfHltA==
+X-Google-Smtp-Source: AA0mqf5XjDAj4ZHMurn4e0lH+yqkkdrYqofmPZfo33Gh+rCFUodGauD55LKl9t0K2g1Z10aMlSDEHrDtY6OYUb4nM+k=
+X-Received: by 2002:ac8:5313:0:b0:3a8:23ab:2211 with SMTP id
+ t19-20020ac85313000000b003a823ab2211mr127371qtn.65.1670934080903; Tue, 13 Dec
+ 2022 04:21:20 -0800 (PST)
+Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
+ Tue, 13 Dec 2022 04:21:20 -0800
+In-Reply-To: <Y5eNvj7XFc88edIi@x1n>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+References: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
+ <Y5eNvj7XFc88edIi@x1n>
+Mime-Version: 1.0
+Date: Tue, 13 Dec 2022 04:21:20 -0800
+Message-ID: <CALophuuXLGMwzwJWTVsE+z5B16cDD7c6mNmxzpcbMg-dZW-Y5g@mail.gmail.com>
+Subject: Re: [RFC v2 0/3] migration: reduce time of loading non-iterable
+ vmstate
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com, 
+ zhouyibo@bytedance.com, Paolo Bonzini <pbonzini@redhat.com>, david@redhat.com, 
+ philmd@linaro.org, mst@redhat.com
+Content-Type: multipart/alternative; boundary="00000000000055f90305efb4a8be"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qt1-x831.google.com
+X-Spam_score_int: 29
+X-Spam_score: 2.9
+X-Spam_bar: ++
+X-Spam_report: (2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FORGED_MUA_MOZILLA=2.309, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999,
+ HK_RANDOM_FROM=0.999, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,48 +92,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/9/2022 2:55 PM, Chenyi Qiang wrote:
-> 
-> 
-> On 12/8/2022 2:25 PM, Xiaoyao Li wrote:
->> commit e37a5c7fa459 ("i386: Add Intel Processor Trace feature support")
->> added the support of Intel PT by making CPUID[14] of PT as fixed feature
->> set (from ICX) for any CPU model on any host. This truly breaks the PT
->> exposure on Intel SPR platform because SPR has less supported bitmap of
->> CPUID(0x14,1):EBX[15:0] than ICX.
->>
->> To fix the problem, enable pass through of host's PT capabilities for
->> the cases "-cpu host/max" that it won't use default fixed PT feature set
->> of ICX but expand automatically based on get_supported_cpuid reported by
->> host. Meanwhile, it needs to ensure named CPU model still has the fixed
->> PT feature set to not break the live migration case of
->> "-cpu named_cpu_model,+intel-pt"
->>
->> Introduces env->use_default_intel_pt flag.
->>   - True means it's old CPU model that uses fixed PT feature set of ICX.
->>   - False means the named CPU model has its own PT feature set.
->>
->> Besides, to keep the same behavior for old CPU models that validate PT
->> feature set against default fixed PT feature set of ICX in addition to
->> validate from host's capabilities (via get_supported_cpuid) in
->> x86_cpu_filter_features().
->>
->> In the future, new named CPU model, e.g., Sapphire Rapids, can define
->> its own PT feature set by setting @has_specific_intel_pt_feature_set to
-> 
-> 
-> It seems @has_specific_intel_pt_feature_set is not introduced in this
-> series. Then don't need to mention the specific flag name here.
+--00000000000055f90305efb4a8be
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for catching it.
+On 2022/12/13 =E4=B8=8A=E5=8D=884:23, Peter Xu wrote:
 
-It's leftover of previous version. I'll update the commit log for next 
-version.
+On Tue, Dec 13, 2022 at 12:49:39AM +0800, Chuang Xu wrote:
 
->> true and defines it's own FEAT_14_0_EBX, FEAT_14_0_ECX, FEAT_14_1_EAX
->> and FEAT_14_1_EBX.
->>
->> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
->> ---
+Hi!
 
+Chuang,
+
+
+In this version:
+
+- rebase to latest upstream.
+- add sanity check to address_space_to_flatview().
+- postpone the init of the vring cache until migration's loading completes.
+
+Since there'll be other changes besides migration, please consider also
+copy the relevant maintainers too on either memory and virtio in your next
+post:
+
+$ ./scripts/get_maintainer.pl -f softmmu/memory.c -f hw/virtio/virtio.c
+Paolo Bonzini <pbonzini@redhat.com> <pbonzini@redhat.com> (supporter:Memory=
+ API)
+Peter Xu <peterx@redhat.com> <peterx@redhat.com> (supporter:Memory API)
+David Hildenbrand <david@redhat.com> <david@redhat.com> (supporter:Memory A=
+PI)
+"Philippe Mathieu-Daud=C3=A9" <philmd@linaro.org> <philmd@linaro.org>
+(reviewer:Memory API)
+"Michael S. Tsirkin" <mst@redhat.com> <mst@redhat.com>
+(supporter:virtio)qemu-devel@nongnu.org (open list:All patches CC
+here)
+
+
+
+Sorry I forgot to update the cc list..
+
+Thanks for your reminder!
+
+--00000000000055f90305efb4a8be
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8=
+">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-562a0c0f08af1=
+0d853a4e027f1715992">On 2022/12/13 =E4=B8=8A=E5=8D=884:23, Peter Xu wrote:<=
+br>
+    </div></div>
+    <blockquote type=3D"cite" cite=3D"mid:Y5eNvj7XFc88edIi@x1n">
+      <pre class=3D"moz-quote-pre">On Tue, Dec 13, 2022 at 12:49:39AM +0800=
+, Chuang Xu wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre">Hi!
+</pre>
+      </blockquote>
+      <pre class=3D"moz-quote-pre">Chuang,
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre">In this version:
+
+- rebase to latest upstream.
+- add sanity check to address_space_to_flatview().
+- postpone the init of the vring cache until migration&#39;s loading comple=
+tes.=20
+</pre>
+      </blockquote>
+      <pre><span>Since there&#39;ll be other changes besides migration, ple=
+ase consider also
+copy the relevant maintainers too on either memory and virtio in your next
+post:
+
+$ ./scripts/<a href=3D"get_maintainer.pl" target=3D"_blank">get_maintainer.=
+pl</a> -f softmmu/memory.c -f hw/virtio/virtio.c
+Paolo Bonzini </span><a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:pbon=
+zini@redhat.com">&lt;pbonzini@redhat.com&gt;</a> (supporter:Memory API)
+Peter Xu <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:peterx@redhat.co=
+m">&lt;peterx@redhat.com&gt;</a> (supporter:Memory API)
+David Hildenbrand <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:david@r=
+edhat.com">&lt;david@redhat.com&gt;</a> (supporter:Memory API)
+&quot;Philippe Mathieu-Daud=C3=A9&quot; <a class=3D"moz-txt-link-rfc2396E" =
+href=3D"mailto:philmd@linaro.org">&lt;philmd@linaro.org&gt;</a> (reviewer:M=
+emory API)
+&quot;Michael S. Tsirkin&quot; <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
+ailto:mst@redhat.com">&lt;mst@redhat.com&gt;</a> (supporter:virtio)
+<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:qemu-devel@nongnu.org"=
+>qemu-devel@nongnu.org</a> (open list:All patches CC here)
+
+
+</pre>
+    </blockquote>
+    <pre>Sorry I forgot to update the cc list..</pre>
+    <pre>Thanks for your reminder!</pre>
+ =20
+</body></html>
+
+--00000000000055f90305efb4a8be--
 
