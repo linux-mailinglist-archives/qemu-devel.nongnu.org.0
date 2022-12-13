@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8890664B8F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 16:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B6864B8F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 16:51:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p57XU-0005AJ-Q1; Tue, 13 Dec 2022 10:49:52 -0500
+	id 1p57YF-0005Ru-Jy; Tue, 13 Dec 2022 10:50:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1p57XQ-00059T-UP
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 10:49:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1p57XO-0006eo-Qp
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 10:49:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670946584;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0TE3eD2n/PgxDdAw9MnTS3qq5g+e5GqH5Nl2v85gh8k=;
- b=QZzOt42ZWWNg9VSTCyZYjbO8H8wRm9j2LgaOuFNCXJGDwsgnbnCGohig0Zn/bPNVC6Gaqd
- nrx64lO6I7koZ+yfhAjl04uR5/wZnU8qs678QLPQVkk5l2I6HiOPY88BaSytepCnFa6b8R
- JRcB/L5q6DANpw09cjJwDOcMtL85dzI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-562-1uZiUN6XNM2rlKpvdIC2Zw-1; Tue, 13 Dec 2022 10:49:43 -0500
-X-MC-Unique: 1uZiUN6XNM2rlKpvdIC2Zw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f20-20020a7bc8d4000000b003d1cda5bd6fso3189181wml.9
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 07:49:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p57Y8-0005Pk-IX
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 10:50:37 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p57Y6-00077A-5j
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 10:50:32 -0500
+Received: by mail-wr1-x436.google.com with SMTP id u12so16058737wrr.11
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 07:50:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IF3EhrrSupu0hN06Z89nBmDPBtfeLQTf71/XWhtNN9s=;
+ b=iD3ovvxLq9bjSUL1EIF/wgcdE7aCBSQOZYq5OExFC3TYT3VU5NX6QzC9gTplo4wDmr
+ 6FGOdxiRjwM7HgskA4ug+AzT0iRA5KwwIwcPV2gHuPsNyYdVAojDcXOsROq/AyUFa0Ij
+ +VSmN4Tl7KNFHPIL0Zw14nCEcJLN9Ljheml37Qq1ulADdz/BJVvRVgp0CXmmLg0/LVni
+ JiflqUjQbyBPlWZ6Cbwsd9rTDfVp49oSTlUzLmubKQZSi7Sy2wvb05v3QgpMS0NxZ81G
+ Y0NP75t2U5juoBBddgjlT9t5Jg46fC8c+KvghVbta8Y/LoI0OnuLXGWojiTfK6Ga1vvW
+ dlfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0TE3eD2n/PgxDdAw9MnTS3qq5g+e5GqH5Nl2v85gh8k=;
- b=TEvNndaTT+ff0VHX835/Crf63glIPRTEDHfNUHI1/UUur93AfkEPwEq25bnqribjr9
- A+R5sUGlJ+zDM2cJuWwxos4NbfrUhTexgG7CtETOp7ywhl9RsZo16IUJKQeWyfNtQbTN
- j1HSIyheMr0sxayQZtLnfEIrbxqcUZIvwYWnVco8qVcwlan4i1V0ElaROSMk2G8bn+aj
- bm3JepuKdTLTqDAROb1NV+Tfz19/rXa1j7/rtNLs2RJwi9WDNlFW+VmcRujhbOhjG/nD
- M7aO/nU8K+/J8K4SW5XM0BzEpdh59KIgajQMet+1jTMnOwDjqSvUnARznR4cllYJJbEc
- C2Wg==
-X-Gm-Message-State: ANoB5pk/g1ow5vZ7xtn2rH6cSqtOBbKJN6Pbk5UPGQzqgCgTjQdBoxUs
- Ez5z4rK4LAsY1nyBPpsvNvE4SeR0vzq89x8VwjsCQihEdHCD0TtxEhMc5nbsZRn6hXImyC9xiut
- BZzYCWd7vjrTxnDM=
-X-Received: by 2002:a05:600c:a56:b0:3d1:d396:1adc with SMTP id
- c22-20020a05600c0a5600b003d1d3961adcmr19746781wmq.14.1670946582006; 
- Tue, 13 Dec 2022 07:49:42 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5BOMdJPAAEBKz/ie3lLZNh2jY3acaam5ZivZgU2+S3Cb8sDz1ZEwWyzDOvy6EtgmkuHkxA2g==
-X-Received: by 2002:a05:600c:a56:b0:3d1:d396:1adc with SMTP id
- c22-20020a05600c0a5600b003d1d3961adcmr19746757wmq.14.1670946581764; 
- Tue, 13 Dec 2022 07:49:41 -0800 (PST)
-Received: from sgarzare-redhat (host-87-11-6-51.retail.telecomitalia.it.
- [87.11.6.51]) by smtp.gmail.com with ESMTPSA id
- f24-20020a1c6a18000000b003b3307fb98fsm13089707wmc.24.2022.12.13.07.49.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 07:49:41 -0800 (PST)
-Date: Tue, 13 Dec 2022 16:49:36 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Longpeng (Mike,
- Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
-Cc: stefanha@redhat.com, mst@redhat.com, jasowang@redhat.com,
- cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
- yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v10 5/5] docs: Add generic vhost-vdpa device documentation
-Message-ID: <20221213154936.libw4pquwtwsvu3v@sgarzare-redhat>
-References: <20221205084943.2259-1-longpeng2@huawei.com>
- <20221205084943.2259-6-longpeng2@huawei.com>
- <20221213143511.awu6ibpavokxrghv@sgarzare-redhat>
- <c4bb4aca-d09f-b419-5d0b-dc7044a0c8fb@huawei.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IF3EhrrSupu0hN06Z89nBmDPBtfeLQTf71/XWhtNN9s=;
+ b=Pt2KiWVmj5sQ+3p1g7EJLGnWxV6JfmwUKKJlz33LXyUfUxA8KhYE0WKi/Zu6Vzp4oK
+ 4gUPLoLxJfhdiDACRCfdPMN3cFcBsUgIbGddhy0eP2fDf1hi3PpG1oifRbZSbGpel+30
+ q0+ZNIIlkIsjart5wytx5L6+fbhAOyTQyjRx5pPTMYbQg24PsDa1s3UB25Tzx/hDntzV
+ 9rqq42EaWoA4qh/FCXlGC7FB00tN8yyTgRZ+nEXZ18T4o7hnTLzrobt4Wt42vwzInAaR
+ yr0YYfm8AKlVsU5FgBmhOHHdR3XNjFF6oIXb6YbfS4fP3s5j8FvMxpdIwJJrfIfRdQsP
+ s+7Q==
+X-Gm-Message-State: ANoB5plCK9Q4yehf+BTI5c7zfG4YWABtpuwZSlphqIHV9PbD7VDxESuf
+ 41oqhk9C7R9otszIgjO0uDTaIHnwWMJhaFtjBfo=
+X-Google-Smtp-Source: AA0mqf4xbsn1s9rnv/lp/b35lAs05NmaviSdt4VnXZzOwDqRuXXgJPnSRVRLacww1K2dqol99gDqwQ==
+X-Received: by 2002:a05:6000:170b:b0:242:806c:8612 with SMTP id
+ n11-20020a056000170b00b00242806c8612mr16330621wrc.7.1670946628015; 
+ Tue, 13 Dec 2022 07:50:28 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ t2-20020adfa2c2000000b002428c4fb16asm159747wra.10.2022.12.13.07.50.26
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 13 Dec 2022 07:50:27 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>, Leif Lindholm <quic_llindhol@quicinc.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Radoslaw Biernacki <rad@semihalf.com>
+Subject: [PATCH-for-8.0] tests/avocado: Add a quick test to boot Trusted
+ Firmware on SBSA-ref
+Date: Tue, 13 Dec 2022 16:50:25 +0100
+Message-Id: <20221213155025.40920-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c4bb4aca-d09f-b419-5d0b-dc7044a0c8fb@huawei.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,88 +92,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 13, 2022 at 11:37:35PM +0800, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
->
->
->在 2022/12/13 22:35, Stefano Garzarella 写道:
->>On Mon, Dec 05, 2022 at 04:49:43PM +0800, Longpeng(Mike) wrote:
->>>From: Longpeng <longpeng2@huawei.com>
->>>
->>>Signed-off-by: Longpeng <longpeng2@huawei.com>
->>>---
->>>.../devices/vhost-vdpa-generic-device.rst     | 66 +++++++++++++++++++
->>>1 file changed, 66 insertions(+)
->>>create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
->>>
->>>diff --git a/docs/system/devices/vhost-vdpa-generic-device.rst 
->>>b/docs/system/devices/vhost-vdpa-generic-device.rst
->>>new file mode 100644
->>>index 0000000000..7d13359ea1
->>>--- /dev/null
->>>+++ b/docs/system/devices/vhost-vdpa-generic-device.rst
->>>@@ -0,0 +1,66 @@
->>>+
->>>+=========================
->>>+vhost-vDPA generic device
->>>+=========================
->>>+
->>>+This document explains the usage of the vhost-vDPA generic device.
->>>+
->>>+Description
->>>+-----------
->>>+
->>>+vDPA(virtio data path acceleration) device is a device that uses 
->>>a datapath
->>>+which complies with the virtio specifications with vendor 
->>>specific control
->>>+path.
->>>+
->>>+QEMU provides two types of vhost-vDPA devices to enable the vDPA 
->>>device, one
->>>+is type sensitive which means QEMU needs to know the actual device type
->>>+(e.g. net, blk, scsi) and another is called "vhost-vDPA generic 
->>>device" which
->>>+is type insensitive.
->>>+
->>>+The vhost-vDPA generic device builds on the vhost-vdpa subsystem 
->>>and virtio
->>>+subsystem. It is quite small, but it can support any type of 
->>>virtio device.
->>>+
->>
->>Maybe we can also add a minimum requirement section (e.g. we needs 
->>at least Linux v5.18 for VHOST_VDPA_GET_VQS_COUNT)
->>
->Ok.
->
->>>+Examples
->>>+--------
->>>+
->>>+1. Please make sure the modules listed bellow are installed:
->>>+    vhost.ko
->>>+    vhost_iotlb.ko
->>>+    vdpa.ko
->>>+    vhost_vdpa.ko
->>>+
->>>+
->>>+2. Prepare the vhost-vDPA backends, here is an example using 
->>>vdpa_sim_blk
->>>+   device:
->>>+
->>>+::
->>
->>Should we add also a `modprobe vhost-vdpa` step?
->>
->This is already described in Step 1.
+This quick test boots TF-A on the SBSA-ref machine up to the
+EDK2 banner.
 
-Ah sorry, I had interpreted it as having those modules compiled and 
-available, not loaded.
-Maybe better to replace "installed", with "loaded".
+It was helpful to catch an issue with Secure PTW fixed in
+commit cead7fa4c0 ("target/arm: Two fixes for secure ptw").
 
-Although IMHO we can remove "Step 1" and add "modprobe vhost-vdpa" here.
-The others are all dependencies that are automatically loaded.
+Prebuilt flash volumes are included, with the build recipes
+to reproduce.
 
-Thanks,
-Stefano
+Example of execution:
+
+  $ avocado --show=app,console run -t machine:sbsa-ref tests/avocado
+   (1/1) tests/avocado/machine_aarch64_sbsaref.py:Aarch64SbsarefMachine.test_sbsaref_tfa_v2_8:
+  console: NOTICE:  Booting Trusted Firmware
+  console: NOTICE:  BL1: v2.7(release):v2.8-rc0
+  console: NOTICE:  BL1: Built : 22:41:04, Nov 15 2022
+  console: NOTICE:  BL1: Booting BL2
+  console: NOTICE:  BL2: v2.5(release):v2.5-432-ga4ea20502
+  console: NOTICE:  BL2: Built : 13:50:23, Sep 13 2021
+  console: NOTICE:  BL1: Booting BL31
+  console: NOTICE:  BL31: v2.5(release):v2.5-432-ga4ea20502
+  console: NOTICE:  BL31: Built : 13:50:23, Sep 13 2021
+  console: UEFI firmware (version 1.0 built at 22:54:31 on Nov 15 2022)
+  console: QEMU SBSA-REF Machine
+   arm-virt                                            2.00 GHz
+   1.0                                                 1024 MB RAM
+  PASS (1.73 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 1.94 s
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ MAINTAINERS                              |  1 +
+ tests/avocado/machine_aarch64_sbsaref.py | 96 ++++++++++++++++++++++++
+ 2 files changed, 97 insertions(+)
+ create mode 100644 tests/avocado/machine_aarch64_sbsaref.py
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6966490c94..ddc2340661 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -891,6 +891,7 @@ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/sbsa-ref.c
+ F: docs/system/arm/sbsa.rst
++F: tests/avocado/machine_aarch64_sbsaref.py
+ 
+ Sharp SL-5500 (Collie) PDA
+ M: Peter Maydell <peter.maydell@linaro.org>
+diff --git a/tests/avocado/machine_aarch64_sbsaref.py b/tests/avocado/machine_aarch64_sbsaref.py
+new file mode 100644
+index 0000000000..b21e3cfc51
+--- /dev/null
++++ b/tests/avocado/machine_aarch64_sbsaref.py
+@@ -0,0 +1,96 @@
++# Functional test that boots a Linux kernel and checks the console
++#
++# SPDX-FileCopyrightText: 2022 Linaro Ltd.
++# SPDX-FileContributor: Philippe Mathieu-Daudé <philmd@linaro.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++import os
++import time
++
++from avocado.utils import archive
++
++from avocado_qemu import QemuSystemTest
++from avocado_qemu import wait_for_console_pattern
++from avocado_qemu import interrupt_interactive_console_until_pattern
++
++
++class Aarch64SbsarefMachine(QemuSystemTest):
++    """
++    :avocado: tags=arch:aarch64
++    :avocado: tags=machine:sbsa-ref
++    """
++
++    def test_sbsaref_tfa_v2_8(self):
++        """
++        :avocado: tags=cpu:cortex-a57
++
++        Flash volumes generated using:
++
++        - Arm GNU Toolchain version 10.3-2021.07
++          https://developer.arm.com/downloads/-/gnu-a
++          gcc version 10.3.1 20210621 (GNU Toolchain for the A-profile \
++              Architecture 10.3-2021.07 (arm-10.29))
++
++        - Trusted Firmware-A
++          https://github.com/ARM-software/arm-trusted-firmware/blob/v2.8.0/\
++              docs/plat/qemu-sbsa.rst
++
++        - Tianocore EDK II
++          https://github.com/tianocore/edk2/tree/0cb30c3f5e9b/
++          https://github.com/tianocore/edk2-non-osi/tree/61662e8596dd/
++          https://github.com/tianocore/edk2-platforms/tree/e2d7a3014b14/\
++              Platform/Qemu/SbsaQemu
++
++        The last URL contains the various build steps.
++        """
++
++        # Secure BootRom (TF-A code)
++        fs0_xz_url = ('https://fileserver.linaro.org/s/L7BcZXJk37pKfjR/'
++                      'download/SBSA_FLASH0.fd.xz')
++        fs0_xz_hash = 'a865247218af268974a34f8b64af3cfddb3b59de'
++        tar_xz_path = self.fetch_asset(fs0_xz_url, asset_hash=fs0_xz_hash)
++        archive.extract(tar_xz_path, self.workdir)
++        fs0_path = os.path.join(self.workdir, 'SBSA_FLASH0.fd')
++
++        # Non-secure rom (UEFI and EFI variables)
++        fs1_xz_url = ('https://fileserver.linaro.org/s/rNDQATTJnFCaoxb/'
++                      'download/SBSA_FLASH1.fd.xz')
++        fs1_xz_hash = 'b0ccf5498293d90a28c2f75a3b9906e1d65ad917'
++        tar_xz_path = self.fetch_asset(fs1_xz_url, asset_hash=fs1_xz_hash)
++        archive.extract(tar_xz_path, self.workdir)
++        fs1_path = os.path.join(self.workdir, 'SBSA_FLASH1.fd')
++
++        for path in [fs0_path, fs1_path]:
++            with open(path, 'ab+') as fd:
++                fd.truncate(256 << 20) # Expand volumes to 256MiB
++
++        self.vm.set_console()
++        self.vm.add_args('-cpu', 'cortex-a57',
++                         '-drive', f'if=pflash,file={fs0_path},format=raw',
++                         '-drive', f'if=pflash,file={fs1_path},format=raw')
++        self.vm.launch()
++
++        # TF-A boot sequence:
++        #
++        # https://github.com/ARM-software/arm-trusted-firmware/blob/v2.8.0/\
++        #     docs/design/trusted-board-boot.rst#trusted-board-boot-sequence
++        # https://trustedfirmware-a.readthedocs.io/en/v2.8/\
++        #     design/firmware-design.html#cold-boot
++
++        # AP Trusted ROM
++        wait_for_console_pattern(self, 'Booting Trusted Firmware')
++        wait_for_console_pattern(self, 'BL1: v2.7(release):v2.8-rc0')
++        wait_for_console_pattern(self, 'BL1: Booting BL2')
++
++        # Trusted Boot Firmware
++        wait_for_console_pattern(self, 'BL2: v2.5(release)')
++        wait_for_console_pattern(self, 'Booting BL31')
++
++        # EL3 Runtime Software
++        wait_for_console_pattern(self, 'BL31: v2.5(release)')
++
++        # Non-trusted Firmware
++        wait_for_console_pattern(self, 'UEFI firmware (version 1.0')
++        interrupt_interactive_console_until_pattern(self,
++                                                    'QEMU SBSA-REF Machine')
+-- 
+2.38.1
 
 
