@@ -2,111 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B3364B9F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D5964BA0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:43:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p58Kt-0004zo-OK; Tue, 13 Dec 2022 11:40:56 -0500
+	id 1p58NA-0006Yi-IN; Tue, 13 Dec 2022 11:43:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1p58Kd-0004vD-H7; Tue, 13 Dec 2022 11:40:39 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1p58Ka-0006MT-L9; Tue, 13 Dec 2022 11:40:38 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BDGJRKB039473; Tue, 13 Dec 2022 16:40:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=1PoXFVvKmVqFqqxRyvTqqyyBymr37klRNOqJHjEXgGo=;
- b=DkzgSaQDsYiw/GNDmcSv+o2DEaMPoYuNUvLbFSDuVfkkHnLXauBF1Lte0xXlZrbWXyky
- iLtqndoWzrHIfVOSUr1qAGQO6HBXk9Xr7/DTt23SMTUcZ/zcdRpHRcyJJqSpp8ZiFaqg
- jqLI0nH+baH2ItZRPx9rfQrFp7AhzN9kbWCS8z1O+EVNZ+nO/mf3Bd6Wp1eHOvlfclxb
- jGBH5DtB5gL/ee+BXUFbmXxyhrS8N419GqICa5EzQ/RZUXmnm2XmHINyuGCVEWucKXEV
- KeD19J+IFZVsxeQndnepr0f9oZjpKnASKPVZkjN0Y8Ipw4chxE7wGgnstf14zRVZ2/D4 8A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mevtk8q2p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 16:40:25 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BDGK5VC002219;
- Tue, 13 Dec 2022 16:40:24 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mevtk8q1y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 16:40:24 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.16.1.2) with ESMTP id 2BDF0FHj019467;
- Tue, 13 Dec 2022 16:40:23 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3mchr6sneh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 16:40:23 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com
- [10.241.53.103])
- by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BDGeLXt5440214
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Dec 2022 16:40:22 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CCF8358052;
- Tue, 13 Dec 2022 16:40:21 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 837265804E;
- Tue, 13 Dec 2022 16:40:16 +0000 (GMT)
-Received: from [9.43.109.223] (unknown [9.43.109.223])
- by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 13 Dec 2022 16:40:16 +0000 (GMT)
-Message-ID: <a49294f9-bdae-bf55-71f0-8de80d23010d@linux.ibm.com>
-Date: Tue, 13 Dec 2022 22:10:14 +0530
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p58N8-0006Xf-Am
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:43:14 -0500
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p58N5-0008Ax-Vz
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:43:13 -0500
+Received: by mail-ot1-x32f.google.com with SMTP id
+ l8-20020a056830054800b006705fd35eceso172565otb.12
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:43:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3JohjUI9LAEW5SG/90YHiYMTiplsOeONINKJbnWHLoc=;
+ b=h5zwtx+PfTbv6Ip+KNZURJhSzjyBxJyVe43bi8GvVmSID70xfAD+79MWNwDghaSJbS
+ trqpoj8W1vP2oUpfbfWzeuvld+KHEBxCJLD0sHn7TY70hftjp6PU1rOReLKb/AKwukr9
+ y+/arE1j83q/c0oU9/NEw6kZjY5JlPI4gzs/exBfnfMZDVg4mBZ86qWa7mfQFcQwq4Du
+ r6N9ZUy7o9jLOiHcj3br67SLfAiChLzeVvYusd5YcRdRC/tQIGWm6M5L+HpSBU8GJ6YA
+ MHVmTpeWKtZE/HfcjmYbjIx0UYEYCMr/Hn7KkiEgiD4tCzItvO+7WqK6qScpa3yR7ejO
+ zXfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3JohjUI9LAEW5SG/90YHiYMTiplsOeONINKJbnWHLoc=;
+ b=US7lkyjv/QMsawcHa7WFS4V50p26ZBojnSOMolfbkvd5MZWfMmP2V3/+N5+dwAhAR3
+ oVJke1ycIGQEbguRrrjXaHoPtAHIjSHeu9RBySBKvf+ibHR+X0TkdKxcJivYWox1Z8ja
+ fEUMC/KKYE9YeoqmAr2SdXRuHjzie7GjfTjmuJXBLiQCyLIWkMf7NULANjYufuAqPXnP
+ WX0C0DlR+lmK4ewW9sqtDML2Q5uoE3/7P4mJF06W6Y+74W4QQ4K/fa9YVYrnT1XJrB0g
+ RR9c/wEhFBALXlGqE0WjgxLkgZyb+X0s1CwM/XCCOfirIfRIsz8ZtG1bsE6BlezNfYuD
+ 1YsA==
+X-Gm-Message-State: ANoB5pmZnkqK23vuNSUM0KhTQZHP3LaeAq4f+EXFgr61deRStTtYRKkm
+ vjoLO05e7juvGcpHj7Vx1cGOCA==
+X-Google-Smtp-Source: AA0mqf5/pTRfSK5n7YyZbiagXnWeZ3zZdyE/YEXSzP5QtMoh/rIMEfg7W0xWQyaOefuVpqSPFY3cJg==
+X-Received: by 2002:a05:6830:184:b0:670:6f28:f47c with SMTP id
+ q4-20020a056830018400b006706f28f47cmr11266437ota.9.1670949790496; 
+ Tue, 13 Dec 2022 08:43:10 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:2efc:c63:85ed:4256:8ad0?
+ ([2806:102e:18:2efc:c63:85ed:4256:8ad0])
+ by smtp.gmail.com with ESMTPSA id
+ e13-20020a056830200d00b00661ad8741b4sm1377945otp.24.2022.12.13.08.43.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Dec 2022 08:43:10 -0800 (PST)
+Message-ID: <4e2f5e5a-5cce-5dfd-79db-456b91687c1a@linaro.org>
+Date: Tue, 13 Dec 2022 10:43:07 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH-for-8.0 4/4] hw/ppc/spapr_ovec: Avoid target_ulong
- spapr_ovec_parse_vector()
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4 25/27] tcg/s390x: Tighten constraints for 64-bit compare
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>, kvm@vger.kernel.org,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Greg Kurz
- <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Nicholas Piggin <npiggin@gmail.com>,
- Michael Neuling <mikey@neuling.org>
-References: <20221213123550.39302-1-philmd@linaro.org>
- <20221213123550.39302-5-philmd@linaro.org>
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <20221213123550.39302-5-philmd@linaro.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com
+References: <20221209020530.396391-1-richard.henderson@linaro.org>
+ <20221209020530.396391-26-richard.henderson@linaro.org>
+ <20221213162516.tfiopikzv5ilhgwf@heavy>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221213162516.tfiopikzv5ilhgwf@heavy>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: HnCDKmRv4FMx7JMGUhEODaWWPqk8Z3lO
-X-Proofpoint-GUID: tnG3eKKuifj_FEC3bm0-meeTJyjX_kGG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-13_03,2022-12-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- bulkscore=0 clxscore=1011 impostorscore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2212130147
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=harshpb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,72 +96,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 12/13/22 18:05, Philippe Mathieu-Daudé wrote:
-> spapr_ovec.c is a device, but it uses target_ulong which is
-> target specific. The hwaddr type (declared in "exec/hwaddr.h")
-> better fits hardware addresses.
+On 12/13/22 10:25, Ilya Leoshkevich wrote:
+> On Thu, Dec 08, 2022 at 08:05:28PM -0600, Richard Henderson wrote:
+>> Give 64-bit comparison second operand a signed 33-bit immediate.
+>> This is the smallest superset of uint32_t and int32_t, as used
+>> by CLGFI and CGFI respectively.  The rest of the 33-bit space
+>> can be loaded into TCG_TMP0.  Drop use of the constant pool.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/s390x/tcg-target-con-set.h |  3 +++
+>>   tcg/s390x/tcg-target.c.inc     | 27 ++++++++++++++-------------
+>>   2 files changed, 17 insertions(+), 13 deletions(-)
 > 
-> Change spapr_ovec_parse_vector() to take a hwaddr argument,
-> allowing the removal of "cpu.h" in a device header.
+> <...>
+>   
+>> --- a/tcg/s390x/tcg-target.c.inc
+>> +++ b/tcg/s390x/tcg-target.c.inc
+>> @@ -1249,22 +1249,20 @@ static int tgen_cmp2(TCGContext *s, TCGType type, TCGCond c, TCGReg r1,
+>>               tcg_out_insn_RIL(s, op, r1, c2);
+>>               goto exit;
+>>           }
+>> +
+>> +        /*
+>> +         * Constraints are for a signed 33-bit operand, which is a
+>> +         * convenient superset of this signed/unsigned test.
+>> +         */
+>>           if (c2 == (is_unsigned ? (TCGArg)(uint32_t)c2 : (TCGArg)(int32_t)c2)) {
+>>               op = (is_unsigned ? RIL_CLGFI : RIL_CGFI);
+>>               tcg_out_insn_RIL(s, op, r1, c2);
+>>               goto exit;
+>>           }
+>>   
+>> -        /* Use the constant pool, but not for small constants.  */
+>> -        if (maybe_out_small_movi(s, type, TCG_TMP0, c2)) {
+>> -            c2 = TCG_TMP0;
+>> -            /* fall through to reg-reg */
+>> -        } else {
+>> -            op = (is_unsigned ? RIL_CLGRL : RIL_CGRL);
+>> -            tcg_out_insn_RIL(s, op, r1, 0);
+>> -            new_pool_label(s, c2, R_390_PC32DBL, s->code_ptr - 2, 2);
+>> -            goto exit;
+>> -        }
+>> +        /* Load everything else into a register. */
+>> +        tcg_out_movi(s, TCG_TYPE_I64, TCG_TMP0, c2);
+>> +        c2 = TCG_TMP0;
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   hw/ppc/spapr_ovec.c         | 3 ++-
->   include/hw/ppc/spapr_ovec.h | 4 ++--
->   2 files changed, 4 insertions(+), 3 deletions(-)
+> What does tightening the constraint give us, if we have to handle the
+> "everything else" case anyway, even for values that match
+> TCG_CT_CONST_S33?
+
+Values outside const_s33 get loaded by the register allocator, which means the value in 
+the register might get re-used.
+
+> The example that I have in mind is:
 > 
-> diff --git a/hw/ppc/spapr_ovec.c b/hw/ppc/spapr_ovec.c
-> index b2567caa5c..a18a751b57 100644
-> --- a/hw/ppc/spapr_ovec.c
-> +++ b/hw/ppc/spapr_ovec.c
-> @@ -19,6 +19,7 @@
->   #include "qemu/error-report.h"
->   #include "trace.h"
->   #include <libfdt.h>
-> +#include "cpu.h"
->   
->   #define OV_MAXBYTES 256 /* not including length byte */
->   #define OV_MAXBITS (OV_MAXBYTES * BITS_PER_BYTE)
-> @@ -176,7 +177,7 @@ static target_ulong vector_addr(target_ulong table_addr, int vector)
->       return table_addr;
->   }
->   
-> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector)
-> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector)
+> - Comparison: r0_64 s<= -0xffffffffL;
+> - tcg_target_const_match(-0xffffffffL, TCG_TYPE_I64,
+>                           TCG_CT_CONST_S33) == true;
+> - (long)(int)-0xffffffffL != -0xffffffff;
+> - So we should end up in the "everything else" branch.
 
-IIUC, Option vectors represents a data structure of vectors to advertise 
-guest capabilities to the platform (ref b20b7b7adda4) and doesn't really 
-represent a hardware device by itself. IMHO, target_ulong appears to be 
-more appropriate for this purpose. However, the header file inclusion 
-could be changed to cpu-defs.h if target_ulong is the only requirement here.
+I suppose I could invent a new constraint that matches INT_MIN32 .. UINT32_MAX, which 
+would exclude this particular case.  But it would still leave us loading INT32MIN .. -1 
+for unsigned and INT32MAX+1 .. UINT32_MAX for signed.
 
-regards,
-Harsh
->   {
->       SpaprOptionVector *ov;
->       target_ulong addr;
-> diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
-> index c3e8b98e7e..d756b916e4 100644
-> --- a/include/hw/ppc/spapr_ovec.h
-> +++ b/include/hw/ppc/spapr_ovec.h
-> @@ -37,7 +37,7 @@
->   #ifndef SPAPR_OVEC_H
->   #define SPAPR_OVEC_H
->   
-> -#include "cpu.h"
-> +#include "exec/hwaddr.h"
->   
->   typedef struct SpaprOptionVector SpaprOptionVector;
->   
-> @@ -73,7 +73,7 @@ void spapr_ovec_set(SpaprOptionVector *ov, long bitnr);
->   void spapr_ovec_clear(SpaprOptionVector *ov, long bitnr);
->   bool spapr_ovec_test(SpaprOptionVector *ov, long bitnr);
->   bool spapr_ovec_empty(SpaprOptionVector *ov);
-> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector);
-> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector);
->   int spapr_dt_ovec(void *fdt, int fdt_offset,
->                     SpaprOptionVector *ov, const char *name);
->   
+Since S33 existed already, I thought I would just re-use it.
+
+
+r~
 
