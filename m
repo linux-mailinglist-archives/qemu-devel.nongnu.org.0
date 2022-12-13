@@ -2,91 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B6F64BDAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 20:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CF564BE01
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 21:39:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5BLQ-00023S-L0; Tue, 13 Dec 2022 14:53:40 -0500
+	id 1p5C2A-0006SQ-Ay; Tue, 13 Dec 2022 15:37:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1p5BLK-00022L-Ph
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 14:53:36 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5C27-0006Rw-Im
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 15:37:47 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1p5BLJ-0001Am-5O
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 14:53:34 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5C25-00076p-Dq
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 15:37:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670961212;
+ s=mimecast20190719; t=1670963862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fa8+Qkakak+NayHv83cJDM+XRrhk7cOEcdBrJ3aKdwc=;
- b=MyB0ZbPpNjXmDnn4MGlOeIzQMplRmomAaNq3zbNf5fyi/GDXO/vsw0BC5rvv2hdCf7ndHF
- sf7MJY1WkA7evMbcndM66BtY1b1OV0jDZ6e+d5ADFGiu7uj38kbJkHoFJvCND3KIsWXoCe
- pJ69flJnE65YUL0VpXu/UQq37mMDCo4=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ILcb08j17IBBfRXdn6iqNatgyx65Fp8i2FDTfmKShb0=;
+ b=Y3QlrHSyqUaReOYzwzDz9A/IJHJETEnJP5xgc8XOdP7aTDr88hIpLhpbtrwqw3OjGngGyJ
+ uH1jq4/o7JacRfQc7ftFdXFtUEYeWa6J+wcro8Naaqqti8hVTPusK2gvE5iSjxknmzN/ZV
+ 3ydE/i8spFebAnnivVV+BqiC7HVk4t0=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-93-UxyOdRkfOo22nkOPclEVUQ-1; Tue, 13 Dec 2022 14:53:30 -0500
-X-MC-Unique: UxyOdRkfOo22nkOPclEVUQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- fw8-20020a05622a4a8800b003a64f82fe73so666178qtb.3
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 11:53:30 -0800 (PST)
+ us-mta-627-1gZqfVKNO9C4k2WWlUtR1Q-1; Tue, 13 Dec 2022 15:37:40 -0500
+X-MC-Unique: 1gZqfVKNO9C4k2WWlUtR1Q-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ q17-20020a056214019100b004b1d3c9f3acso15555190qvr.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 12:37:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Fa8+Qkakak+NayHv83cJDM+XRrhk7cOEcdBrJ3aKdwc=;
- b=Fk0YALv3E6JZ+BUSgQlycCc90XayKamzmNYSB2ovtoIDjV8ktKfFer9/RNmpYd9TLE
- G+X/MNsGy2kRGlflZv5nCwnCGKTuKWz/6iCGIrWAdoIfKCd1r9wqyJMgXiAi7XjIXDGf
- ZKtV8KYdBl7PAcz08eGk/uUb9T6wnYQQl6EVZs8w8B7KMsbEotLu7nYYTnDItNWOgWF2
- +DtKynRapDtLfo7MSUrrf0YgcgWCBRpMCEicSP1vrEqOovJ/VUTwaCtxjWFHfv4U6+Lz
- S+v87sparZlK7b/A++dgGImUkr86/BV8E7c+L+vwtjmSDPzrheE0a7qsxgPZi+mNCg6l
- eKpA==
-X-Gm-Message-State: ANoB5pl55wH6baLLnSOw/DdiNIz+9YOGE4SuXA9CAOH1VtQl4g86JuQL
- xPf5jvzOMzP0QVeEU1onRtUNKuDllEGqIM6Eb9KEJpxSuzNNYXm8xNnGQwzZLhAgn9M/cBJAMQi
- axkGajAxhbRxr2f1+av+RxKCHkozZ2gw=
-X-Received: by 2002:a05:620a:1410:b0:6fe:d640:e978 with SMTP id
- d16-20020a05620a141000b006fed640e978mr9324845qkj.296.1670961210197; 
- Tue, 13 Dec 2022 11:53:30 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4Xg/oStctFiR8D5GOzGvaHfZUB/bcbFdTV8+nYXtIIRrdgJZdd0InUL+nSMb9wzfWSp/7nIJ/bfgzwocaxvcg=
-X-Received: by 2002:a05:620a:1410:b0:6fe:d640:e978 with SMTP id
- d16-20020a05620a141000b006fed640e978mr9324836qkj.296.1670961209903; Tue, 13
- Dec 2022 11:53:29 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ILcb08j17IBBfRXdn6iqNatgyx65Fp8i2FDTfmKShb0=;
+ b=6rSiUKDGYkaf3sTKJCGnQE+0+ajtFdWR2U35Hk6evCwOr71FLbwYWT3kF5VmZyOrn1
+ Zc4QfDhYX49EHajOQ93M59IyEHRJiaJe0xE7pSXCcSm+nGtUF8HCi7XKitnvceBUn9Ft
+ BNikN7PXxuRptLhT9BZuee9cxp0n7WzEMaacV6rZVdhur1RyPwOzplHtQ+VO5Ge40Kwv
+ WbLq0YcXyruMxd/Wm8kA0uVGNfqghy56F+Vk+xjbzor2jma7SJ7xE/FjAClCJg40WmBm
+ NywgqP4zAiyp2jtQqIMs58cBkiYN26U5Tn5SpV7RuWl6ywaUU5MVpTJ+9i3YJnp7u/Ci
+ fjBA==
+X-Gm-Message-State: ANoB5ploZXsQZ1Gsd3GeIc/p8jKCiS1Eydond5nxKaeY3LGbM2njktff
+ HefwVkTcuc2o9CU2Op09AKw9aRdnCYTp7wm0zTE8Mo+Z0Sod78hYDQ1X9nezNT0RFzCeN1sJ023
+ TcthNtFmm+K6+DfI=
+X-Received: by 2002:ad4:4f27:0:b0:4c7:5b:75ba with SMTP id
+ fc7-20020ad44f27000000b004c7005b75bamr32104259qvb.31.1670963860065; 
+ Tue, 13 Dec 2022 12:37:40 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf44ukQXx1DpDfZdAPUxpurrIWUqQUGTzypZ+IQh7f2UpQ5Qf5Nr2LczpuA+2lD5lzGfTPsegA==
+X-Received: by 2002:ad4:4f27:0:b0:4c7:5b:75ba with SMTP id
+ fc7-20020ad44f27000000b004c7005b75bamr32104236qvb.31.1670963859870; 
+ Tue, 13 Dec 2022 12:37:39 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ m17-20020a05620a24d100b006fa12a74c53sm8606808qkn.61.2022.12.13.12.37.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Dec 2022 12:37:39 -0800 (PST)
+Date: Tue, 13 Dec 2022 15:37:38 -0500
+From: Peter Xu <peterx@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org, berrange@redhat.com, prerna.saxena@nutanix.com,
+ quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
+Subject: Re: [PATCH v5 1/2] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y5jiko1n+EIANbEN@x1n>
+References: <20221123172735.25181-1-manish.mishra@nutanix.com>
+ <20221123172735.25181-2-manish.mishra@nutanix.com>
 MIME-Version: 1.0
-References: <20221128141514.388724-1-nsoffer@redhat.com>
- <20221128141514.388724-3-nsoffer@redhat.com>
- <a5923263-befe-30a4-afa2-a80ecb6b1ad2@redhat.com>
- <CAMRbyyvG4s2c96xy=SNmFv26zG2nwMDH+Da71L_QQ1HjJ6zs5Q@mail.gmail.com>
- <49a41e54-54df-5716-083b-e6a48922649b@redhat.com>
-In-Reply-To: <49a41e54-54df-5716-083b-e6a48922649b@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Tue, 13 Dec 2022 21:53:13 +0200
-Message-ID: <CAMRbyytw68Hz3uW4OguurgHSARKNQ9aCVX3nhEGmcRNEtO=hpQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] Support format or cache specific out file
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- qemu-block@nongnu.org,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsoffer@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221123172735.25181-2-manish.mishra@nutanix.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,92 +99,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 13, 2022 at 8:09 PM Hanna Reitz <hreitz@redhat.com> wrote:
->
-> On 13.12.22 16:56, Nir Soffer wrote:
-> > On Mon, Dec 12, 2022 at 12:38 PM Hanna Reitz <hreitz@redhat.com> wrote:
-> >> On 28.11.22 15:15, Nir Soffer wrote:
-> >>> Extend the test finder to find tests with format (*.out.qcow2) or cac=
-he
-> >>> specific (*.out.nocache) out file. This worked before only for the
-> >>> numbered tests.
-> >>> ---
-> >>>    tests/qemu-iotests/findtests.py | 10 ++++++++--
-> >>>    1 file changed, 8 insertions(+), 2 deletions(-)
-> >> This patch lacks an S-o-b, too.
-> >>
-> >>> diff --git a/tests/qemu-iotests/findtests.py b/tests/qemu-iotests/fin=
-dtests.py
-> >>> index dd77b453b8..f4344ce78c 100644
-> >>> --- a/tests/qemu-iotests/findtests.py
-> >>> +++ b/tests/qemu-iotests/findtests.py
-> >>> @@ -38,31 +38,37 @@ def chdir(path: Optional[str] =3D None) -> Iterat=
-or[None]:
-> >>>            os.chdir(saved_dir)
-> >>>
-> >>>
-> >>>    class TestFinder:
-> >>>        def __init__(self, test_dir: Optional[str] =3D None) -> None:
-> >>>            self.groups =3D defaultdict(set)
-> >>>
-> >>>            with chdir(test_dir):
-> >>>                self.all_tests =3D glob.glob('[0-9][0-9][0-9]')
-> >>>                self.all_tests +=3D [f for f in glob.iglob('tests/*')
-> >>> -                               if not f.endswith('.out') and
-> >>> -                               os.path.isfile(f + '.out')]
-> >>> +                               if self.is_test(f)]
-> >> So previously a file was only considered a test file if there was a
-> >> corresponding reference output file (`f + '.out'`), so files without
-> >> such a reference output aren=E2=80=99t considered test files...
-> >>
-> >>>                for t in self.all_tests:
-> >>>                    with open(t, encoding=3D"utf-8") as f:
-> >>>                        for line in f:
-> >>>                            if line.startswith('# group: '):
-> >>>                                for g in line.split()[2:]:
-> >>>                                    self.groups[g].add(t)
-> >>>                                break
-> >>>
-> >>> +    def is_test(self, fname: str) -> bool:
-> >>> +        """
-> >>> +        The tests directory contains tests (no extension) and out fi=
-les
-> >>> +        (*.out, *.out.{format}, *.out.{option}).
-> >>> +        """
-> >>> +        return re.search(r'.+\.out(\.\w+)?$', fname) is None
-> >> ...but this new function doesn=E2=80=99t check that.  I think we shoul=
-d check it
-> >> (just whether there=E2=80=99s any variant of `/{fname}\.out(\.\w+)?/` =
-to go with
-> >> `fname`) so that behavior isn=E2=80=99t changed.
-> > This means that you cannot add a test without a *.out* file, which may
-> >   be useful when you don't use the out file for validation, but we can
-> > add this later if needed.
->
-> I don=E2=80=99t think tests work without a reference output, do they?  At=
- least
-> a couple of years ago, the ./check script would refuse to run tests
-> without a corresponding .out file.
+On Wed, Nov 23, 2022 at 05:27:34PM +0000, manish.mishra wrote:
+> MSG_PEEK reads from the peek of channel, The data is treated as
+> unread and the next read shall still return this data. This
+> support is currently added only for socket class. Extra parameter
+> 'flags' is added to io_readv calls to pass extra read flags like
+> MSG_PEEK.
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.co
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com
+> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
 
-This may be true, but most tests do not really need an out file and better =
-be
-verified by asserting. There are some python tests that have pointless out
-file with the output of python unittest:
+This patch may need below squashed in or it breaks rdma builds:
 
-    $ cat tests/qemu-iotests/tests/nbd-multiconn.out
-    ...
-    ----------------------------------------------------------------------
-    Ran 3 tests
+===8<===
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 94a55dd95b..d8b4632094 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -2854,6 +2854,7 @@ static ssize_t qio_channel_rdma_readv(QIOChannel *ioc,
+                                       size_t niov,
+                                       int **fds,
+                                       size_t *nfds,
++                                      int flags,
+                                       Error **errp)
+ {
+     QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(ioc);
+===8<===
 
-    OK
-
-This is not only unhelpful (update the output when adding a 4th test)
-but fragile.
-if unitests changes the output, maybe adding info about skipped tests, or
-changing "---" to "****", the test will break.
-
-But for now I agree the test framework should keep the current behavior.
-
-Nir
+-- 
+Peter Xu
 
 
