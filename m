@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8450B64B2ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 11:03:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5227D64B305
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 11:15:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p527Z-0008Cz-Kz; Tue, 13 Dec 2022 05:02:45 -0500
+	id 1p52Hv-0004Vw-6U; Tue, 13 Dec 2022 05:13:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p527O-0008AD-AB
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 05:02:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p52Hs-0004V9-8U
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 05:13:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p527J-0002BB-8A
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 05:02:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p52Hq-0006DD-8q
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 05:13:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670925747;
+ s=mimecast20190719; t=1670926401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SlCQ6CKPzW9MVFsH/xT+C7970gCYO1cMEGKFqKO++bA=;
- b=aP9P9rKtQCA/Ue9nTR9+5cPfDLRImlVZllfelg8Ec6RQWGFw7+cJHJL5FqO+YExS+WUzxJ
- 4eFqV+rs71JZfwW0e94dN101G3G5gcmRAdY4CPsfHS9bWlqvVilbv4f2oIK4zSBhfiok91
- wvz4hBpMmJn4bi0PgGHlY7zhLd0tLgw=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FHWEHwVVw7Pw9jmJYkf6Kr42QN3O0j3WL0+9ASu8Srk=;
+ b=anxqdEWEmAjQjxAmPsMZlBKWcEF8NfEbIcQYd+x8hHzRXL2I2+LV3WpXY1KPOwYbTUO3Gq
+ rjn4fMGakFZdCh81led6qlPvD+REc5A/vd+/5+FGVXAMMS3l2/na1jG4SJFQGR9A+RfHYN
+ lCIpd31ayh4jFJevU6ww1imlq0yBO2A=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-260-Z9zs7ANfNhiUPN3cmhvxAw-1; Tue, 13 Dec 2022 05:02:25 -0500
-X-MC-Unique: Z9zs7ANfNhiUPN3cmhvxAw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bl21-20020a05620a1a9500b006fa35db066aso17126252qkb.19
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 02:02:25 -0800 (PST)
+ us-mta-657-ElBwMJF8MWewlCN7dmBgMQ-1; Tue, 13 Dec 2022 05:13:19 -0500
+X-MC-Unique: ElBwMJF8MWewlCN7dmBgMQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ ay19-20020a05600c1e1300b003cf758f1617so5425415wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 02:13:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SlCQ6CKPzW9MVFsH/xT+C7970gCYO1cMEGKFqKO++bA=;
- b=Fp8Z0JnqJVFBOwZWVEhYpuPUhQQxbK9EVXEkBGx99ddhCoNrgNhjQmqLTiqWD6B9p8
- QiLI8/0wJyl3Kd1tHSY4fyW0TAkxMdtt6jCgO9woVqRN0GVw/PW9qhZc0g1UJQYn/pP+
- 6qh+20Kllr4ZIAJp243+1mYZUCQGWSzjXigimJCFrZwfjvXcoi6X9wguVWIxCJqa0Y+U
- vd8p6fmIzjSHZOgo9A5gfDrBVlP+4Qa3QcEcJBrwkaFYDtPYxCDzbYLGVGrkVcBck4Ha
- sVAzaPU4dPQF5cIyf07H8xiuaVhQABhQcxG7Vt4f/icEoN2tV/ClmiuIwJ/ade3B6Ajz
- VFUA==
-X-Gm-Message-State: ANoB5plG/MmdSnwsuBeDaUdk9RWN0GRwJfZZchc6TPVkJp4NSQb6nDLF
- Gb6V2giE6ucK7ZwNwhtMiGJZ8uyu55RfrOiNqA0s4V76swytnwd7zPbpeoVPnGDgekBz6/UWAna
- wuAdXwAZtv/tKhbgJm6lnw8ytMRVtKTtJX7FC2rCEpGB6cAQuF2jxHYbr/rwqH8w=
-X-Received: by 2002:a05:622a:5816:b0:39c:eb97:693b with SMTP id
- fg22-20020a05622a581600b0039ceb97693bmr29064303qtb.61.1670925745395; 
- Tue, 13 Dec 2022 02:02:25 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf59xfeyutxZx4/c/vVYVzTThQ9ugprD1Wb3KUYbPMW8087Wgdlbkgy+yK8hM8KT8Vt2eprzOA==
-X-Received: by 2002:a05:622a:5816:b0:39c:eb97:693b with SMTP id
- fg22-20020a05622a581600b0039ceb97693bmr29064263qtb.61.1670925744738; 
- Tue, 13 Dec 2022 02:02:24 -0800 (PST)
+ bh=FHWEHwVVw7Pw9jmJYkf6Kr42QN3O0j3WL0+9ASu8Srk=;
+ b=PyMdZ+/S9JCnm6jxcYepilIQ2ZgM0vlp9EJ4Z6A4FDJo8smDyEymz0iEJvlHWw0XVA
+ wiKlAgtZWnzNBirtKblMi1a20R4sVnA95fK8bdyT1T30OQTP2qWaKqGRzh9wbVIKK3dF
+ aiz1jQ8FpROVSGP4DljtVK5RCihXiW2Uh7CqGVD1/Bx4OIuNa/oWB4PJyispG+kNfeLi
+ DAP8NPvZVFG8LyLEb1ynh5LrbSSDtbcoSGHuo/Km21pVismOjw4IAnXdqkREEStdO0+G
+ 7fQPmIFa50+C/3c83lZ6XW/e1DmaRtlAXkPa+9nenwxK1vZlcddu83EQ43eb6j9IyRBA
+ TM5w==
+X-Gm-Message-State: ANoB5plGQA4O9bFxpKVOCNlNgszv3E0+CqP1UU66N3dl7m96EpVKNzji
+ b/80UPqvC3YZGwgocl5ICS818H287ej2QSCQOABbJC9R6ERXKoO1QkGG/Bwhib8gLTsEBdJNxox
+ xfn2T5MJmjy0d1IE=
+X-Received: by 2002:a05:600c:4f85:b0:3c6:f732:bf6f with SMTP id
+ n5-20020a05600c4f8500b003c6f732bf6fmr15543304wmq.13.1670926398799; 
+ Tue, 13 Dec 2022 02:13:18 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf62NFfQ9f/82zDd72BcAX1Pki6B+mdXssYkvIbW0YCU+3R/GIcPZsunzZHBNd5SFGBkE79GrA==
+X-Received: by 2002:a05:600c:4f85:b0:3c6:f732:bf6f with SMTP id
+ n5-20020a05600c4f8500b003c6f732bf6fmr15543288wmq.13.1670926398554; 
+ Tue, 13 Dec 2022 02:13:18 -0800 (PST)
 Received: from [192.168.0.5] (ip-109-43-178-131.web.vodafone.de.
  [109.43.178.131]) by smtp.gmail.com with ESMTPSA id
- o17-20020ac841d1000000b003a6a4744432sm7305977qtm.87.2022.12.13.02.02.22
+ n22-20020a05600c3b9600b003cfd0bd8c0asm13513694wms.30.2022.12.13.02.13.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Dec 2022 02:02:24 -0800 (PST)
-Message-ID: <7dbc9dde-2bea-3576-9040-52d44a3f8bb0@redhat.com>
-Date: Tue, 13 Dec 2022 11:02:16 +0100
+ Tue, 13 Dec 2022 02:13:18 -0800 (PST)
+Message-ID: <ccaea070-db7f-c25d-96ec-6a2471536a32@redhat.com>
+Date: Tue, 13 Dec 2022 11:13:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH] hw: Include the VMWare devices only in the x86 targets
 Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>
 References: <20221213095144.42355-1-thuth@redhat.com>
-In-Reply-To: <20221213095144.42355-1-thuth@redhat.com>
+ <59a252ed-6cea-1966-97be-85e13a6e582f@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] hw: Include the VMWare devices only in the x86 targets
+In-Reply-To: <59a252ed-6cea-1966-97be-85e13a6e582f@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,28 +102,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/12/2022 10.51, Thomas Huth wrote:
-> It seems a little bit weird that the para-virtualized x86 VMWare
-> devices "vmware-svga" and "vmxnet3" also show up in non-x86 targets.
-> They are likely pretty useless there (since the guest OSes likely
-> do not have any drivers for those enabled), so let's change this and
-> only enable those devices by default for the classical x86 targets.
+On 13/12/2022 11.01, Philippe Mathieu-Daudé wrote:
+> On 13/12/22 10:51, Thomas Huth wrote:
+>> It seems a little bit weird that the para-virtualized x86 VMWare
+>> devices "vmware-svga" and "vmxnet3" also show up in non-x86 targets.
+>> They are likely pretty useless there (since the guest OSes likely
+>> do not have any drivers for those enabled), so let's change this and
+>> only enable those devices by default for the classical x86 targets.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   ...ate-Pseudo-encoding.txt => vnc-ledstate-pseudo-encoding.rst} | 0
+>>   rename docs/interop/{vnc-ledstate-Pseudo-encoding.txt => 
+>> vnc-ledstate-pseudo-encoding.rst} (100%)
+>>
+>> diff --git a/docs/interop/vnc-ledstate-Pseudo-encoding.txt 
+>> b/docs/interop/vnc-ledstate-pseudo-encoding.rst
+>> similarity index 100%
+>> rename from docs/interop/vnc-ledstate-Pseudo-encoding.txt
+>> rename to docs/interop/vnc-ledstate-pseudo-encoding.rst
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   ...ate-Pseudo-encoding.txt => vnc-ledstate-pseudo-encoding.rst} | 0
->   hw/display/Kconfig                                              | 2 +-
->   hw/net/Kconfig                                                  | 2 +-
->   3 files changed, 2 insertions(+), 2 deletions(-)
->   rename docs/interop/{vnc-ledstate-Pseudo-encoding.txt => vnc-ledstate-pseudo-encoding.rst} (100%)
-> 
-> diff --git a/docs/interop/vnc-ledstate-Pseudo-encoding.txt b/docs/interop/vnc-ledstate-pseudo-encoding.rst
-> similarity index 100%
-> rename from docs/interop/vnc-ledstate-Pseudo-encoding.txt
-> rename to docs/interop/vnc-ledstate-pseudo-encoding.rst
+> Unrelated change ;)
 
-Sorry, that change in the docs directory does not belong to this patch, 
-please ignore that part.
+Yeah, sorry, just noticed it after sending the patch ... please ignore that 
+part.
+
+>> diff --git a/hw/display/Kconfig b/hw/display/Kconfig
+>> index a1b159becd..7b3da68d1c 100644
+>> --- a/hw/display/Kconfig
+>> +++ b/hw/display/Kconfig
+>> @@ -55,7 +55,7 @@ config VGA_MMIO
+>>   config VMWARE_VGA
+>>       bool
+>> -    default y if PCI_DEVICES
+>> +    default y if PCI_DEVICES && PC_PCI
+>>       depends on PCI
+>>       select VGA
+>> diff --git a/hw/net/Kconfig b/hw/net/Kconfig
+>> index 6d795ec752..1cc1c5775e 100644
+>> --- a/hw/net/Kconfig
+>> +++ b/hw/net/Kconfig
+>> @@ -51,7 +51,7 @@ config RTL8139_PCI
+>>   config VMXNET3_PCI
+>>       bool
+>> -    default y if PCI_DEVICES
+>> +    default y if PCI_DEVICES && PC_PCI
+>>       depends on PCI
+> 
+> I'm not sure what PC_PCI is for, it seems inherited from the
+> first Makefile conversion.
+> 
+> Are you sure you want to build this by default if the PC
+> machine is selected? An user could select it an non-X86 arch.
+> 
+> Maybe we want:
+> 
+> -       depends on PCI
+> +       depends on PCI && (I386 || X86_64)
+> 
+> ?
+
+It does not seem to be a hard dependency - apparently the devices compile 
+fine for non-x86 and I can also run:
+
+  qemu-system-ppc64 -device vmware-vga -device vmxnet3
+
+and the guest sees these two PCI devices - it just can't use them since it 
+has no drivers.
+
+So for the unlikely case that someone still wants to use these devices on 
+non-x86 machines, I think it's better to add the test to the "default y" 
+line instead of the "depends on" line, so that users still have a chance to 
+enable it in their config file before compiling.
 
   Thomas
 
