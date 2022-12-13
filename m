@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0416464B950
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F174964B94F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:11:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p57re-0007EA-Eq; Tue, 13 Dec 2022 11:10:42 -0500
+	id 1p57rf-0007Gi-R3; Tue, 13 Dec 2022 11:10:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p57rL-00079B-IV
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:10:23 -0500
-Received: from mout.gmx.net ([212.227.15.19])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p57rJ-00006z-Hz
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:10:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1670947819; bh=EvqXHaoecpcbvZ7l2/xpaihdH/rCWjIFiFVi14jkw/4=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=mmSCD/S4PF0J8+4GWeygxrOZW+Nm8igl0f7rvqMbJPvGp6sNMSPx+pXZyi+mo90oL
- yI3rXXFYosha+thck7e26peRGj68TBzAiulUa1rGhFxazarcB9ZT0oT+ZcPkkhuYCc
- 9zpssTIw6vhPmGJH+9Q8FXOzEWhFihGfsWF4AGfafzuXBFlpXPGOO7tCSwvELqHDOZ
- yitD6Xm3tQchIU8V5CW2hpuRav/NE6PiFPrWijnQhQnRrWqPLR9PIAXu7XO06P97ZD
- E7Z5EsL7sd4RYVJFdAmR9gB7OJS6r2cLeknJHob9bOspuPtj95MZpnXltG1awF5wJV
- HiWZDjQ689Y0w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from p100 ([92.116.135.201]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M6UZv-1oypGd430j-006yCw; Tue, 13
- Dec 2022 17:10:19 +0100
-Date: Tue, 13 Dec 2022 17:10:17 +0100
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Enhance /proc/cpuinfo output for sparc, hppa and
- m68k
-Message-ID: <Y5ij6ST3s5dLNHPM@p100>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p57rb-0007Ec-DJ
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:10:39 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p57rU-0000Cf-7g
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:10:34 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ h8-20020a1c2108000000b003d1efd60b65so8307325wmh.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:10:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5dXN+CD9lhvHiIWiOWgMOkBgxkPBCH5Ovu3I4CfrvzA=;
+ b=LHGExF3ZGVk6W8rebTBqv4sSEpWTJi+0k2MA1ZMXftD3i0RrkJRFASer8K/VvsW8qZ
+ CxDLbuPDbc+ZnjkhvhyoTrbwcs8ld8QxqERhXyr7FC3ZKZ6cPKXogdQH8FdwZaTkIxJi
+ CNMnSFskiBroDNtTw/BIvQu0pyxVRxS6apfEO6bKxJmcfKAdvRPbZxVg1pHRIQWW5dQO
+ hrYlcNSlWSQlj5t3ka7XZoqd6e1I5aVMKJrUTX3u+WeouLS0JI1e4cPUJx89YTUenbTq
+ scuXh1OrcCIHLu5gJg9SfMv4dq3w7c3I0yeennsNYDHVrV0oYwp3VYQ5WueimrEBFBSP
+ sEsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5dXN+CD9lhvHiIWiOWgMOkBgxkPBCH5Ovu3I4CfrvzA=;
+ b=OEwgiEDnOfFzXcYBZ+eujdEE89Ax+Nl3tnH7S9+3/ZUI6jbsdv7BE5nHq+ja9sv60E
+ UWyF7/Pzpsd3CJESXnsut8HrEHud11wrAGMqfgc/kbarAcgTE1+dYiuuOkWk2hAgOg/4
+ RPR4kP85x6Iilb+1DOlXMsNGak6ir9xrxl7IYjhTm5/RhtQmgSEOsP1TJXbX2terzU6K
+ ZmyM4i8PtbBjIBIrKPLSab0LnhXXyNqGNBqIaG5gq3xGzFa10VR7xBYoVjnG/ZitRX37
+ PX+oDqjoW4/EmFCn7LSuRw/U2hkUQdmmNjvnRAbgPIeeygjp9y/hx+A/YyCC/XN0YvUc
+ 6PyQ==
+X-Gm-Message-State: ANoB5pntIs+Vy9V9BC112h51etdGCX7mDvTUoqp3sE/TF5vCWY3QQ+nn
+ 6vmZZDvofocu3HeMZtQdNtUn/g==
+X-Google-Smtp-Source: AA0mqf5lwiCvJ8yWeCxX6DBFqysh0TogBoDVGoIJdVUNTXaVmpG5DlPodPhR+3eVCgqm/5eNUc/usg==
+X-Received: by 2002:a05:600c:35cd:b0:3cf:973e:c874 with SMTP id
+ r13-20020a05600c35cd00b003cf973ec874mr16008397wmq.14.1670947830764; 
+ Tue, 13 Dec 2022 08:10:30 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ iz2-20020a05600c554200b003cf78aafdd7sm13352584wmb.39.2022.12.13.08.10.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Dec 2022 08:10:30 -0800 (PST)
+Message-ID: <d73fe725-565e-7fcb-e7d3-846189459545@linaro.org>
+Date: Tue, 13 Dec 2022 17:10:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:XDWZnSesEsQnRAjua4dTuww7oYIrnnnpuTskshXYHgdq3sS6YC/
- h/hvApun5yCVwkph/nfqdUA0orL0nuiwuYp1g3ivXcm5wuHWLqMYfsUWCl98Cmn+EHXp9w8
- srDlZRWjAgXH3PsjnHJpbWrm3tEPch+sWjFYjaEokXaOoPLT6rWCYvx+Vj3SP5qR6ez3mP1
- wKYwqjhmhDXd9IiltTf8w==
-UI-OutboundReport: notjunk:1;M01:P0:5JklsFJC+vI=;BCBOSNHuNEaPi/j9K7Cf4c2q/pU
- 3gHbIlK/984BwMyam5m93NCgPmgeaxrh7tfPEwzjJEfgO9acJ2PYz1j0liLbxOtlIgqdh7ZDq
- ejbWbNHwF/TU33oMoxY/l3ZEDz8T4doksttWa7dH1J7ECMEFeLf8Fu8jr5Uyi81ivhjaIAUbu
- idhKqZLYUOCpG1V/53olD6azt7FeFqb9nBErqsrG6/cFsdUYeCHI8tepMffEW5KzH4I54HHNR
- T/gn1Z8R5VrUkwmTToxKn1eKplOCv9qGCPmTu33scfoVewdQ7BMxfhaCI41Lliufbavjs8GK+
- A2NCuwOXARTkZH81HmwJcKocP1buWhZkfBm/RJDaQyBBfRtr5+kJBhNdhfdnQ+Gb8Yp/p12wX
- Q6AGuLuIVeZ4dJEsGCos52r2iaesAzZfSxnRguY7IHtj3wzOB5GEkyzPPghjSWl0o5dvJDjHc
- To0gm3HzMyJF+R4Ya2fWPo3M3MAlT5ibbLZJr5WiVNvJpUgebH2j5FBIZ969NKYLjxTLzlFOX
- BnbYunt+79oky2NAq2eZs4RsEXw1RfEkOoJ6R76hiiD66Q5XgmR+LsH1tPUvDQWoI1/VTK/3y
- GnuJySk5iq55BOrZcZoc1mFgshQhAW1CV6McKS9ErZzG/4koyXzw5/s9h/4pOvc7BiWc6sNY6
- 9mjLpLx2qCD9DMjolsSHLe4M4rbQna0zW6OUmw3YxCY1Q0vxyksegDuVU7dB39u9daWYKHyBG
- H1nsfiG4rNeryJ/QUimGzMUXr0XW/oRQidnSTRCfZqbfX0K2w88v3AKb8NC9io4hnyMZ9R5gt
- t0NC0mK8GQF/n9NBAjnObo0StWMh8RJJBEtjhvNqsTdaezVUseqQt52vA9mgxHxVizbnpMHxe
- O4Dr05gPNovPzuxQQwIz0gzKnl0ynHU4oQnqmYMPoM8sUTlfObyTOLl7qCQmfrxlfahEkk6TQ
- dLlPJybNhpvh+C4vt72cWYOGDIU=
-Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [RFC PATCH-for-8.0 1/3] hw/ppc: Replace tswap32() by const_le32()
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Alistair Francis <alistair@alistair23.me>,
+ David Gibson <david@gibson.dropbear.id.au>, Jason Wang
+ <jasowang@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org
+References: <20221213125218.39868-1-philmd@linaro.org>
+ <20221213125218.39868-2-philmd@linaro.org>
+ <8d47b826-2011-3203-c682-aa32a76b8dc2@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <8d47b826-2011-3203-c682-aa32a76b8dc2@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,69 +99,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The sparc, hppa and m68k architectures provide an own output for the
-emulated /proc/cpuinfo file.
+On 13/12/22 17:00, Richard Henderson wrote:
+> On 12/13/22 06:52, Philippe Mathieu-Daudé wrote:
+>> Assuming the developers of commits 2c50e26efd ("powerpc: Add
+>> a virtex5 ml507 refdesign board") and 4b387f9ee1 ("ppc: Add
+>> aCube Sam460ex board") were testing on a little-endian setup,
+>> they meant to use const_le32() instead of tswap32() here,
+>> since tswap32() depends on the host endianness.
+> 
+> tswap depends on target endianness.
 
-Some userspace applications count (even if that's not the recommended
-way) the number of lines which start with "processor:" and assume that
-this number then reflects the number of online CPUs. Since those 3
-architectures don't provide any such line, applications may assume "0"
-CPUs.  One such issue can be seen in debian bug report:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1024653
+Yes, it depends on both host/target endianness. What I meant
+is we shouldn't have system code depending on host endianness.
 
-Avoid such issues by adding a "processor:" line for each of the online
-CPUs.
+(I'm trying to reduce it to semihosting / user-emulation).
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+>> @@ -255,7 +256,7 @@ static void main_cpu_reset(void *opaque)
+>>           /* Create a mapping for the kernel.  */
+>>           mmubooke_create_initial_mapping(env, 0, 0);
+>> -        env->gpr[6] = tswap32(EPAPR_MAGIC);
+>> +        env->gpr[6] = const_le32(EPAPR_MAGIC);
+> 
+> I think this is probably wrong.
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 9e2c0a18fc..d58e9b8d10 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8299,7 +8299,13 @@ static int open_net_route(CPUArchState *cpu_env, int fd)
- #if defined(TARGET_SPARC)
- static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- {
--    dprintf(fd, "type\t\t: sun4u\n");
-+    int i, num_cpus;
-+
-+    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-+    for (i = 0; i < num_cpus; i++) {
-+        dprintf(fd, "%sprocessor\t: %d\n", (i > 0) ? "\n":"", i);
-+        dprintf(fd, "type\t\t: sun4u\n");
-+    }
-     return 0;
- }
- #endif
-@@ -8307,11 +8313,17 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- #if defined(TARGET_HPPA)
- static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- {
--    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
--    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
--    dprintf(fd, "capabilities\t: os32\n");
--    dprintf(fd, "model\t\t: 9000/778/B160L\n");
--    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
-+    int i, num_cpus;
-+
-+    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-+    for (i = 0; i < num_cpus; i++) {
-+        dprintf(fd, "%sprocessor\t: %d\n", (i > 0) ? "\n":"", i);
-+        dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
-+        dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
-+        dprintf(fd, "capabilities\t: os32\n");
-+        dprintf(fd, "model\t\t: 9000/778/B160L - "
-+                    "Merlin L2 160 QEMU (9000/778/B160L)\n");
-+    }
-     return 0;
- }
- #endif
-@@ -8319,6 +8331,7 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- #if defined(TARGET_M68K)
- static int open_hardware(CPUArchState *cpu_env, int fd)
- {
-+    dprintf(fd, "processor\t: 0\n");
-     dprintf(fd, "Model:\t\tqemu-m68k\n");
-     return 0;
- }
+Since this is used for the kernel, I'll try to get its endianness
+from the load_kernel() calls.
 
