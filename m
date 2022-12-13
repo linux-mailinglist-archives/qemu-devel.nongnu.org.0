@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1E164BE79
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:33:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3089064BEA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:41:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Cnc-0001Lw-1w; Tue, 13 Dec 2022 16:26:52 -0500
+	id 1p5Czm-0000QN-QO; Tue, 13 Dec 2022 16:39:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p5CnX-0001Ij-Ds
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:26:47 -0500
-Received: from mout.gmx.net ([212.227.17.20])
+ (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5CzZ-0000I2-OL
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:14 -0500
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11] helo=outgoing.mit.edu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p5CnV-0003Tm-Ck
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:26:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1670966802; bh=QO0ytBQ1yaqy15iQUZUn7ClhliQei5W0pj/wxwhG5zk=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=YUJKUZgXyWytYt1WfLbLjjquYH7+2nr1zSahpULiNgvCriInGbjUMPk3xRFfPZGDZ
- oenr5DJ/MdEQM0AOAq3cVszH9MnlnRKGGndGXEKPcwEvZt1uN4Pq13aXuQ2xU1pDhy
- yDLHlf/VoxNhw3gc8B5u3ssdxLNAw3Tl3XXD3RC8hXblj1kIoTqDgtl7KsLLWq7u6Y
- n71f7eFQkDdXCZAu45y3nw4Wyf/++ag/58Ivct/1uI6ZFxQ884QOY6X+0qXirYjKVW
- 2DuwemCcLKrcZv5rEZeLyQA3NtwfKNhLHAX44A1LY0InV0BBDtikLSYcC/rc+y7rnq
- 1Jqi4bO3wr+FQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from p100 ([92.116.135.201]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MgNh1-1oRCPd14ZT-00hzUt; Tue, 13
- Dec 2022 22:26:42 +0100
-Date: Tue, 13 Dec 2022 22:26:40 +0100
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH v2] linux-user: Fix /proc/cpuinfo output for sparc and hppa
-Message-ID: <Y5juEOgG2Jnad1j9@p100>
+ (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5CzX-0007fa-6v
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:13 -0500
+Received: from panda194.. ([18.4.85.108]) (authenticated bits=0)
+ (User authenticated as fasano@ATHENA.MIT.EDU)
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2BDLcaP7030603
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Dec 2022 16:38:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+ t=1670967531; bh=r+FNo7P7InQddtmCHLn6F7XEA+Md0fRgnWXGFCYk4Xc=;
+ h=From:To:Cc:Subject:Date;
+ b=gbRv/Jkpf86KAhE/O37RFa5XECINEkx8UHYq3W9jAiudVEzP3xlsEUgLlP5R54Pg3
+ zOz1NnqMRLfkfzndanYwjTLfK4ztgQaTo4DXVWvg6FsUhy0XbuL2VC5eI/cqJAAfkd
+ yba4r01slA6U3gv1R7pAO0NHGxAiZm/XGV8gSH31ACci+9tYSDmK6vHMsIqK0WNODx
+ BY8Imx5Pn5ImUDsrX2f14RTMZ7zOmrnSpLID63p0fSL6XT2AKuZYWijGAlu1nIlaFg
+ ummgs3V6LBWQb6Jh9RmYD/9bIBqAHDYfCLoGVtzYSnU5pj7XVoENTKA+noS7/RuTXQ
+ 0yKK4EJxEedtw==
+From: Andrew Fasano <fasano@mit.edu>
+To: qemu-devel@nongnu.org
+Cc: elysia.witham@ll.mit.edu, alex.bennee@linaro.org, erdnaxe@crans.org,
+ ma.mandourr@gmail.com, Andrew Fasano <fasano@mit.edu>
+Subject: [PATCH 0/8] Inter-plugin interactions with QPP 
+Date: Tue, 13 Dec 2022 16:37:49 -0500
+Message-Id: <20221213213757.4123265-1-fasano@mit.edu>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:BThMxmbYOGwH4WcKnvoFTW6deDRmu7js2WdjSdzqyc3npY0ZyJv
- mpOA/jyZsNASKAIZ6hAF4PxpDorBuVFpZ/7P0W8TWEkBTYooq2XCpiPFtlik0fRfBkNHVq4
- rTfAW68ARn7CwFKVC9oGz9Oo+DqrvqH2qfbiOAnltYNdMDvygJpFh5xuUHMp7vTZUQg8sSf
- 0MwalQ4/6Eaq9qcfEmOSg==
-UI-OutboundReport: notjunk:1;M01:P0:jv7fk8hleqg=;NM/Z/eK8FfN8tzghbYB/vP3+Nah
- P46Gan4ieciPY0pBBL8Y8AEsX3SWQ9H9xH3z7BRAotCj0Q6jBd9StQnb2Pp2q4hNkL+FVEEvm
- AAoMwLLszBYap5VSwThsQSUl+NrNr3wBMZmTJEZRRWrQWR8hUwR/Fnb8VWgjwjEwYNQdTQotu
- WswqVu6PAKuaJ+Kl3CLDAxoXMNy2/lns8n7iRT6LfGXUaVk7zfs/9oTfRrw9PXDJH3HaUSDod
- HF6/0NU8ZeLXzWVG2z+gkgVncBz1SPDouBQP5NB17whypl96gMJkGHGEoBNKhK1xE5fVEw9MU
- a5EKU7PeUJ3KDGZIb3bTS3EKI7KiqbG0x657xWcxSKjPAnEnsEgejvGSGd+Oz2y7v34fXG1gI
- myqoZtREFJABuBijS4u7JLWrkXzW02P2cAtbkxXJtAvJ6hFs2NQPAj5gRn/KZgnomzIj1vvHk
- kDdT6Gk2z+ZCrClS5TkGR3TCUQ4jbyk5Y83eFCSNwSGJmooq1V7pSDHjFnpVlvMy/v0QVwvBW
- FH04AFP0TE6WKTOZvcs2YnXRQLx1ySBbeg/Sfp5xKX2X2JlW3Z8ly3LRErTdo7QdXn3sJMh8J
- RCF+fHpjOLJBNISzG5t7iz0e0NylNhAizEDKKQi2OM2lkoMLAFWlBvdyP9yWPZHhH3Rzn1Qpu
- jBn/W3bGvx2y6pquD3Bb6uDHHhHGiVn6gf1HeN+KdDvYtwFVEzQt+psPjQ+yECFfgIA5zL4gh
- OAxLGzyJyrlLfMK6/KsbTYHtOilGOTC1jqlD5WbiZbazy4jFWvfr7q3aRAaas/jbmRSoZ1Mmn
- gjl3XpF+FN3zXO6edVcYH8gJ15GvN6uY3uEaGHnovb5BoVKwVOFT4CV6iukxY4feoHWstMxsd
- dD8aXkUQqlhqjxG2xZXom7+8AjuLIKM6WjWtwoSV7esE4iThsoTDCsq2skK8++eEta1lpfhFa
- n4zb7tPXqnx4kgHXhvNC2A2TmaE=
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=18.9.28.11; envelope-from=fasano@mit.edu;
+ helo=outgoing.mit.edu
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,67 +64,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The sparc and hppa architectures provide an own output for the emulated
-/proc/cpuinfo file.
+Hello,
 
-Some userspace applications count (even if that's not the recommended
-way) the number of lines which start with "processor:" and assume that
-this number then reflects the number of online CPUs. Since those 3
-architectures don't provide any such line, applications may assume "0"
-CPUs.  One such issue can be seen in debian bug report:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1024653
+This is a series of patches expanding the TCG plugin system to add what we're
+calling the "QEMU Plugin-to-Plugin (QPP)" interface that allows for
+interactions between TCG plugins. This is a follow up to the Sept 1 2022 RFC
+"Support interactions between TCG plugins." The goal of this interface is to
+enable plugins to expand on other plugins and reduce code duplication. This
+patch series includes documentation, tests and commented code, but a
+high-level summary is below along with a discussion of the current
+implementation, how it would affect plugin developers, and a summary of the
+changes since the original RFC.
 
-Avoid such issues by adding a "processor:" line for each of the online
-CPUs.
+**Summary**
+The QPP interface allows two types of interactions between plugins:
+1) Exported functions: A plugin may wish to allow other plugins to call
+one of the functions it has defined. To do this, the plugin must mark
+the function definition as publicly visible with the QEMU_PLUGIN_EXPORT
+macro and place a definition in an included header file using the
+QPP_FUN_PROTOTYPE macro. Other plugins can then include this header and
+call the exported function by combining the name of the target plugin
+with the name of the exported function and "_qpp" at the end.
+For example, consider a hypothetical plugin that collects a list of
+cache misses. This plugin could export two functions using the QPP
+interface: one to allow another plugin to query this list and another
+to empty the list. This would enable the development of another plugin
+that examines guest CPU state to identify process changes and reports
+the cache misses per process. With the QPP interface, this second plugin
+would not need to duplicate any logic from the first.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+2) Callbacks: Multiple plugins may wish to take some action when some
+event of interest occurs inside a running guest. To support modularity
+and reduce code duplication, the QPP callback system allows this logic
+to be contained in single plugin that detects whenever a given event
+occurs and exposes a callback with a given name. Another plugin can then
+request to have one of its own functions run whenever this event occurs.
+Additional plugins could also use this same callback to run additional
+logic whenever this event occurs.
 
----
-v2:
-- drop m68k part (based on feedback from Laurent Vivier <laurent@vivier.eu>)
-- change commit message
+For example, consider (again) a hypothetical plugin that detects when
+the current guest process changes by analyzing the guest CPU state. This
+plugin could define a callback named "on_process_change" and trigger
+this callback event whenever it detects a process change. Other plugins
+could then be developed that take various actions on process changes by
+registering internal functions to run on this event.
+These patches and examples are inspired by the PANDA project
+(https://panda.re and https://github.com/panda-re/panda), a fork of QEMU
+modified to support dynamic program analysis and reverse engineering.
+PANDA also includes a large plugin system with a similar interface for
+interactions between plugins. We are a part of the PANDA team and have
+seen how the ability for plugins to interact with other plugins reduces
+code duplication and enables the creation of many useful plugins.
 
+**Implementation Overview**
+These patches increment the TCG plugin version from 1 to 2 and require
+plugins of v2 or greater to specify a plugin name. During plugin load, an
+error is raised if two plugins are loaded that use the same name.
+Using these unique names, plugins can import functions from other
+plugins and register local functions to be run on callback events
+managed by other plugins. To accomplish this, these patches add
+the following functions to the core plugin code:
+ - qemu_plugin_import_function: this is used by the QPP_FUN_PROTOTYPE
+   macro to find and resolve the handle of the function to be
+   imported given the target plugin name and function name.
+ - qemu_plugin_create_callback: this can be called by plugins to
+   create a new callback using the unique plugin id and the callback
+   name.
+ - qemu_plugin_run_callback: this is called by plugins to define when
+   registered callback functions get run for the named callback and
+   specify the args that are passed to those functions.
+ - qemu_plugin_reg_callback: this can be used by plugins to register
+   functions on another plugin's defined callback.
+ - qemu_plugin_unreg_callback: this removes a previously registered
+   function from the callback's list of registered functions if it
+   exists there.
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 9e2c0a18fc..d58e9b8d10 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8299,7 +8299,13 @@ static int open_net_route(CPUArchState *cpu_env, int fd)
- #if defined(TARGET_SPARC)
- static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- {
--    dprintf(fd, "type\t\t: sun4u\n");
-+    int i, num_cpus;
-+
-+    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-+    for (i = 0; i < num_cpus; i++) {
-+        dprintf(fd, "%sprocessor\t: %d\n", (i > 0) ? "\n":"", i);
-+        dprintf(fd, "type\t\t: sun4u\n");
-+    }
-     return 0;
- }
- #endif
-@@ -8307,11 +8313,17 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- #if defined(TARGET_HPPA)
- static int open_cpuinfo(CPUArchState *cpu_env, int fd)
- {
--    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
--    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
--    dprintf(fd, "capabilities\t: os32\n");
--    dprintf(fd, "model\t\t: 9000/778/B160L\n");
--    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
-+    int i, num_cpus;
-+
-+    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-+    for (i = 0; i < num_cpus; i++) {
-+        dprintf(fd, "%sprocessor\t: %d\n", (i > 0) ? "\n":"", i);
-+        dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
-+        dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
-+        dprintf(fd, "capabilities\t: os32\n");
-+        dprintf(fd, "model\t\t: 9000/778/B160L - "
-+                    "Merlin L2 160 QEMU (9000/778/B160L)\n");
-+    }
-     return 0;
- }
- #endif
+The QPP implementation is mostly contained within the api, but we
+did add a helpful macro for qemu_plugin_import_function inside a
+header file plugin-qpp.h called QPP_FUN_PROTOTYPE. This macro
+must be used after defining the qemu_plugin_name variable (would
+love to change this part of the design if anyone has better ideas).
+
+The QPP_FUN_PROTOYPE macro enables a plugin to expose a function
+it defines to other plugins. This macro enables a plugin to provide a single
+header file that both defines the exported functions for the plugin
+that provides them as well as providing a definition and auto-resolving the
+function pointers for other plugins that wish to call them. This macro is used
+in a header file that is included by both the plugin that defines a function as
+well as plugins that wish to use the function. This prototype creates a
+constructor function that runs on plugin load. If the target plugin
+name differs from the value of the current plugin name, this function
+will use qemu_plugin_import_function to resolve the target function in
+that plugin. If this fails, it will print a warning and abort.
+
+Finally, these patches include a pair of test plugins, qpp_srv and
+qpp_client. The former provides a trivial QPP callback which simply runs
+when the plugin is unloaded as well as two functions to add and subtract
+integers. The latter of these plugins registers a function to run
+on this callback and uses the two exported functions. These plugins are
+found in tests/plugin_qpp and have been integrated into the make check-tcg
+tests.
+
+**Changes Since the 9/1/22 RFC**
+Based on the feedback we received from Alex, we changed our design to use
+the QEMU plugin APIs instead of allowing plugins to directly dlopen and
+interact with one another.
+We bumped the QPP version number and mandated that developers specify a unique
+name for each plugin instead of using the source filenames as the plugin names.
+We moved our pair of example plugins to the tests directory and configured
+them to be run and tested as part of the check-tcg tests.
+
+**Next steps**
+We are working on building some more useful example plugins that builds on this
+API. Pending feedback on this patch series, we would be happy to either merge
+these API changes on their own or hold off until such these example plugins
+are ready.
+
+We have developed some plugins already, but our initial examples depend on
+some poorly-written APIs we've added to access guest registers and memory.
+Those APIs aren't ready for upstreaming yet, which is why we aren't including
+those patches and example plugins in this patch series. However the code is
+available in our tree if anyone is interested:
+  - Register accessing: https://github.com/panda-re/qemu/commit/b97c5a56edd0ba3b5f6ab16bf531ac1f7abaac04
+  - Memory accessing: https://github.com/panda-re/qemu/commit/dba9d1ceffeeeddf2b5232d64ca97147a4f5a3a5
+
+Using the QPP system from this patch series and the ability to access guest
+registers and memory, we developed have a set of three of plugins that provide
+OS introspection, syscall detection, and logging such that on every system
+call in a Linux guest we can record the system call number and
+information on the current running process. These generate output like:
+  Syscall at pc 7f0b815478cd: number 3: Process 'init', pid 211, ppid 1
+  Syscall at pc 7fff775feb58: number 228: Process 'systemd-udevd', pid 137, ppid 1
+
+As our register and memory access APIs aren't yet ready to merge, we
+haven't included these plugins as a part of this patch series, but their
+code is also available in our tree:
+  - Linux OS Introspection: https://github.com/panda-re/qemu/blob/ppp_beta_with_plugins/contrib/plugins/osi_linux/
+  - Syscall detection: https://github.com/panda-re/qemu/blob/ppp_beta_with_plugins/contrib/plugins/syscalls.c
+  - Syscall logging with process details: https://github.com/panda-re/qemu/blob/ppp_beta_with_plugins/contrib/plugins/syscalls_logger.c
+
+We plan to explore integrating this with qemu's existing user-mode syscall
+tracing system and would love to eventually merge these plugins if there's
+interest and the necessary APIs (QPP + register/memory access) become
+available.
+
+We welcome any feedback for this patch series and the next steps we're
+interested in pursuing.
+Thank you,
+Andrew Fasano & Elysia Witham
+
+Elysia Witham (8):
+  docs/devel: describe QPP API
+  plugins: version 2, require unique plugin names
+  plugins: add id_to_plugin_name
+  plugins: add core API functions for QPP callbacks
+  plugins: implement QPP callbacks
+  plugins: implement QPP import function
+  include/qemu: added macro for QPP import function
+  tests: build and run QPP tests
+
+ docs/devel/tcg-plugins.rst                |  91 ++++++++++++++-
+ include/qemu/plugin-qpp.h                 |  54 +++++++++
+ include/qemu/qemu-plugin.h                |  68 ++++++++++-
+ plugins/api.c                             | 132 ++++++++++++++++++++++
+ plugins/core.c                            |  47 ++++++++
+ plugins/loader.c                          |  61 +++++++++-
+ plugins/plugin.h                          |  24 ++++
+ plugins/qemu-plugins.symbols              |   5 +
+ tests/Makefile.include                    |   2 +-
+ tests/meson.build                         |   1 +
+ tests/plugin/bb.c                         |   1 +
+ tests/plugin/empty.c                      |   1 +
+ tests/plugin/insn.c                       |   1 +
+ tests/plugin/mem.c                        |   1 +
+ tests/plugin/syscall.c                    |   1 +
+ tests/plugin_qpp/meson.build              |   7 ++
+ tests/plugin_qpp/qpp_client.c             |  32 ++++++
+ tests/plugin_qpp/qpp_srv.c                |  37 ++++++
+ tests/plugin_qpp/qpp_srv.h                |  12 ++
+ tests/tcg/Makefile.target                 |  29 +++++
+ tests/tcg/aarch64/Makefile.softmmu-target |   2 +
+ tests/tcg/arm/Makefile.softmmu-target     |   1 +
+ tests/tcg/arm/Makefile.target             |   2 +
+ tests/tcg/multiarch/Makefile.target       |   2 +
+ 24 files changed, 605 insertions(+), 9 deletions(-)
+ create mode 100644 include/qemu/plugin-qpp.h
+ create mode 100644 tests/plugin_qpp/meson.build
+ create mode 100644 tests/plugin_qpp/qpp_client.c
+ create mode 100644 tests/plugin_qpp/qpp_srv.c
+ create mode 100644 tests/plugin_qpp/qpp_srv.h
+
+-- 
+2.34.1
+
 
