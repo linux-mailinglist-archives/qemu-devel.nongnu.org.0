@@ -2,54 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A35364BEAB
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:43:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034EC64BEB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:44:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5D0x-0001eF-KE; Tue, 13 Dec 2022 16:40:41 -0500
+	id 1p5CzV-0000DW-Uj; Tue, 13 Dec 2022 16:39:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D0G-0001Q0-P9
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:58 -0500
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11] helo=outgoing.mit.edu)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5CzK-0000Aj-NE
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:38:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D0E-00087R-Cf
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:56 -0500
-Received: from panda194.. ([18.4.85.108]) (authenticated bits=0)
- (User authenticated as fasano@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2BDLcaPF030603
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 16:39:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
- t=1670967587; bh=04+GIoDwHme3ZeKgdIBJSxOVCToSjQdjHcp9Buqf1fc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=S6IJkfjOwyTaB2Y8cKNJCEvhuT/6Ag7jo8rFbDLcRnI9JIcNAPaoUgz4++yWQaPEu
- ZixCixEvW5hzYONvHgC7NQFdHJQNiqT6BYF0pCv+03LzYUOMYej3nspi2dbnj8wpzx
- WYswxo9U882dXEoqd+lL6ar7DRHoTbw+dsRVWPQWcN+TR8i1Rna5h89wunLiVlPO/i
- KfpNzl83Ul121/PRjWIH6vdn19824Q9k6nDKvIcFSJSoAfPHhlbi3K80OJrwNRbaG1
- PwUGPvjR5hapE0Z8cX0Yqd8jUXu+kU+nyF+mcKldrKOei+uMaC3breY8c8k+b5/ZfC
- uofFO0V+WAAgw==
-From: Andrew Fasano <fasano@mit.edu>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5CzI-0007dk-H5
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:38:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670967535;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JIXTM9a2vYTN1bKFhPwaczFN2eI7nhSZ7SaeysPErMM=;
+ b=f8+PjZcGCe2nijTO2ZlKJHqwNlodHs/jBmYaUMIeh9dzULyPtlx/AtdaPjf4bzhcm9vtbM
+ dvp945zpXUTBnyApDiG38MMZne3LnQ3mwlolMAM8hjz49ZNSde9mX/sSdPIA806MW1narj
+ pI4WBpljncQPW0EnRvSsb8OqNLj5Z2w=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-286-dHEKLyYiOhudyvLso78oSw-1; Tue, 13 Dec 2022 16:38:53 -0500
+X-MC-Unique: dHEKLyYiOhudyvLso78oSw-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ r23-20020a1f2b17000000b003b89463c349so1767651vkr.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 13:38:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JIXTM9a2vYTN1bKFhPwaczFN2eI7nhSZ7SaeysPErMM=;
+ b=K6PwGKM18idSL4Ex3SgKxi4PFXQyjJRXmYO0QLo+exHt68Vk8sALv+6+RAJnu0V0R0
+ ZFky6bkNqXyeYgc+mySAFeaZO4ABoTUaiXyaxBK48G7BugANK+bggggritSJCKGpAmEp
+ V3WaSjfzgPvE4pySvV3hEltGg1Z3LpcD96omaLX1zdrttGQmHNJ6GyuL6TLdr6330y+0
+ OeGtXPLurWdM0nEjira/rNLPaSa19sqfgr2ya4FQ9xlDYk8Um5FQq35ra/ucqttiXGbJ
+ wTUtP8KdYXvRDtJcTE1633O2yfbBcElKlffRZO/LogIqv0d+UHuFBVoQiukWEi1VDVLd
+ uSxA==
+X-Gm-Message-State: ANoB5pncIySYkYEyiLVnFypPscAETM50mlVmc6Ltb+Ht9PpymN8iYuYX
+ 0FRfLQVEHYCJAPGQoKuzLpdVpFfUtVWbxofrzzeQGLv5/HzhjIvabg0Z5oQ53aE6DSdltbIOW66
+ 8ZWVSVU/+sYUbi6SAZXakPDLX2AkJLYhxYv6lYO+te1TRF/RDN1l+6SNg8KqiJAwn
+X-Received: by 2002:a1f:43c4:0:b0:3bd:ef1a:7e6 with SMTP id
+ q187-20020a1f43c4000000b003bdef1a07e6mr12083223vka.1.1670967532631; 
+ Tue, 13 Dec 2022 13:38:52 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6X1Mq5ONN7Et8wjPkJSxp4cAKSCBUFqEg8slTm/mVfZ1UNCD7u5sWk3n5lFHahBKTdvUQHhQ==
+X-Received: by 2002:a1f:43c4:0:b0:3bd:ef1a:7e6 with SMTP id
+ q187-20020a1f43c4000000b003bdef1a07e6mr12083198vka.1.1670967532240; 
+ Tue, 13 Dec 2022 13:38:52 -0800 (PST)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ by smtp.gmail.com with ESMTPSA id
+ j12-20020a05620a288c00b006feb158e5e7sm8607487qkp.70.2022.12.13.13.38.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Dec 2022 13:38:51 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: elysia.witham@ll.mit.edu, alex.bennee@linaro.org, erdnaxe@crans.org,
- ma.mandourr@gmail.com, Andrew Fasano <fasano@mit.edu>
-Subject: [PATCH 8/8] tests: build and run QPP tests
-Date: Tue, 13 Dec 2022 16:37:57 -0500
-Message-Id: <20221213213757.4123265-9-fasano@mit.edu>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221213213757.4123265-1-fasano@mit.edu>
-References: <20221213213757.4123265-1-fasano@mit.edu>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com
+Subject: [PATCH 0/5] migration: Fix disorder of channel creations
+Date: Tue, 13 Dec 2022 16:38:45 -0500
+Message-Id: <20221213213850.1481858-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=18.9.28.11; envelope-from=fasano@mit.edu;
- helo=outgoing.mit.edu
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,284 +99,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Elysia Witham <elysia.witham@ll.mit.edu>
+Based-on: <20221011215559.602584-1-peterx@redhat.com>
 
-These test plugins demonstrate the QPP API changes by exporting
-and importing functions and creating and registering callbacks.
-These tests are integrated into the `make check-tcg` tests.
+This whole set is based on the whole set of preempt-full mode being applied
+first here:
 
-Signed-off-by: Elysia Witham <elysia.witham@ll.mit.edu>
-Signed-off-by: Andrew Fasano <fasano@mit.edu>
----
- tests/Makefile.include                    |  2 +-
- tests/meson.build                         |  1 +
- tests/plugin_qpp/meson.build              |  7 +++++
- tests/plugin_qpp/qpp_client.c             | 32 ++++++++++++++++++++
- tests/plugin_qpp/qpp_srv.c                | 37 +++++++++++++++++++++++
- tests/plugin_qpp/qpp_srv.h                | 12 ++++++++
- tests/tcg/Makefile.target                 | 29 ++++++++++++++++++
- tests/tcg/aarch64/Makefile.softmmu-target |  2 ++
- tests/tcg/arm/Makefile.softmmu-target     |  1 +
- tests/tcg/arm/Makefile.target             |  2 ++
- tests/tcg/multiarch/Makefile.target       |  2 ++
- 11 files changed, 126 insertions(+), 1 deletion(-)
- create mode 100644 tests/plugin_qpp/meson.build
- create mode 100644 tests/plugin_qpp/qpp_client.c
- create mode 100644 tests/plugin_qpp/qpp_srv.c
- create mode 100644 tests/plugin_qpp/qpp_srv.h
+https://lore.kernel.org/r/20221011215559.602584-1-peterx@redhat.com
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 9422ddaece..08dd667aad 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -73,7 +73,7 @@ $(TCG_TESTS_TARGETS:%=distclean-tcg-tests-%): distclean-tcg-tests-%:
- build-tcg: $(BUILD_TCG_TARGET_RULES)
- 
- .PHONY: check-tcg
--.ninja-goals.check-tcg = all $(if $(CONFIG_PLUGIN),test-plugins)
-+.ninja-goals.check-tcg = all $(if $(CONFIG_PLUGIN),test-plugins test-plugins-qpp)
- check-tcg: $(RUN_TCG_TARGET_RULES)
- 
- .PHONY: clean-tcg
-diff --git a/tests/meson.build b/tests/meson.build
-index 8e318ec513..12d3ec9c4b 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -86,6 +86,7 @@ endif
- if get_option('tcg').allowed()
-   if 'CONFIG_PLUGIN' in config_host
-     subdir('plugin')
-+    subdir('plugin_qpp')
-   endif
- endif
- 
-diff --git a/tests/plugin_qpp/meson.build b/tests/plugin_qpp/meson.build
-new file mode 100644
-index 0000000000..25555d0ec2
---- /dev/null
-+++ b/tests/plugin_qpp/meson.build
-@@ -0,0 +1,7 @@
-+t = []
-+foreach i : ['qpp_srv', 'qpp_client']
-+  t += shared_module(i, files(i + '.c'),
-+                     include_directories: '../../include/qemu',
-+                     dependencies: glib)
-+endforeach
-+alias_target('test-plugins-qpp', t)
-diff --git a/tests/plugin_qpp/qpp_client.c b/tests/plugin_qpp/qpp_client.c
-new file mode 100644
-index 0000000000..69b7cc4ac5
---- /dev/null
-+++ b/tests/plugin_qpp/qpp_client.c
-@@ -0,0 +1,32 @@
-+#include <stdio.h>
-+#include <qemu-plugin.h>
-+#include <plugin-qpp.h>
-+#include <glib.h>
-+
-+QEMU_PLUGIN_EXPORT const char *qemu_plugin_name = "qpp_client";
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+QEMU_PLUGIN_EXPORT const char *qemu_plugin_uses[] = {"qpp_srv", NULL};
-+
-+#include "qpp_srv.h"
-+
-+void my_cb_exit_callback(gpointer evdata, gpointer udata);
-+
-+QEMU_PLUGIN_EXPORT void my_cb_exit_callback(gpointer evdata, gpointer udata)
-+{
-+    *(bool *)evdata = true;
-+    qemu_plugin_outs("called my on exit callback\n");
-+}
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                   const qemu_info_t *info, int argc, char **argv) {
-+
-+    g_autoptr(GString) report = g_string_new("QPP client: Call "
-+                                             "qpp_srv's do_add(0) do_sub(3) => ");
-+    g_string_append_printf(report, "%d %d\n", qpp_srv_do_add_qpp(0),
-+                           qpp_srv_do_sub_qpp(3));
-+    qemu_plugin_outs(report->str);
-+    qemu_plugin_reg_callback("qpp_srv", "my_on_exit", &my_cb_exit_callback);
-+
-+    return 0;
-+}
-+
-diff --git a/tests/plugin_qpp/qpp_srv.c b/tests/plugin_qpp/qpp_srv.c
-new file mode 100644
-index 0000000000..88b1907a7e
---- /dev/null
-+++ b/tests/plugin_qpp/qpp_srv.c
-@@ -0,0 +1,37 @@
-+#include <stdio.h>
-+#include <qemu-plugin.h>
-+#include <plugin-qpp.h>
-+#include <gmodule.h>
-+#include <assert.h>
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+QEMU_PLUGIN_EXPORT const char *qemu_plugin_name = "qpp_srv";
-+#include "qpp_srv.h"
-+
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+  qemu_plugin_outs("QPP srv: exit triggered, running all registered"
-+                  " QPP callbacks\n");
-+  bool called = false;
-+  qemu_plugin_run_callback(id, "my_on_exit", &called, NULL);
-+  assert(called);
-+}
-+
-+QEMU_PLUGIN_EXPORT int qpp_srv_do_add(int x)
-+{
-+  return x + 1;
-+}
-+
-+QEMU_PLUGIN_EXPORT int qpp_srv_do_sub(int x)
-+{
-+  return x - 1;
-+}
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                   const qemu_info_t *info, int argc, char **argv) {
-+    qemu_plugin_outs("qpp_srv loaded\n");
-+    qemu_plugin_create_callback(id, "my_on_exit");
-+    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-+
-+    return 0;
-+}
-diff --git a/tests/plugin_qpp/qpp_srv.h b/tests/plugin_qpp/qpp_srv.h
-new file mode 100644
-index 0000000000..16d9bc2df4
---- /dev/null
-+++ b/tests/plugin_qpp/qpp_srv.h
-@@ -0,0 +1,12 @@
-+#ifndef QPP_SRV_H
-+#define QPP_SRV_H
-+
-+
-+/*
-+ * Prototypes for the do_add and do_sub functions. Both return an int and
-+ * take an int as an argument.
-+ */
-+QPP_FUN_PROTOTYPE(qpp_srv, int, qpp_srv_do_add, int);
-+QPP_FUN_PROTOTYPE(qpp_srv, int, qpp_srv_do_sub, int);
-+
-+#endif /* QPP_SRV_H */
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 75257f2b29..c478f1b2de 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -145,6 +145,9 @@ RUN_TESTS=$(patsubst %,run-%, $(TESTS))
- ifeq ($(CONFIG_PLUGIN),y)
- PLUGIN_SRC=$(SRC_PATH)/tests/plugin
- PLUGIN_LIB=../../plugin
-+
-+PLUGIN_LIB_QPP=../../plugin_qpp
-+
- VPATH+=$(PLUGIN_LIB)
- PLUGINS=$(patsubst %.c, lib%.so, $(notdir $(wildcard $(PLUGIN_SRC)/*.c)))
- 
-@@ -156,6 +159,11 @@ $(foreach p,$(PLUGINS), \
- 	$(foreach t,$(TESTS),\
- 		$(eval run-plugin-$(t)-with-$(p): $t $p) \
- 		$(eval RUN_TESTS+=run-plugin-$(t)-with-$(p))))
-+
-+$(foreach t,$(TESTS),\
-+	$(eval run-plugin-qpp-$(t): $t) \
-+	$(eval RUN_TESTS+=run-plugin-qpp-$(t)))
-+
- endif
- 
- strip-plugin = $(wordlist 1, 1, $(subst -with-, ,$1))
-@@ -167,18 +175,39 @@ ifeq ($(filter %-softmmu, $(TARGET)),)
- run-%: %
- 	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<)
- 
-+run-plugin-qpp-%:
-+	$(call run-test, $@, \
-+	  $(QEMU) \
-+			-plugin $(PLUGIN_LIB_QPP)/libqpp_srv.so \
-+			-plugin $(PLUGIN_LIB_QPP)/libqpp_client.so \
-+			$(call extract-plugin,$@) \
-+			-d plugin -D $*.pout \
-+		$(QEMU_OPTS) $<)
-+
- run-plugin-%:
- 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
- 		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
- 		-d plugin -D $*.pout \
- 		 $(call strip-plugin,$<))
-+
- else
-+
- run-%: %
- 	$(call run-test, $<, \
- 	  $(QEMU) -monitor none -display none \
- 		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
- 		  $(QEMU_OPTS) $<)
- 
-+run-plugin-qpp-%:
-+	$(call run-test, $@, \
-+	  $(QEMU) -monitor none -display none \
-+		-chardev file$(COMMA)path=$@.out$(COMMA)id=output \
-+			-plugin $(PLUGIN_LIB_QPP)/libqpp_srv.so \
-+			-plugin $(PLUGIN_LIB_QPP)/libqpp_client.so \
-+			$(call extract-plugin,$@) \
-+				-d plugin -D $*.pout \
-+		$(QEMU_OPTS) $<)
-+
- run-plugin-%:
- 	$(call run-test, $@, \
- 	  $(QEMU) -monitor none -display none \
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index a1368905f5..f87a1a799b 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -45,6 +45,8 @@ QEMU_SEMIHOST=-chardev stdio,mux=on,id=stdio0 -semihosting-config enable=on,char
- run-semiconsole: QEMU_OPTS=$(QEMU_BASE_MACHINE) $(QEMU_SEMIHOST)  -kernel
- run-semiconsole: semiconsole
- 	$(call skip-test, $<, "MANUAL ONLY")
-+run-plugin-qpp-semiconsole: semiconsole
-+	$(call skip-test, $<, "MANUAL ONLY")
- run-plugin-semiconsole-with-%: semiconsole
- 	$(call skip-test, $<, "MANUAL ONLY")
- 
-diff --git a/tests/tcg/arm/Makefile.softmmu-target b/tests/tcg/arm/Makefile.softmmu-target
-index 7df88ddea8..f4bfab41bf 100644
---- a/tests/tcg/arm/Makefile.softmmu-target
-+++ b/tests/tcg/arm/Makefile.softmmu-target
-@@ -24,3 +24,4 @@ test-armv6m-undef: EXTRA_CFLAGS+=-mcpu=cortex-m0 -mfloat-abi=soft
- 
- run-test-armv6m-undef: QEMU_OPTS+=-semihosting -M microbit -kernel
- run-plugin-test-armv6m-undef-%: QEMU_OPTS+=-semihosting -M microbit -kernel
-+run-plugin-qpp-test-armv6m-undef: QEMU_OPTS+=-semihosting -M microbit -kernel
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index b3b1504a1c..2aa3479952 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -62,6 +62,8 @@ semiconsole-arm: semihosting.c
- run-semiconsole-arm: semiconsole-arm
- 	$(call skip-test, $<, "MANUAL ONLY")
- 
-+run-plugin-qpp-semiconsole-arm:
-+	$(call skip-test, $<, "MANUAL ONLY")
- run-plugin-semiconsole-arm-with-%:
- 	$(call skip-test, $<, "MANUAL ONLY")
- 
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index 5f0fee1aad..a77b30aa94 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -108,6 +108,8 @@ semiconsole: CFLAGS+=-I$(SRC_PATH)/tests/tcg/$(TARGET_NAME)
- run-semiconsole: semiconsole
- 	$(call skip-test, $<, "MANUAL ONLY")
- 
-+run-plugin-qpp-semiconsole:
-+	$(call skip-test, $<, "MANUAL ONLY")
- run-plugin-semiconsole-with-%:
- 	$(call skip-test, $<, "MANUAL ONLY")
- 
+I also picked up the latest version from Manish on fixing multifd
+counterpart of the problem, here (which are the initial two patches):
+
+https://lore.kernel.org/r/20221123172735.25181-1-manish.mishra@nutanix.com
+
+One trivial change is to fix RDMA builds for patch 1 there.
+
+I verified that I can trigger disordered connections with preempt mode
+postcopy (1 out of a few attemps), which can cause migration to hang during
+precopy phase, if e.g. I set the NIC packet loss rate to 50%.  So now with
+all the 5 patches applied we should fix all the migration disorder issue on
+channel creation.
+
+Patch 3 is IMHO a cleanup that I'd think good to have even without patch
+4/5.  Patch 5 actually fixes the ordering issue.  For each of the patch,
+please refer to the commit message and comments in-code.  Any comment
+welcomed.
+
+A side note to Juan: logically it should apply cleanly to your -next tree
+as long as Manish's patches are not there - because they're also included
+here with a fix to RDMA builds.
+
+Peter Xu (3):
+  migration: Rework multi-channel checks on URI
+  migration: Add a semaphore to count PONGs
+  migration: Postpone postcopy preempt channel to be after main
+
+manish.mishra (2):
+  io: Add support for MSG_PEEK for socket channel
+  migration: check magic value for deciding the mapping of channels
+
+ chardev/char-socket.c               |   4 +-
+ include/io/channel.h                |   6 +
+ io/channel-buffer.c                 |   1 +
+ io/channel-command.c                |   1 +
+ io/channel-file.c                   |   1 +
+ io/channel-null.c                   |   1 +
+ io/channel-socket.c                 |  17 ++-
+ io/channel-tls.c                    |   1 +
+ io/channel-websock.c                |   1 +
+ io/channel.c                        |  16 ++-
+ migration/channel-block.c           |   1 +
+ migration/channel.c                 |  45 ++++++++
+ migration/channel.h                 |   5 +
+ migration/migration.c               | 164 +++++++++++++++++++---------
+ migration/migration.h               |  15 ++-
+ migration/multifd.c                 |  24 +---
+ migration/multifd.h                 |   2 +-
+ migration/postcopy-ram.c            |  36 +++---
+ migration/postcopy-ram.h            |   6 +-
+ migration/rdma.c                    |   1 +
+ migration/savevm.c                  |   6 +-
+ scsi/qemu-pr-helper.c               |   2 +-
+ tests/qtest/tpm-emu.c               |   2 +-
+ tests/unit/test-io-channel-socket.c |   1 +
+ util/vhost-user-server.c            |   2 +-
+ 25 files changed, 254 insertions(+), 107 deletions(-)
+
 -- 
-2.34.1
+2.37.3
 
 
