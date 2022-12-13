@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01BC64BA32
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:50:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA7B64BA59
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:55:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p58TI-00088d-00; Tue, 13 Dec 2022 11:49:36 -0500
+	id 1p58Xd-0002Gs-VG; Tue, 13 Dec 2022 11:54:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p58TG-00088I-G3
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:49:34 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p58TD-00017X-Qi
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:49:34 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id ja17so5978463wmb.3
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:49:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yZxfG6edEA7X2SntCYSAFqjY0i+iqpsC4PIKa5y/e8k=;
- b=eEz0Ss+PIFcbLagXM8gl8HpWtQkLlBPAGhnJYBs/C3ykK+8sp/uNEXx0m1pb/kp5qh
- G/B8esIQ/VguGMgz0wux9fAhf1EPe3BKqHt0HnoEsrlGxJsEAT0xS1GS/kAoibfdYgnF
- mGBzFNk7ebD0Hvfj0+7wLmZ/YL9oOu5nyqRhgFQMeWFuCZJCWk0PtjtGCKOcLoyMteIu
- 5xdvUZsajYgH6l73xuGbDtUkgAYv2WoIOY29AR/slFNj89t34mBKyQPBB59cOtYtU4a8
- ZrdyEAvpJX5TbDRyqFDCXGz43L0e7WicUXUQPavJiBOAduRuY3MO6acoyYISw4pow1ob
- kTTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=yZxfG6edEA7X2SntCYSAFqjY0i+iqpsC4PIKa5y/e8k=;
- b=yG5MqEOHaQ0Fp/QxW009+4WpK8Se1upn5atgyqAeZcgAexPBKTFywjgXC2Eq9ZRmcE
- +Zyr0maebLFnIBxUaU+7m12zouYRw05Ng46Z2R/36Fq8UnzhFrj+W5C+OVFewhWSCaWl
- 0aDuqFKDgWMWi8LpooprOa5uQMlLtRwvU48fB5hfa9sLneP+GBXI79S/nTn8hb5Hgbu4
- GcUHHMWtjDVzsLlMEws561QfDvIo9sEuuEr4ZkwyNdTXnDTrJzoTDoF9QHCfvVHBHbg1
- vTsUfBR6NoUn4+hZjvKKA7lxBDeNnbt702Z8cBX3WVxMXScjfBJve+WqmdnrF+HOdtv1
- PP+Q==
-X-Gm-Message-State: ANoB5plrQoGBoRFN9qOinqN9rYzJjxLcGJgwHHrnFO4b9uBHgkO7yw9M
- GXaXPmzrH+nwf+CJHA9Qyr8UXg==
-X-Google-Smtp-Source: AA0mqf7+QL9n2f5J7FywhpIB8cc8rZG9AcLrGOilEYMG1rpI5nCUpayMFVdUs3LSK0y0wjEBSkLPFA==
-X-Received: by 2002:a05:600c:4f52:b0:3cf:702b:2fd2 with SMTP id
- m18-20020a05600c4f5200b003cf702b2fd2mr15853486wmq.3.1670950170206; 
- Tue, 13 Dec 2022 08:49:30 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- o25-20020a05600c511900b003c6f8d30e40sm14912534wms.31.2022.12.13.08.49.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 08:49:29 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7B0E31FFB7;
- Tue, 13 Dec 2022 16:49:29 +0000 (GMT)
-References: <4019c9d3.7721.1850b729a80.Coremail.wanghw364@163.com>
-User-agent: mu4e 1.9.6; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: wanghw364 <wanghw364@163.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: QEMU function trace
-Date: Tue, 13 Dec 2022 16:44:29 +0000
-In-reply-to: <4019c9d3.7721.1850b729a80.Coremail.wanghw364@163.com>
-Message-ID: <87y1rbjlk6.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1p58Xa-0002Fk-94; Tue, 13 Dec 2022 11:54:02 -0500
+Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1p58XY-0002B0-K1; Tue, 13 Dec 2022 11:54:02 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.19])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 1056726A57;
+ Tue, 13 Dec 2022 16:53:55 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 13 Dec
+ 2022 17:53:54 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G00523356e20-8a11-4916-b4c2-f93a06f4e123,
+ 70F1EFD4CFA2BAC2768C5AFE190B601EEBA8C420) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <10186d7a-2df0-2fcf-8eef-8e34bcc2d8cc@kaod.org>
+Date: Tue, 13 Dec 2022 17:53:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH-for-8.0 1/3] hw/ppc: Replace tswap32() by const_le32()
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, Peter Maydell
+ <peter.maydell@linaro.org>
+CC: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-devel@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Alistair Francis <alistair@alistair23.me>, David
+ Gibson <david@gibson.dropbear.id.au>, Jason Wang <jasowang@redhat.com>, Greg
+ Kurz <groug@kaod.org>, <qemu-arm@nongnu.org>, "Edgar E. Iglesias"
+ <edgar.iglesias@gmail.com>, <qemu-ppc@nongnu.org>
+References: <20221213125218.39868-1-philmd@linaro.org>
+ <20221213125218.39868-2-philmd@linaro.org>
+ <8d47b826-2011-3203-c682-aa32a76b8dc2@linaro.org>
+ <d73fe725-565e-7fcb-e7d3-846189459545@linaro.org>
+ <a1f4b5a6-0a8a-5a04-8ab6-f3f08b9d36aa@linaro.org>
+ <CAFEAcA_F3Z+UPW-wHs8xedYX3TiV8CRQAom0DhefKLFH_Ejgog@mail.gmail.com>
+ <b46e4c40-257f-8a89-85b8-8c2806f395be@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <b46e4c40-257f-8a89-85b8-8c2806f395be@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 8f7c01ff-bff5-40a3-9427-ab6b74539159
+X-Ovh-Tracer-Id: 12547591513020074814
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfedugddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdgsrghlrghtohhnsegvihhkrdgsmhgvrdhhuhdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdgrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvgdpug
+ grvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruhdpjhgrshhofigrnhhgsehrvgguhhgrthdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpvggughgrrhdrihhglhgvshhirghssehgmhgrihhlrdgtohhmpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,43 +86,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 12/13/22 17:27, Richard Henderson wrote:
+> On 12/13/22 10:21, Peter Maydell wrote:
+>> On Tue, 13 Dec 2022 at 16:14, Richard Henderson
+>> <richard.henderson@linaro.org> wrote:
+>>>
+>>> On 12/13/22 10:10, Philippe Mathieu-Daudé wrote:
+>>>> On 13/12/22 17:00, Richard Henderson wrote:
+>>>>> On 12/13/22 06:52, Philippe Mathieu-Daudé wrote:
+>>>>>> Assuming the developers of commits 2c50e26efd ("powerpc: Add
+>>>>>> a virtex5 ml507 refdesign board") and 4b387f9ee1 ("ppc: Add
+>>>>>> aCube Sam460ex board") were testing on a little-endian setup,
+>>>>>> they meant to use const_le32() instead of tswap32() here,
+>>>>>> since tswap32() depends on the host endianness.
+>>>>>
+>>>>> tswap depends on target endianness.
+>>>>
+>>>> Yes, it depends on both host/target endianness. What I meant
+>>>> is we shouldn't have system code depending on host endianness.
+>>>
+>>> It compares host vs target endianness, to determine if a swap is needed.  But the real
+>>> dependency is target endianness.
+>>
+>> It does seem odd, though. We have a value in host endianness
+>> (the EPAPR_MAGIC constant, which is host-endian by virtue of
+>> being a C constant). But we're storing it to env->gpr[], which
+>> is to say the CPUPPCState general purpose register array. Isn't
+>> that array *also* kept in host endianness order?
+> 
+> Yes indeed.
+> 
+>> If so, then the right thing here is "don't swap at all",
+> 
+> So it would seem...
+> 
+>> i.e. just "env->gpr[6] = EPAPR_MAGIC;". But that would imply
+>> that the current code is setting the wrong value for the GPR
+>> on little-endian hosts, which seems a bit unlikely...
+> 
+> ... unless this board has only been tested on matching hosts.
 
-wanghw364 <wanghw364@163.com> writes:
+But these are register default values. Endianness doesn't apply
+there. Doesn't it ?
 
-> Hi all,
->
-> Does qemu-system-riscv64 have any plugin or tools that can support target=
- program function trace feature?
->
-> It seems there is no such feature under
-> link:https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/tcg-pl=
-ugins.rst=20
->
-> For example, we can use libexeclog.so plugin to trace target program inst=
-ruction trace.
->
-> In my case, when I boot linux kernel with qemu, it hangs in the halfway, =
-but I don't know the hang position in
-> the code,=20
->
-> so I want to trace the kernel function calling trace so that I can
-> find out when and where execution diverges.
+C.
 
-Not currently but it wouldn't be super hard to write such a thing.
-However currently we only have debug symbols available for linux-user so
-that is all the helper qemu_plugin_insn_symbol() will see.
-
-You need to teach the linux kernel loader to understand and relocate
-symbols from an ELF kernel image. Alternatively you could extract then
-and feed them directly to the plugin. It would then be fairly trivial to
-stick an execution callback at every function entrance.
-
-I suspect KASLR messes things up though.
-
->
-> Thanks.=20
-
-
---=20
-Alex Benn=C3=A9e
 
