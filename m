@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3CC64BEA1
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A9064BED4
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:47:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5D0f-0001SS-2W; Tue, 13 Dec 2022 16:40:21 -0500
+	id 1p5D0m-0001VK-5S; Tue, 13 Dec 2022 16:40:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D04-0001IX-KP
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:46 -0500
+ (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D09-0001JR-9C
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:49 -0500
 Received: from outgoing-auth-1.mit.edu ([18.9.28.11] helo=outgoing.mit.edu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D02-0007k0-UT
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:44 -0500
+ (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D07-0007km-60
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:48 -0500
 Received: from panda194.. ([18.4.85.108]) (authenticated bits=0)
  (User authenticated as fasano@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2BDLcaPB030603
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2BDLcaPC030603
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 16:39:36 -0500
+ Tue, 13 Dec 2022 16:39:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
- t=1670967577; bh=ZeqRkWTd2BT5/GKlC7ST3zyaMAEqj7qslbCZ6CRnJI0=;
+ t=1670967579; bh=MO+yNbqxssUgwRZwoPiy6Wwl9yYxJ9O7XdO8prt82i0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=bFtvMAK8Nrfa6I+BLJ8G7VvNVO85Eaz/Ang7RP+PTLU0R6h97WzMLdg6f/sxsNB+9
- YDU2ca+RpwLrJbRDrhnCjlFGFa1kXGDfJgRzN2eQ3K7fvyldu0/6lwh4vqRRikxiNt
- UdgZ00VHhi1i56apMqsg3In3TE/e8Uy6d7iJL8ks5heS2rQhYlhCvq0iyauKdg1gBd
- TBJCw9GnZ6QbnDCKaW9Q5NgcmAC8dgu1DXiy2A+qEZFdb3DH48Z392yv93A9SviSJX
- joNFsnnZUDahgP5MJvhFBSkMghytLZbra+DcJOUWVPhaJTu0MJqz0foXtW24a3v+wB
- 20fEw5hPnxHTA==
+ b=GmJyqnvRAfg0n/L/0te6z+/H0Z2wBXpkOhCTzrZEmNzeow3pSjcX68+RUc8BqoLeP
+ by1fmGGoJX2ohUbwkfPGZ1hMkTZKCaAgd4N3t5R0sdTe2e5DdlIlWekwVFTHoraSt3
+ zYy3eELi3R/nL+7j0MQj7XZS7QlqSjLL3bdHisdGbT2Z6PIrZoDhzh8ZgHdD/0vfF5
+ gNoW2+h/gZb4gY5xRdlSjgz7mUQA96VtJI9WHByteSpWdKjp16rdCVEflatx7xTccJ
+ orGdYCh2hWbJYi1fjh8eIavGwa9+pP0ogz5WH/8ExnLRiPQClIRDLbvdAaMl5aiDmu
+ N5y8nDtxLfzlQ==
 From: Andrew Fasano <fasano@mit.edu>
 To: qemu-devel@nongnu.org
 Cc: elysia.witham@ll.mit.edu, alex.bennee@linaro.org, erdnaxe@crans.org,
  ma.mandourr@gmail.com, Andrew Fasano <fasano@mit.edu>
-Subject: [PATCH 4/8] plugins: add core API functions for QPP callbacks
-Date: Tue, 13 Dec 2022 16:37:53 -0500
-Message-Id: <20221213213757.4123265-5-fasano@mit.edu>
+Subject: [PATCH 5/8] plugins: implement QPP callbacks
+Date: Tue, 13 Dec 2022 16:37:54 -0500
+Message-Id: <20221213213757.4123265-6-fasano@mit.edu>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221213213757.4123265-1-fasano@mit.edu>
 References: <20221213213757.4123265-1-fasano@mit.edu>
@@ -68,156 +68,225 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Elysia Witham <elysia.witham@ll.mit.edu>
 
-Plugin callbacks and their registered functions are stored in a
-separate struct which is accessible from the plugin's ctx.
-In order for plugins to use another plugin's callbacks, we have
-internal functions that resolve a plugin's name to its ctx and
-find a target plugin.
+Plugins are able to use API functions which are explained in
+<qemu-plugin.h> to create and run their own callbacks and register
+functions on another plugin's callbacks.
 
 Signed-off-by: Elysia Witham <elysia.witham@ll.mit.edu>
 Signed-off-by: Andrew Fasano <fasano@mit.edu>
 ---
- include/qemu/qemu-plugin.h | 10 ++++++++++
- plugins/core.c             | 23 +++++++++++++++++++++++
- plugins/loader.c           | 10 ++++++++++
- plugins/plugin.h           | 15 +++++++++++++++
- 4 files changed, 58 insertions(+)
+ include/qemu/qemu-plugin.h   |  46 +++++++++++++++
+ plugins/api.c                | 111 +++++++++++++++++++++++++++++++++++
+ plugins/loader.c             |   1 +
+ plugins/qemu-plugins.symbols |   4 ++
+ 4 files changed, 162 insertions(+)
 
 diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 5326f33ce8..3ec82ce97f 100644
+index 3ec82ce97f..4221545015 100644
 --- a/include/qemu/qemu-plugin.h
 +++ b/include/qemu/qemu-plugin.h
-@@ -14,6 +14,7 @@
- #include <inttypes.h>
- #include <stdbool.h>
- #include <stddef.h>
-+#include <gmodule.h>
- 
- /*
-  * For best performance, build the plugin with -fvisibility=hidden so that
-@@ -38,6 +39,15 @@
+@@ -354,6 +354,52 @@ size_t qemu_plugin_tb_n_insns(const struct qemu_plugin_tb *tb);
   */
- typedef uint64_t qemu_plugin_id_t;
+ uint64_t qemu_plugin_tb_vaddr(const struct qemu_plugin_tb *tb);
  
 +/**
-+ * typedef cb_func_t - callback function pointer type
-+ * @evdata: plugin callback defined event data
-+ * @udata: plugin defined user data
++ * qemu_plugin_create_callback() - create a new cb with given name
++ * @id: unique plugin id
++ * @name: name of cb
 + *
-+ * No return value.
++ * Returns: true on success, false otherwise
 + */
-+typedef void (*cb_func_t) (gpointer evdata, gpointer udata);
++bool qemu_plugin_create_callback(qemu_plugin_id_t id, const char *name);
++
++/**
++ * qemu_plugin_run_callback() - run all functions registered to cb with given
++ * name using given args
++ * @id: unique plugin id
++ * @name: name of cb
++ * @evdata: pointer to evdata struct
++ * @udata: pointer to udata struct
++ *
++ * Returns: true if any registerd functions were run, false otherwise
++ */
++bool qemu_plugin_run_callback(qemu_plugin_id_t id, const char *name,
++                              gpointer evdata, gpointer udata);
++
++/**
++ * qemu_plugin_reg_callback() - register a function to be called on cb with
++ * given name
++ * @target_plugin: name of plugin that provides the callback
++ * @cb_name: name of the callback
++ * @function_pointer: pointer to function being registered
++ *
++ * Returns: true if function was registered successfully, false otherwise
++ */
++bool qemu_plugin_reg_callback(const char *target_plugin, const char *cb_name,
++                              cb_func_t function_pointer);
++
++/**
++ * qemu_plugin_unreg_callback() - unregister a function to be called on cb
++ * with given name
++ * @target_plugin: name of plugin that provides the callback
++ * @cb_name: name of the callback
++ * @function_pointer: pointer to function being unregistered
++ *
++ * Returns: true if function was unregistered successfully, false otherwise
++ */
++bool qemu_plugin_unreg_callback(const char *target_plugin, const char *cb_name,
++                                cb_func_t function_pointer);
++
+ /**
+  * qemu_plugin_tb_get_insn() - retrieve handle for instruction
+  * @tb: opaque handle to TB passed to callback
+diff --git a/plugins/api.c b/plugins/api.c
+index 2078b16edb..1f7ea718dc 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -400,6 +400,117 @@ bool qemu_plugin_bool_parse(const char *name, const char *value, bool *ret)
+     return name && value && qapi_bool_parse(name, value, ret, NULL);
+ }
+ 
++bool qemu_plugin_create_callback(qemu_plugin_id_t id, const char *cb_name)
++{
++    struct qemu_plugin_ctx *ctx = plugin_id_to_ctx_locked(id);
++    if (ctx == NULL) {
++        error_report("Cannot create callback with invalid plugin ID");
++        return false;
++    }
++
++    if (ctx->version < QPP_MINIMUM_VERSION) {
++        error_report("Plugin %s cannot create callbacks as its PLUGIN_VERSION"
++                     " %d is below QPP_MINIMUM_VERSION (%d).",
++                     ctx->name, ctx->version, QPP_MINIMUM_VERSION);
++        return false;
++    }
++
++    if (plugin_find_qpp_cb(ctx, cb_name)) {
++        error_report("Plugin %s already created callback %s", ctx->name,
++                     cb_name);
++        return false;
++    }
++
++    plugin_add_qpp_cb(ctx, cb_name);
++    return true;
++}
++
++bool qemu_plugin_run_callback(qemu_plugin_id_t id, const char *cb_name,
++                              gpointer evdata, gpointer udata) {
++    struct qemu_plugin_ctx *ctx = plugin_id_to_ctx_locked(id);
++    if (ctx == NULL) {
++        error_report("Cannot run callback with invalid plugin ID");
++        return false;
++    }
++
++    struct qemu_plugin_qpp_cb *cb = plugin_find_qpp_cb(ctx, cb_name);
++    if (!cb) {
++        error_report("Can not run previously-unregistered callback %s in "
++                     "plugin %s", cb_name, ctx->name);
++        return false;
++    }
++
++    for (int i = 0; i < cb->counter; i++) {
++        cb_func_t qpp_cb_func = cb->registered_cb_funcs[i];
++        qpp_cb_func(evdata, udata);
++    }
++
++    return (cb->registered_cb_funcs[0] != NULL);
++}
++
++bool qemu_plugin_reg_callback(const char *target_plugin, const char *cb_name,
++                              cb_func_t function_pointer) {
++    struct qemu_plugin_ctx *ctx = plugin_name_to_ctx_locked(target_plugin);
++    if (ctx == NULL) {
++        error_report("Cannot register callback with unknown plugin %s",
++                     target_plugin);
++      return false;
++    }
++
++    struct qemu_plugin_qpp_cb *cb = plugin_find_qpp_cb(ctx, cb_name);
++    if (!cb) {
++        error_report("Cannot register a function to run on callback %s in "
++                     "plugin %s as that callback does not exist",
++                     cb_name, target_plugin);
++        return false;
++    }
++
++    if (cb->counter == QEMU_PLUGIN_EV_MAX) {
++        error_report("The maximum number of allowed callbacks are already "
++                     "registered for callback %s in plugin %s",
++                     cb_name, target_plugin);
++        return false;
++    }
++
++    cb->registered_cb_funcs[cb->counter] = function_pointer;
++    cb->counter++;
++    return true;
++}
++
++bool qemu_plugin_unreg_callback(const char *target_plugin, const char *cb_name,
++                              cb_func_t function_pointer) {
++    struct qemu_plugin_ctx *ctx = plugin_name_to_ctx_locked(target_plugin);
++    if (ctx == NULL) {
++        error_report("Cannot remove callback function from unknown plugin %s",
++                     target_plugin);
++        return false;
++    }
++
++    struct qemu_plugin_qpp_cb *cb = plugin_find_qpp_cb(ctx, cb_name);
++    if (!cb) {
++        error_report("Cannot remove a function to run on callback %s in "
++                     "plugin %s as that callback does not exist",
++                     cb_name, target_plugin);
++        return false;
++    }
++
++    for (int i = 0; i < cb->counter; i++) {
++        if (cb->registered_cb_funcs[i] == function_pointer) {
++            for (int j = i + 1; j < cb->counter; j++) {
++                cb->registered_cb_funcs[i] = cb->registered_cb_funcs[j];
++                i++;
++            }
++            cb->registered_cb_funcs[i] = NULL;
++            cb->counter--;
++            return true;
++        }
++    }
++    error_report("Function to remove not found in registered functions "
++                 "for callback %s in plugin %s",
++                 cb_name, target_plugin);
++    return false;
++}
 +
  /*
-  * Versioning plugins:
-  *
-diff --git a/plugins/core.c b/plugins/core.c
-index 6a50b4a6e6..0415a55ec5 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -236,6 +236,17 @@ void qemu_plugin_vcpu_exit_hook(CPUState *cpu)
-     qemu_rec_mutex_unlock(&plugin.lock);
- }
- 
-+struct qemu_plugin_ctx *plugin_name_to_ctx_locked(const char* name)
-+{
-+    struct qemu_plugin_ctx *ctx;
-+    QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
-+        if (strcmp(ctx->name, name) == 0) {
-+            return plugin_id_to_ctx_locked(ctx->id);
-+        }
-+    }
-+    return NULL;
-+}
-+
- int name_to_plugin_version(const char *name)
- {
-     struct qemu_plugin_ctx *ctx;
-@@ -260,6 +271,18 @@ const char *id_to_plugin_name(qemu_plugin_id_t id)
-     }
- }
- 
-+struct qemu_plugin_qpp_cb *plugin_find_qpp_cb(struct qemu_plugin_ctx *ctx,
-+                                              const char *name)
-+{
-+    struct qemu_plugin_qpp_cb *cb;
-+    QTAILQ_FOREACH(cb, &ctx->qpp_cbs, entry) {
-+        if (strcmp(cb->name, name) == 0) {
-+            return cb;
-+        }
-+    }
-+    return NULL;
-+}
-+
- struct plugin_for_each_args {
-     struct qemu_plugin_ctx *ctx;
-     qemu_plugin_vcpu_simple_cb_t cb;
+  * Binary path, start and end locations
+  */
 diff --git a/plugins/loader.c b/plugins/loader.c
-index 12c0680e03..ab01d0753c 100644
+index ab01d0753c..7f047ebc99 100644
 --- a/plugins/loader.c
 +++ b/plugins/loader.c
-@@ -277,6 +277,7 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info, E
-             break;
-         }
-     }
-+    QTAILQ_INIT(&ctx->qpp_cbs);
-     QTAILQ_INSERT_TAIL(&plugin.ctxs, ctx, entry);
-     ctx->installing = true;
-     rc = install(ctx->id, info, desc->argc, desc->argv);
-@@ -303,6 +304,15 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info, E
-     return 1;
+@@ -310,6 +310,7 @@ void plugin_add_qpp_cb(struct qemu_plugin_ctx *ctx, const char *name)
+     new_cb = qemu_memalign(qemu_dcache_linesize, sizeof(*new_cb));
+     memset(new_cb, 0, sizeof(*new_cb));
+     new_cb->name = name;
++    new_cb->counter = 0;
+     QTAILQ_INSERT_TAIL(&ctx->qpp_cbs, new_cb, entry);
  }
  
-+void plugin_add_qpp_cb(struct qemu_plugin_ctx *ctx, const char *name)
-+{
-+    struct qemu_plugin_qpp_cb *new_cb;
-+    new_cb = qemu_memalign(qemu_dcache_linesize, sizeof(*new_cb));
-+    memset(new_cb, 0, sizeof(*new_cb));
-+    new_cb->name = name;
-+    QTAILQ_INSERT_TAIL(&ctx->qpp_cbs, new_cb, entry);
-+}
-+
- /* call after having removed @desc from the list */
- static void plugin_desc_free(struct qemu_plugin_desc *desc)
- {
-diff --git a/plugins/plugin.h b/plugins/plugin.h
-index 9e710c23a7..fee4741bc6 100644
---- a/plugins/plugin.h
-+++ b/plugins/plugin.h
-@@ -47,6 +47,14 @@ struct qemu_plugin_state {
-     struct qht dyn_cb_arr_ht;
- };
- 
-+typedef void (*cb_func_t) (gpointer evdata, gpointer udata);
-+
-+struct qemu_plugin_qpp_cb {
-+    const char *name;
-+    cb_func_t registered_cb_funcs[QEMU_PLUGIN_EV_MAX];
-+    int counter;
-+    QTAILQ_ENTRY(qemu_plugin_qpp_cb) entry;
-+};
- 
- struct qemu_plugin_ctx {
-     GModule *handle;
-@@ -54,6 +62,7 @@ struct qemu_plugin_ctx {
-     const char *name;
-     int version;
-     struct qemu_plugin_cb *callbacks[QEMU_PLUGIN_EV_MAX];
-+    QTAILQ_HEAD(, qemu_plugin_qpp_cb) qpp_cbs;
-     QTAILQ_ENTRY(qemu_plugin_ctx) entry;
-     /*
-      * keep a reference to @desc until uninstall, so that plugins do not have
-@@ -106,4 +115,10 @@ int name_to_plugin_version(const char *name);
- 
- const char *id_to_plugin_name(qemu_plugin_id_t id);
- 
-+struct qemu_plugin_qpp_cb *plugin_find_qpp_cb(struct qemu_plugin_ctx *plugin_ctx,
-+                                              const char *cb_name);
-+
-+/* loader.c */
-+void plugin_add_qpp_cb(struct qemu_plugin_ctx *ctx, const char *name);
-+
- #endif /* PLUGIN_H */
+diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+index 71f6c90549..b7013980cf 100644
+--- a/plugins/qemu-plugins.symbols
++++ b/plugins/qemu-plugins.symbols
+@@ -3,6 +3,10 @@
+   qemu_plugin_end_code;
+   qemu_plugin_entry_code;
+   qemu_plugin_get_hwaddr;
++  qemu_plugin_create_callback;
++  qemu_plugin_run_callback;
++  qemu_plugin_reg_callback;
++  qemu_plugin_unreg_callback;
+   qemu_plugin_hwaddr_device_name;
+   qemu_plugin_hwaddr_is_io;
+   qemu_plugin_hwaddr_phys_addr;
 -- 
 2.34.1
 
