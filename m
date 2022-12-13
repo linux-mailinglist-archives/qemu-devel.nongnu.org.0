@@ -2,123 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D0F64B9F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:39:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D9364B9F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:40:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p58J3-0002Q6-Au; Tue, 13 Dec 2022 11:39:01 -0500
+	id 1p58Jz-0003vh-AK; Tue, 13 Dec 2022 11:39:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p58J1-0002MK-Pl
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:38:59 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p58Iz-0003yg-KX
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:38:59 -0500
-Received: by mail-pl1-x631.google.com with SMTP id t2so361699ply.2
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:38:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a1tedyGFZapeWIC8x3wYCXSrM5M2awkIMlKUHlk8diE=;
- b=dM6yISrxmrDMpY5api+dN6PMXKLGSE4IOJIuTpOlYDwQN55RdNgGjNLeSscJFxMV7r
- Q5aNmuMV9PR/VP7WoSqbCH/HOTZHAjJng/kqX9cLVpI3z3dnA6QMjjagm15iL/1HqxVP
- nJq89ZpquG+VioUzleCuuyBSBNpscA86tE/LRcoxwP3YOFcS7sfLHYAL2ATSlaHtKEj/
- nJ9xkGueJLXZ8ri+FkGBoSiq3mtXWvc7W2tGgp59lR5QAlKT6aaoJLiKHzmI9YuIA5dM
- Sw9tyb3NYFyIrZFsszhFytLOMaCbGpRCqz7OXMjoZQOzdpS0rRJuABt8UJCjsUh8fmah
- 9+Mw==
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p58Jw-0003t9-VB
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:39:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p58Jv-0004u1-0R
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:39:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670949594;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GKBI+enJT/1uStqaJaqG+8gaNPAPiF5FXnYZ9OeRwkQ=;
+ b=Ul+sqtwslnDfBNAcjlU8el6iNsS8CECALi1z+Mm0c2Jj+DR8tPlwfFqDPAt3WI36GZi8XA
+ yoiNAxyNAsTezvp63lDB0KIRxqMj0SCKX5UhWABp9ajFmYICnEBLSJm414zkcpHarm9S0Y
+ 1E/RHqbnnW7psoWnQ3TtMhoia1DVe2M=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-341-rQx4H48yNGGEUKjxiFpR-g-1; Tue, 13 Dec 2022 11:39:52 -0500
+X-MC-Unique: rQx4H48yNGGEUKjxiFpR-g-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ k30-20020a67ef5e000000b003b139171497so4231072vsr.9
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:39:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a1tedyGFZapeWIC8x3wYCXSrM5M2awkIMlKUHlk8diE=;
- b=ThcHjnrlLi1I6VI/f3PoQ8KucSrUG62Kv/NGFozCkHdzOxKVFyzdtjgk5V5NROlkRg
- 4K9WzL3szS+u00b8rgQh/EbY9iJNfGYs41wBEBkYmDxngNIYUBGN3y5Q5XG2Nol1k66N
- ftBbKtMEN51jAHnYsa2xeL1M8EP9HySMhsZzJkCzvuzFudyhuoejTPdWi/fczvNUpNIb
- 55HplCn4lLy/na22IfA+kHcoEjeBlwfqZTd1UL7H9wMxmT2hH3bqa4XST+Q9xEv07GBt
- aIWgifzAaNGZKLCPtGqSsQfvC9oiMFBb33KYe/efzVPYk4P5hiqWTfJLnSIo5KFRTmLs
- ECMQ==
-X-Gm-Message-State: ANoB5pnHMOY+vY8EH9+Wa9NJJd8R9ByW8jM8Pdr22VyzjoyMlwNEqeqQ
- rZnHeQDQP7Uq2eoBSovIP8fdNft0ASHsWZMoSJAlmQ==
-X-Google-Smtp-Source: AA0mqf4nE5s0TqE5lsceUn+uDcSmlNOg5rtN1yVH5PG8Ruj/B5afbPvBdHJBnKE3DSfND4SCH9OHNY2xhl6WL2I26ws=
-X-Received: by 2002:a17:902:f292:b0:189:91b8:bf92 with SMTP id
- k18-20020a170902f29200b0018991b8bf92mr49106053plc.19.1670949535906; Tue, 13
- Dec 2022 08:38:55 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GKBI+enJT/1uStqaJaqG+8gaNPAPiF5FXnYZ9OeRwkQ=;
+ b=csvPbH4iDAmQiDku/q3NmIYuX3NH8qJfFl351yTxN656WlOhCl4thUwdxBIVGWYOZJ
+ tMEuz2W4p8HFEu6Z5HtM2UorwyAJBN52N5qPTiRXB3PLI4W2RCTXX1CTzgcP29Xubwr3
+ Yr7bqIGYKCUktARU/ySm1SpDAM/oUZ3qAwj0tBaaEFlaGX1kDWlkHx9AoC/FINAGi/zw
+ svUFYKk73/dyHqrEEsJqXL3rl4TeS7hgW/OmhZv5UjBIqUEjnSs4ZQ0fwR4Nt61yFbCd
+ LHSSETX3xxdoZUi9XH3wyYOh9Ry/1m6KEPndp8FN6DKUgPolMmquZ5vcnz2Jnz5hGL9F
+ gxEw==
+X-Gm-Message-State: ANoB5pnOBuLNX5cgZS7aWIscsCHcBoc2E9iX1gKERzfOXMgx1XoNHnsT
+ nIhfr/kPXHWpuGWyM502bWPqf0AdJh5qQpde+NWzFXZTzqjuPu3wKWxxsP0tqGoVvFho8zhYyvJ
+ A600Hc4KyyDf46Wc=
+X-Received: by 2002:a05:6102:3e0e:b0:3b3:7406:c1e with SMTP id
+ j14-20020a0561023e0e00b003b374060c1emr5240911vsv.6.1670949591675; 
+ Tue, 13 Dec 2022 08:39:51 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4m2rcUOIa7ZFsK2JIsooEPDKbKH7WJu7XmGA/xfDvfyb5BrwNWfBRgFGRklCsijdiLUdLrcw==
+X-Received: by 2002:a05:6102:3e0e:b0:3b3:7406:c1e with SMTP id
+ j14-20020a0561023e0e00b003b374060c1emr5240894vsv.6.1670949591337; 
+ Tue, 13 Dec 2022 08:39:51 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0?
+ ([2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0])
+ by smtp.gmail.com with ESMTPSA id
+ w16-20020a05620a0e9000b006bbf85cad0fsm3779998qkm.20.2022.12.13.08.39.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Dec 2022 08:39:51 -0800 (PST)
+Message-ID: <9fb35cf6-53bf-1309-c27e-de3bece7fbe1@redhat.com>
+Date: Tue, 13 Dec 2022 17:39:49 +0100
 MIME-Version: 1.0
-References: <936e1ac4-cef8-08b4-c688-e5b1e057208b@linaro.org>
- <1ac96aab-c5c4-b539-956c-d2923e6d8602@linaro.org>
- <236991F2-4CDA-46BA-AE68-66E8D329F459@nutanix.com>
-In-Reply-To: <236991F2-4CDA-46BA-AE68-66E8D329F459@nutanix.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Dec 2022 16:38:44 +0000
-Message-ID: <CAFEAcA_KuCaZC-OKjzyX71BCnGfHsVA2RwCoVyEG5GpKvE8DJA@mail.gmail.com>
-Subject: Re: Single system binary & Dynamic machine model (KVM developers
- conference call 2022-12-13)
-To: Felipe Franciosi <felipe@nutanix.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- John Snow <jsnow@redhat.com>, Mark Burton <mburton@qti.qualcomm.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- Brian Cain <bcain@quicinc.com>, 
- Warner Losh <imp@bsdimp.com>, Luc Michel <luc@lmichel.fr>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Alessandro Di Federico <ale@rev.ng>, 
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Jim Shu <jim.shu@sifive.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Anton Johansson <anjo@rev.ng>, Michal Privoznik <mprivozn@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>, 
- Stefan Hajnoczi <stefanha@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Dominik Csapak <d.csapak@proxmox.com>,
- Christophe de Dinechin <dinechin@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>, 
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Jagannathan Raman <jag.raman@oracle.com>, 
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, 
- Dongli Zhang <dongli.zhang@oracle.com>, "afaerber@suse.de" <afaerber@suse.de>, 
- "andrea.arcangeli@redhat.com" <andrea.arcangeli@redhat.com>,
- "bazulay@redhat.com" <bazulay@redhat.com>, 
- "bbauman@redhat.com" <bbauman@redhat.com>, "cjia@nvidia.com" <cjia@nvidia.com>,
- "cw@f00f.org" <cw@f00f.org>, 
- "digitaleric@google.com" <digitaleric@google.com>, 
- "dustin.kirkland@canonical.com" <dustin.kirkland@canonical.com>,
- Eric Blake <eblake@redhat.com>, 
- Eric Auger <eric.auger@redhat.com>, "iggy@theiggy.com" <iggy@theiggy.com>,
- Jan Kiszka <jan.kiszka@web.de>, Jason Gunthorpe <jgg@nvidia.com>,
- "jidong.xiao@gmail.com" <jidong.xiao@gmail.com>, 
- "jjherne@linux.vnet.ibm.com" <jjherne@linux.vnet.ibm.com>,
- Joao Martins <joao.m.martins@oracle.com>, 
- "mburton@qti.qualcom.com" <mburton@qti.qualcom.com>,
- "mdean@redhat.com" <mdean@redhat.com>, 
- "mimu@linux.vnet.ibm.com" <mimu@linux.vnet.ibm.com>,
- "z.huo@139.com" <z.huo@139.com>, 
- "zwu.kernel@gmail.com" <zwu.kernel@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v1 14/24] vfio-user: get and set IRQs
+Content-Language: en-US
+To: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
+References: <cover.1667542066.git.john.g.johnson@oracle.com>
+ <5532e8b1721cdf68d8932c747dc6b5f42738e139.1667542066.git.john.g.johnson@oracle.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <5532e8b1721cdf68d8932c747dc6b5f42738e139.1667542066.git.john.g.johnson@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -134,25 +100,256 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 13 Dec 2022 at 16:34, Felipe Franciosi <felipe@nutanix.com> wrote:
->
->
-> > On 13 Dec 2022, at 14:08, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
-> >
-> > We moved the call here:
-> >
-> > https://teams.microsoft.com/_#/pre-join-calling/19:meeting_MjU2NDhkOGYt=
-OGY5ZC00MzRjLWJjNjgtYWI2ODQxZGExMWNj@thread.v2
->
-> Just wondering: what's wrong with Google Hangout?
+On 11/9/22 00:13, John Johnson wrote:
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>   hw/vfio/pci.c           |   7 ++-
+>   hw/vfio/user-protocol.h |  25 +++++++++
+>   hw/vfio/user.c          | 135 ++++++++++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 166 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 7abe44e..be39a4e 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -713,7 +713,8 @@ retry:
+>       ret = vfio_enable_vectors(vdev, false);
+>       if (ret) {
+>           if (ret < 0) {
+> -            error_report("vfio: Error: Failed to setup MSI fds: %m");
+> +            error_report("vfio: Error: Failed to setup MSI fds: %s",
+> +                         strerror(-ret));
 
-Nothing. We were just a dozen people sat in the chat window of a
-BlueJeans meeting we couldn't get into, and somebody volunteered
-"I can quickly set up a meeting in the tool I happen to use",
-so we used that rather than spending another 10 minutes debating
-which videoconferencing setup to use.
+This change belongs to another patch.
 
-thanks
--- PMM
+>           } else {
+>               error_report("vfio: Error: Failed to enable %d "
+>                            "MSI vectors, retry with %d", vdev->nr_vectors, ret);
+> @@ -2712,6 +2713,7 @@ static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
+>       irq_info.index = VFIO_PCI_ERR_IRQ_INDEX;
+>   
+>       ret = VDEV_GET_IRQ_INFO(vbasedev, &irq_info);
+> +
+>       if (ret) {
+>           /* This can fail for an old kernel or legacy PCI dev */
+>           trace_vfio_populate_device_get_irq_info_failure(strerror(errno));
+> @@ -3593,6 +3595,9 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+>           goto out_teardown;
+>       }
+>   
+> +    vfio_register_err_notifier(vdev);
+> +    vfio_register_req_notifier(vdev);
+> +
+>       return;
+>   
+>   out_teardown:
+> diff --git a/hw/vfio/user-protocol.h b/hw/vfio/user-protocol.h
+> index 124340c..31704cf 100644
+> --- a/hw/vfio/user-protocol.h
+> +++ b/hw/vfio/user-protocol.h
+> @@ -141,6 +141,31 @@ typedef struct {
+>   } VFIOUserRegionInfo;
+>   
+>   /*
+> + * VFIO_USER_DEVICE_GET_IRQ_INFO
+> + * imported from struct vfio_irq_info
+> + */
+> +typedef struct {
+> +    VFIOUserHdr hdr;
+> +    uint32_t argsz;
+> +    uint32_t flags;
+> +    uint32_t index;
+> +    uint32_t count;
+> +} VFIOUserIRQInfo;
+> +
+> +/*
+> + * VFIO_USER_DEVICE_SET_IRQS
+> + * imported from struct vfio_irq_set
+> + */
+> +typedef struct {
+> +    VFIOUserHdr hdr;
+> +    uint32_t argsz;
+> +    uint32_t flags;
+> +    uint32_t index;
+> +    uint32_t start;
+> +    uint32_t count;
+> +} VFIOUserIRQSet;
+> +
+> +/*
+>    * VFIO_USER_REGION_READ
+>    * VFIO_USER_REGION_WRITE
+>    */
+> diff --git a/hw/vfio/user.c b/hw/vfio/user.c
+> index 1453bb5..815385b 100644
+> --- a/hw/vfio/user.c
+> +++ b/hw/vfio/user.c
+> @@ -1164,6 +1164,117 @@ static int vfio_user_get_region_info(VFIOProxy *proxy,
+>       return 0;
+>   }
+>   
+> +static int vfio_user_get_irq_info(VFIOProxy *proxy,
+> +                                  struct vfio_irq_info *info)
+> +{
+> +    VFIOUserIRQInfo msg;
+> +
+> +    memset(&msg, 0, sizeof(msg));
+> +    vfio_user_request_msg(&msg.hdr, VFIO_USER_DEVICE_GET_IRQ_INFO,
+> +                          sizeof(msg), 0);
+> +    msg.argsz = info->argsz;
+> +    msg.index = info->index;
+> +
+> +    vfio_user_send_wait(proxy, &msg.hdr, NULL, 0, false);
+> +    if (msg.hdr.flags & VFIO_USER_ERROR) {
+> +        return -msg.hdr.error_reply;
+> +    }
+> +
+> +    memcpy(info, &msg.argsz, sizeof(*info));
+> +    return 0;
+> +}
+> +
+> +static int irq_howmany(int *fdp, uint32_t cur, uint32_t max)
+
+intriguing routine. See comment below.
+
+> +{
+> +    int n = 0;
+> +
+> +    if (fdp[cur] != -1) {
+> +        do {
+> +            n++;
+> +        } while (n < max && fdp[cur + n] != -1);
+> +    } else {
+> +        do {
+> +            n++;
+> +        } while (n < max && fdp[cur + n] == -1);
+> +    }
+> +
+> +    return n;
+> +}
+> +
+> +static int vfio_user_set_irqs(VFIOProxy *proxy, struct vfio_irq_set *irq)
+> +{
+> +    g_autofree VFIOUserIRQSet *msgp = NULL;
+> +    uint32_t size, nfds, send_fds, sent_fds, max;
+> +
+> +    if (irq->argsz < sizeof(*irq)) {
+> +        error_printf("vfio_user_set_irqs argsz too small\n");
+> +        return -EINVAL;
+> +    }
+> +
+> +    /*
+> +     * Handle simple case
+> +     */
+> +    if ((irq->flags & VFIO_IRQ_SET_DATA_EVENTFD) == 0) {
+> +        size = sizeof(VFIOUserHdr) + irq->argsz;
+> +        msgp = g_malloc0(size);
+> +
+> +        vfio_user_request_msg(&msgp->hdr, VFIO_USER_DEVICE_SET_IRQS, size, 0);
+> +        msgp->argsz = irq->argsz;
+> +        msgp->flags = irq->flags;
+> +        msgp->index = irq->index;
+> +        msgp->start = irq->start;
+> +        msgp->count = irq->count;
+> +
+> +        vfio_user_send_wait(proxy, &msgp->hdr, NULL, 0, false);
+> +        if (msgp->hdr.flags & VFIO_USER_ERROR) {
+> +            return -msgp->hdr.error_reply;
+> +        }
+> +
+> +        return 0;
+> +    }
+> +
+> +    /*
+> +     * Calculate the number of FDs to send
+> +     * and adjust argsz
+> +     */
+> +    nfds = (irq->argsz - sizeof(*irq)) / sizeof(int);
+> +    irq->argsz = sizeof(*irq);
+> +    msgp = g_malloc0(sizeof(*msgp));
+> +    /*
+> +     * Send in chunks if over max_send_fds
+> +     */
+> +    for (sent_fds = 0; nfds > sent_fds; sent_fds += send_fds) {
+> +        VFIOUserFDs *arg_fds, loop_fds;
+> +
+> +        /* must send all valid FDs or all invalid FDs in single msg */
+
+why is that ?
+
+> +        max = nfds - sent_fds;
+> +        if (max > proxy->max_send_fds) {
+> +            max = proxy->max_send_fds;
+> +        }
+> +        send_fds = irq_howmany((int *)irq->data, sent_fds, max);
+
+sent_fds can never be -1 but irq_howmany() is taking into account this
+value. Why ?
+
+> +
+> +        vfio_user_request_msg(&msgp->hdr, VFIO_USER_DEVICE_SET_IRQS,
+> +                              sizeof(*msgp), 0);
+> +        msgp->argsz = irq->argsz;
+> +        msgp->flags = irq->flags;
+> +        msgp->index = irq->index;
+> +        msgp->start = irq->start + sent_fds;
+> +        msgp->count = send_fds;
+> +
+> +        loop_fds.send_fds = send_fds;
+> +        loop_fds.recv_fds = 0;
+> +        loop_fds.fds = (int *)irq->data + sent_fds;
+> +        arg_fds = loop_fds.fds[0] != -1 ? &loop_fds : NULL;
+> +
+> +        vfio_user_send_wait(proxy, &msgp->hdr, arg_fds, 0, false);
+> +        if (msgp->hdr.flags & VFIO_USER_ERROR) {
+> +            return -msgp->hdr.error_reply;
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>   static int vfio_user_region_read(VFIOProxy *proxy, uint8_t index, off_t offset,
+>                                    uint32_t count, void *data)
+>   {
+> @@ -1277,6 +1388,28 @@ static int vfio_user_io_get_region_info(VFIODevice *vbasedev,
+>       return 0;
+>   }
+>   
+> +static int vfio_user_io_get_irq_info(VFIODevice *vbasedev,
+> +                                     struct vfio_irq_info *irq)
+> +{
+> +    int ret;
+> +
+> +    ret = vfio_user_get_irq_info(vbasedev->proxy, irq);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    if (irq->index > vbasedev->num_irqs) {
+> +        return -EINVAL;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int vfio_user_io_set_irqs(VFIODevice *vbasedev,
+> +                                 struct vfio_irq_set *irqs)
+> +{
+> +    return vfio_user_set_irqs(vbasedev->proxy, irqs);
+> +}
+> +
+>   static int vfio_user_io_region_read(VFIODevice *vbasedev, uint8_t index,
+>                                       off_t off, uint32_t size, void *data)
+>   {
+> @@ -1294,6 +1427,8 @@ static int vfio_user_io_region_write(VFIODevice *vbasedev, uint8_t index,
+>   VFIODevIO vfio_dev_io_sock = {
+>       .get_info = vfio_user_io_get_info,
+>       .get_region_info = vfio_user_io_get_region_info,
+> +    .get_irq_info = vfio_user_io_get_irq_info,
+> +    .set_irqs = vfio_user_io_set_irqs,
+>       .region_read = vfio_user_io_region_read,
+>       .region_write = vfio_user_io_region_write,
+>   };
+
 
