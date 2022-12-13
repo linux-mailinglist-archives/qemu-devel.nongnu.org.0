@@ -2,108 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEEA64B62A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 14:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E52E64B669
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 14:37:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p55Iy-00056a-7Z; Tue, 13 Dec 2022 08:26:47 -0500
+	id 1p55RP-0000yI-5N; Tue, 13 Dec 2022 08:35:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1p55Im-000546-OI; Tue, 13 Dec 2022 08:26:33 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1p55Ik-0005zo-Ai; Tue, 13 Dec 2022 08:26:32 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BDD61j9019150; Tue, 13 Dec 2022 13:26:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=TRJ2c9s8pXGPI66AxrgS9kPc5t22c58iHP/gOZRHrGs=;
- b=haq+iZQUQRncaB4YOeADFCCfwrL3rcVFRvgog3qVDBnoAnlfk42nCq9rak+vCYiCNxHk
- u0gAA4n0Y8HqEw/7l2aKyBAQPQpp4921UzXZ5u+B5JoxhDijBaVClaMITimarFLE2IkW
- /oB42Q/ql4EYIHnEWQlVkqQn/g9BhGpI0L4lWsG16/Skk1GPBRE9bkyMXvmi/UKl2mcw
- GG8qF6h0mXANiFHGHpQyk6snnPnI7jjV+/kjY09KDCanuw1HxTM8jEfOrWUrdl+hKgn8
- GPym81fnYMDoLmNWwI1gib3ulCnky1aKaXF78IIN8EtwG/mz8MT//85oe9mp2dZVeq62 ow== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3merajjvup-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 13:26:16 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BDD7cGu029929;
- Tue, 13 Dec 2022 13:26:16 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3merajjvtr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 13:26:15 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BD4pN8P030148;
- Tue, 13 Dec 2022 13:26:13 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3mchr5v7h8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 13:26:13 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BDDQAF646137704
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Dec 2022 13:26:10 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EB6EA20043;
- Tue, 13 Dec 2022 13:26:09 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B801220040;
- Tue, 13 Dec 2022 13:26:08 +0000 (GMT)
-Received: from [9.171.21.177] (unknown [9.171.21.177])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 13 Dec 2022 13:26:08 +0000 (GMT)
-Message-ID: <65b704e7-ee3a-c9de-45fa-b59c9731cb54@de.ibm.com>
-Date: Tue, 13 Dec 2022 14:26:08 +0100
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1p55RL-0000xl-Lr
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 08:35:23 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1p55RI-0002wf-PH
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 08:35:23 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ z8-20020a17090abd8800b00219ed30ce47so3543454pjr.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 05:35:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kJo5Z9tJlibXdiGKhm8XGeIvT+nXxOqd08QcIB2owpE=;
+ b=2/Onu/+B3sXxaAozCAcGLCjd2GdoztsBtw9SFFR+nm9K/+FRymD20bA8MDaDFWLZGI
+ Sr9Z9MzRDNCxdA9Y584nUZ9iLQKsXVf+YSNH0hyzPeYBhmjvpFdiEkxjUCFWPYVTtFCk
+ nQd0v1jd95VVs4zmXY9s09GxthC8pop7E56BuBD/3wwAiN9NPkoFTwi2Hqo5/IU5bOED
+ q3wFKTEZB263wbmKF2eoql+B0s09Jf57pGZlEerPqoD1z5BKvA90ZeGGHG+PYkNyOHzF
+ pyQUZD0KnRp2/hmVEoPnGb7rrTLBZVXDGRwT/wTJzzmIchk7S2l27HG/IlRpaklYdhG/
+ qOYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kJo5Z9tJlibXdiGKhm8XGeIvT+nXxOqd08QcIB2owpE=;
+ b=GFA8b48g5CK68YAwb9Sq9h630u6g6KQjKULHz1CqYUZqYYIfvKF98osOMZ6VzPMWeb
+ mbcuto9ycXZPcAtLGJ6ouyMj9Z5dYywZ1UO02K5JgLWb7dGZJEkjQn4oQKRnJcyjL3oQ
+ Wf+bXYP5mvwT/HIk18P/WMGVVSf3gPXx8OolqZPvrwykRWsonGmD/XA2KERsWv7T5o37
+ Gukwx3PShEu3wwyzF/STJQfLNffXEQgyErzO/MEsJrjGeCO7iTpH4aCzGhS75Qf+cQBY
+ 8E30B76/dV9G+DQ5IdFtBrd9xDbr4/3ZDVa11Nmfdix4a6yaC9RzHUoxWqq4M+mCFglz
+ 6OqQ==
+X-Gm-Message-State: ANoB5pkJiv7A2962v/NY31iSvlA29DphJyOmzpYdPaKsZLF3arjHvgIt
+ 4rV99ZJoI0Pq7UaKxQXBbsBG2twhu8VgPc2q
+X-Google-Smtp-Source: AA0mqf4N4O8LhSPtYEN6HMS94mw3VO7XQ5Kza2QszsfT1PXdcVhVcV4jv+o80zseTdMYiqm2xx57uQ==
+X-Received: by 2002:a17:902:b209:b0:188:f0d6:ed30 with SMTP id
+ t9-20020a170902b20900b00188f0d6ed30mr22762541plr.41.1670938518277; 
+ Tue, 13 Dec 2022 05:35:18 -0800 (PST)
+Received: from n250-032-048.byted.org ([221.194.189.12])
+ by smtp.gmail.com with ESMTPSA id
+ b18-20020a170903229200b00182a9c27acfsm8440033plh.227.2022.12.13.05.35.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Dec 2022 05:35:17 -0800 (PST)
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+To: qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com,
+ peterx@redhat.com, david@redhat.com, f4bug@amsat.org, mst@redhat.com,
+ zhouyibo@bytedance.com
+Subject: [RFC v3 0/3] migration: reduce time of loading non-iterable vmstate
+Date: Tue, 13 Dec 2022 21:35:07 +0800
+Message-Id: <20221213133510.1279488-1-xuchuangxclwt@bytedance.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v13 4/7] s390x/cpu_topology: CPU topology migration
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, pasic@linux.ibm.com, richard.henderson@linaro.org, 
- david@redhat.com, thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221208094432.9732-1-pmorel@linux.ibm.com>
- <20221208094432.9732-5-pmorel@linux.ibm.com>
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-In-Reply-To: <20221208094432.9732-5-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ENXuVkDBKE9Ql8-kB-yPUGMGbHDGNRQE
-X-Proofpoint-GUID: vxD7194ltoFDMgtGGzvZuDr-inm8PxLe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-13_03,2022-12-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 bulkscore=0 malwarescore=0
- clxscore=1011 mlxlogscore=999 impostorscore=0 lowpriorityscore=0
- suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212130115
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,126 +90,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 08.12.22 um 10:44 schrieb Pierre Morel:
-> The migration can only take place if both source and destination
-> of the migration both use or both do not use the CPU topology
-> facility.
-> 
-> We indicate a change in topology during migration postload for the
-> case the topology changed between source and destination.
+Hi!
 
-I dont get why we need this? If the target QEMU has topology it should
-already create this according to the configuration. WHy do we need a
-trigger?
+In this version:
 
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   target/s390x/cpu.h        |  1 +
->   hw/s390x/cpu-topology.c   | 49 +++++++++++++++++++++++++++++++++++++++
->   target/s390x/cpu-sysemu.c |  8 +++++++
->   3 files changed, 58 insertions(+)
-> 
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index bc1a7de932..284c708a6c 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -854,6 +854,7 @@ void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg);
->   int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch_id,
->                                   int vq, bool assign);
->   void s390_cpu_topology_reset(void);
-> +int s390_cpu_topology_mtcr_set(void);
->   #ifndef CONFIG_USER_ONLY
->   unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU *cpu);
->   #else
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index f54afcf550..8a2fe041d4 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -18,6 +18,7 @@
->   #include "target/s390x/cpu.h"
->   #include "hw/s390x/s390-virtio-ccw.h"
->   #include "hw/s390x/cpu-topology.h"
-> +#include "migration/vmstate.h"
->   
->   /**
->    * s390_has_topology
-> @@ -129,6 +130,53 @@ static void s390_topology_reset(DeviceState *dev)
->       s390_cpu_topology_reset();
->   }
->   
-> +/**
-> + * cpu_topology_postload
-> + * @opaque: a pointer to the S390Topology
-> + * @version_id: version identifier
-> + *
-> + * We check that the topology is used or is not used
-> + * on both side identically.
-> + *
-> + * If the topology is in use we set the Modified Topology Change Report
-> + * on the destination host.
-> + */
-> +static int cpu_topology_postload(void *opaque, int version_id)
-> +{
-> +    int ret;
-> +
-> +    /* We do not support CPU Topology, all is good */
-> +    if (!s390_has_topology()) {
-> +        return 0;
-> +    }
-> +
-> +    /* We support CPU Topology, set the MTCR unconditionally */
-> +    ret = s390_cpu_topology_mtcr_set();
-> +    if (ret) {
-> +        error_report("Failed to set MTCR: %s", strerror(-ret));
-> +    }
-> +    return ret;
-> +}
-> +
-> +/**
-> + * cpu_topology_needed:
-> + * @opaque: The pointer to the S390Topology
-> + *
-> + * We always need to know if source and destination use the topology.
-> + */
-> +static bool cpu_topology_needed(void *opaque)
-> +{
-> +    return s390_has_topology();
-> +}
-> +
-> +const VMStateDescription vmstate_cpu_topology = {
-> +    .name = "cpu_topology",
-> +    .version_id = 1,
-> +    .post_load = cpu_topology_postload,
-> +    .minimum_version_id = 1,
-> +    .needed = cpu_topology_needed,
-> +};
-> +
->   /**
->    * topology_class_init:
->    * @oc: Object class
-> @@ -145,6 +193,7 @@ static void topology_class_init(ObjectClass *oc, void *data)
->       device_class_set_props(dc, s390_topology_properties);
->       set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->       dc->reset = s390_topology_reset;
-> +    dc->vmsd = &vmstate_cpu_topology;
->   }
->   
->   static const TypeInfo cpu_topology_info = {
-> diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
-> index e27864c5f5..a8e3e6219d 100644
-> --- a/target/s390x/cpu-sysemu.c
-> +++ b/target/s390x/cpu-sysemu.c
-> @@ -319,3 +319,11 @@ void s390_cpu_topology_reset(void)
->           }
->       }
->   }
-> +
-> +int s390_cpu_topology_mtcr_set(void)
-> +{
-> +    if (kvm_enabled()) {
-> +        return kvm_s390_topology_set_mtcr(1);
-> +    }
-> +    return -ENOENT;
-> +}
+- move virtio_load_check_delay() from virtio_memory_listener_commit() to 
+  virtio_vmstate_change().
+- add delay_check flag to VirtIODevice to make sure virtio_load_check_delay() 
+  will be called when delay_check is true.
+
+Please review, Chuang.
+
+[v2]
+
+- rebase to latest upstream.
+- add sanity check to address_space_to_flatview().
+- postpone the init of the vring cache until migration's loading completes. 
+
+[v1]
+
+The duration of loading non-iterable vmstate accounts for a significant
+portion of downtime (starting with the timestamp of source qemu stop and
+ending with the timestamp of target qemu start). Most of the time is spent
+committing memory region changes repeatedly.
+
+This patch packs all the changes to memory region during the period of
+loading non-iterable vmstate in a single memory transaction. With the
+increase of devices, this patch will greatly improve the performance.
+
+Here are the test results:
+test vm info:
+- 32 CPUs 128GB RAM
+- 8 16-queue vhost-net device
+- 16 4-queue vhost-user-blk device.
+
+	time of loading non-iterable vmstate
+before		about 210 ms
+after		about 40 ms
+
 
