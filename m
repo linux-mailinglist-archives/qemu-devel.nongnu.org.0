@@ -2,81 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC6F64B0F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 09:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCCB64B0F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 09:18:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p50Wo-0001de-1h; Tue, 13 Dec 2022 03:20:42 -0500
+	id 1p50U0-0007yu-Hj; Tue, 13 Dec 2022 03:17:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p50Wh-0001Wm-Kq
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:20:39 -0500
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p50Tt-0007xT-Je
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:17:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1p50We-0007qs-IN
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:20:35 -0500
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 819B73FBBB
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:20:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1670919627;
- bh=7vob+BlKNOe3Kx4vT5N/Ir3Fj1CfeoAL8NtQZThmet8=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=QeFJxcKkaCOvCJnP6rUxUuaacGOEKCe7e4dBSWz1rkKw4cHb63m3HEdiC2/2ZH9ql
- R8DUPo5MiHvF60//4p2G3VkqjjIPPRdXHMapKy1Ecdjj3EujaAtWoyRFbbjn1iwQKN
- J+3cdE7iues3MYyLs5vbfnWXiEdy6futns7EHm18zzRSTTDoLcNJvjLCJ1cS/yq2f1
- 5MSQwGdQQdUyqZbzbf/T568eC76CCL/kZkPifF9M8k+ifOv0LufoIrleG0ZyEccQ8B
- zvhcS080lFFsmC9zIVUb8HpEy2ZNzUexjZhKyf+Gk2yfGgwrct5I1+oD7qUSs2WG7Y
- IKI+9s2mKAaRg==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id B59013F2F0
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:20:25 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p50Tq-0006wz-Ja
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:17:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670919456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CITosRpPOCwe3DgElsD+BWXroBhdgCyOFlCks09K3HU=;
+ b=M2Ix7OjVx6ONbUF6wLJicinDmnnzeFyQZwNUwzbiUt/KH08TKG1NQg94+XP+rkiNrecPFM
+ /6VXHsY0TxzQVoK5cxifUUK/yjyiATrMHMmiAHKxNXnUe6FNbLEVOu82ZLxdHaLo7vSPq/
+ JaHtIHYXucFAoQdTzBxakPNAGmiklRI=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-187-f5hda4ljNe2lFeDZZkigXw-1; Tue, 13 Dec 2022 03:17:35 -0500
+X-MC-Unique: f5hda4ljNe2lFeDZZkigXw-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ p7-20020a631e47000000b0047691854a86so9258181pgm.16
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 00:17:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CITosRpPOCwe3DgElsD+BWXroBhdgCyOFlCks09K3HU=;
+ b=pvqm8T1ImqFesGtDuXrq6oxDHQlxmN6WBzuiNWCkegnDmJS+kwujVyCmkaf6MbWvRV
+ OKySRsLq8kOXMh2fuzkIb9EWFDMv0Ql9Jfr0PKSWlqxNrd7Ud/qwZ0U/COuP5/JlShEV
+ MNi1BuTCx2OJxW8Quj0HQ7pPqdN4ebaiDMboXy5frvjhuGHP3OU+0Acr6hMaR+uxYg8x
+ KVsm+sXFkaDF1FEQ4cJSyh0r+yNMxAodmrQMrHs2i5e2MLRMIy7DO6jTyAV33giVSjfd
+ wmX5D+CrQVZgaLFgzAiRqB2qGWOI2tsJc3rhMA2CVL23jvQz7r3oB8WVcWPzXRia7fgK
+ C3lg==
+X-Gm-Message-State: ANoB5pmdE74VyEADh2E7pR1YY9HJmza7tU0VJvi1qDUoSZY/WhDjIlQG
+ eiiDauuMjyj3Up1vY7MowIPDYA0jU9081Xv0GHm4DjUrOkvcpVaHapsSt71GZwBSw0ggeoA0g0T
+ 9BSrjattDaTUH2/o=
+X-Received: by 2002:a17:90b:4b05:b0:221:6899:4485 with SMTP id
+ lx5-20020a17090b4b0500b0022168994485mr4985707pjb.15.1670919454031; 
+ Tue, 13 Dec 2022 00:17:34 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6nKRSbn4ef0MY7cg1wtz0Edfts891Jj+Op0xkBjkUa45MO5g3lsO7cpqVom/ez8kLh1iZ1vQ==
+X-Received: by 2002:a17:90b:4b05:b0:221:6899:4485 with SMTP id
+ lx5-20020a17090b4b0500b0022168994485mr4985693pjb.15.1670919453750; 
+ Tue, 13 Dec 2022 00:17:33 -0800 (PST)
+Received: from [10.72.13.188] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ fa17-20020a17090af0d100b002191e769546sm6650695pjb.4.2022.12.13.00.17.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Dec 2022 00:17:33 -0800 (PST)
+Message-ID: <273d0d56-a1a0-444d-ac35-7eee3c83e6fe@redhat.com>
+Date: Tue, 13 Dec 2022 16:17:28 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Dec 2022 08:14:56 -0000
-From: mohammadreza nasrabadi <1523246@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: trim virtio windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jamespharvey20 manouchehri mareza mikemol
- rustamabd socketpair stefanha th-huth
-X-Launchpad-Bug-Reporter: David Manouchehri (manouchehri)
-X-Launchpad-Bug-Modifier: mohammadreza nasrabadi (mareza)
-References: <20151206150708.14182.82430.malonedeb@wampee.canonical.com>
-Message-Id: <167091929609.35338.9241772985317708819.malone@dale.canonical.com>
-Subject: [Bug 1523246] Re: Virtio-blk does not support TRIM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c3f9a3a8c5fffd8b8763824e1f305083a4e9705e"; Instance="production"
-X-Launchpad-Hash: fa2cb3eb287b8695b2366942a9c6948ba8b97ee5
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH v12 1/1] vhost-vdpa: add support for vIOMMU
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com
+Cc: qemu-devel@nongnu.org, Eugenio Perez Martin <eperezma@redhat.com>
+References: <20221209130805.3614970-1-lulu@redhat.com>
+ <20221209130805.3614970-2-lulu@redhat.com>
+Content-Language: en-US
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20221209130805.3614970-2-lulu@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,47 +99,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1523246 <1523246@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-thanks. so now my question is that are these sparsed blocks rewritable? I m=
-ean after deletion of a file and downloading again, will these files be sto=
-red on the sparsed blocks or the number of starting block for write operati=
-on will be after the number of latest sparsed block?
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1523246
+在 2022/12/9 21:08, Cindy Lu 写道:
+> 1.Skip the check in vhost_vdpa_listener_skipped_section() while
+> MR is IOMMU, Move this check to  vhost_vdpa_iommu_map_notify()
+> 2.Add support for vIOMMU.
 
-Title:
-  Virtio-blk does not support TRIM
 
-Status in QEMU:
-  Fix Released
+So I think the changlog needs some tweak, we need to explain why you 
+need to do the above.
 
-Bug description:
-  When model=3Dvirtio is used, TRIM is not supported.
 
-  # mount -o discard /dev/vda4 /mnt
-  # mount | tail -1
-  /dev/vda4 on /mnt type fuseblk (rw,nosuid,nodev,relatime,user_id=3D0,grou=
-p_id=3D0,allow_other,blksize=3D4096)
-  # fstrim /mnt/
-  fstrim: /mnt/: the discard operation is not supported
+> Add the new function to deal with iommu MR.
+> - during iommu_region_add register a specific IOMMU notifier,
+>   and store all notifiers in a list.
+> - during iommu_region_del, compare and delete the IOMMU notifier from the list
 
-  Booting without model=3Dvirtio allows using TRIM (in Windows as well).
 
-  Full QEMU line:
+And try to describe how you implement it by avoid duplicating what the 
+code did as below.
 
-  qemu-system-x86_64 -enable-kvm -cpu host -bios
-  /usr/share/ovmf/ovmf_x64.bin -smp 2 -m 7G -vga qxl -usbdevice tablet
-  -net nic,model=3Dvirtio -net user -drive discard=3Dunmap,detect-
-  zeroes=3Dunmap,cache=3Dnone,file=3Dvms/win10.hd.img.vmdk,format=3Dvmdk,if=
-=3Dvirtio
+E.g you can say you implement this through the IOMMU MAP notifier etc.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1523246/+subscriptions
+
+>
+> Verified in vp_vdpa and vdpa_sim_net driver
+>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
+>   hw/virtio/vhost-vdpa.c         | 162 ++++++++++++++++++++++++++++++---
+>   include/hw/virtio/vhost-vdpa.h |  10 ++
+>   2 files changed, 161 insertions(+), 11 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 7468e44b87..2b3920c2a1 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -26,6 +26,7 @@
+>   #include "cpu.h"
+>   #include "trace.h"
+>   #include "qapi/error.h"
+> +#include "hw/virtio/virtio-access.h"
+
+
+Any reason you need to use virtio accessors here?
+
+
+>   
+>   /*
+>    * Return one past the end of the end of section. Be careful with uint64_t
+> @@ -60,15 +61,22 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
+>                        iova_min, section->offset_within_address_space);
+>           return true;
+>       }
+> +    /*
+> +     * While using vIOMMU, Sometimes the section will be larger than iova_max
+> +     * but the memory that  actually mapping is smaller, So skip the check
+> +     * here. Will add the check in vhost_vdpa_iommu_map_notify,
+> +     *There is the real size that maps to the kernel
+> +     */
+>   
+> -    llend = vhost_vdpa_section_end(section);
+> -    if (int128_gt(llend, int128_make64(iova_max))) {
+> -        error_report("RAM section out of device range (max=0x%" PRIx64
+> -                     ", end addr=0x%" PRIx64 ")",
+> -                     iova_max, int128_get64(llend));
+> -        return true;
+> +    if (!memory_region_is_iommu(section->mr)) {
+> +        llend = vhost_vdpa_section_end(section);
+> +        if (int128_gt(llend, int128_make64(iova_max))) {
+> +            error_report("RAM section out of device range (max=0x%" PRIx64
+> +                         ", end addr=0x%" PRIx64 ")",
+> +                         iova_max, int128_get64(llend));
+> +            return true;
+> +        }
+>       }
+> -
+>       return false;
+>   }
+>   
+> @@ -173,6 +181,115 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+>       v->iotlb_batch_begin_sent = false;
+>   }
+>   
+> +static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+> +{
+> +    struct vdpa_iommu *iommu = container_of(n, struct vdpa_iommu, n);
+> +
+> +    hwaddr iova = iotlb->iova + iommu->iommu_offset;
+> +    struct vhost_vdpa *v = iommu->dev;
+> +    void *vaddr;
+> +    int ret;
+> +    Int128 llend;
+> +
+> +    if (iotlb->target_as != &address_space_memory) {
+> +        error_report("Wrong target AS \"%s\", only system memory is allowed",
+> +                     iotlb->target_as->name ? iotlb->target_as->name : "none");
+> +        return;
+> +    }
+> +    RCU_READ_LOCK_GUARD();
+> +    /* check if RAM section out of device range */
+> +    llend = int128_add(int128_makes64(iotlb->addr_mask), int128_makes64(iova));
+> +    if (int128_gt(llend, int128_make64(v->iova_range.last))) {
+> +        error_report("RAM section out of device range (max=0x%" PRIx64
+> +                     ", end addr=0x%" PRIx64 ")",
+> +                     v->iova_range.last, int128_get64(llend));
+> +        return;
+> +    }
+> +
+> +    vhost_vdpa_iotlb_batch_begin_once(v);'
+
+
+Any reason we need to consider batching here? (or batching can be done 
+via notifier?)
+
+
+> +
+> +    if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
+> +        bool read_only;
+> +
+> +        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only, NULL)) {
+> +            return;
+> +        }
+> +
+> +        ret = vhost_vdpa_dma_map(v, iova, iotlb->addr_mask + 1, vaddr,
+> +            read_only);
+
+
+Let's add some tracepoints for those as what is done in the 
+region_add()/del().
+
+
+> +        if (ret) {
+> +            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
+> +                         "0x%" HWADDR_PRIx ", %p) = %d (%m)",
+> +                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
+> +        }
+> +    } else {
+> +        ret = vhost_vdpa_dma_unmap(v, iova, iotlb->addr_mask + 1);
+> +        if (ret) {
+> +            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
+> +                         "0x%" HWADDR_PRIx ") = %d (%m)",
+> +                         v, iova, iotlb->addr_mask + 1, ret);
+> +        }
+> +    }
+> +}
+> +
+> +static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
+> +                                        MemoryRegionSection *section)
+> +{
+> +    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
+> +
+> +    struct vdpa_iommu *iommu;
+> +    Int128 end;
+> +    int iommu_idx;
+> +    IOMMUMemoryRegion *iommu_mr;
+> +    int ret;
+> +
+> +    iommu_mr = IOMMU_MEMORY_REGION(section->mr);
+> +
+> +    iommu = g_malloc0(sizeof(*iommu));
+> +    end = int128_add(int128_make64(section->offset_within_region),
+> +        section->size);
+
+
+Though checkpatch.pl doesn't complain, the indentation looks odd, e.g 
+the 's' should be indent to below "i" of "int128" etc.
+
+You can tweak you editor to adopt Qemu coding style.
+
+
+> +    end = int128_sub(end, int128_one());
+> +    iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
+> +        MEMTXATTRS_UNSPECIFIED);
+> +    iommu->iommu_mr = iommu_mr;
+> +    iommu_notifier_init(&iommu->n, vhost_vdpa_iommu_map_notify,
+> +        IOMMU_NOTIFIER_IOTLB_EVENTS,
+> +        section->offset_within_region, int128_get64(end), iommu_idx);
+> +    iommu->iommu_offset = section->offset_within_address_space -
+> +        section->offset_within_region;
+> +    iommu->dev = v;
+> +
+> +    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
+> +    if (ret) {
+> +        g_free(iommu);
+> +        return;
+> +    }
+> +
+> +    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
+> +    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
+> +
+> +    return;
+> +}
+> +
+> +static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
+> +                                        MemoryRegionSection *section)
+> +{
+> +    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
+> +
+> +    struct vdpa_iommu *iommu;
+> +
+> +    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
+> +    {
+> +        if (MEMORY_REGION(iommu->iommu_mr) == section->mr &&
+> +            iommu->n.start == section->offset_within_region) {
+> +            memory_region_unregister_iommu_notifier(section->mr, &iommu->n);
+> +            QLIST_REMOVE(iommu, iommu_next);
+> +            g_free(iommu);
+> +            break;
+> +        }
+> +    }
+> +}
+> +
+>   static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>                                              MemoryRegionSection *section)
+>   {
+> @@ -187,6 +304,10 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>                                               v->iova_range.last)) {
+>           return;
+>       }
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        vhost_vdpa_iommu_region_add(listener, section);
+
+
+Adding Eugenio.
+
+I think it need to populate iova_tree otherwise the vIOMMU may break 
+shadow virtqueue (and we need to do it for region_del as well).
+
+E.g you can test your code with shadow virtqueue via x-svq=on.
+
+Thanks
+
 
 
