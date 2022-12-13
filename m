@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D81664BE63
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:28:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B40F64BE5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:27:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Cmk-0000cr-1F; Tue, 13 Dec 2022 16:25:58 -0500
+	id 1p5Cmk-0000cq-1E; Tue, 13 Dec 2022 16:25:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5Cmg-0000bf-1s
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:25:54 -0500
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235])
+ id 1p5Cmh-0000cC-D9
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:25:55 -0500
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5Cme-0003Dd-GN
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:25:53 -0500
-Received: by mail-oi1-x235.google.com with SMTP id r130so1053550oih.2
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 13:25:52 -0800 (PST)
+ id 1p5Cmf-0003Dw-S0
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:25:55 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id v70so1049422oie.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 13:25:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8dgmD8yUJnIF7Ep3YQaKEZ2wvp15A3Cnw31rhHlanTU=;
- b=aU+O4mvxw5bX9XZhJZU2W3+XsCtCVzbE3gkB2JYs3U8+KM7HT48o6y73sswI7DYrJ2
- IpI5JCnOK/MF+mlpvISC+qQh7I49LP4Dw7gDMq0LqzYxlkewY2h01zks1+LQKFctfNZC
- UZOKOmt0Qpvs5ztbIIKU9tYBhS5kxwNWC23HTeDbEnzowH+INfwgwIlZCfHM0kxHJVxG
- p4zv8cCRtxp5NMImzqTc4j0Y84Ak1ZvacXtYAAxhoB4m9Qe8b3S9hGwp3bqrK4/krtj9
- PWghPyXUep9Z/kWNCMpf1j1y8lUs6tsELG9N7iLP1MjglD6Tct0TPvUBtAIYlgJRtaFo
- j7ug==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=AADJsK1S30bnJazg8/q+dVkIQuSQjRIPsLPoQjmDJDw=;
+ b=iitDdmIfdl6DKWI5km3kvb8jeGi8uGmBr/j0jyHHPXH8dtDj0TZ4iqz2WrcMf6R7my
+ VQx6ei64MTRif+2nb0+xFhFr5bfFICudb4xdKi89D7GcJmlVywzm+gchIGZePyRuD+HS
+ 512u/7f0iAAkwxuwdY54VNKrCsH3i57ZKDZ35VtW+mChxBbgyvCZJ009M72yD0k7SPRw
+ QBBlPILVOuaYbmPXJGpym383JYTsUcbjwqwJlpxN7Lu2beoWsRPNXBLC1cxUr9GoIHH9
+ BpxZSdteDg+oRxkmK+lC8lMisRoJ+lNKMYDZFc55rpn2C5uCbokg5qCBUcTz6+6uZvTo
+ XcjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8dgmD8yUJnIF7Ep3YQaKEZ2wvp15A3Cnw31rhHlanTU=;
- b=0q7ranpKfCA/95r8Di83FKBeXnmi4P80jgcHyUdQrelzq5C9h83k6Lr4sg7X5ShoB+
- ashbe3QmteYauG/1yXtIItdF6R/ryyC1/iX4odgW97ALor5V0EhkNXDKkn6lAxZCKVwS
- DQovshZEBjpVLnbCtxeDA0pRmyllwCdhutwlJjUpPbjKzTTw6WYtpjC2RH6cqVDJO66P
- yfiWEVlbVtKxxph1iyagojn7WPep18TrFRnK8ZxVv04QgCgY/yFdHblZQepATWKox+sK
- R+pure+lksjqhTGhR4qZdiRo8ur5tqeSoz6zoOA3K4OUqk9rHJg4hz3PSs03Z5mBKDJp
- gEjA==
-X-Gm-Message-State: ANoB5pnY7Bj8exmF+fCfH/9yEBOYFzKDIGZPHeZEA1wRU3vpqR/Ilg0S
- e3bvh7S+cw6kMKyIF2o2m1OwM9MXJJ6p+L6O7bM=
-X-Google-Smtp-Source: AA0mqf4wndWqM+d5At1Y3IaVG33FBN5mLGUegRqYsQZYLRnPfwFV0Np8BcHnk55vXIn/16sgzfb/Ag==
-X-Received: by 2002:a05:6808:1c6:b0:35e:30a7:b00a with SMTP id
- x6-20020a05680801c600b0035e30a7b00amr9728672oic.40.1670966751532; 
- Tue, 13 Dec 2022 13:25:51 -0800 (PST)
+ bh=AADJsK1S30bnJazg8/q+dVkIQuSQjRIPsLPoQjmDJDw=;
+ b=hh06pQiW7SCC4vCbF2DHUWLTt8cSTKS5LAw4J+Pa/BnLW6LnEoTtuvw18T8dWQ3S/v
+ 1dieMNyhquLr9oIuB4zfLj6muHlfYPUbvv733+lFtDCZum3v6TSpD9KHzDI91MpLNTHr
+ 1ldmKAiQHTQMDsrAbNQtuOz41PA+obbd60KSOLEuqjUW+uEJ1775GEsShUmkFmhjdqLm
+ HJT9PEhOvLH6f/K6q8sZGfqk2cbb/9EOwn29mGZHQZwlpzLzXp9+8Td33+PSN8wFsekh
+ sr8OGg0uvijK0etawdzEHMkQQ3TvvNF+el0s1brHlL5g4QEL09EA+CV6Yc/HSKnBa+D9
+ 4A6Q==
+X-Gm-Message-State: ANoB5pn6i+MchjUmmF8up1qFcfk4dWi2zRabDK3n7nvNfABpHRiqQ9g5
+ 08sPt5A43illV9DEKuTQYsSe1PTS94lI3Ve2ZwU=
+X-Google-Smtp-Source: AA0mqf56x8vw6lZaP61EOJF5wdDIxXJx9cl2LdoUmUuNWaKCEHyL4AsVGyUJUU6TdMNhiR1uBL2aOA==
+X-Received: by 2002:a05:6808:64a:b0:35e:34b9:f793 with SMTP id
+ z10-20020a056808064a00b0035e34b9f793mr9295179oih.20.1670966752538; 
+ Tue, 13 Dec 2022 13:25:52 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:2efc:c63:85ed:4256:8ad0])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a056808098700b0035c073aa0d8sm5006831oic.18.2022.12.13.13.25.50
+ a7-20020a056808098700b0035c073aa0d8sm5006831oic.18.2022.12.13.13.25.51
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 13:25:51 -0800 (PST)
+ Tue, 13 Dec 2022 13:25:52 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 08/27] tcg: Add temp_subindex to TCGTemp
-Date: Tue, 13 Dec 2022 15:25:22 -0600
-Message-Id: <20221213212541.1820840-9-richard.henderson@linaro.org>
+Subject: [PATCH v4 09/27] tcg: Simplify calls to temp_sync vs mem_coherent
+Date: Tue, 13 Dec 2022 15:25:23 -0600
+Message-Id: <20221213212541.1820840-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221213212541.1820840-1-richard.henderson@linaro.org>
 References: <20221213212541.1820840-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,55 +88,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Record the location of a TCGTemp within a larger object.
+The first thing that temp_sync does is check mem_coherent,
+so there's no need for the caller to do so.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h | 1 +
- tcg/tcg.c         | 3 +++
- 2 files changed, 4 insertions(+)
+ tcg/tcg.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index d207bc47be..afa18986b1 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -456,6 +456,7 @@ typedef struct TCGTemp {
-     unsigned int mem_coherent:1;
-     unsigned int mem_allocated:1;
-     unsigned int temp_allocated:1;
-+    unsigned int temp_subindex:1;
- 
-     int64_t val;
-     struct TCGTemp *mem_base;
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 98d51e538c..0f58013a5a 100644
+index 0f58013a5a..36a33a122c 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -928,6 +928,7 @@ TCGTemp *tcg_global_mem_new_internal(TCGType type, TCGv_ptr base,
-         ts2->mem_allocated = 1;
-         ts2->mem_base = base_ts;
-         ts2->mem_offset = offset + (1 - bigendian) * 4;
-+        ts2->temp_subindex = 1;
-         pstrcpy(buf, sizeof(buf), name);
-         pstrcat(buf, sizeof(buf), "_1");
-         ts2->name = strdup(buf);
-@@ -974,6 +975,7 @@ TCGTemp *tcg_temp_new_internal(TCGType type, bool temp_local)
-             ts2->base_type = TCG_TYPE_I64;
-             ts2->type = TCG_TYPE_I32;
-             ts2->temp_allocated = 1;
-+            ts2->temp_subindex = 1;
-             ts2->kind = kind;
-         } else {
-             ts->base_type = type;
-@@ -1092,6 +1094,7 @@ TCGTemp *tcg_constant_internal(TCGType type, int64_t val)
-             ts2->type = TCG_TYPE_I32;
-             ts2->kind = TEMP_CONST;
-             ts2->temp_allocated = 1;
-+            ts2->temp_subindex = 1;
-             ts2->val = val >> 32;
-         } else {
-             ts->base_type = type;
+@@ -4075,12 +4075,8 @@ static bool tcg_reg_alloc_dup2(TCGContext *s, const TCGOp *op)
+ 
+     /* If the two inputs form one 64-bit value, try dupm_vec. */
+     if (itsl + 1 == itsh && itsl->base_type == TCG_TYPE_I64) {
+-        if (!itsl->mem_coherent) {
+-            temp_sync(s, itsl, s->reserved_regs, 0, 0);
+-        }
+-        if (!itsh->mem_coherent) {
+-            temp_sync(s, itsh, s->reserved_regs, 0, 0);
+-        }
++        temp_sync(s, itsl, s->reserved_regs, 0, 0);
++        temp_sync(s, itsh, s->reserved_regs, 0, 0);
+ #if HOST_BIG_ENDIAN
+         TCGTemp *its = itsh;
+ #else
 -- 
 2.34.1
 
