@@ -2,89 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD62164B960
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B833464B9F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:39:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p57ug-0002MS-Gc; Tue, 13 Dec 2022 11:13:50 -0500
+	id 1p58Iv-0001yp-Bq; Tue, 13 Dec 2022 11:38:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p57ue-0002Jc-6L
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:13:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p57ua-00020C-Ae
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:13:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670948022;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QxWCamxS2LzOKmOyzFWV+B8X+7w4N3e6/HvGrv/NZJc=;
- b=LFuw5xPmeQlShbXqbKMeBsOUHURF2U6aTm24heJxw2cAoaDEQWa45vQdVg1X6iJlFVwhiM
- GGsodlNofsAorgd3Pf3JM6IpP7o3d7/VIhMAIC1s2vhGdwY5abkzV2YvZ3IqD1w8pxTXTq
- k+JyOv0uYnSUkVh/fgkmG9ZO4OPIhBQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-61-zPz5x1ALOrW9JMlta6prRA-1; Tue, 13 Dec 2022 11:13:41 -0500
-X-MC-Unique: zPz5x1ALOrW9JMlta6prRA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- bi19-20020a05600c3d9300b003cf9d6c4016so5837024wmb.8
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:13:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p58It-0001tq-17
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:38:51 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p58Iq-0003wB-Ui
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:38:50 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id co23so16253738wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:38:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=k3vrZMmcuXuHoUZFq5C3pZCRcyAQsO045vEE9Dg2nvs=;
+ b=TelZBdo3AkCEWutz3BIEuUE8WHCDDr4aV7Bv/jRogZ1f7RU0ypW4MT3dnItMZ7rvNY
+ oy9d9YrBdXle/V94pAM2HTaLb4FJvFy2rflcw3fhHwQVXJXUcACw11Y9VcGgOa4BxSCr
+ /16TWhWP4nd06+IRYZkNDxTfeTW9hEutczp4Vs2CkAQXSPtrImH6lAge+A38chaWgLEU
+ wcWjgUZSq5ltvC/eOx58KtZBPDredb7bHf4t7Cy6neB0dpHDCYW6SE1rohSxe1ZAcl8D
+ 0xkttNYPuH534Ii2iV4bWgsNTRE06L/uY/MLVt1YD4rO+vKRBLPwqTyrkOrkiDC+MJAH
+ hf1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QxWCamxS2LzOKmOyzFWV+B8X+7w4N3e6/HvGrv/NZJc=;
- b=EHBdgv//lWJTiNPbOR9G8dKMIoUpr9U2yvRXrSijHQ+EMbOxYBmnZZ3AhoZ3hW5hW1
- ul4VvJqmCPZlH1Z774ieie+jHdlzkl19su+ChAjFJY+h+zEStJKg4BTUoOSG756uiyJ3
- HxF888EMNxhhB1pYUSgXZj3vLCor9pu0TEIPqZTIX4NGUymeR68TpXMhodWlykJnQ01b
- GeJzi25ix773wL7oD6fUAHv35vy9L8FPVR2Kgzs4SYEhvviEdeum2Mo7qUDBhCIAebuR
- nkYHLdi7bWOPwIB2Whtph0+Yn1iOkxwF99GDqlyOzryUfVih7LcmYosbTV8z1N5YzePz
- V5MA==
-X-Gm-Message-State: ANoB5pnmqstE5aGPP0ST0GwuOVNordaWUOjFlGwyfonV4jaFyP0rIw2/
- 7FQ3LnoH3umb0f0I8Wb4ZZ/RG8IhzwcFpfxkHhKs3kbsPZvRjtB4Pz9MGwwGu/e+PtkYy4lhHiO
- zerxm7f81lcyzk5s=
-X-Received: by 2002:adf:dd0c:0:b0:242:5d52:53e4 with SMTP id
- a12-20020adfdd0c000000b002425d5253e4mr14116694wrm.17.1670948020121; 
- Tue, 13 Dec 2022 08:13:40 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5ZhTR2dAhX6T73Nk7BuGCOrZgy0iLAllZdtnwy1IdIYfNZ1CDvQWObFC4tpD8GMzKEIFxTYw==
-X-Received: by 2002:adf:dd0c:0:b0:242:5d52:53e4 with SMTP id
- a12-20020adfdd0c000000b002425d5253e4mr14116677wrm.17.1670948019814; 
- Tue, 13 Dec 2022 08:13:39 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0?
- ([2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=k3vrZMmcuXuHoUZFq5C3pZCRcyAQsO045vEE9Dg2nvs=;
+ b=Xp8YzKmeJwzyZuWD6JccgPJb9GTAr8zwIXDd1eTaCElGM50qNmCqK/EaxY3dDutt6N
+ XDv7Wa2XspjUyloy/u8OeksTL2WQMnIDZ1Gc6nEx8rzaGVPPFDamsn+Y53eevzvjCykU
+ KVBf+zCOJks6lRf1uZNISiy/pb2p3nngKjW4ufyh1amc+eFk9O6MMVTsUBFoGHl4+psl
+ xdBKIp4HP975/ChAMVVG/91hjqhBPSWqbb94x4LdOZclBnWZddSWCyrq3+n8B+9kpDZ1
+ jcG7wWHZepUZVPU6PxF282aqtBxFw/uOwY+8uefwE8mSz5OmVeF/e32d4qrNeCZn18fC
+ qnzQ==
+X-Gm-Message-State: ANoB5plfGE87GOhIx1bUzNn3PCxwUu/wyOx6A+VEsDnywqfTG41TLcXp
+ p7ZPh5q/F41NumVc4ssl+tUTwQ==
+X-Google-Smtp-Source: AA0mqf4V2RJoiu+6eFXwQpFQUyFYhlyhC+MZwC9UYN+S1RLXEra59uX4HCU/OPsR2tT6MxCjPEOSkg==
+X-Received: by 2002:adf:edc6:0:b0:242:43d1:6d8a with SMTP id
+ v6-20020adfedc6000000b0024243d16d8amr14514118wro.59.1670949526995; 
+ Tue, 13 Dec 2022 08:38:46 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p3-20020adff203000000b002423620d356sm182826wro.35.2022.12.13.08.13.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Dec 2022 08:13:39 -0800 (PST)
-Message-ID: <3197a82a-8c51-d60c-3aae-921d77095af5@redhat.com>
-Date: Tue, 13 Dec 2022 17:13:38 +0100
+ d1-20020adffd81000000b0023662d97130sm250561wrr.20.2022.12.13.08.38.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Dec 2022 08:38:46 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EF3C31FFB7;
+ Tue, 13 Dec 2022 16:38:45 +0000 (GMT)
+References: <936e1ac4-cef8-08b4-c688-e5b1e057208b@linaro.org>
+ <1ac96aab-c5c4-b539-956c-d2923e6d8602@linaro.org>
+ <87sfhjxrwz.fsf@secure.mitica>
+User-agent: mu4e 1.9.6; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: quintela@redhat.com
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, John Snow <jsnow@redhat.com>, Mark Burton
+ <mburton@qti.qualcomm.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Thomas Huth
+ <thuth@redhat.com>, Bernhard Beschow <shentey@gmail.com>, Brian Cain
+ <bcain@quicinc.com>, Warner Losh <imp@bsdimp.com>, Luc Michel
+ <luc@lmichel.fr>, Paul Walmsley <paul.walmsley@sifive.com>, Alessandro  Di
+ Federico <ale@rev.ng>, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ LIU Zhiwei
+ <zhiwei_liu@linux.alibaba.com>, Jim Shu <jim.shu@sifive.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Alistair Francis
+ <alistair.francis@wdc.com>, Anton  Johansson <anjo@rev.ng>, Michal
+ Privoznik <mprivozn@redhat.com>, Kevin  Wolf <kwolf@redhat.com>, Peter
+ Maydell <peter.maydell@linaro.org>, "Denis V. Lunev" <den@virtuozzo.com>,
+ Cleber Rosa <cleber@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?=  Lureau <marcandre.lureau@redhat.com>, Dominik
+ Csapak
+ <d.csapak@proxmox.com>, Christophe de Dinechin <dinechin@redhat.com>, Gerd
+ Hoffmann <kraxel@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Jagannathan Raman
+ <jag.raman@oracle.com>, Elena Ufimtseva <elena.ufimtseva@oracle.com>, John
+ G Johnson <john.g.johnson@oracle.com>, Dongli Zhang
+ <dongli.zhang@oracle.com>, afaerber@suse.de, andrea.arcangeli@redhat.com,
+ bazulay@redhat.com, bbauman@redhat.com, cjia@nvidia.com, cw@f00f.org,
+ digitaleric@google.com, dustin.kirkland@canonical.com, Eric Blake
+ <eblake@redhat.com>, Eric  Auger <eric.auger@redhat.com>,
+ felipe@nutanix.com, iggy@theiggy.com, Jan Kiszka <jan.kiszka@web.de>,
+ Jason Gunthorpe <jgg@nvidia.com>, jidong.xiao@gmail.com,
+ jjherne@linux.vnet.ibm.com, Joao Martins <joao.m.martins@oracle.com>,
+ mburton@qti.qualcom.com, mdean@redhat.com, mimu@linux.vnet.ibm.com,
+ z.huo@139.com, zwu.kernel@gmail.com, Laurent  Vivier <lvivier@redhat.com>
+Subject: Re: Single system binary & Dynamic machine model (KVM developers
+ conference call 2022-12-13)
+Date: Tue, 13 Dec 2022 16:13:57 +0000
+In-reply-to: <87sfhjxrwz.fsf@secure.mitica>
+Message-ID: <87359jl0mi.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v1 13/24] vfio-user: pci_user_realize PCI setup
-Content-Language: en-US
-To: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1667542066.git.john.g.johnson@oracle.com>
- <9b5702602c3bc0c79df893b269276c74b057026b.1667542066.git.john.g.johnson@oracle.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <9b5702602c3bc0c79df893b269276c74b057026b.1667542066.git.john.g.johnson@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,342 +130,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/9/22 00:13, John Johnson wrote:
-> PCI BARs read from remote device
-> PCI config reads/writes sent to remote server
-> 
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+
+Juan Quintela <quintela@redhat.com> writes:
+
+> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+>> On 12/12/22 00:41, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> Hi,
+>>> In the last years we had few discussions on "simplifying" QEMU
+>>> (system emulation / virtualization), in particular for the
+>>> "management layer".
+>>> Some of us are interested in having QEMU able to dynamically create
+>>> machine models. Mark Burton's current approach is via a Python script
+>>> which generates QMP commands. This is just another case of "management
+>>> layer".
+>>> Various problems have been raised regarding the current limitations
+>>> of
+>>> QEMU's APIs. We'd like to remember / get a broader idea on these limits
+>>> and look at some ideas / proposals which have been discussed / posted
+>>> on this list.
+>>> Feel free to complete your thoughts on this public etherpad:
+>>> https://etherpad.opendev.org/p/qemu-emulation-bof%402022-12-13
+>>> Topic I remember which can be good starters:
+>>> - Current limitations of QAPI (& QMP) model (Markus Armbruster)
+>>> - Adding a new qemu-runtime-$TARGET / QMP-only binary without
+>>> today's
+>>>  =C2=A0 limitations (Daniel P. Berrang=C3=A9 & Paolo Bonzini)
+>>> - Problem with x-exit-preconfig, reworking MachinePhaseInit state
+>>>  =C2=A0 machine (Paolo Bonzini)
+>>> Markus / Daniel / Paolo expressed their ideas on the list (the
+>>> historical threads are referenced in the etherpad) so reading the
+>>> relevant threads before the call will help to get in the topic.
+>>> These people don't have to be in the call, but if they can attend
+>>> that would be very nice :)
+>>> The call will be Tuesday, December 13 at 3pm CET on this Bluejeans
+>>> link:
+>>> http://bluejeans.com/quintela
+>> We moved the call here:
+>>
+>> https://teams.microsoft.com/_#/pre-join-calling/19:meeting_MjU2NDhkOGYtO=
+GY5ZC00MzRjLWJjNjgtYWI2ODQxZGExMWNj@thread.v2
+>
+> Hi
+>
+> First of all I am sorry that my calendar/alarm system failed me.
+
+I tried starting as a moderator myself but it needed a login. Is the
+pass code personal to you or the meeting? Would it be worth adding the
+pass code to the meeting details for the future.
+
+> Once thold that, I have been unable to go from that link to a meet room:
+> - on android phone with chrome
+> - on android phone with firefox
+> - on linux host with firefox (and teams installed)
+> - on linux host with chrome (and teams installed)
+>
+> As everybody says, it got going for indirection to indirection and at
+> the end (if lucky) I ended on the teams app without a room name/id.
+
+Mine worked OK with Linux Chrome in web only mode. As a fallback someone
+did post:
+
+  https://play.workadventu.re/@/qemu/main/hq
+
+a while back. More traditionally:
+
+  https://meet.jit.si/
+
+allows you to create meetings without sign-up.
+
+>
+> Later, Juan.
 
 
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
-
-Thanks,
-
-C.
-
-
-> ---
->   hw/vfio/pci.c | 277 ++++++++++++++++++++++++++++++++++++----------------------
->   1 file changed, 174 insertions(+), 103 deletions(-)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 027f9d5..7abe44e 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -2874,6 +2874,133 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
->       vdev->req_enabled = false;
->   }
->   
-> +static void vfio_pci_config_setup(VFIOPCIDevice *vdev, Error **errp)
-> +{
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    VFIODevice *vbasedev = &vdev->vbasedev;
-> +    Error *err = NULL;
-> +
-> +    /* vfio emulates a lot for us, but some bits need extra love */
-> +    vdev->emulated_config_bits = g_malloc0(vdev->config_size);
-> +
-> +    /* QEMU can choose to expose the ROM or not */
-> +    memset(vdev->emulated_config_bits + PCI_ROM_ADDRESS, 0xff, 4);
-> +    /* QEMU can also add or extend BARs */
-> +    memset(vdev->emulated_config_bits + PCI_BASE_ADDRESS_0, 0xff, 6 * 4);
-> +
-> +    /*
-> +     * The PCI spec reserves vendor ID 0xffff as an invalid value.  The
-> +     * device ID is managed by the vendor and need only be a 16-bit value.
-> +     * Allow any 16-bit value for subsystem so they can be hidden or changed.
-> +     */
-> +    if (vdev->vendor_id != PCI_ANY_ID) {
-> +        if (vdev->vendor_id >= 0xffff) {
-> +            error_setg(errp, "invalid PCI vendor ID provided");
-> +            return;
-> +        }
-> +        vfio_add_emulated_word(vdev, PCI_VENDOR_ID, vdev->vendor_id, ~0);
-> +        trace_vfio_pci_emulated_vendor_id(vdev->vbasedev.name, vdev->vendor_id);
-> +    } else {
-> +        vdev->vendor_id = pci_get_word(pdev->config + PCI_VENDOR_ID);
-> +    }
-> +
-> +    if (vdev->device_id != PCI_ANY_ID) {
-> +        if (vdev->device_id > 0xffff) {
-> +            error_setg(errp, "invalid PCI device ID provided");
-> +            return;
-> +        }
-> +        vfio_add_emulated_word(vdev, PCI_DEVICE_ID, vdev->device_id, ~0);
-> +        trace_vfio_pci_emulated_device_id(vbasedev->name, vdev->device_id);
-> +    } else {
-> +        vdev->device_id = pci_get_word(pdev->config + PCI_DEVICE_ID);
-> +    }
-> +
-> +    if (vdev->sub_vendor_id != PCI_ANY_ID) {
-> +        if (vdev->sub_vendor_id > 0xffff) {
-> +            error_setg(errp, "invalid PCI subsystem vendor ID provided");
-> +            return;
-> +        }
-> +        vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_VENDOR_ID,
-> +                               vdev->sub_vendor_id, ~0);
-> +        trace_vfio_pci_emulated_sub_vendor_id(vbasedev->name,
-> +                                              vdev->sub_vendor_id);
-> +    }
-> +
-> +    if (vdev->sub_device_id != PCI_ANY_ID) {
-> +        if (vdev->sub_device_id > 0xffff) {
-> +            error_setg(errp, "invalid PCI subsystem device ID provided");
-> +            return;
-> +        }
-> +        vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_ID, vdev->sub_device_id, ~0);
-> +        trace_vfio_pci_emulated_sub_device_id(vbasedev->name,
-> +                                              vdev->sub_device_id);
-> +    }
-> +
-> +    /* QEMU can change multi-function devices to single function, or reverse */
-> +    vdev->emulated_config_bits[PCI_HEADER_TYPE] =
-> +                                              PCI_HEADER_TYPE_MULTI_FUNCTION;
-> +
-> +    /* Restore or clear multifunction, this is always controlled by QEMU */
-> +    if (vdev->pdev.cap_present & QEMU_PCI_CAP_MULTIFUNCTION) {
-> +        vdev->pdev.config[PCI_HEADER_TYPE] |= PCI_HEADER_TYPE_MULTI_FUNCTION;
-> +    } else {
-> +        vdev->pdev.config[PCI_HEADER_TYPE] &= ~PCI_HEADER_TYPE_MULTI_FUNCTION;
-> +    }
-> +
-> +    /*
-> +     * Clear host resource mapping info.  If we choose not to register a
-> +     * BAR, such as might be the case with the option ROM, we can get
-> +     * confusing, unwritable, residual addresses from the host here.
-> +     */
-> +    memset(&vdev->pdev.config[PCI_BASE_ADDRESS_0], 0, 24);
-> +    memset(&vdev->pdev.config[PCI_ROM_ADDRESS], 0, 4);
-> +
-> +    vfio_pci_size_rom(vdev);
-> +
-> +    vfio_bars_prepare(vdev);
-> +
-> +    vfio_msix_early_setup(vdev, &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
-> +    }
-> +
-> +    vfio_bars_register(vdev);
-> +}
-> +
-> +static int vfio_interrupt_setup(VFIOPCIDevice *vdev, Error **errp)
-> +{
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    int ret;
-> +
-> +    /* QEMU emulates all of MSI & MSIX */
-> +    if (pdev->cap_present & QEMU_PCI_CAP_MSIX) {
-> +        memset(vdev->emulated_config_bits + pdev->msix_cap, 0xff,
-> +               MSIX_CAP_LENGTH);
-> +    }
-> +
-> +    if (pdev->cap_present & QEMU_PCI_CAP_MSI) {
-> +        memset(vdev->emulated_config_bits + pdev->msi_cap, 0xff,
-> +               vdev->msi_cap_size);
-> +    }
-> +
-> +    if (vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PIN, 1)) {
-> +        vdev->intx.mmap_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
-> +                                                  vfio_intx_mmap_enable, vdev);
-> +        pci_device_set_intx_routing_notifier(&vdev->pdev,
-> +                                             vfio_intx_routing_notifier);
-> +        vdev->irqchip_change_notifier.notify = vfio_irqchip_change;
-> +        kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier);
-> +        ret = vfio_intx_enable(vdev, errp);
-> +        if (ret) {
-> +            pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
-> +            kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
-> +            return ret;
-> +        }
-> +    }
-> +    return 0;
-> +}
-> +
->   static void vfio_realize(PCIDevice *pdev, Error **errp)
->   {
->       VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-> @@ -2990,92 +3117,16 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->           goto error;
->       }
->   
-> -    /* vfio emulates a lot for us, but some bits need extra love */
-> -    vdev->emulated_config_bits = g_malloc0(vdev->config_size);
-> -
-> -    /* QEMU can choose to expose the ROM or not */
-> -    memset(vdev->emulated_config_bits + PCI_ROM_ADDRESS, 0xff, 4);
-> -    /* QEMU can also add or extend BARs */
-> -    memset(vdev->emulated_config_bits + PCI_BASE_ADDRESS_0, 0xff, 6 * 4);
-> -
-> -    /*
-> -     * The PCI spec reserves vendor ID 0xffff as an invalid value.  The
-> -     * device ID is managed by the vendor and need only be a 16-bit value.
-> -     * Allow any 16-bit value for subsystem so they can be hidden or changed.
-> -     */
-> -    if (vdev->vendor_id != PCI_ANY_ID) {
-> -        if (vdev->vendor_id >= 0xffff) {
-> -            error_setg(errp, "invalid PCI vendor ID provided");
-> -            goto error;
-> -        }
-> -        vfio_add_emulated_word(vdev, PCI_VENDOR_ID, vdev->vendor_id, ~0);
-> -        trace_vfio_pci_emulated_vendor_id(vbasedev->name, vdev->vendor_id);
-> -    } else {
-> -        vdev->vendor_id = pci_get_word(pdev->config + PCI_VENDOR_ID);
-> -    }
-> -
-> -    if (vdev->device_id != PCI_ANY_ID) {
-> -        if (vdev->device_id > 0xffff) {
-> -            error_setg(errp, "invalid PCI device ID provided");
-> -            goto error;
-> -        }
-> -        vfio_add_emulated_word(vdev, PCI_DEVICE_ID, vdev->device_id, ~0);
-> -        trace_vfio_pci_emulated_device_id(vbasedev->name, vdev->device_id);
-> -    } else {
-> -        vdev->device_id = pci_get_word(pdev->config + PCI_DEVICE_ID);
-> -    }
-> -
-> -    if (vdev->sub_vendor_id != PCI_ANY_ID) {
-> -        if (vdev->sub_vendor_id > 0xffff) {
-> -            error_setg(errp, "invalid PCI subsystem vendor ID provided");
-> -            goto error;
-> -        }
-> -        vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_VENDOR_ID,
-> -                               vdev->sub_vendor_id, ~0);
-> -        trace_vfio_pci_emulated_sub_vendor_id(vbasedev->name,
-> -                                              vdev->sub_vendor_id);
-> -    }
-> -
-> -    if (vdev->sub_device_id != PCI_ANY_ID) {
-> -        if (vdev->sub_device_id > 0xffff) {
-> -            error_setg(errp, "invalid PCI subsystem device ID provided");
-> -            goto error;
-> -        }
-> -        vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_ID, vdev->sub_device_id, ~0);
-> -        trace_vfio_pci_emulated_sub_device_id(vbasedev->name,
-> -                                              vdev->sub_device_id);
-> -    }
-> -
-> -    /* QEMU can change multi-function devices to single function, or reverse */
-> -    vdev->emulated_config_bits[PCI_HEADER_TYPE] =
-> -                                              PCI_HEADER_TYPE_MULTI_FUNCTION;
-> -
-> -    /* Restore or clear multifunction, this is always controlled by QEMU */
-> -    if (vdev->pdev.cap_present & QEMU_PCI_CAP_MULTIFUNCTION) {
-> -        vdev->pdev.config[PCI_HEADER_TYPE] |= PCI_HEADER_TYPE_MULTI_FUNCTION;
-> -    } else {
-> -        vdev->pdev.config[PCI_HEADER_TYPE] &= ~PCI_HEADER_TYPE_MULTI_FUNCTION;
-> -    }
-> -
-> -    /*
-> -     * Clear host resource mapping info.  If we choose not to register a
-> -     * BAR, such as might be the case with the option ROM, we can get
-> -     * confusing, unwritable, residual addresses from the host here.
-> -     */
-> -    memset(&vdev->pdev.config[PCI_BASE_ADDRESS_0], 0, 24);
-> -    memset(&vdev->pdev.config[PCI_ROM_ADDRESS], 0, 4);
-> -
-> -    vfio_pci_size_rom(vdev);
-> -
-> -    vfio_bars_prepare(vdev);
-> -
-> -    vfio_msix_early_setup(vdev, &err);
-> +    vfio_pci_config_setup(vdev, &err);
->       if (err) {
-> -        error_propagate(errp, err);
->           goto error;
->       }
->   
-> -    vfio_bars_register(vdev);
-> +    /*
-> +     * vfio_pci_config_setup will have registered the device's BARs
-> +     * and setup any MSIX BARs, so errors after it succeeds must
-> +     * use out_teardown
-> +     */
->   
->       ret = vfio_add_capabilities(vdev, errp);
->       if (ret) {
-> @@ -3116,29 +3167,15 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->           }
->       }
->   
-> -    /* QEMU emulates all of MSI & MSIX */
-> -    if (pdev->cap_present & QEMU_PCI_CAP_MSIX) {
-> -        memset(vdev->emulated_config_bits + pdev->msix_cap, 0xff,
-> -               MSIX_CAP_LENGTH);
-> -    }
-> -
-> -    if (pdev->cap_present & QEMU_PCI_CAP_MSI) {
-> -        memset(vdev->emulated_config_bits + pdev->msi_cap, 0xff,
-> -               vdev->msi_cap_size);
-> +    ret = vfio_interrupt_setup(vdev, errp);
-> +    if (ret) {
-> +        goto out_teardown;
->       }
->   
-> -    if (vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PIN, 1)) {
-> -        vdev->intx.mmap_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
-> -                                                  vfio_intx_mmap_enable, vdev);
-> -        pci_device_set_intx_routing_notifier(&vdev->pdev,
-> -                                             vfio_intx_routing_notifier);
-> -        vdev->irqchip_change_notifier.notify = vfio_irqchip_change;
-> -        kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier);
-> -        ret = vfio_intx_enable(vdev, errp);
-> -        if (ret) {
-> -            goto out_deregister;
-> -        }
-> -    }
-> +    /*
-> +     * vfio_interrupt_setup will have setup INTx's KVM routing
-> +     * so errors after it succeeds must use out_deregister
-> +     */
->   
->       if (vdev->display != ON_OFF_AUTO_OFF) {
->           ret = vfio_display_probe(vdev, errp);
-> @@ -3525,8 +3562,42 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
->           goto error;
->       }
->   
-> +    /* Get a copy of config space */
-> +    ret = VDEV_REGION_READ(vbasedev, VFIO_PCI_CONFIG_REGION_INDEX, 0,
-> +                           MIN(pci_config_size(pdev), vdev->config_size),
-> +                           pdev->config);
-> +    if (ret < (int)MIN(pci_config_size(&vdev->pdev), vdev->config_size)) {
-> +        error_setg_errno(errp, -ret, "failed to read device config space");
-> +        goto error;
-> +    }
-> +
-> +    vfio_pci_config_setup(vdev, &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        goto error;
-> +    }
-> +
-> +    /*
-> +     * vfio_pci_config_setup will have registered the device's BARs
-> +     * and setup any MSIX BARs, so errors after it succeeds must
-> +     * use out_teardown
-> +     */
-> +
-> +    ret = vfio_add_capabilities(vdev, errp);
-> +    if (ret) {
-> +        goto out_teardown;
-> +    }
-> +
-> +    ret = vfio_interrupt_setup(vdev, errp);
-> +    if (ret) {
-> +        goto out_teardown;
-> +    }
-> +
->       return;
->   
-> +out_teardown:
-> +    vfio_teardown_msi(vdev);
-> +    vfio_bars_exit(vdev);
->   error:
->       error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
->   }
-
+--=20
+Alex Benn=C3=A9e
 
