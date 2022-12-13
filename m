@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033A964ABF7
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 01:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB33D64ABFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 01:09:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4soV-0004Ob-3O; Mon, 12 Dec 2022 19:06:27 -0500
+	id 1p4sqc-0005ox-6r; Mon, 12 Dec 2022 19:08:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+16f8bca671676a5df7ce+7051+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p4soQ-0004O9-MZ
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 19:06:22 -0500
+ id 1p4sqY-0005op-VF
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 19:08:35 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+16f8bca671676a5df7ce+7051+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p4soN-0001ZW-Oc
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 19:06:22 -0500
+ id 1p4sqX-000270-6K
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 19:08:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Yju1lC5RfNZJ0qNtZQg53an+NPTxHQwh1oxqGA+MSt8=; b=P3oZk0pVrooRtHZ6hlpMqf6oex
- RkOPL4DbSzuKHbozPQYYux8zl0xtWvS2WmN1a8SrTwkHwKRxgzpuwLWx/hVRg2npT072a2OtvTh2x
- DEzz+Ws/BFmlKujHFGS7jfonIgMISnlgWrFNu42sBz+gqoZGSGdENtF9uFQMtqcfmX3TM5NFieS+l
- vs6u/Wp29VaEJ8M/p4pKdnsIeeqnB4J/bdDgj0AEyze/cwf51bNgh9TY9cN6Mme2baHboSLoQHnch
- aJ9i+LbLcCBx9NZy/9NJrDWBexrEPJeRa1pRoxcFmgi2/epQVOuER+axVOVhT4KyOuXk8a0Kl+fD6
- VPQPam5w==;
+ bh=JL2wqc1Btx/kHyinmDF8f4cgEJ2vxTqs3abLb017yl4=; b=Qsf/44APxtE1qPvE7gf1np+QZ7
+ QJ88ABDhz0dqNxAc9/e2YlU03/CowjY9IsEzyBtFShOY7gwcGEY3OBEvnfJMFfF+BjNZ46nZY+9Fz
+ vgX6xiesaB0lWFWHn8Pu2dwu6hx9MtdjCCcmYp73TyEOA9fqP7XdGcYr0hiZYmfKsToAT5wXvilzB
+ YBDAByfKRVGYZ9ykR7wUnLyk/HqVBRTn4QwaGssnhDsnxkx0ezdvcNvTmvtUKGGOhHtsFSL2U+bLF
+ xu7jvQzXCACze3wRQENBwBizle218sah8hRUs1bP/qZLz7wdCF/jvG5XGodnmSXZR5VGShjZd1kJZ
+ 81mA/fNQ==;
 Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p4soL-00BdR4-63; Tue, 13 Dec 2022 00:06:17 +0000
-Message-ID: <f50593bd846b06d08761584e86561829f9851788.camel@infradead.org>
-Subject: Re: [RFC PATCH v2 11/22] i386/xen: implement HYPERCALL_xen_version
+ id 1p4sqd-00BdYa-HA; Tue, 13 Dec 2022 00:08:39 +0000
+Message-ID: <a15f81df678b330d467887b4a931111122740889.camel@infradead.org>
+Subject: Re: [RFC PATCH v2 13/22] i386/xen: implement HYPERVISOR_memory_op
 From: David Woodhouse <dwmw2@infradead.org>
 To: Paul Durrant <xadimgnik@gmail.com>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
@@ -44,14 +44,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
  =?ISO-8859-1?Q?Benn=E9e?=
  <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
  Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>
-Date: Tue, 13 Dec 2022 00:06:07 +0000
-In-Reply-To: <6138b852-084e-a266-a659-14b0c9580d53@xen.org>
+Date: Tue, 13 Dec 2022 00:08:30 +0000
+In-Reply-To: <e6b1859e-e006-a859-d598-7d75b6c33fd7@xen.org>
 References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-12-dwmw2@infradead.org>
- <6138b852-084e-a266-a659-14b0c9580d53@xen.org>
+ <20221209095612.689243-14-dwmw2@infradead.org>
+ <e6b1859e-e006-a859-d598-7d75b6c33fd7@xen.org>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-YZLY8zgIXwhdcTnlYb8k"
+ boundary="=-3GC/SfWOCxpN3xQbnf93"
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -82,20 +82,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-YZLY8zgIXwhdcTnlYb8k
+--=-3GC/SfWOCxpN3xQbnf93
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2022-12-12 at 14:17 +0000, Paul Durrant wrote:
-> Shouldn't this be (sz - i)?
+On Mon, 2022-12-12 at 14:38 +0000, Paul Durrant wrote:
+>=20
+> > +            switch (xatp.space) {
+> > +            case XENMAPSPACE_shared_info:
+> > +                break;
+> > +            default:
+> > +                err =3D -ENOSYS;
+> > +                break;
+>=20
+> Don't you want to return false here?
 
-Turns out I hate that loop. Have refactored it to be
-while (sz) { ... sz -=3D len; ... }.
+It doesn't make a lot of difference right now. Once we believe we've
+implemented everything a sane guest would use, then the distinction
+between {true, -ENOSYS} and just returning false actually starts to
+matter.
 
-Thanks.
-
-
---=-YZLY8zgIXwhdcTnlYb8k
+--=-3GC/SfWOCxpN3xQbnf93
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -187,26 +194,26 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjEzMDAwNjA3WjAvBgkqhkiG9w0BCQQxIgQgQ1QhHxyP
-8f8VsjBwPtVsyZIMADH3J1ahLAi4C8jWiX0wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjEzMDAwODMwWjAvBgkqhkiG9w0BCQQxIgQgpi3ZM9Pa
+9BRYJiREVSfBvnpAU/GSfL95B0e9/rCF+WAwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBVuObS+E+Ry3VnG+Z8Hh6o6IVjPcjb/TYp
-aQMuGnrwOyrew4sn5BPBD4EAAl+oJIbZp5P5oSOIu8niuhD87OymrC0SwoXw9TJ+d1yfdzb9IKr4
-Jkg1VDfkg0EbTylFmS8DPp0ypbOOvEiQlBEWFnFI5zkiYF7vQe0GkuKS4ZdTkRzJWw3uGJJd5n0b
-/tZc2syZu7MWyFHfYpoe0MpVAjW5HMkAm+OMb2R3LhH6UYRkad9Dl4Rb8XBg00Yc/nrmCPgIvsZP
-7Hchgx2/BDFTte4ui2TRAlh8ifRpo+RIMtmQJQB5Fig6WfffW1uTZoQmjj+Fe/RtFHsKAsEcvXua
-y/KqHaCMrGsqe2s5D6um87/iL/UjzHBjjj6z8QsRESoEA487LQ4TJCPb+pUuaQIxwj4dXjScVFp1
-LvFwD9edz9cUIdgdB++UZl0z2/IifdjiZJeBJMhhfCMdv94Fy7uDlUa4tUkRDF2pY/q6r/wOOT+6
-uJguX3k0nuWlKjk5N+0/pl9l9YYnevByrRC+NVOCNEAQgSba8Gdw99AG7NcunHZUMXFKlSJlzsGa
-POPNRiHLEctvuolpMlSBfkYCuVvD4jDqzey74/+q8e6HkFO99DUx/WnF1Jha+TakzSb4NkGUjOPi
-wik96njMYNsyBv0igBnpGdIsy3onQQNbXDJ3dsJU/wAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCJwizy9moerWYBKmBfNNzF2LMMLMkkIwx2
+MHeZY6UQ/6vZCaXShaa2dbem/wki6ZISbgH6vDyP3TP3tCr//i11R4NMUPIvMyQ0BpRxSSLMToS6
+ABztjCj6VbaikMgHyhCJtaQuHNzXsL8mdFkGar3jcQ68gCIfTyVD6hpc3dncG00jhJstsijrV4Mj
+FyJe7EdqCB99DdL3A/7Yc+1iWOzvgs7K1R27sandw3NMqww7nO+04+Ciyli9ivzaDTx0dNZrgVBH
+7AF7SCC2q7c3v7mPiQ90AN0ClCaKBa3TLCzEe7p7TYF/cSsRUd0G7Q35mbXUWllWTZcQ+RXnGYkg
+4uN3zf/G+0IEubLgY8bWom2sfCM3sUIPuPavTDA7TvQLBLlH+UyaR0IK3E1gMoxkVDcKmIvBZ0qj
+B10ueimX9tO3zzkpZkJvArCAxHv+0XKHadk5SbVZ4djga68y9hvHmNOWMZlWdzplfijmKSgJlQVl
+xzMHQek7qmsX6ZJtZbrl9boXsMPwm3GGj3SeUHfASUA7VZ9Vrcf8bFXb5T6+JvrSQzf6rOF3gawi
+1cDKO+vLqKBtRMdR1jDxCp7W2+se7r6eUlKtJ/yaoiioV3asRIKgTGa+rCdvOZBfRvIYadAMTv7D
+3AGfF7VeOC4H+ZnAb3MUw5LUwqRv4/WQVKWZfCg07QAAAAAAAA==
 
 
---=-YZLY8zgIXwhdcTnlYb8k--
+--=-3GC/SfWOCxpN3xQbnf93--
 
 
