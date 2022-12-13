@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A65364BBA7
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 19:12:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F1F64BBB5
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 19:14:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p59kg-0003p2-9M; Tue, 13 Dec 2022 13:11:38 -0500
+	id 1p59mL-00056p-Te; Tue, 13 Dec 2022 13:13:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1p59kd-0003nN-U0; Tue, 13 Dec 2022 13:11:36 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p59mJ-00056M-7w
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 13:13:19 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1p59kb-0004Pz-OY; Tue, 13 Dec 2022 13:11:35 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 787C0748131;
- Tue, 13 Dec 2022 19:09:51 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 26DAC74812F; Tue, 13 Dec 2022 19:09:51 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 24B2674810A;
- Tue, 13 Dec 2022 19:09:51 +0100 (CET)
-Date: Tue, 13 Dec 2022 19:09:51 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Peter Maydell <peter.maydell@linaro.org>
-cc: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>, 
- Alistair Francis <alistair@alistair23.me>, 
- David Gibson <david@gibson.dropbear.id.au>, 
- Jason Wang <jasowang@redhat.com>, Greg Kurz <groug@kaod.org>, 
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
- qemu-ppc@nongnu.org
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p59mE-0004mk-6V
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 13:13:18 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.183])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 5A79114B71320;
+ Tue, 13 Dec 2022 19:13:08 +0100 (CET)
+Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Tue, 13 Dec
+ 2022 19:13:07 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S001fc3a151f-8a63-4019-a032-d238f3be949e,
+ 70F1EFD4CFA2BAC2768C5AFE190B601EEBA8C420) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <b270f7de-a0f1-3b1e-5540-550420acef26@kaod.org>
+Date: Tue, 13 Dec 2022 19:13:01 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
 Subject: Re: [RFC PATCH-for-8.0 1/3] hw/ppc: Replace tswap32() by const_le32()
-In-Reply-To: <CAFEAcA8WF6GXaPt6+=KbaLSP5w+r1dps6fcc21+Um3VFAPDp5A@mail.gmail.com>
-Message-ID: <e3ce4608-c516-568b-df37-8446fbe6735b@eik.bme.hu>
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-devel@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Alistair Francis <alistair@alistair23.me>, David
+ Gibson <david@gibson.dropbear.id.au>, Jason Wang <jasowang@redhat.com>, Greg
+ Kurz <groug@kaod.org>, <qemu-arm@nongnu.org>, "Edgar E. Iglesias"
+ <edgar.iglesias@gmail.com>, <qemu-ppc@nongnu.org>
 References: <20221213125218.39868-1-philmd@linaro.org>
  <20221213125218.39868-2-philmd@linaro.org>
  <8d47b826-2011-3203-c682-aa32a76b8dc2@linaro.org>
@@ -49,16 +52,26 @@ References: <20221213125218.39868-1-philmd@linaro.org>
  <b46e4c40-257f-8a89-85b8-8c2806f395be@linaro.org>
  <10186d7a-2df0-2fcf-8eef-8e34bcc2d8cc@kaod.org>
  <CAFEAcA8WF6GXaPt6+=KbaLSP5w+r1dps6fcc21+Um3VFAPDp5A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1281552382-1670954991=:38442"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAFEAcA8WF6GXaPt6+=KbaLSP5w+r1dps6fcc21+Um3VFAPDp5A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 8deadd3d-be25-4255-97ec-0eaf274b585f
+X-Ovh-Tracer-Id: 13885723553303726910
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfedugdefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgfehhfekvdegtdevleekhfeludehgffhtddvieegvdehleffudfghfehheeltdehnecuffhomhgrihhnpegrrhgthhhivhgvrdhorhhgpdhpohifvghrrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdgsrghlrghtohhnsegvihhkrdgsmhgvrdhhuhdprghlvgigrdgsvghnnhgvvgeslhhinhgrrh
+ hordhorhhgpdgrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvgdpuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruhdpjhgrshhofigrnhhgsehrvgguhhgrthdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpvggughgrrhdrihhglhgvshhirghssehgmhgrihhlrdgtohhmpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,15 +88,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1281552382-1670954991=:38442
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 13 Dec 2022, Peter Maydell wrote:
+On 12/13/22 18:23, Peter Maydell wrote:
 > On Tue, 13 Dec 2022 at 16:53, Cédric Le Goater <clg@kaod.org> wrote:
+>>
 >> On 12/13/22 17:27, Richard Henderson wrote:
 >>> On 12/13/22 10:21, Peter Maydell wrote:
 >>>> It does seem odd, though. We have a value in host endianness
@@ -103,28 +110,10 @@ On Tue, 13 Dec 2022, Peter Maydell wrote:
 >>>> on little-endian hosts, which seems a bit unlikely...
 >>>
 >>> ... unless this board has only been tested on matching hosts.
-
-I can't remember the details but I think I've had no tswap in sam460ex 
-first but that did not work and had to add it but I've probably looked at 
-other examples and did not really understand why this was needed. I tested 
-on x86_64 so not matching host. The board firmware has some reference to 
-this magic value in:
-
-qemu/roms/u-boot-sam460ex/arch/powerpc/lib/bootm.c::boot_jump_linux()
-
-I don't know what it does with it but I think kernel expects it in big 
-endian and what we put there should match what U-Boor does (if this is 
-actually used on sam460ex which I'm not sure about). The Linux kernel I've 
-tested with back then was probably from Ubuntu_16.04 or Debian Jessie 
-which supported this board. Not sure this helps but that's all I can 
-gather now but I may remember wrong.
-
-Regards,
-BALATON Zoltan
-
+>>
 >> But these are register default values. Endianness doesn't apply
 >> there. Doesn't it ?
->
+> 
 > Any time you have a value that's more than 1 byte wide,
 > endianness applies in some sense :-) We choose for our
 > emulated CPUs typically to keep register values in struct
@@ -135,45 +124,45 @@ BALATON Zoltan
 > way around if you wanted (then "store register into RAM"
 > would be trivial, and "add 1 to register" would require
 > extra effort; currently it's the other way round.)
->
+> 
 > Anyway, I think that in the virtex_ml507 and sam460ex code
 > the use of tswap32() should be removed. In hw/ppc/e500.c
 > we get this right:
->    env->gpr[6] = EPAPR_MAGIC;
->
+>      env->gpr[6] = EPAPR_MAGIC;
+> 
 > We have a Linux kernel boot test in the avocado tests for
 > virtex_ml507 -- we really do set up this magic value wrongly
 > afaict, but it seems like the kernel doesn't check it (the
 > test passes regardless of whether we swap the value or not).
->
+> 
 > I think what has happened here is that this bit of code is
 > setting up CPU registers for an EPAPR style boot, but the
 > test kernel at least doesn't expect that. It boots via the
 > code in arch/powerpc/kernel/head_44x.S. That file claims
 > in a comment that it expects
-> *   r3 - Board info structure pointer (DRAM, frequency, MAC address, etc.)
-> *   r4 - Starting address of the init RAM disk
-> *   r5 - Ending address of the init RAM disk
-> *   r6 - Start of kernel command line string (e.g. "mem=128")
-> *   r7 - End of kernel command line string
->
+>   *   r3 - Board info structure pointer (DRAM, frequency, MAC address, etc.)
+>   *   r4 - Starting address of the init RAM disk
+>   *   r5 - Ending address of the init RAM disk
+>   *   r6 - Start of kernel command line string (e.g. "mem=128")
+>   *   r7 - End of kernel command line string
+> 
 > but actually it only cares that r3 == device-tree-blob.
->
+> 
 > Documentation/powerpc/booting.rst says the expectation
 > (for a non-OpenFirmware boot) is:
->                r3 : physical pointer to the device-tree block
->                (defined in chapter II) in RAM
->
->                r4 : physical pointer to the kernel itself. This is
->                used by the assembly code to properly disable the MMU
->                in case you are entering the kernel with MMU enabled
->                and a non-1:1 mapping.
->
->                r5 : NULL (as to differentiate with method a)
->
+>                  r3 : physical pointer to the device-tree block
+>                  (defined in chapter II) in RAM
+> 
+>                  r4 : physical pointer to the kernel itself. This is
+>                  used by the assembly code to properly disable the MMU
+>                  in case you are entering the kernel with MMU enabled
+>                  and a non-1:1 mapping.
+> 
+>                  r5 : NULL (as to differentiate with method a)
+> 
 > which isn't the same as what the kernel code actually cares about
 > or what the kernel's comment says it cares about...
->
+> 
 > So my guess about what's happening here is that the intention
 > was that these boards should be able to boot both kernels built
 > to be entered directly in the way booting.rst says, and also
@@ -183,12 +172,43 @@ BALATON Zoltan
 > noticed before is presumably that in practice nobody's trying to
 > boot the "built to boot from EPAPR firmware" type binary on
 > these two boards.
->
+> 
 > TLDR: we should drop the "tswap32()" entirely from both files.
->
-> thanks
-> -- PMM
->
->
---3866299591-1281552382-1670954991=:38442--
+Yes. I think so too.
+
+Here are the specs :
+
+    https://web.archive.org/web/20120419173345/https://www.power.org/resources/downloads/Power_ePAPR_APPROVED_v1.1.pdf
+
+See 5.4.1 Boot CPU Initial Register State
+
+Register	Value
+
+MSR		PR=0 supervisor state
+		EE=0 interrupts disabled
+		ME=0 machine check interrupt disabled
+		IP=0 interrupt prefix-- low memory
+		IR=0,DR=0 real mode (see note 1)
+		IS=0,DS=0 address space 0 (see note 1)
+		SF=0, CM=0, ICM=0 32-bit mode
+		The state of any additional MSR bits is defined in the
+		applicable processor supplement specification.
+R3		Effective address of the device tree image.
+		Note: This address shall be 8 bytes aligned in memory.
+R4		0
+R5		0
+R6		ePAPR magic value—to distinguish from non-ePAPR-
+		compliant firmware
+		• For Book III-E CPUs shall be 0x45504150
+		• For non-Book III-E CPUs shall be 0x65504150
+R7		shall be the size of the boot IMA in bytes
+R8		0
+R9		0
+TCR		WRC=0, no watchdog timer reset will occur (see note 2)
+other registers implementation dependent
+
+
+Thanks,
+
+C.
 
