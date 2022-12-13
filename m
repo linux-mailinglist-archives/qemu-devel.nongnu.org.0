@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B220764BEB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:44:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA54264BEAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:43:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5D0o-0001WH-49; Tue, 13 Dec 2022 16:40:31 -0500
+	id 1p5D0j-0001Uf-BT; Tue, 13 Dec 2022 16:40:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D0A-0001Jw-7Z
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:51 -0500
+ (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D0E-0001Oj-Jc
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:58 -0500
 Received: from outgoing-auth-1.mit.edu ([18.9.28.11] helo=outgoing.mit.edu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D07-0007oW-NO
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:50 -0500
+ (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5D0B-0007vA-1E
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:52 -0500
 Received: from panda194.. ([18.4.85.108]) (authenticated bits=0)
  (User authenticated as fasano@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2BDLcaPD030603
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2BDLcaPE030603
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 16:39:41 -0500
+ Tue, 13 Dec 2022 16:39:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
- t=1670967582; bh=tHc5D/gEd+UlFFhOqMfSMnRWShH86mwYdoibrKxpBTs=;
+ t=1670967585; bh=7noylMOefmKqet5bCgbsxpsvO0xxjBERKsJphKKHIj4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=ezx+ujGURbwvVVBtdGxwjlP13BETBFaKcKVkmdvcQnmlizhxN+mteDHg/wXRbY0IZ
- CLIOLMYqhrWf9DiWQSWGZ5jzxIdsKJSxsalp83Tl6E4gJoCTbxwfasRcPPpUFn0ZWK
- xrJ4vVV9QIJc2aqcK9htNLvhY6ZLimN6cKrBlAfEVXAeLaclwjlZ2+5FiD9rK/DiEf
- Q0KbRClRR09scgV4BXDWzpveI3zsF3dkFM00FEUOd73x6Hgt1SkeQQG4xilIbX+TPA
- ALV55fkS+6cns8jNKlTRIzSmLZGag4OZgZRDw4/ESOboaWhWVP0NvtmhWTGfmXiBV8
- UwC6S64vnOhmw==
+ b=OUTJE2uhLQiDrzoJ4UTUMMiZw9eWUYWdkAm9KYbguwCIqCUExPZwzDA+I7dGx8IVj
+ NVC32jzmnFia/8zw2zfMOlxjWE8nYykeirECQWIYhqq5p1hRRmrX3lN3I0VErFEwlS
+ nkz/1tx7pAh4Fg8RGLTqibo385LiUwt6rx0dciV4gN+oVw8Np4ME8/TKURLAuQSlp9
+ qaZFQWwwVqsCT4tquXN6yEhLBKBRz/hJgri8fDE5evmSGBMmEr1sbRN2op16dyFXZQ
+ RHIgiQX5qbHamJz7/giJGrG+1k4lzFEcDEZcVb1EIB+x5FARTgLSDyeNolBnUUuW8R
+ 3VNjAij9+2O+w==
 From: Andrew Fasano <fasano@mit.edu>
 To: qemu-devel@nongnu.org
 Cc: elysia.witham@ll.mit.edu, alex.bennee@linaro.org, erdnaxe@crans.org,
  ma.mandourr@gmail.com, Andrew Fasano <fasano@mit.edu>
-Subject: [PATCH 6/8] plugins: implement QPP import function
-Date: Tue, 13 Dec 2022 16:37:55 -0500
-Message-Id: <20221213213757.4123265-7-fasano@mit.edu>
+Subject: [PATCH 7/8] include/qemu: added macro for QPP import function
+Date: Tue, 13 Dec 2022 16:37:56 -0500
+Message-Id: <20221213213757.4123265-8-fasano@mit.edu>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221213213757.4123265-1-fasano@mit.edu>
 References: <20221213213757.4123265-1-fasano@mit.edu>
@@ -68,83 +68,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Elysia Witham <elysia.witham@ll.mit.edu>
 
-Plugins can export functions or import functions from other
-plugins using their name and the function name. This is also
-described in <qemu-plugin.h>.
+Plugins can use this macro in a header file which can be included
+by both the exporting and importing plugins. The macro will
+either use qemu_plugin_import_function to import the function
+or just define it if the plugin is the same one that exports it.
+If importing a function, "_qpp" will be appended to the end of the
+function name.
 
 Signed-off-by: Elysia Witham <elysia.witham@ll.mit.edu>
 Signed-off-by: Andrew Fasano <fasano@mit.edu>
 ---
- include/qemu/qemu-plugin.h   | 10 ++++++++++
- plugins/api.c                | 21 +++++++++++++++++++++
- plugins/qemu-plugins.symbols |  1 +
- 3 files changed, 32 insertions(+)
+ include/qemu/plugin-qpp.h | 54 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+ create mode 100644 include/qemu/plugin-qpp.h
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 4221545015..a0516e9a0e 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -354,6 +354,16 @@ size_t qemu_plugin_tb_n_insns(const struct qemu_plugin_tb *tb);
-  */
- uint64_t qemu_plugin_tb_vaddr(const struct qemu_plugin_tb *tb);
- 
-+/**
-+ * qemu_plugin_import_function() - return pointer to a function in another
-+ * plugin
-+ * @plugin: plugin name
-+ * @function: function name
-+ *
-+ * Returns: NULL on failure, function pointer on success
-+ */
-+gpointer qemu_plugin_import_function(const char *plugin, const char *function);
+diff --git a/include/qemu/plugin-qpp.h b/include/qemu/plugin-qpp.h
+new file mode 100644
+index 0000000000..7aea98a14d
+--- /dev/null
++++ b/include/qemu/plugin-qpp.h
+@@ -0,0 +1,54 @@
++#ifndef PLUGIN_QPP_H
++#define PLUGIN_QPP_H
 +
- /**
-  * qemu_plugin_create_callback() - create a new cb with given name
-  * @id: unique plugin id
-diff --git a/plugins/api.c b/plugins/api.c
-index 1f7ea718dc..a998df6942 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -400,6 +400,27 @@ bool qemu_plugin_bool_parse(const char *name, const char *value, bool *ret)
-     return name && value && qapi_bool_parse(name, value, ret, NULL);
- }
- 
 +/*
-+ * QPP: inter-plugin function resolution and callbacks
++ * Facilities for "Plugin to plugin" (QPP) interactions between tcg plugins.
++ * These allows for direct function calls between loaded plugins. For more
++ * details see docs/devel/plugin.rst.
 + */
 +
-+gpointer qemu_plugin_import_function(const char *target_plugin,
-+                                     const char *function) {
-+    gpointer function_pointer = NULL;
-+    struct qemu_plugin_ctx *ctx = plugin_name_to_ctx_locked(target_plugin);
-+    if (ctx == NULL) {
-+        error_report("Unable to load plugin %s by name", target_plugin);
-+    } else if (g_module_symbol(ctx->handle, function,
-+               (gpointer *)&function_pointer)) {
-+        return function_pointer;
-+    } else {
-+      error_report("function: %s not found in plugin: %s", function,
-+                   target_plugin);
-+    }
-+    abort();
-+    return NULL;
-+}
 +
- bool qemu_plugin_create_callback(qemu_plugin_id_t id, const char *cb_name)
- {
-     struct qemu_plugin_ctx *ctx = plugin_id_to_ctx_locked(id);
-diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
-index b7013980cf..70a518839d 100644
---- a/plugins/qemu-plugins.symbols
-+++ b/plugins/qemu-plugins.symbols
-@@ -3,6 +3,7 @@
-   qemu_plugin_end_code;
-   qemu_plugin_entry_code;
-   qemu_plugin_get_hwaddr;
-+  qemu_plugin_import_function;
-   qemu_plugin_create_callback;
-   qemu_plugin_run_callback;
-   qemu_plugin_reg_callback;
++/*
++ * Internal macros
++ */
++#define _PLUGIN_STR(s) #s
++#define PLUGIN_STR(s) _PLUGIN_STR(s)
++#define _PLUGIN_CONCAT(x, y) x##y
++#define PLUGIN_CONCAT(x, y) _PLUGIN_CONCAT(x, y)
++#define _QPP_SETUP_NAME(fn) PLUGIN_CONCAT(_qpp_setup_, fn)
++
++/*
++ * A header file that defines an exported function should use
++ * the QPP_FUN_PROTOTYPE macro to create the necessary types.
++ *
++ * The generated function named after the output of QPP_SETUP_NAME should
++ * dynamically resolve a target function in another plugin or raise a fatal
++ * error on failure. This function has the constructor attribute so it will
++ * run immediately when the plugin shared object object is loaded.
++ *
++ * Note that the variable qemu_plugin_name must be set before this macro is
++ * used. In other words the plugin that includes a header file with these
++ * macros should set qemu_plugin_name before including such headers. When the
++ * generated function is run it compares the current plugin name to the name
++ * of the plugin that provides the target function.
++ *
++ * If the target plugin is not the current plugin it will resolve the function
++ * pointer from qemu_plugin_import_function, correctly cast it, and assign the
++ * function pointer "[function_name]_qpp" which can then be used by the plugin
++ * that imported it.
++ */
++
++#define QPP_FUN_PROTOTYPE(plugin_name, fn_ret, fn, args)                      \
++  fn_ret fn(args);                                                            \
++  typedef fn_ret(*PLUGIN_CONCAT(fn, _t))(args);                               \
++  fn##_t fn##_qpp;                                                            \
++  void _QPP_SETUP_NAME(fn) (void);                                            \
++                                                                              \
++  void __attribute__ ((constructor)) _QPP_SETUP_NAME(fn) (void) {             \
++    if (strcmp(qemu_plugin_name, #plugin_name) != 0) {                        \
++        fn##_qpp = (fn##_t)qemu_plugin_import_function(                       \
++                                                      PLUGIN_STR(plugin_name),\
++                                                      PLUGIN_STR(fn));        \
++    }                                                                         \
++  }
++#endif /* PLUGIN_QPP_H */
 -- 
 2.34.1
 
