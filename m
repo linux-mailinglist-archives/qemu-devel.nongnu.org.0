@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB33D64ABFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 01:09:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E297D64AC00
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 01:10:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4sqc-0005ox-6r; Mon, 12 Dec 2022 19:08:38 -0500
+	id 1p4ss9-0006f3-2F; Mon, 12 Dec 2022 19:10:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+16f8bca671676a5df7ce+7051+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p4sqY-0005op-VF
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 19:08:35 -0500
+ id 1p4ss4-0006em-Lw
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 19:10:08 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+16f8bca671676a5df7ce+7051+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p4sqX-000270-6K
- for qemu-devel@nongnu.org; Mon, 12 Dec 2022 19:08:34 -0500
+ id 1p4ss2-0002OI-Uo
+ for qemu-devel@nongnu.org; Mon, 12 Dec 2022 19:10:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=JL2wqc1Btx/kHyinmDF8f4cgEJ2vxTqs3abLb017yl4=; b=Qsf/44APxtE1qPvE7gf1np+QZ7
- QJ88ABDhz0dqNxAc9/e2YlU03/CowjY9IsEzyBtFShOY7gwcGEY3OBEvnfJMFfF+BjNZ46nZY+9Fz
- vgX6xiesaB0lWFWHn8Pu2dwu6hx9MtdjCCcmYp73TyEOA9fqP7XdGcYr0hiZYmfKsToAT5wXvilzB
- YBDAByfKRVGYZ9ykR7wUnLyk/HqVBRTn4QwaGssnhDsnxkx0ezdvcNvTmvtUKGGOhHtsFSL2U+bLF
- xu7jvQzXCACze3wRQENBwBizle218sah8hRUs1bP/qZLz7wdCF/jvG5XGodnmSXZR5VGShjZd1kJZ
- 81mA/fNQ==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
+ bh=v+rhAZtVN3yAymkbmeGEO9pJeqOWHzjjKidd8w38S5A=; b=uU+Vp+mUXbwv6z6Zxssx7CbTJc
+ AgPPDhoolU+MW0fjMebluRQ3JAkBiouBGg8tN0WpZxMHSe3Pxmdqyji3rrLSv2JAfKcb9BtFDrPSH
+ o0zTnL0Jl4l480L23+tqwoi6Y6MgfCq21soEiRJlTG4fxY5sS7k2TOeI9kGYSj9W/w0IS29dXwstM
+ g1X/hS3tfP/0mYwhFQfqNJGmg6s4TvWs2Zd7BG8oPhCS7oqJiWK6LGsXhP3ppIGP2pJ29pDYE/v+B
+ y1+6cNTEclqwC3RFnTPX93Cse2ecRf+qv/I+cBjnCKf98JoHMsp9bcPyyXs6ru58AiLxMS1S3/kst
+ Uxozdq/w==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p4sqd-00BdYa-HA; Tue, 13 Dec 2022 00:08:39 +0000
-Message-ID: <a15f81df678b330d467887b4a931111122740889.camel@infradead.org>
-Subject: Re: [RFC PATCH v2 13/22] i386/xen: implement HYPERVISOR_memory_op
+ id 1p4ss9-00BddY-OV; Tue, 13 Dec 2022 00:10:13 +0000
+Message-ID: <c4764d867d69644db9dd73c914c55fe664b1217a.camel@infradead.org>
+Subject: Re: [RFC PATCH v2 15/22] i386/xen: implement HYPERVISOR_vcpu_op
 From: David Woodhouse <dwmw2@infradead.org>
 To: Paul Durrant <xadimgnik@gmail.com>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
@@ -44,14 +44,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
  =?ISO-8859-1?Q?Benn=E9e?=
  <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
  Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>
-Date: Tue, 13 Dec 2022 00:08:30 +0000
-In-Reply-To: <e6b1859e-e006-a859-d598-7d75b6c33fd7@xen.org>
+Date: Tue, 13 Dec 2022 00:10:03 +0000
+In-Reply-To: <171b6a41-b35f-2c33-2887-46327cf62887@xen.org>
 References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-14-dwmw2@infradead.org>
- <e6b1859e-e006-a859-d598-7d75b6c33fd7@xen.org>
+ <20221209095612.689243-16-dwmw2@infradead.org>
+ <171b6a41-b35f-2c33-2887-46327cf62887@xen.org>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-3GC/SfWOCxpN3xQbnf93"
+ boundary="=-7QjOdC6o139OXQUk3vuw"
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -82,27 +82,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-3GC/SfWOCxpN3xQbnf93
+--=-7QjOdC6o139OXQUk3vuw
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2022-12-12 at 14:38 +0000, Paul Durrant wrote:
->=20
-> > +            switch (xatp.space) {
-> > +            case XENMAPSPACE_shared_info:
-> > +                break;
-> > +            default:
-> > +                err =3D -ENOSYS;
-> > +                break;
->=20
-> Don't you want to return false here?
+On Mon, 2022-12-12 at 14:51 +0000, Paul Durrant wrote:
+> Again, should this patch be deferred until we actually implement=20
+> something useful here? I.e. folding it into the subsequent patch? It's=
+=20
+> not like the boilerplate is massive.
 
-It doesn't make a lot of difference right now. Once we believe we've
-implemented everything a sane guest would use, then the distinction
-between {true, -ENOSYS} and just returning false actually starts to
-matter.
+That's how Joao did it; it seems sane enough to do bite-sized pieces so
+I didn't change it. As I've been through and rebased/reworked it all
+about ten times so far, it's been useful for it to be in small chunks.
 
---=-3GC/SfWOCxpN3xQbnf93
+
+--=-7QjOdC6o139OXQUk3vuw
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -194,26 +189,26 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjEzMDAwODMwWjAvBgkqhkiG9w0BCQQxIgQgpi3ZM9Pa
-9BRYJiREVSfBvnpAU/GSfL95B0e9/rCF+WAwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjEzMDAxMDAzWjAvBgkqhkiG9w0BCQQxIgQgmlJkSAee
+b3pF3YC5MYX8LC6uuz6x1wW63AaDo6W3T/Iwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCJwizy9moerWYBKmBfNNzF2LMMLMkkIwx2
-MHeZY6UQ/6vZCaXShaa2dbem/wki6ZISbgH6vDyP3TP3tCr//i11R4NMUPIvMyQ0BpRxSSLMToS6
-ABztjCj6VbaikMgHyhCJtaQuHNzXsL8mdFkGar3jcQ68gCIfTyVD6hpc3dncG00jhJstsijrV4Mj
-FyJe7EdqCB99DdL3A/7Yc+1iWOzvgs7K1R27sandw3NMqww7nO+04+Ciyli9ivzaDTx0dNZrgVBH
-7AF7SCC2q7c3v7mPiQ90AN0ClCaKBa3TLCzEe7p7TYF/cSsRUd0G7Q35mbXUWllWTZcQ+RXnGYkg
-4uN3zf/G+0IEubLgY8bWom2sfCM3sUIPuPavTDA7TvQLBLlH+UyaR0IK3E1gMoxkVDcKmIvBZ0qj
-B10ueimX9tO3zzkpZkJvArCAxHv+0XKHadk5SbVZ4djga68y9hvHmNOWMZlWdzplfijmKSgJlQVl
-xzMHQek7qmsX6ZJtZbrl9boXsMPwm3GGj3SeUHfASUA7VZ9Vrcf8bFXb5T6+JvrSQzf6rOF3gawi
-1cDKO+vLqKBtRMdR1jDxCp7W2+se7r6eUlKtJ/yaoiioV3asRIKgTGa+rCdvOZBfRvIYadAMTv7D
-3AGfF7VeOC4H+ZnAb3MUw5LUwqRv4/WQVKWZfCg07QAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAT1UkCT4TNXUdONJG408S7N6GNkmoyjQLn
+++dBNwUYoTQj5icLzLoo/TSdG1LtGTRlH6OFYF/gvmVYNZmOYrOc5Y+GGlUCYytogOOxMt2G0ve4
+vFeY8OrMDa9q47G41zLADYXdX9WSt0oyHuAN4t99GQi3R4u1Dbcbejgwgo6L6ucazpMf6JPiQYJ2
+50NgUaADOCJLdzRcuEKMaYyp7v+5pMMemgQkQrbImT75e45GbYklSzt6X19/H+BAKyrt5Pa7GDbr
+m8JoxVxTTmytF73o49O54rWG9p3xlSg2wHOgkDxZ3GsFcQf6IIczDVpSBNIgNM5CGBV13jpGtr/x
+HyswcWePxKjMa/LD2ilH0RqhKQeAvvDBISVGPV2axH57d+/JSrXT909MQvGyjwJt2H99LLKUp8nW
+ioY/cg7oPHLEM3C9AgMk+fkefstDciz4vL7b/ga59PlxgV9CVSfdKQhyd17I3wJT6PTLIfxkzRGU
+gZVDnpI4wyes4zo6ICxX4AcY+bOSAYL6SA1RM5/Dpc8cOoo9iqekZ5cSI/2NWEFwft4Vs8m+7d71
+QqSp1YoKJFgeE1OVsBSWix76+pL/apnulSDFfMXDjEa54zXr5y0jPs21CgXgGDHnOG+nhN4587ab
+HIgvGCzHoOoa7RBqybGPJTT1GF4YTQUsRthz70laCgAAAAAAAA==
 
 
---=-3GC/SfWOCxpN3xQbnf93--
+--=-7QjOdC6o139OXQUk3vuw--
 
 
