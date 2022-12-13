@@ -2,100 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BBA64B0ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 09:16:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9F764B0E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 09:14:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p50Ks-0001Ca-U7; Tue, 13 Dec 2022 03:08:22 -0500
+	id 1p50O5-0003mO-5J; Tue, 13 Dec 2022 03:11:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p50GL-0006lU-0k
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:03:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1p50Nr-0003jU-TT; Tue, 13 Dec 2022 03:11:32 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p50GI-0000hF-Ry
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:03:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670918617;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k9nW/2oeUTzZ2HAD5X7f+n944KatKI+CBQcZFmYdBPM=;
- b=Bw0NC09lax9Y23lrMQXIU3Hb51Vghu6iK33Yd/HX3v8FDe6ajRhpWfJopsKqJVDrl+zWQx
- q5SA3GuxPIgBUodH6erBUUKnuqFNa+Qphf/tD5Iie6Kb58r9vzA52l9FRelnqBPFhExIwI
- 1fqH8GpdKFdPjfVld+kUwSz/ictIcKA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-642-jSCOb_coMiGuBrTMb9VVgA-1; Tue, 13 Dec 2022 03:03:36 -0500
-X-MC-Unique: jSCOb_coMiGuBrTMb9VVgA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s1-20020adfa281000000b00241f7467851so2760483wra.17
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 00:03:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=k9nW/2oeUTzZ2HAD5X7f+n944KatKI+CBQcZFmYdBPM=;
- b=0YEIhuZei6TqHNuVhZWNnKe2K4tPVtOC3QqL5xpoyx2pbhtvwzDfBeK42UM9J5S3ep
- iSOB0/oCMREB0ZW59GiQA/NV3+stYPEQncXiXuTr3cbRoeIdWlNis+r6QxcA+tRUT34S
- PxPAtPFHeQQkgeGCiJmc4U2WPY+nxymxSAjtKxCP4NWJk1UXMOHNpQwR9aRgFI/Fcgch
- gyoYP2CSLPj61ohI7Ydc2+4tzqmLtdd7afMO60JXuRbbfS0ezwyl1PZdpVUjkgkRia+Z
- 9IbSacZ5YCfdmrBPA/7PddwPRPSoru3udg+oIZfdd7mfC4FdIFrlGMaAqdv6DDVvVciP
- 68Og==
-X-Gm-Message-State: ANoB5pk+3LDaVtwCe3pqS7vX7y3TUBM/POW0ScJBB83Px5HcQU3LmmuG
- ph9cV4tj/s2rAgjE7KbHQn8RVOvPOC5zap/2njsXz7/m0JLeGDYcOJuVLXLnimaI6STXRCjz/48
- uhoj+ANAL/DyqIVA=
-X-Received: by 2002:a5d:4402:0:b0:242:3353:26f5 with SMTP id
- z2-20020a5d4402000000b00242335326f5mr10710433wrq.9.1670918615337; 
- Tue, 13 Dec 2022 00:03:35 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6rjfACyfl6/G27IKqXFGH0X1KlaIP9LFupazRSmxbG+u4RK146olFFSo/AO5tT6p0TbxYkVg==
-X-Received: by 2002:a5d:4402:0:b0:242:3353:26f5 with SMTP id
- z2-20020a5d4402000000b00242335326f5mr10710411wrq.9.1670918615124; 
- Tue, 13 Dec 2022 00:03:35 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-131.web.vodafone.de.
- [109.43.178.131]) by smtp.gmail.com with ESMTPSA id
- c13-20020a5d4ccd000000b00228cbac7a25sm10695970wrt.64.2022.12.13.00.03.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Dec 2022 00:03:34 -0800 (PST)
-Message-ID: <8bc3e65d-3f1f-22e5-d56e-2b8bb1a57319@redhat.com>
-Date: Tue, 13 Dec 2022 09:03:32 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1p50Nm-0004NZ-9B; Tue, 13 Dec 2022 03:11:24 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id 9E3803200488;
+ Tue, 13 Dec 2022 03:11:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 13 Dec 2022 03:11:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1670919079; x=1671005479; bh=zB
+ Sq7WSlMeAII/wPemficpUEf7HRWN9y5C88cezhZSI=; b=ap6CtvNvGniWPEtWeP
+ dlWZQXY8Q3XH3ZMwHi60mJLEGnNXyJaYuQE4HYbcV2xqvwu8OcCnMN66H6OWo20h
+ rTyNLlw9MT723Qy0whnG747LtWbE/aEKEEhk2QQsazr9Cfd7FOhtHNrwkESA/Ily
+ JjrbQjWubOyD51sUXUNsXMVwmksZCAFTJGgsY3q5HXh+dyBLHxphlNaXg1n4aX0Z
+ BeI5UWc8AppDvZihpabSsFgZWJuS4V7AuG1trti9KjYEgR7ja8xK5gpJrzGMAdep
+ zx+6IJNp2Toe8F4ASgHmjkoA8DgKjWYLpTtDx/YdFERZCSYMAJAAuNhSZPY32H4D
+ 5Vow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1670919079; x=1671005479; bh=zBSq7WSlMeAII/wPemficpUEf7HR
+ WN9y5C88cezhZSI=; b=YnDM55oVA+gP16aUc4esDSvOwDJkojLSLK8fursxQDV+
+ nUO5+paFUplZHcRg9Sdu0F+eYLOc8g0kWITqX0cwQGTxtlIctOSc6516IZ9RJTA3
+ sXFxDt+Kh13QHovS+XH8PgkgkO7tIY5EVcbXqw8uw/BY0FwZkhwGLRqgitBP8esb
+ FIKd7A1cgtaUAmtaDHR8u0AJfrbxKoSv75tUDvo7bdbdbPriWcyr1tLGrFD88aYu
+ JmkYHyMgqmetDd7Uq5b6jERhFJ1g899t+OX6D0hyBbrtBy0hBi/8E2Bxm1LtCmaC
+ 3f+mMU/pJKlM2ngoZQrIQmurifCMQn4K+49MuxFvWg==
+X-ME-Sender: <xms:pjOYYwMzqjGpdnaWvoGCPOdtOFp2BEU_N_eLyXIc1l7XD6SClcQISQ>
+ <xme:pjOYY2-GBvieif37RKAijakLwDqfB_wNhTh2Je-l-k4th2CuFVGkypz3l1SVUrCBK
+ DAtnXTGaJWZ2JrW-Io>
+X-ME-Received: <xmr:pjOYY3RPQ58pTP9gbF_NNtE7BPbbs0aaTYcULq7Owe8WV__3LPMumBcoJY23i_flERE187zEP3zK0hElfy20-SGShlE1rg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdelgdduudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:pjOYY4t43mRbr1Fbik_o8Rnmvlhfx0BzGFaagYW34Gsv2I57CyXZSQ>
+ <xmx:pjOYY4f5bbnGiOANeDHDjYdVLygih7vdIG2-w-YcmxI9bPzbhM4S4A>
+ <xmx:pjOYY80kXV2Y5HJYtuDeP6ARQtO0QAsaYvnjwwmg2XgqOilIazHuPQ>
+ <xmx:pzOYYw53Jm0hBF3Lssm5-lzJLZi26lP2fZk5ic9elZon7sfOZrpSrg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 13 Dec 2022 03:11:17 -0500 (EST)
+Date: Tue, 13 Dec 2022 09:11:15 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Joel Granados <j.granados@samsung.com>
+Cc: k.jensen@samsung.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Subject: Re: [PATCH v4 0/2] Add OCP extended log to nvme QEMU
+Message-ID: <Y5gzo3UW/BILkCWQ@cormorant.local>
+References: <CGME20221125095151eucas1p19784fd6ca83c7c3721fdc06e02abc260@eucas1p1.samsung.com>
+ <20221125094808.1856024-1-j.granados@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RFC PATCH-for-8.0 06/10] hw/virtio: Cache access_is_big_endian
- value in VirtIODevice state
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Hanna Reitz <hreitz@redhat.com>
-References: <20221212230517.28872-1-philmd@linaro.org>
- <20221212230517.28872-7-philmd@linaro.org>
- <94c26d02-94d5-ec42-99bf-3fac080e567e@linaro.org>
- <8ed5aab1-402f-9d9b-c70e-5d8082d35d1e@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <8ed5aab1-402f-9d9b-c70e-5d8082d35d1e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ikUCVuM+FN5a1rg4"
+Content-Disposition: inline
+In-Reply-To: <20221125094808.1856024-1-j.granados@samsung.com>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,34 +100,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/12/2022 08.30, Philippe Mathieu-Daudé wrote:
-> On 13/12/22 01:14, Richard Henderson wrote:
->> On 12/12/22 17:05, Philippe Mathieu-Daudé wrote:
->>> The device endianness doesn't change during runtime.
->>
->> What are you talking about?  Of course it does.
-> 
-> The host CPU certainly does, but the virtio device doesn't... Does it?
-> 
-> This check only consider the device, not the CPU:
-> 
->      bool virtio_access_is_big_endian(VirtIODevice *vdev)
->      {
->      #if defined(LEGACY_VIRTIO_IS_BIENDIAN)
->          return virtio_is_big_endian(vdev);
->      #elif TARGET_BIG_ENDIAN
->          if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
->              /*Devices conforming to VIRTIO 1.0 or later are always LE.*/
->              return false;
->          }
->          return true;
 
-Well, this part here means that the endianness can indeed change on the 
-device side during runtime. Depending on whether VIRTIO_F_VERSION_1 is 
-negotiated or not, the device is little or big endian. Happens on s390x for 
-example - for legacy virtio, big endian is used, and for modern virtio, 
-little endian is used instead.
+--ikUCVuM+FN5a1rg4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Thomas
+On Nov 25 10:48, Joel Granados wrote:
+> The motivation and description are contained in the last patch in this se=
+t.
+> Will copy paste it here for convenience:
+>=20
+>     In order to evaluate write amplification factor (WAF) within the stor=
+age
+>     stack it is important to know the number of bytes written to the
+>     controller. The existing SMART log value of Data Units Written is too
+>     coarse (given in units of 500 Kb) and so we add the SMART health
+>     information extended from the OCP specification (given in units of by=
+tes).
+>=20
+>     To accommodate different vendor specific specifications like OCP, we =
+add a
+>     multiplexing function (nvme_vendor_specific_log) which will route to =
+the
+>     different log functions based on arguments and log ids. We only retur=
+n the
+>     OCP extended smart log when the command is 0xC0 and ocp has been turn=
+ed on
+>     in the args.
+>=20
+>     Though we add the whole nvme smart log extended structure, we only po=
+pulate
+>     the physical_media_units_{read,written}, log_page_version and
+>     log_page_uuid.
+>=20
+> V4 changes:
+> 1. Fixed cpu_to_le64 instead of cpu_to_le32
+> 2. Variable naming : uuid -> guid
+> 3. Changed how the guid value appears in the code:
+>    Used to be:
+>         smart_l.log_page_uuid[0] =3D 0xA4F2BFEA2810AFC5;
+>         smart_l.log_page_uuid[1] =3D 0xAFD514C97C6F4F9C;
+>=20
+>    Now is:
+>         static const uint8_t guid[16] =3D {
+>             0xC5, 0xAF, 0x10, 0x28, 0xEA, 0xBF, 0xF2, 0xA4,
+>             0x9C, 0x4F, 0x6F, 0x7C, 0xC9, 0x14, 0xD5, 0xAF
+>         };
+>=20
+>    This is different from what @klaus suggested because I want to keep it
+>    consistent to what nvme-cli currently implements. I think here we can
+>    either change both nvme-cli and this patch or leave the order of the
+>    bytes as they are here. This all depends on how you interpret the Spec
+>    (which is ambiguous)
+>=20
+> V3 changes:
+> 1. Corrected a bunch of checkpatch issues. Since I changed the first patch
+>    I did not include the reviewed-by.
+> 2. Included some documentation in nvme.rst for the ocp argument
+> 3. Squashed the ocp arg changes into the main patch.
+> 4. Fixed several comments and an open parenthesis
+> 5. Hex values are now in lower case.
+> 6. Change the reserved format to rsvd<BYTEOFFSET>
+> 7. Made sure that NvmeCtrl is the first arg in all the functions.
+> 8. Fixed comment on commit of main patch
+>=20
+> V2 changes:
+> 1. I moved the ocp parameter from the namespace to the subsystem as it is
+>    defined there in the OCP specification
+> 2. I now accumulate statistics from all namespaces and report them back on
+>    the extended log as per the spec.
+> 3. I removed the default case in the switch in nvme_vendor_specific_log as
+>    it does not have any special function.
+>=20
+> Joel Granados (2):
+>   nvme: Move adjustment of data_units{read,written}
+>   nvme: Add physical writes/reads from OCP log
+>=20
+>  docs/system/devices/nvme.rst |  7 ++++
+>  hw/nvme/ctrl.c               | 73 +++++++++++++++++++++++++++++++++---
+>  hw/nvme/nvme.h               |  1 +
+>  include/block/nvme.h         | 36 ++++++++++++++++++
+>  4 files changed, 111 insertions(+), 6 deletions(-)
+>=20
+> --=20
+> 2.30.2
+>=20
 
+LGTM,
+
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+
+--ikUCVuM+FN5a1rg4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmOYM6MACgkQTeGvMW1P
+DenM/gf/VrmATxbmuL5gAvXbQIiQWxYiy49KyErpPEgiAKOOCHcEwIX9qz2eax0L
+A5U4/DYUCNSGXRLSDZfEHIrQiPTpe5M6SSgIW91sEmkz6BsmTJpAl7v9ooNoCdTr
+RU2KWYl1z5rdq4ZjilN75/asMLVPU3whjGeg+7/JHnsq7jEaaJEhBla5N5Ed86HS
+UVb5PpdreRmDjNDB9vHSMrfqgSrcFnT6fvbPUJQlSeEly2ZTzI4pE+IGCyt0UJmf
+tnWr9qQAwm3+LcL8DXpirEpRdyS+zzoef6xrBzFcGJyDSj0CgjHgvAlOWTxQy8bp
+QYW2iiyz+hbRTqoLKYXqtUh2lvjH1w==
+=LI69
+-----END PGP SIGNATURE-----
+
+--ikUCVuM+FN5a1rg4--
 
