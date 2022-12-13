@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75ED264B3FD
+	by mail.lfdr.de (Postfix) with ESMTPS id 9302E64B3FF
 	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 12:18:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p53I6-0004NR-3T; Tue, 13 Dec 2022 06:17:42 -0500
+	id 1p53I7-0004OV-6t; Tue, 13 Dec 2022 06:17:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p53Hx-0004IY-N4
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 06:17:35 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p53I4-0004MP-4v
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 06:17:40 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p53Hv-0002NO-Os
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 06:17:33 -0500
-Received: by mail-wr1-x432.google.com with SMTP id h12so15213825wrv.10
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 03:17:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p53I1-0002Nh-54
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 06:17:39 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so7607713wmb.2
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 03:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=x1gEyf5jfXi/hGZYXJ0kTY5g2BKzQury1FGOK1zxRFg=;
- b=c3sQtBSSwanIJwTejihMNVqt35rObZK90UfBSITFbirUyZIBRxvQA9JdQfz92Arjzy
- HZhV7bdFPmaMHy2wByPMlsrhFjiPnVmL+iICjRvIOrOfGIrFckzPDFuW14XYhJYp02E5
- ofq45oY6KMtLan8MEdDIZf48WwhgEOvgX+9j0iR7MMYIRQzliHUucHRqbAo+0vruqJHZ
- L1RJQ5BDRCJpMTZifvr4yGjHOIpIPYhK26plvp93faNFisrA8TcykR2aiQcta56v3b4r
- DomT6F9swhd+kosnCWlRfyhCUKSx6yF1mfgviHhSZ6Jp8MSbB9BDpx2bkFKh12oWLNxU
- 7/qg==
+ bh=20qiCSyBuRvA2agy+mA00cXv9PUs69i2cg2fmTzeXmk=;
+ b=qCwRXET8S+LYlnlzSCVTuDEURl7xqRahEkmfauAGjOttw+Pq8bVE9J0ndXfvyN84wj
+ cUyAYjk+HLpLBmlpODzywqNMkALe4CIHa07rOJ47a9D8oGGKR7gUrp9ksuVICSeKqV+0
+ u423UfYZ1YsGdqhvKb8yD2PJPNstJKV2xQlrcTCj/xy8d27E283NRhQokFbVdJnaN/ve
+ W0cYVv0+JtIBM0RtyePH2mEhBV9TAqlHrTITyPH4HMDO+jx3YmK04Tjg7ipkUY/Em86m
+ WtqizH/RAmQDZeI3Om+0ioMbhUxqiRpcYvnldpNSs7Mh7E9mLdQ0QvapBqwpaeOin8tL
+ 1MPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=x1gEyf5jfXi/hGZYXJ0kTY5g2BKzQury1FGOK1zxRFg=;
- b=uxhsZdM41uYSrUZLSwHEjmmrS1wtEa47Tt3CdAs7V7YXFvm3YdSXHYn6DefrhoiBvG
- SoAHPUh3DrDVrqaO03TbTC0IGqibPZbCd1ul52i+7gC8ha+Kq6/tF2nKB/W5TuasuFkX
- isPSglq+CX9N7AcvcujCB726oMhH0Okxe9S/9o9+IUWPRVjep3SjLTHcc8gkdPNF0KwG
- 8K1XIBjKQbVYSq3dQ0Tk1OSWlaUeUu4RxXpW2Ia5f08lV+nShJSi7LFfwp4umZlRHlcY
- 3FoGdvUPp2PTrKtuZ9THgQ+ou/yDT4iOZ3e1WazK7xzmP7ANnwl+mh9j+YUgF6nf/7T/
- B1Sw==
-X-Gm-Message-State: ANoB5pm546Vih9sG0VtfdBwl6l0mck9ARESG1k0J9BWqpPB0UwJ8BpXe
- 3kHgDCkvMA/hp/h8CwmrIG/jeo5MDG5RSNblGJk=
-X-Google-Smtp-Source: AA0mqf6lMzw5nZF8idH9nNOXIO+3ysD1CyFAX0yBN0Wy6Ke9OVUFGCm+YM4gQPifUlfP3NfnLVxRGA==
-X-Received: by 2002:adf:e74f:0:b0:242:865b:903a with SMTP id
- c15-20020adfe74f000000b00242865b903amr13037781wrn.17.1670930250284; 
- Tue, 13 Dec 2022 03:17:30 -0800 (PST)
+ bh=20qiCSyBuRvA2agy+mA00cXv9PUs69i2cg2fmTzeXmk=;
+ b=EmeaK3igtIm4dQtFQqjrzijsz9SFmeOjhML0iAhQemz8m6uUySmyKg8tFZ/t6rg3ua
+ mURaQvv55fkMyK9CxTXKX1xXPkvAXPEf13eQevxrG3SGqupaGVQ2QYy1xoxvN70zXNjN
+ KO1hZmN9+RgxmTnBt0cxuFfbAbtseya7QOCyZTcpM9dvwX9U9Tnzbhj4y/nv5qHy8H9M
+ LvIMEiqK8k3ZyHzBHsP4sk3l45ZVB/34o/LE5L92d+WJtw8de8U+ETQsuNk99vAR2tE2
+ lhMh64GqA5x4whyxuZA6sF74hHNBsrnAM84pPOps2BvfISCfij+3l+Dkp2z5cP/xnCft
+ 12Gg==
+X-Gm-Message-State: ANoB5pnjqwpckTojjhhFU1xc4GyEWbaNo4mZGRuIuXBUkhzv7//mkmFN
+ nHSiEpjIw5mMPYtfpUUHtGT3HW0xzgcobCtucyg=
+X-Google-Smtp-Source: AA0mqf5HJIsbwZPuiuipIyV8d3Bfsk733WqTKcJHyk4zW8fo9OXfXyV7QKb9nD7OnHo6JCo3m7kbog==
+X-Received: by 2002:a05:600c:3514:b0:3cf:a83c:184a with SMTP id
+ h20-20020a05600c351400b003cfa83c184amr15091197wmq.24.1670930255541; 
+ Tue, 13 Dec 2022 03:17:35 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- n14-20020a05600c500e00b003cf774c31a0sm12787892wmr.16.2022.12.13.03.17.29
+ az25-20020a05600c601900b003cf9bf5208esm13122809wmb.19.2022.12.13.03.17.34
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 13 Dec 2022 03:17:29 -0800 (PST)
+ Tue, 13 Dec 2022 03:17:35 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org, Jonah Palmer <jonah.palmer@oracle.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Greg Kurz <groug@kaod.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH-for-8.0 v2 4/6] hw/virtio: Constify qmp_virtio_feature_map_t[]
-Date: Tue, 13 Dec 2022 12:17:05 +0100
-Message-Id: <20221213111707.34921-5-philmd@linaro.org>
+Subject: [PATCH-for-8.0 v2 5/6] hw/virtio: Extract config read/write accessors
+ to virtio-config-io.c
+Date: Tue, 13 Dec 2022 12:17:06 +0100
+Message-Id: <20221213111707.34921-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221213111707.34921-1-philmd@linaro.org>
 References: <20221213111707.34921-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,170 +93,446 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These arrays are only accessed read-only, move them to .rodata.
+These config helpers use the target-dependent LD/ST API.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/virtio/virtio.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ hw/virtio/meson.build        |   1 +
+ hw/virtio/virtio-config-io.c | 204 +++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio.c           | 190 --------------------------------
+ 3 files changed, 205 insertions(+), 190 deletions(-)
+ create mode 100644 hw/virtio/virtio-config-io.c
 
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index 23a980efaa..4a3b00d3bf 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -5,6 +5,7 @@ softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'
+ 
+ specific_virtio_ss = ss.source_set()
+ specific_virtio_ss.add(files('virtio.c'))
++specific_virtio_ss.add(files('virtio-config-io.c'))
+ 
+ if have_vhost
+   specific_virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
+diff --git a/hw/virtio/virtio-config-io.c b/hw/virtio/virtio-config-io.c
+new file mode 100644
+index 0000000000..ad78e0b9bc
+--- /dev/null
++++ b/hw/virtio/virtio-config-io.c
+@@ -0,0 +1,204 @@
++/*
++ * Virtio Support
++ *
++ * Copyright IBM, Corp. 2007
++ *
++ * Authors:
++ *  Anthony Liguori   <aliguori@us.ibm.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "hw/virtio/virtio.h"
++#include "cpu.h"
++
++uint32_t virtio_config_readb(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint8_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = ldub_p(vdev->config + addr);
++    return val;
++}
++
++uint32_t virtio_config_readw(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint16_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = lduw_p(vdev->config + addr);
++    return val;
++}
++
++uint32_t virtio_config_readl(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint32_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = ldl_p(vdev->config + addr);
++    return val;
++}
++
++void virtio_config_writeb(VirtIODevice *vdev, uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint8_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stb_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++void virtio_config_writew(VirtIODevice *vdev, uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint16_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stw_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++void virtio_config_writel(VirtIODevice *vdev, uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint32_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stl_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++uint32_t virtio_config_modern_readb(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint8_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = ldub_p(vdev->config + addr);
++    return val;
++}
++
++uint32_t virtio_config_modern_readw(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint16_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = lduw_le_p(vdev->config + addr);
++    return val;
++}
++
++uint32_t virtio_config_modern_readl(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint32_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = ldl_le_p(vdev->config + addr);
++    return val;
++}
++
++void virtio_config_modern_writeb(VirtIODevice *vdev,
++                                 uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint8_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stb_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++void virtio_config_modern_writew(VirtIODevice *vdev,
++                                 uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint16_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stw_le_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++void virtio_config_modern_writel(VirtIODevice *vdev,
++                                 uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint32_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stl_le_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index b35480be8f..f2298bb437 100644
+index f2298bb437..01d043b3c6 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -80,7 +80,7 @@ enum VhostUserProtocolFeature {
- };
+@@ -18,7 +18,6 @@
+ #include "qapi/qapi-commands-qom.h"
+ #include "qapi/qapi-visit-virtio.h"
+ #include "qapi/qmp/qjson.h"
+-#include "cpu.h"
+ #include "trace.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+@@ -2580,195 +2579,6 @@ void virtio_reset(void *opaque)
+     }
+ }
  
- /* Virtio transport features mapping */
--static qmp_virtio_feature_map_t virtio_transport_map[] = {
-+static const qmp_virtio_feature_map_t virtio_transport_map[] = {
-     /* Virtio device transport features */
- #ifndef VIRTIO_CONFIG_NO_LEGACY
-     FEATURE_ENTRY(VIRTIO_F_NOTIFY_ON_EMPTY, \
-@@ -111,7 +111,7 @@ static qmp_virtio_feature_map_t virtio_transport_map[] = {
- };
- 
- /* Vhost-user protocol features mapping */
--static qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
-+static const qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
-     FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_MQ, \
-             "VHOST_USER_PROTOCOL_F_MQ: Multiqueue protocol supported"),
-     FEATURE_ENTRY(VHOST_USER_PROTOCOL_F_LOG_SHMFD, \
-@@ -161,7 +161,7 @@ static qmp_virtio_feature_map_t vhost_user_protocol_map[] = {
- };
- 
- /* virtio device configuration statuses */
--static qmp_virtio_feature_map_t virtio_config_status_map[] = {
-+static const qmp_virtio_feature_map_t virtio_config_status_map[] = {
-     FEATURE_ENTRY(VIRTIO_CONFIG_S_DRIVER_OK, \
-             "VIRTIO_CONFIG_S_DRIVER_OK: Driver setup and ready"),
-     FEATURE_ENTRY(VIRTIO_CONFIG_S_FEATURES_OK, \
-@@ -180,7 +180,7 @@ static qmp_virtio_feature_map_t virtio_config_status_map[] = {
- 
- /* virtio-blk features mapping */
- #ifdef CONFIG_VIRTIO_BLK
--static qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
-     FEATURE_ENTRY(VIRTIO_BLK_F_SIZE_MAX, \
-             "VIRTIO_BLK_F_SIZE_MAX: Max segment size is size_max"),
-     FEATURE_ENTRY(VIRTIO_BLK_F_SEG_MAX, \
-@@ -221,7 +221,7 @@ static qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
- 
- /* virtio-serial features mapping */
- #ifdef CONFIG_VIRTIO_SERIAL
--static qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
-     FEATURE_ENTRY(VIRTIO_CONSOLE_F_SIZE, \
-             "VIRTIO_CONSOLE_F_SIZE: Host providing console size"),
-     FEATURE_ENTRY(VIRTIO_CONSOLE_F_MULTIPORT, \
-@@ -234,7 +234,7 @@ static qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
- 
- /* virtio-gpu features mapping */
- #ifdef CONFIG_VIRTIO_GPU
--static qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
-     FEATURE_ENTRY(VIRTIO_GPU_F_VIRGL, \
-             "VIRTIO_GPU_F_VIRGL: Virgl 3D mode supported"),
-     FEATURE_ENTRY(VIRTIO_GPU_F_EDID, \
-@@ -257,7 +257,7 @@ static qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
- 
- /* virtio-input features mapping */
- #ifdef CONFIG_VIRTIO_INPUT
--static qmp_virtio_feature_map_t virtio_input_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_input_feature_map[] = {
-     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
-             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
-     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
-@@ -269,7 +269,7 @@ static qmp_virtio_feature_map_t virtio_input_feature_map[] = {
- 
- /* virtio-net features mapping */
- #ifdef CONFIG_VIRTIO_NET
--static qmp_virtio_feature_map_t virtio_net_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_net_feature_map[] = {
-     FEATURE_ENTRY(VIRTIO_NET_F_CSUM, \
-             "VIRTIO_NET_F_CSUM: Device handling packets with partial checksum "
-             "supported"),
-@@ -349,7 +349,7 @@ static qmp_virtio_feature_map_t virtio_net_feature_map[] = {
- 
- /* virtio-scsi features mapping */
- #ifdef CONFIG_VIRTIO_SCSI
--static qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
-     FEATURE_ENTRY(VIRTIO_SCSI_F_INOUT, \
-             "VIRTIO_SCSI_F_INOUT: Requests including read and writable data "
-             "buffers suppoted"),
-@@ -372,7 +372,7 @@ static qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
- 
- /* virtio/vhost-user-fs features mapping */
- #ifdef CONFIG_VHOST_USER_FS
--static qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
-     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
-             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
-     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
-@@ -384,7 +384,7 @@ static qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
- 
- /* virtio/vhost-user-i2c features mapping */
- #ifdef CONFIG_VIRTIO_I2C_ADAPTER
--static qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
-     FEATURE_ENTRY(VIRTIO_I2C_F_ZERO_LENGTH_REQUEST, \
-             "VIRTIO_I2C_F_ZERO_LEGNTH_REQUEST: Zero length requests supported"),
-     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
-@@ -398,7 +398,7 @@ static qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
- 
- /* virtio/vhost-vsock features mapping */
- #ifdef CONFIG_VHOST_VSOCK
--static qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
-     FEATURE_ENTRY(VIRTIO_VSOCK_F_SEQPACKET, \
-             "VIRTIO_VSOCK_F_SEQPACKET: SOCK_SEQPACKET supported"),
-     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
-@@ -412,7 +412,7 @@ static qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
- 
- /* virtio-balloon features mapping */
- #ifdef CONFIG_VIRTIO_BALLOON
--static qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
-     FEATURE_ENTRY(VIRTIO_BALLOON_F_MUST_TELL_HOST, \
-             "VIRTIO_BALLOON_F_MUST_TELL_HOST: Tell host before reclaiming "
-             "pages"),
-@@ -432,7 +432,7 @@ static qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
- 
- /* virtio-crypto features mapping */
- #ifdef CONFIG_VIRTIO_CRYPTO
--static qmp_virtio_feature_map_t virtio_crypto_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_crypto_feature_map[] = {
-     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
-             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
-     { -1, "" }
-@@ -441,7 +441,7 @@ static qmp_virtio_feature_map_t virtio_crypto_feature_map[] = {
- 
- /* virtio-iommu features mapping */
- #ifdef CONFIG_VIRTIO_IOMMU
--static qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
-     FEATURE_ENTRY(VIRTIO_IOMMU_F_INPUT_RANGE, \
-             "VIRTIO_IOMMU_F_INPUT_RANGE: Range of available virtual addrs. "
-             "available"),
-@@ -466,7 +466,7 @@ static qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
- 
- /* virtio-mem features mapping */
- #ifdef CONFIG_VIRTIO_MEM
--static qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
- #ifndef CONFIG_ACPI
-     FEATURE_ENTRY(VIRTIO_MEM_F_ACPI_PXM, \
-             "VIRTIO_MEM_F_ACPI_PXM: node_id is an ACPI PXM and is valid"),
-@@ -480,7 +480,7 @@ static qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
- 
- /* virtio-rng features mapping */
- #ifdef CONFIG_VIRTIO_RNG
--static qmp_virtio_feature_map_t virtio_rng_feature_map[] = {
-+static const qmp_virtio_feature_map_t virtio_rng_feature_map[] = {
-     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
-             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
-     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+-uint32_t virtio_config_readb(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint8_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = ldub_p(vdev->config + addr);
+-    return val;
+-}
+-
+-uint32_t virtio_config_readw(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint16_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = lduw_p(vdev->config + addr);
+-    return val;
+-}
+-
+-uint32_t virtio_config_readl(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint32_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = ldl_p(vdev->config + addr);
+-    return val;
+-}
+-
+-void virtio_config_writeb(VirtIODevice *vdev, uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint8_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stb_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-void virtio_config_writew(VirtIODevice *vdev, uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint16_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stw_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-void virtio_config_writel(VirtIODevice *vdev, uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint32_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stl_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-uint32_t virtio_config_modern_readb(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint8_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = ldub_p(vdev->config + addr);
+-    return val;
+-}
+-
+-uint32_t virtio_config_modern_readw(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint16_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = lduw_le_p(vdev->config + addr);
+-    return val;
+-}
+-
+-uint32_t virtio_config_modern_readl(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint32_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = ldl_le_p(vdev->config + addr);
+-    return val;
+-}
+-
+-void virtio_config_modern_writeb(VirtIODevice *vdev,
+-                                 uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint8_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stb_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-void virtio_config_modern_writew(VirtIODevice *vdev,
+-                                 uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint16_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stw_le_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-void virtio_config_modern_writel(VirtIODevice *vdev,
+-                                 uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint32_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stl_le_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+ void virtio_queue_set_addr(VirtIODevice *vdev, int n, hwaddr addr)
+ {
+     if (!vdev->vq[n].vring.num) {
 -- 
 2.38.1
 
