@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0F364B511
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 13:22:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0770364B539
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 13:35:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p54II-0004Ef-T3; Tue, 13 Dec 2022 07:21:58 -0500
+	id 1p54U8-0000EE-0r; Tue, 13 Dec 2022 07:34:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p54Hr-0004BJ-Rq
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:21:38 -0500
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p54Hn-0001SA-8V
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:21:29 -0500
-Received: by mail-qv1-xf2f.google.com with SMTP id a17so10312649qvt.9
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 04:21:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:from:references
- :user-agent:in-reply-to:from:to:cc:subject:date:message-id:reply-to;
- bh=Wu0p79YXvUNv4LELcT0FlPOlP4fbtXH5LQ5QxzILN0g=;
- b=G9BU34XIE9DI27Fk6x7PlbEhKd9DB+/e8CM4GWHSbIigEV4XudyQL2GyrGZ0xSjz/V
- KCerv0iXF60eYlw0up8sE0icz9ku+QnGwMONGebpv6ZERnXQyIhaG4e10F2B68nOMPtX
- avapHEd0R1TWRkXAoPhizEh0h7/txhJ10nc44burzaOyJ6tx2EWMqDJflA8Ck8X12ZWq
- Zazsy3lqt2mYpJO1zjBSQeb6wNGX/izUDk0+jwS7WDtxR/H11FfDPdviNjFUystNTUYR
- 9gm4/hVUuwKt8iYt8YZE3nUL94H4lkylJ5oSL0BFZDfCfUyNtPe1wVJBgFjB2elWaj+8
- aqqQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1p54U5-0000Cz-Sp
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:34:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1p54U4-0005cX-0C
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:34:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670934846;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z8WvYzu3gzZiTKPxX+Kvp5C2SMDi7OUv8uTosXq+iN8=;
+ b=PJWZYU6VSeZUYVYOSccVMDDLwW0tj0EHdjCCahKfyCvLHQs6pPyshn7ThG7UksXSu1cj3C
+ 4Leifn4G0lnSX+yRnzaT0r5YEEVxRMfzCjvCmntdHdezVvmg/BcZnnLy4dgbkaG1ozXQ5m
+ pdCpF1BSUcoFgbJwFmzH490ByuIWRfs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-329-xOA6L78lM6qeEgsHvpLFfA-1; Tue, 13 Dec 2022 07:34:05 -0500
+X-MC-Unique: xOA6L78lM6qeEgsHvpLFfA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ e14-20020a056402190e00b0047005d4c3e9so2884686edz.2
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 04:34:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:mime-version:from:references
- :user-agent:in-reply-to:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Wu0p79YXvUNv4LELcT0FlPOlP4fbtXH5LQ5QxzILN0g=;
- b=7vYijQqkbFZIKKkY6XR/CHN6LAagwhkJhhEj9a5SBQIJCPtgOZoK8UVSi8Su8JpYzL
- tO9mk3F/+zxC/L7wwf7TJjyvBCcj5LGz0iGcobkzvW8nDo+zC8LGjg8RReKBddcbUyIh
- 4910TNPQfWF4H1tJKc3tak0RqPUsUIMvOoWJxLzCKMiR4/vMYJBJ8EvgVPtVeHOW3XJ3
- iRa6RvMJbm+haamRm0Cut3y+w3ZRMzM/DtW3J8rz+e7Llze9UkWk7nFMgPbOvaoynLFw
- FTSoeXu+Ompi+Dl/b6O5//lJafwcULxFBk0Ubhz4Rk69X8Kly8wFMMPT4Ctl6u+CZotn
- u8WQ==
-X-Gm-Message-State: ANoB5pn6C2U60T9rouTezMcopNcuStoe/s43RN1G++RS3bHNgCuT+YCl
- ngrIFTp7ePLSfbpTQ8lNvXaHLKTJASa0bkd07+zPJg==
-X-Google-Smtp-Source: AA0mqf7ogLqBJR4KGDeOjykiq0ITJd65W1k//bkxD6O4XfCmNAfigDaYmVqZXxjOfMjSNS0tcwhiytrkPDk+0OJox50=
-X-Received: by 2002:ad4:57a9:0:b0:4bb:699e:4cec with SMTP id
- g9-20020ad457a9000000b004bb699e4cecmr69944911qvx.6.1670934085429; Tue, 13 Dec
- 2022 04:21:25 -0800 (PST)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Tue, 13 Dec 2022 04:21:25 -0800
-In-Reply-To: <Y5eMfZci3AazVOFl@x1n>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-References: <20221212164942.3614611-1-xuchuangxclwt@bytedance.com>
- <20221212164942.3614611-3-xuchuangxclwt@bytedance.com> <Y5eMfZci3AazVOFl@x1n>
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-Mime-Version: 1.0
-Date: Tue, 13 Dec 2022 04:21:25 -0800
-Message-ID: <CALophutKKqk5nDK99to-eQDK9UDxpYcwWsFeXWRGDZiZSfGSEw@mail.gmail.com>
-Subject: Re: [RFC v2 2/3] virtio: support delay of checks in virtio_load()
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com, 
- zhouyibo@bytedance.com, Paolo Bonzini <pbonzini@redhat.com>, david@redhat.com, 
- philmd@linaro.org, mst@redhat.com
-Content-Type: multipart/alternative; boundary="0000000000009b0adb05efb4a8db"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qv1-xf2f.google.com
-X-Spam_score_int: 29
-X-Spam_score: 2.9
-X-Spam_bar: ++
-X-Spam_report: (2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FORGED_MUA_MOZILLA=2.309, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999,
- HK_RANDOM_FROM=0.999, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Z8WvYzu3gzZiTKPxX+Kvp5C2SMDi7OUv8uTosXq+iN8=;
+ b=c0hgGbXJL3Xyt6hmi6WChTDNUeKJkc7/69bHLM9egfEAaJ4Tdti/HIUdnZ4+yz9QCL
+ 64eQndCMJaCQoB1PEPtymOUMg7JZg7zGZgHdGbXQHD3fQRdcmZVsXG3hpkq+2iuaT794
+ IfpQ5CaK3cH8StQsPpPslxCdt5j3WKvAEj+8jyvP11BbLbbvWDWA4Cx3Rt4U+YcAgnY9
+ eeatOOhOBIqeADD6mjOwizDMDbpordBjeF68R0Xtsrat/wwEXjxPMHJqtEc/bzfKQcba
+ w4uOM9cLTlx2YXIBI9af6YsjmXBR/PO16zGKGf6+GFVPd8VPiyl3uMyZr30leK4LIB8K
+ gmFA==
+X-Gm-Message-State: ANoB5pnGY3I2+NPt5pRDn7B3wLLJSsvJqHybh1g3FvvFMwqLMojBbO4E
+ 0TCZ4yQgFA5aM0wzi11b6IDr4jdlc42wzUlaLJJSjBS3rH6yrr5bGI0fghM36zzsTiloBJXb/oM
+ atuYhKZ3ZncjDY1w=
+X-Received: by 2002:a17:907:88cd:b0:7c1:932c:96d7 with SMTP id
+ rq13-20020a17090788cd00b007c1932c96d7mr1214795ejc.58.1670934843075; 
+ Tue, 13 Dec 2022 04:34:03 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4p/RxvCm0YkEOqNVE8kZIJscmDfiwBGaIXAOZWoGYgLvFKSKdx1XZg4yN54m0RQNuqqFW8Ww==
+X-Received: by 2002:a17:907:88cd:b0:7c1:932c:96d7 with SMTP id
+ rq13-20020a17090788cd00b007c1932c96d7mr1214772ejc.58.1670934842854; 
+ Tue, 13 Dec 2022 04:34:02 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ c2-20020a17090618a200b0078ddb518a90sm4417633ejf.223.2022.12.13.04.34.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Dec 2022 04:34:02 -0800 (PST)
+Date: Tue, 13 Dec 2022 13:34:01 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha
+ <ani@anisinha.ca>
+Subject: Re: [PATCH-for-8.0] hw/acpi: Rename tco.c -> ich9_tco.c
+Message-ID: <20221213133401.44eb82d8@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20221212105115.2113-1-philmd@linaro.org>
+References: <20221212105115.2113-1-philmd@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,113 +103,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000009b0adb05efb4a8db
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, 12 Dec 2022 11:51:15 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
 
-On 2022/12/13 =E4=B8=8A=E5=8D=884:18, Peter Xu wrote:
+> tco.c contains the ICH9 implementation of its "total cost
+> of ownership". Rename it accordingly to emphasis this is
+> a part of the ICH9 model.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-On Tue, Dec 13, 2022 at 12:49:41AM +0800, Chuang Xu wrote:
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
-+bool migration_enable_load_check_delay;
+> ---
+> Based-on: <20221207231205.1106381-1-shentey@gmail.com>
+>           "Clean up dependencies of ACPI controllers"
+> ---
+>  MAINTAINERS                           | 4 ++--
+>  hw/acpi/ich9.c                        | 2 +-
+>  hw/acpi/{tco.c =3D> ich9_tco.c}         | 2 +-
+>  hw/acpi/meson.build                   | 2 +-
+>  include/hw/acpi/ich9.h                | 2 +-
+>  include/hw/acpi/{tco.h =3D> ich9_tco.h} | 2 +-
+>  tests/qtest/tco-test.c                | 2 +-
+>  7 files changed, 8 insertions(+), 8 deletions(-)
+>  rename hw/acpi/{tco.c =3D> ich9_tco.c} (99%)
+>  rename include/hw/acpi/{tco.h =3D> ich9_tco.h} (97%)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6966490c94..35bde4a97e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1644,8 +1644,8 @@ F: hw/isa/piix3.c
+>  F: hw/isa/lpc_ich9.c
+>  F: hw/i2c/smbus_ich9.c
+>  F: hw/acpi/piix4.c
+> -F: hw/acpi/ich9.c
+> -F: include/hw/acpi/ich9.h
+> +F: hw/acpi/ich9*.c
+> +F: include/hw/acpi/ich9*.h
+>  F: include/hw/southbridge/piix.h
+>  F: hw/misc/sga.c
+>  F: hw/isa/apm.c
+> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> index bd9bbade70..b10afa372a 100644
+> --- a/hw/acpi/ich9.c
+> +++ b/hw/acpi/ich9.c
+> @@ -34,7 +34,7 @@
+>  #include "sysemu/reset.h"
+>  #include "sysemu/runstate.h"
+>  #include "hw/acpi/acpi.h"
+> -#include "hw/acpi/tco.h"
+> +#include "hw/acpi/ich9_tco.h"
+> =20
+>  #include "hw/i386/ich9.h"
+>  #include "hw/mem/pc-dimm.h"
+> diff --git a/hw/acpi/tco.c b/hw/acpi/ich9_tco.c
+> similarity index 99%
+> rename from hw/acpi/tco.c
+> rename to hw/acpi/ich9_tco.c
+> index 4783721e4e..b68348707b 100644
+> --- a/hw/acpi/tco.c
+> +++ b/hw/acpi/ich9_tco.c
+> @@ -12,7 +12,7 @@
+>  #include "hw/i386/ich9.h"
+>  #include "migration/vmstate.h"
+> =20
+> -#include "hw/acpi/tco.h"
+> +#include "hw/acpi/ich9_tco.h"
+>  #include "trace.h"
+> =20
+>  enum {
+> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+> index cfae2f58f6..30054a8cdc 100644
+> --- a/hw/acpi/meson.build
+> +++ b/hw/acpi/meson.build
+> @@ -22,7 +22,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_PIIX4', if_true: files('=
+piix4.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_true: files('pcihp.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_false: files('acpi-pci-hotplug=
+-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_VIOT', if_true: files('viot.c'))
+> -acpi_ss.add(when: 'CONFIG_ACPI_ICH9', if_true: files('ich9.c', 'tco.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_ICH9', if_true: files('ich9.c', 'ich9_tco=
+.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_ERST', if_true: files('erst.c'))
+>  acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: fil=
+es('ipmi-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
+> diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
+> index 7ca92843c6..d41866a229 100644
+> --- a/include/hw/acpi/ich9.h
+> +++ b/include/hw/acpi/ich9.h
+> @@ -27,7 +27,7 @@
+>  #include "hw/acpi/pcihp.h"
+>  #include "hw/acpi/memory_hotplug.h"
+>  #include "hw/acpi/acpi_dev_interface.h"
+> -#include "hw/acpi/tco.h"
+> +#include "hw/acpi/ich9_tco.h"
+> =20
+>  #define ACPI_PCIHP_ADDR_ICH9 0x0cc0
+> =20
+> diff --git a/include/hw/acpi/tco.h b/include/hw/acpi/ich9_tco.h
+> similarity index 97%
+> rename from include/hw/acpi/tco.h
+> rename to include/hw/acpi/ich9_tco.h
+> index a1e0da8213..c4393caee0 100644
+> --- a/include/hw/acpi/tco.h
+> +++ b/include/hw/acpi/ich9_tco.h
+> @@ -1,5 +1,5 @@
+>  /*
+> - * QEMU ICH9 TCO emulation
+> + * QEMU ICH9 TCO emulation (total cost of ownership)
+>   *
+>   * Copyright (c) 2015 Paulo Alcantara <pcacjr@zytor.com>
+>   *
+> diff --git a/tests/qtest/tco-test.c b/tests/qtest/tco-test.c
+> index 254f735370..d7b61ccfa5 100644
+> --- a/tests/qtest/tco-test.c
+> +++ b/tests/qtest/tco-test.c
+> @@ -16,7 +16,7 @@
+>  #include "hw/pci/pci_regs.h"
+>  #include "hw/i386/ich9.h"
+>  #include "hw/acpi/ich9.h"
+> -#include "hw/acpi/tco.h"
+> +#include "hw/acpi/ich9_tco.h"
+> =20
+>  #define RCBA_BASE_ADDR    0xfed1c000
+>  #define PM_IO_BASE_ADDR   0xb000
 
-I'm just afraid this is still too hacky.
-
-One thing is because this variable itself to be only set at specific phase
-during migration to cover that commit().  The other thing is I'm not sure
-we can always rely on the commit() being happen 100% - what if there's no
-memory layout changes throughout the whole process of vm load?  That'll be
-skipped if memory_region_update_pending=3D=3Dfalse as I said.
-
-Yes, you're right. I wanted to set memory_region_update_pending to true at
-the beginning of qemu_loadvm_state_main(), but somehow I forgot this detail=
-..=F0=9F=98=AD
-
-So far the best I can come up with is we allow each virtio device to
-register a vm state change handler (during virtio_load) to do the rest,
-then in the handler it unregisters itself so it only runs once right before
-the VM starts.  But I'm not sure whether the virtio developers will be
-happy with it.  Maybe worth a try.
-
-Feel free to have a look at like kvmvapic_vm_state_change() if you think
-that idea worth exploring.
-
-That's a good idea!
-
-But I don't think it's necessary to register a new vm state change handler.
-Maybe we just need to add a delay_check flag to VirtIODevice and do those
-delayed checks in virtio_vmstate_change() when delay_check is true.
-
-Later I'll upload the v3 patches.
-
-Thanks!
-
---0000000000009b0adb05efb4a8db
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8=
-">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-804744c4b3741=
-b79a4a539300be2c4b2">On 2022/12/13 =E4=B8=8A=E5=8D=884:18, Peter Xu wrote:<=
-br>
-    </div></div>
-    <blockquote type=3D"cite" cite=3D"mid:Y5eMfZci3AazVOFl@x1n">
-      <pre class=3D"moz-quote-pre">On Tue, Dec 13, 2022 at 12:49:41AM +0800=
-, Chuang Xu wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre">+bool migration_enable_load_check_dela=
-y;
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre">I&#39;m just afraid this is still too ha=
-cky.
-
-One thing is because this variable itself to be only set at specific phase
-during migration to cover that commit().  The other thing is I&#39;m not su=
-re
-we can always rely on the commit() being happen 100% - what if there&#39;s =
-no
-memory layout changes throughout the whole process of vm load?  That&#39;ll=
- be
-skipped if memory_region_update_pending=3D=3Dfalse as I said.</pre>
-    </blockquote>
-    <pre>Yes, you&#39;re right. I wanted to set memory_region_update_pendin=
-g to true at=20
-the beginning of qemu_loadvm_state_main(), but somehow I forgot this detail=
-..=F0=9F=98=AD</pre>
-    <blockquote type=3D"cite" cite=3D"mid:Y5eMfZci3AazVOFl@x1n">
-      <pre class=3D"moz-quote-pre">So far the best I can come up with is we=
- allow each virtio device to
-register a vm state change handler (during virtio_load) to do the rest,
-then in the handler it unregisters itself so it only runs once right before
-the VM starts.  But I&#39;m not sure whether the virtio developers will be
-happy with it.  Maybe worth a try.
-
-Feel free to have a look at like kvmvapic_vm_state_change() if you think
-that idea worth exploring.
-</pre>
-    </blockquote>
-    <pre class=3D"moz-quote-pre">That&#39;s a good idea!=20
-
-But I don&#39;t think it&#39;s necessary to register a new vm state change =
-handler.=20
-Maybe we just need to add a delay_check flag to VirtIODevice and do those=
-=20
-delayed checks in virtio_vmstate_change() when delay_check is true.
-
-Later I&#39;ll upload the v3 patches.
-
-Thanks!
-</pre>
- =20
-</body></html>
-
---0000000000009b0adb05efb4a8db--
 
