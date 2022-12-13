@@ -2,81 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF7364B66B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 14:37:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408E864B680
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 14:43:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p55SE-00014h-0N; Tue, 13 Dec 2022 08:36:23 -0500
+	id 1p55Xr-0005D2-8e; Tue, 13 Dec 2022 08:42:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p55RY-00013j-Cm
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 08:35:36 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p55RW-0002zc-Jo
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 08:35:35 -0500
-Received: by mail-pl1-x629.google.com with SMTP id m4so15640442pls.4
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 05:35:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zfmFKXvPbYDVO7QdoAaOz/IKaZzu933l8Zdg5qycnZA=;
- b=bO1sytPBMwImixy5yKcyKuDN2Jp/WkqPGf+ClLAH7XblbkijqLKOoHesA81+dEBPdv
- L3P8WEu1aMw7E87Sx98HK6fPc0M2LYQWufQIIGR52t/sCKWj/2v0gsc/QaVLu8DOwLlR
- RDfz5a0B00OHu7jvNk3TsedfwX9Q0rpUH/c5TiNZKXYblf/qWhxvQBW/XbTeFvmGU1V2
- njqPhu92Xl9h3mGTx3xItUh9wbueM20G1bO9zN8ADvOkxBGJiEFH/+S+TiFUlR+RBaam
- SueVf+mhEPmajgHR0MFlU9D9IfL8348CS+YQbPhYMWqeWBKwNc1mCuFXJ+3AjBQEQ7sr
- DJOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zfmFKXvPbYDVO7QdoAaOz/IKaZzu933l8Zdg5qycnZA=;
- b=qHGK/IHOFKUq9VsdQQ784MrczO1bpClpHEed+s+OaxskIVUMwb9DXjM8t9bYEEncIw
- kmNRdERTmBdVhJA/S7o1NAQC38ZRgBwzCDeHIRIH7D+BE2diDO1GG5QCWVo9jHMFi0sJ
- r1GtzqsGdLfkrOwRNeI7tNLacYG6U3PLaxne1SFbyZqKjlexzJIAaFaSVCrUA8VbgE77
- 6Rhlwq9b0PmfFf7GNkcgA37b09JFITXeTA2CQga748rfmjENNIzTLEXP5nBKwMP+erzE
- psxzNMD/fblj9SJGyzLYDSft+SqgSxTKH5bJoKELrvCtTGU2Kz+f8aguaA58Cqs7oNY6
- ElFw==
-X-Gm-Message-State: ANoB5pmzkQBTtPccaB/ibgTMRwjWExflIuyAgWYKWdHizUWLJbZVoaUZ
- Xa+IQB3LzJSG5oMev3Q5hNiqhRC1pCC3lxng
-X-Google-Smtp-Source: AA0mqf7nUBHrEE8Wd69u+eFPeY4JS9SV8kJcLXbuEcobchf1tpgFWf/YPTVuylU9oac2uPs6ZNRA8Q==
-X-Received: by 2002:a17:902:f114:b0:18f:aca1:b0c9 with SMTP id
- e20-20020a170902f11400b0018faca1b0c9mr4419515plb.53.1670938533704; 
- Tue, 13 Dec 2022 05:35:33 -0800 (PST)
-Received: from n250-032-048.byted.org ([221.194.189.12])
- by smtp.gmail.com with ESMTPSA id
- b18-20020a170903229200b00182a9c27acfsm8440033plh.227.2022.12.13.05.35.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 05:35:33 -0800 (PST)
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-To: qemu-devel@nongnu.org
-Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com,
- peterx@redhat.com, david@redhat.com, f4bug@amsat.org, mst@redhat.com,
- zhouyibo@bytedance.com, Chuang Xu <xuchuangxclwt@bytedance.com>
-Subject: [RFC v3 3/3] migration: reduce time of loading non-iterable vmstate
-Date: Tue, 13 Dec 2022 21:35:10 +0800
-Message-Id: <20221213133510.1279488-4-xuchuangxclwt@bytedance.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20221213133510.1279488-1-xuchuangxclwt@bytedance.com>
-References: <20221213133510.1279488-1-xuchuangxclwt@bytedance.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1p55Xo-0005A3-0l; Tue, 13 Dec 2022 08:42:04 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1p55Xm-0005IP-0B; Tue, 13 Dec 2022 08:42:03 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BDDDj6w024498; Tue, 13 Dec 2022 13:41:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=F/KEmOXweGvq4YMRdFvjIqJZ9+DA1QClAeWZYE0spdk=;
+ b=HmpBGH66pS8CXlG3BeHID8kvRGd+dEHuxg6mVNPMUUta9/+YjexyCsdKbrVw6suziOQT
+ 1YKNk1d6Ep72MDIax00SMGNYwAcF6gWhbUZvnJ2L+CaKltCXFgcoDcTpQhBL9Fy4mc2j
+ V9N5qcPZMMY2zfUUBcS83FdXob6zn8HG0iWswOU0Ch42zf/kJzJ9FnlF/xVxw1vGP7hO
+ ZXcHbeHP1ksTG8gkucKu7UYPqzUoBvYgxJehajRObNm3iMXgy3fJBiDIWmzNKMa0cQ5O
+ Af9LsN6KpaCmWXBF+dGeFXj4cjhPBakM7l4clSEsd8x8+x/JsW7z7EW0pJ5cyR8VitH9 aA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3met3ernqm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Dec 2022 13:41:56 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BDDEKdI025814;
+ Tue, 13 Dec 2022 13:41:56 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3met3ernpy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Dec 2022 13:41:56 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BD7QD4n024666;
+ Tue, 13 Dec 2022 13:41:54 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3mchr5u25r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Dec 2022 13:41:54 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BDDfo1o45154804
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 13 Dec 2022 13:41:50 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A6D1020043;
+ Tue, 13 Dec 2022 13:41:50 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 67E8620040;
+ Tue, 13 Dec 2022 13:41:49 +0000 (GMT)
+Received: from [9.171.21.177] (unknown [9.171.21.177])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 13 Dec 2022 13:41:49 +0000 (GMT)
+Message-ID: <b36eef2e-92ed-a0ea-0728-4a5ea5bf25d9@de.ibm.com>
+Date: Tue, 13 Dec 2022 14:41:49 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v13 0/7] s390x: CPU Topology
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, pasic@linux.ibm.com, richard.henderson@linaro.org, 
+ david@redhat.com, cohuck@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
+ marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
+ seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20221208094432.9732-1-pmorel@linux.ibm.com>
+ <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
+ <60f006f4-d29e-320a-d656-600b2fd4a11a@linux.ibm.com>
+ <864cc127-2dbd-3792-8851-937ef4689503@redhat.com>
+ <90514038-f10c-33e7-3600-e3131138a44d@linux.ibm.com>
+ <73238c6c-a9dc-9d18-8ffb-92c8a41922d3@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+In-Reply-To: <73238c6c-a9dc-9d18-8ffb-92c8a41922d3@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VsstP4T-x6V3Drk9ZvrQAcmXB8Hvkt7L
+X-Proofpoint-ORIG-GUID: XEIWStx2gG2c01cu02BqiUxoOxOCyuu5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-13_03,2022-12-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
+ bulkscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212130120
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,56 +124,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The duration of loading non-iterable vmstate accounts for a significant
-portion of downtime (starting with the timestamp of source qemu stop and
-ending with the timestamp of target qemu start). Most of the time is spent
-committing memory region changes repeatedly.
 
-This patch packs all the changes to memory region during the period of
-loading non-iterable vmstate in a single memory transaction. With the
-increase of devices, this patch will greatly improve the performance.
 
-Here are the test results:
-test vm info:
-- 32 CPUs 128GB RAM
-- 8 16-queue vhost-net device
-- 16 4-queue vhost-user-blk device.
+Am 12.12.22 um 11:17 schrieb Thomas Huth:
+> On 12/12/2022 11.10, Pierre Morel wrote:
+>>
+>>
+>> On 12/12/22 10:07, Thomas Huth wrote:
+>>> On 12/12/2022 09.51, Pierre Morel wrote:
+>>>>
+>>>>
+>>>> On 12/9/22 14:32, Thomas Huth wrote:
+>>>>> On 08/12/2022 10.44, Pierre Morel wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> Implementation discussions
+>>>>>> ==========================
+>>>>>>
+>>>>>> CPU models
+>>>>>> ----------
+>>>>>>
+>>>>>> Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
+>>>>>> for old QEMU we could not activate it as usual from KVM but needed
+>>>>>> a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
+>>>>>> Checking and enabling this capability enables
+>>>>>> S390_FEAT_CONFIGURATION_TOPOLOGY.
+>>>>>>
+>>>>>> Migration
+>>>>>> ---------
+>>>>>>
+>>>>>> Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
+>>>>>> host the STFL(11) is provided to the guest.
+>>>>>> Since the feature is already in the CPU model of older QEMU,
+>>>>>> a migration from a new QEMU enabling the topology to an old QEMU
+>>>>>> will keep STFL(11) enabled making the guest get an exception for
+>>>>>> illegal operation as soon as it uses the PTF instruction.
+>>>>>
+>>>>> I now thought that it is not possible to enable "ctop" on older QEMUs since the don't enable the KVM capability? ... or is it still somehow possible? What did I miss?
+>>>>>
+>>>>>   Thomas
+>>>>
+>>>> Enabling ctop with ctop=on on old QEMU is not possible, this is right.
+>>>> But, if STFL(11) is enable in the source KVM by a new QEMU, I can see that even with -ctop=off the STFL(11) is migrated to the destination.
 
-	time of loading non-iterable vmstate
-before		about 210 ms
-after		about 40 ms
+This does not make sense. the cpu model and stfle values are not migrated. This is re-created during startup depending on the command line parameters of -cpu.
+Thats why source and host have the same command lines for -cpu. And STFLE.11 must not be set on the SOURCE of ctop is off.
 
-Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
----
- migration/savevm.c | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index a0cdb714f7..19785e5a54 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2617,6 +2617,9 @@ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis)
-     uint8_t section_type;
-     int ret = 0;
- 
-+    /* call memory_region_transaction_begin() before loading vmstate */
-+    memory_region_transaction_begin();
-+
- retry:
-     while (true) {
-         section_type = qemu_get_byte(f);
-@@ -2684,6 +2687,10 @@ out:
-             goto retry;
-         }
-     }
-+
-+    /* call memory_region_transaction_commit() after loading vmstate */
-+    memory_region_transaction_commit();
-+
-     return ret;
- }
- 
--- 
-2.20.1
+>>>
+>>> Is this with the "host" CPU model or another one? And did you explicitly specify "ctop=off" at the command line, or are you just using the default setting by not specifying it?
+>>
+>> With explicit cpumodel and using ctop=off like in
+>>
+>> sudo /usr/local/bin/qemu-system-s390x_master \
+>>       -m 512M \
+>>       -enable-kvm -smp 4,sockets=4,cores=2,maxcpus=8 \
+>>       -cpu z14,ctop=off \
+>>       -machine s390-ccw-virtio-7.2,accel=kvm \
+>>       ...
+> 
+> Ok ... that sounds like a bug somewhere in your patches or in the kernel code ... the guest should never see STFL bit 11 if ctop=off, should it?
 
+Correct. If ctop=off then QEMU should disable STFLE.11 for the CPU model.
 
