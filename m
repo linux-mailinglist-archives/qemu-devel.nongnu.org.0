@@ -2,89 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DDB64B90B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 16:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E587864B92D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 17:02:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p57eb-0000SI-4l; Tue, 13 Dec 2022 10:57:13 -0500
+	id 1p57iT-00023M-As; Tue, 13 Dec 2022 11:01:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1p57eX-0000Rb-18
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 10:57:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1p57eV-0001oW-60
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 10:57:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670947025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0PPfx008m7TUb3cdmrB5w+KrOnVINKnvcpp+s87fiHI=;
- b=ZvVxVvVK77JFMDWLRkmJQBPAJd3IN8wIaReHUD4gRJnDWO6sJpnGkJij1dmSyVo3Ahkms6
- KORZrPlCri1WTnyw4hA/BgXkytlYICGVb1H52CSLYjnfowqjgRzaMyRa7n8R5PlR868Fgb
- VvYX8wU2vsV668xG7wHpWGXjrmf9ebU=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-149-7jTt5FTyM22cJtoK-E-l2w-1; Tue, 13 Dec 2022 10:57:04 -0500
-X-MC-Unique: 7jTt5FTyM22cJtoK-E-l2w-1
-Received: by mail-qv1-f69.google.com with SMTP id
- q17-20020a056214019100b004b1d3c9f3acso14888714qvr.0
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 07:57:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p57i7-00021J-LB
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:00:51 -0500
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p57i5-00049s-Jb
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 11:00:51 -0500
+Received: by mail-ot1-x32d.google.com with SMTP id
+ v15-20020a9d69cf000000b006709b5a534aso90808oto.11
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 08:00:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7IOsuMhzoCHld82UpaeRyQHLz3UTagxJq6tw21H1iDg=;
+ b=c5CPrq0VefkMEHAgwwFXimhe7g148saM0ufiMW7+gVlGAFLhbQKVHFYrRGqAeEuzME
+ N7gDwMAJUXMM0t4n3vUOtmPz50B6Tw77bZ4gcffDnMMASNNwWhEOeHNqtJQY96uSZao1
+ b7xMPQEySRr7272mcUWQq4dRMxr4VG/IeZ+dkM0hMAJMqUlpDzlM9A9DuKaawXqtJNS8
+ 9m5LDDcXJFWAnGCwvWWVcfSEMu3EGKmfpzNqKsxvTjJBViz5q5zSpXYvM3sXaSxxXAML
+ pAd8aSdKVuqkg8TzY3U/n7BN1kmDtJZKk9FYIRwz2+QP/4V1+rWQDV+YfUvqNzXA7fnL
+ tJYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0PPfx008m7TUb3cdmrB5w+KrOnVINKnvcpp+s87fiHI=;
- b=C4zupaapMRENGaKixjbM78PF/PcicTITVl/bwZhPntIQPDznzLVheOzU10aJnT0k73
- 6DbmMn3CXcc0F3UOFaBrUu3YKWE0gbTsacbyeiYr5fxEo//pwZDreb9Fj/ITkh8bEzMR
- ivGMMuyeLV5oaRNdcv9nn0X7vQK2zA/yVr2Ku3JV2/lzLiIccafwlK4rlCOTP0CV5J4n
- fNHXvdID7h3M8jeH4PxCMvTUf2wkjzeEh5TQwlMYjzLLrCBAb0MTXZYPkKEqd/NxgQE9
- rxWlREt8S3iNtmhT3ifObqv9og6/8Yt4X7BUgeA6cBI3YFlnR2p/s5QmfPtMUP+aJqqh
- Ctdw==
-X-Gm-Message-State: ANoB5pkhQgpw2j6pSKm1f/Vqb3/2BcNAXCHdoSQoVamD7rQs6Ov+C3vU
- LIPJRTQ6Eh/l50SAJhconT6zbsP8WybpoGWY9X+VMUUK8eX3g8ve8z/POS1beEjIzuVHQHx2LGg
- COTxXaq5qTX9pNm8zxUolzBVQzllrbKw=
-X-Received: by 2002:a05:620a:8016:b0:6fc:c46f:b14c with SMTP id
- ee22-20020a05620a801600b006fcc46fb14cmr18753502qkb.442.1670947023595; 
- Tue, 13 Dec 2022 07:57:03 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5StQKdt8WOphc7oqVUkcRcf15IIr6ISbIxf6kOrHkoK23Lrk8XxS7E1Ax5D3YZ5gksKmtIpRjEV5Y8isQ67L8=
-X-Received: by 2002:a05:620a:8016:b0:6fc:c46f:b14c with SMTP id
- ee22-20020a05620a801600b006fcc46fb14cmr18753490qkb.442.1670947023310; Tue, 13
- Dec 2022 07:57:03 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7IOsuMhzoCHld82UpaeRyQHLz3UTagxJq6tw21H1iDg=;
+ b=T+e+FWnsw5gZutq4l5qFnJ13UybxLcewYMGN2wK7XnmhUkMm0eVGv/ciooWunNZ7Gl
+ DvgB/zHNV9b0wzAftFfwj+3bBhL1MyiY45i5jbOX1rkSJ0aZ7zZuRXmPn/L6DXg8qAvl
+ e9rm5JGrFR22YbPSCH/Tb4tl0qivm5CZaD0XzbMKzELppD/xm3SvaGg0cV+lLX/qx9nJ
+ 1dO9o9AhnBXRzMZ9ktBeCQl2NqvgXyTxbGd4kIgEdAzfSdpDTF1hkH9wzTnFQ2Xyyp75
+ IQ4akXaeiN7JPpKKEeV23Enum51wT7WutWZZ2E/5+yyweecgc0Hukq6s7sPXoEHli75r
+ Hr4A==
+X-Gm-Message-State: ANoB5pn2cdsQgLyOKIWCKfJGNklTVpiJmzQl1FuWfXb38CbXtlxma7S1
+ X0FsKHEmc5loeoUFp47agzaCew==
+X-Google-Smtp-Source: AA0mqf7W4lo/eOQ9HEif1IQ5r7hqHR1tmlqz2PO2eE0ssQ+irHomhXiwe/0jZVSo6ALKBZzU8JmcOA==
+X-Received: by 2002:a9d:730c:0:b0:670:9684:404c with SMTP id
+ e12-20020a9d730c000000b006709684404cmr4243556otk.28.1670947247647; 
+ Tue, 13 Dec 2022 08:00:47 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:2efc:c63:85ed:4256:8ad0?
+ ([2806:102e:18:2efc:c63:85ed:4256:8ad0])
+ by smtp.gmail.com with ESMTPSA id
+ c25-20020a9d6c99000000b006704589eb54sm1292173otr.74.2022.12.13.08.00.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Dec 2022 08:00:47 -0800 (PST)
+Message-ID: <8d47b826-2011-3203-c682-aa32a76b8dc2@linaro.org>
+Date: Tue, 13 Dec 2022 10:00:43 -0600
 MIME-Version: 1.0
-References: <20221128141514.388724-1-nsoffer@redhat.com>
- <20221128141514.388724-3-nsoffer@redhat.com>
- <a5923263-befe-30a4-afa2-a80ecb6b1ad2@redhat.com>
-In-Reply-To: <a5923263-befe-30a4-afa2-a80ecb6b1ad2@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Tue, 13 Dec 2022 17:56:47 +0200
-Message-ID: <CAMRbyyvG4s2c96xy=SNmFv26zG2nwMDH+Da71L_QQ1HjJ6zs5Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] Support format or cache specific out file
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- qemu-block@nongnu.org,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsoffer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH-for-8.0 1/3] hw/ppc: Replace tswap32() by const_le32()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Alistair Francis <alistair@alistair23.me>,
+ David Gibson <david@gibson.dropbear.id.au>, Jason Wang
+ <jasowang@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org
+References: <20221213125218.39868-1-philmd@linaro.org>
+ <20221213125218.39868-2-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221213125218.39868-2-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,69 +102,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 12, 2022 at 12:38 PM Hanna Reitz <hreitz@redhat.com> wrote:
->
-> On 28.11.22 15:15, Nir Soffer wrote:
-> > Extend the test finder to find tests with format (*.out.qcow2) or cache
-> > specific (*.out.nocache) out file. This worked before only for the
-> > numbered tests.
-> > ---
-> >   tests/qemu-iotests/findtests.py | 10 ++++++++--
-> >   1 file changed, 8 insertions(+), 2 deletions(-)
->
-> This patch lacks an S-o-b, too.
->
-> > diff --git a/tests/qemu-iotests/findtests.py b/tests/qemu-iotests/findt=
-ests.py
-> > index dd77b453b8..f4344ce78c 100644
-> > --- a/tests/qemu-iotests/findtests.py
-> > +++ b/tests/qemu-iotests/findtests.py
-> > @@ -38,31 +38,37 @@ def chdir(path: Optional[str] =3D None) -> Iterator=
-[None]:
-> >           os.chdir(saved_dir)
-> >
-> >
-> >   class TestFinder:
-> >       def __init__(self, test_dir: Optional[str] =3D None) -> None:
-> >           self.groups =3D defaultdict(set)
-> >
-> >           with chdir(test_dir):
-> >               self.all_tests =3D glob.glob('[0-9][0-9][0-9]')
-> >               self.all_tests +=3D [f for f in glob.iglob('tests/*')
-> > -                               if not f.endswith('.out') and
-> > -                               os.path.isfile(f + '.out')]
-> > +                               if self.is_test(f)]
->
-> So previously a file was only considered a test file if there was a
-> corresponding reference output file (`f + '.out'`), so files without
-> such a reference output aren=E2=80=99t considered test files...
->
-> >               for t in self.all_tests:
-> >                   with open(t, encoding=3D"utf-8") as f:
-> >                       for line in f:
-> >                           if line.startswith('# group: '):
-> >                               for g in line.split()[2:]:
-> >                                   self.groups[g].add(t)
-> >                               break
-> >
-> > +    def is_test(self, fname: str) -> bool:
-> > +        """
-> > +        The tests directory contains tests (no extension) and out file=
-s
-> > +        (*.out, *.out.{format}, *.out.{option}).
-> > +        """
-> > +        return re.search(r'.+\.out(\.\w+)?$', fname) is None
->
-> ...but this new function doesn=E2=80=99t check that.  I think we should c=
-heck it
-> (just whether there=E2=80=99s any variant of `/{fname}\.out(\.\w+)?/` to =
-go with
-> `fname`) so that behavior isn=E2=80=99t changed.
+On 12/13/22 06:52, Philippe Mathieu-Daudé wrote:
+> Assuming the developers of commits 2c50e26efd ("powerpc: Add
+> a virtex5 ml507 refdesign board") and 4b387f9ee1 ("ppc: Add
+> aCube Sam460ex board") were testing on a little-endian setup,
+> they meant to use const_le32() instead of tswap32() here,
+> since tswap32() depends on the host endianness.
 
-This means that you cannot add a test without a *.out* file, which may
- be useful when you don't use the out file for validation, but we can
-add this later if needed.
+tswap depends on target endianness.
 
-I'll change the code to check both conditions.
 
+> @@ -255,7 +256,7 @@ static void main_cpu_reset(void *opaque)
+>   
+>           /* Create a mapping for the kernel.  */
+>           mmubooke_create_initial_mapping(env, 0, 0);
+> -        env->gpr[6] = tswap32(EPAPR_MAGIC);
+> +        env->gpr[6] = const_le32(EPAPR_MAGIC);
+
+I think this is probably wrong.
+
+
+r~
 
