@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9B364BEB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:44:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FAD64BE9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:41:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5CzZ-0000FY-0p; Tue, 13 Dec 2022 16:39:14 -0500
+	id 1p5Czf-0000IW-T2; Tue, 13 Dec 2022 16:39:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5CzN-0000Eb-NH
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5CzP-0000FN-K9
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5CzL-0007eI-Ke
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:01 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5CzN-0007eV-DG
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670967539;
+ s=mimecast20190719; t=1670967540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5SsDJHjbmYgWOI28JIdJ4nkCfxRhomPn/I0rSYWBMco=;
- b=RTefwoXwUuv7GSqvHPye8XA5lMYWvPuuNUrMP9wYoelGIZ4q67R0yvdlMLZaakanJSsVoh
- h0/+5zpVZDsC/DywIDypYxviQA/Q+prYdnqy1Zqtgz/4vbI3ijrxqOwR1x/9wdvca6HFge
- lsIDovdDBcPMdmgGdNd/UOFsAJq26OA=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AZuvU4QeBogKbaQl5ZIKjeZ9crvrQIVntMvHBMji+Pk=;
+ b=MsWntry+uf+S3HCp4fLcKuT1L4mn3/VDWoEiuNXzU1MhSCuvd+/UhMOJF4yrPAIHhOM6s9
+ +aAjJ75pATJKp2oKklLlamncU6sxFII2MsJgYir5anGooA0Dzg5rv1JGUvFkxyYYmWSHil
+ 20gV6LhqG1Ra6KSex2Z9l51lkB2+tCI=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-10-P6o-09mOOPGroYav0IHKfg-1; Tue, 13 Dec 2022 16:38:57 -0500
-X-MC-Unique: P6o-09mOOPGroYav0IHKfg-1
-Received: by mail-ua1-f72.google.com with SMTP id
- z42-20020ab0492d000000b00423b333ff7dso5303728uac.22
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 13:38:57 -0800 (PST)
+ us-mta-235-LIrI21TSNBavYdqWT0gX7A-1; Tue, 13 Dec 2022 16:38:59 -0500
+X-MC-Unique: LIrI21TSNBavYdqWT0gX7A-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ h13-20020a05620a244d00b006fb713618b8so1194318qkn.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 13:38:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5SsDJHjbmYgWOI28JIdJ4nkCfxRhomPn/I0rSYWBMco=;
- b=w49Kui3WRmWSGCNBghKuOglX/wKh4gLR1Eh3iJfIunKbBOpjBjCUOB3/zLUV0V7VxO
- 3ztbCs/uVRXfCr2hHN1mO+NlvqT/+zZpITnmWH/fgI6gVapAmzkTiCOVCwX7VC1AoKC1
- MzbVQOiApHGH6jWlscmVJ3dD5liB1nBc6tQ2viGFH+gZgudhrwfTOjiB1LfArHxacm9f
- lfiCwGPH1ydbNqWKC1RHqHmAKNUEBlg6fUMalEcYeh2VmDKviD4hEvxtWWvGao6dod0b
- 5EQrXdsoElNewnaUh4US+f3Wb6z3G2MByjkuvpoQmpFx+IC14xUUELAFfNYYf32KaW3y
- WRYw==
-X-Gm-Message-State: ANoB5pn7MtKXslgJUBGLVxOyNTBmQv/X0NlcQiCAYUsaS8W7MeLKZeBz
- QiD63JYUQHJwrv0LgklmyC2m9/UdqHV1PvF8PuAVM3R+oQ55PjfuXzE+2nKQSAXLq12U274omrX
- PZwBPZy3gdkTH5ppz5kuNhGOaqkqibCWxwyshOc8vNiFBweQ586sLJwp3rjPJHfSn
-X-Received: by 2002:a05:6102:548f:b0:3b5:1803:80e4 with SMTP id
- bk15-20020a056102548f00b003b5180380e4mr4023538vsb.18.1670967534769; 
- Tue, 13 Dec 2022 13:38:54 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf741BDBmJqv80o4ZvycveeF9JJb2/sqdMEr9kv5w5GMDKEeJyYP8t1jAVviz+XO1g+oPphvug==
-X-Received: by 2002:a05:6102:548f:b0:3b5:1803:80e4 with SMTP id
- bk15-20020a056102548f00b003b5180380e4mr4023505vsb.18.1670967534329; 
- Tue, 13 Dec 2022 13:38:54 -0800 (PST)
+ bh=AZuvU4QeBogKbaQl5ZIKjeZ9crvrQIVntMvHBMji+Pk=;
+ b=fTyA9oDanqag6FJk51+dbRg2mY+x0Q7cMwvhD7s2Dw4bviyKE2UdgvbyHnotngnbrj
+ bwyILGp7CBkZB3E9xqrGGqeJl0X9qCewMv5lei1Pu+7G6Yo2H606WK9dOb2rx1pbfzcU
+ RdLHTvGYwOCgaRdQdg2hCiJ0MHMkQ7TSzep8EVSH4NKLDPDT75CIqfYBNBJ/SS2riHsU
+ iA/p3Su1VtQp22ohgvd+ip3Hd02NlJNVQ21fFTg/Z4rBwLmxuRJlCQsQfi9EwHFEkks3
+ FUjj2X5Bcxqip4snbMlySr8eNmHvvroCdwrXrCNZGs4redublyx3DiyTRj6brEdBrWOz
+ W7Ug==
+X-Gm-Message-State: ANoB5pk/GetfVbge3lewaRDAVaBUwPV99ATIe3HZJdtnMxk3M85TH3uu
+ ij6ihVG0IjlI5ZyzzegTzWAWNfAPVe+lLtjc5V0kSPRWeodeG5KxHrOi87KQTncsBvCPeE6o8Qj
+ 1R9pGfnzQGNzXRN1p/N0A8LVyo9r+LNDcuWaMETfMB7JYmLfTRv6jwifjg7TCjUnl
+X-Received: by 2002:a05:622a:5da9:b0:3a8:28a4:c4be with SMTP id
+ fu41-20020a05622a5da900b003a828a4c4bemr2082435qtb.0.1670967537671; 
+ Tue, 13 Dec 2022 13:38:57 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6+PwCcF8YVKrp2VD/kBYL9U2QqyxSwoRXJHYk4BhEhrQpapVEbMqgDGgBMsfeH3bjNJ0/OBQ==
+X-Received: by 2002:a05:622a:5da9:b0:3a8:28a4:c4be with SMTP id
+ fu41-20020a05622a5da900b003a828a4c4bemr2082402qtb.0.1670967537256; 
+ Tue, 13 Dec 2022 13:38:57 -0800 (PST)
 Received: from x1n.redhat.com
  (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a05620a288c00b006feb158e5e7sm8607487qkp.70.2022.12.13.13.38.52
+ j12-20020a05620a288c00b006feb158e5e7sm8607487qkp.70.2022.12.13.13.38.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 13:38:53 -0800 (PST)
+ Tue, 13 Dec 2022 13:38:55 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>,
@@ -69,9 +69,10 @@ Cc: Juan Quintela <quintela@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  Manish Mishra <manish.mishra@nutanix.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com
-Subject: [PATCH 1/5] io: Add support for MSG_PEEK for socket channel
-Date: Tue, 13 Dec 2022 16:38:46 -0500
-Message-Id: <20221213213850.1481858-2-peterx@redhat.com>
+Subject: [PATCH 2/5] migration: check magic value for deciding the mapping of
+ channels
+Date: Tue, 13 Dec 2022 16:38:47 -0500
+Message-Id: <20221213213850.1481858-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221213213850.1481858-1-peterx@redhat.com>
 References: <20221213213850.1481858-1-peterx@redhat.com>
@@ -79,7 +80,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,368 +107,281 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: "manish.mishra" <manish.mishra@nutanix.com>
 
-MSG_PEEK reads from the peek of channel, The data is treated as
-unread and the next read shall still return this data. This
-support is currently added only for socket class. Extra parameter
-'flags' is added to io_readv calls to pass extra read flags like
-MSG_PEEK.
+Current logic assumes that channel connections on the destination side are
+always established in the same order as the source and the first one will
+always be the main channel followed by the multifid or post-copy
+preemption channel. This may not be always true, as even if a channel has a
+connection established on the source side it can be in the pending state on
+the destination side and a newer connection can be established first.
+Basically causing out of order mapping of channels on the destination side.
+Currently, all channels except post-copy preempt send a magic number, this
+patch uses that magic number to decide the type of channel. This logic is
+applicable only for precopy(multifd) live migration, as mentioned, the
+post-copy preempt channel does not send any magic number. Also, tls live
+migrations already does tls handshake before creating other channels, so
+this issue is not possible with tls, hence this logic is avoided for tls
+live migrations. This patch uses read peek to check the magic number of
+channels so that current data/control stream management remains
+un-effected.
 
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.co
 Suggested-by: Daniel P. Berrangé <berrange@redhat.com
 Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- chardev/char-socket.c               |  4 ++--
- include/io/channel.h                |  6 ++++++
- io/channel-buffer.c                 |  1 +
- io/channel-command.c                |  1 +
- io/channel-file.c                   |  1 +
- io/channel-null.c                   |  1 +
- io/channel-socket.c                 | 17 ++++++++++++++++-
- io/channel-tls.c                    |  1 +
- io/channel-websock.c                |  1 +
- io/channel.c                        | 16 ++++++++++++----
- migration/channel-block.c           |  1 +
- migration/rdma.c                    |  1 +
- scsi/qemu-pr-helper.c               |  2 +-
- tests/qtest/tpm-emu.c               |  2 +-
- tests/unit/test-io-channel-socket.c |  1 +
- util/vhost-user-server.c            |  2 +-
- 16 files changed, 48 insertions(+), 10 deletions(-)
+ migration/channel.c      | 45 ++++++++++++++++++++++++++++++++++++++++
+ migration/channel.h      |  5 +++++
+ migration/migration.c    | 45 +++++++++++++++++++++++++++++-----------
+ migration/multifd.c      | 12 ++++-------
+ migration/multifd.h      |  2 +-
+ migration/postcopy-ram.c |  5 +----
+ migration/postcopy-ram.h |  2 +-
+ 7 files changed, 90 insertions(+), 26 deletions(-)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 879564aa8a..5afce9a464 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -283,11 +283,11 @@ static ssize_t tcp_chr_recv(Chardev *chr, char *buf, size_t len)
-     if (qio_channel_has_feature(s->ioc, QIO_CHANNEL_FEATURE_FD_PASS)) {
-         ret = qio_channel_readv_full(s->ioc, &iov, 1,
-                                      &msgfds, &msgfds_num,
--                                     NULL);
-+                                     0, NULL);
+diff --git a/migration/channel.c b/migration/channel.c
+index 1b0815039f..270b7acca2 100644
+--- a/migration/channel.c
++++ b/migration/channel.c
+@@ -92,3 +92,48 @@ void migration_channel_connect(MigrationState *s,
+     migrate_fd_connect(s, error);
+     error_free(error);
+ }
++
++
++/**
++ * @migration_channel_read_peek - Read from the peek of migration channel,
++ *    without actually removing it from channel buffer.
++ *
++ * @ioc: the channel object
++ * @buf: the memory region to read data into
++ * @buflen: the number of bytes to read in @buf
++ * @errp: pointer to a NULL-initialized error object
++ *
++ * Returns 0 if successful, returns -1 and sets @errp if fails.
++ */
++int migration_channel_read_peek(QIOChannel *ioc,
++                                const char *buf,
++                                const size_t buflen,
++                                Error **errp)
++{
++    ssize_t len = 0;
++    struct iovec iov = { .iov_base = (char *)buf, .iov_len = buflen };
++
++    while (true) {
++        len = qio_channel_readv_full(ioc, &iov, 1, NULL,
++                                     NULL, QIO_CHANNEL_READ_FLAG_MSG_PEEK, errp);
++
++        if (len <= 0 && len != QIO_CHANNEL_ERR_BLOCK) {
++            error_setg(errp,
++                       "Failed to read peek of channel");
++            return -1;
++        }
++
++        if (len == buflen) {
++            break;
++        }
++
++        /* 1ms sleep. */
++        if (qemu_in_coroutine()) {
++            qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 1000000);
++        } else {
++            g_usleep(1000);
++        }
++    }
++
++    return 0;
++}
+diff --git a/migration/channel.h b/migration/channel.h
+index 67a461c28a..5bdb8208a7 100644
+--- a/migration/channel.h
++++ b/migration/channel.h
+@@ -24,4 +24,9 @@ void migration_channel_connect(MigrationState *s,
+                                QIOChannel *ioc,
+                                const char *hostname,
+                                Error *error_in);
++
++int migration_channel_read_peek(QIOChannel *ioc,
++                                const char *buf,
++                                const size_t buflen,
++                                Error **errp);
+ #endif
+diff --git a/migration/migration.c b/migration/migration.c
+index c3490c495d..35b43d0108 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -31,6 +31,7 @@
+ #include "migration.h"
+ #include "savevm.h"
+ #include "qemu-file.h"
++#include "channel.h"
+ #include "migration/vmstate.h"
+ #include "block/block.h"
+ #include "qapi/error.h"
+@@ -733,31 +734,51 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+ {
+     MigrationIncomingState *mis = migration_incoming_get_current();
+     Error *local_err = NULL;
+-    bool start_migration;
+     QEMUFile *f;
++    bool default_channel = true;
++    uint32_t channel_magic = 0;
++    int ret = 0;
+ 
+-    if (!mis->from_src_file) {
+-        /* The first connection (multifd may have multiple) */
++    if (migrate_use_multifd() && !migrate_postcopy_ram() &&
++        qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_READ_MSG_PEEK)) {
++        /*
++         * With multiple channels, it is possible that we receive channels
++         * out of order on destination side, causing incorrect mapping of
++         * source channels on destination side. Check channel MAGIC to
++         * decide type of channel. Please note this is best effort, postcopy
++         * preempt channel does not send any magic number so avoid it for
++         * postcopy live migration. Also tls live migration already does
++         * tls handshake while initializing main channel so with tls this
++         * issue is not possible.
++         */
++        ret = migration_channel_read_peek(ioc, (void *)&channel_magic,
++                                          sizeof(channel_magic), &local_err);
++
++        if (ret != 0) {
++            error_propagate(errp, local_err);
++            return;
++        }
++
++        default_channel = (channel_magic == cpu_to_be32(QEMU_VM_FILE_MAGIC));
++    } else {
++        default_channel = !mis->from_src_file;
++    }
++
++    if (default_channel) {
+         f = qemu_file_new_input(ioc);
+ 
+         if (!migration_incoming_setup(f, errp)) {
+             return;
+         }
+-
+-        /*
+-         * Common migration only needs one channel, so we can start
+-         * right now.  Some features need more than one channel, we wait.
+-         */
+-        start_migration = !migration_needs_multiple_sockets();
      } else {
-         ret = qio_channel_readv_full(s->ioc, &iov, 1,
-                                      NULL, NULL,
--                                     NULL);
-+                                     0, NULL);
+         /* Multiple connections */
+         assert(migration_needs_multiple_sockets());
+         if (migrate_use_multifd()) {
+-            start_migration = multifd_recv_new_channel(ioc, &local_err);
++            multifd_recv_new_channel(ioc, &local_err);
+         } else {
+             assert(migrate_postcopy_preempt());
+             f = qemu_file_new_input(ioc);
+-            start_migration = postcopy_preempt_new_channel(mis, f);
++            postcopy_preempt_new_channel(mis, f);
+         }
+         if (local_err) {
+             error_propagate(errp, local_err);
+@@ -765,7 +786,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+         }
      }
  
-     if (msgfds_num) {
-diff --git a/include/io/channel.h b/include/io/channel.h
-index c680ee7480..716235d496 100644
---- a/include/io/channel.h
-+++ b/include/io/channel.h
-@@ -34,6 +34,8 @@ OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
+-    if (start_migration) {
++    if (migration_has_all_channels()) {
+         /* If it's a recovery, we're done */
+         if (postcopy_try_recover()) {
+             return;
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 17f5730257..4f6028997d 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -1228,11 +1228,9 @@ bool multifd_recv_all_channels_created(void)
  
- #define QIO_CHANNEL_WRITE_FLAG_ZERO_COPY 0x1
+ /*
+  * Try to receive all multifd channels to get ready for the migration.
+- * - Return true and do not set @errp when correctly receiving all channels;
+- * - Return false and do not set @errp when correctly receiving the current one;
+- * - Return false and set @errp when failing to receive the current channel.
++ * Sets @errp when failing to receive the current channel.
+  */
+-bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
++void multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+ {
+     MultiFDRecvParams *p;
+     Error *local_err = NULL;
+@@ -1245,7 +1243,7 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+                                 "failed to receive packet"
+                                 " via multifd channel %d: ",
+                                 qatomic_read(&multifd_recv_state->count));
+-        return false;
++        return;
+     }
+     trace_multifd_recv_new_channel(id);
  
-+#define QIO_CHANNEL_READ_FLAG_MSG_PEEK 0x1
-+
- typedef enum QIOChannelFeature QIOChannelFeature;
+@@ -1255,7 +1253,7 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+                    id);
+         multifd_recv_terminate_threads(local_err);
+         error_propagate(errp, local_err);
+-        return false;
++        return;
+     }
+     p->c = ioc;
+     object_ref(OBJECT(ioc));
+@@ -1266,6 +1264,4 @@ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp)
+     qemu_thread_create(&p->thread, p->name, multifd_recv_thread, p,
+                        QEMU_THREAD_JOINABLE);
+     qatomic_inc(&multifd_recv_state->count);
+-    return qatomic_read(&multifd_recv_state->count) ==
+-           migrate_multifd_channels();
+ }
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 519f498643..913e4ba274 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -18,7 +18,7 @@ void multifd_save_cleanup(void);
+ int multifd_load_setup(Error **errp);
+ int multifd_load_cleanup(Error **errp);
+ bool multifd_recv_all_channels_created(void);
+-bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
++void multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
+ void multifd_recv_sync_main(void);
+ int multifd_send_sync_main(QEMUFile *f);
+ int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset);
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index b9a37ef255..f84f783ab4 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -1539,7 +1539,7 @@ void postcopy_unregister_shared_ufd(struct PostCopyFD *pcfd)
+     }
+ }
  
- enum QIOChannelFeature {
-@@ -41,6 +43,7 @@ enum QIOChannelFeature {
-     QIO_CHANNEL_FEATURE_SHUTDOWN,
-     QIO_CHANNEL_FEATURE_LISTEN,
-     QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY,
-+    QIO_CHANNEL_FEATURE_READ_MSG_PEEK,
+-bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
++void postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
+ {
+     /*
+      * The new loading channel has its own threads, so it needs to be
+@@ -1548,9 +1548,6 @@ bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
+     qemu_file_set_blocking(file, true);
+     mis->postcopy_qemufile_dst = file;
+     trace_postcopy_preempt_new_channel();
+-
+-    /* Start the migration immediately */
+-    return true;
+ }
+ 
+ /*
+diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
+index 6147bf7d1d..25881c4127 100644
+--- a/migration/postcopy-ram.h
++++ b/migration/postcopy-ram.h
+@@ -190,7 +190,7 @@ enum PostcopyChannels {
+     RAM_CHANNEL_MAX,
  };
  
+-bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file);
++void postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file);
+ int postcopy_preempt_setup(MigrationState *s, Error **errp);
+ int postcopy_preempt_wait_channel(MigrationState *s);
  
-@@ -114,6 +117,7 @@ struct QIOChannelClass {
-                         size_t niov,
-                         int **fds,
-                         size_t *nfds,
-+                        int flags,
-                         Error **errp);
-     int (*io_close)(QIOChannel *ioc,
-                     Error **errp);
-@@ -188,6 +192,7 @@ void qio_channel_set_name(QIOChannel *ioc,
-  * @niov: the length of the @iov array
-  * @fds: pointer to an array that will received file handles
-  * @nfds: pointer filled with number of elements in @fds on return
-+ * @flags: read flags (QIO_CHANNEL_READ_FLAG_*)
-  * @errp: pointer to a NULL-initialized error object
-  *
-  * Read data from the IO channel, storing it in the
-@@ -224,6 +229,7 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
-                                size_t niov,
-                                int **fds,
-                                size_t *nfds,
-+                               int flags,
-                                Error **errp);
- 
- 
-diff --git a/io/channel-buffer.c b/io/channel-buffer.c
-index bf52011be2..8096180f85 100644
---- a/io/channel-buffer.c
-+++ b/io/channel-buffer.c
-@@ -54,6 +54,7 @@ static ssize_t qio_channel_buffer_readv(QIOChannel *ioc,
-                                         size_t niov,
-                                         int **fds,
-                                         size_t *nfds,
-+                                        int flags,
-                                         Error **errp)
- {
-     QIOChannelBuffer *bioc = QIO_CHANNEL_BUFFER(ioc);
-diff --git a/io/channel-command.c b/io/channel-command.c
-index 74516252ba..e7edd091af 100644
---- a/io/channel-command.c
-+++ b/io/channel-command.c
-@@ -203,6 +203,7 @@ static ssize_t qio_channel_command_readv(QIOChannel *ioc,
-                                          size_t niov,
-                                          int **fds,
-                                          size_t *nfds,
-+                                         int flags,
-                                          Error **errp)
- {
-     QIOChannelCommand *cioc = QIO_CHANNEL_COMMAND(ioc);
-diff --git a/io/channel-file.c b/io/channel-file.c
-index b67687c2aa..d76663e6ae 100644
---- a/io/channel-file.c
-+++ b/io/channel-file.c
-@@ -86,6 +86,7 @@ static ssize_t qio_channel_file_readv(QIOChannel *ioc,
-                                       size_t niov,
-                                       int **fds,
-                                       size_t *nfds,
-+                                      int flags,
-                                       Error **errp)
- {
-     QIOChannelFile *fioc = QIO_CHANNEL_FILE(ioc);
-diff --git a/io/channel-null.c b/io/channel-null.c
-index 75e3781507..4fafdb770d 100644
---- a/io/channel-null.c
-+++ b/io/channel-null.c
-@@ -60,6 +60,7 @@ qio_channel_null_readv(QIOChannel *ioc,
-                        size_t niov,
-                        int **fds G_GNUC_UNUSED,
-                        size_t *nfds G_GNUC_UNUSED,
-+                       int flags,
-                        Error **errp)
- {
-     QIOChannelNull *nioc = QIO_CHANNEL_NULL(ioc);
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index b76dca9cc1..dfb8cb6c40 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -173,6 +173,8 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
-     }
- #endif
- 
-+    qio_channel_set_feature(QIO_CHANNEL(ioc), QIO_CHANNEL_FEATURE_READ_MSG_PEEK);
-+
-     return 0;
- }
- 
-@@ -406,6 +408,8 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
-     }
- #endif /* WIN32 */
- 
-+    qio_channel_set_feature(QIO_CHANNEL(cioc), QIO_CHANNEL_FEATURE_READ_MSG_PEEK);
-+
-     trace_qio_channel_socket_accept_complete(ioc, cioc, cioc->fd);
-     return cioc;
- 
-@@ -496,6 +500,7 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
-                                         size_t niov,
-                                         int **fds,
-                                         size_t *nfds,
-+                                        int flags,
-                                         Error **errp)
- {
-     QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-@@ -517,6 +522,10 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
- 
-     }
- 
-+    if (flags & QIO_CHANNEL_READ_FLAG_MSG_PEEK) {
-+        sflags |= MSG_PEEK;
-+    }
-+
-  retry:
-     ret = recvmsg(sioc->fd, &msg, sflags);
-     if (ret < 0) {
-@@ -624,11 +633,17 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
-                                         size_t niov,
-                                         int **fds,
-                                         size_t *nfds,
-+                                        int flags,
-                                         Error **errp)
- {
-     QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-     ssize_t done = 0;
-     ssize_t i;
-+    int sflags = 0;
-+
-+    if (flags & QIO_CHANNEL_READ_FLAG_MSG_PEEK) {
-+        sflags |= MSG_PEEK;
-+    }
- 
-     for (i = 0; i < niov; i++) {
-         ssize_t ret;
-@@ -636,7 +651,7 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
-         ret = recv(sioc->fd,
-                    iov[i].iov_base,
-                    iov[i].iov_len,
--                   0);
-+                   sflags);
-         if (ret < 0) {
-             if (errno == EAGAIN) {
-                 if (done) {
-diff --git a/io/channel-tls.c b/io/channel-tls.c
-index 4ce890a538..c730cb8ec5 100644
---- a/io/channel-tls.c
-+++ b/io/channel-tls.c
-@@ -260,6 +260,7 @@ static ssize_t qio_channel_tls_readv(QIOChannel *ioc,
-                                      size_t niov,
-                                      int **fds,
-                                      size_t *nfds,
-+                                     int flags,
-                                      Error **errp)
- {
-     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
-diff --git a/io/channel-websock.c b/io/channel-websock.c
-index fb4932ade7..a12acc27cf 100644
---- a/io/channel-websock.c
-+++ b/io/channel-websock.c
-@@ -1081,6 +1081,7 @@ static ssize_t qio_channel_websock_readv(QIOChannel *ioc,
-                                          size_t niov,
-                                          int **fds,
-                                          size_t *nfds,
-+                                         int flags,
-                                          Error **errp)
- {
-     QIOChannelWebsock *wioc = QIO_CHANNEL_WEBSOCK(ioc);
-diff --git a/io/channel.c b/io/channel.c
-index 0640941ac5..a8c7f11649 100644
---- a/io/channel.c
-+++ b/io/channel.c
-@@ -52,6 +52,7 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
-                                size_t niov,
-                                int **fds,
-                                size_t *nfds,
-+                               int flags,
-                                Error **errp)
- {
-     QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
-@@ -63,7 +64,14 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
-         return -1;
-     }
- 
--    return klass->io_readv(ioc, iov, niov, fds, nfds, errp);
-+    if ((flags & QIO_CHANNEL_READ_FLAG_MSG_PEEK) &&
-+        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_READ_MSG_PEEK)) {
-+        error_setg_errno(errp, EINVAL,
-+                         "Channel does not support peek read");
-+        return -1;
-+    }
-+
-+    return klass->io_readv(ioc, iov, niov, fds, nfds, flags, errp);
- }
- 
- 
-@@ -146,7 +154,7 @@ int qio_channel_readv_full_all_eof(QIOChannel *ioc,
-     while ((nlocal_iov > 0) || local_fds) {
-         ssize_t len;
-         len = qio_channel_readv_full(ioc, local_iov, nlocal_iov, local_fds,
--                                     local_nfds, errp);
-+                                     local_nfds, 0, errp);
-         if (len == QIO_CHANNEL_ERR_BLOCK) {
-             if (qemu_in_coroutine()) {
-                 qio_channel_yield(ioc, G_IO_IN);
-@@ -284,7 +292,7 @@ ssize_t qio_channel_readv(QIOChannel *ioc,
-                           size_t niov,
-                           Error **errp)
- {
--    return qio_channel_readv_full(ioc, iov, niov, NULL, NULL, errp);
-+    return qio_channel_readv_full(ioc, iov, niov, NULL, NULL, 0, errp);
- }
- 
- 
-@@ -303,7 +311,7 @@ ssize_t qio_channel_read(QIOChannel *ioc,
-                          Error **errp)
- {
-     struct iovec iov = { .iov_base = buf, .iov_len = buflen };
--    return qio_channel_readv_full(ioc, &iov, 1, NULL, NULL, errp);
-+    return qio_channel_readv_full(ioc, &iov, 1, NULL, NULL, 0, errp);
- }
- 
- 
-diff --git a/migration/channel-block.c b/migration/channel-block.c
-index f4ab53acdb..b7374363c3 100644
---- a/migration/channel-block.c
-+++ b/migration/channel-block.c
-@@ -53,6 +53,7 @@ qio_channel_block_readv(QIOChannel *ioc,
-                         size_t niov,
-                         int **fds,
-                         size_t *nfds,
-+                        int flags,
-                         Error **errp)
- {
-     QIOChannelBlock *bioc = QIO_CHANNEL_BLOCK(ioc);
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 94a55dd95b..d8b4632094 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -2854,6 +2854,7 @@ static ssize_t qio_channel_rdma_readv(QIOChannel *ioc,
-                                       size_t niov,
-                                       int **fds,
-                                       size_t *nfds,
-+                                      int flags,
-                                       Error **errp)
- {
-     QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(ioc);
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index 196b78c00d..199227a556 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -614,7 +614,7 @@ static int coroutine_fn prh_read(PRHelperClient *client, void *buf, int sz,
-         iov.iov_base = buf;
-         iov.iov_len = sz;
-         n_read = qio_channel_readv_full(QIO_CHANNEL(client->ioc), &iov, 1,
--                                        &fds, &nfds, errp);
-+                                        &fds, &nfds, 0, errp);
- 
-         if (n_read == QIO_CHANNEL_ERR_BLOCK) {
-             qio_channel_yield(QIO_CHANNEL(client->ioc), G_IO_IN);
-diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
-index 2994d1cf42..3cf1acaf7d 100644
---- a/tests/qtest/tpm-emu.c
-+++ b/tests/qtest/tpm-emu.c
-@@ -106,7 +106,7 @@ void *tpm_emu_ctrl_thread(void *data)
-         int *pfd = NULL;
-         size_t nfd = 0;
- 
--        qio_channel_readv_full(ioc, &iov, 1, &pfd, &nfd, &error_abort);
-+        qio_channel_readv_full(ioc, &iov, 1, &pfd, &nfd, 0, &error_abort);
-         cmd = be32_to_cpu(cmd);
-         g_assert_cmpint(cmd, ==, CMD_SET_DATAFD);
-         g_assert_cmpint(nfd, ==, 1);
-diff --git a/tests/unit/test-io-channel-socket.c b/tests/unit/test-io-channel-socket.c
-index b36a5d972a..b964bb202d 100644
---- a/tests/unit/test-io-channel-socket.c
-+++ b/tests/unit/test-io-channel-socket.c
-@@ -460,6 +460,7 @@ static void test_io_channel_unix_fd_pass(void)
-                            G_N_ELEMENTS(iorecv),
-                            &fdrecv,
-                            &nfdrecv,
-+                           0,
-                            &error_abort);
- 
-     g_assert(nfdrecv == G_N_ELEMENTS(fdsend));
-diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
-index 232984ace6..145eb17c08 100644
---- a/util/vhost-user-server.c
-+++ b/util/vhost-user-server.c
-@@ -116,7 +116,7 @@ vu_message_read(VuDev *vu_dev, int conn_fd, VhostUserMsg *vmsg)
-          * qio_channel_readv_full may have short reads, keeping calling it
-          * until getting VHOST_USER_HDR_SIZE or 0 bytes in total
-          */
--        rc = qio_channel_readv_full(ioc, &iov, 1, &fds, &nfds, &local_err);
-+        rc = qio_channel_readv_full(ioc, &iov, 1, &fds, &nfds, 0, &local_err);
-         if (rc < 0) {
-             if (rc == QIO_CHANNEL_ERR_BLOCK) {
-                 assert(local_err == NULL);
 -- 
 2.37.3
 
