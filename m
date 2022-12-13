@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E6564B0F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 09:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF7864B13D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 09:34:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p50Yx-0002Gd-Qt; Tue, 13 Dec 2022 03:22:57 -0500
+	id 1p50im-0006SX-53; Tue, 13 Dec 2022 03:33:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p50YO-0002Ev-3r
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:22:21 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p50ii-0006S4-3y
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:33:00 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p50YI-0000Ww-Fg
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:22:18 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- ay8-20020a05600c1e0800b003d0808d2826so459249wmb.1
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 00:22:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p50if-0004sF-16
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:32:59 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ f13-20020a1cc90d000000b003d08c4cf679so7340312wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 00:32:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=+svhhmrQ2JZIwz0HIhMrY9JRUpi8arz9FGzMpWlfe1A=;
- b=vs1XPQ2Rojzh7YqwFt7kO7pS4utx2/EjjBYEEyKjpx/nUzI92Sh0YPcyhi1RTybsck
- jpn8BKxMU7OpFmm31hejUUDsGMyHnGnk3G23YndsHOqn6Ry7Ee4AsewslfbEPm+DYrQh
- YBbaTTPSSG/fAGmX485gI/bWQy2RntWqGJwMhXSvw1Ypmf8OODgE/aVRz1N8ubcDXR69
- wdr4kdj7V9RF3VvrbWcPpO17b77bXqmFA+vaFi5QiqmChDsLLZ9+jimGtFvE2uDLiGQ3
- mg+p/yiW1LMDtNqrWzx84QX1T7LlXqLW3TGSoYsn1Ppw28m6XBjtH+2rvpD3hw3VXx0e
- SP9g==
+ bh=bFAezJgzhLk/XmeE7VgQ9MaGwktz/r2q3b0iqxiOiYg=;
+ b=uE/zjXOsHCKA1yfYd1lKnkxVxbEl50lepz34CgfBnlMHDDurIZHvD67jwagAprFV+c
+ C36cbUaef+24qogu0ACFxfXxyZFWkTOHYh06pj/QWU4VFeEuzi/FbtC2rd9Tq73afk+n
+ g10Ym6c7ImUaZ8Dz8Egdu6eXXkmVYhOKVYhIJJXwxWfOu7vuJMLq1H2CRHAZYR7EQo0Y
+ UAWzhgT45ns0tSyXtoiHutxwFFDJvuUjfEx8N1yd/p6a8aT1OIZ/HM3EYmSR+BENZXSy
+ pQj85mbrTfF5qHyzSXWF19sArUY3vmR4xTpzh6czKRNQXRQz9RcpyF25EXPjTbwPo/iD
+ /b3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+svhhmrQ2JZIwz0HIhMrY9JRUpi8arz9FGzMpWlfe1A=;
- b=Cxk00f5zEuLnP/MOE6Vck8otRCgmbJPcJHHNLxgEi2nc9NkdeKpgFn9NZyqvHz8wLS
- ocwLcnzzlPPKnqT9N1Svf2ajsBrzIWfTdkuTlxusdYpkS8zFTmdecqtwKwPb7g/7WK4M
- sKgKsRd9s87w+nvHyZpHOFOxWqq8roKznwox+gS+a/HYv8Y9LQWHS5z7a8aEE+QUy1jP
- zhE6D+gpk7bbK6kaiUyGGVyxXn2oafDH5QW+kJ3424EGJNRoX5yi0umxjMt/tH2GjBGQ
- dLhQChZoIMYmVFYUASG2cnXjvur40V6Zi+ofPpIxSnRnu7ZNLQladNTGZHkM9WgNRaNM
- 8m8A==
-X-Gm-Message-State: ANoB5pltWJqhM34pI8eypHS7DXXQ5A34BImvpvz4N3tTV7nzNWfY2kTC
- 7WdTDpOMmJkRGiz331gPpUPVrQ==
-X-Google-Smtp-Source: AA0mqf605OHR3F0uXKZeMzxqP0xGDWwITb4hZb9XYtG6UV/4PPRUE4LRqTs3f5sIX5R3hXyPvSxr2A==
-X-Received: by 2002:a05:600c:3508:b0:3c6:e63e:816f with SMTP id
- h8-20020a05600c350800b003c6e63e816fmr13909659wmq.38.1670919732868; 
- Tue, 13 Dec 2022 00:22:12 -0800 (PST)
+ bh=bFAezJgzhLk/XmeE7VgQ9MaGwktz/r2q3b0iqxiOiYg=;
+ b=QXnCLek8g4jijwpdIkdHoDC3pMPQZucFTzDnDc7kRc6CuK/MAqYG7aBq/bUuQlzS6P
+ XAYm/Jmc/6K/ptxrWKLE6EL/6sSmFgvEMp1epFlgAm73Qcl5SW1SVAgpjfFe4o8J2/7J
+ hXYG1QeGi99kLxwqb+Q5eEkAjShd+obQm8CDrVTmnKkKIHuofBDOKFner4V4tF0SV9f/
+ /rOlaw+inkS/QchAiIXom6CmWN0BgUSuGPe+qnfMzbBHWl/WVtVqXtN58FEo3ipghMf/
+ 3dQsgVEIRNJmfVdfloJnpHdjbBtMEOyfmRxnIXmFt1UCCKtPSNWDqZTp9+10Vj44maR7
+ 8wJg==
+X-Gm-Message-State: ANoB5pnnloQ3nwelEHdxey46ckWxmG0gCibBE0LOiyG82xfCugt8A+mt
+ Ax785EIkrUxwq5aPD+AlYSckNQ==
+X-Google-Smtp-Source: AA0mqf51xFre89I6+ZW+TkBqa+shbQZhXmC5MknI4VeThU/DbR35fUn+BrHeQSts6bDrSb4FyU4/vQ==
+X-Received: by 2002:a05:600c:3b15:b0:3d0:d177:cac1 with SMTP id
+ m21-20020a05600c3b1500b003d0d177cac1mr14708566wms.36.1670920374137; 
+ Tue, 13 Dec 2022 00:32:54 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j41-20020a05600c1c2900b003b4ff30e566sm1705084wms.3.2022.12.13.00.22.11
+ p16-20020a05600c359000b003d1f2c3e571sm13210889wmq.33.2022.12.13.00.32.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Dec 2022 00:22:12 -0800 (PST)
-Message-ID: <262be425-f94e-e3a4-02ca-3c0b2a555ac9@linaro.org>
-Date: Tue, 13 Dec 2022 09:22:10 +0100
+ Tue, 13 Dec 2022 00:32:53 -0800 (PST)
+Message-ID: <6e6afa52-0a46-91fa-ebd4-642dfd2499a9@linaro.org>
+Date: Tue, 13 Dec 2022 09:32:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
 Subject: Re: [RFC PATCH-for-8.0 06/10] hw/virtio: Cache access_is_big_endian
  value in VirtIODevice state
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>
+To: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -75,11 +74,13 @@ References: <20221212230517.28872-1-philmd@linaro.org>
  <20221212230517.28872-7-philmd@linaro.org>
  <94c26d02-94d5-ec42-99bf-3fac080e567e@linaro.org>
  <8ed5aab1-402f-9d9b-c70e-5d8082d35d1e@linaro.org>
-In-Reply-To: <8ed5aab1-402f-9d9b-c70e-5d8082d35d1e@linaro.org>
+ <8bc3e65d-3f1f-22e5-d56e-2b8bb1a57319@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <8bc3e65d-3f1f-22e5-d56e-2b8bb1a57319@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,117 +103,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/12/22 08:30, Philippe Mathieu-Daudé wrote:
-> On 13/12/22 01:14, Richard Henderson wrote:
->> On 12/12/22 17:05, Philippe Mathieu-Daudé wrote:
->>> The device endianness doesn't change during runtime.
+On 13/12/22 09:03, Thomas Huth wrote:
+> On 13/12/2022 08.30, Philippe Mathieu-Daudé wrote:
+>> On 13/12/22 01:14, Richard Henderson wrote:
+>>> On 12/12/22 17:05, Philippe Mathieu-Daudé wrote:
+>>>> The device endianness doesn't change during runtime.
+>>>
+>>> What are you talking about?  Of course it does.
 >>
->> What are you talking about?  Of course it does.
+>> The host CPU certainly does, but the virtio device doesn't... Does it?
+>>
+>> This check only consider the device, not the CPU:
+>>
+>>      bool virtio_access_is_big_endian(VirtIODevice *vdev)
+>>      {
+>>      #if defined(LEGACY_VIRTIO_IS_BIENDIAN)
+>>          return virtio_is_big_endian(vdev);
+>>      #elif TARGET_BIG_ENDIAN
+>>          if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+>>              /*Devices conforming to VIRTIO 1.0 or later are always LE.*/
+>>              return false;
+>>          }
+>>          return true;
 > 
-> The host CPU certainly does, but the virtio device doesn't... Does it?
-> 
-> This check only consider the device, not the CPU:
-> 
->      bool virtio_access_is_big_endian(VirtIODevice *vdev)
->      {
->      #if defined(LEGACY_VIRTIO_IS_BIENDIAN)
->          return virtio_is_big_endian(vdev);
->      #elif TARGET_BIG_ENDIAN
->          if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
->              /*Devices conforming to VIRTIO 1.0 or later are always LE.*/
->              return false;
->          }
->          return true;
->      #else
->          return false;
->      #endif
->      }
-> 
->      static inline bool virtio_is_big_endian(VirtIODevice *vdev)
->      {
->          if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
->              assert(vdev->device_endian != VIRTIO_DEVICE_ENDIAN_UNKNOWN);
->              return vdev->device_endian == VIRTIO_DEVICE_ENDIAN_BIG;
->          }
->          /* Devices conforming to VIRTIO 1.0 or later are always LE. */
->          return false;
->      }
-> 
-> and once the features are negotiated it doesn't seem to change.
+> Well, this part here means that the endianness can indeed change on the 
+> device side during runtime. Depending on whether VIRTIO_F_VERSION_1 is 
+> negotiated or not, the device is little or big endian. Happens on s390x 
+> for example - for legacy virtio, big endian is used, and for modern 
+> virtio, little endian is used instead.
 
-Per the spec, if the device changes its endianness, it must set the
-VIRTIO_CONFIG_S_NEEDS_RESET bit:
+virtio_is_big_endian() depends on vdev->device_endian which is set in:
 
-   3.2.1 Notification of Device Configuration Changes
+1) virtio_init()
 
-   For devices where the device-specific configuration information
-   can be changed, a configuration change notification is sent when
-   a device-specific configuration change occurs.
-   In addition, this notification is triggered by the device setting
-   DEVICE_NEEDS_RESET
+     void virtio_init(VirtIODevice *vdev, uint16_t device_id,
+                      size_t config_size)
+     {
+         ....
+         vdev->device_endian = virtio_default_endian();
 
-However QEMU doesn't read this bit, only sets it:
+2) virtio_load()
 
-hw/virtio/virtio.c:3551:        vdev->status = vdev->status | 
-VIRTIO_CONFIG_S_NEEDS_RESET;
-include/standard-headers/linux/virtio_config.h:44:#define 
-VIRTIO_CONFIG_S_NEEDS_RESET   0x40
+     int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
+     {
+         int i, ret;
+         int32_t config_len;
+         uint32_t num;
+         uint32_t features;
+         BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
+         VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+         VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
 
->> I mean, it doesn't often in practice, because the Linux kernel is 
->> compiled for one endianness and doesn't keep toggling state, but the 
->> hooks that you're replacing test for the *current* endianness state of 
->> the cpu.  So this is a behaviour change.
-> 
-> I agree. Note however currently the CPU endianness is only checked once
-> upon virtio device reset (or from a migration stream):
-> 
->      void virtio_reset(void *opaque)
->      {
->          VirtIODevice *vdev = opaque;
->          VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->          int i;
-> 
->          virtio_set_status(vdev, 0);
->          if (current_cpu) {
->              /* Guest initiated reset */
->              vdev->device_endian = virtio_current_cpu_endian();
->          } else {
->              /* System reset */
->              vdev->device_endian = virtio_default_endian();
->          }
-> 
->      bool cpu_virtio_is_big_endian(CPUState *cpu)
->      {
->          CPUClass *cc = CPU_GET_CLASS(cpu);
-> 
->          if (cc->sysemu_ops->virtio_is_big_endian) {
->              return cc->sysemu_ops->virtio_is_big_endian(cpu);
->          }
->          return target_words_bigendian();
->      }
-> 
-> ARM being the single arch implementing a runtime endianness check:
-> 
->      static bool arm_cpu_virtio_is_big_endian(CPUState *cs)
->      {
->          ARMCPU *cpu = ARM_CPU(cs);
->          CPUARMState *env = &cpu->env;
-> 
->          cpu_synchronize_state(cs);
->          return arm_cpu_data_is_big_endian(env);
->      }
+         /*
+          * We poison the endianness to ensure it does not get
+          * used before subsections have been loaded.
+          */
+         vdev->device_endian = VIRTIO_DEVICE_ENDIAN_UNKNOWN;
+         ....
 
-virtio_reset() is only called by virtio_bus_reset().
+         if (vdev->device_endian == VIRTIO_DEVICE_ENDIAN_UNKNOWN) {
+             vdev->device_endian = virtio_default_endian();
+         }
 
-$ git grep -w virtio_bus_reset
-hw/s390x/virtio-ccw.c:256:    virtio_bus_reset(&dev->bus);
-hw/virtio/virtio-bus.c:102:void virtio_bus_reset(VirtioBusState *bus)
-hw/virtio/virtio-mmio.c:75:    virtio_bus_reset(&proxy->bus);
-hw/virtio/virtio-pci.c:1998:    virtio_bus_reset(bus);
+3) virtio_reset()
 
-So the result of virtio_access_is_big_endian() is only updated there,
-after a virtio_bus_reset() call, and IIUC  isn't dependent on the CPU
-endianness state, thus can be cached in VirtIODevice. But maybe the
-current implementation is incomplete and my change is simply making
-it worst...
+     void virtio_reset(void *opaque)
+     {
+         VirtIODevice *vdev = opaque;
+         VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+         int i;
+
+         virtio_set_status(vdev, 0);
+         if (current_cpu) {
+             /* Guest initiated reset */
+             vdev->device_endian = virtio_current_cpu_endian();
+         } else {
+             /* System reset */
+             vdev->device_endian = virtio_default_endian();
+         }
+
+So the current patch is not complete and should be:
+
+-- >8 --
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 09b1a0e3d9..b02b9058f9 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2124,6 +2124,7 @@ void virtio_reset(void *opaque)
+          /* System reset */
+          vdev->device_endian = virtio_default_endian();
+      }
++    vdev->access_is_big_endian = virtio_access_is_big_endian(vdev);
+
+      if (k->reset) {
+          k->reset(vdev);
+@@ -3018,6 +3019,7 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, 
+int version_id)
+
+      if (vdev->device_endian == VIRTIO_DEVICE_ENDIAN_UNKNOWN) {
+          vdev->device_endian = virtio_default_endian();
++        vdev->access_is_big_endian = virtio_access_is_big_endian(vdev);
+      }
+
+      if (virtio_64bit_features_needed(vdev)) {
+@@ -3193,6 +3195,7 @@ void virtio_init(VirtIODevice *vdev, uint16_t 
+device_id, size_t config_size)
+      vdev->vmstate = qdev_add_vm_change_state_handler(DEVICE(vdev),
+              virtio_vmstate_change, vdev);
+      vdev->device_endian = virtio_default_endian();
++    vdev->access_is_big_endian = virtio_access_is_big_endian(vdev);
+      vdev->use_guest_notifier_mask = true;
+  }
+---
+
+Still, the result of virtio_access_is_big_endian() doesn't depend on
+the CPU endianness in my analysis... What am I missing?
+
+Thanks,
+
+Phil.
 
