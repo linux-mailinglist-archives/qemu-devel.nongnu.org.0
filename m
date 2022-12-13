@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C980B64B06F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 08:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098E464B076
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 08:37:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p4zkh-0000UV-QC; Tue, 13 Dec 2022 02:30:59 -0500
+	id 1p4zpd-0002aU-4s; Tue, 13 Dec 2022 02:36:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4zkZ-0000Sl-BM
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 02:30:53 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4zpP-0002W6-0k
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 02:35:51 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4zkV-0004UC-9V
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 02:30:50 -0500
-Received: by mail-wm1-x336.google.com with SMTP id m19so7560261wms.5
- for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 23:30:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p4zpK-0005tr-Ba
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 02:35:50 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so7268987wms.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Dec 2022 23:35:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=D4KtxJrP8/Ha0aZs67Xp4z/g0zPtBzIPmT9rfWKarfw=;
- b=NFPc4tgmWpSnc4p9HQPI9+bSWptcHNGgTY5kagyPqu1rlTzAmXCNjuZ5JsM3A4b57V
- E5v4iKIYPZ15Iwl+eCj5KU13UPmji8SZJoIdCbi2aaB71ciawAK6aTdtmxoyimmN3+1Y
- pfRV8UYOd6apxjjBEmTJhQqCn9QPy8Bc0jD/34572MwF/5vnqM8ZN08ZvDG5hLxrkvM0
- h6e+K2tNeo2HQ09Dqf3aBntmf8J8BOIM5byuMSUubceSuET5nWnYjbFwLm9fXvzR5Zye
- lx+YZzcGYggrvzFRj+y3Ka9j4v1hc8k9rBDf5B9Sd3X3klmJp4RS10VfdarjeOy1OplT
- x2ig==
+ bh=YtcS8zSud1RIHXg6ZTxM221ENUVsd1/mjpXO5+2Hcew=;
+ b=BZMkbufnzPGZt5zOpi0IhlzYRCWkxNsKf31m+eojxstZBJT7HtZAvwNnVpt096vbBZ
+ WIFjmrz0ceUErxo235Dlc1Gl5OSJsTf0ow7eruioS5fo4H+50COlCNGA55IsNSU5vrwe
+ eoOOmfQvJhYYZfoKPsE1MqwEtVOAtLiBkl5+5trSMfV2ZKuAC6HJOFYa2fY17z2T0GUJ
+ djd4e9pCCIoSlv7v0/O2BeDpO1BBtDTBduiD6vmzcMywsANxx90INZY5grZ158nDSKGe
+ Q7I8GVmAdynz87wMsL//RtPeSiAkQow7k6/zfjNT+aFVrAkd3KWl3DlcMQk8qXsC7prD
+ oRlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=D4KtxJrP8/Ha0aZs67Xp4z/g0zPtBzIPmT9rfWKarfw=;
- b=C7snR0ffFIXt7T56y+eq1A0wfUAp+Lbhisa0dEBW28D2Q+xQbtBWO54QgYwpt2Dwpl
- Jg3ZcIVVs8ULG9PygDwVEpq+1nEXpSNt/Ze5VFYGq56yjb5v4PfI9aKC3r5vo7YXQbZS
- t+G7rQFmTIoZ7zSOuF5ov0r7rZdNkumiJ8NIxO6/gyA8JhYQ3E8rlz89VPS55nvRyLQi
- oUN7Mu9ezA2dsT921C0d3g/sEwtBZTftOo5ZJZwBSEQ/21Uf1ku7cMJLkezv9Wq63GM2
- j2lGYKd+II7EMi36QfHGVGjeBirxjKc72jQGUdDmBqCl8tP5RoHxr1FGWQX8SrKmDcrg
- u26g==
-X-Gm-Message-State: ANoB5plXwbwsfDqA9Y0o6Vjw7gJGRiTmdBziNK2Wg0c+/vVIXOmyfxPP
- G4K6EH6zhXW5NCP6FJMK8fyLow==
-X-Google-Smtp-Source: AA0mqf6qH1VxQY3Ut3pN2blMiUeC3QJ3w5+s8KdLQKiSh6EbKhJNVhrGgEBdDSlbUHRT5VQYh5D1hQ==
-X-Received: by 2002:a05:600c:3d8f:b0:3cf:d70d:d5a8 with SMTP id
- bi15-20020a05600c3d8f00b003cfd70dd5a8mr13923809wmb.6.1670916644428; 
- Mon, 12 Dec 2022 23:30:44 -0800 (PST)
+ bh=YtcS8zSud1RIHXg6ZTxM221ENUVsd1/mjpXO5+2Hcew=;
+ b=dNudp25LYGnY3gIlS2bsbftvVUzvN6i148sAYxNbZc1l9TNSSF5x600U0/zV0h52Tr
+ jydBKIq9tH0atVh5einkFcqIiajLCfMRxzuP90JpFIRjppstVSHoE23C5bpLjXnHittn
+ cJFemYpJxE1ipzKMtBV+yu9VnaD7rOHI/fDhMIF6is3GOW4b7gz7OygtVk278GIDfPud
+ X/AdvzwaBEhue2N8aQ26dNvN8TmztuY2TidwyWbaTEqz1bb4UiBKIoIQ4tbhcLEWSUKO
+ XdHD4wow4SwS/QpDw0Oa9ZqB1RXAQWlxdRp5s5OJHsKEkSafNfHOWUC66uHDPSKYDMZ5
+ uTBA==
+X-Gm-Message-State: ANoB5pm0NCofPzaZhsz6C17Q0fyxC/uJp2h1C5bOxM+Ln0DbaqLC8EGU
+ tajNrSJagRJmaheyOc22zAipdQ==
+X-Google-Smtp-Source: AA0mqf6JoNpa5pnGWAQgG5nXiLOl/9RUPgqpUdZCP82hWOU9zfehEVsKLuM8Lfwj7WTa2um3EXrM4g==
+X-Received: by 2002:a05:600c:3c9a:b0:3c6:c6c9:d75e with SMTP id
+ bg26-20020a05600c3c9a00b003c6c6c9d75emr18306302wmb.0.1670916942782; 
+ Mon, 12 Dec 2022 23:35:42 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h7-20020a05600c314700b003cfd4a50d5asm13319670wmo.34.2022.12.12.23.30.43
+ c1-20020a05600c0a4100b003d1e3b1624dsm13302129wmq.2.2022.12.12.23.35.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Dec 2022 23:30:43 -0800 (PST)
-Message-ID: <8ed5aab1-402f-9d9b-c70e-5d8082d35d1e@linaro.org>
-Date: Tue, 13 Dec 2022 08:30:42 +0100
+ Mon, 12 Dec 2022 23:35:42 -0800 (PST)
+Message-ID: <6aba35a8-2600-15a6-4b5b-9fbd0eec2b72@linaro.org>
+Date: Tue, 13 Dec 2022 08:35:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [RFC PATCH-for-8.0 06/10] hw/virtio: Cache access_is_big_endian
- value in VirtIODevice state
+Subject: Re: [PATCH-for-8.0 03/10] hw/virtio: Constify
+ qmp_virtio_feature_map_t[]
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
  Thomas Huth <thuth@redhat.com>
@@ -70,14 +71,14 @@ Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Hanna Reitz <hreitz@redhat.com>
 References: <20221212230517.28872-1-philmd@linaro.org>
- <20221212230517.28872-7-philmd@linaro.org>
- <94c26d02-94d5-ec42-99bf-3fac080e567e@linaro.org>
+ <20221212230517.28872-4-philmd@linaro.org>
+ <09673dfc-1cc9-e5e4-97f5-9539abe92cb2@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <94c26d02-94d5-ec42-99bf-3fac080e567e@linaro.org>
+In-Reply-To: <09673dfc-1cc9-e5e4-97f5-9539abe92cb2@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,93 +101,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/12/22 01:14, Richard Henderson wrote:
+On 13/12/22 01:02, Richard Henderson wrote:
 > On 12/12/22 17:05, Philippe Mathieu-Daudé wrote:
->> The device endianness doesn't change during runtime.
+>> @@ -161,7 +161,7 @@ static qmp_virtio_feature_map_t 
+>> vhost_user_protocol_map[] = {
+>>   };
+>>   /* virtio device configuration statuses */
+>> -static qmp_virtio_feature_map_t virtio_config_status_map[] = {
+>> +static const qmp_virtio_feature_map_t virtio_config_status_map[] = {
+>>       FEATURE_ENTRY(VIRTIO_CONFIG_S_DRIVER_OK, \
+>>               "VIRTIO_CONFIG_S_DRIVER_OK: Driver setup and ready"),
+>>       FEATURE_ENTRY(VIRTIO_CONFIG_S_FEATURES_OK, \
+>> @@ -179,7 +179,7 @@ static qmp_virtio_feature_map_t 
+>> virtio_config_status_map[] = {
+>>   };
+>>   /* virtio-blk features mapping */
+>> -qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
+>> +const qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
+>>       FEATURE_ENTRY(VIRTIO_BLK_F_SIZE_MAX, \
+>>               "VIRTIO_BLK_F_SIZE_MAX: Max segment size is size_max"),
+>>       FEATURE_ENTRY(VIRTIO_BLK_F_SEG_MAX, \
 > 
-> What are you talking about?  Of course it does.
+> It appears all of the ones not marked static can be?
 
-The host CPU certainly does, but the virtio device doesn't... Does it?
+It seems some are not static to avoid "declared static but not used"
+warnings due to how they are conditionally used with the
+CONFIG_VIRTIO_xxx guards in qmp_decode_features():
 
-This check only consider the device, not the CPU:
+     /* device features */
+     switch (device_id) {
+#ifdef CONFIG_VIRTIO_SERIAL
+     case VIRTIO_ID_CONSOLE:
+         features->dev_features =
+             CONVERT_FEATURES(strList, virtio_serial_feature_map, 0, 
+bitmap);
+         break;
+#endif
+#ifdef CONFIG_VIRTIO_BLK
+     case VIRTIO_ID_BLOCK:
+         features->dev_features =
+             CONVERT_FEATURES(strList, virtio_blk_feature_map, 0, bitmap);
+         break;
+#endif
+#ifdef CONFIG_VIRTIO_GPU
+     case VIRTIO_ID_GPU:
+         features->dev_features =
+             CONVERT_FEATURES(strList, virtio_gpu_feature_map, 0, bitmap);
+         break;
+#endif
 
-     bool virtio_access_is_big_endian(VirtIODevice *vdev)
-     {
-     #if defined(LEGACY_VIRTIO_IS_BIENDIAN)
-         return virtio_is_big_endian(vdev);
-     #elif TARGET_BIG_ENDIAN
-         if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-             /*Devices conforming to VIRTIO 1.0 or later are always LE.*/
-             return false;
-         }
-         return true;
-     #else
-         return false;
-     #endif
-     }
+> Otherwise you should have needed to adjust some header file as well.
 
-     static inline bool virtio_is_big_endian(VirtIODevice *vdev)
-     {
-         if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-             assert(vdev->device_endian != VIRTIO_DEVICE_ENDIAN_UNKNOWN);
-             return vdev->device_endian == VIRTIO_DEVICE_ENDIAN_BIG;
-         }
-         /* Devices conforming to VIRTIO 1.0 or later are always LE. */
-         return false;
-     }
-
-and once the features are negotiated it doesn't seem to change.
-
-> I mean, it doesn't often in practice, because the Linux kernel is 
-> compiled for one endianness and doesn't keep toggling state, but the 
-> hooks that you're replacing test for the *current* endianness state of 
-> the cpu.  So this is a behaviour change.
-
-I agree. Note however currently the CPU endianness is only checked once
-upon virtio device reset (or from a migration stream):
-
-     void virtio_reset(void *opaque)
-     {
-         VirtIODevice *vdev = opaque;
-         VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-         int i;
-
-         virtio_set_status(vdev, 0);
-         if (current_cpu) {
-             /* Guest initiated reset */
-             vdev->device_endian = virtio_current_cpu_endian();
-         } else {
-             /* System reset */
-             vdev->device_endian = virtio_default_endian();
-         }
-
-     bool cpu_virtio_is_big_endian(CPUState *cpu)
-     {
-         CPUClass *cc = CPU_GET_CLASS(cpu);
-
-         if (cc->sysemu_ops->virtio_is_big_endian) {
-             return cc->sysemu_ops->virtio_is_big_endian(cpu);
-         }
-         return target_words_bigendian();
-     }
-
-ARM being the single arch implementing a runtime endianness check:
-
-     static bool arm_cpu_virtio_is_big_endian(CPUState *cs)
-     {
-         ARMCPU *cpu = ARM_CPU(cs);
-         CPUARMState *env = &cpu->env;
-
-         cpu_synchronize_state(cs);
-         return arm_cpu_data_is_big_endian(env);
-     }
-
-> Have you considered that the bootloader and the kernel may use different 
-> endianness?
-
-Certainly, but I'll revisit the code more thoughtfully.
-
-Thanks,
-
-Phil.
+OK I'll guard them with the corresponding #ifdef'ry.
 
