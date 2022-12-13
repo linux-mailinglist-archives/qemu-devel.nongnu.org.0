@@ -2,116 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2E364B6B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 15:04:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315C264B6D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 15:07:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p55qx-0007Sz-U1; Tue, 13 Dec 2022 09:01:51 -0500
+	id 1p55vz-00020H-M4; Tue, 13 Dec 2022 09:07:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1p55qB-0007IT-N5; Tue, 13 Dec 2022 09:01:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p55vj-0001xa-Q1
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 09:06:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1p55q9-0003T9-NP; Tue, 13 Dec 2022 09:01:03 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BDD7wrn030621; Tue, 13 Dec 2022 14:00:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Be2613vPcDXFCaoEzg3yxkoca/+V5bKMGnQFiiDDsbU=;
- b=LZpOjC2snaMJLullDsOCwhH5e4qqjAVskDWt3BP2TuTyqdIq2wAbG/qhjAkIcSLD/sBS
- DM6TtCz9RQ1ygc3xJpv2jRgWJ+/3pZLwrOuVEN2uLhuxqUa92VDdeSq54tIXDEX6fJsy
- /JNF7PELBjOVT9WC2Mw/6gcuX9cWrS+A+PV+/KjKK8ZNCHNL3OXCol8JF3+/XLvsKrzX
- ZfpyFsci0sEXfdBQbWTtvX9H8HmCHN+NpiLK7hpVqqIx0jYGufxeCRYwaYULNvEKwIkU
- CDUIxbL4Az+HhwyQx91SdM+friJ1FQzVetYuqOdytuobLApcNOGmeg8Ac6E/13o0QQZS 7g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3merxu384x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 14:00:50 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BDD8RPU032310;
- Tue, 13 Dec 2022 14:00:49 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3merxu3837-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 14:00:49 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BD5ZcJo030834;
- Tue, 13 Dec 2022 14:00:47 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3mchr5v8uj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 14:00:46 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BDE0hDn19857830
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Dec 2022 14:00:43 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4F6C320067;
- Tue, 13 Dec 2022 14:00:43 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 11BED2005A;
- Tue, 13 Dec 2022 14:00:42 +0000 (GMT)
-Received: from [9.171.21.177] (unknown [9.171.21.177])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 13 Dec 2022 14:00:41 +0000 (GMT)
-Message-ID: <2c78ec97-647b-d02f-f26e-caf4ef6a7357@de.ibm.com>
-Date: Tue, 13 Dec 2022 15:00:41 +0100
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p55vi-0006VY-7F
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 09:06:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1670940404;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yflbXprPav5LePv1sfr7eUhwKL35oUiK+qy8NJcnxU8=;
+ b=gZOf9MtwvgoQplrxm166569Y1jg7hiUKm46386hYQwXOw7CvVUeubWQQVoBtUKicsyNxD4
+ pJjeEtK+b9uFY2FtY1AnMrg7lDMJZT8cOxp7hsKrjhNjOwt6iVtDNzeYuI0RiYZrKmH0fP
+ wI4yJ/4ctMRQxVTuNo22Zh0tE1lE77E=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-173-rzsWo6kSMMSyAkoCMAfbYA-1; Tue, 13 Dec 2022 09:06:12 -0500
+X-MC-Unique: rzsWo6kSMMSyAkoCMAfbYA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ c21-20020adfa315000000b002425bf67a87so2895298wrb.19
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 06:06:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yflbXprPav5LePv1sfr7eUhwKL35oUiK+qy8NJcnxU8=;
+ b=y/WbLpgjrpOsqLDeU6ZSvYxeNE2t/a6ag98lucpYzYlXwW6CCsg5uN1RZtiGwYUVuq
+ wp+gEO8pHxG/H4kviUdsTwB5PQR8x9V3nmWmi2/tPopSsJ440Z+nr4hVQgoiGmkeb8EQ
+ +VfpZ/pAkCaRNBWdHZ31R7OXwamT1L/NJsw2tszTVdho1tFJ83B4XquLpjqvw2XDy5FT
+ pRuL+WJMENLyIOoN3rXMtQ+KYySE/7DH4td1HfxTGdrVxRmeTtUDBdM2fbC1lKGYr3vL
+ VyqAybwGEUtiUjNirOPf7W64XlZyEO+iGFh/3IJ0qY4vZOblhSTJ3synDeQmIL5Ks/n4
+ aQMg==
+X-Gm-Message-State: ANoB5plPjxipCwOYrV5gZt2WA+bZshAozq1mYssEZ8PSUj10C6+P49Rf
+ rQ1VuXjYx6A3ITCqLCe2lAnOVdUux4DyBbLPsB0Lq3kZQAEB5L5hhLLOqDRqOwrAkxgF7SDdr50
+ r55GdU3P5Mhk2WHM=
+X-Received: by 2002:a05:600c:4f85:b0:3cf:93de:14e8 with SMTP id
+ n5-20020a05600c4f8500b003cf93de14e8mr15519865wmq.39.1670940371218; 
+ Tue, 13 Dec 2022 06:06:11 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6mv2mCP+QiSyHoP/37T6W5Nou5ICpPLYJl8LjNwQQxn5s4UxXM2OEI1/pJ1FfIa23jDLBi6w==
+X-Received: by 2002:a05:600c:4f85:b0:3cf:93de:14e8 with SMTP id
+ n5-20020a05600c4f8500b003cf93de14e8mr15519841wmq.39.1670940370881; 
+ Tue, 13 Dec 2022 06:06:10 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0?
+ ([2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0])
+ by smtp.gmail.com with ESMTPSA id
+ o25-20020a05600c511900b003c6f8d30e40sm14313639wms.31.2022.12.13.06.06.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Dec 2022 06:06:10 -0800 (PST)
+Message-ID: <871a3c4b-a4a1-5736-8593-8cbaef28bad9@redhat.com>
+Date: Tue, 13 Dec 2022 15:06:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v13 0/7] s390x: CPU Topology
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v1 10/24] vfio-user: get device info
 Content-Language: en-US
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, pasic@linux.ibm.com, richard.henderson@linaro.org, 
- david@redhat.com, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com, clg@kaod.org
-References: <20221208094432.9732-1-pmorel@linux.ibm.com>
- <8c0777d2-7b70-51ce-e64a-6aff5bdea8ae@redhat.com>
- <60f006f4-d29e-320a-d656-600b2fd4a11a@linux.ibm.com>
- <864cc127-2dbd-3792-8851-937ef4689503@redhat.com>
- <90514038-f10c-33e7-3600-e3131138a44d@linux.ibm.com>
- <73238c6c-a9dc-9d18-8ffb-92c8a41922d3@redhat.com>
- <b36eef2e-92ed-a0ea-0728-4a5ea5bf25d9@de.ibm.com>
- <00a4750ac9874d5bb41221468f4bd01136f446c9.camel@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-In-Reply-To: <00a4750ac9874d5bb41221468f4bd01136f446c9.camel@linux.ibm.com>
+To: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
+References: <cover.1667542066.git.john.g.johnson@oracle.com>
+ <d0fcc3415ab22bf66bbd86c1d69d4dade8c023bb.1667542066.git.john.g.johnson@oracle.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <d0fcc3415ab22bf66bbd86c1d69d4dade8c023bb.1667542066.git.john.g.johnson@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 1Ey3i4CPJOXX6q32y8XsxJt9zaYKVDVW
-X-Proofpoint-ORIG-GUID: eQBGNudQEB7QncYIqBt8qKvLdm6Qnm9u
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-13_03,2022-12-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- adultscore=0 clxscore=1015 phishscore=0 malwarescore=0 spamscore=0
- bulkscore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212130120
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -127,60 +100,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 11/9/22 00:13, John Johnson wrote:
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>   hw/vfio/pci.c           | 15 ++++++++++++++
+>   hw/vfio/user-protocol.h | 13 ++++++++++++
+>   hw/vfio/user.c          | 55 +++++++++++++++++++++++++++++++++++++++++++++++++
+>   hw/vfio/user.h          |  2 ++
+>   4 files changed, 85 insertions(+)
+> 
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index b2534b3..2e0e41d 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -3465,6 +3465,8 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+>       VFIODevice *vbasedev = &vdev->vbasedev;
+>       SocketAddress addr;
+>       VFIOProxy *proxy;
+> +    struct vfio_device_info info;
+> +    int ret;
+>       Error *err = NULL;
+>   
+>       /*
+> @@ -3503,6 +3505,19 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+>       vbasedev->ops = &vfio_user_pci_ops;
+>       vbasedev->type = VFIO_DEVICE_TYPE_PCI;
+>       vbasedev->dev = DEVICE(vdev);
+> +    vbasedev->io_ops = &vfio_dev_io_sock;
+> +
+> +    ret = VDEV_GET_INFO(vbasedev, &info);
 
+We are dealing with a "vfio-user-pci" device since this is being
+called from the realize handler.
 
-Am 13.12.22 um 14:57 schrieb Janis Schoetterl-Glausch:
-> On Tue, 2022-12-13 at 14:41 +0100, Christian Borntraeger wrote:
->>
->> Am 12.12.22 um 11:17 schrieb Thomas Huth:
->>> On 12/12/2022 11.10, Pierre Morel wrote:
->>>>
->>>>
->>>> On 12/12/22 10:07, Thomas Huth wrote:
->>>>> On 12/12/2022 09.51, Pierre Morel wrote:
->>>>>>
->>>>>>
->>>>>> On 12/9/22 14:32, Thomas Huth wrote:
->>>>>>> On 08/12/2022 10.44, Pierre Morel wrote:
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> Implementation discussions
->>>>>>>> ==========================
->>>>>>>>
->>>>>>>> CPU models
->>>>>>>> ----------
->>>>>>>>
->>>>>>>> Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
->>>>>>>> for old QEMU we could not activate it as usual from KVM but needed
->>>>>>>> a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
->>>>>>>> Checking and enabling this capability enables
->>>>>>>> S390_FEAT_CONFIGURATION_TOPOLOGY.
->>>>>>>>
->>>>>>>> Migration
->>>>>>>> ---------
->>>>>>>>
->>>>>>>> Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
->>>>>>>> host the STFL(11) is provided to the guest.
->>>>>>>> Since the feature is already in the CPU model of older QEMU,
->>>>>>>> a migration from a new QEMU enabling the topology to an old QEMU
->>>>>>>> will keep STFL(11) enabled making the guest get an exception for
->>>>>>>> illegal operation as soon as it uses the PTF instruction.
->>>>>>>
->>>>>>> I now thought that it is not possible to enable "ctop" on older QEMUs since the don't enable the KVM capability? ... or is it still somehow possible? What did I miss?
->>>>>>>
->>>>>>>    Thomas
->>>>>>
->>>>>> Enabling ctop with ctop=on on old QEMU is not possible, this is right.
->>>>>> But, if STFL(11) is enable in the source KVM by a new QEMU, I can see that even with -ctop=off the STFL(11) is migrated to the destination.
->>
->> This does not make sense. the cpu model and stfle values are not migrated. This is re-created during startup depending on the command line parameters of -cpu.
->> Thats why source and host have the same command lines for -cpu. And STFLE.11 must not be set on the SOURCE of ctop is off.
->>
-> What about linux? I didn't look to thoroughly at it, but it caches the stfle bits, doesn't it?
-> So if the migration succeeds, even tho it should not, it will look to the guest like the facility is enabled.
+Is it really useful to go through the ops abstraction layer here ?
+Can't we simply call vfio_user_get_info() ?  and propagate the
+underlying Error while we're at it.
+  
+> +    if (ret) {
+> +        error_setg_errno(errp, -ret, "get info failure");
+> +        goto error;
+> +    }
+> +
+> +    vfio_populate_device(vdev, &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        goto error;
+> +    }
+>   
+>       return;
+>   
+> diff --git a/hw/vfio/user-protocol.h b/hw/vfio/user-protocol.h
+> index 5de5b20..43912a5 100644
+> --- a/hw/vfio/user-protocol.h
+> +++ b/hw/vfio/user-protocol.h
+> @@ -113,4 +113,17 @@ typedef struct {
+>    */
+>   #define VFIO_USER_DEF_MAX_BITMAP (256 * 1024 * 1024)
+>   
+> +/*
+> + * VFIO_USER_DEVICE_GET_INFO
+> + * imported from struct_device_info
 
-That is true, but the migration should not succeed in that case unless you use an unsafe way of migrating. And the cpu model was exactly added to block those unsafe way.
-One thing:
--cpu host is unsafe (host-passthrough in libvirt speak). Either use host-model or a fully specified model like z14.2,ctop=on....
+from struct vfio_device_info
+
+Thanks,
+
+C.
+
+> + */
+> +typedef struct {
+> +    VFIOUserHdr hdr;
+> +    uint32_t argsz;
+> +    uint32_t flags;
+> +    uint32_t num_regions;
+> +    uint32_t num_irqs;
+> +    uint32_t cap_offset;
+> +} VFIOUserDeviceInfo;
+> +
+>   #endif /* VFIO_USER_PROTOCOL_H */
+> diff --git a/hw/vfio/user.c b/hw/vfio/user.c
+> index 31bcc93..7873534 100644
+> --- a/hw/vfio/user.c
+> +++ b/hw/vfio/user.c
+> @@ -31,6 +31,14 @@
+>   #include "qapi/qmp/qbool.h"
+>   #include "user.h"
+>   
+> +
+> +/*
+> + * These are to defend against a malign server trying
+> + * to force us to run out of memory.
+> + */
+> +#define VFIO_USER_MAX_REGIONS   100
+> +#define VFIO_USER_MAX_IRQS      50
+> +
+>   static int wait_time = 5000;   /* wait up to 5 sec for busy servers */
+>   static IOThread *vfio_user_iothread;
+>   
+> @@ -1075,3 +1083,50 @@ int vfio_user_validate_version(VFIOProxy *proxy, Error **errp)
+>   
+>       return 0;
+>   }
+> +
+> +static int vfio_user_get_info(VFIOProxy *proxy, struct vfio_device_info *info)
+> +{
+> +    VFIOUserDeviceInfo msg;
+> +
+> +    memset(&msg, 0, sizeof(msg));
+> +    vfio_user_request_msg(&msg.hdr, VFIO_USER_DEVICE_GET_INFO, sizeof(msg), 0);
+> +    msg.argsz = sizeof(struct vfio_device_info);
+> +
+> +    vfio_user_send_wait(proxy, &msg.hdr, NULL, 0, false);
+> +    if (msg.hdr.flags & VFIO_USER_ERROR) {
+> +        return -msg.hdr.error_reply;
+> +    }
+> +
+> +    memcpy(info, &msg.argsz, sizeof(*info));
+> +    return 0;
+> +}
+> +
+> +
+> +/*
+> + * Socket-based io_ops
+> + */
+> +
+> +static int vfio_user_io_get_info(VFIODevice *vbasedev,
+> +                                 struct vfio_device_info *info)
+> +{
+> +    int ret;
+> +
+> +    ret = vfio_user_get_info(vbasedev->proxy, info);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    /* defend against a malicious server */
+> +    if (info->num_regions > VFIO_USER_MAX_REGIONS ||
+> +        info->num_irqs > VFIO_USER_MAX_IRQS) {
+> +        error_printf("vfio_user_get_info: invalid reply\n");
+> +        return -EINVAL;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +VFIODevIO vfio_dev_io_sock = {
+> +    .get_info = vfio_user_io_get_info,
+> +};
+> +
+> diff --git a/hw/vfio/user.h b/hw/vfio/user.h
+> index 8ce3cd9..2547cf6 100644
+> --- a/hw/vfio/user.h
+> +++ b/hw/vfio/user.h
+> @@ -92,4 +92,6 @@ void vfio_user_set_handler(VFIODevice *vbasedev,
+>                              void *reqarg);
+>   int vfio_user_validate_version(VFIOProxy *proxy, Error **errp);
+>   
+> +extern VFIODevIO vfio_dev_io_sock;
+> +
+>   #endif /* VFIO_USER_H */
 
 
