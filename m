@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CF564BE01
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 21:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5359964BE2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:04:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5C2A-0006SQ-Ay; Tue, 13 Dec 2022 15:37:50 -0500
+	id 1p5CQV-0004Cr-Ne; Tue, 13 Dec 2022 16:02:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5C27-0006Rw-Im
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 15:37:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1p5CQP-0004Cc-5M
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:02:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5C25-00076p-Dq
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 15:37:46 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1p5CQN-0000gZ-AV
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:02:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670963862;
+ s=mimecast20190719; t=1670965369;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ILcb08j17IBBfRXdn6iqNatgyx65Fp8i2FDTfmKShb0=;
- b=Y3QlrHSyqUaReOYzwzDz9A/IJHJETEnJP5xgc8XOdP7aTDr88hIpLhpbtrwqw3OjGngGyJ
- uH1jq4/o7JacRfQc7ftFdXFtUEYeWa6J+wcro8Naaqqti8hVTPusK2gvE5iSjxknmzN/ZV
- 3ydE/i8spFebAnnivVV+BqiC7HVk4t0=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-627-1gZqfVKNO9C4k2WWlUtR1Q-1; Tue, 13 Dec 2022 15:37:40 -0500
-X-MC-Unique: 1gZqfVKNO9C4k2WWlUtR1Q-1
-Received: by mail-qv1-f72.google.com with SMTP id
- q17-20020a056214019100b004b1d3c9f3acso15555190qvr.0
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 12:37:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ILcb08j17IBBfRXdn6iqNatgyx65Fp8i2FDTfmKShb0=;
- b=6rSiUKDGYkaf3sTKJCGnQE+0+ajtFdWR2U35Hk6evCwOr71FLbwYWT3kF5VmZyOrn1
- Zc4QfDhYX49EHajOQ93M59IyEHRJiaJe0xE7pSXCcSm+nGtUF8HCi7XKitnvceBUn9Ft
- BNikN7PXxuRptLhT9BZuee9cxp0n7WzEMaacV6rZVdhur1RyPwOzplHtQ+VO5Ge40Kwv
- WbLq0YcXyruMxd/Wm8kA0uVGNfqghy56F+Vk+xjbzor2jma7SJ7xE/FjAClCJg40WmBm
- NywgqP4zAiyp2jtQqIMs58cBkiYN26U5Tn5SpV7RuWl6ywaUU5MVpTJ+9i3YJnp7u/Ci
- fjBA==
-X-Gm-Message-State: ANoB5ploZXsQZ1Gsd3GeIc/p8jKCiS1Eydond5nxKaeY3LGbM2njktff
- HefwVkTcuc2o9CU2Op09AKw9aRdnCYTp7wm0zTE8Mo+Z0Sod78hYDQ1X9nezNT0RFzCeN1sJ023
- TcthNtFmm+K6+DfI=
-X-Received: by 2002:ad4:4f27:0:b0:4c7:5b:75ba with SMTP id
- fc7-20020ad44f27000000b004c7005b75bamr32104259qvb.31.1670963860065; 
- Tue, 13 Dec 2022 12:37:40 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf44ukQXx1DpDfZdAPUxpurrIWUqQUGTzypZ+IQh7f2UpQ5Qf5Nr2LczpuA+2lD5lzGfTPsegA==
-X-Received: by 2002:ad4:4f27:0:b0:4c7:5b:75ba with SMTP id
- fc7-20020ad44f27000000b004c7005b75bamr32104236qvb.31.1670963859870; 
- Tue, 13 Dec 2022 12:37:39 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- m17-20020a05620a24d100b006fa12a74c53sm8606808qkn.61.2022.12.13.12.37.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 12:37:39 -0800 (PST)
-Date: Tue, 13 Dec 2022 15:37:38 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, prerna.saxena@nutanix.com,
- quintela@redhat.com, dgilbert@redhat.com, lsoaresp@redhat.com
-Subject: Re: [PATCH v5 1/2] io: Add support for MSG_PEEK for socket channel
-Message-ID: <Y5jiko1n+EIANbEN@x1n>
-References: <20221123172735.25181-1-manish.mishra@nutanix.com>
- <20221123172735.25181-2-manish.mishra@nutanix.com>
+ bh=41WXJPcoYnyOTvrqQOR6/K4A9TT5KGgHptEpOTWy2E0=;
+ b=IRdZPbAhVlvfLlbHNNAq/+iXiby2l8+Pj34X+8GP/RDL0I2oURCJKua306pxKxc1ZYywiJ
+ FXti8v67qYIXoQsWnzEJHoO7Ts9so4Jq5v8IJwrrn1Z0nOOlVGZQdDXNQIlHvYnGipdVNH
+ aHxST6pxNhLRkvJZmvDT2kFXK1ttlSo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-574-yPxOwIHAOx-hFQym4lLGBw-1; Tue, 13 Dec 2022 16:02:47 -0500
+X-MC-Unique: yPxOwIHAOx-hFQym4lLGBw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DA4285A5A6;
+ Tue, 13 Dec 2022 21:02:47 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03C382166B26;
+ Tue, 13 Dec 2022 21:02:46 +0000 (UTC)
+Date: Tue, 13 Dec 2022 16:02:43 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jon Maloy <jmaloy@redhat.com>
+Cc: qemu-devel@nongnu.org, marcandre.lureau@gmail.com, pbonzini@redhat.com,
+ jasowang@redhat.com, philmd@linaro.com, kraxel@redhat.com
+Subject: Re: [PATCH v3 0/2] hw/usb: add configuration flags for emulated and
+ passthru usb smartcard
+Message-ID: <Y5joc7na7wFJtjt2@fedora>
+References: <20221212220949.1278269-1-jmaloy@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="M+B7yo+Ar6SO2ZE9"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221123172735.25181-2-manish.mishra@nutanix.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <20221212220949.1278269-1-jmaloy@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,35 +80,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 23, 2022 at 05:27:34PM +0000, manish.mishra wrote:
-> MSG_PEEK reads from the peek of channel, The data is treated as
-> unread and the next read shall still return this data. This
-> support is currently added only for socket class. Extra parameter
-> 'flags' is added to io_readv calls to pass extra read flags like
-> MSG_PEEK.
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.co
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com
-> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
 
-This patch may need below squashed in or it breaks rdma builds:
+--M+B7yo+Ar6SO2ZE9
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-===8<===
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 94a55dd95b..d8b4632094 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -2854,6 +2854,7 @@ static ssize_t qio_channel_rdma_readv(QIOChannel *ioc,
-                                       size_t niov,
-                                       int **fds,
-                                       size_t *nfds,
-+                                      int flags,
-                                       Error **errp)
- {
-     QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(ioc);
-===8<===
+On Mon, Dec 12, 2022 at 05:09:47PM -0500, Jon Maloy wrote:
+> We add three new configuration flags, LIBCACARD, USB_SMARTCARD_PASSTHRU
+> and USB_SMARTCARD_EMULATED in order to improve configurability of these
+> functionalities.
+>=20
+> Signed-off-by: Jon Maloy <jmaloy@redhat.com>
+>=20
+> ---
+> v2: Added a LIBACARD flag, plus reversed 'select' clauses, as suggested
+>     by Paolo Bonzini and Marc-Andr=E9 Lureau.
+>=20
+> v3: Split in two commits, so that LIBCACARD is added separately, as sugge=
+sted
+>     by Philippe Mathieu-Daud=E9.
+>=20
+>=20
+> Jon Maloy (2):
+>   hw/usb: add configuration flags for emulated and passthru usb
+>     smartcard
+>   hw/usb: add configuration flag for Common Access Card library code
+>=20
+>  Kconfig.host       |  3 +++
+>  hw/usb/Kconfig     | 14 ++++++++++++++
+>  hw/usb/meson.build | 11 ++++-------
+>  meson.build        |  1 +
+>  4 files changed, 22 insertions(+), 7 deletions(-)
+>=20
+> --=20
+> 2.35.3
+>=20
 
--- 
-Peter Xu
+I have CCed Gerd Hoffmann since he is the hw/usb/ maintainer.
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--M+B7yo+Ar6SO2ZE9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmOY6HMACgkQnKSrs4Gr
+c8iEsQf9GW3T33UEUXyAAip0QDTRZfoUUToqSagCWE6/FhNhuamAP0XLqcxYvyVJ
+Y5FnHIVwumxFnww6mM95zrR+A2l86wXx49NbJvJDjZtyAPO4VClO8uY4f37qOrsf
+yVjCgJeHnHxlI0b8IRMqOysqUb2VOmXdlP+QR3b+wwxdQROG0PhwtWSMgGFIZQg5
+fJYKOzRElyk91M2kejO6ACgfqpRmklaN8UBWMQAX16MmGlXXhOMnG89zBCo4L8qa
++p12qkCTJYzXchgC9SqVuLnqfneWmuaaXwWz8cxzu2W+kgEvfFg7JvdQSO1dm9Ay
+3naGQ4nxJIdcTebmwt/Aqc2MHOIbiQ==
+=nTur
+-----END PGP SIGNATURE-----
+
+--M+B7yo+Ar6SO2ZE9--
 
 
