@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E006064BE66
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:28:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69EDF64BE59
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:27:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Cma-0000Z3-B6; Tue, 13 Dec 2022 16:25:48 -0500
+	id 1p5Cmc-0000Zg-4a; Tue, 13 Dec 2022 16:25:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5CmY-0000Yr-Ed
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:25:46 -0500
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+ id 1p5Cma-0000ZF-1u
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:25:48 -0500
+Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5CmW-00039x-Qp
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:25:46 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id
- y18-20020a0568301d9200b0067082cd4679so680397oti.4
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 13:25:44 -0800 (PST)
+ id 1p5CmY-0003BD-7r
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:25:47 -0500
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-1443a16b71cso14157372fac.13
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 13:25:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=1FLZ5z2Hvx6GbWBJaeUbXjHtWCO4hjHMCO2mm4pHT8I=;
- b=ugRZXVvUge1bvliRsrsQvKbEFY6lgJHG5mO+9oUdF3DmjXCoMpqOlXaqlJgTbNU1eH
- qskn1adK53Qn1FD8cxPKBk8zem/Zoh51zZTM5KWlU/EvzVbhmRYusTGhq9pA0WN8GGRO
- cC2aXbf8qvJGi9IGgt1Zc9d29G818/DWA9ZommPsPrWu3i3m1ipNkgYlWFpEpqo8wbOl
- 28HUqvz4eLuF2BiJgrXkNcJRVv2tGQjRwLzlPiffUy+Mnlpa3N2wluXdncJRtsAazvRP
- NM3IZODIgLxENxCzu23mPrUi4LdGgZk0rrfP585S7uF+5jT/hnvUaUH18rF+dmgSQTV9
- 0APg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=14I+QLaNg6Y9e4H/8QMxuuyCzHk2ngznUAbtAPjHaRo=;
+ b=ktBkQfAUxQRmVBbwJCanoaPTPlYSrnlCuCEJuLx//tzf9L3msFVgjDBglNksqRVRMm
+ 6jZ2v/dtnQoh9JG4LfcHGMP91nvLAX2r9WkDQkBY56AQNVr5Ss/9GHCGp6yUF8lqUwQO
+ UWmvDh6ECKNjY/IX1EAF03ZLNJ8J1Nv4sISJIFXvhsTIog2i/hj6gnqVM4guOJ7LBcE5
+ bHXO91Qe5f/0Xize5qDV3KLTeJPkdk6iVwqPf+8dXIE3CdcdFkEoPAv7L45RDt/n/Qj3
+ 3ZP4LG66FC7t6eeNjcyh15N0YTdymiY6gtfBQu3jY7xpzk8gTj7NUAgybHVkQmNV5BcZ
+ K9KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1FLZ5z2Hvx6GbWBJaeUbXjHtWCO4hjHMCO2mm4pHT8I=;
- b=DFxTAcZfVrESuxIQnUDzu5uK53ABW1IbJhv1kPSRpbw+WGDZyB/noYfIVyjZvOEfNy
- 0+Snmj/ENkWQlt1S7GMNpqeU3rWuCa7BOvqe07hwYoSmjb8ELBQqqzrSVpC/YSb51Xuu
- P5HjrXrj1p8108PkH7QtQ65tQ/O6QOUUrTDP2KIXcJR3lUvqOZlXbe6219jjd41xWOwN
- befBtZDGPJsWFRj/G/YYI72W+1Lx0jilYjXsMWRrqUQjyE7a8vmpQFblQdgoWqY4y7/L
- A3Pp3qON8tuVAW/pmd2L5LYMRdYP7G+FfnLim/rBxupuWRL8LimkKyrofNiUhA2/+Jsj
- H2MQ==
-X-Gm-Message-State: ANoB5pn9tyLLFehBbfZQ/+VY0y+QQjAf8e6tJR+1JmxwR8FLpP//iH0J
- Y3/Y7sW34/xEqQK3CSsqBY3q2JD34QMgQHmei5g=
-X-Google-Smtp-Source: AA0mqf42Vrf6X0ExVC3oiDtsiduGO/3dOCorNDPJA/8yjnIFgJl5i7BHife3Tl8aS/rG75b+Oeuctg==
-X-Received: by 2002:a9d:5f02:0:b0:66d:a5fa:5c54 with SMTP id
- f2-20020a9d5f02000000b0066da5fa5c54mr10257059oti.1.1670966743188; 
- Tue, 13 Dec 2022 13:25:43 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=14I+QLaNg6Y9e4H/8QMxuuyCzHk2ngznUAbtAPjHaRo=;
+ b=h4jgz2XHZ3RQwrXn57O5/6RTzwTbzcLt/4Vsy0J/ja9E8OvGTtfl2REaYFAfe7ZJMM
+ lYuIL69/MSZFklZ9GAO+cwcHUEhD0UjrCJU1TtP9OZUNXBrNKCRJHJcyO7m1sKUwtEsX
+ ojyT6eCC5ImTrFPPfYljjoGwBKe4rAahjPYwKlf/zpELSD/uOkHeO44l7gUCXAzYLnQl
+ 3eaMP17zECA9DHSXuuM+VQ8cg+zhVR1rgunItNqxCpXlypO8eGlxGnnr1mwuSdsyMHnW
+ nHT6bsMxKgTa1K9q7L0o4TP/CQNDK4BxmS/eGefMjFk4/CxdmtJRyurHbDao+vL4MjlO
+ nXqA==
+X-Gm-Message-State: ANoB5plCcLRlSgR2SQFr/4AxqwMkIvuPvF5goCYUYZdtInM5TqqLqWyM
+ +LZ2exv8R//MUeGdn4Z3vZWTnAKdA4prpCSfqh0=
+X-Google-Smtp-Source: AA0mqf7vVQzugblCvdnAuZb4F+psDky8WffjiY62FICODZ1eRBFeNkofFR5pdo/N/rg+hukEzQBVPg==
+X-Received: by 2002:a05:6870:4e03:b0:148:15ba:8869 with SMTP id
+ pl3-20020a0568704e0300b0014815ba8869mr7026936oab.8.1670966744258; 
+ Tue, 13 Dec 2022 13:25:44 -0800 (PST)
 Received: from stoup.. ([2806:102e:18:2efc:c63:85ed:4256:8ad0])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a056808098700b0035c073aa0d8sm5006831oic.18.2022.12.13.13.25.42
+ a7-20020a056808098700b0035c073aa0d8sm5006831oic.18.2022.12.13.13.25.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Dec 2022 13:25:42 -0800 (PST)
+ Tue, 13 Dec 2022 13:25:43 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/27] tcg misc patches
-Date: Tue, 13 Dec 2022 15:25:14 -0600
-Message-Id: <20221213212541.1820840-1-richard.henderson@linaro.org>
+Subject: [PATCH v4 01/27] tcg: Fix tcg_reg_alloc_dup*
+Date: Tue, 13 Dec 2022 15:25:15 -0600
+Message-Id: <20221213212541.1820840-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221213212541.1820840-1-richard.henderson@linaro.org>
+References: <20221213212541.1820840-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32f.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,97 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For v4, I've sorted some of the reviewed patches to the beginning
-of the queue and omitted them; this was not possible for all.
-This set begins with the first patch that is missing review.
-I've not tested this set separately, so in case it doesn't apply,
-the entire tree is
+The assignment to mem_coherent should be done with any
+modification, not simply with a newly allocated register.
 
-  https://gitlab.com/rth7680/qemu/-/tree/tcg-next
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/tcg.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Patches lacking review:
-  01-tcg-Fix-tcg_reg_alloc_dup.patch
-  02-tcg-Centralize-updates-to-reg_to_temp.patch
-  03-tcg-Remove-check_regs.patch
-  04-tcg-Introduce-paired-register-allocation.patch
-  05-accel-tcg-Set-cflags_next_tb-in-cpu_common_initfn.patch
-  06-target-sparc-Avoid-TCGV_-LOW-HIGH.patch
-  09-tcg-Simplify-calls-to-temp_sync-vs-mem_coherent.patch
-  17-accel-tcg-plugin-Don-t-search-for-the-function-po.patch
-  20-tcg-Vary-the-allocation-size-for-TCGOp.patch
-  22-tcg-Reorg-function-calls.patch
-  23-tcg-Convert-typecode_to_ffi-from-array-to-functio.patch
-  24-tcg-Factor-init_ffi_layouts-out-of-tcg_context_in.patch
-  25-tcg-Move-ffi_cif-pointer-into-TCGHelperInfo.patch
-  26-tcg-aarch64-Merge-tcg_out_callr-into-tcg_out_call.patch
-
-
-r~
-
-
-Philippe Mathieu-Daudé (2):
-  tcg: Convert typecode_to_ffi from array to function
-  tcg: Factor init_ffi_layouts() out of tcg_context_init()
-
-Richard Henderson (25):
-  tcg: Fix tcg_reg_alloc_dup*
-  tcg: Centralize updates to reg_to_temp
-  tcg: Remove check_regs
-  tcg: Introduce paired register allocation
-  accel/tcg: Set cflags_next_tb in cpu_common_initfn
-  target/sparc: Avoid TCGV_{LOW,HIGH}
-  tcg: Move TCG_{LOW,HIGH} to tcg-internal.h
-  tcg: Add temp_subindex to TCGTemp
-  tcg: Simplify calls to temp_sync vs mem_coherent
-  tcg: Allocate TCGTemp pairs in host memory order
-  tcg: Move TCG_TYPE_COUNT outside enum
-  tcg: Introduce tcg_type_size
-  tcg: Introduce TCGCallReturnKind and TCGCallArgumentKind
-  tcg: Replace TCG_TARGET_CALL_ALIGN_ARGS with TCG_TARGET_CALL_ARG_I64
-  tcg: Replace TCG_TARGET_EXTEND_ARGS with TCG_TARGET_CALL_ARG_I32
-  tcg: Use TCG_CALL_ARG_EVEN for TCI special case
-  accel/tcg/plugin: Don't search for the function pointer index
-  accel/tcg/plugin: Avoid duplicate copy in copy_call
-  accel/tcg/plugin: Use copy_op in append_{udata,mem}_cb
-  tcg: Vary the allocation size for TCGOp
-  tcg: Use output_pref wrapper function
-  tcg: Reorg function calls
-  tcg: Move ffi_cif pointer into TCGHelperInfo
-  tcg/aarch64: Merge tcg_out_callr into tcg_out_call
-  tcg: Add TCGHelperInfo argument to tcg_out_call
-
- include/exec/helper-head.h       |    2 +-
- include/tcg/tcg-op.h             |   35 +-
- include/tcg/tcg.h                |   96 +-
- tcg/aarch64/tcg-target.h         |    3 +-
- tcg/arm/tcg-target.h             |    3 +-
- tcg/i386/tcg-target.h            |    2 +
- tcg/loongarch64/tcg-target.h     |    3 +-
- tcg/mips/tcg-target.h            |    4 +-
- tcg/riscv/tcg-target.h           |    7 +-
- tcg/s390x/tcg-target.h           |    3 +-
- tcg/sparc64/tcg-target.h         |    3 +-
- tcg/tcg-internal.h               |   58 +-
- tcg/tci/tcg-target.h             |    7 +
- accel/tcg/plugin-gen.c           |   54 +-
- hw/core/cpu-common.c             |    1 +
- target/sparc/translate.c         |   21 +-
- tcg/optimize.c                   |   10 +-
- tcg/tcg-op-vec.c                 |   10 +-
- tcg/tcg-op.c                     |   49 +-
- tcg/tcg.c                        | 1591 +++++++++++++++++++-----------
- tcg/aarch64/tcg-target.c.inc     |   19 +-
- tcg/arm/tcg-target.c.inc         |   10 +-
- tcg/i386/tcg-target.c.inc        |    5 +-
- tcg/loongarch64/tcg-target.c.inc |    7 +-
- tcg/mips/tcg-target.c.inc        |    3 +-
- tcg/ppc/tcg-target.c.inc         |   34 +-
- tcg/riscv/tcg-target.c.inc       |    7 +-
- tcg/s390x/tcg-target.c.inc       |   12 +-
- tcg/sparc64/tcg-target.c.inc     |    3 +-
- tcg/tci/tcg-target.c.inc         |    3 +-
- 30 files changed, 1285 insertions(+), 780 deletions(-)
-
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 05d2b70ab7..371908b34b 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3498,7 +3498,6 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
+         ots->reg = tcg_reg_alloc(s, dup_out_regs, allocated_regs,
+                                  op->output_pref[0], ots->indirect_base);
+         ots->val_type = TEMP_VAL_REG;
+-        ots->mem_coherent = 0;
+         s->reg_to_temp[ots->reg] = ots;
+     }
+ 
+@@ -3552,6 +3551,7 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
+     tcg_debug_assert(ok);
+ 
+  done:
++    ots->mem_coherent = 0;
+     if (IS_DEAD_ARG(1)) {
+         temp_dead(s, its);
+     }
+@@ -3779,7 +3779,6 @@ static bool tcg_reg_alloc_dup2(TCGContext *s, const TCGOp *op)
+         ots->reg = tcg_reg_alloc(s, dup_out_regs, allocated_regs,
+                                  op->output_pref[0], ots->indirect_base);
+         ots->val_type = TEMP_VAL_REG;
+-        ots->mem_coherent = 0;
+         s->reg_to_temp[ots->reg] = ots;
+     }
+ 
+@@ -3823,6 +3822,7 @@ static bool tcg_reg_alloc_dup2(TCGContext *s, const TCGOp *op)
+     return false;
+ 
+  done:
++    ots->mem_coherent = 0;
+     if (IS_DEAD_ARG(1)) {
+         temp_dead(s, itsl);
+     }
 -- 
 2.34.1
 
