@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2F864BE9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:41:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A5C64BEA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 22:42:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Czm-0000Nt-7O; Tue, 13 Dec 2022 16:39:26 -0500
+	id 1p5Czx-0000u7-J7; Tue, 13 Dec 2022 16:39:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5Cza-0000I5-6b
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:14 -0500
+ (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5Czv-0000pB-3i
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:35 -0500
 Received: from outgoing-auth-1.mit.edu ([18.9.28.11] helo=outgoing.mit.edu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5CzX-0007fj-JD
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:13 -0500
+ (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1p5Czt-0007j1-8W
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 16:39:34 -0500
 Received: from panda194.. ([18.4.85.108]) (authenticated bits=0)
  (User authenticated as fasano@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2BDLcaP8030603
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2BDLcaP9030603
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 16:39:02 -0500
+ Tue, 13 Dec 2022 16:39:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
- t=1670967543; bh=qhmHsNmAxlc9cgZSHsaFvxxQAkUFKHHtR2wF32S33cU=;
+ t=1670967567; bh=ZFqDgDpvqgvL67HbOiFhNpFqQ1ztb5o8G6x1h8Nifgg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=LJuy556R0K7ZVisHDE4AFZ1HpKCxWhDfhINd5ytr/I4D19jqTldCyYO/oJJPs1Dne
- jRfaZ0bFTRuafpF/dGMFmxSRMCW4gbbTHdKz9RY2JlCjBLlKJQ7WKagjJ1ULIBGrBx
- VgBoB1pT2G3h8JRTdWf6CQFEQwQVzqAvMPxwAKZen29JzvFgYsUwEJSIDDgi9SqY0r
- kxxPYEey8AQHomPFdJlaez9TQ8lSZVLUi4WMwxsay5ZFu1+mPTMWlNYlgABV5oKFq+
- X90GiSNgu7z3ACeG/1BLXRQ/h7uHvU7a7a+z22IXRWicNBYjpJXM1wePoCu6vIQOKO
- c6ae/kv0K94fQ==
+ b=n5mayuXrLGwSSUlV2qkzECJQsiSUnFKWUWgy9vmdenfASpaah9zJagjVlyswuJ5eL
+ aoja/5FtV7wBG2XGuqV5IAcz+asAWhcfDPNlHTXBnmTtxdoOg23LOQ+t5+wacquPfs
+ kAPePV5Kjc4oKQnoR731PjjRWFAurjtTUWPj5N5K5pcgpPRZ33qT+EUErD2aXwrm16
+ 7Xiom0KALEItO/05enuqpm9ZQz7e97iuZcwthYG0nFQ/bMYzPO/iibqIbUXOnrei4D
+ SOPAfF15Gt9GIoK6rcXPW16+ypSYyqBH6z1jGEKoawwu96dHix6xUgb3ndz6NMWX3F
+ u1MOdXfufYd8g==
 From: Andrew Fasano <fasano@mit.edu>
 To: qemu-devel@nongnu.org
 Cc: elysia.witham@ll.mit.edu, alex.bennee@linaro.org, erdnaxe@crans.org,
  ma.mandourr@gmail.com, Andrew Fasano <fasano@mit.edu>
-Subject: [PATCH 1/8] docs/devel: describe QPP API
-Date: Tue, 13 Dec 2022 16:37:50 -0500
-Message-Id: <20221213213757.4123265-2-fasano@mit.edu>
+Subject: [PATCH 2/8] plugins: version 2, require unique plugin names
+Date: Tue, 13 Dec 2022 16:37:51 -0500
+Message-Id: <20221213213757.4123265-3-fasano@mit.edu>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221213213757.4123265-1-fasano@mit.edu>
 References: <20221213213757.4123265-1-fasano@mit.edu>
@@ -68,130 +68,231 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Elysia Witham <elysia.witham@ll.mit.edu>
 
-The new QPP API allows plugin-to-plugin interaction for creating
-and using callbacks as well as importing and exporting functions.
-The new test plugins qpp_srv and qpp_client demonstrate how
-plugins use the new API.
+In order for the QPP API to resolve interactions between plugins,
+plugins must export their own names which cannot match any other
+loaded plugins.
 
 Signed-off-by: Elysia Witham <elysia.witham@ll.mit.edu>
 Signed-off-by: Andrew Fasano <fasano@mit.edu>
 ---
- docs/devel/tcg-plugins.rst | 91 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 90 insertions(+), 1 deletion(-)
+ include/qemu/qemu-plugin.h |  2 +-
+ plugins/core.c             | 12 +++++++++
+ plugins/loader.c           | 50 +++++++++++++++++++++++++++++++++-----
+ plugins/plugin.h           |  7 ++++++
+ tests/plugin/bb.c          |  1 +
+ tests/plugin/empty.c       |  1 +
+ tests/plugin/insn.c        |  1 +
+ tests/plugin/mem.c         |  1 +
+ tests/plugin/syscall.c     |  1 +
+ 9 files changed, 69 insertions(+), 7 deletions(-)
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 9740a70406..70ac09b96b 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -281,6 +281,14 @@ run::
-   160          1      0
-   135          1      0
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index d0e9d03adf..5326f33ce8 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -51,7 +51,7 @@ typedef uint64_t qemu_plugin_id_t;
  
-+- tests/plugins/qpp_srv.c & tests/plugins/qpp_client.c
-+
-+These plugins demonstrate QPP interactions. The qpp_srv plugin defines
-+a few exported functions and its own callback which are then imported and
-+used by the qpp_client plugin. The qpp_client plugin registers its own
-+function to run on qpp_srv's defined callback. The tests for these plugins
-+are modified as both plugins must be loaded in order to work.
-+
- - contrib/plugins/hotblocks.c
+ extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
  
- The hotblocks plugin allows you to examine the where hot paths of
-@@ -573,6 +581,88 @@ The plugin has a number of arguments, all of them are optional:
-   configuration arguments implies ``l2=on``.
-   (default: N = 2097152 (2MB), B = 64, A = 16)
+-#define QEMU_PLUGIN_VERSION 1
++#define QEMU_PLUGIN_VERSION 2
  
-+Plugin-to-Plugin Interactions
-+-----------------------------
-+
-+Plugins may interact with other plugins through the QEMU Plugin-to-Plugin
-+("QPP") API by including ``<plugin-qpp.h>`` in addition to ``<qemu_plugin.h>``.
-+This API supports direct function calls between plugins. An inter-plugin
-+callback system is supported within the core code as long as
-+``qemu_plugin_version >= 2``.
-+
-+Plugin names
-+~~~~~~~~~~~~
-+Plugin names must be exported as ``qemu_plugin_name`` to use the QPP API in the same way
-+``qemu_plugin_version`` is exported. This name can then be used by other plugins
-+to import functions and use callbacks belonging to that plugin.
-+
-+Plugin dependencies
-+~~~~~~~~~~~~~~~~~~~
-+For a plugin to use another plugin's functions or callbacks it must declare that
-+dependency through exporting ``qemu_plugin_uses`` which is a string array containing
-+names of plugins used by that plugin. Those plugins must be loaded first. Note that this
-+array must be null terminated, e.g. ``{plugin_a, NULL}``.
-+
-+QPP function calls
-+~~~~~~~~~~~~~~~~~~
-+When a plugin (e.g., ``plugin_a``) wishes to make some of its functions (e.g.,
-+``func_1``) available to other plugins, it must:
-+
-+1. Mark the function definition with the ``QEMU_PLUGIN_EXPORT`` macro. For
-+example : ``QEMU_PLUGIN_EXPORT int func_1(int x) {...}``
-+2. Provide prototypes for exported functions in a header file using the macro
-+``QPP_FUN_PROTOTYPE`` with arguments of the plugin's name, the function's
-+return type, the function's name, and any arguments the function takes. For
-+example: ``QPP_FUN_PROTOTYPE(my_plugin, int, do_add, int);``.
-+3. Import this header from the plugin.
-+
-+When other plugins wish to use the functions exported by ``plugin_a``, they
-+must:
-+
-+1. Import the header file with the function prototype(s).
-+2. Call the function when desired by combining the target plugin name, an
-+   underscore, and the target function name with ``_qpp`` on the end,
-+   e.g., ``plugin_a_func_1_qpp()``.
-+
-+QPP callbacks
-+~~~~~~~~~~~~~
-+
-+The QPP API also allows a plugin to define callback events and for other plugins
-+to request to be notified whenever these events happens. The plugin that defines
-+the callback is responsible for triggering the callback when it so wishes. Other
-+plugins that wish to be notified on these events must define a function of an
-+appropriate type and register it to run on this event.
-+In particular, these plugins must:
-+
-+
-+When a plugin (e.g., ``plugin_a``) wishes to define a callback (an event that
-+other plugins can request to be notified about), it must:
-+
-+1. Define the callback using the ``qemu_plugin_create_callback`` function which
-+   takes two arguments: the unique ``qemu_plugin_id_t id`` and the callback name.
-+2. Call ``qemu_plugin_run_callback`` at appropriate places in the code to call registered
-+   callback functions. It takes four arguments: the unique ``qemu_plugin_id_t id``,
-+   the callback name, and the callback arguments which are standardized to be
-+   ``gpointer evdata, gpointer udata``. The callback arguments point to two structs
-+   which are defined by the plugin and can vary based on the use case of the callback.
-+
-+When other plugins wish to register a function to run on such an event, they
-+must:
-+
-+1. Define a function that matches the ``cb_func_t`` type:
-+   ``typedef void (*cb_func_t) (gpointer evdata, gpointer udata)``.
-+2. Register this function to be run on the plugin defined callback using
-+   ``qemu_plugin_reg_callback``. This function takes three arguments: the name of the
-+   plugin which defines the callback, the callback name, and a ``cb_func_t`` function
-+   pointer.
-+
-+When other plugins wish to unregister a function which is registered to run on a plugin
-+defined event callback, they must:
-+
-+1. Call ``qemu_plugin_unreg_callback``. This function takes the same arguments as
-+   ``qemu_plugin_reg_callback``. It will return true if it successfully finds and
-+   unregisters the function.
-+
- API
- ---
+ /**
+  * struct qemu_info_t - system information for plugins
+diff --git a/plugins/core.c b/plugins/core.c
+index ccb770a485..5fbdcb5768 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -236,6 +236,18 @@ void qemu_plugin_vcpu_exit_hook(CPUState *cpu)
+     qemu_rec_mutex_unlock(&plugin.lock);
+ }
  
-@@ -581,4 +671,3 @@ The following API is generated from the inline documentation in
- include the full kernel-doc annotations.
++int name_to_plugin_version(const char *name)
++{
++    struct qemu_plugin_ctx *ctx;
++    QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
++        if (strcmp(ctx->name, name) == 0) {
++            return ctx->version;
++        }
++    }
++    warn_report("Could not find any plugin named %s.", name);
++    return -1;
++}
++
+ struct plugin_for_each_args {
+     struct qemu_plugin_ctx *ctx;
+     qemu_plugin_vcpu_simple_cb_t cb;
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 88c30bde2d..12c0680e03 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -177,7 +177,7 @@ QEMU_DISABLE_CFI
+ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info, Error **errp)
+ {
+     qemu_plugin_install_func_t install;
+-    struct qemu_plugin_ctx *ctx;
++    struct qemu_plugin_ctx *ctx, *ctx2;
+     gpointer sym;
+     int rc;
  
- .. kernel-doc:: include/qemu/qemu-plugin.h
--
+@@ -208,17 +208,55 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info, E
+                    desc->path, g_module_error());
+         goto err_symbol;
+     } else {
+-        int version = *(int *)sym;
+-        if (version < QEMU_PLUGIN_MIN_VERSION) {
++        ctx->version = *(int *)sym;
++        if (ctx->version < QEMU_PLUGIN_MIN_VERSION) {
+             error_setg(errp, "Could not load plugin %s: plugin requires API version %d, but "
+                        "this QEMU supports only a minimum version of %d",
+-                       desc->path, version, QEMU_PLUGIN_MIN_VERSION);
++                       desc->path, ctx->version, QEMU_PLUGIN_MIN_VERSION);
+             goto err_symbol;
+-        } else if (version > QEMU_PLUGIN_VERSION) {
++        } else if (ctx->version > QEMU_PLUGIN_VERSION) {
+             error_setg(errp, "Could not load plugin %s: plugin requires API version %d, but "
+                        "this QEMU supports only up to version %d",
+-                       desc->path, version, QEMU_PLUGIN_VERSION);
++                       desc->path, ctx->version, QEMU_PLUGIN_VERSION);
+             goto err_symbol;
++        } else if (ctx->version < QPP_MINIMUM_VERSION) {
++            ctx->name = NULL;
++        } else {
++            if (!g_module_symbol(ctx->handle, "qemu_plugin_name", &sym)) {
++                error_setg(errp, "Could not load plugin %s: plugin does not "
++                           "declare plugin name %s",
++                           desc->path, g_module_error());
++                goto err_symbol;
++            }
++            ctx->name = (const char *)strdup(*(const char **)sym);
++            QTAILQ_FOREACH(ctx2, &plugin.ctxs, entry) {
++                if (strcmp(ctx2->name, ctx->name) == 0) {
++                    error_setg(errp, "Could not load plugin %s as the name %s "
++                               "is already in use by plugin at %s",
++                               desc->path, ctx->name, ctx2->desc->path);
++                    goto err_symbol;
++                }
++            }
++            if (g_module_symbol(ctx->handle, "qemu_plugin_uses", &sym)) {
++                const char **dependencies = &(*(const char **)sym);
++                bool found = false;
++                while (*dependencies) {
++                    found = false;
++                    QTAILQ_FOREACH(ctx2, &plugin.ctxs, entry) {
++                        if (strcmp(ctx2->name, *dependencies) == 0) {
++                            dependencies++;
++                            found = true;
++                            break;
++                        }
++                    }
++                    if (!found) {
++                        error_setg(errp, "Could not load plugin %s as it is "
++                                   "dependent on %s which is not loaded",
++                                   ctx->name, *dependencies);
++                        goto err_symbol;
++                    }
++                }
++            }
+         }
+     }
+ 
+diff --git a/plugins/plugin.h b/plugins/plugin.h
+index 5eb2fdbc85..ce885bfa98 100644
+--- a/plugins/plugin.h
++++ b/plugins/plugin.h
+@@ -16,6 +16,7 @@
+ #include "qemu/qht.h"
+ 
+ #define QEMU_PLUGIN_MIN_VERSION 0
++#define QPP_MINIMUM_VERSION 2
+ 
+ /* global state */
+ struct qemu_plugin_state {
+@@ -50,6 +51,8 @@ struct qemu_plugin_state {
+ struct qemu_plugin_ctx {
+     GModule *handle;
+     qemu_plugin_id_t id;
++    const char *name;
++    int version;
+     struct qemu_plugin_cb *callbacks[QEMU_PLUGIN_EV_MAX];
+     QTAILQ_ENTRY(qemu_plugin_ctx) entry;
+     /*
+@@ -64,6 +67,8 @@ struct qemu_plugin_ctx {
+ 
+ struct qemu_plugin_ctx *plugin_id_to_ctx_locked(qemu_plugin_id_t id);
+ 
++struct qemu_plugin_ctx *plugin_name_to_ctx_locked(const char* name);
++
+ void plugin_register_inline_op(GArray **arr,
+                                enum qemu_plugin_mem_rw rw,
+                                enum qemu_plugin_op op, void *ptr,
+@@ -97,4 +102,6 @@ void plugin_register_vcpu_mem_cb(GArray **arr,
+ 
+ void exec_inline_op(struct qemu_plugin_dyn_cb *cb);
+ 
++int name_to_plugin_version(const char *name);
++
+ #endif /* PLUGIN_H */
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+index 7d470a1011..c04e5aaf90 100644
+--- a/tests/plugin/bb.c
++++ b/tests/plugin/bb.c
+@@ -15,6 +15,7 @@
+ #include <qemu-plugin.h>
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++QEMU_PLUGIN_EXPORT const char *qemu_plugin_name = "bb";
+ 
+ typedef struct {
+     GMutex lock;
+diff --git a/tests/plugin/empty.c b/tests/plugin/empty.c
+index 8fa6bacd93..0f3d2b92b9 100644
+--- a/tests/plugin/empty.c
++++ b/tests/plugin/empty.c
+@@ -14,6 +14,7 @@
+ #include <qemu-plugin.h>
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++QEMU_PLUGIN_EXPORT const char *qemu_plugin_name = "empty";
+ 
+ /*
+  * Empty TB translation callback.
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index cd5ea5d4ae..3f71138139 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -15,6 +15,7 @@
+ #include <qemu-plugin.h>
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++QEMU_PLUGIN_EXPORT const char *qemu_plugin_name = "insn";
+ 
+ #define MAX_CPUS 8 /* lets not go nuts */
+ 
+diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
+index 4570f7d815..35e5d7fe2a 100644
+--- a/tests/plugin/mem.c
++++ b/tests/plugin/mem.c
+@@ -15,6 +15,7 @@
+ #include <qemu-plugin.h>
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++QEMU_PLUGIN_EXPORT const char *qemu_plugin_name = "mem";
+ 
+ static uint64_t inline_mem_count;
+ static uint64_t cb_mem_count;
+diff --git a/tests/plugin/syscall.c b/tests/plugin/syscall.c
+index 96040c578f..922bdbd2e6 100644
+--- a/tests/plugin/syscall.c
++++ b/tests/plugin/syscall.c
+@@ -15,6 +15,7 @@
+ #include <qemu-plugin.h>
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++QEMU_PLUGIN_EXPORT const char *qemu_plugin_name = "syscall";
+ 
+ typedef struct {
+     int64_t num;
 -- 
 2.34.1
 
