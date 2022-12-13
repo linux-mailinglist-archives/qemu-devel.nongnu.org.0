@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512FF64B6A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 14:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE08A64B718
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 15:16:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p55j6-0001fC-I4; Tue, 13 Dec 2022 08:53:44 -0500
+	id 1p563Y-0005M3-A4; Tue, 13 Dec 2022 09:14:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p55iv-0001c1-Ti
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 08:53:40 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1p563T-0005LW-PZ; Tue, 13 Dec 2022 09:14:48 -0500
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p55iq-0001h8-Ku
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 08:53:30 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id f9so10447903pgf.7
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 05:53:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eHMaokyjr27CS5rkdbnnEtYsn9U4n9/xandQHoXDiNE=;
- b=ltOa7mlELncktV/fY+kCf6K4cJWjkUKON1LnvkkOqhjZnDkJPEXVtW8HBP2wy8++PL
- ScRAH/7iwb66wx2kva7VKxxSYMHk4xJGzFRLDkXLsqXD0VXQeLmPZuhoiMofqeMNm3Uy
- CvuaBi5shOmIstg31jOvV6F2wyoZbZEzNE/Ra9C6X1duRFuBnZoLAMjD2NligYm+Absf
- y5u5xHzwmVc0Iqoy3YcyMl/DRQpPXftWAMeQlRKpC8fCJGZdkhgIuYvgw4ZCrTcro1jF
- +wQN8QDTydY2g5fyWASv+MuHEJMp9O1n1iyOJf5zvxAxJB8Jw92+165HeiegDt8vTh82
- W2CQ==
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1p563S-0007qw-6d; Tue, 13 Dec 2022 09:14:47 -0500
+Received: by mail-lf1-x12c.google.com with SMTP id y25so5079122lfa.9;
+ Tue, 13 Dec 2022 06:14:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ffi4iYpsADx0RphIyE6y/SThpfQghkBcEN/v45tCSu8=;
+ b=aHZQ2sYn1nesw0JylWao1NOuzsMKupEFLmyGRmhJyIut6/D795YpIfNv9nLDo9E8hP
+ z8+PFPWuh7ZsRWKPqCqo7zRFJVmMooA3JUtp8G6NE/9S7m9uHN5fp1r9gJ+aMpou5Jz7
+ +3Uwk/0NXAofRDSqeg9HVxSaOdR7zd4demCM+g+5ytHoeGjcbb8zw4k2Kc0x2J+QVVJ5
+ BzPW0EDXur3jJdebZMOM8xR+hjaZ7o6wjntQFxdzi3wQRpoy4OgIBM0gRnPCUY6mBMaw
+ k9zkAwSdcdFQRHA86bALLQ7+6uAESmUDisFFyPsFzdvArSK+QMGOZSNbLzsjo5Clkn3V
+ VLpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eHMaokyjr27CS5rkdbnnEtYsn9U4n9/xandQHoXDiNE=;
- b=gzIhAPtk/ucBYtrN4RquuV38A8vLrKGxOXdBRZTmN5bmwon4jvgD62WQDEqFPd51Ct
- eyKgtdwgNxkxLqvNeaUKyl7cjtqHPTlIUoLmpL5NBQGYDsgaDb4M+qSygKQR9lXedzEV
- bftIdgkfgZ0a2eri8+K47O+nu/IxGH86cbtS8TjePEm3VKFj75sHw2pNwGznEALZKxMc
- MVcM+0mSWzK0/LJ3KFGLZBnby/rObYxvSfK3eGyyR7BniEZuiUy7Lriay1bLhgUiH6GE
- zOWFYQKFbCjrcIbrOenxPufmAUHzFZENTb11m3KCrpvhMthYBguEEIELCjjama3nZnoW
- nuvw==
-X-Gm-Message-State: ANoB5pmnHXMb+/fTnQqd0hgeDoAa41sDgE5Nq1vh81ZcXgj9fXhP7Bi7
- aS7tcAI7ZiHrzEG9zBkTvYZ9HmM7NaqJHAv3q6uX0Q==
-X-Google-Smtp-Source: AA0mqf70D8jPcBllhJs41kvS035Bh4MO+4Fwjr0ncXgwRq7xxQkaF3qvSoz/si1sLXKAEubA/HkdE4YqVvGbDnfzafs=
-X-Received: by 2002:a62:5f81:0:b0:56b:bb06:7dd5 with SMTP id
- t123-20020a625f81000000b0056bbb067dd5mr79718932pfb.3.1670939607082; Tue, 13
- Dec 2022 05:53:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20221213125218.39868-1-philmd@linaro.org>
- <20221213125218.39868-4-philmd@linaro.org>
-In-Reply-To: <20221213125218.39868-4-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Dec 2022 13:53:15 +0000
-Message-ID: <CAFEAcA-iouFJgu_2cG2TapxYVr-_ZK1Uuwa4mqSL5zNKg6Jq+Q@mail.gmail.com>
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ffi4iYpsADx0RphIyE6y/SThpfQghkBcEN/v45tCSu8=;
+ b=go6laV2VYH/kGFoGXArPaBizbd9fWOnKfubwFRE4IsedOXb0WIUMWQUeMNEwGyv6cH
+ YDdbClNF8jzQXYz6SH+H33K6MPR/NlrhmYLFpNk6oHr1iMpjAfxVvwOcxYEmAFLH5+2l
+ YTXHRu/5XkE2ejuEsQCpuqVEDdybJS/j4Q8m8Si78LuS0oENOVHwQdKacWL5oCLIUfuK
+ ZCaB743Xu8sLCiVoFtZC7nqEUMtR3F3jEPjyENjmjGzu8FwfgMkIeiwiW13SlbHAGMHl
+ TKZCKPGso2yh8R5BaZJmqmN+92KdCxJHTNCgOF/x1G3UglVAO0eH25cllmu0ObBa80yP
+ RAew==
+X-Gm-Message-State: ANoB5plzNiR180jDu+mkAsEtcTnmF8r/grX8addad8CAtMZLTu/IhSLy
+ nt8NhlXqElvpqnJYfs8dcUU=
+X-Google-Smtp-Source: AA0mqf5yWk+TEo9M7LmIlKncM6V1GWxga3Ziyam4jG+fVyWjN2JpwMYCdg40zJCa2Wm/0jnMfDDFhg==
+X-Received: by 2002:a05:6512:682:b0:4a4:68b8:f4db with SMTP id
+ t2-20020a056512068200b004a468b8f4dbmr7947288lfe.33.1670940883194; 
+ Tue, 13 Dec 2022 06:14:43 -0800 (PST)
+Received: from gmail.com (81-232-4-135-no39.tbcn.telia.com. [81.232.4.135])
+ by smtp.gmail.com with ESMTPSA id
+ v14-20020a19740e000000b0048b365176d9sm379457lfe.286.2022.12.13.06.14.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Dec 2022 06:14:42 -0800 (PST)
+Date: Tue, 13 Dec 2022 14:54:55 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Jason Wang <jasowang@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org
 Subject: Re: [RFC PATCH-for-8.0 3/3] hw/net/xilinx_ethlite: Replace tswap32()
  by be32_to_cpu()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Alistair Francis <alistair@alistair23.me>,
- David Gibson <david@gibson.dropbear.id.au>, 
- Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
+Message-ID: <Y5iEL5YexYliX+cG@toto>
+References: <20221213125218.39868-1-philmd@linaro.org>
+ <20221213125218.39868-4-philmd@linaro.org>
+ <CAFEAcA-iouFJgu_2cG2TapxYVr-_ZK1Uuwa4mqSL5zNKg6Jq+Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEAcA-iouFJgu_2cG2TapxYVr-_ZK1Uuwa4mqSL5zNKg6Jq+Q@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,48 +99,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 13 Dec 2022 at 12:52, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> This partly revert commit d48751ed4f ("xilinx-ethlite:
-> Simplify byteswapping to/from brams") which states the
-> packet data is stored in big-endian.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+On Tue, Dec 13, 2022 at 01:53:15PM +0000, Peter Maydell wrote:
+> On Tue, 13 Dec 2022 at 12:52, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+> >
+> > This partly revert commit d48751ed4f ("xilinx-ethlite:
+> > Simplify byteswapping to/from brams") which states the
+> > packet data is stored in big-endian.
+> >
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> 
+> > @@ -102,8 +102,8 @@ eth_read(void *opaque, hwaddr addr, unsigned int size)
+> >              D(qemu_log("%s " TARGET_FMT_plx "=%x\n", __func__, addr * 4, r));
+> >              break;
+> >
+> > -        default:
+> > -            r = tswap32(s->regs[addr]);
+> > +        default: /* Packet data */
+> > +            r = be32_to_cpu(s->regs[addr]);
+> >              break;
+> >      }
+> >      return r;
+> > @@ -160,8 +160,8 @@ eth_write(void *opaque, hwaddr addr,
+> >              s->regs[addr] = value;
+> >              break;
+> >
+> > -        default:
+> > -            s->regs[addr] = tswap32(value);
+> > +        default: /* Packet data */
+> > +            s->regs[addr] = cpu_to_be32(value);
+> >              break;
+> >      }
+> >  }
+> 
+> This is a change of behaviour for this device in the
+> qemu-system-microblazeel petalogix-s3adsp1800 board, because
+> previously on that system the bytes of the rx buffer would
+> appear in the registers in little-endian order and now they
+> will appear in big-endian order.
+> 
+> Edgar, do you know what the real hardware does here ?
+> 
 
-> @@ -102,8 +102,8 @@ eth_read(void *opaque, hwaddr addr, unsigned int size=
-)
->              D(qemu_log("%s " TARGET_FMT_plx "=3D%x\n", __func__, addr * =
-4, r));
->              break;
->
-> -        default:
-> -            r =3D tswap32(s->regs[addr]);
-> +        default: /* Packet data */
-> +            r =3D be32_to_cpu(s->regs[addr]);
->              break;
->      }
->      return r;
-> @@ -160,8 +160,8 @@ eth_write(void *opaque, hwaddr addr,
->              s->regs[addr] =3D value;
->              break;
->
-> -        default:
-> -            s->regs[addr] =3D tswap32(value);
-> +        default: /* Packet data */
-> +            s->regs[addr] =3D cpu_to_be32(value);
->              break;
->      }
->  }
+Yeah, I think these tx/rx buffers (the default case with tswap32) should be modelled as plain RAM's (they are just RAM's on real HW).
+Because we're modeling as MMIO regs, I think we get into endianness trouble when the ethernet
+output logic treats the content as a blob (thus the need for byteswaps). Does that make sense?
 
-This is a change of behaviour for this device in the
-qemu-system-microblazeel petalogix-s3adsp1800 board, because
-previously on that system the bytes of the rx buffer would
-appear in the registers in little-endian order and now they
-will appear in big-endian order.
-
-Edgar, do you know what the real hardware does here ?
-
-thanks
--- PMM
+Cheers,
+Edgar
 
