@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3AD64BCE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 20:11:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF58164BCCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 20:10:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Adr-0007zc-VB; Tue, 13 Dec 2022 14:08:39 -0500
+	id 1p5Adv-00081U-E9; Tue, 13 Dec 2022 14:08:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1p5Adp-0007yS-2m; Tue, 13 Dec 2022 14:08:37 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ id 1p5Ads-00080e-Bd; Tue, 13 Dec 2022 14:08:40 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1p5Adn-0006JS-Cm; Tue, 13 Dec 2022 14:08:36 -0500
+ id 1p5Adq-0006K5-LV; Tue, 13 Dec 2022 14:08:40 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 04D0F1FE21;
- Tue, 13 Dec 2022 19:08:34 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3F6321FE3D;
+ Tue, 13 Dec 2022 19:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1670958514; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1670958517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aVAE2JUy6EcxWtpDuGqmi0x4GKXnpAsfErWxU7vEXJ0=;
- b=NSaZRpbom36IuHzBCESSuxRdNwVQmRnIElix7Nvp3xxc5Dx54rVRlEgA+4gpIEKbGAmpRE
- p5cVZGQeDdHWqrUyGbTgYi39y4EaAh7WBawrDej4Nv+6wWJAHMQGrJHbZIRA+/FK7pEJnm
- 56BE6D4IFEptklvIcVtC1Ad3j5cPD+g=
+ bh=H6/ZaorSex3TZvFckQlmMo2I6cmRd34OrBEGNHWWxIY=;
+ b=Tx3ODwPqo/V+orOdfvygAlaVvRLcoGvPZhB//pHtV4PnRZeUSyT+o2Ha+CfeXcb1oIjerX
+ JRpjbkMli4v3WXglvDNItS0L1lrM/wMfrCpagKxFd8If8cE/8ZUc+23PMZzcSg1yKXt/kj
+ TzL0qFI2djE+0W5z7mCRtfm4MfT7LRw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1670958514;
+ s=susede2_ed25519; t=1670958517;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aVAE2JUy6EcxWtpDuGqmi0x4GKXnpAsfErWxU7vEXJ0=;
- b=+q5kgEO+vrsJfN6MnnLCejBz02JY8nCuEYkIS9Zo3JEwn8maplt9HSVIn6Mhd95j/ndtQ2
- EEkCQ9JUu5DiUsDw==
+ bh=H6/ZaorSex3TZvFckQlmMo2I6cmRd34OrBEGNHWWxIY=;
+ b=/o+lec2cUtpPlhtbHTC9vSlk04SuxeD1/p2KVx/WN1jgZXzvPY7jTgrGawzn+lqPSTUWUT
+ XfxMIBhaVuBQRtBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2CEFF138F9;
- Tue, 13 Dec 2022 19:08:30 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7169E138F9;
+ Tue, 13 Dec 2022 19:08:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WKjLOK7NmGOcBwAAMHmgww
- (envelope-from <farosas@suse.de>); Tue, 13 Dec 2022 19:08:30 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id MK7hDbLNmGOcBwAAMHmgww
+ (envelope-from <farosas@suse.de>); Tue, 13 Dec 2022 19:08:34 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -58,15 +58,15 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH 4/6] target/arm: Remove unused includes from m_helper.c
-Date: Tue, 13 Dec 2022 16:05:35 -0300
-Message-Id: <20221213190537.511-5-farosas@suse.de>
+Subject: [PATCH 5/6] target/arm: Remove unused includes from helper.c
+Date: Tue, 13 Dec 2022 16:05:36 -0300
+Message-Id: <20221213190537.511-6-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221213190537.511-1-farosas@suse.de>
 References: <20221213190537.511-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
  helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -95,47 +95,47 @@ Signed-off-by: Fabiano Rosas <farosas@suse.de>
 This was extracted from the following patch in the series
 https://lore.kernel.org/r/20210416162824.25131-1-cfontana@suse.de
 
-[RFC v14 08/80] target/arm: tcg: split m_helper user-only and
-sysemu-only parts
+[RFC v14 37/80] target/arm: move exception code out of tcg/helper.c
 ---
- target/arm/m_helper.c | 16 ----------------
- 1 file changed, 16 deletions(-)
+ target/arm/helper.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 355cd4d60a..033a4d9261 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -7,30 +7,14 @@
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 3cf978bb93..7baa94e42b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7,13 +7,11 @@
   */
  
  #include "qemu/osdep.h"
 -#include "qemu/units.h"
--#include "target/arm/idau.h"
--#include "trace.h"
+ #include "qemu/log.h"
+ #include "trace.h"
  #include "cpu.h"
  #include "internals.h"
--#include "exec/gdbstub.h"
  #include "exec/helper-proto.h"
 -#include "qemu/host-utils.h"
  #include "qemu/main-loop.h"
+ #include "qemu/timer.h"
  #include "qemu/bitops.h"
--#include "qemu/crc32c.h"
--#include "qemu/qemu-print.h"
- #include "qemu/log.h"
+@@ -22,17 +20,12 @@
  #include "exec/exec-all.h"
--#include <zlib.h> /* For crc32 */
+ #include <zlib.h> /* For crc32 */
+ #include "hw/irq.h"
 -#include "semihosting/semihost.h"
 -#include "sysemu/cpus.h"
--#include "sysemu/kvm.h"
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/kvm.h"
 -#include "qemu/range.h"
--#include "qapi/qapi-commands-machine-target.h"
--#include "qapi/error.h"
--#include "qemu/guest-random.h"
+ #include "qapi/qapi-commands-machine-target.h"
+ #include "qapi/error.h"
+ #include "qemu/guest-random.h"
  #ifdef CONFIG_TCG
 -#include "arm_ldst.h"
- #include "exec/cpu_ldst.h"
+-#include "exec/cpu_ldst.h"
  #include "semihosting/common-semi.h"
  #endif
+ #include "cpregs.h"
 -- 
 2.35.3
 
