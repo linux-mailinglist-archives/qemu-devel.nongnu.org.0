@@ -2,109 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C309D64B69A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 14:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D87764B6A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 14:57:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p55gN-0000MC-4j; Tue, 13 Dec 2022 08:50:55 -0500
+	id 1p55h8-0000uZ-0i; Tue, 13 Dec 2022 08:51:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1p55gK-0000LL-Bw; Tue, 13 Dec 2022 08:50:52 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1p55gI-00080b-1A; Tue, 13 Dec 2022 08:50:52 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BDD67wF019815; Tue, 13 Dec 2022 13:50:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=RiIEqg+3AhSK8fbZM02cL1LtlUKFRTGkMD4LwZamsXo=;
- b=ID4Il9bhzP/8Ryy20kenfaapLHweJJKd9iu3zfulGq407zK1wi+dx0l3OSXzzAxl2Ven
- XxAvgmNrmbi1QF24IEq0ZidB1v265zXB708r7Lu5zl7r/VRVUaJ/gdQRhKhtq83kyhKM
- kh+AE0KjMGCxZGn7CaQCtq1rxn/eEsD/v9sC5u5Ed4QsaW2QzpYpVDlVHu3C6f2CUz3f
- 04kPD9FyZntbkti1blb+T6FA8TjVtjfbUxOPTLtJ8qBLJQRrqJYMTeEsWMNHvWuvqKaG
- riFHMwr97a20vDKaEkZaBgnkfJquTePwKwoy4B320smyG2XXDdrU5L4wMPhowuOrG7Tw lQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3merajkmgt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 13:50:39 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BDD6api022459;
- Tue, 13 Dec 2022 13:50:38 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3merajkmg6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 13:50:38 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BD1YYs6011845;
- Tue, 13 Dec 2022 13:50:36 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3mchr632sg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Dec 2022 13:50:35 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BDDoW2n37945746
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Dec 2022 13:50:32 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0671B20043;
- Tue, 13 Dec 2022 13:50:32 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D938420040;
- Tue, 13 Dec 2022 13:50:30 +0000 (GMT)
-Received: from [9.171.21.177] (unknown [9.171.21.177])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 13 Dec 2022 13:50:30 +0000 (GMT)
-Message-ID: <e9927252-c711-6ddf-bc53-28e373eea371@de.ibm.com>
-Date: Tue, 13 Dec 2022 14:50:30 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p55h3-0000r9-Bm
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 08:51:39 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p55h1-0008DP-Fj
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 08:51:36 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ w4-20020a17090ac98400b002186f5d7a4cso3657573pjt.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 05:51:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=F1lIA09NAE9d9SsQ4BNpuKSFBf1ECvgdOF9Sj0DG1g4=;
+ b=kQko6Z/isWI4VLd5gh5MuXXb6u926HvhIoKSyaARM3xf6Fv6W8iSyXJ6edLv2yeWkx
+ nPrEc6tAgrCRxxm7yBx8S6aPGblx6fJVU1C442d0etZZHh4M4bSGw0fhHdsEMGMc4w2g
+ 4e7asE5YxAj7PI5i34w50MBa3wZnzJY8oI1U8X3fBXwYRdqrEVbUL8S5jzxvJ3WYkc5J
+ c/jNJ8r2ChDbLxG4JRy3sbkx89fG4YQGDN9gb/HX5uBQlN2VMOZY3hRkNeWd+4wBhNA6
+ JmmfhUw5Mal4f6mJHvnSZcSOby5vmU3U3dzLynC+zBxPLnPn8qxJDF81fKFHaPwTbQ5P
+ r3vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=F1lIA09NAE9d9SsQ4BNpuKSFBf1ECvgdOF9Sj0DG1g4=;
+ b=dn/yrR0R5ZEfgo5fHcM5ePR++qmwWfT0lwEorLhCByHSG4++JahIILh5Ogjopdcdkc
+ 3PNysDpODrSH2RWfecpYVilirZrzCFNHgKAs4Y9yPT/c7EJS90XHl8qgu3OWPCLvCm24
+ lFHxN0ow1ZDi+D6fKvv0eEgum+dCOrhhFAV64vfJ0/5QHBjjAe1NCN1jW0sadX3yOFuR
+ imeW2vxVc1+968w2/lonP8+ZQVSicEu74ZQgoM8QGXMuo517eZ9GYJepdoxbfGvdCYv+
+ MajT0ht5eOH8y9KtHaw7yl9LcQJEc0JUP2cjl0DNqs3muCmT38FmaPQegxzkorVX1D60
+ YHOg==
+X-Gm-Message-State: ANoB5pk7umLFRh7WaZ3I/tzulF4hUZ6wnP+9X1JJ5OVaRDHLB5VFF+uu
+ 8uersUZAt8aCLItDCdQm2xQVYtRVxF4tKRW1BHkCNg==
+X-Google-Smtp-Source: AA0mqf7uylvX7hXfgqEMnxiqUXJ5epz2GYKQLkGME/2PHmp3aZuDO1wEt1+YDBXOUE359QlWPMu5Q3fee0B+LCT3sT0=
+X-Received: by 2002:a17:90b:3c05:b0:219:e2f1:81ad with SMTP id
+ pb5-20020a17090b3c0500b00219e2f181admr338851pjb.19.1670939492906; Tue, 13 Dec
+ 2022 05:51:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v13 0/7] s390x: CPU Topology
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, pasic@linux.ibm.com, richard.henderson@linaro.org, 
- david@redhat.com, thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, scgl@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com
-References: <20221208094432.9732-1-pmorel@linux.ibm.com>
- <d29c06e6-48e2-6cff-0524-297eaab0516b@kaod.org>
- <663e6861-be17-88ae-866a-e62569d6c721@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-In-Reply-To: <663e6861-be17-88ae-866a-e62569d6c721@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: iJZEv7I46yvfJocdlu3sIv5pJo_qd0eo
-X-Proofpoint-GUID: cidet9MIXUkggbea-4WDBEFzCMywAEX3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-13_03,2022-12-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 mlxscore=0 spamscore=0 bulkscore=0 malwarescore=0
- clxscore=1015 mlxlogscore=999 impostorscore=0 lowpriorityscore=0
- suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212130120
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20221213125218.39868-1-philmd@linaro.org>
+ <20221213125218.39868-3-philmd@linaro.org>
+In-Reply-To: <20221213125218.39868-3-philmd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 13 Dec 2022 13:51:21 +0000
+Message-ID: <CAFEAcA96ncqvN9iXybCd2SrVKJ9CKsu5t3_GtdNt1ZEDAkFt0w@mail.gmail.com>
+Subject: Re: [RFC PATCH-for-8.0 2/3] hw/ppc/spapr: Replace tswap64(HPTE) by
+ cpu_to_be64(HPTE)
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Alistair Francis <alistair@alistair23.me>,
+ David Gibson <david@gibson.dropbear.id.au>, 
+ Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,114 +95,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, 13 Dec 2022 at 12:52, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
+>
+> The tswap64() calls introduced in commit 4be21d561d ("pseries:
+> savevm support for pseries machine") are used to store the HTAB
+> in the migration stream (see savevm_htab_handlers) and are in
+> big-endian format.
 
+I think they're reading the run-time spapr->htab data structure
+(some of which is stuck onto the wire as a stream-of-bytes buffer
+and some of which is not). But either way, it's a target-endian
+data structure, because the code in hw/ppc/spapr_softmmu.c which
+reads and writes entries in it is using ldq_p() and stq_p(),
+and the current in-tree version of these macros is doing a
+"read host 64-bit and convert to/from target endianness wih tswap64".
 
-Am 12.12.22 um 11:01 schrieb Pierre Morel:
-> 
-> 
-> On 12/9/22 15:45, Cédric Le Goater wrote:
->> On 12/8/22 10:44, Pierre Morel wrote:
->>> Hi,
->>>
->>> Implementation discussions
->>> ==========================
->>>
->>> CPU models
->>> ----------
->>>
->>> Since the S390_FEAT_CONFIGURATION_TOPOLOGY is already in the CPU model
->>> for old QEMU we could not activate it as usual from KVM but needed
->>> a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
->>> Checking and enabling this capability enables
->>> S390_FEAT_CONFIGURATION_TOPOLOGY.
->>>
->>> Migration
->>> ---------
->>>
->>> Once the S390_FEAT_CONFIGURATION_TOPOLOGY is enabled in the source
->>> host the STFL(11) is provided to the guest.
->>> Since the feature is already in the CPU model of older QEMU,
->>> a migration from a new QEMU enabling the topology to an old QEMU
->>> will keep STFL(11) enabled making the guest get an exception for
->>> illegal operation as soon as it uses the PTF instruction.
->>>
->>> A VMState keeping track of the S390_FEAT_CONFIGURATION_TOPOLOGY
->>> allows to forbid the migration in such a case.
->>>
->>> Note that the VMState will be used to hold information on the
->>> topology once we implement topology change for a running guest.
->>>
->>> Topology
->>> --------
->>>
->>> Until we introduce bookss and drawers, polarization and dedication
->>> the topology is kept very simple and is specified uniquely by
->>> the core_id of the vCPU which is also the vCPU address.
->>>
->>> Testing
->>> =======
->>>
->>> To use the QEMU patches, you will need Linux V6-rc1 or newer,
->>> or use the following Linux mainline patches:
->>>
->>> f5ecfee94493 2022-07-20 KVM: s390: resetting the Topology-Change-Report
->>> 24fe0195bc19 2022-07-20 KVM: s390: guest support for topology function
->>> 0130337ec45b 2022-07-20 KVM: s390: Cleanup ipte lock access and SIIF fac..
->>>
->>> Currently this code is for KVM only, I have no idea if it is interesting
->>> to provide a TCG patch. If ever it will be done in another series.
->>>
->>> Documentation
->>> =============
->>>
->>> To have a better understanding of the S390x CPU Topology and its
->>> implementation in QEMU you can have a look at the documentation in the
->>> last patch of this series.
->>>
->>> The admin will want to match the host and the guest topology, taking
->>> into account that the guest does not recognize multithreading.
->>> Consequently, two vCPU assigned to threads of the same real CPU should
->>> preferably be assigned to the same socket of the guest machine.
->>>
->>> Future developments
->>> ===================
->>>
->>> Two series are actively prepared:
->>> - Adding drawers, book, polarization and dedication to the vCPU.
->>> - changing the topology with a running guest
->>
->> Since we have time before the next QEMU 8.0 release, could you please
->> send the whole patchset ? Having the full picture would help in taking
->> decisions for downstream also.
->>
->> I am still uncertain about the usefulness of S390Topology object because,
->> as for now, the state can be computed on the fly, the reset can be
->> handled at the machine level directly under s390_machine_reset() and so
->> could migration if the machine had a vmstate (not the case today but
->> quite easy to add). So before merging anything that could be difficult
->> to maintain and/or backport, I would prefer to see it all !
->>
-> 
-> The goal of dedicating an object for topology was to ease the maintenance and portability by using the QEMU object framework.
-> 
-> If on contrary it is a problem for maintenance or backport we surely better not use it.
-> 
-> Any other opinion?
+>  #define HPTE(_table, _i)   (void *)(((uint64_t *)(_table)) + ((_i) * 2))
+> -#define HPTE_VALID(_hpte)  (tswap64(*((uint64_t *)(_hpte))) & HPTE64_V_V=
+ALID)
+> -#define HPTE_DIRTY(_hpte)  (tswap64(*((uint64_t *)(_hpte))) & HPTE64_V_H=
+PTE_DIRTY)
+> -#define CLEAN_HPTE(_hpte)  ((*(uint64_t *)(_hpte)) &=3D tswap64(~HPTE64_=
+V_HPTE_DIRTY))
+> -#define DIRTY_HPTE(_hpte)  ((*(uint64_t *)(_hpte)) |=3D tswap64(HPTE64_V=
+_HPTE_DIRTY))
+> +#define HPTE_VALID(_hpte)  (be64_to_cpu(*((uint64_t *)(_hpte))) & HPTE64=
+_V_VALID)
+> +#define HPTE_DIRTY(_hpte)  (be64_to_cpu(*((uint64_t *)(_hpte))) & HPTE64=
+_V_HPTE_DIRTY)
+> +#define CLEAN_HPTE(_hpte)  ((*(uint64_t *)(_hpte)) &=3D cpu_to_be64(~HPT=
+E64_V_HPTE_DIRTY))
+> +#define DIRTY_HPTE(_hpte)  ((*(uint64_t *)(_hpte)) |=3D cpu_to_be64(HPTE=
+64_V_HPTE_DIRTY))
 
-I agree with Cedric. There is no point in a topology object.
-The state is calculated on the fly depending on the command line. This
-would change if we ever implement the PTF horizontal/vertical state. But this
-can then be another CPU state.
+This means we now have one file that's accessing this data structure
+as "this is target-endian", and one file that's accessing it as
+"this is big-endian". It happens that that ends up meaning the same
+thing because PPC is always TARGET_BIG_ENDIAN, but it seems a bit
+inconsistent.
 
-So I think we could go forward with this patch as a simple patch set that allows to
-sets a static topology. This makes sense on its own, e.g. if you plan to pin your
-vCPUs to given host CPUs.
+We should decide whether we're thinking of the data structure
+as target-endian or big-endian and change all the accessors
+appropriately (or none of them -- currently we're completely
+consistent about treating it as "target endian", I think).
 
-Dynamic changes do come with CPU hotplug, not sure what libvirt does with new CPUs
-in that case during migration. I assume those are re-generated on the target with
-whatever topology was created on the source. So I guess this will just work, but
-it would be good if we could test that.
+I also think that "cast a pointer into a byte-array to uint64_t*
+and then dereference it" is less preferable than using ldq_p()
+and stq_p(), but that's arguably a separate thing.
 
-A more fine-grained topology (drawer, book) could be added later or upfront. It
-does require common code and libvirt enhancements, though.
+thanks
+-- PMM
 
