@@ -2,97 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2BE64BBA2
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 19:10:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A65364BBA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 19:12:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p59iU-00020T-D6; Tue, 13 Dec 2022 13:09:22 -0500
+	id 1p59kg-0003p2-9M; Tue, 13 Dec 2022 13:11:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1p59iS-000202-DA
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 13:09:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1p59kd-0003nN-U0; Tue, 13 Dec 2022 13:11:36 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1p59iP-0003mT-HI
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 13:09:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1670954955;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ELUaTtuqfuiCr6dr5Xi151jE9neO5JWBC/KI/yQdpkU=;
- b=LUg0ykPGayzddb6nSYPuaD/NS8LtCqqzGvOc1ZKwNkunBBM2bSJImLPWlXmOf1ZQ6GittI
- rRPqKIj1cm/j6flz+20ZgR8jVXtTTGriANKCKvvaxmoQvjBNanbWW1r+euWRJSJbZafugV
- XPLfVENtLrQwxu/lCjVvcX+nROW/x0Q=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-205-IdVTLuzwMAygmP0Or4i-Gg-1; Tue, 13 Dec 2022 13:09:14 -0500
-X-MC-Unique: IdVTLuzwMAygmP0Or4i-Gg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- w15-20020a05640234cf00b0046d32d7b153so7680263edc.0
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 10:09:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ELUaTtuqfuiCr6dr5Xi151jE9neO5JWBC/KI/yQdpkU=;
- b=jaVIuM3Rc/qLFn5v3qt+543jY7uG+b7cHyH/u5ne2ucotbCzBrpAPd8tt8O4/TtxDq
- oH5IGVEkd+1jxksmsygZEDvk3A/RBkWt37hOndPK5H8ouGZxba6HQc6Zh7Ifwo6gInvW
- jHg4ce/gJqArvg0AOcirwZcUiaZPKo0JWS4t9S7Rkt61+IzZpFoG1IR05FOlNlXd8NjB
- E8EyNbbW2LPgl8e9bnNDlWY5B0yiMAVYxRX7qysPSh5lDOFExpOi/iCBftnEQtWkPA2N
- U/msJ/6F4umZqdW5CnPFd7+6dzbmXg5OYY4OGSnvn9CCEi0VOoE1X4NgFeQdDJUT9u6K
- cmEg==
-X-Gm-Message-State: ANoB5plLFH3X5b35K5Usbt2NOFafqK6X+GQmb05yNiAY1PMeeiUgeFup
- EdGM0SEzERDfQ+Tp7MJ8PgC3E2fczIcgfyw8uyRLP/a0UefJh1ZzitHEvelwCbsl01Q382TMXYg
- 1beYSEgS9aoS4jQM=
-X-Received: by 2002:a17:906:714e:b0:7c1:23f2:c052 with SMTP id
- z14-20020a170906714e00b007c123f2c052mr16608474ejj.45.1670954953261; 
- Tue, 13 Dec 2022 10:09:13 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5FIIhQ+nfmGInpaw74lQ/B77rB56QgkpsE5RAd67oDODJDr5gOZlQZxCQCMeOm48BzJ7V+nA==
-X-Received: by 2002:a17:906:714e:b0:7c1:23f2:c052 with SMTP id
- z14-20020a170906714e00b007c123f2c052mr16608458ejj.45.1670954953051; 
- Tue, 13 Dec 2022 10:09:13 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
- by smtp.gmail.com with ESMTPSA id
- k17-20020a170906055100b007806c1474e1sm4725822eja.127.2022.12.13.10.09.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Dec 2022 10:09:12 -0800 (PST)
-Message-ID: <49a41e54-54df-5716-083b-e6a48922649b@redhat.com>
-Date: Tue, 13 Dec 2022 19:09:11 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1p59kb-0004Pz-OY; Tue, 13 Dec 2022 13:11:35 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 787C0748131;
+ Tue, 13 Dec 2022 19:09:51 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 26DAC74812F; Tue, 13 Dec 2022 19:09:51 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 24B2674810A;
+ Tue, 13 Dec 2022 19:09:51 +0100 (CET)
+Date: Tue, 13 Dec 2022 19:09:51 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+cc: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>, 
+ Alistair Francis <alistair@alistair23.me>, 
+ David Gibson <david@gibson.dropbear.id.au>, 
+ Jason Wang <jasowang@redhat.com>, Greg Kurz <groug@kaod.org>, 
+ qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
+ qemu-ppc@nongnu.org
+Subject: Re: [RFC PATCH-for-8.0 1/3] hw/ppc: Replace tswap32() by const_le32()
+In-Reply-To: <CAFEAcA8WF6GXaPt6+=KbaLSP5w+r1dps6fcc21+Um3VFAPDp5A@mail.gmail.com>
+Message-ID: <e3ce4608-c516-568b-df37-8446fbe6735b@eik.bme.hu>
+References: <20221213125218.39868-1-philmd@linaro.org>
+ <20221213125218.39868-2-philmd@linaro.org>
+ <8d47b826-2011-3203-c682-aa32a76b8dc2@linaro.org>
+ <d73fe725-565e-7fcb-e7d3-846189459545@linaro.org>
+ <a1f4b5a6-0a8a-5a04-8ab6-f3f08b9d36aa@linaro.org>
+ <CAFEAcA_F3Z+UPW-wHs8xedYX3TiV8CRQAom0DhefKLFH_Ejgog@mail.gmail.com>
+ <b46e4c40-257f-8a89-85b8-8c2806f395be@linaro.org>
+ <10186d7a-2df0-2fcf-8eef-8e34bcc2d8cc@kaod.org>
+ <CAFEAcA8WF6GXaPt6+=KbaLSP5w+r1dps6fcc21+Um3VFAPDp5A@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 2/5] Support format or cache specific out file
-Content-Language: en-US
-To: Nir Soffer <nsoffer@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-block@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20221128141514.388724-1-nsoffer@redhat.com>
- <20221128141514.388724-3-nsoffer@redhat.com>
- <a5923263-befe-30a4-afa2-a80ecb6b1ad2@redhat.com>
- <CAMRbyyvG4s2c96xy=SNmFv26zG2nwMDH+Da71L_QQ1HjJ6zs5Q@mail.gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <CAMRbyyvG4s2c96xy=SNmFv26zG2nwMDH+Da71L_QQ1HjJ6zs5Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1281552382-1670954991=:38442"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,64 +75,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13.12.22 16:56, Nir Soffer wrote:
-> On Mon, Dec 12, 2022 at 12:38 PM Hanna Reitz <hreitz@redhat.com> wrote:
->> On 28.11.22 15:15, Nir Soffer wrote:
->>> Extend the test finder to find tests with format (*.out.qcow2) or cache
->>> specific (*.out.nocache) out file. This worked before only for the
->>> numbered tests.
->>> ---
->>>    tests/qemu-iotests/findtests.py | 10 ++++++++--
->>>    1 file changed, 8 insertions(+), 2 deletions(-)
->> This patch lacks an S-o-b, too.
->>
->>> diff --git a/tests/qemu-iotests/findtests.py b/tests/qemu-iotests/findtests.py
->>> index dd77b453b8..f4344ce78c 100644
->>> --- a/tests/qemu-iotests/findtests.py
->>> +++ b/tests/qemu-iotests/findtests.py
->>> @@ -38,31 +38,37 @@ def chdir(path: Optional[str] = None) -> Iterator[None]:
->>>            os.chdir(saved_dir)
->>>
->>>
->>>    class TestFinder:
->>>        def __init__(self, test_dir: Optional[str] = None) -> None:
->>>            self.groups = defaultdict(set)
->>>
->>>            with chdir(test_dir):
->>>                self.all_tests = glob.glob('[0-9][0-9][0-9]')
->>>                self.all_tests += [f for f in glob.iglob('tests/*')
->>> -                               if not f.endswith('.out') and
->>> -                               os.path.isfile(f + '.out')]
->>> +                               if self.is_test(f)]
->> So previously a file was only considered a test file if there was a
->> corresponding reference output file (`f + '.out'`), so files without
->> such a reference output aren’t considered test files...
->>
->>>                for t in self.all_tests:
->>>                    with open(t, encoding="utf-8") as f:
->>>                        for line in f:
->>>                            if line.startswith('# group: '):
->>>                                for g in line.split()[2:]:
->>>                                    self.groups[g].add(t)
->>>                                break
->>>
->>> +    def is_test(self, fname: str) -> bool:
->>> +        """
->>> +        The tests directory contains tests (no extension) and out files
->>> +        (*.out, *.out.{format}, *.out.{option}).
->>> +        """
->>> +        return re.search(r'.+\.out(\.\w+)?$', fname) is None
->> ...but this new function doesn’t check that.  I think we should check it
->> (just whether there’s any variant of `/{fname}\.out(\.\w+)?/` to go with
->> `fname`) so that behavior isn’t changed.
-> This means that you cannot add a test without a *.out* file, which may
->   be useful when you don't use the out file for validation, but we can
-> add this later if needed.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-I don’t think tests work without a reference output, do they?  At least 
-a couple of years ago, the ./check script would refuse to run tests 
-without a corresponding .out file.
+--3866299591-1281552382-1670954991=:38442
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Hanna
+On Tue, 13 Dec 2022, Peter Maydell wrote:
+> On Tue, 13 Dec 2022 at 16:53, Cédric Le Goater <clg@kaod.org> wrote:
+>> On 12/13/22 17:27, Richard Henderson wrote:
+>>> On 12/13/22 10:21, Peter Maydell wrote:
+>>>> It does seem odd, though. We have a value in host endianness
+>>>> (the EPAPR_MAGIC constant, which is host-endian by virtue of
+>>>> being a C constant). But we're storing it to env->gpr[], which
+>>>> is to say the CPUPPCState general purpose register array. Isn't
+>>>> that array *also* kept in host endianness order?
+>>>
+>>> Yes indeed.
+>>>
+>>>> If so, then the right thing here is "don't swap at all",
+>>>
+>>> So it would seem...
+>>>
+>>>> i.e. just "env->gpr[6] = EPAPR_MAGIC;". But that would imply
+>>>> that the current code is setting the wrong value for the GPR
+>>>> on little-endian hosts, which seems a bit unlikely...
+>>>
+>>> ... unless this board has only been tested on matching hosts.
 
+I can't remember the details but I think I've had no tswap in sam460ex 
+first but that did not work and had to add it but I've probably looked at 
+other examples and did not really understand why this was needed. I tested 
+on x86_64 so not matching host. The board firmware has some reference to 
+this magic value in:
+
+qemu/roms/u-boot-sam460ex/arch/powerpc/lib/bootm.c::boot_jump_linux()
+
+I don't know what it does with it but I think kernel expects it in big 
+endian and what we put there should match what U-Boor does (if this is 
+actually used on sam460ex which I'm not sure about). The Linux kernel I've 
+tested with back then was probably from Ubuntu_16.04 or Debian Jessie 
+which supported this board. Not sure this helps but that's all I can 
+gather now but I may remember wrong.
+
+Regards,
+BALATON Zoltan
+
+>> But these are register default values. Endianness doesn't apply
+>> there. Doesn't it ?
+>
+> Any time you have a value that's more than 1 byte wide,
+> endianness applies in some sense :-) We choose for our
+> emulated CPUs typically to keep register values in struct
+> fields and variables in the C code in host endianness. This
+> is the "obvious" choice given that you want to be able to
+> do things like do a simple host add to emulate a guest CPU
+> add, but in theory you could store the values the other
+> way around if you wanted (then "store register into RAM"
+> would be trivial, and "add 1 to register" would require
+> extra effort; currently it's the other way round.)
+>
+> Anyway, I think that in the virtex_ml507 and sam460ex code
+> the use of tswap32() should be removed. In hw/ppc/e500.c
+> we get this right:
+>    env->gpr[6] = EPAPR_MAGIC;
+>
+> We have a Linux kernel boot test in the avocado tests for
+> virtex_ml507 -- we really do set up this magic value wrongly
+> afaict, but it seems like the kernel doesn't check it (the
+> test passes regardless of whether we swap the value or not).
+>
+> I think what has happened here is that this bit of code is
+> setting up CPU registers for an EPAPR style boot, but the
+> test kernel at least doesn't expect that. It boots via the
+> code in arch/powerpc/kernel/head_44x.S. That file claims
+> in a comment that it expects
+> *   r3 - Board info structure pointer (DRAM, frequency, MAC address, etc.)
+> *   r4 - Starting address of the init RAM disk
+> *   r5 - Ending address of the init RAM disk
+> *   r6 - Start of kernel command line string (e.g. "mem=128")
+> *   r7 - End of kernel command line string
+>
+> but actually it only cares that r3 == device-tree-blob.
+>
+> Documentation/powerpc/booting.rst says the expectation
+> (for a non-OpenFirmware boot) is:
+>                r3 : physical pointer to the device-tree block
+>                (defined in chapter II) in RAM
+>
+>                r4 : physical pointer to the kernel itself. This is
+>                used by the assembly code to properly disable the MMU
+>                in case you are entering the kernel with MMU enabled
+>                and a non-1:1 mapping.
+>
+>                r5 : NULL (as to differentiate with method a)
+>
+> which isn't the same as what the kernel code actually cares about
+> or what the kernel's comment says it cares about...
+>
+> So my guess about what's happening here is that the intention
+> was that these boards should be able to boot both kernels built
+> to be entered directly in the way booting.rst says, and also
+> kernels and other guest programs built to assume boot by
+> EPAPR firmware, but this bug means that we're only currently
+> supporting the first of these two categories. The reason nobody's
+> noticed before is presumably that in practice nobody's trying to
+> boot the "built to boot from EPAPR firmware" type binary on
+> these two boards.
+>
+> TLDR: we should drop the "tswap32()" entirely from both files.
+>
+> thanks
+> -- PMM
+>
+>
+--3866299591-1281552382-1670954991=:38442--
 
