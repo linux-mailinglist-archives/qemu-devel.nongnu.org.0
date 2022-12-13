@@ -2,66 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A732564B776
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 15:36:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DAC964B779
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Dec 2022 15:36:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p56Ml-0000jm-8R; Tue, 13 Dec 2022 09:34:43 -0500
+	id 1p56Ml-0000jo-UY; Tue, 13 Dec 2022 09:34:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patatetom@gmail.com>)
- id 1p50np-0001J2-Lh
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:38:17 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <patatetom@gmail.com>)
- id 1p50nn-00062s-4b
- for qemu-devel@nongnu.org; Tue, 13 Dec 2022 03:38:17 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id b2so34722611eja.7
- for <qemu-devel@nongnu.org>; Tue, 13 Dec 2022 00:38:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=UeNhXhYbVA6nNHvbv6eus4rvW0W8qirnaVsrXUMbQxE=;
- b=RHIAUeYuzT4NEWjfaxK97C5EkzPaQH8B9cNBUXdYcOLhvRA3yj3KrDZuB2tzoZRupT
- U2Vu2+XDnrO3Z0aLBA9SH7vF4KELzqd/ZD4IO+44WgYQs/7egiXiXUwqL0C2xbv/xCps
- fyNgLAqpBOO2Ahgml06khoJgSZwKEAEiyWQEyv7uHDtB66/liz1APhzkWx8vz8Ohsq7x
- v5vrqrQnR4+GnYQNxLaIpLCOlzCnX2t9Qz4oFdzXb/tADmN5tZth08T+3KKi3d1Bdj9y
- 1tvRuFt1Ncu8eqs/7EuPclXZKLjAXvCt1suhIwMUeR8/wwEDknPom0S1RDy0q3cWtnPE
- Wwcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UeNhXhYbVA6nNHvbv6eus4rvW0W8qirnaVsrXUMbQxE=;
- b=HFey4VYRrdMJUlM5w6w8ugTl/jZHs36XFTn4PJNVJzGZHiwCevO6IhqvNWkdYDAy0Z
- hJywnHrlb6EZWKHUiz6PPH2ggnOT3Heo6f7TCqDxbBX+OWMU9QVV/5/S9nd3yss6utEX
- 23jd2/XsRyE1ur6/3oZlbAqAXetzLksAm3AEg/TVnZLci42HtBAOCHmK+V2PXXTz4UGt
- NMjWEK2UyVywpHIgp7pfG3tEFvc+0RJZR9tB9M2+1lUyJ03pMk8G8MWsL1fFkSJCvllh
- LbuXOD9MvzsCgCcJiby6oAkMzNSKDs5k2mH/O9+77kNU8/dfp8WK3Yrg8JLZv0is90Uv
- erOw==
-X-Gm-Message-State: ANoB5plqa06k93rFZCPTsZN762VVIyO1Lt2aJBJXSwxuFwyfbkUwKv1f
- CRvkRom8T/pklN8rpiDe0lQnxPX6rmlornvhVddkBM2tYM2CmQ==
-X-Google-Smtp-Source: AA0mqf5J/6PaqWzXg5osdpr4TjtiMekG6Hv7QnJF5shbiTzejckaW+WRBxYDjbDxEEO8UOIf6AYPb1kDF5/SqzZCk+A=
-X-Received: by 2002:a17:906:24cf:b0:7c1:71ba:9759 with SMTP id
- f15-20020a17090624cf00b007c171ba9759mr482548ejb.770.1670920692324; Tue, 13
- Dec 2022 00:38:12 -0800 (PST)
-MIME-Version: 1.0
-From: Pascal <patatetom@gmail.com>
-Date: Tue, 13 Dec 2022 09:37:03 +0100
-Message-ID: <CAGhAaddGqO30KL0TbeR2kFUypABfQXSFj7SmpeRfXjVfEX7hMQ@mail.gmail.com>
-Subject: -display sdl
+ (Exim 4.90_1) (envelope-from <wanghw364@163.com>) id 1p54av-00041N-Kg
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:41:14 -0500
+Received: from m1368.mail.163.com ([220.181.13.68])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <wanghw364@163.com>) id 1p54as-00076j-5a
+ for qemu-devel@nongnu.org; Tue, 13 Dec 2022 07:41:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=/wW9KgE6zJGlnOaKFlzC7JWzrQ+eGj4mqpsGM7g69w8=; b=U
+ yI6cVlEHxw4CBVksDXoyMDsF9KJIU5dd0Fn8pqQJmbQdo9FzLjrzD1By8C9hgQS9
+ eP+WCvZsjFvjVwpXkg2XNniQ813XeDNH/PcdH8+lKPtZBBOM4pfrDnBcEhKN8Ukc
+ 2lWaLLY80LDvUOhpgOS6xZ8Ps95JGE1CAYel/jqeJI=
+Received: from wanghw364$163.com ( [183.193.17.50] ) by ajax-webmail-wmsvr68
+ (Coremail) ; Tue, 13 Dec 2022 20:25:38 +0800 (CST)
+X-Originating-IP: [183.193.17.50]
+Date: Tue, 13 Dec 2022 20:25:38 +0800 (CST)
+From: wanghw364 <wanghw364@163.com>
 To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000505e7505efb18adb"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=patatetom@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Subject: QEMU function trace
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220708(c4627114)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+X-NTES-SC: AL_QuycAvWYu0so7iGeYekZk04Vjug9WMK2sv0n2IdXPp80mSrV/w8LZVJkL1DS8NiwNjGXnTWrTDVBy8hGQI5hcqRa32l9M4YLCRbYq1orXVhW
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_111830_690191940.1670934338176"
+MIME-Version: 1.0
+Message-ID: <4019c9d3.7721.1850b729a80.Coremail.wanghw364@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: RMGowAD3_ZlCb5hj98GrAA--.41331W
+X-CM-SenderInfo: pzdqwxbztwkqqrwthudrp/xtbBawLWB1et7FDCswAAsP
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.13.68; envelope-from=wanghw364@163.com;
+ helo=m1368.mail.163.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Tue, 13 Dec 2022 09:34:40 -0500
@@ -79,44 +67,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000505e7505efb18adb
-Content-Type: text/plain; charset="UTF-8"
+------=_Part_111830_690191940.1670934338176
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
-hi,
+CgoKSGkgYWxsLAoKCkRvZXMgcWVtdS1zeXN0ZW0tcmlzY3Y2NCBoYXZlIGFueSBwbHVnaW4gb3Ig
+dG9vbHMgdGhhdCBjYW4gc3VwcG9ydCB0YXJnZXQgcHJvZ3JhbSBmdW5jdGlvbiB0cmFjZSBmZWF0
+dXJlPwoKCkl0IHNlZW1zIHRoZXJlIGlzIG5vIHN1Y2ggZmVhdHVyZSB1bmRlciBsaW5rOmh0dHBz
+Oi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2Jsb2IvbWFzdGVyL2RvY3MvZGV2ZWwv
+dGNnLXBsdWdpbnMucnN0CgoKRm9yIGV4YW1wbGUsIHdlIGNhbiB1c2UgbGliZXhlY2xvZy5zbyBw
+bHVnaW4gdG8gdHJhY2UgdGFyZ2V0IHByb2dyYW0gaW5zdHJ1Y3Rpb24gdHJhY2UuCgoKSW4gbXkg
+Y2FzZSwgd2hlbiBJIGJvb3QgbGludXgga2VybmVsIHdpdGggcWVtdSwgaXQgaGFuZ3MgaW4gdGhl
+IGhhbGZ3YXksIGJ1dCBJIGRvbid0IGtub3cgdGhlIGhhbmcgcG9zaXRpb24gaW4gdGhlIGNvZGUs
+IAoKCnNvIEkgd2FudCB0byB0cmFjZSB0aGUga2VybmVsIGZ1bmN0aW9uIGNhbGxpbmcgdHJhY2Ug
+c28gdGhhdCBJIGNhbiBmaW5kIG91dCB3aGVuIGFuZCB3aGVyZSBleGVjdXRpb24gZGl2ZXJnZXMu
+CgoKCgoKClRoYW5rcy4gCgoKCgoKCgoKCgoKCgoKCgo=
+------=_Part_111830_690191940.1670934338176
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-the "5" key of my keyboard doesn't work in my guest machine (ArchLinux)
-when I start qemu with the "-display sdl" option (I realized it when I
-wanted to enter the network address 192.168.1.254).
-the "5" key is OK if I switch to a terminal opened in the host machine.
-I did not test the whole keyboard to see if other keys were affected.
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6c2ltc3VuLCBTVFNvbmd0aS1TQy1SZWd1bGFyIj48cCBzdHlsZT0ibWFyZ2lu
+OjA7Ij48YnI+PC9wPjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPkhpIGFsbCw8L2Rpdj48ZGl2IHN0
+eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+RG9lcyBx
+ZW11LXN5c3RlbS1yaXNjdjY0IGhhdmUgYW55IHBsdWdpbiBvciB0b29scyB0aGF0IGNhbiBzdXBw
+b3J0IHRhcmdldCBwcm9ncmFtIGZ1bmN0aW9uIHRyYWNlIGZlYXR1cmU/PC9kaXY+PGRpdiBzdHls
+ZT0ibWFyZ2luOiAwOyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPkl0IHNlZW1z
+IHRoZXJlIGlzIG5vIHN1Y2ggZmVhdHVyZSB1bmRlciBsaW5rOjxhIGhyZWY9Imh0dHBzOi8vZ2l0
+bGFiLmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2Jsb2IvbWFzdGVyL2RvY3MvZGV2ZWwvdGNnLXBs
+dWdpbnMucnN0IiBfc3JjPSJodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9i
+bG9iL21hc3Rlci9kb2NzL2RldmVsL3RjZy1wbHVnaW5zLnJzdCI+aHR0cHM6Ly9naXRsYWIuY29t
+L3FlbXUtcHJvamVjdC9xZW11Ly0vYmxvYi9tYXN0ZXIvZG9jcy9kZXZlbC90Y2ctcGx1Z2lucy5y
+c3Q8L2E+IDwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxicj48L2Rpdj48ZGl2IHN0eWxl
+PSJtYXJnaW46IDA7Ij5Gb3IgZXhhbXBsZSwgd2UgY2FuIHVzZSBsaWJleGVjbG9nLnNvIHBsdWdp
+biB0byB0cmFjZSB0YXJnZXQgcHJvZ3JhbSBpbnN0cnVjdGlvbiB0cmFjZS48L2Rpdj48ZGl2IHN0
+eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+SW4gbXkg
+Y2FzZSwgd2hlbiBJIGJvb3QgbGludXgga2VybmVsIHdpdGggcWVtdSwgaXQgaGFuZ3MgaW4gdGhl
+IGhhbGZ3YXksIGJ1dCBJIGRvbid0IGtub3cgdGhlIGhhbmcgcG9zaXRpb24gaW4gdGhlIGNvZGUs
+Jm5ic3A7PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9
+Im1hcmdpbjogMDsiPnNvIEkgd2FudCB0byB0cmFjZSB0aGUga2VybmVsIGZ1bmN0aW9uIGNhbGxp
+bmcgdHJhY2Ugc28gdGhhdCBJIGNhbiBmaW5kIG91dCB3aGVuIGFuZCB3aGVyZSBleGVjdXRpb24g
+ZGl2ZXJnZXMuPC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvZGl2PjxkaXYgc3R5
+bGU9Im1hcmdpbjogMDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9k
+aXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+VGhhbmtzLiZuYnNwOzwvZGl2PjxkaXYgc3R5bGU9
+Im1hcmdpbjogMDsiPjxicj48L2Rpdj48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cCBz
+dHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48
+cCBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvcD48ZGl2IHN0eWxlPSJwb3NpdGlvbjpyZWxhdGl2
+ZTt6b29tOjEiPjxwIHN0eWxlPSJtYXJnaW46IDAiPjxicj48L3A+PGRpdiBzdHlsZT0iY2xlYXI6
+Ym90aCI+PC9kaXY+PC9kaXY+PC9kaXY+
+------=_Part_111830_690191940.1670934338176--
 
-still with this same option, it also happens that the SDL window (eg. guest
-display) is not/no longer refreshed after the host screen is put to sleep.
-
-no problem with the same virtual machine if this option is not used.
-
-qemu 7.1.0 is running under ArchLinux up to date.
-
-I am available if you need further information, regards, lacsaP.
-
---000000000000505e7505efb18adb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>hi,</div><div><br></div><div>the &quot;<span style=3D=
-"font-family:monospace">5</span>&quot; key of my keyboard doesn&#39;t work =
-in my guest machine (ArchLinux) when I start qemu with the &quot;<span styl=
-e=3D"font-family:monospace">-display sdl</span>&quot; option (I realized it=
- when I wanted to enter the network address 192.168.1.254).</div><div>the &=
-quot;<span style=3D"font-family:monospace">5</span>&quot; key is OK if I sw=
-itch to a terminal opened in the host machine.<br>I did not test the whole =
-keyboard to see if other keys were affected.</div><div><br></div><div>still=
- with this same option, it also happens that the SDL window (eg. guest disp=
-lay) is not/no longer refreshed after the host screen is put to sleep.</div=
-><div><br></div><div>no problem with the same virtual machine if this optio=
-n is not used.</div><div><br></div><div>qemu 7.1.0 is running under ArchLin=
-ux up to date.<br></div><div><br></div>I am available if you need further i=
-nformation, regards, lacsaP.<br></div>
-
---000000000000505e7505efb18adb--
 
