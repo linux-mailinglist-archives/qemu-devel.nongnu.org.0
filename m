@@ -2,106 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6A664C93D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 13:48:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4362364CB5A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 14:32:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5RAj-0004MZ-W7; Wed, 14 Dec 2022 07:47:42 -0500
+	id 1p5Rqg-0005uz-PB; Wed, 14 Dec 2022 08:31:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p5RAf-0004JJ-6p
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 07:47:38 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p5RAd-0007pz-CK
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 07:47:36 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BECaq5d003435
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 12:47:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=AgmYvfyHqhxreHZQ422DfJCvkcUloQPevp+zzVsUOlU=;
- b=cn1JjnATOM89WlbZpupog4GcVLr3CGVeLQnEbuSEWXlr/imMDdu8yENkZF0kOVB776Dn
- Gn2WfeVIHXZ5/nPikGJU8Bd5SaE/vJJjFl8VKWKf9/XfXrcq2ZfgXjMvXUEKk0X+NmrI
- WZfLqMzPLfegt6pcj57JxwGHZ51m3ZnbVla5BeEUJHJSdLpXlMekS/cV99w0OcDx5bl/
- RRveTAGs7IGsQ5NTGchjwDkDTyiAIbcRrHgfjqruLodO9OrHXH1+D3RiVtpMIiu9y0OK
- 7wit5DdJO1RXl83aZdEyLFRs/+4/1NvU5gfYTT5ObQDonV3cqhib9wgECVs4WJX5yEo3 LQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mfen7r8hg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 12:47:33 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BECcPIK010182
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 12:47:33 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mfen7r8gw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 12:47:33 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BEBti8D024112;
- Wed, 14 Dec 2022 12:47:32 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
- by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3meypk4mta-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 14 Dec 2022 12:47:32 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BEClUtl39911950
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 14 Dec 2022 12:47:31 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A6C1A7805E;
- Wed, 14 Dec 2022 14:05:45 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D0AA77805C;
- Wed, 14 Dec 2022 14:05:44 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.163.9.130])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 14 Dec 2022 14:05:44 +0000 (GMT)
-Message-ID: <5a91ffbd8fa01d8f60df4cc14bcc53eeb3cc93e4.camel@linux.ibm.com>
-Subject: Re: [PATCH] tpm: add backend for mssim
-From: James Bottomley <jejb@linux.ibm.com>
-To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Berger <stefanb@linux.ibm.com>, Markus
- Armbruster <armbru@redhat.com>
-Date: Wed, 14 Dec 2022 07:47:28 -0500
-In-Reply-To: <Y5mz96wJN9+nxLs8@redhat.com>
-References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
- <Y5dNC77CubqrfXku@redhat.com>
- <bbe14f32fcf19ba4c800953c7db6486a340d5b14.camel@linux.ibm.com>
- <Y5mz96wJN9+nxLs8@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p5Rqe-0005sh-Ed
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:31:00 -0500
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p5Rqc-0001ww-OV
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:31:00 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id r11so2544944oie.13
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 05:30:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=I5hCx5YqyROgzUFMuWghH1iYlafefklbfG0RHpfL5lQ=;
+ b=AI6bHWn66bo5wI0LqX5ip005svohbt6DEMKVoYZpsuivsVVY725QSuLSqy+rGqgiEu
+ 45tCnqSkAMZWbtAgrk2N+q9s4jDPIywIk6iutvYRlaq65b3C56F+GXnuWbnV0jtiY5QQ
+ Xj/6rMHhq6SWVeSwPWkhMAx3cgISVUqOKUAaUU1h3k9xNfESHbXExy9UjXSjEQpASkFL
+ p05BQfYgUxXiYl3foTJxfCz6wb8+MRsb4DtLJZ5J8teidbpBnTToNJmr/3hoGm1YCiIG
+ h78QGK+aiihOUaQ8gdeXkwolUisq9IseJswYU8j1Xd6zzyE2U2aDDOrZV/hCp7OpsDbw
+ /R/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=I5hCx5YqyROgzUFMuWghH1iYlafefklbfG0RHpfL5lQ=;
+ b=RHrYG5BydlNZfuFoyvhbfT3ew4WP/NwGvg1ZwiIH3ElBwy4rrRxGV8+Nec6FV3gfd8
+ gtdPf9LqxEW4mVzejQeh0J6og6YDMJJkSBnu/C92+l1xVmA31Xqq7gkcsUthkrpAx2zG
+ WmV6xnJ1We8W00DhLI7nM48KtZRfFs123vVamktU3MaBMUSOawwq/fcjzrO39SIWvbTL
+ F8/Ke77LO0KDCCE/9wK5lWs5ZatS6xWjDsLoOxHMjmOPTDKfsKtC04izFETkG2ZLYAsY
+ 6mv9dW51xZkQn1vZHXZ75cJJkLWLTD/RproVq5K6dOZU6Cgkv5mslXlZqmCp1lDBTDvV
+ RP5A==
+X-Gm-Message-State: ANoB5pnRO3yB96laCDaPwqZWE0rPjN5XkDesDSOjszxrUtMPFguOiY+w
+ 9detq7Bf5cOOJBIg7s/VTt75gA==
+X-Google-Smtp-Source: AA0mqf7CCEwZYZR8uPbkJh7irOXeC/stiQApxTQ2nkV8/0NAiKedcBRCXEdY8DQmAYzMYiCxoD0OOw==
+X-Received: by 2002:a54:4818:0:b0:35c:eae3:8c40 with SMTP id
+ j24-20020a544818000000b0035ceae38c40mr10005877oij.21.1671024657208; 
+ Wed, 14 Dec 2022 05:30:57 -0800 (PST)
+Received: from ?IPV6:2806:102e:18:2efc:2f7e:778a:5d07:f03c?
+ ([2806:102e:18:2efc:2f7e:778a:5d07:f03c])
+ by smtp.gmail.com with ESMTPSA id
+ b25-20020aca1b19000000b00342eade43d4sm5609324oib.13.2022.12.14.05.30.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Dec 2022 05:30:56 -0800 (PST)
+Message-ID: <e0eb93dc-f805-5500-3732-7d4930bb42da@linaro.org>
+Date: Wed, 14 Dec 2022 07:30:52 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: evG_fThR3LNwYFHGVUl-6O5qkJ-E3p-t
-X-Proofpoint-ORIG-GUID: 5xxv83moTrvCycaYHjqpa_AqtWIYxZ4F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-14_06,2022-12-14_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- spamscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- malwarescore=0 lowpriorityscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212140097
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] configure: Fix check-tcg not executing any tests
+Content-Language: en-US
+To: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>, qemu-devel@nongnu.org,
+ bcain@quicinc.com, quic_mathbern@quicinc.com,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20221207082309.9966-1-quic_mthiyaga@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221207082309.9966-1-quic_mthiyaga@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,109 +91,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2022-12-14 at 11:31 +0000, Daniel P. Berrangé wrote:
-> On Mon, Dec 12, 2022 at 05:06:05PM -0500, James Bottomley wrote:
-> > On Mon, 2022-12-12 at 15:47 +0000, Daniel P. Berrangé wrote:
-> > > Copy'ing Markus for QAPI design feedback.
-> > > 
-> > > On Sat, Dec 10, 2022 at 12:10:18PM -0500, James Bottomley wrote:
-> > [...]
-> > > > +##
-> > > > +# @TPMmssimOptions:
-> > > > +#
-> > > > +# Information for the mssim emulator connection
-> > > > +#
-> > > > +# @host: host name or IP address to connect to
-> > > > +# @port: port for the standard TPM commands
-> > > > +# @ctrl: control port for TPM state changes
-> > > > +#
-> > > > +# Since: 7.2.0
-> > > > +##
-> > > > +{ 'struct': 'TPMmssimOptions',
-> > > > +  'data': {
-> > > > +      'host': 'str',
-> > > > +      'port': 'str',
-> > > > +      'ctrl': 'str' },
-> > > > +  'if': 'CONFIG_TPM' }
-> > > 
-> > > We don't want to be adding new code using plain host/port combos,
-> > > as that misses extra functionality for controlling IPv4 vs IPv6
-> > > usage.
-> > > 
-> > > The existing 'emulator' backend references a chardev, but I'm
-> > > not especially in favour of using the chardev indirection either,
-> > > when all we should really need is a SocketAddress
-> > > 
-> > > IOW, from a QAPI design POV, IMHO the best practice would be
-> > > 
-> > >  { 'struct': 'TPMmssimOptions',
-> > >    'data': {
-> > >        'command': 'SocketAddress',
-> > >        'control': 'SocketAddress' },
-> > >    'if': 'CONFIG_TPM' }
-> > > 
-> > > 
-> > > The main wrinkle with this is that exprssing nested struct fields
-> > > with QemuOpts is a disaster zone, and -tpmdev doesn't yet support
-> > > JSON syntax.
-> > > 
-> > > IMHO we should just fix the latter problem, as I don't think it
-> > > ought to be too hard. Probably a cut+paste / search/replace job
-> > > on the chanmge we did for -device in:
-> > > 
-> > >   commit 5dacda5167560b3af8eadbce5814f60ba44b467e
-> > >   Author: Kevin Wolf <kwolf@redhat.com>
-> > >   Date:   Fri Oct 8 15:34:42 2021 +0200
-> > > 
-> > >     vl: Enable JSON syntax for -device
-> > > 
-> > > This would mean we could use plain -tpmdev for a local instance
-> > > 
-> > >    -tpmdev mssim,id=tpm0 \
-> > >     -device tpm-crb,tpmdev=tpm0 \
-> > > 
-> > > but to use a remote emulator we would use
-> > > 
-> > >     -tpmdev "{'backend': 'mssim', 'id': 'tpm0',
-> > >               'command': {
-> > >                  'type': 'inet',
-> > >                  'host': 'remote',
-> > >                  'port': '4455'
-> > >                },
-> > >               'control': {
-> > >                  'type': 'inet',
-> > >                  'host': 'remote',
-> > >                  'port': '4456'
-> > >                }}"
-> > > 
-> > > (without the whitepace/newlines, which i just used for sake of
-> > > clarity)
-> > 
-> > Just on this, might it not be easier for the commandline to do what
-> > gluster does?  just use the '.' as a separator and subqdict
-> > extraction, so you'd specify
-> > 
-> > -tpmdev
-> > mssim,id=tpm0,command.type=inet,command.host=remote,command.port=44
-> > 55,control.type=inet,control.host=remote,control.port=4456
-> > 
-> > With the added bonus that X.type could be defaulted to inet and
-> > control.host could follow command.host and so on?
+On 12/7/22 02:23, Mukilan Thiyagarajan wrote:
+> After configuring with --target-list=hexagon-linux-user
+> running `make check-tcg` just prints the following:
 > 
-> These days, we have a policy of not tyring to map nested data onto
-> the flat QemuOpts. This has been done in several areas and we've
-> ended up with a mess of ever so slightly different impls each with
-> their own flaws. This is why our preferred approach these days is to
-> add support for JSON syntax to enable non-flat config.
+> ```
+> make: Nothing to be done for 'check-tcg'
+> ```
+> 
+> In the probe_target_compiler function, the 'break'
+> command is used incorrectly. There are no lexically
+> enclosing loops associated with that break command which
+> is an unspecfied behaviour in the POSIX standard.
+> 
+> The dash shell implementation aborts the currently executing
+> loop, in this case, causing the rest of the logic for the loop
+> in line 2490 to be skipped, which means no Makefiles are
+> generated for the tcg target tests.
+> 
+> Fixes: c3b570b5a9a24d25 (configure: don't enable
+> cross compilers unless in target_list)
+> 
+> Signed-off-by: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
+> ---
+>   configure | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
 
-Well, OK, but I've got to say on behalf of shell script writers
-everywhere that using json for command line arguments is a textbook
-definition of cruel and unusual punishment.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-James
+
+r~
+
+
+> 
+> diff --git a/configure b/configure
+> index 26c7bc5154..7a804fb657 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1881,9 +1881,7 @@ probe_target_compiler() {
+>     # We shall skip configuring the target compiler if the user didn't
+>     # bother enabling an appropriate guest. This avoids building
+>     # extraneous firmware images and tests.
+> -  if test "${target_list#*$1}" != "$1"; then
+> -      break;
+> -  else
+> +  if test "${target_list#*$1}" = "$1"; then
+>         return 1
+>     fi
+>   
 
 
