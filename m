@@ -2,77 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C20D64D185
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 21:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4173864D1D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 22:32:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Ylq-0007YP-3E; Wed, 14 Dec 2022 15:54:30 -0500
+	id 1p5ZLE-0002oJ-2E; Wed, 14 Dec 2022 16:31:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1p5Ylm-0007YH-Kj
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 15:54:26 -0500
-Received: from mga04.intel.com ([192.55.52.120])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5ZL7-0002nW-H0
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 16:30:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1p5Yli-00037J-RS
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 15:54:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671051262; x=1702587262;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:to:cc;
- bh=mjGK07+sSzfJoPQKszWPOFrvFHEnWxC/xVIdOYLYUWA=;
- b=aLa54YRGEIdm/3MqqIxGIOP+Ix8Li5qw993i5G8XehXb//KLAuFHl0y0
- KYJNk/U2WlwVKtH7Hfj2RzRTwcCNjxtSLTuytQ0RWqTdvX7naFAjvIIPq
- wiFhlbi3bgEP3J2Qfke5Yd3p5CrEvxyd7ngMG1so8SVlT2mMnUs8REoTd
- eYWL9GJP766yfio8c54Iz27w2uEjGyDIode0c5WtQrowcBQxFK8q71TND
- LCsxOsunwt/MMJLcj4WrVPgsDZ57vvdcIvz5Kb0XJJ5Vxy5bfPXkI/qwd
- eEymaKSmwhFkYQdMKVR+jjChjuqdv9qwb5P7Z2b3m+Qb9DRnTyKAPpNKI w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="317220245"
-X-IronPort-AV: E=Sophos;i="5.96,245,1665471600"; d="scan'208";a="317220245"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2022 12:54:18 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="773463121"
-X-IronPort-AV: E=Sophos;i="5.96,245,1665471600"; d="scan'208";a="773463121"
-Received: from iweiny-mobl.amr.corp.intel.com (HELO localhost)
- ([10.209.87.120])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2022 12:54:18 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-Date: Wed, 14 Dec 2022 12:54:11 -0800
-Subject: [PATCH v2] hw/cxl/device: Add Flex Bus Port DVSEC
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5ZL4-0002n8-DY
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 16:30:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671053453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vcIzs+xe8vtV0UBjA+2hi+J4Y/EC9UlBvVaWLiPoA74=;
+ b=X7dMbiowkNEZIQzmKjbnCUruJuBDc1EZAP7Uca7XcTAqKzL7I0ZrDjblj3HNS1oSwvqpQf
+ VakiHKlViYm9x+e4BHUnnfBQWX8rFxcvFKo9jMQE0NhdxTBR0khPpXOyAog2eeqD9VBrp6
+ 4zCGN0Q+96j3Yp3DqLzkZw7eu0IsgYE=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-387-SOMmSmrAPvWflT1xyxJRtw-1; Wed, 14 Dec 2022 16:30:51 -0500
+X-MC-Unique: SOMmSmrAPvWflT1xyxJRtw-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ r7-20020a25c107000000b006ff55ac0ee7so1255613ybf.15
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 13:30:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vcIzs+xe8vtV0UBjA+2hi+J4Y/EC9UlBvVaWLiPoA74=;
+ b=blyZUJdl7oy11Mrhzyor8yy9aU+aHUogZkauXCbLlIU0XJyGJwXtUlt11QoDGBfqRm
+ zB3U9m+op6/zJopmZOqsADEjudEYsMfWITn5R8f8q8PI+ARBemijjX2TZ2jk2siAsCWR
+ wEXvzUNP/WQg1EEPw1iZdhe21viPPufpOlI/ryHXtnuoP4+RfECzR7VI9r4O0fGtNujE
+ 4NOYP3stwmGI3eCoqI1yxT/QAB3r1Le/K5UmlkKwdupCX1w4a/Y7MuBLNL5rBRKrRiYv
+ ZWhgH7HsYDvHNp9BeikaaQN0wKS6NMAZikO7b+VzEcmX/C3Jc7sZN1M2zxHQteRUF2s6
+ 3HPQ==
+X-Gm-Message-State: ANoB5pkbSSHKmyAkecPA8uhqH8nhuy3xjgS4SwzT91rHaE86u3npmwSw
+ Le2WKkJf6RHAB1eZbbBN9Q+HWLOwI9u8DxQ8oEp0/x2zhVvVHI95hCot+vt9ZVU0E5rBuvPlDC5
+ Brw+ZGK+Wj8C+YpY=
+X-Received: by 2002:a05:6902:12cd:b0:6e7:3f9c:65b2 with SMTP id
+ j13-20020a05690212cd00b006e73f9c65b2mr19642762ybu.3.1671053451002; 
+ Wed, 14 Dec 2022 13:30:51 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4Pzz9aPEEMmv7OTNXmlSFFxyTLvlg2kted+Hk01JZYC16Hr9K4e0KjnM+rs82eeidK40dLXw==
+X-Received: by 2002:a05:6902:12cd:b0:6e7:3f9c:65b2 with SMTP id
+ j13-20020a05690212cd00b006e73f9c65b2mr19642749ybu.3.1671053450790; 
+ Wed, 14 Dec 2022 13:30:50 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-45-70-31-26-132.dsl.bell.ca.
+ [70.31.26.132]) by smtp.gmail.com with ESMTPSA id
+ a3-20020a05620a438300b006eeb3165554sm10364943qkp.19.2022.12.14.13.30.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Dec 2022 13:30:49 -0800 (PST)
+Date: Wed, 14 Dec 2022 16:30:48 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 1/5] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y5pAiFv/JHQvgxha@x1n>
+References: <20221213213850.1481858-1-peterx@redhat.com>
+ <20221213213850.1481858-2-peterx@redhat.com>
+ <Y5mT4V3iYlcH56/H@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221213-ira-flexbus-port-v2-1-eaa48d0e0700@intel.com>
-X-B4-Tracking: v=1; b=H4sIAPM3mmMC/32NSwqDMBQAryJZ9xVfbEW66j3ERT4v9UGaSKJiE
- e/e1AN0OQPD7CJTYsriUe0i0cqZYyggL5UwowovAraFhaylRIkNcFLgPG16yTDFNIOhu2wtdYho
- Rcm0ygQ6qWDGEobF+yKnRI6389MPhUfOc0yfc7viz/45rAgIXaucvbmm1tQ+Oczkrya+xXAcxxe
- E2n+5xQAAAA==
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Dave Jiang <dave.jiang@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Ben Widawsky <bwidawsk@kernel.org>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-141d4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1671051257; l=2197;
- i=ira.weiny@intel.com; s=20221211; h=from:subject:message-id;
- bh=mjGK07+sSzfJoPQKszWPOFrvFHEnWxC/xVIdOYLYUWA=;
- b=AcgVs4IfdIYYMqd+htoRC/7UTrT67+vLPVT5C8skB4e2QPJmeBQPLycEnz5x7Hs65wcI/htaP9k8
- Osu4qCtJDbuBzYQXLn+xYDGke6Ov9DuOlYGLE7Wuc1Gh6Z6B8iM+
-X-Developer-Key: i=ira.weiny@intel.com; a=ed25519;
- pk=noldbkG+Wp1qXRrrkfY1QJpDf7QsOEthbOT7vm0PqsE=
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=ira.weiny@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y5mT4V3iYlcH56/H@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,58 +102,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Flex Bus Port DVSEC was missing on type 3 devices which was blocking
-RAS checks.[1]
+On Wed, Dec 14, 2022 at 09:14:09AM +0000, Daniel P. Berrangé wrote:
+> On Tue, Dec 13, 2022 at 04:38:46PM -0500, Peter Xu wrote:
+> > From: "manish.mishra" <manish.mishra@nutanix.com>
+> > 
+> > MSG_PEEK reads from the peek of channel, The data is treated as
+> > unread and the next read shall still return this data. This
+> > support is currently added only for socket class. Extra parameter
+> > 'flags' is added to io_readv calls to pass extra read flags like
+> > MSG_PEEK.
+> > 
+> > Reviewed-by: Daniel P. Berrang?? <berrange@redhat.co
+> > Suggested-by: Daniel P. Berrang?? <berrange@redhat.com
+> 
+> The last letter of my name has been mangled - whatever tools used
+> to pull in manish's patches seem to not be UTF-8 clean.
+> 
+> Also the email addr isn't terminated, but that was pre-existing
+> in manish's previous posting.
 
-Add the Flex Bus Port DVSEC to type 3 devices as per CXL 3.0 8.2.1.3.
+I'll fix at least the latter in my next post, sorry.
 
-[1] https://lore.kernel.org/linux-cxl/167096738875.2861540.11815053323626849940.stgit@djiang5-desk3.ch.intel.com/
+For the 1st one - I am still looking at what went wrong.
 
-Cc: Dave Jiang <dave.jiang@intel.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Ben Widawsky <bwidawsk@kernel.org>
-Cc: qemu-devel@nongnu.org
-Cc: linux-cxl@vger.kernel.org
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
----
-Changes in v2:
-        Jonathan                                                            
-                type 3 device does not support CACHE                        
-                Comment the 68B bit                                         
+Here from the web interfaces it all looks good (besides the wrong
+ending..), e.g. on lore or patchew:
 
-- Link to v1: https://lore.kernel.org/r/20221213-ira-flexbus-port-v1-1-86afd4f30be6@intel.com
----
- hw/mem/cxl_type3.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+https://lore.kernel.org/all/20221213213850.1481858-2-peterx@redhat.com/
+https://patchew.org/QEMU/20221213213850.1481858-1-peterx@redhat.com/20221213213850.1481858-2-peterx@redhat.com/
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 0317bd96a6fb..e6beac143fc1 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -416,6 +416,17 @@ static void build_dvsecs(CXLType3Dev *ct3d)
-     cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
-                                GPF_DEVICE_DVSEC_LENGTH, GPF_DEVICE_DVSEC,
-                                GPF_DEVICE_DVSEC_REVID, dvsec);
-+
-+    dvsec = (uint8_t *)&(CXLDVSECPortFlexBus){
-+        .cap                     = 0x26, /* 68B, IO, Mem, non-MLD */
-+        .ctrl                    = 0x02, /* IO always enabled */
-+        .status                  = 0x26, /* same as capabilities */
-+        .rcvd_mod_ts_data_phase1 = 0xef, /* WTF? */
-+    };
-+    cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
-+                               PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
-+                               PCIE_FLEXBUS_PORT_DVSEC,
-+                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvsec);
- }
- 
- static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+It also looks good with e.g. Gmail webclient.
 
----
-base-commit: e11b57108b0cb746bb9f3887054f34a2f818ed79
-change-id: 20221213-ira-flexbus-port-ce526de8111d
+Then I digged into the email headers and I found that comparing to Manish's
+original message, the patches I posted has one more line of "Content-type":
 
-Best regards,
+  Content-Type: text/plain; charset="utf-8"
+  Content-type: text/plain
+  https://patchew.org/QEMU/20221213213850.1481858-2-peterx@redhat.com/mbox
+
+While Manish's patch only has one line:
+
+  Content-Type: text/plain; charset="utf-8"
+  https://patchew.org/QEMU/20221123172735.25181-2-manish.mishra@nutanix.com/mbox
+
+I found that it also happens in my local mail archive, so with my local
+mail client it doesn't show correctly either (mutt here).  After I manually
+removed that extra Content-type line in the archive it went right even
+locally on mutt.
+
+So it seems the 2nd "Content-type: text/plain" overwrote the first one and
+it may not correctly apply utf-8 in the email client depending on what the
+email client uses as default.  Said that, I'm pretty sure my muttrc has:
+
+ set charset = "UTF-8"
+ set send_charset = "UTF-8"
+
+So neither do I know why that mutt config didn't apply to these patches,
+nor do I (yet..) have an idea where that extra line comes from.. :-(
+
 -- 
-Ira Weiny <ira.weiny@intel.com>
+Peter Xu
+
 
