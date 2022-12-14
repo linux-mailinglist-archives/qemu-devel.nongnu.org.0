@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AD864C4ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 09:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1760964C4C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 09:13:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5MUM-0003RN-Se; Wed, 14 Dec 2022 02:47:38 -0500
+	id 1p5MUO-0003TH-55; Wed, 14 Dec 2022 02:47:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5MUG-0003Pm-Va
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 02:47:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5MUI-0003QJ-JK
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 02:47:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5MUF-0003dZ-77
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 02:47:32 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5MUF-0003dM-6r
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 02:47:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671004050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RnZ+VAAI4lVWzu20Hlb0QCdd6aRMdLgNrgr6Z8/crug=;
- b=cR7gkJ7giYqGTDlYG6W3YdZ03qXzwoIyh8whC7j+T9D4KjlgtMzX/eY/ubZVs3fXaaAQwE
- vpDdYIWRPsYjHby0Yp6ntsT2qJP+Rt8QAmHdyNstOrHTP41+3pVoR+OunwKK9srH5EfJzH
- 4QJLAi174WBYcpxoWl/uRyUPo38uMR8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YXL0hVOZCuY8/W/ndbVdDllA5AFVwE2ivvmRXFXVP0g=;
+ b=ddX3RsTLPKlDkvEX3lfgOb5K9Iyb1gRil6G52YMpYIs57SR6wCQbIBQiM/VJPv21Gw6vsB
+ R9qJ3dadH2TT32GGri/453uSgvMkrgENpAjJTiWb7bA8j2iyHAqsgwF8Vg4pKYlaD+kjKC
+ MPf28l46EwZwTcNyFpQREiTTfhYFwHM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-384-sg6I5jJQP1qmMTKx0X3wXA-1; Wed, 14 Dec 2022 02:47:29 -0500
-X-MC-Unique: sg6I5jJQP1qmMTKx0X3wXA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-669-sqi27NrBNTiDVMXbWiXVmw-1; Wed, 14 Dec 2022 02:47:28 -0500
+X-MC-Unique: sqi27NrBNTiDVMXbWiXVmw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B614101B42B
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B9AC3814595
  for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 07:47:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0430F2026D68;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 03D30C15BA0;
  Wed, 14 Dec 2022 07:47:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 56FE721E675B; Wed, 14 Dec 2022 08:47:21 +0100 (CET)
+ id 5960721E6481; Wed, 14 Dec 2022 08:47:21 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 03/30] docs/devel/qapi-code-gen: Extend example for next
- commit's change
-Date: Wed, 14 Dec 2022 08:46:54 +0100
-Message-Id: <20221214074721.731441-6-armbru@redhat.com>
+Subject: [PULL 04/30] qapi: Start to elide redundant has_FOO in generated C
+Date: Wed, 14 Dec 2022 08:46:55 +0100
+Message-Id: <20221214074721.731441-7-armbru@redhat.com>
 In-Reply-To: <20221214074721.731441-1-armbru@redhat.com>
 References: <20221214074721.731441-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,77 +78,289 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The next commit will change the code generated for some optional
-members.  The example schema contains an optional member affected by
-the change.  Add one that is not affected.
+In QAPI, absent optional members are distinct from any present value.
+We thus represent an optional schema member FOO as two C members: a
+FOO with the member's type, and a bool has_FOO.  Likewise for function
+arguments.
+
+However, has_FOO is actually redundant for a pointer-valued FOO, which
+can be null only when has_FOO is false, i.e. has_FOO == !!FOO.  Except
+for arrays, where we a null FOO can also be a present empty array.
+
+The redundant has_FOO are a nuisance to work with.  Improve the
+generator to elide them.  Uses of has_FOO need to be replaced as
+follows.
+
+Tests of has_FOO become the equivalent comparison of FOO with null.
+For brevity, this is commonly done by implicit conversion to bool.
+
+Assignments to has_FOO get dropped.
+
+Likewise for arguments to has_FOO parameters.
+
+Beware: code may violate the invariant has_FOO == !!FOO before the
+transformation, and get away with it.  The above transformation can
+then break things.  Two cases:
+
+* Absent: if code ignores FOO entirely when !has_FOO (except for
+  freeing it if necessary), even non-null / uninitialized FOO works.
+  Such code is known to exist.
+
+* Present: if code ignores FOO entirely when has_FOO, even null FOO
+  works.  Such code should not exist.
+
+In both cases, replacing tests of has_FOO by FOO reverts their sense.
+We have to fix the value of FOO then.
+
+To facilitate review of the necessary updates to handwritten code, add
+means to opt out of this change, and opt out for all QAPI schema
+modules where the change requires updates to handwritten code.  The
+next few commits will remove these opt-outs in reviewable chunks, then
+drop the means to opt out.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20221104160712.3005652-4-armbru@redhat.com>
+Message-Id: <20221104160712.3005652-5-armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.rst | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ docs/devel/qapi-code-gen.rst            |  5 +--
+ docs/devel/writing-monitor-commands.rst | 14 ++++----
+ scripts/qapi/commands.py                |  2 +-
+ scripts/qapi/events.py                  |  2 +-
+ scripts/qapi/gen.py                     |  2 +-
+ scripts/qapi/schema.py                  | 48 +++++++++++++++++++++++++
+ scripts/qapi/types.py                   |  2 +-
+ scripts/qapi/visit.py                   | 17 +++++++--
+ 8 files changed, 77 insertions(+), 15 deletions(-)
 
 diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index b56ea4546d..3a817ba498 100644
+index 3a817ba498..5edc49aa74 100644
 --- a/docs/devel/qapi-code-gen.rst
 +++ b/docs/devel/qapi-code-gen.rst
-@@ -1357,7 +1357,7 @@ qmp_my_command(); everything else is produced by the generator. ::
+@@ -1410,7 +1410,6 @@ Example::
  
-     $ cat example-schema.json
-     { 'struct': 'UserDefOne',
--      'data': { 'integer': 'int', '*string': 'str' } }
-+      'data': { 'integer': 'int', '*string': 'str', '*flag': 'bool' } }
- 
-     { 'command': 'my-command',
-       'data': { 'arg1': ['UserDefOne'] },
-@@ -1412,6 +1412,8 @@ Example::
+     struct UserDefOne {
          int64_t integer;
-         bool has_string;
+-        bool has_string;
          char *string;
-+        bool has_flag;
-+        bool flag;
-     };
+         bool has_flag;
+         bool flag;
+@@ -1525,10 +1524,12 @@ Example::
  
-     void qapi_free_UserDefOne(UserDefOne *obj);
-@@ -1531,6 +1533,11 @@ Example::
+     bool visit_type_UserDefOne_members(Visitor *v, UserDefOne *obj, Error **errp)
+     {
++        bool has_string = !!obj->string;
++
+         if (!visit_type_int(v, "integer", &obj->integer, errp)) {
+             return false;
+         }
+-        if (visit_optional(v, "string", &obj->has_string)) {
++        if (visit_optional(v, "string", &has_string)) {
+             if (!visit_type_str(v, "string", &obj->string, errp)) {
                  return false;
              }
-         }
-+        if (visit_optional(v, "flag", &obj->has_flag)) {
-+            if (!visit_type_bool(v, "flag", &obj->flag, errp)) {
-+                return false;
-+            }
-+        }
-         return true;
-     }
+diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing-monitor-commands.rst
+index 2fefedcd98..2c11e71665 100644
+--- a/docs/devel/writing-monitor-commands.rst
++++ b/docs/devel/writing-monitor-commands.rst
+@@ -166,9 +166,9 @@ and user defined types.
  
-@@ -1916,6 +1923,12 @@ Example::
-                     { "type", QLIT_QSTR("str"), },
-                     {}
-                 })),
-+                QLIT_QDICT(((QLitDictEntry[]) {
-+                    { "default", QLIT_QNULL, },
-+                    { "name", QLIT_QSTR("flag"), },
-+                    { "type", QLIT_QSTR("bool"), },
-+                    {}
-+                })),
-                 {}
-             })), },
-             { "meta-type", QLIT_QSTR("object"), },
-@@ -1949,6 +1962,12 @@ Example::
-             { "name", QLIT_QSTR("str"), },
-             {}
-         })),
-+        QLIT_QDICT(((QLitDictEntry[]) {
-+            { "json-type", QLIT_QSTR("boolean"), },
-+            { "meta-type", QLIT_QSTR("builtin"), },
-+            { "name", QLIT_QSTR("bool"), },
-+            {}
-+        })),
-         {}
-     }));
+ Now, let's update our C implementation in monitor/qmp-cmds.c::
  
+- void qmp_hello_world(bool has_message, const char *message, Error **errp)
++ void qmp_hello_world(const char *message, Error **errp)
+  {
+-     if (has_message) {
++     if (message) {
+          printf("%s\n", message);
+      } else {
+          printf("Hello, world\n");
+@@ -210,9 +210,9 @@ file. Basically, most errors are set by calling the error_setg() function.
+ Let's say we don't accept the string "message" to contain the word "love". If
+ it does contain it, we want the "hello-world" command to return an error::
+ 
+- void qmp_hello_world(bool has_message, const char *message, Error **errp)
++ void qmp_hello_world(const char *message, Error **errp)
+  {
+-     if (has_message) {
++     if (message) {
+          if (strstr(message, "love")) {
+              error_setg(errp, "the word 'love' is not allowed");
+              return;
+@@ -467,9 +467,9 @@ There are a number of things to be noticed:
+    allocated by the regular g_malloc0() function. Note that we chose to
+    initialize the memory to zero. This is recommended for all QAPI types, as
+    it helps avoiding bad surprises (specially with booleans)
+-4. Remember that "next_deadline" is optional? All optional members have a
+-   'has_TYPE_NAME' member that should be properly set by the implementation,
+-   as shown above
++4. Remember that "next_deadline" is optional? Non-pointer optional
++   members have a 'has_TYPE_NAME' member that should be properly set
++   by the implementation, as shown above
+ 5. Even static strings, such as "alarm_timer->name", should be dynamically
+    allocated by the implementation. This is so because the QAPI also generates
+    a function to free its types and it cannot distinguish between dynamically
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index cf68aaf0bf..79c5e5c3a9 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -64,7 +64,7 @@ def gen_call(name: str,
+     elif arg_type:
+         assert not arg_type.variants
+         for memb in arg_type.members:
+-            if memb.optional:
++            if memb.need_has():
+                 argstr += 'arg.has_%s, ' % c_name(memb.name)
+             argstr += 'arg.%s, ' % c_name(memb.name)
+ 
+diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+index e762d53d19..3cf01e96b6 100644
+--- a/scripts/qapi/events.py
++++ b/scripts/qapi/events.py
+@@ -60,7 +60,7 @@ def gen_param_var(typ: QAPISchemaObjectType) -> str:
+     for memb in typ.members:
+         ret += sep
+         sep = ', '
+-        if memb.optional:
++        if memb.need_has():
+             ret += 'has_' + c_name(memb.name) + sep
+         if memb.type.name == 'str':
+             # Cast away const added in build_params()
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index 113b49134d..b5a8d03e8e 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -121,7 +121,7 @@ def build_params(arg_type: Optional[QAPISchemaObjectType],
+         for memb in arg_type.members:
+             ret += sep
+             sep = ', '
+-            if memb.optional:
++            if memb.need_has():
+                 ret += 'bool has_%s, ' % c_name(memb.name)
+             ret += '%s %s' % (memb.type.c_param_type(),
+                               c_name(memb.name))
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 3728340c37..58b00982ea 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -253,6 +253,11 @@ def doc_type(self):
+             return None
+         return self.name
+ 
++    def need_has_if_optional(self):
++        # When FOO is a pointer, has_FOO == !!FOO, i.e. has_FOO is redundant.
++        # Except for arrays; see QAPISchemaArrayType.need_has_if_optional().
++        return not self.c_type().endswith(POINTER_SUFFIX)
++
+     def check(self, schema):
+         QAPISchemaEntity.check(self, schema)
+         for feat in self.features:
+@@ -352,6 +357,11 @@ def __init__(self, name, info, element_type):
+         self._element_type_name = element_type
+         self.element_type = None
+ 
++    def need_has_if_optional(self):
++        # When FOO is an array, we still need has_FOO to distinguish
++        # absent (!has_FOO) from present and empty (has_FOO && !FOO).
++        return True
++
+     def check(self, schema):
+         super().check(schema)
+         self.element_type = schema.resolve_type(
+@@ -745,6 +755,44 @@ def __init__(self, name, info, typ, optional, ifcond=None, features=None):
+         self.optional = optional
+         self.features = features or []
+ 
++    def need_has(self):
++        assert self.type
++        # Temporary hack to support dropping the has_FOO in reviewable chunks
++        opt_out = [
++            'qapi/acpi.json',
++            'qapi/audio.json',
++            'qapi/block-core.json',
++            'qapi/block-export.json',
++            'qapi/block.json',
++            'qapi/char.json',
++            'qapi/crypto.json',
++            'qapi/dump.json',
++            'qapi/introspect.json',
++            'qapi/job.json',
++            'qapi/machine.json',
++            'qapi/machine-target.json',
++            'qapi/migration.json',
++            'qapi/misc.json',
++            'qapi/net.json',
++            'qapi/pci.json',
++            'qapi/qdev.json',
++            'qapi/qom.json',
++            'qapi/replay.json',
++            'qapi/rocker.json',
++            'qapi/run-state.json',
++            'qapi/stats.json',
++            'qapi/tpm.json',
++            'qapi/transaction.json',
++            'qapi/ui.json',
++            'qapi/virtio.json',
++            'qga/qapi-schema.json',
++            'tests/qapi-schema/qapi-schema-test.json']
++        if self.info and any(self.info.fname.endswith(mod)
++                             for mod in opt_out):
++            return self.optional
++        # End of temporary hack
++        return self.optional and self.type.need_has_if_optional()
++
+     def check(self, schema):
+         assert self.defined_in
+         self.type = schema.resolve_type(self._type_name, self.info,
+diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+index 477d027001..c39d054d2c 100644
+--- a/scripts/qapi/types.py
++++ b/scripts/qapi/types.py
+@@ -142,7 +142,7 @@ def gen_struct_members(members: List[QAPISchemaObjectTypeMember]) -> str:
+     ret = ''
+     for memb in members:
+         ret += memb.ifcond.gen_if()
+-        if memb.optional:
++        if memb.need_has():
+             ret += mcgen('''
+     bool has_%(c_name)s;
+ ''',
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 380fa197f5..26a584ee4c 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -71,6 +71,16 @@ def gen_visit_object_members(name: str,
+ ''',
+                 c_name=c_name(name))
+ 
++    sep = ''
++    for memb in members:
++        if memb.optional and not memb.need_has():
++            ret += mcgen('''
++    bool has_%(c_name)s = !!obj->%(c_name)s;
++''',
++                         c_name=c_name(memb.name))
++            sep = '\n'
++    ret += sep
++
+     if base:
+         ret += mcgen('''
+     if (!visit_type_%(c_type)s_members(v, (%(c_type)s *)obj, errp)) {
+@@ -82,10 +92,13 @@ def gen_visit_object_members(name: str,
+     for memb in members:
+         ret += memb.ifcond.gen_if()
+         if memb.optional:
++            has = 'has_' + c_name(memb.name)
++            if memb.need_has():
++                has = 'obj->' + has
+             ret += mcgen('''
+-    if (visit_optional(v, "%(name)s", &obj->has_%(c_name)s)) {
++    if (visit_optional(v, "%(name)s", &%(has)s)) {
+ ''',
+-                         name=memb.name, c_name=c_name(memb.name))
++                         name=memb.name, has=has)
+             indent.increase()
+         special_features = gen_special_features(memb.features)
+         if special_features != '0':
 -- 
 2.37.3
 
