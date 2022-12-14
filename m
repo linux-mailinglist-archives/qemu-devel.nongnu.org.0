@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A0A64CBA4
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 14:53:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA1E64CBE3
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:14:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5S5h-0005VU-Jz; Wed, 14 Dec 2022 08:46:33 -0500
+	id 1p5S5p-0005nc-AE; Wed, 14 Dec 2022 08:46:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S5D-0004wC-Nx
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S5D-0004w9-Do
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:46:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S5C-0003mA-0e
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S5B-0003lm-Hn
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:46:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671025561;
@@ -22,39 +22,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wpiRNFivgqeOQmywLX30jAOM73jurDH7q8KStX+fUDo=;
- b=Di2NfBFWIYRa+rSh5t4snFHrplCarcqjwRvB1pKizNyqNoD8o1ofFwMSTiouvV8HnqPRZP
- aA0u/fQpre3SO4jJ+6CD9AMyus9tCNfzXmYqnIff08gS7NewGz0Ww1ljHy8ZKBZ7SfleXv
- y3Cu6ckhECK+rcYnB7IxvTlKYy2HtD8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Xk2z2ZK3u0+ky4MLqn+O15uCpzWrIwjiTXoEILZmgb8=;
+ b=c5SInwlGrOGrgT3GCfVU84C9u5YH9nHclntwJlRLv5dmNRMvaUw1+DLmj+aoT/DMkBPo/i
+ 12jLT2p998F/4yf2xrJPoaL1ZytVxjffJLrRhGiOMSUKak4Kf9LeAv5jfnS51zneoShh8y
+ Et/UWrK/J/qoukhl2ojXBR1CEWhwen4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-A04_MdtpMNm29V_JdF3LgQ-1; Wed, 14 Dec 2022 08:45:56 -0500
-X-MC-Unique: A04_MdtpMNm29V_JdF3LgQ-1
+ us-mta-372-C2NJ2ulwOT-EOalCvv5BSw-1; Wed, 14 Dec 2022 08:45:57 -0500
+X-MC-Unique: C2NJ2ulwOT-EOalCvv5BSw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D4A51C0513D;
- Wed, 14 Dec 2022 13:45:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26D12857F82;
+ Wed, 14 Dec 2022 13:45:57 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C67C14171BE;
- Wed, 14 Dec 2022 13:45:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 66B0D14171C0;
+ Wed, 14 Dec 2022 13:45:56 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 48/51] Mark assert_bdrv_graph_readable/writable()
- GRAPH_RD/WRLOCK
-Date: Wed, 14 Dec 2022 14:44:50 +0100
-Message-Id: <20221214134453.31665-49-kwolf@redhat.com>
+Subject: [PULL 49/51] block-coroutine-wrapper.py: introduce annotations that
+ take the graph rdlock
+Date: Wed, 14 Dec 2022 14:44:51 +0100
+Message-Id: <20221214134453.31665-50-kwolf@redhat.com>
 In-Reply-To: <20221214134453.31665-1-kwolf@redhat.com>
 References: <20221214134453.31665-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,74 +78,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+
+Add co_wrapper_bdrv_rdlock and co_wrapper_mixed_bdrv_rdlock option to
+the block-coroutine-wrapper.py script.
+
+This "_bdrv_rdlock" option takes and releases the graph rdlock when a
+coroutine function is created.
+
+This means that when used together with "_mixed", the function marked
+with co_wrapper_mixed_bdrv_rdlock will support both coroutine and
+non-coroutine case, and in the latter case it will create a coroutine
+that takes and releases the rdlock. When called from a coroutine, the
+caller must already hold the graph lock.
+
+Example:
+void co_wrapper_mixed_bdrv_rdlock bdrv_f1();
+
+Becomes
+
+static void bdrv_co_enter_f1()
+{
+    bdrv_graph_co_rdlock();
+    bdrv_co_function();
+    bdrv_graph_co_rdunlock();
+}
+
+void bdrv_f1()
+{
+    if (qemu_in_coroutine) {
+        assume_graph_lock();
+        bdrv_co_function();
+    } else {
+        qemu_co_enter(bdrv_co_enter_f1);
+        ...
+    }
+}
+
+When used alone, the function will not work in coroutine context, and
+when called in non-coroutine context it will create a new coroutine that
+takes care of taking and releasing the rdlock automatically.
+
+Example:
+void co_wrapper_bdrv_rdlock bdrv_f1();
+
+Becomes
+
+static void bdrv_co_enter_f1()
+{
+    bdrv_graph_co_rdlock();
+    bdrv_co_function();
+    bdrv_graph_co_rdunlock();
+}
+
+void bdrv_f1()
+{
+    assert(!qemu_in_coroutine());
+    qemu_co_enter(bdrv_co_enter_f1);
+    ...
+}
+
+About their usage:
+- co_wrapper does not take the rdlock, so it can be used also outside
+  the block layer.
+- co_wrapper_mixed will be used by many blk_* functions, since the
+  coroutine function needs to call blk_wait_while_drained() and
+  the rdlock *must* be taken afterwards, otherwise it's a deadlock.
+  In the future this annotation will go away, and blk_* will use
+  co_wrapper directly.
+- co_wrapper_bdrv_rdlock will be used by BlockDriver callbacks, ideally
+  by all of them in the future.
+- co_wrapper_mixed_bdrv_rdlock will be used by the remaining functions
+  that are still called by coroutine and non-coroutine context. In the
+  future this annotation will go away, as we will split such mixed
+  functions.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20221207131838.239125-16-kwolf@redhat.com>
+Message-Id: <20221207131838.239125-17-kwolf@redhat.com>
 Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block_int-common.h | 4 ++--
- include/block/graph-lock.h       | 4 ++--
- block.c                          | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ include/block/block-common.h       |  9 ++++++++-
+ scripts/block-coroutine-wrapper.py | 12 ++++++++++++
+ 2 files changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index a6bc6b7fe9..b1f0d88307 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -898,8 +898,8 @@ struct BdrvChildClass {
-     void (*activate)(BdrvChild *child, Error **errp);
-     int (*inactivate)(BdrvChild *child);
- 
--    void (*attach)(BdrvChild *child);
--    void (*detach)(BdrvChild *child);
-+    void GRAPH_WRLOCK_PTR (*attach)(BdrvChild *child);
-+    void GRAPH_WRLOCK_PTR (*detach)(BdrvChild *child);
- 
-     /*
-      * Notifies the parent that the filename of its child has changed (e.g.
-diff --git a/include/block/graph-lock.h b/include/block/graph-lock.h
-index 50b7e7b1b6..0c66386167 100644
---- a/include/block/graph-lock.h
-+++ b/include/block/graph-lock.h
-@@ -176,14 +176,14 @@ bdrv_graph_rdunlock_main_loop(void);
-  * or there is at least a reader helding the rdlock.
-  * In this way an incoming writer is aware of the read and waits.
+diff --git a/include/block/block-common.h b/include/block/block-common.h
+index 6cf603ab06..4749c46a5e 100644
+--- a/include/block/block-common.h
++++ b/include/block/block-common.h
+@@ -40,14 +40,21 @@
+  *
+  * Usage: read docs/devel/block-coroutine-wrapper.rst
+  *
+- * There are 2 kind of specifiers:
++ * There are 4 kind of specifiers:
+  * - co_wrapper functions can be called by only non-coroutine context, because
+  *   they always generate a new coroutine.
+  * - co_wrapper_mixed functions can be called by both coroutine and
+  *   non-coroutine context.
++ * - co_wrapper_bdrv_rdlock are co_wrapper functions but automatically take and
++ *   release the graph rdlock when creating a new coroutine
++ * - co_wrapper_mixed_bdrv_rdlock are co_wrapper_mixed functions but
++ *   automatically take and release the graph rdlock when creating a new
++ *   coroutine.
   */
--void assert_bdrv_graph_readable(void);
-+void GRAPH_RDLOCK assert_bdrv_graph_readable(void);
+ #define co_wrapper
+ #define co_wrapper_mixed
++#define co_wrapper_bdrv_rdlock
++#define co_wrapper_mixed_bdrv_rdlock
  
- /*
-  * assert_bdrv_graph_writable:
-  * Make sure that the writer is the main loop and has set @has_writer,
-  * so that incoming readers will pause.
-  */
--void assert_bdrv_graph_writable(void);
-+void GRAPH_WRLOCK assert_bdrv_graph_writable(void);
+ #include "block/dirty-bitmap.h"
+ #include "block/blockjob.h"
+diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
+index 71a06e917a..6e087fa0b7 100644
+--- a/scripts/block-coroutine-wrapper.py
++++ b/scripts/block-coroutine-wrapper.py
+@@ -69,6 +69,7 @@ def __init__(self, return_type: str, name: str, args: str,
+         self.struct_name = snake_to_camel(self.name)
+         self.args = [ParamDecl(arg.strip()) for arg in args.split(',')]
+         self.create_only_co = 'mixed' not in variant
++        self.graph_rdlock = 'bdrv_rdlock' in variant
  
- /*
-  * Calling this function tells TSA that we know that the lock is effectively
-diff --git a/block.c b/block.c
-index ff53b41af3..1a82fd101a 100644
---- a/block.c
-+++ b/block.c
-@@ -1402,7 +1402,7 @@ static void bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
-     *child_flags = flags;
- }
+         subsystem, subname = self.name.split('_', 1)
+         self.co_name = f'{subsystem}_co_{subname}'
+@@ -123,10 +124,13 @@ def create_mixed_wrapper(func: FuncDecl) -> str:
+     """
+     name = func.co_name
+     struct_name = func.struct_name
++    graph_assume_lock = 'assume_graph_lock();' if func.graph_rdlock else ''
++
+     return f"""\
+ {func.return_type} {func.name}({ func.gen_list('{decl}') })
+ {{
+     if (qemu_in_coroutine()) {{
++        {graph_assume_lock}
+         return {name}({ func.gen_list('{name}') });
+     }} else {{
+         {struct_name} s = {{
+@@ -174,6 +178,12 @@ def gen_wrapper(func: FuncDecl) -> str:
+     name = func.co_name
+     struct_name = func.struct_name
  
--static void bdrv_child_cb_attach(BdrvChild *child)
-+static void GRAPH_WRLOCK bdrv_child_cb_attach(BdrvChild *child)
- {
-     BlockDriverState *bs = child->opaque;
++    graph_lock=''
++    graph_unlock=''
++    if func.graph_rdlock:
++        graph_lock='    bdrv_graph_co_rdlock();'
++        graph_unlock='    bdrv_graph_co_rdunlock();'
++
+     creation_function = create_mixed_wrapper
+     if func.create_only_co:
+         creation_function = create_co_wrapper
+@@ -193,7 +203,9 @@ def gen_wrapper(func: FuncDecl) -> str:
+ {{
+     {struct_name} *s = opaque;
  
-@@ -1444,7 +1444,7 @@ static void bdrv_child_cb_attach(BdrvChild *child)
-     }
- }
++{graph_lock}
+     s->ret = {name}({ func.gen_list('s->{name}') });
++{graph_unlock}
+     s->poll_state.in_progress = false;
  
--static void bdrv_child_cb_detach(BdrvChild *child)
-+static void GRAPH_WRLOCK bdrv_child_cb_detach(BdrvChild *child)
- {
-     BlockDriverState *bs = child->opaque;
- 
+     aio_wait_kick();
 -- 
 2.38.1
 
