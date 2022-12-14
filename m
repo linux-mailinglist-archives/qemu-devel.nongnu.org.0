@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048E664C712
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:27:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F12664C72E
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:32:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Oi6-0007hJ-32; Wed, 14 Dec 2022 05:09:58 -0500
+	id 1p5OiD-0007jz-Jj; Wed, 14 Dec 2022 05:10:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohu-0007cW-Sq
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohy-0007e2-6b
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohr-0001Ak-31
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:45 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohr-0001Ar-Ht
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671012581;
+ s=mimecast20190719; t=1671012582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=44aU4OJjqzesrUhGxbQUh6zbHNIGKC1yBWtv/m4R5AA=;
- b=hPRLQLFZdfSkPFwtPIIhLoKDDSr3qr3FB5s0SxtIQ+u+yJQ+oIwmqtMvU9enK11VDD5sSx
- weW+XmQeBL6Mh281DPMh+WoyC2Suhdybjhn4flG2EAMTsAhInuqkfqxdL1EgKtm4Ujr0Ul
- eHDkDLp7TKik12dyTytwf+Mho0rvd9w=
+ bh=ibPDNC+0uswTwDdm+Dx+xTEDng2WIscZU1LHkNv3XVM=;
+ b=hEUYMzjbeBOErsL1pS5ziOIazGBQeEWdZ3XEnZ3gBqfg9qm7RHO4gKJ38mbQ1zjrjV43Zk
+ 2mTfoty7vkK4iqPC3D8+cIfHJDdQilEF3W2Gsavu/0/PIBNeb51NMR8u1WcQNSGuXcYKHP
+ tbxIbk8Ak1WKpkaHggZNIx8Ip3njKTU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-VkJTXR9vOYyjFVNSLqyiXA-1; Wed, 14 Dec 2022 05:09:38 -0500
-X-MC-Unique: VkJTXR9vOYyjFVNSLqyiXA-1
+ us-mta-672-UJWpcrnUN0S65tUxqGRgQw-1; Wed, 14 Dec 2022 05:09:39 -0500
+X-MC-Unique: UJWpcrnUN0S65tUxqGRgQw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC83C85C6E0;
- Wed, 14 Dec 2022 10:09:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 15220185A78B;
+ Wed, 14 Dec 2022 10:09:39 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4FB7492C14;
- Wed, 14 Dec 2022 10:09:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2DF91492C14;
+ Wed, 14 Dec 2022 10:09:37 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PULL 15/23] tests/qtest/libqos/e1000e: Correctly group register
- accesses
-Date: Wed, 14 Dec 2022 11:09:03 +0100
-Message-Id: <20221214100911.165291-16-thuth@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>
+Subject: [PULL 16/23] .gitlab-ci.d/windows.yml: Unify the prerequisite packages
+Date: Wed, 14 Dec 2022 11:09:04 +0100
+Message-Id: <20221214100911.165291-17-thuth@redhat.com>
 In-Reply-To: <20221214100911.165291-1-thuth@redhat.com>
 References: <20221214100911.165291-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,30 +76,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Add a newline after E1000_TCTL write and make it clear that E1000_TCTL
-write is what enabling transmit.
+At present the prerequisite packages for 64-bit and 32-bit builds
+are slightly different. Let's use the same packages for both for
+easier maintenance in the future.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Message-Id: <20221110114549.66081-1-akihiko.odaki@daynix.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Message-Id: <20221125114100.3184790-1-bmeng.cn@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/libqos/e1000e.c | 1 +
- 1 file changed, 1 insertion(+)
+ .gitlab-ci.d/windows.yml | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
-index 3b51bafcb7..37c794b130 100644
---- a/tests/qtest/libqos/e1000e.c
-+++ b/tests/qtest/libqos/e1000e.c
-@@ -151,6 +151,7 @@ static void e1000e_pci_start_hw(QOSGraphObject *obj)
- 
-     /* Enable transmit */
-     e1000e_macreg_write(&d->e1000e, E1000_TCTL, E1000_TCTL_EN);
-+
-     e1000e_macreg_write(&d->e1000e, E1000_RDBAL,
-                            (uint32_t)d->e1000e.rx_ring);
-     e1000e_macreg_write(&d->e1000e, E1000_RDBAH,
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index a3e7a37022..99d78c2213 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -41,11 +41,15 @@ msys2-64bit:
+       mingw-w64-x86_64-gcc
+       mingw-w64-x86_64-glib2
+       mingw-w64-x86_64-gnutls
++      mingw-w64-x86_64-gtk3
++      mingw-w64-x86_64-libgcrypt
++      mingw-w64-x86_64-libjpeg-turbo
+       mingw-w64-x86_64-libnfs
+       mingw-w64-x86_64-libpng
+       mingw-w64-x86_64-libssh
+       mingw-w64-x86_64-libtasn1
+       mingw-w64-x86_64-libusb
++      mingw-w64-x86_64-lzo2
+       mingw-w64-x86_64-nettle
+       mingw-w64-x86_64-ninja
+       mingw-w64-x86_64-pixman
+@@ -79,16 +83,22 @@ msys2-32bit:
+       mingw-w64-i686-gtk3
+       mingw-w64-i686-libgcrypt
+       mingw-w64-i686-libjpeg-turbo
++      mingw-w64-i686-libnfs
++      mingw-w64-i686-libpng
+       mingw-w64-i686-libssh
+       mingw-w64-i686-libtasn1
+       mingw-w64-i686-libusb
+       mingw-w64-i686-lzo2
++      mingw-w64-i686-nettle
+       mingw-w64-i686-ninja
+       mingw-w64-i686-pixman
+       mingw-w64-i686-pkgconf
+       mingw-w64-i686-python
++      mingw-w64-i686-SDL2
++      mingw-w64-i686-SDL2_image
+       mingw-w64-i686-snappy
+-      mingw-w64-i686-usbredir "
++      mingw-w64-i686-usbredir
++      mingw-w64-i686-zstd "
+   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+   - $env:MSYSTEM = 'MINGW32'     # Start a 32-bit MinG environment
+   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
 -- 
 2.31.1
 
