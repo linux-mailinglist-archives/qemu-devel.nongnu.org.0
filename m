@@ -2,67 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 274AC64CC38
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775A864CBE6
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:15:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5S6I-0006SS-05; Wed, 14 Dec 2022 08:47:11 -0500
+	id 1p5SKX-0004VP-WB; Wed, 14 Dec 2022 09:01:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S5G-00050K-Kt
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:46:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p5SKP-0004St-Tx
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:01:46 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S5D-0003nm-KE
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:46:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671025562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1gby6cXU/eOYVZwYgwd+TYvdliEqPW6Hgs+/OkCTq6s=;
- b=hZjP8J5W2eTfzBCM41xx3gFxK12OVLFE7Z/xZFzIsm2jWmvFqblxrkMypbrklf/upGCIx8
- L05g2rf3csopA2vR+CeIhIwtSHv+4quEDyWRxRxKqIEIPTq1QbVugJlUQuZCrrv64Zpblk
- DPq1IkfnpZOw/I85nEwEZxjB0ToY3r4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-lehIFWQ-Pr6mazc6GAo90w-1; Wed, 14 Dec 2022 08:45:59 -0500
-X-MC-Unique: lehIFWQ-Pr6mazc6GAo90w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D21F877CA3;
- Wed, 14 Dec 2022 13:45:59 +0000 (UTC)
-Received: from merkur.redhat.com (unknown [10.39.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D00314171C0;
- Wed, 14 Dec 2022 13:45:58 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL 51/51] block: GRAPH_RDLOCK for functions only called by
- co_wrappers
-Date: Wed, 14 Dec 2022 14:44:53 +0100
-Message-Id: <20221214134453.31665-52-kwolf@redhat.com>
-In-Reply-To: <20221214134453.31665-1-kwolf@redhat.com>
-References: <20221214134453.31665-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p5SKN-0000rj-BT
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:01:45 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NXH4h0Zj4z6HJYk;
+ Wed, 14 Dec 2022 21:57:56 +0800 (CST)
+Received: from localhost (10.81.204.207) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 14 Dec
+ 2022 14:01:39 +0000
+Date: Wed, 14 Dec 2022 14:01:35 +0000
+To: Jonathan Cameron via <qemu-devel@nongnu.org>
+CC: Jonathan Cameron <Jonathan.Cameron@Huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>
+Subject: Re: [PATCH] hw/cxl/device: Add Flex Bus Port DVSEC
+Message-ID: <20221214140135.00005a15@Huawei.com>
+In-Reply-To: <20221214123945.00007a33@Huawei.com>
+References: <20221213-ira-flexbus-port-v1-1-86afd4f30be6@intel.com>
+ <20221214123945.00007a33@Huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.81.204.207]
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,149 +64,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The generated coroutine wrappers already take care to take the lock in
-the non-coroutine path, and assume that the lock is already taken in the
-coroutine path.
+On Wed, 14 Dec 2022 12:39:45 +0000
+Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
 
-The only thing we need to do for the wrapped function is adding the
-GRAPH_RDLOCK annotation. Doing so also allows us to mark the
-corresponding callbacks in BlockDriver as GRAPH_RDLOCK_PTR.
+> On Tue, 13 Dec 2022 16:34:52 -0800
+> Ira Weiny <ira.weiny@intel.com> wrote:
+> 
+> > The Flex Bus Port DVSEC was missing on type 3 devices which was blocking
+> > RAS checks.[1]
+> > 
+> > Add the Flex Bus Port DVSEC to type 3 devices as per CXL 3.0 8.2.1.3.
+> > 
+> > [1] https://lore.kernel.org/linux-cxl/167096738875.2861540.11815053323626849940.stgit@djiang5-desk3.ch.intel.com/
+> > 
+> > Cc: Dave Jiang <dave.jiang@intel.com>
+> > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Cc: Ben Widawsky <bwidawsk@kernel.org>
+> > Cc: qemu-devel@nongnu.org
+> > Cc: linux-cxl@vger.kernel.org
+> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>  
+> 
+> Not sure how we missed this one given the whole fun a while back with Mem Enable not
+> being set by the kernel code.  Ah well - I'm not going to go digging in the history
+> for that.
+Ah. I forgot the difference between the 'control' in here which isn't really a control
+in this case and the one in PCIe DVSEC for CXL devices which is the one were we enable it.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20221207131838.239125-19-kwolf@redhat.com>
-Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/coroutines.h               | 17 ++++++++++-------
- include/block/block_int-common.h | 20 +++++++++-----------
- block.c                          |  2 ++
- block/io.c                       |  2 ++
- 4 files changed, 23 insertions(+), 18 deletions(-)
+I guess this calls for a more thorough check on what else we are missing
+in the way of DVSEC - including this stuff which is all about link training but does
+provide some useful info the stuff that results from the training.
 
-diff --git a/block/coroutines.h b/block/coroutines.h
-index 48e9081aa1..2a1e0b3c9d 100644
---- a/block/coroutines.h
-+++ b/block/coroutines.h
-@@ -37,9 +37,11 @@
-  * the I/O API.
-  */
- 
--int coroutine_fn bdrv_co_check(BlockDriverState *bs,
--                               BdrvCheckResult *res, BdrvCheckMode fix);
--int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp);
-+int coroutine_fn GRAPH_RDLOCK
-+bdrv_co_check(BlockDriverState *bs, BdrvCheckResult *res, BdrvCheckMode fix);
-+
-+int coroutine_fn GRAPH_RDLOCK
-+bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp);
- 
- int coroutine_fn
- bdrv_co_common_block_status_above(BlockDriverState *bs,
-@@ -53,10 +55,11 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
-                                   BlockDriverState **file,
-                                   int *depth);
- 
--int coroutine_fn bdrv_co_readv_vmstate(BlockDriverState *bs,
--                                       QEMUIOVector *qiov, int64_t pos);
--int coroutine_fn bdrv_co_writev_vmstate(BlockDriverState *bs,
--                                        QEMUIOVector *qiov, int64_t pos);
-+int coroutine_fn GRAPH_RDLOCK
-+bdrv_co_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
-+
-+int coroutine_fn GRAPH_RDLOCK
-+bdrv_co_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
- 
- int coroutine_fn
- nbd_co_do_establish_connection(BlockDriverState *bs, bool blocking,
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index b1f0d88307..c34c525fa6 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -641,8 +641,8 @@ struct BlockDriver {
-     /*
-      * Invalidate any cached meta-data.
-      */
--    void coroutine_fn (*bdrv_co_invalidate_cache)(BlockDriverState *bs,
--                                                  Error **errp);
-+    void coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_invalidate_cache)(
-+        BlockDriverState *bs, Error **errp);
- 
-     /*
-      * Flushes all data for all layers by calling bdrv_co_flush for underlying
-@@ -701,12 +701,11 @@ struct BlockDriver {
-                                                  Error **errp);
-     BlockStatsSpecific *(*bdrv_get_specific_stats)(BlockDriverState *bs);
- 
--    int coroutine_fn (*bdrv_save_vmstate)(BlockDriverState *bs,
--                                          QEMUIOVector *qiov,
--                                          int64_t pos);
--    int coroutine_fn (*bdrv_load_vmstate)(BlockDriverState *bs,
--                                          QEMUIOVector *qiov,
--                                          int64_t pos);
-+    int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_save_vmstate)(
-+        BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
-+
-+    int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_load_vmstate)(
-+        BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
- 
-     /* removable device specific */
-     bool (*bdrv_is_inserted)(BlockDriverState *bs);
-@@ -724,9 +723,8 @@ struct BlockDriver {
-      * Returns 0 for completed check, -errno for internal errors.
-      * The check results are stored in result.
-      */
--    int coroutine_fn (*bdrv_co_check)(BlockDriverState *bs,
--                                      BdrvCheckResult *result,
--                                      BdrvCheckMode fix);
-+    int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_check)(
-+        BlockDriverState *bs, BdrvCheckResult *result, BdrvCheckMode fix);
- 
-     void (*bdrv_debug_event)(BlockDriverState *bs, BlkdebugEvent event);
- 
-diff --git a/block.c b/block.c
-index 1a82fd101a..9c2ac757e4 100644
---- a/block.c
-+++ b/block.c
-@@ -5402,6 +5402,7 @@ int coroutine_fn bdrv_co_check(BlockDriverState *bs,
-                                BdrvCheckResult *res, BdrvCheckMode fix)
- {
-     IO_CODE();
-+    assert_bdrv_graph_readable();
-     if (bs->drv == NULL) {
-         return -ENOMEDIUM;
-     }
-@@ -6617,6 +6618,7 @@ int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
-     IO_CODE();
- 
-     assert(!(bs->open_flags & BDRV_O_INACTIVE));
-+    assert_bdrv_graph_readable();
- 
-     if (bs->drv->bdrv_co_invalidate_cache) {
-         bs->drv->bdrv_co_invalidate_cache(bs, &local_err);
-diff --git a/block/io.c b/block/io.c
-index d160d2e273..d87788dfbb 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2697,6 +2697,7 @@ bdrv_co_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
-     BlockDriverState *child_bs = bdrv_primary_bs(bs);
-     int ret;
-     IO_CODE();
-+    assert_bdrv_graph_readable();
- 
-     ret = bdrv_check_qiov_request(pos, qiov->size, qiov, 0, NULL);
-     if (ret < 0) {
-@@ -2729,6 +2730,7 @@ bdrv_co_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos)
-     BlockDriverState *child_bs = bdrv_primary_bs(bs);
-     int ret;
-     IO_CODE();
-+    assert_bdrv_graph_readable();
- 
-     ret = bdrv_check_qiov_request(pos, qiov->size, qiov, 0, NULL);
-     if (ret < 0) {
--- 
-2.38.1
+> 
+> Minor thing inline - unlike root ports, switches etc, type 3 device should not
+> report CXL.cache support.
+> 
+> Jonathan
+> 
+> 
+> > ---
+> >  hw/mem/cxl_type3.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> > index 0317bd96a6fb..27f6ac0cb3c1 100644
+> > --- a/hw/mem/cxl_type3.c
+> > +++ b/hw/mem/cxl_type3.c
+> > @@ -416,6 +416,17 @@ static void build_dvsecs(CXLType3Dev *ct3d)
+> >      cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+> >                                 GPF_DEVICE_DVSEC_LENGTH, GPF_DEVICE_DVSEC,
+> >                                 GPF_DEVICE_DVSEC_REVID, dvsec);
+> > +
+> > +    dvsec = (uint8_t *)&(CXLDVSECPortFlexBus){
+> > +        .cap                     = 0x27, /* Cache, IO, Mem, non-MLD */  
+> 
+> Type 3 typically wouldn't support cache.  Probably want the comment to include
+> bit 5 (68B Flit and VH capable) That should probably true in the other instances
+> of this as well.
+> 
+> 
+> > +        .ctrl                    = 0x02, /* IO always enabled */
+> > +        .status                  = 0x27, /* same as capabilities */  
+> Again, not cache.
+> 
+> > +        .rcvd_mod_ts_data_phase1 = 0xef, /* WTF? */
+> > +    };
+> > +    cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+> > +                               PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
+> > +                               PCIE_FLEXBUS_PORT_DVSEC,
+> > +                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvsec);
+> >  }
+> >  
+> >  static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+> > 
+> > ---
+> > base-commit: e11b57108b0cb746bb9f3887054f34a2f818ed79
+> > change-id: 20221213-ira-flexbus-port-ce526de8111d
+> > 
+> > Best regards,  
+> 
+> 
 
 
