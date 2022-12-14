@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DB364C715
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:29:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EBF164C73A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:35:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5OpN-0006IB-Qd; Wed, 14 Dec 2022 05:17:29 -0500
+	id 1p5Oi7-0007hc-3I; Wed, 14 Dec 2022 05:09:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5OpJ-0006FV-63
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:17:26 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5OpG-0005CT-8A
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:17:24 -0500
-Received: by mail-wm1-x329.google.com with SMTP id m19so10847776wms.5
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 02:17:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DqwuYxzWkdV2bI1hut1AigwkiWJhaDGk2Q0hd+2F68U=;
- b=zUfDROqIwkGgwPpwQ8aVlCvRG53Y5x794/hfy4LwypNeoL8wp5BMpJGmDeasMy3qKy
- gTqfs/Nxx5N/tgtFWilgaCyYAQwO6LfjLJmlzHqpGUiAJyv7JiBs3372GEeqqqvre+90
- kmfUIPTZip+w4UorffcTZnck9Jmz5I7tLJX0JGfryTxqUdvDb8aTvcIH0ya+F4P7dlGf
- cqHTW2SwcuAqfPqMpTWnBk2o0nULf2Ov2xAaRvLQ6xxZ6DkHLvkOWoYkxOqGyH1rmBDN
- XV+Ot3hhqOAyKkLyIwmQ5TTWxMkLcIAeZ0xIyCO4FzDdTcM5ohb7gSXQlwI3npcTzz3x
- gJtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=DqwuYxzWkdV2bI1hut1AigwkiWJhaDGk2Q0hd+2F68U=;
- b=hrvxFgz6JYeLIPCyuyr6sKjW5zeH59mbP9sPcjCzbmkdQ4wIj3i82kSI+iJjGOrAiL
- plndEHOqlKObsLxEi+0EtrB633lcPJWQKEBCJCgf5NDpa27xiKWl34SoG5sSoSXbpvkA
- 0br9a4AMKYUhh9BurzgKNEDU/99ZiTawa2StAVTV5HZeY2oCHQiw3/y96G4WTz79INZg
- lsbZZG5ZHE2gB+9NaLSfonUIy4hemKlCNyaiiDaGuBPIBIe8V3HmxaQNQDEW3qBOgR9D
- KGL16qWIqhrVceyd2pK1wvtJVBBqadm5dgRrCDocEskS2+7yag1ElneBXi3qXXbB9cDb
- GPMw==
-X-Gm-Message-State: ANoB5pm4h3TUJz4QLDV4fsP/L75PSSM5Y8psicq13TQSs6sclpl3ngQe
- rk3xwCUb4CwRJOmZzXKX5QAuiQ==
-X-Google-Smtp-Source: AA0mqf5ibuOlCvp9KLQnlJooAmLU9l+ym8aiw7ctqq1PrK1sjdNts2RNst9ifRQZPONEeYbwqIGqlg==
-X-Received: by 2002:a05:600c:35c6:b0:3c6:e61e:ae8b with SMTP id
- r6-20020a05600c35c600b003c6e61eae8bmr22440998wmq.27.1671013038691; 
- Wed, 14 Dec 2022 02:17:18 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- n30-20020a05600c501e00b003cf4d99fd2asm2079400wmr.6.2022.12.14.02.17.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Dec 2022 02:17:18 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C45F61FFB7;
- Wed, 14 Dec 2022 10:17:17 +0000 (GMT)
-References: <4019c9d3.7721.1850b729a80.Coremail.wanghw364@163.com>
- <87y1rbjlk6.fsf@linaro.org>
- <4fc789e6.5fe0.1850fe10037.Coremail.wanghw364@163.com>
-User-agent: mu4e 1.9.6; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: wanghw364 <wanghw364@163.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: QEMU function trace
-Date: Wed, 14 Dec 2022 10:04:09 +0000
-In-reply-to: <4fc789e6.5fe0.1850fe10037.Coremail.wanghw364@163.com>
-Message-ID: <87tu1yjnma.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohv-0007dk-U8
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohr-00014x-3c
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671012559;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=p2LrK4ulbbFhcxftmC4tokaqqbkiMyD3d2pK5+a890Y=;
+ b=TOe+XA9bQEG+OBn3WoVBt7glKrdHN+zvRLTjQ0kx3Iezbe/fe2+PYvx2yPezgIUF0495hF
+ zHO5MvMl/Hon2Y4XZ6kup8MunczQjyzayBE2tpI+KTz9PucgR9RiBLONRUhX1BVCZ74HVn
+ Kpy1dUaFlnMSJDnelaZ2Yl/Bhy4IP2A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-35-VX53xbvgNcCsO5Gky-zIuw-1; Wed, 14 Dec 2022 05:09:17 -0500
+X-MC-Unique: VX53xbvgNcCsO5Gky-zIuw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A067101A55E
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 10:09:17 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FF4E492C14;
+ Wed, 14 Dec 2022 10:09:16 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PULL 00/23] First batch of s390x, qtest, CI and misc patches for 8.0
+Date: Wed, 14 Dec 2022 11:08:48 +0100
+Message-Id: <20221214100911.165291-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,132 +73,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+ Hi!
 
-wanghw364  <wanghw364@163.com> writes:
+The following changes since commit 5204b499a6cae4dfd9fe762d5e6e82224892383b:
 
-> Thanks. I have several questions as below, please help, thanks.
->
-> 1.What do you mean by "only have debug symbols available for linux-user s=
-o"? What does the linux-user so
-> refer to?
->  qemu_plugin_insn_symbol() can only see symbols from linux-user so?
+  mailmap: Fix Stefan Weil author email (2022-12-13 15:56:57 -0500)
 
-The linux-user ELF loader will read the debug symbols (if they exist)
-and populate the syminfos structures that lookup_symbol uses. It's
-partially obscured by the ELF loaders heavy use of macros but see:
+are available in the Git repository at:
 
-  static void glue(load_symbols, SZ)(struct elfhdr *ehdr, int fd, int must_=
-swab,
-                                     int clear_lsb, symbol_fn_t sym_cb)
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-12-14
 
-in elf_ops.h
+for you to fetch changes up to 8eeb98e2ea03639e743fdae82ae69d571d8ef0a3:
 
-> 2.The purpose of teaching the linux kernel loader to understand and reloc=
-ate symbols from an ELF kernel
-> image,
-> or extract then and feed them directly to the plugin, is to solve the iss=
-ue that qemu_plugin_insn_symbol()
-> can't see kernel symbol?
+  tests/qtest/vhost-user-blk-test: don't abort all qtests on missing envar (2022-12-14 08:55:37 +0100)
 
-Yes. This is slightly complicated by the fact that the kernel loaders don't
-expect to load pure ELF files but something that is wrapped up as a
-Linux loader. For example:
+----------------------------------------------------------------
+* s390x PCI fixes and improvements (for the ISM device)
+* Fix emulated MVCP and MVCS s390x instructions
+* Clean-ups for the e1000e qtest
+* Enable qtests on Windows
+* Update FreeBSD CI to version 12.4
+* Check --disable-tcg for ppc64 in the CI
+* Improve scripts/make-releases a little bit
+* Many other misc small clean-ups and fixes here and there
 
-  =E2=9E=9C  file vmlinux
-  vmlinux: ELF 64-bit LSB pie executable, ARM aarch64, version 1 (SYSV), st=
-atically linked, BuildID[sha1]=3D21166458a10404e6157abf0da4a0921144c72675, =
-with debug_info, not stripped
-  =F0=9F=95=9910:07:42 alex@zen:linux.git/builds/arm64.initramfs with arm64=
-/aarch64-linux-gnu- on =EE=82=A0 linux-6.0.y [$!?]=20
-  =E2=9E=9C  file arch/arm64/boot/Image
-  arch/arm64/boot/Image: Linux kernel ARM64 boot executable Image, little-e=
-ndian, 4K pages
+----------------------------------------------------------------
+Akihiko Odaki (3):
+      tests/qtest/libqos/e1000e: Remove "other" interrupts
+      tests/qtest/e1000e-test: De-duplicate constants
+      tests/qtest/libqos/e1000e: Correctly group register accesses
 
-The second file is what is actually passed to -kernel in a typical boot.
+Bin Meng (4):
+      .gitlab-ci.d/windows.yml: Unify the prerequisite packages
+      .gitlab-ci.d/windows.yml: Keep 64-bit and 32-bit build scripts consistent
+      .gitlab-ci.d/windows.yml: Exclude qTests from 64-bit CI job for now
+      tests/qtest: Enable qtest build on Windows
 
-The logic in arm_setup_direct_kernel_boot() implies you can load ELFs
-directly and boot them but for some reason the Linux kernel doesn't work
-if you try this way.
+Brad Smith (1):
+      FreeBSD: Upgrade to 12.4 release
 
-> 3.How to make the kernel loader understand and relocate symbols in QEMU? =
-How to feed the symbol table
-> directly to the plugin?
-> As I can see, cache plugin has used qemu_plugin_insn_symbol() and there i=
-s function name info in the output
-> result,=20
-> but it seems there is no symbol table feeding in the command, shown in
-> https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/tcg-plugins=
-.rst .=20
-> $ qemu-x86_64 -plugin ./contrib/plugins/libcache.so -d plugin -D cache.lo=
-g .
-> /tests/tcg/x86_64-linux-user/float_convs
->
-> So I was wondering how the symbol table was fed into the plugin? What is =
-the usage of para .
-> /tests/tcg/x86_64-linux-user/float_convs?
+Christian Schoenebeck (1):
+      tests/qtest/vhost-user-blk-test: don't abort all qtests on missing envar
 
-It came directly from the debug symbols embedded in the ELF binary.
+Matthew Rosato (3):
+      s390x/pci: coalesce unmap operations
+      s390x/pci: shrink DMA aperture to be bound by vfio DMA limit
+      s390x/pci: reset ISM passthrough devices on shutdown and system reset
 
-> 4.If we make kernel symbol visible to qemu_plugin_insn_symbol(), the only=
- thing we need to do is to make the
-> core model identify which instruction
-> is the start of one function and record the function trace by looking up =
-symbol table once the function-level
-> start instruction was executed?
->
-> Actually I have the kernel symbol table file named 'System.map' under the=
- kernel directory, I was wondering
-> how to feed it to the plugin.
+Thomas Huth (11):
+      target/s390x/tcg/mem_helper: Test the right bits in psw_key_valid()
+      target/s390x: The MVCP and MVCS instructions are not privileged
+      monitor/misc: Remove superfluous include statements
+      scripts/make-release: Add a simple help text for the script
+      scripts/make-release: Only clone single branches to speed up the script
+      util/qemu-config: Fix "query-command-line-options" to provide the right values
+      util/oslib-win32: Remove obsolete reference to g_poll code
+      MAINTAINERS: Add documentation files to the corresponding sections
+      hw: Include the VMWare devices only in the x86 targets
+      gitlab-ci: Check building ppc64 without TCG
+      .gitlab/issue_templates: Move suggestions into comments
 
-You could certainly write a System.map parser in your plugin and get the
-addresses from that instead. It would probably be faster than working
-out what to fix in the kernel load path.
+ include/hw/s390x/s390-pci-bus.h   |   6 ++
+ target/s390x/helper.h             |   4 +-
+ tests/qtest/libqos/e1000e.h       |   1 -
+ target/s390x/tcg/insn-data.h.inc  |   4 +-
+ hw/s390x/s390-pci-bus.c           |  28 +++++++
+ hw/s390x/s390-pci-inst.c          |  51 ++++++++++++
+ hw/s390x/s390-pci-vfio.c          |  13 +++
+ monitor/misc.c                    |   6 --
+ target/s390x/tcg/mem_helper.c     |  18 ++--
+ target/s390x/tcg/translate.c      |   6 +-
+ tests/qtest/e1000e-test.c         |  19 ++---
+ tests/qtest/libqos/e1000e.c       |   2 +-
+ tests/qtest/vhost-user-blk-test.c |   6 ++
+ util/oslib-win32.c                |   4 -
+ util/qemu-config.c                | 168 +++++++++++++++++---------------------
+ .gitlab-ci.d/cirrus.yml           |   2 +-
+ .gitlab-ci.d/crossbuilds.yml      |   8 ++
+ .gitlab-ci.d/windows.yml          |  35 ++++++--
+ .gitlab/issue_templates/bug.md    |  16 ++--
+ MAINTAINERS                       |  20 ++++-
+ hw/display/Kconfig                |   2 +-
+ hw/net/Kconfig                    |   2 +-
+ scripts/make-release              |  16 +++-
+ tests/qtest/meson.build           |   6 --
+ tests/vm/freebsd                  |   4 +-
+ 25 files changed, 289 insertions(+), 158 deletions(-)
 
->
-> Thanks.
->
-> At 2022-12-13 23:44:29, "Alex Benn=C3=A9e" <alex.bennee@linaro.org> wrote:
->>
->>wanghw364 <wanghw364@163.com> writes:
->>
->>> Hi all,
->>>
->>> Does qemu-system-riscv64 have any plugin or tools that can support targ=
-et program function trace feature?
->>>
->>> It seems there is no such feature under
->>> link:https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/tcg-=
-plugins.rst=20
->>>
->>> For example, we can use libexeclog.so plugin to trace target program in=
-struction trace.
->>>
->>> In my case, when I boot linux kernel with qemu, it hangs in the halfway=
-, but I don't know the hang position in
->>> the code,=20
->>>
->>> so I want to trace the kernel function calling trace so that I can
->>> find out when and where execution diverges.
->>
->>Not currently but it wouldn't be super hard to write such a thing.
->>However currently we only have debug symbols available for linux-user so
->>that is all the helper qemu_plugin_insn_symbol() will see.
->>
->>You need to teach the linux kernel loader to understand and relocate
->>symbols from an ELF kernel image. Alternatively you could extract then
->>and feed them directly to the plugin. It would then be fairly trivial to
->>stick an execution callback at every function entrance.
->>
->>I suspect KASLR messes things up though.
->>
->>>
->>> Thanks.=20
->>
->>
->>--=20
->>Alex Benn=C3=A9e
-
-
---=20
-Alex Benn=C3=A9e
 
