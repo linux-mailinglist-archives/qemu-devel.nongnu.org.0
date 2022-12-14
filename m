@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A76764C6E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:11:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F410264C6D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:11:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Oi9-0007iR-Uj; Wed, 14 Dec 2022 05:10:01 -0500
+	id 1p5Oi9-0007i4-4K; Wed, 14 Dec 2022 05:10:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohr-0007cA-Dx
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohr-0007cF-G2
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohe-00015I-GS
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohe-00016Y-Fr
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671012561;
+ s=mimecast20190719; t=1671012564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k/lpCYBXIRzEJL16dt1SG350wajOBOqN5P7sPMMQaJM=;
- b=CQiLKF9Y7A8yAXFehDv9KGzUUkQ6TjVwJqxTGp6Ot/GxEole9LglG92vCUCNvBpMilX1if
- P25AmDTn84w/VESD06+QEDVVVNiaxrMM5aBBuOPHct1uj/vYh2Wq5OcJhNKq3kCYJ2qQWO
- QxdvpeJoWkIAnu3i71WqIAA7AxYFZA4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fC2uX57Vo/LJduT5Qa2yFHUm2yh9kzdU0t1CV28GY4A=;
+ b=NC/Xa8KUs3wk2Dsz/mWl5Dyy1evalg+LisfE9pI5QA0DkkIYLBJdFavZmECFyPz9O8rGzk
+ zEB/vxcn6b+KAqMc03HkDVZbuqT/yRuT2FhrBSdbBxgJ1FjX8oKms13yb1CdQuaYYp/bCG
+ AAJklgpuUY9Q3DXQWA+/f0q61+hRj0Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-581-_A2g6N8OOaOy7_jJV-0ckA-1; Wed, 14 Dec 2022 05:09:19 -0500
-X-MC-Unique: _A2g6N8OOaOy7_jJV-0ckA-1
+ us-mta-486-RQ2vz3M1N-2i5H2glQfmlQ-1; Wed, 14 Dec 2022 05:09:20 -0500
+X-MC-Unique: RQ2vz3M1N-2i5H2glQfmlQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DAACB1C0896E;
- Wed, 14 Dec 2022 10:09:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55F9288B7A2;
+ Wed, 14 Dec 2022 10:09:20 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD71F492C14;
- Wed, 14 Dec 2022 10:09:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 34C9C492C3C;
+ Wed, 14 Dec 2022 10:09:19 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
 Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>
-Subject: [PULL 01/23] s390x/pci: coalesce unmap operations
-Date: Wed, 14 Dec 2022 11:08:49 +0100
-Message-Id: <20221214100911.165291-2-thuth@redhat.com>
+Subject: [PULL 02/23] s390x/pci: shrink DMA aperture to be bound by vfio DMA
+ limit
+Date: Wed, 14 Dec 2022 11:08:50 +0100
+Message-Id: <20221214100911.165291-3-thuth@redhat.com>
 In-Reply-To: <20221214100911.165291-1-thuth@redhat.com>
 References: <20221214100911.165291-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,110 +79,75 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Matthew Rosato <mjrosato@linux.ibm.com>
 
-Currently, each unmapped page is handled as an individual iommu
-region notification.  Attempt to group contiguous unmap operations
-into fewer notifications to reduce overhead.
+Currently, s390x-pci performs accounting against the vfio DMA
+limit and triggers the guest to clean up mappings when the limit
+is reached. Let's go a step further and also limit the size of
+the supported DMA aperture reported to the guest based upon the
+initial vfio DMA limit reported for the container (if less than
+than the size reported by the firmware/host zPCI layer).  This
+avoids processing sections of the guest DMA table during global
+refresh that, for common use cases, will never be used anway, and
+makes exhausting the vfio DMA limit due to mismatch between guest
+aperture size and host limit far less likely and more indicitive
+of an error.
 
 Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-Id: <20221028194758.204007-3-mjrosato@linux.ibm.com>
+Message-Id: <20221028194758.204007-4-mjrosato@linux.ibm.com>
 Reviewed-by: Eric Farman <farman@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/s390x/s390-pci-inst.c | 51 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ include/hw/s390x/s390-pci-bus.h |  1 +
+ hw/s390x/s390-pci-vfio.c        | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 7cc4bcf850..66e764f901 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -640,6 +640,8 @@ static uint32_t s390_pci_update_iotlb(S390PCIIOMMU *iommu,
-         }
-         g_hash_table_remove(iommu->iotlb, &entry->iova);
-         inc_dma_avail(iommu);
-+        /* Don't notify the iommu yet, maybe we can bundle contiguous unmaps */
-+        goto out;
-     } else {
-         if (cache) {
-             if (cache->perm == entry->perm &&
-@@ -663,15 +665,44 @@ static uint32_t s390_pci_update_iotlb(S390PCIIOMMU *iommu,
-         dec_dma_avail(iommu);
-     }
- 
-+    /*
-+     * All associated iotlb entries have already been cleared, trigger the
-+     * unmaps.
-+     */
-     memory_region_notify_iommu(&iommu->iommu_mr, 0, event);
- 
- out:
-     return iommu->dma_limit ? iommu->dma_limit->avail : 1;
+diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
+index 0605fcea24..1c46e3a269 100644
+--- a/include/hw/s390x/s390-pci-bus.h
++++ b/include/hw/s390x/s390-pci-bus.h
+@@ -278,6 +278,7 @@ struct S390PCIIOMMU {
+     uint64_t g_iota;
+     uint64_t pba;
+     uint64_t pal;
++    uint64_t max_dma_limit;
+     GHashTable *iotlb;
+     S390PCIDMACount *dma_limit;
+ };
+diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+index 5f0adb0b4a..f7bf36cec8 100644
+--- a/hw/s390x/s390-pci-vfio.c
++++ b/hw/s390x/s390-pci-vfio.c
+@@ -84,6 +84,7 @@ S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
+     cnt->users = 1;
+     cnt->avail = avail;
+     QTAILQ_INSERT_TAIL(&s->zpci_dma_limit, cnt, link);
++    pbdev->iommu->max_dma_limit = avail;
+     return cnt;
  }
  
-+static void s390_pci_batch_unmap(S390PCIIOMMU *iommu, uint64_t iova,
-+                                 uint64_t len)
-+{
-+    uint64_t remain = len, start = iova, end = start + len - 1, mask, size;
-+    IOMMUTLBEvent event = {
-+        .type = IOMMU_NOTIFIER_UNMAP,
-+        .entry = {
-+            .target_as = &address_space_memory,
-+            .translated_addr = 0,
-+            .perm = IOMMU_NONE,
-+        },
-+    };
-+
-+    while (remain >= TARGET_PAGE_SIZE) {
-+        mask = dma_aligned_pow2_mask(start, end, 64);
-+        size = mask + 1;
-+        event.entry.iova = start;
-+        event.entry.addr_mask = mask;
-+        memory_region_notify_iommu(&iommu->iommu_mr, 0, event);
-+        start += size;
-+        remain -= size;
-+    }
-+}
-+
- int rpcit_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
- {
-     CPUS390XState *env = &cpu->env;
-+    uint64_t iova, coalesce = 0;
-     uint32_t fh;
-     uint16_t error = 0;
-     S390PCIBusDevice *pbdev;
-@@ -742,6 +773,21 @@ int rpcit_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
-             break;
-         }
+@@ -103,6 +104,7 @@ static void s390_pci_read_base(S390PCIBusDevice *pbdev,
+     struct vfio_info_cap_header *hdr;
+     struct vfio_device_info_cap_zpci_base *cap;
+     VFIOPCIDevice *vpci =  container_of(pbdev->pdev, VFIOPCIDevice, pdev);
++    uint64_t vfio_size;
  
-+        /*
-+         * If this is an unmap of a PTE, let's try to coalesce multiple unmaps
-+         * into as few notifier events as possible.
-+         */
-+        if (entry.perm == IOMMU_NONE && entry.len == TARGET_PAGE_SIZE) {
-+            if (coalesce == 0) {
-+                iova = entry.iova;
-+            }
-+            coalesce += entry.len;
-+        } else if (coalesce > 0) {
-+            /* Unleash the coalesced unmap before processing a new map */
-+            s390_pci_batch_unmap(iommu, iova, coalesce);
-+            coalesce = 0;
-+        }
+     hdr = vfio_get_device_info_cap(info, VFIO_DEVICE_INFO_CAP_ZPCI_BASE);
+ 
+@@ -122,6 +124,15 @@ static void s390_pci_read_base(S390PCIBusDevice *pbdev,
+     /* The following values remain 0 until we support other FMB formats */
+     pbdev->zpci_fn.fmbl = 0;
+     pbdev->zpci_fn.pft = 0;
 +
-         start += entry.len;
-         while (entry.iova < start && entry.iova < end) {
-             if (dma_avail > 0 || entry.perm == IOMMU_NONE) {
-@@ -759,6 +805,11 @@ int rpcit_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
-             }
-         }
-     }
-+    if (coalesce) {
-+            /* Unleash the coalesced unmap before finishing rpcit */
-+            s390_pci_batch_unmap(iommu, iova, coalesce);
-+            coalesce = 0;
++    /*
++     * If appropriate, reduce the size of the supported DMA aperture reported
++     * to the guest based upon the vfio DMA limit.
++     */
++    vfio_size = pbdev->iommu->max_dma_limit << TARGET_PAGE_BITS;
++    if (vfio_size < (cap->end_dma - cap->start_dma + 1)) {
++        pbdev->zpci_fn.edma = cap->start_dma + vfio_size - 1;
 +    }
-     if (again && dma_avail > 0)
-         goto retry;
- err:
+ }
+ 
+ static bool get_host_fh(S390PCIBusDevice *pbdev, struct vfio_device_info *info,
 -- 
 2.31.1
 
