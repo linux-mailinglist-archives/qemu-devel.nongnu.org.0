@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3408D64CB7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 14:43:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D87C64CB85
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 14:46:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5S1A-0001li-UC; Wed, 14 Dec 2022 08:41:52 -0500
+	id 1p5S4d-00045O-Se; Wed, 14 Dec 2022 08:45:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1p5S18-0001lJ-I5
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:41:50 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1p5S16-0000a7-5B
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:41:50 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4R-00041N-0U
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4N-0003Le-VP
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671025510;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aAlQeYTSW0yiaZhSi1clCUo1/keX3odbcVDWzTUrBMM=;
+ b=RlG+sk0e7tr3GBspujC87PUusDhG+f26OVXkcbzQfUZ+wUPJDwXnni3X1y0QVviA5gmEht
+ bEwSW/rhcTjkLIeTxEh5w8lNqsmZGsruH1ccjfCV7fcfWxx3q7qtFDGmwLMLiwCH7FsSfF
+ eK2FF9ze6T4Tlsxdh6s0/+/XUWqpySo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-20-D5SUMzXjMO68xQiT8MtGog-1; Wed, 14 Dec 2022 08:45:08 -0500
+X-MC-Unique: D5SUMzXjMO68xQiT8MtGog-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 28E2720033;
- Wed, 14 Dec 2022 13:41:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1671025306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ToisNK02kgKs+Sj1SGp6bxTecDGRw4CEUxdUrdxx7lQ=;
- b=rnUUiv5WnTzSm1aDqP1t/ewTuvXOzkaav+/GQkmmIuLAXUk94Cxo3m2sFndphaMvib29oA
- v6FKtSmigcFXBpUwY3SwTIlg2JT0Q2ggPAWlL0lV5vbjPXfsgb5pTFOxCbZq8mNNjlbWZT
- 4FFtQ475XssLeTZT2Y4eV94OIfiuz34=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1671025306;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ToisNK02kgKs+Sj1SGp6bxTecDGRw4CEUxdUrdxx7lQ=;
- b=o2j0F6lAsUDHf/XLD3aFVd4pd5U7bNS3sBbHIanm1MlCrjFIyUIc0f7yiDR4pLQFHESHQC
- YFdeUr4g1K1D87Aw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D9CE5138F6;
- Wed, 14 Dec 2022 13:41:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 7WKmM5nSmWOmDQAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 14 Dec 2022 13:41:45 +0000
-Message-ID: <daf7de5f-2a5d-8b1b-4bcb-04991a4afac0@suse.de>
-Date: Wed, 14 Dec 2022 14:41:45 +0100
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 93F502A2AD6F;
+ Wed, 14 Dec 2022 13:45:08 +0000 (UTC)
+Received: from merkur.redhat.com (unknown [10.39.194.243])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDD1314171BE;
+ Wed, 14 Dec 2022 13:45:07 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com,
+	peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Subject: [PULL 00/51] Block layer patches
+Date: Wed, 14 Dec 2022 14:44:02 +0100
+Message-Id: <20221214134453.31665-1-kwolf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3] virtio-rng: return available data with O_NONBLOCK
-Content-Language: en-US
-To: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Martin Wilck <mwilck@suse.com>
-Cc: Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org
-References: <20200811142821.12323-1-mwilck@suse.com>
- <4ae4f348-c186-f7e4-f7e3-b1f1e4a4b408@redhat.com>
- <20200826082613-mutt-send-email-mst@kernel.org>
- <519e0296a7d61d5e9e8d258a855eb42a57c641c5.camel@suse.com>
- <a5d4bcd3-e468-e818-3bd2-3a1b0fa172d8@redhat.com>
- <20200908101413-mutt-send-email-mst@kernel.org>
- <0a5fcbc9bb6eef521c627035687de4654a1dd740.camel@suse.com>
- <20201125043726-mutt-send-email-mst@kernel.org>
- <7417f1fd-d5c0-4906-4663-d85141bc97d7@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <7417f1fd-d5c0-4906-4663-d85141bc97d7@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,335 +74,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/26/20 11:49, Laurent Vivier wrote:
-> On 25/11/2020 10:39, Michael S. Tsirkin wrote:
->> On Tue, Sep 08, 2020 at 05:33:40PM +0200, Martin Wilck wrote:
->>> On Tue, 2020-09-08 at 10:14 -0400, Michael S. Tsirkin wrote:
->>>> On Mon, Aug 31, 2020 at 02:37:26PM +0200, Laurent Vivier wrote:
->>>>> On 28/08/2020 23:34, Martin Wilck wrote:
->>>>>> On Wed, 2020-08-26 at 08:26 -0400, Michael S. Tsirkin wrote:
->>>>>>> On Tue, Aug 11, 2020 at 04:42:32PM +0200, Laurent Vivier wrote:
->>>>>>>> On 11/08/2020 16:28, mwilck@suse.com wrote:
->>>>>>>>> From: Martin Wilck <mwilck@suse.com>
->>>>>>>>>
->>>>>>>>> If a program opens /dev/hwrng with O_NONBLOCK and uses
->>>>>>>>> poll() and
->>>>>>>>> non-blocking read() to retrieve random data, it ends up in
->>>>>>>>> a
->>>>>>>>> tight
->>>>>>>>> loop with poll() always returning POLLIN and read()
->>>>>>>>> returning
->>>>>>>>> EAGAIN.
->>>>>>>>> This repeats forever until some process makes a blocking
->>>>>>>>> read()
->>>>>>>>> call.
->>>>>>>>> The reason is that virtio_read() always returns 0 in non-
->>>>>>>>> blocking 
->>>>>>>>> mode,
->>>>>>>>> even if data is available. Worse, it fetches random data
->>>>>>>>> from the
->>>>>>>>> hypervisor after every non-blocking call, without ever
->>>>>>>>> using this
->>>>>>>>> data.
->>>>>>>>>
->>>>>>>>> The following test program illustrates the behavior and can
->>>>>>>>> be
->>>>>>>>> used
->>>>>>>>> for testing and experiments. The problem will only be seen
->>>>>>>>> if all
->>>>>>>>> tasks use non-blocking access; otherwise the blocking reads
->>>>>>>>> will
->>>>>>>>> "recharge" the random pool and cause other, non-blocking
->>>>>>>>> reads to
->>>>>>>>> succeed at least sometimes.
->>>>>>>>>
->>>>>>>>> /* Whether to use non-blocking mode in a task, problem
->>>>>>>>> occurs if
->>>>>>>>> CONDITION is 1 */
->>>>>>>>> //#define CONDITION (getpid() % 2 != 0)
->>>>>>>>>
->>>>>>>>> static volatile sig_atomic_t stop;
->>>>>>>>> static void handler(int sig __attribute__((unused))) { stop
->>>>>>>>> = 1;
->>>>>>>>> }
->>>>>>>>>
->>>>>>>>> static void loop(int fd, int sec)
->>>>>>>>> {
->>>>>>>>> 	struct pollfd pfd = { .fd = fd, .events  = POLLIN, };
->>>>>>>>> 	unsigned long errors = 0, eagains = 0, bytes = 0, succ
->>>>>>>>> = 0;
->>>>>>>>> 	int size, rc, rd;
->>>>>>>>>
->>>>>>>>> 	srandom(getpid());
->>>>>>>>> 	if (CONDITION && fcntl(fd, F_SETFL, fcntl(fd, F_GETFL)
->>>>>>>>> |
->>>>>>>>> O_NONBLOCK) == -1)
->>>>>>>>> 		perror("fcntl");
->>>>>>>>> 	size = MINBUFSIZ + random() % (MAXBUFSIZ - MINBUFSIZ +
->>>>>>>>> 1);
->>>>>>>>>
->>>>>>>>> 	for(;;) {
->>>>>>>>> 		char buf[size];
->>>>>>>>>
->>>>>>>>> 		if (stop)
->>>>>>>>> 			break;
->>>>>>>>> 		rc = poll(&pfd, 1, sec);
->>>>>>>>> 		if (rc > 0) {
->>>>>>>>> 			rd = read(fd, buf, sizeof(buf));
->>>>>>>>> 			if (rd == -1 && errno == EAGAIN)
->>>>>>>>> 				eagains++;
->>>>>>>>> 			else if (rd == -1)
->>>>>>>>> 				errors++;
->>>>>>>>> 			else {
->>>>>>>>> 				succ++;
->>>>>>>>> 				bytes += rd;
->>>>>>>>> 				write(1, buf, sizeof(buf));
->>>>>>>>> 			}
->>>>>>>>> 		} else if (rc == -1) {
->>>>>>>>> 			if (errno != EINTR)
->>>>>>>>> 				perror("poll");
->>>>>>>>> 			break;
->>>>>>>>> 		} else
->>>>>>>>> 			fprintf(stderr, "poll: timeout\n");
->>>>>>>>> 	}
->>>>>>>>> 	fprintf(stderr,
->>>>>>>>> 		"pid %d %sblocking, bufsize %d, %d seconds, %lu
->>>>>>>>> bytes
->>>>>>>>> read, %lu success, %lu eagain, %lu errors\n",
->>>>>>>>> 		getpid(), CONDITION ? "non-" : "", size, sec,
->>>>>>>>> bytes,
->>>>>>>>> succ, eagains, errors);
->>>>>>>>> }
->>>>>>>>>
->>>>>>>>> int main(void)
->>>>>>>>> {
->>>>>>>>> 	int fd;
->>>>>>>>>
->>>>>>>>> 	fork(); fork();
->>>>>>>>> 	fd = open("/dev/hwrng", O_RDONLY);
->>>>>>>>> 	if (fd == -1) {
->>>>>>>>> 		perror("open");
->>>>>>>>> 		return 1;
->>>>>>>>> 	};
->>>>>>>>> 	signal(SIGALRM, handler);
->>>>>>>>> 	alarm(SECONDS);
->>>>>>>>> 	loop(fd, SECONDS);
->>>>>>>>> 	close(fd);
->>>>>>>>> 	wait(NULL);
->>>>>>>>> 	return 0;
->>>>>>>>> }
->>>>>>>>>
->>>>>>>>> void loop(int fd)
->>>>>>>>> {
->>>>>>>>>         struct pollfd pfd0 = { .fd = fd, .events  = POLLIN,
->>>>>>>>> };
->>>>>>>>>         int rc;
->>>>>>>>>         unsigned int n;
->>>>>>>>>
->>>>>>>>>         for (n = LOOPS; n > 0; n--) {
->>>>>>>>>                 struct pollfd pfd = pfd0;
->>>>>>>>>                 char buf[SIZE];
->>>>>>>>>
->>>>>>>>>                 rc = poll(&pfd, 1, 1);
->>>>>>>>>                 if (rc > 0) {
->>>>>>>>>                         int rd = read(fd, buf,
->>>>>>>>> sizeof(buf));
->>>>>>>>>
->>>>>>>>>                         if (rd == -1)
->>>>>>>>>                                 perror("read");
->>>>>>>>>                         else
->>>>>>>>>                                 printf("read %d bytes\n",
->>>>>>>>> rd);
->>>>>>>>>                 } else if (rc == -1)
->>>>>>>>>                         perror("poll");
->>>>>>>>>                 else
->>>>>>>>>                         fprintf(stderr, "timeout\n");
->>>>>>>>>
->>>>>>>>>         }
->>>>>>>>> }
->>>>>>>>>
->>>>>>>>> int main(void)
->>>>>>>>> {
->>>>>>>>>         int fd;
->>>>>>>>>
->>>>>>>>>         fd = open("/dev/hwrng", O_RDONLY|O_NONBLOCK);
->>>>>>>>>         if (fd == -1) {
->>>>>>>>>                 perror("open");
->>>>>>>>>                 return 1;
->>>>>>>>>         };
->>>>>>>>>         loop(fd);
->>>>>>>>>         close(fd);
->>>>>>>>>         return 0;
->>>>>>>>> }
->>>>>>>>>
->>>>>>>>> This can be observed in the real word e.g. with nested
->>>>>>>>> qemu/KVM
->>>>>>>>> virtual
->>>>>>>>> machines, if both the "outer" and "inner" VMs have a
->>>>>>>>> virtio-rng
->>>>>>>>> device.
->>>>>>>>> If the "inner" VM requests random data, qemu running in the
->>>>>>>>> "outer" VM
->>>>>>>>> uses this device in a non-blocking manner like the test
->>>>>>>>> program
->>>>>>>>> above.
->>>>>>>>>
->>>>>>>>> Fix it by returning available data if a previous hypervisor
->>>>>>>>> call
->>>>>>>>> has
->>>>>>>>> completed. I tested this patch with the program above, and
->>>>>>>>> with
->>>>>>>>> rng-tools.
->>>>>>>>>
->>>>>>>>> v2 -> v3: Simplified the implementation as suggested by
->>>>>>>>> Laurent
->>>>>>>>> Vivier
->>>>>>>>>
->>>>>>>>> Signed-off-by: Martin Wilck <mwilck@suse.com>
->>>>>>>>> ---
->>>>>>>>>  drivers/char/hw_random/virtio-rng.c | 4 ++--
->>>>>>>>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/char/hw_random/virtio-rng.c
->>>>>>>>> b/drivers/char/hw_random/virtio-rng.c
->>>>>>>>> index a90001e02bf7..8eaeceecb41e 100644
->>>>>>>>> --- a/drivers/char/hw_random/virtio-rng.c
->>>>>>>>> +++ b/drivers/char/hw_random/virtio-rng.c
->>>>>>>>> @@ -65,7 +65,7 @@ static int virtio_read(struct hwrng *rng,
->>>>>>>>> void
->>>>>>>>> *buf, size_t size, bool wait)
->>>>>>>>>  		register_buffer(vi, buf, size);
->>>>>>>>>  	}
->>>>>>>>>  
->>>>>>>>> -	if (!wait)
->>>>>>>>> +	if (!wait && !completion_done(&vi->have_data))
->>>>>>>>>  		return 0;
->>>>>>>>>  
->>>>>>>>>  	ret = wait_for_completion_killable(&vi->have_data);
->>>>>>>>> @@ -74,7 +74,7 @@ static int virtio_read(struct hwrng *rng,
->>>>>>>>> void
->>>>>>>>> *buf, size_t size, bool wait)
->>>>>>>>>  
->>>>>>>>>  	vi->busy = false;
->>>>>>>>>  
->>>>>>>>> -	return vi->data_avail;
->>>>>>>>> +	return min_t(size_t, size, vi->data_avail);
->>>>>>>>>  }
->>>>>>>>>  
->>>>>>>>>  static void virtio_cleanup(struct hwrng *rng)
->>>>>>>>>
->>>>>>>>
->>>>>>>> Reviewed-by: Laurent Vivier <lvivier@redhat.com>
->>>>>>>
->>>>>>> Laurent didn't we agree the real fix is private buffers in the
->>>>>>> driver,
->>>>>>> and copying out from there?
->>>>>>>
->>>>>>
->>>>>> Can we perhaps proceed with this for now? AFAICS the private
->>>>>> buffer
->>>>>> implementation would be a larger effort, while we have the issues
->>>>>> with
->>>>>> nested VMs getting no entropy today.
->>>>>>
->>>>>
->>>>> I agree. I think it's important to have a simple and quick fix for
->>>>> the
->>>>> problem reported by Martin.
->>>>>
->>>>> We need the private buffers but not sure how long it will take to
->>>>> have
->>>>> them included in the kernel and how many new bugs will be
->>>>> introduced
->>>>> doing that as the code is hard to understand and the core is shared
->>>>> with
->>>>> several other hardware backends that can be impacted by the changes
->>>>> needed.
->>>>>
->>>>> Thanks,
->>>>> Laurent
->>>>
->>>> However I am not sure with the patch applies we never return
->>>> the same buffer to userspace twice, e.g. if one is
->>>> non blocking another blocking. Doing that would be a bug.
->>>>
->>>
->>> As Laurent mentioned in 
->>> https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg02039.html,
->>> there are only 2 different buffers that may be passed to virtio_read(),
->>> rng_buffer and rng_fillbuf.
->>> The latter is only used in blocking mode.
->>>
->>> AFAICS there's just one problematic situation: 
->>>
->>>  1 a user space process reads random data without blocking and runs
->>> register_buffer(), gets no data, releases reading_mutex
->>>  2 the hwrng kthread grabs the mutex and makes a sync call, vi->busy is
->>> still set, so no new completion is initialized.
->>>  3 hwrng calls wait_for_completion_killable() and sees the completion
->>>    that had been initialized by the user space process previously,
->>>  4 hwrng "thinks" it got some positive randomness, but random data have
->>>    actually been written into rng_buffer, not rng_fillbuff.
->>>
->>> This is indeed bad, but it can happen with the current code as well.
->>> Actually, it's more likely to happen with the current code, because
->>> asynchronous callers might hang forever trying to get entropy,
->>> making this scenario more likely (if there's a process, like nested
->>> qemu, that would keep calling . So this wouldn't be a regression caused
->>> by my patch, AFAICT.
->>>
->>> How can we avoid this problem entirely? A) With private buffers, of
->>> course. B) Another, a bit hackish, approach would be to remember the
->>> active "buffer" pointer in virtio_rng, and restart the IO when a
->>> another buffer is passed down. C) Finally, we could modify
->>> virtio_read() such that blocking calls always re-initialize the buffer;
->>> they'd then have to wait for a potential already running IO from a
->>> previous, non-blocking access to finish first.
->>>
->>> But I believe this is something which could (and should) be done
->>> independently. Alternatively, I could add B) or C). A) I'd rather leave
->>> to Laurent.
->>>
->>> Regards,
->>> Martin
->>
->> Of the simple solutions, C seems cleanest.
->> Laurent, any interest in working on A meanwhile?
->>
-> 
-> Sorry, I didn't see your email.
-> 
-> I have no time to work on this for the moment. But virtio-rng fixes are on top of my TODO
-> list...
-> 
-> Thanks,
-> Laurent
-> 
-> 
+The following changes since commit 5204b499a6cae4dfd9fe762d5e6e82224892383b:
 
-Hi Laurent, Martin,
+  mailmap: Fix Stefan Weil author email (2022-12-13 15:56:57 -0500)
 
-is this resolved now?
+are available in the Git repository at:
 
-I wonder if this is covered by Laurent's kernel commit:
+  https://repo.or.cz/qemu/kevin.git tags/for-upstream
 
-commit 5c8e933050044d6dd2a000f9a5756ae73cbe7c44
-Author: Laurent Vivier <lvivier@redhat.com>
-Date:   Thu Oct 28 12:11:10 2021 +0200
+for you to fetch changes up to 2ad19e5dc950d4b340894846b9e71c0b20f9a1cc:
 
-    hwrng: virtio - don't waste entropy
-    
-    if we don't use all the entropy available in the buffer, keep it
-    and use it later.
-    
-    Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-    Link: https://lore.kernel.org/r/20211028101111.128049-4-lvivier@redhat.com
-    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+  block: GRAPH_RDLOCK for functions only called by co_wrappers (2022-12-14 13:13:07 +0100)
 
+----------------------------------------------------------------
+Block layer patches
 
-?
+- Code cleanups around block graph modification
+- Simplify drain
+- coroutine_fn correctness fixes, including splitting generated
+  coroutine wrappers into co_wrapper (to be called only from
+  non-coroutine context) and co_wrapper_mixed (both coroutine and
+  non-coroutine context)
+- Introduce a block graph rwlock
 
-Thanks,
+----------------------------------------------------------------
+Emanuele Giuseppe Esposito (21):
+      block-io: introduce coroutine_fn duplicates for bdrv_common_block_status_above callers
+      block-copy: add coroutine_fn annotations
+      nbd/server.c: add coroutine_fn annotations
+      block-backend: replace bdrv_*_above with blk_*_above
+      block/vmdk: add coroutine_fn annotations
+      block: avoid duplicating filename string in bdrv_create
+      block: distinguish between bdrv_create running in coroutine and not
+      block: bdrv_create_file is a coroutine_fn
+      block: rename generated_co_wrapper in co_wrapper_mixed
+      block-coroutine-wrapper.py: introduce co_wrapper
+      block-coroutine-wrapper.py: support functions without bs arg
+      block-coroutine-wrapper.py: support also basic return types
+      block: convert bdrv_create to co_wrapper
+      block/dirty-bitmap: convert coroutine-only functions to co_wrapper
+      graph-lock: Implement guard macros
+      async: Register/unregister aiocontext in graph lock list
+      block: wrlock in bdrv_replace_child_noperm
+      block: remove unnecessary assert_bdrv_graph_writable()
+      block: assert that graph read and writes are performed correctly
+      block-coroutine-wrapper.py: introduce annotations that take the graph rdlock
+      block: use co_wrapper_mixed_bdrv_rdlock in functions taking the rdlock
 
-Claudio
+Kevin Wolf (25):
+      qed: Don't yield in bdrv_qed_co_drain_begin()
+      test-bdrv-drain: Don't yield in .bdrv_co_drained_begin/end()
+      block: Revert .bdrv_drained_begin/end to non-coroutine_fn
+      block: Remove drained_end_counter
+      block: Inline bdrv_drain_invoke()
+      block: Fix locking for bdrv_reopen_queue_child()
+      block: Drain individual nodes during reopen
+      block: Don't use subtree drains in bdrv_drop_intermediate()
+      stream: Replace subtree drain with a single node drain
+      block: Remove subtree drains
+      block: Call drain callbacks only once
+      block: Remove ignore_bds_parents parameter from drain_begin/end.
+      block: Drop out of coroutine in bdrv_do_drained_begin_quiesce()
+      block: Don't poll in bdrv_replace_child_noperm()
+      block: Remove poll parameter from bdrv_parent_drained_begin_single()
+      block: Factor out bdrv_drain_all_begin_nopoll()
+      Import clang-tsa.h
+      clang-tsa: Add TSA_ASSERT() macro
+      clang-tsa: Add macros for shared locks
+      configure: Enable -Wthread-safety if present
+      test-bdrv-drain: Fix incorrrect drain assumptions
+      block: Fix locking in external_snapshot_prepare()
+      graph-lock: TSA annotations for lock/unlock functions
+      Mark assert_bdrv_graph_readable/writable() GRAPH_RD/WRLOCK
+      block: GRAPH_RDLOCK for functions only called by co_wrappers
+
+Paolo Bonzini (1):
+      graph-lock: Introduce a lock to protect block graph operations
+
+Vladimir Sementsov-Ogievskiy (4):
+      block: Inline bdrv_detach_child()
+      block: drop bdrv_remove_filter_or_cow_child
+      block: bdrv_refresh_perms(): allow external tran
+      block: refactor bdrv_list_refresh_perms to allow any list of nodes
+
+ docs/devel/block-coroutine-wrapper.rst |   6 +-
+ configure                              |   1 +
+ block/block-gen.h                      |  11 +-
+ block/coroutines.h                     |  21 +-
+ include/block/aio.h                    |   9 +
+ include/block/block-common.h           |  27 ++-
+ include/block/block-copy.h             |   5 +-
+ include/block/block-global-state.h     |  15 +-
+ include/block/block-io.h               | 136 +++++------
+ include/block/block_int-common.h       |  49 ++--
+ include/block/block_int-global-state.h |  17 --
+ include/block/block_int-io.h           |  12 -
+ include/block/block_int.h              |   1 +
+ include/block/dirty-bitmap.h           |  10 +-
+ include/block/graph-lock.h             | 280 +++++++++++++++++++++++
+ include/qemu/clang-tsa.h               | 114 ++++++++++
+ include/sysemu/block-backend-io.h      |  77 ++++---
+ block.c                                | 404 ++++++++++++++++++---------------
+ block/block-backend.c                  |  25 +-
+ block/block-copy.c                     |  21 +-
+ block/commit.c                         |   4 +-
+ block/crypto.c                         |   2 +-
+ block/dirty-bitmap.c                   |  88 +------
+ block/graph-lock.c                     | 275 ++++++++++++++++++++++
+ block/io.c                             | 367 ++++++++++--------------------
+ block/parallels.c                      |   2 +-
+ block/qcow.c                           |   2 +-
+ block/qcow2.c                          |   4 +-
+ block/qed.c                            |  28 ++-
+ block/raw-format.c                     |   2 +-
+ block/replication.c                    |   6 -
+ block/stream.c                         |  26 ++-
+ block/throttle.c                       |   8 +-
+ block/vdi.c                            |   2 +-
+ block/vhdx.c                           |   2 +-
+ block/vmdk.c                           |  38 ++--
+ block/vpc.c                            |   2 +-
+ blockdev.c                             |  17 +-
+ blockjob.c                             |   2 +-
+ nbd/server.c                           |  47 ++--
+ stubs/graph-lock.c                     |  10 +
+ tests/unit/test-bdrv-drain.c           | 387 +++++++++----------------------
+ util/async.c                           |   4 +
+ scripts/block-coroutine-wrapper.py     | 133 ++++++++---
+ block/meson.build                      |   2 +
+ stubs/meson.build                      |   1 +
+ 46 files changed, 1575 insertions(+), 1127 deletions(-)
+ create mode 100644 include/block/graph-lock.h
+ create mode 100644 include/qemu/clang-tsa.h
+ create mode 100644 block/graph-lock.c
+ create mode 100644 stubs/graph-lock.c
+
 
