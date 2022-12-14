@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425DD64CF0C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 19:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8CA64CF14
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 19:05:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5W2o-0002uR-Vp; Wed, 14 Dec 2022 12:59:51 -0500
+	id 1p5W7T-0004Cf-0z; Wed, 14 Dec 2022 13:04:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p5W2m-0002sX-FZ
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 12:59:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p5W2j-0007OM-75
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 12:59:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671040784;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IUjkcB0py5G1FLXFZD8Dvm3Q1IE7R+1aUiH1OwOZEp4=;
- b=A/aNH3/yXRd9I/xG+YSw0TpLIiGp1eH0hUjidlFeLj8OAgIudBkURGLZTJqwHY9sABRlf+
- OBgs81r2Ttj392BM/4kXhh0valfRWfe8mTrBY4Dsai93wS5F3TL6XIZ2K92zYOg+nGbiL3
- up+A6duGn9WjJj6gHqbxain56Ms+1jw=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-557-KjZpVS4OM4WzFGe5p2g8bw-1; Wed, 14 Dec 2022 12:59:42 -0500
-X-MC-Unique: KjZpVS4OM4WzFGe5p2g8bw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- fw8-20020a05622a4a8800b003a64f82fe73so2881220qtb.3
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 09:59:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IUjkcB0py5G1FLXFZD8Dvm3Q1IE7R+1aUiH1OwOZEp4=;
- b=OWp35qNPoYcxNeZFY2Ul/rqBuwJfx7iYiCp/VCPPpQX4kXja89EiU+ESZbfD3agmeL
- h4P2LNHF5DTmEeQiOOZM5Q51B+eGHIvxmuOdHF8RHcP9Mc5pv6wo9aISrLhB1Jv445Xu
- THx0v5K9ODF0tvTnU/fcNC8jN/qCCceGs0il+r1Amgu3MaK8hakjGxAypZmAeHYSH66A
- 0wVmp/8I6YRSm7nVyNi3L1z453bF1r6aU8cX+RMhFijX9zOE+0ReknVlDvt1mrnRQoEu
- 5KMMTb/ESJft6JVe2Uwh+5b+nlCmRTNyDpzdwq7uyOqWyJWwmYjrs5PapK5IAuBCGotF
- q38A==
-X-Gm-Message-State: ANoB5pkZgnUxIN9feVOJez8sX7eFoQxoAJ+6eP/b4Odjp9d+Y013fSuY
- GAGFTayI7ly/Pks301PwQ4wwzhwi07UYT+NGp33/cIC1Z+glPJiIR6qFdK50uQILnXmY/Ao3sgN
- BFJUUEE46YFI1d1g=
-X-Received: by 2002:a05:622a:408e:b0:3a6:21cb:cca4 with SMTP id
- cg14-20020a05622a408e00b003a621cbcca4mr8232168qtb.10.1671040781786; 
- Wed, 14 Dec 2022 09:59:41 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf47kJxnSMrO+gmnSI29ReegK/TzFZ9sPTsIfRLA3dE3q2rjxzEPcb7eUmu17Zb6cnBDpiK34Q==
-X-Received: by 2002:a05:622a:408e:b0:3a6:21cb:cca4 with SMTP id
- cg14-20020a05622a408e00b003a621cbcca4mr8232134qtb.10.1671040781389; 
- Wed, 14 Dec 2022 09:59:41 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0?
- ([2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0])
- by smtp.gmail.com with ESMTPSA id
- e24-20020ac84918000000b003a6947863e1sm2038866qtq.11.2022.12.14.09.59.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 09:59:40 -0800 (PST)
-Message-ID: <8d78a8e0-18a9-a86a-6b97-1e300aa27def@redhat.com>
-Date: Wed, 14 Dec 2022 18:59:39 +0100
+ (Exim 4.90_1) (envelope-from <wanghw364@163.com>) id 1p5W7M-0004CM-E4
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 13:04:33 -0500
+Received: from m12.mail.163.com ([220.181.12.198] helo=163.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <wanghw364@163.com>) id 1p5W7I-0002W4-HZ
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 13:04:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=1XmB8kUCDchfxDXLGo3uyxXAd/6SJ2b8cuxSR8xgKcA=; b=V
+ 3EEVzpvxg1tUZeywNQ8tyw4+hP8RhmMMJFbvzJDoq2nHzwXtzOGXb5XeSrYA5xFj
+ Xvixq7PjMrLKzHcLfN5HOgqHo39XhQnWg0A/4bJemFgkgvXz9/E/iSLtcsTTL9am
+ loWZpFsrmMfqvY4DCNotiCQSl47SefGGdNHW5S35ko=
+Received: from wanghw364$163.com ( [183.193.18.239] ) by ajax-webmail-wmsvr1
+ (Coremail) ; Thu, 15 Dec 2022 02:04:05 +0800 (CST)
+X-Originating-IP: [183.193.18.239]
+Date: Thu, 15 Dec 2022 02:04:05 +0800 (CST)
+From: wanghw364  <wanghw364@163.com>
+To: =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "Claudio Fontana" <cfontana@suse.de>, qemu-devel@nongnu.org
+Subject: Re:Re: QEMU function trace
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220708(c4627114)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+In-Reply-To: <87cz8mj7gd.fsf@linaro.org>
+References: <4019c9d3.7721.1850b729a80.Coremail.wanghw364@163.com>
+ <87y1rbjlk6.fsf@linaro.org>
+ <4fc789e6.5fe0.1850fe10037.Coremail.wanghw364@163.com>
+ <87tu1yjnma.fsf@linaro.org> <87pmcmjlhw.fsf@linaro.org>
+ <3471fec3-f9cc-9e97-07d2-4ab163786c71@suse.de> <87cz8mj7gd.fsf@linaro.org>
+X-NTES-SC: AL_QuycA/yfvkgv4yOQYOkZk04Vjug9WMK2sv0n2IdXPp80tCnH3QM8Qm9bMl7n3/qtMxizoAicShRg+N5LUIh3X4xC/bdzd9IGR4gsRo8qNidy
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_75_1994051329.1671041045392"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v1 16/24] vfio-user: proxy container connect/disconnect
-Content-Language: en-US
-To: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1667542066.git.john.g.johnson@oracle.com>
- <61dd08e18705b335f8cd02f69698aa8248ebaf96.1667542066.git.john.g.johnson@oracle.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <61dd08e18705b335f8cd02f69698aa8248ebaf96.1667542066.git.john.g.johnson@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-ID: <6d950ccb.15.18511ced390.Coremail.wanghw364@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: _____wDn7goVEJpj4KoBAA--.8500W
+X-CM-SenderInfo: pzdqwxbztwkqqrwthudrp/xtbBoRXXB2I0WLcr4wAAsV
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.12.198; envelope-from=wanghw364@163.com;
+ helo=163.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,368 +72,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/9/22 00:13, John Johnson wrote:
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->   hw/vfio/common.c              | 207 +++++++++++++++++++++++++++++++++++++++++-
->   hw/vfio/pci.c                 |  18 +++-
->   hw/vfio/user.c                |   3 +
->   hw/vfio/user.h                |   1 +
->   include/hw/vfio/vfio-common.h |   6 ++
->   5 files changed, 231 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index b540195..e73a772 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -19,6 +19,7 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include CONFIG_DEVICES
->   #include <sys/ioctl.h>
->   #ifdef CONFIG_KVM
->   #include <linux/kvm.h>
-> @@ -2267,6 +2268,208 @@ put_space_exit:
->       return ret;
->   }
->   
-> +
-> +#ifdef CONFIG_VFIO_USER
+------=_Part_75_1994051329.1671041045392
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-this code belongs to hw/vfio/user.c. You will need to export the required
-vfio subroutines for it.
+VGhhbmtzIHZlcnkgbXVjaC4KCgpBY2NvcmRpbmcgdG8geW91ciByZXBseSwgSSByZXZpZXdkIHFl
+bXUgbG9hZGVyIGFuZCBwbHVnaW5zIHNvdXJjZSBjb2RlIGFnYWluLCBJIHRoaW5rIEkndmUgZ290
+IHdoYXQgeW91IG1lbnRpb25lZC4KCgpJbiBxZW11IGxpbnV4LXVzZXIodXNlciBtb2RlKSBjYXNl
+LCB0aGUgZ3Vlc3QgaW1hZ2VzIGFyZSBhbGwgRUxGIGZvcm1hdCwgYW5kIGluc2lkZSB0aGUgRUxG
+IGxvYWRlciBxZW11IHdpbGwgY2FsbCBsb2FkX3N5bWJvbHMgZnVuY3Rpb24sIHNvIGluIHRoaXMg
+Y2FzZSwgdGhlIHN5bWJvbCB0YWJsZSBpcyBsb2FkZWQgd2hpbGUgbG9hZGluZyBFTEYgYXV0b21h
+dGljYWxseSwgd2UgZG9uJ3QgbmVlZCBleHRyYSBlZmZvcnQgdG8gbG9hZCBzeW1ib2wgdGFibGUu
+CgoKQnV0IGZvciBrZXJuZWwgYm9vdGluZyBjYXNlLCB0aGUgZ3Vlc3QgaW1hZ2UgZm9ybWF0IHdl
+IHVzZSBpbiAta2VybmVsIG9wdGlvbiBpcyBJbWFnZSBidXQgbm90IEVMRiwgYW5kIHRoZXJlIGlz
+IG5vIGxvYWRfc3ltYm9scyBiZWhhdmlvciBkdXJpbmcgdGhlIGxvYWRpbmcgcHJvY2Vzcywgc28g
+cGx1Z2lucyBjYW4ndCBzZWUgdGhlIGtlcm5lbCBzeW1ib2wuCgoKV2hhdCB3ZSBwcm9iYWJseSBu
+ZWVkIHRvIGRvIGlzIGFkZGluZyBzeW1ib2wgbG9hZGluZyBiZWhhdmlvciBpbiBrZXJuZWwgbG9h
+ZGVyIGFuZCBwb3B1bGF0aW5nIHN5bWluZm9zIHRvIHBsdWdpbnMsIG9yIHdyaXRpbmcgYSBTeXN0
+ZW0ubWFwIHBhcnNlciBpbiBzZWxmLWRlZmluZWQgcGx1Z2luIGFzIHlvdSBzYWlkLCBtYXliZSB0
+aGUgbGF0ZXIgaXMgYSBmYXN0ZXIgd2F5LgoKCkJUVywgc29ycnkgZm9yIHRoZSBhdXRvLXJlcGx5
+LCBpdCBoYXMgYmVlbiB0dXJuZWQtb2ZmLCB0aGFua3MgZm9yIHRoZSBoZWFkcyB1cC4KCgoKCgoK
+CgpUaGFua3MuCgoKCgoKCgoKCgoKT24gMjAyMi0xMi0xNCAyMzowMzozOO+8jCJBbGV4IEJlbm7D
+qWUiIDxhbGV4LmJlbm5lZUBsaW5hcm8ub3JnPiB3cm90ZToKPgo+Q2xhdWRpbyBGb250YW5hIDxj
+Zm9udGFuYUBzdXNlLmRlPiB3cml0ZXM6Cj4KPj4gT24gMTIvMTQvMjIgMTI6MDAsIEFsZXggQmVu
+bsOpZSB3cm90ZToKPj4+IAo+Pj4gQWxleCBCZW5uw6llIDxhbGV4LmJlbm5lZUBsaW5hcm8ub3Jn
+PiB3cml0ZXM6Cj4+PiAKPj4+PiB3YW5naHczNjQgIDx3YW5naHczNjRAMTYzLmNvbT4gd3JpdGVz
+Ogo+Pj4+Cj4+Pj4+IFRoYW5rcy4gSSBoYXZlIHNldmVyYWwgcXVlc3Rpb25zIGFzIGJlbG93LCBw
+bGVhc2UgaGVscCwgdGhhbmtzLgo+Pj4+Pgo+Pj4+PiAxLldoYXQgZG8geW91IG1lYW4gYnkgIm9u
+bHkgaGF2ZSBkZWJ1ZyBzeW1ib2xzIGF2YWlsYWJsZSBmb3IKPj4+Pj4gbGludXgtdXNlciBzbyI/
+IFdoYXQgZG9lcyB0aGUgbGludXgtdXNlciBzbwo+Pj4+PiByZWZlciB0bz8KPj4+Pj4gIHFlbXVf
+cGx1Z2luX2luc25fc3ltYm9sKCkgY2FuIG9ubHkgc2VlIHN5bWJvbHMgZnJvbSBsaW51eC11c2Vy
+IHNvPwo+Pj4+Cj4+Pj4gVGhlIGxpbnV4LXVzZXIgRUxGIGxvYWRlciB3aWxsIHJlYWQgdGhlIGRl
+YnVnIHN5bWJvbHMgKGlmIHRoZXkgZXhpc3QpCj4+Pj4gYW5kIHBvcHVsYXRlIHRoZSBzeW1pbmZv
+cyBzdHJ1Y3R1cmVzIHRoYXQgbG9va3VwX3N5bWJvbCB1c2VzLiBJdCdzCj4+Pj4gcGFydGlhbGx5
+IG9ic2N1cmVkIGJ5IHRoZSBFTEYgbG9hZGVycyBoZWF2eSB1c2Ugb2YgbWFjcm9zIGJ1dCBzZWU6
+Cj4+Pj4KPj4+PiAgIHN0YXRpYyB2b2lkIGdsdWUobG9hZF9zeW1ib2xzLCBTWikoc3RydWN0IGVs
+ZmhkciAqZWhkciwgaW50IGZkLCBpbnQgbXVzdF9zd2FiLAo+Pj4+ICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBpbnQgY2xlYXJfbHNiLCBzeW1ib2xfZm5fdCBzeW1fY2IpCj4+
+Pj4KPj4+PiBpbiBlbGZfb3BzLmgKPj4+Pgo+Pj4+PiAyLlRoZSBwdXJwb3NlIG9mIHRlYWNoaW5n
+IHRoZSBsaW51eCBrZXJuZWwgbG9hZGVyIHRvIHVuZGVyc3RhbmQgYW5kIHJlbG9jYXRlIHN5bWJv
+bHMgZnJvbSBhbiBFTEYga2VybmVsCj4+Pj4+IGltYWdlLAo+Pj4+PiBvciBleHRyYWN0IHRoZW4g
+YW5kIGZlZWQgdGhlbSBkaXJlY3RseSB0byB0aGUgcGx1Z2luLCBpcyB0byBzb2x2ZQo+Pj4+PiB0
+aGUgaXNzdWUgdGhhdCBxZW11X3BsdWdpbl9pbnNuX3N5bWJvbCgpCj4+Pj4+IGNhbid0IHNlZSBr
+ZXJuZWwgc3ltYm9sPwo+Pj4+Cj4+Pj4gWWVzLiBUaGlzIGlzIHNsaWdodGx5IGNvbXBsaWNhdGVk
+IGJ5IHRoZSBmYWN0IHRoYXQgdGhlIGtlcm5lbCBsb2FkZXJzIGRvbid0Cj4+Pj4gZXhwZWN0IHRv
+IGxvYWQgcHVyZSBFTEYgZmlsZXMgYnV0IHNvbWV0aGluZyB0aGF0IGlzIHdyYXBwZWQgdXAgYXMg
+YQo+Pj4+IExpbnV4IGxvYWRlci4gRm9yIGV4YW1wbGU6Cj4+Pj4KPj4+PiAgIOKenCAgZmlsZSB2
+bWxpbnV4Cj4+Pj4gICB2bWxpbnV4OiBFTEYgNjQtYml0IExTQiBwaWUgZXhlY3V0YWJsZSwgQVJN
+IGFhcmNoNjQsIHZlcnNpb24gMQo+Pj4+IChTWVNWKSwgc3RhdGljYWxseSBsaW5rZWQsCj4+Pj4g
+QnVpbGRJRFtzaGExXT0yMTE2NjQ1OGExMDQwNGU2MTU3YWJmMGRhNGEwOTIxMTQ0YzcyNjc1LCB3
+aXRoCj4+Pj4gZGVidWdfaW5mbywgbm90IHN0cmlwcGVkCj4+Pj4gICAxMDowNzo0MiBhbGV4QHpl
+bjpsaW51eC5naXQvYnVpbGRzL2FybTY0LmluaXRyYW1mcyB3aXRoCj4+Pj4gYXJtNjQvYWFyY2g2
+NC1saW51eC1nbnUtIG9uIO6CoCBsaW51eC02LjAueSBbJCE/XQo+Pj4+ICAg4p6cICBmaWxlIGFy
+Y2gvYXJtNjQvYm9vdC9JbWFnZQo+Pj4+ICAgYXJjaC9hcm02NC9ib290L0ltYWdlOiBMaW51eCBr
+ZXJuZWwgQVJNNjQgYm9vdCBleGVjdXRhYmxlIEltYWdlLCBsaXR0bGUtZW5kaWFuLCA0SyBwYWdl
+cwo+Pj4+Cj4+Pj4gVGhlIHNlY29uZCBmaWxlIGlzIHdoYXQgaXMgYWN0dWFsbHkgcGFzc2VkIHRv
+IC1rZXJuZWwgaW4gYSB0eXBpY2FsIGJvb3QuCj4+Pj4KPj4+PiBUaGUgbG9naWMgaW4gYXJtX3Nl
+dHVwX2RpcmVjdF9rZXJuZWxfYm9vdCgpIGltcGxpZXMgeW91IGNhbiBsb2FkIEVMRnMKPj4+PiBk
+aXJlY3RseSBhbmQgYm9vdCB0aGVtIGJ1dCBmb3Igc29tZSByZWFzb24gdGhlIExpbnV4IGtlcm5l
+bCBkb2Vzbid0IHdvcmsKPj4+PiBpZiB5b3UgdHJ5IHRoaXMgd2F5Lgo+Pj4gCj4+PiBSZXBseWlu
+ZyB0byBteXNlbGYgLSB0aGlzIGlzIGJlY2F1c2UgdGhlIHZtbGludXggaW1hZ2UgaXMgYmFzZWQg
+b2YKPj4+IGtlcm5lbCB2aXJ0dWFsIGFkZHJlc3MuIFNvIHRoZSBpbXBvcnQgdGhpbmcgdGhlIGxv
+YWRlciBkb2VzIGlzIGNyZWF0ZQo+Pj4gdGhlIGluaXRpYWwgdmFkZHIgbWFwcGluZ3MgYW5kIHJl
+bG9jYXRlIHRoZSBrZXJuZWwgdG8gdGhhdCBsb2NhdGlvbgo+Pj4gYmVmb3JlIHJ1bm5pbmcgaXQu
+IFNlZSB0aGUgZnVuY3Rpb24gcHJpbWFyeV9lbnRyeSBpbiBoZWFkLlMgaW4gdGhlCj4+PiBrZXJu
+ZWwuCj4+PiAKPj4+IFNvIHBlcmhhcHMgZm9yIHN5c3RlbSBlbXVsYXRpb24gaXQgd291bGQgYmUg
+dXNlZnVsIHRvIGhhdmUgYSAtc3ltYm9scwo+Pj4gb3B0aW9uIHRvIGxvYWQgc3ltYm9scyBmcm9t
+IGFub3RoZXIgZmlsZS4KPj4+IAo+Pgo+PiBIaSBBbGV4LAo+Pgo+PiBpdCBkb2Vzbid0IG5lZWQg
+dG8gYmUgYSB0Y2cgcGx1Z2luLW9ubHkgZmVhdHVyZSByaWdodCwgaXQncyBwb3NzaWJsZQo+PiB0
+byB1c2UgcWVtdSB0byBkZWJ1ZyB0aGUgZ3Vlc3QgYWxzbyB3aGVuIHVzaW5nIEtWTS4uCj4KPk5v
+IGl0IGRvZXNuJ3QgaGF2ZSB0byBiZSBhbHRob3VnaCB0aGUgb25seSByZWFsIHVzZXJzIGlzIHRo
+ZSAtZCBpbl9hc20KPnRyYWNlIHdoaWNoIEkgc3VzcGVjdCBkb2Vzbid0IGdldCB1c2VkIGFzIG11
+Y2ggZm9yIHN5c3RlbSBlbXVsYXRpb24KPmdpdmVuIHRoZSBzaXplIG9mIHRoZSB0cmFjZXMuCj4K
+PkZvciBub3JtYWwgZGVidWdnaW5nIG92ZXIgdGhlIGdkYnN0dWIgaXRzIHVzdWFsbHkgbGVmdCB1
+cCB0byB0aGUgZ2RiCj5wcm9jZXNzIGl0c2VsZiB0byBoYW5kbGUgdGhlIHJlc29sdXRpb24gb2Yg
+c3ltYm9scywgZS5nLjoKPgo+ICBnZGIgdm1saW51eCAtZXggInRhcmdldCByZW1vdGUgbG9jYWxo
+b3N0OjEyMzQiCj4KPi0tIAo+QWxleCBCZW5uw6llCj5WaXJ0dWFsaXNhdGlvbiBUZWNoIExlYWQg
+QCBMaW5hcm8K
+------=_Part_75_1994051329.1671041045392
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-
-> +
-> +static int vfio_connect_proxy(VFIOProxy *proxy, VFIOGroup *group,
-> +                              AddressSpace *as, Error **errp)
-> +{
-> +    VFIOAddressSpace *space;
-> +    VFIOContainer *container;
-> +    int ret;
-> +
-> +    /*
-> +     * try to mirror vfio_connect_container()
-> +     * as much as possible
-> +     */
-
-Yes. This is very much like the VFIO_TYPE1_IOMMU case.
-
-Could we wrap the vfio_get_iommu_info() routine in some way to bring it
-even close ? to avoid all this code duplication.
-
-> +
-> +    space = vfio_get_address_space(as);
-> +
-> +    container = g_malloc0(sizeof(*container));
-> +    container->space = space;
-> +    container->fd = -1;
-> +    container->error = NULL;
-> +    container->io_ops = &vfio_cont_io_sock;
-> +    QLIST_INIT(&container->giommu_list);
-> +    QLIST_INIT(&container->hostwin_list);
-> +    QLIST_INIT(&container->vrdl_list);
-> +    container->proxy = proxy;
-> +
-> +    /*
-> +     * The proxy uses a SW IOMMU in lieu of the HW one
-> +     * used in the ioctl() version.  Mascarade as TYPE1
-> +     * for maximum capatibility
-> +     */
-> +    container->iommu_type = VFIO_TYPE1_IOMMU;
-> +
-> +    /*
-> +     * VFIO user allows the device server to map guest
-> +     * memory so it has the same issue with discards as
-> +     * a local IOMMU has.
-> +     */
-> +    ret = vfio_ram_block_discard_disable(container, true);
-> +    if (ret) {
-> +        error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
-> +        goto free_container_exit;
-> +    }
-> +
-> +    vfio_host_win_add(container, 0, (hwaddr)-1, proxy->dma_pgsizes);
-> +    container->pgsizes = proxy->dma_pgsizes;
-> +    container->dma_max_mappings = proxy->max_dma;
-> +
-> +    /* setup bitmask now, but migration support won't be ready until v2 */
-> +    container->dirty_pages_supported = true;
-> +    container->max_dirty_bitmap_size = proxy->max_bitmap;
-> +    container->dirty_pgsizes = proxy->migr_pgsize;
-> +
-> +    QLIST_INIT(&container->group_list);
-> +    QLIST_INSERT_HEAD(&space->containers, container, next);
-> +
-> +    group->container = container;
-> +    QLIST_INSERT_HEAD(&container->group_list, group, container_next);
-> +
-> +    container->listener = vfio_memory_listener;
-> +    memory_listener_register(&container->listener, container->space->as);
-> +
-> +    if (container->error) {
-> +        ret = -1;
-> +        error_propagate_prepend(errp, container->error,
-> +            "memory listener initialization failed: ");
-> +        goto listener_release_exit;
-> +    }
-> +
-> +    container->initialized = true;
-> +
-> +    return 0;
-> +
-> +listener_release_exit:
-> +    QLIST_REMOVE(group, container_next);
-> +    QLIST_REMOVE(container, next);
-> +    vfio_listener_release(container);
-> +    vfio_ram_block_discard_disable(container, false);
-> +
-> +free_container_exit:
-> +    g_free(container);
-> +
-> +    vfio_put_address_space(space);
-> +
-> +    return ret;
-> +}
-> +
-> +static void vfio_disconnect_proxy(VFIOGroup *group)
-> +{
-> +    VFIOContainer *container = group->container;
-> +    VFIOAddressSpace *space = container->space;
-> +    VFIOGuestIOMMU *giommu, *tmp;
-> +    VFIOHostDMAWindow *hostwin, *next;
-> +
-> +    /*
-> +     * try to mirror vfio_disconnect_container()
-
-same comment.
-
-Given the code that follows, I wonder if we shouldn't introduce new
-VFIOGroup models: Base, PCI, User, to isolate the differences and
-reduce duplication.
-
-Thanks,
-
-C.
-
-
-> +     * as much as possible, knowing each device
-> +     * is in one group and one container
-> +     */
-> +
-> +    QLIST_REMOVE(group, container_next);
-> +    group->container = NULL;
-> +
-> +    /*
-> +     * Explicitly release the listener first before unset container,
-> +     * since unset may destroy the backend container if it's the last
-> +     * group.
-> +     */
-> +    memory_listener_unregister(&container->listener);
-> +
-> +    QLIST_REMOVE(container, next);
-> +
-> +    QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
-> +        memory_region_unregister_iommu_notifier(
-> +            MEMORY_REGION(giommu->iommu_mr), &giommu->n);
-> +        QLIST_REMOVE(giommu, giommu_next);
-> +        g_free(giommu);
-> +    }
-> +
-> +    QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next,
-> +                       next) {
-> +        QLIST_REMOVE(hostwin, hostwin_next);
-> +        g_free(hostwin);
-> +    }
-> +
-> +    g_free(container);
-> +    vfio_put_address_space(space);
-> +}
-> +
-> +int vfio_user_get_device(VFIOGroup *group, VFIODevice *vbasedev, Error **errp)
-> +{
-> +    struct vfio_device_info info = { .argsz = sizeof(info) };
-> +    int ret;
-> +
-> +    ret = VDEV_GET_INFO(vbasedev, &info);
-> +    if (ret) {
-> +        error_setg_errno(errp, -ret, "get info failure");
-> +        return ret;
-> +    }
-> +
-> +    vbasedev->fd = -1;
-> +    vbasedev->group = group;
-> +    QLIST_INSERT_HEAD(&group->device_list, vbasedev, next);
-> +
-> +    vbasedev->num_irqs = info.num_irqs;
-> +    vbasedev->num_regions = info.num_regions;
-> +    vbasedev->flags = info.flags;
-> +
-> +    vfio_get_all_regions(vbasedev);
-> +    vbasedev->reset_works = !!(info.flags & VFIO_DEVICE_FLAGS_RESET);
-> +    return 0;
-> +}
-> +
-> +VFIOGroup *vfio_user_get_group(VFIOProxy *proxy, AddressSpace *as, Error **errp)
-> +{
-> +    VFIOGroup *group;
-> +
-> +    /*
-> +     * Mirror vfio_get_group(), except that each
-> +     * device gets its own group and container,
-> +     * unrelated to any host IOMMU groupings
-> +     */
-> +    group = g_malloc0(sizeof(*group));
-> +    group->fd = -1;
-> +    group->groupid = -1;
-> +    QLIST_INIT(&group->device_list);
-> +
-> +    if (vfio_connect_proxy(proxy, group, as, errp)) {
-> +        error_prepend(errp, "failed to connect proxy");
-> +        g_free(group);
-> +        group = NULL;
-> +    }
-> +
-> +    if (QLIST_EMPTY(&vfio_group_list)) {
-> +        qemu_register_reset(vfio_reset_handler, NULL);
-> +    }
-> +
-> +    QLIST_INSERT_HEAD(&vfio_group_list, group, next);
-> +
-> +    return group;
-> +}
-> +
-> +void vfio_user_put_group(VFIOGroup *group)
-> +{
-> +    if (!group || !QLIST_EMPTY(&group->device_list)) {
-> +        return;
-> +    }
-> +
-> +    vfio_ram_block_discard_disable(group->container, false);
-> +    vfio_disconnect_proxy(group);
-> +    QLIST_REMOVE(group, next);
-> +    g_free(group);
-> +
-> +    if (QLIST_EMPTY(&vfio_group_list)) {
-> +        qemu_unregister_reset(vfio_reset_handler, NULL);
-> +    }
-> +}
-> +
-> +#endif /* CONFIG_VFIO_USER */
-> +
-> +
->   static void vfio_disconnect_container(VFIOGroup *group)
->   {
->       VFIOContainer *container = group->container;
-> @@ -2499,7 +2702,9 @@ void vfio_put_base_device(VFIODevice *vbasedev)
->       QLIST_REMOVE(vbasedev, next);
->       vbasedev->group = NULL;
->       trace_vfio_put_base_device(vbasedev->fd);
-> -    close(vbasedev->fd);
-> +    if (vbasedev->fd != -1) {
-> +        close(vbasedev->fd);
-> +    }
->   }
->   
->   int vfio_get_region_info(VFIODevice *vbasedev, int index,
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index a1ae3fb..53e3bb8 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3584,7 +3584,7 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
->       VFIODevice *vbasedev = &vdev->vbasedev;
->       SocketAddress addr;
->       VFIOProxy *proxy;
-> -    struct vfio_device_info info;
-> +    VFIOGroup *group = NULL;
->       int ret;
->       Error *err = NULL;
->   
-> @@ -3630,9 +3630,15 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
->       vbasedev->io_ops = &vfio_dev_io_sock;
->       vdev->vbasedev.irq_mask_works = true;
->   
-> -    ret = VDEV_GET_INFO(vbasedev, &info);
-> +    group = vfio_user_get_group(proxy, pci_device_iommu_address_space(pdev),
-> +                                errp);
-> +    if (!group) {
-> +        goto error;
-> +    }
-> +
-> +    ret = vfio_user_get_device(group, vbasedev, errp);
->       if (ret) {
-> -        error_setg_errno(errp, -ret, "get info failure");
-> +        vfio_user_put_group(group);
->           goto error;
->       }
->   
-> @@ -3692,12 +3698,18 @@ static void vfio_user_instance_finalize(Object *obj)
->   {
->       VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
->       VFIODevice *vbasedev = &vdev->vbasedev;
-> +    VFIOGroup *group = vbasedev->group;
-> +
-> +    vfio_bars_finalize(vdev);
-> +    g_free(vdev->emulated_config_bits);
-> +    g_free(vdev->rom);
->   
->       if (vdev->msix != NULL) {
->           vfio_user_msix_teardown(vdev);
->       }
->   
->       vfio_put_device(vdev);
-> +    vfio_user_put_group(group);
->   
->       if (vbasedev->proxy != NULL) {
->           vfio_user_disconnect(vbasedev->proxy);
-> diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-> index 815385b..2d35f83 100644
-> --- a/hw/vfio/user.c
-> +++ b/hw/vfio/user.c
-> @@ -1433,3 +1433,6 @@ VFIODevIO vfio_dev_io_sock = {
->       .region_write = vfio_user_io_region_write,
->   };
->   
-> +
-> +VFIOContIO vfio_cont_io_sock = {
-> +};
-> diff --git a/hw/vfio/user.h b/hw/vfio/user.h
-> index 359a029..19b8a29 100644
-> --- a/hw/vfio/user.h
-> +++ b/hw/vfio/user.h
-> @@ -94,5 +94,6 @@ void vfio_user_set_handler(VFIODevice *vbasedev,
->   int vfio_user_validate_version(VFIOProxy *proxy, Error **errp);
->   
->   extern VFIODevIO vfio_dev_io_sock;
-> +extern VFIOContIO vfio_cont_io_sock;
->   
->   #endif /* VFIO_USER_H */
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 793ca94..312ef9c 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -94,6 +94,7 @@ typedef struct VFIOContainer {
->       uint64_t max_dirty_bitmap_size;
->       unsigned long pgsizes;
->       unsigned int dma_max_mappings;
-> +    VFIOProxy *proxy;
->       QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
->       QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
->       QLIST_HEAD(, VFIOGroup) group_list;
-> @@ -282,6 +283,11 @@ void vfio_put_group(VFIOGroup *group);
->   int vfio_get_device(VFIOGroup *group, const char *name,
->                       VFIODevice *vbasedev, Error **errp);
->   
-> +int vfio_user_get_device(VFIOGroup *group, VFIODevice *vbasedev, Error **errp);
-> +VFIOGroup *vfio_user_get_group(VFIOProxy *proxy, AddressSpace *as,
-> +                               Error **errp);
-> +void vfio_user_put_group(VFIOGroup *group);
-> +
->   extern const MemoryRegionOps vfio_region_ops;
->   typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
->   extern VFIOGroupList vfio_group_list;
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6c2ltc3VuLCBTVFNvbmd0aS1TQy1SZWd1bGFyIj48ZGl2IHN0eWxlPSJtYXJn
+aW46IDA7Ij48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFsOyI+VGhhbmtzIHZlcnkgbXVj
+aC48L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvZGl2PjxkaXYgc3R5
+bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTogQXJpYWw7Ij5BY2NvcmRp
+bmcgdG8geW91ciByZXBseSwgSSByZXZpZXdkIHFlbXUgbG9hZGVyIGFuZCBwbHVnaW5zIHNvdXJj
+ZSBjb2RlIGFnYWluLCBJIHRoaW5rIEkndmUgZ290IHdoYXQgeW91IG1lbnRpb25lZC48L3NwYW4+
+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdp
+bjogMDsiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTogQXJpYWw7Ij5JbiBxZW11IGxpbnV4LXVz
+ZXIodXNlciBtb2RlKSBjYXNlLCB0aGUgZ3Vlc3QgaW1hZ2VzIGFyZSBhbGwgRUxGIGZvcm1hdCwg
+YW5kIGluc2lkZSB0aGUgRUxGIGxvYWRlciBxZW11IHdpbGwgY2FsbCBsb2FkX3N5bWJvbHMgZnVu
+Y3Rpb24sIHNvIGluIHRoaXMgY2FzZSwgdGhlIHN5bWJvbCB0YWJsZSBpcyBsb2FkZWQgd2hpbGUg
+bG9hZGluZyBFTEYgYXV0b21hdGljYWxseSwgd2UgZG9uJ3QgbmVlZCBleHRyYSBlZmZvcnQgdG8g
+bG9hZCBzeW1ib2wgdGFibGUuPC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxi
+cj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6
+IEFyaWFsOyI+QnV0IGZvciBrZXJuZWwgYm9vdGluZyBjYXNlLCB0aGUgZ3Vlc3QgaW1hZ2UgZm9y
+bWF0IHdlIHVzZSBpbiAta2VybmVsIG9wdGlvbiBpcyBJbWFnZSBidXQgbm90IEVMRiwgYW5kIHRo
+ZXJlIGlzIG5vIGxvYWRfc3ltYm9scyBiZWhhdmlvciBkdXJpbmcgdGhlIGxvYWRpbmcgcHJvY2Vz
+cywgc28gcGx1Z2lucyBjYW4ndCBzZWUgdGhlIGtlcm5lbCBzeW1ib2wuPC9zcGFuPjwvZGl2Pjxk
+aXYgc3R5bGU9Im1hcmdpbjogMDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48
+c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFsOyI+V2hhdCB3ZSBwcm9iYWJseSBuZWVkIHRv
+IGRvIGlzIGFkZGluZyBzeW1ib2wgbG9hZGluZyBiZWhhdmlvciBpbiBrZXJuZWwgbG9hZGVyIGFu
+ZCBwb3B1bGF0aW5nIHN5bWluZm9zIHRvIHBsdWdpbnMsIG9yJm5ic3A7PHNwYW4gc3R5bGU9ImZv
+bnQtZmFtaWx5OiBhcmlhbDsgd2hpdGUtc3BhY2U6IHByZS13cmFwOyI+d3JpdGluZyBhIFN5c3Rl
+bS5tYXAgcGFyc2VyIGluIHNlbGYtZGVmaW5lZCBwbHVnaW4gYXMgeW91IHNhaWQsIG1heWJlIHRo
+ZSBsYXRlciBpcyBhIGZhc3RlciB3YXkuPC9zcGFuPjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJt
+YXJnaW46IDA7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IHByZS13cmFwOyBmb250LWZhbWls
+eTogQXJpYWw7Ij48YnI+PC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFu
+IHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7IGZvbnQtZmFtaWx5OiBBcmlhbDsiPkJUVywg
+c29ycnkgZm9yIHRoZSBhdXRvLXJlcGx5LCBpdCBoYXMgYmVlbiB0dXJuZWQtb2ZmLCB0aGFua3Mg
+Zm9yIHRoZSBoZWFkcyB1cC48L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PHNw
+YW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsgZm9udC1mYW1pbHk6IEFyaWFsOyI+PGJy
+Pjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0id2hpdGUt
+c3BhY2U6IHByZS13cmFwOyBmb250LWZhbWlseTogQXJpYWw7Ij48YnI+PC9zcGFuPjwvZGl2Pjxk
+aXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7
+IGZvbnQtZmFtaWx5OiBBcmlhbDsiPjxicj48L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2lu
+OiAwOyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsgZm9udC1mYW1pbHk6IEFy
+aWFsOyI+PGJyPjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHls
+ZT0id2hpdGUtc3BhY2U6IHByZS13cmFwOyBmb250LWZhbWlseTogQXJpYWw7Ij5UaGFua3MuPC9z
+cGFuPjwvZGl2PjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46
+IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwcmU+PGJyPk9uIDIw
+MjItMTItMTQgMjM6MDM6MzjvvIwiQWxleCBCZW5uw6llIiAmbHQ7YWxleC5iZW5uZWVAbGluYXJv
+Lm9yZyZndDsgd3JvdGU6CiZndDsKJmd0O0NsYXVkaW8gRm9udGFuYSAmbHQ7Y2ZvbnRhbmFAc3Vz
+ZS5kZSZndDsgd3JpdGVzOgomZ3Q7CiZndDsmZ3Q7IE9uIDEyLzE0LzIyIDEyOjAwLCBBbGV4IEJl
+bm7DqWUgd3JvdGU6CiZndDsmZ3Q7Jmd0OyAKJmd0OyZndDsmZ3Q7IEFsZXggQmVubsOpZSAmbHQ7
+YWxleC5iZW5uZWVAbGluYXJvLm9yZyZndDsgd3JpdGVzOgomZ3Q7Jmd0OyZndDsgCiZndDsmZ3Q7
+Jmd0OyZndDsgd2FuZ2h3MzY0ICAmbHQ7d2FuZ2h3MzY0QDE2My5jb20mZ3Q7IHdyaXRlczoKJmd0
+OyZndDsmZ3Q7Jmd0OwomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyBUaGFua3MuIEkgaGF2ZSBzZXZlcmFs
+IHF1ZXN0aW9ucyBhcyBiZWxvdywgcGxlYXNlIGhlbHAsIHRoYW5rcy4KJmd0OyZndDsmZ3Q7Jmd0
+OyZndDsKJmd0OyZndDsmZ3Q7Jmd0OyZndDsgMS5XaGF0IGRvIHlvdSBtZWFuIGJ5ICJvbmx5IGhh
+dmUgZGVidWcgc3ltYm9scyBhdmFpbGFibGUgZm9yCiZndDsmZ3Q7Jmd0OyZndDsmZ3Q7IGxpbnV4
+LXVzZXIgc28iPyBXaGF0IGRvZXMgdGhlIGxpbnV4LXVzZXIgc28KJmd0OyZndDsmZ3Q7Jmd0OyZn
+dDsgcmVmZXIgdG8/CiZndDsmZ3Q7Jmd0OyZndDsmZ3Q7ICBxZW11X3BsdWdpbl9pbnNuX3N5bWJv
+bCgpIGNhbiBvbmx5IHNlZSBzeW1ib2xzIGZyb20gbGludXgtdXNlciBzbz8KJmd0OyZndDsmZ3Q7
+Jmd0OwomZ3Q7Jmd0OyZndDsmZ3Q7IFRoZSBsaW51eC11c2VyIEVMRiBsb2FkZXIgd2lsbCByZWFk
+IHRoZSBkZWJ1ZyBzeW1ib2xzIChpZiB0aGV5IGV4aXN0KQomZ3Q7Jmd0OyZndDsmZ3Q7IGFuZCBw
+b3B1bGF0ZSB0aGUgc3ltaW5mb3Mgc3RydWN0dXJlcyB0aGF0IGxvb2t1cF9zeW1ib2wgdXNlcy4g
+SXQncwomZ3Q7Jmd0OyZndDsmZ3Q7IHBhcnRpYWxseSBvYnNjdXJlZCBieSB0aGUgRUxGIGxvYWRl
+cnMgaGVhdnkgdXNlIG9mIG1hY3JvcyBidXQgc2VlOgomZ3Q7Jmd0OyZndDsmZ3Q7CiZndDsmZ3Q7
+Jmd0OyZndDsgICBzdGF0aWMgdm9pZCBnbHVlKGxvYWRfc3ltYm9scywgU1opKHN0cnVjdCBlbGZo
+ZHIgKmVoZHIsIGludCBmZCwgaW50IG11c3Rfc3dhYiwKJmd0OyZndDsmZ3Q7Jmd0OyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50IGNsZWFyX2xzYiwgc3ltYm9sX2ZuX3Qg
+c3ltX2NiKQomZ3Q7Jmd0OyZndDsmZ3Q7CiZndDsmZ3Q7Jmd0OyZndDsgaW4gZWxmX29wcy5oCiZn
+dDsmZ3Q7Jmd0OyZndDsKJmd0OyZndDsmZ3Q7Jmd0OyZndDsgMi5UaGUgcHVycG9zZSBvZiB0ZWFj
+aGluZyB0aGUgbGludXgga2VybmVsIGxvYWRlciB0byB1bmRlcnN0YW5kIGFuZCByZWxvY2F0ZSBz
+eW1ib2xzIGZyb20gYW4gRUxGIGtlcm5lbAomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyBpbWFnZSwKJmd0
+OyZndDsmZ3Q7Jmd0OyZndDsgb3IgZXh0cmFjdCB0aGVuIGFuZCBmZWVkIHRoZW0gZGlyZWN0bHkg
+dG8gdGhlIHBsdWdpbiwgaXMgdG8gc29sdmUKJmd0OyZndDsmZ3Q7Jmd0OyZndDsgdGhlIGlzc3Vl
+IHRoYXQgcWVtdV9wbHVnaW5faW5zbl9zeW1ib2woKQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyBjYW4n
+dCBzZWUga2VybmVsIHN5bWJvbD8KJmd0OyZndDsmZ3Q7Jmd0OwomZ3Q7Jmd0OyZndDsmZ3Q7IFll
+cy4gVGhpcyBpcyBzbGlnaHRseSBjb21wbGljYXRlZCBieSB0aGUgZmFjdCB0aGF0IHRoZSBrZXJu
+ZWwgbG9hZGVycyBkb24ndAomZ3Q7Jmd0OyZndDsmZ3Q7IGV4cGVjdCB0byBsb2FkIHB1cmUgRUxG
+IGZpbGVzIGJ1dCBzb21ldGhpbmcgdGhhdCBpcyB3cmFwcGVkIHVwIGFzIGEKJmd0OyZndDsmZ3Q7
+Jmd0OyBMaW51eCBsb2FkZXIuIEZvciBleGFtcGxlOgomZ3Q7Jmd0OyZndDsmZ3Q7CiZndDsmZ3Q7
+Jmd0OyZndDsgICDinpwgIGZpbGUgdm1saW51eAomZ3Q7Jmd0OyZndDsmZ3Q7ICAgdm1saW51eDog
+RUxGIDY0LWJpdCBMU0IgcGllIGV4ZWN1dGFibGUsIEFSTSBhYXJjaDY0LCB2ZXJzaW9uIDEKJmd0
+OyZndDsmZ3Q7Jmd0OyAoU1lTViksIHN0YXRpY2FsbHkgbGlua2VkLAomZ3Q7Jmd0OyZndDsmZ3Q7
+IEJ1aWxkSURbc2hhMV09MjExNjY0NThhMTA0MDRlNjE1N2FiZjBkYTRhMDkyMTE0NGM3MjY3NSwg
+d2l0aAomZ3Q7Jmd0OyZndDsmZ3Q7IGRlYnVnX2luZm8sIG5vdCBzdHJpcHBlZAomZ3Q7Jmd0OyZn
+dDsmZ3Q7ICAgMTA6MDc6NDIgYWxleEB6ZW46bGludXguZ2l0L2J1aWxkcy9hcm02NC5pbml0cmFt
+ZnMgd2l0aAomZ3Q7Jmd0OyZndDsmZ3Q7IGFybTY0L2FhcmNoNjQtbGludXgtZ251LSBvbiDugqAg
+bGludXgtNi4wLnkgWyQhP10KJmd0OyZndDsmZ3Q7Jmd0OyAgIOKenCAgZmlsZSBhcmNoL2FybTY0
+L2Jvb3QvSW1hZ2UKJmd0OyZndDsmZ3Q7Jmd0OyAgIGFyY2gvYXJtNjQvYm9vdC9JbWFnZTogTGlu
+dXgga2VybmVsIEFSTTY0IGJvb3QgZXhlY3V0YWJsZSBJbWFnZSwgbGl0dGxlLWVuZGlhbiwgNEsg
+cGFnZXMKJmd0OyZndDsmZ3Q7Jmd0OwomZ3Q7Jmd0OyZndDsmZ3Q7IFRoZSBzZWNvbmQgZmlsZSBp
+cyB3aGF0IGlzIGFjdHVhbGx5IHBhc3NlZCB0byAta2VybmVsIGluIGEgdHlwaWNhbCBib290Lgom
+Z3Q7Jmd0OyZndDsmZ3Q7CiZndDsmZ3Q7Jmd0OyZndDsgVGhlIGxvZ2ljIGluIGFybV9zZXR1cF9k
+aXJlY3Rfa2VybmVsX2Jvb3QoKSBpbXBsaWVzIHlvdSBjYW4gbG9hZCBFTEZzCiZndDsmZ3Q7Jmd0
+OyZndDsgZGlyZWN0bHkgYW5kIGJvb3QgdGhlbSBidXQgZm9yIHNvbWUgcmVhc29uIHRoZSBMaW51
+eCBrZXJuZWwgZG9lc24ndCB3b3JrCiZndDsmZ3Q7Jmd0OyZndDsgaWYgeW91IHRyeSB0aGlzIHdh
+eS4KJmd0OyZndDsmZ3Q7IAomZ3Q7Jmd0OyZndDsgUmVwbHlpbmcgdG8gbXlzZWxmIC0gdGhpcyBp
+cyBiZWNhdXNlIHRoZSB2bWxpbnV4IGltYWdlIGlzIGJhc2VkIG9mCiZndDsmZ3Q7Jmd0OyBrZXJu
+ZWwgdmlydHVhbCBhZGRyZXNzLiBTbyB0aGUgaW1wb3J0IHRoaW5nIHRoZSBsb2FkZXIgZG9lcyBp
+cyBjcmVhdGUKJmd0OyZndDsmZ3Q7IHRoZSBpbml0aWFsIHZhZGRyIG1hcHBpbmdzIGFuZCByZWxv
+Y2F0ZSB0aGUga2VybmVsIHRvIHRoYXQgbG9jYXRpb24KJmd0OyZndDsmZ3Q7IGJlZm9yZSBydW5u
+aW5nIGl0LiBTZWUgdGhlIGZ1bmN0aW9uIHByaW1hcnlfZW50cnkgaW4gaGVhZC5TIGluIHRoZQom
+Z3Q7Jmd0OyZndDsga2VybmVsLgomZ3Q7Jmd0OyZndDsgCiZndDsmZ3Q7Jmd0OyBTbyBwZXJoYXBz
+IGZvciBzeXN0ZW0gZW11bGF0aW9uIGl0IHdvdWxkIGJlIHVzZWZ1bCB0byBoYXZlIGEgLXN5bWJv
+bHMKJmd0OyZndDsmZ3Q7IG9wdGlvbiB0byBsb2FkIHN5bWJvbHMgZnJvbSBhbm90aGVyIGZpbGUu
+CiZndDsmZ3Q7Jmd0OyAKJmd0OyZndDsKJmd0OyZndDsgSGkgQWxleCwKJmd0OyZndDsKJmd0OyZn
+dDsgaXQgZG9lc24ndCBuZWVkIHRvIGJlIGEgdGNnIHBsdWdpbi1vbmx5IGZlYXR1cmUgcmlnaHQs
+IGl0J3MgcG9zc2libGUKJmd0OyZndDsgdG8gdXNlIHFlbXUgdG8gZGVidWcgdGhlIGd1ZXN0IGFs
+c28gd2hlbiB1c2luZyBLVk0uLgomZ3Q7CiZndDtObyBpdCBkb2Vzbid0IGhhdmUgdG8gYmUgYWx0
+aG91Z2ggdGhlIG9ubHkgcmVhbCB1c2VycyBpcyB0aGUgLWQgaW5fYXNtCiZndDt0cmFjZSB3aGlj
+aCBJIHN1c3BlY3QgZG9lc24ndCBnZXQgdXNlZCBhcyBtdWNoIGZvciBzeXN0ZW0gZW11bGF0aW9u
+CiZndDtnaXZlbiB0aGUgc2l6ZSBvZiB0aGUgdHJhY2VzLgomZ3Q7CiZndDtGb3Igbm9ybWFsIGRl
+YnVnZ2luZyBvdmVyIHRoZSBnZGJzdHViIGl0cyB1c3VhbGx5IGxlZnQgdXAgdG8gdGhlIGdkYgom
+Z3Q7cHJvY2VzcyBpdHNlbGYgdG8gaGFuZGxlIHRoZSByZXNvbHV0aW9uIG9mIHN5bWJvbHMsIGUu
+Zy46CiZndDsKJmd0OyAgZ2RiIHZtbGludXggLWV4ICJ0YXJnZXQgcmVtb3RlIGxvY2FsaG9zdDox
+MjM0IgomZ3Q7CiZndDstLSAKJmd0O0FsZXggQmVubsOpZQomZ3Q7VmlydHVhbGlzYXRpb24gVGVj
+aCBMZWFkIEAgTGluYXJvCjwvcHJlPjwvZGl2Pg==
+------=_Part_75_1994051329.1671041045392--
 
 
