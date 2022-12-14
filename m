@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BA264CCF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 16:18:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF1464CCDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 16:09:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5ScO-0007GP-Hu; Wed, 14 Dec 2022 09:20:20 -0500
+	id 1p5Sss-00081Z-Uo; Wed, 14 Dec 2022 09:37:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5ScK-0007EJ-Bf
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:20:17 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5Ssc-0007zX-3C
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:37:06 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5ScH-0005sv-DU
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:20:16 -0500
-Received: by mail-wr1-x433.google.com with SMTP id h10so19456436wrx.3
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 06:20:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5SsZ-0005wR-HI
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:37:05 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ c65-20020a1c3544000000b003cfffd00fc0so10749087wma.1
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 06:37:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u1P70EdD+qBRmVwgXdO5YigM5hOFFdXEeoos/dpjT0Q=;
- b=MJAeytxdObkVdms2wupotqC9KaYOWnzwIjqiL5ZVYJiUZ7xHp/a96oHh47hLZXgoHP
- YDzpSu23VwKKT/i8SNdsUrmrCg12qewG7NJnOPKLB6XaJJRTVD7mi0aV3un33mwVvjFN
- dpgTAsRtAg2UQksrTLObVgrmtbBcylEmFhGl2QvmiC0D8igPc8tWDVKxhOF88jqtzNFN
- wvNeiUyVlEiybgNt+mIxjaBqyjxD01dndki/pJfb8o+WyRJ9641dBlwx8vUHszUhQisW
- 6Lb/UccO1v/qZZMn6ZRxZ9Y3FvnZCiYCaXh/yduu5Bj7ZxfZ0DqTtZgyAaLjgVQhXKaH
- U9aQ==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YIcurVs+8wS1im41pBmnVSuxZrkSMUiPco+Xx7dzfFw=;
+ b=aQjPqdboHgzJC0lsiJJ1GKBfntzi4O81+qny/iARtL2RYz5SXrQN3VVP+IEsHFEZcj
+ PFOQ4TB4irHjzJ6XF3GhyD5seps273qqFZ6s6aVCR/aoDJBPS7XfX3NGjOI4rMQ6edqI
+ pNjrelwRVqGZKr5gw8W+yzFILMsRuOno6md+0M5LFd3TYrulbCgC+zC+6MhxtoqX26Oa
+ YmH0isSO63ZwO5aqOZUzTK5wI6wqmQ/bI1lNcWUeeKAwFZGzCCi5p+T2tUrKspTfgQmo
+ Jv6iiH/hp76KziGqGVh+A751DXWLkeIbgG+4LgcAOQ1Stu9PVtygT7UJCFBhpZwUEP+p
+ TC1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=u1P70EdD+qBRmVwgXdO5YigM5hOFFdXEeoos/dpjT0Q=;
- b=qOu5j/JKkLOV2YokUJUAxqWQgHBzQKVD0SpJO2EPVLxcHIAI9VOCdlFOBN1n7FRPy4
- Fdn9aFhoyUHokCZg+rReby9r9DJbPVGbUMTbMq7tR3d1wJ7C+8qGGLVcYRulFQrfVU4Z
- WSNXL2C8O5jXaDEA9HotEqYXcD/aXQtD0mz1EgOkHrYZnrpyB11nLr1CwFvOQud6SQDh
- dh6zLidu4mn5iv/J1OcHsL6FEOD7vRdVdEnRF4zfXlMEAsHKVlrW3N2VnyfSFJceQzlH
- fsEmr0pC+efMIeRkfTD+COnRWg1JTkGI5hDu9k6D397vlNGCmWDw5XeTlcjQSl04anYV
- 2h+Q==
-X-Gm-Message-State: ANoB5pk5A/38ujr1uacoiF3Fh29a6507qFAqNlT51K2CHzWGsuUWHciX
- kwozIhIFG9QeLNjFPkePcdIzxw==
-X-Google-Smtp-Source: AA0mqf55diIFDr3LDTdokwnLeeU3Z/OEdqKNnnolAVjaTrRRhIrqqyq3QoUrlb5NPKAiW2b0x8yliw==
-X-Received: by 2002:a05:6000:910:b0:236:61bb:c79b with SMTP id
- bz16-20020a056000091000b0023661bbc79bmr17549749wrb.3.1671027611562; 
- Wed, 14 Dec 2022 06:20:11 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YIcurVs+8wS1im41pBmnVSuxZrkSMUiPco+Xx7dzfFw=;
+ b=GljBAOO6g/Jp8tHV3weFuz2G6FvT8jchdCSRmL7rv3MSFtL5WHswmAifDJhlOPgQ3u
+ sjRsRHHthNcUmf9I9UwwxTBncTZRDWbRgaXKsMWPneoGKn2A1+XQ4C12I+BbGzmvF94v
+ ZSdSuVO7HFD2e8Ox77ukuvB7tJhBFsxBxLJ1U0qXzpE4KxOTC7aC9NzU5CNeHM846J8d
+ lQHfpvSMzEleoncFc+G6fkv26PICAcgf6yjupbqgEPCWou4ZnY37JcRgL5F0euUlKKpN
+ O+DrpCv0tYRIBWveWpbYC7QjAZPjs7kXq6iz1mdOLGybcHNZvnWuMavDBZjhkc6sA84m
+ E26g==
+X-Gm-Message-State: ANoB5pkQVzHdwodX06Gz++p5qz3zYF3bOG3g712gp1d8iJAkfHQDDo+h
+ 2sw/R00LETpvfzngG+JzgMG0Y99TZeAG+49h4SM=
+X-Google-Smtp-Source: AA0mqf7Gd3W5JxYM14egikf7x30wOw2E3VeZJSbizZf/PI3FP3exTrH1WtbJsoNK5HjH2k8A42k7pg==
+X-Received: by 2002:a1c:4b16:0:b0:3c6:e61e:ae74 with SMTP id
+ y22-20020a1c4b16000000b003c6e61eae74mr22941668wma.4.1671028621764; 
+ Wed, 14 Dec 2022 06:37:01 -0800 (PST)
+Received: from localhost.localdomain ([84.76.199.78])
  by smtp.gmail.com with ESMTPSA id
- k16-20020a5d6290000000b00241cbb7f15csm2910958wru.106.2022.12.14.06.20.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Dec 2022 06:20:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8F6431FFB7;
- Wed, 14 Dec 2022 14:20:10 +0000 (GMT)
-References: <20221123121712.72817-1-mads@ynddal.dk>
- <af92080f-e708-f593-7ff5-81b7b264d587@linaro.org>
- <C8BC6E24-F98D-428D-80F8-98BDA40C7B15@ynddal.dk>
-User-agent: mu4e 1.9.6; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mads Ynddal <mads@ynddal.dk>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Paolo
- Bonzini <pbonzini@redhat.com>, "open list:Overall KVM CPUs"
- <kvm@vger.kernel.org>, Yanan Wang <wangyanan55@huawei.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH] gdbstub: move update guest debug to accel ops
-Date: Wed, 14 Dec 2022 14:16:47 +0000
-In-reply-to: <C8BC6E24-F98D-428D-80F8-98BDA40C7B15@ynddal.dk>
-Message-ID: <87h6xyjcdh.fsf@linaro.org>
+ v17-20020a05600c445100b003cff309807esm3166012wmn.23.2022.12.14.06.37.00
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 14 Dec 2022 06:37:01 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH] gdbstub: Have syscall_complete/[gs]et_reg to target agnostic
+ typedefs
+Date: Wed, 14 Dec 2022 15:36:59 +0100
+Message-Id: <20221214143659.62133-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,94 +88,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Prototypes using gdb_syscall_complete_cb() or gdb_?et_reg_cb()
+don't depend on "cpu.h", thus are not target-specific.
 
-Mads Ynddal <mads@ynddal.dk> writes:
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ include/exec/gdbstub.h | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
->> Isn't this '0' flag here accelerator-specific? ...
->
->> ... if so the prototype should be:
->>=20
->>       int (*update_guest_debug)(CPUState *cpu);
->>=20
->> and the '0' value set within kvm-accel-ops.c handler implementation.
->>=20
->
-> You're right, we can avoid the additional variable. We'll then have to wr=
-ap
-> `kvm_update_guest_debug`. Would the following be ok?
->
-> diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-> index 6ebf9a644f..5e0fb42408 100644
-> --- a/accel/kvm/kvm-accel-ops.c
-> +++ b/accel/kvm/kvm-accel-ops.c
-> @@ -86,6 +86,10 @@ static bool kvm_cpus_are_resettable(void)
->      return !kvm_enabled() || kvm_cpu_check_are_resettable();
->  }
->=20=20
-> +static int kvm_update_guest_debug_ops(CPUState *cpu) {
-> +    return kvm_update_guest_debug(cpu, 0);
-> +}
-> +
->  static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
->  {
->      AccelOpsClass *ops =3D ACCEL_OPS_CLASS(oc);
-> @@ -99,7 +103,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, =
-void *data)
->      ops->synchronize_pre_loadvm =3D kvm_cpu_synchronize_pre_loadvm;
->=20=20
->  #ifdef KVM_CAP_SET_GUEST_DEBUG
-> -    ops->update_guest_debug =3D kvm_update_guest_debug;
-> +    ops->update_guest_debug =3D kvm_update_guest_debug_ops;
->      ops->supports_guest_debug =3D kvm_supports_guest_debug;
->      ops->insert_breakpoint =3D kvm_insert_breakpoint;
->      ops->remove_breakpoint =3D kvm_remove_breakpoint;
-> diff --git a/cpu.c b/cpu.c
-> index ef433a79e3..b2ade96caa 100644
-> --- a/cpu.c
-> +++ b/cpu.c
-> @@ -383,7 +383,7 @@ void cpu_single_step(CPUState *cpu, int enabled)
->          cpu->singlestep_enabled =3D enabled;
->=20=20
->          if (ops->update_guest_debug) {
-> -            ops->update_guest_debug(cpu, 0);
-> +            ops->update_guest_debug(cpu);
->          }
->=20=20
->          trace_breakpoint_singlestep(cpu->cpu_index, enabled);
-> diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-> index 0a47a2f00c..cd6a4ef7a5 100644
-> --- a/include/sysemu/accel-ops.h
-> +++ b/include/sysemu/accel-ops.h
-> @@ -48,7 +48,7 @@ struct AccelOpsClass {
->=20=20
->      /* gdbstub hooks */
->      bool (*supports_guest_debug)(void);
-> -    int (*update_guest_debug)(CPUState *cpu, unsigned long flags);
-> +    int (*update_guest_debug)(CPUState *cpu);
->      int (*insert_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwadd=
-r len);
->      int (*remove_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwadd=
-r len);
->      void (*remove_all_breakpoints)(CPUState *cpu);
->
->
-> If you have a better name for `kvm_update_guest_debug_ops`, I'm open for
-> suggestions.
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index f667014888..1636fb3841 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -71,9 +71,6 @@ struct gdb_timeval {
+   uint64_t tv_usec;   /* microsecond */
+ } QEMU_PACKED;
+ 
+-#ifdef NEED_CPU_H
+-#include "cpu.h"
+-
+ typedef void (*gdb_syscall_complete_cb)(CPUState *cpu, uint64_t ret, int err);
+ 
+ /**
+@@ -126,6 +123,7 @@ int gdb_handlesig(CPUState *, int);
+ void gdb_signalled(CPUArchState *, int);
+ void gdbserver_fork(CPUState *);
+ #endif
++
+ /* Get or set a register.  Returns the size of the register.  */
+ typedef int (*gdb_get_reg_cb)(CPUArchState *env, GByteArray *buf, int reg);
+ typedef int (*gdb_set_reg_cb)(CPUArchState *env, uint8_t *buf, int reg);
+@@ -133,6 +131,9 @@ void gdb_register_coprocessor(CPUState *cpu,
+                               gdb_get_reg_cb get_reg, gdb_set_reg_cb set_reg,
+                               int num_regs, const char *xml, int g_pos);
+ 
++#ifdef NEED_CPU_H
++#include "cpu.h"
++
+ /*
+  * The GDB remote protocol transfers values in target byte order. As
+  * the gdbstub may be batching up several register values we always
+-- 
+2.38.1
 
-It will do. You could just call it update_guest_debug as it is an
-internal static function although I guess that makes grepping a bit of a
-pain.
-
-> On a side note. When compiling for an arch that isn't the same as the sys=
-tem
-> (i.e. aarch64 on x86_64), I'm getting a linker-error for cpu.c that
-> `cpus_get_accel` isn't defined. Do I need to move `cpus_get_accel` or som=
-ehow
-> #ifdef its use?
-
-Is something being accidentally linked with linux-user and softmmu?
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
