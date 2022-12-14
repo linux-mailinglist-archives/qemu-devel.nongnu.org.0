@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC65D64CE58
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 17:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595EE64CE56
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 17:48:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Uu5-0004yq-TP; Wed, 14 Dec 2022 11:46:45 -0500
+	id 1p5Uu7-0004zl-5U; Wed, 14 Dec 2022 11:46:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Uu1-0004x3-4r
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Uu0-0004wU-9F
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Utz-0002Pl-JF
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Uty-0002PP-NV
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671036398;
@@ -22,39 +22,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fl4RedEE2oCibOSODXHJMgRBUFAW9UqThY0ijyCTmpA=;
- b=dxh4fIIiPxClZi5jV5MLnvfS+LZn6/jh+qeJb12Bdc/MkAue/IZTgl5gfV6BnBiKVPYt5s
- ENiPOkgm8r7KEb/zaIh2akfxrpOobAw4dIkQQP5CFQoQlDSBJ95h3DAnkHmsrJwjTwmsBH
- Lv0TachjCjSf2RseLKplemsTCzf6NHs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FgY0YIvQFC6hYsUKlhX+ifJRSESasaH0pwuVrBirGuY=;
+ b=esyIpoQdJpdm943nXRDu8HGpIdBiNXRsq19DI7t3YSX0Bdl+7O8te8LFxM1Eej04EyhQMo
+ 8/T83x4G03Kt3d6IY6B5lDv+27YXe+s4yY1ZhYxuxfJxclOpeKfh+JepzdNtpUM59cluxm
+ mZyBegFPvcGREF/eZDvClelReANfSjc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-mdby3INhNHas6sMKvbFmpA-1; Wed, 14 Dec 2022 11:46:36 -0500
-X-MC-Unique: mdby3INhNHas6sMKvbFmpA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-30-wjAtrISyNvOoAAO8KUk9cA-1; Wed, 14 Dec 2022 11:46:36 -0500
+X-MC-Unique: wjAtrISyNvOoAAO8KUk9cA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 221551991C44;
- Wed, 14 Dec 2022 16:46:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA4761C0DE85;
+ Wed, 14 Dec 2022 16:46:35 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0067340C945A;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5CDD14171BE;
  Wed, 14 Dec 2022 16:46:35 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4439421E6493; Wed, 14 Dec 2022 17:46:29 +0100 (CET)
+ id 4626F21E6496; Wed, 14 Dec 2022 17:46:29 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org
-Subject: [PULL 08/14] qemu-config: Use ERRP_GUARD() where obviously appropriate
-Date: Wed, 14 Dec 2022 17:46:23 +0100
-Message-Id: <20221214164629.919880-9-armbru@redhat.com>
+Subject: [PULL 09/14] sockets: Use ERRP_GUARD() where obviously appropriate
+Date: Wed, 14 Dec 2022 17:46:24 +0100
+Message-Id: <20221214164629.919880-10-armbru@redhat.com>
 In-Reply-To: <20221214164629.919880-1-armbru@redhat.com>
 References: <20221214164629.919880-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,39 +79,96 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20221121085054.683122-8-armbru@redhat.com>
+Message-Id: <20221121085054.683122-9-armbru@redhat.com>
 ---
- util/qemu-config.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ util/qemu-sockets.c | 26 ++++++++++----------------
+ 1 file changed, 10 insertions(+), 16 deletions(-)
 
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index e983607b46..8c907fa83b 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -318,9 +318,9 @@ void qemu_add_opts(QemuOptsList *list)
- static int qemu_config_foreach(FILE *fp, QEMUConfigCB *cb, void *opaque,
-                                const char *fname, Error **errp)
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index d185245023..6538859b87 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -210,7 +210,8 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
+                              int num,
+                              Error **errp)
+ {
+-    struct addrinfo ai,*res,*e;
++    ERRP_GUARD();
++    struct addrinfo ai, *res, *e;
+     char port[33];
+     char uaddr[INET6_ADDRSTRLEN+1];
+     char uport[33];
+@@ -218,7 +219,6 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
+     int slisten = -1;
+     int saved_errno = 0;
+     bool socket_created = false;
+-    Error *err = NULL;
+ 
+     if (saddr->keep_alive) {
+         error_setg(errp, "keep-alive option is not supported for passive "
+@@ -231,11 +231,9 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
+     if (saddr->has_numeric && saddr->numeric) {
+         ai.ai_flags |= AI_NUMERICHOST | AI_NUMERICSERV;
+     }
+-    ai.ai_family = inet_ai_family_from_address(saddr, &err);
+     ai.ai_socktype = SOCK_STREAM;
+-
+-    if (err) {
+-        error_propagate(errp, err);
++    ai.ai_family = inet_ai_family_from_address(saddr, errp);
++    if (*errp) {
+         return -1;
+     }
+ 
+@@ -392,9 +390,9 @@ static int inet_connect_addr(const InetSocketAddress *saddr,
+ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+                                                  Error **errp)
  {
 +    ERRP_GUARD();
-     char line[1024], prev_group[64], group[64], arg[64], value[1024];
-     Location loc;
--    Error *local_err = NULL;
-     QDict *qdict = NULL;
-     int res = -EINVAL, lno = 0;
-     int count = 0;
-@@ -348,10 +348,9 @@ static int qemu_config_foreach(FILE *fp, QEMUConfigCB *cb, void *opaque,
-             }
-             if (qdict != prev) {
-                 if (prev) {
--                    cb(prev_group, prev, opaque, &local_err);
-+                    cb(prev_group, prev, opaque, errp);
-                     qobject_unref(prev);
--                    if (local_err) {
--                        error_propagate(errp, local_err);
-+                    if (*errp) {
-                         goto out;
-                     }
-                 }
+     struct addrinfo ai, *res;
+     int rc;
+-    Error *err = NULL;
+     static int useV4Mapped = 1;
+ 
+     memset(&ai, 0, sizeof(ai));
+@@ -403,11 +401,9 @@ static struct addrinfo *inet_parse_connect_saddr(InetSocketAddress *saddr,
+     if (qatomic_read(&useV4Mapped)) {
+         ai.ai_flags |= AI_V4MAPPED;
+     }
+-    ai.ai_family = inet_ai_family_from_address(saddr, &err);
+     ai.ai_socktype = SOCK_STREAM;
+-
+-    if (err) {
+-        error_propagate(errp, err);
++    ai.ai_family = inet_ai_family_from_address(saddr, errp);
++    if (*errp) {
+         return NULL;
+     }
+ 
+@@ -499,20 +495,18 @@ static int inet_dgram_saddr(InetSocketAddress *sraddr,
+                             InetSocketAddress *sladdr,
+                             Error **errp)
+ {
++    ERRP_GUARD();
+     struct addrinfo ai, *peer = NULL, *local = NULL;
+     const char *addr;
+     const char *port;
+     int sock = -1, rc;
+-    Error *err = NULL;
+ 
+     /* lookup peer addr */
+     memset(&ai,0, sizeof(ai));
+     ai.ai_flags = AI_CANONNAME | AI_V4MAPPED | AI_ADDRCONFIG;
+-    ai.ai_family = inet_ai_family_from_address(sraddr, &err);
+     ai.ai_socktype = SOCK_DGRAM;
+-
+-    if (err) {
+-        error_propagate(errp, err);
++    ai.ai_family = inet_ai_family_from_address(sraddr, errp);
++    if (*errp) {
+         goto err;
+     }
+ 
 -- 
 2.37.3
 
