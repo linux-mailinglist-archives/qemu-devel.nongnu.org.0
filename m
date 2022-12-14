@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878FC64C731
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E47B64C6FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:22:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Oi7-0007hd-3R; Wed, 14 Dec 2022 05:09:59 -0500
+	id 1p5OiA-0007iS-GU; Wed, 14 Dec 2022 05:10:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohu-0007cV-SE
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohw-0007dx-BP
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohr-00018W-33
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:45 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohr-00018m-5l
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671012567;
+ s=mimecast20190719; t=1671012569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sHIes2pzkcfTQ+dXBIJhpv7FL9o7l+cY6fDfdYvtrm4=;
- b=UxbhAjr3+f0HOZLTIF5aj6vzprJ08uylsGdk7EoSt6yJ9jnzhFXZaetnanGADdONAGJktC
- GrzkX72TKZtbuBtvUtOjC3dYtDTBCu1c2Qr/SWI2sMOUfeOX7sy9q+I/g+PWXamnpP8d4R
- wc0V4QcNRDTo6acOZxMYPflwSIxw60Q=
+ bh=o/uPm2oLr8glG3gTasgkV6ihPXLLyKGd6quQKQzJmPo=;
+ b=aleJWuR+OVW6w6rKbNChbcxDrRXiD46nyyewz/i49mSXk1eAOfDN0XVEWuVOlbetWzebXv
+ u1aOrOuV6YpgvAl2ei7KKsxP1wRxZNo8LrbXZGuCiu5hhlJoUK3nJcMf33fWEo18/oVyzY
+ u3CeVs+oRkjzDsHi0D6PKdE39VaVCPQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445--Lxsl8zsO6a-9jUQs_SjYA-1; Wed, 14 Dec 2022 05:09:26 -0500
-X-MC-Unique: -Lxsl8zsO6a-9jUQs_SjYA-1
+ us-mta-340-ZqID5VF-PzWC8Bz4xp4GHQ-1; Wed, 14 Dec 2022 05:09:27 -0500
+X-MC-Unique: ZqID5VF-PzWC8Bz4xp4GHQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB579181E3F2
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 10:09:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FCD9811E9C;
+ Wed, 14 Dec 2022 10:09:27 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C4F8492C14;
- Wed, 14 Dec 2022 10:09:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B9C5492C14;
+ Wed, 14 Dec 2022 10:09:26 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>
-Subject: [PULL 06/23] monitor/misc: Remove superfluous include statements
-Date: Wed, 14 Dec 2022 11:08:54 +0100
-Message-Id: <20221214100911.165291-7-thuth@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 07/23] scripts/make-release: Add a simple help text for the
+ script
+Date: Wed, 14 Dec 2022 11:08:55 +0100
+Message-Id: <20221214100911.165291-8-thuth@redhat.com>
 In-Reply-To: <20221214100911.165291-1-thuth@redhat.com>
 References: <20221214100911.165291-1-thuth@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,57 +78,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These #includes are not required anymore (the likely got superfluous
-with commit da76ee76f7 - "hmp-commands-info: move info_cmds content
-out of monitor.c").
+Print a simple help text if the script has been called with the
+wrong amount of parameters.
 
-Message-Id: <20221128133514.220919-1-thuth@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20221128092555.37102-2-thuth@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- monitor/misc.c | 6 ------
- 1 file changed, 6 deletions(-)
+ scripts/make-release | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 205487e2b9..e2c017d69c 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -25,10 +25,8 @@
- #include "qemu/osdep.h"
- #include "monitor-internal.h"
- #include "monitor/qdev.h"
--#include "hw/usb.h"
- #include "hw/pci/pci.h"
- #include "sysemu/watchdog.h"
--#include "hw/loader.h"
- #include "exec/gdbstub.h"
- #include "net/net.h"
- #include "net/slirp.h"
-@@ -39,16 +37,13 @@
- #include "ui/input.h"
- #include "audio/audio.h"
- #include "disas/disas.h"
--#include "sysemu/balloon.h"
- #include "qemu/timer.h"
- #include "qemu/log.h"
- #include "sysemu/hw_accel.h"
- #include "sysemu/runstate.h"
- #include "authz/list.h"
- #include "qapi/util.h"
--#include "sysemu/blockdev.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/tpm.h"
- #include "sysemu/device_tree.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
-@@ -77,7 +72,6 @@
- #include "qapi/qapi-init-commands.h"
- #include "qapi/error.h"
- #include "qapi/qmp-event.h"
--#include "sysemu/cpus.h"
- #include "qemu/cutils.h"
+diff --git a/scripts/make-release b/scripts/make-release
+index 05b14ecc95..4be9b3b9ce 100755
+--- a/scripts/make-release
++++ b/scripts/make-release
+@@ -10,6 +10,12 @@
+ # This work is licensed under the terms of the GNU GPLv2 or later.
+ # See the COPYING file in the top-level directory.
  
- #if defined(TARGET_S390X)
++if [ $# -ne 2 ]; then
++    echo "Usage:"
++    echo " $0 gitrepo version"
++    exit 0
++fi
++
+ src="$1"
+ version="$2"
+ destination=qemu-${version}
 -- 
 2.31.1
 
