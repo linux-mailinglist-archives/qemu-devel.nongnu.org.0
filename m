@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEB264C85E
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 12:49:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A0564C873
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 12:53:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5QFE-0007m0-2f; Wed, 14 Dec 2022 06:48:16 -0500
+	id 1p5QJN-0001Mt-Fp; Wed, 14 Dec 2022 06:52:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1p5QF7-0007kn-99; Wed, 14 Dec 2022 06:48:11 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1p5QF5-0007jC-Jl; Wed, 14 Dec 2022 06:48:09 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 84B7E1FF15;
- Wed, 14 Dec 2022 11:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1671018484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p5QJK-0001Kw-CL
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 06:52:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p5QJI-0001cY-2j
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 06:52:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671018746;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UGlUK1C8okbujCmPyhVOXz2M3kH5ZDDFJRrQBgCSRtE=;
- b=Ku6VRf95eYvpqyvJUP/vVUBw/tWGKpkr3zK1dcr/SxGFsD4tEWtN7qTfSiD9aIH3THUulo
- gTLb5I+YZUMmsDVeA7hDDOj9ftFpoMqsk6J7URzffAm86uFbJwoPUUJXLTGZ/c3+Uxf/7x
- 3JToZJmXPCZrrOcezdBC+OcbIK3nMPA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1671018484;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UGlUK1C8okbujCmPyhVOXz2M3kH5ZDDFJRrQBgCSRtE=;
- b=TZtb6iJ9S81XMkQUggwAFRKJKmH++Smyur6zZvzytxzqxCs59jNbyBO+JkyrJw7cZUa22H
- SCEobOSCeiGVWGDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=d5L213/xwIH4/vhQyx+32vhPI2FtRiwYSwlXetdvQg8=;
+ b=geGODUz0A7i/s5KouYhVAzXf+rgiB6kn77t5H91K5UsnRDsY2KpY5qMjfiFOhFj2XfDv/+
+ R7Sbi9ij92bk1jU1wm7R3/wSbuO4eLQixExJ7M/FUJFdJZ6nY69mmuBGqtaQ1FKeHyDIuH
+ AMngl9OwdpsHv9+vV4xcXZIn2YdQ5fM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-494-1cvi2HuDMkOQjVkd2jXfKg-1; Wed, 14 Dec 2022 06:52:23 -0500
+X-MC-Unique: 1cvi2HuDMkOQjVkd2jXfKg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3C490138F6;
- Wed, 14 Dec 2022 11:48:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id hPUmDfS3mWMfTQAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 14 Dec 2022 11:48:04 +0000
-Message-ID: <e48328cf-ebd4-fc40-7395-b7659c3af718@suse.de>
-Date: Wed, 14 Dec 2022 12:48:03 +0100
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 419CB85C069;
+ Wed, 14 Dec 2022 11:52:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 191B014171C0;
+ Wed, 14 Dec 2022 11:52:21 +0000 (UTC)
+Date: Wed, 14 Dec 2022 11:52:17 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Berger <stefanb@linux.ibm.com>
+Cc: jejb@linux.ibm.com, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] tpm: add backend for mssim
+Message-ID: <Y5m48UP/E/RuvBHM@redhat.com>
+References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
+ <Y5dNC77CubqrfXku@redhat.com>
+ <b06d31496117c8dd8b8fe60c4bebd96377ca3ff1.camel@linux.ibm.com>
+ <f76810cb-3658-84b0-e4b4-a684dff99f38@linux.ibm.com>
+ <8066be497c4c81827b24a672a550a805e06eec68.camel@linux.ibm.com>
+ <c3fa7405-7d4c-a686-d4c3-a3ff74864467@linux.ibm.com>
+ <92daee895872aab2047c3768a9c67b1839406568.camel@linux.ibm.com>
+ <dc520ab2-04db-b8cb-15fd-871bb1da0d1b@linux.ibm.com>
+ <d2262d8bd5a1d53cb1d4c32e0424dc8727372265.camel@linux.ibm.com>
+ <f7119c81-e571-382b-84c6-628747cd9e0b@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/6] target/arm: general cleanups
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Roman Bolshakov
- <r.bolshakov@yadro.com>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20221213190537.511-1-farosas@suse.de>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20221213190537.511-1-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f7119c81-e571-382b-84c6-628747cd9e0b@linux.ibm.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,38 +88,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/13/22 20:05, Fabiano Rosas wrote:
-> Hi folks,
+On Mon, Dec 12, 2022 at 05:02:43PM -0500, Stefan Berger wrote:
 > 
-> I'm splitting this big series from Claudio from last year into more
-> manageable chunks (at least for me):
 > 
-> https://lore.kernel.org/r/20210416162824.25131-1-cfontana@suse.de
+> On 12/12/22 16:36, James Bottomley wrote:
+> > On Mon, 2022-12-12 at 14:32 -0500, Stefan Berger wrote:
+> > > 
+> > > 
+> > > On 12/12/22 14:12, James Bottomley wrote:
+> > > > On Mon, 2022-12-12 at 13:58 -0500, Stefan Berger wrote:
+> > > > > On 12/12/22 13:48, James Bottomley wrote:
+> > > > > > On Mon, 2022-12-12 at 11:59 -0500, Stefan Berger wrote:
+> > > > > > > On 12/12/22 11:38, James Bottomley wrote:
+> > > > [...]
+> > > > > > > > the kernel use of the TPM, but I'm trying to fix that.  The
+> > > > > > > > standard mssim server is too simplistic to do transport
+> > > > > > > > layer
+> > > > > > > > security, but like everything that does this (or rather
+> > > > > > > > doesn't
+> > > > > > > > do this), you can front it with stunnel4.
+> > > > > > > 
+> > > > > > > And who or what is going to set this up?
+> > > > > > 
+> > > > > > I'm not sure I understand the question.  Stunnel4 is mostly
+> > > > > > used to
+> > > > > > convert unencrypted proxies like imap on 143 or smtp on 25 to
+> > > > > > the
+> > > > > > secure version.  Most people who run servers are fairly
+> > > > > > familiar
+> > > > > > with using it.  It's what IBM used for encrypted migration
+> > > > > > initially.  You can run stunnel on both ends, or the qemu side
+> > > > > > could be built in using the qemu tls-creds way of doing things
+> > > > > > but
+> > > > > > anything running the standard MS server would have to front it
+> > > > > > with
+> > > > > > stunnel still.
+> > > > > 
+> > > > > So it's up to libvirt to setup stunnel to support a completely
+> > > > > different setup than what it has for swtpm already?
+> > > > 
+> > > > I don't think so, no.  Libvirt doesn't usually help with server
+> > > > setup (witness the complexity of setting up a server side vtpm
+> > > > proxy) so in the case tls-creds were built in, it would just work
+> > > > if the object is
+> > > 
+> > > I see, so you are extending the TPM emulator with TLS on the client
+> > > side so you don't need another tool to setup a TLS connection from
+> > > the QEMU/client side.
+> > 
+> > I didn't say I would do this, just that it's an easy possibility with
+> > the current qemu framework.  I actually need to fiddle with the TPM
+> > externally to do some of my testing (like platform reset injection) so
+> > I won't use TLS anyway.
+> > 
+> > > Is the server side across the network or on the same host?
+> > 
+> > It can be either.
 > 
-> This is the first chunk with only the most trivial patches that make
-> sense even without the kvm/tcg and sysemu/user splits.
-> 
-> Claudio Fontana (1):
->   target/arm: cleanup cpu includes
-> 
-> Fabiano Rosas (5):
->   target/arm: Fix checkpatch comment style warnings in helper.c
->   target/arm: Fix checkpatch space errors in helper.c
->   target/arm: Fix checkpatch brace errors in helper.c
->   target/arm: Remove unused includes from m_helper.c
->   target/arm: Remove unused includes from helper.c
-> 
->  target/arm/cpu.c      |   1 -
->  target/arm/cpu64.c    |   6 -
->  target/arm/helper.c   | 439 ++++++++++++++++++++++++++----------------
->  target/arm/m_helper.c |  16 --
->  4 files changed, 278 insertions(+), 184 deletions(-)
-> 
+> For the remote TPM you'll need some sort of management stack (who
+> is building this?) that does the port assignments (allocations and
+> freeing, starting of TPM instances etc) for the possibly many TPMs
+> you would run on a remote machine and then create the libvirt XML
+> or QEMU command line with the port assignments. I am not sure I
+> see the advantage of this versus what we have at the moment with a
+> single management stack . Also, if you did this you'd have a single
+> point of failure for many VMs whose TPM is presumably running on
+> some dedicated machine(s).
 
-For the series:
+IMHO this is largely tangential. Remote access is technically possible,
+but local access is likely the common case. It isn't neccessary to
+solve the full remote mgmt solution as a pre-condition for this
+proposed patch.
 
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
+All that matters is whether it is valuable to have the mssim backend
+in QEMU. I think the benefit is weak when considering a full virt
+mgmt stack like OpenStack/KubeVirt, as swtpm basically solves
+everything people need to commonly do AFAICT.
+
+None the less, I can understand why it is desirable to have the option
+be able to run against the TPM reference implementation, for the sake
+of testing behavioural compliance.
+
+It is a shame there isn't a standardized protocol for software TPM
+communication, as that'd avoid the need for multiple backends.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
