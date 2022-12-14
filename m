@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3CA64C52F
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 09:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DE964C4EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 09:19:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5MWM-0005DW-9I; Wed, 14 Dec 2022 02:49:42 -0500
+	id 1p5MWJ-0005CN-Hy; Wed, 14 Dec 2022 02:49:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5MWG-0005BU-HA
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 02:49:36 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5MWF-0005B7-GQ
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 02:49:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5MWE-0003vC-Kt
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 02:49:36 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5MWD-0003v4-He
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 02:49:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671004173;
+ s=mimecast20190719; t=1671004172;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
  bh=2SIJjWPkm0nwmrciogK8/dsVJxBQloZ227zGgDXyeHY=;
- b=MHKVvgTOYDN7bursC32k85/1U/h8vD2mN1NW+npk6uRRaBvwj+XkYzzfKVdUNVdPEb7cYW
- SbVdQMqTZxF3a2lhIAInkUZQIGvdDGrtfU6Ga00gfmPvHz/CsGUvRbHK62oNkHBNgze7u8
- DrYsLU4N2WpzV50iuCuMFm+w5im1tng=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=bo4+35LceBPTzXyCRcpbPz80qmOloF1VXA3gE7L9jgaIFYx8t2Gs4+i/O1ERS2xZ2wvtGk
+ /udlvJ3Cjqp1jMWggdFPcW3xkd0h4usLLIieWN8+vEaBKIEtBWOBVfKc0tE711898stdpe
+ 62xL2Xrq0qW9HjJ8hRuNa4919XEEDYU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-Alsuk2mHOVanBuzxtg072Q-1; Wed, 14 Dec 2022 02:49:24 -0500
-X-MC-Unique: Alsuk2mHOVanBuzxtg072Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-171-hWoDln15PsalzJ6FG--QAQ-1; Wed, 14 Dec 2022 02:49:31 -0500
+X-MC-Unique: hWoDln15PsalzJ6FG--QAQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7879585CCE2
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 07:49:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8589C381494A
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 07:49:31 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 54924C15BA0
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 07:49:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 620AA40C2064
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 07:49:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 326DA21E6900; Wed, 14 Dec 2022 08:49:21 +0100 (CET)
+ id 60E6E21E6900; Wed, 14 Dec 2022 08:49:28 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/2] include/hw/virtio: Break inclusion loop
+Subject: Re: [PATCH 2/2] include: Include headers where needed
 References: <20221214074721.731441-1-armbru@redhat.com>
- <20221214074721.731441-3-armbru@redhat.com>
-Date: Wed, 14 Dec 2022 08:49:21 +0100
-In-Reply-To: <20221214074721.731441-3-armbru@redhat.com> (Markus Armbruster's
- message of "Wed, 14 Dec 2022 08:46:51 +0100")
-Message-ID: <87y1ramnlq.fsf@pond.sub.org>
+ <20221214074721.731441-4-armbru@redhat.com>
+Date: Wed, 14 Dec 2022 08:49:28 +0100
+In-Reply-To: <20221214074721.731441-4-armbru@redhat.com> (Markus Armbruster's
+ message of "Wed, 14 Dec 2022 08:46:52 +0100")
+Message-ID: <87tu1ymnlj.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
