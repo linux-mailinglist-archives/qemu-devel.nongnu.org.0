@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F2B64CB89
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 14:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FEA64CBA0
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 14:52:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5S50-0004Jj-HP; Wed, 14 Dec 2022 08:45:54 -0500
+	id 1p5S4r-00047L-SV; Wed, 14 Dec 2022 08:45:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4T-00044L-B9
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4S-00041c-AE
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4Q-0003M8-W4
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4P-0003Lo-T9
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671025514;
+ s=mimecast20190719; t=1671025513;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ognindGekmAk0goZjZBHepHNZF69gnv9qVvqRbas7qU=;
- b=Du5PfnPbmfpzm3eQ63KAR9gDWjl/u8aA8k47uJ+Ub0CvAnjrz9HgnJIkPUGe4dMepPANq5
- LWm86rDKt3VY9CutHHI4fADmmw0w7SyczKDLja+WZ7HBbZ8ZqjUoMoqNIbX5q9mCfoi03V
- bITs2kLMC4zCBtjwXgJ+/b8NGlDOTx8=
+ bh=l0o2/IljwoVRQBbHlEGwWv7CGjx3P7gNcdjAVe3dzVw=;
+ b=ZSnCn/6AB9YPZqD7a/qJByzBSFTnm1mUERtAhybvt+ghJwkLlJbh/7YjvQS5zLPowqx6qJ
+ IVXRhMj4KmO30zfkWgc2toSpS+/mkvkmBRqhg/WANcDAGMCGyKtHH+dXUI8ut3eGjGXQK4
+ ZOnmTJDn6OJu3z7OrVYCuDGZXbsM524=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-S18plNCwMha2vpQzgpwvSA-1; Wed, 14 Dec 2022 08:45:11 -0500
-X-MC-Unique: S18plNCwMha2vpQzgpwvSA-1
+ us-mta-662-qgCkVSORN16gusCBIngyyQ-1; Wed, 14 Dec 2022 08:45:11 -0500
+X-MC-Unique: qgCkVSORN16gusCBIngyyQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BC1B1C09B70;
- Wed, 14 Dec 2022 13:45:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F67B2A2AD70;
+ Wed, 14 Dec 2022 13:45:11 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB84F14171BE;
- Wed, 14 Dec 2022 13:45:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C572014171BE;
+ Wed, 14 Dec 2022 13:45:10 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/51] block: drop bdrv_remove_filter_or_cow_child
-Date: Wed, 14 Dec 2022 14:44:04 +0100
-Message-Id: <20221214134453.31665-3-kwolf@redhat.com>
+Subject: [PULL 03/51] block: bdrv_refresh_perms(): allow external tran
+Date: Wed, 14 Dec 2022 14:44:05 +0100
+Message-Id: <20221214134453.31665-4-kwolf@redhat.com>
 In-Reply-To: <20221214134453.31665-1-kwolf@redhat.com>
 References: <20221214134453.31665-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,58 +79,122 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 
-Drop this simple wrapper used only in one place. We have too many graph
-modifying functions even without it.
+Allow passing external Transaction pointer, stop creating extra
+Transaction objects.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20221107163558.618889-3-vsementsov@yandex-team.ru>
+Message-Id: <20221107163558.618889-4-vsementsov@yandex-team.ru>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
+ block.c | 31 ++++++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
 diff --git a/block.c b/block.c
-index c0c1b3df91..dc761209ac 100644
+index dc761209ac..f2f9178832 100644
 --- a/block.c
 +++ b/block.c
-@@ -93,8 +93,6 @@ static bool bdrv_recurse_has_child(BlockDriverState *bs,
- static void bdrv_replace_child_noperm(BdrvChild *child,
-                                       BlockDriverState *new_bs);
- static void bdrv_remove_child(BdrvChild *child, Transaction *tran);
--static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
--                                            Transaction *tran);
- 
- static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
-                                BlockReopenQueue *queue,
-@@ -5065,17 +5063,6 @@ static void bdrv_remove_child(BdrvChild *child, Transaction *tran)
-     tran_add(tran, &bdrv_remove_child_drv, child);
+@@ -2591,15 +2591,24 @@ char *bdrv_perm_names(uint64_t perm)
  }
  
--/*
-- * A function to remove backing-chain child of @bs if exists: cow child for
-- * format nodes (always .backing) and filter child for filters (may be .file or
-- * .backing)
-- */
--static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
--                                            Transaction *tran)
--{
--    bdrv_remove_child(bdrv_filter_or_cow_child(bs), tran);
--}
--
- static int bdrv_replace_node_noperm(BlockDriverState *from,
-                                     BlockDriverState *to,
-                                     bool auto_skip, Transaction *tran,
-@@ -5160,7 +5147,7 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+ 
+-static int bdrv_refresh_perms(BlockDriverState *bs, Error **errp)
++/* @tran is allowed to be NULL. In this case no rollback is possible */
++static int bdrv_refresh_perms(BlockDriverState *bs, Transaction *tran,
++                              Error **errp)
+ {
+     int ret;
+-    Transaction *tran = tran_new();
++    Transaction *local_tran = NULL;
+     g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, bs);
+     GLOBAL_STATE_CODE();
+ 
++    if (!tran) {
++        tran = local_tran = tran_new();
++    }
++
+     ret = bdrv_list_refresh_perms(list, NULL, tran, errp);
+-    tran_finalize(tran, ret);
++
++    if (local_tran) {
++        tran_finalize(local_tran, ret);
++    }
+ 
+     return ret;
+ }
+@@ -2615,7 +2624,7 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared,
+ 
+     bdrv_child_set_perm(c, perm, shared, tran);
+ 
+-    ret = bdrv_refresh_perms(c->bs, &local_err);
++    ret = bdrv_refresh_perms(c->bs, tran, &local_err);
+ 
+     tran_finalize(tran, ret);
+ 
+@@ -3099,7 +3108,7 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+         goto out;
      }
  
-     if (detach_subchain) {
--        bdrv_remove_filter_or_cow_child(to_cow_parent, tran);
-+        bdrv_remove_child(bdrv_filter_or_cow_child(to_cow_parent), tran);
+-    ret = bdrv_refresh_perms(child_bs, errp);
++    ret = bdrv_refresh_perms(child_bs, tran, errp);
+ 
+ out:
+     tran_finalize(tran, ret);
+@@ -3140,7 +3149,7 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+         goto out;
      }
  
-     found = g_hash_table_new(NULL, NULL);
+-    ret = bdrv_refresh_perms(parent_bs, errp);
++    ret = bdrv_refresh_perms(parent_bs, tran, errp);
+     if (ret < 0) {
+         goto out;
+     }
+@@ -3168,7 +3177,7 @@ void bdrv_root_unref_child(BdrvChild *child)
+          * we're loosening restrictions. Errors of permission update are not
+          * fatal in this case, ignore them.
+          */
+-        bdrv_refresh_perms(child_bs, NULL);
++        bdrv_refresh_perms(child_bs, NULL, NULL);
+ 
+         /*
+          * When the parent requiring a non-default AioContext is removed, the
+@@ -3410,7 +3419,7 @@ int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+         goto out;
+     }
+ 
+-    ret = bdrv_refresh_perms(bs, errp);
++    ret = bdrv_refresh_perms(bs, tran, errp);
+ out:
+     tran_finalize(tran, ret);
+ 
+@@ -5223,7 +5232,7 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+         goto out;
+     }
+ 
+-    ret = bdrv_refresh_perms(bs_new, errp);
++    ret = bdrv_refresh_perms(bs_new, tran, errp);
+ out:
+     tran_finalize(tran, ret);
+ 
+@@ -6523,7 +6532,7 @@ int bdrv_activate(BlockDriverState *bs, Error **errp)
+      */
+     if (bs->open_flags & BDRV_O_INACTIVE) {
+         bs->open_flags &= ~BDRV_O_INACTIVE;
+-        ret = bdrv_refresh_perms(bs, errp);
++        ret = bdrv_refresh_perms(bs, NULL, errp);
+         if (ret < 0) {
+             bs->open_flags |= BDRV_O_INACTIVE;
+             return ret;
+@@ -6668,7 +6677,7 @@ static int bdrv_inactivate_recurse(BlockDriverState *bs)
+      * We only tried to loosen restrictions, so errors are not fatal, ignore
+      * them.
+      */
+-    bdrv_refresh_perms(bs, NULL);
++    bdrv_refresh_perms(bs, NULL, NULL);
+ 
+     /* Recursively inactivate children */
+     QLIST_FOREACH(child, &bs->children, next) {
 -- 
 2.38.1
 
