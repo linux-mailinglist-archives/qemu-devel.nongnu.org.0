@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866A364CBBB
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4483964CBBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:00:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5S5j-0005Zr-KS; Wed, 14 Dec 2022 08:46:35 -0500
+	id 1p5S6B-0006AZ-GM; Wed, 14 Dec 2022 08:47:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4z-0004Zi-QP
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S51-0004bi-Dy
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4u-0003eJ-BW
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:45 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4z-0003eo-EJ
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671025543;
+ s=mimecast20190719; t=1671025544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XpgmtHasgFkPDcRnEJ1VZ0u1kPksulE1hOJjZi6umtc=;
- b=KBl4vT1pXC3iNhz0l9Pu0VpTakEAnV4TCTIuA8x+A82/WsfPhAgADMHtMJ6ZDgv2+dWd5Z
- Te9Q+ZbeWDemtqDRFZXB+bCxgxT3upSCuL69QWevbuv1kN2dKoypmGHesxqM3beHFNTwi4
- u5z11n9Oma4+nCU6zhvqNasZFGJfyAI=
+ bh=wTPsXmmAVY1kWfB0uc73Z+w8+sRx2FCP/ulwj4uzfYA=;
+ b=TRCMCka+CHrt/gnVjHy6JBEN71zIeX9wx0nor40C/K4vjC1WYsjeCgy4MVkpGyuAGg/VlL
+ Bo0hoynrfQM915FF33f8WthRcQqzFbAL1mvfTIvun4Z/8N77V3ZfYTVUrFyMfqmUllcAVg
+ +QvqSujduYxwRmOQqksS91bSJsJwrtc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-Y4N1UB7cPqmRaOy9vBQJQQ-1; Wed, 14 Dec 2022 08:45:40 -0500
-X-MC-Unique: Y4N1UB7cPqmRaOy9vBQJQQ-1
+ us-mta-647-JiQeLdC5OEaY8ZOAL35adQ-1; Wed, 14 Dec 2022 08:45:41 -0500
+X-MC-Unique: JiQeLdC5OEaY8ZOAL35adQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5890938173C7;
- Wed, 14 Dec 2022 13:45:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6098A3C1068B;
+ Wed, 14 Dec 2022 13:45:41 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97A6D14171C1;
- Wed, 14 Dec 2022 13:45:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A52414171BE;
+ Wed, 14 Dec 2022 13:45:40 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 32/51] block: convert bdrv_create to co_wrapper
-Date: Wed, 14 Dec 2022 14:44:34 +0100
-Message-Id: <20221214134453.31665-33-kwolf@redhat.com>
+Subject: [PULL 33/51] block/dirty-bitmap: convert coroutine-only functions to
+ co_wrapper
+Date: Wed, 14 Dec 2022 14:44:35 +0100
+Message-Id: <20221214134453.31665-34-kwolf@redhat.com>
 In-Reply-To: <20221214134453.31665-1-kwolf@redhat.com>
 References: <20221214134453.31665-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,98 +80,223 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-This function is never called in coroutine context, therefore
-instead of manually creating a new coroutine, delegate it to the
-block-coroutine-wrapper script, defining it as co_wrapper.
+bdrv_can_store_new_dirty_bitmap and bdrv_remove_persistent_dirty_bitmap
+check if they are running in a coroutine, directly calling the
+coroutine callback if it's the case.
+Except that no coroutine calls such functions, therefore that check
+can be removed, and function creation can be offloaded to
+c_w.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-Id: <20221128142337.657646-14-eesposit@redhat.com>
+Message-Id: <20221128142337.657646-15-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block-global-state.h |  8 ++++--
- block.c                            | 41 ++----------------------------
- 2 files changed, 8 insertions(+), 41 deletions(-)
+ include/block/block-common.h |  5 +-
+ include/block/block-io.h     | 10 +++-
+ include/block/dirty-bitmap.h | 10 +++-
+ block/dirty-bitmap.c         | 88 +-----------------------------------
+ block/meson.build            |  1 +
+ 5 files changed, 22 insertions(+), 92 deletions(-)
 
-diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 387a7cbb2e..1f8b54f2df 100644
---- a/include/block/block-global-state.h
-+++ b/include/block/block-global-state.h
-@@ -55,8 +55,12 @@ BlockDriver *bdrv_find_protocol(const char *filename,
-                                 bool allow_protocol_prefix,
-                                 Error **errp);
- BlockDriver *bdrv_find_format(const char *format_name);
--int bdrv_create(BlockDriver *drv, const char* filename,
--                QemuOpts *opts, Error **errp);
-+
-+int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
-+                                QemuOpts *opts, Error **errp);
-+int co_wrapper bdrv_create(BlockDriver *drv, const char *filename,
-+                           QemuOpts *opts, Error **errp);
-+
- int coroutine_fn bdrv_co_create_file(const char *filename, QemuOpts *opts,
-                                      Error **errp);
+diff --git a/include/block/block-common.h b/include/block/block-common.h
+index 847e4d4626..6cf603ab06 100644
+--- a/include/block/block-common.h
++++ b/include/block/block-common.h
+@@ -29,8 +29,6 @@
+ #include "qemu/iov.h"
+ #include "qemu/coroutine.h"
+ #include "block/accounting.h"
+-#include "block/dirty-bitmap.h"
+-#include "block/blockjob.h"
+ #include "qemu/hbitmap.h"
+ #include "qemu/transactions.h"
  
-diff --git a/block.c b/block.c
-index c8ac91eb63..6191ac1f44 100644
---- a/block.c
-+++ b/block.c
-@@ -526,8 +526,8 @@ typedef struct CreateCo {
-     Error *err;
- } CreateCo;
+@@ -51,6 +49,9 @@
+ #define co_wrapper
+ #define co_wrapper_mixed
  
--static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
--                                       QemuOpts *opts, Error **errp)
-+int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
-+                                QemuOpts *opts, Error **errp)
++#include "block/dirty-bitmap.h"
++#include "block/blockjob.h"
++
+ /* block.c */
+ typedef struct BlockDriver BlockDriver;
+ typedef struct BdrvChild BdrvChild;
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 72cf45975b..52869ea08e 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -215,8 +215,14 @@ AioContext *child_of_bds_get_parent_aio_context(BdrvChild *c);
+ void bdrv_io_plug(BlockDriverState *bs);
+ void bdrv_io_unplug(BlockDriverState *bs);
+ 
+-bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
+-                                     uint32_t granularity, Error **errp);
++bool coroutine_fn bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
++                                                     const char *name,
++                                                     uint32_t granularity,
++                                                     Error **errp);
++bool co_wrapper bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs,
++                                                const char *name,
++                                                uint32_t granularity,
++                                                Error **errp);
+ 
+ /**
+  *
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index 6528336c4c..c3700cec76 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -34,8 +34,14 @@ int bdrv_dirty_bitmap_check(const BdrvDirtyBitmap *bitmap, uint32_t flags,
+                             Error **errp);
+ void bdrv_release_dirty_bitmap(BdrvDirtyBitmap *bitmap);
+ void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs);
+-int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
+-                                        Error **errp);
++
++int coroutine_fn bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
++                                                        const char *name,
++                                                        Error **errp);
++int co_wrapper bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs,
++                                                   const char *name,
++                                                   Error **errp);
++
+ void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
+ void bdrv_enable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
+ void bdrv_enable_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap);
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index bf3dc0512a..21cf592889 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -388,7 +388,7 @@ void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs)
+  * not fail.
+  * This function doesn't release corresponding BdrvDirtyBitmap.
+  */
+-static int coroutine_fn
++int coroutine_fn
+ bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
+                                        Error **errp)
  {
-     int ret;
-     GLOBAL_STATE_CODE();
-@@ -547,43 +547,6 @@ static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
-     return ret;
+@@ -399,45 +399,6 @@ bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
+     return 0;
  }
  
--static void coroutine_fn bdrv_create_co_entry(void *opaque)
--{
--    CreateCo *cco = opaque;
--    GLOBAL_STATE_CODE();
+-typedef struct BdrvRemovePersistentDirtyBitmapCo {
+-    BlockDriverState *bs;
+-    const char *name;
+-    Error **errp;
+-    int ret;
+-} BdrvRemovePersistentDirtyBitmapCo;
 -
--    cco->ret = bdrv_co_create(cco->drv, cco->filename, cco->opts, &cco->err);
+-static void coroutine_fn
+-bdrv_co_remove_persistent_dirty_bitmap_entry(void *opaque)
+-{
+-    BdrvRemovePersistentDirtyBitmapCo *s = opaque;
+-
+-    s->ret = bdrv_co_remove_persistent_dirty_bitmap(s->bs, s->name, s->errp);
 -    aio_wait_kick();
 -}
 -
--int bdrv_create(BlockDriver *drv, const char* filename,
--                QemuOpts *opts, Error **errp)
+-int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
+-                                        Error **errp)
 -{
--    GLOBAL_STATE_CODE();
--
 -    if (qemu_in_coroutine()) {
--        /* Fast-path if already in coroutine context */
--        return bdrv_co_create(drv, filename, opts, errp);
+-        return bdrv_co_remove_persistent_dirty_bitmap(bs, name, errp);
 -    } else {
 -        Coroutine *co;
--        CreateCo cco = {
--            .drv = drv,
--            .filename = filename,
--            .opts = opts,
--            .ret = NOT_DONE,
--            .err = NULL,
+-        BdrvRemovePersistentDirtyBitmapCo s = {
+-            .bs = bs,
+-            .name = name,
+-            .errp = errp,
+-            .ret = -EINPROGRESS,
 -        };
 -
--        co = qemu_coroutine_create(bdrv_create_co_entry, &cco);
--        qemu_coroutine_enter(co);
--        while (cco.ret == NOT_DONE) {
--            aio_poll(qemu_get_aio_context(), true);
--        }
--        error_propagate(errp, cco.err);
--        return cco.ret;
+-        co = qemu_coroutine_create(bdrv_co_remove_persistent_dirty_bitmap_entry,
+-                                   &s);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, s.ret == -EINPROGRESS);
+-
+-        return s.ret;
 -    }
 -}
 -
- /**
-  * Helper function for bdrv_create_file_fallback(): Resize @blk to at
-  * least the given @minimum_size.
+ bool
+ bdrv_supports_persistent_dirty_bitmap(BlockDriverState *bs)
+ {
+@@ -447,7 +408,7 @@ bdrv_supports_persistent_dirty_bitmap(BlockDriverState *bs)
+     return false;
+ }
+ 
+-static bool coroutine_fn
++bool coroutine_fn
+ bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
+                                    uint32_t granularity, Error **errp)
+ {
+@@ -470,51 +431,6 @@ bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
+     return drv->bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
+ }
+ 
+-typedef struct BdrvCanStoreNewDirtyBitmapCo {
+-    BlockDriverState *bs;
+-    const char *name;
+-    uint32_t granularity;
+-    Error **errp;
+-    bool ret;
+-
+-    bool in_progress;
+-} BdrvCanStoreNewDirtyBitmapCo;
+-
+-static void coroutine_fn bdrv_co_can_store_new_dirty_bitmap_entry(void *opaque)
+-{
+-    BdrvCanStoreNewDirtyBitmapCo *s = opaque;
+-
+-    s->ret = bdrv_co_can_store_new_dirty_bitmap(s->bs, s->name, s->granularity,
+-                                                s->errp);
+-    s->in_progress = false;
+-    aio_wait_kick();
+-}
+-
+-bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
+-                                     uint32_t granularity, Error **errp)
+-{
+-    IO_CODE();
+-    if (qemu_in_coroutine()) {
+-        return bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
+-    } else {
+-        Coroutine *co;
+-        BdrvCanStoreNewDirtyBitmapCo s = {
+-            .bs = bs,
+-            .name = name,
+-            .granularity = granularity,
+-            .errp = errp,
+-            .in_progress = true,
+-        };
+-
+-        co = qemu_coroutine_create(bdrv_co_can_store_new_dirty_bitmap_entry,
+-                                   &s);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, s.in_progress);
+-
+-        return s.ret;
+-    }
+-}
+-
+ void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap)
+ {
+     bdrv_dirty_bitmaps_lock(bitmap->bs);
+diff --git a/block/meson.build b/block/meson.build
+index b7c68b83a3..c48a59571e 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -137,6 +137,7 @@ block_gen_c = custom_target('block-gen.c',
+                             output: 'block-gen.c',
+                             input: files(
+                                       '../include/block/block-io.h',
++                                      '../include/block/dirty-bitmap.h',
+                                       '../include/block/block-global-state.h',
+                                       '../include/sysemu/block-backend-io.h',
+                                       'coroutines.h'
 -- 
 2.38.1
 
