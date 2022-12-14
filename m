@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5151364D003
+	by mail.lfdr.de (Postfix) with ESMTPS id 596BD64D005
 	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 20:21:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5XIX-00052X-RT; Wed, 14 Dec 2022 14:20:09 -0500
+	id 1p5XIW-00052J-Bu; Wed, 14 Dec 2022 14:20:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5XIV-00052A-44
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 14:20:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5XIQ-0007TH-NG
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5XIU-000521-2A
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 14:20:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5XIQ-0007T3-I6
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 14:20:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671045601;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jlbSxcBXbknwZuEiqqJN5CtQSIW9SK2p4A2on0fvL74=;
- b=NXvPKh7INfOwUXHEUimir43JiD6P3f28G/bknrNfiuNAXNckJKhlHav61SxtSK++5vbN7y
- IwDBZ8NxBDbZHTErqW+VrogADAD6hYWSL76DvcIfv9mWu21DZcoBlj7XQKbTTYZ96vyvwM
- onQZEBvRT3Xp5Fm3AAnF4+dqvKLE5yo=
+ bh=KqLvZkcgXtUoDPsJ+lKCiqe04le2vAMTWdyk2PS4SmU=;
+ b=H3H53UdmJLoyw9cshE82TMNyVn+YqJT4gmredDZC9Fe1tShwBa0ElR6Gp1BnpdW78o7LSE
+ Jl7plPMDmbVJXJQxuVtGg6UEqsLGWX8O1pEw4sBSK+JLe3QfKlPikHDe8hgDZ4WpvTojwX
+ YSsI9AiU/fZTb1XYeR08wKgogmV9VGQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-tTPU48CTOfSOrHMlASqdvw-1; Wed, 14 Dec 2022 14:19:59 -0500
-X-MC-Unique: tTPU48CTOfSOrHMlASqdvw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-403-Hq9HZH5NPqiXrFTEHnrsqw-1; Wed, 14 Dec 2022 14:19:59 -0500
+X-MC-Unique: Hq9HZH5NPqiXrFTEHnrsqw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59C7385D065;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C019802D19;
  Wed, 14 Dec 2022 19:19:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A9A2340C2064;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A9F12400F5A;
  Wed, 14 Dec 2022 19:19:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 988CC21E6901; Wed, 14 Dec 2022 20:19:57 +0100 (CET)
+ id 9B12B21E6921; Wed, 14 Dec 2022 20:19:57 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Subject: [PULL v2 10/30] qapi block: Elide redundant has_FOO in generated C
-Date: Wed, 14 Dec 2022 20:19:56 +0100
-Message-Id: <20221214191957.1100171-2-armbru@redhat.com>
+Cc: peter.maydell@linaro.org, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL v2 18/30] qapi net: Elide redundant has_FOO in generated C
+Date: Wed, 14 Dec 2022 20:19:57 +0100
+Message-Id: <20221214191957.1100171-3-armbru@redhat.com>
 In-Reply-To: <20221214191957.1100171-1-armbru@redhat.com>
 References: <20221214191957.1100171-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,1727 +82,588 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 The has_FOO for pointer-valued FOO are redundant, except for arrays.
 They are also a nuisance to work with.  Recent commit "qapi: Start to
 elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qapi/block*.json.
+them step by step.  This is the step for qapi/net.json.
 
-Said commit explains the transformation in more detail.
+Said commit explains the transformation in more detail.  The invariant
+violations mentioned there do not occur here.
 
-There is one instance of the invariant violation mentioned there:
-qcow2_signal_corruption() passes false, "" when node_name is an empty
-string.  Take care to pass NULL then.
-
-The previous two commits cleaned up two more.
-
-Additionally, helper bdrv_latency_histogram_stats() loses its output
-parameters and returns a value instead.
-
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20221104160712.3005652-11-armbru@redhat.com>
-[Fixes for #ifndef LIBRBD_SUPPORTS_ENCRYPTION and MacOS squashed in]
+Message-Id: <20221104160712.3005652-19-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+[Fixes for MacOS squashed in]
 ---
- block/block-backend.c          |   2 +-
- block/copy-before-write.c      |   2 +-
- block/dirty-bitmap.c           |   1 -
- block/export/export.c          |   2 +-
- block/export/vduse-blk.c       |   3 +-
- block/gluster.c                |   3 -
- block/monitor/block-hmp-cmds.c |  48 ++++------
- block/qapi-sysemu.c            |  73 +++++----------
- block/qapi.c                   |  62 +++++--------
- block/qcow.c                   |  10 +-
- block/qcow2.c                  |  18 ++--
- block/qed.c                    |   2 +-
- block/quorum.c                 |   2 +-
- block/rbd.c                    |  17 ++--
- block/ssh.c                    |   2 +-
- blockdev-nbd.c                 |   9 +-
- blockdev.c                     | 164 +++++++++++++--------------------
- blockjob.c                     |   2 -
- monitor/hmp-cmds.c             |   3 +-
- qemu-img.c                     |  13 ++-
- qemu-nbd.c                     |   2 -
- scripts/qapi/schema.py         |   3 -
- ui/cocoa.m                     |  11 +--
- 23 files changed, 173 insertions(+), 281 deletions(-)
+ hw/net/virtio-net.c    |  3 +--
+ monitor/hmp-cmds.c     |  1 -
+ net/announce.c         |  8 +++----
+ net/hub.c              |  2 +-
+ net/l2tpv3.c           |  2 +-
+ net/net.c              | 25 ++++++++++-----------
+ net/slirp.c            |  4 ++--
+ net/socket.c           | 18 +++++++--------
+ net/tap-win32.c        |  2 +-
+ net/tap.c              | 51 +++++++++++++++++++++---------------------
+ net/vhost-vdpa.c       |  6 ++---
+ net/vmnet-host.c       | 20 ++++++++---------
+ net/vmnet-shared.c     | 16 ++++++-------
+ scripts/qapi/schema.py |  1 -
+ 14 files changed, 77 insertions(+), 82 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index d98a96ff37..bf0ea3cfed 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1860,7 +1860,7 @@ static void send_qmp_error_event(BlockBackend *blk,
-     BlockDriverState *bs = blk_bs(blk);
- 
-     optype = is_read ? IO_OPERATION_TYPE_READ : IO_OPERATION_TYPE_WRITE;
--    qapi_event_send_block_io_error(blk_name(blk), !!bs,
-+    qapi_event_send_block_io_error(blk_name(blk),
-                                    bs ? bdrv_get_node_name(bs) : NULL, optype,
-                                    action, blk_iostatus_is_enabled(blk),
-                                    error == ENOSPC, strerror(error));
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 4abaa7339e..b28ae25ec1 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -432,7 +432,7 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
-         return -EINVAL;
-     }
- 
--    if (opts->has_bitmap) {
-+    if (opts->bitmap) {
-         bitmap = block_dirty_bitmap_lookup(opts->bitmap->node,
-                                            opts->bitmap->name, NULL, errp);
-         if (!bitmap) {
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index bf3dc0512a..9c39550698 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -541,7 +541,6 @@ BlockDirtyInfoList *bdrv_query_dirty_bitmaps(BlockDriverState *bs)
- 
-         info->count = bdrv_get_dirty_count(bm);
-         info->granularity = bdrv_dirty_bitmap_granularity(bm);
--        info->has_name = !!bm->name;
-         info->name = g_strdup(bm->name);
-         info->recording = bdrv_dirty_bitmap_recording(bm);
-         info->busy = bdrv_dirty_bitmap_busy(bm);
-diff --git a/block/export/export.c b/block/export/export.c
-index 7cc0c25c1c..28a91c9c42 100644
---- a/block/export/export.c
-+++ b/block/export/export.c
-@@ -114,7 +114,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
-     ctx = bdrv_get_aio_context(bs);
-     aio_context_acquire(ctx);
- 
--    if (export->has_iothread) {
-+    if (export->iothread) {
-         IOThread *iothread;
-         AioContext *new_ctx;
-         Error **set_context_errp;
-diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-index f101c24c3f..350d6fdaf0 100644
---- a/block/export/vduse-blk.c
-+++ b/block/export/vduse-blk.c
-@@ -265,8 +265,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-     }
-     vblk_exp->num_queues = num_queues;
-     vblk_exp->handler.blk = exp->blk;
--    vblk_exp->handler.serial = g_strdup(vblk_opts->has_serial ?
--                                        vblk_opts->serial : "");
-+    vblk_exp->handler.serial = g_strdup(vblk_opts->serial ?: "");
-     vblk_exp->handler.logical_block_size = logical_block_size;
-     vblk_exp->handler.writable = opts->writable;
- 
-diff --git a/block/gluster.c b/block/gluster.c
-index 7c90f7ba4b..7efc296399 100644
---- a/block/gluster.c
-+++ b/block/gluster.c
-@@ -830,7 +830,6 @@ static int qemu_gluster_open(BlockDriverState *bs,  QDict *options,
-     s->logfile = g_strdup(logfile ? logfile : GLUSTER_LOGFILE_DEFAULT);
- 
-     gconf->logfile = g_strdup(s->logfile);
--    gconf->has_logfile = true;
- 
-     s->glfs = qemu_gluster_init(gconf, filename, options, errp);
-     if (!s->glfs) {
-@@ -917,7 +916,6 @@ static int qemu_gluster_reopen_prepare(BDRVReopenState *state,
-     gconf->debug = s->debug;
-     gconf->has_debug = true;
-     gconf->logfile = g_strdup(s->logfile);
--    gconf->has_logfile = true;
- 
-     /*
-      * If 'state->bs->exact_filename' is empty, 'state->options' should contain
-@@ -1162,7 +1160,6 @@ static int coroutine_fn qemu_gluster_co_create_opts(BlockDriver *drv,
-     if (!gconf->logfile) {
-         gconf->logfile = g_strdup(GLUSTER_LOGFILE_DEFAULT);
-     }
--    gconf->has_logfile = true;
- 
-     ret = qemu_gluster_parse(gconf, filename, NULL, errp);
-     if (ret < 0) {
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-index b6135e9bfe..0ff7c84039 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -241,7 +241,6 @@ void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
-     DriveMirror mirror = {
-         .device = (char *)qdict_get_str(qdict, "device"),
-         .target = (char *)filename,
--        .has_format = !!format,
-         .format = (char *)format,
-         .sync = full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
-         .has_mode = true,
-@@ -270,7 +269,6 @@ void hmp_drive_backup(Monitor *mon, const QDict *qdict)
-     DriveBackup backup = {
-         .device = (char *)device,
-         .target = (char *)filename,
--        .has_format = !!format,
-         .format = (char *)format,
-         .sync = full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
-         .has_mode = true,
-@@ -360,9 +358,7 @@ void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict)
-     }
- 
-     mode = reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PATHS;
--    qmp_blockdev_snapshot_sync(true, device, false, NULL,
--                               filename, false, NULL,
--                               !!format, format,
-+    qmp_blockdev_snapshot_sync(device, NULL, filename, NULL, format,
-                                true, mode, &err);
- end:
-     hmp_handle_error(mon, err);
-@@ -385,8 +381,7 @@ void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)
-     const char *id = qdict_get_try_str(qdict, "id");
-     Error *err = NULL;
- 
--    qmp_blockdev_snapshot_delete_internal_sync(device, !!id, id,
--                                               true, name, &err);
-+    qmp_blockdev_snapshot_delete_internal_sync(device, id, name, &err);
-     hmp_handle_error(mon, err);
- }
- 
-@@ -427,7 +422,7 @@ void hmp_nbd_server_start(Monitor *mon, const QDict *qdict)
-     block_list = qmp_query_block(NULL);
- 
-     for (info = block_list; info; info = info->next) {
--        if (!info->value->has_inserted) {
-+        if (!info->value->inserted) {
-             continue;
-         }
- 
-@@ -460,7 +455,6 @@ void hmp_nbd_server_add(Monitor *mon, const QDict *qdict)
- 
-     NbdServerAddOptions export = {
-         .device         = (char *) device,
--        .has_name       = !!name,
-         .name           = (char *) name,
-         .has_writable   = true,
-         .writable       = writable,
-@@ -495,7 +489,7 @@ void coroutine_fn hmp_block_resize(Monitor *mon, const QDict *qdict)
-     int64_t size = qdict_get_int(qdict, "size");
-     Error *err = NULL;
- 
--    qmp_block_resize(true, device, false, NULL, size, &err);
-+    qmp_block_resize(device, NULL, size, &err);
-     hmp_handle_error(mon, err);
- }
- 
-@@ -506,11 +500,10 @@ void hmp_block_stream(Monitor *mon, const QDict *qdict)
-     const char *base = qdict_get_try_str(qdict, "base");
-     int64_t speed = qdict_get_try_int(qdict, "speed", 0);
- 
--    qmp_block_stream(true, device, device, base != NULL, base, false, NULL,
--                     false, NULL, false, NULL,
--                     qdict_haskey(qdict, "speed"), speed, true,
--                     BLOCKDEV_ON_ERROR_REPORT, false, NULL, false, false, false,
--                     false, &error);
-+    qmp_block_stream(device, device, base, NULL, NULL, NULL,
-+                     qdict_haskey(qdict, "speed"), speed,
-+                     true, BLOCKDEV_ON_ERROR_REPORT, NULL,
-+                     false, false, false, false, &error);
- 
-     hmp_handle_error(mon, error);
- }
-@@ -534,10 +527,8 @@ void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict)
-      * version has only one, so we must decide which one to pass.
-      */
-     if (blk_by_name(device)) {
--        throttle.has_device = true;
-         throttle.device = device;
-     } else {
--        throttle.has_id = true;
-         throttle.id = device;
-     }
- 
-@@ -551,7 +542,7 @@ void hmp_eject(Monitor *mon, const QDict *qdict)
-     const char *device = qdict_get_str(qdict, "device");
-     Error *err = NULL;
- 
--    qmp_eject(true, device, false, NULL, true, force, &err);
-+    qmp_eject(device, NULL, true, force, &err);
-     hmp_handle_error(mon, err);
- }
- 
-@@ -635,18 +626,18 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
- {
-     ImageInfo *image_info;
- 
--    assert(!info || !info->has_inserted || info->inserted == inserted);
-+    assert(!info || !info->inserted || info->inserted == inserted);
- 
-     if (info && *info->device) {
-         monitor_puts(mon, info->device);
--        if (inserted && inserted->has_node_name) {
-+        if (inserted && inserted->node_name) {
-             monitor_printf(mon, " (%s)", inserted->node_name);
-         }
-     } else {
-         assert(info || inserted);
-         monitor_puts(mon,
--                     inserted && inserted->has_node_name ? inserted->node_name
--                     : info && info->has_qdev ? info->qdev
-+                     inserted && inserted->node_name ? inserted->node_name
-+                     : info && info->qdev ? info->qdev
-                      : "<anonymous>");
-     }
- 
-@@ -661,7 +652,7 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
-     }
- 
-     if (info) {
--        if (info->has_qdev) {
-+        if (info->qdev) {
-             monitor_printf(mon, "    Attached to:      %s\n", info->qdev);
-         }
-         if (info->has_io_status && info->io_status != BLOCK_DEVICE_IO_STATUS_OK) {
-@@ -686,7 +677,7 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
-                    inserted->cache->direct ? ", direct" : "",
-                    inserted->cache->no_flush ? ", ignore flushes" : "");
- 
--    if (inserted->has_backing_file) {
-+    if (inserted->backing_file) {
-         monitor_printf(mon,
-                        "    Backing file:     %s "
-                        "(chain depth: %" PRId64 ")\n",
-@@ -735,7 +726,7 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
-         image_info = inserted->image;
-         while (1) {
-                 bdrv_image_info_dump(image_info);
--            if (image_info->has_backing_image) {
-+            if (image_info->backing_image) {
-                 image_info = image_info->backing_image;
-             } else {
-                 break;
-@@ -769,8 +760,7 @@ void hmp_info_block(Monitor *mon, const QDict *qdict)
-             monitor_printf(mon, "\n");
-         }
- 
--        print_block_info(mon, info->value, info->value->has_inserted
--                                           ? info->value->inserted : NULL,
-+        print_block_info(mon, info->value, info->value->inserted,
-                          verbose);
-         printed = true;
-     }
-@@ -784,7 +774,7 @@ void hmp_info_block(Monitor *mon, const QDict *qdict)
-     /* Print node information */
-     blockdev_list = qmp_query_named_block_nodes(false, false, NULL);
-     for (blockdev = blockdev_list; blockdev; blockdev = blockdev->next) {
--        assert(blockdev->value->has_node_name);
-+        assert(blockdev->value->node_name);
-         if (device && strcmp(device, blockdev->value->node_name)) {
-             continue;
-         }
-@@ -805,7 +795,7 @@ void hmp_info_blockstats(Monitor *mon, const QDict *qdict)
-     stats_list = qmp_query_blockstats(false, false, NULL);
- 
-     for (stats = stats_list; stats; stats = stats->next) {
--        if (!stats->value->has_device) {
-+        if (!stats->value->device) {
-             continue;
-         }
- 
-diff --git a/block/qapi-sysemu.c b/block/qapi-sysemu.c
-index 680c7ee342..0c7a1423de 100644
---- a/block/qapi-sysemu.c
-+++ b/block/qapi-sysemu.c
-@@ -116,8 +116,8 @@ static int do_open_tray(const char *blk_name, const char *qdev_id,
-     return 0;
- }
- 
--void qmp_blockdev_open_tray(bool has_device, const char *device,
--                            bool has_id, const char *id,
-+void qmp_blockdev_open_tray(const char *device,
-+                            const char *id,
-                             bool has_force, bool force,
-                             Error **errp)
- {
-@@ -127,9 +127,7 @@ void qmp_blockdev_open_tray(bool has_device, const char *device,
-     if (!has_force) {
-         force = false;
-     }
--    rc = do_open_tray(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      force, &local_err);
-+    rc = do_open_tray(device, id, force, &local_err);
-     if (rc && rc != -ENOSYS && rc != -EINPROGRESS) {
-         error_propagate(errp, local_err);
-         return;
-@@ -137,16 +135,13 @@ void qmp_blockdev_open_tray(bool has_device, const char *device,
-     error_free(local_err);
- }
- 
--void qmp_blockdev_close_tray(bool has_device, const char *device,
--                             bool has_id, const char *id,
-+void qmp_blockdev_close_tray(const char *device,
-+                             const char *id,
-                              Error **errp)
- {
-     BlockBackend *blk;
-     Error *local_err = NULL;
- 
--    device = has_device ? device : NULL;
--    id = has_id ? id : NULL;
--
-     blk = qmp_get_blk(device, id, errp);
-     if (!blk) {
-         return;
-@@ -173,17 +168,14 @@ void qmp_blockdev_close_tray(bool has_device, const char *device,
-     }
- }
- 
--static void blockdev_remove_medium(bool has_device, const char *device,
--                                   bool has_id, const char *id, Error **errp)
-+static void blockdev_remove_medium(const char *device, const char *id,
-+                                   Error **errp)
- {
-     BlockBackend *blk;
-     BlockDriverState *bs;
-     AioContext *aio_context;
-     bool has_attached_device;
- 
--    device = has_device ? device : NULL;
--    id = has_id ? id : NULL;
--
-     blk = qmp_get_blk(device, id, errp);
-     if (!blk) {
-         return;
-@@ -232,7 +224,7 @@ out:
- 
- void qmp_blockdev_remove_medium(const char *id, Error **errp)
- {
--    blockdev_remove_medium(false, NULL, true, id, errp);
-+    blockdev_remove_medium(NULL, id, errp);
- }
- 
- static void qmp_blockdev_insert_anon_medium(BlockBackend *blk,
-@@ -280,16 +272,13 @@ static void qmp_blockdev_insert_anon_medium(BlockBackend *blk,
-     }
- }
- 
--static void blockdev_insert_medium(bool has_device, const char *device,
--                                   bool has_id, const char *id,
-+static void blockdev_insert_medium(const char *device, const char *id,
-                                    const char *node_name, Error **errp)
- {
-     BlockBackend *blk;
-     BlockDriverState *bs;
- 
--    blk = qmp_get_blk(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      errp);
-+    blk = qmp_get_blk(device, id, errp);
-     if (!blk) {
-         return;
-     }
-@@ -311,13 +300,13 @@ static void blockdev_insert_medium(bool has_device, const char *device,
- void qmp_blockdev_insert_medium(const char *id, const char *node_name,
-                                 Error **errp)
- {
--    blockdev_insert_medium(false, NULL, true, id, node_name, errp);
-+    blockdev_insert_medium(NULL, id, node_name, errp);
- }
- 
--void qmp_blockdev_change_medium(bool has_device, const char *device,
--                                bool has_id, const char *id,
-+void qmp_blockdev_change_medium(const char *device,
-+                                const char *id,
-                                 const char *filename,
--                                bool has_format, const char *format,
-+                                const char *format,
-                                 bool has_force, bool force,
-                                 bool has_read_only,
-                                 BlockdevChangeReadOnlyMode read_only,
-@@ -331,9 +320,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
-     QDict *options = NULL;
-     Error *err = NULL;
- 
--    blk = qmp_get_blk(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      errp);
-+    blk = qmp_get_blk(device, id, errp);
-     if (!blk) {
-         goto fail;
-     }
-@@ -370,7 +357,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
-     detect_zeroes = blk_get_detect_zeroes_from_root_state(blk);
-     qdict_put_str(options, "detect-zeroes", detect_zeroes ? "on" : "off");
- 
--    if (has_format) {
-+    if (format) {
-         qdict_put_str(options, "driver", format);
-     }
- 
-@@ -379,9 +366,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
-         goto fail;
-     }
- 
--    rc = do_open_tray(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      force, &err);
-+    rc = do_open_tray(device, id, force, &err);
-     if (rc && rc != -ENOSYS) {
-         error_propagate(errp, err);
-         goto fail;
-@@ -389,7 +374,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
-     error_free(err);
-     err = NULL;
- 
--    blockdev_remove_medium(has_device, device, has_id, id, &err);
-+    blockdev_remove_medium(device, id, &err);
-     if (err) {
-         error_propagate(errp, err);
-         goto fail;
-@@ -401,7 +386,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
-         goto fail;
-     }
- 
--    qmp_blockdev_close_tray(has_device, device, has_id, id, errp);
-+    qmp_blockdev_close_tray(device, id, errp);
- 
- fail:
-     /* If the medium has been inserted, the device has its own reference, so
-@@ -410,8 +395,7 @@ fail:
-     bdrv_unref(medium_bs);
- }
- 
--void qmp_eject(bool has_device, const char *device,
--               bool has_id, const char *id,
-+void qmp_eject(const char *device, const char *id,
-                bool has_force, bool force, Error **errp)
- {
-     Error *local_err = NULL;
-@@ -421,16 +405,14 @@ void qmp_eject(bool has_device, const char *device,
-         force = false;
-     }
- 
--    rc = do_open_tray(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      force, &local_err);
-+    rc = do_open_tray(device, id, force, &local_err);
-     if (rc && rc != -ENOSYS) {
-         error_propagate(errp, local_err);
-         return;
-     }
-     error_free(local_err);
- 
--    blockdev_remove_medium(has_device, device, has_id, id, errp);
-+    blockdev_remove_medium(device, id, errp);
- }
- 
- /* throttling disk I/O limits */
-@@ -441,9 +423,7 @@ void qmp_block_set_io_throttle(BlockIOThrottle *arg, Error **errp)
-     BlockBackend *blk;
-     AioContext *aio_context;
- 
--    blk = qmp_get_blk(arg->has_device ? arg->device : NULL,
--                      arg->has_id ? arg->id : NULL,
--                      errp);
-+    blk = qmp_get_blk(arg->device, arg->id, errp);
-     if (!blk) {
-         return;
-     }
-@@ -516,11 +496,8 @@ void qmp_block_set_io_throttle(BlockIOThrottle *arg, Error **errp)
-         /* Enable I/O limits if they're not enabled yet, otherwise
-          * just update the throttling group. */
-         if (!blk_get_public(blk)->throttle_group_member.throttle_state) {
--            blk_io_limits_enable(blk,
--                                 arg->has_group ? arg->group :
--                                 arg->has_device ? arg->device :
--                                 arg->id);
--        } else if (arg->has_group) {
-+            blk_io_limits_enable(blk, arg->group ?: arg->device ?: arg->id);
-+        } else if (arg->group) {
-             blk_io_limits_update_group(blk, arg->group);
-         }
-         /* Set the new throttling configuration */
-diff --git a/block/qapi.c b/block/qapi.c
-index cf557e3aea..fea808425b 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -71,13 +71,11 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
-     };
- 
-     if (bs->node_name[0]) {
--        info->has_node_name = true;
-         info->node_name = g_strdup(bs->node_name);
-     }
- 
-     backing = bdrv_cow_bs(bs);
-     if (backing) {
--        info->has_backing_file = true;
-         info->backing_file = g_strdup(backing->filename);
-     }
- 
-@@ -139,7 +137,6 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
-         info->has_iops_size = cfg.op_size;
-         info->iops_size = cfg.op_size;
- 
--        info->has_group = true;
-         info->group =
-             g_strdup(throttle_group_get_name(&blkp->throttle_group_member));
-     }
-@@ -170,7 +167,6 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
-              */
-             info->backing_file_depth++;
-             bs0 = bdrv_filter_or_cow_bs(bs0);
--            (*p_image_info)->has_backing_image = true;
-             p_image_info = &((*p_image_info)->backing_image);
-         } else {
-             break;
-@@ -301,26 +297,21 @@ void bdrv_query_image_info(BlockDriverState *bs,
-         qapi_free_ImageInfo(info);
-         goto out;
-     }
--    info->has_format_specific = info->format_specific != NULL;
--
-     backing_filename = bs->backing_file;
-     if (backing_filename[0] != '\0') {
-         char *backing_filename2;
- 
-         info->backing_filename = g_strdup(backing_filename);
--        info->has_backing_filename = true;
-         backing_filename2 = bdrv_get_full_backing_filename(bs, NULL);
- 
-         /* Always report the full_backing_filename if present, even if it's the
-          * same as backing_filename. That they are same is useful info. */
-         if (backing_filename2) {
-             info->full_backing_filename = g_strdup(backing_filename2);
--            info->has_full_backing_filename = true;
-         }
- 
-         if (bs->backing_format[0]) {
-             info->backing_filename_format = g_strdup(bs->backing_format);
--            info->has_backing_filename_format = true;
-         }
-         g_free(backing_filename2);
-     }
-@@ -367,7 +358,6 @@ static void bdrv_query_info(BlockBackend *blk, BlockInfo **p_info,
- 
-     qdev = blk_get_attached_dev_id(blk);
-     if (qdev && *qdev) {
--        info->has_qdev = true;
-         info->qdev = qdev;
-     } else {
-         g_free(qdev);
-@@ -384,7 +374,6 @@ static void bdrv_query_info(BlockBackend *blk, BlockInfo **p_info,
-     }
- 
-     if (bs && bs->drv) {
--        info->has_inserted = true;
-         info->inserted = bdrv_block_device_info(blk, bs, false, errp);
-         if (info->inserted == NULL) {
-             goto err;
-@@ -411,23 +400,26 @@ static uint64List *uint64_list(uint64_t *list, int size)
-     return out_list;
- }
- 
--static void bdrv_latency_histogram_stats(BlockLatencyHistogram *hist,
--                                         bool *not_null,
--                                         BlockLatencyHistogramInfo **info)
-+static BlockLatencyHistogramInfo *
-+bdrv_latency_histogram_stats(BlockLatencyHistogram *hist)
- {
--    *not_null = hist->bins != NULL;
--    if (*not_null) {
--        *info = g_new0(BlockLatencyHistogramInfo, 1);
-+    BlockLatencyHistogramInfo *info;
- 
--        (*info)->boundaries = uint64_list(hist->boundaries, hist->nbins - 1);
--        (*info)->bins = uint64_list(hist->bins, hist->nbins);
-+    if (!hist->bins) {
-+        return NULL;
-     }
-+
-+    info = g_new0(BlockLatencyHistogramInfo, 1);
-+    info->boundaries = uint64_list(hist->boundaries, hist->nbins - 1);
-+    info->bins = uint64_list(hist->bins, hist->nbins);
-+    return info;
- }
- 
- static void bdrv_query_blk_stats(BlockDeviceStats *ds, BlockBackend *blk)
- {
-     BlockAcctStats *stats = blk_get_stats(blk);
-     BlockAcctTimedStats *ts = NULL;
-+    BlockLatencyHistogram *hgram;
- 
-     ds->rd_bytes = stats->nr_bytes[BLOCK_ACCT_READ];
-     ds->wr_bytes = stats->nr_bytes[BLOCK_ACCT_WRITE];
-@@ -493,15 +485,13 @@ static void bdrv_query_blk_stats(BlockDeviceStats *ds, BlockBackend *blk)
-         QAPI_LIST_PREPEND(ds->timed_stats, dev_stats);
-     }
- 
--    bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_READ],
--                                 &ds->has_rd_latency_histogram,
--                                 &ds->rd_latency_histogram);
--    bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_WRITE],
--                                 &ds->has_wr_latency_histogram,
--                                 &ds->wr_latency_histogram);
--    bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_FLUSH],
--                                 &ds->has_flush_latency_histogram,
--                                 &ds->flush_latency_histogram);
-+    hgram = stats->latency_histogram;
-+    ds->rd_latency_histogram
-+        = bdrv_latency_histogram_stats(&hgram[BLOCK_ACCT_READ]);
-+    ds->wr_latency_histogram
-+        = bdrv_latency_histogram_stats(&hgram[BLOCK_ACCT_WRITE]);
-+    ds->flush_latency_histogram
-+        = bdrv_latency_histogram_stats(&hgram[BLOCK_ACCT_FLUSH]);
- }
- 
- static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
-@@ -526,16 +516,12 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
-     }
- 
-     if (bdrv_get_node_name(bs)[0]) {
--        s->has_node_name = true;
-         s->node_name = g_strdup(bdrv_get_node_name(bs));
-     }
- 
-     s->stats->wr_highest_offset = stat64_get(&bs->wr_highest_offset);
- 
-     s->driver_specific = bdrv_get_specific_stats(bs);
--    if (s->driver_specific) {
--        s->has_driver_specific = true;
--    }
- 
-     parent_child = bdrv_primary_child(bs);
-     if (!parent_child ||
-@@ -564,7 +550,6 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
-         }
-     }
-     if (parent_child) {
--        s->has_parent = true;
-         s->parent = bdrv_query_bds_stats(parent_child->bs, blk_level);
-     }
- 
-@@ -575,7 +560,6 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
-          * compatibility to when we put bs0->backing here, which might
-          * be either)
-          */
--        s->has_backing = true;
-         s->backing = bdrv_query_bds_stats(filter_or_cow_bs, blk_level);
-     }
- 
-@@ -640,12 +624,10 @@ BlockStatsList *qmp_query_blockstats(bool has_query_nodes,
- 
-             aio_context_acquire(ctx);
-             s = bdrv_query_bds_stats(blk_bs(blk), true);
--            s->has_device = true;
-             s->device = g_strdup(blk_name(blk));
- 
-             qdev = blk_get_attached_dev_id(blk);
-             if (qdev && *qdev) {
--                s->has_qdev = true;
-                 s->qdev = qdev;
-             } else {
-                 g_free(qdev);
-@@ -822,16 +804,16 @@ void bdrv_image_info_dump(ImageInfo *info)
-         qemu_printf("cleanly shut down: no\n");
-     }
- 
--    if (info->has_backing_filename) {
-+    if (info->backing_filename) {
-         qemu_printf("backing file: %s", info->backing_filename);
--        if (!info->has_full_backing_filename) {
-+        if (!info->full_backing_filename) {
-             qemu_printf(" (cannot determine actual path)");
-         } else if (strcmp(info->backing_filename,
-                           info->full_backing_filename) != 0) {
-             qemu_printf(" (actual path: %s)", info->full_backing_filename);
-         }
-         qemu_printf("\n");
--        if (info->has_backing_filename_format) {
-+        if (info->backing_filename_format) {
-             qemu_printf("backing file format: %s\n",
-                         info->backing_filename_format);
-         }
-@@ -865,7 +847,7 @@ void bdrv_image_info_dump(ImageInfo *info)
-         }
-     }
- 
--    if (info->has_format_specific) {
-+    if (info->format_specific) {
-         qemu_printf("Format specific information:\n");
-         bdrv_image_info_specific_dump(info->format_specific);
-     }
-diff --git a/block/qcow.c b/block/qcow.c
-index daa38839ab..8bffc41531 100644
---- a/block/qcow.c
-+++ b/block/qcow.c
-@@ -825,7 +825,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
-         return -EINVAL;
-     }
- 
--    if (qcow_opts->has_encrypt &&
-+    if (qcow_opts->encrypt &&
-         qcow_opts->encrypt->format != Q_CRYPTO_BLOCK_FORMAT_QCOW)
-     {
-         error_setg(errp, "Unsupported encryption format");
-@@ -853,7 +853,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
-     header.size = cpu_to_be64(total_size);
-     header_size = sizeof(header);
-     backing_filename_len = 0;
--    if (qcow_opts->has_backing_file) {
-+    if (qcow_opts->backing_file) {
-         if (strcmp(qcow_opts->backing_file, "fat:")) {
-             header.backing_file_offset = cpu_to_be64(header_size);
-             backing_filename_len = strlen(qcow_opts->backing_file);
-@@ -861,7 +861,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
-             header_size += backing_filename_len;
-         } else {
-             /* special backing file for vvfat */
--            qcow_opts->has_backing_file = false;
-+            qcow_opts->backing_file = NULL;
-         }
-         header.cluster_bits = 9; /* 512 byte cluster to avoid copying
-                                     unmodified sectors */
-@@ -876,7 +876,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
- 
-     header.l1_table_offset = cpu_to_be64(header_size);
- 
--    if (qcow_opts->has_encrypt) {
-+    if (qcow_opts->encrypt) {
-         header.crypt_method = cpu_to_be32(QCOW_CRYPT_AES);
- 
-         crypto = qcrypto_block_create(qcow_opts->encrypt, "encrypt.",
-@@ -895,7 +895,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
-         goto exit;
-     }
- 
--    if (qcow_opts->has_backing_file) {
-+    if (qcow_opts->backing_file) {
-         ret = blk_co_pwrite(qcow_blk, sizeof(header), backing_filename_len,
-                             qcow_opts->backing_file, 0);
-         if (ret < 0) {
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 4d6666d3ff..941782a011 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3508,7 +3508,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-     if (!qcow2_opts->has_preallocation) {
-         qcow2_opts->preallocation = PREALLOC_MODE_OFF;
-     }
--    if (qcow2_opts->has_backing_file &&
-+    if (qcow2_opts->backing_file &&
-         qcow2_opts->preallocation != PREALLOC_MODE_OFF &&
-         !qcow2_opts->extended_l2)
-     {
-@@ -3517,7 +3517,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-         ret = -EINVAL;
-         goto out;
-     }
--    if (qcow2_opts->has_backing_fmt && !qcow2_opts->has_backing_file) {
-+    if (qcow2_opts->has_backing_fmt && !qcow2_opts->backing_file) {
-         error_setg(errp, "Backing format cannot be used without backing file");
-         ret = -EINVAL;
-         goto out;
-@@ -3558,7 +3558,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-         ret = -EINVAL;
-         goto out;
-     }
--    if (qcow2_opts->data_file_raw && qcow2_opts->has_backing_file) {
-+    if (qcow2_opts->data_file_raw && qcow2_opts->backing_file) {
-         error_setg(errp, "Backing file and data-file-raw cannot be used at "
-                    "the same time");
-         ret = -EINVAL;
-@@ -3584,7 +3584,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-          * backing file when specifying data_file_raw is an error
-          * anyway.
-          */
--        assert(!qcow2_opts->has_backing_file);
-+        assert(!qcow2_opts->backing_file);
-     }
- 
-     if (qcow2_opts->data_file) {
-@@ -3752,7 +3752,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-     }
- 
-     /* Want a backing file? There you go. */
--    if (qcow2_opts->has_backing_file) {
-+    if (qcow2_opts->backing_file) {
-         const char *backing_format = NULL;
- 
-         if (qcow2_opts->has_backing_fmt) {
-@@ -3770,7 +3770,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-     }
- 
-     /* Want encryption? There you go. */
--    if (qcow2_opts->has_encrypt) {
-+    if (qcow2_opts->encrypt) {
-         ret = qcow2_set_up_encryption(blk_bs(blk), qcow2_opts->encrypt, errp);
-         if (ret < 0) {
-             goto out;
-@@ -5195,7 +5195,6 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
-             .refcount_bits      = s->refcount_bits,
-             .has_bitmaps        = !!bitmaps,
-             .bitmaps            = bitmaps,
--            .has_data_file      = !!s->image_data_file,
-             .data_file          = g_strdup(s->image_data_file),
-             .has_data_file_raw  = has_data_file(bs),
-             .data_file_raw      = data_file_is_raw(bs),
-@@ -5226,7 +5225,6 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
-         memset(&encrypt_info->u, 0, sizeof(encrypt_info->u));
-         qapi_free_QCryptoBlockInfo(encrypt_info);
- 
--        spec_info->u.qcow2.data->has_encrypt = true;
-         spec_info->u.qcow2.data->encrypt = qencrypt;
-     }
- 
-@@ -5846,7 +5844,7 @@ static int coroutine_fn qcow2_co_amend(BlockDriverState *bs,
-     BDRVQcow2State *s = bs->opaque;
-     int ret = 0;
- 
--    if (qopts->has_encrypt) {
-+    if (qopts->encrypt) {
-         if (!s->crypto) {
-             error_setg(errp, "image is not encrypted, can't amend");
-             return -EOPNOTSUPP;
-@@ -5911,7 +5909,7 @@ void qcow2_signal_corruption(BlockDriverState *bs, bool fatal, int64_t offset,
- 
-     node_name = bdrv_get_node_name(bs);
-     qapi_event_send_block_image_corrupted(bdrv_get_device_name(bs),
--                                          *node_name != '\0', node_name,
-+                                          *node_name ? node_name : NULL,
-                                           message, offset >= 0, offset,
-                                           size >= 0, size,
-                                           fatal);
-diff --git a/block/qed.c b/block/qed.c
-index 2f36ad342c..0ab159b468 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -698,7 +698,7 @@ static int coroutine_fn bdrv_qed_co_create(BlockdevCreateOptions *opts,
-         goto out;
-     }
- 
--    if (qed_opts->has_backing_file) {
-+    if (qed_opts->backing_file) {
-         header.features |= QED_F_BACKING_FILE;
-         header.backing_filename_offset = sizeof(le_header);
-         header.backing_filename_size = strlen(qed_opts->backing_file);
-diff --git a/block/quorum.c b/block/quorum.c
-index f9e6539ceb..7f21c03f1f 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -202,7 +202,7 @@ static void quorum_report_bad(QuorumOpType type, uint64_t offset,
-         msg = strerror(-ret);
-     }
- 
--    qapi_event_send_quorum_report_bad(type, !!msg, msg, node_name, start_sector,
-+    qapi_event_send_quorum_report_bad(type, msg, node_name, start_sector,
-                                       end_sector - start_sector);
- }
- 
-diff --git a/block/rbd.c b/block/rbd.c
-index f826410f40..3aa6aae0e0 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -536,13 +536,13 @@ static int qemu_rbd_do_create(BlockdevCreateOptions *options,
-     int ret;
- 
-     assert(options->driver == BLOCKDEV_DRIVER_RBD);
--    if (opts->location->has_snapshot) {
-+    if (opts->location->snapshot) {
-         error_setg(errp, "Can't use snapshot name for image creation");
-         return -EINVAL;
-     }
- 
- #ifndef LIBRBD_SUPPORTS_ENCRYPTION
--    if (opts->has_encrypt) {
-+    if (opts->encrypt) {
-         error_setg(errp, "RBD library does not support image encryption");
-         return -ENOTSUP;
-     }
-@@ -574,7 +574,7 @@ static int qemu_rbd_do_create(BlockdevCreateOptions *options,
-     }
- 
- #ifdef LIBRBD_SUPPORTS_ENCRYPTION
--    if (opts->has_encrypt) {
-+    if (opts->encrypt) {
-         rbd_image_t image;
- 
-         ret = rbd_open(io_ctx, opts->location->image, &image, NULL);
-@@ -686,7 +686,6 @@ static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
-         goto exit;
-     }
-     rbd_opts->encrypt     = encrypt;
--    rbd_opts->has_encrypt = !!encrypt;
- 
-     /*
-      * Caution: while qdict_get_try_str() is fine, getting non-string
-@@ -697,11 +696,8 @@ static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
-     loc = rbd_opts->location;
-     loc->pool        = g_strdup(qdict_get_try_str(options, "pool"));
-     loc->conf        = g_strdup(qdict_get_try_str(options, "conf"));
--    loc->has_conf    = !!loc->conf;
-     loc->user        = g_strdup(qdict_get_try_str(options, "user"));
--    loc->has_user    = !!loc->user;
-     loc->q_namespace = g_strdup(qdict_get_try_str(options, "namespace"));
--    loc->has_q_namespace = !!loc->q_namespace;
-     loc->image       = g_strdup(qdict_get_try_str(options, "image"));
-     keypairs         = qdict_get_try_str(options, "=keyvalue-pairs");
- 
-@@ -767,7 +763,6 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-             return -EINVAL;
-         }
-         opts->key_secret = g_strdup(secretid);
--        opts->has_key_secret = true;
-     }
- 
-     mon_host = qemu_rbd_mon_host(opts, &local_err);
-@@ -785,7 +780,7 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
- 
-     /* try default location when conf=NULL, but ignore failure */
-     r = rados_conf_read_file(*cluster, opts->conf);
--    if (opts->has_conf && r < 0) {
-+    if (opts->conf && r < 0) {
-         error_setg_errno(errp, -r, "error reading conf file %s", opts->conf);
-         goto failed_shutdown;
-     }
-@@ -833,7 +828,7 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-     }
- 
- #ifdef HAVE_RBD_NAMESPACE_EXISTS
--    if (opts->has_q_namespace && strlen(opts->q_namespace) > 0) {
-+    if (opts->q_namespace && strlen(opts->q_namespace) > 0) {
-         bool exists;
- 
-         r = rbd_namespace_exists(*io_ctx, opts->q_namespace, &exists);
-@@ -991,7 +986,7 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
-         goto failed_open;
-     }
- 
--    if (opts->has_encrypt) {
-+    if (opts->encrypt) {
- #ifdef LIBRBD_SUPPORTS_ENCRYPTION
-         r = qemu_rbd_encryption_load(s->image, opts->encrypt, errp);
-         if (r < 0) {
-diff --git a/block/ssh.c b/block/ssh.c
-index 04726d4ecb..8508710f2f 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -643,7 +643,7 @@ static int connect_to_ssh(BDRVSSHState *s, BlockdevOptionsSsh *opts,
-     unsigned int port = 0;
-     int new_sock = -1;
- 
--    if (opts->has_user) {
-+    if (opts->user) {
-         s->user = g_strdup(opts->user);
-     } else {
-         s->user = g_strdup(g_get_user_name());
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index 012256bb02..213012435f 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -173,8 +173,8 @@ void nbd_server_start_options(NbdServerOptions *arg, Error **errp)
- }
- 
- void qmp_nbd_server_start(SocketAddressLegacy *addr,
--                          bool has_tls_creds, const char *tls_creds,
--                          bool has_tls_authz, const char *tls_authz,
-+                          const char *tls_creds,
-+                          const char *tls_authz,
-                           bool has_max_connections, uint32_t max_connections,
-                           Error **errp)
- {
-@@ -200,8 +200,7 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
-      * block-export-add would default to the node-name, but we may have to use
-      * the device name as a default here for compatibility.
-      */
--    if (!arg->has_name) {
--        arg->has_name = true;
-+    if (!arg->name) {
-         arg->name = g_strdup(arg->device);
-     }
- 
-@@ -215,7 +214,7 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
-     };
-     QAPI_CLONE_MEMBERS(BlockExportOptionsNbdBase, &export_opts->u.nbd,
-                        qapi_NbdServerAddOptions_base(arg));
--    if (arg->has_bitmap) {
-+    if (arg->bitmap) {
-         BlockDirtyBitmapOrStr *el = g_new(BlockDirtyBitmapOrStr, 1);
- 
-         *el = (BlockDirtyBitmapOrStr) {
-diff --git a/blockdev.c b/blockdev.c
-index d6550e0dc8..59753400e9 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1051,23 +1051,17 @@ static void blockdev_do_action(TransactionAction *action, Error **errp)
-     qmp_transaction(&list, false, NULL, errp);
- }
- 
--void qmp_blockdev_snapshot_sync(bool has_device, const char *device,
--                                bool has_node_name, const char *node_name,
-+void qmp_blockdev_snapshot_sync(const char *device, const char *node_name,
-                                 const char *snapshot_file,
--                                bool has_snapshot_node_name,
-                                 const char *snapshot_node_name,
--                                bool has_format, const char *format,
-+                                const char *format,
-                                 bool has_mode, NewImageMode mode, Error **errp)
- {
-     BlockdevSnapshotSync snapshot = {
--        .has_device = has_device,
-         .device = (char *) device,
--        .has_node_name = has_node_name,
-         .node_name = (char *) node_name,
-         .snapshot_file = (char *) snapshot_file,
--        .has_snapshot_node_name = has_snapshot_node_name,
-         .snapshot_node_name = (char *) snapshot_node_name,
--        .has_format = has_format,
-         .format = (char *) format,
-         .has_mode = has_mode,
-         .mode = mode,
-@@ -1109,9 +1103,7 @@ void qmp_blockdev_snapshot_internal_sync(const char *device,
- }
- 
- SnapshotInfo *qmp_blockdev_snapshot_delete_internal_sync(const char *device,
--                                                         bool has_id,
-                                                          const char *id,
--                                                         bool has_name,
-                                                          const char *name,
-                                                          Error **errp)
- {
-@@ -1129,14 +1121,6 @@ SnapshotInfo *qmp_blockdev_snapshot_delete_internal_sync(const char *device,
-     aio_context = bdrv_get_aio_context(bs);
-     aio_context_acquire(aio_context);
- 
--    if (!has_id) {
--        id = NULL;
--    }
--
--    if (!has_name) {
--        name = NULL;
--    }
--
-     if (!id && !name) {
-         error_setg(errp, "Name or id must be provided");
-         goto out_aio_context;
-@@ -1450,8 +1434,8 @@ static void external_snapshot_prepare(BlkActionState *common,
-     case TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_SYNC:
-         {
-             BlockdevSnapshotSync *s = action->u.blockdev_snapshot_sync.data;
--            device = s->has_device ? s->device : NULL;
--            node_name = s->has_node_name ? s->node_name : NULL;
-+            device = s->device;
-+            node_name = s->node_name;
-             new_image_file = s->snapshot_file;
-             snapshot_ref = NULL;
-         }
-@@ -1495,10 +1479,9 @@ static void external_snapshot_prepare(BlkActionState *common,
- 
-     if (action->type == TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_SYNC) {
-         BlockdevSnapshotSync *s = action->u.blockdev_snapshot_sync.data;
--        const char *format = s->has_format ? s->format : "qcow2";
-+        const char *format = s->format ?: "qcow2";
-         enum NewImageMode mode;
--        const char *snapshot_node_name =
--            s->has_snapshot_node_name ? s->snapshot_node_name : NULL;
-+        const char *snapshot_node_name = s->snapshot_node_name;
- 
-         if (node_name && !snapshot_node_name) {
-             error_setg(errp, "New overlay node-name missing");
-@@ -2412,8 +2395,7 @@ BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
-     return ret;
- }
- 
--void coroutine_fn qmp_block_resize(bool has_device, const char *device,
--                                   bool has_node_name, const char *node_name,
-+void coroutine_fn qmp_block_resize(const char *device, const char *node_name,
-                                    int64_t size, Error **errp)
- {
-     Error *local_err = NULL;
-@@ -2421,9 +2403,7 @@ void coroutine_fn qmp_block_resize(bool has_device, const char *device,
-     BlockDriverState *bs;
-     AioContext *old_ctx;
- 
--    bs = bdrv_lookup_bs(has_device ? device : NULL,
--                        has_node_name ? node_name : NULL,
--                        &local_err);
-+    bs = bdrv_lookup_bs(device, node_name, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-@@ -2458,14 +2438,14 @@ void coroutine_fn qmp_block_resize(bool has_device, const char *device,
-     bdrv_co_unlock(bs);
- }
- 
--void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
--                      bool has_base, const char *base,
--                      bool has_base_node, const char *base_node,
--                      bool has_backing_file, const char *backing_file,
--                      bool has_bottom, const char *bottom,
-+void qmp_block_stream(const char *job_id, const char *device,
-+                      const char *base,
-+                      const char *base_node,
-+                      const char *backing_file,
-+                      const char *bottom,
-                       bool has_speed, int64_t speed,
-                       bool has_on_error, BlockdevOnError on_error,
--                      bool has_filter_node_name, const char *filter_node_name,
-+                      const char *filter_node_name,
-                       bool has_auto_finalize, bool auto_finalize,
-                       bool has_auto_dismiss, bool auto_dismiss,
-                       Error **errp)
-@@ -2477,19 +2457,19 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-     Error *local_err = NULL;
-     int job_flags = JOB_DEFAULT;
- 
--    if (has_base && has_base_node) {
-+    if (base && base_node) {
-         error_setg(errp, "'base' and 'base-node' cannot be specified "
-                    "at the same time");
-         return;
-     }
- 
--    if (has_base && has_bottom) {
-+    if (base && bottom) {
-         error_setg(errp, "'base' and 'bottom' cannot be specified "
-                    "at the same time");
-         return;
-     }
- 
--    if (has_bottom && has_base_node) {
-+    if (bottom && base_node) {
-         error_setg(errp, "'bottom' and 'base-node' cannot be specified "
-                    "at the same time");
-         return;
-@@ -2507,7 +2487,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-     aio_context = bdrv_get_aio_context(bs);
-     aio_context_acquire(aio_context);
- 
--    if (has_base) {
-+    if (base) {
-         base_bs = bdrv_find_backing_image(bs, base);
-         if (base_bs == NULL) {
-             error_setg(errp, "Can't find '%s' in the backing chain", base);
-@@ -2516,7 +2496,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         assert(bdrv_get_aio_context(base_bs) == aio_context);
-     }
- 
--    if (has_base_node) {
-+    if (base_node) {
-         base_bs = bdrv_lookup_bs(NULL, base_node, errp);
-         if (!base_bs) {
-             goto out;
-@@ -2530,7 +2510,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         bdrv_refresh_filename(base_bs);
-     }
- 
--    if (has_bottom) {
-+    if (bottom) {
-         bottom_bs = bdrv_lookup_bs(NULL, bottom, errp);
-         if (!bottom_bs) {
-             goto out;
-@@ -2555,7 +2535,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-     /*
-      * Check for op blockers in the whole chain between bs and base (or bottom)
-      */
--    iter_end = has_bottom ? bdrv_filter_or_cow_bs(bottom_bs) : base_bs;
-+    iter_end = bottom ? bdrv_filter_or_cow_bs(bottom_bs) : base_bs;
-     for (iter = bs; iter && iter != iter_end;
-          iter = bdrv_filter_or_cow_bs(iter))
-     {
-@@ -2566,7 +2546,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
- 
-     /* if we are streaming the entire chain, the result will have no backing
-      * file, and specifying one is therefore an error */
--    if (base_bs == NULL && has_backing_file) {
-+    if (!base_bs && backing_file) {
-         error_setg(errp, "backing file specified, but streaming the "
-                          "entire chain");
-         goto out;
-@@ -2579,7 +2559,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         job_flags |= JOB_MANUAL_DISMISS;
-     }
- 
--    stream_start(has_job_id ? job_id : NULL, bs, base_bs, backing_file,
-+    stream_start(job_id, bs, base_bs, backing_file,
-                  bottom_bs, job_flags, has_speed ? speed : 0, on_error,
-                  filter_node_name, &local_err);
-     if (local_err) {
-@@ -2593,15 +2573,15 @@ out:
-     aio_context_release(aio_context);
- }
- 
--void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
--                      bool has_base_node, const char *base_node,
--                      bool has_base, const char *base,
--                      bool has_top_node, const char *top_node,
--                      bool has_top, const char *top,
--                      bool has_backing_file, const char *backing_file,
-+void qmp_block_commit(const char *job_id, const char *device,
-+                      const char *base_node,
-+                      const char *base,
-+                      const char *top_node,
-+                      const char *top,
-+                      const char *backing_file,
-                       bool has_speed, int64_t speed,
-                       bool has_on_error, BlockdevOnError on_error,
--                      bool has_filter_node_name, const char *filter_node_name,
-+                      const char *filter_node_name,
-                       bool has_auto_finalize, bool auto_finalize,
-                       bool has_auto_dismiss, bool auto_dismiss,
-                       Error **errp)
-@@ -2620,9 +2600,6 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
-     if (!has_on_error) {
-         on_error = BLOCKDEV_ON_ERROR_REPORT;
-     }
--    if (!has_filter_node_name) {
--        filter_node_name = NULL;
--    }
-     if (has_auto_finalize && !auto_finalize) {
-         job_flags |= JOB_MANUAL_FINALIZE;
-     }
-@@ -2658,10 +2635,10 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
-     /* default top_bs is the active layer */
-     top_bs = bs;
- 
--    if (has_top_node && has_top) {
-+    if (top_node && top) {
-         error_setg(errp, "'top-node' and 'top' are mutually exclusive");
-         goto out;
--    } else if (has_top_node) {
-+    } else if (top_node) {
-         top_bs = bdrv_lookup_bs(NULL, top_node, errp);
-         if (top_bs == NULL) {
-             goto out;
-@@ -2671,7 +2648,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
-                        top_node);
-             goto out;
-         }
--    } else if (has_top && top) {
-+    } else if (top) {
-         /* This strcmp() is just a shortcut, there is no need to
-          * refresh @bs's filename.  If it mismatches,
-          * bdrv_find_backing_image() will do the refresh and may still
-@@ -2688,10 +2665,10 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
- 
-     assert(bdrv_get_aio_context(top_bs) == aio_context);
- 
--    if (has_base_node && has_base) {
-+    if (base_node && base) {
-         error_setg(errp, "'base-node' and 'base' are mutually exclusive");
-         goto out;
--    } else if (has_base_node) {
-+    } else if (base_node) {
-         base_bs = bdrv_lookup_bs(NULL, base_node, errp);
-         if (base_bs == NULL) {
-             goto out;
-@@ -2701,7 +2678,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
-                        base_node);
-             goto out;
-         }
--    } else if (has_base && base) {
-+    } else if (base) {
-         base_bs = bdrv_find_backing_image(top_bs, base);
-         if (base_bs == NULL) {
-             error_setg(errp, "Can't find '%s' in the backing chain", base);
-@@ -2743,7 +2720,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
-     if (top_perm & BLK_PERM_WRITE ||
-         bdrv_skip_filters(top_bs) == bdrv_skip_filters(bs))
-     {
--        if (has_backing_file) {
-+        if (backing_file) {
-             if (bdrv_skip_filters(top_bs) == bdrv_skip_filters(bs)) {
-                 error_setg(errp, "'backing-file' specified,"
-                                  " but 'top' is the active layer");
-@@ -2753,7 +2730,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
-             }
-             goto out;
-         }
--        if (!has_job_id) {
-+        if (!job_id) {
-             /*
-              * Emulate here what block_job_create() does, because it
-              * is possible that @bs != @top_bs (the block job should
-@@ -2769,8 +2746,8 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
-         if (bdrv_op_is_blocked(overlay_bs, BLOCK_OP_TYPE_COMMIT_TARGET, errp)) {
-             goto out;
-         }
--        commit_start(has_job_id ? job_id : NULL, bs, base_bs, top_bs, job_flags,
--                     speed, on_error, has_backing_file ? backing_file : NULL,
-+        commit_start(job_id, bs, base_bs, top_bs, job_flags,
-+                     speed, on_error, backing_file,
-                      filter_node_name, &local_err);
-     }
-     if (local_err != NULL) {
-@@ -2803,9 +2780,6 @@ static BlockJob *do_backup_common(BackupCommon *backup,
-     if (!backup->has_on_target_error) {
-         backup->on_target_error = BLOCKDEV_ON_ERROR_REPORT;
-     }
--    if (!backup->has_job_id) {
--        backup->job_id = NULL;
--    }
-     if (!backup->has_auto_finalize) {
-         backup->auto_finalize = true;
-     }
-@@ -2831,7 +2805,7 @@ static BlockJob *do_backup_common(BackupCommon *backup,
-     if ((backup->sync == MIRROR_SYNC_MODE_BITMAP) ||
-         (backup->sync == MIRROR_SYNC_MODE_INCREMENTAL)) {
-         /* done before desugaring 'incremental' to print the right message */
--        if (!backup->has_bitmap) {
-+        if (!backup->bitmap) {
-             error_setg(errp, "must provide a valid bitmap name for "
-                        "'%s' sync mode", MirrorSyncMode_str(backup->sync));
-             return NULL;
-@@ -2852,7 +2826,7 @@ static BlockJob *do_backup_common(BackupCommon *backup,
-         backup->bitmap_mode = BITMAP_SYNC_MODE_ON_SUCCESS;
-     }
- 
--    if (backup->has_bitmap) {
-+    if (backup->bitmap) {
-         bmap = bdrv_find_dirty_bitmap(bs, backup->bitmap);
-         if (!bmap) {
-             error_setg(errp, "Bitmap '%s' could not be found", backup->bitmap);
-@@ -2885,7 +2859,7 @@ static BlockJob *do_backup_common(BackupCommon *backup,
-         }
-     }
- 
--    if (!backup->has_bitmap && backup->has_bitmap_mode) {
-+    if (!backup->bitmap && backup->has_bitmap_mode) {
-         error_setg(errp, "Cannot specify bitmap sync mode without a bitmap");
-         return NULL;
-     }
-@@ -2945,7 +2919,7 @@ void qmp_blockdev_backup(BlockdevBackup *backup, Error **errp)
-  **/
- static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
-                                    BlockDriverState *target,
--                                   bool has_replaces, const char *replaces,
-+                                   const char *replaces,
-                                    enum MirrorSyncMode sync,
-                                    BlockMirrorBackingMode backing_mode,
-                                    bool zero_target,
-@@ -2957,7 +2931,6 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
-                                    bool has_on_target_error,
-                                    BlockdevOnError on_target_error,
-                                    bool has_unmap, bool unmap,
--                                   bool has_filter_node_name,
-                                    const char *filter_node_name,
-                                    bool has_copy_mode, MirrorCopyMode copy_mode,
-                                    bool has_auto_finalize, bool auto_finalize,
-@@ -2985,9 +2958,6 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
-     if (!has_unmap) {
-         unmap = true;
-     }
--    if (!has_filter_node_name) {
--        filter_node_name = NULL;
--    }
-     if (!has_copy_mode) {
-         copy_mode = MIRROR_COPY_MODE_BACKGROUND;
-     }
-@@ -3020,16 +2990,15 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
-         sync = MIRROR_SYNC_MODE_FULL;
-     }
- 
--    if (!has_replaces) {
-+    if (!replaces) {
-         /* We want to mirror from @bs, but keep implicit filters on top */
-         unfiltered_bs = bdrv_skip_implicit_filters(bs);
-         if (unfiltered_bs != bs) {
-             replaces = unfiltered_bs->node_name;
--            has_replaces = true;
-         }
-     }
- 
--    if (has_replaces) {
-+    if (replaces) {
-         BlockDriverState *to_replace_bs;
-         AioContext *replace_aio_context;
-         int64_t bs_size, replace_size;
-@@ -3066,7 +3035,7 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
-      * and will allow to check whether the node still exist at mirror completion
-      */
-     mirror_start(job_id, bs, target,
--                 has_replaces ? replaces : NULL, job_flags,
-+                 replaces, job_flags,
-                  speed, granularity, buf_size, sync, backing_mode, zero_target,
-                  on_source_error, on_target_error, unmap, filter_node_name,
-                  copy_mode, errp);
-@@ -3104,7 +3073,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
-         arg->mode = NEW_IMAGE_MODE_ABSOLUTE_PATHS;
-     }
- 
--    if (!arg->has_format) {
-+    if (!arg->format) {
-         format = (arg->mode == NEW_IMAGE_MODE_EXISTING
-                   ? NULL : bs->drv->format_name);
-     }
-@@ -3124,8 +3093,8 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
-         goto out;
-     }
- 
--    if (arg->has_replaces) {
--        if (!arg->has_node_name) {
-+    if (arg->replaces) {
-+        if (!arg->node_name) {
-             error_setg(errp, "a node-name must be provided when replacing a"
-                              " named node of the graph");
-             goto out;
-@@ -3175,7 +3144,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
-     }
- 
-     options = qdict_new();
--    if (arg->has_node_name) {
-+    if (arg->node_name) {
-         qdict_put_str(options, "node-name", arg->node_name);
-     }
-     if (format) {
-@@ -3210,8 +3179,8 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
-     aio_context_release(old_context);
-     aio_context_acquire(aio_context);
- 
--    blockdev_mirror_common(arg->has_job_id ? arg->job_id : NULL, bs, target_bs,
--                           arg->has_replaces, arg->replaces, arg->sync,
-+    blockdev_mirror_common(arg->job_id, bs, target_bs,
-+                           arg->replaces, arg->sync,
-                            backing_mode, zero_target,
-                            arg->has_speed, arg->speed,
-                            arg->has_granularity, arg->granularity,
-@@ -3219,7 +3188,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
-                            arg->has_on_source_error, arg->on_source_error,
-                            arg->has_on_target_error, arg->on_target_error,
-                            arg->has_unmap, arg->unmap,
--                           false, NULL,
-+                           NULL,
-                            arg->has_copy_mode, arg->copy_mode,
-                            arg->has_auto_finalize, arg->auto_finalize,
-                            arg->has_auto_dismiss, arg->auto_dismiss,
-@@ -3229,9 +3198,9 @@ out:
-     aio_context_release(aio_context);
- }
- 
--void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
-+void qmp_blockdev_mirror(const char *job_id,
-                          const char *device, const char *target,
--                         bool has_replaces, const char *replaces,
-+                         const char *replaces,
-                          MirrorSyncMode sync,
-                          bool has_speed, int64_t speed,
-                          bool has_granularity, uint32_t granularity,
-@@ -3240,7 +3209,6 @@ void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
-                          BlockdevOnError on_source_error,
-                          bool has_on_target_error,
-                          BlockdevOnError on_target_error,
--                         bool has_filter_node_name,
-                          const char *filter_node_name,
-                          bool has_copy_mode, MirrorCopyMode copy_mode,
-                          bool has_auto_finalize, bool auto_finalize,
-@@ -3281,15 +3249,14 @@ void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
-         goto out;
-     }
- 
--    blockdev_mirror_common(has_job_id ? job_id : NULL, bs, target_bs,
--                           has_replaces, replaces, sync, backing_mode,
-+    blockdev_mirror_common(job_id, bs, target_bs,
-+                           replaces, sync, backing_mode,
-                            zero_target, has_speed, speed,
-                            has_granularity, granularity,
-                            has_buf_size, buf_size,
-                            has_on_source_error, on_source_error,
-                            has_on_target_error, on_target_error,
--                           true, true,
--                           has_filter_node_name, filter_node_name,
-+                           true, true, filter_node_name,
-                            has_copy_mode, copy_mode,
-                            has_auto_finalize, auto_finalize,
-                            has_auto_dismiss, auto_dismiss,
-@@ -3561,7 +3528,7 @@ void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
-         QDict *qdict;
- 
-         /* Check for the selected node name */
--        if (!options->has_node_name) {
-+        if (!options->node_name) {
-             error_setg(errp, "node-name not specified");
-             goto fail;
-         }
-@@ -3666,8 +3633,7 @@ static BdrvChild *bdrv_find_child(BlockDriverState *parent_bs,
-     return NULL;
- }
- 
--void qmp_x_blockdev_change(const char *parent, bool has_child,
--                           const char *child, bool has_node,
-+void qmp_x_blockdev_change(const char *parent, const char *child,
-                            const char *node, Error **errp)
- {
-     BlockDriverState *parent_bs, *new_bs = NULL;
-@@ -3678,8 +3644,8 @@ void qmp_x_blockdev_change(const char *parent, bool has_child,
-         return;
-     }
- 
--    if (has_child == has_node) {
--        if (has_child) {
-+    if (!child == !node) {
-+        if (child) {
-             error_setg(errp, "The parameters child and node are in conflict");
-         } else {
-             error_setg(errp, "Either child or node must be specified");
-@@ -3687,7 +3653,7 @@ void qmp_x_blockdev_change(const char *parent, bool has_child,
-         return;
-     }
- 
--    if (has_child) {
-+    if (child) {
-         p_child = bdrv_find_child(parent_bs, child);
-         if (!p_child) {
-             error_setg(errp, "Node '%s' does not have child '%s'",
-@@ -3697,7 +3663,7 @@ void qmp_x_blockdev_change(const char *parent, bool has_child,
-         bdrv_del_child(parent_bs, p_child, errp);
-     }
- 
--    if (has_node) {
-+    if (node) {
-         new_bs = bdrv_find_node(node);
-         if (!new_bs) {
-             error_setg(errp, "Node '%s' not found", node);
-diff --git a/blockjob.c b/blockjob.c
-index f51d4e18f3..3c8f3543a2 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -354,7 +354,6 @@ BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp)
-     info->auto_finalize = job->job.auto_finalize;
-     info->auto_dismiss  = job->job.auto_dismiss;
-     if (job->job.ret) {
--        info->has_error = true;
-         info->error = job->job.err ?
-                         g_strdup(error_get_pretty(job->job.err)) :
-                         g_strdup(strerror(-job->job.ret));
-@@ -414,7 +413,6 @@ static void block_job_event_completed_locked(Notifier *n, void *opaque)
-                                         progress_total,
-                                         progress_current,
-                                         job->speed,
--                                        !!msg,
-                                         msg);
- }
- 
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index aba12759d5..d1ce744619 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -457,8 +457,7 @@ static void rxfilter_notify(NetClientState *nc)
+ 
+     if (nc->rxfilter_notify_enabled) {
+         char *path = object_get_canonical_path(OBJECT(n->qdev));
+-        qapi_event_send_nic_rx_filter_changed(!!n->netclient_name,
+-                                              n->netclient_name, path);
++        qapi_event_send_nic_rx_filter_changed(n->netclient_name, path);
+         g_free(path);
+ 
+         /* disable event notification to avoid events flooding */
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 01b789a79e..878e3ca1f3 100644
+index c5c8cb593e..45d78ba257 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -1496,8 +1496,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
-             }
-         }
- 
--        qmp_blockdev_change_medium(true, device, false, NULL, target,
--                                   !!arg, arg, true, force,
-+        qmp_blockdev_change_medium(device, NULL, target, arg, true, force,
-                                    !!read_only, read_only_mode,
-                                    &err);
+@@ -1104,7 +1104,6 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
+     params->interfaces = strList_from_comma_list(interfaces_str);
+     params->has_interfaces = params->interfaces != NULL;
+     params->id = g_strdup(id);
+-    params->has_id = !!params->id;
+     qmp_announce_self(params, NULL);
+     qapi_free_AnnounceParameters(params);
+ }
+diff --git a/net/announce.c b/net/announce.c
+index 62c60192a3..9e99044422 100644
+--- a/net/announce.c
++++ b/net/announce.c
+@@ -46,7 +46,7 @@ void qemu_announce_timer_del(AnnounceTimer *timer, bool free_named)
      }
-diff --git a/qemu-img.c b/qemu-img.c
-index a9b3a8103c..439d8de1e3 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2915,15 +2915,15 @@ static ImageInfoList *collect_image_info_list(bool image_opts,
-         image_opts = false;
+     qapi_free_strList(timer->params.interfaces);
+     timer->params.interfaces = NULL;
+-    if (free_named && timer->params.has_id) {
++    if (free_named && timer->params.id) {
+         AnnounceTimer *list_timer;
+         /*
+          * Sanity check: There should only be one timer on the list with
+@@ -157,7 +157,7 @@ static void qemu_announce_self_iter(NICState *nic, void *opaque)
+         skip = false;
+     }
  
-         if (chain) {
--            if (info->has_full_backing_filename) {
-+            if (info->full_backing_filename) {
-                 filename = info->full_backing_filename;
--            } else if (info->has_backing_filename) {
-+            } else if (info->backing_filename) {
-                 error_report("Could not determine absolute backing filename,"
-                              " but backing filename '%s' present",
-                              info->backing_filename);
-                 goto err;
-             }
--            if (info->has_backing_filename_format) {
-+            if (info->backing_filename_format) {
-                 fmt = info->backing_filename_format;
-             }
-         }
-@@ -3046,7 +3046,7 @@ static int dump_map_entry(OutputFormat output_format, MapEntry *e,
-             printf("%#-16"PRIx64"%#-16"PRIx64"%#-16"PRIx64"%s\n",
-                    e->start, e->length,
-                    e->has_offset ? e->offset : 0,
--                   e->has_filename ? e->filename : "");
-+                   e->filename ?: "");
-         }
-         /* This format ignores the distinction between 0, ZERO and ZERO|DATA.
-          * Modify the flags here to allow more coalescing.
-@@ -3127,7 +3127,6 @@ static int get_block_status(BlockDriverState *bs, int64_t offset,
-         .has_offset = has_offset,
-         .depth = depth,
-         .present = !!(ret & BDRV_BLOCK_ALLOCATED),
--        .has_filename = filename,
-         .filename = filename,
-     };
+-    trace_qemu_announce_self_iter(timer->params.has_id ? timer->params.id : "_",
++    trace_qemu_announce_self_iter(timer->params.id ?: "_",
+                                   nic->ncs->name,
+                                   qemu_ether_ntoa(&nic->conf->macaddr), skip);
  
-@@ -3143,11 +3142,11 @@ static inline bool entry_mergeable(const MapEntry *curr, const MapEntry *next)
-         curr->data != next->data ||
-         curr->depth != next->depth ||
-         curr->present != next->present ||
--        curr->has_filename != next->has_filename ||
-+        !curr->filename != !next->filename ||
-         curr->has_offset != next->has_offset) {
+@@ -199,9 +199,9 @@ void qemu_announce_self(AnnounceTimer *timer, AnnounceParameters *params)
+ void qmp_announce_self(AnnounceParameters *params, Error **errp)
+ {
+     AnnounceTimer *named_timer;
+-    if (!params->has_id) {
++
++    if (!params->id) {
+         params->id = g_strdup("");
+-        params->has_id = true;
+     }
+ 
+     named_timer = g_datalist_get_data(&named_timers, params->id);
+diff --git a/net/hub.c b/net/hub.c
+index 67ca534856..4c8a469a50 100644
+--- a/net/hub.c
++++ b/net/hub.c
+@@ -274,7 +274,7 @@ int net_init_hubport(const Netdev *netdev, const char *name,
+     assert(!peer);
+     hubport = &netdev->u.hubport;
+ 
+-    if (hubport->has_netdev) {
++    if (hubport->netdev) {
+         hubpeer = qemu_find_netdev(hubport->netdev);
+         if (!hubpeer) {
+             error_setg(errp, "netdev '%s' not found", hubport->netdev);
+diff --git a/net/l2tpv3.c b/net/l2tpv3.c
+index 350041a0d6..5852e42738 100644
+--- a/net/l2tpv3.c
++++ b/net/l2tpv3.c
+@@ -578,7 +578,7 @@ int net_init_l2tpv3(const Netdev *netdev,
+ 
+     if (l2tpv3->has_udp && l2tpv3->udp) {
+         s->udp = true;
+-        if (!(l2tpv3->has_srcport && l2tpv3->has_dstport)) {
++        if (!(l2tpv3->srcport && l2tpv3->dstport)) {
+             error_setg(errp, "need both src and dst port for udp");
+             goto outerr;
+         } else {
+diff --git a/net/net.c b/net/net.c
+index 840ad9dca5..2d01472998 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -964,7 +964,7 @@ static int net_init_nic(const Netdev *netdev, const char *name,
+ 
+     memset(nd, 0, sizeof(*nd));
+ 
+-    if (nic->has_netdev) {
++    if (nic->netdev) {
+         nd->netdev = qemu_find_netdev(nic->netdev);
+         if (!nd->netdev) {
+             error_setg(errp, "netdev '%s' not found", nic->netdev);
+@@ -975,19 +975,19 @@ static int net_init_nic(const Netdev *netdev, const char *name,
+         nd->netdev = peer;
+     }
+     nd->name = g_strdup(name);
+-    if (nic->has_model) {
++    if (nic->model) {
+         nd->model = g_strdup(nic->model);
+     }
+-    if (nic->has_addr) {
++    if (nic->addr) {
+         nd->devaddr = g_strdup(nic->addr);
+     }
+ 
+-    if (nic->has_macaddr &&
++    if (nic->macaddr &&
+         net_parse_macaddr(nd->macaddr.a, nic->macaddr) < 0) {
+         error_setg(errp, "invalid syntax for ethernet address");
+         return -1;
+     }
+-    if (nic->has_macaddr &&
++    if (nic->macaddr &&
+         is_multicast_ether_addr(nd->macaddr.a)) {
+         error_setg(errp,
+                    "NIC cannot have multicast MAC address (odd 1st byte)");
+@@ -1081,7 +1081,7 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
+ 
+         /* Do not add to a hub if it's a nic with a netdev= parameter. */
+         if (netdev->type != NET_CLIENT_DRIVER_NIC ||
+-            !netdev->u.nic.has_netdev) {
++            !netdev->u.nic.netdev) {
+             peer = net_hub_add_port(0, NULL, NULL);
+         }
+     }
+@@ -1295,8 +1295,7 @@ void print_net_client(Monitor *mon, NetClientState *nc)
+     }
+ }
+ 
+-RxFilterInfoList *qmp_query_rx_filter(bool has_name, const char *name,
+-                                      Error **errp)
++RxFilterInfoList *qmp_query_rx_filter(const char *name, Error **errp)
+ {
+     NetClientState *nc;
+     RxFilterInfoList *filter_list = NULL, **tail = &filter_list;
+@@ -1304,13 +1303,13 @@ RxFilterInfoList *qmp_query_rx_filter(bool has_name, const char *name,
+     QTAILQ_FOREACH(nc, &net_clients, next) {
+         RxFilterInfo *info;
+ 
+-        if (has_name && strcmp(nc->name, name) != 0) {
++        if (name && strcmp(nc->name, name) != 0) {
+             continue;
+         }
+ 
+         /* only query rx-filter information of NIC */
+         if (nc->info->type != NET_CLIENT_DRIVER_NIC) {
+-            if (has_name) {
++            if (name) {
+                 error_setg(errp, "net client(%s) isn't a NIC", name);
+                 assert(!filter_list);
+                 return NULL;
+@@ -1327,19 +1326,19 @@ RxFilterInfoList *qmp_query_rx_filter(bool has_name, const char *name,
+         if (nc->info->query_rx_filter) {
+             info = nc->info->query_rx_filter(nc);
+             QAPI_LIST_APPEND(tail, info);
+-        } else if (has_name) {
++        } else if (name) {
+             error_setg(errp, "net client(%s) doesn't support"
+                        " rx-filter querying", name);
+             assert(!filter_list);
+             return NULL;
+         }
+ 
+-        if (has_name) {
++        if (name) {
+             break;
+         }
+     }
+ 
+-    if (filter_list == NULL && has_name) {
++    if (filter_list == NULL && name) {
+         error_setg(errp, "invalid net client name: %s", name);
+     }
+ 
+diff --git a/net/slirp.c b/net/slirp.c
+index 14a8d59277..2ee3f1a0d7 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -1153,8 +1153,8 @@ int net_init_slirp(const Netdev *netdev, const char *name,
+         ipv6 = 0;
+     }
+ 
+-    vnet = user->has_net ? g_strdup(user->net) :
+-           user->has_ip  ? g_strdup_printf("%s/24", user->ip) :
++    vnet = user->net ? g_strdup(user->net) :
++           user->ip  ? g_strdup_printf("%s/24", user->ip) :
+            NULL;
+ 
+     dnssearch = slirp_dnssearch(user->dnssearch);
+diff --git a/net/socket.c b/net/socket.c
+index e62137c839..b67437a1f0 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -705,19 +705,19 @@ int net_init_socket(const Netdev *netdev, const char *name,
+     assert(netdev->type == NET_CLIENT_DRIVER_SOCKET);
+     sock = &netdev->u.socket;
+ 
+-    if (sock->has_fd + sock->has_listen + sock->has_connect + sock->has_mcast +
+-        sock->has_udp != 1) {
++    if (!!sock->fd + !!sock->listen + !!sock->connect + !!sock->mcast +
++        !!sock->udp != 1) {
+         error_setg(errp, "exactly one of listen=, connect=, mcast= or udp="
+                    " is required");
+         return -1;
+     }
+ 
+-    if (sock->has_localaddr && !sock->has_mcast && !sock->has_udp) {
++    if (sock->localaddr && !sock->mcast && !sock->udp) {
+         error_setg(errp, "localaddr= is only valid with mcast= or udp=");
+         return -1;
+     }
+ 
+-    if (sock->has_fd) {
++    if (sock->fd) {
+         int fd, ret;
+ 
+         fd = monitor_fd_param(monitor_cur(), sock->fd, errp);
+@@ -737,7 +737,7 @@ int net_init_socket(const Netdev *netdev, const char *name,
+         return 0;
+     }
+ 
+-    if (sock->has_listen) {
++    if (sock->listen) {
+         if (net_socket_listen_init(peer, "socket", name, sock->listen, errp)
+             < 0) {
+             return -1;
+@@ -745,7 +745,7 @@ int net_init_socket(const Netdev *netdev, const char *name,
+         return 0;
+     }
+ 
+-    if (sock->has_connect) {
++    if (sock->connect) {
+         if (net_socket_connect_init(peer, "socket", name, sock->connect, errp)
+             < 0) {
+             return -1;
+@@ -753,7 +753,7 @@ int net_init_socket(const Netdev *netdev, const char *name,
+         return 0;
+     }
+ 
+-    if (sock->has_mcast) {
++    if (sock->mcast) {
+         /* if sock->localaddr is missing, it has been initialized to "all bits
+          * zero" */
+         if (net_socket_mcast_init(peer, "socket", name, sock->mcast,
+@@ -763,8 +763,8 @@ int net_init_socket(const Netdev *netdev, const char *name,
+         return 0;
+     }
+ 
+-    assert(sock->has_udp);
+-    if (!sock->has_localaddr) {
++    assert(sock->udp);
++    if (!sock->localaddr) {
+         error_setg(errp, "localaddr= is mandatory with udp=");
+         return -1;
+     }
+diff --git a/net/tap-win32.c b/net/tap-win32.c
+index a49c28ba5d..f327d62ab0 100644
+--- a/net/tap-win32.c
++++ b/net/tap-win32.c
+@@ -807,7 +807,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
+     assert(netdev->type == NET_CLIENT_DRIVER_TAP);
+     tap = &netdev->u.tap;
+ 
+-    if (!tap->has_ifname) {
++    if (!tap->ifname) {
+         error_report("tap: no interface name");
+         return -1;
+     }
+diff --git a/net/tap.c b/net/tap.c
+index 1210a0436d..e28ceb078f 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -611,8 +611,8 @@ int net_init_bridge(const Netdev *netdev, const char *name,
+ 
+     assert(netdev->type == NET_CLIENT_DRIVER_BRIDGE);
+     bridge = &netdev->u.bridge;
+-    helper = bridge->has_helper ? bridge->helper : NULL;
+-    br     = bridge->has_br     ? bridge->br     : DEFAULT_BRIDGE_INTERFACE;
++    helper = bridge->helper;
++    br     = bridge->br ?: DEFAULT_BRIDGE_INTERFACE;
+ 
+     fd = net_bridge_run_helper(helper, br, errp);
+     if (fd == -1) {
+@@ -688,9 +688,9 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+         goto failed;
+     }
+ 
+-    if (tap->has_fd || tap->has_fds) {
++    if (tap->fd || tap->fds) {
+         qemu_set_info_str(&s->nc, "fd=%d", fd);
+-    } else if (tap->has_helper) {
++    } else if (tap->helper) {
+         qemu_set_info_str(&s->nc, "helper=%s", tap->helper);
+     } else {
+         qemu_set_info_str(&s->nc, "ifname=%s,script=%s,downscript=%s", ifname,
+@@ -812,21 +812,21 @@ int net_init_tap(const Netdev *netdev, const char *name,
+     assert(netdev->type == NET_CLIENT_DRIVER_TAP);
+     tap = &netdev->u.tap;
+     queues = tap->has_queues ? tap->queues : 1;
+-    vhostfdname = tap->has_vhostfd ? tap->vhostfd : NULL;
+-    script = tap->has_script ? tap->script : NULL;
+-    downscript = tap->has_downscript ? tap->downscript : NULL;
++    vhostfdname = tap->vhostfd;
++    script = tap->script;
++    downscript = tap->downscript;
+ 
+     /* QEMU hubs do not support multiqueue tap, in this case peer is set.
+      * For -netdev, peer is always NULL. */
+-    if (peer && (tap->has_queues || tap->has_fds || tap->has_vhostfds)) {
++    if (peer && (tap->has_queues || tap->fds || tap->vhostfds)) {
+         error_setg(errp, "Multiqueue tap cannot be used with hubs");
+         return -1;
+     }
+ 
+-    if (tap->has_fd) {
+-        if (tap->has_ifname || tap->has_script || tap->has_downscript ||
+-            tap->has_vnet_hdr || tap->has_helper || tap->has_queues ||
+-            tap->has_fds || tap->has_vhostfds) {
++    if (tap->fd) {
++        if (tap->ifname || tap->script || tap->downscript ||
++            tap->has_vnet_hdr || tap->helper || tap->has_queues ||
++            tap->fds || tap->vhostfds) {
+             error_setg(errp, "ifname=, script=, downscript=, vnet_hdr=, "
+                        "helper=, queues=, fds=, and vhostfds= "
+                        "are invalid with fd=");
+@@ -859,14 +859,14 @@ int net_init_tap(const Netdev *netdev, const char *name,
+             close(fd);
+             return -1;
+         }
+-    } else if (tap->has_fds) {
++    } else if (tap->fds) {
+         char **fds;
+         char **vhost_fds;
+         int nfds = 0, nvhosts = 0;
+ 
+-        if (tap->has_ifname || tap->has_script || tap->has_downscript ||
+-            tap->has_vnet_hdr || tap->has_helper || tap->has_queues ||
+-            tap->has_vhostfd) {
++        if (tap->ifname || tap->script || tap->downscript ||
++            tap->has_vnet_hdr || tap->helper || tap->has_queues ||
++            tap->vhostfd) {
+             error_setg(errp, "ifname=, script=, downscript=, vnet_hdr=, "
+                        "helper=, queues=, and vhostfd= "
+                        "are invalid with fds=");
+@@ -877,7 +877,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
+         vhost_fds = g_new0(char *, MAX_TAP_QUEUES);
+ 
+         nfds = get_fds(tap->fds, fds, MAX_TAP_QUEUES);
+-        if (tap->has_vhostfds) {
++        if (tap->vhostfds) {
+             nvhosts = get_fds(tap->vhostfds, vhost_fds, MAX_TAP_QUEUES);
+             if (nfds != nvhosts) {
+                 error_setg(errp, "The number of fds passed does not match "
+@@ -916,7 +916,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
+ 
+             net_init_tap_one(tap, peer, "tap", name, ifname,
+                              script, downscript,
+-                             tap->has_vhostfds ? vhost_fds[i] : NULL,
++                             tap->vhostfds ? vhost_fds[i] : NULL,
+                              vnet_hdr, fd, &err);
+             if (err) {
+                 error_propagate(errp, err);
+@@ -935,17 +935,16 @@ free_fail:
+         g_free(fds);
+         g_free(vhost_fds);
+         return ret;
+-    } else if (tap->has_helper) {
+-        if (tap->has_ifname || tap->has_script || tap->has_downscript ||
+-            tap->has_vnet_hdr || tap->has_queues || tap->has_vhostfds) {
++    } else if (tap->helper) {
++        if (tap->ifname || tap->script || tap->downscript ||
++            tap->has_vnet_hdr || tap->has_queues || tap->vhostfds) {
+             error_setg(errp, "ifname=, script=, downscript=, vnet_hdr=, "
+                        "queues=, and vhostfds= are invalid with helper=");
+             return -1;
+         }
+ 
+         fd = net_bridge_run_helper(tap->helper,
+-                                   tap->has_br ?
+-                                   tap->br : DEFAULT_BRIDGE_INTERFACE,
++                                   tap->br ?: DEFAULT_BRIDGE_INTERFACE,
+                                    errp);
+         if (fd == -1) {
+             return -1;
+@@ -972,7 +971,7 @@ free_fail:
+     } else {
+         g_autofree char *default_script = NULL;
+         g_autofree char *default_downscript = NULL;
+-        if (tap->has_vhostfds) {
++        if (tap->vhostfds) {
+             error_setg(errp, "vhostfds= is invalid if fds= wasn't specified");
+             return -1;
+         }
+@@ -985,7 +984,7 @@ free_fail:
+                                  get_relocated_path(DEFAULT_NETWORK_DOWN_SCRIPT);
+         }
+ 
+-        if (tap->has_ifname) {
++        if (tap->ifname) {
+             pstrcpy(ifname, sizeof ifname, tap->ifname);
+         } else {
+             ifname[0] = '\0';
+@@ -998,7 +997,7 @@ free_fail:
+                 return -1;
+             }
+ 
+-            if (queues > 1 && i == 0 && !tap->has_ifname) {
++            if (queues > 1 && i == 0 && !tap->ifname) {
+                 if (tap_fd_get_ifname(fd, ifname)) {
+                     error_setg(errp, "Fail to get ifname");
+                     close(fd);
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 2b4b85d8f8..260e474863 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -635,19 +635,19 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+ 
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
+-    if (!opts->has_vhostdev && !opts->has_vhostfd) {
++    if (!opts->vhostdev && !opts->vhostfd) {
+         error_setg(errp,
+                    "vhost-vdpa: neither vhostdev= nor vhostfd= was specified");
+         return -1;
+     }
+ 
+-    if (opts->has_vhostdev && opts->has_vhostfd) {
++    if (opts->vhostdev && opts->vhostfd) {
+         error_setg(errp,
+                    "vhost-vdpa: vhostdev= and vhostfd= are mutually exclusive");
+         return -1;
+     }
+ 
+-    if (opts->has_vhostdev) {
++    if (opts->vhostdev) {
+         vdpa_device_fd = qemu_open(opts->vhostdev, O_RDWR, errp);
+         if (vdpa_device_fd == -1) {
+             return -errno;
+diff --git a/net/vmnet-host.c b/net/vmnet-host.c
+index 05f8d78864..1f95f7343a 100644
+--- a/net/vmnet-host.c
++++ b/net/vmnet-host.c
+@@ -26,7 +26,7 @@ static bool validate_options(const Netdev *netdev, Error **errp)
+     MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
+ 
+     QemuUUID net_uuid;
+-    if (options->has_net_uuid &&
++    if (options->net_uuid &&
+         qemu_uuid_parse(options->net_uuid, &net_uuid) < 0) {
+         error_setg(errp, "Invalid UUID provided in 'net-uuid'");
+         return false;
+@@ -39,7 +39,7 @@ static bool validate_options(const Netdev *netdev, Error **errp)
          return false;
      }
--    if (curr->has_filename && strcmp(curr->filename, next->filename)) {
-+    if (curr->filename && strcmp(curr->filename, next->filename)) {
-         return false;
+ 
+-    if (options->has_net_uuid) {
++    if (options->net_uuid) {
+         error_setg(errp,
+                    "vmnet-host.net-uuid feature is "
+                    "unavailable: outdated vmnet.framework API");
+@@ -47,12 +47,12 @@ static bool validate_options(const Netdev *netdev, Error **errp)
      }
-     if (curr->has_offset && curr->offset + curr->length != next->offset) {
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 0cd5aa6f02..6ff45308a9 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -1107,9 +1107,7 @@ int main(int argc, char **argv)
-         .has_writable       = true,
-         .writable           = !readonly,
-         .u.nbd = {
--            .has_name             = true,
-             .name                 = g_strdup(export_name),
--            .has_description      = !!export_description,
-             .description          = g_strdup(export_description),
-             .has_bitmaps          = !!bitmaps,
-             .bitmaps              = bitmaps,
+ #endif
+ 
+-    if ((options->has_start_address ||
+-         options->has_end_address ||
+-         options->has_subnet_mask) &&
+-        !(options->has_start_address &&
+-          options->has_end_address &&
+-          options->has_subnet_mask)) {
++    if ((options->start_address ||
++         options->end_address ||
++         options->subnet_mask) &&
++        !(options->start_address &&
++          options->end_address &&
++          options->subnet_mask)) {
+         error_setg(errp,
+                    "'start-address', 'end-address', 'subnet-mask' "
+                    "should be provided together");
+@@ -79,7 +79,7 @@ static xpc_object_t build_if_desc(const Netdev *netdev)
+                             options->isolated);
+ 
+     QemuUUID net_uuid;
+-    if (options->has_net_uuid) {
++    if (options->net_uuid) {
+         qemu_uuid_parse(options->net_uuid, &net_uuid);
+         xpc_dictionary_set_uuid(if_desc,
+                                 vmnet_network_identifier_key,
+@@ -87,7 +87,7 @@ static xpc_object_t build_if_desc(const Netdev *netdev)
+     }
+ #endif
+ 
+-    if (options->has_start_address) {
++    if (options->start_address) {
+         xpc_dictionary_set_string(if_desc,
+                                   vmnet_start_address_key,
+                                   options->start_address);
+diff --git a/net/vmnet-shared.c b/net/vmnet-shared.c
+index 18cadc72bd..40c7306a75 100644
+--- a/net/vmnet-shared.c
++++ b/net/vmnet-shared.c
+@@ -31,12 +31,12 @@ static bool validate_options(const Netdev *netdev, Error **errp)
+     }
+ #endif
+ 
+-    if ((options->has_start_address ||
+-         options->has_end_address ||
+-         options->has_subnet_mask) &&
+-        !(options->has_start_address &&
+-          options->has_end_address &&
+-          options->has_subnet_mask)) {
++    if ((options->start_address ||
++         options->end_address ||
++         options->subnet_mask) &&
++        !(options->start_address &&
++          options->end_address &&
++          options->subnet_mask)) {
+         error_setg(errp,
+                    "'start-address', 'end-address', 'subnet-mask' "
+                    "should be provided together"
+@@ -58,13 +58,13 @@ static xpc_object_t build_if_desc(const Netdev *netdev)
+         VMNET_SHARED_MODE
+     );
+ 
+-    if (options->has_nat66_prefix) {
++    if (options->nat66_prefix) {
+         xpc_dictionary_set_string(if_desc,
+                                   vmnet_nat66_prefix_key,
+                                   options->nat66_prefix);
+     }
+ 
+-    if (options->has_start_address) {
++    if (options->start_address) {
+         xpc_dictionary_set_string(if_desc,
+                                   vmnet_start_address_key,
+                                   options->start_address);
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 8db1c2caef..a205aae1e3 100644
+index a34e25fdd7..930dffd780 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -759,9 +759,6 @@ def need_has(self):
+@@ -759,7 +759,6 @@ def need_has(self):
          assert self.type
          # Temporary hack to support dropping the has_FOO in reviewable chunks
          opt_out = [
--            'qapi/block-core.json',
--            'qapi/block-export.json',
--            'qapi/block.json',
-             'qapi/char.json',
-             'qapi/crypto.json',
-             'qapi/dump.json',
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 660d3e0935..e915c344a8 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1481,8 +1481,8 @@ - (void)ejectDeviceMedia:(id)sender
- 
-     __block Error *err = NULL;
-     with_iothread_lock(^{
--        qmp_eject(true, [drive cStringUsingEncoding: NSASCIIStringEncoding],
--                  false, NULL, false, false, &err);
-+        qmp_eject([drive cStringUsingEncoding: NSASCIIStringEncoding],
-+                  NULL, false, false, &err);
-     });
-     handleAnyDeviceErrors(err);
- }
-@@ -1516,13 +1516,12 @@ - (void)changeDeviceMedia:(id)sender
- 
-         __block Error *err = NULL;
-         with_iothread_lock(^{
--            qmp_blockdev_change_medium(true,
--                                       [drive cStringUsingEncoding:
-+            qmp_blockdev_change_medium([drive cStringUsingEncoding:
-                                                   NSASCIIStringEncoding],
--                                       false, NULL,
-+                                       NULL,
-                                        [file cStringUsingEncoding:
-                                                  NSASCIIStringEncoding],
--                                       true, "raw",
-+                                       "raw",
-                                        true, false,
-                                        false, 0,
-                                        &err);
+-            'qapi/net.json',
+             'qapi/pci.json',
+             'qapi/qdev.json',
+             'qapi/qom.json',
 -- 
 2.37.3
 
