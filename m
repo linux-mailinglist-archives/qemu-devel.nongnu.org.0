@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4483964CBBA
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:00:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A88B64CB92
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 14:48:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5S6B-0006AZ-GM; Wed, 14 Dec 2022 08:47:03 -0500
+	id 1p5S5v-0005yc-Hq; Wed, 14 Dec 2022 08:46:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S51-0004bi-Dy
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:54 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S55-0004gm-BV
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:55 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4z-0003eo-EJ
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:51 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4z-0003fD-Ir
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671025544;
+ s=mimecast20190719; t=1671025547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wTPsXmmAVY1kWfB0uc73Z+w8+sRx2FCP/ulwj4uzfYA=;
- b=TRCMCka+CHrt/gnVjHy6JBEN71zIeX9wx0nor40C/K4vjC1WYsjeCgy4MVkpGyuAGg/VlL
- Bo0hoynrfQM915FF33f8WthRcQqzFbAL1mvfTIvun4Z/8N77V3ZfYTVUrFyMfqmUllcAVg
- +QvqSujduYxwRmOQqksS91bSJsJwrtc=
+ bh=tWgwhnvxhmkzdSHbpwF2qx7vlogNeI8KwLeSIyr2eYI=;
+ b=Q0U8q/y+BolWTK7ZdDOg/FyXHyJMPI2D9uqkvWN/N5wuLnB9PVXh+GysmcTtOL1AMvjL7K
+ BDIV+UoQigixZxNVbF1etwDablIjSWjNh/ZUZma1e+DfG3DwJHA4fhwMib5+BBWgSWOhqc
+ E2wFIuyeTG/c4KdrosLCpPN2jTtqy8o=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-JiQeLdC5OEaY8ZOAL35adQ-1; Wed, 14 Dec 2022 08:45:41 -0500
-X-MC-Unique: JiQeLdC5OEaY8ZOAL35adQ-1
+ us-mta-629-0u15WFWZOqGO3EinmNCEgQ-1; Wed, 14 Dec 2022 08:45:44 -0500
+X-MC-Unique: 0u15WFWZOqGO3EinmNCEgQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6098A3C1068B;
- Wed, 14 Dec 2022 13:45:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56D022A59577;
+ Wed, 14 Dec 2022 13:45:43 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A52414171BE;
- Wed, 14 Dec 2022 13:45:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 963AA14171C1;
+ Wed, 14 Dec 2022 13:45:42 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 33/51] block/dirty-bitmap: convert coroutine-only functions to
- co_wrapper
-Date: Wed, 14 Dec 2022 14:44:35 +0100
-Message-Id: <20221214134453.31665-34-kwolf@redhat.com>
+Subject: [PULL 35/51] graph-lock: Introduce a lock to protect block graph
+ operations
+Date: Wed, 14 Dec 2022 14:44:37 +0100
+Message-Id: <20221214134453.31665-36-kwolf@redhat.com>
 In-Reply-To: <20221214134453.31665-1-kwolf@redhat.com>
 References: <20221214134453.31665-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -78,225 +78,520 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-bdrv_can_store_new_dirty_bitmap and bdrv_remove_persistent_dirty_bitmap
-check if they are running in a coroutine, directly calling the
-coroutine callback if it's the case.
-Except that no coroutine calls such functions, therefore that check
-can be removed, and function creation can be offloaded to
-c_w.
+Block layer graph operations are always run under BQL in the main loop.
+This is proved by the assertion qemu_in_main_thread() and its wrapper
+macro GLOBAL_STATE_CODE.
 
+However, there are also concurrent coroutines running in other iothreads
+that always try to traverse the graph. Currently this is protected
+(among various other things) by the AioContext lock, but once this is
+removed, we need to make sure that reads do not happen while modifying
+the graph.
+
+We distinguish between writer (main loop, under BQL) that modifies the
+graph, and readers (all other coroutines running in various AioContext),
+that go through the graph edges, reading ->parents and->children.
+
+The writer (main loop) has "exclusive" access, so it first waits for any
+current read to finish, and then prevents incoming ones from entering
+while it has the exclusive access.
+
+The readers (coroutines in multiple AioContext) are free to access the
+graph as long the writer is not modifying the graph. In case it is, they
+go in a CoQueue and sleep until the writer is done.
+
+If a coroutine changes AioContext, the counter in the original and new
+AioContext are left intact, since the writer does not care where the
+reader is, but only if there is one.
+
+As a result, some AioContexts might have a negative reader count, to
+balance the positive count of the AioContext that took the lock.  This
+also means that when an AioContext is deleted it may have a nonzero
+reader count. In that case we transfer the count to a global shared
+counter so that the writer is always aware of all readers.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20221207131838.239125-3-kwolf@redhat.com>
+Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-Id: <20221128142337.657646-15-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block-common.h |  5 +-
- include/block/block-io.h     | 10 +++-
- include/block/dirty-bitmap.h | 10 +++-
- block/dirty-bitmap.c         | 88 +-----------------------------------
- block/meson.build            |  1 +
- 5 files changed, 22 insertions(+), 92 deletions(-)
+ include/block/aio.h        |   9 ++
+ include/block/block_int.h  |   1 +
+ include/block/graph-lock.h | 139 ++++++++++++++++++++
+ block/graph-lock.c         | 261 +++++++++++++++++++++++++++++++++++++
+ block/meson.build          |   1 +
+ 5 files changed, 411 insertions(+)
+ create mode 100644 include/block/graph-lock.h
+ create mode 100644 block/graph-lock.c
 
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 847e4d4626..6cf603ab06 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -29,8 +29,6 @@
- #include "qemu/iov.h"
- #include "qemu/coroutine.h"
- #include "block/accounting.h"
--#include "block/dirty-bitmap.h"
--#include "block/blockjob.h"
- #include "qemu/hbitmap.h"
- #include "qemu/transactions.h"
+diff --git a/include/block/aio.h b/include/block/aio.h
+index d128558f1d..0f65a3cc9e 100644
+--- a/include/block/aio.h
++++ b/include/block/aio.h
+@@ -22,6 +22,7 @@
+ #include "qemu/event_notifier.h"
+ #include "qemu/thread.h"
+ #include "qemu/timer.h"
++#include "block/graph-lock.h"
  
-@@ -51,6 +49,9 @@
- #define co_wrapper
- #define co_wrapper_mixed
+ typedef struct BlockAIOCB BlockAIOCB;
+ typedef void BlockCompletionFunc(void *opaque, int ret);
+@@ -127,6 +128,14 @@ struct AioContext {
+     /* Used by AioContext users to protect from multi-threaded access.  */
+     QemuRecMutex lock;
  
-+#include "block/dirty-bitmap.h"
-+#include "block/blockjob.h"
++    /*
++     * Keep track of readers and writers of the block layer graph.
++     * This is essential to avoid performing additions and removal
++     * of nodes and edges from block graph while some
++     * other thread is traversing it.
++     */
++    BdrvGraphRWlock *bdrv_graph;
 +
- /* block.c */
- typedef struct BlockDriver BlockDriver;
- typedef struct BdrvChild BdrvChild;
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 72cf45975b..52869ea08e 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -215,8 +215,14 @@ AioContext *child_of_bds_get_parent_aio_context(BdrvChild *c);
- void bdrv_io_plug(BlockDriverState *bs);
- void bdrv_io_unplug(BlockDriverState *bs);
+     /* The list of registered AIO handlers.  Protected by ctx->list_lock. */
+     AioHandlerList aio_handlers;
  
--bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                     uint32_t granularity, Error **errp);
-+bool coroutine_fn bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
-+                                                     const char *name,
-+                                                     uint32_t granularity,
-+                                                     Error **errp);
-+bool co_wrapper bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs,
-+                                                const char *name,
-+                                                uint32_t granularity,
-+                                                Error **errp);
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 7d50b6bbd1..b35b0138ed 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -26,6 +26,7 @@
  
- /**
-  *
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index 6528336c4c..c3700cec76 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -34,8 +34,14 @@ int bdrv_dirty_bitmap_check(const BdrvDirtyBitmap *bitmap, uint32_t flags,
-                             Error **errp);
- void bdrv_release_dirty_bitmap(BdrvDirtyBitmap *bitmap);
- void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs);
--int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                        Error **errp);
+ #include "block_int-global-state.h"
+ #include "block_int-io.h"
++#include "block/graph-lock.h"
+ 
+ /* DO NOT ADD ANYTHING IN HERE. USE ONE OF THE HEADERS INCLUDED ABOVE */
+ 
+diff --git a/include/block/graph-lock.h b/include/block/graph-lock.h
+new file mode 100644
+index 0000000000..82edb62cfa
+--- /dev/null
++++ b/include/block/graph-lock.h
+@@ -0,0 +1,139 @@
++/*
++ * Graph lock: rwlock to protect block layer graph manipulations (add/remove
++ * edges and nodes)
++ *
++ *  Copyright (c) 2022 Red Hat
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef GRAPH_LOCK_H
++#define GRAPH_LOCK_H
 +
-+int coroutine_fn bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
-+                                                        const char *name,
-+                                                        Error **errp);
-+int co_wrapper bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs,
-+                                                   const char *name,
-+                                                   Error **errp);
++#include "qemu/osdep.h"
 +
- void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
- void bdrv_enable_dirty_bitmap(BdrvDirtyBitmap *bitmap);
- void bdrv_enable_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap);
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index bf3dc0512a..21cf592889 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -388,7 +388,7 @@ void bdrv_release_named_dirty_bitmaps(BlockDriverState *bs)
-  * not fail.
-  * This function doesn't release corresponding BdrvDirtyBitmap.
-  */
--static int coroutine_fn
-+int coroutine_fn
- bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-                                        Error **errp)
- {
-@@ -399,45 +399,6 @@ bdrv_co_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-     return 0;
- }
- 
--typedef struct BdrvRemovePersistentDirtyBitmapCo {
--    BlockDriverState *bs;
--    const char *name;
--    Error **errp;
--    int ret;
--} BdrvRemovePersistentDirtyBitmapCo;
--
--static void coroutine_fn
--bdrv_co_remove_persistent_dirty_bitmap_entry(void *opaque)
--{
--    BdrvRemovePersistentDirtyBitmapCo *s = opaque;
--
--    s->ret = bdrv_co_remove_persistent_dirty_bitmap(s->bs, s->name, s->errp);
--    aio_wait_kick();
--}
--
--int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                        Error **errp)
--{
--    if (qemu_in_coroutine()) {
--        return bdrv_co_remove_persistent_dirty_bitmap(bs, name, errp);
--    } else {
--        Coroutine *co;
--        BdrvRemovePersistentDirtyBitmapCo s = {
--            .bs = bs,
--            .name = name,
--            .errp = errp,
--            .ret = -EINPROGRESS,
--        };
--
--        co = qemu_coroutine_create(bdrv_co_remove_persistent_dirty_bitmap_entry,
--                                   &s);
--        bdrv_coroutine_enter(bs, co);
--        BDRV_POLL_WHILE(bs, s.ret == -EINPROGRESS);
--
--        return s.ret;
--    }
--}
--
- bool
- bdrv_supports_persistent_dirty_bitmap(BlockDriverState *bs)
- {
-@@ -447,7 +408,7 @@ bdrv_supports_persistent_dirty_bitmap(BlockDriverState *bs)
-     return false;
- }
- 
--static bool coroutine_fn
-+bool coroutine_fn
- bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
-                                    uint32_t granularity, Error **errp)
- {
-@@ -470,51 +431,6 @@ bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
-     return drv->bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
- }
- 
--typedef struct BdrvCanStoreNewDirtyBitmapCo {
--    BlockDriverState *bs;
--    const char *name;
--    uint32_t granularity;
--    Error **errp;
--    bool ret;
--
--    bool in_progress;
--} BdrvCanStoreNewDirtyBitmapCo;
--
--static void coroutine_fn bdrv_co_can_store_new_dirty_bitmap_entry(void *opaque)
--{
--    BdrvCanStoreNewDirtyBitmapCo *s = opaque;
--
--    s->ret = bdrv_co_can_store_new_dirty_bitmap(s->bs, s->name, s->granularity,
--                                                s->errp);
--    s->in_progress = false;
--    aio_wait_kick();
--}
--
--bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
--                                     uint32_t granularity, Error **errp)
--{
--    IO_CODE();
--    if (qemu_in_coroutine()) {
--        return bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
--    } else {
--        Coroutine *co;
--        BdrvCanStoreNewDirtyBitmapCo s = {
--            .bs = bs,
--            .name = name,
--            .granularity = granularity,
--            .errp = errp,
--            .in_progress = true,
--        };
--
--        co = qemu_coroutine_create(bdrv_co_can_store_new_dirty_bitmap_entry,
--                                   &s);
--        bdrv_coroutine_enter(bs, co);
--        BDRV_POLL_WHILE(bs, s.in_progress);
--
--        return s.ret;
--    }
--}
--
- void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap)
- {
-     bdrv_dirty_bitmaps_lock(bitmap->bs);
++#include "qemu/coroutine.h"
++
++/**
++ * Graph Lock API
++ * This API provides a rwlock used to protect block layer
++ * graph modifications like edge (BdrvChild) and node (BlockDriverState)
++ * addition and removal.
++ * Currently we have 1 writer only, the Main loop, and many
++ * readers, mostly coroutines running in other AioContext thus other threads.
++ *
++ * We distinguish between writer (main loop, under BQL) that modifies the
++ * graph, and readers (all other coroutines running in various AioContext),
++ * that go through the graph edges, reading
++ * BlockDriverState ->parents and->children.
++ *
++ * The writer (main loop)  has an "exclusive" access, so it first waits for
++ * current read to finish, and then prevents incoming ones from
++ * entering while it has the exclusive access.
++ *
++ * The readers (coroutines in multiple AioContext) are free to
++ * access the graph as long the writer is not modifying the graph.
++ * In case it is, they go in a CoQueue and sleep until the writer
++ * is done.
++ *
++ * If a coroutine changes AioContext, the counter in the original and new
++ * AioContext are left intact, since the writer does not care where is the
++ * reader, but only if there is one.
++ * As a result, some AioContexts might have a negative reader count, to
++ * balance the positive count of the AioContext that took the lock.
++ * This also means that when an AioContext is deleted it may have a nonzero
++ * reader count. In that case we transfer the count to a global shared counter
++ * so that the writer is always aware of all readers.
++ */
++typedef struct BdrvGraphRWlock BdrvGraphRWlock;
++
++/*
++ * register_aiocontext:
++ * Add AioContext @ctx to the list of AioContext.
++ * This list is used to obtain the total number of readers
++ * currently running the graph.
++ */
++void register_aiocontext(AioContext *ctx);
++
++/*
++ * unregister_aiocontext:
++ * Removes AioContext @ctx to the list of AioContext.
++ */
++void unregister_aiocontext(AioContext *ctx);
++
++/*
++ * bdrv_graph_wrlock:
++ * Start an exclusive write operation to modify the graph. This means we are
++ * adding or removing an edge or a node in the block layer graph. Nobody else
++ * is allowed to access the graph.
++ *
++ * Must only be called from outside bdrv_graph_co_rdlock.
++ *
++ * The wrlock can only be taken from the main loop, with BQL held, as only the
++ * main loop is allowed to modify the graph.
++ *
++ * This function polls. Callers must not hold the lock of any AioContext other
++ * than the current one.
++ */
++void bdrv_graph_wrlock(void);
++
++/*
++ * bdrv_graph_wrunlock:
++ * Write finished, reset global has_writer to 0 and restart
++ * all readers that are waiting.
++ */
++void bdrv_graph_wrunlock(void);
++
++/*
++ * bdrv_graph_co_rdlock:
++ * Read the bs graph. This usually means traversing all nodes in
++ * the graph, therefore it can't happen while another thread is
++ * modifying it.
++ * Increases the reader counter of the current aiocontext,
++ * and if has_writer is set, it means that the writer is modifying
++ * the graph, therefore wait in a coroutine queue.
++ * The writer will then wake this coroutine once it is done.
++ *
++ * This lock should be taken from Iothreads (IO_CODE() class of functions)
++ * because it signals the writer that there are some
++ * readers currently running, or waits until the current
++ * write is finished before continuing.
++ * Calling this function from the Main Loop with BQL held
++ * is not necessary, since the Main Loop itself is the only
++ * writer, thus won't be able to read and write at the same time.
++ * The only exception to that is when we can't take the lock in the
++ * function/coroutine itself, and need to delegate the caller (usually main
++ * loop) to take it and wait that the coroutine ends, so that
++ * we always signal that a reader is running.
++ */
++void coroutine_fn bdrv_graph_co_rdlock(void);
++
++/*
++ * bdrv_graph_rdunlock:
++ * Read terminated, decrease the count of readers in the current aiocontext.
++ * If the writer is waiting for reads to finish (has_writer == 1), signal
++ * the writer that we are done via aio_wait_kick() to let it continue.
++ */
++void coroutine_fn bdrv_graph_co_rdunlock(void);
++
++/*
++ * bdrv_graph_rd{un}lock_main_loop:
++ * Just a placeholder to mark where the graph rdlock should be taken
++ * in the main loop. It is just asserting that we are not
++ * in a coroutine and in GLOBAL_STATE_CODE.
++ */
++void bdrv_graph_rdlock_main_loop(void);
++void bdrv_graph_rdunlock_main_loop(void);
++
++#endif /* GRAPH_LOCK_H */
++
+diff --git a/block/graph-lock.c b/block/graph-lock.c
+new file mode 100644
+index 0000000000..e033c6d9ac
+--- /dev/null
++++ b/block/graph-lock.c
+@@ -0,0 +1,261 @@
++/*
++ * Graph lock: rwlock to protect block layer graph manipulations (add/remove
++ * edges and nodes)
++ *
++ *  Copyright (c) 2022 Red Hat
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/main-loop.h"
++#include "block/graph-lock.h"
++#include "block/block.h"
++#include "block/block_int.h"
++
++/* Protects the list of aiocontext and orphaned_reader_count */
++static QemuMutex aio_context_list_lock;
++
++/* Written and read with atomic operations. */
++static int has_writer;
++
++/*
++ * A reader coroutine could move from an AioContext to another.
++ * If this happens, there is no problem from the point of view of
++ * counters. The problem is that the total count becomes
++ * unbalanced if one of the two AioContexts gets deleted.
++ * The count of readers must remain correct, so the AioContext's
++ * balance is transferred to this glboal variable.
++ * Protected by aio_context_list_lock.
++ */
++static uint32_t orphaned_reader_count;
++
++/* Queue of readers waiting for the writer to finish */
++static CoQueue reader_queue;
++
++struct BdrvGraphRWlock {
++    /* How many readers are currently reading the graph. */
++    uint32_t reader_count;
++
++    /*
++     * List of BdrvGraphRWlock kept in graph-lock.c
++     * Protected by aio_context_list_lock
++     */
++    QTAILQ_ENTRY(BdrvGraphRWlock) next_aio;
++};
++
++/*
++ * List of BdrvGraphRWlock. This list ensures that each BdrvGraphRWlock
++ * can safely modify only its own counter, avoid reading/writing
++ * others and thus improving performances by avoiding cacheline bounces.
++ */
++static QTAILQ_HEAD(, BdrvGraphRWlock) aio_context_list =
++    QTAILQ_HEAD_INITIALIZER(aio_context_list);
++
++static void __attribute__((__constructor__)) bdrv_init_graph_lock(void)
++{
++    qemu_mutex_init(&aio_context_list_lock);
++    qemu_co_queue_init(&reader_queue);
++}
++
++void register_aiocontext(AioContext *ctx)
++{
++    ctx->bdrv_graph = g_new0(BdrvGraphRWlock, 1);
++    QEMU_LOCK_GUARD(&aio_context_list_lock);
++    assert(ctx->bdrv_graph->reader_count == 0);
++    QTAILQ_INSERT_TAIL(&aio_context_list, ctx->bdrv_graph, next_aio);
++}
++
++void unregister_aiocontext(AioContext *ctx)
++{
++    QEMU_LOCK_GUARD(&aio_context_list_lock);
++    orphaned_reader_count += ctx->bdrv_graph->reader_count;
++    QTAILQ_REMOVE(&aio_context_list, ctx->bdrv_graph, next_aio);
++    g_free(ctx->bdrv_graph);
++}
++
++static uint32_t reader_count(void)
++{
++    BdrvGraphRWlock *brdv_graph;
++    uint32_t rd;
++
++    QEMU_LOCK_GUARD(&aio_context_list_lock);
++
++    /* rd can temporarly be negative, but the total will *always* be >= 0 */
++    rd = orphaned_reader_count;
++    QTAILQ_FOREACH(brdv_graph, &aio_context_list, next_aio) {
++        rd += qatomic_read(&brdv_graph->reader_count);
++    }
++
++    /* shouldn't overflow unless there are 2^31 readers */
++    assert((int32_t)rd >= 0);
++    return rd;
++}
++
++void bdrv_graph_wrlock(void)
++{
++    GLOBAL_STATE_CODE();
++    assert(!qatomic_read(&has_writer));
++
++    /* Make sure that constantly arriving new I/O doesn't cause starvation */
++    bdrv_drain_all_begin_nopoll();
++
++    /*
++     * reader_count == 0: this means writer will read has_reader as 1
++     * reader_count >= 1: we don't know if writer read has_writer == 0 or 1,
++     *                    but we need to wait.
++     * Wait by allowing other coroutine (and possible readers) to continue.
++     */
++    do {
++        /*
++         * has_writer must be 0 while polling, otherwise we get a deadlock if
++         * any callback involved during AIO_WAIT_WHILE() tries to acquire the
++         * reader lock.
++         */
++        qatomic_set(&has_writer, 0);
++        AIO_WAIT_WHILE(qemu_get_aio_context(), reader_count() >= 1);
++        qatomic_set(&has_writer, 1);
++
++        /*
++         * We want to only check reader_count() after has_writer = 1 is visible
++         * to other threads. That way no more readers can sneak in after we've
++         * determined reader_count() == 0.
++         */
++        smp_mb();
++    } while (reader_count() >= 1);
++
++    bdrv_drain_all_end();
++}
++
++void bdrv_graph_wrunlock(void)
++{
++    GLOBAL_STATE_CODE();
++    QEMU_LOCK_GUARD(&aio_context_list_lock);
++    assert(qatomic_read(&has_writer));
++
++    /*
++     * No need for memory barriers, this works in pair with
++     * the slow path of rdlock() and both take the lock.
++     */
++    qatomic_store_release(&has_writer, 0);
++
++    /* Wake up all coroutine that are waiting to read the graph */
++    qemu_co_enter_all(&reader_queue, &aio_context_list_lock);
++}
++
++void coroutine_fn bdrv_graph_co_rdlock(void)
++{
++    BdrvGraphRWlock *bdrv_graph;
++    bdrv_graph = qemu_get_current_aio_context()->bdrv_graph;
++
++    /* Do not lock if in main thread */
++    if (qemu_in_main_thread()) {
++        return;
++    }
++
++    for (;;) {
++        qatomic_set(&bdrv_graph->reader_count,
++                    bdrv_graph->reader_count + 1);
++        /* make sure writer sees reader_count before we check has_writer */
++        smp_mb();
++
++        /*
++         * has_writer == 0: this means writer will read reader_count as >= 1
++         * has_writer == 1: we don't know if writer read reader_count == 0
++         *                  or > 0, but we need to wait anyways because
++         *                  it will write.
++         */
++        if (!qatomic_read(&has_writer)) {
++            break;
++        }
++
++        /*
++         * Synchronize access with reader_count() in bdrv_graph_wrlock().
++         * Case 1:
++         * If this critical section gets executed first, reader_count will
++         * decrease and the reader will go to sleep.
++         * Then the writer will read reader_count that does not take into
++         * account this reader, and if there's no other reader it will
++         * enter the write section.
++         * Case 2:
++         * If reader_count() critical section gets executed first,
++         * then writer will read reader_count >= 1.
++         * It will wait in AIO_WAIT_WHILE(), but once it releases the lock
++         * we will enter this critical section and call aio_wait_kick().
++         */
++        WITH_QEMU_LOCK_GUARD(&aio_context_list_lock) {
++            /*
++             * Additional check when we use the above lock to synchronize
++             * with bdrv_graph_wrunlock().
++             * Case 1:
++             * If this gets executed first, has_writer is still 1, so we reduce
++             * reader_count and go to sleep.
++             * Then the writer will set has_writer to 0 and wake up all readers,
++             * us included.
++             * Case 2:
++             * If bdrv_graph_wrunlock() critical section gets executed first,
++             * then it will set has_writer to 0 and wake up all other readers.
++             * Then we execute this critical section, and therefore must check
++             * again for has_writer, otherwise we sleep without any writer
++             * actually running.
++             */
++            if (!qatomic_read(&has_writer)) {
++                return;
++            }
++
++            /* slow path where reader sleeps */
++            bdrv_graph->reader_count--;
++            aio_wait_kick();
++            qemu_co_queue_wait(&reader_queue, &aio_context_list_lock);
++        }
++    }
++}
++
++void coroutine_fn bdrv_graph_co_rdunlock(void)
++{
++    BdrvGraphRWlock *bdrv_graph;
++    bdrv_graph = qemu_get_current_aio_context()->bdrv_graph;
++
++    /* Do not lock if in main thread */
++    if (qemu_in_main_thread()) {
++        return;
++    }
++
++    qatomic_store_release(&bdrv_graph->reader_count,
++                          bdrv_graph->reader_count - 1);
++    /* make sure writer sees reader_count before we check has_writer */
++    smp_mb();
++
++    /*
++     * has_writer == 0: this means reader will read reader_count decreased
++     * has_writer == 1: we don't know if writer read reader_count old or
++     *                  new. Therefore, kick again so on next iteration
++     *                  writer will for sure read the updated value.
++     */
++    if (qatomic_read(&has_writer)) {
++        aio_wait_kick();
++    }
++}
++
++void bdrv_graph_rdlock_main_loop(void)
++{
++    GLOBAL_STATE_CODE();
++    assert(!qemu_in_coroutine());
++}
++
++void bdrv_graph_rdunlock_main_loop(void)
++{
++    GLOBAL_STATE_CODE();
++    assert(!qemu_in_coroutine());
++}
 diff --git a/block/meson.build b/block/meson.build
-index b7c68b83a3..c48a59571e 100644
+index c48a59571e..90011a2805 100644
 --- a/block/meson.build
 +++ b/block/meson.build
-@@ -137,6 +137,7 @@ block_gen_c = custom_target('block-gen.c',
-                             output: 'block-gen.c',
-                             input: files(
-                                       '../include/block/block-io.h',
-+                                      '../include/block/dirty-bitmap.h',
-                                       '../include/block/block-global-state.h',
-                                       '../include/sysemu/block-backend-io.h',
-                                       'coroutines.h'
+@@ -10,6 +10,7 @@ block_ss.add(files(
+   'blkverify.c',
+   'block-backend.c',
+   'block-copy.c',
++  'graph-lock.c',
+   'commit.c',
+   'copy-on-read.c',
+   'preallocate.c',
 -- 
 2.38.1
 
