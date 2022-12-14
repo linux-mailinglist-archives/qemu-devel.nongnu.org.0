@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B11F64CE57
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 17:48:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D96264CE54
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 17:48:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Uu0-0004w8-KR; Wed, 14 Dec 2022 11:46:40 -0500
+	id 1p5Uu4-0004y7-Iu; Wed, 14 Dec 2022 11:46:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Utx-0004vS-JO
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:37 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Utz-0004wD-SZ
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Utv-0002OF-IR
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:37 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Utx-0002P5-L9
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671036394;
+ s=mimecast20190719; t=1671036397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rH4jwWoRhYKD4sPiJ9PY6nwJ5YFrlWSOLFC8hiNqeTw=;
- b=d0CEiwkAQ7wwBs/6b6ItiKZukMaulmNBm03F5iJfCwKoXoP+gLGX/aeV8W2edEpbOJGLhj
- PXWbvbPOe9M7Px6aAmLkPn0HtiRGgwIeu9wpAhIktgx9s+58IJ8ppSniTWiA7xXwrRTAWL
- kOK6vkZy38P8f+chS99K8ObrM/r2SKQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RcwKmqhPfMUgGDy+68cWPSeAomjy56GG4doj5HAhfP8=;
+ b=fyNSGSTmlCmO1sa/Vf1pkGD8GRAPi9phhJ4G7OPwcW4MffyLejbmPflGzpRqzwT8HeX9Tm
+ /pLEjkJ9K13jsjDDsO1WxUVs8lqfpn04JYZeD7ch8jxiVilHSAGdLKck6GkvLJFQeq4SUT
+ F/ThnEq+HeWPE2IF+20a7uqlk4HjeJs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-b4ULdjRQOOa9tJWTdGS3Lw-1; Wed, 14 Dec 2022 11:46:32 -0500
-X-MC-Unique: b4ULdjRQOOa9tJWTdGS3Lw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-454-VDOX0hltNvePFQVBa5ZkJA-1; Wed, 14 Dec 2022 11:46:33 -0500
+X-MC-Unique: VDOX0hltNvePFQVBa5ZkJA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1DBD87A384;
- Wed, 14 Dec 2022 16:46:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 208DA85C6E2;
+ Wed, 14 Dec 2022 16:46:33 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B27EC15BAD;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C2D914171BE;
  Wed, 14 Dec 2022 16:46:32 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 31F4321E6900; Wed, 14 Dec 2022 17:46:29 +0100 (CET)
+ id 3370A21E6901; Wed, 14 Dec 2022 17:46:29 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 00/14] Miscellaneous patches for 2022-12-14
-Date: Wed, 14 Dec 2022 17:46:15 +0100
-Message-Id: <20221214164629.919880-1-armbru@redhat.com>
+Cc: peter.maydell@linaro.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 01/14] Drop more useless casts from void * to pointer
+Date: Wed, 14 Dec 2022 17:46:16 +0100
+Message-Id: <20221214164629.919880-2-armbru@redhat.com>
+In-Reply-To: <20221214164629.919880-1-armbru@redhat.com>
+References: <20221214164629.919880-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -75,110 +79,302 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit ea3a008d2d9ced9c4f93871c823baee237047f93:
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20221123133811.1398562-1-armbru@redhat.com>
+---
+ bsd-user/elfload.c                      | 2 +-
+ contrib/plugins/cache.c                 | 8 ++++----
+ contrib/vhost-user-blk/vhost-user-blk.c | 2 +-
+ hw/core/qdev-clock.c                    | 2 +-
+ hw/hyperv/vmbus.c                       | 2 +-
+ hw/net/cadence_gem.c                    | 2 +-
+ hw/net/virtio-net.c                     | 2 +-
+ hw/nvme/ctrl.c                          | 4 ++--
+ hw/rdma/vmw/pvrdma_cmd.c                | 9 +++------
+ hw/rdma/vmw/pvrdma_qp_ops.c             | 6 +++---
+ hw/virtio/virtio-iommu.c                | 3 +--
+ linux-user/syscall.c                    | 2 +-
+ target/i386/hax/hax-all.c               | 2 +-
+ tests/tcg/aarch64/system/semiheap.c     | 4 ++--
+ util/vfio-helpers.c                     | 2 +-
+ 15 files changed, 24 insertions(+), 28 deletions(-)
 
-  Update VERSION for v7.2.0-rc4 (2022-12-06 19:53:34 -0500)
-
-are available in the Git repository at:
-
-  https://repo.or.cz/qemu/armbru.git tags/pull-misc-2022-12-14
-
-for you to fetch changes up to 6c5aaee4b61eb8bf60c7c30365432710b4346421:
-
-  ppc4xx_sdram: Simplify sdram_ddr_size() to return (2022-12-14 16:19:35 +0100)
-
-----------------------------------------------------------------
-Miscellaneous patches for 2022-12-14
-
-----------------------------------------------------------------
-Markus Armbruster (14):
-      Drop more useless casts from void * to pointer
-      error: Drop some obviously superfluous error_propagate()
-      error: Drop a few superfluous ERRP_GUARD()
-      error: Move ERRP_GUARD() to the beginning of the function
-      monitor: Simplify monitor_fd_param()'s error handling
-      monitor: Use ERRP_GUARD() in monitor_init()
-      qemu-config: Make config_parse_qdict() return bool
-      qemu-config: Use ERRP_GUARD() where obviously appropriate
-      sockets: Use ERRP_GUARD() where obviously appropriate
-      qapi: Use returned bool to check for failure (again)
-      io: Tidy up fat-fingered parameter name
-      cleanup: Tweak and re-run return_directly.cocci
-      block/vmdk: Simplify vmdk_co_create() to return directly
-      ppc4xx_sdram: Simplify sdram_ddr_size() to return
-
- scripts/coccinelle/return_directly.cocci |  5 +--
- include/hw/pci/pci.h                     |  7 +---
- include/io/channel.h                     |  2 +-
- include/qemu/config-file.h               |  2 +-
- target/avr/cpu.h                         |  4 +-
- accel/kvm/kvm-all.c                      |  5 +--
- block/blkdebug.c                         |  4 +-
- block/copy-before-write.c                |  1 -
- block/vmdk.c                             | 28 ++++++--------
- bsd-user/elfload.c                       |  2 +-
- contrib/plugins/cache.c                  |  8 ++--
- contrib/vhost-user-blk/vhost-user-blk.c  |  2 +-
- dump/dump.c                              |  2 -
- hw/9pfs/9p-synth.c                       | 14 ++-----
- hw/arm/armsse.c                          |  3 +-
- hw/arm/virt.c                            | 14 +++----
- hw/char/sifive_uart.c                    |  4 +-
- hw/core/machine.c                        |  3 +-
- hw/core/qdev-clock.c                     |  2 +-
- hw/core/qdev-properties-system.c         |  5 +--
- hw/core/qdev.c                           |  2 -
- hw/hyperv/vmbus.c                        | 10 ++---
- hw/i386/pc.c                             |  5 +--
- hw/net/cadence_gem.c                     |  2 +-
- hw/net/virtio-net.c                      |  2 +-
- hw/nvme/ctrl.c                           |  4 +-
- hw/pci/msi.c                             |  1 -
- hw/ppc/ppc4xx_sdram.c                    | 15 ++------
- hw/rdma/vmw/pvrdma_cmd.c                 | 66 +++++++++++---------------------
- hw/rdma/vmw/pvrdma_qp_ops.c              |  6 +--
- hw/remote/vfio-user-obj.c                |  1 -
- hw/virtio/vhost-user.c                   |  6 +--
- hw/virtio/vhost-vdpa.c                   |  2 +-
- hw/virtio/virtio-balloon.c               | 20 +++++-----
- hw/virtio/virtio-iommu.c                 |  3 +-
- hw/virtio/virtio-mem.c                   | 10 +----
- iothread.c                               |  2 +-
- linux-user/syscall.c                     |  2 +-
- migration/dirtyrate.c                    | 10 +----
- migration/tls.c                          |  6 +--
- monitor/misc.c                           | 14 ++-----
- monitor/monitor.c                        | 12 ++----
- monitor/qmp-cmds.c                       |  4 +-
- net/colo-compare.c                       | 13 ++-----
- qga/commands-win32.c                     |  8 ++--
- replay/replay-time.c                     |  5 +--
- semihosting/console.c                    |  4 +-
- softmmu/memory.c                         | 11 +-----
- softmmu/physmem.c                        |  9 +----
- target/i386/hax/hax-all.c                |  2 +-
- target/i386/kvm/kvm.c                    |  5 +--
- target/loongarch/cpu.c                   |  4 +-
- target/mips/tcg/dsp_helper.c             | 15 ++------
- target/riscv/debug.c                     |  6 +--
- target/riscv/vector_helper.c             | 28 ++++----------
- tests/bench/benchmark-crypto-akcipher.c  |  6 +--
- tests/qtest/erst-test.c                  |  5 +--
- tests/qtest/hexloader-test.c             |  6 +--
- tests/qtest/pvpanic-pci-test.c           |  6 +--
- tests/qtest/pvpanic-test.c               |  6 +--
- tests/qtest/test-filter-mirror.c         |  6 +--
- tests/qtest/virtio-ccw-test.c            |  6 +--
- tests/tcg/aarch64/system/semiheap.c      |  4 +-
- tests/tcg/multiarch/sha512.c             |  9 +----
- tools/virtiofsd/fuse_lowlevel.c          | 24 +++---------
- ui/util.c                                |  1 -
- util/qemu-config.c                       | 46 ++++++++++------------
- util/qemu-sockets.c                      | 26 +++++--------
- util/thread-context.c                    | 10 +----
- util/vfio-helpers.c                      |  2 +-
- 70 files changed, 188 insertions(+), 407 deletions(-)
-
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index f8edb22f2a..fbcdc94b96 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -156,7 +156,7 @@ static abi_ulong copy_elf_strings(int argc, char **argv, void **page,
+             --p; --tmp; --len;
+             if (--offset < 0) {
+                 offset = p % TARGET_PAGE_SIZE;
+-                pag = (char *)page[p / TARGET_PAGE_SIZE];
++                pag = page[p / TARGET_PAGE_SIZE];
+                 if (!pag) {
+                     pag = g_try_malloc0(TARGET_PAGE_SIZE);
+                     page[p / TARGET_PAGE_SIZE] = pag;
+diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+index ac1510aaa1..2e25184a7f 100644
+--- a/contrib/plugins/cache.c
++++ b/contrib/plugins/cache.c
+@@ -405,7 +405,7 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
+     g_mutex_lock(&l1_dcache_locks[cache_idx]);
+     hit_in_l1 = access_cache(l1_dcaches[cache_idx], effective_addr);
+     if (!hit_in_l1) {
+-        insn = (InsnData *) userdata;
++        insn = userdata;
+         __atomic_fetch_add(&insn->l1_dmisses, 1, __ATOMIC_SEQ_CST);
+         l1_dcaches[cache_idx]->misses++;
+     }
+@@ -419,7 +419,7 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
+ 
+     g_mutex_lock(&l2_ucache_locks[cache_idx]);
+     if (!access_cache(l2_ucaches[cache_idx], effective_addr)) {
+-        insn = (InsnData *) userdata;
++        insn = userdata;
+         __atomic_fetch_add(&insn->l2_misses, 1, __ATOMIC_SEQ_CST);
+         l2_ucaches[cache_idx]->misses++;
+     }
+@@ -440,7 +440,7 @@ static void vcpu_insn_exec(unsigned int vcpu_index, void *userdata)
+     g_mutex_lock(&l1_icache_locks[cache_idx]);
+     hit_in_l1 = access_cache(l1_icaches[cache_idx], insn_addr);
+     if (!hit_in_l1) {
+-        insn = (InsnData *) userdata;
++        insn = userdata;
+         __atomic_fetch_add(&insn->l1_imisses, 1, __ATOMIC_SEQ_CST);
+         l1_icaches[cache_idx]->misses++;
+     }
+@@ -454,7 +454,7 @@ static void vcpu_insn_exec(unsigned int vcpu_index, void *userdata)
+ 
+     g_mutex_lock(&l2_ucache_locks[cache_idx]);
+     if (!access_cache(l2_ucaches[cache_idx], insn_addr)) {
+-        insn = (InsnData *) userdata;
++        insn = userdata;
+         __atomic_fetch_add(&insn->l2_misses, 1, __ATOMIC_SEQ_CST);
+         l2_ucaches[cache_idx]->misses++;
+     }
+diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+index d6932a2645..aa99877fcd 100644
+--- a/contrib/vhost-user-blk/vhost-user-blk.c
++++ b/contrib/vhost-user-blk/vhost-user-blk.c
+@@ -193,7 +193,7 @@ vub_discard_write_zeroes(VubReq *req, struct iovec *iov, uint32_t iovcnt,
+ 
+     #if defined(__linux__) && defined(BLKDISCARD) && defined(BLKZEROOUT)
+     VubDev *vdev_blk = req->vdev_blk;
+-    desc = (struct virtio_blk_discard_write_zeroes *)buf;
++    desc = buf;
+     uint64_t range[2] = { le64toh(desc->sector) << 9,
+                           le32toh(desc->num_sectors) << 9 };
+     if (type == VIRTIO_BLK_T_DISCARD) {
+diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
+index 117f4c6ea4..82799577f3 100644
+--- a/hw/core/qdev-clock.c
++++ b/hw/core/qdev-clock.c
+@@ -134,7 +134,7 @@ void qdev_init_clocks(DeviceState *dev, const ClockPortInitArray clocks)
+         Clock **clkp;
+         /* offset cannot be inside the DeviceState part */
+         assert(elem->offset > sizeof(DeviceState));
+-        clkp = (Clock **)(((void *) dev) + elem->offset);
++        clkp = ((void *)dev) + elem->offset;
+         if (elem->is_output) {
+             *clkp = qdev_init_clock_out(dev, elem->name);
+         } else {
+diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+index 30bc04e1c4..f956381cc9 100644
+--- a/hw/hyperv/vmbus.c
++++ b/hw/hyperv/vmbus.c
+@@ -2104,7 +2104,7 @@ static void process_message(VMBus *vmbus)
+         goto out;
+     }
+     msgdata = hv_msg->payload;
+-    msg = (struct vmbus_message_header *)msgdata;
++    msg = msgdata;
+ 
+     trace_vmbus_process_incoming_message(msg->message_type);
+ 
+diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+index 24b3a0ff66..42ea2411a2 100644
+--- a/hw/net/cadence_gem.c
++++ b/hw/net/cadence_gem.c
+@@ -1429,7 +1429,7 @@ static uint64_t gem_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     CadenceGEMState *s;
+     uint32_t retval;
+-    s = (CadenceGEMState *)opaque;
++    s = opaque;
+ 
+     offset >>= 2;
+     retval = s->regs[offset];
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index aba12759d5..fea6f43429 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2472,7 +2472,7 @@ static size_t virtio_net_rsc_receive6(void *opq, NetClientState *nc,
+     VirtioNetRscChain *chain;
+     VirtioNetRscUnit unit;
+ 
+-    chain = (VirtioNetRscChain *)opq;
++    chain = opq;
+     hdr_len = ((VirtIONet *)(chain->n))->guest_hdr_len;
+ 
+     if (size < (hdr_len + sizeof(struct eth_header) + sizeof(struct ip6_header)
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index e54276dc1d..4a0c51a947 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4028,14 +4028,14 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
+             nr_zones++;
+         }
+     }
+-    header = (NvmeZoneReportHeader *)buf;
++    header = buf;
+     header->nr_zones = cpu_to_le64(nr_zones);
+ 
+     buf_p = buf + sizeof(NvmeZoneReportHeader);
+     for (; zone_idx < ns->num_zones && max_zones > 0; zone_idx++) {
+         zone = &ns->zone_array[zone_idx];
+         if (nvme_zone_matches_filter(zrasf, zone)) {
+-            z = (NvmeZoneDescr *)buf_p;
++            z = buf_p;
+             buf_p += sizeof(NvmeZoneDescr);
+ 
+             z->zt = zone->d.zt;
+diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
+index da7ddfa548..f5b6c3d728 100644
+--- a/hw/rdma/vmw/pvrdma_cmd.c
++++ b/hw/rdma/vmw/pvrdma_cmd.c
+@@ -269,8 +269,7 @@ static int create_cq_ring(PCIDevice *pci_dev , PvrdmaRing **ring,
+     r = g_malloc(sizeof(*r));
+     *ring = r;
+ 
+-    r->ring_state = (PvrdmaRingState *)
+-        rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
++    r->ring_state = rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
+ 
+     if (!r->ring_state) {
+         rdma_error_report("Failed to map to CQ ring state");
+@@ -405,8 +404,7 @@ static int create_qp_rings(PCIDevice *pci_dev, uint64_t pdir_dma,
+     *rings = sr;
+ 
+     /* Create send ring */
+-    sr->ring_state = (PvrdmaRingState *)
+-        rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
++    sr->ring_state = rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
+     if (!sr->ring_state) {
+         rdma_error_report("Failed to map to QP ring state");
+         goto out_free_sr_mem;
+@@ -646,8 +644,7 @@ static int create_srq_ring(PCIDevice *pci_dev, PvrdmaRing **ring,
+     r = g_malloc(sizeof(*r));
+     *ring = r;
+ 
+-    r->ring_state = (PvrdmaRingState *)
+-            rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
++    r->ring_state = rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
+     if (!r->ring_state) {
+         rdma_error_report("Failed to map tp SRQ ring state");
+         goto out_free_ring_mem;
+diff --git a/hw/rdma/vmw/pvrdma_qp_ops.c b/hw/rdma/vmw/pvrdma_qp_ops.c
+index bd7cbf2bdf..c30c8344f6 100644
+--- a/hw/rdma/vmw/pvrdma_qp_ops.c
++++ b/hw/rdma/vmw/pvrdma_qp_ops.c
+@@ -149,7 +149,7 @@ void pvrdma_qp_send(PVRDMADev *dev, uint32_t qp_handle)
+ 
+     ring = (PvrdmaRing *)qp->opaque;
+ 
+-    wqe = (struct PvrdmaSqWqe *)pvrdma_ring_next_elem_read(ring);
++    wqe = pvrdma_ring_next_elem_read(ring);
+     while (wqe) {
+         CompHandlerCtx *comp_ctx;
+ 
+@@ -212,7 +212,7 @@ void pvrdma_qp_recv(PVRDMADev *dev, uint32_t qp_handle)
+ 
+     ring = &((PvrdmaRing *)qp->opaque)[1];
+ 
+-    wqe = (struct PvrdmaRqWqe *)pvrdma_ring_next_elem_read(ring);
++    wqe = pvrdma_ring_next_elem_read(ring);
+     while (wqe) {
+         CompHandlerCtx *comp_ctx;
+ 
+@@ -254,7 +254,7 @@ void pvrdma_srq_recv(PVRDMADev *dev, uint32_t srq_handle)
+ 
+     ring = (PvrdmaRing *)srq->opaque;
+ 
+-    wqe = (struct PvrdmaRqWqe *)pvrdma_ring_next_elem_read(ring);
++    wqe = pvrdma_ring_next_elem_read(ring);
+     while (wqe) {
+         CompHandlerCtx *comp_ctx;
+ 
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index 62e07ec2e4..23c470977e 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -775,8 +775,7 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+             output_size = s->config.probe_size + sizeof(tail);
+             buf = g_malloc0(output_size);
+ 
+-            ptail = (struct virtio_iommu_req_tail *)
+-                        (buf + s->config.probe_size);
++            ptail = buf + s->config.probe_size;
+             ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
+             break;
+         }
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 24b25759be..1f8c10f8ef 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -5471,7 +5471,7 @@ static abi_long do_ioctl_rt(const IOCTLEntry *ie, uint8_t *buf_temp,
+     for (i = 0; i < se->nb_fields; i++) {
+         if (dst_offsets[i] == offsetof(struct rtentry, rt_dev)) {
+             assert(*field_types == TYPE_PTRVOID);
+-            target_rt_dev_ptr = (abi_ulong *)(argptr + src_offsets[i]);
++            target_rt_dev_ptr = argptr + src_offsets[i];
+             host_rt_dev_ptr = (unsigned long *)(buf_temp + dst_offsets[i]);
+             if (*target_rt_dev_ptr != 0) {
+                 *host_rt_dev_ptr = (unsigned long)lock_user_string(
+diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
+index b185ee8de4..b7fb5385b2 100644
+--- a/target/i386/hax/hax-all.c
++++ b/target/i386/hax/hax-all.c
+@@ -388,7 +388,7 @@ static int hax_handle_io(CPUArchState *env, uint32_t df, uint16_t port,
+     MemTxAttrs attrs = { 0 };
+ 
+     if (!df) {
+-        ptr = (uint8_t *) buffer;
++        ptr = buffer;
+     } else {
+         ptr = buffer + size * count - size;
+     }
+diff --git a/tests/tcg/aarch64/system/semiheap.c b/tests/tcg/aarch64/system/semiheap.c
+index a254bd8982..693a1b037d 100644
+--- a/tests/tcg/aarch64/system/semiheap.c
++++ b/tests/tcg/aarch64/system/semiheap.c
+@@ -73,11 +73,11 @@ int main(int argc, char *argv[argc])
+     ml_printf("stack: %p <- %p\n", info.stack_limit, info.stack_base);
+ 
+     /* finally can we read/write the heap */
+-    ptr_to_heap = (uint32_t *) info.heap_base;
++    ptr_to_heap = info.heap_base;
+     for (i = 0; i < 512; i++) {
+         *ptr_to_heap++ = i;
+     }
+-    ptr_to_heap = (uint32_t *) info.heap_base;
++    ptr_to_heap = info.heap_base;
+     for (i = 0; i < 512; i++) {
+         uint32_t tmp = *ptr_to_heap;
+         if (tmp != i) {
+diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+index 0d1520caac..7a84b1d806 100644
+--- a/util/vfio-helpers.c
++++ b/util/vfio-helpers.c
+@@ -271,7 +271,7 @@ static void collect_usable_iova_ranges(QEMUVFIOState *s, void *buf)
+         if (!cap->next) {
+             return;
+         }
+-        cap = (struct vfio_info_cap_header *)(buf + cap->next);
++        cap = buf + cap->next;
+     }
+ 
+     cap_iova_range = (struct vfio_iommu_type1_info_cap_iova_range *)cap;
 -- 
 2.37.3
 
