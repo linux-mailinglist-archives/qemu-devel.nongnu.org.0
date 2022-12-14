@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D1864CDB6
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 17:10:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B11F64CE57
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 17:48:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5UKJ-0000dy-2F; Wed, 14 Dec 2022 11:09:47 -0500
+	id 1p5Uu0-0004w8-KR; Wed, 14 Dec 2022 11:46:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5UKH-0000dg-0y
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:09:45 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5UKF-000787-De
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:09:44 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id h11so175220wrw.13
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 08:09:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2da8+72MOqOGLqfqkcF1yBfebWJ5RM9kvIIzg97GfxE=;
- b=KXJn4PE8CfYrWt98lWeAZEHYEA/4ZMi91UcXHoV6qIoptkCrE7ysVTQfpPd86eR6nA
- XVjU2Z+S2o+ES22ctF5P1lypSAfhJL14Oov116AlzzAVinVdqRjwaIRjxlR+Dwur5XbP
- aarwvxkstwmhGn+apLC9JQsU5To/Y4GViw0FyaALJfi4y5eyBhjDZfealTTVMwkWgXDC
- hkP06uqDNOCAC7fc15IKwBhcIZEeDPhjc4KkpNai+fDCspSN6Rpl7vi6TQXIH1OKnrN6
- 2ZVDIS1S4uQefLB19No0q3AQWpmacyy4CHPyCDiEjr+b5Ze97OjOZPngG3SKMphvCSBV
- 1VdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=2da8+72MOqOGLqfqkcF1yBfebWJ5RM9kvIIzg97GfxE=;
- b=DS6Ih2nJ8jlBDR3RGlzq1Vu/kbjic4aDr5MnB+dYxBS9IZOQ6GsJxlvY0nD6zQ0IhS
- mxW4SkQTgK9URSwv29LTg4FiwXw7YCFiOdpEWb40YtQLb35fb7PzGSrgdnxDYPzt+/Ve
- LdfChhhbBNQwVDVYGKjvenYbh4vgIgJhTegJBRe/UYm6RVs6M3bPguZGc0iYKtMXMl2e
- nf//Hk+xpahMHritf661h7t3ZmSEWIz0j9lj/fVIYg+RsKshrcEo7ZNyAOMBAWIEidhQ
- RbRBDOf0q34fx3e6/W1Hqu2uSYQi5tKtV61e1zcMum4FmmOXNRjroaVoklx+GhzTgdNR
- XZ2w==
-X-Gm-Message-State: ANoB5pnbwwI/pnd2zY490g4WXjaDTxxF893V5Xl3o43pZCf5dqIFJoSr
- GfKcC7Xj5LmEL7Gc7IBjl1/YUw==
-X-Google-Smtp-Source: AA0mqf5rsK6yeMx56PYMrVxShQDN8xEH4gj3HCftPmQZLMU+eMJtEwZVkdPdViNn1qt6XEypMRZ4+g==
-X-Received: by 2002:adf:fcc6:0:b0:242:1ba0:208b with SMTP id
- f6-20020adffcc6000000b002421ba0208bmr16916175wrs.64.1671034181316; 
- Wed, 14 Dec 2022 08:09:41 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- k24-20020adfd238000000b002420fe50322sm3262909wrh.91.2022.12.14.08.09.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Dec 2022 08:09:40 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 620641FFB7;
- Wed, 14 Dec 2022 16:09:40 +0000 (GMT)
-References: <20221214143659.62133-1-philmd@linaro.org>
- <0506350d-c999-9f99-6a55-da45f6949abf@linaro.org>
-User-agent: mu4e 1.9.6; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] gdbstub: Have syscall_complete/[gs]et_reg to target
- agnostic typedefs
-Date: Wed, 14 Dec 2022 16:09:28 +0000
-In-reply-to: <0506350d-c999-9f99-6a55-da45f6949abf@linaro.org>
-Message-ID: <878rjaj7az.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Utx-0004vS-JO
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Utv-0002OF-IR
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671036394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rH4jwWoRhYKD4sPiJ9PY6nwJ5YFrlWSOLFC8hiNqeTw=;
+ b=d0CEiwkAQ7wwBs/6b6ItiKZukMaulmNBm03F5iJfCwKoXoP+gLGX/aeV8W2edEpbOJGLhj
+ PXWbvbPOe9M7Px6aAmLkPn0HtiRGgwIeu9wpAhIktgx9s+58IJ8ppSniTWiA7xXwrRTAWL
+ kOK6vkZy38P8f+chS99K8ObrM/r2SKQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-638-b4ULdjRQOOa9tJWTdGS3Lw-1; Wed, 14 Dec 2022 11:46:32 -0500
+X-MC-Unique: b4ULdjRQOOa9tJWTdGS3Lw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1DBD87A384;
+ Wed, 14 Dec 2022 16:46:32 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B27EC15BAD;
+ Wed, 14 Dec 2022 16:46:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 31F4321E6900; Wed, 14 Dec 2022 17:46:29 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PULL 00/14] Miscellaneous patches for 2022-12-14
+Date: Wed, 14 Dec 2022 17:46:15 +0100
+Message-Id: <20221214164629.919880-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,60 +75,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The following changes since commit ea3a008d2d9ced9c4f93871c823baee237047f93:
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+  Update VERSION for v7.2.0-rc4 (2022-12-06 19:53:34 -0500)
 
-> On 14/12/22 15:36, Philippe Mathieu-Daud=C3=A9 wrote:
->> Prototypes using gdb_syscall_complete_cb() or gdb_?et_reg_cb()
->> don't depend on "cpu.h", thus are not target-specific.
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->> ---
->>   include/exec/gdbstub.h | 7 ++++---
->>   1 file changed, 4 insertions(+), 3 deletions(-)
->
-> Subject should be:
-> "gdbstub: Make syscall_complete/[gs]et_reg target-agnostic typedefs"
+are available in the Git repository at:
 
-Queued to gdbstub/next, thanks.
+  https://repo.or.cz/qemu/armbru.git tags/pull-misc-2022-12-14
 
->
->> diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
->> index f667014888..1636fb3841 100644
->> --- a/include/exec/gdbstub.h
->> +++ b/include/exec/gdbstub.h
->> @@ -71,9 +71,6 @@ struct gdb_timeval {
->>     uint64_t tv_usec;   /* microsecond */
->>   } QEMU_PACKED;
->>   -#ifdef NEED_CPU_H
->> -#include "cpu.h"
->> -
->>   typedef void (*gdb_syscall_complete_cb)(CPUState *cpu, uint64_t ret, i=
-nt err);
->>     /**
->> @@ -126,6 +123,7 @@ int gdb_handlesig(CPUState *, int);
->>   void gdb_signalled(CPUArchState *, int);
->>   void gdbserver_fork(CPUState *);
->>   #endif
->> +
->>   /* Get or set a register.  Returns the size of the register.  */
->>   typedef int (*gdb_get_reg_cb)(CPUArchState *env, GByteArray *buf, int =
-reg);
->>   typedef int (*gdb_set_reg_cb)(CPUArchState *env, uint8_t *buf, int reg=
-);
->> @@ -133,6 +131,9 @@ void gdb_register_coprocessor(CPUState *cpu,
->>                                 gdb_get_reg_cb get_reg, gdb_set_reg_cb s=
-et_reg,
->>                                 int num_regs, const char *xml, int g_pos=
-);
->>   +#ifdef NEED_CPU_H
->> +#include "cpu.h"
->> +
->>   /*
->>    * The GDB remote protocol transfers values in target byte order. As
->>    * the gdbstub may be batching up several register values we always
+for you to fetch changes up to 6c5aaee4b61eb8bf60c7c30365432710b4346421:
 
+  ppc4xx_sdram: Simplify sdram_ddr_size() to return (2022-12-14 16:19:35 +0100)
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+----------------------------------------------------------------
+Miscellaneous patches for 2022-12-14
+
+----------------------------------------------------------------
+Markus Armbruster (14):
+      Drop more useless casts from void * to pointer
+      error: Drop some obviously superfluous error_propagate()
+      error: Drop a few superfluous ERRP_GUARD()
+      error: Move ERRP_GUARD() to the beginning of the function
+      monitor: Simplify monitor_fd_param()'s error handling
+      monitor: Use ERRP_GUARD() in monitor_init()
+      qemu-config: Make config_parse_qdict() return bool
+      qemu-config: Use ERRP_GUARD() where obviously appropriate
+      sockets: Use ERRP_GUARD() where obviously appropriate
+      qapi: Use returned bool to check for failure (again)
+      io: Tidy up fat-fingered parameter name
+      cleanup: Tweak and re-run return_directly.cocci
+      block/vmdk: Simplify vmdk_co_create() to return directly
+      ppc4xx_sdram: Simplify sdram_ddr_size() to return
+
+ scripts/coccinelle/return_directly.cocci |  5 +--
+ include/hw/pci/pci.h                     |  7 +---
+ include/io/channel.h                     |  2 +-
+ include/qemu/config-file.h               |  2 +-
+ target/avr/cpu.h                         |  4 +-
+ accel/kvm/kvm-all.c                      |  5 +--
+ block/blkdebug.c                         |  4 +-
+ block/copy-before-write.c                |  1 -
+ block/vmdk.c                             | 28 ++++++--------
+ bsd-user/elfload.c                       |  2 +-
+ contrib/plugins/cache.c                  |  8 ++--
+ contrib/vhost-user-blk/vhost-user-blk.c  |  2 +-
+ dump/dump.c                              |  2 -
+ hw/9pfs/9p-synth.c                       | 14 ++-----
+ hw/arm/armsse.c                          |  3 +-
+ hw/arm/virt.c                            | 14 +++----
+ hw/char/sifive_uart.c                    |  4 +-
+ hw/core/machine.c                        |  3 +-
+ hw/core/qdev-clock.c                     |  2 +-
+ hw/core/qdev-properties-system.c         |  5 +--
+ hw/core/qdev.c                           |  2 -
+ hw/hyperv/vmbus.c                        | 10 ++---
+ hw/i386/pc.c                             |  5 +--
+ hw/net/cadence_gem.c                     |  2 +-
+ hw/net/virtio-net.c                      |  2 +-
+ hw/nvme/ctrl.c                           |  4 +-
+ hw/pci/msi.c                             |  1 -
+ hw/ppc/ppc4xx_sdram.c                    | 15 ++------
+ hw/rdma/vmw/pvrdma_cmd.c                 | 66 +++++++++++---------------------
+ hw/rdma/vmw/pvrdma_qp_ops.c              |  6 +--
+ hw/remote/vfio-user-obj.c                |  1 -
+ hw/virtio/vhost-user.c                   |  6 +--
+ hw/virtio/vhost-vdpa.c                   |  2 +-
+ hw/virtio/virtio-balloon.c               | 20 +++++-----
+ hw/virtio/virtio-iommu.c                 |  3 +-
+ hw/virtio/virtio-mem.c                   | 10 +----
+ iothread.c                               |  2 +-
+ linux-user/syscall.c                     |  2 +-
+ migration/dirtyrate.c                    | 10 +----
+ migration/tls.c                          |  6 +--
+ monitor/misc.c                           | 14 ++-----
+ monitor/monitor.c                        | 12 ++----
+ monitor/qmp-cmds.c                       |  4 +-
+ net/colo-compare.c                       | 13 ++-----
+ qga/commands-win32.c                     |  8 ++--
+ replay/replay-time.c                     |  5 +--
+ semihosting/console.c                    |  4 +-
+ softmmu/memory.c                         | 11 +-----
+ softmmu/physmem.c                        |  9 +----
+ target/i386/hax/hax-all.c                |  2 +-
+ target/i386/kvm/kvm.c                    |  5 +--
+ target/loongarch/cpu.c                   |  4 +-
+ target/mips/tcg/dsp_helper.c             | 15 ++------
+ target/riscv/debug.c                     |  6 +--
+ target/riscv/vector_helper.c             | 28 ++++----------
+ tests/bench/benchmark-crypto-akcipher.c  |  6 +--
+ tests/qtest/erst-test.c                  |  5 +--
+ tests/qtest/hexloader-test.c             |  6 +--
+ tests/qtest/pvpanic-pci-test.c           |  6 +--
+ tests/qtest/pvpanic-test.c               |  6 +--
+ tests/qtest/test-filter-mirror.c         |  6 +--
+ tests/qtest/virtio-ccw-test.c            |  6 +--
+ tests/tcg/aarch64/system/semiheap.c      |  4 +-
+ tests/tcg/multiarch/sha512.c             |  9 +----
+ tools/virtiofsd/fuse_lowlevel.c          | 24 +++---------
+ ui/util.c                                |  1 -
+ util/qemu-config.c                       | 46 ++++++++++------------
+ util/qemu-sockets.c                      | 26 +++++--------
+ util/thread-context.c                    | 10 +----
+ util/vfio-helpers.c                      |  2 +-
+ 70 files changed, 188 insertions(+), 407 deletions(-)
+
+-- 
+2.37.3
+
 
