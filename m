@@ -2,58 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE17C64C57C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 10:07:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0F164C596
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 10:10:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Nhq-0007p4-Fe; Wed, 14 Dec 2022 04:05:40 -0500
+	id 1p5Nm0-0000nO-4D; Wed, 14 Dec 2022 04:09:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wanghw364@163.com>) id 1p5NhF-0007oG-0E
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 04:05:02 -0500
-Received: from m13139.mail.163.com ([220.181.13.139])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wanghw364@163.com>) id 1p5Nh6-0003Y6-SP
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 04:05:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=tJ4Xw74Rm1gc+Px0RjzCGvEv2GftI25tbSsEYe85C8o=; b=Q
- 0/Wrcn2BcwMXQ+KSObXSr7TiEzCPZjeP8Kc8T+2pBJKFIXvliJnQtX0if5l/5Bt9
- 6OHxO6n7g8XNZFv7QflvNd1whRCXWbxrh80xZjBRnfdz1Qlq5IPTDodC4mqG/BQj
- K0qUTD9c5x4YCzKZqSVZbQeMu+kXPF1ghEkKAPBzaU=
-Received: from wanghw364$163.com ( [183.193.18.239] ) by
- ajax-webmail-wmsvr139 (Coremail) ; Wed, 14 Dec 2022 17:04:42 +0800 (CST)
-X-Originating-IP: [183.193.18.239]
-Date: Wed, 14 Dec 2022 17:04:42 +0800 (CST)
-From: wanghw364  <wanghw364@163.com>
-To: =?GBK?Q?Alex_Benn=A8=A6e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re:Re: QEMU function trace
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220708(c4627114)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <87y1rbjlk6.fsf@linaro.org>
-References: <4019c9d3.7721.1850b729a80.Coremail.wanghw364@163.com>
- <87y1rbjlk6.fsf@linaro.org>
-X-NTES-SC: AL_QuycA/ybt04j5CCbZekZk04Vjug9WMK2sv0n2IdXPp80uyvNxSowZXxBMXDJ9uapDwSmsxusXRJpwMd3bZB3b4MINBofzS8+tBitweXZsxuS
-Content-Type: multipart/alternative; 
- boundary="----=_Part_90471_675831309.1671008682039"
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1p5Nlu-0000n7-Uu
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 04:09:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1p5Nlt-0007jS-6u
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 04:09:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671008988;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pH2XO4taCjKI6BIT71vGkv8iUIdI83Of+/UYGkrF2kw=;
+ b=gluG7x3Ba5pR8/XWhEKQjJqz5VrD32V/Zy5Q6nHAMOE9EJOzXDGluW1kAPt7bLEz5LKevL
+ 36J4gxLMp8H1Db/WOYmCj4u1JpXE8zimH9GZ4zvpR7+DSWFF/ZrrulorQzxfnit+GAqF6G
+ eap3oaVcGtT0dVOV6tz4t5pRmH4Krjs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-178-VCB661qSPrWPNHHoRLIp3g-1; Wed, 14 Dec 2022 04:09:47 -0500
+X-MC-Unique: VCB661qSPrWPNHHoRLIp3g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ o8-20020adfba08000000b00241e80f08e0so3416869wrg.12
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 01:09:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pH2XO4taCjKI6BIT71vGkv8iUIdI83Of+/UYGkrF2kw=;
+ b=VOM23UpOyb7cJvefFrM8wrRviOKXgEuOunpxIV+ARr+s3fXOaK3ReYoX/v6w66lyIN
+ Iz1ky65m4wp5+Lf5pLTMM5lKmh7IWseFEAsopIz3DIPnAggOMw+G90x/5IokyUAtGHyd
+ EOWA7GqFAQ+7lQmazM3ePEprHc7URRrg7nwWnOPq9u4L+oif5+crz2me10pdO+NZKQup
+ 7H3LNy7v3JwfGbc1w3jgsXCmvUXrAdLJo5tahIeFjAKSYZzd9hO+xszHyF2aM3Kp+1Od
+ mu5ykJv7J0gDmDvbQjIgMada67Q3mncBHEqR0tqrWULhrXm1IruhdjzuSevzBFkvVuzk
+ lDkA==
+X-Gm-Message-State: ANoB5pm2hjsnMD2KijpvtJKEhyYJ0cssFdymN1eSRopn6sWG+kCmd/48
+ hi9BpqLTlru9ALkgJSh8KtjGNFdjOWS5ko9T7Jc4suwf9aRlgHBuUwSlefwbgguE7hBG4ejULMC
+ kxf3VpsMEbO97JK8L+hgNn+XMZfOgzYZtwG5fUcEWGwKpjKOodxyF59Oi3KXiXcfKbtc=
+X-Received: by 2002:a7b:c5c4:0:b0:3d1:f234:12cc with SMTP id
+ n4-20020a7bc5c4000000b003d1f23412ccmr17606673wmk.33.1671008985672; 
+ Wed, 14 Dec 2022 01:09:45 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7vaDGjA+OyA9dJ8k1c3eRqM531Um/iZFGdzC7VGyy6IA6gTPOXwMllFBLb/MLpJbiCNUQ5yA==
+X-Received: by 2002:a7b:c5c4:0:b0:3d1:f234:12cc with SMTP id
+ n4-20020a7bc5c4000000b003d1f23412ccmr17606635wmk.33.1671008985282; 
+ Wed, 14 Dec 2022 01:09:45 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ o13-20020a05600c4fcd00b003b4868eb71bsm1925106wmq.25.2022.12.14.01.09.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Dec 2022 01:09:44 -0800 (PST)
+Date: Wed, 14 Dec 2022 10:09:43 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: mst@redhat.com
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca, pbonzini@redhat.com,
+ richard.henderson@linaro.org, mark.cave-ayland@ilande.co.uk,
+ peter.maydell@linaro.org, andrew.smirnov@gmail.com, paulburton@kernel.org,
+ aleksandar.rikalo@syrmia.com, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au, groug@kaod.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v2 for-8.0 0/2] pci: drop redundant
+ PCIDeviceClass::is_bridge field
+Message-ID: <20221214100943.7f64a34b@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20221129101341.185621-1-imammedo@redhat.com>
+References: <20221129101341.185621-1-imammedo@redhat.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Message-ID: <4fc789e6.5fe0.1850fe10037.Coremail.wanghw364@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: i8GowADn7zOqkZljnkukAA--.57329W
-X-CM-SenderInfo: pzdqwxbztwkqqrwthudrp/1tbiTwrXB1sGco-PKAAAsS
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.13.139; envelope-from=wanghw364@163.com;
- helo=m13139.mail.163.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,179 +105,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-------=_Part_90471_675831309.1671008682039
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+On Tue, 29 Nov 2022 11:13:39 +0100
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-VGhhbmtzLiBJIGhhdmUgc2V2ZXJhbCBxdWVzdGlvbnMgYXMgYmVsb3csIHBsZWFzZSBoZWxwLCB0
-aGFua3MuCgoKMS5XaGF0IGRvIHlvdSBtZWFuIGJ5ICJvbmx5IGhhdmUgZGVidWcgc3ltYm9scyBh
-dmFpbGFibGUgZm9yIGxpbnV4LXVzZXIgc28iPyBXaGF0IGRvZXMgdGhlIGxpbnV4LXVzZXIgc28g
-cmVmZXIgdG8/CiBxZW11X3BsdWdpbl9pbnNuX3N5bWJvbCgpIGNhbiBvbmx5IHNlZSBzeW1ib2xz
-IGZyb20gbGludXgtdXNlciBzbz8KCgoyLlRoZSBwdXJwb3NlIG9mIHRlYWNoaW5nIHRoZSBsaW51
-eCBrZXJuZWwgbG9hZGVyIHRvIHVuZGVyc3RhbmQgYW5kIHJlbG9jYXRlIHN5bWJvbHMgZnJvbSBh
-biBFTEYga2VybmVsIGltYWdlLApvciBleHRyYWN0IHRoZW4gYW5kIGZlZWQgdGhlbSBkaXJlY3Rs
-eSB0byB0aGUgcGx1Z2luLCBpcyB0byBzb2x2ZSB0aGUgaXNzdWUgdGhhdCBxZW11X3BsdWdpbl9p
-bnNuX3N5bWJvbCgpIGNhbid0IHNlZSBrZXJuZWwgc3ltYm9sPwoKCjMuSG93IHRvIG1ha2UgdGhl
-IGtlcm5lbCBsb2FkZXIgdW5kZXJzdGFuZCBhbmQgcmVsb2NhdGUgc3ltYm9scyBpbiBRRU1VPyBI
-b3cgdG8gZmVlZCB0aGUgc3ltYm9sIHRhYmxlIGRpcmVjdGx5IHRvIHRoZSBwbHVnaW4/CkFzIEkg
-Y2FuIHNlZSwgY2FjaGUgcGx1Z2luIGhhcyB1c2VkIHFlbXVfcGx1Z2luX2luc25fc3ltYm9sKCkg
-YW5kIHRoZXJlIGlzIGZ1bmN0aW9uIG5hbWUgaW5mbyBpbiB0aGUgb3V0cHV0IHJlc3VsdCwKYnV0
-IGl0IHNlZW1zIHRoZXJlIGlzIG5vIHN5bWJvbCB0YWJsZSBmZWVkaW5nIGluIHRoZSBjb21tYW5k
-LCBzaG93biBpbiBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9ibG9iL21h
-c3Rlci9kb2NzL2RldmVsL3RjZy1wbHVnaW5zLnJzdC4KJCBxZW11LXg4Nl82NCAtcGx1Z2luIC4v
-Y29udHJpYi9wbHVnaW5zL2xpYmNhY2hlLnNvIC1kIHBsdWdpbiAtRCBjYWNoZS5sb2cgLi90ZXN0
-cy90Y2cveDg2XzY0LWxpbnV4LXVzZXIvZmxvYXRfY29udnMKCgpTbyBJIHdhcyB3b25kZXJpbmcg
-aG93IHRoZSBzeW1ib2wgdGFibGUgd2FzIGZlZCBpbnRvIHRoZSBwbHVnaW4/IFdoYXQgaXMgdGhl
-IHVzYWdlIG9mIHBhcmEgLi90ZXN0cy90Y2cveDg2XzY0LWxpbnV4LXVzZXIvZmxvYXRfY29udnM/
-CgoKNC5JZiB3ZSBtYWtlIGtlcm5lbCBzeW1ib2wgdmlzaWJsZSB0byBxZW11X3BsdWdpbl9pbnNu
-X3N5bWJvbCgpLCB0aGUgb25seSB0aGluZyB3ZSBuZWVkIHRvIGRvIGlzIHRvIG1ha2UgdGhlIGNv
-cmUgbW9kZWwgaWRlbnRpZnkgd2hpY2ggaW5zdHJ1Y3Rpb24KaXMgdGhlIHN0YXJ0IG9mIG9uZSBm
-dW5jdGlvbiBhbmQgcmVjb3JkIHRoZSBmdW5jdGlvbiB0cmFjZSBieSBsb29raW5nIHVwIHN5bWJv
-bCB0YWJsZSBvbmNlIHRoZSBmdW5jdGlvbi1sZXZlbCBzdGFydCBpbnN0cnVjdGlvbiB3YXMgZXhl
-Y3V0ZWQ/CgoKQWN0dWFsbHkgSSBoYXZlIHRoZSBrZXJuZWwgc3ltYm9sIHRhYmxlIGZpbGUgbmFt
-ZWQgJ1N5c3RlbS5tYXAnIHVuZGVyIHRoZSBrZXJuZWwgZGlyZWN0b3J5LCBJIHdhcyB3b25kZXJp
-bmcgaG93IHRvIGZlZWQgaXQgdG8gdGhlIHBsdWdpbi4KCgoKCgoKVGhhbmtzLgoKCgoKCgoKCgoK
-CgoKCgoKCgoKCgpBdCAyMDIyLTEyLTEzIDIzOjQ0OjI5LCAiQWxleCBCZW5uqKZlIiA8YWxleC5i
-ZW5uZWVAbGluYXJvLm9yZz4gd3JvdGU6Cj4KPndhbmdodzM2NCA8d2FuZ2h3MzY0QDE2My5jb20+
-IHdyaXRlczoKPgo+PiBIaSBhbGwsCj4+Cj4+IERvZXMgcWVtdS1zeXN0ZW0tcmlzY3Y2NCBoYXZl
-IGFueSBwbHVnaW4gb3IgdG9vbHMgdGhhdCBjYW4gc3VwcG9ydCB0YXJnZXQgcHJvZ3JhbSBmdW5j
-dGlvbiB0cmFjZSBmZWF0dXJlPwo+Pgo+PiBJdCBzZWVtcyB0aGVyZSBpcyBubyBzdWNoIGZlYXR1
-cmUgdW5kZXIKPj4gbGluazpodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9i
-bG9iL21hc3Rlci9kb2NzL2RldmVsL3RjZy1wbHVnaW5zLnJzdCAKPj4KPj4gRm9yIGV4YW1wbGUs
-IHdlIGNhbiB1c2UgbGliZXhlY2xvZy5zbyBwbHVnaW4gdG8gdHJhY2UgdGFyZ2V0IHByb2dyYW0g
-aW5zdHJ1Y3Rpb24gdHJhY2UuCj4+Cj4+IEluIG15IGNhc2UsIHdoZW4gSSBib290IGxpbnV4IGtl
-cm5lbCB3aXRoIHFlbXUsIGl0IGhhbmdzIGluIHRoZSBoYWxmd2F5LCBidXQgSSBkb24ndCBrbm93
-IHRoZSBoYW5nIHBvc2l0aW9uIGluCj4+IHRoZSBjb2RlLCAKPj4KPj4gc28gSSB3YW50IHRvIHRy
-YWNlIHRoZSBrZXJuZWwgZnVuY3Rpb24gY2FsbGluZyB0cmFjZSBzbyB0aGF0IEkgY2FuCj4+IGZp
-bmQgb3V0IHdoZW4gYW5kIHdoZXJlIGV4ZWN1dGlvbiBkaXZlcmdlcy4KPgo+Tm90IGN1cnJlbnRs
-eSBidXQgaXQgd291bGRuJ3QgYmUgc3VwZXIgaGFyZCB0byB3cml0ZSBzdWNoIGEgdGhpbmcuCj5I
-b3dldmVyIGN1cnJlbnRseSB3ZSBvbmx5IGhhdmUgZGVidWcgc3ltYm9scyBhdmFpbGFibGUgZm9y
-IGxpbnV4LXVzZXIgc28KPnRoYXQgaXMgYWxsIHRoZSBoZWxwZXIgcWVtdV9wbHVnaW5faW5zbl9z
-eW1ib2woKSB3aWxsIHNlZS4KPgo+WW91IG5lZWQgdG8gdGVhY2ggdGhlIGxpbnV4IGtlcm5lbCBs
-b2FkZXIgdG8gdW5kZXJzdGFuZCBhbmQgcmVsb2NhdGUKPnN5bWJvbHMgZnJvbSBhbiBFTEYga2Vy
-bmVsIGltYWdlLiBBbHRlcm5hdGl2ZWx5IHlvdSBjb3VsZCBleHRyYWN0IHRoZW4KPmFuZCBmZWVk
-IHRoZW0gZGlyZWN0bHkgdG8gdGhlIHBsdWdpbi4gSXQgd291bGQgdGhlbiBiZSBmYWlybHkgdHJp
-dmlhbCB0bwo+c3RpY2sgYW4gZXhlY3V0aW9uIGNhbGxiYWNrIGF0IGV2ZXJ5IGZ1bmN0aW9uIGVu
-dHJhbmNlLgo+Cj5JIHN1c3BlY3QgS0FTTFIgbWVzc2VzIHRoaW5ncyB1cCB0aG91Z2guCj4KPj4K
-Pj4gVGhhbmtzLiAKPgo+Cj4tLSAKPkFsZXggQmVubqimZQo=
-------=_Part_90471_675831309.1671008682039
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+> Changelog:
+>    - keep comment reminding that there was a bridge, so it would be easy to find
+>      removed code if someone wishes to bring it back
+>    - s/IS_PCI_BRIDGE/is_bridge/ in one instance where local is_bridge already exists
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6c2ltc3VuLCBTVFNvbmd0aS1TQy1SZWd1bGFyIj48ZGl2IHN0eWxlPSJtYXJn
-aW46IDA7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyBmb250LWZhbWlseTogQXJpYWw7
-Ij5UaGFua3MuIEkgaGF2ZSBzZXZlcmFsIHF1ZXN0aW9ucyBhcyBiZWxvdywgcGxlYXNlIGhlbHAs
-IHRoYW5rcy48L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvZGl2Pjxk
-aXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6IDE0cHg7IGZvbnQt
-ZmFtaWx5OiBBcmlhbDsiPjEuV2hhdCBkbyB5b3UgbWVhbiBieSAiPHNwYW4gc3R5bGU9ImZvbnQt
-c2l6ZTogMTRweDsgZm9udC1mYW1pbHk6IGFyaWFsOyB3aGl0ZS1zcGFjZTogcHJlLXdyYXA7Ij5v
-bmx5IGhhdmUgZGVidWcgc3ltYm9scyBhdmFpbGFibGUgZm9yIGxpbnV4LXVzZXIgc288L3NwYW4+
-Ij8gV2hhdCBkb2VzIHRoZSBsaW51eC11c2VyIHNvIHJlZmVyIHRvPzwvc3Bhbj48L2Rpdj48ZGl2
-IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyBmb250LWZh
-bWlseTogQXJpYWw7Ij4mbmJzcDs8c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyBmb250LWZh
-bWlseTogYXJpYWw7IHdoaXRlLXNwYWNlOiBwcmUtd3JhcDsiPnFlbXVfcGx1Z2luX2luc25fc3lt
-Ym9sKCkgY2FuIG9ubHkgc2VlIHN5bWJvbHMgZnJvbSBsaW51eC11c2VyIHNvPzwvc3Bhbj48L3Nw
-YW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNl
-OiBwcmUtd3JhcDsgZm9udC1zaXplOiAxNHB4OyBmb250LWZhbWlseTogQXJpYWw7Ij48YnI+PC9z
-cGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFj
-ZTogcHJlLXdyYXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC1mYW1pbHk6IEFyaWFsOyI+Mi5UaGUg
-cHVycG9zZSBvZiAgdGVhY2hpbmcgdGhlIGxpbnV4IGtlcm5lbCBsb2FkZXIgdG8gdW5kZXJzdGFu
-ZCBhbmQgcmVsb2NhdGUgc3ltYm9scyBmcm9tIGFuIEVMRiBrZXJuZWwgaW1hZ2UsPC9zcGFuPjwv
-ZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJl
-LXdyYXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC1mYW1pbHk6IEFyaWFsOyI+ICAgIG9yIGV4dHJh
-Y3QgdGhlbiBhbmQgZmVlZCB0aGVtIGRpcmVjdGx5IHRvIHRoZSBwbHVnaW4sIGlzIHRvIHNvbHZl
-IHRoZSBpc3N1ZSB0aGF0IHFlbXVfcGx1Z2luX2luc25fc3ltYm9sKCkgY2FuJ3Qgc2VlIGtlcm5l
-bCBzeW1ib2w/PC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxl
-PSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC1mYW1pbHk6IEFy
-aWFsOyI+PGJyPjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHls
-ZT0id2hpdGUtc3BhY2U6IHByZS13cmFwOyBmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5OiBB
-cmlhbDsiPjMuSG93IHRvIG1ha2UgdGhlIGtlcm5lbCBsb2FkZXIgdW5kZXJzdGFuZCBhbmQgcmVs
-b2NhdGUgc3ltYm9scyBpbiBRRU1VPyBIb3cgdG8gZmVlZCB0aGUgc3ltYm9sIHRhYmxlIGRpcmVj
-dGx5IHRvIHRoZSBwbHVnaW4/PC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxz
-cGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC1m
-YW1pbHk6IEFyaWFsOyI+ICAgQXMgSSBjYW4gc2VlLCBjYWNoZSBwbHVnaW4gaGFzIHVzZWQgcWVt
-dV9wbHVnaW5faW5zbl9zeW1ib2woKSBhbmQgdGhlcmUgaXMgZnVuY3Rpb24gbmFtZSBpbmZvIGlu
-IHRoZSBvdXRwdXQgcmVzdWx0LCA8L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+
-PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsgZm9udC1zaXplOiAxNHB4OyBmb250
-LWZhbWlseTogQXJpYWw7Ij4gICBidXQgaXQgc2VlbXMgdGhlcmUgaXMgbm8gc3ltYm9sIHRhYmxl
-IGZlZWRpbmcgaW4gdGhlIGNvbW1hbmQsIHNob3duIGluIDwvc3Bhbj48Zm9udCBmYWNlPSJhcmlh
-bCI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsgZm9udC1zaXplOiAxNHB4OyBm
-b250LWZhbWlseTogQXJpYWw7Ij48YSBocmVmPSJodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9q
-ZWN0L3FlbXUvLS9ibG9iL21hc3Rlci9kb2NzL2RldmVsL3RjZy1wbHVnaW5zLnJzdCIgX3NyYz0i
-aHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJvamVjdC9xZW11Ly0vYmxvYi9tYXN0ZXIvZG9jcy9k
-ZXZlbC90Y2ctcGx1Z2lucy5yc3QiPmh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3QvcWVt
-dS8tL2Jsb2IvbWFzdGVyL2RvY3MvZGV2ZWwvdGNnLXBsdWdpbnMucnN0PC9hPiA8L3NwYW4+PC9m
-b250PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7IGZvbnQtc2l6ZTogMTRweDsg
-Zm9udC1mYW1pbHk6IEFyaWFsOyI+LiA8L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAw
-OyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsgZm9udC1zaXplOiAxNHB4OyBm
-b250LWZhbWlseTogQXJpYWw7Ij4gICAkIHFlbXUteDg2XzY0IC1wbHVnaW4gLi9jb250cmliL3Bs
-dWdpbnMvbGliY2FjaGUuc28gLWQgcGx1Z2luIC1EIGNhY2hlLmxvZyAuL3Rlc3RzL3RjZy94ODZf
-NjQtbGludXgtdXNlci9mbG9hdF9jb252czwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46
-IDA7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IHByZS13cmFwOyBmb250LXNpemU6IDE0cHg7
-IGZvbnQtZmFtaWx5OiBBcmlhbDsiPjxicj48L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2lu
-OiAwOyI+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsgZm9udC1zaXplOiAxNHB4
-OyBmb250LWZhbWlseTogQXJpYWw7Ij4gICBTbyBJIHdhcyB3b25kZXJpbmcgaG93IHRoZSBzeW1i
-b2wgdGFibGUgd2FzIGZlZCBpbnRvIHRoZSBwbHVnaW4/IFdoYXQgaXMgdGhlIHVzYWdlIG9mIHBh
-cmEgLi90ZXN0cy90Y2cveDg2XzY0LWxpbnV4LXVzZXIvZmxvYXRfY29udnM/PC9zcGFuPjwvZGl2
-PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdy
-YXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC1mYW1pbHk6IEFyaWFsOyI+PGJyPjwvc3Bhbj48L2Rp
-dj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IHByZS13
-cmFwOyBmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5OiBBcmlhbDsiPjQuSWYgd2UgbWFrZSBr
-ZXJuZWwgc3ltYm9sIHZpc2libGUgdG8gcWVtdV9wbHVnaW5faW5zbl9zeW1ib2woKSwgdGhlIG9u
-bHkgdGhpbmcgd2UgbmVlZCB0byBkbyBpcyB0byBtYWtlIHRoZSBjb3JlIG1vZGVsIGlkZW50aWZ5
-IHdoaWNoIGluc3RydWN0aW9uPC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxz
-cGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC1m
-YW1pbHk6IEFyaWFsOyI+ICAgaXMgdGhlIHN0YXJ0IG9mIG9uZSBmdW5jdGlvbiBhbmQgcmVjb3Jk
-IHRoZSBmdW5jdGlvbiB0cmFjZSBieSBsb29raW5nIHVwIHN5bWJvbCB0YWJsZSBvbmNlIHRoZSBm
-dW5jdGlvbi1sZXZlbCBzdGFydCBpbnN0cnVjdGlvbiB3YXMgZXhlY3V0ZWQ/PC9zcGFuPjwvZGl2
-PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdy
-YXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC1mYW1pbHk6IEFyaWFsOyI+PGJyPjwvc3Bhbj48L2Rp
-dj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IHByZS13
-cmFwOyBmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5OiBBcmlhbDsiPiAgIEFjdHVhbGx5IEkg
-aGF2ZSB0aGUga2VybmVsIHN5bWJvbCB0YWJsZSBmaWxlIG5hbWVkICdTeXN0ZW0ubWFwJyB1bmRl
-ciB0aGUga2VybmVsIGRpcmVjdG9yeSwgSSB3YXMgd29uZGVyaW5nIGhvdyB0byBmZWVkIGl0IHRv
-IHRoZSBwbHVnaW4uPC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFuIHN0
-eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC1mYW1pbHk6
-IEFyaWFsOyI+PGJyPjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48c3BhbiBz
-dHlsZT0id2hpdGUtc3BhY2U6IHByZS13cmFwOyBmb250LXNpemU6IDE0cHg7IGZvbnQtZmFtaWx5
-OiBBcmlhbDsiPjxicj48L3NwYW4+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PHNwYW4g
-c3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsgZm9udC1zaXplOiAxNHB4OyBmb250LWZhbWls
-eTogQXJpYWw7Ij48YnI+PC9zcGFuPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxzcGFu
-IHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7IGZvbnQtc2l6ZTogMTRweDsgZm9udC1mYW1p
-bHk6IEFyaWFsOyI+VGhhbmtzLjwvc3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48
-YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+PGJyPjwvZGl2PjxwIHN0eWxlPSJtYXJn
-aW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJt
-YXJnaW46IDA7Ij48YnI+PC9wPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxkaXYgc3R5
-bGU9InBvc2l0aW9uOnJlbGF0aXZlO3pvb206MSI+PGRpdiBzdHlsZT0iY2xlYXI6Ym90aCI+PC9k
-aXY+PC9kaXY+PGRpdiBpZD0iZGl2TmV0ZWFzZU1haWxDYXJkIj48L2Rpdj48cCBzdHlsZT0ibWFy
-Z2luOiAwOyI+PGJyPjwvcD48cHJlPjxicj5BdCAyMDIyLTEyLTEzIDIzOjQ0OjI5LCAiQWxleCBC
-ZW5uqKZlIiAmbHQ7YWxleC5iZW5uZWVAbGluYXJvLm9yZyZndDsgd3JvdGU6CiZndDsKJmd0O3dh
-bmdodzM2NCAmbHQ7d2FuZ2h3MzY0QDE2My5jb20mZ3Q7IHdyaXRlczoKJmd0OwomZ3Q7Jmd0OyBI
-aSBhbGwsCiZndDsmZ3Q7CiZndDsmZ3Q7IERvZXMgcWVtdS1zeXN0ZW0tcmlzY3Y2NCBoYXZlIGFu
-eSBwbHVnaW4gb3IgdG9vbHMgdGhhdCBjYW4gc3VwcG9ydCB0YXJnZXQgcHJvZ3JhbSBmdW5jdGlv
-biB0cmFjZSBmZWF0dXJlPwomZ3Q7Jmd0OwomZ3Q7Jmd0OyBJdCBzZWVtcyB0aGVyZSBpcyBubyBz
-dWNoIGZlYXR1cmUgdW5kZXIKJmd0OyZndDsgbGluazpodHRwczovL2dpdGxhYi5jb20vcWVtdS1w
-cm9qZWN0L3FlbXUvLS9ibG9iL21hc3Rlci9kb2NzL2RldmVsL3RjZy1wbHVnaW5zLnJzdCAKJmd0
-OyZndDsKJmd0OyZndDsgRm9yIGV4YW1wbGUsIHdlIGNhbiB1c2UgbGliZXhlY2xvZy5zbyBwbHVn
-aW4gdG8gdHJhY2UgdGFyZ2V0IHByb2dyYW0gaW5zdHJ1Y3Rpb24gdHJhY2UuCiZndDsmZ3Q7CiZn
-dDsmZ3Q7IEluIG15IGNhc2UsIHdoZW4gSSBib290IGxpbnV4IGtlcm5lbCB3aXRoIHFlbXUsIGl0
-IGhhbmdzIGluIHRoZSBoYWxmd2F5LCBidXQgSSBkb24ndCBrbm93IHRoZSBoYW5nIHBvc2l0aW9u
-IGluCiZndDsmZ3Q7IHRoZSBjb2RlLCAKJmd0OyZndDsKJmd0OyZndDsgc28gSSB3YW50IHRvIHRy
-YWNlIHRoZSBrZXJuZWwgZnVuY3Rpb24gY2FsbGluZyB0cmFjZSBzbyB0aGF0IEkgY2FuCiZndDsm
-Z3Q7IGZpbmQgb3V0IHdoZW4gYW5kIHdoZXJlIGV4ZWN1dGlvbiBkaXZlcmdlcy4KJmd0OwomZ3Q7
-Tm90IGN1cnJlbnRseSBidXQgaXQgd291bGRuJ3QgYmUgc3VwZXIgaGFyZCB0byB3cml0ZSBzdWNo
-IGEgdGhpbmcuCiZndDtIb3dldmVyIGN1cnJlbnRseSB3ZSBvbmx5IGhhdmUgZGVidWcgc3ltYm9s
-cyBhdmFpbGFibGUgZm9yIGxpbnV4LXVzZXIgc28KJmd0O3RoYXQgaXMgYWxsIHRoZSBoZWxwZXIg
-cWVtdV9wbHVnaW5faW5zbl9zeW1ib2woKSB3aWxsIHNlZS4KJmd0OwomZ3Q7WW91IG5lZWQgdG8g
-dGVhY2ggdGhlIGxpbnV4IGtlcm5lbCBsb2FkZXIgdG8gdW5kZXJzdGFuZCBhbmQgcmVsb2NhdGUK
-Jmd0O3N5bWJvbHMgZnJvbSBhbiBFTEYga2VybmVsIGltYWdlLiBBbHRlcm5hdGl2ZWx5IHlvdSBj
-b3VsZCBleHRyYWN0IHRoZW4KJmd0O2FuZCBmZWVkIHRoZW0gZGlyZWN0bHkgdG8gdGhlIHBsdWdp
-bi4gSXQgd291bGQgdGhlbiBiZSBmYWlybHkgdHJpdmlhbCB0bwomZ3Q7c3RpY2sgYW4gZXhlY3V0
-aW9uIGNhbGxiYWNrIGF0IGV2ZXJ5IGZ1bmN0aW9uIGVudHJhbmNlLgomZ3Q7CiZndDtJIHN1c3Bl
-Y3QgS0FTTFIgbWVzc2VzIHRoaW5ncyB1cCB0aG91Z2guCiZndDsKJmd0OyZndDsKJmd0OyZndDsg
-VGhhbmtzLiAKJmd0OwomZ3Q7CiZndDstLSAKJmd0O0FsZXggQmVubqimZQo8L3ByZT48L2Rpdj4=
+Michael,
 
-------=_Part_90471_675831309.1671008682039--
+can you merge this via PCI tree?
+
+> 
+> Igor Mammedov (2):
+>   remove DEC 21154 PCI bridge
+>   pci: drop redundant PCIDeviceClass::is_bridge field
+> 
+>  hw/pci-bridge/dec.h                |   9 --
+>  include/hw/pci/pci.h               |  11 +-
+>  include/hw/pci/pci_bridge.h        |   1 +
+>  include/hw/pci/pci_ids.h           |   1 -
+>  hw/acpi/pcihp.c                    |   3 +-
+>  hw/i386/acpi-build.c               |   5 +-
+>  hw/pci-bridge/cxl_downstream.c     |   1 -
+>  hw/pci-bridge/cxl_upstream.c       |   1 -
+>  hw/pci-bridge/dec.c                | 164 -----------------------------
+>  hw/pci-bridge/i82801b11.c          |   1 -
+>  hw/pci-bridge/meson.build          |   2 -
+>  hw/pci-bridge/pci_bridge_dev.c     |   1 -
+>  hw/pci-bridge/pcie_pci_bridge.c    |   1 -
+>  hw/pci-bridge/pcie_root_port.c     |   1 -
+>  hw/pci-bridge/simba.c              |   1 -
+>  hw/pci-bridge/xio3130_downstream.c |   1 -
+>  hw/pci-bridge/xio3130_upstream.c   |   1 -
+>  hw/pci-host/designware.c           |   1 -
+>  hw/pci-host/uninorth.c             |   9 +-
+>  hw/pci-host/xilinx-pcie.c          |   1 -
+>  hw/pci/pci.c                       |  20 ++--
+>  hw/ppc/spapr_pci.c                 |  15 +--
+>  22 files changed, 23 insertions(+), 228 deletions(-)
+>  delete mode 100644 hw/pci-bridge/dec.h
+>  delete mode 100644 hw/pci-bridge/dec.c
+> 
 
 
