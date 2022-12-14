@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565E064CB87
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 14:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E95064CC5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:34:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5S5E-0004uq-5A; Wed, 14 Dec 2022 08:46:04 -0500
+	id 1p5S5D-0004uF-0Z; Wed, 14 Dec 2022 08:46:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4o-0004OD-Ry
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4t-0004Rk-A9
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4m-0003ZH-Uw
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:38 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4r-0003az-8M
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671025536;
+ s=mimecast20190719; t=1671025540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=njNBLlVe1ev1ROiZL3w4OEepqoEttGtYawPt2NugiJk=;
- b=XF+UEmntDxUVSHM3L1HojHSAsnOZ9Bqwa1UUEUTXTl3sA02q8ntDrmsylh6FNEGdE4M3NX
- 1nICgzMmSf+olCM3vnwRhPhBBYoXDhZiBjPQhYW51L/W2jYLii0Cjwyx6OnuL6TwOuFfrc
- ynENM7IbGm/LvdWLj09m0FfWtQ6+Dfo=
+ bh=pZwLFh0bsdnc12J1uWO6xUAK4pcbcVa8lLw5bhWRtsg=;
+ b=Ty37i2WdCPXGMB8OE65HmY+sdUqyPNnc+4MBhXZQisday+dssff7OCkTvLRK9SBldvo2Qs
+ 4k7CqpvUcrNNBVxwYNj9n7Iqm3oogsfhp3lsbHC5t1RXOs8H2Ca2KC8a3Ansi+SiooSWjz
+ PigW8YQhj7gAPqqf4wdWJEvbF48RDgM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-IBWyoVqeM0W7QN1X4K74Wg-1; Wed, 14 Dec 2022 08:45:34 -0500
-X-MC-Unique: IBWyoVqeM0W7QN1X4K74Wg-1
+ us-mta-84-muKEq2TsN8mZeRWdY_9W1A-1; Wed, 14 Dec 2022 08:45:35 -0500
+X-MC-Unique: muKEq2TsN8mZeRWdY_9W1A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70DA138173C9;
- Wed, 14 Dec 2022 13:45:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6DA612A5956A;
+ Wed, 14 Dec 2022 13:45:35 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFF7C14171BE;
- Wed, 14 Dec 2022 13:45:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB11A14171C2;
+ Wed, 14 Dec 2022 13:45:34 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 26/51] block: distinguish between bdrv_create running in
- coroutine and not
-Date: Wed, 14 Dec 2022 14:44:28 +0100
-Message-Id: <20221214134453.31665-27-kwolf@redhat.com>
+Subject: [PULL 27/51] block: bdrv_create_file is a coroutine_fn
+Date: Wed, 14 Dec 2022 14:44:29 +0100
+Message-Id: <20221214134453.31665-28-kwolf@redhat.com>
 In-Reply-To: <20221214134453.31665-1-kwolf@redhat.com>
 References: <20221214134453.31665-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,124 +79,207 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Call two different functions depending on whether bdrv_create
-is in coroutine or not, following the same pattern as
-generated_co_wrapper functions.
+It is always called in coroutine_fn callbacks, therefore
+it can directly call bdrv_co_create().
 
-This allows to also call the coroutine function directly,
-without using CreateCo or relying in bdrv_create().
+Rename it to bdrv_co_create_file too.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-Id: <20221128142337.657646-8-eesposit@redhat.com>
+Message-Id: <20221128142337.657646-9-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 69 ++++++++++++++++++++++++++++-----------------------------
- 1 file changed, 34 insertions(+), 35 deletions(-)
+ include/block/block-global-state.h | 3 ++-
+ block.c                            | 5 +++--
+ block/crypto.c                     | 2 +-
+ block/parallels.c                  | 2 +-
+ block/qcow.c                       | 2 +-
+ block/qcow2.c                      | 4 ++--
+ block/qed.c                        | 2 +-
+ block/raw-format.c                 | 2 +-
+ block/vdi.c                        | 2 +-
+ block/vhdx.c                       | 2 +-
+ block/vmdk.c                       | 2 +-
+ block/vpc.c                        | 2 +-
+ 12 files changed, 16 insertions(+), 14 deletions(-)
 
+diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
+index 00e0cf8aea..387a7cbb2e 100644
+--- a/include/block/block-global-state.h
++++ b/include/block/block-global-state.h
+@@ -57,7 +57,8 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+ BlockDriver *bdrv_find_format(const char *format_name);
+ int bdrv_create(BlockDriver *drv, const char* filename,
+                 QemuOpts *opts, Error **errp);
+-int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp);
++int coroutine_fn bdrv_co_create_file(const char *filename, QemuOpts *opts,
++                                     Error **errp);
+ 
+ BlockDriverState *bdrv_new(void);
+ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
 diff --git a/block.c b/block.c
-index 9d77ec8818..0a1d484a27 100644
+index 0a1d484a27..c8ac91eb63 100644
 --- a/block.c
 +++ b/block.c
-@@ -526,63 +526,62 @@ typedef struct CreateCo {
-     Error *err;
- } CreateCo;
- 
--static void coroutine_fn bdrv_create_co_entry(void *opaque)
-+static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
-+                                       QemuOpts *opts, Error **errp)
- {
--    Error *local_err = NULL;
-     int ret;
-+    GLOBAL_STATE_CODE();
-+    ERRP_GUARD();
- 
-+    if (!drv->bdrv_co_create_opts) {
-+        error_setg(errp, "Driver '%s' does not support image creation",
-+                   drv->format_name);
-+        return -ENOTSUP;
-+    }
-+
-+    ret = drv->bdrv_co_create_opts(drv, filename, opts, errp);
-+    if (ret < 0 && !*errp) {
-+        error_setg_errno(errp, -ret, "Could not create image");
-+    }
-+
-+    return ret;
-+}
-+
-+static void coroutine_fn bdrv_create_co_entry(void *opaque)
-+{
-     CreateCo *cco = opaque;
--    assert(cco->drv);
-     GLOBAL_STATE_CODE();
- 
--    ret = cco->drv->bdrv_co_create_opts(cco->drv,
--                                        cco->filename, cco->opts, &local_err);
--    error_propagate(&cco->err, local_err);
--    cco->ret = ret;
-+    cco->ret = bdrv_co_create(cco->drv, cco->filename, cco->opts, &cco->err);
-+    aio_wait_kick();
+@@ -719,7 +719,8 @@ out:
+     return ret;
  }
  
- int bdrv_create(BlockDriver *drv, const char* filename,
-                 QemuOpts *opts, Error **errp)
+-int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
++int coroutine_fn bdrv_co_create_file(const char *filename, QemuOpts *opts,
++                                     Error **errp)
  {
--    int ret;
--
-     GLOBAL_STATE_CODE();
- 
--    Coroutine *co;
--    CreateCo cco = {
--        .drv = drv,
--        .filename = filename,
--        .opts = opts,
--        .ret = NOT_DONE,
--        .err = NULL,
--    };
--
--    if (!drv->bdrv_co_create_opts) {
--        error_setg(errp, "Driver '%s' does not support image creation", drv->format_name);
--        return -ENOTSUP;
--    }
--
-     if (qemu_in_coroutine()) {
-         /* Fast-path if already in coroutine context */
--        bdrv_create_co_entry(&cco);
-+        return bdrv_co_create(drv, filename, opts, errp);
-     } else {
-+        Coroutine *co;
-+        CreateCo cco = {
-+            .drv = drv,
-+            .filename = filename,
-+            .opts = opts,
-+            .ret = NOT_DONE,
-+            .err = NULL,
-+        };
-+
-         co = qemu_coroutine_create(bdrv_create_co_entry, &cco);
-         qemu_coroutine_enter(co);
-         while (cco.ret == NOT_DONE) {
-             aio_poll(qemu_get_aio_context(), true);
-         }
-+        error_propagate(errp, cco.err);
-+        return cco.ret;
+     QemuOpts *protocol_opts;
+     BlockDriver *drv;
+@@ -760,7 +761,7 @@ int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
+         goto out;
      }
--
--    ret = cco.ret;
--    if (ret < 0) {
--        if (cco.err) {
--            error_propagate(errp, cco.err);
--        } else {
--            error_setg_errno(errp, -ret, "Could not create image");
--        }
--    }
--
--    return ret;
+ 
+-    ret = bdrv_create(drv, filename, protocol_opts, errp);
++    ret = bdrv_co_create(drv, filename, protocol_opts, errp);
+ out:
+     qemu_opts_del(protocol_opts);
+     qobject_unref(qdict);
+diff --git a/block/crypto.c b/block/crypto.c
+index 2fb8add458..bbeb9f437c 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -703,7 +703,7 @@ static int coroutine_fn block_crypto_co_create_opts_luks(BlockDriver *drv,
+     }
+ 
+     /* Create protocol layer */
+-    ret = bdrv_create_file(filename, opts, errp);
++    ret = bdrv_co_create_file(filename, opts, errp);
+     if (ret < 0) {
+         goto fail;
+     }
+diff --git a/block/parallels.c b/block/parallels.c
+index fa08c1104b..bbea2f2221 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -646,7 +646,7 @@ static int coroutine_fn parallels_co_create_opts(BlockDriver *drv,
+     }
+ 
+     /* Create and open the file (protocol layer) */
+-    ret = bdrv_create_file(filename, opts, errp);
++    ret = bdrv_co_create_file(filename, opts, errp);
+     if (ret < 0) {
+         goto done;
+     }
+diff --git a/block/qcow.c b/block/qcow.c
+index daa38839ab..18e17a5b12 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -973,7 +973,7 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
+     }
+ 
+     /* Create and open the file (protocol layer) */
+-    ret = bdrv_create_file(filename, opts, errp);
++    ret = bdrv_co_create_file(filename, opts, errp);
+     if (ret < 0) {
+         goto fail;
+     }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 4d6666d3ff..7cc49a3a6c 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3871,7 +3871,7 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
+     }
+ 
+     /* Create and open the file (protocol layer) */
+-    ret = bdrv_create_file(filename, opts, errp);
++    ret = bdrv_co_create_file(filename, opts, errp);
+     if (ret < 0) {
+         goto finish;
+     }
+@@ -3886,7 +3886,7 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
+     /* Create and open an external data file (protocol layer) */
+     val = qdict_get_try_str(qdict, BLOCK_OPT_DATA_FILE);
+     if (val) {
+-        ret = bdrv_create_file(val, opts, errp);
++        ret = bdrv_co_create_file(val, opts, errp);
+         if (ret < 0) {
+             goto finish;
+         }
+diff --git a/block/qed.c b/block/qed.c
+index c2691a85b1..9d54c8eec5 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -778,7 +778,7 @@ static int coroutine_fn bdrv_qed_co_create_opts(BlockDriver *drv,
+     }
+ 
+     /* Create and open the file (protocol layer) */
+-    ret = bdrv_create_file(filename, opts, errp);
++    ret = bdrv_co_create_file(filename, opts, errp);
+     if (ret < 0) {
+         goto fail;
+     }
+diff --git a/block/raw-format.c b/block/raw-format.c
+index a68014ef0b..28905b09ee 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -433,7 +433,7 @@ static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
+                                            QemuOpts *opts,
+                                            Error **errp)
+ {
+-    return bdrv_create_file(filename, opts, errp);
++    return bdrv_co_create_file(filename, opts, errp);
  }
  
- /**
+ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+diff --git a/block/vdi.c b/block/vdi.c
+index c0c111c4b9..479bcfe820 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -934,7 +934,7 @@ static int coroutine_fn vdi_co_create_opts(BlockDriver *drv,
+     qdict = qemu_opts_to_qdict_filtered(opts, NULL, &vdi_create_opts, true);
+ 
+     /* Create and open the file (protocol layer) */
+-    ret = bdrv_create_file(filename, opts, errp);
++    ret = bdrv_co_create_file(filename, opts, errp);
+     if (ret < 0) {
+         goto done;
+     }
+diff --git a/block/vhdx.c b/block/vhdx.c
+index bad9ca691b..4c929800fe 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -2084,7 +2084,7 @@ static int coroutine_fn vhdx_co_create_opts(BlockDriver *drv,
+     }
+ 
+     /* Create and open the file (protocol layer) */
+-    ret = bdrv_create_file(filename, opts, errp);
++    ret = bdrv_co_create_file(filename, opts, errp);
+     if (ret < 0) {
+         goto fail;
+     }
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 0c32bf2e83..afd3471915 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2294,7 +2294,7 @@ static int coroutine_fn vmdk_create_extent(const char *filename,
+     int ret;
+     BlockBackend *blk = NULL;
+ 
+-    ret = bdrv_create_file(filename, opts, errp);
++    ret = bdrv_co_create_file(filename, opts, errp);
+     if (ret < 0) {
+         goto exit;
+     }
+diff --git a/block/vpc.c b/block/vpc.c
+index 95841f259a..6ee95dcb96 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -1111,7 +1111,7 @@ static int coroutine_fn vpc_co_create_opts(BlockDriver *drv,
+     }
+ 
+     /* Create and open the file (protocol layer) */
+-    ret = bdrv_create_file(filename, opts, errp);
++    ret = bdrv_co_create_file(filename, opts, errp);
+     if (ret < 0) {
+         goto fail;
+     }
 -- 
 2.38.1
 
