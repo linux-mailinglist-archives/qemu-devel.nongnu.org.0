@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D3B64D17A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 21:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C20D64D185
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 21:55:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5YgE-0005gm-Na; Wed, 14 Dec 2022 15:48:42 -0500
+	id 1p5Ylq-0007YP-3E; Wed, 14 Dec 2022 15:54:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5YgC-0005gd-Tw
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 15:48:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1p5Ylm-0007YH-Kj
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 15:54:26 -0500
+Received: from mga04.intel.com ([192.55.52.120])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5YgA-0001GH-W7
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 15:48:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671050917;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nn+m7LVjnZPNeImADL7be78BYIykwOVH2J6YyLNUeUw=;
- b=bvo+33OcNa1OznM4yBtWSc0mCeDQf51C0vniTydtVDmBbDuMw09Cr5k69K4pYIehxPpyfy
- Hz6jDqEDh6ZtC7mTj0pgwFbYvnJZvxSAxu5j7j4sqbGEojpxlmZ427rLf7UG4MRak/VvHw
- WAChTbhhPL64Hk5H/wlhZ+O7ndTkCsA=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-313-5IMI77gFMam1rFNFiTyf8Q-1; Wed, 14 Dec 2022 15:48:36 -0500
-X-MC-Unique: 5IMI77gFMam1rFNFiTyf8Q-1
-Received: by mail-ua1-f70.google.com with SMTP id
- c30-20020ab04861000000b00419afefbe3eso383133uad.4
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 12:48:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nn+m7LVjnZPNeImADL7be78BYIykwOVH2J6YyLNUeUw=;
- b=vRwvGhG2IHvhjIj1iHHWrqpS7154aKG7LDhiHa8+QE3bkDx91OFcFfdVoY++cC0b5P
- nJil52Og6xa6xjmRIXJf4S/qW/ibISrlpTiHgsS7KN00UWVQAhl6RB6FcMcBuIMkcCrH
- EFSBO3ppUleACc1MtZk1rpI+UCHvIAc1wQpWaT2bigq0O7MQ6QtaniWOuBw6GoZLCyci
- 0HcLF5oH6p+R8D4KyU0S90yQlWVxRGY8zLX5UBcK9qrz940gD/JMnUV0n3ld3+570m+B
- qrBEmYTQxBWmZFS96yjG7S/Qj5rM/TbO6yKFmuu5gXUwoBZ7Yaeacp5nVwIVYfMlUfS+
- tW3w==
-X-Gm-Message-State: ANoB5pnWb2DGFw2cTDB/58vKsJnRH3Nf6sYpP51dkQ3JG9lAxHN/iIrx
- PfRmUaLE8uFZNLjA7WiFwZ7dcRMG/shXkYCJL/9Oe3VfyiC6G3aKqW6sqaUYFYB4GbqdX1N+KG8
- HpKuTkh8FqfLGUTNRPMgVAW0hpj1CRbfrmk5gIIaen2L7vUpIw48EiT/gYP5cxhec
-X-Received: by 2002:a1f:1681:0:b0:3bd:3a31:d74e with SMTP id
- 123-20020a1f1681000000b003bd3a31d74emr16627902vkw.1.1671050914893; 
- Wed, 14 Dec 2022 12:48:34 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4sI/4q1X+A4rrzo3St0rQ2Fx0qrx1s8bZs6xfADguLEkHZbgUBCj0skFiFnibJAeK+f0zewQ==
-X-Received: by 2002:a1f:1681:0:b0:3bd:3a31:d74e with SMTP id
- 123-20020a1f1681000000b003bd3a31d74emr16627878vkw.1.1671050914516; 
- Wed, 14 Dec 2022 12:48:34 -0800 (PST)
-Received: from x1n.redhat.com
- (bras-base-aurron9127w-grc-45-70-31-26-132.dsl.bell.ca. [70.31.26.132])
- by smtp.gmail.com with ESMTPSA id
- w5-20020a05620a444500b006fc2e2198easm10901821qkp.95.2022.12.14.12.48.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Dec 2022 12:48:33 -0800 (PST)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org,
-	peterx@redhat.com
-Subject: [PATCH 0/2] test
-Date: Wed, 14 Dec 2022 15:48:30 -0500
-Message-Id: <20221214204832.1780192-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1p5Yli-00037J-RS
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 15:54:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671051262; x=1702587262;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:to:cc;
+ bh=mjGK07+sSzfJoPQKszWPOFrvFHEnWxC/xVIdOYLYUWA=;
+ b=aLa54YRGEIdm/3MqqIxGIOP+Ix8Li5qw993i5G8XehXb//KLAuFHl0y0
+ KYJNk/U2WlwVKtH7Hfj2RzRTwcCNjxtSLTuytQ0RWqTdvX7naFAjvIIPq
+ wiFhlbi3bgEP3J2Qfke5Yd3p5CrEvxyd7ngMG1so8SVlT2mMnUs8REoTd
+ eYWL9GJP766yfio8c54Iz27w2uEjGyDIode0c5WtQrowcBQxFK8q71TND
+ LCsxOsunwt/MMJLcj4WrVPgsDZ57vvdcIvz5Kb0XJJ5Vxy5bfPXkI/qwd
+ eEymaKSmwhFkYQdMKVR+jjChjuqdv9qwb5P7Z2b3m+Qb9DRnTyKAPpNKI w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="317220245"
+X-IronPort-AV: E=Sophos;i="5.96,245,1665471600"; d="scan'208";a="317220245"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2022 12:54:18 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10561"; a="773463121"
+X-IronPort-AV: E=Sophos;i="5.96,245,1665471600"; d="scan'208";a="773463121"
+Received: from iweiny-mobl.amr.corp.intel.com (HELO localhost)
+ ([10.209.87.120])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2022 12:54:18 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+Date: Wed, 14 Dec 2022 12:54:11 -0800
+Subject: [PATCH v2] hw/cxl/device: Add Flex Bus Port DVSEC
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Transfer-Encoding: 7bit
+Message-Id: <20221213-ira-flexbus-port-v2-1-eaa48d0e0700@intel.com>
+X-B4-Tracking: v=1; b=H4sIAPM3mmMC/32NSwqDMBQAryJZ9xVfbEW66j3ERT4v9UGaSKJiE
+ e/e1AN0OQPD7CJTYsriUe0i0cqZYyggL5UwowovAraFhaylRIkNcFLgPG16yTDFNIOhu2wtdYho
+ Rcm0ygQ6qWDGEobF+yKnRI6389MPhUfOc0yfc7viz/45rAgIXaucvbmm1tQ+Oczkrya+xXAcxxe
+ E2n+5xQAAAA==
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: Dave Jiang <dave.jiang@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Ben Widawsky <bwidawsk@kernel.org>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-141d4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1671051257; l=2197;
+ i=ira.weiny@intel.com; s=20221211; h=from:subject:message-id;
+ bh=mjGK07+sSzfJoPQKszWPOFrvFHEnWxC/xVIdOYLYUWA=;
+ b=AcgVs4IfdIYYMqd+htoRC/7UTrT67+vLPVT5C8skB4e2QPJmeBQPLycEnz5x7Hs65wcI/htaP9k8
+ Osu4qCtJDbuBzYQXLn+xYDGke6Ov9DuOlYGLE7Wuc1Gh6Z6B8iM+
+X-Developer-Key: i=ira.weiny@intel.com; a=ed25519;
+ pk=noldbkG+Wp1qXRrrkfY1QJpDf7QsOEthbOT7vm0PqsE=
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=ira.weiny@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,38 +89,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The Flex Bus Port DVSEC was missing on type 3 devices which was blocking
+RAS checks.[1]
 
+Add the Flex Bus Port DVSEC to type 3 devices as per CXL 3.0 8.2.1.3.
 
-manish.mishra (2):
-  io: Add support for MSG_PEEK for socket channel
-  migration: check magic value for deciding the mapping of channels
+[1] https://lore.kernel.org/linux-cxl/167096738875.2861540.11815053323626849940.stgit@djiang5-desk3.ch.intel.com/
 
- chardev/char-socket.c               |  4 +--
- include/io/channel.h                |  6 ++++
- io/channel-buffer.c                 |  1 +
- io/channel-command.c                |  1 +
- io/channel-file.c                   |  1 +
- io/channel-null.c                   |  1 +
- io/channel-socket.c                 | 17 ++++++++++-
- io/channel-tls.c                    |  1 +
- io/channel-websock.c                |  1 +
- io/channel.c                        | 16 +++++++---
- migration/channel-block.c           |  1 +
- migration/channel.c                 | 45 +++++++++++++++++++++++++++++
- migration/channel.h                 |  5 ++++
- migration/migration.c               | 45 +++++++++++++++++++++--------
- migration/multifd.c                 | 12 +++-----
- migration/multifd.h                 |  2 +-
- migration/postcopy-ram.c            |  5 +---
- migration/postcopy-ram.h            |  2 +-
- migration/rdma.c                    |  1 +
- scsi/qemu-pr-helper.c               |  2 +-
- tests/qtest/tpm-emu.c               |  2 +-
- tests/unit/test-io-channel-socket.c |  1 +
- util/vhost-user-server.c            |  2 +-
- 23 files changed, 138 insertions(+), 36 deletions(-)
+Cc: Dave Jiang <dave.jiang@intel.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Ben Widawsky <bwidawsk@kernel.org>
+Cc: qemu-devel@nongnu.org
+Cc: linux-cxl@vger.kernel.org
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+---
+Changes in v2:
+        Jonathan                                                            
+                type 3 device does not support CACHE                        
+                Comment the 68B bit                                         
 
+- Link to v1: https://lore.kernel.org/r/20221213-ira-flexbus-port-v1-1-86afd4f30be6@intel.com
+---
+ hw/mem/cxl_type3.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index 0317bd96a6fb..e6beac143fc1 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -416,6 +416,17 @@ static void build_dvsecs(CXLType3Dev *ct3d)
+     cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+                                GPF_DEVICE_DVSEC_LENGTH, GPF_DEVICE_DVSEC,
+                                GPF_DEVICE_DVSEC_REVID, dvsec);
++
++    dvsec = (uint8_t *)&(CXLDVSECPortFlexBus){
++        .cap                     = 0x26, /* 68B, IO, Mem, non-MLD */
++        .ctrl                    = 0x02, /* IO always enabled */
++        .status                  = 0x26, /* same as capabilities */
++        .rcvd_mod_ts_data_phase1 = 0xef, /* WTF? */
++    };
++    cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
++                               PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
++                               PCIE_FLEXBUS_PORT_DVSEC,
++                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvsec);
+ }
+ 
+ static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+
+---
+base-commit: e11b57108b0cb746bb9f3887054f34a2f818ed79
+change-id: 20221213-ira-flexbus-port-ce526de8111d
+
+Best regards,
 -- 
-2.37.3
-
+Ira Weiny <ira.weiny@intel.com>
 
