@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38F364C766
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:48:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A10E364C77C
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:56:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5PIY-0007T1-5K; Wed, 14 Dec 2022 05:47:38 -0500
+	id 1p5PPP-0001Pb-7e; Wed, 14 Dec 2022 05:54:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5PIV-0007Rk-Uu
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:47:36 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p5PPN-0001P7-Ct
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:54:41 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5PIT-0006Vv-Qx
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:47:35 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p5PPL-0002Bc-BO
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:54:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671014852;
+ s=mimecast20190719; t=1671015277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eVpuXtqiOx02tHUSGnpP6vKq1MPpMSHDX2yz5VuTQX4=;
- b=J8QcFzU7MOuk0NN/d+pbfAuucXA3uRP3/edko/3d2U5G2ugi+94/Uq7qiQbw0Ah/YYIFq8
- Cn6zIQ1WHSjOGE0LwmHqJWVFODI2sb1E6tMq0lqmDX2qIIPcxnOmewyGfv/fls8dDve4dQ
- CByosftYzX1vX4lu5u/iRAo0it+PUPk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iVeT+AlWQGYDoII4rwF3b9uhksIUoqU2W0Bow00V1RQ=;
+ b=JxpeZ20dL8Upbnwg3UO5M7pjmOiuFhOeY0bmfZ2AeQQUOAInYMeFTrbq37YRMHQb1+qbgP
+ 36T/l2TKcke7jW4JUYeYjl6XbV+BJ8+tz/7M26DNodO0KN9BXkFUtUeNrir7DmIkHxEPql
+ QdJecF2oNIX1TtRFS5amr76szHbXvcM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-286-P6wrhRx9O8K2Gq5kolhk-g-1; Wed, 14 Dec 2022 05:47:28 -0500
-X-MC-Unique: P6wrhRx9O8K2Gq5kolhk-g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i9-20020a1c3b09000000b003d21fa95c38so4259507wma.3
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 02:47:28 -0800 (PST)
+ us-mta-332-rog2CNrlP1q3yhVlYrzA3g-1; Wed, 14 Dec 2022 05:54:35 -0500
+X-MC-Unique: rog2CNrlP1q3yhVlYrzA3g-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e7-20020adf9bc7000000b00242121eebe2so3419195wrc.3
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 02:54:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eVpuXtqiOx02tHUSGnpP6vKq1MPpMSHDX2yz5VuTQX4=;
- b=FwMbDo+atE1sR24NO5O5a04qwFjbfiDhO5yCRqv3qur6moeHPrNJhzuqvTGiM3fA5i
- BSfF4BxEkHshZbWgjbkO8c0AS5eBnXPmIZw6fC0gflkbCSOlGuZo31sR0DsZMjEZ8ODj
- 7XxUpSLUJQZGNo+lX1FJaceZblXmhss00102T3Hv8aMnr4KarCYVsSFi9JN5UV9riqkJ
- +Vd3sTTAYLuU3gObqkvuuDR9OO47KTCm+9Agr5Ch2BB+M3i2nXbCPrmQaU6eb6xGmAD4
- 08hBapkYjwtMEQueYylKBEnf6xyfzOBWgaZmLnhW4jZ7Wv9nUYzle2P3hIzvk4GTJ2P7
- E74Q==
-X-Gm-Message-State: ANoB5pl3QG87wMi6SQ5GtvsnqQTecfxw8MlIk072vJZu0auXKZt3yFDt
- 9NYj2QMBJycjUv2P5yK2Tw9I6gt7bG1GvGInuxa31KKJgJxz+zJCyZaN9q/JW6+RyVn527LOH1t
- HHsaTEhS614AriaQ=
-X-Received: by 2002:a05:600c:1e8a:b0:3d1:bd81:b1b1 with SMTP id
- be10-20020a05600c1e8a00b003d1bd81b1b1mr17508764wmb.18.1671014847513; 
- Wed, 14 Dec 2022 02:47:27 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6Cf+pnSz9J7IiJsNhAARhnJcOm+kcgr83imPDha4XOtDZtyJwO4OI7AnnMRdhsaW2nIXiKSQ==
-X-Received: by 2002:a05:600c:1e8a:b0:3d1:bd81:b1b1 with SMTP id
- be10-20020a05600c1e8a00b003d1bd81b1b1mr17508750wmb.18.1671014847233; 
- Wed, 14 Dec 2022 02:47:27 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-178-56.web.vodafone.de.
- [109.43.178.56]) by smtp.gmail.com with ESMTPSA id
- iv19-20020a05600c549300b003d09150b339sm2399428wmb.20.2022.12.14.02.47.25
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iVeT+AlWQGYDoII4rwF3b9uhksIUoqU2W0Bow00V1RQ=;
+ b=zMtkkUD/M6EUv13fUVZ4PX7HrJkhX0Rb9d6/LMrNHB/vyFmpGBn3dyAP74nbACinFP
+ Pfg4lBHSd4YvwX3McHyOcY7XeKvN9FMI+8gyUeMMntiRxbiHpiWMlfwOPxI2OL47KpHo
+ Cuw6tgx/yMmc6uLm5NDEU2ys/6z6xHNr/zEah/AcuklEstjw0Sy1yr1mmhH4B6Mp24O6
+ FpKl+45bmpjKi2CB3qYllwUtvYOuHirb8sx5WgEH7kML9v+BpTggl2QN9HEAc+/9vEBC
+ PyCQeLgpjk8ZcyTYAyzMsHdgWsrc9v5Jg5Un3/W1nePnB+6F1j2LZpIFkTzwiwA4Ed+a
+ Av6Q==
+X-Gm-Message-State: ANoB5pmCixbR4uhj77MwcYsBt0eZ5oCRa5kfA0KnUwPgaj6LVI5QbfFc
+ SBR8iw5WmoslYFquthW0K/H/VQO4avKJJwx3jKFYwL8UO5bHOlbnDDBkL/fCHWpfypxrpJp3dNt
+ U5jApoGVrhb9ldok=
+X-Received: by 2002:a05:6000:38b:b0:242:69f4:cb6a with SMTP id
+ u11-20020a056000038b00b0024269f4cb6amr16737595wrf.9.1671015274247; 
+ Wed, 14 Dec 2022 02:54:34 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7hdPRByY5rKc1XQuOvfZYb+QsNDFdzMKR8hLx1BsZmAvLHiYjkYah2gd5uvHiVSK72fGFE6w==
+X-Received: by 2002:a05:6000:38b:b0:242:69f4:cb6a with SMTP id
+ u11-20020a056000038b00b0024269f4cb6amr16737579wrf.9.1671015273919; 
+ Wed, 14 Dec 2022 02:54:33 -0800 (PST)
+Received: from ?IPV6:2003:cb:c703:7700:dd7c:92f8:481f:b96b?
+ (p200300cbc7037700dd7c92f8481fb96b.dip0.t-ipconnect.de.
+ [2003:cb:c703:7700:dd7c:92f8:481f:b96b])
+ by smtp.gmail.com with ESMTPSA id
+ b9-20020adfee89000000b00242442c8ebdsm2536949wro.111.2022.12.14.02.54.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 02:47:26 -0800 (PST)
-Message-ID: <2d548e30-11eb-6f64-b082-25e5ff546309@redhat.com>
-Date: Wed, 14 Dec 2022 11:47:24 +0100
+ Wed, 14 Dec 2022 02:54:33 -0800 (PST)
+Message-ID: <da19b9fa-3032-b355-e0f4-7ae5e27e09ab@redhat.com>
+Date: Wed, 14 Dec 2022 11:54:31 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/vm: Update haiku test vm to R1/Beta3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
 Content-Language: en-US
-To: Alexander von Gluck IV <kallisti5@unixzen.com>
-References: <20220216154208.2985103-1-kallisti5@unixzen.com>
-Cc: qemu-devel@nongnu.org
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220216154208.2985103-1-kallisti5@unixzen.com>
+To: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com
+References: <ba02465fc48807eddea9ad646fca7cc92f929ae7.1670603308.git.mprivozn@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] hostmem: Honour multiple preferred nodes if possible
+In-Reply-To: <ba02465fc48807eddea9ad646fca7cc92f929ae7.1670603308.git.mprivozn@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,48 +103,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/02/2022 16.42, Alexander von Gluck IV wrote:
+On 09.12.22 17:29, Michal Privoznik wrote:
+> If a memory-backend is configured with mode
+> HOST_MEM_POLICY_PREFERRED then
+> host_memory_backend_memory_complete() calls mbind() as:
+> 
+>    mbind(..., MPOL_PREFERRED, nodemask, ...);
+> 
+> Here, 'nodemask' is a bitmap of host NUMA nodes and corresponds
+> to the .host-nodes attribute. Therefore, there can be multiple
+> nodes specified. However, the documentation to MPOL_PREFERRED
+> says:
+> 
+>    MPOL_PREFERRED
+>      This mode sets the preferred node for allocation. ...
+>      If nodemask specifies more than one node ID, the first node
+>      in the mask will be selected as the preferred node.
+> 
+> Therefore, only the first node is honoured and the rest is
+
+s/honoured/honored/
+
+> silently ignored. Well, with recent changes to the kernel and
+> numactl we can do better.
+
+Yeah, I think this "silent" ignoring was part of the design for both, 
+the kernel feature and the QEMU feature. Yes, we can do better now.
+
+> 
+> Firstly, new mode - MPOL_PREFERRED_MANY - was introduced to
+> kernel (v5.15-rc1~107^2~21) which now accepts multiple NUMA
+> nodes.
+
+Maybe give the kernel commit instead
+
+
+"The Linux kernel added in v5.15 via commit cfcaa66f8032 ("") support 
+for MPOL_PREFERRED_MANY, which accepts multiple preferred NUMA nodes 
+instead.
+
+> 
+> Then, numa_has_preferred_many() API was introduced to numactl
+> (v2.0.15~26) allowing applications to query kernel support.
+> 
+> Wiring this all together, we can pass MPOL_PREFERRED_MANY to the
+> mbind() call instead and stop ignoring multiple nodes, silently.
+> 
+> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
 > ---
->   tests/vm/haiku.x86_64 | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-[...]
-> @@ -48,8 +48,8 @@ class HaikuVM(basevm.BaseVM):
->       name = "haiku"
->       arch = "x86_64"
+>   backends/hostmem.c | 28 ++++++++++++++++++++++++++++
+>   meson.build        |  5 +++++
+>   2 files changed, 33 insertions(+)
+> 
+> diff --git a/backends/hostmem.c b/backends/hostmem.c
+> index 8640294c10..e0d6cb6c8a 100644
+> --- a/backends/hostmem.c
+> +++ b/backends/hostmem.c
+> @@ -23,10 +23,22 @@
 >   
-> -    link = "https://app.vagrantup.com/haiku-os/boxes/r1beta2-x86_64/versions/20200702/providers/libvirt.box"
-> -    csum = "41c38b316e0cbdbc66b5dbaf3612b866700a4f35807cb1eb266a5bf83e9e68d5"
-> +    link = "https://app.vagrantup.com/haiku-os/boxes/r1beta3-x86_64/versions/20220216/providers/libvirt.box"
-> +    csum = "e67d4aacbcc687013d5cc91990ddd86cc5d70a5d28432ae2691944f8ce5d5041"
+>   #ifdef CONFIG_NUMA
+>   #include <numaif.h>
+> +#include <numa.h>
+>   QEMU_BUILD_BUG_ON(HOST_MEM_POLICY_DEFAULT != MPOL_DEFAULT);
+> +/*
+> + * HOST_MEM_POLICY_PREFERRED may some time also by MPOL_PREFERRED_MANY, see
+> + * below.
 
-  Hi Alexander!
+I failed to parse that sentence. :)
 
-The Haiku VM started again to fail, I'm getting these error messages now:
+"
+HOST_MEM_POLICY_PREFERRED may either transalte to MPOL_PREFERRED or 
+MPOL_PREFERRED_MANY, see comments further below.
+"
 
-Encountered problems:
-problem 1: nothing provides haiku>=r1~beta4_hrev56578_4-1 needed by 
-glib2_devel-2.75.0-1
-   solution 1:
-     - do not install "providing devel:libglib_2.0"
-problem 2: nothing provides haiku>=r1~beta4_hrev56578_31-1 needed by 
-gettext-0.21.1-2
-   solution 1:
-     - do not install "providing devel:libintl"
-problem 3: nothing provides haiku>=r1~beta4_hrev56578_31-1 needed by 
-curl-7.85.0-2
-   solution 1:
-     - do not install "providing devel:libcurl"
-problem 4: nothing provides haiku>=r1~beta4_hrev56578_31-1 needed by 
-gnutls-3.7.8-1
-   solution 1:
-     - do not install "providing devel:libgnutls"
-problem 5: nothing provides haiku>=r1~beta4_hrev56578_4-1 needed by 
-glib2-2.75.0-1
-   solution 1:
-     - do not install "providing devel:libslirp"
+?
 
-Does it need an update to a newer version of Haiku?
+> + */
+>   QEMU_BUILD_BUG_ON(HOST_MEM_POLICY_PREFERRED != MPOL_PREFERRED);
+>   QEMU_BUILD_BUG_ON(HOST_MEM_POLICY_BIND != MPOL_BIND);
+>   QEMU_BUILD_BUG_ON(HOST_MEM_POLICY_INTERLEAVE != MPOL_INTERLEAVE);
+> +
+> +/*
+> + * -1 for uninitialized,
+> + *  0 for MPOL_PREFERRED_MANY unsupported,
+> + *  1 for supported.
+> + */
+> +static int has_preferred_many = -1;
 
-  Thomas
+maybe "has_mpol_preferred_many" or "supports_mpol_preferred_many" instead.
+
+... but why do we have to cache that value at all? ...
+
+>   #endif
+>   
+>   char *
+> @@ -346,6 +358,7 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+>            * before mbind(). note: MPOL_MF_STRICT is ignored on hugepages so
+>            * this doesn't catch hugepage case. */
+>           unsigned flags = MPOL_MF_STRICT | MPOL_MF_MOVE;
+> +        int mode = backend->policy;
+>   
+>           /* check for invalid host-nodes and policies and give more verbose
+>            * error messages than mbind(). */
+> @@ -369,6 +382,21 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+>                  BITS_TO_LONGS(MAX_NODES + 1) * sizeof(unsigned long));
+>           assert(maxnode <= MAX_NODES);
+>   
+> +#ifdef HAVE_NUMA_SET_PREFERRED_MANY
+> +        if (has_preferred_many < 0) {
+> +            /* Check, whether kernel supports MPOL_PREFERRED_MANY. */
+> +            has_preferred_many = numa_has_preferred_many() > 0 ? 1 : 0;
+> +        }
+> +
+> +        if (mode == MPOL_PREFERRED && has_preferred_many > 0) {
+> +            /*
+> +             * Replace with MPOL_PREFERRED_MANY otherwise the mbind() below
+> +             * silently picks the first node.
+> +             */
+> +            mode = MPOL_PREFERRED_MANY;
+> +        }
+> +#endif
+
+... maybe simply not cache the value?
+
+
+#ifdef HAVE_NUMA_SET_PREFERRED_MANY
+	if (mode == MPOL_PREFERRED && numa_has_preferred_many() > 0) {
+		/* ... */
+		mode = MPOL_PREFERRED_MANY;
+	}
+#endif
+
+> +
+>           if (maxnode &&
+>               mbind(ptr, sz, backend->policy, backend->host_nodes, maxnode + 1,
+>                     flags)) {
+> diff --git a/meson.build b/meson.build
+> index 5c6b5a1c75..ebbff7a8ea 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1858,6 +1858,11 @@ config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
+>   config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
+>   config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
+>   config_host_data.set('CONFIG_NUMA', numa.found())
+> +if numa.found()
+> +  config_host_data.set('HAVE_NUMA_SET_PREFERRED_MANY',
+> +                       cc.has_function('numa_set_preferred_many',
+> +                                       dependencies: numa))
+
+You're using numa_has_preferred_many(), so better check for that and use 
+HAVE_NUMA_HAS_PREFERRED_MANY?
+
+Thanks!
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
