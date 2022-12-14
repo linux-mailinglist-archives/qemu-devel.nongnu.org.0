@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E47B64C6FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:22:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C3864C6E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:13:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5OiA-0007iS-GU; Wed, 14 Dec 2022 05:10:02 -0500
+	id 1p5Oi5-0007ga-0k; Wed, 14 Dec 2022 05:09:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohw-0007dx-BP
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:55 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohu-0007cP-2d
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:47 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohr-00018m-5l
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:48 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohj-00018y-FM
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671012569;
+ s=mimecast20190719; t=1671012570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o/uPm2oLr8glG3gTasgkV6ihPXLLyKGd6quQKQzJmPo=;
- b=aleJWuR+OVW6w6rKbNChbcxDrRXiD46nyyewz/i49mSXk1eAOfDN0XVEWuVOlbetWzebXv
- u1aOrOuV6YpgvAl2ei7KKsxP1wRxZNo8LrbXZGuCiu5hhlJoUK3nJcMf33fWEo18/oVyzY
- u3CeVs+oRkjzDsHi0D6PKdE39VaVCPQ=
+ bh=LU/ar0/7i1cly4C1aLb8loaeKKkdNBeetikSG4plrLE=;
+ b=e4jMTZW2RriMr3ODczGkRVNXPPwRkUfKwT+sX0/6F8gb4mbOlx4yeZV0gXkaw/u0U66a6p
+ i4haFeQTzw9W2+SQRyBRdplttENqpVFuoXvLhAH1/IH08ZKShXm0i2NRCvEJRP42uK17eb
+ ldFyH/fWRPqaMni91k0Qc9TK34R6lw0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-340-ZqID5VF-PzWC8Bz4xp4GHQ-1; Wed, 14 Dec 2022 05:09:27 -0500
-X-MC-Unique: ZqID5VF-PzWC8Bz4xp4GHQ-1
+ us-mta-434-o99BBWTLMEGVFUbUt-EBPQ-1; Wed, 14 Dec 2022 05:09:29 -0500
+X-MC-Unique: o99BBWTLMEGVFUbUt-EBPQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FCD9811E9C;
- Wed, 14 Dec 2022 10:09:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B95BA181E3F4;
+ Wed, 14 Dec 2022 10:09:28 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B9C5492C14;
- Wed, 14 Dec 2022 10:09:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B497B492C14;
+ Wed, 14 Dec 2022 10:09:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 07/23] scripts/make-release: Add a simple help text for the
- script
-Date: Wed, 14 Dec 2022 11:08:55 +0100
-Message-Id: <20221214100911.165291-8-thuth@redhat.com>
+Subject: [PULL 08/23] scripts/make-release: Only clone single branches to
+ speed up the script
+Date: Wed, 14 Dec 2022 11:08:56 +0100
+Message-Id: <20221214100911.165291-9-thuth@redhat.com>
 In-Reply-To: <20221214100911.165291-1-thuth@redhat.com>
 References: <20221214100911.165291-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,33 +78,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Print a simple help text if the script has been called with the
-wrong amount of parameters.
+Using --single-branch and --depth 1 here helps to speed up the process
+a little bit and helps to save some networking bandwidth.
 
-Message-Id: <20221128092555.37102-2-thuth@redhat.com>
+Message-Id: <20221128092555.37102-3-thuth@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- scripts/make-release | 6 ++++++
- 1 file changed, 6 insertions(+)
+ scripts/make-release | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/make-release b/scripts/make-release
-index 05b14ecc95..4be9b3b9ce 100755
+index 4be9b3b9ce..44a9d86a04 100755
 --- a/scripts/make-release
 +++ b/scripts/make-release
-@@ -10,6 +10,12 @@
- # This work is licensed under the terms of the GNU GPLv2 or later.
- # See the COPYING file in the top-level directory.
- 
-+if [ $# -ne 2 ]; then
-+    echo "Usage:"
-+    echo " $0 gitrepo version"
-+    exit 0
-+fi
-+
- src="$1"
+@@ -20,10 +20,12 @@ src="$1"
  version="$2"
  destination=qemu-${version}
+ 
+-git clone "${src}" ${destination}
++git clone --single-branch -b "v${version}" -c advice.detachedHead=false \
++    "${src}" ${destination}
++
+ pushd ${destination}
+-git checkout "v${version}"
+-git submodule update --init
++
++git submodule update --init --single-branch
+ (cd roms/seabios && git describe --tags --long --dirty > .version)
+ (cd roms/skiboot && ./make_version.sh > .version)
+ # Fetch edk2 submodule's submodules, since it won't have access to them via
+@@ -34,7 +36,7 @@ git submodule update --init
+ # submodule dependencies, so we continue to handle these on a case-by-case
+ # basis for now.
+ (cd roms/edk2 && \
+-    git submodule update --init -- \
++    git submodule update --init --depth 1 -- \
+         ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3 \
+         BaseTools/Source/C/BrotliCompress/brotli \
+         CryptoPkg/Library/OpensslLib/openssl \
 -- 
 2.31.1
 
