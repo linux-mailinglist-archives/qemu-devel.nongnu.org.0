@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775A864CBE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5975864CC7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:40:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5SKX-0004VP-WB; Wed, 14 Dec 2022 09:01:54 -0500
+	id 1p5STc-0001q7-8d; Wed, 14 Dec 2022 09:11:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1p5SKP-0004St-Tx
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:01:46 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5STY-0001oR-KW
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:11:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1p5SKN-0000rj-BT
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:01:45 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NXH4h0Zj4z6HJYk;
- Wed, 14 Dec 2022 21:57:56 +0800 (CST)
-Received: from localhost (10.81.204.207) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 14 Dec
- 2022 14:01:39 +0000
-Date: Wed, 14 Dec 2022 14:01:35 +0000
-To: Jonathan Cameron via <qemu-devel@nongnu.org>
-CC: Jonathan Cameron <Jonathan.Cameron@Huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH] hw/cxl/device: Add Flex Bus Port DVSEC
-Message-ID: <20221214140135.00005a15@Huawei.com>
-In-Reply-To: <20221214123945.00007a33@Huawei.com>
-References: <20221213-ira-flexbus-port-v1-1-86afd4f30be6@intel.com>
- <20221214123945.00007a33@Huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5STX-0005qY-2b
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 09:11:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671027069;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sJDMLdlXSAzwgrPhPY9uvS8awXsvdmiOZmJqODDaCkM=;
+ b=c83OlP5wYD3o2WN4/HJx4pZWQ5W3I4qyuO9SiFJWAuTSjDJyi0wKAVhKpSoPWmuf6oJKnQ
+ XWMkGUtCmjRn8GzYmUlH9771X+oBhn2EJqyWW/9+dxezhRoLpD0F5c/ngmSsLB5+OcJFRO
+ /oWzx3tsCuORi7ezmrhlSzU+8C2d0l4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-iawDZx8DNPe4bL2pu_du7g-1; Wed, 14 Dec 2022 09:11:05 -0500
+X-MC-Unique: iawDZx8DNPe4bL2pu_du7g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5C05811E6E;
+ Wed, 14 Dec 2022 14:11:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC5CCC15BA0;
+ Wed, 14 Dec 2022 14:11:04 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9335C21E6900; Wed, 14 Dec 2022 15:11:01 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org,  Stefan Hajnoczi <stefanha@redhat.com>,  Paolo
+ Bonzini <pbonzini@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,
+ qemu-trivial@nongnu.org
+Subject: Re: [PATCH-for-8.0] coroutine: Add missing <qemu/atomic.h> include
+References: <20221125175532.48858-1-philmd@linaro.org>
+ <87mt7qmn6s.fsf@pond.sub.org>
+ <26516050-1599-7a66-ebff-d7844c128b5f@linaro.org>
+Date: Wed, 14 Dec 2022 15:11:01 +0100
+In-Reply-To: <26516050-1599-7a66-ebff-d7844c128b5f@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 14 Dec 2022 11:28:31
+ +0100")
+Message-ID: <87edt2gjnu.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.81.204.207]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,89 +82,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 14 Dec 2022 12:39:45 +0000
-Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> On Tue, 13 Dec 2022 16:34:52 -0800
-> Ira Weiny <ira.weiny@intel.com> wrote:
-> 
-> > The Flex Bus Port DVSEC was missing on type 3 devices which was blocking
-> > RAS checks.[1]
-> > 
-> > Add the Flex Bus Port DVSEC to type 3 devices as per CXL 3.0 8.2.1.3.
-> > 
-> > [1] https://lore.kernel.org/linux-cxl/167096738875.2861540.11815053323626849940.stgit@djiang5-desk3.ch.intel.com/
-> > 
-> > Cc: Dave Jiang <dave.jiang@intel.com>
-> > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Cc: Ben Widawsky <bwidawsk@kernel.org>
-> > Cc: qemu-devel@nongnu.org
-> > Cc: linux-cxl@vger.kernel.org
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>  
-> 
-> Not sure how we missed this one given the whole fun a while back with Mem Enable not
-> being set by the kernel code.  Ah well - I'm not going to go digging in the history
-> for that.
-Ah. I forgot the difference between the 'control' in here which isn't really a control
-in this case and the one in PCIe DVSEC for CXL devices which is the one were we enable it.
+> On 14/12/22 08:58, Markus Armbruster wrote:
+>> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+>>=20
+>>> qemu_co_mutex_assert_locked() calls qatomic_read(), which
+>>> is declared in <qemu/atomic.h>. This fixes when refactoring:
+>>>
+>>>    In file included from include/qemu/osdep.h:113,
+>>>                     from ../../util/error-report.c:13:
+>>>    include/qemu/coroutine.h: In function 'qemu_co_mutex_assert_locked':
+>>>    include/qemu/coroutine.h:182:12: error: implicit declaration of func=
+tion 'qatomic_read' [-Werror=3Dimplicit-function-declaration]
+>>>      182 |     assert(qatomic_read(&mutex->locked) &&
+>>>          |            ^~~~~~~~~~~~
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>>> ---
+>>>   include/qemu/coroutine.h | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+>>> index 89650a2d7f..1750c30d8e 100644
+>>> --- a/include/qemu/coroutine.h
+>>> +++ b/include/qemu/coroutine.h
+>>> @@ -17,6 +17,7 @@
+>>>     #include "qemu/queue.h"
+>>>   #include "qemu/timer.h"
+>>> +#include "qemu/atomic.h"
+>>>     /**
+>>>    * Coroutines are a mechanism for stack switching and can be used for
+>> I think this papers over the actual problem.
+>> Compiling qemu/coroutine.h by itself succeeds for me.  Printing headers
+>> with -H shows:
+>>      [osdep.h and everything it includes elided...]
+>>      . ../include/qemu/coroutine.h
+>>      .. /work/armbru/qemu/include/qemu/queue.h
+>>      .. /work/armbru/qemu/include/qemu/timer.h
+>>      ... /work/armbru/qemu/include/qemu/bitops.h
+>>      .... /work/armbru/qemu/include/qemu/host-utils.h
+>>      ..... /work/armbru/qemu/include/qemu/bswap.h
+>>      ...... /usr/include/byteswap.h
+>>      ....... /usr/include/bits/byteswap.h
+>>      ..... /work/armbru/qemu/include/qemu/int128.h
+>>      .... /work/armbru/qemu/include/qemu/atomic.h
+>>      [more...]
+>> So, qemu/coroutine.h *already* includes qemu/atomic.h, via qemu/timer.h
+>> and qemu/bitops.h.
+>
+> Well I'm not sure this implicit dependency is correct, since "coroutine.h=
+" explicitly access a function declared in "atomic.h";
+> if I want to modify "qemu/timer.h" or "qemu/bitops.h" I'm back to
+> this very patch.
 
-I guess this calls for a more thorough check on what else we are missing
-in the way of DVSEC - including this stuff which is all about link training but does
-provide some useful info the stuff that results from the training.
+We have a rule "every header should include everything it needs".  We
+don't have a rule "every header should include everything it needs
+directly".
 
-> 
-> Minor thing inline - unlike root ports, switches etc, type 3 device should not
-> report CXL.cache support.
-> 
-> Jonathan
-> 
-> 
-> > ---
-> >  hw/mem/cxl_type3.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> > index 0317bd96a6fb..27f6ac0cb3c1 100644
-> > --- a/hw/mem/cxl_type3.c
-> > +++ b/hw/mem/cxl_type3.c
-> > @@ -416,6 +416,17 @@ static void build_dvsecs(CXLType3Dev *ct3d)
-> >      cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
-> >                                 GPF_DEVICE_DVSEC_LENGTH, GPF_DEVICE_DVSEC,
-> >                                 GPF_DEVICE_DVSEC_REVID, dvsec);
-> > +
-> > +    dvsec = (uint8_t *)&(CXLDVSECPortFlexBus){
-> > +        .cap                     = 0x27, /* Cache, IO, Mem, non-MLD */  
-> 
-> Type 3 typically wouldn't support cache.  Probably want the comment to include
-> bit 5 (68B Flit and VH capable) That should probably true in the other instances
-> of this as well.
-> 
-> 
-> > +        .ctrl                    = 0x02, /* IO always enabled */
-> > +        .status                  = 0x27, /* same as capabilities */  
-> Again, not cache.
-> 
-> > +        .rcvd_mod_ts_data_phase1 = 0xef, /* WTF? */
-> > +    };
-> > +    cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
-> > +                               PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
-> > +                               PCIE_FLEXBUS_PORT_DVSEC,
-> > +                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvsec);
-> >  }
-> >  
-> >  static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
-> > 
-> > ---
-> > base-commit: e11b57108b0cb746bb9f3887054f34a2f818ed79
-> > change-id: 20221213-ira-flexbus-port-ce526de8111d
-> > 
-> > Best regards,  
-> 
-> 
+Yes, this means that when you drop includes from a header, you may have
+to add them back elsewhere.
+
+>> I suspect the actual problem is an inclusion loop: qemu/coroutine.h and
+>> qemu/lockable.h include each other.  See my
+>>      Subject: [PATCH 4/4] coroutine: Break inclusion loop
+>>      Message-Id: <20221208142306.2642640-5-armbru@redhat.com>
+>> and Paolo's review.
+>
+> So I guess I'll wait your series to get merged and see what happens
+> when I rebase my work on yours.
+
+Makes sense to me.
 
 
