@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41E364C6DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:11:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25BC64C6D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 11:11:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Oi9-0007iL-L9; Wed, 14 Dec 2022 05:10:01 -0500
+	id 1p5OiE-0007kE-5r; Wed, 14 Dec 2022 05:10:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Oi1-0007eN-HY
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Oi1-0007eP-Hg
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohz-0001EJ-A5
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:52 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5Ohz-0001EX-MT
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 05:09:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671012589;
+ s=mimecast20190719; t=1671012591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eQqGZCq6X7BSNtTaSbN/dgrfzLhh4AnFyr6hY2P1X4Q=;
- b=LTgoqNdbkujxq14KxR7btEqXTx1se2WvOzIXIo9CTY6dNMb7R4xxNYdH201tyJ48AKQLca
- CAxmCEoIcUcNyTK0Al07iCS8gch2Wimk+j9EKj2ppgEMJYh33fejEq2q+2itXJMPex2ub9
- lJlGufUMqlsj7D7qTW82I/2rJhtofh8=
+ bh=mJ4tAjlesJSAXrMTYi1FsNFxUG9gwH9T6d1DHJIqb64=;
+ b=YTtlAri/f/sfuNh5sgKrFC3sP80zy+OV8CM26HXjFBYdNJqx7APl2xk6mXxH/8a6bf3Wog
+ hqST3MeXP3Ua810Oh+FCD2/aUCN4O6qFLVYxNgx3kGUIN9TANR4Cdn3MMKgQ6HdLkH8qiV
+ gIJ69of353wGPj3eDTNIHkEgmYG1XFc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-231-zt6dLiUDMyCUw7M_i7TNWA-1; Wed, 14 Dec 2022 05:09:46 -0500
-X-MC-Unique: zt6dLiUDMyCUw7M_i7TNWA-1
+ us-mta-436-IAQ39WYXP2iwZBd2U73VKA-1; Wed, 14 Dec 2022 05:09:47 -0500
+X-MC-Unique: IAQ39WYXP2iwZBd2U73VKA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF63629AA2C0;
- Wed, 14 Dec 2022 10:09:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E5BB29AA2C0;
+ Wed, 14 Dec 2022 10:09:47 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE4DD492C14;
- Wed, 14 Dec 2022 10:09:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C2C4492C14;
+ Wed, 14 Dec 2022 10:09:46 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 21/23] gitlab-ci: Check building ppc64 without TCG
-Date: Wed, 14 Dec 2022 11:09:09 +0100
-Message-Id: <20221214100911.165291-22-thuth@redhat.com>
+Cc: John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 22/23] .gitlab/issue_templates: Move suggestions into comments
+Date: Wed, 14 Dec 2022 11:09:10 +0100
+Message-Id: <20221214100911.165291-23-thuth@redhat.com>
 In-Reply-To: <20221214100911.165291-1-thuth@redhat.com>
 References: <20221214100911.165291-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,38 +79,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Building QEMU for ppc64 hosts with --disable-tcg used to break a couple
-of times in the past, see e.g. commit a01b64cee7 ("target/ppc: Put do_rfi
-under a TCG-only block") or commit 049b4ad669 ("target/ppc: Fix build
-warnings when building with 'disable-tcg'"), so we should test this in
-our CI to avoid such regressions.
+Many users forget to remove the suggestions from the bug template
+when creating a new issue. So when searching for strings like "s390x"
+or "Windows", you get a lot of unrelated issues in the results.
+Thus let's move the suggestions into HTML comments - so they will
+still show up in the markdown when editing the bug, while being
+hidden/ignored in the final text or in the search queries.
 
-Message-Id: <20221208101527.36873-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221201133756.77216-1-thuth@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/crossbuilds.yml | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .gitlab/issue_templates/bug.md | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index c4cd96433d..8dbbb8f881 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -112,6 +112,14 @@ cross-ppc64el-user:
-   variables:
-     IMAGE: debian-ppc64el-cross
+diff --git a/.gitlab/issue_templates/bug.md b/.gitlab/issue_templates/bug.md
+index e910f7b1c2..53a79f5828 100644
+--- a/.gitlab/issue_templates/bug.md
++++ b/.gitlab/issue_templates/bug.md
+@@ -18,11 +18,11 @@ https://www.qemu.org/contribute/security-process/
+ -->
  
-+cross-ppc64el-kvm-only:
-+  extends: .cross_accel_build_job
-+  needs:
-+    job: ppc64el-debian-cross-container
-+  variables:
-+    IMAGE: debian-ppc64el-cross
-+    EXTRA_CONFIGURE_OPTS: --disable-tcg --without-default-devices
-+
- # The riscv64 cross-builds currently use a 'sid' container to get
- # compilers and libraries. Until something more stable is found we
- # allow_failure so as not to block CI.
+ ## Host environment
+- - Operating system: (Windows 10 21H1, Fedora 34, etc.)
+- - OS/kernel version: (For POSIX hosts, use `uname -a`)
+- - Architecture: (x86, ARM, s390x, etc.)
+- - QEMU flavor: (qemu-system-x86_64, qemu-aarch64, qemu-img, etc.)
+- - QEMU version: (e.g. `qemu-system-x86_64 --version`)
++ - Operating system:            <!-- Windows 10 21H1, Fedora 37, etc. -->
++ - OS/kernel version:           <!-- For POSIX hosts, use `uname -a` -->
++ - Architecture:                <!-- x86, ARM, s390x, etc. -->
++ - QEMU flavor:                 <!-- qemu-system-x86_64, qemu-aarch64, qemu-img, etc. -->
++ - QEMU version:                <!-- e.g. `qemu-system-x86_64 --version` -->
+  - QEMU command line:
+    <!--
+    Give the smallest, complete command line that exhibits the problem.
+@@ -35,9 +35,9 @@ https://www.qemu.org/contribute/security-process/
+    ```
+ 
+ ## Emulated/Virtualized environment
+- - Operating system: (Windows 10 21H1, Fedora 34, etc.)
+- - OS/kernel version: (For POSIX guests, use `uname -a`.)
+- - Architecture: (x86, ARM, s390x, etc.)
++ - Operating system:            <!-- Windows 10 21H1, Fedora 37, etc. -->
++ - OS/kernel version:           <!-- For POSIX guests, use `uname -a`. -->
++ - Architecture:                <!-- x86, ARM, s390x, etc. -->
+ 
+ 
+ ## Description of problem
 -- 
 2.31.1
 
