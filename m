@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4478C64CE5F
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 17:51:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D087364CE59
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 17:49:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5Uu5-0004yo-PL; Wed, 14 Dec 2022 11:46:45 -0500
+	id 1p5Uu7-00050I-OQ; Wed, 14 Dec 2022 11:46:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Uu2-0004x6-0j
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Uu2-0004x5-0f
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Uu0-0002Q8-G6
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5Uu0-0002QH-GU
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:46:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671036399;
@@ -22,38 +22,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0updPPD8NQPAaUQbHqF/8edlYMcvyiyoNMStpNGe+Pc=;
- b=aTs1OD0ui18IcVF9uGfmu8mlJHvqh3SA/IYcmzv2/1zzzoyErIlMptvrvxhQNg3ThiLCOD
- 9veEzn4WevUeKAOWVLFZXbRWxeuD6q66AFpVjy0u2o2Hvdo6oshlee3CJrlQS4LuZQMRNd
- ERet27Xgmv5Y3UYr8NM/Xp0sgUix5Xw=
+ bh=wdH16TsdXRbK4YU7eo/QTRkdyonpnoPKqNI8a3Y/UmM=;
+ b=N+mIO34vsJDZKTQyS1gVbRYQUQE7TRQvauJnRJJewrqd9W9qmO37JXERBOA8k8ksukCUwO
+ AB6YriSfolovcIOdl0DEkNpA2RvJcO0pqVcyc83i9D/2TUurDIyKNHplb2lK95Aycs+iKn
+ KUVt8SJlYNHUxF8g8ipSmvt/o7BdhyA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-400-HcpMAQBuOcagpvXbP35Qew-1; Wed, 14 Dec 2022 11:46:36 -0500
-X-MC-Unique: HcpMAQBuOcagpvXbP35Qew-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-668-27BM-bpcMY6K93GjuuG3vg-1; Wed, 14 Dec 2022 11:46:36 -0500
+X-MC-Unique: 27BM-bpcMY6K93GjuuG3vg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16C7387A381;
- Wed, 14 Dec 2022 16:46:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB0AA1991C40;
+ Wed, 14 Dec 2022 16:46:35 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E7AA8C15BA0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5E8B2026D68;
  Wed, 14 Dec 2022 16:46:35 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3D94121E688F; Wed, 14 Dec 2022 17:46:29 +0100 (CET)
+ id 3FD5721E6481; Wed, 14 Dec 2022 17:46:29 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PULL 05/14] monitor: Simplify monitor_fd_param()'s error handling
-Date: Wed, 14 Dec 2022 17:46:20 +0100
-Message-Id: <20221214164629.919880-6-armbru@redhat.com>
+Subject: [PULL 06/14] monitor: Use ERRP_GUARD() in monitor_init()
+Date: Wed, 14 Dec 2022 17:46:21 +0100
+Message-Id: <20221214164629.919880-7-armbru@redhat.com>
 In-Reply-To: <20221214164629.919880-1-armbru@redhat.com>
 References: <20221214164629.919880-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,50 +80,54 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20221121085054.683122-5-armbru@redhat.com>
+Message-Id: <20221121085054.683122-6-armbru@redhat.com>
 ---
- monitor/misc.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ monitor/monitor.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 205487e2b9..83d7f4ffde 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -1086,6 +1086,7 @@ int monitor_get_fd(Monitor *mon, const char *fdname, Error **errp)
-         }
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 86949024f6..7ed7bd5342 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -711,8 +711,8 @@ void monitor_init_globals_core(void)
  
-         fd = monfd->fd;
-+        assert(fd >= 0);
- 
-         /* caller takes ownership of fd */
-         QLIST_REMOVE(monfd, next);
-@@ -1403,23 +1404,16 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
- int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
+ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
  {
-     int fd;
++    ERRP_GUARD();
+     Chardev *chr;
 -    Error *local_err = NULL;
  
-     if (!qemu_isdigit(fdname[0]) && mon) {
--        fd = monitor_get_fd(mon, fdname, &local_err);
-+        fd = monitor_get_fd(mon, fdname, errp);
-     } else {
-         fd = qemu_parse_fd(fdname);
--        if (fd == -1) {
--            error_setg(&local_err, "Invalid file descriptor number '%s'",
-+        if (fd < 0) {
-+            error_setg(errp, "Invalid file descriptor number '%s'",
-                        fdname);
+     chr = qemu_chr_find(opts->chardev);
+     if (chr == NULL) {
+@@ -726,7 +726,7 @@ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
+ 
+     switch (opts->mode) {
+     case MONITOR_MODE_CONTROL:
+-        monitor_init_qmp(chr, opts->pretty, &local_err);
++        monitor_init_qmp(chr, opts->pretty, errp);
+         break;
+     case MONITOR_MODE_READLINE:
+         if (!allow_hmp) {
+@@ -737,17 +737,13 @@ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
+             error_setg(errp, "'pretty' is not compatible with HMP monitors");
+             return -1;
          }
+-        monitor_init_hmp(chr, true, &local_err);
++        monitor_init_hmp(chr, true, errp);
+         break;
+     default:
+         g_assert_not_reached();
      }
+ 
 -    if (local_err) {
 -        error_propagate(errp, local_err);
--        assert(fd == -1);
--    } else {
--        assert(fd != -1);
+-        return -1;
 -    }
- 
-     return fd;
+-    return 0;
++    return *errp ? -1 : 0;
  }
+ 
+ int monitor_init_opts(QemuOpts *opts, Error **errp)
 -- 
 2.37.3
 
