@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A0564C873
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 12:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4DE64C87C
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 12:56:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5QJN-0001Mt-Fp; Wed, 14 Dec 2022 06:52:33 -0500
+	id 1p5QMA-0002CZ-DU; Wed, 14 Dec 2022 06:55:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p5QJK-0001Kw-CL
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 06:52:30 -0500
+ id 1p5QM4-0002B2-L6
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 06:55:22 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p5QJI-0001cY-2j
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 06:52:30 -0500
+ id 1p5QM0-0002Ui-8V
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 06:55:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671018746;
+ s=mimecast20190719; t=1671018915;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d5L213/xwIH4/vhQyx+32vhPI2FtRiwYSwlXetdvQg8=;
- b=geGODUz0A7i/s5KouYhVAzXf+rgiB6kn77t5H91K5UsnRDsY2KpY5qMjfiFOhFj2XfDv/+
- R7Sbi9ij92bk1jU1wm7R3/wSbuO4eLQixExJ7M/FUJFdJZ6nY69mmuBGqtaQ1FKeHyDIuH
- AMngl9OwdpsHv9+vV4xcXZIn2YdQ5fM=
+ bh=t8hcFkED5OYaENrmwLIUiWTeaJl4b81i5geLrTuM9uw=;
+ b=fg/cpq5teXySFHGg5hPbd6TLjTKaXvEDFwdTzKnKkr+iSYQmTaXdJluNbfvm6f8VMmfkLq
+ lgXjUIumEAEue1tborcb8XxNssCqTK7zxETmaCdNZCUlHyqqkiSLhiyB79VlVoFUmEpQ1Y
+ 47xghHg5CMy4Rx9fJF5DDt70/AuhWY4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-1cvi2HuDMkOQjVkd2jXfKg-1; Wed, 14 Dec 2022 06:52:23 -0500
-X-MC-Unique: 1cvi2HuDMkOQjVkd2jXfKg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-672-nBP3rGnqPhuiD1kT_6g5zA-1; Wed, 14 Dec 2022 06:55:12 -0500
+X-MC-Unique: nBP3rGnqPhuiD1kT_6g5zA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 419CB85C069;
- Wed, 14 Dec 2022 11:52:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08E1F811E6E;
+ Wed, 14 Dec 2022 11:55:12 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 191B014171C0;
- Wed, 14 Dec 2022 11:52:21 +0000 (UTC)
-Date: Wed, 14 Dec 2022 11:52:17 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1416079A1;
+ Wed, 14 Dec 2022 11:55:10 +0000 (UTC)
+Date: Wed, 14 Dec 2022 11:55:06 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Stefan Berger <stefanb@linux.ibm.com>
 Cc: jejb@linux.ibm.com, qemu-devel@nongnu.org,
  Markus Armbruster <armbru@redhat.com>
 Subject: Re: [PATCH] tpm: add backend for mssim
-Message-ID: <Y5m48UP/E/RuvBHM@redhat.com>
+Message-ID: <Y5m5mq5yxQX88UKi@redhat.com>
 References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
  <Y5dNC77CubqrfXku@redhat.com>
  <b06d31496117c8dd8b8fe60c4bebd96377ca3ff1.camel@linux.ibm.com>
  <f76810cb-3658-84b0-e4b4-a684dff99f38@linux.ibm.com>
  <8066be497c4c81827b24a672a550a805e06eec68.camel@linux.ibm.com>
  <c3fa7405-7d4c-a686-d4c3-a3ff74864467@linux.ibm.com>
- <92daee895872aab2047c3768a9c67b1839406568.camel@linux.ibm.com>
- <dc520ab2-04db-b8cb-15fd-871bb1da0d1b@linux.ibm.com>
- <d2262d8bd5a1d53cb1d4c32e0424dc8727372265.camel@linux.ibm.com>
- <f7119c81-e571-382b-84c6-628747cd9e0b@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f7119c81-e571-382b-84c6-628747cd9e0b@linux.ibm.com>
+In-Reply-To: <c3fa7405-7d4c-a686-d4c3-a3ff74864467@linux.ibm.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -92,89 +88,75 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 12, 2022 at 05:02:43PM -0500, Stefan Berger wrote:
+On Mon, Dec 12, 2022 at 01:58:29PM -0500, Stefan Berger wrote:
 > 
 > 
-> On 12/12/22 16:36, James Bottomley wrote:
-> > On Mon, 2022-12-12 at 14:32 -0500, Stefan Berger wrote:
+> On 12/12/22 13:48, James Bottomley wrote:
+> > On Mon, 2022-12-12 at 11:59 -0500, Stefan Berger wrote:
 > > > 
 > > > 
-> > > On 12/12/22 14:12, James Bottomley wrote:
-> > > > On Mon, 2022-12-12 at 13:58 -0500, Stefan Berger wrote:
-> > > > > On 12/12/22 13:48, James Bottomley wrote:
-> > > > > > On Mon, 2022-12-12 at 11:59 -0500, Stefan Berger wrote:
-> > > > > > > On 12/12/22 11:38, James Bottomley wrote:
-> > > > [...]
-> > > > > > > > the kernel use of the TPM, but I'm trying to fix that.  The
-> > > > > > > > standard mssim server is too simplistic to do transport
-> > > > > > > > layer
-> > > > > > > > security, but like everything that does this (or rather
-> > > > > > > > doesn't
-> > > > > > > > do this), you can front it with stunnel4.
-> > > > > > > 
-> > > > > > > And who or what is going to set this up?
-> > > > > > 
-> > > > > > I'm not sure I understand the question.  Stunnel4 is mostly
-> > > > > > used to
-> > > > > > convert unencrypted proxies like imap on 143 or smtp on 25 to
-> > > > > > the
-> > > > > > secure version.  Most people who run servers are fairly
-> > > > > > familiar
-> > > > > > with using it.  It's what IBM used for encrypted migration
-> > > > > > initially.  You can run stunnel on both ends, or the qemu side
-> > > > > > could be built in using the qemu tls-creds way of doing things
-> > > > > > but
-> > > > > > anything running the standard MS server would have to front it
-> > > > > > with
-> > > > > > stunnel still.
+> > > On 12/12/22 11:38, James Bottomley wrote:
+> > > > On Mon, 2022-12-12 at 15:47 +0000, Daniel P. Berrangé wrote:
+> > > > > Copy'ing Markus for QAPI design feedback.
 > > > > > 
-> > > > > So it's up to libvirt to setup stunnel to support a completely
-> > > > > different setup than what it has for swtpm already?
+> > > > > On Sat, Dec 10, 2022 at 12:10:18PM -0500, James Bottomley wrote:
+> > > > > > The Microsoft Simulator (mssim) is the reference emulation
+> > > > > > platform for the TCG TPM 2.0 specification.
+> > > > > > 
+> > > > > > https://github.com/Microsoft/ms-tpm-20-ref.git
+> > > > > > 
+> > > > > > It exports a fairly simple network socket baset protocol on two
+> > > > > > sockets, one for command (default 2321) and one for control
+> > > > > > (default 2322).  This patch adds a simple backend that can
+> > > > > > speak the mssim protocol over the network.  It also allows the
+> > > > > > host, and two ports to be specified on the qemu command line.
+> > > > > > The benefits are twofold: firstly it gives us a backend that
+> > > > > > actually speaks a standard TPM emulation protocol instead of
+> > > > > > the linux specific TPM driver format of the current emulated
+> > > > > > TPM backend and secondly, using the microsoft protocol, the end
+> > > > > > point of the emulator can be anywhere on the network,
+> > > > > > facilitating the cloud use case where a central TPM service can
+> > > > > > be used over a control network.
+> > > > > 
+> > > > > What's the story with security for this ?  The patch isn't using
+> > > > > TLS, so talking to any emulator over anything other than
+> > > > > localhost looks insecure, unless I'm missing something.
 > > > > 
-> > > > I don't think so, no.  Libvirt doesn't usually help with server
-> > > > setup (witness the complexity of setting up a server side vtpm
-> > > > proxy) so in the case tls-creds were built in, it would just work
-> > > > if the object is
+> > > > Pretty much every TPM application fears interposers and should thus
+> > > > be using the TPM transport security anyway. *If* this is the case,
+> > > > then the transport is secure.  Note that this currently isn't the
+> > > > case for
 > > > 
-> > > I see, so you are extending the TPM emulator with TLS on the client
-> > > side so you don't need another tool to setup a TLS connection from
-> > > the QEMU/client side.
+> > > What about all the older kernels that are out there?
 > > 
-> > I didn't say I would do this, just that it's an easy possibility with
-> > the current qemu framework.  I actually need to fiddle with the TPM
-> > externally to do some of my testing (like platform reset injection) so
-> > I won't use TLS anyway.
+> > No current kernel uses transport security.  In the event the patch
+> > eventually gets upstream, the kernel be secure against interposer
+> > attacks going forwards.  I would imagine there might be pressure to
+> > backport the patch given the current level of worry about interposers.
 > > 
-> > > Is the server side across the network or on the same host?
+> > > > the kernel use of the TPM, but I'm trying to fix that.  The
+> > > > standard mssim server is too simplistic to do transport layer
+> > > > security, but like everything that does this (or rather doesn't do
+> > > > this), you can front it with stunnel4.
+> > > 
+> > > And who or what is going to set this up?
 > > 
-> > It can be either.
+> > I'm not sure I understand the question.  Stunnel4 is mostly used to
+> > convert unencrypted proxies like imap on 143 or smtp on 25 to the
+> > secure version.  Most people who run servers are fairly familiar with
+> > using it.  It's what IBM used for encrypted migration initially.  You
+> > can run stunnel on both ends, or the qemu side could be built in using
+> > the qemu tls-creds way of doing things but anything running the
+> > standard MS server would have to front it with stunnel still.
 > 
-> For the remote TPM you'll need some sort of management stack (who
-> is building this?) that does the port assignments (allocations and
-> freeing, starting of TPM instances etc) for the possibly many TPMs
-> you would run on a remote machine and then create the libvirt XML
-> or QEMU command line with the port assignments. I am not sure I
-> see the advantage of this versus what we have at the moment with a
-> single management stack . Also, if you did this you'd have a single
-> point of failure for many VMs whose TPM is presumably running on
-> some dedicated machine(s).
+> 
+> So it's up to libvirt to setup stunnel to support a completely
+> different setup than what it has for swtpm already?
 
-IMHO this is largely tangential. Remote access is technically possible,
-but local access is likely the common case. It isn't neccessary to
-solve the full remote mgmt solution as a pre-condition for this
-proposed patch.
-
-All that matters is whether it is valuable to have the mssim backend
-in QEMU. I think the benefit is weak when considering a full virt
-mgmt stack like OpenStack/KubeVirt, as swtpm basically solves
-everything people need to commonly do AFAICT.
-
-None the less, I can understand why it is desirable to have the option
-be able to run against the TPM reference implementation, for the sake
-of testing behavioural compliance.
-
-It is a shame there isn't a standardized protocol for software TPM
-communication, as that'd avoid the need for multiple backends.
+Well technically libvirt doesn't have todo anything. We are free
+to decide to only support locally hosted mssim deployments, and
+declare that off node access is unsupported and warn it is
+potentially insecure .
 
 With regards,
 Daniel
