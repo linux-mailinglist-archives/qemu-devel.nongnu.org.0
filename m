@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E95064CC5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA63D64CBEF
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:16:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5S5D-0004uF-0Z; Wed, 14 Dec 2022 08:46:03 -0500
+	id 1p5S5u-0005xx-6f; Wed, 14 Dec 2022 08:46:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4t-0004Rk-A9
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4t-0004Rm-Ec
  for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:49 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4r-0003az-8M
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:42 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4r-0003b4-76
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671025540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pZwLFh0bsdnc12J1uWO6xUAK4pcbcVa8lLw5bhWRtsg=;
- b=Ty37i2WdCPXGMB8OE65HmY+sdUqyPNnc+4MBhXZQisday+dssff7OCkTvLRK9SBldvo2Qs
- 4k7CqpvUcrNNBVxwYNj9n7Iqm3oogsfhp3lsbHC5t1RXOs8H2Ca2KC8a3Ansi+SiooSWjz
- PigW8YQhj7gAPqqf4wdWJEvbF48RDgM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lAGq/cESYAYuVaf0L89HOZygPZ6Cek9ftpEqf8tWX64=;
+ b=iMBqR8lEhB1E++Z/io8clB6/S4GK/hGj3e1Q0Pkvm6T65Y8ymQnTKdDkK4T51GrwrsZZY7
+ zpge57/vn//6PjCtNIUtA2YcZc67HDRTvii9P3vYz+s4wJbGAqII57t5yKzVTkRsZOkvn0
+ OuK5x78oWavHBTeDg0zCVHKU/ylBvmI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-muKEq2TsN8mZeRWdY_9W1A-1; Wed, 14 Dec 2022 08:45:35 -0500
-X-MC-Unique: muKEq2TsN8mZeRWdY_9W1A-1
+ us-mta-596-AxSXgy_8NTuhts9EzEIU3g-1; Wed, 14 Dec 2022 08:45:36 -0500
+X-MC-Unique: AxSXgy_8NTuhts9EzEIU3g-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6DA612A5956A;
- Wed, 14 Dec 2022 13:45:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A9C018A64E3;
+ Wed, 14 Dec 2022 13:45:36 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB11A14171C2;
- Wed, 14 Dec 2022 13:45:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8F5E14171BE;
+ Wed, 14 Dec 2022 13:45:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 27/51] block: bdrv_create_file is a coroutine_fn
-Date: Wed, 14 Dec 2022 14:44:29 +0100
-Message-Id: <20221214134453.31665-28-kwolf@redhat.com>
+Subject: [PULL 28/51] block: rename generated_co_wrapper in co_wrapper_mixed
+Date: Wed, 14 Dec 2022 14:44:30 +0100
+Message-Id: <20221214134453.31665-29-kwolf@redhat.com>
 In-Reply-To: <20221214134453.31665-1-kwolf@redhat.com>
 References: <20221214134453.31665-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -79,207 +79,308 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-It is always called in coroutine_fn callbacks, therefore
-it can directly call bdrv_co_create().
-
-Rename it to bdrv_co_create_file too.
+In preparation to the incoming new function specifiers,
+rename g_c_w with a more meaningful name and document it.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-Id: <20221128142337.657646-9-eesposit@redhat.com>
+Message-Id: <20221128142337.657646-10-eesposit@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block-global-state.h | 3 ++-
- block.c                            | 5 +++--
- block/crypto.c                     | 2 +-
- block/parallels.c                  | 2 +-
- block/qcow.c                       | 2 +-
- block/qcow2.c                      | 4 ++--
- block/qed.c                        | 2 +-
- block/raw-format.c                 | 2 +-
- block/vdi.c                        | 2 +-
- block/vhdx.c                       | 2 +-
- block/vmdk.c                       | 2 +-
- block/vpc.c                        | 2 +-
- 12 files changed, 16 insertions(+), 14 deletions(-)
+ docs/devel/block-coroutine-wrapper.rst |  6 +--
+ block/coroutines.h                     |  4 +-
+ include/block/block-common.h           | 11 +++--
+ include/block/block-io.h               | 44 ++++++++---------
+ include/sysemu/block-backend-io.h      | 68 +++++++++++++-------------
+ scripts/block-coroutine-wrapper.py     |  6 +--
+ 6 files changed, 71 insertions(+), 68 deletions(-)
 
-diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 00e0cf8aea..387a7cbb2e 100644
---- a/include/block/block-global-state.h
-+++ b/include/block/block-global-state.h
-@@ -57,7 +57,8 @@ BlockDriver *bdrv_find_protocol(const char *filename,
- BlockDriver *bdrv_find_format(const char *format_name);
- int bdrv_create(BlockDriver *drv, const char* filename,
-                 QemuOpts *opts, Error **errp);
--int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp);
-+int coroutine_fn bdrv_co_create_file(const char *filename, QemuOpts *opts,
-+                                     Error **errp);
+diff --git a/docs/devel/block-coroutine-wrapper.rst b/docs/devel/block-coroutine-wrapper.rst
+index 412851986b..64acc8d65d 100644
+--- a/docs/devel/block-coroutine-wrapper.rst
++++ b/docs/devel/block-coroutine-wrapper.rst
+@@ -26,12 +26,12 @@ called ``bdrv_foo(<same args>)``. In this case the script can help. To
+ trigger the generation:
  
- BlockDriverState *bdrv_new(void);
- int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-diff --git a/block.c b/block.c
-index 0a1d484a27..c8ac91eb63 100644
---- a/block.c
-+++ b/block.c
-@@ -719,7 +719,8 @@ out:
-     return ret;
- }
+ 1. You need ``bdrv_foo`` declaration somewhere (for example, in
+-   ``block/coroutines.h``) with the ``generated_co_wrapper`` mark,
++   ``block/coroutines.h``) with the ``co_wrapper_mixed`` mark,
+    like this:
  
--int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
-+int coroutine_fn bdrv_co_create_file(const char *filename, QemuOpts *opts,
-+                                     Error **errp)
- {
-     QemuOpts *protocol_opts;
-     BlockDriver *drv;
-@@ -760,7 +761,7 @@ int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
-         goto out;
-     }
+ .. code-block:: c
  
--    ret = bdrv_create(drv, filename, protocol_opts, errp);
-+    ret = bdrv_co_create(drv, filename, protocol_opts, errp);
- out:
-     qemu_opts_del(protocol_opts);
-     qobject_unref(qdict);
-diff --git a/block/crypto.c b/block/crypto.c
-index 2fb8add458..bbeb9f437c 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -703,7 +703,7 @@ static int coroutine_fn block_crypto_co_create_opts_luks(BlockDriver *drv,
-     }
+-    int generated_co_wrapper bdrv_foo(<some args>);
++    int co_wrapper_mixed bdrv_foo(<some args>);
  
-     /* Create protocol layer */
--    ret = bdrv_create_file(filename, opts, errp);
-+    ret = bdrv_co_create_file(filename, opts, errp);
-     if (ret < 0) {
-         goto fail;
-     }
-diff --git a/block/parallels.c b/block/parallels.c
-index fa08c1104b..bbea2f2221 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -646,7 +646,7 @@ static int coroutine_fn parallels_co_create_opts(BlockDriver *drv,
-     }
+ 2. You need to feed this declaration to block-coroutine-wrapper script.
+    For this, add the .h (or .c) file with the declaration to the
+@@ -46,7 +46,7 @@ Links
  
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, errp);
-+    ret = bdrv_co_create_file(filename, opts, errp);
-     if (ret < 0) {
-         goto done;
-     }
-diff --git a/block/qcow.c b/block/qcow.c
-index daa38839ab..18e17a5b12 100644
---- a/block/qcow.c
-+++ b/block/qcow.c
-@@ -973,7 +973,7 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
-     }
+ 1. The script location is ``scripts/block-coroutine-wrapper.py``.
  
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, errp);
-+    ret = bdrv_co_create_file(filename, opts, errp);
-     if (ret < 0) {
-         goto fail;
-     }
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 4d6666d3ff..7cc49a3a6c 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3871,7 +3871,7 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
-     }
+-2. Generic place for private ``generated_co_wrapper`` declarations is
++2. Generic place for private ``co_wrapper_mixed`` declarations is
+    ``block/coroutines.h``, for public declarations:
+    ``include/block/block.h``
  
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, errp);
-+    ret = bdrv_co_create_file(filename, opts, errp);
-     if (ret < 0) {
-         goto finish;
-     }
-@@ -3886,7 +3886,7 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
-     /* Create and open an external data file (protocol layer) */
-     val = qdict_get_try_str(qdict, BLOCK_OPT_DATA_FILE);
-     if (val) {
--        ret = bdrv_create_file(val, opts, errp);
-+        ret = bdrv_co_create_file(val, opts, errp);
-         if (ret < 0) {
-             goto finish;
-         }
-diff --git a/block/qed.c b/block/qed.c
-index c2691a85b1..9d54c8eec5 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -778,7 +778,7 @@ static int coroutine_fn bdrv_qed_co_create_opts(BlockDriver *drv,
-     }
+diff --git a/block/coroutines.h b/block/coroutines.h
+index 3a2bad564f..17da4db963 100644
+--- a/block/coroutines.h
++++ b/block/coroutines.h
+@@ -71,7 +71,7 @@ nbd_co_do_establish_connection(BlockDriverState *bs, bool blocking,
+  * the "I/O or GS" API.
+  */
  
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, errp);
-+    ret = bdrv_co_create_file(filename, opts, errp);
-     if (ret < 0) {
-         goto fail;
-     }
-diff --git a/block/raw-format.c b/block/raw-format.c
-index a68014ef0b..28905b09ee 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -433,7 +433,7 @@ static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
-                                            QemuOpts *opts,
-                                            Error **errp)
- {
--    return bdrv_create_file(filename, opts, errp);
-+    return bdrv_co_create_file(filename, opts, errp);
- }
+-int generated_co_wrapper
++int co_wrapper_mixed
+ bdrv_common_block_status_above(BlockDriverState *bs,
+                                BlockDriverState *base,
+                                bool include_base,
+@@ -82,7 +82,7 @@ bdrv_common_block_status_above(BlockDriverState *bs,
+                                int64_t *map,
+                                BlockDriverState **file,
+                                int *depth);
+-int generated_co_wrapper
++int co_wrapper_mixed
+ nbd_do_establish_connection(BlockDriverState *bs, bool blocking, Error **errp);
  
- static int raw_open(BlockDriverState *bs, QDict *options, int flags,
-diff --git a/block/vdi.c b/block/vdi.c
-index c0c111c4b9..479bcfe820 100644
---- a/block/vdi.c
-+++ b/block/vdi.c
-@@ -934,7 +934,7 @@ static int coroutine_fn vdi_co_create_opts(BlockDriver *drv,
-     qdict = qemu_opts_to_qdict_filtered(opts, NULL, &vdi_create_opts, true);
+ #endif /* BLOCK_COROUTINES_H */
+diff --git a/include/block/block-common.h b/include/block/block-common.h
+index 297704c1e9..ec2309055b 100644
+--- a/include/block/block-common.h
++++ b/include/block/block-common.h
+@@ -35,14 +35,17 @@
+ #include "qemu/transactions.h"
  
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, errp);
-+    ret = bdrv_co_create_file(filename, opts, errp);
-     if (ret < 0) {
-         goto done;
-     }
-diff --git a/block/vhdx.c b/block/vhdx.c
-index bad9ca691b..4c929800fe 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -2084,7 +2084,7 @@ static int coroutine_fn vhdx_co_create_opts(BlockDriver *drv,
-     }
+ /*
+- * generated_co_wrapper
++ * co_wrapper{*}: Function specifiers used by block-coroutine-wrapper.py
+  *
+- * Function specifier, which does nothing but mark functions to be
++ * Function specifiers, which do nothing but mark functions to be
+  * generated by scripts/block-coroutine-wrapper.py
+  *
+- * Read more in docs/devel/block-coroutine-wrapper.rst
++ * Usage: read docs/devel/block-coroutine-wrapper.rst
++ *
++ * co_wrapper_mixed functions can be called by both coroutine and
++ * non-coroutine context.
+  */
+-#define generated_co_wrapper
++#define co_wrapper_mixed
  
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, errp);
-+    ret = bdrv_co_create_file(filename, opts, errp);
-     if (ret < 0) {
-         goto fail;
-     }
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 0c32bf2e83..afd3471915 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2294,7 +2294,7 @@ static int coroutine_fn vmdk_create_extent(const char *filename,
-     int ret;
-     BlockBackend *blk = NULL;
+ /* block.c */
+ typedef struct BlockDriver BlockDriver;
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 72919254cd..72cf45975b 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -39,19 +39,19 @@
+  * to catch when they are accidentally called by the wrong API.
+  */
  
--    ret = bdrv_create_file(filename, opts, errp);
-+    ret = bdrv_co_create_file(filename, opts, errp);
-     if (ret < 0) {
-         goto exit;
-     }
-diff --git a/block/vpc.c b/block/vpc.c
-index 95841f259a..6ee95dcb96 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -1111,7 +1111,7 @@ static int coroutine_fn vpc_co_create_opts(BlockDriver *drv,
-     }
+-int generated_co_wrapper bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
+-                                            int64_t bytes,
+-                                            BdrvRequestFlags flags);
++int co_wrapper_mixed bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
++                                        int64_t bytes,
++                                        BdrvRequestFlags flags);
+ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags);
+-int generated_co_wrapper bdrv_pread(BdrvChild *child, int64_t offset,
+-                                    int64_t bytes, void *buf,
+-                                    BdrvRequestFlags flags);
+-int generated_co_wrapper bdrv_pwrite(BdrvChild *child, int64_t offset,
+-                                     int64_t bytes, const void *buf,
+-                                     BdrvRequestFlags flags);
+-int generated_co_wrapper bdrv_pwrite_sync(BdrvChild *child, int64_t offset,
+-                                          int64_t bytes, const void *buf,
+-                                          BdrvRequestFlags flags);
++int co_wrapper_mixed bdrv_pread(BdrvChild *child, int64_t offset,
++                                int64_t bytes, void *buf,
++                                BdrvRequestFlags flags);
++int co_wrapper_mixed bdrv_pwrite(BdrvChild *child, int64_t offset,
++                                 int64_t bytes, const void *buf,
++                                 BdrvRequestFlags flags);
++int co_wrapper_mixed bdrv_pwrite_sync(BdrvChild *child, int64_t offset,
++                                      int64_t bytes, const void *buf,
++                                      BdrvRequestFlags flags);
+ int coroutine_fn bdrv_co_pwrite_sync(BdrvChild *child, int64_t offset,
+                                      int64_t bytes, const void *buf,
+                                      BdrvRequestFlags flags);
+@@ -281,22 +281,22 @@ int coroutine_fn bdrv_co_copy_range(BdrvChild *src, int64_t src_offset,
  
-     /* Create and open the file (protocol layer) */
--    ret = bdrv_create_file(filename, opts, errp);
-+    ret = bdrv_co_create_file(filename, opts, errp);
-     if (ret < 0) {
-         goto fail;
-     }
+ void bdrv_drain(BlockDriverState *bs);
+ 
+-int generated_co_wrapper
++int co_wrapper_mixed
+ bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
+               PreallocMode prealloc, BdrvRequestFlags flags, Error **errp);
+ 
+-int generated_co_wrapper bdrv_check(BlockDriverState *bs, BdrvCheckResult *res,
+-                                    BdrvCheckMode fix);
++int co_wrapper_mixed bdrv_check(BlockDriverState *bs, BdrvCheckResult *res,
++                                BdrvCheckMode fix);
+ 
+ /* Invalidate any cached metadata used by image formats */
+-int generated_co_wrapper bdrv_invalidate_cache(BlockDriverState *bs,
+-                                               Error **errp);
+-int generated_co_wrapper bdrv_flush(BlockDriverState *bs);
+-int generated_co_wrapper bdrv_pdiscard(BdrvChild *child, int64_t offset,
+-                                       int64_t bytes);
+-int generated_co_wrapper
++int co_wrapper_mixed bdrv_invalidate_cache(BlockDriverState *bs,
++                                           Error **errp);
++int co_wrapper_mixed bdrv_flush(BlockDriverState *bs);
++int co_wrapper_mixed bdrv_pdiscard(BdrvChild *child, int64_t offset,
++                                   int64_t bytes);
++int co_wrapper_mixed
+ bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
+-int generated_co_wrapper
++int co_wrapper_mixed
+ bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
+ 
+ /**
+diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
+index ee3eb12610..7ec6d978d4 100644
+--- a/include/sysemu/block-backend-io.h
++++ b/include/sysemu/block-backend-io.h
+@@ -110,77 +110,77 @@ int coroutine_fn blk_co_is_allocated_above(BlockBackend *blk,
+  * the "I/O or GS" API.
+  */
+ 
+-int generated_co_wrapper blk_pread(BlockBackend *blk, int64_t offset,
+-                                   int64_t bytes, void *buf,
+-                                   BdrvRequestFlags flags);
++int co_wrapper_mixed blk_pread(BlockBackend *blk, int64_t offset,
++                               int64_t bytes, void *buf,
++                               BdrvRequestFlags flags);
+ int coroutine_fn blk_co_pread(BlockBackend *blk, int64_t offset, int64_t bytes,
+                               void *buf, BdrvRequestFlags flags);
+ 
+-int generated_co_wrapper blk_preadv(BlockBackend *blk, int64_t offset,
+-                                    int64_t bytes, QEMUIOVector *qiov,
+-                                    BdrvRequestFlags flags);
++int co_wrapper_mixed blk_preadv(BlockBackend *blk, int64_t offset,
++                                int64_t bytes, QEMUIOVector *qiov,
++                                BdrvRequestFlags flags);
+ int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
+                                int64_t bytes, QEMUIOVector *qiov,
+                                BdrvRequestFlags flags);
+ 
+-int generated_co_wrapper blk_preadv_part(BlockBackend *blk, int64_t offset,
+-                                         int64_t bytes, QEMUIOVector *qiov,
+-                                         size_t qiov_offset,
+-                                         BdrvRequestFlags flags);
++int co_wrapper_mixed blk_preadv_part(BlockBackend *blk, int64_t offset,
++                                     int64_t bytes, QEMUIOVector *qiov,
++                                     size_t qiov_offset,
++                                     BdrvRequestFlags flags);
+ int coroutine_fn blk_co_preadv_part(BlockBackend *blk, int64_t offset,
+                                     int64_t bytes, QEMUIOVector *qiov,
+                                     size_t qiov_offset, BdrvRequestFlags flags);
+ 
+-int generated_co_wrapper blk_pwrite(BlockBackend *blk, int64_t offset,
+-                                    int64_t bytes, const void *buf,
+-                                    BdrvRequestFlags flags);
++int co_wrapper_mixed blk_pwrite(BlockBackend *blk, int64_t offset,
++                                int64_t bytes, const void *buf,
++                                BdrvRequestFlags flags);
+ int coroutine_fn blk_co_pwrite(BlockBackend *blk, int64_t offset, int64_t bytes,
+                                const void *buf, BdrvRequestFlags flags);
+ 
+-int generated_co_wrapper blk_pwritev(BlockBackend *blk, int64_t offset,
+-                                     int64_t bytes, QEMUIOVector *qiov,
+-                                     BdrvRequestFlags flags);
++int co_wrapper_mixed blk_pwritev(BlockBackend *blk, int64_t offset,
++                                 int64_t bytes, QEMUIOVector *qiov,
++                                 BdrvRequestFlags flags);
+ int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
+                                 int64_t bytes, QEMUIOVector *qiov,
+                                 BdrvRequestFlags flags);
+ 
+-int generated_co_wrapper blk_pwritev_part(BlockBackend *blk, int64_t offset,
+-                                          int64_t bytes, QEMUIOVector *qiov,
+-                                          size_t qiov_offset,
+-                                          BdrvRequestFlags flags);
++int co_wrapper_mixed blk_pwritev_part(BlockBackend *blk, int64_t offset,
++                                      int64_t bytes, QEMUIOVector *qiov,
++                                      size_t qiov_offset,
++                                      BdrvRequestFlags flags);
+ int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
+                                      int64_t bytes,
+                                      QEMUIOVector *qiov, size_t qiov_offset,
+                                      BdrvRequestFlags flags);
+ 
+-int generated_co_wrapper blk_pwrite_compressed(BlockBackend *blk,
+-                                               int64_t offset, int64_t bytes,
+-                                               const void *buf);
++int co_wrapper_mixed blk_pwrite_compressed(BlockBackend *blk,
++                                           int64_t offset, int64_t bytes,
++                                           const void *buf);
+ int coroutine_fn blk_co_pwrite_compressed(BlockBackend *blk, int64_t offset,
+                                           int64_t bytes, const void *buf);
+ 
+-int generated_co_wrapper blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+-                                           int64_t bytes,
+-                                           BdrvRequestFlags flags);
++int co_wrapper_mixed blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
++                                       int64_t bytes,
++                                       BdrvRequestFlags flags);
+ int coroutine_fn blk_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+                                       int64_t bytes, BdrvRequestFlags flags);
+ 
+-int generated_co_wrapper blk_pdiscard(BlockBackend *blk, int64_t offset,
+-                                      int64_t bytes);
++int co_wrapper_mixed blk_pdiscard(BlockBackend *blk, int64_t offset,
++                                  int64_t bytes);
+ int coroutine_fn blk_co_pdiscard(BlockBackend *blk, int64_t offset,
+                                  int64_t bytes);
+ 
+-int generated_co_wrapper blk_flush(BlockBackend *blk);
++int co_wrapper_mixed blk_flush(BlockBackend *blk);
+ int coroutine_fn blk_co_flush(BlockBackend *blk);
+ 
+-int generated_co_wrapper blk_ioctl(BlockBackend *blk, unsigned long int req,
+-                                   void *buf);
++int co_wrapper_mixed blk_ioctl(BlockBackend *blk, unsigned long int req,
++                               void *buf);
+ int coroutine_fn blk_co_ioctl(BlockBackend *blk, unsigned long int req,
+                               void *buf);
+ 
+-int generated_co_wrapper blk_truncate(BlockBackend *blk, int64_t offset,
+-                                      bool exact, PreallocMode prealloc,
+-                                      BdrvRequestFlags flags, Error **errp);
++int co_wrapper_mixed blk_truncate(BlockBackend *blk, int64_t offset,
++                                  bool exact, PreallocMode prealloc,
++                                  BdrvRequestFlags flags, Error **errp);
+ int coroutine_fn blk_co_truncate(BlockBackend *blk, int64_t offset, bool exact,
+                                  PreallocMode prealloc, BdrvRequestFlags flags,
+                                  Error **errp);
+diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
+index 08be813407..56e6425356 100644
+--- a/scripts/block-coroutine-wrapper.py
++++ b/scripts/block-coroutine-wrapper.py
+@@ -2,7 +2,7 @@
+ """Generate coroutine wrappers for block subsystem.
+ 
+ The program parses one or several concatenated c files from stdin,
+-searches for functions with the 'generated_co_wrapper' specifier
++searches for functions with the 'co_wrapper_mixed' specifier
+ and generates corresponding wrappers on stdout.
+ 
+ Usage: block-coroutine-wrapper.py generated-file.c FILE.[ch]...
+@@ -74,8 +74,8 @@ def gen_block(self, format: str) -> str:
+         return '\n'.join(format.format_map(arg.__dict__) for arg in self.args)
+ 
+ 
+-# Match wrappers declared with a generated_co_wrapper mark
+-func_decl_re = re.compile(r'^int\s*generated_co_wrapper\s*'
++# Match wrappers declared with a co_wrapper_mixed mark
++func_decl_re = re.compile(r'^int\s*co_wrapper_mixed\s*'
+                           r'(?P<wrapper_name>[a-z][a-z0-9_]*)'
+                           r'\((?P<args>[^)]*)\);$', re.MULTILINE)
+ 
 -- 
 2.38.1
 
