@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50E964CDA4
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF8C64CDA5
 	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 17:04:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5UDM-0003Gi-Un; Wed, 14 Dec 2022 11:02:36 -0500
+	id 1p5UES-0004jJ-Lh; Wed, 14 Dec 2022 11:03:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p5UDG-0003FO-CW
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:02:31 -0500
+ id 1p5UEQ-0004hx-PT
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:03:42 -0500
 Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p5UDC-0000fd-T6
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:02:30 -0500
-Received: by mail-qk1-x734.google.com with SMTP id x18so1442442qki.4
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 08:02:25 -0800 (PST)
+ id 1p5UEO-0001gz-Je
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 11:03:42 -0500
+Received: by mail-qk1-x734.google.com with SMTP id m5so1466641qkg.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 08:03:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:in-reply-to:user-agent:from
- :mime-version:references:from:to:cc:subject:date:message-id:reply-to;
- bh=VuLtiC5jUndHmGGi4kSyQtaUSvpHqQoCJNsqLGTQ0rY=;
- b=U+a9UEnig0x3XUWniv2Ktkeys+hHy7NCh1hWnP8XGKLovLN2mQNdIm02qEd6yEIdZM
- YFZbTwOQlbBFOzmVWyCmSqRGBQjLaRAdqgdKpEUuWoyNzxChYX1uavTa9x3Ot679RgSn
- bgUor4VKN/7nHsd05zhXrdA1dcdmM8YpB0//1297nL5uq2k9HoNPEPN4opXJlI1oS2Hw
- dDCR0uG7dWJeFcIO0DI/nj/2HqIGYIS9zU405r7E29BK8m66OeeCr53kLPBzgviZbxrg
- N+Tnygva69Pu9lJTzG5X6y/O1/+mzhooWW3vdLgrXDhX2uDDrm65PgH4wk5IYhRPptnH
- HzpQ==
+ h=cc:to:subject:message-id:date:references:user-agent:mime-version
+ :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=75EAjYxQpMxvkQ3aiAc82NY0xagCM4LRzKbthyi0jtY=;
+ b=uf81QYSjCxgac1NpCq//umPbPsN87nrpd4Ub5gFJ/k2EiEub7+Yp2G1wz66N1DJ7pV
+ n12FrYWgvYFlKYYJx69tapCElnFW0sSz44qYs4PTKBYOTgC+59+5n1Zh3/al0MiIybDc
+ 4TXn+cgV8BUbwSVK9rELRcuqAzXnNzyIVUfh7sQPlSM95WzXqqzLYQUnndeBPU/ZUmVZ
+ NzA+crP9PbKTp8JUOo22Q3J4h0Fwndkqw8IxLkuTPZyd7MQgbdwQxI2l4xuGWydsDTVo
+ iVW6+pYFPAqBuOZKF/5Xs0QVo20xMqLGSVFPClskqeHhqGPK9p0Td/LzMbQmaPiKy+Es
+ IBIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:in-reply-to:user-agent:from
- :mime-version:references:x-gm-message-state:from:to:cc:subject:date
+ h=cc:to:subject:message-id:date:references:user-agent:mime-version
+ :in-reply-to:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VuLtiC5jUndHmGGi4kSyQtaUSvpHqQoCJNsqLGTQ0rY=;
- b=hUJN5GlDIwzkT8Ml7lVnRekN/xazG7THSevRqtkQ0fjRLv1XQcoh0bT8piE93L2h7V
- OIzLZJjjzQZpgJxA+FMkwH4PaG2HGFpLA4DCno+DajERGADGX6ajEsRjsN1Pya6buxRX
- xNfP+71uzyQBqSc/ojC38Oh/GMdmoE3SZ8bruUEBME/HTgSiyWXnAgOcr0e2ptKZtqFp
- /e5U/fkyyguN4N4ZZhL6e5/OCJbGqsowYaIsFDPRLF9P0Pw6kjKAgwVx5u0s9tyLGwNw
- 5qqo8Fo0SiLM0A0AEHRJ1qdR4wqsWzBve4ykNyM3RbIFoiZKmb/ouAhfQEv9SlpgzwAC
- omIw==
-X-Gm-Message-State: ANoB5pkCzwHCAyKMGfdaA4IgyTk//uRDpL2QnzSD2Sy6yflkFkh5dWj3
- MVe5n7S93mE/t9nWk7QLZS0Nn+6/NfzOfYvbX8n0QQ==
-X-Google-Smtp-Source: AA0mqf6cQpGnYwASoATJMjjfnVajFvyj6r2euom9VpBC71/WFVwovyfHdWCapxqcdjbr2Yl7UcCjcVTBqgpsBM0Vb6w=
-X-Received: by 2002:ae9:c202:0:b0:6fc:9712:2121 with SMTP id
- j2-20020ae9c202000000b006fc97122121mr33469775qkg.762.1671033745036; Wed, 14
- Dec 2022 08:02:25 -0800 (PST)
+ bh=75EAjYxQpMxvkQ3aiAc82NY0xagCM4LRzKbthyi0jtY=;
+ b=CTlc9MtoK/Y4A9py9P67lsvmWr3SMFaZdjCSCI1muErDK4cIVMjUZW+p84E07WnL07
+ giLrNKw+9eK6EWCT7HkwE/V1PeuH1sNnCaEVPcOVd5AgCF9hwqcLDlFmKyguxraRY3Bf
+ Xv6yLeBWCDrv/Zq0lnePRKXypuobhmiInH+8pSPYbcYjvC6OHNcdqZrvaCpLsZdWp9/e
+ 5yccWMVCIl7syLziNSCSho3iDYbHM96XATTfS6ixMHxLN/eDwEgjyco4mlQQRhTq47fO
+ aBckmw9MONIvsbS4yYBUBxOE/br1Maoy/VsHPKruiPyfU9/56wwN52tzN+KpoO+tjwf3
+ Hvig==
+X-Gm-Message-State: ANoB5pkNeN5K0mM1EjfOoqllDj3DWLFCo6S0Agkw1vO+tx84q9+3XpMk
+ SCBhYCtyFqhKgOrrwz36eP0WIK/4sc85NYp9SdWRyERqa3CLuA==
+X-Google-Smtp-Source: AA0mqf4JCIGo1zIdWLD9QqrRgLOTnPqudCCBHSfKiGoqfjtXajuuP+CNjUtGkMPUnTlH5uPUDkmgntnqZtfbRNbUx0U=
+X-Received: by 2002:a37:a94e:0:b0:6fe:c166:d030 with SMTP id
+ s75-20020a37a94e000000b006fec166d030mr14535215qke.712.1671033819306; Wed, 14
+ Dec 2022 08:03:39 -0800 (PST)
 Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Wed, 14 Dec 2022 08:02:24 -0800
-References: <20221213133510.1279488-1-xuchuangxclwt@bytedance.com>
- <20221213133510.1279488-3-xuchuangxclwt@bytedance.com> <Y5io5AfRWCluAk3P@x1n>
-Mime-Version: 1.0
+ Wed, 14 Dec 2022 08:03:38 -0800
 From: Chuang Xu <xuchuangxclwt@bytedance.com>
+In-Reply-To: <20221213133510.1279488-2-xuchuangxclwt@bytedance.com>
+Mime-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-In-Reply-To: <Y5io5AfRWCluAk3P@x1n>
-Date: Wed, 14 Dec 2022 08:02:24 -0800
-Message-ID: <CALophutew8JGn6WqBOX=eTSULECvAHg7CQqN=LuvvR6Yc+cPZg@mail.gmail.com>
-Subject: Re: [RFC v3 2/3] virtio: support delay of checks in virtio_load()
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com, 
- pbonzini@redhat.com, david@redhat.com, f4bug@amsat.org, mst@redhat.com, 
+References: <20221213133510.1279488-1-xuchuangxclwt@bytedance.com>
+ <20221213133510.1279488-2-xuchuangxclwt@bytedance.com>
+Date: Wed, 14 Dec 2022 08:03:38 -0800
+Message-ID: <CALophuvwZHsqfTo=vshQawO+hPs6rkfHVDFZuukmaf_s+TGqJA@mail.gmail.com>
+Subject: Re: [RFC v3 1/3] memory: add depth assert in address_space_to_flatview
+To: qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com, 
+ peterx@redhat.com, david@redhat.com, f4bug@amsat.org, mst@redhat.com, 
  zhouyibo@bytedance.com
-Content-Type: multipart/alternative; boundary="000000000000c7fb0305efcbdc09"
+Content-Type: multipart/alternative; boundary="0000000000003549ae05efcbe139"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
  envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qk1-x734.google.com
 X-Spam_score_int: 29
@@ -91,147 +91,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000c7fb0305efcbdc09
+--0000000000003549ae05efcbe139
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 2022/12/14 =E4=B8=8A=E5=8D=8812:31, Peter Xu wrote:
+On 2022/12/13 =E4=B8=8B=E5=8D=889:35, Chuang Xu wrote:
 
-On Tue, Dec 13, 2022 at 09:35:09PM +0800, Chuang Xu wrote:
-
-Delay checks in virtio_load() to avoid possible address_space_to_flatview()=
- call
-during memory region's begin/commit.
-
-I didn't notice virtio has the vm change handler already, looks good to
-reuse it. :) A few more comments though (before some real virtio developers
-chim im).
-
+Before using any flatview, sanity check we're not during a memory
+region transaction or the map can be invalid.
 
 Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
 <xuchuangxclwt@bytedance.com>
 ---
- hw/virtio/virtio.c         | 37 +++++++++++++++++++++++++++----------
- include/hw/virtio/virtio.h |  2 ++
- 2 files changed, 29 insertions(+), 10 deletions(-)
+ include/exec/memory.h | 9 +++++++++
+ softmmu/memory.c      | 1 -
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index eb6347ab5d..f556e565c6 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3642,8 +3642,26 @@ int virtio_load(VirtIODevice *vdev, QEMUFile
-*f, int version_id)
-         vdev->start_on_kick =3D true;
-     }
-
-+    vdev->delay_check =3D true;
-+
-+    if (vdc->post_load) {
-+        ret =3D vdc->post_load(vdev);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static void virtio_load_check_delay(VirtIODevice *vdev)
-+{
-     RCU_READ_LOCK_GUARD();
--    for (i =3D 0; i < num; i++) {
-+    for (int i =3D 0; i < VIRTIO_QUEUE_MAX; i++) {
-+        if (vdev->vq[i].vring.num =3D=3D 0) {
-+            break;
-+        }
-+
-         if (vdev->vq[i].vring.desc) {
-             uint16_t nheads;
-
-@@ -3696,19 +3714,12 @@ int virtio_load(VirtIODevice *vdev, QEMUFile
-*f, int version_id)
-                              i, vdev->vq[i].vring.num,
-                              vdev->vq[i].last_avail_idx,
-                              vdev->vq[i].used_idx);
--                return -1;
-+                abort();
-
-This is when the switchover finished.  I'm not sure how severe this is and
-whether there can be something to remedy - abort() is probably the least we
-want to do here, since the admin may not want to crash the whole VM due to
-one vring failure on one device.
-
-At this time, the vcpus are still stopped. If these checks fail in
-virtio_load(), - 1 will be returned, and the migration will be rolled
-back. But virtio_vmstate_change() returns nothing, if we want to
-rollback the migration after the checks fail, I think we need abort().
-
-             }
-         }
-     }
-
--    if (vdc->post_load) {
--        ret =3D vdc->post_load(vdev);
--        if (ret) {
--            return ret;
--        }
--    }
--
--    return 0;
-+    return;
- }
-
- void virtio_cleanup(VirtIODevice *vdev)
-@@ -3722,6 +3733,11 @@ static void virtio_vmstate_change(void *opaque,
-bool running, RunState state)
-     BusState *qbus =3D qdev_get_parent_bus(DEVICE(vdev));
-     VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(qbus);
-     bool backend_run =3D running && virtio_device_started(vdev, vdev->stat=
-us);
-+
-+    if (vdev->delay_check) {
-+        virtio_load_check_delay(vdev);
-+        vdev->delay_check =3D false;
-+    }
-     vdev->vm_running =3D running;
-
-     if (backend_run) {
-@@ -3789,6 +3805,7 @@ void virtio_init(VirtIODevice *vdev, uint16_t
-device_id, size_t config_size)
-             virtio_vmstate_change, vdev);
-     vdev->device_endian =3D virtio_default_endian();
-     vdev->use_guest_notifier_mask =3D true;
-+    vdev->delay_check =3D false;
- }
-
- /*
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index acfd4df125..269e80d04a 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -135,6 +135,8 @@ struct VirtIODevice
-     AddressSpace *dma_as;
-     QLIST_HEAD(, VirtQueue) *vector_queues;
-     QTAILQ_ENTRY(VirtIODevice) next;
-+    /* @delay_check: delay checks in virtio_load */
-+    bool delay_check;
-
-I think it covers more than the check?  It also initializes variables like
-used_idx and shadow_avail_idx.  I'm not sure how vital they are, but I'd
-just avoid using the word "check" if not sure (e.g. "load_delay", or
-"load_finalize"?).
-
-OK. I prefer to use "load_finalize".
-
-Thanks!
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 91f8a2395a..b43cd46084 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1069,8 +1069,17 @@ struct FlatView {
+     MemoryRegion *root;
  };
 
- struct VirtioDeviceClass {
---=20
-2.20.1
++static unsigned memory_region_transaction_depth;
++
+ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+ {
++    /*
++     * Before using any flatview, sanity check we're not during a memory
++     * region transaction or the map can be invalid.  Note that this can
++     * also be called during commit phase of memory transaction, but that
++     * should also only happen when the depth decreases to 0 first.
++     */
++    assert(memory_region_transaction_depth =3D=3D 0);
+     return qatomic_rcu_read(&as->current_map);
+ }
 
---000000000000c7fb0305efcbdc09
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index bc0be3f62c..f177c40cd8 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -37,7 +37,6 @@
+
+ //#define DEBUG_UNASSIGNED
+
+-static unsigned memory_region_transaction_depth;
+ static bool memory_region_update_pending;
+ static bool ioeventfd_update_pending;
+ unsigned int global_dirty_tracking;
+
+Here are some new situations to be synchronized.
+
+I found that there is a probability to trigger assert in the QEMU startup p=
+hase.
+
+Here is the coredump backtrace:
+
+#0  __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/unix/sysv/linux/raise.c:=
+50
+#1  0x00007f7825e33535 in __GI_abort () at abort.c:79
+#2  0x00007f7825e3340f in __assert_fail_base (fmt=3D0x7f7825f94ef0
+"%s%s%s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3D0x5653c643add8
+"memory_region_transaction_depth =3D=3D 0",
+    file=3D0x5653c63dad78
+"/data00/migration/qemu-open/include/exec/memory.h", line=3D1082,
+function=3D<optimized out>) at assert.c:92
+#3  0x00007f7825e411a2 in __GI___assert_fail
+(assertion=3Dassertion@entry=3D0x5653c643add8
+"memory_region_transaction_depth =3D=3D 0",
+    file=3Dfile@entry=3D0x5653c63dad78
+"/data00/migration/qemu-open/include/exec/memory.h",
+line=3Dline@entry=3D1082,
+    function=3Dfunction@entry=3D0x5653c643bd00 <__PRETTY_FUNCTION__.18101>
+"address_space_to_flatview") at assert.c:101
+#4  0x00005653c60f0383 in address_space_to_flatview (as=3D0x5653c6af2340
+<address_space_memory>) at
+/data00/migration/qemu-open/include/exec/memory.h:1082
+#5  address_space_to_flatview (as=3D0x5653c6af2340
+<address_space_memory>) at
+/data00/migration/qemu-open/include/exec/memory.h:1074
+#6  address_space_get_flatview (as=3D0x5653c6af2340
+<address_space_memory>) at ../softmmu/memory.c:809
+#7  0x00005653c60fef04 in address_space_cache_init
+(cache=3Dcache@entry=3D0x7f781fff8420, as=3D<optimized out>,
+addr=3D63310635776, len=3D48, is_write=3Dis_write@entry=3Dfalse)
+    at ../softmmu/physmem.c:3352
+#8  0x00005653c60c08c5 in virtqueue_split_pop (vq=3D0x7f781c576270,
+sz=3D264) at ../hw/virtio/virtio.c:1959
+#9  0x00005653c60c0b7d in virtqueue_pop (vq=3Dvq@entry=3D0x7f781c576270,
+sz=3D<optimized out>) at ../hw/virtio/virtio.c:2177
+#10 0x00005653c609f14f in virtio_scsi_pop_req
+(s=3Ds@entry=3D0x5653c9034300, vq=3Dvq@entry=3D0x7f781c576270) at
+../hw/scsi/virtio-scsi.c:219
+#11 0x00005653c60a04a3 in virtio_scsi_handle_cmd_vq
+(vq=3D0x7f781c576270, s=3D0x5653c9034300) at ../hw/scsi/virtio-scsi.c:735
+#12 virtio_scsi_handle_cmd (vdev=3D0x5653c9034300, vq=3D0x7f781c576270) at
+../hw/scsi/virtio-scsi.c:776
+#13 0x00005653c60ba72f in virtio_queue_notify_vq (vq=3D0x7f781c576270)
+at ../hw/virtio/virtio.c:2847
+#14 0x00005653c62d9706 in aio_dispatch_handler
+(ctx=3Dctx@entry=3D0x5653c84909e0, node=3D0x7f68e4007840) at
+../util/aio-posix.c:369
+#15 0x00005653c62da254 in aio_dispatch_ready_handlers
+(ready_list=3D0x7f781fffe6a8, ctx=3D0x5653c84909e0) at
+../util/aio-posix.c:399
+#16 aio_poll (ctx=3D0x5653c84909e0, blocking=3Dblocking@entry=3Dtrue) at
+../util/aio-posix.c:713
+#17 0x00005653c61b2296 in iothread_run
+(opaque=3Dopaque@entry=3D0x5653c822c390) at ../iothread.c:67
+#18 0x00005653c62dcd8a in qemu_thread_start (args=3D<optimized out>) at
+../util/qemu-thread-posix.c:505
+#19 0x00007f7825fd8fa3 in start_thread (arg=3D<optimized out>) at
+pthread_create.c:486
+#20 0x00007f7825f0a06f in clone () at
+../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+
+I find that some functions doesn't take bql before calling
+address_space_to_flatview(), as shown in the backtrace. I
+also find other similar situations in the code. I find that
+prepare_mmio_access() will take bql to provide some protection,
+but I don't think it's sufficient.I think that if we want to
+ensure that the reading and writing of mr and the modification
+of mr don't occur at the same time, maybe we need to take bql
+in address_space_to_flatview() like this:
+
+
+static FlatView *address_space_to_flatview(AddressSpace *as)
+{
+    bool release_lock =3D false;
+    FlatView *ret;
+
+    if (!qemu_mutex_iothread_locked()) {
+        qemu_mutex_lock_iothread();
+        release_lock =3D true;
+    }
+
+    /*
+     * Before using any flatview, sanity check we're not during a memory
+     * region transaction or the map can be invalid.  Note that this can
+     * also be called during commit phase of memory transaction, but that
+     * should also only happen when the depth decreases to 0 first.
+     */
+    assert(memory_region_transaction_depth =3D=3D 0);
+    ret =3D qatomic_rcu_read(&as->current_map);
+
+    if (release_lock) {
+        qemu_mutex_unlock_iothread();
+    }
+
+    return ret;
+}
+
+--0000000000003549ae05efcbe139
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -242,172 +255,165 @@ Content-Transfer-Encoding: quoted-printable
   <body>
     <p><br>
     </p>
-    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-77c982360d079=
-9a795392344cfb8803e">On 2022/12/14 =E4=B8=8A=E5=8D=8812:31, Peter Xu wrote:=
+    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-b203077136cec=
+0d993d29a517c88895b">On 2022/12/13 =E4=B8=8B=E5=8D=889:35, Chuang Xu wrote:=
 <br>
     </div></div>
-    <blockquote type=3D"cite" cite=3D"mid:Y5io5AfRWCluAk3P@x1n">
-      <pre class=3D"moz-quote-pre">On Tue, Dec 13, 2022 at 09:35:09PM +0800=
-, Chuang Xu wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre">Delay checks in virtio_load() to avoid=
- possible address_space_to_flatview() call
-during memory region&#39;s begin/commit.
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre">I didn&#39;t notice virtio has the vm ch=
-ange handler already, looks good to
-reuse it. :) A few more comments though (before some real virtio developers
-chim im).
+    <blockquote type=3D"cite" cite=3D"mid:20221213133510.1279488-2-xuchuang=
+xclwt@bytedance.com">
+      <pre class=3D"moz-quote-pre">Before using any flatview, sanity check =
+we&#39;re not during a memory
+region transaction or the map can be invalid.
 
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre">Signed-off-by: Chuang Xu <a class=3D"m=
-oz-txt-link-rfc2396E" href=3D"mailto:xuchuangxclwt@bytedance.com">&lt;xuchu=
-angxclwt@bytedance.com&gt;</a>
+Signed-off-by: Chuang Xu <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:=
+xuchuangxclwt@bytedance.com">&lt;xuchuangxclwt@bytedance.com&gt;</a>
 ---
- hw/virtio/virtio.c         | 37 +++++++++++++++++++++++++++----------
- include/hw/virtio/virtio.h |  2 ++
- 2 files changed, 29 insertions(+), 10 deletions(-)
+ include/exec/memory.h | 9 +++++++++
+ softmmu/memory.c      | 1 -
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index eb6347ab5d..f556e565c6 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3642,8 +3642,26 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int=
- version_id)
-         vdev-&gt;start_on_kick =3D true;
-     }
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 91f8a2395a..b43cd46084 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1069,8 +1069,17 @@ struct FlatView {
+     MemoryRegion *root;
+ };
 =20
-+    vdev-&gt;delay_check =3D true;
++static unsigned memory_region_transaction_depth;
 +
-+    if (vdc-&gt;post_load) {
-+        ret =3D vdc-&gt;post_load(vdev);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static void virtio_load_check_delay(VirtIODevice *vdev)
-+{
-     RCU_READ_LOCK_GUARD();
--    for (i =3D 0; i &lt; num; i++) {
-+    for (int i =3D 0; i &lt; VIRTIO_QUEUE_MAX; i++) {
-+        if (vdev-&gt;vq[i].vring.num =3D=3D 0) {
-+            break;
-+        }
-+
-         if (vdev-&gt;vq[i].vring.desc) {
-             uint16_t nheads;
-=20
-@@ -3696,19 +3714,12 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, in=
-t version_id)
-                              i, vdev-&gt;vq[i].vring.num,
-                              vdev-&gt;vq[i].last_avail_idx,
-                              vdev-&gt;vq[i].used_idx);
--                return -1;
-+                abort();
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre">This is when the switchover finished.  I=
-&#39;m not sure how severe this is and
-whether there can be something to remedy - abort() is probably the least we
-want to do here, since the admin may not want to crash the whole VM due to
-one vring failure on one device.
-</pre>
-    </blockquote>
-    <pre>At this time, the vcpus are still stopped. If these checks fail in=
-=20
-virtio_load(), - 1 will be returned, and the migration will be rolled=20
-back. But virtio_vmstate_change() returns nothing, if we want to=20
-rollback the migration after the checks fail, I think we need abort().
-</pre>
-    <blockquote type=3D"cite" cite=3D"mid:Y5io5AfRWCluAk3P@x1n">
-      <pre class=3D"moz-quote-pre"></pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre">             }
-         }
-     }
-=20
--    if (vdc-&gt;post_load) {
--        ret =3D vdc-&gt;post_load(vdev);
--        if (ret) {
--            return ret;
--        }
--    }
--
--    return 0;
-+    return;
+ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+ {
++    /*
++     * Before using any flatview, sanity check we&#39;re not during a memo=
+ry
++     * region transaction or the map can be invalid.  Note that this can
++     * also be called during commit phase of memory transaction, but that
++     * should also only happen when the depth decreases to 0 first.
++     */
++    assert(memory_region_transaction_depth =3D=3D 0);
+     return qatomic_rcu_read(&amp;as-&gt;current_map);
  }
 =20
- void virtio_cleanup(VirtIODevice *vdev)
-@@ -3722,6 +3733,11 @@ static void virtio_vmstate_change(void *opaque, bool=
- running, RunState state)
-     BusState *qbus =3D qdev_get_parent_bus(DEVICE(vdev));
-     VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(qbus);
-     bool backend_run =3D running &amp;&amp; virtio_device_started(vdev, vd=
-ev-&gt;status);
-+
-+    if (vdev-&gt;delay_check) {
-+        virtio_load_check_delay(vdev);
-+        vdev-&gt;delay_check =3D false;
-+    }
-     vdev-&gt;vm_running =3D running;
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index bc0be3f62c..f177c40cd8 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -37,7 +37,6 @@
 =20
-     if (backend_run) {
-@@ -3789,6 +3805,7 @@ void virtio_init(VirtIODevice *vdev, uint16_t device_=
-id, size_t config_size)
-             virtio_vmstate_change, vdev);
-     vdev-&gt;device_endian =3D virtio_default_endian();
-     vdev-&gt;use_guest_notifier_mask =3D true;
-+    vdev-&gt;delay_check =3D false;
- }
+ //#define DEBUG_UNASSIGNED
 =20
- /*
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index acfd4df125..269e80d04a 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -135,6 +135,8 @@ struct VirtIODevice
-     AddressSpace *dma_as;
-     QLIST_HEAD(, VirtQueue) *vector_queues;
-     QTAILQ_ENTRY(VirtIODevice) next;
-+    /* @delay_check: delay checks in virtio_load */
-+    bool delay_check;
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre">I think it covers more than the check?  =
-It also initializes variables like
-used_idx and shadow_avail_idx.  I&#39;m not sure how vital they are, but I&=
-#39;d
-just avoid using the word &quot;check&quot; if not sure (e.g. &quot;load_de=
-lay&quot;, or
-&quot;load_finalize&quot;?).
+-static unsigned memory_region_transaction_depth;
+ static bool memory_region_update_pending;
+ static bool ioeventfd_update_pending;
+ unsigned int global_dirty_tracking;
 </pre>
     </blockquote>
-    <pre>OK. I prefer to use &quot;load_finalize&quot;.
+    <pre>Here are some new situations to be synchronized.
 
-Thanks!
-</pre>
-    <blockquote type=3D"cite" cite=3D"mid:Y5io5AfRWCluAk3P@x1n">
-      <pre class=3D"moz-quote-pre"></pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre"> };
-=20
- struct VirtioDeviceClass {
---=20
-2.20.1
+I found that there is a probability to trigger assert in the QEMU startup p=
+hase.
+
+Here is the coredump backtrace:
+
+#0  __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/unix/sysv/linux/raise.c:=
+50
+#1  0x00007f7825e33535 in __GI_abort () at abort.c:79
+#2  0x00007f7825e3340f in __assert_fail_base (fmt=3D0x7f7825f94ef0 &quot;%s=
+%s%s:%u: %s%sAssertion `%s&#39; failed.\n%n&quot;, assertion=3D0x5653c643ad=
+d8 &quot;memory_region_transaction_depth =3D=3D 0&quot;,
+    file=3D0x5653c63dad78 &quot;/data00/migration/qemu-open/include/exec/me=
+mory.h&quot;, line=3D1082, function=3D&lt;optimized out&gt;) at assert.c:92
+#3  0x00007f7825e411a2 in __GI___assert_fail (assertion=3Dassertion@entry=
+=3D0x5653c643add8 &quot;memory_region_transaction_depth =3D=3D 0&quot;,
+    file=3Dfile@entry=3D0x5653c63dad78 &quot;/data00/migration/qemu-open/in=
+clude/exec/memory.h&quot;, line=3Dline@entry=3D1082,
+    function=3Dfunction@entry=3D0x5653c643bd00 &lt;__PRETTY_FUNCTION__.1810=
+1&gt; &quot;address_space_to_flatview&quot;) at assert.c:101
+#4  0x00005653c60f0383 in address_space_to_flatview (as=3D0x5653c6af2340 &l=
+t;address_space_memory&gt;) at /data00/migration/qemu-open/include/exec/mem=
+ory.h:1082
+#5  address_space_to_flatview (as=3D0x5653c6af2340 &lt;address_space_memory=
+&gt;) at /data00/migration/qemu-open/include/exec/memory.h:1074
+#6  address_space_get_flatview (as=3D0x5653c6af2340 &lt;address_space_memor=
+y&gt;) at ../softmmu/memory.c:809
+#7  0x00005653c60fef04 in address_space_cache_init (cache=3Dcache@entry=3D0=
+x7f781fff8420, as=3D&lt;optimized out&gt;, addr=3D63310635776, len=3D48, is=
+_write=3Dis_write@entry=3Dfalse)
+    at ../softmmu/physmem.c:3352
+#8  0x00005653c60c08c5 in virtqueue_split_pop (vq=3D0x7f781c576270, sz=3D26=
+4) at ../hw/virtio/virtio.c:1959
+#9  0x00005653c60c0b7d in virtqueue_pop (vq=3Dvq@entry=3D0x7f781c576270, sz=
+=3D&lt;optimized out&gt;) at ../hw/virtio/virtio.c:2177
+#10 0x00005653c609f14f in virtio_scsi_pop_req (s=3Ds@entry=3D0x5653c9034300=
+, vq=3Dvq@entry=3D0x7f781c576270) at ../hw/scsi/virtio-scsi.c:219
+#11 0x00005653c60a04a3 in virtio_scsi_handle_cmd_vq (vq=3D0x7f781c576270, s=
+=3D0x5653c9034300) at ../hw/scsi/virtio-scsi.c:735
+#12 virtio_scsi_handle_cmd (vdev=3D0x5653c9034300, vq=3D0x7f781c576270) at =
+../hw/scsi/virtio-scsi.c:776
+#13 0x00005653c60ba72f in virtio_queue_notify_vq (vq=3D0x7f781c576270) at .=
+./hw/virtio/virtio.c:2847
+#14 0x00005653c62d9706 in aio_dispatch_handler (ctx=3Dctx@entry=3D0x5653c84=
+909e0, node=3D0x7f68e4007840) at ../util/aio-posix.c:369
+#15 0x00005653c62da254 in aio_dispatch_ready_handlers (ready_list=3D0x7f781=
+fffe6a8, ctx=3D0x5653c84909e0) at ../util/aio-posix.c:399
+#16 aio_poll (ctx=3D0x5653c84909e0, blocking=3Dblocking@entry=3Dtrue) at ..=
+/util/aio-posix.c:713
+#17 0x00005653c61b2296 in iothread_run (opaque=3Dopaque@entry=3D0x5653c822c=
+390) at ../iothread.c:67
+#18 0x00005653c62dcd8a in qemu_thread_start (args=3D&lt;optimized out&gt;) =
+at ../util/qemu-thread-posix.c:505
+#19 0x00007f7825fd8fa3 in start_thread (arg=3D&lt;optimized out&gt;) at pth=
+read_create.c:486
+#20 0x00007f7825f0a06f in clone () at ../sysdeps/unix/sysv/linux/x86_64/clo=
+ne.S:95
+
+I find that some functions doesn&#39;t take bql before calling
+address_space_to_flatview(), as shown in the backtrace. I=20
+also find other similar situations in the code. I find that
+prepare_mmio_access() will take bql to provide some protection,=20
+but I don&#39;t think it&#39;s sufficient.I think that if we want to=20
+ensure that the reading and writing of mr and the modification=20
+of mr don&#39;t occur at the same time, maybe we need to take bql=20
+in address_space_to_flatview() like this:
 
 </pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre"></pre>
-    </blockquote>
+    <div>
+      <pre style=3D"white-space:pre" class=3D"ace-line ace-line old-record-=
+id-VoW8dKm2oo8W4mxCJyAcavo0nwt"><code class=3D"language-Shell"><div>static =
+FlatView *address_space_to_flatview(AddressSpace *as)
+{
+    bool release_lock =3D false;
+    FlatView *ret;
+
+    if (!qemu_mutex_iothread_locked()) {
+        qemu_mutex_lock_iothread();
+        release_lock =3D true;
+    }</div><div>
+    /*
+     * Before using any flatview, sanity check we&#39;re not during a memor=
+y
+     * region transaction or the map can be invalid.  Note that this can
+     * also be called during commit phase of memory transaction, but that
+     * should also only happen when the depth decreases to 0 first.
+     */
+    assert(memory_region_transaction_depth =3D=3D 0);
+    ret =3D qatomic_rcu_read(&amp;as-&gt;current_map);</div><div>
+    if (release_lock) {
+        qemu_mutex_unlock_iothread();
+    }
+   =20
+    return ret;
+}</div><div>
+</div><div>
+</div></code></pre>
+    </div>
+    <span class=3D"lark-record-clipboard"></span>
+    <pre>
+
+</pre>
  =20
 </body></html>
 
---000000000000c7fb0305efcbdc09--
+--0000000000003549ae05efcbe139--
 
