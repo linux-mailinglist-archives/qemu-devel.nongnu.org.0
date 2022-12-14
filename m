@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA63D64CBEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:16:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A532364CCC8
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Dec 2022 15:59:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5S5u-0005xx-6f; Wed, 14 Dec 2022 08:46:46 -0500
+	id 1p5S5g-0005R6-4M; Wed, 14 Dec 2022 08:46:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4t-0004Rm-Ec
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:49 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4r-0004QR-W2
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4r-0003b4-76
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:43 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5S4p-0003aW-Gm
+ for qemu-devel@nongnu.org; Wed, 14 Dec 2022 08:45:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671025540;
+ s=mimecast20190719; t=1671025538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lAGq/cESYAYuVaf0L89HOZygPZ6Cek9ftpEqf8tWX64=;
- b=iMBqR8lEhB1E++Z/io8clB6/S4GK/hGj3e1Q0Pkvm6T65Y8ymQnTKdDkK4T51GrwrsZZY7
- zpge57/vn//6PjCtNIUtA2YcZc67HDRTvii9P3vYz+s4wJbGAqII57t5yKzVTkRsZOkvn0
- OuK5x78oWavHBTeDg0zCVHKU/ylBvmI=
+ bh=xz+/KZyx0hi2CwasYfD5o5cq6Lmlrwm1r1BVh6PLq+s=;
+ b=jLMT5/w3iV+l0YVXGqa7aV/5XyUXsG1/r6vie7MV9UjqzYEDBdP3ucR3Jtu01MXT/GkXQM
+ YTAZovXMsKuoeu3Uj9eKRo/GZFs6ROhzoeW776izcUnOsXf4xW93Wokx+RFa/dmbTRvzHr
+ 4SjGZSOmBQ7GMIlNexquNu4lt0UO+z4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-AxSXgy_8NTuhts9EzEIU3g-1; Wed, 14 Dec 2022 08:45:36 -0500
-X-MC-Unique: AxSXgy_8NTuhts9EzEIU3g-1
+ us-mta-606-uAsNNvioM16RLqcU4p1kwg-1; Wed, 14 Dec 2022 08:45:37 -0500
+X-MC-Unique: uAsNNvioM16RLqcU4p1kwg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A9C018A64E3;
- Wed, 14 Dec 2022 13:45:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64C2C101A521;
+ Wed, 14 Dec 2022 13:45:37 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8F5E14171BE;
- Wed, 14 Dec 2022 13:45:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A50CB14171BE;
+ Wed, 14 Dec 2022 13:45:36 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 28/51] block: rename generated_co_wrapper in co_wrapper_mixed
-Date: Wed, 14 Dec 2022 14:44:30 +0100
-Message-Id: <20221214134453.31665-29-kwolf@redhat.com>
+Subject: [PULL 29/51] block-coroutine-wrapper.py: introduce co_wrapper
+Date: Wed, 14 Dec 2022 14:44:31 +0100
+Message-Id: <20221214134453.31665-30-kwolf@redhat.com>
 In-Reply-To: <20221214134453.31665-1-kwolf@redhat.com>
 References: <20221214134453.31665-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,39 +79,42 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-In preparation to the incoming new function specifiers,
-rename g_c_w with a more meaningful name and document it.
+This new annotation starts just a function wrapper that creates
+a new coroutine. It assumes the caller is not a coroutine.
+It will be the default annotation to be used in the future.
+
+This is much better as c_w_mixed, because it is clear if the caller
+is a coroutine or not, and provides the advantage of automating
+the code creation. In the future all c_w_mixed functions will be
+substituted by co_wrapper.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-Id: <20221128142337.657646-10-eesposit@redhat.com>
+Message-Id: <20221128142337.657646-11-eesposit@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- docs/devel/block-coroutine-wrapper.rst |  6 +--
- block/coroutines.h                     |  4 +-
- include/block/block-common.h           | 11 +++--
- include/block/block-io.h               | 44 ++++++++---------
- include/sysemu/block-backend-io.h      | 68 +++++++++++++-------------
- scripts/block-coroutine-wrapper.py     |  6 +--
- 6 files changed, 71 insertions(+), 68 deletions(-)
+ docs/devel/block-coroutine-wrapper.rst |   6 +-
+ include/block/block-common.h           |   8 +-
+ scripts/block-coroutine-wrapper.py     | 110 +++++++++++++++++--------
+ 3 files changed, 86 insertions(+), 38 deletions(-)
 
 diff --git a/docs/devel/block-coroutine-wrapper.rst b/docs/devel/block-coroutine-wrapper.rst
-index 412851986b..64acc8d65d 100644
+index 64acc8d65d..6dd2cdcab3 100644
 --- a/docs/devel/block-coroutine-wrapper.rst
 +++ b/docs/devel/block-coroutine-wrapper.rst
 @@ -26,12 +26,12 @@ called ``bdrv_foo(<same args>)``. In this case the script can help. To
  trigger the generation:
  
  1. You need ``bdrv_foo`` declaration somewhere (for example, in
--   ``block/coroutines.h``) with the ``generated_co_wrapper`` mark,
-+   ``block/coroutines.h``) with the ``co_wrapper_mixed`` mark,
+-   ``block/coroutines.h``) with the ``co_wrapper_mixed`` mark,
++   ``block/coroutines.h``) with the ``co_wrapper`` mark,
     like this:
  
  .. code-block:: c
  
--    int generated_co_wrapper bdrv_foo(<some args>);
-+    int co_wrapper_mixed bdrv_foo(<some args>);
+-    int co_wrapper_mixed bdrv_foo(<some args>);
++    int co_wrapper bdrv_foo(<some args>);
  
  2. You need to feed this declaration to block-coroutine-wrapper script.
     For this, add the .h (or .c) file with the declaration to the
@@ -119,268 +122,197 @@ index 412851986b..64acc8d65d 100644
  
  1. The script location is ``scripts/block-coroutine-wrapper.py``.
  
--2. Generic place for private ``generated_co_wrapper`` declarations is
-+2. Generic place for private ``co_wrapper_mixed`` declarations is
+-2. Generic place for private ``co_wrapper_mixed`` declarations is
++2. Generic place for private ``co_wrapper`` declarations is
     ``block/coroutines.h``, for public declarations:
     ``include/block/block.h``
  
-diff --git a/block/coroutines.h b/block/coroutines.h
-index 3a2bad564f..17da4db963 100644
---- a/block/coroutines.h
-+++ b/block/coroutines.h
-@@ -71,7 +71,7 @@ nbd_co_do_establish_connection(BlockDriverState *bs, bool blocking,
-  * the "I/O or GS" API.
-  */
- 
--int generated_co_wrapper
-+int co_wrapper_mixed
- bdrv_common_block_status_above(BlockDriverState *bs,
-                                BlockDriverState *base,
-                                bool include_base,
-@@ -82,7 +82,7 @@ bdrv_common_block_status_above(BlockDriverState *bs,
-                                int64_t *map,
-                                BlockDriverState **file,
-                                int *depth);
--int generated_co_wrapper
-+int co_wrapper_mixed
- nbd_do_establish_connection(BlockDriverState *bs, bool blocking, Error **errp);
- 
- #endif /* BLOCK_COROUTINES_H */
 diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 297704c1e9..ec2309055b 100644
+index ec2309055b..847e4d4626 100644
 --- a/include/block/block-common.h
 +++ b/include/block/block-common.h
-@@ -35,14 +35,17 @@
- #include "qemu/transactions.h"
- 
- /*
-- * generated_co_wrapper
-+ * co_wrapper{*}: Function specifiers used by block-coroutine-wrapper.py
+@@ -42,9 +42,13 @@
   *
-- * Function specifier, which does nothing but mark functions to be
-+ * Function specifiers, which do nothing but mark functions to be
-  * generated by scripts/block-coroutine-wrapper.py
+  * Usage: read docs/devel/block-coroutine-wrapper.rst
   *
-- * Read more in docs/devel/block-coroutine-wrapper.rst
-+ * Usage: read docs/devel/block-coroutine-wrapper.rst
-+ *
-+ * co_wrapper_mixed functions can be called by both coroutine and
-+ * non-coroutine context.
+- * co_wrapper_mixed functions can be called by both coroutine and
+- * non-coroutine context.
++ * There are 2 kind of specifiers:
++ * - co_wrapper functions can be called by only non-coroutine context, because
++ *   they always generate a new coroutine.
++ * - co_wrapper_mixed functions can be called by both coroutine and
++ *   non-coroutine context.
   */
--#define generated_co_wrapper
-+#define co_wrapper_mixed
++#define co_wrapper
+ #define co_wrapper_mixed
  
  /* block.c */
- typedef struct BlockDriver BlockDriver;
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 72919254cd..72cf45975b 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -39,19 +39,19 @@
-  * to catch when they are accidentally called by the wrong API.
-  */
- 
--int generated_co_wrapper bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
--                                            int64_t bytes,
--                                            BdrvRequestFlags flags);
-+int co_wrapper_mixed bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
-+                                        int64_t bytes,
-+                                        BdrvRequestFlags flags);
- int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags);
--int generated_co_wrapper bdrv_pread(BdrvChild *child, int64_t offset,
--                                    int64_t bytes, void *buf,
--                                    BdrvRequestFlags flags);
--int generated_co_wrapper bdrv_pwrite(BdrvChild *child, int64_t offset,
--                                     int64_t bytes, const void *buf,
--                                     BdrvRequestFlags flags);
--int generated_co_wrapper bdrv_pwrite_sync(BdrvChild *child, int64_t offset,
--                                          int64_t bytes, const void *buf,
--                                          BdrvRequestFlags flags);
-+int co_wrapper_mixed bdrv_pread(BdrvChild *child, int64_t offset,
-+                                int64_t bytes, void *buf,
-+                                BdrvRequestFlags flags);
-+int co_wrapper_mixed bdrv_pwrite(BdrvChild *child, int64_t offset,
-+                                 int64_t bytes, const void *buf,
-+                                 BdrvRequestFlags flags);
-+int co_wrapper_mixed bdrv_pwrite_sync(BdrvChild *child, int64_t offset,
-+                                      int64_t bytes, const void *buf,
-+                                      BdrvRequestFlags flags);
- int coroutine_fn bdrv_co_pwrite_sync(BdrvChild *child, int64_t offset,
-                                      int64_t bytes, const void *buf,
-                                      BdrvRequestFlags flags);
-@@ -281,22 +281,22 @@ int coroutine_fn bdrv_co_copy_range(BdrvChild *src, int64_t src_offset,
- 
- void bdrv_drain(BlockDriverState *bs);
- 
--int generated_co_wrapper
-+int co_wrapper_mixed
- bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
-               PreallocMode prealloc, BdrvRequestFlags flags, Error **errp);
- 
--int generated_co_wrapper bdrv_check(BlockDriverState *bs, BdrvCheckResult *res,
--                                    BdrvCheckMode fix);
-+int co_wrapper_mixed bdrv_check(BlockDriverState *bs, BdrvCheckResult *res,
-+                                BdrvCheckMode fix);
- 
- /* Invalidate any cached metadata used by image formats */
--int generated_co_wrapper bdrv_invalidate_cache(BlockDriverState *bs,
--                                               Error **errp);
--int generated_co_wrapper bdrv_flush(BlockDriverState *bs);
--int generated_co_wrapper bdrv_pdiscard(BdrvChild *child, int64_t offset,
--                                       int64_t bytes);
--int generated_co_wrapper
-+int co_wrapper_mixed bdrv_invalidate_cache(BlockDriverState *bs,
-+                                           Error **errp);
-+int co_wrapper_mixed bdrv_flush(BlockDriverState *bs);
-+int co_wrapper_mixed bdrv_pdiscard(BdrvChild *child, int64_t offset,
-+                                   int64_t bytes);
-+int co_wrapper_mixed
- bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
--int generated_co_wrapper
-+int co_wrapper_mixed
- bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
- 
- /**
-diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
-index ee3eb12610..7ec6d978d4 100644
---- a/include/sysemu/block-backend-io.h
-+++ b/include/sysemu/block-backend-io.h
-@@ -110,77 +110,77 @@ int coroutine_fn blk_co_is_allocated_above(BlockBackend *blk,
-  * the "I/O or GS" API.
-  */
- 
--int generated_co_wrapper blk_pread(BlockBackend *blk, int64_t offset,
--                                   int64_t bytes, void *buf,
--                                   BdrvRequestFlags flags);
-+int co_wrapper_mixed blk_pread(BlockBackend *blk, int64_t offset,
-+                               int64_t bytes, void *buf,
-+                               BdrvRequestFlags flags);
- int coroutine_fn blk_co_pread(BlockBackend *blk, int64_t offset, int64_t bytes,
-                               void *buf, BdrvRequestFlags flags);
- 
--int generated_co_wrapper blk_preadv(BlockBackend *blk, int64_t offset,
--                                    int64_t bytes, QEMUIOVector *qiov,
--                                    BdrvRequestFlags flags);
-+int co_wrapper_mixed blk_preadv(BlockBackend *blk, int64_t offset,
-+                                int64_t bytes, QEMUIOVector *qiov,
-+                                BdrvRequestFlags flags);
- int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
-                                int64_t bytes, QEMUIOVector *qiov,
-                                BdrvRequestFlags flags);
- 
--int generated_co_wrapper blk_preadv_part(BlockBackend *blk, int64_t offset,
--                                         int64_t bytes, QEMUIOVector *qiov,
--                                         size_t qiov_offset,
--                                         BdrvRequestFlags flags);
-+int co_wrapper_mixed blk_preadv_part(BlockBackend *blk, int64_t offset,
-+                                     int64_t bytes, QEMUIOVector *qiov,
-+                                     size_t qiov_offset,
-+                                     BdrvRequestFlags flags);
- int coroutine_fn blk_co_preadv_part(BlockBackend *blk, int64_t offset,
-                                     int64_t bytes, QEMUIOVector *qiov,
-                                     size_t qiov_offset, BdrvRequestFlags flags);
- 
--int generated_co_wrapper blk_pwrite(BlockBackend *blk, int64_t offset,
--                                    int64_t bytes, const void *buf,
--                                    BdrvRequestFlags flags);
-+int co_wrapper_mixed blk_pwrite(BlockBackend *blk, int64_t offset,
-+                                int64_t bytes, const void *buf,
-+                                BdrvRequestFlags flags);
- int coroutine_fn blk_co_pwrite(BlockBackend *blk, int64_t offset, int64_t bytes,
-                                const void *buf, BdrvRequestFlags flags);
- 
--int generated_co_wrapper blk_pwritev(BlockBackend *blk, int64_t offset,
--                                     int64_t bytes, QEMUIOVector *qiov,
--                                     BdrvRequestFlags flags);
-+int co_wrapper_mixed blk_pwritev(BlockBackend *blk, int64_t offset,
-+                                 int64_t bytes, QEMUIOVector *qiov,
-+                                 BdrvRequestFlags flags);
- int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
-                                 int64_t bytes, QEMUIOVector *qiov,
-                                 BdrvRequestFlags flags);
- 
--int generated_co_wrapper blk_pwritev_part(BlockBackend *blk, int64_t offset,
--                                          int64_t bytes, QEMUIOVector *qiov,
--                                          size_t qiov_offset,
--                                          BdrvRequestFlags flags);
-+int co_wrapper_mixed blk_pwritev_part(BlockBackend *blk, int64_t offset,
-+                                      int64_t bytes, QEMUIOVector *qiov,
-+                                      size_t qiov_offset,
-+                                      BdrvRequestFlags flags);
- int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
-                                      int64_t bytes,
-                                      QEMUIOVector *qiov, size_t qiov_offset,
-                                      BdrvRequestFlags flags);
- 
--int generated_co_wrapper blk_pwrite_compressed(BlockBackend *blk,
--                                               int64_t offset, int64_t bytes,
--                                               const void *buf);
-+int co_wrapper_mixed blk_pwrite_compressed(BlockBackend *blk,
-+                                           int64_t offset, int64_t bytes,
-+                                           const void *buf);
- int coroutine_fn blk_co_pwrite_compressed(BlockBackend *blk, int64_t offset,
-                                           int64_t bytes, const void *buf);
- 
--int generated_co_wrapper blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
--                                           int64_t bytes,
--                                           BdrvRequestFlags flags);
-+int co_wrapper_mixed blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
-+                                       int64_t bytes,
-+                                       BdrvRequestFlags flags);
- int coroutine_fn blk_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
-                                       int64_t bytes, BdrvRequestFlags flags);
- 
--int generated_co_wrapper blk_pdiscard(BlockBackend *blk, int64_t offset,
--                                      int64_t bytes);
-+int co_wrapper_mixed blk_pdiscard(BlockBackend *blk, int64_t offset,
-+                                  int64_t bytes);
- int coroutine_fn blk_co_pdiscard(BlockBackend *blk, int64_t offset,
-                                  int64_t bytes);
- 
--int generated_co_wrapper blk_flush(BlockBackend *blk);
-+int co_wrapper_mixed blk_flush(BlockBackend *blk);
- int coroutine_fn blk_co_flush(BlockBackend *blk);
- 
--int generated_co_wrapper blk_ioctl(BlockBackend *blk, unsigned long int req,
--                                   void *buf);
-+int co_wrapper_mixed blk_ioctl(BlockBackend *blk, unsigned long int req,
-+                               void *buf);
- int coroutine_fn blk_co_ioctl(BlockBackend *blk, unsigned long int req,
-                               void *buf);
- 
--int generated_co_wrapper blk_truncate(BlockBackend *blk, int64_t offset,
--                                      bool exact, PreallocMode prealloc,
--                                      BdrvRequestFlags flags, Error **errp);
-+int co_wrapper_mixed blk_truncate(BlockBackend *blk, int64_t offset,
-+                                  bool exact, PreallocMode prealloc,
-+                                  BdrvRequestFlags flags, Error **errp);
- int coroutine_fn blk_co_truncate(BlockBackend *blk, int64_t offset, bool exact,
-                                  PreallocMode prealloc, BdrvRequestFlags flags,
-                                  Error **errp);
 diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
-index 08be813407..56e6425356 100644
+index 56e6425356..2090c3bf73 100644
 --- a/scripts/block-coroutine-wrapper.py
 +++ b/scripts/block-coroutine-wrapper.py
 @@ -2,7 +2,7 @@
  """Generate coroutine wrappers for block subsystem.
  
  The program parses one or several concatenated c files from stdin,
--searches for functions with the 'generated_co_wrapper' specifier
-+searches for functions with the 'co_wrapper_mixed' specifier
+-searches for functions with the 'co_wrapper_mixed' specifier
++searches for functions with the 'co_wrapper' specifier
  and generates corresponding wrappers on stdout.
  
  Usage: block-coroutine-wrapper.py generated-file.c FILE.[ch]...
-@@ -74,8 +74,8 @@ def gen_block(self, format: str) -> str:
+@@ -62,10 +62,25 @@ def __init__(self, param_decl: str) -> None:
+ 
+ 
+ class FuncDecl:
+-    def __init__(self, return_type: str, name: str, args: str) -> None:
++    def __init__(self, return_type: str, name: str, args: str,
++                 variant: str) -> None:
+         self.return_type = return_type.strip()
+         self.name = name.strip()
++        self.struct_name = snake_to_camel(self.name)
+         self.args = [ParamDecl(arg.strip()) for arg in args.split(',')]
++        self.create_only_co = 'mixed' not in variant
++
++        subsystem, subname = self.name.split('_', 1)
++        self.co_name = f'{subsystem}_co_{subname}'
++
++        t = self.args[0].type
++        if t == 'BlockDriverState *':
++            bs = 'bs'
++        elif t == 'BdrvChild *':
++            bs = 'child->bs'
++        else:
++            bs = 'blk_bs(blk)'
++        self.bs = bs
+ 
+     def gen_list(self, format: str) -> str:
+         return ', '.join(format.format_map(arg.__dict__) for arg in self.args)
+@@ -74,8 +89,9 @@ def gen_block(self, format: str) -> str:
          return '\n'.join(format.format_map(arg.__dict__) for arg in self.args)
  
  
--# Match wrappers declared with a generated_co_wrapper mark
--func_decl_re = re.compile(r'^int\s*generated_co_wrapper\s*'
-+# Match wrappers declared with a co_wrapper_mixed mark
-+func_decl_re = re.compile(r'^int\s*co_wrapper_mixed\s*'
+-# Match wrappers declared with a co_wrapper_mixed mark
+-func_decl_re = re.compile(r'^int\s*co_wrapper_mixed\s*'
++# Match wrappers declared with a co_wrapper mark
++func_decl_re = re.compile(r'^int\s*co_wrapper'
++                          r'(?P<variant>(_[a-z][a-z0-9_]*)?)\s*'
                            r'(?P<wrapper_name>[a-z][a-z0-9_]*)'
                            r'\((?P<args>[^)]*)\);$', re.MULTILINE)
  
+@@ -84,7 +100,8 @@ def func_decl_iter(text: str) -> Iterator:
+     for m in func_decl_re.finditer(text):
+         yield FuncDecl(return_type='int',
+                        name=m.group('wrapper_name'),
+-                       args=m.group('args'))
++                       args=m.group('args'),
++                       variant=m.group('variant'))
+ 
+ 
+ def snake_to_camel(func_name: str) -> str:
+@@ -97,24 +114,67 @@ def snake_to_camel(func_name: str) -> str:
+     return ''.join(words)
+ 
+ 
++def create_mixed_wrapper(func: FuncDecl) -> str:
++    """
++    Checks if we are already in coroutine
++    """
++    name = func.co_name
++    struct_name = func.struct_name
++    return f"""\
++int {func.name}({ func.gen_list('{decl}') })
++{{
++    if (qemu_in_coroutine()) {{
++        return {name}({ func.gen_list('{name}') });
++    }} else {{
++        {struct_name} s = {{
++            .poll_state.bs = {func.bs},
++            .poll_state.in_progress = true,
++
++{ func.gen_block('            .{name} = {name},') }
++        }};
++
++        s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
++
++        return bdrv_poll_co(&s.poll_state);
++    }}
++}}"""
++
++
++def create_co_wrapper(func: FuncDecl) -> str:
++    """
++    Assumes we are not in coroutine, and creates one
++    """
++    name = func.co_name
++    struct_name = func.struct_name
++    return f"""\
++int {func.name}({ func.gen_list('{decl}') })
++{{
++    {struct_name} s = {{
++        .poll_state.bs = {func.bs},
++        .poll_state.in_progress = true,
++
++{ func.gen_block('        .{name} = {name},') }
++    }};
++    assert(!qemu_in_coroutine());
++
++    s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
++
++    return bdrv_poll_co(&s.poll_state);
++}}"""
++
++
+ def gen_wrapper(func: FuncDecl) -> str:
+     assert not '_co_' in func.name
+     assert func.return_type == 'int'
+     assert func.args[0].type in ['BlockDriverState *', 'BdrvChild *',
+                                  'BlockBackend *']
+ 
+-    subsystem, subname = func.name.split('_', 1)
+-
+-    name = f'{subsystem}_co_{subname}'
++    name = func.co_name
++    struct_name = func.struct_name
+ 
+-    t = func.args[0].type
+-    if t == 'BlockDriverState *':
+-        bs = 'bs'
+-    elif t == 'BdrvChild *':
+-        bs = 'child->bs'
+-    else:
+-        bs = 'blk_bs(blk)'
+-    struct_name = snake_to_camel(name)
++    creation_function = create_mixed_wrapper
++    if func.create_only_co:
++        creation_function = create_co_wrapper
+ 
+     return f"""\
+ /*
+@@ -136,23 +196,7 @@ def gen_wrapper(func: FuncDecl) -> str:
+     aio_wait_kick();
+ }}
+ 
+-int {func.name}({ func.gen_list('{decl}') })
+-{{
+-    if (qemu_in_coroutine()) {{
+-        return {name}({ func.gen_list('{name}') });
+-    }} else {{
+-        {struct_name} s = {{
+-            .poll_state.bs = {bs},
+-            .poll_state.in_progress = true,
+-
+-{ func.gen_block('            .{name} = {name},') }
+-        }};
+-
+-        s.poll_state.co = qemu_coroutine_create({name}_entry, &s);
+-
+-        return bdrv_poll_co(&s.poll_state);
+-    }}
+-}}"""
++{creation_function(func)}"""
+ 
+ 
+ def gen_wrappers(input_code: str) -> str:
 -- 
 2.38.1
 
