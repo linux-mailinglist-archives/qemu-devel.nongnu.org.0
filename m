@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04B964DCB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 15:07:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDC664DCBA
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 15:10:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5osy-0004eb-A0; Thu, 15 Dec 2022 09:06:56 -0500
+	id 1p5ovl-0006iE-69; Thu, 15 Dec 2022 09:09:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p5osq-0004de-IY
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:06:51 -0500
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p5ovi-0006hX-Eo
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:09:46 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1p5oso-00035T-PR
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:06:48 -0500
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-3f15a6f72d0so42519357b3.1
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 06:06:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bWzsJK0aQxjW1D1nBmSJisBU6IcmRMp+XFQVo24cTCE=;
- b=YI2FGQnVvpwIz9E0+4UopF7EHKAVhUme4u0a7RNXApa0uZinj/+neg3SgbJt/9+GWj
- 1VJiVqIqEUy2DyXQ8X/Pv1KYsIax5noC7Ux9Od8VvaEwJpr0Vs+yk94wC3uAA5Xr4i1M
- TMdmlPYSAqwh52QypwJ6SiHvzmVCVdETRt7eg6a2HmWO63AKIbq7GK99UAIrQo2UpRD/
- 5iOEw1G82Tvm7jtjBTsORhZJVHpRRZUVB7G+vs/vTlucBcXmVPF4bS1wzE2Wy5FpdQVd
- UhVtndQ7LJrA/3+MkFnkS4cYtfaRIZug6FcDKI25sG+oVSgR1TfOiSOpDDWyLlbm/mi4
- A6vw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p5ovf-0003Uh-Qc
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:09:45 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id w15so3145800wrl.9
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 06:09:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IMZ+stV1uoJH3nAH2hSpXARzGeX/0OMRzUJ3+eHvyM4=;
+ b=Omh9Ys/ssf9EGO1E8ewR9xCAab+VLq9Fmad3719VY2+PYWc1CXM3QFp9KDVpRbHtix
+ ePW1DZFg2mH5GYR6DKFsb+H/ce6jcuzSinBGK0TEIJ/yceI/G7ryXFsWiDtvsbBYh+Kz
+ 5EkGFzDpZgXJLCSycEBF3B0bmmAC8pr64gGZ3zfLO4iS9c+IEJgHI6j/xMOntqqqiW3l
+ OJGzhXQFql4h1SstbW2wxfZI3pZ3HBqjmZhixQiyeuWTUN1ZwbZ/k4E/3pRe1seMkwZT
+ VjCraZWOkh6VcJ0k87ERq/oCt98gXUAyunvEKuleDZC66FOGgOSCdCzVHjY5s3kMjYJJ
+ pp9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=bWzsJK0aQxjW1D1nBmSJisBU6IcmRMp+XFQVo24cTCE=;
- b=IKb5Kz1j1Pn/xSZYfObsAcrsgjJZMW+BaXYal8pYk5QrWyp1NH15F/GjbzTFRBxOMJ
- TBO46dffKBDM2aqHIiHOoC8IT8cXrkVsbITcuQbi3dNBBr/L9MGF+dzJH7ayQwgd4dUi
- 63u72529OtEuvlHM5x2aXwaGRVQ2Fp6XaJcDY1C+4s+wzhWYauAUz1xbSp8KSVFCMnm0
- 0tiEciRBcvaWMKhADAmlTkfHY1erg43i4f4l/mksk0w+8dP+7+jxm6jMW54BJU+R1YYt
- Vws0qSDmNE5K7KPhu9nwAq9iLrbt198SBnEZRN+8ZGxDslbXHXLnKjiz4Fv+sc7csN7W
- WZMA==
-X-Gm-Message-State: ANoB5pnW4KDlsRe9elfhrn3AHzosc7dhCOX5BjHGncuGSPPNTD9pwzZu
- KeWsu3awkij3bAwFmQuSCTzb43YoDWRy0UNe5OM=
-X-Google-Smtp-Source: AA0mqf5rRfuFL1ioDAWpnCEOhX/yLdKru76UVV9XGrjNspkyBgD804yPka1qPASpSB8NY4V2vUJz7wFKNLD18sk45Ak=
-X-Received: by 2002:a81:3c7:0:b0:3eb:447b:56cc with SMTP id
- 190-20020a8103c7000000b003eb447b56ccmr22162955ywd.296.1671113205448; Thu, 15
- Dec 2022 06:06:45 -0800 (PST)
-MIME-Version: 1.0
-References: <CAJSP0QVVQLueQDzOb-GAhORetK38EzgBhem=UjChJ3oaxRaFmg@mail.gmail.com>
- <1F7AFCBF-66D5-4EC1-8FBE-FC8A4E5C88D2@comsecuris.com>
-In-Reply-To: <1F7AFCBF-66D5-4EC1-8FBE-FC8A4E5C88D2@comsecuris.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 15 Dec 2022 09:06:33 -0500
-Message-ID: <CAJSP0QWM0CyXfT1x=G50b7fPOD+3T7YuPLDxMsqtUNd=twkd3g@mail.gmail.com>
-Subject: Re: QEMU PPC VLE support
-To: Ralf-Philipp Weinmann <ralf@comsecuris.com>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>, 
+ bh=IMZ+stV1uoJH3nAH2hSpXARzGeX/0OMRzUJ3+eHvyM4=;
+ b=UoHiEhg8PBWVIV7ts9jY2yCxiqEmz57TItjDix38DOCYyofhSgcHYAz0MZ/CgZQm4A
+ 6t/DtwgCa69bxN+of4ZEf5wrEw5MhSiZrNNSwwmbPzaa6659dS0+SEKcz6XVCHDY0yDW
+ i+8EMZZw5a+Z9NYyudQ+zEQSZ7HiecIK5yXG6yuIyCO2qsileOF+hBwhqjsb5DpCHV4g
+ ZjxzpAtmtXK7Ha9IDR1uvJZi6km3fqAx9FYbJQV7dIHljlRKa4pXzhO6enDdaQSCJJJ7
+ I7Ybws/feihmdFvNYaPWkLFixiCfGcrv5Za76HtcnblEqUorhEPvmVOispETndluAeeB
+ gm6w==
+X-Gm-Message-State: AFqh2krKVPsu+7J1MbyG1SkJugCjRRnMSQ397wOB5okB9S7cZN7bmTHt
+ 1pFCRIqJen2oTi7RC+nn6fxh6w==
+X-Google-Smtp-Source: AMrXdXsFcodOJb3caHPq9GNm0VMGS+3qCBokPj7BMk3veoymO2Hmeel42jL0ypqafNdvq1KTmXoJ5Q==
+X-Received: by 2002:adf:e991:0:b0:24a:acbe:4105 with SMTP id
+ h17-20020adfe991000000b0024aacbe4105mr47770wrm.53.1671113381969; 
+ Thu, 15 Dec 2022 06:09:41 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ m15-20020adfe94f000000b002365b759b65sm6128063wrn.86.2022.12.15.06.09.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Dec 2022 06:09:41 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EFECF1FFB7;
+ Thu, 15 Dec 2022 14:09:40 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112d.google.com
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Laurent Vivier <laurent@vivier.eu>, Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ qemu-ppc@nongnu.org (open list:sPAPR (pseries)),
+ qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
+Subject: [RFC PATCH] includes: move tb_flush into its own header
+Date: Thu, 15 Dec 2022 14:09:33 +0000
+Message-Id: <20221215140933.2337853-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,34 +105,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 15 Dec 2022 at 08:51, Ralf-Philipp Weinmann <ralf@comsecuris.com> wrote:
-> > On 15. Dec 2022, at 14:37, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> >
-> > Hi,
-> > I came across this post where Ralf-Philipp is looking for a freelancer
-> > to implement PPC VLE support in QEMU:
-> > https://chaos.social/@rpw/109516326028642262
-> >
-> > It mentions upstreaming the code and I've included QEMU PPC
-> > maintainers in this email so they can discuss the project with
-> > Ralf-Philipp. That way the chances of a mergable result will be
-> > maximized.
-> >
-> > The Rust aspect is interesting, but QEMU does not have any existing
-> > targets implemented in Rust. It might be a major effort to create the
-> > necessary C<->Rust interfacing, so I'm not sure whether that's
-> > realistic given the timeframe for the project.
-> >
-> > Does anyone have time to take on this freelancing project or know
-> > someone who is available?
->
-> Thank you, Stefan!
+This aids subsystems (like gdbstub) that want to trigger a flush
+without pulling target specific headers.
 
-It occurred to me that we could reach out to former QEMU Google Summer
-of Code and Outreachy interns. They have prior QEMU contribution
-experience and might have time to take on a freelancing gig.
+[AJB: RFC because this is part of a larger gdbstub series but I wanted
+to post for feedback in case anyone wants to suggest better naming].
 
-Please let me know if you want to do that and I can put you in touch with them.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ include/exec/exec-all.h     | 1 -
+ linux-user/user-internals.h | 1 +
+ accel/tcg/tb-maint.c        | 1 +
+ accel/tcg/translate-all.c   | 1 +
+ cpu.c                       | 1 +
+ gdbstub/gdbstub.c           | 1 +
+ hw/ppc/spapr_hcall.c        | 1 +
+ plugins/core.c              | 1 +
+ plugins/loader.c            | 2 +-
+ target/alpha/sys_helper.c   | 1 +
+ target/riscv/csr.c          | 1 +
+ 11 files changed, 10 insertions(+), 2 deletions(-)
 
-Stefan
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 9b7bfbf09a..6be541a85f 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -648,7 +648,6 @@ void tb_invalidate_phys_addr(target_ulong addr);
+ #else
+ void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs);
+ #endif
+-void tb_flush(CPUState *cpu);
+ void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr);
+ void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end);
+ void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index 0280e76add..5ae5e47ff1 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -20,6 +20,7 @@
+ 
+ #include "exec/user/thunk.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-common.h"
+ #include "qemu/log.h"
+ 
+ extern char *exec_path;
+diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
+index 0cdb35548c..c665626bc5 100644
+--- a/accel/tcg/tb-maint.c
++++ b/accel/tcg/tb-maint.c
+@@ -21,6 +21,7 @@
+ #include "exec/cputlb.h"
+ #include "exec/log.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-common.h"
+ #include "exec/translate-all.h"
+ #include "sysemu/tcg.h"
+ #include "tcg/tcg.h"
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index ac3ee3740c..081889cc79 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -47,6 +47,7 @@
+ #include "exec/cputlb.h"
+ #include "exec/translate-all.h"
+ #include "exec/translator.h"
++#include "exec/tb-common.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/qemu-print.h"
+ #include "qemu/timer.h"
+diff --git a/cpu.c b/cpu.c
+index 4a7d865427..66d64cdb79 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -36,6 +36,7 @@
+ #include "sysemu/replay.h"
+ #include "exec/cpu-common.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-common.h"
+ #include "exec/translate-all.h"
+ #include "exec/log.h"
+ #include "hw/core/accel-cpu.h"
+diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+index bc43aaf825..6e65497a74 100644
+--- a/gdbstub/gdbstub.c
++++ b/gdbstub/gdbstub.c
+@@ -46,6 +46,7 @@
+ #include "sysemu/runstate.h"
+ #include "semihosting/semihost.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-common.h"
+ #include "exec/hwaddr.h"
+ #include "sysemu/replay.h"
+ 
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 925ff523cc..7c75660d7b 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -8,6 +8,7 @@
+ #include "qemu/module.h"
+ #include "qemu/error-report.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-common.h"
+ #include "helper_regs.h"
+ #include "hw/ppc/ppc.h"
+ #include "hw/ppc/spapr.h"
+diff --git a/plugins/core.c b/plugins/core.c
+index ccb770a485..1c4c9bc31e 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -24,6 +24,7 @@
+ #include "exec/cpu-common.h"
+ 
+ #include "exec/exec-all.h"
++#include "exec/tb-common.h"
+ #include "exec/helper-proto.h"
+ #include "tcg/tcg.h"
+ #include "tcg/tcg-op.h"
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 88c30bde2d..86d5bd3b22 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -29,7 +29,7 @@
+ #include "qemu/plugin.h"
+ #include "qemu/memalign.h"
+ #include "hw/core/cpu.h"
+-#include "exec/exec-all.h"
++#include "exec/tb-common.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "hw/boards.h"
+ #endif
+diff --git a/target/alpha/sys_helper.c b/target/alpha/sys_helper.c
+index 25f6cb8894..40a5f76c85 100644
+--- a/target/alpha/sys_helper.c
++++ b/target/alpha/sys_helper.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-common.h"
+ #include "exec/helper-proto.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 5c9a7ee287..b2c1b59689 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -25,6 +25,7 @@
+ #include "time_helper.h"
+ #include "qemu/main-loop.h"
+ #include "exec/exec-all.h"
++#include "exec/tb-common.h"
+ #include "sysemu/cpu-timers.h"
+ #include "qemu/guest-random.h"
+ #include "qapi/error.h"
+-- 
+2.34.1
+
 
