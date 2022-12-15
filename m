@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C8D64DD10
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 15:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C190764DD34
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 16:00:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5pTw-0003AN-FO; Thu, 15 Dec 2022 09:45:08 -0500
+	id 1p5phE-0006yl-LL; Thu, 15 Dec 2022 09:58:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5pTq-00039R-Tb
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:45:05 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5pTp-0007YT-5v
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:45:02 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id t2so7110342ply.2
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 06:45:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hXehntAdbtJdyM8Ox9xrSfJBNRO71waBhmPFNZlD380=;
- b=iu5lM/AciatA4mfUWhEVgNo/UZnOuaol624749agrmKJ84NIMqS+ojxO599d2rygwB
- bNMfqR4eDj3HEpQ4cDBDG3kA3CuXf0QpRUCvMqGFCrRkGtR4jkjlO5Fd6rvjxacp3oxY
- TumLotr4bcvIcV238aN6iY8/YNlkW0J+WuGYkVaWj9f0eYQ5+EuERLjD8UjpjzbaZTbo
- bqggd6xdko9dRKVrVp6/CSqz5leAtXgJolJ763xZ6QvXMm/65gy97veFKCbzyv9Bbi3O
- l4G1OLPZvASBcQtoFk2KSF0xpquGb8YmIMwzu2WCID8jIoh8t1XpCWh+oSqPNOpnf1pu
- yhYg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5phC-0006yM-LI
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:58:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5phA-0003s5-Sc
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:58:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671116328;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gFLo4NwiUsvGgbE+chHupLji/qTtSURR5gnlyI5UfLk=;
+ b=cf4FGlkHs8QSA2gydTqSdsEpNV/qWS2eFHJ4wRZIMBhTtjg2xSQaan5AxZqHMJCIC/GCpI
+ y9H4KilUDJRs1K39F2oHDpLkMaqsBjye/gmdSTsNOwWYAJvQNSIl7oCviHZPKKSOH6oUf2
+ V+v4j5fPZvoDISnj2IB8Y/FKPsAntEc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-484-iu6npr0LOfG9iUQg2y1h0Q-1; Thu, 15 Dec 2022 09:58:46 -0500
+X-MC-Unique: iu6npr0LOfG9iUQg2y1h0Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m38-20020a05600c3b2600b003d1fc5f1f80so1237311wms.1
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 06:58:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hXehntAdbtJdyM8Ox9xrSfJBNRO71waBhmPFNZlD380=;
- b=crsc+DoYa23JFhWQkm9RWN5S+G5Qp8jaQTZjROzq+hcDhVW/133kN77E7AVE14eFGq
- fW9BulVqQznCk4ZfxGOp79PK0N6GqsSjEM8B/nSB9+y4KuW2X+5Ouk6naj1oqj2hE0pu
- nScYGQBpVkr28N8QVu0MM4x7zEo4bJoOdQQV28/ITH2BuQJZaUCCIb960Lufe0jsGITp
- 5Ey8RzPGsdlefsjApfIdQkPASCQIISWe7O2vI9alAHY1bikSTOMb/YWLwlQutMPsfB0c
- Xdio7WX9Qpa8G2BsS/Y3CgM5QOWPE71IQcXrgeYLdDfeMGk/RfTKJ08/SPkoyMh8mGwL
- 8K3Q==
-X-Gm-Message-State: ANoB5pkb8Kge35Kd7VusKrVcj+K0937MhvY1FWtY0MjHDlSQkBMGI66C
- x9ZRr4jL1+/n/Pdezw1NcSsa+DD+N39DsPLRXby3Dw==
-X-Google-Smtp-Source: AA0mqf7J+pwFsJNVGFojxPlpEn5le+YsYAJA1wdB8G/CZ9G3GfHqIIE3buFz7vc6zmtiRdh8Xg/kr3pR685K6akJqYs=
-X-Received: by 2002:a17:902:70c5:b0:189:b0a3:cf4a with SMTP id
- l5-20020a17090270c500b00189b0a3cf4amr36445772plt.60.1671115499290; Thu, 15
- Dec 2022 06:44:59 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gFLo4NwiUsvGgbE+chHupLji/qTtSURR5gnlyI5UfLk=;
+ b=vUcWqUS9RFgsa2QMWFQgA32rE53TauWVWW+rKEw1dl5uMvSc1Ap3XwT2fkiaITm9/3
+ TvVA4tBVBX1LhFqBBdCeAMgeoVAqapeyPWBpOmJoeX+tiYBchdsK39Blq75KGH2iVYtf
+ SGiv8NBjPqCALB9Ks3U+ZMtjJSJ/SIYMNG1yXDIkENgjQIxig6qDmIN5ETU0p2Fm5Q0o
+ oLmxASafJgdzfF9uMiM34JIcyiJcoVgcXmwghETDfENkiMQedCmTqYw5x08AzP/z9QDO
+ p81aOEnbthIuQ6hkn+fLlNg8UKceeBRe5sRwsio06Wt7wwhOFgCB6vy/E9S36gomSql4
+ wCTw==
+X-Gm-Message-State: ANoB5plgbW4XxmXCD2mKVScP2P5eKyGKAPhIX4MUt2JQUxgv4AGE/XNA
+ hF0tkldtFh+bfvFVBRAfETRnINwUBIXzCfV87qe3IqivShAY4CC1PoMUrmuFZmP+18FUALbxi0D
+ N690+VqHsfDoBoAg=
+X-Received: by 2002:a05:6000:102:b0:242:14f5:7a9b with SMTP id
+ o2-20020a056000010200b0024214f57a9bmr18495367wrx.44.1671116325286; 
+ Thu, 15 Dec 2022 06:58:45 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf53AwuL+nTMciormMoIDTt17FGx/xhefNwFjHcPvbyZwQV9UJanRbmlOydRCxv7N6qeWuzQeg==
+X-Received: by 2002:a05:6000:102:b0:242:14f5:7a9b with SMTP id
+ o2-20020a056000010200b0024214f57a9bmr18495354wrx.44.1671116325106; 
+ Thu, 15 Dec 2022 06:58:45 -0800 (PST)
+Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ e17-20020adffd11000000b002422816aa25sm6998967wrr.108.2022.12.15.06.58.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Dec 2022 06:58:44 -0800 (PST)
+Message-ID: <94bcf104-aeaf-2b52-1682-81402395ce07@redhat.com>
+Date: Thu, 15 Dec 2022 15:58:43 +0100
 MIME-Version: 1.0
-References: <20221215115900.30044-1-kwolf@redhat.com>
-In-Reply-To: <20221215115900.30044-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 15 Dec 2022 14:44:48 +0000
-Message-ID: <CAFEAcA9niEUk+JwDhOTqa6owskGmJq0jSJXxeRmUtfG3mp_4mA@mail.gmail.com>
-Subject: Re: [PULL v2 00/51] Block layer patches
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62d.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RFC PATCH] gitlab: turn off verbose logging for make check on
+ custom runners
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20221215144035.2364830-1-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221215144035.2364830-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,43 +103,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 15 Dec 2022 at 11:59, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit 5204b499a6cae4dfd9fe762d5e6e82224892383b:
->
->   mailmap: Fix Stefan Weil author email (2022-12-13 15:56:57 -0500)
->
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to 347fe9e156a3e00c40ae1802978276a1f7d5545f:
->
->   block: GRAPH_RDLOCK for functions only called by co_wrappers (2022-12-15 10:11:45 +0100)
->
-> v2:
-> - Changed TSA capability name to "mutex" to work with older clang
->   versions. The tsan-build CI job succeeds now.
->
-> ----------------------------------------------------------------
-> Block layer patches
->
-> - Code cleanups around block graph modification
-> - Simplify drain
-> - coroutine_fn correctness fixes, including splitting generated
->   coroutine wrappers into co_wrapper (to be called only from
->   non-coroutine context) and co_wrapper_mixed (both coroutine and
->   non-coroutine context)
-> - Introduce a block graph rwlock
+On 15/12/2022 15.40, Alex Bennée wrote:
+> The verbosity adds a lot of unnecessary output to the CI logs which
+> end up getting truncated anyway. We can always extract information
+> from the meson test logs on a failure and for the custom runners its
+> generally easier to re-create failures anyway.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml   | 12 ++++++------
+>   .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml |  2 +-
+>   .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml | 12 ++++++------
+>   3 files changed, 13 insertions(+), 13 deletions(-)
 
-This fails to compile on the FreeBSD 12 and 13 jobs:
-https://gitlab.com/qemu-project/qemu/-/jobs/3479763741
-https://gitlab.com/qemu-project/qemu/-/jobs/3479763746
 
-The compiler is producing -Wthread-safety-analysis
-warnings on code in qemu-thread-posix.c, which are a
-compile failure because of -Werror.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-thanks
--- PMM
 
