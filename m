@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E75064DE19
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 16:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E79964DE24
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 16:59:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5qWF-0001vb-Ei; Thu, 15 Dec 2022 10:51:35 -0500
+	id 1p5qd5-0003Eq-68; Thu, 15 Dec 2022 10:58:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5qWD-0001vT-Tn
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:51:33 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ id 1p5qd2-0003Db-VT
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:58:37 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5qWB-0001CG-Ub
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:51:33 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id 82so4466732pgc.0
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 07:51:30 -0800 (PST)
+ id 1p5qd1-0004zw-FZ
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:58:36 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id g10so7281565plo.11
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 07:58:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hvnKpltIcpXmxi0wtUduj2AXHf7Itm5hJcXDce/vbBo=;
- b=O/erv1OqkGaL+fTXRtVOAl+/5AD6K0umAHm48NhlfJsZzzAGDvfaRe302tKwYtJf+N
- LsB/1c2l4+QXKyTFyG+6kV8LmKqr3QyQU5Y6zTBScxqNtUm+9vkZw5M7GE+zjsC+U7cu
- 2ihNBB/DSKvQ2d2Bz7JFEt2Rd3oTFeD0OkI5fuMYSWrbsinZalvDiPqJ/XGpZu3jOqFh
- aHRdjUqkEtQc2SYZEZ0wOV37T1jAIj5zvw68RDOpfgqQwDjkLvBjvZpmVkJCFfvDVUDP
- rCam/Vbvd28YfVnPK6koBl7bpOtf1qCcHr3jajJJB1gjzRMJ/6iJA4ees4N2zc/XSzWz
- tvtw==
+ bh=/ews8yuOuPumLN5qv4CO260Xz9uE4h+3xaCa7VaIXxY=;
+ b=tAism9RAX7MX9fVlkFLN/PIezrV1jNt0ngU/sXIV2VzeFGH9VbU9yJBDxF0J5ICrf8
+ cUMx1Jqeyx70aj4ByjfV5/ci9a5bF3H7c4CMZtEadfZ28NsSSfMqT2MR8BjEQew+nWSQ
+ 3wg4qM+BTx2rr/LqTtZAoWuM2Buzuk2CgafdrYX6yVkBhaJRRef44wR25LEUoj0ep31h
+ Yanq5rIMtwbLJuD1+H4u1Ozphm3S+gqFk/VO2EEmobeZ685TMEVqwr0uXCnpcsS9XvS4
+ LF2tZULtM6MhGmGqjC7TWglVoHX6uMNtz2jXNHy/5IPtmjPFepdemhp3OcBK2/i9FC8n
+ F9sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hvnKpltIcpXmxi0wtUduj2AXHf7Itm5hJcXDce/vbBo=;
- b=7UlAsmJxOJp6uBKx/c0RxFaSVjGp0HRxMoHFMIxTiUBLviV1FiW1HqmzMozM/K6kKk
- ArDdeSeuIgrBOyAsYAnR8RGvyOqcYg4mv4mNmLFFNg8hAnOh926w1Bp7YXuTSIFpUPN8
- DL68sDYsf3k55BF8LH7aD9EIPs+26QYBOoNnxT/UyVyiT/wlWYLJqkW38hBP6GvKUhHW
- HmuAoeQStJCQLWoi21NDl3fcc/YrMBxDFOIumwaRvz7X2O7Yn2zx1e5EZz+opzk0HdTu
- XOVi27qXFvCU5YkeUx1V9MSPUpoKoDvFmefrD51TGWgV2kGofcz1qtKSkDqteiU01JjZ
- vm3w==
-X-Gm-Message-State: ANoB5pk+3h6hMtdQPZtdlYmoJT0/nWCkYHkHcCDjpsyKqcCJ7h/vTj/1
- HgFujkhNJ4ohiA96/8cloQmyGA==
-X-Google-Smtp-Source: AA0mqf4DtLKao3nRs06NKzK/kTesvlv7eWTZRbXChY0dK/mTamn6z3xHfZDNlIoEvQRMGe8zSGC5kw==
-X-Received: by 2002:aa7:9486:0:b0:576:755a:4831 with SMTP id
- z6-20020aa79486000000b00576755a4831mr26278550pfk.9.1671119489317; 
- Thu, 15 Dec 2022 07:51:29 -0800 (PST)
+ bh=/ews8yuOuPumLN5qv4CO260Xz9uE4h+3xaCa7VaIXxY=;
+ b=DDUkOtBhPYuZ2RLh2r/Rxg/7qxBHvOJwuOuYq30q6abHdVkMEOOhrm7UOoZUt8MjWt
+ B2Xq18hyrlmNw/JFVVjHi99+u/NgAhJ45BhpvPFbMd1DoFqAiCA8kMDlrLPWaHUcTzPL
+ RmbKwv42CA/FfYLlphIkFI3jPnQOyfZsUMDEH25byv1fOW6s8Kp0HOE9QfD79s8KWeha
+ r+Ul8mTolHrRykHE6KFuo7pYWlAkGvNYNpF0MEeWKuB9cn2IpcpWtnY7/19k7U9DyUjc
+ LaHWJa9ULvMBURUfa+KAGz01oZKcqs8Fusvh8Pj7163gnTlu1YqlSmLd7FKgvXG8eiBl
+ cRcw==
+X-Gm-Message-State: ANoB5pluNyklegFH5k3Ik5CBdbeJlMHkvy6Dwh3qtHanEFp7ExSdDcZV
+ i8yRk0wx7zE/oZv4VVg71hC0jA==
+X-Google-Smtp-Source: AA0mqf5/JT1a3e+lCjKzf7hMEopjCmQfUy1rcvY6bzoWmdb/AZYSRK2uvXrj7ftlx5WYEePqcGWesA==
+X-Received: by 2002:a17:902:aa97:b0:186:cbf0:24c7 with SMTP id
+ d23-20020a170902aa9700b00186cbf024c7mr27527933plr.12.1671119912270; 
+ Thu, 15 Dec 2022 07:58:32 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:a80f:54a1:edc3:6cb4?
  ([2602:47:d48c:8101:a80f:54a1:edc3:6cb4])
  by smtp.gmail.com with ESMTPSA id
- s7-20020a625e07000000b0056ee49d6e95sm1887660pfb.86.2022.12.15.07.51.28
+ q10-20020a170902daca00b00190c6518e30sm3988638plx.243.2022.12.15.07.58.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Dec 2022 07:51:28 -0800 (PST)
-Message-ID: <fac0ef00-d806-4041-0fe3-806d38acf544@linaro.org>
-Date: Thu, 15 Dec 2022 07:51:27 -0800
+ Thu, 15 Dec 2022 07:58:31 -0800 (PST)
+Message-ID: <b2432b6a-ceef-647d-3e0f-ff7a7bdc0beb@linaro.org>
+Date: Thu, 15 Dec 2022 07:58:29 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 3/8] tcg/loongarch64: Update tcg-insn-defs.c.inc
+Subject: Re: [PATCH] linux-user: Add translation for argument of msync()
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- WANG Xuerui <git@xen0n.name>
-Cc: qemu-devel@nongnu.org
-References: <20221206044051.322543-1-richard.henderson@linaro.org>
- <20221206044051.322543-4-richard.henderson@linaro.org>
- <f6a305b3-692a-28fd-2587-a7e17b0fe363@linaro.org>
+ Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <Y5rMcts4qe15RaVN@p100>
+ <165fbdfe-8e72-0ab7-727e-0f54df9957b3@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <f6a305b3-692a-28fd-2587-a7e17b0fe363@linaro.org>
+In-Reply-To: <165fbdfe-8e72-0ab7-727e-0f54df9957b3@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,49 +95,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/14/22 23:50, Philippe Mathieu-Daudé wrote:
-> On 6/12/22 05:40, Richard Henderson wrote:
->> Regenerate with ADDU16I included.
+On 12/14/22 23:58, Philippe Mathieu-Daudé wrote:
+>> --- a/linux-user/alpha/target_mman.h
+>> +++ b/linux-user/alpha/target_mman.h
+>> @@ -3,6 +3,10 @@
 >>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   tcg/loongarch64/tcg-insn-defs.c.inc | 10 +++++++++-
->>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>   #define TARGET_MADV_DONTNEED 6
 >>
->> diff --git a/tcg/loongarch64/tcg-insn-defs.c.inc b/tcg/loongarch64/tcg-insn-defs.c.inc
->> index d162571856..c3c8669b4b 100644
->> --- a/tcg/loongarch64/tcg-insn-defs.c.inc
->> +++ b/tcg/loongarch64/tcg-insn-defs.c.inc
->> @@ -4,7 +4,7 @@
->>    *
->>    * This file is auto-generated by genqemutcgdefs from
->>    * https://github.com/loongson-community/loongarch-opcodes,
->> - * from commit 961f0c60f5b63e574d785995600c71ad5413fdc4.
+>> +#define TARGET_MS_ASYNC 1
+>> +#define TARGET_MS_SYNC 2
+>> +#define TARGET_MS_INVALIDATE 4
+>> +
+>>   #include "../generic/target_mman.h"
+>>
+>>   #endif
+>> diff --git a/linux-user/generic/target_mman.h b/linux-user/generic/target_mman.h
+>> index 1436a3c543..32bf1a52d0 100644
+>> --- a/linux-user/generic/target_mman.h
+>> +++ b/linux-user/generic/target_mman.h
+>> @@ -89,4 +89,17 @@
+>>   #define TARGET_MADV_DONTNEED_LOCKED 24
+>>   #endif
+>>
+>> +
+>> +#ifndef TARGET_MS_ASYNC
+>> +#define TARGET_MS_ASYNC 1
 > 
-> Odd, addu16i.d is present since 3d057a6, so was already in 961f0c6.
+> Hmm don't we want to keep the host flag instead?
+> 
+>     #define TARGET_MS_ASYNC MS_ASYNC
 
-It wasn't marked "qemu", so the generator didn't emit ...
+No.  What if the host has an odd value, like Alpha.
 
->> @@ -74,6 +74,7 @@ typedef enum {
->>       OPC_ANDI = 0x03400000,
->>       OPC_ORI = 0x03800000,
->>       OPC_XORI = 0x03c00000,
->> +    OPC_ADDU16I_D = 0x10000000,
->>       OPC_LU12I_W = 0x14000000,
->>       OPC_CU32I_D = 0x16000000,
->>       OPC_PCADDU2I = 0x18000000,
->> @@ -710,6 +711,13 @@ tcg_out_opc_xori(TCGContext *s, TCGReg d, TCGReg j, uint32_t uk12)
->>       tcg_out32(s, encode_djuk12_insn(OPC_XORI, d, j, uk12));
->>   }
->> +/* Emits the `addu16i.d d, j, sk16` instruction.  */
->> +static void __attribute__((unused))
->> +tcg_out_opc_addu16i_d(TCGContext *s, TCGReg d, TCGReg j, int32_t sk16)
->> +{
->> +    tcg_out32(s, encode_djsk16_insn(OPC_ADDU16I_D, d, j, sk16));
->> +}
-
-... all this.
 
 r~
-
 
