@@ -2,82 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A32964DEFD
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 17:52:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A17CF64DF87
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 18:18:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5rSd-0001d4-Sx; Thu, 15 Dec 2022 11:51:57 -0500
+	id 1p5rr0-0002BQ-Kl; Thu, 15 Dec 2022 12:17:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5rSZ-0001cQ-Eh
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 11:51:51 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5rSX-0007SH-EA
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 11:51:50 -0500
-Received: by mail-pg1-x530.google.com with SMTP id f3so5897pgc.2
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 08:51:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2H97ILkvgoMgr2Z2i1AQhw0MihABUqtyp0El7sS0Vp4=;
- b=fXxvrr2Ilp1WTcol3fyf7OhWi6aRHmxVdZZliYQScdwopFwriGf7wl9A68Dx2QMCOe
- ypFYVxsHGyPedzLACLPJdoQxkQFqEdO2myn0o5criq9EB3bgQGPLYH+Qk0e7WLtGadpt
- U3jwuaAB6/8+NNcYMSGfTZTL4OA7iZ9wba823oEYHXvEcu71qy86VBRw6mDuPxWzjlfE
- /dzTQTHhu+r4LzwCUq9kv4jTDc+b/5imDtr9apRSAPhvI0Ymw7LOY2UFmtJXyL5tdKL+
- T3FHxG85CwQ3nVBriiywfVNLO0TeXUOlyK0Kiu4fcHBN4LONhqoQI5dQJD6TfCSZXW4D
- bhuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2H97ILkvgoMgr2Z2i1AQhw0MihABUqtyp0El7sS0Vp4=;
- b=TB/DjQN9AlRF0FFKviNLONof5RsUwxITlcfgbEvWZeSN6Nzu4YIDzzD48hOkZsCHir
- QWrv+a+P9GvGHo1CgNtFnNqipATuLkYSZf3IgztqUffVOehGGx5ZXCkrlC4NFFN7U/wS
- rSXMpN2CXz5VsJL8loCzrPn+Imp3IKac+WEB24ouy9sv1W6kf2NcWNM3R6jIOrssObRj
- Ec6Lk+oxNv8UXUYAyJ47ZevuLfOsQHGMQUSFgFfTCddrcDOqFWmjY86dSLGnIsytTG2x
- uVd4jlMIZvKeB6wh5+42dntqnFRIEh3iSgZ+ql5OSkqDpJTJ2B1DpTsDuIobDPApOuLk
- HATQ==
-X-Gm-Message-State: ANoB5plSQOS3PLFxpJrVgM0LuJspgAKhvxhR8UDDtbMCtw9yMt26E5pk
- BL5Q9SXI4Lhhb3BG8We6YcZyZw==
-X-Google-Smtp-Source: AA0mqf6uCxcOQfopg/m16K0t0zganNIhYMzHhHOzJzysKDvHEO3ggVfMJNAOu/kgDf0MPZw0nexKVA==
-X-Received: by 2002:a62:2905:0:b0:56b:ff19:bad5 with SMTP id
- p5-20020a622905000000b0056bff19bad5mr24575877pfp.0.1671123105316; 
- Thu, 15 Dec 2022 08:51:45 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:a80f:54a1:edc3:6cb4?
- ([2602:47:d48c:8101:a80f:54a1:edc3:6cb4])
- by smtp.gmail.com with ESMTPSA id
- x23-20020aa79ad7000000b005781f4577e0sm1959184pfp.108.2022.12.15.08.51.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Dec 2022 08:51:44 -0800 (PST)
-Message-ID: <b9d44109-dd99-6d74-ac02-f716f001a7b8@linaro.org>
-Date: Thu, 15 Dec 2022 08:51:43 -0800
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p5rqo-0002Aw-Ac
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:16:57 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p5rqk-0000fC-Mj
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:16:53 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NXzMr1Bvlz67MpP;
+ Fri, 16 Dec 2022 01:13:28 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 15 Dec
+ 2022 17:16:34 +0000
+Date: Thu, 15 Dec 2022 17:16:33 +0000
+To: Ira Weiny <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>, "Michael S. Tsirkin"
+ <mst@redhat.com>
+Subject: Re: [PATCH v2] hw/cxl/device: Add Flex Bus Port DVSEC
+Message-ID: <20221215171633.00000ac8@Huawei.com>
+In-Reply-To: <20221213-ira-flexbus-port-v2-1-eaa48d0e0700@intel.com>
+References: <20221213-ira-flexbus-port-v2-1-eaa48d0e0700@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH] includes: move tb_flush into its own header
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20221215140933.2337853-1-alex.bennee@linaro.org>
- <f0ae5daf-ec43-aede-12d1-a6dd4406c28b@linaro.org> <87r0x0ipfm.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87r0x0ipfm.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,17 +63,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/15/22 08:46, Alex Bennée wrote:
-> I'll rename and include when I send the gdbstub stuff. I don't know how
-> far you want to go to eliminate target specific handling from the rest
-> of TB maintenance - indeed I'm not sure anything else is possible?
+On Wed, 14 Dec 2022 12:54:11 -0800
+Ira Weiny <ira.weiny@intel.com> wrote:
 
-I can't think that anything else is possible.
+> The Flex Bus Port DVSEC was missing on type 3 devices which was blocking
+> RAS checks.[1]
+> 
+> Add the Flex Bus Port DVSEC to type 3 devices as per CXL 3.0 8.2.1.3.
+> 
+> [1] https://lore.kernel.org/linux-cxl/167096738875.2861540.11815053323626849940.stgit@djiang5-desk3.ch.intel.com/
+> 
+> Cc: Dave Jiang <dave.jiang@intel.com>
+> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Cc: Ben Widawsky <bwidawsk@kernel.org>
+> Cc: qemu-devel@nongnu.org
+> Cc: linux-cxl@vger.kernel.org
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+Looks good to me.
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+As Michael wasn't cc'd on patch posting, so might not get this directly I'll add
+it to the front of the series adding the RAS event emulation on basis that's the
+first time we'll see a failure in Linux (I think?)
+
+Michael, if you want to pick this up directly that's great too!
+
+As a side note the WTF? is because we made up a hardware related time delay
+number having no idea whatsoever on what a realistic value was. Cut and paste
+from the instances of this structure in the root port and the switch ports.
+
+Jonathan
 
 
-r~
+
+> ---
+> Changes in v2:
+>         Jonathan                                                            
+>                 type 3 device does not support CACHE                        
+>                 Comment the 68B bit                                         
+> 
+> - Link to v1: https://lore.kernel.org/r/20221213-ira-flexbus-port-v1-1-86afd4f30be6@intel.com
+> ---
+>  hw/mem/cxl_type3.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index 0317bd96a6fb..e6beac143fc1 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -416,6 +416,17 @@ static void build_dvsecs(CXLType3Dev *ct3d)
+>      cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+>                                 GPF_DEVICE_DVSEC_LENGTH, GPF_DEVICE_DVSEC,
+>                                 GPF_DEVICE_DVSEC_REVID, dvsec);
+> +
+> +    dvsec = (uint8_t *)&(CXLDVSECPortFlexBus){
+> +        .cap                     = 0x26, /* 68B, IO, Mem, non-MLD */
+> +        .ctrl                    = 0x02, /* IO always enabled */
+> +        .status                  = 0x26, /* same as capabilities */
+> +        .rcvd_mod_ts_data_phase1 = 0xef, /* WTF? */
+> +    };
+> +    cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+> +                               PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
+> +                               PCIE_FLEXBUS_PORT_DVSEC,
+> +                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvsec);
+>  }
+>  
+>  static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+> 
+> ---
+> base-commit: e11b57108b0cb746bb9f3887054f34a2f818ed79
+> change-id: 20221213-ira-flexbus-port-ce526de8111d
+> 
+> Best regards,
 
 
