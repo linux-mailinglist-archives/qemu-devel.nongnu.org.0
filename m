@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0517464DD7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 16:13:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B4564DD73
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 16:12:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5puX-0006C8-VR; Thu, 15 Dec 2022 10:12:37 -0500
+	id 1p5pua-0006E8-8z; Thu, 15 Dec 2022 10:12:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5puM-0006BF-8S
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5puM-0006BG-8i
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:12:26 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5puJ-0008Ve-VT
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5puJ-0008Va-PL
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:12:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671117143;
+ s=mimecast20190719; t=1671117142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BDD1hWdfdSEwsvzCJjF0txc7dqce9vBKTm5r2ng/TTk=;
- b=dO5mvLnMxnFZOfhNwPGFjjzGAwiPUqVHE+tadRuAxtlnmYjlYCUlzYxe9DVT5HqTMD/3iw
- 51iCFnMMBYPZ1rIz/xUQQ/teIscEr289NRsvpr1E5VJ+4LgvFKCIzdYQW3zrm23lCo3TS7
- bnj7zudJAEN7NkIFNCZIPbpHlgJzFos=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pNaD/6E9jyOWkJ/T60kqJWgtx1lCdQfU7mlA7rqEeBk=;
+ b=d+BJOznWxVgFW5IbJFdTkScrhmkA2gYVLDLTgfPFwXKGWn1lSrJyfWYA3DEm3eTfMbosgv
+ fCIOZBlMhE17MamOlcoAXK2pTu/TPQSCy81v7mAAGr4WK6PdswIsu11RkKsiXMmgHdJpyr
+ /f3cDVgc9ANDhVcW71UQ/i7U9GiiJh8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-127-xNSXXWtWMgG6_9prw2peVw-1; Thu, 15 Dec 2022 10:12:20 -0500
-X-MC-Unique: xNSXXWtWMgG6_9prw2peVw-1
+ us-mta-237-laMMm5jxM7eQWmfVpUR4EQ-1; Thu, 15 Dec 2022 10:12:20 -0500
+X-MC-Unique: laMMm5jxM7eQWmfVpUR4EQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94BDD1875045;
- Thu, 15 Dec 2022 15:12:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FF023C0CD43;
+ Thu, 15 Dec 2022 15:12:20 +0000 (UTC)
 Received: from thuth.com (dhcp-192-205.str.redhat.com [10.33.192.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C9B453A0;
- Thu, 15 Dec 2022 15:12:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D294453A0;
+ Thu, 15 Dec 2022 15:12:19 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 00/23] First batch of s390x, qtest,
- CI and misc patches for 8.0
-Date: Thu, 15 Dec 2022 16:12:14 +0100
-Message-Id: <20221215151215.414567-1-thuth@redhat.com>
+Subject: [PULL v2 09/23] util/qemu-config: Fix "query-command-line-options" to
+ provide the right values
+Date: Thu, 15 Dec 2022 16:12:15 +0100
+Message-Id: <20221215151215.414567-2-thuth@redhat.com>
+In-Reply-To: <20221215151215.414567-1-thuth@redhat.com>
+References: <20221215151215.414567-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -74,92 +76,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 48804eebd4a327e4b11f902ba80a00876ee53a43:
+The "query-command-line-options" command uses a hand-crafted list
+of options that should be returned for the "machine" parameter.
+This is pretty much out of sync with reality, for example settings
+like "kvm_shadow_mem" or "accel" are not parameters for the machine
+anymore. Also, there is no distinction between the targets here, so
+e.g. the s390x-specific values like "loadparm" in this list also
+show up with the other targets like x86_64.
 
-  Merge tag 'pull-misc-2022-12-14' of https://repo.or.cz/qemu/armbru into staging (2022-12-15 10:13:46 +0000)
+Let's fix this now by geting rid of the hand-crafted list and by
+querying the properties of the machine classes instead to assemble
+the list.
 
-are available in the Git repository at:
+Fixes: 0a7cf217d8 ("fix regression of qmp_query_command_line_options")
+Message-Id: <20221111141323.246267-1-thuth@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ util/qemu-config.c | 166 ++++++++++++++++++++-------------------------
+ 1 file changed, 75 insertions(+), 91 deletions(-)
 
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-12-15
-
-for you to fetch changes up to 4bf1b66908a21a8271f261fe533e4fe3f416f3e3:
-
-  tests/qtest/vhost-user-blk-test: don't abort all qtests on missing envar (2022-12-15 15:19:24 +0100)
-
-----------------------------------------------------------------
-* s390x PCI fixes and improvements (for the ISM device)
-* Fix emulated MVCP and MVCS s390x instructions
-* Clean-ups for the e1000e qtest
-* Enable qtests on Windows
-* Update FreeBSD CI to version 12.4
-* Check --disable-tcg for ppc64 in the CI
-* Improve scripts/make-releases a little bit
-* Many other misc small clean-ups and fixes here and there
-
-v2: Adapt the query-command-line-options" patch to work with the
-    recent changes in the master branch
-
-----------------------------------------------------------------
-Akihiko Odaki (3):
-      tests/qtest/libqos/e1000e: Remove "other" interrupts
-      tests/qtest/e1000e-test: De-duplicate constants
-      tests/qtest/libqos/e1000e: Correctly group register accesses
-
-Bin Meng (4):
-      .gitlab-ci.d/windows.yml: Unify the prerequisite packages
-      .gitlab-ci.d/windows.yml: Keep 64-bit and 32-bit build scripts consistent
-      .gitlab-ci.d/windows.yml: Exclude qTests from 64-bit CI job for now
-      tests/qtest: Enable qtest build on Windows
-
-Brad Smith (1):
-      FreeBSD: Upgrade to 12.4 release
-
-Christian Schoenebeck (1):
-      tests/qtest/vhost-user-blk-test: don't abort all qtests on missing envar
-
-Matthew Rosato (3):
-      s390x/pci: coalesce unmap operations
-      s390x/pci: shrink DMA aperture to be bound by vfio DMA limit
-      s390x/pci: reset ISM passthrough devices on shutdown and system reset
-
-Thomas Huth (11):
-      target/s390x/tcg/mem_helper: Test the right bits in psw_key_valid()
-      target/s390x: The MVCP and MVCS instructions are not privileged
-      monitor/misc: Remove superfluous include statements
-      scripts/make-release: Add a simple help text for the script
-      scripts/make-release: Only clone single branches to speed up the script
-      util/qemu-config: Fix "query-command-line-options" to provide the right values
-      util/oslib-win32: Remove obsolete reference to g_poll code
-      MAINTAINERS: Add documentation files to the corresponding sections
-      hw: Include the VMWare devices only in the x86 targets
-      gitlab-ci: Check building ppc64 without TCG
-      .gitlab/issue_templates: Move suggestions into comments
-
- include/hw/s390x/s390-pci-bus.h   |   6 ++
- target/s390x/helper.h             |   4 +-
- tests/qtest/libqos/e1000e.h       |   1 -
- target/s390x/tcg/insn-data.h.inc  |   4 +-
- hw/s390x/s390-pci-bus.c           |  28 +++++++
- hw/s390x/s390-pci-inst.c          |  51 ++++++++++++
- hw/s390x/s390-pci-vfio.c          |  13 +++
- monitor/misc.c                    |   6 --
- target/s390x/tcg/mem_helper.c     |  18 +++--
- target/s390x/tcg/translate.c      |   6 +-
- tests/qtest/e1000e-test.c         |  19 +++--
- tests/qtest/libqos/e1000e.c       |   2 +-
- tests/qtest/vhost-user-blk-test.c |   6 ++
- util/oslib-win32.c                |   4 -
- util/qemu-config.c                | 166 +++++++++++++++++---------------------
- .gitlab-ci.d/cirrus.yml           |   2 +-
- .gitlab-ci.d/crossbuilds.yml      |   8 ++
- .gitlab-ci.d/windows.yml          |  35 ++++++--
- .gitlab/issue_templates/bug.md    |  16 ++--
- MAINTAINERS                       |  20 ++++-
- hw/display/Kconfig                |   2 +-
- hw/net/Kconfig                    |   2 +-
- scripts/make-release              |  16 +++-
- tests/qtest/meson.build           |   6 --
- tests/vm/freebsd                  |   4 +-
- 25 files changed, 287 insertions(+), 158 deletions(-)
+diff --git a/util/qemu-config.c b/util/qemu-config.c
+index 25f2ec7d05..d63f27438d 100644
+--- a/util/qemu-config.c
++++ b/util/qemu-config.c
+@@ -8,6 +8,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/option.h"
+ #include "qemu/config-file.h"
++#include "hw/boards.h"
+ 
+ static QemuOptsList *vm_config_groups[48];
+ static QemuOptsList *drive_config_groups[5];
+@@ -143,97 +144,80 @@ static CommandLineParameterInfoList *get_drive_infolist(void)
+     return head;
+ }
+ 
+-/* restore machine options that are now machine's properties */
+-static QemuOptsList machine_opts = {
+-    .merge_lists = true,
+-    .head = QTAILQ_HEAD_INITIALIZER(machine_opts.head),
+-    .desc = {
+-        {
+-            .name = "type",
+-            .type = QEMU_OPT_STRING,
+-            .help = "emulated machine"
+-        },{
+-            .name = "accel",
+-            .type = QEMU_OPT_STRING,
+-            .help = "accelerator list",
+-        },{
+-            .name = "kernel_irqchip",
+-            .type = QEMU_OPT_BOOL,
+-            .help = "use KVM in-kernel irqchip",
+-        },{
+-            .name = "kvm_shadow_mem",
+-            .type = QEMU_OPT_SIZE,
+-            .help = "KVM shadow MMU size",
+-        },{
+-            .name = "kernel",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Linux kernel image file",
+-        },{
+-            .name = "initrd",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Linux initial ramdisk file",
+-        },{
+-            .name = "append",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Linux kernel command line",
+-        },{
+-            .name = "dtb",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Linux kernel device tree file",
+-        },{
+-            .name = "dumpdtb",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Dump current dtb to a file and quit",
+-        },{
+-            .name = "phandle_start",
+-            .type = QEMU_OPT_NUMBER,
+-            .help = "The first phandle ID we may generate dynamically",
+-        },{
+-            .name = "dt_compatible",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Overrides the \"compatible\" property of the dt root node",
+-        },{
+-            .name = "dump-guest-core",
+-            .type = QEMU_OPT_BOOL,
+-            .help = "Include guest memory in  a core dump",
+-        },{
+-            .name = "mem-merge",
+-            .type = QEMU_OPT_BOOL,
+-            .help = "enable/disable memory merge support",
+-        },{
+-            .name = "usb",
+-            .type = QEMU_OPT_BOOL,
+-            .help = "Set on/off to enable/disable usb",
+-        },{
+-            .name = "firmware",
+-            .type = QEMU_OPT_STRING,
+-            .help = "firmware image",
+-        },{
+-            .name = "iommu",
+-            .type = QEMU_OPT_BOOL,
+-            .help = "Set on/off to enable/disable Intel IOMMU (VT-d)",
+-        },{
+-            .name = "suppress-vmdesc",
+-            .type = QEMU_OPT_BOOL,
+-            .help = "Set on to disable self-describing migration",
+-        },{
+-            .name = "aes-key-wrap",
+-            .type = QEMU_OPT_BOOL,
+-            .help = "enable/disable AES key wrapping using the CPACF wrapping key",
+-        },{
+-            .name = "dea-key-wrap",
+-            .type = QEMU_OPT_BOOL,
+-            .help = "enable/disable DEA key wrapping using the CPACF wrapping key",
+-        },{
+-            .name = "loadparm",
+-            .type = QEMU_OPT_STRING,
+-            .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
+-                    " converted to upper case) to pass to machine"
+-                    " loader, boot manager, and guest kernel",
+-        },
+-        { /* End of list */ }
++static CommandLineParameterInfo *objprop_to_cmdline_prop(ObjectProperty *prop)
++{
++    CommandLineParameterInfo *info;
++
++    info = g_malloc0(sizeof(*info));
++    info->name = g_strdup(prop->name);
++
++    if (g_str_equal(prop->type, "bool") || g_str_equal(prop->type, "OnOffAuto")) {
++        info->type = COMMAND_LINE_PARAMETER_TYPE_BOOLEAN;
++    } else if (g_str_equal(prop->type, "int")) {
++        info->type = COMMAND_LINE_PARAMETER_TYPE_NUMBER;
++    } else if (g_str_equal(prop->type, "size")) {
++        info->type = COMMAND_LINE_PARAMETER_TYPE_SIZE;
++    } else {
++        info->type = COMMAND_LINE_PARAMETER_TYPE_STRING;
+     }
+-};
++
++    if (prop->description) {
++        info->help = g_strdup(prop->description);
++    }
++
++    return info;
++}
++
++static CommandLineParameterInfoList *query_all_machine_properties(void)
++{
++    CommandLineParameterInfoList *params = NULL, *clpiter;
++    CommandLineParameterInfo *info;
++    GSList *machines, *curr_mach;
++    ObjectPropertyIterator op_iter;
++    ObjectProperty *prop;
++    bool is_new;
++
++    machines = object_class_get_list(TYPE_MACHINE, false);
++    assert(machines);
++
++    /* Loop over all machine classes */
++    for (curr_mach = machines; curr_mach; curr_mach = curr_mach->next) {
++        object_class_property_iter_init(&op_iter, curr_mach->data);
++        /* ... and over the properties of each machine: */
++        while ((prop = object_property_iter_next(&op_iter))) {
++            if (!prop->set) {
++                continue;
++            }
++            /*
++             * Check whether the property has already been put into the list
++             * (via another machine class)
++             */
++            is_new = true;
++            for (clpiter = params; clpiter != NULL; clpiter = clpiter->next) {
++                if (g_str_equal(clpiter->value->name, prop->name)) {
++                    is_new = false;
++                    break;
++                }
++            }
++            /* If it hasn't been added before, add it now to the list */
++            if (is_new) {
++                info = objprop_to_cmdline_prop(prop);
++                QAPI_LIST_PREPEND(params, info);
++            }
++        }
++    }
++
++    g_slist_free(machines);
++
++    /* Add entry for the "type" parameter */
++    info = g_malloc0(sizeof(*info));
++    info->name = g_strdup("type");
++    info->type = COMMAND_LINE_PARAMETER_TYPE_STRING;
++    info->help = g_strdup("machine type");
++    QAPI_LIST_PREPEND(params, info);
++
++    return params;
++}
+ 
+ CommandLineOptionInfoList *qmp_query_command_line_options(const char *option,
+                                                           Error **errp)
+@@ -259,7 +243,7 @@ CommandLineOptionInfoList *qmp_query_command_line_options(const char *option,
+     if (!option || !strcmp(option, "machine")) {
+         info = g_malloc0(sizeof(*info));
+         info->option = g_strdup("machine");
+-        info->parameters = query_option_descs(machine_opts.desc);
++        info->parameters = query_all_machine_properties();
+         QAPI_LIST_PREPEND(conf_list, info);
+     }
+ 
+-- 
+2.31.1
 
 
