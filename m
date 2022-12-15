@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5909664D77A
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 09:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B2D64D78E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 09:11:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5j8t-0005wd-4e; Thu, 15 Dec 2022 02:58:59 -0500
+	id 1p5jJw-0001Q7-2l; Thu, 15 Dec 2022 03:10:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j8q-0005wI-T5
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:58:56 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j8p-0003Cv-3S
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:58:56 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- z8-20020a05600c220800b003d33b0bda11so224834wml.0
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 23:58:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2EkHnf5KUpg2a1ILq8Sa62Ktl8OO37/gMpNH1CdJtLk=;
- b=M3dx4QEBfmL1cFX/YFPSR6zq2kJNmT/Le3ufeAD+cYbTTqKdb7ebC4hedZHkXK7ZkG
- pb/dim/9Ke/iq+TyOjS6rKODl7R3WUwq3dDR6qLy4bDSg8xc+xJe++K8FwmTo6wlpM6p
- HbfO1z9963D4fwOoe7eNiEpOMNch+YANYiDcbi3KUYhH6SJwv+8rhU05Iqh0gK0IU0U7
- uajGC+lXSm+w6PFvHcNxTnERanxhrqnfgaSp9sFvsOUDNxmJEDomrwK0lqCx1HtoA5vP
- O1zNVcz03LWGUTNZjWGcsqmyTMHYu9dBB5f51UQ4iZUsD9b6RhFUsmlw6DYXl4tGWLVX
- lsRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2EkHnf5KUpg2a1ILq8Sa62Ktl8OO37/gMpNH1CdJtLk=;
- b=NOr0KX2gbHQ932VjNVMobjkFRkiz3OPeFDvYw3GPyhV9xnFJb0ngIfbX73GnGFI6px
- 5NmlnovGrkO6ZBWf3kTY64D549xfaiykyfypCmo1sumCET8pSIvnYE/Lt8ehHfn08VCO
- yp2lfupiHQ7cw4AWxLahB2a7YoucQXBPLQAfuAO2jZzGfjEm/+Asj/dT5LShnmk2QYEC
- WzGrYPI88szLiRjTJuKQEz9dsnbknuHnJV3S4MNvYdJppu2RjWXNwim21fUilWnvF6Ey
- Mjc75Y7hqMoAzc5UWKMDH1YHDNrjkpxI0lAAnjSBBCfyY34BDHvDjtE/ZnJpzk0OI//n
- Ow7w==
-X-Gm-Message-State: ANoB5pmROCHblJPUbJvRVfX4XPEPjbuFzCwRHp7Sz1L8ho1c2XGAQAIw
- anUV5tOs5Y0iAwkRaRKNToJVaA==
-X-Google-Smtp-Source: AA0mqf6zbfKIAQz7IRUTi6Wdwynq2pe2Hu4pk3GHgbIPr2K0jOsgrJV8okGSytiXaGGyT1u3j/TVgQ==
-X-Received: by 2002:a05:600c:3592:b0:3d0:1b21:597 with SMTP id
- p18-20020a05600c359200b003d01b210597mr21068270wmq.1.1671091132264; 
- Wed, 14 Dec 2022 23:58:52 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o20-20020a05600c339400b003cffd3c3d6csm4814256wmp.12.2022.12.14.23.58.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 23:58:51 -0800 (PST)
-Message-ID: <165fbdfe-8e72-0ab7-727e-0f54df9957b3@linaro.org>
-Date: Thu, 15 Dec 2022 08:58:50 +0100
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1p5jJl-0001NK-9R
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:10:17 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1p5jJi-0007yr-6B
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:10:12 -0500
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8AxSulX1ppjecUFAA--.10167S3;
+ Thu, 15 Dec 2022 16:09:59 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxX+RX1ppjdUAAAA--.859S2; 
+ Thu, 15 Dec 2022 16:09:59 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	stefanha@gmail.com
+Subject: [PULL 0/1] loongarch-to-apply queue
+Date: Thu, 15 Dec 2022 16:09:57 +0800
+Message-Id: <20221215080958.2150028-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH] linux-user: Add translation for argument of msync()
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <Y5rMcts4qe15RaVN@p100>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y5rMcts4qe15RaVN@p100>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8AxX+RX1ppjdUAAAA--.859S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvdXoWrZr43GF4DZFW8Jw1fGw43GFg_yoWfAFX_XF
+ yxAa48Gr48JF1UtFyjqr15Jry7Ja18tFn8AF1jqr4xGr17Jr1UXr4Utw4UZr1jqF1UJr45
+ JrWUJr1rAr1UGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
+ 37CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+ vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+ xVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
+ 0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
+ 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+ 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,133 +74,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/12/22 08:27, Helge Deller wrote:
-> msync() uses the flags MS_ASYNC, MS_INVALIDATE and MS_SYNC, which differ
-> between platforms, specifcally on alpha and hppa.
-> 
-> Add a target to host translation for those and wire up a nicer strace
-> output.
-> 
-> This fixes the testsuite of the macaulay2 debian package with a hppa-linux
-> guest on a x86-64 host.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> 
-> diff --git a/linux-user/alpha/target_mman.h b/linux-user/alpha/target_mman.h
-> index cd6e3d70a6..051544f5ab 100644
-> --- a/linux-user/alpha/target_mman.h
-> +++ b/linux-user/alpha/target_mman.h
-> @@ -3,6 +3,10 @@
-> 
->   #define TARGET_MADV_DONTNEED 6
-> 
-> +#define TARGET_MS_ASYNC 1
-> +#define TARGET_MS_SYNC 2
-> +#define TARGET_MS_INVALIDATE 4
-> +
->   #include "../generic/target_mman.h"
-> 
->   #endif
-> diff --git a/linux-user/generic/target_mman.h b/linux-user/generic/target_mman.h
-> index 1436a3c543..32bf1a52d0 100644
-> --- a/linux-user/generic/target_mman.h
-> +++ b/linux-user/generic/target_mman.h
-> @@ -89,4 +89,17 @@
->   #define TARGET_MADV_DONTNEED_LOCKED 24
->   #endif
-> 
-> +
-> +#ifndef TARGET_MS_ASYNC
-> +#define TARGET_MS_ASYNC 1
+The following changes since commit 5204b499a6cae4dfd9fe762d5e6e82224892383b:
 
-Hmm don't we want to keep the host flag instead?
+  mailmap: Fix Stefan Weil author email (2022-12-13 15:56:57 -0500)
 
-    #define TARGET_MS_ASYNC MS_ASYNC
+are available in the Git repository at:
 
-> +#endif
-> +
-> +#ifndef TARGET_MS_INVALIDATE
-> +#define TARGET_MS_INVALIDATE 2
+  https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221215
 
-Ditto,
+for you to fetch changes up to 288431a1fb9334d5d57ad7d5854d8475b23e7c42:
 
-> +#endif
-> +
-> +#ifndef TARGET_MS_SYNC
-> +#define TARGET_MS_SYNC 4
+  hw/loongarch/virt: Add cfi01 pflash device (2022-12-15 15:46:12 +0800)
 
-ditto.
+----------------------------------------------------------------
+Add cfi01 pflash device
 
-LGTM otherwise.
+----------------------------------------------------------------
+Xiaojuan Yang (1):
+      hw/loongarch/virt: Add cfi01 pflash device
 
-> +#endif
-> +
->   #endif
-> diff --git a/linux-user/hppa/target_mman.h b/linux-user/hppa/target_mman.h
-> index 66dd9f7941..f9b6b97032 100644
-> --- a/linux-user/hppa/target_mman.h
-> +++ b/linux-user/hppa/target_mman.h
-> @@ -10,6 +10,10 @@
->   #define TARGET_MADV_WIPEONFORK 71
->   #define TARGET_MADV_KEEPONFORK 72
-> 
-> +#define TARGET_MS_SYNC 1
-> +#define TARGET_MS_ASYNC 2
-> +#define TARGET_MS_INVALIDATE 4
-> +
->   #include "../generic/target_mman.h"
-> 
->   #endif
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index a75101fca1..ac8f872371 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -650,7 +650,7 @@
->   { TARGET_NR_msgsnd, "msgsnd" , NULL, NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_msync
-> -{ TARGET_NR_msync, "msync" , NULL, NULL, NULL },
-> +{ TARGET_NR_msync, "msync" , "%s(%p,%u,%d)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_multiplexer
->   { TARGET_NR_multiplexer, "multiplexer" , NULL, NULL, NULL },
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index d58e9b8d10..e541fbe09a 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -22,6 +22,7 @@
->   #include "qemu/path.h"
->   #include "qemu/memfd.h"
->   #include "qemu/queue.h"
-> +#include "target_mman.h"
->   #include <elf.h>
->   #include <endian.h>
->   #include <grp.h>
-> @@ -7667,6 +7668,14 @@ static inline int target_to_host_mlockall_arg(int arg)
->   }
->   #endif
-> 
-> +static inline int target_to_host_msync_arg(abi_long arg)
-> +{
-> +    return ((arg & TARGET_MS_ASYNC) ? MS_ASYNC : 0) |
-> +           ((arg & TARGET_MS_INVALIDATE) ? MS_INVALIDATE : 0) |
-> +           ((arg & TARGET_MS_SYNC) ? MS_SYNC : 0) |
-> +           (arg & ~(TARGET_MS_ASYNC | TARGET_MS_INVALIDATE | TARGET_MS_SYNC));
-> +}
-> +
->   #if (defined(TARGET_NR_stat64) || defined(TARGET_NR_lstat64) ||     \
->        defined(TARGET_NR_fstat64) || defined(TARGET_NR_fstatat64) ||  \
->        defined(TARGET_NR_newfstatat))
-> @@ -10163,7 +10172,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->           /* ??? msync/mlock/munlock are broken for softmmu.  */
->   #ifdef TARGET_NR_msync
->       case TARGET_NR_msync:
-> -        return get_errno(msync(g2h(cpu, arg1), arg2, arg3));
-> +        return get_errno(msync(g2h(cpu, arg1), arg2,
-> +                               target_to_host_msync_arg(arg3)));
->   #endif
->   #ifdef TARGET_NR_mlock
->       case TARGET_NR_mlock:
-> 
+ hw/loongarch/Kconfig        |  1 +
+ hw/loongarch/acpi-build.c   | 18 +++++++++++++
+ hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++++++++++
+ include/hw/loongarch/virt.h |  5 ++++
+ 4 files changed, 86 insertions(+)
 
 
