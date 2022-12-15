@@ -2,90 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2197C64DFEA
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 18:44:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268D364DFEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 18:45:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5sHS-0002TW-4K; Thu, 15 Dec 2022 12:44:26 -0500
+	id 1p5sIR-0003Xr-W4; Thu, 15 Dec 2022 12:45:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p5sHN-0002SL-Rm
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:44:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p5sIO-0003Vd-3J
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:45:24 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p5sHK-0001ET-Ct
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:44:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671126257;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/mIKTm/+KdI/wbQkhjFpIrJY+9bn3DtX7y7zX4wc7ww=;
- b=X1g2wjH+UmkYPpHv5UhICXVo9s6YQcZrOENECAM+x7m1J9zWNee+0E83yEcn45Y59ELTw2
- djNg9SUPAuRFxGl9Gv57QquUTr/F8Vx8Q1KsUjhfD455zbn/0vr5GywBGUFoF05F6NiIbP
- +G46mx1yshR7RIaZ0NC6nRAf/60xbDQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-593-Ao3bKXLTNQuLH-5j-U9NGg-1; Thu, 15 Dec 2022 12:44:16 -0500
-X-MC-Unique: Ao3bKXLTNQuLH-5j-U9NGg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- x10-20020a05600c420a00b003cfa33f2e7cso4273wmh.2
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 09:44:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/mIKTm/+KdI/wbQkhjFpIrJY+9bn3DtX7y7zX4wc7ww=;
- b=iWsgJmZi0NKzmp2i1RLmMX9Tp83qQeQEM6LsdujyKjM1yatGkiUnbV8jmoM6WRZKIH
- J4n5eaUW9TM4rO9p07DHl6nIYo9qmv+y+2hsLJaF+6IPhsNoZcX+83PPVIpBXxcS1pEx
- 5mUwGgdE4b4ymNmR4zu1wUhrq9oFxyuwnPvSjomCp8+zmqs8+v2KTxxfe7eBTnyQBT14
- Q10f3EjOrICpXohb+A4kQALlkwRjABtVv3Olv8dx3NGxEwfY161xedDEXU74QkiN4rMU
- lJ/+F50DU0ifr3b8KuN9e3dg57h9Ayrfzg52I+OdV1bO9tVM+WLdk32f1UoOe03ON2/Z
- eCiA==
-X-Gm-Message-State: ANoB5pnVi84NV4kpl0RlIwJAtMaHPHd53s4tzv99V4eQFb8/clXH0qSm
- ZcFScR45DBIqRqLfAfA+JSjiXyIriI41RDVBuyGY4Q53IOm4SZHNz6izMY3BTZQawqzL5EbDcW9
- 8lqnFME9/eCD2E05i2X0SLm8HDrai9Mr2EZnasBIHfKN/F9cN40fheBHfduO43n7ZXcA=
-X-Received: by 2002:a05:600c:3549:b0:3c6:e61e:ae8c with SMTP id
- i9-20020a05600c354900b003c6e61eae8cmr30941823wmq.28.1671126254309; 
- Thu, 15 Dec 2022 09:44:14 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf75eGCOGbN+4uJXChElCP2HAxIROl3Kve/LnxGuekxsU4sumzfhLsqygaPsYXshvefNjneHJw==
-X-Received: by 2002:a05:600c:3549:b0:3c6:e61e:ae8c with SMTP id
- i9-20020a05600c354900b003c6e61eae8cmr30941805wmq.28.1671126253977; 
- Thu, 15 Dec 2022 09:44:13 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
- by smtp.gmail.com with ESMTPSA id
- n30-20020a05600c501e00b003cf4d99fd2asm7354198wmr.6.2022.12.15.09.44.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 09:44:13 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: afaria@redhat.com,
-	qemu-block@nongnu.org,
-	kwolf@redhat.com
-Subject: [PATCH 2/2] block: Add no_coroutine_fn and coroutine_mixed_fn marker
-Date: Thu, 15 Dec 2022 18:44:07 +0100
-Message-Id: <20221215174407.500414-3-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221215174407.500414-1-pbonzini@redhat.com>
-References: <20221215174407.500414-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p5sIM-00026v-7w
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:45:23 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NY03B2Z22z67ljw;
+ Fri, 16 Dec 2022 01:44:06 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 15 Dec
+ 2022 17:45:17 +0000
+Date: Thu, 15 Dec 2022 17:45:16 +0000
+To: Markus Armbruster <armbru@redhat.com>
+CC: <qemu-devel@nongnu.org>, <mst@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <philmd@linaro.org>
+Subject: Re: [PATCH 6/5] include/hw/cxl: Break inclusion loop
+Message-ID: <20221215174516.00000047@Huawei.com>
+In-Reply-To: <87y1r9aznx.fsf@pond.sub.org>
+References: <20221209134802.3642942-1-armbru@redhat.com>
+ <875yekehnx.fsf@pond.sub.org> <874ju3bur1.fsf@pond.sub.org>
+ <20221212105449.000009aa@Huawei.com> <87y1r9aznx.fsf@pond.sub.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,128 +64,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alberto Faria <afaria@redhat.com>
+On Thu, 15 Dec 2022 08:34:10 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
 
-Add more annotations to functions, describing valid and invalid
-calls from coroutine to non-coroutine context.
+> Jonathan Cameron <Jonathan.Cameron@Huawei.com> writes:
+> 
+> > On Sat, 10 Dec 2022 08:09:06 +0100
+> > Markus Armbruster <armbru@redhat.com> wrote:
+> >  
+> >> Markus Armbruster <armbru@redhat.com> writes:
+> >>   
+> >> > hw/cxl/cxl_pci.h and hw/cxl/cxl_cdat.h include each other.  Neither
+> >> > header actually needs the other one.  Drop both #include directives.
+> >> >
+> >> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> >> > ---
+> >> >  include/hw/cxl/cxl_cdat.h | 1 -
+> >> >  include/hw/cxl/cxl_pci.h  | 1 -
+> >> >  2 files changed, 2 deletions(-)
+> >> >
+> >> > diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
+> >> > index 7f67638685..e3fd737f9d 100644
+> >> > --- a/include/hw/cxl/cxl_cdat.h
+> >> > +++ b/include/hw/cxl/cxl_cdat.h
+> >> > @@ -10,7 +10,6 @@
+> >> >  #ifndef CXL_CDAT_H
+> >> >  #define CXL_CDAT_H
+> >> >  
+> >> > -#include "hw/cxl/cxl_pci.h"
+> >> >  #include "hw/pci/pcie_doe.h"  
+> >
+> > The include was to get to CXL_VENDOR_ID which is in hw/cxl/cxl_pci.h
+> > Can move that elsewhere perhaps, though I don't think we need to
+> > if we break the loop by dropping the other one.  
+> 
+> It's used only in a macro.  If you use the macro, you need to include
+> cxl_pci.h.
+> 
+> Would you like me to keep this #include?
 
-When applied to a function, no_coroutine_fn advertises that it should
-not be called from coroutine_fn functions.  This can be because the
-function blocks or, in the case of generated_co_wrapper, to enforce
-that coroutine_fn functions directly call the coroutine_fn that backs
-the generated_co_wrapper.
+yes. That would be my preference.
 
-coroutine_mixed_fn instead is for function that can be called in
-both coroutine and non-coroutine context, but will suspend when
-called in coroutine context.  Annotating them is a first step
-towards enforcing that non-annotated functions are absolutely
-not going to suspend.
-
-These can be used for example with the vrc tool from
-https://github.com/bonzini/vrc:
-
-    # find functions that *really* cannot be called from no_coroutine_fn
-    (vrc) load --loader clang libblock.fa.p/meson-generated_.._block_block-gen.c.o
-    # The comma is an "AND".  The "path" here consists of a single node
-    (vrc) paths [no_coroutine_fn,!coroutine_mixed_fn]
-    bdrv_remove_persistent_dirty_bitmap
-    bdrv_create
-    bdrv_can_store_new_dirty_bitmap
-
-    # find how coroutine_fns end up calling a mixed function
-    (vrc) load --loader clang --force libblock.fa.p/*.c.o
-    # regular expression search
-    (vrc) paths [coroutine_fn] [!no_coroutine_fn]* [coroutine_mixed_fn]
-    ...
-    bdrv_pread <- vhdx_log_write <- vhdx_log_write_and_flush <- vhdx_co_writev
-    ...
-
-Signed-off-by: Alberto Faria <afaria@redhat.com>
-[Rebase, add coroutine_mixed_fn. - Paolo]
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/block/block-common.h | 11 +++++++----
- include/qemu/coroutine.h     | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 4 deletions(-)
-
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 4749c46a5e7e..cce79bd00135 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -50,11 +50,14 @@
-  * - co_wrapper_mixed_bdrv_rdlock are co_wrapper_mixed functions but
-  *   automatically take and release the graph rdlock when creating a new
-  *   coroutine.
-+ *
-+ * These functions should not be called from a coroutine_fn; instead,
-+ * call the wrapped function directly.
-  */
--#define co_wrapper
--#define co_wrapper_mixed
--#define co_wrapper_bdrv_rdlock
--#define co_wrapper_mixed_bdrv_rdlock
-+#define co_wrapper                     no_coroutine_fn
-+#define co_wrapper_mixed               no_coroutine_fn coroutine_mixed_fn
-+#define co_wrapper_bdrv_rdlock         no_coroutine_fn
-+#define co_wrapper_mixed_bdrv_rdlock   no_coroutine_fn coroutine_mixed_fn
- 
- #include "block/dirty-bitmap.h"
- #include "block/blockjob.h"
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index b0c97f6fb7ad..5f5ab8136a3a 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -28,6 +28,27 @@
-  * These functions are re-entrant and may be used outside the global mutex.
-  */
- 
-+/**
-+ * Mark a function that can suspend when executed in coroutine context,
-+ * but can handle running in non-coroutine context too.
-+ *
-+ * Functions that execute in coroutine context cannot be called directly from
-+ * normal functions.  In the future it would be nice to enable compiler or
-+ * static checker support for catching such errors.  This annotation might make
-+ * it possible and in the meantime it serves as documentation.
-+ *
-+ * For example:
-+ *
-+ *   static void coroutine_fn foo(void) {
-+ *       ....
-+ *   }
-+ */
-+#ifdef __clang__
-+#define coroutine_mixed_fn __attribute__((__annotate__("coroutine_mixed_fn")))
-+#else
-+#define coroutine_mixed_fn
-+#endif
-+
- /**
-  * Mark a function that executes in coroutine context
-  *
-@@ -48,6 +69,18 @@
- #define coroutine_fn
- #endif
- 
-+/**
-+ * Mark a function that should never be called from a coroutine context
-+ *
-+ * This typically means that there is an analogous, coroutine_fn function that
-+ * should be used instead.
-+ */
-+#ifdef __clang__
-+#define no_coroutine_fn __attribute__((__annotate__("no_coroutine_fn")))
-+#else
-+#define no_coroutine_fn
-+#endif
-+
- typedef struct Coroutine Coroutine;
- 
- /**
--- 
-2.38.1
+> 
+> >> >  /*
+> >> > diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
+> >> > index aca14845ab..01e15ed5b4 100644
+> >> > --- a/include/hw/cxl/cxl_pci.h
+> >> > +++ b/include/hw/cxl/cxl_pci.h
+> >> > @@ -11,7 +11,6 @@
+> >> >  #define CXL_PCI_H
+> >> >  
+> >> >  #include "qemu/compiler.h"
+> >> > -#include "hw/cxl/cxl_cdat.h"  
+> > Guess that's a left over of some earlier refactoring. Good to get rid
+> > of this one.
+> >  
+> >> >  
+> >> >  #define CXL_VENDOR_ID 0x1e98    
+> >> 
+> >> Friday afternoon post with insufficient testing...  Everything still
+> >> builds fine, but cxl_component.h is no longer self-contained.  I'll
+> >> squash in the appended patch and revise the commit message.  
+> >
+> > By staring at the code rather than any automation I'm failing to spot
+> > what it needs from cxl_pci.h.  Can you add that info to the commit message?  
+> 
+> It's CXL20_MAX_DVSEC.
+ah. Make sense. Thanks.
+> 
+> >> diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
+> >> index 5dca21e95b..78f83ed742 100644
+> >> --- a/include/hw/cxl/cxl_component.h
+> >> +++ b/include/hw/cxl/cxl_component.h
+> >> @@ -19,6 +19,7 @@
+> >>  #include "qemu/range.h"
+> >>  #include "qemu/typedefs.h"
+> >>  #include "hw/cxl/cxl_cdat.h"
+> >> +#include "hw/cxl/cxl_pci.h"
+> >>  #include "hw/register.h"
+> >>  #include "qapi/error.h"
+> >>  
+> >>   
+> 
 
 
