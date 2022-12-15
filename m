@@ -2,94 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE3964DC6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:45:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D554664DC82
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:52:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5oXe-0005EN-I5; Thu, 15 Dec 2022 08:44:54 -0500
+	id 1p5odC-0000AH-Gb; Thu, 15 Dec 2022 08:50:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1p5oXc-0005E1-J2
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:44:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1p5od2-00008h-PS
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:50:28 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1p5oXa-0002IZ-Dx
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:44:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671111889;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I8Nuf00vbQv9q4bGdvu14hDYoWXvvltyRVjALxB1XF8=;
- b=ZJDFIS3tNexJASpe1mPkaSu6iJbxuVaskW5dx8qaFMwELujQ9Mox/21J3PXVJLf6EiGfv2
- 0Wc5D/4QEYeo/Cm6Fb8wCYA9jJ96cNWNE/0qmgBgUvpmN1vILl/0R/5YsZIS7jdeE9tPSE
- GNvZRD0ip6m3eyeIHhTTLMtbxHOAB8c=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-489-DwHjiPx-OzmDlBrR328VGg-1; Thu, 15 Dec 2022 08:44:48 -0500
-X-MC-Unique: DwHjiPx-OzmDlBrR328VGg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j29-20020adfb31d000000b0024237066261so657064wrd.14
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 05:44:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I8Nuf00vbQv9q4bGdvu14hDYoWXvvltyRVjALxB1XF8=;
- b=TPijL6p1Ito+Btqm7fOzeMxuy6le7kGUFqiP8QQ08PfWPaphdQpofBIEq4kobGSJaG
- PRHHZBJIg7INDjeo5WU/uiL6/eAIThdrp6JXw2xxlPqvST/RLkwhUJEXSk0hzdgqmHUL
- /lJe2tuPHLhgG4i0utPBzkb22lYkT6qyOiQoNXI1HBYWZY0SENlgm6787vWKm5mHIwN4
- 8VOlRf8y8F1oSCLtwbXxcP6X/5ILLhlfr8HHQphvHY8eRwFjrjhWGRvuBttXXmXlvzP8
- z/v68CHD9W6aJcbcjDP96EnwYCDIcbOMqOYzcbZ1qD36RVYwoKJWVS/sqdjN8bHnhfKK
- rHog==
-X-Gm-Message-State: ANoB5pkv4T6bnencnehfhc5mdBVL7Mdko3vbxIPRiws6xOT3UfKzODOy
- HpuipRQEuLSLT+Is03eLfTm0XaW5bdc97uFBAXhidK9nI6Cq596rLCtwR0WiS0rg8ai+cbLCHse
- zO4osO5YQyohNJhA=
-X-Received: by 2002:a05:600c:5406:b0:3cf:803b:d7cc with SMTP id
- he6-20020a05600c540600b003cf803bd7ccmr9945148wmb.33.1671111886768; 
- Thu, 15 Dec 2022 05:44:46 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6u9XLRQeBS4UnkfGM6zQkSPH9wMRKT2NMTVuP+L/o2Yb3KpdXNuAiXSv9sNgeKElUzMZ5m2g==
-X-Received: by 2002:a05:600c:5406:b0:3cf:803b:d7cc with SMTP id
- he6-20020a05600c540600b003cf803bd7ccmr9945132wmb.33.1671111886547; 
- Thu, 15 Dec 2022 05:44:46 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- f127-20020a1c3885000000b003b3307fb98fsm6245171wma.24.2022.12.15.05.44.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 05:44:46 -0800 (PST)
-Date: Thu, 15 Dec 2022 13:44:43 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: migration qtest failure: "query-migrate shows failed migration:
- Unable to write to socket: Broken pipe"
-Message-ID: <Y5sky/DfG1Dh/TVg@work-vm>
-References: <CAFEAcA8x_iM3hN2-P9F+huXnXFXy+D6FzE+Leq4erLdg7zkVGw@mail.gmail.com>
- <Y5sHtDP4vyEjhIan@work-vm>
- <CAFEAcA-PHqcGYMDj9OXKdY40Hb_rHCM9eeuh1rSnFL5-SyTfhg@mail.gmail.com>
- <Y5sYlkZ6q4/B7B2v@work-vm>
- <CAFEAcA-yqYbjc_BVjQenTfS2_Bwo6OhtbQtwJb36aYgiocm+0Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1p5ocy-0003OR-J8
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:50:28 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NXtn305YWzJpGc;
+ Thu, 15 Dec 2022 21:46:30 +0800 (CST)
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
+ kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Thu, 15 Dec 2022 21:50:09 +0800
+To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+ <sgarzare@redhat.com>
+CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
+ Longpeng <longpeng2@huawei.com>
+Subject: [PATCH v11 0/5] add generic vDPA device support
+Date: Thu, 15 Dec 2022 21:49:39 +0800
+Message-ID: <20221215134944.2809-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-yqYbjc_BVjQenTfS2_Bwo6OhtbQtwJb36aYgiocm+0Q@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi100025.china.huawei.com (7.221.188.158)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
+ helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,38 +60,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
+From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Thu, 15 Dec 2022 at 12:52, Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
-> >
-> > * Peter Maydell (peter.maydell@linaro.org) wrote:
-> > > It doesn't seem to repro running manually, my guess is that
-> > > it happens because the machine is heavily loaded doing the
-> > > whole build-and-test cycle.
-> >
-> > Yeh; I think we'll still need a backtrace or better qmp log though to
-> > figure it out.
-> 
-> Unfortunately, often all you get is "what does 'make check' output".
-> Is there a way we can improve the test so it outputs something
-> more useful when it detects a failure ?
+From: Longpeng <longpeng2@huawei.com>
 
-I can't think how to improve the test itself like that; could you bind
-assertion failures to call/print a backtrace:
+Hi guys,
 
-https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/backtrace.3.html
+With the generic vDPA device, QEMU won't need to touch the device
+types any more, such like vfio.
 
-?
+We can use the generic vDPA device as follow:
+  -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+  Or
+  -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+  vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
 
-Dave
+Changes v11->v10:
+    - add requirements, optimize the preparation [Stefano]
 
-> thanks
-> -- PMM
-> 
+Changes v10 -> v9:
+    - optimize the doc [Jason]
+
+Changes v9 -> v8:
+    - rename vhost-vdpa-device.rst to vhost-vdpa-generic-device.rst [Jason, Stefano]
+    - emphasize the vhost-vDPA generic device in doc [Jason]
+
+Changes v8 -> v7:
+    - add migration blocker. [Michael]
+
+Changes v6 -> v7:
+    (v6: https://mail.gnu.org/archive/html/qemu-devel/2022-05/msg02821.html)
+    - rebase. [Jason]
+    - add documentation . [Stefan]
+
+Changes v5 -> v6:
+  Patch 2:
+    - Turn to the original approach in the RFC to initialize the
+      virtio_pci_id_info array. [Michael]
+	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
+  Patch 3:
+    - Fix logical error of exception handler around the post_init.
+      [Stefano]
+    - Fix some coding style warnings. [Stefano]
+  Patch 4:
+    - Fix some coding style warnings. [Stefano]
+
+Changes v4 -> v5:
+  Patch 3:
+    - remove vhostfd [Jason]
+    - support virtio-mmio [Jason]
+
+Changes v3 -> v4:
+  v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+  - reorganize the series [Stefano]
+  - fix some typos [Stefano]
+  - fix logical error in vhost_vdpa_device_realize [Stefano]
+
+Changes v2 -> v3
+  Patch 4 & 5:
+    - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+    - s/VQS_NUM/VQS_COUNT  [Stefano]
+    - check both vdpa_dev_fd and vdpa_dev [Stefano]
+  Patch 6:
+    - move all steps into vhost_vdpa_device_unrealize. [Stefano]
+
+Changes RFC -> v2
+  Patch 1:
+    - rename 'pdev_id' to 'trans_devid'  [Michael]
+    - only use transitional device id for the devices
+      listed in the spec  [Michael]
+    - use macros to make the id_info table clearer  [Longpeng]
+    - add some modern devices in the id_info table  [Longpeng]
+  Patch 2:
+    - remove the GET_VECTORS_NUM command  [Jason]
+  Patch 4:
+    - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+    - introduce vhost_vdpa_device_get_u32 as a common
+      function to make the code clearer  [Stefan]
+    - fix the misleading description of 'dc->desc'  [Stefano]
+  Patch 5:
+    - check returned number of virtqueues  [Stefan]
+  Patch 6:
+    - init s->num_queues  [Stefano]
+    - free s->dev.vqs  [Stefano]
+
+Longpeng (Mike) (5):
+  virtio: get class_id and pci device id by the virtio id
+  vdpa: add vdpa-dev support
+  vdpa: add vdpa-dev-pci support
+  vdpa-dev: mark the device as unmigratable
+  docs: Add generic vhost-vdpa device documentation
+
+ .../devices/vhost-vdpa-generic-device.rst     |  68 ++++
+ hw/virtio/Kconfig                             |   5 +
+ hw/virtio/meson.build                         |   2 +
+ hw/virtio/vdpa-dev-pci.c                      | 102 +++++
+ hw/virtio/vdpa-dev.c                          | 377 ++++++++++++++++++
+ hw/virtio/virtio-pci.c                        |  88 ++++
+ include/hw/virtio/vdpa-dev.h                  |  43 ++
+ include/hw/virtio/virtio-pci.h                |   5 +
+ 8 files changed, 690 insertions(+)
+ create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
+ create mode 100644 hw/virtio/vdpa-dev-pci.c
+ create mode 100644 hw/virtio/vdpa-dev.c
+ create mode 100644 include/hw/virtio/vdpa-dev.h
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.23.0
 
 
