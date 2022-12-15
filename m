@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9A364D79B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 09:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6BB364D7C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 09:32:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5jP3-0004jj-OA; Thu, 15 Dec 2022 03:15:42 -0500
+	id 1p5jdy-000841-PQ; Thu, 15 Dec 2022 03:31:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p5jOp-0004f6-Lj
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:15:28 -0500
-Received: from mout.gmx.net ([212.227.15.19])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p5jOn-0000cp-Nz
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:15:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1671092120; bh=N5saQ6v2p1ktEl2mIg5ih20+IA4YBuTRL19hw6TFnMQ=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=eLiNfnVF6q5xnD3vKvL+glmL3cB9xPgEj8cB8SD7qPf4huKoYDUgI/WgQYnOzWWJe
- F1lJIHfM+0C8OM9cHRKMSmsTQSKzcl9N2cCl9Mha2LYwPmQwUg9CKuo4FhmlZyQNaG
- UCTWYz9KsgvdBhV/4BJfKfUXHmLC0EydrOptDSo6aDfszNff0DfEGqq122Eo379Fdt
- WFLhVHO60cZYOZNIibtf5kWMmoVgA8rK++RAdS/RRniynDpiVCDAW+Lb0+eJsykGWt
- V7UhYYL64C4g5+h/43kUCX2pou68K1XR6JeoMUnFyj5OYwDWOUoi6FNEK/M/IXCO4s
- hFjwIRjI6TTBg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.161.210]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MI5Q5-1pAxvr1vt9-00FFcK; Thu, 15
- Dec 2022 09:15:20 +0100
-Message-ID: <4425d130-42f3-e15b-c29f-eed81f4bc7dc@gmx.de>
-Date: Thu, 15 Dec 2022 09:15:19 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] linux-user: Add translation for argument of msync()
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1p5jds-00083c-If
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:31:00 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <zhaotianrui@loongson.cn>) id 1p5jdk-0006bM-Lc
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:30:57 -0500
+Received: from loongson.cn (unknown [10.20.42.62])
+ by gateway (Coremail) with SMTP id _____8Axaeoy25pjhMYFAA--.9867S3;
+ Thu, 15 Dec 2022 16:30:42 +0800 (CST)
+Received: from [10.20.42.62] (unknown [10.20.42.62])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxQuUx25pjSEQAAA--.1902S3; 
+ Thu, 15 Dec 2022 16:30:41 +0800 (CST)
+Subject: Re: [PATCH v1 1/2] hw/intc/loongarch_pch_msi: add irq number property
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <Y5rMcts4qe15RaVN@p100>
- <165fbdfe-8e72-0ab7-727e-0f54df9957b3@linaro.org>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <165fbdfe-8e72-0ab7-727e-0f54df9957b3@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Y7HOVyOBG87+4vcWQeQ3ap7CLvhfQVCjodoDD0KocafcKbH7k1f
- f4+x0P7dyk7H6bafVh9Cy9VBXcRM/BgehtAwXvh7lI3Sr8FUfEc8j2uwPREWe7O/NMhVxCQ
- X8RShfvV3zxKJLZM5YjBFuHJHDX/F2bc+qUWxd1ct/zopIUrHFn1NgGgoFGVJ+JOIqnwsiy
- pu28e5b5VwQfPq8F7aZtg==
-UI-OutboundReport: notjunk:1;M01:P0:BYz6XYT9W/g=;oDN+CKul/feAdgbwJum+Vhw/ctp
- 8ArPOIu6Dyr3vfu8kgI6Fz06LdztTWMJi5s+QP8rfqTBN74V6Jjl3L8uxfLNK6zT731eyRxG9
- VdR5Mw0qlgkkpCurIGrGOY7HvH6HZoJR7LymNYYpPmz/ksIEC/MoCRvTKC3I5O9nrZU9oOBiX
- NaHSTTjXMGDC2Z/FxQLA7DYHkFY3JbR8uQVIT9sxqMS+1LImWOgrUX8J78OquzyIDyMGl1WsC
- R2Kt00kKuvxD/Z3B+3DhElmXp0cGuGH0BhEOXxtycUN4Uf4iOcNsmx4ya13d43a2myGafOmTz
- 2OtCt2kD3asLzilmghoGYOJwON+/Iw0HpuIUE+Q5U4b+PrCtpEQra0Zv4g0nW0ohtUzEsYDyV
- jnLEyyIte6hFQ+4b6pw+S6hLHtPZetehqQ9Sk/+9aYUXryUq0KovT8iOhh5MlmV47iEM1LTTO
- Ai/kRuVZXHfTwJQGmrkmmsEd8siZS7d+L8mMmKVh7/07BeA//RWVHOF/9MfG+ZFlkuC/RSCYI
- L4vMdRGmbNEBXwB+Lk8djdbPXhR+YXm3Y/gHlXtO4EyU8R+lUmukKEt/gG0Juq8NPPCEpf4m7
- sFJymkGoUEv/4xL5X52+n11ng5xGAMEsk2v1c8nyCarsh1dZWv/LgToW/2wL04rKtBIPQPjdP
- h6eaf/z00lb7zW9njRHbxupHm9uEe6mt7ljRCax/LTMtDTBkN+Ve2atq2SkehBxfc4qCYKp8w
- tCi/tnBmxnapmbvQNoVDWYoechuxvFA3btolpQ24KZvONNraY16BXaXKA6Qyh/E2cB0aAq9IV
- 0/fItlqja34LID1pWRUuueAV2pKWH/hIs71872bCGMv4plBracdUMkDk7y/rSQNhaAh53F3Cz
- IU0X1XlobN1PJ0JO+n9A4M+UwODTgQpQorAJRcAcmEtu+cyzys9x6CS/wgJNRA5BwmLF4P2xU
- ZFwJsMpVR3GSLn64todfxN036DE=
-Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ qemu-devel@nongnu.org
+References: <20221215065011.2133471-1-zhaotianrui@loongson.cn>
+ <20221215065011.2133471-2-zhaotianrui@loongson.cn>
+ <7d5663c2-4925-2e36-a842-ff39f2755db7@linaro.org>
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
+Message-ID: <dd9c6d92-2264-b879-a946-428a52273c76@loongson.cn>
+Date: Thu, 15 Dec 2022 16:30:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <7d5663c2-4925-2e36-a842-ff39f2755db7@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxQuUx25pjSEQAAA--.1902S3
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxZr48XF15Cr1kGF47tFykuFg_yoWrtF47pF
+ ZxuFW5tF48X3yUuan29w17ur98JF4xKFyIvF43Kry7Cr4DAr9YqF18GrW7WFWUC3ykCw4q
+ v3y8Ga9rua1DCFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU25EfUUUUU
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,163 +80,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/15/22 08:58, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 15/12/22 08:27, Helge Deller wrote:
->> msync() uses the flags MS_ASYNC, MS_INVALIDATE and MS_SYNC, which diffe=
-r
->> between platforms, specifcally on alpha and hppa.
->>
->> Add a target to host translation for those and wire up a nicer strace
->> output.
->>
->> This fixes the testsuite of the macaulay2 debian package with a hppa-li=
-nux
->> guest on a x86-64 host.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
->>
->> diff --git a/linux-user/alpha/target_mman.h b/linux-user/alpha/target_m=
-man.h
->> index cd6e3d70a6..051544f5ab 100644
->> --- a/linux-user/alpha/target_mman.h
->> +++ b/linux-user/alpha/target_mman.h
->> @@ -3,6 +3,10 @@
->>
->> =C2=A0 #define TARGET_MADV_DONTNEED 6
->>
->> +#define TARGET_MS_ASYNC 1
->> +#define TARGET_MS_SYNC 2
->> +#define TARGET_MS_INVALIDATE 4
->> +
->> =C2=A0 #include "../generic/target_mman.h"
->>
->> =C2=A0 #endif
->> diff --git a/linux-user/generic/target_mman.h b/linux-user/generic/targ=
-et_mman.h
->> index 1436a3c543..32bf1a52d0 100644
->> --- a/linux-user/generic/target_mman.h
->> +++ b/linux-user/generic/target_mman.h
->> @@ -89,4 +89,17 @@
->> =C2=A0 #define TARGET_MADV_DONTNEED_LOCKED 24
->> =C2=A0 #endif
->>
->> +
->> +#ifndef TARGET_MS_ASYNC
->> +#define TARGET_MS_ASYNC 1
->
-> Hmm don't we want to keep the host flag instead?
->
->  =C2=A0=C2=A0 #define TARGET_MS_ASYNC MS_ASYNC
-
-Yes, that would be possible, but the value is the same.
-In the <arch>/*h files you usually want to have numerical values
-which makes it easier to search for conversion bugs.
-
-I'd prefer to keep it as is, it's done for the other
-files/values like that.
-
-Helge
 
 
->
->> +#endif
->> +
->> +#ifndef TARGET_MS_INVALIDATE
->> +#define TARGET_MS_INVALIDATE 2
->
-> Ditto,
->
->> +#endif
->> +
->> +#ifndef TARGET_MS_SYNC
->> +#define TARGET_MS_SYNC 4
->
-> ditto.
->
-> LGTM otherwise.
->
->> +#endif
->> +
->> =C2=A0 #endif
->> diff --git a/linux-user/hppa/target_mman.h b/linux-user/hppa/target_mma=
-n.h
->> index 66dd9f7941..f9b6b97032 100644
->> --- a/linux-user/hppa/target_mman.h
->> +++ b/linux-user/hppa/target_mman.h
->> @@ -10,6 +10,10 @@
->> =C2=A0 #define TARGET_MADV_WIPEONFORK 71
->> =C2=A0 #define TARGET_MADV_KEEPONFORK 72
+在 2022年12月15日 15:40, Philippe Mathieu-Daudé 写道:
+> On 15/12/22 07:50, Tianrui Zhao wrote:
+>> This patch adds irq number property for loongarch msi interrupt
+>> controller, and remove hard coding irq number macro.
 >>
->> +#define TARGET_MS_SYNC 1
->> +#define TARGET_MS_ASYNC 2
->> +#define TARGET_MS_INVALIDATE 4
->> +
->> =C2=A0 #include "../generic/target_mman.h"
->>
->> =C2=A0 #endif
->> diff --git a/linux-user/strace.list b/linux-user/strace.list
->> index a75101fca1..ac8f872371 100644
->> --- a/linux-user/strace.list
->> +++ b/linux-user/strace.list
->> @@ -650,7 +650,7 @@
->> =C2=A0 { TARGET_NR_msgsnd, "msgsnd" , NULL, NULL, NULL },
->> =C2=A0 #endif
->> =C2=A0 #ifdef TARGET_NR_msync
->> -{ TARGET_NR_msync, "msync" , NULL, NULL, NULL },
->> +{ TARGET_NR_msync, "msync" , "%s(%p,%u,%d)", NULL, NULL },
->> =C2=A0 #endif
->> =C2=A0 #ifdef TARGET_NR_multiplexer
->> =C2=A0 { TARGET_NR_multiplexer, "multiplexer" , NULL, NULL, NULL },
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index d58e9b8d10..e541fbe09a 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -22,6 +22,7 @@
->> =C2=A0 #include "qemu/path.h"
->> =C2=A0 #include "qemu/memfd.h"
->> =C2=A0 #include "qemu/queue.h"
->> +#include "target_mman.h"
->> =C2=A0 #include <elf.h>
->> =C2=A0 #include <endian.h>
->> =C2=A0 #include <grp.h>
->> @@ -7667,6 +7668,14 @@ static inline int target_to_host_mlockall_arg(in=
-t arg)
->> =C2=A0 }
->> =C2=A0 #endif
->>
->> +static inline int target_to_host_msync_arg(abi_long arg)
+>> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
+>> ---
+>>   hw/intc/loongarch_pch_msi.c         | 22 +++++++++++++++++++---
+>>   hw/loongarch/virt.c                 | 11 +++++++----
+>>   include/hw/intc/loongarch_pch_msi.h |  3 ++-
+>>   include/hw/pci-host/ls7a.h          |  1 -
+>>   4 files changed, 28 insertions(+), 9 deletions(-)
+>
+>
+>> @@ -49,6 +49,22 @@ static void pch_msi_irq_handler(void *opaque, int 
+>> irq, int level)
+>>       qemu_set_irq(s->pch_msi_irq[irq], level);
+>>   }
+>>   +static void loongarch_pch_msi_realize(DeviceState *dev, Error **errp)
 >> +{
->> +=C2=A0=C2=A0=C2=A0 return ((arg & TARGET_MS_ASYNC) ? MS_ASYNC : 0) |
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((arg & T=
-ARGET_MS_INVALIDATE) ? MS_INVALIDATE : 0) |
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((arg & T=
-ARGET_MS_SYNC) ? MS_SYNC : 0) |
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (arg & ~(=
-TARGET_MS_ASYNC | TARGET_MS_INVALIDATE | TARGET_MS_SYNC));
->> +}
+>> +    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(dev);
 >> +
->> =C2=A0 #if (defined(TARGET_NR_stat64) || defined(TARGET_NR_lstat64) ||=
-=C2=A0=C2=A0=C2=A0=C2=A0 \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 defined(TARGET_NR_fstat64) || defi=
-ned(TARGET_NR_fstatat64) ||=C2=A0 \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 defined(TARGET_NR_newfstatat))
->> @@ -10163,7 +10172,8 @@ static abi_long do_syscall1(CPUArchState *cpu_e=
-nv, int num, abi_long arg1,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* ??? msync/mlo=
-ck/munlock are broken for softmmu.=C2=A0 */
->> =C2=A0 #ifdef TARGET_NR_msync
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case TARGET_NR_msync:
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return get_errno(msync(g2h(=
-cpu, arg1), arg2, arg3));
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return get_errno(msync(g2h(=
-cpu, arg1), arg2,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 target_to_host_msync_arg(arg3)));
->> =C2=A0 #endif
->> =C2=A0 #ifdef TARGET_NR_mlock
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case TARGET_NR_mlock:
->>
+>> +    assert(s->irq_num > 0);
+>
+>        if (!s->irq_num || s->irq_num  > PCH_MSI_IRQ_NUM) {
+>            error_setg(errp, "Invalid 'msi_irq_num'");
+>            return;
+>        }
+>
+>> +    s->pch_msi_irq = g_malloc(sizeof(qemu_irq) * s->irq_num);
+>
+>        s->pch_msi_irq = g_new(qemu_irq, s->irq_num);
+>
+>> +    if (!s->pch_msi_irq) {
+>> +        error_report("loongarch_pch_msi: fail to alloc memory");
+>> +        exit(1);
+>> +    }
+>> +
+>> +    qdev_init_gpio_out(dev, s->pch_msi_irq, s->irq_num);
+>> +    qdev_init_gpio_in(dev, pch_msi_irq_handler, s->irq_num);
+>> +}
+>
+> Missing g_free(s->pch_msi_irq) in loongarch_pch_msi_unrealize().
+>
+>>   static void loongarch_pch_msi_init(Object *obj)
+>>   {
+>>       LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(obj);
+>> @@ -59,12 +75,11 @@ static void loongarch_pch_msi_init(Object *obj)
+>>       sysbus_init_mmio(sbd, &s->msi_mmio);
+>>       msi_nonbroken = true;
+>>   -    qdev_init_gpio_out(DEVICE(obj), s->pch_msi_irq, PCH_MSI_IRQ_NUM);
+>> -    qdev_init_gpio_in(DEVICE(obj), pch_msi_irq_handler, 
+>> PCH_MSI_IRQ_NUM);
+>>   }
+>>     static Property loongarch_msi_properties[] = {
+>>       DEFINE_PROP_UINT32("msi_irq_base", LoongArchPCHMSI, irq_base, 0),
+>> +    DEFINE_PROP_UINT32("msi_irq_num",  LoongArchPCHMSI, irq_num, 0),
+>>       DEFINE_PROP_END_OF_LIST(),
+>>   };
+>>   @@ -72,6 +87,7 @@ static void 
+>> loongarch_pch_msi_class_init(ObjectClass *klass, void *data)
+>>   {
+>>       DeviceClass *dc = DEVICE_CLASS(klass);
+>>   +    dc->realize = loongarch_pch_msi_realize;
+>
+>        dc->unrealize = loongarch_pch_msi_unrealize;
+>
+>>       device_class_set_props(dc, loongarch_msi_properties);
+>>   }
+>>   diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+>> index 958be74fa1..3547d5f711 100644
+>> --- a/hw/loongarch/virt.c
+>> +++ b/hw/loongarch/virt.c
+>> @@ -496,7 +496,7 @@ static void 
+>> loongarch_irq_init(LoongArchMachineState *lams)
+>>       LoongArchCPU *lacpu;
+>>       CPULoongArchState *env;
+>>       CPUState *cpu_state;
+>> -    int cpu, pin, i;
+>> +    int cpu, pin, i, start, num;
+>>         ipi = qdev_new(TYPE_LOONGARCH_IPI);
+>>       sysbus_realize_and_unref(SYS_BUS_DEVICE(ipi), &error_fatal);
+>> @@ -576,14 +576,17 @@ static void 
+>> loongarch_irq_init(LoongArchMachineState *lams)
+>>       }
+>>         pch_msi = qdev_new(TYPE_LOONGARCH_PCH_MSI);
+>> -    qdev_prop_set_uint32(pch_msi, "msi_irq_base", PCH_MSI_IRQ_START);
+>> +    start   =  PCH_PIC_IRQ_NUM;
+>> +    num = 256 - start;
+>
+> This part is confuse. So you don't need PCH_MSI_IRQ_START anymore?
+> What is this magic '256' value?
+On loongarch platform, both PCH_pic and PCH_MSI intc are connected to upper
+extioi controller, PCH_pic is triggered by irq line and PCH_MSI is 
+trigger by message method.
+
+No, PCH_MSI_IRQ_START is not necessary any more. 256 is total supported 
+irq number with extioi controller,
+we will replace it with macro EXTIOI_IRQS. We can adjust irq number 
+between PCH_pic and PCH_MSI, only if
+the total number is no larger than EXTIOI_IRQS. In general there are 
+lots of msi vectors requirements
+since there may be many virtio devices; there is no much requirements 
+for PCH_pic intc, since gpex pcie
+irq number is 4 and there is fewer legacy non-pci devices(such as 
+rtc/uart/acpi ged).
+
+I want to adjust number PCH_pic intc with smaller value, and increase 
+irq number of PCH_MSI intc in future.
+>
+>
+>> +    qdev_prop_set_uint32(pch_msi, "msi_irq_base", start);
+>> +    qdev_prop_set_uint32(pch_msi, "msi_irq_num", num);
+>>       d = SYS_BUS_DEVICE(pch_msi);
+>>       sysbus_realize_and_unref(d, &error_fatal);
+>>       sysbus_mmio_map(d, 0, VIRT_PCH_MSI_ADDR_LOW);
+>> -    for (i = 0; i < PCH_MSI_IRQ_NUM; i++) {
+>> +    for (i = 0; i < num; i++) {
+>>           /* Connect 192 pch_msi irqs to extioi */
+>>           qdev_connect_gpio_out(DEVICE(d), i,
+>> -                              qdev_get_gpio_in(extioi, i + 
+>> PCH_MSI_IRQ_START));
+>> +                              qdev_get_gpio_in(extioi, i + start));
+>>       }
 >
 
 
