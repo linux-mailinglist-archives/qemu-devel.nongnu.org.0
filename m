@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C881E64DBF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8311F64DC07
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:13:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5ngp-0006cS-PC; Thu, 15 Dec 2022 07:50:19 -0500
+	id 1p5ngp-0006cT-Pm; Thu, 15 Dec 2022 07:50:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5ngm-0006bQ-Hf
+ id 1p5ngm-0006bR-I7
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:16 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5ngk-00045b-HI
+ id 1p5ngk-00045d-My
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:16 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- f13-20020a1cc90d000000b003d08c4cf679so1734953wmb.5
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:50:13 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id ay40so13692699wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:50:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=el+PUdEeLSMrsbsCt9/CgSu6VD963uIOlDkNZxhmbRw=;
- b=HWud8DFLmkrNiBjmqEbZqgJH2JsZPm+L9RmNZWEIxCQ850RAvcAjaUDQdibDFizzH/
- 3B84Y09Ydsd70Ir34P7BVwnTkqNzs1yFduMmzJgOXhUTIOX0JcvqyiTIabbyVefBLWmr
- B/TRYf5cRLb6pIPtt4E+cpb4RTpDRwIIt2XpelgxNW+mo3m5lqQ6UGaXhSgV2B4g/Tbq
- FAHgCLy+jiwGaTfFzor1imrn636D58oZ8v+9tYPdRFucyVdvwcqq0ublLvxgOEHkFi8L
- 02W60d2wZMCrRbVZ7D2jC13NU84U02iYRrg9VokY1J6gpNMLJkeqz+XUCyyAcr+2cdfL
- X1HA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=ju1JwZIZJKkp9vxG0wSz+KQOFubdrSKxVCNw3F2ffWI=;
+ b=PhlrbVKPT/nhEmw0NdU9d6pGH4LXOM+6xrBipphNrZ77/wAOXT1BTNK+qkOTNTa5Lp
+ Y51aq5x4UdQ0UFvMdKp9OWazp7LFPXtId3L+tQSTW5SgwDV+rrWI+tWD98pYshqO+j/B
+ jQBI5MA5LI4E46CUHsYgBRtH9NyU+qIGgJSMGv7YwqZjB8XzaKdOuiMU0QRP3FNt2VLX
+ H/bz22HopGyLcJUoLFoCx8DkjQf3DUhAjuRRRSEuCO7qbl2pNxh8X6BvEt8YmYJkZ4Fc
+ U+bjx46w8q6lIounv3YY8lX4Sci3bEAOS3yYjtA1TyKxs+QNkIEjjktWZPvseRVwVpII
+ pEpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=el+PUdEeLSMrsbsCt9/CgSu6VD963uIOlDkNZxhmbRw=;
- b=KenjmJuYroIdtTEL0G6+CY32YqD16Lcbb0RsRIkN/k5U0z1XToPVueQZhbh1JfmzE6
- C3qihpQUFCcLviw6L27GCeBPvjFyVjYJQJcNmUtNHJpbJRW6kwQ5W9GP6Le9hZONWN/8
- QNKQ7jScNPU/sYyrApbUvEMPkbJX7ybzkoOFd1nd/WtQFtHAHKen97VczR3cUk/QvR7P
- rEPn7YLRV7t6o80a7t54a+n1BPSIC8ABMd/QzxYxK9z3yVObHrj9CagB9VGXfrTDE5lG
- sS6xZzbg/yaTMGtF+Ia3NIilXd2X+4gy6g1GxZBN7m1ez4PrvjrSzP7tfiKK+5nKBzXR
- xgrQ==
-X-Gm-Message-State: ANoB5pnqS4rtLXunBn4skDaNHlfZ4uAenSnYB3tY1k2CKipGBEV+MR7G
- rcuZtW8q8xFNwE/NEh6lM/qXaMV4qwlMUCG4
-X-Google-Smtp-Source: AA0mqf7iwG1bTFpjazCY4vt3d9r8MjePInDJUzjewwkTrQl+OX+kwsc3pvYC1y7FVfRpQ30EsNeKTg==
-X-Received: by 2002:a05:600c:3799:b0:3d1:f74d:4f60 with SMTP id
- o25-20020a05600c379900b003d1f74d4f60mr21645640wmr.22.1671108612484; 
- Thu, 15 Dec 2022 04:50:12 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ju1JwZIZJKkp9vxG0wSz+KQOFubdrSKxVCNw3F2ffWI=;
+ b=TCGG4CthtSWORtryFXUlmAwkQ3w1Tz81iGWq/3Wpkh8CXWF8n/50+132z/++HajRMr
+ iPUCl4CcqBcQBnNUy+qNXNuZgsJAs/GBj1cOSAI6IRR3GqpnnloOoweErJ8F1ELdHoay
+ J/p9kWjz6rx9/I4D2/opK/2jRfzopaGxT7NHBzXqZKwD9Zr1LtnyGbaTE1IRHmImomlx
+ SrO1AcYlZ2EMLa9Kco3rZb1Ospq34oAHOFi2raOINTtAReHIlpjpMpNnZYdpMEC2a1xX
+ Qgg1/ETgpPW1F4FMNjgRnmobjF3GkgHmUXvfJ8U1V+995KFZ4anFMFwFqPX7+hBM8y4P
+ GrlA==
+X-Gm-Message-State: ANoB5pleh9r58ol1Nj+PqISw7i5RyTPp/Y7KRNGli/UDM9LMCffAAqVI
+ QGX77YYA2o7CDBwcF77lka94Cr1WJqfF9HkK
+X-Google-Smtp-Source: AA0mqf5HVcb+Tvc5s1aCrBiAUQ5GILNYkWjNiD6PT0g6JL3vPDj1S5HLJioKby7hixIsBwJhH34jZA==
+X-Received: by 2002:a05:600c:348a:b0:3cf:69f4:bfd4 with SMTP id
+ a10-20020a05600c348a00b003cf69f4bfd4mr22077956wmq.7.1671108613328; 
+ Thu, 15 Dec 2022 04:50:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.11
+ i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 04:50:11 -0800 (PST)
+ Thu, 15 Dec 2022 04:50:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/29] target-arm queue
-Date: Thu, 15 Dec 2022 12:49:40 +0000
-Message-Id: <20221215125009.980128-1-peter.maydell@linaro.org>
+Subject: [PULL 01/29] hw/arm/virt: Introduce virt_set_high_memmap() helper
+Date: Thu, 15 Dec 2022 12:49:41 +0000
+Message-Id: <20221215125009.980128-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221215125009.980128-1-peter.maydell@linaro.org>
+References: <20221215125009.980128-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,106 +88,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-First arm pullreq of the 8.0 series...
+From: Gavin Shan <gshan@redhat.com>
 
-The following changes since commit ae2b87341b5ddb0dcb1b3f2d4f586ef18de75873:
+This introduces virt_set_high_memmap() helper. The logic of high
+memory region address assignment is moved to the helper. The intention
+is to make the subsequent optimization for high memory region address
+assignment easier.
 
-  Merge tag 'pull-qapi-2022-12-14-v2' of https://repo.or.cz/qemu/armbru into staging (2022-12-14 22:42:14 +0000)
+No functional change intended.
 
-are available in the Git repository at:
+Signed-off-by: Gavin Shan <gshan@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Marc Zyngier <maz@kernel.org>
+Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
+Message-id: 20221029224307.138822-2-gshan@redhat.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/virt.c | 74 ++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 41 insertions(+), 33 deletions(-)
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20221215
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index b8713508561..ca300281939 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1690,6 +1690,46 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+     return arm_cpu_mp_affinity(idx, clustersz);
+ }
+ 
++static void virt_set_high_memmap(VirtMachineState *vms,
++                                 hwaddr base, int pa_bits)
++{
++    int i;
++
++    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
++        hwaddr size = extended_memmap[i].size;
++        bool fits;
++
++        base = ROUND_UP(base, size);
++        vms->memmap[i].base = base;
++        vms->memmap[i].size = size;
++
++        /*
++         * Check each device to see if they fit in the PA space,
++         * moving highest_gpa as we go.
++         *
++         * For each device that doesn't fit, disable it.
++         */
++        fits = (base + size) <= BIT_ULL(pa_bits);
++        if (fits) {
++            vms->highest_gpa = base + size - 1;
++        }
++
++        switch (i) {
++        case VIRT_HIGH_GIC_REDIST2:
++            vms->highmem_redists &= fits;
++            break;
++        case VIRT_HIGH_PCIE_ECAM:
++            vms->highmem_ecam &= fits;
++            break;
++        case VIRT_HIGH_PCIE_MMIO:
++            vms->highmem_mmio &= fits;
++            break;
++        }
++
++        base += size;
++    }
++}
++
+ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+ {
+     MachineState *ms = MACHINE(vms);
+@@ -1745,39 +1785,7 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+     /* We know for sure that at least the memory fits in the PA space */
+     vms->highest_gpa = memtop - 1;
+ 
+-    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+-        hwaddr size = extended_memmap[i].size;
+-        bool fits;
+-
+-        base = ROUND_UP(base, size);
+-        vms->memmap[i].base = base;
+-        vms->memmap[i].size = size;
+-
+-        /*
+-         * Check each device to see if they fit in the PA space,
+-         * moving highest_gpa as we go.
+-         *
+-         * For each device that doesn't fit, disable it.
+-         */
+-        fits = (base + size) <= BIT_ULL(pa_bits);
+-        if (fits) {
+-            vms->highest_gpa = base + size - 1;
+-        }
+-
+-        switch (i) {
+-        case VIRT_HIGH_GIC_REDIST2:
+-            vms->highmem_redists &= fits;
+-            break;
+-        case VIRT_HIGH_PCIE_ECAM:
+-            vms->highmem_ecam &= fits;
+-            break;
+-        case VIRT_HIGH_PCIE_MMIO:
+-            vms->highmem_mmio &= fits;
+-            break;
+-        }
+-
+-        base += size;
+-    }
++    virt_set_high_memmap(vms, base, pa_bits);
+ 
+     if (device_memory_size > 0) {
+         ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
+-- 
+2.25.1
 
-for you to fetch changes up to 4f3ebdc33618e7c163f769047859d6f34373e3af:
-
-  target/arm: Restrict arm_cpu_exec_interrupt() to TCG accelerator (2022-12-15 11:18:20 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * hw/arm/virt: Add properties to allow more granular
-   configuration of use of highmem space
- * target/arm: Add Cortex-A55 CPU
- * hw/intc/arm_gicv3: Fix GICD_TYPER ITLinesNumber advertisement
- * Implement FEAT_EVT
- * Some 3-phase-reset conversions for Arm GIC, SMMU
- * hw/arm/boot: set initrd with #address-cells type in fdt
- * align user-mode exposed ID registers with Linux
- * hw/misc: Move some arm-related files from specific_ss into softmmu_ss
- * Restrict arm_cpu_exec_interrupt() to TCG accelerator
-
-----------------------------------------------------------------
-Gavin Shan (7):
-      hw/arm/virt: Introduce virt_set_high_memmap() helper
-      hw/arm/virt: Rename variable size to region_size in virt_set_high_memmap()
-      hw/arm/virt: Introduce variable region_base in virt_set_high_memmap()
-      hw/arm/virt: Introduce virt_get_high_memmap_enabled() helper
-      hw/arm/virt: Improve high memory region address assignment
-      hw/arm/virt: Add 'compact-highmem' property
-      hw/arm/virt: Add properties to disable high memory regions
-
-Luke Starrett (1):
-      hw/intc/arm_gicv3: Fix GICD_TYPER ITLinesNumber advertisement
-
-Mihai Carabas (1):
-      hw/arm/virt: build SMBIOS 19 table
-
-Peter Maydell (15):
-      target/arm: Allow relevant HCR bits to be written for FEAT_EVT
-      target/arm: Implement HCR_EL2.TTLBIS traps
-      target/arm: Implement HCR_EL2.TTLBOS traps
-      target/arm: Implement HCR_EL2.TICAB,TOCU traps
-      target/arm: Implement HCR_EL2.TID4 traps
-      target/arm: Report FEAT_EVT for TCG '-cpu max'
-      hw/arm: Convert TYPE_ARM_SMMU to 3-phase reset
-      hw/arm: Convert TYPE_ARM_SMMUV3 to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GIC_COMMON to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GIC_KVM to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GICV3_COMMON to 3-phase reset
-      hw/intc: Convert TYPE_KVM_ARM_GICV3 to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GICV3_ITS_COMMON to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GICV3_ITS to 3-phase reset
-      hw/intc: Convert TYPE_KVM_ARM_ITS to 3-phase reset
-
-Philippe Mathieu-Daudé (1):
-      target/arm: Restrict arm_cpu_exec_interrupt() to TCG accelerator
-
-Schspa Shi (1):
-      hw/arm/boot: set initrd with #address-cells type in fdt
-
-Thomas Huth (1):
-      hw/misc: Move some arm-related files from specific_ss into softmmu_ss
-
-Timofey Kutergin (1):
-      target/arm: Add Cortex-A55 CPU
-
-Zhuojia Shen (1):
-      target/arm: align exposed ID registers with Linux
-
- docs/system/arm/emulation.rst          |   1 +
- docs/system/arm/virt.rst               |  18 +++
- include/hw/arm/smmuv3.h                |   2 +-
- include/hw/arm/virt.h                  |   2 +
- include/hw/misc/xlnx-zynqmp-apu-ctrl.h |   2 +-
- target/arm/cpu.h                       |  30 +++++
- target/arm/kvm-consts.h                |   8 +-
- hw/arm/boot.c                          |  10 +-
- hw/arm/smmu-common.c                   |   7 +-
- hw/arm/smmuv3.c                        |  12 +-
- hw/arm/virt.c                          | 202 +++++++++++++++++++++++-----
- hw/intc/arm_gic_common.c               |   7 +-
- hw/intc/arm_gic_kvm.c                  |  14 +-
- hw/intc/arm_gicv3_common.c             |   7 +-
- hw/intc/arm_gicv3_dist.c               |   4 +-
- hw/intc/arm_gicv3_its.c                |  14 +-
- hw/intc/arm_gicv3_its_common.c         |   7 +-
- hw/intc/arm_gicv3_its_kvm.c            |  14 +-
- hw/intc/arm_gicv3_kvm.c                |  14 +-
- hw/misc/imx6_src.c                     |   2 +-
- hw/misc/iotkit-sysctl.c                |   1 -
- target/arm/cpu.c                       |   5 +-
- target/arm/cpu64.c                     |  70 ++++++++++
- target/arm/cpu_tcg.c                   |   1 +
- target/arm/helper.c                    | 231 ++++++++++++++++++++++++---------
- hw/misc/meson.build                    |  11 +-
- 26 files changed, 538 insertions(+), 158 deletions(-)
 
