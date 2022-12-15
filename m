@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FED64DCB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 15:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E04B964DCB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 15:07:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5osa-0004Bl-N4; Thu, 15 Dec 2022 09:06:36 -0500
+	id 1p5osy-0004eb-A0; Thu, 15 Dec 2022 09:06:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p5osX-00048p-El
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:06:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p5osV-00031j-Ln
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:06:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671113186;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=EAwB7+BZAoQhmF/UVOCsecDY9IentN0mH+/f3wfA5go=;
- b=ICZld6STqQURhHs1m2gqimpI0/6NwMBLzrm/j/uHsuR8ePAB2EyGNZXRmfza0lZm+OVYrE
- dPONzZez3xAHqRb4psglIxuTCexEER8f7uxOHct+fBOHLTuCZc2azMJ3b9aOKvHuvbpsB0
- DY8jDmikcWxvZJZgPk/6gVtQtLMd8lc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-606-Fkm05qVRMd-hWG3qrJ3Gxw-1; Thu, 15 Dec 2022 09:06:22 -0500
-X-MC-Unique: Fkm05qVRMd-hWG3qrJ3Gxw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22D0B2805D03;
- Thu, 15 Dec 2022 14:06:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B5244085721;
- Thu, 15 Dec 2022 14:06:20 +0000 (UTC)
-Date: Thu, 15 Dec 2022 14:06:15 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ralf-Philipp Weinmann <ralf@comsecuris.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: QEMU PPC VLE support
-Message-ID: <Y5sp11VXr/nY84ib@redhat.com>
-References: <CAJSP0QVVQLueQDzOb-GAhORetK38EzgBhem=UjChJ3oaxRaFmg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p5osq-0004de-IY
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:06:51 -0500
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p5oso-00035T-PR
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:06:48 -0500
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-3f15a6f72d0so42519357b3.1
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 06:06:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=bWzsJK0aQxjW1D1nBmSJisBU6IcmRMp+XFQVo24cTCE=;
+ b=YI2FGQnVvpwIz9E0+4UopF7EHKAVhUme4u0a7RNXApa0uZinj/+neg3SgbJt/9+GWj
+ 1VJiVqIqEUy2DyXQ8X/Pv1KYsIax5noC7Ux9Od8VvaEwJpr0Vs+yk94wC3uAA5Xr4i1M
+ TMdmlPYSAqwh52QypwJ6SiHvzmVCVdETRt7eg6a2HmWO63AKIbq7GK99UAIrQo2UpRD/
+ 5iOEw1G82Tvm7jtjBTsORhZJVHpRRZUVB7G+vs/vTlucBcXmVPF4bS1wzE2Wy5FpdQVd
+ UhVtndQ7LJrA/3+MkFnkS4cYtfaRIZug6FcDKI25sG+oVSgR1TfOiSOpDDWyLlbm/mi4
+ A6vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bWzsJK0aQxjW1D1nBmSJisBU6IcmRMp+XFQVo24cTCE=;
+ b=IKb5Kz1j1Pn/xSZYfObsAcrsgjJZMW+BaXYal8pYk5QrWyp1NH15F/GjbzTFRBxOMJ
+ TBO46dffKBDM2aqHIiHOoC8IT8cXrkVsbITcuQbi3dNBBr/L9MGF+dzJH7ayQwgd4dUi
+ 63u72529OtEuvlHM5x2aXwaGRVQ2Fp6XaJcDY1C+4s+wzhWYauAUz1xbSp8KSVFCMnm0
+ 0tiEciRBcvaWMKhADAmlTkfHY1erg43i4f4l/mksk0w+8dP+7+jxm6jMW54BJU+R1YYt
+ Vws0qSDmNE5K7KPhu9nwAq9iLrbt198SBnEZRN+8ZGxDslbXHXLnKjiz4Fv+sc7csN7W
+ WZMA==
+X-Gm-Message-State: ANoB5pnW4KDlsRe9elfhrn3AHzosc7dhCOX5BjHGncuGSPPNTD9pwzZu
+ KeWsu3awkij3bAwFmQuSCTzb43YoDWRy0UNe5OM=
+X-Google-Smtp-Source: AA0mqf5rRfuFL1ioDAWpnCEOhX/yLdKru76UVV9XGrjNspkyBgD804yPka1qPASpSB8NY4V2vUJz7wFKNLD18sk45Ak=
+X-Received: by 2002:a81:3c7:0:b0:3eb:447b:56cc with SMTP id
+ 190-20020a8103c7000000b003eb447b56ccmr22162955ywd.296.1671113205448; Thu, 15
+ Dec 2022 06:06:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QVVQLueQDzOb-GAhORetK38EzgBhem=UjChJ3oaxRaFmg@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <CAJSP0QVVQLueQDzOb-GAhORetK38EzgBhem=UjChJ3oaxRaFmg@mail.gmail.com>
+ <1F7AFCBF-66D5-4EC1-8FBE-FC8A4E5C88D2@comsecuris.com>
+In-Reply-To: <1F7AFCBF-66D5-4EC1-8FBE-FC8A4E5C88D2@comsecuris.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 15 Dec 2022 09:06:33 -0500
+Message-ID: <CAJSP0QWM0CyXfT1x=G50b7fPOD+3T7YuPLDxMsqtUNd=twkd3g@mail.gmail.com>
+Subject: Re: QEMU PPC VLE support
+To: Ralf-Philipp Weinmann <ralf@comsecuris.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,50 +85,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 15, 2022 at 08:37:54AM -0500, Stefan Hajnoczi wrote:
-> Hi,
-> I came across this post where Ralf-Philipp is looking for a freelancer
-> to implement PPC VLE support in QEMU:
-> https://chaos.social/@rpw/109516326028642262
-> 
-> It mentions upstreaming the code and I've included QEMU PPC
-> maintainers in this email so they can discuss the project with
-> Ralf-Philipp. That way the chances of a mergable result will be
-> maximized.
-> 
-> The Rust aspect is interesting, but QEMU does not have any existing
-> targets implemented in Rust. It might be a major effort to create the
-> necessary C<->Rust interfacing, so I'm not sure whether that's
-> realistic given the timeframe for the project.
+On Thu, 15 Dec 2022 at 08:51, Ralf-Philipp Weinmann <ralf@comsecuris.com> wrote:
+> > On 15. Dec 2022, at 14:37, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> >
+> > Hi,
+> > I came across this post where Ralf-Philipp is looking for a freelancer
+> > to implement PPC VLE support in QEMU:
+> > https://chaos.social/@rpw/109516326028642262
+> >
+> > It mentions upstreaming the code and I've included QEMU PPC
+> > maintainers in this email so they can discuss the project with
+> > Ralf-Philipp. That way the chances of a mergable result will be
+> > maximized.
+> >
+> > The Rust aspect is interesting, but QEMU does not have any existing
+> > targets implemented in Rust. It might be a major effort to create the
+> > necessary C<->Rust interfacing, so I'm not sure whether that's
+> > realistic given the timeframe for the project.
+> >
+> > Does anyone have time to take on this freelancing project or know
+> > someone who is available?
+>
+> Thank you, Stefan!
 
-I'd very much like to see QEMU open up to use of Rust, but I don't
-think we should be doing it in a piecemeal way where we special case
-just one part.
+It occurred to me that we could reach out to former QEMU Google Summer
+of Code and Outreachy interns. They have prior QEMU contribution
+experience and might have time to take on a freelancing gig.
 
-If we're going to accept use of Rust, then its important that we
-(the QEMU community) come to some general agreement for what our
-intention is for the use fo Rust in QEMU
+Please let me know if you want to do that and I can put you in touch with them.
 
-Running a paid-for development effort that intends to upstream
-to QEMU feels like a pretty risky venture if it intends to use
-Rust, prior to the QEMU community making a clear plan about our
-wishes for use of Rust.
-
-On the other hand, perhaps such an effort could force us to
-actually make a decision. We've talked about Rust quite a few
-times, but until someone has a concrete proposal for use of
-Rust in QEMU context, we're likely to keep punting the decision
-to a later date.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Stefan
 
