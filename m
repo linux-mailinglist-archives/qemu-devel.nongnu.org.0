@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A42C64D8F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 10:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826E464D8C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 10:40:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5khv-0007t9-MR; Thu, 15 Dec 2022 04:39:15 -0500
+	id 1p5khw-0007tX-FG; Thu, 15 Dec 2022 04:39:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p5khs-0007sT-Ih
+ id 1p5khs-0007sX-NU
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 04:39:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p5khr-0000Ue-5Y
+ id 1p5khr-0000Ui-BP
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 04:39:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671097150;
@@ -24,24 +24,24 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wht3cZbEag0AF4cSKduIqGDfC02z0cnt1HmfpmfZWO0=;
- b=iItStcLjze5I5oD00A5NaLOxledG6SbqlJq3F8x6QxhHS9SJN56cmaWMqDgr7nljUxdBoW
- X15t2HKmUwYPM749hoN3o3qmLn3zanqHC8mj++KtNtgPbNyqOou1ggXC9tl0cdC0qeZg0M
- xz63YkJJcN847RagorX0ukZuulgJkCk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=82n06ypGY49Plz4M2tcMx6flFk5mja5S3ptKNYMoHNk=;
+ b=J8/GDdPVONWuzjaYrFWFDsQBBP2F1KjWCqWX4azfo2CAPZu28XgAJgHAXFPGsneuy/fKvv
+ v8i47jUhP4BtE3oAWKeapaD3HK/6E0ee5MUF6B6NcSrj64vF2BiHKEYrW+XSrhT7Tig6EY
+ PQMCbsPwK2T0ZKUJsW/IgjYyx2YWPUw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-4Y3cNbr6PHmUywdOVhEmfg-1; Thu, 15 Dec 2022 04:39:06 -0500
-X-MC-Unique: 4Y3cNbr6PHmUywdOVhEmfg-1
+ us-mta-259-JaNZi2dgOAuqLlhsxuIbTw-1; Thu, 15 Dec 2022 04:39:09 -0500
+X-MC-Unique: JaNZi2dgOAuqLlhsxuIbTw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABD653813F2B;
- Thu, 15 Dec 2022 09:39:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCAB885C6E4;
+ Thu, 15 Dec 2022 09:39:08 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B988840C2064;
- Thu, 15 Dec 2022 09:39:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2C6740C2064;
+ Thu, 15 Dec 2022 09:39:05 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
@@ -53,11 +53,10 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Fam Zheng <fam@euphon.net>, David Edmondson <david.edmondson@oracle.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: [PULL 03/19] migration: Export ram_transferred_ram()
-Date: Thu, 15 Dec 2022 10:38:33 +0100
-Message-Id: <20221215093849.4771-4-quintela@redhat.com>
+ Fam Zheng <fam@euphon.net>, Leonardo Bras <leobras@redhat.com>
+Subject: [PULL 04/19] migration: Export ram_release_page()
+Date: Thu, 15 Dec 2022 10:38:34 +0100
+Message-Id: <20221215093849.4771-5-quintela@redhat.com>
 In-Reply-To: <20221215093849.4771-1-quintela@redhat.com>
 References: <20221215093849.4771-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -71,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,40 +87,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Leonardo Bras <leobras@redhat.com>
 ---
- migration/ram.h | 2 ++
+ migration/ram.h | 1 +
  migration/ram.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/migration/ram.h b/migration/ram.h
-index c7af65ac74..e844966f69 100644
+index e844966f69..038d52f49f 100644
 --- a/migration/ram.h
 +++ b/migration/ram.h
-@@ -65,6 +65,8 @@ int ram_load_postcopy(QEMUFile *f, int channel);
- 
+@@ -66,6 +66,7 @@ int ram_load_postcopy(QEMUFile *f, int channel);
  void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
  
-+void ram_transferred_add(uint64_t bytes);
-+
+ void ram_transferred_add(uint64_t bytes);
++void ram_release_page(const char *rbname, uint64_t offset);
+ 
  int ramblock_recv_bitmap_test(RAMBlock *rb, void *host_addr);
  bool ramblock_recv_bitmap_test_byte_offset(RAMBlock *rb, uint64_t byte_offset);
- void ramblock_recv_bitmap_set(RAMBlock *rb, void *host_addr);
 diff --git a/migration/ram.c b/migration/ram.c
-index 1338e47665..2cbe707bfc 100644
+index 2cbe707bfc..8aad17c429 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -422,7 +422,7 @@ uint64_t ram_bytes_remaining(void)
+@@ -1234,7 +1234,7 @@ static void migration_bitmap_sync_precopy(RAMState *rs)
+     }
+ }
  
- MigrationStats ram_counters;
- 
--static void ram_transferred_add(uint64_t bytes)
-+void ram_transferred_add(uint64_t bytes)
+-static void ram_release_page(const char *rbname, uint64_t offset)
++void ram_release_page(const char *rbname, uint64_t offset)
  {
-     if (runstate_is_running()) {
-         ram_counters.precopy_bytes += bytes;
+     if (!migrate_release_ram() || !migration_in_postcopy()) {
+         return;
 -- 
 2.38.1
 
