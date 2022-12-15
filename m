@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F78464DD01
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 15:41:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C8D64DD10
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 15:45:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5pPj-0000lO-62; Thu, 15 Dec 2022 09:40:47 -0500
+	id 1p5pTw-0003AN-FO; Thu, 15 Dec 2022 09:45:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5pPg-0000hv-W0
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:40:45 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p5pTq-00039R-Tb
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:45:05 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5pPe-0006oz-M3
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:40:44 -0500
-Received: by mail-wr1-x429.google.com with SMTP id u12so3239187wrr.11
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 06:40:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p5pTp-0007YT-5v
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:45:02 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id t2so7110342ply.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 06:45:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=q1v+mS1S0qPwApoERfxlG/tPBuzwvTJiOTQfstRqbP0=;
- b=RkfG85rXAM4T1B8kVdiwvg1X8c/53Dx0WUHTAp7f1wPlifSjLf0Yu/3NL2icuBkV6i
- bbm7k2ftBtqZKCKuN1vRaszrS/sV+ZBCMHZUhbyfJpfk+kUSqtRYeiZbTDobqKcb5ioY
- RI2LkdRrPQ0JkdKwz83PTZ8tz0YaMPb28PMaOBgAsS5qrbkqa4R6TtwYJVVjbPFHF2rc
- xzOheiBTg4g0x3dE+HuS8sS0q++SqMjJMtngfi3cKxhvQyhjdvBGsFia5EOSn8+jnD4U
- 7YthYuW/9V+j+w+sOqyktQuO6i2W3KhmXVwvmAQiYqHv40jU/MmHxCWFZeGsQ8fc2SYa
- UQFA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=hXehntAdbtJdyM8Ox9xrSfJBNRO71waBhmPFNZlD380=;
+ b=iu5lM/AciatA4mfUWhEVgNo/UZnOuaol624749agrmKJ84NIMqS+ojxO599d2rygwB
+ bNMfqR4eDj3HEpQ4cDBDG3kA3CuXf0QpRUCvMqGFCrRkGtR4jkjlO5Fd6rvjxacp3oxY
+ TumLotr4bcvIcV238aN6iY8/YNlkW0J+WuGYkVaWj9f0eYQ5+EuERLjD8UjpjzbaZTbo
+ bqggd6xdko9dRKVrVp6/CSqz5leAtXgJolJ763xZ6QvXMm/65gy97veFKCbzyv9Bbi3O
+ l4G1OLPZvASBcQtoFk2KSF0xpquGb8YmIMwzu2WCID8jIoh8t1XpCWh+oSqPNOpnf1pu
+ yhYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=q1v+mS1S0qPwApoERfxlG/tPBuzwvTJiOTQfstRqbP0=;
- b=eig4mvWZAkgPZOmtzDmWr8IsDiH6o0ETuNnD4aQpDtyepcP6ube1Tk5mSlqPPPSk9W
- VoTGrIF1f6+j0vPrrgKcdGYSjenkaoQtmOKkTSLNQG0uwvPmEzXCVTlh0IQvDBnO4016
- 5xxfRKWwIYD8RpF2I+O1jgQE689P1JESRucFEWQX+gxAi1RyBXpSSqA318/jlpZ8YNW5
- /cGRyQ/P+8HmarKzL8nKMctVk7TRR+LKaezrZ9B+lg3wcf0StbqS89zh7+X1IkCXRo5r
- BJDW/ahjnG9V/jmCVsFAO5mUeOjH8n7INEft0Xtn5hNiu4erCO3UfTcmUIg1s5a4iO/9
- /Yag==
-X-Gm-Message-State: ANoB5pn32/zzdnq42nfWKgJQX4SCdcDoRamTv4hWgL6EHSruyGQwrkSP
- 3FlKK1cn8BPTEgigOlxgMVvykg==
-X-Google-Smtp-Source: AA0mqf6it9nZ0nLpjlb/Pak/bi5/52zfuEer0sziNM43jODZLsyHNDBkf8gaqJ64knf5h7ujx2thIw==
-X-Received: by 2002:a05:6000:408c:b0:242:7560:e927 with SMTP id
- da12-20020a056000408c00b002427560e927mr19387051wrb.48.1671115240644; 
- Thu, 15 Dec 2022 06:40:40 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- u7-20020adfed47000000b002365254ea42sm6118182wro.1.2022.12.15.06.40.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 06:40:40 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CBE1E1FFB7;
- Thu, 15 Dec 2022 14:40:39 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [RFC PATCH] gitlab: turn off verbose logging for make check on custom
- runners
-Date: Thu, 15 Dec 2022 14:40:35 +0000
-Message-Id: <20221215144035.2364830-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ bh=hXehntAdbtJdyM8Ox9xrSfJBNRO71waBhmPFNZlD380=;
+ b=crsc+DoYa23JFhWQkm9RWN5S+G5Qp8jaQTZjROzq+hcDhVW/133kN77E7AVE14eFGq
+ fW9BulVqQznCk4ZfxGOp79PK0N6GqsSjEM8B/nSB9+y4KuW2X+5Ouk6naj1oqj2hE0pu
+ nScYGQBpVkr28N8QVu0MM4x7zEo4bJoOdQQV28/ITH2BuQJZaUCCIb960Lufe0jsGITp
+ 5Ey8RzPGsdlefsjApfIdQkPASCQIISWe7O2vI9alAHY1bikSTOMb/YWLwlQutMPsfB0c
+ Xdio7WX9Qpa8G2BsS/Y3CgM5QOWPE71IQcXrgeYLdDfeMGk/RfTKJ08/SPkoyMh8mGwL
+ 8K3Q==
+X-Gm-Message-State: ANoB5pkb8Kge35Kd7VusKrVcj+K0937MhvY1FWtY0MjHDlSQkBMGI66C
+ x9ZRr4jL1+/n/Pdezw1NcSsa+DD+N39DsPLRXby3Dw==
+X-Google-Smtp-Source: AA0mqf7J+pwFsJNVGFojxPlpEn5le+YsYAJA1wdB8G/CZ9G3GfHqIIE3buFz7vc6zmtiRdh8Xg/kr3pR685K6akJqYs=
+X-Received: by 2002:a17:902:70c5:b0:189:b0a3:cf4a with SMTP id
+ l5-20020a17090270c500b00189b0a3cf4amr36445772plt.60.1671115499290; Thu, 15
+ Dec 2022 06:44:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+References: <20221215115900.30044-1-kwolf@redhat.com>
+In-Reply-To: <20221215115900.30044-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 15 Dec 2022 14:44:48 +0000
+Message-ID: <CAFEAcA9niEUk+JwDhOTqa6owskGmJq0jSJXxeRmUtfG3mp_4mA@mail.gmail.com>
+Subject: Re: [PULL v2 00/51] Block layer patches
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,130 +82,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The verbosity adds a lot of unnecessary output to the CI logs which
-end up getting truncated anyway. We can always extract information
-from the meson test logs on a failure and for the custom runners its
-generally easier to re-create failures anyway.
+On Thu, 15 Dec 2022 at 11:59, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 5204b499a6cae4dfd9fe762d5e6e82224892383b:
+>
+>   mailmap: Fix Stefan Weil author email (2022-12-13 15:56:57 -0500)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to 347fe9e156a3e00c40ae1802978276a1f7d5545f:
+>
+>   block: GRAPH_RDLOCK for functions only called by co_wrappers (2022-12-15 10:11:45 +0100)
+>
+> v2:
+> - Changed TSA capability name to "mutex" to work with older clang
+>   versions. The tsan-build CI job succeeds now.
+>
+> ----------------------------------------------------------------
+> Block layer patches
+>
+> - Code cleanups around block graph modification
+> - Simplify drain
+> - coroutine_fn correctness fixes, including splitting generated
+>   coroutine wrappers into co_wrapper (to be called only from
+>   non-coroutine context) and co_wrapper_mixed (both coroutine and
+>   non-coroutine context)
+> - Introduce a block graph rwlock
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml   | 12 ++++++------
- .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml |  2 +-
- .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml | 12 ++++++------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+This fails to compile on the FreeBSD 12 and 13 jobs:
+https://gitlab.com/qemu-project/qemu/-/jobs/3479763741
+https://gitlab.com/qemu-project/qemu/-/jobs/3479763746
 
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-index 0c835939db..fcaef9e5ef 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-@@ -19,9 +19,9 @@ ubuntu-20.04-s390x-all-linux-static:
-  - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
-- - make --output-sync -j`nproc` check-tcg V=1
-+ - make --output-sync -j`nproc` check-tcg
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-20.04-s390x-all:
-@@ -40,7 +40,7 @@ ubuntu-20.04-s390x-all:
-  - ../configure --disable-libssh
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-20.04-s390x-alldbg:
-@@ -63,7 +63,7 @@ ubuntu-20.04-s390x-alldbg:
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make clean
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-20.04-s390x-clang:
-@@ -85,7 +85,7 @@ ubuntu-20.04-s390x-clang:
-  - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-20.04-s390x-tci:
-@@ -127,5 +127,5 @@ ubuntu-20.04-s390x-notcg:
-  - ../configure --disable-libssh --disable-tcg
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-index 1a2f9b8dbe..2c386fa3e9 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-@@ -21,5 +21,5 @@ ubuntu-22.04-aarch32-all:
-  - ../configure --cross-prefix=arm-linux-gnueabihf-
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-index ce0b18af6f..abeb33eaff 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-@@ -19,9 +19,9 @@ ubuntu-22.04-aarch64-all-linux-static:
-  - ../configure --enable-debug --static --disable-system --disable-pie
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
-- - make --output-sync -j`nproc --ignore=40` check-tcg V=1
-+ - make --output-sync -j`nproc --ignore=40` check-tcg
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-22.04-aarch64-all:
-@@ -43,7 +43,7 @@ ubuntu-22.04-aarch64-all:
-  - ../configure
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-22.04-aarch64-alldbg:
-@@ -62,7 +62,7 @@ ubuntu-22.04-aarch64-alldbg:
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make clean
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-22.04-aarch64-clang:
-@@ -84,7 +84,7 @@ ubuntu-22.04-aarch64-clang:
-  - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-22.04-aarch64-tci:
-@@ -126,5 +126,5 @@ ubuntu-22.04-aarch64-notcg:
-  - ../configure --disable-tcg
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
--- 
-2.34.1
+The compiler is producing -Wthread-safety-analysis
+warnings on code in qemu-thread-posix.c, which are a
+compile failure because of -Werror.
 
+thanks
+-- PMM
 
