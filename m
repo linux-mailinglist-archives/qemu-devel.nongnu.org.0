@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D2964D910
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 10:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1ED364D907
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 10:52:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5ki7-00080F-SM; Thu, 15 Dec 2022 04:39:27 -0500
+	id 1p5ki8-00082j-PD; Thu, 15 Dec 2022 04:39:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p5khx-0007ud-NN
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 04:39:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1p5ki4-00080j-BU
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 04:39:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1p5khw-0000W6-71
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 04:39:17 -0500
+ id 1p5khz-0000Wj-2W
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 04:39:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671097155;
+ s=mimecast20190719; t=1671097158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mwG7VmeQ4OSrYdmnU8HIXq4U+zlJC1ZXAM3D1p/Nf8Q=;
- b=Z/CiJEJ105H8wUFWuKrOnauPvbln9LyKoDSSwBcQ2WoBFtJgnLdgrV9vaylIJhokFWp5u8
- 82rc1sRwtW/SGYpEmXTLwKzct+s/Q4KdulWJZJ27teNhgYgvrHgE8radznAL1YW6rfUqsj
- kV6FmiF6fuq+H/2hG9U+GQbTBigL2o0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Y2FikQbfX3Vpm8/roYrQu/IEscu7tBjOtyBOMBEKAZ8=;
+ b=aNup2zrVbuq24Ew8atkdLcmuPujytC3einIpyC43D4MhSFIKxWsGRT3dfJlXhsszCKjyBB
+ o/e1bBt/wBU6lg9yzvFWukzO4ds+6YZrV6/ydrp5RfbAYKiyez+eJ4rMwNjfzc/sU+u6nU
+ DQnMN3HH1ly5Rpq+MEac7sbL9jVwTU4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-326-VbQphPD2NAqIEXOQNKIHXQ-1; Thu, 15 Dec 2022 04:39:12 -0500
-X-MC-Unique: VbQphPD2NAqIEXOQNKIHXQ-1
+ us-mta-619-sqxjFWrbMPm6K6LCoPUt7A-1; Thu, 15 Dec 2022 04:39:15 -0500
+X-MC-Unique: sqxjFWrbMPm6K6LCoPUt7A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A89FC3813F2C;
- Thu, 15 Dec 2022 09:39:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 932DD8028B0;
+ Thu, 15 Dec 2022 09:39:14 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1087240C2064;
- Thu, 15 Dec 2022 09:39:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F01F940C2064;
+ Thu, 15 Dec 2022 09:39:11 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
@@ -54,16 +54,15 @@ Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
  Fam Zheng <fam@euphon.net>
-Subject: [PULL 05/19] migration: Take bitmap mutex when completing ram
- migration
-Date: Thu, 15 Dec 2022 10:38:35 +0100
-Message-Id: <20221215093849.4771-6-quintela@redhat.com>
+Subject: [PULL 06/19] migration: Add postcopy_preempt_active()
+Date: Thu, 15 Dec 2022 10:38:36 +0100
+Message-Id: <20221215093849.4771-7-quintela@redhat.com>
 In-Reply-To: <20221215093849.4771-1-quintela@redhat.com>
 References: <20221215093849.4771-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,39 +88,50 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Peter Xu <peterx@redhat.com>
 
-Any call to ram_find_and_save_block() needs to take the bitmap mutex.  We
-used to not take it for most of ram_save_complete() because we thought
-we're the only one left using the bitmap, but it's not true after the
-preempt full patchset applied, since the return path can be taking it too.
+Add the helper to show that postcopy preempt enabled, meanwhile active.
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 2 ++
- 1 file changed, 2 insertions(+)
+ migration/ram.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 8aad17c429..cc72c24c18 100644
+index cc72c24c18..00a2e30322 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -3406,6 +3406,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         /* try transferring iterative blocks of memory */
+@@ -162,6 +162,11 @@ out:
+     return ret;
+ }
  
-         /* flush all remaining blocks regardless of rate limiting */
-+        qemu_mutex_lock(&rs->bitmap_mutex);
-         while (true) {
-             int pages;
++static bool postcopy_preempt_active(void)
++{
++    return migrate_postcopy_preempt() && migration_in_postcopy();
++}
++
+ bool ramblock_is_ignored(RAMBlock *block)
+ {
+     return !qemu_ram_is_migratable(block) ||
+@@ -2433,7 +2438,7 @@ static void postcopy_preempt_choose_channel(RAMState *rs, PageSearchStatus *pss)
+ /* We need to make sure rs->f always points to the default channel elsewhere */
+ static void postcopy_preempt_reset_channel(RAMState *rs)
+ {
+-    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
++    if (postcopy_preempt_active()) {
+         rs->postcopy_channel = RAM_CHANNEL_PRECOPY;
+         rs->f = migrate_get_current()->to_dst_file;
+         trace_postcopy_preempt_reset_channel();
+@@ -2471,7 +2476,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+         return 0;
+     }
  
-@@ -3419,6 +3420,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-                 break;
-             }
-         }
-+        qemu_mutex_unlock(&rs->bitmap_mutex);
+-    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
++    if (postcopy_preempt_active()) {
+         postcopy_preempt_choose_channel(rs, pss);
+     }
  
-         flush_compressed_data(rs);
-         ram_control_after_iterate(f, RAM_CONTROL_FINISH);
 -- 
 2.38.1
 
