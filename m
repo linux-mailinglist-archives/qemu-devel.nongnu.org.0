@@ -2,61 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE13B64DFB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 18:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 418AD64DFC7
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 18:36:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5s7I-000529-8y; Thu, 15 Dec 2022 12:33:56 -0500
+	id 1p5s8u-0005nb-8u; Thu, 15 Dec 2022 12:35:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
- id 1p5s7G-00051v-9p
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:33:54 -0500
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5s8r-0005my-56
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:35:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
- id 1p5s7D-0007J3-8j
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:33:54 -0500
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1p5s74-0007KV-Hd; Thu, 15 Dec 2022 18:33:42 +0100
-Message-ID: <c1ff5cae-7f56-7fdb-c832-ffbcc177535b@leemhuis.info>
-Date: Thu, 15 Dec 2022 18:33:41 +0100
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5s8p-0007d5-2H
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:35:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671125730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=61h8KRbUox1qcT38sGF0luLbjAJmLm2Hv2mJvmrZ6tE=;
+ b=eoUezvrxrVqCLzrRRdJvRFKfpZ/dtLQ/6GtK+QOuD1OS2W9Ebub5R4EDlmEuYgzyYAfcE8
+ ft0pQgYFSLYi2jSybPArK2qjBDmXBpyDyRyurwABfxEiBpLebmsUWXPWhIr8i9GoX+XVw8
+ fuRuymZABOHZQnG107vFHEVwqXuqesc=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-435-qSJwbp3XP0-Be0rMAsIXGg-1; Thu, 15 Dec 2022 12:35:28 -0500
+X-MC-Unique: qSJwbp3XP0-Be0rMAsIXGg-1
+Received: by mail-yb1-f200.google.com with SMTP id
+ p124-20020a257482000000b0073867e191adso2188253ybc.9
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 09:35:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=61h8KRbUox1qcT38sGF0luLbjAJmLm2Hv2mJvmrZ6tE=;
+ b=njfHrUty75+D47jVHMh202sDJjdJYkrz93sPy0pP2+35BRdl60C+KIyW9Ix1DlugHm
+ z5ExLl579POc/IOg29qJmfwZY9CzZGnmZrUrv4MWDoKTZsMe7jCP1vd5+Esqzhh511fw
+ TOePlusPA7lumZLa7I0aOkY58bjRf9dQGLJkQzpzasye5qwqJ583i5nEni16Z/144E1r
+ PYE6uXmkj2utSAtyUCMxcNBnOdZptsUIJ+74+L3gQagxUFZ5xmCbBF5PW2NIirl2c8f3
+ nyH9e4Sa1y1vZ/PPJFZwpVHsoFA/UaSgc719eC+U75fbyNpx7kdCxAKTA3eualuhhSSN
+ RpBA==
+X-Gm-Message-State: ANoB5pnUygtrZjM9vFE5P5sH0KaCytKnTzJCbepizz4fKAhg1TUe1Hxg
+ E42i5+WZUDcNVDJQU52EW7zySEfkUC0pjun3PrKY7Cy5v/lqBrkUVsy8dS1OCEQJZATfbXbLKoV
+ /7UcN26bQziEr32Q=
+X-Received: by 2002:a05:7500:3e01:b0:ea:db4c:fc6f with SMTP id
+ lh1-20020a0575003e0100b000eadb4cfc6fmr3050249gab.37.1671125728240; 
+ Thu, 15 Dec 2022 09:35:28 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7e97V/AwU9XHYjvs3WjE61yQFNsJVTGIknnaAkVbYqblEzTDIafC19bijLoIFe7/vOjzj15Q==
+X-Received: by 2002:a05:7500:3e01:b0:ea:db4c:fc6f with SMTP id
+ lh1-20020a0575003e0100b000eadb4cfc6fmr3050241gab.37.1671125727854; 
+ Thu, 15 Dec 2022 09:35:27 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-45-70-31-26-132.dsl.bell.ca.
+ [70.31.26.132]) by smtp.gmail.com with ESMTPSA id
+ o18-20020a05620a111200b006fc92cf4703sm11934151qkk.132.2022.12.15.09.35.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Dec 2022 09:35:27 -0800 (PST)
+Date: Thu, 15 Dec 2022 12:35:26 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 1/5] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y5ta3jGHhN0nrIf6@x1n>
+References: <20221213213850.1481858-1-peterx@redhat.com>
+ <20221213213850.1481858-2-peterx@redhat.com>
+ <Y5mT4V3iYlcH56/H@redhat.com> <Y5pAiFv/JHQvgxha@x1n>
+ <Y5rrmRyhRjEiHtAe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: regression: insmod module failed in VM with nvdimm on
-Content-Language: en-US, de-DE
-To: Ard Biesheuvel <ardb@kernel.org>,
- "chenxiang (M)" <chenxiang66@hisilicon.com>
-Cc: Marc Zyngier <maz@kernel.org>, will@kernel.org, mark.rutland@arm.com,
- linux-arm-kernel@lists.infradead.org, chenxiang via <qemu-devel@nongnu.org>,
- "linuxarm@huawei.com" <linuxarm@huawei.com>,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
- <87r0xkubcp.wl-maz@kernel.org>
- <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
- <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
- <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
- <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
- <21cf7de2-27e8-8d1f-9efc-aa68cefbad50@hisilicon.com>
- <CAMj1kXFUso6CdDa3jMCrdHOBmOim0Z8YxB00a=kF5BbVxw9Xxw@mail.gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <CAMj1kXFUso6CdDa3jMCrdHOBmOim0Z8YxB00a=kF5BbVxw9Xxw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1671125631;
- 3eeadb82; 
-X-HE-SMSGID: 1p5s74-0007KV-Hd
-Received-SPF: pass client-ip=80.237.130.52;
- envelope-from=regressions@leemhuis.info; helo=wp530.webpack.hosteurope.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <Y5rrmRyhRjEiHtAe@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,133 +103,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, this is your Linux kernel regression tracker. Top-posting for once,
-to make this easily accessible to everyone.
-
-Was there some progress to get this regression resolved? From here it
-looks stalled, but maybe I missed something.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-
-P.S.: As the Linux kernel's regression tracker I deal with a lot of
-reports and sometimes miss something important when writing mails like
-this. If that's the case here, don't hesitate to tell me in a public
-reply, it's in everyone's interest to set the public record straight.
-
-On 02.12.22 14:44, Ard Biesheuvel wrote:
-> On Fri, 2 Dec 2022 at 03:48, chenxiang (M) <chenxiang66@hisilicon.com> wrote:
->>
->> Hi Ard,
->>
->>
->> 在 2022/12/1 19:07, Ard Biesheuvel 写道:
->>> On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
->>>> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com> wrote:
->>>>> Hi Ard,
->>>>>
->>>>>
->>>>> 在 2022/11/30 16:18, Ard Biesheuvel 写道:
->>>>>> On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
->>>>>>> On Wed, 30 Nov 2022 02:52:35 +0000,
->>>>>>> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> We boot the VM using following commands (with nvdimm on)  (qemu
->>>>>>>> version 6.1.50, kernel 6.0-r4):
->>>>>>> How relevant is the presence of the nvdimm? Do you observe the failure
->>>>>>> without this?
->>>>>>>
->>>>>>>> qemu-system-aarch64 -machine
->>>>>>>> virt,kernel_irqchip=on,gic-version=3,nvdimm=on  -kernel
->>>>>>>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
->>>>>>>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
->>>>>>>> 2G,maxmem=64G,slots=3 -smp 4 -append 'rdinit=init console=ttyAMA0
->>>>>>>> ealycon=pl0ll,0x90000000 pcie_ports=native pciehp.pciehp_debug=1'
->>>>>>>> -object memory-backend-ram,id=ram1,size=10G -device
->>>>>>>> nvdimm,id=dimm1,memdev=ram1  -device ioh3420,id=root_port1,chassis=1
->>>>>>>> -device vfio-pci,host=7d:01.0,id=net0,bus=root_port1
->>>>>>>>
->>>>>>>> Then in VM we insmod a module, vmalloc error occurs as follows (kernel
->>>>>>>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
->>>>>>>>
->>>>>>>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
->>>>>>>> [    8.186563] vmap allocation for size 20480 failed: use
->>>>>>>> vmalloc=<size> to increase size
->>>>>>> Have you tried increasing the vmalloc size to check that this is
->>>>>>> indeed the problem?
->>>>>>>
->>>>>>> [...]
->>>>>>>
->>>>>>>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: kaslr:
->>>>>>>> defer initialization to initcall where permitted").
->>>>>>> I guess you mean commit fc5a89f75d2a instead, right?
->>>>>>>
->>>>>>>> Do you have any idea about the issue?
->>>>>>> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
->>>>>>> portion of the vmalloc space, but you give very little information
->>>>>>> that could help here...
->>>>>>>
->>>>>> Ouch. I suspect what's going on here: that patch defers the
->>>>>> randomization of the module region, so that we can decouple it from
->>>>>> the very early init code.
->>>>>>
->>>>>> Obviously, it is happening too late now, and the randomized module
->>>>>> region is overlapping with a vmalloc region that is in use by the time
->>>>>> the randomization occurs.
->>>>>>
->>>>>> Does the below fix the issue?
->>>>> The issue still occurs, but it seems decrease the probability, before it
->>>>> occured almost every time, after the change, i tried 2-3 times, and it
->>>>> occurs.
->>>>> But i change back "subsys_initcall" to "core_initcall", and i test more
->>>>> than 20 times, and it is still ok.
->>>>>
->>>> Thank you for confirming. I will send out a patch today.
->>>>
->>> ...but before I do that, could you please check whether the change
->>> below fixes your issue as well?
->>>
->>> diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
->>> index 6ccc7ef600e7c1e1..c8c205b630da1951 100644
->>> --- a/arch/arm64/kernel/kaslr.c
->>> +++ b/arch/arm64/kernel/kaslr.c
->>> @@ -20,7 +20,11 @@
->>>   #include <asm/sections.h>
->>>   #include <asm/setup.h>
->>>
->>> -u64 __ro_after_init module_alloc_base;
->>> +/*
->>> + * Set a reasonable default for module_alloc_base in case
->>> + * we end up running with module randomization disabled.
->>> + */
->>> +u64 __ro_after_init module_alloc_base = (u64)_etext - MODULES_VSIZE;
->>>   u16 __initdata memstart_offset_seed;
->>>
->>>   struct arm64_ftr_override kaslr_feature_override __initdata;
->>> @@ -30,12 +34,6 @@ static int __init kaslr_init(void)
->>>          u64 module_range;
->>>          u32 seed;
->>>
->>> -       /*
->>> -        * Set a reasonable default for module_alloc_base in case
->>> -        * we end up running with module randomization disabled.
->>> -        */
->>> -       module_alloc_base = (u64)_etext - MODULES_VSIZE;
->>> -
->>>          if (kaslr_feature_override.val & kaslr_feature_override.mask & 0xf) {
->>>                  pr_info("KASLR disabled on command line\n");
->>>                  return 0;
->>> .
->>
->> We have tested this change, the issue is still and it doesn't fix the issue.
->>
+On Thu, Dec 15, 2022 at 09:40:41AM +0000, Daniel P. Berrangé wrote:
+> On Wed, Dec 14, 2022 at 04:30:48PM -0500, Peter Xu wrote:
+> > On Wed, Dec 14, 2022 at 09:14:09AM +0000, Daniel P. Berrangé wrote:
+> > > On Tue, Dec 13, 2022 at 04:38:46PM -0500, Peter Xu wrote:
+> > > > From: "manish.mishra" <manish.mishra@nutanix.com>
+> > > > 
+> > > > MSG_PEEK reads from the peek of channel, The data is treated as
+> > > > unread and the next read shall still return this data. This
+> > > > support is currently added only for socket class. Extra parameter
+> > > > 'flags' is added to io_readv calls to pass extra read flags like
+> > > > MSG_PEEK.
+> > > > 
+> > > > Reviewed-by: Daniel P. Berrang?? <berrange@redhat.co
+> > > > Suggested-by: Daniel P. Berrang?? <berrange@redhat.com
+> > > 
+> > > The last letter of my name has been mangled - whatever tools used
+> > > to pull in manish's patches seem to not be UTF-8 clean.
+> > > 
+> > > Also the email addr isn't terminated, but that was pre-existing
+> > > in manish's previous posting.
+> > 
+> > I'll fix at least the latter in my next post, sorry.
+> > 
+> > For the 1st one - I am still looking at what went wrong.
+> > 
+> > Here from the web interfaces it all looks good (besides the wrong
+> > ending..), e.g. on lore or patchew:
+> > 
+> > https://lore.kernel.org/all/20221213213850.1481858-2-peterx@redhat.com/
+> > https://patchew.org/QEMU/20221213213850.1481858-1-peterx@redhat.com/20221213213850.1481858-2-peterx@redhat.com/
+> > 
+> > It also looks good with e.g. Gmail webclient.
+> > 
+> > Then I digged into the email headers and I found that comparing to Manish's
+> > original message, the patches I posted has one more line of "Content-type":
+> > 
+> >   Content-Type: text/plain; charset="utf-8"
+> >   Content-type: text/plain
+> >   https://patchew.org/QEMU/20221213213850.1481858-2-peterx@redhat.com/mbox
+> > 
+> > While Manish's patch only has one line:
+> > 
+> >   Content-Type: text/plain; charset="utf-8"
+> >   https://patchew.org/QEMU/20221123172735.25181-2-manish.mishra@nutanix.com/mbox
 > 
-> Thanks for the report.
+> Don't trust what is shown by patchew, as that's been through many
+> hops.
 > 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> The copy I receieved came directly to me via CC, so didn't hit mailman,
+> nor patchew, and that *only* has  "Content-type: text/plain".  So the
+> extra Content-type line with utf8 must have been added either by
+> mailman or patchew.
+> 
+> So it probably looks like a config problem in the tool you use to send
+> the patches originally.
 
-#regzbot poke
+Ouch... for misterious reasons I had one line in .gitconfig:
+
+177 [format]
+178         headers = "Content-type: text/plain"
+
+And that'll also affect git-publish too...  I have it dropped now.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
