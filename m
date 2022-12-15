@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FDC64E359
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 22:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE26F64E3C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 23:26:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5vxG-0003QR-85; Thu, 15 Dec 2022 16:39:50 -0500
+	id 1p5wex-0007RH-Ub; Thu, 15 Dec 2022 17:24:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5vxF-0003QG-3W
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 16:39:49 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5vxD-00030G-B8
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 16:39:48 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id g10so328330plo.11
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 13:39:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vr/IbkaFnr0/TiACVGX0wRmH8Q+otBZWCHQ2Qjgq92k=;
- b=AzEr2JzRomiAwPQdrpv9fYp2u1a3O8Wixm9+wuJWWXdo/dXbl7QlQxC08PuOQUwlHh
- iymD0BEosiYUd3RjcfCWZMzusoVLtDo7V1le2R0bT/LDmwq1pUHMUZOl9XG8N4y70FKT
- vM4QOPONAGy0YUnDYlqh46xo/JKSfxqm4mqDKBDLl7a6Nc9EbzRkb+bJEJX2OuqF4HbO
- KpfNucaVPulpb2oLNvK8IegdJHSho3xT6dLmz3t/3evKu5wFp6YIhK/DLKKzsscmen2y
- ZfOnCGgVEXk7BUHUEEyrOBkQQ/EK5FRKDzS8oZbpczvZ1aCZOQUgwJITg/9hJGnNjXg4
- 0uiw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5wev-0007Qj-DM
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 17:24:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p5wet-0001wh-JV
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 17:24:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671143094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wzLJlESUcTWTu0JvlgQRTkOijKxU1qaInOkRe2IPPMA=;
+ b=Fzegc+GpQfpZFlqnYMQDNbteeqa44RBo3lcXkK7qUyAhtbmDlRzeYVSFRXGpeQBSKXY79+
+ zCjPjHwPtx31t9nuL80Cj7qNHm16GTqtOPiEBQT7XSKpeYsyQkllrLYk0gwX1IGcWhnRSv
+ ON7m0HK+kO53yPYpvUx7oAhan5ViyiY=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-671-jHuzCpnlM3GXSbBNUU_YMQ-1; Thu, 15 Dec 2022 17:24:53 -0500
+X-MC-Unique: jHuzCpnlM3GXSbBNUU_YMQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ w2-20020a0562140b2200b004d66d74f93cso330207qvj.15
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 14:24:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vr/IbkaFnr0/TiACVGX0wRmH8Q+otBZWCHQ2Qjgq92k=;
- b=bsTZ0SJL5UyCeyvT56Zso7DcHc2LDG37Wqz9kdqfiq2xc/h+kYbm2T9x/ODTUhK2Ac
- prWp62hbtUntq+cJ9osdbBF51wK55O4XuXVeFFKVeskVUTe8lA7MQNAH0jpw90sPPJVc
- lNK+59oz9kv/dclUXxzBiqZNNUbBcu43rsKKD8WbpDIGbk4C9jHDxwVwrhwJ7J4pLGkG
- EQMavQJkyz1MJGNvtixHoWfm3DvOggNVzR9t341JYDnZ7xUqKoMrFBU8xoysZoZs43Qz
- 5DA1IjLH9W7rknS0ZBISqRH6vra1YhPoAdpqu8GOmCXTYl0RPl8w9KdGgevqcRCjFRcP
- Dpkg==
-X-Gm-Message-State: ANoB5pmpwhZ9GNBkLTI+OYcqYPHRNAE5Ke7ve8rmQNfVN8QPId5Xk5F1
- oAnZAyGL7RRXUWreyahH3ZMaeKkS2X4hq2t3BQhQp/VcVZSSrw==
-X-Google-Smtp-Source: AA0mqf6acEdjLQM9QHeM5oCGtxB46QWfHIKVaH1LCe5YageLKz7R7x5JQIFhirewcP0K5EKrKdegGq3CMIa7zL4KriE=
-X-Received: by 2002:a17:903:2053:b0:189:cdc8:7261 with SMTP id
- q19-20020a170903205300b00189cdc87261mr23518461pla.168.1671140385305; Thu, 15
- Dec 2022 13:39:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20221215174013.1003508-1-peter.maydell@linaro.org>
-In-Reply-To: <20221215174013.1003508-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 15 Dec 2022 21:39:34 +0000
-Message-ID: <CAFEAcA-YL5jrieAKUbZZJge1iB2On1B=5g+diMYTdE=KpmBRcw@mail.gmail.com>
-Subject: Re: [PULL v2 00/28] target-arm queue
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wzLJlESUcTWTu0JvlgQRTkOijKxU1qaInOkRe2IPPMA=;
+ b=ueT6czZPPWmD0VXLG7Ah7rKKJEWnbqsjDiK9TMGJOCWreNbB2Q0/XXGHjMpFOIWiuJ
+ g+wtuLz36O9VOLBh21ynC6kid9XDRHyCeyDF/c1kyE3J1eJ/6cMPrzr1T5QbIZnMPPgI
+ oJJuSfHN20nQWrXAfkJjGpcuqTtMW6NFbRIEzkuOzVE1hpXUkyJU+HGm0a7CSzM6Y0cr
+ QF2HLlB0KaoTrF4Vrp+b8Qc7KE2heAz6QCgR8ZBeBUAkMLsFnCk+Fx0xUPKVTKL13pdL
+ VO6l/bFd4w0S0cJ8sASrqQSAXKYVrfACwvcrWWZHuvsj13N6tocxsCLkgOZctQAe9Snf
+ fGnA==
+X-Gm-Message-State: ANoB5pkdOEphX5aq2HDSzcCZdkPMLnGC40SMLS4qLUYQRozjnOnkN7aN
+ RVP6GLGf3b9UIQHfFQ0VBXnd9tKHjHtSyWWRML4xUnRrag6KErXDv6ZrY/gVY2VAgdnlJnp6giM
+ 6ZuhGZNEDOWYWhd5xJE0uu53cLFkMieOL+wFG8DldwWLz7OB/+/RZ8R4E39nSickD
+X-Received: by 2002:ac8:6743:0:b0:3a8:313f:ec66 with SMTP id
+ n3-20020ac86743000000b003a8313fec66mr7646509qtp.58.1671143091542; 
+ Thu, 15 Dec 2022 14:24:51 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7uDGVib1JtvXjAByoJgcXV6Vr3L86qAV5nmspU5UFvLpdBX4vy0O7kYPd3BPiSYje8ccb7Xg==
+X-Received: by 2002:ac8:6743:0:b0:3a8:313f:ec66 with SMTP id
+ n3-20020ac86743000000b003a8313fec66mr7646489qtp.58.1671143091297; 
+ Thu, 15 Dec 2022 14:24:51 -0800 (PST)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-45-70-31-26-132.dsl.bell.ca. [70.31.26.132])
+ by smtp.gmail.com with ESMTPSA id
+ 195-20020a370ccc000000b006fec1c0754csm118081qkm.87.2022.12.15.14.24.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Dec 2022 14:24:49 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Cc: Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com
+Subject: [PATCH] migration: Show downtime during postcopy phase
+Date: Thu, 15 Dec 2022 17:24:48 -0500
+Message-Id: <20221215222448.1893656-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.37.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,42 +96,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 15 Dec 2022 at 17:40, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> drop the sysregs patch as the tcg sysregs test fails
-> (probably a bug in the test)
->
-> -- PMM
->
-> The following changes since commit ae2b87341b5ddb0dcb1b3f2d4f586ef18de75873:
->
->   Merge tag 'pull-qapi-2022-12-14-v2' of https://repo.or.cz/qemu/armbru into staging (2022-12-14 22:42:14 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20221215-1
->
-> for you to fetch changes up to 9e406eea309bbe44c7fb17f6af112d2b756854ad:
->
->   target/arm: Restrict arm_cpu_exec_interrupt() to TCG accelerator (2022-12-15 17:37:48 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * hw/arm/virt: Add properties to allow more granular
->    configuration of use of highmem space
->  * target/arm: Add Cortex-A55 CPU
->  * hw/intc/arm_gicv3: Fix GICD_TYPER ITLinesNumber advertisement
->  * Implement FEAT_EVT
->  * Some 3-phase-reset conversions for Arm GIC, SMMU
->  * hw/arm/boot: set initrd with #address-cells type in fdt
->  * hw/misc: Move some arm-related files from specific_ss into softmmu_ss
->  * Restrict arm_cpu_exec_interrupt() to TCG accelerator
+The downtime should be displayed during postcopy phase because the
+switchover phase is done.  OTOH it's weird to show "expected downtime"
+which can confuse what does that mean if the switchover has already
+happened anyway.
 
+This is a slight ABI change on QMP, but I assume it shouldn't affect
+anyone.
 
-Applied, thanks.
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ migration/migration.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+diff --git a/migration/migration.c b/migration/migration.c
+index 64f74534e2..993782598f 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1077,20 +1077,30 @@ bool migration_is_running(int state)
+     }
+ }
+ 
++static bool migrate_show_downtime(MigrationState *s)
++{
++    return (s->state == MIGRATION_STATUS_COMPLETED) || migration_in_postcopy();
++}
++
+ static void populate_time_info(MigrationInfo *info, MigrationState *s)
+ {
+     info->has_status = true;
+     info->has_setup_time = true;
+     info->setup_time = s->setup_time;
++
+     if (s->state == MIGRATION_STATUS_COMPLETED) {
+         info->has_total_time = true;
+         info->total_time = s->total_time;
+-        info->has_downtime = true;
+-        info->downtime = s->downtime;
+     } else {
+         info->has_total_time = true;
+         info->total_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) -
+                            s->start_time;
++    }
++
++    if (migrate_show_downtime(s)) {
++        info->has_downtime = true;
++        info->downtime = s->downtime;
++    } else {
+         info->has_expected_downtime = true;
+         info->expected_downtime = s->expected_downtime;
+     }
+-- 
+2.37.3
 
--- PMM
 
