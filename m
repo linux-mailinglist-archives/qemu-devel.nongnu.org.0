@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1CC64D771
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 08:53:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5909664D77A
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 09:00:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5j3D-0003Y5-Uc; Thu, 15 Dec 2022 02:53:07 -0500
+	id 1p5j8t-0005wd-4e; Thu, 15 Dec 2022 02:58:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j3C-0003Xp-FP
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:53:06 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j8q-0005wI-T5
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:58:56 -0500
 Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j3A-0001tc-FT
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:53:05 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j8p-0003Cv-3S
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:58:56 -0500
 Received: by mail-wm1-x331.google.com with SMTP id
- m5-20020a7bca45000000b003d2fbab35c6so811156wml.4
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 23:53:03 -0800 (PST)
+ z8-20020a05600c220800b003d33b0bda11so224834wml.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 23:58:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=S/7FpTJMcfRUlQhv1T5zBz4IgLqOQKLAX7/T1z2+2dg=;
- b=nOYf+/fR4jIcQO8q5DMKb/suAyBYHOH59QEtt35XuVFeMtJ4kr7ILvN7ex8+lBNTox
- JItQvHk0nAUEw8EzuOL9H3dsRii2rHng84ctU/0ggQuMyG85KghGKN20Cv7422Zx22SE
- tn7Zwxxc93jRdL5Oec3H5bhG2TEqIbo8a65H4ZueIwqs19d8KYAbnysd1SRsZQrBZ8BN
- 2MKw3IYhpp2kKrW+gGsMvZrL5EKNeG8s5463mrL1/dzoeFhv2ofFj+zMDzGYRO1bAE9K
- hqst0VT5ve6V5TjN4GD5FwBYGq0Bhfh2UGADqeDBVvEEAx5LLc2Ben1onwuimbMLkupD
- uMqg==
+ bh=2EkHnf5KUpg2a1ILq8Sa62Ktl8OO37/gMpNH1CdJtLk=;
+ b=M3dx4QEBfmL1cFX/YFPSR6zq2kJNmT/Le3ufeAD+cYbTTqKdb7ebC4hedZHkXK7ZkG
+ pb/dim/9Ke/iq+TyOjS6rKODl7R3WUwq3dDR6qLy4bDSg8xc+xJe++K8FwmTo6wlpM6p
+ HbfO1z9963D4fwOoe7eNiEpOMNch+YANYiDcbi3KUYhH6SJwv+8rhU05Iqh0gK0IU0U7
+ uajGC+lXSm+w6PFvHcNxTnERanxhrqnfgaSp9sFvsOUDNxmJEDomrwK0lqCx1HtoA5vP
+ O1zNVcz03LWGUTNZjWGcsqmyTMHYu9dBB5f51UQ4iZUsD9b6RhFUsmlw6DYXl4tGWLVX
+ lsRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=S/7FpTJMcfRUlQhv1T5zBz4IgLqOQKLAX7/T1z2+2dg=;
- b=HwM8EmRtJdty/IC6nY8AAMyOjEwTmAx8srFnbMI2+ZHokiYqyn5qp4+V+Are5m58rT
- x1fJvNBcbw12gupZPYuOMDQfIGB5MKJFvhW8uxPLUfd2t7Lj7AKxcnpDEX5ZIf+hyEpZ
- nwl2OZ044sBG++6OK2Y4xLAj2xT4QGx3u+Dfhs1ncv/ELTnKmWB+R7z83ZQj7RqoEyzd
- PFf2Or5Pmyl8ljxgO+JwByMba+2uIwqaoXFXt/2DB1vC39kdj1rRPFK8ztNBu72jlzVL
- 6rKzocmjnz6c5wR9jDBFEE0MbZvAvHGThiK10L3fvmYFXGP/F8EqU4s7NWJ6hbEyDYDD
- nPzQ==
-X-Gm-Message-State: ANoB5plFKtXPVrcWLQ9aeOp3Og+IrX4cWKBlmuMbP1LMVDlF0EllqnhB
- 2DPMfI4GB60ZZGIc300+gH/N0wgsWh/o/+7KRxI=
-X-Google-Smtp-Source: AA0mqf41vjgHLCOv7v9XrSon4fmXM4fWLwhyUPmon+/u79YYe2DzLjPtqjZ5p30sU3h2ojZjZhyJLA==
-X-Received: by 2002:a05:600c:4fd1:b0:3cf:a08f:10a5 with SMTP id
- o17-20020a05600c4fd100b003cfa08f10a5mr21718952wmq.31.1671090782845; 
- Wed, 14 Dec 2022 23:53:02 -0800 (PST)
+ bh=2EkHnf5KUpg2a1ILq8Sa62Ktl8OO37/gMpNH1CdJtLk=;
+ b=NOr0KX2gbHQ932VjNVMobjkFRkiz3OPeFDvYw3GPyhV9xnFJb0ngIfbX73GnGFI6px
+ 5NmlnovGrkO6ZBWf3kTY64D549xfaiykyfypCmo1sumCET8pSIvnYE/Lt8ehHfn08VCO
+ yp2lfupiHQ7cw4AWxLahB2a7YoucQXBPLQAfuAO2jZzGfjEm/+Asj/dT5LShnmk2QYEC
+ WzGrYPI88szLiRjTJuKQEz9dsnbknuHnJV3S4MNvYdJppu2RjWXNwim21fUilWnvF6Ey
+ Mjc75Y7hqMoAzc5UWKMDH1YHDNrjkpxI0lAAnjSBBCfyY34BDHvDjtE/ZnJpzk0OI//n
+ Ow7w==
+X-Gm-Message-State: ANoB5pmROCHblJPUbJvRVfX4XPEPjbuFzCwRHp7Sz1L8ho1c2XGAQAIw
+ anUV5tOs5Y0iAwkRaRKNToJVaA==
+X-Google-Smtp-Source: AA0mqf6zbfKIAQz7IRUTi6Wdwynq2pe2Hu4pk3GHgbIPr2K0jOsgrJV8okGSytiXaGGyT1u3j/TVgQ==
+X-Received: by 2002:a05:600c:3592:b0:3d0:1b21:597 with SMTP id
+ p18-20020a05600c359200b003d01b210597mr21068270wmq.1.1671091132264; 
+ Wed, 14 Dec 2022 23:58:52 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h15-20020a05600c350f00b003c71358a42dsm7439287wmq.18.2022.12.14.23.53.01
+ o20-20020a05600c339400b003cffd3c3d6csm4814256wmp.12.2022.12.14.23.58.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 23:53:02 -0800 (PST)
-Message-ID: <931bd5c1-ece9-2a83-d3f2-04b010c22075@linaro.org>
-Date: Thu, 15 Dec 2022 08:53:00 +0100
+ Wed, 14 Dec 2022 23:58:51 -0800 (PST)
+Message-ID: <165fbdfe-8e72-0ab7-727e-0f54df9957b3@linaro.org>
+Date: Thu, 15 Dec 2022 08:58:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 0/8] tcg/loongarch64: Reorg goto_tb and cleanups
+Subject: Re: [PATCH] linux-user: Add translation for argument of msync()
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- WANG Xuerui <git@xen0n.name>
-References: <20221206044051.322543-1-richard.henderson@linaro.org>
+To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+References: <Y5rMcts4qe15RaVN@p100>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221206044051.322543-1-richard.henderson@linaro.org>
+In-Reply-To: <Y5rMcts4qe15RaVN@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::331;
@@ -90,32 +91,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/12/22 05:40, Richard Henderson wrote:
-> Based-on: 20221206041715.314209-1-richard.henderson@linaro.org
-> ("[PATCH 00/22] tcg: exit_tb tidy, goto_tb reorg")
+On 15/12/22 08:27, Helge Deller wrote:
+> msync() uses the flags MS_ASYNC, MS_INVALIDATE and MS_SYNC, which differ
+> between platforms, specifcally on alpha and hppa.
 > 
-> Includes:
->    * Disassembler from target/loongarch/.
->    * Improvements to movi by Rui Wang, with minor tweaks.
->    * Improvements to setcond.
->    * Implement movcond.
->    * Fix the same goto_tb bug that affected some others.
+> Add a target to host translation for those and wire up a nicer strace
+> output.
 > 
+> This fixes the testsuite of the macaulay2 debian package with a hppa-linux
+> guest on a x86-64 host.
 > 
-> r~
+> Signed-off-by: Helge Deller <deller@gmx.de>
 > 
+> diff --git a/linux-user/alpha/target_mman.h b/linux-user/alpha/target_mman.h
+> index cd6e3d70a6..051544f5ab 100644
+> --- a/linux-user/alpha/target_mman.h
+> +++ b/linux-user/alpha/target_mman.h
+> @@ -3,6 +3,10 @@
 > 
-> Richard Henderson (7):
->    target/loongarch: Enable the disassembler for host tcg
->    tcg/loongarch64: Update tcg-insn-defs.c.inc
->    tcg/loongarch64: Introduce tcg_out_addi
->    tcg/loongarch64: Improve setcond expansion
->    tcg/loongarch64: Implement movcond
->    tcg/loongarch64: Use tcg_pcrel_diff in tcg_out_ldst
->    tcg/loongarch64: Reorg goto_tb implementation
+>   #define TARGET_MADV_DONTNEED 6
+> 
+> +#define TARGET_MS_ASYNC 1
+> +#define TARGET_MS_SYNC 2
+> +#define TARGET_MS_INVALIDATE 4
+> +
+>   #include "../generic/target_mman.h"
+> 
+>   #endif
+> diff --git a/linux-user/generic/target_mman.h b/linux-user/generic/target_mman.h
+> index 1436a3c543..32bf1a52d0 100644
+> --- a/linux-user/generic/target_mman.h
+> +++ b/linux-user/generic/target_mman.h
+> @@ -89,4 +89,17 @@
+>   #define TARGET_MADV_DONTNEED_LOCKED 24
+>   #endif
+> 
+> +
+> +#ifndef TARGET_MS_ASYNC
+> +#define TARGET_MS_ASYNC 1
 
-Cc'ing co-maintainer ;)
+Hmm don't we want to keep the host flag instead?
 
-Patches:
-https://lore.kernel.org/qemu-devel/20221206044051.322543-1-richard.henderson@linaro.org/
+    #define TARGET_MS_ASYNC MS_ASYNC
+
+> +#endif
+> +
+> +#ifndef TARGET_MS_INVALIDATE
+> +#define TARGET_MS_INVALIDATE 2
+
+Ditto,
+
+> +#endif
+> +
+> +#ifndef TARGET_MS_SYNC
+> +#define TARGET_MS_SYNC 4
+
+ditto.
+
+LGTM otherwise.
+
+> +#endif
+> +
+>   #endif
+> diff --git a/linux-user/hppa/target_mman.h b/linux-user/hppa/target_mman.h
+> index 66dd9f7941..f9b6b97032 100644
+> --- a/linux-user/hppa/target_mman.h
+> +++ b/linux-user/hppa/target_mman.h
+> @@ -10,6 +10,10 @@
+>   #define TARGET_MADV_WIPEONFORK 71
+>   #define TARGET_MADV_KEEPONFORK 72
+> 
+> +#define TARGET_MS_SYNC 1
+> +#define TARGET_MS_ASYNC 2
+> +#define TARGET_MS_INVALIDATE 4
+> +
+>   #include "../generic/target_mman.h"
+> 
+>   #endif
+> diff --git a/linux-user/strace.list b/linux-user/strace.list
+> index a75101fca1..ac8f872371 100644
+> --- a/linux-user/strace.list
+> +++ b/linux-user/strace.list
+> @@ -650,7 +650,7 @@
+>   { TARGET_NR_msgsnd, "msgsnd" , NULL, NULL, NULL },
+>   #endif
+>   #ifdef TARGET_NR_msync
+> -{ TARGET_NR_msync, "msync" , NULL, NULL, NULL },
+> +{ TARGET_NR_msync, "msync" , "%s(%p,%u,%d)", NULL, NULL },
+>   #endif
+>   #ifdef TARGET_NR_multiplexer
+>   { TARGET_NR_multiplexer, "multiplexer" , NULL, NULL, NULL },
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index d58e9b8d10..e541fbe09a 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -22,6 +22,7 @@
+>   #include "qemu/path.h"
+>   #include "qemu/memfd.h"
+>   #include "qemu/queue.h"
+> +#include "target_mman.h"
+>   #include <elf.h>
+>   #include <endian.h>
+>   #include <grp.h>
+> @@ -7667,6 +7668,14 @@ static inline int target_to_host_mlockall_arg(int arg)
+>   }
+>   #endif
+> 
+> +static inline int target_to_host_msync_arg(abi_long arg)
+> +{
+> +    return ((arg & TARGET_MS_ASYNC) ? MS_ASYNC : 0) |
+> +           ((arg & TARGET_MS_INVALIDATE) ? MS_INVALIDATE : 0) |
+> +           ((arg & TARGET_MS_SYNC) ? MS_SYNC : 0) |
+> +           (arg & ~(TARGET_MS_ASYNC | TARGET_MS_INVALIDATE | TARGET_MS_SYNC));
+> +}
+> +
+>   #if (defined(TARGET_NR_stat64) || defined(TARGET_NR_lstat64) ||     \
+>        defined(TARGET_NR_fstat64) || defined(TARGET_NR_fstatat64) ||  \
+>        defined(TARGET_NR_newfstatat))
+> @@ -10163,7 +10172,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>           /* ??? msync/mlock/munlock are broken for softmmu.  */
+>   #ifdef TARGET_NR_msync
+>       case TARGET_NR_msync:
+> -        return get_errno(msync(g2h(cpu, arg1), arg2, arg3));
+> +        return get_errno(msync(g2h(cpu, arg1), arg2,
+> +                               target_to_host_msync_arg(arg3)));
+>   #endif
+>   #ifdef TARGET_NR_mlock
+>       case TARGET_NR_mlock:
+> 
+
 
