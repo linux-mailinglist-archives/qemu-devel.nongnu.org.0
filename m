@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F259864DC08
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE31664DBF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:09:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5nhW-000791-G2; Thu, 15 Dec 2022 07:51:02 -0500
+	id 1p5nhW-00078M-7w; Thu, 15 Dec 2022 07:51:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5nh6-0006qP-BO
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:36 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ id 1p5nh7-0006qR-Qu
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:43 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5nh4-00047M-Lr
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:36 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- c65-20020a1c3544000000b003cfffd00fc0so1633036wma.1
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:50:33 -0800 (PST)
+ id 1p5nh6-00045o-6Q
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:37 -0500
+Received: by mail-wm1-x335.google.com with SMTP id v7so13711696wmn.0
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:50:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=NdfqtkLWyZ9Oq9V2fhNGIBisTuR7jxFRlD6CQdAIeIY=;
- b=ZIqHdKSorxDZyvJG8HURI8TVyLqluXXX/z42TejZVwa7L4S2a7nmqVd6+WUz0QsDN8
- AHCrMuh3Tgex2+E+VR1rrEsdcP4+vjasJL3Knfb5BGVuauShd4pRSwraPFulJgPZOBX1
- isM4rWSmN6Td3j3I0PQCQv6oImG2P8Xd5z7xTXtGMMhTSNSvT5TYTrfIC4iHV8DgGVnF
- nO8HKe3L49aVpBMNsLQ8CHjbC3PXBE0o/G889qOZwPTEvW70ZiNlQzS/QlNA3SIVBVnT
- Pce3J4J3tJkqwPCFvE6YHiuXCvcB3HwC0BfC+Sn815vxJ0p9GPuG0eJnTk+mriH75p4Y
- /FIQ==
+ :reply-to; bh=14LvpKp7/VTsP7I0u8An5rfr4jPKW0e5uC6loLOGGqM=;
+ b=i9Lc8fig3YxW+a3N8hY3WNsQUnERcl1Sm5i/KXqznGM9KDRV8U+4zeV7B3lgieTwim
+ rquH1YsTZLWzQf06Sn3q/CREEBjF9OQKwJvmzD61KfyCAuSYpQrpIKy+NyhbIGc2+1ms
+ 6FQhwGjRrliCZed8THx1XHJHE+o5yd+m4ELJA068cQz8Lu5uIh/tnafbFFenw6Eh4k5M
+ dBGEMeVu9qc+2dO0PU+kui5u/kWxE4suYim65HfKdVYBn2Sf1asGAjUjL3oquMLCQj5/
+ j7Yt2WbYbqEDCW93eW1SqSjB1soyX+mfjaEwQMKgKP/QZHK8xXKYKg+4gWIQkaZfisDO
+ lgww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NdfqtkLWyZ9Oq9V2fhNGIBisTuR7jxFRlD6CQdAIeIY=;
- b=DfwcOC+3HiGkc8MjVtZHlRsLfeQYUR0xeZmvbefwLjucDmwn/9HutrauzsqtWKldug
- aBqdxpfQE50ncQkMkAMniTJF+gV3Jha05lb1LNsn07LRqMn+ijmn4IJCxk2qGlNlGgK2
- GrPsWeIGD58T4u0SqPEUWCagRStabo7XiAOgrFPVrNYc52FYJK0J8EzkWdq0dD+gXE6O
- T4t8EjRJ03uB5YrhCB4vHOjO1HahPXaE0hbwJZpiBWN6Es9I70wuXCoRDRGyZwndVr+8
- BJolOoyqehJbSVmLWiWiyKvhNr/yVeKzZz74YUnuTbi98JxPOaDTaCM2YEvH8pD8lsOe
- r1PQ==
-X-Gm-Message-State: ANoB5pnfTZjJfd6HOsFI5JKlltTNgeo6Gd7cGAWrJVZemmFpDVEdTyFK
- xediN9itvmuqK+ppfz8w3mFFVeVJjH/KNf0r
-X-Google-Smtp-Source: AA0mqf7C07syH+OZ/onwEvcu43c1sHvWT4YhdgvMYvmbCVzs5QL/KIBWhoWg+ssPvLRWZ2db5zxwsw==
-X-Received: by 2002:a05:600c:4fc3:b0:3d2:2fa9:cffa with SMTP id
- o3-20020a05600c4fc300b003d22fa9cffamr8479671wmq.25.1671108633624; 
- Thu, 15 Dec 2022 04:50:33 -0800 (PST)
+ bh=14LvpKp7/VTsP7I0u8An5rfr4jPKW0e5uC6loLOGGqM=;
+ b=D45MUkLV2J0n0Q4wmasmRV01hhx6mgnPO0yLQ18epm3mzVdYaw8ZTHOVprDXUtAYT6
+ R3IlId6Tc7Z1D/+rCLrfRDyOiPveDsRQX+umBlxAcZKip4JlcC+lgf7T/ySkmlxpy4n7
+ 59l5LvCG8vHMsX//Hy4fpoEC9B/pB/ztkWoMY5akKM1SL18Wp800MOdNt8L3ZvtdrSTt
+ vFheZGHoeiPZ+xM2Iq+uBeqf4kO5eA5vniM2l7Rusxyu5NzJb0kgV3VWeYMiPgnW9dG0
+ EY8uGqZuApHXrsCsa6wBv9JdY5FRrDravBCqwxr5Pg7SeH7itVKaPeiX8RVblBBIF8aV
+ ycbA==
+X-Gm-Message-State: ANoB5pn1jW6rwa8n+FYw2dJ+RcMlrmihfRO4b4Ue74ZF2e8XBKQRM30k
+ LmGkG1vO4neaO48I0AkEbQ90/lr8Q+WXBmrg
+X-Google-Smtp-Source: AA0mqf6wSbpH+Ay8BSjd+22eK/VqgVPddhhfTBA8rniJim+EFV1fvyGR1PEl75xFzdLGnB3F/HXbEA==
+X-Received: by 2002:a05:600c:1da2:b0:3cf:5fd2:87a0 with SMTP id
+ p34-20020a05600c1da200b003cf5fd287a0mr20915844wms.40.1671108635426; 
+ Thu, 15 Dec 2022 04:50:35 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.32
+ i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 04:50:33 -0800 (PST)
+ Thu, 15 Dec 2022 04:50:34 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/29] hw/intc: Convert TYPE_ARM_GICV3_ITS to 3-phase reset
-Date: Thu, 15 Dec 2022 12:50:04 +0000
-Message-Id: <20221215125009.980128-25-peter.maydell@linaro.org>
+Subject: [PULL 26/29] hw/arm/boot: set initrd with #address-cells type in fdt
+Date: Thu, 15 Dec 2022 12:50:06 +0000
+Message-Id: <20221215125009.980128-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221215125009.980128-1-peter.maydell@linaro.org>
 References: <20221215125009.980128-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,63 +88,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the TYPE_ARM_GICV3_ITS device to 3-phase reset.
+From: Schspa Shi <schspa@gmail.com>
 
+We use 32bit value for linux,initrd-[start/end], when we have
+loader_start > 4GB, there will be a wrong initrd_start passed
+to the kernel, and the kernel will report the following warning.
+
+[    0.000000] ------------[ cut here ]------------
+[    0.000000] initrd not fully accessible via the linear mapping -- please check your bootloader ...
+[    0.000000] WARNING: CPU: 0 PID: 0 at arch/arm64/mm/init.c:355 arm64_memblock_init+0x158/0x244
+[    0.000000] Modules linked in:
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Tainted: G        W          6.1.0-rc3-13250-g30a0b95b1335-dirty #28
+[    0.000000] Hardware name: Horizon Sigi Virtual development board (DT)
+[    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    0.000000] pc : arm64_memblock_init+0x158/0x244
+[    0.000000] lr : arm64_memblock_init+0x158/0x244
+[    0.000000] sp : ffff800009273df0
+[    0.000000] x29: ffff800009273df0 x28: 0000001000cc0010 x27: 0000800000000000
+[    0.000000] x26: 000000000050a3e2 x25: ffff800008b46000 x24: ffff800008b46000
+[    0.000000] x23: ffff800008a53000 x22: ffff800009420000 x21: ffff800008a53000
+[    0.000000] x20: 0000000004000000 x19: 0000000004000000 x18: 00000000ffff1020
+[    0.000000] x17: 6568632065736165 x16: 6c70202d2d20676e x15: 697070616d207261
+[    0.000000] x14: 656e696c20656874 x13: 0a2e2e2e20726564 x12: 0000000000000000
+[    0.000000] x11: 0000000000000000 x10: 00000000ffffffff x9 : 0000000000000000
+[    0.000000] x8 : 0000000000000000 x7 : 796c6c756620746f x6 : 6e20647274696e69
+[    0.000000] x5 : ffff8000093c7c47 x4 : ffff800008a2102f x3 : ffff800009273a88
+[    0.000000] x2 : 80000000fffff038 x1 : 00000000000000c0 x0 : 0000000000000056
+[    0.000000] Call trace:
+[    0.000000]  arm64_memblock_init+0x158/0x244
+[    0.000000]  setup_arch+0x164/0x1cc
+[    0.000000]  start_kernel+0x94/0x4ac
+[    0.000000]  __primary_switched+0xb4/0xbc
+[    0.000000] ---[ end trace 0000000000000000 ]---
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000001000000000-0x0000001007ffffff]
+
+This doesn't affect any machine types we currently support, because
+for all of our machine types the RAM starts well below the 4GB
+mark, but it does demonstrate that we're not currently writing
+the device-tree properties quite as intended.
+
+To fix it, we can change it to write these values to the dtb using a
+type width matching #address-cells.  This is the intended size for
+these dtb properties, and is how u-boot, for instance, writes them,
+although in practice the Linux kernel will cope with them being any
+width as long as they're big enough to fit the value.
+
+Signed-off-by: Schspa Shi <schspa@gmail.com>
+Message-id: 20221129160724.75667-1-schspa@gmail.com
+[PMM: tweaked commit message]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20221109161444.3397405-9-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_its.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ hw/arm/boot.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 2ff21ed6bbe..57c79da5c55 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -27,7 +27,7 @@ DECLARE_OBJ_CHECKERS(GICv3ITSState, GICv3ITSClass,
- 
- struct GICv3ITSClass {
-     GICv3ITSCommonClass parent_class;
--    void (*parent_reset)(DeviceState *dev);
-+    ResettablePhases parent_phases;
- };
- 
- /*
-@@ -1953,12 +1953,14 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 15c2bf1867f..3d7d11f782f 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -656,15 +656,17 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
      }
- }
  
--static void gicv3_its_reset(DeviceState *dev)
-+static void gicv3_its_reset_hold(Object *obj)
- {
--    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
-+    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(obj);
-     GICv3ITSClass *c = ARM_GICV3_ITS_GET_CLASS(s);
+     if (binfo->initrd_size) {
+-        rc = qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start",
+-                                   binfo->initrd_start);
++        rc = qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,initrd-start",
++                                          acells, binfo->initrd_start);
+         if (rc < 0) {
+             fprintf(stderr, "couldn't set /chosen/linux,initrd-start\n");
+             goto fail;
+         }
  
--    c->parent_reset(dev);
-+    if (c->parent_phases.hold) {
-+        c->parent_phases.hold(obj);
-+    }
- 
-     /* Quiescent bit reset to 1 */
-     s->ctlr = FIELD_DP32(s->ctlr, GITS_CTLR, QUIESCENT, 1);
-@@ -2012,12 +2014,14 @@ static Property gicv3_its_props[] = {
- static void gicv3_its_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-     GICv3ITSClass *ic = ARM_GICV3_ITS_CLASS(klass);
-     GICv3ITSCommonClass *icc = ARM_GICV3_ITS_COMMON_CLASS(klass);
- 
-     dc->realize = gicv3_arm_its_realize;
-     device_class_set_props(dc, gicv3_its_props);
--    device_class_set_parent_reset(dc, gicv3_its_reset, &ic->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, gicv3_its_reset_hold, NULL,
-+                                       &ic->parent_phases);
-     icc->post_load = gicv3_its_post_load;
- }
- 
+-        rc = qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end",
+-                                   binfo->initrd_start + binfo->initrd_size);
++        rc = qemu_fdt_setprop_sized_cells(fdt, "/chosen", "linux,initrd-end",
++                                          acells,
++                                          binfo->initrd_start +
++                                          binfo->initrd_size);
+         if (rc < 0) {
+             fprintf(stderr, "couldn't set /chosen/linux,initrd-end\n");
+             goto fail;
 -- 
 2.25.1
 
