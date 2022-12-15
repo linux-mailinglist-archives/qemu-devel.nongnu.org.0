@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AF3B64DD55
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 16:10:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0517464DD7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 16:13:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5prS-0003Rn-Hn; Thu, 15 Dec 2022 10:09:26 -0500
+	id 1p5puX-0006C8-VR; Thu, 15 Dec 2022 10:12:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ralf@comsecuris.com>)
- id 1p5p15-0000ix-7z
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:15:20 -0500
-Received: from www284.your-server.de ([188.40.28.234])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5puM-0006BF-8S
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:12:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ralf@comsecuris.com>)
- id 1p5p13-0004YN-3j
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:15:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=comsecuris.com; s=default2101; h=To:References:Message-Id:
- Content-Transfer-Encoding:Cc:Date:In-Reply-To:From:Subject:Mime-Version:
- Content-Type:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
- bh=Tn91idY0g3tGfykVXmHI3UQcAj68CeIxpHWm0F9H3kE=; b=GjWnAZMOAdoPzGZr9s2yiqpggX
- ZQHCxikyX1852cm+tswT5Bs+Z8lHEvhcYPHUd/cOcKiVtkOj1/vYaIe9mwvVDIYZEUNqsG1IUiAEL
- 0V3UhJY6BSUUHPCSiBt0QRx4Y4wLDtYED/de++/4Q/9AwwyM/zWs1sS36RPtPLP4RrAPfnOue4vUC
- j29Jty2t4IvU/jdvfbiRLLOEwIZ0bTs9Ue6bTjlDUg0Dqh3ZU+B76kDloxs+rCbO79F8tCrzvMO7m
- bF52wkQulBPX6i16ulmFMCue1gFFM+0ZjeMTfzt5pn1wQBg5NkZLOjAdwWcwIDBtj7M813ugpNH0J
- pLg5oImg==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
- by www284.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.94.2) (envelope-from <ralf@comsecuris.com>)
- id 1p5p0z-000LHR-3i; Thu, 15 Dec 2022 15:15:13 +0100
-Received: from [2a02:908:13b4:8700:e5c8:10eb:6b65:339c] (helo=smtpclient.apple)
- by sslproxy02.your-server.de with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.92)
- (envelope-from <ralf@comsecuris.com>)
- id 1p5p0y-000KFp-Oc; Thu, 15 Dec 2022 15:15:12 +0100
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: QEMU PPC VLE support
-From: Ralf-Philipp Weinmann <ralf@comsecuris.com>
-In-Reply-To: <CAJSP0QWM0CyXfT1x=G50b7fPOD+3T7YuPLDxMsqtUNd=twkd3g@mail.gmail.com>
-Date: Thu, 15 Dec 2022 15:15:01 +0100
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?utf-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <816245C7-B07F-429D-96CB-68FF7D663AF5@comsecuris.com>
-References: <CAJSP0QVVQLueQDzOb-GAhORetK38EzgBhem=UjChJ3oaxRaFmg@mail.gmail.com>
- <1F7AFCBF-66D5-4EC1-8FBE-FC8A4E5C88D2@comsecuris.com>
- <CAJSP0QWM0CyXfT1x=G50b7fPOD+3T7YuPLDxMsqtUNd=twkd3g@mail.gmail.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
-X-Authenticated-Sender: ralf@comsecuris.com
-X-Virus-Scanned: Clear (ClamAV 0.103.7/26751/Thu Dec 15 09:20:56 2022)
-Received-SPF: pass client-ip=188.40.28.234; envelope-from=ralf@comsecuris.com;
- helo=www284.your-server.de
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5puJ-0008Ve-VT
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:12:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671117143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BDD1hWdfdSEwsvzCJjF0txc7dqce9vBKTm5r2ng/TTk=;
+ b=dO5mvLnMxnFZOfhNwPGFjjzGAwiPUqVHE+tadRuAxtlnmYjlYCUlzYxe9DVT5HqTMD/3iw
+ 51iCFnMMBYPZ1rIz/xUQQ/teIscEr289NRsvpr1E5VJ+4LgvFKCIzdYQW3zrm23lCo3TS7
+ bnj7zudJAEN7NkIFNCZIPbpHlgJzFos=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-127-xNSXXWtWMgG6_9prw2peVw-1; Thu, 15 Dec 2022 10:12:20 -0500
+X-MC-Unique: xNSXXWtWMgG6_9prw2peVw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94BDD1875045;
+ Thu, 15 Dec 2022 15:12:19 +0000 (UTC)
+Received: from thuth.com (dhcp-192-205.str.redhat.com [10.33.192.205])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C9B453A0;
+ Thu, 15 Dec 2022 15:12:18 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL v2 00/23] First batch of s390x, qtest,
+ CI and misc patches for 8.0
+Date: Thu, 15 Dec 2022 16:12:14 +0100
+Message-Id: <20221215151215.414567-1-thuth@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 15 Dec 2022 10:09:24 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,58 +74,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The following changes since commit 48804eebd4a327e4b11f902ba80a00876ee53a43:
 
+  Merge tag 'pull-misc-2022-12-14' of https://repo.or.cz/qemu/armbru into staging (2022-12-15 10:13:46 +0000)
 
-> On 15. Dec 2022, at 15:06, Stefan Hajnoczi <stefanha@gmail.com> wrote:
->=20
-> On Thu, 15 Dec 2022 at 08:51, Ralf-Philipp Weinmann =
-<ralf@comsecuris.com> wrote:
->>> On 15. Dec 2022, at 14:37, Stefan Hajnoczi <stefanha@gmail.com> =
-wrote:
->>>=20
->>> Hi,
->>> I came across this post where Ralf-Philipp is looking for a =
-freelancer
->>> to implement PPC VLE support in QEMU:
->>> https://chaos.social/@rpw/109516326028642262
->>>=20
->>> It mentions upstreaming the code and I've included QEMU PPC
->>> maintainers in this email so they can discuss the project with
->>> Ralf-Philipp. That way the chances of a mergable result will be
->>> maximized.
->>>=20
->>> The Rust aspect is interesting, but QEMU does not have any existing
->>> targets implemented in Rust. It might be a major effort to create =
-the
->>> necessary C<->Rust interfacing, so I'm not sure whether that's
->>> realistic given the timeframe for the project.
->>>=20
->>> Does anyone have time to take on this freelancing project or know
->>> someone who is available?
->>=20
->> Thank you, Stefan!
->=20
-> It occurred to me that we could reach out to former QEMU Google Summer
-> of Code and Outreachy interns. They have prior QEMU contribution
-> experience and might have time to take on a freelancing gig.
->=20
-> Please let me know if you want to do that and I can put you in touch =
-with them.
+are available in the Git repository at:
 
-Yes, please!
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-12-15
 
-Best regards,
-Ralf
+for you to fetch changes up to 4bf1b66908a21a8271f261fe533e4fe3f416f3e3:
 
---
-Ralf-Philipp Weinmann
-PGP: 4096R/8C07C5B7 D244D6F2E79B529BF5548F39B27967D58C07C5B7
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Comsecuris GmbH
-Registered office: Diessemer Bruch 170, 47805 Krefeld
-Commercial register: District Court Krefeld, HRB 18481
-Director: Dr. Ralf-Philipp Weinmann
+  tests/qtest/vhost-user-blk-test: don't abort all qtests on missing envar (2022-12-15 15:19:24 +0100)
+
+----------------------------------------------------------------
+* s390x PCI fixes and improvements (for the ISM device)
+* Fix emulated MVCP and MVCS s390x instructions
+* Clean-ups for the e1000e qtest
+* Enable qtests on Windows
+* Update FreeBSD CI to version 12.4
+* Check --disable-tcg for ppc64 in the CI
+* Improve scripts/make-releases a little bit
+* Many other misc small clean-ups and fixes here and there
+
+v2: Adapt the query-command-line-options" patch to work with the
+    recent changes in the master branch
+
+----------------------------------------------------------------
+Akihiko Odaki (3):
+      tests/qtest/libqos/e1000e: Remove "other" interrupts
+      tests/qtest/e1000e-test: De-duplicate constants
+      tests/qtest/libqos/e1000e: Correctly group register accesses
+
+Bin Meng (4):
+      .gitlab-ci.d/windows.yml: Unify the prerequisite packages
+      .gitlab-ci.d/windows.yml: Keep 64-bit and 32-bit build scripts consistent
+      .gitlab-ci.d/windows.yml: Exclude qTests from 64-bit CI job for now
+      tests/qtest: Enable qtest build on Windows
+
+Brad Smith (1):
+      FreeBSD: Upgrade to 12.4 release
+
+Christian Schoenebeck (1):
+      tests/qtest/vhost-user-blk-test: don't abort all qtests on missing envar
+
+Matthew Rosato (3):
+      s390x/pci: coalesce unmap operations
+      s390x/pci: shrink DMA aperture to be bound by vfio DMA limit
+      s390x/pci: reset ISM passthrough devices on shutdown and system reset
+
+Thomas Huth (11):
+      target/s390x/tcg/mem_helper: Test the right bits in psw_key_valid()
+      target/s390x: The MVCP and MVCS instructions are not privileged
+      monitor/misc: Remove superfluous include statements
+      scripts/make-release: Add a simple help text for the script
+      scripts/make-release: Only clone single branches to speed up the script
+      util/qemu-config: Fix "query-command-line-options" to provide the right values
+      util/oslib-win32: Remove obsolete reference to g_poll code
+      MAINTAINERS: Add documentation files to the corresponding sections
+      hw: Include the VMWare devices only in the x86 targets
+      gitlab-ci: Check building ppc64 without TCG
+      .gitlab/issue_templates: Move suggestions into comments
+
+ include/hw/s390x/s390-pci-bus.h   |   6 ++
+ target/s390x/helper.h             |   4 +-
+ tests/qtest/libqos/e1000e.h       |   1 -
+ target/s390x/tcg/insn-data.h.inc  |   4 +-
+ hw/s390x/s390-pci-bus.c           |  28 +++++++
+ hw/s390x/s390-pci-inst.c          |  51 ++++++++++++
+ hw/s390x/s390-pci-vfio.c          |  13 +++
+ monitor/misc.c                    |   6 --
+ target/s390x/tcg/mem_helper.c     |  18 +++--
+ target/s390x/tcg/translate.c      |   6 +-
+ tests/qtest/e1000e-test.c         |  19 +++--
+ tests/qtest/libqos/e1000e.c       |   2 +-
+ tests/qtest/vhost-user-blk-test.c |   6 ++
+ util/oslib-win32.c                |   4 -
+ util/qemu-config.c                | 166 +++++++++++++++++---------------------
+ .gitlab-ci.d/cirrus.yml           |   2 +-
+ .gitlab-ci.d/crossbuilds.yml      |   8 ++
+ .gitlab-ci.d/windows.yml          |  35 ++++++--
+ .gitlab/issue_templates/bug.md    |  16 ++--
+ MAINTAINERS                       |  20 ++++-
+ hw/display/Kconfig                |   2 +-
+ hw/net/Kconfig                    |   2 +-
+ scripts/make-release              |  16 +++-
+ tests/qtest/meson.build           |   6 --
+ tests/vm/freebsd                  |   4 +-
+ 25 files changed, 287 insertions(+), 158 deletions(-)
 
 
