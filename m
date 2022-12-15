@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314D464DA2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 12:19:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E032764DA59
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 12:33:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5mFV-0006sy-56; Thu, 15 Dec 2022 06:18:01 -0500
+	id 1p5mT8-0002WV-Pr; Thu, 15 Dec 2022 06:32:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5mFT-0006sq-Vi
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 06:18:00 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5mFS-000235-Ce
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 06:17:59 -0500
-Received: by mail-pg1-x533.google.com with SMTP id r18so3930044pgr.12
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 03:17:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=t7GRHyXdXjertt7T7+Ne1R01ixzzhO6ypBdiD+60jLQ=;
- b=uzK/3BRCKh3gH/cgZlpXk1AYDXw6YCsjQVZbNBfhVYZINMlFdpqWv1lfPOeZDaiGG2
- 0CLNbR/qZw0R8cKYXcOSCUBtrnsvNmhgJxNvySvMqsL5wJX0yl297lSVUw/2Ghm2TvON
- HitM6pymYtmYYZVCQk6ZXVs/Sqdcgm+reB/A5QkdCn6V9HvP9nETFOJ3NUR7N2c9YOnT
- NkU0O8u9/GOHVjJZ8VAby3YRBI4Av4E04OeWOQ7trRWfQVD214xwarsTRZSdGvIvxsOK
- TniI8JoHDYJ89O5F/qeaXfUZ66V86vJPDY+jmoCUN/Nl7QPsqjAtt0sSVwWdke4gIkqd
- +ZaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=t7GRHyXdXjertt7T7+Ne1R01ixzzhO6ypBdiD+60jLQ=;
- b=dTQeIUoUuaq+VpO+gYSas8MlKl063oGDLoi13nS7GtoYJ+6hTdmTNTZ5XcFTJuHE7D
- sMmq3WhjwkZoQRTzWVxU0wkzblfHeuhn+eTvYTP6B/2T7T5BS3TSyKj3cp56BTNjuaD4
- Rcgv5kCVB1EtJqeQrx8lMBN8rl53/V3kaMs6coy+VCX15ql3Kj/mdlBbRQDuCygYGcy3
- xK73HYz7xDPeJmzZmz4J5Uc5EhtmCN5+5ytVIjUGsmzuH+AOHjJAd5JT0EbyNE90Zi32
- C381q4eZz+/sklFFR3OAljFdbh63tb5JE5Pc+efvJ0rxyqdWGHi37MKIZohCV/jQHdRF
- agBw==
-X-Gm-Message-State: ANoB5pk2cIefc/oPIqVhP3/i+ePZtxIHcIwhIyeRkgOhAX+U4VdVzWq1
- 6tayLmDZOLekX3IFQy7Y9Fnh+a+J8hmrb+k1yKTD5xQL+5qgNw==
-X-Google-Smtp-Source: AA0mqf6zAmH+Cyy/dcyw3Q6VoELiV2bCGfrVwVCARSmGvRj4GNfKYzM5vlGv3r5dGp8XtZItkZepoCqX7hex+aujUj0=
-X-Received: by 2002:a62:b501:0:b0:573:1959:c356 with SMTP id
- y1-20020a62b501000000b005731959c356mr79954669pfe.51.1671103076814; Thu, 15
- Dec 2022 03:17:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p5mT4-0002W1-BQ
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 06:32:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p5mT2-0006i7-6g
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 06:32:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671103918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+FgMluJl7FAJ334+76uBKCfgm7N2VpXkx+EvMvxNZ0w=;
+ b=WyZY9t2XVsn2c1XDXX+t2dG2yGTaF4e8ZuS8oaTG1HIg+mqwwXWmp7uGt/HB8ecwCzFHbb
+ Q2lqdPHz6WdAAgfvHTiVkrayhEskv1OMLWVRwpv2m9EUeN14NEl5hEs6pjUyemFWtdDgq/
+ ErJCgS6ONW+36FEPJDaYA2pV9sg3rsI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-172-nea6zczNOLOi9qWz2ao1Mw-1; Thu, 15 Dec 2022 06:31:53 -0500
+X-MC-Unique: nea6zczNOLOi9qWz2ao1Mw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7424A382C969;
+ Thu, 15 Dec 2022 11:31:52 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.193.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0160F2166B26;
+ Thu, 15 Dec 2022 11:31:48 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Longpeng <longpeng2@huawei.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Parav Pandit <parav@mellanox.com>, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org
+Subject: [PATCH v9 00/12] ASID support in vhost-vdpa net
+Date: Thu, 15 Dec 2022 12:31:32 +0100
+Message-Id: <20221215113144.322011-1-eperezma@redhat.com>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 15 Dec 2022 11:17:45 +0000
-Message-ID: <CAFEAcA8x_iM3hN2-P9F+huXnXFXy+D6FzE+Leq4erLdg7zkVGw@mail.gmail.com>
-Subject: migration qtest failure: "query-migrate shows failed migration:
- Unable to write to socket: Broken pipe"
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x533.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,48 +86,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-SGk7IEkgc2VlIHRoaXMgbWlncmF0aW9uIHF0ZXN0IGZhaWx1cmUgb24gbXkgeDg2IG1hY29zIGJv
-eDoNCg0KDQrilrYgIDMyLzU5MSBFUlJPUjouLi8uLi90ZXN0cy9xdGVzdC9taWdyYXRpb24taGVs
-cGVycy5jOjE1MTptaWdyYXRlX3F1ZXJ5X25vdF9mYWlsZWQ6DQphc3NlcnRpb24gZmFpbA0KZWQ6
-ICghZ19zdHJfZXF1YWwoc3RhdHVzLCAiZmFpbGVkIikpIEVSUk9SDQogMzIvNTkxIHFlbXU6cXRl
-c3QrcXRlc3QtYWFyY2g2NCAvIHF0ZXN0LWFhcmNoNjQvbWlncmF0aW9uLXRlc3QNCiAgICAgICAg
-ICAgRVJST1IgICAgICAgICAgMTUyLjI3cyAgIGtpbGxlZCBieSBzaWduYWwgNiBTSUdBQlJUDQri
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJUg4pyA
-ICDigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJUN
-CnN0ZGVycjoNCnF1ZXJ5LW1pZ3JhdGUgc2hvd3MgZmFpbGVkIG1pZ3JhdGlvbjogVW5hYmxlIHRv
-IHdyaXRlIHRvIHNvY2tldDogQnJva2VuIHBpcGUNCioqDQpFUlJPUjouLi8uLi90ZXN0cy9xdGVz
-dC9taWdyYXRpb24taGVscGVycy5jOjE1MTptaWdyYXRlX3F1ZXJ5X25vdF9mYWlsZWQ6DQphc3Nl
-cnRpb24gZmFpbGVkOiAoIWdfc3RyX2VxdWFsKHN0YXR1cywgImZhaWxlZCIpKQ0KQXNzZXJ0aW9u
-IGZhaWxlZDogKHBpZCA9PSBzLT5xZW11X3BpZCksIGZ1bmN0aW9uIHF0ZXN0X3dhaXRfcWVtdSwg
-ZmlsZQ0KLi4vLi4vdGVzdHMvcXRlc3QvbGlicXRlc3QuYywgbGluZSAyMDcuDQoNCih0ZXN0IHBy
-b2dyYW0gZXhpdGVkIHdpdGggc3RhdHVzIGNvZGUgLTYpDQrigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJUNCg0KYW5kIHNpbWlsYXJs
-eToNCg0K4pa2ICAzNC81OTEgRVJST1I6Li4vLi4vdGVzdHMvcXRlc3QvbWlncmF0aW9uLWhlbHBl
-cnMuYzoxNTE6bWlncmF0ZV9xdWVyeV9ub3RfZmFpbGVkOg0KYXNzZXJ0aW9uIGZhaWxlZDogKCFn
-X3N0cl9lcXVhbChzdGF0dXMsICJmYWlsZWQiKSkgRVJST1INCiAzNC81OTEgcWVtdTpxdGVzdCtx
-dGVzdC1pMzg2IC8gcXRlc3QtaTM4Ni9taWdyYXRpb24tdGVzdA0KICAgICAgICAgICBFUlJPUiAg
-ICAgICAgICAxNjkuNDRzICAga2lsbGVkIGJ5IHNpZ25hbCA2IFNJR0FCUlQNCuKAleKAleKAleKA
-leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKA
-leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAlSDinIAgIOKAleKAleKA
-leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKA
-leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAlQ0Kc3RkZXJyOg0K
-cXVlcnktbWlncmF0ZSBzaG93cyBmYWlsZWQgbWlncmF0aW9uOiBVbmFibGUgdG8gd3JpdGUgdG8g
-c29ja2V0OiBCcm9rZW4gcGlwZQ0KKioNCkVSUk9SOi4uLy4uL3Rlc3RzL3F0ZXN0L21pZ3JhdGlv
-bi1oZWxwZXJzLmM6MTUxOm1pZ3JhdGVfcXVlcnlfbm90X2ZhaWxlZDoNCmFzc2VydGlvbiBmYWls
-ZWQ6ICghZ19zdHJfZXF1YWwoc3RhdHVzLCAiZmFpbGVkIikpDQpBc3NlcnRpb24gZmFpbGVkOiAo
-cGlkID09IHMtPnFlbXVfcGlkKSwgZnVuY3Rpb24gcXRlc3Rfd2FpdF9xZW11LCBmaWxlDQouLi8u
-Li90ZXN0cy9xdGVzdC9saWJxdGVzdC5jLCBsaW5lIDIwNy4NCg0KKHRlc3QgcHJvZ3JhbSBleGl0
-ZWQgd2l0aCBzdGF0dXMgY29kZSAtNikNCuKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKA
-leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKA
-leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKA
-leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKAleKA
-leKAleKAleKAleKAleKAleKAleKAleKAleKAleKAlQ0KDQpJdCBzZWVtcyB0byBiZSBmYWlybHkg
-Y29uc2lzdGVudC4gQW55IGlkZWFzIHdoYXQgaXQgbWlnaHQgYmU/DQpNYXliZSB0aGUgUUVNVSBw
-cm9jZXNzIGhhcyBhbHJlYWR5IGV4aXRlZCBiZWZvcmUgdGhlIHRlc3QgYmluYXJ5DQpnZXRzIHJv
-dW5kIHRvIHF1ZXJ5aW5nIHRoZSBzdGF0dXMgPw0KDQp0aGFua3MNCi0tIFBNTQ0K
+Control VQ is the way net devices use to send changes to the device state, =
+like=0D
+the number of active queues or its mac address.=0D
+=0D
+QEMU needs to intercept this queue so it can track these changes and is abl=
+e to=0D
+migrate the device. It can do it from 1576dbb5bbc4 ("vdpa: Add x-svq to=0D
+NetdevVhostVDPAOptions"). However, to enable x-svq implies to shadow all Vi=
+rtIO=0D
+device's virtqueues, which will damage performance.=0D
+=0D
+This series adds address space isolation, so the device and the guest=0D
+communicate directly with them (passthrough) and CVQ communication is split=
+ in=0D
+two: The guest communicates with qemu and qemu forwards the commands to the=
+=0D
+device.=0D
+=0D
+Comments are welcome. Thanks!=0D
+=0D
+v9:=0D
+- Reuse iova_range fetched from the device at initialization, instead of=0D
+  fetch it again at vhost_vdpa_net_cvq_start.=0D
+- Add comment about how migration is blocked in case ASID does not met=0D
+  our expectations.=0D
+- Delete warning about CVQ group not being independent.=0D
+=0D
+v8:=0D
+- Do not allocate iova_tree on net_init_vhost_vdpa if only CVQ is=0D
+  shadowed. Move the iova_tree allocation to=0D
+  vhost_vdpa_net_cvq_start and vhost_vdpa_net_cvq_stop in this case.=0D
+=0D
+v7:=0D
+- Never ask for number of address spaces, just react if isolation is not=0D
+  possible.=0D
+- Return ASID ioctl errors instead of masking them as if the device has=0D
+  no asid.=0D
+- Rename listener_shadow_vq to shadow_data=0D
+- Move comment on zero initailization of vhost_vdpa_dma_map above the=0D
+  functions.=0D
+- Add VHOST_VDPA_GUEST_PA_ASID macro.=0D
+=0D
+v6:=0D
+- Do not allocate SVQ resources like file descriptors if SVQ cannot be used=
+.=0D
+- Disable shadow CVQ if the device does not support it because of net=0D
+  features.=0D
+=0D
+v5:=0D
+- Move vring state in vhost_vdpa_get_vring_group instead of using a=0D
+  parameter.=0D
+- Rename VHOST_VDPA_NET_CVQ_PASSTHROUGH to VHOST_VDPA_NET_DATA_ASID=0D
+=0D
+v4:=0D
+- Rebased on last CVQ start series, that allocated CVQ cmd bufs at load=0D
+- Squash vhost_vdpa_cvq_group_is_independent.=0D
+- Do not check for cvq index on vhost_vdpa_net_prepare, we only have one=0D
+  that callback registered in that NetClientInfo.=0D
+- Add comment specifying behavior if device does not support _F_ASID=0D
+- Update headers to a later Linux commit to not to remove SETUP_RNG_SEED=0D
+=0D
+v3:=0D
+- Do not return an error but just print a warning if vdpa device initializa=
+tion=0D
+  returns failure while getting AS num of VQ groups=0D
+- Delete extra newline=0D
+=0D
+v2:=0D
+- Much as commented on series [1], handle vhost_net backend through=0D
+  NetClientInfo callbacks instead of directly.=0D
+- Fix not freeing SVQ properly when device does not support CVQ=0D
+- Add BIT_ULL missed checking device's backend feature for _F_ASID.=0D
+=0D
+Eugenio P=C3=A9rez (12):=0D
+  vdpa: use v->shadow_vqs_enabled in vhost_vdpa_svqs_start & stop=0D
+  vhost: set SVQ device call handler at SVQ start=0D
+  vhost: allocate SVQ device file descriptors at device start=0D
+  vhost: move iova_tree set to vhost_svq_start=0D
+  vdpa: add vhost_vdpa_net_valid_svq_features=0D
+  vdpa: request iova_range only once=0D
+  vdpa: move SVQ vring features check to net/=0D
+  vdpa: allocate SVQ array unconditionally=0D
+  vdpa: add asid parameter to vhost_vdpa_dma_map/unmap=0D
+  vdpa: store x-svq parameter in VhostVDPAState=0D
+  vdpa: add shadow_data to vhost_vdpa=0D
+  vdpa: always start CVQ in SVQ mode if possible=0D
+=0D
+ hw/virtio/vhost-shadow-virtqueue.h |   5 +-=0D
+ include/hw/virtio/vhost-vdpa.h     |  16 ++-=0D
+ hw/virtio/vhost-shadow-virtqueue.c |  44 ++------=0D
+ hw/virtio/vhost-vdpa.c             | 140 +++++++++++------------=0D
+ net/vhost-vdpa.c                   | 174 ++++++++++++++++++++++++-----=0D
+ hw/virtio/trace-events             |   4 +-=0D
+ 6 files changed, 237 insertions(+), 146 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
+
 
