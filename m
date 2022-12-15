@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF9C64DC2B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:22:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5C864DC4B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:32:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5npy-0008F7-Pa; Thu, 15 Dec 2022 07:59:46 -0500
+	id 1p5nsy-0001rk-BJ; Thu, 15 Dec 2022 08:02:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p5npw-0008Ax-GA
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:59:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p5nsi-0001pG-MC
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:02:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1p5npu-0008MB-GB
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:59:44 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p5nsg-0000bs-0N
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:02:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671109181;
+ s=mimecast20190719; t=1671109352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m8bTWo2xOi26SSErnPVRp7T0G1wqKMj8KYiPQGN80cM=;
- b=Pkny/rwct1W5VZp+N8QErdgYPofGP6Q5j7HAWVOp1GrzOJSeHL+XZ0QQBIgj4/3eXoPaJO
- e/COxFLlTi9phW841kWx/q8DkOPMDZslsoNliYsXGvUp/6xwXwWba7B239b4eGdEpftWFX
- RJoPwcaH/5xtLQ+3fW7yV0mowKlhkKs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/u63xcwR4pBPzuAJYrFKyPl/P6dbO0ye1WgVvdyqS0U=;
+ b=g4JpIpQM5xApREzabBX34WAR6s+w5eZxZorMcX2uBeqz5GooerjbZl3whn8M+nVkD/VCAd
+ 5dm9XKpftRi9ZRpqDubVJwzOnEU6uWEUcR5uKQDJOKKvZKOz5Wy6FL2HLMp2o0yZC8d2Q5
+ Ai9YEiS2cQWtR7RZax6rAh33RpJ0oz4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-441-csMvjosoN1K8xnIDneijQQ-1; Thu, 15 Dec 2022 07:59:40 -0500
-X-MC-Unique: csMvjosoN1K8xnIDneijQQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d4-20020adfa404000000b002421ca8cb07so623287wra.2
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:59:40 -0800 (PST)
+ us-mta-444-ldaMSRBVMTa8W6r8nkCDSQ-1; Thu, 15 Dec 2022 08:02:30 -0500
+X-MC-Unique: ldaMSRBVMTa8W6r8nkCDSQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e19-20020adfa453000000b0024209415034so612066wra.18
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 05:02:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=m8bTWo2xOi26SSErnPVRp7T0G1wqKMj8KYiPQGN80cM=;
- b=FALxORVBnXEWh8Pi4a3oBmibZA+iZte8hTZL272HLu2oZyTQyZTeHCumvy4RuZDiNg
- Ki7cZyiMNXUKEDypSAijaSgkbYEeZk1aJl2342m35zI+pSzau3JRX0AvAnhYG1+BixUw
- H34dtTW09y381FGbP0Zm93h3W/hTBnodepORAmr5PQ74r50IRQ6WMQC8Agt52f3cEJ7l
- Rl4ir+Qhm7gmLc0pGUsdV+cQ1Lg6qPvC3oURhe+Fo3W4ZRSNMv5aXqsG2Npzw2MfsBXo
- Nr1oeT6RxdHt/RmfjSpnp2gWn/YObVginbqVaqiWk8QBF07ts1hvdIXJiBq9+0jpkg/J
- GUEw==
-X-Gm-Message-State: ANoB5pkH1bk13EM74pYEE3QEDpUS0aGmOGLrSovYUZoK3EwESD+GUay1
- iMrnB7EcfYMyt/06Npqd5yRNIiDwcTeboy5+7i7ym9DveMou42+u/+rblXn1JW1tcHlZswwqR+S
- s470e41rJgR1s50k=
-X-Received: by 2002:a05:600c:4f08:b0:3d1:d746:d95b with SMTP id
- l8-20020a05600c4f0800b003d1d746d95bmr21585036wmq.41.1671109179206; 
- Thu, 15 Dec 2022 04:59:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4TeT9XTWq1rcll3hj5nWdl2rdLLymhXUrq/BhN0ImE4m6u6DdR0zPOP1NShFP1SWFMXL2B9w==
-X-Received: by 2002:a05:600c:4f08:b0:3d1:d746:d95b with SMTP id
- l8-20020a05600c4f0800b003d1d746d95bmr21585027wmq.41.1671109178961; 
- Thu, 15 Dec 2022 04:59:38 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0?
- ([2a01:e0a:280:24f0:7cc2:9bb4:28db:3a0])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/u63xcwR4pBPzuAJYrFKyPl/P6dbO0ye1WgVvdyqS0U=;
+ b=zP4pLsvuPC6x0lp4rPN9RE0HI6lXPR5YwDx1dI9R3bNrPjInruQYvmIzU6xtx8gf+8
+ kGpj+/gaXGGQrq7W3xKHNYJAIL88204iM/WKyfr2eiI7zQGigqiG37PULOCqaYDHE/4b
+ ntQX64qsqX/4pa/upVMkBIb7gP+lPsola0Qpf08fKaNNBw97lV/GZqPtyLlCn3fcGgg2
+ oH38+1jPQDOlhuGc/RKAwtbBQLtT+QtUe/f5X0kK5f3pfq0AlmuOg714DPC4lppo26oc
+ tFXbdm4tPsV6WyrVD1jGuAqZWYGIPmuCyDtWMBK9II01L2HY245jHjS+36re0tTZIdpu
+ HaSA==
+X-Gm-Message-State: ANoB5pnmdtNgiy/vgqsOKb85NhEY+21opgLlL8YOsYrYDK9j0rPJorR0
+ PwsllJRzkd3i2yermsn4wVReHoNRa3GT+KKcd/YTQcigoWPVgM56uUAnd8HE6uFknvUbuDs6RYH
+ ougbz/lEW8wireB00mnjztF+kPCzqFzWbSCFMbf/BlJi92ywSoIMa/WKz8rclf2ThY+Y=
+X-Received: by 2002:a05:600c:4fd0:b0:3cf:d367:274d with SMTP id
+ o16-20020a05600c4fd000b003cfd367274dmr21897973wmq.31.1671109349320; 
+ Thu, 15 Dec 2022 05:02:29 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6O+nVQXY72JVRi97Dz/t/gGjoqcMztMv5gqyAxMyNiSw8i9MWKVLhsxm+CjqGBO3bTwOEpDg==
+X-Received: by 2002:a05:600c:4fd0:b0:3cf:d367:274d with SMTP id
+ o16-20020a05600c4fd000b003cfd367274dmr21897938wmq.31.1671109348942; 
+ Thu, 15 Dec 2022 05:02:28 -0800 (PST)
+Received: from avogadro.local ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a05600c1d1300b003cf75213bb9sm7396589wms.8.2022.12.15.04.59.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Dec 2022 04:59:38 -0800 (PST)
-Message-ID: <3744c12e-547a-c837-8548-6d7e5ee72698@redhat.com>
-Date: Thu, 15 Dec 2022 13:59:37 +0100
+ 8-20020a05600c020800b003d237d60318sm6283745wmi.2.2022.12.15.05.02.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Dec 2022 05:02:27 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org,
+	kwolf@redhat.com
+Subject: [PATCH] qemu-io: do not reinvent the blk_pwrite_zeroes wheel
+Date: Thu, 15 Dec 2022 14:02:23 +0100
+Message-Id: <20221215130225.476477-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v1 24/24] vfio-user: add trace points
-Content-Language: en-US
-To: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1667542066.git.john.g.johnson@oracle.com>
- <a91ec93b532f7951e7dd1c1e66aa9c304774584f.1667542066.git.john.g.johnson@oracle.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <a91ec93b532f7951e7dd1c1e66aa9c304774584f.1667542066.git.john.g.johnson@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,209 +97,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/9/22 00:13, John Johnson wrote:
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->   hw/vfio/trace-events | 15 +++++++++++++++
->   hw/vfio/user.c       | 26 ++++++++++++++++++++++++++
->   2 files changed, 41 insertions(+)
+qemu-io's do_co_pwrite_zeroes is reinventing the coroutine wrapper
+blk_pwrite_zeroes.  Just use the real thing directly.
 
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ qemu-io-cmds.c | 55 +++++++++-----------------------------------------
+ 1 file changed, 9 insertions(+), 46 deletions(-)
 
-I would introduce the traces progressively in the patchset with the
-routine being traced.
-
-Thanks,
-
-C.
-
-> 
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index 73dffe9..c27cec7 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -166,3 +166,18 @@ vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t dat
->   vfio_load_cleanup(const char *name) " (%s)"
->   vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
->   vfio_iommu_map_dirty_notify(uint64_t iova_start, uint64_t iova_end) "iommu dirty @ 0x%"PRIx64" - 0x%"PRIx64
-> +
-> +# user.c
-> +vfio_user_recv_hdr(const char *name, uint16_t id, uint16_t cmd, uint32_t size, uint32_t flags) " (%s) id 0x%x cmd 0x%x size 0x%x flags 0x%x"
-> +vfio_user_recv_read(uint16_t id, int read) " id 0x%x read 0x%x"
-> +vfio_user_recv_request(uint16_t cmd) " command 0x%x"
-> +vfio_user_send_write(uint16_t id, int wrote) " id 0x%x wrote 0x%x"
-> +vfio_user_version(uint16_t major, uint16_t minor, const char *caps) " major %d minor %d caps: %s"
-> +vfio_user_dma_map(uint64_t iova, uint64_t size, uint64_t off, uint32_t flags, bool will_commit) " iova 0x%"PRIx64" size 0x%"PRIx64" off 0x%"PRIx64" flags 0x%x will_commit %d"
-> +vfio_user_dma_unmap(uint64_t iova, uint64_t size, uint32_t flags, bool dirty, bool will_commit) " iova 0x%"PRIx64" size 0x%"PRIx64" flags 0x%x dirty %d will_commit %d"
-> +vfio_user_get_info(uint32_t nregions, uint32_t nirqs) " #regions %d #irqs %d"
-> +vfio_user_get_region_info(uint32_t index, uint32_t flags, uint64_t size) " index %d flags 0x%x size 0x%"PRIx64
-> +vfio_user_get_irq_info(uint32_t index, uint32_t flags, uint32_t count) " index %d flags 0x%x count %d"
-> +vfio_user_set_irqs(uint32_t index, uint32_t start, uint32_t count, uint32_t flags) " index %d start %d count %d flags 0x%x"
-> +vfio_user_region_rw(uint32_t region, uint64_t off, uint32_t count) " region %d offset 0x%"PRIx64" count %d"
-> +vfio_user_wrmulti(const char *s, uint64_t wr_cnt) " %s count 0x%"PRIx64
-> diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-> index 4ed305b..74e1714 100644
-> --- a/hw/vfio/user.c
-> +++ b/hw/vfio/user.c
-> @@ -30,6 +30,8 @@
->   #include "qapi/qmp/qnum.h"
->   #include "qapi/qmp/qbool.h"
->   #include "user.h"
-> +#include "trace.h"
-> +
->   
->   
->   /*
-> @@ -108,6 +110,8 @@ static int vfio_user_send_qio(VFIOProxy *proxy, VFIOUserMsg *msg)
->           vfio_user_shutdown(proxy);
->           error_report_err(local_err);
->       }
-> +    trace_vfio_user_send_write(msg->hdr->id, ret);
-> +
->       return ret;
->   }
->   
-> @@ -225,6 +229,7 @@ static int vfio_user_complete(VFIOProxy *proxy, Error **errp)
->               }
->               return ret;
->           }
-> +        trace_vfio_user_recv_read(msg->hdr->id, ret);
->   
->           msgleft -= ret;
->           data += ret;
-> @@ -332,6 +337,8 @@ static int vfio_user_recv_one(VFIOProxy *proxy)
->           error_setg(&local_err, "unknown message type");
->           goto fatal;
->       }
-> +    trace_vfio_user_recv_hdr(proxy->sockname, hdr.id, hdr.command, hdr.size,
-> +                             hdr.flags);
->   
->       /*
->        * For replies, find the matching pending request.
-> @@ -408,6 +415,7 @@ static int vfio_user_recv_one(VFIOProxy *proxy)
->           if (ret <= 0) {
->               goto fatal;
->           }
-> +        trace_vfio_user_recv_read(hdr.id, ret);
->   
->           msgleft -= ret;
->           data += ret;
-> @@ -546,6 +554,7 @@ static void vfio_user_request(void *opaque)
->       QTAILQ_INIT(&free);
->       QTAILQ_FOREACH_SAFE(msg, &new, next, m1) {
->           QTAILQ_REMOVE(&new, msg, next);
-> +        trace_vfio_user_recv_request(msg->hdr->command);
->           proxy->request(proxy->req_arg, msg);
->           QTAILQ_INSERT_HEAD(&free, msg, next);
->       }
-> @@ -1265,6 +1274,7 @@ int vfio_user_validate_version(VFIOProxy *proxy, Error **errp)
->       msgp->minor = VFIO_USER_MINOR_VER;
->       memcpy(&msgp->capabilities, caps->str, caplen);
->       g_string_free(caps, true);
-> +    trace_vfio_user_version(msgp->major, msgp->minor, msgp->capabilities);
->   
->       vfio_user_send_wait(proxy, &msgp->hdr, NULL, 0, false);
->       if (msgp->hdr.flags & VFIO_USER_ERROR) {
-> @@ -1288,6 +1298,7 @@ int vfio_user_validate_version(VFIOProxy *proxy, Error **errp)
->           return -1;
->       }
->   
-> +    trace_vfio_user_version(msgp->major, msgp->minor, msgp->capabilities);
->       return 0;
->   }
->   
-> @@ -1305,6 +1316,8 @@ static int vfio_user_dma_map(VFIOProxy *proxy,
->       msgp->offset = map->vaddr;
->       msgp->iova = map->iova;
->       msgp->size = map->size;
-> +    trace_vfio_user_dma_map(msgp->iova, msgp->size, msgp->offset, msgp->flags,
-> +                        will_commit);
->   
->       /*
->        * The will_commit case sends without blocking or dropping BQL.
-> @@ -1371,6 +1384,8 @@ static int vfio_user_dma_unmap(VFIOProxy *proxy,
->       msgp->msg.flags = unmap->flags;
->       msgp->msg.iova = unmap->iova;
->       msgp->msg.size = unmap->size;
-> +    trace_vfio_user_dma_unmap(msgp->msg.iova, msgp->msg.size, msgp->msg.flags,
-> +                         bitmap != NULL, will_commit);
->   
->       if (blocking) {
->           vfio_user_send_wait(proxy, &msgp->msg.hdr, NULL, rsize, will_commit);
-> @@ -1400,6 +1415,7 @@ static int vfio_user_get_info(VFIOProxy *proxy, struct vfio_device_info *info)
->       if (msg.hdr.flags & VFIO_USER_ERROR) {
->           return -msg.hdr.error_reply;
->       }
-> +    trace_vfio_user_get_info(msg.num_regions, msg.num_irqs);
->   
->       memcpy(info, &msg.argsz, sizeof(*info));
->       return 0;
-> @@ -1434,6 +1450,7 @@ static int vfio_user_get_region_info(VFIOProxy *proxy,
->       if (msgp->hdr.flags & VFIO_USER_ERROR) {
->           return -msgp->hdr.error_reply;
->       }
-> +    trace_vfio_user_get_region_info(msgp->index, msgp->flags, msgp->size);
->   
->       memcpy(info, &msgp->argsz, info->argsz);
->       return 0;
-> @@ -1454,6 +1471,7 @@ static int vfio_user_get_irq_info(VFIOProxy *proxy,
->       if (msg.hdr.flags & VFIO_USER_ERROR) {
->           return -msg.hdr.error_reply;
->       }
-> +    trace_vfio_user_get_irq_info(msg.index, msg.flags, msg.count);
->   
->       memcpy(info, &msg.argsz, sizeof(*info));
->       return 0;
-> @@ -1499,6 +1517,8 @@ static int vfio_user_set_irqs(VFIOProxy *proxy, struct vfio_irq_set *irq)
->           msgp->index = irq->index;
->           msgp->start = irq->start;
->           msgp->count = irq->count;
-> +        trace_vfio_user_set_irqs(msgp->index, msgp->start, msgp->count,
-> +                                 msgp->flags);
->   
->           vfio_user_send_wait(proxy, &msgp->hdr, NULL, 0, false);
->           if (msgp->hdr.flags & VFIO_USER_ERROR) {
-> @@ -1535,6 +1555,8 @@ static int vfio_user_set_irqs(VFIOProxy *proxy, struct vfio_irq_set *irq)
->           msgp->index = irq->index;
->           msgp->start = irq->start + sent_fds;
->           msgp->count = send_fds;
-> +        trace_vfio_user_set_irqs(msgp->index, msgp->start, msgp->count,
-> +                                 msgp->flags);
->   
->           loop_fds.send_fds = send_fds;
->           loop_fds.recv_fds = 0;
-> @@ -1565,6 +1587,7 @@ static int vfio_user_region_read(VFIOProxy *proxy, uint8_t index, off_t offset,
->       msgp->offset = offset;
->       msgp->region = index;
->       msgp->count = count;
-> +    trace_vfio_user_region_rw(msgp->region, msgp->offset, msgp->count);
->   
->       vfio_user_send_wait(proxy, &msgp->hdr, NULL, size, false);
->       if (msgp->hdr.flags & VFIO_USER_ERROR) {
-> @@ -1593,6 +1616,7 @@ static void vfio_user_flush_multi(VFIOProxy *proxy)
->       msg->id = wm->hdr.id;
->       msg->rsize = 0;
->       msg->type = VFIO_MSG_ASYNC;
-> +    trace_vfio_user_wrmulti("flush", wm->wr_cnt);
->   
->       ret = vfio_user_send_queued(proxy, msg);
->       if (ret < 0) {
-> @@ -1622,6 +1646,7 @@ static void vfio_user_add_multi(VFIOProxy *proxy, uint8_t index, off_t offset,
->       memcpy(&w1->data, data, count);
->   
->       wm->wr_cnt++;
-> +    trace_vfio_user_wrmulti("add", wm->wr_cnt);
->       if (wm->wr_cnt == VFIO_USER_MULTI_MAX ||
->           proxy->num_outgoing < VFIO_USER_OUT_LOW) {
->           vfio_user_flush_multi(proxy);
-> @@ -1689,6 +1714,7 @@ static int vfio_user_region_write(VFIOProxy *proxy, uint8_t index, off_t offset,
->       msgp->region = index;
->       msgp->count = count;
->       memcpy(&msgp->data, data, count);
-> +    trace_vfio_user_region_rw(msgp->region, msgp->offset, msgp->count);
->   
->       /* async send will free msg after it's sent */
->       if (post) {
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index 952dc940f1df..7a412d6512fb 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -572,54 +572,17 @@ static int do_pwrite(BlockBackend *blk, char *buf, int64_t offset,
+     return 1;
+ }
+ 
+-typedef struct {
+-    BlockBackend *blk;
+-    int64_t offset;
+-    int64_t bytes;
+-    int64_t *total;
+-    int flags;
+-    int ret;
+-    bool done;
+-} CoWriteZeroes;
+-
+-static void coroutine_fn co_pwrite_zeroes_entry(void *opaque)
+-{
+-    CoWriteZeroes *data = opaque;
+-
+-    data->ret = blk_co_pwrite_zeroes(data->blk, data->offset, data->bytes,
+-                                     data->flags);
+-    data->done = true;
+-    if (data->ret < 0) {
+-        *data->total = data->ret;
+-        return;
+-    }
+-
+-    *data->total = data->bytes;
+-}
+-
+-static int do_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
++static int do_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+                                int64_t bytes, int flags, int64_t *total)
+ {
+-    Coroutine *co;
+-    CoWriteZeroes data = {
+-        .blk    = blk,
+-        .offset = offset,
+-        .bytes  = bytes,
+-        .total  = total,
+-        .flags  = flags,
+-        .done   = false,
+-    };
++    int ret = blk_pwrite_zeroes(blk, offset, bytes,
++                                flags | BDRV_REQ_ZERO_WRITE);
+ 
+-    co = qemu_coroutine_create(co_pwrite_zeroes_entry, &data);
+-    bdrv_coroutine_enter(blk_bs(blk), co);
+-    while (!data.done) {
+-        aio_poll(blk_get_aio_context(blk), true);
+-    }
+-    if (data.ret < 0) {
+-        return data.ret;
+-    } else {
+-        return 1;
++    if (ret < 0) {
++        return ret;
+     }
++    *total = bytes;
++    return 1;
+ }
+ 
+ static int do_write_compressed(BlockBackend *blk, char *buf, int64_t offset,
+@@ -1042,7 +1005,7 @@ static void write_help(void)
+ " -C, -- report statistics in a machine parsable format\n"
+ " -q, -- quiet mode, do not show I/O statistics\n"
+ " -u, -- with -z, allow unmapping\n"
+-" -z, -- write zeroes using blk_co_pwrite_zeroes\n"
++" -z, -- write zeroes using blk_pwrite_zeroes\n"
+ "\n");
+ }
+ 
+@@ -1199,7 +1162,7 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
+     if (bflag) {
+         ret = do_save_vmstate(blk, buf, offset, count, &total);
+     } else if (zflag) {
+-        ret = do_co_pwrite_zeroes(blk, offset, count, flags, &total);
++        ret = do_pwrite_zeroes(blk, offset, count, flags, &total);
+     } else if (cflag) {
+         ret = do_write_compressed(blk, buf, offset, count, &total);
+     } else {
+-- 
+2.38.1
 
 
