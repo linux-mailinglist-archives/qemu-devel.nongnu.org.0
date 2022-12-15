@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C7764DBD0
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 13:59:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A1E64DBC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 13:57:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5nhU-00074j-5a; Thu, 15 Dec 2022 07:51:00 -0500
+	id 1p5nhU-00076E-SA; Thu, 15 Dec 2022 07:51:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5nhA-0006qb-11
+ id 1p5nhA-0006qe-MF
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:50 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5nh7-00047j-SF
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:39 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- c65-20020a1c3544000000b003cfffd00fc0so1633144wma.1
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:50:37 -0800 (PST)
+ id 1p5nh8-00047M-Mm
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:40 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ c65-20020a1c3544000000b003cfffd00fc0so1633166wma.1
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:50:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Vx55fGlR/Z1os6C31JObsSgVzCPuLsEtiQEKGRSF7A4=;
- b=eb13ztEm+cNqI1MLmTuDb4d3H2Ox5V+hBF3Mf3wucS6jxbmhLy0wvZn+vyNNBcGUSG
- 1CBqKGKXONovkFV/Yifq1aGSJoyi94upNrMvxzjDlIEo8jIPixM8AIZxIN4NKwitWXtZ
- xy5s+u3X9WRV2wk/EOPEZjtwIph2Gn/bVH+PGGmPZQooDAY/1Zp7LT/+aFCu+bDbwDqW
- 3k+fyyaMfCLnzHeAUsGEkzkoDXwzc+KlMRJ5mysM63OwpykMjqVSPDeg+hr/ZlC3dUc9
- Yf+LBXQF+AaUez+OeLvFRvxlRPPoDZfdU0/jGkVOZvOLHvo51U1fmVNlCXfSq0OS1/JD
- UxcQ==
+ :reply-to; bh=SPVz5nzpUxR9kUw3FrhH8ulO7d6/4IhNh0TGhcwS5DA=;
+ b=Ob1aCX6fPJzwCw0klTUbHSIT9PQBnLJtbU3l8Y5BhCAdA3utiBtv/8LUNyEOEVSOPK
+ Vfm5OMjY9MCEWdS9DoRF55/FJ3N+GHyx+K64XC4FKnzzlU9fqHQpe5zlWiMh00RxWHVs
+ qeLaWNYMiGhoYuWhWx7S/jgTsD2tRmT1e3ulZgO6c7teTkq+QXf3cUWSkMY/5iTxs2oh
+ mjyH/U7JTtwvtgbdcKqln5q8g7NjK5ChDzEBbEUNGE2+K5B4VLh8zdvdBI+9pMtNrCqD
+ qjlbevcLAuO+qDmsKsWV8yI6fZqoCQK4Q/TyNOQwIPk1iNP4u1pOgxFAmRKJHtuhdk+H
+ TkEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Vx55fGlR/Z1os6C31JObsSgVzCPuLsEtiQEKGRSF7A4=;
- b=cY++qKVORUed+8n3C0hDSHLo93rpqW1eQ9dUPSCKW6CxnsfVA9AQDRTz51q/zsv47J
- 8QnjcOVCd3TNp9PJAK+OCmCXZqRtEAg7jdx5n7BabgR3kiGkjhMT41NVNCstiBnWGg/x
- QURIS2LSuvNYfdfdpffE6m6WlD/89RUgk765SKNbGblhK0EvUZ6xFLIf6LGZ4ls7kx9s
- V33M5Cve7rcxuYh76tBqgYgZo2/m9SbOP8BuTgvD/YgaH9PWrx6QBbF5dqn0NGddWv2k
- aAJUpmrcpwSzaBg4oLbOL2s4sqSOrCvQWDihOSzVwa0+26EWFXYVruhUxiw/FnGwxks0
- kjYg==
-X-Gm-Message-State: ANoB5pmHkDstYJIXe/JNA1+OfDwxoDfKkgTYlhhKsiSWsYrKQnAQVeo+
- CE5dHzR30+/QHTIItszNnIQltFzYJeuxHsRN
-X-Google-Smtp-Source: AA0mqf45j6Byq5ixgzzgPFvBjwWG5QHVzLYOARtJ4j4XXeRO/waMukGNtloZBBPUT0Pi15Hl3iSvIA==
-X-Received: by 2002:a05:600c:310e:b0:3cf:b07a:cd2f with SMTP id
- g14-20020a05600c310e00b003cfb07acd2fmr21396777wmo.37.1671108637112; 
- Thu, 15 Dec 2022 04:50:37 -0800 (PST)
+ bh=SPVz5nzpUxR9kUw3FrhH8ulO7d6/4IhNh0TGhcwS5DA=;
+ b=zHUtlT6HaeL0tRQ1c2Dr+w2vX+LdpKD+KYf29+SGgSPDhD83YBo/JbmeXW2KKV1kmC
+ ujJLJPkUymfZvnrzjzIn+IKdh6bROqGi9+4yf8GH86E5of7uQXwIesXleJcis+Gq4mQU
+ orLfwki1zkD/gSwoZzHcV+ewNWRPgwhjb7QoUE+oBwZBIrsduHCKQ8scciVcbLqPi3gD
+ /slsUD43OrM6pgLxrP/pyHHIDUeq7sK7JXeDbB9qG9w8acRsxC4oNJhEq/Kq0AyYZcOY
+ TEmIeYjoTaR8KOD2CxwbBgQhlaUX9zyWVRRi/gA+6IfyYHqGGFbmL+Db0OZAc4YaOrog
+ thnQ==
+X-Gm-Message-State: ANoB5pkV6FiBc1jjXLo1dcYa19cGgVMlsEduZX6qX+cSUl8LkU6UJ0s9
+ KCgQADJed5ViNz69KIPOr/oT6WuzJAevOSMB
+X-Google-Smtp-Source: AA0mqf7gfyZObGM5QaRcsFMuaoaEkMPWxVJstJ9SUf2YSXATMxNwNkUn14VNNvpYiXCqKxEJje3qkg==
+X-Received: by 2002:a05:600c:3496:b0:3cf:7385:6783 with SMTP id
+ a22-20020a05600c349600b003cf73856783mr29577917wmq.36.1671108638004; 
+ Thu, 15 Dec 2022 04:50:38 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.36
+ i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 04:50:36 -0800 (PST)
+ Thu, 15 Dec 2022 04:50:37 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/29] hw/misc: Move some arm-related files from specific_ss
- into softmmu_ss
-Date: Thu, 15 Dec 2022 12:50:08 +0000
-Message-Id: <20221215125009.980128-29-peter.maydell@linaro.org>
+Subject: [PULL 29/29] target/arm: Restrict arm_cpu_exec_interrupt() to TCG
+ accelerator
+Date: Thu, 15 Dec 2022 12:50:09 +0000
+Message-Id: <20221215125009.980128-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221215125009.980128-1-peter.maydell@linaro.org>
 References: <20221215125009.980128-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,144 +91,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-The header target/arm/kvm-consts.h checks CONFIG_KVM which is marked as
-poisoned in common code, so the files that include this header have to
-be added to specific_ss and recompiled for each, qemu-system-arm and
-qemu-system-aarch64. However, since the kvm headers are only optionally
-used in kvm-constants.h for some sanity checks, we can additionally
-check the NEED_CPU_H macro first to avoid the poisoned CONFIG_KVM macro,
-so kvm-constants.h can also be used from "common" files (without the
-sanity checks - which should be OK since they are still done from other
-target-specific files instead). This way, and by adjusting some other
-include statements in the related files here and there, we can move some
-files from specific_ss into softmmu_ss, so that they only need to be
-compiled once during the build process.
+When building with --disable-tcg on Darwin we get:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20221202154023.293614-1-thuth@redhat.com
+  target/arm/cpu.c:725:16: error: incomplete definition of type 'struct TCGCPUOps'
+    cc->tcg_ops->do_interrupt(cs);
+    ~~~~~~~~~~~^
+
+Commit 083afd18a9 ("target/arm: Restrict cpu_exec_interrupt()
+handler to sysemu") limited this block to system emulation,
+but neglected to also limit it to TCG.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Fabiano Rosas <farosas@suse.de>
+Message-id: 20221209110823.59495-1-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/misc/xlnx-zynqmp-apu-ctrl.h |  2 +-
- target/arm/kvm-consts.h                |  8 ++++----
- hw/misc/imx6_src.c                     |  2 +-
- hw/misc/iotkit-sysctl.c                |  1 -
- hw/misc/meson.build                    | 11 +++++------
- 5 files changed, 11 insertions(+), 13 deletions(-)
+ target/arm/cpu.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/misc/xlnx-zynqmp-apu-ctrl.h b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
-index b8ca9434afb..c3bf3c1583b 100644
---- a/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
-+++ b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
-@@ -13,7 +13,7 @@
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 38d066c294d..0f55004d7e7 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -528,7 +528,7 @@ static void arm_cpu_reset(DeviceState *dev)
+     arm_rebuild_hflags(env);
+ }
  
- #include "hw/sysbus.h"
- #include "hw/register.h"
--#include "target/arm/cpu.h"
-+#include "target/arm/cpu-qom.h"
+-#ifndef CONFIG_USER_ONLY
++#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
  
- #define TYPE_XLNX_ZYNQMP_APU_CTRL "xlnx.apu-ctrl"
- OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPAPUCtrl, XLNX_ZYNQMP_APU_CTRL)
-diff --git a/target/arm/kvm-consts.h b/target/arm/kvm-consts.h
-index faacf96fdc7..09967ec5e64 100644
---- a/target/arm/kvm-consts.h
-+++ b/target/arm/kvm-consts.h
-@@ -14,16 +14,16 @@
- #ifndef ARM_KVM_CONSTS_H
- #define ARM_KVM_CONSTS_H
+ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
+                                      unsigned int target_el,
+@@ -725,7 +725,8 @@ static bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     cc->tcg_ops->do_interrupt(cs);
+     return true;
+ }
+-#endif /* !CONFIG_USER_ONLY */
++
++#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
  
-+#ifdef NEED_CPU_H
- #ifdef CONFIG_KVM
- #include <linux/kvm.h>
- #include <linux/psci.h>
--
- #define MISMATCH_CHECK(X, Y) QEMU_BUILD_BUG_ON(X != Y)
-+#endif
-+#endif
- 
--#else
--
-+#ifndef MISMATCH_CHECK
- #define MISMATCH_CHECK(X, Y) QEMU_BUILD_BUG_ON(0)
--
- #endif
- 
- #define CP_REG_SIZE_SHIFT 52
-diff --git a/hw/misc/imx6_src.c b/hw/misc/imx6_src.c
-index 7b0e968804a..a9c64d06ebc 100644
---- a/hw/misc/imx6_src.c
-+++ b/hw/misc/imx6_src.c
-@@ -15,7 +15,7 @@
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
--#include "arm-powerctl.h"
-+#include "target/arm/arm-powerctl.h"
- #include "hw/core/cpu.h"
- 
- #ifndef DEBUG_IMX6_SRC
-diff --git a/hw/misc/iotkit-sysctl.c b/hw/misc/iotkit-sysctl.c
-index 7147e2f84e6..e664215ee67 100644
---- a/hw/misc/iotkit-sysctl.c
-+++ b/hw/misc/iotkit-sysctl.c
-@@ -30,7 +30,6 @@
- #include "hw/qdev-properties.h"
- #include "hw/arm/armsse-version.h"
- #include "target/arm/arm-powerctl.h"
--#include "target/arm/cpu.h"
- 
- REG32(SECDBGSTAT, 0x0)
- REG32(SECDBGSET, 0x4)
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 95268eddc07..ed0598dc9eb 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -51,6 +51,7 @@ softmmu_ss.add(when: 'CONFIG_IMX', if_true: files(
-   'imx25_ccm.c',
-   'imx31_ccm.c',
-   'imx6_ccm.c',
-+  'imx6_src.c',
-   'imx6ul_ccm.c',
-   'imx7_ccm.c',
-   'imx7_gpr.c',
-@@ -84,8 +85,8 @@ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files(
- ))
- softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_misc.c'))
- softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq_slcr.c'))
--specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
--specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
- specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-crl.c'))
- softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files(
-   'xlnx-versal-xramc.c',
-@@ -101,6 +102,7 @@ softmmu_ss.add(when: 'CONFIG_TZ_MPC', if_true: files('tz-mpc.c'))
- softmmu_ss.add(when: 'CONFIG_TZ_MSC', if_true: files('tz-msc.c'))
- softmmu_ss.add(when: 'CONFIG_TZ_PPC', if_true: files('tz-ppc.c'))
- softmmu_ss.add(when: 'CONFIG_IOTKIT_SECCTL', if_true: files('iotkit-secctl.c'))
-+softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSCTL', if_true: files('iotkit-sysctl.c'))
- softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSINFO', if_true: files('iotkit-sysinfo.c'))
- softmmu_ss.add(when: 'CONFIG_ARMSSE_CPU_PWRCTRL', if_true: files('armsse-cpu-pwrctrl.c'))
- softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
-@@ -126,15 +128,12 @@ softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
- 
- specific_ss.add(when: 'CONFIG_AVR_POWER', if_true: files('avr_power.c'))
- 
--specific_ss.add(when: 'CONFIG_IMX', if_true: files('imx6_src.c'))
--specific_ss.add(when: 'CONFIG_IOTKIT_SYSCTL', if_true: files('iotkit-sysctl.c'))
--
- specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
- 
- specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_cmgcr.c', 'mips_cpc.c'))
- specific_ss.add(when: 'CONFIG_MIPS_ITU', if_true: files('mips_itu.c'))
- 
--specific_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
-+softmmu_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
- 
- # HPPA devices
- softmmu_ss.add(when: 'CONFIG_LASI', if_true: files('lasi.c'))
+ void arm_cpu_update_virq(ARMCPU *cpu)
+ {
 -- 
 2.25.1
 
