@@ -2,116 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C765F64D558
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 03:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA9964D58C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 04:27:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5eCw-0004VG-QW; Wed, 14 Dec 2022 21:42:50 -0500
+	id 1p5esf-0003lb-Vb; Wed, 14 Dec 2022 22:25:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p5eCq-0004Un-PA
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 21:42:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p5eCo-0007Ie-Rb
- for qemu-devel@nongnu.org; Wed, 14 Dec 2022 21:42:44 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BF2CY5X008955
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 02:42:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=2DwTaVZmtUqQS+i72k8FapXdoqjl+NLqyws2e5n3pGI=;
- b=iMb0aBB2ILRfAV5yFqeQw8UZ4fyfM+gCArC7eU2O5Hvpn0h6a4mJVucYxtBcgn6xtc6X
- 1uNN2XDPfAFgN1ieTkDbe7Y6/dNgx9TNczxVhXaIOotagIOyHkgVP5CsbFGwJWNb9mpz
- X9kgAXySlvYjmq6wdPsc5fkiczeLcTrFZZSaWIHVaUM6wXHbM/Ss+rC1Ki2TQXRhkpxf
- JSWdKMHsITiRiWqNj0/9Z+wYohUDo7zRkS0ZZF3POgc1Op6s7LJp7eCrlv65DR+nyNbB
- rPayHFctDdD8/ap03qTXhCSX5SLwQ88ntnyUPQZzGwhF3c+mwC70C0hI1kiAVctnGfG3 gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mftkjgn6x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 02:42:38 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BF2V5eC009208
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 02:42:38 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mftkjgn6c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 02:42:38 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BF0cv9c017100;
- Thu, 15 Dec 2022 02:42:37 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3mf07gjba3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 02:42:37 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
- [10.39.53.230])
- by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BF2gXQY6947330
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 15 Dec 2022 02:42:34 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6EAF558066;
- Thu, 15 Dec 2022 02:42:33 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BB27B58058;
- Thu, 15 Dec 2022 02:42:32 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 15 Dec 2022 02:42:32 +0000 (GMT)
-Message-ID: <fa2c5275-c1e3-50a9-854e-56501da55320@linux.ibm.com>
-Date: Wed, 14 Dec 2022 21:42:32 -0500
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p5ese-0003lM-IK; Wed, 14 Dec 2022 22:25:56 -0500
+Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p5esc-0002b2-L2; Wed, 14 Dec 2022 22:25:56 -0500
+Received: by mail-vs1-xe2c.google.com with SMTP id b189so1724414vsc.10;
+ Wed, 14 Dec 2022 19:25:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3K6eMlO0pd3wUpWBYySXfBOF1Rp+4J+sMwT+R/JMkKw=;
+ b=d90+Dfjwq8aF1NqKDZuYTrESg843R7SIilrPSONBLWQ+6kGiC9cj7+njqy/hdyl5oX
+ sxHaccRpuiYyz54mSxCc3LvENZXj+h7HJm/Idfc9L2z8Ws5O0eVGzK81TwaCa695fPwz
+ yCpE1THVXml9SHMjZMDf2O4L1YuBp+rUMTn3+S3tHGoHm/oXBIz0TQwkXOKUGKL45WvB
+ 3gG9aCQ58cAuRaw/XrBeUZ0xFY95EG4m8TSapDj3hogQPbr5U4vVTzhjzxsWM06/tpCY
+ 2LubIxWxtmNp75EEAtOyTxuqJTw5WjMmkvtUdrbv7QGOTtwzlDD/Ymq5ON8AlKDhSgea
+ KIWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3K6eMlO0pd3wUpWBYySXfBOF1Rp+4J+sMwT+R/JMkKw=;
+ b=LWjHMJqmBeBlx5+j3OUmwHEo6mrak96XicEdkcQDfrv+dwRW+0V6l18URRqDVi6N1a
+ FYNTPkyFShXHko5l9G5Y0kniH6cCk9WjKRgXoLVPbHAnKcDdworC8RAMPtJt+RtMVWv7
+ 3dLebXq5cbd5pI04QCp8j4JSiF081ddPtY6HM6sdT6sVTB76ntnA0iIZ9wYvrw58Tr4D
+ ar3gpub77ay5f0jOLwOyxCDyTiKjWtXDb9I6LSMgBTRXaJ/Cr6xJwJqaDSXW1KCr+vGf
+ 8b1jh/hzEQWa93dx49/cShMRvN9ertiRZJNZYdRY16WHtpmzHybOL6aHpVT569mDxVj4
+ 0bqw==
+X-Gm-Message-State: ANoB5pmIqaumeDHsL7GpzIjcfC7A/PZ7cEmHWB9ta0j1JpeWy470fVF9
+ FWmDU6w7BjVEfWFRpHi7nZosKqBxCwJmo2FPxnc=
+X-Google-Smtp-Source: AA0mqf4b51OCRG7APQW25Ozh5d3V5/YsWCe87pta9ItFirf8PxPF3WJ2yqn9LIOYgNq/MGrgJ62azmO7pOlFCr7LinY=
+X-Received: by 2002:a67:c519:0:b0:3b1:2b83:1861 with SMTP id
+ e25-20020a67c519000000b003b12b831861mr14143072vsk.10.1671074752896; Wed, 14
+ Dec 2022 19:25:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] tpm: add backend for mssim
-Content-Language: en-US
-To: jejb@linux.ibm.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <4780481659602f92fffacac66e7dca41ad2787c4.camel@linux.ibm.com>
- <Y5dNC77CubqrfXku@redhat.com>
- <b06d31496117c8dd8b8fe60c4bebd96377ca3ff1.camel@linux.ibm.com>
- <f76810cb-3658-84b0-e4b4-a684dff99f38@linux.ibm.com>
- <8066be497c4c81827b24a672a550a805e06eec68.camel@linux.ibm.com>
- <c3fa7405-7d4c-a686-d4c3-a3ff74864467@linux.ibm.com>
- <92daee895872aab2047c3768a9c67b1839406568.camel@linux.ibm.com>
- <dc520ab2-04db-b8cb-15fd-871bb1da0d1b@linux.ibm.com>
- <d2262d8bd5a1d53cb1d4c32e0424dc8727372265.camel@linux.ibm.com>
- <f7119c81-e571-382b-84c6-628747cd9e0b@linux.ibm.com>
- <Y5m48UP/E/RuvBHM@redhat.com>
- <c4d8937037a2f41b35e86498abfd23d2b0cd0030.camel@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <c4d8937037a2f41b35e86498abfd23d2b0cd0030.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Fay9-lG0vbBnXqzfQmbQFWy3iSH_o5gF
-X-Proofpoint-ORIG-GUID: FS5hZW8Xve3qUJYgnoDZfXNauw61jY0V
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-14_12,2022-12-14_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015
- suspectscore=0 bulkscore=0 phishscore=0 priorityscore=1501 malwarescore=0
- spamscore=0 adultscore=0 impostorscore=0 mlxlogscore=675
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212150015
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20221108125703.1463577-1-apatel@ventanamicro.com>
+ <20221108125703.1463577-3-apatel@ventanamicro.com>
+ <CAKmqyKP+hc4N6Z2AqkQpCmF=oyTE_rf-XfSsTHChwcUWRE5gsg@mail.gmail.com>
+ <CAK9=C2Uu1bCcZht+ydiazSmgnkD_hhLetXP4WcA92DypE4m9=A@mail.gmail.com>
+ <CAKmqyKPw54F0uVy+7SjoY16o7RYyW6qwLhaYaKR7aNpP4Nz27Q@mail.gmail.com>
+ <CAK9=C2V21JcgyUKub1JGVT0DEaeyzJ1GXQYcyaZy4Xv26F5fyA@mail.gmail.com>
+In-Reply-To: <CAK9=C2V21JcgyUKub1JGVT0DEaeyzJ1GXQYcyaZy4Xv26F5fyA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 15 Dec 2022 13:25:26 +1000
+Message-ID: <CAKmqyKOc+xKEy1nhp6vCOtVHspfQ5WY7oE6wx5aGURhxQOrdqQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] target/riscv: Update VS timer whenever htimedelta
+ changes
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Atish Patra <atishp@atishpatra.org>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -128,23 +93,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Dec 12, 2022 at 9:12 PM Anup Patel <apatel@ventanamicro.com> wrote:
+>
+> On Mon, Dec 12, 2022 at 11:23 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Thu, Dec 8, 2022 at 6:41 PM Anup Patel <apatel@ventanamicro.com> wrote:
+> > >
+> > > On Thu, Dec 8, 2022 at 9:00 AM Alistair Francis <alistair23@gmail.com> wrote:
+> > > >
+> > > > On Tue, Nov 8, 2022 at 11:07 PM Anup Patel <apatel@ventanamicro.com> wrote:
+> > > > >
+> > > > > The htimedelta[h] CSR has impact on the VS timer comparison so we
+> > > > > should call riscv_timer_write_timecmp() whenever htimedelta changes.
+> > > > >
+> > > > > Fixes: 3ec0fe18a31f ("target/riscv: Add vstimecmp suppor")
+> > > > > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> > > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > > >
+> > > > This patch breaks my Xvisor test. When running OpenSBI and Xvisor like this:
+> > > >
+> > > > qemu-system-riscv64 -machine virt \
+> > > >     -m 1G -serial mon:stdio -serial null -nographic \
+> > > >     -append 'vmm.console=uart@10000000 vmm.bootcmd="vfs mount initrd
+> > > > /;vfs run /boot.xscript;vfs cat /system/banner.txt; guest kick guest0;
+> > > > vserial bind guest0/uart0"' \
+> > > >     -smp 4 -d guest_errors \
+> > > >     -bios none \
+> > > >     -device loader,file=./images/qemuriscv64/vmm.bin,addr=0x80200000 \
+> > > >     -kernel ./images/qemuriscv64/fw_jump.elf \
+> > > >     -initrd ./images/qemuriscv64/vmm-disk-linux.img -cpu rv64,h=true
+> > > >
+> > > > Running:
+> > > >
+> > > > Xvisor v0.3.0-129-gbc33f339 (Jan  1 1970 00:00:00)
+> > > >
+> > > > I see this failure:
+> > > >
+> > > > INIT: bootcmd:  guest kick guest0
+> > > >
+> > > > guest0: Kicked
+> > > >
+> > > > INIT: bootcmd:  vserial bind guest0/uart0
+> > > >
+> > > > [guest0/uart0] cpu_vcpu_stage2_map: guest_phys=0x000000003B9AC000
+> > > > size=0x4096 map failed
+> > > >
+> > > > do_error: CPU3: VCPU=guest0/vcpu0 page fault failed (error -1)
+> > > >
+> > > >        zero=0x0000000000000000          ra=0x0000000080001B4E
+> > > >
+> > > >          sp=0x000000008001CF80          gp=0x0000000000000000
+> > > >
+> > > >          tp=0x0000000000000000          s0=0x000000008001CFB0
+> > > >
+> > > >          s1=0x0000000000000000          a0=0x0000000010001048
+> > > >
+> > > >          a1=0x0000000000000000          a2=0x0000000000989680
+> > > >
+> > > >          a3=0x000000003B9ACA00          a4=0x0000000000000048
+> > > >
+> > > >          a5=0x0000000000000000          a6=0x0000000000019000
+> > > >
+> > > >          a7=0x0000000000000000          s2=0x0000000000000000
+> > > >
+> > > >          s3=0x0000000000000000          s4=0x0000000000000000
+> > > >
+> > > >          s5=0x0000000000000000          s6=0x0000000000000000
+> > > >
+> > > >          s7=0x0000000000000000          s8=0x0000000000000000
+> > > >
+> > > >          s9=0x0000000000000000         s10=0x0000000000000000
+> > > >
+> > > >         s11=0x0000000000000000          t0=0x0000000000004000
+> > > >
+> > > >          t1=0x0000000000000100          t2=0x0000000000000000
+> > > >
+> > > >          t3=0x0000000000000000          t4=0x0000000000000000
+> > > >
+> > > >          t5=0x0000000000000000          t6=0x0000000000000000
+> > > >
+> > > >        sepc=0x0000000080001918     sstatus=0x0000000200004120
+> > > >
+> > > >     hstatus=0x00000002002001C0     sp_exec=0x0000000010A64000
+> > > >
+> > > >      scause=0x0000000000000017       stval=0x000000003B9ACAF8
+> > > >
+> > > >       htval=0x000000000EE6B2BE      htinst=0x0000000000D03021
+> > > >
+> > > > I have tried updating to a newer Xvisor release, but with that I don't
+> > > > get any serial output.
+> > > >
+> > > > Can you help get the Xvisor tests back up and running?
+> > >
+> > > I tried the latest Xvisor-next (https://github.com/avpatel/xvisor-next)
+> > > with your QEMU riscv-to-apply.next branch and it works fine (both
+> > > with and without Sstc).
+> >
+> > Does it work with the latest release?
+>
+> Yes, the latest Xvisor-next repo works for QEMU v7.2.0-rc4 and
+> your riscv-to-apply.next branch (commit 51bb9de2d188)
 
+I can't get anything to work with this patch. I have dropped this and
+the patches after this.
 
-On 12/14/22 07:43, James Bottomley wrote:
-> On Wed, 2022-12-14 at 11:52 +0000, Daniel P. Berrangé wrote:
->> It is a shame there isn't a standardized protocol for software TPM
->> communication, as that'd avoid the need for multiple backends.
-> 
-> Technically the mssim protocol is the standard, being part of the
-> reference implementation, but practically it's terrible:  Using two
+I'm building the latest Xvisor release with:
 
-... and it's missing functionality related to state migration
+export CROSS_COMPILE=riscv64-linux-gnu-
+ARCH=riscv make generic-64b-defconfig
+make
 
-> ports per vTPM is hardly scalable in a cloud situation and, as you say,
-> it has no security.  Ideally someone with TCG connections would try to
-> standardize a more scalable network server protocol, something nicely
-> rest based that identified the vTPM by say its EK name.
-> 
-> James
-> 
+and running it as above, yet nothing. What am I missing here?
+
+Alistair
+
+>
+> Regards,
+> Anup
+>
+> >
+> > Alistair
+> >
+> > >
+> > > Here's the QEMU command which I use:
+> > >
+> > > qemu-system-riscv64 -M virt -m 512M -nographic \
+> > > -bios opensbi/build/platform/generic/firmware/fw_jump.bin \
+> > > -kernel ../xvisor-next/build/vmm.bin \
+> > > -initrd rbd_v64.img \
+> > > -append "vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs
+> > > cat /system/banner.txt\"" \
+> > > -smp 4
+> > >
+> > > Also, I will be releasing Xvisor-0.3.2 by the end of Dec 2022 so I
+> > > suggest using this upcoming release in your test.
+> > >
+> > > Regards,
+> > > Anup
 
