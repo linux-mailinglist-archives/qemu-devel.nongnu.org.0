@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CDF64DBE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:02:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C7764DBD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 13:59:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5nhW-00078S-9P; Thu, 15 Dec 2022 07:51:02 -0500
+	id 1p5nhU-00074j-5a; Thu, 15 Dec 2022 07:51:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5nh9-0006qV-Ku
+ id 1p5nhA-0006qb-11
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:50 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5nh7-0004Af-On
+ id 1p5nh7-00047j-SF
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:39 -0500
-Received: by mail-wm1-x331.google.com with SMTP id bg10so13698366wmb.1
+Received: by mail-wm1-x332.google.com with SMTP id
+ c65-20020a1c3544000000b003cfffd00fc0so1633144wma.1
  for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:50:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=RK1UPNBesBVFKDD7ufhJMalSW0NQP8K9iyGi9aR9dj4=;
- b=AswGKamNI6Sy+h70UsIN1JyikVi52Q7/uGDNZmZOohZv9eYJI6gGrErZGgBjtLnPhZ
- 7pNll8ps6zgcJ89co3uWTFQf+ltrwepbOCnhRwsOnBaUNhh9W99z5DrSEEz+zOzmWMFB
- OVdy4mwvEFsiyNivQQKdFEXwQmR9ILUOxH6Me73q6Fb2ijxQIAJjvaPI3zRYOJqZzHX0
- Rv1lb5x5ikxXav25dYQyN+H2XsZmyoJ+PmrdgODgZ5Fq9wS9E0HuHYQHXCwZVQgwlFfz
- NScA8x5rnQeJsXMnXF3+hRe1E0jIwGahpbQvgXzjOyDJ4MMW293tqFVQNYS5ZnBn+7ws
- nBCQ==
+ :reply-to; bh=Vx55fGlR/Z1os6C31JObsSgVzCPuLsEtiQEKGRSF7A4=;
+ b=eb13ztEm+cNqI1MLmTuDb4d3H2Ox5V+hBF3Mf3wucS6jxbmhLy0wvZn+vyNNBcGUSG
+ 1CBqKGKXONovkFV/Yifq1aGSJoyi94upNrMvxzjDlIEo8jIPixM8AIZxIN4NKwitWXtZ
+ xy5s+u3X9WRV2wk/EOPEZjtwIph2Gn/bVH+PGGmPZQooDAY/1Zp7LT/+aFCu+bDbwDqW
+ 3k+fyyaMfCLnzHeAUsGEkzkoDXwzc+KlMRJ5mysM63OwpykMjqVSPDeg+hr/ZlC3dUc9
+ Yf+LBXQF+AaUez+OeLvFRvxlRPPoDZfdU0/jGkVOZvOLHvo51U1fmVNlCXfSq0OS1/JD
+ UxcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RK1UPNBesBVFKDD7ufhJMalSW0NQP8K9iyGi9aR9dj4=;
- b=bQIpzUYqCE4Z0AgPFqJKBglXVzp5Px32cDh+AhdQk5Yw8QMwSgcSrDZ2nBDEWMB3Sl
- 8XKh4FYNTGeGWL2IMiPXpLw/rxCveuxIptijzvCdohDMdeZp/guLOuBuT9Hl0zH5KKjG
- UTH5UsPb+Z2h3Fc8K5/vS87JT6TLg0ay1J8NpyFwCLMZjOaA81V99qwhDatOR5C64qPw
- FmpaoNGSGvV34u7yB1RxIAg2VMgHRwpl1BJdtwzRWGrjwJuCtjl5TgCSSNspz832voYt
- fU/czDhSk7aSNiM5Q+gby+5ZtsH3LTXfg4+Kj83p5E0pNXiP/Esthy2iEnOjL4mwb8pA
- iXng==
-X-Gm-Message-State: ANoB5plkhL658sx2uFznJl0nHpmzWbhJwhoXf+PqZL4XFxbxTHVnLb0J
- DfHX3e8RqMFLvG+7R8+OJ0MAYKzOmGUvaMcO
-X-Google-Smtp-Source: AA0mqf6gqxVIFDuLeZP1Q21h/n+5DJviHgQsp0PI21eIMr6seR55qybFy3RnV6vjmOJXS1AWVyKJDw==
-X-Received: by 2002:a05:600c:1d83:b0:3d2:13c6:4740 with SMTP id
- p3-20020a05600c1d8300b003d213c64740mr24773548wms.39.1671108636272; 
- Thu, 15 Dec 2022 04:50:36 -0800 (PST)
+ bh=Vx55fGlR/Z1os6C31JObsSgVzCPuLsEtiQEKGRSF7A4=;
+ b=cY++qKVORUed+8n3C0hDSHLo93rpqW1eQ9dUPSCKW6CxnsfVA9AQDRTz51q/zsv47J
+ 8QnjcOVCd3TNp9PJAK+OCmCXZqRtEAg7jdx5n7BabgR3kiGkjhMT41NVNCstiBnWGg/x
+ QURIS2LSuvNYfdfdpffE6m6WlD/89RUgk765SKNbGblhK0EvUZ6xFLIf6LGZ4ls7kx9s
+ V33M5Cve7rcxuYh76tBqgYgZo2/m9SbOP8BuTgvD/YgaH9PWrx6QBbF5dqn0NGddWv2k
+ aAJUpmrcpwSzaBg4oLbOL2s4sqSOrCvQWDihOSzVwa0+26EWFXYVruhUxiw/FnGwxks0
+ kjYg==
+X-Gm-Message-State: ANoB5pmHkDstYJIXe/JNA1+OfDwxoDfKkgTYlhhKsiSWsYrKQnAQVeo+
+ CE5dHzR30+/QHTIItszNnIQltFzYJeuxHsRN
+X-Google-Smtp-Source: AA0mqf45j6Byq5ixgzzgPFvBjwWG5QHVzLYOARtJ4j4XXeRO/waMukGNtloZBBPUT0Pi15Hl3iSvIA==
+X-Received: by 2002:a05:600c:310e:b0:3cf:b07a:cd2f with SMTP id
+ g14-20020a05600c310e00b003cfb07acd2fmr21396777wmo.37.1671108637112; 
+ Thu, 15 Dec 2022 04:50:37 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.35
+ i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 04:50:35 -0800 (PST)
+ Thu, 15 Dec 2022 04:50:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/29] target/arm: align exposed ID registers with Linux
-Date: Thu, 15 Dec 2022 12:50:07 +0000
-Message-Id: <20221215125009.980128-28-peter.maydell@linaro.org>
+Subject: [PULL 28/29] hw/misc: Move some arm-related files from specific_ss
+ into softmmu_ss
+Date: Thu, 15 Dec 2022 12:50:08 +0000
+Message-Id: <20221215125009.980128-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221215125009.980128-1-peter.maydell@linaro.org>
 References: <20221215125009.980128-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,191 +91,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Zhuojia Shen <chaosdefinition@hotmail.com>
+From: Thomas Huth <thuth@redhat.com>
 
-In CPUID registers exposed to userspace, some registers were missing
-and some fields were not exposed.  This patch aligns exposed ID
-registers and their fields with what the upstream kernel currently
-exposes.
+The header target/arm/kvm-consts.h checks CONFIG_KVM which is marked as
+poisoned in common code, so the files that include this header have to
+be added to specific_ss and recompiled for each, qemu-system-arm and
+qemu-system-aarch64. However, since the kvm headers are only optionally
+used in kvm-constants.h for some sanity checks, we can additionally
+check the NEED_CPU_H macro first to avoid the poisoned CONFIG_KVM macro,
+so kvm-constants.h can also be used from "common" files (without the
+sanity checks - which should be OK since they are still done from other
+target-specific files instead). This way, and by adjusting some other
+include statements in the related files here and there, we can move some
+files from specific_ss into softmmu_ss, so that they only need to be
+compiled once during the build process.
 
-Specifically, the following new ID registers/fields are exposed to
-userspace:
-
-ID_AA64PFR1_EL1.BT:       bits 3-0
-ID_AA64PFR1_EL1.MTE:      bits 11-8
-ID_AA64PFR1_EL1.SME:      bits 27-24
-
-ID_AA64ZFR0_EL1.SVEver:   bits 3-0
-ID_AA64ZFR0_EL1.AES:      bits 7-4
-ID_AA64ZFR0_EL1.BitPerm:  bits 19-16
-ID_AA64ZFR0_EL1.BF16:     bits 23-20
-ID_AA64ZFR0_EL1.SHA3:     bits 35-32
-ID_AA64ZFR0_EL1.SM4:      bits 43-40
-ID_AA64ZFR0_EL1.I8MM:     bits 47-44
-ID_AA64ZFR0_EL1.F32MM:    bits 55-52
-ID_AA64ZFR0_EL1.F64MM:    bits 59-56
-
-ID_AA64SMFR0_EL1.F32F32:  bit 32
-ID_AA64SMFR0_EL1.B16F32:  bit 34
-ID_AA64SMFR0_EL1.F16F32:  bit 35
-ID_AA64SMFR0_EL1.I8I32:   bits 39-36
-ID_AA64SMFR0_EL1.F64F64:  bit 48
-ID_AA64SMFR0_EL1.I16I64:  bits 55-52
-ID_AA64SMFR0_EL1.FA64:    bit 63
-
-ID_AA64MMFR0_EL1.ECV:     bits 63-60
-
-ID_AA64MMFR1_EL1.AFP:     bits 47-44
-
-ID_AA64MMFR2_EL1.AT:      bits 35-32
-
-ID_AA64ISAR0_EL1.RNDR:    bits 63-60
-
-ID_AA64ISAR1_EL1.FRINTTS: bits 35-32
-ID_AA64ISAR1_EL1.BF16:    bits 47-44
-ID_AA64ISAR1_EL1.DGH:     bits 51-48
-ID_AA64ISAR1_EL1.I8MM:    bits 55-52
-
-ID_AA64ISAR2_EL1.WFxT:    bits 3-0
-ID_AA64ISAR2_EL1.RPRES:   bits 7-4
-ID_AA64ISAR2_EL1.GPA3:    bits 11-8
-ID_AA64ISAR2_EL1.APA3:    bits 15-12
-
-The code is also refactored to use symbolic names for ID register fields
-for better readability and maintainability.
-
-Signed-off-by: Zhuojia Shen <chaosdefinition@hotmail.com>
-Message-id: DS7PR12MB6309BC9133877BCC6FC419FEAC0D9@DS7PR12MB6309.namprd12.prod.outlook.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20221202154023.293614-1-thuth@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 96 +++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 79 insertions(+), 17 deletions(-)
+ include/hw/misc/xlnx-zynqmp-apu-ctrl.h |  2 +-
+ target/arm/kvm-consts.h                |  8 ++++----
+ hw/misc/imx6_src.c                     |  2 +-
+ hw/misc/iotkit-sysctl.c                |  1 -
+ hw/misc/meson.build                    | 11 +++++------
+ 5 files changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index bac2ea62c44..6efc632b20d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7864,31 +7864,89 @@ void register_cp_regs_for_features(ARMCPU *cpu)
- #ifdef CONFIG_USER_ONLY
-         static const ARMCPRegUserSpaceInfo v8_user_idregs[] = {
-             { .name = "ID_AA64PFR0_EL1",
--              .exported_bits = 0x000f000f00ff0000,
--              .fixed_bits    = 0x0000000000000011 },
-+              .exported_bits = R_ID_AA64PFR0_FP_MASK |
-+                               R_ID_AA64PFR0_ADVSIMD_MASK |
-+                               R_ID_AA64PFR0_SVE_MASK |
-+                               R_ID_AA64PFR0_DIT_MASK,
-+              .fixed_bits = (0x1 << R_ID_AA64PFR0_EL0_SHIFT) |
-+                            (0x1 << R_ID_AA64PFR0_EL1_SHIFT) },
-             { .name = "ID_AA64PFR1_EL1",
--              .exported_bits = 0x00000000000000f0 },
-+              .exported_bits = R_ID_AA64PFR1_BT_MASK |
-+                               R_ID_AA64PFR1_SSBS_MASK |
-+                               R_ID_AA64PFR1_MTE_MASK |
-+                               R_ID_AA64PFR1_SME_MASK },
-             { .name = "ID_AA64PFR*_EL1_RESERVED",
--              .is_glob = true                     },
--            { .name = "ID_AA64ZFR0_EL1"           },
-+              .is_glob = true },
-+            { .name = "ID_AA64ZFR0_EL1",
-+              .exported_bits = R_ID_AA64ZFR0_SVEVER_MASK |
-+                               R_ID_AA64ZFR0_AES_MASK |
-+                               R_ID_AA64ZFR0_BITPERM_MASK |
-+                               R_ID_AA64ZFR0_BFLOAT16_MASK |
-+                               R_ID_AA64ZFR0_SHA3_MASK |
-+                               R_ID_AA64ZFR0_SM4_MASK |
-+                               R_ID_AA64ZFR0_I8MM_MASK |
-+                               R_ID_AA64ZFR0_F32MM_MASK |
-+                               R_ID_AA64ZFR0_F64MM_MASK },
-+            { .name = "ID_AA64SMFR0_EL1",
-+              .exported_bits = R_ID_AA64SMFR0_F32F32_MASK |
-+                               R_ID_AA64SMFR0_B16F32_MASK |
-+                               R_ID_AA64SMFR0_F16F32_MASK |
-+                               R_ID_AA64SMFR0_I8I32_MASK |
-+                               R_ID_AA64SMFR0_F64F64_MASK |
-+                               R_ID_AA64SMFR0_I16I64_MASK |
-+                               R_ID_AA64SMFR0_FA64_MASK },
-             { .name = "ID_AA64MMFR0_EL1",
--              .fixed_bits    = 0x00000000ff000000 },
--            { .name = "ID_AA64MMFR1_EL1"          },
-+              .exported_bits = R_ID_AA64MMFR0_ECV_MASK,
-+              .fixed_bits = (0xf << R_ID_AA64MMFR0_TGRAN64_SHIFT) |
-+                            (0xf << R_ID_AA64MMFR0_TGRAN4_SHIFT) },
-+            { .name = "ID_AA64MMFR1_EL1",
-+              .exported_bits = R_ID_AA64MMFR1_AFP_MASK },
-+            { .name = "ID_AA64MMFR2_EL1",
-+              .exported_bits = R_ID_AA64MMFR2_AT_MASK },
-             { .name = "ID_AA64MMFR*_EL1_RESERVED",
--              .is_glob = true                     },
-+              .is_glob = true },
-             { .name = "ID_AA64DFR0_EL1",
--              .fixed_bits    = 0x0000000000000006 },
--            { .name = "ID_AA64DFR1_EL1"           },
-+              .fixed_bits = (0x6 << R_ID_AA64DFR0_DEBUGVER_SHIFT) },
-+            { .name = "ID_AA64DFR1_EL1" },
-             { .name = "ID_AA64DFR*_EL1_RESERVED",
--              .is_glob = true                     },
-+              .is_glob = true },
-             { .name = "ID_AA64AFR*",
--              .is_glob = true                     },
-+              .is_glob = true },
-             { .name = "ID_AA64ISAR0_EL1",
--              .exported_bits = 0x00fffffff0fffff0 },
-+              .exported_bits = R_ID_AA64ISAR0_AES_MASK |
-+                               R_ID_AA64ISAR0_SHA1_MASK |
-+                               R_ID_AA64ISAR0_SHA2_MASK |
-+                               R_ID_AA64ISAR0_CRC32_MASK |
-+                               R_ID_AA64ISAR0_ATOMIC_MASK |
-+                               R_ID_AA64ISAR0_RDM_MASK |
-+                               R_ID_AA64ISAR0_SHA3_MASK |
-+                               R_ID_AA64ISAR0_SM3_MASK |
-+                               R_ID_AA64ISAR0_SM4_MASK |
-+                               R_ID_AA64ISAR0_DP_MASK |
-+                               R_ID_AA64ISAR0_FHM_MASK |
-+                               R_ID_AA64ISAR0_TS_MASK |
-+                               R_ID_AA64ISAR0_RNDR_MASK },
-             { .name = "ID_AA64ISAR1_EL1",
--              .exported_bits = 0x000000f0ffffffff },
-+              .exported_bits = R_ID_AA64ISAR1_DPB_MASK |
-+                               R_ID_AA64ISAR1_APA_MASK |
-+                               R_ID_AA64ISAR1_API_MASK |
-+                               R_ID_AA64ISAR1_JSCVT_MASK |
-+                               R_ID_AA64ISAR1_FCMA_MASK |
-+                               R_ID_AA64ISAR1_LRCPC_MASK |
-+                               R_ID_AA64ISAR1_GPA_MASK |
-+                               R_ID_AA64ISAR1_GPI_MASK |
-+                               R_ID_AA64ISAR1_FRINTTS_MASK |
-+                               R_ID_AA64ISAR1_SB_MASK |
-+                               R_ID_AA64ISAR1_BF16_MASK |
-+                               R_ID_AA64ISAR1_DGH_MASK |
-+                               R_ID_AA64ISAR1_I8MM_MASK },
-+            { .name = "ID_AA64ISAR2_EL1",
-+              .exported_bits = R_ID_AA64ISAR2_WFXT_MASK |
-+                               R_ID_AA64ISAR2_RPRES_MASK |
-+                               R_ID_AA64ISAR2_GPA3_MASK |
-+                               R_ID_AA64ISAR2_APA3_MASK },
-             { .name = "ID_AA64ISAR*_EL1_RESERVED",
--              .is_glob = true                     },
-+              .is_glob = true },
-         };
-         modify_arm_cp_regs(v8_idregs, v8_user_idregs);
+diff --git a/include/hw/misc/xlnx-zynqmp-apu-ctrl.h b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
+index b8ca9434afb..c3bf3c1583b 100644
+--- a/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
++++ b/include/hw/misc/xlnx-zynqmp-apu-ctrl.h
+@@ -13,7 +13,7 @@
+ 
+ #include "hw/sysbus.h"
+ #include "hw/register.h"
+-#include "target/arm/cpu.h"
++#include "target/arm/cpu-qom.h"
+ 
+ #define TYPE_XLNX_ZYNQMP_APU_CTRL "xlnx.apu-ctrl"
+ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPAPUCtrl, XLNX_ZYNQMP_APU_CTRL)
+diff --git a/target/arm/kvm-consts.h b/target/arm/kvm-consts.h
+index faacf96fdc7..09967ec5e64 100644
+--- a/target/arm/kvm-consts.h
++++ b/target/arm/kvm-consts.h
+@@ -14,16 +14,16 @@
+ #ifndef ARM_KVM_CONSTS_H
+ #define ARM_KVM_CONSTS_H
+ 
++#ifdef NEED_CPU_H
+ #ifdef CONFIG_KVM
+ #include <linux/kvm.h>
+ #include <linux/psci.h>
+-
+ #define MISMATCH_CHECK(X, Y) QEMU_BUILD_BUG_ON(X != Y)
++#endif
++#endif
+ 
+-#else
+-
++#ifndef MISMATCH_CHECK
+ #define MISMATCH_CHECK(X, Y) QEMU_BUILD_BUG_ON(0)
+-
  #endif
-@@ -8206,8 +8264,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
- #ifdef CONFIG_USER_ONLY
-         static const ARMCPRegUserSpaceInfo id_v8_user_midr_cp_reginfo[] = {
-             { .name = "MIDR_EL1",
--              .exported_bits = 0x00000000ffffffff },
--            { .name = "REVIDR_EL1"                },
-+              .exported_bits = R_MIDR_EL1_REVISION_MASK |
-+                               R_MIDR_EL1_PARTNUM_MASK |
-+                               R_MIDR_EL1_ARCHITECTURE_MASK |
-+                               R_MIDR_EL1_VARIANT_MASK |
-+                               R_MIDR_EL1_IMPLEMENTER_MASK },
-+            { .name = "REVIDR_EL1" },
-         };
-         modify_arm_cp_regs(id_v8_midr_cp_reginfo, id_v8_user_midr_cp_reginfo);
- #endif
+ 
+ #define CP_REG_SIZE_SHIFT 52
+diff --git a/hw/misc/imx6_src.c b/hw/misc/imx6_src.c
+index 7b0e968804a..a9c64d06ebc 100644
+--- a/hw/misc/imx6_src.c
++++ b/hw/misc/imx6_src.c
+@@ -15,7 +15,7 @@
+ #include "qemu/log.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+-#include "arm-powerctl.h"
++#include "target/arm/arm-powerctl.h"
+ #include "hw/core/cpu.h"
+ 
+ #ifndef DEBUG_IMX6_SRC
+diff --git a/hw/misc/iotkit-sysctl.c b/hw/misc/iotkit-sysctl.c
+index 7147e2f84e6..e664215ee67 100644
+--- a/hw/misc/iotkit-sysctl.c
++++ b/hw/misc/iotkit-sysctl.c
+@@ -30,7 +30,6 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/arm/armsse-version.h"
+ #include "target/arm/arm-powerctl.h"
+-#include "target/arm/cpu.h"
+ 
+ REG32(SECDBGSTAT, 0x0)
+ REG32(SECDBGSET, 0x4)
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 95268eddc07..ed0598dc9eb 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -51,6 +51,7 @@ softmmu_ss.add(when: 'CONFIG_IMX', if_true: files(
+   'imx25_ccm.c',
+   'imx31_ccm.c',
+   'imx6_ccm.c',
++  'imx6_src.c',
+   'imx6ul_ccm.c',
+   'imx7_ccm.c',
+   'imx7_gpr.c',
+@@ -84,8 +85,8 @@ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files(
+ ))
+ softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_misc.c'))
+ softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq_slcr.c'))
+-specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
+-specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-crf.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp-apu-ctrl.c'))
+ specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-crl.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files(
+   'xlnx-versal-xramc.c',
+@@ -101,6 +102,7 @@ softmmu_ss.add(when: 'CONFIG_TZ_MPC', if_true: files('tz-mpc.c'))
+ softmmu_ss.add(when: 'CONFIG_TZ_MSC', if_true: files('tz-msc.c'))
+ softmmu_ss.add(when: 'CONFIG_TZ_PPC', if_true: files('tz-ppc.c'))
+ softmmu_ss.add(when: 'CONFIG_IOTKIT_SECCTL', if_true: files('iotkit-secctl.c'))
++softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSCTL', if_true: files('iotkit-sysctl.c'))
+ softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSINFO', if_true: files('iotkit-sysinfo.c'))
+ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPU_PWRCTRL', if_true: files('armsse-cpu-pwrctrl.c'))
+ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
+@@ -126,15 +128,12 @@ softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
+ 
+ specific_ss.add(when: 'CONFIG_AVR_POWER', if_true: files('avr_power.c'))
+ 
+-specific_ss.add(when: 'CONFIG_IMX', if_true: files('imx6_src.c'))
+-specific_ss.add(when: 'CONFIG_IOTKIT_SYSCTL', if_true: files('iotkit-sysctl.c'))
+-
+ specific_ss.add(when: 'CONFIG_MAC_VIA', if_true: files('mac_via.c'))
+ 
+ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_cmgcr.c', 'mips_cpc.c'))
+ specific_ss.add(when: 'CONFIG_MIPS_ITU', if_true: files('mips_itu.c'))
+ 
+-specific_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
++softmmu_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa_ec.c'))
+ 
+ # HPPA devices
+ softmmu_ss.add(when: 'CONFIG_LASI', if_true: files('lasi.c'))
 -- 
 2.25.1
 
