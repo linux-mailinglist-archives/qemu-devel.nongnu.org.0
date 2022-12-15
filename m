@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED7A659427
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 03:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708D86577D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 15:34:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pB4yz-0003Mv-2C; Thu, 29 Dec 2022 21:18:53 -0500
+	id 1pAXUp-0002Mo-Tm; Wed, 28 Dec 2022 09:33:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pB4yu-0003MU-Tj; Thu, 29 Dec 2022 21:18:50 -0500
+ id 1pAQRU-0006XE-AV; Wed, 28 Dec 2022 02:01:36 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pB4ys-0006eW-Pa; Thu, 29 Dec 2022 21:18:47 -0500
+ id 1pAQRS-000887-UH; Wed, 28 Dec 2022 02:01:36 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 0632211EF01;
- Fri, 30 Dec 2022 02:18:44 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 1C77611EF1B;
+ Wed, 28 Dec 2022 07:01:33 +0000 (UTC)
 From: ~elta <elta@git.sr.ht>
 Date: Thu, 15 Dec 2022 16:27:14 +0800
 Subject: [PATCH qemu] target/riscv/cpu.c: Fix elen check
-Message-ID: <167236672382.11050.3116541844071467839-0@git.sr.ht>
+Message-ID: <167221089290.19963.15278757025657303819-0@git.sr.ht>
 X-Mailer: git.sr.ht
-To: qemu-devel <qemu-devel@nongnu.org>, Alistair Francis <alistair23@gmail.com>
+To: qemu-devel <qemu-devel@nongnu.org>
 Cc: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Dongxue Zhang <elta.era@gmail.com>
+ qemu-devel@nongnu.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
@@ -42,6 +42,7 @@ X-Spam_report: (3.9 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
  FREEMAIL_FORGED_REPLYTO=2.095, FREEMAIL_REPLYTO_END_DIGIT=0.25,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 28 Dec 2022 09:33:29 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,8 +63,6 @@ From: Dongxue Zhang <elta.era@gmail.com>
 Should be cpu->cfg.elen in range [8, 64].
 
 Signed-off-by: Dongxue Zhang <elta.era@gmail.com>
-Reviewed-by: LIU Zhiwei <zhiwe_liu@linux.alibaba.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
 ---
  target/riscv/cpu.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
