@@ -2,107 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A5964E1E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 20:41:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7165264E200
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 20:52:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5u5j-0004I1-K5; Thu, 15 Dec 2022 14:40:27 -0500
+	id 1p5uG1-0007Hy-E9; Thu, 15 Dec 2022 14:51:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p5u5Z-0004DX-KM
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 14:40:18 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1p5uFt-0007GH-KB
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 14:50:57 -0500
+Received: from mail.xen0n.name ([115.28.160.31] helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p5u5X-0003Bx-C9
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 14:40:17 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BFJ1xgJ027224
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 19:40:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : content-transfer-encoding : mime-version; s=pp1;
- bh=szdLU700HGSEg7yNa4aB0auFMI7CGY6xp+ebCbi9tCk=;
- b=ZhOmthULKEflOIN4mCQeee4hR1Q5GuYkgt+yCZf/iYnIPUuZkzbqDUscptA9LeEORf/C
- 4lPWYvTNNDTrw37VPbCikA3FmHrNdyv6e6CqrPgeBNJkQqurUBh74pwzbKmAL95Mll2+
- bsRb1utMO0rWR2K4xTBzZVQlf+Wrv77ZXmMzP/POFSVEsqhCEaok4sF2rW7OY2pA0rD8
- 4SVTgAyn4Hvn/QUu45aA38WrqpWOwUec7+nzSdrOK7AZq4qiN3VHIlVt8oUiYN6MekLb
- LDtKoEYeyBs8mzQTgz4rA1J67HmgXAo9V6Wdgg0DMC3FQWMy2UVwLwXblWpDHJSKfZlw mA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mg9chguvd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 19:40:12 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BFJ1wl1027197
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 19:40:12 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mg9chguv2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 19:40:11 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BFHaYm4011783;
- Thu, 15 Dec 2022 19:40:11 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3meyyj0g4k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 19:40:11 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BFJe90t45941422
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 15 Dec 2022 19:40:10 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B0CEA7805E;
- Thu, 15 Dec 2022 20:59:18 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DDBBD7805C;
- Thu, 15 Dec 2022 20:59:17 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.163.9.130])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 15 Dec 2022 20:59:17 +0000 (GMT)
-Message-ID: <77bc5a11fcb7b06deba1c54b1ef2de28e0c53fb1.camel@linux.ibm.com>
-Subject: Re: [PATCH 2/2] tpm: add backend for mssim
-From: James Bottomley <jejb@linux.ibm.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: "Daniel P ." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-Date: Thu, 15 Dec 2022 14:40:07 -0500
-In-Reply-To: <e77a3a76-c874-d279-52bf-18a4e3a36ba2@linux.ibm.com>
-References: <20221215180125.24632-1-jejb@linux.ibm.com>
- <20221215180125.24632-3-jejb@linux.ibm.com>
- <b5cafbd3-d529-3a84-0604-c49aa30bf916@linux.ibm.com>
- <6fd1144d09777ddcdb7a1a1ba58cbbec345da9ef.camel@linux.ibm.com>
- <e77a3a76-c874-d279-52bf-18a4e3a36ba2@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: baJFxKYIJznpgZrPoE-5oF4OReTpP7Bs
-X-Proofpoint-GUID: AmZY35LFw_zlL0NsNvuTHmddFKSyBvCj
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1p5uFq-0006ay-Bd
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 14:50:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+ t=1671133841; bh=Rol0tZVcjQZ6je13Is4aejvnbHyaUsP/cF9tFkVVLAk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=k+iDZ3UqFBpIL4BzishRjCNSrUgug4bLWXvB1Hd8de2hthqL8TUh+iv2WyWlpisIU
+ Dwz6Fr96NyzNqlX/Q+RGUjRxjI1Vui6IqJBr7xoJHSJ3quBFra4AleajadQV931Njj
+ CayotvHLi+X/K5q1zaVISA9FLq6FclKztoyh9dIk=
+Received: from [192.168.9.172] (unknown [101.88.134.93])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 725976008C;
+ Fri, 16 Dec 2022 03:50:41 +0800 (CST)
+Message-ID: <ae502c46-3751-e4ff-9d3d-aafe770887e4@xen0n.name>
+Date: Fri, 16 Dec 2022 03:50:40 +0800
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-15_11,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 phishscore=0
- impostorscore=0 mlxlogscore=999 adultscore=0 bulkscore=0 mlxscore=0
- malwarescore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212150164
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:110.0) Gecko/20100101
+ Firefox/110.0 Thunderbird/110.0a1
+Subject: Re: [PATCH 3/8] tcg/loongarch64: Update tcg-insn-defs.c.inc
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ WANG Xuerui <git@xen0n.name>
+Cc: qemu-devel@nongnu.org
+References: <20221206044051.322543-1-richard.henderson@linaro.org>
+ <20221206044051.322543-4-richard.henderson@linaro.org>
+ <f6a305b3-692a-28fd-2587-a7e17b0fe363@linaro.org>
+ <fac0ef00-d806-4041-0fe3-806d38acf544@linaro.org>
+Content-Language: en-US
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <fac0ef00-d806-4041-0fe3-806d38acf544@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,100 +67,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2022-12-15 at 14:35 -0500, Stefan Berger wrote:
-> 
-> 
-> On 12/15/22 14:22, James Bottomley wrote:
-> > On Thu, 2022-12-15 at 13:46 -0500, Stefan Berger wrote:
-> > > 
-> > > 
-> > > On 12/15/22 13:01, James Bottomley wrote:
-> > > > From: James Bottomley <James.Bottomley@HansenPartnership.com>
-> > > > 
-> > > > The Microsoft Simulator (mssim) is the reference emulation
-> > > > platform
-> > > > for the TCG TPM 2.0 specification.
-> > > > 
-> > > > https://github.com/Microsoft/ms-tpm-20-ref.git
-> > > > 
-> > > > It exports a fairly simple network socket baset protocol on two
-> > > > sockets, one for command (default 2321) and one for control
-> > > > (default
-> > > > 2322).  This patch adds a simple backend that can speak the
-> > > > mssim
-> > > > protocol over the network.  It also allows the host, and two
-> > > > ports
-> > > > to
-> > > > be specified on the qemu command line.  The benefits are
-> > > > twofold:
-> > > > firstly it gives us a backend that actually speaks a standard
-> > > > TPM
-> > > > emulation protocol instead of the linux specific TPM driver
-> > > > format
-> > > > of
-> > > > the current emulated TPM backend and secondly, using the
-> > > > microsoft
-> > > > protocol, the end point of the emulator can be anywhere on the
-> > > > network, facilitating the cloud use case where a central TPM
-> > > > service
-> > > > can be used over a control network.
-> > > > 
-> > > > The implementation does basic control commands like power
-> > > > off/on,
-> > > > but
-> > > > doesn't implement cancellation or startup.  The former because
-> > > > cancellation is pretty much useless on a fast operating TPM
-> > > > emulator
-> > > > and the latter because this emulator is designed to be used
-> > > > with
-> > > > OVMF
-> > > > which itself does TPM startup and I wanted to validate that.
-> > > > 
-> > > > To run this, simply download an emulator based on the MS
-> > > > specification
-> > > > (package ibmswtpm2 on openSUSE) and run it, then add these two
-> > > > lines
-> > > > to the qemu command and it will use the emulator.
-> > > > 
-> > > >       -tpmdev mssim,id=tpm0 \
-> > > >       -device tpm-crb,tpmdev=tpm0 \
-> > > > 
-> > > > to use a remote emulator replace the first line with
-> > > > 
-> > > >       -tpmdev
-> > > > "{'type':'mssim','id':'tpm0','command':{'type':inet,'host':'rem
-> > > > ote'
-> > > > ,'port':'2321'}}"
-> > > > 
-> > > > tpm-tis also works as the backend.
-> > > 
-> > > Since this device does not properly support migration you have to
-> > > register a migration blocker.
-> > 
-> > Actually it seems to support migration just fine.  Currently the
-> > PCR's
-> > get zero'd which is my fault for doing a TPM power off/on, but
-> > switching that based on state should be an easy fix.
-> 
-> How do you handle virsh save  -> host reboot -> virsh restore?
+On 12/15/22 23:51, Richard Henderson wrote:
+> On 12/14/22 23:50, Philippe Mathieu-Daudé wrote:
+>> On 6/12/22 05:40, Richard Henderson wrote:
+>>> Regenerate with ADDU16I included.
+>>>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   tcg/loongarch64/tcg-insn-defs.c.inc | 10 +++++++++-
+>>>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/tcg/loongarch64/tcg-insn-defs.c.inc 
+>>> b/tcg/loongarch64/tcg-insn-defs.c.inc
+>>> index d162571856..c3c8669b4b 100644
+>>> --- a/tcg/loongarch64/tcg-insn-defs.c.inc
+>>> +++ b/tcg/loongarch64/tcg-insn-defs.c.inc
+>>> @@ -4,7 +4,7 @@
+>>>    *
+>>>    * This file is auto-generated by genqemutcgdefs from
+>>>    * https://github.com/loongson-community/loongarch-opcodes,
+>>> - * from commit 961f0c60f5b63e574d785995600c71ad5413fdc4.
+>>
+>> Odd, addu16i.d is present since 3d057a6, so was already in 961f0c6.
+>
+> It wasn't marked "qemu", so the generator didn't emit ...
+>
+>>> @@ -74,6 +74,7 @@ typedef enum {
+>>>       OPC_ANDI = 0x03400000,
+>>>       OPC_ORI = 0x03800000,
+>>>       OPC_XORI = 0x03c00000,
+>>> +    OPC_ADDU16I_D = 0x10000000,
+>>>       OPC_LU12I_W = 0x14000000,
+>>>       OPC_CU32I_D = 0x16000000,
+>>>       OPC_PCADDU2I = 0x18000000,
+>>> @@ -710,6 +711,13 @@ tcg_out_opc_xori(TCGContext *s, TCGReg d, 
+>>> TCGReg j, uint32_t uk12)
+>>>       tcg_out32(s, encode_djuk12_insn(OPC_XORI, d, j, uk12));
+>>>   }
+>>> +/* Emits the `addu16i.d d, j, sk16` instruction.  */
+>>> +static void __attribute__((unused))
+>>> +tcg_out_opc_addu16i_d(TCGContext *s, TCGReg d, TCGReg j, int32_t sk16)
+>>> +{
+>>> +    tcg_out32(s, encode_djsk16_insn(OPC_ADDU16I_D, d, j, sk16));
+>>> +}
+>
+> ... all this.
+>
+Ah. Sorry for the late reply, I've been busy with Gentoo and LLVM mostly 
+these days (apart from the day job more demanding than ever, due to 
+end-of-year and a bit too much slack doing LoongArch work instead ;-).
 
-I didn't.  I just pulled out the TPM power state changes and followed
-the guide here using the migrate "exec:gzip -c > STATEFILE.gz" recipe:
-
-https://www.linux-kvm.org/page/Migration
-
-and verified the TPM pcrs and the null name were unchanged.
-
-> You should also add a description to docs/specs/tpm.rst.
-
-Description of what?  It functions exactly like passthrough on
-migration.  Since the TPM state is retained in the server a
-reconnection just brings everything back to where it was.
-
-James
+So do you need the addu16i.d marked as @qemu now? I can push the change 
+into loongarch-opcodes tomorrow if so wanted. Of course it's probably 
+better to maintain the used opcodes list in qemu's repo, let me refactor 
+this after I somehow crawl out of the pile of day job...
 
 
