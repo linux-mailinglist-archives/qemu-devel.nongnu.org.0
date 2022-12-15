@@ -2,151 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A831064DF9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 18:30:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE13B64DFB9
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 18:34:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5s2r-0003yZ-N4; Thu, 15 Dec 2022 12:29:21 -0500
+	id 1p5s7I-000529-8y; Thu, 15 Dec 2022 12:33:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1p5s2q-0003yO-83
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:29:20 -0500
-Received: from mga11.intel.com ([192.55.52.93])
+ (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
+ id 1p5s7G-00051v-9p
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:33:54 -0500
+Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1p5s2n-0005oL-Oa
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:29:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671125357; x=1702661357;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=l/qfpdEy4KNNi69YAkVnC3Ms0OzVCLhbzIG9s/09028=;
- b=e6klZFV4GDK/ThgPTaZ3NkOOLxz2ViIFyTgdwgdJCUgYkDbe4aTtqXdF
- r3p9/cqNPbhRULzew9N9dBwCD3cc7OzCXWjiLjktcH2G2QdJTSaq6QCnv
- niu9U8MXzszAVebnlSQYmTlzNmM5xN0jGDf9nOKsZ1h0HD48idYB2mXbw
- Q1xgmHdDMHNI1IBkB2T4QkTYd3bOxvViOn8T9Zy5dY/HkpV5ICbrb9sir
- 4G6qSYKLp8Dbe/KIhUhILekz6ZZE7kJBs84PvBbBSFqR/tr7LDeggQQtM
- tNYcViAkKbiQg25abkSfE2RDtv1e289zKQyOcJazZsWsuhQpXQ8JH1OvN g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="316388335"
-X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; d="scan'208";a="316388335"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2022 09:28:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10562"; a="718092328"
-X-IronPort-AV: E=Sophos;i="5.96,248,1665471600"; d="scan'208";a="718092328"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga004.fm.intel.com with ESMTP; 15 Dec 2022 09:28:52 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 15 Dec 2022 09:28:42 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 15 Dec 2022 09:28:42 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 15 Dec 2022 09:28:42 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m1XiELBCB0beQM5rSqvTmmBgB+NSzB4pZh0TqmO9YSoc8YyU0dxXe87P6rYjtRV3Zz8gXUnvemu9KRjScY1V9lF5/TRWmlLieOB9bLcYTNuf6ONP6p+2dTGEubdj4CdSXckqUjXMXTgUsP0FV5LsDlwwNb21LEHtd+Nl+fD5ULjC3l3y9KWObIOZE79SG/zw8704+n81ChvZQaJmYupr5yzVdV8BC3uERQAidwO2FhB4ugWshN3Xq0aBBC62Uc68FkGMR7SaUNdEruU3iZnDWPBc0xHus6C6FMXD8BXZMZvYzi40XTurSY+GYQmBTH+0BQVtjKnD6FRxY1bLXT8MvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HcyKH3V2RdoGmTu4RXq4T4mcGBzDvD2KABdZt6+a7OU=;
- b=Gf/Qkdp17ZmuzbbuVrciwFdd5rG28m5TApNbRNSBkaREOmO6XMz/hCIDsQ7DV8nORCg9vctmvk8/H9WJII0qrb1CcPQ8PVuCR1z4cAcgQ1ZC9t2uu2KuEZw2gBBvYr7yOIV/HChtBtoJZFRcmIsuSwaRyOmhr3y3yx+wZFHTX09rnPB/WmvsKXtblOZTtuF+yNlgRSW+3khr4NRgN21XcCLrtyQgRPD3MiYQ35w7LBTiKVlxutKGbOEo8BRTwVUZaxpk0xD+K/fAjFzDDD2GhsKEaDRhBvrxapiBASjS4Xg4b9rZw4P+VxSzvwLURq5Iingho0GOTQ01XHMVtGoN0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by MW5PR11MB5785.namprd11.prod.outlook.com (2603:10b6:303:197::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.19; Thu, 15 Dec
- 2022 17:28:40 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::288d:5cae:2f30:828b]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::288d:5cae:2f30:828b%6]) with mapi id 15.20.5924.011; Thu, 15 Dec 2022
- 17:28:40 +0000
-Date: Thu, 15 Dec 2022 09:28:30 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Dave Jiang <dave.jiang@intel.com>, Ben Widawsky <bwidawsk@kernel.org>,
- <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>, "Michael S. Tsirkin"
- <mst@redhat.com>
-Subject: Re: [PATCH v2] hw/cxl/device: Add Flex Bus Port DVSEC
-Message-ID: <Y5tZPiiJQm4el40t@iweiny-desk3>
-References: <20221213-ira-flexbus-port-v2-1-eaa48d0e0700@intel.com>
- <20221215171633.00000ac8@Huawei.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20221215171633.00000ac8@Huawei.com>
-X-ClientProxiedBy: BY5PR16CA0006.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::19) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+ (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
+ id 1p5s7D-0007J3-8j
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:33:54 -0500
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1p5s74-0007KV-Hd; Thu, 15 Dec 2022 18:33:42 +0100
+Message-ID: <c1ff5cae-7f56-7fdb-c832-ffbcc177535b@leemhuis.info>
+Date: Thu, 15 Dec 2022 18:33:41 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|MW5PR11MB5785:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9da1ef4-96f7-4ddb-36e4-08dadec1ce51
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9SaFao9+H7Ob9Y8wLjhgk9StU5UzRUWXSlQcg2ReX1/S45oGkLwzWRg/EtbZT7T7TQv6XpNA4/07JRMYRlQq2jQxlwRkes/FlkeWZy6/KSjt1sqMo5QI92fJvyrKhZHfhEsqU5CWWxOamQj7mf8jUwPXpjR8JcdN6xiTkcoP/oREUb4DGHMOo9RATcWH2OdxWVvVy8ai1uHClI0vXEiwQcX4oEtOGWKeV+QzG3j7zxZyEPeFElRd9X9+ln69kDf7BZu9l7OpHVY+3kQsDbokUSizMbTBHNwWwub0bd9UaAF8EBfz8krY6p86R43/FjFB+VsOdWas0Bb69XbC9oeSLIlHbOHMc+Co4PcfUGawRdTh4QU49VIOciHmKPa6Od64kgpjUkPMXYHJZjgiLGy7ozLSZPpruSjJDS0HAuUIj0jTD3F2GfCUbaY3k1/LVKsT8FTUbJBQUECpXz0/R9EEHpRU4Pd3Cw6KSLPzV2csOlv5iTzRRI4aU18vMJSNG4ceSdYOx1cbeO9GthkS7DlCxGdA52qdeEulq7EVREplNAv1poPzQW6e2zyIlpAVRV0yT4iFQobt0/cJJw8v4qameOBn/IKXbmMAeMdl1xI/9YxQkK5fOXdIMv9Pt4hJtAFJSibCCb6cMiJ2Zf/hl8x6H+1y44m/YzZ1WNQGOQDTLIBYeOdOCpCPM19H0r1Ez7pybjoUL3/krAd8nUAvSHO8Bw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(7916004)(376002)(396003)(346002)(136003)(366004)(39860400002)(451199015)(83380400001)(33716001)(6506007)(966005)(478600001)(6486002)(86362001)(38100700002)(9686003)(186003)(6512007)(6666004)(66946007)(66556008)(82960400001)(66476007)(26005)(8676002)(4326008)(54906003)(6916009)(41300700001)(44832011)(316002)(2906002)(5660300002)(8936002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6SSYy1lQJGerwQAPvIfF3SO+x1TIO0uIk1E0t0uVWKu/dv21oGuzpAdY5jNe?=
- =?us-ascii?Q?W8ytBoJiLyY/frCKxCG57AGuC4rMipLGl7V9kk1eIRS8M+DxTrJDr1SB4mr3?=
- =?us-ascii?Q?fRgqDceSSbjmtlFROJ2jqYqduMACynswLt+jIwmZs6KEi9r7YGSxuS2q8UUn?=
- =?us-ascii?Q?65kTxcL+F1BWn+k6lhraa5UZCgc1obzo1FzmiKwdwqXBtnnnwVzpOl9hq0ci?=
- =?us-ascii?Q?WJHpacH0KLxydNY8eTuqJCSWCdzLIeow6MowssawtDcvuyw1SIqCxFw84cPh?=
- =?us-ascii?Q?fFyH5n0yKufGGP93FOeNnU4NrIuxL9THn6Q1uEDduDoAmbxTagnAhI1hE0oc?=
- =?us-ascii?Q?ieai8u5H64qsuwChbIDYdi6jKdEFrTrDMdCT1pj93ufxnTVDzXBKA3xGI0Q2?=
- =?us-ascii?Q?2dWmeh2NylyT0IqGlVrD5B2ZPXX2ft3MTa1rFXXdT27A5K2IPr/M9cTn24uI?=
- =?us-ascii?Q?rLIUkVRp12dc92z+7uhlm13xLIkuVHGh88eS5ZETT87AmGRPmwP51U3GqsfO?=
- =?us-ascii?Q?ZKH4hyVsjIjYJpn8pXfR4uQdiAXERdds++Vanm8GtKAwy1NfzLxOxtaRyNzC?=
- =?us-ascii?Q?bmTimVOXb8wbSUyL4U8Wa8s7SsZEfDuf0P2Ys/LeElQQrICU6ciX9GAxt0xH?=
- =?us-ascii?Q?wa7CmLp9smmTpFnxF23ftKlr7yKMUH/Thwff5ltrKyYyXhhey21QDZbc2QqU?=
- =?us-ascii?Q?dmvz2nZ58jhb5R2Ri4PK2J0DgMuF9NO3izCa9PxbLlyBlXr0t6KpAmnl5bHt?=
- =?us-ascii?Q?mi9/1KFboiby0k7PxA/vGDXw22MP2KL8YO5lcbV2y4AV+9rp7zb4VWpVzGuK?=
- =?us-ascii?Q?A6lYMSEYK+aP2mWwQKF64tgs0bQjMnVANE0dk0V4WnDON6PtUyu8sdWGyk5K?=
- =?us-ascii?Q?PFA0izzy8ZOH+nFKboZbmOTflDqqWzPe9XQ7myyvUeGZl6y/u7Pz/tUhLz5K?=
- =?us-ascii?Q?zGWdFv26qbvRFI4RanKLdK6e+JTKvnyx6CWFA+7MTkxGSLL4k1YyBR07rq7p?=
- =?us-ascii?Q?dY8LbdjO3e5HPb3tzM6khO34XFyuvGm1tWX/+qoIC2YAWlpa8x9/lYXdwOsP?=
- =?us-ascii?Q?1nHZ99WRONa1pcHFZLSS0OESvS5E2Hj+vnUt70yKFhB2pqBoo8dPauYQ2hy5?=
- =?us-ascii?Q?npVkpyT6sXtTcHuaHGDpIFifhQqAoblRTN03RA4E0OAgS1ffQW5aZ58yAG+g?=
- =?us-ascii?Q?usbkzTcZSJL6BJY0pV9xtMGre/Rx35Q7UvLx1WUZdxEaGGvNuCAnmeNzHvBj?=
- =?us-ascii?Q?IbMC5ymj0a1GxbhoxfMiVpzAQPDMdOZ8czbB/3ete6TEr7lvS3eIBAg5yvbI?=
- =?us-ascii?Q?AbGZn4XkwImgxdYFhJIt7UzwZTzoRf6LiVo2Q5aHpwZmcBhilxz5SlKj2vKI?=
- =?us-ascii?Q?WLa0ZH63wZKcMEMlfV426s+sbcpvgeUySxoS7z5rtc/3ZlaYjqp6V2Hquv/r?=
- =?us-ascii?Q?fJfOqAtmyylo0SBR4+HLPWn09lcw2awUBEld3y501rQfA4s/zcwK4hC/sFMw?=
- =?us-ascii?Q?BQJFnjh8AbN18eL4jizv+tQQcvey3uO9X6Yys9BjYK9XbcVZOHxPoOdG/ORj?=
- =?us-ascii?Q?V9Ia3Y/Y4mJ7iWFA5WE7Dylnwx9Ej4ZU4c5eyi92?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9da1ef4-96f7-4ddb-36e4-08dadec1ce51
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2022 17:28:39.9235 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /CClkHhX/7whbwr5ra6wzlhEFy/4W6GIB9KWdBvH5Uo22nS8egc7qoRhfzvCFB7ji3kFIlRbzrc4ud8X23lbgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5785
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=ira.weiny@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: regression: insmod module failed in VM with nvdimm on
+Content-Language: en-US, de-DE
+To: Ard Biesheuvel <ardb@kernel.org>,
+ "chenxiang (M)" <chenxiang66@hisilicon.com>
+Cc: Marc Zyngier <maz@kernel.org>, will@kernel.org, mark.rutland@arm.com,
+ linux-arm-kernel@lists.infradead.org, chenxiang via <qemu-devel@nongnu.org>,
+ "linuxarm@huawei.com" <linuxarm@huawei.com>,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+References: <e6a804de-a5f7-c551-ffba-e09d04e438fc@hisilicon.com>
+ <87r0xkubcp.wl-maz@kernel.org>
+ <CAMj1kXE4Z-rc0-NqbOCt+m5d6mK5wF365-vWTuaRk7sf2TyG1A@mail.gmail.com>
+ <706965d2-60cb-847d-b30e-6074c8ca5fe4@hisilicon.com>
+ <CAMj1kXHF1EMT0Y=S=tM9_THfKCt4QGnrFs6b4ieDqADzg5jeRw@mail.gmail.com>
+ <CAMj1kXGF=DuQSgf8FbW98WTX94U7rB0hq_cFAc0+AfVn=HHsFg@mail.gmail.com>
+ <21cf7de2-27e8-8d1f-9efc-aa68cefbad50@hisilicon.com>
+ <CAMj1kXFUso6CdDa3jMCrdHOBmOim0Z8YxB00a=kF5BbVxw9Xxw@mail.gmail.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <CAMj1kXFUso6CdDa3jMCrdHOBmOim0Z8YxB00a=kF5BbVxw9Xxw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1671125631;
+ 3eeadb82; 
+X-HE-SMSGID: 1p5s74-0007KV-Hd
+Received-SPF: pass client-ip=80.237.130.52;
+ envelope-from=regressions@leemhuis.info; helo=wp530.webpack.hosteurope.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -163,92 +73,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 15, 2022 at 05:16:33PM +0000, Jonathan Cameron wrote:
-> On Wed, 14 Dec 2022 12:54:11 -0800
-> Ira Weiny <ira.weiny@intel.com> wrote:
-> 
-> > The Flex Bus Port DVSEC was missing on type 3 devices which was blocking
-> > RAS checks.[1]
-> > 
-> > Add the Flex Bus Port DVSEC to type 3 devices as per CXL 3.0 8.2.1.3.
-> > 
-> > [1] https://lore.kernel.org/linux-cxl/167096738875.2861540.11815053323626849940.stgit@djiang5-desk3.ch.intel.com/
-> > 
-> > Cc: Dave Jiang <dave.jiang@intel.com>
-> > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Cc: Ben Widawsky <bwidawsk@kernel.org>
-> > Cc: qemu-devel@nongnu.org
-> > Cc: linux-cxl@vger.kernel.org
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> Looks good to me.
-> 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> 
-> As Michael wasn't cc'd on patch posting, so might not get this directly I'll add
-> it to the front of the series adding the RAS event emulation on basis that's the
-> first time we'll see a failure in Linux (I think?)
+Hi, this is your Linux kernel regression tracker. Top-posting for once,
+to make this easily accessible to everyone.
 
-Ah thanks!
+Was there some progress to get this regression resolved? From here it
+looks stalled, but maybe I missed something.
 
-Sorry, I thought you were the 'maintainer' of the CXL stuff for qemu.
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
 
-> 
-> Michael, if you want to pick this up directly that's great too!
+P.S.: As the Linux kernel's regression tracker I deal with a lot of
+reports and sometimes miss something important when writing mails like
+this. If that's the case here, don't hesitate to tell me in a public
+reply, it's in everyone's interest to set the public record straight.
 
-Should I send directly to Michael in future?
+On 02.12.22 14:44, Ard Biesheuvel wrote:
+> On Fri, 2 Dec 2022 at 03:48, chenxiang (M) <chenxiang66@hisilicon.com> wrote:
+>>
+>> Hi Ard,
+>>
+>>
+>> 在 2022/12/1 19:07, Ard Biesheuvel 写道:
+>>> On Thu, 1 Dec 2022 at 09:07, Ard Biesheuvel <ardb@kernel.org> wrote:
+>>>> On Thu, 1 Dec 2022 at 08:15, chenxiang (M) <chenxiang66@hisilicon.com> wrote:
+>>>>> Hi Ard,
+>>>>>
+>>>>>
+>>>>> 在 2022/11/30 16:18, Ard Biesheuvel 写道:
+>>>>>> On Wed, 30 Nov 2022 at 08:53, Marc Zyngier <maz@kernel.org> wrote:
+>>>>>>> On Wed, 30 Nov 2022 02:52:35 +0000,
+>>>>>>> "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
+>>>>>>>> Hi,
+>>>>>>>>
+>>>>>>>> We boot the VM using following commands (with nvdimm on)  (qemu
+>>>>>>>> version 6.1.50, kernel 6.0-r4):
+>>>>>>> How relevant is the presence of the nvdimm? Do you observe the failure
+>>>>>>> without this?
+>>>>>>>
+>>>>>>>> qemu-system-aarch64 -machine
+>>>>>>>> virt,kernel_irqchip=on,gic-version=3,nvdimm=on  -kernel
+>>>>>>>> /home/kernel/Image -initrd /home/mini-rootfs/rootfs.cpio.gz -bios
+>>>>>>>> /root/QEMU_EFI.FD -cpu host -enable-kvm -net none -nographic -m
+>>>>>>>> 2G,maxmem=64G,slots=3 -smp 4 -append 'rdinit=init console=ttyAMA0
+>>>>>>>> ealycon=pl0ll,0x90000000 pcie_ports=native pciehp.pciehp_debug=1'
+>>>>>>>> -object memory-backend-ram,id=ram1,size=10G -device
+>>>>>>>> nvdimm,id=dimm1,memdev=ram1  -device ioh3420,id=root_port1,chassis=1
+>>>>>>>> -device vfio-pci,host=7d:01.0,id=net0,bus=root_port1
+>>>>>>>>
+>>>>>>>> Then in VM we insmod a module, vmalloc error occurs as follows (kernel
+>>>>>>>> 5.19-rc4 is normal, and the issue is still on kernel 6.1-rc4):
+>>>>>>>>
+>>>>>>>> estuary:/$ insmod /lib/modules/$(uname -r)/hnae3.ko
+>>>>>>>> [    8.186563] vmap allocation for size 20480 failed: use
+>>>>>>>> vmalloc=<size> to increase size
+>>>>>>> Have you tried increasing the vmalloc size to check that this is
+>>>>>>> indeed the problem?
+>>>>>>>
+>>>>>>> [...]
+>>>>>>>
+>>>>>>>> We git bisect the code, and find the patch c5a89f75d2a ("arm64: kaslr:
+>>>>>>>> defer initialization to initcall where permitted").
+>>>>>>> I guess you mean commit fc5a89f75d2a instead, right?
+>>>>>>>
+>>>>>>>> Do you have any idea about the issue?
+>>>>>>> I sort of suspect that the nvdimm gets vmap-ed and consumes a large
+>>>>>>> portion of the vmalloc space, but you give very little information
+>>>>>>> that could help here...
+>>>>>>>
+>>>>>> Ouch. I suspect what's going on here: that patch defers the
+>>>>>> randomization of the module region, so that we can decouple it from
+>>>>>> the very early init code.
+>>>>>>
+>>>>>> Obviously, it is happening too late now, and the randomized module
+>>>>>> region is overlapping with a vmalloc region that is in use by the time
+>>>>>> the randomization occurs.
+>>>>>>
+>>>>>> Does the below fix the issue?
+>>>>> The issue still occurs, but it seems decrease the probability, before it
+>>>>> occured almost every time, after the change, i tried 2-3 times, and it
+>>>>> occurs.
+>>>>> But i change back "subsys_initcall" to "core_initcall", and i test more
+>>>>> than 20 times, and it is still ok.
+>>>>>
+>>>> Thank you for confirming. I will send out a patch today.
+>>>>
+>>> ...but before I do that, could you please check whether the change
+>>> below fixes your issue as well?
+>>>
+>>> diff --git a/arch/arm64/kernel/kaslr.c b/arch/arm64/kernel/kaslr.c
+>>> index 6ccc7ef600e7c1e1..c8c205b630da1951 100644
+>>> --- a/arch/arm64/kernel/kaslr.c
+>>> +++ b/arch/arm64/kernel/kaslr.c
+>>> @@ -20,7 +20,11 @@
+>>>   #include <asm/sections.h>
+>>>   #include <asm/setup.h>
+>>>
+>>> -u64 __ro_after_init module_alloc_base;
+>>> +/*
+>>> + * Set a reasonable default for module_alloc_base in case
+>>> + * we end up running with module randomization disabled.
+>>> + */
+>>> +u64 __ro_after_init module_alloc_base = (u64)_etext - MODULES_VSIZE;
+>>>   u16 __initdata memstart_offset_seed;
+>>>
+>>>   struct arm64_ftr_override kaslr_feature_override __initdata;
+>>> @@ -30,12 +34,6 @@ static int __init kaslr_init(void)
+>>>          u64 module_range;
+>>>          u32 seed;
+>>>
+>>> -       /*
+>>> -        * Set a reasonable default for module_alloc_base in case
+>>> -        * we end up running with module randomization disabled.
+>>> -        */
+>>> -       module_alloc_base = (u64)_etext - MODULES_VSIZE;
+>>> -
+>>>          if (kaslr_feature_override.val & kaslr_feature_override.mask & 0xf) {
+>>>                  pr_info("KASLR disabled on command line\n");
+>>>                  return 0;
+>>> .
+>>
+>> We have tested this change, the issue is still and it doesn't fix the issue.
+>>
+> 
+> Thanks for the report.
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
-> 
-> As a side note the WTF? is because we made up a hardware related time delay
-> number having no idea whatsoever on what a realistic value was. Cut and paste
-> from the instances of this structure in the root port and the switch ports.
-> 
-
-Yep I just followed that based off the other code.
-
-Ira
-
-> Jonathan
-> 
-> 
-> 
-> > ---
-> > Changes in v2:
-> >         Jonathan                                                            
-> >                 type 3 device does not support CACHE                        
-> >                 Comment the 68B bit                                         
-> > 
-> > - Link to v1: https://lore.kernel.org/r/20221213-ira-flexbus-port-v1-1-86afd4f30be6@intel.com
-> > ---
-> >  hw/mem/cxl_type3.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> > index 0317bd96a6fb..e6beac143fc1 100644
-> > --- a/hw/mem/cxl_type3.c
-> > +++ b/hw/mem/cxl_type3.c
-> > @@ -416,6 +416,17 @@ static void build_dvsecs(CXLType3Dev *ct3d)
-> >      cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
-> >                                 GPF_DEVICE_DVSEC_LENGTH, GPF_DEVICE_DVSEC,
-> >                                 GPF_DEVICE_DVSEC_REVID, dvsec);
-> > +
-> > +    dvsec = (uint8_t *)&(CXLDVSECPortFlexBus){
-> > +        .cap                     = 0x26, /* 68B, IO, Mem, non-MLD */
-> > +        .ctrl                    = 0x02, /* IO always enabled */
-> > +        .status                  = 0x26, /* same as capabilities */
-> > +        .rcvd_mod_ts_data_phase1 = 0xef, /* WTF? */
-> > +    };
-> > +    cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
-> > +                               PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
-> > +                               PCIE_FLEXBUS_PORT_DVSEC,
-> > +                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvsec);
-> >  }
-> >  
-> >  static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
-> > 
-> > ---
-> > base-commit: e11b57108b0cb746bb9f3887054f34a2f818ed79
-> > change-id: 20221213-ira-flexbus-port-ce526de8111d
-> > 
-> > Best regards,
-> 
+#regzbot poke
 
