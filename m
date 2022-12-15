@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A60364DC7D
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C55964DC7E
 	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:51:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5od9-00007G-Lk; Thu, 15 Dec 2022 08:50:35 -0500
+	id 1p5od9-00006k-MG; Thu, 15 Dec 2022 08:50:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1p5od0-00005e-NY
+ id 1p5od0-00005f-PD
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:50:26 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1p5ocy-0003PD-J7
+ id 1p5ocy-0003PK-JJ
  for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:50:26 -0500
-Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NXtr91zZCzmWgQ;
- Thu, 15 Dec 2022 21:49:13 +0800 (CST)
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NXtr76ZptzRq4K;
+ Thu, 15 Dec 2022 21:49:11 +0800 (CST)
 Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Thu, 15 Dec 2022 21:50:12 +0800
+ 15.1.2375.34; Thu, 15 Dec 2022 21:50:13 +0800
 To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
  <sgarzare@redhat.com>
 CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
  <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
  Longpeng <longpeng2@huawei.com>
-Subject: [PATCH v11 4/5] vdpa-dev: mark the device as unmigratable
-Date: Thu, 15 Dec 2022 21:49:43 +0800
-Message-ID: <20221215134944.2809-5-longpeng2@huawei.com>
+Subject: [PATCH v11 5/5] docs: Add generic vhost-vdpa device documentation
+Date: Thu, 15 Dec 2022 21:49:44 +0800
+Message-ID: <20221215134944.2809-6-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
 In-Reply-To: <20221215134944.2809-1-longpeng2@huawei.com>
 References: <20221215134944.2809-1-longpeng2@huawei.com>
@@ -43,8 +43,8 @@ X-Originating-IP: [10.174.148.223]
 X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  kwepemi100025.china.huawei.com (7.221.188.158)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -69,28 +69,86 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Longpeng <longpeng2@huawei.com>
 
-The generic vDPA device doesn't support migration currently, so
-mark it as unmigratable temporarily.
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Longpeng <longpeng2@huawei.com>
 ---
- hw/virtio/vdpa-dev.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../devices/vhost-vdpa-generic-device.rst     | 68 +++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+ create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
 
-diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
-index dbc4f8001d..db6ba61152 100644
---- a/hw/virtio/vdpa-dev.c
-+++ b/hw/virtio/vdpa-dev.c
-@@ -327,6 +327,7 @@ static Property vhost_vdpa_device_properties[] = {
- 
- static const VMStateDescription vmstate_vhost_vdpa_device = {
-     .name = "vhost-vdpa-device",
-+    .unmigratable = 1,
-     .minimum_version_id = 1,
-     .version_id = 1,
-     .fields = (VMStateField[]) {
+diff --git a/docs/system/devices/vhost-vdpa-generic-device.rst b/docs/system/devices/vhost-vdpa-generic-device.rst
+new file mode 100644
+index 0000000000..24c825ef1a
+--- /dev/null
++++ b/docs/system/devices/vhost-vdpa-generic-device.rst
+@@ -0,0 +1,68 @@
++
++=========================
++vhost-vDPA generic device
++=========================
++
++This document explains the usage of the vhost-vDPA generic device.
++
++
++Description
++-----------
++
++vDPA(virtio data path acceleration) device is a device that uses a datapath
++which complies with the virtio specifications with vendor specific control
++path.
++
++QEMU provides two types of vhost-vDPA devices to enable the vDPA device, one
++is type sensitive which means QEMU needs to know the actual device type
++(e.g. net, blk, scsi) and another is called "vhost-vDPA generic device" which
++is type insensitive.
++
++The vhost-vDPA generic device builds on the vhost-vdpa subsystem and virtio
++subsystem. It is quite small, but it can support any type of virtio device.
++
++
++Requirements
++------------
++Linux 5.18+
++iproute2/vdpa 5.12.0+
++
++
++Examples
++--------
++
++1. Prepare the vhost-vDPA backends, here is an example using vdpa_sim_blk
++   device:
++
++::
++  host# modprobe vhost_vdpa
++  host# modprobe vdpa_sim_blk
++  host# vdpa dev add mgmtdev vdpasim_blk name blk0
++  (...you can see the vhost-vDPA device under /dev directory now...)
++  host# ls -l /dev/vhost-vdpa-*
++  crw------- 1 root root 236, 0 Nov  2 00:49 /dev/vhost-vdpa-0
++
++Note:
++It needs some vendor-specific steps to provision the vDPA device if you're
++using real HW devices, such as loading the vendor-specific vDPA driver and
++binding the device to the driver.
++
++
++2. Start the virtual machine:
++
++Start QEMU with virtio-mmio bus:
++
++::
++  host# qemu-system                                                  \
++      -M microvm -m 512 -smp 2 -kernel ... -initrd ...               \
++      -device vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-0           \
++      ...
++
++
++Start QEMU with virtio-pci bus:
++
++::
++  host# qemu-system                                                  \
++      -M pc -m 512 -smp 2                                            \
++      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-0       \
++      ...
 -- 
 2.23.0
 
