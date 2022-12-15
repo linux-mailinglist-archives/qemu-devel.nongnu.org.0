@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A748D64D928
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 11:00:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 010B464D950
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 11:13:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5l1E-0000P8-To; Thu, 15 Dec 2022 04:59:13 -0500
+	id 1p5lE8-0006QO-GQ; Thu, 15 Dec 2022 05:12:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
- id 1p5l16-0000CD-4F
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 04:59:04 -0500
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5lE1-0006Q2-8v
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 05:12:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
- id 1p5l14-0002bm-9N
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 04:59:03 -0500
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BF8owbJ015699; Thu, 15 Dec 2022 09:58:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=84HYkONoHeufDU7vJAQo+l07NNObIDVkBJLzJXtKi/o=;
- b=bV8z9XzelwAciPG3gmofXC7d3q7IvHPvko5yyi1BPyWWCbJ5pMFUPxJPyxkZNhImhIp5
- InfYYBTK5tH4Ftk5Q3NCQbBKND0oUCxzpy3eD8OrkNY2W5madBfFCSNDPrj6oapjw9TQ
- EUZTlD9mCc8vsVy01CW0lFNXySt7H60BOwgFWpXX+C9aOhtEJGH+LLbiTQTY5UKwgfeh
- OK0dSumQEkTvmpDjaJIadrJzbmGcPpFQE7OD5siExOFcaoTeTvRS1woM2bjh+G87eff1
- wHnmwvriSj4GtvoP1yXAg6zGHVDC3V/7FV3bI/P1MBlhuF1JuoLtJRTVE4anltW281w9 sQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mfxse8c2y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 09:58:58 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BF9wv4B028909
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Dec 2022 09:58:57 GMT
-Received: from mthiyaga-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 15 Dec 2022 01:58:54 -0800
-From: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
-To: <qemu-devel@nongnu.org>, <alex.bennee@linaro.org>,
- <richard.henderson@linaro.org>, <bcain@quicinc.com>,
- <quic_mathbern@quicinc.com>
-CC: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
-Subject: [PATCH] tests/tcg/multiarch: remove unused variable in linux-test
-Date: Thu, 15 Dec 2022 15:28:20 +0530
-Message-ID: <20221215095820.13374-1-quic_mthiyaga@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5lDz-0005rt-Eu
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 05:12:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671099141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KnMdY7tguRxveFjfw85oU9k4dw1/dC1aK2J9U+soPKc=;
+ b=ZyepG5KOV++KPvoSKxzMoVTugVmm+d11SM2+cx2pQSdC8+f8RF7iPOL1xZ140CZobqF7Sd
+ 2Kz/DJVCz6vZNfJhPxITL0BLVjiM+z5UrvW6rtgmbM361+nd970dpPzesh+cVhXtnto0gs
+ 8NMdQi5MImsHByJVurMvxtigrgIaST0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-671-Q7a1-rlEPMyC_bg5J0de9w-1; Thu, 15 Dec 2022 05:12:18 -0500
+X-MC-Unique: Q7a1-rlEPMyC_bg5J0de9w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i132-20020a1c3b8a000000b003d0f49bc21bso939404wma.6
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 02:12:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KnMdY7tguRxveFjfw85oU9k4dw1/dC1aK2J9U+soPKc=;
+ b=xGzsb2yOEHajI2whpznxx42vWEIjnbdPuL4TUyuAnIMZQAr7WR/q1KjYl0+sajHJys
+ ZXfGrEMKn9f7yWYzp4ENsRYy9J9gkZhLVYirPhCBE2Zr/h8314qzFWQRbByyxwR51dT/
+ jD0ibAG53erq7uO3T+XhHaNJfmzzEHjrw57aa0UzgiBjJeLK586DYbPpntOuhSNZeqxm
+ yzmMGtOBHxYDzq4pvzZEDC86M/FLyVKeCK/E6hBNCRjiX94K7qzN25S9peMdd1ZrVRpL
+ 1Vyl+SbO82sScZp34qnyaT90afU2Q68TNsBUsTghiDEbP/mkDm9ixwPbLL9zdZICmhA2
+ vDug==
+X-Gm-Message-State: ANoB5pm3ddqrnKIHYSTHJA7lsSAc4Ta6C6I5OTB3d9gZultg9On4ommo
+ aC12+nUcggpY/8idl9tlBA1vZtvSAp9m8QslhEQ/aVXP8aU1K99n5s803NPEtwvSNRa0BWhvYFe
+ IKSWB4064ui2quP4=
+X-Received: by 2002:a05:600c:3c90:b0:3cf:6f4d:c259 with SMTP id
+ bg16-20020a05600c3c9000b003cf6f4dc259mr22337387wmb.39.1671099137504; 
+ Thu, 15 Dec 2022 02:12:17 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7ur3eF7VseX+1i8oYt7/yyXT9OEEHw/FR+aLwIy2V4/9t5KEh10dr+FI6eLDDFfqsm2ceOjg==
+X-Received: by 2002:a05:600c:3c90:b0:3cf:6f4d:c259 with SMTP id
+ bg16-20020a05600c3c9000b003cf6f4dc259mr22337371wmb.39.1671099137322; 
+ Thu, 15 Dec 2022 02:12:17 -0800 (PST)
+Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ f24-20020a05600c491800b003c6bbe910fdsm6302711wmp.9.2022.12.15.02.12.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Dec 2022 02:12:16 -0800 (PST)
+Message-ID: <aaf97e80-1f1d-7a3a-ab08-0fc1aabc2c72@redhat.com>
+Date: Thu, 15 Dec 2022 11:12:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 0GiVCAoF9aHJoIp4_YRYwGAqfuMMQDKu
-X-Proofpoint-GUID: 0GiVCAoF9aHJoIp4_YRYwGAqfuMMQDKu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-15_04,2022-12-14_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- clxscore=1015 spamscore=0 phishscore=0 priorityscore=1501 malwarescore=0
- suspectscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2212150079
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=quic_mthiyaga@quicinc.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH-for-8.0] tests/vm: Update get_default_jobs() to work on
+ non-x86_64 non-KVM hosts
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>
+References: <20221209164743.70836-1-philmd@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221209164743.70836-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,74 +104,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-LLVM 15.0.0 has improved diagnostics for the
-'nounused-but-set-variable' warning and now warns when
-a variable is modified using pre/post increment/decrement
-operators but is otherwise never read.
+On 09/12/2022 17.47, Philippe Mathieu-Daudé wrote:
+> On non-x86_64 host, if KVM is not available we get:
+> 
+>    Traceback (most recent call last):
+>      File "tests/vm/basevm.py", line 634, in main
+>        vm = vmcls(args, config=config)
+>      File "tests/vm/basevm.py", line 104, in __init__
+>        mem = max(4, args.jobs)
+>    TypeError: '>' not supported between instances of 'NoneType' and 'int'
+> 
+> Fix by always returning a -- not ideal but safe -- '1' value.
+> 
+> Fixes: b09539444a ("tests/vm: allow us to take advantage of MTTCG")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   tests/vm/basevm.py | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+> index 2276364c42..23229e23d1 100644
+> --- a/tests/vm/basevm.py
+> +++ b/tests/vm/basevm.py
+> @@ -569,8 +569,7 @@ def get_default_jobs():
+>                   # more cores. but only up to a reasonable limit. User
+>                   # can always override these limits with --jobs.
+>                   return min(multiprocessing.cpu_count() // 2, 8)
+> -        else:
+> -            return 1
+> +        return 1
+>   
+>       parser = argparse.ArgumentParser(
+>           formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 
-linux-tests.c has such an unused variable 'wcount' and since
-TCG tests are compiled with -Wall -Werror, this is causing
-'make check-tcg' to fail when using LLVM 15.0.0 and above:
-
-```
-qemu/tests/tcg/multiarch/linux/linux-test.c:335:9:
-error: variable 'wcount' set but not used [-Werror,-Wunused-but-set-variable]
-    int wcount, rcount;
-        ^
-1 error generated.
-Makefile:119: recipe for target 'linux-test' failed
-```
-
-This patch simply removes the 'wcount' variable as it
-doesn't appear to impact the semantics of the test.
-The WCOUNT_MAX constant is also renamed to RCOUNT_MAX to
-better reflect the usage.
----
- tests/tcg/multiarch/linux/linux-test.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/tests/tcg/multiarch/linux/linux-test.c b/tests/tcg/multiarch/linux/linux-test.c
-index 5a2a4f2258..35540dc357 100644
---- a/tests/tcg/multiarch/linux/linux-test.c
-+++ b/tests/tcg/multiarch/linux/linux-test.c
-@@ -325,19 +325,18 @@ static void test_socket(void)
-     chk_error(close(server_fd));
- }
- 
--#define WCOUNT_MAX 512
-+#define RCOUNT_MAX 512
- 
- static void test_pipe(void)
- {
-     fd_set rfds, wfds;
-     int fds[2], fd_max, ret;
-     uint8_t ch;
--    int wcount, rcount;
-+    int rcount;
- 
-     chk_error(pipe(fds));
-     chk_error(fcntl(fds[0], F_SETFL, O_NONBLOCK));
-     chk_error(fcntl(fds[1], F_SETFL, O_NONBLOCK));
--    wcount = 0;
-     rcount = 0;
-     for(;;) {
-         FD_ZERO(&rfds);
-@@ -354,13 +353,12 @@ static void test_pipe(void)
-             if (FD_ISSET(fds[0], &rfds)) {
-                 chk_error(read(fds[0], &ch, 1));
-                 rcount++;
--                if (rcount >= WCOUNT_MAX)
-+                if (rcount >= RCOUNT_MAX)
-                     break;
-             }
-             if (FD_ISSET(fds[1], &wfds)) {
-                 ch = 'a';
-                 chk_error(write(fds[1], &ch, 1));
--                wcount++;
-             }
-         }
-     }
--- 
-2.17.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
