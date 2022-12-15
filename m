@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1493E64D744
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 08:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D136164D74C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 08:34:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5igV-0001o1-Hx; Thu, 15 Dec 2022 02:29:39 -0500
+	id 1p5il8-0003dI-2S; Thu, 15 Dec 2022 02:34:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5igR-0001ly-JF
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:29:35 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5igP-0007wV-3J
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:29:34 -0500
-Received: by mail-wr1-x432.google.com with SMTP id bx10so2170749wrb.0
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 23:29:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MKs0LP2qprmFNowBtuj87zjuq0S0JUZgzqscEiaeMVs=;
- b=zai0Cp6c4dYMsk4VHozXPm+yxFYOtmGzjL/FwCYz3d8qv+r4MmA2UsDYAqqaqvdMX9
- u58N+t+D1K+k8w3WohHxgNffQL0NqASkHjQ5eLFuo67ROktAGRoeuuE58SLYnvc+KXR4
- h3EIE1SBougT6RH44OQWZRBRTzjbId/nzcLNpHQ6bc5IhMg+8UzBZG9gV0RPaGuaB9Xj
- R6/l+ZqMZbrWUCcEz75St6YNNtQy/X4kRa6oTzVanni8WzlKYK93TVh7LuQYPu7dwb8e
- Ca/7Rba+uY27T2/MAqo7T6Jd6Q9F+quhV73Z4GhRb04Am3Ykw/v+fttnAZe6Gy6j71CF
- esaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MKs0LP2qprmFNowBtuj87zjuq0S0JUZgzqscEiaeMVs=;
- b=QcktviJRwV8mYPicoNMEjZR9DPBvdF5kvIjK4+EVGjE22XEfQzGAb/Ec+GmNB3+4mP
- l+BIl3a6xfeuR8tW8PkphfbTr/e5Y9R7PsjOUEHqwaVOdiN+U2yMc8WW+uMfwlPLcann
- 9dOvk48FMYbFCTYSaqNLQZtU16lrPyua4dLHxXQGV25XYrChj84uOKrQNcH6qjoN/DCb
- YpumHDLcNnnH/Ym8bp7butjD7x7KK+IjfiBlAiKXo4ojacSG189Fj7ux1b86Io0WsttX
- BD0t+wipAQlqtkU2eVtM9IrUNY/ntUnnnPKCDE8a7w44oVtnJZnCCPeQY/H5PzZvD+oU
- O7Ow==
-X-Gm-Message-State: ANoB5pnjZ2c02FXaEZpaEw4eWm7wUpxmpbC7abSQkFqidOYe9iiquX/j
- Rm6JU4oeFVSBUX6vbQn1qxiNFQ==
-X-Google-Smtp-Source: AA0mqf4saOinZGqmbnZa7c8MkgkNmxP3aSOen5a8/DmiXUd5qwCYE8BYIcmw37HX5yOI6XczWdTaNg==
-X-Received: by 2002:a05:6000:1e06:b0:242:eda:dda5 with SMTP id
- bj6-20020a0560001e0600b002420edadda5mr17703805wrb.25.1671089370901; 
- Wed, 14 Dec 2022 23:29:30 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t2-20020adfa2c2000000b002428c4fb16asm5335062wra.10.2022.12.14.23.29.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 23:29:30 -0800 (PST)
-Message-ID: <5bd89f20-46ed-b4dc-8707-794b19eb22e4@linaro.org>
-Date: Thu, 15 Dec 2022 08:29:29 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5il4-0003bK-Ey
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:34:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p5il1-0001Yb-2D
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:34:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671089657;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3j4SjXPBOl1LHuzhz7Vb8EQUigXMiw+igi2wCIDp8TI=;
+ b=Ux7Y7drAXADyRiDZAzBjTII9KgiPoizQXMaUZZoIyNZqEuVcZhX9ZBpBUlCEJNTdfnTdHW
+ /tnsrFuJYDjAIuxHUpWNh2P8Rk7ukHHuO1iLixsyV1mIQvQBhyvxIiJKkYrMSWO98dptsk
+ yPXZQSY7wV3zvkFKJSo3WIL2nea65sg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-7-E24oKPpUPJSwW30Crql6eQ-1; Thu, 15 Dec 2022 02:34:14 -0500
+X-MC-Unique: E24oKPpUPJSwW30Crql6eQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 890DB858F09;
+ Thu, 15 Dec 2022 07:34:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1529E40ED76D;
+ Thu, 15 Dec 2022 07:34:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0881A21E6900; Thu, 15 Dec 2022 08:34:10 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc: <qemu-devel@nongnu.org>,  <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>,  <philmd@linaro.org>
+Subject: Re: [PATCH 6/5] include/hw/cxl: Break inclusion loop
+References: <20221209134802.3642942-1-armbru@redhat.com>
+ <875yekehnx.fsf@pond.sub.org> <874ju3bur1.fsf@pond.sub.org>
+ <20221212105449.000009aa@Huawei.com>
+Date: Thu, 15 Dec 2022 08:34:10 +0100
+In-Reply-To: <20221212105449.000009aa@Huawei.com> (Jonathan Cameron's message
+ of "Mon, 12 Dec 2022 10:54:49 +0000")
+Message-ID: <87y1r9aznx.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PULL for 7.2-rc4 0/1] loongarch for 7.2-rc4 patch
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, stefanha@gmail.com
-References: <20221202102550.4107344-1-gaosong@loongson.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221202102550.4107344-1-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,27 +81,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+Jonathan Cameron <Jonathan.Cameron@Huawei.com> writes:
 
-On 2/12/22 11:25, Song Gao wrote:
-> The following changes since commit c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
-> 
->    Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221202
-> 
-> for you to fetch changes up to 14dccc8ea6ece7ee63273144fb55e4770a05e0fd:
-> 
->    hw/loongarch/virt: Add cfi01 pflash device (2022-12-02 18:03:05 +0800)
-> 
-> ----------------------------------------------------------------
+> On Sat, 10 Dec 2022 08:09:06 +0100
+> Markus Armbruster <armbru@redhat.com> wrote:
+>
+>> Markus Armbruster <armbru@redhat.com> writes:
+>> 
+>> > hw/cxl/cxl_pci.h and hw/cxl/cxl_cdat.h include each other.  Neither
+>> > header actually needs the other one.  Drop both #include directives.
+>> >
+>> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> > ---
+>> >  include/hw/cxl/cxl_cdat.h | 1 -
+>> >  include/hw/cxl/cxl_pci.h  | 1 -
+>> >  2 files changed, 2 deletions(-)
+>> >
+>> > diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
+>> > index 7f67638685..e3fd737f9d 100644
+>> > --- a/include/hw/cxl/cxl_cdat.h
+>> > +++ b/include/hw/cxl/cxl_cdat.h
+>> > @@ -10,7 +10,6 @@
+>> >  #ifndef CXL_CDAT_H
+>> >  #define CXL_CDAT_H
+>> >  
+>> > -#include "hw/cxl/cxl_pci.h"
+>> >  #include "hw/pci/pcie_doe.h"
+>
+> The include was to get to CXL_VENDOR_ID which is in hw/cxl/cxl_pci.h
+> Can move that elsewhere perhaps, though I don't think we need to
+> if we break the loop by dropping the other one.
 
-Now than the 8.0 cycle started, can you respin this pull request
-(preferably rebased on v7.2.0 or later)?
+It's used only in a macro.  If you use the macro, you need to include
+cxl_pci.h.
 
-Regards,
+Would you like me to keep this #include?
 
-Phil.
+>> >  /*
+>> > diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
+>> > index aca14845ab..01e15ed5b4 100644
+>> > --- a/include/hw/cxl/cxl_pci.h
+>> > +++ b/include/hw/cxl/cxl_pci.h
+>> > @@ -11,7 +11,6 @@
+>> >  #define CXL_PCI_H
+>> >  
+>> >  #include "qemu/compiler.h"
+>> > -#include "hw/cxl/cxl_cdat.h"
+> Guess that's a left over of some earlier refactoring. Good to get rid
+> of this one.
+>
+>> >  
+>> >  #define CXL_VENDOR_ID 0x1e98  
+>> 
+>> Friday afternoon post with insufficient testing...  Everything still
+>> builds fine, but cxl_component.h is no longer self-contained.  I'll
+>> squash in the appended patch and revise the commit message.
+>
+> By staring at the code rather than any automation I'm failing to spot
+> what it needs from cxl_pci.h.  Can you add that info to the commit message?
+
+It's CXL20_MAX_DVSEC.
+
+>> diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
+>> index 5dca21e95b..78f83ed742 100644
+>> --- a/include/hw/cxl/cxl_component.h
+>> +++ b/include/hw/cxl/cxl_component.h
+>> @@ -19,6 +19,7 @@
+>>  #include "qemu/range.h"
+>>  #include "qemu/typedefs.h"
+>>  #include "hw/cxl/cxl_cdat.h"
+>> +#include "hw/cxl/cxl_pci.h"
+>>  #include "hw/register.h"
+>>  #include "qapi/error.h"
+>>  
+>> 
+
 
