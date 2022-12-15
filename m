@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB0564D770
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 08:51:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1CC64D771
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 08:53:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5j0z-0001cC-6X; Thu, 15 Dec 2022 02:50:49 -0500
+	id 1p5j3D-0003Y5-Uc; Thu, 15 Dec 2022 02:53:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j0w-0001Zf-7h
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:50:46 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j3C-0003Xp-FP
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:53:06 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j0u-0007IV-Fr
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:50:45 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id h16so2119614wrz.12
- for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 23:50:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p5j3A-0001tc-FT
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 02:53:05 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ m5-20020a7bca45000000b003d2fbab35c6so811156wml.4
+ for <qemu-devel@nongnu.org>; Wed, 14 Dec 2022 23:53:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kG90cX51CgB5sfBsvEgMd6uUEROk/xkCy/q0Yudzfn8=;
- b=p+bsPCh6k0oYk13FlCic5ReloYQLNWBbkplYrjVYGOPHxsno6Z+DnVRYXVthRxHI4O
- FF1iH5Sx5ZIixxsKRmXf3q9A6/3iHigdH9bFtflBUh4zydnam3SuzSzhzPENduJyjuAp
- 8ZAOKLS3MVCfuv2155+R1SAmwLKWG0ABRbvGRqpLdUtV6U00rS7Ku9pvjzYii90Q1K5z
- 8qh6T6PIkLkf9vEdsW8rdA7UiWRlcOLQJFDjsWQhlNxZL63EFjQZk+5hkqfKg0ZdCX1C
- 0JPSOgdPQxdVJ8M6Ng+6/0CN6xm4nccDtCHYC6nOeYda36TagSPjJ4KCYb0w4Eqnbega
- pu2g==
+ bh=S/7FpTJMcfRUlQhv1T5zBz4IgLqOQKLAX7/T1z2+2dg=;
+ b=nOYf+/fR4jIcQO8q5DMKb/suAyBYHOH59QEtt35XuVFeMtJ4kr7ILvN7ex8+lBNTox
+ JItQvHk0nAUEw8EzuOL9H3dsRii2rHng84ctU/0ggQuMyG85KghGKN20Cv7422Zx22SE
+ tn7Zwxxc93jRdL5Oec3H5bhG2TEqIbo8a65H4ZueIwqs19d8KYAbnysd1SRsZQrBZ8BN
+ 2MKw3IYhpp2kKrW+gGsMvZrL5EKNeG8s5463mrL1/dzoeFhv2ofFj+zMDzGYRO1bAE9K
+ hqst0VT5ve6V5TjN4GD5FwBYGq0Bhfh2UGADqeDBVvEEAx5LLc2Ben1onwuimbMLkupD
+ uMqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kG90cX51CgB5sfBsvEgMd6uUEROk/xkCy/q0Yudzfn8=;
- b=eJ/tpA/ey/5EUHhLinki7Dm6J0YKxz49FHqsoYkipu3WIe5K2n3limZqMLuDe9X9M/
- Y4kXy3jOBqAZ8BaA92yfdoAqjoOItG8kOoKtNjwwIkwpZ46+ZYZlI8QniBbmT/ffgvUG
- GKowGXjbMML4eHs0029/qmsYev4I1eAMzlYWy+0sgIL1LeG2W5u5WdZSvs36MCqrLgTQ
- zcCRuA7133gsPRAa6UHlLHWq0zQPqh1SIvqSjzLsaPH7Srs2g8LcuRjv3i+GgvFuAa17
- 6Z5D5NY0YorIehpvDBFOBGL843RxVywB2zv7mRnQgmg3J3o+Fs20ORJ3AXkcbwTCagln
- 2KKA==
-X-Gm-Message-State: ANoB5pns3oDEYYBdoPCRBo6o7gdPaN4+RqrH1hbq9bSW73cqUDAT+DP/
- 9cHPUTaLH12t0YzOOZC9fCYy3A==
-X-Google-Smtp-Source: AA0mqf6qf8xILOCtXAeug73KMCi3cObu2VXr8lmvnUAmoCEs4MfZxdea1mC/SebFqOKiY9vIdW5Rsw==
-X-Received: by 2002:a5d:4b0b:0:b0:241:fd7c:4ce4 with SMTP id
- v11-20020a5d4b0b000000b00241fd7c4ce4mr16478196wrq.21.1671090642784; 
- Wed, 14 Dec 2022 23:50:42 -0800 (PST)
+ bh=S/7FpTJMcfRUlQhv1T5zBz4IgLqOQKLAX7/T1z2+2dg=;
+ b=HwM8EmRtJdty/IC6nY8AAMyOjEwTmAx8srFnbMI2+ZHokiYqyn5qp4+V+Are5m58rT
+ x1fJvNBcbw12gupZPYuOMDQfIGB5MKJFvhW8uxPLUfd2t7Lj7AKxcnpDEX5ZIf+hyEpZ
+ nwl2OZ044sBG++6OK2Y4xLAj2xT4QGx3u+Dfhs1ncv/ELTnKmWB+R7z83ZQj7RqoEyzd
+ PFf2Or5Pmyl8ljxgO+JwByMba+2uIwqaoXFXt/2DB1vC39kdj1rRPFK8ztNBu72jlzVL
+ 6rKzocmjnz6c5wR9jDBFEE0MbZvAvHGThiK10L3fvmYFXGP/F8EqU4s7NWJ6hbEyDYDD
+ nPzQ==
+X-Gm-Message-State: ANoB5plFKtXPVrcWLQ9aeOp3Og+IrX4cWKBlmuMbP1LMVDlF0EllqnhB
+ 2DPMfI4GB60ZZGIc300+gH/N0wgsWh/o/+7KRxI=
+X-Google-Smtp-Source: AA0mqf41vjgHLCOv7v9XrSon4fmXM4fWLwhyUPmon+/u79YYe2DzLjPtqjZ5p30sU3h2ojZjZhyJLA==
+X-Received: by 2002:a05:600c:4fd1:b0:3cf:a08f:10a5 with SMTP id
+ o17-20020a05600c4fd100b003cfa08f10a5mr21718952wmq.31.1671090782845; 
+ Wed, 14 Dec 2022 23:53:02 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- bw26-20020a0560001f9a00b00241c6729c2bsm5116439wrb.26.2022.12.14.23.50.42
+ h15-20020a05600c350f00b003c71358a42dsm7439287wmq.18.2022.12.14.23.53.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Dec 2022 23:50:42 -0800 (PST)
-Message-ID: <f6a305b3-692a-28fd-2587-a7e17b0fe363@linaro.org>
-Date: Thu, 15 Dec 2022 08:50:41 +0100
+ Wed, 14 Dec 2022 23:53:02 -0800 (PST)
+Message-ID: <931bd5c1-ece9-2a83-d3f2-04b010c22075@linaro.org>
+Date: Thu, 15 Dec 2022 08:53:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 3/8] tcg/loongarch64: Update tcg-insn-defs.c.inc
+Subject: Re: [PATCH 0/8] tcg/loongarch64: Reorg goto_tb and cleanups
 Content-Language: en-US
-To: WANG Xuerui <git@xen0n.name>,
- Richard Henderson <richard.henderson@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ WANG Xuerui <git@xen0n.name>
 References: <20221206044051.322543-1-richard.henderson@linaro.org>
- <20221206044051.322543-4-richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221206044051.322543-4-richard.henderson@linaro.org>
+In-Reply-To: <20221206044051.322543-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,49 +91,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 6/12/22 05:40, Richard Henderson wrote:
-> Regenerate with ADDU16I included.
+> Based-on: 20221206041715.314209-1-richard.henderson@linaro.org
+> ("[PATCH 00/22] tcg: exit_tb tidy, goto_tb reorg")
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/loongarch64/tcg-insn-defs.c.inc | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
+> Includes:
+>    * Disassembler from target/loongarch/.
+>    * Improvements to movi by Rui Wang, with minor tweaks.
+>    * Improvements to setcond.
+>    * Implement movcond.
+>    * Fix the same goto_tb bug that affected some others.
 > 
-> diff --git a/tcg/loongarch64/tcg-insn-defs.c.inc b/tcg/loongarch64/tcg-insn-defs.c.inc
-> index d162571856..c3c8669b4b 100644
-> --- a/tcg/loongarch64/tcg-insn-defs.c.inc
-> +++ b/tcg/loongarch64/tcg-insn-defs.c.inc
-> @@ -4,7 +4,7 @@
->    *
->    * This file is auto-generated by genqemutcgdefs from
->    * https://github.com/loongson-community/loongarch-opcodes,
-> - * from commit 961f0c60f5b63e574d785995600c71ad5413fdc4.
+> 
+> r~
+> 
+> 
+> Richard Henderson (7):
+>    target/loongarch: Enable the disassembler for host tcg
+>    tcg/loongarch64: Update tcg-insn-defs.c.inc
+>    tcg/loongarch64: Introduce tcg_out_addi
+>    tcg/loongarch64: Improve setcond expansion
+>    tcg/loongarch64: Implement movcond
+>    tcg/loongarch64: Use tcg_pcrel_diff in tcg_out_ldst
+>    tcg/loongarch64: Reorg goto_tb implementation
 
-Odd, addu16i.d is present since 3d057a6, so was already in 961f0c6.
+Cc'ing co-maintainer ;)
 
-> + * from commit 6ffbaddacacfcd5bdc893a49a165b8549d385eea.
->    * DO NOT EDIT.
->    */
->   
-> @@ -74,6 +74,7 @@ typedef enum {
->       OPC_ANDI = 0x03400000,
->       OPC_ORI = 0x03800000,
->       OPC_XORI = 0x03c00000,
-> +    OPC_ADDU16I_D = 0x10000000,
->       OPC_LU12I_W = 0x14000000,
->       OPC_CU32I_D = 0x16000000,
->       OPC_PCADDU2I = 0x18000000,
-> @@ -710,6 +711,13 @@ tcg_out_opc_xori(TCGContext *s, TCGReg d, TCGReg j, uint32_t uk12)
->       tcg_out32(s, encode_djuk12_insn(OPC_XORI, d, j, uk12));
->   }
->   
-> +/* Emits the `addu16i.d d, j, sk16` instruction.  */
-> +static void __attribute__((unused))
-> +tcg_out_opc_addu16i_d(TCGContext *s, TCGReg d, TCGReg j, int32_t sk16)
-> +{
-> +    tcg_out32(s, encode_djsk16_insn(OPC_ADDU16I_D, d, j, sk16));
-> +}
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-
+Patches:
+https://lore.kernel.org/qemu-devel/20221206044051.322543-1-richard.henderson@linaro.org/
 
