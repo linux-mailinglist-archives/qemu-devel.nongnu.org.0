@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A79564D78D
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 09:11:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7429364D78F
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 09:13:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5jJw-0001QM-1n; Thu, 15 Dec 2022 03:10:24 -0500
+	id 1p5jM1-0002kh-R8; Thu, 15 Dec 2022 03:12:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p5jJl-0001NM-A5
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:10:17 -0500
+ id 1p5jLz-0002i8-BQ
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:12:31 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p5jJi-0007zy-Iw
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:10:13 -0500
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Cx7+ta1ppje8UFAA--.13294S3;
- Thu, 15 Dec 2022 16:10:02 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
+ (envelope-from <gaosong@loongson.cn>) id 1p5jLx-00007c-Ed
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 03:12:31 -0500
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8CxZPDo1ppjsMUFAA--.12997S3;
+ Thu, 15 Dec 2022 16:12:25 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxX+RX1ppjdUAAAA--.859S3; 
- Thu, 15 Dec 2022 16:10:01 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, stefanha@gmail.com,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 1/1] hw/loongarch/virt: Add cfi01 pflash device
-Date: Thu, 15 Dec 2022 16:09:58 +0800
-Message-Id: <20221215080958.2150028-2-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20221215080958.2150028-1-gaosong@loongson.cn>
-References: <20221215080958.2150028-1-gaosong@loongson.cn>
+ AQAAf8CxPuTn1ppj0EAAAA--.295S3; 
+ Thu, 15 Dec 2022 16:12:23 +0800 (CST)
+Subject: Re: [PULL for 7.2-rc4 0/1] loongarch for 7.2-rc4 patch
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, stefanha@gmail.com
+References: <20221202102550.4107344-1-gaosong@loongson.cn>
+ <5bd89f20-46ed-b4dc-8707-794b19eb22e4@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <a455b4fc-3818-fe91-4b9f-d19699459f74@loongson.cn>
+Date: Thu, 15 Dec 2022 16:12:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <5bd89f20-46ed-b4dc-8707-794b19eb22e4@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxX+RX1ppjdUAAAA--.859S3
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8CxPuTn1ppj0EAAAA--.295S3
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3Ww43WF4kKr4rCw43AFy5Jwb_yoWxXw18pF
- yxAFsYkr48XFsrWrZxX3sxWF15Arn7Ca47X3W29r40ka47Wry8WrWIk3yUtFyUZ3s5XF1q
- gF95Xa40ga1UWrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
- CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
- zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
- 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
- aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
- Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY
- 6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6x
- AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
- 1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+X-Coremail-Antispam: 1Uk129KBjvdXoWrur1xZr13uFWDtryrZr4DCFg_yoW3Crb_Xa
+ 4IvanrG3y8J3WkGr1DXw1kJrnrJa1DKF4UAF1UXrs7Ar13Jan8Gw48JrW5XFyDXr4UJryD
+ ArWDtr15Jw42gjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ I7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
+ xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUwmhFDUUUU
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,191 +80,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-Add cfi01 pflash device for LoongArch virt machine
+在 2022/12/15 下午3:29, Philippe Mathieu-Daudé 写道:
+> Hi,
+>
+> On 2/12/22 11:25, Song Gao wrote:
+>> The following changes since commit 
+>> c4ffd91aba1c3d878e99a3e7ba8aad4826728ece:
+>>
+>>    Update VERSION for v7.2.0-rc3 (2022-11-29 18:15:26 -0500)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221202
+>>
+>> for you to fetch changes up to 14dccc8ea6ece7ee63273144fb55e4770a05e0fd:
+>>
+>>    hw/loongarch/virt: Add cfi01 pflash device (2022-12-02 18:03:05 
+>> +0800)
+>>
+>> ----------------------------------------------------------------
+>
+> Now than the 8.0 cycle started, can you respin this pull request
+> (preferably rebased on v7.2.0 or later)?
+>
+Done.
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221130100647.398565-1-yangxiaojuan@loongson.cn>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- hw/loongarch/Kconfig        |  1 +
- hw/loongarch/acpi-build.c   | 18 +++++++++++
- hw/loongarch/virt.c         | 62 +++++++++++++++++++++++++++++++++++++
- include/hw/loongarch/virt.h |  5 +++
- 4 files changed, 86 insertions(+)
-
-diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index 17d15b6c90..eb112af990 100644
---- a/hw/loongarch/Kconfig
-+++ b/hw/loongarch/Kconfig
-@@ -20,3 +20,4 @@ config LOONGARCH_VIRT
-     select ACPI_HW_REDUCED
-     select FW_CFG_DMA
-     select DIMM
-+    select PFLASH_CFI01
-diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-index 7d5f5a757d..c2b237736d 100644
---- a/hw/loongarch/acpi-build.c
-+++ b/hw/loongarch/acpi-build.c
-@@ -279,6 +279,23 @@ static void build_pci_device_aml(Aml *scope, LoongArchMachineState *lams)
-     acpi_dsdt_add_gpex(scope, &cfg);
- }
- 
-+static void build_flash_aml(Aml *scope, LoongArchMachineState *lams)
-+{
-+    Aml *dev, *crs;
-+
-+    hwaddr flash_base = VIRT_FLASH_BASE;
-+    hwaddr flash_size = VIRT_FLASH_SIZE;
-+
-+    dev = aml_device("FLS0");
-+    aml_append(dev, aml_name_decl("_HID", aml_string("LNRO0015")));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-+
-+    crs = aml_resource_template();
-+    aml_append(crs, aml_memory32_fixed(flash_base, flash_size, AML_READ_WRITE));
-+    aml_append(dev, aml_name_decl("_CRS", crs));
-+    aml_append(scope, dev);
-+}
-+
- #ifdef CONFIG_TPM
- static void acpi_dsdt_add_tpm(Aml *scope, LoongArchMachineState *vms)
- {
-@@ -328,6 +345,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-     build_uart_device_aml(dsdt);
-     build_pci_device_aml(dsdt, lams);
-     build_la_ged_aml(dsdt, machine);
-+    build_flash_aml(dsdt, lams);
- #ifdef CONFIG_TPM
-     acpi_dsdt_add_tpm(dsdt, lams);
- #endif
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index 958be74fa1..c8a495ea30 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -42,6 +42,63 @@
- #include "hw/display/ramfb.h"
- #include "hw/mem/pc-dimm.h"
- #include "sysemu/tpm.h"
-+#include "sysemu/block-backend.h"
-+#include "hw/block/flash.h"
-+
-+static void virt_flash_create(LoongArchMachineState *lams)
-+{
-+    DeviceState *dev = qdev_new(TYPE_PFLASH_CFI01);
-+
-+    qdev_prop_set_uint64(dev, "sector-length", VIRT_FLASH_SECTOR_SIZE);
-+    qdev_prop_set_uint8(dev, "width", 4);
-+    qdev_prop_set_uint8(dev, "device-width", 2);
-+    qdev_prop_set_bit(dev, "big-endian", false);
-+    qdev_prop_set_uint16(dev, "id0", 0x89);
-+    qdev_prop_set_uint16(dev, "id1", 0x18);
-+    qdev_prop_set_uint16(dev, "id2", 0x00);
-+    qdev_prop_set_uint16(dev, "id3", 0x00);
-+    qdev_prop_set_string(dev, "name", "virt.flash");
-+    object_property_add_child(OBJECT(lams), "virt.flash", OBJECT(dev));
-+    object_property_add_alias(OBJECT(lams), "pflash",
-+                              OBJECT(dev), "drive");
-+
-+    lams->flash = PFLASH_CFI01(dev);
-+}
-+
-+static void virt_flash_map(LoongArchMachineState *lams,
-+                           MemoryRegion *sysmem)
-+{
-+    PFlashCFI01 *flash = lams->flash;
-+    DeviceState *dev = DEVICE(flash);
-+    hwaddr base = VIRT_FLASH_BASE;
-+    hwaddr size = VIRT_FLASH_SIZE;
-+
-+    assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
-+    assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
-+
-+    qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    memory_region_add_subregion(sysmem, base,
-+                                sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0));
-+
-+}
-+
-+static void fdt_add_flash_node(LoongArchMachineState *lams)
-+{
-+    MachineState *ms = MACHINE(lams);
-+    char *nodename;
-+
-+    hwaddr flash_base = VIRT_FLASH_BASE;
-+    hwaddr flash_size = VIRT_FLASH_SIZE;
-+
-+    nodename = g_strdup_printf("/flash@%" PRIx64, flash_base);
-+    qemu_fdt_add_subnode(ms->fdt, nodename);
-+    qemu_fdt_setprop_string(ms->fdt, nodename, "compatible", "cfi-flash");
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-+                                 2, flash_base, 2, flash_size);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "bank-width", 4);
-+    g_free(nodename);
-+}
- 
- static void fdt_add_rtc_node(LoongArchMachineState *lams)
- {
-@@ -596,6 +653,9 @@ static void loongarch_firmware_init(LoongArchMachineState *lams)
-     int bios_size;
- 
-     lams->bios_loaded = false;
-+
-+    virt_flash_map(lams, get_system_memory());
-+
-     if (filename) {
-         bios_name = qemu_find_file(QEMU_FILE_TYPE_BIOS, filename);
-         if (!bios_name) {
-@@ -779,6 +839,7 @@ static void loongarch_init(MachineState *machine)
-             loongarch_direct_kernel_boot(lams);
-         }
-     }
-+    fdt_add_flash_node(lams);
-     /* register reset function */
-     for (i = 0; i < machine->smp.cpus; i++) {
-         lacpu = LOONGARCH_CPU(qemu_get_cpu(i));
-@@ -838,6 +899,7 @@ static void loongarch_machine_initfn(Object *obj)
-     lams->acpi = ON_OFF_AUTO_AUTO;
-     lams->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-     lams->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-+    virt_flash_create(lams);
- }
- 
- static bool memhp_type_supported(DeviceState *dev)
-diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index 45c383f5a7..f5f818894e 100644
---- a/include/hw/loongarch/virt.h
-+++ b/include/hw/loongarch/virt.h
-@@ -12,6 +12,7 @@
- #include "hw/boards.h"
- #include "qemu/queue.h"
- #include "hw/intc/loongarch_ipi.h"
-+#include "hw/block/flash.h"
- 
- #define LOONGARCH_MAX_VCPUS     4
- 
-@@ -20,6 +21,9 @@
- #define VIRT_FWCFG_BASE         0x1e020000UL
- #define VIRT_BIOS_BASE          0x1c000000UL
- #define VIRT_BIOS_SIZE          (4 * MiB)
-+#define VIRT_FLASH_SECTOR_SIZE  (128 * KiB)
-+#define VIRT_FLASH_BASE         0x1d000000UL
-+#define VIRT_FLASH_SIZE         (16 * MiB)
- 
- #define VIRT_LOWMEM_BASE        0
- #define VIRT_LOWMEM_SIZE        0x10000000
-@@ -48,6 +52,7 @@ struct LoongArchMachineState {
-     int          fdt_size;
-     DeviceState *platform_bus_dev;
-     PCIBus       *pci_bus;
-+    PFlashCFI01  *flash;
- };
- 
- #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
--- 
-2.31.1
+Thanks.
+Song Gao
 
 
