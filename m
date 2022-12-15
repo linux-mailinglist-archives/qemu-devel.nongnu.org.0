@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B8464DC51
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BB164DC22
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:20:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5o0S-00064x-NO; Thu, 15 Dec 2022 08:10:36 -0500
+	id 1p5o1N-0006bL-Ti; Thu, 15 Dec 2022 08:11:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5o0F-0005xA-DM
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:10:30 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p5o17-0006aF-LP; Thu, 15 Dec 2022 08:11:18 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5o0D-0003Vh-G8
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 08:10:23 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id u5so10395605pjy.5
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 05:10:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p5o16-0003gv-30; Thu, 15 Dec 2022 08:11:17 -0500
+Received: by mail-ej1-x629.google.com with SMTP id vv4so52126021ejc.2;
+ Thu, 15 Dec 2022 05:11:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=AVtcB4sFLxlrzV8pkeSzQfcD2StwnBg655pSesir5sk=;
- b=aKIaA9hCquskqVyPaI+Mdd6rxwa7KZhx6ejBzXApHH8gMPjDLMuxJkNtTv64IYWaGB
- /qkLEA3eguZVbCOTyb5E0CH7fY7xhp5ifn6chOrXqgEb4kqc2g3kYXSJB0M3yt+nnEI3
- 2z9ATiKcJubmVuSN9HV4ffW5nmEzwNYXF+cFW8BjPIVuLH1KMZcGR3VQzbgpgppOZjjG
- aFY8c6psj1Jo4+9lc7yvtXzl8cWJ3Anzf2vq9AbvGD/bTC15K5gh3nq+7wgUCARv1Umt
- 0ggBy8A+pb1OVeYqc8IvxO3caEWehTjR/9zSyGn7YioN48OIF5HAm6xssr2hMu2C1kTM
- T3qQ==
+ bh=JxbuaFrd+WkhJRBMy2CuNgnAovUKHPt+1nivNBDLsvY=;
+ b=kSI5qIXLcE08PiI+DPmQWR/oHXViAkwrIoth4t3GaqwlYuVpecbrhT6z0lOlYERBtu
+ 5SMHIBYzee13c2Nekx8XqC6ny3IT6VtbAeVJ8DhXcr2Y1r8LhVZ846q3bBDQHkxfeI1F
+ NtWkRjIXkRkmDRzHts+cLH0T0P//igJyNqZxZnnHAzld4h3ZoxW7bghJqEp8b+JWq5SM
+ C7CpIMOFaPWdSCJBuxBtv9FyNCzA6TU7RoHNpJZC9gP4ECU3J6/58/wxpYSGmlH87CcU
+ ai7RL3jmtVdUrn8KZ+Rtid4SoGOh269jQnqW3+R+9T1h1e88TBreA84CS3HZeL0ZKkFF
+ h89g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=AVtcB4sFLxlrzV8pkeSzQfcD2StwnBg655pSesir5sk=;
- b=pxAOMmsVRJ5wphd8BV0L2u9E9BKuJu3vzbvrFjMNuV2HrjMnH5M5lfeXCjPq+es48g
- 3v624JYOTa+ZECMK0boFFGzbOtkc62yKB0DMWQWIR/6w4d1z0Crv8Iw/hsJO3WiEbws4
- ef3hkd3O7mFcrPA/27V580O0zt5HHjhDvZh3seURzwA+kk7H/NqF28TQupoxuJnEOxXW
- zVyRzUAh+8vgqq/KFAJh5N3+53C07t7eZGjz4blRmUAFJqxKpTLZfGu0Oolq5QUEcP8m
- zng2JuARdfxb8ow6WdEFlku3m+6JRK1U46LoQVZ6KVMU609mfcB81a9zAVIe67bDXINh
- nSLw==
-X-Gm-Message-State: AFqh2kqLJ7Ig3QyvdD6X92HaD4A/zX0kMG684zaou7NOP3nnnmtF96JQ
- XjPV92yYmIsXtEqM2m0dQOcZdxcT6uLJ3astUDD5Nw==
-X-Google-Smtp-Source: AMrXdXvugcPv2dLznLVv7sdJC2GH/BoKEdonxGD1xkKOgAyZypMWjdiPuedHCfJsQFzChr1QgAyJLiOhQ3TQ4QfL0tg=
-X-Received: by 2002:a17:90b:354c:b0:219:e2f1:81ad with SMTP id
- lt12-20020a17090b354c00b00219e2f181admr701090pjb.19.1671109819889; Thu, 15
- Dec 2022 05:10:19 -0800 (PST)
+ bh=JxbuaFrd+WkhJRBMy2CuNgnAovUKHPt+1nivNBDLsvY=;
+ b=U61c1VxP0xWOmIrTGRTio0/Zmjl2ROlVOqapoREQc3B20SaFHF59wF9ELxZhXqt6nH
+ WwbkiqmMh5riC8iPNavh+ISqq6JLN71RtMZrH6HOKQlK7F4nxTYrdOCzP9IQJQWYY3hb
+ yq5mpVefmiGzZjBHo5YWg2MM8mkMPuJttzmSaUQolq7L/CfaUD9qBGeV0PHxK0QOB+d7
+ Q/wPtzQkpk83/VtHRSQbC3wgZRd/Tnb6e2pGL1EgL/8guOKEyTIUNSwCaUx0whPvEK5e
+ 8JXrnC71WoXJX7LPJGuOj1kVeCkf9azAjAsnVfGykStJtaOa0sgbqoH6jW6xMLGvYhev
+ B25A==
+X-Gm-Message-State: ANoB5pki6UzoUcI9alqsXWeO/x+iQhXnVoO3uVKyBZkHUkFE7P2eVAUd
+ HcvFBGEhEuRXfBbd0+2fBBEVIHwzL9V198GWkB8=
+X-Google-Smtp-Source: AA0mqf5eP3xI5e97r3DP7mbZNSVWaZCCucKfeHviZErFuC2jhTMerukAJMH7GrTXEYEk9eqPVfl3CtYXi3kggBaqLX8=
+X-Received: by 2002:a17:906:ccc3:b0:7c1:a0d:dd2c with SMTP id
+ ot3-20020a170906ccc300b007c10a0ddd2cmr12148548ejb.26.1671109873799; Thu, 15
+ Dec 2022 05:11:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20221214164629.919880-1-armbru@redhat.com>
- <CAFEAcA8AsDK=y6Wy07PNabojrFr_xQRutSQhe3xnD2sOJjaRQA@mail.gmail.com>
-In-Reply-To: <CAFEAcA8AsDK=y6Wy07PNabojrFr_xQRutSQhe3xnD2sOJjaRQA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 15 Dec 2022 13:10:08 +0000
-Message-ID: <CAFEAcA-Y4ETMgMxiKgLcOKuJjxY7P8xdW8Oe7NuxSF975zW6yg@mail.gmail.com>
-Subject: Re: [PULL 00/14] Miscellaneous patches for 2022-12-14
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org
+References: <20221208145411.122799-1-mchitale@ventanamicro.com>
+ <20221208145411.122799-2-mchitale@ventanamicro.com>
+In-Reply-To: <20221208145411.122799-2-mchitale@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 15 Dec 2022 21:11:02 +0800
+Message-ID: <CAEUhbmXs6=7_vVZT-vHAVynuk6QT3QgaZnGr9908H1bKV-vi-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] update-linux-headers: Version 6.1-rc8
+To: Mayuresh Chitale <mchitale@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
+ Alistair Francis <alistair.francis@wdc.com>,
+ Andrew Jones <ajones@ventanamicro.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,35 +83,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 15 Dec 2022 at 13:06, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Thu, Dec 8, 2022 at 10:54 PM Mayuresh Chitale
+<mchitale@ventanamicro.com> wrote:
 >
-> On Wed, 14 Dec 2022 at 16:46, Markus Armbruster <armbru@redhat.com> wrote:
-> >
-> > The following changes since commit ea3a008d2d9ced9c4f93871c823baee237047f93:
-> >
-> >   Update VERSION for v7.2.0-rc4 (2022-12-06 19:53:34 -0500)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://repo.or.cz/qemu/armbru.git tags/pull-misc-2022-12-14
-> >
-> > for you to fetch changes up to 6c5aaee4b61eb8bf60c7c30365432710b4346421:
-> >
-> >   ppc4xx_sdram: Simplify sdram_ddr_size() to return (2022-12-14 16:19:35 +0100)
-> >
-> > ----------------------------------------------------------------
-> > Miscellaneous patches for 2022-12-14
-> >
-> > ----------------------------------------------------------------
+> Sync headers with kernel commit 76dcd734eca2
 >
+> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> ---
+>  include/standard-headers/drm/drm_fourcc.h     |  34 ++++-
+>  include/standard-headers/linux/ethtool.h      |  63 +++++++-
+>  include/standard-headers/linux/fuse.h         |   6 +-
+>  .../linux/input-event-codes.h                 |   1 +
+>  include/standard-headers/linux/virtio_blk.h   |  19 +++
+>  linux-headers/asm-generic/hugetlb_encode.h    |  26 ++--
+>  linux-headers/asm-generic/mman-common.h       |   2 +
+>  linux-headers/asm-mips/mman.h                 |   2 +
+>  linux-headers/asm-riscv/kvm.h                 |   4 +
+>  linux-headers/linux/kvm.h                     |   1 +
+>  linux-headers/linux/psci.h                    |  14 ++
+>  linux-headers/linux/userfaultfd.h             |   4 +
+>  linux-headers/linux/vfio.h                    | 142 ++++++++++++++++++
+>  13 files changed, 298 insertions(+), 20 deletions(-)
 >
-> Applied, thanks.
->
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-> for any user-visible changes.
 
-Should be https://wiki.qemu.org/ChangeLog/8.0 of course -- I forgot
-I hadn't updated my canned email text...
-
--- PMM
+Acked-by: Bin Meng <bmeng.cn@gmail.com>
 
