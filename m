@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708D86577D4
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4D76577D5
 	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 15:34:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAXUp-0002Mo-Tm; Wed, 28 Dec 2022 09:33:31 -0500
+	id 1pAXUr-0002Tg-Gs; Wed, 28 Dec 2022 09:33:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pAQRU-0006XE-AV; Wed, 28 Dec 2022 02:01:36 -0500
+ id 1pAQeL-0000ra-J3; Wed, 28 Dec 2022 02:14:53 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pAQRS-000887-UH; Wed, 28 Dec 2022 02:01:36 -0500
+ id 1pAQeK-0004pE-4v; Wed, 28 Dec 2022 02:14:53 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 1C77611EF1B;
- Wed, 28 Dec 2022 07:01:33 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id BB13D11EF1B;
+ Wed, 28 Dec 2022 07:14:40 +0000 (UTC)
 From: ~elta <elta@git.sr.ht>
 Date: Thu, 15 Dec 2022 16:27:14 +0800
 Subject: [PATCH qemu] target/riscv/cpu.c: Fix elen check
-Message-ID: <167221089290.19963.15278757025657303819-0@git.sr.ht>
+Message-ID: <167221168069.10371.13797275537678987977-0@git.sr.ht>
 X-Mailer: git.sr.ht
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
+ qemu-devel@nongnu.org, Dongxue Zhang <elta.era@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
