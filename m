@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1112764DC4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:32:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E115264DC52
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 14:35:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5nhV-00077H-Ji; Thu, 15 Dec 2022 07:51:01 -0500
+	id 1p5nhV-00077G-HA; Thu, 15 Dec 2022 07:51:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5ngz-0006od-HZ
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:30 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1p5nh0-0006pC-UA
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:32 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5ngx-00048J-SP
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:29 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- r83-20020a1c4456000000b003d1e906ca23so975329wma.3
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:50:27 -0800 (PST)
+ id 1p5ngz-00047E-25
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 07:50:30 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ p13-20020a05600c468d00b003cf8859ed1bso1755936wmo.1
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 04:50:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=PWgRSqdjM6ICBFf0pToxvYsV7w6dTK2uUn0DKaor9os=;
- b=zMKo2uygkxeUbr+867EaHRif+t0IWy0RijwqBPdioKugLUBEDBUNwJmZNrp51mu1U7
- Wee2ThUAGLJMi/JH1GVso9i9ZH8FBl6wf1LGwT7nzLdHEhMSPZb/KBfv7bbaHCjFHlAs
- YSv/eQ5ll7JmFIkKgc9k3qe74mqH5Fiptf/fNN9BbkC/AqZogIQrpcO5j4WQWbIe+TmY
- h7Sdu+gwjxLIxbBDA2nb9x+sQs/j9KsbcAMwa3dK5wdCLDaMbBXv9Q0y5VZFNT2kgdmE
- TWAhiGKUym4yqf2CW7sB+XWlUWSOAW8N9tWVFAOoL8GFtRyLSxZ7An9u3FugOvW38BGV
- 3kaA==
+ :reply-to; bh=Dw6wotKA3haXzI9jka+bFUKrg99kB/zH8+x+4g05lKY=;
+ b=HzPCvfdq1cqVR7NokUtxiCHf1oyOrpsFIQgq78dPQk5/Rk8PAUG6/IvHDLcTcJRrHS
+ PGrQ+yF6FAleCmo2WuhxcOXT5SmfdybPBhx7FSUxhFyq78/iS/QnzuOmNX3uMyjsmy/H
+ sQf0UcDM5FW4YwWgvFmDzT7J2U/U5hNsGaWxuHfyLYOy8zWUOV4X+V/M5EOkaxSD6CYt
+ /pDVqcNxIwGZbbN4x89kjiHrwRitzrYtz42XpNRW9MLIyK4UC2OmM2cZy0MBYsMsFpNw
+ BeIBykf2vnagXLIxhgdbhKTPU+TCGd+3dNKp4zaLY7OES7RvzrbDh3eOYZJcWKg8N1+t
+ 0bCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PWgRSqdjM6ICBFf0pToxvYsV7w6dTK2uUn0DKaor9os=;
- b=O/PCkMjW4MXIovlzKWD0XWaY1+O0z2tZIcTGhttblnkVwnxXUdSuEq8irHz9uij7mn
- Jm9ylqXZASrSfEqyHCBzQbtv+h/OlrLKmkox4nvZqOsqkBjGhlqoyCHQ3dWDFbSOKXaE
- Ic+iWkU+i07IIm31AWs5EsEMpQXR28fKDQjszANdcWwMaubn6xFAU5eY/Mzw8GlNVPVB
- wGqclkruyGE4cr6zE0DAX/GeyD4HpapqI2MzTNlm/D5VfGW0cYqBGuYciAiFfUg+v3Yq
- LX8VXG9TLsZM9c9GDWpxgmo+Tyy4gvSrVeirSNKSFgaNA3RpPatgQ80dcmYoeuNr3N3J
- qayw==
-X-Gm-Message-State: ANoB5pnWUMRfx6IsgmAh9koEzNTS4cFdV7DFmxZTRWH9vOmvIlB+hlDA
- nQCOyY9uRVm9QSlkIH0LwHmYdppCNtlPW9Pk
-X-Google-Smtp-Source: AA0mqf7PUsei9AgLfH0PKNHc4RWqDDgvO4tqa8LrdZUAKBegPkghdysL2ALdPnXVUnS92T/mErKoXA==
-X-Received: by 2002:a05:600c:4e16:b0:3d0:7415:c5a9 with SMTP id
- b22-20020a05600c4e1600b003d07415c5a9mr21604414wmq.21.1671108626479; 
- Thu, 15 Dec 2022 04:50:26 -0800 (PST)
+ bh=Dw6wotKA3haXzI9jka+bFUKrg99kB/zH8+x+4g05lKY=;
+ b=GFUTBkBonb1wToz52chLETWtjxMknU8k7fee1WVxG0h/VxnXzMYrzQW/TAdblOZQHe
+ Ot90PTjV0gtpGM5fprMaShM0hFB/cpdiRV+4f5ctooSIkDQf4W5jjj++AtaZrnbyu+qm
+ rDyuvVAZe3XS3YbAMq9zcrtTQNu9UqTDx25nKhm0rC+WArPvrwdm7uVZ4rYKt0dbZpHi
+ KFEFNzecWg4TW1ecC/EijsLt0K0xWnv/PrlQaSDRpr+tlZguw2DgAHRDCTnjbYBXmJKB
+ nQynBhfMEO1Vkf0ke7zzsGWAFXXg+dPN9vWQHpvXQGAUr69Rj5D572IOzxqBPafAixuR
+ 54lg==
+X-Gm-Message-State: ANoB5plTpGa8CfTV7KgkGFdTbGXYkOKjZxbjAPeT9+b6G3HK6c1VkJxA
+ 8GDzwSMqqBq1PPFQbZALw3XFinSOTg8eQfvK
+X-Google-Smtp-Source: AA0mqf6rBfvXlk2mC78/9AkPawAQ0YGsxqxBx0F2TA41uE2ZpK26HRJsbcwNmx/ZUdZonrPPSFujTw==
+X-Received: by 2002:a05:600c:4e91:b0:3d1:dc6f:b1a4 with SMTP id
+ f17-20020a05600c4e9100b003d1dc6fb1a4mr29960606wmq.5.1671108628328; 
+ Thu, 15 Dec 2022 04:50:28 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.25
+ i12-20020a05600c354c00b003cfd64b6be1sm8388787wmq.27.2022.12.15.04.50.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 04:50:25 -0800 (PST)
+ Thu, 15 Dec 2022 04:50:27 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/29] target/arm: Report FEAT_EVT for TCG '-cpu max'
-Date: Thu, 15 Dec 2022 12:49:56 +0000
-Message-Id: <20221215125009.980128-17-peter.maydell@linaro.org>
+Subject: [PULL 18/29] hw/arm: Convert TYPE_ARM_SMMUV3 to 3-phase reset
+Date: Thu, 15 Dec 2022 12:49:58 +0000
+Message-Id: <20221215125009.980128-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221215125009.980128-1-peter.maydell@linaro.org>
 References: <20221215125009.980128-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,53 +90,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Update the ID registers for TCG's '-cpu max' to report the
-FEAT_EVT Enhanced Virtualization Traps support.
+Convert the TYPE_ARM_SMMUV3 device to 3-phase reset.  The legacy
+reset method doesn't do anything that's invalid in the hold phase, so
+the conversion only requires changing it to a hold phase method, and
+using the 3-phase versions of the "save the parent reset method and
+chain to it" code.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20221109161444.3397405-3-peter.maydell@linaro.org
 ---
- docs/system/arm/emulation.rst | 1 +
- target/arm/cpu64.c            | 1 +
- target/arm/cpu_tcg.c          | 1 +
- 3 files changed, 3 insertions(+)
+ include/hw/arm/smmuv3.h |  2 +-
+ hw/arm/smmuv3.c         | 12 ++++++++----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index e3af79bb8c9..b33d7c28dc1 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -26,6 +26,7 @@ the following architecture extensions:
- - FEAT_DoubleFault (Double Fault Extension)
- - FEAT_E0PD (Preventing EL0 access to halves of address maps)
- - FEAT_ETS (Enhanced Translation Synchronization)
-+- FEAT_EVT (Enhanced Virtualization Traps)
- - FEAT_FCMA (Floating-point complex number instructions)
- - FEAT_FHM (Floating-point half-precision multiplication instructions)
- - FEAT_FP16 (Half-precision floating-point data processing)
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index cec64471b4e..2cf2ca4ce5a 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -1254,6 +1254,7 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64MMFR2, FWB, 1);      /* FEAT_S2FWB */
-     t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1);      /* FEAT_TTL */
-     t = FIELD_DP64(t, ID_AA64MMFR2, BBM, 2);      /* FEAT_BBM at level 2 */
-+    t = FIELD_DP64(t, ID_AA64MMFR2, EVT, 2);      /* FEAT_EVT */
-     t = FIELD_DP64(t, ID_AA64MMFR2, E0PD, 1);     /* FEAT_E0PD */
-     cpu->isar.id_aa64mmfr2 = t;
+diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
+index c641e60735e..f1921fdf9e7 100644
+--- a/include/hw/arm/smmuv3.h
++++ b/include/hw/arm/smmuv3.h
+@@ -77,7 +77,7 @@ struct SMMUv3Class {
+     /*< public >*/
  
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 9a2cef7d05a..568cbcfc524 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -65,6 +65,7 @@ void aa32_max_features(ARMCPU *cpu)
-     t = FIELD_DP32(t, ID_MMFR4, AC2, 1);          /* ACTLR2, HACTLR2 */
-     t = FIELD_DP32(t, ID_MMFR4, CNP, 1);          /* FEAT_TTCNP */
-     t = FIELD_DP32(t, ID_MMFR4, XNX, 1);          /* FEAT_XNX */
-+    t = FIELD_DP32(t, ID_MMFR4, EVT, 2);          /* FEAT_EVT */
-     cpu->isar.id_mmfr4 = t;
+     DeviceRealize parent_realize;
+-    DeviceReset   parent_reset;
++    ResettablePhases parent_phases;
+ };
  
-     t = cpu->isar.id_mmfr5;
+ #define TYPE_ARM_SMMUV3   "arm-smmuv3"
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index daa80e9c7b6..955b89c8d59 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -1431,12 +1431,14 @@ static void smmu_init_irq(SMMUv3State *s, SysBusDevice *dev)
+     }
+ }
+ 
+-static void smmu_reset(DeviceState *dev)
++static void smmu_reset_hold(Object *obj)
+ {
+-    SMMUv3State *s = ARM_SMMUV3(dev);
++    SMMUv3State *s = ARM_SMMUV3(obj);
+     SMMUv3Class *c = ARM_SMMUV3_GET_CLASS(s);
+ 
+-    c->parent_reset(dev);
++    if (c->parent_phases.hold) {
++        c->parent_phases.hold(obj);
++    }
+ 
+     smmuv3_init_regs(s);
+ }
+@@ -1520,10 +1522,12 @@ static void smmuv3_instance_init(Object *obj)
+ static void smmuv3_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
+     SMMUv3Class *c = ARM_SMMUV3_CLASS(klass);
+ 
+     dc->vmsd = &vmstate_smmuv3;
+-    device_class_set_parent_reset(dc, smmu_reset, &c->parent_reset);
++    resettable_class_set_parent_phases(rc, NULL, smmu_reset_hold, NULL,
++                                       &c->parent_phases);
+     c->parent_realize = dc->realize;
+     dc->realize = smmu_realize;
+ }
 -- 
 2.25.1
 
