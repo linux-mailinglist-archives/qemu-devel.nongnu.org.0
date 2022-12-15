@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B4564DD73
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 16:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE9564DD88
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 16:14:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5pua-0006E8-8z; Thu, 15 Dec 2022 10:12:40 -0500
+	id 1p5pvu-0007jr-4q; Thu, 15 Dec 2022 10:14:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5puM-0006BG-8i
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:12:26 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5pvr-0007jF-6Q
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:13:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5puJ-0008Va-PL
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:12:25 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p5pvp-00016t-IS
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 10:13:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671117142;
+ s=mimecast20190719; t=1671117236;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pNaD/6E9jyOWkJ/T60kqJWgtx1lCdQfU7mlA7rqEeBk=;
- b=d+BJOznWxVgFW5IbJFdTkScrhmkA2gYVLDLTgfPFwXKGWn1lSrJyfWYA3DEm3eTfMbosgv
- fCIOZBlMhE17MamOlcoAXK2pTu/TPQSCy81v7mAAGr4WK6PdswIsu11RkKsiXMmgHdJpyr
- /f3cDVgc9ANDhVcW71UQ/i7U9GiiJh8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OjWAdyp5TtF88Pr8hS6hQ6dFSRtu3kJnyof6NRdYIsw=;
+ b=LE6s+HkQEsDdDWLli6KgROpfYibPwwjZONP74AAIRFCo9OAoCcN4SsrFY2UwBpUTL+cqIt
+ o+F6lUkx6a1Yo98XMj54/TyIgJioGeTYCj0fMC2n312xvfcj8NLvQs29pcYtTkAeslbDCo
+ gJxjpGALi1QdLuMu6cYOH2sdZ0ZUK58=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-237-laMMm5jxM7eQWmfVpUR4EQ-1; Thu, 15 Dec 2022 10:12:20 -0500
-X-MC-Unique: laMMm5jxM7eQWmfVpUR4EQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-547-jmEu40ruNeKGvFnQukUXDw-1; Thu, 15 Dec 2022 10:13:52 -0500
+X-MC-Unique: jmEu40ruNeKGvFnQukUXDw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FF023C0CD43;
- Thu, 15 Dec 2022 15:12:20 +0000 (UTC)
-Received: from thuth.com (dhcp-192-205.str.redhat.com [10.33.192.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D294453A0;
- Thu, 15 Dec 2022 15:12:19 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 09/23] util/qemu-config: Fix "query-command-line-options" to
- provide the right values
-Date: Thu, 15 Dec 2022 16:12:15 +0100
-Message-Id: <20221215151215.414567-2-thuth@redhat.com>
-In-Reply-To: <20221215151215.414567-1-thuth@redhat.com>
-References: <20221215151215.414567-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56D3F88646C;
+ Thu, 15 Dec 2022 15:13:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 999F12166B26;
+ Thu, 15 Dec 2022 15:13:51 +0000 (UTC)
+Date: Thu, 15 Dec 2022 16:13:48 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PULL v2 00/51] Block layer patches
+Message-ID: <Y5s5rMp6WmLP7+bM@redhat.com>
+References: <20221215115900.30044-1-kwolf@redhat.com>
+ <CAFEAcA9niEUk+JwDhOTqa6owskGmJq0jSJXxeRmUtfG3mp_4mA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9niEUk+JwDhOTqa6owskGmJq0jSJXxeRmUtfG3mp_4mA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,218 +76,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The "query-command-line-options" command uses a hand-crafted list
-of options that should be returned for the "machine" parameter.
-This is pretty much out of sync with reality, for example settings
-like "kvm_shadow_mem" or "accel" are not parameters for the machine
-anymore. Also, there is no distinction between the targets here, so
-e.g. the s390x-specific values like "loadparm" in this list also
-show up with the other targets like x86_64.
+Am 15.12.2022 um 15:44 hat Peter Maydell geschrieben:
+> On Thu, 15 Dec 2022 at 11:59, Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> > The following changes since commit 5204b499a6cae4dfd9fe762d5e6e82224892383b:
+> >
+> >   mailmap: Fix Stefan Weil author email (2022-12-13 15:56:57 -0500)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://repo.or.cz/qemu/kevin.git tags/for-upstream
+> >
+> > for you to fetch changes up to 347fe9e156a3e00c40ae1802978276a1f7d5545f:
+> >
+> >   block: GRAPH_RDLOCK for functions only called by co_wrappers (2022-12-15 10:11:45 +0100)
+> >
+> > v2:
+> > - Changed TSA capability name to "mutex" to work with older clang
+> >   versions. The tsan-build CI job succeeds now.
+> >
+> > ----------------------------------------------------------------
+> > Block layer patches
+> >
+> > - Code cleanups around block graph modification
+> > - Simplify drain
+> > - coroutine_fn correctness fixes, including splitting generated
+> >   coroutine wrappers into co_wrapper (to be called only from
+> >   non-coroutine context) and co_wrapper_mixed (both coroutine and
+> >   non-coroutine context)
+> > - Introduce a block graph rwlock
+> 
+> This fails to compile on the FreeBSD 12 and 13 jobs:
+> https://gitlab.com/qemu-project/qemu/-/jobs/3479763741
+> https://gitlab.com/qemu-project/qemu/-/jobs/3479763746
+> 
+> The compiler is producing -Wthread-safety-analysis
+> warnings on code in qemu-thread-posix.c, which are a
+> compile failure because of -Werror.
 
-Let's fix this now by geting rid of the hand-crafted list and by
-querying the properties of the machine classes instead to assemble
-the list.
+Hmm... FreeBSD actually annotates it pthread locking functions for TSA,
+so all callers need to be annotated as well. I guess it's nice in
+theory, but hard to enable for a huge codebase like QEMU...
 
-Fixes: 0a7cf217d8 ("fix regression of qmp_query_command_line_options")
-Message-Id: <20221111141323.246267-1-thuth@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- util/qemu-config.c | 166 ++++++++++++++++++++-------------------------
- 1 file changed, 75 insertions(+), 91 deletions(-)
+I'll just drop "configure: Enable -Wthread-safety if present" for now.
 
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 25f2ec7d05..d63f27438d 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -8,6 +8,7 @@
- #include "qemu/error-report.h"
- #include "qemu/option.h"
- #include "qemu/config-file.h"
-+#include "hw/boards.h"
- 
- static QemuOptsList *vm_config_groups[48];
- static QemuOptsList *drive_config_groups[5];
-@@ -143,97 +144,80 @@ static CommandLineParameterInfoList *get_drive_infolist(void)
-     return head;
- }
- 
--/* restore machine options that are now machine's properties */
--static QemuOptsList machine_opts = {
--    .merge_lists = true,
--    .head = QTAILQ_HEAD_INITIALIZER(machine_opts.head),
--    .desc = {
--        {
--            .name = "type",
--            .type = QEMU_OPT_STRING,
--            .help = "emulated machine"
--        },{
--            .name = "accel",
--            .type = QEMU_OPT_STRING,
--            .help = "accelerator list",
--        },{
--            .name = "kernel_irqchip",
--            .type = QEMU_OPT_BOOL,
--            .help = "use KVM in-kernel irqchip",
--        },{
--            .name = "kvm_shadow_mem",
--            .type = QEMU_OPT_SIZE,
--            .help = "KVM shadow MMU size",
--        },{
--            .name = "kernel",
--            .type = QEMU_OPT_STRING,
--            .help = "Linux kernel image file",
--        },{
--            .name = "initrd",
--            .type = QEMU_OPT_STRING,
--            .help = "Linux initial ramdisk file",
--        },{
--            .name = "append",
--            .type = QEMU_OPT_STRING,
--            .help = "Linux kernel command line",
--        },{
--            .name = "dtb",
--            .type = QEMU_OPT_STRING,
--            .help = "Linux kernel device tree file",
--        },{
--            .name = "dumpdtb",
--            .type = QEMU_OPT_STRING,
--            .help = "Dump current dtb to a file and quit",
--        },{
--            .name = "phandle_start",
--            .type = QEMU_OPT_NUMBER,
--            .help = "The first phandle ID we may generate dynamically",
--        },{
--            .name = "dt_compatible",
--            .type = QEMU_OPT_STRING,
--            .help = "Overrides the \"compatible\" property of the dt root node",
--        },{
--            .name = "dump-guest-core",
--            .type = QEMU_OPT_BOOL,
--            .help = "Include guest memory in  a core dump",
--        },{
--            .name = "mem-merge",
--            .type = QEMU_OPT_BOOL,
--            .help = "enable/disable memory merge support",
--        },{
--            .name = "usb",
--            .type = QEMU_OPT_BOOL,
--            .help = "Set on/off to enable/disable usb",
--        },{
--            .name = "firmware",
--            .type = QEMU_OPT_STRING,
--            .help = "firmware image",
--        },{
--            .name = "iommu",
--            .type = QEMU_OPT_BOOL,
--            .help = "Set on/off to enable/disable Intel IOMMU (VT-d)",
--        },{
--            .name = "suppress-vmdesc",
--            .type = QEMU_OPT_BOOL,
--            .help = "Set on to disable self-describing migration",
--        },{
--            .name = "aes-key-wrap",
--            .type = QEMU_OPT_BOOL,
--            .help = "enable/disable AES key wrapping using the CPACF wrapping key",
--        },{
--            .name = "dea-key-wrap",
--            .type = QEMU_OPT_BOOL,
--            .help = "enable/disable DEA key wrapping using the CPACF wrapping key",
--        },{
--            .name = "loadparm",
--            .type = QEMU_OPT_STRING,
--            .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
--                    " converted to upper case) to pass to machine"
--                    " loader, boot manager, and guest kernel",
--        },
--        { /* End of list */ }
-+static CommandLineParameterInfo *objprop_to_cmdline_prop(ObjectProperty *prop)
-+{
-+    CommandLineParameterInfo *info;
-+
-+    info = g_malloc0(sizeof(*info));
-+    info->name = g_strdup(prop->name);
-+
-+    if (g_str_equal(prop->type, "bool") || g_str_equal(prop->type, "OnOffAuto")) {
-+        info->type = COMMAND_LINE_PARAMETER_TYPE_BOOLEAN;
-+    } else if (g_str_equal(prop->type, "int")) {
-+        info->type = COMMAND_LINE_PARAMETER_TYPE_NUMBER;
-+    } else if (g_str_equal(prop->type, "size")) {
-+        info->type = COMMAND_LINE_PARAMETER_TYPE_SIZE;
-+    } else {
-+        info->type = COMMAND_LINE_PARAMETER_TYPE_STRING;
-     }
--};
-+
-+    if (prop->description) {
-+        info->help = g_strdup(prop->description);
-+    }
-+
-+    return info;
-+}
-+
-+static CommandLineParameterInfoList *query_all_machine_properties(void)
-+{
-+    CommandLineParameterInfoList *params = NULL, *clpiter;
-+    CommandLineParameterInfo *info;
-+    GSList *machines, *curr_mach;
-+    ObjectPropertyIterator op_iter;
-+    ObjectProperty *prop;
-+    bool is_new;
-+
-+    machines = object_class_get_list(TYPE_MACHINE, false);
-+    assert(machines);
-+
-+    /* Loop over all machine classes */
-+    for (curr_mach = machines; curr_mach; curr_mach = curr_mach->next) {
-+        object_class_property_iter_init(&op_iter, curr_mach->data);
-+        /* ... and over the properties of each machine: */
-+        while ((prop = object_property_iter_next(&op_iter))) {
-+            if (!prop->set) {
-+                continue;
-+            }
-+            /*
-+             * Check whether the property has already been put into the list
-+             * (via another machine class)
-+             */
-+            is_new = true;
-+            for (clpiter = params; clpiter != NULL; clpiter = clpiter->next) {
-+                if (g_str_equal(clpiter->value->name, prop->name)) {
-+                    is_new = false;
-+                    break;
-+                }
-+            }
-+            /* If it hasn't been added before, add it now to the list */
-+            if (is_new) {
-+                info = objprop_to_cmdline_prop(prop);
-+                QAPI_LIST_PREPEND(params, info);
-+            }
-+        }
-+    }
-+
-+    g_slist_free(machines);
-+
-+    /* Add entry for the "type" parameter */
-+    info = g_malloc0(sizeof(*info));
-+    info->name = g_strdup("type");
-+    info->type = COMMAND_LINE_PARAMETER_TYPE_STRING;
-+    info->help = g_strdup("machine type");
-+    QAPI_LIST_PREPEND(params, info);
-+
-+    return params;
-+}
- 
- CommandLineOptionInfoList *qmp_query_command_line_options(const char *option,
-                                                           Error **errp)
-@@ -259,7 +243,7 @@ CommandLineOptionInfoList *qmp_query_command_line_options(const char *option,
-     if (!option || !strcmp(option, "machine")) {
-         info = g_malloc0(sizeof(*info));
-         info->option = g_strdup("machine");
--        info->parameters = query_option_descs(machine_opts.desc);
-+        info->parameters = query_all_machine_properties();
-         QAPI_LIST_PREPEND(conf_list, info);
-     }
- 
--- 
-2.31.1
+Maybe we can have a configure check later to enable it by default on
+glibc at least. Or we really need to go through all locks in QEMU and
+annotate them properly. This might be a bit too painful, though, so we
+may end up leaving FreeBSD unchecked even if that seems to be the OS to
+care most about it...
+
+Kevin
 
 
