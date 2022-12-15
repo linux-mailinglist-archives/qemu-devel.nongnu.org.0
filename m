@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C60A64DFD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 18:40:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B9264DFED
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 18:45:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5sDV-0008HY-O5; Thu, 15 Dec 2022 12:40:21 -0500
+	id 1p5sHM-0002Rq-9I; Thu, 15 Dec 2022 12:44:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5sDT-0008HA-OB
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:40:19 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p5sDR-00009p-TI
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:40:19 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- r83-20020a1c4456000000b003d1e906ca23so1660792wma.3
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 09:40:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=FxQJD8bPkFYlKNVByKC20QF74rgKZ2owNK32yRJsJ5Q=;
- b=t2HkHAxAWpXM9G87fzoULVZRPS0ykenLOTwJaXSoaJa9qFEPY0iNHA2KiSgereFK0T
- 1VukaL6KorEDEoAu0K4WidS588hMOu7jBqnvlLIiyBDsCfiNoFA0C9gymLb55RmUlEeh
- 2Md8KJuJYiZz5IzSlfYrJBaOBKQJB9zKmdBK4N5PUGO+t+MYjlXugnOKGNZ5NyuEmIW1
- WDM3YnaOEvMtUr9QsMkjtaonD/Bn2xE1t4LS8IOncgZSdigJCl1qbyLExN0aJDis3ry4
- eW5La1vn14qkfsFXkQ+l8Hf2ElOEOHugD7/ALCkHUgSVrEqmvsEvn4iMQo7Ua1HTjKRJ
- HQpw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p5sHK-0002RC-3Q
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:44:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p5sHF-0001DY-7s
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 12:44:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671126252;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rbXS3iuMq0J66YHtFjT2PESAlKh2d4uQ3IsMqRls/6Q=;
+ b=VMI/bwnLO5F93hDcZ8QWFbn624wfN8UBFBtP32vj2Q07Gt+f5719R7clo9P3TN7WBeJmNG
+ zTSpPuHFIlJfr5vXaIl4gbcO1YFDhna45ZiNzUoGW8Jl48RAs5wkAhRAa5+l3Gj7SS4GjI
+ wgb9l4nMOcvO264Wr0gT5RhopmWP0II=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-76-alG5XEvUPLC7UHJ68grZSw-1; Thu, 15 Dec 2022 12:44:11 -0500
+X-MC-Unique: alG5XEvUPLC7UHJ68grZSw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o8-20020adfba08000000b00241e80f08e0so874294wrg.12
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 09:44:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FxQJD8bPkFYlKNVByKC20QF74rgKZ2owNK32yRJsJ5Q=;
- b=4ZwnLBYBSVZ2IIvKT3X8xoc+TEXkeCakMM08adjETEqzD9yN5BnyNINxx+aixToTBh
- JYIMkbn1JdwteZoVyChNguK9S6BQ01b/dARhLe3nmWhZvi9e4Ba0Vs1lOwn/PNnW6wDN
- gDbOWLVXHfJ68kftc5OQvCoRqykw4JkJNVjzWoRoWIpKgoCbTcWmrXKOX/LxDZlEy6JJ
- UGuL5Je0H6rtmp+n03nH2QQR9kH45DkZXPcGEsUsX+zGESrRH5R/2geaFn8pIo1BImwA
- 4fOo4rExE9BBOqfY8/PmKe2wynbWpWyWe6CQkG68TZe5vb8qPtfVvFftxUQiQ/rf4xZ9
- GzuQ==
-X-Gm-Message-State: ANoB5pngXcEqbXfgSanwikyJG0nwRtDgV/saDE//zlQSInIcmx7zNtpw
- gQApyEpVEPL5Km0oTp9W7/zayrEgoauOdK1j
-X-Google-Smtp-Source: AA0mqf4AITe21yuP5+7wDFplqxbuPKmWFwcx1Hw73SjIRfqNP2cXyyzeeqzoPOu5KiEa8WkGHHUN/Q==
-X-Received: by 2002:a1c:ed04:0:b0:3cf:7514:a82e with SMTP id
- l4-20020a1ced04000000b003cf7514a82emr22923624wmh.23.1671126016429; 
- Thu, 15 Dec 2022 09:40:16 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rbXS3iuMq0J66YHtFjT2PESAlKh2d4uQ3IsMqRls/6Q=;
+ b=TrBsB1DprEqwtYmvPGlskgAIT9q5zz4GLn03sO3rZfIksCcqalAQOVyA3YRjScLG12
+ vcns7pC276lWHHgLyEL7VaPDNphR3uhXshfG44av0WTZNyOGv12uZ9KtIji3/Aha1OMG
+ IKNoy0X+KhLT8+zz8AazEpMWEDfoZtLPsYU+bHQQQ/b/ka6wIcKUzWFs/g4HEFhVNv6R
+ mWd82tpYNCXnQ8aux0olXlqoYWE8YMkoLP+GwAewnUhEPu6RA38f9R/CAS16IH3R7V2r
+ qCWtxH7X9OoOynNIfm8JKc8xWii0rD1asxUwjzr3oPTs7Lbban6coxJYYmCRjVeUYjF+
+ +lNA==
+X-Gm-Message-State: ANoB5pl5AECpF9VNpYV9uq28jSAo+ceRsrNEvyhdXpmxPYIaidD54J0c
+ gB88T2aBEQEfkxCHTQ2QA7mE/rO9FKEi22EqrI1VdEzLT2Dfr6mKOct7SOJxoB39Ben2ya+aYNB
+ /aNZp8Q4E5PH7tnLuodXqVGI9TGwd+njAH3Uf1aReWANyHKSfSGt/7+0mHnJDXGLF4Yw=
+X-Received: by 2002:adf:fcc6:0:b0:242:39bc:4ac with SMTP id
+ f6-20020adffcc6000000b0024239bc04acmr15404659wrs.51.1671126250016; 
+ Thu, 15 Dec 2022 09:44:10 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6+93SKXk0unt+eH4VmAQh8DqaxRmABW7WZMDm7WUicXZGGcKeBWhi3uPTBgvrtsi+rNOFTLQ==
+X-Received: by 2002:adf:fcc6:0:b0:242:39bc:4ac with SMTP id
+ f6-20020adffcc6000000b0024239bc04acmr15404642wrs.51.1671126249690; 
+ Thu, 15 Dec 2022 09:44:09 -0800 (PST)
+Received: from avogadro.local ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- j26-20020a05600c1c1a00b003d1ee3a6542sm7810802wms.47.2022.12.15.09.40.15
- for <qemu-devel@nongnu.org>
+ w2-20020a5d4042000000b002421db5f279sm6793661wrp.78.2022.12.15.09.44.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 09:40:15 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ Thu, 15 Dec 2022 09:44:09 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/28] target-arm queue
-Date: Thu, 15 Dec 2022 17:40:13 +0000
-Message-Id: <20221215174013.1003508-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+Cc: afaria@redhat.com,
+	qemu-block@nongnu.org,
+	kwolf@redhat.com
+Subject: [PATCH 0/2] Make coroutine annotations ready for static analysis
+Date: Thu, 15 Dec 2022 18:44:05 +0100
+Message-Id: <20221215174407.500414-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,105 +98,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-drop the sysregs patch as the tcg sysregs test fails
-(probably a bug in the test)
+Clang has a generic __annotate__ attribute that can be used by
+static analyzers to understand properties of functions and
+analyze the control flow.
 
--- PMM
+Unlike TSA annotations, the __annotate__ attribute applies to function
+pointers as well, which is very fortunate because many BlockDriver
+function driver run in coroutines.
 
-The following changes since commit ae2b87341b5ddb0dcb1b3f2d4f586ef18de75873:
+Paolo
 
-  Merge tag 'pull-qapi-2022-12-14-v2' of https://repo.or.cz/qemu/armbru into staging (2022-12-14 22:42:14 +0000)
+Alberto Faria (2):
+  coroutine: annotate coroutine_fn for libclang
+  block: Add no_coroutine_fn and coroutine_mixed_fn marker
 
-are available in the Git repository at:
+ include/block/block-common.h | 11 +++++++----
+ include/qemu/coroutine.h     | 37 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 4 deletions(-)
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20221215-1
+-- 
+2.38.1
 
-for you to fetch changes up to 9e406eea309bbe44c7fb17f6af112d2b756854ad:
-
-  target/arm: Restrict arm_cpu_exec_interrupt() to TCG accelerator (2022-12-15 17:37:48 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * hw/arm/virt: Add properties to allow more granular
-   configuration of use of highmem space
- * target/arm: Add Cortex-A55 CPU
- * hw/intc/arm_gicv3: Fix GICD_TYPER ITLinesNumber advertisement
- * Implement FEAT_EVT
- * Some 3-phase-reset conversions for Arm GIC, SMMU
- * hw/arm/boot: set initrd with #address-cells type in fdt
- * hw/misc: Move some arm-related files from specific_ss into softmmu_ss
- * Restrict arm_cpu_exec_interrupt() to TCG accelerator
-
-----------------------------------------------------------------
-Gavin Shan (7):
-      hw/arm/virt: Introduce virt_set_high_memmap() helper
-      hw/arm/virt: Rename variable size to region_size in virt_set_high_memmap()
-      hw/arm/virt: Introduce variable region_base in virt_set_high_memmap()
-      hw/arm/virt: Introduce virt_get_high_memmap_enabled() helper
-      hw/arm/virt: Improve high memory region address assignment
-      hw/arm/virt: Add 'compact-highmem' property
-      hw/arm/virt: Add properties to disable high memory regions
-
-Luke Starrett (1):
-      hw/intc/arm_gicv3: Fix GICD_TYPER ITLinesNumber advertisement
-
-Mihai Carabas (1):
-      hw/arm/virt: build SMBIOS 19 table
-
-Peter Maydell (15):
-      target/arm: Allow relevant HCR bits to be written for FEAT_EVT
-      target/arm: Implement HCR_EL2.TTLBIS traps
-      target/arm: Implement HCR_EL2.TTLBOS traps
-      target/arm: Implement HCR_EL2.TICAB,TOCU traps
-      target/arm: Implement HCR_EL2.TID4 traps
-      target/arm: Report FEAT_EVT for TCG '-cpu max'
-      hw/arm: Convert TYPE_ARM_SMMU to 3-phase reset
-      hw/arm: Convert TYPE_ARM_SMMUV3 to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GIC_COMMON to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GIC_KVM to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GICV3_COMMON to 3-phase reset
-      hw/intc: Convert TYPE_KVM_ARM_GICV3 to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GICV3_ITS_COMMON to 3-phase reset
-      hw/intc: Convert TYPE_ARM_GICV3_ITS to 3-phase reset
-      hw/intc: Convert TYPE_KVM_ARM_ITS to 3-phase reset
-
-Philippe Mathieu-Daudé (1):
-      target/arm: Restrict arm_cpu_exec_interrupt() to TCG accelerator
-
-Schspa Shi (1):
-      hw/arm/boot: set initrd with #address-cells type in fdt
-
-Thomas Huth (1):
-      hw/misc: Move some arm-related files from specific_ss into softmmu_ss
-
-Timofey Kutergin (1):
-      target/arm: Add Cortex-A55 CPU
-
- docs/system/arm/emulation.rst          |   1 +
- docs/system/arm/virt.rst               |  18 +++
- include/hw/arm/smmuv3.h                |   2 +-
- include/hw/arm/virt.h                  |   2 +
- include/hw/misc/xlnx-zynqmp-apu-ctrl.h |   2 +-
- target/arm/cpu.h                       |  30 +++++
- target/arm/kvm-consts.h                |   8 +-
- hw/arm/boot.c                          |  10 +-
- hw/arm/smmu-common.c                   |   7 +-
- hw/arm/smmuv3.c                        |  12 +-
- hw/arm/virt.c                          | 202 +++++++++++++++++++++++++++------
- hw/intc/arm_gic_common.c               |   7 +-
- hw/intc/arm_gic_kvm.c                  |  14 ++-
- hw/intc/arm_gicv3_common.c             |   7 +-
- hw/intc/arm_gicv3_dist.c               |   4 +-
- hw/intc/arm_gicv3_its.c                |  14 ++-
- hw/intc/arm_gicv3_its_common.c         |   7 +-
- hw/intc/arm_gicv3_its_kvm.c            |  14 ++-
- hw/intc/arm_gicv3_kvm.c                |  14 ++-
- hw/misc/imx6_src.c                     |   2 +-
- hw/misc/iotkit-sysctl.c                |   1 -
- target/arm/cpu.c                       |   5 +-
- target/arm/cpu64.c                     |  70 ++++++++++++
- target/arm/cpu_tcg.c                   |   1 +
- target/arm/helper.c                    | 135 ++++++++++++++--------
- hw/misc/meson.build                    |  11 +-
- 26 files changed, 459 insertions(+), 141 deletions(-)
 
