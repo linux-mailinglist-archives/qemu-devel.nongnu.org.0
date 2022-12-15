@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C9864E4A5
+	by mail.lfdr.de (Postfix) with ESMTPS id A77BC64E4A4
 	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 00:24:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5xZ9-00055o-G7; Thu, 15 Dec 2022 18:23:03 -0500
+	id 1p5xZf-0005AH-ST; Thu, 15 Dec 2022 18:23:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5xYy-00055X-2c
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 18:22:52 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ id 1p5xZV-00059U-60
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 18:23:28 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p5xYv-0004rG-MS
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 18:22:51 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id z92so1434191ede.1
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 15:22:49 -0800 (PST)
+ id 1p5xZT-0004uZ-7y
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 18:23:24 -0500
+Received: by mail-ed1-x530.google.com with SMTP id s5so1348618edc.12
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 15:23:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yQp/ENNYnK8jU5Zf6KvBnFjBzyoPQFtI5r2jZrr6yHc=;
- b=T0qlGb7B7sLgEqvDt8SQBeSPX3KK3GWsZuTBDb5DKxjOR+IfNkA6NNRNt0+mTWCqH0
- ULaU9RWyaIRYR6rYrsRVaqTnCDdjvWClqJ6yAbcGHLfyN7D+48yyIJ6Oze9/uEg1b9sO
- oFzQQ2NUmjsd0u5eSTqGuCZK+6a7i3V+5MAjcXkaeF27HLS7ibk4puE6BUPXEt8XyYWE
- hJdMLeIEj21xmOhPm+TT1HneieYK0CnMVWijFyDhBKgTcA64YPTlZt9tNoeUvHgTUdxJ
- LOOavl26DuD3nIYC9BV/C+12Q7zMxx3cYP7iE7mj6bxuciCT6A5aS9lv2oW3nSFwa9j8
- dONw==
+ bh=LSm1qwDQRIDVlOyoZ0QGfnIaN2SB/+lwzFgzJuq6zg4=;
+ b=nM5INzZ4tE5lqn0OIAHRiJDEZVk5j5oPvusSxghMlvZSClsafS/l2c0GQyrpnmTB8V
+ z5njCKu26EGOGDaJWzCkV6rUlF1Aaajmg9ytUzwkqV5Bi8piIeqiN4IaSlRFDRyE6Fll
+ eGSFjmWbrBn/8srnrIrJpoPGQcog8g9zoahEvKXstwWmXc0lBHsftp+M6hPhdEplAjF6
+ somMKhLtzDCw47YA7JIoRaYX8Qhvm7L0IybC+yNxXCuI9vWtTJBZvs3DTCQ1SOK823Mm
+ hESPS1DO1xNe9e81bphq3GKrHlsY9JOlbkXlp0yq/791K+FkKX91z3/6W0HQ77aOAIb4
+ XMEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=yQp/ENNYnK8jU5Zf6KvBnFjBzyoPQFtI5r2jZrr6yHc=;
- b=pMtR/2RSUN/jl0qIOGIC/OsNfsFLznIpxjeT25Dqq2flcCncb5EFPR+h4yrKnIYg/X
- 57kQeuCnWN2lTiaBAMJvXBsNCiPPdiA6RWTAfuUWsfBwIeeb1Y1GujvwzAzKh2hyRL6v
- jp3v+xdrrRdKY3SNhlgV/8R8ZIKZEZmE41PR2uogeRMai6XPgCmyWdsO/FM4+tH2z0Pg
- g+i0z2fW2kyR3p2U44ejHUEH3m3V9ZIoG+r9wTysdMrY73lnt/7gi1mA9fOYDid27GKi
- 8fUh+oTsHxJiQy+LONc9VDt4gTp0GBekpHdkt7N/9A/FiURiOoabDB6K6ZPfWtAXH/UH
- uX1g==
-X-Gm-Message-State: ANoB5pkYpkpmqqOhPdYC2qa5LelgIQJ9Hmyl0F/zuf+zkeCMKyC7i6+x
- DpEXLIjfRMgRL+gIwbnK/02KNM+7rS5UoyAqLLJCnQ==
-X-Google-Smtp-Source: AA0mqf43lRhzlavy6sMfTkaCdUgqBJRArLVYb21l8Vs9isisNSTBLFctYwxxiDO2opai8I3y5g5+Cm03R1eI2NibkD4=
-X-Received: by 2002:aa7:c398:0:b0:46f:a70d:fef7 with SMTP id
- k24-20020aa7c398000000b0046fa70dfef7mr2237442edq.265.1671146567611; Thu, 15
- Dec 2022 15:22:47 -0800 (PST)
+ bh=LSm1qwDQRIDVlOyoZ0QGfnIaN2SB/+lwzFgzJuq6zg4=;
+ b=a+QJ1S+5BWECATH9zScvME/advXbqw/yse9cJyumx55W9zUac1QbpHopontittCri+
+ mL6/5muw0jnZdTKOOA6PTkQjMdm0+LEk/LHyrtJfYTP1QvVw5cgDB0QnZxCKFKos+KRD
+ BI88XFrbGY6pS1bZ10DmBXap/iICBWlD0641V+hB7fDgj/q/C8fT0vRb4RQ3yvKesLDC
+ eJAPVDVwCzEoswUikVgjwyf5t4OhnZ9fwqXT0WEKOYdoBWmB8q6zJh5wDV/0eQw9riYJ
+ FJIHhi8+sT4FRxrJyyU1FYfEfo7pKFKbmX9a0FsxkUqQah4oth5g0yyvltdebQaNY2ZX
+ 5dkA==
+X-Gm-Message-State: ANoB5pmH3NbGC7poRf6x+QXFu4Jf6sMfEbX3NYqtMdMqi9sr+6uLW1Iv
+ hTQvdArR1/FeoS+wOnPqfE+eOKs99NafdKa7fY9tsQ==
+X-Google-Smtp-Source: AA0mqf4SM6qxQFNeWFGa7/NP/Sd3FMFjByVVw053U9TXsTFh8lFTfiGh4zPj0T24pSNRnpKtgKY9rTRW2NLzo5POBgU=
+X-Received: by 2002:aa7:d14f:0:b0:46c:69a:39b0 with SMTP id
+ r15-20020aa7d14f000000b0046c069a39b0mr27940268edo.294.1671146601497; Thu, 15
+ Dec 2022 15:23:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20221004195241.46491-1-richard.henderson@linaro.org>
- <20221004195241.46491-20-richard.henderson@linaro.org>
- <752b9f2a-0276-2685-8e28-821aaf626437@msgid.tls.msk.ru>
-In-Reply-To: <752b9f2a-0276-2685-8e28-821aaf626437@msgid.tls.msk.ru>
+References: <Y5rMcts4qe15RaVN@p100>
+ <165fbdfe-8e72-0ab7-727e-0f54df9957b3@linaro.org>
+ <b2432b6a-ceef-647d-3e0f-ff7a7bdc0beb@linaro.org>
+ <2d3abe70-d1f8-736b-81fc-8b3c6aa60ea0@linaro.org>
+In-Reply-To: <2d3abe70-d1f8-736b-81fc-8b3c6aa60ea0@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Date: Thu, 15 Dec 2022 15:22:36 -0800
-Message-ID: <CAFXwXrm1-1gSmTWQgzv5gMfk4rz8Hpm4qPu+2nAbSGrnB+5Ptg@mail.gmail.com>
-Subject: Re: [PULL 19/20] tcg/ppc: Optimize 26-bit jumps
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Leandro Lupori <leandro.lupori@eldorado.org.br>
-Content-Type: multipart/alternative; boundary="00000000000087d1e905efe6210e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52b.google.com
+Date: Thu, 15 Dec 2022 15:23:10 -0800
+Message-ID: <CAFXwXr=jBr4xefoM7eeTFaRpWaYxqz1KjoDNZYaBD5V1wxheXA@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Add translation for argument of msync()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Content-Type: multipart/alternative; boundary="0000000000008ce04705efe623f5"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,178 +87,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000087d1e905efe6210e
+--0000000000008ce04705efe623f5
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-It's also has a race condition.
-Please see
-
-https://lore.kernel.org/qemu-devel/20221206041715.314209-18-richard.henders=
-on@linaro.org/
-
+Host!
 
 r~
 
-On Thu, 15 Dec 2022, 13:33 Michael Tokarev, <mjt@tls.msk.ru> wrote:
+On Thu, 15 Dec 2022, 12:58 Philippe Mathieu-Daud=C3=A9, <philmd@linaro.org>
+wrote:
 
-> 04.10.2022 22:52, Richard Henderson wrote:
-> > From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+> On 15/12/22 16:58, Richard Henderson wrote:
+> > On 12/14/22 23:58, Philippe Mathieu-Daud=C3=A9 wrote:
+> >>> --- a/linux-user/alpha/target_mman.h
+> >>> +++ b/linux-user/alpha/target_mman.h
+> >>> @@ -3,6 +3,10 @@
+> >>>
+> >>>   #define TARGET_MADV_DONTNEED 6
+> >>>
+> >>> +#define TARGET_MS_ASYNC 1
+> >>> +#define TARGET_MS_SYNC 2
+> >>> +#define TARGET_MS_INVALIDATE 4
+> >>> +
+> >>>   #include "../generic/target_mman.h"
+> >>>
+> >>>   #endif
+> >>> diff --git a/linux-user/generic/target_mman.h
+> >>> b/linux-user/generic/target_mman.h
+> >>> index 1436a3c543..32bf1a52d0 100644
+> >>> --- a/linux-user/generic/target_mman.h
+> >>> +++ b/linux-user/generic/target_mman.h
+> >>> @@ -89,4 +89,17 @@
+> >>>   #define TARGET_MADV_DONTNEED_LOCKED 24
+> >>>   #endif
+> >>>
+> >>> +
+> >>> +#ifndef TARGET_MS_ASYNC
+> >>> +#define TARGET_MS_ASYNC 1
+> >>
+> >> Hmm don't we want to keep the host flag instead?
+> >>
+> >>     #define TARGET_MS_ASYNC MS_ASYNC
 > >
-> > PowerPC64 processors handle direct branches better than indirect
-> > ones, resulting in less stalled cycles and branch misses.
-> >
-> > However, PPC's tb_target_set_jmp_target() was only using direct
-> > branches for 16-bit jumps, while PowerPC64's unconditional branch
-> > instructions are able to handle displacements of up to 26 bits.
-> > To take advantage of this, now jumps whose displacements fit in
-> > between 17 and 26 bits are also converted to direct branches.
-> >
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> > Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-> > [rth: Expanded some commentary.]
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >   tcg/ppc/tcg-target.c.inc | 119 +++++++++++++++++++++++++++++---------=
--
-> >   1 file changed, 88 insertions(+), 31 deletions(-)
-> >
-> > diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-> > index 1cbd047ab3..e3dba47697 100644
-> > --- a/tcg/ppc/tcg-target.c.inc
-> > +++ b/tcg/ppc/tcg-target.c.inc
-> ...
+> > No.  What if the host has an odd value, like Alpha.
 >
-> > +    /*
-> > +     * There's no convenient way to get the compiler to allocate a pai=
-r
-> > +     * of registers at an even index, so copy into r6/r7 and clobber.
-> > +     */
-> > +    asm("mr  %%r6, %1\n\t"
-> > +        "mr  %%r7, %2\n\t"
-> > +        "stq %%r6, %0"
-> > +        : "=3DQ"(*(__int128 *)rw) : "r"(p[0]), "r"(p[1]) : "r6", "r7")=
-;
->
-> This is the only place in qemu where __int128 is used (other places name
-> it __int128_t), and is used *unconditionally*.  Is it right?
->
-> In particular, this breaks compilation on powerpc:
->
-> cc -m32 -Ilibqemu-aarch64-softmmu.fa.p... -c ../../tcg/tcg.c
-> In file included from ../../tcg/tcg.c:432:
-> /<<PKGBUILDDIR>>/tcg/ppc/tcg-target.c.inc: In function =E2=80=98ppc64_rep=
-lace4=E2=80=99:
-> /<<PKGBUILDDIR>>/tcg/ppc/tcg-target.c.inc:1885:18: error: expected
-> expression before =E2=80=98__int128=E2=80=99
->   1885 |         : "=3DQ"(*(__int128 *)rw) : "r"(p[0]), "r"(p[1]) : "r6",
-> "r7");
->        |                  ^~~~~~~~
-> /<<PKGBUILDDIR>>/tcg/ppc/tcg-target.c.inc:1885:29: error: expected =E2=80=
-=98)=E2=80=99
-> before =E2=80=98rw=E2=80=99
->   1885 |         : "=3DQ"(*(__int128 *)rw) : "r"(p[0]), "r"(p[1]) : "r6",
-> "r7");
->        |               ~             ^~
->
-> Thanks,
->
-> /mjt
+> But TARGET_MS_ASYNC  would be defined in linux-user/alpha/target_mman.h
+> so this path won't apply... What am I missing?
 >
 
---00000000000087d1e905efe6210e
+--0000000000008ce04705efe623f5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">It&#39;s also has a race condition.<div dir=3D"auto">Plea=
-se see=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><a href=3D"=
-https://lore.kernel.org/qemu-devel/20221206041715.314209-18-richard.henders=
-on@linaro.org/">https://lore.kernel.org/qemu-devel/20221206041715.314209-18=
--richard.henderson@linaro.org/</a><br><br><br><div data-smartmail=3D"gmail_=
-signature" dir=3D"auto">r~</div></div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 15 Dec 2022, 13:33 Michael To=
-karev, &lt;<a href=3D"mailto:mjt@tls.msk.ru">mjt@tls.msk.ru</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">04.10.2022 22:52, Richard Henderson=
- wrote:<br>
-&gt; From: Leandro Lupori &lt;<a href=3D"mailto:leandro.lupori@eldorado.org=
-.br" target=3D"_blank" rel=3D"noreferrer">leandro.lupori@eldorado.org.br</a=
->&gt;<br>
+<div dir=3D"auto">Host!<br><br><div data-smartmail=3D"gmail_signature">r~</=
+div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
+tr">On Thu, 15 Dec 2022, 12:58 Philippe Mathieu-Daud=C3=A9, &lt;<a href=3D"=
+mailto:philmd@linaro.org">philmd@linaro.org</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">On 15/12/22 16:58, Richard Henderson wrote:<br>
+&gt; On 12/14/22 23:58, Philippe Mathieu-Daud=C3=A9 wrote:<br>
+&gt;&gt;&gt; --- a/linux-user/alpha/target_mman.h<br>
+&gt;&gt;&gt; +++ b/linux-user/alpha/target_mman.h<br>
+&gt;&gt;&gt; @@ -3,6 +3,10 @@<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; =C2=A0 #define TARGET_MADV_DONTNEED 6<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; +#define TARGET_MS_ASYNC 1<br>
+&gt;&gt;&gt; +#define TARGET_MS_SYNC 2<br>
+&gt;&gt;&gt; +#define TARGET_MS_INVALIDATE 4<br>
+&gt;&gt;&gt; +<br>
+&gt;&gt;&gt; =C2=A0 #include &quot;../generic/target_mman.h&quot;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; =C2=A0 #endif<br>
+&gt;&gt;&gt; diff --git a/linux-user/generic/target_mman.h <br>
+&gt;&gt;&gt; b/linux-user/generic/target_mman.h<br>
+&gt;&gt;&gt; index 1436a3c543..32bf1a52d0 100644<br>
+&gt;&gt;&gt; --- a/linux-user/generic/target_mman.h<br>
+&gt;&gt;&gt; +++ b/linux-user/generic/target_mman.h<br>
+&gt;&gt;&gt; @@ -89,4 +89,17 @@<br>
+&gt;&gt;&gt; =C2=A0 #define TARGET_MADV_DONTNEED_LOCKED 24<br>
+&gt;&gt;&gt; =C2=A0 #endif<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; +<br>
+&gt;&gt;&gt; +#ifndef TARGET_MS_ASYNC<br>
+&gt;&gt;&gt; +#define TARGET_MS_ASYNC 1<br>
+&gt;&gt;<br>
+&gt;&gt; Hmm don&#39;t we want to keep the host flag instead?<br>
+&gt;&gt;<br>
+&gt;&gt; =C2=A0=C2=A0=C2=A0 #define TARGET_MS_ASYNC MS_ASYNC<br>
 &gt; <br>
-&gt; PowerPC64 processors handle direct branches better than indirect<br>
-&gt; ones, resulting in less stalled cycles and branch misses.<br>
-&gt; <br>
-&gt; However, PPC&#39;s tb_target_set_jmp_target() was only using direct<br=
->
-&gt; branches for 16-bit jumps, while PowerPC64&#39;s unconditional branch<=
-br>
-&gt; instructions are able to handle displacements of up to 26 bits.<br>
-&gt; To take advantage of this, now jumps whose displacements fit in<br>
-&gt; between 17 and 26 bits are also converted to direct branches.<br>
-&gt; <br>
-&gt; Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson=
-@linaro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.=
-org</a>&gt;<br>
-&gt; Signed-off-by: Leandro Lupori &lt;<a href=3D"mailto:leandro.lupori@eld=
-orado.org.br" target=3D"_blank" rel=3D"noreferrer">leandro.lupori@eldorado.=
-org.br</a>&gt;<br>
-&gt; [rth: Expanded some commentary.]<br>
-&gt; Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henders=
-on@linaro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linar=
-o.org</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tcg/ppc/tcg-target.c.inc | 119 +++++++++++++++++++++++++++=
-++----------<br>
-&gt;=C2=A0 =C2=A01 file changed, 88 insertions(+), 31 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc<br>
-&gt; index 1cbd047ab3..e3dba47697 100644<br>
-&gt; --- a/tcg/ppc/tcg-target.c.inc<br>
-&gt; +++ b/tcg/ppc/tcg-target.c.inc<br>
-...<br>
+&gt; No.=C2=A0 What if the host has an odd value, like Alpha.<br>
 <br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* There&#39;s no convenient way to get the compil=
-er to allocate a pair<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* of registers at an even index, so copy into r6/=
-r7 and clobber.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 asm(&quot;mr=C2=A0 %%r6, %1\n\t&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;mr=C2=A0 %%r7, %2\n\t&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;stq %%r6, %0&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 : &quot;=3DQ&quot;(*(__int128 *)rw) : &qu=
-ot;r&quot;(p[0]), &quot;r&quot;(p[1]) : &quot;r6&quot;, &quot;r7&quot;);<br=
->
-<br>
-This is the only place in qemu where __int128 is used (other places name<br=
->
-it __int128_t), and is used *unconditionally*.=C2=A0 Is it right?<br>
-<br>
-In particular, this breaks compilation on powerpc:<br>
-<br>
-cc -m32 -Ilibqemu-aarch64-softmmu.fa.p... -c ../../tcg/tcg.c<br>
-In file included from ../../tcg/tcg.c:432:<br>
-/&lt;&lt;PKGBUILDDIR&gt;&gt;/tcg/ppc/tcg-target.c.inc: In function =E2=80=
-=98ppc64_replace4=E2=80=99:<br>
-/&lt;&lt;PKGBUILDDIR&gt;&gt;/tcg/ppc/tcg-target.c.inc:1885:18: error: expec=
-ted expression before =E2=80=98__int128=E2=80=99<br>
-=C2=A0 1885 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: &quot;=3DQ&quot;(*(__int12=
-8 *)rw) : &quot;r&quot;(p[0]), &quot;r&quot;(p[1]) : &quot;r6&quot;, &quot;=
-r7&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 ^~~~~~~~<br>
-/&lt;&lt;PKGBUILDDIR&gt;&gt;/tcg/ppc/tcg-target.c.inc:1885:29: error: expec=
-ted =E2=80=98)=E2=80=99 before =E2=80=98rw=E2=80=99<br>
-=C2=A0 1885 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: &quot;=3DQ&quot;(*(__int12=
-8 *)rw) : &quot;r&quot;(p[0]), &quot;r&quot;(p[1]) : &quot;r6&quot;, &quot;=
-r7&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0~=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~<br>
-<br>
-Thanks,<br>
-<br>
-/mjt<br>
+But TARGET_MS_ASYNC=C2=A0 would be defined in linux-user/alpha/target_mman.=
+h<br>
+so this path won&#39;t apply... What am I missing?<br>
 </blockquote></div>
 
---00000000000087d1e905efe6210e--
+--0000000000008ce04705efe623f5--
 
