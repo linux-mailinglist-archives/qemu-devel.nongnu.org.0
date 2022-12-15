@@ -2,94 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDC664DCBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 15:10:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E8064DCBC
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Dec 2022 15:12:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5ovl-0006iE-69; Thu, 15 Dec 2022 09:09:49 -0500
+	id 1p5oyE-0007wI-Ft; Thu, 15 Dec 2022 09:12:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5ovi-0006hX-Eo
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:09:46 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p5ovf-0003Uh-Qc
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:09:45 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id w15so3145800wrl.9
- for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 06:09:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=IMZ+stV1uoJH3nAH2hSpXARzGeX/0OMRzUJ3+eHvyM4=;
- b=Omh9Ys/ssf9EGO1E8ewR9xCAab+VLq9Fmad3719VY2+PYWc1CXM3QFp9KDVpRbHtix
- ePW1DZFg2mH5GYR6DKFsb+H/ce6jcuzSinBGK0TEIJ/yceI/G7ryXFsWiDtvsbBYh+Kz
- 5EkGFzDpZgXJLCSycEBF3B0bmmAC8pr64gGZ3zfLO4iS9c+IEJgHI6j/xMOntqqqiW3l
- OJGzhXQFql4h1SstbW2wxfZI3pZ3HBqjmZhixQiyeuWTUN1ZwbZ/k4E/3pRe1seMkwZT
- VjCraZWOkh6VcJ0k87ERq/oCt98gXUAyunvEKuleDZC66FOGgOSCdCzVHjY5s3kMjYJJ
- pp9g==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5oyD-0007w5-5g
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:12:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1p5oyA-00046w-QO
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 09:12:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671113537;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=saNicXExAmRcEecL+5w8gtXujo6ZrVdGXgoy5yAbmjc=;
+ b=gj9WkRYz0GbN+/poaYAiGJOqAcDMGGl8OLNae2QDPB6t/NutHP3myDcPlwT/sx6v7Kjc6c
+ NGUWQs3C4bygVrtif54/IkD+t7+XM28C8JM036rV1S82MgV7+oPkQdOMhnS2CJb8pKeBYk
+ a0xujeLWG7xnsqO74qdfqdHekFm1EvY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-64-4lWWmJgKP6-QPXTcm8ezRw-1; Thu, 15 Dec 2022 09:12:13 -0500
+X-MC-Unique: 4lWWmJgKP6-QPXTcm8ezRw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ x10-20020a05600c420a00b003cfa33f2e7cso7938449wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Dec 2022 06:12:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IMZ+stV1uoJH3nAH2hSpXARzGeX/0OMRzUJ3+eHvyM4=;
- b=UoHiEhg8PBWVIV7ts9jY2yCxiqEmz57TItjDix38DOCYyofhSgcHYAz0MZ/CgZQm4A
- 6t/DtwgCa69bxN+of4ZEf5wrEw5MhSiZrNNSwwmbPzaa6659dS0+SEKcz6XVCHDY0yDW
- i+8EMZZw5a+Z9NYyudQ+zEQSZ7HiecIK5yXG6yuIyCO2qsileOF+hBwhqjsb5DpCHV4g
- ZjxzpAtmtXK7Ha9IDR1uvJZi6km3fqAx9FYbJQV7dIHljlRKa4pXzhO6enDdaQSCJJJ7
- I7Ybws/feihmdFvNYaPWkLFixiCfGcrv5Za76HtcnblEqUorhEPvmVOispETndluAeeB
- gm6w==
-X-Gm-Message-State: AFqh2krKVPsu+7J1MbyG1SkJugCjRRnMSQ397wOB5okB9S7cZN7bmTHt
- 1pFCRIqJen2oTi7RC+nn6fxh6w==
-X-Google-Smtp-Source: AMrXdXsFcodOJb3caHPq9GNm0VMGS+3qCBokPj7BMk3veoymO2Hmeel42jL0ypqafNdvq1KTmXoJ5Q==
-X-Received: by 2002:adf:e991:0:b0:24a:acbe:4105 with SMTP id
- h17-20020adfe991000000b0024aacbe4105mr47770wrm.53.1671113381969; 
- Thu, 15 Dec 2022 06:09:41 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=saNicXExAmRcEecL+5w8gtXujo6ZrVdGXgoy5yAbmjc=;
+ b=Vj59ESX2bMr0WEcaeMGEu3fhw1CWiYSUnLYqzG1I2hT2HrWkPoO6KZUnlroG0PoUip
+ oGL7CYP/XkXij4KvyZEbLBQEzlP/ozDa+de/nUsycTajIUNE16nk7L7dYfB7GrFfe/im
+ yMFndABWXlEf9heD1ff92vNGM7ubQUm5Y8WCgOJgmmpjAyB2662/xf8Pef3itazDaZBo
+ USCAZNN5qLQinlLEhiL7Ierhq750ZFN0o4bSutZLTpy44pyfptvkbn6jR5GpblcIIOvh
+ OQTWnA5nOtJqXac+DJu2fTqCo+ztPT/nc+Qpg6FxOO6VgKGKg3E+2wkMgvZW7T35rvVt
+ L0Ag==
+X-Gm-Message-State: ANoB5pmG+hpGbFX1Z0k4vIF2TpKr3H7OzJl0oNIj3jofmncOi85WsENT
+ uZalucJuP9wdKKNpz0ZAxRFMAwzktxEyY0yVkTCAzKxXj9NOwcHpbE7GwapW+sO0qK2anof1ag3
+ fyaTmSYkiEXgHUiY=
+X-Received: by 2002:adf:9b09:0:b0:248:ab8a:5144 with SMTP id
+ b9-20020adf9b09000000b00248ab8a5144mr16401522wrc.63.1671113529000; 
+ Thu, 15 Dec 2022 06:12:09 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5IQNCOnT3tG9rwXWnn9MB5nAMxeHQpu9VvB96RAeIhjcVCX1z+RB0TrhqtG/X+j4rlpjruPQ==
+X-Received: by 2002:adf:9b09:0:b0:248:ab8a:5144 with SMTP id
+ b9-20020adf9b09000000b00248ab8a5144mr16401511wrc.63.1671113528784; 
+ Thu, 15 Dec 2022 06:12:08 -0800 (PST)
+Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- m15-20020adfe94f000000b002365b759b65sm6128063wrn.86.2022.12.15.06.09.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Dec 2022 06:09:41 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EFECF1FFB7;
- Thu, 15 Dec 2022 14:09:40 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Laurent Vivier <laurent@vivier.eu>, Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- qemu-ppc@nongnu.org (open list:sPAPR (pseries)),
- qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
-Subject: [RFC PATCH] includes: move tb_flush into its own header
-Date: Thu, 15 Dec 2022 14:09:33 +0000
-Message-Id: <20221215140933.2337853-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ m24-20020a056000025800b00241fab5a296sm5917991wrz.40.2022.12.15.06.12.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Dec 2022 06:12:08 -0800 (PST)
+Message-ID: <2c88fd8e-a1f7-2cf1-ec90-46c71421af73@redhat.com>
+Date: Thu, 15 Dec 2022 15:12:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/qtest/qom-test: Do not print tested properties by
+ default
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20221215140152.284180-1-thuth@redhat.com>
+ <CAFEAcA9JKHV+TNCFjgHsLkoMQ1eVz6d_hbre6OqZVasawdn=2A@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAFEAcA9JKHV+TNCFjgHsLkoMQ1eVz6d_hbre6OqZVasawdn=2A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,161 +102,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This aids subsystems (like gdbstub) that want to trigger a flush
-without pulling target specific headers.
+On 15/12/2022 15.04, Peter Maydell wrote:
+> On Thu, 15 Dec 2022 at 14:01, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> We're still running into the problem that some logs are cut in the
+>> gitlab-CI since they got too big. The biggest part of the log is
+>> still the output of the qom-test. Let's stop printing the properties
+>> by default to get to a saner size here. The full output can still
+>> be enabled by setting V=2 (or higher) in the environment.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> 
+>> @@ -103,6 +107,12 @@ static void add_machine_test_case(const char *mname)
+>>
+>>   int main(int argc, char **argv)
+>>   {
+>> +    char *v_env = getenv("V");
+>> +
+>> +    if (v_env && *v_env >= '2') {
+>> +        verbose = true;
+>> +    }
+> 
+> This is a bit cheesy -- I think we should parse the string
+> to a number properly rather than accepting '2', '23',
+> '2.89237', '2e45' '2fast2furious' etc :-)
 
-[AJB: RFC because this is part of a larger gdbstub series but I wanted
-to post for feedback in case anyone wants to suggest better naming].
+Ok, true, it's a little bit weird that it's verbose for V=9 but not for V=10 
+... I'll rework the patch and send a patch for hmp-test.c, too (where I've 
+copied the code from).
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/exec/exec-all.h     | 1 -
- linux-user/user-internals.h | 1 +
- accel/tcg/tb-maint.c        | 1 +
- accel/tcg/translate-all.c   | 1 +
- cpu.c                       | 1 +
- gdbstub/gdbstub.c           | 1 +
- hw/ppc/spapr_hcall.c        | 1 +
- plugins/core.c              | 1 +
- plugins/loader.c            | 2 +-
- target/alpha/sys_helper.c   | 1 +
- target/riscv/csr.c          | 1 +
- 11 files changed, 10 insertions(+), 2 deletions(-)
+  Thomas
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 9b7bfbf09a..6be541a85f 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -648,7 +648,6 @@ void tb_invalidate_phys_addr(target_ulong addr);
- #else
- void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs);
- #endif
--void tb_flush(CPUState *cpu);
- void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr);
- void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end);
- void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
-diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
-index 0280e76add..5ae5e47ff1 100644
---- a/linux-user/user-internals.h
-+++ b/linux-user/user-internals.h
-@@ -20,6 +20,7 @@
- 
- #include "exec/user/thunk.h"
- #include "exec/exec-all.h"
-+#include "exec/tb-common.h"
- #include "qemu/log.h"
- 
- extern char *exec_path;
-diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
-index 0cdb35548c..c665626bc5 100644
---- a/accel/tcg/tb-maint.c
-+++ b/accel/tcg/tb-maint.c
-@@ -21,6 +21,7 @@
- #include "exec/cputlb.h"
- #include "exec/log.h"
- #include "exec/exec-all.h"
-+#include "exec/tb-common.h"
- #include "exec/translate-all.h"
- #include "sysemu/tcg.h"
- #include "tcg/tcg.h"
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index ac3ee3740c..081889cc79 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -47,6 +47,7 @@
- #include "exec/cputlb.h"
- #include "exec/translate-all.h"
- #include "exec/translator.h"
-+#include "exec/tb-common.h"
- #include "qemu/bitmap.h"
- #include "qemu/qemu-print.h"
- #include "qemu/timer.h"
-diff --git a/cpu.c b/cpu.c
-index 4a7d865427..66d64cdb79 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -36,6 +36,7 @@
- #include "sysemu/replay.h"
- #include "exec/cpu-common.h"
- #include "exec/exec-all.h"
-+#include "exec/tb-common.h"
- #include "exec/translate-all.h"
- #include "exec/log.h"
- #include "hw/core/accel-cpu.h"
-diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-index bc43aaf825..6e65497a74 100644
---- a/gdbstub/gdbstub.c
-+++ b/gdbstub/gdbstub.c
-@@ -46,6 +46,7 @@
- #include "sysemu/runstate.h"
- #include "semihosting/semihost.h"
- #include "exec/exec-all.h"
-+#include "exec/tb-common.h"
- #include "exec/hwaddr.h"
- #include "sysemu/replay.h"
- 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 925ff523cc..7c75660d7b 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -8,6 +8,7 @@
- #include "qemu/module.h"
- #include "qemu/error-report.h"
- #include "exec/exec-all.h"
-+#include "exec/tb-common.h"
- #include "helper_regs.h"
- #include "hw/ppc/ppc.h"
- #include "hw/ppc/spapr.h"
-diff --git a/plugins/core.c b/plugins/core.c
-index ccb770a485..1c4c9bc31e 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -24,6 +24,7 @@
- #include "exec/cpu-common.h"
- 
- #include "exec/exec-all.h"
-+#include "exec/tb-common.h"
- #include "exec/helper-proto.h"
- #include "tcg/tcg.h"
- #include "tcg/tcg-op.h"
-diff --git a/plugins/loader.c b/plugins/loader.c
-index 88c30bde2d..86d5bd3b22 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
-@@ -29,7 +29,7 @@
- #include "qemu/plugin.h"
- #include "qemu/memalign.h"
- #include "hw/core/cpu.h"
--#include "exec/exec-all.h"
-+#include "exec/tb-common.h"
- #ifndef CONFIG_USER_ONLY
- #include "hw/boards.h"
- #endif
-diff --git a/target/alpha/sys_helper.c b/target/alpha/sys_helper.c
-index 25f6cb8894..40a5f76c85 100644
---- a/target/alpha/sys_helper.c
-+++ b/target/alpha/sys_helper.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
-+#include "exec/tb-common.h"
- #include "exec/helper-proto.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 5c9a7ee287..b2c1b59689 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -25,6 +25,7 @@
- #include "time_helper.h"
- #include "qemu/main-loop.h"
- #include "exec/exec-all.h"
-+#include "exec/tb-common.h"
- #include "sysemu/cpu-timers.h"
- #include "qemu/guest-random.h"
- #include "qapi/error.h"
--- 
-2.34.1
 
 
