@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5602F64EA1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:19:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B09064EA48
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:24:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p68jf-0000St-W1; Fri, 16 Dec 2022 06:18:40 -0500
+	id 1p68n7-00021q-UK; Fri, 16 Dec 2022 06:22:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p68jX-0000SK-Dc
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:18:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p68jU-0005Ld-G4
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:18:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671189502;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qtiV3gBDQOJUUvidDLnevOvl7ZWDg5ISwHt+/xVCS6I=;
- b=JJO22wc4oyCucm97KVckV6CYFmT4UMDiB8NGTJ8bFwdhfpKad6eSbCjHD1RukPhiRaFbC6
- rXdbOS3yUPLHabO1AXSumNmJ6CvVqCJRgUR5YIknsnuQW/fyhxvp+jXHAVfBilg0QzPDPE
- WyNVczjExgihtqIwwEwGDeqexsy2E8U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-nBfkuk1GNwiGEr14Gbpp1g-1; Fri, 16 Dec 2022 06:18:19 -0500
-X-MC-Unique: nBfkuk1GNwiGEr14Gbpp1g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 87B7F1871D94;
- Fri, 16 Dec 2022 11:18:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F0E5E2026D68;
- Fri, 16 Dec 2022 11:18:15 +0000 (UTC)
-Date: Fri, 16 Dec 2022 11:18:13 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, Peter Lieven <pl@kamp.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Hanna Reitz <hreitz@redhat.com>, libvir-list@redhat.com,
- Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH 1/3] block: mention 'password-secret' option for -iscsi
-Message-ID: <Y5xT9XfIoB2hcs9u@redhat.com>
-References: <20221201101959.419545-1-berrange@redhat.com>
- <20221201101959.419545-2-berrange@redhat.com>
- <87fsdz5li3.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p68n5-00021E-D6
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:22:11 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p68n3-00067I-7X
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:22:10 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id m19so1620756wms.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 03:22:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BVjUIAv0VcoY5sHYYZW+J4ocC/Chj2cplXNd+0lHjJI=;
+ b=vfQJ+kkTj04zxdeD8i7CPuik35xI51iUjR22GlPD6FQYmppAD3izN24nAyAk2xAMoL
+ BhrAuhAJ7mZjNQRbQKo6Kv3+Q+EEbwxBHu952A/mQUi0m24sr0KXNltnb8mw31eRBXoi
+ 2zKr20/l5guwb4ngN1prUJ7Fg6ubP4Ul2oT/W9zck1OTyolKFLYQxriaiKRcefCb1klR
+ jxOOHIgixp68Nm/SPDdsSziGnSwpldMxDJYbu7/z5xFsKS4gTXoggBE2aTN1ffEvgVUV
+ GnpYWTh+okYiA0GmhP1TFKcloJeOjJYnks4B0TwVRhuGUZBU0vqpOgHMjxpEV5UnBjqF
+ tvKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BVjUIAv0VcoY5sHYYZW+J4ocC/Chj2cplXNd+0lHjJI=;
+ b=qWBn37+JgePXxCbRhJRzGCBlY4+WHCbKH8JTtk/RDSZn+9QUAW/gx/6wwxVbdEYRCu
+ DiszdrswpJpVgWJLy+Ttko8gtE+6kEinFGOp/W4XuEA2cF26WCa8tn0wDRALbwNVicPy
+ KXF6IkzGTKELuytWZhKUQ+IgIUNspWI/+0LES6e1u7rqEQe2lQxzusTMer06uz/oW/my
+ R9XV4hPPWWajU64SQxN1pxkHTSXAxkICQfAo/JyOcJo+IQzC/Zsv94V93iAMnqkXshLf
+ zELUpwr+4mZHjxcbl9OibO4bpyWHAgYW9RLUw2erbrx74KhhnRnNX5TuRAog3bk7CIBg
+ JdCQ==
+X-Gm-Message-State: ANoB5pmBUTYJAhbDNzl4PSxZknxEl3h5MYCt0hCsPd00QQNFr/D6Iq7I
+ WwUeI7MOm/Hm0BpXXfbKYDi82A==
+X-Google-Smtp-Source: AA0mqf4nLyYMQsxLdcZTYNF3Rt1Ul/GOHW2+ZZxsSu0m2rfOLezPU2MuYSF+xL3yj/6PLppxVtiS7A==
+X-Received: by 2002:a05:600c:310e:b0:3cf:a39f:eb2a with SMTP id
+ g14-20020a05600c310e00b003cfa39feb2amr25285065wmo.11.1671189727721; 
+ Fri, 16 Dec 2022 03:22:07 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ t16-20020a1c7710000000b003c6f3f6675bsm8968906wmi.26.2022.12.16.03.22.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Dec 2022 03:22:07 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DC4AC1FFB7;
+ Fri, 16 Dec 2022 11:22:06 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, mads@ynddal.dk,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v1 00/10] split user and system code in gdbstub
+Date: Fri, 16 Dec 2022 11:21:56 +0000
+Message-Id: <20221216112206.3171578-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87fsdz5li3.fsf@suse.de>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,56 +88,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 01, 2022 at 09:58:12AM -0300, Fabiano Rosas wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > The 'password-secret' option was added
-> >
-> >   commit b189346eb1784df95ed6fed610411dbf23d19e1f
-> >   Author: Daniel P. Berrangé <berrange@redhat.com>
-> >   Date:   Thu Jan 21 14:19:21 2016 +0000
-> >
-> >     iscsi: add support for getting CHAP password via QCryptoSecret API
-> >
-> > but was not mentioned in the command line docs
-> >
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  qemu-options.hx | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index 7f99d15b23..055df73306 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -1889,7 +1889,7 @@ SRST
-> >  ERST
-> >  
-> >  DEF("iscsi", HAS_ARG, QEMU_OPTION_iscsi,
-> > -    "-iscsi [user=user][,password=password]\n"
-> > +    "-iscsi [user=user][,password=password],password-secret=secret-id]\n"
-> 
-> Loos like you're missing a bracket before the comma.
-> 
-> The line below also lacks one at the end.
+Hi,
 
-Thanks, will fix both.
+We currently re-compile gdbstub for every single target on the system.
+Part of the reason for this is we have a lot of conditional #ifdefs to
+handle the differences between user and system mode debugging. To use
+the CONFIG_USER_ONLY and CONFIG_SOFTMMU defines you require using
+NEED_CPU which ensures CONFIG_TARGET is included.
 
-> 
-> >      "       [,header-digest=CRC32C|CR32C-NONE|NONE-CRC32C|NONE\n"
-> >      "       [,initiator-name=initiator-iqn][,id=target-iqn]\n"
-> >      "       [,timeout=timeout]\n"
-> 
+This series starts to pull things apart so we split user and system
+specific code into their appropriate files and reduce the amount of
+#ifdef stuff in gdbstub. The work is not complete but hopefully shows
+the direction of travel.
 
-With regards,
-Daniel
+We also split up the public headers so other parts of the code aren't
+forced to bring in all the additional NEED_CPU stuff just to access
+the core API. The GDB helpers which do have to be host/target aware to
+deal with byte swaps are now in their own mini-header.
+
+What remains:
+
+  - re-factoring inline #ifdef blocks
+  - eliminating target_ulong usage
+  - once no longer target dependent move gdbstub to common_ss
+
+The command table is one section that still requires handling the
+differences between user and system mode so I think that might end up
+being split into a separate file or possibly figuring out how to
+compile gdbstub just twice, once for user_ss (with CONFIG_USER_ONLY
+manually defined) and once for system_ss. Any pointers on the meson
+magic to do that gratefully received.
+
+Please review
+
+Alex Bennée (9):
+  gdbstub/internals.h: clean up include guard
+  gdbstub: fix-up copyright and license files
+  gdbstub: split GDBConnection from main structure
+  gdbstub: move GDBState to shared internals header
+  includes: move tb_flush into its own header
+  includes: add new gdbstub include directory
+  gdbstub: move chunk of softmmu functionality to own file
+  gdbstub: move chunks of user code into own files
+  gdbstub: retire exec/gdbstub.h
+
+Philippe Mathieu-Daudé (1):
+  gdbstub: Make syscall_complete/[gs]et_reg target-agnostic typedefs
+
+ bsd-user/qemu.h                              |    2 +-
+ gdbstub/internals.h                          |  139 +-
+ include/exec/exec-all.h                      |    1 -
+ include/exec/tb-flush.h                      |   19 +
+ include/{exec/gdbstub.h => gdbstub/common.h} |  141 +-
+ include/gdbstub/helpers.h                    |  101 ++
+ include/gdbstub/user.h                       |   43 +
+ linux-user/user-internals.h                  |    1 +
+ accel/kvm/kvm-all.c                          |    2 +-
+ accel/stubs/tcg-stub.c                       |    1 +
+ accel/tcg/tb-maint.c                         |    1 +
+ accel/tcg/tcg-accel-ops.c                    |    2 +-
+ accel/tcg/translate-all.c                    |    1 +
+ cpu.c                                        |    1 +
+ gdbstub/gdbstub.c                            | 1331 ++----------------
+ gdbstub/softmmu.c                            |  514 ++++++-
+ gdbstub/user-target.c                        |  283 ++++
+ gdbstub/user.c                               |  348 ++++-
+ hw/ppc/spapr_hcall.c                         |    1 +
+ linux-user/exit.c                            |    2 +-
+ linux-user/main.c                            |    3 +-
+ linux-user/signal.c                          |    2 +-
+ monitor/misc.c                               |    2 +-
+ plugins/core.c                               |    1 +
+ plugins/loader.c                             |    2 +-
+ semihosting/arm-compat-semi.c                |    2 +-
+ semihosting/console.c                        |    2 +-
+ semihosting/guestfd.c                        |    2 +-
+ semihosting/syscalls.c                       |    3 +-
+ softmmu/cpus.c                               |    2 +-
+ softmmu/runstate.c                           |    2 +-
+ softmmu/vl.c                                 |    2 +-
+ stubs/gdbstub.c                              |    2 +-
+ target/alpha/gdbstub.c                       |    2 +-
+ target/alpha/sys_helper.c                    |    1 +
+ target/arm/gdbstub.c                         |    3 +-
+ target/arm/gdbstub64.c                       |    2 +-
+ target/arm/helper-a64.c                      |    2 +-
+ target/arm/kvm64.c                           |    2 +-
+ target/arm/m_helper.c                        |    2 +-
+ target/avr/gdbstub.c                         |    2 +-
+ target/cris/gdbstub.c                        |    2 +-
+ target/hexagon/gdbstub.c                     |    2 +-
+ target/hppa/gdbstub.c                        |    2 +-
+ target/i386/gdbstub.c                        |    2 +-
+ target/i386/kvm/kvm.c                        |    2 +-
+ target/i386/whpx/whpx-all.c                  |    2 +-
+ target/loongarch/gdbstub.c                   |    3 +-
+ target/m68k/gdbstub.c                        |    2 +-
+ target/m68k/helper.c                         |    3 +-
+ target/m68k/m68k-semi.c                      |    4 +-
+ target/microblaze/gdbstub.c                  |    2 +-
+ target/mips/gdbstub.c                        |    2 +-
+ target/mips/tcg/sysemu/mips-semi.c           |    3 +-
+ target/nios2/cpu.c                           |    2 +-
+ target/nios2/nios2-semi.c                    |    3 +-
+ target/openrisc/gdbstub.c                    |    2 +-
+ target/openrisc/interrupt.c                  |    2 +-
+ target/openrisc/mmu.c                        |    2 +-
+ target/ppc/cpu_init.c                        |    2 +-
+ target/ppc/gdbstub.c                         |    3 +-
+ target/ppc/kvm.c                             |    2 +-
+ target/riscv/csr.c                           |    1 +
+ target/riscv/gdbstub.c                       |    3 +-
+ target/rx/gdbstub.c                          |    2 +-
+ target/s390x/gdbstub.c                       |    3 +-
+ target/s390x/helper.c                        |    2 +-
+ target/s390x/kvm/kvm.c                       |    2 +-
+ target/sh4/gdbstub.c                         |    2 +-
+ target/sparc/gdbstub.c                       |    2 +-
+ target/tricore/gdbstub.c                     |    2 +-
+ target/xtensa/core-dc232b.c                  |    2 +-
+ target/xtensa/core-dc233c.c                  |    2 +-
+ target/xtensa/core-de212.c                   |    2 +-
+ target/xtensa/core-de233_fpu.c               |    2 +-
+ target/xtensa/core-dsp3400.c                 |    2 +-
+ target/xtensa/core-fsf.c                     |    2 +-
+ target/xtensa/core-lx106.c                   |    2 +-
+ target/xtensa/core-sample_controller.c       |    2 +-
+ target/xtensa/core-test_kc705_be.c           |    2 +-
+ target/xtensa/core-test_mmuhifi_c3.c         |    2 +-
+ target/xtensa/gdbstub.c                      |    2 +-
+ target/xtensa/helper.c                       |    2 +-
+ MAINTAINERS                                  |    2 +-
+ gdbstub/meson.build                          |    2 +
+ gdbstub/trace-events                         |    4 +-
+ scripts/feature_to_c.sh                      |    2 +-
+ target/xtensa/import_core.sh                 |    2 +-
+ 88 files changed, 1680 insertions(+), 1401 deletions(-)
+ create mode 100644 include/exec/tb-flush.h
+ rename include/{exec/gdbstub.h => gdbstub/common.h} (61%)
+ create mode 100644 include/gdbstub/helpers.h
+ create mode 100644 include/gdbstub/user.h
+ create mode 100644 gdbstub/user-target.c
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.34.1
 
 
