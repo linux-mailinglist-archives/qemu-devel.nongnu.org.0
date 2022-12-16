@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD2064F414
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0422064F406
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:23:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Ip8-0007ew-B5; Fri, 16 Dec 2022 17:04:58 -0500
+	id 1p6IpB-0007p2-I4; Fri, 16 Dec 2022 17:05:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ioa-0007dX-38
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:04:24 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Iog-0007ex-Jh
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:04:33 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6IoY-0005Ad-4o
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:04:23 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id n20so9390938ejh.0
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:04:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ioe-0005BE-Eb
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:04:29 -0500
+Received: by mail-ej1-x629.google.com with SMTP id x22so9205920ejs.11
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:04:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=i2cVk58Dcn2Rj8aTFRvN2/fiers8pgqo5iyjoGh8F+w=;
- b=iMZl//DVGdc74hAZUvDezhtC31xHMwxivZAdDW64VkSgvRaFbqLPhKq86YbHoNRpqi
- hr7uyey5mdaWWFvWg7m9mDe4kgdhohY4FbF86rxfyoUxc/UZOfC4wwmc00JNxNCw8ylY
- 4x9UGGgIkC6Pt84dAGYmChZj7Rg8Xptc5j+Uk0pHfOEKufrhtil5oOg/X1gKXWX/E99N
- mVIo9TU1WoGVZZZR4D76ljjNCtonuYUoqyFwuQVC1gsrUqJ6ssHQCU+wbQOBrn2lUmAY
- BcwuH80ut6fLMS46RejvarNfpphy9dZES63gFcgiHeDUQoMKKj8Uqr+IKmtLtV/q3BUO
- K5TA==
+ bh=ZdbZRXHfDz9my/2NqwlMSDYtYDjTBgfAErVO9Fq757o=;
+ b=sQpGTdNl81oqAdJPrntXviKZtH+/I5g09Vbx5/fJNm3mpQABV8GIZ+q5uC4yNWNZ79
+ k32y0x+CFSx4tlaIgICAUaddRmXNDXmlpBuLi/mtCjI4R38DkaFDj273tUvRS1TTMlBu
+ vlfW712xWGiRe4StWUayYbm1JULsAfr79B84zkqWVW2XGt9gpynGo22+gHEzaQhAGFZh
+ 8kH1TY4GCtRE3mlyazY0ChJsY0mksUkxkXjMBY78zEnHI+Aj85nGwmXJXF+TqAKB+6PJ
+ nL/OjEAG9dCbSpSq4Htn5ZOE1FhoajPJgkWf9CMfQADessYMKAYSOEBKTD4UKCFpU/6w
+ qtpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=i2cVk58Dcn2Rj8aTFRvN2/fiers8pgqo5iyjoGh8F+w=;
- b=xR99KzStWzWUbvG7Z7gOBWdVBRPSNzGUlLlR32JAG86NG5NW74+VIODJCoKhYPVOVg
- HIxmvMfet/cnEXM26U5gng1v4vEsDZm32+RWW2uBKN+crFc3JkKJ4z766kZS1AVp5aMx
- cNpIzr63RZCXSOSrcgwL9b7ioMan5wlN4EsUXXDXoF8GTtY/HEMXRY9/XISxAqLNOoRs
- P7YTHoTGS+GMYh6R79WeIZ98LL5OlHszecePeHl0a429FMUfEyZA9ABP7aEUuhsYeJHr
- Gca/72jQLGQrqaXvTaN0/cDVn91iQzPwThupq1n3Ulu0XRmMEh19sYbuAANqkwN2a7As
- xXaw==
-X-Gm-Message-State: AFqh2kpuIzt3Hl+oX5NE8AWqDGjXiDIbbdCUUeJvKmf6zo8umqyK4D3Q
- 82Pq95l07pC18LaXKLcGeo4BvwaUCFbGVer5Lq0=
-X-Google-Smtp-Source: AMrXdXu5txSuLe9aj+LmfoL66P4AtYBDM5fa1jCZpD5s5MJFqLRkZYWPuzz7B7I9xd45doewPc6NEQ==
-X-Received: by 2002:a17:906:a20d:b0:7fc:4242:f9e9 with SMTP id
- r13-20020a170906a20d00b007fc4242f9e9mr142598ejy.70.1671228260600; 
- Fri, 16 Dec 2022 14:04:20 -0800 (PST)
+ bh=ZdbZRXHfDz9my/2NqwlMSDYtYDjTBgfAErVO9Fq757o=;
+ b=YGXQAiLz9guJ8AbxKsHt/+ALnPweToAJD97OABEwYl+xup2ARYg0o2HY2wgZKmcZQ2
+ HBaNOH7ajKpa/vKfIiSjtQrm3LqYt7KaK01E/3ZunyZpWXgUFnZ2ScLhCtH54QpcJBQx
+ xdiwXJtI1L4k6ubPlmvLi+pUlc3dbuV0HVptGbKPOASNwo2O6Mf8KsgnnfNJoZlhZDSO
+ 1dY1Ojaf3qXhJRQ/Td6fdIOrMNQtyHrLZzetfajQ/y9WKDVNoH/cs81dQ7cnplbX4wHU
+ Gcsdg1JZaXAq1SyD2CaVj4uVHHqWBlB2pk8ZhbTcoGlwjBzfFP+Q/pjLnELlfMhn+Iss
+ Wbfw==
+X-Gm-Message-State: ANoB5pm0DXIkx/+48j3hE2SXgOD2DpST7dm0RIBbJae63AqDGC3n4odp
+ MrSmdYjgjzjaDJXHSSU8ejk3dnmI7THcH9I0S2E=
+X-Google-Smtp-Source: AA0mqf7w4Th41q3sZYqLrKys94QA51EDfCwrD1/tvUOylL9ESlfNmo/WlKIZD2r4JsiWQ+ztXfhBMw==
+X-Received: by 2002:a17:906:2a8c:b0:78d:f454:3771 with SMTP id
+ l12-20020a1709062a8c00b0078df4543771mr26890169eje.20.1671228266228; 
+ Fri, 16 Dec 2022 14:04:26 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u11-20020a170906b10b00b00781dbdb292asm1275400ejy.155.2022.12.16.14.04.19
+ q1-20020a17090676c100b007c6be268252sm1283252ejn.77.2022.12.16.14.04.24
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 14:04:20 -0800 (PST)
+ Fri, 16 Dec 2022 14:04:25 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
@@ -61,17 +61,17 @@ Cc: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Eric Farman <farman@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
  qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Peter Xu <peterx@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
-Subject: [PATCH 1/5] exec/memory: Expose memory_region_access_valid()
-Date: Fri, 16 Dec 2022 23:04:07 +0100
-Message-Id: <20221216220411.6779-2-philmd@linaro.org>
+Subject: [PATCH 2/5] hw/s390x/pv: Un-inline s390_pv_init()
+Date: Fri, 16 Dec 2022 23:04:08 +0100
+Message-Id: <20221216220411.6779-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221216220411.6779-1-philmd@linaro.org>
 References: <20221216220411.6779-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,59 +94,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Instead of having hardware device poking into memory
-internal API, expose memory_region_access_valid().
+There is no point in having s390_pv_init() inlined.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/s390x/s390-pci-inst.c       | 2 +-
- include/exec/memory-internal.h | 4 ----
- include/exec/memory.h          | 4 ++++
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ hw/s390x/pv.c         | 13 +++++++++++++
+ include/hw/s390x/pv.h | 14 +-------------
+ 2 files changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 66e764f901..35db7777e4 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -13,7 +13,7 @@
+diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+index 8dfe92d8df..9c511369b2 100644
+--- a/hw/s390x/pv.c
++++ b/hw/s390x/pv.c
+@@ -26,6 +26,19 @@ static bool info_valid;
+ static struct kvm_s390_pv_info_vm info_vm;
+ static struct kvm_s390_pv_info_dump info_dump;
  
- #include "qemu/osdep.h"
- #include "exec/memop.h"
--#include "exec/memory-internal.h"
-+#include "exec/memory.h"
- #include "qemu/error-report.h"
- #include "sysemu/hw_accel.h"
- #include "hw/s390x/s390-pci-inst.h"
-diff --git a/include/exec/memory-internal.h b/include/exec/memory-internal.h
-index 9fcc2af25c..100c1237ac 100644
---- a/include/exec/memory-internal.h
-+++ b/include/exec/memory-internal.h
-@@ -38,10 +38,6 @@ void flatview_unref(FlatView *view);
- 
- extern const MemoryRegionOps unassigned_mem_ops;
- 
--bool memory_region_access_valid(MemoryRegion *mr, hwaddr addr,
--                                unsigned size, bool is_write,
--                                MemTxAttrs attrs);
--
- void flatview_add_to_dispatch(FlatView *fv, MemoryRegionSection *section);
- AddressSpaceDispatch *address_space_dispatch_new(FlatView *fv);
- void address_space_dispatch_compact(AddressSpaceDispatch *d);
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 91f8a2395a..c37ffdbcd1 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2442,6 +2442,10 @@ void memory_global_dirty_log_stop(unsigned int flags);
- 
- void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled);
- 
-+bool memory_region_access_valid(MemoryRegion *mr, hwaddr addr,
-+                                unsigned size, bool is_write,
-+                                MemTxAttrs attrs);
++int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
++{
++    if (!cgs) {
++        return 0;
++    }
++    if (kvm_enabled()) {
++        return s390_pv_kvm_init(cgs, errp);
++    }
 +
- /**
-  * memory_region_dispatch_read: perform a read directly to the specified
-  * MemoryRegion.
++    error_setg(errp, "Protected Virtualization requires KVM");
++    return -1;
++}
++
+ static int __s390_pv_cmd(uint32_t cmd, const char *cmdname, void *data)
+ {
+     struct kvm_pv_cmd pv_cmd = {
+diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+index 9360aa1091..5bca5bcaf1 100644
+--- a/include/hw/s390x/pv.h
++++ b/include/hw/s390x/pv.h
+@@ -12,7 +12,6 @@
+ #ifndef HW_S390_PV_H
+ #define HW_S390_PV_H
+ 
+-#include "qapi/error.h"
+ #include "sysemu/kvm.h"
+ 
+ #ifdef CONFIG_KVM
+@@ -78,17 +77,6 @@ static inline int kvm_s390_dump_completion_data(void *buff) { return 0; }
+ #endif /* CONFIG_KVM */
+ 
+ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+-static inline int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
+-{
+-    if (!cgs) {
+-        return 0;
+-    }
+-    if (kvm_enabled()) {
+-        return s390_pv_kvm_init(cgs, errp);
+-    }
+-
+-    error_setg(errp, "Protected Virtualization requires KVM");
+-    return -1;
+-}
++int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp);
+ 
+ #endif /* HW_S390_PV_H */
 -- 
 2.38.1
 
