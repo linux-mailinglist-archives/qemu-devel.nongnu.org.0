@@ -2,116 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FA964EC93
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:04:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E83B64EC39
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 14:43:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6BJ3-0008IZ-Ia; Fri, 16 Dec 2022 09:03:21 -0500
+	id 1p6AyS-000402-8y; Fri, 16 Dec 2022 08:42:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p6BJ1-0008I6-Vm
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:03:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p6AyQ-0003zt-MV
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:42:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p6BJ0-0001if-61
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:03:19 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BGDjT7v003506
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:03:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Epd2RWIAlAW7leO29lkIOK4eBWCRcGiI301EknJoJY8=;
- b=hdhj/yyQWmBoeaYWndIeoi9Row7sNcIklpGUkU1p/gmPMGHKLDVdhGqzWsBJtBKseaba
- DGSpQoiyyNW/U76GegFhd2KwJ0QwLOfHLCGh96CRqI3H40j1/wfIPEjws8wpud25+wDH
- mlNxemnyPc4eiIQ+SEEot6tgmJH5RbFPdiMT6x1wGlS4JPQsAsqX/So2FY/QlatJex68
- CyL6knsAnJMm2FBAbMlwotqdok1p6K5shT2w2EmosrxEUqVu74zuLwUJUKij5HkqLJge
- xL55aaI14vCokq5Gr1tWCUskix6c3bcXVADkEC2ezwOxMFJ/2B2IgdeuQTlqwukb1BSK uA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mgsud0ckw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:03:15 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BGDtA3J040477
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:03:15 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mgsud0cj4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 14:03:15 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BGC5SsJ024732;
- Fri, 16 Dec 2022 13:32:47 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([9.208.129.116])
- by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3meypkj8qp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 13:32:47 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com
- [10.241.53.103])
- by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BGDWkBF60883454
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 16 Dec 2022 13:32:46 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 22BAA58056;
- Fri, 16 Dec 2022 13:32:46 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A383E58052;
- Fri, 16 Dec 2022 13:32:45 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 16 Dec 2022 13:32:45 +0000 (GMT)
-Message-ID: <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
-Date: Fri, 16 Dec 2022 08:32:44 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p6AyO-00053B-Mu
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:42:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671198119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JGdseyDfpfvPioAdvBFtWv3Ylrg5ySNb5qZS858OEqQ=;
+ b=Et8HFP0iKtWJjli4t8xIJD1wq5hUdgFlmOahIpSubwI/+uRnfs77A7tA/Lud/Fh2A99uix
+ NN9zyt+YPSzG5nXm6pp6b3EJNGIwEwFPzuDNztd+i8XxqzNs/KTSMgQh+PhdQxQzHCEj8I
+ F/+FU2gCoRD11nvfMtCLW589ScjIzho=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-203-wATgH18JOnejB-pls76gUw-1; Fri, 16 Dec 2022 08:41:58 -0500
+X-MC-Unique: wATgH18JOnejB-pls76gUw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v188-20020a1cacc5000000b003cf76c4ae66so2588978wme.7
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 05:41:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JGdseyDfpfvPioAdvBFtWv3Ylrg5ySNb5qZS858OEqQ=;
+ b=rMZM41UZjkjmCcswv16dRpBZEIxRotqADUz0m7/Hp8HcQtFZpUoG253CcZNk4NHoNi
+ BDUAAmwheBRULrx90w61NxBlmiEvkDLIcpF33nUStRGyKrjUuBa1NOMGTQ8M6S49/mRl
+ dpHhEax26N4m44jSn0VXSQKA5kSUfMXmgpsy93suNWphs/ItAyWfqdIG8/vCPXz9L//h
+ 3ee1620owYApRgBXYzhT41DfFTgJM9DVVVUSe+w8gOhRh6I2xss8ZPxW5H6M+R/UVB2r
+ wD+CNSQdrIloP6GApPSvG9qUHxVr6FFrve4qUBS8wLkK9l9xxDVcOvvTZIuchTzVFSLG
+ d4bw==
+X-Gm-Message-State: ANoB5pm+xAM8oOZhAoA2Tlmsuo6aL06bz3bTnmd4NyLaMYBx0APPUZbe
+ mxQgosuzl8uogQOGP49HV/gfXL0tQ4jbbtxbr2NS02YZqyGvRmFsQht8WCjMN5Tbo63NrzztBMp
+ 2Ykf8NRlmQEAobwI=
+X-Received: by 2002:a05:600c:13c8:b0:3cf:69a5:3621 with SMTP id
+ e8-20020a05600c13c800b003cf69a53621mr25523008wmg.41.1671198117262; 
+ Fri, 16 Dec 2022 05:41:57 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7hJ81JfIUUUJ4FCRXs2Bg08rwCxHjju8DbacGH9C2OqPfSIX9xs3wg3C5GFUX7tFAWrJOUZQ==
+X-Received: by 2002:a05:600c:13c8:b0:3cf:69a5:3621 with SMTP id
+ e8-20020a05600c13c800b003cf69a53621mr25522991wmg.41.1671198116992; 
+ Fri, 16 Dec 2022 05:41:56 -0800 (PST)
+Received: from ?IPV6:2003:cb:c71c:3900:7211:d436:8d8b:531c?
+ (p200300cbc71c39007211d4368d8b531c.dip0.t-ipconnect.de.
+ [2003:cb:c71c:3900:7211:d436:8d8b:531c])
+ by smtp.gmail.com with ESMTPSA id
+ k62-20020a1ca141000000b003cf894dbc4fsm2645484wme.25.2022.12.16.05.41.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Dec 2022 05:41:56 -0800 (PST)
+Message-ID: <f06e436f-223a-9318-d631-c9d5c711af1b@redhat.com>
+Date: Fri, 16 Dec 2022 14:41:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH 2/2] tpm: add backend for mssim
+Subject: Re: [PATCH v2] hostmem: Honor multiple preferred nodes if possible
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: jejb@linux.ibm.com, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
-References: <6fd1144d09777ddcdb7a1a1ba58cbbec345da9ef.camel@linux.ibm.com>
- <e77a3a76-c874-d279-52bf-18a4e3a36ba2@linux.ibm.com>
- <77bc5a11fcb7b06deba1c54b1ef2de28e0c53fb1.camel@linux.ibm.com>
- <10fbda0f-7c8a-3819-fb22-34a9249ac138@linux.ibm.com>
- <b5d26ab0e54c15c408e9bae136bce969283ed5bd.camel@linux.ibm.com>
- <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
- <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
- <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
- <Y5xH/0bbgFzi+G//@redhat.com>
- <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
- <Y5xqgK8UXe28VZQ2@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <Y5xqgK8UXe28VZQ2@redhat.com>
+To: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com
+References: <a0b4adce1af5bd2344c2218eb4a04b3ff7bcfdb4.1671097918.git.mprivozn@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <a0b4adce1af5bd2344c2218eb4a04b3ff7bcfdb4.1671097918.git.mprivozn@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: uBJ_LFujcAJBLIfQ8Keco1v8Ue0PMUgG
-X-Proofpoint-ORIG-GUID: Fr1b-vSFY0sDun9bX4mwxrQuNqrYh6MG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-16_09,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- impostorscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 phishscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212160124
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -127,90 +103,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 12/16/22 07:54, Daniel P. Berrangé wrote:
-> On Fri, Dec 16, 2022 at 07:28:59AM -0500, Stefan Berger wrote:
->>
->>
->> On 12/16/22 05:27, Daniel P. Berrangé wrote:
->>> On Thu, Dec 15, 2022 at 03:53:43PM -0500, Stefan Berger wrote:
->>>>
->>>>
->>>> On 12/15/22 15:30, James Bottomley wrote:
->>>>> On Thu, 2022-12-15 at 15:22 -0500, Stefan Berger wrote:
->>>>>> On 12/15/22 15:07, James Bottomley wrote:
->>>>> [...]
->>>>>>> don't really have much interest in the migration use case, but I
->>>>>>> knew it should work like the passthrough case, so that's what I
->>>>>>> tested.
->>>>>>
->>>>>> I think your device needs to block migrations since it doesn't handle
->>>>>> all migration scenarios correctly.
->>>>>
->>>>> Passthrough doesn't block migrations either, presumably because it can
->>>>> also be made to work if you know what you're doing.  I might not be
->>>>
->>>> Don't compare it to passthrough, compare it to swtpm. It should
->>>> have at least the same features as swtpm or be better, otherwise
->>>> I don't see why we need to have the backend device in the upstream
->>>> repo.
->>>
->>> James has explained multiple times that mssim is a beneficial
->>> thing to support, given that it is the reference implementation
->>> of TPM2. Requiring the same or greater features than swtpm is
->>> an unreasonable thing to demand.
->>
->> Nevertheless it needs documentation and has to handle migration
->> scenarios either via a blocker or it has to handle them all
->> correctly. Since it's supposed to be a TPM running remote you
->> had asked for TLS support iirc.
+On 15.12.22 10:55, Michal Privoznik wrote:
+> If a memory-backend is configured with mode
+> HOST_MEM_POLICY_PREFERRED then
+> host_memory_backend_memory_complete() calls mbind() as:
 > 
-> If the mssim implmentation doesn't provide TLS itself, then I don't
-> consider that a blocker on the QEMU side, merely a nice-to-have.
+>    mbind(..., MPOL_PREFERRED, nodemask, ...);
 > 
-> With swtpm the control channel is being used to load and store state
-> during the migration dance. This makes the use of an external process
-> largely transparent to the user, since QEMU handles all the state
-> save/load as part of its migration data stream.
+> Here, 'nodemask' is a bitmap of host NUMA nodes and corresponds
+> to the .host-nodes attribute. Therefore, there can be multiple
+> nodes specified. However, the documentation to MPOL_PREFERRED
+> says:
 > 
-> With mssim there is state save/load co-ordination with QEMU. Instead
-> whomever/whatever is managing the mssim instance, is responsible for
-> ensuring it is running with the correct state at the time QEMU does
-> a vmstate load. If doing a live migration this co-ordination is trivial
-> if you just use the same mssim instance for both src/dst to connect to.
+>    MPOL_PREFERRED
+>      This mode sets the preferred node for allocation. ...
+>      If nodemask specifies more than one node ID, the first node
+>      in the mask will be selected as the preferred node.
 > 
-> If doing save/store to disk, the user needs to be able to save the mssim
-> state and load it again later. If doing snapshots and reverting to old
-
-There is no way for storing and loading the *volatile state* of the mssim device.
-
-> snapshots, then again whomever manages mssim needs to be keeping saved
-> TPM state corresponding to each QEMU snapshot saved, and picking the
-> right one when restoring to old snapshots.
-
-This doesn't work.
-Either way, if it's possible it can be documented and shown how this works.
-
+> Therefore, only the first node is honored and the rest is
+> silently ignored. Well, with recent changes to the kernel and
+> numactl we can do better.
 > 
-> QEMU exposes enough functionality to enable a mgmt app / admin us> achieve all of this.
-
-How do you store the volatile state of this device, like the current state of the PCRs, loaded sessions etc? It doesn't support this.
-
+> The Linux kernel added in v5.15 via commit cfcaa66f8032
+> ("mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY")
+> support for MPOL_PREFERRED_MANY, which accepts multiple preferred
+> NUMA nodes instead.
 > 
-> This is not as seemlessly integrated with swtpm is, but it is still
-> technically posssible todo the right thing with migration from QEMU's
-> POV. Whether or not the app/person managing mssim instance actually
-> does the right thing in practice is not a concern of QEMU. I don't
-> see a need for a migration blocker here.
-
-I do see it because the *volatile state* cannot be extracted from this device. The state of the PCRs is going to be lost.
-
-
-Regards,
-    Stefan
-
+> Then, numa_has_preferred_many() API was introduced to numactl
+> (v2.0.15~26) allowing applications to query kernel support.
 > 
-> With regards,
-> Daniel
+> Wiring this all together, we can pass MPOL_PREFERRED_MANY to the
+> mbind() call instead and stop ignoring multiple nodes, silently.
+> 
+> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> ---
+
+[...]
+
+> +#ifdef HAVE_NUMA_SET_PREFERRED_MANY
+> +        if (mode == MPOL_PREFERRED && numa_has_preferred_many() > 0) {
+> +            /*
+> +             * Replace with MPOL_PREFERRED_MANY otherwise the mbind() below
+> +             * silently picks the first node.
+> +             */
+> +            mode = MPOL_PREFERRED_MANY;
+> +        }
+> +#endif
+> +
+
+
+I was curios if we want to warn the user if "mode == 
+MPOL_PREFERRED_MANY" and we were given more than one node.
+
+
+Apart from that LGTM, thanks
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
