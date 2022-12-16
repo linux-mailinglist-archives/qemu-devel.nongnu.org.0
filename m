@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62A464EAAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:32:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B652164EAE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:51:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p68wc-0002Fa-Nr; Fri, 16 Dec 2022 06:32:02 -0500
+	id 1p69Dp-0000sA-Bm; Fri, 16 Dec 2022 06:49:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p68wa-0002EL-Me
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:32:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p68wY-0008PE-AC
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:32:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671190317;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wBJl02NBvUQHJXEwwSK0gbpIbbztTDm6lrEs/8sMdT0=;
- b=X+3hlA6JZFynJS1ayR9T9KUh/aBQ50lh381pALsK7hbupNPillB03lhUzSQgqO+NMgh1+Y
- aFA2E5I1MyklhQDBKG0Azps4mGwoqTmnIawwgome6pFRPM3omX61/GbDKzMQoxkZs2tfbm
- y01rmr1rBSYEZRX8pmlsfrb8dNjkOUo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-zmzSZDFNO_e9WMp6atnGLg-1; Fri, 16 Dec 2022 06:31:54 -0500
-X-MC-Unique: zmzSZDFNO_e9WMp6atnGLg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E9FC802C1B;
- Fri, 16 Dec 2022 11:31:54 +0000 (UTC)
-Received: from virtlab420.virt.lab.eng.bos.redhat.com
- (virtlab420.virt.lab.eng.bos.redhat.com [10.19.152.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5774400F5B;
- Fri, 16 Dec 2022 11:31:53 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- Peter Lieven <pl@kamp.de>, Kevin Wolf <kwolf@redhat.com>,
- libvir-list@redhat.com, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 3/3] ui: remove deprecated 'password' option for SPICE
-Date: Fri, 16 Dec 2022 06:31:52 -0500
-Message-Id: <20221216113152.584460-4-berrange@redhat.com>
-In-Reply-To: <20221216113152.584460-1-berrange@redhat.com>
-References: <20221216113152.584460-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p69Dn-0000rX-0z
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:49:47 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p69Dk-000533-Qh
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:49:46 -0500
+Received: by mail-wm1-x330.google.com with SMTP id v7so1723881wmn.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 03:49:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wwI2rU0UsupqzGA6Yp2uW8lBtTIYnkSVtZ/TIjnOVv8=;
+ b=LjlwDpeEUTtsjVBL4kwhHW5M3iF5U254nQLCiCWCPgjNks4yDFf4EapUv6rikQeoQK
+ WGe+eT26tf8UnW0tDSN3YItRXD4MYRpEnRW+XM10kAQ4uiHX/nVeFjdcqob1IgJwUl1G
+ BmfVVbNlyg9pJv5aMlGiwy/zfJnNhdheSXFfZ2SHpBgFw3RgiQnDWKgUPJuh8fxhYTA6
+ rPnglEucNbQCu5jArmU5rgiDDcxlFQklb4eNiCWakly38sniBHkbXIWy5sZek2G7Ri9s
+ TB+2a5/DEHsPr8B6QDrYivsoJFaYG+ENL25KAPWrWLdp7H1rWoXTyMNRk1k5Y5sX6Uhw
+ XmcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=wwI2rU0UsupqzGA6Yp2uW8lBtTIYnkSVtZ/TIjnOVv8=;
+ b=nGoLd2hvCsAngpeaemCLI5i1OhXKBJtruI5CEwUL/e/D5fuRu2ZatU5yQJ/XQah7B1
+ NgXXlV3IvL21dzVKJcMdQaAIdbaX39Qn/hcxt0e98aeMjai/yZA4zI3G647fHqjOLHZq
+ MslrOnjhe++sQ09HG3QTkZaNoJDO0PNdTVKf801+kyDWl47T2Ck9nkI1afGvaus5ljxu
+ S+IX6pKQPcgvucUJBaW/G0yup57kGd+6V+uNdBHMsTWAC6XZ1GyRBXmWQpFd8S0mXIQz
+ flO/w6QE4RSXWRBj1SogQsOO+kXrLz1UAWXleVzYhigv7guMPI0zcDRbMtl+oOGtd+9V
+ BX+A==
+X-Gm-Message-State: AFqh2kry+AHpYuGUfDhNR0Lm/F2xL27JgsR3A/JeL5EG6Pk60RO2bJXK
+ 06nc2tj/JALOoBAueqh/l4RveA==
+X-Google-Smtp-Source: AMrXdXsrvg6nGT9J5jrUoX21dmoieiKZTuwnh4FHp/7vLEj/IvRZHt/uZcQIt5eK429f+mN+GAjSpw==
+X-Received: by 2002:a1c:7418:0:b0:3d3:3deb:d916 with SMTP id
+ p24-20020a1c7418000000b003d33debd916mr3101320wmc.4.1671191382859; 
+ Fri, 16 Dec 2022 03:49:42 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ p2-20020a05600c358200b003d1f2c3e571sm10478222wmq.33.2022.12.16.03.49.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Dec 2022 03:49:42 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1A5691FFB7;
+ Fri, 16 Dec 2022 11:49:42 +0000 (GMT)
+References: <20221215174013.1003508-1-peter.maydell@linaro.org>
+User-agent: mu4e 1.9.6; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL v2 00/28] target-arm queue
+Date: Fri, 16 Dec 2022 11:47:16 +0000
+In-reply-to: <20221215174013.1003508-1-peter.maydell@linaro.org>
+Message-ID: <87ilibin55.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,118 +93,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This has been replaced by the 'password-secret' option,
-which references a 'secret' object instance.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- docs/about/deprecated.rst       |  8 --------
- docs/about/removed-features.rst |  7 +++++++
- qemu-options.hx                 |  9 +--------
- ui/spice-core.c                 | 15 ---------------
- 4 files changed, 8 insertions(+), 31 deletions(-)
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index daf2334040..8fbe7cb5fe 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -73,14 +73,6 @@ Input parameters that take a size value should only use a size suffix
- the value is hexadecimal.  That is, '0x20M' is deprecated, and should
- be written either as '32M' or as '0x2000000'.
- 
--``-spice password=string`` (since 6.0)
--''''''''''''''''''''''''''''''''''''''
--
--This option is insecure because the SPICE password remains visible in
--the process listing. This is replaced by the new ``password-secret``
--option which lets the password be securely provided on the command
--line using a ``secret`` object instance.
--
- ``-smp`` ("parameter=0" SMP configurations) (since 6.2)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 63df9848fd..2cbb1b7afe 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -408,6 +408,13 @@ pcspk-audiodev=<name>``.
- 
- Use ``-device`` instead.
- 
-+``-spice password=string`` (removed in 8.0)
-+'''''''''''''''''''''''''''''''''''''''''''
-+
-+This optionwas insecure because the SPICE password remained visible in
-+the process listing. This was replaced by the new ``password-secret``
-+option which lets the password be securely provided on the command
-+line using a ``secret`` object instance.
- 
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 58efb58072..847d71e567 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2132,7 +2132,7 @@ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
-     "       [,tls-channel=[main|display|cursor|inputs|record|playback]]\n"
-     "       [,plaintext-channel=[main|display|cursor|inputs|record|playback]]\n"
-     "       [,sasl=on|off][,disable-ticketing=on|off]\n"
--    "       [,password=<string>][,password-secret=<secret-id>]\n"
-+    "       [,password-secret=<secret-id>]\n"
-     "       [,image-compression=[auto_glz|auto_lz|quic|glz|lz|off]]\n"
-     "       [,jpeg-wan-compression=[auto|never|always]]\n"
-     "       [,zlib-glz-wan-compression=[auto|never|always]]\n"
-@@ -2158,13 +2158,6 @@ SRST
-     ``ipv4=on|off``; \ ``ipv6=on|off``; \ ``unix=on|off``
-         Force using the specified IP version.
- 
--    ``password=<string>``
--        Set the password you need to authenticate.
--
--        This option is deprecated and insecure because it leaves the
--        password visible in the process listing. Use ``password-secret``
--        instead.
--
-     ``password-secret=<secret-id>``
-         Set the ID of the ``secret`` object containing the password
-         you need to authenticate.
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 72f8f1681c..76f7c2bc3d 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -412,9 +412,6 @@ static QemuOptsList qemu_spice_opts = {
-             .name = "unix",
-             .type = QEMU_OPT_BOOL,
- #endif
--        },{
--            .name = "password",
--            .type = QEMU_OPT_STRING,
-         },{
-             .name = "password-secret",
-             .type = QEMU_OPT_STRING,
-@@ -666,20 +663,8 @@ static void qemu_spice_init(void)
-     }
-     passwordSecret = qemu_opt_get(opts, "password-secret");
-     if (passwordSecret) {
--        if (qemu_opt_get(opts, "password")) {
--            error_report("'password' option is mutually exclusive with "
--                         "'password-secret'");
--            exit(1);
--        }
-         password = qcrypto_secret_lookup_as_utf8(passwordSecret,
-                                                  &error_fatal);
--    } else {
--        str = qemu_opt_get(opts, "password");
--        if (str) {
--            warn_report("'password' option is deprecated and insecure, "
--                        "use 'password-secret' instead");
--            password = g_strdup(str);
--        }
-     }
- 
-     if (tls_port) {
--- 
-2.38.1
+> drop the sysregs patch as the tcg sysregs test fails
+> (probably a bug in the test)
 
+Well I assume because it complains about extra bits leaking into
+userspace:
+
+  =E2=9E=9C  ./qemu-aarch64 ./tests/tcg/aarch64-linux-user/sysregs
+  Checking Counter registers
+  ctr_el0             : 0x0000000080038003
+  cntvct_el0          : 0x017314376c668b73
+  cntfrq_el0          : 0x0000000003b9aca0
+  Checking CPUID registers
+  id_aa64isar0_el1    : 0x1021111110212120
+    !!extra bits!!    : 0x1000000000000000
+  id_aa64isar1_el1    : 0x0011101101211012
+    !!extra bits!!    : 0x0011100100000000
+  id_aa64mmfr0_el1    : 0xffffffffff000000
+    !!extra bits!!    : 0xffffffff00000000
+  id_aa64pfr0_el1     : 0x0001000100110011
+  id_aa64pfr1_el1     : 0x0000000001000321
+    !!extra bits!!    : 0x0000000001000301
+  id_aa64dfr0_el1     : 0x0000000000000006
+  id_aa64zfr0_el1     : 0x0110110100110021 (not RAZ!)
+  midr_el1            : 0x00000000000f0510
+  mpidr_el1           : 0x0000000080000000
+  Remaining registers should fail
+  id_mmfr0_el1        : 0x00000000deadbeef
+  id_mmfr1_el1        : 0x00000000deadbeef
+  id_mmfr2_el1        : 0x00000000deadbeef
+  id_mmfr3_el1        : 0x00000000deadbeef
+  mvfr0_el1           : 0x00000000deadbeef
+  mvfr1_el1           : 0x00000000deadbeef
+  Extra information leaked to user-space!
+
+So it should have been updated when the API was changed.
+
+>
+> -- PMM
+>
+> The following changes since commit ae2b87341b5ddb0dcb1b3f2d4f586ef18de758=
+73:
+>
+>   Merge tag 'pull-qapi-2022-12-14-v2' of https://repo.or.cz/qemu/armbru i=
+nto staging (2022-12-14 22:42:14 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-ar=
+m-20221215-1
+>
+> for you to fetch changes up to 9e406eea309bbe44c7fb17f6af112d2b756854ad:
+>
+>   target/arm: Restrict arm_cpu_exec_interrupt() to TCG accelerator (2022-=
+12-15 17:37:48 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+> =C2=A0* hw/arm/virt: Add properties to allow more granular
+>    configuration of use of highmem space
+> =C2=A0* target/arm: Add Cortex-A55 CPU
+> =C2=A0* hw/intc/arm_gicv3: Fix GICD_TYPER ITLinesNumber advertisement
+> =C2=A0* Implement FEAT_EVT
+> =C2=A0* Some 3-phase-reset conversions for Arm GIC, SMMU
+> =C2=A0* hw/arm/boot: set initrd with #address-cells type in fdt
+> =C2=A0* hw/misc: Move some arm-related files from specific_ss into softmm=
+u_ss
+> =C2=A0* Restrict arm_cpu_exec_interrupt() to TCG accelerator
+>
+> ----------------------------------------------------------------
+> Gavin Shan (7):
+>       hw/arm/virt: Introduce virt_set_high_memmap() helper
+>       hw/arm/virt: Rename variable size to region_size in virt_set_high_m=
+emmap()
+>       hw/arm/virt: Introduce variable region_base in virt_set_high_memmap=
+()
+>       hw/arm/virt: Introduce virt_get_high_memmap_enabled() helper
+>       hw/arm/virt: Improve high memory region address assignment
+>       hw/arm/virt: Add 'compact-highmem' property
+>       hw/arm/virt: Add properties to disable high memory regions
+>
+> Luke Starrett (1):
+>       hw/intc/arm_gicv3: Fix GICD_TYPER ITLinesNumber advertisement
+>
+> Mihai Carabas (1):
+>       hw/arm/virt: build SMBIOS 19 table
+>
+> Peter Maydell (15):
+>       target/arm: Allow relevant HCR bits to be written for FEAT_EVT
+>       target/arm: Implement HCR_EL2.TTLBIS traps
+>       target/arm: Implement HCR_EL2.TTLBOS traps
+>       target/arm: Implement HCR_EL2.TICAB,TOCU traps
+>       target/arm: Implement HCR_EL2.TID4 traps
+>       target/arm: Report FEAT_EVT for TCG '-cpu max'
+>       hw/arm: Convert TYPE_ARM_SMMU to 3-phase reset
+>       hw/arm: Convert TYPE_ARM_SMMUV3 to 3-phase reset
+>       hw/intc: Convert TYPE_ARM_GIC_COMMON to 3-phase reset
+>       hw/intc: Convert TYPE_ARM_GIC_KVM to 3-phase reset
+>       hw/intc: Convert TYPE_ARM_GICV3_COMMON to 3-phase reset
+>       hw/intc: Convert TYPE_KVM_ARM_GICV3 to 3-phase reset
+>       hw/intc: Convert TYPE_ARM_GICV3_ITS_COMMON to 3-phase reset
+>       hw/intc: Convert TYPE_ARM_GICV3_ITS to 3-phase reset
+>       hw/intc: Convert TYPE_KVM_ARM_ITS to 3-phase reset
+>
+> Philippe Mathieu-Daud=C3=A9 (1):
+>       target/arm: Restrict arm_cpu_exec_interrupt() to TCG accelerator
+>
+> Schspa Shi (1):
+>       hw/arm/boot: set initrd with #address-cells type in fdt
+>
+> Thomas Huth (1):
+>       hw/misc: Move some arm-related files from specific_ss into softmmu_=
+ss
+>
+> Timofey Kutergin (1):
+>       target/arm: Add Cortex-A55 CPU
+>
+>  docs/system/arm/emulation.rst          |   1 +
+>  docs/system/arm/virt.rst               |  18 +++
+>  include/hw/arm/smmuv3.h                |   2 +-
+>  include/hw/arm/virt.h                  |   2 +
+>  include/hw/misc/xlnx-zynqmp-apu-ctrl.h |   2 +-
+>  target/arm/cpu.h                       |  30 +++++
+>  target/arm/kvm-consts.h                |   8 +-
+>  hw/arm/boot.c                          |  10 +-
+>  hw/arm/smmu-common.c                   |   7 +-
+>  hw/arm/smmuv3.c                        |  12 +-
+>  hw/arm/virt.c                          | 202 +++++++++++++++++++++++++++=
+------
+>  hw/intc/arm_gic_common.c               |   7 +-
+>  hw/intc/arm_gic_kvm.c                  |  14 ++-
+>  hw/intc/arm_gicv3_common.c             |   7 +-
+>  hw/intc/arm_gicv3_dist.c               |   4 +-
+>  hw/intc/arm_gicv3_its.c                |  14 ++-
+>  hw/intc/arm_gicv3_its_common.c         |   7 +-
+>  hw/intc/arm_gicv3_its_kvm.c            |  14 ++-
+>  hw/intc/arm_gicv3_kvm.c                |  14 ++-
+>  hw/misc/imx6_src.c                     |   2 +-
+>  hw/misc/iotkit-sysctl.c                |   1 -
+>  target/arm/cpu.c                       |   5 +-
+>  target/arm/cpu64.c                     |  70 ++++++++++++
+>  target/arm/cpu_tcg.c                   |   1 +
+>  target/arm/helper.c                    | 135 ++++++++++++++--------
+>  hw/misc/meson.build                    |  11 +-
+>  26 files changed, 459 insertions(+), 141 deletions(-)
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
