@@ -2,84 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E0664EE5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1871264EE77
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:04:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6D7j-0004h4-Hx; Fri, 16 Dec 2022 10:59:47 -0500
+	id 1p6DAm-00064J-Tu; Fri, 16 Dec 2022 11:02:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6D7i-0004gv-3p
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:59:46 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p6DAJ-0005ui-5T
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:02:35 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6D7g-0001hf-8p
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:59:45 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- hd14-20020a17090b458e00b0021909875bccso8717194pjb.1
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 07:59:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p6DAD-0002af-Vt
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:02:24 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ hd14-20020a17090b458e00b0021909875bccso8722282pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 08:02:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=L59+mIJ7ylWWN4Xqil1+BbWUD33F66Sva01wsVVLKEA=;
- b=cNaWctkfukEXlIo9FAZIZ/cKMyB56KBJD/uRHMzxMH+gEj/xnGSMWx3ytZYi6ncuI+
- Y55lCJUYn3z+a7A7Xux2569OHTOe2gY1LD7eHXb53jtneaD2BO3rg5jcuEZe+KVbevAU
- qx/zvo4nSHLvLCf1MJeM6N1Ld016qF507WPKb+iLRwH68/3308YIdh5oXFLgO6Dcw7nO
- T5oWtmXD6oYW/QwHeNdf7jWu+bg9V+TLDHKax3wOiaGHicms8SYjpvnU1mIUEoNS6m6Y
- W32muPxa10TEnKOBc9fITq2vwzVJ0DhUl8jvGX+leeSmkrJUQTBENvvzs+X6CiyIsQ7c
- rFSg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=G2uzTTUrRfi6yVvNFXy6d8wz5hUA4IqTWNOJxStvF4I=;
+ b=bwR5leDS9+EJFu7+AI80ExjhpVokFvhWtiTQQPMZPK3UIu4C8Lb+TBZBlG0P84Le9C
+ 0J0u8wMi3RBP2Pe+tVkMkkjSc6U9Me0gGErXXruLT0kaZ0ozgAn4DkqtGq0Z6t7DWpO+
+ b8IH55vNU5KFkYRRJa4nTs0X5YVLXGSxjluZHI+1murENjpebu4C5k6rPRytnJahXOwa
+ dZQpQ/EIL++jQKakkp1lzXWsf9xAAncJPSy13PJfS+ggrAgFVe248Ytbr5tBBmH9/mue
+ /Jo+wkH6D7zy3/nGDNC8FVPSFr/2ImuCca59I+s3xL6pPLmZ3csoYIpQBX0sJcTQbxgq
+ 1l2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=L59+mIJ7ylWWN4Xqil1+BbWUD33F66Sva01wsVVLKEA=;
- b=TVptW2IEgq1blnPDyTLXO9+bVKRaXQgUIR0ALalk8u2NcUJ2Kt3yG+WB6lr+LETlvJ
- K1DM/gqwuXClE05G1a6jvWnzUKjuGCB+6SYCJKrlbzhrZwwkKoUXOWHnASzSk0bYfpA6
- czYjgPkRXH4PeYgVvoX/npcz54Yyr5Mt3uozbr/1J8oPjKjqZrNybFcaYTXdi+uoIKAl
- A+mx6OZP3gP49VuaT5Jdvzi0cNRx+aM2dhXo3uMczXBjF8uHrfqZPSztau3aQVoZ0eUI
- KDUnjVakf6yblKLD5AlqW6kAh9qShxa3wnfCxow9iOBVT1+bxAhho3NCu+AqWpEImWqz
- QiUw==
-X-Gm-Message-State: ANoB5pmq1K32kce/+SR0alaJRk3Q9jvE+r+NfYyvVuJ7+JSIM3djcLyY
- XEUF9Xu/R38tS0IhZr0N6OlJWQ==
-X-Google-Smtp-Source: AA0mqf68tIyh52zhDG8OVXg/9HlVQAdBdXO7WUEovRcZ4hoGRTtvHZzd1ZLRmRqsJooIaRXxnjyU1w==
-X-Received: by 2002:a05:6a20:5481:b0:a4:93ca:a2d with SMTP id
- i1-20020a056a20548100b000a493ca0a2dmr60700984pzk.49.1671206382244; 
- Fri, 16 Dec 2022 07:59:42 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
- ([2602:47:d48c:8101:c606:9489:98df:6a3b])
- by smtp.gmail.com with ESMTPSA id
- a24-20020aa79718000000b0056b6d31ac8asm1697390pfg.178.2022.12.16.07.59.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 07:59:41 -0800 (PST)
-Message-ID: <1009093c-9809-7c0a-fd75-a59fc7c3c1c9@linaro.org>
-Date: Fri, 16 Dec 2022 07:59:39 -0800
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=G2uzTTUrRfi6yVvNFXy6d8wz5hUA4IqTWNOJxStvF4I=;
+ b=uLqheyh+pMpHTOuletpaNO6I1M/TVpmCkMioGb0h16uy7agvXiq0YMzQwRrKIBhrQp
+ d89p/5vkflvKgBDY2Ju1ap1fRvqa/gx3O9Irtm6gdWdhpH8X0ET9IBaEVA/5xrJ2jf6j
+ 7MF4WA5CYwfydEobyqoL2+V9MwtANVo60VUM/0wTympV3IM85MGZ3H/PL60ryAkNsA8T
+ iUOznjnNTYzxfNysXwqx/Fr1X83hTAip5nxpR+pkrgg8cLSCud3WKx8U2HVJtzDNi/kd
+ nRpmdt7+ca2XQqad/berGO2QM+VrJCZsgHZWUP6EYDWu7noW+EQUsg5ZxYCkB2WYr5Cf
+ yFRQ==
+X-Gm-Message-State: AFqh2kpdfC0MSekJTympkkRvm4DAUINh2FtAw0Xhm3F871zU8ylnEs0T
+ u43K738YRNlrJjnsWwD9OlqUCrSChV0zXHwuQYXIHkvX9QuV7w==
+X-Google-Smtp-Source: AMrXdXtBKmxAn5PIzsLZ+XxfFaMeS0Vs98IDtPuipzWHHgRZKVDhGzX6x6KoX0o8fovEJFYwpy+LRpnGDjAcvoDMkfQ=
+X-Received: by 2002:a17:90b:146:b0:219:94b2:2004 with SMTP id
+ em6-20020a17090b014600b0021994b22004mr1009716pjb.215.1671206538915; Fri, 16
+ Dec 2022 08:02:18 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] docs: do not talk about past removal as happening in the
- future
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-References: <20221216101506.524217-1-pbonzini@redhat.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216101506.524217-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+References: <20221124115023.2437291-1-peter.maydell@linaro.org>
+In-Reply-To: <20221124115023.2437291-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 16 Dec 2022 16:02:07 +0000
+Message-ID: <CAFEAcA95bGDsVEcF89MwqStPM6z7yyUFc=QhNw4rv1zNrvVQTg@mail.gmail.com>
+Subject: Re: [PATCH for-8.0 00/19] Convert most CPU classes to 3-phase reset
+To: qemu-devel@nongnu.org
+Cc: Michael Rolnik <mrolnik@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
+ Taylor Simpson <tsimpson@quicinc.com>, Song Gao <gaosong@loongson.cn>, 
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Laurent Vivier <laurent@vivier.eu>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Chris Wulff <crwulff@gmail.com>, 
+ Marek Vasut <marex@denx.de>, Stafford Horne <shorne@gmail.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, 
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org, 
+ qemu-ppc@nongnu.org, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,32 +102,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/16/22 02:15, Paolo Bonzini wrote:
-> KVM guest support on 32-bit Arm hosts *has* been removed, so rephrase
-> the sentence describing it.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   docs/about/removed-features.rst | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-> index 63df9848fda2..7e12145c120d 100644
-> --- a/docs/about/removed-features.rst
-> +++ b/docs/about/removed-features.rst
-> @@ -565,9 +565,8 @@ KVM guest support on 32-bit Arm hosts (removed in 5.2)
->   ''''''''''''''''''''''''''''''''''''''''''''''''''''''
->   
->   The Linux kernel has dropped support for allowing 32-bit Arm systems
-> -to host KVM guests as of the 5.7 kernel. Accordingly, QEMU is deprecating
-> -its support for this configuration and will remove it in a future version.
-> -Running 32-bit guests on a 64-bit Arm host remains supported.
-> +to host KVM guests as of the 5.7 kernel, and was thus removed from QEMU
-> +as well.  Running 32-bit guests on a 64-bit Arm host remains supported.
+On Thu, 24 Nov 2022 at 11:50, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> This patchset converts the TYPE_CPU base class and most subclasses
+> to use 3-phase reset. (The exception is s390, which is doing
+> something a bit odd with its reset, so the conversion there isn't
+> going to be simple like these others. So I'll do that one
+> separately.)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I plan to pick these up and send them in in a pullreq with
+various other reset-related patches of mine.
 
-
-r~
-
+thanks
+-- PMM
 
