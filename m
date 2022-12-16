@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1159664E562
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 01:49:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4440F64E55A
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 01:45:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5yon-0006n7-BH; Thu, 15 Dec 2022 19:43:18 -0500
+	id 1p5yne-0005NH-FY; Thu, 15 Dec 2022 19:42:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+54656a84ae694b50c6d0+7054+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p5ynW-0005MH-S3
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:41:58 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ <BATV+64e888c4aa1bfc596c85+7054+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p5ynE-0005F5-EV
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:41:41 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+54656a84ae694b50c6d0+7054+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p5ynU-0006lr-0l
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:41:58 -0500
+ <BATV+64e888c4aa1bfc596c85+7054+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p5yn8-0006aJ-57
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:41:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
- To:From:Reply-To:Content-ID:Content-Description;
- bh=woARrJmRgiliWU/s2kD+HXuiJgoIfPM64yxExCX209A=; b=GsdkGRX7Q96KTPLIvL58h+qCBY
- v9jbqWd1j/QZ75NrbcDwgUjLA77AOjXDB2vDoZ4kFr+7Heas4B+fqw0vrBLEqOYPQPS6o8GB/XFrQ
- p/OXGQa2ZbWdId7DgfFN00BfsBGBFX7jHsejnmmHm+GRxsfOEvCJFYhU9g3nNc9JE/FZ9tMjbyL5w
- IWcU6ZZHLmz7L+wEWJfVGRY2PWBulkU0GgaO9sAPQgTBzX093OqR9r57R0/JwtNmDrssvnsS9jvwc
- vBFPf3tNOw3yrTdldO7Epp3fcq/1nVbyrKlC5jcFD797LU4RH9WAurq0fAz+UJwyp2JC5OinSprYO
- Cvx8+jOQ==;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=GBOWYyuWKdYysrZ+j4MeLrWFq/GKTS0ZAHS+vvkBe24=; b=C+AIMhV3ErZdRRVanVTFo6Vz2D
+ gHqAnpjqx5iuJYyuRuTIAb1uSd73Jb9doVob/AnkAlYUKtt+zfkr/Hy+lq5vqbfV0iVM9+3No44++
+ XO1asMn73Ls7e5Y0dHagCGMa3iGwPjq8gQh/pARsehJ51eWrp5yQUdtLIuuBtVOfoF+gwsmNTPV+a
+ kyW6KkupbqVBefqU2WtfjJEdr32aAmjBGVlyA+XOxv+8UIt01NrHw7MDy9bPdV5tCEkfz3VceTJSW
+ gKJsp0WmL5Qk7oZTeQYZndYSBH5HSm7JjxAE2DqANfMEfRSuuoJPTLKyuPYOzCPKVfolUKsKGHaeb
+ eyvVTp8g==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p5ymz-00Azyx-9H; Fri, 16 Dec 2022 00:41:44 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1p5yn6-00EvVC-AK; Fri, 16 Dec 2022 00:41:33 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p5ymw-003cPn-As; Fri, 16 Dec 2022 00:41:22 +0000
+ Hat Linux)) id 1p5ymw-003cPs-Bo; Fri, 16 Dec 2022 00:41:22 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,20 +46,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v3 27/38] hw/xen: Implement EVTCHNOP_unmask
-Date: Fri, 16 Dec 2022 00:41:06 +0000
-Message-Id: <20221216004117.862106-28-dwmw2@infradead.org>
+Subject: [RFC PATCH v3 28/38] hw/xen: Implement EVTCHNOP_bind_virq
+Date: Fri, 16 Dec 2022 00:41:07 +0000
+Message-Id: <20221216004117.862106-29-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221216004117.862106-1-dwmw2@infradead.org>
 References: <20221216004117.862106-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+54656a84ae694b50c6d0+7054+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+64e888c4aa1bfc596c85+7054+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -84,232 +83,107 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-This finally comes with a mechanism for actually injecting events into
-the guest vCPU, with all the atomic-test-and-set that's involved in
-setting the bit in the shinfo, then the index in the vcpu_info, and
-injecting either the lapic vector as MSI, or letting KVM inject the
-bare vector.
+Add the array of virq ports to each vCPU so that we can deliver timers,
+debug ports, etc. Global virqs are allocated against vCPU 0 initially,
+but can be migrated to other vCPUs (when we implement that).
+
+The kernel needs to know about VIRQ_TIMER in order to accelerate timers,
+so tell it via KVM_XEN_VCPU_ATTR_TYPE_TIMER.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/xen_evtchn.c  | 198 ++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |   2 +
- include/sysemu/kvm_xen.h  |  18 ++++
- target/i386/kvm/xen-emu.c |  72 ++++++++++++++
- 4 files changed, 290 insertions(+)
- create mode 100644 include/sysemu/kvm_xen.h
+ hw/i386/kvm/xen_evtchn.c  | 83 +++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_evtchn.h  |  2 +
+ include/sysemu/kvm_xen.h  |  1 +
+ target/i386/cpu.h         |  3 ++
+ target/i386/kvm/xen-emu.c | 61 ++++++++++++++++++++++++++++
+ target/i386/machine.c     |  1 +
+ 6 files changed, 151 insertions(+)
 
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index d4008e7ee1..50adef0864 100644
+index 50adef0864..19b8eb7a6f 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -21,10 +21,13 @@
- 
- #include "hw/sysbus.h"
- #include "hw/xen/xen.h"
-+
- #include "xen_evtchn.h"
- #include "xen_overlay.h"
- 
- #include "sysemu/kvm.h"
-+#include "sysemu/kvm_xen.h"
-+
- #include <linux/kvm.h>
- 
- #include "standard-headers/xen/memory.h"
-@@ -39,6 +42,41 @@ typedef struct XenEvtchnPort {
-     uint16_t type_val;  /* pirq# / virq# / remote port according to type */
- } XenEvtchnPort;
- 
-+/* 32-bit compatibility definitions, also used natively in 32-bit build */
-+struct compat_arch_vcpu_info {
-+    unsigned int cr2;
-+    unsigned int pad[5];
-+};
-+
-+struct compat_vcpu_info {
-+    uint8_t evtchn_upcall_pending;
-+    uint8_t evtchn_upcall_mask;
-+    uint16_t pad;
-+    uint32_t evtchn_pending_sel;
-+    struct compat_arch_vcpu_info arch;
-+    struct vcpu_time_info time;
-+}; /* 64 bytes (x86) */
-+
-+struct compat_arch_shared_info {
-+    unsigned int max_pfn;
-+    unsigned int pfn_to_mfn_frame_list_list;
-+    unsigned int nmi_reason;
-+    unsigned int p2m_cr3;
-+    unsigned int p2m_vaddr;
-+    unsigned int p2m_generation;
-+    uint32_t wc_sec_hi;
-+};
-+
-+struct compat_shared_info {
-+    struct compat_vcpu_info vcpu_info[XEN_LEGACY_MAX_VCPUS];
-+    uint32_t evtchn_pending[32];
-+    uint32_t evtchn_mask[32];
-+    uint32_t wc_version;      /* Version counter: see vcpu_time_info_t. */
-+    uint32_t wc_sec;
-+    uint32_t wc_nsec;
-+    struct compat_arch_shared_info arch;
-+};
-+
- #define COMPAT_EVTCHN_2L_NR_CHANNELS            1024
- 
- /*
-@@ -222,6 +260,144 @@ int xen_evtchn_status_op(struct evtchn_status *status)
-     return 0;
+@@ -208,6 +208,11 @@ static bool valid_port(evtchn_port_t port)
+     }
  }
  
-+/*
-+ * Never thought I'd hear myself say this, but C++ templates would be
-+ * kind of nice here.
-+ *
-+ * template<class T> static int do_unmask_port(T *shinfo, ...);
-+ */
-+static int do_unmask_port_lm(XenEvtchnState *s, evtchn_port_t port,
-+                             bool do_unmask, struct shared_info *shinfo,
-+                             struct vcpu_info *vcpu_info)
++static bool valid_vcpu(uint32_t vcpu)
 +{
-+    const int bits_per_word = BITS_PER_BYTE * sizeof(shinfo->evtchn_pending[0]);
-+    typeof(shinfo->evtchn_pending[0]) mask;
-+    int idx = port / bits_per_word;
-+    int offset = port % bits_per_word;
-+
-+    mask = 1UL << offset;
-+
-+    if (idx >= bits_per_word) {
-+        return -EINVAL;
-+    }
-+
-+    if (do_unmask) {
-+        /* If this is a true unmask operation, clear the mask bit. If
-+         * it was already unmasked, we have nothing further to do. */
-+        if (!((qatomic_fetch_and(&shinfo->evtchn_mask[idx], ~mask) & mask))) {
-+            return 0;
-+        }
-+    } else {
-+        /* This is a pseudo-unmask for affinity changes. We don't
-+         * change the mask bit, and if it's *masked* we have nothing
-+         * else to do. */
-+        if (qatomic_fetch_or(&shinfo->evtchn_mask[idx], 0) & mask) {
-+            return 0;
-+        }
-+    }
-+
-+    /* If the event was not pending, we're done. */
-+    if (!(qatomic_fetch_or(&shinfo->evtchn_pending[idx], 0) & mask)) {
-+        return 0;
-+    }
-+
-+    /* Now on to the vcpu_info evtchn_pending_sel index... */
-+    mask = 1UL << idx;
-+
-+    /* If a port in this word was already pending for this vCPU, all done. */
-+    if (qatomic_fetch_or(&vcpu_info->evtchn_pending_sel, mask) & mask) {
-+        return 0;
-+    }
-+
-+    /* Set evtchn_upcall_pending for this vCPU */
-+    if (qatomic_fetch_or(&vcpu_info->evtchn_upcall_pending, 1)) {
-+        return 0;
-+    }
-+
-+    kvm_xen_inject_vcpu_callback_vector(s->port_table[port].vcpu);
-+
-+    return 0;
++    return !!qemu_get_cpu(vcpu);
 +}
 +
-+static int do_unmask_port_compat(XenEvtchnState *s, evtchn_port_t port,
-+                                 bool do_unmask,
-+                                 struct compat_shared_info *shinfo,
-+                                 struct compat_vcpu_info *vcpu_info)
+ int xen_evtchn_status_op(struct evtchn_status *status)
+ {
+     XenEvtchnState *s = xen_evtchn_singleton;
+@@ -398,6 +403,20 @@ static int unmask_port(XenEvtchnState *s, evtchn_port_t port, bool do_unmask)
+     }
+ }
+ 
++static bool virq_is_global(uint32_t virq)
 +{
-+    const int bits_per_word = BITS_PER_BYTE * sizeof(shinfo->evtchn_pending[0]);
-+    typeof(shinfo->evtchn_pending[0]) mask;
-+    int idx = port / bits_per_word;
-+    int offset = port % bits_per_word;
++    switch (virq) {
++    case VIRQ_TIMER:
++    case VIRQ_DEBUG:
++    case VIRQ_XENOPROF:
++    case VIRQ_XENPMU:
++        return false;
 +
-+    mask = 1UL << offset;
-+
-+    if (idx >= bits_per_word) {
-+        return -EINVAL;
-+    }
-+
-+    if (do_unmask) {
-+        /* If this is a true unmask operation, clear the mask bit. If
-+         * it was already unmasked, we have nothing further to do. */
-+        if (!((qatomic_fetch_and(&shinfo->evtchn_mask[idx], ~mask) & mask))) {
-+            return 0;
-+        }
-+    } else {
-+        /* This is a pseudo-unmask for affinity changes. We don't
-+         * change the mask bit, and if it's *masked* we have nothing
-+         * else to do. */
-+        if (qatomic_fetch_or(&shinfo->evtchn_mask[idx], 0) & mask) {
-+            return 0;
-+        }
-+    }
-+
-+    /* If the event was not pending, we're done. */
-+    if (!(qatomic_fetch_or(&shinfo->evtchn_pending[idx], 0) & mask)) {
-+        return 0;
-+    }
-+
-+    /* Now on to the vcpu_info evtchn_pending_sel index... */
-+    mask = 1UL << idx;
-+
-+    /* If a port in this word was already pending for this vCPU, all done. */
-+    if (qatomic_fetch_or(&vcpu_info->evtchn_pending_sel, mask) & mask) {
-+        return 0;
-+    }
-+
-+    /* Set evtchn_upcall_pending for this vCPU */
-+    if (qatomic_fetch_or(&vcpu_info->evtchn_upcall_pending, 1)) {
-+        return 0;
-+    }
-+
-+    kvm_xen_inject_vcpu_callback_vector(s->port_table[port].vcpu);
-+
-+    return 0;
-+}
-+
-+static int unmask_port(XenEvtchnState *s, evtchn_port_t port, bool do_unmask)
-+{
-+    void *vcpu_info, *shinfo;
-+
-+    if (s->port_table[port].type == EVTCHNSTAT_closed) {
-+        return -EINVAL;
-+    }
-+
-+    shinfo = xen_overlay_page_ptr(XENMAPSPACE_shared_info, 0);
-+    if (!shinfo) {
-+        return -ENOTSUP;
-+    }
-+
-+    vcpu_info = kvm_xen_get_vcpu_info_hva(s->port_table[port].vcpu);
-+    if (!vcpu_info) {
-+        return -EINVAL;
-+    }
-+
-+    if (xen_is_long_mode()) {
-+        return do_unmask_port_lm(s, port, do_unmask, shinfo, vcpu_info);
-+    } else {
-+        return do_unmask_port_compat(s, port, do_unmask, shinfo, vcpu_info);
++    default:
++        return true;
 +    }
 +}
 +
  static void free_port(XenEvtchnState *s, evtchn_port_t port)
  {
      s->port_table[port].type = EVTCHNSTAT_closed;
-@@ -272,3 +448,25 @@ int xen_evtchn_close_op(struct evtchn_close *close)
+@@ -411,6 +430,28 @@ static void free_port(XenEvtchnState *s, evtchn_port_t port)
+     }
+ }
+ 
++static int allocate_port(XenEvtchnState *s, uint32_t vcpu, uint16_t type,
++                         uint16_t val, evtchn_port_t *port)
++{
++    evtchn_port_t p = 1;
++
++    for (p = 1; valid_port(p); p++) {
++        if (s->port_table[p].type == EVTCHNSTAT_closed) {
++            s->port_table[p].vcpu = vcpu;
++            s->port_table[p].type = type;
++            s->port_table[p].type_val = val;
++
++            *port = p;
++
++            if (s->nr_ports < p + 1)
++                s->nr_ports = p + 1;
++
++            return 0;
++        }
++    }
++    return -ENOSPC;
++}
++
+ static int close_port(XenEvtchnState *s, evtchn_port_t port)
+ {
+     XenEvtchnPort *p = &s->port_table[port];
+@@ -419,6 +460,11 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
+     case EVTCHNSTAT_closed:
+         return -ENOENT;
+ 
++    case EVTCHNSTAT_virq:
++        kvm_xen_set_vcpu_virq(virq_is_global(p->type_val) ? 0 : p->vcpu,
++                              p->type_val, 0);
++        break;
++
+     default:
+         break;
+     }
+@@ -470,3 +516,40 @@ int xen_evtchn_unmask_op(struct evtchn_unmask *unmask)
  
      return ret;
  }
 +
-+int xen_evtchn_unmask_op(struct evtchn_unmask *unmask)
++int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
 +    int ret;
@@ -318,155 +192,169 @@ index d4008e7ee1..50adef0864 100644
 +        return -ENOTSUP;
 +    }
 +
-+    if (!valid_port(unmask->port)) {
++    if (virq->virq >= NR_VIRQS) {
 +        return -EINVAL;
++    }
++
++    /* Global VIRQ must be allocated on vCPU0 first */
++    if (virq_is_global(virq->virq) && virq->vcpu != 0) {
++        return -EINVAL;
++    }
++
++    if (!valid_vcpu(virq->vcpu)) {
++        return -ENOENT;
 +    }
 +
 +    qemu_mutex_lock(&s->port_lock);
 +
-+    ret = unmask_port(s, unmask->port, true);
++    ret = allocate_port(s, virq->vcpu, EVTCHNSTAT_virq, virq->virq, &virq->port);
++    if (!ret) {
++        ret = kvm_xen_set_vcpu_virq(virq->vcpu, virq->virq, virq->port);
++        if (ret) {
++            free_port(s, virq->port);
++        }
++    }
 +
 +    qemu_mutex_unlock(&s->port_lock);
 +
 +    return ret;
 +}
 diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 4c00000315..2fb7d70043 100644
+index 2fb7d70043..ffddd87bdc 100644
 --- a/hw/i386/kvm/xen_evtchn.h
 +++ b/hw/i386/kvm/xen_evtchn.h
-@@ -15,5 +15,7 @@ int xen_evtchn_set_callback_param(uint64_t param);
- 
+@@ -16,6 +16,8 @@ int xen_evtchn_set_callback_param(uint64_t param);
  struct evtchn_status;
  struct evtchn_close;
-+struct evtchn_unmask;
+ struct evtchn_unmask;
++struct evtchn_bind_virq;
  int xen_evtchn_status_op(struct evtchn_status *status);
  int xen_evtchn_close_op(struct evtchn_close *close);
-+int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
+ int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
++int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq);
 diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
-new file mode 100644
-index 0000000000..ab629feb13
---- /dev/null
+index ab629feb13..e5b14ffe8d 100644
+--- a/include/sysemu/kvm_xen.h
 +++ b/include/sysemu/kvm_xen.h
-@@ -0,0 +1,18 @@
-+/*
-+ * Xen HVM emulation support in KVM
-+ *
-+ * Copyright © 2019 Oracle and/or its affiliates. All rights reserved.
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
+@@ -14,5 +14,6 @@
+ 
+ void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id);
+ void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id);
++int kvm_xen_set_vcpu_virq(uint32_t vcpu_id, uint16_t virq, uint16_t port);
+ 
+ #endif /* QEMU_SYSEMU_KVM_XEN_H */
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 938a1b9c8b..846c738fd7 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -27,6 +27,8 @@
+ #include "qapi/qapi-types-common.h"
+ #include "qemu/cpu-float.h"
+ 
++#define XEN_NR_VIRQS 24
 +
-+#ifndef QEMU_SYSEMU_KVM_XEN_H
-+#define QEMU_SYSEMU_KVM_XEN_H
-+
-+void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id);
-+void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id);
-+
-+#endif /* QEMU_SYSEMU_KVM_XEN_H */
+ /* The x86 has a strong memory model with some store-after-load re-ordering */
+ #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
+ 
+@@ -1793,6 +1795,7 @@ typedef struct CPUArchState {
+     uint64_t xen_vcpu_time_info_gpa;
+     uint64_t xen_vcpu_runstate_gpa;
+     uint8_t xen_vcpu_callback_vector;
++    uint16_t xen_virq[XEN_NR_VIRQS];
+ #endif
+ #if defined(CONFIG_HVF)
+     HVFX86LazyFlags hvf_lflags;
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index f57d99f9d6..51cb6bf052 100644
+index 51cb6bf052..d6b26c59e1 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -15,10 +15,13 @@
- #include "qemu/log.h"
- #include "hw/xen/xen.h"
- #include "sysemu/kvm_int.h"
-+#include "sysemu/kvm_xen.h"
- #include "kvm/kvm_i386.h"
- #include "exec/address-spaces.h"
- #include "xen-emu.h"
- #include "trace.h"
-+#include "hw/pci/msi.h"
-+#include "hw/i386/apic-msidef.h"
- #include "hw/i386/kvm/xen_overlay.h"
- #include "hw/i386/kvm/xen_evtchn.h"
- #include "sysemu/runstate.h"
-@@ -227,6 +230,63 @@ static void do_set_vcpu_info_gpa(CPUState *cs, run_on_cpu_data data)
-                           env->xen_vcpu_info_gpa);
+@@ -287,6 +287,52 @@ void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id)
+     qemu_cpu_kick(cs);
  }
  
-+
-+static void *gpa_to_hva(uint64_t gpa)
++static int kvm_xen_set_vcpu_timer(CPUState *cs)
 +{
-+    MemoryRegionSection mrs;
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
 +
-+    mrs = memory_region_find(get_system_memory(), gpa, 1);
-+    return !mrs.mr ? NULL : qemu_map_ram_ptr(mrs.mr->ram_block,
-+                                             mrs.offset_within_region);
++    struct kvm_xen_vcpu_attr va = {
++        .type = KVM_XEN_VCPU_ATTR_TYPE_TIMER,
++        .u.timer.port = env->xen_virq[VIRQ_TIMER],
++	.u.timer.priority = KVM_IRQ_ROUTING_XEN_EVTCHN_PRIO_2LEVEL,
++	.u.timer.expires_ns = 0,
++    };
++
++    return kvm_vm_ioctl(kvm_state, KVM_XEN_VCPU_SET_ATTR, &va);
 +}
 +
-+void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id)
++static void do_set_vcpu_timer_virq(CPUState *cs, run_on_cpu_data data)
 +{
-+    CPUState *cs = qemu_get_cpu(vcpu_id);
-+    CPUX86State *env;
-+    uint64_t gpa;
-+
-+    if (!cs) {
-+        return NULL;
-+    }
-+    env = &X86_CPU(cs)->env;
-+
-+    gpa = env->xen_vcpu_info_gpa;
-+    if (gpa == UINT64_MAX)
-+        gpa = env->xen_vcpu_info_default_gpa;
-+    if (gpa == UINT64_MAX)
-+        return NULL;
-+
-+    return gpa_to_hva(gpa);
++    kvm_xen_set_vcpu_timer(cs);
 +}
 +
-+void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id)
++int kvm_xen_set_vcpu_virq(uint32_t vcpu_id, uint16_t virq, uint16_t port)
 +{
 +    CPUState *cs = qemu_get_cpu(vcpu_id);
-+    uint8_t vector;
 +
 +    if (!cs) {
-+        return;
-+    }
-+    vector = X86_CPU(cs)->env.xen_vcpu_callback_vector;
-+
-+    if (vector) {
-+        /* The per-vCPU callback vector injected via lapic. Just
-+         * deliver it as an MSI. */
-+        MSIMessage msg = {
-+            .address = APIC_DEFAULT_ADDRESS | X86_CPU(cs)->apic_id,
-+            .data = vector | (1UL << MSI_DATA_LEVEL_SHIFT),
-+        };
-+        kvm_irqchip_send_msi(kvm_state, msg);
-+        return;
++        return -ENOENT;
 +    }
 +
-+    /* If the evtchn_upcall_pending field in the vcpu_info is set, then
-+     * KVM will automatically deliver the vector on entering the vCPU
-+     * so all we have to do is kick it out. */
-+    qemu_cpu_kick(cs);
++    /* cpu.h doesn't include the actual Xen header. */
++    qemu_build_assert(NR_VIRQS == XEN_NR_VIRQS);
++
++    if (virq >= NR_VIRQS) {
++        return -EINVAL;
++    }
++
++    if (port && X86_CPU(cs)->env.xen_virq[virq]) {
++        return -EEXIST;
++    }
++
++    X86_CPU(cs)->env.xen_virq[virq] = port;
++    if (virq == VIRQ_TIMER) {
++        async_run_on_cpu(cs, do_set_vcpu_timer_virq, RUN_ON_CPU_HOST_INT(port));
++    }
++    return 0;
 +}
 +
  static void do_set_vcpu_time_info_gpa(CPUState *cs, run_on_cpu_data data)
  {
      X86CPU *cpu = X86_CPU(cs);
-@@ -652,6 +712,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         err = xen_evtchn_close_op(&close);
+@@ -724,6 +770,21 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+         err = xen_evtchn_unmask_op(&unmask);
          break;
      }
-+    case EVTCHNOP_unmask: {
-+        struct evtchn_unmask unmask;
++    case EVTCHNOP_bind_virq: {
++        struct evtchn_bind_virq virq;
 +
-+        qemu_build_assert(sizeof(unmask) == 4);
-+        if (kvm_copy_from_gva(cs, arg, &unmask, sizeof(unmask))) {
++        qemu_build_assert(sizeof(virq) == 12);
++        if (kvm_copy_from_gva(cs, arg, &virq, sizeof(virq))) {
 +            err = -EFAULT;
 +            break;
 +        }
 +
-+        err = xen_evtchn_unmask_op(&unmask);
++        err = xen_evtchn_bind_virq_op(&virq);
++        if (!err && kvm_copy_to_gva(cs, arg, &virq, sizeof(virq))) {
++            err = -EFAULT;
++        }
 +        break;
 +    }
      default:
          return false;
      }
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 09e13cf716..e04d64913c 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -1280,6 +1280,7 @@ static const VMStateDescription vmstate_xen_vcpu = {
+         VMSTATE_UINT64(env.xen_vcpu_time_info_gpa, X86CPU),
+         VMSTATE_UINT64(env.xen_vcpu_runstate_gpa, X86CPU),
+         VMSTATE_UINT8(env.xen_vcpu_callback_vector, X86CPU),
++        VMSTATE_UINT16_ARRAY(env.xen_virq, X86CPU, XEN_NR_VIRQS),
+         VMSTATE_END_OF_LIST()
+     }
+ };
 -- 
 2.35.3
 
