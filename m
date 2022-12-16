@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C487C64F4BE
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 00:10:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C014664F50D
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 00:29:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Jos-0004li-Ec; Fri, 16 Dec 2022 18:08:46 -0500
+	id 1p6K7R-0004YX-3L; Fri, 16 Dec 2022 18:27:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p6Jop-0004lU-FT
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 18:08:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p6JoW-0002cK-UP
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 18:08:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671232102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mxKWUmsbURuQkN1wTd2KNzDlZjCX6lnSp7c00JtdSP0=;
- b=NYLa4CXbDfIfgy3POHvMGEd37Xf5uHStJtgIJZYbW6jeP5IJItqJCkwHPr1TAAqvppsUMx
- qbr6i/0e4pxlFmeGNQGGWlT2zSkWOw9Jv87ZpFS2NePYzQophHmaCl15zqf2IPjqC256/M
- boBXvrPyTMR4isE424eU5nAgHcRPTm8=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-448-AlL-iHYuML24V53pcn86HQ-1; Fri, 16 Dec 2022 18:08:20 -0500
-X-MC-Unique: AlL-iHYuML24V53pcn86HQ-1
-Received: by mail-ua1-f70.google.com with SMTP id
- g27-20020ab0105b000000b0043464bada19so1482258uab.13
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 15:08:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6K7P-0004YA-NR
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 18:27:55 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6K7N-0006Jh-RK
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 18:27:55 -0500
+Received: by mail-ej1-x631.google.com with SMTP id u19so9570473ejm.8
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 15:27:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BXdd9LLYTvk2fhZ0MYK4SCCrpxpzaVmwXHoCth8hCk8=;
+ b=BbXwiyohwK9CsMDcysA9HJ65A4g+AOdQjHrGzS0pzdM/NckF7nXa3lJQnNEzbfTom6
+ 2O4U9ZOHuYN91fF5LnsxgM3TzQrdb/S5s7QYeLydldQKfYM+XkJlG4IQMy7yQ90lj0mr
+ KjsCTWpXvzzNbh4/Qd9tCFbedv5dzaoAHFuwiehpdfVhyvGzgQ05NAqrJ/88QUipuKev
+ 9jvaEtix8H2pKxZXo7Rnzw4A6yl8U9WdON+u0GCR9JT6ETVyFKKyAm5P5weu8GFJ88eG
+ BtEXh00D358Bk4x+K2WteRayy85H31+42OzVgyT1cUc3E13vbCf+2inFOpB+v6Q7xPRJ
+ UAFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mxKWUmsbURuQkN1wTd2KNzDlZjCX6lnSp7c00JtdSP0=;
- b=v0vF0/IwXehQtIDUHFDofzaYo+t3wcbGbZvZoUx9zg3KcWUafrGQTW+g4MI23En/T8
- te+LEJsEGtJPzujtPw0QQekM8zYfA1yspfd36UMiQOs0TvMNxVJbR6ULymVvaS6SaevR
- q41Flk/P9ls8SzRlU9K7psirVn6JhnNmpCKB4m3L9JE3x5VFhkG8V1yQxyOLOTf3Yit+
- TE13q6WQ0PRQlFrxrGs39UzNoGjr6y4XBy/m23D5rg/o4PtG3uKG6eLH4yjdq5fLZd9U
- Pwb+KIcxnPWiWG5Xa8aOVtOc0Iduu6ispoKKMhwJq2a+TgVyW/l7y05zEhXNW7NtsXlM
- 0FLg==
-X-Gm-Message-State: AFqh2kqvMygie+pl31BcHL01BjGYqV9OGuE8FFOIFl+8xSPFmdIGdD/O
- Md0s+6BLNDsV6qKEI090RCtyJ13+KW+oiA5P7U63aSq9Zm6H4+NTsTv4608Mua29DAC5hYje66c
- YB6ZJSed4kcx0meo0X3cbcheg3S/Vx1w=
-X-Received: by 2002:a05:6102:150c:b0:3b5:2762:568b with SMTP id
- f12-20020a056102150c00b003b52762568bmr1622070vsv.62.1671232099928; 
- Fri, 16 Dec 2022 15:08:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvm+saJOqR1PGWNfDhW9n+nJ7Chw9kmr1vpXLmoJ68B3nqArXgm3Eziia08POSnLW5bRNeuAiJo/5DTlgL8Pno=
-X-Received: by 2002:a05:6102:150c:b0:3b5:2762:568b with SMTP id
- f12-20020a056102150c00b003b52762568bmr1622067vsv.62.1671232099620; Fri, 16
- Dec 2022 15:08:19 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BXdd9LLYTvk2fhZ0MYK4SCCrpxpzaVmwXHoCth8hCk8=;
+ b=ROA/3vEEpNPVePWGLc94jTzHi4V6FqOVx1N6Wiqkx+JirfYv1Pjc0ZBQH9GRvVAwtf
+ ImoegkzTtTUfM4W+0ZaL8ia35UelciX2/3/EfCRBlEdlSboJGL+lyiNj0gjpFdd7QnJe
+ JmvrxU8doX6HFOtMePVRByrTsb2tktop4cUn0xels86BUQ7WUX/P+y4YL/A8qhA6hEIM
+ lZZOIsAtCZctSVYzwETpRXSCsdIbjISukgtf/SgB7a9uNYxd7aepTf6BeH4PHRTYDs21
+ p6/5N6bsXRS7ezo0Vev07fwaaeB/By6hLI4q6oFjQOsj4aBnAFx9DIgpwQ9NrsfBc8wz
+ qnYg==
+X-Gm-Message-State: ANoB5pm6XVWSadlE6gtangv6KQiA3SFSajcDbj+J/6+rQHHajdUE0VUf
+ gFibuROB8nD29PD+Ni5MxjFZwCtb2gtxuOyZO3k=
+X-Google-Smtp-Source: AA0mqf4+6kw7Ns/UZmh09CsAQVjS1xyJ6jvZ8LPuMoDWF+z+nIHjMphbf2pDhOEWI54nuAa8W7StBA==
+X-Received: by 2002:a17:906:7751:b0:78d:f454:388d with SMTP id
+ o17-20020a170906775100b0078df454388dmr27881108ejn.74.1671233272029; 
+ Fri, 16 Dec 2022 15:27:52 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ g17-20020a17090604d100b007c0f5d6f754sm1340696eja.79.2022.12.16.15.27.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Dec 2022 15:27:51 -0800 (PST)
+Message-ID: <cd5048e0-846b-49c5-08ac-24b7ca55f103@linaro.org>
+Date: Sat, 17 Dec 2022 00:27:49 +0100
 MIME-Version: 1.0
-References: <20221204015123.362726-1-richard.henderson@linaro.org>
- <20221204015123.362726-3-richard.henderson@linaro.org>
-In-Reply-To: <20221204015123.362726-3-richard.henderson@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Sat, 17 Dec 2022 00:08:08 +0100
-Message-ID: <CABgObfbS3BkDJ=wx38LyJJFs+__07MntKSHb2ZNUo3zo-_=Sjg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] meson: Set avx512f option to auto
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Tom Stellard <tstellar@redhat.com>, 
- "P. Berrange, Daniel" <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000a2b5fb05effa0bbc"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 2/5] hw/s390x/pv: Un-inline s390_pv_init()
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Peter Xu <peterx@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
+References: <20221216220411.6779-1-philmd@linaro.org>
+ <20221216220411.6779-3-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221216220411.6779-3-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,114 +96,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000a2b5fb05effa0bbc
-Content-Type: text/plain; charset="UTF-8"
-
-Because that's what configure used to do (
-https://lists.nongnu.org/archive/html/qemu-devel/2022-02/msg00650.html)...
-
-It can surely be changed but AVX512 is known to limit processor frequency.
-I am not sure if the limitation is per core or extends to multiple cores,
-and it would be a pity if guests were slowed down even further during
-migration.
-
-Especially after the bulk phase buffer_is_zero performance matters a lot
-less so you'd pay the price of AVX512 for little gain. After the bulk phase
-it may even make sense to just use SSE, since even AVX requires a voltage
-transition[1] from what I saw at
-https://travisdowns.github.io/blog/2020/01/17/avxfreq1.html.
-
-Paolo
-
-[1] voltage transitions slow down the processor during the transition
-
-Il dom 4 dic 2022, 02:51 Richard Henderson <richard.henderson@linaro.org>
-ha scritto:
-
-> I'm not sure why this option wasn't set the same as avx2.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 16/12/22 23:04, Philippe Mathieu-Daudé wrote:
+> There is no point in having s390_pv_init() inlined.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->  meson_options.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meson_options.txt b/meson_options.txt
-> index 4b749ca549..f98ee101e2 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -102,7 +102,7 @@ option('membarrier', type: 'feature', value:
-> 'disabled',
->
->  option('avx2', type: 'feature', value: 'auto',
->         description: 'AVX2 optimizations')
-> -option('avx512f', type: 'feature', value: 'disabled',
-> +option('avx512f', type: 'feature', value: 'auto',
->         description: 'AVX512F optimizations')
->  option('keyring', type: 'feature', value: 'auto',
->         description: 'Linux keyring support')
-> --
-> 2.34.1
->
->
+>   hw/s390x/pv.c         | 13 +++++++++++++
+>   include/hw/s390x/pv.h | 14 +-------------
+>   2 files changed, 14 insertions(+), 13 deletions(-)
 
---000000000000a2b5fb05effa0bbc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Because that&#39;s what configure used to do (<a href=3D"=
-https://lists.nongnu.org/archive/html/qemu-devel/2022-02/msg00650.html).">h=
-ttps://lists.nongnu.org/archive/html/qemu-devel/2022-02/msg00650.html).</a>=
-..<div dir=3D"auto"><br></div><div dir=3D"auto">It can surely be changed bu=
-t AVX512 is known to limit processor frequency. I am not sure if the limita=
-tion is per core or extends to multiple cores, and it would be a pity if gu=
-ests were slowed down even further during migration.</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">Especially after the bulk phase buffer_is_zero=
- performance matters a lot less so you&#39;d pay the price of AVX512 for li=
-ttle gain. After the bulk phase it may even make sense to just use SSE, sin=
-ce even AVX requires a voltage transition[1] from what I saw at=C2=A0<a hre=
-f=3D"https://travisdowns.github.io/blog/2020/01/17/avxfreq1.html">https://t=
-ravisdowns.github.io/blog/2020/01/17/avxfreq1.html</a>.</div><div dir=3D"au=
-to"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">[1] voltage transitions slow down the processor during the tr=
-ansition</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">Il dom 4 dic 2022, 02:51 Richard Henderson &lt;<a href=3D"m=
-ailto:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; ha=
- scritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">I&#39;m not sure why this=
- option wasn&#39;t set the same as avx2.<br>
-<br>
-Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
-naro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org=
-</a>&gt;<br>
----<br>
-=C2=A0meson_options.txt | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meson_options.txt b/meson_options.txt<br>
-index 4b749ca549..f98ee101e2 100644<br>
---- a/meson_options.txt<br>
-+++ b/meson_options.txt<br>
-@@ -102,7 +102,7 @@ option(&#39;membarrier&#39;, type: &#39;feature&#39;, v=
-alue: &#39;disabled&#39;,<br>
-<br>
-=C2=A0option(&#39;avx2&#39;, type: &#39;feature&#39;, value: &#39;auto&#39;=
-,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;AVX2 optimizations&#39;)<br>
--option(&#39;avx512f&#39;, type: &#39;feature&#39;, value: &#39;disabled&#3=
-9;,<br>
-+option(&#39;avx512f&#39;, type: &#39;feature&#39;, value: &#39;auto&#39;,<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;AVX512F optimizations&#39;)<b=
-r>
-=C2=A0option(&#39;keyring&#39;, type: &#39;feature&#39;, value: &#39;auto&#=
-39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;Linux keyring support&#39;)<b=
-r>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div>
+> diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+> index 9360aa1091..5bca5bcaf1 100644
+> --- a/include/hw/s390x/pv.h
+> +++ b/include/hw/s390x/pv.h
+> @@ -12,7 +12,6 @@
+>   #ifndef HW_S390_PV_H
+>   #define HW_S390_PV_H
+>   
+> -#include "qapi/error.h"
+>   #include "sysemu/kvm.h"
+>   
+>   #ifdef CONFIG_KVM
+> @@ -78,17 +77,6 @@ static inline int kvm_s390_dump_completion_data(void *buff) { return 0; }
+>   #endif /* CONFIG_KVM */
+>   
+>   int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+> -static inline int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
+> -{
+> -    if (!cgs) {
+> -        return 0;
+> -    }
+> -    if (kvm_enabled()) {
+> -        return s390_pv_kvm_init(cgs, errp);
+> -    }
+> -
+> -    error_setg(errp, "Protected Virtualization requires KVM");
+> -    return -1;
+> -}
+> +int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp);
 
---000000000000a2b5fb05effa0bbc--
+OK I understood why this function is inlined. It is called from:
 
+$ git grep s390_pv_init
+hw/s390x/pv.c:29:int s390_pv_init(ConfidentialGuestSupport *cgs, Error 
+**errp)
+hw/s390x/s390-virtio-ccw.c:259:    s390_pv_init(machine->cgs, &error_fatal);
+include/hw/s390x/pv.h:86:int s390_pv_init(ConfidentialGuestSupport *cgs, 
+Error **errp);
+
+Now note in meson.build:
+
+s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
+   'tod-kvm.c',
+   's390-skeys-kvm.c',
+   's390-stattrib-kvm.c',
+   'pv.c',
+   's390-pci-kvm.c',
+))
+
+So when CONFIG_KVM=false s390-virtio-ccw.c doesn't have to link with
+the kvm-specific pv.o.
+
+I'll rework this patch.
 
