@@ -2,81 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999D664EE81
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:06:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B05064EE9D
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:09:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6DDb-0000JN-48; Fri, 16 Dec 2022 11:05:54 -0500
+	id 1p6DGb-0002En-Ur; Fri, 16 Dec 2022 11:08:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p6DCz-0000Gn-Ud; Fri, 16 Dec 2022 11:05:14 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p6DCx-0004F4-NL; Fri, 16 Dec 2022 11:05:13 -0500
-Received: by mail-ej1-x635.google.com with SMTP id gh17so7228679ejb.6;
- Fri, 16 Dec 2022 08:05:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cGTR19520e9lj9/GpNytbDDCk06coXfVIA7Esk39O44=;
- b=fV920C/wnisLkJHvcbFvXSX0DZn8W56UpeJ7qaJvU6yAo3+gr66ypWsk0e8ac7spGV
- Xn9ulV+tLP7N8k978eISvFvvd9sD38bJ8x/2yFT+JmHfS4/dHqFQKyxHeEWmWS5t8Xeo
- S4dFDGxR5mnoiXMCQsi3ZUcu3YNSl7A11UMK7YUpsO4LUDG6W1mWF8DRX43qHua3+D4/
- e+ypyOsvYHffce18A+6rT2LqG46JoV2B37Gh4eVzcdDzhc9uVK5fXmmRwQqsFuygW4B4
- Oku6mrlze2nPUp4O+G3M2yYKJF4257oTA2ShBPg6B3Zo24fyxi2mAquFQY0BD4CI/VGM
- AoOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cGTR19520e9lj9/GpNytbDDCk06coXfVIA7Esk39O44=;
- b=UX/M0Og5mwUudw5D7UxWMsea6lfEY5gzp1mLvSqDn7sDX4eL6FC00Ux1Da8D9DE9F9
- TJjMObT2ZBXbBjC13CKXxApoBbnEbT7BeZYWgOwVhTeywkAmWDfQeBvJfFXNVBlKjLWT
- 1nOoONpv/8gfsJh45j2L/pMuPOicxxiQs/kJoYMVzSuPUtD3KMivczTq36qKk+rFkm3F
- vP/wlXw49+GcnlFpPWyHVN/5vGW7RnkN5tuni5DhT8jDlwMu9QHlVirPxLZAm3aoN4gT
- smx3VE6w6wG2g/wepIRbtHJj9Nx98ZqvTL4/l37dEgn8+lHGdCuRFhfLIS6xpKfZvEKg
- RvPQ==
-X-Gm-Message-State: ANoB5pnR67YCwORTuoXdimnD/Tm1nz58O110MBe6rcUT3MhFXVSZf21a
- KYI97dip2PcmxZFRT6rBLRg=
-X-Google-Smtp-Source: AA0mqf5BxqebrZJprMod2U4e7fzLNXx+2kVw0W6vc6+f19d/klNwUS96LR3r5O0cFZZUKH6zBvuJ5Q==
-X-Received: by 2002:a17:906:2249:b0:7c0:e23d:12c4 with SMTP id
- 9-20020a170906224900b007c0e23d12c4mr28240264ejr.63.1671206706052; 
- Fri, 16 Dec 2022 08:05:06 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-078-055-138-012.78.55.pool.telefonica.de.
- [78.55.138.12]) by smtp.gmail.com with ESMTPSA id
- kk20-20020a170907767400b0078db18d7972sm983422ejc.117.2022.12.16.08.05.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 08:05:05 -0800 (PST)
-Date: Fri, 16 Dec 2022 16:04:52 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-CC: qemu-ppc@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>,
- David Gibson <david@gibson.dropbear.id.au>, Michael Tokarev <mjt@tls.msk.ru>, 
- qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 0/6] Trivial PPC cleanups
-In-Reply-To: <832b5af6-dffd-7fa1-d648-3068834f8a15@kaod.org>
-References: <20221216145709.271940-1-shentey@gmail.com>
- <832b5af6-dffd-7fa1-d648-3068834f8a15@kaod.org>
-Message-ID: <96C50C7E-28BD-4A1F-9940-170432338A6C@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p6DGR-0002BL-E1
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:08:47 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1p6DGO-0004mn-M2
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:08:47 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BGFj6SR003447
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:08:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=vXAyATeBnBBX7I8y7ofdKKZUt/PU19oIrEA/60DhNeo=;
+ b=o5D2YNw0bZdtmn5vWKXWtmrCxWrV5XEwTfU2SlWdi99OvFq/pgAOUfu8c9kZ53ewfsSu
+ Vm333JBjIIT0jrFtcMP2XOwL+cWjTP2A50dGJozYWDS1n+9I3MN5K5OD49yt15U5FiWJ
+ PXkptqZgOfaK3BxaqiVw9CIgn+OREstLrp4kBiV6m7jWKsE/bnXtlX6phwixg/JIV3Lw
+ LYMr+3Pv9OPo/bmeQ5GXm5/wGyYcVrtkB6i9nN5gw6mbaO15kkK1exCl4sKknzSE1/hi
+ CKoBMS+DWvd9pjHEmu6jD8ZX01h9Enw871WktyX8bUDbylycxfYhzMGH+Is9S4cOgTsF 9w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mgukfrnta-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:08:42 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BGG8fdT020725
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:08:41 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mgukfrnsw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 16 Dec 2022 16:08:41 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BGF12vZ008515;
+ Fri, 16 Dec 2022 16:08:40 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
+ by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3meyyj7qx5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 16 Dec 2022 16:08:40 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
+ [10.39.53.230])
+ by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BGG8dN060162532
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 16 Dec 2022 16:08:39 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 684E058054;
+ Fri, 16 Dec 2022 16:08:39 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CAA8D5805A;
+ Fri, 16 Dec 2022 16:08:38 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 16 Dec 2022 16:08:38 +0000 (GMT)
+Message-ID: <7cd73725-27ff-8500-9d18-b1a284be97be@linux.ibm.com>
+Date: Fri, 16 Dec 2022 11:08:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 2/2] tpm: add backend for mssim
+Content-Language: en-US
+To: jejb@linux.ibm.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+References: <77bc5a11fcb7b06deba1c54b1ef2de28e0c53fb1.camel@linux.ibm.com>
+ <10fbda0f-7c8a-3819-fb22-34a9249ac138@linux.ibm.com>
+ <b5d26ab0e54c15c408e9bae136bce969283ed5bd.camel@linux.ibm.com>
+ <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
+ <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
+ <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
+ <Y5xH/0bbgFzi+G//@redhat.com>
+ <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
+ <Y5xqgK8UXe28VZQ2@redhat.com>
+ <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
+ <Y5yAz0qzaIW4HwFi@redhat.com>
+ <1ee8a9cb-ba2c-60d0-a150-9710270020b7@linux.ibm.com>
+ <c4203617f5a017c30175ebccde80bdc3d680b615.camel@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <c4203617f5a017c30175ebccde80bdc3d680b615.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7RDKOmVAQ9crEf8EPVGPDs4Yt0_nvpV8
+X-Proofpoint-ORIG-GUID: UfjdVf_gnhVSrA8i7Pv3-0whfuR5JuAQ
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-16_11,2022-12-15_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ suspectscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
+ malwarescore=0 phishscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212160139
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,57 +132,91 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 16=2E Dezember 2022 15:32:00 UTC schrieb "C=C3=A9dric Le Goater" <clg@k=
-aod=2Eorg>:
->On 12/16/22 15:57, Bernhard Beschow wrote:
->> These are some patches which helped me when getting a u-boot image to r=
-un on ppce500 machine=2E
->
->Nice=2E Did you simply use the qemu-ppce500_defconfig ? or an u-boot old =
-image ?
+On 12/16/22 10:48, James Bottomley wrote:
+> On Fri, 2022-12-16 at 09:55 -0500, Stefan Berger wrote:
+>>
+>>
+>> On 12/16/22 09:29, Daniel P. Berrangé wrote:
+>>
+>>>
+>>> All the objections you're raising are related to the current
+>>> specifics of the implementation of the mssim remote server.
+>>> While valid, this is of no concern to QEMU when deciding whether
+>>> to require a migration blocker on the client side. This is 3rd
+>>> party remote service that should be considered a black box from
+>>> QEMU's POV. It is possible to write a remote server that supports
+>>> the mssim network protocol, and has the ability to serialize
+>>> its state. Whether such an impl exists today or not is separate.
+>>
+>> Then let's document the scenarios so someone can repeat them, I think
+>> this is just fair. James said he tested state migration scenarios and
+>> it works, so let's enable others to do it as well. I am open to
+>> someone maintaining just this driver and the dynamics that may
+>> develop around it.
+> 
+> Well, OK, this is what I think would be appropriate ... I'll fold it in
+> to the second patch.
+> 
+> James
+> 
+> ---
+> 
+> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+> index 535912a92b..985d0775a0 100644
+> --- a/docs/specs/tpm.rst
+> +++ b/docs/specs/tpm.rst
+> @@ -270,6 +270,38 @@ available as a module (assuming a TPM 2 is passed through):
+>     /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
+>     ...
+>   
+> +The QEMU TPM Microsoft Simulator Device
+> +---------------------------------------
+> +
+> +The TCG provides a reference implementation for TPM 2.0 written by
+> +Microsoft (See `ms-tpm-20-ref`_ on github).  The reference implementation
+> +starts a network server and listens for TPM commands on port 2321 and
+> +TPM Platform control commands on port 2322, although these can be
+> +altered.  The QEMU mssim TPM backend talks to this implementation.  By
+> +default it connects to the default ports on localhost:
+> +
+> +.. code-block:: console
+> +
+> +  qemu-system-x86_64 <qemu-options> \
+> +    -tpmdev mssim,id=tpm0 \
+> +    -device tpm-crb,tpmdev=tpm0
+> +
+> +
+> +Although it can also communicate with a remote host, which must be
+> +specified as a SocketAddress via json on the command line for each of
+> +the command and control ports:
+> +
+> +.. code-block:: console
+> +
+> +  qemu-system-x86_64 <qemu-options> \
+> +    -tpmdev "{'type':'mssim','id':'tpm0','command':{'type':inet,'host':'remote','port':'2321'},'control':{'type':'inet','host':'remote','port':'2322'}}" \
+> +    -device tpm-crb,tpmdev=tpm0
+> +
+> +
+> +The mssim backend supports snapshotting and migration, but the state
+> +of the Microsoft Simulator server must be preserved (or the server
+> +kept running) outside of QEMU for restore to be successful.
 
-I used P1020RDB-PC_NAND_defconfig from the u-boot repository plus my branc=
-h https://github=2Ecom/shentok/qemu/commits/e500-u-boot =2E I had to commen=
-t out the fdt handling in u-boot for now since I didn't figure out yet how =
-to include the dt blob in the elf binary=2E Anyway, with this I get a u-boo=
-t shell!
+You said you tested it. Can you show how to set it up with command lines? I want to try out at least suspend and resume .
 
->
->We could update the qemu_ppc_e500mc_defconfig in buildroot to generate th=
-e
->uboot=2Ebin if that worked=2E
 
-I haven't looked into that yet but this sounds interesting!
 
-Best regards,
-Bernhard
+    Stefan
 
->
->
->>=20
->> Testing done:
->> - `make check`
->> - `make check-avocado`
->>=20
->> Bernhard Beschow (6):
->>    target/ppc/mmu_common: Log which effective address had no TLB entry
->>      found
->>    target/ppc/mmu_common: Fix table layout of "info tlb" HMP command
->>    hw/ppc/virtex_ml507: Prefer local over global variable
->>    hw/ppc/e500: Prefer local variable over qdev_get_machine()
->>    hw/ppc/e500: Resolve variable shadowing
->>    hw/ppc/e500: Move comment to more appropriate place
->>=20
->>   hw/ppc/e500=2Ec           | 10 ++++------
->>   hw/ppc/virtex_ml507=2Ec   |  2 +-
->>   target/ppc/mmu_common=2Ec |  5 +++--
->>   3 files changed, 8 insertions(+), 9 deletions(-)
->>=20
->
->
->Reviewed-by: C=C3=A9dric Le Goater <clg@kaod=2Eorg>
->
->Thanks,
->
->C=2E
+> +
+>   The QEMU TPM emulator device
+>   ----------------------------
+>   
+> @@ -526,3 +558,6 @@ the following:
+>   
+>   .. _SWTPM protocol:
+>      https://github.com/stefanberger/swtpm/blob/master/man/man3/swtpm_ioctls.pod
+> +
+> +.. _ms-tpm-20-ref:
+> +   https://github.com/microsoft/ms-tpm-20-ref
+> 
 
