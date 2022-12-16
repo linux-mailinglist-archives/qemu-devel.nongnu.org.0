@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D53F64ECD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:23:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA5964ECDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:28:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6BbA-0004mm-2y; Fri, 16 Dec 2022 09:22:04 -0500
+	id 1p6Bft-00072f-3O; Fri, 16 Dec 2022 09:26:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1p6Bb7-0004m5-1S; Fri, 16 Dec 2022 09:22:01 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ id 1p6Bfj-00071k-NR
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:26:47 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1p6Bb3-00087u-8S; Fri, 16 Dec 2022 09:22:00 -0500
+ id 1p6Bfc-0000lF-Uw
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:26:47 -0500
 Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
  (iva4-f06c35e68a0a.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id E1B655F452;
- Fri, 16 Dec 2022 17:21:36 +0300 (MSK)
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id BBAAF5F233;
+ Fri, 16 Dec 2022 17:26:20 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:b58d::1:2b] (unknown
  [2a02:6b8:b081:b58d::1:2b])
  by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- ZLiYc90QaW21-x3p7gY2R; Fri, 16 Dec 2022 17:21:36 +0300
+ JQi8d90QbmI1-aaIvw8x8; Fri, 16 Dec 2022 17:26:20 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1671200496; bh=643oBnHu7f0aKM41rmKTxkALntSgWvbIuIb4C8qjM+k=;
+ t=1671200780; bh=UhU3jkNcK5S1DgyR3g2Ewx6AhFJxAn7roHt5JPSB/fw=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=qSZFMEJFPx3ebKeRuNg8QynU94B4BlLOk0wzSmQMOnqi0SuhWoZx0IQ1PEqIveQvF
- xYq2E8FLr5Fb+6Jhv9n23Ou+qbAstNzxNfqSeczZJKKqffs49uW0SWWjKcgLFAfm0w
- WOy0keQk4pX8f7KYzOITJLjYfV/8ZZFSNspCwjLE=
+ b=nId/BWvYqajsN6nJOP3959D18txWdlWr0/crS4dXKwtYx5RL5iiaRwg7zRBu/tsly
+ Q8wXAvHv2Vx7rRn+tbP/oetYbvVK1oZlDOJoh8/mKtXGRbSY/IMKjhQTaRVQ8o2YL9
+ H13wzHn8ywo9r2C0dEZB7vW0sS1UWw+Odjwk8g0c=
 Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <001b0bab-6d5f-0a8f-d8c4-96f0c886decf@yandex-team.ru>
-Date: Fri, 16 Dec 2022 17:21:35 +0300
+Message-ID: <e1a3f722-2152-fa3d-1d5c-102da196482f@yandex-team.ru>
+Date: Fri, 16 Dec 2022 17:26:19 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 01/14] block-coroutine-wrapper: support void functions
+Subject: Re: [PATCH 02/14] block: Convert bdrv_io_plug() to co_wrapper
 Content-Language: en-US
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Cc: hreitz@redhat.com, eesposit@redhat.com, pbonzini@redhat.com,
  qemu-devel@nongnu.org
 References: <20221213085320.95673-1-kwolf@redhat.com>
- <20221213085320.95673-2-kwolf@redhat.com>
+ <20221213085320.95673-3-kwolf@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221213085320.95673-2-kwolf@redhat.com>
+In-Reply-To: <20221213085320.95673-3-kwolf@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
  envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -75,14 +78,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/13/22 11:53, Kevin Wolf wrote:
-> From: Emanuele Giuseppe Esposito<eesposit@redhat.com>
+> From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > 
-> Just omit the various 'return' when the return type is void.
+> BlockDriver->bdrv_io_plug is categorized as IO callback, and it
+> currently doesn't run in a coroutine. We should let it take a graph
+> rdlock since the callback traverses the block nodes graph, which however
+> is only possible in a coroutine.
 > 
-> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
-> Signed-off-by: Kevin Wolf<kwolf@redhat.com>
+> The only caller of this function is blk_io_plug(), therefore make
+> blk_io_plug() a co_wrapper, so that we're always running in a coroutine
+> where the lock can be taken.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
 
+[..]
+
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
+> @@ -729,7 +729,7 @@ struct BlockDriver {
+>       void (*bdrv_debug_event)(BlockDriverState *bs, BlkdebugEvent event);
+>   
+>       /* io queue for linux-aio */
+> -    void (*bdrv_io_plug)(BlockDriverState *bs);
+> +    void coroutine_fn (*bdrv_io_plug)(BlockDriverState *bs);
+
+don't we want to rename it to _co_ too?
+
+anyway:
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+
 
 -- 
 Best regards,
