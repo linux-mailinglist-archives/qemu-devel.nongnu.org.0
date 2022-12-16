@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F64364F14D
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 19:55:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB8E64F14A
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 19:55:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Fq0-0000Ux-06; Fri, 16 Dec 2022 13:53:40 -0500
+	id 1p6Fq4-0000cu-GO; Fri, 16 Dec 2022 13:53:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6Fpu-0000Ta-Vx
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:53:35 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1p6Fq0-0000bC-Mx
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:53:40 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6Fpt-0003Gv-89
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:53:34 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id x2so3150954plb.13
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 10:53:32 -0800 (PST)
+ id 1p6Fpy-0003Hg-GW
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:53:39 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id js9so3389789pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 10:53:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=L1M2wRoJOi+BqzGwIPM2hSiFC08op8oobTL1vRrCJmc=;
- b=Vk9cX5yDaw0eTMaSyfcMtXUvf5LkIWcGWwS6OfG4EqGMUQzqV3a9sL6KTNByjCFs+x
- 61lyPy6YYwrqk0zZ8SiDoh7fjEy84oTqtINsSiujhI/WVbgU88tdha3xQ011TFhBsC1e
- AmLnpdbLqcFFXUZjgvPp6XyyYmtb2W9uRbqkjbvF3UiZRoJaj8Okiv1ANODfut0AJrGt
- gv/mYrkOmhlrCIa6VK90R/QvGo8AOXMDFe7hNMoD++3B1O54rdTWYrvAczhxRAqzkAzg
- skIOMZH7JgpdECEJT2DRn81ELc+nX/+x0RckVsEjw1BoHnCqVMFr4DOP2egcPqDTVuAb
- GnTw==
+ bh=KNHQY/4RRXvJU0V3H4/K7OQJyFUdroRHt7gYQp+f6XQ=;
+ b=XJDTqtEjiwgdScx7A9RGOSdszs0y4Mc+i5zwf4YKbUlfOWMZfpd6JNtQZ+0aNCxFKU
+ 0rRZRSQPSJzalz8lTuWUtNcnZRuUpeYJltJq03f/Ga2dBqCFhUth3aeeJvn1y+On1rdi
+ JIZ1sQm/IUZjh7BXXBZDCx7Xsfvl+6ZSsZv6plmay6VdYm134dxi/vqdgOhKsu4Baysa
+ x6LMoLSpqc0Clze/IluEbwVqIcR9ZN4RQ19hfTDwLFStPqNkTaRUQNXfq0TzZ/CNcOuK
+ xBtm8pqNpkRM4WCXqCXe8zxjWlHbQiX1NvOxHQQipFvW8QXQAJQ/G2Ensazd+zELZrTA
+ mL3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=L1M2wRoJOi+BqzGwIPM2hSiFC08op8oobTL1vRrCJmc=;
- b=aekSeBMEhwM51eP+bp7bDB9m+R0wLsgSgUJpxCVIyzUB+EEyYUrst9p1eclVEJloo2
- zGJYkAk3oraewY33sYGubz/QIN9yuoRqnrypicQJ0ZYjjBWzOmrWh6EI2MbA6cTT80Ks
- cvdIaXPC53ksX3sza/7no+6YNi8RP2QheGnCs5gXwkFOouFe+dqrBu2FWI6gmRoLDkZb
- ZLBaSJ9Ll7tsb61F57icbAhEXQDBUQ2sja9O5TMc1eUnJZ5xruKW0J4qq+jXJ1XjFTHs
- J71BntAPhsMivwT8D+Pcfn8MlH7IiUEk2MpzsjQ1aaBg+eRUc9CjoQzEFBgVJKj+1wxY
- 3iyw==
-X-Gm-Message-State: ANoB5pmVtrvFAwOzKQi2gY9XOHz4XJvPqklRK7jOI/GF9u2efVQelm8J
- Oe80UOcvkzEO9XnxjzTZWpRkVAw872GBkGOP
-X-Google-Smtp-Source: AA0mqf6O8eFJyk9teiWrgqxtkBMcANMaE61fT/rTu8MYidd49o0C+YbaiBho0vIxLpP7WareA6pSHA==
-X-Received: by 2002:a05:6a21:2d8b:b0:a0:462f:8e3e with SMTP id
- ty11-20020a056a212d8b00b000a0462f8e3emr42296030pzb.55.1671216811875; 
- Fri, 16 Dec 2022 10:53:31 -0800 (PST)
+ bh=KNHQY/4RRXvJU0V3H4/K7OQJyFUdroRHt7gYQp+f6XQ=;
+ b=XgCfUTisv1vJ3ooPjurIlXXs5RfQ5HT/S8Iy+24ABj+U3rkURxhucrLJ85VsIdQQzT
+ kN75G5NqV3m+dTmMMiX+B48DzRpAQ3++8vUo6lCUz0n452lDFNWSvBlURkrx1OZkqAd6
+ QCbWWVZBnd16OJFe6eybobjs2YL6COOKK3tB8bRWxIHlBn7pKJbJYu1VyOIyzmqqmrnJ
+ pOqbc3s53sPdes1YdqFwXO+xEd8h6ITPULn6AvX9az5+wNtg7eRFIpJFptgr8FhQLXsx
+ AIKI/z4MMqlDiWG3v5fJgvoWsB0oVsLhHD/jKKQVYnNiy1sGywYu1FCWf99hirQasji5
+ 1oAA==
+X-Gm-Message-State: ANoB5plknwq4dn9ZFTXiXIMF5ShUqRD3PGMlU4fWchBekoDtQQQibRCO
+ 0cd2tLODW4mXBfEJKOlj3qFTl2B4EjsdS6V4
+X-Google-Smtp-Source: AA0mqf5FFKD+anYAuIHNfB7msWbNtPZFlRYcmo4Q40FUgbxqo/2hmnmQwELampsLr+wFdOiJd7AMUQ==
+X-Received: by 2002:a17:90a:af85:b0:20d:bd60:ad8d with SMTP id
+ w5-20020a17090aaf8500b0020dbd60ad8dmr42303027pjq.9.1671216817170; 
+ Fri, 16 Dec 2022 10:53:37 -0800 (PST)
 Received: from stoup.. ([2602:47:d48c:8101:c606:9489:98df:6a3b])
  by smtp.gmail.com with ESMTPSA id
- 13-20020a630b0d000000b0046ff3634a78sm1761300pgl.71.2022.12.16.10.53.30
+ 13-20020a630b0d000000b0046ff3634a78sm1761300pgl.71.2022.12.16.10.53.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 10:53:30 -0800 (PST)
+ Fri, 16 Dec 2022 10:53:32 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 10/13] accel/tcg: Remove trace events from trace-root.h
-Date: Fri, 16 Dec 2022 10:53:02 -0800
-Message-Id: <20221216185305.3429913-11-richard.henderson@linaro.org>
+Subject: [PULL 11/13] accel/tcg: Rename tb_invalidate_phys_page_fast{,
+ __locked}()
+Date: Fri, 16 Dec 2022 10:53:03 -0800
+Message-Id: <20221216185305.3429913-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221216185305.3429913-1-richard.henderson@linaro.org>
 References: <20221216185305.3429913-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,62 +95,66 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Commit d9bb58e510 ("tcg: move tcg related files into accel/tcg/
-subdirectory") introduced accel/tcg/trace-events, so we don't
-need to use the root trace-events anymore.
+Emphasize this function is called with pages locked.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221209093649.43738-3-philmd@linaro.org>
+Message-Id: <20221209093649.43738-4-philmd@linaro.org>
+[rth: Use "__locked" suffix, to match other instances.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c     | 2 +-
- accel/tcg/trace-events | 4 ++++
- trace-events           | 4 ----
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ accel/tcg/internal.h | 6 +++---
+ accel/tcg/cputlb.c   | 2 +-
+ accel/tcg/tb-maint.c | 6 +++---
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
+diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+index 35419f3fe1..d10ab69ed0 100644
+--- a/accel/tcg/internal.h
++++ b/accel/tcg/internal.h
+@@ -37,9 +37,9 @@ void page_table_config_init(void);
+ 
+ #ifdef CONFIG_SOFTMMU
+ struct page_collection;
+-void tb_invalidate_phys_page_fast(struct page_collection *pages,
+-                                  tb_page_addr_t start, int len,
+-                                  uintptr_t retaddr);
++void tb_invalidate_phys_page_fast__locked(struct page_collection *pages,
++                                          tb_page_addr_t start, int len,
++                                          uintptr_t retaddr);
+ struct page_collection *page_collection_lock(tb_page_addr_t start,
+                                              tb_page_addr_t end);
+ void page_collection_unlock(struct page_collection *set);
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 6f1c00682b..ac459478f4 100644
+index ac459478f4..f7963d3af8 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -33,7 +33,7 @@
- #include "qemu/atomic.h"
- #include "qemu/atomic128.h"
- #include "exec/translate-all.h"
--#include "trace/trace-root.h"
-+#include "trace.h"
- #include "tb-hash.h"
- #include "internal.h"
- #ifdef CONFIG_PLUGIN
-diff --git a/accel/tcg/trace-events b/accel/tcg/trace-events
-index 59eab96f26..4e9b450520 100644
---- a/accel/tcg/trace-events
-+++ b/accel/tcg/trace-events
-@@ -6,5 +6,9 @@ exec_tb(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
- exec_tb_nocache(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
- exec_tb_exit(void *last_tb, unsigned int flags) "tb:%p flags=0x%x"
+@@ -1510,7 +1510,7 @@ static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
+     if (!cpu_physical_memory_get_dirty_flag(ram_addr, DIRTY_MEMORY_CODE)) {
+         struct page_collection *pages
+             = page_collection_lock(ram_addr, ram_addr + size);
+-        tb_invalidate_phys_page_fast(pages, ram_addr, size, retaddr);
++        tb_invalidate_phys_page_fast__locked(pages, ram_addr, size, retaddr);
+         page_collection_unlock(pages);
+     }
  
-+# cputlb.c
-+memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
-+memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
-+
- # translate-all.c
- translate_block(void *tb, uintptr_t pc, const void *tb_code) "tb:%p, pc:0x%"PRIxPTR", tb_code:%p"
-diff --git a/trace-events b/trace-events
-index 035f3d570d..b6b84b175e 100644
---- a/trace-events
-+++ b/trace-events
-@@ -42,10 +42,6 @@ find_ram_offset(uint64_t size, uint64_t offset) "size: 0x%" PRIx64 " @ 0x%" PRIx
- find_ram_offset_loop(uint64_t size, uint64_t candidate, uint64_t offset, uint64_t next, uint64_t mingap) "trying size: 0x%" PRIx64 " @ 0x%" PRIx64 ", offset: 0x%" PRIx64" next: 0x%" PRIx64 " mingap: 0x%" PRIx64
- ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_madvise, bool need_fallocate, int ret) "%s@%p + 0x%zx: madvise: %d fallocate: %d ret: %d"
+diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
+index 1676d359f2..8edfd910c4 100644
+--- a/accel/tcg/tb-maint.c
++++ b/accel/tcg/tb-maint.c
+@@ -1190,9 +1190,9 @@ void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
+  *
+  * Call with all @pages in the range [@start, @start + len[ locked.
+  */
+-void tb_invalidate_phys_page_fast(struct page_collection *pages,
+-                                  tb_page_addr_t start, int len,
+-                                  uintptr_t retaddr)
++void tb_invalidate_phys_page_fast__locked(struct page_collection *pages,
++                                          tb_page_addr_t start, int len,
++                                          uintptr_t retaddr)
+ {
+     PageDesc *p;
  
--# accel/tcg/cputlb.c
--memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
--memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
--
- # job.c
- job_state_transition(void *job,  int ret, const char *legal, const char *s0, const char *s1) "job %p (ret: %d) attempting %s transition (%s-->%s)"
- job_apply_verb(void *job, const char *state, const char *verb, const char *legal) "job %p in state %s; applying verb %s (%s)"
 -- 
 2.34.1
 
