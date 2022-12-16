@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270FA64EC64
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 14:55:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495F164EC76
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 14:58:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6BAs-0008DV-5r; Fri, 16 Dec 2022 08:54:54 -0500
+	id 1p6BAs-0008Dm-NR; Fri, 16 Dec 2022 08:54:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6BAp-0008Cr-VQ
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:54:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p6BAr-0008DJ-09
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:54:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6BAo-0007lT-7c
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:54:51 -0500
+ id 1p6BAp-0007ll-GE
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:54:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671198889;
+ s=mimecast20190719; t=1671198891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=amyO5A6TAVza9yGkm738fnrgpxj9PU3x4Ey/E0znrcc=;
- b=YMM6p2z/NSPEzbb14KitlFV/mSAct9uCSVMmK82rx8fP3q75yHuWtdP/+GAgnmOZFaLAHh
- 7+/8MHGzJRV1h3YNx98WncUniwXTYJtF3m3UwDjyT3BoM4kV/aLYeWkK/QPVu+Ki7u1QmI
- FYaKNZxMwekxC2GPhd+TxrKn+MTCa/g=
+ bh=elk0Ql+J8g5yi+F0Q9RPVdDLypDI/fkOrSPZqoURnqg=;
+ b=B43CVYtj6mJCBhoSP7xsg7RrLzZO00A0mQ//Aun0+FcX+mA1+ngz2Vn4d65DIO8BxaIvJl
+ FWG2KcLzcSN4nph7kkbQ2ozHn5pStQdXfyusIWJq1UIfeJ7f+HyDpa8EE29XeQS8gmdDzc
+ 7eP8FHc1UbBl5QvccR5IXPwYX9PVnMM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-583-Jr6egCfdPvG8vbYR2gAqQw-1; Fri, 16 Dec 2022 08:54:46 -0500
-X-MC-Unique: Jr6egCfdPvG8vbYR2gAqQw-1
+ us-mta-486-1ONJkBurPHWI4vUb-ivSBA-1; Fri, 16 Dec 2022 08:54:47 -0500
+X-MC-Unique: 1ONJkBurPHWI4vUb-ivSBA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F249A802C1C;
- Fri, 16 Dec 2022 13:54:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63ED5857F57;
+ Fri, 16 Dec 2022 13:54:47 +0000 (UTC)
 Received: from kostyanf14nb.lan (ovpn-193-42.brq.redhat.com [10.40.193.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0177440C2064;
- Fri, 16 Dec 2022 13:54:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 581D340C2005;
+ Fri, 16 Dec 2022 13:54:46 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 2/8] qga: Add ZFS TRIM support for FreeBSD
-Date: Fri, 16 Dec 2022 15:54:33 +0200
-Message-Id: <20221216135439.465033-3-kkostiuk@redhat.com>
+Subject: [PULL 3/8] qga: Add initial OpenBSD and NetBSD support
+Date: Fri, 16 Dec 2022 15:54:34 +0200
+Message-Id: <20221216135439.465033-4-kkostiuk@redhat.com>
 In-Reply-To: <20221216135439.465033-1-kkostiuk@redhat.com>
 References: <20221216135439.465033-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,150 +78,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+From: Brad Smith <brad@comstyle.com>
 
-Use zpool tool for ZFS pools trimming in FreeBSD.
+qga: Add initial OpenBSD and NetBSD support
 
-Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+Signed-off-by: Brad Smith <brad@comstyle.com>
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- qga/commands-bsd.c    | 109 ++++++++++++++++++++++++++++++++++++++++++
- qga/commands-common.h |   1 +
- 2 files changed, 110 insertions(+)
+ meson.build          | 2 +-
+ qga/commands-bsd.c   | 5 +++++
+ qga/commands-posix.c | 9 +++++++--
+ qga/main.c           | 6 +++---
+ 4 files changed, 16 insertions(+), 6 deletions(-)
 
+diff --git a/meson.build b/meson.build
+index 5c6b5a1c75..4c6f8a674a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -75,7 +75,7 @@ have_tools = get_option('tools') \
+   .allowed()
+ have_ga = get_option('guest_agent') \
+   .disable_auto_if(not have_system and not have_tools) \
+-  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd'],
++  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd', 'netbsd', 'openbsd'],
+            error_message: 'unsupported OS for QEMU guest agent') \
+   .allowed()
+ have_block = have_system or have_tools
 diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-index 15cade2d4c..960c4209e5 100644
+index 960c4209e5..0f1f0ca8aa 100644
 --- a/qga/commands-bsd.c
 +++ b/qga/commands-bsd.c
-@@ -170,6 +170,115 @@ GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
- }
- #endif /* CONFIG_FSFREEZE */
- 
-+#if defined(CONFIG_FSTRIM)
-+typedef struct FsPool {
-+    char *name;
-+    QTAILQ_ENTRY(FsPool) next;
-+} FsPool;
-+
-+typedef QTAILQ_HEAD(FsPoolList, FsPool) FsPoolList;
-+
-+static void build_fs_pool_list(FsPoolList *pools, Error **errp)
-+{
-+    FILE *fp;
-+    char *line = NULL, *p;
-+    size_t linecap = 0;
-+    ssize_t linelen;
-+    FsPool *pool;
-+
-+    fp = popen("/sbin/zpool list -H", "r");
-+    if (fp == NULL) {
-+        error_setg_errno(errp, errno, "failed to run zpool");
-+        return;
-+    }
-+
-+    while ((linelen = getline(&line, &linecap, fp)) > 0) {
-+        p = strchr(line, '\t');
-+        if (!p) {
-+            continue;
-+        }
-+
-+        *p = '\0';
-+
-+        pool = g_new0(FsPool, 1);
-+        pool->name = g_strdup(line);
-+        QTAILQ_INSERT_TAIL(pools, pool, next);
-+    }
-+
-+    free(line);
-+    pclose(fp);
-+}
-+
-+static void free_fs_pool_list(FsPoolList *pools)
-+{
-+    FsPool *pool, *temp;
-+
-+    if (!pools) {
-+        return;
-+    }
-+
-+    QTAILQ_FOREACH_SAFE(pool, pools, next, temp) {
-+        QTAILQ_REMOVE(pools, pool, next);
-+        g_free(pool->name);
-+        g_free(pool);
-+    }
-+}
-+
-+/*
-+ * Walk the list of ZFS pools in the guest, and trim them.
-+ */
-+GuestFilesystemTrimResponse *
-+qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
-+{
-+    GuestFilesystemTrimResponse *response;
-+    GuestFilesystemTrimResultList *list;
-+    GuestFilesystemTrimResult *result;
-+    int ret;
-+    FsPoolList pools;
-+    FsPool *pool;
-+    char cmd[256];
-+    Error *local_err = NULL;
-+
-+    slog("guest-fstrim called");
-+
-+    QTAILQ_INIT(&pools);
-+    build_fs_pool_list(&pools, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return NULL;
-+    }
-+
-+    response = g_malloc0(sizeof(*response));
-+
-+    QTAILQ_FOREACH(pool, &pools, next) {
-+        result = g_malloc0(sizeof(*result));
-+        result->path = g_strdup(pool->name);
-+
-+        list = g_malloc0(sizeof(*list));
-+        list->value = result;
-+        list->next = response->paths;
-+        response->paths = list;
-+
-+        snprintf(cmd, sizeof(cmd), "/sbin/zpool trim %s", pool->name);
-+        ret = system(cmd);
-+        if (ret != 0) {
-+            result->error = g_strdup_printf("failed to trim %s: %s",
-+                                            pool->name, strerror(errno));
-+            result->has_error = true;
-+            continue;
-+        }
-+
-+        result->has_minimum = true;
-+        result->minimum = 0;
-+        result->has_trimmed = true;
-+        result->trimmed = 0;
-+    }
-+
-+    free_fs_pool_list(&pools);
-+    return response;
-+}
-+#endif /* CONFIG_FSTRIM */
-+
- #ifdef HAVE_GETIFADDRS
- /*
-  * Fill "buf" with MAC address by ifaddrs. Pointer buf must point to a
-diff --git a/qga/commands-common.h b/qga/commands-common.h
-index 8c1c56aac9..922f9c479b 100644
---- a/qga/commands-common.h
-+++ b/qga/commands-common.h
-@@ -28,6 +28,7 @@
- #ifdef UFSSUSPEND
- #define CONFIG_FSFREEZE
- #endif
-+#define CONFIG_FSTRIM
- #endif /* __FreeBSD__ */
+@@ -21,7 +21,12 @@
+ #include <sys/ucred.h>
+ #include <sys/mount.h>
+ #include <net/if_dl.h>
++#if defined(__NetBSD__) || defined(__OpenBSD__)
++#include <net/if_arp.h>
++#include <netinet/if_ether.h>
++#else
+ #include <net/ethernet.h>
++#endif
+ #include <paths.h>
  
  #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index b2a6d8b227..3ae4a93974 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -45,7 +45,12 @@
+ #include <arpa/inet.h>
+ #include <sys/socket.h>
+ #include <net/if.h>
++#if defined(__NetBSD__) || defined(__OpenBSD__)
++#include <net/if_arp.h>
++#include <netinet/if_ether.h>
++#else
+ #include <net/ethernet.h>
++#endif
+ #include <sys/types.h>
+ #ifdef CONFIG_SOLARIS
+ #include <sys/sockio.h>
+@@ -2809,7 +2814,7 @@ static int guest_get_network_stats(const char *name,
+     return -1;
+ }
+ 
+-#ifndef __FreeBSD__
++#ifndef CONFIG_BSD
+ /*
+  * Fill "buf" with MAC address by ifaddrs. Pointer buf must point to a
+  * buffer with ETHER_ADDR_LEN length at least.
+@@ -2858,7 +2863,7 @@ bool guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
+     close(sock);
+     return true;
+ }
+-#endif /* __FreeBSD__ */
++#endif /* CONFIG_BSD */
+ 
+ /*
+  * Build information about guest interfaces
+diff --git a/qga/main.c b/qga/main.c
+index b3580508fa..0865c992f0 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -40,11 +40,11 @@
+ #include "commands-common.h"
+ 
+ #ifndef _WIN32
+-#ifdef __FreeBSD__
++#ifdef CONFIG_BSD
+ #define QGA_VIRTIO_PATH_DEFAULT "/dev/vtcon/org.qemu.guest_agent.0"
+-#else /* __FreeBSD__ */
++#else /* CONFIG_BSD */
+ #define QGA_VIRTIO_PATH_DEFAULT "/dev/virtio-ports/org.qemu.guest_agent.0"
+-#endif /* __FreeBSD__ */
++#endif /* CONFIG_BSD */
+ #define QGA_SERIAL_PATH_DEFAULT "/dev/ttyS0"
+ #define QGA_STATE_RELATIVE_DIR  "run"
+ #else
 -- 
 2.25.1
 
