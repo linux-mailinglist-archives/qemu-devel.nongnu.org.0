@@ -2,119 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B05064EE9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7003064EEB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:13:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6DGb-0002En-Ur; Fri, 16 Dec 2022 11:08:58 -0500
+	id 1p6DKG-0006Jl-Ee; Fri, 16 Dec 2022 11:12:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p6DGR-0002BL-E1
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:08:47 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p6DKD-0006FV-SX; Fri, 16 Dec 2022 11:12:41 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p6DGO-0004mn-M2
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:08:47 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BGFj6SR003447
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:08:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=vXAyATeBnBBX7I8y7ofdKKZUt/PU19oIrEA/60DhNeo=;
- b=o5D2YNw0bZdtmn5vWKXWtmrCxWrV5XEwTfU2SlWdi99OvFq/pgAOUfu8c9kZ53ewfsSu
- Vm333JBjIIT0jrFtcMP2XOwL+cWjTP2A50dGJozYWDS1n+9I3MN5K5OD49yt15U5FiWJ
- PXkptqZgOfaK3BxaqiVw9CIgn+OREstLrp4kBiV6m7jWKsE/bnXtlX6phwixg/JIV3Lw
- LYMr+3Pv9OPo/bmeQ5GXm5/wGyYcVrtkB6i9nN5gw6mbaO15kkK1exCl4sKknzSE1/hi
- CKoBMS+DWvd9pjHEmu6jD8ZX01h9Enw871WktyX8bUDbylycxfYhzMGH+Is9S4cOgTsF 9w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mgukfrnta-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:08:42 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BGG8fdT020725
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:08:41 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mgukfrnsw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 16:08:41 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BGF12vZ008515;
- Fri, 16 Dec 2022 16:08:40 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3meyyj7qx5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Dec 2022 16:08:40 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
- [10.39.53.230])
- by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BGG8dN060162532
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 16 Dec 2022 16:08:39 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 684E058054;
- Fri, 16 Dec 2022 16:08:39 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CAA8D5805A;
- Fri, 16 Dec 2022 16:08:38 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 16 Dec 2022 16:08:38 +0000 (GMT)
-Message-ID: <7cd73725-27ff-8500-9d18-b1a284be97be@linux.ibm.com>
-Date: Fri, 16 Dec 2022 11:08:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 2/2] tpm: add backend for mssim
-Content-Language: en-US
-To: jejb@linux.ibm.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <77bc5a11fcb7b06deba1c54b1ef2de28e0c53fb1.camel@linux.ibm.com>
- <10fbda0f-7c8a-3819-fb22-34a9249ac138@linux.ibm.com>
- <b5d26ab0e54c15c408e9bae136bce969283ed5bd.camel@linux.ibm.com>
- <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
- <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
- <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
- <Y5xH/0bbgFzi+G//@redhat.com>
- <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
- <Y5xqgK8UXe28VZQ2@redhat.com>
- <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
- <Y5yAz0qzaIW4HwFi@redhat.com>
- <1ee8a9cb-ba2c-60d0-a150-9710270020b7@linux.ibm.com>
- <c4203617f5a017c30175ebccde80bdc3d680b615.camel@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <c4203617f5a017c30175ebccde80bdc3d680b615.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7RDKOmVAQ9crEf8EPVGPDs4Yt0_nvpV8
-X-Proofpoint-ORIG-GUID: UfjdVf_gnhVSrA8i7Pv3-0whfuR5JuAQ
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p6DK9-0005fK-6Z; Fri, 16 Dec 2022 11:12:41 -0500
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 939D35EA12;
+ Fri, 16 Dec 2022 19:12:24 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b58d::1:2b] (unknown
+ [2a02:6b8:b081:b58d::1:2b])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ NCkDs90QYiE1-SbbRETqj; Fri, 16 Dec 2022 19:12:24 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1671207144; bh=xhoB1cwBYEX7tcTo1RXnW6wOs18X3iPB5uYRvR6Aa9M=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=oTwoV9UqmBqzN91pb1+7kD0jcjqNpnNrpVBv8NLvDNcRxVhVvlCL49G7fBe00IHw8
+ 9kIRLe5z6MRSS0Ka8WBMCfLkvZLtl7H9nFu4Rqk+TRu6cbsXRZB3ANWpGVQSO3udk/
+ 2klYrwwlCKKSw5pmuAD386QpNWIU445TwKXLSwwY=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <088f4a56-1ae1-2f3f-0412-c05f65ba6707@yandex-team.ru>
+Date: Fri, 16 Dec 2022 19:12:23 +0300
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-16_11,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015
- suspectscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
- malwarescore=0 phishscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212160139
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 02/14] block: Convert bdrv_io_plug() to co_wrapper
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: hreitz@redhat.com, eesposit@redhat.com, pbonzini@redhat.com,
+ qemu-devel@nongnu.org
+References: <20221213085320.95673-1-kwolf@redhat.com>
+ <20221213085320.95673-3-kwolf@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221213085320.95673-3-kwolf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -130,93 +75,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 12/16/22 10:48, James Bottomley wrote:
-> On Fri, 2022-12-16 at 09:55 -0500, Stefan Berger wrote:
->>
->>
->> On 12/16/22 09:29, Daniel P. Berrangé wrote:
->>
->>>
->>> All the objections you're raising are related to the current
->>> specifics of the implementation of the mssim remote server.
->>> While valid, this is of no concern to QEMU when deciding whether
->>> to require a migration blocker on the client side. This is 3rd
->>> party remote service that should be considered a black box from
->>> QEMU's POV. It is possible to write a remote server that supports
->>> the mssim network protocol, and has the ability to serialize
->>> its state. Whether such an impl exists today or not is separate.
->>
->> Then let's document the scenarios so someone can repeat them, I think
->> this is just fair. James said he tested state migration scenarios and
->> it works, so let's enable others to do it as well. I am open to
->> someone maintaining just this driver and the dynamics that may
->> develop around it.
-> 
-> Well, OK, this is what I think would be appropriate ... I'll fold it in
-> to the second patch.
-> 
-> James
-> 
-> ---
-> 
-> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-> index 535912a92b..985d0775a0 100644
-> --- a/docs/specs/tpm.rst
-> +++ b/docs/specs/tpm.rst
-> @@ -270,6 +270,38 @@ available as a module (assuming a TPM 2 is passed through):
->     /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
->     ...
+On 12/13/22 11:53, Kevin Wolf wrote:
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
+> @@ -729,7 +729,7 @@ struct BlockDriver {
+>       void (*bdrv_debug_event)(BlockDriverState *bs, BlkdebugEvent event);
 >   
-> +The QEMU TPM Microsoft Simulator Device
-> +---------------------------------------
-> +
-> +The TCG provides a reference implementation for TPM 2.0 written by
-> +Microsoft (See `ms-tpm-20-ref`_ on github).  The reference implementation
-> +starts a network server and listens for TPM commands on port 2321 and
-> +TPM Platform control commands on port 2322, although these can be
-> +altered.  The QEMU mssim TPM backend talks to this implementation.  By
-> +default it connects to the default ports on localhost:
-> +
-> +.. code-block:: console
-> +
-> +  qemu-system-x86_64 <qemu-options> \
-> +    -tpmdev mssim,id=tpm0 \
-> +    -device tpm-crb,tpmdev=tpm0
-> +
-> +
-> +Although it can also communicate with a remote host, which must be
-> +specified as a SocketAddress via json on the command line for each of
-> +the command and control ports:
-> +
-> +.. code-block:: console
-> +
-> +  qemu-system-x86_64 <qemu-options> \
-> +    -tpmdev "{'type':'mssim','id':'tpm0','command':{'type':inet,'host':'remote','port':'2321'},'control':{'type':'inet','host':'remote','port':'2322'}}" \
-> +    -device tpm-crb,tpmdev=tpm0
-> +
-> +
-> +The mssim backend supports snapshotting and migration, but the state
-> +of the Microsoft Simulator server must be preserved (or the server
-> +kept running) outside of QEMU for restore to be successful.
+>       /* io queue for linux-aio */
+> -    void (*bdrv_io_plug)(BlockDriverState *bs);
+> +    void coroutine_fn (*bdrv_io_plug)(BlockDriverState *bs);
 
-You said you tested it. Can you show how to set it up with command lines? I want to try out at least suspend and resume .
+But you didn't add coroutine_fn to realizations of this callback. Seems, it should be done
 
+-- 
+Best regards,
+Vladimir
 
-
-    Stefan
-
-> +
->   The QEMU TPM emulator device
->   ----------------------------
->   
-> @@ -526,3 +558,6 @@ the following:
->   
->   .. _SWTPM protocol:
->      https://github.com/stefanberger/swtpm/blob/master/man/man3/swtpm_ioctls.pod
-> +
-> +.. _ms-tpm-20-ref:
-> +   https://github.com/microsoft/ms-tpm-20-ref
-> 
 
