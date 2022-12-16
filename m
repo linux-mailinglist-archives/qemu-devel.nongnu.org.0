@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40AD264EF16
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:30:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB4764EF3F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:35:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Dap-00072t-0F; Fri, 16 Dec 2022 11:29:51 -0500
+	id 1p6Dbf-0007T9-IO; Fri, 16 Dec 2022 11:30:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6Daj-00071M-Dn
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:29:45 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Dbd-0007RM-BF
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:30:41 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6Dah-0002CJ-QD
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:29:45 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id g10so2790278plo.11
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 08:29:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Dbb-0002VU-LT
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:30:41 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id y16so3062589wrm.2
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 08:30:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=D22KZ0tJaorPu9mnBvc/MQz6gmJfR9l5cuAq3FOn1YY=;
- b=TBEQFgztiAbaWD9+ifUwdvpNfaNb+2FZ2MD7L81VQRzvkalojbsubMUfz/HG4XEB6b
- gAqdA0tTLuEjDsKwekXUkpUCuBtoaYGNmS7rBmo8+UVj2YJgt6Aart+4lp1DxJasS4Be
- ssYAMMpTGcILziqg0A9+0u4B6/KfQRJJOd984fvlXgF3FdeFzWchBMUd6lzLLELMrXii
- udrw+6xL343ycwCiMJd58+GOWLDSaVzZucznqUHo4/I8iuNrdpYlhQBHcpYD5XurNLbK
- /wI3CzCSE+JWNxLdZ0O/OPH7yKFQxeKz7+AWa34OgzLkkRsYyqYCjMfKZjNPp39qDoiM
- tM/w==
+ bh=7L0Z4MbvB1dXFTJ/PXFbC1ByY9mQtKaYj/qD6g3pag0=;
+ b=RqBQqhvN3IZiInz/NnGgczMAunxywtqx1WFuLWFIonn9GSNCp3D5e2Ar0yuG8VSS6C
+ M90Iiz/l2hygVzepqo7TsXKWZCX3GBqWwxdvYqZFvTaJk3pgJU9g7OQoFzEdy+xVHlQ6
+ fVQzHP73agvlebFaD8+X5jV0fOddBeLU/bxGMOLgtClc/qpv0ldJd7zHnXh/MIQRRJbj
+ JfQtJWhphQMYdib4toy+jv2ArZnsxQC+faI8b7bThTf9v5TuMtAHZ4VnOMrHsa0IZ+hC
+ zovzzeq85k5qYYEgXLrfEtSD1BGvERMWFy50bxe9wxLOFRen6IQReWxSKfaP6ZDntgBb
+ Q6qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=D22KZ0tJaorPu9mnBvc/MQz6gmJfR9l5cuAq3FOn1YY=;
- b=7wOdTKUOx/WiQPs5NPLazfsksinvdt0GIkr55yFV2wSBRhzc9TDDyUwwMuWDOytWZO
- LkOeIJSwePCHDXpPrj2N9xtmUNL2/UBTWNDMWd7gUJmAQUOT332aF3wj1DtIJ0R0tyez
- I+w5/67pSvTXtA/xRmSTtB3fEz4UeEo+3Ha7E8AY4Hh7sQ/s2gCddfivgsDtrSrlmxVu
- 5VpD/e4MrxhL1pVx/54FcrA+bb93t8IUnp+HcwjrP0CTlqIraN4ZMBfNpWYSk30N/IHT
- HD8F1Krewn3lBjYkpPd8OGptPXMOdHgzbg+D/ewUenpKxSMji2gpaRTgaq3jg1wRO7PJ
- 747w==
-X-Gm-Message-State: ANoB5pmm8ji67Brrwx7cP1rCb7T+TCKXpIWlwfrMv0oZ7CsCkEKkCTxu
- YEjAhOLQ55Q+eXIA95derc7LDA==
-X-Google-Smtp-Source: AA0mqf6IPlb602gKV6787RkbPZzs2E0ePwKDdPrq+LH8qygyBSxV/Rt39MXt1Ycb8ZRID7+0WNeuRg==
-X-Received: by 2002:a17:902:e74e:b0:18b:ed3f:c6ca with SMTP id
- p14-20020a170902e74e00b0018bed3fc6camr42248447plf.12.1671208182149; 
- Fri, 16 Dec 2022 08:29:42 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
- ([2602:47:d48c:8101:c606:9489:98df:6a3b])
- by smtp.gmail.com with ESMTPSA id
- q2-20020a170902eb8200b001898ca438fcsm1813575plg.282.2022.12.16.08.29.41
+ bh=7L0Z4MbvB1dXFTJ/PXFbC1ByY9mQtKaYj/qD6g3pag0=;
+ b=YaiJFnmijV5YBDy8ZBUSzLxQwhGixu4+sh0a+IinDiaPRBs+HUB+JUwhMtx7t0pfJU
+ yS1iGUFWaf0oV0Oy2ptlknCsYV7smeOGUMtuDk6m074aIudCGvB0pqH6GyEJlA1SmvdA
+ 3BRCj0hCANFjQ6mc3E+mIVEpQmDrk6psV3xi+OOrPmf+CARJPQAEJ7rwZ0pElhpGu1ba
+ ynB7WwL7C2sKf8z2X2bUOWivnIbfBwzJSh/I0keBLppsjgH7ZzlM/uXD1+/JB9adgUZp
+ /tnyVDLsh5hDpzTQ93q0DNeecUgOA960+HMa2Qf+jEAu5aJjXBejIrs/c857wjaGvraJ
+ ECQQ==
+X-Gm-Message-State: ANoB5pmR1Phl+StVHn05E97+OlCbEI+U/gWlbhbHGXVfDj6n7JCXzUEb
+ gVteM7Fm/TbX+J3W2129ZDZtLg==
+X-Google-Smtp-Source: AA0mqf4GG5XPI4QpF0KCiJT/kSzhjBfIe6av6m6pLhs6dJ8NLLP9StcE8IQyUPKRtOrLC+2J+BdclA==
+X-Received: by 2002:a05:6000:182:b0:242:4d70:7882 with SMTP id
+ p2-20020a056000018200b002424d707882mr20002145wrx.15.1671208238119; 
+ Fri, 16 Dec 2022 08:30:38 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ y9-20020a5d6149000000b0023662d97130sm2685057wrt.20.2022.12.16.08.30.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 08:29:41 -0800 (PST)
-Message-ID: <6900a10d-8128-72cd-c827-715e73473e3e@linaro.org>
-Date: Fri, 16 Dec 2022 08:29:39 -0800
+ Fri, 16 Dec 2022 08:30:37 -0800 (PST)
+Message-ID: <5c3c7f39-1e73-efdb-25c9-117cda9013c9@linaro.org>
+Date: Fri, 16 Dec 2022 17:30:36 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] target/arm: Don't set EXC_RETURN.ES if Security Extension
- not present
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 4/6] hw/ppc/e500: Prefer local variable over
+ qdev_get_machine()
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Igor Kotrasinski <i.kotrasinsk@samsung.com>
-References: <20221216152410.1185369-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216152410.1185369-1-peter.maydell@linaro.org>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ David Gibson <david@gibson.dropbear.id.au>, Michael Tokarev
+ <mjt@tls.msk.ru>, qemu-trivial@nongnu.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <20221216145709.271940-1-shentey@gmail.com>
+ <20221216145709.271940-5-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221216145709.271940-5-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,45 +96,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/16/22 07:24, Peter Maydell wrote:
-> In v7m_exception_taken(), for v8M we set the EXC_RETURN.ES bit if
-> either the exception targets Secure or if the CPU doesn't implement
-> the Security Extension.  This is incorrect: the v8M Arm ARM specifies
-> that the ES bit should be RES0 if the Security Extension is not
-> implemented, and the pseudocode agrees.
-> 
-> Remove the incorrect condition, so that we leave the ES bit 0
-> if the Security Extension isn't implemented.
-> 
-> This doesn't have any guest-visible effects for our current set of
-> emulated CPUs, because all our v8M CPUs implement the Security
-> Extension; but it's worth fixing in case we add a v8M CPU without
-> the extension in future.
-> 
-> Reported-by: Igor Kotrasinski <i.kotrasinsk@samsung.com>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
-
+On 16/12/22 15:57, Bernhard Beschow wrote:
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   target/arm/m_helper.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   hw/ppc/e500.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-> index 355cd4d60a7..2b55e90ea9d 100644
-> --- a/target/arm/m_helper.c
-> +++ b/target/arm/m_helper.c
-> @@ -895,7 +895,7 @@ static void v7m_exception_taken(ARMCPU *cpu, uint32_t lr, bool dotailchain,
->           }
->   
->           lr &= ~R_V7M_EXCRET_ES_MASK;
-> -        if (targets_secure || !arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-> +        if (targets_secure) {
->               lr |= R_V7M_EXCRET_ES_MASK;
->           }
->           lr &= ~R_V7M_EXCRET_SPSEL_MASK;
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index 2fe496677c..ad83924004 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -959,7 +959,7 @@ void ppce500_init(MachineState *machine)
+>       memory_region_add_subregion(address_space_mem, 0, machine->ram);
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
 
