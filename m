@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B32964F41F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC9464F41E
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:29:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6IV6-0006lp-Oz; Fri, 16 Dec 2022 16:44:17 -0500
+	id 1p6IV1-0006ft-9Q; Fri, 16 Dec 2022 16:44:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6IU7-00063T-8k
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:15 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ id 1p6IU8-00064V-6M
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:16 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6IU5-0000ck-Gg
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:14 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- f13-20020a1cc90d000000b003d08c4cf679so2678562wmb.5
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:43:13 -0800 (PST)
+ id 1p6IU6-0000fE-GH
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:15 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id v7so2786738wmn.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:43:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=NmHc1iW2xf801WdjGgkjhtPtQcaDJVi1vDsYl4gELPE=;
- b=sJs61Y9rk7oSJyORF5J4o54KW7CWbVbFYwkwP2Lm4ShEBQdC6ZIiHxUVFDw3pV6Zgu
- aAEXxF2yCCwEx2BCaSwrIwcIVqUD59tVYKpFp9koov0cuMMgP/nSI29dGeZ85It3vdaN
- 3cvHzuTKTua4kRSJfKLAxE/xLonAPOqFTtXXU/1y+Rk9ZufMF8Cz90gH2jaTTe9WDytv
- isdEd8OyBzo7dcBQvFGfCoGtacLi7YGnNtmEscwr7LbfivRIaL3AnFTnUmPh9BlZ1Sde
- QOkNW5460W2rL+7VHa9Hby1VGL4+/5xw1WpguifNiCmz2qgLVjmRQSibeRqbI3L8PIC4
- Gkcg==
+ :reply-to; bh=tmWSOkAlgQ3XeV0sLQSMRS/hn+5qBNnCvxTz3LkMcQc=;
+ b=lyPa3JVlWjHsLi18a+PEbeqodaoH0/bqyckN9gU7xFTDgDFIkpAPCdLWJIxFY89UsZ
+ Rf2sRBuaL4Ctnwu4/FPHjQCeKMIm+x4XG812x0RsNsIzEzmEzSsGIaSOcvuJkJmb4c2u
+ 7tcpJH617MolIkKUfN69a4bJyJh9/TUIqdoWmkSi5SEXexeXfab6hCXTjwrfk6G6mOS7
+ FYFuWub4Oi/vtHoPrLBX+Vgofi63Qt6qK9zVGoe4kVqMvY/RIREmA0b2v1gJy4g/tCFR
+ wLAspnBnGGnikOz9i/frG4XfrjrINmNSx8qs0pbe05HvADI0+HuIqy0bauXR1mrYGp7X
+ 5X0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NmHc1iW2xf801WdjGgkjhtPtQcaDJVi1vDsYl4gELPE=;
- b=LOl/QhzYGt5DHlNaiQlhKDpUFbfqLIWmIMIcalk70Ek23ad5uODzyASUlo9KdpQGWP
- Lf8WYsYl8Z+q6/7Gg+tNmm3qY+KFtjmuRRSHmS9u0bJeoQYvxGPJ3jxIG//wYYDY4pvj
- dO0Zy0zMvGaOMCstzSqXU7y6gpn6t6eRQ0HPY0ShNe4vDGcWYJ1YEGu1wPdaOmLMGQR1
- f7OTTqqStt+NeOBZoHbqNHLXX2AsnnbD5MNkGInmxsz+PMMQWOzN8Lru5bwpyRdHAVqn
- YsTR2BxsT4Qz0/hcTsZv+EaHyt/LhNqPcJF2P8PfxSCs9/WL+nlSWpgb/8MITLBDWNNY
- kLPQ==
-X-Gm-Message-State: ANoB5pk2+YYDbunkdkcsNo+mUHzGRusR6dbqCBXBFzvx+i69BSO3SJ8j
- d3SRvA/eL/mhYEo7aPbCx9xllhFm5yiGucGk
-X-Google-Smtp-Source: AA0mqf6eMUgHalWMFa13luv5W7xc2TKmY2cj1nYc8wwdxsrgZiHjM6LJqyX/Eyu2BUZH24cckDO4tw==
-X-Received: by 2002:a05:600c:3555:b0:3d0:8643:caf1 with SMTP id
- i21-20020a05600c355500b003d08643caf1mr18952734wmq.16.1671226992735; 
- Fri, 16 Dec 2022 13:43:12 -0800 (PST)
+ bh=tmWSOkAlgQ3XeV0sLQSMRS/hn+5qBNnCvxTz3LkMcQc=;
+ b=o2oQfHvh8dVe39snbZHyfVCLb75EKMzXBeQbP4SN7YvjkLa+rps9s75i9YJ41WHkha
+ PJp4ZTIWwqJ0yGEeYR+lO4bn7+LgQpKKiyWNEst/OXtNNsxPofnUASJQsRaa1+kcRXSR
+ Tf8PivG2Qx1iervD3Ob9jtuRTUgWVExqERgsOax+KgLgdT/IJ5mvI24bdPiq0dIa4oJa
+ TsLdZJANS3now8srWN99Y38ouVTYcqURTaYns+1fxC3vdedmW4+5T/Fvhw0awQJcNby1
+ GqRUhajpN2NCNP6267WbvdK7/ofVKaXJYTIzo7vR2pAH7Aib7vTBlFL/QyW3ewueU7QX
+ H2Jw==
+X-Gm-Message-State: AFqh2kqUKiLwS9CvYCDnbd5zDTDuI/VHqGpn77ROdyO8m3KFdgKAOswQ
+ ZlAA5FJmzlP35P7wZJSEa9dwOQWNjptkwxpV
+X-Google-Smtp-Source: AMrXdXtTZSHF6OtmVXYn9AJ9JmK58jeh+ERIfNEgP1poxhJYKQKOm7UvwoWBUGN3TDV5Bkj9QKGbAw==
+X-Received: by 2002:a05:600c:ad6:b0:3d3:3fb1:901d with SMTP id
+ c22-20020a05600c0ad600b003d33fb1901dmr4494380wmr.37.1671226993776; 
+ Fri, 16 Dec 2022 13:43:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- y7-20020a05600c364700b003d33ab317dasm4135263wmq.14.2022.12.16.13.43.11
+ y7-20020a05600c364700b003d33ab317dasm4135263wmq.14.2022.12.16.13.43.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 13:43:12 -0800 (PST)
+ Fri, 16 Dec 2022 13:43:13 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/36] target/tricore: Convert to 3-phase reset
-Date: Fri, 16 Dec 2022 21:42:36 +0000
-Message-Id: <20221216214244.1391647-29-peter.maydell@linaro.org>
+Subject: [PULL 29/36] target/xtensa: Convert to 3-phase reset
+Date: Fri, 16 Dec 2022 21:42:37 +0000
+Message-Id: <20221216214244.1391647-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221216214244.1391647-1-peter.maydell@linaro.org>
 References: <20221216214244.1391647-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,7 +89,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the tricore CPU class to use 3-phase reset, so it doesn't
+Convert the xtensa CPU class to use 3-phase reset, so it doesn't
 need to use device_class_set_parent_reset() any more.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
@@ -102,64 +101,75 @@ Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
 Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-id: 20221124115023.2437291-19-peter.maydell@linaro.org
+Message-id: 20221124115023.2437291-20-peter.maydell@linaro.org
 ---
- target/tricore/cpu-qom.h |  2 +-
- target/tricore/cpu.c     | 12 ++++++++----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ target/xtensa/cpu-qom.h |  4 ++--
+ target/xtensa/cpu.c     | 12 ++++++++----
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/target/tricore/cpu-qom.h b/target/tricore/cpu-qom.h
-index ee24e9fa76a..612731daa09 100644
---- a/target/tricore/cpu-qom.h
-+++ b/target/tricore/cpu-qom.h
-@@ -32,7 +32,7 @@ struct TriCoreCPUClass {
+diff --git a/target/xtensa/cpu-qom.h b/target/xtensa/cpu-qom.h
+index 4fc35ee49b8..419c7d8e4a3 100644
+--- a/target/xtensa/cpu-qom.h
++++ b/target/xtensa/cpu-qom.h
+@@ -41,7 +41,7 @@ typedef struct XtensaConfig XtensaConfig;
+ /**
+  * XtensaCPUClass:
+  * @parent_realize: The parent class' realize handler.
+- * @parent_reset: The parent class' reset handler.
++ * @parent_phases: The parent class' reset phase handlers.
+  * @config: The CPU core configuration.
+  *
+  * An Xtensa CPU model.
+@@ -52,7 +52,7 @@ struct XtensaCPUClass {
      /*< public >*/
  
      DeviceRealize parent_realize;
 -    DeviceReset parent_reset;
 +    ResettablePhases parent_phases;
+ 
+     const XtensaConfig *config;
  };
- 
- 
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index 2c54a2825f8..594cd1efd5e 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -68,14 +68,16 @@ static void tricore_restore_state_to_opc(CPUState *cs,
-     env->PC = data[0];
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index 09923301c40..2dc8f2d232f 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -85,16 +85,18 @@ bool xtensa_abi_call0(void)
  }
+ #endif
  
--static void tricore_cpu_reset(DeviceState *dev)
-+static void tricore_cpu_reset_hold(Object *obj)
+-static void xtensa_cpu_reset(DeviceState *dev)
++static void xtensa_cpu_reset_hold(Object *obj)
  {
 -    CPUState *s = CPU(dev);
 +    CPUState *s = CPU(obj);
-     TriCoreCPU *cpu = TRICORE_CPU(s);
-     TriCoreCPUClass *tcc = TRICORE_CPU_GET_CLASS(cpu);
-     CPUTriCoreState *env = &cpu->env;
+     XtensaCPU *cpu = XTENSA_CPU(s);
+     XtensaCPUClass *xcc = XTENSA_CPU_GET_CLASS(cpu);
+     CPUXtensaState *env = &cpu->env;
+     bool dfpu = xtensa_option_enabled(env->config,
+                                       XTENSA_OPTION_DFP_COPROCESSOR);
  
--    tcc->parent_reset(dev);
-+    if (tcc->parent_phases.hold) {
-+        tcc->parent_phases.hold(obj);
+-    xcc->parent_reset(dev);
++    if (xcc->parent_phases.hold) {
++        xcc->parent_phases.hold(obj);
 +    }
  
-     cpu_state_reset(env);
- }
-@@ -180,11 +182,13 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
-     TriCoreCPUClass *mcc = TRICORE_CPU_CLASS(c);
-     CPUClass *cc = CPU_CLASS(c);
-     DeviceClass *dc = DEVICE_CLASS(c);
-+    ResettableClass *rc = RESETTABLE_CLASS(c);
+     env->pc = env->config->exception_vector[EXC_RESET0 + env->static_vectors];
+     env->sregs[LITBASE] &= ~1;
+@@ -240,11 +242,13 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     CPUClass *cc = CPU_CLASS(oc);
+     XtensaCPUClass *xcc = XTENSA_CPU_CLASS(cc);
++    ResettableClass *rc = RESETTABLE_CLASS(oc);
  
-     device_class_set_parent_realize(dc, tricore_cpu_realizefn,
-                                     &mcc->parent_realize);
+     device_class_set_parent_realize(dc, xtensa_cpu_realizefn,
+                                     &xcc->parent_realize);
  
--    device_class_set_parent_reset(dc, tricore_cpu_reset, &mcc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, tricore_cpu_reset_hold, NULL,
-+                                       &mcc->parent_phases);
-     cc->class_by_name = tricore_cpu_class_by_name;
-     cc->has_work = tricore_cpu_has_work;
+-    device_class_set_parent_reset(dc, xtensa_cpu_reset, &xcc->parent_reset);
++    resettable_class_set_parent_phases(rc, NULL, xtensa_cpu_reset_hold, NULL,
++                                       &xcc->parent_phases);
  
+     cc->class_by_name = xtensa_cpu_class_by_name;
+     cc->has_work = xtensa_cpu_has_work;
 -- 
 2.25.1
 
