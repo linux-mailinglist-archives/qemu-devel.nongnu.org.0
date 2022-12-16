@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32A164ED55
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 16:01:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2E164ED35
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:58:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6C9u-0003ld-4Y; Fri, 16 Dec 2022 09:57:58 -0500
+	id 1p6C9v-0003p8-3a; Fri, 16 Dec 2022 09:57:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p6C9i-0003ji-Ms; Fri, 16 Dec 2022 09:57:48 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ id 1p6C9p-0003kN-2o; Fri, 16 Dec 2022 09:57:53 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p6C9g-0001zp-97; Fri, 16 Dec 2022 09:57:46 -0500
-Received: by mail-ed1-x529.google.com with SMTP id i15so4000515edf.2;
- Fri, 16 Dec 2022 06:57:42 -0800 (PST)
+ id 1p6C9h-0001zv-No; Fri, 16 Dec 2022 09:57:51 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id m19so3948919edj.8;
+ Fri, 16 Dec 2022 06:57:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fhTJ7nT8+xkifb2NL/PzXfnL3Zp3ULldt2qmukepgTc=;
- b=o+CfEsg6lMXgXvtSQ/Fy6sdJPPzvzGrtSIUzE8MMhp7Ltm+47c9Vg/EhwvJXawx+eV
- ahXwg7Rg4WzBNMR1Gae0LCURg/yEUbZKisN5noiR3aeWPe7F/3DCJs4DTejy3GUvaLYj
- FccO8DvC8apzAFTFn8l6ehas2VfeJyBnSbvG3jVjHGTW2uOLfAjZOF2Pb/LJ76CLsYtL
- KFUb0vP78NswNdGubm2UAM/9910C7Es1ll9vi/RW4Y+H15mSMsbJudEY8pnLhjYMXOVE
- EQlYu3ywvRJTJ5pv/wo21aUhAZSRKEHs8O1ZXN3/km/sas3vtsSBE9pOjAji7pp0QDXP
- Jujw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7QrgXciOmyiSTsdYt3UoXwdRH/orhMrXOFwHsg7Kr3Q=;
+ b=jQx6X7rVROm4EVAdOibxLcSY4YMTjtzVPoweri7PUkNnEzKHnL4aG5KmlEK+7/ovfk
+ v9Q8WmTUyIZp7TJ8au9IGdXpYsQmPNwM0MVJ5OA/uh9O/5Kuq4IOxFoaHWpCpGpLAzqB
+ QxPY1qrR6mnMaQb+kO7efKgb0lxQe9R+XybUQ2oy8sjulI5nacJVJmkmc7qAEiI/+gOI
+ 20jX04wMK6AAekSlCtbDeCwBJz2GfUiN5O/8l6Ox31JlyXEd8VpRIC6Hcv1f71wZ9RUH
+ 5tPcOFwqOMjuaaH3fRbk5q/Fj4Jjippt6UlYwpOESfU+AJQqOsWB6O1/E5wx+/W8Vxzt
+ m4Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fhTJ7nT8+xkifb2NL/PzXfnL3Zp3ULldt2qmukepgTc=;
- b=gieaqqS1nj9DqHmdkUfCKiqerhPtmUNxIVlGaVu9FuspqU8kEy3KabjOgnHWy1nEOr
- m5Y3PQF+18da1KA9r21ccw/CxRFTtU8E4c11/ZtWYLzFa+fold/uI0Tk8wcLpQ3916ci
- p9Qk/9AfM0nCnDfJ+gNOy/v6u5QVvzVeQsWmFWt4UamBpcJi394ZmTV7Ul719dkExOM3
- p1YDZ93jVPLs+oXa2bDZVI3RRoGIyxLSyKLx346XFcZX5hEiS/fDtPUF2i+115re9Xlw
- 2To8ElHvBT0x9usALBFDIzLsUw7o1+sd9FrxmAYYp7xFzkiQpTF+5f/WT7jeJsSwxB4Y
- fvRA==
-X-Gm-Message-State: ANoB5pnlVINcyGsC9jWcbGlTFzx964YXejV9TOT5XxPX17UwcVLxd18Q
- kB5pdN2afT6VirylSuC4C87MBvAHdh4=
-X-Google-Smtp-Source: AA0mqf5XxBAtPUnPFpXXBqM3royNCYgWXpqcJshUkIJ3HtBVWPAvX3JyIvTl/aGW4bFEz+vhu33JUQ==
-X-Received: by 2002:aa7:da02:0:b0:46c:f631:c0dc with SMTP id
- r2-20020aa7da02000000b0046cf631c0dcmr27870380eds.12.1671202661308; 
- Fri, 16 Dec 2022 06:57:41 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7QrgXciOmyiSTsdYt3UoXwdRH/orhMrXOFwHsg7Kr3Q=;
+ b=GEjMaSXL+FDwIHih/gWUATBjM4TPzr9kJRtvBqTHGeT3ReewSTqaC611jKrUR9oltb
+ 3IatdExnBOgUdna/2R+q6ttsVqWGbSm6X1DQVIOanRRbAEnHOQoEYlJaEdiLoyn7dPep
+ B4hSjSO4661khvRkDSaYcS0FIrGxHoQpBN8DmVoaJ6Fi6inHpfuSIiQPUP90luSeBsxU
+ tvwudP4ITyxThntaHJByChtuxuGP2B1Rn6Uo+426D7KtNH70UwJuI113/bsW5H8v0PEQ
+ kTHBIuWtQvQUjlUJaTrxFNA1uakmtQB0Z4DqKSMGq0Isccpl6xMsxW94+x6Ih+kwyB9F
+ XBKw==
+X-Gm-Message-State: AFqh2kpwn84AGjfMCCOO5G9tOvvZkVidMmrXpBjIG8+z8SZquv4u/K7A
+ vZONzNTtkGxPwcnm4DCu6HyfWsdLS7Y=
+X-Google-Smtp-Source: AMrXdXu8zlWvJ8K1eWq8BInUXFcv/FhaCRNeWFodNxqRZfoZNUJUddglteFHinEsKz7mvEKbZWl/7Q==
+X-Received: by 2002:aa7:d6da:0:b0:474:c69:9af5 with SMTP id
+ x26-20020aa7d6da000000b004740c699af5mr5697743edr.22.1671202662714; 
+ Fri, 16 Dec 2022 06:57:42 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-078-055-138-012.78.55.pool.telefonica.de. [78.55.138.12])
  by smtp.gmail.com with ESMTPSA id
- g18-20020aa7c852000000b00467c3cbab6fsm942225edt.77.2022.12.16.06.57.39
+ g18-20020aa7c852000000b00467c3cbab6fsm942225edt.77.2022.12.16.06.57.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 06:57:40 -0800 (PST)
+ Fri, 16 Dec 2022 06:57:42 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
@@ -62,15 +63,17 @@ Cc: qemu-ppc@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  Greg Kurz <groug@kaod.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 0/6] Trivial PPC cleanups
-Date: Fri, 16 Dec 2022 15:57:03 +0100
-Message-Id: <20221216145709.271940-1-shentey@gmail.com>
+Subject: [PATCH 1/6] target/ppc/mmu_common: Log which effective address had no
+ TLB entry found
+Date: Fri, 16 Dec 2022 15:57:04 +0100
+Message-Id: <20221216145709.271940-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20221216145709.271940-1-shentey@gmail.com>
+References: <20221216145709.271940-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x529.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,28 +96,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These are some patches which helped me when getting a u-boot image to run o=
-n ppce500 machine.=0D
-=0D
-Testing done:=0D
-- `make check`=0D
-- `make check-avocado`=0D
-=0D
-Bernhard Beschow (6):=0D
-  target/ppc/mmu_common: Log which effective address had no TLB entry=0D
-    found=0D
-  target/ppc/mmu_common: Fix table layout of "info tlb" HMP command=0D
-  hw/ppc/virtex_ml507: Prefer local over global variable=0D
-  hw/ppc/e500: Prefer local variable over qdev_get_machine()=0D
-  hw/ppc/e500: Resolve variable shadowing=0D
-  hw/ppc/e500: Move comment to more appropriate place=0D
-=0D
- hw/ppc/e500.c           | 10 ++++------=0D
- hw/ppc/virtex_ml507.c   |  2 +-=0D
- target/ppc/mmu_common.c |  5 +++--=0D
- 3 files changed, 8 insertions(+), 9 deletions(-)=0D
-=0D
--- =0D
-2.39.0=0D
-=0D
+Let's not leave developers in the dark where this log message comes
+from.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ target/ppc/mmu_common.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
+index 89107a6af2..49067c05e6 100644
+--- a/target/ppc/mmu_common.c
++++ b/target/ppc/mmu_common.c
+@@ -811,7 +811,8 @@ static int mmubooke206_check_tlb(CPUPPCState *env, ppcmas_tlb_t *tlb,
+         }
+     }
+ 
+-     qemu_log_mask(CPU_LOG_MMU, "%s: TLB entry not found\n", __func__);
++    qemu_log_mask(CPU_LOG_MMU, "%s: No TLB entry found for effective address "
++                  "0x" TARGET_FMT_lx "\n", __func__, address);
+     return -1;
+ 
+ found_tlb:
+-- 
+2.39.0
+
 
