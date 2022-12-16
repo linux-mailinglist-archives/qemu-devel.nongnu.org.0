@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F0364F272
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 21:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB2664F28B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 21:45:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6HSb-0007Gg-Ik; Fri, 16 Dec 2022 15:37:38 -0500
+	id 1p6HZO-0000pS-Gc; Fri, 16 Dec 2022 15:44:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6HSZ-0007GT-Ek
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 15:37:35 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ id 1p6HZM-0000og-Ln
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 15:44:36 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6HSX-0001gO-N1
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 15:37:35 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- o1-20020a17090a678100b00219cf69e5f0so7264807pjj.2
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 12:37:33 -0800 (PST)
+ id 1p6HZK-0003c8-FG
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 15:44:36 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ n65-20020a17090a2cc700b0021bc5ef7a14so3582735pjd.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 12:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=M8HRv9H6JnIsFYo5Bd1nHzDavRHCsgBdK6r0wX12jJY=;
- b=N8qiPxAvV55XfX0IOgCnNnrjFgq+eLT9nZpr4q05PV9SB4d71l8BgvkfbrGNqdHVhz
- BbjVG7Hy4EI/NMYlxqKmhdJcO52WkH1GYiGDHhHGbscC3Ixw7/ySvZmgQ5timAsOyaX+
- jfRUKC+Pp5pKcN76HuiNEwEfLPgnrbFzh9I9v+LqOkyP3G592t8q5otdwm/J+f2cYMKu
- 04GZzdd8DhnX50VoPdJ6D6YcSqPjFiv1kJS3dVc3JhFDvb/fbWjgjUCNlhbtibckpPzT
- MipF0VnGE7HahAiuHsxbhs0ez+wzWWufOWQUCGTtyRl+x6alnSJfo9aayZ9aeM3r1Yyw
- /ndw==
+ bh=C2XXkvxwl6l/W6UfkORXUuMeMLQ/1EwUfwgkQH+zNQY=;
+ b=Z9Fivbd+y0s6QRzRg7rZOvLHfAAxCE0pdXZ2TnfJUbGuga9Rki7BtmyWeH2cKI1e0L
+ gxIzk3Pl0gLvY1GwEJ4Y1AKZJOw1xhjsVfB6G5JMcWPsn3ZRWYE5jiM8S9YyRep05moD
+ Jgmd7PAPypY1NKwnVfRFiSnu9aBRBMX/Nv1xTSo36z89aJFCgG41hra6yczJ4V3fOWxb
+ Hv5TMoc/vKEaWj1VfX/JGkWnbDIZ+kEQvjHjEa1IeJ9SSonheqsKPmTLceilI44tkKfk
+ p/2jkFxJgIcY8X5d7gx9syB1/I3FyvMYEYeWPwRNT612fruKBKN6rxa3EtenR7CQQwTj
+ f8Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M8HRv9H6JnIsFYo5Bd1nHzDavRHCsgBdK6r0wX12jJY=;
- b=MJFvbBtw/cB8UqZ7kDENjatwRV7cUVSxUHSvjKTCy0b68KVZ0nww365/vTWa+Jdk/l
- 1quSDm9ibS8v0OfzgOgS89UdHHY+NuDwM/CCjmHY56ptTzpBBNpwZyeb2DArqqErim06
- yVgtvlqhJC20lCp5tTSBW2y/WDVfMUgZwMMEzv4XNYAjQ461uHrjM8UFEBk7hFDJnZlk
- ZEtdSs4wcTjgOgk4l7wig0BG+uwzFJlIPCSOalsO3HdjgGIcB4hTaDK9KfCEWKWBlvtq
- IB1WyLVt0oH+jbathHHosx5kXPjkZNwDdEEQpclUTHP/h1WUYv6E0eNs4zfGcb8v2m66
- P3Hg==
-X-Gm-Message-State: ANoB5pkBOgj0TQbmbsei+kVtQjN+AEJXhkKabPS/vADhpkvUdxmn3OVU
- icWpdwtoW6C4tq7ui0eyJq9ldw==
-X-Google-Smtp-Source: AA0mqf57S8fzhWc864KrdfRFgojwuvvnKEsarKonZaQvcA/6SigmtpZvS5ELQQTNXfPGRL8e+PqASw==
-X-Received: by 2002:a17:902:b198:b0:189:fa12:c98a with SMTP id
- s24-20020a170902b19800b00189fa12c98amr38944143plr.66.1671223052070; 
- Fri, 16 Dec 2022 12:37:32 -0800 (PST)
+ bh=C2XXkvxwl6l/W6UfkORXUuMeMLQ/1EwUfwgkQH+zNQY=;
+ b=FNlFDsP291/NFUejOQp00Dzq0eHgRA5rTEyL+GZAcA9/hbKjhY/s5x+LcZTHRMeBbX
+ waKCK1NX88nbAwXXFO14qeDuNJi8YtNlAx5Q9sAY8Da4zBZl/WC2Vq0WeSTNOHGGSrpo
+ 4DeMJTQy0HGyV2pxycEiFKETv3rfhEFQEtMXSxOSSjxMM5RQoMsTZNRRO07w2zak/cS8
+ eNkLcwUullAjkm94psH6FB8NDceFmY2WSghn6L3uLp071y8rLVoNVcYqd9v7a5rnpiqQ
+ fylII6vsy7zsO23xuNuu12vbBiV7Cv2PKWJsGfpodmaY9QsiIMUhl2gAijQGe0yQOhih
+ Jciw==
+X-Gm-Message-State: ANoB5pkPF/elAak7nB3pcWAw2a8Z0MWKebMY5MqJ/P1ZVk0ieiZS2I0l
+ e4+X0YzZvMB8CAY1MJNTeWgFKA==
+X-Google-Smtp-Source: AA0mqf7WlNN5uZcLtQO21xa1DWMS0q3gB051YQ5PlqPHp0IxtQwt8NtonF6sIRm2muZyYy3XqyrPhw==
+X-Received: by 2002:a17:902:968e:b0:189:c6fb:f933 with SMTP id
+ n14-20020a170902968e00b00189c6fbf933mr33230045plp.28.1671223472596; 
+ Fri, 16 Dec 2022 12:44:32 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
  ([2602:47:d48c:8101:c606:9489:98df:6a3b])
  by smtp.gmail.com with ESMTPSA id
- y4-20020a17090322c400b00189ac5a2340sm2044821plg.124.2022.12.16.12.37.31
+ q7-20020a170902dac700b00188f07c10c9sm2048976plx.192.2022.12.16.12.44.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 12:37:31 -0800 (PST)
-Message-ID: <4818b1e7-1d50-26e3-e582-b2ffdc007173@linaro.org>
-Date: Fri, 16 Dec 2022 12:37:29 -0800
+ Fri, 16 Dec 2022 12:44:32 -0800 (PST)
+Message-ID: <6b04aaaf-75a1-6578-c975-148508656382@linaro.org>
+Date: Fri, 16 Dec 2022 12:44:30 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v1 07/10] includes: add new gdbstub include directory
+Subject: Re: [PATCH] linux-user: ppoll: eliminate large alloca
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, mads@ynddal.dk,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20221216112206.3171578-1-alex.bennee@linaro.org>
- <20221216112206.3171578-8-alex.bennee@linaro.org>
+To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20221216192220.2881898-1-mjt@msgid.tls.msk.ru>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216112206.3171578-8-alex.bennee@linaro.org>
+In-Reply-To: <20221216192220.2881898-1-mjt@msgid.tls.msk.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,44 +94,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/16/22 03:22, Alex Bennée wrote:
-> To avoid having a messy set of include files containing system and
-> user APIs lets prepare for a cleaner layout.
+On 12/16/22 11:22, Michael Tokarev wrote:
+> do_ppoll() in linux-user/syscall.c uses alloca() to
+> allocate an array of struct pullfds on the stack.
+> The only upper boundary for number of entries for this
+> array is so that whole thing fits in INT_MAX. But this
+> is definitely too much for a stack allocation.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   include/gdbstub/common.h | 14 ++++++++++++++
->   include/gdbstub/user.h   | 14 ++++++++++++++
->   MAINTAINERS              |  1 +
->   3 files changed, 29 insertions(+)
->   create mode 100644 include/gdbstub/common.h
->   create mode 100644 include/gdbstub/user.h
-> 
-> diff --git a/include/gdbstub/common.h b/include/gdbstub/common.h
-> new file mode 100644
-> index 0000000000..f928dbc487
-> --- /dev/null
-> +++ b/include/gdbstub/common.h
-> @@ -0,0 +1,14 @@
-> +/*
-> + * gdbstub common APIs
-> + *
-> + * Copyright (c) 2022 Linaro Ltd
-> + *
-> + * SPDX-License-Identifier: LGPL-2.0+
-> + */
-> +
-> +#ifndef GDBSTUB_COMMON_H
-> +#define GDBSTUB_COMMON_H
-> +
-> +
-> +
-> +#endif /* GDBSTUB_COMMON_H */
+> Use heap allocation when large number of entries
+> is requested (currently 128, arbitrary), and continue
+> to use alloca() for smaller allocations, to optimize
+> small operations for small sizes.
 
-I don't see any point in creating these headers separately from the patch that populates them.
-
-Not keen on the name "common".  From the later patch, I think it may be at least 3 
-separate headers: gdb syscalls, start/stop, xml.
+I think it would be cleaner to always use heap allocation, and use g_autofree for the pointer.
 
 
 r~
