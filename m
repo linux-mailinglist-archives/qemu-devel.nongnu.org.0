@@ -2,48 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B7264F42B
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:32:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAF664F3D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:15:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Iko-00059j-Pb; Fri, 16 Dec 2022 17:00:31 -0500
+	id 1p6ImU-0005qv-F2; Fri, 16 Dec 2022 17:02:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1p6IkL-00054G-JI; Fri, 16 Dec 2022 17:00:01 -0500
-Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1p6IkJ-0003kD-7y; Fri, 16 Dec 2022 17:00:00 -0500
-Received: from smtpclient.apple
- (dynamic-077-009-092-114.77.9.pool.telefonica.de [77.9.92.114])
- by csgraf.de (Postfix) with ESMTPSA id 539B26080182;
- Fri, 16 Dec 2022 22:59:50 +0100 (CET)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Alexander Graf <agraf@csgraf.de>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 1/5] target/arm: only build psci for TCG
-Date: Fri, 16 Dec 2022 22:59:39 +0100
-Message-Id: <459E39B4-44F5-41B2-A595-1B0DB5AD80F3@csgraf.de>
-References: <20221216212944.28229-2-farosas@suse.de>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6ImP-0005pB-7Z
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:10 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6ImK-0004WP-PH
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:08 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id x22so9195152ejs.11
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:02:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mhGZna9l3lENd7UZY/4yLG5pT7hOcb2EMxgKyYLwAN0=;
+ b=NwjtsWrBvMzFs/3Y3Kfr+Ft1HiqHGv2UXDCRGQI1DmUnWsh9uHvJUqIwp+ZHJcd4fN
+ 6XlhNexwKhNXMLqvqiyRU/nc6F26didM5WoHJDixUjGbueQ6ukN0ASQiH5O5541yVtav
+ fYKeUr2cF/gvIkZg1WlE/UluKLIdntPsI21aRqCx3ZYP4gcWZ6McLckK+P68mI0K9s63
+ 1Vg8AaRqYdjTvLRzszt2d8p5d3kaC0ilzaSdBYK44f2uxadj4n3hdPTVKYJGM7oT7m7J
+ LSGJie45pig0uAr0mafjXcp4r50bCiXfsDIQgPaZslIgFU3Lyst1m5r2vYeXkKGZ3uLi
+ II8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mhGZna9l3lENd7UZY/4yLG5pT7hOcb2EMxgKyYLwAN0=;
+ b=zQ4PXPD7sAx0j9lb4JqTk26hz/UGOdCYgJ4bOx+3bYGikOZwLu/+GGCaTzlexKcBcY
+ V1f+oglVr0tKtc/suCDOyYFwHBRna9wWNJ1n4CTIZRl7c0dNy49QBTSfyqSgpVCCtv4D
+ XQz1WEOLwKt0uL+QBOd0u2fJshkUQl4TG+lQuGb0mv45/IEyuXtw9p9RzQGJf7kqFQ0X
+ nzxYwVuaib8O3Xf6yC2iq94fVThKFvZG9jfImrLRFnYPH/5eehSlN4Y+ElFzMBqY59QC
+ 7m6JJk69HCTv/XyTtSYZTELJ5GkYyVj+25bFbdpKptMHHbChXnTqIGJJKiO5/xDpdZqp
+ MqyQ==
+X-Gm-Message-State: ANoB5pkSlXoTo7uyqvjjDrinsC6NVDuzKzuViggwCzgRiEKV7DaUrdvS
+ DJ3I+as0wyUJkskCSAI7Yv1JQHQxdcIHXTUTOa0=
+X-Google-Smtp-Source: AA0mqf6J9e78waO50YbqbzYNdjM+S5FEynqS/xXZsLvISQBCw4rSRISlRggiaTaG/LceEYnL2zrJUw==
+X-Received: by 2002:a17:907:10c9:b0:7c0:cee0:2f55 with SMTP id
+ rv9-20020a17090710c900b007c0cee02f55mr29026552ejb.28.1671228121799; 
+ Fri, 16 Dec 2022 14:02:01 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ lb17-20020a170907785100b007bd0bb6423csm1275371ejc.199.2022.12.16.14.02.00
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 16 Dec 2022 14:02:01 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cameron Esfahani <dirty@apple.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, haxm-team@intel.com,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>
-In-Reply-To: <20221216212944.28229-2-farosas@suse.de>
-To: Fabiano Rosas <farosas@suse.de>
-X-Mailer: iPhone Mail (20C65)
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 0/5] target/i386: Header cleanups around "cpu.h"
+Date: Fri, 16 Dec 2022 23:01:53 +0100
+Message-Id: <20221216220158.6317-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,51 +92,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Claudio,
+These patches are part of a big refactor cleanup
+around "cpu.h". Most changes should be trivial IMHO.
 
-If the PSCI implementation becomes TCG only, can we also move to a tcg accel=
- directory? It slowly gets super confusing to keep track of which files are s=
-upposed to be generic target code and which ones TCG specific.
+Philippe Mathieu-Daudé (5):
+  target/i386: Remove NEED_CPU_H guard from target-specific headers
+  target/i386/cpu: Remove dead helper_lock() declaration
+  target/i386/ops_sse: Include missing "cpu.h" header
+  target/i386: Remove x86_cpu_dump_local_apic_state() dead stub
+  hw/i386/x86: Reduce init_topo_info() scope
 
-Alex
+ hw/i386/x86.c                | 2 +-
+ include/hw/i386/x86.h        | 3 ---
+ target/i386/cpu-dump.c       | 5 +----
+ target/i386/cpu.h            | 7 ++++---
+ target/i386/hax/hax-i386.h   | 2 --
+ target/i386/hvf/hvf-i386.h   | 4 ----
+ target/i386/ops_sse.h        | 1 +
+ target/i386/ops_sse_header.h | 3 +++
+ 8 files changed, 10 insertions(+), 17 deletions(-)
 
-> Am 16.12.2022 um 22:37 schrieb Fabiano Rosas <farosas@suse.de>:
->=20
-> =EF=BB=BFFrom: Claudio Fontana <cfontana@suse.de>
->=20
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Cc: Alexander Graf <agraf@csgraf.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
-> Originally from:
-> [RFC v14 09/80] target/arm: only build psci for TCG
-> https://lore.kernel.org/r/20210416162824.25131-10-cfontana@suse.de
-> ---
-> target/arm/meson.build | 5 ++++-
-> 1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/target/arm/meson.build b/target/arm/meson.build
-> index 87e911b27f..26e425418f 100644
-> --- a/target/arm/meson.build
-> +++ b/target/arm/meson.build
-> @@ -61,10 +61,13 @@ arm_softmmu_ss.add(files(
->   'arm-powerctl.c',
->   'machine.c',
->   'monitor.c',
-> -  'psci.c',
->   'ptw.c',
-> ))
->=20
-> +arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-> +  'psci.c',
-> +))
-> +
-> subdir('hvf')
->=20
-> target_arch +=3D {'arm': arm_ss}
-> --=20
-> 2.35.3
->=20
+-- 
+2.38.1
+
 
