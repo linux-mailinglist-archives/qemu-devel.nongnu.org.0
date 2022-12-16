@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1CC64E560
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 01:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68ED64E571
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 01:54:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5ynj-0005RU-Nj; Thu, 15 Dec 2022 19:42:12 -0500
+	id 1p5yp7-0007L6-ME; Thu, 15 Dec 2022 19:43:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+54656a84ae694b50c6d0+7054+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p5ynG-0005Fa-8v
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:41:44 -0500
+ id 1p5yoI-0006Hr-RP
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:42:48 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+54656a84ae694b50c6d0+7054+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p5ynB-0006cq-VN
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:41:41 -0500
+ id 1p5yoG-0006qX-Ty
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:42:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=twBCfa5ab9yvAw8qE/yZyB5yxVmEoa7bU6nINefGeSc=; b=WscDVIJqnOu5jBWGKZERe3oX0m
- XXrxxu2+ulbHRhTFbqR/GiOyUvl6sps2sKxE2p6JtXtZPwaXzxSy0gtyA4GYJK3U7sD6pmqBCvYE+
- kNz0giYHhgr46qEKTSVjuOPhM+400+epGKE2JzRWkzahuEqWgMPTT0JeyOG98kB/4YpAOYFUVlPps
- 0Sek8adc9t8vTVOE+Jup6f3EXrBPGm8cK+uBww2ecoVb/OHhxKLnAX1KsiqTanpOOGFlIVZpu4ZS6
- +2L8aDurbVEED/ZxYqbwkITm52TOg1UA1BpvzXjOBToDJov23JkWqG1HHQ2tQyF77s4MjRaJJWD9e
- rzOnuH1Q==;
+ bh=XOS94y+zWLXZf2qYe14xYzCnPgFXWDv3X0NFxPO3IWA=; b=bVbQXgvpfXzIgdNvwwbvIaJM8d
+ MU3WvpJgGBQOcApnsDVEU2qeHatYEvTxH+J0dgyJPGP6qCzBX5HpndVvrn+EpukK1MHDevVP0k5G/
+ //04XUwb/8iSnGmDQRAdo0E84WwH8RWCOzRqZ3xCa9f/CGXBW1VV9Ex3nYcZ+WUpvFwTl2NA/TKl4
+ r6HAHKroltUTjRIr8Hmg95raHau5oYWDnYIQGEnf7ErI4LY0+e3QBnYsAu+urgO5/G+E3VavRhd0/
+ YhTFUVKXrrDmqby1FbumYL7MPHPT24WpTIO+8WwuipIKJ1KbbMhACteHeNEdy7mAUQVqDsvBXLhZi
+ 5uxWTn6w==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p5ymy-00Azyy-1k; Fri, 16 Dec 2022 00:41:28 +0000
+ id 1p5ymy-00Azyz-1g; Fri, 16 Dec 2022 00:42:28 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p5ymw-003cQC-FP; Fri, 16 Dec 2022 00:41:22 +0000
+ Hat Linux)) id 1p5ymw-003cQG-G3; Fri, 16 Dec 2022 00:41:22 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,9 +46,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v3 33/38] hw/xen: Implement EVTCHNOP_bind_vcpu
-Date: Fri, 16 Dec 2022 00:41:12 +0000
-Message-Id: <20221216004117.862106-34-dwmw2@infradead.org>
+Subject: [RFC PATCH v3 34/38] hw/xen: Implement EVTCHNOP_reset
+Date: Fri, 16 Dec 2022 00:41:13 +0000
+Message-Id: <20221216004117.862106-35-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221216004117.862106-1-dwmw2@infradead.org>
 References: <20221216004117.862106-1-dwmw2@infradead.org>
@@ -85,97 +85,81 @@ From: David Woodhouse <dwmw@amazon.co.uk>
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/xen_evtchn.c  | 40 +++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_evtchn.c  | 24 ++++++++++++++++++++++++
  hw/i386/kvm/xen_evtchn.h  |  2 ++
  target/i386/kvm/xen-emu.c | 12 ++++++++++++
- 3 files changed, 54 insertions(+)
+ 3 files changed, 38 insertions(+)
 
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index b286bbd20e..8cdc26afb7 100644
+index 8cdc26afb7..225d984371 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -687,6 +687,46 @@ int xen_evtchn_unmask_op(struct evtchn_unmask *unmask)
-     return ret;
+@@ -643,6 +643,30 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
+     return 0;
  }
  
-+int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu)
++int xen_evtchn_reset_op(struct evtchn_reset *reset)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
-+    XenEvtchnPort *p;
-+    int ret = -EINVAL;
++    int i;
 +
 +    if (!s) {
 +        return -ENOTSUP;
 +    }
 +
-+    if (!valid_port(vcpu->port)) {
-+        return -EINVAL;
-+    }
-+
-+    if (!valid_vcpu(vcpu->vcpu)) {
-+        return -ENOENT;
++    if (reset->dom != DOMID_SELF && reset->dom != xen_domid) {
++        return -ESRCH;
 +    }
 +
 +    qemu_mutex_lock(&s->port_lock);
 +
-+    p = &s->port_table[vcpu->port];
-+
-+    if (p->type == EVTCHNSTAT_interdomain ||
-+        p->type == EVTCHNSTAT_unbound ||
-+        p->type == EVTCHNSTAT_pirq ||
-+        (p->type == EVTCHNSTAT_virq && virq_is_global(p->type_val))) {
-+        /*
-+         * unmask_port() with do_unmask==false will just raise the event
-+         * on the new vCPU if the port was already pending.
-+         */
-+        p->vcpu = vcpu->vcpu;
-+        unmask_port(s, vcpu->port, false);
-+        ret = 0;
++    for (i = 0; i < s->nr_ports; i++) {
++        close_port(s, i);
 +    }
 +
 +    qemu_mutex_unlock(&s->port_lock);
 +
-+    return ret;
++    return 0;
 +}
 +
- int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq)
+ int xen_evtchn_close_op(struct evtchn_close *close)
  {
      XenEvtchnState *s = xen_evtchn_singleton;
 diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 4783a6f127..99d5292c1e 100644
+index 99d5292c1e..b93f534bee 100644
 --- a/hw/i386/kvm/xen_evtchn.h
 +++ b/hw/i386/kvm/xen_evtchn.h
-@@ -21,6 +21,7 @@ struct evtchn_bind_ipi;
- struct evtchn_send;
+@@ -22,6 +22,7 @@ struct evtchn_send;
  struct evtchn_alloc_unbound;
  struct evtchn_bind_interdomain;
-+struct evtchn_bind_vcpu;
+ struct evtchn_bind_vcpu;
++struct evtchn_reset;
  int xen_evtchn_status_op(struct evtchn_status *status);
  int xen_evtchn_close_op(struct evtchn_close *close);
  int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
-@@ -29,3 +30,4 @@ int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi);
- int xen_evtchn_send_op(struct evtchn_send *send);
+@@ -31,3 +32,4 @@ int xen_evtchn_send_op(struct evtchn_send *send);
  int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc);
  int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain);
-+int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu);
+ int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu);
++int xen_evtchn_reset_op(struct evtchn_reset *reset);
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index c4c595cb1a..58fa82682f 100644
+index 58fa82682f..055afba627 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -842,6 +842,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         }
+@@ -854,6 +854,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+         err = xen_evtchn_bind_vcpu_op(&vcpu);
          break;
      }
-+    case EVTCHNOP_bind_vcpu: {
-+        struct evtchn_bind_vcpu vcpu;
++    case EVTCHNOP_reset: {
++        struct evtchn_reset reset;
 +
-+        qemu_build_assert(sizeof(vcpu) == 8);
-+        if (kvm_copy_from_gva(cs, arg, &vcpu, sizeof(vcpu))) {
++        qemu_build_assert(sizeof(reset) == 2);
++        if (kvm_copy_from_gva(cs, arg, &reset, sizeof(reset))) {
 +            err = -EFAULT;
 +            break;
 +        }
 +
-+        err = xen_evtchn_bind_vcpu_op(&vcpu);
++        err = xen_evtchn_reset_op(&reset);
 +        break;
 +    }
      default:
