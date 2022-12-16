@@ -2,92 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0EF64E852
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 09:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E49164E8A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 10:33:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p66Sp-0001dZ-Oy; Fri, 16 Dec 2022 03:53:07 -0500
+	id 1p674N-00081h-Ii; Fri, 16 Dec 2022 04:31:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p66Sn-0001dK-BH
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 03:53:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p674K-00081Y-Q7
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 04:31:52 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p66Sl-00059W-Nn
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 03:53:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671180782;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5mdC19y2g2LvrJNky2RkCxj2uFieSTzL5/Du6JhaZsg=;
- b=IO+lKSV+Xamyv2Y7nBaqWmr2+0cpMsE3D+h1ndLSQiHv8YxuJHz9zPV7qsQ6blmZaE+ufV
- WkD0wqZkANgo6QigH41WoFkbFVWX4FltavE/m0qdy+TlRuYD2+Ixo43ZgQRLT2UADp3qgU
- X+pqQ7nPNTcSFSlp0jx/TslmW6m8Zb0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-468-uGHFVJYsMZ2vE-5J_ppn-Q-1; Fri, 16 Dec 2022 03:53:00 -0500
-X-MC-Unique: uGHFVJYsMZ2vE-5J_ppn-Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m38-20020a05600c3b2600b003d23f8c6ebdso1309620wms.0
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 00:52:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :content-language:references:cc:to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5mdC19y2g2LvrJNky2RkCxj2uFieSTzL5/Du6JhaZsg=;
- b=bz/SqhXW5FjPWF7ddgtji39FUyL0c5/0eLhg5b+hmd5gf7fRcXZxOC1sMbqW6ARsHY
- 423+psw7t66awimwAda9wcpcl80qmClFoFIvxB5smuOVhMvPuN37daDN/kqahRrb8N7J
- HR8MIZYCkQWxSUhRivTrBciFzwQpsRv+jt/I69yQmxdAa2JiPAFKxLo+P21Z/J36h3jK
- 4rEvTw4SpYwurNKxCuDPHWEvcGa5KPwzQoas18TdzckCM3/1WY7aZRXXgc4iP5tio/pQ
- VSf1CQQddLTC/zCyOTYyruTyNYVsYy4LBHmPmRRVJlS2tDyepDKUaEU2aqTm3CEoWGpE
- jMTQ==
-X-Gm-Message-State: ANoB5pk7zTE1r9WWChbCoQRiKVmtCBWnNgYOEIRheT+PRUlzfHDJQ8PM
- MjnPVeDlli+yLJ6VHm5MWxi2KOoZJLlu+6itPFacWgccsBFed3Luyz8cNVVRii4EmtcYo23Vaa9
- SZ50c906JJ6FQ+bI=
-X-Received: by 2002:a5d:61cd:0:b0:241:fc02:f8fd with SMTP id
- q13-20020a5d61cd000000b00241fc02f8fdmr20219973wrv.71.1671180779061; 
- Fri, 16 Dec 2022 00:52:59 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf56YDtCC4GEQURTH4P48IenjrUQh4bm18ygKBQeI/sBSstx6cKNm47tPu03Hoj+Lo60aWAfAw==
-X-Received: by 2002:a5d:61cd:0:b0:241:fc02:f8fd with SMTP id
- q13-20020a5d61cd000000b00241fc02f8fdmr20219961wrv.71.1671180778722; 
- Fri, 16 Dec 2022 00:52:58 -0800 (PST)
-Received: from ?IPV6:2003:cb:c71c:3900:7211:d436:8d8b:531c?
- (p200300cbc71c39007211d4368d8b531c.dip0.t-ipconnect.de.
- [2003:cb:c71c:3900:7211:d436:8d8b:531c])
- by smtp.gmail.com with ESMTPSA id
- y6-20020adfe6c6000000b00241e8d00b79sm1929680wrm.54.2022.12.16.00.52.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 00:52:58 -0800 (PST)
-Message-ID: <b661461d-fb24-c974-2d8e-d3e760e00033@redhat.com>
-Date: Fri, 16 Dec 2022 09:52:57 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1p674G-0008Rj-KH
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 04:31:52 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NYP075TFMz6HJW1;
+ Fri, 16 Dec 2022 17:27:51 +0800 (CST)
+Received: from localhost (10.45.152.125) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 16 Dec
+ 2022 09:31:39 +0000
+Date: Fri, 16 Dec 2022 09:31:36 +0000
+To: Ira Weiny <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>, "Michael S. Tsirkin"
+ <mst@redhat.com>
+Subject: Re: [PATCH v2] hw/cxl/device: Add Flex Bus Port DVSEC
+Message-ID: <20221216093136.000026c3@Huawei.com>
+In-Reply-To: <Y5tZPiiJQm4el40t@iweiny-desk3>
+References: <20221213-ira-flexbus-port-v2-1-eaa48d0e0700@intel.com>
+ <20221215171633.00000ac8@Huawei.com>
+ <Y5tZPiiJQm4el40t@iweiny-desk3>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-To: Chenyi Qiang <chenyi.qiang@intel.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20221216062231.11181-1-chenyi.qiang@intel.com>
-Content-Language: en-US
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH] virtio-mem: Fix the bitmap index of the section offset
-In-Reply-To: <20221216062231.11181-1-chenyi.qiang@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.45.152.125]
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,66 +65,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16.12.22 07:22, Chenyi Qiang wrote:
-> vmem->bitmap indexes the memory region of the virtio-mem backend at a
-> granularity of block_size. To calculate the index of target section offset,
-> the block_size should be divided instead of the bitmap_size.
+On Thu, 15 Dec 2022 09:28:30 -0800
+Ira Weiny <ira.weiny@intel.com> wrote:
 
-I'm curious, what's the user-visible effect and how did you identify 
-this issue?
+> On Thu, Dec 15, 2022 at 05:16:33PM +0000, Jonathan Cameron wrote:
+> > On Wed, 14 Dec 2022 12:54:11 -0800
+> > Ira Weiny <ira.weiny@intel.com> wrote:
+> >   
+> > > The Flex Bus Port DVSEC was missing on type 3 devices which was blocking
+> > > RAS checks.[1]
+> > > 
+> > > Add the Flex Bus Port DVSEC to type 3 devices as per CXL 3.0 8.2.1.3.
+> > > 
+> > > [1] https://lore.kernel.org/linux-cxl/167096738875.2861540.11815053323626849940.stgit@djiang5-desk3.ch.intel.com/
+> > > 
+> > > Cc: Dave Jiang <dave.jiang@intel.com>
+> > > Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > Cc: Ben Widawsky <bwidawsk@kernel.org>
+> > > Cc: qemu-devel@nongnu.org
+> > > Cc: linux-cxl@vger.kernel.org
+> > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>  
+> > Looks good to me.
+> > 
+> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > 
+> > As Michael wasn't cc'd on patch posting, so might not get this directly I'll add
+> > it to the front of the series adding the RAS event emulation on basis that's the
+> > first time we'll see a failure in Linux (I think?)  
+> 
+> Ah thanks!
+> 
+> Sorry, I thought you were the 'maintainer' of the CXL stuff for qemu.
 
-IIUC, we could end up our search for a plugged/unplugged block "too 
-late", such that we miss to process blocks.
+Ah I am, but so far the CXL stuff has routed through Michael as PCI maintainer
+because of the high level of overlap. So far I've done that by grouping up
+patches and send them in sets to Michael. This one is more of a fix, so maybe
+wants to move quicker than I will.
 
-That would be the case if the bitmap_size < block_size, which should 
-effectively always happen ...
+This gives me a good opportunity to ask Michael:
 
+How do you want us to handle this in future? I'd expect the overlap with the PCI
+core stuff to reduce going forwards, as most of the infrastructure is now in
+place and obviously would want you to look at anything that does touch core PCI
+code, but for the rest of it, would you prefer that I send pull requests going
+forwards?  I'm more than happy to keep dumping this stuff on you, but seems
+rather mean!
 
-unplug_all and migration would be affected, which is why a simple test 
-case without a guest reboot/migration wouldn't run into it.
+If we do move to pull requests, what scope of stuff do you want us to seek your
+review on?  If things go according to plan there will be a bunch of stuff related
+to the switch ports in the near future, some of which is going to add complex
+PCI topologies and new forms of hotplug so I'll definitely want your input on
+that, but we also have a bunch of stuff around memory error reporting etc which
+I'm thinking may be of less interest to you. Obviously I'd love it if you have
+time to review everything but don't want to impose unnecessarily.
+
+Jonathan
+
 
 > 
-> Fixes: 2044969f0b ("virtio-mem: Implement RamDiscardManager interface")
-> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
-> ---
->   hw/virtio/virtio-mem.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > Michael, if you want to pick this up directly that's great too!  
 > 
-> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> index ed170def48..e19ee817fe 100644
-> --- a/hw/virtio/virtio-mem.c
-> +++ b/hw/virtio/virtio-mem.c
-> @@ -235,7 +235,7 @@ static int virtio_mem_for_each_plugged_section(const VirtIOMEM *vmem,
->       uint64_t offset, size;
->       int ret = 0;
->   
-> -    first_bit = s->offset_within_region / vmem->bitmap_size;
-> +    first_bit = s->offset_within_region / vmem->block_size;
->       first_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size, first_bit);
->       while (first_bit < vmem->bitmap_size) {
->           MemoryRegionSection tmp = *s;
-> @@ -267,7 +267,7 @@ static int virtio_mem_for_each_unplugged_section(const VirtIOMEM *vmem,
->       uint64_t offset, size;
->       int ret = 0;
->   
-> -    first_bit = s->offset_within_region / vmem->bitmap_size;
-> +    first_bit = s->offset_within_region / vmem->block_size;
->       first_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size, first_bit);
->       while (first_bit < vmem->bitmap_size) {
->           MemoryRegionSection tmp = *s;
-
-Looks correct to me
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
-Thanks!
-
--- 
-Thanks,
-
-David / dhildenb
+> Should I send directly to Michael in future?
+> 
+> > 
+> > As a side note the WTF? is because we made up a hardware related time delay
+> > number having no idea whatsoever on what a realistic value was. Cut and paste
+> > from the instances of this structure in the root port and the switch ports.
+> >   
+> 
+> Yep I just followed that based off the other code.
+> 
+> Ira
+> 
+> > Jonathan
+> > 
+> > 
+> >   
+> > > ---
+> > > Changes in v2:
+> > >         Jonathan                                                            
+> > >                 type 3 device does not support CACHE                        
+> > >                 Comment the 68B bit                                         
+> > > 
+> > > - Link to v1: https://lore.kernel.org/r/20221213-ira-flexbus-port-v1-1-86afd4f30be6@intel.com
+> > > ---
+> > >  hw/mem/cxl_type3.c | 11 +++++++++++
+> > >  1 file changed, 11 insertions(+)
+> > > 
+> > > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> > > index 0317bd96a6fb..e6beac143fc1 100644
+> > > --- a/hw/mem/cxl_type3.c
+> > > +++ b/hw/mem/cxl_type3.c
+> > > @@ -416,6 +416,17 @@ static void build_dvsecs(CXLType3Dev *ct3d)
+> > >      cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+> > >                                 GPF_DEVICE_DVSEC_LENGTH, GPF_DEVICE_DVSEC,
+> > >                                 GPF_DEVICE_DVSEC_REVID, dvsec);
+> > > +
+> > > +    dvsec = (uint8_t *)&(CXLDVSECPortFlexBus){
+> > > +        .cap                     = 0x26, /* 68B, IO, Mem, non-MLD */
+> > > +        .ctrl                    = 0x02, /* IO always enabled */
+> > > +        .status                  = 0x26, /* same as capabilities */
+> > > +        .rcvd_mod_ts_data_phase1 = 0xef, /* WTF? */
+> > > +    };
+> > > +    cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+> > > +                               PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
+> > > +                               PCIE_FLEXBUS_PORT_DVSEC,
+> > > +                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvsec);
+> > >  }
+> > >  
+> > >  static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+> > > 
+> > > ---
+> > > base-commit: e11b57108b0cb746bb9f3887054f34a2f818ed79
+> > > change-id: 20221213-ira-flexbus-port-ce526de8111d
+> > > 
+> > > Best regards,  
+> >   
 
 
