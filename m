@@ -2,65 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D11D64F1D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 20:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753B064F1E3
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 20:41:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6GRU-0001XS-BF; Fri, 16 Dec 2022 14:32:24 -0500
+	id 1p6GYe-0005Dc-Ql; Fri, 16 Dec 2022 14:39:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1p6GRQ-0001W4-NC; Fri, 16 Dec 2022 14:32:21 -0500
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1p6GRN-0004Ni-CT; Fri, 16 Dec 2022 14:32:20 -0500
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 073B25EA58;
- Fri, 16 Dec 2022 22:32:04 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b58d::1:2b] (unknown
- [2a02:6b8:b081:b58d::1:2b])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 1Wn0sG0OFmI1-x5iIeecG; Fri, 16 Dec 2022 22:32:03 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1671219123; bh=sBH5RyK5jRzzkODuNKwS8cNYpgy5t+IWUUiYeDwX+S0=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=v0LjEYJWoV0ykv+nrn6eUTnG2NsFsCguHBteIQS7J9swqNb8sRjfrdzlFuAULpBUM
- cIGpmUWZ+WzWQ5QQIBOi47799KabZ4729QekCn4Q6w5b6vePlk1fc2Wr9J79vmcaXj
- 5YQC5+qAbb5LNcbagHkJkc6BCu9AaiyW2aFJzOtY=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <f350f0ec-34b1-dca7-5bb0-344a6832f327@yandex-team.ru>
-Date: Fri, 16 Dec 2022 22:32:01 +0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p6GYc-00058T-Cd
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:39:46 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p6GYW-0005Lt-Id
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:39:43 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id t17so3470960pjo.3
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 11:39:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vB+6ABJmUd1c+R6GnOStbQxQX5D9GBt6xwcCrbuVq5w=;
+ b=FFKk3movDAH3JYC3JrSpsTcfGZbqUreF05MLh8PaVEI52lgHFu0MQktxhpVv6oYheY
+ A96J1aTLKtZX+tXF2cMmShqD1bUVC1q5hYoXL8Eq6GESc90S9E1KIuKVC7BXclQdSXHn
+ pS3u9W4jYdInc3yyI01DleY7a3ljSttXHHP1D7e9fxrBd1IIfb0FU+FjwgM1Aryd6fn7
+ N2Or4DaVbz8SAysiMRorrOnqi6qvH0sIGslzAIIoAR1AFe1JHKmcZsxEW3mpSubLfw1S
+ kP/3Qq0umWpQi7iNjvZ4tTNPIKvRi7VBjQ4b8ivGl4BBttmYNQ7V4XHyeTVa2XUQ9HQG
+ URMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vB+6ABJmUd1c+R6GnOStbQxQX5D9GBt6xwcCrbuVq5w=;
+ b=nrezNgL4iGfe5+ckwaLJLTtX878qt1yGyCEzY+gtzCOYpZFXOn+7PiS2dHmFX4Xobp
+ J2nQ8NsEiBxWw04lAmVtmQKmfbNnqcjJk70XW0r4mMvMdU5yIbDsoxYwin9LrlTKIliJ
+ ZVM0UD9j3t5xzTB8xmjtEsyNZ1m5+xHXSTwNHj/zJb/a5nPaQm55Fc+wfCWBcrLUNxI7
+ suP5YJSkBjNGkoriL4WBk09DZcH1hfW9DTTfbgBcBJL35Lp66z4L4acYjW8hd+FRN8Kb
+ Jo2X5CUY4RUT9bgwrSRvTyo+TfjV0MmyFgCFp8DDItFS1J+f6IdI6oKKVawavqBuBjbs
+ FcOA==
+X-Gm-Message-State: ANoB5pnx818laGSUvZnWvXdMBgi4hQEt0tuND/qwQ0/WM/3N+6FJy7wM
+ 6yKXxylOgjA4qt1HhVRY9HGM4A==
+X-Google-Smtp-Source: AA0mqf68goIqiU8wl2EPN3xQTGgPsNxchx6rUJh0T54ST2LnFaevx23hLGYpjLwXBYn49bT2266zqg==
+X-Received: by 2002:a17:90a:73c5:b0:218:a343:2330 with SMTP id
+ n5-20020a17090a73c500b00218a3432330mr34064995pjk.14.1671219577509; 
+ Fri, 16 Dec 2022 11:39:37 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
+ ([2602:47:d48c:8101:c606:9489:98df:6a3b])
+ by smtp.gmail.com with ESMTPSA id
+ w31-20020a17090a6ba200b0021870b2c7absm1696449pjj.42.2022.12.16.11.39.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Dec 2022 11:39:37 -0800 (PST)
+Message-ID: <b9f6dc97-65ec-82aa-e1c8-b374177f6f2b@linaro.org>
+Date: Fri, 16 Dec 2022 11:39:35 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 1/6] spec: Recommend cap on NBD_REPLY_TYPE_BLOCK_STATUS
- length
+Subject: Re: [PATCH v1 02/10] gdbstub: fix-up copyright and license files
 Content-Language: en-US
-To: Eric Blake <eblake@redhat.com>, nbd@other.debian.org
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, libguestfs@redhat.com
-References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
- <20221114224655.2186173-1-eblake@redhat.com>
- <20221114224655.2186173-2-eblake@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221114224655.2186173-2-eblake@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, mads@ynddal.dk,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20221216112206.3171578-1-alex.bennee@linaro.org>
+ <20221216112206.3171578-3-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221216112206.3171578-3-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,67 +96,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/15/22 01:46, Eric Blake wrote:
-> The spec was silent on how many extents a server could reply with.
-> However, both qemu and nbdkit (the two server implementations known to
-> have implemented the NBD_CMD_BLOCK_STATUS extension) implement a hard
-> cap, and will truncate the amount of extents in a reply to avoid
-> sending a client a reply so large that the client would treat it as a
-> denial of service attack.  Clients currently have no way during
-> negotiation to request such a limit of the server, so it is easier to
-> just document this as a restriction on viable server implementations
-> than to add yet another round of handshaking.  Also, mentioning
-> amplification effects is worthwhile.
+On 12/16/22 03:21, Alex Bennée wrote:
+> When I started splitting gdbstub apart I was a little too boilerplate
+> with my file headers. Fix up to carry over Fabrice's copyright and the
+> LGPL license header.
 > 
-> When qemu first implemented NBD_CMD_BLOCK_STATUS for the
-> base:allocation context (qemu commit e7b1948d51, Mar 2018), it behaved
-> as if NBD_CMD_FLAG_REQ_ONE were always passed by the client, and never
-> responded with more than one extent.  Later, when adding its
-> qemu:dirty-bitmap:XYZ context extension (qemu commit 3d068aff16, Jun
-> 2018), it added a cap to 128k extents (1M+4 bytes), and that cap was
-> applied to base:allocation once qemu started sending multiple extents
-> for that context as well (qemu commit fb7afc797e, Jul 2018).  Qemu
-> extents are never smaller than 512 bytes (other than an exception at
-> the end of a file whose size is not aligned to 512), but even so, a
-> request for just under 4G of block status could produce 8M extents,
-> resulting in a reply of 64M if it were not capped smaller.
-> 
-> When nbdkit first implemented NBD_CMD_BLOCK_STATUS (nbdkit 4ca66f70a5,
-> Mar 2019), it did not impose any restriction on the number of extents
-> in the reply chunk.  But because it allows extents as small as one
-> byte, it is easy to write a server that can amplify a client's request
-> of status over 1M of the image into a reply over 8M in size, and it
-> was very easy to demonstrate that a hard cap was needed to avoid
-> crashing clients or otherwise killing the connection (a bad server
-> impacting the client negatively).  So nbdkit enforced a bound of 1M
-> extents (8M+4 bytes, nbdkit commit 6e0dc839ea, Jun 2019).  [Unrelated
-> to this patch, but worth noting for history: nbdkit's situation also
-> has to deal with the fact that it is designed for plugin server
-> implementations; and not capping the number of extents in a reply also
-> posed a problem to nbdkit as the server, where a plugin could exhaust
-> memory and kill the server, unrelated to any size constraints enforced
-> by a client.]
-> 
-> Since the limit chosen by these two implementations is different, and
-> since nbdkit has versions that were not limited, add this as a SHOULD
-> NOT instead of MUST NOT constraint on servers implementing block
-> status.  It does not matter that qemu picked a smaller limit that it
-> truncates to, since we have already documented that the server may
-> truncate for other reasons (such as it being inefficient to collect
-> that many extents in the first place).  But documenting the limit now
-> becomes even more important in the face of a future addition of 64-bit
-> requests, where a client's request is no longer bounded to 4G and
-> could thereby produce even more than 8M extents for the corner case
-> when every 512 bytes is a new extent, if it were not for this
-> recommendation.
+> Fixes: ae7467b1ac (gdbstub: move breakpoint logic to accel ops)
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-s-o-b line missed.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-
--- 
-Best regards,
-Vladimir
-
+r~
 
