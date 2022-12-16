@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC9464F41E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:29:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F171D64F385
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 22:54:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6IV1-0006ft-9Q; Fri, 16 Dec 2022 16:44:11 -0500
+	id 1p6IV3-0006gc-EA; Fri, 16 Dec 2022 16:44:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6IU8-00064V-6M
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:16 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1p6IUC-00064x-Ny
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:21 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6IU6-0000fE-GH
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:15 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id v7so2786738wmn.0
+ id 1p6IU7-0000ad-Be
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:16 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ h8-20020a1c2108000000b003d1efd60b65so5041363wmh.0
  for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:43:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=tmWSOkAlgQ3XeV0sLQSMRS/hn+5qBNnCvxTz3LkMcQc=;
- b=lyPa3JVlWjHsLi18a+PEbeqodaoH0/bqyckN9gU7xFTDgDFIkpAPCdLWJIxFY89UsZ
- Rf2sRBuaL4Ctnwu4/FPHjQCeKMIm+x4XG812x0RsNsIzEzmEzSsGIaSOcvuJkJmb4c2u
- 7tcpJH617MolIkKUfN69a4bJyJh9/TUIqdoWmkSi5SEXexeXfab6hCXTjwrfk6G6mOS7
- FYFuWub4Oi/vtHoPrLBX+Vgofi63Qt6qK9zVGoe4kVqMvY/RIREmA0b2v1gJy4g/tCFR
- wLAspnBnGGnikOz9i/frG4XfrjrINmNSx8qs0pbe05HvADI0+HuIqy0bauXR1mrYGp7X
- 5X0Q==
+ :reply-to; bh=p23dzeVMJeBlC5T/z5p/oWaIFlDAiyWvA9icRXV99Mg=;
+ b=LbRwThVG+rrs3bGsVEeAMZdTm26SW0XjMQ6oSFSTIyNRk72QfVXmXle6GKRMzJcnIq
+ ca4tJ038GP6dMTJxnJCQ/uphF356+f9inOyWYAONtwF6bmBfWQ9lNtONx/z6qABn9Gwa
+ fjbwBAgJjp0dPWuESz8ZZ3xa8W23uLTFSBvyifLTT6gyF600qdmpASkvCbD4chph5dU6
+ j62dKru+RHHxl3RF2XpY+FIrLiw0BkH5Z5KjJGSBP5mrRMsLU0dh4rmn4obPx0XnOfEw
+ ptJc4wO0pZOtxX5l76m/rXX3oNZY7+cXsj9idWC05H1ruwXriEQrz9AEOQMmgPWBuPF5
+ RXMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tmWSOkAlgQ3XeV0sLQSMRS/hn+5qBNnCvxTz3LkMcQc=;
- b=o2oQfHvh8dVe39snbZHyfVCLb75EKMzXBeQbP4SN7YvjkLa+rps9s75i9YJ41WHkha
- PJp4ZTIWwqJ0yGEeYR+lO4bn7+LgQpKKiyWNEst/OXtNNsxPofnUASJQsRaa1+kcRXSR
- Tf8PivG2Qx1iervD3Ob9jtuRTUgWVExqERgsOax+KgLgdT/IJ5mvI24bdPiq0dIa4oJa
- TsLdZJANS3now8srWN99Y38ouVTYcqURTaYns+1fxC3vdedmW4+5T/Fvhw0awQJcNby1
- GqRUhajpN2NCNP6267WbvdK7/ofVKaXJYTIzo7vR2pAH7Aib7vTBlFL/QyW3ewueU7QX
- H2Jw==
-X-Gm-Message-State: AFqh2kqUKiLwS9CvYCDnbd5zDTDuI/VHqGpn77ROdyO8m3KFdgKAOswQ
- ZlAA5FJmzlP35P7wZJSEa9dwOQWNjptkwxpV
-X-Google-Smtp-Source: AMrXdXtTZSHF6OtmVXYn9AJ9JmK58jeh+ERIfNEgP1poxhJYKQKOm7UvwoWBUGN3TDV5Bkj9QKGbAw==
-X-Received: by 2002:a05:600c:ad6:b0:3d3:3fb1:901d with SMTP id
- c22-20020a05600c0ad600b003d33fb1901dmr4494380wmr.37.1671226993776; 
- Fri, 16 Dec 2022 13:43:13 -0800 (PST)
+ bh=p23dzeVMJeBlC5T/z5p/oWaIFlDAiyWvA9icRXV99Mg=;
+ b=X4zj0KuppFdJP0poUyj/r/CJLIn83T1P/pPh//mDIoBHI3udbYusVWHSnB1poOeZbp
+ 9n7rQYqcwdKYE0EaYHUPzmFF/5urFXWRiXtEWjPcLzd0RUw0uOGEgugU87t4u35RLVLK
+ LHhwfqh59c2rqBO9wSMbg/QBrkakItLUre0Y0KfLW8s5dEawbseh0r7GJUis8Rrot95Y
+ ysFGgCvVZFP4TBTRS4TvmszLews7T7Jpmv9bOLmWmzreiUGx7shOWPHWVsnrs/UOlBS+
+ D0mXdxyE4PQTeQpQIo+SUncWP5pSHXpcFGuudcfE/1/NpjWFe5EI3/xxCqb9wj1lvAyb
+ WSkg==
+X-Gm-Message-State: ANoB5pkjFQqV2rARkGyqZHQBMhdWYkxM96EDNhM3aWKDATnVPDjVJ3jG
+ pCWFlfo+xCKm13In+Ez7NnUm+fiUJPTAhm8a
+X-Google-Smtp-Source: AA0mqf6MFNjnBdJJ3BBX1pEYRlee7AvRjrNI8kh1axtN+4Vu4L1n8VTL0z9ZLdght3rBu7YmmGVOMA==
+X-Received: by 2002:a05:600c:1c9e:b0:3d2:7a7:5cc6 with SMTP id
+ k30-20020a05600c1c9e00b003d207a75cc6mr24389061wms.18.1671226994680; 
+ Fri, 16 Dec 2022 13:43:14 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- y7-20020a05600c364700b003d33ab317dasm4135263wmq.14.2022.12.16.13.43.12
+ y7-20020a05600c364700b003d33ab317dasm4135263wmq.14.2022.12.16.13.43.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 13:43:13 -0800 (PST)
+ Fri, 16 Dec 2022 13:43:14 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/36] target/xtensa: Convert to 3-phase reset
-Date: Fri, 16 Dec 2022 21:42:37 +0000
-Message-Id: <20221216214244.1391647-30-peter.maydell@linaro.org>
+Subject: [PULL 30/36] hw/virtio: Convert TYPE_VIRTIO_PCI to 3-phase reset
+Date: Fri, 16 Dec 2022 21:42:38 +0000
+Message-Id: <20221216214244.1391647-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221216214244.1391647-1-peter.maydell@linaro.org>
 References: <20221216214244.1391647-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,87 +90,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the xtensa CPU class to use 3-phase reset, so it doesn't
-need to use device_class_set_parent_reset() any more.
+Convert the TYPE_VIRTIO_PCI class to 3-phase reset.  This is
+necessary so that we can convert the subclass TYPE_VIRTIO_VGA_BASE
+also to 3-phase reset.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-id: 20221124115023.2437291-20-peter.maydell@linaro.org
+Message-id: 20221125115240.3005559-2-peter.maydell@linaro.org
 ---
- target/xtensa/cpu-qom.h |  4 ++--
- target/xtensa/cpu.c     | 12 ++++++++----
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ hw/virtio/virtio-pci.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/target/xtensa/cpu-qom.h b/target/xtensa/cpu-qom.h
-index 4fc35ee49b8..419c7d8e4a3 100644
---- a/target/xtensa/cpu-qom.h
-+++ b/target/xtensa/cpu-qom.h
-@@ -41,7 +41,7 @@ typedef struct XtensaConfig XtensaConfig;
- /**
-  * XtensaCPUClass:
-  * @parent_realize: The parent class' realize handler.
-- * @parent_reset: The parent class' reset handler.
-+ * @parent_phases: The parent class' reset phase handlers.
-  * @config: The CPU core configuration.
-  *
-  * An Xtensa CPU model.
-@@ -52,7 +52,7 @@ struct XtensaCPUClass {
-     /*< public >*/
- 
-     DeviceRealize parent_realize;
--    DeviceReset parent_reset;
-+    ResettablePhases parent_phases;
- 
-     const XtensaConfig *config;
- };
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index 09923301c40..2dc8f2d232f 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -85,16 +85,18 @@ bool xtensa_abi_call0(void)
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index a1c9dfa7bb5..7873083b860 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -2008,9 +2008,10 @@ static void virtio_pci_reset(DeviceState *qdev)
+     }
  }
- #endif
  
--static void xtensa_cpu_reset(DeviceState *dev)
-+static void xtensa_cpu_reset_hold(Object *obj)
+-static void virtio_pci_bus_reset(DeviceState *qdev)
++static void virtio_pci_bus_reset_hold(Object *obj)
  {
--    CPUState *s = CPU(dev);
-+    CPUState *s = CPU(obj);
-     XtensaCPU *cpu = XTENSA_CPU(s);
-     XtensaCPUClass *xcc = XTENSA_CPU_GET_CLASS(cpu);
-     CPUXtensaState *env = &cpu->env;
-     bool dfpu = xtensa_option_enabled(env->config,
-                                       XTENSA_OPTION_DFP_COPROCESSOR);
+-    PCIDevice *dev = PCI_DEVICE(qdev);
++    PCIDevice *dev = PCI_DEVICE(obj);
++    DeviceState *qdev = DEVICE(obj);
  
--    xcc->parent_reset(dev);
-+    if (xcc->parent_phases.hold) {
-+        xcc->parent_phases.hold(obj);
-+    }
+     virtio_pci_reset(qdev);
  
-     env->pc = env->config->exception_vector[EXC_RESET0 + env->static_vectors];
-     env->sregs[LITBASE] &= ~1;
-@@ -240,11 +242,13 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     CPUClass *cc = CPU_CLASS(oc);
-     XtensaCPUClass *xcc = XTENSA_CPU_CLASS(cc);
-+    ResettableClass *rc = RESETTABLE_CLASS(oc);
+@@ -2071,6 +2072,7 @@ static void virtio_pci_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+     VirtioPCIClass *vpciklass = VIRTIO_PCI_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
  
-     device_class_set_parent_realize(dc, xtensa_cpu_realizefn,
-                                     &xcc->parent_realize);
+     device_class_set_props(dc, virtio_pci_properties);
+     k->realize = virtio_pci_realize;
+@@ -2080,7 +2082,7 @@ static void virtio_pci_class_init(ObjectClass *klass, void *data)
+     k->class_id = PCI_CLASS_OTHERS;
+     device_class_set_parent_realize(dc, virtio_pci_dc_realize,
+                                     &vpciklass->parent_dc_realize);
+-    dc->reset = virtio_pci_bus_reset;
++    rc->phases.hold = virtio_pci_bus_reset_hold;
+ }
  
--    device_class_set_parent_reset(dc, xtensa_cpu_reset, &xcc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, xtensa_cpu_reset_hold, NULL,
-+                                       &xcc->parent_phases);
- 
-     cc->class_by_name = xtensa_cpu_class_by_name;
-     cc->has_work = xtensa_cpu_has_work;
+ static const TypeInfo virtio_pci_info = {
 -- 
 2.25.1
 
