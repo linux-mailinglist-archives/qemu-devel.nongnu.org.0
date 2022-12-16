@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4103664EB2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 13:05:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69AF64EB34
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 13:08:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p69S6-0005n5-5Q; Fri, 16 Dec 2022 07:04:34 -0500
+	id 1p69VO-0000Av-DS; Fri, 16 Dec 2022 07:08:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p69Rz-0005lX-4T
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 07:04:32 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p69VK-000093-Kb
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 07:07:54 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p69Ru-0000pX-Bx
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 07:04:26 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id u5so2240855pjy.5
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 04:04:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p69VJ-00034S-3a
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 07:07:54 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id co23so2290689wrb.4
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 04:07:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xXITDvwQ4IVkaInDt6pKeacrlDIAozIgV5/lO+uJrcA=;
- b=mmfxaw3aRckaPt52A+7jWFo1Ch04ZFVnuDg4W9k2GK7woJ5bxfvI+M0uXYj70KoB/k
- ic3j3j+K4tlJkDqgdJERI/ZhgFtk7Z96bV88HXmXsLz+QN+tA0DQSVCklPBUg7ihRzT7
- jx2nV/bWtanMvuCJ1d4T9PRgPfoCTnnDtKih825Omb1cb5sJUhnBCdtTR3wYL2gCjoS/
- f8YLD+4tFl4Iw9lWgKMp4Q9F0mPWfGpiGRWggsh9TslvicWIZJHul3abqqDA+mqyVEhd
- yVEve4a16Df/zBH7Tk5arv32Yv3iTMfEKX3xDt8R72it7ue3X4UQl+Tvo1Aw5GdXAwws
- 0vrg==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fVh1RUgigRyFvF/rOp87GFV/wxuAAIchBYeET9gaIPk=;
+ b=yqAlgSoJTPP+ungZby7Evef2Tw5Dmsw2zux5UqpYElglCniVT758/z4VXPNYTb8vl+
+ eAU4wh1UuYzynG6U09edR2mSKNVDAB27dRzieiKpupI4C7fdJG6TBAZv8rNX5cb4nFTc
+ boEJs2cdcp+8ElZZAT6zMFY8TW+PE6DpT4PJYidejebvriIN88U2pzTc0B+S5y9ennsp
+ ogOb/jRlnYP68w1olh1m/dw/fC5jMjSN25QGLKmMVFTKCoFfmZ0SBHPM2Xvx5534sP02
+ DvATIzitNxGi9k7vb44+8owZxFX+srasN1JM6NDgpdORCO+0fL7a8I++OoCcJDYSdkFs
+ bjNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xXITDvwQ4IVkaInDt6pKeacrlDIAozIgV5/lO+uJrcA=;
- b=07t1EhTYhDnpePZNr2ncs5AEmyq896oH5kkijpdQv9CzK+7VraW6rkwVwh5FVzqUFA
- 46AZqylPav3N4xTWBbYPeBWPnpbCD5xvhHilJOvkUtpjpVBB0DjKSOoTXuFQPGTcyGJj
- 0iugNwbtqakjfVublgPBXQpPmLIi3bHo31hYsN340QZZiF45RHl/vMWo6AH3uae5QrLs
- qMtI2pbWQKWUK+nIA84Pzm1063ddXt7pIKV7S9jhoV7E3/yYo3rl5nMtaIERHbXkTjEj
- WBYjP5BVW3yjaTwZhGGm8gHLkmBG4uoLCAq3izZHT6Ci7RdLy/yo6Vq4pvM++j8MCJmo
- wEnA==
-X-Gm-Message-State: AFqh2kokt7XaG5gJ+NWz+skZtOsrkK01wi3GPIfQ9gU6CApCeQjhmB3r
- jWif1wJCXl5v5KfdEt0wXulmmWePbcdXac/CriQgBQ==
-X-Google-Smtp-Source: AMrXdXvW56t3mvUlYkcbvf8bgGEJGo44M+9Swr7Kbk9ajTCFbSEkTDIfuFPGnvzyGxeO+WY/DxcFVN4qsZJRp6oWcW8=
-X-Received: by 2002:a17:90b:4f8d:b0:219:9874:c7d3 with SMTP id
- qe13-20020a17090b4f8d00b002199874c7d3mr588183pjb.221.1671192260728; Fri, 16
- Dec 2022 04:04:20 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=fVh1RUgigRyFvF/rOp87GFV/wxuAAIchBYeET9gaIPk=;
+ b=aMiVADimdQAavFck0EI11q42OZ0YW+mvOb9d7//Ob04/FrvwUqZHoM+yxqT3r6QgQ0
+ xKraBgYPCnR77xV/MUCJCO5rl/rcNts/zYglNzrmPCSdOfHlA+l1z9UccSkeTz5jAznf
+ nRUVoWWQDHDpWGYy9gipNIzVszYIyeGcS0CnV0aSUXw7viQC7TXdPV6um0Oxu86vMXIu
+ 7tXQ4VSxf6E8eO9tdK5pWP9iWJLdVs0u9Fm5rmz/J5WYmY6pET2cqj0PSY7zOVqs/ubF
+ 5F4TIUNUjSeu9b2ikh9EHdDmm24N1FDCFdLpF5IAIPJ5dKyaDGG1Gy7pb6rDQNODlDdX
+ TeBA==
+X-Gm-Message-State: ANoB5pkKJ9R5WIFYE7YZm0ifpqJMD7drzBDWc+9958amL+Gio9Jw891f
+ 2rlMCxI5BiREOrFMlIuWR/UeYA==
+X-Google-Smtp-Source: AA0mqf6xvS6UFgM+Jm5/+E1ZxWriC8Z1JzIwscZ+DRTWYsE+cNbaD71bsWR4Mirt+fkSNyblZiA3cQ==
+X-Received: by 2002:a05:6000:170f:b0:253:62af:8025 with SMTP id
+ n15-20020a056000170f00b0025362af8025mr11748231wrc.61.1671192471576; 
+ Fri, 16 Dec 2022 04:07:51 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ c3-20020a5d5283000000b0024206ed539fsm2128912wrv.66.2022.12.16.04.07.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Dec 2022 04:07:51 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CA70B1FFB7;
+ Fri, 16 Dec 2022 12:07:50 +0000 (GMT)
+References: <20221209093649.43738-1-philmd@linaro.org>
+ <20221209093649.43738-2-philmd@linaro.org>
+User-agent: mu4e 1.9.6; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH-for-8.0 1/5] accel/tcg: Restrict cpu_io_recompile() to
+ system emulation
+Date: Fri, 16 Dec 2022 12:07:46 +0000
+In-reply-to: <20221209093649.43738-2-philmd@linaro.org>
+Message-ID: <87wn6rh7qh.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20221215151215.414567-1-thuth@redhat.com>
-In-Reply-To: <20221215151215.414567-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 16 Dec 2022 12:04:09 +0000
-Message-ID: <CAFEAcA-GqHTyExpzgXO-3mKop4aQ7b3rnaAg89sdWERAmvqE3g@mail.gmail.com>
-Subject: Re: [PULL v2 00/23] First batch of s390x, qtest, CI and misc patches
- for 8.0
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,39 +96,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 15 Dec 2022 at 15:12, Thomas Huth <thuth@redhat.com> wrote:
->
-> The following changes since commit 48804eebd4a327e4b11f902ba80a00876ee53a43:
->
->   Merge tag 'pull-misc-2022-12-14' of https://repo.or.cz/qemu/armbru into staging (2022-12-15 10:13:46 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2022-12-15
->
-> for you to fetch changes up to 4bf1b66908a21a8271f261fe533e4fe3f416f3e3:
->
->   tests/qtest/vhost-user-blk-test: don't abort all qtests on missing envar (2022-12-15 15:19:24 +0100)
->
-> ----------------------------------------------------------------
-> * s390x PCI fixes and improvements (for the ISM device)
-> * Fix emulated MVCP and MVCS s390x instructions
-> * Clean-ups for the e1000e qtest
-> * Enable qtests on Windows
-> * Update FreeBSD CI to version 12.4
-> * Check --disable-tcg for ppc64 in the CI
-> * Improve scripts/make-releases a little bit
-> * Many other misc small clean-ups and fixes here and there
->
-> v2: Adapt the query-command-line-options" patch to work with the
->     recent changes in the master branch
->
 
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-Applied, thanks.
+> Missed in commit 6526919224 ("accel/tcg: Restrict cpu_io_recompile()
+> from other accelerators").
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
--- PMM
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
