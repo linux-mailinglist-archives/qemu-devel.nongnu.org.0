@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7141764F419
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:27:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24ACE64F34D
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 22:43:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6IU5-00061Z-6L; Fri, 16 Dec 2022 16:43:13 -0500
+	id 1p6IU4-00061L-Rj; Fri, 16 Dec 2022 16:43:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6ITu-0005wt-M5
+ id 1p6ITw-0005wx-3z
  for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:06 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6ITs-0000ag-QB
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:02 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so5001336wmb.2
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:43:00 -0800 (PST)
+ id 1p6ITu-0000fE-EE
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:03 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id v7so2786418wmn.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:43:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=NlLR2z3qolE9UkVci7mw2GXgMx349fCTP5JUzSE62RQ=;
- b=bScts5i56vU/uLIcXiRNf5AUdcGkeLW/PbIaYPQDLAKftZ0zUFClUy1QiLY5G/mFv8
- cjiMAZLn/f9h54F0QUyPR6Q/IQqPpzwBsCHOpFhCFvL8QNDyBT5ZCnVy8cPBLp0hy566
- s0OVA6AsXFBl8IMs5VSdI3GPrZ9egUxh5eWAeoJQM8CQxCm7EKGU7SHhF/B6FZur5ELF
- 0nP9JAMSmW9jNUBwDfsj4gBE4cnP71dylBMOBvUNxo9tQ6obw+bnfVqGE+4As4b8xm0h
- G0Hjj4HCmdm8+JV73KL5ckyQ4oFYaWW7WhCSmtxKdQC/TBopys5bHMVFq8MHRA3Rdv9J
- 9hQQ==
+ :reply-to; bh=JHNhVzZ7q07vjZsQq3XKlgrS7g2PS5zs14Th7/Xr78I=;
+ b=dHHcUfTEe3uzd7KDM0p+Bh7WAxnBRKrUCEiZcuVdJdse7QHSYJnwNkF27ItWWbRry4
+ aW9ZNCGPzUgklzofxwPWylpw3OuCceMsg5MDtOZ3mdsx7vEiYkRk4kmydZfazwL/ijP5
+ 1fWqkwk3w9aVzvE8mlM7Q3YXtEORO9y53W83LcymuHJxO203li9Yzeti0VZ6nXBpRSdz
+ 7AUl/jsy01h/VB8T4yyu/2RDFqTyg2WRlsdSTidvlQkagczpMlGERcU76QRpYRNkUciv
+ CszSUZSRKyt6Wf+6viMwqJC3cj2IDAZcQrNx/W8Ms4ibucJ4DlNNUKSF1CPh5Se4rHRu
+ ODtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NlLR2z3qolE9UkVci7mw2GXgMx349fCTP5JUzSE62RQ=;
- b=K/W2zd4B7z3G/7qCgKKiO7smGVzBp/QVRjiQaMo/Tk2J0SAWponU46ljaAtitWWZwu
- rP87/wnRR8mJSF7tkVJWCBITvPXDNSMHzymHOfzRBIfOknIC9VOhMBwGi9VCit+vDElB
- aoPUYBvBmODXkDf6CYSCbP3VrjTgvoETEVqLIhtlQelHVn0cPgF7UjkKc2etwltpjl+b
- ELmkojwLkgPu9pQ+fmu3MKPX5u2uDry3Ko/5nSNQhTb62t0Def5C/NSbRuLbRtFriuQ+
- lWqGVQQLZ5B025DxjPam8o9HGrSCVy4Vn4us1A9HC4GGp/rriU5Lfw0oB2T+d7ogf1kT
- 4oYg==
-X-Gm-Message-State: AFqh2koxjrSiFoP7zcS6nhmk70GQR0FnQWzDqnIj448xHnH1pq9ZrvFv
- Es37d0BnJCji8ZEsKWmYeCDJPSvN3LyWwoU4
-X-Google-Smtp-Source: AMrXdXsmjaW+UQ238E8X2biTHeIHSVUvuY+lNclJ6PjwLE9RQVR/4prCbCcWjBvWOgCbZbC70AW2tQ==
-X-Received: by 2002:a05:600c:1e29:b0:3d3:404a:8a1b with SMTP id
- ay41-20020a05600c1e2900b003d3404a8a1bmr3957083wmb.8.1671226980085; 
+ bh=JHNhVzZ7q07vjZsQq3XKlgrS7g2PS5zs14Th7/Xr78I=;
+ b=BI6JpMQKuBnUMJut2+fbMR/S3J/v2CMCPsl6NbLrpdDmmgWD0P7nZ0+56lLTro9/ch
+ 3wDhV9S0y+7mBWlDfGq0e7Rp8wIWsVw6kgnooubbSY7h+lzVhLAjAbFAzrrk4Xpv23pN
+ SX+UfcZGChbKLJem7eAd3Tf4OIJ5AVG7Kha6bfuouIAKwx6QFW1eSd9hmEmrO/2wn+NL
+ jZBkNRN9axrqSEhv3Vc77VDYwVh2AnOlBL9ZjavhzN67eY3gEGrFyDcBCjdKrQoqASAi
+ tbP1UfoKbWF+2gwv3XlhafRiiOPgTcQ+C+Co8jKX49CbvexBOOKUggmCcCDb3aZaZstw
+ K9dQ==
+X-Gm-Message-State: ANoB5pk+Oy9rz9T3UsoazeovKGM/nmqQvAftynXVt6ygWEN3J4NN1SEL
+ SLAql98oydBsJqpy72HWCwr/5eEVg1rSS34G
+X-Google-Smtp-Source: AA0mqf5Crdku8840QY9x2xZYfK35ia5qaAQE/44/jBle5ZoGOK0j88Kgx8Sy30CQexLvpPwB6kclXg==
+X-Received: by 2002:a05:600c:35c4:b0:3cf:85f7:bbc4 with SMTP id
+ r4-20020a05600c35c400b003cf85f7bbc4mr27647692wmq.2.1671226980957; 
  Fri, 16 Dec 2022 13:43:00 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- y7-20020a05600c364700b003d33ab317dasm4135263wmq.14.2022.12.16.13.42.59
+ y7-20020a05600c364700b003d33ab317dasm4135263wmq.14.2022.12.16.13.43.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 13:42:59 -0800 (PST)
+ Fri, 16 Dec 2022 13:43:00 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/36] target/hexagon: Convert to 3-phase reset
-Date: Fri, 16 Dec 2022 21:42:23 +0000
-Message-Id: <20221216214244.1391647-16-peter.maydell@linaro.org>
+Subject: [PULL 16/36] target/i386: Convert to 3-phase reset
+Date: Fri, 16 Dec 2022 21:42:24 +0000
+Message-Id: <20221216214244.1391647-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221216214244.1391647-1-peter.maydell@linaro.org>
 References: <20221216214244.1391647-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,7 +89,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the hexagon CPU class to use 3-phase reset, so it doesn't
+Convert the i386 CPU class to use 3-phase reset, so it doesn't
 need to use device_class_set_parent_reset() any more.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
@@ -100,64 +99,79 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
 Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-Message-id: 20221124115023.2437291-6-peter.maydell@linaro.org
+Message-id: 20221124115023.2437291-7-peter.maydell@linaro.org
 ---
- target/hexagon/cpu.h |  2 +-
- target/hexagon/cpu.c | 12 ++++++++----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ target/i386/cpu-qom.h |  4 ++--
+ target/i386/cpu.c     | 12 ++++++++----
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
-index 2a65a57bab3..794a0453fd4 100644
---- a/target/hexagon/cpu.h
-+++ b/target/hexagon/cpu.h
-@@ -137,7 +137,7 @@ typedef struct HexagonCPUClass {
-     CPUClass parent_class;
-     /*< public >*/
+diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
+index c557a522e1e..2350f4ae609 100644
+--- a/target/i386/cpu-qom.h
++++ b/target/i386/cpu-qom.h
+@@ -42,7 +42,7 @@ typedef struct X86CPUModel X86CPUModel;
+  * @migration_safe: See CpuDefinitionInfo::migration_safe
+  * @static_model: See CpuDefinitionInfo::static
+  * @parent_realize: The parent class' realize handler.
+- * @parent_reset: The parent class' reset handler.
++ * @parent_phases: The parent class' reset phase handlers.
+  *
+  * An x86 CPU model or family.
+  */
+@@ -67,7 +67,7 @@ struct X86CPUClass {
+ 
      DeviceRealize parent_realize;
+     DeviceUnrealize parent_unrealize;
 -    DeviceReset parent_reset;
 +    ResettablePhases parent_phases;
- } HexagonCPUClass;
+ };
  
- struct ArchCPU {
-diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
-index 03221fbdc28..658ca4ff783 100644
---- a/target/hexagon/cpu.c
-+++ b/target/hexagon/cpu.c
-@@ -281,14 +281,16 @@ static void hexagon_restore_state_to_opc(CPUState *cs,
-     env->gpr[HEX_REG_PC] = data[0];
+ 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ae502f0bfea..3410e5e4702 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5877,9 +5877,9 @@ static void x86_cpu_set_sgxlepubkeyhash(CPUX86State *env)
+ #endif
  }
  
--static void hexagon_cpu_reset(DeviceState *dev)
-+static void hexagon_cpu_reset_hold(Object *obj)
+-static void x86_cpu_reset(DeviceState *dev)
++static void x86_cpu_reset_hold(Object *obj)
  {
--    CPUState *cs = CPU(dev);
-+    CPUState *cs = CPU(obj);
-     HexagonCPU *cpu = HEXAGON_CPU(cs);
-     HexagonCPUClass *mcc = HEXAGON_CPU_GET_CLASS(cpu);
-     CPUHexagonState *env = &cpu->env;
+-    CPUState *s = CPU(dev);
++    CPUState *s = CPU(obj);
+     X86CPU *cpu = X86_CPU(s);
+     X86CPUClass *xcc = X86_CPU_GET_CLASS(cpu);
+     CPUX86State *env = &cpu->env;
+@@ -5887,7 +5887,9 @@ static void x86_cpu_reset(DeviceState *dev)
+     uint64_t xcr0;
+     int i;
  
--    mcc->parent_reset(dev);
-+    if (mcc->parent_phases.hold) {
-+        mcc->parent_phases.hold(obj);
+-    xcc->parent_reset(dev);
++    if (xcc->parent_phases.hold) {
++        xcc->parent_phases.hold(obj);
 +    }
  
-     set_default_nan_mode(1, &env->fp_status);
-     set_float_detect_tininess(float_tininess_before_rounding, &env->fp_status);
-@@ -339,11 +341,13 @@ static void hexagon_cpu_class_init(ObjectClass *c, void *data)
-     HexagonCPUClass *mcc = HEXAGON_CPU_CLASS(c);
-     CPUClass *cc = CPU_CLASS(c);
-     DeviceClass *dc = DEVICE_CLASS(c);
-+    ResettableClass *rc = RESETTABLE_CLASS(c);
+     memset(env, 0, offsetof(CPUX86State, end_reset_fields));
  
-     device_class_set_parent_realize(dc, hexagon_cpu_realize,
-                                     &mcc->parent_realize);
+@@ -7111,6 +7113,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+     X86CPUClass *xcc = X86_CPU_CLASS(oc);
+     CPUClass *cc = CPU_CLASS(oc);
+     DeviceClass *dc = DEVICE_CLASS(oc);
++    ResettableClass *rc = RESETTABLE_CLASS(oc);
+     FeatureWord w;
  
--    device_class_set_parent_reset(dc, hexagon_cpu_reset, &mcc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, hexagon_cpu_reset_hold, NULL,
-+                                       &mcc->parent_phases);
+     device_class_set_parent_realize(dc, x86_cpu_realizefn,
+@@ -7119,7 +7122,8 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+                                       &xcc->parent_unrealize);
+     device_class_set_props(dc, x86_cpu_properties);
  
-     cc->class_by_name = hexagon_cpu_class_by_name;
-     cc->has_work = hexagon_cpu_has_work;
+-    device_class_set_parent_reset(dc, x86_cpu_reset, &xcc->parent_reset);
++    resettable_class_set_parent_phases(rc, NULL, x86_cpu_reset_hold, NULL,
++                                       &xcc->parent_phases);
+     cc->reset_dump_flags = CPU_DUMP_FPU | CPU_DUMP_CCOP;
+ 
+     cc->class_by_name = x86_cpu_class_by_name;
 -- 
 2.25.1
 
