@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EC064E578
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 01:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C35264E567
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 01:51:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p5ynX-0005L5-Bi; Thu, 15 Dec 2022 19:41:59 -0500
+	id 1p5ypR-0007pJ-Qv; Thu, 15 Dec 2022 19:43:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+54656a84ae694b50c6d0+7054+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p5ynC-0005Dk-CT
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:41:40 -0500
+ id 1p5yoF-000634-OP
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:42:48 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+54656a84ae694b50c6d0+7054+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p5yn8-0006c3-5Y
- for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:41:37 -0500
+ id 1p5yoD-0006qA-8h
+ for qemu-devel@nongnu.org; Thu, 15 Dec 2022 19:42:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=8AJifdwjiqRQtfUf0q/e6/X60sR9ptVL3WVrG9kgEec=; b=T3jR1bTJLNUJXfHY7jOwEBOdDC
- HRiRaVWvjIsx0gRqQt+tvk/EhEM5HLfKzjXp7za9h6PA9dL5Jg4YFE5AjnFVO28MKQDehavYG0H9i
- 9nro9X5xQ4Ag+56lssy0ilenALtU8l84mrepPJdRJJBbK55kYE89eV0PZL3tCRCSqsY7k5nW3VAfi
- nRrKYrEw+9JCufqb3eJvxCAWfIWixcnsg0bV3Zfin1bg9Rv7zl12hAwUsINs1I7P7xtQw1YsfUQ7X
- +GIFLHyCwPInStrBeZ7rZlacPWmu4B3/EjPRQmnV1EP4ZcQbx64V6WTMSJU274fCkr69mlGhSj/zV
- f+bk9+Ew==;
+ bh=NMSyOXCeQvGp6e8gECxXRvoV0igLWYKZUw5/1jmRJIY=; b=EpRYaLP/gnuyGdyN+xx1BnWZ9r
+ Txh0smYpMCaDowwDaQQ4fFhJsmhAjWVKe8Wmm9eVNmRkUWsZqhV3BgoicNqTAszABIXes7yNjsnCP
+ CZy6VPXFuRQDCeqaELBax6z09D/JACL27Bvd0g3xxzIU/SbtFeNLPNErvajwgULBrMaEzxiOhtyQy
+ FvpNtvjrE5pVn/3pBl8rtB6TdyEuE102Qz1ax4uVtHtG9sulPcugKhGugc/7n86sxyw14WeuSDhpd
+ fhU7of5EvDQ01COZO82r/nONTHH79k0I3n98mWpy/C397hOwFfh6dySsMDuLS3MShjiTA0Cx933nc
+ jERk9iaA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p5ymx-00Azyk-9m; Fri, 16 Dec 2022 00:41:26 +0000
+ id 1p5ymy-00Azyl-1g; Fri, 16 Dec 2022 00:42:25 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p5ymv-003cON-PC; Fri, 16 Dec 2022 00:41:21 +0000
+ Hat Linux)) id 1p5ymv-003cOQ-Q0; Fri, 16 Dec 2022 00:41:21 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,10 +46,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v3 06/38] xen-platform: exclude vfio-pci from the PCI
- platform unplug
-Date: Fri, 16 Dec 2022 00:40:45 +0000
-Message-Id: <20221216004117.862106-7-dwmw2@infradead.org>
+Subject: [RFC PATCH v3 07/38] xen-platform: allow its creation with
+ XEN_EMULATE mode
+Date: Fri, 16 Dec 2022 00:40:46 +0000
+Message-Id: <20221216004117.862106-8-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221216004117.862106-1-dwmw2@infradead.org>
 References: <20221216004117.862106-1-dwmw2@infradead.org>
@@ -84,56 +84,44 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Such that PCI passthrough devices work for Xen emulated guests.
+The only thing we need to handle on KVM side is to change the
+pfn from R/W to R/O.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/xen/xen_platform.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ hw/i386/xen/xen_platform.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
-index a64265cca0..a6f0fb478a 100644
+index a6f0fb478a..15d5ae7c69 100644
 --- a/hw/i386/xen/xen_platform.c
 +++ b/hw/i386/xen/xen_platform.c
-@@ -109,12 +109,25 @@ static void log_writeb(PCIXenPlatformState *s, char val)
- #define _UNPLUG_NVME_DISKS 3
- #define UNPLUG_NVME_DISKS (1u << _UNPLUG_NVME_DISKS)
+@@ -283,7 +283,10 @@ static void platform_fixed_ioport_writeb(void *opaque, uint32_t addr, uint32_t v
+     case 0: /* Platform flags */ {
+         hvmmem_type_t mem_type = (val & PFFLAG_ROM_LOCK) ?
+             HVMMEM_ram_ro : HVMMEM_ram_rw;
+-        if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
++        if (xen_mode == XEN_EMULATE) {
++            /* XXX */
++            s->flags = val & PFFLAG_ROM_LOCK;
++        } else if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
+             DPRINTF("unable to change ro/rw state of ROM memory area!\n");
+         } else {
+             s->flags = val & PFFLAG_ROM_LOCK;
+@@ -508,12 +511,6 @@ static void xen_platform_realize(PCIDevice *dev, Error **errp)
+     PCIXenPlatformState *d = XEN_PLATFORM(dev);
+     uint8_t *pci_conf;
  
-+static bool pci_device_is_passthrough(PCIDevice *d)
-+{
-+    if (!strcmp(d->name, "xen-pci-passthrough")) {
-+        return true;
-+    }
-+
-+    if (xen_mode == XEN_EMULATE && !strcmp(d->name, "vfio-pci")) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- static void unplug_nic(PCIBus *b, PCIDevice *d, void *o)
- {
-     /* We have to ignore passthrough devices */
-     if (pci_get_word(d->config + PCI_CLASS_DEVICE) ==
-             PCI_CLASS_NETWORK_ETHERNET
--            && strcmp(d->name, "xen-pci-passthrough") != 0) {
-+            && !pci_device_is_passthrough(d)) {
-         object_unparent(OBJECT(d));
-     }
- }
-@@ -187,9 +200,8 @@ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
-         !(flags & UNPLUG_IDE_SCSI_DISKS);
- 
-     /* We have to ignore passthrough devices */
--    if (!strcmp(d->name, "xen-pci-passthrough")) {
-+    if (pci_device_is_passthrough(d))
-         return;
+-    /* Device will crash on reset if xen is not initialized */
+-    if (!xen_enabled()) {
+-        error_setg(errp, "xen-platform device requires the Xen accelerator");
+-        return;
 -    }
+-
+     pci_conf = dev->config;
  
-     switch (pci_get_word(d->config + PCI_CLASS_DEVICE)) {
-     case PCI_CLASS_STORAGE_IDE:
+     pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_MEMORY);
 -- 
 2.35.3
 
