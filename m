@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2149B64EBBD
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 13:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5257D64EBBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 13:58:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6AHo-0007qK-Dq; Fri, 16 Dec 2022 07:58:00 -0500
+	id 1p6AHp-0007qQ-2z; Fri, 16 Dec 2022 07:58:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p6AHk-0007pT-SX
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 07:57:56 -0500
+ id 1p6AHl-0007pi-OD
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 07:57:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p6AHj-00063f-EF
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 07:57:56 -0500
+ id 1p6AHj-00063j-SP
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 07:57:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671195474;
+ s=mimecast20190719; t=1671195475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1zpCjZAU0bclMfxFBYAiccs274UHUw9k6xHVPDLlAA0=;
- b=iFC0hwLWNmEISHzL/4YzZY7FkBlKxbB2RKNu8V9wUdWtVX7iJ1nEdr4B3Q2A0PKnUUxaHq
- yvLtpNnTELC8vNqQJypZPnYwk8XVBVUE2xRVtK3jgEqBAPHKTX85Akbp+FUV58+8M9f2hE
- umdlBbV3IXsN42ekO/HydnVvgDDZCbE=
+ bh=d1reKDkzKbu/2P5wIVUeEoIoAgi/Wc1pngBnCH10X70=;
+ b=Xx+aQKnyN6P8xhx+Z+leKTh1+Z6riTkqlMRI5s9UNWa1PQMyfgP/ps0KjYx58AzLfB5lhX
+ vSUlKbNTiKqRzJ6cKKflIElocfQMWzS+OZ/72o4+4Z6IB7CuVU1Xd923PFGSEQQxtsjea3
+ h4q+KgqM+jr1Bveje/XP9RsYBlboYcI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-5T5jTAE6NSy-B4MUPXg8Sw-1; Fri, 16 Dec 2022 07:57:51 -0500
-X-MC-Unique: 5T5jTAE6NSy-B4MUPXg8Sw-1
+ us-mta-358-XynEhUcrNqK_6lTuKrqahA-1; Fri, 16 Dec 2022 07:57:51 -0500
+X-MC-Unique: XynEhUcrNqK_6lTuKrqahA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DD3D1C25E80;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75E252806055;
  Fri, 16 Dec 2022 12:57:51 +0000 (UTC)
 Received: from virtlab420.virt.lab.eng.bos.redhat.com
  (virtlab420.virt.lab.eng.bos.redhat.com [10.19.152.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C2982492C14;
- Fri, 16 Dec 2022 12:57:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27472492C14;
+ Fri, 16 Dec 2022 12:57:51 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -53,9 +53,9 @@ Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  "Richard W . M . Jones" <rjones@redhat.com>
-Subject: [PATCH 1/5] hw/acpi: add trace events for TCO watchdog register access
-Date: Fri, 16 Dec 2022 07:57:45 -0500
-Message-Id: <20221216125749.596075-2-berrange@redhat.com>
+Subject: [PATCH 2/5] hw/isa: add trace events for ICH9 LPC chip config access
+Date: Fri, 16 Dec 2022 07:57:46 -0500
+Message-Id: <20221216125749.596075-3-berrange@redhat.com>
 In-Reply-To: <20221216125749.596075-1-berrange@redhat.com>
 References: <20221216125749.596075-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -92,98 +92,50 @@ for the TCO watchdog.
 Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/acpi/tco.c        | 41 ++++++++++++++++++++++++++++-------------
- hw/acpi/trace-events |  2 ++
- 2 files changed, 30 insertions(+), 13 deletions(-)
+ hw/isa/lpc_ich9.c   | 3 +++
+ hw/isa/trace-events | 4 ++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/hw/acpi/tco.c b/hw/acpi/tco.c
-index 4783721e4e..9ebd3e5e64 100644
---- a/hw/acpi/tco.c
-+++ b/hw/acpi/tco.c
-@@ -86,6 +86,7 @@ static inline int can_start_tco_timer(TCOIORegs *tr)
- static uint32_t tco_ioport_readw(TCOIORegs *tr, uint32_t addr)
- {
-     uint16_t rld;
-+    uint32_t ret = 0;
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 6c44cc9767..cea73924b4 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -52,6 +52,7 @@
+ #include "hw/nvram/fw_cfg.h"
+ #include "qemu/cutils.h"
+ #include "hw/acpi/acpi_aml_interface.h"
++#include "trace.h"
  
-     switch (addr) {
-     case TCO_RLD:
-@@ -96,35 +97,49 @@ static uint32_t tco_ioport_readw(TCOIORegs *tr, uint32_t addr)
-         } else {
-             rld = tr->tco.rld;
-         }
--        return rld;
-+        ret = rld;
-+        break;
-     case TCO_DAT_IN:
--        return tr->tco.din;
-+        ret = tr->tco.din;
-+        break;
-     case TCO_DAT_OUT:
--        return tr->tco.dout;
-+        ret = tr->tco.dout;
-+        break;
-     case TCO1_STS:
--        return tr->tco.sts1;
-+        ret = tr->tco.sts1;
-+        break;
-     case TCO2_STS:
--        return tr->tco.sts2;
-+        ret = tr->tco.sts2;
-+        break;
-     case TCO1_CNT:
--        return tr->tco.cnt1;
-+        ret = tr->tco.cnt1;
-+        break;
-     case TCO2_CNT:
--        return tr->tco.cnt2;
-+        ret = tr->tco.cnt2;
-+        break;
-     case TCO_MESSAGE1:
--        return tr->tco.msg1;
-+        ret = tr->tco.msg1;
-+        break;
-     case TCO_MESSAGE2:
--        return tr->tco.msg2;
-+        ret = tr->tco.msg2;
-+        break;
-     case TCO_WDCNT:
--        return tr->tco.wdcnt;
-+        ret = tr->tco.wdcnt;
-+        break;
-     case TCO_TMR:
--        return tr->tco.tmr;
-+        ret = tr->tco.tmr;
-+        break;
-     case SW_IRQ_GEN:
--        return tr->sw_irq_gen;
-+        ret = tr->sw_irq_gen;
-+        break;
-     }
--    return 0;
-+    trace_tco_io_read(addr, ret);
-+    return ret;
+ /*****************************************************************************/
+ /* ICH9 LPC PCI to ISA bridge */
+@@ -162,6 +163,7 @@ static void ich9_cc_write(void *opaque, hwaddr addr,
+ {
+     ICH9LPCState *lpc = (ICH9LPCState *)opaque;
+ 
++    trace_ich9_cc_write(addr, val, len);
+     ich9_cc_addr_len(&addr, &len);
+     memcpy(lpc->chip_config + addr, &val, len);
+     pci_bus_fire_intx_routing_notifier(pci_get_bus(&lpc->d));
+@@ -177,6 +179,7 @@ static uint64_t ich9_cc_read(void *opaque, hwaddr addr,
+     uint32_t val = 0;
+     ich9_cc_addr_len(&addr, &len);
+     memcpy(&val, lpc->chip_config + addr, len);
++    trace_ich9_cc_read(addr, val, len);
+     return val;
  }
  
- static void tco_ioport_writew(TCOIORegs *tr, uint32_t addr, uint32_t val)
- {
-+    trace_tco_io_write(addr, val);
-     switch (addr) {
-     case TCO_RLD:
-         tr->timeouts_no = 0;
-diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-index eb60b04f9b..78e0a8670e 100644
---- a/hw/acpi/trace-events
-+++ b/hw/acpi/trace-events
-@@ -55,6 +55,8 @@ piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64
- # tco.c
- tco_timer_reload(int ticks, int msec) "ticks=%d (%d ms)"
- tco_timer_expired(int timeouts_no, bool strap, bool no_reboot) "timeouts_no=%d no_reboot=%d/%d"
-+tco_io_write(uint64_t addr, uint32_t val) "addr=0x%" PRIx64 " val=0x%" PRIx32
-+tco_io_read(uint64_t addr, uint32_t val) "addr=0x%" PRIx64 " val=0x%" PRIx32
- 
- # erst.c
- acpi_erst_reg_write(uint64_t addr, uint64_t val, unsigned size) "addr: 0x%04" PRIx64 " <== 0x%016" PRIx64 " (size: %u)"
+diff --git a/hw/isa/trace-events b/hw/isa/trace-events
+index b8f877e1ed..c4567a9b47 100644
+--- a/hw/isa/trace-events
++++ b/hw/isa/trace-events
+@@ -21,3 +21,7 @@ via_pm_io_read(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%
+ via_pm_io_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
+ via_superio_read(uint8_t addr, uint8_t val) "addr 0x%x val 0x%x"
+ via_superio_write(uint8_t addr, uint32_t val) "addr 0x%x val 0x%x"
++
++# lpc_ich9.c
++ich9_cc_write(uint64_t addr, uint64_t val, unsigned len) "addr=0x%"PRIx64 " val=0x%"PRIx64 " len=%u"
++ich9_cc_read(uint64_t addr, uint64_t val, unsigned len) "addr=0x%"PRIx64 " val=0x%"PRIx64 " len=%u"
 -- 
 2.38.1
 
