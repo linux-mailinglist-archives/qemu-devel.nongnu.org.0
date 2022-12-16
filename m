@@ -2,45 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AC564F0BD
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 19:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B713064F138
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 19:49:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6F89-0005z8-Vy; Fri, 16 Dec 2022 13:08:22 -0500
+	id 1p6Fkj-0006f3-Ra; Fri, 16 Dec 2022 13:48:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1p6F86-0005xS-MT
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:08:18 -0500
-Received: from isrv.corpit.ru ([86.62.121.231])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1p6F84-0001Ob-9U
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:08:18 -0500
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 6A5BC401E9;
- Fri, 16 Dec 2022 21:08:10 +0300 (MSK)
-Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id E54D13B9;
- Fri, 16 Dec 2022 21:08:08 +0300 (MSK)
-Received: (nullmailer pid 2843082 invoked by uid 1000);
- Fri, 16 Dec 2022 18:08:08 -0000
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-Cc: Arnd Bergmann <arnd@linaro.org>, Michael Tokarev <mjt@tls.msk.ru>
-Subject: [RFC PATCH] linux-user: time64: consolidate rt_sigtimedwait_time64
- and rt_sigtimedwait
-Date: Fri, 16 Dec 2022 21:08:07 +0300
-Message-Id: <20221216180807.2843032-1-mjt@msgid.tls.msk.ru>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1p6FkU-0006cX-Th; Fri, 16 Dec 2022 13:48:08 -0500
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1p6FkS-0001tx-0z; Fri, 16 Dec 2022 13:47:58 -0500
+Received: by mail-oi1-x231.google.com with SMTP id o66so1269503oia.6;
+ Fri, 16 Dec 2022 10:47:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gQRzxeeGfbhVYdwPvU3ZK2lJExbaMkHGX4glrPxoNmQ=;
+ b=FJr+4ge/Hp8nns9zU/nrLvT6uyr41bwehhL47AW2FsMI9xtF1RKl9nl5XZ7BpXkTaq
+ WAwrVHUBMZktkCjdq/zijdnsvNSyX3UvzMfbjDPWqX6Vi+4fSKjdQu0L0T6WYmoNKDd5
+ R+x5OSCGXYUPuBbaxtV2cEmAXLcs80mm+E0s8t1fA9zXqRlDLGa/Zqm7iXd5WygaUBci
+ HvQtWUGcxiJh/GkBq0ZKJF8NsWPtdWNEjI+88Bg/XcTfL8EgctsXlY14JijDbvLTZl/X
+ j96QHv0xYB4eN8hc+gSAQlr+w97Nsrw0JqFgLcujUjhu5x498JTJOalPDCBxpKhLcjKE
+ cLlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gQRzxeeGfbhVYdwPvU3ZK2lJExbaMkHGX4glrPxoNmQ=;
+ b=qRingsOsqvP1PfmaXpviY1nPQ/5pIAnV4V/ArIPxnrq7cOEun/Ryw9IjFJZV1/eEen
+ jTfrst+CDDJLXkkyafv0q9u0iISeDtsrkrNOWxrRZbEV57vafoTYvPGIzxSQwbZUmyk3
+ /PgLUPRF9bUjJrncDBd27JktTpjybV32GRtlKfKQPy5SXpLS1kJR8oQQfvEkKnDeDLTo
+ NSHHHUIPsuBqqsM6YuBMQW1ZsAUSpSD+DWaoWSZ78D18g4V9fk7ewPXvLKGAH/2knWFQ
+ 95wpIOugtujsAAnAN10Fufku1SiOvGQxXlB+5t8joxl/+OX34lflIFBVrUf8/X6E8rSs
+ 5p0Q==
+X-Gm-Message-State: AFqh2kp0VYjvfzdIkSLgfblCYl3Clmu1SkrsCiB7J3pXWMCk7K4SOgbp
+ toD/UCSYxmZRxa3TGTgfOKk=
+X-Google-Smtp-Source: AMrXdXtvHlIvOeI/FjSqTkckPOUp/vZg5fBTqzD+mgk/e28sbVtWcFDseCDYUP7zar0cQkaT04xJag==
+X-Received: by 2002:a05:6808:2201:b0:360:d443:d9af with SMTP id
+ bd1-20020a056808220100b00360d443d9afmr388060oib.8.1671216473767; 
+ Fri, 16 Dec 2022 10:47:53 -0800 (PST)
+Received: from [192.168.68.106] (201-43-103-101.dsl.telesp.net.br.
+ [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
+ s4-20020a056808208400b0035c422bb303sm1052244oiw.19.2022.12.16.10.47.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Dec 2022 10:47:53 -0800 (PST)
+Message-ID: <23e96668-576d-ec5d-d45d-b57941591d2c@gmail.com>
+Date: Fri, 16 Dec 2022 15:47:50 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 0/4] hw/ppc: Clean up includes
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: clg@kaod.org, qemu-ppc@nongnu.org
+References: <20221210112140.4057731-1-armbru@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221210112140.4057731-1-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x231.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,133 +91,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Both system calls are exactly the same, the only difference is the
-(optional) timespec conversion. Consolidate the two, and check which
-syscall being emulated in the timespec conversion place.
 
-This is just a PoC. But this brings at least 2 questions.
 
-Let's take pselect6 as an example. There are 2 possible pselects
-in there (actually more, but let's focus on just the two):
-TARGET_NR_pselect6 and TARGET_NR_pselect6_time64.  Both are implemented
-in a single do_pselect6() function, which, depending on its "time64"
-argument, will call either target_to_host_timespec64() or
-target_to_host_timespec().
+On 12/10/22 08:21, Markus Armbruster wrote:
+> Back in 2016, we discussed[1] rules for headers, and these were
+> generally liked:
+> 
+> 1. Have a carefully curated header that's included everywhere first.  We
+>     got that already thanks to Peter: osdep.h.
+> 
+> 2. Headers should normally include everything they need beyond osdep.h.
+>     If exceptions are needed for some reason, they must be documented in
+>     the header.  If all that's needed from a header is typedefs, put
+>     those into qemu/typedefs.h instead of including the header.
+> 
+> 3. Cyclic inclusion is forbidden.
+> 
+> After this series, include/hw/ppc and include/hw/pci-host/pnv* conform
+> to these rules.
+> 
+> It is based on
+> 
+>      [PATCH 0/5] include/hw/pci include/hw/cxl: Clean up includes
+>      [PATCH 0/3] block: Clean up includes
+>      [PATCH 0/4] coroutine: Clean up includes
+> 
+> [1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
+>      https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
+> 
+> Based-on: <20221209134802.3642942-1-armbru@redhat.com>
+> 
+> Markus Armbruster (4):
+>    include/hw/ppc: Split pnv_chip.h off pnv.h
+>    include/hw/ppc: Supply a few missing includes
+>    include/hw/ppc: Don't include hw/pci-host/pnv_phb.h from pnv.h
+>    include/hw/ppc include/hw/pci-host: Drop extra typedefs
 
-But these functions, in turn, are guarded by a lot of #if
-defined(foo). In particular, in context of pselect6,
-target_to_host_timespec() is guarded by
- if defined(TARGET_NR_pselect6),
-while target_to_host_timespec64() is guarded by
- if defined(TARGET_NR_pselect6_time64).
 
-So basically, if just one of the two TARGET_NR_pselect6*
-is defined, one of target_to_host_timespec*() will not
-be defined, but do_pselect6() calls *both* anyway.  In
-other words, both functions must be provided if any of
-the select6 are to be implemented.
+Series:
 
-But the good news is that these functions
-(target_to_host_timespec*()) are always defined because
-they're needed for some syscalls anyway, like, eg,
-TARGET_NR_semop or TARGET_NR_utimensat or CONFIG_TIMERFD.
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-It looks like whole gigantic ifdeffery around these two
-functions should be dropped, and a common function provided,
-with an extra argument like time64, to be used in many
-places where this construct is already used. Like in
-this PoC too, which again calls one of the two depending
-on the actual syscall being used.  Or maybe we can even
-combine the two into one with an extra arg like "time64".
 
-This should simplify quite some code greatly.
+I see this is based on "[PATCH 0/5] include/hw/pci include/hw/cxl: Clean
+up includes". Feel free to queue this up in the same queue.
 
-What do you think?
-
-And another question: this PoC should work in either of
-4 cases, including when just one (any of) rt_sigtimedwait
-and rt_sigtimedwait_time64 is defined. It uses small
-preprocessor trick, which - to my taste anyway - isn't
-exactly great. Maybe there's some other, more elegant,
-way to do that exists?
 
 Thanks,
 
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
----
- linux-user/syscall.c | 46 ++++++++------------------------------------
- 1 file changed, 8 insertions(+), 38 deletions(-)
+Daniel
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 24b25759be..c175e03207 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -9700,48 +9700,16 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             finish_sigsuspend_mask(ret);
-         }
-         return ret;
-+#if defined(TARGET_NR_rt_sigtimedwait) || defined(TARGET_NR_rt_sigtimedwait_time64)
- #ifdef TARGET_NR_rt_sigtimedwait
-     case TARGET_NR_rt_sigtimedwait:
--        {
--            sigset_t set;
--            struct timespec uts, *puts;
--            siginfo_t uinfo;
--
--            if (arg4 != sizeof(target_sigset_t)) {
--                return -TARGET_EINVAL;
--            }
--
--            if (!(p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1)))
--                return -TARGET_EFAULT;
--            target_to_host_sigset(&set, p);
--            unlock_user(p, arg1, 0);
--            if (arg3) {
--                puts = &uts;
--                if (target_to_host_timespec(puts, arg3)) {
--                    return -TARGET_EFAULT;
--                }
--            } else {
--                puts = NULL;
--            }
--            ret = get_errno(safe_rt_sigtimedwait(&set, &uinfo, puts,
--                                                 SIGSET_T_SIZE));
--            if (!is_error(ret)) {
--                if (arg2) {
--                    p = lock_user(VERIFY_WRITE, arg2, sizeof(target_siginfo_t),
--                                  0);
--                    if (!p) {
--                        return -TARGET_EFAULT;
--                    }
--                    host_to_target_siginfo(p, &uinfo);
--                    unlock_user(p, arg2, sizeof(target_siginfo_t));
--                }
--                ret = host_to_target_signal(ret);
--            }
--        }
--        return ret;
- #endif
- #ifdef TARGET_NR_rt_sigtimedwait_time64
-     case TARGET_NR_rt_sigtimedwait_time64:
-+#define rt_sigtimedwait_istime64() (num == TARGET_NR_rt_sigtimedwait_time64)
-+#else
-+#define rt_sigtimedwait_istime64() 0
-+#endif
-         {
-             sigset_t set;
-             struct timespec uts, *puts;
-@@ -9759,7 +9727,9 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             unlock_user(p, arg1, 0);
-             if (arg3) {
-                 puts = &uts;
--                if (target_to_host_timespec64(puts, arg3)) {
-+                if (rt_sigtimedwait_istime64()
-+                    ? target_to_host_timespec64(puts, arg3)
-+                    : target_to_host_timespec(puts, arg3)) {
-                     return -TARGET_EFAULT;
-                 }
-             } else {
--- 
-2.30.2
 
+> 
+>   hw/pci-host/pnv_phb.h          |   2 +-
+>   include/hw/pci-host/pnv_phb3.h |   1 -
+>   include/hw/pci-host/pnv_phb4.h |   5 +-
+>   include/hw/ppc/pnv.h           | 146 +-------------------------------
+>   include/hw/ppc/pnv_chip.h      | 147 +++++++++++++++++++++++++++++++++
+>   include/hw/ppc/pnv_core.h      |   3 +-
+>   include/hw/ppc/pnv_homer.h     |   2 +-
+>   include/hw/ppc/pnv_lpc.h       |  11 +--
+>   include/hw/ppc/pnv_occ.h       |   3 +-
+>   include/hw/ppc/pnv_pnor.h      |   2 +-
+>   include/hw/ppc/pnv_sbe.h       |   3 +-
+>   include/hw/ppc/pnv_xive.h      |   7 +-
+>   include/hw/ppc/pnv_xscom.h     |   3 +-
+>   include/hw/ppc/xive2.h         |   2 +
+>   include/hw/ppc/xive2_regs.h    |   2 +
+>   hw/intc/pnv_xive.c             |   1 +
+>   hw/intc/pnv_xive2.c            |   1 +
+>   hw/pci-host/pnv_phb3.c         |   1 +
+>   hw/pci-host/pnv_phb4_pec.c     |   1 +
+>   hw/ppc/pnv.c                   |   3 +
+>   hw/ppc/pnv_core.c              |   1 +
+>   hw/ppc/pnv_homer.c             |   1 +
+>   hw/ppc/pnv_lpc.c               |   1 +
+>   hw/ppc/pnv_psi.c               |   1 +
+>   hw/ppc/pnv_xscom.c             |   1 +
+>   25 files changed, 186 insertions(+), 165 deletions(-)
+>   create mode 100644 include/hw/ppc/pnv_chip.h
+> 
 
