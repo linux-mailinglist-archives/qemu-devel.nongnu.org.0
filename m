@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1123964EFAD
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:48:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 494F764EFD5
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:55:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Drn-0006QU-T7; Fri, 16 Dec 2022 11:47:23 -0500
+	id 1p6DyY-00021A-2e; Fri, 16 Dec 2022 11:54:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p6Drk-0006Ol-DO; Fri, 16 Dec 2022 11:47:20 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232])
+ id 1p6DyM-0001xv-EF; Fri, 16 Dec 2022 11:54:11 -0500
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p6Dri-0006Wd-PD; Fri, 16 Dec 2022 11:47:20 -0500
-Received: by mail-oi1-x232.google.com with SMTP id r130so2428917oih.2;
- Fri, 16 Dec 2022 08:47:17 -0800 (PST)
+ id 1p6DyK-0008VD-Lg; Fri, 16 Dec 2022 11:54:10 -0500
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-144b21f5e5fso3920875fac.12; 
+ Fri, 16 Dec 2022 08:54:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=E7UrxsSLb+0W8g1qAvBnmTOhbPAx/vUfp/wBCrELUiQ=;
- b=AZI2H6SWr3rdh5b9DbAiSrZpxLPsh2OpoYHH5D6w3839Zki1KWeHcENSnxYCmnazA7
- T4DMPycqme1VRcEAYcLJkYcRT5+/pH416bzFs5q9rEPQzCh+br/IpqFzJOBSTJMvzBd+
- ieokTmTYbnwb2gopbpyNEb7wXnmkp+qb4hERc3xY1XrzPk1cpEjrPimFWp1ocwUlc3vX
- 6kiVO68d82ac63lPCwgBwwq+/A+FKOCteLSmjpIbhPxIbSFjuvo04wCxel/d/ewiowUI
- G/Fuq59UDlOWHZT+5+69W2lwrmJjjGBvm8RFq0Fneow16RmyZ/kNV0Fqm5jMywRaL31Q
- kD+g==
+ bh=1ALASrqaA+0vtW+7Qu7yYlsMXewk1xO5ZXCiyRkfNZg=;
+ b=h0RvfnCdg1ZLKMk3kvG1rAJ/mRcHePC1Y7PcG7/p955zonBq43U/9oRnqIOr8DtQKx
+ 6v+NcSy2m3RzByrkKz8LGpDlda7zcSzwrum8Kcn9jNvuRb6f1FkVyuuJoZQ2xLuoWdH7
+ h3cbUBeXZTr/XTJinB7C24bRKzMFHFI3DGwyG4pTaRdsQfMGkirrZbW/yAWFyabSAfuC
+ r2zpAjOGhpDL32jzf1OgLko9qSdZhenGAe0fdi/E34Lftw+gpH3eIKP6AvwWuT3XkB9o
+ efxNWFRTGn+TibQOEF+L3fz9wDFoOf+19ex/kjFtT2sNLIGtEush1HHJ7tXUamU0UnHq
+ pQgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=E7UrxsSLb+0W8g1qAvBnmTOhbPAx/vUfp/wBCrELUiQ=;
- b=AmIo0AfnJ/TkKEevYTOHM2jkob5rpao42M+Fkls/PwpnoGL+hZxAxHoyFC6AHfRBBi
- S057J58xdN7gO8RoRukxQFFmdvxh2GhvMg5HKG1IvxQEr78WH2hk7Tyh9W4Rtm8OYB0J
- bFOSYbHgLWTsFqgLccxLNQEJW/oR9YqUlc8zL8Q7DzxyWyI58Rdz8lWdLGUKH2vD1zcG
- 6RrATU9KdamyVqh4BUnjAsQMyzm8aBiapse5261Ha9aPE6RD6YKXU8k2vrilWxbJ89r+
- YusenxjE60Fdgnsn5vWNrYn2RpJB1k093LEkNwjZPEGoQihnK6ZLyoJzT4GxJidN69MT
- r41Q==
-X-Gm-Message-State: ANoB5plinCD8oTwYqeYyzrO14jHIRuCJZo1pRYK2QypnuqIcWjqpt+O7
- Qt3zw6Qf+kyTmzTHdariv0w=
-X-Google-Smtp-Source: AA0mqf41f2ZzMZMs9c1XRbypYStSBBLDzk55zopupul3TcdAyZBeBNES07kuhEYCzXlmkc5PIZF8aQ==
-X-Received: by 2002:a05:6808:1a9c:b0:35b:80e6:86f7 with SMTP id
- bm28-20020a0568081a9c00b0035b80e686f7mr13609964oib.43.1671209236833; 
- Fri, 16 Dec 2022 08:47:16 -0800 (PST)
+ bh=1ALASrqaA+0vtW+7Qu7yYlsMXewk1xO5ZXCiyRkfNZg=;
+ b=VQOPeEEV/sSi6LFkTcnnQnKQezIotz+BPR3+V10fvpIq0ExMwS2DDcuWzcFVf7mblQ
+ sptTw1nArHMiLzg+Im2rYar4uFit+MnIuNg3rrXLn8flr2mKPA/h7+dr4kREnd6ziQzs
+ aNSfxAsUJHdI7PAMV3rMlvggYN2e4pc4NmnElR/2edf2FVy6HHSBFdKvGX2dEme1B367
+ ZYICkjbnwHMWgOMT5hpepiTgD63o3XfZGdiLUjdogGxFDcRyjU+Dp1dRAJQQARNsm7Te
+ knnHOTwNzd6v/j7MK68udttSc0lLsvLbHsyWvcOtgJ7F+zGAsMFYAYnjPQTc9oqbZ30K
+ ri+A==
+X-Gm-Message-State: ANoB5plVYukjoFCo7Wso4Pdfu87KupDkjAW4KYeB6ql+qbSsMDEVwaA2
+ eMhDcQfY+OPIEeztixFl9No=
+X-Google-Smtp-Source: AA0mqf7jxwaPGik7b4x79+qvSE+o/I8eXGU53qiyH9ijDZatVEvRTxjQJF4F4owVo/7tk957YIEx5w==
+X-Received: by 2002:a05:6870:e8a:b0:144:87fc:f4b2 with SMTP id
+ mm10-20020a0568700e8a00b0014487fcf4b2mr17785900oab.24.1671209646794; 
+ Fri, 16 Dec 2022 08:54:06 -0800 (PST)
 Received: from [192.168.68.106] (201-43-103-101.dsl.telesp.net.br.
  [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
- bk22-20020a0568081a1600b003544822f725sm933465oib.8.2022.12.16.08.47.13
+ m29-20020a056870059d00b001438fb3b0a0sm1104761oap.44.2022.12.16.08.54.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 08:47:16 -0800 (PST)
-Message-ID: <c871b044-4241-2f02-ebd6-6b797663a140@gmail.com>
-Date: Fri, 16 Dec 2022 13:47:12 -0300
+ Fri, 16 Dec 2022 08:54:06 -0800 (PST)
+Message-ID: <b5e03afa-0ab0-8b8c-e803-76848dce9034@gmail.com>
+Date: Fri, 16 Dec 2022 13:54:02 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.1
-Subject: Re: [PATCH-for-8.0 4/4] hw/ppc/spapr_ovec: Avoid target_ulong
- spapr_ovec_parse_vector()
+Subject: Re: [PATCH-for-8.0 0/4] ppc: Clean up few headers to make them target
+ agnostic
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -69,13 +70,12 @@ Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
 References: <20221213123550.39302-1-philmd@linaro.org>
- <20221213123550.39302-5-philmd@linaro.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221213123550.39302-5-philmd@linaro.org>
+In-Reply-To: <20221213123550.39302-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -102,74 +102,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 On 12/13/22 09:35, Philippe Mathieu-Daudé wrote:
-> spapr_ovec.c is a device, but it uses target_ulong which is
-> target specific. The hwaddr type (declared in "exec/hwaddr.h")
-> better fits hardware addresses.
+> Few changes in hw/ & target/ to reduce the target specificity
+> of some sPAPR headers.
+> 
+> Philippe Mathieu-Daudé (4):
+>    target/ppc/kvm: Add missing "cpu.h" and "exec/hwaddr.h"
+>    hw/ppc/vof: Do not include the full "cpu.h"
+>    hw/ppc/spapr: Reduce "vof.h" inclusion
+>    hw/ppc/spapr_ovec: Avoid target_ulong spapr_ovec_parse_vector()
 
-As said by Harsh, spapr_ovec is in fact a data structure that stores platform
-options that are supported by the guest.
+Patches 1-3 queued in https://gitlab.com/danielhb/qemu/tree/ppc-next. Patch
+4 can use a few more comments.
 
-That doesn't mean that I oppose the change made here. Aside from semantics - which
-I also don't have a strong opinion about it - I don't believe it matters that
-much - spapr is 64 bit only, so hwaddr will always be == target_ulong.
 
-Cedric/David/Greg, let me know if you have any restriction/thoughts about this.
-I'm inclined to accept it as is.
+Thanks,
 
 
 Daniel
 
 > 
-> Change spapr_ovec_parse_vector() to take a hwaddr argument,
-> allowing the removal of "cpu.h" in a device header.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
+>   hw/ppc/spapr.c              | 1 +
 >   hw/ppc/spapr_ovec.c         | 3 ++-
+>   include/hw/ppc/spapr.h      | 3 ++-
 >   include/hw/ppc/spapr_ovec.h | 4 ++--
->   2 files changed, 4 insertions(+), 3 deletions(-)
+>   include/hw/ppc/vof.h        | 2 +-
+>   target/ppc/kvm_ppc.h        | 3 +++
+>   6 files changed, 11 insertions(+), 5 deletions(-)
 > 
-> diff --git a/hw/ppc/spapr_ovec.c b/hw/ppc/spapr_ovec.c
-> index b2567caa5c..a18a751b57 100644
-> --- a/hw/ppc/spapr_ovec.c
-> +++ b/hw/ppc/spapr_ovec.c
-> @@ -19,6 +19,7 @@
->   #include "qemu/error-report.h"
->   #include "trace.h"
->   #include <libfdt.h>
-> +#include "cpu.h"
->   
->   #define OV_MAXBYTES 256 /* not including length byte */
->   #define OV_MAXBITS (OV_MAXBYTES * BITS_PER_BYTE)
-> @@ -176,7 +177,7 @@ static target_ulong vector_addr(target_ulong table_addr, int vector)
->       return table_addr;
->   }
->   
-> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector)
-> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector)
->   {
->       SpaprOptionVector *ov;
->       target_ulong addr;
-> diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
-> index c3e8b98e7e..d756b916e4 100644
-> --- a/include/hw/ppc/spapr_ovec.h
-> +++ b/include/hw/ppc/spapr_ovec.h
-> @@ -37,7 +37,7 @@
->   #ifndef SPAPR_OVEC_H
->   #define SPAPR_OVEC_H
->   
-> -#include "cpu.h"
-> +#include "exec/hwaddr.h"
->   
->   typedef struct SpaprOptionVector SpaprOptionVector;
->   
-> @@ -73,7 +73,7 @@ void spapr_ovec_set(SpaprOptionVector *ov, long bitnr);
->   void spapr_ovec_clear(SpaprOptionVector *ov, long bitnr);
->   bool spapr_ovec_test(SpaprOptionVector *ov, long bitnr);
->   bool spapr_ovec_empty(SpaprOptionVector *ov);
-> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector);
-> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector);
->   int spapr_dt_ovec(void *fdt, int fdt_offset,
->                     SpaprOptionVector *ov, const char *name);
->   
 
