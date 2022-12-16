@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382C264F3A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BBF64F3FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:21:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6IU6-00061q-0n; Fri, 16 Dec 2022 16:43:14 -0500
+	id 1p6IU2-00060g-SM; Fri, 16 Dec 2022 16:43:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6ITs-0005wa-LD
+ id 1p6ITr-0005wQ-Sx
  for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:05 -0500
 Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6ITp-0000bj-Is
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:43:00 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- i187-20020a1c3bc4000000b003d1e906ca23so2079437wma.3
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:42:56 -0800 (PST)
+ id 1p6ITn-0000bu-Gu
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:42:58 -0500
+Received: by mail-wm1-x330.google.com with SMTP id ja17so2736186wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:42:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=18PIUptsG0HDozMjNUaDXZMKAMCj9HHUBMVLqT4eZ7w=;
- b=ht1iUpW1qxl9jPHRbqK1PQnKRpCmqA23TW4jbkZS3CLntLX+X822yx8MKgOZOFsX7t
- N1Ms6bz7Ib/0VNvIr7oOUGB8XV393hObh7hIDKOhFRcWTAHBaTEhvzXyJwG11vs+ezhH
- Hn+nhwotYTLK6seOWbOHkxNP4JSeiVzhP/IYFtdsyX1Mfwk0DRUfRGAu41RftL633QZs
- qQ5mzJSYGFBgmKJCSV9sSBOFZE3BGmlCxIkbZt6EB5p9b6np08+7tWxWBJ8+jimQ9/Kn
- SU4zyxsi/fplCJiDmDNW4xjECPCD5l3geHD5gtEFNKA1FrknkUzmt97mMs4cg8yKd+l9
- Vb1g==
+ :reply-to; bh=A2o/3JD/47KFZGGuCaIY7m7S85np6OtsBKjDrudLLbI=;
+ b=hcsLKqGhSuByZBWzM6fIlTEEvqViVoWa5KW1CJ1tcEdkIWrkmG7xpg1mwLz+PiOvEY
+ bN5RGmJMiQWY9sczcyD/iDjdibM78JVn2XodSvPBW9aG95Xfjw2L3oPL6EtpluUyEgAy
+ /xm4J7S0WNAI7CqB5VI91oFCC5G+RNKykPRSCX5pFDRVrLiwvImDj/zAAkbEFmo/15Hn
+ 7N8vZCd3ER09NZRZvu879A/5DseqXmYGGQjwGKoZ+dxMYNXySkXntVfeMd7WhQESy929
+ Wn5V6yXWl9NfeXv//Zh5V2eR6HKjOCcp3Q0cVMtlkgwENo97CBASs/I1ORI7mYbcUFQ+
+ JKAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=18PIUptsG0HDozMjNUaDXZMKAMCj9HHUBMVLqT4eZ7w=;
- b=6HICtwH96e25CTrZWX0HBHCXG8jigwzgxeF53KhJMa+DSQ0Uq1gk8e9j+fmDr8hZ19
- SbkcNfbuMdoWhbNTiMILGHUH6PLbTEDFOL9oQCw8Nb/6HIguz0mM4k7ac5hyRNJTCNa/
- 4WjYunp773uDeY3dXRLgASjFlCczRFE9fu3jY+O9pFCCKDezd7KwP3XdEgXRe/MSZOQz
- DBw4bptfOyyz+EV/pbeLbH/oCCAhI2uTkQDNPtgmCBNqqmEvpdiaHgAuXyirpYdmUeab
- yyue3lEKL8kf8H/gcghmar5OJke9Ag2eO7Xkl+s38kPK1dWPB7rQiY7SY3DpSitATb5z
- a2cw==
-X-Gm-Message-State: ANoB5pm8xPLsYXPemBTHqnneAjqJdeyZAMFW5tVxrGWDRAWxAN+V8GD8
- dBgJ1CyRhcT9DPJs/pFuGHj33ypEQz2KGfuF
-X-Google-Smtp-Source: AA0mqf4s3MWB10jQeG8IyDx/VD6q1Hm3WSOF7LDpgn2RymngeGZKn6MGSO3GYHlyevET24pbOhXyEA==
-X-Received: by 2002:a05:600c:3d8f:b0:3cf:a18d:399c with SMTP id
- bi15-20020a05600c3d8f00b003cfa18d399cmr26796086wmb.1.1671226973402; 
- Fri, 16 Dec 2022 13:42:53 -0800 (PST)
+ bh=A2o/3JD/47KFZGGuCaIY7m7S85np6OtsBKjDrudLLbI=;
+ b=2887D0EQqVzvBBRu1WQG0oBmgx74nWe4nVJEZQ+tQG5DNkyGn6tb7iqB3HuDuJukpd
+ CZxACVpPr5dAF4oYwGGVQKISHGJbncT0dLFYPnouGIGfL1GKiNjX4O0KHC7KORX1c5tx
+ hfNpRAyCH/ezxjFtK5YwXFztO32/VoAtoL9YgMXEHYcJTMHxABsFSaKcafDGx+uxAnrc
+ /DXPXQO954A10/+KNraDLRjYgIFLjzfgRyYrkpWK1sqTm98JtLnnTWe0sCA8ziinXjd6
+ X+14wKeyTz4pX2KtZKTwvTL4KasO1bIk5buI9ANsSFlEd32Tt6OEM/PORR8nIS7AeB7e
+ z3tA==
+X-Gm-Message-State: ANoB5pk+lYgFzqjeDqVJuCHzckCNLB8gOlUlzASNY4b/4bhyMaQHWXg4
+ yG9l2w7umq+yQ448GZV7gEBqZRH7pFCpI8P5
+X-Google-Smtp-Source: AA0mqf70bB27ADxaTZ2ejT8fYjU2vyjwfppqBJ7mD7ne018b+8aIGMSq9KKo1xxp9r5WtAJqt2YTHQ==
+X-Received: by 2002:a7b:c4d2:0:b0:3d1:f270:a81e with SMTP id
+ g18-20020a7bc4d2000000b003d1f270a81emr27490719wmk.17.1671226974271; 
+ Fri, 16 Dec 2022 13:42:54 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- y7-20020a05600c364700b003d33ab317dasm4135263wmq.14.2022.12.16.13.42.52
+ y7-20020a05600c364700b003d33ab317dasm4135263wmq.14.2022.12.16.13.42.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 13:42:52 -0800 (PST)
+ Fri, 16 Dec 2022 13:42:53 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/36] hw/input/ps2.c: Convert TYPE_PS2_{KBD,
- MOUSE}_DEVICE to 3-phase reset
-Date: Fri, 16 Dec 2022 21:42:16 +0000
-Message-Id: <20221216214244.1391647-9-peter.maydell@linaro.org>
+Subject: [PULL 09/36] hw/misc/mos6522: Convert TYPE_MOS6522 to 3-phase reset
+Date: Fri, 16 Dec 2022 21:42:17 +0000
+Message-Id: <20221216214244.1391647-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221216214244.1391647-1-peter.maydell@linaro.org>
 References: <20221216214244.1391647-1-peter.maydell@linaro.org>
@@ -91,114 +89,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the child classes TYPE_PS2_KBD_DEVICE and
-TYPE_PS2_MOUSE_DEVICE to the 3-phase reset system.  This allows us to
-stop using the old device_class_set_parent_reset() function.
-
-We don't need to register an 'exit' phase function for the
-subclasses, because they have no work to do in that phase.  Passing
-NULL to resettable_class_set_parent_phases() will result in the
-parent class method being called for that phase, so we don't need to
-register a function purely to chain to the parent 'exit' phase
-function.
+Convert the TYPE_MOS6522 parent class to use 3-phase reset.  This is
+a prerequisite for converting its subclasses.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20221109170009.3498451-3-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20221110143459.3833425-2-peter.maydell@linaro.org
 ---
- include/hw/input/ps2.h |  2 +-
- hw/input/ps2.c         | 31 ++++++++++++++++++++-----------
- 2 files changed, 21 insertions(+), 12 deletions(-)
+ hw/misc/mos6522.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/input/ps2.h b/include/hw/input/ps2.h
-index ff777582cd6..cd61a634c39 100644
---- a/include/hw/input/ps2.h
-+++ b/include/hw/input/ps2.h
-@@ -36,7 +36,7 @@
- struct PS2DeviceClass {
-     SysBusDeviceClass parent_class;
- 
--    DeviceReset parent_reset;
-+    ResettablePhases parent_phases;
+diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+index fe38c44426b..0ed631186c3 100644
+--- a/hw/misc/mos6522.c
++++ b/hw/misc/mos6522.c
+@@ -643,9 +643,9 @@ const VMStateDescription vmstate_mos6522 = {
+     }
  };
  
- /*
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 47a5d68e300..3253ab6a92c 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -1042,13 +1042,16 @@ static void ps2_common_post_load(PS2State *s)
-     q->cwptr = ccount ? (q->rptr + ccount) & (PS2_BUFFER_SIZE - 1) : -1;
- }
- 
--static void ps2_kbd_reset(DeviceState *dev)
-+static void ps2_kbd_reset_hold(Object *obj)
+-static void mos6522_reset(DeviceState *dev)
++static void mos6522_reset_hold(Object *obj)
  {
--    PS2DeviceClass *ps2dc = PS2_DEVICE_GET_CLASS(dev);
--    PS2KbdState *s = PS2_KBD_DEVICE(dev);
-+    PS2DeviceClass *ps2dc = PS2_DEVICE_GET_CLASS(obj);
-+    PS2KbdState *s = PS2_KBD_DEVICE(obj);
+-    MOS6522State *s = MOS6522(dev);
++    MOS6522State *s = MOS6522(obj);
  
-     trace_ps2_kbd_reset(s);
--    ps2dc->parent_reset(dev);
-+
-+    if (ps2dc->parent_phases.hold) {
-+        ps2dc->parent_phases.hold(obj);
-+    }
- 
-     s->scan_enabled = 1;
-     s->translate = 0;
-@@ -1056,13 +1059,16 @@ static void ps2_kbd_reset(DeviceState *dev)
-     s->modifiers = 0;
- }
- 
--static void ps2_mouse_reset(DeviceState *dev)
-+static void ps2_mouse_reset_hold(Object *obj)
+     s->b = 0;
+     s->a = 0;
+@@ -705,9 +705,10 @@ static Property mos6522_properties[] = {
+ static void mos6522_class_init(ObjectClass *oc, void *data)
  {
--    PS2DeviceClass *ps2dc = PS2_DEVICE_GET_CLASS(dev);
--    PS2MouseState *s = PS2_MOUSE_DEVICE(dev);
-+    PS2DeviceClass *ps2dc = PS2_DEVICE_GET_CLASS(obj);
-+    PS2MouseState *s = PS2_MOUSE_DEVICE(obj);
+     DeviceClass *dc = DEVICE_CLASS(oc);
++    ResettableClass *rc = RESETTABLE_CLASS(oc);
+     MOS6522DeviceClass *mdc = MOS6522_CLASS(oc);
  
-     trace_ps2_mouse_reset(s);
--    ps2dc->parent_reset(dev);
-+
-+    if (ps2dc->parent_phases.hold) {
-+        ps2dc->parent_phases.hold(obj);
-+    }
- 
-     s->mouse_status = 0;
-     s->mouse_resolution = 0;
-@@ -1245,10 +1251,12 @@ static void ps2_mouse_realize(DeviceState *dev, Error **errp)
- static void ps2_kbd_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-     PS2DeviceClass *ps2dc = PS2_DEVICE_CLASS(klass);
- 
-     dc->realize = ps2_kbd_realize;
--    device_class_set_parent_reset(dc, ps2_kbd_reset, &ps2dc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, ps2_kbd_reset_hold, NULL,
-+                                       &ps2dc->parent_phases);
-     dc->vmsd = &vmstate_ps2_keyboard;
- }
- 
-@@ -1262,11 +1270,12 @@ static const TypeInfo ps2_kbd_info = {
- static void ps2_mouse_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-     PS2DeviceClass *ps2dc = PS2_DEVICE_CLASS(klass);
- 
-     dc->realize = ps2_mouse_realize;
--    device_class_set_parent_reset(dc, ps2_mouse_reset,
--                                  &ps2dc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, ps2_mouse_reset_hold, NULL,
-+                                       &ps2dc->parent_phases);
-     dc->vmsd = &vmstate_ps2_mouse;
- }
- 
+-    dc->reset = mos6522_reset;
++    rc->phases.hold = mos6522_reset_hold;
+     dc->vmsd = &vmstate_mos6522;
+     device_class_set_props(dc, mos6522_properties);
+     mdc->portB_write = mos6522_portB_write;
 -- 
 2.25.1
 
