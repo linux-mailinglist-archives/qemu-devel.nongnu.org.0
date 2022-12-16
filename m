@@ -2,66 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC15D64E8C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 10:42:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 402BB64E8F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 10:55:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p67Dg-0003lr-VA; Fri, 16 Dec 2022 04:41:33 -0500
+	id 1p67PR-00081N-PA; Fri, 16 Dec 2022 04:53:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p67DY-0003jo-Lj
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 04:41:24 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p67PQ-00080j-2y
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 04:53:40 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1p67DW-0002a5-LS
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 04:41:24 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1p67PN-0006Ul-Nx
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 04:53:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671183681;
+ s=mimecast20190719; t=1671184416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k9+jiPpaZWmBBlPFPnbEbSvfotYw+WjSeCrihJyjWu8=;
- b=WxmNMhWs35qB65vru/v7T/j8dTYAwLJlw4OAYYp2EIhXTzDR4TOFRxSckfAdgL4DbVTkI4
- XLzYfw9N1QaLVEHWonJlz0lAf160z9j9fUlu8fyY6OiaMCKv5+OBFjYVSNAGwqSvvZdoYY
- VQRlfG1cVRUATPER/U2USQB933eGXzI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-bZIFpoPbNeC5ujpwiVFf9A-1; Fri, 16 Dec 2022 04:41:17 -0500
-X-MC-Unique: bZIFpoPbNeC5ujpwiVFf9A-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 20BF818A6461;
- Fri, 16 Dec 2022 09:41:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52FDB483EC4;
- Fri, 16 Dec 2022 09:41:16 +0000 (UTC)
-Date: Fri, 16 Dec 2022 10:41:14 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, afaria@redhat.com, qemu-block@nongnu.org
-Subject: Re: [PATCH 2/2] block: Add no_coroutine_fn and coroutine_mixed_fn
- marker
-Message-ID: <Y5w9OoGutN1YaW4J@redhat.com>
-References: <20221215174407.500414-1-pbonzini@redhat.com>
- <20221215174407.500414-3-pbonzini@redhat.com>
+ bh=iQ5juvDY8QXoveNQB37fh+xpnmsAzjIphC/Nhq8m/tY=;
+ b=aNJCqocqULrVh213op+yFKkQLST7FMR+c2BiIBlD6S/JKsoTAtXYJwMV+R7w6zUIdvK4H/
+ SMDz2CI28oWf5gMZN5qDcr3nYRfaAMSkjhS0GSJYVMiK2jTDua22X603kpo/FD3l3AiXB4
+ 0k4leE/CNvFbLfBz+vPj+kw1/zkpq/o=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-85-H7i-r_YOOmWkToqLtb0gSg-1; Fri, 16 Dec 2022 04:53:34 -0500
+X-MC-Unique: H7i-r_YOOmWkToqLtb0gSg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ xc12-20020a170907074c00b007416699ea14so1459664ejb.19
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 01:53:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iQ5juvDY8QXoveNQB37fh+xpnmsAzjIphC/Nhq8m/tY=;
+ b=Act68igiYgXRMV5Xr9sFyTkG0f1I5781CA5ROY41BzDSvOdALGGJdDRbKD8Q5KId7z
+ 5IUkrO8AYIiUakEUQStUd1PZbXc/fcT3QuLi3IRVtgn0icyJx10NTM4ja1QnygJrM8/T
+ vO86I76jkj9obiHcmrorrzaUZw2UpkYgt27Y8EBL9yR7w1OfbUXQSFQHF0RjsV6Fv5OR
+ wPMshWLS8qB8qLiSD4xia2ZQv8C9wh6EsKXpHcC+dcoMmpmMwLgtVzNOSJXk68jH6o4M
+ 78qPPb5xWPZr+J7HGhbFaAnE21sXRP7Buc3tDA4BJmD5b3/deOQfnUT1E1VJXNxBNxJZ
+ IJPw==
+X-Gm-Message-State: ANoB5pn9aJR5W2dMoEBl2ErehUYS5m2Jve5sp0mslMr8i1hrvV9t2Rhz
+ i+R2L6N4lLxNOrYkQdfDpNITsNhwh3mtTLKhhX/+Uz2Yi9iw3qAzDnlgCataP0Ku3lhR8hpKCbk
+ bdRMbjrC4sj1iV9Z+unPdFwiwF+uK4Yg=
+X-Received: by 2002:a17:906:af8c:b0:7c1:e7b:1a6e with SMTP id
+ mj12-20020a170906af8c00b007c10e7b1a6emr12038585ejb.185.1671184413085; 
+ Fri, 16 Dec 2022 01:53:33 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6y/nef04FmmgCgBHGvnFaTH+nqZnj06eyixWmoZu6VVou6+oD6qrr476NRN1W/Q5fpd4Vq/VmOtLE2Z0fTAes=
+X-Received: by 2002:a17:906:af8c:b0:7c1:e7b:1a6e with SMTP id
+ mj12-20020a170906af8c00b007c10e7b1a6emr12038574ejb.185.1671184412795; Fri, 16
+ Dec 2022 01:53:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221215174407.500414-3-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+References: <20221215113144.322011-1-eperezma@redhat.com>
+ <20221215113144.322011-7-eperezma@redhat.com>
+ <CACGkMEtE_6nci5zwQZbOMbu3e9gh4aa_88WjTgkWkjKqQBB3Zw@mail.gmail.com>
+In-Reply-To: <CACGkMEtE_6nci5zwQZbOMbu3e9gh4aa_88WjTgkWkjKqQBB3Zw@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 16 Dec 2022 10:52:56 +0100
+Message-ID: <CAJaqyWcxeuOiHYBb_ftedSrJpNpN9vQJ2sZZ_5cZh4RsQSdgVQ@mail.gmail.com>
+Subject: Re: [PATCH v9 06/12] vdpa: request iova_range only once
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, 
+ Eli Cohen <eli@mellanox.com>, Cornelia Huck <cohuck@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Longpeng <longpeng2@huawei.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Parav Pandit <parav@mellanox.com>,
+ kvm@vger.kernel.org, virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,133 +105,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 15.12.2022 um 18:44 hat Paolo Bonzini geschrieben:
-> From: Alberto Faria <afaria@redhat.com>
-> 
-> Add more annotations to functions, describing valid and invalid
-> calls from coroutine to non-coroutine context.
-> 
-> When applied to a function, no_coroutine_fn advertises that it should
-> not be called from coroutine_fn functions.  This can be because the
-> function blocks or, in the case of generated_co_wrapper, to enforce
-> that coroutine_fn functions directly call the coroutine_fn that backs
-> the generated_co_wrapper.
-> 
-> coroutine_mixed_fn instead is for function that can be called in
-> both coroutine and non-coroutine context, but will suspend when
-> called in coroutine context.  Annotating them is a first step
-> towards enforcing that non-annotated functions are absolutely
-> not going to suspend.
-> 
-> These can be used for example with the vrc tool from
-> https://github.com/bonzini/vrc:
-> 
->     # find functions that *really* cannot be called from no_coroutine_fn
->     (vrc) load --loader clang libblock.fa.p/meson-generated_.._block_block-gen.c.o
->     # The comma is an "AND".  The "path" here consists of a single node
->     (vrc) paths [no_coroutine_fn,!coroutine_mixed_fn]
->     bdrv_remove_persistent_dirty_bitmap
->     bdrv_create
->     bdrv_can_store_new_dirty_bitmap
-> 
->     # find how coroutine_fns end up calling a mixed function
->     (vrc) load --loader clang --force libblock.fa.p/*.c.o
->     # regular expression search
->     (vrc) paths [coroutine_fn] [!no_coroutine_fn]* [coroutine_mixed_fn]
->     ...
->     bdrv_pread <- vhdx_log_write <- vhdx_log_write_and_flush <- vhdx_co_writev
->     ...
-> 
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
-> [Rebase, add coroutine_mixed_fn. - Paolo]
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/block/block-common.h | 11 +++++++----
->  include/qemu/coroutine.h     | 33 +++++++++++++++++++++++++++++++++
->  2 files changed, 40 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/block/block-common.h b/include/block/block-common.h
-> index 4749c46a5e7e..cce79bd00135 100644
-> --- a/include/block/block-common.h
-> +++ b/include/block/block-common.h
-> @@ -50,11 +50,14 @@
->   * - co_wrapper_mixed_bdrv_rdlock are co_wrapper_mixed functions but
->   *   automatically take and release the graph rdlock when creating a new
->   *   coroutine.
-> + *
-> + * These functions should not be called from a coroutine_fn; instead,
-> + * call the wrapped function directly.
->   */
-> -#define co_wrapper
-> -#define co_wrapper_mixed
-> -#define co_wrapper_bdrv_rdlock
-> -#define co_wrapper_mixed_bdrv_rdlock
-> +#define co_wrapper                     no_coroutine_fn
-> +#define co_wrapper_mixed               no_coroutine_fn coroutine_mixed_fn
-> +#define co_wrapper_bdrv_rdlock         no_coroutine_fn
-> +#define co_wrapper_mixed_bdrv_rdlock   no_coroutine_fn coroutine_mixed_fn
->  
->  #include "block/dirty-bitmap.h"
->  #include "block/blockjob.h"
-> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-> index b0c97f6fb7ad..5f5ab8136a3a 100644
-> --- a/include/qemu/coroutine.h
-> +++ b/include/qemu/coroutine.h
-> @@ -28,6 +28,27 @@
->   * These functions are re-entrant and may be used outside the global mutex.
->   */
->  
-> +/**
-> + * Mark a function that can suspend when executed in coroutine context,
-> + * but can handle running in non-coroutine context too.
-> + *
-> + * Functions that execute in coroutine context cannot be called directly from
-> + * normal functions.  In the future it would be nice to enable compiler or
-> + * static checker support for catching such errors.  This annotation might make
-> + * it possible and in the meantime it serves as documentation.
-> + *
-> + * For example:
-> + *
-> + *   static void coroutine_fn foo(void) {
+On Fri, Dec 16, 2022 at 8:29 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Thu, Dec 15, 2022 at 7:32 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
+wrote:
+> >
+> > Currently iova range is requested once per queue pair in the case of
+> > net. Reduce the number of ioctls asking it once at initialization and
+> > reusing that value for each vhost_vdpa.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  hw/virtio/vhost-vdpa.c | 15 ---------------
+> >  net/vhost-vdpa.c       | 27 ++++++++++++++-------------
+> >  2 files changed, 14 insertions(+), 28 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 691bcc811a..9b7f4ef083 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -365,19 +365,6 @@ static int vhost_vdpa_add_status(struct vhost_dev =
+*dev, uint8_t status)
+> >      return 0;
+> >  }
+> >
+> > -static void vhost_vdpa_get_iova_range(struct vhost_vdpa *v)
+> > -{
+> > -    int ret =3D vhost_vdpa_call(v->dev, VHOST_VDPA_GET_IOVA_RANGE,
+> > -                              &v->iova_range);
+> > -    if (ret !=3D 0) {
+> > -        v->iova_range.first =3D 0;
+> > -        v->iova_range.last =3D UINT64_MAX;
+> > -    }
+> > -
+> > -    trace_vhost_vdpa_get_iova_range(v->dev, v->iova_range.first,
+> > -                                    v->iova_range.last);
+> > -}
+> > -
+> >  /*
+> >   * The use of this function is for requests that only need to be
+> >   * applied once. Typically such request occurs at the beginning
+> > @@ -465,8 +452,6 @@ static int vhost_vdpa_init(struct vhost_dev *dev, v=
+oid *opaque, Error **errp)
+> >          goto err;
+> >      }
+> >
+> > -    vhost_vdpa_get_iova_range(v);
+> > -
+> >      if (!vhost_vdpa_first_dev(dev)) {
+> >          return 0;
+> >      }
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index 2c0ff6d7b0..b6462f0192 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -541,14 +541,15 @@ static const VhostShadowVirtqueueOps vhost_vdpa_n=
+et_svq_ops =3D {
+> >  };
+> >
+> >  static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+> > -                                           const char *device,
+> > -                                           const char *name,
+> > -                                           int vdpa_device_fd,
+> > -                                           int queue_pair_index,
+> > -                                           int nvqs,
+> > -                                           bool is_datapath,
+> > -                                           bool svq,
+> > -                                           VhostIOVATree *iova_tree)
+> > +                                       const char *device,
+> > +                                       const char *name,
+> > +                                       int vdpa_device_fd,
+> > +                                       int queue_pair_index,
+> > +                                       int nvqs,
+> > +                                       bool is_datapath,
+> > +                                       bool svq,
+> > +                                       struct vhost_vdpa_iova_range io=
+va_range,
+> > +                                       VhostIOVATree *iova_tree)
+>
+> Nit: it's better not mix style changes.
+>
 
-s/coroutine_fn/coroutine_mixed_fn/
+The style changes are because the new parameter is longer than 80
+characters, do you prefer me to send a previous patch reducing
+indentation?
 
-> + *       ....
-> + *   }
-> + */
-> +#ifdef __clang__
-> +#define coroutine_mixed_fn __attribute__((__annotate__("coroutine_mixed_fn")))
-> +#else
-> +#define coroutine_mixed_fn
-> +#endif
-> +
->  /**
->   * Mark a function that executes in coroutine context
->   *
-> @@ -48,6 +69,18 @@
->  #define coroutine_fn
->  #endif
->  
-> +/**
-> + * Mark a function that should never be called from a coroutine context
+Thanks!
 
-Maybe this could be phrased better, because coroutine_mixed_fn are
-functions that are specifically meant to be called from ambiguous
-context, which of course includes coroutine context.
-
-Something like "...when the caller knows that it is in coroutine
-context"?
-
-> + * This typically means that there is an analogous, coroutine_fn function that
-> + * should be used instead.
-> + */
-> +#ifdef __clang__
-> +#define no_coroutine_fn __attribute__((__annotate__("no_coroutine_fn")))
-> +#else
-> +#define no_coroutine_fn
-> +#endif
-> +
-
-Kevin
+> Other than this:
+>
+> Acked-by: Jason Wang <jasonwang@redhat.com>
+>
+> Thanks
+>
+> >  {
+> >      NetClientState *nc =3D NULL;
+> >      VhostVDPAState *s;
+> > @@ -567,6 +568,7 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
+tState *peer,
+> >      s->vhost_vdpa.device_fd =3D vdpa_device_fd;
+> >      s->vhost_vdpa.index =3D queue_pair_index;
+> >      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
+> > +    s->vhost_vdpa.iova_range =3D iova_range;
+> >      s->vhost_vdpa.iova_tree =3D iova_tree;
+> >      if (!is_datapath) {
+> >          s->cvq_cmd_out_buffer =3D qemu_memalign(qemu_real_host_page_si=
+ze(),
+> > @@ -646,6 +648,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
+ char *name,
+> >      int vdpa_device_fd;
+> >      g_autofree NetClientState **ncs =3D NULL;
+> >      g_autoptr(VhostIOVATree) iova_tree =3D NULL;
+> > +    struct vhost_vdpa_iova_range iova_range;
+> >      NetClientState *nc;
+> >      int queue_pairs, r, i =3D 0, has_cvq =3D 0;
+> >
+> > @@ -689,14 +692,12 @@ int net_init_vhost_vdpa(const Netdev *netdev, con=
+st char *name,
+> >          return queue_pairs;
+> >      }
+> >
+> > +    vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
+> >      if (opts->x_svq) {
+> > -        struct vhost_vdpa_iova_range iova_range;
+> > -
+> >          if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
+> >              goto err_svq;
+> >          }
+> >
+> > -        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
+> >          iova_tree =3D vhost_iova_tree_new(iova_range.first, iova_range=
+.last);
+> >      }
+> >
+> > @@ -705,7 +706,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
+ char *name,
+> >      for (i =3D 0; i < queue_pairs; i++) {
+> >          ncs[i] =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+> >                                       vdpa_device_fd, i, 2, true, opts-=
+>x_svq,
+> > -                                     iova_tree);
+> > +                                     iova_range, iova_tree);
+> >          if (!ncs[i])
+> >              goto err;
+> >      }
+> > @@ -713,7 +714,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
+ char *name,
+> >      if (has_cvq) {
+> >          nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+> >                                   vdpa_device_fd, i, 1, false,
+> > -                                 opts->x_svq, iova_tree);
+> > +                                 opts->x_svq, iova_range, iova_tree);
+> >          if (!nc)
+> >              goto err;
+> >      }
+> > --
+> > 2.31.1
+> >
+>
 
 
