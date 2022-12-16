@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7376964F19C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 20:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBB064F19B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 20:15:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6FqK-0000kU-73; Fri, 16 Dec 2022 13:54:00 -0500
+	id 1p6G3p-0005sz-Cb; Fri, 16 Dec 2022 14:07:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6Fq8-0000hC-9j
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:53:52 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6Fq5-0003Id-Pl
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:53:47 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id u5so3357890pjy.5
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 10:53:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+vlIhK8RBdnajCC8bpvbYLAUqtt9KGeNEpdZJB0XJn4=;
- b=SKR0xnXFoJPP3MVlyXAHYu/uwyHqj62PcsVrkLddyiWb3NaAUUyiq23vDWF0aZgbgy
- 8B4YUPGNP5L3VCYEO7sqCBWuos/cRMKDgg5SaNGMFJKA8XlvLhFf2mtBabHKzoj0a17X
- M7C5wPBWMABa73BvwjuPsLzaIzlI6NDNxAtIuS8aaq+CZFVknhBjVsaztqKaiztHo/XO
- VU5S2TWPgHir+6zMA+tvNPBxSXxfEg7ewrR7DiY24mvbypJxs+BxfgLEytVfvpnqFKkU
- ABN2bNpfXzH8/gi5uZOKMBiMvH1X4xg/0xrQiGrzkH2e8djasO2dXCWc0wix1ty4nqrw
- NQpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+vlIhK8RBdnajCC8bpvbYLAUqtt9KGeNEpdZJB0XJn4=;
- b=GgkGPMJZztIwEodTXLJyDWzqry44u/bDcINZyf+rZhAWcB6K3wehBm3gnAqKEhJeAm
- saUHjQqfbx3wiRO2Ve2IF9hLnPsncOxoZYanNHccpcrOiCVMt8fFH0ZoSSawNO1bNlCc
- +Oi6xdUIT20Xu9c0VYD+MogLBrazh323xUK9srZn6+ja8o6sUBgYDgK1x3mQiUFqDuAp
- i6uUjnRn0ADf/V3/WwHQJ3Zl84ED1EnoNZ+Z+0qN+sdPWsrSBes/bIj3MjG/zOdzxSp1
- 3H7SXQ+9R98O4YxjvZoE5rA1I8DztYjt+xh8jMNHfMj33SXFqQwh36ewCEsoAljMVSr+
- CHBg==
-X-Gm-Message-State: ANoB5pn/FBkExV2/AqaMrbPK8e9/M2mGhp3lPF6e966It7UKm/g8d2ep
- BSiYJKsGX0ssfFnBOPrN5tfzn5WlQ9VDpOyQ
-X-Google-Smtp-Source: AA0mqf4qtnYpJy48brJA+pil1vPx9feYC/+7/ejk03FRpiEWYBjkShiASnNyVRUDxBT8Pk1BML5twg==
-X-Received: by 2002:a05:6a20:4f10:b0:ad:b91d:9873 with SMTP id
- gi16-20020a056a204f1000b000adb91d9873mr22392930pzb.33.1671216824376; 
- Fri, 16 Dec 2022 10:53:44 -0800 (PST)
-Received: from stoup.. ([2602:47:d48c:8101:c606:9489:98df:6a3b])
- by smtp.gmail.com with ESMTPSA id
- 13-20020a630b0d000000b0046ff3634a78sm1761300pgl.71.2022.12.16.10.53.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 10:53:38 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 13/13] accel/tcg: Restrict page_collection structure to system
- TB maintainance
-Date: Fri, 16 Dec 2022 10:53:05 -0800
-Message-Id: <20221216185305.3429913-14-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221216185305.3429913-1-richard.henderson@linaro.org>
-References: <20221216185305.3429913-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p6G3m-0005sE-EH
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:07:54 -0500
+Received: from mout.gmx.net ([212.227.15.15])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p6G3k-0006VU-2J
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:07:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1671217661; bh=femJzT7zcPLf2Wj3S1y7f4w2ldHg5BfbVH5cYqLpyvo=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=AMSPq4h+HD9KEmtofEyK8EnBkz9ARYvbstBMWlqJwNcGXjq/h7asHLApFPL7Uf4q4
+ yCNwE5bhoWEdMFhXNb+/Iex53T6jJOMd1aW29TD34q6Aj70mLkdCMnb+jcr00wtUVJ
+ T4c6106kj+RxwhVwBrimj92jD6dKaYkseFNsiWzAhfh71/yYmU3dY2NE9lUdRVedbn
+ 1DxQIfYvCch4iOvs+3xJOi626CLAEgz4ehSHYo5Pc73rfhizYgzRCGxyJX27VI08jR
+ fv2jx7V3psNlG6zol1zAHSP7UJOXX35RmZSvszWc3OkC2//g3j3WoygQtfNQTdLy4D
+ u+YFQFHB20oXA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100 ([92.116.155.237]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mulm5-1opHIs2zBr-00rlYL; Fri, 16
+ Dec 2022 20:07:41 +0100
+Date: Fri, 16 Dec 2022 20:07:39 +0100
+From: Helge Deller <deller@gmx.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
+Cc: Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH] meson: Clean up some dependencies regarding qemu-system
+Message-ID: <Y5zB+5t5K0AEj6Rn@p100>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:5Xz0iRWYCmMJ2hRWlmM3M6gVoWOR4j5E4gVzLkZnybMWQseVDke
+ u1BWRw/QhxnsUmvvc+ECEYrOrsOexfP3hbI5Rxv579BJeof7c22FNA69Sis9d4d39o82IFr
+ QfuQAV9LV5UE/FOL1mYZUkxBmM4197QlWHH90cxLEzMZyRzwzmfGr8MtVkp3PxNovUykVnQ
+ y2l9ERRMsAF+Bz1ix6FDA==
+UI-OutboundReport: notjunk:1;M01:P0:w29gsSE7y00=;sx+BVMNd3uuvBrcfBQyG7nePlkt
+ 6joycMzWqLY5+oNV37LuT3f9DbPOHZzapLNoalf1lHtSJqoaHQxtkZQ57MhGYTjHBj8qTbnkq
+ e8+/cqzEVZDj79R67nFBFKW5mwnJewpDAp68mwP48U9GJd02AdAPDmCNZEn/dIrUy7+6CMTpz
+ GZgiATkYB+q2nOQt6vU5OprcFH9kTMBliK3LVZFAxNERjoCfIo5WUYyDccAuGR63nwCn7VMmO
+ ba4UHwSEBl7JrI0jSYvG5k7UecSAdNSRQMncTR9dwVe/HMpz1YyI254cwQu6ZU7eoIGz1IEnN
+ 9fwzFv6LDaIkLqZq2UYcj8k6FfBKlyz3QWiTIK84UvOuEGQk2kBMPDrkzcIR63S0HrORApVCe
+ pRTyxXeZUYr6ElYiA6k25q5/+uFkUrK/nVq9KKxoa5GEUFl16RllOEdIr+r0CyeYjGMCoqHBl
+ +MEFSCIjxr+faoDNKH0XjnEhQLQA1lvHfdaE/sbNn4hxIpVeoNClBvt1EFQQ4yz6k9vC1p0FS
+ psQW7e7RqOgSugIHw6I7TT1EUrY05Srku0iQ32hUz3HKA+q21m63FMa+5wwfK2mAwA74SBvqY
+ r3I9At9hjHHbZkleFaE4vAFLnfIK0M5wm6NoYwWupv/BQlgQ/cYuV3umhK42ifG+z+OcqBEYn
+ GA8etqX3KjxCAkeThbS9nzcoJM9veyrw2pV8IfZHaYMCrzqvL4v/K76gcodRv2G+ZHJv8oJer
+ nYtpmmRJnC0bIgFaOLp4f5zqiAwo+W8Jvd4aFOiW0wGQca0rZUB0TfV7uOptmxerd4QP9qd3B
+ r4ISsYzweXHVRTLY7DFkLRVXDBL8bb/ZLKeA+bVCMECwfDuoJ2MXJX279vs8VlscrNe1XiPy6
+ rJYGte3N7+Egr8oinvVX/S1b6ZU2fMpHxB+1L0+tjcQ2dtNfeovmfMCggN3s6wG3A3N5dG9vg
+ kt8E0d7Ze4LuqKmYL41nfQyJQts=
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,93 +83,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reduce amount of compiled code and installed binaries if just the qemu
+utilities such as qemu-img, qemu-io and qemu-nbd have to be built.  This
+helps to make those tools easier available on hosts where qemu-system or
+qemu-user isn't supported.
 
-Only the system emulation part of TB maintainance uses the
-page_collection structure. Restrict its declaration (and the
-functions requiring it) to tb-maint.c.
+Reason for this patch is that qemu fail to build on debian for some
+seconday non-release architectures (e.g. hppa, sh4, ia64), as can be
+seen here:
+https://buildd.debian.org/status/package.php?p=3Dqemu&suite=3Dsid
+This patch helps to clean up the build so that these tools
+can be provided on those platforms in future.
 
-Convert the 'len' argument of tb_invalidate_phys_page_fast__locked()
-from signed to unsigned.
+Signed-off-by: Helge Deller <deller@gmx.de>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221209093649.43738-6-philmd@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/internal.h |  7 -------
- accel/tcg/tb-maint.c | 15 +++++++--------
- 2 files changed, 7 insertions(+), 15 deletions(-)
+diff --git a/docs/meson.build b/docs/meson.build
+index 9136fed3b7..cfbde168b7 100644
+=2D-- a/docs/meson.build
++++ b/docs/meson.build
+@@ -49,7 +49,7 @@ if build_docs
+         'qemu-trace-stap.1': (stap.found() ? 'man1' : ''),
+         'virtfs-proxy-helper.1': (have_virtfs_proxy_helper ? 'man1' : '')=
+,
+         'virtiofsd.1': (have_virtiofsd ? 'man1' : ''),
+-        'qemu.1': 'man1',
++        'qemu.1': (have_system ? 'man1' : ''),
+         'qemu-block-drivers.7': 'man7',
+         'qemu-cpu-models.7': 'man7'
+   }
+diff --git a/meson.build b/meson.build
+index 5c6b5a1c75..fe4c9c83bb 100644
+=2D-- a/meson.build
++++ b/meson.build
+@@ -3021,7 +3021,6 @@ subdir('util')
+ subdir('qom')
+ subdir('authz')
+ subdir('crypto')
+-subdir('ui')
+ subdir('hw')
+ subdir('gdbstub')
 
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index 8f8c44d06b..6edff16fb0 100644
---- a/accel/tcg/internal.h
-+++ b/accel/tcg/internal.h
-@@ -36,16 +36,9 @@ void page_table_config_init(void);
- #endif
- 
- #ifdef CONFIG_SOFTMMU
--struct page_collection;
--void tb_invalidate_phys_page_fast__locked(struct page_collection *pages,
--                                          tb_page_addr_t start, int len,
--                                          uintptr_t retaddr);
--struct page_collection *page_collection_lock(tb_page_addr_t start,
--                                             tb_page_addr_t end);
- void tb_invalidate_phys_range_fast(ram_addr_t ram_addr,
-                                    unsigned size,
-                                    uintptr_t retaddr);
--void page_collection_unlock(struct page_collection *set);
- G_NORETURN void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
- #endif /* CONFIG_SOFTMMU */
- 
-diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
-index d557013f00..1b8e860647 100644
---- a/accel/tcg/tb-maint.c
-+++ b/accel/tcg/tb-maint.c
-@@ -513,8 +513,8 @@ static gint tb_page_addr_cmp(gconstpointer ap, gconstpointer bp, gpointer udata)
-  * intersecting TBs.
-  * Locking order: acquire locks in ascending order of page index.
-  */
--struct page_collection *
--page_collection_lock(tb_page_addr_t start, tb_page_addr_t end)
-+static struct page_collection *page_collection_lock(tb_page_addr_t start,
-+                                                    tb_page_addr_t end)
- {
-     struct page_collection *set = g_malloc(sizeof(*set));
-     tb_page_addr_t index;
-@@ -558,7 +558,7 @@ page_collection_lock(tb_page_addr_t start, tb_page_addr_t end)
-     return set;
- }
- 
--void page_collection_unlock(struct page_collection *set)
-+static void page_collection_unlock(struct page_collection *set)
- {
-     /* entries are unlocked and freed via page_entry_destroy */
-     g_tree_destroy(set->tree);
-@@ -1186,9 +1186,9 @@ void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
- /*
-  * Call with all @pages in the range [@start, @start + len[ locked.
-  */
--void tb_invalidate_phys_page_fast__locked(struct page_collection *pages,
--                                          tb_page_addr_t start, int len,
--                                          uintptr_t retaddr)
-+static void tb_invalidate_phys_page_fast__locked(struct page_collection *pages,
-+                                                 tb_page_addr_t start,
-+                                                 unsigned len, uintptr_t ra)
- {
-     PageDesc *p;
- 
-@@ -1198,8 +1198,7 @@ void tb_invalidate_phys_page_fast__locked(struct page_collection *pages,
-     }
- 
-     assert_page_locked(p);
--    tb_invalidate_phys_page_range__locked(pages, p, start, start + len,
--                                          retaddr);
-+    tb_invalidate_phys_page_range__locked(pages, p, start, start + len, ra);
- }
- 
- /*
--- 
-2.34.1
+@@ -3060,9 +3059,10 @@ if have_system or have_user
+                          arguments: ['@INPUT@', '@EXTRA_ARGS@', '-o', '@O=
+UTPUT@'])
+   subdir('libdecnumber')
+   subdir('target')
++  subdir('ui')
++  subdir('audio')
+ endif
 
+-subdir('audio')
+ subdir('io')
+ subdir('chardev')
+ subdir('fsdev')
+@@ -3581,7 +3581,7 @@ subdir('qga')
+
+ # Don't build qemu-keymap if xkbcommon is not explicitly enabled
+ # when we don't build tools or system
+-if xkbcommon.found()
++if xkbcommon.found() and have_system
+   # used for the update-keymaps target, so include rules even if !have_to=
+ols
+   qemu_keymap =3D executable('qemu-keymap', files('qemu-keymap.c', 'ui/in=
+put-keymap.c') + genh,
+                            dependencies: [qemuutil, xkbcommon], install: =
+have_tools)
+@@ -3596,7 +3596,9 @@ if have_tools
+                dependencies: [blockdev, qemuutil, gnutls, selinux],
+                install: true)
+
+-  subdir('storage-daemon')
++  if have_system
++    subdir('storage-daemon')
++  endif
+   subdir('contrib/rdmacm-mux')
+   subdir('contrib/elf2dmp')
+
+@@ -3611,7 +3613,7 @@ if have_tools
+     subdir('contrib/vhost-user-scsi')
+   endif
+
+-  if targetos =3D=3D 'linux'
++  if targetos =3D=3D 'linux' and have_system
+     executable('qemu-bridge-helper', files('qemu-bridge-helper.c'),
+                dependencies: [qemuutil, libcap_ng],
+                install: true,
+diff --git a/qapi/meson.build b/qapi/meson.build
+index fbdb442fdf..4a499db441 100644
+=2D-- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -51,12 +51,12 @@ qapi_all_modules =3D [
+   'transaction',
+   'virtio',
+   'yank',
++  'qdev',
+ ]
+ if have_system
+   qapi_all_modules +=3D [
+     'acpi',
+     'audio',
+-    'qdev',
+     'pci',
+     'rdma',
+     'rocker',
+diff --git a/tests/meson.build b/tests/meson.build
+index 8e318ec513..a63a7de9f0 100644
+=2D-- a/tests/meson.build
++++ b/tests/meson.build
+@@ -1,5 +1,7 @@
+ subdir('bench')
+-subdir('qemu-iotests')
++if have_system
++  subdir('qemu-iotests')
++endif
+
+ test_qapi_outputs =3D [
+   'qapi-builtin-types.c',
+diff --git a/tools/meson.build b/tools/meson.build
+index 10eb3a043f..740d572a94 100644
+=2D-- a/tools/meson.build
++++ b/tools/meson.build
+@@ -5,7 +5,7 @@ have_virtiofsd =3D get_option('virtiofsd') \
+              error_message: 'virtiofsd requires libcap-ng-devel and secco=
+mp-devel') \
+     .require(have_vhost_user,
+              error_message: 'virtiofsd needs vhost-user-support') \
+-    .disable_auto_if(not have_tools and not have_system) \
++    .disable_auto_if(not have_system) \
+     .allowed()
+
+ if have_virtiofsd
 
