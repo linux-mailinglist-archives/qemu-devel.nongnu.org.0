@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73D764E9D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 11:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B449B64E9FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:07:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p68Nv-0001sT-1J; Fri, 16 Dec 2022 05:56:11 -0500
+	id 1p68XW-0003jt-5I; Fri, 16 Dec 2022 06:06:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p68Ns-0001ru-Sy
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:56:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p68Nq-00078x-0K
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:56:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671188164;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=So1p5OZDyth9DOZWmbRX6byh2/fjxPrrkqCjdDaAC2w=;
- b=HeNTRQPwiMZvJoFi0syQJucWGCX9ItXf5J9I8DSojn2WUi6fydeBtCHYzoWZr7K3h8TAol
- NnlBxQE3HC/so8MMxqDNEMUB+yJADQBBV2kyGh2QFSJvp1186SNC3AwlPjdVwlb8NQQbXo
- jIADhQi/2BqIXWtuWg9+94ZzMqJDNig=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543-PRjU0itiOGqqXCxzkM-bTg-1; Fri, 16 Dec 2022 05:56:00 -0500
-X-MC-Unique: PRjU0itiOGqqXCxzkM-bTg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5311D858F09;
- Fri, 16 Dec 2022 10:56:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E1A36C15BA0;
- Fri, 16 Dec 2022 10:55:58 +0000 (UTC)
-Date: Fri, 16 Dec 2022 10:55:55 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Antoine Damhet <antoine.damhet@shadow.tech>
-Cc: qemu-devel@nongnu.org, vm@shadow.tech,
- Charles Frey <charles.frey@shadow.tech>
-Subject: Re: [PATCH 2/2] io/channel-tls: fix handling of bigger read buffers
-Message-ID: <Y5xOu/GNQd6llXBt@redhat.com>
-References: <20221115142329.92524-1-antoine.damhet@shadow.tech>
- <20221115142329.92524-3-antoine.damhet@shadow.tech>
- <Y3TA5LLIZFVHrNBM@redhat.com>
- <20221216103803.y3xse3axbqdfl7r7@cole.xdbob.net>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p68XT-0003jV-KG
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:06:03 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p68XQ-0001qq-VV
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:06:03 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ w4-20020a17090ac98400b002186f5d7a4cso5755089pjt.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 03:05:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TNN1Lwj9oUu+SRPkrk8oHxVGSEWLKpNEs9hevHnxj7o=;
+ b=Y4viZyI7R3weTKutbIsm5AbIDGieJdaxQei98ZfMvnUk463SJYj8t/wJqYLpAwsCPj
+ Iq17ITYehvtaS5Q10Sdy4Lz9jaZIM993rkxPr7rH0SGXsZWKx29/AmuNv/fruNhJ9Bs5
+ 4wpy3/iDo3Y9/CLah6Qptb/JHo/LHZJjoYZSYW74FDQAkx2kycfU5+05p7IqTKytlSmI
+ RYKsnE3OdF7xLpd9I1uKmuIZJ2StA1AJRAunDk0B6EGOeQ745zsG1FKfQOSKYnf4eV4/
+ cMKKEPAaU56mM2R24/pxggofDKsvk2ckz+do8yPGKg6ujLiTgCpFq2R6649voY0Xg6d6
+ vC+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TNN1Lwj9oUu+SRPkrk8oHxVGSEWLKpNEs9hevHnxj7o=;
+ b=uRePl64XpuAEyvfbYWD5sU1NuzZLL7wX39R/ilg6g/voejIMYpOQcpB3ohrqXkx2f4
+ PJGvqMR7i8QuNr4grl5cklBZTSq/1ZAUcnSCniqNucZgWC+pHH8s5gDNIcXe88IUYz7w
+ arGO8Me9L83TEXkP69DEVQD8qD5WzH0Tjr9jVdSs1w8kJ1SaYVJUJcSLvQcdfj/9hGQI
+ pEv9OQhyInDdNZm9vPkzoQUe4hgrfdjis9muu8Qifg9m0Gw56u1CcjhquON2HZPWuZ91
+ CxbzAShGU1WXIP31gMFCAhkH5frYbbF0fSnPNlzWgbuClob2pRKNo2e95DgMcZF5XaKQ
+ AAcA==
+X-Gm-Message-State: ANoB5pkYyWDqm1gC64sX5jKDQMbKIEuj3dtL9Cj7sTKFlgLO94wEyR95
+ RGpUxp7iEmQ7wslu8UBiFKX57eJUPO6GwzGwJ0ld5g==
+X-Google-Smtp-Source: AA0mqf7tEDLj7U77+VWnixo61t1bkclYRjwXYNCCNFxVfO8ZtfuRtrFCwzMefPwrEMBHITWUDlRg6HffcYM1XULMqnc=
+X-Received: by 2002:a17:902:70c5:b0:189:b0a3:cf4a with SMTP id
+ l5-20020a17090270c500b00189b0a3cf4amr36592323plt.60.1671188758418; Fri, 16
+ Dec 2022 03:05:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221216103803.y3xse3axbqdfl7r7@cole.xdbob.net>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221216101234.2202009-1-kraxel@redhat.com>
+ <20221216101234.2202009-2-kraxel@redhat.com>
+In-Reply-To: <20221216101234.2202009-2-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 16 Dec 2022 11:05:46 +0000
+Message-ID: <CAFEAcA8Sfft6hB2hRyht9vRg3xYq3kTWjqd4s2GreYZqH3O3=Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/arm: allow flash images being smaller than the
+ available space
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Kashyap Chamarthy <kchamart@redhat.com>,
+ qemu-arm@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,39 +85,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 16, 2022 at 11:38:03AM +0100, Antoine Damhet wrote:
-> On Wed, Nov 16, 2022 at 10:52:20AM +0000, Daniel P. Berrangé wrote:
-> > On Tue, Nov 15, 2022 at 03:23:29PM +0100, antoine.damhet@shadow.tech wrote:
-> > > From: Antoine Damhet <antoine.damhet@shadow.tech>
-> > > 
-> > > Since the TLS backend can read more data from the underlying QIOChannel
-> > > we introduce a minimal child GSource to notify if we still have more
-> > > data available to be read.
-> > > 
-> > > Signed-off-by: Antoine Damhet <antoine.damhet@shadow.tech>
-> > > Signed-off-by: Charles Frey <charles.frey@shadow.tech>
-> > > ---
-> > >  io/channel-tls.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 65 insertions(+), 1 deletion(-)
-> > 
-> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> Thanks,
-> 
-> Now that the 7.2.0 is released, can we hope to get this queued ? If not
-> what should I do ?
+On Fri, 16 Dec 2022 at 10:12, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> Query block device backing flash for size and use that instead of
+> requiring the block device being exactly 64M in size.  This allows
+> to use edk2 firmware builds without padding, i.e. use QEMU_EFI.fd
+> (which is /way/ smaller than 64M) as-is.
+>
+> -rw-r--r--. 1 root root 67108864 Dec 12 23:45 QEMU_EFI-pflash.raw
+> -rw-r--r--. 1 root root  2097152 Dec 12 23:45 QEMU_EFI.fd
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/arm/virt.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index b87135085610..c71ae2cd73f7 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -43,6 +43,7 @@
+>  #include "hw/vfio/vfio-amd-xgbe.h"
+>  #include "hw/display/ramfb.h"
+>  #include "net/net.h"
+> +#include "sysemu/block-backend.h"
+>  #include "sysemu/device_tree.h"
+>  #include "sysemu/numa.h"
+>  #include "sysemu/runstate.h"
+> @@ -1134,6 +1135,21 @@ static void virt_flash_map1(PFlashCFI01 *flash,
+>                              MemoryRegion *sysmem)
+>  {
+>      DeviceState *dev = DEVICE(flash);
+> +    BlockBackend *blk;
+> +
+> +    blk = pflash_cfi01_get_blk(flash);
+> +    if (blk) {
+> +        hwaddr blksize = blk_getlength(blk);
+> +
+> +        if (blksize == 0 || blksize > size ||
+> +            !QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE)) {
+> +            error_report("system firmware block device %s"
+> +                         " has invalid size %" PRId64,
+> +                         blk_name(blk), size);
+> +            exit(1);
+> +        }
+> +        size = blksize;
+> +    }
+>
+>      assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
+>      assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
+> --
+> 2.38.1
 
-Yes, I have this queued already for my next pull req.
+We've had at least three threads about this already, attempting
+various approaches. Please read up on them and the discussions
+that ensued from those patches before having another go at it.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+The problem with this idea is that the size of the flash device
+exposed to the guest should not depend on the size of the backing
+file the user provides -- it's a fact about the machine and
+also if it varies it's easy for the user to back themselves into
+a corner where they can't migrate to a destination where the
+backing file is larger, or they can't add new variables to the
+EFI store because the backing file is too small.
 
+thanks
+-- PMM
 
