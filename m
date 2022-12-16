@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E83B64EC39
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 14:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D7464EC45
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 14:48:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6AyS-000402-8y; Fri, 16 Dec 2022 08:42:04 -0500
+	id 1p6B3f-0005Xw-Au; Fri, 16 Dec 2022 08:47:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p6AyQ-0003zt-MV
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:42:02 -0500
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1p6B3Y-0005WT-DQ
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:47:23 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p6AyO-00053B-Mu
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:42:02 -0500
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1p6B3W-0006GR-68
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:47:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671198119;
+ s=mimecast20190719; t=1671198437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JGdseyDfpfvPioAdvBFtWv3Ylrg5ySNb5qZS858OEqQ=;
- b=Et8HFP0iKtWJjli4t8xIJD1wq5hUdgFlmOahIpSubwI/+uRnfs77A7tA/Lud/Fh2A99uix
- NN9zyt+YPSzG5nXm6pp6b3EJNGIwEwFPzuDNztd+i8XxqzNs/KTSMgQh+PhdQxQzHCEj8I
- F/+FU2gCoRD11nvfMtCLW589ScjIzho=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2cycX1Buwpl6AHiytjMhS7Ge/9kVjSqFdiiHpaq6PV4=;
+ b=aJLYJtGAkfokZUrGCLqdKmsjP54/2C2wzIL5oYo5oe+EKb1o943xt+/vJSAKeeeZK12N8Z
+ H2C7Kadi6QouXuJemKnoUlXPIdgRTo1AmjJ33vjEEMfFTZFi2g7if0XqtB0UNSKKu52r9W
+ zw58o7+gV26O+HHdpKQwW7xiLxw1oKQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-203-wATgH18JOnejB-pls76gUw-1; Fri, 16 Dec 2022 08:41:58 -0500
-X-MC-Unique: wATgH18JOnejB-pls76gUw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v188-20020a1cacc5000000b003cf76c4ae66so2588978wme.7
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 05:41:58 -0800 (PST)
+ us-mta-519-hkBYe-RUMIWuC76s6P7FFQ-1; Fri, 16 Dec 2022 08:47:15 -0500
+X-MC-Unique: hkBYe-RUMIWuC76s6P7FFQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ j11-20020aa7c40b000000b0046b45e2ff83so1907195edq.12
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 05:47:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JGdseyDfpfvPioAdvBFtWv3Ylrg5ySNb5qZS858OEqQ=;
- b=rMZM41UZjkjmCcswv16dRpBZEIxRotqADUz0m7/Hp8HcQtFZpUoG253CcZNk4NHoNi
- BDUAAmwheBRULrx90w61NxBlmiEvkDLIcpF33nUStRGyKrjUuBa1NOMGTQ8M6S49/mRl
- dpHhEax26N4m44jSn0VXSQKA5kSUfMXmgpsy93suNWphs/ItAyWfqdIG8/vCPXz9L//h
- 3ee1620owYApRgBXYzhT41DfFTgJM9DVVVUSe+w8gOhRh6I2xss8ZPxW5H6M+R/UVB2r
- wD+CNSQdrIloP6GApPSvG9qUHxVr6FFrve4qUBS8wLkK9l9xxDVcOvvTZIuchTzVFSLG
- d4bw==
-X-Gm-Message-State: ANoB5pm+xAM8oOZhAoA2Tlmsuo6aL06bz3bTnmd4NyLaMYBx0APPUZbe
- mxQgosuzl8uogQOGP49HV/gfXL0tQ4jbbtxbr2NS02YZqyGvRmFsQht8WCjMN5Tbo63NrzztBMp
- 2Ykf8NRlmQEAobwI=
-X-Received: by 2002:a05:600c:13c8:b0:3cf:69a5:3621 with SMTP id
- e8-20020a05600c13c800b003cf69a53621mr25523008wmg.41.1671198117262; 
- Fri, 16 Dec 2022 05:41:57 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7hJ81JfIUUUJ4FCRXs2Bg08rwCxHjju8DbacGH9C2OqPfSIX9xs3wg3C5GFUX7tFAWrJOUZQ==
-X-Received: by 2002:a05:600c:13c8:b0:3cf:69a5:3621 with SMTP id
- e8-20020a05600c13c800b003cf69a53621mr25522991wmg.41.1671198116992; 
- Fri, 16 Dec 2022 05:41:56 -0800 (PST)
-Received: from ?IPV6:2003:cb:c71c:3900:7211:d436:8d8b:531c?
- (p200300cbc71c39007211d4368d8b531c.dip0.t-ipconnect.de.
- [2003:cb:c71c:3900:7211:d436:8d8b:531c])
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2cycX1Buwpl6AHiytjMhS7Ge/9kVjSqFdiiHpaq6PV4=;
+ b=OAz5hloKLVAD/TTaesPgCO3j1XSMKCzSIOri/P8pvrPGk652O+jKUBKucjxMbm8q2q
+ aDlOHgPrAalIzPnpmu1w/Xu3kt24yFEG+MZyhFlG8wMT+YqcmHrL65NVsbl7sFr+Hqd8
+ mmpZqE7eflGKrhZ5bK+IggkOhl/Wjneep8ApY72Tt2ZnPmRsEbREyvySuALrmBTutyO7
+ pOzliQ9EybjKtKkwZkP1qpHVabkPqvqGUK0oqnWzCB0qTngbRPm9JyB6Fc9v/dLzaCnF
+ /5RoCAo7ytnpFUwLrgxMzaSKNPZ0NL8HtM3VCa/K6xNTsIOgxEqNAuQe6OnMVqYsN4oS
+ 0CoQ==
+X-Gm-Message-State: ANoB5pmWUFNnney0a/JWoMhwNgOv+KZEczdABND7JB/M5r/fo2HXQAMA
+ wud6ddxdhB1VlHfI6mEl4f5Uek4BL5WB9c6NAXhgYVRqzgt0AuF2q2ho+fyyk92OCVlzyDHmPuE
+ bxLrFrnfCUb422qU=
+X-Received: by 2002:a17:906:df4a:b0:7c0:efbd:70a2 with SMTP id
+ if10-20020a170906df4a00b007c0efbd70a2mr24513664ejc.42.1671198434646; 
+ Fri, 16 Dec 2022 05:47:14 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5hpw4eeKCEs89wZBkWoCrka/X9VWxmvoKLDXx3hxtsCJWed75l4w1CYFkathzq1fPWg0e0ZQ==
+X-Received: by 2002:a17:906:df4a:b0:7c0:efbd:70a2 with SMTP id
+ if10-20020a170906df4a00b007c0efbd70a2mr24513653ejc.42.1671198434434; 
+ Fri, 16 Dec 2022 05:47:14 -0800 (PST)
+Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- k62-20020a1ca141000000b003cf894dbc4fsm2645484wme.25.2022.12.16.05.41.56
+ 10-20020a170906310a00b007c0d64c1886sm872005ejx.33.2022.12.16.05.47.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 05:41:56 -0800 (PST)
-Message-ID: <f06e436f-223a-9318-d631-c9d5c711af1b@redhat.com>
-Date: Fri, 16 Dec 2022 14:41:55 +0100
+ Fri, 16 Dec 2022 05:47:13 -0800 (PST)
+Message-ID: <c7fc7797-6696-e9d8-8c1a-dd4b86cc2781@redhat.com>
+Date: Fri, 16 Dec 2022 14:47:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
+ Thunderbird/102.6.0
 Subject: Re: [PATCH v2] hostmem: Honor multiple preferred nodes if possible
-Content-Language: en-US
-To: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 Cc: imammedo@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com
 References: <a0b4adce1af5bd2344c2218eb4a04b3ff7bcfdb4.1671097918.git.mprivozn@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <a0b4adce1af5bd2344c2218eb4a04b3ff7bcfdb4.1671097918.git.mprivozn@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ <f06e436f-223a-9318-d631-c9d5c711af1b@redhat.com>
+Content-Language: en-US
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+In-Reply-To: <f06e436f-223a-9318-d631-c9d5c711af1b@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,66 +102,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15.12.22 10:55, Michal Privoznik wrote:
-> If a memory-backend is configured with mode
-> HOST_MEM_POLICY_PREFERRED then
-> host_memory_backend_memory_complete() calls mbind() as:
+On 12/16/22 14:41, David Hildenbrand wrote:
+> On 15.12.22 10:55, Michal Privoznik wrote:
+>> If a memory-backend is configured with mode
+>> HOST_MEM_POLICY_PREFERRED then
+>> host_memory_backend_memory_complete() calls mbind() as:
+>>
+>>    mbind(..., MPOL_PREFERRED, nodemask, ...);
+>>
+>> Here, 'nodemask' is a bitmap of host NUMA nodes and corresponds
+>> to the .host-nodes attribute. Therefore, there can be multiple
+>> nodes specified. However, the documentation to MPOL_PREFERRED
+>> says:
+>>
+>>    MPOL_PREFERRED
+>>      This mode sets the preferred node for allocation. ...
+>>      If nodemask specifies more than one node ID, the first node
+>>      in the mask will be selected as the preferred node.
+>>
+>> Therefore, only the first node is honored and the rest is
+>> silently ignored. Well, with recent changes to the kernel and
+>> numactl we can do better.
+>>
+>> The Linux kernel added in v5.15 via commit cfcaa66f8032
+>> ("mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY")
+>> support for MPOL_PREFERRED_MANY, which accepts multiple preferred
+>> NUMA nodes instead.
+>>
+>> Then, numa_has_preferred_many() API was introduced to numactl
+>> (v2.0.15~26) allowing applications to query kernel support.
+>>
+>> Wiring this all together, we can pass MPOL_PREFERRED_MANY to the
+>> mbind() call instead and stop ignoring multiple nodes, silently.
+>>
+>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+>> ---
 > 
->    mbind(..., MPOL_PREFERRED, nodemask, ...);
+> [...]
 > 
-> Here, 'nodemask' is a bitmap of host NUMA nodes and corresponds
-> to the .host-nodes attribute. Therefore, there can be multiple
-> nodes specified. However, the documentation to MPOL_PREFERRED
-> says:
+>> +#ifdef HAVE_NUMA_SET_PREFERRED_MANY
+>> +        if (mode == MPOL_PREFERRED && numa_has_preferred_many() > 0) {
+>> +            /*
+>> +             * Replace with MPOL_PREFERRED_MANY otherwise the mbind()
+>> below
+>> +             * silently picks the first node.
+>> +             */
+>> +            mode = MPOL_PREFERRED_MANY;
+>> +        }
+>> +#endif
+>> +
 > 
->    MPOL_PREFERRED
->      This mode sets the preferred node for allocation. ...
->      If nodemask specifies more than one node ID, the first node
->      in the mask will be selected as the preferred node.
 > 
-> Therefore, only the first node is honored and the rest is
-> silently ignored. Well, with recent changes to the kernel and
-> numactl we can do better.
+> I was curios if we want to warn the user if "mode ==
+> MPOL_PREFERRED_MANY" and we were given more than one node.
+
+I was wondering about that, but given that we currently silently ignore
+other nodes, I think it's safe to assume the warning is not necessary.
+Then again, as users upgrade to newer kernels this is going to be the
+new norm and the warning won't be necessary.
+
 > 
-> The Linux kernel added in v5.15 via commit cfcaa66f8032
-> ("mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY")
-> support for MPOL_PREFERRED_MANY, which accepts multiple preferred
-> NUMA nodes instead.
 > 
-> Then, numa_has_preferred_many() API was introduced to numactl
-> (v2.0.15~26) allowing applications to query kernel support.
+> Apart from that LGTM, thanks
 > 
-> Wiring this all together, we can pass MPOL_PREFERRED_MANY to the
-> mbind() call instead and stop ignoring multiple nodes, silently.
+> Reviewed-by: David Hildenbrand <david@redhat.com>
 > 
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> ---
 
-[...]
-
-> +#ifdef HAVE_NUMA_SET_PREFERRED_MANY
-> +        if (mode == MPOL_PREFERRED && numa_has_preferred_many() > 0) {
-> +            /*
-> +             * Replace with MPOL_PREFERRED_MANY otherwise the mbind() below
-> +             * silently picks the first node.
-> +             */
-> +            mode = MPOL_PREFERRED_MANY;
-> +        }
-> +#endif
-> +
-
-
-I was curios if we want to warn the user if "mode == 
-MPOL_PREFERRED_MANY" and we were given more than one node.
-
-
-Apart from that LGTM, thanks
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
--- 
 Thanks,
-
-David / dhildenb
+Michal
 
 
