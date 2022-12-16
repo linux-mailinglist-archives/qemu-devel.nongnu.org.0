@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8402A64E97C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 11:32:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A589064E990
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 11:39:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p67zw-0004OZ-0Z; Fri, 16 Dec 2022 05:31:33 -0500
+	id 1p686b-00066i-Od; Fri, 16 Dec 2022 05:38:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p67zS-0004Jv-7N
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:31:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p67zP-0000bt-B8
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:30:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671186650;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v2RUUoFpLdW5YUbSU7pZvDX4sROylGIh4QCdYVC3TKY=;
- b=FjP5U9ODI9q3fABKCu0XmslBFt2EIvs0smGlfsXxMYsrhINK1e2cFumFgrIm/qrR7pxCib
- fPiv8zSOyao0+X6BAeu8GCjcUwY2EstlpMm2BHGPhTImM/jw+bjNOp2kpTE62a3N3MDerR
- m/nEFH0SdSxVYSXw/KMBMN3kRTcqscI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-133-TA8mVpvTMJ270YvPP_CVsA-1; Fri, 16 Dec 2022 05:30:48 -0500
-X-MC-Unique: TA8mVpvTMJ270YvPP_CVsA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w11-20020adfbacb000000b002418a90da01so349079wrg.16
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 02:30:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@shadow.tech>)
+ id 1p686X-00066V-9R
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:38:13 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@shadow.tech>)
+ id 1p686R-0001f2-Rz
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:38:11 -0500
+Received: by mail-wr1-x434.google.com with SMTP id o5so2073765wrm.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 02:38:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shadow-tech.20210112.gappssmtp.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=EvlU1AL948B7tMo/URdTCGkckNJs3XzMr5vu5pi4mgc=;
+ b=iuFbfHkanNgluv09M+K1zc/eCufhQyHKbCnkAklBjyrp1L5OUfsRYXURpOaKeTcdwj
+ RP8hPvfaMQwz3OrIZuJqp+iKLtxdtwKU3TkFCr6HkXnhAqoGIW7SmnOn+LF6Q6QQSYjP
+ Zs0HVPuWRmAYzldj4iBPsxikXmKvzY0JxWTxMkMA37Hc0EgQ7JpPHkuaAg07fiMnYCFl
+ uFvxflYMpJevC1IM4skdz16pO+E06H2sdt6ngZ338/VBGbWQn+7S+l4kWtw4dlYY1xBZ
+ GItannc8vWJN0HADbYFMe3HSgdxY4l51u3EIjWvBFRtrd3ebaRdQ52cT3hUVQ190Ujt/
+ JAQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :from:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v2RUUoFpLdW5YUbSU7pZvDX4sROylGIh4QCdYVC3TKY=;
- b=nzEWZYl7jHKbqpbeJaQuvVd95RS64e7W+1HyP6cm+C0eNINCPuchAvaVdOpDqKDiXz
- Gp/tovOtWXCIqc+U0EUdvY4jleLhQY/jVfNa5B88TiiUPKhCz2CwbQnxPqbQhtGJqhXe
- u8x5bPzyousayyJonw/azX/cQ1sy8cTe1C4G6jvAndb/TY98lnTUUZ55ynCAzmqVMnU5
- JkhwLg9u9Um0h9tVK3oYFcIMmuEEopVKnfod0WaNC9Hn6STwqp+3vzrvwYhbuB9KTVLo
- zhRwMIrHro8GDFwY2Occlcatlr2Rx7tfIAMeteajUn74VOlBv/gpAxb3SLZuJLYpYWee
- 1Ayg==
-X-Gm-Message-State: ANoB5pnhHLHWxqp9xEKu79quyyE8BCyjadRyddYR3IUcM/jIg/8rg6zi
- uo1oAZAc99G7WK167tDN73rpRiNEg5af8ze1M08T9T+r7Z2BqSMK1nPJBgVrAlOCwWfxPCFcY/k
- fhk5xABsGGSZcFOE=
-X-Received: by 2002:a05:600c:384b:b0:3cf:6926:2abb with SMTP id
- s11-20020a05600c384b00b003cf69262abbmr25085962wmr.7.1671186647378; 
- Fri, 16 Dec 2022 02:30:47 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6bYHql+ScOiEALxH28Ee/yos4oTSPEyNgoBQBxWT/J0BEbiMByZeF5FAiX4ly6f1EWil7+AQ==
-X-Received: by 2002:a05:600c:384b:b0:3cf:6926:2abb with SMTP id
- s11-20020a05600c384b00b003cf69262abbmr25085948wmr.7.1671186647094; 
- Fri, 16 Dec 2022 02:30:47 -0800 (PST)
-Received: from ?IPV6:2003:cb:c71c:3900:7211:d436:8d8b:531c?
- (p200300cbc71c39007211d4368d8b531c.dip0.t-ipconnect.de.
- [2003:cb:c71c:3900:7211:d436:8d8b:531c])
- by smtp.gmail.com with ESMTPSA id
- k18-20020a05600c1c9200b003a84375d0d1sm10493202wms.44.2022.12.16.02.30.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 02:30:46 -0800 (PST)
-Message-ID: <13e3d3fb-bfa7-26e3-2e21-1bb21cf577c3@redhat.com>
-Date: Fri, 16 Dec 2022 11:30:45 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EvlU1AL948B7tMo/URdTCGkckNJs3XzMr5vu5pi4mgc=;
+ b=sazcqMnb0Qg4Rf6MGzhj3xt7XuiqgA9jIaubSHorP5Rl3PO+m5DuBb9f9y/kVSMFg2
+ VsbWeAVJ4omy2/GPmjEzwFZvE+raEIqvVUYq9cmZ3dBl8Q7HKNRDj2Sy5my2VHkpJWQ6
+ m390qAljzB6FSpTC4JlEApQhGWqdbTAukIICfQpfOVYRFLMGDyAzCoqZLVuWouqph/BX
+ +w5n5oMHrt4K8w4Szr80uFTmzaCV9QOAtxqJcfs1kBgQq2w0FV1y3TeQtDMfWpqfC0Rk
+ +a/nPuWQKXwjzHfPPm+1elZJ9I40OrJ1nRkgw3sIerQymRFAzyfvwBw9L6C6reyR8mZM
+ F4Pw==
+X-Gm-Message-State: ANoB5pnsioyo+T1HcxI6K6HETEF5xGLtLLUjqkDHBNKBoicVuYrhPHX4
+ Gv/ELu7ANh57Qlzz8ZASk1+xlg==
+X-Google-Smtp-Source: AA0mqf7Jrj8rzzUph79t6FSyxNJ9hn3D0GUVxM/aj5hYgm9nMPbLgRXYc0WE2i+jrn8Z6taSZnAQ/g==
+X-Received: by 2002:a5d:564a:0:b0:24c:f1ca:b2df with SMTP id
+ j10-20020a5d564a000000b0024cf1cab2dfmr17856627wrw.67.1671187084714; 
+ Fri, 16 Dec 2022 02:38:04 -0800 (PST)
+Received: from localhost ([185.123.26.202]) by smtp.gmail.com with ESMTPSA id
+ bo28-20020a056000069c00b002415dd45320sm1906084wrb.112.2022.12.16.02.38.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Dec 2022 02:38:04 -0800 (PST)
+Date: Fri, 16 Dec 2022 11:38:03 +0100
+From: Antoine Damhet <antoine.damhet@shadow.tech>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, vm@shadow.tech,
+ Charles Frey <charles.frey@shadow.tech>
+Subject: Re: [PATCH 2/2] io/channel-tls: fix handling of bigger read buffers
+Message-ID: <20221216103803.y3xse3axbqdfl7r7@cole.xdbob.net>
+References: <20221115142329.92524-1-antoine.damhet@shadow.tech>
+ <20221115142329.92524-3-antoine.damhet@shadow.tech>
+ <Y3TA5LLIZFVHrNBM@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] virtio-mem: Fix the bitmap index of the section offset
-Content-Language: en-US
-From: David Hildenbrand <david@redhat.com>
-To: Chenyi Qiang <chenyi.qiang@intel.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20221216062231.11181-1-chenyi.qiang@intel.com>
- <b661461d-fb24-c974-2d8e-d3e760e00033@redhat.com>
-Organization: Red Hat
-In-Reply-To: <b661461d-fb24-c974-2d8e-d3e760e00033@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2vqdl7pwh7dvqaj7"
+Content-Disposition: inline
+In-Reply-To: <Y3TA5LLIZFVHrNBM@redhat.com>
+Received-SPF: permerror client-ip=2a00:1450:4864:20::434;
+ envelope-from=antoine.damhet@shadow.tech; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,33 +91,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16.12.22 09:52, David Hildenbrand wrote:
-> On 16.12.22 07:22, Chenyi Qiang wrote:
->> vmem->bitmap indexes the memory region of the virtio-mem backend at a
->> granularity of block_size. To calculate the index of target section offset,
->> the block_size should be divided instead of the bitmap_size.
-> 
-> I'm curious, what's the user-visible effect and how did you identify
-> this issue?
-> 
-> IIUC, we could end up our search for a plugged/unplugged block "too
-> late", such that we miss to process blocks.
-> 
-> That would be the case if the bitmap_size < block_size, which should
-> effectively always happen ...
-> 
-> 
-> unplug_all and migration would be affected, which is why a simple test
-> case without a guest reboot/migration wouldn't run into it.
 
-I just realized that unplug_all is fine because only vfio implements the 
-ram_discard_listener so far and always sets 
-double_discard_supported=true. So migration should be the issue (and 
-IIRC migration with VFIO is still shaky).
+--2vqdl7pwh7dvqaj7
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
+On Wed, Nov 16, 2022 at 10:52:20AM +0000, Daniel P. Berrang=E9 wrote:
+> On Tue, Nov 15, 2022 at 03:23:29PM +0100, antoine.damhet@shadow.tech wrot=
+e:
+> > From: Antoine Damhet <antoine.damhet@shadow.tech>
+> >=20
+> > Since the TLS backend can read more data from the underlying QIOChannel
+> > we introduce a minimal child GSource to notify if we still have more
+> > data available to be read.
+> >=20
+> > Signed-off-by: Antoine Damhet <antoine.damhet@shadow.tech>
+> > Signed-off-by: Charles Frey <charles.frey@shadow.tech>
+> > ---
+> >  io/channel-tls.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 65 insertions(+), 1 deletion(-)
+>=20
+> Reviewed-by: Daniel P. Berrang=E9 <berrange@redhat.com>
+
 Thanks,
 
-David / dhildenb
+Now that the 7.2.0 is released, can we hope to get this queued ? If not
+what should I do ?
 
+Best regards,
+
+--=20
+Antoine 'xdbob' Damhet
+
+>=20
+>=20
+> With regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>=20
+
+--2vqdl7pwh7dvqaj7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAmOcSn4ACgkQ3AmjLzzl
+jz4s1AgAhxgUfSnizeS9E7gB8np1pWPNsr/XCNleNK29IjU8vdaHqjBaKMvJMBvF
+DLPqouUMs8RXZsVbinB80Kl7pYJaHikUmhP3x5K2dF+MC8tt6IaDRXbMo1RcjvE8
+XAj17LQHGm+og5QhPLL5hgMe0oIrAEfuPqkHhbIovTPe8qQGd7ZM8acUddqRL0Qf
+xl1yA1Xr/T2qbwCPYwy7YySRnFtH03YNLHWDHqSjIO9W179Mo8mooHJaNbRoZHI0
+cRdYuVdyRZEnPv7bc+cgrVREVZGdFFJ7veopgQxVQ71sWFw5fi1gnjOaXpi3R7hH
+hafo32VMVgoe0LaxHNia6onbEKbikA==
+=pgP6
+-----END PGP SIGNATURE-----
+
+--2vqdl7pwh7dvqaj7--
 
