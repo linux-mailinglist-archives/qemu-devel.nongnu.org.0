@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE2964EA0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:15:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5602F64EA1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:19:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p68f5-0007jv-Jd; Fri, 16 Dec 2022 06:13:55 -0500
+	id 1p68jf-0000St-W1; Fri, 16 Dec 2022 06:18:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1p68f3-0007jl-Ub
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:13:53 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p68jX-0000SK-Dc
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:18:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1p68f2-0003Hi-DO
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:13:53 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p68jU-0005Ld-G4
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:18:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671189230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1671189502;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RbTOovQUdfGt9U9QZ4ZgQdSPz1KkfxzdXiNrkIEZJ18=;
- b=UK7uBU3u8BQfSmO9H+xIlYhXaKOBl1YBBT4ELJEdlTnlgp7EIktDeGpotQ7VDFtTGcDgZV
- 3fLz0slhZTsUFaZXQZIslLDY8Psgy33ojTJLT3FksdSQun6bN6YxSzAZ0XG8o/TpuH/4Uy
- SbAqDW3IFIqEFoVlBRfEgsiYZn24vmI=
+ bh=qtiV3gBDQOJUUvidDLnevOvl7ZWDg5ISwHt+/xVCS6I=;
+ b=JJO22wc4oyCucm97KVckV6CYFmT4UMDiB8NGTJ8bFwdhfpKad6eSbCjHD1RukPhiRaFbC6
+ rXdbOS3yUPLHabO1AXSumNmJ6CvVqCJRgUR5YIknsnuQW/fyhxvp+jXHAVfBilg0QzPDPE
+ WyNVczjExgihtqIwwEwGDeqexsy2E8U=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-161-rMcfay-AOuSG6T-_dFt6_g-1; Fri, 16 Dec 2022 06:13:49 -0500
-X-MC-Unique: rMcfay-AOuSG6T-_dFt6_g-1
+ us-mta-223-nBfkuk1GNwiGEr14Gbpp1g-1; Fri, 16 Dec 2022 06:18:19 -0500
+X-MC-Unique: nBfkuk1GNwiGEr14Gbpp1g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04C5780D101;
- Fri, 16 Dec 2022 11:13:49 +0000 (UTC)
-Received: from pinwheel (unknown [10.39.194.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1DBD2026D35;
- Fri, 16 Dec 2022 11:13:47 +0000 (UTC)
-Date: Fri, 16 Dec 2022 12:13:45 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 2/2] docs: add no-padding firmware feature
-Message-ID: <Y5xS6TaZGnOCiRag@pinwheel>
-References: <20221216101234.2202009-1-kraxel@redhat.com>
- <20221216101234.2202009-3-kraxel@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 87B7F1871D94;
+ Fri, 16 Dec 2022 11:18:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0E5E2026D68;
+ Fri, 16 Dec 2022 11:18:15 +0000 (UTC)
+Date: Fri, 16 Dec 2022 11:18:13 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, Peter Lieven <pl@kamp.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, libvir-list@redhat.com,
+ Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH 1/3] block: mention 'password-secret' option for -iscsi
+Message-ID: <Y5xT9XfIoB2hcs9u@redhat.com>
+References: <20221201101959.419545-1-berrange@redhat.com>
+ <20221201101959.419545-2-berrange@redhat.com>
+ <87fsdz5li3.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221216101234.2202009-3-kraxel@redhat.com>
+In-Reply-To: <87fsdz5li3.fsf@suse.de>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -67,7 +72,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,75 +86,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 16, 2022 at 11:12:34AM +0100, Gerd Hoffmann wrote:
-
-Hi,
-
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  docs/interop/firmware.json | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+On Thu, Dec 01, 2022 at 09:58:12AM -0300, Fabiano Rosas wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
-> index 56814f02b3c0..74f404d745b0 100644
-> --- a/docs/interop/firmware.json
-> +++ b/docs/interop/firmware.json
-> @@ -191,6 +191,8 @@
->  #                  PL011 UART. @verbose-static is mutually exclusive
->  #                  with @verbose-dynamic.
->  #
-> +# @no-padding: The (arm/aarch64) firmware images are not padded to 64M.
-> +#
->  # Since: 3.0
->  ##
->  { 'enum' : 'FirmwareFeature',
-> @@ -198,7 +200,8 @@
->               'amd-sev', 'amd-sev-es', 'amd-sev-snp',
->               'intel-tdx',
->               'enrolled-keys', 'requires-smm', 'secure-boot',
-> -             'verbose-dynamic', 'verbose-static' ] }
-> +             'verbose-dynamic', 'verbose-static',
-> +             'no-padding' ] }
+> > The 'password-secret' option was added
+> >
+> >   commit b189346eb1784df95ed6fed610411dbf23d19e1f
+> >   Author: Daniel P. Berrangé <berrange@redhat.com>
+> >   Date:   Thu Jan 21 14:19:21 2016 +0000
+> >
+> >     iscsi: add support for getting CHAP password via QCryptoSecret API
+> >
+> > but was not mentioned in the command line docs
+> >
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  qemu-options.hx | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/qemu-options.hx b/qemu-options.hx
+> > index 7f99d15b23..055df73306 100644
+> > --- a/qemu-options.hx
+> > +++ b/qemu-options.hx
+> > @@ -1889,7 +1889,7 @@ SRST
+> >  ERST
+> >  
+> >  DEF("iscsi", HAS_ARG, QEMU_OPTION_iscsi,
+> > -    "-iscsi [user=user][,password=password]\n"
+> > +    "-iscsi [user=user][,password=password],password-secret=secret-id]\n"
+> 
+> Loos like you're missing a bracket before the comma.
+> 
+> The line below also lacks one at the end.
 
-If you're re-spinning, please consider adding a sentence or two (for
-those of us who're not familiar) a bit more about the "no-padding"
-feature to the commit message.
+Thanks, will fix both.
 
-IIUC, I found the use of the padding feature reading an old email
-response[1] from Dan Berrang�:
-
-(quote)
-    ...
-    If there's a risk that newer firmware will be larger than old firmware
-    there's only really two options:
-    
-      - Keep all firmware images forever, each with a unique versioned
-        filename. This ensures target QEMU will always load the original
-        smaller firmware
-    
-      - Add padding to the firmware images. IOW, if the firmware is 2 MB,
-        add zero-padding to the end of the image to round it upto 4 MB
-        (whatever you anticipate the largest size wil be in future).
-    ...
-(/quote)
-
-
-[1] https://edk2.groups.io/g/devel/message/54758
-
-Regardless:
-
-Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
-
->  ##
->  # @FirmwareFlashFile:
-> -- 
-> 2.38.1
+> 
+> >      "       [,header-digest=CRC32C|CR32C-NONE|NONE-CRC32C|NONE\n"
+> >      "       [,initiator-name=initiator-iqn][,id=target-iqn]\n"
+> >      "       [,timeout=timeout]\n"
 > 
 
+With regards,
+Daniel
 -- 
-/kashyap
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
