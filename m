@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E30764F3DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:17:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A360D64F3D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:15:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Iq6-0008HF-80; Fri, 16 Dec 2022 17:05:58 -0500
+	id 1p6Iq9-0008JX-VF; Fri, 16 Dec 2022 17:06:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ipu-0008DS-Hg
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:05:46 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Iq0-0008GP-Vf
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:05:53 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ips-0005eT-7f
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:05:46 -0500
-Received: by mail-ej1-x633.google.com with SMTP id qk9so9302860ejc.3
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:05:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ipy-0005fm-J9
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:05:52 -0500
+Received: by mail-ej1-x634.google.com with SMTP id ud5so9299788ejc.4
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:05:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=J7T50GYoxuzsxHz0gV/DQYPMXubrUPNWTO69bc2wf0U=;
- b=FNMUEyzIGDVnMOPn06wdAMm5F88f2vDS0W/Pio/vkL7YbTJGBfIH7/I6EXNC9BWqgI
- s50vNYnYetikeMYdjNE58POlzFG0Dlol2yO02OKkV066bkNB1Y8Lf+Lukp0lukR++eF2
- 09avbMgdKmjspzWpmCRKrGcvwCPyno/Wkhfayz+q0+9buhxRmGQ4ChLkqur27XpGwszs
- rngGrqkHESOTl4N/UwGhfpyfg6fxsN97D9BwboKqugSAQ9br3VrRIEqus/yo1WKNnKIT
- fJ87rzlrL1TiPhYeZzq3cPDTlS4CHLyyaCPuOd/daVSGUjd+vslKk+yKJcrk5Hz8SKrO
- 5Sew==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ubeWMUt19KgbmFwzvU0tT5JUAbGa8affkQwKmoJlyrU=;
+ b=JV4Rwk7bz+jAETSgYcE+C5FYSNuTXPnkF2zsiVw+nzz1VshU2dhmJaQAUchUEl67oK
+ tsoVrrsy1vlUQ7ffYvni6h6C28rzTLMThEC+4jXk2ymVAkRye/dZ/VCfIuoPjCFCqHaw
+ V1AT8z6nfrApeYvGLskUfkL4ob27bHeOYOp0qgOND+ZO6Z5NeVDtWqIOinn3u9UVuDOK
+ pywSgwm58MrBgcDT2oZm7Nme8kyMHdXpiNKCVWhcDmtTbMqq6+dgW7WmK08hcv3rlj0Z
+ R4Rw2IErUMhKFPHDHJShE19KGfxXDayTVrsCEVPBitplpTtIpPpRINgwbn79uaIh500G
+ UG5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=J7T50GYoxuzsxHz0gV/DQYPMXubrUPNWTO69bc2wf0U=;
- b=sUXiFFVr+JqVRPTD3Gc+edvZQtYwQHNVlXMGktOs14yLvuOlklyyhpsNdPVLgVgVtV
- Fomp4uHmhSS9kI/YPYXGVMIdufOltf0y+C5in4irN35OpCqrOnUlwQ/yMe0nshnLgK6S
- p+eBXeRUVtaSxdyjXs6lld+/Q8aPIEUiDJuRyh0dk45lNL0aOqBE78HK/30BRxb3wMDi
- LsxfShOJSXohwZGttbCQdGPUn9vfGaHlGSbqWMktXy4W6WHm8LlYbDyCPBvqyltJq7Rq
- s/+F+0WZ3zoc3UyPnpGNPAg1wo63bOt7UH6wq7gV10Hs/Ru9wnkDeneVu6cHYsi1O+3Z
- +PYA==
-X-Gm-Message-State: ANoB5pmvhZd2Bm4/PcVj0FzaLfA2Sz5kLcdOP9EQL3xW3R2xr/LRQsHQ
- Q96j5Jd0nJzDCUiJwbKqdtDzFq3rV4+zz5jQk5A=
-X-Google-Smtp-Source: AA0mqf44yhTvz3RtdwbDos4Kwg7Eg1jD1JUuKfunW3A0mzuZy1ynWLJI3O9eLxMzaphMFeDpYk2yhg==
-X-Received: by 2002:a17:906:3a59:b0:7be:e831:2b4b with SMTP id
- a25-20020a1709063a5900b007bee8312b4bmr27288198ejf.23.1671228342414; 
- Fri, 16 Dec 2022 14:05:42 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ubeWMUt19KgbmFwzvU0tT5JUAbGa8affkQwKmoJlyrU=;
+ b=hfi4Bgk2koZWxNysVNxHOgMy8pO5heDskrFWRTI1fYJqdTV1awleQpihXIhsRiIged
+ iYOZ9qGxbAmBsCPAXgHnnXahWGE0jYwGzaZ0pFulW42+QlMmizWZioqRirEeYeAgKFjH
+ mR8JtMmZmw+sgcAdu1fWy0qErsigIKtOUcija4wIn//68/S66j7smnw5BbLh4UIR81JY
+ kqSM6X8DBvArKWFvVxz2gIuCEXeBrzdfoMEJKyqyZzDb9PisnINZxWaA3C0aKAr0BfFB
+ 8m263A0uAU50gkP66bDPSKt22g13S49EeP3cfTi6ciPDMY8PoL9fIhokqWVGTXqJn2vs
+ xeAw==
+X-Gm-Message-State: ANoB5pl9Ts7VaJncdvRFzsrz0erIijrq5/GCrTenVQUosWFl8aJqd/07
+ 5u4dP+U0OrHk4VosIqHO1eqKU6G3pLf/TJWhack=
+X-Google-Smtp-Source: AA0mqf6M0eNy4EF5s2top9Bf+a/8UJa86gqSoidvScNb5B5QpX/PCUi2pGdCpbO1sDNXkEtc4eF4Xg==
+X-Received: by 2002:a17:906:ecb7:b0:7c1:f6c:dd4e with SMTP id
+ qh23-20020a170906ecb700b007c10f6cdd4emr32553198ejb.40.1671228349037; 
+ Fri, 16 Dec 2022 14:05:49 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- 13-20020a170906318d00b0077077c62cadsm1291231ejy.31.2022.12.16.14.05.40
+ cn12-20020a0564020cac00b00461aca1c7b6sm1338542edb.6.2022.12.16.14.05.46
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 14:05:42 -0800 (PST)
+ Fri, 16 Dec 2022 14:05:48 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
@@ -67,15 +68,17 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  Taylor Simpson <tsimpson@quicinc.com>, Greg Kurz <groug@kaod.org>,
  qemu-riscv@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 00/10] target/misc: Header cleanups around "cpu.h"
-Date: Fri, 16 Dec 2022 23:05:29 +0100
-Message-Id: <20221216220539.7065-1-philmd@linaro.org>
+Subject: [PATCH 01/10] target/hppa/helper: Include missing "cpu.h" header
+Date: Fri, 16 Dec 2022 23:05:30 +0100
+Message-Id: <20221216220539.7065-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221216220539.7065-1-philmd@linaro.org>
+References: <20221216220539.7065-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,33 +101,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These patches are part of a big refactor cleanup
-around "cpu.h". Most changes should be trivial IMHO.
+'dh_ctype_tr' is defined as 'target_ureg', itself declared in "cpu.h".
 
-Philippe Mathieu-Daudé (10):
-  target/hppa/helper: Include missing "cpu.h" header
-  target/hexagon: Declare hexagon_regnames[] in "cpu.h"
-  target/loongarch/cpu: Remove unused "sysbus.h" header
-  target/loongarch/cpu: Restrict "memory.h" header to sysemu
-  target/m68k/helper: Include missing "cpu.h" header
-  target/ppc/helper: Include missing "cpu.h" header
-  target/ppc/internal: Restrict MMU declarations to sysemu
-  target/riscv/cpu: Restrict sysemu-specific fields from CPUArchState
-  target/sparc/sysemu: Remove pointless CONFIG_USER_ONLY guard
-  target/xtensa/cpu: Include missing "memory.h" header
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ target/hppa/helper.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
- target/hexagon/cpu.h      |  2 ++
- target/hexagon/internal.h |  2 --
- target/hppa/helper.h      |  2 ++
- target/loongarch/cpu.h    |  3 ++-
- target/m68k/helper.h      |  2 ++
- target/ppc/helper.h       |  2 ++
- target/ppc/internal.h     |  5 +++++
- target/riscv/cpu.h        | 34 ++++++++++++++++++----------------
- target/sparc/mmu_helper.c |  2 --
- target/xtensa/cpu.c       |  3 +++
- 10 files changed, 36 insertions(+), 21 deletions(-)
-
+diff --git a/target/hppa/helper.h b/target/hppa/helper.h
+index c7e35ce8c7..621bc9738e 100644
+--- a/target/hppa/helper.h
++++ b/target/hppa/helper.h
+@@ -1,3 +1,5 @@
++#include "cpu.h"
++
+ #if TARGET_REGISTER_BITS == 64
+ # define dh_alias_tr     i64
+ # define dh_typecode_tr  dh_typecode_i64
 -- 
 2.38.1
 
