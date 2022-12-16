@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC2464F043
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 18:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75EBE64F050
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 18:23:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6ENB-0003lU-8r; Fri, 16 Dec 2022 12:19:49 -0500
+	id 1p6EQG-00060o-7z; Fri, 16 Dec 2022 12:23:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1p6EMy-0003hJ-9P; Fri, 16 Dec 2022 12:19:39 -0500
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ id 1p6EQD-0005zq-7X; Fri, 16 Dec 2022 12:22:57 -0500
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1p6EMv-0006II-FT; Fri, 16 Dec 2022 12:19:36 -0500
+ id 1p6EQB-00071M-FX; Fri, 16 Dec 2022 12:22:57 -0500
 Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
  (iva4-f06c35e68a0a.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 978125F1E8;
- Fri, 16 Dec 2022 20:19:20 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 28A7E609DA;
+ Fri, 16 Dec 2022 20:22:45 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:b58d::1:2b] (unknown
  [2a02:6b8:b081:b58d::1:2b])
  by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- JJl46A0QkOs1-MMjXd66S; Fri, 16 Dec 2022 20:19:19 +0300
+ hMlS6A0QjqM1-iYCTqICz; Fri, 16 Dec 2022 20:22:44 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1671211160; bh=FAbC8d+V11WH2sbZVUK1n2MV/4n/85M99yD94wVE7PE=;
+ t=1671211364; bh=DcUfXQBH0llzzMvJ7owgQXz7qCCVmxbDaRm6q8l5/No=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=EJFldra3TkvJaya1zkgRAhnGVKhMusXNtgdjr7zO7n0NjTIJKybo11D8R5vlN2Pr2
- Yk5roLCGEqQDJqX4ZFm7oyI/gGSZ2MJU1TBAI8VXwCrmR4kN/MQsMZgW/MjEQd0mPD
- un00z9FguAoje8nVoTj1kkYXU8OIj1UxlEfsqMVE=
+ b=zop1Gvd+o/wn7X7m80Ce1tiwhwNXHaQy6GPCfhFeC3QH8FmdBJgbt/Ta8lJFbhx21
+ LFReAk4PsSabUt6vTD4QooHStvNlzUprJyk0WIAY+IStttvP/IkPCLBZ7RTrMpWCgj
+ 8LFWXfceINjVKcc47coa0MexvCavh/w3mph5Zyj0=
 Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <1e190dd2-bc37-2de2-4a0e-fba964143447@yandex-team.ru>
-Date: Fri, 16 Dec 2022 20:19:19 +0300
+Message-ID: <b49bb54b-d8ce-50b0-3827-6acdef1554d3@yandex-team.ru>
+Date: Fri, 16 Dec 2022 20:22:43 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 05/14] block: Convert bdrv_refresh_total_sectors() to
- co_wrapper_mixed
+Subject: Re: [PATCH 06/14] block-backend: use bdrv_getlength instead of
+ blk_getlength
 Content-Language: en-US
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Cc: hreitz@redhat.com, eesposit@redhat.com, pbonzini@redhat.com,
  qemu-devel@nongnu.org
 References: <20221213085320.95673-1-kwolf@redhat.com>
- <20221213085320.95673-6-kwolf@redhat.com>
+ <20221213085320.95673-7-kwolf@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221213085320.95673-6-kwolf@redhat.com>
+In-Reply-To: <20221213085320.95673-7-kwolf@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,19 +77,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/13/22 11:53, Kevin Wolf wrote:
-> --- a/include/block/block_int-common.h
-> +++ b/include/block/block_int-common.h
-> @@ -684,7 +684,7 @@ struct BlockDriver {
->       int coroutine_fn (*bdrv_co_truncate)(BlockDriverState *bs, int64_t offset,
->                                            bool exact, PreallocMode prealloc,
->                                            BdrvRequestFlags flags, Error **errp);
-> -    int64_t (*bdrv_getlength)(BlockDriverState *bs);
-> +    int64_t coroutine_fn (*bdrv_getlength)(BlockDriverState *bs);
+> From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> 
+> The only difference is that blk_ checks if the block is available,
+> but this check is already performed above in blk_check_byte_request().
+> 
+> This is in preparation for the graph rdlock, which will be taken
+> by both the callers of blk_check_byte_request() and blk_getlength().
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   block/block-backend.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 0194d86113..5b8da86772 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -1253,7 +1253,7 @@ static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
+>       }
+>   
+>       if (!blk->allow_write_beyond_eof) {
+> -        len = blk_getlength(blk);
+> +        len = bdrv_getlength(blk_bs(blk));
 
+I understand the reasoning, but the change looks like a degradation.. bdrv_* functions becomes kind of *_locked() ? If we are going to introduce a lot of such changes, that's not good. But this one is not a problem of course.
 
-Like in 02 and 03, realizations of the callback are not marked coroutine_fn. [*]
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-(do we want to reanme it to _co_ ? This also simplifies review, in a way to check [*])
+>           if (len < 0) {
+>               return len;
+>           }
 
 -- 
 Best regards,
