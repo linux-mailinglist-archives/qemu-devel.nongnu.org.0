@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1CA64ED16
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F9B64ED20
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:47:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6BvP-0000Ri-Mi; Fri, 16 Dec 2022 09:42:59 -0500
+	id 1p6Bz3-0002Nn-Vq; Fri, 16 Dec 2022 09:46:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p6BvN-0000R5-4p
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:42:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1p6Byk-00029B-MF; Fri, 16 Dec 2022 09:46:38 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p6BvL-0006aa-OA
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:42:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671201775;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qrKJoSz5cB4hm42QiQPBxVK6UaLiCYWqwPnYYlLMOhc=;
- b=cns7oSiM+cQ8GAPwHSjAYW/ioFZFbY5ghtPY1z6mbyYSc65ViGBAoDoytvsXy7TKfBZBue
- 1EftMdObsqYZyTHtIwFpFy04zHz5zA2xGsdBl4Pe15EoIt9WGGD6d21Owd4wl8bHF2vFEO
- NMyFzfZWzYn2uIwWsWyHi67mwS2ZSto=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-488-xmVZF-pCNZeJSswxPBzjvw-1; Fri, 16 Dec 2022 09:42:53 -0500
-X-MC-Unique: xmVZF-pCNZeJSswxPBzjvw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0191F1C0A584
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:42:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63BEA1121314;
- Fri, 16 Dec 2022 14:42:52 +0000 (UTC)
-Date: Fri, 16 Dec 2022 14:42:49 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 06/30] meson: tweak hardening options for Windows
-Message-ID: <Y5yD6b3vkSPDOSv5@redhat.com>
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-7-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1p6Byi-0007LV-BP; Fri, 16 Dec 2022 09:46:26 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 1D49774812D;
+ Fri, 16 Dec 2022 15:44:34 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id DAA47747FAB; Fri, 16 Dec 2022 15:44:33 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id D884A746307;
+ Fri, 16 Dec 2022 15:44:33 +0100 (CET)
+Date: Fri, 16 Dec 2022 15:44:33 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-trivial@nongnu.org, 
+ Ani Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH v2 3/7] hw/acpi/Kconfig: Do not needlessly build
+ TYPE_PIIX4_PM in non-PC/Malta machines
+In-Reply-To: <20221216130355.41667-4-shentey@gmail.com>
+Message-ID: <af5b497b-c0ff-0d08-d37b-6eeea23b3e3d@eik.bme.hu>
+References: <20221216130355.41667-1-shentey@gmail.com>
+ <20221216130355.41667-4-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221209112409.184703-7-pbonzini@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,32 +62,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 09, 2022 at 12:23:45PM +0100, Paolo Bonzini wrote:
-> -Wl,--dynamicbase has been enabled for DLLs upstream for roughly 2
-> years (https://sourceware.org/bugzilla/show_bug.cgi?id=19011), and
-> also by some distros including Debian for 6 years even
-> (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=836365), so
-> just enable it unconditionally.
-> 
-> Also add -Wl,--high-entropy-va.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Fri, 16 Dec 2022, Bernhard Beschow wrote:
+> TYPE_PIIX4_PM is only used in machines where PIIX chipsets are used
+> which is currently PC and Malta. There is no point building it for the
+> other ACPI_X86 machines.
+>
+> Note that this also removes unneeded ACPI_PIIX4 from PEGASOS2.
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+Isn't 440fx using PIIX3 whereas Malta uses PIIX4? If so there may be still 
+some inconsistency in the naming of this config option (should it be 
+ACPI_PIIX maybe?) but it should not be needed for pegasos2 in any case.
+
+Regards,
+BALATON Zoltan
+
 > ---
->  meson.build | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> hw/acpi/Kconfig | 1 -
+> hw/i386/Kconfig | 1 +
+> 2 files changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+> index 704cbc6236..b7006e18c8 100644
+> --- a/hw/acpi/Kconfig
+> +++ b/hw/acpi/Kconfig
+> @@ -9,7 +9,6 @@ config ACPI_X86
+>     select ACPI_CPU_HOTPLUG
+>     select ACPI_MEMORY_HOTPLUG
+>     select ACPI_HMAT
+> -    select ACPI_PIIX4
+>     select ACPI_PCIHP
+>     select ACPI_ERST
+>
+> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+> index d22ac4a4b9..3a92566701 100644
+> --- a/hw/i386/Kconfig
+> +++ b/hw/i386/Kconfig
+> @@ -69,6 +69,7 @@ config I440FX
+>     imply E1000_PCI
+>     imply VMPORT
+>     imply VMMOUSE
+> +    select ACPI_PIIX4
+>     select PC_PCI
+>     select PC_ACPI
+>     select ACPI_SMBUS
+>
 
