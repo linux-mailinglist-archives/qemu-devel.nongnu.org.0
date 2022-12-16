@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAF664F3D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:15:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DCF64F41B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:28:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6ImU-0005qv-F2; Fri, 16 Dec 2022 17:02:14 -0500
+	id 1p6ImW-0005u0-8m; Fri, 16 Dec 2022 17:02:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6ImP-0005pB-7Z
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:10 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6ImS-0005pl-SP
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:12 -0500
 Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6ImK-0004WP-PH
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:08 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id x22so9195152ejs.11
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:02:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6ImQ-0004Wv-HM
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:11 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id ud5so9283021ejc.4
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:02:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mhGZna9l3lENd7UZY/4yLG5pT7hOcb2EMxgKyYLwAN0=;
- b=NwjtsWrBvMzFs/3Y3Kfr+Ft1HiqHGv2UXDCRGQI1DmUnWsh9uHvJUqIwp+ZHJcd4fN
- 6XlhNexwKhNXMLqvqiyRU/nc6F26didM5WoHJDixUjGbueQ6ukN0ASQiH5O5541yVtav
- fYKeUr2cF/gvIkZg1WlE/UluKLIdntPsI21aRqCx3ZYP4gcWZ6McLckK+P68mI0K9s63
- 1Vg8AaRqYdjTvLRzszt2d8p5d3kaC0ilzaSdBYK44f2uxadj4n3hdPTVKYJGM7oT7m7J
- LSGJie45pig0uAr0mafjXcp4r50bCiXfsDIQgPaZslIgFU3Lyst1m5r2vYeXkKGZ3uLi
- II8w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=smV2boftcCtD6CrVI7POMK9nIWSGbQbv5KmjP5LYN6w=;
+ b=DaOMyhZ6fNpFrNXIfIEA8BNfsz9USKx8GXatFrOF1pclTTG+TpoggCFuWgJqA9c+5t
+ bN+M/B8rT57GHfUBvghHx3yQqQZkBwRtb1hMQMxW/mfPFIx2UOxpeXWNAeGvU0c9vFKV
+ 3drdogBgH9zKwQWF9Dg7UZxaQtL/Kb5BL7f2NPKorzyglxJ8iKDHbayQU0fOswWg+dbn
+ dqbNx5uLMeS0oXSZaBa4L+jMcJPaigEzdULoZvILY3cKOjkoiG5+SeVCWr3Y4yDVgVOc
+ DM9G+tLJ3XUUpin2EftSnBSZjjXZliG0kWgzHNbY1A0ImjHl0zWlzgxuM2wwUfe/uvYj
+ MFxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mhGZna9l3lENd7UZY/4yLG5pT7hOcb2EMxgKyYLwAN0=;
- b=zQ4PXPD7sAx0j9lb4JqTk26hz/UGOdCYgJ4bOx+3bYGikOZwLu/+GGCaTzlexKcBcY
- V1f+oglVr0tKtc/suCDOyYFwHBRna9wWNJ1n4CTIZRl7c0dNy49QBTSfyqSgpVCCtv4D
- XQz1WEOLwKt0uL+QBOd0u2fJshkUQl4TG+lQuGb0mv45/IEyuXtw9p9RzQGJf7kqFQ0X
- nzxYwVuaib8O3Xf6yC2iq94fVThKFvZG9jfImrLRFnYPH/5eehSlN4Y+ElFzMBqY59QC
- 7m6JJk69HCTv/XyTtSYZTELJ5GkYyVj+25bFbdpKptMHHbChXnTqIGJJKiO5/xDpdZqp
- MqyQ==
-X-Gm-Message-State: ANoB5pkSlXoTo7uyqvjjDrinsC6NVDuzKzuViggwCzgRiEKV7DaUrdvS
- DJ3I+as0wyUJkskCSAI7Yv1JQHQxdcIHXTUTOa0=
-X-Google-Smtp-Source: AA0mqf6J9e78waO50YbqbzYNdjM+S5FEynqS/xXZsLvISQBCw4rSRISlRggiaTaG/LceEYnL2zrJUw==
-X-Received: by 2002:a17:907:10c9:b0:7c0:cee0:2f55 with SMTP id
- rv9-20020a17090710c900b007c0cee02f55mr29026552ejb.28.1671228121799; 
- Fri, 16 Dec 2022 14:02:01 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=smV2boftcCtD6CrVI7POMK9nIWSGbQbv5KmjP5LYN6w=;
+ b=Yv9fVIzZG/JlHZco4Wdys5rBR1Vn3TUXvLfGyXLpbJLUdTrZ59YuSfiJkj9+Tvjhd7
+ D6Q+u/apILciS0QYTnB05XV0gVks3DswNBCxZraBsWflZZbw5QaG9XR1n9rjGSErWP04
+ kl09pZSYSkayNEayU3HZtERqmHPkRZnk9IZ0oE1uDSsRAlRY/BHtsZ5fGL5VtaAzO7dN
+ xOCRVbbrLUNslYPtB6HHr/UxDBkFqJ5mQAER5MZYsEY6eO2vUClJXAFxmzgVc73Tv0hx
+ PiMtf2jdrXYl11tSPzOw4J87Sg+F8MKALFgwRKBTH1BFZdo4Dn/dbiDjyL0c5pml6+ZZ
+ JPpQ==
+X-Gm-Message-State: ANoB5pliG6UHhqqEnJrsmwvcPU6YesHLQbue76RdyQWHrxkEEFDuNNvW
+ DEMr90n8C4vEKsdZzYUF9zNNbe4vVNDzVn/ALkc=
+X-Google-Smtp-Source: AA0mqf7QAqCiH23adcIdxw8c57oTXKYq6VQ4tdsquZy5PRXss98D1c1irVpoc52DsP192AYwLK2G2g==
+X-Received: by 2002:a17:906:1805:b0:78d:f454:3855 with SMTP id
+ v5-20020a170906180500b0078df4543855mr28504506eje.18.1671228128414; 
+ Fri, 16 Dec 2022 14:02:08 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- lb17-20020a170907785100b007bd0bb6423csm1275371ejc.199.2022.12.16.14.02.00
+ g25-20020a170906539900b00738795e7d9bsm1299629ejo.2.2022.12.16.14.02.06
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 14:02:01 -0800 (PST)
+ Fri, 16 Dec 2022 14:02:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -61,12 +62,15 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Wenchao Wang <wenchao.wang@intel.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 0/5] target/i386: Header cleanups around "cpu.h"
-Date: Fri, 16 Dec 2022 23:01:53 +0100
-Message-Id: <20221216220158.6317-1-philmd@linaro.org>
+Subject: [PATCH 1/5] target/i386: Remove NEED_CPU_H guard from target-specific
+ headers
+Date: Fri, 16 Dec 2022 23:01:54 +0100
+Message-Id: <20221216220158.6317-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221216220158.6317-1-philmd@linaro.org>
+References: <20221216220158.6317-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
  envelope-from=philmd@linaro.org; helo=mail-ej1-x62a.google.com
@@ -92,26 +96,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These patches are part of a big refactor cleanup
-around "cpu.h". Most changes should be trivial IMHO.
+NEED_CPU_H is always defined for these target-specific headers.
 
-Philippe Mathieu-Daudé (5):
-  target/i386: Remove NEED_CPU_H guard from target-specific headers
-  target/i386/cpu: Remove dead helper_lock() declaration
-  target/i386/ops_sse: Include missing "cpu.h" header
-  target/i386: Remove x86_cpu_dump_local_apic_state() dead stub
-  hw/i386/x86: Reduce init_topo_info() scope
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ target/i386/hax/hax-i386.h | 2 --
+ target/i386/hvf/hvf-i386.h | 4 ----
+ 2 files changed, 6 deletions(-)
 
- hw/i386/x86.c                | 2 +-
- include/hw/i386/x86.h        | 3 ---
- target/i386/cpu-dump.c       | 5 +----
- target/i386/cpu.h            | 7 ++++---
- target/i386/hax/hax-i386.h   | 2 --
- target/i386/hvf/hvf-i386.h   | 4 ----
- target/i386/ops_sse.h        | 1 +
- target/i386/ops_sse_header.h | 3 +++
- 8 files changed, 10 insertions(+), 17 deletions(-)
-
+diff --git a/target/i386/hax/hax-i386.h b/target/i386/hax/hax-i386.h
+index efbb346238..409ebdb4af 100644
+--- a/target/i386/hax/hax-i386.h
++++ b/target/i386/hax/hax-i386.h
+@@ -49,7 +49,6 @@ struct hax_vm {
+     struct hax_vcpu_state **vcpus;
+ };
+ 
+-#ifdef NEED_CPU_H
+ /* Functions exported to host specific mode */
+ hax_fd hax_vcpu_get_fd(CPUArchState *env);
+ int valid_hax_tunnel_size(uint16_t size);
+@@ -66,7 +65,6 @@ int hax_sync_vcpu_state(CPUArchState *env, struct vcpu_state_t *state,
+                         int set);
+ int hax_sync_msr(CPUArchState *env, struct hax_msr_data *msrs, int set);
+ int hax_sync_fpu(CPUArchState *env, struct fx_layout *fl, int set);
+-#endif
+ 
+ int hax_vm_destroy(struct hax_vm *vm);
+ int hax_capability(struct hax_state *hax, struct hax_capabilityinfo *cap);
+diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
+index 76e9235524..95b47c1c2e 100644
+--- a/target/i386/hvf/hvf-i386.h
++++ b/target/i386/hvf/hvf-i386.h
+@@ -24,11 +24,7 @@
+ 
+ void hvf_handle_io(CPUArchState *, uint16_t, void *, int, int, int);
+ 
+-#ifdef NEED_CPU_H
+-/* Functions exported to host specific mode */
+-
+ /* Host specific functions */
+ int hvf_inject_interrupt(CPUArchState *env, int vector);
+-#endif
+ 
+ #endif
 -- 
 2.38.1
 
