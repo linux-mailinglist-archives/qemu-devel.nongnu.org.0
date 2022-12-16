@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A4064F42F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:33:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 466E364F3C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:10:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Imt-0005zh-7t; Fri, 16 Dec 2022 17:02:39 -0500
+	id 1p6Iob-0007cg-QS; Fri, 16 Dec 2022 17:04:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Imp-0005yt-HN
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:35 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6IoU-0007ar-Kh
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:04:18 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Imn-0004ZL-Qb
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:35 -0500
-Received: by mail-ej1-x634.google.com with SMTP id n20so9383086ejh.0
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:02:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6IoS-000526-VS
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:04:18 -0500
+Received: by mail-ed1-x530.google.com with SMTP id r26so5452016edc.10
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:04:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=onv9U82TXSCn9/lZOsBgvSuM1dZGKCW/DDceT29frZo=;
- b=Ky4iUHJlIfCfLsoL60cSkI2b4RH5kaJWH7u1YjPsKd5vB2IsV955ZBjKeQbx4fqYeI
- 4605/+ORXY6xUdzg/B2mu+kCIF4Hj28cGGXKzaQRry59U+ULfbYzi/6t3aAVQvnxCqEt
- y9ajqv645neBKAF6cyCnmUdpSu8LWPjieD3AnDoHqJFk1xHBPQHMk0rsS+kW3/BKeFBp
- E9GuxclM8wAnhWKl3nDJ5ELc9KZaxca7YCz6qtkKjAnaXsl/htrumlQvneazzbpQQTaK
- GWzP9zn8ghTz4kztjl5KF9WK3Ri4yLnySCBAvPqwFm13OQkkU+pUWHfhuduumIRsIDzL
- ZcMg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UmKj596+Spl5Mq0rrnKISHcFLMYc7tS8XKUwXGtA7io=;
+ b=sj5yeOPZvjGqp6gGyVuGfmUsf6cqbq5Nb2FmzGIknUwqqVUrspmOGTYArANE3SkSLH
+ azQFN1t3RNKrqnAiVSsETCFie83CjfaD8en1H6yrXxk3hgdN5xW1FWZ/ksD85yleyzUj
+ /BRaVhR+iEHhT6HXS6M64bPPdr2hElb1akzxC00iRo7GO+F2YtVPL+P1/ql1cT/6XnH1
+ 0UQWj4r4rfZbwSsXXLucEiOPJBWPAonvUJ+sEyui+Cr7sw+JNbv8lqR/5IYRgq9zbg6U
+ WA0pXgxg43O/vDec0iELR6p+moYwSnbAssxeAM1koqikf0aQoCMXw6+j4B3dNrozPCaA
+ NmmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=onv9U82TXSCn9/lZOsBgvSuM1dZGKCW/DDceT29frZo=;
- b=USDMe6v6ahccv25uL5G/UCx5NwGqPhKE6wJ86TWf15znliN4nTm9b+kPj/2D5fUUCi
- CrkyDmOpwrJ+qupTyxTEkeQXlRtJt2vm/77XaNTEepMgqrJXKWRo3Tb/A0Xx2Lakx2aJ
- V52EgGwmXzvYGHEdFjmoi3R5wnekOc115qpFrALbfS0FlrfyilglH8RnYtPRxZr/nLCF
- uhMNOr2p+cjkbiPd6/Zidtu/DqesQhBLDzFJ+gXfMokEEKSVaplLAWqwn7NnkcfQF1eU
- plqkpfhBKGH1vK4KghIWcyyFYiGLKxQhsJyfXMbWiVy4MW3IoV0FdzK/+EwtHlKU2xzE
- AT3A==
-X-Gm-Message-State: AFqh2kpC/rvRrZ37j6x21h0LVL55dIuGK3gujA9OG4b3JEXnPC77oehW
- lEltabWmNRy6/gBC84m9jrEDb8ksi0B81o9DNAM=
-X-Google-Smtp-Source: AMrXdXvVJ7MFT/wlpKssdiyDsQ2ooocTbBsdco7g2Val/Wjrgmy7bj9LvomubxJXiygqYSjklTykgg==
-X-Received: by 2002:a17:907:1b28:b0:7f7:a985:1838 with SMTP id
- mp40-20020a1709071b2800b007f7a9851838mr1014329ejc.44.1671228152085; 
- Fri, 16 Dec 2022 14:02:32 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UmKj596+Spl5Mq0rrnKISHcFLMYc7tS8XKUwXGtA7io=;
+ b=C0wMUsvbzlsFHd2TzdKTnjbmt8bt2/RrEgt5gdBIHQ681p4DPPhsi0UbeOhmS6RDF5
+ ZHpyBbSFSQF/JxVFMIcMwLEI+1jon+fsADxFtm35Ft2GMzfItT3TVeHksahlVfXNDFYG
+ OQlG7lCuHafwSP3rac+T8SEDAAPE1SWmfth0j4jKerFPQ3OkXJJqSaEGgZhgVbu3J8JB
+ fiKPVIG7oW02NmZj8RDFJBBtetm97lQMHl4VlfjfNXznDSt0ljp9/aIaDFRHxpk7XoiC
+ tuHhU4TcPJ0ECLrk+M1EuMr/QN27JkIKsXpWSmbLdp6apDmU12sJqfTxCbca3+3DucYv
+ sfPw==
+X-Gm-Message-State: ANoB5pnX5ZBk5jPMU8yViTgSCJ+MGYRxeWr1tT2jiYVyqF8baL23Ev99
+ IHZxl5D77SfI82uDZSuBX2EdYan0dRdw4fqS0FE=
+X-Google-Smtp-Source: AA0mqf6u+ZQImmTIEFnxYU4O5qSy06/1qtCwW97nwAaCbdiSgtH/xzaemkxBH638Fin18LWMazJ5Pg==
+X-Received: by 2002:a05:6402:e97:b0:461:6219:4b16 with SMTP id
+ h23-20020a0564020e9700b0046162194b16mr17525107eda.33.1671228254871; 
+ Fri, 16 Dec 2022 14:04:14 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- a14-20020a170906670e00b007c0f45ad6bcsm1279023ejp.109.2022.12.16.14.02.30
+ w26-20020aa7cb5a000000b0046c53c3b2dfsm1314417edt.38.2022.12.16.14.04.12
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 14:02:31 -0800 (PST)
+ Fri, 16 Dec 2022 14:04:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cameron Esfahani <dirty@apple.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, haxm-team@intel.com,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
+Cc: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Stefan Weil <sw@weilnetz.de>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 5/5] hw/i386/x86: Reduce init_topo_info() scope
-Date: Fri, 16 Dec 2022 23:01:58 +0100
-Message-Id: <20221216220158.6317-6-philmd@linaro.org>
+ Eric Farman <farman@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Peter Xu <peterx@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: [PATCH 0/5] target/s390x: Header cleanups around "cpu.h"
+Date: Fri, 16 Dec 2022 23:04:06 +0100
+Message-Id: <20221216220411.6779-1-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221216220158.6317-1-philmd@linaro.org>
-References: <20221216220158.6317-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,67 +91,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This function is not used anywhere outside this file, so
-we can delete the prototype from include/hw/i386/x86.h and
-make the function "static void".
+These patches are part of a big refactor cleanup
+around "cpu.h". Most changes should be trivial IMHO.
 
-This fixes when building with -Wall and using Clang
-("Apple clang version 14.0.0 (clang-1400.0.29.202)"):
+Philippe Mathieu-Daudé (5):
+  exec/memory: Expose memory_region_access_valid()
+  hw/s390x/pv: Un-inline s390_pv_init()
+  hw/s390x/pv: Simplify s390_is_pv() for user emulation
+  target/s390x/tcg/misc_helper: Remove unused "memory.h" include
+  target/s390x/tcg/excp_helper: Restrict system headers to sysemu
 
-  ../hw/i386/x86.c:70:24: error: static function 'MACHINE' is used in an inline function with external linkage [-Werror,-Wstatic-in-inline]
-      MachineState *ms = MACHINE(x86ms);
-                         ^
-  include/hw/i386/x86.h:101:1: note: use 'static' to give inline function 'init_topo_info' internal linkage
-  void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
-  ^
-  static
-  include/hw/boards.h:24:49: note: 'MACHINE' declared here
-  OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
-                                                  ^
+ hw/s390x/pv.c                  | 13 +++++++++++++
+ hw/s390x/s390-pci-inst.c       |  2 +-
+ include/exec/memory-internal.h |  4 ----
+ include/exec/memory.h          |  4 ++++
+ include/hw/s390x/pv.h          | 20 ++++++++------------
+ target/s390x/tcg/excp_helper.c | 10 +++++-----
+ target/s390x/tcg/misc_helper.c |  1 -
+ 7 files changed, 31 insertions(+), 23 deletions(-)
 
-Reported-by: Stefan Weil <sw@weilnetz.de>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/i386/x86.c         | 2 +-
- include/hw/i386/x86.h | 3 ---
- 2 files changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 78cc131926..b6ba0b2d00 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -64,7 +64,7 @@
- /* Physical Address of PVH entry point read from kernel ELF NOTE */
- static size_t pvh_start_addr;
- 
--inline void init_topo_info(X86CPUTopoInfo *topo_info,
-+static void init_topo_info(X86CPUTopoInfo *topo_info,
-                            const X86MachineState *x86ms)
- {
-     MachineState *ms = MACHINE(x86ms);
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 62fa5774f8..5d3047a1d1 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -20,7 +20,6 @@
- #include "exec/hwaddr.h"
- #include "qemu/notify.h"
- 
--#include "hw/i386/topology.h"
- #include "hw/boards.h"
- #include "hw/nmi.h"
- #include "hw/isa/isa.h"
-@@ -98,8 +97,6 @@ struct X86MachineState {
- #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
- OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
- 
--void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
--
- uint32_t x86_cpu_apic_id_from_index(X86MachineState *pcms,
-                                     unsigned int cpu_index);
- 
 -- 
 2.38.1
 
