@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D2964F424
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:31:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A4064F42F
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:33:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Imn-0005xy-35; Fri, 16 Dec 2022 17:02:33 -0500
+	id 1p6Imt-0005zh-7t; Fri, 16 Dec 2022 17:02:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Imj-0005xY-TW
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:29 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Imp-0005yt-HN
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:35 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Imh-0004Yo-LR
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:29 -0500
-Received: by mail-ed1-x529.google.com with SMTP id d20so5578190edn.0
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:02:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Imn-0004ZL-Qb
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:02:35 -0500
+Received: by mail-ej1-x634.google.com with SMTP id n20so9383086ejh.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:02:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ubryi+kT4ZgfJta0po2rO0OCWUN41wpa/A7EK1wMX3A=;
- b=CPXJdzqqTPQTVBAhjt52mM6Sr6Xb2LTSI4KR89AdwMhHcVAmf4Mp1len6K6NxdXMn6
- UZs2G9WzLdjSLmcG7LMBJrmkYXE0xq/0WDA0EqkzUSJoVoUe6Ty7bR+RxNoXHb06FAcU
- 9zjZVvVuYfBTAcQ6XmZBQ1Rn/FmzkqtchgoNVkvcngRI3ngEAKOBhsrt88tEZayyBs95
- 0L2yBCjMWBqpEZzUUwJ3wy/AQCXSPtKmgVXba/JGHv5pgBCICijfsU+XTL3FbyhTi5BB
- 2nkqw76Gxx33g6P1WlVLOEVggs9LFB8b/rulK4aorqYsvPAp4H4liq7OmslsNi6ZkBYA
- nPmg==
+ bh=onv9U82TXSCn9/lZOsBgvSuM1dZGKCW/DDceT29frZo=;
+ b=Ky4iUHJlIfCfLsoL60cSkI2b4RH5kaJWH7u1YjPsKd5vB2IsV955ZBjKeQbx4fqYeI
+ 4605/+ORXY6xUdzg/B2mu+kCIF4Hj28cGGXKzaQRry59U+ULfbYzi/6t3aAVQvnxCqEt
+ y9ajqv645neBKAF6cyCnmUdpSu8LWPjieD3AnDoHqJFk1xHBPQHMk0rsS+kW3/BKeFBp
+ E9GuxclM8wAnhWKl3nDJ5ELc9KZaxca7YCz6qtkKjAnaXsl/htrumlQvneazzbpQQTaK
+ GWzP9zn8ghTz4kztjl5KF9WK3Ri4yLnySCBAvPqwFm13OQkkU+pUWHfhuduumIRsIDzL
+ ZcMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ubryi+kT4ZgfJta0po2rO0OCWUN41wpa/A7EK1wMX3A=;
- b=ZA71hejDts7IAs4UNu1EwbmM44eDiH0657iD8eLZMgoH59mSUZ5ufbxj0uMO+9ccW1
- /lv/hRaPf3hQKCydlYFn/bA0OxlECg0JOQZ3M4cmsFFwrV64JImuIORwzN41+iTKVMUk
- 72uCRg1jabkjG6N0bbKqU8aWgC/YNMBUYF2M8ThPbw4SgHTf5dwVhVFN1al7bNBR+01+
- goEpczPH+PJEGxZNKT9QCfOwbSmeHUZg2XF27dJOBvRFBoJZKHMszu6ax0yd7RrY4xRi
- UsZpNV+yAzcChEra6+l1mQ7pyz0uET3gfrLz3xaNVKO4W6P2KCoT7pfCinfEmg3MAapN
- s4fg==
-X-Gm-Message-State: ANoB5pm1wMuntPAq2dsPRwVSWJB8DTh0OPYiHuiWdIc1rJxIKXlYg1fa
- 3ExO1kb8j0PwWfUItbX/2znrsF8+7K0FZiWcA+8=
-X-Google-Smtp-Source: AA0mqf7hbCF6/YLJgPUrP29bqDep1dHdTtfN9t1gEYNPFhIVhf0JIMK70cl7X0xfep0qFWR2Tt2EzQ==
-X-Received: by 2002:a05:6402:28a:b0:45c:be41:a473 with SMTP id
- l10-20020a056402028a00b0045cbe41a473mr28858111edv.29.1671228145924; 
- Fri, 16 Dec 2022 14:02:25 -0800 (PST)
+ bh=onv9U82TXSCn9/lZOsBgvSuM1dZGKCW/DDceT29frZo=;
+ b=USDMe6v6ahccv25uL5G/UCx5NwGqPhKE6wJ86TWf15znliN4nTm9b+kPj/2D5fUUCi
+ CrkyDmOpwrJ+qupTyxTEkeQXlRtJt2vm/77XaNTEepMgqrJXKWRo3Tb/A0Xx2Lakx2aJ
+ V52EgGwmXzvYGHEdFjmoi3R5wnekOc115qpFrALbfS0FlrfyilglH8RnYtPRxZr/nLCF
+ uhMNOr2p+cjkbiPd6/Zidtu/DqesQhBLDzFJ+gXfMokEEKSVaplLAWqwn7NnkcfQF1eU
+ plqkpfhBKGH1vK4KghIWcyyFYiGLKxQhsJyfXMbWiVy4MW3IoV0FdzK/+EwtHlKU2xzE
+ AT3A==
+X-Gm-Message-State: AFqh2kpC/rvRrZ37j6x21h0LVL55dIuGK3gujA9OG4b3JEXnPC77oehW
+ lEltabWmNRy6/gBC84m9jrEDb8ksi0B81o9DNAM=
+X-Google-Smtp-Source: AMrXdXvVJ7MFT/wlpKssdiyDsQ2ooocTbBsdco7g2Val/Wjrgmy7bj9LvomubxJXiygqYSjklTykgg==
+X-Received: by 2002:a17:907:1b28:b0:7f7:a985:1838 with SMTP id
+ mp40-20020a1709071b2800b007f7a9851838mr1014329ejc.44.1671228152085; 
+ Fri, 16 Dec 2022 14:02:32 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- r17-20020a056402019100b004722d7e8c7csm1323355edv.14.2022.12.16.14.02.24
+ a14-20020a170906670e00b007c0f45ad6bcsm1279023ejp.109.2022.12.16.14.02.30
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 14:02:25 -0800 (PST)
+ Fri, 16 Dec 2022 14:02:31 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -61,19 +61,19 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Wenchao Wang <wenchao.wang@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 4/5] target/i386: Remove x86_cpu_dump_local_apic_state() dead
- stub
-Date: Fri, 16 Dec 2022 23:01:57 +0100
-Message-Id: <20221216220158.6317-5-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH 5/5] hw/i386/x86: Reduce init_topo_info() scope
+Date: Fri, 16 Dec 2022 23:01:58 +0100
+Message-Id: <20221216220158.6317-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221216220158.6317-1-philmd@linaro.org>
 References: <20221216220158.6317-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,56 +96,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-x86_cpu_dump_local_apic_state() is called from monitor.c which
-is only compiled for system emulation since commit bf95728400
-("monitor: remove target-specific code from monitor.c").
+This function is not used anywhere outside this file, so
+we can delete the prototype from include/hw/i386/x86.h and
+make the function "static void".
 
-Interestingly this stub was added few weeks later in commit
-1f871d49e3 ("hmp: added local apic dump state") and was not
-necessary by that time.
+This fixes when building with -Wall and using Clang
+("Apple clang version 14.0.0 (clang-1400.0.29.202)"):
 
+  ../hw/i386/x86.c:70:24: error: static function 'MACHINE' is used in an inline function with external linkage [-Werror,-Wstatic-in-inline]
+      MachineState *ms = MACHINE(x86ms);
+                         ^
+  include/hw/i386/x86.h:101:1: note: use 'static' to give inline function 'init_topo_info' internal linkage
+  void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
+  ^
+  static
+  include/hw/boards.h:24:49: note: 'MACHINE' declared here
+  OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
+                                                  ^
+
+Reported-by: Stefan Weil <sw@weilnetz.de>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/i386/cpu-dump.c | 5 +----
- target/i386/cpu.h      | 4 ++++
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ hw/i386/x86.c         | 2 +-
+ include/hw/i386/x86.h | 3 ---
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
-index 08ac957e99..40697064d9 100644
---- a/target/i386/cpu-dump.c
-+++ b/target/i386/cpu-dump.c
-@@ -335,10 +335,7 @@ void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
-     }
-     qemu_printf(" PPR 0x%02x\n", apic_get_ppr(s));
- }
--#else
--void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
--{
--}
-+
- #endif /* !CONFIG_USER_ONLY */
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 78cc131926..b6ba0b2d00 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -64,7 +64,7 @@
+ /* Physical Address of PVH entry point read from kernel ELF NOTE */
+ static size_t pvh_start_addr;
  
- #define DUMP_CODE_BYTES_TOTAL    50
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9824b7f8f2..32d048f326 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -2355,12 +2355,16 @@ typedef int X86CPUVersion;
-  */
- void x86_cpu_set_default_version(X86CPUVersion version);
+-inline void init_topo_info(X86CPUTopoInfo *topo_info,
++static void init_topo_info(X86CPUTopoInfo *topo_info,
+                            const X86MachineState *x86ms)
+ {
+     MachineState *ms = MACHINE(x86ms);
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 62fa5774f8..5d3047a1d1 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -20,7 +20,6 @@
+ #include "exec/hwaddr.h"
+ #include "qemu/notify.h"
  
-+#ifndef CONFIG_USER_ONLY
-+
- #define APIC_DEFAULT_ADDRESS 0xfee00000
- #define APIC_SPACE_SIZE      0x100000
+-#include "hw/i386/topology.h"
+ #include "hw/boards.h"
+ #include "hw/nmi.h"
+ #include "hw/isa/isa.h"
+@@ -98,8 +97,6 @@ struct X86MachineState {
+ #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+ OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
  
- /* cpu-dump.c */
- void x86_cpu_dump_local_apic_state(CPUState *cs, int flags);
- 
-+#endif
-+
- /* cpu.c */
- bool cpu_is_bsp(X86CPU *cpu);
+-void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
+-
+ uint32_t x86_cpu_apic_id_from_index(X86MachineState *pcms,
+                                     unsigned int cpu_index);
  
 -- 
 2.38.1
