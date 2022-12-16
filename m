@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84AD264EC61
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 14:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DE364EC74
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 14:58:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6BAy-0008Fq-Vn; Fri, 16 Dec 2022 08:55:01 -0500
+	id 1p6BCD-0001mn-Kj; Fri, 16 Dec 2022 08:56:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6BAv-0008FW-Vl
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:54:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6BAu-0007mp-E9
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 08:54:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671198895;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1p6BC7-0001g6-PI; Fri, 16 Dec 2022 08:56:11 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1p6BC5-0008Ql-SV; Fri, 16 Dec 2022 08:56:11 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F21365CF80;
+ Fri, 16 Dec 2022 13:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1671198967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H+jI9Ae1kOlyAm872IZ+HvpAvtNVj7WGf3+Zm313HZ4=;
- b=CnpvCA/stUesGMRLi/HFgQ/dK8HWDP7VJFLuGGoZdJK+pWAOZX7dsiBXudNViTyNTuWmtn
- zW9YaKl7WPJkNeHFfJXE11ihRG4cCKl0Ja5NFEjIqQPs3n4uOGz/HLXXO6Ce41xKcmv3Wg
- BTsxbyKwO9vDIEittVNQY+8NAD6I3Fc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-KcL7oxqdMeuMEwbqCgQGsw-1; Fri, 16 Dec 2022 08:54:54 -0500
-X-MC-Unique: KcL7oxqdMeuMEwbqCgQGsw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ bh=4PGmMQ2bHca1iLM/aBxU4PtZxXVyuriErZvLXNdYNWg=;
+ b=l0GxX5w3hfABP1YG5oKt+DKKzH2ZJh/m2wmQBFtUnls9Zr4Tah+GjNT9NCJb91TSXkIou9
+ 1qYpJEXjDB5P2qEQ7B1nPGaDZBqCJ+jf9JjzTWgSt6xDjVYJ1vgelA4XBocfbZMvdrEfYO
+ qryjnCJW8zpV1aR8qNvybcjk9rFiXhg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1671198968;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4PGmMQ2bHca1iLM/aBxU4PtZxXVyuriErZvLXNdYNWg=;
+ b=EIwNp29haiYoJSh+YhUnoMJS5x9zbOiS3iS3pbi41WXu6l3ASRZQjesJRQCZzVB7eYJP6h
+ rL2gQl0FPt+mDoBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AADC3814941;
- Fri, 16 Dec 2022 13:54:54 +0000 (UTC)
-Received: from kostyanf14nb.lan (ovpn-193-42.brq.redhat.com [10.40.193.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F6C840C2064;
- Fri, 16 Dec 2022 13:54:53 +0000 (UTC)
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 8/8] qga: map GLib log levels to system levels
-Date: Fri, 16 Dec 2022 15:54:39 +0200
-Message-Id: <20221216135439.465033-9-kkostiuk@redhat.com>
-In-Reply-To: <20221216135439.465033-1-kkostiuk@redhat.com>
-References: <20221216135439.465033-1-kkostiuk@redhat.com>
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 80165138F0;
+ Fri, 16 Dec 2022 13:56:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8dZ0Evd4nGPhWAAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 16 Dec 2022 13:56:07 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org, Peter Lieven
+ <pl@kamp.de>, Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, =?utf-8?Q?Daniel_P=2E_Berrang?=
+ =?utf-8?Q?=C3=A9?=
+ <berrange@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 3/3] ui: remove deprecated 'password' option for SPICE
+In-Reply-To: <20221216113152.584460-4-berrange@redhat.com>
+References: <20221216113152.584460-1-berrange@redhat.com>
+ <20221216113152.584460-4-berrange@redhat.com>
+Date: Fri, 16 Dec 2022 10:56:05 -0300
+Message-ID: <87v8mbh2q2.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,84 +91,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Andrey Drobyshev via <qemu-devel@nongnu.org>
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-This patch translates GLib-specific log levels to system ones, so that
-they may be used by both *nix syslog() (as a "priority" argument) and
-Windows ReportEvent() (as a "wType" argument).
+> This has been replaced by the 'password-secret' option,
+> which references a 'secret' object instance.
+>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Currently the only codepath to write to "syslog" domain is slog()
-function.  However, this patch allows the interface to be extended.
+Reviewed-by: Fabiano Rosas <farosas@suse.de>
 
-Note that since slog() is using G_LOG_LEVEL_INFO level, its behaviour
-doesn't change.
+Just a small detail below.
 
-Originally-by: Yuri Pudgorodskiy <yur@virtuozzo.com>
-Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Tested-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
----
- qga/main.c | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+> ---
+>  docs/about/deprecated.rst       |  8 --------
+>  docs/about/removed-features.rst |  7 +++++++
+>  qemu-options.hx                 |  9 +--------
+>  ui/spice-core.c                 | 15 ---------------
+>  4 files changed, 8 insertions(+), 31 deletions(-)
+>
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index daf2334040..8fbe7cb5fe 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -73,14 +73,6 @@ Input parameters that take a size value should only us=
+e a size suffix
+>  the value is hexadecimal.  That is, '0x20M' is deprecated, and should
+>  be written either as '32M' or as '0x2000000'.
+>=20=20
+> -``-spice password=3Dstring`` (since 6.0)
+> -''''''''''''''''''''''''''''''''''''''
+> -
+> -This option is insecure because the SPICE password remains visible in
+> -the process listing. This is replaced by the new ``password-secret``
+> -option which lets the password be securely provided on the command
+> -line using a ``secret`` object instance.
+> -
+>  ``-smp`` ("parameter=3D0" SMP configurations) (since 6.2)
+>  '''''''''''''''''''''''''''''''''''''''''''''''''''''''
+>=20=20
+> diff --git a/docs/about/removed-features.rst b/docs/about/removed-feature=
+s.rst
+> index 63df9848fd..2cbb1b7afe 100644
+> --- a/docs/about/removed-features.rst
+> +++ b/docs/about/removed-features.rst
+> @@ -408,6 +408,13 @@ pcspk-audiodev=3D<name>``.
+>=20=20
+>  Use ``-device`` instead.
+>=20=20
+> +``-spice password=3Dstring`` (removed in 8.0)
+> +'''''''''''''''''''''''''''''''''''''''''''
+> +
+> +This optionwas insecure because the SPICE password remained visible in
 
-diff --git a/qga/main.c b/qga/main.c
-index 1463a1c170..85b7d6ced5 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -314,6 +314,38 @@ void ga_enable_logging(GAState *s)
-     s->logging_enabled = true;
- }
- 
-+static int glib_log_level_to_system(int level)
-+{
-+    switch (level) {
-+#ifndef _WIN32
-+    case G_LOG_LEVEL_ERROR:
-+        return LOG_ERR;
-+    case G_LOG_LEVEL_CRITICAL:
-+        return LOG_CRIT;
-+    case G_LOG_LEVEL_WARNING:
-+        return LOG_WARNING;
-+    case G_LOG_LEVEL_MESSAGE:
-+        return LOG_NOTICE;
-+    case G_LOG_LEVEL_DEBUG:
-+        return LOG_DEBUG;
-+    case G_LOG_LEVEL_INFO:
-+    default:
-+        return LOG_INFO;
-+#else
-+    case G_LOG_LEVEL_ERROR:
-+    case G_LOG_LEVEL_CRITICAL:
-+        return EVENTLOG_ERROR_TYPE;
-+    case G_LOG_LEVEL_WARNING:
-+        return EVENTLOG_WARNING_TYPE;
-+    case G_LOG_LEVEL_MESSAGE:
-+    case G_LOG_LEVEL_INFO:
-+    case G_LOG_LEVEL_DEBUG:
-+    default:
-+        return EVENTLOG_INFORMATION_TYPE;
-+#endif
-+    }
-+}
-+
- static void ga_log(const gchar *domain, GLogLevelFlags level,
-                    const gchar *msg, gpointer opaque)
- {
-@@ -327,9 +359,9 @@ static void ga_log(const gchar *domain, GLogLevelFlags level,
-     level &= G_LOG_LEVEL_MASK;
-     if (g_strcmp0(domain, "syslog") == 0) {
- #ifndef _WIN32
--        syslog(LOG_INFO, "%s: %s", level_str, msg);
-+        syslog(glib_log_level_to_system(level), "%s: %s", level_str, msg);
- #else
--        ReportEvent(s->event_log, EVENTLOG_INFORMATION_TYPE,
-+        ReportEvent(s->event_log, glib_log_level_to_system(level),
-                     0, 1, NULL, 1, 0, &msg, NULL);
- #endif
-     } else if (level & s->log_level) {
--- 
-2.25.1
+Missing a space here.
 
+> +the process listing. This was replaced by the new ``password-secret``
+> +option which lets the password be securely provided on the command
+> +line using a ``secret`` object instance.
+>=20=20
+>  QEMU Machine Protocol (QMP) commands
+>  ------------------------------------
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 58efb58072..847d71e567 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2132,7 +2132,7 @@ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
+>      "       [,tls-channel=3D[main|display|cursor|inputs|record|playback]=
+]\n"
+>      "       [,plaintext-channel=3D[main|display|cursor|inputs|record|pla=
+yback]]\n"
+>      "       [,sasl=3Don|off][,disable-ticketing=3Don|off]\n"
+> -    "       [,password=3D<string>][,password-secret=3D<secret-id>]\n"
+> +    "       [,password-secret=3D<secret-id>]\n"
+>      "       [,image-compression=3D[auto_glz|auto_lz|quic|glz|lz|off]]\n"
+>      "       [,jpeg-wan-compression=3D[auto|never|always]]\n"
+>      "       [,zlib-glz-wan-compression=3D[auto|never|always]]\n"
+> @@ -2158,13 +2158,6 @@ SRST
+>      ``ipv4=3Don|off``; \ ``ipv6=3Don|off``; \ ``unix=3Don|off``
+>          Force using the specified IP version.
+>=20=20
+> -    ``password=3D<string>``
+> -        Set the password you need to authenticate.
+> -
+> -        This option is deprecated and insecure because it leaves the
+> -        password visible in the process listing. Use ``password-secret``
+> -        instead.
+> -
+>      ``password-secret=3D<secret-id>``
+>          Set the ID of the ``secret`` object containing the password
+>          you need to authenticate.
+> diff --git a/ui/spice-core.c b/ui/spice-core.c
+> index 72f8f1681c..76f7c2bc3d 100644
+> --- a/ui/spice-core.c
+> +++ b/ui/spice-core.c
+> @@ -412,9 +412,6 @@ static QemuOptsList qemu_spice_opts =3D {
+>              .name =3D "unix",
+>              .type =3D QEMU_OPT_BOOL,
+>  #endif
+> -        },{
+> -            .name =3D "password",
+> -            .type =3D QEMU_OPT_STRING,
+>          },{
+>              .name =3D "password-secret",
+>              .type =3D QEMU_OPT_STRING,
+> @@ -666,20 +663,8 @@ static void qemu_spice_init(void)
+>      }
+>      passwordSecret =3D qemu_opt_get(opts, "password-secret");
+>      if (passwordSecret) {
+> -        if (qemu_opt_get(opts, "password")) {
+> -            error_report("'password' option is mutually exclusive with "
+> -                         "'password-secret'");
+> -            exit(1);
+> -        }
+>          password =3D qcrypto_secret_lookup_as_utf8(passwordSecret,
+>                                                   &error_fatal);
+> -    } else {
+> -        str =3D qemu_opt_get(opts, "password");
+> -        if (str) {
+> -            warn_report("'password' option is deprecated and insecure, "
+> -                        "use 'password-secret' instead");
+> -            password =3D g_strdup(str);
+> -        }
+>      }
+>=20=20
+>      if (tls_port) {
 
