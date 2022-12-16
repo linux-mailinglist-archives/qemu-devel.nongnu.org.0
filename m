@@ -2,44 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF0F64F1BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 20:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D11D64F1D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 20:35:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6GHx-0005NS-Ss; Fri, 16 Dec 2022 14:22:34 -0500
+	id 1p6GRU-0001XS-BF; Fri, 16 Dec 2022 14:32:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1p6GHr-0005ME-69
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:22:29 -0500
-Received: from isrv.corpit.ru ([86.62.121.231])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p6GRQ-0001W4-NC; Fri, 16 Dec 2022 14:32:21 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1p6GHp-0001xZ-6k
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:22:26 -0500
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 6AAA5401E9;
- Fri, 16 Dec 2022 22:22:23 +0300 (MSK)
-Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id CCBB53B9;
- Fri, 16 Dec 2022 22:22:21 +0300 (MSK)
-Received: (nullmailer pid 2881948 invoked by uid 1000);
- Fri, 16 Dec 2022 19:22:21 -0000
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-Cc: Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH] linux-user: ppoll: eliminate large alloca
-Date: Fri, 16 Dec 2022 22:22:20 +0300
-Message-Id: <20221216192220.2881898-1-mjt@msgid.tls.msk.ru>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p6GRN-0004Ni-CT; Fri, 16 Dec 2022 14:32:20 -0500
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 073B25EA58;
+ Fri, 16 Dec 2022 22:32:04 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b58d::1:2b] (unknown
+ [2a02:6b8:b081:b58d::1:2b])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 1Wn0sG0OFmI1-x5iIeecG; Fri, 16 Dec 2022 22:32:03 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1671219123; bh=sBH5RyK5jRzzkODuNKwS8cNYpgy5t+IWUUiYeDwX+S0=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=v0LjEYJWoV0ykv+nrn6eUTnG2NsFsCguHBteIQS7J9swqNb8sRjfrdzlFuAULpBUM
+ cIGpmUWZ+WzWQ5QQIBOi47799KabZ4729QekCn4Q6w5b6vePlk1fc2Wr9J79vmcaXj
+ 5YQC5+qAbb5LNcbagHkJkc6BCu9AaiyW2aFJzOtY=
+Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <f350f0ec-34b1-dca7-5bb0-344a6832f327@yandex-team.ru>
+Date: Fri, 16 Dec 2022 22:32:01 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 1/6] spec: Recommend cap on NBD_REPLY_TYPE_BLOCK_STATUS
+ length
+Content-Language: en-US
+To: Eric Blake <eblake@redhat.com>, nbd@other.debian.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, libguestfs@redhat.com
+References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
+ <20221114224655.2186173-1-eblake@redhat.com>
+ <20221114224655.2186173-2-eblake@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221114224655.2186173-2-eblake@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,132 +76,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-do_ppoll() in linux-user/syscall.c uses alloca() to
-allocate an array of struct pullfds on the stack.
-The only upper boundary for number of entries for this
-array is so that whole thing fits in INT_MAX. But this
-is definitely too much for a stack allocation.
+On 11/15/22 01:46, Eric Blake wrote:
+> The spec was silent on how many extents a server could reply with.
+> However, both qemu and nbdkit (the two server implementations known to
+> have implemented the NBD_CMD_BLOCK_STATUS extension) implement a hard
+> cap, and will truncate the amount of extents in a reply to avoid
+> sending a client a reply so large that the client would treat it as a
+> denial of service attack.  Clients currently have no way during
+> negotiation to request such a limit of the server, so it is easier to
+> just document this as a restriction on viable server implementations
+> than to add yet another round of handshaking.  Also, mentioning
+> amplification effects is worthwhile.
+> 
+> When qemu first implemented NBD_CMD_BLOCK_STATUS for the
+> base:allocation context (qemu commit e7b1948d51, Mar 2018), it behaved
+> as if NBD_CMD_FLAG_REQ_ONE were always passed by the client, and never
+> responded with more than one extent.  Later, when adding its
+> qemu:dirty-bitmap:XYZ context extension (qemu commit 3d068aff16, Jun
+> 2018), it added a cap to 128k extents (1M+4 bytes), and that cap was
+> applied to base:allocation once qemu started sending multiple extents
+> for that context as well (qemu commit fb7afc797e, Jul 2018).  Qemu
+> extents are never smaller than 512 bytes (other than an exception at
+> the end of a file whose size is not aligned to 512), but even so, a
+> request for just under 4G of block status could produce 8M extents,
+> resulting in a reply of 64M if it were not capped smaller.
+> 
+> When nbdkit first implemented NBD_CMD_BLOCK_STATUS (nbdkit 4ca66f70a5,
+> Mar 2019), it did not impose any restriction on the number of extents
+> in the reply chunk.  But because it allows extents as small as one
+> byte, it is easy to write a server that can amplify a client's request
+> of status over 1M of the image into a reply over 8M in size, and it
+> was very easy to demonstrate that a hard cap was needed to avoid
+> crashing clients or otherwise killing the connection (a bad server
+> impacting the client negatively).  So nbdkit enforced a bound of 1M
+> extents (8M+4 bytes, nbdkit commit 6e0dc839ea, Jun 2019).  [Unrelated
+> to this patch, but worth noting for history: nbdkit's situation also
+> has to deal with the fact that it is designed for plugin server
+> implementations; and not capping the number of extents in a reply also
+> posed a problem to nbdkit as the server, where a plugin could exhaust
+> memory and kill the server, unrelated to any size constraints enforced
+> by a client.]
+> 
+> Since the limit chosen by these two implementations is different, and
+> since nbdkit has versions that were not limited, add this as a SHOULD
+> NOT instead of MUST NOT constraint on servers implementing block
+> status.  It does not matter that qemu picked a smaller limit that it
+> truncates to, since we have already documented that the server may
+> truncate for other reasons (such as it being inefficient to collect
+> that many extents in the first place).  But documenting the limit now
+> becomes even more important in the face of a future addition of 64-bit
+> requests, where a client's request is no longer bounded to 4G and
+> could thereby produce even more than 8M extents for the corner case
+> when every 512 bytes is a new extent, if it were not for this
+> recommendation.
 
-Use heap allocation when large number of entries
-is requested (currently 128, arbitrary), and continue
-to use alloca() for smaller allocations, to optimize
-small operations for small sizes.
+s-o-b line missed.
 
-This, together with previous patch for getgroups(),
-eliminates all large on-stack allocations from
-qemu-user/syscall.c. What's left are actually small
-ones.
 
-While at it, also fix missing unlock_user() in two
-places, and consolidate target_to_host_timespec*()
-calls into time64?_timespec():_timespec64() construct.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
----
- linux-user/syscall.c | 50 ++++++++++++++++++++++----------------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 24b25759be..b45690b10a 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -1558,14 +1558,12 @@ static abi_long do_pselect6(abi_long arg1, abi_long arg2, abi_long arg3,
- static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-                          abi_long arg4, abi_long arg5, bool ppoll, bool time64)
- {
--    struct target_pollfd *target_pfd;
-+    struct target_pollfd *target_pfd = NULL;
-     unsigned int nfds = arg2;
--    struct pollfd *pfd;
-+    struct pollfd *pfd = NULL, *heap_pfd = NULL;
-     unsigned int i;
-     abi_long ret;
- 
--    pfd = NULL;
--    target_pfd = NULL;
-     if (nfds) {
-         if (nfds > (INT_MAX / sizeof(struct target_pollfd))) {
-             return -TARGET_EINVAL;
-@@ -1576,7 +1574,16 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-             return -TARGET_EFAULT;
-         }
- 
--        pfd = alloca(sizeof(struct pollfd) * nfds);
-+        if (nfds <= 128) {
-+            pfd = alloca(sizeof(struct pollfd) * nfds);
-+        } else {
-+            heap_pfd = g_try_new(struct pollfd, nfds);
-+            if (!heap_pfd) {
-+                ret = -TARGET_ENOMEM;
-+                goto out;
-+            }
-+            pfd = heap_pfd;
-+        }
-         for (i = 0; i < nfds; i++) {
-             pfd[i].fd = tswap32(target_pfd[i].fd);
-             pfd[i].events = tswap16(target_pfd[i].events);
-@@ -1587,16 +1594,11 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-         sigset_t *set = NULL;
- 
-         if (arg3) {
--            if (time64) {
--                if (target_to_host_timespec64(timeout_ts, arg3)) {
--                    unlock_user(target_pfd, arg1, 0);
--                    return -TARGET_EFAULT;
--                }
--            } else {
--                if (target_to_host_timespec(timeout_ts, arg3)) {
--                    unlock_user(target_pfd, arg1, 0);
--                    return -TARGET_EFAULT;
--                }
-+            if (time64
-+                ? target_to_host_timespec64(timeout_ts, arg3)
-+                : target_to_host_timespec(timeout_ts, arg3)) {
-+                ret = -TARGET_EFAULT;
-+                goto out;
-             }
-         } else {
-             timeout_ts = NULL;
-@@ -1605,8 +1607,7 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-         if (arg4) {
-             ret = process_sigsuspend_mask(&set, arg4, arg5);
-             if (ret != 0) {
--                unlock_user(target_pfd, arg1, 0);
--                return ret;
-+                goto out;
-             }
-         }
- 
-@@ -1617,14 +1618,11 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-             finish_sigsuspend_mask(ret);
-         }
-         if (!is_error(ret) && arg3) {
--            if (time64) {
--                if (host_to_target_timespec64(arg3, timeout_ts)) {
--                    return -TARGET_EFAULT;
--                }
--            } else {
--                if (host_to_target_timespec(arg3, timeout_ts)) {
--                    return -TARGET_EFAULT;
--                }
-+            if (time64
-+                ? host_to_target_timespec64(arg3, timeout_ts)
-+                : host_to_target_timespec(arg3, timeout_ts)) {
-+                ret = -TARGET_EFAULT;
-+                goto out;
-             }
-         }
-     } else {
-@@ -1647,6 +1645,8 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-             target_pfd[i].revents = tswap16(pfd[i].revents);
-         }
-     }
-+out:
-+    g_free(heap_pfd);
-     unlock_user(target_pfd, arg1, sizeof(struct target_pollfd) * nfds);
-     return ret;
- }
 -- 
-2.30.2
+Best regards,
+Vladimir
 
 
