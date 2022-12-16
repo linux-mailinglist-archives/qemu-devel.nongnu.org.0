@@ -2,85 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5831864F1AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 20:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF0F64F1BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 20:24:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6GDX-0002ok-EC; Fri, 16 Dec 2022 14:17:59 -0500
+	id 1p6GHx-0005NS-Ss; Fri, 16 Dec 2022 14:22:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6GDS-0002mS-Fj
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:17:54 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6GDQ-0000Iv-TN
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:17:54 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id d82so2406874pfd.11
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 11:17:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/CpWG8IoDN8HerB68+SrTxSbuHlUrsPWghPX76fRFko=;
- b=RwDcWc/t0bH8AqKCKDmdHPhxOPgPcuK78Z4mQuenWouSVyf7f8uZKx1N7KjJhvcVzV
- asXypJnKebPCIIpoDN4VzDqSOLoin7dTpTpHEVC9mNQaYDYMhd7NpmG5+VTDd9p2hP/j
- Uu9VbgMQ7fPAPQmHIIPT1uL9weKSPfowZD5IFnx1eMHGUKnb7RZiEsAVYfzljHNVm6Yf
- J7Egeii+rN25EsnLh6A6vKgM2O0qeUMKPgvj0dnjFVi3WbPECgMsGdNTwuniMZPrHnMQ
- chb1OLDOJUafNRfpyKwvCHjIC+XyKVG7xVqKV7M5xe8KNdoXYfBugILZjGLvMT1tBhnV
- oPaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/CpWG8IoDN8HerB68+SrTxSbuHlUrsPWghPX76fRFko=;
- b=CXMQcV9YB8gRzWTWqjpbTyFM9q4pBAkeixC/tRKnHuJZDPOuLs6Jxfb8n1zBfJC699
- X3Imw96JmqWx2a6FoHIAKYrpYXK69SBD7svLOQJkFEy3+1TJzoz5Accg526DGwpvVyv/
- YELG3hic/LgMdQMKwemoCsva+EdXMqd1EBjAQFRXBgHNT+r9u2Z1TtTceAjI7kgfN70X
- o2WFQs59+asCKqmYpw1O5AtulOrpglUKsGeX3xWGsuprVAoYyKECF0SUCcGZviIVBK4V
- YnxBadSpRpjnhriA2kh0K3rrzo1EUGiTNpG8frXrf4RN0rnie2fdBz6BIJEN5XyEfqj0
- on9Q==
-X-Gm-Message-State: ANoB5pnLNEcP5JdtpllEwm1McGgJpUHR1dOslDlvH0bhF9NT+6TyJYH8
- vAaieNvVvelcC6e034iS9TcVQQ==
-X-Google-Smtp-Source: AA0mqf5MFOjEXX/syHP6HrcClW5EAHMJBp4opXxetXo6vZNQCU6GIVzzpmzKx4qUvX3tLmZlm9ZlcQ==
-X-Received: by 2002:a05:6a00:813:b0:578:4efa:e3ae with SMTP id
- m19-20020a056a00081300b005784efae3aemr38805722pfk.33.1671218271193; 
- Fri, 16 Dec 2022 11:17:51 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
- ([2602:47:d48c:8101:c606:9489:98df:6a3b])
- by smtp.gmail.com with ESMTPSA id
- 131-20020a621489000000b00574db8ca00fsm1818147pfu.185.2022.12.16.11.17.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 11:17:50 -0800 (PST)
-Message-ID: <839a04e5-1d5e-4506-8beb-7fc304a3c202@linaro.org>
-Date: Fri, 16 Dec 2022 11:17:49 -0800
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1p6GHr-0005ME-69
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:22:29 -0500
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1p6GHp-0001xZ-6k
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 14:22:26 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 6AAA5401E9;
+ Fri, 16 Dec 2022 22:22:23 +0300 (MSK)
+Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with SMTP id CCBB53B9;
+ Fri, 16 Dec 2022 22:22:21 +0300 (MSK)
+Received: (nullmailer pid 2881948 invoked by uid 1000);
+ Fri, 16 Dec 2022 19:22:21 -0000
+From: Michael Tokarev <mjt@tls.msk.ru>
+To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Cc: Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH] linux-user: ppoll: eliminate large alloca
+Date: Fri, 16 Dec 2022 22:22:20 +0300
+Message-Id: <20221216192220.2881898-1-mjt@msgid.tls.msk.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v1 01/10] gdbstub/internals.h: clean up include guard
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, mads@ynddal.dk,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20221216112206.3171578-1-alex.bennee@linaro.org>
- <20221216112206.3171578-2-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216112206.3171578-2-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,41 +55,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/16/22 03:21, Alex Bennée wrote:
-> Use something more specific to avoid name clashes.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+do_ppoll() in linux-user/syscall.c uses alloca() to
+allocate an array of struct pullfds on the stack.
+The only upper boundary for number of entries for this
+array is so that whole thing fits in INT_MAX. But this
+is definitely too much for a stack allocation.
 
+Use heap allocation when large number of entries
+is requested (currently 128, arbitrary), and continue
+to use alloca() for smaller allocations, to optimize
+small operations for small sizes.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This, together with previous patch for getgroups(),
+eliminates all large on-stack allocations from
+qemu-user/syscall.c. What's left are actually small
+ones.
 
+While at it, also fix missing unlock_user() in two
+places, and consolidate target_to_host_timespec*()
+calls into time64?_timespec():_timespec64() construct.
 
-r~
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+---
+ linux-user/syscall.c | 50 ++++++++++++++++++++++----------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
-
-> ---
->   gdbstub/internals.h | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-> index eabb0341d1..b444f24ef5 100644
-> --- a/gdbstub/internals.h
-> +++ b/gdbstub/internals.h
-> @@ -6,12 +6,12 @@
->    * SPDX-License-Identifier: GPL-2.0-or-later
->    */
->   
-> -#ifndef _INTERNALS_H_
-> -#define _INTERNALS_H_
-> +#ifndef GDBSTUB_INTERNALS_H
-> +#define GDBSTUB_INTERNALS_H
->   
->   bool gdb_supports_guest_debug(void);
->   int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len);
->   int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr len);
->   void gdb_breakpoint_remove_all(CPUState *cs);
->   
-> -#endif /* _INTERNALS_H_ */
-> +#endif /* GDBSTUB_INTERNALS_H */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 24b25759be..b45690b10a 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -1558,14 +1558,12 @@ static abi_long do_pselect6(abi_long arg1, abi_long arg2, abi_long arg3,
+ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+                          abi_long arg4, abi_long arg5, bool ppoll, bool time64)
+ {
+-    struct target_pollfd *target_pfd;
++    struct target_pollfd *target_pfd = NULL;
+     unsigned int nfds = arg2;
+-    struct pollfd *pfd;
++    struct pollfd *pfd = NULL, *heap_pfd = NULL;
+     unsigned int i;
+     abi_long ret;
+ 
+-    pfd = NULL;
+-    target_pfd = NULL;
+     if (nfds) {
+         if (nfds > (INT_MAX / sizeof(struct target_pollfd))) {
+             return -TARGET_EINVAL;
+@@ -1576,7 +1574,16 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+             return -TARGET_EFAULT;
+         }
+ 
+-        pfd = alloca(sizeof(struct pollfd) * nfds);
++        if (nfds <= 128) {
++            pfd = alloca(sizeof(struct pollfd) * nfds);
++        } else {
++            heap_pfd = g_try_new(struct pollfd, nfds);
++            if (!heap_pfd) {
++                ret = -TARGET_ENOMEM;
++                goto out;
++            }
++            pfd = heap_pfd;
++        }
+         for (i = 0; i < nfds; i++) {
+             pfd[i].fd = tswap32(target_pfd[i].fd);
+             pfd[i].events = tswap16(target_pfd[i].events);
+@@ -1587,16 +1594,11 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+         sigset_t *set = NULL;
+ 
+         if (arg3) {
+-            if (time64) {
+-                if (target_to_host_timespec64(timeout_ts, arg3)) {
+-                    unlock_user(target_pfd, arg1, 0);
+-                    return -TARGET_EFAULT;
+-                }
+-            } else {
+-                if (target_to_host_timespec(timeout_ts, arg3)) {
+-                    unlock_user(target_pfd, arg1, 0);
+-                    return -TARGET_EFAULT;
+-                }
++            if (time64
++                ? target_to_host_timespec64(timeout_ts, arg3)
++                : target_to_host_timespec(timeout_ts, arg3)) {
++                ret = -TARGET_EFAULT;
++                goto out;
+             }
+         } else {
+             timeout_ts = NULL;
+@@ -1605,8 +1607,7 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+         if (arg4) {
+             ret = process_sigsuspend_mask(&set, arg4, arg5);
+             if (ret != 0) {
+-                unlock_user(target_pfd, arg1, 0);
+-                return ret;
++                goto out;
+             }
+         }
+ 
+@@ -1617,14 +1618,11 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+             finish_sigsuspend_mask(ret);
+         }
+         if (!is_error(ret) && arg3) {
+-            if (time64) {
+-                if (host_to_target_timespec64(arg3, timeout_ts)) {
+-                    return -TARGET_EFAULT;
+-                }
+-            } else {
+-                if (host_to_target_timespec(arg3, timeout_ts)) {
+-                    return -TARGET_EFAULT;
+-                }
++            if (time64
++                ? host_to_target_timespec64(arg3, timeout_ts)
++                : host_to_target_timespec(arg3, timeout_ts)) {
++                ret = -TARGET_EFAULT;
++                goto out;
+             }
+         }
+     } else {
+@@ -1647,6 +1645,8 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+             target_pfd[i].revents = tswap16(pfd[i].revents);
+         }
+     }
++out:
++    g_free(heap_pfd);
+     unlock_user(target_pfd, arg1, sizeof(struct target_pollfd) * nfds);
+     return ret;
+ }
+-- 
+2.30.2
 
 
