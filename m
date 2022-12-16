@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31BF64ECDE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8DE64ECE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:31:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Bii-0000a4-Nx; Fri, 16 Dec 2022 09:29:52 -0500
+	id 1p6BjX-0000zH-Lo; Fri, 16 Dec 2022 09:30:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p6Big-0000YT-3F
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:29:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p6BjN-0000sw-Nu
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:30:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p6Bid-0002OF-Lf
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:29:49 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p6BjG-0002fh-BZ
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:30:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671200985;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1671201023;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=w4TR5bO+PtotVgtuycYB0DMQmt/xkqkd/YKgmyLw3Gg=;
- b=LxsZDWdHDv7MGKPDGqszX/Jd+iPsxbxNG4e6nwTfXWEBGBS5nrIpQOJuC0b+U12JSmccJE
- taaNKN7uHrcbuc7FNIRgTUYklouyrmJ/0tHHrc75GE91WJ5Bd33jfx0QbYuqCEYZTn5TTv
- NDsY15nMx84/txht5wRBHBlPeJBXRbA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-07KxSoroNjCEzvaLNSGFjQ-1; Fri, 16 Dec 2022 09:29:42 -0500
-X-MC-Unique: 07KxSoroNjCEzvaLNSGFjQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EC551C09B76;
- Fri, 16 Dec 2022 14:29:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 459C340C2064;
- Fri, 16 Dec 2022 14:29:40 +0000 (UTC)
-Date: Fri, 16 Dec 2022 14:29:35 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: jejb@linux.ibm.com, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 2/2] tpm: add backend for mssim
-Message-ID: <Y5yAz0qzaIW4HwFi@redhat.com>
-References: <77bc5a11fcb7b06deba1c54b1ef2de28e0c53fb1.camel@linux.ibm.com>
- <10fbda0f-7c8a-3819-fb22-34a9249ac138@linux.ibm.com>
- <b5d26ab0e54c15c408e9bae136bce969283ed5bd.camel@linux.ibm.com>
- <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
- <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
- <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
- <Y5xH/0bbgFzi+G//@redhat.com>
- <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
- <Y5xqgK8UXe28VZQ2@redhat.com>
- <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
+ bh=tZK3vuXvz3aviHU8piPVuRxQwyn0IxPWklXnqlREHKQ=;
+ b=P8kJSI4EfJm6rJWF7ODo9DgIhg/Og9qGWTNhPon+UXY3Pe1IMYi7FXnUuxZPCoGlZHsAuV
+ 3nWGUtZVG0W4WBe50YGkQuQjnhhIjH+PXgvI1Rg4B0yK027ntMkOwVVH9U2TyjtzEvsgHa
+ gjHZjBBDEDGW1zYUVDtBvZqukxkKjx8=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-608-4tjc-JOTO4iAf7xZXCbdzg-1; Fri, 16 Dec 2022 09:30:21 -0500
+X-MC-Unique: 4tjc-JOTO4iAf7xZXCbdzg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ x2-20020a05620a448200b006fa7dad5c1cso1927126qkp.10
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 06:30:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tZK3vuXvz3aviHU8piPVuRxQwyn0IxPWklXnqlREHKQ=;
+ b=RpsBD2N4bXV4CXFFckAawQLuQYz/m4iQFgnnh+jBzrpe5bWyrY1PdgzQA/bkIZW7+U
+ DqS/DSGaab7QuiKprtfc0PZ62i65G2UQbrYGzDsB7hB47Ztbo78zc6t88GjeDhKbobUY
+ xiZJh3nS/nFR/JfTsAOF3cCgvA7MiNO5cvBLXoNxjuRlqvzjc64eoEyCEuv3vScPE44K
+ UxA5y7JtJLFc3ChgxNuD/UjwpK2laz+o+vV3HAb+g3sdiM6jUSvdQRNbIMYZmKhngW4w
+ qCOAYCB59GnaPxrFsVx74FDWQpwYLA6x0gLRh9PqevTmLloMfuxuJJqGSpNfwLUPSKWX
+ rsAQ==
+X-Gm-Message-State: ANoB5plcQ6FQzN6XPUnlS0RfYW2pw8vjEkhUSitBzwMo4gqG231LSEBj
+ 5o9myAz3Jo6EpW4RFXARnn4qoOerKvmEF1w1nRDtIQXIGPad14+LAkyg4evucQgEO6vJLg5EdBM
+ zSNVK9kARLkzounc=
+X-Received: by 2002:ad4:4353:0:b0:4e8:c749:7f3a with SMTP id
+ q19-20020ad44353000000b004e8c7497f3amr20138564qvs.50.1671201021216; 
+ Fri, 16 Dec 2022 06:30:21 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf76KPfxTsMbwJWrbCeo1g8vV/GbsE5fiIxT/adLpc+6pwAcQT57hGAW3jLI/Y2Izo+VTjOx6g==
+X-Received: by 2002:ad4:4353:0:b0:4e8:c749:7f3a with SMTP id
+ q19-20020ad44353000000b004e8c7497f3amr20138538qvs.50.1671201020998; 
+ Fri, 16 Dec 2022 06:30:20 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-45-70-31-26-132.dsl.bell.ca.
+ [70.31.26.132]) by smtp.gmail.com with ESMTPSA id
+ i22-20020a05620a075600b006ffb452b10asm1563424qki.13.2022.12.16.06.30.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Dec 2022 06:30:20 -0800 (PST)
+Date: Fri, 16 Dec 2022 09:30:19 -0500
+From: Peter Xu <peterx@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 1/5] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y5yA+64lVSmG5nQk@x1n>
+References: <20221213213850.1481858-1-peterx@redhat.com>
+ <20221213213850.1481858-2-peterx@redhat.com>
+ <Y5mT4V3iYlcH56/H@redhat.com> <Y5pAiFv/JHQvgxha@x1n>
+ <Y5rrmRyhRjEiHtAe@redhat.com> <Y5ta3jGHhN0nrIf6@x1n>
+ <400814c5-f179-2566-e513-543ae4ae34e4@nutanix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <400814c5-f179-2566-e513-543ae4ae34e4@nutanix.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,107 +99,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 16, 2022 at 08:32:44AM -0500, Stefan Berger wrote:
-> 
-> 
-> On 12/16/22 07:54, Daniel P. Berrangé wrote:
-> > On Fri, Dec 16, 2022 at 07:28:59AM -0500, Stefan Berger wrote:
-> > > 
-> > > 
-> > > On 12/16/22 05:27, Daniel P. Berrangé wrote:
-> > > > On Thu, Dec 15, 2022 at 03:53:43PM -0500, Stefan Berger wrote:
-> > > > > 
-> > > > > 
-> > > > > On 12/15/22 15:30, James Bottomley wrote:
-> > > > > > On Thu, 2022-12-15 at 15:22 -0500, Stefan Berger wrote:
-> > > > > > > On 12/15/22 15:07, James Bottomley wrote:
-> > > > > > [...]
-> > > > > > > > don't really have much interest in the migration use case, but I
-> > > > > > > > knew it should work like the passthrough case, so that's what I
-> > > > > > > > tested.
-> > > > > > > 
-> > > > > > > I think your device needs to block migrations since it doesn't handle
-> > > > > > > all migration scenarios correctly.
-> > > > > > 
-> > > > > > Passthrough doesn't block migrations either, presumably because it can
-> > > > > > also be made to work if you know what you're doing.  I might not be
-> > > > > 
-> > > > > Don't compare it to passthrough, compare it to swtpm. It should
-> > > > > have at least the same features as swtpm or be better, otherwise
-> > > > > I don't see why we need to have the backend device in the upstream
-> > > > > repo.
-> > > > 
-> > > > James has explained multiple times that mssim is a beneficial
-> > > > thing to support, given that it is the reference implementation
-> > > > of TPM2. Requiring the same or greater features than swtpm is
-> > > > an unreasonable thing to demand.
-> > > 
-> > > Nevertheless it needs documentation and has to handle migration
-> > > scenarios either via a blocker or it has to handle them all
-> > > correctly. Since it's supposed to be a TPM running remote you
-> > > had asked for TLS support iirc.
-> > 
-> > If the mssim implmentation doesn't provide TLS itself, then I don't
-> > consider that a blocker on the QEMU side, merely a nice-to-have.
-> > 
-> > With swtpm the control channel is being used to load and store state
-> > during the migration dance. This makes the use of an external process
-> > largely transparent to the user, since QEMU handles all the state
-> > save/load as part of its migration data stream.
-> > 
-> > With mssim there is state save/load co-ordination with QEMU. Instead
-> > whomever/whatever is managing the mssim instance, is responsible for
-> > ensuring it is running with the correct state at the time QEMU does
-> > a vmstate load. If doing a live migration this co-ordination is trivial
-> > if you just use the same mssim instance for both src/dst to connect to.
-> > 
-> > If doing save/store to disk, the user needs to be able to save the mssim
-> > state and load it again later. If doing snapshots and reverting to old
-> 
-> There is no way for storing and loading the *volatile state* of the
-> mssim device.
-> 
-> > snapshots, then again whomever manages mssim needs to be keeping saved
-> > TPM state corresponding to each QEMU snapshot saved, and picking the
-> > right one when restoring to old snapshots.
-> 
-> This doesn't work.
-> Either way, if it's possible it can be documented and shown how this works.
-> 
-> > 
-> > QEMU exposes enough functionality to enable a mgmt app / admin us> achieve all of this.
-> 
-> How do you store the volatile state of this device, like the current
-> state of the PCRs, loaded sessions etc? It doesn't support this.
-> 
-> > 
-> > This is not as seemlessly integrated with swtpm is, but it is still
-> > technically posssible todo the right thing with migration from QEMU's
-> > POV. Whether or not the app/person managing mssim instance actually
-> > does the right thing in practice is not a concern of QEMU. I don't
-> > see a need for a migration blocker here.
-> 
-> I do see it because the *volatile state* cannot be extracted from
-> this device. The state of the PCRs is going to be lost.
+On Fri, Dec 16, 2022 at 04:10:22PM +0530, manish.mishra wrote:
+> Yes sorry, noticed it now, should i send another patch to update it. Also
+> in our internal testing we noticed multifd_init was skipped for 1 case,
+> so if this patch series is not yet submitted should i send another
+> version of it early morning monday?
 
-All the objections you're raising are related to the current
-specifics of the implementation of the mssim remote server.
-While valid, this is of no concern to QEMU when deciding whether
-to require a migration blocker on the client side. This is 3rd
-party remote service that should be considered a black box from
-QEMU's POV. It is possible to write a remote server that supports
-the mssim network protocol, and has the ability to serialize
-its state. Whether such an impl exists today or not is separate.
+I think yes.
 
-With regards,
-Daniel
+Thanks,
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Peter Xu
 
 
