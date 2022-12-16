@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC7464EE79
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FF564EE7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 17:05:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6DBk-0007nm-Pq; Fri, 16 Dec 2022 11:03:56 -0500
+	id 1p6DCY-0008H9-Iy; Fri, 16 Dec 2022 11:04:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6DBb-0007iR-45
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:03:51 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ id 1p6DBu-00081v-VD
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:04:18 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6DBZ-0002tR-L0
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:03:46 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id s196so2068107pgs.3
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 08:03:45 -0800 (PST)
+ id 1p6DBt-00034X-5j
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 11:04:06 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ b13-20020a17090a5a0d00b0021906102d05so2777936pjd.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 08:04:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LTaGCV4pu6jCfbJ954D0asXLVHKQkspzG2yqXeV7Myo=;
- b=sJaWdqkkvGVM6wDY5uKd7iwUfKf1akA9lHW7qoN6xrDd+LVCAQ5U4T1fp2JS7yOJFD
- fgKDjrEx9UKP1E/QtII+FTfdwcC14SfWJUSLUg1x6ygaidbBfO+2ERa6ewLSDoWLLWhu
- /z5XU3Dy3AMS/5N42qm7X2lF4Yzj7O73dENeNH5IVZGkEpx2Io8y3LmDaMvYql6Zr7/O
- DpSL9MYknIsEzG1q+5dD2poaCKZFkGQnadygVp6GuFpqSkWoPokQGV5q4oDG1XACsI+0
- VZ8zXRrukuyn9jhDwNqhOq290LPihaaGGFvV216VLEdB6+NnxZ79Xk2mQuA1gbjrK37a
- /xzA==
+ bh=s6xqvl1N/w8WA5CqWiYCIQ6UHXZMfHvGMx6PwtIbVz0=;
+ b=aw5om+oHfZsTv/bYZh3z0NjD1ZGa7kXYrHxqiKGTefo23TacT8Nldxxf9UnZExT7s7
+ fv2KzpM11BIWEZSf4//mLYjqMaq4WXzhLR67xYQ0A/IbG+38N9TK/87ak+hjM+Oo7Gdu
+ xFoRBdAAkrQmw+1vRHriEfd2/nmH53HJ0bsbCPGRe0BAJ3soWbHeGV3Pfr06GdhNjOnB
+ i3LoUBXQmaNiIz6893UdyuxhXBp/dS22IkkpaCYp/Ld6NH2Bg70LXcxu6KK41E33m4kr
+ H45gynI3LUb1V1GF7JW7ZTQvG5AJzAZR1w30jQve+mM7OJIuroVrgp+AlUEHgU/+Q4d2
+ 8d9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=LTaGCV4pu6jCfbJ954D0asXLVHKQkspzG2yqXeV7Myo=;
- b=wsGbWKbxWxuEGqYbC21SKiyA1W/iv30iE7+9+RW+N44t6cc+tCiLo5JO5MKd2+JTKk
- soZWyqIC+GqS+GKxpcjzSo1q8A7bINp2K5DIeA9tCO7OSmLyboWDcnUc9wI5ROb885py
- 1RO4UZ2u2m6kzFsFQJpQHvG6WhqJ5bixeyiUcq08RWl72NpSl7+FXfZubDlOzrnnD76o
- jzSE7xC9I/fw6STCkHhzgXe1sq9/yajjTJ7sDcVD+tBeiHQuarAozWFq48bLoG1AfQH+
- yU0gpNyuKQ3L/L2RjAX3evwNBW+aqbjbYwwKom2en+zjlkWjZckARE7hm0YVVI/U4d9+
- tlyQ==
-X-Gm-Message-State: ANoB5pkOGSdicyrgsZ5NPFk9+h6ooM6GG16N5pRSqU1xAkxikMqHqQiS
- c/CNjoBpFIA/zIC+CTst+5lfBVL+/QgRTBE5mmQISSvEEA/Or8f/
-X-Google-Smtp-Source: AA0mqf6FdXN4rxZnVbUv1iyp5RuhU9aaZd6GVUb0Avx60B43trLWvpWl1HbqXmpS9zqv+I+3bjsQfsn5kkd0Em1Q9Os=
-X-Received: by 2002:a65:45c5:0:b0:46b:2753:2a60 with SMTP id
- m5-20020a6545c5000000b0046b27532a60mr71587590pgr.192.1671206624061; Fri, 16
- Dec 2022 08:03:44 -0800 (PST)
+ bh=s6xqvl1N/w8WA5CqWiYCIQ6UHXZMfHvGMx6PwtIbVz0=;
+ b=Jkg6lG51RKdWfMyKDvUCvkvh5o8u7xkcYx0g9IXjehzpOibysP62XrWv3izdUNH6x3
+ 7XN6mqwCbE1uc32hsr3jQJwVVKTs1szI5M1grzUXjJzgCGmakMOq48DYr5e9781RX4JZ
+ nJoPOXSqbfzlJJfjGy+8nIGq3ddb5fTyWyJiyGKa5A824S9timi+qM5oLRbqjufSJKpO
+ yrghuKQ/ZVevgEFLchmrpLzg58Qb2/fyXVn8Onxyo3GGOqgUBB4pWZFAjs2oJZPyYhCi
+ 1Vx85wz9oeYFf1J8u2Mo9xGedA4dOru2MEX6eYTFFGaSCZDNzyjWEHkv6zgQQnhKivhB
+ xgBg==
+X-Gm-Message-State: AFqh2ko8cis6zMiaH848Qr8AxpQh/y3OPKpgkgVJ1YTj7wyetbrb58PS
+ sUMKnQtn0gFZVqY2AY1I9Rhs3ZFpl1g5EQcd3GOPVAk+V7Q7oYmP
+X-Google-Smtp-Source: AMrXdXtr1ZLgLjFPhKSSSLC1lekZ89JhJ/UceJltkX6v1Ct9O5QXUf+3AkPy/NU/to9hDCLgBkzd2wgA4xeaGMnaTNs=
+X-Received: by 2002:a17:90b:4f8d:b0:219:9874:c7d3 with SMTP id
+ qe13-20020a17090b4f8d00b002199874c7d3mr661352pjb.221.1671206643870; Fri, 16
+ Dec 2022 08:04:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20221110143459.3833425-1-peter.maydell@linaro.org>
-In-Reply-To: <20221110143459.3833425-1-peter.maydell@linaro.org>
+References: <20221109170009.3498451-1-peter.maydell@linaro.org>
+In-Reply-To: <20221109170009.3498451-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 16 Dec 2022 16:03:33 +0000
-Message-ID: <CAFEAcA-tvoA1Sd7CQ=YHgVq0wWs5Nc+Z8awJjiyijqEYMBg_zA@mail.gmail.com>
-Subject: Re: [PATCH for-8.0 0/2] hw/misc: Convert MOS6522 devices to 3-phase
- reset
+Date: Fri, 16 Dec 2022 16:03:52 +0000
+Message-ID: <CAFEAcA9rhC60_pbe7vWLrdcb=42WSGPcaaoSyEf_Ew5S8f3nHQ@mail.gmail.com>
+Subject: Re: [PATCH for-8.0 0/2] hw/input/ps2: Convert to 3-phase reset
 To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>, 
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,11 +83,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 10 Nov 2022 at 14:35, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Wed, 9 Nov 2022 at 17:00, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> This patchset converts the TYPE_MOS6522 class and its subclasses to
-> use 3-phase reset. This is part of the work I'm doing to clean up some
-> of the reset-related code by getting rid of the
+> This patchset converts the ps2 keyboard and mouse devices to 3-phase
+> reset. The rationale here is that it would be nice to get rid of the
 > device_class_set_parent_reset() function, which is used by
 > legacy-reset subclasses which want to chain to their parent's reset
 > function. There aren't very many of these devices in total, and if we
@@ -96,6 +94,7 @@ On Thu, 10 Nov 2022 at 14:35, Peter Maydell <peter.maydell@linaro.org> wrote:
 > equivalent (resettable_class_set_parent_phases()).  Eventually this
 > will then let us simplify the transitional code for handling old-style
 > device reset.
+
 
 I plan to pick these up and send them in a pullreq together
 with various other reset-related patches of mine, unless
