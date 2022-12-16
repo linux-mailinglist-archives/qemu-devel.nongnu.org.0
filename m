@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE24064E9FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:08:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C756364EA00
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:08:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p68Zb-0004kN-Ou; Fri, 16 Dec 2022 06:08:15 -0500
+	id 1p68Zf-0004lj-Pt; Fri, 16 Dec 2022 06:08:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p68ZW-0004jt-M6
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:08:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p68ZY-0004kP-Fe
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:08:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p68ZR-0002Gr-NM
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:08:10 -0500
+ id 1p68ZT-0002HD-J0
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:08:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671188884;
+ s=mimecast20190719; t=1671188887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YdJiwVL1JAQRQ2OvVL3UlebIKrbnIbdAo/ZzrUYOeHQ=;
- b=aBLukGWvf4kCevVAA/CqZslxfVRZrW7lA5qMmqkMYQM33HSm23vEAHiREcsx41NoFTmYuF
- S2lqY3/x0BRN1YEbfXya/OQ3gL3uNmLqZulWiHfIeoJSiA3asS5huwNONzFM5R2BCJ/oFe
- 6iXGXBOXgxiE8d/kL9u4KKByDGfllbw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QjkWbr+hDWylT3kF8m1PTuocniRtsbmn33U7ESFQ3JI=;
+ b=OxojrGS3vIHaxkqBtCSv1lJmtGBA4MafHDI/UGzIEzAemAZUoteKjGGaoBr9BJf480a2Y1
+ TnjssXqwVDLNagMM9dkWlWpp0JnU0sxtywr89BNhcG5a4FBE8eOfLeRLKdKTo4Oy4Eal2q
+ CT6i97SzDc9fuxjMJi4ZmHx8LSLkdbs=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-169-GSvF2oAjMMuKUWD1DQ_Wmw-1; Fri, 16 Dec 2022 06:08:03 -0500
-X-MC-Unique: GSvF2oAjMMuKUWD1DQ_Wmw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- f15-20020a056402354f00b00475a6378738so1150311edd.8
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 03:08:02 -0800 (PST)
+ us-mta-306-5e2wD1mQPoCwgkbcCULFiQ-1; Fri, 16 Dec 2022 06:08:05 -0500
+X-MC-Unique: 5e2wD1mQPoCwgkbcCULFiQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ z16-20020a05640235d000b0046d0912ae25so1663723edc.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 03:08:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YdJiwVL1JAQRQ2OvVL3UlebIKrbnIbdAo/ZzrUYOeHQ=;
- b=noM5kYQiCavOkXPTkAbHS8jQTIIyAr35F2cnnhqP1NzlOEKi4a1a8XrvPYOzMsYNV1
- nJ0wrymc3poG3Svm0pZJllv/8tWd10vp76t5H3bew13lG54DY8IIiB9CrBBYJF59jzq1
- P5NnYBUPz7eAO+Ko2SGy6tDDtFXIDEGY7CQcXYoBuuPrnkYtiWq2ax+zKZ66iXJfoAjK
- xKMVrRs3eXha097pAvG02Y3a08rhZdoECapOlf1SmKvvCkj0Dy+pQ+w1FXzEUXaC0mM4
- sTf1DKupij72ObDgwRsVZ9KcEnyHBs+uCM6xUSNk+Hh3tAzexDMgr+Xh16h6liHllXIE
- 0mcA==
-X-Gm-Message-State: ANoB5pmqjrqiPNNDLlh8OnocmKLjXTHwsfLQdSDpLdQcQ14+kJhc+pqw
- JQsevNtVBbydg75ow2jusyNhb0+5lGCasuW2jC3Js+qpZ43hMEjNbmydqXy7EDGHnCAvs94o1Tn
- 7dBH0nJ1OoIflGXie4th8VllNGk3/d2VRRM5FjcnDbQAc32rrk8IzifDkttVkiZOV/AA=
-X-Received: by 2002:a05:6402:c08:b0:46d:83ea:44e8 with SMTP id
- co8-20020a0564020c0800b0046d83ea44e8mr28612355edb.21.1671188881596; 
- Fri, 16 Dec 2022 03:08:01 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4B7OceiDtpfM5YKnDswg5HsZgoNdshdtWXYwOlPih82Nwi6BN8oSWIKi+pRvpRnbHeRd8pTA==
-X-Received: by 2002:a05:6402:c08:b0:46d:83ea:44e8 with SMTP id
- co8-20020a0564020c0800b0046d83ea44e8mr28612331edb.21.1671188881222; 
- Fri, 16 Dec 2022 03:08:01 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QjkWbr+hDWylT3kF8m1PTuocniRtsbmn33U7ESFQ3JI=;
+ b=kJuToo5C1HeJ+t7FeV61/mtiT8ZR8aARUF+Rr1+JPhO3HrFjYbRaAXBSLLxyQajvR4
+ czPYTqkEieSfysru5PRGQfZJk3uxKF5sg8RMM9rGYm306b5gHUV/5Dn1TPs3+i16dy/O
+ s0W/lkISgryE0YzfqOakEOrQNf8IK6UBX0CTVnR8bN/qX6m2K+6WgYnZR9vSN3ooqtlI
+ LKGlgB/yg4C8Voj5GEyuF9utwDm1GPAyQekAa74PrZxQ3ffUzzxeI8RKVciyOc1fbjfd
+ OfYbtGc5r4/A5ODy/AyJEyt+wWo97LzlOnnOD8Sly+mv9BMwhIGbs9Fvl6NKlQ6jUzg3
+ iwbA==
+X-Gm-Message-State: ANoB5plrdMujthZzkSnG+vj6+zFiBA94nJ6/AoH7sSULI4yZr92VLoTU
+ PB+hFwQ6cMF35ukG1LtTQiuayOor7ul3dBnq4ggG8NsGiu/Qc0KfOQpIokFc39C9ShmsKgeRnQ7
+ x+AtBvFuSYIlV0sD4cJmO5B3JdBHqwpMrA+6Pha5+86J2ZMWTNolCbTVW40/4ic2Lf4g=
+X-Received: by 2002:aa7:cd78:0:b0:46c:be9f:7c3b with SMTP id
+ ca24-20020aa7cd78000000b0046cbe9f7c3bmr25849829edb.19.1671188884250; 
+ Fri, 16 Dec 2022 03:08:04 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5KR7076flWZZSAMwZPJPhUN1aQeduOVXTcQHwtZ09l5wPfj+CKzgr3n6o+GuDO5zmB7Uq7AA==
+X-Received: by 2002:aa7:cd78:0:b0:46c:be9f:7c3b with SMTP id
+ ca24-20020aa7cd78000000b0046cbe9f7c3bmr25849812edb.19.1671188884024; 
+ Fri, 16 Dec 2022 03:08:04 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- cm12-20020a0564020c8c00b00463b9d47e1fsm740524edb.71.2022.12.16.03.08.00
+ i5-20020aa7c9c5000000b0046b00a9eeb5sm723942edt.49.2022.12.16.03.08.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 03:08:00 -0800 (PST)
+ Fri, 16 Dec 2022 03:08:03 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: afaria@redhat.com,
 	qemu-block@nongnu.org,
 	kwolf@redhat.com
-Subject: [PATCH 0/2] Make coroutine annotations ready for static analysis
-Date: Fri, 16 Dec 2022 12:07:56 +0100
-Message-Id: <20221216110758.559947-1-pbonzini@redhat.com>
+Subject: [PATCH v2 1/2] coroutine: annotate coroutine_fn for libclang
+Date: Fri, 16 Dec 2022 12:07:57 +0100
+Message-Id: <20221216110758.559947-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221216110758.559947-1-pbonzini@redhat.com>
+References: <20221216110758.559947-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,26 +101,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: Alberto Faria <afaria@redhat.com>
+
 Clang has a generic __annotate__ attribute that can be used by
 static analyzers to understand properties of functions and
-analyze the control flow.
+analyze the control flow.  Furthermore, unlike TSA annotations, the
+__annotate__ attribute applies to function pointers as well.
 
-Unlike TSA annotations, the __annotate__ attribute applies to function
-pointers as well, which is very fortunate because many BlockDriver
-function driver run in coroutines.
+As a first step towards static analysis of coroutine_fn markers,
+attach the attribute to the marker when compiling with clang.
 
-Paolo
+Signed-off-by: Alberto Faria <afaria@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/qemu/coroutine.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-v1->v2: improved comments for patch 2
-
-Alberto Faria (2):
-  block: Add no_coroutine_fn and coroutine_mixed_fn marker
-  coroutine: annotate coroutine_fn for libclang
-
- include/block/block-common.h | 11 +++++----
- include/qemu/coroutine.h     | 43 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+), 4 deletions(-)
-
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 89650a2d7fab..b0c97f6fb7ad 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -42,7 +42,11 @@
+  *       ....
+  *   }
+  */
++#ifdef __clang__
++#define coroutine_fn __attribute__((__annotate__("coroutine_fn")))
++#else
+ #define coroutine_fn
++#endif
+ 
+ typedef struct Coroutine Coroutine;
+ 
 -- 
 2.38.1
 
