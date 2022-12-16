@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15AB464F3C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0826A64F415
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:26:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Iqx-0000o1-5i; Fri, 16 Dec 2022 17:06:51 -0500
+	id 1p6IrL-000192-Vz; Fri, 16 Dec 2022 17:07:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Iqu-0000k3-MR
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:06:48 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ir1-0000ts-9I
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:06:58 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Iqr-0005q9-Q6
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:06:48 -0500
-Received: by mail-ej1-x635.google.com with SMTP id fc4so9189337ejc.12
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:06:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Iqx-0005uU-MC
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:06:54 -0500
+Received: by mail-ed1-x530.google.com with SMTP id e13so5498435edj.7
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:06:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wk4kZcMMisFWgQ9gHzikpbBAxoBtm1ZzojbUpYahP3s=;
- b=Q3sgZ7rQrMzBb/RIxySP1zj9kYQfTbiDe1cSn4f2jtocd/6ABwK3M5MPvKUNQGH+C6
- 62sOG5Ulab0flFBoyAkvalhOK0IYAaPKYQmhcW304n6mb1W+7BDaLN2UtWcwrtm0Rs31
- mR4fO+lA9CTVRVyKOClXEJPCmUzsbr6g/n11ALE0ziscTabzOq9EZnE84dKrKlcHssNU
- +qW2481DlkJFvbhMosTtiqjzwOhTXpZM4q3VegC6/rnqDhnfXbTpWAm1qjao90iaz+z3
- Agh2fcBafOc6kYbvwhZ18Dvxiv/fCkLy4V+WmT4UThT6R7ekeSQFIykp1fQnM17Q3DS8
- 0m7w==
+ bh=y22VnmAsDUUfD7bKCVGn+CZR8vmsucMEC+QeBAK42ow=;
+ b=IbI9cnoGA4zhcEDcdm/rc3qCMgyN1W9anTL3gDLJyGvkCMg4bt8fZeGvGUpeKaNQrs
+ xTpi2wR3hi7iNkbWM1DdQswMgc+GTvVvdX8gJ/+5Uyjc24J6D9i2NV70KcOPLl4FK2lB
+ OuBzoCoukcAjljswx6et300JoKqse7OYYqy998feFeieiJprwMuVygsL/t6S09gWxNwd
+ t6JswK2Ut172EUKHk7nusDw5f+/jYl+MqFT4oDmErDMOKdBamiXrA5gWsHdJH2wpngp+
+ IskVURdnSuVemsRtlqyi0+6sFHdjIwkf9wl2+CmeVVaWlyOSWulknnsX7KOSMtd2Jphb
+ 2FpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wk4kZcMMisFWgQ9gHzikpbBAxoBtm1ZzojbUpYahP3s=;
- b=KbHaxCX21o1ZzKVJMQwvbU4nS+BieXe/A5XBPKNweca7qxKyEnjmwY8MzUcDueMrWq
- vIAqYYqbVQTYFzL/5GwmeNxtvVHKq4HuN611rHqpK9ldufdtxQMZfx8UEeapwpjzwSM2
- NwvIKmhi4JU9UHK0kqBNoSisDQ0FbjuXjibEuvhvnmuDh66uSOjWBjX2x7wCY4kcY8ma
- rmaS2fOxxDd6H926+eozKUdkXqACTG22vFforKhtClYtfdGhKlkvhTt2VwYx1O3O9f+W
- oSQhUp8RYTJxlpVFhD0wn29DmRnVmfi2UH5K8DtfSJBaQLNHA0czzviD19k95smdPj6u
- loPg==
-X-Gm-Message-State: ANoB5pl27uU8AXUx9Cj3BXQ8rM/vS1LyOXOxxFKYBMND60bBDKVj+ZrE
- aWQ6xP1ylRNL8QZbvgrhFO46GtlX2LlJelxYQjw=
-X-Google-Smtp-Source: AA0mqf7oxSerSXd7GJtrkHazbSNwqf8jEBflJVa77EdPZ0/aDuFvCs5DKYcPWKTGzyA0fZBeQUbHMQ==
-X-Received: by 2002:a17:906:2345:b0:7ad:9455:d57d with SMTP id
- m5-20020a170906234500b007ad9455d57dmr28429721eja.74.1671228403801; 
- Fri, 16 Dec 2022 14:06:43 -0800 (PST)
+ bh=y22VnmAsDUUfD7bKCVGn+CZR8vmsucMEC+QeBAK42ow=;
+ b=2hXDJK8gjJe0dd2OfropZyaghPudSZhj982LZN/K1WmXMNs4vfWWiYKVMkyJ1IvV3b
+ meN1Uzdy5aBSwTFhf8PHGrrVf4w8YvF7uoCNim6eil9065elWhNLQkJwb+oHsaCxQ7Na
+ Ewj1EQhHQOn2fZps3MV6Ua7Y705CMFwEwzMq7TfnyDphcpoxO1S3U3SRvmnG5EqLJ65U
+ dGmwq8rIfq/HtUvakHWM7Nnwe/oY2iMeML1SGGG0GdxPr0bD5qVly0dmPyc+i/cSLrBv
+ csswmbmAeDpnNMIVn+/oNpvTaNROxKU0DFvqPTD6mlTs2jENGNq/HlmspoX9iDvZaNJv
+ LNKg==
+X-Gm-Message-State: AFqh2kqKQBGT4tSTQwB/Vg9K0wgGMHbZjAjbL690CEtwfZz/IyJaBbYG
+ CG8GUwElNqNH6dFfznLKl2tO0r3aSYP5s7DKD0U=
+X-Google-Smtp-Source: AMrXdXur1Qndt+7ajQCO33KwDcreIT+cKbdZVwoHazlQ4LFsrAXvUeIDMggPLxREW5OPrV1TuQboiA==
+X-Received: by 2002:a05:6402:2b8c:b0:466:12a0:11f3 with SMTP id
+ fj12-20020a0564022b8c00b0046612a011f3mr1062813edb.22.1671228410111; 
+ Fri, 16 Dec 2022 14:06:50 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f3-20020a17090631c300b007c0f2d051f4sm1265763ejf.203.2022.12.16.14.06.41
+ s17-20020a170906355100b007aef930360asm1281754eja.59.2022.12.16.14.06.48
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 14:06:43 -0800 (PST)
+ Fri, 16 Dec 2022 14:06:49 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
@@ -68,18 +68,17 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  Taylor Simpson <tsimpson@quicinc.com>, Greg Kurz <groug@kaod.org>,
  qemu-riscv@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 09/10] target/sparc/sysemu: Remove pointless CONFIG_USER_ONLY
- guard
-Date: Fri, 16 Dec 2022 23:05:38 +0100
-Message-Id: <20221216220539.7065-10-philmd@linaro.org>
+Subject: [PATCH 10/10] target/xtensa/cpu: Include missing "memory.h" header
+Date: Fri, 16 Dec 2022 23:05:39 +0100
+Message-Id: <20221216220539.7065-11-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221216220539.7065-1-philmd@linaro.org>
 References: <20221216220539.7065-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,33 +101,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit caac44a52a ("target/sparc: Make sparc_cpu_tlb_fill sysemu
-only") restricted mmu_helper.c to system emulation. Checking
-whether CONFIG_USER_ONLY is defined is now pointless.
+Under system emulation, xtensa_cpu_initfn() calls
+memory_region_init_io(), itself declared in "exec/memory.h".
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/sparc/mmu_helper.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/xtensa/cpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index 919448a494..a7e51e4b7d 100644
---- a/target/sparc/mmu_helper.c
-+++ b/target/sparc/mmu_helper.c
-@@ -924,7 +924,6 @@ hwaddr sparc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     return phys_addr;
- }
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index 09923301c4..879710f8d1 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -35,6 +35,9 @@
+ #include "qemu/module.h"
+ #include "migration/vmstate.h"
+ #include "hw/qdev-clock.h"
++#ifndef CONFIG_USER_ONLY
++#include "exec/memory.h"
++#endif
  
--#ifndef CONFIG_USER_ONLY
- G_NORETURN void sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                               MMUAccessType access_type,
-                                               int mmu_idx,
-@@ -942,4 +941,3 @@ G_NORETURN void sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
  
-     cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
- }
--#endif /* !CONFIG_USER_ONLY */
+ static void xtensa_cpu_set_pc(CPUState *cs, vaddr value)
 -- 
 2.38.1
 
