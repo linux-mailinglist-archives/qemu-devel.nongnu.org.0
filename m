@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8708D64F01D
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 18:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC2464F043
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 18:21:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6EG8-0000Ko-A2; Fri, 16 Dec 2022 12:12:32 -0500
+	id 1p6ENB-0003lU-8r; Fri, 16 Dec 2022 12:19:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p6EFp-0000Ft-CC
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 12:12:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p6EMy-0003hJ-9P; Fri, 16 Dec 2022 12:19:39 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p6EFj-0004HG-BX
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 12:12:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671210725;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k8MxK2SI3vrx+EWNF5zv6+26govUssyovvBpwuuHXKY=;
- b=cvcZqJ+m++tylQvxNnObD/BEQP+pzGyFG9zmNkvm/WUCcFoVJAF4tCZfa9oSLW2rQAbw6n
- RrToQjKiO5nV2ddkXMg8pFy2qgmjMoIf5M4fxq841Jzhp8EAFJ5SP9yfrhwy02NCcbaBOf
- hUc0lfLWtxMyK80XUUisNiAo1NBKyD8=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-361-iYqIVSi4PLuJPmlsOCwlpw-1; Fri, 16 Dec 2022 12:12:00 -0500
-X-MC-Unique: iYqIVSi4PLuJPmlsOCwlpw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bi42-20020a05620a31aa00b006faaa1664b9so2234738qkb.8
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 09:12:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=k8MxK2SI3vrx+EWNF5zv6+26govUssyovvBpwuuHXKY=;
- b=WWfooprwUwqZG18wpvf1KvEBgNUjNDEGMN0tufHK31Bgn72tV9X8+xOCWQ1gCMfKsN
- hHvKJf8ltXrMZFhGhVi0o+gadAk4aSDBz5AC3tJtZnpbiuwKl1kJofSW4nUYPwcPJxM9
- zPCTiu5C6qcsxUQtkphmt8Q+GjdmfYzv9p0WS+tNUpU14gxJUCE8mTxVOCtdiZLaVC6C
- Ud2WN7MAHRpQ9/3GIHYtZNFnnUrW8onIzD1q0jJybqQER17lN0kcIkijrFeMqVQ1vHzG
- 1VtSjLMFfobuQRrsdM8JV8MPWGNDleLiNOFHaJYlMcEvmuj1xJGtSlS8x4faRGJVC9S4
- AsVA==
-X-Gm-Message-State: ANoB5pn9nPlGcQxt3LzGRmeQK9xK9X6iEnX7o8EEQCwZs38KdpY3TL+U
- QaB2hR0yMf43Y1W5slCayyY0fMsGEfo1KE/OoycrTiFatMMM+isbhsS6vGBudntmZZJ5dB50Qps
- 99v4y1cc7X0lkw7o=
-X-Received: by 2002:a05:622a:4d0c:b0:3a5:1b30:9d1f with SMTP id
- fd12-20020a05622a4d0c00b003a51b309d1fmr48646363qtb.35.1671210719664; 
- Fri, 16 Dec 2022 09:11:59 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6RJ4a0K1un+Kv8O1dr+xw2lRVZokWsVa3Uha3o3yBFDxZ7MtVXGMBpYvHULctvSWcZtR2lDg==
-X-Received: by 2002:a05:622a:4d0c:b0:3a5:1b30:9d1f with SMTP id
- fd12-20020a05622a4d0c00b003a51b309d1fmr48646346qtb.35.1671210719474; 
- Fri, 16 Dec 2022 09:11:59 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-45-70-31-26-132.dsl.bell.ca.
- [70.31.26.132]) by smtp.gmail.com with ESMTPSA id
- cg6-20020a05622a408600b00343057845f7sm1610358qtb.20.2022.12.16.09.11.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 09:11:58 -0800 (PST)
-Date: Fri, 16 Dec 2022 12:11:57 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Chuang Xu <xuchuangxclwt@bytedance.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com,
- pbonzini@redhat.com, david@redhat.com, f4bug@amsat.org,
- mst@redhat.com, zhouyibo@bytedance.com
-Subject: Re: [RFC v3 0/3] migration: reduce time of loading non-iterable
- vmstate
-Message-ID: <Y5ym3ayBoRNxzT5s@x1n>
-References: <20221213133510.1279488-1-xuchuangxclwt@bytedance.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p6EMv-0006II-FT; Fri, 16 Dec 2022 12:19:36 -0500
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 978125F1E8;
+ Fri, 16 Dec 2022 20:19:20 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b58d::1:2b] (unknown
+ [2a02:6b8:b081:b58d::1:2b])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ JJl46A0QkOs1-MMjXd66S; Fri, 16 Dec 2022 20:19:19 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1671211160; bh=FAbC8d+V11WH2sbZVUK1n2MV/4n/85M99yD94wVE7PE=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=EJFldra3TkvJaya1zkgRAhnGVKhMusXNtgdjr7zO7n0NjTIJKybo11D8R5vlN2Pr2
+ Yk5roLCGEqQDJqX4ZFm7oyI/gGSZ2MJU1TBAI8VXwCrmR4kN/MQsMZgW/MjEQd0mPD
+ un00z9FguAoje8nVoTj1kkYXU8OIj1UxlEfsqMVE=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <1e190dd2-bc37-2de2-4a0e-fba964143447@yandex-team.ru>
+Date: Fri, 16 Dec 2022 20:19:19 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221213133510.1279488-1-xuchuangxclwt@bytedance.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 05/14] block: Convert bdrv_refresh_total_sectors() to
+ co_wrapper_mixed
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: hreitz@redhat.com, eesposit@redhat.com, pbonzini@redhat.com,
+ qemu-devel@nongnu.org
+References: <20221213085320.95673-1-kwolf@redhat.com>
+ <20221213085320.95673-6-kwolf@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221213085320.95673-6-kwolf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,33 +76,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Chuang,
+On 12/13/22 11:53, Kevin Wolf wrote:
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
+> @@ -684,7 +684,7 @@ struct BlockDriver {
+>       int coroutine_fn (*bdrv_co_truncate)(BlockDriverState *bs, int64_t offset,
+>                                            bool exact, PreallocMode prealloc,
+>                                            BdrvRequestFlags flags, Error **errp);
+> -    int64_t (*bdrv_getlength)(BlockDriverState *bs);
+> +    int64_t coroutine_fn (*bdrv_getlength)(BlockDriverState *bs);
 
-On Tue, Dec 13, 2022 at 09:35:07PM +0800, Chuang Xu wrote:
-> Here are the test results:
-> test vm info:
-> - 32 CPUs 128GB RAM
-> - 8 16-queue vhost-net device
-> - 16 4-queue vhost-user-blk device.
-> 
-> 	time of loading non-iterable vmstate
-> before		about 210 ms
-> after		about 40 ms
 
-It'll be also great if you can attach more information in the cover letter
-in the next post.  For example:
+Like in 02 and 03, realizations of the callback are not marked coroutine_fn. [*]
 
-  - Per your investigation, what's the major influential factor for the
-    memory updates?  Besides the number of devices, does the number of
-    queues also matter?  Is there anything else?
-
-  - Total downtime comparison (only if above is only part of the downtime)
-
-  - The nic used in the test.
-
-Thanks,
+(do we want to reanme it to _co_ ? This also simplifies review, in a way to check [*])
 
 -- 
-Peter Xu
+Best regards,
+Vladimir
 
 
