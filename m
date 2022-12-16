@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8DF64E9FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE2964EA0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 12:15:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p68Zi-0004mt-2m; Fri, 16 Dec 2022 06:08:22 -0500
+	id 1p68f5-0007jv-Jd; Fri, 16 Dec 2022 06:13:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p68Zg-0004me-Kh
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:08:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1p68f3-0007jl-Ub
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:13:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p68Zf-0002Ih-2r
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:08:20 -0500
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1p68f2-0003Hi-DO
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 06:13:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671188897;
+ s=mimecast20190719; t=1671189230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xmtQYpVJVIg+NWK19Ze1DFaTL5Qp/nHqKpooTf1QqUg=;
- b=MTCyh/VPvcG++V8jaRyvmXVGfQhYcWqdHSjnjJg9S10WxEdiXMvTiIyjgwif92dwBe74mI
- 8hS/hrVrGpc4irhS0zT0M8+WQGeIE/NBCvE8dAVfX9ANU71j1eMv8zRIG806J0FedbEXI5
- 1r9r9gKLdCUMZhI/IV0rT4TFQQnzRkQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-186-6zeiD-dMNTS9W6T839m-qw-1; Fri, 16 Dec 2022 06:08:08 -0500
-X-MC-Unique: 6zeiD-dMNTS9W6T839m-qw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z16-20020a05640235d000b0046d0912ae25so1663801edc.5
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 03:08:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xmtQYpVJVIg+NWK19Ze1DFaTL5Qp/nHqKpooTf1QqUg=;
- b=3CQ+ftv+QcBoPu2rFXs/dKvyrM6paxfVtFjC6piEUPsOYKhx0ou6G1h0lOVYfX8f7D
- MoS27qJKxC1MR6ERfqYVNGsqXmioEkwDPnTPvH3O9qHobGeIpvMWJ37Tofyv21Kgx8ua
- WNHtoefgAwxZM99MJxjGN1DgkoSsKJDYJp5Nn7U4RR22jtnHu479cJSoHpHLJumz8PbP
- JF0oEQdEP+vK8zOO8FyGKWtpVYxgoWfAkauEyUwguCr/o5XdTcOPIUsseU4J8LX6PxbV
- bp3svL+uAhwPtdWGzsDgwA+jCI+vCnZaIiVU4oAJv+wvYclubBsdwbYBrimo7Z8UU/Gv
- 6mqw==
-X-Gm-Message-State: ANoB5pnK1KyqXdPEF1vuMVTaR6e0weDg8Ryt0dAGkbAu+kVOIXITvDo4
- u93TZXFJ4lVYt2jY+ybMS+LOTuZWUiNBI4j6/HUTeG1rhznvMlTLxf6A7M7/VKSsR7JkSR5igxR
- hG6ah90yt6NQJsDTWRXwJ5BXLBvWf762WnVdWJMkzi29ujkAB67WfHYH9nD2BqLhRvaQ=
-X-Received: by 2002:a17:907:2994:b0:7c0:e535:13fd with SMTP id
- eu20-20020a170907299400b007c0e53513fdmr21110953ejc.70.1671188887205; 
- Fri, 16 Dec 2022 03:08:07 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5KZ/XAAwySv8ozFsaXpJZNwqt4BQKq2hzsHiABg15C1kCi3O8Slct2EH3ROSsaojYxZ7EZhQ==
-X-Received: by 2002:a17:907:2994:b0:7c0:e535:13fd with SMTP id
- eu20-20020a170907299400b007c0e53513fdmr21110933ejc.70.1671188886722; 
- Fri, 16 Dec 2022 03:08:06 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- b8-20020a170906708800b007c4ed5ced79sm726391ejk.73.2022.12.16.03.08.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 03:08:06 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: afaria@redhat.com,
-	qemu-block@nongnu.org,
-	kwolf@redhat.com
-Subject: [PATCH v2 2/2] block: Add no_coroutine_fn and coroutine_mixed_fn
- marker
-Date: Fri, 16 Dec 2022 12:07:58 +0100
-Message-Id: <20221216110758.559947-3-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221216110758.559947-1-pbonzini@redhat.com>
-References: <20221216110758.559947-1-pbonzini@redhat.com>
+ bh=RbTOovQUdfGt9U9QZ4ZgQdSPz1KkfxzdXiNrkIEZJ18=;
+ b=UK7uBU3u8BQfSmO9H+xIlYhXaKOBl1YBBT4ELJEdlTnlgp7EIktDeGpotQ7VDFtTGcDgZV
+ 3fLz0slhZTsUFaZXQZIslLDY8Psgy33ojTJLT3FksdSQun6bN6YxSzAZ0XG8o/TpuH/4Uy
+ SbAqDW3IFIqEFoVlBRfEgsiYZn24vmI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-161-rMcfay-AOuSG6T-_dFt6_g-1; Fri, 16 Dec 2022 06:13:49 -0500
+X-MC-Unique: rMcfay-AOuSG6T-_dFt6_g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04C5780D101;
+ Fri, 16 Dec 2022 11:13:49 +0000 (UTC)
+Received: from pinwheel (unknown [10.39.194.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1DBD2026D35;
+ Fri, 16 Dec 2022 11:13:47 +0000 (UTC)
+Date: Fri, 16 Dec 2022 12:13:45 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 2/2] docs: add no-padding firmware feature
+Message-ID: <Y5xS6TaZGnOCiRag@pinwheel>
+References: <20221216101234.2202009-1-kraxel@redhat.com>
+ <20221216101234.2202009-3-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+In-Reply-To: <20221216101234.2202009-3-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,121 +83,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alberto Faria <afaria@redhat.com>
+On Fri, Dec 16, 2022 at 11:12:34AM +0100, Gerd Hoffmann wrote:
 
-Add more annotations to functions, describing valid and invalid
-calls from coroutine to non-coroutine context.
+Hi,
 
-When applied to a function, no_coroutine_fn advertises that it should
-not be called from coroutine_fn functions.  This can be because the
-function blocks or, in the case of generated_co_wrapper, to enforce
-that coroutine_fn functions directly call the coroutine_fn that backs
-the generated_co_wrapper.
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  docs/interop/firmware.json | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
+> index 56814f02b3c0..74f404d745b0 100644
+> --- a/docs/interop/firmware.json
+> +++ b/docs/interop/firmware.json
+> @@ -191,6 +191,8 @@
+>  #                  PL011 UART. @verbose-static is mutually exclusive
+>  #                  with @verbose-dynamic.
+>  #
+> +# @no-padding: The (arm/aarch64) firmware images are not padded to 64M.
+> +#
+>  # Since: 3.0
+>  ##
+>  { 'enum' : 'FirmwareFeature',
+> @@ -198,7 +200,8 @@
+>               'amd-sev', 'amd-sev-es', 'amd-sev-snp',
+>               'intel-tdx',
+>               'enrolled-keys', 'requires-smm', 'secure-boot',
+> -             'verbose-dynamic', 'verbose-static' ] }
+> +             'verbose-dynamic', 'verbose-static',
+> +             'no-padding' ] }
 
-coroutine_mixed_fn instead is for function that can be called in
-both coroutine and non-coroutine context, but will suspend when
-called in coroutine context.  Annotating them is a first step
-towards enforcing that non-annotated functions are absolutely
-not going to suspend.
+If you're re-spinning, please consider adding a sentence or two (for
+those of us who're not familiar) a bit more about the "no-padding"
+feature to the commit message.
 
-These can be used for example with the vrc tool:
+IIUC, I found the use of the padding feature reading an old email
+response[1] from Dan Berrangé:
 
-    # find functions that *really* cannot be called from no_coroutine_fn
-    (vrc) load --loader clang libblock.fa.p/meson-generated_.._block_block-gen.c.o
-    (vrc) paths [no_coroutine_fn,!coroutine_mixed_fn]
-    bdrv_remove_persistent_dirty_bitmap
-    bdrv_create
-    bdrv_can_store_new_dirty_bitmap
-
-    # find how coroutine_fns end up calling a mixed function
-    (vrc) load --loader clang --force libblock.fa.p/*.c.o
-    (vrc) paths [coroutine_fn] [!no_coroutine_fn]* [coroutine_mixed_fn]
+(quote)
     ...
-    bdrv_pread <- vhdx_log_write <- vhdx_log_write_and_flush <- vhdx_co_writev
+    If there's a risk that newer firmware will be larger than old firmware
+    there's only really two options:
+    
+      - Keep all firmware images forever, each with a unique versioned
+        filename. This ensures target QEMU will always load the original
+        smaller firmware
+    
+      - Add padding to the firmware images. IOW, if the firmware is 2 MB,
+        add zero-padding to the end of the image to round it upto 4 MB
+        (whatever you anticipate the largest size wil be in future).
     ...
+(/quote)
 
-Signed-off-by: Alberto Faria <afaria@redhat.com>
-[Rebase, add coroutine_mixed_fn. - Paolo]
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/block/block-common.h | 11 ++++++----
- include/qemu/coroutine.h     | 39 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+), 4 deletions(-)
 
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 4749c46a5e7e..cce79bd00135 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -50,11 +50,14 @@
-  * - co_wrapper_mixed_bdrv_rdlock are co_wrapper_mixed functions but
-  *   automatically take and release the graph rdlock when creating a new
-  *   coroutine.
-+ *
-+ * These functions should not be called from a coroutine_fn; instead,
-+ * call the wrapped function directly.
-  */
--#define co_wrapper
--#define co_wrapper_mixed
--#define co_wrapper_bdrv_rdlock
--#define co_wrapper_mixed_bdrv_rdlock
-+#define co_wrapper                     no_coroutine_fn
-+#define co_wrapper_mixed               no_coroutine_fn coroutine_mixed_fn
-+#define co_wrapper_bdrv_rdlock         no_coroutine_fn
-+#define co_wrapper_mixed_bdrv_rdlock   no_coroutine_fn coroutine_mixed_fn
- 
- #include "block/dirty-bitmap.h"
- #include "block/blockjob.h"
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index b0c97f6fb7ad..3ab086aee158 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -48,6 +48,45 @@
- #define coroutine_fn
- #endif
- 
-+/**
-+ * Mark a function that can suspend when executed in coroutine context,
-+ * but can handle running in non-coroutine context too.
-+ */
-+#ifdef __clang__
-+#define coroutine_mixed_fn __attribute__((__annotate__("coroutine_mixed_fn")))
-+#else
-+#define coroutine_mixed_fn
-+#endif
-+
-+/**
-+ * Mark a function that should not be called from a coroutine context.
-+ * Usually there will be an analogous, coroutine_fn function that should
-+ * be used instead.
-+ *
-+ * When the function is also marked as coroutine_mixed_fn, the function should
-+ * only be called if the caller does not know whether it is in coroutine
-+ * context.
-+ *
-+ * Functions that are only no_coroutine_fn, on the other hand, should not
-+ * be called from within coroutines at all.  This for example includes
-+ * functions that block.
-+ *
-+ * In the future it would be nice to enable compiler or static checker
-+ * support for catching such errors.  This annotation is the first step
-+ * towards this, and in the meantime it serves as documentation.
-+ *
-+ * For example:
-+ *
-+ *   static void no_coroutine_fn foo(void) {
-+ *       ....
-+ *   }
-+ */
-+#ifdef __clang__
-+#define no_coroutine_fn __attribute__((__annotate__("no_coroutine_fn")))
-+#else
-+#define no_coroutine_fn
-+#endif
-+
- typedef struct Coroutine Coroutine;
- 
- /**
+[1] https://edk2.groups.io/g/devel/message/54758
+
+Regardless:
+
+Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
+
+>  ##
+>  # @FirmwareFlashFile:
+> -- 
+> 2.38.1
+> 
+
 -- 
-2.38.1
+/kashyap
 
 
