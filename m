@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29B064ED37
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C5E64ED41
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:58:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6C9y-0003xh-Pm; Fri, 16 Dec 2022 09:58:02 -0500
+	id 1p6CA1-00043e-D9; Fri, 16 Dec 2022 09:58:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p6C9p-0003kM-2O; Fri, 16 Dec 2022 09:57:53 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ id 1p6C9r-0003lT-Go; Fri, 16 Dec 2022 09:57:57 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p6C9m-00024E-SL; Fri, 16 Dec 2022 09:57:52 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id bj12so6646757ejb.13;
- Fri, 16 Dec 2022 06:57:49 -0800 (PST)
+ id 1p6C9o-00024S-V6; Fri, 16 Dec 2022 09:57:54 -0500
+Received: by mail-ej1-x629.google.com with SMTP id gh17so6749122ejb.6;
+ Fri, 16 Dec 2022 06:57:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=M+Y2J9PDP4DZ4iDoia/puViG/9DauPlN51y/+zVmrBg=;
- b=bSgYVQEBucb3IAA+n5YpWx2Oh3MZeFkuyOojYS2S9ws6LAMjAjZI5dLcwV2HifSFkQ
- CxPQ+amtPc+wX5F9QldKQPDHrEzYP3NctlfpWBGnUjgENdruX0vrmdb6d5L6fx7msqAr
- /nSeWw97hD0HpTomxqnK9y9KjUDJSIdTyPYgLp7M4+fAd951RZIjKjoGknARL14F/LyZ
- 98wX1Z6i/k5JD3rzAEx0n2I3Jzqg1/G4kAtIxmXYcYxLSelIrCy9JnZj1MvwkafpOerl
- t0t+Y2OwY4RuyMRYeQ0hAYXAQ5rJTyPdHYCB+Wv9XxW6FSai5QXOHB0ZDDCUiZ2oPXS5
- selQ==
+ bh=FmssZAyQ2lc00tGSHG/xjnWcVgniYqgYRJkzWqESq0k=;
+ b=LFo7EbjIMCBpgoR7hN09+87vQmsJZ1T3dot1CzNM4w6Q8pAyHX3MV+e18xYSbSruob
+ 6v+wqZinOJ4CYgySuTCOwhz5U+krqp6+9htqDAcvmBqpDVReRvr9pvolWOck4cKkvWxQ
+ K91+nJyO0uV55fJymzDnfSMCaBn3JEqRdWOHRhrW4PuS4idjEgVqn2bRhOg6YKWyjzud
+ sL1/gPpWK6O/OHVFoD50iH9q8asvrCQzsYimoHkK7oWA/djiRW97+i02kh96OBjgu5/j
+ 349XzbX9TH5KFbK6Km0FM+KnKG6EmN00q+IqN449HQamR/1q/lNrOlMtEatUOX+/tpPZ
+ hIkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=M+Y2J9PDP4DZ4iDoia/puViG/9DauPlN51y/+zVmrBg=;
- b=BN8J4Khf4BPEE7sihpfXVWZepGrbwXbvJN20hWIKFxrMCpRs6JOGTQfNLb/7r4AlpB
- 4AeGA71iPdlcpXxsO/Px+Zm9eNJNSqodtnBnNoLIqvhTZgqRW6Fq0sEjG277W/nWeH9L
- VFvsnUZtNkMhw9y0Cotb3VDAB/S5Ukg+8Kn2Qr7h6Y2HJF3DRFo//Wb2h/7qyNe+FhgY
- 7eXQXheICtGIRa/6EigTRCyPq/Q9TPenoFKYDhf+5T9wvFDIkSpJEfTwMp7WSux4kzWJ
- fNS5ZSIT9yMHZTHoOgexahD3kbLajVBJySlEQC7fRopX7RNcv/xJIH5aCNRZnyidO5jn
- aQfQ==
-X-Gm-Message-State: ANoB5pm1BuR4T1NcVtAXykYnrkCuXM0AKJ28v2NxyfRYRL4VHxtGvEt0
- d6W6wvgGsEKGCmeYGZD9KQZFrL9t/Hk=
-X-Google-Smtp-Source: AA0mqf7EtylOk2nnta7VowpXeOBUt/z0+Nkf93makFpS1oTX94E7BmPEFbGVwboQpstFseD7SLT3VA==
-X-Received: by 2002:a17:906:351b:b0:7c0:a6a9:64e9 with SMTP id
- r27-20020a170906351b00b007c0a6a964e9mr37948814eja.36.1671202668616; 
- Fri, 16 Dec 2022 06:57:48 -0800 (PST)
+ bh=FmssZAyQ2lc00tGSHG/xjnWcVgniYqgYRJkzWqESq0k=;
+ b=e2+DgLM9kaTCCuiLrT4Nttoil5cy3r5upFzRnPFCyBYsaR5sfA7zP+WG283Q+g4V9R
+ US91MId3TAIJwBWwBb4Q0F737oyE29sS+ydLdUyDdkH1SSCdISP2IBuUIKaRGgg2yVvh
+ QEOYjPexEWiS6LnNasDbZZjGyzZ4Lw0EKMCB7B6/GTFHg1YGzqkNKvFEAOHNx+FzBbbG
+ opAXqI6IeNZqLdirtpV4GyHgHJgV9yLZZCNSV0gsyndALY0ezE3OBt1Zw/8hshSPc5Ky
+ iygbYohUvqFK1lHumuubZdI7dBng94MfQCuMlulhRMuoDQ4WtQSmeiQBc/bnuclfbPAx
+ Ar+A==
+X-Gm-Message-State: ANoB5pnLhREUp3NBEU4y0CmzLJRLDg1ivnrJCfvVd0QN4BfiZbe+W+qS
+ roDLAB48HENglsxH4NQq4Q8EHydKfcA=
+X-Google-Smtp-Source: AA0mqf4FygQgI8NX+FQafo6PPn6WxbaxxT1VL9952n4GfEk1tpHaRNZj69iU135WVHplbTbNhEY5jA==
+X-Received: by 2002:a17:906:b013:b0:7ba:fcc1:f284 with SMTP id
+ v19-20020a170906b01300b007bafcc1f284mr28437358ejy.73.1671202670303; 
+ Fri, 16 Dec 2022 06:57:50 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-078-055-138-012.78.55.pool.telefonica.de. [78.55.138.12])
  by smtp.gmail.com with ESMTPSA id
- g18-20020aa7c852000000b00467c3cbab6fsm942225edt.77.2022.12.16.06.57.47
+ g18-20020aa7c852000000b00467c3cbab6fsm942225edt.77.2022.12.16.06.57.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 06:57:47 -0800 (PST)
+ Fri, 16 Dec 2022 06:57:49 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
@@ -63,16 +63,16 @@ Cc: qemu-ppc@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  Greg Kurz <groug@kaod.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 5/6] hw/ppc/e500: Resolve variable shadowing
-Date: Fri, 16 Dec 2022 15:57:08 +0100
-Message-Id: <20221216145709.271940-6-shentey@gmail.com>
+Subject: [PATCH 6/6] hw/ppc/e500: Move comment to more appropriate place
+Date: Fri, 16 Dec 2022 15:57:09 +0100
+Message-Id: <20221216145709.271940-7-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221216145709.271940-1-shentey@gmail.com>
 References: <20221216145709.271940-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,42 +95,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Assign to the outer variable instead which even saves some code.
+The TLB entries are set up in mmubooke_create_initial_mapping(), not in
+booke206_page_size_to_tlb().
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/ppc/e500.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/ppc/e500.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index ad83924004..104a85ad22 100644
+index 104a85ad22..c6aeccce7a 100644
 --- a/hw/ppc/e500.c
 +++ b/hw/ppc/e500.c
-@@ -883,7 +883,7 @@ void ppce500_init(MachineState *machine)
-     bool kernel_as_payload;
-     hwaddr bios_entry = 0;
-     target_long payload_size;
--    struct boot_info *boot_info;
-+    struct boot_info *boot_info = NULL;
-     int dt_size;
-     int i;
-     unsigned int smp_cpus = machine->smp.cpus;
-@@ -938,7 +938,6 @@ void ppce500_init(MachineState *machine)
-         /* Register reset handler */
-         if (!i) {
-             /* Primary CPU */
--            struct boot_info *boot_info;
-             boot_info = g_new0(struct boot_info, 1);
-             qemu_register_reset(ppce500_cpu_reset, cpu);
-             env->load_info = boot_info;
-@@ -1217,7 +1216,6 @@ void ppce500_init(MachineState *machine)
-     }
-     assert(dt_size < DTB_MAX_SIZE);
+@@ -692,7 +692,6 @@ static int ppce500_prep_device_tree(PPCE500MachineState *machine,
+                                     kernel_base, kernel_size, true);
+ }
  
--    boot_info = env->load_info;
-     boot_info->entry = bios_entry;
-     boot_info->dt_base = dt_base;
-     boot_info->dt_size = dt_size;
+-/* Create -kernel TLB entries for BookE.  */
+ hwaddr booke206_page_size_to_tlb(uint64_t size)
+ {
+     return 63 - clz64(size / KiB);
+@@ -723,6 +722,7 @@ static uint64_t mmubooke_initial_mapsize(CPUPPCState *env)
+     return (1ULL << 10 << tsize);
+ }
+ 
++/* Create -kernel TLB entries for BookE. */
+ static void mmubooke_create_initial_mapping(CPUPPCState *env)
+ {
+     ppcmas_tlb_t *tlb = booke206_get_tlbm(env, 1, 0, 0);
 -- 
 2.39.0
 
