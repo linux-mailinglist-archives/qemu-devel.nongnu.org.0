@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426A164E9BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 11:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73D764E9D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 11:57:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p68EY-0008FE-Pq; Fri, 16 Dec 2022 05:46:30 -0500
+	id 1p68Nv-0001sT-1J; Fri, 16 Dec 2022 05:56:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p68EG-0008Bj-5Z
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:46:19 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p68EB-0004J6-28
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:46:11 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so3823854wmb.2
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 02:46:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=I7qpe/CGMn45Y8TAHmmha9tWCsTujnH/2UYttoi8M9E=;
- b=nF+Nmx9hqKdkkIbZg8HmI6Cz/YPafZifjOHi+zqUa/JEyg+pd49NkWBymZhZDQ8Syu
- X9tW0BsWoQgjKyzmLPvEDAjHtwzSbW/9xvdYal1HzgKDewICBjr7HYaucQwKM9C6g83w
- 0CjjzrpuPCkK1pz8bhGQcKcLlhPrgpoAT16Q9HKFLZ1NkPwebgFw50bhb32MLJlmJuaI
- pJjf2isfimSuPikXwqI4wmgr5zHxKkSmxVt1fmAkzQEN+x2fMB//AnmyoO8TBHuzzyeG
- Vg2L935SStJzYg0GvdM7w03mhoa+m4Nrg3V2UP94yJ2YSITxjcCJNl9/cEEwnUCVGV3j
- pvWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I7qpe/CGMn45Y8TAHmmha9tWCsTujnH/2UYttoi8M9E=;
- b=W63FFN6aBDf6LZDiabzJ2AnBNFxdEnBLiBrWpUnCQxS6/jfAeeCgDSN2v0pz5Ua87q
- oG3yzfV+3gzwlW/As7kM9NoGjAPZu/wmwfegATk6rNfphsO8LOq5dD2Q4hmxg0x9Efka
- b90uBsznKIYiJMn5ziJoc2Ip4tA4RV5liLyRaQo03iJzKQtA2j5wiyX3Z9TfmaPd3ll6
- 1qrQRzVuzYygxWGtWNls0yLnY7kn5gBMOdpjcw0WtC8mfz6NJdg1HLeVg/KjGWrt7kDv
- mb/o33beFEbUiPIXDtg7xWkvHrCuwee+oY7TuLMeZepq+Lx6d+6TLdlwSPVZLLVMLrdY
- 9XPw==
-X-Gm-Message-State: ANoB5pmaTblaNtpSIj/g3M//viiJybV4ZrLYTUYtkrYRRbUZcVIkH7X/
- Svt7KqggkHwHM1bg6s9TKyGLDQ==
-X-Google-Smtp-Source: AA0mqf6VVesSUwHDinycX65VU761LkSXaXaVGiI6Y5hU6BZ+x8J6LNOImEJKIYDlPgfgmhB/al42OQ==
-X-Received: by 2002:a05:600c:1da9:b0:3c7:a5:610e with SMTP id
- p41-20020a05600c1da900b003c700a5610emr25538424wms.27.1671187564752; 
- Fri, 16 Dec 2022 02:46:04 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m17-20020a7bce11000000b003d2157627a8sm9557669wmc.47.2022.12.16.02.46.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 02:46:04 -0800 (PST)
-Message-ID: <fb070b3a-6b05-a0fb-09b9-c6c9d872e901@linaro.org>
-Date: Fri, 16 Dec 2022 11:46:03 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p68Ns-0001ru-Sy
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:56:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p68Nq-00078x-0K
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:56:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671188164;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=So1p5OZDyth9DOZWmbRX6byh2/fjxPrrkqCjdDaAC2w=;
+ b=HeNTRQPwiMZvJoFi0syQJucWGCX9ItXf5J9I8DSojn2WUi6fydeBtCHYzoWZr7K3h8TAol
+ NnlBxQE3HC/so8MMxqDNEMUB+yJADQBBV2kyGh2QFSJvp1186SNC3AwlPjdVwlb8NQQbXo
+ jIADhQi/2BqIXWtuWg9+94ZzMqJDNig=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-543-PRjU0itiOGqqXCxzkM-bTg-1; Fri, 16 Dec 2022 05:56:00 -0500
+X-MC-Unique: PRjU0itiOGqqXCxzkM-bTg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5311D858F09;
+ Fri, 16 Dec 2022 10:56:00 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1A36C15BA0;
+ Fri, 16 Dec 2022 10:55:58 +0000 (UTC)
+Date: Fri, 16 Dec 2022 10:55:55 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Antoine Damhet <antoine.damhet@shadow.tech>
+Cc: qemu-devel@nongnu.org, vm@shadow.tech,
+ Charles Frey <charles.frey@shadow.tech>
+Subject: Re: [PATCH 2/2] io/channel-tls: fix handling of bigger read buffers
+Message-ID: <Y5xOu/GNQd6llXBt@redhat.com>
+References: <20221115142329.92524-1-antoine.damhet@shadow.tech>
+ <20221115142329.92524-3-antoine.damhet@shadow.tech>
+ <Y3TA5LLIZFVHrNBM@redhat.com>
+ <20221216103803.y3xse3axbqdfl7r7@cole.xdbob.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH] docs: do not talk about past removal as happening in the
- future
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-arm <qemu-arm@nongnu.org>
-References: <20221216101506.524217-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221216101506.524217-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+In-Reply-To: <20221216103803.y3xse3axbqdfl7r7@cole.xdbob.net>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,35 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/12/22 11:15, Paolo Bonzini wrote:
-> KVM guest support on 32-bit Arm hosts *has* been removed, so rephrase
-> the sentence describing it.
+On Fri, Dec 16, 2022 at 11:38:03AM +0100, Antoine Damhet wrote:
+> On Wed, Nov 16, 2022 at 10:52:20AM +0000, Daniel P. Berrangé wrote:
+> > On Tue, Nov 15, 2022 at 03:23:29PM +0100, antoine.damhet@shadow.tech wrote:
+> > > From: Antoine Damhet <antoine.damhet@shadow.tech>
+> > > 
+> > > Since the TLS backend can read more data from the underlying QIOChannel
+> > > we introduce a minimal child GSource to notify if we still have more
+> > > data available to be read.
+> > > 
+> > > Signed-off-by: Antoine Damhet <antoine.damhet@shadow.tech>
+> > > Signed-off-by: Charles Frey <charles.frey@shadow.tech>
+> > > ---
+> > >  io/channel-tls.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++-
+> > >  1 file changed, 65 insertions(+), 1 deletion(-)
+> > 
+> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   docs/about/removed-features.rst | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+> Thanks,
 > 
-> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-> index 63df9848fda2..7e12145c120d 100644
-> --- a/docs/about/removed-features.rst
-> +++ b/docs/about/removed-features.rst
-> @@ -565,9 +565,8 @@ KVM guest support on 32-bit Arm hosts (removed in 5.2)
->   ''''''''''''''''''''''''''''''''''''''''''''''''''''''
->   
->   The Linux kernel has dropped support for allowing 32-bit Arm systems
-> -to host KVM guests as of the 5.7 kernel. Accordingly, QEMU is deprecating
-> -its support for this configuration and will remove it in a future version.
-> -Running 32-bit guests on a 64-bit Arm host remains supported.
-> +to host KVM guests as of the 5.7 kernel, and was thus removed from QEMU
-> +as well.  Running 32-bit guests on a 64-bit Arm host remains supported.
->   
->   RISC-V ISA Specific CPUs (removed in 5.1)
->   '''''''''''''''''''''''''''''''''''''''''
+> Now that the 7.2.0 is released, can we hope to get this queued ? If not
+> what should I do ?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Yes, I have this queued already for my next pull req.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
