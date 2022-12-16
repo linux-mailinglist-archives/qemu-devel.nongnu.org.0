@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C5E64ED41
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E2CE64ED54
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 16:00:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6CA1-00043e-D9; Fri, 16 Dec 2022 09:58:05 -0500
+	id 1p6CAr-0005P9-Vd; Fri, 16 Dec 2022 09:58:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p6C9r-0003lT-Go; Fri, 16 Dec 2022 09:57:57 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p6C9o-00024S-V6; Fri, 16 Dec 2022 09:57:54 -0500
-Received: by mail-ej1-x629.google.com with SMTP id gh17so6749122ejb.6;
- Fri, 16 Dec 2022 06:57:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FmssZAyQ2lc00tGSHG/xjnWcVgniYqgYRJkzWqESq0k=;
- b=LFo7EbjIMCBpgoR7hN09+87vQmsJZ1T3dot1CzNM4w6Q8pAyHX3MV+e18xYSbSruob
- 6v+wqZinOJ4CYgySuTCOwhz5U+krqp6+9htqDAcvmBqpDVReRvr9pvolWOck4cKkvWxQ
- K91+nJyO0uV55fJymzDnfSMCaBn3JEqRdWOHRhrW4PuS4idjEgVqn2bRhOg6YKWyjzud
- sL1/gPpWK6O/OHVFoD50iH9q8asvrCQzsYimoHkK7oWA/djiRW97+i02kh96OBjgu5/j
- 349XzbX9TH5KFbK6Km0FM+KnKG6EmN00q+IqN449HQamR/1q/lNrOlMtEatUOX+/tpPZ
- hIkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FmssZAyQ2lc00tGSHG/xjnWcVgniYqgYRJkzWqESq0k=;
- b=e2+DgLM9kaTCCuiLrT4Nttoil5cy3r5upFzRnPFCyBYsaR5sfA7zP+WG283Q+g4V9R
- US91MId3TAIJwBWwBb4Q0F737oyE29sS+ydLdUyDdkH1SSCdISP2IBuUIKaRGgg2yVvh
- QEOYjPexEWiS6LnNasDbZZjGyzZ4Lw0EKMCB7B6/GTFHg1YGzqkNKvFEAOHNx+FzBbbG
- opAXqI6IeNZqLdirtpV4GyHgHJgV9yLZZCNSV0gsyndALY0ezE3OBt1Zw/8hshSPc5Ky
- iygbYohUvqFK1lHumuubZdI7dBng94MfQCuMlulhRMuoDQ4WtQSmeiQBc/bnuclfbPAx
- Ar+A==
-X-Gm-Message-State: ANoB5pnLhREUp3NBEU4y0CmzLJRLDg1ivnrJCfvVd0QN4BfiZbe+W+qS
- roDLAB48HENglsxH4NQq4Q8EHydKfcA=
-X-Google-Smtp-Source: AA0mqf4FygQgI8NX+FQafo6PPn6WxbaxxT1VL9952n4GfEk1tpHaRNZj69iU135WVHplbTbNhEY5jA==
-X-Received: by 2002:a17:906:b013:b0:7ba:fcc1:f284 with SMTP id
- v19-20020a170906b01300b007bafcc1f284mr28437358ejy.73.1671202670303; 
- Fri, 16 Dec 2022 06:57:50 -0800 (PST)
-Received: from localhost.localdomain
- (dynamic-078-055-138-012.78.55.pool.telefonica.de. [78.55.138.12])
- by smtp.gmail.com with ESMTPSA id
- g18-20020aa7c852000000b00467c3cbab6fsm942225edt.77.2022.12.16.06.57.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Dec 2022 06:57:49 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>,
- David Gibson <david@gibson.dropbear.id.au>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-trivial@nongnu.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 6/6] hw/ppc/e500: Move comment to more appropriate place
-Date: Fri, 16 Dec 2022 15:57:09 +0100
-Message-Id: <20221216145709.271940-7-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221216145709.271940-1-shentey@gmail.com>
-References: <20221216145709.271940-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p6CAo-0005KD-Qn
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:58:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p6CAn-0002Cs-33
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:58:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671202732;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BBezmyGXLx6joX46JP9eG+TWxWUVaXXDLBQCqEcCS80=;
+ b=XCQSOFCzz9xl1Z9u8LKyDwX0jzu15VxeCdqU7RJ0Dp0fraaDvtaLq37Hd+3A32Yxag9Q3O
+ iwzT8+BlDIe2QQhE6zyEkq+8q4yJXbMoIvsqbdQLJ5g4PSMnSjudMc7hme785RA2DXs6UR
+ F6bNEazCpZAyCXET3xzQo5s9aulJpuY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-173-Lhc5QEkRP9S6KpXhmGDuiA-1; Fri, 16 Dec 2022 09:58:50 -0500
+X-MC-Unique: Lhc5QEkRP9S6KpXhmGDuiA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DFAF1C0897A
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:58:50 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7850F40C6EC4;
+ Fri, 16 Dec 2022 14:58:49 +0000 (UTC)
+Date: Fri, 16 Dec 2022 14:58:46 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 09/30] meson: use prefer_static option
+Message-ID: <Y5yHpv2QilBLbcjS@redhat.com>
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <20221209112409.184703-10-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x629.google.com
+In-Reply-To: <20221209112409.184703-10-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,38 +79,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The TLB entries are set up in mmubooke_create_initial_mapping(), not in
-booke206_page_size_to_tlb().
+On Fri, Dec 09, 2022 at 12:23:48PM +0100, Paolo Bonzini wrote:
+> The option is new in Meson 0.63 and removes the need to pass "static:
+> true" to all dependency and find_library invocation.  Actually cleaning
+> up the invocations is left for a separate patch.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure                   |  4 +---
+>  docs/devel/build-system.rst |  3 +--
+>  meson.build                 | 11 ++++-------
+>  qga/meson.build             |  2 +-
+>  4 files changed, 7 insertions(+), 13 deletions(-)
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/ppc/e500.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 104a85ad22..c6aeccce7a 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -692,7 +692,6 @@ static int ppce500_prep_device_tree(PPCE500MachineState *machine,
-                                     kernel_base, kernel_size, true);
- }
- 
--/* Create -kernel TLB entries for BookE.  */
- hwaddr booke206_page_size_to_tlb(uint64_t size)
- {
-     return 63 - clz64(size / KiB);
-@@ -723,6 +722,7 @@ static uint64_t mmubooke_initial_mapsize(CPUPPCState *env)
-     return (1ULL << 10 << tsize);
- }
- 
-+/* Create -kernel TLB entries for BookE. */
- static void mmubooke_create_initial_mapping(CPUPPCState *env)
- {
-     ppcmas_tlb_t *tlb = booke206_get_tlbm(env, 1, 0, 0);
+
+With regards,
+Daniel
 -- 
-2.39.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
