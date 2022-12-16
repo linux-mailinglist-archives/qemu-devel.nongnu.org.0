@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52CE64EDF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 16:31:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C23B64EDFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 16:32:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Cep-000547-VP; Fri, 16 Dec 2022 10:29:55 -0500
+	id 1p6Ch8-00061F-Hr; Fri, 16 Dec 2022 10:32:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1p6Ceo-00053z-PE
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:29:54 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1p6Cen-0001wY-AR
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:29:54 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 06380343EB;
- Fri, 16 Dec 2022 15:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1671204591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pO17bC1/+5bz61XcWGIu9Ck7AzLoXA8bFpsrfpVBjvc=;
- b=1yPy+N31qxThffdJitZBYgWzidYZ1yFkB3LgJ3rNhBfB8WhE3woftsG4nQzySQhnd1z2SP
- qttkFjZeYQEbv31/vlGyOJeGBeVsNTne3pZF30UE7ioG4M7MmEUaCyd+gqLZTms27EL639
- 9Ng2gZFfLe/+jh6XLWMhL7zFii/ujHQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1671204591;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pO17bC1/+5bz61XcWGIu9Ck7AzLoXA8bFpsrfpVBjvc=;
- b=QU3FJJ2V7D1a8oh/4x4Gk9dINeoEMZjWy6zVl4ovrJC1rrhft6p9gEQcOHzoyN7T4VxL8T
- tNQ6ezM9fe6ZdnDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7F255138F0;
- Fri, 16 Dec 2022 15:29:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id msntEO6OnGODCgAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 16 Dec 2022 15:29:50 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, mads@ynddal.dk, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v1 04/10] gdbstub: split GDBConnection from main structure
-In-Reply-To: <20221216112206.3171578-5-alex.bennee@linaro.org>
-References: <20221216112206.3171578-1-alex.bennee@linaro.org>
- <20221216112206.3171578-5-alex.bennee@linaro.org>
-Date: Fri, 16 Dec 2022 12:29:47 -0300
-Message-ID: <87sfhfgydw.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p6Ch5-00060c-Um
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:32:16 -0500
+Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p6Ch4-0002ap-6K
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:32:15 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.140])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2C961237C9;
+ Fri, 16 Dec 2022 15:32:02 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 16 Dec
+ 2022 16:32:01 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002727c843c-e0e4-428f-90a7-9e5ccebdc07a,
+ 36D6BF8FF35675F329F930B0EBA591211D20A595) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <832b5af6-dffd-7fa1-d648-3068834f8a15@kaod.org>
+Date: Fri, 16 Dec 2022 16:32:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 0/6] Trivial PPC cleanups
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, <qemu-devel@nongnu.org>
+CC: <qemu-ppc@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, David Gibson
+ <david@gibson.dropbear.id.au>, Michael Tokarev <mjt@tls.msk.ru>,
+ <qemu-trivial@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Greg Kurz <groug@kaod.org>
+References: <20221216145709.271940-1-shentey@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221216145709.271940-1-shentey@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 46e7dd84-43b9-4703-bc47-637054e47868
+X-Ovh-Tracer-Id: 10336042620765506482
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeejgdejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshhhvghnthgvhiesghhmrghilhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpvggughgrrhdrihhglhgvshhirghssehgmhgrihhlrdgtohhmpdhlrghurhgvnhhtsehvihhvihgvrhdrvghupdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhmjhhtsehtlhhsrdhmshhkrdhruhdpqhgvmhhuqdhtrhhivhhirghlsehnohhnghhnuhdrohhrghdpuggrnhhivghlhhgsgedufeesgh
+ hmrghilhdrtghomhdpghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
+ helo=9.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,72 +77,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+On 12/16/22 15:57, Bernhard Beschow wrote:
+> These are some patches which helped me when getting a u-boot image to run on ppce500 machine.
 
-> In preparation for moving user/softmmu specific bits from the main
-> gdbstub file we need to separate the connection details to what will
-> eventually become an anonymous pointer.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  gdbstub/gdbstub.c | 99 +++++++++++++++++++++++++++--------------------
->  1 file changed, 58 insertions(+), 41 deletions(-)
->
-> diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-> index be88ca0d71..14ce911bf2 100644
-> --- a/gdbstub/gdbstub.c
-> +++ b/gdbstub/gdbstub.c
-> @@ -342,6 +342,20 @@ enum RSState {
->      RS_CHKSUM1,
->      RS_CHKSUM2,
->  };
-> +
-> +#ifdef CONFIG_USER_ONLY
-> +typedef struct {
-> +    int fd;
-> +    char *socket_path;
-> +    int running_state;
-> +} GDBConnection;
-> +#else
-> +typedef struct {
-> +    CharBackend chr;
-> +    Chardev *mon_chr;
-> +} GDBConnection;
-> +#endif
-> +
->  typedef struct GDBState {
->      bool init;       /* have we been initialised? */
->      CPUState *c_cpu; /* current CPU for step/continue ops */
-> @@ -354,14 +368,7 @@ typedef struct GDBState {
->      int line_csum; /* checksum at the end of the packet */
->      GByteArray *last_packet;
->      int signal;
-> -#ifdef CONFIG_USER_ONLY
-> -    int fd;
-> -    char *socket_path;
-> -    int running_state;
-> -#else
-> -    CharBackend chr;
-> -    Chardev *mon_chr;
-> -#endif
-> +    GDBConnection *connection;
->      bool multiprocess;
->      GDBProcess *processes;
->      int process_num;
-> @@ -392,6 +399,12 @@ static void init_gdbserver_state(void)
->      gdbserver_state.supported_sstep_flags =3D accel_supported_gdbstub_ss=
-tep_flags();
->      gdbserver_state.sstep_flags =3D SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_N=
-OTIMER;
->      gdbserver_state.sstep_flags &=3D gdbserver_state.supported_sstep_fla=
-gs;
-> +
-> +    /*
-> +     * The following is differs depending on USER/SOFTMMU, we just
-> +     * hid it in the typedef.
-> +     */
-> +    gdbserver_state.connection =3D g_new(GDBConnection, 1);
+Nice. Did you simply use the qemu-ppce500_defconfig ? or an u-boot old image ?
 
-Does it need freeing at reset_gdbserver_state()?
+We could update the qemu_ppc_e500mc_defconfig in buildroot to generate the
+uboot.bin if that worked.
 
+
+> 
+> Testing done:
+> - `make check`
+> - `make check-avocado`
+> 
+> Bernhard Beschow (6):
+>    target/ppc/mmu_common: Log which effective address had no TLB entry
+>      found
+>    target/ppc/mmu_common: Fix table layout of "info tlb" HMP command
+>    hw/ppc/virtex_ml507: Prefer local over global variable
+>    hw/ppc/e500: Prefer local variable over qdev_get_machine()
+>    hw/ppc/e500: Resolve variable shadowing
+>    hw/ppc/e500: Move comment to more appropriate place
+> 
+>   hw/ppc/e500.c           | 10 ++++------
+>   hw/ppc/virtex_ml507.c   |  2 +-
+>   target/ppc/mmu_common.c |  5 +++--
+>   3 files changed, 8 insertions(+), 9 deletions(-)
+> 
+
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
 
