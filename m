@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A0464F3B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E29264F423
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:31:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6IaP-0000WF-Tk; Fri, 16 Dec 2022 16:49:45 -0500
+	id 1p6Ig7-0003hx-CJ; Fri, 16 Dec 2022 16:55:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6IaO-0000VY-6i
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:49:44 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ifx-0003f0-BN
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:55:30 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6IaM-0001h1-2t
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:49:43 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id ud5so9226237ejc.4
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:49:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ifu-00038W-P9
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:55:29 -0500
+Received: by mail-ej1-x633.google.com with SMTP id fc4so9136828ejc.12
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:55:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YEOmiH6ZA2K4WWTAuLU3ov9+lPjBsfcIXnzt1rbZt/4=;
- b=laMhzE+AwsXrsrudqbScu2qa2Dylv82/F9Dqp34B3kL6Ij/CW9PPHWhTF/lxiqfjr7
- 1KMswOW9ocC42drmC1WdDO+OQrzkloghkcxI3i7MXsET0Qequ5j9/rbJzI7Q8qN0HJih
- aUmWT96h3U8/uICs2Cyr6S8lJ10oLmJXJvZhCKp/XHboD/9k08NNoIFyANsoVu9Gxmp8
- 1ZGn/1Zzj0Yr1cied7GGL2TjuEg3YTZGj1zfuGtrOwzx5iU5x6hmxYLmMVRnZepbOKbf
- zdZALytXaBwhzwGz/wQuvX0zNuQwdX9kTJh5V+nMnBq7V8XXTXi+sJxkpeDbo7XwKBnv
- HSVg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hDjaN8eJVHHHAcFnMzr9A5qx6nMta47BhVSDkoRkjiY=;
+ b=koVIL3cKjIUh0I9iexsK0DqWfQr49gTESlxiAo8T9vnX2CJ4QixeCzMydRIRBOKWbx
+ +R5klEOuw0jjsMOseiyYra2DmM7xugL01wBlJceq+pr1ETQMYuEF+l2nrxerxSyoOukk
+ EE8047bs8JQBm+dUp3FUQQC1qnfqTHK47keip65hJwdx3mwendQAsAQLaIBR2pRzqlvf
+ NqOH4fAeX01aJpH0nqGWNSKzukViznSJY7eNEFluBWjQzNLupunEjytyMWUMkkzTPBA2
+ KPTKjr9ShUXrdrTne0thHjnLliuX8/iEm2579930rtW//wgEDKCU8+iqi5HVgULV6x0O
+ iFTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YEOmiH6ZA2K4WWTAuLU3ov9+lPjBsfcIXnzt1rbZt/4=;
- b=8MgqdlPuyS3qjIVWVe0231SH46tTL7ogipUoEhw+AyxgLwwaNuflBCyrbQw2N736Lv
- nirKdiuU1g05FuIxoCldN+3G+T2fHNd5d3XDSvO5eCFaeg/JDLz4KK/8hyilxqeFaCrg
- +Nj+es5TihHrSpzVzR8mN0OrIiut5j1Q182lxHsc3nETVbRtxYJppD70az7O5rOCqTZ1
- cZCa2UqOO8rbJUC6v1lnLhjEHLOaP4UuTA8HPzfcmRn0g0IlTl0By/3olOKEKGtPu1nF
- wRSxevhY2a4oIUp2HaC4KPJ8JRGawwnJ4Jvhmb6B4ivnFCGTqqPyLaPMEW/R64JPhyrW
- 5E7A==
-X-Gm-Message-State: ANoB5pnhDQyzeqBrOMlo+cNKJOX3k1K/ulOUQ+ZIkiqYGBfnn2U8SgKa
- GWejBxMuFO6ko3d0snlRmJPyfG8ZJfDC14VyVZQ=
-X-Google-Smtp-Source: AA0mqf5Bl5dHW1gG5CdpiPptsdKzfB/xcZ7E4o9b9c2pcjovz2OME029SjAq4DfQ4vM7Eyqv52W/wQ==
-X-Received: by 2002:a17:906:5509:b0:7b2:7ae8:3661 with SMTP id
- r9-20020a170906550900b007b27ae83661mr41769770ejp.21.1671227380452; 
- Fri, 16 Dec 2022 13:49:40 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hDjaN8eJVHHHAcFnMzr9A5qx6nMta47BhVSDkoRkjiY=;
+ b=qmtn2MA+0w0oN0pLJNT9RNKlJX2eDNL2126Hxa1464M8ftmIjSBeatFCKj2w+Kccea
+ c0LRwTW/khHYhll5AIEqe7we0z6nFGvdpbEAA5eGxDR5bR1nGtRfgK2AylAP6w24bWd7
+ 81x5PxhYcn+Ik0a6TmekDOEWJ+QhCwX+spP+sC9vBtg5MKILgm3yS3l5PfNzYMB5nlxr
+ eOUORIiVYTHcdV7YOrpOgK/DqfVMuQA+51/PiItYZZnyi4f0ZH1/Crx8dIdD+N5jISwT
+ dFD3uDXD+kZADdbmpHwObX10uPJftz1ykBSKFgIUYoD6FvSC5rEDX+k5x8rBaugHZRJ6
+ zCjA==
+X-Gm-Message-State: ANoB5pl8QduBpK8Nb6w48BzPad4As6qMF0bkBGA6Bxt6i1Q2Rc/x5O88
+ QvkFtWuMbVBEuvIA8HnzBlMWsn/Dh/D3O75Hi/0=
+X-Google-Smtp-Source: AA0mqf44m9uRz2q1p7VXh76chobt7pep0KjNv3fyOdRMxmPyqai4zHyqi15eXjf/Z+1BI3Gb+0JNtQ==
+X-Received: by 2002:a17:906:8385:b0:7c4:f348:3b1f with SMTP id
+ p5-20020a170906838500b007c4f3483b1fmr10710690ejx.44.1671227722936; 
+ Fri, 16 Dec 2022 13:55:22 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- el14-20020a056402360e00b0046c5baa1f58sm1267640edb.97.2022.12.16.13.49.38
+ f22-20020a17090631d600b007aece68483csm1261840ejf.193.2022.12.16.13.55.20
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 13:49:40 -0800 (PST)
+ Fri, 16 Dec 2022 13:55:22 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eric Auger <eric.auger@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 2/2] hw/arm/smmu-common: Avoid using inlined functions with
- external linkage
-Date: Fri, 16 Dec 2022 22:49:24 +0100
-Message-Id: <20221216214924.4711-3-philmd@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-arm@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Marek Vasut <marex@denx.de>,
+ Bin Meng <bin.meng@windriver.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ qemu-riscv@nongnu.org, kvm@vger.kernel.org,
+ Stafford Horne <shorne@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>
+Subject: [PATCH v3 0/5] target/cpu: System/User cleanups around hwaddr/vaddr
+Date: Fri, 16 Dec 2022 22:55:14 +0100
+Message-Id: <20221216215519.5522-1-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221216214924.4711-1-philmd@linaro.org>
-References: <20221216214924.4711-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,72 +106,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When using Clang ("Apple clang version 14.0.0 (clang-1400.0.29.202)")
-and building with -Wall we get:
+Missing review: #1
 
-  hw/arm/smmu-common.c:173:33: warning: static function 'smmu_hash_remove_by_asid_iova' is used in an inline function with external linkage [-Wstatic-in-inline]
-  hw/arm/smmu-common.h:170:1: note: use 'static' to give inline function 'smmu_iotlb_inv_iova' internal linkage
-    void smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
-    ^
-    static
+We are not supposed to use the 'hwaddr' type on user emulation.
 
-None of our code base require / use inlined functions with external
-linkage. Some places use internal inlining in the hot path. These
-two functions are certainly not in any hot path and don't justify
-any inlining, so these are likely oversights rather than intentional.
+This series is a preparatory cleanup before few refactors to
+isolate further System vs User code.
 
-Reported-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/arm/smmu-common.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+Since v1:
+- only restrict SavedIOTLB in header (Alex)
+- convert insert/remove_breakpoint implementations (Peter)
 
-diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
-index 9f196625a2..54186f31cb 100644
---- a/hw/arm/smmu-common.c
-+++ b/hw/arm/smmu-common.c
-@@ -116,7 +116,7 @@ void smmu_iotlb_insert(SMMUState *bs, SMMUTransCfg *cfg, SMMUTLBEntry *new)
-     g_hash_table_insert(bs->iotlb, key, new);
- }
- 
--inline void smmu_iotlb_inv_all(SMMUState *s)
-+void smmu_iotlb_inv_all(SMMUState *s)
- {
-     trace_smmu_iotlb_inv_all();
-     g_hash_table_remove_all(s->iotlb);
-@@ -146,9 +146,8 @@ static gboolean smmu_hash_remove_by_asid_iova(gpointer key, gpointer value,
-            ((entry->iova & ~info->mask) == info->iova);
- }
- 
--inline void
--smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
--                    uint8_t tg, uint64_t num_pages, uint8_t ttl)
-+void smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
-+                         uint8_t tg, uint64_t num_pages, uint8_t ttl)
- {
-     /* if tg is not set we use 4KB range invalidation */
-     uint8_t granule = tg ? tg * 2 + 10 : 12;
-@@ -174,7 +173,7 @@ smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
-                                 &info);
- }
- 
--inline void smmu_iotlb_inv_asid(SMMUState *s, uint16_t asid)
-+void smmu_iotlb_inv_asid(SMMUState *s, uint16_t asid)
- {
-     trace_smmu_iotlb_inv_asid(asid);
-     g_hash_table_foreach_remove(s->iotlb, smmu_hash_remove_by_asid, &asid);
-@@ -374,8 +373,8 @@ error:
-  *
-  * return 0 on success
-  */
--inline int smmu_ptw(SMMUTransCfg *cfg, dma_addr_t iova, IOMMUAccessFlags perm,
--                    SMMUTLBEntry *tlbe, SMMUPTWEventInfo *info)
-+int smmu_ptw(SMMUTransCfg *cfg, dma_addr_t iova, IOMMUAccessFlags perm,
-+             SMMUTLBEntry *tlbe, SMMUPTWEventInfo *info)
- {
-     if (!cfg->aa64) {
-         /*
+Since v2:
+- added 'dump' patch
+- collected R-b tags
+
+Philippe Mathieu-Daudé (5):
+  dump: Include missing "cpu.h" header for tswap32/tswap64()
+    declarations
+  cputlb: Restrict SavedIOTLB to system emulation
+  gdbstub: Use vaddr type for generic insert/remove_breakpoint() API
+  target/cpu: Restrict cpu_get_phys_page_debug() handlers to sysemu
+  target/cpu: Restrict do_transaction_failed() handlers to sysemu
+
+ accel/kvm/kvm-all.c        |  4 ++--
+ accel/kvm/kvm-cpus.h       |  4 ++--
+ accel/tcg/tcg-accel-ops.c  |  4 ++--
+ dump/dump.c                |  1 +
+ gdbstub/gdbstub.c          |  1 -
+ gdbstub/internals.h        |  6 ++++--
+ gdbstub/softmmu.c          |  5 ++---
+ gdbstub/user.c             |  5 ++---
+ include/hw/core/cpu.h      |  6 ++++--
+ include/sysemu/accel-ops.h |  6 +++---
+ target/alpha/cpu.h         |  2 +-
+ target/arm/cpu.h           |  2 +-
+ target/arm/internals.h     |  2 ++
+ target/cris/cpu.h          |  3 +--
+ target/hppa/cpu.h          |  2 +-
+ target/i386/cpu.h          |  5 ++---
+ target/m68k/cpu.h          |  4 +++-
+ target/microblaze/cpu.h    |  4 ++--
+ target/nios2/cpu.h         |  2 +-
+ target/openrisc/cpu.h      |  3 ++-
+ target/ppc/cpu.h           |  2 +-
+ target/riscv/cpu.h         | 12 ++++++------
+ target/rx/cpu.h            |  2 +-
+ target/rx/helper.c         |  4 ++--
+ target/sh4/cpu.h           |  2 +-
+ target/sparc/cpu.h         |  3 ++-
+ target/xtensa/cpu.h        |  2 +-
+ 27 files changed, 52 insertions(+), 46 deletions(-)
+
 -- 
 2.38.1
 
