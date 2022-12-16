@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B713064F138
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 19:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA2264F14B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 19:55:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Fkj-0006f3-Ra; Fri, 16 Dec 2022 13:48:13 -0500
+	id 1p6Fpp-0000L3-AH; Fri, 16 Dec 2022 13:53:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p6FkU-0006cX-Th; Fri, 16 Dec 2022 13:48:08 -0500
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p6Fpd-0000Hj-LD
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:53:21 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p6FkS-0001tx-0z; Fri, 16 Dec 2022 13:47:58 -0500
-Received: by mail-oi1-x231.google.com with SMTP id o66so1269503oia.6;
- Fri, 16 Dec 2022 10:47:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gQRzxeeGfbhVYdwPvU3ZK2lJExbaMkHGX4glrPxoNmQ=;
- b=FJr+4ge/Hp8nns9zU/nrLvT6uyr41bwehhL47AW2FsMI9xtF1RKl9nl5XZ7BpXkTaq
- WAwrVHUBMZktkCjdq/zijdnsvNSyX3UvzMfbjDPWqX6Vi+4fSKjdQu0L0T6WYmoNKDd5
- R+x5OSCGXYUPuBbaxtV2cEmAXLcs80mm+E0s8t1fA9zXqRlDLGa/Zqm7iXd5WygaUBci
- HvQtWUGcxiJh/GkBq0ZKJF8NsWPtdWNEjI+88Bg/XcTfL8EgctsXlY14JijDbvLTZl/X
- j96QHv0xYB4eN8hc+gSAQlr+w97Nsrw0JqFgLcujUjhu5x498JTJOalPDCBxpKhLcjKE
- cLlQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p6Fpb-0003EY-QV
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 13:53:17 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ k88-20020a17090a4ce100b00219d0b857bcso3288243pjh.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 10:53:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tuDuCTxGOZ/turMwVgm9n+iH3Vv1E6VEpV3ZO/ITrnk=;
+ b=xATaUElyDtzRYC6UXiUOQuRgmIGsnDfifZak9dWcKnICRdNz6MQXi4UIZA51jmR9gM
+ ZOU36dLoCRag9snNnwXB0TQvhrCgHVmtl+qLBliizXOuVS9WxNGa6xPWD40FYXvVcTfa
+ nOiL8odX3zmGEnLseJEmf85yYPSZji3Gb+5FOh22liDIGQRrweLsIasjsrGo0t5nnsC/
+ 2ipPHi77JAfvvtg49fl3u15CeVY7AO+HWIlcFrjpV2GoDxe0ZHMMk8drPSouwhi1NtSO
+ pCctSO7Fnw5NKImBNNH5RS3PU8qfqBjuwQpq/OVrMusK9gOKtRiOaIq8iAkQuI7Eovgh
+ 9x5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gQRzxeeGfbhVYdwPvU3ZK2lJExbaMkHGX4glrPxoNmQ=;
- b=qRingsOsqvP1PfmaXpviY1nPQ/5pIAnV4V/ArIPxnrq7cOEun/Ryw9IjFJZV1/eEen
- jTfrst+CDDJLXkkyafv0q9u0iISeDtsrkrNOWxrRZbEV57vafoTYvPGIzxSQwbZUmyk3
- /PgLUPRF9bUjJrncDBd27JktTpjybV32GRtlKfKQPy5SXpLS1kJR8oQQfvEkKnDeDLTo
- NSHHHUIPsuBqqsM6YuBMQW1ZsAUSpSD+DWaoWSZ78D18g4V9fk7ewPXvLKGAH/2knWFQ
- 95wpIOugtujsAAnAN10Fufku1SiOvGQxXlB+5t8joxl/+OX34lflIFBVrUf8/X6E8rSs
- 5p0Q==
-X-Gm-Message-State: AFqh2kp0VYjvfzdIkSLgfblCYl3Clmu1SkrsCiB7J3pXWMCk7K4SOgbp
- toD/UCSYxmZRxa3TGTgfOKk=
-X-Google-Smtp-Source: AMrXdXtvHlIvOeI/FjSqTkckPOUp/vZg5fBTqzD+mgk/e28sbVtWcFDseCDYUP7zar0cQkaT04xJag==
-X-Received: by 2002:a05:6808:2201:b0:360:d443:d9af with SMTP id
- bd1-20020a056808220100b00360d443d9afmr388060oib.8.1671216473767; 
- Fri, 16 Dec 2022 10:47:53 -0800 (PST)
-Received: from [192.168.68.106] (201-43-103-101.dsl.telesp.net.br.
- [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
- s4-20020a056808208400b0035c422bb303sm1052244oiw.19.2022.12.16.10.47.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 10:47:53 -0800 (PST)
-Message-ID: <23e96668-576d-ec5d-d45d-b57941591d2c@gmail.com>
-Date: Fri, 16 Dec 2022 15:47:50 -0300
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tuDuCTxGOZ/turMwVgm9n+iH3Vv1E6VEpV3ZO/ITrnk=;
+ b=F2Vm+cmnyd3+m8wphjhgCezGUw8QBTAZsrR77S+Ep4e15qCEarIaTkhengbvk2Uz6Y
+ F18tmKmBnvIE8DFyfe2W3RNPI3412luVmltXKm71DWyN+JgTVt5E4xSEzxtUJbE03m38
+ VO875vs7JrqG0k3eCyz5qUkjw24L58PDRllhrP/aHc+DxkguYSv/8uSow7FE6/mvbgGn
+ kHjbVjJpB7OmrdrVcJStx6OAdXtmL5IMrZGo4jMDEx/DngxlMqL706GsHi/Fb8zfR1Ng
+ KWaKunDBhhE1dGIhZzxvoInMyLrvoxG1qZEQG+d5SzIV79g5IFgt/aVwQY/EemRkJL9H
+ QOBQ==
+X-Gm-Message-State: ANoB5png/uHhBcB6uUd3/xgHOpqRGZj33REiE0WkQutRVXNdugAbuV8f
+ IR81iAz+2MlH3g2xazJpUaIZOlOk4hG3cwPG
+X-Google-Smtp-Source: AA0mqf5MxnnWzsEFpwMUjB3YyUyUdZ5nnL/7J7VskRoEXO2w+jG3RsTaTsf2Q8itSKxwmPcL0+xUpQ==
+X-Received: by 2002:a05:6a20:e60e:b0:a7:8d78:6069 with SMTP id
+ my14-20020a056a20e60e00b000a78d786069mr40719131pzb.57.1671216792523; 
+ Fri, 16 Dec 2022 10:53:12 -0800 (PST)
+Received: from stoup.. ([2602:47:d48c:8101:c606:9489:98df:6a3b])
+ by smtp.gmail.com with ESMTPSA id
+ 13-20020a630b0d000000b0046ff3634a78sm1761300pgl.71.2022.12.16.10.53.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Dec 2022 10:53:06 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PULL 00/13] accel/tcg: Rewrite user-only vma tracking
+Date: Fri, 16 Dec 2022 10:52:52 -0800
+Message-Id: <20221216185305.3429913-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 0/4] hw/ppc: Clean up includes
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: clg@kaod.org, qemu-ppc@nongnu.org
-References: <20221210112140.4057731-1-armbru@redhat.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221210112140.4057731-1-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x231.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,84 +88,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The following changes since commit 4208e6ae114ac8266dcacc9696a443ce5c37b04e:
 
+  Merge tag 'pull-request-2022-12-15' of https://gitlab.com/thuth/qemu into staging (2022-12-15 21:39:56 +0000)
 
-On 12/10/22 08:21, Markus Armbruster wrote:
-> Back in 2016, we discussed[1] rules for headers, and these were
-> generally liked:
-> 
-> 1. Have a carefully curated header that's included everywhere first.  We
->     got that already thanks to Peter: osdep.h.
-> 
-> 2. Headers should normally include everything they need beyond osdep.h.
->     If exceptions are needed for some reason, they must be documented in
->     the header.  If all that's needed from a header is typedefs, put
->     those into qemu/typedefs.h instead of including the header.
-> 
-> 3. Cyclic inclusion is forbidden.
-> 
-> After this series, include/hw/ppc and include/hw/pci-host/pnv* conform
-> to these rules.
-> 
-> It is based on
-> 
->      [PATCH 0/5] include/hw/pci include/hw/cxl: Clean up includes
->      [PATCH 0/3] block: Clean up includes
->      [PATCH 0/4] coroutine: Clean up includes
-> 
-> [1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
->      https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
-> 
-> Based-on: <20221209134802.3642942-1-armbru@redhat.com>
-> 
-> Markus Armbruster (4):
->    include/hw/ppc: Split pnv_chip.h off pnv.h
->    include/hw/ppc: Supply a few missing includes
->    include/hw/ppc: Don't include hw/pci-host/pnv_phb.h from pnv.h
->    include/hw/ppc include/hw/pci-host: Drop extra typedefs
+are available in the Git repository at:
 
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20221216
 
-Series:
+for you to fetch changes up to a9d0226381d6d70a9c1901ad1480961c93de8b8d:
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+  accel/tcg: Restrict page_collection structure to system TB maintainance (2022-12-16 10:09:51 -0800)
 
+----------------------------------------------------------------
+Use interval trees for user-only vma mappings.
+Assorted cleanups to page locking.
 
-I see this is based on "[PATCH 0/5] include/hw/pci include/hw/cxl: Clean
-up includes". Feel free to queue this up in the same queue.
+----------------------------------------------------------------
+Philippe Mathieu-Daudé (5):
+      accel/tcg: Restrict cpu_io_recompile() to system emulation
+      accel/tcg: Remove trace events from trace-root.h
+      accel/tcg: Rename tb_invalidate_phys_page_fast{,__locked}()
+      accel/tcg: Factor tb_invalidate_phys_range_fast() out
+      accel/tcg: Restrict page_collection structure to system TB maintainance
 
+Richard Henderson (8):
+      util: Add interval-tree.c
+      accel/tcg: Rename page_flush_tb
+      accel/tcg: Use interval tree for TBs in user-only mode
+      accel/tcg: Use interval tree for TARGET_PAGE_DATA_SIZE
+      accel/tcg: Move page_{get,set}_flags to user-exec.c
+      accel/tcg: Use interval tree for user-only page tracking
+      accel/tcg: Move PageDesc tree into tb-maint.c for system
+      accel/tcg: Move remainder of page locking to tb-maint.c
 
-Thanks,
-
-Daniel
-
-
-> 
->   hw/pci-host/pnv_phb.h          |   2 +-
->   include/hw/pci-host/pnv_phb3.h |   1 -
->   include/hw/pci-host/pnv_phb4.h |   5 +-
->   include/hw/ppc/pnv.h           | 146 +-------------------------------
->   include/hw/ppc/pnv_chip.h      | 147 +++++++++++++++++++++++++++++++++
->   include/hw/ppc/pnv_core.h      |   3 +-
->   include/hw/ppc/pnv_homer.h     |   2 +-
->   include/hw/ppc/pnv_lpc.h       |  11 +--
->   include/hw/ppc/pnv_occ.h       |   3 +-
->   include/hw/ppc/pnv_pnor.h      |   2 +-
->   include/hw/ppc/pnv_sbe.h       |   3 +-
->   include/hw/ppc/pnv_xive.h      |   7 +-
->   include/hw/ppc/pnv_xscom.h     |   3 +-
->   include/hw/ppc/xive2.h         |   2 +
->   include/hw/ppc/xive2_regs.h    |   2 +
->   hw/intc/pnv_xive.c             |   1 +
->   hw/intc/pnv_xive2.c            |   1 +
->   hw/pci-host/pnv_phb3.c         |   1 +
->   hw/pci-host/pnv_phb4_pec.c     |   1 +
->   hw/ppc/pnv.c                   |   3 +
->   hw/ppc/pnv_core.c              |   1 +
->   hw/ppc/pnv_homer.c             |   1 +
->   hw/ppc/pnv_lpc.c               |   1 +
->   hw/ppc/pnv_psi.c               |   1 +
->   hw/ppc/pnv_xscom.c             |   1 +
->   25 files changed, 186 insertions(+), 165 deletions(-)
->   create mode 100644 include/hw/ppc/pnv_chip.h
-> 
+ accel/tcg/internal.h            |  83 +---
+ include/exec/exec-all.h         |  43 +-
+ include/exec/translate-all.h    |   6 -
+ include/qemu/interval-tree.h    |  99 ++++
+ accel/tcg/cputlb.c              |   7 +-
+ accel/tcg/tb-maint.c            | 994 ++++++++++++++++++++++++++++++----------
+ accel/tcg/translate-all.c       | 746 ------------------------------
+ accel/tcg/user-exec.c           | 658 +++++++++++++++++++++++++-
+ tests/tcg/multiarch/test-vma.c  |  22 +
+ tests/unit/test-interval-tree.c | 209 +++++++++
+ util/interval-tree.c            | 882 +++++++++++++++++++++++++++++++++++
+ accel/tcg/trace-events          |   4 +
+ tests/unit/meson.build          |   1 +
+ trace-events                    |   4 -
+ util/meson.build                |   1 +
+ 15 files changed, 2662 insertions(+), 1097 deletions(-)
+ create mode 100644 include/qemu/interval-tree.h
+ create mode 100644 tests/tcg/multiarch/test-vma.c
+ create mode 100644 tests/unit/test-interval-tree.c
+ create mode 100644 util/interval-tree.c
 
