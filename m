@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710DA64F3F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:18:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06A764F404
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:22:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Irw-0001Z7-Eb; Fri, 16 Dec 2022 17:07:52 -0500
+	id 1p6Is1-0001a2-6d; Fri, 16 Dec 2022 17:07:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Irt-0001YU-RZ
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:07:49 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Irz-0001Za-03
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:07:55 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Irs-000662-AH
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:07:49 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id fc4so9194094ejc.12
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:07:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Irx-00066Y-AU
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:07:54 -0500
+Received: by mail-ej1-x634.google.com with SMTP id t17so9346542eju.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:07:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dnjBpu8YAsQiqTIBqdAxGgUmmCKdMDBQ66ZGoKps2Ew=;
- b=V3iElN+pWdNXlbuPkzYch26WWW47kZLvkp4pklr7MqLTRunNn+TowQUCROmuGTluTf
- FsYrRMIjbaKMvwPHXlfASr9BDsiFaNk5utWdmxOagO2T38fiu9GKn2LnXis0PoxQ+y4M
- jQbhdKk5M8mKJ4olp/u/KIfYKN+m7g/B7yk272XBW3r9g7vjxf8hIvdcnnyTrWybBjhD
- QZEnwyq0y5KBYC6dw/g5x1zKU+Ygl2Khg01/qm6G75KuQIWVNQw+qzd370FBZ9tYzVS/
- FXrTuzGh4dxHBWogjOU7q51i3Ndq71mTCiVkLUl/lNwRyIaEDc5r/1JqjfsuvhJLEHat
- jo5w==
+ bh=BuvOmgloso2e5NXgsHUei7ptWD2NT1t6KV+3QRSZobI=;
+ b=zYWAixXwjDLNsWkPsxwYHCwaJXcbQ/fM/AV4tyCO8jMgSiMySrs25voDToqac55f+X
+ eY8QmqBEs837n22ZpNqfdVJkIIOJFxGhqg7oO74Zw3FkXPGDFAzVUgSkLpIw/n9XTZkd
+ FKrJRELYL1jYUpS+AXb9iglMUzGmaKlt8bu3wkIngl3sdTHIrjIEh3i8BN0Jzi5nudZR
+ /NzUBroaPW4+1SXEOFxPlluDvyZS32fiMOZ2sKWIFT469I6iNSRNlqNJ2Fhrno3HpAMG
+ cZzDQasTuyJ3YLqheuj2txiYkShpEWmbHpKCK6rQZko6ywz58IBwXGeOnkLxr721wptF
+ hfKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dnjBpu8YAsQiqTIBqdAxGgUmmCKdMDBQ66ZGoKps2Ew=;
- b=NlPEq9sWoDDUGSl1Z6dp1ZrvDGMUeCEUeL6lE4iKUDr43QLGoADUS9gwylELyZztvr
- Lhl0eMm+Mm8h+m56gVPrjC+Z45sgmgVCQkMeZYQrY8C1Pu04yAuZXVIutv179Vx7ZNYl
- Cy+hMso02SpstNS0c1zbvNCXtdUy6UTk0ecG3CviA4sbSLIf1LMCepOMIe/F0ff5vyio
- lUues0DjkJ+T+ohs4b5UajUFSicRXm3c+XtG22GJefJZ82jERJI0tgeYAWv74cZLnJTY
- fiUuqWSUkGr2xAZOBm7toH/SsSKktBWnsn2tXe+EkdxNmlKe7gjKn5sOyQ/m2vHy/kXr
- lpNQ==
-X-Gm-Message-State: ANoB5pnqZ8NIrPwfWQw0SnyeHxDVC73E9XMfxWsnZ4w6L4tJJV3TTMLw
- jCkeY3PUAcVug8h3XPiSWc8GNvrNouE3qjEqQ8M=
-X-Google-Smtp-Source: AA0mqf5FXdnuw+SCM5bPyadVl6lKNY8k4Ioju8XS7pTqY32yMybMBXqVv08QWaAB2Z4v9CR/OLRXLw==
-X-Received: by 2002:a17:906:698f:b0:7ad:d250:b903 with SMTP id
- i15-20020a170906698f00b007add250b903mr38530813ejr.56.1671228466702; 
- Fri, 16 Dec 2022 14:07:46 -0800 (PST)
+ bh=BuvOmgloso2e5NXgsHUei7ptWD2NT1t6KV+3QRSZobI=;
+ b=Wn0Cx1+zolSwrNR54V5Qe7uuMiwkcCFjIhNiyo1ElOy/i327NVxG0WfNJVBy753AAc
+ PjXUM1J/HBENFxk1i2jCMcAxrZsgNMmesg4NKfHr4EDUu7bfKCLda8M5CQ7F2dA+ltDG
+ HGh6zjtNpSRVAQenNOFCPiyGTk/YGnwUvNGRtuTadrBmIhbSAARZ0MshfQRygi+EaQZP
+ pRc+ejAXBQTrgsmJG+LhQ8VARdEt9Re+ToavBCTYBOtFVLCPHr3bsYwg/LaFbECnObkU
+ 03XaNdh1zmnBmsEpY9udiF97gaJDMGXSj0NtJhoY2BGaZ4w84zJKbXVmFEHcTFz2Rq0b
+ SPuw==
+X-Gm-Message-State: ANoB5plO506uxguzw9hnu2+bD8YYElgDUD4dwcuS6JPlSTIJmrv7HzW2
+ yP+ijA771Xr2UbsL0wYB1KUM7ZYAUPiz/rt25a8=
+X-Google-Smtp-Source: AA0mqf43lrvqoVp9kw/H2TDq+nbYIW8SaiNj0yMyvD09B1QPt4yyMI9jDe29obq2nfKAPcYMH8R43w==
+X-Received: by 2002:a17:906:4ec3:b0:7c1:5169:3ed6 with SMTP id
+ i3-20020a1709064ec300b007c151693ed6mr22045996ejv.48.1671228471882; 
+ Fri, 16 Dec 2022 14:07:51 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p23-20020a17090653d700b007bed316a6d9sm1308360ejo.18.2022.12.16.14.07.45
+ va15-20020a17090711cf00b007c0dacbe00bsm1289082ejb.115.2022.12.16.14.07.50
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 14:07:46 -0800 (PST)
+ Fri, 16 Dec 2022 14:07:51 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 1/2] sysemu/kvm: Remove CONFIG_USER_ONLY guard
-Date: Fri, 16 Dec 2022 23:07:37 +0100
-Message-Id: <20221216220738.7355-2-philmd@linaro.org>
+Subject: [PATCH 2/2] sysemu/kvm: Reduce target-specific declarations
+Date: Fri, 16 Dec 2022 23:07:38 +0100
+Message-Id: <20221216220738.7355-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221216220738.7355-1-philmd@linaro.org>
 References: <20221216220738.7355-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,29 +89,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-User emulation shouldn't really include this header; if included
-these declarations are guarded by CONFIG_KVM_IS_POSSIBLE.
+Only the declarations using the target_ulong type are
+target specific.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/sysemu/kvm.h | 2 --
- 1 file changed, 2 deletions(-)
+ include/sysemu/kvm.h | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
 diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index e9a97eda8c..c8281c07a7 100644
+index c8281c07a7..a53d6dab49 100644
 --- a/include/sysemu/kvm.h
 +++ b/include/sysemu/kvm.h
-@@ -471,10 +471,8 @@ uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
+@@ -242,9 +242,6 @@ bool kvm_arm_supports_user_irq(void);
+ int kvm_on_sigbus_vcpu(CPUState *cpu, int code, void *addr);
+ int kvm_on_sigbus(int code, void *addr);
  
+-#ifdef NEED_CPU_H
+-#include "cpu.h"
+-
+ void kvm_flush_coalesced_mmio_buffer(void);
+ 
+ /**
+@@ -410,6 +407,9 @@ void kvm_get_apic_state(DeviceState *d, struct kvm_lapic_state *kapic);
+ struct kvm_guest_debug;
+ struct kvm_debug_exit_arch;
+ 
++#ifdef NEED_CPU_H
++#include "cpu.h"
++
+ struct kvm_sw_breakpoint {
+     target_ulong pc;
+     target_ulong saved_insn;
+@@ -436,6 +436,15 @@ void kvm_arch_update_guest_debug(CPUState *cpu, struct kvm_guest_debug *dbg);
+ 
+ bool kvm_arch_stop_on_emulation_error(CPUState *cpu);
+ 
++uint32_t kvm_arch_get_supported_cpuid(KVMState *env, uint32_t function,
++                                      uint32_t index, int reg);
++uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
++
++int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
++                                       hwaddr *phys_addr);
++
++#endif /* NEED_CPU_H */
++
+ int kvm_check_extension(KVMState *s, unsigned int extension);
+ 
+ int kvm_vm_check_extension(KVMState *s, unsigned int extension);
+@@ -464,18 +473,8 @@ int kvm_vm_check_extension(KVMState *s, unsigned int extension);
+         kvm_vcpu_ioctl(cpu, KVM_ENABLE_CAP, &cap);                   \
+     })
+ 
+-uint32_t kvm_arch_get_supported_cpuid(KVMState *env, uint32_t function,
+-                                      uint32_t index, int reg);
+-uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
+-
+-
  void kvm_set_sigmask_len(KVMState *s, unsigned int sigmask_len);
  
--#if !defined(CONFIG_USER_ONLY)
- int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
-                                        hwaddr *phys_addr);
--#endif
+-int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
+-                                       hwaddr *phys_addr);
+-
+-#endif /* NEED_CPU_H */
+-
+ void kvm_cpu_synchronize_state(CPUState *cpu);
  
- #endif /* NEED_CPU_H */
- 
+ void kvm_init_cpu_signals(CPUState *cpu);
 -- 
 2.38.1
 
