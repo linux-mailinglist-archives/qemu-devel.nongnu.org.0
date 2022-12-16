@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E29264F423
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:31:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592DD64F3F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:18:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Ig7-0003hx-CJ; Fri, 16 Dec 2022 16:55:39 -0500
+	id 1p6IgK-0003ih-Oq; Fri, 16 Dec 2022 16:55:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ifx-0003f0-BN
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:55:30 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ig3-0003gH-UC
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:55:37 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ifu-00038W-P9
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:55:29 -0500
-Received: by mail-ej1-x633.google.com with SMTP id fc4so9136828ejc.12
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:55:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Ifz-00039Y-Fi
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 16:55:34 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id t17so9288939eju.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 13:55:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=hDjaN8eJVHHHAcFnMzr9A5qx6nMta47BhVSDkoRkjiY=;
- b=koVIL3cKjIUh0I9iexsK0DqWfQr49gTESlxiAo8T9vnX2CJ4QixeCzMydRIRBOKWbx
- +R5klEOuw0jjsMOseiyYra2DmM7xugL01wBlJceq+pr1ETQMYuEF+l2nrxerxSyoOukk
- EE8047bs8JQBm+dUp3FUQQC1qnfqTHK47keip65hJwdx3mwendQAsAQLaIBR2pRzqlvf
- NqOH4fAeX01aJpH0nqGWNSKzukViznSJY7eNEFluBWjQzNLupunEjytyMWUMkkzTPBA2
- KPTKjr9ShUXrdrTne0thHjnLliuX8/iEm2579930rtW//wgEDKCU8+iqi5HVgULV6x0O
- iFTg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xssmHoWXJ6SK5gCkViO69Q35oM9uqfLm45e7wmSAEiQ=;
+ b=OpENGvV9zNK1kW2Y7ktPT/UEMrwhPfBX9OCoT6BvQzow6Z8RdawcCPkv1jvvW5UZNN
+ BkJLBj2jT5SzemHxcvMn5J0HBpDDJw/3EstPP2YSFB65vnD729EA3ms0Ldpw13TdUYSq
+ ApjgAWsRedsCev6ZI3O3XLVMI029rL/+Sn3bY83RmMuBsNMCkT0xTE8tAVBSwR6dbjd0
+ H+8RBAE1UCkHKwZGjrlsH1rgpGDJIpwefc/J+tYBcuHKjOgTFE+MO+69ye9fcnaTsQH7
+ DJsocgUOkRXsyoILarEzNMbhawurjJ9oJZOiv3jTOU/igoYaYIYIWwj5kTMMXS1kMDM5
+ D5Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hDjaN8eJVHHHAcFnMzr9A5qx6nMta47BhVSDkoRkjiY=;
- b=qmtn2MA+0w0oN0pLJNT9RNKlJX2eDNL2126Hxa1464M8ftmIjSBeatFCKj2w+Kccea
- c0LRwTW/khHYhll5AIEqe7we0z6nFGvdpbEAA5eGxDR5bR1nGtRfgK2AylAP6w24bWd7
- 81x5PxhYcn+Ik0a6TmekDOEWJ+QhCwX+spP+sC9vBtg5MKILgm3yS3l5PfNzYMB5nlxr
- eOUORIiVYTHcdV7YOrpOgK/DqfVMuQA+51/PiItYZZnyi4f0ZH1/Crx8dIdD+N5jISwT
- dFD3uDXD+kZADdbmpHwObX10uPJftz1ykBSKFgIUYoD6FvSC5rEDX+k5x8rBaugHZRJ6
- zCjA==
-X-Gm-Message-State: ANoB5pl8QduBpK8Nb6w48BzPad4As6qMF0bkBGA6Bxt6i1Q2Rc/x5O88
- QvkFtWuMbVBEuvIA8HnzBlMWsn/Dh/D3O75Hi/0=
-X-Google-Smtp-Source: AA0mqf44m9uRz2q1p7VXh76chobt7pep0KjNv3fyOdRMxmPyqai4zHyqi15eXjf/Z+1BI3Gb+0JNtQ==
-X-Received: by 2002:a17:906:8385:b0:7c4:f348:3b1f with SMTP id
- p5-20020a170906838500b007c4f3483b1fmr10710690ejx.44.1671227722936; 
- Fri, 16 Dec 2022 13:55:22 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xssmHoWXJ6SK5gCkViO69Q35oM9uqfLm45e7wmSAEiQ=;
+ b=7l495X915wTICDjR1W/TFUpQi8bF+1ZaXeF1yTn2Ff0S8pcoqi90qx4s7rnuiqVRK6
+ /pK8NX3XeaSfNgg/bBSVQKoc85ez1L7MoK2BTwnPMw+6Ac7DxRkOhBeDzcLYfsHdxQb4
+ QPdZR9xyrvoGCcYd3p++zqPCQX67sSWhtHoGEmgBfQZsE9hSxlerCuMmSCBZfS7VS1yN
+ TrSiQJzGuUWW5vSI4OErA0Azo15w0ISz/xncwqDQvJBiRqgmwJ+UcYgzHVwF8V7aZ5W2
+ iBkIFOsqc9u1/BYAa/p8IOBST+eVo/DDVwB07/KQV7MD/ZW9X25mqOxmfnvqraO+/UDG
+ Yp9Q==
+X-Gm-Message-State: ANoB5pkMas0HkCgcgyTP/KmuopldZ12zN0ssw8EYi4G5MeZUG9DAnEHc
+ dc5nPy4Xh4Z2/lQ/0qAa+sQeBDriB1SMbkTiUeY=
+X-Google-Smtp-Source: AA0mqf6xT41BcyZh02Z2thOeHZOU9KTDZSfsSUSOjRb6fHLKc0deeuEgfS6otC9br60FYAiYkf59nQ==
+X-Received: by 2002:a17:906:4c4b:b0:7c1:1ada:5e1e with SMTP id
+ d11-20020a1709064c4b00b007c11ada5e1emr28189213ejw.26.1671227729771; 
+ Fri, 16 Dec 2022 13:55:29 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f22-20020a17090631d600b007aece68483csm1261840ejf.193.2022.12.16.13.55.20
+ r20-20020a1709064d1400b007c0cd272a06sm1276141eju.225.2022.12.16.13.55.27
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 13:55:22 -0800 (PST)
+ Fri, 16 Dec 2022 13:55:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
@@ -75,15 +76,18 @@ Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
  qemu-riscv@nongnu.org, kvm@vger.kernel.org,
  Stafford Horne <shorne@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>
-Subject: [PATCH v3 0/5] target/cpu: System/User cleanups around hwaddr/vaddr
-Date: Fri, 16 Dec 2022 22:55:14 +0100
-Message-Id: <20221216215519.5522-1-philmd@linaro.org>
+Subject: [PATCH v3 1/5] dump: Include missing "cpu.h" header for
+ tswap32/tswap64() declarations
+Date: Fri, 16 Dec 2022 22:55:15 +0100
+Message-Id: <20221216215519.5522-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221216215519.5522-1-philmd@linaro.org>
+References: <20221216215519.5522-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,58 +110,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Missing review: #1
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ dump/dump.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-We are not supposed to use the 'hwaddr' type on user emulation.
-
-This series is a preparatory cleanup before few refactors to
-isolate further System vs User code.
-
-Since v1:
-- only restrict SavedIOTLB in header (Alex)
-- convert insert/remove_breakpoint implementations (Peter)
-
-Since v2:
-- added 'dump' patch
-- collected R-b tags
-
-Philippe Mathieu-Daudé (5):
-  dump: Include missing "cpu.h" header for tswap32/tswap64()
-    declarations
-  cputlb: Restrict SavedIOTLB to system emulation
-  gdbstub: Use vaddr type for generic insert/remove_breakpoint() API
-  target/cpu: Restrict cpu_get_phys_page_debug() handlers to sysemu
-  target/cpu: Restrict do_transaction_failed() handlers to sysemu
-
- accel/kvm/kvm-all.c        |  4 ++--
- accel/kvm/kvm-cpus.h       |  4 ++--
- accel/tcg/tcg-accel-ops.c  |  4 ++--
- dump/dump.c                |  1 +
- gdbstub/gdbstub.c          |  1 -
- gdbstub/internals.h        |  6 ++++--
- gdbstub/softmmu.c          |  5 ++---
- gdbstub/user.c             |  5 ++---
- include/hw/core/cpu.h      |  6 ++++--
- include/sysemu/accel-ops.h |  6 +++---
- target/alpha/cpu.h         |  2 +-
- target/arm/cpu.h           |  2 +-
- target/arm/internals.h     |  2 ++
- target/cris/cpu.h          |  3 +--
- target/hppa/cpu.h          |  2 +-
- target/i386/cpu.h          |  5 ++---
- target/m68k/cpu.h          |  4 +++-
- target/microblaze/cpu.h    |  4 ++--
- target/nios2/cpu.h         |  2 +-
- target/openrisc/cpu.h      |  3 ++-
- target/ppc/cpu.h           |  2 +-
- target/riscv/cpu.h         | 12 ++++++------
- target/rx/cpu.h            |  2 +-
- target/rx/helper.c         |  4 ++--
- target/sh4/cpu.h           |  2 +-
- target/sparc/cpu.h         |  3 ++-
- target/xtensa/cpu.h        |  2 +-
- 27 files changed, 52 insertions(+), 46 deletions(-)
-
+diff --git a/dump/dump.c b/dump/dump.c
+index 279b07f09b..c62dc94213 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -29,6 +29,7 @@
+ #include "qemu/main-loop.h"
+ #include "hw/misc/vmcoreinfo.h"
+ #include "migration/blocker.h"
++#include "cpu.h"
+ 
+ #ifdef TARGET_X86_64
+ #include "win_dump.h"
 -- 
 2.38.1
 
