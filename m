@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09BF64EDC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 16:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD73864EDCF
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 16:24:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6CXt-0000pa-4I; Fri, 16 Dec 2022 10:22:45 -0500
+	id 1p6CZS-0002HV-8i; Fri, 16 Dec 2022 10:24:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6CXr-0000pH-GU
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:22:43 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1p6CZO-0002H7-Mf
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:24:18 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6CXj-0000Yq-RW
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:22:43 -0500
-Received: by mail-pl1-x634.google.com with SMTP id a9so2622685pld.7
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 07:22:33 -0800 (PST)
+ id 1p6CZK-0000wo-Uk
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 10:24:17 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id y16so2863157wrm.2
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 07:24:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mKRRg/V1GD4koQ4/ICbxuWhM2y/ntkaiE8HOTWWwz8A=;
- b=VkT9uOtEFc1MompVUuA3YkFFePuB5ewoHIxe3xE0F4AnDkYS6P4aEJl4fM41/dDbM5
- i7fcSlYfniqHkNEPzElketSecYs5ZRahJ4K+MTicR9DyErmKfxq2IoPHIefE64Zqwkbe
- Me17urRxaf2N1CZWOgBoe7Sfj0FI30e52ET32iMHHgpI9FBgcK6HW2frvyQuk9PCpXNi
- viqZGXhT9etYBWm6azGaLEG2uCIKahxtyHy9s1Jdsm23wmoi8R7x5Ib87vDdzC/xgJIz
- Lhv6vUHDoXKB31H756O9zr8eKC8QiWw7GCejLVN1zjNcsomczPv3jLgN6NIOFBUP/7oy
- bM/Q==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WafTAAJogOWdkFpTF0q8FAoLgjZ785o76HD8t7NlFkQ=;
+ b=bYNOhOQ9WX5/NSbIURI8/FBgWbyuHdV+lCOkcvP1UocLdMnVlBn2hcMPtZOp4YIcDn
+ 7Df5JhrtYkyZ2112TNcDWhVQIpqFydN/rMv9wHWHUJYGG3Sgp2gdb+MZSJRTqH4F4HBl
+ /QCkcz17ZPMJIsXwKSh1+YyUnpRLbLpcEKyAvjaECbevdAYmjJXdlpT2gFdHp7h88sHr
+ 4G/uBmBV0s84NfJ3wRUllF+Cajqu6cf+rWpvkD6whdmCBA+DMsv6Iy7Fc4vwm6yEwMrA
+ C//wm2Uw+d0GrvjkOcMZlYHRVY0cRsC3CHb77AitcthajzHvSYOacGYwzSB1anO3L6vj
+ MQdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mKRRg/V1GD4koQ4/ICbxuWhM2y/ntkaiE8HOTWWwz8A=;
- b=3pRDY48BkHZJ/7UBpA+BChzMY1lxCgYlXOYQBmmu7V+qh0W6Aq1OUZE9gwK70SJT1R
- QMzn+TZ2VM5q81xwhF3qkekNCTZjKv/q21iH007kRvC7iq8i/s/cRAAlSiA29YLmYEfL
- dqSLlxBeJPjCk669v2kUR6E6uCh2EvyIgAPpUD2Nl7Z7A354By/gsqHbkXTuAoHuNdlJ
- H5RCw9T922RX/nJ5Y8PPoIRYZRxkGHFK/7dyk4MSnp2aTbxATFbu+JnMQDBYgcyQOE5L
- zME1hCQh990Zz4yLN9QQHuiUN3Jtme0Uao/PHV67K1CiUcHMijXfklgg1KnTolxhAzjc
- zeQw==
-X-Gm-Message-State: ANoB5pltHmWF4zVFFK/XqjVrsPO7WNcmxJLrtRlT+sHqoZxE4jZx82lf
- yoZJ3/qTB6eujkJ+2JN7x5XKz1qEn6p2PiMpv1G6uGhSYxTUSCpo
-X-Google-Smtp-Source: AA0mqf7Pueq8aTh6Ydbze7TFbPNVvi6PMeRW13POow6jTlU96aUFdjKG8e/gUkqUma/ky5Q43XZ6QwV2qT2mHJODsVY=
-X-Received: by 2002:a17:902:70c5:b0:189:b0a3:cf4a with SMTP id
- l5-20020a17090270c500b00189b0a3cf4amr36630678plt.60.1671204152121; Fri, 16
- Dec 2022 07:22:32 -0800 (PST)
-MIME-Version: 1.0
-References: <CAFEAcA8x_iM3hN2-P9F+huXnXFXy+D6FzE+Leq4erLdg7zkVGw@mail.gmail.com>
-In-Reply-To: <CAFEAcA8x_iM3hN2-P9F+huXnXFXy+D6FzE+Leq4erLdg7zkVGw@mail.gmail.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WafTAAJogOWdkFpTF0q8FAoLgjZ785o76HD8t7NlFkQ=;
+ b=VW2mqc3YH7aZrOEvmPu5pvlGy59+DelifBmovvaXIdIftjcg56HFrVptp5/FbwvL0U
+ aNDghhWR3m5/XWIln0EFE1ZVvp1yMw3l8SUlqzlcbiuwfeCpyC5+zJa1TO0/PAoQI1CO
+ UP7Oa4XJsaHFveFcTE90qsgnDhKBSnLBzpoZBDHznkoeqc0UgLEEOLtuzlFXOggy2oBy
+ Og9kUmrBzN4nk5Rqi+aj7gW/WXd2jXwYpXkCRX7QgBlI16O3WurO7MrZWBHKsHvCUmpU
+ D/VVpKBKCo05SSXEhhmI3KYXNtsIbdml34FoUsn9tHDkNoDp1/9hdAc6vFB+YW1QCtbM
+ xjbQ==
+X-Gm-Message-State: ANoB5pl2eQcwwEtAcVvraUE6fsNQAIPdtwwrFj1hKNGwngsR3VbVk66v
+ 91HXzWJ86VJ6cv1/Rhj5cxKEwg==
+X-Google-Smtp-Source: AA0mqf71mZWx+70+NZ2msdG6w6+SJpmD3gx55ybsG8qhZPAEniOt3A8WCIzVAkFPGMI7vgiLHYbsnw==
+X-Received: by 2002:a05:6000:170f:b0:253:62af:8025 with SMTP id
+ n15-20020a056000170f00b0025362af8025mr12350917wrc.61.1671204252745; 
+ Fri, 16 Dec 2022 07:24:12 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ s13-20020a5d510d000000b00241e5b917d0sm2953008wrt.36.2022.12.16.07.24.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Dec 2022 07:24:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 16 Dec 2022 15:22:20 +0000
-Message-ID: <CAFEAcA_nGW1XATj5u1WUNmbV2nS5tRsA-0T8UYT8KpGijJnT9Q@mail.gmail.com>
-Subject: Re: migration qtest failure: "query-migrate shows failed migration:
- Unable to write to socket: Broken pipe"
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x634.google.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Igor Kotrasinski <i.kotrasinsk@samsung.com>
+Subject: [PATCH] target/arm: Don't set EXC_RETURN.ES if Security Extension not
+ present
+Date: Fri, 16 Dec 2022 15:24:10 +0000
+Message-Id: <20221216152410.1185369-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,82 +88,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 15 Dec 2022 at 11:17, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
->
-> Hi; I see this migration qtest failure on my x86 macos box:
+In v7m_exception_taken(), for v8M we set the EXC_RETURN.ES bit if
+either the exception targets Secure or if the CPU doesn't implement
+the Security Extension.  This is incorrect: the v8M Arm ARM specifies
+that the ES bit should be RES0 if the Security Extension is not
+implemented, and the pseudocode agrees.
 
-Same assertion failure, this time on the OpenBSD VM, with
-a different error string:
+Remove the incorrect condition, so that we leave the ES bit 0
+if the Security Extension isn't implemented.
 
+This doesn't have any guest-visible effects for our current set of
+emulated CPUs, because all our v8M CPUs implement the Security
+Extension; but it's worth fixing in case we add a v8M CPU without
+the extension in future.
 
- 34/616 qemu:qtest+qtest-i386 / qtest-i386/migration-test
-           ERROR
-      139.66s   killed by signal 6 SIGABRT
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80  =E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95
-stderr:
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-qemu: thread naming not supported on this host
-query-migrate shows failed migration: Failed to connect to
-'127.0.0.1:4562': Address alread
-y in use
-**
-ERROR:../src/tests/qtest/migration-helpers.c:151:migrate_query_not_failed:
-assertion failed
-: (!g_str_equal(status, "failed"))
-assertion "pid =3D=3D s->qemu_pid" failed: file
-"../src/tests/qtest/libqtest.c", line 207, func
-tion "qtest_wait_qemu"
+Reported-by: Igor Kotrasinski <i.kotrasinsk@samsung.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/m_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-(test program exited with status code -6)
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 355cd4d60a7..2b55e90ea9d 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -895,7 +895,7 @@ static void v7m_exception_taken(ARMCPU *cpu, uint32_t lr, bool dotailchain,
+         }
+ 
+         lr &= ~R_V7M_EXCRET_ES_MASK;
+-        if (targets_secure || !arm_feature(env, ARM_FEATURE_M_SECURITY)) {
++        if (targets_secure) {
+             lr |= R_V7M_EXCRET_ES_MASK;
+         }
+         lr &= ~R_V7M_EXCRET_SPSEL_MASK;
+-- 
+2.25.1
 
-
-thanks
--- PMM
 
