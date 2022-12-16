@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5498664ED2C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:56:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E3964ED2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:56:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6C7y-0000jB-I6; Fri, 16 Dec 2022 09:55:58 -0500
+	id 1p6C7w-0000hv-Vi; Fri, 16 Dec 2022 09:55:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1p6C7m-0000ga-1L; Fri, 16 Dec 2022 09:55:46 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1p6C7d-0001Ru-VV; Fri, 16 Dec 2022 09:55:45 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E04B474900C;
- Fri, 16 Dec 2022 15:53:51 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id ADF7874813B; Fri, 16 Dec 2022 15:53:51 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id ACE7F74812D;
- Fri, 16 Dec 2022 15:53:51 +0100 (CET)
-Date: Fri, 16 Dec 2022 15:53:51 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-trivial@nongnu.org, 
- Ani Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH v2 7/7] hw/ppc/Kconfig: Remove unused dependencies from
- PEGASOS2
-In-Reply-To: <20221216130355.41667-8-shentey@gmail.com>
-Message-ID: <7047cf26-4e54-b177-afe4-e99d04bd7f8f@eik.bme.hu>
-References: <20221216130355.41667-1-shentey@gmail.com>
- <20221216130355.41667-8-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p6C7d-0000dj-EH
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:55:44 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p6C7a-0001Re-D2
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:55:37 -0500
+Received: by mail-pl1-x629.google.com with SMTP id w23so2515166ply.12
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 06:55:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=d6iTxs+wfVG1naIptjerDTT64/ZnsSW2BRSw0JotrPw=;
+ b=YiKzhhNlkan4XcJ58B6RTLHY/BX4DZvAiZ1M0R/+M4il8rstertWlAIpJwnjCjkGR7
+ hM2yflRoXthC3wpmfoifccjkvjvhzFHC9CAC/WnUDmv/BnFltj3bUw+BGlEu8+0sJVyD
+ oQyH13aV06VyDEZIyvG/ow18nRvmKK8vLkcxJzO7Wf96mrSrCOiXcyrhdTZrCetoJlDq
+ xCwhDkmFrF9NzT/gsdd7DSC4xAzeY5I0oPPfWbX96xowBfKPdKJsSqxfWK0hvfwUIQt5
+ rxu840YltS3SMiipNWGBpHxEfD3BX3Ng9fytO5vVgaqqfnJeeo7+VIHrU9ObGod2b9j4
+ Bh8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=d6iTxs+wfVG1naIptjerDTT64/ZnsSW2BRSw0JotrPw=;
+ b=0c6zn/Y/WoInvRVelkKfxZIRObTSyHZPlhw4ElWYBzubDrW4H0+YC1BZ2hG1e4msF1
+ 3bMC5pOha4pE7FSBYcHIEVQ3u+FDpBpeNnfPWzJ2xDwWa8Yy2fZ/4DgfdZ64cVVWqgou
+ jehqz3/fyMR6gU8z+6v4MJxF9DW6w8bEB5f80ML+SKe84/pYb3617V/5wxZpyhZ73Oib
+ 3SItsWRuUj4y8GCLctClql9iGICsYBAaoHUXRNVS6KtB/dxmlwjdhndR1W0rEPWtB3Ie
+ IapoUAZgPnvR3xuAxISV58YDNzPqaiRVY93hsoZngpccyr1izkK+JMMErJgcBj6s06/M
+ 95Gg==
+X-Gm-Message-State: AFqh2krLl7UM9zJmrAS216B7Y4c/RGrckNqFq2G2Im6Wo9OAb8aYAQ/y
+ zETXkp4RbS5PKK4ZcjRDVYn9GwCLus95CumRji3JboXKDXOjYrS1
+X-Google-Smtp-Source: AMrXdXt0IOecoObM+YY4fzAzNA83Wdan4Gd1nqghkk6WQzlqAiSPjn7hFceqSh106JNeig78hxIYHbC4wThJ6i4iqZ8=
+X-Received: by 2002:a17:90b:354c:b0:219:e2f1:81ad with SMTP id
+ lt12-20020a17090b354c00b00219e2f181admr1113606pjb.19.1671202532043; Fri, 16
+ Dec 2022 06:55:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 16 Dec 2022 14:55:21 +0000
+Message-ID: <CAFEAcA_FuURPMDso7+ws0fe33mm+9aAHGByc65YbbN6dEuZWMA@mail.gmail.com>
+Subject: can we reduce the time taken for the msys2 jobs?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Phil_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,39 +81,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 16 Dec 2022, Bernhard Beschow wrote:
-> Removes the following dependencies from ppc-softmmu:
-> - CONFIG_ACPI_CPU_HOTPLUG
-> - CONFIG_ACPI_CXL
-> - CONFIG_ACPI_HMAT
-> - CONFIG_ACPI_MEMORY_HOTPLUG
-> - CONFIG_ACPI_NVDIMM
-> - CONFIG_ACPI_PCIHP
-> - CONFIG_ACPI_X86
-> - CONFIG_MEM_DEVICE
->
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+The msys2-32bit job currently seems to run into the 70 minute CI timeout
+quite frequently. This successful pass took 61 minutes:
+https://gitlab.com/qemu-project/qemu/-/jobs/3479763757
+so I don't think it's a "time limit is fine but job has intermittent
+hang" situation.
 
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+msys2-64bit also is quite close to the timeout, eg this job
+https://gitlab.com/qemu-project/qemu/-/jobs/3482192864
+took 61 minutes.
 
-Thanks for sorting this out.
+Can we cut down or split up these CI jobs?
 
-> ---
-> hw/ppc/Kconfig | 2 --
-> 1 file changed, 2 deletions(-)
->
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index b8d2522f45..0087369f5b 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -76,8 +76,6 @@ config PEGASOS2
->     select VT82C686
->     select SMBUS_EEPROM
->     select VOF
-> -# This should come with VT82C686
-> -    select ACPI_X86
->
-> config PREP
->     bool
->
+thanks
+-- PMM
 
