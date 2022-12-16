@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E3C64E93B
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 11:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B7364E939
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 11:13:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p67hs-0006Q9-Ts; Fri, 16 Dec 2022 05:12:44 -0500
+	id 1p67hw-0006Ra-9b; Fri, 16 Dec 2022 05:12:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p67hq-0006PQ-Mh
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:12:42 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p67hu-0006RO-JY
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:12:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p67ho-0003Cm-W2
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:12:42 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p67ht-0003Dm-6L
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 05:12:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671185560;
+ s=mimecast20190719; t=1671185564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LEl9gsuHlzpldUb2Z6yWcZInakI5OdtYZvcj2nrA2DA=;
- b=STGowQOxXxATsdBQF7OcfuyVKv12oBMf63g8xK0MTs1qG2ItRrPnxKyZNH+t+CdVJ24eAq
- OqQpK4+429s422NVGcD4jnad8iiGVGwzGsCYHPcBUl8+YuW9uF6BSFtCHyK+Xpy9Na2zVX
- 1USf7FGGGMebHUVTpaDC/uhgZzbi/Y8=
+ bh=30j1/r+lLCiHNMK+QxLSU6zJ0uTEAXQJZLTxiZMLmnU=;
+ b=CopKguvhuzjLOOhCW858N76Kp3PZdOVqyQknZ/JUEn5W0WX8yZzm+szME+sgeeJgVFMLrh
+ 4Uq7RDFspHifk+xj+k+kpQbNbZCVOUbU6l0SORQefKQnb9YRUNX41dXyW9wfOFhbslKeVv
+ e1HoikCYld7hTBnLVvMZRk7a+kFEJlQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-U2KxhMZJOx-5eCoonTnJ7w-1; Fri, 16 Dec 2022 05:12:36 -0500
-X-MC-Unique: U2KxhMZJOx-5eCoonTnJ7w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-423-ukVZfKnJNvO97U8vbpp4Zw-1; Fri, 16 Dec 2022 05:12:39 -0500
+X-MC-Unique: ukVZfKnJNvO97U8vbpp4Zw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5502E85A588;
- Fri, 16 Dec 2022 10:12:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC434858F09;
+ Fri, 16 Dec 2022 10:12:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1489E51EF;
- Fri, 16 Dec 2022 10:12:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 72B1E2026D68;
+ Fri, 16 Dec 2022 10:12:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D9AE81801B2C; Fri, 16 Dec 2022 11:12:34 +0100 (CET)
+ id E6C401801B2D; Fri, 16 Dec 2022 11:12:34 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Kashyap Chamarthy <kchamart@redhat.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 1/2] hw/arm: allow flash images being smaller than the
- available space
-Date: Fri, 16 Dec 2022 11:12:33 +0100
-Message-Id: <20221216101234.2202009-2-kraxel@redhat.com>
+Subject: [PATCH 2/2] docs: add no-padding firmware feature
+Date: Fri, 16 Dec 2022 11:12:34 +0100
+Message-Id: <20221216101234.2202009-3-kraxel@redhat.com>
 In-Reply-To: <20221216101234.2202009-1-kraxel@redhat.com>
 References: <20221216101234.2202009-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -81,53 +80,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Query block device backing flash for size and use that instead of
-requiring the block device being exactly 64M in size.  This allows
-to use edk2 firmware builds without padding, i.e. use QEMU_EFI.fd
-(which is /way/ smaller than 64M) as-is.
-
--rw-r--r--. 1 root root 67108864 Dec 12 23:45 QEMU_EFI-pflash.raw
--rw-r--r--. 1 root root  2097152 Dec 12 23:45 QEMU_EFI.fd
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/arm/virt.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ docs/interop/firmware.json | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index b87135085610..c71ae2cd73f7 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -43,6 +43,7 @@
- #include "hw/vfio/vfio-amd-xgbe.h"
- #include "hw/display/ramfb.h"
- #include "net/net.h"
-+#include "sysemu/block-backend.h"
- #include "sysemu/device_tree.h"
- #include "sysemu/numa.h"
- #include "sysemu/runstate.h"
-@@ -1134,6 +1135,21 @@ static void virt_flash_map1(PFlashCFI01 *flash,
-                             MemoryRegion *sysmem)
- {
-     DeviceState *dev = DEVICE(flash);
-+    BlockBackend *blk;
-+
-+    blk = pflash_cfi01_get_blk(flash);
-+    if (blk) {
-+        hwaddr blksize = blk_getlength(blk);
-+
-+        if (blksize == 0 || blksize > size ||
-+            !QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE)) {
-+            error_report("system firmware block device %s"
-+                         " has invalid size %" PRId64,
-+                         blk_name(blk), size);
-+            exit(1);
-+        }
-+        size = blksize;
-+    }
+diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
+index 56814f02b3c0..74f404d745b0 100644
+--- a/docs/interop/firmware.json
++++ b/docs/interop/firmware.json
+@@ -191,6 +191,8 @@
+ #                  PL011 UART. @verbose-static is mutually exclusive
+ #                  with @verbose-dynamic.
+ #
++# @no-padding: The (arm/aarch64) firmware images are not padded to 64M.
++#
+ # Since: 3.0
+ ##
+ { 'enum' : 'FirmwareFeature',
+@@ -198,7 +200,8 @@
+              'amd-sev', 'amd-sev-es', 'amd-sev-snp',
+              'intel-tdx',
+              'enrolled-keys', 'requires-smm', 'secure-boot',
+-             'verbose-dynamic', 'verbose-static' ] }
++             'verbose-dynamic', 'verbose-static',
++             'no-padding' ] }
  
-     assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
-     assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
+ ##
+ # @FirmwareFlashFile:
 -- 
 2.38.1
 
