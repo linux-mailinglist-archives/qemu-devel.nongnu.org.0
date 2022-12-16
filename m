@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E9564F41D
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:29:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710DA64F3F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 23:18:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Irr-0001WS-QG; Fri, 16 Dec 2022 17:07:47 -0500
+	id 1p6Irw-0001Z7-Eb; Fri, 16 Dec 2022 17:07:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Irp-0001Vy-SM
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:07:46 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Irt-0001YU-RZ
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:07:49 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Iro-00065Z-7C
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:07:45 -0500
-Received: by mail-ej1-x632.google.com with SMTP id u19so9255108ejm.8
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:07:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Irs-000662-AH
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 17:07:49 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id fc4so9194094ejc.12
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:07:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=F8aJDmXaJ45RwFgpaAMRLc5en+AzGpJRkJS1lv4bVUU=;
- b=Un7xZStzCgeJwfbzFGvvuKI64oQoTAYOaj4nDuFHdDv8fch6sdsHmzN1m3ysk9Vfmy
- mwM6FdoCkSqbArN4DmhjifBAKf1zLtdaE0qIpBufGVDg9dTMwR7p1TUGB6+95M2Xikk6
- DNtxSZ29wd3+Kd6isoJw6WzdrNnFh6Yi730rLfaU5A3hkQQ8TsZixgg6ixImURn22uMh
- 4M7zD9Vlj402Kb2Wyb7MeJmPKVlQfTr8SWiVroT2kQuajrJJav6qSFO/mdSjNlqZeF5/
- Alu1fMH51kFwtWOhC+6zawL8AbTDBsqKrGtbrBKDzu6HixFH4IwbUFSAdMfZQyRjtbmj
- O89w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dnjBpu8YAsQiqTIBqdAxGgUmmCKdMDBQ66ZGoKps2Ew=;
+ b=V3iElN+pWdNXlbuPkzYch26WWW47kZLvkp4pklr7MqLTRunNn+TowQUCROmuGTluTf
+ FsYrRMIjbaKMvwPHXlfASr9BDsiFaNk5utWdmxOagO2T38fiu9GKn2LnXis0PoxQ+y4M
+ jQbhdKk5M8mKJ4olp/u/KIfYKN+m7g/B7yk272XBW3r9g7vjxf8hIvdcnnyTrWybBjhD
+ QZEnwyq0y5KBYC6dw/g5x1zKU+Ygl2Khg01/qm6G75KuQIWVNQw+qzd370FBZ9tYzVS/
+ FXrTuzGh4dxHBWogjOU7q51i3Ndq71mTCiVkLUl/lNwRyIaEDc5r/1JqjfsuvhJLEHat
+ jo5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=F8aJDmXaJ45RwFgpaAMRLc5en+AzGpJRkJS1lv4bVUU=;
- b=nv2Soe8Y5XPwKguz17lSm5N760HFZnrHj7BOfhXj5Y0TZd65e7xCwUpk0LCP0wECZs
- GjhWrH6Z7PzzrOBpwcMXU0bKhxv+5wMRWGlsN+Lx4OJult1a1bIPAD4sC+d1yu4sCDoW
- G2qP1RPNE8lBcV1ZDNOwHBZrQ+EHRwZhAq/Gl4RSuPjRlXj5WMn9upgQgsIRcKG7scZc
- g6xzi1QstyV9rienialauo9hLvrmathMngg6gm2N1mXr7IRz/p61wZ9WV/YjrI/SsuGF
- H469bQb4hWu8rfO2Y0XqFQOdBssLm61eQ5O62s6TmnvmKHyyhJH+ZvtbYrEf2cEsyw8G
- 8dIw==
-X-Gm-Message-State: ANoB5plivZh/PTUtBZyzCG8ht3m8B5Se+P/MhwzSV/8PeypCdgCub64Z
- IsLd/Wj8GsErPVz4a3Z+Il3/N0OtgfP6osvMz5U=
-X-Google-Smtp-Source: AA0mqf77vAvGiZ9Kd5R3p7qXCE2gyNrK+9EPQTV5PoFhN0NSvB0665+jYPW5Y+BZc+XOF6szbDoXyQ==
-X-Received: by 2002:a17:906:2506:b0:7af:1139:de77 with SMTP id
- i6-20020a170906250600b007af1139de77mr30684332ejb.4.1671228461556; 
- Fri, 16 Dec 2022 14:07:41 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dnjBpu8YAsQiqTIBqdAxGgUmmCKdMDBQ66ZGoKps2Ew=;
+ b=NlPEq9sWoDDUGSl1Z6dp1ZrvDGMUeCEUeL6lE4iKUDr43QLGoADUS9gwylELyZztvr
+ Lhl0eMm+Mm8h+m56gVPrjC+Z45sgmgVCQkMeZYQrY8C1Pu04yAuZXVIutv179Vx7ZNYl
+ Cy+hMso02SpstNS0c1zbvNCXtdUy6UTk0ecG3CviA4sbSLIf1LMCepOMIe/F0ff5vyio
+ lUues0DjkJ+T+ohs4b5UajUFSicRXm3c+XtG22GJefJZ82jERJI0tgeYAWv74cZLnJTY
+ fiUuqWSUkGr2xAZOBm7toH/SsSKktBWnsn2tXe+EkdxNmlKe7gjKn5sOyQ/m2vHy/kXr
+ lpNQ==
+X-Gm-Message-State: ANoB5pnqZ8NIrPwfWQw0SnyeHxDVC73E9XMfxWsnZ4w6L4tJJV3TTMLw
+ jCkeY3PUAcVug8h3XPiSWc8GNvrNouE3qjEqQ8M=
+X-Google-Smtp-Source: AA0mqf5FXdnuw+SCM5bPyadVl6lKNY8k4Ioju8XS7pTqY32yMybMBXqVv08QWaAB2Z4v9CR/OLRXLw==
+X-Received: by 2002:a17:906:698f:b0:7ad:d250:b903 with SMTP id
+ i15-20020a170906698f00b007add250b903mr38530813ejr.56.1671228466702; 
+ Fri, 16 Dec 2022 14:07:46 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n11-20020a170906088b00b007c11e5ac250sm1298642eje.91.2022.12.16.14.07.40
+ p23-20020a17090653d700b007bed316a6d9sm1308360ejo.18.2022.12.16.14.07.45
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 16 Dec 2022 14:07:41 -0800 (PST)
+ Fri, 16 Dec 2022 14:07:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 0/2] sysemu/kvm: Header cleanups around "cpu.h"
-Date: Fri, 16 Dec 2022 23:07:36 +0100
-Message-Id: <20221216220738.7355-1-philmd@linaro.org>
+Subject: [PATCH 1/2] sysemu/kvm: Remove CONFIG_USER_ONLY guard
+Date: Fri, 16 Dec 2022 23:07:37 +0100
+Message-Id: <20221216220738.7355-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221216220738.7355-1-philmd@linaro.org>
+References: <20221216220738.7355-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,16 +89,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These patches are part of a big refactor cleanup
-around "cpu.h". Most changes should be trivial IMHO.
+User emulation shouldn't really include this header; if included
+these declarations are guarded by CONFIG_KVM_IS_POSSIBLE.
 
-Philippe Mathieu-Daudé (2):
-  sysemu/kvm: Remove CONFIG_USER_ONLY guard
-  sysemu/kvm: Reduce target-specific declarations
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ include/sysemu/kvm.h | 2 --
+ 1 file changed, 2 deletions(-)
 
- include/sysemu/kvm.h | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
-
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index e9a97eda8c..c8281c07a7 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -471,10 +471,8 @@ uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
+ 
+ void kvm_set_sigmask_len(KVMState *s, unsigned int sigmask_len);
+ 
+-#if !defined(CONFIG_USER_ONLY)
+ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram_addr,
+                                        hwaddr *phys_addr);
+-#endif
+ 
+ #endif /* NEED_CPU_H */
+ 
 -- 
 2.38.1
 
