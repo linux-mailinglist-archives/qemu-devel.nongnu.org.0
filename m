@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2CE64ED54
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 16:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C54864ED52
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Dec 2022 15:59:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6CAr-0005P9-Vd; Fri, 16 Dec 2022 09:58:58 -0500
+	id 1p6CBH-0006IU-Hg; Fri, 16 Dec 2022 09:59:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p6CAo-0005KD-Qn
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:58:55 -0500
+ id 1p6CBB-0006G2-3d
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:59:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p6CAn-0002Cs-33
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:58:54 -0500
+ id 1p6CB9-0002Ew-Ev
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 09:59:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671202732;
+ s=mimecast20190719; t=1671202754;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BBezmyGXLx6joX46JP9eG+TWxWUVaXXDLBQCqEcCS80=;
- b=XCQSOFCzz9xl1Z9u8LKyDwX0jzu15VxeCdqU7RJ0Dp0fraaDvtaLq37Hd+3A32Yxag9Q3O
- iwzT8+BlDIe2QQhE6zyEkq+8q4yJXbMoIvsqbdQLJ5g4PSMnSjudMc7hme785RA2DXs6UR
- F6bNEazCpZAyCXET3xzQo5s9aulJpuY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Bysc4MMMxpK8gVEJVFdUaLsPaagk3xYJrmg1nkqRO4Y=;
+ b=UCj1QYRuOY9laR6mMNyaWQP5D4Yz5la0B6rtx3ya6c+vON0y4v8BKKg+gYXK1WNx+NfDon
+ 5aEMvTfJczEAQri/H/pfanpZF76VAw36o6qpQ9N/Qn122WnIK/u6UYPu6okrB5zcWx7bLg
+ oLwtW021AYqXIgbo2B0ivcNyOjFi5MA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-173-Lhc5QEkRP9S6KpXhmGDuiA-1; Fri, 16 Dec 2022 09:58:50 -0500
-X-MC-Unique: Lhc5QEkRP9S6KpXhmGDuiA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-9-GaOXgUs_O-qdAjzIHD_C6Q-1; Fri, 16 Dec 2022 09:59:13 -0500
+X-MC-Unique: GaOXgUs_O-qdAjzIHD_C6Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DFAF1C0897A
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:58:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A980100F920
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 14:59:12 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7850F40C6EC4;
- Fri, 16 Dec 2022 14:58:49 +0000 (UTC)
-Date: Fri, 16 Dec 2022 14:58:46 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A991740C2004;
+ Fri, 16 Dec 2022 14:59:11 +0000 (UTC)
+Date: Fri, 16 Dec 2022 14:59:08 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 09/30] meson: use prefer_static option
-Message-ID: <Y5yHpv2QilBLbcjS@redhat.com>
+Subject: Re: [PATCH 10/30] meson: remove static_kwargs
+Message-ID: <Y5yHvBlGofzyvD6q@redhat.com>
 References: <20221209112409.184703-1-pbonzini@redhat.com>
- <20221209112409.184703-10-pbonzini@redhat.com>
+ <20221209112409.184703-11-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221209112409.184703-10-pbonzini@redhat.com>
+In-Reply-To: <20221209112409.184703-11-pbonzini@redhat.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -83,18 +83,15 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 09, 2022 at 12:23:48PM +0100, Paolo Bonzini wrote:
-> The option is new in Meson 0.63 and removes the need to pass "static:
-> true" to all dependency and find_library invocation.  Actually cleaning
-> up the invocations is left for a separate patch.
+On Fri, Dec 09, 2022 at 12:23:49PM +0100, Paolo Bonzini wrote:
+> After static_kwargs has been changed to an empty dictionary, it has
+> no functional effect and can be removed.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  configure                   |  4 +---
->  docs/devel/build-system.rst |  3 +--
->  meson.build                 | 11 ++++-------
->  qga/meson.build             |  2 +-
->  4 files changed, 7 insertions(+), 13 deletions(-)
+>  meson.build     | 212 +++++++++++++++++++-----------------------------
+>  tcg/meson.build |   2 +-
+>  2 files changed, 84 insertions(+), 130 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
