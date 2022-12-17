@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F2B64FB58
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 18:38:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D1E64FB5A
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 18:39:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6b82-0002Cr-8P; Sat, 17 Dec 2022 12:37:42 -0500
+	id 1p6b9O-00051n-EK; Sat, 17 Dec 2022 12:39:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6b80-0002A8-Gw
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 12:37:40 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1p6b9L-00051V-Hz
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 12:39:03 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6b7y-0003zy-Sz
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 12:37:40 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- q17-20020a17090aa01100b002194cba32e9so9153195pjp.1
- for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 09:37:38 -0800 (PST)
+ id 1p6b9J-00048f-VJ
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 12:39:03 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ w4-20020a17090ac98400b002186f5d7a4cso9194613pjt.0
+ for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 09:39:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0S3HrYOPdp1IO8+IiEU3LAvFsnuMdZ0o6U5aUTUBGLA=;
- b=gYmLhMChVZVPyugOC+Le0w5wHQBWDvkSo1oARUdkgqELjZ5pbgZEHdHm51RundtMD2
- solscdwZ9fqfu1+doh5MOH9M0IVypAKHYAnplnSE8+dhzey3tPQ/d+Ojj9ZjW6B/uCUI
- 0xo8rTrAtXV6Y4cNc+6L9rkVVyh9MakrYSxNzvFGGjq3uApJsp/S3O8jO3jrsl+yfMHS
- 9uviid1F1a8HIadUcvGiWZKPArnHeJ2giZVvz6Vqak6g378Cr1Nn1wFclkLxGtAY0EV1
- d7/bn3GJnfCou+DZdpiMQg+MQzWtiynpBHPPksnhVZJuMYDj5ktPiio/MZ+Cy6gUfazr
- H2OQ==
+ bh=eks8jnVYYxSNuu1efsA4JmN9bzvUVgEahCciWCkd1mM=;
+ b=CmmhREkRHb9LK7D086RAFBjVvO6graVkDwH+qBWFXZg07Mqvd1c0VXx97qgZ6oU87a
+ xnlrgeHkWCE7ElSvUeRycdN1L2GA4u/KhZ3LMPAS2s3NSiLLvgjCTIff/Ut1GQUrhVDg
+ ZuVyupIyzqXuJgQOX6wdZQ7LCe+L7tBk7uYBS+SVAJ5BLUEQJABMmP/Pye6BJluAr0Wr
+ VazwUzeHRHPKRK24UrtiLeGZ+6pOzgPSRDb962jH1Ze9L3RARV3fGYSwfcRVdj5bl9G2
+ SOv3YlMJaVU8BSiJYmm5vBctCRIWOsrOX4CMZ0JgGou50UySRNaeb00QV/mbX8VTbE3C
+ F0Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0S3HrYOPdp1IO8+IiEU3LAvFsnuMdZ0o6U5aUTUBGLA=;
- b=45hqrYqexKOhSYAo9mBjd7Gpu++wxqmMEMOtXnhXUy1d4VHxwbEdIZSb1qA1yA023p
- LImU5gCxY9NibT7DCSY5KrBXzbyOIOxerKw/wujS5lucuPMEtNpIr9QxP/SekDm7Ee41
- PkT3SXzSxcMx6cFirRWC3t9S/8kTsGCUFf2fAwE8b8f3aVUnYVVRTtNQQWWClc+jt5On
- 8bJK34cchhfJSqFVp8t3JjePwpPYHAnrVuJ6/sRv4NNjQa7pmhmPr85yoj1YH3gIXXjS
- raebXvf83Y32xS0u95eEceEQj24weR0hgESl7ybcGFOLVb3KfTTKJ1Nu+MMTt7+SdiV3
- IUzQ==
-X-Gm-Message-State: AFqh2krDxYy1nST8co39unbewkKl5Bc03wbwovjghR0J+Uo3PTVvlNJ/
- 2j+CrE/BNGUBTLBdI9OUuqt82g==
-X-Google-Smtp-Source: AMrXdXuNdSEVOv1fXai3UOj7MgaHFdY0tCEDVOGl4YqjS8+AAEXieYi8SSnWrBSGOHX9TS2Dq68n4g==
-X-Received: by 2002:a17:90b:88d:b0:223:9b0d:15ab with SMTP id
- bj13-20020a17090b088d00b002239b0d15abmr5656453pjb.12.1671298656824; 
- Sat, 17 Dec 2022 09:37:36 -0800 (PST)
+ bh=eks8jnVYYxSNuu1efsA4JmN9bzvUVgEahCciWCkd1mM=;
+ b=avRixl49CC0lNzAW6XsrYv2mV/WCivZB+HMr6yDpzQpftzmZ+C4wScb+68/0JQea6u
+ GB5eea0L7Jq3V5jmMza17wka3EAc/eY0M31IJDYXlgf8QFGfN9CKyC5tz7Z/ZCmoOutk
+ V3/1bSGX0kPKMiRHUDevzLDoqDKlGsGMp4QmQzvhH8yRPGsaPCUcE/FSZU3LC/b4WQrT
+ cVinFNysyeiPMWMMNLG4RZrGDaJYhTwpEswsSFADliCnMwDeDC/MmRg4272LXigh8Pbt
+ rnbD/q9WWAteD4imZln+Yk1KUpdGIoTY5N7QlCKySbwWUhvoHPICg/3ZL3jORo8ftBgY
+ e5fw==
+X-Gm-Message-State: ANoB5plWgdmvAWS+A1yIZC46Jb4D3eHnqZzmereJ1ixfwyIZ6LnUZMKF
+ Yxn0KkQ1CeA1/vxu3kA1DN408g==
+X-Google-Smtp-Source: AA0mqf5X1d0hB8jxtDMhbODs9J200eiXBwutXRyIkt44whIIx/cgMWXrNNFNysq4k+FgP1JxIOCrkg==
+X-Received: by 2002:a17:902:f243:b0:189:d051:129 with SMTP id
+ j3-20020a170902f24300b00189d0510129mr29855400plc.66.1671298740383; 
+ Sat, 17 Dec 2022 09:39:00 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:dbe7:d50a:f977:e69b?
  ([2602:47:d48c:8101:dbe7:d50a:f977:e69b])
  by smtp.gmail.com with ESMTPSA id
- k7-20020a17090a39c700b00200461cfa99sm6578348pjf.11.2022.12.17.09.37.35
+ c10-20020a170903234a00b00177fb862a87sm3826117plh.20.2022.12.17.09.38.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Dec 2022 09:37:36 -0800 (PST)
-Message-ID: <b76158c6-fba7-3314-ab8f-edfbe342d56f@linaro.org>
-Date: Sat, 17 Dec 2022 09:37:34 -0800
+ Sat, 17 Dec 2022 09:38:59 -0800 (PST)
+Message-ID: <2c6b5147-23db-343c-67a4-9a5cc6e4d8e8@linaro.org>
+Date: Sat, 17 Dec 2022 09:38:58 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 2/5] hw/s390x/pv: Un-inline s390_pv_init()
+Subject: Re: [PATCH v2 3/5] hw/s390x/pv: Restrict Protected Virtualization to
+ sysemu
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -72,13 +73,13 @@ Cc: qemu-s390x@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Eric Farman <farman@linux.ibm.com>,
  Ilya Leoshkevich <iii@linux.ibm.com>
 References: <20221217152454.96388-1-philmd@linaro.org>
- <20221217152454.96388-3-philmd@linaro.org>
+ <20221217152454.96388-4-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221217152454.96388-3-philmd@linaro.org>
+In-Reply-To: <20221217152454.96388-4-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,61 +103,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/17/22 07:24, Philippe Mathieu-Daudé wrote:
-> @@ -251,7 +251,9 @@ struct S390PVGuestClass {
->   
->   int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->   {
-> -    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
-> +    assert(kvm_enabled());
-> +
-> +    if (!cgs || !object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
->           return 0;
->       }
->   
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 2e64ffab45..d9a96e315e 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -255,8 +255,10 @@ static void ccw_init(MachineState *machine)
->       /* init CPUs (incl. CPU model) early so s390_has_feature() works */
->       s390_init_cpus(machine);
->   
-> -    /* Need CPU model to be determined before we can set up PV */
-> -    s390_pv_init(machine->cgs, &error_fatal);
-> +    if (kvm_enabled()) {
-> +        /* Need CPU model to be determined before we can set up PV */
-> +        s390_pv_kvm_init(machine->cgs, &error_fatal);
-> +    }
->   
->       s390_flic_init();...
-> -static inline int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
-> -{
-> -    if (!cgs) {
-> -        return 0;
-> -    }
-> -    if (kvm_enabled()) {
-> -        return s390_pv_kvm_init(cgs, errp);
-> -    }
-> -
-> -    error_setg(errp, "Protected Virtualization requires KVM");
-> -    return -1;
-> -}
+> Protected Virtualization is irrelevant in user emulation.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> ---
+>   target/s390x/cpu_features.c | 4 ++++
+>   target/s390x/cpu_models.c   | 4 +++-
+>   2 files changed, 7 insertions(+), 1 deletion(-)
 
-You've lost the error path above.  And it seems like we could just handle null cgs early. 
-E.g.
-
-     if (machine->cgs) {
-         if (kvm_enabled()) {
-             s390_pv_kvm_init(machine->cgs, &error_fatal);
-         } else {
-             error_report(...);
-             exit(EXIT_FAILURE);
-         }
-     }
-
-(since qabi/error.h says not to use error_setg(&error_fatal, ...)).
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
 
