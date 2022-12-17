@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111EF64F5FF
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:21:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23BF464F600
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:22:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Kwy-0004xc-F1; Fri, 16 Dec 2022 19:21:12 -0500
+	id 1p6KxM-0005Jn-D2; Fri, 16 Dec 2022 19:21:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6Kww-0004us-42
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:21:10 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1p6KxH-0005BN-UT
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:21:33 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6Kwt-0001e3-E9
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:21:09 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id js9so3998660pjb.2
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:21:03 -0800 (PST)
+ id 1p6KxC-0001ia-Nn
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:21:28 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id d3so3825680plr.10
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:21:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Br5edP5bw72vTBBV6krhwvbgkDsEO8SBVZgWwmDAdk0=;
- b=QZpfF57ilo3wuzdUGPogQChMg/mmDaflC2b1BxbtnyFVItClH4Rr0zZ800ILePsYop
- op4gArMBBjdNT4LgzfLsNIahuFIm3FPkGIUsYJDLLIcjab+ISMOx5IHstrxo4ia8siQb
- qWPDlQAYuLzce6al2th2j73VD7dFepFr8tFs5fNQly4oM7p2NZsK01mgFP8Eudh5+TyX
- ozxnA+jODbe0h4uMui6R07qkrHUXoJuFvC4n+muRP6LbAssTzYiEUtXqArMyUPOvu+tl
- RY8mWqSrMYVqJeEX6rS4ivwsa4GrcX9KjDlCgyOFaAC1y/f770/I/Ocesr9klJ04M5jn
- 2UQQ==
+ bh=nulFq5TjzLQ8xs+49vqCOIkA3787H4Gf5JKw32N2yFQ=;
+ b=NXH+7DNudxaoN1EQdTcElo0zGPv2PSDJyNp6aICRZhTUFyliGOL8soHLafuno2vFxc
+ mebgw5iyBiHWJv1t9gUkt1SmpsIB8JEVITWf4MuBXstIwvyQOcTqxSkHa8s9/D+Jwbdb
+ QZBcy5tiubct8cPVf5bdjDEDOrmhG2sWQmh3pMujMqcueWtLHe+i1C6vSU52iIL9hapd
+ k7OUVKTZjSsEVm6qh7jVkDs6kGgPbhcBmBng/CtnH2XiDJvI8P0gr/GBdfArhemJy4Hq
+ GK3YpG60PNF0ZUb/qOgBfwa/jGSNP2gnWL/sGyn7tlKBbpFGzI7jio2ImFObNQZUD79d
+ 6M/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Br5edP5bw72vTBBV6krhwvbgkDsEO8SBVZgWwmDAdk0=;
- b=wShDnlRnfS1NTn6BWijUJ5JYS9A+cq0OIm2qBLr6lnEGGE7cjuJ8RX52GMfv6vNAxd
- aG5YwXmS8VLMHdRHxPO08ZcriwyLv8FMExJfcCsojpxwA4uXMPZ01MvZWSmeUcNm4Ab6
- L88tK53dFcJbvm0kkh/5w/KR+OsHzqp3tFj6uea9dbu6wjORI7PFx6sa3Lx4m9khGE8P
- g5KnDldsykY/SR2Sh800Exk3lfQY8+w23+RfS/B3fBoF/O/OfWC1V5TTpKGlB3HYO1jP
- nlu1XOWFErL9uW0pGNVZ3QL+WVlbmVdyW5tplsikGRUH6I82VEZ6LkO8Uk9k3iZz5BWr
- tafA==
-X-Gm-Message-State: AFqh2koRgPpVFTlrlvmlR9E/V1NRbOtoCAnRyIviR0+9E00GXvNmHOjJ
- v8U7aqwCtgrQSgOHuh9M1XV1/g==
-X-Google-Smtp-Source: AMrXdXuglF18syXPPjhd0R0IMP9eRamsl0EruHaKdlUa3VB3Ec6h3ZugpiJsy5/3liZljGt3t6+0og==
-X-Received: by 2002:a17:902:e845:b0:188:fc0c:b736 with SMTP id
- t5-20020a170902e84500b00188fc0cb736mr316050plg.67.1671236462369; 
- Fri, 16 Dec 2022 16:21:02 -0800 (PST)
+ bh=nulFq5TjzLQ8xs+49vqCOIkA3787H4Gf5JKw32N2yFQ=;
+ b=dSLnI1Nqv17mwEjbY7B5ep9rRRDCfLGSmdsWnFy7st7/u/TU4uSEcjFluObPpVDFDD
+ nGBpKS6M/rihKlygBSAlXEXiEeV0aDjuskD3CPWCO7ITyv5d7kUC4qWrOdrIsPzvz/MD
+ pU5rqKgTvqL0czD79BgqwAj1LCxNzQ+0y4S8sQ9M45gMwQzyrNSGgGM/8WA4Zi+QIPNM
+ m2KNF5tOzyEz9+1CaF6ilt3hgnYqo8547iSXRHSNPKKpXTdJYmCufu69EUrF7wXLpj9+
+ t5bFEku8KR5RIJhGqjCNcYKwaZ8B2+G7izwL2iaHhO5JL3zc231COhUj6gAUbjEdU0S9
+ 2eEg==
+X-Gm-Message-State: ANoB5pkitoGcvK7C68MIEhOiS14ABMEWerQ+zcT+3vDVhhZG6LI+Dj9h
+ F5kaDkiuFj6Jo5WNx+KeWYZPUw==
+X-Google-Smtp-Source: AA0mqf4Ofy1k+FYeb+lnkFcw55EBfaXzcupXUe4TmuYb0yQ5yLAFm8DUgg5C7q172UCheAG88msy2w==
+X-Received: by 2002:a17:902:7104:b0:189:bf5d:c951 with SMTP id
+ a4-20020a170902710400b00189bf5dc951mr32725654pll.26.1671236485100; 
+ Fri, 16 Dec 2022 16:21:25 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
  ([2602:47:d48c:8101:c606:9489:98df:6a3b])
  by smtp.gmail.com with ESMTPSA id
- y2-20020a17090264c200b00189667acf19sm2199043pli.95.2022.12.16.16.21.01
+ w15-20020a1709026f0f00b00172b87d9770sm2199944plk.81.2022.12.16.16.21.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 16:21:01 -0800 (PST)
-Message-ID: <ed86c02a-d554-27ea-9a31-f93380c6c93f@linaro.org>
-Date: Fri, 16 Dec 2022 16:21:00 -0800
+ Fri, 16 Dec 2022 16:21:24 -0800 (PST)
+Message-ID: <05e8c9ab-3add-f84b-1441-e4576962302c@linaro.org>
+Date: Fri, 16 Dec 2022 16:21:22 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 1/5] target/i386: Remove NEED_CPU_H guard from
- target-specific headers
+Subject: Re: [PATCH 2/5] target/i386/cpu: Remove dead helper_lock() declaration
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -71,13 +70,13 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini
  <pbonzini@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>
 References: <20221216220158.6317-1-philmd@linaro.org>
- <20221216220158.6317-2-philmd@linaro.org>
+ <20221216220158.6317-3-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216220158.6317-2-philmd@linaro.org>
+In-Reply-To: <20221216220158.6317-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,13 +100,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/16/22 14:01, Philippe Mathieu-Daudé wrote:
-> NEED_CPU_H is always defined for these target-specific headers.
+> Missed in commit 37b995f6e7 ("target-i386: remove helper_lock()").
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   target/i386/hax/hax-i386.h | 2 --
->   target/i386/hvf/hvf-i386.h | 4 ----
->   2 files changed, 6 deletions(-)
+>   target/i386/cpu.h | 3 ---
+>   1 file changed, 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
