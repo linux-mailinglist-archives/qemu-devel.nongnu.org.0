@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE3E64F863
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C7964F864
 	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 10:09:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6TAi-0005t3-QJ; Sat, 17 Dec 2022 04:07:56 -0500
+	id 1p6TAk-0005tO-Ks; Sat, 17 Dec 2022 04:07:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6TAg-0005rc-Ch
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:54 -0500
+ id 1p6TAi-0005sW-2O
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:56 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6TAd-0006cc-Kv
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:54 -0500
+ id 1p6TAg-0006d4-2y
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671268070;
+ s=mimecast20190719; t=1671268073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VBNyMX+OlU77yDDpbKs/c0cqbxMQdPVs0W/gqD71INU=;
- b=FN+71AhhG7f49umG7MzCmVOm7T/a+2Y26jd/aHoIbrRM1rQTAV8oHb+kJmNRnLZ3gqhQXW
- NSAn91WhG+wFiEliH3kDykiUkEAgSAUxt5VmclGFGGKCFLhzXmiHR54WD71+VI+9XQiW5J
- 5EQAFLqlHKPhfseWA+6Kf9X2SCbLP0Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+dvu3PwRp9nXDZpaHwqhXJZiUfzTfH22zxnf3jMIle0=;
+ b=fEtwNnQFAVvOBgVp3CKJQLPF0HKpc5JaBWErlFs7n0TnfbILYh5sr9QAVxAc3G9HvQONZ4
+ 4XvwVHeUUdMO6B3ALFuHujfSObrvtzpWD1a4FbR2G+W3lwtrulTAELfp1Kwt9T2oMvfMZS
+ 3VaiVbl1+75N8UgAhVdnTvfD0JJOG4Y=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-116-hUiVucbVPBSNiv7mxBOdig-1; Sat, 17 Dec 2022 04:07:49 -0500
-X-MC-Unique: hUiVucbVPBSNiv7mxBOdig-1
+ us-mta-408-tXhs0lZDOtuCPDfopX1OrA-1; Sat, 17 Dec 2022 04:07:50 -0500
+X-MC-Unique: tXhs0lZDOtuCPDfopX1OrA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE4A6185A794;
- Sat, 17 Dec 2022 09:07:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66A471C068DE;
+ Sat, 17 Dec 2022 09:07:50 +0000 (UTC)
 Received: from kostyanf14nb.lan (ovpn-192-10.brq.redhat.com [10.40.192.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C2A5040C6EC4;
- Sat, 17 Dec 2022 09:07:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A7F540C6EC4;
+ Sat, 17 Dec 2022 09:07:48 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL v2 3/6] qga: Add initial OpenBSD and NetBSD support
-Date: Sat, 17 Dec 2022 11:07:37 +0200
-Message-Id: <20221217090740.522093-4-kkostiuk@redhat.com>
+Subject: [PULL v2 4/6] qga-win: add logging to Windows event log
+Date: Sat, 17 Dec 2022 11:07:38 +0200
+Message-Id: <20221217090740.522093-5-kkostiuk@redhat.com>
 In-Reply-To: <20221217090740.522093-1-kkostiuk@redhat.com>
 References: <20221217090740.522093-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
@@ -78,105 +78,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Brad Smith <brad@comstyle.com>
+From: Andrey Drobyshev via <qemu-devel@nongnu.org>
 
-qga: Add initial OpenBSD and NetBSD support
+This commit allows QGA to write to Windows event log using Win32 API's
+ReportEvent() [1], much like syslog() under *nix guests.
 
-Signed-off-by: Brad Smith <brad@comstyle.com>
+In order to generate log message definitions we use a very basic message
+text file [2], so that every QGA's message gets ID 1.  The tools
+"windmc" and "windres" respectively are used to generate ".rc" file and
+COFF object file, and then the COFF file is linked into qemu-ga.exe.
+
+[1] https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-reporteventa
+[2] https://learn.microsoft.com/en-us/windows/win32/eventlog/message-text-files
+
+Originally-by: Yuri Pudgorodskiy <yur@virtuozzo.com>
+Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- meson.build          | 2 +-
- qga/commands-bsd.c   | 5 +++++
- qga/commands-posix.c | 9 +++++++--
- qga/main.c           | 6 +++---
- 4 files changed, 16 insertions(+), 6 deletions(-)
+ configure                 |  3 +++
+ qga/installer/qemu-ga.wxs |  5 +++++
+ qga/main.c                | 16 +++++++++++++---
+ qga/meson.build           | 19 ++++++++++++++++++-
+ qga/messages-win32.mc     |  9 +++++++++
+ 5 files changed, 48 insertions(+), 4 deletions(-)
+ create mode 100644 qga/messages-win32.mc
 
-diff --git a/meson.build b/meson.build
-index 5c6b5a1c75..4c6f8a674a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -75,7 +75,7 @@ have_tools = get_option('tools') \
-   .allowed()
- have_ga = get_option('guest_agent') \
-   .disable_auto_if(not have_system and not have_tools) \
--  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd'],
-+  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd', 'netbsd', 'openbsd'],
-            error_message: 'unsupported OS for QEMU guest agent') \
-   .allowed()
- have_block = have_system or have_tools
-diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-index 15cade2d4c..17bddda1cf 100644
---- a/qga/commands-bsd.c
-+++ b/qga/commands-bsd.c
-@@ -21,7 +21,12 @@
- #include <sys/ucred.h>
- #include <sys/mount.h>
- #include <net/if_dl.h>
-+#if defined(__NetBSD__) || defined(__OpenBSD__)
-+#include <net/if_arp.h>
-+#include <netinet/if_ether.h>
-+#else
- #include <net/ethernet.h>
-+#endif
- #include <paths.h>
+diff --git a/configure b/configure
+index 26c7bc5154..789a4f6cc9 100755
+--- a/configure
++++ b/configure
+@@ -372,6 +372,7 @@ smbd="$SMBD"
+ strip="${STRIP-${cross_prefix}strip}"
+ widl="${WIDL-${cross_prefix}widl}"
+ windres="${WINDRES-${cross_prefix}windres}"
++windmc="${WINDMC-${cross_prefix}windmc}"
+ pkg_config_exe="${PKG_CONFIG-${cross_prefix}pkg-config}"
+ query_pkg_config() {
+     "${pkg_config_exe}" ${QEMU_PKG_CONFIG_FLAGS} "$@"
+@@ -2561,6 +2562,7 @@ if test "$skip_meson" = no; then
+   echo "strip = [$(meson_quote $strip)]" >> $cross
+   echo "widl = [$(meson_quote $widl)]" >> $cross
+   echo "windres = [$(meson_quote $windres)]" >> $cross
++  echo "windmc = [$(meson_quote $windmc)]" >> $cross
+   if test "$cross_compile" = "yes"; then
+     cross_arg="--cross-file config-meson.cross"
+     echo "[host_machine]" >> $cross
+@@ -2667,6 +2669,7 @@ preserve_env SMBD
+ preserve_env STRIP
+ preserve_env WIDL
+ preserve_env WINDRES
++preserve_env WINDMC
  
- #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 1a28326ec7..b19b9c5d18 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -45,7 +45,12 @@
- #include <arpa/inet.h>
- #include <sys/socket.h>
- #include <net/if.h>
-+#if defined(__NetBSD__) || defined(__OpenBSD__)
-+#include <net/if_arp.h>
-+#include <netinet/if_ether.h>
-+#else
- #include <net/ethernet.h>
-+#endif
- #include <sys/types.h>
- #ifdef CONFIG_SOLARIS
- #include <sys/sockio.h>
-@@ -2872,7 +2877,7 @@ static int guest_get_network_stats(const char *name,
-     return -1;
- }
- 
--#ifndef __FreeBSD__
-+#ifndef CONFIG_BSD
- /*
-  * Fill "buf" with MAC address by ifaddrs. Pointer buf must point to a
-  * buffer with ETHER_ADDR_LEN length at least.
-@@ -2921,7 +2926,7 @@ bool guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
-     close(sock);
-     return true;
- }
--#endif /* __FreeBSD__ */
-+#endif /* CONFIG_BSD */
- 
- /*
-  * Build information about guest interfaces
+ printf "exec" >>config.status
+ for i in "$0" "$@"; do
+diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+index 813d1c6ca6..e344c38e74 100644
+--- a/qga/installer/qemu-ga.wxs
++++ b/qga/installer/qemu-ga.wxs
+@@ -110,6 +110,11 @@
+               <RegistryValue Type="string" Name="ProductID" Value="fb0a0d66-c7fb-4e2e-a16b-c4a3bfe8d13b" />
+               <RegistryValue Type="string" Name="Version" Value="$(var.QEMU_GA_VERSION)" />
+             </RegistryKey>
++            <RegistryKey Root="HKLM"
++                         Key="System\CurrentControlSet\Services\EventLog\Application\qemu-ga">
++              <RegistryValue Type="integer" Name="TypesSupported" Value="7" />
++              <RegistryValue Type="string" Name="EventMessageFile" Value="[qemu_ga_directory]qemu-ga.exe" />
++            </RegistryKey>
+           </Component>
+         </Directory>
+       </Directory>
 diff --git a/qga/main.c b/qga/main.c
-index b3580508fa..0865c992f0 100644
+index 0865c992f0..1463a1c170 100644
 --- a/qga/main.c
 +++ b/qga/main.c
-@@ -40,11 +40,11 @@
- #include "commands-common.h"
+@@ -83,6 +83,7 @@ struct GAState {
+ #ifdef _WIN32
+     GAService service;
+     HANDLE wakeup_event;
++    HANDLE event_log;
+ #endif
+     bool delimit_response;
+     bool frozen;
+@@ -324,13 +325,14 @@ static void ga_log(const gchar *domain, GLogLevelFlags level,
+     }
  
- #ifndef _WIN32
--#ifdef __FreeBSD__
-+#ifdef CONFIG_BSD
- #define QGA_VIRTIO_PATH_DEFAULT "/dev/vtcon/org.qemu.guest_agent.0"
--#else /* __FreeBSD__ */
-+#else /* CONFIG_BSD */
- #define QGA_VIRTIO_PATH_DEFAULT "/dev/virtio-ports/org.qemu.guest_agent.0"
--#endif /* __FreeBSD__ */
-+#endif /* CONFIG_BSD */
- #define QGA_SERIAL_PATH_DEFAULT "/dev/ttyS0"
- #define QGA_STATE_RELATIVE_DIR  "run"
+     level &= G_LOG_LEVEL_MASK;
+-#ifndef _WIN32
+     if (g_strcmp0(domain, "syslog") == 0) {
++#ifndef _WIN32
+         syslog(LOG_INFO, "%s: %s", level_str, msg);
+-    } else if (level & s->log_level) {
  #else
+-    if (level & s->log_level) {
++        ReportEvent(s->event_log, EVENTLOG_INFORMATION_TYPE,
++                    0, 1, NULL, 1, 0, &msg, NULL);
+ #endif
++    } else if (level & s->log_level) {
+         g_autoptr(GDateTime) now = g_date_time_new_now_utc();
+         g_autofree char *nowstr = g_date_time_format(now, "%s.%f");
+         fprintf(s->log_file, "%s: %s: %s\n", nowstr, level_str, msg);
+@@ -1286,6 +1288,13 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
+     g_debug("Guest agent version %s started", QEMU_FULL_VERSION);
+ 
+ #ifdef _WIN32
++    s->event_log = RegisterEventSource(NULL, "qemu-ga");
++    if (!s->event_log) {
++        g_autofree gchar *errmsg = g_win32_error_message(GetLastError());
++        g_critical("unable to register event source: %s", errmsg);
++        return NULL;
++    }
++
+     /* On win32 the state directory is application specific (be it the default
+      * or a user override). We got past the command line parsing; let's create
+      * the directory (with any intermediate directories). If we run into an
+@@ -1377,6 +1386,7 @@ static void cleanup_agent(GAState *s)
+ {
+ #ifdef _WIN32
+     CloseHandle(s->wakeup_event);
++    CloseHandle(s->event_log);
+ #endif
+     if (s->command_state) {
+         ga_command_state_cleanup_all(s->command_state);
+diff --git a/qga/meson.build b/qga/meson.build
+index 3cfb9166e5..1ff159edc1 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -98,7 +98,24 @@ if targetos == 'windows'
+   endif
+ endif
+ 
+-qga = executable('qemu-ga', qga_ss.sources(),
++qga_objs = []
++if targetos == 'windows'
++  windmc = find_program('windmc', required: true)
++  windres = find_program('windres', required: true)
++
++  msgrc = custom_target('messages-win32.rc',
++                        input: 'messages-win32.mc',
++                        output: ['messages-win32.rc', 'MSG00409.bin', 'messages-win32.h'],
++                        command: [windmc, '-h', '@OUTDIR@', '-r', '@OUTDIR@', '@INPUT@'])
++  msgobj = custom_target('messages-win32.o',
++                         input: msgrc[0],
++                         output: 'messages-win32.o',
++                         command: [windres, '-I', '@OUTDIR@', '-o', '@OUTPUT@', '@INPUT@'])
++
++  qga_objs = [msgobj]
++endif
++
++qga = executable('qemu-ga', qga_ss.sources() + qga_objs,
+                  link_args: qga_libs,
+                  dependencies: [qemuutil, libudev],
+                  install: true)
+diff --git a/qga/messages-win32.mc b/qga/messages-win32.mc
+new file mode 100644
+index 0000000000..e21019cebe
+--- /dev/null
++++ b/qga/messages-win32.mc
+@@ -0,0 +1,9 @@
++LanguageNames=(
++    English=0x409:MSG00409
++)
++
++MessageId=1
++SymbolicName=QEMU_GA_EVENTLOG_GENERAL
++Language=English
++%1
++.
 -- 
 2.25.1
 
