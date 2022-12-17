@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E3C64F66F
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBD564F670
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:45:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6LIb-0003FM-I9; Fri, 16 Dec 2022 19:43:33 -0500
+	id 1p6LKR-0003zQ-DX; Fri, 16 Dec 2022 19:45:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6LIX-0003Eh-CX
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:43:29 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1p6LKO-0003yY-Bm
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:45:24 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6LIV-0006Yj-LH
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:43:28 -0500
-Received: by mail-pl1-x632.google.com with SMTP id x2so3842251plb.13
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:43:27 -0800 (PST)
+ id 1p6LKM-0006xS-Mo
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:45:24 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id w26so2850381pfj.6
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:45:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=+Cpa5inuuTWifznucnO5vMZhLNHoyBC89qAOzG5VMfI=;
- b=heIykpvPJwK3sJNnRB7YGBxYfEWHvZhSjXfN8SO4TpsP9IAvpcGdD9W+B1xvDpsYH0
- OLzswTSLGJx0DYTdAx2cjrj57G5ikj3nzM9o7MhQcmpYyHohPYcsAobZooOmnBHyfNXn
- jmKg7RKe7d8+pqaXDNJdzX4xHFnKnspCHPk0aSWc+lR9fY+H/ZqYCVRzqwhq7A9kfCVb
- G2U7StAj2TeKEdxyX5GeLtbKUHSCYiIFiPkqDs1la0GVXVEo3aZgnqBekx96xSLtciZ0
- uQ07BzQfkabAwOcoEOpqfoXCSy3kL8OcKLQq3zFFht6Zqp0N2sH/Dnh777fHP76soSOK
- 5ZAw==
+ bh=1IBh7BmFA3CV/eBymFPzjIoyO79Q6Nh9L0Cnfld66wk=;
+ b=hEEmezNmRNc4SabkGrLc3aC2XOGB755fy8FB9onIi6Ygbq/sdL7sUh2WUbe377bsI4
+ xY31FWXFSo7qjRuUUMma0mLdKutBz1FtSDwyRGon2DQr0OYmwA6SD8Whz8AWGaAwX7IS
+ a1V1PtqcccsBV6HBVXQD29gVoPchIemTQdAvjC9zPpmL4dbs6gttDHfj6xDVOfWWoRij
+ b5FeZQbI5MvWbEnvLfDzmG7CNFPvcMqvGMDSj7eLPyi7syJLPjUcdwkCLdZqrzO/m0TX
+ e2dlMX3difmLVtTcQrfrhYrKQq7luOaayIQeZajIOUFafoxCrsRmSa10+jvO0gysG935
+ opxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+Cpa5inuuTWifznucnO5vMZhLNHoyBC89qAOzG5VMfI=;
- b=gRfjrXpbgoN6UjgjY697Q2HDEnwj+fPt6CMcf6IMz40a+dGlUIBk2TCxo88KDAojMS
- IXVWXpNVoU6g/EaBWpgaJnNiwpfblAVzpE2tI82V0I++W0hmNjgaLN5LQkqRa4QOKopY
- uR8X2zjSRruVBQm2uiXEIJWK1o9jYZPzFahmeS+hQAfOJrQPCAwagHnmNxhtny5Kixai
- F9oUzsraL3i0qa5Y1Y3sqslYMQqxKP/GpyjkwyFRhmQMJM3FwY079ib+x9iBbVlbIWoG
- FyUFg2qyGnbqoASKCzLLDrOKkrzMEVnPdQ4CIwipya3rUJYlul1hfANyVUOmOgXM88Zp
- Qv0Q==
-X-Gm-Message-State: ANoB5pm4l1S2G3y9QQiY27j8eJHMgFnv9rw2w4ttHS6cxzcg5CbvFEaB
- t+ZnTy5y2zXYv7A2PqizEc5AIA==
-X-Google-Smtp-Source: AA0mqf7VRdduedRSTaCFfaqEkZB4Dtmk38mKdARBhvArMVs1YB99i+I5kV1rSijYCkvdXw3uaLxCKw==
-X-Received: by 2002:a17:902:e884:b0:18f:ac9f:29f6 with SMTP id
- w4-20020a170902e88400b0018fac9f29f6mr31233106plg.50.1671237806232; 
- Fri, 16 Dec 2022 16:43:26 -0800 (PST)
+ bh=1IBh7BmFA3CV/eBymFPzjIoyO79Q6Nh9L0Cnfld66wk=;
+ b=nzQKqdyxZ3jw5+RqXjVwDmM9MvBVPWcSRtdEG3tQaAfYDdG0zZbZTXyoLif0QjVUWg
+ q+YZqDLqd7bmkxJsGjUyGqjWqbdQl5bkxgvDK10SCAod//J8ZZ5j8p3tsgN8Dv4BAOzn
+ XJgyniCAGw4QEI992aCO5udUBwfO55SYQ9bX4GvFPnsK2hKcvfqOD/3siH1cP0Ljh4k1
+ z7v38q8Y6lDebzPKzRO3HyjgkY80d7vdDvmwIA7CqLwGQJqUcicU9Ln2Y+r3IaAv1vDR
+ juMBhurc51+VxAc4dA5W9y8CQDPScXkCqzOMhbu6kfoyALpOwW6c+5yrca3MXHw4ymro
+ JUfA==
+X-Gm-Message-State: AFqh2krqFpeJI99IdFDmDOW/gjKKJzatgpSJkI3/RAWZtyi181NHB9Br
+ rcD6GY0TcKCPT11TSFs1SoLFhQ==
+X-Google-Smtp-Source: AMrXdXtp7MvoAK1P3tcv7e/AIT2F7b3z59tLRcG0mIF8VoYZ+GKln7iXgUakIW0sxkmMSiiXSNhXGA==
+X-Received: by 2002:a62:e303:0:b0:57e:827a:52af with SMTP id
+ g3-20020a62e303000000b0057e827a52afmr6724056pfh.16.1671237921318; 
+ Fri, 16 Dec 2022 16:45:21 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
  ([2602:47:d48c:8101:c606:9489:98df:6a3b])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a170902710700b00177f25f8ab3sm2207512pll.89.2022.12.16.16.43.25
+ i22-20020aa796f6000000b0057630286100sm1800810pfq.164.2022.12.16.16.45.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 16:43:25 -0800 (PST)
-Message-ID: <c55e054c-a2f0-7098-8dda-fb5cacee00ba@linaro.org>
-Date: Fri, 16 Dec 2022 16:43:24 -0800
+ Fri, 16 Dec 2022 16:45:20 -0800 (PST)
+Message-ID: <e20a4f2e-2e97-87b8-495f-cc3ca95cfe0d@linaro.org>
+Date: Fri, 16 Dec 2022 16:45:19 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 4/5] target/s390x/tcg/misc_helper: Remove unused
- "memory.h" include
+Subject: Re: [PATCH 5/5] target/s390x/tcg/excp_helper: Restrict system headers
+ to sysemu
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -72,13 +72,13 @@ Cc: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
  qemu-s390x@nongnu.org, Peter Xu <peterx@redhat.com>,
  Matthew Rosato <mjrosato@linux.ibm.com>
 References: <20221216220411.6779-1-philmd@linaro.org>
- <20221216220411.6779-5-philmd@linaro.org>
+ <20221216220411.6779-6-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216220411.6779-5-philmd@linaro.org>
+In-Reply-To: <20221216220411.6779-6-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,12 +102,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/16/22 14:04, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   target/s390x/tcg/misc_helper.c | 1 -
->   1 file changed, 1 deletion(-)
+>   target/s390x/tcg/excp_helper.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
+> index fe02d82201..e9eb7c455e 100644
+> --- a/target/s390x/tcg/excp_helper.c
+> +++ b/target/s390x/tcg/excp_helper.c
+> @@ -21,15 +21,15 @@
+>   #include "qemu/osdep.h"
+>   #include "qemu/log.h"
+>   #include "cpu.h"
+> -#include "s390x-internal.h"
+>   #include "exec/helper-proto.h"
+> -#include "qemu/timer.h"
+>   #include "exec/exec-all.h"
+> -#include "exec/cpu_ldst.h"
+> -#include "hw/s390x/ioinst.h"
+> -#include "exec/address-spaces.h"
+> +#include "s390x-internal.h"
+>   #include "tcg_s390x.h"
+>   #ifndef CONFIG_USER_ONLY
+> +#include "qemu/timer.h"
+> +#include "exec/cpu_ldst.h"
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+cpu_ldst.h is not a system header.  The others look plausible.
+
 
 r~
+
+> +#include "exec/address-spaces.h"
+> +#include "hw/s390x/ioinst.h"
+>   #include "hw/s390x/s390_flic.h"
+>   #include "hw/boards.h"
+>   #endif
+
 
