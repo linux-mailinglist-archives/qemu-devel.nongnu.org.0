@@ -2,66 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C290464F9D7
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 16:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CDA64FBA2
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 19:48:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Z5F-0004Za-Pn; Sat, 17 Dec 2022 10:26:41 -0500
+	id 1p6cDG-00063o-Nm; Sat, 17 Dec 2022 13:47:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <julien@xen.org>)
- id 1p6Z5D-0004Uw-0Z; Sat, 17 Dec 2022 10:26:39 -0500
-Received: from mail.xenproject.org ([104.130.215.37])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1p6cCr-00063f-WF
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 13:46:46 -0500
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <julien@xen.org>)
- id 1p6Z5A-0005fs-Sh; Sat, 17 Dec 2022 10:26:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
- s=20200302mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:
- From:References:Cc:To:MIME-Version:Date:Message-ID;
- bh=pmPoEEycSInrIphKy1irRiK7vbaRkCFjmE5wIu5XwFM=; b=j4O7wqMWqAt2Ch36xr/Y2tGP25
- gxU9rGKFvWYpkc5GEXJjnPlXqx6ikVlMOUxHktUcy3oDataYPfKB44iCqkKxq/W9L6VGBdIflg8fe
- jMmaXgV7nWcGu3CmHmyY4bjWo/1YOBaOYrcYh4vHDjxFBjOjMksigJXMg3G8ATdFc+10=;
-Received: from xenbits.xenproject.org ([104.239.192.120])
- by mail.xenproject.org with esmtp (Exim 4.92)
- (envelope-from <julien@xen.org>)
- id 1p6Z53-0008Qd-AF; Sat, 17 Dec 2022 15:26:29 +0000
-Received: from gw1.octic.net ([88.97.20.152] helo=[10.0.1.102])
- by xenbits.xenproject.org with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <julien@xen.org>)
- id 1p6Z53-0000vI-42; Sat, 17 Dec 2022 15:26:29 +0000
-Message-ID: <d87025d8-b653-d80e-22c0-05f052447706@xen.org>
-Date: Sat, 17 Dec 2022 15:26:26 +0000
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1p6cCp-0007j9-JX
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 13:46:45 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id EBF82401E8;
+ Sat, 17 Dec 2022 21:46:28 +0300 (MSK)
+Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with SMTP id 45E91447;
+ Sat, 17 Dec 2022 21:46:27 +0300 (MSK)
+Received: (nullmailer pid 3097683 invoked by uid 1000);
+ Sat, 17 Dec 2022 18:46:26 -0000
+From: Michael Tokarev <mjt@tls.msk.ru>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH v2] linux-user: fix getgroups/setgroups allocations
+Date: Sat, 17 Dec 2022 12:31:27 +0300
+Message-Id: <20221217093127.3085329-1-mjt@msgid.tls.msk.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-To: Stefano Stabellini <sstabellini@kernel.org>,
- Vikram Garhwal <vikram.garhwal@amd.com>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-dev@xilinx.com, stefano.stabellini@amd.com,
- xen-devel@lists.xenproject.org, Peter Maydell <peter.maydell@linaro.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20221202030003.11441-1-vikram.garhwal@amd.com>
- <20221202030003.11441-11-vikram.garhwal@amd.com> <871qphc0p3.fsf@linaro.org>
- <ade61d47-f8c0-09cc-1a44-faaaff87d76a@amd.com>
- <alpine.DEB.2.22.394.2212021429220.4039@ubuntu-linux-20-04-desktop>
-From: Julien Grall <julien@xen.org>
-Subject: Re: [QEMU][PATCH v2 10/11] hw/arm: introduce xenpv machine
-In-Reply-To: <alpine.DEB.2.22.394.2212021429220.4039@ubuntu-linux-20-04-desktop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=104.130.215.37; envelope-from=julien@xen.org;
- helo=mail.xenproject.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,58 +56,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+linux-user getgroups(), setgroups(), getgroups32() and setgroups32()
+used alloca() to allocate grouplist arrays, with unchecked gidsetsize
+coming from the "guest".  With NGROUPS_MAX being 65536 (linux, and it
+is common for an application to allocate NGROUPS_MAX for getgroups()),
+this means a typical allocation is half the megabyte on the stack.
+Which just overflows stack, which leads to immediate SIGSEGV in actual
+system getgroups() implementation.
 
-On 02/12/2022 22:36, Stefano Stabellini wrote:
->> Do you know what Xen version your build env has?
-> 
-> I think Alex is just building against upstream Xen. GUEST_TPM_BASE is
-> not defined there yet. I think we would need to introduce in
-> xen_common.h something like:
-> 
-> #ifndef GUEST_TPM_BASE
-> #define GUEST_TPM_BASE 0x0c000000
-> #endif
+An example of such issue is aptitude, eg
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=811087#72
 
-I think this would be a big mistake to add the two lines above in QEMU.
+Cap gidsetsize to NGROUPS_MAX (return EINVAL if it is larger than that),
+and use heap allocation for grouplist instead of alloca().  While at it,
+fix coding style and make all 4 implementations identical.
 
-Libxl is responsible for creating the domain and generating the firwmare 
-tables. Any mismatch of values will be a real pain to debug.
+Try to not impose random limits - for example, allow gidsetsize to be
+negative for getgroups() - just do not allocate negative-sized grouplist
+in this case but still do actual getgroups() call.  But do not allow
+negative gidsetsize for setgroups() since its argument is unsigned.
 
-Even if...
+Capping by NGROUPS_MAX seems a bit arbitrary, - we can do more, it is
+not an error if set size will be NGROUPS_MAX+1. But we should not allow
+integer overflow for the array being allocated. Maybe it is enough to
+just call g_try_new() and return ENOMEM if it fails.
 
-> 
-> We already have similar code in xen_common.h for other things.  Also, it
-> would be best to get GUEST_TPM_BASE defined upstream in Xen first.
+Maybe there's also no need to convert setgroups() since this one is
+usually smaller and known beforehand (KERN_NGROUPS_MAX is actually 63, -
+this is apparently a kernel-imposed limit for runtime group set).
 
-... we introduce upstream first, the guest layout is not part of the 
-stable ABI and therefore could change from release to release.
+The patch fixes aptitude segfault mentioned above.
 
-> 
-> 
->> Another way to fix this(as Julien suggested) is by setting this GUEST_TPM_BASE
->> value via a property or something and user can set it via command line.
->>
->> @sstabellini@kernel.org, do you think of any other fix?
-> 
-> Setting the TPM address from the command line is nice and preferable to
-> hardcoding the value in xen_common.h. It comes with the challenge that
-> it is not very scalable (imagine we have a dozen emulated devices) but
-> for now it is fine and a good way to start if you can arrange it.
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+---
+v2:
+ - remove g_free, use g_autofree annotations instead,
+ - a bit more coding style changes, makes checkpatch.pl happy
 
-It is not clear which one you think is not scalable. If this is the 
-command line option approach, then I think this is unrealistic to ask 
-every user to rebuild there QEMU just because the guest layout has changed.
+ linux-user/syscall.c | 99 ++++++++++++++++++++++++++++++--------------
+ 1 file changed, 68 insertions(+), 31 deletions(-)
 
-Today the rebuild may only be necessary when switching to a new release. 
-But in the future we may imagine a per-domain layout (e.g. for legacy 
-purpose). So you will now need to request the user to have one QEMU 
-built per domain.
-
-How is that scalable?
-
-Cheers,
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 24b25759be..8a2f49d18f 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11433,39 +11433,58 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             target_id *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+ 
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
++            if (gidsetsize > NGROUPS_MAX) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++            }
+             ret = get_errno(getgroups(gidsetsize, grouplist));
+-            if (gidsetsize == 0)
+-                return ret;
+-            if (!is_error(ret)) {
+-                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * sizeof(target_id), 0);
+-                if (!target_grouplist)
++            if (!is_error(ret) && ret > 0) {
++                target_grouplist = lock_user(VERIFY_WRITE, arg2,
++                                             gidsetsize * sizeof(target_id), 0);
++                if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+-                for(i = 0;i < ret; i++)
++                }
++                for (i = 0; i < ret; i++) {
+                     target_grouplist[i] = tswapid(high2lowgid(grouplist[i]));
+-                unlock_user(target_grouplist, arg2, gidsetsize * sizeof(target_id));
++                }
++                unlock_user(target_grouplist, arg2,
++                            gidsetsize * sizeof(target_id));
+             }
++            return ret;
+         }
+-        return ret;
+     case TARGET_NR_setgroups:
+         {
+             int gidsetsize = arg1;
+             target_id *target_grouplist;
+-            gid_t *grouplist = NULL;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+-            if (gidsetsize) {
+-                grouplist = alloca(gidsetsize * sizeof(gid_t));
+-                target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * sizeof(target_id), 1);
++
++            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++                target_grouplist = lock_user(VERIFY_READ, arg2,
++                                             gidsetsize * sizeof(target_id), 1);
+                 if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+                 }
+                 for (i = 0; i < gidsetsize; i++) {
+                     grouplist[i] = low2highgid(tswapid(target_grouplist[i]));
+                 }
+-                unlock_user(target_grouplist, arg2, 0);
++                unlock_user(target_grouplist, arg2,
++                            gidsetsize * sizeof(target_id));
+             }
+             return get_errno(setgroups(gidsetsize, grouplist));
+         }
+@@ -11750,41 +11769,59 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             uint32_t *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+ 
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
++            if (gidsetsize > NGROUPS_MAX) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++            }
+             ret = get_errno(getgroups(gidsetsize, grouplist));
+-            if (gidsetsize == 0)
+-                return ret;
+-            if (!is_error(ret)) {
+-                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * 4, 0);
++            if (!is_error(ret) && ret > 0) {
++                target_grouplist = lock_user(VERIFY_WRITE, arg2,
++                                             gidsetsize * 4, 0);
+                 if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+                 }
+-                for(i = 0;i < ret; i++)
++                for (i = 0; i < ret; i++) {
+                     target_grouplist[i] = tswap32(grouplist[i]);
++                }
+                 unlock_user(target_grouplist, arg2, gidsetsize * 4);
+             }
++            return ret;
+         }
+-        return ret;
+ #endif
+ #ifdef TARGET_NR_setgroups32
+     case TARGET_NR_setgroups32:
+         {
+             int gidsetsize = arg1;
+             uint32_t *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+ 
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
+-            target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * 4, 1);
+-            if (!target_grouplist) {
+-                return -TARGET_EFAULT;
++            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++                target_grouplist = lock_user(VERIFY_READ, arg2,
++                                             gidsetsize * 4, 1);
++                if (!target_grouplist) {
++                    return -TARGET_EFAULT;
++                }
++                for (i = 0; i < gidsetsize; i++) {
++                    grouplist[i] = tswap32(target_grouplist[i]);
++                }
++                unlock_user(target_grouplist, arg2, 0);
+             }
+-            for(i = 0;i < gidsetsize; i++)
+-                grouplist[i] = tswap32(target_grouplist[i]);
+-            unlock_user(target_grouplist, arg2, 0);
+             return get_errno(setgroups(gidsetsize, grouplist));
+         }
+ #endif
 -- 
-Julien Grall
+2.30.2
+
 
