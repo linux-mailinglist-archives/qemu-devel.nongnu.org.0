@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43DF64F8DB
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 12:43:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE23164F8DF
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 12:52:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6VaO-0001Ii-RC; Sat, 17 Dec 2022 06:42:36 -0500
+	id 1p6VjB-0002wb-GU; Sat, 17 Dec 2022 06:51:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6VaN-0001HO-9Q
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 06:42:35 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Vj9-0002wH-FB
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 06:51:39 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6VaL-0007zn-L4
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 06:42:35 -0500
-Received: by mail-ej1-x636.google.com with SMTP id kw15so11705883ejc.10
- for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 03:42:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Vj7-0000ro-MC
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 06:51:39 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id kw15so11734275ejc.10
+ for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 03:51:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=uKOgWHR5QGXNdTnp0xQqC0IIXk3h2Uc0jhZnNlRvvNM=;
- b=RPG799XfNk9pePJbHMdtKGSAtqR4YqJI/pnpVaL3BFXRfUU8TYQGP7pHMjCqRRt5wV
- T3D2gT/AcpVKk/xMej1SwpVB24Ga5DWvlLWCeBz9tqTN6XNWIo0/Lgjbut1mBz5i8E8u
- tksu4E6E8pAP3QGF7voj58/1HSF2U8DjQnxcaWR5klt7sF98/6muXZizzDJaLClGYTn1
- QJdPARhzJghyewN7mrl1WW20za2cMglnmKiQRYjmaaw59JFCVXIgr6TSv79uc2Tvni4Y
- u3JXagkcwwZgQ5H78eF6mvPWxARxpy4mo6GmtybWkD7mzgZqxJ8weWEbAeHNvScBP9zH
- tgug==
+ bh=HCmqKtZZ9aPGMM32v0k3MYScD00Lk+6ASnqtjFAnQ4k=;
+ b=jUSc4CnXYCRwUbUDTdhUIsje5OT6g9TQ/fqGnfD7ozSQVjg27UStzut8spJ3FZKcb9
+ JM2dlUDO1yHOcW8yjU/VR2RdSb/4KYtOnGX1SrJebD0APeB4taMWCssAh7JVk+T/iRAx
+ 1dnuo+zLll/mcDL7lT7EzpfHLpbfLpvSoIAWLH/DywzQhsp8LLgDMxWeiOcKgEj1g/ZO
+ uEm2EcqUaFbAIadrv8rRdTJ+Lq5iRKYrK0BwOUU0s0+guHLgF0QgVAl1iZW4g13MjgGg
+ Xp71RSJNA3QxndzjGnAZ1xpf+tmDO78YHgrpTOCTrDP5C448oy3eyrDgEk395s1xn2fG
+ PHvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uKOgWHR5QGXNdTnp0xQqC0IIXk3h2Uc0jhZnNlRvvNM=;
- b=pd6uCKCtRxdgqemWRRMdKomwwG3+QW//tBuLNwCwKnWBsvAxReuMKiBY6faS7UYjKs
- Mct958tHUguqQAAxd+WvSW5XdCJxaNnnPvE0+0o2Y95siilyoG0wHyqI3VPU6SdAMcnb
- n4pFywzP4FAgMMpCJxFN53FHLB9m66typHul5RRIRGPxGVftqvxawDVpAvlq3zE/CJ7o
- O84stqHvgACTojb1cGSpvfOSwPyRoVjsljmeL80l3dodm6CBfh2PHZZ8XqaW/o4EBlBy
- K4LH8iDpgGSEDAaws1Txk3Yd1Zt5jJxRpiaGFA4ZtzCSNPq+ap6Sjfhrw4E/0sKEtabk
- HUaA==
-X-Gm-Message-State: AFqh2koG2RDtuTYa4UCGHH14c+JoKd5vPOjE88TXrOeBYppT6RHY4Lmn
- xjlnHdl5pWNRyyZ40ndsNiUiraukf8LKyLSBvBs=
-X-Google-Smtp-Source: AMrXdXtckKDxU8HRPw2AWsXjG3OJxdBQKpjUGuBDDwIDOuuPBI3BtG8in/AfPo/L+P+solK6jaziPg==
-X-Received: by 2002:a17:906:8d86:b0:7cd:ffd:51f2 with SMTP id
- ry6-20020a1709068d8600b007cd0ffd51f2mr13068781ejc.57.1671277351079; 
- Sat, 17 Dec 2022 03:42:31 -0800 (PST)
+ bh=HCmqKtZZ9aPGMM32v0k3MYScD00Lk+6ASnqtjFAnQ4k=;
+ b=Vl2WRZI4PT2yGAWUedenjTnjoxBWPz9PlosWkct9k/4Ip+dKY0JJNzag2kUJlvqf8T
+ +o1braDp3pqWEVRc77atfKkAsogedei8fyVkclyO2S06bLyxdh0BcyP3sx6TB9kgIINm
+ 69dX3BzB+n1ufB1P4DB8EuO0iCyODv7AX0UeAgv9Wk5o7BpE2rRuJ9TOJtd+B7co1Cex
+ G42+nYZeN/2ZxVbKKe5zRLOeqyaM7FHDSm7LG8pwxRt/pq0v85Czq1ADRc5Kt+XkifyW
+ GFT0kfv/zp1tUhCOZbndqR71WRizt3q/G4d3ZNLZR9XHqW6KuF9DVqPvkFnLyVIAttcL
+ pcbg==
+X-Gm-Message-State: ANoB5plcNxmLqeD+53/HZ2Ze5k6y0sIxo94J3g9NKNUgV3i3Vs7q40qx
+ /b1g0LHZudY2gweKETiiYp87UQ==
+X-Google-Smtp-Source: AA0mqf6EJr7J7YszPGaKyurXEyclqp+4GRQkyU5BsZiHe3wf6GvIexhP74RMdn1D91n4RL3xo3f+tg==
+X-Received: by 2002:a17:906:3b5b:b0:7c1:528:bc02 with SMTP id
+ h27-20020a1709063b5b00b007c10528bc02mr28372279ejf.41.1671277896054; 
+ Sat, 17 Dec 2022 03:51:36 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- ox16-20020a170907101000b007c16f120aacsm1896418ejb.121.2022.12.17.03.42.29
+ l25-20020a170906415900b007b27aefc578sm1882699ejk.126.2022.12.17.03.51.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Dec 2022 03:42:30 -0800 (PST)
-Message-ID: <69a006df-5673-9976-95dc-5ba54cae5e17@linaro.org>
-Date: Sat, 17 Dec 2022 12:42:28 +0100
+ Sat, 17 Dec 2022 03:51:35 -0800 (PST)
+Message-ID: <5cc7ac52-29a8-8d7a-1d66-0a8015f4065e@linaro.org>
+Date: Sat, 17 Dec 2022 12:51:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 3/5] hw/s390x/pv: Simplify s390_is_pv() for user emulation
+Subject: Re: [PATCH 5/5] target/s390x/tcg/excp_helper: Restrict system headers
+ to sysemu
 Content-Language: en-US
-To: qemu-devel@nongnu.org
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
  Eric Farman <farman@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Peter Xu <peterx@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
+ qemu-s390x@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>
 References: <20221216220411.6779-1-philmd@linaro.org>
- <20221216220411.6779-4-philmd@linaro.org>
+ <20221216220411.6779-6-philmd@linaro.org>
+ <e20a4f2e-2e97-87b8-495f-cc3ca95cfe0d@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221216220411.6779-4-philmd@linaro.org>
+In-Reply-To: <e20a4f2e-2e97-87b8-495f-cc3ca95cfe0d@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,46 +98,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/12/22 23:04, Philippe Mathieu-Daudé wrote:
-> Protected Virtualization is irrelevant in user emulation.
+On 17/12/22 01:45, Richard Henderson wrote:
+> On 12/16/22 14:04, Philippe Mathieu-Daudé wrote:
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   target/s390x/tcg/excp_helper.c | 10 +++++-----
+>>   1 file changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/target/s390x/tcg/excp_helper.c 
+>> b/target/s390x/tcg/excp_helper.c
+>> index fe02d82201..e9eb7c455e 100644
+>> --- a/target/s390x/tcg/excp_helper.c
+>> +++ b/target/s390x/tcg/excp_helper.c
+>> @@ -21,15 +21,15 @@
+>>   #include "qemu/osdep.h"
+>>   #include "qemu/log.h"
+>>   #include "cpu.h"
+>> -#include "s390x-internal.h"
+>>   #include "exec/helper-proto.h"
+>> -#include "qemu/timer.h"
+>>   #include "exec/exec-all.h"
+>> -#include "exec/cpu_ldst.h"
+>> -#include "hw/s390x/ioinst.h"
+>> -#include "exec/address-spaces.h"
+>> +#include "s390x-internal.h"
+>>   #include "tcg_s390x.h"
+>>   #ifndef CONFIG_USER_ONLY
+>> +#include "qemu/timer.h"
+>> +#include "exec/cpu_ldst.h"
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   include/hw/s390x/pv.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-> index 5bca5bcaf1..a4814ce303 100644
-> --- a/include/hw/s390x/pv.h
-> +++ b/include/hw/s390x/pv.h
-> @@ -12,6 +12,12 @@
->   #ifndef HW_S390_PV_H
->   #define HW_S390_PV_H
->   
-> +#ifdef CONFIG_USER_ONLY
-> +
-> +static inline bool s390_is_pv(void) { return false; }
+> cpu_ldst.h is not a system header.  The others look plausible.
 
-This change is because I'm trying to get ride of:
+Oops, correct.
 
-../target/s390x/cpu_features.c: In function ‘s390_fill_feat_block’:
-../target/s390x/cpu_features.c:112:10: error: implicit declaration of 
-function ‘s390_is_pv’ [-Werror=implicit-function-declaration]
-   112 |     if (!s390_is_pv()) {
-       |          ^~~~~~~~~~
-../target/s390x/cpu_features.c:112:10: error: nested extern declaration 
-of ‘s390_is_pv’ [-Werror=nested-externs]
-
-../target/s390x/cpu_models.c: In function ‘s390_has_feat’:
-../target/s390x/cpu_models.c:239:9: error: implicit declaration of 
-function ‘s390_is_pv’ [-Werror=implicit-function-declaration]
-   239 |     if (s390_is_pv()) {
-       |         ^~~~~~~~~~
-../target/s390x/cpu_models.c:239:9: error: nested extern declaration of 
-‘s390_is_pv’ [-Werror=nested-externs]
-
-without including <sysemu/kvm.h> in common code. Common code shouldn't
-include hw/ header...
-
-I'll respin guarding more code against CONFIG_USER_ONLY.
 
