@@ -2,58 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E8164F862
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 10:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E59C64F869
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 10:11:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6TAm-0005tw-AO; Sat, 17 Dec 2022 04:08:00 -0500
+	id 1p6TDa-0001Kp-Hy; Sat, 17 Dec 2022 04:10:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6TAk-0005tN-4k
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:58 -0500
+ id 1p6TDZ-0001Iy-2v
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:10:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6TAi-0006da-Dj
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:57 -0500
+ id 1p6TDX-0007Ad-Ig
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:10:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671268075;
+ s=mimecast20190719; t=1671268251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1P1WaPdaI+wOBf7jCKrpFrJzk5Zbg2GZ0rmy2K16LLg=;
- b=gm6WgQn6tuER/N7KMlZTYZr521844CGzd7h4d1MCjxqR0LhcWs2DIUZJeM5p4xdmngpG7R
- vE1QpAEqdi7M3ACH4bDgA15m51OZh2OPbS1cbpKOdDt9Q32NmkJrQ0VbagEaZkgYlwo0u4
- CX4P/PK+njPik7rLX7h9aFfk5tA+P/s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-458-H3VId2ovPqeE6Zgn55r1sg-1; Sat, 17 Dec 2022 04:07:53 -0500
-X-MC-Unique: H3VId2ovPqeE6Zgn55r1sg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E83685A588;
- Sat, 17 Dec 2022 09:07:53 +0000 (UTC)
-Received: from kostyanf14nb.lan (ovpn-192-10.brq.redhat.com [10.40.192.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 391EA40C6EC4;
- Sat, 17 Dec 2022 09:07:52 +0000 (UTC)
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL v2 6/6] qga-win: choose the right libpcre version to include in
- MSI package
-Date: Sat, 17 Dec 2022 11:07:40 +0200
-Message-Id: <20221217090740.522093-7-kkostiuk@redhat.com>
-In-Reply-To: <20221217090740.522093-1-kkostiuk@redhat.com>
-References: <20221217090740.522093-1-kkostiuk@redhat.com>
+ bh=aJkcJBIFn93pBruIEJtoayNcArHYHZTX34v73SqM1JE=;
+ b=a55hWRYezwLdT9AzqpT/9Q6bVIoAeKOcbHWBilo4qNV2IRHjUdrc9k8NlYVyfho5iH0He/
+ gxn/k/Z0DGsBiUTuMRsPMDHfSUAnHASl1nNEFSLwRBkUSVKq2V1Ayz2L4vCi6VxEAhhwB2
+ JX/yF1eI0Yh8gFAMdumKqUdq6MF0eiw=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-672-mHkUGfhgP22vZwiV9rH3mw-1; Sat, 17 Dec 2022 04:10:46 -0500
+X-MC-Unique: mHkUGfhgP22vZwiV9rH3mw-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ 190-20020a6707c7000000b003b134bce1dbso1250765vsh.21
+ for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 01:10:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=aJkcJBIFn93pBruIEJtoayNcArHYHZTX34v73SqM1JE=;
+ b=cmmgabUMJKpa4w5z5s8nTY1UTOCkb0bAaUDVHjikZa8qO/AdoHFQPoXeUiZ8FbSoiz
+ n5eam9996BL4H6V6F7m1evBKeWRATJKF6yVp3pyT414DAhsulk3T/hi+UE+uq+uMo0AX
+ zTULZlh1XVdYJSHNVFH794VoZVZFt9idTIr1UZnd3g5QvZFQA/6MRPN96I8zcQYPHAID
+ sLisuoRyufPcAmkl7EhCqxLJzg4MpFrsoQYXi7oIOVQ0y9XXQLeKv/D1q2428aAaR/lq
+ V/Eoov1Avd1H4vu6K0OKfXLfMrVCLECGyhWZKpF7IHQrVTaaMojYUw0xH2qC+hHXvd9m
+ 0Viw==
+X-Gm-Message-State: ANoB5pkdIJr5eCtqKStFlHzEVQRASKKcSHaUR6c5WxKa3Dlji+kzb2UL
+ 0e50ng6NXuBQEOOopP+PMXf+MWmnmqTehwJ0fa/Tfz6yVSapZ+vaU1M4stP/hJf1ZYihG9JUv0w
+ J/SEwfT+W7YDGywhoNx7FQr2/eZNGFYw=
+X-Received: by 2002:a67:fb14:0:b0:3b3:6e28:a58c with SMTP id
+ d20-20020a67fb14000000b003b36e28a58cmr3230409vsr.87.1671268245947; 
+ Sat, 17 Dec 2022 01:10:45 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4mnOepYuEQYzPUdGOqlfUJAK94D0Kter0pAo997AJBd0tLVpJSlfPJQ7sGa+V6pGasdmr3mb3OBvkDUfO4/L0=
+X-Received: by 2002:a67:fb14:0:b0:3b3:6e28:a58c with SMTP id
+ d20-20020a67fb14000000b003b36e28a58cmr3230406vsr.87.1671268245712; Sat, 17
+ Dec 2022 01:10:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+References: <20221216135439.465033-1-kkostiuk@redhat.com>
+ <CAFEAcA_=WichNB8qeJJdhrwrkHc_M9zm0+E0XfZ417aGiZ-cYw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_=WichNB8qeJJdhrwrkHc_M9zm0+E0XfZ417aGiZ-cYw@mail.gmail.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Sat, 17 Dec 2022 11:10:34 +0200
+Message-ID: <CAPMcbCoSufc8+9-DoWZFzUw3rGBNHJK1aZ7nQZdMan9Yrd-mig@mail.gmail.com>
+Subject: Re: [PULL 0/8] QEMU Guest Agent misc patches
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001c566505f0027657"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -61,8 +76,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,78 +93,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Andrey Drobyshev via <qemu-devel@nongnu.org>
+--0000000000001c566505f0027657
+Content-Type: text/plain; charset="UTF-8"
 
-According to GLib changelog [1], since version 2.73.2 GLib is using
-libpcre2 instead of libpcre.  As a result, qemu-ga MSI installation
-fails due to missing DLL when linked with the newer GLib.
+On Fri, Dec 16, 2022 at 11:47 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-This commit makes wixl to put the right libpcre version into the MSI
-bundle: either libpcre-1.dll or libpcre2-8-0.dll, depending on the
-present version of GLib.
+> On Fri, 16 Dec 2022 at 13:54, Konstantin Kostiuk <kkostiuk@redhat.com>
+> wrote:
+> >
+> > The following changes since commit
+> edc93f455fa823a9a5fcb3a8da430104c7375a0a:
+> >
+> >   Revert "hw/loongarch/virt: Add cfi01 pflash device" (2022-12-05
+> 11:24:35 -0500)
+> >
+> > are available in the Git repository at:
+> >
+> >   git@github.com:kostyanf14/qemu.git tags/qga-pull-2022-12-16
+> >
+> > for you to fetch changes up to 10d83e7d59af4464ba4382bcbf31ed162db87656:
+> >
+> >   qga: map GLib log levels to system levels (2022-12-16 14:24:36 +0200)
+> >
+> > ----------------------------------------------------------------
+> > qga-pull-2022-12-16
+>
+> Hi; I'm afraid this doesn't apply because Markus' qapi pullreq
+> has changed the implementation of qmp_guest_fstrim() to not use
+> the no-longer-existing 'has_*' fields in QAPI-generated structs;
+> can you rebase and resend, please?
+>
+>
+> resend without patches that don't apply
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/releases#2.73.2
+Best Regards,
+Konstantin Kostiuk.
 
-Previous version:
-https://lists.nongnu.org/archive/html/qemu-trivial/2022-11/msg00237.html
 
-Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Tested-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
----
- qga/installer/qemu-ga.wxs | 12 +++++++++---
- qga/meson.build           |  6 ++++++
- 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-index e344c38e74..51340f7ecc 100644
---- a/qga/installer/qemu-ga.wxs
-+++ b/qga/installer/qemu-ga.wxs
-@@ -101,9 +101,15 @@
-           <Component Id="libwinpthread" Guid="{6C117C78-0F47-4B07-8F34-6BEE11643829}">
-             <File Id="libwinpthread_1.dll" Name="libwinpthread-1.dll" Source="$(var.BIN_DIR)/libwinpthread-1.dll" KeyPath="yes" DiskId="1"/>
-           </Component>
--          <Component Id="libpcre" Guid="{7A86B45E-A009-489A-A849-CE3BACF03CD0}">
--            <File Id="libpcre_1.dll" Name="libpcre-1.dll" Source="$(var.BIN_DIR)/libpcre-1.dll" KeyPath="yes" DiskId="1"/>
--          </Component>
-+          <?if $(var.LIBPCRE) = "libpcre1"?>
-+            <Component Id="libpcre" Guid="{7A86B45E-A009-489A-A849-CE3BACF03CD0}">
-+              <File Id="libpcre_1.dll" Name="libpcre-1.dll" Source="$(var.BIN_DIR)/libpcre-1.dll" KeyPath="yes" DiskId="1"/>
-+            </Component>
-+          <?else?>
-+            <Component Id="libpcre" Guid="{F92A3804-B59C-419D-8F29-99A30352C156}">
-+              <File Id="libpcre2_8_0.dll" Name="libpcre2-8-0.dll" Source="$(var.BIN_DIR)/libpcre2-8-0.dll" KeyPath="yes" DiskId="1"/>
-+            </Component>
-+          <?endif?>
-           <Component Id="registry_entries" Guid="{D075D109-51CA-11E3-9F8B-000C29858960}">
-             <RegistryKey Root="HKLM"
-                          Key="Software\$(var.QEMU_GA_MANUFACTURER)\$(var.QEMU_GA_DISTRO)\Tools\QemuGA">
-diff --git a/qga/meson.build b/qga/meson.build
-index 1ff159edc1..ad17dc7dca 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -140,6 +140,11 @@ if targetos == 'windows'
-       qemu_ga_msi_vss = ['-D', 'InstallVss']
-       deps += qga_vss
-     endif
-+    if glib.version() < '2.73.2'
-+      libpcre = 'libpcre1'
-+    else
-+      libpcre = 'libpcre2'
-+    endif
-     qga_msi = custom_target('QGA MSI',
-                             input: files('installer/qemu-ga.wxs'),
-                             output: 'qemu-ga-@0@.msi'.format(host_arch),
-@@ -153,6 +158,7 @@ if targetos == 'windows'
-                               '-D', 'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
-                               '-D', 'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
-                               '-D', 'QEMU_GA_DISTRO=' + config_host['QEMU_GA_DISTRO'],
-+                              '-D', 'LIBPCRE=' + libpcre,
-                             ])
-     all_qga += [qga_msi]
-     alias_target('msi', qga_msi)
--- 
-2.25.1
+> thanks
+> -- PMM
+>
+>
+
+--0000000000001c566505f0027657
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 16, 2022 at 11:47 PM Pete=
+r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
+aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Fri, 16 Dec 2022 at 13:54, Konstantin Kostiuk &lt;<a href=3D"mail=
+to:kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt; wrote=
+:<br>
+&gt;<br>
+&gt; The following changes since commit edc93f455fa823a9a5fcb3a8da430104c73=
+75a0a:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0Revert &quot;hw/loongarch/virt: Add cfi01 pflash device&qu=
+ot; (2022-12-05 11:24:35 -0500)<br>
+&gt;<br>
+&gt; are available in the Git repository at:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0git@github.com:kostyanf14/qemu.git tags/qga-pull-2022-12-1=
+6<br>
+&gt;<br>
+&gt; for you to fetch changes up to 10d83e7d59af4464ba4382bcbf31ed162db8765=
+6:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0qga: map GLib log levels to system levels (2022-12-16 14:2=
+4:36 +0200)<br>
+&gt;<br>
+&gt; ----------------------------------------------------------------<br>
+&gt; qga-pull-2022-12-16<br>
+<br>
+Hi; I&#39;m afraid this doesn&#39;t apply because Markus&#39; qapi pullreq<=
+br>
+has changed the implementation of qmp_guest_fstrim() to not use<br>
+the no-longer-existing &#39;has_*&#39; fields in QAPI-generated structs;<br=
+>
+can you rebase and resend, please?<br>
+<br>
+<br></blockquote><div>resend without patches that don&#39;t apply </div><di=
+v><br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_signature"><div di=
+r=3D"ltr"><div>Best Regards,</div><div>Konstantin Kostiuk.</div></div></div=
+></div></div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
+thanks<br>
+-- PMM<br>
+<br>
+</blockquote></div></div>
+
+--0000000000001c566505f0027657--
 
 
