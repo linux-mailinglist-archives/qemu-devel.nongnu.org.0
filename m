@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C853664F8F8
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 13:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8686864F8FD
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 13:56:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6WW3-0005g4-Vk; Sat, 17 Dec 2022 07:42:12 -0500
+	id 1p6WiW-0000FB-6r; Sat, 17 Dec 2022 07:55:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p6WW1-0005fw-QD
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 07:42:09 -0500
+ id 1p6WiQ-0000F3-Pd
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 07:54:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p6WVz-00029D-QW
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 07:42:09 -0500
+ id 1p6WiO-0004Fe-R7
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 07:54:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671280926;
+ s=mimecast20190719; t=1671281695;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jqe7mOLEQqBgYaUUXZJRcwPh8zMJ+hA7bMnDbX7AOvQ=;
- b=cDCE6jpXIt8g8mJatH8Wm5wguanUuwuhOShTe/2b5JkpTRRmoTROFMhvQ/lkUYuPFziLgh
- VVShNAHDXc4/Rf+5fz9+I1EszwTIeeQKyJ2XA9Pkq0T+bBLDLQx5u67NOGWAtnLB4LdUjh
- vhSTSjVzMaXl2Ty//duDr61ONf1XqDU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kWiqGRrG5xUOfMyffLlTtEfNFM3t7gBm5n+S4s5okwE=;
+ b=WfULYuIgWXGQizMzHYkINtMQMeYUbP22Vec1rMRUzvBMEmv5i70+66pDOGKeeETpIBH6Hk
+ zKr+jYjVO4v2OgkYT1DI3eiPPZWgnSEU58wQT7MSrxmGUbqEo1oLMLpram8rRFS0tHOvEe
+ lmrPDpvb8Ay5CP+koFoHPs1yuY11ooU=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-264-bEstUFMYNeCUDFWGdhjZnw-1; Sat, 17 Dec 2022 07:42:04 -0500
-X-MC-Unique: bEstUFMYNeCUDFWGdhjZnw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- oz11-20020a1709077d8b00b007c0dd8018b6so550143ejc.17
- for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 04:42:04 -0800 (PST)
+ us-mta-22-9fIC7VZOOjWLne1AXjzTsw-1; Sat, 17 Dec 2022 07:54:54 -0500
+X-MC-Unique: 9fIC7VZOOjWLne1AXjzTsw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ f15-20020a056402354f00b00475a6378738so3028000edd.8
+ for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 04:54:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jqe7mOLEQqBgYaUUXZJRcwPh8zMJ+hA7bMnDbX7AOvQ=;
- b=7i7MRzU8HngJNIr7xgmGrBLxhIFWc6v7Sp2TofhK1xbcKM8Wr5xxNSbXm/P1OOv/GR
- mxCK7HmZl5hFU9MBM4ps0GIpaOJwZk4tk2wh+oMe1Q97UipzlmObDrYRTYbgA8pQm/S6
- tcHMRAnpqAIaEGLSNV38hBk3EviE6zyShuYQnUZILaXF2X88vDWbgvRESe+xdHXGukGC
- 9ln64nctxqEWW7GU2hK0BEvPXAF6RA72n1ZqK5xbPp/7njXkBTjjfYzI5e0YHKoBzZd/
- 0zeDHz0PZqQUm7q+nol2tqaJv92Ac2gSzsQzn4Es5+YqulGz2q2XF8ZwxHvvMjVM97iQ
- sWdw==
-X-Gm-Message-State: ANoB5pkwTJRhI8OQEuz8mM5NSoLx8wiTbtqNVgHwDwhU7oGrJJue4Z+P
- h5mNJEYPWuzXoKyy27OxfTHhSv80bkEc2t5qG9VyvCfkIH84sDSUEx+H4N5muXhXiZjyKi0Rtq4
- SKZ6xQ3ZtKfPlqeo=
-X-Received: by 2002:a17:906:264e:b0:7c1:d50:6dd3 with SMTP id
- i14-20020a170906264e00b007c10d506dd3mr29182319ejc.36.1671280923532; 
- Sat, 17 Dec 2022 04:42:03 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5iyDfAPjYnkytzzn3hT6/eW3aaOwxyv+6gN+pcvBHFDICJdthWsNIADFBCBOup18uF2hiInA==
-X-Received: by 2002:a17:906:264e:b0:7c1:d50:6dd3 with SMTP id
- i14-20020a170906264e00b007c10d506dd3mr29182300ejc.36.1671280923291; 
- Sat, 17 Dec 2022 04:42:03 -0800 (PST)
+ bh=kWiqGRrG5xUOfMyffLlTtEfNFM3t7gBm5n+S4s5okwE=;
+ b=zeOP1DY+iiDGM1OqHKZvtVh2EAzubjWN+yotIdzi7jG1NyaV5h6S8tlvWmcQaXdRCK
+ 7DLCsCEOzz0ocu/Z9iv8i0hYy8jWxSZbNPyyA27/J0f6c3AL4T5LBE0YXfTsJxgbTkk0
+ tEIfYtuwjfeu5E0tGgJ8ITqdJrT3wMKUNAMGrxk2+8Z2Ul/uUI4s4ZGAWsZDYIiudVF7
+ b0hdbNH35xAJu6B+uDhW1eGvKYcWT6BJUIORf+URiOIcAFZeCgJKtZp41OHp9W3IEGvj
+ tkHdirpoCRKICmK0Wo2fKk0rnFPy+BLSkX51OfBBnXsCRXBkB/kM+XaUCaCe6F5wFqQU
+ huiQ==
+X-Gm-Message-State: ANoB5pnaTkWAPH/GQfUzKHMvPtwideqzDA5UuER2XrtqgobAHOKKw9e7
+ LpnTcIQeJ12HNvFo/auYKGFrS8iOBswbkFWLhEFzJHfO2PZYdjZdbPeG2aD988KtwqGtZhqu61w
+ +7SJoGSowNOdWGaE=
+X-Received: by 2002:a17:907:b60f:b0:7c1:6e53:dd02 with SMTP id
+ vl15-20020a170907b60f00b007c16e53dd02mr24021688ejc.64.1671281693195; 
+ Sat, 17 Dec 2022 04:54:53 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf72htTO5NyIbvNLjAbnhS9fEjKs0oZWfA1r5f+qx44ffUeVbndE1wWcqmG7IotumXWOlsS0eQ==
+X-Received: by 2002:a17:907:b60f:b0:7c1:6e53:dd02 with SMTP id
+ vl15-20020a170907b60f00b007c16e53dd02mr24021679ejc.64.1671281693013; 
+ Sat, 17 Dec 2022 04:54:53 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:e3ec:5559:7c5c:1928?
  ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.googlemail.com with ESMTPSA id
- mh11-20020a170906eb8b00b007ad69e9d34dsm1959454ejb.54.2022.12.17.04.42.01
+ a22-20020a170906671600b007806c1474e1sm1937356ejp.127.2022.12.17.04.54.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Dec 2022 04:42:02 -0800 (PST)
-Message-ID: <49afb7cb-c3e0-2966-65aa-2ead9c2e7d9d@redhat.com>
-Date: Sat, 17 Dec 2022 13:42:01 +0100
+ Sat, 17 Dec 2022 04:54:52 -0800 (PST)
+Message-ID: <3987ba90-3d8e-f232-ba72-f79bef4a39c7@redhat.com>
+Date: Sat, 17 Dec 2022 13:54:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH 4/4] coroutine: Break inclusion loop
+Subject: Re: [PATCH for-8.0 00/30] Meson changes for QEMU 8.0
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <20221208142306.2642640-1-armbru@redhat.com>
- <20221208142306.2642640-5-armbru@redhat.com>
- <2ac0daae-da25-0a31-9a73-8f186cc510e9@redhat.com>
- <CABgObfZ4_8MzP4HP1JNjKb=C0qTXY3zHK=zK+=pYBt3hSYjiGQ@mail.gmail.com>
- <878rj9cgap.fsf@pond.sub.org>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20221209112409.184703-1-pbonzini@redhat.com>
+ <Y5yQXFxgf+12G153@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <878rj9cgap.fsf@pond.sub.org>
+In-Reply-To: <Y5yQXFxgf+12G153@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
@@ -107,94 +103,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/15/22 07:49, Markus Armbruster wrote:
->> linux-user/ does not use coroutines, so I'd like to avoid that it
->> includes qemu/coroutine.h.
+On 12/16/22 16:35, Daniel P. Berrangé wrote:
+> So after applying this series, at least on Fedora, I barely needed
+> configure at all, in so muc as the following successfully built AFAICT:
 > 
-> They include it even before the patch, via lockable.h.
+> $ mkdir build
+> $ cat > build/config-host.mak <<EOF
+> all:
+> GIT=git
+> GIT_SUBMODULES=ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc
+> GIT_SUBMODULES_ACTION=update
+> CONFIG_POSIX=y
+> CONFIG_LINUX=y
+> SRC_PATH=/home/berrange/src/virt/qemu
+> TARGET_DIRS=x86_64-softmmu
+> CONFIG_PLUGIN=y
+> HAVE_GDB_BIN=/usr/bin/gdb
+> ENGINE=podman
+> ROMS=pc-bios/optionrom
+> MAKE=make
+> PYTHON=/usr/bin/python3 -B
+> GENISOIMAGE=/usr/bin/genisoimage
+> MESON=/usr/bin/meson
+> NINJA=/usr/bin/ninja
+> PKG_CONFIG=
+> CC=cc
+> EXESUF=
+> TCG_TESTS_TARGETS= x86_64-softmmu
+> EOF
+> $ meson build
+> $ ninja -C build
 
-They do but there's a difference between "including lockable.h and 
-implictly getting coroutine.h due to dependencies" and "including 
-coroutine.h when you really wanted QEMU_LOCK_GUARD()".
+Yep.  It wouldn't build the firmwares though, or be able to run TCG or 
+Avocado tests.  This kind of build system orchestration is the remaining 
+task of configure (see new docs in patch 28).  It's not really possible 
+for it to go away, it's beyond Meson's capabilities and intentions.
 
-> My patch actually enables*not*  including coroutine.h: with it applied,
-> including lockable.h no longer gets you coroutine.h as well.
-> 
-> If you include lockable.h and make use of certain macros, the compile
-> fails, and you fix it by including coroutine.h instead like pretty much
-> everything else.  Is this really too objectionable to be committed?
+I would also like to move Python virtual environment configuration to 
+configure.  This would give a lot more flexibility in whether to use 
+network or not, for example, and is in line with submodule handling that 
+is already in configure.
 
-s/certain macros/all macros/.  All you can do is 
-qemu_lockable_lock/unlock, which is the less common usage of 
-qemu/lockable.h:
+> Out of the things in config-host.mak there, a few meson already knows,
+> like CC, SRC_PATH, 50% would be just a meson find_program() command,
+> a couple would need meson args (eg TARGET_DIRS), and some just look
+> redundant, eg CONFIG_LINUX largely duplicates __linux__, and
+> CONFIG_POSIX is effectively  !_WIN32.
 
-- qemu_lockable_lock/unlock: used in include/qemu/seqlock.h, 
-tests/unit/test-coroutine.c, util/qemu-coroutine-lock.c
+There are a couple like ENGINE or HAVE_GDB_BIN that are only needed by 
+non-QEMU parts of the build system, and I don't think it makes much 
+sense to move those detections out of configure.
 
-- QEMU_LOCK_GUARD and WITH_QEMU_LOCK_GUARD are used in 49 files.
+But yeah, the OS symbols are pretty low-hanging fruit.  In fact 
+meson.build recomputes them:
 
->>> 1) qemu/coroutine.h keeps including qemu/lockable.h
->
-> As in my patch.
+   config_host_data.set('CONFIG_POSIX', targetos != 'windows')
 
-That's where the similarity ends. :)
-
->>> 2) qemu/lockable.h is modified as follows to omit the reference to CoMutex:
->>>
->>> diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
->>> index 86db7cb04c9c..db59656538a4 100644
->>> --- a/include/qemu/lockable.h
->>> +++ b/include/qemu/lockable.h
->>> @@ -71,9 +71,11 @@ qemu_null_lockable(void *x)
->>>                 void *: qemu_null_lockable(x),                             \
->>>                 QemuMutex *: qemu_make_lockable(x, QML_OBJ_(x, mutex)),    \
->>>                 QemuRecMutex *: qemu_make_lockable(x, QML_OBJ_(x,
->>> rec_mutex)), \
->>> -             CoMutex *: qemu_make_lockable(x, QML_OBJ_(x, co_mutex)),   \
->>> +             QEMU_MAKE_CO_MUTEX_LOCKABLE(x)                             \
->>>                 QemuSpin *: qemu_make_lockable(x, QML_OBJ_(x, spin)))
->>>
->>> +#define QEMU_MAKE_CO_MUTEX_LOCKABLE(x)
->>> +
->>>    /**
->>>     * QEMU_MAKE_LOCKABLE_NONNULL - Make a polymorphic QemuLockable
->>>     *
->>>
->>> 3) the following hack is added in qemu/coroutine.h, right after including
->>> qemu/lockable.h:
->>>
->>> #undef QEMU_MAKE_CO_MUTEX_LOCKABLE(x)
->>> #define QEMU_MAKE_CO_MUTEX_LOCKABLE(x) \
->>>                CoMutex *: qemu_make_lockable(x, QML_OBJ_(x, co_mutex)),
->
-> Let me see...  if I include just lockable.h and make use of certain
-> (generic) macro(s), the macro(s) won't have a case for QemuMutex *.
-> Using them with a QemuMutex * argument won't compile.
-
-s/QemuMutex/CoMutex/.  That is, you get the CoMutex case only if you 
-include qemu/coroutine.h.  Which you probably did anyway, because 
-CoMutexes are almost always embedded (not used as pointers).  In fact I 
-suspect the above trick also makes it possible to remove CoMutex from 
-qemu/typedefs.h.
-
-Furthermore, using qemu_lockable_lock/unlock with CoMutexes still works, 
-even if you don't include qemu/coroutine.h, just like in your patch.
-
->>> Neither is particularly pretty, so I vote for leaving things as is with
->>> a comment above the two #include directives.
-> Inlusion loops are landmines.  Evidence: the compilation failure Phil
-> ran in, leading to his
-> 
->      Subject: [PATCH-for-8.0] coroutine: Add missing <qemu/atomic.h> include
->      Message-Id:<20221125175532.48858-1-philmd@linaro.org>
-> 
-> Your macro hack I find too off-putting 😄
-
-I think the macro is much better than nerfing qemu/lockable.h.
-
-Another alternative is to add a new header qemu/lockable-protos.h and 
-move qemu_co_mutex_{lock,unlock} there (possibly other prototypes as 
-well).  Then include it from both qemu/lockable.h and qemu/coroutine.h.
+... and with Windriver's patches to get much closer to POSIX/Windows 
+feature parity, the Makefiles don't use them as much as they did.
 
 Paolo
 
