@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8686864F8FD
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 13:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933C464F916
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 14:28:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6WiW-0000FB-6r; Sat, 17 Dec 2022 07:55:04 -0500
+	id 1p6XDF-0006kW-OM; Sat, 17 Dec 2022 08:26:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p6WiQ-0000F3-Pd
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 07:54:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p6WiO-0004Fe-R7
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 07:54:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671281695;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kWiqGRrG5xUOfMyffLlTtEfNFM3t7gBm5n+S4s5okwE=;
- b=WfULYuIgWXGQizMzHYkINtMQMeYUbP22Vec1rMRUzvBMEmv5i70+66pDOGKeeETpIBH6Hk
- zKr+jYjVO4v2OgkYT1DI3eiPPZWgnSEU58wQT7MSrxmGUbqEo1oLMLpram8rRFS0tHOvEe
- lmrPDpvb8Ay5CP+koFoHPs1yuY11ooU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-22-9fIC7VZOOjWLne1AXjzTsw-1; Sat, 17 Dec 2022 07:54:54 -0500
-X-MC-Unique: 9fIC7VZOOjWLne1AXjzTsw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- f15-20020a056402354f00b00475a6378738so3028000edd.8
- for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 04:54:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6XDC-0006jt-Dq
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 08:26:46 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6XD9-0001Sn-Js
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 08:26:46 -0500
+Received: by mail-ej1-x630.google.com with SMTP id x22so12051887ejs.11
+ for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 05:26:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kWlgrLwh2G0tcInwO2C1v8159j8JCrk459ZJo/zkp9I=;
+ b=bZ0FzjCB0nv7B/HNO2eUYF4cAd7KrUb7ckMpZRjuEgM92OMqwr2CHXJ33lbYkDe8IE
+ QWXTkXJWpTAkY8BpHp0kLBRwNxKXTeFBkrgcGXJYSGTUSbqK1WtMVjgNWlbCO/pCpZ2g
+ b+AvvoDBm7ceRnF0P+DugKTWXg54sLXXAvXAWXO+8y93aBBAPSjKfKPD8q1PlN3k3SIQ
+ Z+uX6j4xf9BCJXVk7E2rk4QlxqBgiNcspuQVQBIt5R5UOM2JcI0o7pPlyHvXm+SRvBl1
+ +mFAlprgfux+zs3c6mvAvVta9RqLkvQYwC6+vUSKwsk1embY9/v121g6fjMNSL/LQyZn
+ 3/NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kWiqGRrG5xUOfMyffLlTtEfNFM3t7gBm5n+S4s5okwE=;
- b=zeOP1DY+iiDGM1OqHKZvtVh2EAzubjWN+yotIdzi7jG1NyaV5h6S8tlvWmcQaXdRCK
- 7DLCsCEOzz0ocu/Z9iv8i0hYy8jWxSZbNPyyA27/J0f6c3AL4T5LBE0YXfTsJxgbTkk0
- tEIfYtuwjfeu5E0tGgJ8ITqdJrT3wMKUNAMGrxk2+8Z2Ul/uUI4s4ZGAWsZDYIiudVF7
- b0hdbNH35xAJu6B+uDhW1eGvKYcWT6BJUIORf+URiOIcAFZeCgJKtZp41OHp9W3IEGvj
- tkHdirpoCRKICmK0Wo2fKk0rnFPy+BLSkX51OfBBnXsCRXBkB/kM+XaUCaCe6F5wFqQU
- huiQ==
-X-Gm-Message-State: ANoB5pnaTkWAPH/GQfUzKHMvPtwideqzDA5UuER2XrtqgobAHOKKw9e7
- LpnTcIQeJ12HNvFo/auYKGFrS8iOBswbkFWLhEFzJHfO2PZYdjZdbPeG2aD988KtwqGtZhqu61w
- +7SJoGSowNOdWGaE=
-X-Received: by 2002:a17:907:b60f:b0:7c1:6e53:dd02 with SMTP id
- vl15-20020a170907b60f00b007c16e53dd02mr24021688ejc.64.1671281693195; 
- Sat, 17 Dec 2022 04:54:53 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf72htTO5NyIbvNLjAbnhS9fEjKs0oZWfA1r5f+qx44ffUeVbndE1wWcqmG7IotumXWOlsS0eQ==
-X-Received: by 2002:a17:907:b60f:b0:7c1:6e53:dd02 with SMTP id
- vl15-20020a170907b60f00b007c16e53dd02mr24021679ejc.64.1671281693013; 
- Sat, 17 Dec 2022 04:54:53 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:e3ec:5559:7c5c:1928?
- ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
- by smtp.googlemail.com with ESMTPSA id
- a22-20020a170906671600b007806c1474e1sm1937356ejp.127.2022.12.17.04.54.51
+ bh=kWlgrLwh2G0tcInwO2C1v8159j8JCrk459ZJo/zkp9I=;
+ b=4keVk2PVZt7HpWPcaY4vDabQv9EkdRQbru/a1N+Qcav7K9v0sRiVw6coRAQpM9saMv
+ AWeyL9vwO3bJ3XRHMG0yAFJtsczKbr0cCGyE3OhbFKaHgj78OaiNyWHxXBSF++4ebMBo
+ MOhXbPi9E3Q8xpCxIbWXoqmhYGol0fffbW0pMtWQI8xeoWfZBWYGK1FolwVIplfzm3yC
+ stjpOH+F6a19MgqbtHAh4dkqxXE5Dua1XQ8uBA7FSlhqy+PMaylC4rM8/L6FAfUW22DV
+ TDmPxbGuhQUlDmAEqD4xJo+EnhSwpWumO7Gyu6RghfsUaC/HoJzFDmQ/fmYZD366y+On
+ Biug==
+X-Gm-Message-State: ANoB5pmbRTViBCA1jF92TtIXvrWneRw4H+eJFlsXFj2au0FxU1eAnH5G
+ QF1bYUe+6CK+8LHPsM7zd99gdA==
+X-Google-Smtp-Source: AA0mqf5aL43z8spYateviZivsoaWUfO6YeGU0C4yjwgd3A/tY9wG0CMsHRoj6gGfjzUbiGm3EWAhYw==
+X-Received: by 2002:a17:906:7712:b0:7c0:4ab2:66e8 with SMTP id
+ q18-20020a170906771200b007c04ab266e8mr32209410ejm.70.1671283601562; 
+ Sat, 17 Dec 2022 05:26:41 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ cf25-20020a0564020b9900b0045b4b67156fsm2007899edb.45.2022.12.17.05.26.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Dec 2022 04:54:52 -0800 (PST)
-Message-ID: <3987ba90-3d8e-f232-ba72-f79bef4a39c7@redhat.com>
-Date: Sat, 17 Dec 2022 13:54:51 +0100
+ Sat, 17 Dec 2022 05:26:41 -0800 (PST)
+Message-ID: <eba81a62-44da-1903-d5b1-18020e53b4b3@linaro.org>
+Date: Sat, 17 Dec 2022 14:26:38 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH for-8.0 00/30] Meson changes for QEMU 8.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 03/10] target/loongarch/cpu: Remove unused "sysbus.h"
+ header
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20221209112409.184703-1-pbonzini@redhat.com>
- <Y5yQXFxgf+12G153@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Y5yQXFxgf+12G153@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Song Gao <gaosong@loongson.cn>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-ppc@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Taylor Simpson <tsimpson@quicinc.com>, Greg Kurz <groug@kaod.org>,
+ qemu-riscv@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>
+References: <20221216220539.7065-1-philmd@linaro.org>
+ <20221216220539.7065-4-philmd@linaro.org>
+ <58744897-B124-49DA-9EA1-79403F319038@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <58744897-B124-49DA-9EA1-79403F319038@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,65 +104,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/16/22 16:35, Daniel P. Berrangé wrote:
-> So after applying this series, at least on Fedora, I barely needed
-> configure at all, in so muc as the following successfully built AFAICT:
+On 17/12/22 13:26, Bernhard Beschow wrote:
 > 
-> $ mkdir build
-> $ cat > build/config-host.mak <<EOF
-> all:
-> GIT=git
-> GIT_SUBMODULES=ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc
-> GIT_SUBMODULES_ACTION=update
-> CONFIG_POSIX=y
-> CONFIG_LINUX=y
-> SRC_PATH=/home/berrange/src/virt/qemu
-> TARGET_DIRS=x86_64-softmmu
-> CONFIG_PLUGIN=y
-> HAVE_GDB_BIN=/usr/bin/gdb
-> ENGINE=podman
-> ROMS=pc-bios/optionrom
-> MAKE=make
-> PYTHON=/usr/bin/python3 -B
-> GENISOIMAGE=/usr/bin/genisoimage
-> MESON=/usr/bin/meson
-> NINJA=/usr/bin/ninja
-> PKG_CONFIG=
-> CC=cc
-> EXESUF=
-> TCG_TESTS_TARGETS= x86_64-softmmu
-> EOF
-> $ meson build
-> $ ninja -C build
+> 
+> Am 16. Dezember 2022 22:05:32 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
+>> Nothing requires SysBus declarations here.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>> target/loongarch/cpu.h | 1 -
+>> 1 file changed, 1 deletion(-)
+>>
+>> diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+>> index e15c633b0b..c8612f5466 100644
+>> --- a/target/loongarch/cpu.h
+>> +++ b/target/loongarch/cpu.h
+>> @@ -13,7 +13,6 @@
+>> #include "hw/registerfields.h"
+>> #include "qemu/timer.h"
+>> #include "exec/memory.h"
+>> -#include "hw/sysbus.h"
+>> #include "cpu-csr.h"
+>>
+>> #define IOCSRF_TEMP             0
+> 
+> https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg02628.html
+> 
+> \o/
 
-Yep.  It wouldn't build the firmwares though, or be able to run TCG or 
-Avocado tests.  This kind of build system orchestration is the remaining 
-task of configure (see new docs in patch 28).  It's not really possible 
-for it to go away, it's beyond Meson's capabilities and intentions.
+=)
 
-I would also like to move Python virtual environment configuration to 
-configure.  This would give a lot more flexibility in whether to use 
-network or not, for example, and is in line with submodule handling that 
-is already in configure.
-
-> Out of the things in config-host.mak there, a few meson already knows,
-> like CC, SRC_PATH, 50% would be just a meson find_program() command,
-> a couple would need meson args (eg TARGET_DIRS), and some just look
-> redundant, eg CONFIG_LINUX largely duplicates __linux__, and
-> CONFIG_POSIX is effectively  !_WIN32.
-
-There are a couple like ENGINE or HAVE_GDB_BIN that are only needed by 
-non-QEMU parts of the build system, and I don't think it makes much 
-sense to move those detections out of configure.
-
-But yeah, the OS symbols are pretty low-hanging fruit.  In fact 
-meson.build recomputes them:
-
-   config_host_data.set('CONFIG_POSIX', targetos != 'windows')
-
-... and with Windriver's patches to get much closer to POSIX/Windows 
-feature parity, the Makefiles don't use them as much as they did.
-
-Paolo
-
+Please ping me on your flying series, I'm trying to catch up /o\
 
