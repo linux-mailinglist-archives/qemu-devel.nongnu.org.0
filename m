@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F2A64F63F
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:25:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CD064F643
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:26:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6L1F-0008Cg-GJ; Fri, 16 Dec 2022 19:25:37 -0500
+	id 1p6L2C-0000Qh-Co; Fri, 16 Dec 2022 19:26:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6L16-0008CJ-UF
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:25:28 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1p6L2A-0000QP-P1
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:26:34 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6L15-0002Y8-AW
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:25:28 -0500
-Received: by mail-pl1-x634.google.com with SMTP id n4so3883745plp.1
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:25:26 -0800 (PST)
+ id 1p6L29-0002iZ-5S
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:26:34 -0500
+Received: by mail-pf1-x431.google.com with SMTP id x66so2841850pfx.3
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:26:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Ft8SC1RObBqkGzCXYjpwJTS9uAtnH9wrnQbiDf2JcRk=;
- b=okhPBw2LQHBj7nvQAWQz3ke9S+vxUTkPHvSmW+6+3N33EoMMZBlP5Trf4EXWZhOtjl
- Lhw11JvUxOW78JuHy5I0/+t/EMidLAWTxh65AjNOQEkEJ4u1ijSFHeq2Z2jEFpvpxFJI
- ciZCDN3Kdbt1vepE3UnMo5c3jlBocqj4zcB+Q1pu69Mzan/Gb7UkVorj83iqAfsJ4D48
- CxTh8tfWQLHMf14HdS1se0QBqM5yVgPT8QfVc0pkz0c7VMiz2NBIgwFsellR0x7I8bK+
- RosiacdHXqEkCNXRk4zTmTfDR3UQ1WajVYAH5QrvCgTG4h6X3Ed2+Nc3n8LwfEVTiQQw
- 10RA==
+ bh=QUGIKvI5RD6g+0zL9jJpIZiqKf5JyREyunpyk6FTLX8=;
+ b=lSFF89083LbFTgiYdF4F6NXy9DD+Nc0safShQ9bNUTO/mTIeOcG5jhmjzBj0tkYDuF
+ u3LrNDjnXEQxrXCtP5sbEmcbTjw2Pfp9BfTNT2tyWAo1gYiUiXSDlOg7yBzdQKo8QKaR
+ EexxABXsoR4bjWUgfkAfMPhpOF5OKokaAm71EQ5TdkFmATtfBibjqRRFuef1Cd4U5t4Y
+ W4GiOIU+AnJeWnq3WOc5e/xti/fn0YIlZz+sFCimRWYMzNPbrQXJN3YhtHMMdmfREDA2
+ yEexjisJTno0S1KKi2FSpbibIZcd1iiMxoVsti67ArorVegybojlVxRGIjFLKFUUj4kl
+ 6YBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ft8SC1RObBqkGzCXYjpwJTS9uAtnH9wrnQbiDf2JcRk=;
- b=aDyGxwHfF/uHoprOEPWTQBbwAKBmu5YEWRNhTjh5LT7eNMNIxsTDb8wOcVJIjBFJxG
- 8AvgTHujkKDOg0yu+sdoO67a4DhGX9wVvNT+iyz2GQC1BB7F6ohCbCG4AboyVQg2IBTB
- LGQR2eOjTICkYNd0aKt/6yQjwUWuRxvLgtvDU8qUbof4egdewU6EJLmdbgcijUu4QCWt
- AtXhjcPBH9Z7XIv9Ib0DnHN8Qgh5TsJXtUwo3EQlHH9UQzC4Ej04DS72axbkUOF7bl57
- nZ9ct3sVwhJ38mkJaD7QcljBB2MystDullDS5WFAnk4P5Q1Ue7Efkla1/rvx/0jKjMko
- mSMw==
-X-Gm-Message-State: AFqh2kqVfANgqEDOvjuQM9nJbx9BZFkS/ojfRXCRtMPc1s18wq01aL/v
- unSsC3O+vdkMaBKw2qXzM65D5Q==
-X-Google-Smtp-Source: AMrXdXsjv/qs7CEDUCLiIe3NmjoA8NyeTz54srknhooMAvISdvd7Lh6DfbcnkwxMycFF1Y7ZvvJ9YA==
-X-Received: by 2002:a17:902:f2ca:b0:189:86cd:d7c0 with SMTP id
- h10-20020a170902f2ca00b0018986cdd7c0mr261792plc.18.1671236725871; 
- Fri, 16 Dec 2022 16:25:25 -0800 (PST)
+ bh=QUGIKvI5RD6g+0zL9jJpIZiqKf5JyREyunpyk6FTLX8=;
+ b=VxPPdCqjCEv8GZjhN/kdDQyiukNlKGOkc41n+fRaYYqzihVeYp7BbabsjuPZfskQR/
+ hd9PP1LVjp/lrOJAK/Oko998Vmwb/YpOVorxVT9K/HLKZz0T8IhMTU+VnJBJQq9EbHug
+ AQ5iHzzEeyzmYaOUaCqHFw6svprsZQHyZxysKikhBf1keK5wpZ4G+cyTKWIHNaG4y9nO
+ xmCK3r4KwpjixWXXaz2MV51Eta1v1hNTDEEForJBGxTEu4qNPXT5H6qEDCIsAUv7ML64
+ a+5X/KU60b6YCpj2Xqkm3y5Iv3YPGKUsPHLv1rJg50Ah6124wWprEccQBVKMns/3GTg1
+ f4Ag==
+X-Gm-Message-State: ANoB5pl4FzUqAs8er44T9o6e9s9Og7ov2rZQTrunPGCSUcgIrvgVQShC
+ CnYg+dzWQewKY9spy9ha6g3OaQ==
+X-Google-Smtp-Source: AA0mqf6d/DR1/W9rTpll6+Zi1WeQ0qYv20jKIJEnwKx+imxjYL9DxzGJTEPHyZ9clrCyeOwmDAbZ9w==
+X-Received: by 2002:a62:6081:0:b0:572:24b7:af17 with SMTP id
+ u123-20020a626081000000b0057224b7af17mr32214978pfb.10.1671236791061; 
+ Fri, 16 Dec 2022 16:26:31 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
  ([2602:47:d48c:8101:c606:9489:98df:6a3b])
  by smtp.gmail.com with ESMTPSA id
- q10-20020a170902daca00b00190fb8f9e0asm2184438plx.249.2022.12.16.16.25.24
+ d15-20020aa797af000000b00577c70f00eesm2050283pfq.22.2022.12.16.16.26.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 16:25:25 -0800 (PST)
-Message-ID: <b784460b-635f-2304-c125-050c5cfb1de9@linaro.org>
-Date: Fri, 16 Dec 2022 16:25:23 -0800
+ Fri, 16 Dec 2022 16:26:30 -0800 (PST)
+Message-ID: <c85303e7-22ee-9a14-f674-b541283661d2@linaro.org>
+Date: Fri, 16 Dec 2022 16:26:28 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 5/5] hw/i386/x86: Reduce init_topo_info() scope
+Subject: Re: [PATCH 1/2] sysemu/kvm: Remove CONFIG_USER_ONLY guard
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Cameron Esfahani <dirty@apple.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, haxm-team@intel.com,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Stefan Weil <sw@weilnetz.de>, Peter Maydell <peter.maydell@linaro.org>
-References: <20221216220158.6317-1-philmd@linaro.org>
- <20221216220158.6317-6-philmd@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+References: <20221216220738.7355-1-philmd@linaro.org>
+ <20221216220738.7355-2-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216220158.6317-6-philmd@linaro.org>
+In-Reply-To: <20221216220738.7355-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,33 +95,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/16/22 14:01, Philippe Mathieu-Daudé wrote:
-> This function is not used anywhere outside this file, so
-> we can delete the prototype from include/hw/i386/x86.h and
-> make the function "static void".
+On 12/16/22 14:07, Philippe Mathieu-Daudé wrote:
+> User emulation shouldn't really include this header; if included
+> these declarations are guarded by CONFIG_KVM_IS_POSSIBLE.
 > 
-> This fixes when building with -Wall and using Clang
-> ("Apple clang version 14.0.0 (clang-1400.0.29.202)"):
-> 
->    ../hw/i386/x86.c:70:24: error: static function 'MACHINE' is used in an inline function with external linkage [-Werror,-Wstatic-in-inline]
->        MachineState *ms = MACHINE(x86ms);
->                           ^
->    include/hw/i386/x86.h:101:1: note: use 'static' to give inline function 'init_topo_info' internal linkage
->    void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
->    ^
->    static
->    include/hw/boards.h:24:49: note: 'MACHINE' declared here
->    OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
->                                                    ^
-> 
-> Reported-by: Stefan Weil<sw@weilnetz.de>
-> Suggested-by: Peter Maydell<peter.maydell@linaro.org>
-> Reviewed-by: Peter Maydell<peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   hw/i386/x86.c         | 2 +-
->   include/hw/i386/x86.h | 3 ---
->   2 files changed, 1 insertion(+), 4 deletions(-)
+>   include/sysemu/kvm.h | 2 --
+>   1 file changed, 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
