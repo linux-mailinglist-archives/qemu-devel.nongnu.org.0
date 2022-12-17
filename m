@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8868364FC6B
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 22:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A648964FC74
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 22:37:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6eca-0001qq-GQ; Sat, 17 Dec 2022 16:21:28 -0500
+	id 1p6eqU-0004bl-Oj; Sat, 17 Dec 2022 16:35:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6ecY-0001ll-0I
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 16:21:26 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1p6eqS-0004bJ-QY; Sat, 17 Dec 2022 16:35:48 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p6ecW-00080G-BK
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 16:21:25 -0500
-Received: by mail-pf1-x430.google.com with SMTP id a14so3924573pfa.1
- for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 13:21:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=REytSkDAhclRxE+xXTf5WGP2QKFFXdKfWNNwKhxiT1o=;
- b=L7CSHLBIe8RUlJUNfRVScTbZaPh05Bc5i3CtA2xDxDgH0o1TdWyoaIxq5tYPwrFeq1
- /xEPNZGgGHGG7lcMjnlnQBDMHGdz1Tx5P7HOrsYDnGdeJfSw/VICzgVd+M8YiYSUxCmI
- TaO0R4f2Cp8IOWtHw6GJchsZi81675Ivg2cAlxbZcsF2XXZ4gmuFubuprgSHkJRHPVot
- Zi3G6FzLPB3hmybIxncRHn91xiEreRFzQhOdm9vd7pKnPUROQQ1WwNtpS0AhX34O3waq
- uazO6gPhsQEo6dwkK5ttVid//oab5aM98R+Xz589CaKOvyEuU3krRyohvQobGhH3rdje
- TEgQ==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1p6eqR-0001jb-9j; Sat, 17 Dec 2022 16:35:48 -0500
+Received: by mail-ej1-x632.google.com with SMTP id bj12so13557935ejb.13;
+ Sat, 17 Dec 2022 13:35:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=68Ne7Avk+6V4LFaKUB4ZA7pUxtVZMEXNV7IESQ+heac=;
+ b=dUlVdVLXPkH2vO96U9ViiL6t1F9ItlxK8seIN4Lzcjpa3hljwEmxjZ+xFRBcHfpreA
+ h64cuIEeE+RJoC2rLcFfJ4rvxJHbEbn6lNlhih+RCmHrUFQ5nHgVEdfyOvywKvc0iixN
+ UFL2FeYF8SIrf6ehv+aimRS1U2hmp1yI71cscwJoXYA7AUnUVX9S269TeIl5zLe4P0kM
+ GWgIHNtbnN5JuwGy20IVZM4/7WVcEr6Olcj1ry8WM4n59CjSsjECxIQ2thhKjXdrPxbi
+ 6FIaJd1JMaTjKh02WAR4lE1vKuUo+leBpKowqBzhlKgGt9vunqkbBkbcosW6XtqN9xYF
+ l9SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=REytSkDAhclRxE+xXTf5WGP2QKFFXdKfWNNwKhxiT1o=;
- b=m1cb3j0HbWF17rAPmUOUqXzJjQpdMA5K49Wl8trac+t/u2HtGFruKAm3qWJ4GUs7yj
- Ei1wEZhSKzLL1OSY6qRXMWH06QFpvZD/0fyZlJJgBdJiFJM70kp5KfK2by/nkAn6crDE
- 1y5yxa2XFwPRA3y16sXZ7EvW+HZoHV3DsOVJANhlvN60GbA+UF8kTfY7wg4qfI00vThV
- wkK54xpQ8hNLciBGpO1Up8Yfrn0omiQn1jFxnJnarfLoaCkz4b7sgOKJM+iddNZT4W9B
- P8dNDHPeDxOxVAow72imNtDYOjBTdHT2xmJieZkPuBhz9/bpL2MUqczImdSNKkZqftmh
- 0qBw==
-X-Gm-Message-State: ANoB5pl4Ki5wIfqqoafz6+Mvgbj8IZmxweQVvXZdQTL5BY1ceR61INg5
- MXdG7F/xH9gP469FWQe0KFcQ66X1HLpn9NBRUTNCxIEz7IVVqw==
-X-Google-Smtp-Source: AA0mqf54Q6JGCDZEiYCJZ/KBx8EK4Jl6FOUZa8o0mQENcJHsVS0cDliAb/aKlPKsNR4aiFoqoiwsSXx0C8FBeCQbhiM=
-X-Received: by 2002:a62:b501:0:b0:573:1959:c356 with SMTP id
- y1-20020a62b501000000b005731959c356mr80542582pfe.51.1671312082773; Sat, 17
- Dec 2022 13:21:22 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=68Ne7Avk+6V4LFaKUB4ZA7pUxtVZMEXNV7IESQ+heac=;
+ b=b9baSXp5x/B795mltnfU4WPwuOxB1laiFnD90U755rxZck4iEq+VSrJHdMYfzXT18T
+ hiqB9ju5KlP13l5ue5Hdb0LCyMD93y2eZewl0VN6Uii806mXFbh8O9n7gSyETSKl7w6F
+ sxKqNzGlTeBR6678w6mBS2aRm3Avb7tr/VWTKx38/4N7dVk6iRn6pof6bm4ntOWKq82C
+ 7mj48iBXZpjb+lNaq4bgOK1HcT5jkfS+7imPL5VP6bPmu7ClLK+vvilfpXTjhAuFv8wJ
+ vQ9jV9wHjkxy8DXq487IeA0gOIueg2NryOUxvz+Mc0Uo0ZH0JwVxxlrbRAjFGGq9q+6X
+ KPvw==
+X-Gm-Message-State: ANoB5pnWxvxfYWFYikr9m7uLCawGMbVvLzeQKTEP5TLCuJjvffd25Z6f
+ 1cSAfMtJ51h1Qo6kZSgtHjDblXAXa6Q=
+X-Google-Smtp-Source: AA0mqf40MsEIClmGb6Bf0W5pZS9E7iaa9WS/aknAEwcrw2fvsjdc4fqzy7iHBtIH+LyUhmrDCBzPIA==
+X-Received: by 2002:a17:906:1914:b0:7c1:311f:352f with SMTP id
+ a20-20020a170906191400b007c1311f352fmr32058865eje.48.1671312944351; 
+ Sat, 17 Dec 2022 13:35:44 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-077-191-115-237.77.191.pool.telefonica.de.
+ [77.191.115.237]) by smtp.gmail.com with ESMTPSA id
+ ky16-20020a170907779000b007ae38d837c5sm2428311ejc.174.2022.12.17.13.35.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Dec 2022 13:35:43 -0800 (PST)
+Date: Sat, 17 Dec 2022 21:35:40 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-trivial@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH v2 0/7] Clean up dependencies of ACPI controllers
+In-Reply-To: <20221216130355.41667-1-shentey@gmail.com>
+References: <20221216130355.41667-1-shentey@gmail.com>
+Message-ID: <D366A677-0348-4073-80A8-B169B4561624@gmail.com>
 MIME-Version: 1.0
-References: <20221216204845.19290-1-tsimpson@quicinc.com>
-In-Reply-To: <20221216204845.19290-1-tsimpson@quicinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 17 Dec 2022 21:21:11 +0000
-Message-ID: <CAFEAcA-U1jAteU7pt1zHTTdk1tB2mdT4rHRBp_GOqpdtqXrDGg@mail.gmail.com>
-Subject: Re: [PULL 00/21] Hexagon update: bug fixes, performance, idef-parser
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, philmd@linaro.org, 
- bcain@quicinc.com, quic_mathbern@quicinc.com, stefanha@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x430.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,29 +93,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 16 Dec 2022 at 20:49, Taylor Simpson <tsimpson@quicinc.com> wrote:
->
-> The following changes since commit 4208e6ae114ac8266dcacc9696a443ce5c37b04e:
->
->   Merge tag 'pull-request-2022-12-15' of https://gitlab.com/thuth/qemu into staging (2022-12-15 21:39:56 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/quic/qemu tags/pull-hex-20221216-1
->
-> for you to fetch changes up to 585a86b1041a45c3b4074440c7f1b54944570867:
->
->   target/hexagon: import additional tests (2022-12-16 12:30:28 -0800)
->
-> ----------------------------------------------------------------
->
-> ******************************************************************
-> *****                      WARNING                           *****
-> ***** This PR requires updated CI containers with flex/bison *****
-> ******************************************************************
 
-Does that mean somebody needs to do something before I can merge this?
 
-thanks
--- PMM
+Am 16=2E Dezember 2022 13:03:48 UTC schrieb Bernhard Beschow <shentey@gmai=
+l=2Ecom>:
+>This small series establishes consistency between ICH9, PIIX4 and VT82C68=
+6 ACPI
+>
+>controllers to select ACPI, ACPI_SMBUS and APM since they are provided by=
+ the
+>
+>device models=2E
+>
+>
+>
+>Due to the PIIX4 PM cleanup PEGASOS2's dependency can be reduced to just =
+ACPI,
+>
+>eliminating 9 dependencies from the softmmu-ppc build=2E
+>
+>
+>
+>v2:
+>
+>- Turn "depends on ACPI" into "select ACPI" (Phil)
+>
+>- Remove "select ACPI" from PEGASOS2 (Phil)
+>
+
+Ping
+
+Patches 4 & 6 still need review=2E
+
+>- Move already reviewed patches to bottom
+>
+>- Split some patches into "add missing dependencies" and "remove redundan=
+t
+>
+>  dependencies" for ease of review
+>
+>
+>
+>Bernhard Beschow (7):
+>
+>  hw/acpi/Kconfig: Rename ACPI_X86_ICH to ACPI_ICH9
+>
+>  hw/acpi/Kconfig: Add missing dependencies to ACPI_ICH9
+>
+>  hw/acpi/Kconfig: Do not needlessly build TYPE_PIIX4_PM in non-PC/Malta
+=
+>
+>    machines
+>
+>  hw/acpi/Kconfig: Add missing dependencies to ACPI_PIIX4
+>
+>  hw/isa/Kconfig: Add missing dependency to VT82C686
+>
+>  i386, mips: Resolve redundant ACPI and APM dependencies
+>
+>  hw/ppc/Kconfig: Remove unused dependencies from PEGASOS2
+>
+>
+>
+> configs/devices/mips-softmmu/common=2Emak | 3 ---
+>
+> hw/acpi/Kconfig                         | 9 ++++++---
+>
+> hw/acpi/meson=2Ebuild                     | 2 +-
+>
+> hw/i2c/meson=2Ebuild                      | 2 +-
+>
+> hw/i386/Kconfig                         | 3 +--
+>
+> hw/isa/Kconfig                          | 4 ++--
+>
+> hw/ppc/Kconfig                          | 2 --
+>
+> 7 files changed, 11 insertions(+), 14 deletions(-)
+>
+>
+>
+>-- >
+>2=2E39=2E0
+>
+>
+>
 
