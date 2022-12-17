@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D2564FB8A
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 19:23:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF6764FB8B
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 19:25:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6bow-0004Lm-5h; Sat, 17 Dec 2022 13:22:02 -0500
+	id 1p6brW-00069z-Fc; Sat, 17 Dec 2022 13:24:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6bou-0004LH-7X
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 13:22:00 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p6brU-00069c-EN
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 13:24:40 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6bos-0003BP-IQ
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 13:21:59 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id n20so13229601ejh.0
- for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 10:21:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p6brS-0003QC-T7
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 13:24:40 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ e7-20020a17090a77c700b00216928a3917so9187908pjs.4
+ for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 10:24:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hCDbeK1ydBYPvIImx9zIe08Zc6llPRZLRtqbvVac4iM=;
- b=oNV0DE5xbbWO9NIKzFZHG2B0b1Exxq6qEwBfWIjpUbLFg03WJ4Px7m+HcXzMWq6jwV
- zteVKcZEBmSrw12pxa7WjcwtDHznTWUAyT0nueXUnU7hUACRqKmrMwIZc57yFH8JCMIM
- VWMovNO7iX8cE143FCIY6czvmdjBEmJCDH+xUVRo+3LLPzYgSim0HLGhI+sxXSNPfYnX
- KS0iOCbKRAh3azxFyGmhhu2ynGEdGGrmkmrppcFzbtUy88rF7rnXn1SGfHIIyDdJQ7w8
- TRT9zWbJPwCXZPvC+BTG291LEiudJV2GZl/C4oxzHIs6O9+DhXzuavRPNA2tXLTL+tjx
- O1Lg==
+ bh=8Oca56uA1/F9BuqwTVnMqfaL96YFL1DL9fWCShJPgRQ=;
+ b=dKjLCfKUsOs0eBCIQLir7iedv19kAd6Mq3VyL3BT8bY2nt5BRiN3EkPf9uXAj/9Ety
+ M2sYhufPjYYbNH+gXEQBPn6KF+ms8KD+IdxEWEg+oXHOFdN9hEFo39CbsTGBjaiR3mq/
+ mrAe4KE61jQQB6g7zXHDuqPgtUsmj631cbU1WaGbnTfzeGymJ8X/KIc+6OmH9WPtOmiu
+ TG4ps1Lq9R9g4es6kQE94fNFJ3ab2X0tyYAEDrtIRl/P1jKl+PclH4LbrlAdiU866XXG
+ rXeGXbYbtwX8zX0p9ALuicxmTk5vmCpuZa0po5myTM2AeMaih9UQgXTGjia84UbRLTFt
+ 8lIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hCDbeK1ydBYPvIImx9zIe08Zc6llPRZLRtqbvVac4iM=;
- b=VdOOyhPVtK4fI+6f5sgtNICp9pev6tqd0KaUKaEYXO/gMLlcoa3Q8V2+Ao7QZCknBI
- Vnv+nakhXEfEDMTKuTOUZ32a4KvvzULMqqz49xJ1CBYVlpj+4IXEI0zCb7nE5wezBFse
- x3VHZ9X/sMuP4yq9AzBpacwK1syZ3Y19GqvizcPzPYthxRbWDAxAs7PeqClHFCRgfIdQ
- wZjNXnrGX4XcdbBHFMxc275G/jSrQxFSHSqXOxrJx9BCpwbjyS40BUVk7WggrPZibcY7
- LOLYVG0C90dlso3x7Fl2Yd6eDnQTR+22D+dBa1SVlNmdQttTnR+mu+ROTdxtLvmfUUPA
- UmBA==
-X-Gm-Message-State: ANoB5plYqV1/SWwS0EjrsIEFaH92fysPfiEkFU2ExUP1oGI7QHPzMfPA
- cj5+7YIPnhuGPlIXbjkwH9LE7A==
-X-Google-Smtp-Source: AA0mqf7sjfmofz7LtR6/Kln3IBwo2V5bIF15UFuZkXFmTE3F86kuKN/bBYg7NhHhw5yGaMrV8Oqnag==
-X-Received: by 2002:a17:906:298c:b0:7c1:9eb:845b with SMTP id
- x12-20020a170906298c00b007c109eb845bmr30495391eje.16.1671301316822; 
- Sat, 17 Dec 2022 10:21:56 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=8Oca56uA1/F9BuqwTVnMqfaL96YFL1DL9fWCShJPgRQ=;
+ b=Zl01OP8lMepXVh89cv2lhc6oh4cgumu/YT9PHiDjfD07i4ZttBE+wKbEukhm+F3YXG
+ rqvQDA5QBpbXzaHXIOEGgKC6B7Ul36cIHBcM/9prcz2f5bvdvvFlBXroYVdr05a/eHnj
+ CV9Fo0WK8hD7Wwur6K7hyK5lt4rVClfzug+EIuyB0DK75HMx/MKsSFVe4M8klUK+0i4E
+ +GtVEOs3rSiNRaSe5GkzSOovbE7yn5fGsCSfP+Djv1UGY0wYCHwlwyi2FfJ/OM9o5tFd
+ INJqsJ8sxnlhkaGdYm5i6VEnR9e2nls1RNAkX+4VyTpe8HXuyIHhU8QcdU89wfKgPPBt
+ 8TKg==
+X-Gm-Message-State: ANoB5pme1eJtsuTM8IL7B2zH1FCTMkZ7A2dYiwClkkBn7rD/WFp9ymoB
+ tvWqeO8PwAqdNr0VITE2f3lqnA==
+X-Google-Smtp-Source: AA0mqf4Cn5wwiO9RnMACHNZByi0mKupvtYF44QKg2y/L0pVPV153im8gsrnLQcqqIGoWLOlcnt7Xow==
+X-Received: by 2002:a17:902:8bc1:b0:185:441e:2d7a with SMTP id
+ r1-20020a1709028bc100b00185441e2d7amr37724961plo.17.1671301475451; 
+ Sat, 17 Dec 2022 10:24:35 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:dbe7:d50a:f977:e69b?
+ ([2602:47:d48c:8101:dbe7:d50a:f977:e69b])
  by smtp.gmail.com with ESMTPSA id
- p18-20020a17090653d200b007c1651aeeacsm2219985ejo.181.2022.12.17.10.21.54
+ p1-20020a1709026b8100b0017fe9b038fdsm3868923plk.14.2022.12.17.10.24.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Dec 2022 10:21:56 -0800 (PST)
-Message-ID: <44ff8209-236d-cd2f-25cd-d608303ad96f@linaro.org>
-Date: Sat, 17 Dec 2022 19:21:53 +0100
+ Sat, 17 Dec 2022 10:24:34 -0800 (PST)
+Message-ID: <89ba690d-3417-11f5-4d62-bb3c808c6ffd@linaro.org>
+Date: Sat, 17 Dec 2022 10:24:33 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v12 08/61] target/riscv: add fault-only-first unit stride
- load
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/2] target/hppa: Extract FPU helpers to fpu_helper.c
 Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
- wenmeng_zhang@c-sky.com, Alistair Francis <alistair.francis@wdc.com>,
- palmer@dabbelt.com, Laurent Vivier <laurent@vivier.eu>
-References: <20200701152549.1218-1-zhiwei_liu@c-sky.com>
- <20200701152549.1218-9-zhiwei_liu@c-sky.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20200701152549.1218-9-zhiwei_liu@c-sky.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20221217173219.8715-1-philmd@linaro.org>
+ <20221217173219.8715-2-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221217173219.8715-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,103 +95,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-(unburying an old patch)
-
-On 1/7/20 17:24, LIU Zhiwei wrote:
-> The unit-stride fault-only-fault load instructions are used to
-> vectorize loops with data-dependent exit conditions(while loops).
-> These instructions execute as a regular load except that they
-> will only take a trap on element 0.
-> 
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 12/17/22 09:32, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   target/riscv/helper.h                   |  22 +++++
->   target/riscv/insn32.decode              |   7 ++
->   target/riscv/insn_trans/trans_rvv.inc.c |  73 ++++++++++++++++
->   target/riscv/vector_helper.c            | 110 ++++++++++++++++++++++++
->   4 files changed, 212 insertions(+)
+>   target/hppa/fpu_helper.c | 450 +++++++++++++++++++++++++++++++++++++++
+>   target/hppa/meson.build  |   1 +
+>   target/hppa/op_helper.c  | 427 -------------------------------------
+>   3 files changed, 451 insertions(+), 427 deletions(-)
+>   create mode 100644 target/hppa/fpu_helper.c
 
-> +/*
-> + *** unit-stride fault-only-fisrt load instructions
-> + */
-> +static inline void
-> +vext_ldff(void *vd, void *v0, target_ulong base,
-> +          CPURISCVState *env, uint32_t desc,
-> +          vext_ldst_elem_fn *ldst_elem,
-> +          clear_fn *clear_elem,
-> +          uint32_t esz, uint32_t msz, uintptr_t ra)
-> +{
-> +    void *host;
-> +    uint32_t i, k, vl = 0;
-> +    uint32_t mlen = vext_mlen(desc);
-> +    uint32_t nf = vext_nf(desc);
-> +    uint32_t vm = vext_vm(desc);
-> +    uint32_t vlmax = vext_maxsz(desc) / esz;
-> +    target_ulong addr, offset, remain;
-> +
-> +    /* probe every access*/
-> +    for (i = 0; i < env->vl; i++) {
-> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-> +            continue;
-> +        }
-> +        addr = base + nf * i * msz;
-> +        if (i == 0) {
-> +            probe_pages(env, addr, nf * msz, ra, MMU_DATA_LOAD);
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Shouldn't we check page_check_range() in user-mode here?
-
-> +        } else {
-> +            /* if it triggers an exception, no need to check watchpoint */
-> +            remain = nf * msz;
-> +            while (remain > 0) {
-> +                offset = -(addr | TARGET_PAGE_MASK);
-> +                host = tlb_vaddr_to_host(env, addr, MMU_DATA_LOAD,
-> +                                         cpu_mmu_index(env, false));
-> +                if (host) {
-> +#ifdef CONFIG_USER_ONLY
-> +                    if (page_check_range(addr, nf * msz, PAGE_READ) < 0) {
-> +                        vl = i;
-> +                        goto ProbeSuccess;
-> +                    }
-> +#else
-> +                    probe_pages(env, addr, nf * msz, ra, MMU_DATA_LOAD);
-> +#endif
-> +                } else {
-> +                    vl = i;
-> +                    goto ProbeSuccess;
-> +                }
-> +                if (remain <=  offset) {
-> +                    break;
-> +                }
-> +                remain -= offset;
-> +                addr += offset;
-> +            }
-> +        }
-> +    }
-> +ProbeSuccess:
-> +    /* load bytes from guest memory */
-> +    if (vl != 0) {
-> +        env->vl = vl;
-> +    }
-> +    for (i = 0; i < env->vl; i++) {
-> +        k = 0;
-> +        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-> +            continue;
-> +        }
-> +        while (k < nf) {
-> +            target_ulong addr = base + (i * nf + k) * msz;
-> +            ldst_elem(env, addr, i + k * vlmax, vd, ra);
-> +            k++;
-> +        }
-> +    }
-> +    /* clear tail elements */
-> +    if (vl != 0) {
-> +        return;
-> +    }
-> +    for (k = 0; k < nf; k++) {
-> +        clear_elem(vd, env->vl + k * vlmax, env->vl * esz, vlmax * esz);
-> +    }
-> +}
+r~
 
