@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEED64F865
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E8164F862
 	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 10:09:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6TAl-0005ts-7E; Sat, 17 Dec 2022 04:07:59 -0500
+	id 1p6TAm-0005tw-AO; Sat, 17 Dec 2022 04:08:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6TAh-0005sC-RM
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:55 -0500
+ id 1p6TAk-0005tN-4k
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p6TAg-0006d9-D3
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:55 -0500
+ id 1p6TAi-0006da-Dj
+ for qemu-devel@nongnu.org; Sat, 17 Dec 2022 04:07:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671268073;
+ s=mimecast20190719; t=1671268075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H+jI9Ae1kOlyAm872IZ+HvpAvtNVj7WGf3+Zm313HZ4=;
- b=fr64IUmGvln6HOeUx3ZsZGHfZwUxXvUdFQBiBI+CynZaTRY/Ix6PXMxx7jbOe32Y5Q2gsv
- 1owoK8MBYTnywz/ov7jVq7b0YwzhhqNAZxpXudZxUod7GYMfqNdnNHNSrMlFNUfHg4IxoH
- mRnrnXUMlR0jsezhQ3TnT4nqGBFqsLg=
+ bh=1P1WaPdaI+wOBf7jCKrpFrJzk5Zbg2GZ0rmy2K16LLg=;
+ b=gm6WgQn6tuER/N7KMlZTYZr521844CGzd7h4d1MCjxqR0LhcWs2DIUZJeM5p4xdmngpG7R
+ vE1QpAEqdi7M3ACH4bDgA15m51OZh2OPbS1cbpKOdDt9Q32NmkJrQ0VbagEaZkgYlwo0u4
+ CX4P/PK+njPik7rLX7h9aFfk5tA+P/s=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-164-krBcsFUXOz2RAspbvwD8Mw-1; Sat, 17 Dec 2022 04:07:52 -0500
-X-MC-Unique: krBcsFUXOz2RAspbvwD8Mw-1
+ us-mta-458-H3VId2ovPqeE6Zgn55r1sg-1; Sat, 17 Dec 2022 04:07:53 -0500
+X-MC-Unique: H3VId2ovPqeE6Zgn55r1sg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D1A46811E6E;
- Sat, 17 Dec 2022 09:07:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E83685A588;
+ Sat, 17 Dec 2022 09:07:53 +0000 (UTC)
 Received: from kostyanf14nb.lan (ovpn-192-10.brq.redhat.com [10.40.192.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5BE140C6EC4;
- Sat, 17 Dec 2022 09:07:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 391EA40C6EC4;
+ Sat, 17 Dec 2022 09:07:52 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL v2 5/6] qga: map GLib log levels to system levels
-Date: Sat, 17 Dec 2022 11:07:39 +0200
-Message-Id: <20221217090740.522093-6-kkostiuk@redhat.com>
+Subject: [PULL v2 6/6] qga-win: choose the right libpcre version to include in
+ MSI package
+Date: Sat, 17 Dec 2022 11:07:40 +0200
+Message-Id: <20221217090740.522093-7-kkostiuk@redhat.com>
 In-Reply-To: <20221217090740.522093-1-kkostiuk@redhat.com>
 References: <20221217090740.522093-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
@@ -80,81 +80,75 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Andrey Drobyshev via <qemu-devel@nongnu.org>
 
-This patch translates GLib-specific log levels to system ones, so that
-they may be used by both *nix syslog() (as a "priority" argument) and
-Windows ReportEvent() (as a "wType" argument).
+According to GLib changelog [1], since version 2.73.2 GLib is using
+libpcre2 instead of libpcre.  As a result, qemu-ga MSI installation
+fails due to missing DLL when linked with the newer GLib.
 
-Currently the only codepath to write to "syslog" domain is slog()
-function.  However, this patch allows the interface to be extended.
+This commit makes wixl to put the right libpcre version into the MSI
+bundle: either libpcre-1.dll or libpcre2-8-0.dll, depending on the
+present version of GLib.
 
-Note that since slog() is using G_LOG_LEVEL_INFO level, its behaviour
-doesn't change.
+[1] https://gitlab.gnome.org/GNOME/glib/-/releases#2.73.2
 
-Originally-by: Yuri Pudgorodskiy <yur@virtuozzo.com>
+Previous version:
+https://lists.nongnu.org/archive/html/qemu-trivial/2022-11/msg00237.html
+
 Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Tested-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- qga/main.c | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+ qga/installer/qemu-ga.wxs | 12 +++++++++---
+ qga/meson.build           |  6 ++++++
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/qga/main.c b/qga/main.c
-index 1463a1c170..85b7d6ced5 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -314,6 +314,38 @@ void ga_enable_logging(GAState *s)
-     s->logging_enabled = true;
- }
- 
-+static int glib_log_level_to_system(int level)
-+{
-+    switch (level) {
-+#ifndef _WIN32
-+    case G_LOG_LEVEL_ERROR:
-+        return LOG_ERR;
-+    case G_LOG_LEVEL_CRITICAL:
-+        return LOG_CRIT;
-+    case G_LOG_LEVEL_WARNING:
-+        return LOG_WARNING;
-+    case G_LOG_LEVEL_MESSAGE:
-+        return LOG_NOTICE;
-+    case G_LOG_LEVEL_DEBUG:
-+        return LOG_DEBUG;
-+    case G_LOG_LEVEL_INFO:
-+    default:
-+        return LOG_INFO;
-+#else
-+    case G_LOG_LEVEL_ERROR:
-+    case G_LOG_LEVEL_CRITICAL:
-+        return EVENTLOG_ERROR_TYPE;
-+    case G_LOG_LEVEL_WARNING:
-+        return EVENTLOG_WARNING_TYPE;
-+    case G_LOG_LEVEL_MESSAGE:
-+    case G_LOG_LEVEL_INFO:
-+    case G_LOG_LEVEL_DEBUG:
-+    default:
-+        return EVENTLOG_INFORMATION_TYPE;
-+#endif
-+    }
-+}
-+
- static void ga_log(const gchar *domain, GLogLevelFlags level,
-                    const gchar *msg, gpointer opaque)
- {
-@@ -327,9 +359,9 @@ static void ga_log(const gchar *domain, GLogLevelFlags level,
-     level &= G_LOG_LEVEL_MASK;
-     if (g_strcmp0(domain, "syslog") == 0) {
- #ifndef _WIN32
--        syslog(LOG_INFO, "%s: %s", level_str, msg);
-+        syslog(glib_log_level_to_system(level), "%s: %s", level_str, msg);
- #else
--        ReportEvent(s->event_log, EVENTLOG_INFORMATION_TYPE,
-+        ReportEvent(s->event_log, glib_log_level_to_system(level),
-                     0, 1, NULL, 1, 0, &msg, NULL);
- #endif
-     } else if (level & s->log_level) {
+diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+index e344c38e74..51340f7ecc 100644
+--- a/qga/installer/qemu-ga.wxs
++++ b/qga/installer/qemu-ga.wxs
+@@ -101,9 +101,15 @@
+           <Component Id="libwinpthread" Guid="{6C117C78-0F47-4B07-8F34-6BEE11643829}">
+             <File Id="libwinpthread_1.dll" Name="libwinpthread-1.dll" Source="$(var.BIN_DIR)/libwinpthread-1.dll" KeyPath="yes" DiskId="1"/>
+           </Component>
+-          <Component Id="libpcre" Guid="{7A86B45E-A009-489A-A849-CE3BACF03CD0}">
+-            <File Id="libpcre_1.dll" Name="libpcre-1.dll" Source="$(var.BIN_DIR)/libpcre-1.dll" KeyPath="yes" DiskId="1"/>
+-          </Component>
++          <?if $(var.LIBPCRE) = "libpcre1"?>
++            <Component Id="libpcre" Guid="{7A86B45E-A009-489A-A849-CE3BACF03CD0}">
++              <File Id="libpcre_1.dll" Name="libpcre-1.dll" Source="$(var.BIN_DIR)/libpcre-1.dll" KeyPath="yes" DiskId="1"/>
++            </Component>
++          <?else?>
++            <Component Id="libpcre" Guid="{F92A3804-B59C-419D-8F29-99A30352C156}">
++              <File Id="libpcre2_8_0.dll" Name="libpcre2-8-0.dll" Source="$(var.BIN_DIR)/libpcre2-8-0.dll" KeyPath="yes" DiskId="1"/>
++            </Component>
++          <?endif?>
+           <Component Id="registry_entries" Guid="{D075D109-51CA-11E3-9F8B-000C29858960}">
+             <RegistryKey Root="HKLM"
+                          Key="Software\$(var.QEMU_GA_MANUFACTURER)\$(var.QEMU_GA_DISTRO)\Tools\QemuGA">
+diff --git a/qga/meson.build b/qga/meson.build
+index 1ff159edc1..ad17dc7dca 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -140,6 +140,11 @@ if targetos == 'windows'
+       qemu_ga_msi_vss = ['-D', 'InstallVss']
+       deps += qga_vss
+     endif
++    if glib.version() < '2.73.2'
++      libpcre = 'libpcre1'
++    else
++      libpcre = 'libpcre2'
++    endif
+     qga_msi = custom_target('QGA MSI',
+                             input: files('installer/qemu-ga.wxs'),
+                             output: 'qemu-ga-@0@.msi'.format(host_arch),
+@@ -153,6 +158,7 @@ if targetos == 'windows'
+                               '-D', 'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
+                               '-D', 'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
+                               '-D', 'QEMU_GA_DISTRO=' + config_host['QEMU_GA_DISTRO'],
++                              '-D', 'LIBPCRE=' + libpcre,
+                             ])
+     all_qga += [qga_msi]
+     alias_target('msi', qga_msi)
 -- 
 2.25.1
 
