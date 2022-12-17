@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809A864F66D
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:42:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E3C64F66F
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:44:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6LHZ-00029H-Vq; Fri, 16 Dec 2022 19:42:30 -0500
+	id 1p6LIb-0003FM-I9; Fri, 16 Dec 2022 19:43:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6LHY-00025G-Ga
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:42:28 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ id 1p6LIX-0003Eh-CX
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:43:29 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6LHW-0006QO-Kq
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:42:28 -0500
-Received: by mail-pg1-x530.google.com with SMTP id r18so2825844pgr.12
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:42:26 -0800 (PST)
+ id 1p6LIV-0006Yj-LH
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:43:28 -0500
+Received: by mail-pl1-x632.google.com with SMTP id x2so3842251plb.13
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:43:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WGds/3jlXLDMv34+tHdaOw7irGF016IXgh0RYegJ3qE=;
- b=WiCh47CElQL2Wsvax6Z7+2/bePWctNJopoHhAu/MDfF1li95Q8cupF6CpeCTfUjwLE
- bD5U1xtExlI9mZ/AaQRMGUVxPhdfszVKj12DzmQPzK7h01T4ubTapU28WNrH+Uy1tGlQ
- 3CRH6m+KquG/SgwxUw4IlLJ/qd4FkZQggCPqXey8/9ar/V50IA3dcKf6eOjWLe8fnYm2
- z6r23UNuozViJ5trhiYpCGhPxizvHXxybsSM3Mul2nq6+n6xKhV/xQe3e0lh2ICAXVQX
- LT82W/Tpll3c6LIC6/UaBUjUb5d9IcPfLFS10ojy7+nb1eDHbNVMWsnLYvt/9qK5xBhe
- CrYQ==
+ bh=+Cpa5inuuTWifznucnO5vMZhLNHoyBC89qAOzG5VMfI=;
+ b=heIykpvPJwK3sJNnRB7YGBxYfEWHvZhSjXfN8SO4TpsP9IAvpcGdD9W+B1xvDpsYH0
+ OLzswTSLGJx0DYTdAx2cjrj57G5ikj3nzM9o7MhQcmpYyHohPYcsAobZooOmnBHyfNXn
+ jmKg7RKe7d8+pqaXDNJdzX4xHFnKnspCHPk0aSWc+lR9fY+H/ZqYCVRzqwhq7A9kfCVb
+ G2U7StAj2TeKEdxyX5GeLtbKUHSCYiIFiPkqDs1la0GVXVEo3aZgnqBekx96xSLtciZ0
+ uQ07BzQfkabAwOcoEOpqfoXCSy3kL8OcKLQq3zFFht6Zqp0N2sH/Dnh777fHP76soSOK
+ 5ZAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WGds/3jlXLDMv34+tHdaOw7irGF016IXgh0RYegJ3qE=;
- b=g2HmM9HC1FhItmJ88g96IKZf5vv+UQevclp7o6Oo00rPf29MmG8NdctmXfO5eb9TC8
- pwuXoyVNkYNxu13vRfWjbQWBWCNA2gdHhK/VudOBpvoBuEgHac0stNuM1D3C7INLN5s2
- s4Btd27P5JfB3PGQeKwJ/8AYWaMthBBbtj7gqKNHabxZYRY/DgYYyd1w/exknvpysQSu
- 7PN9r/qb0F6hWwbEcV0crOYw3YkHDz3YZR8REZ1EVdNhkDe3UrUjQWEwGi5T7//X83PM
- SmYfqh05out5g0MUUS05HfrJeLEZfyKdPiyXMLP1+AMABsEyxLni17ETMHjoxJAbRYWh
- QJgg==
-X-Gm-Message-State: ANoB5pk6xnekRBc4n2LOXS3IY9yNiZDhA971yyBtP75zu2xz3uReNOEU
- Zqj89Cv/shIr7ym0iJx8leyxLA==
-X-Google-Smtp-Source: AA0mqf6GDKH4v+7eNywiNt/JtY07VFgl2oigedwElaco311UAa/pIOajnbSowEw+YR39yGWgCNNP9A==
-X-Received: by 2002:aa7:9ecd:0:b0:576:9455:4c5e with SMTP id
- r13-20020aa79ecd000000b0057694554c5emr31619776pfq.24.1671237745265; 
- Fri, 16 Dec 2022 16:42:25 -0800 (PST)
+ bh=+Cpa5inuuTWifznucnO5vMZhLNHoyBC89qAOzG5VMfI=;
+ b=gRfjrXpbgoN6UjgjY697Q2HDEnwj+fPt6CMcf6IMz40a+dGlUIBk2TCxo88KDAojMS
+ IXVWXpNVoU6g/EaBWpgaJnNiwpfblAVzpE2tI82V0I++W0hmNjgaLN5LQkqRa4QOKopY
+ uR8X2zjSRruVBQm2uiXEIJWK1o9jYZPzFahmeS+hQAfOJrQPCAwagHnmNxhtny5Kixai
+ F9oUzsraL3i0qa5Y1Y3sqslYMQqxKP/GpyjkwyFRhmQMJM3FwY079ib+x9iBbVlbIWoG
+ FyUFg2qyGnbqoASKCzLLDrOKkrzMEVnPdQ4CIwipya3rUJYlul1hfANyVUOmOgXM88Zp
+ Qv0Q==
+X-Gm-Message-State: ANoB5pm4l1S2G3y9QQiY27j8eJHMgFnv9rw2w4ttHS6cxzcg5CbvFEaB
+ t+ZnTy5y2zXYv7A2PqizEc5AIA==
+X-Google-Smtp-Source: AA0mqf7VRdduedRSTaCFfaqEkZB4Dtmk38mKdARBhvArMVs1YB99i+I5kV1rSijYCkvdXw3uaLxCKw==
+X-Received: by 2002:a17:902:e884:b0:18f:ac9f:29f6 with SMTP id
+ w4-20020a170902e88400b0018fac9f29f6mr31233106plg.50.1671237806232; 
+ Fri, 16 Dec 2022 16:43:26 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
  ([2602:47:d48c:8101:c606:9489:98df:6a3b])
  by smtp.gmail.com with ESMTPSA id
- b4-20020a62cf04000000b005764c8f8f15sm2050790pfg.73.2022.12.16.16.42.24
+ a7-20020a170902710700b00177f25f8ab3sm2207512pll.89.2022.12.16.16.43.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 16:42:24 -0800 (PST)
-Message-ID: <0e1ba680-19d6-2840-200f-2798d393e2d9@linaro.org>
-Date: Fri, 16 Dec 2022 16:42:23 -0800
+ Fri, 16 Dec 2022 16:43:25 -0800 (PST)
+Message-ID: <c55e054c-a2f0-7098-8dda-fb5cacee00ba@linaro.org>
+Date: Fri, 16 Dec 2022 16:43:24 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 1/5] exec/memory: Expose memory_region_access_valid()
+Subject: Re: [PATCH 4/5] target/s390x/tcg/misc_helper: Remove unused
+ "memory.h" include
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -71,13 +72,13 @@ Cc: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
  qemu-s390x@nongnu.org, Peter Xu <peterx@redhat.com>,
  Matthew Rosato <mjrosato@linux.ibm.com>
 References: <20221216220411.6779-1-philmd@linaro.org>
- <20221216220411.6779-2-philmd@linaro.org>
+ <20221216220411.6779-5-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216220411.6779-2-philmd@linaro.org>
+In-Reply-To: <20221216220411.6779-5-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,15 +102,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/16/22 14:04, Philippe Mathieu-Daudé wrote:
-> Instead of having hardware device poking into memory
-> internal API, expose memory_region_access_valid().
-> 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   hw/s390x/s390-pci-inst.c       | 2 +-
->   include/exec/memory-internal.h | 4 ----
->   include/exec/memory.h          | 4 ++++
->   3 files changed, 5 insertions(+), 5 deletions(-)
+>   target/s390x/tcg/misc_helper.c | 1 -
+>   1 file changed, 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
