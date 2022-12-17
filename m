@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A352364F9D3
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 16:26:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C290464F9D7
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 16:26:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6Z4J-0003YY-IJ; Sat, 17 Dec 2022 10:25:43 -0500
+	id 1p6Z5F-0004Za-Pn; Sat, 17 Dec 2022 10:26:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Z4A-0003XU-8d
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 10:25:36 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6Z48-0005Pg-5i
- for qemu-devel@nongnu.org; Sat, 17 Dec 2022 10:25:33 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id c17so7357126edj.13
- for <qemu-devel@nongnu.org>; Sat, 17 Dec 2022 07:25:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Kga5RZQ0pXj6oEgyCnjUh8d8RvnKnrRGTcdOKmgX+hQ=;
- b=XkmpCIpKYHTvM2Dm6YUZyA46vCplj7PS+ruKN1s+dRusjSPoffF9n7Hg2/t065zYMj
- 6TpdgCGxUAa3bc+z9vSGfjM/m+so3Pug/ZlLZ1fTYBz1N/xdEASxfX1eRPfFtCiQTymi
- q3kFJ4t6mD4IyUn/i+VGZb+UDAXyCOZVBQir2j42oC5L3G+Xtm1WEeneer3nL3Ds9t+d
- tZt+fhS30Xse+nOYxweUvl2GjhfBveoJWhl1aHI0678aPHET78/6DHZFzTduUDdzgtxt
- hXUCPqSojReFPzHTKa/5/FX1JYDuRHQPaz1zhvEZ6uSWOFW82bEhKdz9RGl2m3Cxqf+Y
- f5ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Kga5RZQ0pXj6oEgyCnjUh8d8RvnKnrRGTcdOKmgX+hQ=;
- b=dlJqTN8/baIzYaHWIq0UuXsZx5Xz0IP+ONGjU/J77qodzeuXEhYw/5coacoRiKrqAe
- 1Q+k2xkG6NGCcRYUnInyVaQbNAujsipQu0vuunCYLZSgjM3767rMqHSOZo91vYbcVLOT
- Zkqn3GD0lOffvUiCXWa8ZrLAiZ0xdE+6cO1vum/jbPfuBJejhQFJVHdYPb7rOHgcowR1
- 4ELy+bwgTVHzBmxszBaVXB9QEjRCx8NTbaHB74axuygtkm82MArp1hzWkrcU6kUf4pq/
- cJx1BN8nBbjglnjBjKUzg1ykcc3Keu8Z/Vns+ArsQ6ugKV46BVMwp16My/pPmQ80PUXt
- xljg==
-X-Gm-Message-State: AFqh2kq85Lp6fUpS6M9+OSLI78uyWlQa80cB4WHUcqXdlTdT3cWQUVQQ
- +1pfV4B9JlsLqIS/UVS7jeEG8LNsYw+NWkrnqao=
-X-Google-Smtp-Source: AMrXdXuEwZPHi2VLlV7RBznYTvTuwC2IV1SFTqGSABiH1L7cmSBsCw2KuuJzw6SCb5Pw4kuF8eC4bw==
-X-Received: by 2002:aa7:d6da:0:b0:474:c69:9ada with SMTP id
- x26-20020aa7d6da000000b004740c699adamr14327571edr.24.1671290726727; 
- Sat, 17 Dec 2022 07:25:26 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- lx5-20020a170906af0500b007af75e6b6fesm2138192ejb.147.2022.12.17.07.25.25
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 17 Dec 2022 07:25:26 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 5/5] target/s390x/tcg/excp_helper: Restrict system headers
- to sysemu
-Date: Sat, 17 Dec 2022 16:24:54 +0100
-Message-Id: <20221217152454.96388-6-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221217152454.96388-1-philmd@linaro.org>
-References: <20221217152454.96388-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <julien@xen.org>)
+ id 1p6Z5D-0004Uw-0Z; Sat, 17 Dec 2022 10:26:39 -0500
+Received: from mail.xenproject.org ([104.130.215.37])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <julien@xen.org>)
+ id 1p6Z5A-0005fs-Sh; Sat, 17 Dec 2022 10:26:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
+ s=20200302mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:
+ From:References:Cc:To:MIME-Version:Date:Message-ID;
+ bh=pmPoEEycSInrIphKy1irRiK7vbaRkCFjmE5wIu5XwFM=; b=j4O7wqMWqAt2Ch36xr/Y2tGP25
+ gxU9rGKFvWYpkc5GEXJjnPlXqx6ikVlMOUxHktUcy3oDataYPfKB44iCqkKxq/W9L6VGBdIflg8fe
+ jMmaXgV7nWcGu3CmHmyY4bjWo/1YOBaOYrcYh4vHDjxFBjOjMksigJXMg3G8ATdFc+10=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+ by mail.xenproject.org with esmtp (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1p6Z53-0008Qd-AF; Sat, 17 Dec 2022 15:26:29 +0000
+Received: from gw1.octic.net ([88.97.20.152] helo=[10.0.1.102])
+ by xenbits.xenproject.org with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1p6Z53-0000vI-42; Sat, 17 Dec 2022 15:26:29 +0000
+Message-ID: <d87025d8-b653-d80e-22c0-05f052447706@xen.org>
+Date: Sat, 17 Dec 2022 15:26:26 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+To: Stefano Stabellini <sstabellini@kernel.org>,
+ Vikram Garhwal <vikram.garhwal@amd.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-dev@xilinx.com, stefano.stabellini@amd.com,
+ xen-devel@lists.xenproject.org, Peter Maydell <peter.maydell@linaro.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20221202030003.11441-1-vikram.garhwal@amd.com>
+ <20221202030003.11441-11-vikram.garhwal@amd.com> <871qphc0p3.fsf@linaro.org>
+ <ade61d47-f8c0-09cc-1a44-faaaff87d76a@amd.com>
+ <alpine.DEB.2.22.394.2212021429220.4039@ubuntu-linux-20-04-desktop>
+From: Julien Grall <julien@xen.org>
+Subject: Re: [QEMU][PATCH v2 10/11] hw/arm: introduce xenpv machine
+In-Reply-To: <alpine.DEB.2.22.394.2212021429220.4039@ubuntu-linux-20-04-desktop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=104.130.215.37; envelope-from=julien@xen.org;
+ helo=mail.xenproject.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,36 +77,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- target/s390x/tcg/excp_helper.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Hi,
 
-diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
-index fe02d82201..bc767f0443 100644
---- a/target/s390x/tcg/excp_helper.c
-+++ b/target/s390x/tcg/excp_helper.c
-@@ -21,15 +21,15 @@
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "cpu.h"
--#include "s390x-internal.h"
- #include "exec/helper-proto.h"
--#include "qemu/timer.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
--#include "hw/s390x/ioinst.h"
--#include "exec/address-spaces.h"
-+#include "s390x-internal.h"
- #include "tcg_s390x.h"
- #ifndef CONFIG_USER_ONLY
-+#include "qemu/timer.h"
-+#include "exec/address-spaces.h"
-+#include "hw/s390x/ioinst.h"
- #include "hw/s390x/s390_flic.h"
- #include "hw/boards.h"
- #endif
+On 02/12/2022 22:36, Stefano Stabellini wrote:
+>> Do you know what Xen version your build env has?
+> 
+> I think Alex is just building against upstream Xen. GUEST_TPM_BASE is
+> not defined there yet. I think we would need to introduce in
+> xen_common.h something like:
+> 
+> #ifndef GUEST_TPM_BASE
+> #define GUEST_TPM_BASE 0x0c000000
+> #endif
+
+I think this would be a big mistake to add the two lines above in QEMU.
+
+Libxl is responsible for creating the domain and generating the firwmare 
+tables. Any mismatch of values will be a real pain to debug.
+
+Even if...
+
+> 
+> We already have similar code in xen_common.h for other things.  Also, it
+> would be best to get GUEST_TPM_BASE defined upstream in Xen first.
+
+... we introduce upstream first, the guest layout is not part of the 
+stable ABI and therefore could change from release to release.
+
+> 
+> 
+>> Another way to fix this(as Julien suggested) is by setting this GUEST_TPM_BASE
+>> value via a property or something and user can set it via command line.
+>>
+>> @sstabellini@kernel.org, do you think of any other fix?
+> 
+> Setting the TPM address from the command line is nice and preferable to
+> hardcoding the value in xen_common.h. It comes with the challenge that
+> it is not very scalable (imagine we have a dozen emulated devices) but
+> for now it is fine and a good way to start if you can arrange it.
+
+It is not clear which one you think is not scalable. If this is the 
+command line option approach, then I think this is unrealistic to ask 
+every user to rebuild there QEMU just because the guest layout has changed.
+
+Today the rebuild may only be necessary when switching to a new release. 
+But in the future we may imagine a per-domain layout (e.g. for legacy 
+purpose). So you will now need to request the user to have one QEMU 
+built per domain.
+
+How is that scalable?
+
+Cheers,
+
 -- 
-2.38.1
-
+Julien Grall
 
