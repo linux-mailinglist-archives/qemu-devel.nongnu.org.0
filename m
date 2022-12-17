@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC3364F665
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22D564F660
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Dec 2022 01:38:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6LCX-00054S-Uh; Fri, 16 Dec 2022 19:37:17 -0500
+	id 1p6LCm-00057o-IC; Fri, 16 Dec 2022 19:37:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6LCW-00054B-LN
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:37:16 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ id 1p6LCf-000567-RU
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:37:26 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6LCU-00055T-W9
- for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:37:16 -0500
-Received: by mail-pf1-x435.google.com with SMTP id d82so2821726pfd.11
- for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:37:09 -0800 (PST)
+ id 1p6LCd-00057y-C5
+ for qemu-devel@nongnu.org; Fri, 16 Dec 2022 19:37:25 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id t17so4002501pjo.3
+ for <qemu-devel@nongnu.org>; Fri, 16 Dec 2022 16:37:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=c/EO7Y8IHjprJ5UK+EbUnh+huTsWLG5h8Kl/G+9GYm0=;
- b=tjmPg8JJg2UvBDRLr3eB7v9aSJ1ixhmsCylrfAZpF05HGeIpYPvzi0h/gG/fKoziPI
- 9kU65YqLYU4gkOLAAiYkRCvp9GselywmE1GgobVtVvOuZvuLQWzYhRUuYijp36jW1mjh
- RR2GEgvXn83Mpy7AnDBJhOswlQyJIbjYXFb9APIgmMroFb8b+iHH1WIuxz4jamW5802a
- 1t7p1+OBgpiKbup1Idft/NeVsSFMqz87o8ZG2PYZp7VOPlYsARYe/nyEV/8/0dpNnUn4
- cGE4y6or1Wq2jFoL+XlLP/6uzOfq/aewJLWnMPYlPwHfFa8Xuub0IbSE8HA3OshPJJ1R
- RsxA==
+ bh=fe1IgIwZ3K+ylBSmpis6a0TzukTCeLn9389iiEaj1eE=;
+ b=G1xrHZDGCUWksfOGoC6x8UUu/07fvszRAX4hyx3Y8/Ow+VOQievwrhE6xd8ZQO+GX+
+ yW11hZIMfFVmoWP5r1P7PB9hi5IAOaWPvXkWBm4P0cTGCkGWAJqrwVFIq8I4MO+S+9HQ
+ 2iORlYPlcPXcpuZpLByVcMnaD5iHi2BYcnpnhBTiYdo4pszycQdfA5qifBbhUlioGDM3
+ PUnpMYDlSSGU0MRaNyYRK6dYS/RIxXr8y6k91LVp83WegXkxURMju5BC+vHyMpGskyHD
+ w3YUQGULuJkVezbPi5wDRvxZEcwE8boQwnjjZ0As4di0HigjZ9gtFsW/3vJc+ZeZAEuP
+ 9y5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=c/EO7Y8IHjprJ5UK+EbUnh+huTsWLG5h8Kl/G+9GYm0=;
- b=x/a6etQcVUGMY/8N+UQLwFbTlYP67Kj+jx+l5nVDUc3zDXTYu36BpDf8TtizUgJCrE
- YepgBlfQ+w64qmBpksO6DA0IXwFEaeEjeMWqZ0f5poIwHxebx3yR1FbqGN7dXJqALZfT
- KtgvG1no1B2G6mr/ZWN5PQPYM1FDzZpL8uO+RrcxutqwXQddacwEHBCKtlGOPHmz3c1q
- IbkkXnI3rIFP6BFyEi7QyRe4KUqelxS3PFGCCDjGZ+iyt5xizcYArYkIUM1AZUiJQ+91
- nLAcE9SEOZ53lhge5bX+/tMdt5xKUA6VeOOqzSY1Oh5kXE9/AT1GTiWJUlitQJs0sGH4
- /BBQ==
-X-Gm-Message-State: ANoB5pmLiund5Ko8G7Ga1iDw6ZJQ+aVL2nzclTZ9ceXZOtBn19430RRE
- at7i1cfDjV0NHG6oinh9LCIr7Q==
-X-Google-Smtp-Source: AA0mqf6n0unR4/iuC61M5wEsQxVXFyqdk99C5rYxWTybfDRi4GChMykNAD9eU0buW4nqpCiEM2ZiVw==
-X-Received: by 2002:a62:3342:0:b0:575:ff07:cb1e with SMTP id
- z63-20020a623342000000b00575ff07cb1emr31753752pfz.31.1671237428081; 
- Fri, 16 Dec 2022 16:37:08 -0800 (PST)
+ bh=fe1IgIwZ3K+ylBSmpis6a0TzukTCeLn9389iiEaj1eE=;
+ b=LZ2goVDtuCJ8fFBWv6jFFyCypQkAYX8iKPQzx7eaCvAxUz8syrbL4DlmhNyOXbu6dt
+ oDUDB/kFAg6XAQcXhWngZ/2jJ0mQ6j5gsoXZK8+EtwefFs5pJeIIASWYgo61F6cpEiNq
+ 1ZJl/ZKP7qM4Nn4LzvJcwfNG+CL6W8KoAV0y5H9x+0WZP9JdDmjs7K4v3iki93rwRU7N
+ jweB5phRxRDLHvzCzEkUjalhgXS34gf2+/yuGeinDdnQVJHQlbysnTC6QXK9UoU5BCaz
+ msjR2ktsNITgz+jCC8EaZYM0EGhPZUUgckqmFX/mLh86diArvWUY5wq+xH2ai7L8t8Js
+ ZTsA==
+X-Gm-Message-State: ANoB5pmWWerLtkTB9C/438tMuZk5YBmJ3Blo2ZS82Yc/PAOmDvPvy/qo
+ 7Myz7U0WCoyqZx/WvFRVb6pxAA==
+X-Google-Smtp-Source: AA0mqf5TmOVwquP0YRNsJxCvWHpG6y2yiwzhTEKP0pLKsK15JRPYQpaEkLdBKpQvRYcxtc2q3KuxRw==
+X-Received: by 2002:a17:902:a986:b0:188:bfa7:f8f5 with SMTP id
+ bh6-20020a170902a98600b00188bfa7f8f5mr31116307plb.42.1671237441861; 
+ Fri, 16 Dec 2022 16:37:21 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:c606:9489:98df:6a3b?
  ([2602:47:d48c:8101:c606:9489:98df:6a3b])
  by smtp.gmail.com with ESMTPSA id
- d62-20020a621d41000000b005625d5ae760sm2128994pfd.11.2022.12.16.16.37.07
+ x12-20020a1709029a4c00b00186a2dd3ffdsm2222223plv.15.2022.12.16.16.37.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Dec 2022 16:37:07 -0800 (PST)
-Message-ID: <b98c5217-9d36-0c16-92f6-2fc6ace2016c@linaro.org>
-Date: Fri, 16 Dec 2022 16:37:05 -0800
+ Fri, 16 Dec 2022 16:37:21 -0800 (PST)
+Message-ID: <eb363663-d968-262f-f985-92329406cb2b@linaro.org>
+Date: Fri, 16 Dec 2022 16:37:19 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 04/10] target/loongarch/cpu: Restrict "memory.h" header to
- sysemu
+Subject: Re: [PATCH 05/10] target/m68k/helper: Include missing "cpu.h" header
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -77,20 +76,20 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  Greg Kurz <groug@kaod.org>, qemu-riscv@nongnu.org,
  Max Filippov <jcmvbkbc@gmail.com>
 References: <20221216220539.7065-1-philmd@linaro.org>
- <20221216220539.7065-5-philmd@linaro.org>
+ <20221216220539.7065-6-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216220539.7065-5-philmd@linaro.org>
+In-Reply-To: <20221216220539.7065-6-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,29 +106,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/16/22 14:05, Philippe Mathieu-Daudé wrote:
-> Missed in 0093b9a5ee ("target/loongarch: Adjust functions
-> and structure to support user-mode") while cleaning commit
-> f84a2aacf5 ("target/loongarch: Add LoongArch IOCSR instruction").
+> 'dh_ctype_fp' is defined as 'FPReg *', itself declared in "cpu.h".
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   target/loongarch/cpu.h | 2 ++
+>   target/m68k/helper.h | 2 ++
 >   1 file changed, 2 insertions(+)
 > 
-> diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-> index c8612f5466..2f17ac6b47 100644
-> --- a/target/loongarch/cpu.h
-> +++ b/target/loongarch/cpu.h
-> @@ -12,7 +12,9 @@
->   #include "fpu/softfloat-types.h"
->   #include "hw/registerfields.h"
->   #include "qemu/timer.h"
-> +#ifndef CONFIG_USER_ONLY
->   #include "exec/memory.h"
-> +#endif
->   #include "cpu-csr.h"
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> diff --git a/target/m68k/helper.h b/target/m68k/helper.h
+> index c9bed2b884..aaf0e1668e 100644
+> --- a/target/m68k/helper.h
+> +++ b/target/m68k/helper.h
+> @@ -1,3 +1,5 @@
+> +#include "cpu.h"
+> +
+>   DEF_HELPER_1(bitrev, i32, i32)
+>   DEF_HELPER_1(ff1, i32, i32)
+>   DEF_HELPER_FLAGS_2(sats, TCG_CALL_NO_RWG_SE, i32, i32, i32)
 
+No, see patch 1.
 
 r~
 
