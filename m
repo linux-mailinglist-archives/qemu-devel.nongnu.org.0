@@ -2,58 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8159565049F
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 21:27:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430266504A0
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 21:35:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p70Eu-0007uh-Ib; Sun, 18 Dec 2022 15:26:28 -0500
+	id 1p70Mh-0000lJ-BC; Sun, 18 Dec 2022 15:34:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1p70Es-0007uY-Q5
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:26:26 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1p70En-00021Q-TY
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:26:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=oSu+RlPyrXjm+dRA7Glj2OvNw2MlpFb1gRkV17jtRMg=; b=cRk6W4CQ1B/bWVourvm4D/cNqM
- 04WV0n+NN8BENKWMOjAlxZqX2ruHvilFvj66DJDNMaG2GylWRvxuewBqScl3xT8gg6mdeQaRkU9Pi
- psDz/xTGvEe1N18LF5GvHv1acJHHgx26tN9jewEKDdOsrcsuWoe/iQhhj+Ry9peYgdTmqAp4cBM/o
- /oOC9aU6xVYl/WMPga+lqDRiLyW8hnbAr3DeYGeB3CvnpGTWZbAC2JVKBLnEjOgOp43gDBnfKfxjC
- ap7BwrREpMV1iHz4rF7lBFQpTjjV/1z4bZCU4I3jgahDklcNI35kr2Jockkz56izPkGnTjkr/mpfG
- dCxpNy0EsE3vRI82V7ad9G9Cd3Q32y9ww6NGwrSWOCZqO5SG0uvtntQOzlBK47DEfIMkYBTIRSyAV
- CCMYpvdA6Hldd4BUjmUmrxphGPsW7nBJ+geV6YsT8B5ok/9P04CnnZ5ohvU7xY65myHGx8FUajVmE
- AkpNaUrkXcE+nJ35JYNx56AFKHVWt4cxi08gsk46ReCl88VIq0cvPg/EO8ZgNSqHR1m5dOnPGsNvL
- DZzr+l87Umbv5kEedvmVF5OKcsmH4KGt/MbLxlNyYcrTyCUsIwbjCLmF4UCSSDajy6TOIQ52iWo3G
- wH52WkknazNNN764SzzqelThfoBjI991wg1ibLAng=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
- Volker =?ISO-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 01/11] audio: log unimplemented audio device sample rates
-Date: Sun, 18 Dec 2022 21:26:16 +0100
-Message-ID: <3246935.mafvd9ugAF@silver>
-In-Reply-To: <20221218171539.11193-1-vr_qemu@t-online.de>
-References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <20221218171539.11193-1-vr_qemu@t-online.de>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p70Mf-0000l2-39
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:34:29 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p70Md-0003IV-IS
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:34:28 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id tz12so17285804ejc.9
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 12:34:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qG1P/ECH2cILz92LrKsS2oVa2Y6+icBrJ7H9PCg74uU=;
+ b=LuFc5f8esRWJvleerIZ3tVb/XDzqVay6kEjTOrpF7tM18dhxnzqkKpP4SCyrqkoqw7
+ Zp7+qLzMlWM0yBR87HdSozYM9nqVo3+OQNegGUy89tpSVO2MAxqDm7P8YTQFjXKdIiKj
+ jabZXSrBNalvNbKzYyLESKx03uEZxUGLsfbPcUldzRiCJi2bwO19MH42Ey+5aXcp9aDh
+ 5N4QMf8n62prkb07P1vZUhViJynm5geMK3HV/14VNcEYQ4U/FDEK9pE2v4pvWbc0VZ8z
+ 4DGgjtp2ZVwjJO0scJitMFBMLiym7KJbREUyOaq3IW3TEs2f4q/56AV5nSdqayyip6im
+ IuRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qG1P/ECH2cILz92LrKsS2oVa2Y6+icBrJ7H9PCg74uU=;
+ b=Xm0ldJQ3EsS6A884dtg4ahbbE90abaegm0xeuMFpWL9vV7CibIpGwnhVMAidk2gjYs
+ KGlxbmivmbmRBMGXWht15GgQr5MMJ85s7PAZrZeW9uYgNfa7VYixKGY3GiQNyHFRceMz
+ NMeKo/IxA6pEWMO3Xew8fxnQtml85tCVgYmpmj+oWPJa+0RNAjo77tp+jZj+ioLVX82+
+ POv3GTTJW8Nzw/G5MbJIFDIL1Lwi5lDWrNL0kPGJrlgzP5ytrGO2UOQaW6onWHjb6C7R
+ 3e3RMC9VCBRa2xa3lLK6g5o5rPylGoVuf/q4qk2SzFPMmm57g7ico0Z2JWLipQzPKpvA
+ t2Sg==
+X-Gm-Message-State: AFqh2koGi91Buv2OAKuTic6Om5Xckyw75sQ8xnie2QZbQBWverSDvlo1
+ D1RZSSRrB4OixnDkAJhdq8BLrA==
+X-Google-Smtp-Source: AMrXdXsqWY2bZaoGjcsD5onWNQn6IXQuoOrOmUkZScciU1+sKot/Gjr45Eb8VfYdruY10al5HStkeQ==
+X-Received: by 2002:a17:907:8d01:b0:81a:c653:4a06 with SMTP id
+ tc1-20020a1709078d0100b0081ac6534a06mr2413851ejc.66.1671395664537; 
+ Sun, 18 Dec 2022 12:34:24 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ fr33-20020a170906892100b007c09da0d773sm3518575ejc.100.2022.12.18.12.34.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 18 Dec 2022 12:34:24 -0800 (PST)
+Message-ID: <6312d928-f5ab-b7e7-3bb2-9b319917e6ed@linaro.org>
+Date: Sun, 18 Dec 2022 21:34:21 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 07/11] audio/audio_template: use g_malloc0() to replace
+ audio_calloc()
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
+ <9b60cdc7-3bd3-6651-2e7e-29673731aabd@linaro.org>
+ <e4276dbf-ba7c-0ee4-88f8-4b0cffee46f7@t-online.de>
+ <2688636.InQPIc3kla@silver>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <2688636.InQPIc3kla@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,97 +97,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sunday, December 18, 2022 6:15:29 PM CET Volker R=FCmelin wrote:
-> Some emulated audio devices allow guests to select very low
-> sample rates that the audio subsystem doesn't support. The lowest
-> supported sample rate depends on the audio backend used and in
-> most cases can be changed with various -audiodev arguments. Until
-> now, the audio_bug function emits an error message similar to the
-> following error message
->=20
-> A bug was just triggered in audio_calloc
-> Save all your work and restart without audio
-> I am sorry
-> Context:
-> audio_pcm_sw_alloc_resources_out passed invalid arguments to
->  audio_calloc
-> nmemb=3D0 size=3D16 (len=3D0)
-> audio: Could not allocate buffer for `ac97.po' (0 samples)
->=20
-> and the audio subsystem continues without sound for the affected
-> device.
->=20
-> The fact that the selected sample rate is not supported is not a
-> guest error. Instead of displaying an error message, the missing
-> audio support is now logged. Simply continuing without sound is
-> correct, since the audio stream won't transport anything
-> reasonable at such high resample ratios anyway.
->=20
-> The AUD_open_* functions return NULL like before. The opened
-> audio device will not be registered in the audio subsystem and
-> consequently the audio frontend callback functions will not be
-> called. The AUD_read and AUD_write functions return early in this
-> case. This is necessary because, for example, the Sound Blaster 16
-> emulation calls AUD_write from the DMA callback function.
->=20
-> Signed-off-by: Volker R=FCmelin <vr_qemu@t-online.de>
-> ---
->  audio/audio.c          |  1 +
->  audio/audio_template.h | 13 +++++++++++++
->  2 files changed, 14 insertions(+)
->=20
-> diff --git a/audio/audio.c b/audio/audio.c
-> index d849a94a81..f6b420688d 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -31,6 +31,7 @@
->  #include "qapi/qobject-input-visitor.h"
->  #include "qapi/qapi-visit-audio.h"
->  #include "qemu/cutils.h"
-> +#include "qemu/log.h"
->  #include "qemu/module.h"
->  #include "qemu/help_option.h"
->  #include "sysemu/sysemu.h"
-> diff --git a/audio/audio_template.h b/audio/audio_template.h
-> index 720a32e57e..bfa94b4d22 100644
-> --- a/audio/audio_template.h
-> +++ b/audio/audio_template.h
-> @@ -115,6 +115,19 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE=
-) (SW *sw)
->  #else
->      samples =3D (int64_t)sw->HWBUF->size * sw->ratio >> 32;
->  #endif
-> +    if (samples =3D=3D 0) {
-> +        HW *hw =3D sw->hw;
-> +        size_t f_fe_min;
-> +
-> +        /* f_fe_min =3D ceil(1 [frames] * f_be [Hz] / size_be [frames]) =
-*/
-> +        f_fe_min =3D (hw->info.freq + HWBUF->size - 1) / HWBUF->size;
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      AUDIO_CAP ": The guest selected a " NAME " sample =
-rate"
-> +                      " of %d Hz for %s. Only sample rates >=3D %zu Hz a=
-re"
-> +                      " supported.\n",
-> +                      sw->info.freq, sw->name, f_fe_min);
-> +        return -1;
+On 18/12/22 21:05, Christian Schoenebeck wrote:
+> On Sunday, December 18, 2022 6:39:00 PM CET Volker Rümelin wrote:
+>> Am 18.12.22 um 18:26 schrieb Philippe Mathieu-Daudé:
+>>> On 18/12/22 18:15, Volker Rümelin wrote:
+>>>> Use g_malloc0() as a direct replacement for audio_calloc().
+>>>>
+>>>> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+>>>> ---
+>>>>    audio/audio_template.h | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/audio/audio_template.h b/audio/audio_template.h
+>>>> index d343a1dcb3..5f51ef26b2 100644
+>>>> --- a/audio/audio_template.h
+>>>> +++ b/audio/audio_template.h
+>>>> @@ -273,7 +273,7 @@ static HW *glue(audio_pcm_hw_add_new_,
+>>>> TYPE)(AudioState *s,
+>>>>            return NULL;
+>>>>        }
+>>>>    -    hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
+>>>> +    hw = g_malloc0(glue(drv->voice_size_, TYPE));
+>>>>        if (!hw) {
+>>>
+>>> g_malloc0() can't fail. Either you want g_try_malloc0() or
+>>> remove the error path.
+>>>
+>>
+>> g_malloc0() returns NULL if drv->voice_size_(out|in) is 0. I think the
+>> code is correct.
+> 
+> Correct, that's the only case these glib functions return NULL. And AFAICS
+> this can be zero with CoreAudio or wav.
 
-You probably want to `sw->buf =3D NULL;` before returning here, or adjust t=
-he
-condition for the error message below.
+Oh I forgot the '0' case, my bad.
 
-The other thing that puzzles me, in error case these template functions ret=
-urn
-=2D1, which would then be feed to g_malloc*()?
-
-> +    }
-> =20
->      sw->buf =3D audio_calloc(__func__, samples, sizeof(struct st_sample)=
-);
->      if (!sw->buf) {
->=20
-
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
