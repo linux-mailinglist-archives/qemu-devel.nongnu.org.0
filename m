@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CE16504D6
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 22:39:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78DE6504DE
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 22:50:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p71NQ-0004sn-0A; Sun, 18 Dec 2022 16:39:20 -0500
+	id 1p71XW-0006pd-1e; Sun, 18 Dec 2022 16:49:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71NL-0004og-8C
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:39:15 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71XU-0006pO-A1
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:49:44 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71NJ-0006qD-M5
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:39:15 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id r26so10489431edc.10
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 13:39:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71XS-00008s-LB
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:49:44 -0500
+Received: by mail-ej1-x629.google.com with SMTP id gh17so17551190ejb.6
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 13:49:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=xMrwInNalQnFP4G5QPwKvGFvLfPRLd4031VEnGmuFNo=;
- b=Uy3/pNB25M1YFoXcJhomOLETNUqzFFaSvLN8S8ubiDzQoiZ/oKw6s78HCGNo9y1coO
- 6WfzyZs3Yh0X2f2qwBDzHt1WHh30nV9M9ILotkqYT15yGL9fn/h0tHqwk71cE6Wqj3zq
- 84ZN9yuoIKrAbFh6MaYf6dRZFR5i04QY7A01sPFra1N+bYwltuP1f6TLLWybyt2782w2
- 3IgRypRDtDgiEbSMYsr3vD0rsHsmYo3UGfdiFk4beLdg1da6Va2kvigPdxhRJN35hHHI
- 90mrF7pemcWDJfi7xTEcixMetson6wYCENsmt2pl9yK2amsVvbIyhjyU5xfF4/f/dEh8
- q0gA==
+ bh=1ixToARz9Bdmkel0uqJ/oywTScDhPmGbhUZR1mP+VXs=;
+ b=deCb7cdojG8h+XvnoD549+sKGVEp1tlnFf7HM1FR06yzSOoVp/xnoddIulCWfH8Nvm
+ Ikvg8B0GiV1YLUm9XuGsGpz3+wOeF4C8UdVGcM+jXAgGRimbGQmrhcsIbMx3ct1eezQ4
+ /vGtonWV8bQL5yaoQElhHVJOoURSH2kCyYnzSAgFechJmqIl9Ud2XQ21Mh91mI/rFQSd
+ 4XCTZDCF13wDr/3O+Je38AoS+qFuHcDyGM/2c6thEB6pMKIjYj6vc2eakkrEtLnfOCB9
+ bFCWN5TIqYVGp6LLskqwlK7Dlk7xJjlA8xE75Lfxq+iLRwbTORAp76fCXNuEC3pxKKg1
+ JINQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xMrwInNalQnFP4G5QPwKvGFvLfPRLd4031VEnGmuFNo=;
- b=tgVwCpD0zzLTO6LWvcxe9Xy1sg5Y1jmv8WmSr61jGVh9pZ5rTX6EAmfA+HT30xpAM3
- gb6/OwB3EQV3+b1XoyjIM/M1IUsJFZOBkHkN7OrI220asyGSq/LoiaLoHdWI+eFFAHVv
- It6IQ7ir7yXycTrvDkJ4ViwQTtOu98mjaEM97Tidgl9jABbYY9G5fGIHx8EpY/YwgbGf
- R2gLfyznc+95e1QRr/vHm78x/ccT7LZJrIK3JcPqgHkre65Yg56xKelUVZKQO1ZqIYjX
- FWnn+RpJs/H0ZtUDxwQ1RnMloiwnwdyGcRTbJbfHAK5au9N8mvKvV9ecSUtLpVskqmhG
- o8lQ==
-X-Gm-Message-State: ANoB5pnp1K4rELg7g4oL8momwlRhWWpVtZiIICY6KHt78Yg6s0K1lYRL
- 27M59RcESWnhePzYuSnkqJfNi6PnwLltv/IrVws=
-X-Google-Smtp-Source: AA0mqf4Y1jKvW+qstSz8M/k0m7YnldlBbqppBLVtP1ueNHnqB6WxDcRyZmgsInVVXQ8CQ8IOLypC1A==
-X-Received: by 2002:a05:6402:320f:b0:46c:ec6f:43d7 with SMTP id
- g15-20020a056402320f00b0046cec6f43d7mr47202846eda.19.1671399551661; 
- Sun, 18 Dec 2022 13:39:11 -0800 (PST)
+ bh=1ixToARz9Bdmkel0uqJ/oywTScDhPmGbhUZR1mP+VXs=;
+ b=YRe8XNwDTOJf/GhnljL6/rnYHyIaOCoa8M/OAEpvhcDWPWRBmu+3qEguGPcYI2HNB/
+ N28ayZ7vEwVHyPgiF59/M8Exq9UvsVrtJ3xzuw1SqGth05y9ubw/bbuScwux5gIBwBAq
+ PmKl1y9TirED3ZUIgLf7E0VSvcysufyPu1hT8BJgkmjgp4vLPXeUfRCyw3yE3hlH7M6j
+ ovHHi+tSvKa0wYabNT9kycaLXLJdtT2l1T+VwvZQwzqFsxHmL6u+WA8HKPuP9APtULkP
+ XDlhiU4X+akOOWs10fboURSqPyvpyBNWOtSPtNxlpDq3XlM75R0CbHy91hLgwCcvtJYQ
+ zfTQ==
+X-Gm-Message-State: ANoB5pl9k1+G1qHWZuef7FTqGcgTVXqMRp38jsZWBoDNJwTnYFk0vx+G
+ XF2GgjWMJ2mCPE0WD9J4fZ42Lt0dMbFC0Zg9Fw4=
+X-Google-Smtp-Source: AA0mqf7FnkeQAC/fshlTFgVT9zjlizzfRm+V8UDq1e1nfCx1rVp4XCfs16ysYW02H2RRY5CCH/QfLA==
+X-Received: by 2002:a17:906:7116:b0:7c1:8450:f963 with SMTP id
+ x22-20020a170906711600b007c18450f963mr27064870ejj.34.1671400180620; 
+ Sun, 18 Dec 2022 13:49:40 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s19-20020a056402015300b0045bd14e241csm3579547edu.76.2022.12.18.13.39.10
+ u1-20020a170906c40100b007c0cbdfba04sm3549745ejz.70.2022.12.18.13.49.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 13:39:11 -0800 (PST)
-Message-ID: <b2cca51f-1c1e-a274-e857-341ef2fd0f7d@linaro.org>
-Date: Sun, 18 Dec 2022 22:39:10 +0100
+ Sun, 18 Dec 2022 13:49:40 -0800 (PST)
+Message-ID: <aea9ed5d-93d7-6684-1e47-9aaf4860641b@linaro.org>
+Date: Sun, 18 Dec 2022 22:49:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v4 20a/27] tcg: Pass number of arguments to tcg_emit_op()
- / tcg_op_insert_*()
+Subject: Re: [PATCH v4 20b/27] tcg: Vary the allocation size for TCGOp
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 References: <20221213212541.1820840-21-richard.henderson@linaro.org>
  <20221218211832.73312-1-philmd@linaro.org>
- <20221218211832.73312-2-philmd@linaro.org>
+ <20221218211832.73312-3-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221218211832.73312-2-philmd@linaro.org>
+In-Reply-To: <20221218211832.73312-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -95,28 +93,86 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 18/12/22 22:18, Philippe Mathieu-Daudé wrote:
-> In order to have variable size allocated TCGOp, pass the number
-> of arguments we use (and would allocate) up to tcg_op_alloc().
+> From: Richard Henderson <richard.henderson@linaro.org>
 > 
-> This alters tcg_emit_op(), tcg_op_insert_before() and
-> tcg_op_insert_after() prototypes.
-> 
-> In tcg_op_alloc() ensure the number of arguments is in range.
+> We have been allocating a worst case number of arguments
+> to support calls.  Instead, allow the size to vary.
+> By default leave space for 4 args, to maximize reuse,
+> but allow calls to increase the number of args to 32.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> [PMD: Extracted from bigger patch]
+> [PMD: Split patch in two]
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   accel/tcg/plugin-gen.c |  5 ++++-
->   include/tcg/tcg-op.h   |  2 +-
->   include/tcg/tcg.h      |  8 +++++---
->   tcg/optimize.c         |  4 ++--
->   tcg/tcg-op-vec.c       |  8 ++++----
->   tcg/tcg-op.c           | 12 ++++++------
->   tcg/tcg.c              | 30 +++++++++++++++++-------------
->   7 files changed, 39 insertions(+), 30 deletions(-)
+>   accel/tcg/plugin-gen.c     | 10 ++++-----
+>   include/exec/helper-head.h |  2 --
+>   include/tcg/tcg.h          | 46 +++++++++++++-------------------------
+>   tcg/tcg.c                  | 35 +++++++++++++++++++++--------
+>   4 files changed, 47 insertions(+), 46 deletions(-)
+
+
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 3f172cb1d6..ccbe947222 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -1513,7 +1513,12 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
+>           }
+>       }
+>   
+> -    max_args = ARRAY_SIZE(op->args);
+> +    /*
+> +     * A Call op needs up to 4 + 2N parameters on 32-bit archs,
+> +     * and up to 4 + N parameters on 64-bit archs
+> +     * (N = number of input arguments + output arguments).
+> +     */
+> +    max_args = (64 / TCG_TARGET_REG_BITS) * nargs + 4;
+>       op = tcg_emit_op(INDEX_op_call, max_args);
+>   
+>       pi = 0;
+> @@ -2298,19 +2303,31 @@ void tcg_remove_ops_after(TCGOp *op)
+>   static TCGOp *tcg_op_alloc(TCGOpcode opc, unsigned nargs)
+>   {
+>       TCGContext *s = tcg_ctx;
+> -    TCGOp *op;
+> +    TCGOp *op = NULL;
+>   
+> -    assert(nargs < ARRAY_SIZE(op->args));
+> -    if (likely(QTAILQ_EMPTY(&s->free_ops))) {
+> -        op = tcg_malloc(sizeof(TCGOp));
+> -    } else {
+> -        op = QTAILQ_FIRST(&s->free_ops);
+> -        QTAILQ_REMOVE(&s->free_ops, op, link);
+> +    if (unlikely(!QTAILQ_EMPTY(&s->free_ops))) {
+> +        QTAILQ_FOREACH(op, &s->free_ops, link) {
+> +            if (nargs <= op->nargs) {
+> +                QTAILQ_REMOVE(&s->free_ops, op, link);
+> +                nargs = op->nargs;
+> +                goto found;
+> +            }
+> +        }
+>       }
+> +
+> +    /* Most opcodes have 3 or 4 operands: reduce fragmentation. */
+> +    nargs = MAX(4, nargs);
+> +    op = tcg_malloc(sizeof(TCGOp) + sizeof(TCGArg) * nargs);
+> +
+> + found:
+>       memset(op, 0, offsetof(TCGOp, link));
+>       op->opc = opc;
+> -    s->nb_ops++;
+> +    op->nargs = nargs;
+
+We can move this assignation before the 'found' label.
+
+>   
+> +    /* Check for bitfield overflow. */
+> +    tcg_debug_assert(op->nargs == nargs);
+> +
+> +    s->nb_ops++;
+>       return op;
+>   }
+>   
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
