@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9706504B0
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 22:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 276706504C6
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 22:23:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p70nw-0005ih-Vk; Sun, 18 Dec 2022 16:02:41 -0500
+	id 1p713t-0000wa-3E; Sun, 18 Dec 2022 16:19:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p70nk-0005hr-Cx
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:02:37 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p713Q-0000v9-RT
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:18:40 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p70ni-0007ed-QF
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:02:28 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- e7-20020a17090a77c700b00216928a3917so11095820pjs.4
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 13:02:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p713O-0001pP-W3
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:18:40 -0500
+Received: by mail-ej1-x634.google.com with SMTP id jo4so8527828ejb.7
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 13:18:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QsKjZf1PddWtM5Fixcy2C56sLUAUI6nzPPRGUJIxw74=;
- b=ioUnlPnjJsl+TN3Pa1eS6PO6kKzIvMzsiD+E8Qyv0Nt69VCQj8ZuNzDVTMGndyBH4d
- hTIXsGiLoRGUh/u3wdeU4mDf5Hc4SFexdq9rvo0/qyhzXM028NcRAaN3t1DaQkPWTr/L
- wDQw5CsIU5Ypl2gwjkbR3jV0uGnKStyx0EFlf3Lpg7NDD7b3fCAKCw1SGyqkw5xNWEZZ
- Vd9c/GFGg2phSmyd7YaPAUALQQoV5n1CVARCfaT/WcgyKQX86ntM7DDbW2NZv786UBJO
- tKOXrq991aqIKgDk4LD0LfrK0MH0+Qm41jeXYrcMFRkjtf97Lw0RBfCVnL22eNrZB/tW
- qGMQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xzJ3g6QskqfI5+kmoSXpiMDcu/zHjd7PoHSfc+W8jYk=;
+ b=KT/onxhwpaDzlGGhdyGlFt9eVN3k8g4Lk1ljkSQ3+ivipejBKrArQwcRBcqrCrm7Ki
+ fxdV6fdEPw86ckM+yCYi5bRiLne/J1cSxmk+guFNpvJwco0i/8d/exjwMYRFjdfRYmgD
+ ndD6m+I2GRYGperAAa+2c5u4wqdbrLb9RvHD/P+3UvBB5t9Ft5GpwPacT/fhiRs6aAB7
+ Y2ijc7dFSlp9FrdkBiyS1aHVZvRRvXiUSPJ/pb/VoqxJikaq8LEK7TSw4qzqSq1Q6Jbx
+ be3Iy7Q4QinvNRHSJVjZTN367UCkZ0ZShpDF6Tl8i/mbIa+oF6tUWI7VGcQXuU/JPx7X
+ LnsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QsKjZf1PddWtM5Fixcy2C56sLUAUI6nzPPRGUJIxw74=;
- b=jQFw03+BKZ1hbKlI3cB3E6pW0/2ZiLWYrODKZv+Kit596rzNl+/IW7XysUs2pqmEcr
- b1HynZCGkc19jLBqga5AYI6eGmPeHQkntdOChwiyaeovFvyKYKJVHavDWdzgQYJAc23M
- sYCT6PHCjl81i2ToQztNa3hc/ACPSSR1Sm/MM7lholxiexqDhKtRHvI4uCFTqVIBoqAR
- 0d6e6mFYs4SsKh5tzSRR7hOT+FW6q/8XV2RRC+aNSWI7OXkZuQhXUIqjKA3R5qH7hFze
- fyxwmAZbmSDV2uvQktHNE+g7C93dFJUENWBy90zNXMxZgJcbra/jb9jGrxLvsqR/Hpd2
- rpHA==
-X-Gm-Message-State: ANoB5pkJYPLz51tcMYqJNy2lTyxkP+zKWfAi9CiSGJp5zrMbXjJ8hGMR
- UlVy2Y9AOMKBGjhdi+cEpWLdqA==
-X-Google-Smtp-Source: AA0mqf5r/+v8ty8a114XjaXunsPN+8B4nPIRy3/J6Zkzif1SP9jwpOx8B/fhqeVwOTD6ULianEkN0A==
-X-Received: by 2002:a17:902:7247:b0:189:d780:b98f with SMTP id
- c7-20020a170902724700b00189d780b98fmr41858105pll.35.1671397344886; 
- Sun, 18 Dec 2022 13:02:24 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:3808:f064:41b8:eb9e?
- ([2602:47:d48c:8101:3808:f064:41b8:eb9e])
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xzJ3g6QskqfI5+kmoSXpiMDcu/zHjd7PoHSfc+W8jYk=;
+ b=LZD1DZ7F86sb2o//VombvP4B/9Pf6rX2pKDjY2WxjlcODgK0QcqZjv5KzNWeYjfSzl
+ GDJdbkj+fK62XDyb/E3RxPRauXR3ARmzXBNVu2MIUeKqe62DI9UWcQTHE0xU50bq/H3C
+ 0+cZYH8vrUZIYOWOr/WBZZdbo8GYOzjDYsexC+/iulTzfYQNtBlcFbIwStt1Vz4IXoIQ
+ RXNyDFuqoz2oHrBfEfZz9UCQTyvtQp0XehSxAaFKoJ0kuwLD80biR6T1jb5YMqtlhRnP
+ TaOi3blQHTexg1PqV3uk2d26M5MMR4c4aUsP4xs/0jkh8nfs/Awxc15bcpxE8QQt+ydQ
+ n7fQ==
+X-Gm-Message-State: AFqh2kpdP4G6+1pJempvz3qHzyNZodB63gyMQETe6actKkYFomwb2Hb0
+ H9miNL3wkZEKKV8+1Cr/Ay8aUt29SBwNIyBjVco=
+X-Google-Smtp-Source: AMrXdXvy6fF3wp63+lnaYW+EOOX9VSigyPoThRJvykvRHZ6+kOg3AXbF2fgOsMZCFtzVrx+Z2/mgWg==
+X-Received: by 2002:a17:906:bc1:b0:7f7:a4ed:f2d4 with SMTP id
+ y1-20020a1709060bc100b007f7a4edf2d4mr6327847ejg.77.1671398316816; 
+ Sun, 18 Dec 2022 13:18:36 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p2-20020a170902e74200b0017f57787a4asm5503858plf.229.2022.12.18.13.02.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 13:02:24 -0800 (PST)
-Message-ID: <210f146f-d854-f100-72f1-2bde24b1d669@linaro.org>
-Date: Sun, 18 Dec 2022 13:02:22 -0800
+ q22-20020a17090676d600b0080c433a9eeesm1666942ejn.182.2022.12.18.13.18.35
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sun, 18 Dec 2022 13:18:36 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v4 20/27] tcg: Vary the allocation size for TCGOp
+Date: Sun, 18 Dec 2022 22:18:30 +0100
+Message-Id: <20221218211832.73312-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221213212541.1820840-21-richard.henderson@linaro.org>
+References: <20221213212541.1820840-21-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 08/11] audio/audio_template: use g_new0() to replace
- audio_calloc()
-Content-Language: en-US
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org
-References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <20221218171539.11193-8-vr_qemu@t-online.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221218171539.11193-8-vr_qemu@t-online.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,18 +90,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/18/22 09:15, Volker Rümelin wrote:
-> Replace audio_calloc() with the equivalent g_new0().
-> 
-> With a n_structs argument >= 1, g_new0() never returns NULL.
-> Also remove the unnecessary NULL checks.
-> 
-> Signed-off-by: Volker Rümelin<vr_qemu@t-online.de>
-> ---
->   audio/audio_template.h | 23 ++++++-----------------
->   1 file changed, 6 insertions(+), 17 deletions(-)
+Splitting this patch in 2 to ease review.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Philippe Mathieu-Daudé (1):
+  tcg: Pass number of arguments to tcg_emit_op() / tcg_op_insert_*()
 
-r~
+Richard Henderson (1):
+  tcg: Vary the allocation size for TCGOp
+
+ accel/tcg/plugin-gen.c     | 11 ++++---
+ include/exec/helper-head.h |  2 --
+ include/tcg/tcg-op.h       |  2 +-
+ include/tcg/tcg.h          | 54 +++++++++++++--------------------
+ tcg/optimize.c             |  4 +--
+ tcg/tcg-op-vec.c           |  8 ++---
+ tcg/tcg-op.c               | 12 ++++----
+ tcg/tcg.c                  | 61 +++++++++++++++++++++++++-------------
+ 8 files changed, 82 insertions(+), 72 deletions(-)
+
+-- 
+2.38.1
+
 
