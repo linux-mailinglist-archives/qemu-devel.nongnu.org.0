@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B208650431
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 18:30:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A97A650433
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 18:32:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6xTt-0002Qc-8Q; Sun, 18 Dec 2022 12:29:45 -0500
+	id 1p6xW7-0003E0-KF; Sun, 18 Dec 2022 12:32:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6xTn-0002QG-CJ
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:29:39 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6xW6-0003Dk-2j
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:32:02 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6xTl-00053z-RC
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:29:39 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id d20so10137734edn.0
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 09:29:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6xW4-0005cG-LA
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:32:01 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id c66so10068819edf.5
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 09:31:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=rW9GFJy5DO6m1C/qXYxtCkwqfsc+4xZJLi5lxmaCdPA=;
- b=AOhIiHHbYhrerbSmwB3VQJYoXiJFqZrkUmzK3jXYAkK32BB5KgGwLsc7GqfLMQHPO8
- V94kyGqgOpJrXFOMWZ+lFcd4gG7hSV2AFkyObN3/tXnJWBpnIs19hluC9QEdueN6LnL6
- 7VUWljLFaMArxeobTfr7vd1AXcFhgZGl6vbCXZl9GBijhhHSt2eRkCxf0EAZ62B9ptvJ
- S1/5USAFPJH5Dz60UJA42fexI6OcSS/VkEtwBFelf2Izdlxg2CpTxmUOIOJFovLtRtIG
- L7Lr3FB6Xy1udpcqVFk0b55XH29h+QSP2gRYBFrZBNeVFdtDdQMkwC9x4y58zUm9sCy7
- 95+A==
+ bh=yGA6h0qOMZM1BMijVL+UKbzIUdNaA6H5pm2ZOLDJ3o8=;
+ b=QguBP4/X3d3bxMQQuq35RYY11oKpOD90bTGN/pHNaiDToaXuYCu//9ltzL4X0olRSv
+ CXDptxOq62W4YFpofcCSdtA1Dv3o+Tyo4wgdLwpAYKh91EEjkFmk4X26YEx2XiyHu3AN
+ hXbxDO7Ml9oF9M4kJWfio4Bwmoc/M+TOMmwKksNZQMLTefnhiCo/O52cSLY0oYXksuki
+ UxiBHABUCIcTuVRrO+jgdfazgN5N7RkojsngwWbf+IaoRxWyfdifs9HDHc1lSQwZZQ/k
+ 0ac8IcknyDMl2kb2Fq+xh8u/Ntc0owHdEdGfz1CiGWxICLZ3+q9xsN53fz/XrDr2GiK6
+ 4dvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rW9GFJy5DO6m1C/qXYxtCkwqfsc+4xZJLi5lxmaCdPA=;
- b=F9BnaJyan89cNzRKXxvdd2QjzNAl9X3/Gbdg2rbwvCta5XuiNZ9ewCTl7dE64Wbpgq
- 8geQ+XyQ6WfNJb+KE69i1hVDVPAw3o1SVwr+S6aQKQdGM8IuWprQtFLPgCfbcmBxWNFp
- D7jN5SSsbh6OQIk30xfu/PHTJ0mw9/rhALR+LWVDngbFYW/qWsx30CvegwhLvPK+2D34
- sh1wdme0+WE/ZI+nqUnoLNXCKuaD45n8EsQ6Em9Vgy+0uxzNS8gHRPHLcHIfEokYq+7L
- iJi0xBUUJb7AtjTFkM8Co9OH006xCytSa/wYQOPQ92VPmHsZyhDtzcdZ/J4Sc6hDJ3JW
- QT/g==
-X-Gm-Message-State: ANoB5pmtLxRe0HGAs9WqNiM5ggknQ4kMnyqdcf4W4DNJlogb5cBpH1lZ
- Rh4a+QNJ6yuJwVeEqw68eS7sIA==
-X-Google-Smtp-Source: AA0mqf5ro1KrTO9GgCn42P8Yc+ICc6zmv4CxgUJ4sWQIIQpuE5bQ3dfjNFopNNgVBH0gPivcVXA+KA==
-X-Received: by 2002:a05:6402:e9e:b0:470:2270:c508 with SMTP id
- h30-20020a0564020e9e00b004702270c508mr22676756eda.41.1671384576139; 
- Sun, 18 Dec 2022 09:29:36 -0800 (PST)
+ bh=yGA6h0qOMZM1BMijVL+UKbzIUdNaA6H5pm2ZOLDJ3o8=;
+ b=0S2zwXNBSoKj19bxYvwGoHkVjU3aQv/jTWcCOXdmy7OXJShQoiWG5l502C1RU+3VNb
+ 4iMIjPFYXMJh35MskAjo+EfmfK0e0IKQT2a+tHm3hvjKKOnqlSX6P/Z/fhxo3poPYXSO
+ UiFWyFaH5E/IxLMCB/XCwvpRawu+TlImJ4ZUL8F0j4YNWYeuABplIlOn/X21Cl+RpceB
+ HxoCmb2HrOLQPnRgB5dfUxI7Vz2IDEE5LzhB7GXn6UN00tP2ccvNk8WSPWS6cClIBgZK
+ KEYtAoyx9g6pXyPwgeErfPbRQiAmzEPr2cBPN9/NtIjFZlyF7UbaK3RENZBM44PNt1WR
+ lbVw==
+X-Gm-Message-State: ANoB5pkMo2yp7Lx1jUEpdWpF9MadasUgm+wwLFstOmGvNiWmuQJrXy31
+ gBMs9iC5PitDUFTswvGmzKUO/A==
+X-Google-Smtp-Source: AA0mqf7BEQwDMz0V8gyg3306aspDkq0sQmvzTFwWfBb6iJdEKXi0BH1UIuaj/s7sZxmJEYzJ5SWgcQ==
+X-Received: by 2002:a50:8d1c:0:b0:46c:97c2:8d75 with SMTP id
+ s28-20020a508d1c000000b0046c97c28d75mr35612599eds.21.1671384718780; 
+ Sun, 18 Dec 2022 09:31:58 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- i14-20020a0564020f0e00b004714b6cce2dsm3308480eda.20.2022.12.18.09.29.34
+ cy9-20020a0564021c8900b0046776f98d0csm3370710edb.79.2022.12.18.09.31.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 09:29:35 -0800 (PST)
-Message-ID: <dc76e0f2-b2c7-4df2-f13b-b2e3d995d4a7@linaro.org>
-Date: Sun, 18 Dec 2022 18:29:33 +0100
+ Sun, 18 Dec 2022 09:31:58 -0800 (PST)
+Message-ID: <e3799b21-726f-2530-77e2-81b590288a03@linaro.org>
+Date: Sun, 18 Dec 2022 18:31:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 09/11] audio: remove audio_calloc() function
+Subject: Re: [PATCH 04/11] audio: remove unused #define AUDIO_STRINGIFY
 Content-Language: en-US
 To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
  Gerd Hoffmann <kraxel@redhat.com>
@@ -66,13 +66,13 @@ Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
  qemu-devel@nongnu.org
 References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <20221218171539.11193-9-vr_qemu@t-online.de>
+ <20221218171539.11193-4-vr_qemu@t-online.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221218171539.11193-9-vr_qemu@t-online.de>
+In-Reply-To: <20221218171539.11193-4-vr_qemu@t-online.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -96,15 +96,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 18/12/22 18:15, Volker Rümelin wrote:
-> Now that the last call site of audio_calloc() was removed, remove
-> the unused audio_calloc() function.
+> Remove the unused #define AUDIO_STRINGIFY. It was last used before
+> commit 470bcabd8f ("audio: Replace AUDIO_FUNC with __func__").
 > 
 > Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 > ---
->   audio/audio.c     | 20 --------------------
->   audio/audio_int.h |  1 -
->   2 files changed, 21 deletions(-)
+>   audio/audio_int.h | 3 ---
+>   1 file changed, 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
 
