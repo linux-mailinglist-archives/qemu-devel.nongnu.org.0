@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430266504A0
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 21:35:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757D46504AC
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 21:58:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p70Mh-0000lJ-BC; Sun, 18 Dec 2022 15:34:31 -0500
+	id 1p70iK-00043f-No; Sun, 18 Dec 2022 15:56:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p70Mf-0000l2-39
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:34:29 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p70iG-00043T-2U
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:56:48 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p70Md-0003IV-IS
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:34:28 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id tz12so17285804ejc.9
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 12:34:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p70iE-0006qC-Fv
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:56:47 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ fa4-20020a17090af0c400b002198d1328a0so12659244pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 12:56:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=qG1P/ECH2cILz92LrKsS2oVa2Y6+icBrJ7H9PCg74uU=;
- b=LuFc5f8esRWJvleerIZ3tVb/XDzqVay6kEjTOrpF7tM18dhxnzqkKpP4SCyrqkoqw7
- Zp7+qLzMlWM0yBR87HdSozYM9nqVo3+OQNegGUy89tpSVO2MAxqDm7P8YTQFjXKdIiKj
- jabZXSrBNalvNbKzYyLESKx03uEZxUGLsfbPcUldzRiCJi2bwO19MH42Ey+5aXcp9aDh
- 5N4QMf8n62prkb07P1vZUhViJynm5geMK3HV/14VNcEYQ4U/FDEK9pE2v4pvWbc0VZ8z
- 4DGgjtp2ZVwjJO0scJitMFBMLiym7KJbREUyOaq3IW3TEs2f4q/56AV5nSdqayyip6im
- IuRQ==
+ bh=OIzECGJc9ib3rbU6YXl4ElkZeBf98f6OK1xD4JZOxKQ=;
+ b=oqBoER9Ljc4s9aKpHn0cCMuECRCLCh59aCC2cBsVPHWdyVQUNYbycbqjeiKlnXM5g1
+ 5A3VI7kPXroL2qy+GRLIhwWIrNk3ldfTvjoMVBUIYUO/PsgQpul9tqV8aiqpL0XiEsy3
+ /Sez7knY4CTRC4T/enRZMe6MKySeYmL40zNlLjb8uunlAuCwcFksnARbSS8zh+4roRwn
+ lDi7I8Q8erNE3cItIlEhLdFAd/FBvxKUHqkJYb7qKYPl22eu6yvLZmJVUPesghirjAU/
+ Lh4dWNhmA3aYhdc3oGk+cUdUvpCjCi03w1ZozXAao7jq6vulfuBCgczhMDEgNmRQwmuS
+ TUZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qG1P/ECH2cILz92LrKsS2oVa2Y6+icBrJ7H9PCg74uU=;
- b=Xm0ldJQ3EsS6A884dtg4ahbbE90abaegm0xeuMFpWL9vV7CibIpGwnhVMAidk2gjYs
- KGlxbmivmbmRBMGXWht15GgQr5MMJ85s7PAZrZeW9uYgNfa7VYixKGY3GiQNyHFRceMz
- NMeKo/IxA6pEWMO3Xew8fxnQtml85tCVgYmpmj+oWPJa+0RNAjo77tp+jZj+ioLVX82+
- POv3GTTJW8Nzw/G5MbJIFDIL1Lwi5lDWrNL0kPGJrlgzP5ytrGO2UOQaW6onWHjb6C7R
- 3e3RMC9VCBRa2xa3lLK6g5o5rPylGoVuf/q4qk2SzFPMmm57g7ico0Z2JWLipQzPKpvA
- t2Sg==
-X-Gm-Message-State: AFqh2koGi91Buv2OAKuTic6Om5Xckyw75sQ8xnie2QZbQBWverSDvlo1
- D1RZSSRrB4OixnDkAJhdq8BLrA==
-X-Google-Smtp-Source: AMrXdXsqWY2bZaoGjcsD5onWNQn6IXQuoOrOmUkZScciU1+sKot/Gjr45Eb8VfYdruY10al5HStkeQ==
-X-Received: by 2002:a17:907:8d01:b0:81a:c653:4a06 with SMTP id
- tc1-20020a1709078d0100b0081ac6534a06mr2413851ejc.66.1671395664537; 
- Sun, 18 Dec 2022 12:34:24 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=OIzECGJc9ib3rbU6YXl4ElkZeBf98f6OK1xD4JZOxKQ=;
+ b=xA6GLtugqrnPqhm29dZTKM1JN9rHBA1RR38dBZ0chwZyHIWA3OsLfieQHJpBcSE2IV
+ hJX1JR2RjVSDLNDf9PeV6paLLny2BNefJuTuZsX74ft3PcOBpommb+3NwVZ3OzeH82JL
+ cDjrvozXlEYxMZgu6Xa41DutAYCzCVGfP672HOFax44rNFkkN34bz8MfAky7YToxZubJ
+ 6wgEtf2EuEuiw2Q4ljmS80Hd+UfLNmQcvNwQ886I9CguhBFW3ouyXbgu+UmO3D8VUYSm
+ ie1w2DyL95ED3pYPFKyqT7++1v2ZVT/W0f/iMC2ELF100fxO00QeD4QwVkzicZ2Bc+CN
+ OIxw==
+X-Gm-Message-State: ANoB5plSbW4rDFcRwqtEdcmxrlKb4q4RqFiHsbg401H0y3TCbKO5uPV0
+ 4yi80Rbc7Ga6LqbM+dj9MayUmA==
+X-Google-Smtp-Source: AA0mqf42BaWYGqUNalDY+dsX8JVM3duYD1QAMY3xEONn5PeCfG4BtNdDk8jBDH7YwJXvS47bNZgWYg==
+X-Received: by 2002:a17:902:7005:b0:189:dc47:fe40 with SMTP id
+ y5-20020a170902700500b00189dc47fe40mr40489315plk.15.1671397004918; 
+ Sun, 18 Dec 2022 12:56:44 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:3808:f064:41b8:eb9e?
+ ([2602:47:d48c:8101:3808:f064:41b8:eb9e])
  by smtp.gmail.com with ESMTPSA id
- fr33-20020a170906892100b007c09da0d773sm3518575ejc.100.2022.12.18.12.34.23
+ t5-20020a1709027fc500b0018963b8e131sm5427924plb.290.2022.12.18.12.56.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 12:34:24 -0800 (PST)
-Message-ID: <6312d928-f5ab-b7e7-3bb2-9b319917e6ed@linaro.org>
-Date: Sun, 18 Dec 2022 21:34:21 +0100
+ Sun, 18 Dec 2022 12:56:44 -0800 (PST)
+Message-ID: <81074bbc-8379-09d8-7b43-3a6d4b02a594@linaro.org>
+Date: Sun, 18 Dec 2022 12:56:42 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 07/11] audio/audio_template: use g_malloc0() to replace
- audio_calloc()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 05/11] audio/mixeng: use g_new0() instead of audio_calloc()
 Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+ qemu-devel@nongnu.org
 References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <9b60cdc7-3bd3-6651-2e7e-29673731aabd@linaro.org>
- <e4276dbf-ba7c-0ee4-88f8-4b0cffee46f7@t-online.de>
- <2688636.InQPIc3kla@silver>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <2688636.InQPIc3kla@silver>
+ <20221218171539.11193-5-vr_qemu@t-online.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221218171539.11193-5-vr_qemu@t-online.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -97,41 +99,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/12/22 21:05, Christian Schoenebeck wrote:
-> On Sunday, December 18, 2022 6:39:00 PM CET Volker Rümelin wrote:
->> Am 18.12.22 um 18:26 schrieb Philippe Mathieu-Daudé:
->>> On 18/12/22 18:15, Volker Rümelin wrote:
->>>> Use g_malloc0() as a direct replacement for audio_calloc().
->>>>
->>>> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
->>>> ---
->>>>    audio/audio_template.h | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/audio/audio_template.h b/audio/audio_template.h
->>>> index d343a1dcb3..5f51ef26b2 100644
->>>> --- a/audio/audio_template.h
->>>> +++ b/audio/audio_template.h
->>>> @@ -273,7 +273,7 @@ static HW *glue(audio_pcm_hw_add_new_,
->>>> TYPE)(AudioState *s,
->>>>            return NULL;
->>>>        }
->>>>    -    hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
->>>> +    hw = g_malloc0(glue(drv->voice_size_, TYPE));
->>>>        if (!hw) {
->>>
->>> g_malloc0() can't fail. Either you want g_try_malloc0() or
->>> remove the error path.
->>>
->>
->> g_malloc0() returns NULL if drv->voice_size_(out|in) is 0. I think the
->> code is correct.
+On 12/18/22 09:15, Volker Rümelin wrote:
+> Replace audio_calloc() with the equivalent g_new0().
 > 
-> Correct, that's the only case these glib functions return NULL. And AFAICS
-> this can be zero with CoreAudio or wav.
+> With a n_structs argument of 1, g_new0() never returns NULL.
+> Also remove the unnecessary NULL checks.
+> 
+> Signed-off-by: Volker Rümelin<vr_qemu@t-online.de>
+> ---
+>   audio/audio.c          | 5 -----
+>   audio/audio_template.h | 6 +-----
+>   audio/mixeng.c         | 7 +------
+>   3 files changed, 2 insertions(+), 16 deletions(-)
 
-Oh I forgot the '0' case, my bad.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+r~
 
