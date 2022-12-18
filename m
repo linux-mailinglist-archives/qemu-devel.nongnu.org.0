@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889BD650499
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 21:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8159565049F
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 21:27:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6zvC-0004Km-La; Sun, 18 Dec 2022 15:06:07 -0500
+	id 1p70Eu-0007uh-Ib; Sun, 18 Dec 2022 15:26:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1p6zv7-0004Jy-HN
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:06:01 -0500
+ id 1p70Es-0007uY-Q5
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:26:26 -0500
 Received: from kylie.crudebyte.com ([5.189.157.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1p6zv5-0007D9-N8
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:06:01 -0500
+ id 1p70En-00021Q-TY
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:26:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=GRzgxMPt7EDpk6zJ+AB8dOrXGV/4myPmN1xqEUpEo0w=; b=SMcuDQ1I5ugElSQ8mHCcglWJ4u
- Amti3iM+x8dXEyGK8LXWHsbMxfREBA6+GYrW3Xa7DWdThKrc3OsJSO5pYKWkiYDa6w9tkkobZPS49
- BqG6yuGAqrNrbA/yelrFvoEGgdcl+K4oC/80uDiV6Q16lfQcBLTC6U9a9vBL1yzMJDRhiZnAXy9vX
- vS6cW7fyDyTBylcnQoZcIq8+n8Cof0yXBSGqR4oikCAYueGkw/YlH1pMIzKXnsQC/u/Q/jL0lxCPr
- Tx99luOvXL+i4ctNpme7bZmCA7LM6X4KfAt3X4ndDbUiAD3fIbLl+LoQjod2TyhaqCcBIG1q4LJ0j
- am3M37dgCoQvhoSTZUb+UsHXYRnZxxYmzxRBzgFLI6BQNAQNkpkePTEXjnx/hFa1QB9CO13r4WnxU
- S6NNWDoqqxNoUC2dpREUCbULah33Fy7mWr/dHdVcP1/EFn/1OxkWsJjoadH/0WMGZyPGlwa9boXGY
- 43zI0KQsfS3BNyKgm8B5hFENa3VKKGU9SqTHZeERVTOHPxI6g8aAL4t5XhoTRx91Stje6sMAxBNNr
- nNs9/uACMNUoJuyghZ0CbTjy/PJHvoqyCyHON4fmncVIySB95KHon01QB5gslY6gSebkwwCwhmrBw
- YBoPYKZbLHI8Jh735dkkw64SwJq8IxOZZ8A1hMlx0=;
+ bh=oSu+RlPyrXjm+dRA7Glj2OvNw2MlpFb1gRkV17jtRMg=; b=cRk6W4CQ1B/bWVourvm4D/cNqM
+ 04WV0n+NN8BENKWMOjAlxZqX2ruHvilFvj66DJDNMaG2GylWRvxuewBqScl3xT8gg6mdeQaRkU9Pi
+ psDz/xTGvEe1N18LF5GvHv1acJHHgx26tN9jewEKDdOsrcsuWoe/iQhhj+Ry9peYgdTmqAp4cBM/o
+ /oOC9aU6xVYl/WMPga+lqDRiLyW8hnbAr3DeYGeB3CvnpGTWZbAC2JVKBLnEjOgOp43gDBnfKfxjC
+ ap7BwrREpMV1iHz4rF7lBFQpTjjV/1z4bZCU4I3jgahDklcNI35kr2Jockkz56izPkGnTjkr/mpfG
+ dCxpNy0EsE3vRI82V7ad9G9Cd3Q32y9ww6NGwrSWOCZqO5SG0uvtntQOzlBK47DEfIMkYBTIRSyAV
+ CCMYpvdA6Hldd4BUjmUmrxphGPsW7nBJ+geV6YsT8B5ok/9P04CnnZ5ohvU7xY65myHGx8FUajVmE
+ AkpNaUrkXcE+nJ35JYNx56AFKHVWt4cxi08gsk46ReCl88VIq0cvPg/EO8ZgNSqHR1m5dOnPGsNvL
+ DZzr+l87Umbv5kEedvmVF5OKcsmH4KGt/MbLxlNyYcrTyCUsIwbjCLmF4UCSSDajy6TOIQ52iWo3G
+ wH52WkknazNNN764SzzqelThfoBjI991wg1ibLAng=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ Volker =?ISO-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>
 Cc: Thomas Huth <thuth@redhat.com>,
  =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org,
- Volker =?ISO-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH 07/11] audio/audio_template: use g_malloc0() to replace
- audio_calloc()
-Date: Sun, 18 Dec 2022 21:05:54 +0100
-Message-ID: <2688636.InQPIc3kla@silver>
-In-Reply-To: <e4276dbf-ba7c-0ee4-88f8-4b0cffee46f7@t-online.de>
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 01/11] audio: log unimplemented audio device sample rates
+Date: Sun, 18 Dec 2022 21:26:16 +0100
+Message-ID: <3246935.mafvd9ugAF@silver>
+In-Reply-To: <20221218171539.11193-1-vr_qemu@t-online.de>
 References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <9b60cdc7-3bd3-6651-2e7e-29673731aabd@linaro.org>
- <e4276dbf-ba7c-0ee4-88f8-4b0cffee46f7@t-online.de>
+ <20221218171539.11193-1-vr_qemu@t-online.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -73,47 +70,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sunday, December 18, 2022 6:39:00 PM CET Volker R=FCmelin wrote:
-> Am 18.12.22 um 18:26 schrieb Philippe Mathieu-Daud=E9:
-> > On 18/12/22 18:15, Volker R=FCmelin wrote:
-> >> Use g_malloc0() as a direct replacement for audio_calloc().
-> >>
-> >> Signed-off-by: Volker R=FCmelin <vr_qemu@t-online.de>
-> >> ---
-> >>   audio/audio_template.h | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/audio/audio_template.h b/audio/audio_template.h
-> >> index d343a1dcb3..5f51ef26b2 100644
-> >> --- a/audio/audio_template.h
-> >> +++ b/audio/audio_template.h
-> >> @@ -273,7 +273,7 @@ static HW *glue(audio_pcm_hw_add_new_,=20
-> >> TYPE)(AudioState *s,
-> >>           return NULL;
-> >>       }
-> >>   -    hw =3D audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
-> >> +    hw =3D g_malloc0(glue(drv->voice_size_, TYPE));
-> >>       if (!hw) {
-> >
-> > g_malloc0() can't fail. Either you want g_try_malloc0() or
-> > remove the error path.
-> >
+On Sunday, December 18, 2022 6:15:29 PM CET Volker R=FCmelin wrote:
+> Some emulated audio devices allow guests to select very low
+> sample rates that the audio subsystem doesn't support. The lowest
+> supported sample rate depends on the audio backend used and in
+> most cases can be changed with various -audiodev arguments. Until
+> now, the audio_bug function emits an error message similar to the
+> following error message
 >=20
-> g_malloc0() returns NULL if drv->voice_size_(out|in) is 0. I think the=20
-> code is correct.
+> A bug was just triggered in audio_calloc
+> Save all your work and restart without audio
+> I am sorry
+> Context:
+> audio_pcm_sw_alloc_resources_out passed invalid arguments to
+>  audio_calloc
+> nmemb=3D0 size=3D16 (len=3D0)
+> audio: Could not allocate buffer for `ac97.po' (0 samples)
+>=20
+> and the audio subsystem continues without sound for the affected
+> device.
+>=20
+> The fact that the selected sample rate is not supported is not a
+> guest error. Instead of displaying an error message, the missing
+> audio support is now logged. Simply continuing without sound is
+> correct, since the audio stream won't transport anything
+> reasonable at such high resample ratios anyway.
+>=20
+> The AUD_open_* functions return NULL like before. The opened
+> audio device will not be registered in the audio subsystem and
+> consequently the audio frontend callback functions will not be
+> called. The AUD_read and AUD_write functions return early in this
+> case. This is necessary because, for example, the Sound Blaster 16
+> emulation calls AUD_write from the DMA callback function.
+>=20
+> Signed-off-by: Volker R=FCmelin <vr_qemu@t-online.de>
+> ---
+>  audio/audio.c          |  1 +
+>  audio/audio_template.h | 13 +++++++++++++
+>  2 files changed, 14 insertions(+)
+>=20
+> diff --git a/audio/audio.c b/audio/audio.c
+> index d849a94a81..f6b420688d 100644
+> --- a/audio/audio.c
+> +++ b/audio/audio.c
+> @@ -31,6 +31,7 @@
+>  #include "qapi/qobject-input-visitor.h"
+>  #include "qapi/qapi-visit-audio.h"
+>  #include "qemu/cutils.h"
+> +#include "qemu/log.h"
+>  #include "qemu/module.h"
+>  #include "qemu/help_option.h"
+>  #include "sysemu/sysemu.h"
+> diff --git a/audio/audio_template.h b/audio/audio_template.h
+> index 720a32e57e..bfa94b4d22 100644
+> --- a/audio/audio_template.h
+> +++ b/audio/audio_template.h
+> @@ -115,6 +115,19 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE=
+) (SW *sw)
+>  #else
+>      samples =3D (int64_t)sw->HWBUF->size * sw->ratio >> 32;
+>  #endif
+> +    if (samples =3D=3D 0) {
+> +        HW *hw =3D sw->hw;
+> +        size_t f_fe_min;
+> +
+> +        /* f_fe_min =3D ceil(1 [frames] * f_be [Hz] / size_be [frames]) =
+*/
+> +        f_fe_min =3D (hw->info.freq + HWBUF->size - 1) / HWBUF->size;
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      AUDIO_CAP ": The guest selected a " NAME " sample =
+rate"
+> +                      " of %d Hz for %s. Only sample rates >=3D %zu Hz a=
+re"
+> +                      " supported.\n",
+> +                      sw->info.freq, sw->name, f_fe_min);
+> +        return -1;
 
-Correct, that's the only case these glib functions return NULL. And AFAICS
-this can be zero with CoreAudio or wav.
+You probably want to `sw->buf =3D NULL;` before returning here, or adjust t=
+he
+condition for the error message below.
 
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+The other thing that puzzles me, in error case these template functions ret=
+urn
+=2D1, which would then be feed to g_malloc*()?
 
+> +    }
+> =20
+>      sw->buf =3D audio_calloc(__func__, samples, sizeof(struct st_sample)=
+);
+>      if (!sw->buf) {
 >=20
-> >>           dolog ("Can not allocate voice `%s' size %d\n",
-> >>                  drv->name, glue (drv->voice_size_, TYPE));
-> >
->=20
->=20
->=20
+
 
 
 
