@@ -2,55 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB16650425
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 18:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB12665042A
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 18:21:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6xGs-0007xp-Hv; Sun, 18 Dec 2022 12:16:18 -0500
+	id 1p6xLN-00050b-4i; Sun, 18 Dec 2022 12:20:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1p6xGp-0007rI-Kl
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:16:16 -0500
-Received: from mailout11.t-online.de ([194.25.134.85])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1p6xGn-0002Yu-QR
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:16:15 -0500
-Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
- by mailout11.t-online.de (Postfix) with SMTP id 80E12FBEE;
- Sun, 18 Dec 2022 18:16:04 +0100 (CET)
-Received: from linpower.localnet ([79.208.21.92]) by fwd72.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1p6xGd-0pE2sb0; Sun, 18 Dec 2022 18:16:03 +0100
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 2C14A2006DC; Sun, 18 Dec 2022 18:15:39 +0100 (CET)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6xLH-0004zC-3b
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:20:54 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6xLB-0003Wy-VT
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:20:49 -0500
+Received: by mail-ej1-x635.google.com with SMTP id vv4so16821758ejc.2
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 09:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RxDLc1xSr9upLUvybwMQsSeoCnU82N4EK0XGmIaascA=;
+ b=qCLFg6jFqTgQxxFI8YLGbxN4OZA0N3wG+BbcAoiYnOk8yLKrB67qOcN4yJQr566XmS
+ h9pWoS01AgR/z0/xCIxVQmD7AXFWe8iqaBX1Cg2VOFlGR1rN92nudeL2TdGhQNZwOnDc
+ kkNZy93njWFv12RlUs4++jbGQP3OL3c6a0fVnStOBm9azZb8CFfpHdj4S5gZEdbWDsM3
+ 4hRTBeNnZNt/Ht/uWjZ/E4truukWL2tT3ZvUZG0lPfLrLIZ8Hge58iZ4f0WhYI6EGYGJ
+ 2gOOW234tDR8tCx5qB+tqtHDw3FttxEitO2lMK1HX/jtfmoACiPEkAB/SUHrqYTR9GVZ
+ MnSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RxDLc1xSr9upLUvybwMQsSeoCnU82N4EK0XGmIaascA=;
+ b=cvGJaosXREZkJTF5Z2mJ9SKzUSzWqqFSfHzcj2zbcOMmCGOyzO5uZudhJj97AfCh1V
+ NrFeyFoPaEjYP4ZsbyDRKNhXgV3NkgwY01cYcDzOa+Kb3hjiRKar4pGaG+aQurCBHBDp
+ tFXRelAgRWVDJIUQUZ41giDIApNYnw58TQlyFC2aA5tP8t2fXqtOy2U6OPKHfx/5HqKK
+ Hjq0ZB9AVy27TPYovbILcAWJrF2PAAYuI0a0T2gsKS0x1Uu8b74juOyJ5Nnr//pyUo7p
+ B0uWfXP1D8kon6hvq01Dbd03ZgmOL+vxWxGUS+7jTnZVAaL8MxuDSYI1/k/n3U8+1rTA
+ L01A==
+X-Gm-Message-State: AFqh2kqmZCfTSlmrTlWuIXyFFx+LJSfhsCuukaxFq5e49B/AbjHh4B/H
+ 5AnVKQqvC/1uktV5e/h/uFiN7w==
+X-Google-Smtp-Source: AMrXdXtXGULBJr6OzJ8/lOCmY6jKru2JaNuqMHiwhmxUwsYqLRz4DG3cz+SGs/e8pMsxv/dTqjpeYg==
+X-Received: by 2002:a17:906:5210:b0:812:d53e:1087 with SMTP id
+ g16-20020a170906521000b00812d53e1087mr2486227ejm.53.1671384043389; 
+ Sun, 18 Dec 2022 09:20:43 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ ku10-20020a170907788a00b007c0d4d3a0c1sm3325737ejc.32.2022.12.18.09.20.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 18 Dec 2022 09:20:43 -0800 (PST)
+Message-ID: <c268829a-8937-6efc-5a48-a1322a3c1690@linaro.org>
+Date: Sun, 18 Dec 2022 18:20:41 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 02/11] audio: don't show unnecessary error messages
+Content-Language: en-US
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH 11/11] alsaaudio: reintroduce default recording settings
-Date: Sun, 18 Dec 2022 18:15:39 +0100
-Message-Id: <20221218171539.11193-11-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
 References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ <20221218171539.11193-2-vr_qemu@t-online.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221218171539.11193-2-vr_qemu@t-online.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1671383763-69DEC991-85389DF5/0/0 CLEAN NORMAL
-X-TOI-MSGID: 39131f35-84df-48bc-a5ba-787a96676045
-Received-SPF: none client-ip=194.25.134.85;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout11.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,55 +95,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Audio recording with ALSA default settings currently doesn't
-work. The debug log shows updates every 0.75s and 1.5s.
+On 18/12/22 18:15, Volker Rümelin wrote:
+> Let the audio_pcm_create_voice_pair_* functions handle error
+> reporting. This avoids an additional error message in case
+> the guest selected an unimplemented sample rate.
+> 
+> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+> ---
+>   audio/audio_template.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-audio: Elapsed since last alsa run (running): 0.743030
-audio: Elapsed since last alsa run (running): 1.486048
-audio: Elapsed since last alsa run (running): 0.743008
-audio: Elapsed since last alsa run (running): 1.485878
-audio: Elapsed since last alsa run (running): 1.486040
-audio: Elapsed since last alsa run (running): 1.485886
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-The time between updates should be in the 10ms range. Audio
-recording with ALSA has the same timing contraints as playback.
-Reintroduce the default recording settings and use the same
-default settings for recording as for playback.
-
-The term "reintroduce" is correct because commit a93f328177
-("alsaaudio: port to -audiodev config") removed the default
-settings for recording.
-
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- audio/alsaaudio.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index 0cc982e61f..057571dd1e 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -923,15 +923,13 @@ static void *alsa_audio_init(Audiodev *dev)
-         dev->u.alsa.out->buffer_length = 92880;
-     }
- 
--    /*
--     * OptsVisitor sets unspecified optional fields to zero, but do not depend
--     * on it...
--     */
-     if (!dev->u.alsa.in->has_period_length) {
--        dev->u.alsa.in->period_length = 0;
-+        /* 256 frames assuming 44100Hz */
-+        dev->u.alsa.in->period_length = 5805;
-     }
-     if (!dev->u.alsa.in->has_buffer_length) {
--        dev->u.alsa.in->buffer_length = 0;
-+        /* 4096 frames assuming 44100Hz */
-+        dev->u.alsa.in->buffer_length = 92880;
-     }
- 
-     return dev;
--- 
-2.35.3
 
 
