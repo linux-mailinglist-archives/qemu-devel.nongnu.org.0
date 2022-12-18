@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7236504C4
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 22:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 364FE6504BD
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 22:20:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p714i-00018b-Vn; Sun, 18 Dec 2022 16:20:01 -0500
+	id 1p714f-00016F-Cb; Sun, 18 Dec 2022 16:19:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p714C-00011S-5b; Sun, 18 Dec 2022 16:19:28 -0500
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
+ id 1p714E-00012Y-0B; Sun, 18 Dec 2022 16:19:30 -0500
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p7149-0001xA-DI; Sun, 18 Dec 2022 16:19:27 -0500
-Received: by mail-lf1-x134.google.com with SMTP id m29so10871161lfo.11;
- Sun, 18 Dec 2022 13:19:24 -0800 (PST)
+ id 1p714A-0001xM-2h; Sun, 18 Dec 2022 16:19:29 -0500
+Received: by mail-lj1-x235.google.com with SMTP id a19so7389802ljk.0;
+ Sun, 18 Dec 2022 13:19:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0iC1DLdK7rM2+2JgfrCCzhIOuJpyhzdQ5lAlF2+ubgA=;
- b=ZAs8rjnmf1SvizKBaGFz+0X0uLqJp+H4QIfqQEkb9RhMRvpTwAo+zVoFiR0/kq4qrI
- /M3RmmQ1/1LsJxFSX0tMQ8K0beAlZ0rBaVnucdL9XrDhTFxMsL6k9sVVfXV+aPNNvKzb
- g0SYhObg9PAqN4Ap3NoOp63j13Y5axsQ72D35iKJ4AIV+LYjURJFj0fS95QJkhh8kO9C
- //cZb2Zqd92cro5NkTMd3vKfARgDe+awxNYkNUD2O5Tlwi/0E3N/2eJk/sZrh1v1kWdi
- zmmf+npiP8e4b+oiqJF+s0yWjCAbBRtBSbmBsoxSTqQyMAH/LHaNaXUYXvU92NrMUBTR
- 82HQ==
+ bh=IA9DLwdDIWXg6Vm5V2G0ugLwqd09BSX4sLQfHIli23s=;
+ b=Hvef4si2oX8zCE4SAuQcMLHm1aCVqCzNwidOSa7augyVgE1yRxedTaKdLYS/F9+fEI
+ DLCiknfavCDX8/wjNfxjMFeckYIyN7L5PWTrIoIuRvOYNZQPggONsFExDtdc6vhU2I8a
+ VdqRhtmJnUxVK2ZEWZhihQczRZ0MJv6lpttjXJSWqAmrpMhLtn+LkkwZaf22lQi6HHvs
+ x5mO3TIOYtps6Epw4A95stFQPTFGAB/Y8hSf5oP0FrBjpfA6odu7iRZoP53sE2JrpsxJ
+ fLb3HuS6LqbxaWrJON5lK5LPz1MFZp7BfznjBgfYXadh0zEUvx9CRPsEINNe5766k1PR
+ wfdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0iC1DLdK7rM2+2JgfrCCzhIOuJpyhzdQ5lAlF2+ubgA=;
- b=dHLoQJkJZ375OnQbemzl8uOnuuscIAjFeemit6GH0nvADhVFq6PxbRORSoKqMj+5r2
- GKb9PoUprEsy/xvTboBKLm2GJWDRCwVBn/XxLhPTEpxxsb+ggscdz7jDSgVvsxitbaXr
- qHV28mOceFITM9xSQXC3G89yEkpjpK7Jw8WHSvThfnDNh49c+ucu7kKmsNy4FhgyxQm0
- DV7fzWF17as6CUulzhfIkb7FEYmJr2KQFaRouZVBQaBR3+51zqvmJAwJLWspl7qRu+J1
- 1hNM6UfnbYn/9kWpyyYGiLCFuwyDesgZOLhAa7VyoNCrVUwZRTwQHRcJnI22aYD0GCc/
- Z2VA==
-X-Gm-Message-State: ANoB5pmcuU4Iuv6Ug8cmwULz2sEDXAWa4iMFJn0KGlih5IJ9h0Cd60TT
- Py0uKEH8A7/txDFZOSVP9v4zvBiJfuNiFUH8
-X-Google-Smtp-Source: AA0mqf53teNEECK3POdNn5rbXhgi0YLit2A6TvcXgdNBTR/Abq+rz088cGlzr0nhhlzu88v/vQZA3A==
-X-Received: by 2002:a05:6512:3414:b0:4b4:b5d3:6603 with SMTP id
- i20-20020a056512341400b004b4b5d36603mr18070802lfr.32.1671398363230; 
+ bh=IA9DLwdDIWXg6Vm5V2G0ugLwqd09BSX4sLQfHIli23s=;
+ b=mkXeTYfSRMfpPvt/OlRCYpp9NQ5j9DCJIOkjKya9JHA1W8CrwVca3PecE/sx0IdLMa
+ 5uXNxtbXCD/DmNfzTXowWF62RlbY+QNXqkb87cURqdewV5Pfy2GB8zsITLsqvrTjpg4J
+ sMrD6tOqW8cG2JDfLTOmsbB4sCtD2qZfCJEZ7dh+KHr9upM62J0VZ7sV1X61AoXUeFEL
+ rHvN21nmopCopvsdkYeGKGHnvDdYlIgyhZap5q7LTKiMfT6r8qkTHzrlL6QpoK2o91Lj
+ Q3SvmPiUxYm+tS8+U/UuS+G2jtYnRxqZK9cHKVxGFcwSuLt79pC2u1kRgCzOV0IWOMsN
+ DKLA==
+X-Gm-Message-State: AFqh2krUMBygfbVbhPstaJOY/G8pZgvHIAdbJuuzy3IAsVVlO+z7NQn8
+ 7tL/TYZN7vufosbhbycUpIE=
+X-Google-Smtp-Source: AMrXdXvbLhnx1vGfOeaTVisUE/XV3bfpWr0LDAexFLSOYtJpf35whdW9fNlMgZre6q6jjSGDaMazwg==
+X-Received: by 2002:a2e:a725:0:b0:27f:795c:ed95 with SMTP id
+ s37-20020a2ea725000000b0027f795ced95mr1376326lje.42.1671398363978; 
  Sun, 18 Dec 2022 13:19:23 -0800 (PST)
 Received: from penguin.lxd (213-67-202-254-no43.tbcn.telia.com.
  [213.67.202.254]) by smtp.googlemail.com with ESMTPSA id
- w7-20020a05651234c700b0049464d89e40sm902620lfr.72.2022.12.18.13.19.22
+ w7-20020a05651234c700b0049464d89e40sm902620lfr.72.2022.12.18.13.19.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Dec 2022 13:19:22 -0800 (PST)
+ Sun, 18 Dec 2022 13:19:23 -0800 (PST)
 From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
 X-Google-Original-From: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: Beniamino Galvani <b.galvani@gmail.com>,
  Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Subject: [PATCH v2 1/7] hw/misc: Allwinner-A10 Clock Controller Module
- Emulation
-Date: Sun, 18 Dec 2022 22:19:12 +0100
-Message-Id: <20221218211918.3592-2-strahinja.p.jankovic@gmail.com>
+Subject: [PATCH v2 2/7] hw/misc: Allwinner A10 DRAM Controller Emulation
+Date: Sun, 18 Dec 2022 22:19:13 +0100
+Message-Id: <20221218211918.3592-3-strahinja.p.jankovic@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221218211918.3592-1-strahinja.p.jankovic@gmail.com>
 References: <20221218211918.3592-1-strahinja.p.jankovic@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-lf1-x134.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-lj1-x235.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,95 +90,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-During SPL boot several Clock Controller Module (CCM) registers are
-read, most important are PLL and Tuning, as well as divisor registers.
+During SPL boot several DRAM Controller registers are used. Most
+important registers are those related to DRAM initialization and
+calibration, where SPL initiates process and waits until certain bit is
+set/cleared.
 
-This patch adds these registers and initializes reset values from user's
-guide.
+This patch adds these registers, initializes reset values from user's
+guide and updates state of registers as SPL expects it.
 
 Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 
 Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 ---
- hw/arm/Kconfig                      |   1 +
- hw/arm/allwinner-a10.c              |   7 +
- hw/misc/Kconfig                     |   3 +
- hw/misc/allwinner-a10-ccm.c         | 224 ++++++++++++++++++++++++++++
- hw/misc/meson.build                 |   1 +
- include/hw/arm/allwinner-a10.h      |   2 +
- include/hw/misc/allwinner-a10-ccm.h |  67 +++++++++
- 7 files changed, 305 insertions(+)
- create mode 100644 hw/misc/allwinner-a10-ccm.c
- create mode 100644 include/hw/misc/allwinner-a10-ccm.h
+ hw/arm/Kconfig                        |   1 +
+ hw/arm/allwinner-a10.c                |   7 +
+ hw/misc/Kconfig                       |   3 +
+ hw/misc/allwinner-a10-dramc.c         | 179 ++++++++++++++++++++++++++
+ hw/misc/meson.build                   |   1 +
+ include/hw/arm/allwinner-a10.h        |   2 +
+ include/hw/misc/allwinner-a10-dramc.h |  68 ++++++++++
+ 7 files changed, 261 insertions(+)
+ create mode 100644 hw/misc/allwinner-a10-dramc.c
+ create mode 100644 include/hw/misc/allwinner-a10-dramc.h
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 17fcde8e1c..14f52b41af 100644
+index 14f52b41af..140f142ae5 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -319,6 +319,7 @@ config ALLWINNER_A10
-     select AHCI
+@@ -320,6 +320,7 @@ config ALLWINNER_A10
      select ALLWINNER_A10_PIT
      select ALLWINNER_A10_PIC
-+    select ALLWINNER_A10_CCM
+     select ALLWINNER_A10_CCM
++    select ALLWINNER_A10_DRAMC
      select ALLWINNER_EMAC
      select SERIAL
      select UNIMP
 diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index 79082289ea..86baeeeca2 100644
+index 86baeeeca2..a5f7a36ac9 100644
 --- a/hw/arm/allwinner-a10.c
 +++ b/hw/arm/allwinner-a10.c
-@@ -26,6 +26,7 @@
+@@ -25,6 +25,7 @@
+ #include "hw/boards.h"
  #include "hw/usb/hcd-ohci.h"
  
++#define AW_A10_DRAMC_BASE       0x01c01000
  #define AW_A10_MMC0_BASE        0x01c0f000
-+#define AW_A10_CCM_BASE         0x01c20000
+ #define AW_A10_CCM_BASE         0x01c20000
  #define AW_A10_PIC_REG_BASE     0x01c20400
- #define AW_A10_PIT_REG_BASE     0x01c20c00
- #define AW_A10_UART0_REG_BASE   0x01c28000
-@@ -46,6 +47,8 @@ static void aw_a10_init(Object *obj)
+@@ -49,6 +50,8 @@ static void aw_a10_init(Object *obj)
  
-     object_initialize_child(obj, "timer", &s->timer, TYPE_AW_A10_PIT);
+     object_initialize_child(obj, "ccm", &s->ccm, TYPE_AW_A10_CCM);
  
-+    object_initialize_child(obj, "ccm", &s->ccm, TYPE_AW_A10_CCM);
++    object_initialize_child(obj, "dramc", &s->dramc, TYPE_AW_A10_DRAMC);
 +
      object_initialize_child(obj, "emac", &s->emac, TYPE_AW_EMAC);
  
      object_initialize_child(obj, "sata", &s->sata, TYPE_ALLWINNER_AHCI);
-@@ -103,6 +106,10 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(get_system_memory(), 0x00000000, &s->sram_a);
-     create_unimplemented_device("a10-sram-ctrl", 0x01c00000, 4 * KiB);
+@@ -110,6 +113,10 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+     sysbus_realize(SYS_BUS_DEVICE(&s->ccm), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->ccm), 0, AW_A10_CCM_BASE);
  
-+    /* Clock Control Module */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->ccm), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ccm), 0, AW_A10_CCM_BASE);
++    /* DRAM Control Module */
++    sysbus_realize(SYS_BUS_DEVICE(&s->dramc), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->dramc), 0, AW_A10_DRAMC_BASE);
 +
      /* FIXME use qdev NIC properties instead of nd_table[] */
      if (nd_table[0].used) {
          qemu_check_nic_model(&nd_table[0], TYPE_AW_EMAC);
 diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index cbabe9f78c..ed07bf4133 100644
+index ed07bf4133..052fb54310 100644
 --- a/hw/misc/Kconfig
 +++ b/hw/misc/Kconfig
-@@ -174,4 +174,7 @@ config VIRT_CTRL
- config LASI
+@@ -177,4 +177,7 @@ config LASI
+ config ALLWINNER_A10_CCM
      bool
  
-+config ALLWINNER_A10_CCM
++config ALLWINNER_A10_DRAMC
 +    bool
 +
  source macio/Kconfig
-diff --git a/hw/misc/allwinner-a10-ccm.c b/hw/misc/allwinner-a10-ccm.c
+diff --git a/hw/misc/allwinner-a10-dramc.c b/hw/misc/allwinner-a10-dramc.c
 new file mode 100644
-index 0000000000..68146ee340
+index 0000000000..e118b0c2fd
 --- /dev/null
-+++ b/hw/misc/allwinner-a10-ccm.c
-@@ -0,0 +1,224 @@
++++ b/hw/misc/allwinner-a10-dramc.c
+@@ -0,0 +1,179 @@
 +/*
-+ * Allwinner A10 Clock Control Module emulation
++ * Allwinner A10 DRAM Controller emulation
 + *
 + * Copyright (C) 2022 Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 + *
-+ *  This file is derived from Allwinner H3 CCU,
++ *  This file is derived from Allwinner H3 DRAMC,
 + *  by Niek Linnenbank.
 + *
 + * This program is free software: you can redistribute it and/or modify
@@ -202,75 +203,45 @@ index 0000000000..68146ee340
 +#include "migration/vmstate.h"
 +#include "qemu/log.h"
 +#include "qemu/module.h"
-+#include "hw/misc/allwinner-a10-ccm.h"
++#include "hw/misc/allwinner-a10-dramc.h"
 +
-+/* CCM register offsets */
++/* DRAMC register offsets */
 +enum {
-+    REG_PLL1_CFG             = 0x0000, /* PLL1 Control */
-+    REG_PLL1_TUN             = 0x0004, /* PLL1 Tuning */
-+    REG_PLL2_CFG             = 0x0008, /* PLL2 Control */
-+    REG_PLL2_TUN             = 0x000C, /* PLL2 Tuning */
-+    REG_PLL3_CFG             = 0x0010, /* PLL3 Control */
-+    REG_PLL4_CFG             = 0x0018, /* PLL4 Control */
-+    REG_PLL5_CFG             = 0x0020, /* PLL5 Control */
-+    REG_PLL5_TUN             = 0x0024, /* PLL5 Tuning */
-+    REG_PLL6_CFG             = 0x0028, /* PLL6 Control */
-+    REG_PLL6_TUN             = 0x002C, /* PLL6 Tuning */
-+    REG_PLL7_CFG             = 0x0030, /* PLL7 Control */
-+    REG_PLL1_TUN2            = 0x0038, /* PLL1 Tuning2 */
-+    REG_PLL5_TUN2            = 0x003C, /* PLL5 Tuning2 */
-+    REG_PLL8_CFG             = 0x0040, /* PLL8 Control */
-+    REG_OSC24M_CFG           = 0x0050, /* OSC24M Control */
-+    REG_CPU_AHB_APB0_CFG     = 0x0054, /* CPU, AHB and APB0 Divide Ratio */
++    REG_SDR_CCR = 0x0000,
++    REG_SDR_ZQCR0 = 0x00a8,
++    REG_SDR_ZQSR = 0x00b0
 +};
 +
 +#define REG_INDEX(offset)    (offset / sizeof(uint32_t))
 +
-+/* CCM register reset values */
++/* DRAMC register flags */
 +enum {
-+    REG_PLL1_CFG_RST         = 0x21005000,
-+    REG_PLL1_TUN_RST         = 0x0A101000,
-+    REG_PLL2_CFG_RST         = 0x08100010,
-+    REG_PLL2_TUN_RST         = 0x00000000,
-+    REG_PLL3_CFG_RST         = 0x0010D063,
-+    REG_PLL4_CFG_RST         = 0x21009911,
-+    REG_PLL5_CFG_RST         = 0x11049280,
-+    REG_PLL5_TUN_RST         = 0x14888000,
-+    REG_PLL6_CFG_RST         = 0x21009911,
-+    REG_PLL6_TUN_RST         = 0x00000000,
-+    REG_PLL7_CFG_RST         = 0x0010D063,
-+    REG_PLL1_TUN2_RST        = 0x00000000,
-+    REG_PLL5_TUN2_RST        = 0x00000000,
-+    REG_PLL8_CFG_RST         = 0x21009911,
-+    REG_OSC24M_CFG_RST       = 0x00138013,
-+    REG_CPU_AHB_APB0_CFG_RST = 0x00010010,
++    REG_SDR_CCR_DATA_TRAINING = (1 << 30),
++    REG_SDR_CCR_DRAM_INIT     = (1 << 31),
++};
++enum {
++    REG_SDR_ZQSR_ZCAL         = (1 << 31),
 +};
 +
-+static uint64_t allwinner_a10_ccm_read(void *opaque, hwaddr offset,
++/* DRAMC register reset values */
++enum {
++    REG_SDR_CCR_RESET   = 0x80020000,
++    REG_SDR_ZQCR0_RESET = 0x07b00000,
++    REG_SDR_ZQSR_RESET  = 0x80000000
++};
++
++static uint64_t allwinner_a10_dramc_read(void *opaque, hwaddr offset,
 +                                       unsigned size)
 +{
-+    const AwA10ClockCtlState *s = AW_A10_CCM(opaque);
++    const AwA10DramControllerState *s = AW_A10_DRAMC(opaque);
 +    const uint32_t idx = REG_INDEX(offset);
 +
 +    switch (offset) {
-+    case REG_PLL1_CFG:
-+    case REG_PLL1_TUN:
-+    case REG_PLL2_CFG:
-+    case REG_PLL2_TUN:
-+    case REG_PLL3_CFG:
-+    case REG_PLL4_CFG:
-+    case REG_PLL5_CFG:
-+    case REG_PLL5_TUN:
-+    case REG_PLL6_CFG:
-+    case REG_PLL6_TUN:
-+    case REG_PLL7_CFG:
-+    case REG_PLL1_TUN2:
-+    case REG_PLL5_TUN2:
-+    case REG_PLL8_CFG:
-+    case REG_OSC24M_CFG:
-+    case REG_CPU_AHB_APB0_CFG:
++    case REG_SDR_CCR:
++    case REG_SDR_ZQCR0:
++    case REG_SDR_ZQSR:
 +        break;
-+    case 0x158 ... AW_A10_CCM_IOSIZE:
++    case 0x2e4 ... AW_A10_DRAMC_IOSIZE:
 +        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset 0x%04x\n",
 +                      __func__, (uint32_t)offset);
 +        return 0;
@@ -283,31 +254,28 @@ index 0000000000..68146ee340
 +    return s->regs[idx];
 +}
 +
-+static void allwinner_a10_ccm_write(void *opaque, hwaddr offset,
++static void allwinner_a10_dramc_write(void *opaque, hwaddr offset,
 +                                   uint64_t val, unsigned size)
 +{
-+    AwA10ClockCtlState *s = AW_A10_CCM(opaque);
++    AwA10DramControllerState *s = AW_A10_DRAMC(opaque);
 +    const uint32_t idx = REG_INDEX(offset);
 +
 +    switch (offset) {
-+    case REG_PLL1_CFG:
-+    case REG_PLL1_TUN:
-+    case REG_PLL2_CFG:
-+    case REG_PLL2_TUN:
-+    case REG_PLL3_CFG:
-+    case REG_PLL4_CFG:
-+    case REG_PLL5_CFG:
-+    case REG_PLL5_TUN:
-+    case REG_PLL6_CFG:
-+    case REG_PLL6_TUN:
-+    case REG_PLL7_CFG:
-+    case REG_PLL1_TUN2:
-+    case REG_PLL5_TUN2:
-+    case REG_PLL8_CFG:
-+    case REG_OSC24M_CFG:
-+    case REG_CPU_AHB_APB0_CFG:
++    case REG_SDR_CCR:
++        if (val & REG_SDR_CCR_DRAM_INIT) {
++            /* Clear DRAM_INIT to indicate process is done. */
++            val &= ~REG_SDR_CCR_DRAM_INIT;
++        }
++        if (val & REG_SDR_CCR_DATA_TRAINING) {
++            /* Clear DATA_TRAINING to indicate process is done. */
++            val &= ~REG_SDR_CCR_DATA_TRAINING;
++        }
 +        break;
-+    case 0x158 ... AW_A10_CCM_IOSIZE:
++    case REG_SDR_ZQCR0:
++        /* Set ZCAL in ZQSR to indicate calibration is done. */
++        s->regs[REG_INDEX(REG_SDR_ZQSR)] |= REG_SDR_ZQSR_ZCAL;
++        break;
++    case 0x2e4 ... AW_A10_DRAMC_IOSIZE:
 +        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset 0x%04x\n",
 +                      __func__, (uint32_t)offset);
 +        break;
@@ -320,9 +288,9 @@ index 0000000000..68146ee340
 +    s->regs[idx] = (uint32_t) val;
 +}
 +
-+static const MemoryRegionOps allwinner_a10_ccm_ops = {
-+    .read = allwinner_a10_ccm_read,
-+    .write = allwinner_a10_ccm_write,
++static const MemoryRegionOps allwinner_a10_dramc_ops = {
++    .read = allwinner_a10_dramc_read,
++    .write = allwinner_a10_dramc_write,
 +    .endianness = DEVICE_NATIVE_ENDIAN,
 +    .valid = {
 +        .min_access_size = 4,
@@ -331,117 +299,105 @@ index 0000000000..68146ee340
 +    .impl.min_access_size = 4,
 +};
 +
-+static void allwinner_a10_ccm_reset_enter(Object *obj, ResetType type)
++static void allwinner_a10_dramc_reset_enter(Object *obj, ResetType type)
 +{
-+    AwA10ClockCtlState *s = AW_A10_CCM(obj);
++    AwA10DramControllerState *s = AW_A10_DRAMC(obj);
 +
 +    /* Set default values for registers */
-+    s->regs[REG_INDEX(REG_PLL1_CFG)] = REG_PLL1_CFG_RST;
-+    s->regs[REG_INDEX(REG_PLL1_TUN)] = REG_PLL1_TUN_RST;
-+    s->regs[REG_INDEX(REG_PLL2_CFG)] = REG_PLL2_CFG_RST;
-+    s->regs[REG_INDEX(REG_PLL2_TUN)] = REG_PLL2_TUN_RST;
-+    s->regs[REG_INDEX(REG_PLL3_CFG)] = REG_PLL3_CFG_RST;
-+    s->regs[REG_INDEX(REG_PLL4_CFG)] = REG_PLL4_CFG_RST;
-+    s->regs[REG_INDEX(REG_PLL5_CFG)] = REG_PLL5_CFG_RST;
-+    s->regs[REG_INDEX(REG_PLL5_TUN)] = REG_PLL5_TUN_RST;
-+    s->regs[REG_INDEX(REG_PLL6_CFG)] = REG_PLL6_CFG_RST;
-+    s->regs[REG_INDEX(REG_PLL6_TUN)] = REG_PLL6_TUN_RST;
-+    s->regs[REG_INDEX(REG_PLL7_CFG)] = REG_PLL7_CFG_RST;
-+    s->regs[REG_INDEX(REG_PLL1_TUN2)] = REG_PLL1_TUN2_RST;
-+    s->regs[REG_INDEX(REG_PLL5_TUN2)] = REG_PLL5_TUN2_RST;
-+    s->regs[REG_INDEX(REG_PLL8_CFG)] = REG_PLL8_CFG_RST;
-+    s->regs[REG_INDEX(REG_OSC24M_CFG)] = REG_OSC24M_CFG_RST;
-+    s->regs[REG_INDEX(REG_CPU_AHB_APB0_CFG)] = REG_CPU_AHB_APB0_CFG_RST;
++    s->regs[REG_INDEX(REG_SDR_CCR)] = REG_SDR_CCR_RESET;
++    s->regs[REG_INDEX(REG_SDR_ZQCR0)] = REG_SDR_ZQCR0_RESET;
++    s->regs[REG_INDEX(REG_SDR_ZQSR)] = REG_SDR_ZQSR_RESET;
 +}
 +
-+static void allwinner_a10_ccm_init(Object *obj)
++static void allwinner_a10_dramc_init(Object *obj)
 +{
 +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    AwA10ClockCtlState *s = AW_A10_CCM(obj);
++    AwA10DramControllerState *s = AW_A10_DRAMC(obj);
 +
 +    /* Memory mapping */
-+    memory_region_init_io(&s->iomem, OBJECT(s), &allwinner_a10_ccm_ops, s,
-+                          TYPE_AW_A10_CCM, AW_A10_CCM_IOSIZE);
++    memory_region_init_io(&s->iomem, OBJECT(s), &allwinner_a10_dramc_ops, s,
++                          TYPE_AW_A10_DRAMC, AW_A10_DRAMC_IOSIZE);
 +    sysbus_init_mmio(sbd, &s->iomem);
 +}
 +
-+static const VMStateDescription allwinner_a10_ccm_vmstate = {
-+    .name = "allwinner-a10-ccm",
++static const VMStateDescription allwinner_a10_dramc_vmstate = {
++    .name = "allwinner-a10-dramc",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32_ARRAY(regs, AwA10ClockCtlState, AW_A10_CCM_REGS_NUM),
++        VMSTATE_UINT32_ARRAY(regs, AwA10DramControllerState,
++                             AW_A10_DRAMC_REGS_NUM),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static void allwinner_a10_ccm_class_init(ObjectClass *klass, void *data)
++static void allwinner_a10_dramc_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +    ResettableClass *rc = RESETTABLE_CLASS(klass);
 +
-+    rc->phases.enter = allwinner_a10_ccm_reset_enter;
-+    dc->vmsd = &allwinner_a10_ccm_vmstate;
++    rc->phases.enter = allwinner_a10_dramc_reset_enter;
++    dc->vmsd = &allwinner_a10_dramc_vmstate;
 +}
 +
-+static const TypeInfo allwinner_a10_ccm_info = {
-+    .name          = TYPE_AW_A10_CCM,
++static const TypeInfo allwinner_a10_dramc_info = {
++    .name          = TYPE_AW_A10_DRAMC,
 +    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_init = allwinner_a10_ccm_init,
-+    .instance_size = sizeof(AwA10ClockCtlState),
-+    .class_init    = allwinner_a10_ccm_class_init,
++    .instance_init = allwinner_a10_dramc_init,
++    .instance_size = sizeof(AwA10DramControllerState),
++    .class_init    = allwinner_a10_dramc_class_init,
 +};
 +
-+static void allwinner_a10_ccm_register(void)
++static void allwinner_a10_dramc_register(void)
 +{
-+    type_register_static(&allwinner_a10_ccm_info);
++    type_register_static(&allwinner_a10_dramc_info);
 +}
 +
-+type_init(allwinner_a10_ccm_register)
++type_init(allwinner_a10_dramc_register)
 diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index ed0598dc9e..c828dbeb26 100644
+index c828dbeb26..9eaa0750b5 100644
 --- a/hw/misc/meson.build
 +++ b/hw/misc/meson.build
-@@ -38,6 +38,7 @@ subdir('macio')
- 
+@@ -39,6 +39,7 @@ subdir('macio')
  softmmu_ss.add(when: 'CONFIG_IVSHMEM_DEVICE', if_true: files('ivshmem.c'))
  
-+softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10_CCM', if_true: files('allwinner-a10-ccm.c'))
+ softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10_CCM', if_true: files('allwinner-a10-ccm.c'))
++softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10_DRAMC', if_true: files('allwinner-a10-dramc.c'))
  softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-h3-ccu.c'))
  specific_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-cpucfg.c'))
  softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-h3-dramc.c'))
 diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
-index a76dc7b84d..45d0fc2f7e 100644
+index 45d0fc2f7e..abe4ff7066 100644
 --- a/include/hw/arm/allwinner-a10.h
 +++ b/include/hw/arm/allwinner-a10.h
-@@ -12,6 +12,7 @@
- #include "hw/usb/hcd-ohci.h"
+@@ -13,6 +13,7 @@
  #include "hw/usb/hcd-ehci.h"
  #include "hw/rtc/allwinner-rtc.h"
-+#include "hw/misc/allwinner-a10-ccm.h"
+ #include "hw/misc/allwinner-a10-ccm.h"
++#include "hw/misc/allwinner-a10-dramc.h"
  
  #include "target/arm/cpu.h"
  #include "qom/object.h"
-@@ -30,6 +31,7 @@ struct AwA10State {
-     /*< public >*/
+@@ -32,6 +33,7 @@ struct AwA10State {
  
      ARMCPU cpu;
-+    AwA10ClockCtlState ccm;
+     AwA10ClockCtlState ccm;
++    AwA10DramControllerState dramc;
      AwA10PITState timer;
      AwA10PICState intc;
      AwEmacState emac;
-diff --git a/include/hw/misc/allwinner-a10-ccm.h b/include/hw/misc/allwinner-a10-ccm.h
+diff --git a/include/hw/misc/allwinner-a10-dramc.h b/include/hw/misc/allwinner-a10-dramc.h
 new file mode 100644
-index 0000000000..7f22532efa
+index 0000000000..b61fbecbe7
 --- /dev/null
-+++ b/include/hw/misc/allwinner-a10-ccm.h
-@@ -0,0 +1,67 @@
++++ b/include/hw/misc/allwinner-a10-dramc.h
+@@ -0,0 +1,68 @@
 +/*
-+ * Allwinner A10 Clock Control Module emulation
++ * Allwinner A10 DRAM Controller emulation
 + *
 + * Copyright (C) 2022 Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 + *
-+ *  This file is derived from Allwinner H3 CCU,
++ *  This file is derived from Allwinner H3 DRAMC,
 + *  by Niek Linnenbank.
 + *
 + * This program is free software: you can redistribute it and/or modify
@@ -458,22 +414,23 @@ index 0000000000..7f22532efa
 + * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef HW_MISC_ALLWINNER_A10_CCM_H
-+#define HW_MISC_ALLWINNER_A10_CCM_H
++#ifndef HW_MISC_ALLWINNER_A10_DRAMC_H
++#define HW_MISC_ALLWINNER_A10_DRAMC_H
 +
 +#include "qom/object.h"
 +#include "hw/sysbus.h"
++#include "hw/register.h"
 +
 +/**
 + * @name Constants
 + * @{
 + */
 +
-+/** Size of register I/O address space used by CCM device */
-+#define AW_A10_CCM_IOSIZE        (0x400)
++/** Size of register I/O address space used by DRAMC device */
++#define AW_A10_DRAMC_IOSIZE        (0x1000)
 +
 +/** Total number of known registers */
-+#define AW_A10_CCM_REGS_NUM      (AW_A10_CCM_IOSIZE / sizeof(uint32_t))
++#define AW_A10_DRAMC_REGS_NUM      (AW_A10_DRAMC_IOSIZE / sizeof(uint32_t))
 +
 +/** @} */
 +
@@ -482,15 +439,15 @@ index 0000000000..7f22532efa
 + * @{
 + */
 +
-+#define TYPE_AW_A10_CCM    "allwinner-a10-ccm"
-+OBJECT_DECLARE_SIMPLE_TYPE(AwA10ClockCtlState, AW_A10_CCM)
++#define TYPE_AW_A10_DRAMC    "allwinner-a10-dramc"
++OBJECT_DECLARE_SIMPLE_TYPE(AwA10DramControllerState, AW_A10_DRAMC)
 +
 +/** @} */
 +
 +/**
-+ * Allwinner A10 CCM object instance state.
++ * Allwinner A10 DRAMC object instance state.
 + */
-+struct AwA10ClockCtlState {
++struct AwA10DramControllerState {
 +    /*< private >*/
 +    SysBusDevice parent_obj;
 +    /*< public >*/
@@ -499,10 +456,10 @@ index 0000000000..7f22532efa
 +    MemoryRegion iomem;
 +
 +    /** Array of hardware registers */
-+    uint32_t regs[AW_A10_CCM_REGS_NUM];
++    uint32_t regs[AW_A10_DRAMC_REGS_NUM];
 +};
 +
-+#endif /* HW_MISC_ALLWINNER_H3_CCU_H */
++#endif /* HW_MISC_ALLWINNER_A10_DRAMC_H */
 -- 
 2.30.2
 
