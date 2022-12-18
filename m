@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71628650503
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 23:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A0265050D
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 23:13:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p71tS-0007YF-GN; Sun, 18 Dec 2022 17:12:26 -0500
+	id 1p71u5-00088Y-6K; Sun, 18 Dec 2022 17:13:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71tN-0007Wn-SX
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 17:12:21 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1p71u1-00085A-6x; Sun, 18 Dec 2022 17:13:01 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71tL-0004ji-Hz
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 17:12:20 -0500
-Received: by mail-ed1-x533.google.com with SMTP id m21so106141edc.3
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 14:12:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qI1SxwIqoCEETmQqOYYFc1gpFwI3z5UWmYTO9bbXDgo=;
- b=ynhIjBqGjBALgUmQ2M8ZyejE2V9FOL/faJSnJSIDxJVg5DRrpc1UpRkw0eXt6IYloz
- gHjZQZ/OViYh1H1bQLq9kyY+xQ9rgqJplD0i13UAaGbCcDOkvcRNHbCNa2kp/y50AzoJ
- ZmJa5xqE6lG7DPF30v9mJ4Lbo8Kl0GzpSPkcSdaU8EOexeFm6I8U4akI9Ewt5obdN8CO
- Y44IdnaPhTYILUXKY1dlTKy5vUNVBktFGM6K0Tke1uQ6X01mBvqoHEQyn94SNcZpMunF
- 8DPi/+W4EUuu042o00CG5luqWPwyTDQEgzDX04onr2j10HgDSZF2tjfiR5JePlnISVn7
- Jywg==
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1p71tz-0004mj-Gn; Sun, 18 Dec 2022 17:13:00 -0500
+Received: by mail-ej1-x635.google.com with SMTP id m18so17624820eji.5;
+ Sun, 18 Dec 2022 14:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eCQzFaovzNNP2qLepa01OuCTmhCdk8bQPYYhxVLygK0=;
+ b=YJBmG4BX770jW91gxoXp4KjflhCm1UMgK/vUpx5RonB4tYuaqOG8JjKqkEg3jcRUXV
+ PqMyGLqnw5UO7oew9AcUyhAro1Jfgd5WF6EMuSfbygfEZDHxDkGHDhQYtMAoGmJ+x4z+
+ 8V4FLQvuX24gCSS5mMfd5mUPMQMBv8lg0G/oxZWcrJbE9Fs9IBdfeQSQGfExkXObOBa6
+ r/zRoVfgukW0tlY3wUAAF4514QTp+D5UcXe9v7zHiL8Cyb/j8meHd6H6wSUtWgwownDK
+ d59RsRITUslE8O8osIuc0YNO4/bLibFrHjYOcvxFWliKb3kR83qkx1tWJTNicy8xAGcA
+ 0H7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qI1SxwIqoCEETmQqOYYFc1gpFwI3z5UWmYTO9bbXDgo=;
- b=kBBYGSO2EnCBbTder7nVFrjBo41tJ2gFTWV3JXHDL0WexKdwYrBE3rWeqe4pfn/vCi
- jMZKNCSiKxEPLx+iE6Rb1kDNfLRiqIbB5xyyFjNaOICe6/bgUwWxaZfAuKEjzSb/XX7+
- KyJPfPsqBemTmObSTvqSnjDEhWgD25KXkLynssCRIkA9KwB90Ea6td6grjlXeAEsYU9g
- 6GnOxo3XwjF2Y13mhhvgW6FKWCsTNS8boVAoEHP7HA/9Rs7x2svO3Vw/FewEvZnDuKQN
- 5Q7oPXpOzyLYRqv2YUPHmuVvcakkqQW7ovGpG169Agp8knGS1lrdlRSCyOYuRLlCElUF
- kvHw==
-X-Gm-Message-State: ANoB5pnox+SzEhQqk+6XhCUoS6nZCJ5dd1i7cuxw0r7BIPS5vo/XXc29
- evBPLZ/yAxeMxbeA5p3BBiGd30PYJ2ucLm//Ico=
-X-Google-Smtp-Source: AA0mqf7pT6Bv62K2hfnBuJKL8/m9/+YRMXS5HPDe4ZdAMb5PHh4L90mK+s/XFqkfEaTSr4bw6haBrA==
-X-Received: by 2002:a50:ee8b:0:b0:46c:b25a:6d7f with SMTP id
- f11-20020a50ee8b000000b0046cb25a6d7fmr34762281edr.8.1671401536864; 
- Sun, 18 Dec 2022 14:12:16 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- v10-20020aa7dbca000000b00461cdda400esm3629190edt.4.2022.12.18.14.12.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 14:12:16 -0800 (PST)
-Message-ID: <fa5f8ec6-4b3b-06be-cb08-97f58267ff03@linaro.org>
-Date: Sun, 18 Dec 2022 23:12:15 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eCQzFaovzNNP2qLepa01OuCTmhCdk8bQPYYhxVLygK0=;
+ b=dq9NjqUCw4teRfIJH+QXLou7zGWhEDQTFzs/dL2oLDkPh04ecvOqIVyt1RR7DbZxoI
+ 6lqIZ6rvT01sF+yFswrjoZ7bZRGVGRCEosKWkhUuv0opYW6hL/a7thvRTAvVR/QKMGxz
+ GVY3AjdvBQC08Bdwl+Gmkq3uOeJYbyR+Lw1peg5c3XgA055R9yMSiHEoX5L800OliUeR
+ 9zedpb/RNqgz40SUk2mEFmTiVP8z2QbStAnUdFjjDU6cPp2+pvA9vjngPfiIM+1N/W8X
+ oIDhcAQqjea5++I0iEhXcvzi0m6MxWWut809HC61tECdojGwXqySxkNPO3F46RonnsZQ
+ OUog==
+X-Gm-Message-State: ANoB5pn1Wa21dwFp16BFHzLQDiLEaLMMqwR/CbeBRh3qWtG+p5nKbYFW
+ kx8310ODu1kEGAU7q424KwlwvASzPFtO0g4XlkI=
+X-Google-Smtp-Source: AA0mqf6xWd8ryyhxJAZ7FXdbKAjnjcLu3numr5toaRTQtVl0AB1lBTkHVqitjtQf1JCX4n/CxlpjZS9ZKBFb9RU79xE=
+X-Received: by 2002:a17:907:c281:b0:7c1:8a0b:f915 with SMTP id
+ tk1-20020a170907c28100b007c18a0bf915mr1807307ejc.42.1671401577485; Sun, 18
+ Dec 2022 14:12:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v2] contrib/vhost-user-blk: Replace lseek64 with lseek
-Content-Language: en-US
-To: Khem Raj <raj.khem@gmail.com>, qemu-devel@nongnu.org
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
-References: <20221218220740.315839-1-raj.khem@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221218220740.315839-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+References: <20221218211918.3592-1-strahinja.p.jankovic@gmail.com>
+ <20221218211918.3592-5-strahinja.p.jankovic@gmail.com>
+ <df665471-7426-f313-aece-75b8638e0da4@linaro.org>
+In-Reply-To: <df665471-7426-f313-aece-75b8638e0da4@linaro.org>
+From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
+Date: Sun, 18 Dec 2022 23:12:46 +0100
+Message-ID: <CABtshVQNAseuzxHS7htyxEtoZDEGVG0fdf0ERdAZJgcxe=znQQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] hw/misc: Allwinner AXP-209 Emulation
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, 
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,38 +87,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/12/22 23:07, Khem Raj wrote:
-> 64bit off_t is already in use since build uses _FILE_OFFSET_BITS=64
-> already. Using lseek/off_t also makes it work with latest musl without
-> using _LARGEFILE64_SOURCE macro. This macro is implied with _GNU_SOURCE
-> when using glibc but not with musl.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> CC: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> ---
-> v2: Fix typo must->musl
-> 
->   contrib/vhost-user-blk/vhost-user-blk.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-> index aa99877fcd..7941694e53 100644
-> --- a/contrib/vhost-user-blk/vhost-user-blk.c
-> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
-> @@ -532,9 +532,9 @@ vub_get_blocksize(int fd)
->   static void
->   vub_initialize_config(int fd, struct virtio_blk_config *config)
->   {
-> -    off64_t capacity;
-> +    off_t capacity;
->   
-> -    capacity = lseek64(fd, 0, SEEK_END);
-> +    capacity = lseek(fd, 0, SEEK_END);
->       config->capacity = capacity >> 9;
->       config->blk_size = vub_get_blocksize(fd);
->       config->size_max = 65536;
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+On Sun, Dec 18, 2022 at 11:07 PM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
+>
+> On 18/12/22 22:19, Strahinja Jankovic wrote:
+> > This patch adds minimal support for AXP-209 PMU.
+> > Most important is chip ID since U-Boot SPL expects version 0x1. Besides
+> > the chip ID register, reset values for two more registers used by A10
+> > U-Boot SPL are covered.
+> >
+> > Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+> > ---
+> >   hw/arm/Kconfig              |   1 +
+> >   hw/misc/Kconfig             |   4 +
+> >   hw/misc/allwinner-axp-209.c | 238 +++++++++++++++++++++++++++++++++++=
++
+> >   hw/misc/meson.build         |   1 +
+> >   hw/misc/trace-events        |   5 +
+> >   5 files changed, 249 insertions(+)
+> >   create mode 100644 hw/misc/allwinner-axp-209.c
+>
+>
+> > diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+> > index 052fb54310..3855d937fd 100644
+> > --- a/hw/misc/Kconfig
+> > +++ b/hw/misc/Kconfig
+> > @@ -180,4 +180,8 @@ config ALLWINNER_A10_CCM
+> >   config ALLWINNER_A10_DRAMC
+> >       bool
+> >
+> > +config ALLWINNER_AXP_209
+>
+> This controller is not specific to AllWinner. It can be plugged on any
+> i2c bus. Please rename it AXP209_PMU. Otherwise LGTM!
 
+Do you mean only in Kconfig, or everywhere (file name, function names,
+etc.)? Thanks.
+
+Best regards,
+Strahinja
+
+
+>
+> > +    bool
+> > +    depends on I2C
+> > +
+> >   source macio/Kconfig
+> > diff --git a/hw/misc/allwinner-axp-209.c b/hw/misc/allwinner-axp-209.c
+> > new file mode 100644
+> > index 0000000000..cf79175034
+> > --- /dev/null
+> > +++ b/hw/misc/allwinner-axp-209.c
+> > @@ -0,0 +1,238 @@
+> > +/*
+> > + * AXP-209 Emulation
+> > + *
+> > + * Copyright (C) 2022 Strahinja Jankovic <strahinja.p.jankovic@gmail.c=
+om>
 
