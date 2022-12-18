@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2772765048E
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 20:56:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889BD650499
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 21:07:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6zk5-0002N6-2I; Sun, 18 Dec 2022 14:54:37 -0500
+	id 1p6zvC-0004Km-La; Sun, 18 Dec 2022 15:06:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6zk3-0002Mt-8h
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 14:54:35 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p6zk1-0005EE-GC
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 14:54:34 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- n65-20020a17090a2cc700b0021bc5ef7a14so7095220pjd.0
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 11:54:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3is4S1S5Y5qZGUpO6nVoMSs2Qt4T4n+6FNE4SjjwUP4=;
- b=otbUgw+XtW2TlCOrcvNgkjmsyZEBfgD78pXkydePlLcfDCw8ebvNmq3ivKtp6p8aQj
- +3AXDluBuv/22iTdXPskvwTN8idfXuMvdKss2zZCsh9JqRtyFq/hfiKWTTcBQMnF8jla
- b3NGdM03xO+09imKuvIi9TaaPS/qPJtiDZKu9+9i+yww/vevHql/xidxCiIHJeow6s0f
- PUVzLBXQiQrs2Fpz3cr22Wvo81eGutAiVctukJHmqEnS1nGDXj/S1Ji02TJHkjf4Nlyj
- ql3RDBD1Ev4a8OcbfRNHVuBA34ASwKN+nTk8nSgqUS443PWPlOtSZQwXQcS3dvcO9Xpa
- P2/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3is4S1S5Y5qZGUpO6nVoMSs2Qt4T4n+6FNE4SjjwUP4=;
- b=khBRBQro5VPOUc4Pt6OTi6vwp9QCu7PVUzrWUxU0Q1qA0XCEsCr/FEuLhe39XUnptx
- fHfK/bLeN3KjgmNyG3qzYe5ymkXOfk4gr1P/4fiMVjmkrMpW8G/rHzS9lJ2vNRMCQwRv
- 2u8wxq76j2mpmT7iMELiC5qyZkoIvDJPuAoxeVo50m5B6gnPEB8JnO+mxP2JPhstuLDK
- SATsmTSgUYVUkg8tSjfAyvQCpoiDO2Fe4bsJDB+91mf6SYWJFDRycvROWOjxKlrS3Anm
- 5gCqETsj9fvQBc4NkZsa+Tk1KP746aVdwSQCzRUy4O2D+amF4gKAibuFFunmziksr46O
- 2NrQ==
-X-Gm-Message-State: ANoB5pmlmZzKJFP2/MUvxQ6zgIEguR49kw5qdQMafIq0XnTjp/V945uG
- /B2vtD1hrva7qVWHWyNNvlhHfA==
-X-Google-Smtp-Source: AA0mqf7Z+aleLgC6i8Fe+JEyQfpdM4faEpQZEfYGn7s88w1T1y3iTTR2KIDeULDxOib1gofJJii/SQ==
-X-Received: by 2002:a17:902:9b97:b0:189:9e91:762e with SMTP id
- y23-20020a1709029b9700b001899e91762emr39727689plp.57.1671393271497; 
- Sun, 18 Dec 2022 11:54:31 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:3808:f064:41b8:eb9e?
- ([2602:47:d48c:8101:3808:f064:41b8:eb9e])
- by smtp.gmail.com with ESMTPSA id
- z14-20020a170903018e00b00186a6b63525sm5439911plg.120.2022.12.18.11.54.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 11:54:30 -0800 (PST)
-Message-ID: <3976e8b7-3c5b-68f8-922c-ec3c182e0228@linaro.org>
-Date: Sun, 18 Dec 2022 11:54:29 -0800
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1p6zv7-0004Jy-HN
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:06:01 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1p6zv5-0007D9-N8
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 15:06:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=GRzgxMPt7EDpk6zJ+AB8dOrXGV/4myPmN1xqEUpEo0w=; b=SMcuDQ1I5ugElSQ8mHCcglWJ4u
+ Amti3iM+x8dXEyGK8LXWHsbMxfREBA6+GYrW3Xa7DWdThKrc3OsJSO5pYKWkiYDa6w9tkkobZPS49
+ BqG6yuGAqrNrbA/yelrFvoEGgdcl+K4oC/80uDiV6Q16lfQcBLTC6U9a9vBL1yzMJDRhiZnAXy9vX
+ vS6cW7fyDyTBylcnQoZcIq8+n8Cof0yXBSGqR4oikCAYueGkw/YlH1pMIzKXnsQC/u/Q/jL0lxCPr
+ Tx99luOvXL+i4ctNpme7bZmCA7LM6X4KfAt3X4ndDbUiAD3fIbLl+LoQjod2TyhaqCcBIG1q4LJ0j
+ am3M37dgCoQvhoSTZUb+UsHXYRnZxxYmzxRBzgFLI6BQNAQNkpkePTEXjnx/hFa1QB9CO13r4WnxU
+ S6NNWDoqqxNoUC2dpREUCbULah33Fy7mWr/dHdVcP1/EFn/1OxkWsJjoadH/0WMGZyPGlwa9boXGY
+ 43zI0KQsfS3BNyKgm8B5hFENa3VKKGU9SqTHZeERVTOHPxI6g8aAL4t5XhoTRx91Stje6sMAxBNNr
+ nNs9/uACMNUoJuyghZ0CbTjy/PJHvoqyCyHON4fmncVIySB95KHon01QB5gslY6gSebkwwCwhmrBw
+ YBoPYKZbLHI8Jh735dkkw64SwJq8IxOZZ8A1hMlx0=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ qemu-devel@nongnu.org,
+ Volker =?ISO-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH 07/11] audio/audio_template: use g_malloc0() to replace
+ audio_calloc()
+Date: Sun, 18 Dec 2022 21:05:54 +0100
+Message-ID: <2688636.InQPIc3kla@silver>
+In-Reply-To: <e4276dbf-ba7c-0ee4-88f8-4b0cffee46f7@t-online.de>
+References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
+ <9b60cdc7-3bd3-6651-2e7e-29673731aabd@linaro.org>
+ <e4276dbf-ba7c-0ee4-88f8-4b0cffee46f7@t-online.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] target/i386/gdbstub: Fix a bug about order of FPU stack
- in 'g' packets.
-Content-Language: en-US
-To: TaiseiIto <taisei1212@outlook.jp>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org
-References: <TY0PR0101MB42855925D8414E4773D6FA36A41D9@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <TY0PR0101MB42855925D8414E4773D6FA36A41D9@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,43 +73,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/8/22 04:30, TaiseiIto wrote:
-> Before this commit, when GDB attached an OS working on QEMU, order of FPU
-> stack registers printed by GDB command 'info float' was wrong. There was a
-> bug causing the problem in 'g' packets sent by QEMU to GDB. The packets have
-> values of registers of machine emulated by QEMU containing FPU stack
-> registers. There are 2 ways to specify a x87 FPU stack register. The first
-> is specifying by absolute indexed register names (R0, ..., R7). The second
-> is specifying by stack top relative indexed register names (ST0, ..., ST7).
-> Values of the FPU stack registers should be located in 'g' packet and be
-> ordered by the relative index. But QEMU had located these registers ordered
-> by the absolute index. After this commit, when QEMU reads registers to make
-> a 'g' packet, QEMU specifies FPU stack registers by the relative index.
-> Then, the registers are ordered correctly in the packet. As a result, GDB,
-> the packet receiver, can print FPU stack registers in the correct order.
-> 
-> Signed-off-by: TaiseiIto <taisei1212@outlook.jp>
-> ---
->   target/i386/gdbstub.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-> index c3a2cf6f28..6109ad166d 100644
-> --- a/target/i386/gdbstub.c
-> +++ b/target/i386/gdbstub.c
-> @@ -121,7 +121,9 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
->               return gdb_get_reg32(mem_buf, env->regs[gpr_map32[n]]);
->           }
->       } else if (n >= IDX_FP_REGS && n < IDX_FP_REGS + 8) {
-> -        floatx80 *fp = (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
-> +        int st_index = n - IDX_FP_REGS;
-> +        int r_index = (st_index + env->fpstt) % 8;
-> +        floatx80 *fp = (floatx80 *) &env->fpregs[r_index];
+On Sunday, December 18, 2022 6:39:00 PM CET Volker R=FCmelin wrote:
+> Am 18.12.22 um 18:26 schrieb Philippe Mathieu-Daud=E9:
+> > On 18/12/22 18:15, Volker R=FCmelin wrote:
+> >> Use g_malloc0() as a direct replacement for audio_calloc().
+> >>
+> >> Signed-off-by: Volker R=FCmelin <vr_qemu@t-online.de>
+> >> ---
+> >>   audio/audio_template.h | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/audio/audio_template.h b/audio/audio_template.h
+> >> index d343a1dcb3..5f51ef26b2 100644
+> >> --- a/audio/audio_template.h
+> >> +++ b/audio/audio_template.h
+> >> @@ -273,7 +273,7 @@ static HW *glue(audio_pcm_hw_add_new_,=20
+> >> TYPE)(AudioState *s,
+> >>           return NULL;
+> >>       }
+> >>   -    hw =3D audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
+> >> +    hw =3D g_malloc0(glue(drv->voice_size_, TYPE));
+> >>       if (!hw) {
+> >
+> > g_malloc0() can't fail. Either you want g_try_malloc0() or
+> > remove the error path.
+> >
+>=20
+> g_malloc0() returns NULL if drv->voice_size_(out|in) is 0. I think the=20
+> code is correct.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Correct, that's the only case these glib functions return NULL. And AFAICS
+this can be zero with CoreAudio or wav.
 
-Note that the cast can be dropped by taking the address of the ".d" union member.
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+
+>=20
+> >>           dolog ("Can not allocate voice `%s' size %d\n",
+> >>                  drv->name, glue (drv->voice_size_, TYPE));
+> >
+>=20
+>=20
+>=20
 
 
-r~
 
