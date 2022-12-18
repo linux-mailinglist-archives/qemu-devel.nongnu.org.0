@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78DE6504DE
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 22:50:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6989A6504DF
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 22:56:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p71XW-0006pd-1e; Sun, 18 Dec 2022 16:49:46 -0500
+	id 1p71d4-00082T-6y; Sun, 18 Dec 2022 16:55:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71XU-0006pO-A1
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:49:44 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71cz-0007z4-VW
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:55:26 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71XS-00008s-LB
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:49:44 -0500
-Received: by mail-ej1-x629.google.com with SMTP id gh17so17551190ejb.6
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 13:49:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71cw-000162-V3
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:55:24 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id tz12so17522744ejc.9
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 13:55:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=1ixToARz9Bdmkel0uqJ/oywTScDhPmGbhUZR1mP+VXs=;
- b=deCb7cdojG8h+XvnoD549+sKGVEp1tlnFf7HM1FR06yzSOoVp/xnoddIulCWfH8Nvm
- Ikvg8B0GiV1YLUm9XuGsGpz3+wOeF4C8UdVGcM+jXAgGRimbGQmrhcsIbMx3ct1eezQ4
- /vGtonWV8bQL5yaoQElhHVJOoURSH2kCyYnzSAgFechJmqIl9Ud2XQ21Mh91mI/rFQSd
- 4XCTZDCF13wDr/3O+Je38AoS+qFuHcDyGM/2c6thEB6pMKIjYj6vc2eakkrEtLnfOCB9
- bFCWN5TIqYVGp6LLskqwlK7Dlk7xJjlA8xE75Lfxq+iLRwbTORAp76fCXNuEC3pxKKg1
- JINQ==
+ bh=gQAsn3ZOCdJ0wukywg3wvkm1clR5BI06sXUCBzj7Ce4=;
+ b=BW9WV9REQGLW4ppfMh8VRdzMvP1rt0mxHePdSS6O9OPzkb6xu2NjlUfJrEahjyzg1p
+ 6q1K/R9SaQKibDep8mrdtPqiVEAskGYmPRnJg53lHYo+j/j+7mCgJr3aJ6vHPkBY8V7l
+ CVI6YOE7I2d6CxL5KZBEDHciiQAqMz9YJAKLLRw16qBzTpeLe8U1OKPlQTZ498/ClN/b
+ XQZKU8Nv/nucDA6rmNhRazXC9mHJKLos26RqgkOzYq1dOdJ8tz2H2psWFEFTC+PyMKhi
+ mUestIWSf8D7f+hjtUxg0Ylc2kuMbWwQgN2u0lYnjDJP4c0hSDfu2toP4OskLpFJwzoS
+ SaCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1ixToARz9Bdmkel0uqJ/oywTScDhPmGbhUZR1mP+VXs=;
- b=YRe8XNwDTOJf/GhnljL6/rnYHyIaOCoa8M/OAEpvhcDWPWRBmu+3qEguGPcYI2HNB/
- N28ayZ7vEwVHyPgiF59/M8Exq9UvsVrtJ3xzuw1SqGth05y9ubw/bbuScwux5gIBwBAq
- PmKl1y9TirED3ZUIgLf7E0VSvcysufyPu1hT8BJgkmjgp4vLPXeUfRCyw3yE3hlH7M6j
- ovHHi+tSvKa0wYabNT9kycaLXLJdtT2l1T+VwvZQwzqFsxHmL6u+WA8HKPuP9APtULkP
- XDlhiU4X+akOOWs10fboURSqPyvpyBNWOtSPtNxlpDq3XlM75R0CbHy91hLgwCcvtJYQ
- zfTQ==
-X-Gm-Message-State: ANoB5pl9k1+G1qHWZuef7FTqGcgTVXqMRp38jsZWBoDNJwTnYFk0vx+G
- XF2GgjWMJ2mCPE0WD9J4fZ42Lt0dMbFC0Zg9Fw4=
-X-Google-Smtp-Source: AA0mqf7FnkeQAC/fshlTFgVT9zjlizzfRm+V8UDq1e1nfCx1rVp4XCfs16ysYW02H2RRY5CCH/QfLA==
-X-Received: by 2002:a17:906:7116:b0:7c1:8450:f963 with SMTP id
- x22-20020a170906711600b007c18450f963mr27064870ejj.34.1671400180620; 
- Sun, 18 Dec 2022 13:49:40 -0800 (PST)
+ bh=gQAsn3ZOCdJ0wukywg3wvkm1clR5BI06sXUCBzj7Ce4=;
+ b=5pv/eCbCF4nFiF+7JtTExZqr7TpwUCf9Lg8urlIPI0bj8HqNa34VpWY04BRTs7/n8g
+ 9S2462tFuSA/h1za9o1Q1whWjl81G7z5SeHUGvkC3OCFq24+X0+6kPNz/mTCkcKbgYJ1
+ vZrmiqKI70aDhCCLISwbdJX0VReFIu930gRz3sg3MiKeotZmCTVkU38HnKbUTBga9z6B
+ KQE/NvHXaPxz3kv/5tdkn40599olD66nOIU5ywvGBQbDNINuRMSK8wO2tlPB6FKNZY/O
+ rlPX6KAPo06FIjw2cc2RD4xZ8R2p1BJqLuo3gjn62m8kkOeStlZ125hR7ZLgZQTyUmdb
+ vXqA==
+X-Gm-Message-State: ANoB5pn6MNxf8MAWgd4/dy1uw8fdsVnDqezQT0IgLuPg0N71aYR2Cj/+
+ 3e4LEl5IpYEuju90taIh8e0WeQ==
+X-Google-Smtp-Source: AA0mqf5zu0xlirvdEL8VFcLEEeW2MUtyP0auY6iUUBCawNjcs/Ao31ajyun+ZXIHcPejFHAf4xONSA==
+X-Received: by 2002:a17:907:1de3:b0:7c0:e5dd:6e5f with SMTP id
+ og35-20020a1709071de300b007c0e5dd6e5fmr36922391ejc.4.1671400521313; 
+ Sun, 18 Dec 2022 13:55:21 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u1-20020a170906c40100b007c0cbdfba04sm3549745ejz.70.2022.12.18.13.49.39
+ rs13-20020a170907036d00b0077a1dd3e7b7sm3590150ejb.102.2022.12.18.13.55.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 13:49:40 -0800 (PST)
-Message-ID: <aea9ed5d-93d7-6684-1e47-9aaf4860641b@linaro.org>
-Date: Sun, 18 Dec 2022 22:49:38 +0100
+ Sun, 18 Dec 2022 13:55:20 -0800 (PST)
+Message-ID: <42ea0781-b963-8dff-6c1f-f5d342f38618@linaro.org>
+Date: Sun, 18 Dec 2022 22:55:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v4 20b/27] tcg: Vary the allocation size for TCGOp
+Subject: Re: [PATCH v2 5/7] hw/arm: Add AXP-209 to Cubieboard
 Content-Language: en-US
-To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-References: <20221213212541.1820840-21-richard.henderson@linaro.org>
- <20221218211832.73312-1-philmd@linaro.org>
- <20221218211832.73312-3-philmd@linaro.org>
+To: Strahinja Jankovic <strahinjapjankovic@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Beniamino Galvani <b.galvani@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+References: <20221218211918.3592-1-strahinja.p.jankovic@gmail.com>
+ <20221218211918.3592-6-strahinja.p.jankovic@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221218211832.73312-3-philmd@linaro.org>
+In-Reply-To: <20221218211918.3592-6-strahinja.p.jankovic@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -92,87 +94,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/12/22 22:18, Philippe Mathieu-Daudé wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
+On 18/12/22 22:19, Strahinja Jankovic wrote:
+> SPL Boot for Cubieboard expects AXP-209 connected to I2C0 bus.
 > 
-> We have been allocating a worst case number of arguments
-> to support calls.  Instead, allow the size to vary.
-> By default leave space for 4 args, to maximize reuse,
-> but allow calls to increase the number of args to 32.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> [PMD: Split patch in two]
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 > ---
->   accel/tcg/plugin-gen.c     | 10 ++++-----
->   include/exec/helper-head.h |  2 --
->   include/tcg/tcg.h          | 46 +++++++++++++-------------------------
->   tcg/tcg.c                  | 35 +++++++++++++++++++++--------
->   4 files changed, 47 insertions(+), 46 deletions(-)
-
-
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 3f172cb1d6..ccbe947222 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -1513,7 +1513,12 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
->           }
+>   hw/arm/cubieboard.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+> index 5e3372a3c7..afc7980414 100644
+> --- a/hw/arm/cubieboard.c
+> +++ b/hw/arm/cubieboard.c
+> @@ -20,6 +20,7 @@
+>   #include "hw/boards.h"
+>   #include "hw/qdev-properties.h"
+>   #include "hw/arm/allwinner-a10.h"
+> +#include "hw/i2c/i2c.h"
+>   
+>   static struct arm_boot_info cubieboard_binfo = {
+>       .loader_start = AW_A10_SDRAM_BASE,
+> @@ -34,6 +35,7 @@ static void cubieboard_init(MachineState *machine)
+>       BlockBackend *blk;
+>       BusState *bus;
+>       DeviceState *carddev;
+> +    I2CBus *i2c;
+>   
+>       /* BIOS is not supported by this board */
+>       if (machine->firmware) {
+> @@ -80,6 +82,10 @@ static void cubieboard_init(MachineState *machine)
+>           exit(1);
 >       }
 >   
-> -    max_args = ARRAY_SIZE(op->args);
-> +    /*
-> +     * A Call op needs up to 4 + 2N parameters on 32-bit archs,
-> +     * and up to 4 + N parameters on 64-bit archs
-> +     * (N = number of input arguments + output arguments).
-> +     */
-> +    max_args = (64 / TCG_TARGET_REG_BITS) * nargs + 4;
->       op = tcg_emit_op(INDEX_op_call, max_args);
->   
->       pi = 0;
-> @@ -2298,19 +2303,31 @@ void tcg_remove_ops_after(TCGOp *op)
->   static TCGOp *tcg_op_alloc(TCGOpcode opc, unsigned nargs)
->   {
->       TCGContext *s = tcg_ctx;
-> -    TCGOp *op;
-> +    TCGOp *op = NULL;
->   
-> -    assert(nargs < ARRAY_SIZE(op->args));
-> -    if (likely(QTAILQ_EMPTY(&s->free_ops))) {
-> -        op = tcg_malloc(sizeof(TCGOp));
-> -    } else {
-> -        op = QTAILQ_FIRST(&s->free_ops);
-> -        QTAILQ_REMOVE(&s->free_ops, op, link);
-> +    if (unlikely(!QTAILQ_EMPTY(&s->free_ops))) {
-> +        QTAILQ_FOREACH(op, &s->free_ops, link) {
-> +            if (nargs <= op->nargs) {
-> +                QTAILQ_REMOVE(&s->free_ops, op, link);
-> +                nargs = op->nargs;
-> +                goto found;
-> +            }
-> +        }
->       }
-> +
-> +    /* Most opcodes have 3 or 4 operands: reduce fragmentation. */
-> +    nargs = MAX(4, nargs);
-> +    op = tcg_malloc(sizeof(TCGOp) + sizeof(TCGArg) * nargs);
-> +
-> + found:
->       memset(op, 0, offsetof(TCGOp, link));
->       op->opc = opc;
-> -    s->nb_ops++;
-> +    op->nargs = nargs;
+> +    /* Connect AXP 209 */
+> +    i2c = (I2CBus *)qdev_get_child_bus(DEVICE(&a10->i2c0), "i2c");
 
-We can move this assignation before the 'found' label.
-
->   
-> +    /* Check for bitfield overflow. */
-> +    tcg_debug_assert(op->nargs == nargs);
-> +
-> +    s->nb_ops++;
->       return op;
->   }
->   
+Preferably using I2C_BUS() instead of the cast:
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+> +    i2c_slave_create_simple(i2c, "allwinner.axp209", 0x34);
+> +
+>       /* Retrieve SD bus */
+>       di = drive_get(IF_SD, 0, 0);
+>       blk = di ? blk_by_legacy_dinfo(di) : NULL;
 
 
