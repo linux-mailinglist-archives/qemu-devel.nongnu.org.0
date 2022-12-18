@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6989A6504DF
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 22:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B916504E6
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 23:00:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p71d4-00082T-6y; Sun, 18 Dec 2022 16:55:30 -0500
+	id 1p71hG-0001Ck-J1; Sun, 18 Dec 2022 16:59:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71cz-0007z4-VW
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:55:26 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71hD-0001CO-3X
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:59:47 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71cw-000162-V3
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:55:24 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id tz12so17522744ejc.9
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 13:55:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71h9-0001cw-QJ
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 16:59:45 -0500
+Received: by mail-ej1-x632.google.com with SMTP id fc4so17483931ejc.12
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 13:59:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gQAsn3ZOCdJ0wukywg3wvkm1clR5BI06sXUCBzj7Ce4=;
- b=BW9WV9REQGLW4ppfMh8VRdzMvP1rt0mxHePdSS6O9OPzkb6xu2NjlUfJrEahjyzg1p
- 6q1K/R9SaQKibDep8mrdtPqiVEAskGYmPRnJg53lHYo+j/j+7mCgJr3aJ6vHPkBY8V7l
- CVI6YOE7I2d6CxL5KZBEDHciiQAqMz9YJAKLLRw16qBzTpeLe8U1OKPlQTZ498/ClN/b
- XQZKU8Nv/nucDA6rmNhRazXC9mHJKLos26RqgkOzYq1dOdJ8tz2H2psWFEFTC+PyMKhi
- mUestIWSf8D7f+hjtUxg0Ylc2kuMbWwQgN2u0lYnjDJP4c0hSDfu2toP4OskLpFJwzoS
- SaCA==
+ bh=J8S//YFk7Qxr/A/o2mPr+EqiOylBWHJwIpYB2Hkpt2Q=;
+ b=g5qtCrCKcPxJl6Z7mNCaw5cO2hjKu9riJWat1SGOzGxuTJ42dF5SJbAZd0TMl23Em0
+ Zhaeve5A1u8lhcz2vot3ceuGlcwsJD4RXiz3t9pUSUY/k+Ndm0uDbfGwPjkWqM6XpeDa
+ /BtQ3BfHqNFcbKbw8GNUM46r618caZs1td67IBKqSwW6WG9KtDHzjVUdPY52nJBVDLu0
+ Qv4vXI0W+cV2wspEIYrZZPfrdlgI4DZrBkC8jcdUWPPs4AaJo38xpQ1zTqal7zMbr7Qg
+ 1SW9SwXF6pF3WKFD++p32RX0y0XSLxFL+LSOqnxuWb5JCDRz2rC0VwohyBOaP6KS118+
+ rlNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gQAsn3ZOCdJ0wukywg3wvkm1clR5BI06sXUCBzj7Ce4=;
- b=5pv/eCbCF4nFiF+7JtTExZqr7TpwUCf9Lg8urlIPI0bj8HqNa34VpWY04BRTs7/n8g
- 9S2462tFuSA/h1za9o1Q1whWjl81G7z5SeHUGvkC3OCFq24+X0+6kPNz/mTCkcKbgYJ1
- vZrmiqKI70aDhCCLISwbdJX0VReFIu930gRz3sg3MiKeotZmCTVkU38HnKbUTBga9z6B
- KQE/NvHXaPxz3kv/5tdkn40599olD66nOIU5ywvGBQbDNINuRMSK8wO2tlPB6FKNZY/O
- rlPX6KAPo06FIjw2cc2RD4xZ8R2p1BJqLuo3gjn62m8kkOeStlZ125hR7ZLgZQTyUmdb
- vXqA==
-X-Gm-Message-State: ANoB5pn6MNxf8MAWgd4/dy1uw8fdsVnDqezQT0IgLuPg0N71aYR2Cj/+
- 3e4LEl5IpYEuju90taIh8e0WeQ==
-X-Google-Smtp-Source: AA0mqf5zu0xlirvdEL8VFcLEEeW2MUtyP0auY6iUUBCawNjcs/Ao31ajyun+ZXIHcPejFHAf4xONSA==
-X-Received: by 2002:a17:907:1de3:b0:7c0:e5dd:6e5f with SMTP id
- og35-20020a1709071de300b007c0e5dd6e5fmr36922391ejc.4.1671400521313; 
- Sun, 18 Dec 2022 13:55:21 -0800 (PST)
+ bh=J8S//YFk7Qxr/A/o2mPr+EqiOylBWHJwIpYB2Hkpt2Q=;
+ b=X46R6xmAzX7hDs3r28lY12Ga0j24j9H1i3m5tgQMZ8a8w9m9D9iL5DHwIf/sEWzgmt
+ nIe/zgusyWCR1+epjaYwPis7ZrdFGhfltn0cz8OQgrxjAJvcvfUI/iRUyvCbE0xuKsQJ
+ Ss/Jn7kg7YAHuo30YNs0j5mkYGm4u/+e/MwTRNEfZqHT6AkfG+YSaqmXU8uTn4QonpKV
+ FEfsVciHa8Omy5GGI1xujewr/vXs9G/8IeRzcmCNNUa6beCd80As5ZgoQN74MgsH7rrJ
+ tyiaw+7Us8srmTqq9zBDEbmB87mAC/F/WRRoAd02Te+LEl7D32ifK2xEuDZZUOm8DvFR
+ /ZZQ==
+X-Gm-Message-State: AFqh2kpA6+q0ku45fYMSYbSIwIRYr3Qw4UKoW/PtMvkmJ5+PSypJr2Sp
+ uc/7uUXYuExVfow4De8pmF1Mow==
+X-Google-Smtp-Source: AMrXdXs12gJBS1JoDsllYjnHpM+BxZeXFQ4RgidUw4jGjHgwLkcr3SAsPW7n1scd4fP86AdR106YWA==
+X-Received: by 2002:a17:907:d408:b0:7c1:d4c:f08c with SMTP id
+ vi8-20020a170907d40800b007c10d4cf08cmr9635639ejc.4.1671400781868; 
+ Sun, 18 Dec 2022 13:59:41 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- rs13-20020a170907036d00b0077a1dd3e7b7sm3590150ejb.102.2022.12.18.13.55.20
+ s9-20020a170906bc4900b007c0e6d6bd10sm3602571ejv.132.2022.12.18.13.59.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 13:55:20 -0800 (PST)
-Message-ID: <42ea0781-b963-8dff-6c1f-f5d342f38618@linaro.org>
-Date: Sun, 18 Dec 2022 22:55:19 +0100
+ Sun, 18 Dec 2022 13:59:41 -0800 (PST)
+Message-ID: <5bfa53e5-210f-bca4-20bf-e7f39862fbef@linaro.org>
+Date: Sun, 18 Dec 2022 22:59:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v2 5/7] hw/arm: Add AXP-209 to Cubieboard
+Subject: Re: [PATCH v2 6/7] hw/arm: Allwinner A10 enable SPL load from MMC
 Content-Language: en-US
 To: Strahinja Jankovic <strahinjapjankovic@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
@@ -65,13 +65,13 @@ Cc: Beniamino Galvani <b.galvani@gmail.com>,
  Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
 References: <20221218211918.3592-1-strahinja.p.jankovic@gmail.com>
- <20221218211918.3592-6-strahinja.p.jankovic@gmail.com>
+ <20221218211918.3592-7-strahinja.p.jankovic@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221218211918.3592-6-strahinja.p.jankovic@gmail.com>
+In-Reply-To: <20221218211918.3592-7-strahinja.p.jankovic@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62f.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -95,48 +95,115 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 18/12/22 22:19, Strahinja Jankovic wrote:
-> SPL Boot for Cubieboard expects AXP-209 connected to I2C0 bus.
+> This patch enables copying of SPL from MMC if `-kernel` parameter is not
+> passed when starting QEMU. SPL is copied to SRAM_A.
+> 
+> The approach is reused from Allwinner H3 implementation.
+> 
+> Tested with Armbian and custom Yocto image.
 > 
 > Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-> ---
->   hw/arm/cubieboard.c | 6 ++++++
->   1 file changed, 6 insertions(+)
 > 
+> Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> ---
+>   hw/arm/allwinner-a10.c         | 18 ++++++++++++++++++
+>   hw/arm/cubieboard.c            |  5 +++++
+>   include/hw/arm/allwinner-a10.h | 21 +++++++++++++++++++++
+>   3 files changed, 44 insertions(+)
+> 
+> diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+> index 17e439777e..dc1966ff7a 100644
+> --- a/hw/arm/allwinner-a10.c
+> +++ b/hw/arm/allwinner-a10.c
+> @@ -24,7 +24,9 @@
+>   #include "sysemu/sysemu.h"
+>   #include "hw/boards.h"
+>   #include "hw/usb/hcd-ohci.h"
+> +#include "hw/loader.h"
+>   
+> +#define AW_A10_SRAM_A_BASE      0x00000000
+>   #define AW_A10_DRAMC_BASE       0x01c01000
+>   #define AW_A10_MMC0_BASE        0x01c0f000
+>   #define AW_A10_CCM_BASE         0x01c20000
+> @@ -38,6 +40,22 @@
+>   #define AW_A10_RTC_BASE         0x01c20d00
+>   #define AW_A10_I2C0_BASE        0x01c2ac00
+>   
+> +void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk)
+> +{
+> +    const int64_t rom_size = 32 * KiB;
+> +    g_autofree uint8_t *buffer = g_new0(uint8_t, rom_size);
+> +
+> +    if (blk_pread(blk, 8 * KiB, rom_size, buffer, 0) < 0) {
+> +        error_setg(&error_fatal, "%s: failed to read BlockBackend data",
+> +                   __func__);
+> +        return;
+> +    }
+> +
+> +    rom_add_blob("allwinner-a10.bootrom", buffer, rom_size,
+> +                  rom_size, AW_A10_SRAM_A_BASE,
+> +                  NULL, NULL, NULL, NULL, false);
+> +}
+> +
+>   static void aw_a10_init(Object *obj)
+>   {
+>       AwA10State *s = AW_A10(obj);
 > diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
-> index 5e3372a3c7..afc7980414 100644
+> index afc7980414..37659c35fd 100644
 > --- a/hw/arm/cubieboard.c
 > +++ b/hw/arm/cubieboard.c
-> @@ -20,6 +20,7 @@
->   #include "hw/boards.h"
->   #include "hw/qdev-properties.h"
->   #include "hw/arm/allwinner-a10.h"
-> +#include "hw/i2c/i2c.h"
+> @@ -99,6 +99,11 @@ static void cubieboard_init(MachineState *machine)
+>       memory_region_add_subregion(get_system_memory(), AW_A10_SDRAM_BASE,
+>                                   machine->ram);
 >   
->   static struct arm_boot_info cubieboard_binfo = {
->       .loader_start = AW_A10_SDRAM_BASE,
-> @@ -34,6 +35,7 @@ static void cubieboard_init(MachineState *machine)
->       BlockBackend *blk;
->       BusState *bus;
->       DeviceState *carddev;
-> +    I2CBus *i2c;
+> +    /* Load target kernel or start using BootROM */
+> +    if (!machine->kernel_filename && blk && blk_is_available(blk)) {
+> +        /* Use Boot ROM to copy data from SD card to SRAM */
+> +        allwinner_a10_bootrom_setup(a10, blk);
+> +    }
+>       /* TODO create and connect IDE devices for ide_drive_get() */
 >   
->       /* BIOS is not supported by this board */
->       if (machine->firmware) {
-> @@ -80,6 +82,10 @@ static void cubieboard_init(MachineState *machine)
->           exit(1);
->       }
+>       cubieboard_binfo.ram_size = machine->ram_size;
+> diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
+> index 763935fca9..b3c9ed24c7 100644
+> --- a/include/hw/arm/allwinner-a10.h
+> +++ b/include/hw/arm/allwinner-a10.h
+> @@ -15,6 +15,7 @@
+>   #include "hw/misc/allwinner-a10-ccm.h"
+>   #include "hw/misc/allwinner-a10-dramc.h"
+>   #include "hw/i2c/allwinner-i2c.h"
+> +#include "sysemu/block-backend.h"
 >   
-> +    /* Connect AXP 209 */
-> +    i2c = (I2CBus *)qdev_get_child_bus(DEVICE(&a10->i2c0), "i2c");
+>   #include "target/arm/cpu.h"
+>   #include "qom/object.h"
+> @@ -47,4 +48,24 @@ struct AwA10State {
+>       OHCISysBusState ohci[AW_A10_NUM_USB];
+>   };
+>   
+> +/**
+> + * Emulate Boot ROM firmware setup functionality.
+> + *
+> + * A real Allwinner A10 SoC contains a Boot ROM
+> + * which is the first code that runs right after
+> + * the SoC is powered on. The Boot ROM is responsible
+> + * for loading user code (e.g. a bootloader) from any
+> + * of the supported external devices and writing the
+> + * downloaded code to internal SRAM. After loading the SoC
+> + * begins executing the code written to SRAM.
+> + *
+> + * This function emulates the Boot ROM by copying 32 KiB
+> + * of data
 
-Preferably using I2C_BUS() instead of the cast:
+"at offset 8 KiB" ?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> +    i2c_slave_create_simple(i2c, "allwinner.axp209", 0x34);
+> from the given block device and writes it to
+> + * the start of the first internal SRAM memory.
+> + *
+> + * @s: Allwinner A10 state object pointer
+> + * @blk: Block backend device object pointer
+> + */
+> +void allwinner_a10_bootrom_setup(AwA10State *s, BlockBackend *blk);
 > +
->       /* Retrieve SD bus */
->       di = drive_get(IF_SD, 0, 0);
->       blk = di ? blk_by_legacy_dinfo(di) : NULL;
+>   #endif
 
 
