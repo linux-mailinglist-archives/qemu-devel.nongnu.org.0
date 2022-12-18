@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1092650084
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 17:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21DD6502A3
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 17:49:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6wJj-00015N-TK; Sun, 18 Dec 2022 11:15:11 -0500
+	id 1p6wpu-0006Yf-3m; Sun, 18 Dec 2022 11:48:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6wJh-000156-Ut
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 11:15:09 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p6wps-0006Wm-9m
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 11:48:24 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p6wJg-0000YL-8C
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 11:15:09 -0500
-Received: by mail-ej1-x633.google.com with SMTP id tz12so16532349ejc.9
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 08:15:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=b3l1mGvDOdrZRyNwCflJyBNK+OoV26TD4gQZmaraD1Q=;
- b=w8ZBuJRFxWKGNQ6wzBVSZK3VfZW7lQRiWIdrb/Zh75+Lo17BUnPEkwwOCROc2RSQXp
- T1v2y9bfLejc7Dcd3pPgUhIBoYDyc7bTa2xeHmd1kymV02BlS2auL5oepy4Y98vOlZT+
- +5kDaSH4pLM/90o/zqSuNWeRAFV+FBLuDcN6yGZG6JCcDcpfzn2IRz77ym0+SvR2KF6v
- 8G/mBqDUF5WHN1JHjTdhQElEw6Q1W8T/QdmSUyk6HbUY8boBJEJyQC4k4dcegP8FXJEg
- 8MtsIpe6noit+Y2taX5OorEiu7iml59hEWvpQaR1ea1sHLW3WXch9ujez6GaKGJg/ANM
- iKNQ==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p6wpq-0005kB-Pk
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 11:48:24 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id qk9so16686253ejc.3
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 08:48:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eoRB6z0eHG3Lt9o+tpMzjd8H8PWZeUryxmgvbSd4ZmI=;
+ b=Zrrvn4AvTPCm8Q9v/5qGPpVcqZMttVstYeV6+vA5uUvxNPxFvu4iKIWTBryJdRB7lX
+ W4lMNxDhchIlO9AQbYMjtc8hZN44USs8/hGSzE521ry0KN2nROFZMGFgqFQA1AgpkBic
+ 2isxqY4FV8NvEefSo/oaiDKxCNW8ZpO6cwUgO6xiDw1QOfccR8JFK28Ny0QQVgvbMHLs
+ BvKIBJSKmh/tq2BrLAet6nTuzi/1dASG/irohFBC2CTq8DtkLiXXpIKwSBHHqeHBdgE2
+ qTC+N6+ekIA2Rb+ApKRqAwYKGSTN/IdPFmRKjrzXngKQkF1I2Bu75Xg6gDX0Sv6vmZlq
+ aMjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=b3l1mGvDOdrZRyNwCflJyBNK+OoV26TD4gQZmaraD1Q=;
- b=KxlQp3iqMQFDO34gs+Nq05a/SfAKns7Rr3Fsv10cZ/34TeJwO71n57l3Pcx42hH7lB
- mJ1D7NXLI4Xac2N89XVt/13+kKaDcYYe7UC1zE6PpiZPX3ggERlYYfb8ewVU/FNN/DIw
- 2T8MwJBFVLAcz7Ig3Lbdrydw1raG4mFWROwPET12lVMZX7UcWusSvNKGBh18wdW2bFos
- QQz/qRmHGYQ8jqoy3WeiRNLuzwCYaKg0cdJyUogvRYRnV2oLIrYpConLgOdQuYmroOJl
- Jnyvh4Eagyt+rZcdAgaApoFHJ/gYuy5GHMRr5Bu0uy+A+qY6pRrwlW+9jGwFxnsy1Vs+
- fTcA==
-X-Gm-Message-State: ANoB5pnFgGBM68ofTIj++3HAHL062hKUd+LB/he/JblaDHHnv8zVKTZn
- AQc7hVoVb4cD/oJUnZ4J39Fx2Q==
-X-Google-Smtp-Source: AA0mqf5ML90sHmX2bzXzxAxZSb1YlfiP+Z5oSDVi2ajYGf5Ca6aSIz4+eq9/RizN8gzLI3rdhNx6nA==
-X-Received: by 2002:a17:906:88b:b0:7c1:4ecd:1d69 with SMTP id
- n11-20020a170906088b00b007c14ecd1d69mr15014011eje.72.1671380106467; 
- Sun, 18 Dec 2022 08:15:06 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- 10-20020a170906310a00b007c0d64c1886sm3290064ejx.33.2022.12.18.08.15.05
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eoRB6z0eHG3Lt9o+tpMzjd8H8PWZeUryxmgvbSd4ZmI=;
+ b=wajAmYHnlGzCCW5UekFwsyiqKTbWLsW1+FSZNdgTkpJzVcNI6Uk0G+HDdCoWrgSIqA
+ YlVuxdSy2+aGkJnkPZOSRAx3cQv9hDEYBJt7M2mBEyPDBiP/ff2zwa7myG4017WN+9vM
+ AoAK84LgH9bNsf7rZQKDoRHGcVANmHXqbqo5pjAaExGl66GFirKXx3+k7ngzgqwbdR11
+ Gz7+Bua/zFHu/5t5mRy9hZXQE7o61h87uTRfD8tbERXrgD82VPSlQwFnzENPs9cW+thA
+ z6PQPSp0XG1XdoIpH01gI45n1CJvGdBqjDHN3sETABsHO2kJDz50WmaONnGAwq6EyVhu
+ b6ag==
+X-Gm-Message-State: ANoB5pkZvImIgjW4jn3LfOzY5/Hq/GJDnE7T0pX2J8L6kfW1zSF9d1b6
+ GBF1MpT+rK+XcftHba4RjQg=
+X-Google-Smtp-Source: AA0mqf77QzD64xhGFoOVk8Ej7cavGfHT+504+/KVN14uE6c94PIiVy95f6bzTtUfAeyKgzMiKr4Mvw==
+X-Received: by 2002:a17:907:c78f:b0:7c1:4e8f:df2f with SMTP id
+ tz15-20020a170907c78f00b007c14e8fdf2fmr49913201ejc.17.1671382101370; 
+ Sun, 18 Dec 2022 08:48:21 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-077-182-244-095.77.182.pool.telefonica.de.
+ [77.182.244.95]) by smtp.gmail.com with ESMTPSA id
+ q23-20020a17090676d700b007c1175334basm3335651ejn.78.2022.12.18.08.48.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 08:15:06 -0800 (PST)
-Message-ID: <d7f05d4f-2a56-6663-4a66-e53c3f14a061@linaro.org>
-Date: Sun, 18 Dec 2022 17:15:04 +0100
+ Sun, 18 Dec 2022 08:48:20 -0800 (PST)
+Date: Sun, 18 Dec 2022 16:48:16 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+CC: Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, 
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_1/3=5D_hw/mips/malta=3A_I?=
+ =?US-ASCII?Q?ntroduce_PIIX4=5FPCI=5FDEVFN_definition?=
+In-Reply-To: <20221027204720.33611-2-philmd@linaro.org>
+References: <20221027204720.33611-1-philmd@linaro.org>
+ <20221027204720.33611-2-philmd@linaro.org>
+Message-ID: <D738D4E9-56D6-473A-8294-BA6A94B61E57@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH] ebpf: fix compatibility with libbpf 1.0+
-Content-Language: en-US
-To: Shreesh Adiga <16567adigashreesh@gmail.com>, qemu-devel@nongnu.org
-Cc: jasowang@redhat.com, andrew@daynix.com, yuri.benditovich@daynix.com,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>
-References: <20221218143927.597975-1-16567adigashreesh@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221218143927.597975-1-16567adigashreesh@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,62 +93,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-On 18/12/22 15:39, Shreesh Adiga wrote:
-> The current implementation fails to load on a system with
-> libbpf 1.0 and reports that legacy map definitions in 'maps'
-> section are not supported by libbpf v1.0+. This commit updates
-> the Makefile to add BTF (-g flag) and appropriately updates
-> the maps in rss.bpf.c and update the skeleton file in repo.
-> 
-> Signed-off-by: Shreesh Adiga <16567adigashreesh@gmail.com>
-> ---
->   ebpf/rss.bpf.skeleton.h  | 1171 ++++++++++++++++++++++++++++----------
->   tools/ebpf/Makefile.ebpf |    8 +-
->   tools/ebpf/rss.bpf.c     |   43 +-
->   3 files changed, 891 insertions(+), 331 deletions(-)
 
 
-> +static inline const void *rss_bpf__elf_bytes(size_t *sz)
-> +{
-> +	*sz = 20440;
-> +	return (const void *)"\
->   \x7f\x45\x4c\x46\x02\x01\x01\0\0\0\0\0\0\0\0\0\x01\0\xf7\0\x01\0\0\0\0\0\0\0\0\
-> -\0\0\0\0\0\0\0\0\0\0\0\x18\x1d\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0\x40\0\x0a\0\
-> -\x01\0\xbf\x18\0\0\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\x4c\xff\0\0\0\0\xbf\xa7\
-> -\0\0\0\0\0\0\x07\x07\0\0\x4c\xff\xff\xff\x18\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-> +\0\0\0\0\0\0\0\0\0\0\0\x98\x4c\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0\x40\0\x0d\0\
-> +\x01\0\xbf\x19\0\0\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\x54\xff\0\0\0\0\xbf\xa7\
-> +\0\0\0\0\0\0\x07\x07\0\0\x54\xff\xff\xff\x18\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
->   \xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x06\0\0\0\0\0\0\x18\x01\0\0\0\0\0\
-> -\0\0\0\0\0\0\0\0\0\xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x07\0\0\0\0\0\0\
-> -\x18\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\x15\x06\x66\x02\0\0\0\0\xbf\x79\0\0\
-> -\0\0\0\0\x15\x09\x64\x02\0\0\0\0\x71\x61\0\0\0\0\0\0\x55\x01\x01\0\0\0\0\0\x05\
-> -\0\x5d\x02\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\xc0\xff\0\0\0\0\x7b\x1a\xb8\xff\
-> -\0\0\0\0\x7b\x1a\xb0\xff\0\0\0\0\x7b\x1a\xa8\xff\0\0\0\0\x7b\x1a\xa0\xff\0\0\0\
-> -\0\x63\x1a\x98\xff\0\0\0\0\x7b\x1a\x90\xff\0\0\0\0\x7b\x1a\x88\xff\0\0\0\0\x7b\
-> -\x1a\x80\xff\0\0\0\0\x7b\x1a\x78\xff\0\0\0\0\x7b\x1a\x70\xff\0\0\0\0\x7b\x1a\
-> -\x68\xff\0\0\0\0\x7b\x1a\x60\xff\0\0\0\0\x7b\x1a\x58\xff\0\0\0\0\x7b\x1a\x50\
-> -\xff\0\0\0\0\x15\x08\x4c\x02\0\0\0\0\x6b\x1a\xd0\xff\0\0\0\0\xbf\xa3\0\0\0\0\0\
-> -\0\x07\x03\0\0\xd0\xff\xff\xff\xbf\x81\0\0\0\0\0\0\xb7\x02\0\0\x0c\0\0\0\xb7\
-> +\0\0\0\0\0\0\0\0\0\xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x08\0\0\0\0\0\0\
-> +\x18\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\x15\x06\x67\x02\0\0\0\0\xbf\x87\0\0\
-> +\0\0\0\0\x15\x07\x65\x02\0\0\0\0\x71\x61\0\0\0\0\0\0\x55\x01\x01\0\0\0\0\0\x05\
-> +\0\x5e\x02\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\xc8\xff\0\0\0\0\x7b\x1a\xc0\xff\
-> +\0\0\0\0\x7b\x1a\xb8\xff\0\0\0\0\x7b\x1a\xb0\xff\0\0\0\0\x7b\x1a\xa8\xff\0\0\0\
-> +\0\x63\x1a\xa0\xff\0\0\0\0\x7b\x1a\x98\xff\0\0\0\0\x7b\x1a\x90\xff\0\0\0\0\x7b\
-> +\x1a\x88\xff\0\0\0\0\x7b\x1a\x80\xff\0\0\0\0\x7b\x1a\x78\xff\0\0\0\0\x7b\x1a\
-> +\x70\xff\0\0\0\0\x7b\x1a\x68\xff\0\0\0\0\x7b\x1a\x60\xff\0\0\0\0\x7b\x1a\x58\
-> +\xff\0\0\0\0\x15\x09\x4d\x02\0\0\0\0\x6b\x1a\xd0\xff\0\0\0\0\xbf\xa3\0\0\0\0\0\
-[...]
+Am 27=2E Oktober 2022 20:47:18 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+philmd@linaro=2Eorg>:
+>The PIIX4 PCI-ISA bridge function is always located at 10:0=2E
+>Since we want to re-use its address, add the PIIX4_PCI_DEVFN
+>definition=2E
+>
+>Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>---
 
-Can we have a build system step which generates this file and compare
-with what is committed in the repository that we can run in our CI?
+Reviewed-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
-That would avoid the need of human review of this blob.
-
-Thanks,
-
-Phil.
+> hw/mips/malta=2Ec | 4 +++-
+> 1 file changed, 3 insertions(+), 1 deletion(-)
+>
+>diff --git a/hw/mips/malta=2Ec b/hw/mips/malta=2Ec
+>index 272d93eea7=2E=2Edf0f448b67 100644
+>--- a/hw/mips/malta=2Ec
+>+++ b/hw/mips/malta=2Ec
+>@@ -72,6 +72,8 @@
+>=20
+> #define MAX_IDE_BUS         2
+>=20
+>+#define PIIX4_PCI_DEVFN     PCI_DEVFN(10, 0)
+>+
+> typedef struct {
+>     MemoryRegion iomem;
+>     MemoryRegion iomem_lo; /* 0 - 0x900 */
+>@@ -1377,7 +1379,7 @@ void mips_malta_init(MachineState *machine)
+>     empty_slot_init("GT64120", 0, 0x20000000);
+>=20
+>     /* Southbridge */
+>-    piix4 =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),=
+ true,
+>+    piix4 =3D pci_create_simple_multifunction(pci_bus, PIIX4_PCI_DEVFN, =
+true,
+>                                             TYPE_PIIX4_PCI_DEVICE);
+>     dev =3D DEVICE(piix4);
+>     isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa=2E0"));
 
