@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21DD6502A3
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 17:49:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0256502A5
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 17:50:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6wpu-0006Yf-3m; Sun, 18 Dec 2022 11:48:26 -0500
+	id 1p6wr7-00079R-5o; Sun, 18 Dec 2022 11:49:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p6wps-0006Wm-9m
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 11:48:24 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p6wr5-000793-EZ
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 11:49:39 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p6wpq-0005kB-Pk
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 11:48:24 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id qk9so16686253ejc.3
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 08:48:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p6wr3-0005qt-PN
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 11:49:39 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id tz12so16633058ejc.9
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 08:49:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eoRB6z0eHG3Lt9o+tpMzjd8H8PWZeUryxmgvbSd4ZmI=;
- b=Zrrvn4AvTPCm8Q9v/5qGPpVcqZMttVstYeV6+vA5uUvxNPxFvu4iKIWTBryJdRB7lX
- W4lMNxDhchIlO9AQbYMjtc8hZN44USs8/hGSzE521ry0KN2nROFZMGFgqFQA1AgpkBic
- 2isxqY4FV8NvEefSo/oaiDKxCNW8ZpO6cwUgO6xiDw1QOfccR8JFK28Ny0QQVgvbMHLs
- BvKIBJSKmh/tq2BrLAet6nTuzi/1dASG/irohFBC2CTq8DtkLiXXpIKwSBHHqeHBdgE2
- qTC+N6+ekIA2Rb+ApKRqAwYKGSTN/IdPFmRKjrzXngKQkF1I2Bu75Xg6gDX0Sv6vmZlq
- aMjQ==
+ bh=9HB/SyszN9UCCc/FLDjnt6UZsLW6GzUyaUW5v0Q/v/U=;
+ b=h+aXyOiF9ZFw2Yehhg+C++GrK+d/4ihj0RDalXpOAIMdkQA9K61wA2fwFbx6wDFy9t
+ AmSVkFFZ5YPIi+aGXabinIECRDkhCiZiDurayaz4JKTQkxRjbZ4a/vYRZpvtAF7XLSs8
+ 8QdZIh95xtwaZtdiVSIOzx4G7li+5mcru2ajYmT/expIrHM2h5y3Xe546La2iih8QiuH
+ EGgx5lsr0cozVUqIMXU7qAZH/UVweoEzW9TZdBbkHfb9vjPpcEJ27IASibuNIWXRKwhw
+ VrWVufMdP4moXOzOYUWzq4wfZVEiV/L5TyJoWmHpLfqMDLno+RKezCpFTEEcm2Rm+HOp
+ P+mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eoRB6z0eHG3Lt9o+tpMzjd8H8PWZeUryxmgvbSd4ZmI=;
- b=wajAmYHnlGzCCW5UekFwsyiqKTbWLsW1+FSZNdgTkpJzVcNI6Uk0G+HDdCoWrgSIqA
- YlVuxdSy2+aGkJnkPZOSRAx3cQv9hDEYBJt7M2mBEyPDBiP/ff2zwa7myG4017WN+9vM
- AoAK84LgH9bNsf7rZQKDoRHGcVANmHXqbqo5pjAaExGl66GFirKXx3+k7ngzgqwbdR11
- Gz7+Bua/zFHu/5t5mRy9hZXQE7o61h87uTRfD8tbERXrgD82VPSlQwFnzENPs9cW+thA
- z6PQPSp0XG1XdoIpH01gI45n1CJvGdBqjDHN3sETABsHO2kJDz50WmaONnGAwq6EyVhu
- b6ag==
-X-Gm-Message-State: ANoB5pkZvImIgjW4jn3LfOzY5/Hq/GJDnE7T0pX2J8L6kfW1zSF9d1b6
- GBF1MpT+rK+XcftHba4RjQg=
-X-Google-Smtp-Source: AA0mqf77QzD64xhGFoOVk8Ej7cavGfHT+504+/KVN14uE6c94PIiVy95f6bzTtUfAeyKgzMiKr4Mvw==
-X-Received: by 2002:a17:907:c78f:b0:7c1:4e8f:df2f with SMTP id
- tz15-20020a170907c78f00b007c14e8fdf2fmr49913201ejc.17.1671382101370; 
- Sun, 18 Dec 2022 08:48:21 -0800 (PST)
+ bh=9HB/SyszN9UCCc/FLDjnt6UZsLW6GzUyaUW5v0Q/v/U=;
+ b=s74WBQUg49NPA+LgqbKM3QGM6wueERqCw7fvVqFW/mXlOmSy+VAu8+0IPci0dclT7D
+ FvtzBflMfELKsr30RG9CFQ2bo0QqXzhdZQ2kps3iI/RnAwBfOay9YTq8tXKXL1GD9zIk
+ zSBiZl1plREsXNXfn04jI1lZzCSeTRwuHPdgl+iqfKZUCVOUEIlG9WrgvOvVJGYfQWW4
+ k0Cun4kUz9XbFn/xE8haCV53wIOvQgBXmIiiym+mE+EAVnze4u068q2gzHbApiq9Wf8u
+ 6DFOj+a4/EUllQmfnPzKebtG5DTdTkLxfSPOO+TT1vmtMW6bBS2TtGhN2UKX2WHeDIaj
+ 5bJQ==
+X-Gm-Message-State: ANoB5plXcdQrwSAP8ovq4IQ7EB2eK+ykM365cL75LyC4V/qT/HUXNXYs
+ ydCdOVhq+4K3ar7vKPHD9rg=
+X-Google-Smtp-Source: AA0mqf7VKR6UvfJY+K8HvQ7MoZ214Ko/ET0vvrJNX1ceGRp9lt4itKWo03snlQx6InlNH2n3+KKI2w==
+X-Received: by 2002:a17:906:f9d9:b0:7c1:2e19:ba3f with SMTP id
+ lj25-20020a170906f9d900b007c12e19ba3fmr33330906ejb.57.1671382176162; 
+ Sun, 18 Dec 2022 08:49:36 -0800 (PST)
 Received: from [127.0.0.1] (dynamic-077-182-244-095.77.182.pool.telefonica.de.
  [77.182.244.95]) by smtp.gmail.com with ESMTPSA id
- q23-20020a17090676d700b007c1175334basm3335651ejn.78.2022.12.18.08.48.19
+ d13-20020a170906304d00b007b4bc423b41sm3299200ejd.190.2022.12.18.08.49.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 08:48:20 -0800 (PST)
-Date: Sun, 18 Dec 2022 16:48:16 +0000
+ Sun, 18 Dec 2022 08:49:35 -0800 (PST)
+Date: Sun, 18 Dec 2022 16:49:33 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 CC: Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, 
  =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_1/3=5D_hw/mips/malta=3A_I?=
- =?US-ASCII?Q?ntroduce_PIIX4=5FPCI=5FDEVFN_definition?=
-In-Reply-To: <20221027204720.33611-2-philmd@linaro.org>
+Subject: Re: [PATCH v2 3/3] hw/isa/piix4: Correct IRQRC[A:D] reset values
+In-Reply-To: <20221027204720.33611-4-philmd@linaro.org>
 References: <20221027204720.33611-1-philmd@linaro.org>
- <20221027204720.33611-2-philmd@linaro.org>
-Message-ID: <D738D4E9-56D6-473A-8294-BA6A94B61E57@gmail.com>
+ <20221027204720.33611-4-philmd@linaro.org>
+Message-ID: <A602E066-BABE-4E42-9C1E-3B8D5761C156@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,42 +94,39 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 27=2E Oktober 2022 20:47:18 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+Am 27=2E Oktober 2022 20:47:20 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
 philmd@linaro=2Eorg>:
->The PIIX4 PCI-ISA bridge function is always located at 10:0=2E
->Since we want to re-use its address, add the PIIX4_PCI_DEVFN
->definition=2E
+>IRQRC[A:D] registers reset value is 0x80=2E We were forcing
+>the MIPS Malta machine routing to be able to boot a Linux
+>kernel without any bootloader=2E
+>We now have these registers initialized in the Malta machine
+>write_bootloader(), so we can use the correct reset values=2E
 >
 >Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
 >---
 
 Reviewed-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
-> hw/mips/malta=2Ec | 4 +++-
-> 1 file changed, 3 insertions(+), 1 deletion(-)
+> hw/isa/piix4=2Ec | 8 ++++----
+> 1 file changed, 4 insertions(+), 4 deletions(-)
 >
->diff --git a/hw/mips/malta=2Ec b/hw/mips/malta=2Ec
->index 272d93eea7=2E=2Edf0f448b67 100644
->--- a/hw/mips/malta=2Ec
->+++ b/hw/mips/malta=2Ec
->@@ -72,6 +72,8 @@
->=20
-> #define MAX_IDE_BUS         2
->=20
->+#define PIIX4_PCI_DEVFN     PCI_DEVFN(10, 0)
->+
-> typedef struct {
->     MemoryRegion iomem;
->     MemoryRegion iomem_lo; /* 0 - 0x900 */
->@@ -1377,7 +1379,7 @@ void mips_malta_init(MachineState *machine)
->     empty_slot_init("GT64120", 0, 0x20000000);
->=20
->     /* Southbridge */
->-    piix4 =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0),=
- true,
->+    piix4 =3D pci_create_simple_multifunction(pci_bus, PIIX4_PCI_DEVFN, =
-true,
->                                             TYPE_PIIX4_PCI_DEVICE);
->     dev =3D DEVICE(piix4);
->     isa_bus =3D ISA_BUS(qdev_get_child_bus(dev, "isa=2E0"));
+>diff --git a/hw/isa/piix4=2Ec b/hw/isa/piix4=2Ec
+>index 15f344dbb7=2E=2Ea2165c6a49 100644
+>--- a/hw/isa/piix4=2Ec
+>+++ b/hw/isa/piix4=2Ec
+>@@ -115,10 +115,10 @@ static void piix4_isa_reset(DeviceState *dev)
+>     pci_conf[0x4c] =3D 0x4d;
+>     pci_conf[0x4e] =3D 0x03;
+>     pci_conf[0x4f] =3D 0x00;
+>-    pci_conf[0x60] =3D 0x0a; // PCI A -> IRQ 10
+>-    pci_conf[0x61] =3D 0x0a; // PCI B -> IRQ 10
+>-    pci_conf[0x62] =3D 0x0b; // PCI C -> IRQ 11
+>-    pci_conf[0x63] =3D 0x0b; // PCI D -> IRQ 11
+>+    pci_conf[0x60] =3D 0x80;
+>+    pci_conf[0x61] =3D 0x80;
+>+    pci_conf[0x62] =3D 0x80;
+>+    pci_conf[0x63] =3D 0x80;
+>     pci_conf[0x69] =3D 0x02;
+>     pci_conf[0x70] =3D 0x80;
+>     pci_conf[0x76] =3D 0x0c;
 
