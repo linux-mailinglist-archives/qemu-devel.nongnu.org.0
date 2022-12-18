@@ -2,85 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0564D65051A
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 23:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD1465051B
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 23:24:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p723t-0002f2-70; Sun, 18 Dec 2022 17:23:13 -0500
+	id 1p725G-0003Ra-4a; Sun, 18 Dec 2022 17:24:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p723r-0002eD-3s
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 17:23:11 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p723p-0006LT-FT
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 17:23:10 -0500
-Received: by mail-ej1-x635.google.com with SMTP id m18so17653684eji.5
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 14:23:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oU1vIsXfzsQ8HZcqwzN7T/MAXsE1HSu+cMUHvbTZ7TM=;
- b=ujBFWKn7HAh7fMF4KxKCydBEEwGAgs0VK6utmSn3Oy5ZIXs9Li2xWF6tSCZA1zfi7f
- Cp7TllXkvQD/Yt2ltV/xny0K/gTf28WWWktW/3NGakGwmfQEIEos4HRbkYDmt5lyX9tG
- GyEWcCZQUC0W+Ogm2cwu8TK6p4QLP/kjAsIFRKY3qqONQ0tFdNaOS5o/7bE5+X/1WzQ6
- pcsUVJtvBi0pDKuhre1Jhp4bAHAfC7e/CVyKxFZa4DLKOBYLvd7Um0/ahon4/ipN/RxS
- TicQnYcZT34FpMccFltEbsqWEO8tfzN1tvFuOI+5gVCU0D8gMiWlxJ7YMFAQp+4mWFqH
- 9OZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oU1vIsXfzsQ8HZcqwzN7T/MAXsE1HSu+cMUHvbTZ7TM=;
- b=OFHJH9EpEAPkgBF6t2M6BJWfHOukb6ekdwXUgZk3NrbhGFqp/gkUsDVPiRMwR9O1FU
- UzLxF8vx6lqD+zGPgl60aYVakG5U1yr70TB7hfkExaUljY405NRKcLg6+lP7sOJDABrE
- 96CrBfwTjY9un9ARElCOa0MJIbXspZ+/H1bTpUJVFeXFTohbXBuTcUJUASmrNF7tNmor
- Ckv1Ja1UibaJ/adynKXEIISXlo8ir/t6fabDc0tUOxIe40XIneHnp0PSjymVeyVG03dp
- tabTONil7QJOGwZk5Y13s+EKg2raZcDkcKNcCu4ZptYMGU+LGExVzBThbcOY8I0xeYhy
- yOAA==
-X-Gm-Message-State: AFqh2krZhhfgOJ4U+Djpkj11PzNzUKDL0SYYndVyoEz7mhYBr0HPO4nb
- o+ipEGAE4TW4Kuw+DcS0SxS4jA==
-X-Google-Smtp-Source: AMrXdXuG8QkvIh0fDS6vqLJnKHEKrG0Wvune4Hka5OTHF67qoKyUkGaWutK6edGVZBaFjWHdVE4Jlw==
-X-Received: by 2002:a17:907:a705:b0:7c1:6b46:a722 with SMTP id
- vw5-20020a170907a70500b007c16b46a722mr3726665ejc.56.1671402187543; 
- Sun, 18 Dec 2022 14:23:07 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- sb25-20020a170906edd900b007ad2da5668csm3588489ejb.112.2022.12.18.14.23.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Dec 2022 14:23:07 -0800 (PST)
-Message-ID: <de6f6dfd-e6e1-39fd-1c4f-d30249451cd1@linaro.org>
-Date: Sun, 18 Dec 2022 23:23:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH v2 4/7] hw/misc: Allwinner AXP-209 Emulation
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1p725C-0003RI-Ix
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 17:24:34 -0500
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1p7257-0006QR-M5
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 17:24:32 -0500
+Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BILMeJg010023; Sun, 18 Dec 2022 14:24:25 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=vm5n8X5CV0Vz6owwhyoeYM7HSUE0TZia9X7V2D0lBq4=;
+ b=b5v0W1Cddj/cc4MoW+YAjnEwzyvqlHpc/CjDe2mqJMPnwjy33sqSi3ikMRDUeANso5kJ
+ otVA74YT0GEn+DPn2dl5zASHivalz14E8cckJa9qlWXPBY3ME16Dyh9SJqgkOZmr8eRC
+ o5kQCY7Y0uaCM11HEP1REr1/fBw5clighM6bDKpXJu8VSvHMrbog4RHWE8BSReB29IoC
+ Ia6zHO3L3pQ0ji3E+NDXxJhuNEurmivl3Q0TKELaL+CIXegCskAeZRB46gC2DvTiS/zJ
+ m9c+MsAjExmp/UUE9ljybeB6iAPyYbbkopNGYu4KVwLWhsma9rzQAMk+tXGRjP/rpPnP wA== 
+Received: from nam02-dm3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02lp2043.outbound.protection.outlook.com [104.47.56.43])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3mhdqmjxut-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 18 Dec 2022 14:24:25 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EBc4KYGyZHrD4DLJjyVKDcZuYhRz27EHicOqLokiAMy5/t2jk+AKm8kDFA/IlrcNhaaE6CQYaYekZSYWLApXCtRgLTogmJKhypXw3v/Z5Z/9h2QmeQJVxILxruR8X66/HahbtYfq7pKGw0GkXgUGgUTRxjTKs3yG38urSLvILdSKv4vGJ01AAaU0NpJu0m+NeLP85hK4YT+5t3xuLznP/bi8wXOntRt3iKb4eWLY+p+7Uq+y2ecUl9tyZaZnu5T+0W+2AjmA/ccu7rJey7rve1b9njXSrutQAU9/caf49xqUgGwSfIDvkxkDRpm7/IEvPx8YlxPZAk9Qd8Qd5jP+qA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vm5n8X5CV0Vz6owwhyoeYM7HSUE0TZia9X7V2D0lBq4=;
+ b=ZVRzMphoqiVTdQsJzCsCUXczsxizWP3Xs2DeE4PpskGsjXko8rhR6fXgvOjgTG5BrSKW2AL+DnfsnKaUOcnXCcW4fszoAPhI1LaW5kuKHmzx6TRMLxAmlHZlxQnfQlWCB/7r+1LJmDUM4U4UJ2NrQq3QOO7AE/LGhUzOE2yPjiIvmW+ZB4bGkKaODNJNuazsvyM/AiyV1ku/aMvNdZq8Lp3aMcmHdT080JAc/d7g9UAx9bHj93B7vzlbCjuLr9emOs5bsvU/h++AqtHz3HB7f2W0gYKhdyomLJp98hp/gvFPWNWknYxZNAFCLlO1J+uTj7p7eibhs0s/gn6xgpz89A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vm5n8X5CV0Vz6owwhyoeYM7HSUE0TZia9X7V2D0lBq4=;
+ b=wJgeGmJxPX/mJDNZYOH39wbkFqTWN4lT5i4G4DQ2q6rMj9kOsIpQwYW3sxxe37veqzgevRa4PDHPGgYqPSI4kpEFDT1Fm/G74vid6V5/liGmoV/vdpzIMxdrHxh9wTNCLoD2a6VIFK2dsISChN6qxBVOTA/eQ0l+cvWOFDYsWTsxi0sSrQ54JD3SQDS+ooziZdat4pE2VrICx8y9UlzyOkHXD14yP6K6EsJkATOWClzA5cuUG7W3QzGC9XURGe+qyBFmPB6Yng1cPhjSjGHxEVbbJT+h6vQE3Gfa+ehViz/Sydob8YNyrKLeHZQTORo62LP/ApVc+erSu49Gp+4wSA==
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
+ by DM6PR02MB7098.namprd02.prod.outlook.com (2603:10b6:5:251::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Sun, 18 Dec
+ 2022 22:24:22 +0000
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::a01e:4b95:6c3:acf2]) by BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::a01e:4b95:6c3:acf2%6]) with mapi id 15.20.5924.016; Sun, 18 Dec 2022
+ 22:24:22 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Michael S . Tsirkin"
+ <mst@redhat.com>
+Subject: Re: [PATCH v2] contrib/vhost-user-blk: Replace lseek64 with lseek
+Thread-Topic: [PATCH v2] contrib/vhost-user-blk: Replace lseek64 with lseek
+Thread-Index: AQHZEy0pcVvwjOr2AU6ZZDWxk7eU1K50OJUA
+Date: Sun, 18 Dec 2022 22:24:22 +0000
+Message-ID: <ADD6A2E9-D460-4D29-8877-E1E920FC9B62@nutanix.com>
+References: <20221218220740.315839-1-raj.khem@gmail.com>
+In-Reply-To: <20221218220740.315839-1-raj.khem@gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20221218211918.3592-1-strahinja.p.jankovic@gmail.com>
- <20221218211918.3592-5-strahinja.p.jankovic@gmail.com>
- <df665471-7426-f313-aece-75b8638e0da4@linaro.org>
- <CABtshVQNAseuzxHS7htyxEtoZDEGVG0fdf0ERdAZJgcxe=znQQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CABtshVQNAseuzxHS7htyxEtoZDEGVG0fdf0ERdAZJgcxe=znQQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.120.41.1.1)
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL3PR02MB7938:EE_|DM6PR02MB7098:EE_
+x-ms-office365-filtering-correlation-id: ada620bc-64ec-45d7-edbe-08dae1469d3b
+x-proofpoint-crosstenant: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OvcKS85vROr+AcQhX8Ql6l4okkOBv2M/qJws90YVS3IlBmTzvJAH1mlrACL5tybOHh/YXZnu/58lUISn82mSuPK7rMXKI9vbNUB+4y56m6NoMyE0ZZO0ScMCLmEBM+gZAvbmrZFRh7H35LrPLK2DsCjq60OUCgQXiIhOLV7/mfGFDXCjbGT9XQ8NduRW1goRqnrehYZFYLLjXpBClXSEI2iY70z3zaX/6/GlxortasO+xJV8Gv6++F12hk1+ZeIZx/NeHdAnkXzfCwqEMJ7m2VTKRRBwEX6A/pyTDM29GAUFd3WjoozJufUaeifYEfVWioZxwvCUvIDw681k0fVbg4gRc6ZovWzLKO9jLkSCYZwWhHx5p8JyyLGfCMQwIAA1ruUyT29vq1kc6ekU9ANdQgDv0YrTUgWcjJnoCo3l22WnqS3t0775xJgI6Yieyi3Pv7yWZVrqjRT43vwGEJcqN5hJ0Nr3Pzynuh4Siydbu4L9m+aBYeyzQbllc6O6IFFAbHUnWk+v8Pqn076LfGTw6VomqUKtFYq7h4rRrh0UIuhPjD1su869J7cb9v+E9eTlUilxjctOnBpDuZYLQ4uPFWzUkcAbB4Gj2jv87giVx72vZo2P3T/WeMcZYpDexuptQJdwyupBy+cQGuI3WYaWq5+ALI4igojcfVtKLc/bQv/vmMVZjsWE6xh3wH4yTXbdu31M4EgFEfemSymkc1gU/lNb8zWICgFoLKVxgLiUipA=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(136003)(366004)(376002)(346002)(39850400004)(396003)(451199015)(8676002)(8936002)(4326008)(36756003)(41300700001)(38100700002)(122000001)(44832011)(83380400001)(5660300002)(38070700005)(2906002)(33656002)(53546011)(2616005)(71200400001)(6506007)(6486002)(478600001)(316002)(6916009)(54906003)(86362001)(6512007)(66476007)(66946007)(66446008)(26005)(66556008)(186003)(76116006)(91956017)(64756008)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?/lLa0jUB4m3qXuRrmSzViwYq3qhfaGNEct6Mk95afKTtpSy743djj9Fa0VEH?=
+ =?us-ascii?Q?Lf6RQlO9qQ3draTUlL7CYBIerApd1xZdt6gW1Jb4Ex9+Zf8TMMNiQEuUc0KV?=
+ =?us-ascii?Q?HFt+s4Yfsw/PL88/KfSnuBY5fk6T6RhXH0bHRWA3qWkl4FjtbXGMg+P+tujf?=
+ =?us-ascii?Q?5wkmWdxLD3IdxtUR5Anlwg37FfpoSTy1If0G4mG4lj91+/Qktvi+79zT5Ow5?=
+ =?us-ascii?Q?fHYM7IZLSFZ46eA1KtuhxqIDDLqS0Kc7CukTDnseBTtDAuxgPaSZTz9amRS1?=
+ =?us-ascii?Q?pwK1c4XNFk141aYfycw94jgpZmyGLKWnHlSZPMCayf3ggcO3Hb/aWQW34UQ4?=
+ =?us-ascii?Q?7fr1B84dkKaiI2NM8s4oQdlu0cf9BB/GxJ+QYrw65JROrW3VCj1cKy8TM1X+?=
+ =?us-ascii?Q?cDV00hDyMtNR38jVbC9uTH4gF23/CQC9yFbHMhBa+MumQZmFd7cgqHQkVLt8?=
+ =?us-ascii?Q?/Jv0cHzuUT6aAoqB83dxNQAbLmIk4Igl0HaIZ58hR8p2VZrGYCBU4u7ji846?=
+ =?us-ascii?Q?cUGe9LBtuOX/hlH6TmHmjVJdd8wI/LtVx//Fa4jyQVObYMKBFwkyNBx8nC2Z?=
+ =?us-ascii?Q?9ohM6tE9/1ZEa12aSpYGk1kcJDYwEv0Qv5Q6W5QcdeRiOybtpii0YEPS8zTA?=
+ =?us-ascii?Q?fR49SELZ47dpOmgKWQ9QSz4rdHZeLVBU6InKL51ILsH9VftLGQMjhJ+9SiTw?=
+ =?us-ascii?Q?0vHU79oL75WsZpNJ5npZH8xC2sZdiQt2FJr/rKJIUzoT6SLdmJg1DKnSNYg3?=
+ =?us-ascii?Q?e9dvbyTHl/u+G1TG2OeQqyzDk39pnBUXqbD+9bAaNiJ15iWcmgZXpBIHqM0P?=
+ =?us-ascii?Q?5F7BjeO4ilCz9Qh8bpd5j3Qw9Mip9AT+l+VZeCAFUOuuZvNmi1VDmNxo8WzE?=
+ =?us-ascii?Q?WO7TGrS9HNPgkUzDAmNAR9CJy4LMrcgwC9URuv5CtI7kKu9PwRWNxjt+t/OW?=
+ =?us-ascii?Q?kjqPHfdXib2OCfqq4+b6uZdSDowMBSvTmOdxhuvKO+MtwhXUZRhH2tX5Y9Ir?=
+ =?us-ascii?Q?arPnS9YhMFRjGShhjsmAle69Jy1UEps5anhXt84jbQVOvpM1qsGFDaNWQ7Te?=
+ =?us-ascii?Q?6HsaWGkmGCVdKVqXblWOHh2lW4FHL7Jns3OUfD3RquD3ZcV3kZaqSS4/rE8T?=
+ =?us-ascii?Q?tPMKz2QNlDkRSE+fQKGOCRh5If0dFwd3WEw8Jj1ntqzC8C7RAj+fenJnQN3e?=
+ =?us-ascii?Q?RSD769bk2RNkRsLLuZzpkvjzNWQm/3cYuNx8shyKxzCIe8Xzsqw3FNBFqW6J?=
+ =?us-ascii?Q?TLKUrj9SXeltypAZz/4Y1Q/ac9A/81mF/7VSJmGkTEh4pP4iPjbpPy4SKZEC?=
+ =?us-ascii?Q?h3A7dFaRh1j+hkgIpLfj+2pMMxGoYjCTuzCe6wah1gJeo+2+mHUHEqO0JdGt?=
+ =?us-ascii?Q?Z8EVza4+k61GoA2hv95cXfKcPaPjb+q8lESkEpxEcQzY7Y/ts34hueyl0w4Y?=
+ =?us-ascii?Q?9AJICySeXd91Gc/C3eSY2NRIBlPkzNMvfimPb+FKctexUo67exhdGEDgVXBV?=
+ =?us-ascii?Q?QoWACz4jdGMSTxMsh0qC28CQWXcVVIWD2VDxEnjWLxWeHDGlud6jkXGoxjtf?=
+ =?us-ascii?Q?zI2+FxD4OkZkJ9xZ0fRkQI+UHStRnPlWMW1gnBkpyBFd8XwfWZafBOcmWGqa?=
+ =?us-ascii?Q?39pSe1CbqYxR7fYxcqtTRo8=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <E271208A29905E46BCF7A9C649106E0E@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ada620bc-64ec-45d7-edbe-08dae1469d3b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2022 22:24:22.8100 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: q1MQu2KQstUqNPGMTxAw7bwp2iKwkMu01mbYRC9AK0olxH2VQwj3TXShoMo0Ekie3wxZyamNFPskfoEMQ/yoKP4MTHVGLNgzEAElgQ2Wx/g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB7098
+X-Proofpoint-GUID: TkaPnpRKQhvXoSVc5KJutNgVn0Yn3Jfx
+X-Proofpoint-ORIG-GUID: TkaPnpRKQhvXoSVc5KJutNgVn0Yn3Jfx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-18_02,2022-12-15_02,2022-06-22_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,54 +160,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/12/22 23:12, Strahinja Jankovic wrote:
-> Hi,
-> 
-> On Sun, Dec 18, 2022 at 11:07 PM Philippe Mathieu-Daudé
-> <philmd@linaro.org> wrote:
->>
->> On 18/12/22 22:19, Strahinja Jankovic wrote:
->>> This patch adds minimal support for AXP-209 PMU.
->>> Most important is chip ID since U-Boot SPL expects version 0x1. Besides
->>> the chip ID register, reset values for two more registers used by A10
->>> U-Boot SPL are covered.
->>>
->>> Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
->>> ---
->>>    hw/arm/Kconfig              |   1 +
->>>    hw/misc/Kconfig             |   4 +
->>>    hw/misc/allwinner-axp-209.c | 238 ++++++++++++++++++++++++++++++++++++
->>>    hw/misc/meson.build         |   1 +
->>>    hw/misc/trace-events        |   5 +
->>>    5 files changed, 249 insertions(+)
->>>    create mode 100644 hw/misc/allwinner-axp-209.c
->>
->>
->>> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
->>> index 052fb54310..3855d937fd 100644
->>> --- a/hw/misc/Kconfig
->>> +++ b/hw/misc/Kconfig
->>> @@ -180,4 +180,8 @@ config ALLWINNER_A10_CCM
->>>    config ALLWINNER_A10_DRAMC
->>>        bool
->>>
->>> +config ALLWINNER_AXP_209
->>
->> This controller is not specific to AllWinner. It can be plugged on any
->> i2c bus. Please rename it AXP209_PMU. Otherwise LGTM!
-> 
-> Do you mean only in Kconfig, or everywhere (file name, function names,
-> etc.)? Thanks.
 
-Keeping the file / functions names with 'allwinner' would give the false
-idea this is AllWinner specific; rather confusing isn't it? Besides it
-is not part of the SoC, this is an external component sitting on the
-bus. So "everywhere".
 
-Also, the "select ALLWINNER_AXP_209/AXP209_PMU" line in hw/arm/Kconfig
-belongs to the next patch "hw/arm: Add AXP-209 to Cubieboard".
+> On Dec 19, 2022, at 12:07 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+> 64bit off_t is already in use since build uses _FILE_OFFSET_BITS=3D64
+> already. Using lseek/off_t also makes it work with latest musl without
+> using _LARGEFILE64_SOURCE macro. This macro is implied with _GNU_SOURCE
+> when using glibc but not with musl.
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> CC: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> ---
+> v2: Fix typo must->musl
+>=20
+> contrib/vhost-user-blk/vhost-user-blk.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user=
+-blk/vhost-user-blk.c
+> index aa99877fcd..7941694e53 100644
+> --- a/contrib/vhost-user-blk/vhost-user-blk.c
+> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
+> @@ -532,9 +532,9 @@ vub_get_blocksize(int fd)
+> static void
+> vub_initialize_config(int fd, struct virtio_blk_config *config)
+> {
+> -    off64_t capacity;
+> +    off_t capacity;
+>=20
+> -    capacity =3D lseek64(fd, 0, SEEK_END);
+> +    capacity =3D lseek(fd, 0, SEEK_END);
+>     config->capacity =3D capacity >> 9;
+>     config->blk_size =3D vub_get_blocksize(fd);
+>     config->size_max =3D 65536;
+> --=20
+> 2.39.0
+>=20
 
-Regards,
 
-Phil.
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>=
 
