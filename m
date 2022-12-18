@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25A065041C
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 18:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5422A65041D
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 18:16:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p6xEO-0006Y6-8n; Sun, 18 Dec 2022 12:13:44 -0500
+	id 1p6xGP-0007Sa-3N; Sun, 18 Dec 2022 12:15:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1p6xEF-0006Xi-Q1
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:13:37 -0500
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1p6xGL-0007Pe-2Y
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:15:45 -0500
 Received: from mailout12.t-online.de ([194.25.134.22])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1p6xED-0001wa-Lt
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:13:35 -0500
-Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
- by mailout12.t-online.de (Postfix) with SMTP id 57648719E;
- Sun, 18 Dec 2022 18:13:27 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.21.92]) by fwd72.t-online.de
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1p6xGJ-0002PP-GA
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 12:15:44 -0500
+Received: from fwd80.dcpf.telekom.de (fwd80.aul.t-online.de [10.223.144.106])
+ by mailout12.t-online.de (Postfix) with SMTP id A76EC1B493;
+ Sun, 18 Dec 2022 18:15:40 +0100 (CET)
+Received: from linpower.localnet ([79.208.21.92]) by fwd80.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1p6xE4-0gtd210; Sun, 18 Dec 2022 18:13:24 +0100
-Message-ID: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
-Date: Sun, 18 Dec 2022 18:13:23 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: [PATCH 00/11] audio: more improvements
+ esmtp id 1p6xGF-1ACA770; Sun, 18 Dec 2022 18:15:39 +0100
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 11E04200456; Sun, 18 Dec 2022 18:15:39 +0100 (CET)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
  qemu-devel@nongnu.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: [PATCH 01/11] audio: log unimplemented audio device sample rates
+Date: Sun, 18 Dec 2022 18:15:29 +0100
+Message-Id: <20221218171539.11193-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
+References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1671383604-5AFEE991-45DFFA10/0/0 CLEAN NORMAL
-X-TOI-MSGID: 87c6bff1-0324-4d17-90fd-8b3f768f45b5
-Received-SPF: none client-ip=194.25.134.22; envelope-from=vr_qemu@t-online.de;
- helo=mailout12.t-online.de
+X-TOI-EXPURGATEID: 150726::1671383739-C13271D1-2B90A431/0/0 CLEAN NORMAL
+X-TOI-MSGID: a3cb6a37-baab-43bc-b539-907d21a05788
+Received-SPF: none client-ip=194.25.134.22;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout12.t-online.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -64,53 +66,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A few patches from my audio patch queue.
+Some emulated audio devices allow guests to select very low
+sample rates that the audio subsystem doesn't support. The lowest
+supported sample rate depends on the audio backend used and in
+most cases can be changed with various -audiodev arguments. Until
+now, the audio_bug function emits an error message similar to the
+following error message
 
-Patches 1 - 2:
-If a guest selects an unsupported sample rate, an error message is 
-currently shown. The first patch takes care to suppress the error 
-message and reports with the qemu_log_mask(LOG_UNIMP, ...) function that 
-this is not supported. The second patch is needed because there are two 
-code paths to reach the qemu_log_mask() function in the 
-audio_pcm_sw_alloc_resources_* functions. The second path prints an 
-additional error message up to now.
+A bug was just triggered in audio_calloc
+Save all your work and restart without audio
+I am sorry
+Context:
+audio_pcm_sw_alloc_resources_out passed invalid arguments to
+ audio_calloc
+nmemb=0 size=16 (len=0)
+audio: Could not allocate buffer for `ac97.po' (0 samples)
 
-For more background information:
-https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg04940.html
+and the audio subsystem continues without sound for the affected
+device.
 
-Patches 3 - 4:
-General improvements.
+The fact that the selected sample rate is not supported is not a
+guest error. Instead of displaying an error message, the missing
+audio support is now logged. Simply continuing without sound is
+correct, since the audio stream won't transport anything
+reasonable at such high resample ratios anyway.
 
-Patches 5 - 9:
-These patches remove the audio_calloc() function. The GLib g_new0 macro 
-is a better replacement for audio_calloc() and we have one less 
-audio_bug() function call site. There's one exception where g_malloc0() 
-fits better.
+The AUD_open_* functions return NULL like before. The opened
+audio device will not be registered in the audio subsystem and
+consequently the audio frontend callback functions will not be
+called. The AUD_read and AUD_write functions return early in this
+case. This is necessary because, for example, the Sound Blaster 16
+emulation calls AUD_write from the DMA callback function.
 
-Patches 10 - 11:
-Audio playback and recording with the ALSA audio backend currently 
-doesn't work well with the default audio settings.
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ audio/audio.c          |  1 +
+ audio/audio_template.h | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
 
-Volker Rümelin (11):
-   audio: log unimplemented audio device sample rates
-   audio: don't show unnecessary error messages
-   audio: rename hardware store to backend
-   audio: remove unused #define AUDIO_STRINGIFY
-   audio/mixeng: use g_new0() instead of audio_calloc()
-   audio/alsaaudio: use g_new0() instead of audio_calloc()
-   audio/audio_template: use g_malloc0() to replace audio_calloc()
-   audio/audio_template: use g_new0() to replace audio_calloc()
-   audio: remove audio_calloc() function
-   alsaaudio: change default playback settings
-   alsaaudio: reintroduce default recording settings
-
-  audio/alsaaudio.c      | 27 ++++++++----------------
-  audio/audio.c          | 26 +----------------------
-  audio/audio_int.h      |  4 ----
-  audio/audio_template.h | 48 ++++++++++++++++++++----------------------
-  audio/mixeng.c         |  7 +-----
-  5 files changed, 34 insertions(+), 78 deletions(-)
-
+diff --git a/audio/audio.c b/audio/audio.c
+index d849a94a81..f6b420688d 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -31,6 +31,7 @@
+ #include "qapi/qobject-input-visitor.h"
+ #include "qapi/qapi-visit-audio.h"
+ #include "qemu/cutils.h"
++#include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "qemu/help_option.h"
+ #include "sysemu/sysemu.h"
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index 720a32e57e..bfa94b4d22 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -115,6 +115,19 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+ #else
+     samples = (int64_t)sw->HWBUF->size * sw->ratio >> 32;
+ #endif
++    if (samples == 0) {
++        HW *hw = sw->hw;
++        size_t f_fe_min;
++
++        /* f_fe_min = ceil(1 [frames] * f_be [Hz] / size_be [frames]) */
++        f_fe_min = (hw->info.freq + HWBUF->size - 1) / HWBUF->size;
++        qemu_log_mask(LOG_UNIMP,
++                      AUDIO_CAP ": The guest selected a " NAME " sample rate"
++                      " of %d Hz for %s. Only sample rates >= %zu Hz are"
++                      " supported.\n",
++                      sw->info.freq, sw->name, f_fe_min);
++        return -1;
++    }
+ 
+     sw->buf = audio_calloc(__func__, samples, sizeof(struct st_sample));
+     if (!sw->buf) {
 -- 
 2.35.3
 
