@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9946504EB
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 23:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71628650503
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Dec 2022 23:12:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p71pp-0005QW-GU; Sun, 18 Dec 2022 17:08:41 -0500
+	id 1p71tS-0007YF-GN; Sun, 18 Dec 2022 17:12:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p71pn-0005O5-DL; Sun, 18 Dec 2022 17:08:39 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71tN-0007Wn-SX
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 17:12:21 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p71pl-0003jy-SR; Sun, 18 Dec 2022 17:08:39 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id z92so10613324ede.1;
- Sun, 18 Dec 2022 14:08:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VfIR6onsTdDChWdhF0Y/94/mpqePbMDhMOcMJe8ucrU=;
- b=OYAxkXrDKsycM1LbO8BEOXByx4v6C7jO8i0frGsXsHlhDz11oaZ5xiVke7eC5Jm/G6
- JfZsfWPRIFrD4sql/QT7m+vbIFLZfvNPl15VXxE/VrjqY7q7Kbm1fo3ITqxN+l9u3IJi
- eJLDfJb6bptwIvsD+iiPIb80A3kBUrEnUtVfZ6HT013X3azFK7b/RfD/tmAwtQb0PLMF
- ImlsjHsaVhW9o+IZFhZ+ZWCfTtG4fGlUA8cY3ka/J/qLimF9Ysqqk1zp7AqfS/JM6+68
- 06hRljatzjelUJme8m6kHrIoDu4685vEsMxYv2T1mXknd8jGjc+i2n2ktVYHXmWM24be
- FWzQ==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p71tL-0004ji-Hz
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 17:12:20 -0500
+Received: by mail-ed1-x533.google.com with SMTP id m21so106141edc.3
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 14:12:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qI1SxwIqoCEETmQqOYYFc1gpFwI3z5UWmYTO9bbXDgo=;
+ b=ynhIjBqGjBALgUmQ2M8ZyejE2V9FOL/faJSnJSIDxJVg5DRrpc1UpRkw0eXt6IYloz
+ gHjZQZ/OViYh1H1bQLq9kyY+xQ9rgqJplD0i13UAaGbCcDOkvcRNHbCNa2kp/y50AzoJ
+ ZmJa5xqE6lG7DPF30v9mJ4Lbo8Kl0GzpSPkcSdaU8EOexeFm6I8U4akI9Ewt5obdN8CO
+ Y44IdnaPhTYILUXKY1dlTKy5vUNVBktFGM6K0Tke1uQ6X01mBvqoHEQyn94SNcZpMunF
+ 8DPi/+W4EUuu042o00CG5luqWPwyTDQEgzDX04onr2j10HgDSZF2tjfiR5JePlnISVn7
+ Jywg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VfIR6onsTdDChWdhF0Y/94/mpqePbMDhMOcMJe8ucrU=;
- b=HcyKKfPLZO3iPQpR2JGZJ4Z8wdLPt3itoD2oS3drvy2pArrpyHa8ZXFQVOZn+cvA5V
- FUp2bHdQyM1R5OnwC4pIaVBIY7Yf2qU3CCsaT6fm5ZWF7iFNI+3MxxYxq8HJdVliCzxd
- VsFBmKAUwiw9XS/YUnqi2QDNX3vqtAdKDGAtvnk/G57M8vc/9QQ/VdVipsfqNpUEn8g0
- /wY80AGnk5I5uvK2yGXkJMO73n1mNFsdyQfM23GO9TKMFOZ5hLp3578ILNfF/tbWMHQl
- jK+R+3xMHfJA8715bbOfLcqvnpbJBf69Zl9t4BKC/YGX0GCi5rv2rIOBLUBYtjJVKAG9
- jATw==
-X-Gm-Message-State: AFqh2kqIeiLbBNfVg5JX/O04RKRjcuRE44uSx59fL2tbn3shedU2gRUz
- JI5rAwx2g5iIm09r2T+hbVyhQr3nkK2YsGhHbxIM4uFH74HZ6Q==
-X-Google-Smtp-Source: AMrXdXtVNtDMEf9Z168jkBSeW7LyyEnx14dUK5t3zsmByfu6z1NjmPIFDORGYuXlDlok0wkIssOI6DX0kyGybq+8Bhw=
-X-Received: by 2002:a05:6402:1816:b0:476:1997:a6ac with SMTP id
- g22-20020a056402181600b004761997a6acmr947563edy.108.1671401315918; Sun, 18
- Dec 2022 14:08:35 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qI1SxwIqoCEETmQqOYYFc1gpFwI3z5UWmYTO9bbXDgo=;
+ b=kBBYGSO2EnCBbTder7nVFrjBo41tJ2gFTWV3JXHDL0WexKdwYrBE3rWeqe4pfn/vCi
+ jMZKNCSiKxEPLx+iE6Rb1kDNfLRiqIbB5xyyFjNaOICe6/bgUwWxaZfAuKEjzSb/XX7+
+ KyJPfPsqBemTmObSTvqSnjDEhWgD25KXkLynssCRIkA9KwB90Ea6td6grjlXeAEsYU9g
+ 6GnOxo3XwjF2Y13mhhvgW6FKWCsTNS8boVAoEHP7HA/9Rs7x2svO3Vw/FewEvZnDuKQN
+ 5Q7oPXpOzyLYRqv2YUPHmuVvcakkqQW7ovGpG169Agp8knGS1lrdlRSCyOYuRLlCElUF
+ kvHw==
+X-Gm-Message-State: ANoB5pnox+SzEhQqk+6XhCUoS6nZCJ5dd1i7cuxw0r7BIPS5vo/XXc29
+ evBPLZ/yAxeMxbeA5p3BBiGd30PYJ2ucLm//Ico=
+X-Google-Smtp-Source: AA0mqf7pT6Bv62K2hfnBuJKL8/m9/+YRMXS5HPDe4ZdAMb5PHh4L90mK+s/XFqkfEaTSr4bw6haBrA==
+X-Received: by 2002:a50:ee8b:0:b0:46c:b25a:6d7f with SMTP id
+ f11-20020a50ee8b000000b0046cb25a6d7fmr34762281edr.8.1671401536864; 
+ Sun, 18 Dec 2022 14:12:16 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ v10-20020aa7dbca000000b00461cdda400esm3629190edt.4.2022.12.18.14.12.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 18 Dec 2022 14:12:16 -0800 (PST)
+Message-ID: <fa5f8ec6-4b3b-06be-cb08-97f58267ff03@linaro.org>
+Date: Sun, 18 Dec 2022 23:12:15 +0100
 MIME-Version: 1.0
-References: <20221218211918.3592-1-strahinja.p.jankovic@gmail.com>
- <20221218211918.3592-8-strahinja.p.jankovic@gmail.com>
- <d5616b84-f9b4-3f53-1011-4df670c3ed7c@linaro.org>
-In-Reply-To: <d5616b84-f9b4-3f53-1011-4df670c3ed7c@linaro.org>
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Date: Sun, 18 Dec 2022 23:08:24 +0100
-Message-ID: <CABtshVRCmcksddzRYndB5G18TC-=OMMOdFrGFtLp=HoB8zx1eg@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] docs/system/arm: Update Allwinner with TWI (I2C)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, 
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH v2] contrib/vhost-user-blk: Replace lseek64 with lseek
+Content-Language: en-US
+To: Khem Raj <raj.khem@gmail.com>, qemu-devel@nongnu.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
+References: <20221218220740.315839-1-raj.khem@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221218220740.315839-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,50 +91,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On 18/12/22 23:07, Khem Raj wrote:
+> 64bit off_t is already in use since build uses _FILE_OFFSET_BITS=64
+> already. Using lseek/off_t also makes it work with latest musl without
+> using _LARGEFILE64_SOURCE macro. This macro is implied with _GNU_SOURCE
+> when using glibc but not with musl.
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> CC: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> ---
+> v2: Fix typo must->musl
+> 
+>   contrib/vhost-user-blk/vhost-user-blk.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+> index aa99877fcd..7941694e53 100644
+> --- a/contrib/vhost-user-blk/vhost-user-blk.c
+> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
+> @@ -532,9 +532,9 @@ vub_get_blocksize(int fd)
+>   static void
+>   vub_initialize_config(int fd, struct virtio_blk_config *config)
+>   {
+> -    off64_t capacity;
+> +    off_t capacity;
+>   
+> -    capacity = lseek64(fd, 0, SEEK_END);
+> +    capacity = lseek(fd, 0, SEEK_END);
+>       config->capacity = capacity >> 9;
+>       config->blk_size = vub_get_blocksize(fd);
+>       config->size_max = 65536;
 
-On Sun, Dec 18, 2022 at 11:02 PM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> On 18/12/22 22:19, Strahinja Jankovic wrote:
-> > TWI (I2C) is supported so docs are updated for Cubieboard and
-> > Orangepi-PC board.
-> >
-> > Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-> > ---
-> >   docs/system/arm/cubieboard.rst | 1 +
-> >   docs/system/arm/orangepi.rst   | 1 +
-> >   2 files changed, 2 insertions(+)
-> >
-> > diff --git a/docs/system/arm/cubieboard.rst b/docs/system/arm/cubieboar=
-d.rst
-> > index 344ff8cef9..8d485f5435 100644
-> > --- a/docs/system/arm/cubieboard.rst
-> > +++ b/docs/system/arm/cubieboard.rst
-> > @@ -14,3 +14,4 @@ Emulated devices:
-> >   - SDHCI
-> >   - USB controller
-> >   - SATA controller
-> > +- TWI (I2C) controller
-> > diff --git a/docs/system/arm/orangepi.rst b/docs/system/arm/orangepi.rs=
-t
-> > index 83c7445197..e5973600a1 100644
-> > --- a/docs/system/arm/orangepi.rst
-> > +++ b/docs/system/arm/orangepi.rst
-> > @@ -25,6 +25,7 @@ The Orange Pi PC machine supports the following devic=
-es:
-> >    * Clock Control Unit
-> >    * System Control module
-> >    * Security Identifier device
-> > + * TWI (I2C)
-> >
-> >   Limitations
-> >   """""""""""
->
-> Squash to patch #3 "hw/i2c: Allwinner TWI/I2C Emulation"?
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Yes, that makes sense, I will do it. Thanks.
-
-Best regards,
-Strahinja
 
