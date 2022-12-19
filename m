@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B846650658
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:24:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31A1650663
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:28:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p75id-0008Cm-NT; Sun, 18 Dec 2022 21:17:31 -0500
+	id 1p75ic-0008CL-R0; Sun, 18 Dec 2022 21:17:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75iY-0008Al-HN
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:26 -0500
+ id 1p75iZ-0008BW-Oz
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:28 -0500
 Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75iW-00013w-TM
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:26 -0500
+ id 1p75iY-00013c-5v
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671416244; x=1702952244;
+ t=1671416246; x=1702952246;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CA4KckVxC2yHEoq4Su2S93cY9ilRgoP8o3uZSJMhlOs=;
- b=Y+P8A1R6loFkuwgluFYLspe5bbiJd6Xc5+xZupUUs/hd0GjDo8lL5eni
- iEubvSrnIHIlk4wOtp49lRGoD/q5wb5pRTOplefsAuz8FASUNMl+2dTuo
- temMScee0bSUpOoq3fmpr/lRfGxtr4+1vTaJ7cmeIr9jTrQcNnFWaw/DY
- +xXsnbpTnc83411xQgH1k34PaxNBeuwEv79PQzbfpyHV7AZyhX+upFdh2
- jl5iTIIAyoF/h4/z3Z/c7PykGM1CuMPT8P5yWElxg2ytCea+yC8GAEN8B
- WrcQdqaI7Sx42EbvCrwCJD1Z16ZQYzBQaGVvRGJGs237lmCDtnwlL/Msx w==;
-X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199280"
+ bh=SPaspSsWq01oD2q07tmSbRBBdO5kaHAHyKb++qDpmvA=;
+ b=gKgk5P8cujLoFicGG8Yml/TFUr5vYYdKLeZSy+qHYHOEy5+D11Ry0PUY
+ WKOaverep5osuE7Sxf9Tdou6cKw5bM0LIwNoHvKWnPr9UBNkJx1cvx7rj
+ 2af5/bnMgKMnStJFVcakm4us4dw2JrCzmPmjPNGW+5kwPjGm4BjpGqHMk
+ fiNQgVW2fD1RFqNwPYMmHrihvFLki1YTGe8lMFaQeb3/Z+5DM3LQqcnh4
+ PNdim4gJnFGew9ohlI7uUiP2mHPkBdZhHzs+OpMhgLOTjjr2FpSOvj7ox
+ JN+xuWjAYRCvti+/8GjlKZnVK5Duk6RvxMB+Fnr5mGZ4wm7WfcBdK1IOn Q==;
+X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199285"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:23 +0800
-IronPort-SDR: aXCWQtB5DYbazHwkr3ewQhmQYwloKWHUOindeTycQ866u3QS3ALUUHZWPqTkaGrq6XldMGAzXj
- nMY8ATupFph4RHt0MWbe2KOj8Ma0hVLtcs3HxgoATeB5H0gc7W7kW+eQY+KTW1BA/ULI+v+laP
- MQ1MZ3Umio/O4OFuIMj7sOB8miw1FJ2lUQPB36Jp8+rEC0ab4XE4hG6s0i+vhS1vTRirYRQkFq
- fITYB9+Asa500eK3LG69gSjvTXdlO44hpqVzQ/bCLj5izNWOf9tRZan72dJ6h2iE8o9yZyZt3T
- geI=
+ by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:25 +0800
+IronPort-SDR: L+WRbhLXu0bUfvAlxc3tgHZC7RSJZYqx1wb82d7+X3/Xp7g0YzdyQQ2sjuR4iuOOW1fxpQ9OdJ
+ NFw5eBXnTMKQG04SvjaqKw/JiONndsp+uKk5/y2LP0VKPP/A1CdeHanvINsFxgT4PdoyVU/qft
+ jydY8jTGwZ/A3oyE/QojP7J+an/GYltsJHNEhFyMj0L5ShqSnErEJ9L1MELAbPSMp6/8v5NbAW
+ vSW9YCHNK5DaCdZtxV+zn5YCAuzxjfvJ7Ae/KYO6uI1US/vdcP9K5qkx+02mPPONWcZMdtG+le
+ X28=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 17:29:56 -0800
-IronPort-SDR: jToedMe9jfg62Lw6DWbZH4zX8KERCRAWdZ9+N/+hj7DYQjgyU3WaZU4ThZfV2DhIzZagrR0gIM
- jHhViK5HZICoN/F9/0B6DbYka/tN00K+zuvP9anb6xA9HA2ySmrF0IUkxvBlNIje3iyKVwT76a
- myEJkuR0+SGmnxjR8E6O3Ln+FeSwa6r7ogsLzxUpSZP+Gd2gjzbKEFIDuRJ+E2yCzXUoHhqyxF
- JJPp4nrAgNJ7l27puPAYBToG/yYzAvh5i/2cVrm8eDGlpDEhfovuTpnj0hlbdDWOIVoLRhs4Fz
- Qvk=
+ 18 Dec 2022 17:29:58 -0800
+IronPort-SDR: bgaF0dua5T4TqfCWoLbsRGqoPPS4hVBgERE12y6bDxH0T/JNyljor4P7LaJHG2+swvh0vXE7SG
+ xRZKQWGsmL7o5lsN7/LknY2g+06fHVam3zzlF/GhRsycpO9fAHzbBoRHHvYriL/yXh6/mEt1RM
+ wkjZyFnuzmRTZz7EU1lavhxReQGB8S6fvgMZxTw040TxePHcMBDo3p31ZhoP0FF5Lgy6iWNTYS
+ JDUUl6k8a+8+OS0oLVPTybVfxGSWVYN1M7h6eW9CWvVEPjZiD5s+zqyyKpCUdDiwyDMyKvrdKD
+ t6c=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 18:17:23 -0800
+ 18 Dec 2022 18:17:25 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3J31Q0qz1Rwt8
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:23 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3J52TQvz1RwqL
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:25 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671416242; x=1674008243; bh=CA4KckVxC2yHEoq4Su
- 2S93cY9ilRgoP8o3uZSJMhlOs=; b=dmNSHIOhTtHVOcD4a/kEwLvgNGE68ddaXN
- fxuipKXPa9ejvXQ3tLpwQRMSukQ80H01mmEEDn0xbaNHctOeKYCIcqAvWxO9GJBb
- bWyjva63BcBVdhBSt0/BJQ2RGmU3OV2hrRQojEhiHB/yEGvpBSep8By4Q90m7ptk
- ZpEf+eQ5SxW52wDZoWmbD1rucvF1uwtIYh1cugAecQUjFGtH5RmJsvYhOJBMIwaq
- hBDcTpb1iMEbB0R3lrexHadnxej0+3vC4xBxyHMe/giG1/WOPyylyHgQDcK3Crvt
- HWJq7HAdrVXYyYM4ZpmZxqaEfFLRD+vuLZgBDGg/bGsBNbDCJI+g==
+ :from; s=dkim; t=1671416244; x=1674008245; bh=SPaspSsWq01oD2q07t
+ mSbRBBdO5kaHAHyKb++qDpmvA=; b=hYcQMFqZSZmJi7Q8ElNuLmEQ7WngmTMEiJ
+ 2VR1A2MSV8yCHMykL8l7HuRQSeubtDlzKJknXlyCE/FJ4MRehM1Rrs3fewkL4oGS
+ caPLl2anRUzEqtHbO0lFR4SlW+0lYMbpffcTJSRtFb341t5Z//JP2jBHX03mGcgK
+ bXVGvSLbSMAoyjjFlZU1CvlyFGHmbkqSRQdOZDwlbo3N9ZZGUL1ZE6VF7v7VrL2l
+ Tuf60i7lcy5duHFHaJoUrdVAF4mKZ05SmyPQihfDSapc3iF4nd1Q71c9EFbyDtFC
+ Yb6y/cbadXNIjB8gw2j/201JzkMo7N+Y2nePqZHqdDEkmchmAd0A==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id gKkWB8GkCi8S for <qemu-devel@nongnu.org>;
- Sun, 18 Dec 2022 18:17:22 -0800 (PST)
+ port 10026) with ESMTP id Cn0HROBpbPIw for <qemu-devel@nongnu.org>;
+ Sun, 18 Dec 2022 18:17:24 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.4])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3J06s8bz1RvLy;
- Sun, 18 Dec 2022 18:17:20 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3J31PW3z1Rwrq;
+ Sun, 18 Dec 2022 18:17:22 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
  LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 04/45] tcg/riscv: Fix range matched by TCG_CT_CONST_M12
-Date: Mon, 19 Dec 2022 12:16:22 +1000
-Message-Id: <20221219021703.20473-5-alistair.francis@opensource.wdc.com>
+Subject: [PULL 05/45] tcg/riscv: Fix reg overlap case in tcg_out_addsub2
+Date: Mon, 19 Dec 2022 12:16:23 +1000
+Message-Id: <20221219021703.20473-6-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
 References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
@@ -117,55 +117,42 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We were matching a signed 13-bit range, not a 12-bit range.
-Expand the commentary within the function and be explicit
-about all of the ranges.
+There was a typo using opc_addi instead of opc_add with the
+two registers.  While we're at it, simplify the gating test
+to al =3D=3D bl to improve dynamic scheduling even when the
+output register does not overlap the inputs.
 
 Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221022095821.2441874-1-richard.henderson@linaro.org>
+Message-Id: <20221020233836.2341671-1-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- tcg/riscv/tcg-target.c.inc | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ tcg/riscv/tcg-target.c.inc | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 81a83e45b1..191197853f 100644
+index 191197853f..2a84c57bec 100644
 --- a/tcg/riscv/tcg-target.c.inc
 +++ b/tcg/riscv/tcg-target.c.inc
-@@ -154,13 +154,26 @@ static bool tcg_target_const_match(int64_t val, TCG=
-Type type, int ct)
-     if ((ct & TCG_CT_CONST_ZERO) && val =3D=3D 0) {
-         return 1;
-     }
--    if ((ct & TCG_CT_CONST_S12) && val =3D=3D sextreg(val, 0, 12)) {
-+    /*
-+     * Sign extended from 12 bits: [-0x800, 0x7ff].
-+     * Used for most arithmetic, as this is the isa field.
-+     */
-+    if ((ct & TCG_CT_CONST_S12) && val >=3D -0x800 && val <=3D 0x7ff) {
-         return 1;
-     }
--    if ((ct & TCG_CT_CONST_N12) && -val =3D=3D sextreg(-val, 0, 12)) {
-+    /*
-+     * Sign extended from 12 bits, negated: [-0x7ff, 0x800].
-+     * Used for subtraction, where a constant must be handled by ADDI.
-+     */
-+    if ((ct & TCG_CT_CONST_N12) && val >=3D -0x7ff && val <=3D 0x800) {
-         return 1;
-     }
--    if ((ct & TCG_CT_CONST_M12) && val >=3D -0xfff && val <=3D 0xfff) {
-+    /*
-+     * Sign extended from 12 bits, +/- matching: [-0x7ff, 0x7ff].
-+     * Used by addsub2, which may need the negative operation,
-+     * and requires the modified constant to be representable.
-+     */
-+    if ((ct & TCG_CT_CONST_M12) && val >=3D -0x7ff && val <=3D 0x7ff) {
-         return 1;
-     }
-     return 0;
+@@ -700,9 +700,15 @@ static void tcg_out_addsub2(TCGContext *s,
+         if (cbl) {
+             tcg_out_opc_imm(s, opc_addi, rl, al, bl);
+             tcg_out_opc_imm(s, OPC_SLTIU, TCG_REG_TMP0, rl, bl);
+-        } else if (rl =3D=3D al && rl =3D=3D bl) {
++        } else if (al =3D=3D bl) {
++            /*
++             * If the input regs overlap, this is a simple doubling
++             * and carry-out is the input msb.  This special case is
++             * required when the output reg overlaps the input,
++             * but we might as well use it always.
++             */
+             tcg_out_opc_imm(s, OPC_SLTI, TCG_REG_TMP0, al, 0);
+-            tcg_out_opc_reg(s, opc_addi, rl, al, bl);
++            tcg_out_opc_reg(s, opc_add, rl, al, al);
+         } else {
+             tcg_out_opc_reg(s, opc_add, rl, al, bl);
+             tcg_out_opc_reg(s, OPC_SLTU, TCG_REG_TMP0,
 --=20
 2.38.1
 
