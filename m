@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B2B651022
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 17:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2E5651024
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 17:18:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Ipw-0005EC-J6; Mon, 19 Dec 2022 11:17:56 -0500
+	id 1p7IqE-0005Fb-Gb; Mon, 19 Dec 2022 11:18:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7Ips-0005Ds-Ih
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:17:52 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1p7Iq3-0005FT-Hh
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:18:03 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7Iph-0005q3-Ob
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:17:47 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- i187-20020a1c3bc4000000b003d1e906ca23so6305289wma.3
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 08:17:33 -0800 (PST)
+ id 1p7Iq1-0005sU-Cv
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:18:02 -0500
+Received: by mail-wm1-x332.google.com with SMTP id o15so6784035wmr.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 08:18:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AJLbmLkw0FHT/PHcVQyltkRapDmQUXQBhLhcdQG7cug=;
- b=x42eYAFxwfJYLKwVAKcR27Qb4c0Dgo2FBM00HruA7gAaKzj5qeb3WeIf6SfkW9lHJT
- 8y5+qR6R5dWc//9qX08V36ZmR5K52l1T7sUudDPw8vtdeJSlpKbFZUDDX2GKUroy9r1R
- Y69pHXdttpXASUU7gmIwnz3GHa4IDcUltmgGmjizvXZ9hM4fxvQmJMCngeKVGWgbP8W7
- +Pn/bNlW1mqFTLQUbEMGGdzuU/ILrmuXF8A2ubrRR1KLr82yeVwP5jSoJvOMaH5LZMNH
- MYy5pc1inHrJGVOFE7LwThqZDeI2nPLkj6Hne/t61xC8iyesHKHRXmqqyqPIevnu6zNr
- XvDA==
+ bh=swjpQG6LNHdyhVJLQndpH8jIHbQo1OE6jyUH8tZRfK0=;
+ b=t8QHsVeK1aXs/iRGwz7PGzIv26GXuTXmh1dB2BVPR0LSgxCy0sTm9jp22yu8tzq7k9
+ KBmeXL4JTZnuSQiVUH2HUjcOpaMtODc03B51kPzPezIBAtnfoDrEpDxfPRxtX7vdGhkS
+ 47YIVSrMBjhX8gi7LlHFFRMmYLZQqAHx04yjctXuTWuFalV5Fnsg+VKiDm15oz6N8Ji5
+ DwtUoBoHHRBeOZeXg/BnE9wXE91+8zvZwlJDS83P7cTnA2egheFv7wmRuopUflKDophF
+ ZFQyaYErs5tHsm6LKWOsVOe5poBIxY9VcqbUHWfdYiLRhhFxA/JssUF4qqxYRi3tBSUa
+ ZO5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=AJLbmLkw0FHT/PHcVQyltkRapDmQUXQBhLhcdQG7cug=;
- b=tQVpTZAiW7/e8wcqffb9eOzw8cZs56rK424bul50tgCJAdzJb7i+eYZqZASUhaEQpd
- zlIRSCHx7DSEf/RuDKZ4G4S+6YeLmsV1cA8PDIWQi+8ERSmAltaeLrHFS5GZvG5kUsL+
- eS4Fbaj05G3TzdKmqeO3445rEozaD1IltG3qZyijoJOp7ySm7zsem6hszCNKHz3a+6hV
- AXKwrhXLWRpJ3EosB5fvhNsKXKVpaTVFaQQqks8B8UNj9N4Q6HuyYW+dGfyVKqPJaBIR
- 1YHApngqkqRNsYlHf/Cw406Fq0kOCyz1JBZD+Ltprg8TJpU1fTWdiJr0bxEYUys8IgBo
- EVwA==
-X-Gm-Message-State: ANoB5pmI9GLI6ux8j+n9saCsnVOE7e8wlJqFNJ+nvudskSbeHhZFI+yi
- CkZtcWjnT+qFhqy+GQckNrrsWA==
-X-Google-Smtp-Source: AA0mqf6sUBI+lYmxo8tqHn05A/K0Gm7Ll9k49n7eqPK2INnVkpNJBJHeL3PEahpO6FJbCxKcOd3Z/w==
-X-Received: by 2002:a05:600c:3d8f:b0:3cf:a18d:399c with SMTP id
- bi15-20020a05600c3d8f00b003cfa18d399cmr33250628wmb.1.1671466651532; 
- Mon, 19 Dec 2022 08:17:31 -0800 (PST)
+ bh=swjpQG6LNHdyhVJLQndpH8jIHbQo1OE6jyUH8tZRfK0=;
+ b=aJhm6Z/1g0mup5l6YtZUkNV6VBipjIq/XI9YLTLjmGULKE+J4cWjCHLskt1VCJi+T3
+ I70+ologmkAAeRQBmG8Z1F7OTbPH6yVkpIeMpS11doeZD9oRRwTVw94XJ/fCFP6dAxYg
+ XY8ExrMhkaJgsI1ssdzfEtV24Ro6CJ3JGNchY4OQ91RGt+cM1aauGUJVwR6WyP2v4Xam
+ 4qbRLuJSaYut8DcgMsJslHJlQUYmgNDjQRg0vmizlPb18ZBMSww7JcdwcfsZSrDCm666
+ niw4CA13/NvlyKjFeqT6W18i+TebMhM/FBnx7Eh+pO/5N5i/ewrcL3U9EvsqFifdnhz4
+ CMIA==
+X-Gm-Message-State: ANoB5pmWiC0WHwFTLsljSB/jj/hILVgbH+9A09S+yAjSrZiGfTb8p+cZ
+ QqeBLZpMvrpetsHCKKAtSEUm9jvEESDM8c94
+X-Google-Smtp-Source: AA0mqf47Pof7aMNvzBLlA4BGfwSV8c/K3XS54cuuh5FuYLzUwWZ+iO9dRATkZLfFCbVMeG9OAJTfEA==
+X-Received: by 2002:a05:600c:4fc3:b0:3d2:2fa9:cffa with SMTP id
+ o3-20020a05600c4fc300b003d22fa9cffamr18989216wmq.25.1671466679813; 
+ Mon, 19 Dec 2022 08:17:59 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- t189-20020a1c46c6000000b003cf87623c16sm19973815wma.4.2022.12.19.08.17.31
+ k11-20020a05600c0b4b00b003c5571c27a1sm15023558wmr.32.2022.12.19.08.17.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Dec 2022 08:17:31 -0800 (PST)
+ Mon, 19 Dec 2022 08:17:59 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C41DD1FFB7;
- Mon, 19 Dec 2022 16:17:30 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 30C8E1FFB7;
+ Mon, 19 Dec 2022 16:17:59 +0000 (GMT)
 References: <20221213212541.1820840-1-richard.henderson@linaro.org>
- <20221213212541.1820840-3-richard.henderson@linaro.org>
+ <20221213212541.1820840-4-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.7; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 02/27] tcg: Centralize updates to reg_to_temp
-Date: Mon, 19 Dec 2022 16:17:25 +0000
-In-reply-to: <20221213212541.1820840-3-richard.henderson@linaro.org>
-Message-ID: <87tu1rjrl1.fsf@linaro.org>
+Subject: Re: [PATCH v4 03/27] tcg: Remove check_regs
+Date: Mon, 19 Dec 2022 16:17:55 +0000
+In-reply-to: <20221213212541.1820840-4-richard.henderson@linaro.org>
+Message-ID: <87pmcfjrk8.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,9 +97,10 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Create two new functions, set_temp_val_{reg,nonreg}.
-> Assert that the reg_to_temp mapping is correct before
-> any changes are made.
+> We now check the consistency of reg_to_temp[] with each update,
+> so the utility of checking consistency at the end of each
+> opcode is minimal.  In addition, the form of this check is
+> quite expensive, consuming 10% of a checking-enabled build.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
