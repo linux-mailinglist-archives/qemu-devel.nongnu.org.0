@@ -2,89 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23640651226
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 19:43:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B3665122F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 19:50:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7L6l-0004NU-NQ; Mon, 19 Dec 2022 13:43:27 -0500
+	id 1p7LCg-0005zo-KG; Mon, 19 Dec 2022 13:49:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7L6g-0004Ms-Aj
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 13:43:22 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p7LCe-0005zO-Tc
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 13:49:32 -0500
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7L6e-0003Fz-3R
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 13:43:22 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- fa4-20020a17090af0c400b002198d1328a0so14673077pjb.0
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 10:43:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=st5k9o2jxx7yPgpGI/mm3SAMDYs39nV2bHtPW2aePnU=;
- b=xAX/HWi4NH86GJRBuS7zUdpNuEICiSW/AAqU2tr1VXLQuJh9Q/pZwqq1i22Ie7HcIF
- mmZvD3hLrOiQHy418j5z1+5tZj3lkFbwHXARn6x5pELY3IY0AN5o6RayCBO3R8x5Fuuk
- 9PwLpQgQk5hfe0V/s6wm9JjGqK6eN4aO9zL8hr6sVWPQzEJeVcWjoIEW3TP3bmqQ2pCS
- yfQvmsmOEA9jB4bpv7OXv+PfDWcA/cuTMCSyChmdnr+TLoTEVFuUbjNFyte6RZ5SsVig
- lKLyz6Fmgm0XrwRy3UMsRnvAB7Wv2et4mJnLQMpTuasz/DJ0izn0TNgb1cE4+Is9M5pr
- tv4Q==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1p7LCd-0004Bx-57
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 13:49:32 -0500
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-417b63464c6so139341817b3.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 10:49:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8YLrwr8jSBmJZoYTV+gwFR0wmrKQ7pfIDwbIhBhwpqA=;
+ b=johJcJxq1L5tQqZaNbWl0dut60wiA+8JXMJzoPoZJ5FLE7vZLa2S6QXMl49mxVrjF8
+ JC8nogQm6OgMGbjcFrOOpK4j4k4hgROeIhnxXkMud29a9qWZ7zJMbq9rZXZ6dadyWeUL
+ IZOQE6mT+OdDJo3FWMABB43pvHd/tZ/yVUr2v9TGtpUDzJkcJEx0EoB7H2RbK6Hmsl3Z
+ 0d21T0MnApvOawmL02OGfH17Kg32ifi8qs2bf0qmeceuLQRD9U87aeFNEtIuXTNbRIRE
+ kZXID9kh5g2aF+I+Z6EluYjozjPfHh2xnLG8dTX7ykhMBszUR9Uo6dDDzJA8Z8b3iEdK
+ IOGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=st5k9o2jxx7yPgpGI/mm3SAMDYs39nV2bHtPW2aePnU=;
- b=PvcaGC5gCnmHXuEuR2b8CziSPKOldKNhTxAr41s/1XWff+p2zBTVEdqGH4k+0uLzv2
- 04/jtVkieWnqeGOQ9MDIQX6Nyn3TsYEojmZe/TWlxQ3x6DJ4N5f+9GEr2XUK5rgHSSKc
- AB0G3tFbdLd8CE2tceREMwLdz/Fc2Yto4jre1Jt3mOfbOMhfIDhAbu77NNr8Gy37SjyM
- F2nCJH6UUXWsry5PM0cDLARIaeVBAHe+giCiE3wzAPCisRxhKywNH1VeSN7EiLGS0hih
- nswONcdObY9UujzrC/fy4UZOLPSeYaUywPuBuZp0Y1ASggvwh2AvFawNFjqqEx3p8FyI
- fHUg==
-X-Gm-Message-State: AFqh2krbWc2qEeNnkR6Uio78oBoevgP+1CnyAhzMtUJVVOAld4w291nm
- 45grNSrtyqap/g9Ctqp+VwLiTvQF+6oVNizk
-X-Google-Smtp-Source: AMrXdXtQtBmvuDN6FvskYFI54u2MabUrPbI63E/L+9s05MbKQU7vOPqRTa9ZgeWMLQBoJDIN1fuDOA==
-X-Received: by 2002:a17:902:e993:b0:189:e290:c65f with SMTP id
- f19-20020a170902e99300b00189e290c65fmr9365176plb.66.1671475398620; 
- Mon, 19 Dec 2022 10:43:18 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:b343:d344:137b:e318?
- ([2602:47:d48c:8101:b343:d344:137b:e318])
- by smtp.gmail.com with ESMTPSA id
- l18-20020a170903245200b00177e5d83d3esm7539500pls.88.2022.12.19.10.43.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 10:43:18 -0800 (PST)
-Message-ID: <86d75ccb-edc8-27df-dba7-39f720435236@linaro.org>
-Date: Mon, 19 Dec 2022 10:43:16 -0800
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8YLrwr8jSBmJZoYTV+gwFR0wmrKQ7pfIDwbIhBhwpqA=;
+ b=MvwQCXD7pD9MyehmlMNLHJyP2CkQjIbH9rxZd1rKsrFwoSmN3toO9joo5Cgja8y+L3
+ fUWO2V4gcNh4yENVHjVSms9CD/hf47f1gOZjyAUzpgeS/ufcLb6uPAX+Dj8K7XfKteji
+ cHsoa5IyHQtKnC42wIyFf0rRx/2VuZ30a/K2nYsuV4Xp+ErGuOJ0vq2ksT/MMdyymeVf
+ VGwGzrSf3rP6ar/wdpFTNA9LucXatCFNGF20gnxZ9K2L1VwEhumtm0IlxwuL0qeHgxL7
+ NA0G/N1pn/6KqEXQT7myRXEdOyvjpv9qhsLRHcKstepB41YsIoWAUnBJnSWF/6Z5c6Aw
+ rYwA==
+X-Gm-Message-State: ANoB5pllfO6cHiXLfEbKYRP/MrPZQJF+7VXeJjZQZDrSoyxfBNtBRU2N
+ KFKVbDABFbJmaIScOuN8V2jOz2bXbnmJXy5tIiw=
+X-Google-Smtp-Source: AA0mqf4YsNmNn3Jyv2TSw+quOnSXSlh6GmwMjVU19GQ1CDrtPxSrC2ak+jOt+byWUbBQaPNp13EuWgwvmHfDWm7aCYM=
+X-Received: by 2002:a0d:dd96:0:b0:370:1a06:1b4a with SMTP id
+ g144-20020a0ddd96000000b003701a061b4amr12042035ywe.206.1671475769714; Mon, 19
+ Dec 2022 10:49:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 5/5] tests/unit: Restrict machine-smp.c test to system
- emulation
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Yanan Wang <wangyanan55@huawei.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Riku Voipio <riku.voipio@iki.fi>
-References: <20221219170806.60580-1-philmd@linaro.org>
- <20221219170806.60580-6-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221219170806.60580-6-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+References: <20221202132231.1048669-1-alex.bennee@linaro.org>
+In-Reply-To: <20221202132231.1048669-1-alex.bennee@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 19 Dec 2022 13:49:17 -0500
+Message-ID: <CAJSP0QWJKnG-2Z1MzPVXiuCj-MwtBfuGk4NjpFZkOBB8QB5K_w@mail.gmail.com>
+Subject: Re: [RFC PATCH for 8.0] backends/vhost-user: relax the ioeventfd check
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com, 
+ marcandre.lureau@redhat.com, stefanha@redhat.com, mathieu.poirier@linaro.org, 
+ viresh.kumar@linaro.org, sgarzare@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,15 +87,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/19/22 09:08, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daude<philmd@linaro.org>
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+On Fri, 2 Dec 2022 at 08:23, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> While you certainly need ioeventfds to work for KVM guests it
+> shouldn't be limited to that. We can run vhost-user backends for TCG
+> guests and either use ioeventfds or in band signalling.
+
+I suggest tweaking this sentence so it's clear that you mean QEMU's
+simulated eventfds rather than kvm.ko's real ioeventfds:
+s/use eventfds or in band signalling/simulate ioeventfds or use in
+band signalling/
+
+>
+> Maybe we should apply the same fix as b0aa77d36d (vhost-user: fix
+> ioeventfd_enabled)?
+>
+> With this change I can run:
+>
+>   $QEMU $OPTS \
+>     -display gtk,gl=3Don \
+>     -device vhost-user-gpu-pci,chardev=3Dvhgpu \
+>     -chardev socket,id=3Dvhgpu,path=3Dvhgpu.sock
+>
+> with:
+>
+>   ./contrib/vhost-user-gpu/vhost-user-gpu \
+>     -s vhgpu.sock \
+>     -v
+>
+> and at least see things start-up (although the display gets rotated by
+> 180 degrees).
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->   tests/unit/meson.build | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  backends/vhost-user.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/backends/vhost-user.c b/backends/vhost-user.c
+> index 5dedb2d987..87d43fb03a 100644
+> --- a/backends/vhost-user.c
+> +++ b/backends/vhost-user.c
+> @@ -21,12 +21,6 @@
+>  #include "io/channel-command.h"
+>  #include "hw/virtio/virtio-bus.h"
+>
+> -static bool
+> -ioeventfd_enabled(void)
+> -{
+> -    return kvm_enabled() && kvm_eventfds_enabled();
+> -}
+> -
+>  int
+>  vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
+>                              unsigned nvqs, Error **errp)
+> @@ -35,8 +29,8 @@ vhost_user_backend_dev_init(VhostUserBackend *b, VirtIO=
+Device *vdev,
+>
+>      assert(!b->vdev && vdev);
+>
+> -    if (!ioeventfd_enabled()) {
+> -        error_setg(errp, "vhost initialization failed: requires kvm");
+> +    if (kvm_enabled() && !kvm_eventfds_enabled()) {
+> +        error_setg(errp, "vhost initialization failed: kvm required ioev=
+entfds");
+>          return -1;
+>      }
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The check can be dropped completely. If kvm.ko doesn't support
+ioeventfds QEMU can simulate them just like it does with TCG. In
+practice I don't think this happens with a reasonably modern kernel
+version.
 
-r~
+Stefan
 
