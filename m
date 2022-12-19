@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435C8650F6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:55:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCAB4651001
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 17:12:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7IQZ-0002nr-K2; Mon, 19 Dec 2022 10:51:43 -0500
+	id 1p7IjW-00015P-Pa; Mon, 19 Dec 2022 11:11:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQT-0002h4-1T
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQR-0000cI-MH
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671465095;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sSYPDtoq3erJu/uW+eDQCAcaAO+P7+u9QJIzvey1ZfY=;
- b=YjlH0zr11DGAjlMg61xOXNYltCV+0y6NkpXeI+vgGK514EEiS+RBpXW+Qb3cxpJvW4BeAs
- qDe7HA8UNT1KZu27WPghYtq3WaTKn7vHXKm8vaZrBd52PdpR0iSPFyYEseumvJjCb5hs9A
- qKmUHCo6U9CkQBVhC3086XhZghdzwlk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-KWY2iu1sPEKmBrurOtujXw-1; Mon, 19 Dec 2022 10:51:24 -0500
-X-MC-Unique: KWY2iu1sPEKmBrurOtujXw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D2153813F54;
- Mon, 19 Dec 2022 15:51:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 453A0492B00;
- Mon, 19 Dec 2022 15:51:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7098221E65CF; Mon, 19 Dec 2022 16:51:20 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 13/13] pci: Reject pcie_aer_inject_error -c with symbolic error
- status
-Date: Mon, 19 Dec 2022 16:51:20 +0100
-Message-Id: <20221219155120.2273041-14-armbru@redhat.com>
-In-Reply-To: <20221219155120.2273041-1-armbru@redhat.com>
-References: <20221219155120.2273041-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7IjU-00013o-Hh
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:11:16 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7IjT-0004qE-1E
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:11:16 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so6826997wms.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 08:11:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sXeHZztbDCKqGjGcXHDdlmY5P9mdvxtTjIv3fTHYmXw=;
+ b=fX7Y0PpO6feGU6uJXq9mcIFXBNfi6fwdV4ygU6Pdh7IOeMAiNgBl6OwMjU2I+QiaWm
+ z5LCIDWlqyJ5hYvMRAJuyod8WJOa4SNaxJOEKNT9iemsuq2SlxXpj0ui7ItYUXcarr1+
+ l/lzwH5j2/wlt23g5LajErcWIDDJGcju06S+14kemDJgCPcjNnQUuMMr9mm/36gdiOGF
+ EYxE4lxkToV4Rq1WidK5h148wtWrnWL1lx9Jbxi/emEBaGVXPTw1J9wtg1tlumsfNJJt
+ YZ+qBWVn+LJulJx5Z62ZQ7Wg980O7QpgD3AkVfggq5XiVHbN1ZdDIryLUZfBX7SUjJKz
+ fBjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=sXeHZztbDCKqGjGcXHDdlmY5P9mdvxtTjIv3fTHYmXw=;
+ b=CoWYmIzSYVDuZAd/HR7yk0S+uOYq2Nla6t/IaVLt/qZpc/WibpinOJQGh4n4/JjxLp
+ IzztP8RzhdY+43nCjEybG2uVAHiMMVsifQikaBVIIB7s3ZC1c2ecXmHbLEQdaxgJCU+E
+ nJiMO945lHxTxP7Zq5hVuh+H6RUWPedfy7QTCrtLOHNMZlJlNZhZhfwZmkYmNauhgpf8
+ SLk/Qgwb4y51vvXLf0NYCveovmsUvg7jl3/vK/UeFP7lv4G5U05M0ibUwZwjMP8CC9cw
+ fxgkMgrUUaVk40/NIQ/eYC3BhgsLmkMhgJpunXs+9SI5BRSoL83ACEcwN91ads8xxD7k
+ bhUQ==
+X-Gm-Message-State: AFqh2kqi/tQv/DJLeNehyyKiuesqTPuD3XRG26Fxoa/G35TokffrryJN
+ 6Tm7TtcVqOFQuxxYAYWrnDy/Tw==
+X-Google-Smtp-Source: AMrXdXt+5lmcxOfEwYBh3Jhftzy2tbS/BQNzY0lTjIf/AvEbPmG7yZ4lGCj1vQ8Wb2Fj5xF/KjGwtw==
+X-Received: by 2002:a05:600c:54c2:b0:3d3:5166:2da4 with SMTP id
+ iw2-20020a05600c54c200b003d351662da4mr5595665wmb.8.1671466273070; 
+ Mon, 19 Dec 2022 08:11:13 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ u21-20020a7bc055000000b003c6bd91caa5sm12850179wmc.17.2022.12.19.08.11.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Dec 2022 08:11:12 -0800 (PST)
+Message-ID: <3ce8e739-4894-b79e-1972-f972fd763e5b@linaro.org>
+Date: Mon, 19 Dec 2022 17:11:11 +0100
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Subject: Should -overcommit cpu-pm=on|off be converted to some machine sugar
+ property?
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,32 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When argument @error_status is symbolic, flag -c is ignored.  Reject
-it instead.
+Hi Paolo,
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20221201121133.3813857-14-armbru@redhat.com>
----
- hw/pci/pci-hmp-cmds.c | 5 +++++
- 1 file changed, 5 insertions(+)
+I just noticed 'enable_cpu_pm' which seems architecture specific
+option that ended into common code:
 
-diff --git a/hw/pci/pci-hmp-cmds.c b/hw/pci/pci-hmp-cmds.c
-index a292d06ea0..fb7591d6ab 100644
---- a/hw/pci/pci-hmp-cmds.c
-+++ b/hw/pci/pci-hmp-cmds.c
-@@ -189,6 +189,11 @@ void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
-         }
-         error_status = num;
-         correctable = qdict_get_try_bool(qdict, "correctable", false);
-+    } else {
-+        if (qdict_haskey(qdict, "correctable")) {
-+            error_setg(&err, "-c is only valid with numeric error status");
-+            goto out;
-+        }
-     }
-     aer_err.status = error_status;
-     aer_err.source_id = pci_requester_id(dev);
--- 
-2.37.3
+$ git grep -E 'cpu[_-]pm'
+accel/tcg/user-exec-stub.c:5:bool enable_cpu_pm = false;
+include/sysemu/sysemu.h:49:extern bool enable_cpu_pm;
+Binary file pc-bios/skiboot.lid matches
+qemu-options.hx:4196:    "-overcommit [mem-lock=on|off][cpu-pm=on|off]\n"
+qemu-options.hx:4199:    "                cpu-pm=on|off controls cpu 
+power management (default: off)\n",
+qemu-options.hx:4204:``-overcommit cpu-pm=on|off``
+qemu-options.hx:4214:    guest) can be enabled via ``cpu-pm=on`` 
+(disabled by default). This
+softmmu/globals.c:38:bool enable_cpu_pm;
+softmmu/vl.c:350:            .name = "cpu-pm",
+softmmu/vl.c:3440:                enable_cpu_pm = 
+qemu_opt_get_bool(opts, "cpu-pm", false);
+target/i386/host-cpu.c:44:static void host_cpu_enable_cpu_pm(X86CPU *cpu)
+target/i386/host-cpu.c:88:    if (cpu->max_features && enable_cpu_pm) {
+target/i386/host-cpu.c:89:        host_cpu_enable_cpu_pm(cpu);
+target/i386/kvm/kvm-cpu.c:43:        if (enable_cpu_pm && 
+kvm_has_waitpkg()) {
+target/i386/kvm/kvm.c:390:        if (enable_cpu_pm) {
+target/i386/kvm/kvm.c:2576:    if (enable_cpu_pm) {
 
+Do we want to maintain this as a generic property or
+can it be deprecated / converted to a machine-specific one?
+
+Thanks,
+
+Phil.
 
