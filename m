@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46824650F3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9446650F46
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:52:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7IOG-0001VL-EP; Mon, 19 Dec 2022 10:49:20 -0500
+	id 1p7IRB-0004Kl-SQ; Mon, 19 Dec 2022 10:52:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7IOE-0001V2-4G
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:49:18 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p7IR8-0004Br-98
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:52:18 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7IOA-0008O0-Uv
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:49:16 -0500
-Received: by mail-wr1-x429.google.com with SMTP id i7so9075701wrv.8
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 07:49:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p7IR6-0000j6-Fp
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:52:17 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id bg10so6749271wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 07:52:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cf1gSwDtoLZDzBOeFSVnSpZdMTAz1QCSwzDHx8Ewkxk=;
- b=Fi2iPeL/pixrWUJnBDzrGI6yBMichsPQX6GuZ+9dzHkZwqaFuVAwBnaWWrmqIEmbMe
- zSNyGJroYy8nT8xe0gQFyURUjD1/oSgm/68QVxQX4tUI8xOyrQUgEPaITY5a8FlAj5tH
- jA3L4leQB/myi1bTqaRyJNmbmrYTCLOPmMArokC7XG2DtebWeD5zkd1qbqgGTO+vS33v
- VQklMaEIP87l/Etq/U0OPvKQgJgmYujnoAmpdw1Rdeu2+qGkpusS13Zw1i0AAqz6lC1m
- jGuDJ+kYSYptyGB0af+WyA/Q81vrcfBo1OyUD0+bqSio+h2Qnt91thzbuNP92x6lcIXO
- zXsg==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UPVkq68GhAwXsd680FVFhpSjan+Td9jG0oUmqmGV2AE=;
+ b=whEUDvi6t6rVXVhK77TI5FNvxPBK6E8T/sbm+3iHPE13nTf9j7lWQA3IKyEx3YXb38
+ j+SSemNOwvgTSfu0BC4zqIGjoxJcip65Z+MEHqM2AE3CAZissFLDYF1L4xUPn49RF+HB
+ MdLsI2Uu6rT7s+/RlcSEJcggom19n7+4wjExDzh2Jy3Ziow8xoN5EjDM98fUFFZLDKjI
+ 0Am3cvqia098V0fnpNlpvtJbmjoE1wxrL5xybVa3i59Kp9pW8kpDxOdgdieKXEL6C9fY
+ 0Ah1Qnc+dpZ4jrJH6g4Ygl3GD8SFu1Sp+eIqJkr/4bsKgsbsLeJ/9YhCotIZE9e0ogwh
+ JzNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cf1gSwDtoLZDzBOeFSVnSpZdMTAz1QCSwzDHx8Ewkxk=;
- b=ZMkOtZaXtrdxztZXZfY/p/R3k/+YdQ57GjfTsMGTn/2CXO9gw7UIlt/lvhIJadWWUa
- n+IxPP3S+l9XE4B0Y+OQC4uQEQYnGeBrDnNjMDDZOXgKJbwTt6tHCPUk1yUpULZEMY5A
- E9YUxdG0lmOo4neDlMJb7/23ilwE9dAQuXRSQ+ICp6dV/PFtXKjBE2/CkdEnuxb6OGtd
- oaCA9kbNoKOQOrm1UTQuZfE6ekPsjFkPoulKiOh8yzvb5GzCWRyfl+oSdq5maaa56paL
- ICs5oykrhIKpZXx5CdexgcwpwglpnXtOOnAryzo2WH05P8iK3MQBqoQBzEzzCrGagrxR
- GysQ==
-X-Gm-Message-State: AFqh2koJ9jzkOObEEuZAECLgFjxzvfLXpbC0gIcskMKVI/QCWQVwE31s
- lQC/9jr0FdkJEJbwolqdDdMzAQ==
-X-Google-Smtp-Source: AMrXdXu+kx2OE02cHxgelV/KCre41t9/wpZVa1S+22FX7Eg4qzGcI7uDlZSND2radMsFwXxRelj7ZA==
-X-Received: by 2002:a5d:6701:0:b0:251:248f:7c6a with SMTP id
- o1-20020a5d6701000000b00251248f7c6amr6631011wru.13.1671464949900; 
- Mon, 19 Dec 2022 07:49:09 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m2-20020a5d4a02000000b0022ae0965a8asm10424755wrq.24.2022.12.19.07.49.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 07:49:09 -0800 (PST)
-Message-ID: <4d316fbd-963b-6fd6-fb70-708719cdcacb@linaro.org>
-Date: Mon, 19 Dec 2022 16:49:08 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=UPVkq68GhAwXsd680FVFhpSjan+Td9jG0oUmqmGV2AE=;
+ b=6E3jkQIfUFg5+HpadePV6nVqmH3biC/Pm2YfXydEORaeMl0E9rKOLxloDAAkUcLkdW
+ eDNCD2ASdnCESLj7wSLOUU4oT+ENv8Oq9GudBmfw1FSfpzul2oWQN9nVPdLjmQp21mrG
+ RNWTOe4Vsd65pP8WayEqsrv7/jjV9hG7Hk9G8PaFEI/wK19Z1o0+tJ/GKL+7USf/OOnG
+ 7OGTYuKCgXKKGjV+Nlo4bly+PXqc3rCIGwD8rZdRuPY5c85Ler3S6ZUhvpJWjnsJ/HDH
+ UvWFwcjHZaYsjW+oAEPfSxOM+yYf4p1apyEUxiA12rqqNH0rTarJsxhuFW2DMoEBq3BJ
+ nN5g==
+X-Gm-Message-State: ANoB5pk12+IVrJq5BnU7CddJblknJGJNedTaY4ZkBVSHQaaCPGifXdxF
+ rdeaawaJMAMnIfBnjPR/r/Im6w==
+X-Google-Smtp-Source: AA0mqf4zp05Txl3+AQIcrvMJkdsk7M8aVAuU9NzXPo/ZAzxAZdOgKjsIDWr5wRndNRGhSuQhf89mrg==
+X-Received: by 2002:a7b:c301:0:b0:3cf:82b9:2fe6 with SMTP id
+ k1-20020a7bc301000000b003cf82b92fe6mr44457544wmj.8.1671465135065; 
+ Mon, 19 Dec 2022 07:52:15 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ x8-20020a05600c21c800b003b47ff307e1sm12428775wmj.31.2022.12.19.07.52.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Dec 2022 07:52:14 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4B89B1FFB7;
+ Mon, 19 Dec 2022 15:52:14 +0000 (GMT)
+References: <20221213212541.1820840-1-richard.henderson@linaro.org>
+ <20221213212541.1820840-2-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.7; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 01/27] tcg: Fix tcg_reg_alloc_dup*
+Date: Mon, 19 Dec 2022 15:49:30 +0000
+In-reply-to: <20221213212541.1820840-2-richard.henderson@linaro.org>
+Message-ID: <87y1r3jsr5.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 08/11] contrib/gitdm: Add Facebook the domain map
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Iris Chen <irischenlj@fb.com>,
- Peter Delevoryas <pdel@meta.com>, Daniel Mueller <muellerd@meta.com>
-References: <20221219121914.851488-9-alex.bennee@linaro.org>
- <052012F1-2E78-40FC-990B-6AA3C95FDB37@pjd.dev>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <052012F1-2E78-40FC-990B-6AA3C95FDB37@pjd.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,38 +94,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/12/22 16:22, Peter Delevoryas wrote:
-> 
-> 
->> On Dec 19, 2022, at 4:19 AM, Alex Bennée <alex.bennee@linaro.org> wrote:
->>
->> ﻿!-------------------------------------------------------------------|
->>   This Message Is From an External Sender
->>
->> |-------------------------------------------------------------------!
->>
->> A number of Facebook developers contribute to the project. Peter can
->> you confirm your want pjd.dev contributions counted here or as
->> an individual contributor?
-> 
-> Oh, hey: yes I can confirm that, I want pjd.dev contributions counted here as fb stuff.
-> 
-> By the way: recently, every Facebook developers email has migrated to “username@meta.com”. So now all my fb.com email goes to my meta.com inbox. We may or may not want to include both emails. I think the fb.com emails will stay around for quite a while, but yeah.
 
-gitdm tool is only use to display statistics from your past
-contributions. If you want the get_maintainers.pl script to
-use your updated email address, you probably want to send a
-patch to update the .mailmap file.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> Cc: Iris Chen <irischenlj@fb.com>
->> Cc: Peter Delevoryas <pdel@fb.com>
->> Cc: Peter Delevoryas <peter@pjd.dev>
->> Cc: Daniel Müller <muellerd@fb.com>
->> ---
->> contrib/gitdm/domain-map         | 1 +
->> contrib/gitdm/group-map-facebook | 5 +++++
->> gitdm.config                     | 1 +
->> 3 files changed, 7 insertions(+)
->> create mode 100644 contrib/gitdm/group-map-facebook
+> The assignment to mem_coherent should be done with any
+> modification, not simply with a newly allocated register.
+
+What exactly does mem_coherent mean in this case? Is it that our
+register store is potentially out of sync with live values in temp regs
+or that we have memory loads and stores in flight?
+
+I think it would be useful to add a doc patch for TCGTemp do specify
+what the various fields mean. It would certainly help reviewers that
+don't have it committed to memory ;-)
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
