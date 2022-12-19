@@ -2,78 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8396509AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 10:57:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A274F6509AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 10:59:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Ctu-0002we-IB; Mon, 19 Dec 2022 04:57:38 -0500
+	id 1p7Cuy-0003Fk-UP; Mon, 19 Dec 2022 04:58:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1p7Ctr-0002r2-Qh
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:57:35 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1p7Ctq-00039e-0X
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:57:35 -0500
-Received: by mail-pf1-x431.google.com with SMTP id g1so5855889pfk.2
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 01:57:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8+/oq2YAhmXCP74KFTuyYZf22KDkAeC3apEnnrvBVYA=;
- b=H5ozhgqgyxXv1VMpB3laP1TYDnYuyGUmXa1Q9ivuaRJQg44X+trKEFW0wM6e0q+zPL
- ZIqn7Vknfs7keejqXhig3lhNHFYDZylJ7dDPEEIF3VpEhuPbsLayyUdU7vDnWOa0FKKu
- qpCDLQ0PltqiT/LcLYb9V3YH4j1isbtYUDoIbLydRgKkBjS2S9g5OdCqRy9YtYqvjTnE
- wm/goRNlyXV07IJpAcYzMS9uuJTvNsTCV185fmJ9BP20Wi/5k4Vot6R7daMscS0tI1Q9
- H7hGJKre/oBzNS7vJH6JRGHUrjYVBxn1ZltkxBcST3Pi7Z57AHvYtp0F+aCUpMtxo5ZS
- gkzA==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p7Cue-0003Ea-8U
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:58:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p7Cuc-0003DK-IL
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:58:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671443901;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=haUmNBkFr0its1sRr8B+7YvWntIVVkSALPOfoeL8Gls=;
+ b=jOtE4+YeUhLFo+x5gLCLx7+iUMmQTgRI/oz/LndSuBtHrGReHs/auopMFWfuZEE0aAipHz
+ lxtmQGoHyyQydhecX7HWdjwx5MlqB7DxItEX1ev0//3/BB2hqz3k0omrRTG4R2d6zsyf8E
+ Fm7WeJfaJtm8ntcmJAEU6OQwd4ap83I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-352-h4GCskdkOIusleb6fo0x6A-1; Mon, 19 Dec 2022 04:58:19 -0500
+X-MC-Unique: h4GCskdkOIusleb6fo0x6A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f20-20020a7bc8d4000000b003d1cda5bd6fso1650429wml.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 01:58:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=8+/oq2YAhmXCP74KFTuyYZf22KDkAeC3apEnnrvBVYA=;
- b=cFUm0IpJw2EkaJbhJ1xRNXDiAg5CxtuPr3yvD3n8tW8v+yJEOUuu3R/digdRRhxy3G
- xhpZpAYnZPYAnsBliSw8DkjQm/wQBor4VPge1bn5JEslgLUiHrW3JnMCy77wQb6cbvoW
- WGTCwbK3iGo6iiUigXGAFC8abkfznHOqJIBkBOnoQs67sy5vRYrxi1MuwZo2Kf8xNbDR
- kUhGHexE4qhuX7FXF1qvh2cKuLLoCI+OdNu0DyvW90IBe7S7VLJfCVZatmanJE0JujNC
- H//N1LK7rU3Wldx78LgjjOKTcI2ZsbdfF5owwXqia6DuReVN6S2GIjR2i3Dr0gUuNoId
- 0MfA==
-X-Gm-Message-State: ANoB5pmQ9IPTtvhPNPymAKgpvLFjZ6qoZdKt91yQzRT84FRAp3gQOxze
- /kZZ2ywX9lb7BuiZxS5fFOS9lTn2jPEAUq7W2pI=
-X-Google-Smtp-Source: AA0mqf7qbyt/vvYmgXI/64wh5gcZEs4E3UZPhdb0gK2fnwzBIEr1OBalbHDhLFALgufsvfd7hrft7eKJvG1kqS1a+tY=
-X-Received: by 2002:a65:6843:0:b0:47c:9cee:84b8 with SMTP id
- q3-20020a656843000000b0047c9cee84b8mr1357744pgt.67.1671443852201; Mon, 19 Dec
- 2022 01:57:32 -0800 (PST)
+ bh=haUmNBkFr0its1sRr8B+7YvWntIVVkSALPOfoeL8Gls=;
+ b=3uwXOOzqrt+cs8ydDblFVqhsiX6ixH0fyOAZl4lZdrbeJhsquutrE29NWaaEIeIsIx
+ tUnyq/BmSGBwhuEjUP+rp7fkQ1KJB0/dbWIgMTjZoLVxL12qPCfRjnhMWZxHf8NX8Nzs
+ m7fcQHlBzUXSrJwztmtCQn079Xa7UAoznPulEmQCZJ4wdxov3R2qwSU1a+C7p/UhdLkv
+ LD1GfaJMxxd6lBhDanbqH0h11W0c8jm+IMbRTqujWBQE+2p+Yuq+TVnPk/7oY1T/q2pW
+ d2YX+LFcssVHgbsxAOs2jm+MwZpxMAfIRnqIr58Rokk9XU6TSWOpGgQAMyB8cHf+k4Im
+ XZPA==
+X-Gm-Message-State: ANoB5pn0s1EOpU27UqSqJVX7ilSvUHD7uxBVW1gjAZUTHS3VGLRTubQZ
+ 4M50GBaHWGVceFtsjidLB8yQgv0mkbzqtNDmXpCcs4FpNHCUo9XnY9kFma2QWLXH2s57D6wDoBH
+ LQplZGMQhcuOTs3Y=
+X-Received: by 2002:a5d:53c5:0:b0:242:57bb:ee0f with SMTP id
+ a5-20020a5d53c5000000b0024257bbee0fmr25492656wrw.25.1671443897827; 
+ Mon, 19 Dec 2022 01:58:17 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf44eUCC5cg48ByUPSbPgMXL3hVtygiiaysVGz9L/KEkxIvat1sCuPGVezi6XNcDI6UTc2IBVg==
+X-Received: by 2002:a5d:53c5:0:b0:242:57bb:ee0f with SMTP id
+ a5-20020a5d53c5000000b0024257bbee0fmr25492647wrw.25.1671443897574; 
+ Mon, 19 Dec 2022 01:58:17 -0800 (PST)
+Received: from [192.168.3.108] (p5b0c604b.dip0.t-ipconnect.de. [91.12.96.75])
+ by smtp.gmail.com with ESMTPSA id
+ w16-20020adfee50000000b002420dba6447sm9460638wro.59.2022.12.19.01.58.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Dec 2022 01:58:17 -0800 (PST)
+Message-ID: <302262b2-e928-7013-3f4e-4ab5a9616844@redhat.com>
+Date: Mon, 19 Dec 2022 10:58:16 +0100
 MIME-Version: 1.0
-References: <20220403095234.2210-1-yuval.shaia.ml@gmail.com>
- <CAC_L=vXsKpai6Wr0Fi2r5sr4U+tshPB9VizqntDppqE=1_FbVQ@mail.gmail.com>
- <339b8c7d-1f54-a515-8854-c22d10f79d1d@suse.de>
-In-Reply-To: <339b8c7d-1f54-a515-8854-c22d10f79d1d@suse.de>
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Date: Mon, 19 Dec 2022 11:57:21 +0200
-Message-ID: <CAMPkWoOFXfyx=ZOv8i6AJ8Lv2GFKt11gnXYZ2W_4roS9UP9m5w@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/pvrdma: Protect against buggy or malicious guest
- driver
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>, wxhusst@gmail.com, 
- Mauro Matteo Cascella <mcascell@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000012944005f02b5903"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=yuval.shaia.ml@gmail.com; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v2] hostmem: Honor multiple preferred nodes if possible
+Content-Language: en-US
+To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com
+References: <a0b4adce1af5bd2344c2218eb4a04b3ff7bcfdb4.1671097918.git.mprivozn@redhat.com>
+ <f06e436f-223a-9318-d631-c9d5c711af1b@redhat.com>
+ <c7fc7797-6696-e9d8-8c1a-dd4b86cc2781@redhat.com>
+ <536107c6-b142-d5aa-0d94-4277a5c5af15@redhat.com>
+ <e264e466-5cff-3b7f-9850-ba203ce02828@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <e264e466-5cff-3b7f-9850-ba203ce02828@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,171 +106,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000012944005f02b5903
-Content-Type: text/plain; charset="UTF-8"
+On 19.12.22 10:57, Michal Prívozník wrote:
+> On 12/19/22 10:55, David Hildenbrand wrote:
+>> On 16.12.22 14:47, Michal Prívozník wrote:
+>>> On 12/16/22 14:41, David Hildenbrand wrote:
+>>>> On 15.12.22 10:55, Michal Privoznik wrote:
+>>>>> If a memory-backend is configured with mode
+>>>>> HOST_MEM_POLICY_PREFERRED then
+>>>>> host_memory_backend_memory_complete() calls mbind() as:
+>>>>>
+>>>>>      mbind(..., MPOL_PREFERRED, nodemask, ...);
+>>>>>
+>>>>> Here, 'nodemask' is a bitmap of host NUMA nodes and corresponds
+>>>>> to the .host-nodes attribute. Therefore, there can be multiple
+>>>>> nodes specified. However, the documentation to MPOL_PREFERRED
+>>>>> says:
+>>>>>
+>>>>>      MPOL_PREFERRED
+>>>>>        This mode sets the preferred node for allocation. ...
+>>>>>        If nodemask specifies more than one node ID, the first node
+>>>>>        in the mask will be selected as the preferred node.
+>>>>>
+>>>>> Therefore, only the first node is honored and the rest is
+>>>>> silently ignored. Well, with recent changes to the kernel and
+>>>>> numactl we can do better.
+>>>>>
+>>>>> The Linux kernel added in v5.15 via commit cfcaa66f8032
+>>>>> ("mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY")
+>>>>> support for MPOL_PREFERRED_MANY, which accepts multiple preferred
+>>>>> NUMA nodes instead.
+>>>>>
+>>>>> Then, numa_has_preferred_many() API was introduced to numactl
+>>>>> (v2.0.15~26) allowing applications to query kernel support.
+>>>>>
+>>>>> Wiring this all together, we can pass MPOL_PREFERRED_MANY to the
+>>>>> mbind() call instead and stop ignoring multiple nodes, silently.
+>>>>>
+>>>>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+>>>>> ---
+>>>>
+>>>> [...]
+>>>>
+>>>>> +#ifdef HAVE_NUMA_SET_PREFERRED_MANY
+>>
+>> That should be HAVE_NUMA_HAS_PREFERRED_MANY, right?
+>>
+> 
+> Oops, yes. Do you want me to send v3?
 
-Can anyone else pick this one?
+I'll fixup. I just queued the fixed-up patch to
 
+https://github.com/davidhildenbrand/qemu.git mem-next
+
+Please double-check. Thanks!
+
+-- 
 Thanks,
-Yuval
 
-On Wed, 7 Dec 2022 at 17:05, Claudio Fontana <cfontana@suse.de> wrote:
+David / dhildenb
 
-> On 4/5/22 12:31, Marcel Apfelbaum wrote:
-> > Hi Yuval,
-> > Thank you for the changes.
-> >
-> > On Sun, Apr 3, 2022 at 11:54 AM Yuval Shaia <yuval.shaia.ml@gmail.com>
-> wrote:
-> >>
-> >> Guest driver might execute HW commands when shared buffers are not yet
-> >> allocated.
-> >> This could happen on purpose (malicious guest) or because of some other
-> >> guest/host address mapping error.
-> >> We need to protect againts such case.
-> >>
-> >> Fixes: CVE-2022-1050
-> >>
-> >> Reported-by: Raven <wxhusst@gmail.com>
-> >> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-> >> ---
-> >> v1 -> v2:
-> >>         * Commit message changes
-> >> v2 -> v3:
-> >>         * Exclude cosmetic changes
-> >> ---
-> >>  hw/rdma/vmw/pvrdma_cmd.c | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
-> >>
-> >> diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
-> >> index da7ddfa548..89db963c46 100644
-> >> --- a/hw/rdma/vmw/pvrdma_cmd.c
-> >> +++ b/hw/rdma/vmw/pvrdma_cmd.c
-> >> @@ -796,6 +796,12 @@ int pvrdma_exec_cmd(PVRDMADev *dev)
-> >>
-> >>      dsr_info = &dev->dsr_info;
-> >>
-> >> +    if (!dsr_info->dsr) {
-> >> +            /* Buggy or malicious guest driver */
-> >> +            rdma_error_report("Exec command without dsr, req or rsp
-> buffers");
-> >> +            goto out;
-> >> +    }
-> >> +
-> >>      if (dsr_info->req->hdr.cmd >= sizeof(cmd_handlers) /
-> >>                        sizeof(struct cmd_handler)) {
-> >>          rdma_error_report("Unsupported command");
-> >> --
-> >> 2.20.1
-> >>
-> >
-> > cc-ing Peter and Philippe for a question:
-> > Do we have a "Security Fixes" or a "Misc" subtree? Otherwise it will
-> > have to wait a week or so.
-> >
-> > Reviewed by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > Thanks,
-> > Marcel
-> >
->
-> Hi all,
->
-> patch is reviewed, anything holding back the inclusion of this security
-> fix?
->
-> Thanks,
->
-> Claudio
->
-
---00000000000012944005f02b5903
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Can anyone else pick this one?<div><br></div><div>Thanks,<=
-/div><div>Yuval</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, 7 Dec 2022 at 17:05, Claudio Fontana &lt;<a hr=
-ef=3D"mailto:cfontana@suse.de">cfontana@suse.de</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">On 4/5/22 12:31, Marcel Apfe=
-lbaum wrote:<br>
-&gt; Hi Yuval,<br>
-&gt; Thank you for the changes.<br>
-&gt; <br>
-&gt; On Sun, Apr 3, 2022 at 11:54 AM Yuval Shaia &lt;<a href=3D"mailto:yuva=
-l.shaia.ml@gmail.com" target=3D"_blank">yuval.shaia.ml@gmail.com</a>&gt; wr=
-ote:<br>
-&gt;&gt;<br>
-&gt;&gt; Guest driver might execute HW commands when shared buffers are not=
- yet<br>
-&gt;&gt; allocated.<br>
-&gt;&gt; This could happen on purpose (malicious guest) or because of some =
-other<br>
-&gt;&gt; guest/host address mapping error.<br>
-&gt;&gt; We need to protect againts such case.<br>
-&gt;&gt;<br>
-&gt;&gt; Fixes: CVE-2022-1050<br>
-&gt;&gt;<br>
-&gt;&gt; Reported-by: Raven &lt;<a href=3D"mailto:wxhusst@gmail.com" target=
-=3D"_blank">wxhusst@gmail.com</a>&gt;<br>
-&gt;&gt; Signed-off-by: Yuval Shaia &lt;<a href=3D"mailto:yuval.shaia.ml@gm=
-ail.com" target=3D"_blank">yuval.shaia.ml@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; v1 -&gt; v2:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Commit message changes<br>
-&gt;&gt; v2 -&gt; v3:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Exclude cosmetic changes<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 hw/rdma/vmw/pvrdma_cmd.c | 6 ++++++<br>
-&gt;&gt;=C2=A0 1 file changed, 6 insertions(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c<b=
-r>
-&gt;&gt; index da7ddfa548..89db963c46 100644<br>
-&gt;&gt; --- a/hw/rdma/vmw/pvrdma_cmd.c<br>
-&gt;&gt; +++ b/hw/rdma/vmw/pvrdma_cmd.c<br>
-&gt;&gt; @@ -796,6 +796,12 @@ int pvrdma_exec_cmd(PVRDMADev *dev)<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 dsr_info =3D &amp;dev-&gt;dsr_info;<br>
-&gt;&gt;<br>
-&gt;&gt; +=C2=A0 =C2=A0 if (!dsr_info-&gt;dsr) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Buggy or malicious g=
-uest driver */<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rdma_error_report(&quot=
-;Exec command without dsr, req or rsp buffers&quot;);<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-&gt;&gt; +=C2=A0 =C2=A0 }<br>
-&gt;&gt; +<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 if (dsr_info-&gt;req-&gt;hdr.cmd &gt;=3D sizeo=
-f(cmd_handlers) /<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 sizeof(struct cmd_handler)) {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rdma_error_report(&quot;Unsuppor=
-ted command&quot;);<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.20.1<br>
-&gt;&gt;<br>
-&gt; <br>
-&gt; cc-ing Peter and Philippe for a question:<br>
-&gt; Do we have a &quot;Security Fixes&quot; or a &quot;Misc&quot; subtree?=
- Otherwise it will<br>
-&gt; have to wait a week or so.<br>
-&gt; <br>
-&gt; Reviewed by: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel.apfelbaum@g=
-mail.com" target=3D"_blank">marcel.apfelbaum@gmail.com</a>&gt;<br>
-&gt; Thanks,<br>
-&gt; Marcel<br>
-&gt; <br>
-<br>
-Hi all,<br>
-<br>
-patch is reviewed, anything holding back the inclusion of this security fix=
-?<br>
-<br>
-Thanks,<br>
-<br>
-Claudio<br>
-</blockquote></div>
-
---00000000000012944005f02b5903--
 
