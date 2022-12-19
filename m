@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C78C651549
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 23:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8259B65154D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 23:06:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7OF3-0005A3-IC; Mon, 19 Dec 2022 17:04:13 -0500
+	id 1p7OGY-0006Es-Kv; Mon, 19 Dec 2022 17:05:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p7OEv-00058s-OC; Mon, 19 Dec 2022 17:04:06 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ id 1p7OGS-0006DR-Rd; Mon, 19 Dec 2022 17:05:40 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p7OEt-0002rt-WA; Mon, 19 Dec 2022 17:04:05 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id n20so25041536ejh.0;
- Mon, 19 Dec 2022 14:04:02 -0800 (PST)
+ id 1p7OGR-0003Sc-5j; Mon, 19 Dec 2022 17:05:40 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id r26so14914650edc.10;
+ Mon, 19 Dec 2022 14:05:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oDd2pV9RxAbkQqb3MwkVHArSjm0z788FK43lTqN2cPM=;
- b=UYPhaxEGu9rNfoNYnEg9LbPJnmPgW7HAKoJir7gk08NjdMvfvGoiXPaRgRz5zVkoC6
- OxbgGF/8+xB9wQybm+wfef9cuxxSSkonw8xfA1p/wE/rS3o/Z4ykMufM95DeE0IohOxw
- vS7snLHvS0NjU3WG+CHssjMX3SFAuTNIumilx9yrhvBFwX8TxaCpoM6Cyfe0EM7mgsBQ
- /xWg4HvjJ8zzv1wINXoprVoYFNdNkfQFeWh2SpXJimzVQQvhVqSyt+Tmf9nFAbSldLgS
- IjAtBfQJgUOEXK6M3JorkdAPyDmT11iukihIaT6VjFN/fyLaBQh89ryRKDOHRXPZ1J4R
- y/5A==
+ bh=ycDw7OhDWV0wenYQxl5/LZUes6DN6MZeWTtGfKFGve0=;
+ b=JjdNmrKKHrLTF5i5Etny0A46Bc3564yP4S6xwUfWX9bnn/nMsBw3ZIqPr/CJNWZOqu
+ xCBhOJKsn5RRowRu51vayaQfuOobhA10IDnVvR4a0R2Tad4F2/9nZ5fPF2dRrT7SfqM3
+ 2AFQZKlz/KD1EV5E00Efyv2DJMbjXfEkzR7T0dtewVnhNmom12WGmArCsy38imOT4JBI
+ ixH7Fk2+iWBmSwy7rtOH4nA4jEdTZSMgo4wUaGeO2EDPDyhkVVqXVFh4Vb79/QvFPy/Y
+ TFWR/FcUOT0jRQEL8omwi88H5PAE2RBlUnZzDL9OZmlfIOK+mqzaqnvna3Kc5xQ25Y4m
+ tXSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oDd2pV9RxAbkQqb3MwkVHArSjm0z788FK43lTqN2cPM=;
- b=CeyjnrLYC8aE58G7d7CMBaoj8tdNznme8C1HtPYVZL5gBw4vyYqqm4tO2FwXz0m7/q
- jWgwWbN5fsxKuMcy/6Ust2LjoVyzG1QVFkSheFyTfWTbN4nvLwXKWqzR2EzoJK6gK8+L
- j9DYsbnZB6mQo43r06EDu8EACv0X49sgSfc8yCtu6NMyfLTRpBt/x+/3Iec2eMaVTIJS
- 8FAJ/TA9pmq30qzAdkuWMykZ8TyfExvSjUYiO/IaC5rnRbZ98APrtLf+AuNPUCWt6Svo
- aiT/YCZgWkzrc+Hnw1jo/FdbcBzvf7yXzBphbElOVYT+EKzBbmi1pO8HlvG5c6aPp/xg
- owKw==
-X-Gm-Message-State: ANoB5plERVbhTrQnyyCizIUP1juCUsuOHtJRNomwd5R2IDFNDI3cO/Bk
- Fquti2z9nzXyuWt3OVhXbY2bwZLAHNPV0VOxroY=
-X-Google-Smtp-Source: AA0mqf7yRn4hRcHHDAABeXDnZjoAfnsgTncIHmcWap/pltufuGrh0PR0m6ir5t2MXeE3gdzW3zn/ffbznxhtUthjKOk=
-X-Received: by 2002:a17:907:c281:b0:7c1:8a0b:f915 with SMTP id
- tk1-20020a170907c28100b007c18a0bf915mr2104391ejc.42.1671487441052; Mon, 19
- Dec 2022 14:04:01 -0800 (PST)
+ bh=ycDw7OhDWV0wenYQxl5/LZUes6DN6MZeWTtGfKFGve0=;
+ b=hOOyGWyDen9cVzrDWy/sovP0QuC0hT0XHpP8OXw/CDJwgQZK+wOr1X8FF3NZq9KoEE
+ kxcQiBzi29a9G8ntnxYIiIRwG6OUyLcba0jX4CGFYqfnbsDkla5oKQ0+QAxamj8DRca3
+ k8PQWkPrlyqwr6FnzYDeyxyM+9AV3na/H5oaPVAm+pOMXVX0mpDKMVL3zxPgrKlSY0vB
+ EFGKVcX70h8XyRkdxKcQOyoHDRPhHzAkBD+I5IA2PEbtx3UPOkCIFqVJhwi+qYjbEuDU
+ DB5rteq84deMfI9qxSa05gSZ3ZfUgJUvCwiCBleOdIQke/R/zo/vQ0DmR0ajqNIXbxL2
+ Gn+A==
+X-Gm-Message-State: ANoB5pmaBPTALAOFtM3NfPjewj+ypu/a3R7PYjlkZJqMgfZxuAKQFmkx
+ hS9HkztBW3Xkpb17qW8vOmQ4Zllio5k460jgMVkj3z/+oHq4fA==
+X-Google-Smtp-Source: AA0mqf6xvuYk+BHMJEv2IB1wF/okohkijRPKPgrrpF8ApiGdopqy6824+YoWIJSJQTGi/h+Oo08OGoH1aAd/oxHIO6k=
+X-Received: by 2002:aa7:d85a:0:b0:46b:81a8:1ff6 with SMTP id
+ f26-20020aa7d85a000000b0046b81a81ff6mr41745541eds.174.1671487537164; Mon, 19
+ Dec 2022 14:05:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20221218211918.3592-1-strahinja.p.jankovic@gmail.com>
- <e05afcc8-8d86-b942-6702-8ba4887c44db@linaro.org>
- <CABtshVRUevNjOucUwtKW-sccUAADRe-9JBbYHd8UMGf0YPJXSw@mail.gmail.com>
- <CABtshVSY+UxMEfh_=NCw9ws0VrEnjkgzoMspg4wfG9Jr_ZZc=w@mail.gmail.com>
- <11d8c4e0-c516-ed28-2df3-d613111ad53c@linaro.org>
-In-Reply-To: <11d8c4e0-c516-ed28-2df3-d613111ad53c@linaro.org>
+ <20221218211918.3592-5-strahinja.p.jankovic@gmail.com>
+ <df665471-7426-f313-aece-75b8638e0da4@linaro.org>
+ <CABtshVQNAseuzxHS7htyxEtoZDEGVG0fdf0ERdAZJgcxe=znQQ@mail.gmail.com>
+ <de6f6dfd-e6e1-39fd-1c4f-d30249451cd1@linaro.org>
+ <CABtshVROYFnbsaS1Z9aeuDjJJgNxHrHw6uVyypcppc6MK1Ng0g@mail.gmail.com>
+ <145bf162-f53b-cf46-baf3-11e7d8ff2d8c@linaro.org>
+In-Reply-To: <145bf162-f53b-cf46-baf3-11e7d8ff2d8c@linaro.org>
 From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Date: Mon, 19 Dec 2022 23:03:49 +0100
-Message-ID: <CABtshVRyAJjgbBD9Non0Tm=SsQtJejYm-3C5m4ACK5jtd8Rmcg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Enable Cubieboard A10 boot SPL from SD card
+Date: Mon, 19 Dec 2022 23:05:25 +0100
+Message-ID: <CABtshVQsA0x+g_ed79EFs6Th4dkzJNPC4Ne+f2i5p34FH2MSKA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] hw/misc: Allwinner AXP-209 Emulation
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Beniamino Galvani <b.galvani@gmail.com>, 
@@ -65,8 +67,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,103 +91,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-On Mon, Dec 19, 2022 at 8:11 AM Philippe Mathieu-Daud=C3=A9
+On Mon, Dec 19, 2022 at 8:15 AM Philippe Mathieu-Daud=C3=A9
 <philmd@linaro.org> wrote:
 >
-> On 18/12/22 23:57, Strahinja Jankovic wrote:
+> On 18/12/22 23:39, Strahinja Jankovic wrote:
 > > Hi,
 > >
-> > I just looked around a bit more. Would OpenWrt image be acceptable?
->
-> Sure.
->
-> > It looks like there are releases for cubieboard that are kept for a
-> > longer time, and I just checked that they work properly, so I could
-> > add them to the acceptance test.
-> >
-> > Best regards,
-> > Strahinja
-> >
-> > On Sun, Dec 18, 2022 at 11:34 PM Strahinja Jankovic
-> > <strahinjapjankovic@gmail.com> wrote:
+> > On Sun, Dec 18, 2022 at 11:23 PM Philippe Mathieu-Daud=C3=A9
+> > <philmd@linaro.org> wrote:
 > >>
-> >> Hi,
-> >>
-> >>
-> >> On Sun, Dec 18, 2022 at 11:17 PM Philippe Mathieu-Daud=C3=A9
-> >> <philmd@linaro.org> wrote:
+> >> On 18/12/22 23:12, Strahinja Jankovic wrote:
+> >>> Hi,
 > >>>
-> >>> On 18/12/22 22:19, Strahinja Jankovic wrote:
-> >>>> This patch series adds missing Allwinner A10 modules needed for
-> >>>> successful SPL boot:
-> >>>> - Clock controller module
-> >>>> - DRAM controller
-> >>>> - I2C0 controller (added also for Allwinner H3 since it is the same)
-> >>>> - AXP-209 connected to I2C0 bus
+> >>> On Sun, Dec 18, 2022 at 11:07 PM Philippe Mathieu-Daud=C3=A9
+> >>> <philmd@linaro.org> wrote:
 > >>>>
-> >>>> It also updates Allwinner A10 emulation so SPL is copied from attach=
-ed
-> >>>> SD card if `-kernel` parameter is not passed when starting QEMU
-> >>>> (approach adapted from Allwinner H3 implementation).
+> >>>> On 18/12/22 22:19, Strahinja Jankovic wrote:
+> >>>>> This patch adds minimal support for AXP-209 PMU.
+> >>>>> Most important is chip ID since U-Boot SPL expects version 0x1. Bes=
+ides
+> >>>>> the chip ID register, reset values for two more registers used by A=
+10
+> >>>>> U-Boot SPL are covered.
+> >>>>>
+> >>>>> Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+> >>>>> ---
+> >>>>>     hw/arm/Kconfig              |   1 +
+> >>>>>     hw/misc/Kconfig             |   4 +
+> >>>>>     hw/misc/allwinner-axp-209.c | 238 +++++++++++++++++++++++++++++=
++++++++
+> >>>>>     hw/misc/meson.build         |   1 +
+> >>>>>     hw/misc/trace-events        |   5 +
+> >>>>>     5 files changed, 249 insertions(+)
+> >>>>>     create mode 100644 hw/misc/allwinner-axp-209.c
+>
+>
+> >>>>> +config ALLWINNER_AXP_209
 > >>>>
-> >>>> Boot from SD card has been tested with Cubieboard Armbian SD card im=
-age and custom
-> >>>> Yocto image built for Cubieboard.
-> >>>> Example usage for Armbian image:
-> >>>> qemu-system-arm -M cubieboard -nographic -sd ~/Armbian_22.11.0-trunk=
-_Cubieboard_kinetic_edge_6.0.7.img
+> >>>> This controller is not specific to AllWinner. It can be plugged on a=
+ny
+> >>>> i2c bus. Please rename it AXP209_PMU. Otherwise LGTM!
 > >>>
-> >>> As a follow-up, could you add a test similar to
-> >>> test_arm_orangepi_bionic_20_08() in tests/avocado/boot_linux_console.=
-py?
-> >>>
-> >>> This test could be refactored as do_test_arm_allwinner_armbian(), cal=
-led
-> >>> for orangepi and cubieboard with the corresponding url / hash.
+> >>> Do you mean only in Kconfig, or everywhere (file name, function names=
+,
+> >>> etc.)? Thanks.
 > >>
-> >> I was planning to do it (I already have a patch for cubieboard), but
-> >> there is a problem with finding a stable-enough image for cubieboard
-> >> for automated testing.
-> >> Unfortunately, Cubieboard does not have supported Armbian images as
-> >> OrangePi-PC has (it only has weekly builds).
+> >> Keeping the file / functions names with 'allwinner' would give the fal=
+se
+> >> idea this is AllWinner specific; rather confusing isn't it? Besides it
+> >> is not part of the SoC, this is an external component sitting on the
+> >> bus. So "everywhere".
+> >
+> > I was expecting that answer, but I wanted to check :)
+> > When I started writing code for AXP209 it was indeed without allwinner
+> > prefix, but then checkpatch.pl complained about missing lines in
+> > MAINTAINERS. At that time it was easier to add the prefix (and get a
+> > match in MAINTAINERS) than to investigate if I should update the
+> > MAINTAINERS file or ignore the checkpatch.pl complaint.
+> >
+> > I will update everything related to AXP209 so it does not have the
+> > Allwinner prefix.
 >
-> Developers shouldn't worry about that but focus on the testing. The
-> QEMU project doesn't have dedicated sysadmin / storage, but if it had
-> it should be their problem, not yours. Meanwhile such a test is still
-> useful. Artifacts come with their hash, so can be uploaded elsewhere
-> later.
->
-> >> From the images that can
-> >> be found on archive.armbian.com, there is only one bionic image
-> >> (21.02) and it won't boot because it hangs due to the musb issue (I
-> >> tried both with my patches and without, by extracting
-> >> kernel/dtb/initrd).
->
-> Similar approach:
-> https://lore.kernel.org/qemu-devel/20201018205551.1537927-4-f4bug@amsat.o=
-rg/
->
-> >> Other images are focal, but for some reason, in
-> >> those images it is impossible to interrupt U-Boot (tested with 21.08),
-> >> so I could not append to bootcmd to make boot process more verbose and
-> >> easier to monitor for automated testing.
-> >>
-> >> That is why, for now, I would suggest not updating the SPL/SD boot
-> >> test for Cubieboard.
->
-> Niek can tell how many times his tests catched regressions for his
-> OrangePi machine; I remember at least 3 occasions :)
+> Add a new AXP209 MAINTAINERS's section with your name :) Or add the new
+> file to the Allwinner-a10 section and add your name as designated
+> reviewer or co-maintainer :)
 
-Thanks for the suggestions, I will add the SPL boot test and use
-OpenWrt image for it.
+Thanks, I will take one of these suggested approaches.
 
 Best regards,
 Strahinja
-
->
-> Regards,
->
-> Phil.
 
