@@ -2,95 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A274F6509AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 10:59:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D04B6509C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:07:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Cuy-0003Fk-UP; Mon, 19 Dec 2022 04:58:45 -0500
+	id 1p7D2Z-0005XL-7L; Mon, 19 Dec 2022 05:06:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p7Cue-0003Ea-8U
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:58:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p7Cuc-0003DK-IL
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:58:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671443901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=haUmNBkFr0its1sRr8B+7YvWntIVVkSALPOfoeL8Gls=;
- b=jOtE4+YeUhLFo+x5gLCLx7+iUMmQTgRI/oz/LndSuBtHrGReHs/auopMFWfuZEE0aAipHz
- lxtmQGoHyyQydhecX7HWdjwx5MlqB7DxItEX1ev0//3/BB2hqz3k0omrRTG4R2d6zsyf8E
- Fm7WeJfaJtm8ntcmJAEU6OQwd4ap83I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-352-h4GCskdkOIusleb6fo0x6A-1; Mon, 19 Dec 2022 04:58:19 -0500
-X-MC-Unique: h4GCskdkOIusleb6fo0x6A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f20-20020a7bc8d4000000b003d1cda5bd6fso1650429wml.9
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 01:58:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7D2W-0005Wc-K8
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:06:32 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7D2T-0004a6-Az
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:06:31 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id bg10so6039107wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 02:06:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=p5vobpLCGYWdbc7gQIQciiVdJDcp4U1kgeur119aaMc=;
+ b=Ll8zR8Hod+J8d5zDCPMCuvrqGOkX3UNeFf0KePTO8W2O9EamvBznXMUeSQJk9nzcZp
+ SmFwxLUwyb6hWfnom8qfMnFXPq+zBB5FGQI0/hLvvnWge2Z5D3cwoINpLqWCF4/TS9Sv
+ FdJHd8qvzVlXc+/Md9ThRMjKBXAnmpGgqsQXNHRofuW8ASAfZpzL0NCF0f8Gtp7rwhRN
+ y0R3QiOoxLknQE8sAL/fjcQ2Ds1BbbeVy1locLyjBkbOnsgAKIsnJZSphMS41uewAqFx
+ hQtRvAPk83xO6HNioIRu7zbeY9fEnd4jOhFc49JCYhkjE7efI3WVJLuNgIetF/yg1huP
+ Vqnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=haUmNBkFr0its1sRr8B+7YvWntIVVkSALPOfoeL8Gls=;
- b=3uwXOOzqrt+cs8ydDblFVqhsiX6ixH0fyOAZl4lZdrbeJhsquutrE29NWaaEIeIsIx
- tUnyq/BmSGBwhuEjUP+rp7fkQ1KJB0/dbWIgMTjZoLVxL12qPCfRjnhMWZxHf8NX8Nzs
- m7fcQHlBzUXSrJwztmtCQn079Xa7UAoznPulEmQCZJ4wdxov3R2qwSU1a+C7p/UhdLkv
- LD1GfaJMxxd6lBhDanbqH0h11W0c8jm+IMbRTqujWBQE+2p+Yuq+TVnPk/7oY1T/q2pW
- d2YX+LFcssVHgbsxAOs2jm+MwZpxMAfIRnqIr58Rokk9XU6TSWOpGgQAMyB8cHf+k4Im
- XZPA==
-X-Gm-Message-State: ANoB5pn0s1EOpU27UqSqJVX7ilSvUHD7uxBVW1gjAZUTHS3VGLRTubQZ
- 4M50GBaHWGVceFtsjidLB8yQgv0mkbzqtNDmXpCcs4FpNHCUo9XnY9kFma2QWLXH2s57D6wDoBH
- LQplZGMQhcuOTs3Y=
-X-Received: by 2002:a5d:53c5:0:b0:242:57bb:ee0f with SMTP id
- a5-20020a5d53c5000000b0024257bbee0fmr25492656wrw.25.1671443897827; 
- Mon, 19 Dec 2022 01:58:17 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf44eUCC5cg48ByUPSbPgMXL3hVtygiiaysVGz9L/KEkxIvat1sCuPGVezi6XNcDI6UTc2IBVg==
-X-Received: by 2002:a5d:53c5:0:b0:242:57bb:ee0f with SMTP id
- a5-20020a5d53c5000000b0024257bbee0fmr25492647wrw.25.1671443897574; 
- Mon, 19 Dec 2022 01:58:17 -0800 (PST)
-Received: from [192.168.3.108] (p5b0c604b.dip0.t-ipconnect.de. [91.12.96.75])
- by smtp.gmail.com with ESMTPSA id
- w16-20020adfee50000000b002420dba6447sm9460638wro.59.2022.12.19.01.58.16
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=p5vobpLCGYWdbc7gQIQciiVdJDcp4U1kgeur119aaMc=;
+ b=t3WmXSZnmuoIGMHqB/YRNQik1LuQUI1EnLW1MDyAo/nIwbbwPfZ7Hee/YlxwIlcLzV
+ xFxO5XYu9lD1N4GWnFX3y/gkwy/n9JNvnsvwsmhcbAhZdsv6HFIqaonvFucIOuooF+rr
+ FBnbi5ueG6wlaARhJWdwONjRSDLBhIGevCkH160SmEM342P3QjewqTIrpmZxEnbY75nK
+ I8SlbB4uWilOfFEJJ7mDbyzvUESoCpZy2rig56pBIxIHex7mB6DpxdB0beRQ6K5J3idX
+ p07stkFL09ehzH9nH/bz8BEkdl8NbWKPQcqUNt2MZVuiMSgvNVAKgBanDPXM3e78AHh/
+ Suvw==
+X-Gm-Message-State: ANoB5pkjM7TPc2grvTEz8HJwnLKEMj1Bdt/gCnVvvpp89QA1L8+DClfO
+ OzxBaFXUuEiTtcyQVo0qO9NqNw==
+X-Google-Smtp-Source: AA0mqf7/js3Fg7JWEDPIkjVrPjZSPuUlx4kR1HZhsFtI0cIOV21Fr64z7fHfKl9YHzx9t7o7fFs3Eg==
+X-Received: by 2002:a05:600c:1e26:b0:3d2:2043:9cb7 with SMTP id
+ ay38-20020a05600c1e2600b003d220439cb7mr24622783wmb.5.1671444387439; 
+ Mon, 19 Dec 2022 02:06:27 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h4-20020a1ccc04000000b003cfa80443a0sm11324506wmb.35.2022.12.19.02.06.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 01:58:17 -0800 (PST)
-Message-ID: <302262b2-e928-7013-3f4e-4ab5a9616844@redhat.com>
-Date: Mon, 19 Dec 2022 10:58:16 +0100
+ Mon, 19 Dec 2022 02:06:27 -0800 (PST)
+Message-ID: <b9820a50-1ec6-aac6-20fd-a248176fe862@linaro.org>
+Date: Mon, 19 Dec 2022 11:06:25 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v2] hostmem: Honor multiple preferred nodes if possible
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH 2/2] hw/arm: Add Olimex H405
 Content-Language: en-US
-To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- qemu-devel@nongnu.org
-Cc: imammedo@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com
-References: <a0b4adce1af5bd2344c2218eb4a04b3ff7bcfdb4.1671097918.git.mprivozn@redhat.com>
- <f06e436f-223a-9318-d631-c9d5c711af1b@redhat.com>
- <c7fc7797-6696-e9d8-8c1a-dd4b86cc2781@redhat.com>
- <536107c6-b142-d5aa-0d94-4277a5c5af15@redhat.com>
- <e264e466-5cff-3b7f-9850-ba203ce02828@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <e264e466-5cff-3b7f-9850-ba203ce02828@redhat.com>
+To: Felipe Balbi <balbi@kernel.org>, Alistair Francis
+ <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221218071229.484944-1-balbi@kernel.org>
+ <20221218071229.484944-3-balbi@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221218071229.484944-3-balbi@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,63 +91,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19.12.22 10:57, Michal Prívozník wrote:
-> On 12/19/22 10:55, David Hildenbrand wrote:
->> On 16.12.22 14:47, Michal Prívozník wrote:
->>> On 12/16/22 14:41, David Hildenbrand wrote:
->>>> On 15.12.22 10:55, Michal Privoznik wrote:
->>>>> If a memory-backend is configured with mode
->>>>> HOST_MEM_POLICY_PREFERRED then
->>>>> host_memory_backend_memory_complete() calls mbind() as:
->>>>>
->>>>>      mbind(..., MPOL_PREFERRED, nodemask, ...);
->>>>>
->>>>> Here, 'nodemask' is a bitmap of host NUMA nodes and corresponds
->>>>> to the .host-nodes attribute. Therefore, there can be multiple
->>>>> nodes specified. However, the documentation to MPOL_PREFERRED
->>>>> says:
->>>>>
->>>>>      MPOL_PREFERRED
->>>>>        This mode sets the preferred node for allocation. ...
->>>>>        If nodemask specifies more than one node ID, the first node
->>>>>        in the mask will be selected as the preferred node.
->>>>>
->>>>> Therefore, only the first node is honored and the rest is
->>>>> silently ignored. Well, with recent changes to the kernel and
->>>>> numactl we can do better.
->>>>>
->>>>> The Linux kernel added in v5.15 via commit cfcaa66f8032
->>>>> ("mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY")
->>>>> support for MPOL_PREFERRED_MANY, which accepts multiple preferred
->>>>> NUMA nodes instead.
->>>>>
->>>>> Then, numa_has_preferred_many() API was introduced to numactl
->>>>> (v2.0.15~26) allowing applications to query kernel support.
->>>>>
->>>>> Wiring this all together, we can pass MPOL_PREFERRED_MANY to the
->>>>> mbind() call instead and stop ignoring multiple nodes, silently.
->>>>>
->>>>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
->>>>> ---
->>>>
->>>> [...]
->>>>
->>>>> +#ifdef HAVE_NUMA_SET_PREFERRED_MANY
->>
->> That should be HAVE_NUMA_HAS_PREFERRED_MANY, right?
->>
+On 18/12/22 08:12, Felipe Balbi wrote:
+> Olimex makes a series of low-cost STM32 boards. This commit introduces
+> the minimum setup to support SMT32-H405. See [1] for details
 > 
-> Oops, yes. Do you want me to send v3?
+> [1] https://www.olimex.com/Products/ARM/ST/STM32-H405/
+> 
+> Signed-off-by: Felipe Balbi <balbi@kernel.org>
+> ---
+>   MAINTAINERS                             |  6 +++
+>   configs/devices/arm-softmmu/default.mak |  1 +
+>   hw/arm/Kconfig                          |  4 ++
+>   hw/arm/meson.build                      |  1 +
+>   hw/arm/olimex-stm32-h405.c              | 65 +++++++++++++++++++++++++
+>   5 files changed, 77 insertions(+)
+>   create mode 100644 hw/arm/olimex-stm32-h405.c
 
-I'll fixup. I just queued the fixed-up patch to
+See also docs/system/arm/stm32.rst
 
-https://github.com/davidhildenbrand/qemu.git mem-next
+> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+> index 92f9f6e000ea..76d4d650e42e 100644
+> --- a/hw/arm/meson.build
+> +++ b/hw/arm/meson.build
+> @@ -12,6 +12,7 @@ arm_ss.add(when: 'CONFIG_MICROBIT', if_true: files('microbit.c'))
+>   arm_ss.add(when: 'CONFIG_MUSICPAL', if_true: files('musicpal.c'))
+>   arm_ss.add(when: 'CONFIG_NETDUINO2', if_true: files('netduino2.c'))
+>   arm_ss.add(when: 'CONFIG_NETDUINOPLUS2', if_true: files('netduinoplus2.c'))
+> +arm_ss.add(when: 'CONFIG_OLIMEX_STM32_H405', if_true: files('olimex-stm32-h405.c'))
+>   arm_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx.c', 'npcm7xx_boards.c'))
+>   arm_ss.add(when: 'CONFIG_NSERIES', if_true: files('nseries.c'))
+>   arm_ss.add(when: 'CONFIG_SX1', if_true: files('omap_sx1.c'))
+> diff --git a/hw/arm/olimex-stm32-h405.c b/hw/arm/olimex-stm32-h405.c
+> new file mode 100644
+> index 000000000000..5171a66074bb
+> --- /dev/null
+> +++ b/hw/arm/olimex-stm32-h405.c
+> @@ -0,0 +1,65 @@
+> +/*
+> + * ST STM32VLDISCOVERY machine
+> + * Olimex STM32-H405 machine
+> + *
+> + * Copyright (c) 2022 Felipe Balbi <balbi@kernel.org>
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "hw/boards.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/qdev-clock.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/arm/stm32f405_soc.h"
+> +#include "hw/arm/boot.h"
+> +
+> +/* olimex-stm32-h405 implementation is derived from netduinoplus2 */
+> +
+> +/* Main SYSCLK frequency in Hz (168MHz) */
+> +#define SYSCLK_FRQ 168000000ULL
 
-Please double-check. Thanks!
+No need to comment if named MAIN_SYSCLK_FREQ_HZ.
 
--- 
-Thanks,
+> +static void olimex_stm32_h405_init(MachineState *machine)
+> +{
+> +    DeviceState *dev;
+> +    Clock *sysclk;
 
-David / dhildenb
+I like the simplicity, but wonder if we shouldn't add checks such
+the MPS2 machines, in case one use different -cpu / -m values:
+
+        if (strcmp(machine->cpu_type, mc->default_cpu_type) != 0) {
+            error_report("This board can only be used with CPU %s",
+                         mc->default_cpu_type);
+            exit(1);
+        }
+
+        if (machine->ram_size != mc->default_ram_size) {
+            g_autofree char *sz = size_to_str(mc->default_ram_size);
+            error_report("Invalid RAM size, should be %s", sz);
+            exit(1);
+        }
+
+Or maybe better would be to refactor that since this pattern is common
+to SoC/SoM.
+
+> +    /* This clock doesn't need migration because it is fixed-frequency */
+> +    sysclk = clock_new(OBJECT(machine), "SYSCLK");
+> +    clock_set_hz(sysclk, SYSCLK_FRQ);
+> +
+> +    dev = qdev_new(TYPE_STM32F405_SOC);
+> +    qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
+> +    qdev_connect_clock_in(dev, "sysclk", sysclk);
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +
+> +    armv7m_load_kernel(ARM_CPU(first_cpu),
+> +                       machine->kernel_filename,
+> +                       0, FLASH_SIZE);
+> +}
+> +
+> +static void olimex_stm32_h405_machine_init(MachineClass *mc)
+> +{
+> +    mc->desc = "Olimex STM32-H405 (Cortex-M4)";
+> +    mc->init = olimex_stm32_h405_init;
+
+Per previous comment:
+
+        mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
+        mc->default_ram_size = 0; /* SRAM already allocated in SoC */
+
+> +}
+> +
+> +DEFINE_MACHINE("olimex-stm32-h405", olimex_stm32_h405_machine_init)
 
 
