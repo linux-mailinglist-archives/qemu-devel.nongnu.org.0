@@ -2,52 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC55650A58
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030A4650A66
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:52:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Dgh-0005Oo-Br; Mon, 19 Dec 2022 05:48:03 -0500
+	id 1p7Dkh-00078D-8v; Mon, 19 Dec 2022 05:52:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1p7DgY-0005O7-D5; Mon, 19 Dec 2022 05:47:54 -0500
-Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1p7DgV-0003d5-JC; Mon, 19 Dec 2022 05:47:53 -0500
-Received: from [192.168.106.118]
- (dynamic-077-002-090-134.77.2.pool.telefonica.de [77.2.90.134])
- by csgraf.de (Postfix) with ESMTPSA id 7A0506080321;
- Mon, 19 Dec 2022 11:47:42 +0100 (CET)
-Message-ID: <76c8912f-4fb7-118a-2105-efe08f343f77@csgraf.de>
-Date: Mon, 19 Dec 2022 11:47:41 +0100
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7Dkd-000783-2n
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:52:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7Dkb-0004PA-G0
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:52:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671447124;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UwjWIGB9tbb6ldoLsEZYEWeESUwguUx/jAdyat2R3hQ=;
+ b=RWY6MI0UOflV+vYKRKwK1ww0Z2IilRT78YCpRYynJ6r4gDIo5vLVhqXvzrQj462uitQwSG
+ Ki+kvAP9vINjPMDjj9SOawICNrGZnxaify8DRX1hu8fLrB428L1PXRM89Ha4T5iLxrP42P
+ uU7H9fbVR/AiX/DgkPwb+D1pz47rTG8=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-499-F-mVxPaAMRWJqQMnN9n2ng-1; Mon, 19 Dec 2022 05:51:56 -0500
+X-MC-Unique: F-mVxPaAMRWJqQMnN9n2ng-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ y5-20020a0cec05000000b004f98514e3fcso5386654qvo.18
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 02:51:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UwjWIGB9tbb6ldoLsEZYEWeESUwguUx/jAdyat2R3hQ=;
+ b=2mZXI/exCUyUhBpy2mwDr9vDNab3t/vy9cZLHNbVyVYm8ylUKfdYooJTk2RGyn/Wxa
+ En/0r9vkrKr9KqQcy1UqFGXcvotLyC2ZysEngQTZEhImpNBzak3JCie8MlMcav3/6DkV
+ H7rpenWV53LYQ0sDyFU06whd6O09te6lA2WYgJ2Fj1SnCwl1TDSsg8pAeItILMrBReah
+ wzchEIwP+LxiDG7WsE9Q9Np6ZRXpnfhL9kuA8FPlxj6SIMySkqhzK+BL6dYWHYd95Aeo
+ GZUL46mIeGxSX/WPIZYJo2IFNAblw99oM5B8ddGNLWkFKwuM88I0w0eq2LDFgG/L6jGO
+ P+WA==
+X-Gm-Message-State: ANoB5plZ7sfC3sKY9Hq162BzwPxgU9DDTDPI4l1qs80Xbr4PHkoxJpJD
+ knaeXg46SPTEIt7GcpPZOllDW/OJcu7FZlUve94MXIU+EoINgYV8JWpJLGFsC/3vQouDwfSRYcL
+ nQ1ZdGAkaXNJUBlg=
+X-Received: by 2002:a05:622a:2586:b0:3a7:fdfa:7ee with SMTP id
+ cj6-20020a05622a258600b003a7fdfa07eemr56982662qtb.43.1671447115902; 
+ Mon, 19 Dec 2022 02:51:55 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6FgIXO8GjP5q65HrUxxgleXJrhpEbpDflTLgwoSx7DF+H0AjVXfCiVGW8FhsnOoUkXketh2Q==
+X-Received: by 2002:a05:622a:2586:b0:3a7:fdfa:7ee with SMTP id
+ cj6-20020a05622a258600b003a7fdfa07eemr56982653qtb.43.1671447115662; 
+ Mon, 19 Dec 2022 02:51:55 -0800 (PST)
+Received: from redhat.com ([45.144.113.29]) by smtp.gmail.com with ESMTPSA id
+ a3-20020a05620a438300b006bbf85cad0fsm6694218qkp.20.2022.12.19.02.51.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Dec 2022 02:51:55 -0800 (PST)
+Date: Mon, 19 Dec 2022 05:51:51 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Chenyi Qiang <chenyi.qiang@intel.com>
+Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] virtio-mem: Fix the bitmap index of the section offset
+Message-ID: <20221219055124-mutt-send-email-mst@kernel.org>
+References: <20221216062231.11181-1-chenyi.qiang@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH 1/5] target/arm: only build psci for TCG
-To: Claudio Fontana <cfontana@suse.de>, Fabiano Rosas <farosas@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20221216212944.28229-2-farosas@suse.de>
- <459E39B4-44F5-41B2-A595-1B0DB5AD80F3@csgraf.de>
- <3355a215-dd7a-e80a-ca53-b0d65eb435b5@suse.de>
-Content-Language: en-US
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <3355a215-dd7a-e80a-ca53-b0d65eb435b5@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221216062231.11181-1-chenyi.qiang@intel.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,45 +94,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hey Claudio,
+On Fri, Dec 16, 2022 at 02:22:31PM +0800, Chenyi Qiang wrote:
+> vmem->bitmap indexes the memory region of the virtio-mem backend at a
+> granularity of block_size. To calculate the index of target section offset,
+> the block_size should be divided instead of the bitmap_size.
+> 
+> Fixes: 2044969f0b ("virtio-mem: Implement RamDiscardManager interface")
+> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 
-On 19.12.22 09:37, Claudio Fontana wrote:
->
-> On 12/16/22 22:59, Alexander Graf wrote:
->> Hi Claudio,
->>
->> If the PSCI implementation becomes TCG only, can we also move to a tcg accel directory? It slowly gets super confusing to keep track of which files are supposed to be generic target code and which ones TCG specific>
->> Alex
-> Hi Alex, Fabiano, Peter and all,
->
-> that was the plan but at the time of:
->
-> https://lore.kernel.org/all/20210416162824.25131-1-cfontana@suse.de/
->
-> Peter mentioned that HVF AArch64 might use that code too:
->
-> https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg00509.html
->
-> so from v2 to v3 the series changed to not move the code under tcg/ , expecting HVF to be reusing that code "soon".
->
-> I see that your hvf code in hvf/ implements psci, is there some plan to reuse pieces from the tcg implementation now?
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-I originally reused the PSCI code in earlier versions of my hvf patch 
-set, but then we realized that some functions like remote CPU reset are 
-wired in a TCG specific view of the world with full target CPU register 
-ownership. So if we want to actually share it, we'll need to abstract it 
-up a level.
+I see David's queueing this.
 
-Hence I'd suggest to move it to a TCG directory for now and then later 
-move it back into a generic helper if we want / need to. The code just 
-simply isn't generic yet.
-
-Or alternatively, you create a patch (set) to actually merge the 2 
-implementations into a generic one again which then can live at a 
-generic place :)
-
-
-Alex
-
+> ---
+>  hw/virtio/virtio-mem.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index ed170def48..e19ee817fe 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -235,7 +235,7 @@ static int virtio_mem_for_each_plugged_section(const VirtIOMEM *vmem,
+>      uint64_t offset, size;
+>      int ret = 0;
+>  
+> -    first_bit = s->offset_within_region / vmem->bitmap_size;
+> +    first_bit = s->offset_within_region / vmem->block_size;
+>      first_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size, first_bit);
+>      while (first_bit < vmem->bitmap_size) {
+>          MemoryRegionSection tmp = *s;
+> @@ -267,7 +267,7 @@ static int virtio_mem_for_each_unplugged_section(const VirtIOMEM *vmem,
+>      uint64_t offset, size;
+>      int ret = 0;
+>  
+> -    first_bit = s->offset_within_region / vmem->bitmap_size;
+> +    first_bit = s->offset_within_region / vmem->block_size;
+>      first_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size, first_bit);
+>      while (first_bit < vmem->bitmap_size) {
+>          MemoryRegionSection tmp = *s;
+> -- 
+> 2.17.1
 
 
