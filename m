@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EA7650953
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 10:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D57650959
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 10:34:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7CNL-0000xq-9h; Mon, 19 Dec 2022 04:23:59 -0500
+	id 1p7CW9-0005ZN-NC; Mon, 19 Dec 2022 04:33:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7CNB-0000uj-3k
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:23:49 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p7CW7-0005Yt-EH; Mon, 19 Dec 2022 04:33:03 -0500
+Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7CN8-00062r-Rm
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:23:48 -0500
-Received: by mail-wr1-x431.google.com with SMTP id h7so7967175wrs.6
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 01:23:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XeFWpkabHi6XLO38Ez6FXB7VArsI+zR8L8c77wz5LFE=;
- b=hzm3SOlom6b1oCBOvdVED8q83mm0TeILh0tWHxcCuSh6e2g57F1sf/k/qIoMauwjN7
- 1/3hCdKSpDjnXjCnH3DgQDp1E2Df0KaAOZh43Qfz04f1y12P7R95ZG70mjphkqR7srm6
- 14gipk/Sgy9Chbm+TKuvDqES3i3kUVzX/RziD7p+pqXMyIwYrG2Pqxkds7HwHleOzVwR
- nEcUv7PuKzBCs6q2la9ZgzJwH6CB9IS5AUTF83PHTH/mVHbV6X1GirlVRVoR0RFstYI3
- TAZjOtdIFyT9/b5BgOlRZexQTYAVEVEe66rFHr2a20KmV5y6QepLTJHsmqkgk/9JXkab
- o5uw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p7CW5-0007Zn-Th; Mon, 19 Dec 2022 04:33:03 -0500
+Received: by mail-vs1-xe35.google.com with SMTP id k185so8138245vsc.2;
+ Mon, 19 Dec 2022 01:33:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OGTm0UQKdb3bLdGM6tKYU9OQdCBQgoEE6wTKpbhs2HA=;
+ b=gLpx5AZM/kmM9yHkZF3FKPpxMiqVkFUFC0K5cV/vAyfXfStDmOJDxD2w36Y20ZI+R1
+ oP75/62uSKpgIpkePW2gtXCqxd/23ulscP4ibadt1Zuryljj7B4ohqLgk4ZgJBzShY8W
+ qqKpnbMHuE3ueSbCwxLUW78Vm2D0ha1NxEV0iHr6vkmYJDuiTlE9iVqFQHSq+BWOjhm9
+ lDgFFkyxIvnijmKXPbemkIhsd+aE1YLdT1RG3AlSziDFE030rxlp09yLw9MdHdHUdlYQ
+ i3kM1egWqILTunrEIPOx2VI0AtN966kVtZu+2QiPYRNbvuvalcgXskm7N5SWBGohbOJp
+ o72Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XeFWpkabHi6XLO38Ez6FXB7VArsI+zR8L8c77wz5LFE=;
- b=scpLgOF5FuXym48dfXDbV5/Alc4O1NvxhRWIJVJS6h2DqVpacNMjJ8WnBdZlOuwGxn
- gFrkdQzbcQYiyqi/Tb0jgi7/pfRE2fsNSKr8Q6w40d204S20lOUcCgnhpxA+v4EBE/2X
- j5YBrgpUhKyO7IW7KpOtOd6AZCAEHn9SzObnw3JYyQmXPdixOhEWKfSZNtdTL55iERc8
- AaiUB2xL4i1POZ6QX6l/wAUpdSskGT3B2GqIfFxckSHJkuoMq22EYCvfKqA286dvCVFi
- EqBirEqoq3hohL7Odlhxg750AteogJYpYyCFLa7IdhqHPj7BW8pKEgOoI/MpOFafHW43
- EavA==
-X-Gm-Message-State: ANoB5pmJGn0wVSflhiFRXXCnffJyol/KKQLxYreWWiDMXOVSyYQgLbfq
- wlTTQXfiHfZ8YanZkEXGo29Yxg==
-X-Google-Smtp-Source: AA0mqf65tPzZkZ1XeClWUhSglR742qk5M1xbRvM3SCI2Vd0ErIA+UwsFDz5JkIP1EXZc9eD+TSEY5w==
-X-Received: by 2002:adf:fa4c:0:b0:242:4990:b751 with SMTP id
- y12-20020adffa4c000000b002424990b751mr26555183wrr.34.1671441825275; 
- Mon, 19 Dec 2022 01:23:45 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m16-20020adfe0d0000000b0025d9d13c7e1sm6132269wri.105.2022.12.19.01.23.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 01:23:44 -0800 (PST)
-Message-ID: <66c9da37-7096-894a-d21d-4db50b27c194@linaro.org>
-Date: Mon, 19 Dec 2022 10:23:43 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OGTm0UQKdb3bLdGM6tKYU9OQdCBQgoEE6wTKpbhs2HA=;
+ b=EfA/svmQno+Te+y2hVnqIwwLc/i2K3FoIQrIPPYjz1zytVWI03n9GgEXvjkqaJtf3D
+ iBUWTQJAsXe0pAmwhtGXMNkdNd0l3UTUrFCUU3Z3wi9BizUq2Ou3hXYDeAdo0yD8MAGI
+ ZM0/TQIk8NTzWlTSupH1m4fi8Z20xAyGzNrEQF8lD8dy0Os7PU9YgWGvGIVgTgQWUYxk
+ z9kCb4Wi9/a6n8+aGfFtgla7PxC//WGKdnmZQDULisjkK08TqYoSZYwm7Yw/BhDiSAiD
+ x4vj9ZCRYNyPYEf1XSCf+ysCh+n4WyJhOSf8ziApnMqw1uCbDu6dRBXBfcrUeJCSFmHS
+ O2VA==
+X-Gm-Message-State: AFqh2kqli6+0BMBTbDEEmoi8PeYWVyaPfj9MPeB9dwxyBMIOS89TcBv0
+ Gbb+46AxOtOIwagTtI58kmH02GJKKM6vK/A5eKg=
+X-Google-Smtp-Source: AMrXdXs5ufpead0ZvV+izvUMk5ngtSCnYYjjIckpGDwviHRAeBffvv67xD1msIvcmP+mcyZO36OLJZFrWrOMEH7BuD8=
+X-Received: by 2002:a05:6102:21cc:b0:3ba:8fa7:5f9e with SMTP id
+ r12-20020a05610221cc00b003ba8fa75f9emr927794vsg.64.1671442380187; Mon, 19 Dec
+ 2022 01:33:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH] chardev: clean up chardev-parallel.c
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20221219091729.690645-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221219091729.690645-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+References: <20221218071229.484944-1-balbi@kernel.org>
+ <20221218071229.484944-2-balbi@kernel.org>
+In-Reply-To: <20221218071229.484944-2-balbi@kernel.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 19 Dec 2022 19:32:00 +1000
+Message-ID: <CAKmqyKO2UVac7CtJ50JR=AqVBvr9mOnyUQqm6Xf81_px0kRt+A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/arm/stm32f405: correctly describe the memory layout
+To: Felipe Balbi <balbi@kernel.org>
+Cc: Alistair Francis <alistair@alistair23.me>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe35.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,17 +84,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/12/22 10:17, Paolo Bonzini wrote:
-> Replace HAVE_CHARDEV_PARPORT with a Meson conditional, remove unnecessary
-> defines, and close the file descriptor on FreeBSD/DragonFly.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Mon, Dec 19, 2022 at 1:24 AM Felipe Balbi <balbi@kernel.org> wrote:
+>
+> STM32F405 has 128K of SRAM and another 64K of CCM (Core-coupled
+> Memory) at a different base address. Correctly describe the memory
+> layout to give existing FW images have a chance to run unmodified.
+>
+> Signed-off-by: Felipe Balbi <balbi@kernel.org>
+
+Reviewed-by: Alistair Francis <alistair@alistair23.me>
+
+Alistair
+
 > ---
->   chardev/char-parallel.c | 15 ++-------------
->   chardev/meson.build     |  5 ++++-
->   include/qemu/osdep.h    |  5 -----
->   3 files changed, 6 insertions(+), 19 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+>  hw/arm/stm32f405_soc.c         | 8 ++++++++
+>  include/hw/arm/stm32f405_soc.h | 5 ++++-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
+> index c07947d9f8b1..cef23d7ee41a 100644
+> --- a/hw/arm/stm32f405_soc.c
+> +++ b/hw/arm/stm32f405_soc.c
+> @@ -139,6 +139,14 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
+>      }
+>      memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, &s->sram);
+>
+> +    memory_region_init_ram(&s->ccm, NULL, "STM32F405.ccm", CCM_SIZE,
+> +                           &err);
+> +    if (err != NULL) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +    memory_region_add_subregion(system_memory, CCM_BASE_ADDRESS, &s->ccm);
+> +
+>      armv7m = DEVICE(&s->armv7m);
+>      qdev_prop_set_uint32(armv7m, "num-irq", 96);
+>      qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
+> diff --git a/include/hw/arm/stm32f405_soc.h b/include/hw/arm/stm32f405_soc.h
+> index 5bb0c8d56979..249ab5434ec7 100644
+> --- a/include/hw/arm/stm32f405_soc.h
+> +++ b/include/hw/arm/stm32f405_soc.h
+> @@ -46,7 +46,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(STM32F405State, STM32F405_SOC)
+>  #define FLASH_BASE_ADDRESS 0x08000000
+>  #define FLASH_SIZE (1024 * 1024)
+>  #define SRAM_BASE_ADDRESS 0x20000000
+> -#define SRAM_SIZE (192 * 1024)
+> +#define SRAM_SIZE (128 * 1024)
+> +#define CCM_BASE_ADDRESS 0x10000000
+> +#define CCM_SIZE (64 * 1024)
+>
+>  struct STM32F405State {
+>      /*< private >*/
+> @@ -65,6 +67,7 @@ struct STM32F405State {
+>      STM32F2XXADCState adc[STM_NUM_ADCS];
+>      STM32F2XXSPIState spi[STM_NUM_SPIS];
+>
+> +    MemoryRegion ccm;
+>      MemoryRegion sram;
+>      MemoryRegion flash;
+>      MemoryRegion flash_alias;
+> --
+> 2.38.1
+>
+>
 
