@@ -2,106 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A70650C65
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 14:05:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35F6650C84
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 14:15:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7FnG-0004ni-SS; Mon, 19 Dec 2022 08:02:58 -0500
+	id 1p7FyK-0004fS-5W; Mon, 19 Dec 2022 08:14:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p7FnE-0004nG-Ll
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 08:02:56 -0500
+ id 1p7Fy5-0004b9-Pz
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 08:14:11 -0500
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p7FnB-0007KN-Eb
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 08:02:56 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ id 1p7Fy3-0001C9-Sz
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 08:14:09 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BJCkfvb011955
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 13:02:46 GMT
+ 2BJDCBtt026098
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 13:14:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=YxcHRudgswhNKjpLycR3Ci8k0+q0x5cL1l3dcxBqAuE=;
- b=knxXNateu1ii6yYECp4XPEsPBFYblKvRae6Po6nYlhyDxQs1JMTXnxbAl/jfwGm6y74s
- 2HJsBW5CEdy+bOz1I7njlzFC1xSGuxo5E6KLdUFhOxJw0PcFX1d136ZpEW/hnEusjmg8
- nvc+87GIhJLk/IWEvwqSETJGW7hEH5w/e3yFGf91x7nkxxL6HdCARRGO738jFoab+aKN
- 9nIjY4YlhagG85fwRjAsvn2Dc7uS0zcrpm+tr44KTHBokCRngBN2CJjbUd48YR4315wE
- P+xHTWwOfwHFmWCXvp348uZ1B2Pwdz2/rBWnmG+zvW9umAYAXSpq9PYRhZtq8O88uA5t IA== 
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=AmV0Oq3Z/3oKt6petpy/EgdGAWLKzXmzvcWmpzTCNUA=;
+ b=eHTfqcqvw4bP/avJ2Eerfvab/2hkAOd5n9P/T7FyeCZWJhdRk+P/FWZtDp/tZ6+BcwQv
+ gQyhN3dH6seAAoDYSxN6yRpgQ695Ho1hLGXh6vg/OnfnhHGm/7yo/p7Cd+8CZKWEOy8V
+ g5Q3KBl/NUjCPGiQmY3ALYoZ0nOgU7OIg62ObvA/izmP6ZrpYvA/39i333VuDgKZ5i6L
+ pQLJuuR8f3qr3alxowJsB2lDa+dvN0Jmb7NU+9kNianGYTKKMHIthBQOrYjd6y+64kWm
+ 09LBmG3n2BpWmIRXVpPBmKlpgXw3AworeakH8BeYT0hRFYMSWiFcySOtNmN2V0AhAHFc kg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjr8u8b2m-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjrmk818w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 13:02:45 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BJCuYOm014196
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 13:02:45 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjr8u8b21-1
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 13:14:05 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BJDCXhN027127
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 13:14:05 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjrmk818g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 13:02:45 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJC3WM1008294;
- Mon, 19 Dec 2022 13:02:44 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
- by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3mh6ywwf68-1
+ Mon, 19 Dec 2022 13:14:05 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJCN1Gq022061;
+ Mon, 19 Dec 2022 13:14:04 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
+ by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3mh6yxdgpw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 13:02:44 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BJD2gH438666598
+ Mon, 19 Dec 2022 13:14:04 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
+ [10.241.53.104])
+ by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BJDE3G85702312
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Dec 2022 13:02:43 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 39B4C78060;
- Mon, 19 Dec 2022 14:24:27 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5E2617805C;
- Mon, 19 Dec 2022 14:24:26 +0000 (GMT)
+ Mon, 19 Dec 2022 13:14:03 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 620435805D;
+ Mon, 19 Dec 2022 13:14:03 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A38EE58065;
+ Mon, 19 Dec 2022 13:14:02 +0000 (GMT)
 Received: from lingrow.int.hansenpartnership.com (unknown [9.163.33.74])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 19 Dec 2022 14:24:25 +0000 (GMT)
-Message-ID: <3c1a78f396ebe32fddbe30ad7166717a493b2758.camel@linux.ibm.com>
-Subject: Re: [PATCH 2/2] tpm: add backend for mssim
+ by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 19 Dec 2022 13:14:02 +0000 (GMT)
 From: James Bottomley <jejb@linux.ibm.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, "Daniel P."
- =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-Date: Mon, 19 Dec 2022 08:02:39 -0500
-In-Reply-To: <9b808690-2f7a-cbd8-497a-fca63c7fc91d@linux.ibm.com>
-References: <6fd1144d09777ddcdb7a1a1ba58cbbec345da9ef.camel@linux.ibm.com>
- <e77a3a76-c874-d279-52bf-18a4e3a36ba2@linux.ibm.com>
- <77bc5a11fcb7b06deba1c54b1ef2de28e0c53fb1.camel@linux.ibm.com>
- <10fbda0f-7c8a-3819-fb22-34a9249ac138@linux.ibm.com>
- <b5d26ab0e54c15c408e9bae136bce969283ed5bd.camel@linux.ibm.com>
- <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
- <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
- <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
- <Y5xH/0bbgFzi+G//@redhat.com>
- <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
- <Y5xqgK8UXe28VZQ2@redhat.com>
- <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
- <158a33b6850db9ef18b240834e06665d7f9e4825.camel@linux.ibm.com>
- <9b808690-2f7a-cbd8-497a-fca63c7fc91d@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+To: qemu-devel@nongnu.org
+Cc: Stefan Berger <stefanb@linux.ibm.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v3 0/2] tpm: add mssim backend
+Date: Mon, 19 Dec 2022 08:13:42 -0500
+Message-Id: <20221219131344.18909-1-jejb@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: wKCUyqG1ORZGn5okwZKZiHq0tOzfi-ST
-X-Proofpoint-GUID: Ti4XXruwkOVZm3YPLd3dV5qDZqtDpMWd
+X-Proofpoint-GUID: Mgs8b1l0Wh3hYiv-iXZbPPeKy5gEzfIt
+X-Proofpoint-ORIG-GUID: pGy1OptRBZ8kAlAeRtlaNeovkvWZtaXV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-19_01,2022-12-15_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- clxscore=1015 impostorscore=0 phishscore=0 mlxscore=0 malwarescore=0
- adultscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=677 mlxscore=0 malwarescore=0
+ clxscore=1015 impostorscore=0 suspectscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2212190115
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -123,43 +108,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2022-12-19 at 06:49 -0500, Stefan Berger wrote:
-> 
-> 
-> On 12/16/22 08:53, James Bottomley wrote:
-> 
-> > 
-> > I could do a blog post, but I really don't think you want this in
-> > official documentation because that creates support expectations.
-> 
-> We get support expectations if we don't mention it as not being
-> supported. So, since this driver is not supported the documentation
-> for QEMU should state something along the lines of 'this driver is
-> for experimental or testing purposes and is otherwise unsupported.'
-> That's fair to the user and maintainer.
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
 
-Open source project don't provide support.  I already added a
-Maintainer entry for it, so I'll maintain it.
+The requested feedback was to convert the tpmdev handler to being json
+based, which requires rethreading all the backends.  The good news is
+this reduced quite a bit of code (especially as I converted it to
+error_fatal handling as well, which removes the return status
+threading).  The bad news is I can't test any of the conversions.
+swtpm still isn't building on opensuse and, apparently, passthrough
+doesn't like my native TPM because it doesn't allow cancellation.
 
->  Nevertheless, if the documentation (or as a matter of fact the code)
-> was to claim that VM / TPM state migration scenarios, such as VM
-> snapshotting, are working then users should be able to ask someone
-> 'how' this can be done with the mssim protocol **today**. Since I
-> cannot answer that question you may need to find a way for how to
-> address this concern.
-
-I already proposed all of this ... you were the one wanting to document
-migration.  The current wording is:
-
-   The mssim backend supports snapshotting and migration, but the state
-   of the Microsoft Simulator server must be preserved (or the server
-   kept running) outside of QEMU for restore to be successful.
+v3 pulls out more unneeded code in the visitor conversion, makes
+migration work on external state preservation of the simulator and
+adds documentation
 
 James
 
+---
+
+James Bottomley (2):
+  tpm: convert tpmdev options processing to new visitor format
+  tpm: add backend for mssim
+
+ MAINTAINERS                    |   6 +
+ backends/tpm/Kconfig           |   5 +
+ backends/tpm/meson.build       |   1 +
+ backends/tpm/tpm_emulator.c    |  35 ++---
+ backends/tpm/tpm_mssim.c       | 264 +++++++++++++++++++++++++++++++++
+ backends/tpm/tpm_mssim.h       |  43 ++++++
+ backends/tpm/tpm_passthrough.c |  37 ++---
+ docs/specs/tpm.rst             |  35 +++++
+ include/sysemu/tpm.h           |   4 +-
+ include/sysemu/tpm_backend.h   |   2 +-
+ monitor/hmp-cmds.c             |  11 +-
+ qapi/tpm.json                  |  37 ++---
+ softmmu/tpm.c                  |  90 +++++------
+ softmmu/vl.c                   |  19 +--
+ 14 files changed, 449 insertions(+), 140 deletions(-)
+ create mode 100644 backends/tpm/tpm_mssim.c
+ create mode 100644 backends/tpm/tpm_mssim.h
+
+-- 
+2.35.3
 
 
