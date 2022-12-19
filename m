@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DCD650A49
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC55650A58
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:48:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7DbI-00043x-P0; Mon, 19 Dec 2022 05:42:28 -0500
+	id 1p7Dgh-0005Oo-Br; Mon, 19 Dec 2022 05:48:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7DbG-00043j-VI
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:42:26 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7DbF-0002gF-FP
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:42:26 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id d7so8590764pll.9
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 02:42:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RO3wevKsU+5CAKrYVtXu3kSRhTrbpM0UixYcCfvv6g4=;
- b=GWHshs+Ymxufrwfxg7e2UwxNmoIb/4EAbqM17zTOp1RauUfy3SqTqHtJ1w1cwXnu81
- ZmJYfOwldin7sn4/M7oOYXto6iloj56ONYbFBzw9rLxFnHiVTyH9uxduvXAvKJH9NNpe
- +9NiQgoZEp8yrt2BcA/2kcIQ8kbeg6FUnLMC0G0yyDvYA3vn6lGwzH8bVUMaDjBK0xTe
- yLXixS6FrsS8Htwq3/7cEQwZhpu89Q+fzT0qNi//OwU/FRjTOGo6EXSJq5KB3LNdh5NY
- tgT3rNJDcegVayY8kY/frCGV0TCUwUjdoUK39O2WoyDM6uQH2fLtsizGxXNXhvrMPUfY
- 56wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RO3wevKsU+5CAKrYVtXu3kSRhTrbpM0UixYcCfvv6g4=;
- b=PRcVswdpT9+8DYdACpPau5cWIzyqmJgIQm3RJ/iCObBqIaIpd1gZgkWelGeQYQCvEw
- hVmSGn5fXrPQSFJwk82Ee2T+0egaGsLw1Lm8z6cZ7Sk5bl00e2NCfDVl1M5CMEYu3C2a
- 5M2JvNksD+mXj8vPUEMVwttKs1mxQ8HBRaC5scX4VGLEwHutbrM0EqwHhrRu9DTkPZGk
- 6SPpLtiPs68abCnw48CX3NuAUO0phGPavfgIxgTqLZYJojfO+GP4360OpCUz6+dROQeD
- rpCyk/bQNXIkVV6Gb0nshPcJgp0ixqDr0kXJTLpqPb9nd/2wZww+LfNsr22zITL1ZJ8T
- HKBw==
-X-Gm-Message-State: ANoB5pmKxwbOOrfcCMDW5SxcdN0EywYFiSaJANYp1BbxHkI44g+2KjGw
- 3XF6PCI2mKlAcfpCdmy1damppnn5HQWRDCzJkuz079ho0IlUKQ==
-X-Google-Smtp-Source: AA0mqf5x5neF8lKEduw+nUDUuW2FAE4BSWOoE2oePjWevxOe1r8fwgYWj8cJBznbGXawjfb70Zhdf1dVe6aG7OkOXJs=
-X-Received: by 2002:a17:903:2053:b0:189:cdc8:7261 with SMTP id
- q19-20020a170903205300b00189cdc87261mr24232940pla.168.1671446543858; Mon, 19
- Dec 2022 02:42:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1p7DgY-0005O7-D5; Mon, 19 Dec 2022 05:47:54 -0500
+Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1p7DgV-0003d5-JC; Mon, 19 Dec 2022 05:47:53 -0500
+Received: from [192.168.106.118]
+ (dynamic-077-002-090-134.77.2.pool.telefonica.de [77.2.90.134])
+ by csgraf.de (Postfix) with ESMTPSA id 7A0506080321;
+ Mon, 19 Dec 2022 11:47:42 +0100 (CET)
+Message-ID: <76c8912f-4fb7-118a-2105-efe08f343f77@csgraf.de>
+Date: Mon, 19 Dec 2022 11:47:41 +0100
 MIME-Version: 1.0
-References: <20221217090740.522093-1-kkostiuk@redhat.com>
- <CAFEAcA-c5vXMfmA+_9ZTc-Bsq-hCGHExRhE_SKX8i1_kuk1bCA@mail.gmail.com>
- <CAPMcbCo46mJ9kf9aTfGJ9gYHHOFgUULf7DdM0EijHA2rFgMU=w@mail.gmail.com>
-In-Reply-To: <CAPMcbCo46mJ9kf9aTfGJ9gYHHOFgUULf7DdM0EijHA2rFgMU=w@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Dec 2022 10:42:12 +0000
-Message-ID: <CAFEAcA877b_BJfcCu3v+rTt94VAWQOREbKkX4BLxsBDEiy8ANA@mail.gmail.com>
-Subject: Re: [PULL v2 0/6] QEMU Guest Agent misc patches
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH 1/5] target/arm: only build psci for TCG
+To: Claudio Fontana <cfontana@suse.de>, Fabiano Rosas <farosas@suse.de>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20221216212944.28229-2-farosas@suse.de>
+ <459E39B4-44F5-41B2-A595-1B0DB5AD80F3@csgraf.de>
+ <3355a215-dd7a-e80a-ca53-b0d65eb435b5@suse.de>
+Content-Language: en-US
+From: Alexander Graf <agraf@csgraf.de>
+In-Reply-To: <3355a215-dd7a-e80a-ca53-b0d65eb435b5@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,31 +63,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 19 Dec 2022 at 10:34, Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
->
->
->
-> On Sat, Dec 17, 2022 at 11:20 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> On Sat, 17 Dec 2022 at 09:07, Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
->> > Andrey Drobyshev via (3):
->> >       qga-win: add logging to Windows event log
->> >       qga: map GLib log levels to system levels
->> >       qga-win: choose the right libpcre version to include in MSI package
->>
->> These commits all have an author tag with an email 'qemu-devel@nongnu.org';
->> you need to fix those up and resend, please. (checkpatch catches this,
->> if you want to detect this locally.)
->>
->
-> What is the proper way to fix this? Can I fix this by myself, push and resend commits
-> or author should resend it?
+Hey Claudio,
 
-You should fix up the commits locally and resend the pullreq.
-Generally the author can't fix by resending, because the reason
-the patches are attributed to the list is an unfortunate interaction
-between the configuration of their mail system and the mailing list,
-so any re-send would just have the same author as before.
+On 19.12.22 09:37, Claudio Fontana wrote:
+>
+> On 12/16/22 22:59, Alexander Graf wrote:
+>> Hi Claudio,
+>>
+>> If the PSCI implementation becomes TCG only, can we also move to a tcg accel directory? It slowly gets super confusing to keep track of which files are supposed to be generic target code and which ones TCG specific>
+>> Alex
+> Hi Alex, Fabiano, Peter and all,
+>
+> that was the plan but at the time of:
+>
+> https://lore.kernel.org/all/20210416162824.25131-1-cfontana@suse.de/
+>
+> Peter mentioned that HVF AArch64 might use that code too:
+>
+> https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg00509.html
+>
+> so from v2 to v3 the series changed to not move the code under tcg/ , expecting HVF to be reusing that code "soon".
+>
+> I see that your hvf code in hvf/ implements psci, is there some plan to reuse pieces from the tcg implementation now?
 
--- PMM
+I originally reused the PSCI code in earlier versions of my hvf patch 
+set, but then we realized that some functions like remote CPU reset are 
+wired in a TCG specific view of the world with full target CPU register 
+ownership. So if we want to actually share it, we'll need to abstract it 
+up a level.
+
+Hence I'd suggest to move it to a TCG directory for now and then later 
+move it back into a generic helper if we want / need to. The code just 
+simply isn't generic yet.
+
+Or alternatively, you create a patch (set) to actually merge the 2 
+implementations into a generic one again which then can live at a 
+generic place :)
+
+
+Alex
+
+
 
