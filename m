@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC23A650AAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 12:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB265650AAF
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 12:22:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ED2-0006D1-Pi; Mon, 19 Dec 2022 06:21:28 -0500
+	id 1p7EDp-0006eq-8F; Mon, 19 Dec 2022 06:22:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1p7ECy-0006Co-K1
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 06:21:24 -0500
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1p7ECw-0000rj-H7
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 06:21:23 -0500
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-3b48b139b46so122041697b3.12
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 03:21:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cDanUkDpZ60nFAxZspj8jfah6S5OzMFvbMF/UrxvXxo=;
- b=c1BeuJxMyI3mjQNY/+Pc9GMWFaI4N3n8sKmLv1cPCeTDPYDE83Qf2mzlblktul44BH
- aKJwGVdlZx/CEkRPiRYlZwiqFDMdLpSOuCx0LE3Ei7t9GDQOe9Uj9eaSfN0r7WHuJLpf
- KDbXJXGPXeIxzM41l6168JnquXG8xHiglGbqQcTT79rB+pw5YYvEbtyEQErSb8zDu1gz
- MpMQIv1QBZSSECgLw/IKKFDxK22kmjUickJDMarTkGnzKlf0ClAC4IaCW3J26Tju5e5B
- FVleXg5iKj24LRLJz0cOlPMieYUHTftNPCyQ4lp5tq6OvQ1E6Golo5mVlmgyU/zm3bH8
- 8/qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cDanUkDpZ60nFAxZspj8jfah6S5OzMFvbMF/UrxvXxo=;
- b=DQkFek9lB6kk5GBdEQo+t7xUp39Lt499YzBdiWXz/1yRgk9MhxJEJZyjOuSyf05oW8
- q4EXIqmj6R7r7gx+HgbZvqygGPgM3puDCL2rg3zpkq9dT8x8TMzkmoJ9wk+YwjPv65nf
- jFR8hVCKITd72rxrWA8fjhTG/IasYKZazbiaFN9q4WtqD6F7YtQr3LrO13qFJzhpcaf5
- lGrtRrtW/7e1eYfubA9uu23H22V+D3+l9r078biJ0ePnSegYLpPmYVpgdFGEJn4cIUPq
- TTtsNeSBPx3f3jVs8aj5mqbK4LqScACPdmHiq6qNtd2weMN9G+YQwdo67Urnq21ZQ+Ma
- HlcA==
-X-Gm-Message-State: AFqh2krJxYZWVfqxDfmYoUQkfPfk1iIqy4XaWdc7DJlmpZvAeVuoQ1wk
- CGvSvBGiqFiLNXxtOFnXFt1mDEyHveij+z9cQhE=
-X-Google-Smtp-Source: AMrXdXse6xdfrch4u/jOPLqGtLt2rugcnYoIK3G60vp0CdKtIqae+f2HSeaY0hL8pwYYE5KEt9a/XGd+qAnt4pG8r6A=
-X-Received: by 2002:a0d:ead7:0:b0:3e4:58a5:d3c0 with SMTP id
- t206-20020a0dead7000000b003e458a5d3c0mr647992ywe.432.1671448880805; Mon, 19
- Dec 2022 03:21:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p7EDe-0006eL-Pj
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 06:22:06 -0500
+Received: from mout.gmx.net ([212.227.15.15])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p7EDc-0000zR-Ka
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 06:22:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1671448913; bh=JsIoVp+eODZ+PCks4+Bn5UnzgfurWI8lMugfbd1xl78=;
+ h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
+ b=dC5KqmQauug+XMg91BCC7t73zLBe0XGDJaBjghc053DjD0v2nl+Y7M3/njzEaXfJv
+ aKHP9afa0fJOrnYIKYc8WVAzmUYk63H81tVU9Yz3bWqi4ZKEHkJkDhdrazQt+JzAmA
+ +SR532qiy4Abxq4QQsVVfxU6rAAqp2DGKvHONDbU7kSwAkddzLykppPgPanE1D2a0c
+ SCbdHvZaJRett4zGmC5tQnb7a7jVudXvP5TF6yCXHGbIsUJOzrxLS9P6cUujULLwob
+ 6uKVI65jlM0z4Fwf9pq0N/JVI/kpUrjwIPuld5x7ZsrqWcqleTZk/r7aGVqUq/PInp
+ J45H0dCGw+88w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.151.196]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MHG8g-1p2sdN1aqG-00DKr0; Mon, 19
+ Dec 2022 12:21:53 +0100
+Message-ID: <75b841f6-1eab-9d5f-2ad7-89440931ac18@gmx.de>
+Date: Mon, 19 Dec 2022 12:21:51 +0100
 MIME-Version: 1.0
-References: <20220403095234.2210-1-yuval.shaia.ml@gmail.com>
- <CAC_L=vXsKpai6Wr0Fi2r5sr4U+tshPB9VizqntDppqE=1_FbVQ@mail.gmail.com>
- <339b8c7d-1f54-a515-8854-c22d10f79d1d@suse.de>
- <CAMPkWoOFXfyx=ZOv8i6AJ8Lv2GFKt11gnXYZ2W_4roS9UP9m5w@mail.gmail.com>
-In-Reply-To: <CAMPkWoOFXfyx=ZOv8i6AJ8Lv2GFKt11gnXYZ2W_4roS9UP9m5w@mail.gmail.com>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Mon, 19 Dec 2022 12:21:09 +0100
-Message-ID: <CAC_L=vUD2vVNSaP7UcDuRUCyd8XNmb4iRY_LXK0UNEE-+Rr4TQ@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/pvrdma: Protect against buggy or malicious guest
- driver
-To: Yuval Shaia <yuval.shaia.ml@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- Thomas Huth <thuth@redhat.com>
-Cc: Claudio Fontana <cfontana@suse.de>, qemu devel list <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, wxhusst@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-yw1-x1133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ qemu-devel@nongnu.org
+Cc: Michael Tokarev <mjt@tls.msk.ru>
+References: <Y5zB+5t5K0AEj6Rn@p100>
+ <31003f9a-5392-67ee-9ef2-01794c09510c@redhat.com>
+From: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH] meson: Clean up some dependencies regarding qemu-system
+In-Reply-To: <31003f9a-5392-67ee-9ef2-01794c09510c@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Bbmm0LSncwPwLhCuGKPlcwcZLMamvzMCPNtTvWUEBehYAXm+hal
+ mpg84Kb+9RCok9d5upMBgbYOSeW3ggU994VGXqKi/Zm2+vDldDdOoTJSjqqQERAvpKGCTg1
+ ATXU+h6z8N2buwd5TM6qITwkbMgvd8gPPqNCL4m+NxqHQ34Kh9ZXdfAN3XSwMbhLt3+TEnN
+ YwtJbyMz/VWS0TCmrtqog==
+UI-OutboundReport: notjunk:1;M01:P0:65bJWLKxegY=;s1ym/Qqw00UXq441irfNWvNPZGQ
+ wtLDWXXdMaiM7E7DrkHOAm9sGUvONXJ+4ZAuWckk9KTWcPDchZh/87Z06V9uumGS1BiJdGoGV
+ ssEOZ/95SvMA2yWRhYLFyrDYngOIX0QBchXBTyRPSIhNrUMK6KV+B8yf9+uMISCKge1aMQAdi
+ aL8A2tlED96DYo7we36KVka9YEcoWbUijuspCZCTqfUMokOQkAgQ1FJnbELzLuqzO1xk/sx2M
+ 19i/IZVqSRRtDKY2LjTEzAw+CE/f9HrsHY/9g0zUqnFAR0Hxpno9ZwOjP2089dZnNnFUgTB3l
+ IYGnWrR6UyWmHUG8YaA1CnwONztSWj8s1sm3xtut+9Wl80FXQ63K2Hpkc/CEyQt/IgGP6WGm1
+ cWbFSVvVVO3vaJuaDfNaH/7y5C8XhG/Zh3Ns61ZahA9o13XxTxgdwdPlECGTft1L8LRxh55b/
+ dbfodHbyBD8lOCjSu8zgtq8yh+/CJyoyKXZSOp4kwp+mlw1nKMtMGvDDvJHpflKR0I4ZoBJ+p
+ OVh4d2T9qUtFVy2z3o2YO93ie7LGPW5krGy559epNjA75gVCmou7goX3KzQ9+BuW+Gb81AGiM
+ EkbizvL3AkvbygaPktsc1HiiPJ4Se7qeSOcawNiNOXuqYBaNBROgHqIaRdKPhTeoyEE/srIvC
+ 8DsUh7mEqgC+Jq0wp6SrSbv+fsYB+Uw88x9gOPKee+I0GtF+TiYLWJ6PNe9/9DPZzxeWCVdXh
+ j/Q05bOEnyLeS1kEsEbw6o/FOTlIy0YhmZIWqvTmL6HaknapICQ/4IkmOVtyoyUU4h2jn2Hic
+ Kzz2DqXqVzOAppwrMbEVsOwk3RyTcaB1U0TDAOxD3lcGQkcrR7pM7U/nUWaLvn2whllOZyJeG
+ B1S9oFCrPQbzTEm5NxWhiLO71zZtYm5uzHpbWzxSNkApuPz31Lqm1GRNI33vFzD+ZHLy9okYQ
+ MmY3wCJPVJzK36k27mnGHa/3shc=
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,87 +89,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 19, 2022 at 10:57 AM Yuval Shaia <yuval.shaia.ml@gmail.com> wrote:
+Hi Paolo,
+
+On 12/17/22 14:28, Paolo Bonzini wrote:
+> On 12/16/22 20:07, Helge Deller wrote:
+>> @@ -3581,7 +3581,7 @@ subdir('qga')
+>>
+>> =C2=A0 # Don't build qemu-keymap if xkbcommon is not explicitly enabled
+>> =C2=A0 # when we don't build tools or system
+>> -if xkbcommon.found()
+>> +if xkbcommon.found() and have_system
+>> =C2=A0=C2=A0=C2=A0 # used for the update-keymaps target, so include rul=
+es even if !have_tools
+>> =C2=A0=C2=A0=C2=A0 qemu_keymap =3D executable('qemu-keymap', files('qem=
+u-keymap.c', 'ui/input-keymap.c') + genh,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 dependencies: [qemuutil, xkbcommon], install: =
+have_tools)
+>> @@ -3596,7 +3596,9 @@ if have_tools
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 dependencies: [blockdev, qemuutil, gnutls, sel=
+inux],
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 install: true)
+>>
+>> -=C2=A0 subdir('storage-daemon')
+>> +=C2=A0 if have_system
+>> +=C2=A0=C2=A0=C2=A0 subdir('storage-daemon')
+>> +=C2=A0 endif
+>> =C2=A0=C2=A0=C2=A0 subdir('contrib/rdmacm-mux')
+>> =C2=A0=C2=A0=C2=A0 subdir('contrib/elf2dmp')
+>>
+>> @@ -3611,7 +3613,7 @@ if have_tools
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 subdir('contrib/vhost-user-scsi')
+>> =C2=A0=C2=A0=C2=A0 endif
+>>
+>> -=C2=A0 if targetos =3D=3D 'linux'
+>> +=C2=A0 if targetos =3D=3D 'linux' and have_system
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 executable('qemu-bridge-helper', files('=
+qemu-bridge-helper.c'),
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 dependencies: [qemuutil, libcap_ng],
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 install: true,
+>> diff --git a/tools/meson.build b/tools/meson.build
+>> index 10eb3a043f..740d572a94 100644
+>> --- a/tools/meson.build
+>> +++ b/tools/meson.build
+>> @@ -5,7 +5,7 @@ have_virtiofsd =3D get_option('virtiofsd') \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 error_message: 'virtiofsd requires libcap-ng-devel and sec=
+comp-devel') \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .require(have_vhost_user,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 error_message: 'virtiofsd needs vhost-user-support') \
+>> -=C2=A0=C2=A0=C2=A0 .disable_auto_if(not have_tools and not have_system=
+) \
+>> +=C2=A0=C2=A0=C2=A0 .disable_auto_if(not have_system) \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .allowed()
+>>
+>> =C2=A0 if have_virtiofsd
+>>
 >
-> Can anyone else pick this one?
+> These are wrong.  qemu-bridge-helper, virtiofsd, qemu-storage-daemon
+> and qemu-keymap *are* tools; if they fail to build due to any
+> dependencies, or due to other compilation issues, you need to add
+> tests to meson.build and check for the cause of the issues.
 
-Adding Thomas,
+No doubt, those are *tools*.
+But aren't those only required when you run system- and/or user-emulation?
 
-I dropped the ball with this one, I am sorry about that, maybe it
-doesn't worth a Pull Request only for it.
+Looking at the packaging of qemu in debian:
 
-Maybe it can go through the Misc tree?
+qemu-system-common debian package consists of thse *tools*:
+   qemu-bridge-helper, vhost-user-gpu, virtfs-proxy-helper, virtiofsd
 
-Thank you,
-Marcel
+qemu-utils debian package consists of the *utilities*:
+   qemu-img, qemu-io, qemu-nbd
 
+IMHO this categorization makes sense.
+My patch was targetting at making "qemu-utils" possible to build
+and that's why I think the tools you mention should depend on "have_system=
+".
 
->
-> Thanks,
-> Yuval
->
-> On Wed, 7 Dec 2022 at 17:05, Claudio Fontana <cfontana@suse.de> wrote:
->>
->> On 4/5/22 12:31, Marcel Apfelbaum wrote:
->> > Hi Yuval,
->> > Thank you for the changes.
->> >
->> > On Sun, Apr 3, 2022 at 11:54 AM Yuval Shaia <yuval.shaia.ml@gmail.com> wrote:
->> >>
->> >> Guest driver might execute HW commands when shared buffers are not yet
->> >> allocated.
->> >> This could happen on purpose (malicious guest) or because of some other
->> >> guest/host address mapping error.
->> >> We need to protect againts such case.
->> >>
->> >> Fixes: CVE-2022-1050
->> >>
->> >> Reported-by: Raven <wxhusst@gmail.com>
->> >> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
->> >> ---
->> >> v1 -> v2:
->> >>         * Commit message changes
->> >> v2 -> v3:
->> >>         * Exclude cosmetic changes
->> >> ---
->> >>  hw/rdma/vmw/pvrdma_cmd.c | 6 ++++++
->> >>  1 file changed, 6 insertions(+)
->> >>
->> >> diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
->> >> index da7ddfa548..89db963c46 100644
->> >> --- a/hw/rdma/vmw/pvrdma_cmd.c
->> >> +++ b/hw/rdma/vmw/pvrdma_cmd.c
->> >> @@ -796,6 +796,12 @@ int pvrdma_exec_cmd(PVRDMADev *dev)
->> >>
->> >>      dsr_info = &dev->dsr_info;
->> >>
->> >> +    if (!dsr_info->dsr) {
->> >> +            /* Buggy or malicious guest driver */
->> >> +            rdma_error_report("Exec command without dsr, req or rsp buffers");
->> >> +            goto out;
->> >> +    }
->> >> +
->> >>      if (dsr_info->req->hdr.cmd >= sizeof(cmd_handlers) /
->> >>                        sizeof(struct cmd_handler)) {
->> >>          rdma_error_report("Unsupported command");
->> >> --
->> >> 2.20.1
->> >>
->> >
->> > cc-ing Peter and Philippe for a question:
->> > Do we have a "Security Fixes" or a "Misc" subtree? Otherwise it will
->> > have to wait a week or so.
->> >
->> > Reviewed by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
->> > Thanks,
->> > Marcel
->> >
->>
->> Hi all,
->>
->> patch is reviewed, anything holding back the inclusion of this security fix?
->>
->> Thanks,
->>
->> Claudio
+> The rest is okay.
+
+Ok, thanks!
+
+Helge
 
