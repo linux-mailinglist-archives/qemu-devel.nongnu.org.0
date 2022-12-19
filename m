@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9005F650A22
+	by mail.lfdr.de (Postfix) with ESMTPS id 92506650A23
 	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:32:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7DHb-0003QX-Jm; Mon, 19 Dec 2022 05:22:07 -0500
+	id 1p7DNz-0006dS-Gj; Mon, 19 Dec 2022 05:28:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p7DHY-0003QL-U8
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:22:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p7DHW-0007Y9-9F
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:22:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671445320;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Y3iqrAyNzAaFryGW3gROpP5pKiGL/bP20hngRJxegnU=;
- b=IHfIwbLJGM0EGMXiQoxitr00bDy92QKlIRstu/E2PnW0yXHxsYJm5vamtj+Qn1dW7qT9O0
- GOkNWglgsPwM5urPlUM5+gGfN57/D91jxKjNtA60Yjt7tloTpxfY4q5bs2CyDI9AHLjNZm
- 4MjV8oxf9lbed5IVPB7ISTyfiPDUI0s=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-472-2bxMKgXTODWaogDJWk3B4w-1; Mon, 19 Dec 2022 05:21:56 -0500
-X-MC-Unique: 2bxMKgXTODWaogDJWk3B4w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 926783810D21;
- Mon, 19 Dec 2022 10:21:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.198])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AAAB2026D4B;
- Mon, 19 Dec 2022 10:21:55 +0000 (UTC)
-Date: Mon, 19 Dec 2022 10:21:51 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Tom Stellard <tstellar@redhat.com>
-Subject: Re: [PATCH 2/2] meson: Set avx512f option to auto
-Message-ID: <Y6A7PxZoslDHL1wV@redhat.com>
-References: <20221204015123.362726-1-richard.henderson@linaro.org>
- <20221204015123.362726-3-richard.henderson@linaro.org>
- <CABgObfbS3BkDJ=wx38LyJJFs+__07MntKSHb2ZNUo3zo-_=Sjg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7DNt-0006bL-Rg
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:28:40 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7DNs-0008Ui-7m
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:28:37 -0500
+Received: by mail-pl1-x631.google.com with SMTP id 4so8589601plj.3
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 02:28:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=i2aC/vzuhk+uLN25hcOq3QsCK7IDdxDIe1OYL6mXWS8=;
+ b=W2krQ1dcgx8A1uQNXOFxo/vKTJHpAjB+hsxb+kDP921x8nEjOHV71qA3ccid8b7nw2
+ L08ErwSBy6jsF9M+zjdGtCbV0lxfXIT4vf+2oTuwvlWkzAq7rb93Br3VD33+6jSDq3Es
+ rfGDY06CKV8PSCA8IpwgKC7iQ7LmvNDbtcZ+wGPFMNMYDq4OsLSH3PtuL7HKOlDMjRrl
+ g3umGEWIq9lAJZqXe/KWKeFmqgPFSJcd0kHeIGfxAKH1Mpf3sJ3C2sLtrAM6fGPBxPqf
+ /jZeiDCOKCIXqWj10FjaTARoGb1SltVSNX+73sNIVZj/JsPs7uWyAAjiHpTI8WAIkmnt
+ thCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=i2aC/vzuhk+uLN25hcOq3QsCK7IDdxDIe1OYL6mXWS8=;
+ b=q280MroLBYbGaH/aB6nvvMQ8geHsAdu2HUIIjFxYp4fKdt/nKe+ge1grb0TfwPiknJ
+ zctN4XqEeUUD3M36+Z9EXAr1+exWUrvkIYE5ENgTceFPzrAd7xm17OCRneQzyUHR+8g7
+ NQq4P1j107wUpj49ODiianc/gO+Shx36l70RI1rHkEn2rv8saCnIzx6U1nmyCe2zR9KL
+ t6zE1yNVN8sItuOqA8M94gypOEKFGOuSibfjy1AWHVcaqQ8Mx0MZSB7ZREm5k1tMYIIU
+ nqOi5n+VTUXXGJco/921aPDRvikPpijZQ5euDHVEDxc8alSvRtjPCOA1Ek/0OIz4Xc8v
+ W6Fw==
+X-Gm-Message-State: ANoB5pmgO+TVrZo3S3t1u+CmDK9CVGas2c3ZlhZskgnwae7FlCXWiyox
+ wInd0N2niizRy1/q3dJeMo69dW7wGKTtvFB3lKDNFw==
+X-Google-Smtp-Source: AA0mqf7DIy5aB2NUvsAqIcktn/DxXkmOkLl4ezmTBI+RgnJmDLviWGqjSU/dmmx/p/i2YZ35Tl2ltcFlp29Kjkqz2fk=
+X-Received: by 2002:a17:902:f292:b0:189:91b8:bf92 with SMTP id
+ k18-20020a170902f29200b0018991b8bf92mr50448762plc.19.1671445712941; Mon, 19
+ Dec 2022 02:28:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CABgObfbS3BkDJ=wx38LyJJFs+__07MntKSHb2ZNUo3zo-_=Sjg@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221216204845.19290-1-tsimpson@quicinc.com>
+In-Reply-To: <20221216204845.19290-1-tsimpson@quicinc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Dec 2022 10:28:21 +0000
+Message-ID: <CAFEAcA-drLPfX-q7HT9j-b4CZYckzzht+akxvUsZjOmiS3D47A@mail.gmail.com>
+Subject: Re: [PULL 00/21] Hexagon update: bug fixes, performance, idef-parser
+To: Taylor Simpson <tsimpson@quicinc.com>
+Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, philmd@linaro.org, 
+ bcain@quicinc.com, quic_mathbern@quicinc.com, stefanha@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,57 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Dec 17, 2022 at 12:08:08AM +0100, Paolo Bonzini wrote:
-> Because that's what configure used to do (
-> https://lists.nongnu.org/archive/html/qemu-devel/2022-02/msg00650.html)...
-> 
-> It can surely be changed but AVX512 is known to limit processor frequency.
-> I am not sure if the limitation is per core or extends to multiple cores,
-> and it would be a pity if guests were slowed down even further during
-> migration.
-> 
-> Especially after the bulk phase buffer_is_zero performance matters a lot
-> less so you'd pay the price of AVX512 for little gain. After the bulk phase
-> it may even make sense to just use SSE, since even AVX requires a voltage
-> transition[1] from what I saw at
-> https://travisdowns.github.io/blog/2020/01/17/avxfreq1.html.
-
-Note: s/AVX512/Intel's AVX512 impl/
-
-AMD's Zen4 AVX512 is said to behave quite differently from Intel's.
-This posting goes into a massive amount of detail:
-
-   https://www.mersenneforum.org/showthread.php?p=614191
-
-[quote]
-Since 512-bit instructions are reusing the same 256-bit hardware,
-512-bit does not come with additional thermal issues. There is no
-artificial throttling like on Intel chips.
-[/quote]
-
-[quote]
-Overall, AMD's AVX512 implementation beat my expectations. I was
-expecting something similar to Zen1's "double-pumping" of AVX
-with half the register file and cross-lane instructions being
-super slow. But this is not the case on Zen4. The lack of power
-or thermal issues combined with stellar shuffle support makes it
-completely worthwhile to use from a developer standpoint. If your
-code can vectorize without excessive wasted computation, then go
-all the way to 512-bit. AMD not only made this worthwhile, but
-*incentivizes* it with the power savings. And if in the future
-AMD decides to widen things up, you may get a 2x speedup for free.
-[/quote]
+On Fri, 16 Dec 2022 at 20:49, Taylor Simpson <tsimpson@quicinc.com> wrote:
+>
+> The following changes since commit 4208e6ae114ac8266dcacc9696a443ce5c37b04e:
+>
+>   Merge tag 'pull-request-2022-12-15' of https://gitlab.com/thuth/qemu into staging (2022-12-15 21:39:56 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/quic/qemu tags/pull-hex-20221216-1
+>
+> for you to fetch changes up to 585a86b1041a45c3b4074440c7f1b54944570867:
+>
+>   target/hexagon: import additional tests (2022-12-16 12:30:28 -0800)
 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes. (In particular there is a section
+of the changelog for 'Build Dependencies' -- please add something
+there indicating under what circumstances flex/bison are now required.)
+
+-- PMM
 
