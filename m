@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB11F65151E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 22:53:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAF665151B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 22:53:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7O3Y-0008Hh-Va; Mon, 19 Dec 2022 16:52:20 -0500
+	id 1p7O3Y-0008Gu-Ri; Mon, 19 Dec 2022 16:52:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcel@holtmann.org>)
- id 1p7MMQ-0005Qn-EV
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 15:03:42 -0500
+ id 1p7MMQ-0005Qz-VS
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 15:03:43 -0500
 Received: from coyote.holtmann.net ([212.227.132.17] helo=mail.holtmann.org)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel@holtmann.org>) id 1p7MMO-0002pA-KU
+ (envelope-from <marcel@holtmann.org>) id 1p7MMO-0002p9-QE
  for qemu-devel@nongnu.org; Mon, 19 Dec 2022 15:03:42 -0500
 Received: from fedora.. (p4fefcc21.dip0.t-ipconnect.de [79.239.204.33])
- by mail.holtmann.org (Postfix) with ESMTPSA id 83E88CECFA;
+ by mail.holtmann.org (Postfix) with ESMTPSA id AD90ECECFB;
  Mon, 19 Dec 2022 21:03:33 +0100 (CET)
 From: Marcel Holtmann <marcel@holtmann.org>
 To: qemu-devel@nongnu.org,
 	mst@redhat.com
 Cc: marcel@holtmann.org
-Subject: [PATCH 0/3] Compiler warning fixes for libvduse
-Date: Mon, 19 Dec 2022 21:03:27 +0100
-Message-Id: <20221219200330.381295-1-marcel@holtmann.org>
+Subject: [PATCH 1/3] libvduse: Provide _GNU_SOURCE when compiling outside of
+ QEMU
+Date: Mon, 19 Dec 2022 21:03:28 +0100
+Message-Id: <20221219200330.381295-2-marcel@holtmann.org>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -54,24 +55,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When using libvduse library in an external project it would be good if
-it can cope with various different compiler settings, this fixes two
-obvious ones similar to the patches for libvhost-user.
+When the libvduse sources are used by another project, it can not be
+guaranteed that _GNU_SOURCE is set by the build system. If it is for
+example not set, errors like this show up.
 
-It also contains a 3rd one, that is marked as RFC since I have no idea
-what is correct here. From the structures point of view the assignment
-that is done makes no sense to me. I might have to dig into
-specification to figure it out or it better be commented accordingly to
-tell the compiler that it got this part wrong.
+  CC       libvduse.o
+libvduse.c: In function ‘vduse_log_get’:
+libvduse.c:172:9: error: implicit declaration of function ‘ftruncate’; did you mean ‘strncat’? [-Werror=implicit-function-declaration]
+  172 |     if (ftruncate(fd, size) == -1) {
+      |         ^~~~~~~~~
+      |         strncat
 
-Marcel Holtmann (3):
-  libvduse: Provide _GNU_SOURCE when compiling outside of QEMU
-  libvduse: Switch to unsigned int for inuse field in struct VduseVirtq
-  libvduse: Fix assignment in vring_set_avail_event
+The simplest way to allow external complication of libvduse.[ch] by
+setting _GNU_SOURCE if it is not already set by the build system.
 
- subprojects/libvduse/libvduse.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
+---
+ subprojects/libvduse/libvduse.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
+index e089d4d546cf..c871bd331a6b 100644
+--- a/subprojects/libvduse/libvduse.c
++++ b/subprojects/libvduse/libvduse.c
+@@ -16,6 +16,10 @@
+  * later.  See the COPYING file in the top-level directory.
+  */
+ 
++#ifndef _GNU_SOURCE
++#define _GNU_SOURCE
++#endif
++
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <stdbool.h>
 -- 
 2.38.1
 
