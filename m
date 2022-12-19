@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463D26514AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 22:12:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0276514CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 22:24:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7NPh-00033r-ME; Mon, 19 Dec 2022 16:11:09 -0500
+	id 1p7Naj-0000j4-MV; Mon, 19 Dec 2022 16:22:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7NPf-00033R-L8
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 16:11:07 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7NPc-000465-Ai
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 16:11:07 -0500
-Received: by mail-ed1-x531.google.com with SMTP id b69so14752510edf.6
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 13:11:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kbljNJ/3DOB4iD5zOxe+2hDnk7LlNHAUOP/XHBmgK/g=;
- b=NwPtn25NjWoboOcMmng73uvvE9DcBxmFHRb0unSHsjI8gNlg5QFLvNqOA+FwX+hV6i
- BLTGPBLNWC9FbvhNIoUGZqSOjHzRUxzl0yrc4ekkZOhQzfgpIRxDnqv8HfoIamcvU8+9
- 4GispSWNDUrt0oDXpLAOr5oC4gzGkyearv9md9X0XoWQXB04W40ff3ZduCDRwHzGwJ9D
- VNSpcJERdghahtNk9ERuznoGYkoXYRMfV9dlRFH2N1fxnpsCNfaz4QQXTaWJ6KRGerH3
- UEV/5ejJc53yK5k6Um87CvoiShOT7PlfYVSgaUcsOAqKeM4sZxfT3/ubsiQeOMxek9Zw
- ixtw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7Nah-0000ie-7v
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 16:22:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7Nae-0007lg-Ik
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 16:22:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671484946;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O6TVi09TXOH5HI7BCCo9LSRvgTSj3z5aqnmGDLrYpXE=;
+ b=G4YxQRLNADmV+3mfk8V0qL36dFuZ0bw+RYeGukUsUe5qlb1qJYrAhFf+uhOgY95feZ4lPZ
+ v9X/9ICyJbtZL5LPCkPY+rWbTcAY7dedQnOzSPbV0gV6IqRm//8xi5xpmTEU4ROdpkDxqP
+ aNSSfTD70iyCkpm3s/3RoVEapOPHCMA=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-561-CIL5ThYPNsykpJMN_0l_9g-1; Mon, 19 Dec 2022 16:22:25 -0500
+X-MC-Unique: CIL5ThYPNsykpJMN_0l_9g-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ az39-20020a05620a172700b006ff85c3b19eso8064143qkb.18
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 13:22:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kbljNJ/3DOB4iD5zOxe+2hDnk7LlNHAUOP/XHBmgK/g=;
- b=X0LGpU5/iE7Ua4BgTdm9eM74hK2svd7izYRPRdC+HOMLyK3HPkGxjyevRdusUxhgfv
- KRYbZ+Sp6355iEbf4t0VIxIQNOmo+KF3/EwKjr5cTh2KpM+yx2PjrSy7KVQoMa4xdB4c
- ZCzy864vj3Q6joQInE75y/7spVRdy0Fzl9ERfExBpnHYO2Y1093s+ATgkerRPdxZOQqJ
- QmCxfQiur+g3HMVCsVCaksVleIHcshXVo0HgYXR7L52hlm38gAy/k55VEnrwMPcPqDRc
- veDVcb5eYvfZSSXH4SQeiKF/Jm5it+AAjfRkb6XlxnMcXOeuq7PPe8/RSDoVVS9GvTFZ
- CNIQ==
-X-Gm-Message-State: ANoB5pn3geTlFEqCWsZCK+1P3UNwmrDG0BaBxFUJy1euhrIyK1Kel8ba
- golCUBavPNDi+z2CQuMCrVGjJk6EzVEuUK42u30=
-X-Google-Smtp-Source: AA0mqf4Et/MBJQLdRQE6GAS0J7tPXjhYxJoCxtMogWieYp74lkqL8pGU7J/4xnIMcdPBIGCRi2fRjw==
-X-Received: by 2002:a05:6402:299b:b0:468:fd17:aeb9 with SMTP id
- eq27-20020a056402299b00b00468fd17aeb9mr34714874edb.0.1671484262753; 
- Mon, 19 Dec 2022 13:11:02 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- n19-20020aa7d053000000b00463c5c32c6esm4793389edo.89.2022.12.19.13.11.01
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 19 Dec 2022 13:11:02 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-arm@nongnu.org, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Greg Kurz <groug@kaod.org>,
- Song Gao <gaosong@loongson.cn>
-Subject: [PATCH 4/4] target/ppc: Restrict 'qapi-commands-machine.h' to system
- emulation
-Date: Mon, 19 Dec 2022 22:10:34 +0100
-Message-Id: <20221219211034.70491-5-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221219211034.70491-1-philmd@linaro.org>
-References: <20221219211034.70491-1-philmd@linaro.org>
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=O6TVi09TXOH5HI7BCCo9LSRvgTSj3z5aqnmGDLrYpXE=;
+ b=0QSDgRhcUlrHGoMMy199i3HLBhsriIvnO0vrMkOidrw74geSg4yuZeM517GkkvQFn9
+ tPEJkfL8lRYZIsYyILhcXT7PR9brh1Kh12bY84S3nYfBHmMSNfDPXcApKT2YyC6f7eIo
+ yDiPis+gcPhpPM9fiv5wuT7DX2ZJbh36AtB/c1vFMizCetr5qJnYxSYiZkqdb97mM5cE
+ W7PSn93SP2rDfRpQy63WgvLYb0W/Yma4jDOjGebCJ8iE1UQNmybW9GL/gCyiHOPNstlV
+ E+sSiJqxQj/JRrZB8C9ISUfAn3DYOD8UO8O0QOTitBTTIJwZZa2DJJqV+4yDHUH5ZlHF
+ 6zVA==
+X-Gm-Message-State: ANoB5pnBEa0EqBhlP4aDbzZRyTzV57ClfoCvuowRhLGwB+p9NAjTYQlC
+ hYUeVSF/7mAykVCwFHVHee9us68tLkdH2rXO/fZLXQqyddM+lhYKy+RpYPWSi/B2nJsfVxOrZYb
+ A4CEv/ICDLEVkS9E=
+X-Received: by 2002:ac8:738b:0:b0:3a8:2fba:b038 with SMTP id
+ t11-20020ac8738b000000b003a82fbab038mr27135490qtp.20.1671484944481; 
+ Mon, 19 Dec 2022 13:22:24 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf47dGijlo1JNFVSzyypBRDqD6CDnXgEznHDrQlMbf+/OvawkoO1oNs/HzUkYN0eC3OH4RN9VA==
+X-Received: by 2002:ac8:738b:0:b0:3a8:2fba:b038 with SMTP id
+ t11-20020ac8738b000000b003a82fbab038mr27135464qtp.20.1671484944141; 
+ Mon, 19 Dec 2022 13:22:24 -0800 (PST)
+Received: from redhat.com ([45.144.113.29]) by smtp.gmail.com with ESMTPSA id
+ o14-20020ac841ce000000b0038b684a1642sm6634696qtm.32.2022.12.19.13.22.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Dec 2022 13:22:23 -0800 (PST)
+Date: Mon, 19 Dec 2022 16:22:18 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: huangy81@chinatelecom.cn
+Cc: qemu-devel <qemu-devel@nongnu.org>, armbru@redhat.com,
+ dgilbert@redhat.com, eblake@redhat.com, jasowang@redhat.com,
+ lvivier@redhat.com, Liuxiangdong <liuxiangdong5@huawei.com>
+Subject: Re: [PATCH v5 0/3] Fix the virtio features negotiation flaw
+Message-ID: <20221219162014-mutt-send-email-mst@kernel.org>
+References: <cover.1671448888.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x531.google.com
+In-Reply-To: <cover.1671448888.git.huangy81@chinatelecom.cn>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,179 +98,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
-user-mode builds") we don't generate the "qapi-commands-machine.h"
-header in a user-emulation-only build.
+On Mon, Dec 19, 2022 at 06:36:39AM -0500, huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> v5:
+> -fix the assert statement in [PATCH v4 3/3], reported by
+>  xiangdong. 
 
-Move the QMP functions from cpu_init.c (which is always compiled) to
-monitor.c (which is only compiled when system-emulation is selected).
-Note ppc_cpu_class_by_name() is used by both file units, so we expose
-its prototype in "cpu-qom.h".
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- target/ppc/cpu-qom.h  |  2 ++
- target/ppc/cpu_init.c | 48 +----------------------------------------
- target/ppc/monitor.c  | 50 ++++++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 52 insertions(+), 48 deletions(-)
+Could you pls rebase on top of master retest and repost?
+If I try I see some conflicts with vq reset work upstream.
 
-diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
-index 89ff88f28c..6431c520c8 100644
---- a/target/ppc/cpu-qom.h
-+++ b/target/ppc/cpu-qom.h
-@@ -31,6 +31,8 @@
- 
- OBJECT_DECLARE_CPU_TYPE(PowerPCCPU, PowerPCCPUClass, POWERPC_CPU)
- 
-+ObjectClass *ppc_cpu_class_by_name(const char *name);
-+
- typedef struct CPUArchState CPUPPCState;
- typedef struct ppc_tb_t ppc_tb_t;
- typedef struct ppc_dcr_t ppc_dcr_t;
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index cbf0081374..7858cc4c6c 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -40,7 +40,6 @@
- #include "qemu/cutils.h"
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
--#include "qapi/qapi-commands-machine-target.h"
- 
- #include "helper_regs.h"
- #include "internal.h"
-@@ -6816,7 +6815,7 @@ static const char *ppc_cpu_lookup_alias(const char *alias)
-     return NULL;
- }
- 
--static ObjectClass *ppc_cpu_class_by_name(const char *name)
-+ObjectClass *ppc_cpu_class_by_name(const char *name)
- {
-     char *cpu_model, *typename;
-     ObjectClass *oc;
-@@ -6956,51 +6955,6 @@ void ppc_cpu_list(void)
- #endif
- }
- 
--static void ppc_cpu_defs_entry(gpointer data, gpointer user_data)
--{
--    ObjectClass *oc = data;
--    CpuDefinitionInfoList **first = user_data;
--    const char *typename;
--    CpuDefinitionInfo *info;
--
--    typename = object_class_get_name(oc);
--    info = g_malloc0(sizeof(*info));
--    info->name = g_strndup(typename,
--                           strlen(typename) - strlen(POWERPC_CPU_TYPE_SUFFIX));
--
--    QAPI_LIST_PREPEND(*first, info);
--}
--
--CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
--{
--    CpuDefinitionInfoList *cpu_list = NULL;
--    GSList *list;
--    int i;
--
--    list = object_class_get_list(TYPE_POWERPC_CPU, false);
--    g_slist_foreach(list, ppc_cpu_defs_entry, &cpu_list);
--    g_slist_free(list);
--
--    for (i = 0; ppc_cpu_aliases[i].alias != NULL; i++) {
--        PowerPCCPUAlias *alias = &ppc_cpu_aliases[i];
--        ObjectClass *oc;
--        CpuDefinitionInfo *info;
--
--        oc = ppc_cpu_class_by_name(alias->model);
--        if (oc == NULL) {
--            continue;
--        }
--
--        info = g_malloc0(sizeof(*info));
--        info->name = g_strdup(alias->alias);
--        info->q_typename = g_strdup(object_class_get_name(oc));
--
--        QAPI_LIST_PREPEND(cpu_list, info);
--    }
--
--    return cpu_list;
--}
--
- static void ppc_cpu_set_pc(CPUState *cs, vaddr value)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
-index 8250b1304e..36e5b5eff8 100644
---- a/target/ppc/monitor.c
-+++ b/target/ppc/monitor.c
-@@ -1,5 +1,5 @@
- /*
-- * QEMU monitor
-+ * QEMU PPC (monitor definitions)
-  *
-  * Copyright (c) 2003-2004 Fabrice Bellard
-  *
-@@ -28,6 +28,9 @@
- #include "qemu/ctype.h"
- #include "monitor/hmp-target.h"
- #include "monitor/hmp.h"
-+#include "qapi/qapi-commands-machine-target.h"
-+#include "cpu-models.h"
-+#include "cpu-qom.h"
- 
- static target_long monitor_get_ccr(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
-@@ -172,3 +175,48 @@ int target_get_monitor_def(CPUState *cs, const char *name, uint64_t *pval)
- 
-     return -EINVAL;
- }
-+
-+static void ppc_cpu_defs_entry(gpointer data, gpointer user_data)
-+{
-+    ObjectClass *oc = data;
-+    CpuDefinitionInfoList **first = user_data;
-+    const char *typename;
-+    CpuDefinitionInfo *info;
-+
-+    typename = object_class_get_name(oc);
-+    info = g_malloc0(sizeof(*info));
-+    info->name = g_strndup(typename,
-+                           strlen(typename) - strlen(POWERPC_CPU_TYPE_SUFFIX));
-+
-+    QAPI_LIST_PREPEND(*first, info);
-+}
-+
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+{
-+    CpuDefinitionInfoList *cpu_list = NULL;
-+    GSList *list;
-+    int i;
-+
-+    list = object_class_get_list(TYPE_POWERPC_CPU, false);
-+    g_slist_foreach(list, ppc_cpu_defs_entry, &cpu_list);
-+    g_slist_free(list);
-+
-+    for (i = 0; ppc_cpu_aliases[i].alias != NULL; i++) {
-+        PowerPCCPUAlias *alias = &ppc_cpu_aliases[i];
-+        ObjectClass *oc;
-+        CpuDefinitionInfo *info;
-+
-+        oc = ppc_cpu_class_by_name(alias->model);
-+        if (oc == NULL) {
-+            continue;
-+        }
-+
-+        info = g_malloc0(sizeof(*info));
-+        info->name = g_strdup(alias->alias);
-+        info->q_typename = g_strdup(object_class_get_name(oc));
-+
-+        QAPI_LIST_PREPEND(cpu_list, info);
-+    }
-+
-+    return cpu_list;
-+}
--- 
-2.38.1
+Also, threading is weird. E.g. patch 1 has:
+In-Reply-To: <cover.1671448888.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1671449732.git.huangy81@chinatelecom.cn>
+
+1st one is cover letter but second one seems just wrong.
+
+
+
+
+> v4:
+> -rebase on master
+> -add stub function to fix build errors
+> -code clean on [PATCH v2 1/2]: drop 'cleanup' parameter in
+>  vhost_user_save_acked_features.
+> -code clean on [PATCH v2 2/2]: make refactor of chr_closed_bh
+>  a standalone patch.
+> 
+> Above changes are suggested by Michael and thanks very much.
+> 
+> Please review,
+> 
+> Yong
+> 
+> v3:
+> -rebase on master
+> -code clean on [PATCH v2 1/2]: keep the commit self-consistent and
+>  do not modify the logic of saving acked_features. Just abstract the
+>  util function.
+> -modify the [PATCH v2 2/2] logic: change the behavior of saving
+>  acked_features in chr_closed_bh: saving acked_features only if
+>  features aren't 0. For the case of 0, we implement it in
+>  virtio_net_set_features function, which will save the acked_features
+>  in advance, including assign 0 to acked_features.
+> 
+> v2:
+> Fix the typo in subject of [PATCH v2 2/2] 
+> 
+> v1:
+> This is the version 1 of the series and it is exactly the same as
+> RFC version, but fixing a typo in subject, which is reported by Michael. 
+> 
+> As for test for the behavior suggested by Michael, IMHO, it could be
+> post in another series, since i found that testing the negotiation
+> behavior using QGraph Test Framework requires more work than i thought.
+> 
+> The test patch may implement the following logic...
+> 1. Introduce a fresh new qmp command to query netdev info, which show
+>    the NetClient status including guest features and acked_features.
+> 2. Using vhost-user QGraph Test to check the behavior of the vhost user
+>    protocol cmd VHOST_USER_SET_FEATURES. 
+> 3. Adding acked_features into TestServer, which receive the features
+>    set by QEMU.
+> 4. Compare the acked_feature in TestServer with the acked_features 
+>    in the output of qmp query command.
+> 
+> Patch for RFC can be found in the following:
+> https://patchew.org/QEMU/20220926063641.25038-1-huangy81@chinatelecom.cn/
+> 
+> This patchset aim to fix the unexpected negotiation features for
+> vhost-user netdev interface. 
+> 
+> Steps to reproduce the issue:
+> Prepare a vm (CentOS 8 in my work scenario) with vhost-user
+> backend interface and configure qemu as server mode. So dpdk
+> would connect qemu's unix socket periodically.
+> 
+> 1. start vm in background and restart openvswitch service 
+>    concurrently and repeatedly in the process of vm start. 
+> 
+> 2. check if negotiated virtio features of port is "0x40000000" at
+>    dpdk side by executing:
+>    ovs-vsctl list interface | grep features | grep {port_socket_path}
+>        
+> 3. if features equals "0x40000000", go to the vm and check if sending 
+>    arp package works, executing:
+>    arping {IP_ADDR}
+>    if vm interface is configured to boot with dhcp protocol, it
+>    would get no ip. 
+> 
+> After doing above steps, we'll find the arping not work, the ovs on
+> host side has forwarded unexpected arp packages, which be added 0x0000
+> in the head of ethenet frame.  Though qemu report some error when
+> read/write cmd of vhost protocol during the process of vm start,
+> like the following:
+> 
+> "Failed to set msg fds"
+> "vhost VQ 0 ring restore failed: -22: Invalid argument (22)"
+> 
+> The vm does not stop or report more suggestive error message, it
+> seems that everthing is ok. 
+> 
+> The root cause is that dpdk port negotiated nothing but only one
+> VHOST_USER_F_PROTOCOL_FEATURES feature with vhost-user interface at
+> qemu side, which is an unexpected behavior. qemu only load the
+> VHOST_USER_F_PROTOCOL_FEATURES when VHOST_USER_SET_FEATURES and loss
+> the guest features configured by front-end virtio driver using the
+> VIRTIO_PCI_COMMON_GF addr, which is stored in acked_features field
+> of struct vhost_dev.
+> 
+> To explain how the acked_features disappear, we may need to know the
+> lifecyle of acked_features in vhost_dev during feature negotiation. 
+> 
+> 1. qemu init acked_features field of struct vhost_dev in vhost_net_init()
+>    by calling vhost_net_ack_features(), the init value fetched from
+>    acked_features field of struct NetVhostUserState, which is the backup
+>    role after vhost stopping or unix socket closed.
+>    In the first time, the acked_features of struct NetVhostUserState is 0
+>    so the init value of vhost_dev's acked_features also 0. 
+> 
+> 2. when guest virtio driver set features, qemu accept the features and
+>    call virtio_set_features to store the features as acked_features in
+>    vhost_dev.
+> 
+> 3. when unix socket closed or vhost_dev device doesn't work and be
+>    stopped unexpectedly, qemu will call chr_closed_bh or vhost_user_stop,
+>    which will copy acked_features from vhost_dev to NetVhostUserState and
+>    cleanup the vhost_dev. Since virtio driver not allowed to set features
+>    once status of virtio device changes to VIRTIO_CONFIG_S_FEATURE_OK,
+>    qemu need to backup it in case of loss. 
+>     
+> 4. once unix socket return to normal and get connected, qemu will
+>    call vhost_user_start to restore the vhost_dev and fetch the
+>    acked_features stored in NetVhostUserState previously. 
+> 
+> The above flow works fine in the normal scenarios, but it doesn't cover
+> the scenario that openvswitch service restart in the same time of
+> virtio features negotiation.
+> 
+> Let's analyze such scenario: 
+>        qemu                                 dpdk
+> 
+>    vhost_net_init()                          
+>          |                      systemctl stop openvswitch.service
+>    virtio_set_features()                     | 
+>          |                      systemctl start openvswitch.service
+>    virtio_set_status()                      
+> 
+> Ovs stop service before guset setting virtio features, chr_closed_bh()
+> be called and fetch acked_features in vhost_dev, if may store the
+> incomplete features to NetVhostUserState since it doesn't include
+> guest features, eg "0x40000000". 
+> 
+> Guest set virtio features with another features, eg "0x7060a782",
+> this value will store in acked_features of vhost_dev, which is the
+> right and up-to-date features.
+> 
+> After ovs service show up, qemu unix socket get connected and call
+> vhost_user_start(), which will restore acked_features of vhost_dev
+> using NetVhostUserState and "0x40000000" be loaded, which is obsolete.
+> 
+> Guest set virtio device status and therefore qemu call 
+> virtio_net_vhost_status finally, checking if vhost-net device has
+> started, start it if not, consequently the obsolete acked_features
+> "0x40000000" be negotiated after calling vhost_dev_set_features(). 
+> 
+> So the key point of solving this issue making the acked_features 
+> in NetVhostUserState up-to-date, these patchset provide this
+> solution.  
+> 
+> [PATCH 1/2]: Abstract the existing code of saving acked_features
+>              into vhost_user_save_acked_features so the next
+>              patch seems clean. 
+> 
+> [PATCH 2/2]: Save the acked_features to NetVhostUserState once
+>              Guest virtio driver configured. This step makes
+>              acked_features in NetVhostUserState up-to-date. 
+> 
+> Please review, any comments and suggestions are welcome. 
+> 
+> Best regard.
+> 
+> Yong
+> 
+> Hyman Huang (3):
+>   vhost-user: Refactor vhost acked features saving
+>   vhost-user: Refactor the chr_closed_bh
+>   vhost-user: Fix the virtio features negotiation flaw
+> 
+>  hw/net/vhost_net-stub.c  |  5 +++++
+>  hw/net/vhost_net.c       |  8 ++++++++
+>  hw/net/virtio-net.c      |  6 ++++++
+>  include/net/vhost-user.h |  1 +
+>  include/net/vhost_net.h  |  1 +
+>  net/vhost-user.c         | 27 ++++++++++++++++-----------
+>  6 files changed, 37 insertions(+), 11 deletions(-)
+> 
+> -- 
+> 1.8.3.1
 
 
