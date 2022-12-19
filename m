@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B688B650A43
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:40:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DCD650A49
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:42:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7DZE-00024E-0T; Mon, 19 Dec 2022 05:40:20 -0500
+	id 1p7DbI-00043x-P0; Mon, 19 Dec 2022 05:42:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7DYo-0001vt-IO
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:39:56 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1p7DbG-00043j-VI
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:42:26 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7DYm-0001uV-LJ
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:39:53 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- z8-20020a17090abd8800b00219ed30ce47so12543831pjr.3
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 02:39:52 -0800 (PST)
+ id 1p7DbF-0002gF-FP
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:42:26 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id d7so8590764pll.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 02:42:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=u7KeSU+NIGRMiKUqkPJtZFR1KIYWRCK8Ds6T77hTh3w=;
- b=uSptm9k0w65crp6lqNvmpCwAuG8sw4+YYo8YL+jJKAgdAISgjEFkoMJyHxncVFY0Ur
- 7FrJpM1vq7PiSGGI1FxBK6nXxl2/PESX8HIsLKuEgjl2I2XJ+lbJvVJkIPP/nSHZyebw
- en2/IIu7lBIW/HnYYqbko3E5mj+0TVk7XXBjxNGyw5z0mqnSqAxT8rX7ngvBXdOCs7aH
- vH1v4pl2GKo0dwF2PiKP3eQXrh3qVLbFCmXmqvPqhksd4A7EckRVy7zkygGHdcan+o7c
- EQRmVTp98B6imAinzwShgSZYw5swi+DVYBXCPqG8K5X/aJPUg0vZR8ddGe1dCNLJ4VIr
- Fihg==
+ bh=RO3wevKsU+5CAKrYVtXu3kSRhTrbpM0UixYcCfvv6g4=;
+ b=GWHshs+Ymxufrwfxg7e2UwxNmoIb/4EAbqM17zTOp1RauUfy3SqTqHtJ1w1cwXnu81
+ ZmJYfOwldin7sn4/M7oOYXto6iloj56ONYbFBzw9rLxFnHiVTyH9uxduvXAvKJH9NNpe
+ +9NiQgoZEp8yrt2BcA/2kcIQ8kbeg6FUnLMC0G0yyDvYA3vn6lGwzH8bVUMaDjBK0xTe
+ yLXixS6FrsS8Htwq3/7cEQwZhpu89Q+fzT0qNi//OwU/FRjTOGo6EXSJq5KB3LNdh5NY
+ tgT3rNJDcegVayY8kY/frCGV0TCUwUjdoUK39O2WoyDM6uQH2fLtsizGxXNXhvrMPUfY
+ 56wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=u7KeSU+NIGRMiKUqkPJtZFR1KIYWRCK8Ds6T77hTh3w=;
- b=PqLXDdEkBDhCdCsPXpXEHefqZ1cxmTMLKzRitgR+J//c0Zro4ndmORuLhzvjNq/zbQ
- yu4aKSd1wvqGfzuUFyi0uHwqcfGKgVTSppYJA+L9jn+J7xptripQwBGVFYKlVEsKcwBP
- rBq435qE5LCWOT+JY5GI5zW8UyE2CWoOqLuA3o0SXjJsqpkRP0ITSc3jhwUvFQWKeHnT
- wsH126s3nYWrYjHeMGDhxCSa+LNzxK/MsunDSlr0/u6gNipX6AqifnAlikQhCPuiZDM5
- 1i1j0QgfBUXbTymt9xNREn8+sWRFl6g2jdHoyKueA42DpkkHIP8qZ2HmwnJpnuRLcrbR
- hPvA==
-X-Gm-Message-State: AFqh2koXz2+qyJVw9acU8M+nBOuXygYVR712yFgPsZl+jl0dXc2aGj6m
- JZd50blxxuj4HGJi7d7cCJxUenPWj8Y4/mzexcA01A==
-X-Google-Smtp-Source: AMrXdXu8V+vWKNuuqzeYNpv8VSmTKPBB3zpbc1mjYmM/d4GUigUrVJyYdaGEPXMQaoDCgL1to3ucV4WZRN5C9CEotFU=
-X-Received: by 2002:a17:90b:354c:b0:219:e2f1:81ad with SMTP id
- lt12-20020a17090b354c00b00219e2f181admr1914058pjb.19.1671446391242; Mon, 19
- Dec 2022 02:39:51 -0800 (PST)
+ bh=RO3wevKsU+5CAKrYVtXu3kSRhTrbpM0UixYcCfvv6g4=;
+ b=PRcVswdpT9+8DYdACpPau5cWIzyqmJgIQm3RJ/iCObBqIaIpd1gZgkWelGeQYQCvEw
+ hVmSGn5fXrPQSFJwk82Ee2T+0egaGsLw1Lm8z6cZ7Sk5bl00e2NCfDVl1M5CMEYu3C2a
+ 5M2JvNksD+mXj8vPUEMVwttKs1mxQ8HBRaC5scX4VGLEwHutbrM0EqwHhrRu9DTkPZGk
+ 6SPpLtiPs68abCnw48CX3NuAUO0phGPavfgIxgTqLZYJojfO+GP4360OpCUz6+dROQeD
+ rpCyk/bQNXIkVV6Gb0nshPcJgp0ixqDr0kXJTLpqPb9nd/2wZww+LfNsr22zITL1ZJ8T
+ HKBw==
+X-Gm-Message-State: ANoB5pmKxwbOOrfcCMDW5SxcdN0EywYFiSaJANYp1BbxHkI44g+2KjGw
+ 3XF6PCI2mKlAcfpCdmy1damppnn5HQWRDCzJkuz079ho0IlUKQ==
+X-Google-Smtp-Source: AA0mqf5x5neF8lKEduw+nUDUuW2FAE4BSWOoE2oePjWevxOe1r8fwgYWj8cJBznbGXawjfb70Zhdf1dVe6aG7OkOXJs=
+X-Received: by 2002:a17:903:2053:b0:189:cdc8:7261 with SMTP id
+ q19-20020a170903205300b00189cdc87261mr24232940pla.168.1671446543858; Mon, 19
+ Dec 2022 02:42:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20221213125218.39868-1-philmd@linaro.org>
- <20221213125218.39868-3-philmd@linaro.org>
- <CAFEAcA96ncqvN9iXybCd2SrVKJ9CKsu5t3_GtdNt1ZEDAkFt0w@mail.gmail.com>
- <e8c3fdcb-81f1-7067-217c-c49e8748b84a@gmail.com>
- <CAFEAcA_jH3Zn1cFfnvsd_GhiBj1bNKscs7S7cwFa+FnTC9QC=g@mail.gmail.com>
- <Y6AFLpDEkpS+muSJ@yekko>
-In-Reply-To: <Y6AFLpDEkpS+muSJ@yekko>
+References: <20221217090740.522093-1-kkostiuk@redhat.com>
+ <CAFEAcA-c5vXMfmA+_9ZTc-Bsq-hCGHExRhE_SKX8i1_kuk1bCA@mail.gmail.com>
+ <CAPMcbCo46mJ9kf9aTfGJ9gYHHOFgUULf7DdM0EijHA2rFgMU=w@mail.gmail.com>
+In-Reply-To: <CAPMcbCo46mJ9kf9aTfGJ9gYHHOFgUULf7DdM0EijHA2rFgMU=w@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Dec 2022 10:39:40 +0000
-Message-ID: <CAFEAcA9CUtdLXKPOqC0uRCyA0xQFZ_SrJ62SSDvPKESaxL3X2A@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-8.0 2/3] hw/ppc/spapr: Replace tswap64(HPTE) by
- cpu_to_be64(HPTE)
-To: David Gibson <david@gibson.dropbear.id.au>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Alistair Francis <alistair@alistair23.me>, Jason Wang <jasowang@redhat.com>, 
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, Greg Kurz <groug@kaod.org>, 
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- qemu-ppc@nongnu.org
+Date: Mon, 19 Dec 2022 10:42:12 +0000
+Message-ID: <CAFEAcA877b_BJfcCu3v+rTt94VAWQOREbKkX4BLxsBDEiy8ANA@mail.gmail.com>
+Subject: Re: [PULL v2 0/6] QEMU Guest Agent misc patches
+To: Konstantin Kostiuk <kkostiuk@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,50 +85,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 19 Dec 2022 at 06:35, David Gibson <david@gibson.dropbear.id.au> wrote:
+On Mon, 19 Dec 2022 at 10:34, Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
 >
-> On Fri, Dec 16, 2022 at 09:39:19PM +0000, Peter Maydell wrote:
-> > On Fri, 16 Dec 2022 at 19:11, Daniel Henrique Barboza
-> > <danielhb413@gmail.com> wrote:
-> > >
-> > >
-> > >
-> > > On 12/13/22 10:51, Peter Maydell wrote:
-> > > Yes, most if not all accesses are being handled as "target endian", even
-> > > though the target is always big endian.
 >
-> So "target is always big endian" is pretty misleading for POWER.  We
-> always define "TARGET_BIG_ENDIAN" in qemu, but for at least 10 years
-> the CPUs have been capable of running in either big endian or little
-> endian mode (selected at runtime).  Some variants can choose
-> endianness on a per-page basis.  Since the creation of the ISA it's
-> had "byte reversed" load and store instructions that let it use little
-> endian for specific memory accesses.
+>
+> On Sat, Dec 17, 2022 at 11:20 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> On Sat, 17 Dec 2022 at 09:07, Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
+>> > Andrey Drobyshev via (3):
+>> >       qga-win: add logging to Windows event log
+>> >       qga: map GLib log levels to system levels
+>> >       qga-win: choose the right libpcre version to include in MSI package
+>>
+>> These commits all have an author tag with an email 'qemu-devel@nongnu.org';
+>> you need to fix those up and resend, please. (checkpatch catches this,
+>> if you want to detect this locally.)
+>>
+>
+> What is the proper way to fix this? Can I fix this by myself, push and resend commits
+> or author should resend it?
 
-Yeah, this is like Arm (and for the purposes of this thread
-I meant essentially "TARGET_BIG_ENDIAN is always defined").
+You should fix up the commits locally and resend the pullreq.
+Generally the author can't fix by resending, because the reason
+the patches are attributed to the list is an unfortunate interaction
+between the configuration of their mail system and the mailing list,
+so any re-send would just have the same author as before.
 
-> Really the whole notion of an ISA having an "endianness" doesn't make
-> a lot of sense - it's an individual load or store to memory that has
-> an endianness which can depend on a bunch of factors.  When these
-> macros were created, an ISA nearly always used the same endianness,
-> but that's not really true any more - not just for POWER, but for a
-> bunch of targets.  So from that point of view, I think getting rid of
-> tswap() - particularly one that has compile time semantics, rather
-> than behaviour which can depend on cpu mode/state is a good idea.
-
-I tend to think of the TARGET_BIG_ENDIAN/not setting as being
-something like "CPU bus endianness". At least for Arm, when you
-put the CPU into BE mode it pretty much means "the CPU byteswaps
-the data when it comes in/out", AIUI.
-
-> I believe that even when running in little-endian mode, the hash page
-> tables are encoded in big-endian, so I think the proposed change makes
-> sense.
-
-OK. I still think we should consistently change all the places that are
-accessing this data structure, though, not just half of them.
-
-thanks
 -- PMM
 
