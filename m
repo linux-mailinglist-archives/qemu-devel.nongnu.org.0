@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31A1650663
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1811A65063F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:18:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p75ic-0008CL-R0; Sun, 18 Dec 2022 21:17:30 -0500
+	id 1p75ig-0008FU-0b; Sun, 18 Dec 2022 21:17:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75iZ-0008BW-Oz
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:28 -0500
+ id 1p75ic-0008CO-LY
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:30 -0500
 Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75iY-00013c-5v
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:27 -0500
+ id 1p75ia-00013c-Sf
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671416246; x=1702952246;
+ t=1671416248; x=1702952248;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SPaspSsWq01oD2q07tmSbRBBdO5kaHAHyKb++qDpmvA=;
- b=gKgk5P8cujLoFicGG8Yml/TFUr5vYYdKLeZSy+qHYHOEy5+D11Ry0PUY
- WKOaverep5osuE7Sxf9Tdou6cKw5bM0LIwNoHvKWnPr9UBNkJx1cvx7rj
- 2af5/bnMgKMnStJFVcakm4us4dw2JrCzmPmjPNGW+5kwPjGm4BjpGqHMk
- fiNQgVW2fD1RFqNwPYMmHrihvFLki1YTGe8lMFaQeb3/Z+5DM3LQqcnh4
- PNdim4gJnFGew9ohlI7uUiP2mHPkBdZhHzs+OpMhgLOTjjr2FpSOvj7ox
- JN+xuWjAYRCvti+/8GjlKZnVK5Duk6RvxMB+Fnr5mGZ4wm7WfcBdK1IOn Q==;
-X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199285"
+ bh=wLon510VHyvWrBnIFxTDZasif/XairXPaP+olplQ0og=;
+ b=b6vtPHYrJ7xnMXChMfhWQih/SSpYJuwPIzhTxTZSWPi0YMp09mYkrU9q
+ Qj4Y3nVNIh/LFLu2sQAvuQRz0977ELL7EYCRGRrzPotNbUHrCv+QWbSdb
+ hBGOL4AhnkLsv1k9X1W1YmKnYD7gcImMhZXHZqpQCaeXrFHwE43ZEqs1B
+ ksstIQXAlchZssEnnmQzMVYIX/e0V4vqSDkgic9V44CHS2AfNOJzVTD7t
+ kvF6qvnqRQ8mIUp6DYF2wMhWlO2EIfSqBrVgV0WZ4ELnSWTr10eo09gKl
+ FlfjKkARxCyd81DRvBuhaDLWyW5qQ5wj5W+yvMHxcXvY5fO3+gBiCv0Yn w==;
+X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199291"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:25 +0800
-IronPort-SDR: L+WRbhLXu0bUfvAlxc3tgHZC7RSJZYqx1wb82d7+X3/Xp7g0YzdyQQ2sjuR4iuOOW1fxpQ9OdJ
- NFw5eBXnTMKQG04SvjaqKw/JiONndsp+uKk5/y2LP0VKPP/A1CdeHanvINsFxgT4PdoyVU/qft
- jydY8jTGwZ/A3oyE/QojP7J+an/GYltsJHNEhFyMj0L5ShqSnErEJ9L1MELAbPSMp6/8v5NbAW
- vSW9YCHNK5DaCdZtxV+zn5YCAuzxjfvJ7Ae/KYO6uI1US/vdcP9K5qkx+02mPPONWcZMdtG+le
- X28=
+ by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:28 +0800
+IronPort-SDR: lqQtCCygyU1TrowuG2aK61OpvKEJ0c14667uQiUj8DcqZpW1z5CkGWlYPv1230IFjw+GP+Mwo8
+ aEPKSkvhCs1stjTSSOY1RvFyMvFqGfUfkLUlkj4DN8tBfSWiHuPZdKboqtkdSOJeK2NS0FOSl2
+ EuotbTo315wQXy/Ji64HBTJVBFup7NHoh+4lX56JtRTrjI5OzfdEjgKqmSP1idNqfiA5ZPYyva
+ n1TqFnEJwIMrmbksAB8+gQXsVnwkdFVQFW1gSLXwfAQEeGP38RTj5twGbeZC/NLftfaT+SRLjp
+ sSs=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 17:29:58 -0800
-IronPort-SDR: bgaF0dua5T4TqfCWoLbsRGqoPPS4hVBgERE12y6bDxH0T/JNyljor4P7LaJHG2+swvh0vXE7SG
- xRZKQWGsmL7o5lsN7/LknY2g+06fHVam3zzlF/GhRsycpO9fAHzbBoRHHvYriL/yXh6/mEt1RM
- wkjZyFnuzmRTZz7EU1lavhxReQGB8S6fvgMZxTw040TxePHcMBDo3p31ZhoP0FF5Lgy6iWNTYS
- JDUUl6k8a+8+OS0oLVPTybVfxGSWVYN1M7h6eW9CWvVEPjZiD5s+zqyyKpCUdDiwyDMyKvrdKD
- t6c=
+ 18 Dec 2022 17:30:00 -0800
+IronPort-SDR: h5Gh2fY42QsD/9jPnlf00PZkHRvV8vfaTdQ6AZdRiPyCW2p/O23GMLlWkgNunIO9uo1A+6Ouwj
+ Iaizbfne+3uOB7WgnwwgFuwFXXrJ+FohMyC2tP3cNK94/VNyt/+5JhyCsrEhuYvxACydwwuRbD
+ LWPv6xpmwqLncNEjCEnLu8gyKIvUkPuTnnqnXiKe4J4FEQ3KKxaGuiWA/mHCSrKWExvsg/Hr6j
+ wtrIUjd0i3jBXL7wosZV9llgfTPX8/H8KB7ZNH/3qjQ8TFIlKgkIHm8A1c0wJHokFmJryOhECQ
+ yZo=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 18:17:25 -0800
+ 18 Dec 2022 18:17:28 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3J52TQvz1RwqL
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:25 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3J80Kntz1RwtC
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:28 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671416244; x=1674008245; bh=SPaspSsWq01oD2q07t
- mSbRBBdO5kaHAHyKb++qDpmvA=; b=hYcQMFqZSZmJi7Q8ElNuLmEQ7WngmTMEiJ
- 2VR1A2MSV8yCHMykL8l7HuRQSeubtDlzKJknXlyCE/FJ4MRehM1Rrs3fewkL4oGS
- caPLl2anRUzEqtHbO0lFR4SlW+0lYMbpffcTJSRtFb341t5Z//JP2jBHX03mGcgK
- bXVGvSLbSMAoyjjFlZU1CvlyFGHmbkqSRQdOZDwlbo3N9ZZGUL1ZE6VF7v7VrL2l
- Tuf60i7lcy5duHFHaJoUrdVAF4mKZ05SmyPQihfDSapc3iF4nd1Q71c9EFbyDtFC
- Yb6y/cbadXNIjB8gw2j/201JzkMo7N+Y2nePqZHqdDEkmchmAd0A==
+ :from; s=dkim; t=1671416247; x=1674008248; bh=wLon510VHyvWrBnIFx
+ TDZasif/XairXPaP+olplQ0og=; b=Wbqm/S6Pi0KryiYj2KO7j8Vph0uC/IuaS/
+ 91wGuXsqjezK/Ua1SyWs0xWbaegwil9x3xnIjWwLLkc3mPWAz+HXMDZa5tHOL5JO
+ Xp9oCxpaklz648/nnky824eMK5cesb5cMdTnHMuLj/TOuQVKmR/5vfwHsPE/nFbr
+ Gc0XRwBVJa3pt6IVg54Bvf9tCv6/eDxi4l6+oBLC0RAQLkHLIjM4JqG80/QI/Mky
+ TCcSCWGITj6g5ScNZ9yeTCWXdOz+HHd9ASJhSwGsvthyxA+7g38tUHa1z7zJnWYQ
+ hAG4XCYjAdB1Rx1A/3rvFoK4um1XNy7n7pXtiYueY43zkrHCptHA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id Cn0HROBpbPIw for <qemu-devel@nongnu.org>;
- Sun, 18 Dec 2022 18:17:24 -0800 (PST)
+ port 10026) with ESMTP id bHyb_H29wSdE for <qemu-devel@nongnu.org>;
+ Sun, 18 Dec 2022 18:17:27 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.4])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3J31PW3z1Rwrq;
- Sun, 18 Dec 2022 18:17:22 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3J54rKyz1RvLy;
+ Sun, 18 Dec 2022 18:17:25 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
  LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 05/45] tcg/riscv: Fix reg overlap case in tcg_out_addsub2
-Date: Mon, 19 Dec 2022 12:16:23 +1000
-Message-Id: <20221219021703.20473-6-alistair.francis@opensource.wdc.com>
+Subject: [PULL 06/45] tcg/riscv: Fix base register for user-only qemu_ld/st
+Date: Mon, 19 Dec 2022 12:16:24 +1000
+Message-Id: <20221219021703.20473-7-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
 References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
@@ -117,42 +117,148 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-There was a typo using opc_addi instead of opc_add with the
-two registers.  While we're at it, simplify the gating test
-to al =3D=3D bl to improve dynamic scheduling even when the
-output register does not overlap the inputs.
+When guest_base !=3D 0, we were not coordinating the usage of
+TCG_REG_TMP0 as base properly, leading to a previous zero-extend
+of the input address being discarded.
+
+Shuffle the alignment check to the front, because that does not
+depend on the zero-extend, and it keeps the register usage clear.
+Set base after each step of the address arithmetic instead of before.
+
+Return the base register used from tcg_out_tlb_load, so as to
+keep that register choice localized to that function.
 
 Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221020233836.2341671-1-richard.henderson@linaro.org>
+Message-Id: <20221023233337.2846860-1-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- tcg/riscv/tcg-target.c.inc | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ tcg/riscv/tcg-target.c.inc | 39 +++++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
 
 diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 191197853f..2a84c57bec 100644
+index 2a84c57bec..e3b608034f 100644
 --- a/tcg/riscv/tcg-target.c.inc
 +++ b/tcg/riscv/tcg-target.c.inc
-@@ -700,9 +700,15 @@ static void tcg_out_addsub2(TCGContext *s,
-         if (cbl) {
-             tcg_out_opc_imm(s, opc_addi, rl, al, bl);
-             tcg_out_opc_imm(s, OPC_SLTIU, TCG_REG_TMP0, rl, bl);
--        } else if (rl =3D=3D al && rl =3D=3D bl) {
-+        } else if (al =3D=3D bl) {
-+            /*
-+             * If the input regs overlap, this is a simple doubling
-+             * and carry-out is the input msb.  This special case is
-+             * required when the output reg overlaps the input,
-+             * but we might as well use it always.
-+             */
-             tcg_out_opc_imm(s, OPC_SLTI, TCG_REG_TMP0, al, 0);
--            tcg_out_opc_reg(s, opc_addi, rl, al, bl);
-+            tcg_out_opc_reg(s, opc_add, rl, al, al);
-         } else {
-             tcg_out_opc_reg(s, opc_add, rl, al, bl);
-             tcg_out_opc_reg(s, OPC_SLTU, TCG_REG_TMP0,
+@@ -923,9 +923,9 @@ static void tcg_out_goto(TCGContext *s, const tcg_ins=
+n_unit *target)
+     tcg_debug_assert(ok);
+ }
+=20
+-static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
+-                             TCGReg addrh, MemOpIdx oi,
+-                             tcg_insn_unit **label_ptr, bool is_load)
++static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
++                               TCGReg addrh, MemOpIdx oi,
++                               tcg_insn_unit **label_ptr, bool is_load)
+ {
+     MemOp opc =3D get_memop(oi);
+     unsigned s_bits =3D opc & MO_SIZE;
+@@ -975,6 +975,7 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg ad=
+drl,
+         addrl =3D TCG_REG_TMP0;
+     }
+     tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
++    return TCG_REG_TMP0;
+ }
+=20
+ static void add_qemu_ldst_label(TCGContext *s, int is_ld, MemOpIdx oi,
+@@ -1177,7 +1178,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TC=
+GArg *args, bool is_64)
+ #else
+     unsigned a_bits;
+ #endif
+-    TCGReg base =3D TCG_REG_TMP0;
++    TCGReg base;
+=20
+     data_regl =3D *args++;
+     data_regh =3D (TCG_TARGET_REG_BITS =3D=3D 32 && is_64 ? *args++ : 0)=
+;
+@@ -1187,23 +1188,25 @@ static void tcg_out_qemu_ld(TCGContext *s, const =
+TCGArg *args, bool is_64)
+     opc =3D get_memop(oi);
+=20
+ #if defined(CONFIG_SOFTMMU)
+-    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1);
++    base =3D tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1)=
+;
+     tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
+     add_qemu_ldst_label(s, 1, oi,
+                         (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
+                         data_regl, data_regh, addr_regl, addr_regh,
+                         s->code_ptr, label_ptr);
+ #else
+-    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+-        tcg_out_ext32u(s, base, addr_regl);
+-        addr_regl =3D base;
+-    }
+     a_bits =3D get_alignment_bits(opc);
+     if (a_bits) {
+         tcg_out_test_alignment(s, true, addr_regl, a_bits);
+     }
++    base =3D addr_regl;
++    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
++        tcg_out_ext32u(s, TCG_REG_TMP0, base);
++        base =3D TCG_REG_TMP0;
++    }
+     if (guest_base !=3D 0) {
+-        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl)=
+;
++        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, ba=
+se);
++        base =3D TCG_REG_TMP0;
+     }
+     tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
+ #endif
+@@ -1249,7 +1252,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TC=
+GArg *args, bool is_64)
+ #else
+     unsigned a_bits;
+ #endif
+-    TCGReg base =3D TCG_REG_TMP0;
++    TCGReg base;
+=20
+     data_regl =3D *args++;
+     data_regh =3D (TCG_TARGET_REG_BITS =3D=3D 32 && is_64 ? *args++ : 0)=
+;
+@@ -1259,23 +1262,25 @@ static void tcg_out_qemu_st(TCGContext *s, const =
+TCGArg *args, bool is_64)
+     opc =3D get_memop(oi);
+=20
+ #if defined(CONFIG_SOFTMMU)
+-    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0);
++    base =3D tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0)=
+;
+     tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
+     add_qemu_ldst_label(s, 0, oi,
+                         (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
+                         data_regl, data_regh, addr_regl, addr_regh,
+                         s->code_ptr, label_ptr);
+ #else
+-    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+-        tcg_out_ext32u(s, base, addr_regl);
+-        addr_regl =3D base;
+-    }
+     a_bits =3D get_alignment_bits(opc);
+     if (a_bits) {
+         tcg_out_test_alignment(s, false, addr_regl, a_bits);
+     }
++    base =3D addr_regl;
++    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
++        tcg_out_ext32u(s, TCG_REG_TMP0, base);
++        base =3D TCG_REG_TMP0;
++    }
+     if (guest_base !=3D 0) {
+-        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl)=
+;
++        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, ba=
+se);
++        base =3D TCG_REG_TMP0;
+     }
+     tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
+ #endif
 --=20
 2.38.1
 
