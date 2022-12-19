@@ -2,82 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF78650F41
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:51:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 688CD650F64
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:54:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7IQA-0002PC-MW; Mon, 19 Dec 2022 10:51:18 -0500
+	id 1p7IQW-0002hz-V2; Mon, 19 Dec 2022 10:51:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7IQ5-0002Mf-Ti
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:13 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7IQ3-0000YE-GF
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:13 -0500
-Received: by mail-wr1-x433.google.com with SMTP id co23so9106489wrb.4
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 07:51:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=27K/oEADLjCIvYpbpXqyoXCqtosYfECuaL6ZQEu7+Tk=;
- b=CLzcQCsbhdZ5so94Z/KiZFVF2gSM1qHO0W3dccc5ERDg9nzijv8hWRbzChhR1dtbU5
- WHFrL/UG1aR98oIrXPzI+jZ14bF6Sxy2ZUysyEA+X6xO1Ey2aBnyX8J7Hp3Wyw35lnS6
- 0Llx5QAA5tk61tgG1D0ei9/GEUBlNzJCLM4ScsBupN6duTONF9qQoLSuFhk0bOt9Wo3Y
- 6XGoSXqS/fZD15wd8TBwm/dXVrxft6icWUhWAMezt7TdoGN/mqmqt7YmZdbbctJ+Pzme
- o/8xBKdSZfq+4HOPAaljfQWltcM21KtahpiSwJLXxKhTgX8uRG6WtbKRgd8Ht8XkE7Re
- F4tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=27K/oEADLjCIvYpbpXqyoXCqtosYfECuaL6ZQEu7+Tk=;
- b=ir+6SRyGGN9mvSNp4wb5RiFqlsRPoATGnWDYpkoSxfoI4JdHW6Wb9Ipgqfng3tpwRt
- adj8OBU+XSRBEMXrfCE4mUTyBg4RyCaGe5Hjm2vPtfU7TiWv3abScFc3q+6SkDlTCQ7S
- qLEciQyoThCEyKzqeCT3S0oqfsZzetDoX+CkLvVMMmY/yDGrDN5wVUlGlRnelLavKvKm
- Qk4BD7w7x2ALCu1ToUcSb6qu8uF7Vh5HBU6q066E3lPwVwbbvYA3BIQ5l06+b6h7we5c
- WcMx2LMb75mhKvKMssXwWuZU4qKgb2PjaFcYVizDKgpGVDGPjqsH6patfUig2wYg4mlv
- ZFHw==
-X-Gm-Message-State: ANoB5plMeiaGKiSZkDWjvKdt2yCw6MV42xyMGfqqhrhJK4Jca0QTAcON
- qsS2+fDi7bMUAP2O7sX/9VQcdg==
-X-Google-Smtp-Source: AA0mqf6rwmzvNZd8Sub0cbJ6ZMbP43n+KKVLHpK8laoWqD/koJG5sxs+Kgc35uIPnICivLFnCqN8Dw==
-X-Received: by 2002:adf:fe46:0:b0:242:1d48:e047 with SMTP id
- m6-20020adffe46000000b002421d48e047mr26542016wrs.34.1671465067761; 
- Mon, 19 Dec 2022 07:51:07 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i7-20020adffc07000000b00241d544c9b1sm11932240wrr.90.2022.12.19.07.51.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 07:51:07 -0800 (PST)
-Message-ID: <c4173d60-6635-899d-28dd-f82c9008eb0d@linaro.org>
-Date: Mon, 19 Dec 2022 16:51:06 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQJ-0002XY-0C
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQH-0000ZZ-6k
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671465084;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FkqxzmbocBbQ7LPbMJis0iKkqXkaKfYVINFCiVt2BGo=;
+ b=f0htghHX3T8fboDsv1KUcQQjTq+W3PwjZYqMgy4umXzBLisK7oUAUZ/l+SWp5nRr8UI+BN
+ LHp771fwhpJNJBwJmBef3GvtfYeZo9i3c3cs7l1v9BbxhlzIrfAyzXyG1MuOGbsxMgN8WA
+ 517Wu8F4zWMZgMcQTzqFSQY6kftHLSk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-395-1anqH7A7MaOF2UCTlBQRsA-1; Mon, 19 Dec 2022 10:51:22 -0500
+X-MC-Unique: 1anqH7A7MaOF2UCTlBQRsA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF5FA80234E;
+ Mon, 19 Dec 2022 15:51:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 86D6D2166B26;
+ Mon, 19 Dec 2022 15:51:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 53EA521E688F; Mon, 19 Dec 2022 16:51:20 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PULL 00/13] Monitor patches for 2022-12-19
+Date: Mon, 19 Dec 2022 16:51:07 +0100
+Message-Id: <20221219155120.2273041-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 05/11] contrib/gitdm: Add Ventana Micro Systems to the
- domain map
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Sunil V L <sunilvl@ventanamicro.com>,
- Rahul Pathak <rpathak@ventanamicro.com>, Anup Patel
- <apatel@ventanamicro.com>, Andrew Jones <ajones@ventanamicro.com>
-References: <20221219121914.851488-1-alex.bennee@linaro.org>
- <20221219121914.851488-6-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221219121914.851488-6-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,31 +75,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-+Drew
+The following changes since commit 562d4af32ec2213061f844b3838223fd7711b56a:
 
-On 19/12/22 13:19, Alex Bennée wrote:
-> We have a number of contributors from this domain which looks like it
-> is a corporate endeavour.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Sunil V L <sunilvl@ventanamicro.com>
-> Cc: Rahul Pathak <rpathak@ventanamicro.com>
-> Cc: Anup Patel <apatel@ventanamicro.com>
-> ---
->   contrib/gitdm/domain-map | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-> index 7ff511d5c6..727df18879 100644
-> --- a/contrib/gitdm/domain-map
-> +++ b/contrib/gitdm/domain-map
-> @@ -39,6 +39,7 @@ siemens.com     Siemens
->   sifive.com      SiFive
->   suse.com        SUSE
->   suse.de         SUSE
-> +ventanamicro.com Ventana Micro Systems
->   virtuozzo.com   Virtuozzo
->   vrull.eu        VRULL
->   wdc.com         Western Digital
+  Merge tag 'pull-loongarch-20221215' of https://gitlab.com/gaosong/qemu into staging (2022-12-18 13:53:29 +0000)
+
+are available in the Git repository at:
+
+  https://repo.or.cz/qemu/armbru.git tags/pull-monitor-2022-12-19
+
+for you to fetch changes up to e221cfac5935b0fea0989da9ef4ee5024777f23e:
+
+  pci: Reject pcie_aer_inject_error -c with symbolic error status (2022-12-19 16:21:56 +0100)
+
+----------------------------------------------------------------
+Monitor patches for 2022-12-19
+
+----------------------------------------------------------------
+Markus Armbruster (13):
+      pci: Clean up a few things checkpatch.pl would flag later on
+      pci: Move QMP commands to new hw/pci/pci-qmp-cmds.c
+      pci: Move HMP commands from monitor/ to new hw/pci/pci-hmp-cmds.c
+      pci: Make query-pci stub consistent with the real one
+      pci: Build hw/pci/pci-hmp-cmds.c only when CONFIG_PCI
+      pci: Deduplicate get_class_desc()
+      pci: Move pcibus_dev_print() to pci-hmp-cmds.c
+      pci: Fix silent truncation of pcie_aer_inject_error argument
+      pci: Move HMP command from hw/pci/pcie_aer.c to pci-hmp-cmds.c
+      pci: Inline do_pcie_aer_inject_error() into its only caller
+      pci: Rename hmp_pcie_aer_inject_error()'s local variable @err
+      pci: Improve do_pcie_aer_inject_error()'s error messages
+      pci: Reject pcie_aer_inject_error -c with symbolic error status
+
+ hw/pci/pci-internal.h   |  25 +++++
+ include/monitor/hmp.h   |   1 +
+ include/sysemu/sysemu.h |   3 -
+ hw/pci/pci-hmp-cmds.c   | 238 ++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/pci/pci-qmp-cmds.c   | 199 ++++++++++++++++++++++++++++++++++++++++
+ hw/pci/pci-stub.c       |   9 +-
+ hw/pci/pci.c            | 224 +--------------------------------------------
+ hw/pci/pcie_aer.c       | 113 +----------------------
+ monitor/hmp-cmds.c      | 107 ----------------------
+ hw/pci/meson.build      |   2 +
+ 10 files changed, 478 insertions(+), 443 deletions(-)
+ create mode 100644 hw/pci/pci-internal.h
+ create mode 100644 hw/pci/pci-hmp-cmds.c
+ create mode 100644 hw/pci/pci-qmp-cmds.c
+
+-- 
+2.37.3
 
 
