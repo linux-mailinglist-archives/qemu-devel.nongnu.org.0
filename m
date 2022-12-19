@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3810665066E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488A2650655
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:23:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p75jp-0001KV-CB; Sun, 18 Dec 2022 21:18:45 -0500
+	id 1p75jt-0001Vm-Cb; Sun, 18 Dec 2022 21:18:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75jn-0001Hn-45
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:43 -0500
+ id 1p75jr-0001TY-Qf
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:47 -0500
 Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75jl-00015X-Bo
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:42 -0500
+ id 1p75jp-00017E-WF
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671416321; x=1702952321;
+ t=1671416325; x=1702952325;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lkr40dqOmoRlHb4uKWd/0UnkaNvhnwtWV+0/s7TpnTE=;
- b=aK3Nyub/Q3PVHzxLrhj/Qf/f+Dn2HUgr44kEITMty0U725qrBDwZaqSo
- LmxjhMozt805Cj4sQ+RVZe3IcyxFlWRm5uVrmYvBMR9gQLcFEm+c349qa
- +VxqVQ3D0GuH11/n7mHg1C/cc6/Xw5rkT2eyiHS1wZTnaBD0OyjPkB0SS
- Oor42u7vLs90CIRGoRZ94b6Gv94oqS/M7vlFDHV2ColdbusU3dhFI2Pw7
- G/CmKcdn5CVfyz1MPD6wtE0AbiI5SjI9PJE40H2kRZD1iUL1lWayb7fn+
- eY7RPasd1s6UAd9M5N3JQ69EsJTGRDISgG9+FaIJDTAvwQLxTUKneFhqU A==;
-X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199367"
+ bh=CAdCSxJeKKq8tYmIBqs3LqQExUqaPNsJrRGHQLOgr7o=;
+ b=fCNiqm+csuNE2iJWrLrSM8bgqIFTNEwpOe4yMa77nKOaVPSZCQ4N9slP
+ cnBLG43VRqsolouPviToNFmcnsmc2sDPt4GzKRg6EG8ZWFCnpBL5hyj3k
+ T4oovFu5yUDLzTqSXOKoChxEUvXBKkqSXSFOEQvehQunQdwkpy9s3HVV0
+ MsGzmYEwqS5Q1usAjXN+WRsJmQy0nr5tDkY2GozxuJchxxA92C6iPP6gJ
+ y5yNZEeunxE0AYpQyVpT2unCrPRez+wDWCnvsOMg1a/vLKqc3oZEjxl2I
+ rDhTwTMPmYprnqatKa99dxI0bvzlfcOe+ss/pt+eFY14UQHWmcg6pHIFz Q==;
+X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199379"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:18:10 +0800
-IronPort-SDR: AaKvkI3gGAVPwL3Jm6/88E+9+N6uIQn3hEHiaFju56kNp1xdpcpkp3mgtzUDdMvKSXKrB/duay
- 8vACgDX6ZH189/WQTDTFBtAwtvjCtl2xe3OCHEvqyv8qtfX35iOwvzlLRlmck2onjlMPoNxWRl
- 9N6vLMVzbFgG4D2OnlW5pfwhzEAfiH1ZfY6jLjgdabn9GehiUYlmo/Q2jjSt5wagrQ4BZMyS6w
- s+yl19D1juqDF88E7bRLCDRv2cZfgXsFVnUJ4RaB3ELAjDOnLI4REkcvMo0de3HV/SfuE4qOSY
- kvw=
+ by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:18:12 +0800
+IronPort-SDR: nJ1nLkowLbEyfzOxZOT6hjC9g/ZtyJkQkj3UShS8XdrrYN9feKI/fuNBxiqykiE/aHfQBIncVO
+ S6ej1KrODpGwarpz/hO7QGhuhu7aWEIqQvLgm2IwTLPzSqRlNebFb258HxIbfx7XyuzuYh6ddV
+ kFEq+URbxW7Hyul90pFMnFk2EUwv90vwevlpBkWYLXufpf2TR6Pkwij9o2sLB4D/sn2GsPhUVF
+ t9QTZ5f2d0wG9S96ddHED8Fo5GznzkWOEe3SJL46viiBSzhPD0nKV0hi6c6h3svsfwuJ+1gA48
+ 20k=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 17:30:42 -0800
-IronPort-SDR: zY8UsQj28fNKyRIaIwsPI5gv/jxhriDwsZXfvXzuB7Fwg9bDEgzjIONd3oh3ok84K4BbOjRe76
- +k7btxPIlb1lTF38Spvi+mNVYY1HyEVT1KtxMYKQyJ4vNMtnrasZ1tev1aUWETPhjETK4FElmM
- Rjkty2iWvzUW7xwHRJ8VNvtv4TTDGXxtfdaQXBR77FLYY+6M8oXTpX67rRneUz21k9boY+zSE0
- DnmCzpUrjWvqP/flQQYt2B9VA1vqcBD4q3hLikKn8Z1L5il23Y7fHqTMmhKB0YJ9LbfIwrCNoc
- Vl8=
+ 18 Dec 2022 17:30:45 -0800
+IronPort-SDR: XiIq7EiJMov6FA6qd8vT1L/pVy9cHjcy7X5DPBMItdPz05ylaoTYWJOvBCR3JCBpM+nzDDTNPM
+ Vl5zJQYYfk4zoT0Ri1DGcKGOlDjVjOPpXjWBkNmFTooLkdrdncFniJSCbNStxoJZwdjhBKvNNP
+ sGN+cnz/DDFqrcFAhmAVvQnpKaULAv6z4v8mRpCwNjkpyDyyyD0Ih59aMGPLvfFgSCmmDCxW6A
+ GJNuJF8bl+sNJdfhH1Kt+McrCddaYBlWwv+gcWAddvaERc5x7APWVsPVrXxRwBIe7dS4eCT9BM
+ sNw=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 18:18:10 -0800
+ 18 Dec 2022 18:18:12 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3Jx6tFNz1RwqL
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:18:09 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3K02Yb2z1Rwrq
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:18:12 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671416289; x=1674008290; bh=lkr40dqOmoRlHb4uKW
- d/0UnkaNvhnwtWV+0/s7TpnTE=; b=Jx+9OJ3EYcHw0vlVR27hHzgLwV+hDbJOEH
- pm14Ed4ycp26tY9ZsXNTShlZlj125E5q+Ua9DeJX5sSfnd4rYYZ1IZB1/KmX3uNJ
- 7X0r6ykYugzAwxsvJD9l9W1z4EIQsMQEEidC8VwYBIwnEWiYvJPB/Q62vm47MMGB
- 3HvJsU3CTD+0cnevgO+/ZYtix9YPQAmMfBAeSqswZUFi0umnzwupaXCx+N2RT8bo
- 89qypD46sz5Y1V67GToqmav8LGIEyfc4W4CnsEOWyTJj6PmJTe+DUzLauYwGvRGE
- B9BNzFQLfrXwOiOvPz2doDngbA2gQ57XKlODyupAk3kPuuvNPCuA==
+ :from; s=dkim; t=1671416291; x=1674008292; bh=CAdCSxJeKKq8tYmIBq
+ s3LqQExUqaPNsJrRGHQLOgr7o=; b=IIK20VZ0h8Oe+E3fJlXgbSTUMeowfOrmTD
+ pmGo/0crOdfrSaeQrMLT6lP+x7+0eLbnlXQDQxLdTXugIdpNmNkIpWHEZbc/zWcd
+ BsiT0wMnCXx1UkOGK4EvUqOSHWiASgSz2mkEqAL86JnPFSvBVzsmgblzI9yyECtQ
+ EB1IINDPC9yaZiQU6Th6K3Y7FS4w1NCz8fkIUS7zOgm2jBFyG5uKQUR9/rKZ688s
+ LYxOWDLflTI26ubKSG6vWb9KJ7F/WE0vFuklRM1sLJqv6Lp+4VyLaLjyoUfEUBp0
+ B1CfSG13LUJvYP2qQKcq2BdfEWP6JS6ICEInK9S+eomVpP+4l/Bw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id pMTwTUpGWKvD for <qemu-devel@nongnu.org>;
- Sun, 18 Dec 2022 18:18:09 -0800 (PST)
+ port 10026) with ESMTP id 073jZ2Nuh2SW for <qemu-devel@nongnu.org>;
+ Sun, 18 Dec 2022 18:18:11 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.4])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3Jv5JKsz1RvTp;
- Sun, 18 Dec 2022 18:18:07 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3Jy0WB0z1RvTp;
+ Sun, 18 Dec 2022 18:18:09 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Jim Shu <jim.shu@sifive.com>,
- Bin Meng <bmeng@tinylab.org>, Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 24/45] hw/intc: sifive_plic: fix out-of-bound access of
- source_priority array
-Date: Mon, 19 Dec 2022 12:16:42 +1000
-Message-Id: <20221219021703.20473-25-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 25/45] target/riscv: Fix mret exception cause when no pmp rule
+ is configured
+Date: Mon, 19 Dec 2022 12:16:43 +1000
+Message-Id: <20221219021703.20473-26-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
 References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
@@ -115,55 +116,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jim Shu <jim.shu@sifive.com>
+From: Bin Meng <bmeng@tinylab.org>
 
-If the number of interrupt is not multiple of 32, PLIC will have
-out-of-bound access to source_priority array. Compute the number of
-interrupt in the last word to avoid this out-of-bound access of array.
+The priv spec v1.12 says:
 
-Signed-off-by: Jim Shu <jim.shu@sifive.com>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Message-Id: <20221127165753.30533-1-jim.shu@sifive.com>
+  If no PMP entry matches an M-mode access, the access succeeds. If
+  no PMP entry matches an S-mode or U-mode access, but at least one
+  PMP entry is implemented, the access fails. Failed accesses generate
+  an instruction, load, or store access-fault exception.
+
+At present the exception cause is set to 'illegal instruction' but
+should have been 'instruction access fault'.
+
+Fixes: d102f19a2085 ("target/riscv/pmp: Raise exception if no PMP entry i=
+s configured")
+Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20221205065303.204095-1-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/intc/sifive_plic.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ target/riscv/op_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index b4949bef97..0c7696520d 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -78,6 +78,7 @@ static uint32_t sifive_plic_claimed(SiFivePLICState *pl=
-ic, uint32_t addrid)
-     uint32_t max_irq =3D 0;
-     uint32_t max_prio =3D plic->target_priority[addrid];
-     int i, j;
-+    int num_irq_in_word =3D 32;
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 09f1f5185d..d7af7f056b 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -202,7 +202,7 @@ target_ulong helper_mret(CPURISCVState *env)
 =20
-     for (i =3D 0; i < plic->bitfield_words; i++) {
-         uint32_t pending_enabled_not_claimed =3D
-@@ -88,7 +89,16 @@ static uint32_t sifive_plic_claimed(SiFivePLICState *p=
-lic, uint32_t addrid)
-             continue;
-         }
+     if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+         !pmp_get_num_rules(env) && (prev_priv !=3D PRV_M)) {
+-        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++        riscv_raise_exception(env, RISCV_EXCP_INST_ACCESS_FAULT, GETPC()=
+);
+     }
 =20
--        for (j =3D 0; j < 32; j++) {
-+        if (i =3D=3D (plic->bitfield_words - 1)) {
-+            /*
-+             * If plic->num_sources is not multiple of 32, num-of-irq in=
- last
-+             * word is not 32. Compute the num-of-irq of last word to av=
-oid
-+             * out-of-bound access of source_priority array.
-+             */
-+            num_irq_in_word =3D plic->num_sources - ((plic->bitfield_wor=
-ds - 1) << 5);
-+        }
-+
-+        for (j =3D 0; j < num_irq_in_word; j++) {
-             int irq =3D (i << 5) + j;
-             uint32_t prio =3D plic->source_priority[irq];
-             int enabled =3D pending_enabled_not_claimed & (1 << j);
+     target_ulong prev_virt =3D get_field(env->mstatus, MSTATUS_MPV);
 --=20
 2.38.1
 
