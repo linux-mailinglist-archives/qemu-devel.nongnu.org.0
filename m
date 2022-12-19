@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516ED650A21
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:32:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B76C650A1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:29:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7DHC-0003Fo-55; Mon, 19 Dec 2022 05:21:42 -0500
+	id 1p7DHH-0003JS-AY; Mon, 19 Dec 2022 05:21:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9352c01a6b=bin.meng@windriver.com>)
- id 1p7DGh-0003Ak-4L
+ id 1p7DGh-0003Am-4t
  for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:13 -0500
-Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
+Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9352c01a6b=bin.meng@windriver.com>)
- id 1p7DGa-0007N0-Uh
+ id 1p7DGc-0007Pu-NI
  for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:10 -0500
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BJ8ll8t020840; Mon, 19 Dec 2022 10:20:50 GMT
+ 2BJ9StvV005147; Mon, 19 Dec 2022 02:20:52 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=iwQ0R/yWlmKEf7imNX6mBrEsuYMI1SqX+GjLYpCPnWQ=;
- b=Hwg8lA5Klk1FLHi7UdxqOVsxtpIimu5nkOO91EW04ZBAZJk6kSmeGJNQLZcQ36sm0atv
- uFtLofidMKA2pEMD3vT/n7bwytNREbGOn0RFEIq3B7dByP61OcwpuLh29ul3a4ImhhNZ
- LVk34Tfldti/oYZL6FfqLcke4/MYWdqvPx09xVxoskMD9JOijINtR8xWwdsDAaFlkZxO
- XgPiMQbHWcnD45kwEZtwCGD0qh12RGizNpbCuWGdwKf33H77ZhUSeHm9AdMBr/JmRxQq
- OztAUPx9WevRgbilIRqPjjtdzzto5MyT4DNsnVqYBFDlWOjczQ4RYi7ReqjErd6panAD Jg== 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2173.outbound.protection.outlook.com [104.47.55.173])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mh4r99b74-1
+ bh=p4PqmM8VRzaiQongGzltUo2mhDuqdEHEEZ/RVds/fAE=;
+ b=jZpv1XxZCHUIExjN23f/LrEVmjujKWH+1E2kDSlKx68ywZSI6qg/Z0N9k35VRljraaN8
+ 7yY6Zk0+iN/KUCf3PPkb59l/mPTCPeenaW5xzzzjboNFRn75cqdHVUfLxLmACqHAD8oK
+ 4kMXERrBwjj+QzyNg9uLiLpS+9pODRV9DHTlzYNuwgp0i17VvL9JSKy+mf276EQFxHwv
+ ElaRIGtR7vgPrPu+rR/abqNH60YGG/rIb1aaopk9I5PDjnVdP/Txcx/R9pBsFIexcAXS
+ LNJDP3oocMOAMk2Z+4s5vHlJqjhF5DMLjfC7PPXQoJ3mF5sU4+mdj79hazOBKLcivA9x wA== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mhe5q937h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 10:20:49 +0000
+ Mon, 19 Dec 2022 02:20:52 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KsEJyStlrv9Y1+hoBc+e21txdlDAxwTCoEmda/2bEhTc5W0/gl8yyhJ2IpHuV2FzG5oC8E0Sd67P+SV4xXKJXlmyOlDhh3IxFiWBWYaKIxr2oeqpUYw0DlsebRbxq1XbeNHyR/nml0vn1PibKfjWS7ap4LaXgnO6ka8nUvU8EeaMdB/ZojodNFh10HGnZutk/JMZ48abZ9ywvT7i7gwVdFxbFeXgvlCpO44A2QZpAppt27d7BAFj6C+0liClNJbjIYn8l6m91n8U005mJx3+XtfDb23/UyJlG8o1SMKG+kIu4g4iLWOzi8754KPKJ3GN35gSLGhx/E7Rf4IHP+Y87A==
+ b=KdCaArnrN4YxkCHqTeZxyYZnvv/XlV/ec7lHPjJbaTuX+mOgab6xpT9yAFJwSTyGONwXFYpvCfWkQsMBpkg0H0zInBsC2+6Pqh9mTruyCptGwxSEoIIsIzEFkVIFuRT25cKNyj/2cl10KmC7sdeK4+iLMed1ApXqZTxAZWy1S+vvtvskW57phPG45WkTN8ek6gG4B9ywnre1g8r7mpD1W5q/KqJiBREhkfVeaeUFzYd5RdntjHxvPD/SXRNMgNSLYHI3PkijqJ6HIwPn+AGX53J/ola/v4uWqgH6YSFyRoFPplRNf9Z2sZOPold5Gvy56rj8HP9OfMaDZXvH2IwSbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iwQ0R/yWlmKEf7imNX6mBrEsuYMI1SqX+GjLYpCPnWQ=;
- b=iLSATNI0Q0sTwJ7g6CpwrznCK4FyEHnU2YS/j+8pQ0mwx0UtuixhnBZ6MRYicA+j2lmcwGt8ujfuhpvzJIP+Qk6B57AuJGDmkKWHj+1BgwFR7eDqmQ2mJro1qJ8KI81+NpzQFxYm8Il6e3z30xIYCaKrRGt11olVVvWdGv2wKOSvcJLmcbEp827yJzleAcKInfMqFD47Mtm5YQi9RPo+ugHAEk8MqkSaV06gMlImpRc2YxyaG01ylQFqzvpMw3L4rTGhtibx21SKoh3emg1P1UAKQNye1gT0NYqAxvUN9rmBkZQdRvtNsAPadaiqxziknTfagjCBA5QvLHf9Cl5YmA==
+ bh=p4PqmM8VRzaiQongGzltUo2mhDuqdEHEEZ/RVds/fAE=;
+ b=Pyxd0N0GWV8x8oiobNxd/staMn5rHUiyeq0u6EQPU9gePfJJa8OhgNexPNeTWkmo354ucur+XytMNOKLfLY7Lp7iycaxt2ZBZ7BUbKXA2fvkU39nTq/ud12oZX6aS2sS3DctpCD3SMzzwmoTFu9zOZ6GHSnRNC/cTJk5ZGZjkeaioQL35VUgNcf4UT8Kt+rrK3qsTCEJNAa4OlO5MFvQ+Ytc7BwtQVe0A7uj8DWD00lqqZ63yI+w3Fm9kdkvQkUsHteFgXpYzOjOr6JPqq1r4n75Qzd8H6ZDNO4DByOPBkwvLFkjug96pziMB/1gM32a54LiUVAPt8BLMQQXQLvYgw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,18 +52,18 @@ Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
  DM6PR11MB4691.namprd11.prod.outlook.com (2603:10b6:5:2a6::21) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5924.16; Mon, 19 Dec 2022 10:20:48 +0000
+ 15.20.5924.16; Mon, 19 Dec 2022 10:20:50 +0000
 Received: from DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::8e5e:71da:1e29:bc15]) by DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::8e5e:71da:1e29:bc15%5]) with mapi id 15.20.5880.019; Mon, 19 Dec 2022
- 10:20:48 +0000
+ 10:20:50 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v3 02/17] hw/9pfs: Drop unnecessary *xattr wrapper API
- declarations
-Date: Mon, 19 Dec 2022 18:20:06 +0800
-Message-Id: <20221219102022.2167736-3-bin.meng@windriver.com>
+Subject: [PATCH v3 03/17] hw/9pfs: Replace the direct call to xxxat() APIs
+ with a wrapper
+Date: Mon, 19 Dec 2022 18:20:07 +0800
+Message-Id: <20221219102022.2167736-4-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221219102022.2167736-1-bin.meng@windriver.com>
 References: <20221219102022.2167736-1-bin.meng@windriver.com>
@@ -75,68 +75,68 @@ X-ClientProxiedBy: SL2P216CA0158.KORP216.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|DM6PR11MB4691:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3a42f6a9-569e-4933-4d32-08dae1aab2ab
+X-MS-Office365-Filtering-Correlation-Id: 37dc777e-8aeb-40ed-5b1f-08dae1aab3d0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8JmU3Yhuc3SnUPSRH889DBWzRDne/SDnOKpDj7UZNu4khbClrCNlRJK0/taWdiSJ6UBA7Mxwz8tWKUzibuAUSS38mWh12d740r1uetyTzS+jgKmZDsoV6fvc9UuJIIaBl0jbORUuz1wsD5RCs+DvvMSiMpmNZxOdehVRa/QF6znmccxN1hSv5JKnUnfElommoj3cuHIsOFI7BIEyez+NMrvBK4zE25Go1FqnseXwJAnkvfd5TM0n+9JgFE0CGg1f8ILycnW9YT3JJ33k/wv7xogTRiH48kQMMoFBTi4A6rY8dITikS00oYN2g7zsNRVrZjCzg/H0rt4Z23AEQiHih20AUAhxH/fW6khLfbNdxnO0Hk/I/qQVtL4qfCUJhUlSYLKsmFbR45qYeaOGxIeCtgp0sdf0kFzRRQKUo/jnks8f2rzZdfHuoeAOsofriqv3CBm//ca4YCGtikIEyOWVuLIpQwKduhl1cgzS6uS9fS8FwlS5q3Jg08zMnnzQ+ItoHSICcwEjTqAiZgVGhDFxC98dRy3n0g5sNfDfSjkrnUnF9YLD/HW31JbDr20xttJFqqOXWKMMh7bbAU/k+znpPqU0C+FP8P5zE066wZHg5vv5QJtyEXhJyp5gNqpAN/QGWTY8i7ROdksu8c4sfa7QXlhufeu2vuFdxpn2SxQ5qwzxrkkREdevOOoxiefAPgGkhxMM5hLAnO+FDzw9QGp/Bw==
+X-Microsoft-Antispam-Message-Info: g9PqJp47/6BueysOj8aJlXHJOPC44U7YJSPajZ1sdiW4KjGewplR1MK7A8Fy8W3Ia9gQdOBxnPaTEB1pDcp65LLtULJZR62/qSbEC6BuaUOpigucgUHZMpcFIo55/yOtdZE56EejE92zZtCF5QEaLPuD0mMRmcVFekqWGSPBkowSySsRsd88Rg/hwL+F67t2ZEYghsyzQyuV4c5Jo4Hn8LxgRdcZxxNputFies6R+tf9ei4iX+li0JecTisAbSQeTq6TwMHxKfnj/u8z8lIT84mwwmN5llKUM3geRpwSi0S2MTAbreWmDLv0P1m/VgW4t4vqwQzwasQJ1nnE8OKigdHsFwbth2V2Jr1cq0hppYi0VSimUoRsqBcbeCvd1zOFpiQXyK1JwAS9k4BEtvCOUS3XC5I51F56ik1CmpJ1kKUVNwwpGVzLyCg2pDB/lrgEwFaZXhRXYRmuiUJahOJnL0fTBydFhkf/aTtSIQEh+pRr1g4hV12lU12SsnDub0ZY1993YkUCr9zTGqlYvUrnrHbMNjfDvjjBtFnDYYGy/nyVn+qLSMNxzSRh06cPjj/LpACwcIWV7QPvvoDR9Ke5g19jjbL0Ht/7YE3MecnMjp3lxka/BW8YzQ6fEtSUUqM2LAkIS5EkxlrEIJVQIUaOogkPuvDs8cucXFUxQEu2o1mUSWDQj6I7OY34zc9arc6SrcLp7E7xmN6IPXZ6fEEw9w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(4636009)(39840400004)(136003)(376002)(346002)(366004)(396003)(451199015)(5660300002)(6666004)(8936002)(83380400001)(186003)(26005)(6512007)(44832011)(2906002)(41300700001)(36756003)(6486002)(110136005)(1076003)(38350700002)(52116002)(316002)(478600001)(38100700002)(8676002)(66476007)(2616005)(6506007)(66946007)(66556008)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5bITlT081/nzDiNbEcDb4IaAh8po2SqAGCjEfLtcg8GLTeXnZN9G6xgnSBY9?=
- =?us-ascii?Q?OKe/CkAKY3jLhwW03Fk+KH1+vqgyT4o3yxrT0ptoJMbx4ENmMqsQlMIdchdY?=
- =?us-ascii?Q?bvViJVbikZ6eYpCTKgQid19bFJPLWnmwORI/5YReltxgMzlXfcbz0e7gx33W?=
- =?us-ascii?Q?aVi9NJHtb7X278tCYFYkF/u9uu9U8c+VE6RSGKr08MMcI0SHvctq5SKD1doI?=
- =?us-ascii?Q?RdU8qsM92rA1IwCswDyRs784xvoz5rHJ9fiMm5o+pwxBVWrRp9abpf654GO2?=
- =?us-ascii?Q?mu6z00uuforUxzU1onvqkJqHCRo1YgL4xrVVw8y2Eme9lGv2CpPtUt3+8usE?=
- =?us-ascii?Q?JiaYLggQ5hQIiaKjmwLoectMGwjP439yrxJJqpYhtK34JWyuRT4MfXMGS7+l?=
- =?us-ascii?Q?/yNACk5XCj4ZkORKLoDkB2gsoGbRshDTQH8+/Z66WMyniBgy+RJR9QIutOI9?=
- =?us-ascii?Q?FhgiTD4weqRgfFehxI1omAY4Qcu71aI0my7o/nlWncr+PQ+QJqefNcGo2WiN?=
- =?us-ascii?Q?K5FZBamXJ+DV9xH0PWQjvPFNo/4Sz98nNNjMhaDNUyeKbA5n1cr2b6ju8AEM?=
- =?us-ascii?Q?UcV9Pth8L3WULP+iDSyucmhJGqY3+GeU8BtFM1HXTL+AMr5dB41I2jP/laxu?=
- =?us-ascii?Q?Par0QCIymCI6CLoD4T1WccjmPRB13kvg30TxkTw8jqM9tH2HGrdt2Gd3l+pO?=
- =?us-ascii?Q?KB0BIVIg/WQDRzKT9Q4HpSU8I2+mwc/S0toBLxrEg7jP2oiotFvdHCJXkqee?=
- =?us-ascii?Q?q8miQdZdYoXkyA0MffyUFp9TO2qCllYsRHmzkNbE/QUSlDmoonJIWXg8va0B?=
- =?us-ascii?Q?tGkdnSOSV/RPXzZFwC3yC8RaJb4JDg61y7OUitxB79y0g/XeBuex8mYY6U07?=
- =?us-ascii?Q?mV4J7rVHzHhkcokvSUk56BsjuBE5kN90tBukBq/ZmBCj8rpUHqdq18GQyNNa?=
- =?us-ascii?Q?hmApsWhWGO50BMFO+qZk2qecte/WtCnzrZGh19UcK0Yk1nZpNQJh9bWjtSdM?=
- =?us-ascii?Q?HKTcn6EF5tfmh71Z0uXIqu9FdbfXq5Dw3MHYw2daiEXQq7s1mbQEOnsybi0a?=
- =?us-ascii?Q?WdZypGrYwd91qoA6oH7TC1TLlhJaKgcw0NuCUU2NIibF0M7wTUUEVdq0Nyct?=
- =?us-ascii?Q?7SK+0K+fnrBxdgOqf7Cw9yAet+mUubJgEWreKAtVW+TYruOFXIn8+CoUC+Y3?=
- =?us-ascii?Q?u8Y88YM/dCWUPEo94H2JFL5xcuO1rFWs/7oYQgjKVctTGRGwKbgZ/ZKRyRhs?=
- =?us-ascii?Q?7ONQcihkPfL1Ii/cVLEaw6aQOEczo0yrFYUrbye/hMM476gUz5v4X2328zKP?=
- =?us-ascii?Q?an9r/lgf7+78rdP6xAGnMGZNfogI5uqs8sCAlqPIKASH/cF3wGZLfkQp2O1P?=
- =?us-ascii?Q?GVXOl1gnmZHhdMIL0Fabpyhe+C/D8+MJ35fGzQUgPAZ7noSTssKxNGRhRax1?=
- =?us-ascii?Q?t+qeelrTecKzYUDaj9DxS51VPJC1GZfGv7TBj9Hbm+kuWIWPKctdzmsLeAty?=
- =?us-ascii?Q?vBGUrtOM257/YjVBY5cjV5nIn93P/9Zy5VRWZCLf4+QRUYBRA+csZ41TbfiA?=
- =?us-ascii?Q?jp+rqcabyHR/ZpUNXOerNrbTdgU9KYBZrR2j7Nu4aIxJG8hTichmb8TvCwuq?=
- =?us-ascii?Q?uQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?n5y3md2XXIGCpuMRCWbnDQvS8eAMrtFSyTzXvGEX21K+ZEhIw8oKsM2ZX4+q?=
+ =?us-ascii?Q?tGy/kzQT7hsEwLzxLsJ+kzlQrR71vzXZooZMMW/c+pePnRIKyEz1uNUL4dS2?=
+ =?us-ascii?Q?eSFyP7AXQotxNTRxG6HvIBrauDEm2n1XjUc19eqNZZXkN8EJcoa8tSZkpVI/?=
+ =?us-ascii?Q?4fLs6byp7vraFYROkhtPOby1R8fnkY6/nRy//mta+2VYz/5wOSKXYj6bwJl4?=
+ =?us-ascii?Q?SqgR2/qMmZN2m1FWkB+epXytmoRleiIj/FgJfzARnw/4McxAmHlRE3oWicN5?=
+ =?us-ascii?Q?+UM49hcRHnx8XHXLzdv4vRjdTGj9B/wmXTC4LywBtvKabgRdPgIcb+TJM7Tf?=
+ =?us-ascii?Q?1gd8yorftnPBFRSmjDnENQMB5rvdn+++DhNEO+KNnuB0zi/b3k7kPK1PCcYk?=
+ =?us-ascii?Q?UeQmSn6fUgVuXVbh/gxEbQxW/oJBVPQp3hHPYe6FhpHJMHCvTE132z+KqYkZ?=
+ =?us-ascii?Q?Rh5L46OsqO8vhXo2cXGcJEWbMmnqsPeAstg+U5wHDr/FTmyUtuMLpBkVIvwT?=
+ =?us-ascii?Q?d1oJYo6VNu/Yot4x3xwo1rXq8XgcA82+Sst/YlW2CnjPhzVR9CspcZVlp6+T?=
+ =?us-ascii?Q?wsyN0XqDv+lJZOBPjUurWLp/AFOjKzxgD9HlhbMLVxpD3pRn2W82Ne3gc0WR?=
+ =?us-ascii?Q?PIBvlC4FJXTPnWomgv1VnwzlHtS/tl4TItmTOTvVt/vWZZ2fpXgMqqsScrlW?=
+ =?us-ascii?Q?XYqAABbFLTTZjpy7Vm4u6MdsqKez5Oi988LNCS94s1u5iNkKQ8reCfg9qlkm?=
+ =?us-ascii?Q?89K8/Di79bgZo2G8fAyXidq00chSmWqtbJloVSCXiBOoTpSSknCQEaJ+TBWb?=
+ =?us-ascii?Q?UeJ7kXEXMiPcQHW5B9nzDfh27P12XmHyqadI43rraKoczl67i+GUveePzTh+?=
+ =?us-ascii?Q?csaB2YGfEM0CFtyKSfxO+CzMkRNJUJvRDcmuJi/3SU/IjyvfUIXe7O/7itXj?=
+ =?us-ascii?Q?nigti8W7eP81nHRrzL4+vf7U5q9G9EeTMPBDN7gjPJHxRWkZOkqJXARmWrnB?=
+ =?us-ascii?Q?KWSRF4vUo2DS6WicZ8qB5yIWKMAOWojzOLdsjjnWTA1fUDA9geb2zXpclwz6?=
+ =?us-ascii?Q?kWaF/ZGJivGCjdCRRSxTx2f1160tGNdKxvypDa4KEfCFv0OShCXOE+WEPa+a?=
+ =?us-ascii?Q?DB2viHyZekXzyNEEhPmplRzHH0Q8nkBbGFaWdxmMl9bG0n2kccMZPWk4tffa?=
+ =?us-ascii?Q?POpgC05pcI65blOp6qzcpbN2zF8LuAITfYOqNxT/D04ob1SlhhNy5MC7YXgq?=
+ =?us-ascii?Q?HBJT2wJaKH2sqpROEdjmAsyUzCf9EsgCpXfiLi1gE4n65994Hz1i9aMO+1/8?=
+ =?us-ascii?Q?Kcm86hKbNoCwcwg25gLJJ/uPt33WT85egXf2gmdsc5uDqpL5YxjYvEfRBKBB?=
+ =?us-ascii?Q?is+/lVCGdV1kWCF6aMmx/y82VO6h/61e1bkRK+Sg6pjZz23yhqaFEo8GCpVJ?=
+ =?us-ascii?Q?gfquCnZCeVwNWNoDbjG45rmhItgGZK7I+G1HlQb2ospJpLdFqy9x8ya6Rpd7?=
+ =?us-ascii?Q?A0FhedKLBn8G4orfzlZZtjvAd2SThP8/iilth2aMee3hLWHI6eE4Q7krdB4x?=
+ =?us-ascii?Q?wSSoYWITILHbIsCGr9FBio7ohIQicOuFV/6gN6eL2VyQuCOZC2gLZvMtmdVf?=
+ =?us-ascii?Q?xg=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a42f6a9-569e-4933-4d32-08dae1aab2ab
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37dc777e-8aeb-40ed-5b1f-08dae1aab3d0
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 10:20:48.7744 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 10:20:50.5375 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2/xZpgQ/Jzj2zZQKa2Me9kJHi76aXFenKoLzjR1qRYsbTerAcJhxlDyqRQeHJefGaYQQMtVAFKDMSDwb8+FAUg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: a588AQn5M4/cZ4tGFwxUYApz5mQ70XEyhLcUoy26tJ9F/ZubmaVr24wVI+KR/X8ui0RkM2iAbGigsaA+JHI1/g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4691
-X-Proofpoint-GUID: YhDuYg8R8nF0pitj2oKezhkd7qYjbLxd
-X-Proofpoint-ORIG-GUID: YhDuYg8R8nF0pitj2oKezhkd7qYjbLxd
+X-Proofpoint-ORIG-GUID: 5BcluoAdz8l8k4fsVuNdZwQZL5nAJkQk
+X-Proofpoint-GUID: 5BcluoAdz8l8k4fsVuNdZwQZL5nAJkQk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-18_13,2022-12-15_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- mlxlogscore=910 priorityscore=1501 clxscore=1015 phishscore=0
- lowpriorityscore=0 impostorscore=0 mlxscore=0 malwarescore=0
- suspectscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212190091
-Received-SPF: pass client-ip=205.220.178.238;
+ malwarescore=0
+ impostorscore=0 lowpriorityscore=0 mlxlogscore=747 phishscore=0 mlxscore=0
+ adultscore=0 spamscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212190092
+Received-SPF: pass client-ip=205.220.166.238;
  envelope-from=prvs=9352c01a6b=bin.meng@windriver.com;
- helo=mx0b-0064b401.pphosted.com
+ helo=mx0a-0064b401.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -159,41 +159,206 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These are not used anywhere in the source tree. Drop them.
+xxxat() APIs are only available on POSIX platforms. For future
+extension to Windows, let's replace the direct call to xxxat()
+APIs with a wrapper.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
 
 (no changes since v1)
 
- hw/9pfs/9p-util.h | 11 -----------
- 1 file changed, 11 deletions(-)
+ hw/9pfs/9p-util.h  | 15 +++++++++++----
+ hw/9pfs/9p-local.c | 32 ++++++++++++++++----------------
+ 2 files changed, 27 insertions(+), 20 deletions(-)
 
 diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index c3526144c9..ccfc8b1cb3 100644
+index ccfc8b1cb3..c314cf381d 100644
 --- a/hw/9pfs/9p-util.h
 +++ b/hw/9pfs/9p-util.h
-@@ -90,19 +90,8 @@ static inline int errno_to_dotl(int err) {
- 
- #ifdef CONFIG_DARWIN
- #define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
--#define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
--#define qemu_llistxattr(...) listxattr(__VA_ARGS__, XATTR_NOFOLLOW)
--#define qemu_lremovexattr(...) removexattr(__VA_ARGS__, XATTR_NOFOLLOW)
--static inline int qemu_lsetxattr(const char *path, const char *name,
--                                 const void *value, size_t size, int flags) {
--    return setxattr(path, name, value, size, 0, flags | XATTR_NOFOLLOW);
--}
- #else
+@@ -94,6 +94,13 @@ static inline int errno_to_dotl(int err) {
  #define qemu_fgetxattr fgetxattr
--#define qemu_lgetxattr lgetxattr
--#define qemu_llistxattr llistxattr
--#define qemu_lremovexattr lremovexattr
--#define qemu_lsetxattr lsetxattr
  #endif
  
++#define qemu_openat     openat
++#define qemu_fstatat    fstatat
++#define qemu_mkdirat    mkdirat
++#define qemu_renameat   renameat
++#define qemu_utimensat  utimensat
++#define qemu_unlinkat   unlinkat
++
  static inline void close_preserve_errno(int fd)
+ {
+     int serrno = errno;
+@@ -103,8 +110,8 @@ static inline void close_preserve_errno(int fd)
+ 
+ static inline int openat_dir(int dirfd, const char *name)
+ {
+-    return openat(dirfd, name,
+-                  O_DIRECTORY | O_RDONLY | O_NOFOLLOW | O_PATH_9P_UTIL);
++    return qemu_openat(dirfd, name,
++                       O_DIRECTORY | O_RDONLY | O_NOFOLLOW | O_PATH_9P_UTIL);
+ }
+ 
+ static inline int openat_file(int dirfd, const char *name, int flags,
+@@ -115,8 +122,8 @@ static inline int openat_file(int dirfd, const char *name, int flags,
+ #ifndef CONFIG_DARWIN
+ again:
+ #endif
+-    fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
+-                mode);
++    fd = qemu_openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
++                     mode);
+     if (fd == -1) {
+ #ifndef CONFIG_DARWIN
+         if (errno == EPERM && (flags & O_NOATIME)) {
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index d42ce6d8b8..d2246a3d7e 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -103,14 +103,14 @@ static void renameat_preserve_errno(int odirfd, const char *opath, int ndirfd,
+                                     const char *npath)
+ {
+     int serrno = errno;
+-    renameat(odirfd, opath, ndirfd, npath);
++    qemu_renameat(odirfd, opath, ndirfd, npath);
+     errno = serrno;
+ }
+ 
+ static void unlinkat_preserve_errno(int dirfd, const char *path, int flags)
+ {
+     int serrno = errno;
+-    unlinkat(dirfd, path, flags);
++    qemu_unlinkat(dirfd, path, flags);
+     errno = serrno;
+ }
+ 
+@@ -194,7 +194,7 @@ static int local_lstat(FsContext *fs_ctx, V9fsPath *fs_path, struct stat *stbuf)
+         goto out;
+     }
+ 
+-    err = fstatat(dirfd, name, stbuf, AT_SYMLINK_NOFOLLOW);
++    err = qemu_fstatat(dirfd, name, stbuf, AT_SYMLINK_NOFOLLOW);
+     if (err) {
+         goto err_out;
+     }
+@@ -253,7 +253,7 @@ static int local_set_mapped_file_attrat(int dirfd, const char *name,
+             }
+         }
+     } else {
+-        ret = mkdirat(dirfd, VIRTFS_META_DIR, 0700);
++        ret = qemu_mkdirat(dirfd, VIRTFS_META_DIR, 0700);
+         if (ret < 0 && errno != EEXIST) {
+             return -1;
+         }
+@@ -349,7 +349,7 @@ static int fchmodat_nofollow(int dirfd, const char *name, mode_t mode)
+      */
+ 
+      /* First, we clear non-racing symlinks out of the way. */
+-    if (fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW)) {
++    if (qemu_fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW)) {
+         return -1;
+     }
+     if (S_ISLNK(stbuf.st_mode)) {
+@@ -734,7 +734,7 @@ static int local_mkdir(FsContext *fs_ctx, V9fsPath *dir_path,
+ 
+     if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+         fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+-        err = mkdirat(dirfd, name, fs_ctx->dmode);
++        err = qemu_mkdirat(dirfd, name, fs_ctx->dmode);
+         if (err == -1) {
+             goto out;
+         }
+@@ -750,7 +750,7 @@ static int local_mkdir(FsContext *fs_ctx, V9fsPath *dir_path,
+         }
+     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+                fs_ctx->export_flags & V9FS_SM_NONE) {
+-        err = mkdirat(dirfd, name, credp->fc_mode);
++        err = qemu_mkdirat(dirfd, name, credp->fc_mode);
+         if (err == -1) {
+             goto out;
+         }
+@@ -990,7 +990,7 @@ static int local_link(FsContext *ctx, V9fsPath *oldpath,
+     if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+         int omap_dirfd, nmap_dirfd;
+ 
+-        ret = mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
++        ret = qemu_mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
+         if (ret < 0 && errno != EEXIST) {
+             goto err_undo_link;
+         }
+@@ -1085,7 +1085,7 @@ static int local_utimensat(FsContext *s, V9fsPath *fs_path,
+         goto out;
+     }
+ 
+-    ret = utimensat(dirfd, name, buf, AT_SYMLINK_NOFOLLOW);
++    ret = qemu_utimensat(dirfd, name, buf, AT_SYMLINK_NOFOLLOW);
+     close_preserve_errno(dirfd);
+ out:
+     g_free(dirpath);
+@@ -1116,7 +1116,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+             if (fd == -1) {
+                 return -1;
+             }
+-            ret = unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
++            ret = qemu_unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
+             close_preserve_errno(fd);
+             if (ret < 0 && errno != ENOENT) {
+                 return -1;
+@@ -1124,7 +1124,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+         }
+         map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
+         if (map_dirfd != -1) {
+-            ret = unlinkat(map_dirfd, name, 0);
++            ret = qemu_unlinkat(map_dirfd, name, 0);
+             close_preserve_errno(map_dirfd);
+             if (ret < 0 && errno != ENOENT) {
+                 return -1;
+@@ -1134,7 +1134,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
+         }
+     }
+ 
+-    return unlinkat(dirfd, name, flags);
++    return qemu_unlinkat(dirfd, name, flags);
+ }
+ 
+ static int local_remove(FsContext *ctx, const char *path)
+@@ -1151,7 +1151,7 @@ static int local_remove(FsContext *ctx, const char *path)
+         goto out;
+     }
+ 
+-    if (fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW) < 0) {
++    if (qemu_fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW) < 0) {
+         goto err_out;
+     }
+ 
+@@ -1296,7 +1296,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
+         return -1;
+     }
+ 
+-    ret = renameat(odirfd, old_name, ndirfd, new_name);
++    ret = qemu_renameat(odirfd, old_name, ndirfd, new_name);
+     if (ret < 0) {
+         goto out;
+     }
+@@ -1304,7 +1304,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
+     if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+         int omap_dirfd, nmap_dirfd;
+ 
+-        ret = mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
++        ret = qemu_mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
+         if (ret < 0 && errno != EEXIST) {
+             goto err_undo_rename;
+         }
+@@ -1321,7 +1321,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
+         }
+ 
+         /* rename the .virtfs_metadata files */
+-        ret = renameat(omap_dirfd, old_name, nmap_dirfd, new_name);
++        ret = qemu_renameat(omap_dirfd, old_name, nmap_dirfd, new_name);
+         close_preserve_errno(nmap_dirfd);
+         close_preserve_errno(omap_dirfd);
+         if (ret < 0 && errno != ENOENT) {
 -- 
 2.25.1
 
