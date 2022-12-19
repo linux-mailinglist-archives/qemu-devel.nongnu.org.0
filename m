@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5078F65158E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 23:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E4B6516AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 00:21:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Odi-00089J-48; Mon, 19 Dec 2022 17:29:42 -0500
+	id 1p7PQG-00022D-3I; Mon, 19 Dec 2022 18:19:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p7Odg-00088n-B0
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 17:29:40 -0500
-Received: from mout.gmx.net ([212.227.17.21])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p7Ode-0007E3-IL
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 17:29:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1671488976; bh=U8DC5Fd6BpgVxj/XU1DU03+aQGVtmjh4bK8voYGFtfk=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=HElbOQ4uk9vXA1TZanJPY/FZuoi9KhOb8wfzcBvrr9eYCanFImPB6sqHisfw/N/CV
- 5mQRRu+PHK2N3vbtuWEKBd0amNOk5n7gYD1PyeQNsDuQcukvmBhPdru2xQyfizmRd4
- jJbINVToWyjwVt8iMBRBpggKEtZtGcaiVHjUZxe/LxIFhlr7YnDgG369gTjPGbFHID
- VhVZhICtPjlB54ELbOooOEuPT2IT1wFpDr1VfehSsPJkZLqXt+xP6+rytZf12yYif5
- JlakDakqRxZzsfGSbis/IbLTJDMnpYOW1QHaY2TBYxYZeWsJleFtdrAxYCK+oM0pD0
- p5OW/Xk8UFQZA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from p100.fritz.box ([92.116.151.196]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MXp9Y-1pNoVA1I9E-00Y6Ae; Mon, 19
- Dec 2022 23:29:36 +0100
-From: Helge Deller <deller@gmx.de>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Helge Deller <deller@gmx.de>
-Subject: [PULL 2/2] target/hppa: Fix fid instruction emulation
-Date: Mon, 19 Dec 2022 23:29:35 +0100
-Message-Id: <20221219222935.284704-3-deller@gmx.de>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221219222935.284704-1-deller@gmx.de>
-References: <20221219222935.284704-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7PQD-00021q-Im
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 18:19:49 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7PQB-0006fw-W1
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 18:19:49 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id vv4so25344430ejc.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 15:19:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=c/uKYPqI2SCf5dRBR3n3le0vpeOxQ09bnZ8c0F94Vv0=;
+ b=t6BeFu32DUtMvSEzIgTCnHfiVX4UGkwW43u1rA+HHPmIg7mUvMaqSJ9fvHcqDZgmbX
+ MJnSnI3MLEl9zDThBUcYy/frOIJpVGa8OHwti4VTWXWSV/oJtqbT7CK62W9xuKAh5r0K
+ zN+Z65rj5GuiNmTyWzm+saOr6HEcioHKxF4jOy5O/Qnqkc+hM5zaGLc2pgeswlM3roc+
+ /g6wbGlNqP4IENrz8wHvprpqd+OX87b5FmYUl2KQqURiqq1cc33wPPIdGIvlHD3NFq4x
+ 67aRg0ZPi1FLrWlD2w41fXbUQEQ+GHhBxHioACLD8LhwZSTHInRtiAlPfp121ceV/S15
+ H2Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=c/uKYPqI2SCf5dRBR3n3le0vpeOxQ09bnZ8c0F94Vv0=;
+ b=EllERMrvL9ukNdZbim9+6LCEygdCriR7Ru0xisWu1eJJIktDBX6CnU3kHSgeYXrtly
+ ObKcdpw+n0Cxd7IKNtnVxX7MSU9J2Y7nXxjMsTz4t/IlSbidbvumF2Pc3xhe8YSHgWLZ
+ 5U5pwcYbkt55qMh8ztcZh+iihur6mQQzMdsG5aJ473enp613IvMwY8ql78rcR13NG850
+ PgJLnwRikSyXGpXveW2nHHiMibWN2jAZDrujkyX5qcm/ZUogyHbCzg9CqnqHjbBvOzu3
+ fdVpLhEaQGOeJjMXpoDdc1I6KGn3P2Z4cJBUMR1XYmd48L9wZwgqhfRu7ORt9Bu1GVjY
+ M4IQ==
+X-Gm-Message-State: AFqh2kq9vusamXJBfnliEixpCPZmVLs514kebjh/S8Hkx0LDMRSVl6h+
+ VEfi57FB6/MRQpbhujNjJDU7bg==
+X-Google-Smtp-Source: AMrXdXttDMrs0QocAvpWQkGgJWOTN5AhzRJbpIrJ9vtw3EKRkeUiei1iJzrFCdYRpnbAKYnXkUK8JQ==
+X-Received: by 2002:a17:906:ecf7:b0:7c4:f6e4:3e92 with SMTP id
+ qt23-20020a170906ecf700b007c4f6e43e92mr134366ejb.31.1671491985178; 
+ Mon, 19 Dec 2022 15:19:45 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ mh11-20020a170906eb8b00b007ad69e9d34dsm4932588ejb.54.2022.12.19.15.19.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Dec 2022 15:19:44 -0800 (PST)
+Message-ID: <efcdbcb2-87c3-870f-5462-fad7a276de7a@linaro.org>
+Date: Tue, 20 Dec 2022 00:19:42 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:p20dXiVCopYrwaoFqtQEiUhlayW+0jXae5n3de9QVr70o7X2ybB
- AxiIsRmdKtm+GDSjvCMm8xaURYQnLZ7yxj7rLMYiIo74xHZ5q1Jg55AxUYt8fMk+DwWVkJs
- N6AMhcsGLdpMgtRSucy2sdzRgkCC+cga8qaBbjSfHcFACchbW3xMjOo3B0a1mvOnuIufYi4
- ZzP2JvNolEBkJh0gmMo5A==
-UI-OutboundReport: notjunk:1;M01:P0:ZQVw3/5UfHQ=;sIp1jtXqcO/hB8f+z1FK11YjzOK
- 79es0Vpj6OYh8dsYwC4vZ7xZNnB3TXMqStsKS0v/uPC6/q0ijD7gfdb5uT9NvGpXx+l3UUH6F
- MCUI2V1MNlvPn4fSKpgbcypqGMrTmJtysL0VM9+meocuf59ZnRk34DhMwufjH9yCcJZ40bKEx
- kpNsrOqepFnEskH449y9IOR0mA55bHYz8hiiG3N3nVXhNKCBFQKgpMG5hS8GPFpofLue6ByLr
- 85nymi4auWeh9tZpzG2QrgBooWZ1xXAMF0qvpNP5ZTpRR452SyNRuxLpls+rVefHYdw7eB6jX
- e1LmrQoZXn9cLVg1tRyxj2qFfv4Cmkz0PIRptk6mFnlT07ZI6Vvp4DPXj5nSVxMw3hp2U+GGR
- sOKfonXYcNN/XPSMaUMofc1mxfYGl0rSKDnvBjvqd/ADDLcYlAJ+oHpr+H4kBA55YTcGEotmn
- QnX7HoaVhqzKtmqudh8Qo73zPsGGV4GnvX+bgQc8OG+d3qqqOr0zkPedYTouri49GJCXt6kiH
- ClbRV5mrlHn3Lah5vUjq4tBvAtTKadqzwNKmXODzPLa7BfyioTAtjLgBuPLjqv8sBKcpk9F3L
- t65CHB0HSWgTLIMDVqsvq42H/n9f3e2SK6BuQDicX8AGdvsfSEybA8nYfsxdUFyBOId12awoI
- UWIxRJpCwBgioydjkUYwJgaG4bLSJxrNABaQnYBxmwOFj2PguDrgeVKH8JJdzjD48pJvlm7T5
- 29vplHQloI7ZQ4CNbZQTa4h6v+GJRyEAnBEUsxDKg0ukva1gsFF0dcE9Fprkj5bplH4RkYiSN
- chUtR5Pj/J7Eo8ubC46mOhD+8uqDXI+45i/mn17xme/0DcGxpOs5ztBOnXBgGZ2HFt+IFEeVF
- Tm1LhXO02vZw3W3CoL65mnNGT5UNvwYdAmZj2Kxg93CtyIMWQQg6lNH9dDUSFDp0wsO47R8Oz
- CSVQ3g==
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PULL 00/21] Hexagon update: bug fixes, performance, idef-parser
+Content-Language: en-US
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org,
+ Alessandro Di Federico <ale@rev.ng>, Paolo Montesel <babush@rev.ng>,
+ Anton Johansson <anjo@rev.ng>
+Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
+ bcain@quicinc.com, quic_mathbern@quicinc.com, stefanha@redhat.com
+References: <20221216204845.19290-1-tsimpson@quicinc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221216204845.19290-1-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,61 +93,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The fid instruction (Floating-Point Identify) puts the FPU model and
-revision into the Status Register. Since those values shouldn't be 0,
-store values there which a PCX-L2 (for 32-bit) or a PCX-W2 (for 64-bit)
-would return. Noticed while trying to install MPE/iX.
+Hi,
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-=2D--
- target/hppa/insns.decode |  5 +----
- target/hppa/translate.c  | 11 +++++++++++
- 2 files changed, 12 insertions(+), 4 deletions(-)
+On 16/12/22 21:48, Taylor Simpson wrote:
 
-diff --git a/target/hppa/insns.decode b/target/hppa/insns.decode
-index c7a7e997f9..27341d27b2 100644
-=2D-- a/target/hppa/insns.decode
-+++ b/target/hppa/insns.decode
-@@ -388,10 +388,7 @@ fmpyfadd_d      101110 rm1:5 rm2:5 ... 0 1 ..0 0 0 ne=
-g:1 t:5    ra3=3D%rc32
+> ----------------------------------------------------------------
 
- # Floating point class 0
+> 12-21)
+> Instruction definition parser (idef-parser) from rev.ng
+> Parses the instruction semantics and generates TCG
 
--# FID.  With r =3D t =3D 0, which via fcpy puts 0 into fr0.
--# This is machine/revision =3D 0, which is reserved for simulator.
--fcpy_f          001100 00000 00000 00000 000000 00000   \
--                &fclass01 r=3D0 t=3D0
-+fid_f           001100 00000 00000 000 00 000000 00000
+Building QEMU with Clang I'm now getting:
 
- fcpy_f          001100 ..... ..... 010 00 ...... .....  @f0c_0
- fabs_f          001100 ..... ..... 011 00 ...... .....  @f0c_0
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index d15b9e27c7..981f8ee03d 100644
-=2D-- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -3622,6 +3622,17 @@ static void gen_fcpy_f(TCGv_i32 dst, TCGv_env unuse=
-d, TCGv_i32 src)
-     tcg_gen_mov_i32(dst, src);
- }
+target/hexagon/idef-parser.p/idef-parser.tab.c:2197:9: error: variable 
+'yynerrs' set but not used [-Werror,-Wunused-but-set-variable]
+     int yynerrs = 0;
+         ^
 
-+static bool trans_fid_f(DisasContext *ctx, arg_fid_f *a)
-+{
-+    nullify_over(ctx);
-+#if TARGET_REGISTER_BITS =3D=3D 64
-+    save_frd(0, tcg_const_i64(0x13080000000000ULL)); /* PA8700 (PCX-W2) *=
-/
-+#else
-+    save_frd(0, tcg_const_i64(0x0f080000000000ULL)); /* PA7300LC (PCX-L2)=
- */
-+#endif
-+    return nullify_end(ctx);
-+}
-+
- static bool trans_fcpy_f(DisasContext *ctx, arg_fclass01 *a)
- {
-     return do_fop_wew(ctx, a->t, a->r, gen_fcpy_f);
-=2D-
-2.38.1
+Regards,
 
+Phil.
 
