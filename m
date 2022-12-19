@@ -2,88 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31ECB65063D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B846650658
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:24:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p75id-0008CM-0j; Sun, 18 Dec 2022 21:17:31 -0500
+	id 1p75id-0008Cm-NT; Sun, 18 Dec 2022 21:17:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75iY-0008Ag-FJ
+ id 1p75iY-0008Al-HN
  for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:26 -0500
 Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75iW-00013m-E9
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:25 -0500
+ id 1p75iW-00013w-TM
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1671416244; x=1702952244;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=R0UTDDb8qlNNbQTJDvqcP3kxtottUm1EerNxVeKk0so=;
- b=Pmd7sxl3JiSLyDPGYTXhMYTimVkn/IXy22lBFN88maqLebhndl+NmbNo
- mVgcbuUTUuqZGbwmmSgqnDz2+CwcuyB2MSS33G42LMvIzw46YoGZfh2ow
- CJuw2+zU4oiCZxa/MbBifNbSHANlEEoucZflClreNgHn8BT5cWbzZSJta
- /S5VqUt3X19TiDCUcST5/IKEG2dgCPIy4OqxZAed15cvqceuBHqPXNyx7
- WLMs1KFOGq9DmiJnfdT+K5EZ0jXNXya7maKRlvqqnghy06bTm7DTYIgbm
- Tl38tADxnYQkzAVcJWm58v0Tux4dGQAe659s6R2b+Jc6DBoJ/+jjeixC2 g==;
-X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199271"
+ bh=CA4KckVxC2yHEoq4Su2S93cY9ilRgoP8o3uZSJMhlOs=;
+ b=Y+P8A1R6loFkuwgluFYLspe5bbiJd6Xc5+xZupUUs/hd0GjDo8lL5eni
+ iEubvSrnIHIlk4wOtp49lRGoD/q5wb5pRTOplefsAuz8FASUNMl+2dTuo
+ temMScee0bSUpOoq3fmpr/lRfGxtr4+1vTaJ7cmeIr9jTrQcNnFWaw/DY
+ +xXsnbpTnc83411xQgH1k34PaxNBeuwEv79PQzbfpyHV7AZyhX+upFdh2
+ jl5iTIIAyoF/h4/z3Z/c7PykGM1CuMPT8P5yWElxg2ytCea+yC8GAEN8B
+ WrcQdqaI7Sx42EbvCrwCJD1Z16ZQYzBQaGVvRGJGs237lmCDtnwlL/Msx w==;
+X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199280"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:21 +0800
-IronPort-SDR: wknXpZ5H9p8SXbejzJJ1ibWlCZ1yfb+HSvUAK5ST0rfIfjJAPjBvcVEauTILD9+qaDpZX5I2BA
- w45zru8gLF6FB7/4Yb1zXGfiPlJ2vUDvGQG2M9DPZsKWxW2L7guYhEwJNApBme5iDeQQg2wOby
- vSOZCaBFrmUdJQEPzip9d2kQWwVPcbL5sAk6+IItWeF2rGiZ67f9bsQyoPnbRSQC3XnX6gV8Qd
- sLmPeGk6fIihgSrIDRXVzANO46W2Eyz5rAdeSgPPDR5vefPFw5p0F2MX+I6gls2n6uXattfaAf
- 5BE=
+ by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:23 +0800
+IronPort-SDR: aXCWQtB5DYbazHwkr3ewQhmQYwloKWHUOindeTycQ866u3QS3ALUUHZWPqTkaGrq6XldMGAzXj
+ nMY8ATupFph4RHt0MWbe2KOj8Ma0hVLtcs3HxgoATeB5H0gc7W7kW+eQY+KTW1BA/ULI+v+laP
+ MQ1MZ3Umio/O4OFuIMj7sOB8miw1FJ2lUQPB36Jp8+rEC0ab4XE4hG6s0i+vhS1vTRirYRQkFq
+ fITYB9+Asa500eK3LG69gSjvTXdlO44hpqVzQ/bCLj5izNWOf9tRZan72dJ6h2iE8o9yZyZt3T
+ geI=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 17:29:53 -0800
-IronPort-SDR: 1iIhUNKUijMZJLZLEsZ0MNHvDsZxwSTvgn3RaZQp+9Tm41uGQneccOqII7FFwTMsHMWiSqcdVr
- D+1JM3PwLgEnpn4N0mqOQgEYQEDcOWk7hZLVx2qudIPmZcsFPH/lW80jjK4HicIlOfP2w4In/y
- JlmIfSHgMTimqV7rPhf6L/cUv9zyImbunq+sAX0z5HH30fhpY55L97mCiQuxMbJopdrPAHQTHC
- vZd3oA5EBZlcGFhtCK+C1J1VD89MW3xWanLbzJwY4vE66J5L+m+u4oNTtMYqZvOOh1fm45wPL/
- yaI=
+ 18 Dec 2022 17:29:56 -0800
+IronPort-SDR: jToedMe9jfg62Lw6DWbZH4zX8KERCRAWdZ9+N/+hj7DYQjgyU3WaZU4ThZfV2DhIzZagrR0gIM
+ jHhViK5HZICoN/F9/0B6DbYka/tN00K+zuvP9anb6xA9HA2ySmrF0IUkxvBlNIje3iyKVwT76a
+ myEJkuR0+SGmnxjR8E6O3Ln+FeSwa6r7ogsLzxUpSZP+Gd2gjzbKEFIDuRJ+E2yCzXUoHhqyxF
+ JJPp4nrAgNJ7l27puPAYBToG/yYzAvh5i/2cVrm8eDGlpDEhfovuTpnj0hlbdDWOIVoLRhs4Fz
+ Qvk=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 18:17:21 -0800
+ 18 Dec 2022 18:17:23 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3J05ySMz1RvTr
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:20 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3J31Q0qz1Rwt8
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:23 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671416240; x=1674008241; bh=R0UTDDb8qlNNbQTJDv
- qcP3kxtottUm1EerNxVeKk0so=; b=beK9Z3a6yXA+TKAea/21lac2bMAbFNNbRO
- t35tk/0K6mHZgWOk3ekNQKny54H6JKSQlgF2NfGR0cxKzKDnDmjFydPgGQxCKP8H
- GpECRw8PNBJZlBHnPpL1LUzNgEyh98l6f0PC94OMnAfLRxcDozgPJqNCpxh58qz0
- wnE64FphgI4iN3A6KEehJx0VHymjOzXoSk+Pl9k6Gig/ZWowqY29xzzxcyqIxf+I
- CdMgzdFea5+289aMzAiOMVBzYz768Fw+an8Xr0QFZW9NT0cTw0nIFbQXxr1cLXGy
- RRNKvEXbIdBtw4ZO8RJq8k8WqrRldRPgADqGIKgT8X/Ig8p/KOPw==
+ :from; s=dkim; t=1671416242; x=1674008243; bh=CA4KckVxC2yHEoq4Su
+ 2S93cY9ilRgoP8o3uZSJMhlOs=; b=dmNSHIOhTtHVOcD4a/kEwLvgNGE68ddaXN
+ fxuipKXPa9ejvXQ3tLpwQRMSukQ80H01mmEEDn0xbaNHctOeKYCIcqAvWxO9GJBb
+ bWyjva63BcBVdhBSt0/BJQ2RGmU3OV2hrRQojEhiHB/yEGvpBSep8By4Q90m7ptk
+ ZpEf+eQ5SxW52wDZoWmbD1rucvF1uwtIYh1cugAecQUjFGtH5RmJsvYhOJBMIwaq
+ hBDcTpb1iMEbB0R3lrexHadnxej0+3vC4xBxyHMe/giG1/WOPyylyHgQDcK3Crvt
+ HWJq7HAdrVXYyYM4ZpmZxqaEfFLRD+vuLZgBDGg/bGsBNbDCJI+g==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id XqR75-9dbV8i for <qemu-devel@nongnu.org>;
- Sun, 18 Dec 2022 18:17:20 -0800 (PST)
+ port 10026) with ESMTP id gKkWB8GkCi8S for <qemu-devel@nongnu.org>;
+ Sun, 18 Dec 2022 18:17:22 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.4])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3Hy1LYjz1RvLy;
- Sun, 18 Dec 2022 18:17:17 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3J06s8bz1RvLy;
+ Sun, 18 Dec 2022 18:17:20 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 03/45] hw/ssi/ibex_spi: implement `FIELD32_1CLEAR` macro
-Date: Mon, 19 Dec 2022 12:16:21 +1000
-Message-Id: <20221219021703.20473-4-alistair.francis@opensource.wdc.com>
+Subject: [PULL 04/45] tcg/riscv: Fix range matched by TCG_CT_CONST_M12
+Date: Mon, 19 Dec 2022 12:16:22 +1000
+Message-Id: <20221219021703.20473-5-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
 References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
@@ -114,94 +115,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-use the `FIELD32_1CLEAR` macro to implement register
-`rw1c` functionality to `ibex_spi`.
+We were matching a signed 13-bit range, not a 12-bit range.
+Expand the commentary within the function and be explicit
+about all of the ranges.
 
-This change was tested by running the `SPI_HOST` from TockOS.
-
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221017054950.317584-3-wilfred.mallawa@opensource.wdc.com>
+Message-Id: <20221022095821.2441874-1-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/ssi/ibex_spi_host.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ tcg/riscv/tcg-target.c.inc | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
-index 57df462e3c..0a456cd1ed 100644
---- a/hw/ssi/ibex_spi_host.c
-+++ b/hw/ssi/ibex_spi_host.c
-@@ -342,7 +342,7 @@ static void ibex_spi_host_write(void *opaque, hwaddr =
-addr,
- {
-     IbexSPIHostState *s =3D opaque;
-     uint32_t val32 =3D val64;
--    uint32_t shift_mask =3D 0xff, status =3D 0, data =3D 0;
-+    uint32_t shift_mask =3D 0xff, status =3D 0;
-     uint8_t txqd_len;
-=20
-     trace_ibex_spi_host_write(addr, size, val64);
-@@ -355,12 +355,11 @@ static void ibex_spi_host_write(void *opaque, hwadd=
-r addr,
-     case IBEX_SPI_HOST_INTR_STATE:
-         /* rw1c status register */
-         if (FIELD_EX32(val32, INTR_STATE, ERROR)) {
--            data =3D FIELD_DP32(data, INTR_STATE, ERROR, 0);
-+            s->regs[addr] =3D FIELD32_1CLEAR(s->regs[addr], INTR_STATE, =
-ERROR);
-         }
-         if (FIELD_EX32(val32, INTR_STATE, SPI_EVENT)) {
--            data =3D FIELD_DP32(data, INTR_STATE, SPI_EVENT, 0);
-+            s->regs[addr] =3D FIELD32_1CLEAR(s->regs[addr], INTR_STATE, =
-SPI_EVENT);
-         }
--        s->regs[addr] =3D data;
-         break;
-     case IBEX_SPI_HOST_INTR_ENABLE:
-         s->regs[addr] =3D val32;
-@@ -505,27 +504,25 @@ static void ibex_spi_host_write(void *opaque, hwadd=
-r addr,
-      *  When an error occurs, the corresponding bit must be cleared
-      *  here before issuing any further commands
-      */
--        status =3D s->regs[addr];
-         /* rw1c status register */
-         if (FIELD_EX32(val32, ERROR_STATUS, CMDBUSY)) {
--            status =3D FIELD_DP32(status, ERROR_STATUS, CMDBUSY, 0);
-+            s->regs[addr] =3D FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS=
-, CMDBUSY);
-         }
-         if (FIELD_EX32(val32, ERROR_STATUS, OVERFLOW)) {
--            status =3D FIELD_DP32(status, ERROR_STATUS, OVERFLOW, 0);
-+            s->regs[addr] =3D FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS=
-, OVERFLOW);
-         }
-         if (FIELD_EX32(val32, ERROR_STATUS, UNDERFLOW)) {
--            status =3D FIELD_DP32(status, ERROR_STATUS, UNDERFLOW, 0);
-+            s->regs[addr] =3D FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS=
-, UNDERFLOW);
-         }
-         if (FIELD_EX32(val32, ERROR_STATUS, CMDINVAL)) {
--            status =3D FIELD_DP32(status, ERROR_STATUS, CMDINVAL, 0);
-+            s->regs[addr] =3D FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS=
-, CMDINVAL);
-         }
-         if (FIELD_EX32(val32, ERROR_STATUS, CSIDINVAL)) {
--            status =3D FIELD_DP32(status, ERROR_STATUS, CSIDINVAL, 0);
-+            s->regs[addr] =3D FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS=
-, CSIDINVAL);
-         }
-         if (FIELD_EX32(val32, ERROR_STATUS, ACCESSINVAL)) {
--            status =3D FIELD_DP32(status, ERROR_STATUS, ACCESSINVAL, 0);
-+            s->regs[addr] =3D FIELD32_1CLEAR(s->regs[addr], ERROR_STATUS=
-, ACCESSINVAL);
-         }
--        s->regs[addr] =3D status;
-         break;
-     case IBEX_SPI_HOST_EVENT_ENABLE:
-     /* Controls which classes of SPI events raise an interrupt. */
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index 81a83e45b1..191197853f 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -154,13 +154,26 @@ static bool tcg_target_const_match(int64_t val, TCG=
+Type type, int ct)
+     if ((ct & TCG_CT_CONST_ZERO) && val =3D=3D 0) {
+         return 1;
+     }
+-    if ((ct & TCG_CT_CONST_S12) && val =3D=3D sextreg(val, 0, 12)) {
++    /*
++     * Sign extended from 12 bits: [-0x800, 0x7ff].
++     * Used for most arithmetic, as this is the isa field.
++     */
++    if ((ct & TCG_CT_CONST_S12) && val >=3D -0x800 && val <=3D 0x7ff) {
+         return 1;
+     }
+-    if ((ct & TCG_CT_CONST_N12) && -val =3D=3D sextreg(-val, 0, 12)) {
++    /*
++     * Sign extended from 12 bits, negated: [-0x7ff, 0x800].
++     * Used for subtraction, where a constant must be handled by ADDI.
++     */
++    if ((ct & TCG_CT_CONST_N12) && val >=3D -0x7ff && val <=3D 0x800) {
+         return 1;
+     }
+-    if ((ct & TCG_CT_CONST_M12) && val >=3D -0xfff && val <=3D 0xfff) {
++    /*
++     * Sign extended from 12 bits, +/- matching: [-0x7ff, 0x7ff].
++     * Used by addsub2, which may need the negative operation,
++     * and requires the modified constant to be representable.
++     */
++    if ((ct & TCG_CT_CONST_M12) && val >=3D -0x7ff && val <=3D 0x7ff) {
+         return 1;
+     }
+     return 0;
 --=20
 2.38.1
 
