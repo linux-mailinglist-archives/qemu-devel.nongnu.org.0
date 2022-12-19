@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E4B6516AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 00:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58D56516BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 00:30:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7PQG-00022D-3I; Mon, 19 Dec 2022 18:19:52 -0500
+	id 1p7PZA-0003UM-C0; Mon, 19 Dec 2022 18:29:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7PQD-00021q-Im
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 18:19:49 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p7PZ8-0003Tt-PZ
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 18:29:02 -0500
+Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7PQB-0006fw-W1
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 18:19:49 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id vv4so25344430ejc.2
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 15:19:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=c/uKYPqI2SCf5dRBR3n3le0vpeOxQ09bnZ8c0F94Vv0=;
- b=t6BeFu32DUtMvSEzIgTCnHfiVX4UGkwW43u1rA+HHPmIg7mUvMaqSJ9fvHcqDZgmbX
- MJnSnI3MLEl9zDThBUcYy/frOIJpVGa8OHwti4VTWXWSV/oJtqbT7CK62W9xuKAh5r0K
- zN+Z65rj5GuiNmTyWzm+saOr6HEcioHKxF4jOy5O/Qnqkc+hM5zaGLc2pgeswlM3roc+
- /g6wbGlNqP4IENrz8wHvprpqd+OX87b5FmYUl2KQqURiqq1cc33wPPIdGIvlHD3NFq4x
- 67aRg0ZPi1FLrWlD2w41fXbUQEQ+GHhBxHioACLD8LhwZSTHInRtiAlPfp121ceV/S15
- H2Aw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p7PZ7-0008Ep-1B
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 18:29:02 -0500
+Received: by mail-ua1-x935.google.com with SMTP id c26so2469672uak.5
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 15:29:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=nGCiGMLxbGKBCDmxxrDcq/ltwnaM8FF8YVSsMfTBUUk=;
+ b=HHlm2aajkJb/tAcrn4IlSLX6OlK31OULX7jazIQ+7eHtlMb+8BJLnONhmqFy+6ex/E
+ oQz7hrBBd4Ff0u6czHusha/i4mqCJsOFLNn7K0RdUGX4tV7P5jAfCIXQhRdeXyFGUb/C
+ huk9tP16AFGJdz8ufUgASdSJ865YK3irlCvvcNbOOUmDZ90TZeU+SABJJUid7SSSU6eq
+ 7Irmn5nFk/djkuLykaARPAmFwZZGvGHdHKTUtFOjvtaIHHCYArCvrTarjgWQ6VDB7ykd
+ dH1vV2jqUzcgjjQ4m5z2/w+x/8jdgwOom+ZEBj6xciqRJneLakNIVZJdupm37+JbPEr1
+ Bpkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=c/uKYPqI2SCf5dRBR3n3le0vpeOxQ09bnZ8c0F94Vv0=;
- b=EllERMrvL9ukNdZbim9+6LCEygdCriR7Ru0xisWu1eJJIktDBX6CnU3kHSgeYXrtly
- ObKcdpw+n0Cxd7IKNtnVxX7MSU9J2Y7nXxjMsTz4t/IlSbidbvumF2Pc3xhe8YSHgWLZ
- 5U5pwcYbkt55qMh8ztcZh+iihur6mQQzMdsG5aJ473enp613IvMwY8ql78rcR13NG850
- PgJLnwRikSyXGpXveW2nHHiMibWN2jAZDrujkyX5qcm/ZUogyHbCzg9CqnqHjbBvOzu3
- fdVpLhEaQGOeJjMXpoDdc1I6KGn3P2Z4cJBUMR1XYmd48L9wZwgqhfRu7ORt9Bu1GVjY
- M4IQ==
-X-Gm-Message-State: AFqh2kq9vusamXJBfnliEixpCPZmVLs514kebjh/S8Hkx0LDMRSVl6h+
- VEfi57FB6/MRQpbhujNjJDU7bg==
-X-Google-Smtp-Source: AMrXdXttDMrs0QocAvpWQkGgJWOTN5AhzRJbpIrJ9vtw3EKRkeUiei1iJzrFCdYRpnbAKYnXkUK8JQ==
-X-Received: by 2002:a17:906:ecf7:b0:7c4:f6e4:3e92 with SMTP id
- qt23-20020a170906ecf700b007c4f6e43e92mr134366ejb.31.1671491985178; 
- Mon, 19 Dec 2022 15:19:45 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- mh11-20020a170906eb8b00b007ad69e9d34dsm4932588ejb.54.2022.12.19.15.19.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 15:19:44 -0800 (PST)
-Message-ID: <efcdbcb2-87c3-870f-5462-fad7a276de7a@linaro.org>
-Date: Tue, 20 Dec 2022 00:19:42 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nGCiGMLxbGKBCDmxxrDcq/ltwnaM8FF8YVSsMfTBUUk=;
+ b=rYXH2wygEa56o1NHdylxVupEJGsm4mzN1v/Gl2W2YQFURTEIqkAU5pkqwDzaNx7Ux3
+ 61XIxI3u0PV4n25Z4P+xiPJ99hPVpYhojuhPkfq5ysrQX2ytC3kdNEFfVwXZMrpvubZE
+ onU5HNbxyxc9tCecTKuZ14/NCCwH9h+o4nIk8+JcDRzn8crqmquBXoNRal/RsRfyW2M+
+ EGFK59fsyoZ8autOJER6t1CL6EryYPgf7PNdRgfH4nDVFHGZFPZsumHzjlAVPVf4Ql42
+ hk33Q3QCpdbkE1L3Qv1XN2+6FSPfsELkR667f38/9MCO0hdORIk0muZrRAf51wzIo0cK
+ BUuw==
+X-Gm-Message-State: ANoB5plvN9/QL8Smi7Gq7iWnwX37UCqYjdgiZj5JYZklrgU+f0+/nSYy
+ qqI0wSdhDczhMyLewGGz+13CgL04m44pX6Gjg5U=
+X-Google-Smtp-Source: AA0mqf7sfjgbwkwx0SociRudwumh+XbQwuiDj6UXdFtRXvwrKF2ftZrDEQMp7Y7Sa3iM/R3w5GiLxfzZCZgzUv5WBfk=
+X-Received: by 2002:ab0:6598:0:b0:419:2865:3ae7 with SMTP id
+ v24-20020ab06598000000b0041928653ae7mr30191213uam.70.1671492539898; Mon, 19
+ Dec 2022 15:28:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PULL 00/21] Hexagon update: bug fixes, performance, idef-parser
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org,
- Alessandro Di Federico <ale@rev.ng>, Paolo Montesel <babush@rev.ng>,
- Anton Johansson <anjo@rev.ng>
-Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
- bcain@quicinc.com, quic_mathbern@quicinc.com, stefanha@redhat.com
-References: <20221216204845.19290-1-tsimpson@quicinc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221216204845.19290-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
+ <CAFEAcA-yvQCGRURDBDLkgLgS2bxY-_Jat_2v-gDGde74eELRZg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-yvQCGRURDBDLkgLgS2bxY-_Jat_2v-gDGde74eELRZg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 20 Dec 2022 09:28:33 +1000
+Message-ID: <CAKmqyKPcS1-ByO0LCg_c9V0wv9WBeUWdwVXWGyecyNJx2izdyg@mail.gmail.com>
+Subject: Re: [PULL 00/45] riscv-to-apply queue
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x935.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,24 +85,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Tue, Dec 20, 2022 at 1:12 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 19 Dec 2022 at 02:29, Alistair Francis
+> <alistair.francis@opensource.wdc.com> wrote:
+> >
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > The following changes since commit 562d4af32ec2213061f844b3838223fd7711b56a:
+> >
+> >   Merge tag 'pull-loongarch-20221215' of https://gitlab.com/gaosong/qemu into staging (2022-12-18 13:53:29 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20221219-3
+> >
+> > for you to fetch changes up to e59b3c6ece6a1351aeca6b916cd9674e23d15e89:
+> >
+> >   hw/intc: sifive_plic: Fix the pending register range check (2022-12-19 10:42:14 +1000)
+> >
+> > ----------------------------------------------------------------
+> > First RISC-V PR for QEMU 8.0
+> >
+> > * Fix PMP propagation for tlb
+> > * Collection of bug fixes
+> > * Add the `FIELDx_1CLEAR()` macro
+> > * Bump the OpenTitan supported version
+> > * Add smstateen support
+> > * Support native debug icount trigger
+> > * Remove the redundant ipi-id property in the virt machine
+> > * Support cache-related PMU events in virtual mode
+> > * Add some missing PolarFire SoC io regions
+> > * Fix mret exception cause when no pmp rule is configured
+> > * Fix bug where disabling compressed instructions would crash QEMU
+> > * Add Zawrs ISA extension support
+> > * A range of code refactoring and cleanups
+>
+> Hi -- gpg says your key expired last week. What keyserver can I
+> download the updated key from, please ?
 
-On 16/12/22 21:48, Taylor Simpson wrote:
+Sorry about that.
 
-> ----------------------------------------------------------------
+You should be able to get a valid key from:
 
-> 12-21)
-> Instruction definition parser (idef-parser) from rev.ng
-> Parses the instruction semantics and generates TCG
+https://keys.openpgp.org/search?q=F6C4AC46D4934868D3B8CE8F21E10D29DF977054
 
-Building QEMU with Clang I'm now getting:
+Alistair
 
-target/hexagon/idef-parser.p/idef-parser.tab.c:2197:9: error: variable 
-'yynerrs' set but not used [-Werror,-Wunused-but-set-variable]
-     int yynerrs = 0;
-         ^
-
-Regards,
-
-Phil.
+>
+> thanks
+> -- PMM
 
