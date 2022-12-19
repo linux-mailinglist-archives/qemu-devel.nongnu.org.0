@@ -2,107 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3281A650D1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 15:17:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B46650D22
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 15:20:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7GxW-0005yB-TS; Mon, 19 Dec 2022 09:17:38 -0500
+	id 1p7Gzt-0006pd-CL; Mon, 19 Dec 2022 09:20:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p7GxU-0005y3-Im
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:17:36 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p7GxR-0006kY-TC
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:17:36 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BJED1jI017280
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 14:17:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : content-transfer-encoding : mime-version; s=pp1;
- bh=ahvBN1uBqNXeTT4sg54wz4oKUFub5iXoi7WQkO1egw8=;
- b=HPE8UIlrTZxB4hraRXMiD6Ml67iZMNpwnfV4/VCabi40fmr/U0AOEXaC56FggSrr+9Nz
- pDiKSGERAmq0BzvMsXEyY/SOSfbX61n6YR/cqS+ieu/Sk0c2lBXCgnzWELc2LK8XGtBW
- kC1n6AY4skPElNOjDQzUOO0vF9Us+lKyaNNDm6HVFKKZ58rMb0oWyD9Rp2sWbu0TVyc5
- OUEKp1uyM2Rcfq+MVbomnUOEmBK9/oj3XfHbTm7nSqfIx22M6CCeu0in00FVCxheTXKN
- hIIdSxQnVWLU/1Ybv15udL4uGW9V6g38mI0lN91JWSl2Qp3rrh3fY2mzaDfYg8GH2mmR fQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjsh7878v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 14:17:32 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BJEDMMi019407
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 14:17:32 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjsh7878g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 14:17:32 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJCHcfu010143;
- Mon, 19 Dec 2022 14:17:31 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
- by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3mh6yuntk1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 14:17:31 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BJEHUQD11928068
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Dec 2022 14:17:30 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 119437805E;
- Mon, 19 Dec 2022 15:39:17 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 480B77805C;
- Mon, 19 Dec 2022 15:39:16 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.163.33.74])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 19 Dec 2022 15:39:16 +0000 (GMT)
-Message-ID: <21dbb5fc3f859731f5928c33ec24ddcfd67a4a99.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 0/2] tpm: add mssim backend
-From: James Bottomley <jejb@linux.ibm.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: "Daniel P ." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-Date: Mon, 19 Dec 2022 09:17:28 -0500
-In-Reply-To: <61dbda4b-e32a-0f98-3990-27e8d9b904f4@linux.ibm.com>
-References: <20221219131344.18909-1-jejb@linux.ibm.com>
- <08142e4d-0210-627d-98ea-6f094979ebcc@linux.ibm.com>
- <a9f90a6d484e1de4e7a3f4d713631b2ada3c3379.camel@linux.ibm.com>
- <61dbda4b-e32a-0f98-3990-27e8d9b904f4@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: mhv5_6q0IiVo9GFrSCgR6zBSFYMZ5W71
-X-Proofpoint-ORIG-GUID: eokP3H41BC0HhQtARAPbXpnjBCLHOVDL
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1p7GzS-0006pA-UQ
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:19:40 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1p7GzP-0006yC-2N
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:19:38 -0500
+HMM_SOURCE_IP: 172.18.0.188:37310.1213041187
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.98.159 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id BCA772800AF;
+ Mon, 19 Dec 2022 22:19:23 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([171.223.98.159])
+ by app0023 with ESMTP id 43b6fb6fa2844227ab504fb2b386f141 for
+ shivam.kumar1@nutanix.com; Mon, 19 Dec 2022 22:19:26 CST
+X-Transaction-ID: 43b6fb6fa2844227ab504fb2b386f141
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 171.223.98.159
+X-MEDUSA-Status: 0
+Message-ID: <1e078dfc-a3a4-6968-ae80-8a03a8129a4f@chinatelecom.cn>
+Date: Mon, 19 Dec 2022 22:19:26 +0800
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-19_01,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 suspectscore=0 spamscore=0 mlxscore=0 clxscore=1015
- lowpriorityscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2212190125
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [RFC PATCH 0/1] QEMU: Dirty quota-based throttling of vcpus
+To: Shivam Kumar <shivam.kumar1@nutanix.com>, Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, david@redhat.com,
+ quintela@redhat.com, dgilbert@redhat.com, kvm@vger.kernel.org
+References: <20221120225458.144802-1-shivam.kumar1@nutanix.com>
+ <0cde1cb7-7fce-c443-760c-2bb244e813fe@nutanix.com> <Y49nAjrD0uxUp+Ll@x1n>
+ <8d245f68-e830-2566-2a33-b99f206c6773@chinatelecom.cn>
+ <53735f4b-a2fb-8fd3-3103-e96350867e40@nutanix.com>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <53735f4b-a2fb-8fd3-3103-e96350867e40@nutanix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.149,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,51 +67,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2022-12-19 at 09:15 -0500, Stefan Berger wrote:
-> 
-> 
-> On 12/19/22 08:55, James Bottomley wrote:
-> > On Mon, 2022-12-19 at 08:51 -0500, Stefan Berger wrote:
-> > > 
-> > > 
-> > > On 12/19/22 08:13, James Bottomley wrote:
-> > > > From: James Bottomley <James.Bottomley@HansenPartnership.com>
-> > > > 
-> > > > The requested feedback was to convert the tpmdev handler to
-> > > > being json based, which requires rethreading all the backends. 
-> > > > The good news is this reduced quite a bit of code (especially
-> > > > as I converted it to error_fatal handling as well, which
-> > > > removes the return status threading).  The bad news is I can't
-> > > > test any of the conversions. swtpm still isn't building on
-> > > > opensuse and, apparently, passthrough
-> > > 
-> > > The package seems to be available:
-> > > https://software.opensuse.org/package/swtpm
-> > 
-> > It's not building for any of the platforms I currently have.
-> 
-> You would have to tell me what is failing. I have been building it
-> for several platforms for a while and the build works, including
-> OpenSuSE Tumbleweed:
-> 
-> 
-> https://app.travis-ci.com/github/stefanberger/swtpm-distro-compile/builds/258769183
-> 
-> There have been issues with what seems to be seccomp policy on 2 of
-> these platforms for a while but this is unrelated to SuSE and build
-> issues -- obviously.
 
-All I know is what the build service says, which is the URL I first
-pointed you to:
 
-https://build.opensuse.org/package/show/security/swtpm
+在 2022/12/19 3:12, Shivam Kumar 写道:
+> 
+> 
+> On 06/12/22 10:59 pm, Hyman Huang wrote:
+>>
+>>
+>> 在 2022/12/7 0:00, Peter Xu 写道:
+>>> Hi, Shivam,
+>>>
+>>> On Tue, Dec 06, 2022 at 11:18:52AM +0530, Shivam Kumar wrote:
+>>>
+>>> [...]
+>>>
+>>>>> Note
+>>>>> ----------
+>>>>> ----------
+>>>>>
+>>>>> We understand that there is a good scope of improvement in the current
+>>>>> implementation. Here is a list of things we are working on:
+>>>>> 1) Adding dirty quota as a migration capability so that it can be 
+>>>>> toggled
+>>>>> through QMP command.
+>>>>> 2) Adding support for throttling guest DMAs.
+>>>>> 3) Not enabling dirty quota for the first migration iteration.
+>>>
+>>> Agreed.
+>>>
+>>>>> 4) Falling back to current auto-converge based throttling in cases 
+>>>>> where dirty
+>>>>> quota throttling can overthrottle.
+>>>
+>>> If overthrottle happens, would auto-converge always be better?
+>>>
+>>>>>
+>>>>> Please stay tuned for the next patchset.
+>>>>>
+>>>>> Shivam Kumar (1):
+>>>>>     Dirty quota-based throttling of vcpus
+>>>>>
+>>>>>    accel/kvm/kvm-all.c       | 91 
+>>>>> +++++++++++++++++++++++++++++++++++++++
+>>>>>    include/exec/memory.h     |  3 ++
+>>>>>    include/hw/core/cpu.h     |  5 +++
+>>>>>    include/sysemu/kvm_int.h  |  1 +
+>>>>>    linux-headers/linux/kvm.h |  9 ++++
+>>>>>    migration/migration.c     | 22 ++++++++++
+>>>>>    migration/migration.h     | 31 +++++++++++++
+>>>>>    softmmu/memory.c          | 64 +++++++++++++++++++++++++++
+>>>>>    8 files changed, 226 insertions(+)
+>>>>>
+>>>>
+>>>> It'd be great if I could get some more feedback before I send v2. 
+>>>> Thanks.
+>>>
+>>> Sorry to respond late.
+>>>
+>>> What's the status of the kernel patchset?
+>>>
+>>>  From high level the approach looks good at least to me.  It's just 
+>>> that (as
+>>> I used to mention) we have two similar approaches now on throttling the
+>>> guest for precopy.  I'm not sure what's the best way to move forward if
+>>> without doing a comparison of the two.
+>>>
+>>> https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_all_cover.1669047366.git.huangy81-40chinatelecom.cn_&d=DwIDaQ&c=s883GpUCOChKOHiocYtGcg&r=4hVFP4-J13xyn-OcN0apTCh8iKZRosf5OJTQePXBMB8&m=CuJmsk4azThm0mAIiykxHz3F9q4xRCxjXeS5Q00YL6-FSnPF_BKSyW1y8LIiXqRA&s=QjAcViWNO5THFQvljhrWbDX30yTipTb7KEKWKkc2kDU&e=
+>>> Sorry to say so, and no intention to create a contention, but merging 
+>>> the
+>>> two without any thought will definitely confuse everybody.  We need to
+>>> figure out a way.
+>>>
+>>>  From what I can tell..
+>>>
+>>> One way is we choose one of them which will be superior to the other and
+>>> all of us stick with it (for either higher possibility of migrate, less
+>>> interference to the workloads, and so on).
+>>>
+>>> The other way is we take both, when each of them may be suitable for
+>>> different scenarios.  However in this latter case, we'd better at 
+>>> least be
+>>> aware of the differences (which suites what), then that'll be part of
+>>> documentation we need for each of the features when the user wants to 
+>>> use
+>>> them.
+>>>
+>>> Add Yong into the loop.
+>>>
+>>> Any thoughts?
+>>>
+>> This is quite different from "dirtylimit capability of migration". 
+>> IMHO, quota-based implementation seems a little complicated, because 
+>> it depends on correctness of dirty quota and the measured data, which 
+>> involves the patchset both in qemu and kernel. It seems that 
+>> dirtylimit and quota-based are not mutually exclusive, at least we can 
+>> figure out
+>> which suites what firstly depending on the test results as Peter said.
+>>
+> Thank you for sharing the link to this alternate approach towards 
+> throttling - "dirtylimit capability of migration". I am sharing key 
+> points from my understanding and some questions below:
+> 
+> 1) The alternate approach is exclusively for the dirty ring interface. 
+> The dirty quota approach is orthogonal to the dirty logging interface. 
+> It works both with the dirty ring and the dirty bitmap interface.
+> 
+> 2) Can we achieve micro-stunning with the alternate approach? Can we say 
+> with good confidence that for most of the time, we stun the vcpu only 
+> when it is dirtying the memory? Last time when I checked, dirty ring 
+> size could be a multiple of 512 which makes it difficult to stun the 
+> vcpu in microscopic intervals.
+Actually, we implement dirtylimit in two phase, dirtylimit hmp/qmp 
+command and dirtylimit migration, dirtylimit hmp/qmp focus on the 
+so-called "micro-stunning" only, dirtylimit migration just reusing 
+mainly the existing functions qmp_set_vcpu_dirty_limit.
+As for the question:
 
-I haven't dug into the problem.
+Can we achieve micro-stunning with the alternate approach?
+Yes, since migration iterate in milliseconds for most scenarios, and 
+dirtylimit can satisfy it with appropriate ring size, from the test 
+result, setting dirty ring size as 2048 is enough,(which can make
+migration convergent, but auto-converge can not, in the same condition)
 
-James
+we stun the vcpu only when it is dirtying the memory?
+Yes. dirty-ring in kvm is basing on intel PML, which can ensure this.
+> 
+> 3) Also, are we relying on the system administrator to select a limit on 
+> the dirty rate for "dirtylimit capability of migration"?
+> 
+Not really, this is optional, dirtylimit migration set the 1MB/s as the
+default dirtylimit minimum value, which make the value decreasing step 
+by step and try the best to make migration convergent, in this way, 
+dirtylimit can stop in time once migration reach the convergence criterion.
+> 4) Also, does "dirtylimit capability of migration" play with the dirty 
+> ring size in a way that it uses a larger ring size for higher dirty rate 
+> limits and smaller ring size for smaller dirty rate limits? I think the 
+> dirty rate limit is good information to choose a good-enough dirty ring 
+> size.
+> 
+Actually we productize dirtylimit migration in a different way, we set 
+the dirty ring size as 2048 by default once enabled, which ensure the 
+"micro-stunning" in migraion phase and prove to be a good choice from 
+the test result. We think dirty-ring size is "good-enough" if migration 
+performance(migration total time, cpu/memory performance in vm during 
+live migration) improved hugely.
 
+As for dirtylimit itself, we leave the choice to upper apps, we assume 
+that if upper apps are professional to decide the dirtylimit value,dirty 
+ring size will also be considered.
+
+Thanks.
+> 
+> Thanks,
+> Shivam
+
+-- 
+Best regard
+
+Hyman Huang(黄勇)
 
