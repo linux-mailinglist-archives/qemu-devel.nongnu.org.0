@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6573B650844
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 08:58:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C7B65084C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 08:59:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7B22-0002Y3-Qr; Mon, 19 Dec 2022 02:57:55 -0500
+	id 1p7B3G-0002rC-10; Mon, 19 Dec 2022 02:59:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7B1w-0002XX-4Z
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 02:57:50 -0500
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+ id 1p7B3C-0002qg-Kn
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 02:59:08 -0500
+Received: from mga07.intel.com ([134.134.136.100])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7B1u-0007th-Bk
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 02:57:47 -0500
+ id 1p7B3B-0007yQ-0k
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 02:59:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671436666; x=1702972666;
+ t=1671436745; x=1702972745;
  h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=1plgwk37hmjdXcKtmCG/KoF8dtK3gUMs5OEN6hcYczw=;
- b=i+O9b0f7SpVkI8Wp6pIXm2IktQbB/73N8smPCNTsRtRuomf8/3fsXm4a
- JGhTJx7ShHSyw98J0J4sF2Z5YbzO8OtnDoMv9WprFiMLLpIU43yadgVsI
- CThyFESnYIR5hIxXlBZ5J8PiYaT4Ta3d6Qd64uW1T8RgQSmFZyAuE1W6J
- QHMzVRcfbvQBvV2KCPz6D8uGfGq5WNSg/kEI/9TVUGleqqiOUF9rqk0em
- 7K/3pV7gxwRjMITqQBwq0oLp/S/OkGjPHUNV9UZnjK3eX0ePuW4u9QGfL
- 2FhRXQ4DrYBdpuLco/SLzmcMZwDB7KtonLRh8a3DGAqwLs64voBxUzFB/ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="381520283"
-X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="381520283"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2022 23:57:41 -0800
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=LTCN5nc9sJT3ve1jNEbkwKdzxPjXUiJ2eqZmznP7zEs=;
+ b=nYwXY/OMrqWWuhp+bPJ2/Fm8holbDFUKMT2yBtgR0tN1v8ffP9nlaM+s
+ /OOuqfsWyQx/Y9NSyBDE3iCCXjivfNIcy0uZoSs7Jxm//H9/vkyDP+E9l
+ HPG3tMarjq/1EXxValrbh8kRcpWt0i7OYyxTFVH3sr8CxrCpHLwzMV6JG
+ DaBelH9f1NtFd0cXPpAvZwt3NsgFqrTv5QwQ6UihuBL0Gv4c+z6Zum5t4
+ HCZV+XbxaYlDKW4LE0uwg74OjAaRis6zXn2RjHQ5OnDqdUsLKqpaKlxsU
+ FqxStHy/phw1xPcHs2uswuvR/RNNgqokjfQnFa4hhSWjFPvN5cRVDwo3q A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="383638114"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="383638114"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2022 23:58:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="650470073"
-X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="650470073"
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="895959169"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="895959169"
 Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga002.jf.intel.com with ESMTP; 18 Dec 2022 23:57:29 -0800
-Date: Mon, 19 Dec 2022 15:53:13 +0800
+ by fmsmga006.fm.intel.com with ESMTP; 18 Dec 2022 23:58:49 -0800
+Date: Mon, 19 Dec 2022 15:54:32 +0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: "Huang, Kai" <kai.huang@intel.com>
 Cc: "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
@@ -86,18 +86,19 @@ Cc: "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
  "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
  "linmiaohe@huawei.com" <linmiaohe@huawei.com>,
  "Wang, Wei W" <wei.w.wang@intel.com>
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221219075313.GB1691829@chaop.bj.intel.com>
+Subject: Re: [PATCH v10 6/9] KVM: Unmap existing mappings when change the
+ memory attributes
+Message-ID: <20221219075432.GC1691829@chaop.bj.intel.com>
 References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
+ <20221202061347.1070246-7-chao.p.peng@linux.intel.com>
+ <0889bab999cbb464e63490bdb5b3c68c07791979.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga06.intel.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0889bab999cbb464e63490bdb5b3c68c07791979.camel@intel.com>
+Received-SPF: none client-ip=134.134.136.100;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga07.intel.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -120,53 +121,17 @@ Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 13, 2022 at 11:49:13PM +0000, Huang, Kai wrote:
-> > 
-> > memfd_restricted() itself is implemented as a shim layer on top of real
-> > memory file systems (currently tmpfs). Pages in restrictedmem are marked
-> > as unmovable and unevictable, this is required for current confidential
-> > usage. But in future this might be changed.
-> > 
-> > 
-> I didn't dig full histroy, but I interpret this as we don't support page
-> migration and swapping for restricted memfd for now.  IMHO "page marked as
-> unmovable" can be confused with PageMovable(), which is a different thing from
-> this series.  It's better to just say something like "those pages cannot be
-> migrated and swapped".
-
-Yes, if that helps some clarification.
-
+On Tue, Dec 13, 2022 at 11:51:25PM +0000, Huang, Kai wrote:
+> On Fri, 2022-12-02 at 14:13 +0800, Chao Peng wrote:
+> >  
+> > -	/* flags is currently not used. */
+> > +	/* 'flags' is currently not used. */
+> >  	if (attrs->flags)
+> >  		return -EINVAL;
 > 
-> [...]
-> 
-> > +
-> > +	/*
-> > +	 * These pages are currently unmovable so don't place them into movable
-> > +	 * pageblocks (e.g. CMA and ZONE_MOVABLE).
-> > +	 */
-> > +	mapping = memfd->f_mapping;
-> > +	mapping_set_unevictable(mapping);
-> > +	mapping_set_gfp_mask(mapping,
-> > +			     mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
-> 
-> But, IIUC removing __GFP_MOVABLE flag here only makes page allocation from non-
-> movable zones, but doesn't necessarily prevent page from being migrated.  My
-> first glance is you need to implement either a_ops->migrate_folio() or just
-> get_page() after faulting in the page to prevent.
+> Unintended code change.
 
-The current api restrictedmem_get_page() already does this, after the
-caller calling it, it holds a reference to the page. The caller then
-decides when to call put_page() appropriately.
+Yeah!
 
-> 
-> So I think the comment also needs improvement -- IMHO we can just call out
-> currently those pages cannot be migrated and swapped, which is clearer (and the
-> latter justifies mapping_set_unevictable() clearly).
-
-Good to me.
-
-Thanks,
 Chao
-> 
-> 
 
