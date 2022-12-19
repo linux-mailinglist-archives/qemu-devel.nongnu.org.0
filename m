@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F73650651
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:21:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2392650642
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:19:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p75jV-0000Pq-Ef; Sun, 18 Dec 2022 21:18:25 -0500
+	id 1p75ja-0000Ud-Bq; Sun, 18 Dec 2022 21:18:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75jT-0000LU-7l
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:23 -0500
+ id 1p75jU-0000Pk-Om
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:24 -0500
 Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75jR-00017E-IK
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:23 -0500
+ id 1p75jT-00015O-70
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671416301; x=1702952301;
+ t=1671416303; x=1702952303;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=X5pPuQ/7QbzlG3f/0UBJxpkHOFrd2/Xcw9qJolUpEC0=;
- b=oZ/BohvabFrvBSMLxwHz3784+kFOMQT5/wOX6mq26+E+wDD6+VTFuuKF
- VgQoJystHzN3axI3MhPoKLA0IYgQB3XG0UvD0P/RdB+uXdwA+h/N4XTMi
- Ua1IOCHeoJSgfN/WDrHd8zM4BQLF+52y+NPosMciAuoR3VeDjZ50U8LNg
- Uqs1gw0mYl/WCbRwIEzaO9I/Vtv8ZIvUZfRm2fo6c85bgyISrajUV7lMK
- eUsrWsceGxoyv9bjQSwJJCA4EPCfHWCnPB0JAmE7prQvqR2ZP/JSpzW3J
- qfmadAn0g4/Y44J9dWTka6ypt+JuHpKH+e9h+VdMDDenqbMcp/7Len15r A==;
-X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199346"
+ bh=o8dl9X7n0QpbDK6OlU8v1kgM0gsCxofq6AuWFPs0GJo=;
+ b=O7YbFG4jSVE0KUwoYkxVLSBaYf1n3U7FU4+QL8jroKlI43uz/Qk7jYAc
+ Lr3hbE3CeJkMal9/bNNBh+qwawm6/n+ldHD2i0IQe8mjuz5ULxcgrA5O7
+ 7/s1NiQw4oZbfyQm+zdOTu725YtQzKBRbxI0nh/xg2TxEUVaMRucb1bA1
+ jKwSUef7L7L5roRaQC1npnilab3Fpt09MKTnB2uJegMfWpZgZkucWTM66
+ 0AqTyH2/HNbo+s5DxfIx8ce3GtXfsZg51MOPM2z7DrMNdF6Clzw0srX3J
+ ylQjF1rMtR19HWsy0TbLah4ZNWh/OuBGc0U9Agpum3045x1he2XKzGG3x w==;
+X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199351"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:59 +0800
-IronPort-SDR: 8XihbuEPnSa3Hz8u3YYF+fqLuSOjZLu8yo6SgAzytRTx1V4agEwCgrzqQk4KC02zs02hnt5IGM
- gMnbewf6e7Vk453ihHo4HluA3Ja5tCOZep59Hx2nAYUSFTOQ+/dhWfmQyMGr5MSwe+SLQEB9Tw
- 3l4p1SF3yI6bdaZPKWs+HB8ZnNc8+11iCCbSKjMbV3SdXhn+P7ymgPlm1ZRHFn0ZGOHLu6Btim
- d+9CxH8MUau7v7MUUh9nUS9LcLq8hz60pZPgZTb2dDhVYxVsUewKYW0GaSTVatlDrsrt6n7rOY
- QJo=
+ by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:18:01 +0800
+IronPort-SDR: Gs/RhNibEKnDJLHoNjIp+RWeJkiK2Wrh7DtwEAb1jGc7EkXtOkJ5EmgvWSWK3I1WV7iHk3hZXq
+ GeOepuXE8P+nBRvvRlXfeNgIIFPq6TgH2PuT4TQuwG+Nb6WMoXP3FjdmpcN3yhzSJVLr3GuFIR
+ FoaUwGNjtr4LekBC3zfKV/WhpJFZCDcEb0ihTVJNE0Etgwim8/Yy9kkmrZ9XWkfhqQcyCojDTt
+ AQ+ORgHF/fKmPVFoQnCkxa2vtzN7KSNBWPLD38YIdDjCrxJc9PvNiYxGa3tEUGy9G2vvsd7Tny
+ /Rc=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 17:30:31 -0800
-IronPort-SDR: rOWCq+xQgUGdl4Ybgm0R6mPNAtHgNtPhS0LTaBhcpUrWuZfZZaspp7I19AgUiahzUAXhMC9DcH
- oQGNKdAVTUiDVlTMmJN5GgugTZxnyUD8prUdOZZqXaygFtd328C1uBBVBVr4ajDoZFnEH5wUrT
- G1o5wMeLUR4BAqvDl7mcmWmpPwqTYxB7QAb6LaTZUJjEHPY3GLFQjGJNtRk4BlaB2fgzyQCqNr
- GS+svyMCVtd78blOiiTbReYBPUIDhsV4UPpRBWSz3N9upGaA9+e8oZSiRXQcoKtjc3FPTGtUFa
- XFI=
+ 18 Dec 2022 17:30:34 -0800
+IronPort-SDR: /JdMds7DJLRpaKQyNMywU3vzj3drmoUWSWIb3XaGrok0vw8q4g5VQeG3M7FcQ4MGd0+Vo2nRQN
+ cWlqVC0nT/yL4klLLfc5ZG95tDLp3m1iFTPijIv+3C0s/F+1dsqpaWDV0Vf+qna/uzVgISDHlO
+ E46QHwbEl5TWuBcmguxAJYJi7yobErfbP3mPfC4FgTyxwfsG3quAhGTyR+78GknrLxSdtXQodg
+ S+mJrqdyEE/pulVniXPdEeoCzTjOn8Edd6f1dplaTFVzUGhbbijey308OAAH+yQS86FXtFzBQp
+ BUU=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 18:17:59 -0800
+ 18 Dec 2022 18:18:01 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3Jk734Hz1Rwt8
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:58 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3Jn1HQRz1RwqL
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:18:01 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671416278; x=1674008279; bh=X5pPuQ/7QbzlG3f/0U
- BJxpkHOFrd2/Xcw9qJolUpEC0=; b=QR7NbzoOptI2jrduYWNRHuD5IFr4SeaVxq
- ezByUXbZtyD/1VQGyVKZGqR5GqzFU7RoTPy5o42MtR6QOsi0mSjM+4Kod9gaTBWM
- nhnSDIozFpHH+DSE9Ge65aHssR5IrRCSlXN+RbtlWxzFUbaPmwKVV4A3m/xyeKJH
- v7czCgctZJ1j0UlWA2Xly1cB6cI3f/0Xn0pIII8YfEKdNtVPqFFsvRi0o7k+k6JG
- 4UrSVG+1HgwT0rYxvPFjn72yft8R8I6pp7XGrTjEaa5mU3fGXzWzcBsE41JBASPu
- 2VbO4Bu0be5x6Q8QxM6rMZth9rfMntdxG6jd+JcPCSXb7qmDS/nw==
+ :from; s=dkim; t=1671416280; x=1674008281; bh=o8dl9X7n0QpbDK6OlU
+ 8v1kgM0gsCxofq6AuWFPs0GJo=; b=hP+GYVBZ3+TMb/a+yo2sUmwEPioo7RjpvH
+ Tjj+FK0ZMP1kw3D+7y76D7i+0kKgLgY21gMK0svc7785OB7EUqlmQMx7Nc5IEU2Y
+ HgGfHS1dKpXGZ4Z46sSYm/vKP6RSGPYINxESX0J7uKz8/eZaT0J/+x6OZbTE7S+D
+ PRQO5BdTqt6W46An7leq+oF8jOP6jNFHKFZP44XJhq9c1zdqNoUv5che/PgfRAyG
+ OJV1MfXbtDd7XIrOXFtahAhNGrk98gjwHSL3AunHwirP9GH/drFln13/iZMEmrVU
+ 8MQK2CttUIkVW4togpsZ9US6GHm0O0nQakS7UE8ovv2Ey0kEs27g==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id RE_ln3QTMSTU for <qemu-devel@nongnu.org>;
- Sun, 18 Dec 2022 18:17:58 -0800 (PST)
+ port 10026) with ESMTP id ZPvzMFn47NZD for <qemu-devel@nongnu.org>;
+ Sun, 18 Dec 2022 18:18:00 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.4])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3Jj1hZjz1RvTp;
- Sun, 18 Dec 2022 18:17:56 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3Jk71jDz1Rwrq;
+ Sun, 18 Dec 2022 18:17:58 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Jim Shu <jim.shu@sifive.com>,
+Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 19/45] target/riscv: support cache-related PMU events in
- virtual mode
-Date: Mon, 19 Dec 2022 12:16:37 +1000
-Message-Id: <20221219021703.20473-20-alistair.francis@opensource.wdc.com>
+Subject: [PULL 20/45] target/riscv: Add some comments for sstatus CSR in
+ riscv_cpu_dump_state()
+Date: Mon, 19 Dec 2022 12:16:38 +1000
+Message-Id: <20221219021703.20473-21-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
 References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
@@ -115,43 +115,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jim Shu <jim.shu@sifive.com>
+From: Bin Meng <bmeng@tinylab.org>
 
-let tlb_fill() function also increments PMU counter when it is from
-two-stage translation, so QEMU could also monitor these PMU events when
-CPU runs in VS/VU mode (like running guest OS).
+sstatus register dump is currently missing in riscv_cpu_dump_state().
+As sstatus is a copy of mstatus, which is described in the priv spec,
+it seems redundant to print the same information twice.
 
-Signed-off-by: Jim Shu <jim.shu@sifive.com>
+Add some comments for this to let people know this is intentional.
+
+Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221123090635.6574-1-jim.shu@sifive.com>
+Message-Id: <20221125050354.3166023-1-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/cpu.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 427d4d4386..1ff6ab5746 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -1258,6 +1258,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address=
-, int size,
-         }
-     }
-=20
-+    pmu_tlb_fill_incr_ctr(cpu, access_type);
-     if (riscv_cpu_virt_enabled(env) ||
-         ((riscv_cpu_two_stage_lookup(mmu_idx) || two_stage_lookup) &&
-          access_type !=3D MMU_INST_FETCH)) {
-@@ -1321,7 +1322,6 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address=
-, int size,
-             }
-         }
-     } else {
--        pmu_tlb_fill_incr_ctr(cpu, access_type);
-         /* Single stage lookup */
-         ret =3D get_physical_address(env, &pa, &prot, address, NULL,
-                                    access_type, mmu_idx, true, false, fa=
-lse);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 6fe176e483..b2c132e269 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -382,6 +382,10 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE =
+*f, int flags)
+             CSR_MHARTID,
+             CSR_MSTATUS,
+             CSR_MSTATUSH,
++            /*
++             * CSR_SSTATUS is intentionally omitted here as its value
++             * can be figured out by looking at CSR_MSTATUS
++             */
+             CSR_HSTATUS,
+             CSR_VSSTATUS,
+             CSR_MIP,
 --=20
 2.38.1
 
