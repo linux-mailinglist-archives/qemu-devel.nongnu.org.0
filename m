@@ -2,99 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5EE650E91
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD336650EA1
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:30:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7HzC-0008BN-7D; Mon, 19 Dec 2022 10:23:26 -0500
+	id 1p7I55-0003Jr-M6; Mon, 19 Dec 2022 10:29:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p7HzA-000890-5g
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:23:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p7Hz8-0002sq-5b
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:23:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671463401;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fPEendfXEKrGQ06E6Zpg0u/sZiMUgQbq53wQHu9jKtk=;
- b=cL24vTHFeMtkHzleVB6DeyWJ93g6fWjmq20b+xjsSFICvJjicxLz/XjeDX0fMhKMmpaMAp
- rXOXYI32OcH9wa6M1B0aCPzSaEG59nyl1zZS1hO7JtMV5hP1tn7jX35+VgY7Hhn+zS9y+x
- Pa+lp3i3Mm01vVWcUxVqjS65A+jmbeU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-340-T9VPmU_BOW6Ii2Vr3FaG8A-1; Mon, 19 Dec 2022 10:23:19 -0500
-X-MC-Unique: T9VPmU_BOW6Ii2Vr3FaG8A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v14-20020adf8b4e000000b0024174021277so1640350wra.13
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 07:23:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7I52-0003Jg-IZ
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:29:28 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7I50-0004HI-T1
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:29:28 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id q71so6385524pgq.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 07:29:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=4r/3jMHTZQw1NNMLOfnBJhrKZbCRI8ONeARRykuDj0U=;
+ b=CBERFZk/CuhNOGP4k2BPM5cXy23mVEi+kVoF3krG8xl8Bsn5a8n0DmGa1DipWkl4bn
+ jp0DAdYPBW2OwNA8D61RsbB3Jl0xsc9RBWAjblozWVZTq1m0PRMO55SKvA1o6fHYbZgx
+ Dde7B4Ip5nrVt3S7FYFd016jsLt0XjlTERkiMY9U8FnyIlSxASlGc7vZjxqH7NB2r7eu
+ cn8I0tOSNiDIzzirqXPbjVkSzW/onSoGC0TGpRyRGOnQ59nRsfdgg+ZX/4pZqccQOkgs
+ 1EpljlwSYkeFPPPZ5Uw6phIzzFromvIlUWCq7XQhP4u5McMZg+rmW8z3jk9UXKBogCoQ
+ Odtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=fPEendfXEKrGQ06E6Zpg0u/sZiMUgQbq53wQHu9jKtk=;
- b=060jh4RMw3ZpXm97zWYV6Y11Tb4mUjmFIzLdLM1hfXIExae0OP7FPtpsNMLCnXT6p5
- zbSPt5pk4la2v8ZZJRE/xLlnCA0EHmB5xw/CnZev2y4Bl+kiP8Pk3qAX0mG9StUeiXu8
- FbPPWxdTgernD/uGSwFykQvyFgcDHJNO4Dd2rbDxhoPyd9u2nRs4GF5HuDEAzmIpFNq2
- LKx5o8dnXpDW1KAM/13r+L9MVvu5usQXN6viNcbxyXGzT+LLJ41CLC+vRImmUgSwmGCK
- mJV+OwK6VFONiw+bxmUfn8qSAiKj9tK4LbWKqPyTka8h5I4QzKTIaD0+Mbx0IuRZ584B
- OjJw==
-X-Gm-Message-State: ANoB5pkHR6Nl2q+blboH1sJRrhY+wv8oLxthNhVdUg68eD/bwqW+pgR7
- oZLxH+jpNz6/+NBYrM5r0Sa17AQzlSLfcjU8E+0W6MSm+97aTRGCy0rGaIzvV2MdSir+FUBBaIF
- ISOoFznyzdb/45II=
-X-Received: by 2002:a5d:5904:0:b0:242:2844:8489 with SMTP id
- v4-20020a5d5904000000b0024228448489mr23860669wrd.8.1671463398452; 
- Mon, 19 Dec 2022 07:23:18 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7/8DBxOid3/KmER/BhFraXLx3OVmdAN8dRuwYgQO7lHgmAceoyYGXMDJh1R3IKjHTF4gsd6Q==
-X-Received: by 2002:a5d:5904:0:b0:242:2844:8489 with SMTP id
- v4-20020a5d5904000000b0024228448489mr23860655wrd.8.1671463398171; 
- Mon, 19 Dec 2022 07:23:18 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:e900:df20:b417:7171:f748?
- (p200300cbc704e900df20b4177171f748.dip0.t-ipconnect.de.
- [2003:cb:c704:e900:df20:b417:7171:f748])
- by smtp.gmail.com with ESMTPSA id
- w16-20020adfee50000000b002420dba6447sm10203931wro.59.2022.12.19.07.23.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 07:23:17 -0800 (PST)
-Message-ID: <31a929de-5ebc-8f79-0d28-e617d5b334b1@redhat.com>
-Date: Mon, 19 Dec 2022 16:23:16 +0100
+ bh=4r/3jMHTZQw1NNMLOfnBJhrKZbCRI8ONeARRykuDj0U=;
+ b=FgYY/Pa2HUllVWtgUf7z/5Ln9SFfvuxUxe5VG630KsS7dkPFyDmKr8DcFudFQjsK+c
+ s428WlGA/rEDYT+67xjI6Rwk7tMG1xyR07m/BUFxz4l5qoP7MEcWzl2bWPo7pa2J9iIo
+ CVbD1CK96tNNrrLDe6YwgTewPaX7hhA4Y3Fdf52xwPE4NWNYwK4CBrEukc7uC8NdOMnZ
+ T5WJ9cqp7B2bVIVj3fFQps+DX4Lw6i4pQiYn+LNyalGa0+4kIAWnyb1LVPjfIQ7zVvmi
+ hEHqvFCIWUxKQEcRkWfKAKeBvN4aylpxlzPJpeprHzS7CATjn4Db+U2SG7Pm2CP84FbK
+ xdTw==
+X-Gm-Message-State: ANoB5pneMnzP0OlcqaaFNm/E+03rOll9qvBOB38HtKCd30uRXlkrHUPm
+ S2yJWEuiyiOTIg/q7yFguB6QEXgq/r3a0mmMS3kOHA==
+X-Google-Smtp-Source: AA0mqf7YUHwnM004CgzGkczLkTO+lb5jzdlvS/b+ULEXWeNZ7F6xy2KKF4MmdpMeO+EtLP7DSK2LB0kGOwBmezXf1WI=
+X-Received: by 2002:a62:5f81:0:b0:56b:bb06:7dd5 with SMTP id
+ t123-20020a625f81000000b0056bbb067dd5mr81004541pfb.3.1671463765165; Mon, 19
+ Dec 2022 07:29:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v2] hostmem: Honor multiple preferred nodes if possible
-Content-Language: en-US
-To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- qemu-devel@nongnu.org
-Cc: imammedo@redhat.com, marcandre.lureau@redhat.com, berrange@redhat.com
-References: <a0b4adce1af5bd2344c2218eb4a04b3ff7bcfdb4.1671097918.git.mprivozn@redhat.com>
- <f06e436f-223a-9318-d631-c9d5c711af1b@redhat.com>
- <c7fc7797-6696-e9d8-8c1a-dd4b86cc2781@redhat.com>
- <536107c6-b142-d5aa-0d94-4277a5c5af15@redhat.com>
- <e264e466-5cff-3b7f-9850-ba203ce02828@redhat.com>
- <302262b2-e928-7013-3f4e-4ab5a9616844@redhat.com>
- <88d57d47-09e5-ebd8-82aa-f289a05e0517@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <88d57d47-09e5-ebd8-82aa-f289a05e0517@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221207021322.16165-1-vikram.garhwal@amd.com>
+In-Reply-To: <20221207021322.16165-1-vikram.garhwal@amd.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Dec 2022 15:29:13 +0000
+Message-ID: <CAFEAcA9_rNvfuYU67vs+KDxkE1ye+7dtStLPki_qzBi0t399MQ@mail.gmail.com>
+Subject: Re: [QEMU][PATCH v3 0/4] Introduce Xilinx Versal CANFD
+To: Vikram Garhwal <vikram.garhwal@amd.com>
+Cc: qemu-devel@nongnu.org, francisco.iglesias@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,24 +82,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19.12.22 12:10, Michal Prívozník wrote:
-> On 12/19/22 10:58, David Hildenbrand wrote:
->>
->> I'll fixup. I just queued the fixed-up patch to
->>
->> https://github.com/davidhildenbrand/qemu.git mem-next
->>
->> Please double-check. Thanks!
->>
-> 
-> Looks good. Sorry for not doing it properly the first time.
+On Wed, 7 Dec 2022 at 02:13, Vikram Garhwal <vikram.garhwal@amd.com> wrote:
+>
+> Hi,
+> This patch implements CANFD controller for xlnx-versal-virt machine. There are
+> two controllers CANFD0@0xFF06_0000 and CANFD1@0xFF07_0000 are connected to the
+> machine.
+>
+> Also, added basic qtests for data exchange between both the controllers in
+> various supported configs.
+>
+> Changelog:
+> v2->v3:
+>     Corrected reg2frame().
+>     Added assert to prevent out of bound cases.
+>     Replace tx_id link list with GSList and removed sorting function.
+>     Replaced PTIMER_POLICY_LEGACY with proper timer policies.
+>     Corrected minor code format issues.
+>
+> v1->v2
+>     Update xlnx-versal-virt.rst with CANFD examples and add this in 03/05 patch.
+>     Addressed comments for patch 02/05 and 03/05.
+>     Add reviewed-by tags for patch 01/05, 04/05 and 05/05.
+>     Change commit message for patch 02/05.
+>     Add SPDX license for Qtest.
+>
+> Regards,
+> Vikram
+>
+> Vikram Garhwal (4):
+>   MAINTAINERS: Include canfd tests under Xilinx CAN
+>   hw/net/can: Introduce Xilinx Versal CANFD controller
+>   xlnx-versal: Connect Xilinx VERSAL CANFD controllers
+>   tests/qtest: Introduce tests for Xilinx VERSAL CANFD controller
 
-No worries, caught it while testing if the checks (including 
-cc.has_function()) work as expected :)
+Hi -- this patch cover letter lists 4 patches, but the thread
+has 5 patches, as you can see in the archive:
+ https://lore.kernel.org/qemu-devel/20221207021322.16165-1-vikram.garhwal@amd.com/
+Is the extra patch 3 intended ?
 
--- 
-Thanks,
-
-David / dhildenb
-
+thanks
+-- PMM
 
