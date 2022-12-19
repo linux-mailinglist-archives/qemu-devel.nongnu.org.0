@@ -2,167 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E7A2650613
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 02:23:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A51C650666
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:28:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p74qR-000847-2A; Sun, 18 Dec 2022 20:21:31 -0500
+	id 1p75ic-0008CI-DS; Sun, 18 Dec 2022 21:17:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1p74qP-00083v-LW
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 20:21:29 -0500
-Received: from mga03.intel.com ([134.134.136.65])
+ (Exim 4.90_1)
+ (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
+ id 1p75iX-0008Af-Af
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:26 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1p74qN-0000gN-O6
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 20:21:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671412887; x=1702948887;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=cp3QmvhwkdzdEqs3CgEoHlvPoWPO1MfjhBlubywRXeg=;
- b=K36yKjLHvpQUnbzM+qKc9giGFbNFX5VFTYf5eMzClAdo8nPR/6Xbr7CC
- YYc4vFNzN/8x5im8gPhDSNke4KPLzDoBsYzfAiEx8/zxpjgg2LulLpRPU
- w0ZpHUAJL+DHIJZHePp/mO4OUPIvPyT1vB0DlUJFTG2eCJTqPjGyzSAlg
- PvW0u8tWAEZz7ptpr+Zzd/hE20vyx1T0Q0PTmtDBLu5RvCvFOpPT8bB5a
- hc2mzx23Ra7ueJrDSswlzEel/2TqBZ9U5CRrJLJRm01EaxfEhfIsFx27O
- 4N8n4/pWvXPkz08WDB1zzzlS6zF4o+1su8mVtned5a7lPfwQIXF3kNAHW A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="321139363"
-X-IronPort-AV: E=Sophos;i="5.96,254,1665471600"; d="scan'208";a="321139363"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2022 17:21:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="718942621"
-X-IronPort-AV: E=Sophos;i="5.96,254,1665471600"; d="scan'208";a="718942621"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2022 17:21:18 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Sun, 18 Dec 2022 17:21:17 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Sun, 18 Dec 2022 17:21:17 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Sun, 18 Dec 2022 17:21:17 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.47) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Sun, 18 Dec 2022 17:21:16 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j2SVX8wGoYgUSaUis9ybmXcZPRL9Lt6Vza63GXZ7UJqn/ux0m1JHcjeALMTnWxpqhXh2rtBqnuvoxs3gzNAl1POk0gs+RUUjg4fox8gNaMrb7O0wXiBZJrCPrgHYu9dFuSIMw8oGZCBbIldOo5mgXk3dp7VxZj73w+MAUAhhNtxpn4R3ksJax4GIqCzL7DZuEyISND090dTntAA+uGuqJqEEY1ZIJh9iIytkLF7v2DBS5FjOY9hwCnGeCs5UCLw91YDKJMzkzJhHB+SXF6CnWFYFaD9GEb+G6a1kGbX2/fZhv0TazQ+y2HWzutRUfoNkoVPYgdGYB4sqKtgk30rjBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DqbLnn/s9g4E5T08LAtV5ju/9pjCozF0b2K2hCihvPQ=;
- b=Xd2v0+bkpo3WoW6qegDI+dqn+vHWAJC7WMyB0m4oeVjsZkBB4JWcVEy+bGfqoJKG5dvmZvl0o/tZbzs7N9qcvR3M15WeTFV6EQWpSa4wk8DYBeg3Qu2ZBmZH+j2L5o0E9StxJt8lAPmslxbzOKfgiPV4ozi9O4Wl7Hl5tlF/coBkwqnChvIkCeHWKBr8z74yPTIK9qs01uq9SIZoEBos2KkBtmn0v9DAxQaIMyDdJA8BG5/dKX9F+g3OwanMJow9rxitRqG9QvQSWvPG6H6pAF3sn+ptvld+SIIA2qtUr7+/uVF8FFZt0LjSEAOKKcL/my3cIYGlToImZpTYZDsshQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA2PR11MB5052.namprd11.prod.outlook.com (2603:10b6:806:fa::15)
- by CO1PR11MB4881.namprd11.prod.outlook.com (2603:10b6:303:91::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Mon, 19 Dec
- 2022 01:21:10 +0000
-Received: from SA2PR11MB5052.namprd11.prod.outlook.com
- ([fe80::d95b:a6f1:ed4d:5327]) by SA2PR11MB5052.namprd11.prod.outlook.com
- ([fe80::d95b:a6f1:ed4d:5327%8]) with mapi id 15.20.5924.016; Mon, 19 Dec 2022
- 01:21:09 +0000
-Message-ID: <f030b3cb-71a9-a8e1-89b1-5fa2846afb8b@intel.com>
-Date: Mon, 19 Dec 2022 09:21:02 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.0
-Subject: Re: [PATCH] virtio-mem: Fix the bitmap index of the section offset
-To: David Hildenbrand <david@redhat.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>
-References: <20221216062231.11181-1-chenyi.qiang@intel.com>
- <b661461d-fb24-c974-2d8e-d3e760e00033@redhat.com>
- <13e3d3fb-bfa7-26e3-2e21-1bb21cf577c3@redhat.com>
-Content-Language: en-US
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-In-Reply-To: <13e3d3fb-bfa7-26e3-2e21-1bb21cf577c3@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR01CA0116.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::20) To SA2PR11MB5052.namprd11.prod.outlook.com
- (2603:10b6:806:fa::15)
+ (Exim 4.90_1)
+ (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
+ id 1p75iT-00013c-3t
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1671416240; x=1702952240;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=R3DGQGNndstTa+t9dnYffHKM2lwQFgForQa1xofQB9s=;
+ b=PIB90HhoLH9a4m4zjsCsqgYGsXRAtI1fzwfYkp37l+3nd3wOhWhThvh5
+ RrvA6AZ1fL0eVlNBpsoTvisBi9nVZp9AYpwUxbBEZ87uwGNfwHNwUU7SG
+ 97oJ7r62yQS07MCEgIPz94cvEeyd0nvK/H7bDfResXThcqYfBEASr8WAo
+ bSJmFznyIHLRpwoeTi3HoyH4PRWaCSu9XsaNRnHybwHGQaOWyKjraSxDO
+ OeWVTlz2Wc57KZikSSwoOxAFKh3AgzMhjA/kFtMRETDjLQx6w/yqbvvYb
+ IymYrMNuqcnt7m2or9/6iABQcHkxQrArOf5SQmCtq8wgjsxBrgIZSvx4d g==;
+X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199242"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:11 +0800
+IronPort-SDR: cXX1tWGU5MY7zqxkLzifJiGLPoPb/WIw+zzBI/W+HOdhTNWcshwV+2sWHuUlJV5i70ctVjveTu
+ IP0z2ux7SEhMapcAe6Jn19xb5R47AA5o+FFl16bStZGcm+7FJvCaabKyEJgj0zhOGgY7DYvT+p
+ Pk5BVGa/Hj5/13mep4Q/bqoU50O7dT2SkAE5ZjGkqMNm3dWLIFF56AzvIy7qYHKRbCVAgKtYpV
+ 42RjiE22hMoOU0AfRpRXTURiMN8J5AGGkblOnMrvIA1q4yBPnKRgBhAKujiAKqQiK5E1aIhgqn
+ ztI=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 18 Dec 2022 17:29:44 -0800
+IronPort-SDR: 0dkykr7XxH5wLkaAM/oPJtIUKzRT9aAD55Z5+Ec8RJzmJCK9qQb2QGPq82qH7iD6bWr/XSYuET
+ WMHcYajhu40JEXx7pG/fINf06D2Ty5HskLwQy18JCYZSILgEA1o+btMzsUMeH1JtI0l4ouiIbZ
+ 2lBGsqBTBX20dxUaiceHIPOUFUoN30T0c6utYbTSpwkhoPaspJ+28MK/0CnkTKYaHdcPJWtLZN
+ ma40cjN5xksmxVYH70Mb7HevO1mYQ6ouvVRzw2hZ53AjmanYllJmJnfg7qkzSX7RPU9yh5dQ8s
+ urY=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 18 Dec 2022 18:17:12 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3Hq6Kp7z1RvTr
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:11 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1671416230; x=1674008231; bh=R3DGQGNndstTa+t9dnYffHKM2lwQFgFo
+ rQa1xofQB9s=; b=BPp3omn/CHiwx6GDW1mUXMfw5HdmZq7ZtVyfLbTWp7UpqWbP
+ 1P+HOPxDj5KNUSVszt9+1IDVwZYemek+0RK/C+OYO4ZsV1koXZehjw/ahaJWuDD8
+ Z5WWpaE7k4vTYEtOAdys3JDp9VBa/w/68uktZtZCK/dBdjLzYmph1hNyPicx0c/B
+ eew7hy9QF9p2Ui6o2lhPZCaqw1Pyi+HqpOlsiF7FANFrL2dWekpg0hK9+gM9n849
+ Q/Qa7QQ441pAOaLWeelWD9gA1RWVMLrIbu7KtSnDMXTzcmwm4WQntSQDcYf446P3
+ 6McDBHl+8+asXmcs1HBhrWTu0RW/u8k7atZ8hA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id E8wW-x6UColv for <qemu-devel@nongnu.org>;
+ Sun, 18 Dec 2022 18:17:10 -0800 (PST)
+Received: from toolbox.alistair23.me (unknown [10.225.167.4])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3Hn08Pzz1RvLy;
+ Sun, 18 Dec 2022 18:17:08 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 00/45] riscv-to-apply queue
+Date: Mon, 19 Dec 2022 12:16:18 +1000
+Message-Id: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PR11MB5052:EE_|CO1PR11MB4881:EE_
-X-MS-Office365-Filtering-Correlation-Id: d305f509-4cc8-4d56-d71e-08dae15f4f49
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3niNJCgfhIqjy7KxYM5n5GSvA9+iUPZs4isidp61Yvwdrjtdzv0cW0v+rTGPAghwrbapkURoa9t69PYv09ZVdcfjoRG34d96XLoIPlts/11AYCC/yQTPQldyeo2o83H6T1UdCbAKaKHBeSbiMin61idbRMcLR1jRRFMB4MXRjmJKzZ3QiIGhc05MI6tlrMgOBSTTPK2TeLSSyKvOKEkVx4VqH5Nh3dPd/5GUcst8UTZJUFpTgaXrpnsJNe0KSQgJBI8ZUXMX5LnlmH/jshc9Fxmmr1IlJnDgUntW8EdWUslBGHw/qiLhUTmNciR/ZWvrdFRp9wDDyeC67G6fW1zv9UP8FlDB1WQRpWiAPQwGheQLjIl3fWOgJE+F1RaRnNOXy2jIpKw/mxtZ4wB8Pqs4w+YaGqJIakQQwqS9X2gsfVXTL2qepQ8XSWRaU9fdK1Jq/XQmy8hECK6x1Cwiw282yg9eeOk5fKqfhjVilzXrlO9DkXaDZmQB6TTRQrbjsZhPj3u7o9Yr05gZOo9wjkxH+Mug36ORIRLGBdzb3I48B6ertyEwlAmumklNHQ5eXu8oBZ9wHnL2O3OcSWrKb53iAEnZDCn4ddWWy8UHU8yaPJkdsKlGd0MWnpil1g0jVTY53T2LFTsWL4pB2sZD5TgqYYdk8ZkBJHciakEpxZy1ySq2B+o+6YHwBaT71qt8iuP5moj8gbDIMBldIy/A7Je8XlSvY3IClU1wnFVZI1EMJOg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA2PR11MB5052.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(376002)(366004)(346002)(136003)(39860400002)(396003)(451199015)(478600001)(6506007)(6486002)(36756003)(6512007)(2906002)(26005)(186003)(44832011)(41300700001)(66946007)(4326008)(66556008)(66476007)(31696002)(8676002)(5660300002)(83380400001)(8936002)(6916009)(316002)(53546011)(82960400001)(86362001)(38100700002)(2616005)(31686004)(6666004)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d1ZXVlZNbGtVQ0VndmdEN2YzSjliSGErV2lwcVBCMEhjMGozaW82bGVrUnB2?=
- =?utf-8?B?Vzg0RDZTMkNpc29DVTFnMXFUQnB5dUdaS0FKU0VqNG1rNVh2d3cyMk42NGJR?=
- =?utf-8?B?M3NwYUtuZW1ZcmZjREhjak15REFFTit2TFJSM0djR3B4V05BWmRMb0hZdm1R?=
- =?utf-8?B?WWI4V3JLbnovM1pVcS9tMmtKUllVSHlXTHhnZ0xWTE1QaXo0REE4TkVsZDE2?=
- =?utf-8?B?aGRwUVd6SXl0TWhpZCtuTCtvazd2WmdMb2E0UzljKzFOVlBjLzFaMWRwZ21i?=
- =?utf-8?B?N2t1aVFjd0ViTDk5SVRBaHRJWVZJNk91SGpWV2twSVkzcEFERWZYOFN4NW0r?=
- =?utf-8?B?enVMOUtxQklrbEdUZlhzWElSakkrMGMrWG9ISTVuS1JOSmVQQzBsVXJEM0tx?=
- =?utf-8?B?aWNaVnhrT1ltTTFWWWh6MlgwOWFwOVBtNk1WT055ajYrM2ZaQ2piV1RYOVo3?=
- =?utf-8?B?NnBhcGJabDJzdkdTbi9KZFhWMmIvSXkra0wrZnV1aGR3bkJETytCbWVudWp5?=
- =?utf-8?B?QXU4UXY4bHBRZ0xxZk1lSk5rS2FHOEc0UGYvQUZsOWwvbUxSSlV1bDZjd0pN?=
- =?utf-8?B?eCswUkNDZWc5SnJzQXlSVG1KdVdKRFpPU24zUVdwUWVBZzJsSWtTV2toSGxy?=
- =?utf-8?B?RWFSTTNxRmF3dDJlYzd4cHZkK1JNTEJVUnVJdGNtaHBBaXBDMjFuWm16QVZZ?=
- =?utf-8?B?cGx6amtjSmhlVzVVTStzSnE2bjlpTDZwQ1JmY0ZqeHp3NXcxRVlyaWtHV0tW?=
- =?utf-8?B?ZlhSYUd3VWhlaTlvQXZiWDlGSEk0VjB1eXhDUUdYRVJTVjFDODZDZFkxcVQ5?=
- =?utf-8?B?TzNjVnZHVTU3S3JNTEFsNnplWEIxNDhySEhJRXkvbkFjU0dUbWY1OEgzT0NQ?=
- =?utf-8?B?OVZEZEs2aUpZQzFtTk5nZ0RmSmJSOVV3RW9DWXoxTUFobk9FN2RDWVplNFcz?=
- =?utf-8?B?ZHJqQ1lJeXdDMi9FU1U2eFFtQldBcllTR3hlTlFwUHFEV2VGdXYveVlSUnNw?=
- =?utf-8?B?RUxxaThWd2M1bnlNSEJOL0VCeEEvRzFDV2xBRCsvTzQxRXlUMjU3Wi9ucEZF?=
- =?utf-8?B?V0N3TG5ES0psRWl1MkpuYmtJT2k5Qkd5SkJxTXhHa3M2SGJjWVREK3Aza2dC?=
- =?utf-8?B?WEVQNzN6MkF5Z0tQb2hPTzhtalFXVE13aTgxTURpUFA4SE5uSTBmZE4zNmp1?=
- =?utf-8?B?ZUxGdmV1cGI2bnd6RGg1SDF6WEtISVJYQjhJOEZEa1E4ZzJ0T05iV21pU3o3?=
- =?utf-8?B?MTM0bk9SU1NDc3B1cDlub1pmSVJGaW4wNkdMK0szTFNjTGV4a2tLVlY3U1lO?=
- =?utf-8?B?ZCs0VE80dktBTGE1aGlOYmpjTFlHNXJhZEF0dUpGVTlqVm9XekxZaVdiY1Rw?=
- =?utf-8?B?Tjk3K3hZUzIzTFQxa3ZWdEhuV1JLTnhKc1JuYUxWNzdqaVpkMXE3aWlETkhP?=
- =?utf-8?B?THRSUmNxTWp2WEt5SlRjeEtOSy9hNnpnc3RWVXdXRkdIU0EyU043ZFE1KzUr?=
- =?utf-8?B?bGU1U0JLc2FGVFFQcmJiMHRBNFYvVU1nRUY4cHpBYjNGc0ROTS9mNUo4Z1NK?=
- =?utf-8?B?Y1FwK3k5aDdzUE9JbDFvS05rd3pmMSs4V2c4ZlM2bXZSWmU0U1U5K0l4aWY4?=
- =?utf-8?B?aHJGSlk3TXljbXlya0hwTysxR1JNUmZRZnR3NnhwUnpQM3pqNVdhZ3NnbTVO?=
- =?utf-8?B?U3V0ekN4NURyVFNCbmEyOXpkUGVETFJZaHAxaWdqc3QxNUUyZVNXWjZIV2Zy?=
- =?utf-8?B?Qlh1OHlXU1ZDNWUyZlpsQmo1dlZzQnQxS01JdHVMU1FpWHhFQUsrQXpUaVRu?=
- =?utf-8?B?RGVpZ0cvWWd2MEc2KzZ1WUJrZUFnLzBxV1Q0a2hMaEhLTWhCYWo2MXhVQS9I?=
- =?utf-8?B?UUN6ZGZTTGlES0pQK21rcU9IdXZhRXdzMWRHQkMrM0JzTWdpMXlMNStYQmN1?=
- =?utf-8?B?T0hhR3U0TEZBVUhBSjJzcGpOM2ZFaFk2a0h5LzAwV2pMaWEvM2hGN1kwb091?=
- =?utf-8?B?d0RzOC9MbjVhYkQyUHpRZXB1OFExODN2ZFcvaTliZjJ3RlRDTDR0RHpxNU5P?=
- =?utf-8?B?TnRRKzFVcjVZVmtrbXJydHBzTE05M2ltT1psanBCNldYQkxVY0tMWWN0c09h?=
- =?utf-8?B?UDhucmNGOTVMdDVmVXdPWjdSZFBtTXZqVTdQaFVIVUhnYTNKbGZQb2x6bnUw?=
- =?utf-8?B?NWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d305f509-4cc8-4d56-d71e-08dae15f4f49
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB5052.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 01:21:09.8335 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T155pSWOeyrUDHOYvwh0abqu7Ley7AVpdM9OnyaBx8Wp/X+dbvWtpvYU8odvgriM1QIn1QywGCubJXbT4L+Z/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4881
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.65;
- envelope-from=chenyi.qiang@intel.com; helo=mga03.intel.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=345d64987=alistair.francis@opensource.wdc.com;
+ helo=esa4.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -179,36 +113,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: Alistair Francis <alistair.francis@wdc.com>
 
+The following changes since commit 562d4af32ec2213061f844b3838223fd7711b5=
+6a:
 
-On 12/16/2022 6:30 PM, David Hildenbrand wrote:
-> On 16.12.22 09:52, David Hildenbrand wrote:
->> On 16.12.22 07:22, Chenyi Qiang wrote:
->>> vmem->bitmap indexes the memory region of the virtio-mem backend at a
->>> granularity of block_size. To calculate the index of target section
->>> offset,
->>> the block_size should be divided instead of the bitmap_size.
->>
->> I'm curious, what's the user-visible effect and how did you identify
->> this issue?
->>
->> IIUC, we could end up our search for a plugged/unplugged block "too
->> late", such that we miss to process blocks.
->>
->> That would be the case if the bitmap_size < block_size, which should
->> effectively always happen ...
->>
->>
->> unplug_all and migration would be affected, which is why a simple test
->> case without a guest reboot/migration wouldn't run into it.
-> 
-> I just realized that unplug_all is fine because only vfio implements the
-> ram_discard_listener so far and always sets
-> double_discard_supported=true. So migration should be the issue (and
-> IIRC migration with VFIO is still shaky).
+  Merge tag 'pull-loongarch-20221215' of https://gitlab.com/gaosong/qemu =
+into staging (2022-12-18 13:53:29 +0000)
 
-Yes, actually, no obvious visible effect on my side. I was just learning
-the RamDiscardManager interface and found this issue. :)
+are available in the Git repository at:
 
-> 
+  https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-2022121=
+9-3
+
+for you to fetch changes up to e59b3c6ece6a1351aeca6b916cd9674e23d15e89:
+
+  hw/intc: sifive_plic: Fix the pending register range check (2022-12-19 =
+10:42:14 +1000)
+
+----------------------------------------------------------------
+First RISC-V PR for QEMU 8.0
+
+* Fix PMP propagation for tlb
+* Collection of bug fixes
+* Add the `FIELDx_1CLEAR()` macro
+* Bump the OpenTitan supported version
+* Add smstateen support
+* Support native debug icount trigger
+* Remove the redundant ipi-id property in the virt machine
+* Support cache-related PMU events in virtual mode
+* Add some missing PolarFire SoC io regions
+* Fix mret exception cause when no pmp rule is configured
+* Fix bug where disabling compressed instructions would crash QEMU
+* Add Zawrs ISA extension support
+* A range of code refactoring and cleanups
+
+----------------------------------------------------------------
+Anup Patel (1):
+      target/riscv: Typo fix in sstc() predicate
+
+Atish Patra (1):
+      hw/riscv: virt: Remove the redundant ipi-id property
+
+Bin Meng (20):
+      target/riscv: Add some comments for sstatus CSR in riscv_cpu_dump_s=
+tate()
+      target/riscv: Fix mret exception cause when no pmp rule is configur=
+ed
+      target/riscv: Simplify helper_sret() a little bit
+      target/riscv: Clear mstatus.MPRV when leaving M-mode for priv spec =
+1.12+
+      hw/riscv: Select MSI_NONBROKEN in SIFIVE_PLIC
+      hw/intc: Select MSI_NONBROKEN in RISC-V AIA interrupt controllers
+      hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
+      hw/riscv: Sort machines Kconfig options in alphabetical order
+      hw/riscv: spike: Remove misleading comments
+      hw/intc: sifive_plic: Drop PLICMode_H
+      hw/intc: sifive_plic: Improve robustness of the PLIC config parser
+      hw/intc: sifive_plic: Use error_setg() to propagate the error up vi=
+a errp in sifive_plic_realize()
+      hw/intc: sifive_plic: Update "num-sources" property default value
+      hw/riscv: microchip_pfsoc: Fix the number of interrupt sources of P=
+LIC
+      hw/riscv: sifive_e: Fix the number of interrupt sources of PLIC
+      hw/riscv: sifive_u: Avoid using magic number for "riscv, ndev"
+      hw/riscv: virt: Fix the value of "riscv, ndev" in the dtb
+      hw/intc: sifive_plic: Change "priority-base" to start from interrup=
+t source 0
+      hw/riscv: opentitan: Drop "hartid-base" and "priority-base" initial=
+ization
+      hw/intc: sifive_plic: Fix the pending register range check
+
+Christoph Muellner (1):
+      RISC-V: Add Zawrs ISA extension support
+
+Conor Dooley (3):
+      hw/misc: pfsoc: add fabric clocks to ioscb
+      hw/riscv: pfsoc: add missing FICs as unimplemented
+      hw/{misc, riscv}: pfsoc: add system controller as unimplemented
+
+Fr=C3=A9d=C3=A9ric P=C3=A9trot (1):
+      hw/intc: sifive_plic: Renumber the S irqs for numa support
+
+Jim Shu (2):
+      target/riscv: support cache-related PMU events in virtual mode
+      hw/intc: sifive_plic: fix out-of-bound access of source_priority ar=
+ray
+
+LIU Zhiwei (5):
+      target/riscv: Fix PMP propagation for tlb
+      target/riscv: Add itrigger support when icount is not enabled
+      target/riscv: Add itrigger support when icount is enabled
+      target/riscv: Enable native debug itrigger
+      target/riscv: Add itrigger_enabled field to CPURISCVState
+
+Mayuresh Chitale (3):
+      target/riscv: Add smstateen support
+      target/riscv: smstateen check for h/s/envcfg
+      target/riscv: generate virtual instruction exception
+
+Richard Henderson (4):
+      tcg/riscv: Fix range matched by TCG_CT_CONST_M12
+      tcg/riscv: Fix reg overlap case in tcg_out_addsub2
+      tcg/riscv: Fix base register for user-only qemu_ld/st
+      target/riscv: Set pc_succ_insn for !rvc illegal insn
+
+Wilfred Mallawa (4):
+      hw/registerfields: add `FIELDx_1CLEAR()` macro
+      hw/ssi/ibex_spi: implement `FIELD32_1CLEAR` macro
+      hw/riscv/opentitan: bump opentitan
+      hw/riscv/opentitan: add aon_timer base unimpl
+
+ include/hw/intc/sifive_plic.h                  |   1 -
+ include/hw/misc/mchp_pfsoc_ioscb.h             |   4 +
+ include/hw/misc/mchp_pfsoc_sysreg.h            |   1 +
+ include/hw/registerfields.h                    |  22 ++
+ include/hw/riscv/microchip_pfsoc.h             |   7 +-
+ include/hw/riscv/opentitan.h                   |  10 +-
+ include/hw/riscv/shakti_c.h                    |   2 +-
+ include/hw/riscv/sifive_e.h                    |   9 +-
+ include/hw/riscv/sifive_u.h                    |   2 +-
+ include/hw/riscv/virt.h                        |   8 +-
+ target/riscv/cpu.h                             |  10 +
+ target/riscv/cpu_bits.h                        |  37 +++
+ target/riscv/debug.h                           |  13 +
+ target/riscv/helper.h                          |   2 +
+ target/riscv/pmp.h                             |   6 +-
+ target/riscv/insn32.decode                     |   4 +
+ hw/intc/sifive_plic.c                          |  66 +++--
+ hw/misc/mchp_pfsoc_ioscb.c                     |  78 ++++-
+ hw/misc/mchp_pfsoc_sysreg.c                    |  18 +-
+ hw/riscv/microchip_pfsoc.c                     | 121 ++++----
+ hw/riscv/opentitan.c                           |  26 +-
+ hw/riscv/sifive_u.c                            |   3 +-
+ hw/riscv/spike.c                               |   1 -
+ hw/riscv/virt.c                                |   7 +-
+ hw/ssi/ibex_spi_host.c                         |  21 +-
+ target/riscv/cpu.c                             |  11 +
+ target/riscv/cpu_helper.c                      |  26 +-
+ target/riscv/csr.c                             | 393 +++++++++++++++++++=
++++++-
+ target/riscv/debug.c                           | 205 +++++++++++++
+ target/riscv/machine.c                         |  36 +++
+ target/riscv/op_helper.c                       |  28 +-
+ target/riscv/pmp.c                             |  90 ++----
+ target/riscv/translate.c                       |  54 +++-
+ target/riscv/insn_trans/trans_privileged.c.inc |   4 +-
+ target/riscv/insn_trans/trans_rvi.c.inc        |   8 +-
+ target/riscv/insn_trans/trans_rvv.c.inc        |   4 +-
+ target/riscv/insn_trans/trans_rvzawrs.c.inc    |  51 ++++
+ tcg/riscv/tcg-target.c.inc                     |  68 +++--
+ hw/intc/Kconfig                                |   3 +
+ hw/riscv/Kconfig                               |  22 +-
+ tests/tcg/Makefile.target                      |   2 +
+ tests/tcg/riscv64/Makefile.target              |   5 +
+ tests/tcg/riscv64/test-noc.S                   |  32 ++
+ 43 files changed, 1255 insertions(+), 266 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzawrs.c.inc
+ create mode 100644 tests/tcg/riscv64/test-noc.S
 
