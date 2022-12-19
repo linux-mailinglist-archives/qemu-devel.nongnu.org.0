@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A34A650A0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:24:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C5D650A3C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:38:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7DHI-0003Jl-E4; Mon, 19 Dec 2022 05:21:48 -0500
+	id 1p7DHR-0003La-Rd; Mon, 19 Dec 2022 05:21:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9352c01a6b=bin.meng@windriver.com>)
- id 1p7DGt-0003Bp-Qz
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:25 -0500
+ id 1p7DH0-0003Dv-68
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:31 -0500
 Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9352c01a6b=bin.meng@windriver.com>)
- id 1p7DGs-0007Te-A0
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:23 -0500
+ id 1p7DGy-0007Vx-Pz
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:29 -0500
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BJ9dUcX026145; Mon, 19 Dec 2022 10:21:17 GMT
+ 2BJ9dUcY026145; Mon, 19 Dec 2022 10:21:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=4zL4466Iig+Ejjjyyw0zvP/MB6WqMx5USzaQ70doLGA=;
- b=EWjIGAM6piGXkMzzM8ePe+KgNbZbWTTeQQToxbomNT2m/Ibgl2mhTm+sav4Udq7idPOA
- Mf/rKa888tFFGUAAjjNT7Kyz38BLAYk9Z106JpF43F7ej65mnqUVk/pyBebyKFGMHpqa
- 8FfPYgKRrCq9+H/haedYh3FcJGt9Mh8ClVBWRaa8wgX5diymVKRn5Mmtv772GsV2T7BT
- 5lgZDLZ4ZDs0QpCOxBind/y62JNaY2YkFB8/fepkLjeYctvsK8yLUAXFVciINOq/J1u4
- sMd93sPmRUIpTfm1frSqZvYiWGwsTBXc36fJ+YODU7IKHA5ostioPA8EDJrIDenCuwHM JA== 
+ bh=M2j3E7ngWrmbtYmE4yi5nz0iPjbdn8UqvgKMNy/r2a4=;
+ b=Oqo2cvKP1T+gbllOx5Q/TC5h3r2xybjwmOq+iRm1IRdh2MjQDF8enWGPsM+AgOEX2O+B
+ z8X1PmhGRyp1SWhT8plvUxcer2PjxntqV7aBYizrIciR0moKTAARkaAwo/NgQivZCftx
+ 06tXJcieXIR0G6VkNMAeW2O3Fl2H+7YG+4rDsjxcmXR46MeGGr5hJymM9mNhbHuK67NE
+ Fqp8oFveIzA7bXGySu5Du83CiO9ML/ZUp2ZwR8ov808DYDlpZxoZRAc3trRBsNgtq5Fq
+ 33qn08p9BbswIp4pVkuQLqB2+qu39SOE4Fu8OOqAH/lHKF2TZMw4jK/7dcVgEB7e+nNe dg== 
 Received: from nam10-mw2-obe.outbound.protection.outlook.com
  (mail-mw2nam10lp2108.outbound.protection.outlook.com [104.47.55.108])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mh4r99b7e-2
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mh4r99b7e-3
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 10:21:16 +0000
+ Mon, 19 Dec 2022 10:21:17 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=js17YSsAb77n76NHqgX5lxiqwZvrBmGvdYC0gt5Uu3M479XbiF7kl/X8oqZNE6AI1tPlcGFdgDltoRXgt/ugp1XEpGCSnKdPVvvMcUitPkbW9ByN3BjIMc0xODu5SUapSBaWjxckfIxQt8mMyVaj+5DgZAwvF5Wk27CefeHnJ/Qo+vgGqT3x5rZXsOsXb8paALJraP1D+zQFAgwAa9Da+77ImslszC4mzOhhxQYMWVsel7Cao00STFfkQekUPL0mgNgOvNRzUd2tN5wZ/440nQRMzEKtgv4YegMU4ydPiD9Ji5XhIb+beabXrQFStRwnxfKeUfRrjpPyWP2h0wPwNA==
+ b=GhouIMMEeDqVkh3LIFKpupPx4JIY1yeB5T7+gZYe45cMhxuIInEGWw9jbG95TsWw/EsqUzW/E8tlpU4muzUyB2p/YdAQlwdOp4+dldq3sMdSdxV2Jr0w/MXOoTfnk5sHETweA0J3W8o4k+53MAC0LEihvlBqFJQ5M49ojqQL36VFsxRd4nqX7icUd8bEXZ82MroK60r78O3jHRg33qAuSVP6tZY2sSa4Zvw+eW7tZ3PH1zuF5nv6/ch5RppB0K0eFTi+/USxbMgqs9nx0Ad/6aPue609irNURYzZQP5nHrqFkakf+7TWzdNGmYDGyhQYpC5pCUtqxNS2TvRM4tHvaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4zL4466Iig+Ejjjyyw0zvP/MB6WqMx5USzaQ70doLGA=;
- b=Rh5+WkR4vTCmkQbpT3N3n+HfNVs0esRRfqc8EqHK1+9QQROFktD0KFyuZhNo8GYS5hdLtOLPgwI1VsV+5dti6/o3VV/xYJsMcNp3wwMqwuh0IOF36Pr5XsrpgKDB+krxTzhYZEqQZtxm6CTMuQtm5HPHxXHhCSNii13PZkBCz6uIahdfoORHLSflC+Yp6PnVUcj41FOm8XsE8lNalRWUIydnMWrFdoaMCFxpoDLaTcjXGafXBXBSVsVOeX4r6wtV4UvtBzGB3HtwpsRa7GewJDL92WfI+5q6XJalyIa5+LScz6C7FF8z+Vu+PwpkifzEfwXDmHblEIq6FVv1aVmceQ==
+ bh=M2j3E7ngWrmbtYmE4yi5nz0iPjbdn8UqvgKMNy/r2a4=;
+ b=lr4Nn948rcbNqhYb+sQ9nfbiXbBJ41BRjCZTxc8mUHxCMIppR3AprYQYCJNduSSU9uJN4Y39WniT+Ilgm5LLDO7xUBEdH/SU/3RoRN8yD/GjQd+SOKebZks9e27p7TNFOLSh1QIl9aHtzEymWMY+zdKKbWM2NvRCJywWj1Zpd7cykCSlg7PKQ67oa7SYorRY8t0ZjsRgfVUHOwAYmSEGswvA/DM69/DfC0g7z0MSbig5TF6y+b4bX1m4KFZ8N4s4nH0kGa3YkPfIuwN23/pCmF+dRmU5Er9sKUR9TINEm8VlCbQHiF2tznQ8PWVJD8T33ff0iai0nfKWerOBNktheg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,18 +52,18 @@ Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
  DM6PR11MB4691.namprd11.prod.outlook.com (2603:10b6:5:2a6::21) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5924.16; Mon, 19 Dec 2022 10:21:11 +0000
+ 15.20.5924.16; Mon, 19 Dec 2022 10:21:13 +0000
 Received: from DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::8e5e:71da:1e29:bc15]) by DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::8e5e:71da:1e29:bc15%5]) with mapi id 15.20.5880.019; Mon, 19 Dec 2022
- 10:21:11 +0000
+ 10:21:13 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
  qemu-devel@nongnu.org
 Cc: Guohuai Shi <guohuai.shi@windriver.com>
-Subject: [PATCH v3 13/17] hw/9pfs: Translate Windows errno to Linux value
-Date: Mon, 19 Dec 2022 18:20:17 +0800
-Message-Id: <20221219102022.2167736-14-bin.meng@windriver.com>
+Subject: [PATCH v3 14/17] fsdev: Disable proxy fs driver on Windows
+Date: Mon, 19 Dec 2022 18:20:18 +0800
+Message-Id: <20221219102022.2167736-15-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221219102022.2167736-1-bin.meng@windriver.com>
 References: <20221219102022.2167736-1-bin.meng@windriver.com>
@@ -75,61 +75,61 @@ X-ClientProxiedBy: SL2P216CA0158.KORP216.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|DM6PR11MB4691:EE_
-X-MS-Office365-Filtering-Correlation-Id: 32f5fcda-9454-4d2d-a416-08dae1aac03f
+X-MS-Office365-Filtering-Correlation-Id: e9a920ba-a8f7-489e-5331-08dae1aac173
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GRwhj5MZzTPDCwbGUGfXYMB9oOiWu9p9LxjCGUTh9Z1h1+TKC8hPE144VomAZm77EtEIrJDloG6D3oVojDu6MkIpCQivbIksQqZwSCSHgqefhJ3riCJKjhnN+R6g3D2+C97w/CvCSW0uZ/vEjMuw3xlh+7p2DgxhqaWJT/JaFH6CxMV09sBoWRVAHXXT1aHbyB96FrVpF6JZ9acIOcS/1xumOwcsszppQa7x1yHGfpHBq+s5nZzeeprHFVz20fMynK0QxKf8k2LwjFxYwA8pLlUEj/BfOm8gohwa1PoYptSQPRH4iFSU5aStAmRfe7d7kkVhavDyRHWfBfyJChyI0d6Kf6tQDOoHmdaDGk/LoSBrStcQ/krDueziF4y+DLCfQAr3+VcOBi8qWpTetSkUPo4bEVCHF//dqEHodOeon2adYIGTVzZr2F+ItTBhI6F+FuZggGf54DSl0eU5425zMDC4+vdb74Rvv7Cnsg9eNC6h/wOzUw8wwaJtjW4c1CYRqoQU3HAyIlz3u+lE/x13lxh7ZMcbLmjshQYWR2pcquNYWlUZwilXhptUCa81PgK+5XaK6iWac2VsYgUgDJM2980DI+S3n5BV0RoJSTLCDLMqasrmJLTyavoTD6tzAVRI3C66dLZNuXRmMJyyvtzHg7wkGMwfPeJODl4/pIoccy7weHRPAaTOO/mTHtx2dwY1NYuM0jSozHRfhC3W5hGIjQ==
+X-Microsoft-Antispam-Message-Info: wBGQa6tlj+wg/FwCM2Bh63dMzZ0OZIP4svgO16oeiSoAD3CwXQuKr9Gek10XTuiaOk1NXss5udkqj8WnWlQgKJKcBj/b/NicaSkLF0TcmL6v2jRYNRvpQTlYJJ2YDW7I2Y0JmW/XyVBLB5xeRBcU4gVxseXkgaDhsRTop6g99qZsu4GwRsfw9VS9KXG+C6Qrpvj6cMOkEyO5SiYFcKySWeEG3Y+uVQBkm0tztUgHWApI0hsNl8TfcKik5AAb9sGCddKCc4ihRbTHSKFyEeJEG1DiHnMCFTUkcRFPROIvuQ7v9hDqcq59OG4em40ceK2oK9eL4sX7fusVmxDBu9+4ZZTTHg3D/skE61s4WYtHBI9WAAA2ChrBN2jbI3Stqka3B8pKUFSuFRUaLXp/eswslAKkMBTvL0PezjGZHaXZi3H7jKiW/mo2NBsPTxHyaF9mMO4sSskkvYWtN9p6YQee9OcYL6u53Ys5ENGLwJVjlVNyG8KAZuUHvcOIv3Dab/ggUtowD+qh/a9U42QrbTAxisbw0roK1uCGhSDiVX81mVnq43nh6Pa3+xyEAaUCyjQ7XXcbQMXyPs3+KwL6H0/9jfatAYz/pnjgLgJn7R4z1B2d5Gdwp6L0W4vT6JymlgSypqjzhigT2adguxCMb1ZH5iMtBkZMnMtT/2bV5uaLhVAS4ZGP+xmoMsRDMAhXUB7/
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39840400004)(136003)(376002)(346002)(366004)(396003)(451199015)(5660300002)(107886003)(8936002)(83380400001)(186003)(26005)(6512007)(44832011)(2906002)(41300700001)(36756003)(6486002)(110136005)(1076003)(38350700002)(52116002)(316002)(478600001)(4326008)(38100700002)(8676002)(66476007)(2616005)(6506007)(66946007)(66556008)(86362001);
+ SFS:(13230022)(4636009)(39840400004)(136003)(376002)(346002)(366004)(396003)(451199015)(5660300002)(107886003)(8936002)(4744005)(83380400001)(186003)(26005)(6512007)(44832011)(2906002)(41300700001)(36756003)(6486002)(110136005)(1076003)(38350700002)(52116002)(316002)(478600001)(4326008)(38100700002)(8676002)(66476007)(2616005)(6506007)(66946007)(66556008)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bK2iB3vITOrun0/POuA8ZQGJoIcWUkkSiBpoV8c5xC6aMHyFxji6wg+VgBl/?=
- =?us-ascii?Q?3v64GLUysBeu4BntbXRbkIIfDQ8NIOyz/3YJlKHauIgWhrxgZo6Z9nA3d+YW?=
- =?us-ascii?Q?Ym91l+HXE0yyvxjhj9ixpDKSitxREHmv5TXibvFJwUWXoBbBIbYNILsrz0vv?=
- =?us-ascii?Q?VJYvLzv5xnGU0tL0ree9xbrA6yN3o3YykJ31LA3KeVFoe+ojgBpx7298Wsmv?=
- =?us-ascii?Q?CKXzrMc7xbhVRJsw0p/fcqEYCbFD0R+wBNUBGRfoeoCw1IQR3VSUPTAs2Rim?=
- =?us-ascii?Q?lq1KekJZh3tISbm7di/ECn0auP36GhoA+cB4RQ6u1gD5TYQPH2/so2rwlxa/?=
- =?us-ascii?Q?8SmWEWmBRpYzgSCPMKk1fGyzOMkwRRGnm6PklW4mmjLsblJjQV5r0AtDTcbu?=
- =?us-ascii?Q?ltkGwnwA7IfpWXTFb1bmTmwIlH4zKCtMDojIDUDqWgQOo+z8xm6NS1sl+zPO?=
- =?us-ascii?Q?br6fZCgkazDt8KfXY7JuhBig7a4pIRY15ZAJPZ8s9fNAoDoENTiDO1KWiBkQ?=
- =?us-ascii?Q?cb3erI4ozV5DKyjl6eR0b+8Q1bRdQsDUnsG8sO0oVB0xDMR6jLOhY6mtJK7Z?=
- =?us-ascii?Q?JqAbNJUGxlYdw/CwUxzVNQ4IJV5Lgrkcg/EgY+cD8mtbyX82cgNMgQvRzLoF?=
- =?us-ascii?Q?MkIGB5A+6pe/wOk5IDHxy6PfAYAedvU7LxY0tcy+B37rAjjYZTLMibQ2or0G?=
- =?us-ascii?Q?xHUueDwj8wyTsBfA24yuf8b7fWHi6jOKKst9+MUMU8E0YnHJIGcQmfAT3X0v?=
- =?us-ascii?Q?PSLo2aEGJ+7tM7QUT4hhYVOIegGxbGnQw0dJu9MQ4sJ+UW9TRci/5QHxgSb4?=
- =?us-ascii?Q?TD3d8pTxgbXY/NHTIk1GCyQRr7BAAg0I45plzAWof8SmKuCSpD8tlUkIuGRd?=
- =?us-ascii?Q?sOOc7CzDApNsH26EPpnzJ+rThcIHAeirt4VVs16/2ZMfiUewC6lUGlr5atfa?=
- =?us-ascii?Q?6PF15h0hj8s15535dRmlYmPF4JOGphPu9emUbmrLdgrSVJG49YpouBMa9hRx?=
- =?us-ascii?Q?XkXnbC0LOwCEjO6zpwDyhzDFlH7h3Yf4jboYGO/BMEMCaQEs3n7YswClOeu8?=
- =?us-ascii?Q?wYnzXf+yQOScMx39rmjueSg2+Doih2pI00iDQy0QKS4O7wPWLZKErv9I2WiX?=
- =?us-ascii?Q?QGCLUncSmwEdPk9znZgxj5QKqbdslH4vlL+IVyAA07nFQwOmXzxDZtxTF5ly?=
- =?us-ascii?Q?aTcZdaPJLohcW4bHsuyO41jCXbkq6uky1K9t3JINRjIGCaBhXvfi5yRtZJK0?=
- =?us-ascii?Q?+G/VQUOQrWp9fj45oaMmL10Dju2mOL8B9GmNzB0lGvQV8TfsysH3o9Mqnw7o?=
- =?us-ascii?Q?lRosb3LNhm56UciGVqxuagynQUn/M1PFtr5Unmppf7/F1KqpGcQlOxR0oWHG?=
- =?us-ascii?Q?crjZVQ1bM2+K7h0MOtc6S1m5A2hpZaMPpQtC0NBBa6jHowjwAvenjUVm/fy2?=
- =?us-ascii?Q?aqCKIh2gpwYuozFMsffiHLHZGB6KQ1szSJFrqITfSYA5Bd/xMhwvEr9G6o4K?=
- =?us-ascii?Q?faD5NBjcGt1oL5S3NFJb9WX/cg/sCYm5bCF+GqaQFQfDxDWLqy7Z2z7MroLQ?=
- =?us-ascii?Q?sJkxYPgC3EQ9HSKqvs7aUAZoifMm4bI+aQXZaVLv?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Om2fG7wwNUSGMq22SFsT2OMzOQ5Y/QUvT2IBmHmHlVBuw60qHifHOZHuFQLK?=
+ =?us-ascii?Q?fJwhaUq9RaG9V2TD/d6rw9e+fwB4RXA660xLfix+EEHnMLs99s7shogvrpnt?=
+ =?us-ascii?Q?0jL6eN0eKpmMK/vr9lO+szQxiRihu/88n/uHf4eHKE/GSAEqj7kqbNhEcvMp?=
+ =?us-ascii?Q?fyCSYTPEE7XV4nTSFdua6YXTOstVouxtRm95nnfmDPKWTbNzJ/ZPXFbbOxHT?=
+ =?us-ascii?Q?bJWSFk+Jt6HNABIzTbmO9fCGfvIfE0vFWKs9X8df2JDyVxByvH4qdGUg55Wz?=
+ =?us-ascii?Q?YELs9D6L94q3PoyeLzph3WURZpPPCIeFqdRWw0Cnl2XVstL4TBZvCeB9ceMp?=
+ =?us-ascii?Q?y5DduvgBHp51rpY2ZFB0B9Aovwgx9HiqU60lqdcYXRCzNdUOpLWEoVTlpG0u?=
+ =?us-ascii?Q?TX1HdcYYlOBJwEvoisXZwaZdrUbp/cWlqjawaClZCg7b0GjrvRZGji4OWBx9?=
+ =?us-ascii?Q?bbCgrBc4UmZ6ue4icf8Fhsj1HwaTIotc7JbDgT572MWqbud//tZ8fbiy/B2I?=
+ =?us-ascii?Q?bbZKHqg9qJXInzAoxWRunSPZZTMUt6vLyuq4vPiIKE/TYw9lS3QRl1jo/A+M?=
+ =?us-ascii?Q?UFGPhDEfPSayhifSrxHACBos/oXkO2RXpRgJSdEoDUXtLTQ58KNCptWvSdfC?=
+ =?us-ascii?Q?gyAmT4NJ2WA71KUvFu7DVibVDz8MEIfWcwFLEFexNMiJlQLeSUHfkPrXsS6M?=
+ =?us-ascii?Q?WNMNRm7y7+DPd3CB0KwWCpfr7o+gndHT4YDEnuqE6Sxsog5NrqLvXjne60wi?=
+ =?us-ascii?Q?ymYnBSpI+7unnX+RToXmFjKCAa9i5Lfxpn++IsU78m/hVBCfCJ89L+C7HQuL?=
+ =?us-ascii?Q?cHi6g3SdD4AxNxCItOOoSygMWZSg15TBas+m/uvK19aeFGiS+JRa9BIKTr7i?=
+ =?us-ascii?Q?Snzht6CcyZKIcFZoZmwPVDqkSOxBbnq2CL/XIoHJuGk8ipTB7wGQnqni3Qp3?=
+ =?us-ascii?Q?xUpZVCdQAAgZtcELGl4CL9aYvuSnyUT0F1MIa9L3P+2YXKgO0TL+5yMeJoez?=
+ =?us-ascii?Q?nMh108x/52TBsKgFu9w131K8pFQsC6gPfx36AZ7710VTDupHLGnkrpW3DyBe?=
+ =?us-ascii?Q?FeSSgIRMC1cZ2i/4SiJ5qV/V/OgprWzEbWCJm4KOZhQ4yZZFwHt8uPHn2/Lp?=
+ =?us-ascii?Q?Z0csduLmnnbpikpzCAb4qqPEvw3DuVrQ0LcEl5aF4J+zugHK0xBW4pkrFdA3?=
+ =?us-ascii?Q?sXWhOtSUNpQJZmIRnv7VuhU5B4s9x8/kTKJKmY6MFblUltsLGuxgSjCy8Hph?=
+ =?us-ascii?Q?gbrEd5mf3S9amXvOoWQ9dG6JXayHgyPpVJZojDNzoVimEs9VBChzheROlu7Z?=
+ =?us-ascii?Q?OjGFeXjb3C156OanSejbJe1+Dr6zTbJcxtpDM9bjqDkZ7v4+xHktq7EIRVFD?=
+ =?us-ascii?Q?B4UirqjbyreqDWgkvqUE4zQsZiFaW3BrWtXBuhAcUBNTqX0esOm33X9z+vcz?=
+ =?us-ascii?Q?G5V9uxEEjWFwpDTvp5RO5ZDD1JyeNmsU5Mm6VIhsU72Rf3ZkzH5UtVaYT7eq?=
+ =?us-ascii?Q?M4/az+oRdHbuUI/AxAK+j1ik6A6N4TJuT6+azVwuG386QJfakLCjNAgVEXKc?=
+ =?us-ascii?Q?qJmMD+FNfNRm+a+0IZxfwlGkd5SjwbEwRw4yAycJ?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32f5fcda-9454-4d2d-a416-08dae1aac03f
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9a920ba-a8f7-489e-5331-08dae1aac173
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 10:21:11.3838 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 10:21:13.5408 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7n6PXo2SU13MElaSrFCUm+u98xZkWjVyzqMXc5vKTxTA4/oUCtcEIQZdrDhstPrPtNIV9+YkVffUaHEo1p0vLw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: WwYsc8t6QO0+t03W9W5Xgk14YpVlfjMeqyo4pae+yXNnDfvtAwnW/475ji/Ft6/NVUrItolHJA0/w0RBAzl2SA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4691
-X-Proofpoint-GUID: aVc3XwcCiWqRGhqBST1znutXzQXVInqP
-X-Proofpoint-ORIG-GUID: aVc3XwcCiWqRGhqBST1znutXzQXVInqP
+X-Proofpoint-GUID: 0xERC2_gDiVAnoX6A5f3BDvRgrqOt4rJ
+X-Proofpoint-ORIG-GUID: 0xERC2_gDiVAnoX6A5f3BDvRgrqOt4rJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-18_13,2022-12-15_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  adultscore=0 spamscore=0
- mlxlogscore=709 priorityscore=1501 clxscore=1015 phishscore=0
+ mlxlogscore=752 priorityscore=1501 clxscore=1015 phishscore=0
  lowpriorityscore=0 impostorscore=0 mlxscore=0 malwarescore=0
  suspectscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2212190092
@@ -160,17 +160,8 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Guohuai Shi <guohuai.shi@windriver.com>
 
-Some of Windows error numbers have different value from Linux ones.
-For example, ENOTEMPTY is defined to 39 in Linux, but is defined to
-41 in Windows. So deleting a directory from a Linux guest on top
-of QEMU from a Windows host complains:
-
-  # rmdir tmp
-  rmdir: 'tmp': Unknown error 41
-
-This commit provides error number translation from Windows to Linux.
-It can make Linux guest OS happy with the error number when running
-on top of QEMU from a Windows host.
+We don't plan to support 'proxy' file system driver for 9pfs on
+Windows. Disable it for Windows build.
 
 Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
@@ -178,43 +169,29 @@ Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 (no changes since v1)
 
- hw/9pfs/9p-util.h | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ fsdev/qemu-fsdev.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 0ef67a53ce..4f386f40f2 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -67,9 +67,9 @@ static inline int errno_to_dotl(int err)
- {
- #if defined(CONFIG_LINUX)
-     /* nothing to translate (Linux -> Linux) */
--#elif defined(CONFIG_DARWIN)
-+#elif defined(CONFIG_DARWIN) || defined(CONFIG_WIN32)
-     /*
--     * translation mandatory for macOS hosts
-+     * translation mandatory for different hosts
-      *
-      * FIXME: Only most important errnos translated here yet, this should be
-      * extended to as many errnos being translated as possible in future.
-@@ -78,9 +78,17 @@ static inline int errno_to_dotl(int err)
-     case ENAMETOOLONG:  return L_ENAMETOOLONG;
-     case ENOTEMPTY:     return L_ENOTEMPTY;
-     case ELOOP:         return L_ELOOP;
-+#ifdef CONFIG_DARWIN
-     case ENOATTR:       return L_ENODATA;
-     case ENOTSUP        return L_EOPNOTSUPP;
-     case EOPNOTSUPP:    return L_EOPNOTSUPP;
+diff --git a/fsdev/qemu-fsdev.c b/fsdev/qemu-fsdev.c
+index 3da64e9f72..58e0710fbb 100644
+--- a/fsdev/qemu-fsdev.c
++++ b/fsdev/qemu-fsdev.c
+@@ -89,6 +89,7 @@ static FsDriverTable FsDrivers[] = {
+             NULL
+         },
+     },
++#ifndef CONFIG_WIN32
+     {
+         .name = "proxy",
+         .ops = &proxy_ops,
+@@ -100,6 +101,7 @@ static FsDriverTable FsDrivers[] = {
+             NULL
+         },
+     },
 +#endif
-+#ifdef CONFIG_WIN32
-+    case EDEADLK:       return L_EDEADLK;
-+    case ENOLCK:        return L_ENOLCK;
-+    case ENOSYS:        return L_ENOSYS;
-+    case EILSEQ:        return L_EILSEQ;
-+#endif
-     }
- #else
- #error Missing errno translation to Linux for this host system
+ };
+ 
+ static int validate_opt(void *opaque, const char *name, const char *value,
 -- 
 2.25.1
 
