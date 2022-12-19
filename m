@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB382650BE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 13:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF26650BFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 13:43:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7FCE-0001tv-PC; Mon, 19 Dec 2022 07:24:42 -0500
+	id 1p7FE9-0002SG-40; Mon, 19 Dec 2022 07:26:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1p7FBy-0001s1-H3
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 07:24:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p7FDz-0002Rn-M1
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 07:26:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1p7FBw-0007TQ-9A
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 07:24:26 -0500
+ id 1p7FDy-0007qU-8W
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 07:26:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671452662;
+ s=mimecast20190719; t=1671452789;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KQbxjTI3mAit1VyKHrI5/C3jNn5Anr7OrURi/7+WkwQ=;
- b=UKS/EXueMwJAjP4Dl1zaicLJafkG7MLnp1tKPhUCkf9UvqgKlAhZL0fvqinc1fcAYQFwV0
- dtLHlRfQ6yPnesXYIk4k0dM5/5ZyxzANB7vynPK+zovmLiyRxneMc7OKgZ7Nr1x1Bzz02s
- tvmUU+JMDFNA+9AGZ48f/Ph1TfU+G/I=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VPSctcGDPfiqFXuBfoyafg7YrKXg0UmLU2hoTKaIIy4=;
+ b=ZrKRTCqLZNlMUAnuHleQ7FqPcXLUMSoLjw3CKUmLK9wKOLybdT/1KK5onWjG9beNwCiNR9
+ Se6E9DuojoeICHf4VXz2to02u/lZLlbyg22EDF0HtAxqOdQDE0LebmTQsHpnNTqMpJ/bYx
+ 4LyDaupAgg8dmoLoP10ERyX4p52/3oY=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-387-_fG52ZbAPKGnGX8wWynCZQ-1; Mon, 19 Dec 2022 07:24:21 -0500
-X-MC-Unique: _fG52ZbAPKGnGX8wWynCZQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- q17-20020a056214019100b004b1d3c9f3acso5525414qvr.0
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 04:24:21 -0800 (PST)
+ us-mta-80-V-0Q3q7AMdqN80ZpCT1FPQ-1; Mon, 19 Dec 2022 07:26:27 -0500
+X-MC-Unique: V-0Q3q7AMdqN80ZpCT1FPQ-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ m8-20020ac807c8000000b003a7f82f0da7so3922246qth.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 04:26:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KQbxjTI3mAit1VyKHrI5/C3jNn5Anr7OrURi/7+WkwQ=;
- b=0trNb+abbrV6AJPoLs62+wG6oVmrwVagiTIT/b8wI6HzxoI9SE2uijgkya75NbLye4
- KuOZbffybYUO/YQ09lGmcbdJyWj0ansL5gVpdqM+mmI/4YkT93WESaP7zmlNdjHyZLpS
- Mhld9ICo3PRJWna8R6tagN85lxii2B6l09KrvImNI5i3o+8u4KszCkqroyXPTCjWg1tF
- NYCga0buR/9zHyYY22VbGir9gr94GgSu26gTzjzW7CGMepk/92d96kOFgtidGzy3rGBv
- adONLxrG1C2n7SEAF4vo5olSHDkSIS3MnP3vepgSjo5KgR3g/3x75HODhGPohhzff8j8
- 1Zow==
-X-Gm-Message-State: ANoB5pmUbVwuVY4WUJRNpUZ3rDsoECTEZjh0AsNyGxXL63LVTditFlV7
- wcdDI344dSHDWCUIkuzzHksp86YjDRDPsxuVOj6g891987JQILwnav4IaJ5gNEZiw+4hIBmDYib
- VRi0L7dtqu3mg9ZQ=
-X-Received: by 2002:ac8:464d:0:b0:3a7:f91d:917c with SMTP id
- f13-20020ac8464d000000b003a7f91d917cmr63671406qto.31.1671452660770; 
- Mon, 19 Dec 2022 04:24:20 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6BR7To8gr8lqRPWfmNyJfDLtY3j+LA+uihWUvhGco1v4JJcgIZnnU3YcwEx9B0jt++qbKt7Q==
-X-Received: by 2002:ac8:464d:0:b0:3a7:f91d:917c with SMTP id
- f13-20020ac8464d000000b003a7f91d917cmr63671369qto.31.1671452660423; 
- Mon, 19 Dec 2022 04:24:20 -0800 (PST)
+ bh=VPSctcGDPfiqFXuBfoyafg7YrKXg0UmLU2hoTKaIIy4=;
+ b=8GZ8Nr05W2YyoU4VXB7ZPkf2oNpKW8NyPmymHs1Bwk1cnt/hp5muPOmKCzdAoNByYc
+ Es6cN7ZnFEgmsmwGtRonBK7gmNTpRJBUMspfPbCTJWA3fzSlTB7iTGKwYCYBjAD77eRL
+ D/9bEcr+y73kJVwNrgKVDoFjeVV46C1L3o7KMGjR7HeeONIlAKZjCBdmq7dp2yHlf9Yb
+ VdC1TbJAhdBbmR8aGP7FQvEmVyRteGxyAejSN+pVk68Zxmsv8KbxRwk0V3NPzfG7ypwj
+ xO5mmD7/1Jh8+n41prlrIaSJ/HsQfJVEXfu5Tl7SgJpOi2/E4s0rIavB5wf4RQMTyWPS
+ 20tw==
+X-Gm-Message-State: AFqh2koKzHgUAnhwTUdOjJq9d7uNKiUFb2hh7aZCl2lKOlXC5EhkxN8w
+ Cx7xTXy54l46F7b2OMiGHsvdWoufkAPjTkQUQn++ZV4PuQNn2kXToYQX1m+UPHpGByvPRwZzbut
+ RMDwZgBN5Fy+XluU=
+X-Received: by 2002:a05:622a:250e:b0:3a9:8b48:f8f with SMTP id
+ cm14-20020a05622a250e00b003a98b480f8fmr3688302qtb.67.1671452787304; 
+ Mon, 19 Dec 2022 04:26:27 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvdD0LyoPL381xksJ/81kWbNAep5Nx/bRUOOf+/V30WppPdxaY+kryakj9xOrRlwir3paqEPA==
+X-Received: by 2002:a05:622a:250e:b0:3a9:8b48:f8f with SMTP id
+ cm14-20020a05622a250e00b003a98b480f8fmr3688281qtb.67.1671452787109; 
+ Mon, 19 Dec 2022 04:26:27 -0800 (PST)
 Received: from [192.168.149.123]
  (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
  by smtp.gmail.com with ESMTPSA id
- bn1-20020a05620a2ac100b006fafc111b12sm6845905qkb.83.2022.12.19.04.24.18
+ g25-20020ac84819000000b0039cc0fbdb61sm5964123qtq.53.2022.12.19.04.26.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 04:24:19 -0800 (PST)
-Message-ID: <5b4a68e0-ba16-6b82-9455-1e902b660d82@redhat.com>
-Date: Mon, 19 Dec 2022 13:24:17 +0100
+ Mon, 19 Dec 2022 04:26:26 -0800 (PST)
+Message-ID: <c4c1c417-bded-497f-b1bc-41af90d80dab@redhat.com>
+Date: Mon, 19 Dec 2022 13:26:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
@@ -76,12 +76,12 @@ To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
 Cc: hreitz@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
 References: <20221213085320.95673-1-kwolf@redhat.com>
  <20221213085320.95673-3-kwolf@redhat.com>
- <e1a3f722-2152-fa3d-1d5c-102da196482f@yandex-team.ru>
+ <088f4a56-1ae1-2f3f-0412-c05f65ba6707@yandex-team.ru>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <e1a3f722-2152-fa3d-1d5c-102da196482f@yandex-team.ru>
+In-Reply-To: <088f4a56-1ae1-2f3f-0412-c05f65ba6707@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -107,25 +107,8 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 16/12/2022 um 15:26 schrieb Vladimir Sementsov-Ogievskiy:
+Am 16/12/2022 um 17:12 schrieb Vladimir Sementsov-Ogievskiy:
 > On 12/13/22 11:53, Kevin Wolf wrote:
->> From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>
->> BlockDriver->bdrv_io_plug is categorized as IO callback, and it
->> currently doesn't run in a coroutine. We should let it take a graph
->> rdlock since the callback traverses the block nodes graph, which however
->> is only possible in a coroutine.
->>
->> The only caller of this function is blk_io_plug(), therefore make
->> blk_io_plug() a co_wrapper, so that we're always running in a coroutine
->> where the lock can be taken.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->> ---
-> 
-> [..]
-> 
 >> --- a/include/block/block_int-common.h
 >> +++ b/include/block/block_int-common.h
 >> @@ -729,7 +729,7 @@ struct BlockDriver {
@@ -135,18 +118,16 @@ Am 16/12/2022 um 15:26 schrieb Vladimir Sementsov-Ogievskiy:
 >> -    void (*bdrv_io_plug)(BlockDriverState *bs);
 >> +    void coroutine_fn (*bdrv_io_plug)(BlockDriverState *bs);
 > 
-> don't we want to rename it to _co_ too?
+> But you didn't add coroutine_fn to realizations of this callback. Seems,
+> it should be done
+> 
 
-I think you realized this is done in patch 14
+This has to be done by Paolo & Alberto Faria work to add missing
+coroutine_fn and various annotations in a systematic way. It has to be
+done using tools like vrc, and not manually because it's not feasible.
+Not covered by this serie.
 
-Thanks,
+Thank you,
 Emanuele
-
-> 
-> anyway:
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> 
-> 
-> 
 
 
