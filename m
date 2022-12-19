@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B76C650A1B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:29:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D83650A02
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:22:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7DHH-0003JS-AY; Mon, 19 Dec 2022 05:21:47 -0500
+	id 1p7DH9-0003Cy-C0; Mon, 19 Dec 2022 05:21:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9352c01a6b=bin.meng@windriver.com>)
- id 1p7DGh-0003Am-4t
+ id 1p7DGh-0003Al-4b
  for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:13 -0500
-Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
+Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9352c01a6b=bin.meng@windriver.com>)
- id 1p7DGc-0007Pu-NI
+ id 1p7DGc-0007Q7-4y
  for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:10 -0500
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BJ9StvV005147; Mon, 19 Dec 2022 02:20:52 -0800
+ 2BJ8jsme020578; Mon, 19 Dec 2022 10:20:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
+ h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=p4PqmM8VRzaiQongGzltUo2mhDuqdEHEEZ/RVds/fAE=;
- b=jZpv1XxZCHUIExjN23f/LrEVmjujKWH+1E2kDSlKx68ywZSI6qg/Z0N9k35VRljraaN8
- 7yY6Zk0+iN/KUCf3PPkb59l/mPTCPeenaW5xzzzjboNFRn75cqdHVUfLxLmACqHAD8oK
- 4kMXERrBwjj+QzyNg9uLiLpS+9pODRV9DHTlzYNuwgp0i17VvL9JSKy+mf276EQFxHwv
- ElaRIGtR7vgPrPu+rR/abqNH60YGG/rIb1aaopk9I5PDjnVdP/Txcx/R9pBsFIexcAXS
- LNJDP3oocMOAMk2Z+4s5vHlJqjhF5DMLjfC7PPXQoJ3mF5sU4+mdj79hazOBKLcivA9x wA== 
+ bh=Xy/0/TnZzqrfJjp7JG4s8BGGuRiy5TjlmKMjhpcBLTA=;
+ b=HH5Qqi2kxr5py9Q771+YkZV3dFJUzrCNVv8dSrseDEjcBqDWHfsBMRBYoyvSrFylrV6f
+ jfxxxZAz1MgXXgcUbAizpKEn2AgXdlXH/f3a05WF/q3b31xPT0LMky8YzXPYnOldqZKq
+ 23abioKZnuE8GB91D4D+yoXVxXSmjtUlTpAWZkmu/+QkNfd8kz8Hu7hUAeqcfLcwyBef
+ cNkd+2Txte9aH59lDAgMjuzZaAlzYwVML1yPcvZtYz+FjEnFZ2m2xtq/6K9Ku/txujQ8
+ Ry52TNz+npUyT4CD4Suca5r533swin63qNkj0JeHP7b4MgfxKH4V9p/LI7+YfwwkA1Wl wQ== 
 Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mhe5q937h-1
+ (mail-mw2nam10lp2105.outbound.protection.outlook.com [104.47.55.105])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mh301hdgp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 02:20:52 -0800
+ Mon, 19 Dec 2022 10:20:54 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KdCaArnrN4YxkCHqTeZxyYZnvv/XlV/ec7lHPjJbaTuX+mOgab6xpT9yAFJwSTyGONwXFYpvCfWkQsMBpkg0H0zInBsC2+6Pqh9mTruyCptGwxSEoIIsIzEFkVIFuRT25cKNyj/2cl10KmC7sdeK4+iLMed1ApXqZTxAZWy1S+vvtvskW57phPG45WkTN8ek6gG4B9ywnre1g8r7mpD1W5q/KqJiBREhkfVeaeUFzYd5RdntjHxvPD/SXRNMgNSLYHI3PkijqJ6HIwPn+AGX53J/ola/v4uWqgH6YSFyRoFPplRNf9Z2sZOPold5Gvy56rj8HP9OfMaDZXvH2IwSbg==
+ b=KOFaKVuRBUMInKftQzBUacx9NuHqkI8ergccW5wbQzl/LY/RCGAL+l79GEmY+DAaRl6yMgZdIeQwTGQvaqgIK2AgWBhoCq4Kq8DWmBUltKr/NN4IwhKq5K26k/C/UiQ4lG8aqwLP3CRUEHmaV+vAgMnbcGHE4zVJF8WeAC0Z1+TV/VNcBvBVytPtVKJr2USGYblS2oEGXWdgrD+1ynfNvyNWZESTIHC6U+1d4MdHSYCATjLv2tcascU0KBQRFK51m6gjuHTu7/qDFYjsm4NbzQ1Q8Pn7vksESz6RJGEtRXZtlJJFsjXWerEk0+p7h2nGm1ctsFIZjnxbbZHuKoJD9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p4PqmM8VRzaiQongGzltUo2mhDuqdEHEEZ/RVds/fAE=;
- b=Pyxd0N0GWV8x8oiobNxd/staMn5rHUiyeq0u6EQPU9gePfJJa8OhgNexPNeTWkmo354ucur+XytMNOKLfLY7Lp7iycaxt2ZBZ7BUbKXA2fvkU39nTq/ud12oZX6aS2sS3DctpCD3SMzzwmoTFu9zOZ6GHSnRNC/cTJk5ZGZjkeaioQL35VUgNcf4UT8Kt+rrK3qsTCEJNAa4OlO5MFvQ+Ytc7BwtQVe0A7uj8DWD00lqqZ63yI+w3Fm9kdkvQkUsHteFgXpYzOjOr6JPqq1r4n75Qzd8H6ZDNO4DByOPBkwvLFkjug96pziMB/1gM32a54LiUVAPt8BLMQQXQLvYgw==
+ bh=Xy/0/TnZzqrfJjp7JG4s8BGGuRiy5TjlmKMjhpcBLTA=;
+ b=eT5HKYQpwsnz2hR0IIKc9JC9WwF1GwydafU9Gj5FFhLiEJL5R6bAUz1TFTm5wnUXLXTtWFDE+S3mVmehsff8tqrIaEtyDphUDi6Dq0DV3RaS8rhWMpikrxaSIJudjrLFRV4k81Xl/K/gIokpgGjh9Mqwd7J/3LMe6htvTl+IzXB0PB6CoyoF8+PQRy5Dp4S0MKOUDeOhmWQVPRMYUaEv1UI85vZ5SmP0E+/wSY2WEsevO4cYE1pEIuhNQANu9HXNHrzLzGAGQGRgveaD0Ipu9Zbe7ydw8nbSRIZDW4RQOo8W6WqdR0dKjOC490o8JFtlCCWjWuAM05JXWbK0AxpjkA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,18 +52,18 @@ Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
  DM6PR11MB4691.namprd11.prod.outlook.com (2603:10b6:5:2a6::21) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5924.16; Mon, 19 Dec 2022 10:20:50 +0000
+ 15.20.5924.16; Mon, 19 Dec 2022 10:20:52 +0000
 Received: from DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::8e5e:71da:1e29:bc15]) by DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::8e5e:71da:1e29:bc15%5]) with mapi id 15.20.5880.019; Mon, 19 Dec 2022
- 10:20:50 +0000
+ 10:20:52 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v3 03/17] hw/9pfs: Replace the direct call to xxxat() APIs
- with a wrapper
-Date: Mon, 19 Dec 2022 18:20:07 +0800
-Message-Id: <20221219102022.2167736-4-bin.meng@windriver.com>
+Cc: Guohuai Shi <guohuai.shi@windriver.com>
+Subject: [PATCH v3 04/17] hw/9pfs: Add missing definitions for Windows
+Date: Mon, 19 Dec 2022 18:20:08 +0800
+Message-Id: <20221219102022.2167736-5-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221219102022.2167736-1-bin.meng@windriver.com>
 References: <20221219102022.2167736-1-bin.meng@windriver.com>
@@ -75,68 +75,67 @@ X-ClientProxiedBy: SL2P216CA0158.KORP216.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|DM6PR11MB4691:EE_
-X-MS-Office365-Filtering-Correlation-Id: 37dc777e-8aeb-40ed-5b1f-08dae1aab3d0
+X-MS-Office365-Filtering-Correlation-Id: 7e466fa9-da68-4296-994b-08dae1aab4fe
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g9PqJp47/6BueysOj8aJlXHJOPC44U7YJSPajZ1sdiW4KjGewplR1MK7A8Fy8W3Ia9gQdOBxnPaTEB1pDcp65LLtULJZR62/qSbEC6BuaUOpigucgUHZMpcFIo55/yOtdZE56EejE92zZtCF5QEaLPuD0mMRmcVFekqWGSPBkowSySsRsd88Rg/hwL+F67t2ZEYghsyzQyuV4c5Jo4Hn8LxgRdcZxxNputFies6R+tf9ei4iX+li0JecTisAbSQeTq6TwMHxKfnj/u8z8lIT84mwwmN5llKUM3geRpwSi0S2MTAbreWmDLv0P1m/VgW4t4vqwQzwasQJ1nnE8OKigdHsFwbth2V2Jr1cq0hppYi0VSimUoRsqBcbeCvd1zOFpiQXyK1JwAS9k4BEtvCOUS3XC5I51F56ik1CmpJ1kKUVNwwpGVzLyCg2pDB/lrgEwFaZXhRXYRmuiUJahOJnL0fTBydFhkf/aTtSIQEh+pRr1g4hV12lU12SsnDub0ZY1993YkUCr9zTGqlYvUrnrHbMNjfDvjjBtFnDYYGy/nyVn+qLSMNxzSRh06cPjj/LpACwcIWV7QPvvoDR9Ke5g19jjbL0Ht/7YE3MecnMjp3lxka/BW8YzQ6fEtSUUqM2LAkIS5EkxlrEIJVQIUaOogkPuvDs8cucXFUxQEu2o1mUSWDQj6I7OY34zc9arc6SrcLp7E7xmN6IPXZ6fEEw9w==
+X-Microsoft-Antispam-Message-Info: Vzxki5wCEESSDfvC1chThlTEXBfBVr9QbN1s2mYvRypF+DqphCf4f3eqUK5NzQsF/4UsRTTrtUPRXhAivSmHtslGnTzO3G1EXWW+nObmzhI3PXtDKAoX0yfbz6qzdGZzv9dbsDqp6k529Op5PfgD26UKNlKTrHEAgR0B2NNDuTW310bTeTIGeHzfPK+eoz9Mbjlicm8+ghBFxSciUIIsf3F7bnECEnEBylQGhgkiXsxkSb7n+ofLB+lGrU7jc29ActzPMOBRnd3tF86avlgKN7/axVw5SfQ485KbnLpD8nNY62mfS+W6lR1p22bw7tYKqcv/aM7W3i7Y2yxSJdWfyReaXZv07Bk1c7A3HlRRroLnKYSz08wJVys3xJ34bg2flBCrlfH8bTtqHZ7bilJGu61+mo+19VD+agBVbDNs8OiLdsUZguC9gVWFcjjm4AKFoiLeH31ArDwJFfw2OLurKAqN2iXEvb/r69gWL/9/j0RgsDUBKrnK9OqW7Kuo4BkBHQMgV3VcZ3UjUZ2nQcgeeECaqbGucUJkKKEUxqSkKjPCYgFMcRa1IcmIzr9wZG958oV7t6pNdDKbSo2BScVyWsRgT/vuTFtT0qGxNMXARF8X/0K3pvtDEz2Zp7LUtFZ4JuCvoSPvYTectSimLdPuW4VPeyxhDez0j2yzEKfAoM0nOUyh/PRCcf+mkFszZ9LM0Agj5K1sWGPeZztmYz+bd0EuajJySsymNfRb3jGLatg=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39840400004)(136003)(376002)(346002)(366004)(396003)(451199015)(5660300002)(6666004)(8936002)(83380400001)(186003)(26005)(6512007)(44832011)(2906002)(41300700001)(36756003)(6486002)(110136005)(1076003)(38350700002)(52116002)(316002)(478600001)(38100700002)(8676002)(66476007)(2616005)(6506007)(66946007)(66556008)(86362001);
+ SFS:(13230022)(4636009)(39840400004)(136003)(376002)(346002)(366004)(396003)(451199015)(5660300002)(6666004)(107886003)(8936002)(83380400001)(186003)(26005)(6512007)(44832011)(2906002)(41300700001)(36756003)(6486002)(966005)(110136005)(1076003)(38350700002)(52116002)(316002)(478600001)(4326008)(38100700002)(8676002)(66476007)(2616005)(6506007)(66946007)(66556008)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?n5y3md2XXIGCpuMRCWbnDQvS8eAMrtFSyTzXvGEX21K+ZEhIw8oKsM2ZX4+q?=
- =?us-ascii?Q?tGy/kzQT7hsEwLzxLsJ+kzlQrR71vzXZooZMMW/c+pePnRIKyEz1uNUL4dS2?=
- =?us-ascii?Q?eSFyP7AXQotxNTRxG6HvIBrauDEm2n1XjUc19eqNZZXkN8EJcoa8tSZkpVI/?=
- =?us-ascii?Q?4fLs6byp7vraFYROkhtPOby1R8fnkY6/nRy//mta+2VYz/5wOSKXYj6bwJl4?=
- =?us-ascii?Q?SqgR2/qMmZN2m1FWkB+epXytmoRleiIj/FgJfzARnw/4McxAmHlRE3oWicN5?=
- =?us-ascii?Q?+UM49hcRHnx8XHXLzdv4vRjdTGj9B/wmXTC4LywBtvKabgRdPgIcb+TJM7Tf?=
- =?us-ascii?Q?1gd8yorftnPBFRSmjDnENQMB5rvdn+++DhNEO+KNnuB0zi/b3k7kPK1PCcYk?=
- =?us-ascii?Q?UeQmSn6fUgVuXVbh/gxEbQxW/oJBVPQp3hHPYe6FhpHJMHCvTE132z+KqYkZ?=
- =?us-ascii?Q?Rh5L46OsqO8vhXo2cXGcJEWbMmnqsPeAstg+U5wHDr/FTmyUtuMLpBkVIvwT?=
- =?us-ascii?Q?d1oJYo6VNu/Yot4x3xwo1rXq8XgcA82+Sst/YlW2CnjPhzVR9CspcZVlp6+T?=
- =?us-ascii?Q?wsyN0XqDv+lJZOBPjUurWLp/AFOjKzxgD9HlhbMLVxpD3pRn2W82Ne3gc0WR?=
- =?us-ascii?Q?PIBvlC4FJXTPnWomgv1VnwzlHtS/tl4TItmTOTvVt/vWZZ2fpXgMqqsScrlW?=
- =?us-ascii?Q?XYqAABbFLTTZjpy7Vm4u6MdsqKez5Oi988LNCS94s1u5iNkKQ8reCfg9qlkm?=
- =?us-ascii?Q?89K8/Di79bgZo2G8fAyXidq00chSmWqtbJloVSCXiBOoTpSSknCQEaJ+TBWb?=
- =?us-ascii?Q?UeJ7kXEXMiPcQHW5B9nzDfh27P12XmHyqadI43rraKoczl67i+GUveePzTh+?=
- =?us-ascii?Q?csaB2YGfEM0CFtyKSfxO+CzMkRNJUJvRDcmuJi/3SU/IjyvfUIXe7O/7itXj?=
- =?us-ascii?Q?nigti8W7eP81nHRrzL4+vf7U5q9G9EeTMPBDN7gjPJHxRWkZOkqJXARmWrnB?=
- =?us-ascii?Q?KWSRF4vUo2DS6WicZ8qB5yIWKMAOWojzOLdsjjnWTA1fUDA9geb2zXpclwz6?=
- =?us-ascii?Q?kWaF/ZGJivGCjdCRRSxTx2f1160tGNdKxvypDa4KEfCFv0OShCXOE+WEPa+a?=
- =?us-ascii?Q?DB2viHyZekXzyNEEhPmplRzHH0Q8nkBbGFaWdxmMl9bG0n2kccMZPWk4tffa?=
- =?us-ascii?Q?POpgC05pcI65blOp6qzcpbN2zF8LuAITfYOqNxT/D04ob1SlhhNy5MC7YXgq?=
- =?us-ascii?Q?HBJT2wJaKH2sqpROEdjmAsyUzCf9EsgCpXfiLi1gE4n65994Hz1i9aMO+1/8?=
- =?us-ascii?Q?Kcm86hKbNoCwcwg25gLJJ/uPt33WT85egXf2gmdsc5uDqpL5YxjYvEfRBKBB?=
- =?us-ascii?Q?is+/lVCGdV1kWCF6aMmx/y82VO6h/61e1bkRK+Sg6pjZz23yhqaFEo8GCpVJ?=
- =?us-ascii?Q?gfquCnZCeVwNWNoDbjG45rmhItgGZK7I+G1HlQb2ospJpLdFqy9x8ya6Rpd7?=
- =?us-ascii?Q?A0FhedKLBn8G4orfzlZZtjvAd2SThP8/iilth2aMee3hLWHI6eE4Q7krdB4x?=
- =?us-ascii?Q?wSSoYWITILHbIsCGr9FBio7ohIQicOuFV/6gN6eL2VyQuCOZC2gLZvMtmdVf?=
- =?us-ascii?Q?xg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Wfj809IJ7MIRiVpKlnneXF29187iO0sh0QVxlUqaaeUUxIV5mynVhGr4seYz?=
+ =?us-ascii?Q?lWDeph1s+TAPwCtx44uUMrmq7cLFE6cJhpukPen/+GoKK8mlaNR64d1Y6WeE?=
+ =?us-ascii?Q?iuv5urRCyGVo8c8DAo0GJNAf8BMof3+osv5sUrgNQ4fQElEQ/OQL5NR/PEq1?=
+ =?us-ascii?Q?ppTOFvBcUb7YxH0W4S6A+dhVsC0D1ro5itIQkYxpFB7gIs9ciSzOkKHLcFC1?=
+ =?us-ascii?Q?3UwDJ//6i7f0jxDIHG/R6yCV8IoHWu37Ucf/EFAU3ddlJV7bPiAGUvKM5XN0?=
+ =?us-ascii?Q?giGs8+ixPiQ4Z3ILUC11rbqm09Wi2n7C5UHZWZy3VhG1Q7PA73qSVMZQ2xop?=
+ =?us-ascii?Q?Ak4QiXuTxEjjLHJQglazovcLGVu2TXKSg4shEvit06yWQ68SSRYSWRmgpwnk?=
+ =?us-ascii?Q?YSj2O1a90j7OwSNkc2tGiiO3tYlkQhwm2O+1liqUFWr1Si1IOVxUTRn+uFtL?=
+ =?us-ascii?Q?33Ct3LhRquM7Jv/UhuUvTzKBxM/wWimUFDXNdIffow4AhTZiEBj+x1mND8jn?=
+ =?us-ascii?Q?ewL4cLouejTThMNp8fJrUA8gWm/QPPFT+oqudRrHyTRzEtdcE3DGgdsxazBy?=
+ =?us-ascii?Q?7gwVFE6QMeb1x1UrTUiHEgtFyIg/2F+jHFBvcNovsdB/hLC/ZZswijik9YIL?=
+ =?us-ascii?Q?/xJwO0vEbmdeNmYcpw1u9tADRTV21n/RDSNRovU6T0ciZV/QBFaPIPpBxaNi?=
+ =?us-ascii?Q?6np4MkhXFJ+uO1qnIFwnPdIWb9c+lLTpyhadM/pWVF8d7u3mwOVsfscgY2Wm?=
+ =?us-ascii?Q?M4bDYZ4Ej7ovuxW+qFJW5+CXo9Y7cdOeD5kRMxR9yRvtuun9notwwd34Bm+o?=
+ =?us-ascii?Q?lPNj2ZtPTD7a1EFEpvKwsYR1mW2Z8+QK6Eni1dZojYsr6/hq5DUUi6B6mipI?=
+ =?us-ascii?Q?9gMyl4MZam7AzRGohOj8Z6XbEfEBLOTrLtQtXaa7RFhfKPhtmrP0ccvAoPvj?=
+ =?us-ascii?Q?ZEIiAVDb1Yw9kbbgzyMbJsPh8IwCdUxvwo06WRRnXfGChpHlXawMmiDhaJgY?=
+ =?us-ascii?Q?F8kEfZuAEbXBVnzJCfacJEtYyVNQHPgIXld3RfBwG6VHAWlcpUEJcaxsYnkN?=
+ =?us-ascii?Q?PhCRMxWnaupGY/rVhKXdhJvhuuJyx6dvaxbXBTu94fvKmpQLNxHk8aZ50p2/?=
+ =?us-ascii?Q?weWt6bb4wG4/KbivpRlTr4szBTR8M8bumUh3INL/HR8/+Jz59y+5bt4BEmos?=
+ =?us-ascii?Q?oVwYJ/hNSW6wQxvS2zeLj8KozikEvoE/rqK4t7FZ12Rpg3Fgi0Lz1D7KbSmQ?=
+ =?us-ascii?Q?fRRdtH8MvkTMLn6yD9VBM8G+mHm8kjaACjopGigpY9b2x2URoZqzpOQNljcT?=
+ =?us-ascii?Q?xN1JOQgeEZZsJYfQHfk9uIif0cFeFXtAbyej7NrSFnKzKtlvx8URBYAtAHHh?=
+ =?us-ascii?Q?NIODYwHUZJyGSMtOnC8Wt+S0UnJkM9oI7F0Ttlzbm1KJ8hnsbBVzvGHkAhoT?=
+ =?us-ascii?Q?fNqdPd2ygt+8P0k3i4tVYcqo5e1VLImEEBuwSb6A8wYXqZlLn2j3OeEETKa+?=
+ =?us-ascii?Q?0r56bfN4cEK75EdOcrE0YNuzqJTYVw5YUqynxOsX+lHdo8E3g6l3Ed6glJch?=
+ =?us-ascii?Q?PvUYbB2uC9s8mjXF7KdOL7KmWO5HRqXXM3FvDClm?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37dc777e-8aeb-40ed-5b1f-08dae1aab3d0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e466fa9-da68-4296-994b-08dae1aab4fe
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 10:20:50.5375 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 10:20:52.5495 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a588AQn5M4/cZ4tGFwxUYApz5mQ70XEyhLcUoy26tJ9F/ZubmaVr24wVI+KR/X8ui0RkM2iAbGigsaA+JHI1/g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Co06lN7EMecZ2e4tQ0EPlgTWP5YCf+eJ410k5jS+whWzgC2o5aLk3rYSxRrP2zfI85IhaXjGXoZc77RY7vn20g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4691
-X-Proofpoint-ORIG-GUID: 5BcluoAdz8l8k4fsVuNdZwQZL5nAJkQk
-X-Proofpoint-GUID: 5BcluoAdz8l8k4fsVuNdZwQZL5nAJkQk
+X-Proofpoint-ORIG-GUID: WRvdzJDDGbE4NVFefp_fFniQamweS6Nb
+X-Proofpoint-GUID: WRvdzJDDGbE4NVFefp_fFniQamweS6Nb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-18_13,2022-12-15_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 lowpriorityscore=0 mlxlogscore=747 phishscore=0 mlxscore=0
- adultscore=0 spamscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212190092
-Received-SPF: pass client-ip=205.220.166.238;
+ clxscore=1015
+ priorityscore=1501 impostorscore=0 mlxscore=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 malwarescore=0 phishscore=0 adultscore=0
+ mlxlogscore=756 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2212190091
+Received-SPF: pass client-ip=205.220.178.238;
  envelope-from=prvs=9352c01a6b=bin.meng@windriver.com;
- helo=mx0a-0064b401.pphosted.com
+ helo=mx0b-0064b401.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -159,206 +158,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-xxxat() APIs are only available on POSIX platforms. For future
-extension to Windows, let's replace the direct call to xxxat()
-APIs with a wrapper.
+From: Guohuai Shi <guohuai.shi@windriver.com>
 
+Some definitions currently used by the 9pfs codes are only available
+on POSIX platforms. Let's add our own ones in preparation to adding
+9pfs support for Windows.
+
+Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
-(no changes since v1)
+ fsdev/file-op-9p.h | 33 +++++++++++++++++++++++++++++++++
+ hw/9pfs/9p.h       | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+)
 
- hw/9pfs/9p-util.h  | 15 +++++++++++----
- hw/9pfs/9p-local.c | 32 ++++++++++++++++----------------
- 2 files changed, 27 insertions(+), 20 deletions(-)
-
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index ccfc8b1cb3..c314cf381d 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -94,6 +94,13 @@ static inline int errno_to_dotl(int err) {
- #define qemu_fgetxattr fgetxattr
+diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+index 4997677460..7d9a736b66 100644
+--- a/fsdev/file-op-9p.h
++++ b/fsdev/file-op-9p.h
+@@ -27,6 +27,39 @@
+ # include <sys/mount.h>
  #endif
  
-+#define qemu_openat     openat
-+#define qemu_fstatat    fstatat
-+#define qemu_mkdirat    mkdirat
-+#define qemu_renameat   renameat
-+#define qemu_utimensat  utimensat
-+#define qemu_unlinkat   unlinkat
++#ifdef CONFIG_WIN32
 +
- static inline void close_preserve_errno(int fd)
- {
-     int serrno = errno;
-@@ -103,8 +110,8 @@ static inline void close_preserve_errno(int fd)
++/* POSIX structure not defined in Windows */
++
++typedef uint32_t uid_t;
++typedef uint32_t gid_t;
++
++/* from http://man7.org/linux/man-pages/man2/statfs.2.html */
++typedef uint32_t __fsword_t;
++typedef uint32_t fsblkcnt_t;
++typedef uint32_t fsfilcnt_t;
++
++/* from linux/include/uapi/asm-generic/posix_types.h */
++typedef struct {
++    long __val[2];
++} fsid_t;
++
++struct statfs {
++    __fsword_t f_type;
++    __fsword_t f_bsize;
++    fsblkcnt_t f_blocks;
++    fsblkcnt_t f_bfree;
++    fsblkcnt_t f_bavail;
++    fsfilcnt_t f_files;
++    fsfilcnt_t f_ffree;
++    fsid_t f_fsid;
++    __fsword_t f_namelen;
++    __fsword_t f_frsize;
++    __fsword_t f_flags;
++};
++
++#endif /* CONFIG_WIN32 */
++
+ #define SM_LOCAL_MODE_BITS    0600
+ #define SM_LOCAL_DIR_MODE_BITS    0700
  
- static inline int openat_dir(int dirfd, const char *name)
- {
--    return openat(dirfd, name,
--                  O_DIRECTORY | O_RDONLY | O_NOFOLLOW | O_PATH_9P_UTIL);
-+    return qemu_openat(dirfd, name,
-+                       O_DIRECTORY | O_RDONLY | O_NOFOLLOW | O_PATH_9P_UTIL);
- }
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 2fce4140d1..ada9f14ebc 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -3,13 +3,56 @@
  
- static inline int openat_file(int dirfd, const char *name, int flags,
-@@ -115,8 +122,8 @@ static inline int openat_file(int dirfd, const char *name, int flags,
- #ifndef CONFIG_DARWIN
- again:
- #endif
--    fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
--                mode);
-+    fd = qemu_openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
-+                     mode);
-     if (fd == -1) {
- #ifndef CONFIG_DARWIN
-         if (errno == EPERM && (flags & O_NOATIME)) {
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index d42ce6d8b8..d2246a3d7e 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -103,14 +103,14 @@ static void renameat_preserve_errno(int odirfd, const char *opath, int ndirfd,
-                                     const char *npath)
- {
-     int serrno = errno;
--    renameat(odirfd, opath, ndirfd, npath);
-+    qemu_renameat(odirfd, opath, ndirfd, npath);
-     errno = serrno;
- }
+ #include <dirent.h>
+ #include <utime.h>
++#ifndef CONFIG_WIN32
+ #include <sys/resource.h>
++#endif
+ #include "fsdev/file-op-9p.h"
+ #include "fsdev/9p-iov-marshal.h"
+ #include "qemu/thread.h"
+ #include "qemu/coroutine.h"
+ #include "qemu/qht.h"
  
- static void unlinkat_preserve_errno(int dirfd, const char *path, int flags)
- {
-     int serrno = errno;
--    unlinkat(dirfd, path, flags);
-+    qemu_unlinkat(dirfd, path, flags);
-     errno = serrno;
- }
- 
-@@ -194,7 +194,7 @@ static int local_lstat(FsContext *fs_ctx, V9fsPath *fs_path, struct stat *stbuf)
-         goto out;
-     }
- 
--    err = fstatat(dirfd, name, stbuf, AT_SYMLINK_NOFOLLOW);
-+    err = qemu_fstatat(dirfd, name, stbuf, AT_SYMLINK_NOFOLLOW);
-     if (err) {
-         goto err_out;
-     }
-@@ -253,7 +253,7 @@ static int local_set_mapped_file_attrat(int dirfd, const char *name,
-             }
-         }
-     } else {
--        ret = mkdirat(dirfd, VIRTFS_META_DIR, 0700);
-+        ret = qemu_mkdirat(dirfd, VIRTFS_META_DIR, 0700);
-         if (ret < 0 && errno != EEXIST) {
-             return -1;
-         }
-@@ -349,7 +349,7 @@ static int fchmodat_nofollow(int dirfd, const char *name, mode_t mode)
-      */
- 
-      /* First, we clear non-racing symlinks out of the way. */
--    if (fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW)) {
-+    if (qemu_fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW)) {
-         return -1;
-     }
-     if (S_ISLNK(stbuf.st_mode)) {
-@@ -734,7 +734,7 @@ static int local_mkdir(FsContext *fs_ctx, V9fsPath *dir_path,
- 
-     if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
-         fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
--        err = mkdirat(dirfd, name, fs_ctx->dmode);
-+        err = qemu_mkdirat(dirfd, name, fs_ctx->dmode);
-         if (err == -1) {
-             goto out;
-         }
-@@ -750,7 +750,7 @@ static int local_mkdir(FsContext *fs_ctx, V9fsPath *dir_path,
-         }
-     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
-                fs_ctx->export_flags & V9FS_SM_NONE) {
--        err = mkdirat(dirfd, name, credp->fc_mode);
-+        err = qemu_mkdirat(dirfd, name, credp->fc_mode);
-         if (err == -1) {
-             goto out;
-         }
-@@ -990,7 +990,7 @@ static int local_link(FsContext *ctx, V9fsPath *oldpath,
-     if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-         int omap_dirfd, nmap_dirfd;
- 
--        ret = mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
-+        ret = qemu_mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
-         if (ret < 0 && errno != EEXIST) {
-             goto err_undo_link;
-         }
-@@ -1085,7 +1085,7 @@ static int local_utimensat(FsContext *s, V9fsPath *fs_path,
-         goto out;
-     }
- 
--    ret = utimensat(dirfd, name, buf, AT_SYMLINK_NOFOLLOW);
-+    ret = qemu_utimensat(dirfd, name, buf, AT_SYMLINK_NOFOLLOW);
-     close_preserve_errno(dirfd);
- out:
-     g_free(dirpath);
-@@ -1116,7 +1116,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-             if (fd == -1) {
-                 return -1;
-             }
--            ret = unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
-+            ret = qemu_unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
-             close_preserve_errno(fd);
-             if (ret < 0 && errno != ENOENT) {
-                 return -1;
-@@ -1124,7 +1124,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-         }
-         map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
-         if (map_dirfd != -1) {
--            ret = unlinkat(map_dirfd, name, 0);
-+            ret = qemu_unlinkat(map_dirfd, name, 0);
-             close_preserve_errno(map_dirfd);
-             if (ret < 0 && errno != ENOENT) {
-                 return -1;
-@@ -1134,7 +1134,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-         }
-     }
- 
--    return unlinkat(dirfd, name, flags);
-+    return qemu_unlinkat(dirfd, name, flags);
- }
- 
- static int local_remove(FsContext *ctx, const char *path)
-@@ -1151,7 +1151,7 @@ static int local_remove(FsContext *ctx, const char *path)
-         goto out;
-     }
- 
--    if (fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW) < 0) {
-+    if (qemu_fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW) < 0) {
-         goto err_out;
-     }
- 
-@@ -1296,7 +1296,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
-         return -1;
-     }
- 
--    ret = renameat(odirfd, old_name, ndirfd, new_name);
-+    ret = qemu_renameat(odirfd, old_name, ndirfd, new_name);
-     if (ret < 0) {
-         goto out;
-     }
-@@ -1304,7 +1304,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
-     if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-         int omap_dirfd, nmap_dirfd;
- 
--        ret = mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
-+        ret = qemu_mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
-         if (ret < 0 && errno != EEXIST) {
-             goto err_undo_rename;
-         }
-@@ -1321,7 +1321,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
-         }
- 
-         /* rename the .virtfs_metadata files */
--        ret = renameat(omap_dirfd, old_name, nmap_dirfd, new_name);
-+        ret = qemu_renameat(omap_dirfd, old_name, nmap_dirfd, new_name);
-         close_preserve_errno(nmap_dirfd);
-         close_preserve_errno(omap_dirfd);
-         if (ret < 0 && errno != ENOENT) {
++#ifdef CONFIG_WIN32
++
++/* Windows does not provide such a macro, typically it is 255 */
++#define NAME_MAX            255
++
++/* macros required for build, values do not matter */
++#define AT_SYMLINK_NOFOLLOW 0x100   /* Do not follow symbolic links */
++#define AT_REMOVEDIR        0x200   /* Remove directory instead of file */
++#define O_DIRECTORY         02000000
++
++#define makedev(major, minor)   \
++        ((dev_t)((((major) & 0xfff) << 8) | ((minor) & 0xff)))
++#define major(dev)  ((unsigned int)(((dev) >> 8) & 0xfff))
++#define minor(dev)  ((unsigned int)(((dev) & 0xff)))
++
++/*
++ * Currenlty Windows/MinGW does not provide the following flag macros,
++ * so define them here for 9p codes.
++ *
++ * Once Windows/MinGW provides them, remove the defines to prevent conflicts.
++ */
++
++#ifndef S_IFLNK
++#define S_IFLNK         0xA000
++#define S_ISLNK(mode)   ((mode & S_IFMT) == S_IFLNK)
++#endif /* S_IFLNK */
++
++#ifndef S_ISUID
++#define S_ISUID         0x0800
++#endif
++
++#ifndef S_ISGID
++#define S_ISGID         0x0400
++#endif
++
++#ifndef S_ISVTX
++#define S_ISVTX         0x0200
++#endif
++
++#endif /* CONFIG_WIN32 */
++
+ enum {
+     P9_TLERROR = 6,
+     P9_RLERROR,
 -- 
 2.25.1
 
