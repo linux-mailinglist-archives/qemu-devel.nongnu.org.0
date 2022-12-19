@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93771651554
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 23:09:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0FD651556
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 23:10:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7OKL-0008SI-51; Mon, 19 Dec 2022 17:09:41 -0500
+	id 1p7OKU-0008T7-5v; Mon, 19 Dec 2022 17:09:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7OKI-0008S9-0e
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 17:09:38 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7OKO-0008Si-OJ
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 17:09:44 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7OKG-0003vc-BJ
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 17:09:37 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id m19so14937599edj.8
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 14:09:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7OKL-0003w1-7r
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 17:09:43 -0500
+Received: by mail-ej1-x633.google.com with SMTP id t17so25020363eju.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 14:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uzcpDEzkh6Xc0aI0JtsxV0tnoQlgrshM331KIKOT9f4=;
- b=qWiA5fkeAWa35c07MGB75nTaU7yS+amCMjbhy27GSBOCDWQV+g80sc9jm2GNkMXOu0
- 3MFSzFYuFCo2HSShqopp1ZP92D0w9dRZdtOhXUyKfqHnPwR0maMS7HNbbSsnzTqrp2uY
- UmPRG1rRdY30hWZqRnfOdjdQNxpWyQ4ahYidDZsg53dCbd57srJPrP4CDnf1hCDbSy7M
- dPSTF/qQb6KECtkTXqNSqKemzNAtXjZsrm8EY80G+5QgjT4YQMpNSXvde2RelXytpRG3
- +uX+lxuTM8SFdLONicXaM7nIgUsvV9X5GTwWeRfjq7XTIFM5+i8JNXEAL2evo9lG/B/E
- BnKg==
+ bh=yCa7rvoOYcxml3sS30mPGNdG0+HY4We04jGWTlwlZdc=;
+ b=PMkj27TxQgGqg5m4Ns5gh4z04rnBroFHUS4EzR7nOMnbXp+gmzwDbSXXMezMvZH2uD
+ F0BpSLH8mDAWx8b4AMTGUdyDXmttcDJDbbDmPZklD/4HhuNIa/54LkPh8Tw5dmxIRdVz
+ SP5nBlhQ+SjWXSAh5V3voTrJFZDZfwfPB3C+EdxZhrASdauBIcBoCZKLsWKtDn626IT2
+ UEJJMR5YSkZlvdaNPuj7iuut4cdBtAF6UmOdphBSVlxyQvGW+BDMZ8zpZOh2OActtNuO
+ sIKJCvhVzhZcIOKYBNSZaDbh1kSkCbwFgGK5yFXcbw0Myfztz16ohfR0OKivo3JBVr59
+ eH9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uzcpDEzkh6Xc0aI0JtsxV0tnoQlgrshM331KIKOT9f4=;
- b=FGFumo4g3nP70Q1GnoLOoOnrv23MeUAb1P4AqsIB7eO5RU7cCIIJkGoa4ZnRyrxM47
- A8M0aCMRCLFduww4IMCeV6rC0Tvpaka2lOBVpiDpkF/QCAaBTmn7YxgT8n6moKXLQ/ez
- HCdJ0Wl2Z3XmMY4j+nAMczhUOZS1gc2JYleSTvctmtM3qhJw18Y+qHJT72aM/KJeKO4U
- hWot70Wj7dD5g5u+ARS+Rr5xOEgwrgw0OH7LJ6XRwEvRlKeC3AB2QY0wVkO3wV6I2SYF
- BxYM5xnuCSdT8TfkwR6xpCASrDiXle1VTfQSuEqP2LKWEnxPX01E7wleUNn0wAfVjJMi
- xs2A==
-X-Gm-Message-State: ANoB5pn3gxvCXFrIMh8YVBVC/VJ+SscLmZu/VGG8yzl2fk100x0/U84t
- 0cpny4FVfEl5A0EfPGuH25yYLPAEUcksokUgjfQ=
-X-Google-Smtp-Source: AA0mqf6Ie63dQDP1vh6/Ht58x+1qdSke2gfC8vqs+faYpOQNkAbjYTI8sAdyRE9A4Lai6KyyLnx0OA==
-X-Received: by 2002:a05:6402:320f:b0:46c:ec6f:43d7 with SMTP id
- g15-20020a056402320f00b0046cec6f43d7mr51440021eda.19.1671487774282; 
- Mon, 19 Dec 2022 14:09:34 -0800 (PST)
+ bh=yCa7rvoOYcxml3sS30mPGNdG0+HY4We04jGWTlwlZdc=;
+ b=RMNuU3GrMYj0EyoSmiVSMpHKn2mp69kKx9UKxuoIecnBKkyIm9n9ULSyFUck0GBUyX
+ FKJq1U5ZLT5JN9KNQXVz4bnhfsninZFkOnOrFHNLE37Hbt2epMB1g2z/FlMVD1sbcXfV
+ VN5yGEV/HPzyCPFAI+GcMsrZliVbHwaf+QUo6NyUblpssEdNqgYqaBwYXXjaNKUBdFq5
+ ugJKAEGkCrUGXGkpm4LImHchSxfnPi9qQf9OzXbQax83p8/LGFBzJSyjneAdpL695nGR
+ qpYGtOQxPxS01Akg0MyDgF08sYnHJXnydnpEaJwDkuBkfdUmTtv1JDITXYO3vDev145L
+ EN1Q==
+X-Gm-Message-State: ANoB5pnlzm9KvpHpJnRW477tIJ6nRR9wmG+mv3OKLxqLq/8jT2ZdQHP4
+ 92tXg5Ruxuqt4Ramqk8uSsDkaf0DKUraiqerGNI=
+X-Google-Smtp-Source: AA0mqf5VYd2Wlewbjlndn3gluJmbAW8hmbczr4UcvqvS/ZcxQ3xcgaPp7SpIJzDgbfKAEcKhjjCqSA==
+X-Received: by 2002:a17:906:6bda:b0:7c0:eb38:f8af with SMTP id
+ t26-20020a1709066bda00b007c0eb38f8afmr37701382ejs.2.1671487779579; 
+ Mon, 19 Dec 2022 14:09:39 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n19-20020aa7c793000000b0045cf4f72b04sm4855634eds.94.2022.12.19.14.09.32
+ s17-20020a170906355100b007aef930360asm4844015eja.59.2022.12.19.14.09.38
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 19 Dec 2022 14:09:33 -0800 (PST)
+ Mon, 19 Dec 2022 14:09:38 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 04a/27] tcg: Massage process_op_defs()
-Date: Mon, 19 Dec 2022 23:09:23 +0100
-Message-Id: <20221219220925.79218-2-philmd@linaro.org>
+Subject: [PATCH v4 04b/27] tcg: Massage tcg_reg_alloc_op()
+Date: Mon, 19 Dec 2022 23:09:24 +0100
+Message-Id: <20221219220925.79218-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219220925.79218-1-philmd@linaro.org>
 References: <20221213212541.1820840-5-richard.henderson@linaro.org>
@@ -66,8 +66,8 @@ References: <20221213212541.1820840-5-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,116 +90,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In preparation of introducing paired registers,
-massage a bit process_op_defs()'s switch case.
+In preparation of introducing paired registers in the next
+commit, massage tcg_reg_alloc_op() a bit by converting it to
+a switch with a single case: the current non-paired register.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[PMD: Split from bigger patch, 1/3]
+[PMD: Split from bigger patch, 2/3]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- tcg/tcg.c | 61 +++++++++++++++++++++++++++++++------------------------
- 1 file changed, 34 insertions(+), 27 deletions(-)
+ include/tcg/tcg.h |  1 +
+ tcg/tcg.c         | 98 ++++++++++++++++++++++++++++-------------------
+ 2 files changed, 59 insertions(+), 40 deletions(-)
 
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index d84bae6e3f..2f7bbf4882 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -951,6 +951,7 @@ typedef struct TCGArgConstraint {
+     unsigned ct : 16;
+     unsigned alias_index : 4;
+     unsigned sort_index : 4;
++    unsigned pair : 1;  /* 0: not paired, 1: illegal */
+     bool oalias : 1;
+     bool ialias : 1;
+     bool newreg : 1;
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index c330d114bc..92141bd79a 100644
+index 92141bd79a..67cf36ace8 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -2012,7 +2012,7 @@ static void process_op_defs(TCGContext *s)
-     for (op = 0; op < NB_OPS; op++) {
-         TCGOpDef *def = &tcg_op_defs[op];
-         const TCGTargetOpDef *tdefs;
--        int i, nb_args;
-+        int i, o, nb_args;
+@@ -3550,8 +3550,8 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
  
-         if (def->flags & TCG_OPF_NOT_PRESENT) {
-             continue;
-@@ -2034,53 +2034,60 @@ static void process_op_defs(TCGContext *s)
+     /* satisfy input constraints */
+     for (k = 0; k < nb_iargs; k++) {
+-        TCGRegSet i_preferred_regs;
+-        bool allocate_new_reg;
++        TCGRegSet i_preferred_regs, i_required_regs;
++        bool allocate_new_reg, copyto_new_reg;
  
-         for (i = 0; i < nb_args; i++) {
-             const char *ct_str = tdefs->args_ct_str[i];
-+            bool input_p = i >= def->nb_oargs;
-+
-             /* Incomplete TCGTargetOpDef entry. */
-             tcg_debug_assert(ct_str != NULL);
+         i = def->args_ct[nb_oargs + k].sort_index;
+         arg = op->args[i];
+@@ -3568,43 +3568,54 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
  
--            while (*ct_str != '\0') {
--                switch(*ct_str) {
--                case '0' ... '9':
--                    {
--                        int oarg = *ct_str - '0';
--                        tcg_debug_assert(ct_str == tdefs->args_ct_str[i]);
--                        tcg_debug_assert(oarg < def->nb_oargs);
--                        tcg_debug_assert(def->args_ct[oarg].regs != 0);
--                        def->args_ct[i] = def->args_ct[oarg];
--                        /* The output sets oalias.  */
--                        def->args_ct[oarg].oalias = true;
--                        def->args_ct[oarg].alias_index = i;
--                        /* The input sets ialias. */
--                        def->args_ct[i].ialias = true;
--                        def->args_ct[i].alias_index = oarg;
--                    }
--                    ct_str++;
--                    break;
--                case '&':
--                    def->args_ct[i].newreg = true;
--                    ct_str++;
--                    break;
-+            switch (*ct_str) {
-+            case '0' ... '9':
-+                o = *ct_str - '0';
-+                tcg_debug_assert(input_p);
-+                tcg_debug_assert(o < def->nb_oargs);
-+                tcg_debug_assert(def->args_ct[o].regs != 0);
-+                tcg_debug_assert(!def->args_ct[o].oalias);
-+                def->args_ct[i] = def->args_ct[o];
-+                /* The output sets oalias.  */
-+                def->args_ct[o].oalias = 1;
-+                def->args_ct[o].alias_index = i;
-+                /* The input sets ialias. */
-+                def->args_ct[i].ialias = 1;
-+                def->args_ct[i].alias_index = o;
-+                tcg_debug_assert(ct_str[1] == '\0');
-+                continue;
-+
-+            case '&':
-+                tcg_debug_assert(!input_p);
-+                def->args_ct[i].newreg = true;
-+                ct_str++;
-+                break;
+         reg = ts->reg;
+         i_preferred_regs = 0;
++        i_required_regs = arg_ct->regs;
+         allocate_new_reg = false;
++        copyto_new_reg = false;
+ 
+-        if (arg_ct->ialias) {
+-            i_preferred_regs = op->output_pref[arg_ct->alias_index];
++        switch (arg_ct->pair) {
++        case 0: /* not paired */
++            if (arg_ct->ialias) {
++                i_preferred_regs = op->output_pref[arg_ct->alias_index];
+ 
+-            /*
+-             * If the input is readonly, then it cannot also be an
+-             * output and aliased to itself.  If the input is not
+-             * dead after the instruction, we must allocate a new
+-             * register and move it.
+-             */
+-            if (temp_readonly(ts) || !IS_DEAD_ARG(i)) {
+-                allocate_new_reg = true;
+-            } else if (ts->val_type == TEMP_VAL_REG) {
+                 /*
+-                 * Check if the current register has already been
+-                 * allocated for another input.
++                 * If the input is not dead after the instruction,
++                 * we must allocate a new register and move it.
+                  */
+-                allocate_new_reg = tcg_regset_test_reg(i_allocated_regs, reg);
++                if (!IS_DEAD_ARG(i)) {
++                    allocate_new_reg = true;
++                } else if (ts->val_type == TEMP_VAL_REG) {
++                    /*
++                     * Check if the current register has already been
++                     * allocated for another input.
++                     */
++                    allocate_new_reg =
++                        tcg_regset_test_reg(i_allocated_regs, reg);
++                }
+             }
++            if (!allocate_new_reg) {
++                temp_load(s, ts, i_required_regs, i_allocated_regs,
++                          i_preferred_regs);
++                reg = ts->reg;
++                allocate_new_reg = !tcg_regset_test_reg(i_required_regs, reg);
 +            }
++            if (allocate_new_reg) {
++                /*
++                 * Allocate a new register matching the constraint
++                 * and move the temporary register into it.
++                 */
++                temp_load(s, ts, tcg_target_available_regs[ts->type],
++                          i_allocated_regs, 0);
++                reg = tcg_reg_alloc(s, i_required_regs, i_allocated_regs,
++                                    i_preferred_regs, ts->indirect_base);
++                copyto_new_reg = true;
++            }
++            break;
 +
-+            do {
-+                switch (*ct_str) {
-                 case 'i':
-                     def->args_ct[i].ct |= TCG_CT_CONST;
--                    ct_str++;
-                     break;
- 
-                 /* Include all of the target-specific constraints. */
- 
- #undef CONST
- #define CONST(CASE, MASK) \
--    case CASE: def->args_ct[i].ct |= MASK; ct_str++; break;
-+    case CASE: def->args_ct[i].ct |= MASK; break;
- #define REGS(CASE, MASK) \
--    case CASE: def->args_ct[i].regs |= MASK; ct_str++; break;
-+    case CASE: def->args_ct[i].regs |= MASK; break;
- 
- #include "tcg-target-con-str.h"
- 
- #undef REGS
- #undef CONST
-                 default:
-+                case '0' ... '9':
-+                case '&':
-                     /* Typo in TCGTargetOpDef constraint. */
-                     g_assert_not_reached();
-                 }
--            }
-+            } while (*++ct_str != '\0');
++        default:
++            g_assert_not_reached();
          }
  
-         /* TCGTargetOpDef entry with too much information? */
+-        if (!allocate_new_reg) {
+-            temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
+-            reg = ts->reg;
+-            allocate_new_reg = !tcg_regset_test_reg(arg_ct->regs, reg);
+-        }
+-
+-        if (allocate_new_reg) {
+-            /*
+-             * Allocate a new register matching the constraint
+-             * and move the temporary register into it.
+-             */
+-            temp_load(s, ts, tcg_target_available_regs[ts->type],
+-                      i_allocated_regs, 0);
+-            reg = tcg_reg_alloc(s, arg_ct->regs, i_allocated_regs,
+-                                i_preferred_regs, ts->indirect_base);
++        if (copyto_new_reg) {
+             if (!tcg_out_mov(s, ts->type, reg, ts->reg)) {
+                 /*
+                  * Cross register class move not supported.  Sync the
+@@ -3656,15 +3667,22 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+             /* ENV should not be modified.  */
+             tcg_debug_assert(!temp_readonly(ts));
+ 
+-            if (arg_ct->oalias && !const_args[arg_ct->alias_index]) {
+-                reg = new_args[arg_ct->alias_index];
+-            } else if (arg_ct->newreg) {
+-                reg = tcg_reg_alloc(s, arg_ct->regs,
+-                                    i_allocated_regs | o_allocated_regs,
+-                                    op->output_pref[k], ts->indirect_base);
+-            } else {
+-                reg = tcg_reg_alloc(s, arg_ct->regs, o_allocated_regs,
+-                                    op->output_pref[k], ts->indirect_base);
++            switch (arg_ct->pair) {
++            case 0: /* not paired */
++                if (arg_ct->oalias && !const_args[arg_ct->alias_index]) {
++                    reg = new_args[arg_ct->alias_index];
++                } else if (arg_ct->newreg) {
++                    reg = tcg_reg_alloc(s, arg_ct->regs,
++                                        i_allocated_regs | o_allocated_regs,
++                                        op->output_pref[k], ts->indirect_base);
++                } else {
++                    reg = tcg_reg_alloc(s, arg_ct->regs, o_allocated_regs,
++                                        op->output_pref[k], ts->indirect_base);
++                }
++                break;
++
++            default:
++                g_assert_not_reached();
+             }
+             tcg_regset_set_reg(o_allocated_regs, reg);
+             set_temp_val_reg(s, ts, reg);
 -- 
 2.38.1
 
