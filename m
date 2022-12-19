@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FA465065D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:27:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51D265064E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:21:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p75jm-0001G9-Fl; Sun, 18 Dec 2022 21:18:42 -0500
+	id 1p75jq-0001MH-2f; Sun, 18 Dec 2022 21:18:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75jh-00016f-L5
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:37 -0500
+ id 1p75jn-0001Hy-8F
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:43 -0500
 Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75jf-0001BQ-Ui
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:37 -0500
+ id 1p75jl-0001CC-LG
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:18:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671416315; x=1702952315;
+ t=1671416321; x=1702952321;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WRx6Vvid93Q1T1mtyE/QThVhuj/pNvv5e8rHnvs+X88=;
- b=M5ewo9Tlz8xu4K4T0pzYBKgPiQvugIC4Cf88Y2+CbuR/n7Qh5rULHtYl
- YhczEjVNGZ4VIGrQY+b+hlifZLGSQf0gdMu4hi3+eu9fYU3eA9oWX21t4
- W5RJDxMVVakc5gwp39QAOSa6+m7vlt/EGTvz+eB8EtiT3gk1Qz+SnDaUV
- 2dc9Oo5tnKeQ1pymEW88eaBN+1X+AjpM8GC+Bl7Mh4HcioljMm6bxyUW8
- 6fxHVLeWlpvEu6zfZHwPMPRzTnmb5ZN+K48+7vC3MpbC3YxkCn24Me3kn
- DuX78CkruWBmm+q13jg2UwWm4QsRIvUCIEv5Z4zq70l6sJbx8dNHS9MRW g==;
-X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="331056810"
+ bh=390eeG4V0e1ilBaF3agJQhKFOgqHLzF2xG/939DvkZw=;
+ b=odPMAN/5oBU4/sqpPVVCcjw0IWBfuemc78RKFGNk2u2IWrddRNBX5qGt
+ 9QEuEUloOR6Pbs1SGJ6kLkEcQO4ix0g1srqyHXfTWJKQvy4YNY3e+2wX7
+ ur5QXi+yrZ7i+NDgI6s5tjR5jAP3LynGA8e2HyIT32t4H3m9WP4AZnesd
+ ANS4yRpj5AxgXQzesQTaRm5rxpHLbPbSEH6N+l6Pub0rmDDZdlxq1shwm
+ 4FmbnG5dE9+1BI4CPttIzdxfLggdvptrlfnGHyp+7zL8398zGhFZN6+z0
+ ak+J7DX4BiB/xZJ+13acEPNUPtHKjaQI1doXoxwM5SUcOAmCppaFJXTbD A==;
+X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="331056812"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:18:34 +0800
-IronPort-SDR: 7rNUoEBH8yZBCVsq0ymuZuUvVv0Q9Rzix67rnrx7N9lIyWEslgA6ufyDlOyzWZgU8oHpI5LoMX
- whsdzDLVDTa+n7wl34q758wc2r4s7hzWLoln5hbd/ZZx/nsC3kcAjfmozkQ7oV9DJrZfbgMPIC
- pBssQ722FKmPBsFqBW03bGWekrLc+vK1QtXK+U7aJEQQBmtgDiciNNnptqJV3h5CCTI9FNEHik
- tcxVm1UCfo2cMWfvIi5cz68SK6ompavEBUwQfZN4yIn4v8nR9TNcY0Gz2v4Q8Zrz2zvecVOsNL
- eY8=
+ by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:18:37 +0800
+IronPort-SDR: C2To00yx7CS5/0V81QghxIQIHbSVFP1+hNlaVWYAUHGvqNKmV6ypE0/SRSWaYi9HclVZlzPNbh
+ FzXtRYTcULI28XucjBoUtMrSr9VWqn612kaiQLT8uob94DcN+FEShLOT87PGkEzWrsWgRh+xSt
+ 06cT2RR1yUu5A1sj0DH2T53J+tnhNs26hG1zlkAJYuWxi+JJfG52w0Vv4NXO2/1+GjLxO4SaCW
+ i0LjwPH59Zexil6MTOwz2NbRfGM/YiCLeDLz3v1HW40y6CqnnbVD9y1HW0cIG+/5UlSy5hfqlP
+ LE4=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 17:36:51 -0800
-IronPort-SDR: GqWpCtM1wSvb+AGJ7RX4OEv6bSqJ7LXQOu3BLKUbpFJX+vVm3KL/I84ths/mKvQ9Fa8mK+0gko
- UsOPLrbCZ3MPYwU2t+2foFT69KXQo7kdsdQRf1rgm6e1ZeZXxCrR38DGgPPsLsPUhgxmCsnv2g
- 2dc6desWbcCr4kXmoxGlZ4A8xl/nFCN8/tBuXg08+LCrIxq1SjSgFLzXtNV0RSuX91+bPh/Jfc
- V7lHs1/qTMyXFFa1/VpzyPikE3xmw0/Bq1KjAaEvy3/gShnoKJoSWTHAEZYfM+zpP47+RLvc59
- VpA=
+ 18 Dec 2022 17:36:54 -0800
+IronPort-SDR: 32ae0zao2o8lqoHMpkcmc0PC/sKM4Mb6tjhNyijHBcgHLW7YZR3MloTYooh698fDY2p+3EH7G+
+ jbi3lRfAvSU6iIUp5gu5RgP0U45Ff+SB/+MjM3SkOT54C3WKgYi7P3wOVns6rNEgxkVbFM6pOo
+ nO22lDOq/2hF+eoNRz4ZWMxj81qRNHX21EM4Qi+qCKLm1x5sal7m4EBND0g6L+f82nlr2UV5Fq
+ kl76DECP+d6lHgUWNK9C4PVwibrr9wpYBFZFpzbsli01B41rhr06mXbD95ZKw5iKEOK4yJRu56
+ P/g=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 18:18:35 -0800
+ 18 Dec 2022 18:18:38 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3KQ6xsxz1RwqL
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:18:34 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3KT4N1Zz1RwqL
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:18:37 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671416314; x=1674008315; bh=WRx6Vvid93Q1T1mtyE
- /QThVhuj/pNvv5e8rHnvs+X88=; b=dgo/YE+dMPTG3Yl2DHKai08c+VpT0vY3ER
- myvp3pVJqNxgu/R42U8M1MiXcLX7UlOoAR5+QkC4rcvgO/zSgqKkkENjWykB7uKm
- 7+d3mQqnFYPD5eltpwLruVfP8V772pE46oELmvIgaDGoh066zjEXxQh+Z4AQG+t2
- Elxtb7x/srV9fKU2+A1foF/v3Fzrnn+W3U5AHtN9DKdh1ZvOya5XPIjyo9xVHS9J
- 8+pNfH6qwIew5r/3gAghlnqXhj0OfPNKWdx9LIYU5RoYPSJORJSIqvV451fGvwU5
- vAQ4BgDr4Xsq14vXgQC6M8oR4npUdYTdUU+2MSqSCD4RO0odWibw==
+ :from; s=dkim; t=1671416317; x=1674008318; bh=390eeG4V0e1ilBaF3a
+ gJQhKFOgqHLzF2xG/939DvkZw=; b=uKwkGFOAl2tH8TQw8r70JTqMcUAOS77Tzx
+ 6TcBreaCSsDxA5YkV9ooyZD+3WwGg7Bz20U2kCBAylq8RaDlRGsiC1xZlHhUgKrZ
+ Zmz2p8tswNdR8eD97pVfMrwMplVXLM8SffR8aR+PZlxDq/kPxBXQrPvdswQu8Bu+
+ DAiRrWDX8W2tloesqmxNZ3KA1VdeGDAU/L7E9E8Uyk+LirULdjycL6E8cMhGJjJS
+ mDXjYICiQlqrCtwel4/qMTM3HRdS6U1EAqDpoyU7s7BdFD0BSCGgXaOvJzHUdamm
+ 6JvlJW304mWaa5CH8BYuIosq4WfoQszM8N8NP4w9Tntsr72NNgdA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id iTIbZNXOGgSg for <qemu-devel@nongnu.org>;
- Sun, 18 Dec 2022 18:18:34 -0800 (PST)
+ port 10026) with ESMTP id 3xX0VN_mxk8A for <qemu-devel@nongnu.org>;
+ Sun, 18 Dec 2022 18:18:37 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.4])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3KN3CHlz1Rwtl;
- Sun, 18 Dec 2022 18:18:32 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3KR1073z1RvLy;
+ Sun, 18 Dec 2022 18:18:34 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
  Wilfred Mallawa <wilfred.mallawa@wdc.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 34/45] hw/riscv: spike: Remove misleading comments
-Date: Mon, 19 Dec 2022 12:16:52 +1000
-Message-Id: <20221219021703.20473-35-alistair.francis@opensource.wdc.com>
+Subject: [PULL 35/45] hw/intc: sifive_plic: Drop PLICMode_H
+Date: Mon, 19 Dec 2022 12:16:53 +1000
+Message-Id: <20221219021703.20473-36-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
 References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
@@ -117,30 +117,43 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-PLIC is not included in the 'spike' machine.
+H-mode has been removed since priv spec 1.10. Drop it.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221211030829.802437-5-bmeng@tinylab.org>
+Message-Id: <20221211030829.802437-6-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/spike.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/hw/intc/sifive_plic.h | 1 -
+ hw/intc/sifive_plic.c         | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 1e1d752c00..13946acf0d 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -8,7 +8,6 @@
-  *
-  * 0) HTIF Console and Poweroff
-  * 1) CLINT (Timer and IPI)
-- * 2) PLIC (Platform Level Interrupt Controller)
-  *
-  * This program is free software; you can redistribute it and/or modify =
-it
-  * under the terms and conditions of the GNU General Public License,
+diff --git a/include/hw/intc/sifive_plic.h b/include/hw/intc/sifive_plic.=
+h
+index 134cf39a96..d3f45ec248 100644
+--- a/include/hw/intc/sifive_plic.h
++++ b/include/hw/intc/sifive_plic.h
+@@ -33,7 +33,6 @@ DECLARE_INSTANCE_CHECKER(SiFivePLICState, SIFIVE_PLIC,
+ typedef enum PLICMode {
+     PLICMode_U,
+     PLICMode_S,
+-    PLICMode_H,
+     PLICMode_M
+ } PLICMode;
+=20
+diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+index 0c7696520d..936dcf74bc 100644
+--- a/hw/intc/sifive_plic.c
++++ b/hw/intc/sifive_plic.c
+@@ -42,7 +42,6 @@ static PLICMode char_to_mode(char c)
+     switch (c) {
+     case 'U': return PLICMode_U;
+     case 'S': return PLICMode_S;
+-    case 'H': return PLICMode_H;
+     case 'M': return PLICMode_M;
+     default:
+         error_report("plic: invalid mode '%c'", c);
 --=20
 2.38.1
 
