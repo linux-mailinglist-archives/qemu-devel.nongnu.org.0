@@ -2,90 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB45650673
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD2E650650
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:21:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p75kH-0001u9-3X; Sun, 18 Dec 2022 21:19:13 -0500
+	id 1p75kI-0001y1-1d; Sun, 18 Dec 2022 21:19:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75kE-0001pm-DT
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:19:10 -0500
+ id 1p75kF-0001tA-Rm
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:19:11 -0500
 Received: from esa1.hgst.iphmx.com ([68.232.141.245])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75kB-0001Ck-UJ
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:19:09 -0500
+ id 1p75kE-0001CM-3J
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:19:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671416347; x=1702952347;
+ t=1671416349; x=1702952349;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=B4bsb7C+WvHwOgjHhyitFcg8hTn062ir9rkIHz/V44c=;
- b=PeeFdTyKe3o5R/8U5HD4sF6JQkF5du0cU3Fce1tLg1bOkLNCL4ZalS5h
- 4voByKdz6HpGaE6hmGtNrh5qko87IkqnmNgLYo2ldC6ZUmmHK8qm5VMJ/
- mRa0vtzS6eZ0AH+4Y+Yu00xiuXSFicGz5916VC8+Rg8Sn+/N1pDnJWfmU
- u05/F0HX7E1aizXxg0I/K9zOd/oaq2khpvUHQQXSyQ1aLZlz1Isb0Vv5T
- 1jq1vBENVPmogVseyv5ljqDo7swmFYl5BWetz4PkZycVKtHN/66nvwxPO
- NIg64avfwaWig0UhUfruXGOMw/UGs0bqrIyygI/Drpzq7JhjJRMJR0dIB g==;
-X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="331056831"
+ bh=qqZZTilR5d2pq+JF0832DzXY6m5V2ZSxxMPDsmHeovY=;
+ b=mM7ut7md9oyYB5vSaQOzBWGjth3Qvx1olcxoYdh0WBIE8KokW5wcVWWI
+ 5PeQO9nn/yFFhJml0XsXW0p0RXDeJclF2FaS4hyuUXfq5IEKUaM0vpuHd
+ /a1NtmS5tLcqcxtNqjek5p8Ov0VLZQAB5ygBBCZbTE+uPdZbmBUYX4ucR
+ qJH+uMbTFqmAseYu4YMMlqoJ1PTVuiNA+CkQBoIKTynvLa1zzced+QtRp
+ COHbEEU89++A0pUwIqGS3ryNrbltLy8BQbVVloBT3hVz0EqgmDjHSYidg
+ INV86SLY+jcu3oEi0gLf7oIjouq0k+XGCx9k5xjNx4+JE1hQnoV9UsQu8 A==;
+X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="331056838"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:18:53 +0800
-IronPort-SDR: GoxfrGOvGBA2pya5U2lERwbllpaz9/z1jAvxfjDGY2vzS/gcodNc0vgFuLWrwOGYSddVfeB7iJ
- 8jkLJm+jPh52ShlAmTOkgGIMv0hATVZBVhDFKLnHPk2w8O4XBRK3zaclBwGilZlMcbFLAKi6++
- wYOqjnixi2+cOEp5cZQB4SHeHOXdb8i3sPj/aTgpkXushOF3gdL2H+NDbIqd3vVZhp1wa5ZW8Q
- Jmwd+B+n3/Riz/eExz6Cc187FsOJIxkxR2Ipv+VogRLo1bU8Qq7VPGE5Q1E0LEliBh6nXXbGGZ
- pQI=
+ by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:18:55 +0800
+IronPort-SDR: XWK0dS4EMxaddPrDJTTCDJdldVD60JcVzmSXthrf62nzDlzMhzBnrekjHa9mlF48RpWy8WQkLG
+ tgDAW27/+PKgZl09WSnxSS8KKiweyQQqZcTZ3eTg9hBapgxyX3F8/JRgbrBeDMtAKu01Vqew6H
+ 6y82vwUrLHCOCuTnQJZUcfmML/sC848uNcjjq1WJU9oKF9jTdvnmG/QASu/1OGWZ5R3e7TV3Ci
+ 6PuARp7U6wrU2Y5gVTwvxFtmzMxCbN+XEluGLh65uYaoP4gD6F71NHCFfZv8AqDyGZdihFwtQN
+ ZOA=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 17:37:09 -0800
-IronPort-SDR: lNJ55/bD4Mn+GpG2tS2Th8WpxVfZKi3aK/E6KZenQ9+maFVsHvf8tjuQ6kD70RqYLDKdqOtzg3
- Nraqh8Da5xTyu0qjZ6vG25OhEb/hhoDClilNnPXitqW1+a8lnJn9YkuVZS84JyqCkZ3mmJn6tO
- doBUwRpgCxnCm0t/jafj9Pg2L0o5u4O2JSiYCTVvAtWWy1HnfsIgNZcpzAJNBJkvKsqGgDxP7I
- xJCfeT/r3a+vaAUEtC5zHz5BN6WIfyN9ZMp3QVebygMNUqSyuFudf6goI+dB7p6m9fk4xLDLU+
- NBs=
+ 18 Dec 2022 17:37:12 -0800
+IronPort-SDR: y3qfqLMQE19AAUvxRUMCZfWZgz8tM9uZuA+S6yD7K5PfYk3AnXICJh7nZnT8oWshhq3Ww5U/Sz
+ qsZRk9KXwo+NmiiWkbrkJpczdpFjhrc2ZPsOOeOoP3Z6htffzD61cfTHj3oDY+R+je8+hAqSJ8
+ Fasw+eUMayN9UoWWc43WL3LmNqNE2rQyV9v/HaM8jBLqD45xcZJPSMctqDNiss/EBqbC5RjFuE
+ 1bL62pH+LzHV5/jQq5jY9EoM5HQKCUOUdDyZxNHhLHxsaffPAhVe2zIuoOahfs6WJVlitnMnkV
+ uNA=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 18:18:53 -0800
+ 18 Dec 2022 18:18:55 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3Kn0wPHz1RvTr
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:18:53 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3Kq2QnGz1RvTp
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:18:55 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671416332; x=1674008333; bh=B4bsb7C+WvHwOgjHhy
- itFcg8hTn062ir9rkIHz/V44c=; b=ItIXg9jwX/CRg+59scZc+8TLFY/PC3FFIH
- i5xE6+ezLFrzcfpmranFT/+7Y4PXYbCBhacbNeZ5lKUuSRbx58f4zyY/IKnaTKg8
- VGVDfjl5uE519gfTx1j51T8LcbY162qzJYSyUIYXg5CKAc5ytU8DF1p+8q+NguiK
- xLdEAt/WnrCGwglSRpNsHTe5C/aqhfbGlukCks6/4JNjjYHBo9bZ821Fk09NGjVm
- yDD1p/2XObXWVQzum7YZDqSif4zquW71lJORHaRFfj8vLy4MP+iR7ZGdDTvpUG0b
- Y/guazc5OZYtl+ZdKakx2EaT/H6NC+l3mYdMWWEa0bV8jToxKWQA==
+ :from; s=dkim; t=1671416335; x=1674008336; bh=qqZZTilR5d2pq+JF08
+ 32DzXY6m5V2ZSxxMPDsmHeovY=; b=YKxdRAXsw36lwrpyrS9qKLYRY0H+p3vB4b
+ nP7O2DhyjA9LjttC2reP/sJoOAJu8uUoemciP/qufSqnbfOg0l1AE8B2kycXUh1R
+ 1ijgw+fisaV/itp3mxuLXCeDa4vzLZbI1TXTjVwwkFK5miyfi8Wh2SxtwQmfxNvr
+ GkRs9Q4bYUVkjdMPTFflp6/6/OP/VSRMMr4GMiAS0bKmRFBtrLpLTirgyomiZRao
+ 7B0AeOU4DtPpvFfcXn5DefUo/N4pKh5yM5vQ4+9OH6rlpJKVWdgb5SQ4rp8zgk7A
+ anqv0bMCEcSjinK/woxH9Gt7Zlw0xrjFoZOqF8ex/NyusOtAfZ5A==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id wltj8jmAZ8Hb for <qemu-devel@nongnu.org>;
- Sun, 18 Dec 2022 18:18:52 -0800 (PST)
+ port 10026) with ESMTP id OvI2MUiCvIeZ for <qemu-devel@nongnu.org>;
+ Sun, 18 Dec 2022 18:18:55 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.4])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3Kj5jw2z1RvLy;
- Sun, 18 Dec 2022 18:18:49 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3Kn4bGCz1RvLy;
+ Sun, 18 Dec 2022 18:18:53 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 41/45] hw/riscv: sifive_u: Avoid using magic number for "riscv,
- ndev"
-Date: Mon, 19 Dec 2022 12:16:59 +1000
-Message-Id: <20221219021703.20473-42-alistair.francis@opensource.wdc.com>
+Subject: [PULL 42/45] hw/riscv: virt: Fix the value of "riscv, ndev" in the dtb
+Date: Mon, 19 Dec 2022 12:17:00 +1000
+Message-Id: <20221219021703.20473-43-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
 References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
@@ -118,34 +116,65 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-At present magic number is used to create "riscv,ndev" property
-in the dtb. Let's use the macro SIFIVE_U_PLIC_NUM_SOURCES that
-is used to instantiate the PLIC model instead.
+Commit 28d8c281200f ("hw/riscv: virt: Add optional AIA IMSIC support to v=
+irt machine")
+changed the value of VIRT_IRQCHIP_NUM_SOURCES from 127 to 53, which
+is VIRTIO_NDEV and also used as the value of "riscv,ndev" property
+in the dtb. Unfortunately this is wrong as VIRT_IRQCHIP_NUM_SOURCES
+should include interrupt source 0 but "riscv,ndev" does not.
 
+While we are here, we also fix the comments of platform bus irq range
+which is now "64 to 96", but should be "64 to 95", introduced since
+commit 1832b7cb3f64 ("hw/riscv: virt: Create a platform bus").
+
+Fixes: 28d8c281200f ("hw/riscv: virt: Add optional AIA IMSIC support to v=
+irt machine")
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221211030829.802437-12-bmeng@tinylab.org>
+Message-Id: <20221211030829.802437-13-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/hw/riscv/virt.h | 5 ++---
+ hw/riscv/virt.c         | 3 ++-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index b139824aab..b40a4767e2 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -287,7 +287,8 @@ static void create_fdt(SiFiveUState *s, const MemMapE=
-ntry *memmap,
-     qemu_fdt_setprop_cells(fdt, nodename, "reg",
-         0x0, memmap[SIFIVE_U_DEV_PLIC].base,
-         0x0, memmap[SIFIVE_U_DEV_PLIC].size);
--    qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev", 0x35);
-+    qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev",
-+                          SIFIVE_U_PLIC_NUM_SOURCES - 1);
-     qemu_fdt_setprop_cell(fdt, nodename, "phandle", plic_phandle);
-     plic_phandle =3D qemu_fdt_get_phandle(fdt, nodename);
-     g_free(cells);
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index 62513e075c..e1ce0048af 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -87,14 +87,13 @@ enum {
+     VIRTIO_IRQ =3D 1, /* 1 to 8 */
+     VIRTIO_COUNT =3D 8,
+     PCIE_IRQ =3D 0x20, /* 32 to 35 */
+-    VIRT_PLATFORM_BUS_IRQ =3D 64, /* 64 to 96 */
+-    VIRTIO_NDEV =3D 96 /* Arbitrary maximum number of interrupts */
++    VIRT_PLATFORM_BUS_IRQ =3D 64, /* 64 to 95 */
+ };
+=20
+ #define VIRT_PLATFORM_BUS_NUM_IRQS 32
+=20
+ #define VIRT_IRQCHIP_NUM_MSIS 255
+-#define VIRT_IRQCHIP_NUM_SOURCES VIRTIO_NDEV
++#define VIRT_IRQCHIP_NUM_SOURCES 96
+ #define VIRT_IRQCHIP_NUM_PRIO_BITS 3
+ #define VIRT_IRQCHIP_MAX_GUESTS_BITS 3
+ #define VIRT_IRQCHIP_MAX_GUESTS ((1U << VIRT_IRQCHIP_MAX_GUESTS_BITS) - =
+1U)
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 6cf9355b99..94ff2a1584 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -468,7 +468,8 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
+         plic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 4);
+     qemu_fdt_setprop_cells(mc->fdt, plic_name, "reg",
+         0x0, plic_addr, 0x0, memmap[VIRT_PLIC].size);
+-    qemu_fdt_setprop_cell(mc->fdt, plic_name, "riscv,ndev", VIRTIO_NDEV)=
+;
++    qemu_fdt_setprop_cell(mc->fdt, plic_name, "riscv,ndev",
++                          VIRT_IRQCHIP_NUM_SOURCES - 1);
+     riscv_socket_fdt_write_id(mc, mc->fdt, plic_name, socket);
+     qemu_fdt_setprop_cell(mc->fdt, plic_name, "phandle",
+         plic_phandles[socket]);
 --=20
 2.38.1
 
