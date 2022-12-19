@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B3D65112B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 18:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342C065112E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 18:23:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Jny-0000tw-Ko; Mon, 19 Dec 2022 12:19:58 -0500
+	id 1p7JrC-0002FE-8H; Mon, 19 Dec 2022 12:23:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7Jnw-0000tQ-He
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:19:56 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1p7JrA-0002DW-7U
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:23:16 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7Jnu-0002VF-OS
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:19:56 -0500
-Received: by mail-wm1-x331.google.com with SMTP id bg10so6951831wmb.1
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 09:19:54 -0800 (PST)
+ id 1p7Jr8-0003FI-OK
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:23:15 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h11so9346979wrw.13
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 09:23:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rdjPnb42sZHgjusx6tljdA/j+KJS1kS8mUHND5On3xc=;
- b=IU8+OBJyNOppJDnJA1nQACcilw+cJVuT4eCxAwpulKnZttkPRyGp0KNlHeqRxiLBic
- r8RbGGhZcWBuTW/UR/2RaJflMg7a27XSDOjMHbYSYmtfdy0VD7z4q72oNFlZ1ZuSyzkv
- 65kZx15EextsX/4ptWcWrwTAiB/eOiG0lr5uz0pt30l6K+vn31UbX8VMgUUqAFKQkCZw
- v3GbtqHDjODIVjI0rmy3KvlKieUx2L/Cr90csQ5/omfVKMLdZWI04BoUWqAmVg9OHM2e
- u6sVtIySt+4q/CEh0tSV6cziCIeUNNJzOYrXXL/fVB+/Nvx5nh+slZsIn0YoQ6HkO+nd
- J0Cw==
+ bh=tO3aIVvtNgy9QCqW+vni+o793f7Ag/E0G52cKnKsAxg=;
+ b=RgM9fvurSrBOsyuvZjLFAKybbsMsDc48JX0nmWE16aqtS3h/UhUXVCPn6167x3y11O
+ kRVz8vyW5m8L/s/OvvSM2XMs5Bvpd+yqAgLqI0lEydhbhj6cHFoHLVNNxvbmMFOt/1d7
+ epkjoT2nLzIIErSLzD/bNey9NsHXJOyqZodiQTEs2FU+aqa2OHA6SwNwEUyVIeZ/tDLU
+ 83IJny+9YUsf2ZDVVNelFTAK+YidvyoFtnjmON/Xsk30afQ3r7yFtdfr/DyxrBUJKXK7
+ SGfeGHoK1j7OTmzC1m3D+cCaVtSmXgAHVwUWAFuJZzaAM67bencYVw9/1W4Rdw8Pcqq8
+ t4vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=rdjPnb42sZHgjusx6tljdA/j+KJS1kS8mUHND5On3xc=;
- b=j6K3l12RSuXWOj8bkRY8iYShFjso1Jp5Go8JVv021Hy5HSsapfSEArxobxJmsJ3J9m
- KZ46UapVMnaz7Mi1HEkkDpp/9Ckft+7opNukoi3kIHhzJdULPjvtZm3TC/XTATkFfhjY
- nXB4vMWSUQJu5R4RFpAMImHHlnf0xK+rYX01AaILMN9Om73+T7jl9KpMyC/ao8MCMmd9
- 8lCpDjCZXbd6vmiEST5Enz30MwAC1Yp6Xu4TRVD7NYHLwKr+0K/iJFtvmOnHCKxBgLL6
- /qOLf/uIPupStIjJUude4iKi+zl2yC7Pp1wqExmKXX6A4sK06crKs/Dvl5jEg3AncUIY
- D36g==
-X-Gm-Message-State: ANoB5pkeAe11/tirrkUuKUplaHv+l5kfpWGbclUwahTrIY7Qi4oCAmKk
- FDmF4I/INDYbs6TohA7AwDS++g==
-X-Google-Smtp-Source: AA0mqf7logIahgQStEIUHVPvuUAvxgqQ3FEfIHW+F88ds6uYaCC6JhVmtJrHcZZkeseQoqdzA6fxTw==
-X-Received: by 2002:a05:600c:1c90:b0:3d2:274d:be7c with SMTP id
- k16-20020a05600c1c9000b003d2274dbe7cmr22437651wms.19.1671470393145; 
- Mon, 19 Dec 2022 09:19:53 -0800 (PST)
+ bh=tO3aIVvtNgy9QCqW+vni+o793f7Ag/E0G52cKnKsAxg=;
+ b=TQCKJutE+tar+kPtVbdBdt0p3spJjYMto8wNeCBaUYv53jdaNX5wwKuCFztiACgkh1
+ 1m32JBigILKGWj/y9ddf7XTSGVTv7S3ZY5ZduP3mhC9duzxSXuWaQQrpkTNkXC5buZT7
+ A8jbvMlguxOIbhXpyvEDYhx+h/AVGcxbaLKgnNOZT3tMAQcKI2HhGvJPoTp5pUILJAwM
+ 5AB1tn6Y8PxCdTO7A7wOOU3Up3JcAwNItEfM20ZzUMPziOFZfMZL/64iBHw80tnVKo8n
+ tasqNBgw4JbTB4s/Klea/dPAZV5YoclBak0B8WSlFscH/TvHUkHYnxbaNVw0ly5vK/Ar
+ 847Q==
+X-Gm-Message-State: ANoB5pnVuOeoppafMj3EgX2FBwgfWCQLfXaf2f0BydKYSJg4mocouJHg
+ 8dgHbVC0/QEnWlPbCWNSf8DODn18wUYhifCv
+X-Google-Smtp-Source: AA0mqf5/zauvSIG+tlOzrNv8IsJXc5GJhNyFLe55FaXYsuniGy5zrt7ZhVhBKZCh2DG5+Z/FLrORmQ==
+X-Received: by 2002:a5d:54ce:0:b0:242:4f8:78ee with SMTP id
+ x14-20020a5d54ce000000b0024204f878eemr25361332wrv.53.1671470593086; 
+ Mon, 19 Dec 2022 09:23:13 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a05600c1d1300b003cf75213bb9sm22925843wms.8.2022.12.19.09.19.52
+ co26-20020a0560000a1a00b0023677081f3asm10492136wrb.42.2022.12.19.09.23.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Dec 2022 09:19:52 -0800 (PST)
+ Mon, 19 Dec 2022 09:23:12 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5E8B31FFB7;
- Mon, 19 Dec 2022 17:19:52 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 522651FFB7;
+ Mon, 19 Dec 2022 17:23:12 +0000 (GMT)
 References: <20221213212541.1820840-1-richard.henderson@linaro.org>
- <20221213212541.1820840-6-richard.henderson@linaro.org>
+ <20221213212541.1820840-14-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.7; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 05/27] accel/tcg: Set cflags_next_tb in
- cpu_common_initfn
-Date: Mon, 19 Dec 2022 17:19:47 +0000
-In-reply-to: <20221213212541.1820840-6-richard.henderson@linaro.org>
-Message-ID: <87len3jop3.fsf@linaro.org>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 13/27] tcg: Introduce TCGCallReturnKind and
+ TCGCallArgumentKind
+Date: Mon, 19 Dec 2022 17:23:06 +0000
+In-reply-to: <20221213212541.1820840-14-richard.henderson@linaro.org>
+Message-ID: <87h6xrjojj.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,11 +99,10 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> While we initialize this value in cpu_common_reset, that
-> isn't called during startup, so set it as well in init.
-> This fixes -singlestep versus the very first TB.
+> Prepare to replace a bunch of separate ifdefs with a
+> consistent way to describe the ABI of a function call.
 >
-> Fixes: 04f5b647ed07 ("accel/tcg: Handle -singlestep in curr_cflags")
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
