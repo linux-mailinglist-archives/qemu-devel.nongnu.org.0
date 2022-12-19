@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92506650A23
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:32:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF13650A41
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:39:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7DNz-0006dS-Gj; Mon, 19 Dec 2022 05:28:43 -0500
+	id 1p7DRA-0002H7-4O; Mon, 19 Dec 2022 05:32:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7DNt-0006bL-Rg
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:28:40 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7DNs-0008Ui-7m
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:28:37 -0500
-Received: by mail-pl1-x631.google.com with SMTP id 4so8589601plj.3
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 02:28:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=i2aC/vzuhk+uLN25hcOq3QsCK7IDdxDIe1OYL6mXWS8=;
- b=W2krQ1dcgx8A1uQNXOFxo/vKTJHpAjB+hsxb+kDP921x8nEjOHV71qA3ccid8b7nw2
- L08ErwSBy6jsF9M+zjdGtCbV0lxfXIT4vf+2oTuwvlWkzAq7rb93Br3VD33+6jSDq3Es
- rfGDY06CKV8PSCA8IpwgKC7iQ7LmvNDbtcZ+wGPFMNMYDq4OsLSH3PtuL7HKOlDMjRrl
- g3umGEWIq9lAJZqXe/KWKeFmqgPFSJcd0kHeIGfxAKH1Mpf3sJ3C2sLtrAM6fGPBxPqf
- /jZeiDCOKCIXqWj10FjaTARoGb1SltVSNX+73sNIVZj/JsPs7uWyAAjiHpTI8WAIkmnt
- thCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=i2aC/vzuhk+uLN25hcOq3QsCK7IDdxDIe1OYL6mXWS8=;
- b=q280MroLBYbGaH/aB6nvvMQ8geHsAdu2HUIIjFxYp4fKdt/nKe+ge1grb0TfwPiknJ
- zctN4XqEeUUD3M36+Z9EXAr1+exWUrvkIYE5ENgTceFPzrAd7xm17OCRneQzyUHR+8g7
- NQq4P1j107wUpj49ODiianc/gO+Shx36l70RI1rHkEn2rv8saCnIzx6U1nmyCe2zR9KL
- t6zE1yNVN8sItuOqA8M94gypOEKFGOuSibfjy1AWHVcaqQ8Mx0MZSB7ZREm5k1tMYIIU
- nqOi5n+VTUXXGJco/921aPDRvikPpijZQ5euDHVEDxc8alSvRtjPCOA1Ek/0OIz4Xc8v
- W6Fw==
-X-Gm-Message-State: ANoB5pmgO+TVrZo3S3t1u+CmDK9CVGas2c3ZlhZskgnwae7FlCXWiyox
- wInd0N2niizRy1/q3dJeMo69dW7wGKTtvFB3lKDNFw==
-X-Google-Smtp-Source: AA0mqf7DIy5aB2NUvsAqIcktn/DxXkmOkLl4ezmTBI+RgnJmDLviWGqjSU/dmmx/p/i2YZ35Tl2ltcFlp29Kjkqz2fk=
-X-Received: by 2002:a17:902:f292:b0:189:91b8:bf92 with SMTP id
- k18-20020a170902f29200b0018991b8bf92mr50448762plc.19.1671445712941; Mon, 19
- Dec 2022 02:28:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balbi@kernel.org>)
+ id 1p7DR7-0002Cq-JG; Mon, 19 Dec 2022 05:31:57 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balbi@kernel.org>)
+ id 1p7DR5-0000fx-PZ; Mon, 19 Dec 2022 05:31:57 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id F155FB80D36;
+ Mon, 19 Dec 2022 10:31:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46C40C433EF;
+ Mon, 19 Dec 2022 10:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671445904;
+ bh=KjGuT0KHJDNuaASCBUfKVeZF2h8lApa400z5zp7lUsw=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=H7jmXSI3KA6T4GcisGRDgWb+VShPfC7rwDJQDD2GSWJ42MUqzDYdTGNTK6U7vmwwo
+ Ikgoa+aA479rrbkEmiH1jvBdffmLTsMzdAzhk4sHjrvpiUpfnMxLS+SUVX5x2A3AvF
+ /WUqAEq+H+FUC3QUKn0rXRr/TaUuxmPvCvckB0iaxzrwOyc6ZpPAHBNetxfukseFd0
+ dywWBlvcEyTmow0iGRZTLIDSBKntb3xrJCeK4iX87qCDcz8MIE/M24pYMy6zt4uDID
+ 7eZOPSZo/l6wcPph4lB5kWgUhKOy5d/ef0KDggR/YbS8vYH+bggFRXYmxxA+/sBlQR
+ fgt9s71lIjstA==
+From: Felipe Balbi <balbi@kernel.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Alistair
+ Francis <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Subject: Re: [PATCH 1/2] hw/arm/stm32f405: correctly describe the memory layout
+In-Reply-To: <00539fb5-9e00-8010-4fe5-2902cee9891b@linaro.org>
+References: <20221218071229.484944-1-balbi@kernel.org>
+ <20221218071229.484944-2-balbi@kernel.org>
+ <00539fb5-9e00-8010-4fe5-2902cee9891b@linaro.org>
+Date: Mon, 19 Dec 2022 12:31:30 +0200
+Message-ID: <87k02nadml.fsf@balbi.sh>
 MIME-Version: 1.0
-References: <20221216204845.19290-1-tsimpson@quicinc.com>
-In-Reply-To: <20221216204845.19290-1-tsimpson@quicinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Dec 2022 10:28:21 +0000
-Message-ID: <CAFEAcA-drLPfX-q7HT9j-b4CZYckzzht+akxvUsZjOmiS3D47A@mail.gmail.com>
-Subject: Re: [PULL 00/21] Hexagon update: bug fixes, performance, idef-parser
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, philmd@linaro.org, 
- bcain@quicinc.com, quic_mathbern@quicinc.com, stefanha@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=balbi@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,27 +71,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 16 Dec 2022 at 20:49, Taylor Simpson <tsimpson@quicinc.com> wrote:
->
-> The following changes since commit 4208e6ae114ac8266dcacc9696a443ce5c37b04e:
->
->   Merge tag 'pull-request-2022-12-15' of https://gitlab.com/thuth/qemu into staging (2022-12-15 21:39:56 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/quic/qemu tags/pull-hex-20221216-1
->
-> for you to fetch changes up to 585a86b1041a45c3b4074440c7f1b54944570867:
->
->   target/hexagon: import additional tests (2022-12-16 12:30:28 -0800)
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
-Applied, thanks.
+Hi,
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes. (In particular there is a section
-of the changelog for 'Build Dependencies' -- please add something
-there indicating under what circumstances flex/bison are now required.)
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+> On 18/12/22 08:12, Felipe Balbi wrote:
+>> STM32F405 has 128K of SRAM and another 64K of CCM (Core-coupled
+>> Memory) at a different base address. Correctly describe the memory
+>> layout to give existing FW images have a chance to run unmodified.
+>>=20
+>> Signed-off-by: Felipe Balbi <balbi@kernel.org>
+>> ---
+>>   hw/arm/stm32f405_soc.c         | 8 ++++++++
+>>   include/hw/arm/stm32f405_soc.h | 5 ++++-
+>>   2 files changed, 12 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
+>> index c07947d9f8b1..cef23d7ee41a 100644
+>> --- a/hw/arm/stm32f405_soc.c
+>> +++ b/hw/arm/stm32f405_soc.c
+>> @@ -139,6 +139,14 @@ static void stm32f405_soc_realize(DeviceState *dev_=
+soc, Error **errp)
+>>       }
+>>       memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, &s->=
+sram);
+>>=20=20=20
+>> +    memory_region_init_ram(&s->ccm, NULL, "STM32F405.ccm", CCM_SIZE,
+>
+> Including the machine name in the memory description seems a bad
+> habit from old days. What do you think about renaming as
+> 'core-coupled-memory'?
 
--- PMM
+I don't oppose it, but I was merely following the model from
+`netduino2plus'.
+
+>> +                           &err);
+>> +    if (err !=3D NULL) {
+>> +        error_propagate(errp, err);
+>> +        return;
+>> +    }
+>> +    memory_region_add_subregion(system_memory, CCM_BASE_ADDRESS, &s->cc=
+m);
+>> +
+>>       armv7m =3D DEVICE(&s->armv7m);
+>>       qdev_prop_set_uint32(armv7m, "num-irq", 96);
+>>       qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
+>> diff --git a/include/hw/arm/stm32f405_soc.h b/include/hw/arm/stm32f405_s=
+oc.h
+>> index 5bb0c8d56979..249ab5434ec7 100644
+>> --- a/include/hw/arm/stm32f405_soc.h
+>> +++ b/include/hw/arm/stm32f405_soc.h
+>> @@ -46,7 +46,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(STM32F405State, STM32F405_S=
+OC)
+>>   #define FLASH_BASE_ADDRESS 0x08000000
+>>   #define FLASH_SIZE (1024 * 1024)
+>>   #define SRAM_BASE_ADDRESS 0x20000000
+>> -#define SRAM_SIZE (192 * 1024)
+>> +#define SRAM_SIZE (128 * 1024)
+>> +#define CCM_BASE_ADDRESS 0x10000000
+>> +#define CCM_SIZE (64 * 1024)
+>
+> Since the CCM_SIZE won't be used elsewhere, we can simply use '64 * KiB'
+> in the memory_region_init_ram() in the source file. Up to the maintainer
+> :)
+
+Also not opposed. I'll wait a couple days before respinning the patch to
+give the rest of the community time to reply.
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEEg3wK/NVnD14JZqsmho6y4DXKpEQFAmOgPYIRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQho6y4DXKpEScxQ/+Lk+IWoz8TH/i8/lzG7YU3vn+NO5qZuWd
+hrXBzcfACvLkLIj+KurzjWNaZA+9yCp6MhUwtpR1WJ9QFhtdkdgOnlv3jS63UaN+
+YyOAvB5Rde0q1t7NoArOTTZFCLSSkxqnrMpeT11mkoMndGx7GQHNw7405CTOHpOP
+2EUMfPrUWQZwt/55TvUulruDZH/7u23jA77Pb0khv1Caw68sitfZIOPd0XE/cyhU
+BwamHtHvO4dKM1Hd22dCh72j9rnoPxTKXEFfCEUDO+6usWHmIyWF+3ZstGKyp8XZ
+2l3euZPhw/p1PADuH2D4cVeq64I8lQ7KQPDjBxtBixSnRrRGX8oYqlSP6VYA9N9s
+atKX3XuaAfJ7WqU2jhhPGXCKGy0dZmxNKM+pHMWCGDYJ/jBg4Mb0bxgPSZ6A2fP2
+J3RbGTud683ZjHFPvgkdYwVlpwb2RcFCCwAkP7K3u0qwbVu5Iq0ZXbZO1n+Q9VaN
++1GZwCUFlWL6P7BSbM18CBfvqgkeuHrNJC9vUihLoU47XXzXk4eSoi64TyHNKbNh
+INouCjRs9KxcAR+IJwI6B4lWsnACQwaKHQV1dFK/F2teafNs8PaHTQ25kwiTpt7W
+ogl6B1IbWW/mhox0YaSAImH1RPtwAoVTUiS/nbj8vtPsyZBNmXpBE8LJw9H+Esxg
+caLEiyh8Ae8=
+=43Iv
+-----END PGP SIGNATURE-----
+--=-=-=--
 
