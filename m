@@ -2,59 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B46650D22
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 15:20:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF9C650D79
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 15:38:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Gzt-0006pd-CL; Mon, 19 Dec 2022 09:20:05 -0500
+	id 1p7HG6-0002wk-5A; Mon, 19 Dec 2022 09:36:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1p7GzS-0006pA-UQ
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:19:40 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219] helo=chinatelecom.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1p7GzP-0006yC-2N
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:19:38 -0500
-HMM_SOURCE_IP: 172.18.0.188:37310.1213041187
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.98.159 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id BCA772800AF;
- Mon, 19 Dec 2022 22:19:23 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([171.223.98.159])
- by app0023 with ESMTP id 43b6fb6fa2844227ab504fb2b386f141 for
- shivam.kumar1@nutanix.com; Mon, 19 Dec 2022 22:19:26 CST
-X-Transaction-ID: 43b6fb6fa2844227ab504fb2b386f141
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 171.223.98.159
-X-MEDUSA-Status: 0
-Message-ID: <1e078dfc-a3a4-6968-ae80-8a03a8129a4f@chinatelecom.cn>
-Date: Mon, 19 Dec 2022 22:19:26 +0800
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1p7HG4-0002vC-7n
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:36:48 -0500
+Received: from mail.skyhub.de ([2a01:4f8:190:11c2::b:1457])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1p7HFy-00021r-Jy
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:36:47 -0500
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id ECC051EC06BD;
+ Mon, 19 Dec 2022 15:36:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1671460593;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=Nr0Z4OvkPMBKiUgwrvy1b0JeJ5CuH4u8cdycIbF3VTo=;
+ b=g4O8WnDjjWmrtbFmMTY4G0yltCqzIeXhWywY3xwLBgdFTN9TCYZMZhAq9By4cTHHjnVkHt
+ 354idtEXaLQwUDtNstFC6rPiAS1iw8va+w5OrbtVNCuvMSntL0hbmQcddYbRIVl0pEcCkP
+ SG+jpLF4Ne/7gzC4KSRDGyQn3EtYD1Q=
+Date: Mon, 19 Dec 2022 15:36:28 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+ Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y6B27MpZO8o1Asfe@zn.tnic>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH 0/1] QEMU: Dirty quota-based throttling of vcpus
-To: Shivam Kumar <shivam.kumar1@nutanix.com>, Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, david@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com, kvm@vger.kernel.org
-References: <20221120225458.144802-1-shivam.kumar1@nutanix.com>
- <0cde1cb7-7fce-c443-760c-2bb244e813fe@nutanix.com> <Y49nAjrD0uxUp+Ll@x1n>
- <8d245f68-e830-2566-2a33-b99f206c6773@chinatelecom.cn>
- <53735f4b-a2fb-8fd3-3103-e96350867e40@nutanix.com>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <53735f4b-a2fb-8fd3-3103-e96350867e40@nutanix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.149,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2a01:4f8:190:11c2::b:1457;
+ envelope-from=bp@alien8.de; helo=mail.skyhub.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,163 +91,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
+> In memory encryption usage, guest memory may be encrypted with special
+> key and can be accessed only by the guest itself. We call such memory
+> private memory. It's valueless and sometimes can cause problem to allow
 
+valueless?
 
-在 2022/12/19 3:12, Shivam Kumar 写道:
-> 
-> 
-> On 06/12/22 10:59 pm, Hyman Huang wrote:
->>
->>
->> 在 2022/12/7 0:00, Peter Xu 写道:
->>> Hi, Shivam,
->>>
->>> On Tue, Dec 06, 2022 at 11:18:52AM +0530, Shivam Kumar wrote:
->>>
->>> [...]
->>>
->>>>> Note
->>>>> ----------
->>>>> ----------
->>>>>
->>>>> We understand that there is a good scope of improvement in the current
->>>>> implementation. Here is a list of things we are working on:
->>>>> 1) Adding dirty quota as a migration capability so that it can be 
->>>>> toggled
->>>>> through QMP command.
->>>>> 2) Adding support for throttling guest DMAs.
->>>>> 3) Not enabling dirty quota for the first migration iteration.
->>>
->>> Agreed.
->>>
->>>>> 4) Falling back to current auto-converge based throttling in cases 
->>>>> where dirty
->>>>> quota throttling can overthrottle.
->>>
->>> If overthrottle happens, would auto-converge always be better?
->>>
->>>>>
->>>>> Please stay tuned for the next patchset.
->>>>>
->>>>> Shivam Kumar (1):
->>>>>     Dirty quota-based throttling of vcpus
->>>>>
->>>>>    accel/kvm/kvm-all.c       | 91 
->>>>> +++++++++++++++++++++++++++++++++++++++
->>>>>    include/exec/memory.h     |  3 ++
->>>>>    include/hw/core/cpu.h     |  5 +++
->>>>>    include/sysemu/kvm_int.h  |  1 +
->>>>>    linux-headers/linux/kvm.h |  9 ++++
->>>>>    migration/migration.c     | 22 ++++++++++
->>>>>    migration/migration.h     | 31 +++++++++++++
->>>>>    softmmu/memory.c          | 64 +++++++++++++++++++++++++++
->>>>>    8 files changed, 226 insertions(+)
->>>>>
->>>>
->>>> It'd be great if I could get some more feedback before I send v2. 
->>>> Thanks.
->>>
->>> Sorry to respond late.
->>>
->>> What's the status of the kernel patchset?
->>>
->>>  From high level the approach looks good at least to me.  It's just 
->>> that (as
->>> I used to mention) we have two similar approaches now on throttling the
->>> guest for precopy.  I'm not sure what's the best way to move forward if
->>> without doing a comparison of the two.
->>>
->>> https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_all_cover.1669047366.git.huangy81-40chinatelecom.cn_&d=DwIDaQ&c=s883GpUCOChKOHiocYtGcg&r=4hVFP4-J13xyn-OcN0apTCh8iKZRosf5OJTQePXBMB8&m=CuJmsk4azThm0mAIiykxHz3F9q4xRCxjXeS5Q00YL6-FSnPF_BKSyW1y8LIiXqRA&s=QjAcViWNO5THFQvljhrWbDX30yTipTb7KEKWKkc2kDU&e=
->>> Sorry to say so, and no intention to create a contention, but merging 
->>> the
->>> two without any thought will definitely confuse everybody.  We need to
->>> figure out a way.
->>>
->>>  From what I can tell..
->>>
->>> One way is we choose one of them which will be superior to the other and
->>> all of us stick with it (for either higher possibility of migrate, less
->>> interference to the workloads, and so on).
->>>
->>> The other way is we take both, when each of them may be suitable for
->>> different scenarios.  However in this latter case, we'd better at 
->>> least be
->>> aware of the differences (which suites what), then that'll be part of
->>> documentation we need for each of the features when the user wants to 
->>> use
->>> them.
->>>
->>> Add Yong into the loop.
->>>
->>> Any thoughts?
->>>
->> This is quite different from "dirtylimit capability of migration". 
->> IMHO, quota-based implementation seems a little complicated, because 
->> it depends on correctness of dirty quota and the measured data, which 
->> involves the patchset both in qemu and kernel. It seems that 
->> dirtylimit and quota-based are not mutually exclusive, at least we can 
->> figure out
->> which suites what firstly depending on the test results as Peter said.
->>
-> Thank you for sharing the link to this alternate approach towards 
-> throttling - "dirtylimit capability of migration". I am sharing key 
-> points from my understanding and some questions below:
-> 
-> 1) The alternate approach is exclusively for the dirty ring interface. 
-> The dirty quota approach is orthogonal to the dirty logging interface. 
-> It works both with the dirty ring and the dirty bitmap interface.
-> 
-> 2) Can we achieve micro-stunning with the alternate approach? Can we say 
-> with good confidence that for most of the time, we stun the vcpu only 
-> when it is dirtying the memory? Last time when I checked, dirty ring 
-> size could be a multiple of 512 which makes it difficult to stun the 
-> vcpu in microscopic intervals.
-Actually, we implement dirtylimit in two phase, dirtylimit hmp/qmp 
-command and dirtylimit migration, dirtylimit hmp/qmp focus on the 
-so-called "micro-stunning" only, dirtylimit migration just reusing 
-mainly the existing functions qmp_set_vcpu_dirty_limit.
-As for the question:
+I can't parse that.
 
-Can we achieve micro-stunning with the alternate approach?
-Yes, since migration iterate in milliseconds for most scenarios, and 
-dirtylimit can satisfy it with appropriate ring size, from the test 
-result, setting dirty ring size as 2048 is enough,(which can make
-migration convergent, but auto-converge can not, in the same condition)
+> userspace to access guest private memory. This new KVM memslot extension
+> allows guest private memory being provided through a restrictedmem
+> backed file descriptor(fd) and userspace is restricted to access the
+> bookmarked memory in the fd.
 
-we stun the vcpu only when it is dirtying the memory?
-Yes. dirty-ring in kvm is basing on intel PML, which can ensure this.
-> 
-> 3) Also, are we relying on the system administrator to select a limit on 
-> the dirty rate for "dirtylimit capability of migration"?
-> 
-Not really, this is optional, dirtylimit migration set the 1MB/s as the
-default dirtylimit minimum value, which make the value decreasing step 
-by step and try the best to make migration convergent, in this way, 
-dirtylimit can stop in time once migration reach the convergence criterion.
-> 4) Also, does "dirtylimit capability of migration" play with the dirty 
-> ring size in a way that it uses a larger ring size for higher dirty rate 
-> limits and smaller ring size for smaller dirty rate limits? I think the 
-> dirty rate limit is good information to choose a good-enough dirty ring 
-> size.
-> 
-Actually we productize dirtylimit migration in a different way, we set 
-the dirty ring size as 2048 by default once enabled, which ensure the 
-"micro-stunning" in migraion phase and prove to be a good choice from 
-the test result. We think dirty-ring size is "good-enough" if migration 
-performance(migration total time, cpu/memory performance in vm during 
-live migration) improved hugely.
+bookmarked?
 
-As for dirtylimit itself, we leave the choice to upper apps, we assume 
-that if upper apps are professional to decide the dirtylimit value,dirty 
-ring size will also be considered.
-
-Thanks.
+> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> additional KVM memslot fields restricted_fd/restricted_offset to allow
+> userspace to instruct KVM to provide guest memory through restricted_fd.
+> 'guest_phys_addr' is mapped at the restricted_offset of restricted_fd
+> and the size is 'memory_size'.
 > 
-> Thanks,
-> Shivam
+> The extended memslot can still have the userspace_addr(hva). When use, a
+
+"When un use, ..."
+
+...
+
+> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+> index a8e379a3afee..690cb21010e7 100644
+> --- a/arch/x86/kvm/Kconfig
+> +++ b/arch/x86/kvm/Kconfig
+> @@ -50,6 +50,8 @@ config KVM
+>  	select INTERVAL_TREE
+>  	select HAVE_KVM_PM_NOTIFIER if PM
+>  	select HAVE_KVM_MEMORY_ATTRIBUTES
+> +	select HAVE_KVM_RESTRICTED_MEM if X86_64
+> +	select RESTRICTEDMEM if HAVE_KVM_RESTRICTED_MEM
+
+Those deps here look weird.
+
+RESTRICTEDMEM should be selected by TDX_GUEST as it can't live without
+it.
+
+Then you don't have to select HAVE_KVM_RESTRICTED_MEM simply because of
+X86_64 - you need that functionality when the respective guest support
+is enabled in KVM.
+
+Then, looking forward into your patchset, I'm not sure you even
+need HAVE_KVM_RESTRICTED_MEM - you could make it all depend on
+CONFIG_RESTRICTEDMEM. But that's KVM folks call - I'd always aim for
+less Kconfig items because we have waay too many.
+
+Thx.
 
 -- 
-Best regard
+Regards/Gruss,
+    Boris.
 
-Hyman Huang(黄勇)
+https://people.kernel.org/tglx/notes-about-netiquette
 
