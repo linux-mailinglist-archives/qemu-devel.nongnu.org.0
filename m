@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0784650F49
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:53:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80AA650F4B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:53:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7IQX-0002jG-QK; Mon, 19 Dec 2022 10:51:41 -0500
+	id 1p7IQY-0002la-OI; Mon, 19 Dec 2022 10:51:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQO-0002eK-US
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:33 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQQ-0002g3-NW
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:36 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQM-0000b0-EL
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:32 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQO-0000ba-NW
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671465089;
+ s=mimecast20190719; t=1671465091;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KI+XelsAbW3wEvGOdgtSVHdOKWGkzGCaUEKs93PzZZ4=;
- b=fDYtOmdjrQBpULwl8SraTEqS9vjMurly8NS12IXJ1Ofgx0ANoHhPRK/8HeubWa4bcJxFIS
- kDWS6Obs7NHuvB/AO+C8d7b2bgLHEDtZtuZRJ1Hiw1P+OsvsYHsPycE8qRw+H8d/y3WWBr
- XlJYWfwkv4IlDI8+vP2Jh2eOj4H6r1o=
+ bh=zGb8EsvCLDZKFHBORG6IvQ8r89fYsv8L+hwGeHibn5s=;
+ b=VGIumZLC7LLwwJB2jY0bKK9bFhOBFx/HdO6YjfwrTlhqZroiPdajBr06dGAceKnD9Se+NU
+ GT9e8qxGyXFuZIBG6sBzGRdmFE1LOaKuNpf5CvORggqh+GEAoxItZ0PjQI/Nn0UgxIgMOz
+ heC+9waPuXFLymBs8Dkac1zZfQepPWA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339--hXKKfYbPTyUhm1eGfKTHQ-1; Mon, 19 Dec 2022 10:51:24 -0500
-X-MC-Unique: -hXKKfYbPTyUhm1eGfKTHQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-327-W8wWch6uN0eXxhZi0O6WeQ-1; Mon, 19 Dec 2022 10:51:23 -0500
+X-MC-Unique: W8wWch6uN0eXxhZi0O6WeQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 511AC857A85;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2EBC385A588;
  Mon, 19 Dec 2022 15:51:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0534E2026D76;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 036CC1121314;
  Mon, 19 Dec 2022 15:51:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 63BFF21E6692; Mon, 19 Dec 2022 16:51:20 +0100 (CET)
+ id 65DE121E6699; Mon, 19 Dec 2022 16:51:20 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, "Michael S . Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 07/13] pci: Move pcibus_dev_print() to pci-hmp-cmds.c
-Date: Mon, 19 Dec 2022 16:51:14 +0100
-Message-Id: <20221219155120.2273041-8-armbru@redhat.com>
+Cc: peter.maydell@linaro.org,
+	"Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PULL 08/13] pci: Fix silent truncation of pcie_aer_inject_error
+ argument
+Date: Mon, 19 Dec 2022 16:51:15 +0100
+Message-Id: <20221219155120.2273041-9-armbru@redhat.com>
 In-Reply-To: <20221219155120.2273041-1-armbru@redhat.com>
 References: <20221219155120.2273041-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -79,147 +80,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This method is for HMP command "info qtree".
+PCI AER error status is 32 bit.  The HMP command supports both
+symbolic and numeric error status: anything that isn't a known
+symbolic value is parsed as number with strtol().  Issues:
+
+* Empty argument yields value zero.
+
+* Range errors from strtol() are ignored, value is UINT32_MAX.
+
+* Values not representable in uint32_t are silently truncated.
+
+Fix to reject such input by switching to strtoui().
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221201121133.3813857-8-armbru@redhat.com>
+Message-Id: <20221201121133.3813857-9-armbru@redhat.com>
 ---
- hw/pci/pci-internal.h |  1 +
- hw/pci/pci-hmp-cmds.c | 38 ++++++++++++++++++++++++++++++++++++++
- hw/pci/pci.c          | 38 --------------------------------------
- 3 files changed, 39 insertions(+), 38 deletions(-)
+ hw/pci/pcie_aer.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/hw/pci/pci-internal.h b/hw/pci/pci-internal.h
-index 4903a26cbf..3199615e50 100644
---- a/hw/pci/pci-internal.h
-+++ b/hw/pci/pci-internal.h
-@@ -16,5 +16,6 @@ extern PCIHostStateList pci_host_bridges;
- 
- const pci_class_desc *get_class_desc(int class);
- PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
-+void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent);
- 
- #endif
-diff --git a/hw/pci/pci-hmp-cmds.c b/hw/pci/pci-hmp-cmds.c
-index f8d67bbb09..adbc6021f6 100644
---- a/hw/pci/pci-hmp-cmds.c
-+++ b/hw/pci/pci-hmp-cmds.c
-@@ -14,8 +14,10 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
- #include "monitor/hmp.h"
- #include "monitor/monitor.h"
-+#include "pci-internal.h"
+diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+index eff62f3945..58d20816d6 100644
+--- a/hw/pci/pcie_aer.c
++++ b/hw/pci/pcie_aer.c
+@@ -30,6 +30,7 @@
+ #include "hw/pci/pci_bus.h"
+ #include "hw/pci/pcie_regs.h"
  #include "qapi/error.h"
- #include "qapi/qapi-commands-pci.h"
++#include "qemu/cutils.h"
  
-@@ -118,3 +120,39 @@ void hmp_info_pci(Monitor *mon, const QDict *qdict)
+ //#define DEBUG_PCIE
+ #ifdef DEBUG_PCIE
+@@ -963,6 +964,7 @@ static int do_pcie_aer_inject_error(Monitor *mon,
+     const char *id = qdict_get_str(qdict, "id");
+     const char *error_name;
+     uint32_t error_status;
++    unsigned int num;
+     bool correctable;
+     PCIDevice *dev;
+     PCIEAERErr err;
+@@ -983,14 +985,13 @@ static int do_pcie_aer_inject_error(Monitor *mon,
  
-     qapi_free_PciInfoList(info_list);
- }
-+
-+void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent)
-+{
-+    PCIDevice *d = (PCIDevice *)dev;
-+    int class = pci_get_word(d->config + PCI_CLASS_DEVICE);
-+    const pci_class_desc *desc = get_class_desc(class);
-+    char ctxt[64];
-+    PCIIORegion *r;
-+    int i;
-+
-+    if (desc->desc) {
-+        snprintf(ctxt, sizeof(ctxt), "%s", desc->desc);
-+    } else {
-+        snprintf(ctxt, sizeof(ctxt), "Class %04x", class);
-+    }
-+
-+    monitor_printf(mon, "%*sclass %s, addr %02x:%02x.%x, "
-+                   "pci id %04x:%04x (sub %04x:%04x)\n",
-+                   indent, "", ctxt, pci_dev_bus_num(d),
-+                   PCI_SLOT(d->devfn), PCI_FUNC(d->devfn),
-+                   pci_get_word(d->config + PCI_VENDOR_ID),
-+                   pci_get_word(d->config + PCI_DEVICE_ID),
-+                   pci_get_word(d->config + PCI_SUBSYSTEM_VENDOR_ID),
-+                   pci_get_word(d->config + PCI_SUBSYSTEM_ID));
-+    for (i = 0; i < PCI_NUM_REGIONS; i++) {
-+        r = &d->io_regions[i];
-+        if (!r->size) {
-+            continue;
-+        }
-+        monitor_printf(mon, "%*sbar %d: %s at 0x%"FMT_PCIBUS
-+                       " [0x%"FMT_PCIBUS"]\n",
-+                       indent, "",
-+                       i, r->type & PCI_BASE_ADDRESS_SPACE_IO ? "i/o" : "mem",
-+                       r->addr, r->addr + r->size - 1);
-+    }
-+}
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 41718aaf60..9598b4b546 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -34,7 +34,6 @@
- #include "hw/qdev-properties-system.h"
- #include "migration/qemu-file-types.h"
- #include "migration/vmstate.h"
--#include "monitor/monitor.h"
- #include "net/net.h"
- #include "sysemu/numa.h"
- #include "sysemu/sysemu.h"
-@@ -59,7 +58,6 @@
- 
- bool pci_available = true;
- 
--static void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent);
- static char *pcibus_get_dev_path(DeviceState *dev);
- static char *pcibus_get_fw_dev_path(DeviceState *dev);
- static void pcibus_reset(BusState *qbus);
-@@ -2406,42 +2404,6 @@ uint8_t pci_find_capability(PCIDevice *pdev, uint8_t cap_id)
-     return pci_find_capability_list(pdev, cap_id, NULL);
- }
- 
--static void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent)
--{
--    PCIDevice *d = (PCIDevice *)dev;
--    int class = pci_get_word(d->config + PCI_CLASS_DEVICE);
--    const pci_class_desc *desc = get_class_desc(class);
--    char ctxt[64];
--    PCIIORegion *r;
--    int i;
--
--    if (desc->desc) {
--        snprintf(ctxt, sizeof(ctxt), "%s", desc->desc);
--    } else {
--        snprintf(ctxt, sizeof(ctxt), "Class %04x", class);
--    }
--
--    monitor_printf(mon, "%*sclass %s, addr %02x:%02x.%x, "
--                   "pci id %04x:%04x (sub %04x:%04x)\n",
--                   indent, "", ctxt, pci_dev_bus_num(d),
--                   PCI_SLOT(d->devfn), PCI_FUNC(d->devfn),
--                   pci_get_word(d->config + PCI_VENDOR_ID),
--                   pci_get_word(d->config + PCI_DEVICE_ID),
--                   pci_get_word(d->config + PCI_SUBSYSTEM_VENDOR_ID),
--                   pci_get_word(d->config + PCI_SUBSYSTEM_ID));
--    for (i = 0; i < PCI_NUM_REGIONS; i++) {
--        r = &d->io_regions[i];
--        if (!r->size) {
--            continue;
--        }
--        monitor_printf(mon, "%*sbar %d: %s at 0x%"FMT_PCIBUS
--                       " [0x%"FMT_PCIBUS"]\n",
--                       indent, "",
--                       i, r->type & PCI_BASE_ADDRESS_SPACE_IO ? "i/o" : "mem",
--                       r->addr, r->addr + r->size - 1);
--    }
--}
--
- static char *pci_dev_fw_name(DeviceState *dev, char *buf, int len)
- {
-     PCIDevice *d = (PCIDevice *)dev;
+     error_name = qdict_get_str(qdict, "error_status");
+     if (pcie_aer_parse_error_string(error_name, &error_status, &correctable)) {
+-        char *e = NULL;
+-        error_status = strtoul(error_name, &e, 0);
+-        correctable = qdict_get_try_bool(qdict, "correctable", false);
+-        if (!e || *e != '\0') {
++        if (qemu_strtoui(error_name, NULL, 0, &num) < 0) {
+             monitor_printf(mon, "invalid error status value. \"%s\"",
+                            error_name);
+             return -EINVAL;
+         }
++        error_status = num;
++        correctable = qdict_get_try_bool(qdict, "correctable", false);
+     }
+     err.status = error_status;
+     err.source_id = pci_requester_id(dev);
 -- 
 2.37.3
 
