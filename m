@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46EE650864
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 09:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97FF7650868
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 09:09:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7BAN-00055M-TL; Mon, 19 Dec 2022 03:06:31 -0500
+	id 1p7BCa-0006NA-Mi; Mon, 19 Dec 2022 03:08:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1p7BAK-00054A-1g; Mon, 19 Dec 2022 03:06:28 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1p7BCY-0006KV-Ae; Mon, 19 Dec 2022 03:08:46 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1p7BAH-00011J-Bw; Mon, 19 Dec 2022 03:06:26 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- b13-20020a17090a5a0d00b0021906102d05so8100325pjd.5; 
- Mon, 19 Dec 2022 00:06:24 -0800 (PST)
+ id 1p7BCP-0001K1-KH; Mon, 19 Dec 2022 03:08:46 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ z8-20020a17090abd8800b00219ed30ce47so12172206pjr.3; 
+ Mon, 19 Dec 2022 00:08:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=68cnbVdHo5xfPHXvFvmTVixSlcdk34mEABJbpnc1zkM=;
- b=ENt5p6OHjetc3Dz2b5g8GtrgwrKKbhfbsRiwqzzuTXqIDPwxpa0xqh+acyWxufBTgY
- 8iJx43803Tip97o1aeKtCSugtsLETWNer8KqXaryq6ZeWgqhPKB7HilZInY0/rGiHoD2
- WUEUHk1rTXRqptXEXrr9aPC98Su2F9vjJT4+PxWo6i+PxuXBcgmObHKR/V7DUkktTfHa
- dAjnByRyRtZaQn9LgU9K8ICLOVATOueE3nIFHz6s6UrbUNbROlJsXQIiSB7eAvwDmTFb
- K7olQ4QTTQyDRLxVCqtmAbx+XQxoDeOsq0+NDWdybmtLejEVuRhzhksr8h7pY0ileb3T
- IzOg==
+ bh=5xermXZz2dzDd2OOV3cCqQeQVqHekRDRYxUpyHfIJKs=;
+ b=ls2kbyhW8KzLpiZhbhICPF/Q3NWSsoxXUWxRE1b1lO3feFpnb0JQedydJikW7btx9c
+ g53l1+q4RdExtQcBJEdavVEJQI3HWM8x5P2Fa0/M/l6+kFuov/8i31xPLNI+88ou1k1L
+ ARfj/2tut7qZV/ARf8cDtMMqaQPLeGKLmSiklLqiuaWVxkgMhfmv7Avi6yQI44mrvcKU
+ yDbj0Gc+2fQDbeq+Fm1KDKrKGEKzWwg5z8vQcIq8hTq/ZzmZ8gCcUwf3ulFCCTeEPNVK
+ ZzAzMBYNATMHkb57fikG/vq7pEbDaZyvCkXf8A/D/K8wooJw5Mz34S59V8fHpsrd8Rs+
+ FTQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=68cnbVdHo5xfPHXvFvmTVixSlcdk34mEABJbpnc1zkM=;
- b=cT+19xZ5aXQqCe7MVNk42MUlQSI7yDb6SYCMUkBpKbKImgSGEoSni1Xu29tPMiXOZE
- 3CFMaiLoH9ylu/wTeEUyxXM1h+1rdb9VqkDts6CaryKvrIwjsPr/AIfNklSB4PgwdQHZ
- gXhoFIsdNa2lO9LsD9fGBsErFlwmk8aaafHCS1bBPyt/H0or9pMQfG94uyrddtgGTUxP
- CNWlwsjUWq8YIKwbkdYb9P3vSz7g+6ZBOH691dSj/OzCgLcgcYvqmwJ2eczXO++5Am2b
- CZTY7MURsqpvBp2hjLAxWMhl4TtigRZhESCGfwZGa1IunjpAn7XcRjD+yZ0TSXd+r5OF
- OMDQ==
-X-Gm-Message-State: AFqh2koeDfimgS9qyp+sQFdEgjnI0MjBKkwnegdS9KdLFiJY9Gga4Yia
- mvmMZKo6DOfwHrwiRnOW2ESzBxnaGFN1J0gb
-X-Google-Smtp-Source: AMrXdXs6gNTc00dpe7PKw3/iCwt2RmFN9pk7d4GL9BjH8wQ2szUv3H4QNIsUGF6LD1TkfHbmOnD8Qw==
-X-Received: by 2002:a05:6a20:9d8e:b0:a3:b698:d036 with SMTP id
- mu14-20020a056a209d8e00b000a3b698d036mr20126474pzb.39.1671437182366; 
- Mon, 19 Dec 2022 00:06:22 -0800 (PST)
+ bh=5xermXZz2dzDd2OOV3cCqQeQVqHekRDRYxUpyHfIJKs=;
+ b=qbSR1djKJ5B8iTFKy5saki55ZvHri90WLYALIPrGEangngL3l8yI9dfC7qExonkn4f
+ me7AOCD+D8+mm/qVYXAIngtffJhPX0zUXPtBBe+MG19DTf8W3HbB7vsJCAa/bDVDD50w
+ +rUc+LnDeCSBuDmbMH0R1AbW5xHs7Ei1wVoAqS/28HiDsaZMJpSk77H2iAHGyM/SRUa+
+ 1HUi4v8QolguZuhes3EgFVAjnHFJ9IQuk9Hfunrjjqyt0PL62jeu6bzcE0aQTghtCf7J
+ gg7Q8gWKDFbzmjEZOWD6UFkG2fksWgFKe0LqN3nTz6VxCIky6yKR5zGmzDVqVX7dNTSv
+ Weuw==
+X-Gm-Message-State: AFqh2koMbz4ifEmdqLP6ZnLevm/mkIF3L/pxHSoelGXLM8LuLnyOUOUd
+ IrSjTXOdjqmEktxYxXQC1gx7V9yGllwPGM7u
+X-Google-Smtp-Source: AMrXdXsqetDcAZbc93AMvEm7FL3Suy39StGipumtvDGy9DTlUxmfP15vYNcRPH7daLYsnXXBT2E5zQ==
+X-Received: by 2002:a17:90a:7f82:b0:223:8395:aa87 with SMTP id
+ m2-20020a17090a7f8200b002238395aa87mr13719185pjl.26.1671437315386; 
+ Mon, 19 Dec 2022 00:08:35 -0800 (PST)
 Received: from fedlinux.. ([106.84.132.155]) by smtp.gmail.com with ESMTPSA id
- b3-20020a636703000000b004768b74f208sm5818043pgc.4.2022.12.19.00.06.16
+ nu6-20020a17090b1b0600b002191a64b5d5sm8824155pjb.18.2022.12.19.00.08.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Dec 2022 00:06:21 -0800 (PST)
+ Mon, 19 Dec 2022 00:08:34 -0800 (PST)
 From: Sam Li <faithilikerun@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: hare@suse.de, hreitz@redhat.com, kwolf@redhat.com, dmitry.fomichev@wdc.com,
@@ -59,14 +59,14 @@ Cc: hare@suse.de, hreitz@redhat.com, kwolf@redhat.com, dmitry.fomichev@wdc.com,
  berrange@redhat.com, eblake@redhat.com, armbru@redhat.com,
  stefanha@redhat.com, qemu-block@nongnu.org,
  Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v14 7/8] block: add some trace events for new block layer APIs
-Date: Mon, 19 Dec 2022 16:05:56 +0800
-Message-Id: <20221219080556.10156-1-faithilikerun@gmail.com>
+Subject: [PATCH v14 8/8] docs/zoned-storage: add zoned device documentation
+Date: Mon, 19 Dec 2022 16:07:52 +0800
+Message-Id: <20221219080752.10476-1-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,47 +89,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Add the documentation about the zoned device support to virtio-blk
+emulation.
+
 Signed-off-by: Sam Li <faithilikerun@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- block/file-posix.c | 3 +++
- block/trace-events | 2 ++
- 2 files changed, 5 insertions(+)
+ docs/devel/zoned-storage.rst           | 43 ++++++++++++++++++++++++++
+ docs/system/qemu-block-drivers.rst.inc |  6 ++++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 docs/devel/zoned-storage.rst
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 091a95c1a9..517400a63b 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3274,6 +3274,7 @@ static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int64_t offset,
-                                            BlockZoneDescriptor *zones) {
-     BDRVRawState *s = bs->opaque;
-     RawPosixAIOData acb;
-+    trace_zbd_zone_report(bs, *nr_zones, offset >> BDRV_SECTOR_BITS);
+diff --git a/docs/devel/zoned-storage.rst b/docs/devel/zoned-storage.rst
+new file mode 100644
+index 0000000000..03e52efe2e
+--- /dev/null
++++ b/docs/devel/zoned-storage.rst
+@@ -0,0 +1,43 @@
++=============
++zoned-storage
++=============
++
++Zoned Block Devices (ZBDs) divide the LBA space into block regions called zones
++that are larger than the LBA size. They can only allow sequential writes, which
++can reduce write amplification in SSDs, and potentially lead to higher
++throughput and increased capacity. More details about ZBDs can be found at:
++
++https://zonedstorage.io/docs/introduction/zoned-storage
++
++1. Block layer APIs for zoned storage
++-------------------------------------
++QEMU block layer supports three zoned storage models:
++- BLK_Z_HM: The host-managed zoned model only allows sequential writes access
++to zones. It supports ZBD-specific I/O commands that can be used by a host to
++manage the zones of a device.
++- BLK_Z_HA: The host-aware zoned model allows random write operations in
++zones, making it backward compatible with regular block devices.
++- BLK_Z_NONE: The non-zoned model has no zones support. It includes both
++regular and drive-managed ZBD devices. ZBD-specific I/O commands are not
++supported.
++
++The block device information resides inside BlockDriverState. QEMU uses
++BlockLimits struct(BlockDriverState::bl) that is continuously accessed by the
++block layer while processing I/O requests. A BlockBackend has a root pointer to
++a BlockDriverState graph(for example, raw format on top of file-posix). The
++zoned storage information can be propagated from the leaf BlockDriverState all
++the way up to the BlockBackend. If the zoned storage model in file-posix is
++set to BLK_Z_HM, then block drivers will declare support for zoned host device.
++
++The block layer APIs support commands needed for zoned storage devices,
++including report zones, four zone operations, and zone append.
++
++2. Emulating zoned storage controllers
++--------------------------------------
++When the BlockBackend's BlockLimits model reports a zoned storage device, users
++like the virtio-blk emulation or the qemu-io-cmds.c utility can use block layer
++APIs for zoned storage emulation or testing.
++
++For example, to test zone_report on a null_blk device using qemu-io is:
++$ path/to/qemu-io --image-opts -n driver=zoned_host_device,filename=/dev/nullb0
++-c "zrp offset nr_zones"
+diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
+index dfe5d2293d..0b97227fd9 100644
+--- a/docs/system/qemu-block-drivers.rst.inc
++++ b/docs/system/qemu-block-drivers.rst.inc
+@@ -430,6 +430,12 @@ Hard disks
+   you may corrupt your host data (use the ``-snapshot`` command
+   line option or modify the device permissions accordingly).
  
-     acb = (RawPosixAIOData) {
-         .bs         = bs,
-@@ -3352,6 +3353,8 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
-         },
-     };
++Zoned block devices
++  Zoned block devices can be passed through to the guest if the emulated storage
++  controller supports zoned storage. Use ``--blockdev zoned_host_device,
++  node-name=drive0,filename=/dev/nullb0`` to pass through ``/dev/nullb0``
++  as ``drive0``.
++
+ Windows
+ ^^^^^^^
  
-+    trace_zbd_zone_mgmt(bs, op_name, offset >> BDRV_SECTOR_BITS,
-+                        len >> BDRV_SECTOR_BITS);
-     ret = raw_thread_pool_submit(bs, handle_aiocb_zone_mgmt, &acb);
-     if (ret != 0) {
-         ret = -errno;
-diff --git a/block/trace-events b/block/trace-events
-index 48dbf10c66..3f4e1d088a 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -209,6 +209,8 @@ file_FindEjectableOpticalMedia(const char *media) "Matching using %s"
- file_setup_cdrom(const char *partition) "Using %s as optical disc"
- file_hdev_is_sg(int type, int version) "SG device found: type=%d, version=%d"
- file_flush_fdatasync_failed(int err) "errno %d"
-+zbd_zone_report(void *bs, unsigned int nr_zones, int64_t sector) "bs %p report %d zones starting at sector offset 0x%" PRIx64 ""
-+zbd_zone_mgmt(void *bs, const char *op_name, int64_t sector, int64_t len) "bs %p %s starts at sector offset 0x%" PRIx64 " over a range of 0x%" PRIx64 " sectors"
- 
- # ssh.c
- sftp_error(const char *op, const char *ssh_err, int ssh_err_code, int sftp_err_code) "%s failed: %s (libssh error code: %d, sftp error code: %d)"
 -- 
 2.38.1
 
