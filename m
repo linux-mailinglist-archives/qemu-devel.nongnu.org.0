@@ -2,104 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FFD650665
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8D36506F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 05:07:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p75kh-0002PY-7B; Sun, 18 Dec 2022 21:19:39 -0500
+	id 1p77Qe-0001Lp-Q6; Sun, 18 Dec 2022 23:07:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75kT-0002H6-0A
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:19:25 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+ (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
+ id 1p77Qc-0001LX-CX
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 23:07:02 -0500
+Received: from mail-psaapc01olkn2082e.outbound.protection.outlook.com
+ ([2a01:111:f400:feae::82e]
+ helo=APC01-PSA-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75kQ-0001CM-7U
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:19:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671416361; x=1702952361;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=VhJier8Sfagp/2bmB4q0y6I9QpcKcN4XDbRExd/aw3w=;
- b=lWnXc1QzKt3RhXFCiE8NMGSkT24kQ92u0wNnBIKNXFLGlDrXNesghjUT
- iG967RBKU0+INkYaOYwKWYPJFkpi8xs/TJLbAQ5jvf2kh5hOkDDvFg7wi
- k5RnYFar6v3FDQkx76BwuUaRHV8jicR4MF/a8BP40g9M13bXG2452Fdz/
- W7bKp6NYYe3CQfssPnnvhuKseNDEstXxftol8A3NTLz4DD+KxucCQffmD
- uZaEZYdyh4JBRq36pSHkjNT/Rt0drhl0oraVv8WDr5Yt0voUYLFbtEG9U
- XL5SRbfSaml9aNJSEB92ekDe/Ot6Etw+o4aacRklU2n6Kb86H6NVAlVSX Q==;
-X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="331056846"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:19:02 +0800
-IronPort-SDR: KTh9JM8Q3zg4bESiRCwCTB2Vpi2Mu3CRDpHpzoV/QxeT0Lm9AFv2CZa1Qp9f5PmInLPj/cjsWp
- p6VQLvhr+5a24vSAHITPHMWpiGVhi+3NLDpFIsJtiXyv7t4qtZvwr4BM6rITeAVrpgrxRMAGg3
- hF3k1a363AjRVSaGDo7raTAUm8EAggSf/UvMeX4Pq3BtnwRV3KOqdM60TLaShXqLe1ge9TScs+
- HazjpZTwLb0K7MdiE0PIdr8MSGA8wb25sN6kTLKvxH+FoyH31xl0UdgunWWibRA4Gc/1aIiGVN
- Py4=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 17:37:19 -0800
-IronPort-SDR: uk4EelR0yHWKsJirojzjU3MBlwCUknZk5sRPLOIQiyMr6UmG4TsHnKSCjMO3Ev6qfZeop0LIpm
- xPHWFJUCLonfvDrQNPqGKHTtSp5Wc6K4arDCyrbWwiGZrf2nsqWSeSj5K7jy6uA7ZfXEqMvdbI
- gYO6MfkDtc32yvCLN1hlTJa8MtOMHdcJeLbeFTobxaTyiJ7yGYVu9CTFdcycM88Ckoos5JakPV
- 9K0wUbPbTujxPfoFrd1RKFSpBt4V1BYEm2Qg13D/HKlg/lOmniOqtKbZiPsdR1+Uuay7Zx7gzF
- 6NA=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 18:19:03 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3Ky4XKzz1Rwrq
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:19:02 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671416342; x=1674008343; bh=VhJier8Sfagp/2bmB4
- q0y6I9QpcKcN4XDbRExd/aw3w=; b=pXwB46a0Ajr/LdermCz2+dYUl3fRy4/TC8
- A5efY5spvx+VDoMW7KYjynpK7pMhz3CTHGpGPL6/obwxY9FmZNhhq2A0XQqGZGfP
- WFkBpryp9QV0mY5vcYCfZdX7Ex4niVBtG6ItlSy1UdfcnmWr4jwOwVUDtjKZ0lv7
- 3VVU2Go1WawlKBUCdbnJE2lDmbebEF1L/M3iXMq7U7iciKR9v1bgT9/BXiF7vAQn
- WJGcITkEwXhD2Rm199Sh2VXFUJJMK5g2dTPaZutd5rUMRRtKuyeQGkLY0ZYoFLrP
- CmslU1uIye2GV7kqCjQzzEfpnSMD4lfaRowkTWrsmQmMUoqniMgA==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id QpTspKkyIJ1X for <qemu-devel@nongnu.org>;
- Sun, 18 Dec 2022 18:19:02 -0800 (PST)
-Received: from toolbox.alistair23.me (unknown [10.225.167.4])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3Kw1Zkyz1RvLy;
- Sun, 18 Dec 2022 18:18:59 -0800 (PST)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
+ id 1p77Qa-0002LT-TV
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 23:07:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=joT847AgaA5R1SfT5lcAKeRHevYE/j8kUgfW/qBuM40ULhRKcA+2ctFZ0uW6j8X2Snnl28ucJzDo+8v7MARmroBNQ3BmITWf2kgPcUT07nDe35pw0bmHzJS5ufwjtJdnSZGzDW/423xRQHxbu3iIIfcUWPOGlvLGYkJFBNPSlW9oDHKmw5lcDXSJeJ82AG2xsQWRtd/JN1f4p+2sgmr01ujotpun2VRTBsYf+a1aknmSyG8yhiJ+w0ruqVt2i2TGqNS0/KjWeZFUAKVgu+vGIVEAjhE2wf+tT4JcPY0/HKEZU0MRp9iwEgudyyWTWAFSmWU6v+HSHKVnq+OXlw+64Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pl9O6+YEQ/SbSAGNTjfBWNFKRMZHHw9aGUPOIq8DZcQ=;
+ b=kpKiMYePBX6iw9AZODzwvLCF01DUaGVscPASwe6ehf0n5ss4zDLrvfY1WcCQgee2GWAxAJGYbU8QZuJr0tZ54NmQHoLIgGDHI9VdSdeNwTV4k2n1OWC5bVLiQ22lJkD1WeD2Bn+Uo2eTRJ8iKKV39C5AFSeG9VQD+ZKVhy/XfCa60EC7qPcaQ+d+G/9z3d7QGZGrtt2hYn2/AX7mrJ+ae7DoCMpWmWkjCe6i4ywTYntaKkvrkwTfCc9WF9TRJCnaeW19kGW1ASoIoJJ/2tbu4mUH26hGCzx1lEMo4spd81OO9t4ReauIMEKkkpFG8fiU4jEhc7vuG/jl9Jmlt9z/bQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b0::11) by KL1PR01MB5116.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:dd::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Mon, 19 Dec
+ 2022 04:01:50 +0000
+Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ ([fe80::56db:1c2:8886:e624]) by
+ TY0PR0101MB4285.apcprd01.prod.exchangelabs.com ([fe80::56db:1c2:8886:e624%4])
+ with mapi id 15.20.5924.016; Mon, 19 Dec 2022 04:01:50 +0000
+From: TaiseiIto <taisei1212@outlook.jp>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 45/45] hw/intc: sifive_plic: Fix the pending register range
- check
-Date: Mon, 19 Dec 2022 12:17:03 +1000
-Message-Id: <20221219021703.20473-46-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
-References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
+Cc: alex.bennee@linaro.org, =richard.henderson@linaro.org,
+ TaiseiIto <taisei1212@outlook.jp>
+Subject: [PATCH] target/i386/gdbstub: Fix a bug about order of FPU stack in
+ 'g' packets.
+Date: Mon, 19 Dec 2022 13:01:20 +0900
+Message-ID: <TY0PR0101MB4285E56A696C6A58C4567128A4E59@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <TY0PR0101MB42855925D8414E4773D6FA36A41D9@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+References: <TY0PR0101MB42855925D8414E4773D6FA36A41D9@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [XTePjkHbf1GmgNj9sveFpVv6EG2QTkwy]
+X-ClientProxiedBy: TYCPR01CA0194.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b0::18) To TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b0::11)
+X-Microsoft-Original-Message-ID: <20221219040120.19-1-taisei1212@outlook.jp>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=345d64987=alistair.francis@opensource.wdc.com;
- helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR0101MB4285:EE_|KL1PR01MB5116:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c488070-51a6-438a-aaa1-08dae175c157
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IHDhysqFCuR2RnxNfQwpUaBI9dAZG6vrHYEch0vHu6F/rgZrvDw+INZaPTvjAuo9KUsCwhPr58x+fHPGqrUsWvxk6C+Dgx0DEFRR3fOmlqLp8jLKXbrc47ZA/u5RMO1iyBFm4Ftj6O1UI3yIdqMKM/MTpT1d+w7mTbOiPiDW/OUYm57kGfDXO61RIBttusYwBPu255QkcJA8ek8De/Soueox0b42QobNK0yMdO+gkr3WztpvUbf/0tkTb4/oAPz/kLpbIA8+YpnbNVvJSy8gEBJ7/fuM5IPW8kBWzlBFbawtwJhV37gwueItI3opq5h0Y6vqq+lAF+khsqjpkycuzKfGeBEVACuLDsInxhKDaLWqHl6/ml4KUKDml+Iin3D27HXjAUqw7Zi7dsaDi9A8UcwyC3NJZreG3J25UCs/AYHsHLV9pJXsPdJFH6Q40RX3eioQc0nfK9GnsAgiIHhapMLEgwfs619U9RuvalgNNiA+i67IUzW4qjlkXbJuHxL9M0hTPwfjAjzokeqxtqZ/yg79PB7DcEYApuPmwZOtK6pwWjl+88jQzGAxkOnxnmaVnUsINT36cw35TqBp0JVs8uDi2MoVYQ7ynK0BH65JUp7yM4Uv7qtzn2gSyVwZMRl2xYcRtjeE0W616SaovhrxdA==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kToqKMq/krekHZUASPKUGLIeEY4+i9HmyPK+tcgezhXwO0tSojJMUIqj5ro+?=
+ =?us-ascii?Q?ms91Sgg/gaM/8TYEmsrxil4dOvdfhNSqqwPlUwiFSKZZRcqv2W/Lhjy9xoPO?=
+ =?us-ascii?Q?K1RNdK2Run+rq6PTTfm00JwRWWgts8JTxVc52sjRsWCl6X6gkmjbRYyRME2Q?=
+ =?us-ascii?Q?BzmTBt95yFIgiV3xL9507ORKkPUntNcFM59UvsNs6yJ7D5gkB3jeY/75VH2E?=
+ =?us-ascii?Q?uHLcOnQ7GOiD1BdFYHRXAwNMrBNxAj4N9bhG4p8dGq9BmMrY5meTIc93701N?=
+ =?us-ascii?Q?xrYJiw8s6lzkET+SJrlYdwtm77j6JSZXUIGtH4O+T1p56UNWSHCVhEXJTELy?=
+ =?us-ascii?Q?0D36zHXGGqMXAlz6mdCfiNclOd04v1MIrgyxwWJo/JL1A641ahwg5junzaiF?=
+ =?us-ascii?Q?/H4fNcAyxnBgqEcG56WqGiTwO2bRpGLmLDLBCNjW3G/DAfugrUEIycrY+qC0?=
+ =?us-ascii?Q?ihXdEM2thBybJJAnSAaakbSV7bhY/ZMs0TOQDWCzs/qThgTEbzE4kFEOv6WT?=
+ =?us-ascii?Q?Of65AGDjDx6/lrFoDqHozGLdmOLpIjZ7r38keOzpbgjMmKi596KHSRsqTPpt?=
+ =?us-ascii?Q?KGpCnshv8p9UI4lFuxL5BcRyKfxgg1BDSFG6/kAU6L2e1G0X5f/LbebSsZ/5?=
+ =?us-ascii?Q?4ET9WpvDq+nFff58HrcvTBv4x0YcwVsNoCajGiFUtia+e+/K0KA2XW6iwgqd?=
+ =?us-ascii?Q?kHQiEEqYs4aHaMN8uggUdDGjCtJJNxhCamIxRavyS8TrO7dNss8uQgveZ+zn?=
+ =?us-ascii?Q?tZSklj8aayGrdssLwJJ0/rrvIYQD0Zuo9uq0RT+Hej6YR7B3fX/kgYf6Gw4c?=
+ =?us-ascii?Q?lb/AcB+0Gcw/cLSpdQzXeVHmAR+qTDVgxvgvpBLC4UUf2z9FLE3U2aq9O9t6?=
+ =?us-ascii?Q?ZES8csDeiLRE1YcB9/ViQvYGHKTjGj79M848LzWD8iBTed3IblIzUSww2ZPq?=
+ =?us-ascii?Q?e0Qyx8QAGpL+wL+G2DMZmtH/2kjjvnEd0b1upoZ4U7Tl5H9+S7zvQDEJE5q4?=
+ =?us-ascii?Q?SPXDdUf9+7f/lV/JZdbbOFbYj/52isNI3IXTeNW81hCRTJsWXhzZz5eEBscW?=
+ =?us-ascii?Q?HFRs1JiUQ4lgHDWyzuBein8e1wR6cNbZeuSOVdU7jTHKgdXHUpNgDUsGi2pY?=
+ =?us-ascii?Q?oe9+kIciS9VGZO58+E1SSOjAQoNxknx+LnzZ5Y+FphSBOj4ewuBhiw4KCSBj?=
+ =?us-ascii?Q?m8ozxcEZul46BxTmMIdbHwAyFxeJu7kT43eN+00aw3mo743EUbNVGfMmfI12?=
+ =?us-ascii?Q?OH0zz33L9Xpyntcc2XQzFska2yYAFmVGK2fMnM1f1A=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c488070-51a6-438a-aaa1-08dae175c157
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 04:01:50.8169 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR01MB5116
+Received-SPF: pass client-ip=2a01:111:f400:feae::82e;
+ envelope-from=taisei1212@outlook.jp;
+ helo=APC01-PSA-obe.outbound.protection.outlook.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,49 +119,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+Before this commit, when GDB attached an OS working on QEMU, order of FPU
+stack registers printed by GDB command 'info float' was wrong. There was a
+bug causing the problem in 'g' packets sent by QEMU to GDB. The packets have
+values of registers of machine emulated by QEMU containing FPU stack
+registers. There are 2 ways to specify a x87 FPU stack register. The first
+is specifying by absolute indexed register names (R0, ..., R7). The second
+is specifying by stack top relative indexed register names (ST0, ..., ST7).
+Values of the FPU stack registers should be located in 'g' packet and be
+ordered by the relative index. But QEMU had located these registers ordered
+by the absolute index. After this commit, when QEMU reads registers to make
+a 'g' packet, QEMU specifies FPU stack registers by the relative index.
+Then, the registers are ordered correctly in the packet. As a result, GDB,
+the packet receiver, can print FPU stack registers in the correct order.
 
-The pending register upper limit is currently set to
-plic->num_sources >> 3, which is wrong, e.g.: considering
-plic->num_sources is 7, the upper limit becomes 0 which fails
-the range check if reading the pending register at pending_base.
-
-Fixes: 1e24429e40df ("SiFive RISC-V PLIC Block")
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221211030829.802437-16-bmeng@tinylab.org>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: TaiseiIto <taisei1212@outlook.jp>
 ---
- hw/intc/sifive_plic.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/i386/gdbstub.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index 1a792cc3f5..5522ede2cf 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -143,7 +143,8 @@ static uint64_t sifive_plic_read(void *opaque, hwaddr=
- addr, unsigned size)
-         uint32_t irq =3D (addr - plic->priority_base) >> 2;
-=20
-         return plic->source_priority[irq];
--    } else if (addr_between(addr, plic->pending_base, plic->num_sources =
->> 3)) {
-+    } else if (addr_between(addr, plic->pending_base,
-+                            (plic->num_sources + 31) >> 3)) {
-         uint32_t word =3D (addr - plic->pending_base) >> 2;
-=20
-         return plic->pending[word];
-@@ -202,7 +203,7 @@ static void sifive_plic_write(void *opaque, hwaddr ad=
-dr, uint64_t value,
-             sifive_plic_update(plic);
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index c3a2cf6f28..6109ad166d 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -121,7 +121,9 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+             return gdb_get_reg32(mem_buf, env->regs[gpr_map32[n]]);
          }
-     } else if (addr_between(addr, plic->pending_base,
--                            plic->num_sources >> 3)) {
-+                            (plic->num_sources + 31) >> 3)) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid pending write: 0x%" HWADDR_PRIx "",
-                       __func__, addr);
---=20
-2.38.1
+     } else if (n >= IDX_FP_REGS && n < IDX_FP_REGS + 8) {
+-        floatx80 *fp = (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
++        int st_index = n - IDX_FP_REGS;
++        int r_index = (st_index + env->fpstt) % 8;
++        floatx80 *fp = &env->fpregs[r_index].d;
+         int len = gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
+         len += gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
+         return len;
+-- 
+2.34.1
 
 
