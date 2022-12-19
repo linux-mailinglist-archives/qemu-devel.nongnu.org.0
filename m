@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78E0650F43
+	by mail.lfdr.de (Postfix) with ESMTPS id F25C6650F45
 	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:52:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7IQU-0002fx-Ie; Mon, 19 Dec 2022 10:51:39 -0500
+	id 1p7IQU-0002gB-IX; Mon, 19 Dec 2022 10:51:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQK-0002Xs-F2
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:28 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQN-0002ar-3C
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQH-0000Zm-RM
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:28 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQK-0000aF-5y
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671465085;
+ s=mimecast20190719; t=1671465087;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P5B3X7HdMqjBsciArRVyj+6wZin8F5Pe0ky9uO3x24k=;
- b=Yn2DVGSYzY1KaJkukwyz26evXmgDTWg73MB1DqXShxHNq/RhiPfIMfJTc6+7ZA5ioMl3yT
- Z1vJlAbnhCam1MErzCL+Ywgq7tq6XStlmwwSTM1IQmzn3P1yWWOGuK7irRo8812ZrczqUT
- aJTRNZitvFeZa2AdiNNcsS0xb653Z5s=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=j+ieZgRXa2kZ80x0xTEVSf56xf6CIO4Nn5SBjeeTlXg=;
+ b=g+zaZ7g3K6H+PwMMkcVD/RoeB+BAmc9R+3PID0yV9/p54fz2q3vqrNCYXyLtclB9LheLV3
+ M4FBVCw3p9H0ChtUlPUkuKA8sxVAbC+Unsqq+x3oU8eNEYpeQ9JVaG5VlbTKMqV+0jyGEw
+ orX2+vobvNVG1NqZxQmxecdp56VmFWs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-FyLxK9uKMb2MRr0SOSjjVQ-1; Mon, 19 Dec 2022 10:51:23 -0500
-X-MC-Unique: FyLxK9uKMb2MRr0SOSjjVQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-662-nKbkmfMZMN6_A6nRC8jReg-1; Mon, 19 Dec 2022 10:51:23 -0500
+X-MC-Unique: nKbkmfMZMN6_A6nRC8jReg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F0AC1C09C87;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 32AE9101157D;
  Mon, 19 Dec 2022 15:51:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0366D2026D4B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0538A40C1073;
  Mon, 19 Dec 2022 15:51:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5F3DD21E668F; Mon, 19 Dec 2022 16:51:20 +0100 (CET)
+ id 6161121E668B; Mon, 19 Dec 2022 16:51:20 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	"Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PULL 05/13] pci: Build hw/pci/pci-hmp-cmds.c only when CONFIG_PCI
-Date: Mon, 19 Dec 2022 16:51:12 +0100
-Message-Id: <20221219155120.2273041-6-armbru@redhat.com>
+Subject: [PULL 06/13] pci: Deduplicate get_class_desc()
+Date: Mon, 19 Dec 2022 16:51:13 +0100
+Message-Id: <20221219155120.2273041-7-armbru@redhat.com>
 In-Reply-To: <20221219155120.2273041-1-armbru@redhat.com>
 References: <20221219155120.2273041-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,58 +79,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We compile pci-hmp-cmds.c always, but pci-qmp-cmds.c only when
-CONFIG_PCI.  hw/pci/pci-stub.c keeps the linker happy when
-!CONFIG_PCI.  Build pci-hmp-cmds.c that way, too.
+pcibus_dev_print() contains a copy of get_class_desc().  Call the
+function instead.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221201121133.3813857-6-armbru@redhat.com>
+Message-Id: <20221201121133.3813857-7-armbru@redhat.com>
 ---
- hw/pci/pci-stub.c  | 5 +++++
- hw/pci/meson.build | 2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ hw/pci/pci.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/hw/pci/pci-stub.c b/hw/pci/pci-stub.c
-index f29ecc999e..01d20a2f67 100644
---- a/hw/pci/pci-stub.c
-+++ b/hw/pci/pci-stub.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "sysemu/sysemu.h"
- #include "monitor/monitor.h"
-+#include "monitor/hmp.h"
- #include "qapi/qapi-commands-pci.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/msi.h"
-@@ -34,6 +35,10 @@ PciInfoList *qmp_query_pci(Error **errp)
-     return NULL;
- }
- 
-+void hmp_info_pci(Monitor *mon, const QDict *qdict)
-+{
-+}
-+
- void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict)
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 7310a82cee..41718aaf60 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2409,15 +2409,12 @@ uint8_t pci_find_capability(PCIDevice *pdev, uint8_t cap_id)
+ static void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent)
  {
-     monitor_printf(mon, "PCI devices not supported\n");
-diff --git a/hw/pci/meson.build b/hw/pci/meson.build
-index e42a133f3a..4fcd888b27 100644
---- a/hw/pci/meson.build
-+++ b/hw/pci/meson.build
-@@ -5,6 +5,7 @@ pci_ss.add(files(
-   'pci.c',
-   'pci_bridge.c',
-   'pci_host.c',
-+  'pci-hmp-cmds.c',
-   'pci-qmp-cmds.c',
-   'pcie_sriov.c',
-   'shpc.c',
-@@ -20,4 +21,3 @@ softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
+     PCIDevice *d = (PCIDevice *)dev;
+-    const pci_class_desc *desc;
++    int class = pci_get_word(d->config + PCI_CLASS_DEVICE);
++    const pci_class_desc *desc = get_class_desc(class);
+     char ctxt[64];
+     PCIIORegion *r;
+-    int i, class;
++    int i;
  
- softmmu_ss.add(when: 'CONFIG_PCI', if_false: files('pci-stub.c'))
- softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('pci-stub.c'))
--softmmu_ss.add(files('pci-hmp-cmds.c'))
+-    class = pci_get_word(d->config + PCI_CLASS_DEVICE);
+-    desc = pci_class_descriptions;
+-    while (desc->desc && class != desc->class)
+-        desc++;
+     if (desc->desc) {
+         snprintf(ctxt, sizeof(ctxt), "%s", desc->desc);
+     } else {
 -- 
 2.37.3
 
