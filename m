@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D02651219
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 19:39:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4A865121A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 19:41:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7L1Y-0000kg-9B; Mon, 19 Dec 2022 13:38:04 -0500
+	id 1p7L3f-00020u-Jr; Mon, 19 Dec 2022 13:40:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7L1W-0000kT-TX
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 13:38:02 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p7L3Z-000208-LB
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 13:40:12 -0500
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7L1V-0002Rk-BL
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 13:38:02 -0500
-Received: by mail-ed1-x534.google.com with SMTP id i15so14234460edf.2
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 10:38:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p7L3X-0002ln-Kk
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 13:40:09 -0500
+Received: by mail-pf1-x429.google.com with SMTP id t18so6871734pfq.13
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 10:40:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WgOZm/6nf5v82bvQOde8gUBDTZ6kZIZKHDVoGmIGcRM=;
- b=kjB844ZEE8gPw83peoybjdGe1YbLI6ql99fxuoOuL/25fu7PpS7XsTCuMu8WHgguX7
- PuWsY1aTC/hLWB32JqWBGK0shPZFJYLdMdG5ZIY1XSYn9AXpCkMZjXm6PbE3CGeCPo+9
- 22och0lEDFf22gRJ74iPQenRx5ZeVVCuJ9VOCTZjhDvUXS9rbnFPXZBAOYF6Jtosg4uq
- vztjmEwQaIH+ZjjRhrLdIY2s/M70B6DItwEbQFK+ytSlHGj8xv43pSofE6wjPbNsdokq
- d3XA7Mx0LKT5iWH06krKPctP3tOTUjcEN1hWDghpSqHaWnPMDqIKTj8Bh+rdxjNU5Zar
- uXag==
+ bh=3nPe+jW7ayOyUNV7a/IB+ZNOnuLbQVZIEMCLyEIXKW8=;
+ b=n3UdVtyU+Xyj3UJgBOFNAHbvZOwzfn4l7xh+cfOZiU4uqic4+f8ooY8Uhz41eQD+ev
+ n9HpNhNoDJVVinh0SCHEpuzqcq4w05ZJS1bO/vJzVUlIhx4uHwrVYunZfuefUvokfsOq
+ kTSbseWmtGf9KSVehv5a2WToWiH4eNpPm0hLEOCSVaI6YbH4kL+r7MaVXizjTknrYQAJ
+ 89JZ1XIHdVcH/4DZKR9PA3+Oiu8LP0YXYKGNgGlG17Zq6H4JYOfj4GA+HNylsV2G49uI
+ hwgkzQgy/Nf7MOCGLF8duCt+mvEGI7lWuc69K3Wxopbfvd8auV+Q5gc6b5Qk6HYZlmyR
+ tTtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WgOZm/6nf5v82bvQOde8gUBDTZ6kZIZKHDVoGmIGcRM=;
- b=qL5tskLVE86nQq7/nDUBJVHG5eJ4tk7EuhQiNt1aWyaCN/JqVyhhnORLnQgConGJQ9
- MS36JYLw0axsp5NO6dqd3xZcPxPoT5nfieAWDELw4rTshrlp2TmzqsmIt0gki/9/yGws
- CepxGsvBadmAgWJBTLVbYThC3D49XRZ/gzL8Q7WoatZKWj2l6Hqm5OIdrMb5PymTTfx/
- c/99OYBdZ70T2B+n5lSGgAc0i3fFbg9T+ftzZ9WHlMt38DOUA/FiVA6w16L7sWiPIaAK
- psUG6Qw/04ihoyNRtHj3aYWJzdwjqJ3ckB508AW5B5Yw/iD1QVx9Sfn1ClnDjRmf/Aq0
- fVMA==
-X-Gm-Message-State: ANoB5plja4MVhjAyQLCHtMT5vSyej01x1nXJANAC2qluYyzfA+EYuxwX
- n/ITdLP4aMKHiA1925FP6g2WnQ==
-X-Google-Smtp-Source: AA0mqf5WAgNleZmTSY0J0wqo/ZfyrLLAA9JlnM3BJFUKn1tqVe523zzGYm89uWGF/R6xyoCMzOhVtQ==
-X-Received: by 2002:a05:6402:205c:b0:46d:c48c:50eb with SMTP id
- bc28-20020a056402205c00b0046dc48c50ebmr53398145edb.13.1671475079209; 
- Mon, 19 Dec 2022 10:37:59 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=3nPe+jW7ayOyUNV7a/IB+ZNOnuLbQVZIEMCLyEIXKW8=;
+ b=jZSm1/d9IB9MLs8EqI05GOgUjnbxNFBxr5lGqAhKDmByYci5GX3tiiuntNU6BKykRG
+ CG5CVEDKhAdzKu94tDwnt2rNwEicw8FDqXXZKd296V95LZ53XGrOw6NQApA6E/IHZn1W
+ wosaH1Gy2y9TmJwD/MH5NR3EoCi4OVS0jBnj3mps20hWM5mq1rHQsLS9ea4QlfiN/p+h
+ M5ZWcox/ozqv0wRahXsnTnHgYZFMH79vDUf8g9FkAqmwv4qoOV19u3eFsnaDUGiAv3nX
+ vyFrYqxZSevVMAEY+6bqoY97nq+ijGxSgEmr9LvrRr7W/ATOwqrM6l3t+w1C9yWe1Dzr
+ MjdA==
+X-Gm-Message-State: AFqh2kr5f+BRnHyQ98UzyC5w+xrFAaP3yGku7oDQ1oSyJVYlKl43TjFu
+ XtAU8b+ru5HflHig3C0GvdTQSw==
+X-Google-Smtp-Source: AMrXdXtaizEMDJd3KeK3/Hxb5xeZshQsLGJXAxY/Av4Mb2fHtbZdRsiOnrXtrio00zbRRnjIb5xcFQ==
+X-Received: by 2002:a05:6a00:419a:b0:57c:2ab7:2c0b with SMTP id
+ ca26-20020a056a00419a00b0057c2ab72c0bmr10951342pfb.28.1671475206002; 
+ Mon, 19 Dec 2022 10:40:06 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:b343:d344:137b:e318?
+ ([2602:47:d48c:8101:b343:d344:137b:e318])
  by smtp.gmail.com with ESMTPSA id
- b21-20020a170906709500b0079800b8173asm4688995ejk.158.2022.12.19.10.37.58
+ e14-20020aa7980e000000b00577dd531b47sm6935150pfl.189.2022.12.19.10.40.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 10:37:58 -0800 (PST)
-Message-ID: <ca6542ba-87de-36de-0e73-173ec421ac58@linaro.org>
-Date: Mon, 19 Dec 2022 19:37:57 +0100
+ Mon, 19 Dec 2022 10:40:05 -0800 (PST)
+Message-ID: <dd7840d5-b41e-5110-e218-d24b97bf24e4@linaro.org>
+Date: Mon, 19 Dec 2022 10:40:03 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH 7/7] libvhost-user: Switch to unsigned int for inuse field
- in struct VuVirtq
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/5] exec: Remove unused 'qemu/timer.h' timer
 Content-Language: en-US
-To: Marcel Holtmann <marcel@holtmann.org>, qemu-devel@nongnu.org,
- mst@redhat.com
-References: <20221219175337.377435-8-marcel@holtmann.org>
-Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221219175337.377435-8-marcel@holtmann.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Riku Voipio <riku.voipio@iki.fi>
+References: <20221219170806.60580-1-philmd@linaro.org>
+ <20221219170806.60580-2-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221219170806.60580-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -93,44 +100,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/12/22 18:53, Marcel Holtmann wrote:
-> It seems there is no need to keep the inuse field signed and end up with
-> compiler warnings for sign-compare.
-> 
->    CC       libvhost-user.o
-> libvhost-user.c: In function ‘vu_queue_pop’:
-> libvhost-user.c:2763:19: error: comparison of integer expressions of different signedness: ‘int’ and ‘unsigned int’ [-Werror=sign-compare]
->   2763 |     if (vq->inuse >= vq->vring.num) {
->        |                   ^~
-> libvhost-user.c: In function ‘vu_queue_rewind’:
-> libvhost-user.c:2808:13: error: comparison of integer expressions of different signedness: ‘unsigned int’ and ‘int’ [-Werror=sign-compare]
->   2808 |     if (num > vq->inuse) {
->        |             ^
-> 
-> Instead of casting the comparision to unsigned int, just make the inuse
-> field unsigned int in the fist place.
-> 
-> Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
+On 12/19/22 09:08, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   subprojects/libvhost-user/libvhost-user.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
-> index aea7ec5061d5..8cda9b8f577a 100644
-> --- a/subprojects/libvhost-user/libvhost-user.h
-> +++ b/subprojects/libvhost-user/libvhost-user.h
-> @@ -343,7 +343,7 @@ typedef struct VuVirtq {
->       /* Notification enabled? */
->       bool notification;
->   
-> -    int inuse;
-> +    unsigned int inuse;
+>   accel/tcg/cpu-exec.c      | 1 -
+>   accel/tcg/translate-all.c | 1 -
+>   include/exec/gen-icount.h | 1 -
+>   include/sysemu/cpus.h     | 1 -
+>   tcg/tcg.c                 | 1 -
+>   5 files changed, 5 deletions(-)
 
-Another use in subprojects/libvduse/libvduse.c.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Possibly both could be renamed refcount which is more meaningful.
-
-Anyhow,
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+r~
 
