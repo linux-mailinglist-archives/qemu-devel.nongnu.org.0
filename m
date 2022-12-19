@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3786650ACD
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 12:38:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CC3650ACB
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 12:37:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ES8-0002BR-Nw; Mon, 19 Dec 2022 06:37:04 -0500
+	id 1p7ES8-0002AF-7K; Mon, 19 Dec 2022 06:37:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1p7ES6-00029d-5w
+ id 1p7ES5-00029J-Vx
  for qemu-devel@nongnu.org; Mon, 19 Dec 2022 06:37:02 -0500
 Received: from prt-mail.chinatelecom.cn ([42.123.76.220] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1p7ES3-00046Q-2w
+ (envelope-from <huangy81@chinatelecom.cn>) id 1p7ES3-00046R-KS
  for qemu-devel@nongnu.org; Mon, 19 Dec 2022 06:37:01 -0500
 HMM_SOURCE_IP: 172.18.0.188:50724.913608764
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-171.223.98.159 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id A7984280094;
- Mon, 19 Dec 2022 19:36:45 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 90B4E280090;
+ Mon, 19 Dec 2022 19:36:48 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([171.223.98.159])
- by app0023 with ESMTP id c998f88715ad4961bb802e7bdd78ea2a for
- qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:36:48 CST
-X-Transaction-ID: c998f88715ad4961bb802e7bdd78ea2a
+ by app0023 with ESMTP id 85bf7cffbb2943379d530262211b3d2e for
+ qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:36:50 CST
+X-Transaction-ID: 85bf7cffbb2943379d530262211b3d2e
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 171.223.98.159
 X-MEDUSA-Status: 0
@@ -36,11 +36,16 @@ To: qemu-devel <qemu-devel@nongnu.org>
 Cc: armbru@redhat.com, dgilbert@redhat.com, eblake@redhat.com,
  jasowang@redhat.com, lvivier@redhat.com, mst@redhat.com,
  Liuxiangdong <liuxiangdong5@huawei.com>,
- =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH v5 0/3] Fix the virtio features negotiation flaw 
-Date: Mon, 19 Dec 2022 06:36:39 -0500
-Message-Id: <cover.1671448888.git.huangy81@chinatelecom.cn>
+ =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>, 
+ Guoyi Tu <tugy@chinatelecom.cn>
+Subject: [PATCH v5 1/3] vhost-user: Refactor vhost acked features saving
+Date: Mon, 19 Dec 2022 06:36:40 -0500
+Message-Id: <014fb6ea4baed1cb209e0ba2fb723a357bc4f259.1671449732.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1671448888.git.huangy81@chinatelecom.cn>
+References: <cover.1671448888.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1671449732.git.huangy81@chinatelecom.cn>
+References: <cover.1671449732.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -68,187 +73,69 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-v5:
--fix the assert statement in [PATCH v4 3/3], reported by
- xiangdong. 
+Abstract vhost acked features saving into
+vhost_user_save_acked_features, export it as util function.
 
-v4:
--rebase on master
--add stub function to fix build errors
--code clean on [PATCH v2 1/2]: drop 'cleanup' parameter in
- vhost_user_save_acked_features.
--code clean on [PATCH v2 2/2]: make refactor of chr_closed_bh
- a standalone patch.
-
-Above changes are suggested by Michael and thanks very much.
-
-Please review,
-
-Yong
-
-v3:
--rebase on master
--code clean on [PATCH v2 1/2]: keep the commit self-consistent and
- do not modify the logic of saving acked_features. Just abstract the
- util function.
--modify the [PATCH v2 2/2] logic: change the behavior of saving
- acked_features in chr_closed_bh: saving acked_features only if
- features aren't 0. For the case of 0, we implement it in
- virtio_net_set_features function, which will save the acked_features
- in advance, including assign 0 to acked_features.
-
-v2:
-Fix the typo in subject of [PATCH v2 2/2] 
-
-v1:
-This is the version 1 of the series and it is exactly the same as
-RFC version, but fixing a typo in subject, which is reported by Michael. 
-
-As for test for the behavior suggested by Michael, IMHO, it could be
-post in another series, since i found that testing the negotiation
-behavior using QGraph Test Framework requires more work than i thought.
-
-The test patch may implement the following logic...
-1. Introduce a fresh new qmp command to query netdev info, which show
-   the NetClient status including guest features and acked_features.
-2. Using vhost-user QGraph Test to check the behavior of the vhost user
-   protocol cmd VHOST_USER_SET_FEATURES. 
-3. Adding acked_features into TestServer, which receive the features
-   set by QEMU.
-4. Compare the acked_feature in TestServer with the acked_features 
-   in the output of qmp query command.
-
-Patch for RFC can be found in the following:
-https://patchew.org/QEMU/20220926063641.25038-1-huangy81@chinatelecom.cn/
-
-This patchset aim to fix the unexpected negotiation features for
-vhost-user netdev interface. 
-
-Steps to reproduce the issue:
-Prepare a vm (CentOS 8 in my work scenario) with vhost-user
-backend interface and configure qemu as server mode. So dpdk
-would connect qemu's unix socket periodically.
-
-1. start vm in background and restart openvswitch service 
-   concurrently and repeatedly in the process of vm start. 
-
-2. check if negotiated virtio features of port is "0x40000000" at
-   dpdk side by executing:
-   ovs-vsctl list interface | grep features | grep {port_socket_path}
-       
-3. if features equals "0x40000000", go to the vm and check if sending 
-   arp package works, executing:
-   arping {IP_ADDR}
-   if vm interface is configured to boot with dhcp protocol, it
-   would get no ip. 
-
-After doing above steps, we'll find the arping not work, the ovs on
-host side has forwarded unexpected arp packages, which be added 0x0000
-in the head of ethenet frame.  Though qemu report some error when
-read/write cmd of vhost protocol during the process of vm start,
-like the following:
-
-"Failed to set msg fds"
-"vhost VQ 0 ring restore failed: -22: Invalid argument (22)"
-
-The vm does not stop or report more suggestive error message, it
-seems that everthing is ok. 
-
-The root cause is that dpdk port negotiated nothing but only one
-VHOST_USER_F_PROTOCOL_FEATURES feature with vhost-user interface at
-qemu side, which is an unexpected behavior. qemu only load the
-VHOST_USER_F_PROTOCOL_FEATURES when VHOST_USER_SET_FEATURES and loss
-the guest features configured by front-end virtio driver using the
-VIRTIO_PCI_COMMON_GF addr, which is stored in acked_features field
-of struct vhost_dev.
-
-To explain how the acked_features disappear, we may need to know the
-lifecyle of acked_features in vhost_dev during feature negotiation. 
-
-1. qemu init acked_features field of struct vhost_dev in vhost_net_init()
-   by calling vhost_net_ack_features(), the init value fetched from
-   acked_features field of struct NetVhostUserState, which is the backup
-   role after vhost stopping or unix socket closed.
-   In the first time, the acked_features of struct NetVhostUserState is 0
-   so the init value of vhost_dev's acked_features also 0. 
-
-2. when guest virtio driver set features, qemu accept the features and
-   call virtio_set_features to store the features as acked_features in
-   vhost_dev.
-
-3. when unix socket closed or vhost_dev device doesn't work and be
-   stopped unexpectedly, qemu will call chr_closed_bh or vhost_user_stop,
-   which will copy acked_features from vhost_dev to NetVhostUserState and
-   cleanup the vhost_dev. Since virtio driver not allowed to set features
-   once status of virtio device changes to VIRTIO_CONFIG_S_FEATURE_OK,
-   qemu need to backup it in case of loss. 
-    
-4. once unix socket return to normal and get connected, qemu will
-   call vhost_user_start to restore the vhost_dev and fetch the
-   acked_features stored in NetVhostUserState previously. 
-
-The above flow works fine in the normal scenarios, but it doesn't cover
-the scenario that openvswitch service restart in the same time of
-virtio features negotiation.
-
-Let's analyze such scenario: 
-       qemu                                 dpdk
-
-   vhost_net_init()                          
-         |                      systemctl stop openvswitch.service
-   virtio_set_features()                     | 
-         |                      systemctl start openvswitch.service
-   virtio_set_status()                      
-
-Ovs stop service before guset setting virtio features, chr_closed_bh()
-be called and fetch acked_features in vhost_dev, if may store the
-incomplete features to NetVhostUserState since it doesn't include
-guest features, eg "0x40000000". 
-
-Guest set virtio features with another features, eg "0x7060a782",
-this value will store in acked_features of vhost_dev, which is the
-right and up-to-date features.
-
-After ovs service show up, qemu unix socket get connected and call
-vhost_user_start(), which will restore acked_features of vhost_dev
-using NetVhostUserState and "0x40000000" be loaded, which is obsolete.
-
-Guest set virtio device status and therefore qemu call 
-virtio_net_vhost_status finally, checking if vhost-net device has
-started, start it if not, consequently the obsolete acked_features
-"0x40000000" be negotiated after calling vhost_dev_set_features(). 
-
-So the key point of solving this issue making the acked_features 
-in NetVhostUserState up-to-date, these patchset provide this
-solution.  
-
-[PATCH 1/2]: Abstract the existing code of saving acked_features
-             into vhost_user_save_acked_features so the next
-             patch seems clean. 
-
-[PATCH 2/2]: Save the acked_features to NetVhostUserState once
-             Guest virtio driver configured. This step makes
-             acked_features in NetVhostUserState up-to-date. 
-
-Please review, any comments and suggestions are welcome. 
-
-Best regard.
-
-Yong
-
-Hyman Huang (3):
-  vhost-user: Refactor vhost acked features saving
-  vhost-user: Refactor the chr_closed_bh
-  vhost-user: Fix the virtio features negotiation flaw
-
- hw/net/vhost_net-stub.c  |  5 +++++
- hw/net/vhost_net.c       |  8 ++++++++
- hw/net/virtio-net.c      |  6 ++++++
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+---
  include/net/vhost-user.h |  1 +
- include/net/vhost_net.h  |  1 +
- net/vhost-user.c         | 27 ++++++++++++++++-----------
- 6 files changed, 37 insertions(+), 11 deletions(-)
+ net/vhost-user.c         | 21 +++++++++++++++------
+ 2 files changed, 16 insertions(+), 6 deletions(-)
 
+diff --git a/include/net/vhost-user.h b/include/net/vhost-user.h
+index 5bcd8a6..35bf619 100644
+--- a/include/net/vhost-user.h
++++ b/include/net/vhost-user.h
+@@ -14,5 +14,6 @@
+ struct vhost_net;
+ struct vhost_net *vhost_user_get_vhost_net(NetClientState *nc);
+ uint64_t vhost_user_get_acked_features(NetClientState *nc);
++void vhost_user_save_acked_features(NetClientState *nc);
+ 
+ #endif /* VHOST_USER_H */
+diff --git a/net/vhost-user.c b/net/vhost-user.c
+index b1a0247..40a2fe8 100644
+--- a/net/vhost-user.c
++++ b/net/vhost-user.c
+@@ -45,10 +45,23 @@ uint64_t vhost_user_get_acked_features(NetClientState *nc)
+     return s->acked_features;
+ }
+ 
+-static void vhost_user_stop(int queues, NetClientState *ncs[])
++void vhost_user_save_acked_features(NetClientState *nc)
+ {
+     NetVhostUserState *s;
++
++    s = DO_UPCAST(NetVhostUserState, nc, nc);
++    if (s->vhost_net) {
++        uint64_t features = vhost_net_get_acked_features(s->vhost_net);
++        if (features) {
++            s->acked_features = features;
++        }
++    }
++}
++
++static void vhost_user_stop(int queues, NetClientState *ncs[])
++{
+     int i;
++    NetVhostUserState *s;
+ 
+     for (i = 0; i < queues; i++) {
+         assert(ncs[i]->info->type == NET_CLIENT_DRIVER_VHOST_USER);
+@@ -56,11 +69,7 @@ static void vhost_user_stop(int queues, NetClientState *ncs[])
+         s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
+ 
+         if (s->vhost_net) {
+-            /* save acked features */
+-            uint64_t features = vhost_net_get_acked_features(s->vhost_net);
+-            if (features) {
+-                s->acked_features = features;
+-            }
++            vhost_user_save_acked_features(ncs[i]);
+             vhost_net_cleanup(s->vhost_net);
+         }
+     }
 -- 
 1.8.3.1
 
