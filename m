@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E033651133
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 18:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEF1651134
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 18:29:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Jt3-0004Na-LO; Mon, 19 Dec 2022 12:25:13 -0500
+	id 1p7Jw8-0005kf-M6; Mon, 19 Dec 2022 12:28:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1p7Jt1-0004NB-9j
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:25:11 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1p7Jsy-0003bM-CQ
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:25:11 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NbRLp38H2z67KPP;
- Tue, 20 Dec 2022 01:21:06 +0800 (CST)
-Received: from localhost (10.81.210.222) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 19 Dec
- 2022 17:25:03 +0000
-Date: Mon, 19 Dec 2022 17:25:02 +0000
-To: Gregory Price <gregory.price@memverge.com>
-CC: Gregory Price <gourry.memverge@gmail.com>, <qemu-devel@nongnu.org>,
- <linux-cxl@vger.kernel.org>, <alison.schofield@intel.com>,
- <dave@stgolabs.net>, <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
- <hchkuo@avery-design.com.tw>, <cbrowy@avery-design.com>,
- <ira.weiny@intel.com>
-Subject: Re: [RFC v4 3/3] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
- and Persistent)
-Message-ID: <20221219172502.00001338@Huawei.com>
-In-Reply-To: <Y6CNcuIzUVmKL0SM@memverge.com>
-References: <20221128150157.97724-1-gregory.price@memverge.com>
- <20221128150157.97724-4-gregory.price@memverge.com>
- <20221219124211.000032b7@Huawei.com>
- <Y6CNcuIzUVmKL0SM@memverge.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p7Jw6-0005jM-JP
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:28:22 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p7Jw5-0004AW-4D
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:28:22 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ z8-20020a05600c220800b003d33b0bda11so5981846wml.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 09:28:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=663V90AgS/UuRMrfak+4J+HaRFrOB9P3n7PoW+0bJAU=;
+ b=nn/TW/c1x25s3rSF5r2Vmgr1QR51cjOwKDUl+53dZ1wTI/pxwdWszR499H57S2KGQd
+ JNo7Q/x51ZYXNjcezSdyYwBA3KwqmsuC1GBNU689MW8e7C0YPIhiUSKbtUYO6GsioKxN
+ gNmsbdmZfmVzvUQtAAq/t+jcA8iAb1arSvNPITGAMWaI2K2L+ECzKZ4iekNonalCG7Pn
+ RXYhH/Ama3MKRXbW8PAWSPAhEjK9//USabAQ6M1n/WbhKmzYkiMt1bMZbIAFBoZ3AGR3
+ QbuSeVRbji2S8Rhs9mWkZK5Cn3IqFuACbNjnJXrjZRuIimNFSkAtd+Bi1vQ6TPo0O21H
+ +ugg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=663V90AgS/UuRMrfak+4J+HaRFrOB9P3n7PoW+0bJAU=;
+ b=IowNbMBOMFPGvtKkRkNqm5j93ByLLZ3RLZHD+qkdxQXBa4lyxHLegLebKuxhna3rpV
+ EOoDqom6MG4VwuE2CHWIwl+RAfvaWC9br7PaYs5Dhoqwbsw24R+HC7D0d6h+G+vSIfL0
+ FDXHdTJqptpV1H1nqRGCNV3T4JNjJg8PqoG8ughlVyS330BCgVo8DyxyyCXcyOrdIwk7
+ DT+hUk1oVnldrYGSre47yk3SHaycS+/u4ikllpxNmTpWNtH2UaQR6VTMG0A0IT4MlK+q
+ 2CXhfvAVYrJq5JDHHrJJVhwVIWTNrQt1oY3fuA7bw6b4ek9LUToAwBuuD2xSACtBchn1
+ aIzg==
+X-Gm-Message-State: ANoB5plESuA7KjyGJa/MLeSKht8jB9CYWoM1m/62jYJUJ7xab8d+l7Pz
+ HPGvBHnnb3JxTpGXJRUz/22spQ==
+X-Google-Smtp-Source: AA0mqf45sFj7DGFMlBO1A2HHXN7sX8k2Drj1v0KUBFU0JBS0vRrwTZrRy/UZLlNIRQJQNqRUVTd6ww==
+X-Received: by 2002:a05:600c:502c:b0:3cf:900c:de6b with SMTP id
+ n44-20020a05600c502c00b003cf900cde6bmr32734728wmr.15.1671470898955; 
+ Mon, 19 Dec 2022 09:28:18 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ v32-20020a05600c4da000b003d359aa353csm2965576wmp.45.2022.12.19.09.28.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Dec 2022 09:28:18 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3CD631FFB7;
+ Mon, 19 Dec 2022 17:28:18 +0000 (GMT)
+References: <20221213212541.1820840-1-richard.henderson@linaro.org>
+ <20221213212541.1820840-21-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.7; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 20/27] tcg: Vary the allocation size for TCGOp
+Date: Mon, 19 Dec 2022 17:28:11 +0000
+In-reply-to: <20221213212541.1820840-21-richard.henderson@linaro.org>
+Message-ID: <874jtrjob1.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.81.210.222]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,145 +92,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 19 Dec 2022 11:12:34 -0500
-Gregory Price <gregory.price@memverge.com> wrote:
 
-> On Mon, Dec 19, 2022 at 12:42:11PM +0000, Jonathan Cameron wrote:
-> > As a process thing, when reworking a patch I picked up for the
-> > CXL qemu gitlab tree, drop the SOB that I added as it's not relevant
-> > to the new patch.
-> >   
-> 
-> ack
-> 
-> > Still no need to post a new version unless you particularly
-> > want to or there are other changes to make.  
-> 
-> ack
-> 
-> > > +Deprecations
-> > > +------------
-> > > +
-> > > +The Type 3 device [memdev] attribute has been deprecated in favor
-> > > +of the [persistent-memdev] and [volatile-memdev] attributes. [memdev]  
-> > 
-> > That's not quite correct as it sort of implies we could previously use
-> > memdev for the volatile case.  
-> 
-> An early version of the patch explicitly errored out / warned the user
-> if they attempted to do this, but that got rebuffed.  This could be
-> added back in.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Ah. I was unclear. I just mean that the deprecation text here is a little
-misleading.  Not commenting on the functionality in this patch.
+> We have been allocating a worst case number of arguments
+> to support calls.  Instead, allow the size to vary.
+> By default leave space for 4 args, to maximize reuse,
+> but allow calls to increase the number of args to 32.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> 
-> > > -    return address_space_read(&ct3d->hostmem_as, dpa_offset, attrs, data, size);
-> > > +    if (vmr) {
-> > > +        if (dpa_offset <= int128_get64(vmr->size)) {
-> > > +            as = &ct3d->hostvmem_as;  
-> > 
-> > As a follow up it might be worth exploring if we can combine the two address spaces.
-> > I'm not keen to do it yet, because of no simple way to test it and it's less obviously
-> > correct than just having separate address spaces.
-> > 
-> > Would involve mapping a the two hostmem regions into a container memory region which
-> > would be the one we use to build the address space.  Advantage would be that we wouldn't
-> > need special handling for which region it was in here or the write path as QEMUs
-> > normal heirarchical memory regions would handle that for us.
-> > I'm not 100% sure it would work though!
-> >   
-> 
-> Originally I had tried putting them both into one, with the thought that
-> since it's technically one device address space there should only be one
-> way to access the address space instead of two.
-> 
-> After investigating, the address space has to be initialized with a
-> memdev, and an address space only supports a single memdev, so i settled
-> on two address spaces in order to keep the memdevs separate (considering
-> each region may have different attributes).
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-I think an address space needs a memory region, not a memdev.
-Initialize a container region with memory_region_init()
-We could then add the two memdev associated regions (with different 
-attributes) as subregions using memory_region_add_subregion()
-
-Similar is done for the system memory
-https://elixir.bootlin.com/qemu/latest/source/softmmu/physmem.c#L2675
-creates it.  Then it's mostly accessed by get_system_memory()
-
-Memory is then added to that at particular base addresses via for example
-https://elixir.bootlin.com/qemu/latest/source/hw/arm/virt.c#L2210
-and similar.
-I think we can do the same here.
-
-> 
-> This opens the question as to how to actually represent a persistent
-> memory device that can be partitioned as volatile.
-> 
-> Consider the following setup:
-> 
-> device[pmem 512mb, volatile 512 mb]
-> produces:
->     memdev(512mb, pmem) && memdev(512mb, volatile)
-> 
-> But if I partition the device to 256p/768v, when i access data in range
-> [256mb,512mb), then i have volatile data going into the persistent memory
-> store by nature of the fact that the capacity is located in that memdev.
-> 
-> An alternative would be to require a vmem region the same size as the
-> pmem region (+ whatever additional volatile capacity), but this
-> means using 2x the resources to represent the real capacity of the
-> device. That's not good.
-
-Do we care enough about the overhead, given this is emulation only?
-Not that I think this is the way to go
-
-> 
-> Another alternative would be to create a wrapper memdev that encompasses
-> persistent and volatile operations, and then create the partitioning
-> logic on top of it, such that it can use a single memdev while handling
-> whatever sematics only apply to each individual region.
-> 
-> The tl;dr here:  Going down to a single address space would probably
-> require writing a wrapper memdev that abstracts away all the
-> partitioning logic.  Maybe that's worth it?
-
-For current setup, I think we can just create memory region that handles both of them.
-
-For the partitioning case, lots of options.  I'm not sure what will work best.
-Maybe we just decide we don't care if a persistent region (memdev-pmem) is presented
-as volatile. I don't think it will do any real harm in the emulation, but maybe
-I'm wrong on that?
-
-> 
-> > > @@ -744,30 +891,35 @@ static void validate_lsa_access(MemoryRegion *mr, uint64_t size,
-> > >  static uint64_t get_lsa(CXLType3Dev *ct3d, void *buf, uint64_t size,
-> > >                      uint64_t offset)
-> > >  {
-> > > -    return size;
-> > > +    return 0;  
-> > 
-> > Hmm. Maybe this should return an error, but then we can't use the uint64_t as a return
-> > value.  As this function would never be called with !ct3d->lsa let's leave it as it stands.
-> >   
-> > >  }  
-> 
-> I originally wanted to do that, but I chose to keep the current contract
-> semantics so as to minimize the change set.  I agree though that this
-> should probably return an error.
-
-Lets leave it for now.
-
-Curious question on this lot. How are you testing it?  Some exciting scripts
-to bring the hdm decoders up etc for the volatile region? Or some prototype
-driver code?
-
-Jonathan
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
