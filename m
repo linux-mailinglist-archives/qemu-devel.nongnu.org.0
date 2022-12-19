@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7EE650E56
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D74D650E58
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:12:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7HlY-000180-Ro; Mon, 19 Dec 2022 10:09:20 -0500
+	id 1p7HoD-0002h1-R5; Mon, 19 Dec 2022 10:12:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7HlW-00017o-Pq
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:09:18 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ id 1p7HoB-0002cE-CD
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:12:03 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7HlU-0000CX-Tv
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:09:18 -0500
-Received: by mail-pg1-x530.google.com with SMTP id 82so6393719pgc.0
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 07:09:16 -0800 (PST)
+ id 1p7Ho9-0000pw-3a
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:12:02 -0500
+Received: by mail-pf1-x433.google.com with SMTP id a14so6472313pfa.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 07:12:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rTXN5JLR/UeqMX+hHOYA0ZbEagYVNdHXwE6Yw2F/NKs=;
- b=QxgwJWM0Xk638eWFDrHLLRl3hy9OS4/O+wqXDcDv1nOvRwQ4r5yD/Yqna0jAmtjSiQ
- XxWpw06w5fSb3c8LVW4LQAd0SEIRIfTyfnqPfUMlNcAXTQPEZTUJ8qsEj8ceuFGqQmUa
- 6H7VLghFj3rwlNW3NJtq20whTMb3t08Fw7J+tugAABYKPcgnBebeDbJGvoZrOThLyjDH
- qcyUCmujsxHYfTvqw34zOwulq+IoC2y9IfiLhAi4laeTgWgCrFnfe2f0jD/5WeJaa6++
- HRYq1w20MZbeX0QeXA5e/PQSdfv6neQ0vztNrcbWyXQA/G39jVQ89bUtFPsllj338Bgw
- pW9g==
+ bh=bG0Ng5S7ud/zGGFmoR7DwEaj2aI2xNchrGfj1ocHwyw=;
+ b=c3jTUh7djpC8lfXPVPM75ZtCqFct8QtWB3umL55fkhGTa+MWsQESyYKdWq7ldgh3Mh
+ teqAAty1O7YpFJEhq9mxvV/GcaqGTeFULSIxcCJWebkoLVYtNWdmXTq0oCj7rb4q4Rqt
+ FAxYH9VqBjuAlF1VUFYrYixLn973LE9zWI69vYqYK5TO6hpR7XB8u6O+ebndna5irhws
+ 4OnvQc6Faod9zcn4wRXohnQhV5obB9Uiw+JCeZC5QV5+iU3gQTDrSUlCYF6sUMbppB8y
+ 24Iefcljf6Jp3lwXpcnwtPwxELApYEuEXAITzKdxWVJEI8vU3vIU4nIy5lNbZnQ4ODYW
+ NuSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rTXN5JLR/UeqMX+hHOYA0ZbEagYVNdHXwE6Yw2F/NKs=;
- b=7BTwTNMTi5fZGErNmYNNM42FMqukOyjkVJ1EeYbB/DgEFnBp2MvKRIafCSElC2smrY
- DzIedOIzJQX7i8h7wme3Ftbb/2KEkRVP611y/Q1rNRn4KIs9HfLiEx8wWLODOO7sTqlT
- gHh40qUx3I1ngW95lCBdex6DmJwdikhHLfHFvLT14q0e9Gn3PyNNgFQ++bN29yBWoZvY
- Bh2i8mcmgLdicWUfTpIidz+9MGIilsnvJrFJDk+ZKO6FKumlE+vbcRAEoTrt0nUx1b/v
- 1bHXC4R5xbZ/8wbMQng02Aa0CH2qYiF7saRFHvLRVkMmwVeP/mGQGfUtPhBs9pCDLa9g
- +/pg==
-X-Gm-Message-State: ANoB5pm+Qbkrht2KVdb0+cTCe85995mCY/q3RrTArN+XH013XFiMhSM/
- ZH/Jn/9X3RZ7N+v9VQA+7Mr6W32uvoeC8Nn/MhG4dg==
-X-Google-Smtp-Source: AA0mqf4uSjzwSgXGHYY3NEqwdpl3kVpre8mroiL/h+k5bWpYxJsh+xCMFkiDqPGs2FXkVxFTWLzp7oT/08QIMlARutQ=
-X-Received: by 2002:aa7:8502:0:b0:576:9786:94c2 with SMTP id
- v2-20020aa78502000000b00576978694c2mr26756950pfn.26.1671462555319; Mon, 19
- Dec 2022 07:09:15 -0800 (PST)
+ bh=bG0Ng5S7ud/zGGFmoR7DwEaj2aI2xNchrGfj1ocHwyw=;
+ b=W1z4WxABUYkF7LaciVI4sh3lQk8TcCtn0gSPPWnzmkmCT1OuOBbex9fZOSuJLIcc2d
+ BNkEN+6j2teNERGKgm/l0Jct480zwzo6GSKLg4KYQyrLMam/wHuq4gQXs92bV9XEaGqy
+ 55KHhMpUciWUvwo/uONon0bAsAfYQ2Szn/W6RIDCiu6jrg5f0fECTBcXXb6k1tnDlY4W
+ TKC/MKbwfoenZ8Fn9041QmNW8mnY1WkfIEnkwMYpF3ioCnaGtjmUrSn3nrp9OdvV/xJq
+ K5YIHqNrl7ykjUjoFruZ6xDhVsq9GwgcV6BvjjqgR9TsLTbbfo7Un06DVD3QPLKxN7CF
+ HQGg==
+X-Gm-Message-State: ANoB5pmk9SUnhDypPKlFCVTvuvHmU7WcUfOpCvX4YArHy9AXb09Oi7qT
+ kbIj4aZNiHzVk/UdICrfZDbIEUd5/kaUXkEXO5bUwg==
+X-Google-Smtp-Source: AA0mqf6WmxhsUD6pEfV1Mst1yWzymS+IjBRTO9o0DOMiehEpMxMRHLVur9kSxCyR1a6zbOXkXv+pc3c9nOKgwxbLGHs=
+X-Received: by 2002:a63:c149:0:b0:477:86c1:640f with SMTP id
+ p9-20020a63c149000000b0047786c1640fmr2149005pgi.231.1671462719754; Mon, 19
+ Dec 2022 07:11:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20221218175035.449904-1-richard.henderson@linaro.org>
-In-Reply-To: <20221218175035.449904-1-richard.henderson@linaro.org>
+References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Dec 2022 15:09:04 +0000
-Message-ID: <CAFEAcA_ueFn4BTKDeS20NCDA4c7=CnW2ZF1HPcpOGBQ+LOYNGw@mail.gmail.com>
-Subject: Re: [PULL 0/2] target sh4 and tricore patches
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
+Date: Mon, 19 Dec 2022 15:11:48 +0000
+Message-ID: <CAFEAcA-yvQCGRURDBDLkgLgS2bxY-_Jat_2v-gDGde74eELRZg@mail.gmail.com>
+Subject: Re: [PULL 00/45] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, alistair23@gmail.com, 
+ Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,8 +83,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 18 Dec 2022 at 17:50, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, 19 Dec 2022 at 02:29, Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
 >
 > The following changes since commit 562d4af32ec2213061f844b3838223fd7711b56a:
 >
@@ -91,22 +94,32 @@ On Sun, 18 Dec 2022 at 17:50, Richard Henderson
 >
 > are available in the Git repository at:
 >
->   https://gitlab.com/rth7680/qemu.git tags/pull-misc-20221218
+>   https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20221219-3
 >
-> for you to fetch changes up to 3b1371159cdb6f31d87fbb339853cc6a963ea6a1:
+> for you to fetch changes up to e59b3c6ece6a1351aeca6b916cd9674e23d15e89:
 >
->   target/tricore: Fix gdbstub write to address registers (2022-12-18 09:39:17 -0800)
+>   hw/intc: sifive_plic: Fix the pending register range check (2022-12-19 10:42:14 +1000)
 >
 > ----------------------------------------------------------------
-> Fix tricore gdbstub.
-> Fix superh_cpu_synchronize_from_tb.
+> First RISC-V PR for QEMU 8.0
 >
+> * Fix PMP propagation for tlb
+> * Collection of bug fixes
+> * Add the `FIELDx_1CLEAR()` macro
+> * Bump the OpenTitan supported version
+> * Add smstateen support
+> * Support native debug icount trigger
+> * Remove the redundant ipi-id property in the virt machine
+> * Support cache-related PMU events in virtual mode
+> * Add some missing PolarFire SoC io regions
+> * Fix mret exception cause when no pmp rule is configured
+> * Fix bug where disabling compressed instructions would crash QEMU
+> * Add Zawrs ISA extension support
+> * A range of code refactoring and cleanups
 
+Hi -- gpg says your key expired last week. What keyserver can I
+download the updated key from, please ?
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
