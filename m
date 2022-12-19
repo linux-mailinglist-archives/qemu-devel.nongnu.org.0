@@ -2,119 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DBC650D00
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 15:03:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4669D650D14
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 15:12:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7GiT-0007IT-Qi; Mon, 19 Dec 2022 09:02:05 -0500
+	id 1p7Gqa-0001TU-AK; Mon, 19 Dec 2022 09:10:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p7GiE-0007HS-IF
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:01:51 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1)
+ (envelope-from <prvs=3454adc0d=anthony.perard@citrix.com>)
+ id 1p7GqV-0001Sf-J3; Mon, 19 Dec 2022 09:10:23 -0500
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1p7GiC-0003Qa-MM
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:01:50 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BJDfZxD001269
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 14:01:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=nt1LmW2UDvhWYFtcJTjT2IqqTxOyun7ouzTQ76u+9/U=;
- b=bYBsCvUK5oo4qdBRRNdUFO84QMcMApSgW0hEo1i6lKrOW0B/fyXE9a3phN8kzyAcG07s
- ub/1c4R5wFxaOtUw7U/d34LC1jJnW4r/a55NfNDtahF3/YStAMB177TZvHAZEGTvdvTP
- ti9WBIxntVJQoDqlNV+VbYmGQrTk9wPQS9+DBaxq0biEjTX6nMScfZnVY1vZO6kfUa26
- YErhiMdJQoltPH58SuVCYApzRo2as7nq0AI2Lt0pTvKbqvMrbdbL56Gh00ojffoctKFb
- TaBLNIIUXF0bKWMulYw+eeyD3cVNtVUmdOGU/+ag0ht/cLg3StBo6OXc/+bAwlXB8+NT HA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjs2jgjy3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 14:01:45 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BJDgH3i009801
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 14:01:45 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjs2jgjwc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 14:01:45 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJC7iHG007611;
- Mon, 19 Dec 2022 14:01:43 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([9.208.129.116])
- by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3mh6yxdrc0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 14:01:43 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
- [10.241.53.105])
- by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BJE1gNS8389254
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Dec 2022 14:01:42 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4246258059;
- Mon, 19 Dec 2022 14:01:42 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B88C55805F;
- Mon, 19 Dec 2022 14:01:41 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 19 Dec 2022 14:01:41 +0000 (GMT)
-Message-ID: <cb2c3adc-fd8b-6606-a058-1785f8de86d8@linux.ibm.com>
-Date: Mon, 19 Dec 2022 09:01:41 -0500
+ (Exim 4.90_1)
+ (envelope-from <prvs=3454adc0d=anthony.perard@citrix.com>)
+ id 1p7GqT-000510-QC; Mon, 19 Dec 2022 09:10:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1671459021;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=bkhL5i1Zpu2u0dNJ8rDflE68+bM9GeYGaMZ8cE7WyBg=;
+ b=gZuSjaPMY4Z3rOqXiGGkTnC/xSVYaJMf6NtYK7B5hPJE12c0gCsmdR5p
+ K8uZrx68Ov3IT3TBvHLv6/GtcU1dJgeaQBpsrTNMW+F3m/puogC4jjaPe
+ nr1Ol7CCC1aVOhFehr1DtEbEqis04E5Ie2p4qbLWI9hAAzZFzmo4N1hhR k=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 4.0
+X-MesageID: 89102970
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+IronPort-Data: A9a23:REAz26uKIQm+B1lLID8TiCsKKOfnVB9YMUV32f8akzHdYApBsoF/q
+ tZmKWyCaPrcMWunf98laIri9UhUuJTdmt4yTQRqpCgzF3sR+JbJXdiXEBz9bniYRiHhoOCLz
+ O1FM4Wdc5pkJpP4jk3wWlQ0hSAkjclkfpKlVKiffHg0HVU/IMsYoUoLs/YjhYJ1isSODQqIu
+ Nfjy+XSI1bg0DNvWo4uw/vrRChH4bKj5lv0gnRkPaoR5QWHxiFMZH4iDfrZw0XQE9E88tGSH
+ 44v/JnhlkvF8hEkDM+Sk7qTWiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JFAatjsB2bnsgZ9
+ Tl4ncfYpTHFnEH7sL91vxFwS0mSNEDdkVPNCSDXXce7lyUqf5ZwqhnH4Y5f0YAwo45K7W9yG
+ fMwdhMTYyCOgfiNmr+pcrB8n4MBBcSzFdZK0p1g5Wmx4fcORJnCR+PB5MNC3Sd2jcdLdRrcT
+ 5NHM3w1Nk2GOkARfAdMYH49tL7Aan3XejtEqFWTtOwv7nLa1gBZ27nxKtvFPNeNQK25m27I9
+ zuepTWmWnn2MvSi0Dq77SOutNaWsiP1ZrATTIKe17l11Qj7Kms7V0RNCArTTeOCokK3XdNSL
+ 0wepnN1hac3/U2vCNL6WnWQqWSBtAQBc8BdH+0z9EeGza+8ywKHB3YFQyRpctEqtMYqAzct0
+ zehltfkFXplvbuTRH+18raSpCm1fy8PIgcqYC4PTQII55/5p50zphvKQpBoF6vdpsP0Ay3xx
+ HWEtwAkirkThNJN3KK+lXjejjex45TEUAMxzgPQWG2j80V+foHNT4Oy7kXUxfVJK4rfSUOO1
+ FAYm9WC7MgUAJ2NnTDLS+IIdJm56vDAPDDCjFpHG5g66y/r63OlZZpX4jx1OAFuKMlsUSbkZ
+ VKWoRtazJlUOnSscOlweY3ZI8glzKzqGM75furZYtpHft56cwrv1DlkYkiC3mbsuFIhnaE2J
+ dGQdsPEJW0GBKpuyjq/b/0Q3b8i2mY1wma7bZLgyRO4+aCTaH6cVfEON17mRuo09rmNpgrY2
+ 8xSO8uD11NUV+iWSirN+J4eKXgQIHQ7DIywoMtSHsaYORZvEmwlD/7XwJsidpZjkqATkf3Hl
+ lmkV0pFjVPlgFXBLgOFbG0lb6ngNb5noG42J2opNEek1nwnSYKu6q4FcN0wZ7ZP3PVuyOMxR
+ f0CcMaoBPNJRTLavTMHYvHVp4htXBeigg7IODCqCBAzdoBhSyTG+9X/eQ2p+DMJFiC6vNF4o
+ rHm3x6zaYIKWgBKHMvQLvW1wDuMUWM1wbwoGRGSe58KJRuqoNMCxzHNYuEffeISJCXOwCGhj
+ QuEOU4IvK7vioJt2Yyc7UyblLuBH+x7F0tcOmDU67eqKCXXllaeLZ98vPWgJm6ECj6tkEm2T
+ aAMlqynbqVb9Lpfm9Ake4uH257S8DcGS1Vy6g1/VEvGYF2wYl+LCinXhJIf3kGhK1IwhOdXZ
+ q5t0oMBUVlqEJm/eLL0GObCRrrr6B3ssmOOhcnZ2W2jjMONwJKJUF9JIz6HgzFHIb1+PesNm
+ Ll+4ZVGu1fh1Ep7Y75qaxy4EEzVchQ9v1gP7MlGUOcHdCJwor29XXAsInCvu8zeAzm9GkIrP
+ iWVlML/ulio/WKbKyBbPSGUjYJgaWEm5EgiIKkqew7YxbIoR5YfgHVszNjAZl8On0gYjb4uZ
+ zAD2o8cDfzmwgqETfNrBwiEczytzjXDkqAt4zPlTFHkcnQ=
+IronPort-HdrOrdr: A9a23:UTs5kqCJzyLV3uflHemA55DYdb4zR+YMi2TDgXoBLiC9Ffb1qy
+ nOppsmPHrP4wr5N0tPpTntAsi9qBHnhP1ICPgqXYtKNTOO0AHEEGgF1/qG/9SKIVydygcy79
+ YZT0FWMqyVMXFKyer8/QmkA5IB7bC8gduVbD7lvhFQpNdRGthd0zs=
+X-IronPort-AV: E=Sophos;i="5.96,255,1665460800"; d="scan'208";a="89102970"
+Date: Mon, 19 Dec 2022 14:10:04 +0000
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+CC: <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ <qemu-ppc@nongnu.org>, <xen-devel@lists.xenproject.org>, Laurent Vivier
+ <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>, "Daniel Henrique
+ Barboza" <danielhb413@gmail.com>, <virtio-fs@redhat.com>, Michael Roth
+ <michael.roth@amd.com>, Alex =?iso-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, <qemu-block@nongnu.org>, Peter Maydell
+ <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>, Paul Durrant
+ <paul@xen.org>, David Gibson <david@gibson.dropbear.id.au>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, John Snow
+ <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>, "Gerd
+ Hoffmann" <kraxel@redhat.com>, Greg Kurz <groug@kaod.org>, Thomas Huth
+ <thuth@redhat.com>
+Subject: Re: [PATCH 2/6] hw/xen: use G_GNUC_PRINTF/SCANF for various functions
+Message-ID: <Y6BwvATqB0ka7qys@perard.uk.xensource.com>
+References: <20221219130205.687815-1-berrange@redhat.com>
+ <20221219130205.687815-3-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 2/2] tpm: add backend for mssim
-Content-Language: en-US
-To: jejb@linux.ibm.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-References: <6fd1144d09777ddcdb7a1a1ba58cbbec345da9ef.camel@linux.ibm.com>
- <e77a3a76-c874-d279-52bf-18a4e3a36ba2@linux.ibm.com>
- <77bc5a11fcb7b06deba1c54b1ef2de28e0c53fb1.camel@linux.ibm.com>
- <10fbda0f-7c8a-3819-fb22-34a9249ac138@linux.ibm.com>
- <b5d26ab0e54c15c408e9bae136bce969283ed5bd.camel@linux.ibm.com>
- <9fac7d95-d891-413f-93f1-18324c7943ea@linux.ibm.com>
- <a8863d1905aa427543facb68d8892af369262f19.camel@linux.ibm.com>
- <29e99f54-d5e8-b18d-08a6-d24435032272@linux.ibm.com>
- <Y5xH/0bbgFzi+G//@redhat.com>
- <a990f3c8-cca9-86ff-6995-6e49ba90f839@linux.ibm.com>
- <Y5xqgK8UXe28VZQ2@redhat.com>
- <cb752b76-a8d1-b3e0-b9ae-94e136eed7d6@linux.ibm.com>
- <158a33b6850db9ef18b240834e06665d7f9e4825.camel@linux.ibm.com>
- <9b808690-2f7a-cbd8-497a-fca63c7fc91d@linux.ibm.com>
- <3c1a78f396ebe32fddbe30ad7166717a493b2758.camel@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <3c1a78f396ebe32fddbe30ad7166717a493b2758.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: sBVlgyVp3KOlIq6_wOtXJRLdPLMkTq8w
-X-Proofpoint-ORIG-GUID: IBbVIycknu4sB2uSZXG1CYj0c3jIJIBg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-19_01,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- suspectscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 adultscore=0
- lowpriorityscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212190125
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221219130205.687815-3-berrange@redhat.com>
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=prvs=3454adc0d=anthony.perard@citrix.com;
+ helo=esa3.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -128,56 +108,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Dec 19, 2022 at 08:02:01AM -0500, Daniel P. Berrangé wrote:
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
+Acked-by: Anthony PERARD <anthony.perard@citrix.com>
 
-On 12/19/22 08:02, James Bottomley wrote:
-> On Mon, 2022-12-19 at 06:49 -0500, Stefan Berger wrote:
->>
->>
->> On 12/16/22 08:53, James Bottomley wrote:
->>
->>>
->>> I could do a blog post, but I really don't think you want this in
->>> official documentation because that creates support expectations.
->>
->> We get support expectations if we don't mention it as not being
->> supported. So, since this driver is not supported the documentation
->> for QEMU should state something along the lines of 'this driver is
->> for experimental or testing purposes and is otherwise unsupported.'
->> That's fair to the user and maintainer.
-> 
-> Open source project don't provide support.  I already added a
-> Maintainer entry for it, so I'll maintain it.
+Thanks,
 
-Support for me means reacting to user questions and addressing issues. Good that you maintain this now.
-
-> 
->>   Nevertheless, if the documentation (or as a matter of fact the code)
->> was to claim that VM / TPM state migration scenarios, such as VM
->> snapshotting, are working then users should be able to ask someone
->> 'how' this can be done with the mssim protocol **today**. Since I
->> cannot answer that question you may need to find a way for how to
->> address this concern.
-> 
-> I already proposed all of this ... you were the one wanting to document
-> migration.  The current wording is:
-
-With documenting I wanted to see how users need to provide command lines for the mssim TPM.
-
-> 
->     The mssim backend supports snapshotting and migration, but the state
->     of the Microsoft Simulator server must be preserved (or the server
->     kept running) outside of QEMU for restore to be successful.
-
-VM snapshotting is basically VM suspend / resume on steroids requiring permanent and volatile state to be saved and restoreable from possible very different points in time with possibly different seeds, NVRAM locations etc. How the mssim protocol does this is non-obvious to me and how one coordinates the restoring and saving of the TPM's state without direct coordination by QEMU is also non-obvious.
-
-    Stefan
-
-> 
-> James
-> 
-> 
+-- 
+Anthony PERARD
 
