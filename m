@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35FD66510F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 18:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DCCE6510FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 18:09:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Jct-0001VO-PO; Mon, 19 Dec 2022 12:08:31 -0500
+	id 1p7Jcy-0001Wx-Jf; Mon, 19 Dec 2022 12:08:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7Jcr-0001RW-Dm
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:08:29 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7Jcx-0001Wf-6A
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:08:35 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7Jcp-0008EH-EW
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:08:29 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id bg10so6927419wmb.1
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 09:08:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7Jcu-0008HT-VJ
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 12:08:34 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ f13-20020a1cc90d000000b003d08c4cf679so6954564wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 09:08:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nWmFA2W38I7w2kRnI6UYlXE2qkCTQg0mxTJlq43TbYg=;
- b=GP5AdSYgmSETsrJsGabHdLBtnNDfXNRvR9hpT4b3pBvTvAiQ4XHALEZVSy85iOECvz
- Mqcf3FzK7FqTrF4U6Hon5LgAf9rKKpFLQCkNbWdIfJeLsyYIwjpWMt3hROtGoLXuWjvM
- SGhLfGeKIBITlwRvG82BXfSdNUJ48sbqvkkNnAwqxPXTifh0K0Sqjh1GmfMOisheGp4N
- hbi8uU2aok5EoFVm9W1Vkx9FP9h9uJKkX/szRMTXLnD0o9Nhpab4MWMBGlYpjdWs2Apy
- RWP9TzrsiJdtx4ziVkubJq+yKdVLnVGOZ+azJ0yffAwCa6IQZVHSeJStDssOBMLJxN86
- GGKg==
+ bh=+jc4rFW4Fxh9MHRSyJ29B46/XHnkSZ5+7uUGz0PTJsg=;
+ b=L+PsBvVCzJKxpxiXs99w+qDqicvLN+hYSYosav5lQ2Y0iImO2/lCPIBNV7zQjHU0wK
+ e49bdR9kZd6DLjqQ9mVHf7sAAzYJLypZ99HxSZ+34f+QZUP2AjFMmCgDDYZEN5oee/Ue
+ j3qHxM4Ayeqf0H2UXizjQHqSN0A9ymidL9HNHtr0apCzHrhzczA7d6FSFNHitb2FIG8A
+ BpuvdFOYsBWnxmtwniYYVxQLU9SRGY8NKgfH369wGCseVepWb4mrsAJoo9SrLYVBKupL
+ ULgT9SW6KGdF0scMPoVYVfJHGPNlbcV8nzdcIOCeqGWJB0lf/u6dRbGEm/wYrE+3KRDS
+ pHDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nWmFA2W38I7w2kRnI6UYlXE2qkCTQg0mxTJlq43TbYg=;
- b=HARy7AandWNMjIRX6dgGbF7+u/YGkwaPZfTnYj4mrpN2Pzgm84unKDF8IV6xHqyzBT
- 89mEZrQt+yi5aMdQu5gHWbqceGQhKpELtNY01mgcyl8///CfRfMWrBYok6mArkhGZjzM
- jnw7V97EpS6/Mrv05mlPJjiqMWT/RmMLluUwzTKZZS5FnbN+4a2UoUhvwep8aoNCvWW3
- 3sPuuNRDPnankt2DKyubnfOjNHUBqO9JhRhZZGHSVNXNQwkpQ2z9uWmYVetIztMKXgaK
- wah6dX4oK1CJUl25w4l60uJe6+Y/FY8FWfLBtZazvI/lmCvvRUoXrOsZhVn80i3BmzI9
- YssA==
-X-Gm-Message-State: ANoB5pkNIj/yG5jw03ywjoUXYG6E74J7WNamdkHiHF1pBOUh0ydP0Pw/
- U2og82Us11rbC4v+gnMVKVqGAgQuAXeQz852+BI=
-X-Google-Smtp-Source: AA0mqf7Z08Mw8fMzcG4uBZ7AhIOedUd3JO5iYSMG75RI36S2tXc55pdzTVFwowmCLp00ITdeYrmaYQ==
-X-Received: by 2002:a1c:f216:0:b0:3cf:87c6:890e with SMTP id
- s22-20020a1cf216000000b003cf87c6890emr34905826wmc.27.1671469705898; 
- Mon, 19 Dec 2022 09:08:25 -0800 (PST)
+ bh=+jc4rFW4Fxh9MHRSyJ29B46/XHnkSZ5+7uUGz0PTJsg=;
+ b=SKOs9h8QMPuL+03MCl9JoM+R4fxpiUyPdxks3l7ejn1OhPYOVThiDshya20Mbj4NMv
+ GeWG06StZFbQP5gUHWGbj3No6d/J9OC79c6xbfszXcBwINJFPrQBvKGPhHBE6szfaBPb
+ Vy4uhdZcxZg3eIVKmtglqcNxv4DvoUaybjGhh7Wf2lHtgmRzFR1nisJBUwGEgEJgIMdD
+ BhDZkq09Kz6r8wmL8Xngw7/gEahjkYUIpYooIw/6pqILp1IbKaaDHyujoYRfjRm3zLuz
+ s4hwF3fWuo6kkMUMVBLuvLCXjzY+X2UgAofFpThQ2Hz4Q7OeHRHb0MzTDrIgO0hq20sj
+ pNUA==
+X-Gm-Message-State: ANoB5plUxVKvx11hKifUGW0acxglqtHuE7B4IOalM5nXTU3289Condhn
+ Mpm6g5AhgjI+PX5mRF4Jupys427RyXIeCY21Y28=
+X-Google-Smtp-Source: AA0mqf5MK/pHbCTHinjDg6QfL4Cv2Ifr07GZHFa+2HHWWooNLYaqRSJXnKkd4FXrzDdktjrGaRa3Ug==
+X-Received: by 2002:a05:600c:1549:b0:3d0:a762:6a2d with SMTP id
+ f9-20020a05600c154900b003d0a7626a2dmr34678704wmg.11.1671469711205; 
+ Mon, 19 Dec 2022 09:08:31 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- z19-20020a05600c221300b003a3170a7af9sm12882818wml.4.2022.12.19.09.08.24
+ z22-20020a05600c0a1600b003cfd0bd8c0asm12829540wmp.30.2022.12.19.09.08.29
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 19 Dec 2022 09:08:25 -0800 (PST)
+ Mon, 19 Dec 2022 09:08:30 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -62,18 +63,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Markus Armbruster <armbru@redhat.com>, Riku Voipio <riku.voipio@iki.fi>
-Subject: [PATCH 3/5] accel/tcg: Restrict 'qapi-commands-machine.h' to system
- emulation
-Date: Mon, 19 Dec 2022 18:08:04 +0100
-Message-Id: <20221219170806.60580-4-philmd@linaro.org>
+Subject: [PATCH 4/5] replay: Extract core API to 'exec/replay-core.h'
+Date: Mon, 19 Dec 2022 18:08:05 +0100
+Message-Id: <20221219170806.60580-5-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219170806.60580-1-philmd@linaro.org>
 References: <20221219170806.60580-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,291 +96,374 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
-user-mode builds") we don't generate the "qapi-commands-machine.h"
-header in a user-emulation-only build.
+From: Philippe Mathieu-Daude <philmd@linaro.org>
 
-Rename 'hmp.c' as 'monitor.c' and move the QMP functions from
-cpu-exec.c (which is always compiled) to monitor.c (which is only
-compiled when system-emulation is selected).
+replay API is used deeply within TCG common code (common to user
+and system emulation). Unfortunately "sysemu/replay.h" requires
+some QAPI headers for few system-specific declarations, example:
+
+  void replay_input_event(QemuConsole *src, InputEvent *evt);
+
+Since commit c2651c0eaa ("qapi/meson: Restrict UI module to system
+emulation and tools") the QAPI header defining the InputEvent is
+not generated anymore.
+To keep it simple, extract the 'core' replay prototypes to a new
+"exec/replay-core.h" header which we include in the TCG code that
+doesn't need the rest of the replay API.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- accel/tcg/cpu-exec.c  |  88 +----------------------------------
- accel/tcg/hmp.c       |  14 ------
- accel/tcg/internal.h  |   3 ++
- accel/tcg/meson.build |   2 +-
- accel/tcg/monitor.c   | 105 ++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 111 insertions(+), 101 deletions(-)
- delete mode 100644 accel/tcg/hmp.c
- create mode 100644 accel/tcg/monitor.c
+ MAINTAINERS                    |  1 +
+ accel/tcg/cpu-exec.c           |  2 +-
+ accel/tcg/tcg-all.c            |  2 +-
+ accel/tcg/translator.c         |  2 +-
+ accel/tcg/user-exec-stub.c     |  2 +-
+ cpu.c                          |  2 +-
+ gdbstub/gdbstub.c              |  2 +-
+ hw/core/ptimer.c               |  2 +-
+ include/exec/replay-core.h     | 76 ++++++++++++++++++++++++++++++++++
+ include/sysemu/replay.h        | 67 ++----------------------------
+ stubs/replay.c                 |  2 +-
+ tests/unit/ptimer-test-stubs.c |  2 +-
+ util/guest-random.c            |  2 +-
+ 13 files changed, 91 insertions(+), 73 deletions(-)
+ create mode 100644 include/exec/replay-core.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3bd433b65a..04aa77fd37 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3206,6 +3206,7 @@ S: Supported
+ F: replay/*
+ F: block/blkreplay.c
+ F: net/filter-replay.c
++F: include/exec/replay-core.h 
+ F: include/sysemu/replay.h
+ F: docs/devel/replay.rst
+ F: docs/system/replay.rst
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 298149ed07..5a7825dce1 100644
+index 5a7825dce1..040de10440 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -20,7 +20,6 @@
+@@ -37,7 +37,7 @@
+ #include "sysemu/cpus.h"
+ #include "exec/cpu-all.h"
+ #include "sysemu/cpu-timers.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
+ #include "sysemu/tcg.h"
+ #include "exec/helper-proto.h"
+ #include "tb-jmp-cache.h"
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index 30b503fb22..5dab1ae9dd 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -25,7 +25,7 @@
+ 
  #include "qemu/osdep.h"
- #include "qemu/qemu-print.h"
+ #include "sysemu/tcg.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
+ #include "sysemu/cpu-timers.h"
+ #include "tcg/tcg.h"
  #include "qapi/error.h"
--#include "qapi/qapi-commands-machine.h"
- #include "qapi/type-helpers.h"
- #include "hw/core/tcg-cpu-ops.h"
- #include "trace.h"
-@@ -64,8 +63,8 @@ typedef struct SyncClocks {
- #define MAX_DELAY_PRINT_RATE 2000000000LL
- #define MAX_NB_PRINTS 100
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 061519691f..3a40f9eaca 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -16,7 +16,7 @@
+ #include "exec/log.h"
+ #include "exec/translator.h"
+ #include "exec/plugin-gen.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
  
--static int64_t max_delay;
--static int64_t max_advance;
-+int64_t max_delay;
-+int64_t max_advance;
+ /* Pairs with tcg_clear_temp_count.
+    To be called by #TranslatorOps.{translate_insn,tb_stop} if
+diff --git a/accel/tcg/user-exec-stub.c b/accel/tcg/user-exec-stub.c
+index 968cd3ca60..874e1f1a20 100644
+--- a/accel/tcg/user-exec-stub.c
++++ b/accel/tcg/user-exec-stub.c
+@@ -1,6 +1,6 @@
+ #include "qemu/osdep.h"
+ #include "hw/core/cpu.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
  
- static void align_clocks(SyncClocks *sc, CPUState *cpu)
- {
-@@ -1071,86 +1070,3 @@ void tcg_exec_unrealizefn(CPUState *cpu)
-     tlb_destroy(cpu);
-     g_free(cpu->tb_jmp_cache);
- }
--
--#ifndef CONFIG_USER_ONLY
--
--static void dump_drift_info(GString *buf)
--{
--    if (!icount_enabled()) {
--        return;
--    }
--
--    g_string_append_printf(buf, "Host - Guest clock  %"PRIi64" ms\n",
--                           (cpu_get_clock() - icount_get()) / SCALE_MS);
--    if (icount_align_option) {
--        g_string_append_printf(buf, "Max guest delay     %"PRIi64" ms\n",
--                               -max_delay / SCALE_MS);
--        g_string_append_printf(buf, "Max guest advance   %"PRIi64" ms\n",
--                               max_advance / SCALE_MS);
--    } else {
--        g_string_append_printf(buf, "Max guest delay     NA\n");
--        g_string_append_printf(buf, "Max guest advance   NA\n");
--    }
--}
--
--HumanReadableText *qmp_x_query_jit(Error **errp)
--{
--    g_autoptr(GString) buf = g_string_new("");
--
--    if (!tcg_enabled()) {
--        error_setg(errp, "JIT information is only available with accel=tcg");
--        return NULL;
--    }
--
--    dump_exec_info(buf);
--    dump_drift_info(buf);
--
--    return human_readable_text_from_str(buf);
--}
--
--HumanReadableText *qmp_x_query_opcount(Error **errp)
--{
--    g_autoptr(GString) buf = g_string_new("");
--
--    if (!tcg_enabled()) {
--        error_setg(errp, "Opcode count information is only available with accel=tcg");
--        return NULL;
--    }
--
--    tcg_dump_op_count(buf);
--
--    return human_readable_text_from_str(buf);
--}
--
--#ifdef CONFIG_PROFILER
--
--int64_t dev_time;
--
--HumanReadableText *qmp_x_query_profile(Error **errp)
--{
--    g_autoptr(GString) buf = g_string_new("");
--    static int64_t last_cpu_exec_time;
--    int64_t cpu_exec_time;
--    int64_t delta;
--
--    cpu_exec_time = tcg_cpu_exec_time();
--    delta = cpu_exec_time - last_cpu_exec_time;
--
--    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
--                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
--    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
--                           delta, delta / (double)NANOSECONDS_PER_SECOND);
--    last_cpu_exec_time = cpu_exec_time;
--    dev_time = 0;
--
--    return human_readable_text_from_str(buf);
--}
--#else
--HumanReadableText *qmp_x_query_profile(Error **errp)
--{
--    error_setg(errp, "Internal profiler not compiled");
--    return NULL;
--}
--#endif
--
--#endif /* !CONFIG_USER_ONLY */
-diff --git a/accel/tcg/hmp.c b/accel/tcg/hmp.c
-deleted file mode 100644
-index bb67941420..0000000000
---- a/accel/tcg/hmp.c
-+++ /dev/null
-@@ -1,14 +0,0 @@
--#include "qemu/osdep.h"
--#include "qemu/error-report.h"
--#include "qapi/error.h"
--#include "qapi/qapi-commands-machine.h"
--#include "exec/exec-all.h"
--#include "monitor/monitor.h"
--
--static void hmp_tcg_register(void)
--{
--    monitor_register_hmp_info_hrt("jit", qmp_x_query_jit);
--    monitor_register_hmp_info_hrt("opcount", qmp_x_query_opcount);
--}
--
--type_init(hmp_tcg_register);
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index 6edff16fb0..130d7fd564 100644
---- a/accel/tcg/internal.h
-+++ b/accel/tcg/internal.h
-@@ -64,4 +64,7 @@ static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
+ bool enable_cpu_pm = false;
+ 
+diff --git a/cpu.c b/cpu.c
+index 4a7d865427..5503e2ff12 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -33,7 +33,7 @@
  #endif
- }
+ #include "sysemu/tcg.h"
+ #include "sysemu/kvm.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
+ #include "exec/cpu-common.h"
+ #include "exec/exec-all.h"
+ #include "exec/translate-all.h"
+diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+index c3fbc31123..fb9c49e0fd 100644
+--- a/gdbstub/gdbstub.c
++++ b/gdbstub/gdbstub.c
+@@ -48,7 +48,7 @@
+ #include "sysemu/runstate.h"
+ #include "semihosting/semihost.h"
+ #include "exec/exec-all.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
  
-+extern int64_t max_delay;
-+extern int64_t max_advance;
-+
- #endif /* ACCEL_TCG_INTERNAL_H */
-diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-index 75e1dffb4d..d645c38112 100644
---- a/accel/tcg/meson.build
-+++ b/accel/tcg/meson.build
-@@ -16,7 +16,7 @@ specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
+ #include "internals.h"
  
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
-   'cputlb.c',
--  'hmp.c',
-+  'monitor.c',
- ))
- 
- tcg_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
-diff --git a/accel/tcg/monitor.c b/accel/tcg/monitor.c
+diff --git a/hw/core/ptimer.c b/hw/core/ptimer.c
+index eb5ba1aff7..e03165febf 100644
+--- a/hw/core/ptimer.c
++++ b/hw/core/ptimer.c
+@@ -10,7 +10,7 @@
+ #include "hw/ptimer.h"
+ #include "migration/vmstate.h"
+ #include "qemu/host-utils.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/qtest.h"
+ #include "block/aio.h"
+diff --git a/include/exec/replay-core.h b/include/exec/replay-core.h
 new file mode 100644
-index 0000000000..4d01c0a825
+index 0000000000..9ec20cb124
 --- /dev/null
-+++ b/accel/tcg/monitor.c
-@@ -0,0 +1,105 @@
++++ b/include/exec/replay-core.h
+@@ -0,0 +1,76 @@
 +/*
-+ * SPDX-License-Identifier: LGPL-2.1-or-later
++ * QEMU replay core API
 + *
-+ *  QEMU TCG monitor
++ * Copyright (c) 2010-2015 Institute for System Programming
++ *                         of the Russian Academy of Sciences.
 + *
-+ *  Copyright (c) 2003-2005 Fabrice Bellard
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
 + */
 +
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qapi/type-helpers.h"
-+#include "qapi/qapi-commands-machine.h"
-+#include "monitor/monitor.h"
-+#include "sysemu/cpus.h"
-+#include "sysemu/cpu-timers.h"
-+#include "sysemu/tcg.h"
-+#include "internal.h"
++#ifndef EXEC_REPLAY_H
++#define EXEC_REPLAY_H
 +
++#include "qapi/qapi-types-replay.h"
 +
-+static void dump_drift_info(GString *buf)
-+{
-+    if (!icount_enabled()) {
-+        return;
-+    }
++extern ReplayMode replay_mode;
 +
-+    g_string_append_printf(buf, "Host - Guest clock  %"PRIi64" ms\n",
-+                           (cpu_get_clock() - icount_get()) / SCALE_MS);
-+    if (icount_align_option) {
-+        g_string_append_printf(buf, "Max guest delay     %"PRIi64" ms\n",
-+                               -max_delay / SCALE_MS);
-+        g_string_append_printf(buf, "Max guest advance   %"PRIi64" ms\n",
-+                               max_advance / SCALE_MS);
-+    } else {
-+        g_string_append_printf(buf, "Max guest delay     NA\n");
-+        g_string_append_printf(buf, "Max guest advance   NA\n");
-+    }
-+}
++/* Replay process control functions */
 +
-+HumanReadableText *qmp_x_query_jit(Error **errp)
-+{
-+    g_autoptr(GString) buf = g_string_new("");
++/*! Enables recording or saving event log with specified parameters */
++void replay_configure(struct QemuOpts *opts);
++/*! Initializes timers used for snapshotting and enables events recording */
++void replay_start(void);
++/*! Closes replay log file and frees other resources. */
++void replay_finish(void);
++/*! Adds replay blocker with the specified error description */
++void replay_add_blocker(Error *reason);
++/* Returns name of the replay log file */
++const char *replay_get_filename(void);
 +
-+    if (!tcg_enabled()) {
-+        error_setg(errp, "JIT information is only available with accel=tcg");
-+        return NULL;
-+    }
++/*
++ * Start making one step in backward direction.
++ * Used by gdbstub for backwards debugging.
++ * Returns true on success.
++ */
++bool replay_reverse_step(void);
++/*
++ * Start searching the last breakpoint/watchpoint.
++ * Used by gdbstub for backwards debugging.
++ * Returns true if the process successfully started.
++ */
++bool replay_reverse_continue(void);
++/*
++ * Returns true if replay module is processing
++ * reverse_continue or reverse_step request
++ */
++bool replay_running_debug(void);
++/* Called in reverse debugging mode to collect breakpoint information */
++void replay_breakpoint(void);
++/* Called when gdb is attached to gdbstub */
++void replay_gdb_attached(void);
 +
-+    dump_exec_info(buf);
-+    dump_drift_info(buf);
++/* Interrupts and exceptions */
 +
-+    return human_readable_text_from_str(buf);
-+}
++/*! Called by exception handler to write or read
++    exception processing events. */
++bool replay_exception(void);
++/*! Used to determine that exception is pending.
++    Does not proceed to the next event in the log. */
++bool replay_has_exception(void);
++/*! Called by interrupt handlers to write or read
++    interrupt processing events.
++    \return true if interrupt should be processed */
++bool replay_interrupt(void);
++/*! Tries to read interrupt event from the file.
++    Returns true, when interrupt request is pending */
++bool replay_has_interrupt(void);
 +
-+HumanReadableText *qmp_x_query_opcount(Error **errp)
-+{
-+    g_autoptr(GString) buf = g_string_new("");
++/* Processing data from random generators */
 +
-+    if (!tcg_enabled()) {
-+        error_setg(errp, "Opcode count information is only available with accel=tcg");
-+        return NULL;
-+    }
++/* Saves the values from the random number generator */
++void replay_save_random(int ret, void *buf, size_t len);
++/* Loads the saved values for the random number generator */
++int replay_read_random(void *buf, size_t len);
 +
-+    tcg_dump_op_count(buf);
-+
-+    return human_readable_text_from_str(buf);
-+}
-+
-+#ifdef CONFIG_PROFILER
-+
-+int64_t dev_time;
-+
-+HumanReadableText *qmp_x_query_profile(Error **errp)
-+{
-+    g_autoptr(GString) buf = g_string_new("");
-+    static int64_t last_cpu_exec_time;
-+    int64_t cpu_exec_time;
-+    int64_t delta;
-+
-+    cpu_exec_time = tcg_cpu_exec_time();
-+    delta = cpu_exec_time - last_cpu_exec_time;
-+
-+    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
-+                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
-+    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
-+                           delta, delta / (double)NANOSECONDS_PER_SECOND);
-+    last_cpu_exec_time = cpu_exec_time;
-+    dev_time = 0;
-+
-+    return human_readable_text_from_str(buf);
-+}
-+#else
-+HumanReadableText *qmp_x_query_profile(Error **errp)
-+{
-+    error_setg(errp, "Internal profiler not compiled");
-+    return NULL;
-+}
 +#endif
-+
-+static void hmp_tcg_register(void)
-+{
-+    monitor_register_hmp_info_hrt("jit", qmp_x_query_jit);
-+    monitor_register_hmp_info_hrt("opcount", qmp_x_query_opcount);
-+}
-+
-+type_init(hmp_tcg_register);
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index 7ec0882b50..08aae5869f 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -1,8 +1,8 @@
+-#ifndef REPLAY_H
+-#define REPLAY_H
++#ifndef SYSEMU_REPLAY_H
++#define SYSEMU_REPLAY_H
+ 
+ /*
+- * replay.h
++ * QEMU replay (system interface)
+  *
+  * Copyright (c) 2010-2015 Institute for System Programming
+  *                         of the Russian Academy of Sciences.
+@@ -12,9 +12,9 @@
+  *
+  */
+ 
++#include "exec/replay-core.h"
+ #include "qapi/qapi-types-misc.h"
+ #include "qapi/qapi-types-run-state.h"
+-#include "qapi/qapi-types-replay.h"
+ #include "qapi/qapi-types-ui.h"
+ #include "block/aio.h"
+ 
+@@ -45,8 +45,6 @@ typedef enum ReplayCheckpoint ReplayCheckpoint;
+ 
+ typedef struct ReplayNetState ReplayNetState;
+ 
+-extern ReplayMode replay_mode;
+-
+ /* Name of the initial VM snapshot */
+ extern char *replay_snapshot;
+ 
+@@ -63,40 +61,6 @@ extern char *replay_snapshot;
+ void replay_mutex_lock(void);
+ void replay_mutex_unlock(void);
+ 
+-/* Replay process control functions */
+-
+-/*! Enables recording or saving event log with specified parameters */
+-void replay_configure(struct QemuOpts *opts);
+-/*! Initializes timers used for snapshotting and enables events recording */
+-void replay_start(void);
+-/*! Closes replay log file and frees other resources. */
+-void replay_finish(void);
+-/*! Adds replay blocker with the specified error description */
+-void replay_add_blocker(Error *reason);
+-/* Returns name of the replay log file */
+-const char *replay_get_filename(void);
+-/*
+- * Start making one step in backward direction.
+- * Used by gdbstub for backwards debugging.
+- * Returns true on success.
+- */
+-bool replay_reverse_step(void);
+-/*
+- * Start searching the last breakpoint/watchpoint.
+- * Used by gdbstub for backwards debugging.
+- * Returns true if the process successfully started.
+- */
+-bool replay_reverse_continue(void);
+-/*
+- * Returns true if replay module is processing
+- * reverse_continue or reverse_step request
+- */
+-bool replay_running_debug(void);
+-/* Called in reverse debugging mode to collect breakpoint information */
+-void replay_breakpoint(void);
+-/* Called when gdb is attached to gdbstub */
+-void replay_gdb_attached(void);
+-
+ /* Processing the instructions */
+ 
+ /*! Returns number of executed instructions. */
+@@ -106,22 +70,6 @@ int replay_get_instructions(void);
+ /*! Updates instructions counter in replay mode. */
+ void replay_account_executed_instructions(void);
+ 
+-/* Interrupts and exceptions */
+-
+-/*! Called by exception handler to write or read
+-    exception processing events. */
+-bool replay_exception(void);
+-/*! Used to determine that exception is pending.
+-    Does not proceed to the next event in the log. */
+-bool replay_has_exception(void);
+-/*! Called by interrupt handlers to write or read
+-    interrupt processing events.
+-    \return true if interrupt should be processed */
+-bool replay_interrupt(void);
+-/*! Tries to read interrupt event from the file.
+-    Returns true, when interrupt request is pending */
+-bool replay_has_interrupt(void);
+-
+ /* Processing clocks and other time sources */
+ 
+ /*! Save the specified clock */
+@@ -143,13 +91,6 @@ int64_t replay_read_clock(ReplayClockKind kind, int64_t raw_icount);
+             ? replay_save_clock((clock), (value), icount_get_raw_locked()) \
+             : (value))
+ 
+-/* Processing data from random generators */
+-
+-/* Saves the values from the random number generator */
+-void replay_save_random(int ret, void *buf, size_t len);
+-/* Loads the saved values for the random number generator */
+-int replay_read_random(void *buf, size_t len);
+-
+ /* Events */
+ 
+ /*! Called when qemu shutdown is requested. */
+diff --git a/stubs/replay.c b/stubs/replay.c
+index 9d5b4be339..42c92e4acb 100644
+--- a/stubs/replay.c
++++ b/stubs/replay.c
+@@ -1,5 +1,5 @@
+ #include "qemu/osdep.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
+ 
+ ReplayMode replay_mode;
+ 
+diff --git a/tests/unit/ptimer-test-stubs.c b/tests/unit/ptimer-test-stubs.c
+index f5e75a96b6..f2bfcede93 100644
+--- a/tests/unit/ptimer-test-stubs.c
++++ b/tests/unit/ptimer-test-stubs.c
+@@ -10,7 +10,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/main-loop.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
+ #include "migration/vmstate.h"
+ 
+ #include "ptimer-test.h"
+diff --git a/util/guest-random.c b/util/guest-random.c
+index 23643f86cc..a24d27624c 100644
+--- a/util/guest-random.c
++++ b/util/guest-random.c
+@@ -14,7 +14,7 @@
+ #include "qapi/error.h"
+ #include "qemu/guest-random.h"
+ #include "crypto/random.h"
+-#include "sysemu/replay.h"
++#include "exec/replay-core.h"
+ 
+ 
+ static __thread GRand *thread_rand;
 -- 
 2.38.1
 
