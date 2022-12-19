@@ -2,88 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1121465066F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:31:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32A4650639
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 03:18:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p75ij-0008GY-Ju; Sun, 18 Dec 2022 21:17:37 -0500
+	id 1p75in-0008Gi-7E; Sun, 18 Dec 2022 21:17:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75ih-0008Fx-CR
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:35 -0500
+ id 1p75il-0008Ga-Uv
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:39 -0500
 Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=345d64987=alistair.francis@opensource.wdc.com>)
- id 1p75if-00013c-R1
- for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:35 -0500
+ id 1p75ij-00015O-FR
+ for qemu-devel@nongnu.org; Sun, 18 Dec 2022 21:17:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671416253; x=1702952253;
+ t=1671416257; x=1702952257;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SfKxA8G3IanL11OZNQXCiMwcclKpFSTH9ixHNUN8azY=;
- b=pQzCRDlXaDyo0XKgTRroqvsI7KjHIGD7rcwfewDNDMIrovyFhjCIKzMG
- vgzwFtXu8x/aZYeIogpVMX6Zmd1FrsNqPj+4NQWeuXU4X7OlxHABK9Wwc
- aza/ZLItXfKNzaoDiVbVO9DfPN3hKIc/iblmQSaoNnWELrFcddz6sLeJc
- RAF3vU6zeXWFSM2c8tn0+cQqDRj0s+VdKd3A5AU5X3e1hhzqF+xHYCPd+
- x2gdYHeUNr1lq2B3RmKHLhJOAf4VpHXYlsmOkhG+qn2V5dbAuzDt8y8r5
- uBpFI4/qI8IgVGe6vD1UWKHT7uy12gIQo4h9HyrlwUIT/L1/c+3YDzOUB Q==;
-X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199303"
+ bh=v/tolp0FI5QSu95NYDTltjd9EctNgrO7SoOyyHZ4l80=;
+ b=ZB/O3wVPbKJcqNSgGepyGJReibx9je68unFyJvSecJHX421RvcBBCpU/
+ nh8JWkXXY2ozZ3TLPy2vWJVTMfy/Bt00oy02ZFmGjvMcVY6VLqCumdxUD
+ B+Fv1A0Ifk1ohBO2JdFiYT0RuzCGGXumMKFreqJJRJAud+ODzyahdd0qK
+ jBSmjJVI8xczHwuvrksu2qH6RQNSJQUWqRkB7X3t4RPbEdgoHOrsVWVMK
+ ADIApXZqZNB6cCNsJYP8tegamHTeqatFSFgwCAo4FfFWpPwUdL0wP10hC
+ UkivHsYwvdIRUv1i8JAP2PXobo/iCq4i1cqTXnS/A4PWvq9/oc3/0FF3s A==;
+X-IronPort-AV: E=Sophos;i="5.96,254,1665417600"; d="scan'208";a="217199307"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:32 +0800
-IronPort-SDR: RSdFX/Mxx8PG1iL8ctm5jbQlHJBcnt6m+TWlEwH09sjawJvSDD8aUYc4HoLjaT14F3MHDDo9V8
- MkkHmqAPy1owIlx2KO2i+5aKXunwEkKlhwkwHdY+i9M+BYun3oECF4TmNMCMRGf5iP1lmoeBqQ
- G5fTfOaKr4Rxbc/zzjoyYc6ewVMnpbBav40wteYJBdGYTV9z2KsBTX6WJjkZ45o2UgoDtj07IM
- mNSS9MN+qUpjWTJZPBeg5rYRPlViXV2qiagtSCFKe+5qzYDSBQjqGflpK/5S4XM+KKDjn7M1Eh
- FI0=
+ by ob1.hgst.iphmx.com with ESMTP; 19 Dec 2022 10:17:36 +0800
+IronPort-SDR: jbGMuTOp1ZI9xfM3EKwe7RT73FMHiJdaAX8ZQo1AqEKNCH5GHFN4bVGB50ZHxIiSIB+tZda/S+
+ PrfhX5J/Jpl2zyH4OqS0rKshqCcOkUEGgarZ51vSwhi69+MmtRFIfNnVltHaWrqmF07QVs3kr6
+ HGnWexzQpS6Td4fgKRJQTEgPG//BkJcPihDiKexKOg/wUqwL6unVx/jLqUWzcH6qCzjqdGIzQG
+ ei70LVcHRfGXRDU5a7TUtVueAkxhkj1XOY7O/u6nC2DvXAVmwYUSwqwj97c8tNkbZWM8JbZUq/
+ 5tY=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 17:30:05 -0800
-IronPort-SDR: YwMe8NaskFE1G6nIF5vIjcXsuBhEH5M7sIS4Jiqx3oaBsgP6gyIj3jISQ/+cMVkxeipqqSYvNF
- Pe27e44kQlhM4TFtA7Jeo6bPd5Fiz2SP4WXaJPZm11nkShfYBPLcsDC3gyh2U/40nVKFGis2AB
- enV+IW2iRLtTXgXvt/XVk4TYlu9DOsGh7puELHtF3lwoor5GIowB7QBOZsyDwQf+ZBtm5uAgIs
- J30bLMdgqhrp+OI+IOCFnns5fBCC8xb6MVkCMuzS975pnQWgeK+bccu1K0jgkz1Y7db3IYIDa+
- +Zw=
+ 18 Dec 2022 17:30:09 -0800
+IronPort-SDR: mH8Yd+3IuWre1mOZyS30AKbcK6SPB6yd02dPOH/xwC8RNbCRGhjzArWPThS8TY59V8RwZu2bFD
+ Y6GspAFeF8MFZlIaUIPrDQA8kL6jC3BghRg53MsTLaQ0PRAxuW+IyOgB4bz8FwhYFQW5ZXD15S
+ CuRPdWH640v0oWis6cu9M/UPtl3X35zQ6evIkpG28HLtoeBORnS9biX+mW6HgszeLAoi/JhK4q
+ AtSY4fraMDFQj6sDlEk96wR8BNM4HDwsPxx2gCewWS5w4SHTF6zVZ4a658NmN/YWqq4Nl/2HpV
+ a2g=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Dec 2022 18:17:33 -0800
+ 18 Dec 2022 18:17:36 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3JD4X7Wz1RvTr
- for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:32 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nb3JJ18Tlz1RwtC
+ for <qemu-devel@nongnu.org>; Sun, 18 Dec 2022 18:17:36 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671416252; x=1674008253; bh=SfKxA8G3IanL11OZNQ
- XCiMwcclKpFSTH9ixHNUN8azY=; b=bcY6G62ZTlPda+kd9sFIUVzIy1zvOVNMSc
- IxVW8EV9axf2XlTWj3uftMOfxBmMQfEMLxuKbaSGYZapttYh42fhATIoS/kW5HaY
- JC/TfUMvEJIwJEr43PSHERnkJVgkpODnYzFw9Nkc9pRicZr/EJuFetlujci6ySNR
- 0yRrfiAAmdyPjFOQuSTztZdqMHaqKfO0I/8bgvCYafIuo9idn3/tsjaBL2aFnCXQ
- 3+hE6FtcSfD1Hj3M4ymOeq3ki7HoyFCYJDLR92/e6MdrGkrWRWgFClbKUGkfTHbH
- 8QA6DIDUkxiaXBEmsprYgFaI1Fq8kwExOUUaTzEgCFyGZsXiAJhw==
+ :from; s=dkim; t=1671416254; x=1674008255; bh=v/tolp0FI5QSu95NYD
+ Tltjd9EctNgrO7SoOyyHZ4l80=; b=D8TvEWD4XrLy9PIIBdZrUUFyFtm9XLBtQw
+ 6kKPezNUN+sZ0OsiRGgM9sOpvi98JNowFSFi4LwxF39So8YV0f1/G+W7d3e26+Qp
+ 6fjGjHayCbqvWG1Sp7wuT8O6CnEbXrsgf75f6T7DjlzqLrO882R+MEyttld8uRCm
+ rs8nRckN8BZTglXiovdKEUlnk1AI+0mu9Ur/AwIkqNjJbj21ubu2wFKt5xidTqPB
+ lbiUOuEkA7Xu3d1uRQ2iXxNyftMjgOR+UcsV7ayw4c+hTQ+kSnmGoOnq4jZ4LCtm
+ tYKtWEkLhkQVcFxUw4ggWkEuvHQHbb34JSbK6qHVTdVLOQnW4COA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id UjSSxseeIZPc for <qemu-devel@nongnu.org>;
- Sun, 18 Dec 2022 18:17:32 -0800 (PST)
+ port 10026) with ESMTP id QeTjoZ82nwsY for <qemu-devel@nongnu.org>;
+ Sun, 18 Dec 2022 18:17:34 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.4])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3JB2jd6z1RvLy;
- Sun, 18 Dec 2022 18:17:30 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nb3JD5npdz1RvLy;
+ Sun, 18 Dec 2022 18:17:32 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 08/45] hw/riscv/opentitan: add aon_timer base unimpl
-Date: Mon, 19 Dec 2022 12:16:26 +1000
-Message-Id: <20221219021703.20473-9-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Mayuresh Chitale <mchitale@ventanamicro.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 09/45] target/riscv: Add smstateen support
+Date: Mon, 19 Dec 2022 12:16:27 +1000
+Message-Id: <20221219021703.20473-10-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
 References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
@@ -114,56 +115,507 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
 
-Adds the updated `aon_timer` base as an unimplemented device. This is
-used by TockOS, patch ensures the guest doesn't hit load faults.
+Smstateen extension specifies a mechanism to close
+the potential covert channels that could cause security issues.
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+This patch adds the CSRs defined in the specification and
+the corresponding predicates and read/write functions.
+
+Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221025043335.339815-3-wilfred.mallawa@opensource.wdc.com>
+Message-Id: <20221016124726.102129-2-mchitale@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/opentitan.h | 1 +
- hw/riscv/opentitan.c         | 3 +++
- 2 files changed, 4 insertions(+)
+ target/riscv/cpu.h      |   4 +
+ target/riscv/cpu_bits.h |  37 +++++
+ target/riscv/csr.c      | 316 ++++++++++++++++++++++++++++++++++++++++
+ target/riscv/machine.c  |  21 +++
+ 4 files changed, 378 insertions(+)
 
-diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index 1fc055cdff..7659d1bc5b 100644
---- a/include/hw/riscv/opentitan.h
-+++ b/include/hw/riscv/opentitan.h
-@@ -81,6 +81,7 @@ enum {
-     IBEX_DEV_RSTMGR,
-     IBEX_DEV_CLKMGR,
-     IBEX_DEV_PINMUX,
-+    IBEX_DEV_AON_TIMER,
-     IBEX_DEV_USBDEV,
-     IBEX_DEV_FLASH_CTRL,
-     IBEX_DEV_PLIC,
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 92493c629d..78f895d773 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -56,6 +56,7 @@ static const MemMapEntry ibex_memmap[] =3D {
-     [IBEX_DEV_RSTMGR] =3D         {  0x40410000,  0x1000  },
-     [IBEX_DEV_CLKMGR] =3D         {  0x40420000,  0x1000  },
-     [IBEX_DEV_PINMUX] =3D         {  0x40460000,  0x1000  },
-+    [IBEX_DEV_AON_TIMER] =3D      {  0x40470000,  0x1000  },
-     [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40490000,  0x1000  },
-     [IBEX_DEV_FLASH_CTRL] =3D     {  0x41000000,  0x1000  },
-     [IBEX_DEV_AES] =3D            {  0x41100000,  0x1000  },
-@@ -272,6 +273,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
-_soc, Error **errp)
-         memmap[IBEX_DEV_CLKMGR].base, memmap[IBEX_DEV_CLKMGR].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.pinmux",
-         memmap[IBEX_DEV_PINMUX].base, memmap[IBEX_DEV_PINMUX].size);
-+    create_unimplemented_device("riscv.lowrisc.ibex.aon_timer",
-+        memmap[IBEX_DEV_AON_TIMER].base, memmap[IBEX_DEV_AON_TIMER].size=
-);
-     create_unimplemented_device("riscv.lowrisc.ibex.usbdev",
-         memmap[IBEX_DEV_USBDEV].base, memmap[IBEX_DEV_USBDEV].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.flash_ctrl",
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 443d15a47c..5cac0c5eec 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -366,6 +366,9 @@ struct CPUArchState {
+=20
+     /* CSRs for execution enviornment configuration */
+     uint64_t menvcfg;
++    uint64_t mstateen[SMSTATEEN_MAX_COUNT];
++    uint64_t hstateen[SMSTATEEN_MAX_COUNT];
++    uint64_t sstateen[SMSTATEEN_MAX_COUNT];
+     target_ulong senvcfg;
+     uint64_t henvcfg;
+ #endif
+@@ -441,6 +444,7 @@ struct RISCVCPUConfig {
+     bool ext_ifencei;
+     bool ext_icsr;
+     bool ext_zihintpause;
++    bool ext_smstateen;
+     bool ext_sstc;
+     bool ext_svinval;
+     bool ext_svnapot;
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index d8f5f0abed..8b0d7e20ea 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -197,6 +197,12 @@
+ /* Supervisor Configuration CSRs */
+ #define CSR_SENVCFG         0x10A
+=20
++/* Supervisor state CSRs */
++#define CSR_SSTATEEN0       0x10C
++#define CSR_SSTATEEN1       0x10D
++#define CSR_SSTATEEN2       0x10E
++#define CSR_SSTATEEN3       0x10F
++
+ /* Supervisor Trap Handling */
+ #define CSR_SSCRATCH        0x140
+ #define CSR_SEPC            0x141
+@@ -244,6 +250,16 @@
+ #define CSR_HENVCFG         0x60A
+ #define CSR_HENVCFGH        0x61A
+=20
++/* Hypervisor state CSRs */
++#define CSR_HSTATEEN0       0x60C
++#define CSR_HSTATEEN0H      0x61C
++#define CSR_HSTATEEN1       0x60D
++#define CSR_HSTATEEN1H      0x61D
++#define CSR_HSTATEEN2       0x60E
++#define CSR_HSTATEEN2H      0x61E
++#define CSR_HSTATEEN3       0x60F
++#define CSR_HSTATEEN3H      0x61F
++
+ /* Virtual CSRs */
+ #define CSR_VSSTATUS        0x200
+ #define CSR_VSIE            0x204
+@@ -289,6 +305,27 @@
+ #define CSR_MENVCFG         0x30A
+ #define CSR_MENVCFGH        0x31A
+=20
++/* Machine state CSRs */
++#define CSR_MSTATEEN0       0x30C
++#define CSR_MSTATEEN0H      0x31C
++#define CSR_MSTATEEN1       0x30D
++#define CSR_MSTATEEN1H      0x31D
++#define CSR_MSTATEEN2       0x30E
++#define CSR_MSTATEEN2H      0x31E
++#define CSR_MSTATEEN3       0x30F
++#define CSR_MSTATEEN3H      0x31F
++
++/* Common defines for all smstateen */
++#define SMSTATEEN_MAX_COUNT 4
++#define SMSTATEEN0_CS       (1ULL << 0)
++#define SMSTATEEN0_FCSR     (1ULL << 1)
++#define SMSTATEEN0_HSCONTXT (1ULL << 57)
++#define SMSTATEEN0_IMSIC    (1ULL << 58)
++#define SMSTATEEN0_AIA      (1ULL << 59)
++#define SMSTATEEN0_SVSLCT   (1ULL << 60)
++#define SMSTATEEN0_HSENVCFG (1ULL << 62)
++#define SMSTATEEN_STATEEN   (1ULL << 63)
++
+ /* Enhanced Physical Memory Protection (ePMP) */
+ #define CSR_MSECCFG         0x747
+ #define CSR_MSECCFGH        0x757
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 5c9a7ee287..c861424e85 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -283,6 +283,72 @@ static RISCVException umode32(CPURISCVState *env, in=
+t csrno)
+     return umode(env, csrno);
+ }
+=20
++static RISCVException mstateen(CPURISCVState *env, int csrno)
++{
++    CPUState *cs =3D env_cpu(env);
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_smstateen) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++
++    return any(env, csrno);
++}
++
++static RISCVException hstateen_pred(CPURISCVState *env, int csrno, int b=
+ase)
++{
++    CPUState *cs =3D env_cpu(env);
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_smstateen) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++
++    if (env->priv < PRV_M) {
++        if (!(env->mstateen[csrno - base] & SMSTATEEN_STATEEN)) {
++            return RISCV_EXCP_ILLEGAL_INST;
++        }
++    }
++
++    return hmode(env, csrno);
++}
++
++static RISCVException hstateen(CPURISCVState *env, int csrno)
++{
++    return hstateen_pred(env, csrno, CSR_HSTATEEN0);
++}
++
++static RISCVException hstateenh(CPURISCVState *env, int csrno)
++{
++    return hstateen_pred(env, csrno, CSR_HSTATEEN0H);
++}
++
++static RISCVException sstateen(CPURISCVState *env, int csrno)
++{
++    bool virt =3D riscv_cpu_virt_enabled(env);
++    int index =3D csrno - CSR_SSTATEEN0;
++    CPUState *cs =3D env_cpu(env);
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++
++    if (!cpu->cfg.ext_smstateen) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++
++    if (env->priv < PRV_M) {
++        if (!(env->mstateen[index] & SMSTATEEN_STATEEN)) {
++            return RISCV_EXCP_ILLEGAL_INST;
++        }
++
++        if (virt) {
++            if (!(env->hstateen[index] & SMSTATEEN_STATEEN)) {
++                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
++            }
++        }
++    }
++
++    return smode(env, csrno);
++}
++
+ /* Checks if PointerMasking registers could be accessed */
+ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+ {
+@@ -1861,6 +1927,197 @@ static RISCVException write_henvcfgh(CPURISCVStat=
+e *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
+=20
++static RISCVException read_mstateen(CPURISCVState *env, int csrno,
++                                    target_ulong *val)
++{
++    *val =3D env->mstateen[csrno - CSR_MSTATEEN0];
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_mstateen(CPURISCVState *env, int csrno,
++                                     uint64_t wr_mask, target_ulong new_=
+val)
++{
++    uint64_t *reg;
++
++    reg =3D &env->mstateen[csrno - CSR_MSTATEEN0];
++    *reg =3D (*reg & ~wr_mask) | (new_val & wr_mask);
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
++                                      target_ulong new_val)
++{
++    uint64_t wr_mask =3D SMSTATEEN_STATEEN;
++
++    return write_mstateen(env, csrno, wr_mask, new_val);
++}
++
++static RISCVException write_mstateen_1_3(CPURISCVState *env, int csrno,
++                                      target_ulong new_val)
++{
++    return write_mstateen(env, csrno, SMSTATEEN_STATEEN, new_val);
++}
++
++static RISCVException read_mstateenh(CPURISCVState *env, int csrno,
++                                      target_ulong *val)
++{
++    *val =3D env->mstateen[csrno - CSR_MSTATEEN0H] >> 32;
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_mstateenh(CPURISCVState *env, int csrno,
++                                      uint64_t wr_mask, target_ulong new=
+_val)
++{
++    uint64_t *reg, val;
++
++    reg =3D &env->mstateen[csrno - CSR_MSTATEEN0H];
++    val =3D (uint64_t)new_val << 32;
++    val |=3D *reg & 0xFFFFFFFF;
++    *reg =3D (*reg & ~wr_mask) | (val & wr_mask);
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
++                                      target_ulong new_val)
++{
++    uint64_t wr_mask =3D SMSTATEEN_STATEEN;
++
++    return write_mstateenh(env, csrno, wr_mask, new_val);
++}
++
++static RISCVException write_mstateenh_1_3(CPURISCVState *env, int csrno,
++                                      target_ulong new_val)
++{
++    return write_mstateenh(env, csrno, SMSTATEEN_STATEEN, new_val);
++}
++
++static RISCVException read_hstateen(CPURISCVState *env, int csrno,
++                                    target_ulong *val)
++{
++    int index =3D csrno - CSR_HSTATEEN0;
++
++    *val =3D env->hstateen[index] & env->mstateen[index];
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_hstateen(CPURISCVState *env, int csrno,
++                                     uint64_t mask, target_ulong new_val=
+)
++{
++    int index =3D csrno - CSR_HSTATEEN0;
++    uint64_t *reg, wr_mask;
++
++    reg =3D &env->hstateen[index];
++    wr_mask =3D env->mstateen[index] & mask;
++    *reg =3D (*reg & ~wr_mask) | (new_val & wr_mask);
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
++                                      target_ulong new_val)
++{
++    uint64_t wr_mask =3D SMSTATEEN_STATEEN;
++
++    return write_hstateen(env, csrno, wr_mask, new_val);
++}
++
++static RISCVException write_hstateen_1_3(CPURISCVState *env, int csrno,
++                                      target_ulong new_val)
++{
++    return write_hstateen(env, csrno, SMSTATEEN_STATEEN, new_val);
++}
++
++static RISCVException read_hstateenh(CPURISCVState *env, int csrno,
++                                     target_ulong *val)
++{
++    int index =3D csrno - CSR_HSTATEEN0H;
++
++    *val =3D (env->hstateen[index] >> 32) & (env->mstateen[index] >> 32)=
+;
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_hstateenh(CPURISCVState *env, int csrno,
++                                      uint64_t mask, target_ulong new_va=
+l)
++{
++    int index =3D csrno - CSR_HSTATEEN0H;
++    uint64_t *reg, wr_mask, val;
++
++    reg =3D &env->hstateen[index];
++    val =3D (uint64_t)new_val << 32;
++    val |=3D *reg & 0xFFFFFFFF;
++    wr_mask =3D env->mstateen[index] & mask;
++    *reg =3D (*reg & ~wr_mask) | (val & wr_mask);
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
++                                       target_ulong new_val)
++{
++    uint64_t wr_mask =3D SMSTATEEN_STATEEN;
++
++    return write_hstateenh(env, csrno, wr_mask, new_val);
++}
++
++static RISCVException write_hstateenh_1_3(CPURISCVState *env, int csrno,
++                                       target_ulong new_val)
++{
++    return write_hstateenh(env, csrno, SMSTATEEN_STATEEN, new_val);
++}
++
++static RISCVException read_sstateen(CPURISCVState *env, int csrno,
++                                    target_ulong *val)
++{
++    bool virt =3D riscv_cpu_virt_enabled(env);
++    int index =3D csrno - CSR_SSTATEEN0;
++
++    *val =3D env->sstateen[index] & env->mstateen[index];
++    if (virt) {
++        *val &=3D env->hstateen[index];
++    }
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_sstateen(CPURISCVState *env, int csrno,
++                                     uint64_t mask, target_ulong new_val=
+)
++{
++    bool virt =3D riscv_cpu_virt_enabled(env);
++    int index =3D csrno - CSR_SSTATEEN0;
++    uint64_t wr_mask;
++    uint64_t *reg;
++
++    wr_mask =3D env->mstateen[index] & mask;
++    if (virt) {
++        wr_mask &=3D env->hstateen[index];
++    }
++
++    reg =3D &env->sstateen[index];
++    *reg =3D (*reg & ~wr_mask) | (new_val & wr_mask);
++
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_sstateen0(CPURISCVState *env, int csrno,
++                                      target_ulong new_val)
++{
++    uint64_t wr_mask =3D SMSTATEEN_STATEEN;
++
++    return write_sstateen(env, csrno, wr_mask, new_val);
++}
++
++static RISCVException write_sstateen_1_3(CPURISCVState *env, int csrno,
++                                      target_ulong new_val)
++{
++    return write_sstateen(env, csrno, SMSTATEEN_STATEEN, new_val);
++}
++
+ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
+                                 uint64_t *ret_val,
+                                 uint64_t new_val, uint64_t wr_mask)
+@@ -3744,6 +4001,65 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
+     [CSR_HENVCFGH] =3D { "henvcfgh", hmode32, read_henvcfgh, write_henvc=
+fgh,
+                        .min_priv_ver =3D PRIV_VERSION_1_12_0            =
+  },
+=20
++    /* Smstateen extension CSRs */
++    [CSR_MSTATEEN0] =3D { "mstateen0", mstateen, read_mstateen, write_ms=
+tateen0,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_MSTATEEN0H] =3D { "mstateen0h", mstateen, read_mstateenh,
++                          write_mstateen0h,
++                         .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_MSTATEEN1] =3D { "mstateen1", mstateen, read_mstateen,
++                        write_mstateen_1_3,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_MSTATEEN1H] =3D { "mstateen1h", mstateen, read_mstateenh,
++                         write_mstateenh_1_3,
++                         .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_MSTATEEN2] =3D { "mstateen2", mstateen, read_mstateen,
++                        write_mstateen_1_3,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_MSTATEEN2H] =3D { "mstateen2h", mstateen, read_mstateenh,
++                         write_mstateenh_1_3,
++                         .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_MSTATEEN3] =3D { "mstateen3", mstateen, read_mstateen,
++                        write_mstateen_1_3,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_MSTATEEN3H] =3D { "mstateen3h", mstateen, read_mstateenh,
++                         write_mstateenh_1_3,
++                         .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_HSTATEEN0] =3D { "hstateen0", hstateen, read_hstateen, write_hs=
+tateen0,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_HSTATEEN0H] =3D { "hstateen0h", hstateenh, read_hstateenh,
++                         write_hstateen0h,
++                         .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_HSTATEEN1] =3D { "hstateen1", hstateen, read_hstateen,
++                        write_hstateen_1_3,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_HSTATEEN1H] =3D { "hstateen1h", hstateenh, read_hstateenh,
++                         write_hstateenh_1_3,
++                         .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_HSTATEEN2] =3D { "hstateen2", hstateen, read_hstateen,
++                        write_hstateen_1_3,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_HSTATEEN2H] =3D { "hstateen2h", hstateenh, read_hstateenh,
++                         write_hstateenh_1_3,
++                         .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_HSTATEEN3] =3D { "hstateen3", hstateen, read_hstateen,
++                        write_hstateen_1_3,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_HSTATEEN3H] =3D { "hstateen3h", hstateenh, read_hstateenh,
++                         write_hstateenh_1_3,
++                         .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_SSTATEEN0] =3D { "sstateen0", sstateen, read_sstateen, write_ss=
+tateen0,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_SSTATEEN1] =3D { "sstateen1", sstateen, read_sstateen,
++                        write_sstateen_1_3,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_SSTATEEN2] =3D { "sstateen2", sstateen, read_sstateen,
++                        write_sstateen_1_3,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++    [CSR_SSTATEEN3] =3D { "sstateen3", sstateen, read_sstateen,
++                        write_sstateen_1_3,
++                        .min_priv_ver =3D PRIV_VERSION_1_12_0 },
++
+     /* Supervisor Trap Setup */
+     [CSR_SSTATUS]    =3D { "sstatus",    smode, read_sstatus,    write_s=
+status,
+                          NULL,                read_sstatus_i128         =
+      },
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index c2a94a82b3..e687f9fce0 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -253,6 +253,26 @@ static int riscv_cpu_post_load(void *opaque, int ver=
+sion_id)
+     return 0;
+ }
+=20
++static bool smstateen_needed(void *opaque)
++{
++    RISCVCPU *cpu =3D opaque;
++
++    return cpu->cfg.ext_smstateen;
++}
++
++static const VMStateDescription vmstate_smstateen =3D {
++    .name =3D "cpu/smtateen",
++    .version_id =3D 1,
++    .minimum_version_id =3D 1,
++    .needed =3D smstateen_needed,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_UINT64_ARRAY(env.mstateen, RISCVCPU, 4),
++        VMSTATE_UINT64_ARRAY(env.hstateen, RISCVCPU, 4),
++        VMSTATE_UINT64_ARRAY(env.sstateen, RISCVCPU, 4),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static bool envcfg_needed(void *opaque)
+ {
+     RISCVCPU *cpu =3D opaque;
+@@ -364,6 +384,7 @@ const VMStateDescription vmstate_riscv_cpu =3D {
+         &vmstate_kvmtimer,
+         &vmstate_envcfg,
+         &vmstate_debug,
++        &vmstate_smstateen,
+         NULL
+     }
+ };
 --=20
 2.38.1
 
