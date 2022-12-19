@@ -2,77 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214A8650833
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 08:50:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDBC65085B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 09:01:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Auh-0008MU-J9; Mon, 19 Dec 2022 02:50:19 -0500
+	id 1p7B5Y-0003Ld-LX; Mon, 19 Dec 2022 03:01:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1p7AuY-0008Js-Kq; Mon, 19 Dec 2022 02:50:10 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1p7AuV-0006eM-92; Mon, 19 Dec 2022 02:50:09 -0500
-Received: by mail-pl1-x635.google.com with SMTP id u7so39756plq.11;
- Sun, 18 Dec 2022 23:50:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5Rxk2jJJt9jMSUMAXSaQOGneB84DuYg9jnKqEKvkqbQ=;
- b=cLGax1ZpyaohAZSzRjEsfIilYsvjkTooba2VS7P+JHdP7vAOnx1CBnWKy94P1mvFAG
- /Dsfwrzt0zA5c7BVmwLlJdamVuEi58vkRh+Hpg9Lk4gA5F7nPkbuf/DhCNIAp4yNE/cU
- 2MVfFoLQPvcO/txZU71NTtoYUQnAOis+y8LYc6uwrGOzAh+EVpEIYGNGEY6JwsCfLBcC
- ypBA2BjiSsuMGZhquTYQhtFGu376IpG/H/yIr3g7cPJifdKhXUo54FUX6P/3/as6WVMI
- peqb3qChGvgolt9e5le4N7lJpJTtoHWlUPisrZF+kd8a3/+BP4Ic7/yexDVJCq9guNAC
- PCAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5Rxk2jJJt9jMSUMAXSaQOGneB84DuYg9jnKqEKvkqbQ=;
- b=NhO6RZ5ChMdFEaRS5ZruJQIhzpEBqUvRHxEwdsEpB6xwltbzKj+PoWsdMuuA0EVphZ
- 6tW0oCJT5fAE/EntSPxYlf5NdRR1f4PV/AJlhUUF3Wv5Ggnxb0cUG1VGODqA/7GRmhpl
- 5bZoi58PHtCgPfsqcygGLN4nACqIPKyI4P7oLy9OQnsL1aPuip7HPTJ8VHfISY0X870p
- cmCBjvleKDAvpAGbnLsSaxtGQ2/cYx8QKW7O8N0WqK/Y/SNX8Mj7UYsTw2kh40+j6gdU
- vgmROk3quHAMNit6y7LiB2HFn0ln23pVrcAtfBNaahKDoGJToNbDcHV3lPa5IhFGxORF
- z5cQ==
-X-Gm-Message-State: AFqh2kowOcSF9HQdk9QY0YFBqQHP/2adAX1V6rPDmE4/NJMw+54KcBdK
- u0kd/6XvzBjWoOoghApn/Bp7YonPfE1GGbZ5
-X-Google-Smtp-Source: AMrXdXtratGxIel7AC/TifbKqXE23Nqz1OpDCwkUVQ24yqv48zUgAn2WDwDjPgtCq4EgGE1s8UGe9Q==
-X-Received: by 2002:a17:902:c942:b0:190:f537:3c45 with SMTP id
- i2-20020a170902c94200b00190f5373c45mr27053601pla.30.1671436203573; 
- Sun, 18 Dec 2022 23:50:03 -0800 (PST)
-Received: from fedlinux.. ([106.84.132.155]) by smtp.gmail.com with ESMTPSA id
- u17-20020a17090341d100b001754fa42065sm6368617ple.143.2022.12.18.23.49.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Dec 2022 23:50:03 -0800 (PST)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: hare@suse.de, hreitz@redhat.com, kwolf@redhat.com, dmitry.fomichev@wdc.com,
- pbonzini@redhat.com, damien.lemoal@opensource.wdc.com, fam@euphon.net,
- thuth@redhat.com, marcandre.lureau@redhat.com, philmd@linaro.org,
- berrange@redhat.com, eblake@redhat.com, armbru@redhat.com,
- stefanha@redhat.com, qemu-block@nongnu.org,
- Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v14 5/8] config: add check to block layer
-Date: Mon, 19 Dec 2022 15:49:51 +0800
-Message-Id: <20221219074951.7881-1-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p7B5Q-0003Kp-FN
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 03:01:25 -0500
+Received: from mga18.intel.com ([134.134.136.126])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1p7B5O-0008V6-Jh
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 03:01:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671436882; x=1702972882;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=OfZ8wFDJ+6nAyql1Nd8OAfYvfKbri9zQQ6twPOrF8GY=;
+ b=CWkHmVR1E5hufSqUPkXwVGB1FwTM0GaJSjggh1YZk62mzluqyJNUn4Yk
+ 0EKthgVHH/1PLY4LGQ8Je8EukLITLRRmcHJ+AuCIwtbMgsgT6PHFYMpcn
+ ulBJ2mRCmwGRrxZauL3kd6Mjf4gJLAe9lOYxJqeGh2x3Z1KQdVwwipQ6T
+ TOkhCNcjoubGNio8sbZDl7wrX2it7s+tcBQDtsmIMAJlv6RtYbg+uZsEW
+ QSHYLJaGI/00wyuFKIZ/r5vzlgAVRwcHJuxfT/ZrHVCo8RKPwQqK/79fD
+ c02ikwZtMJMseAvdnYhvXa9Rldhzd5vVPE7DKaOsxY7pYTXGxmCESheP0 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="302716677"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="302716677"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2022 23:58:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10565"; a="824757705"
+X-IronPort-AV: E=Sophos;i="5.96,255,1665471600"; d="scan'208";a="824757705"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga005.jf.intel.com with ESMTP; 18 Dec 2022 23:54:49 -0800
+Date: Mon, 19 Dec 2022 15:50:32 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20221219075032.GA1691829@chaop.bj.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+ <cd950a78-5c5b-16ef-d0a6-ad2878af067e@intel.com>
+ <20221208113003.GE1304936@chaop.bj.intel.com>
+ <4d736cc0-f249-6531-c0af-7093c2c2537f@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4d736cc0-f249-6531-c0af-7093c2c2537f@intel.com>
+Received-SPF: none client-ip=134.134.136.126;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga18.intel.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,105 +101,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Putting zoned/non-zoned BlockDrivers on top of each other is not
-allowed.
+On Tue, Dec 13, 2022 at 08:04:14PM +0800, Xiaoyao Li wrote:
+> On 12/8/2022 7:30 PM, Chao Peng wrote:
+> > On Thu, Dec 08, 2022 at 04:37:03PM +0800, Xiaoyao Li wrote:
+> > > On 12/2/2022 2:13 PM, Chao Peng wrote:
+> > > 
+> > > ..
+> > > 
+> > > > Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
+> > > > and right now it is selected on X86_64 only.
+> > > > 
+> > > 
+> > >  From the patch implementation, I have no idea why HAVE_KVM_RESTRICTED_MEM is
+> > > needed.
+> > 
+> > The reason is we want KVM further controls the feature enabling. An
+> > opt-in CONFIG_RESTRICTEDMEM can cause problem if user sets that for
+> > unsupported architectures.
+> 
+> HAVE_KVM_RESTRICTED_MEM is not used in this patch. It's better to introduce
+> it in the patch that actually uses it.
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- block.c                          | 19 +++++++++++++++++++
- block/file-posix.c               | 12 ++++++++++++
- block/raw-format.c               |  1 +
- include/block/block_int-common.h |  5 +++++
- 4 files changed, 37 insertions(+)
+It's being 'used' in this patch by reverse selecting RESTRICTEDMEM in
+arch/x86/kvm/Kconfig, this gives people a sense where
+restrictedmem_notifier comes from. Introducing the config with other
+private/restricted memslot stuff together can also help future
+supporting architectures better identify what they need do. But those
+are trivial and moving to patch 08 sounds also good to me.
 
-diff --git a/block.c b/block.c
-index 9c2ac757e4..09abea9da7 100644
---- a/block.c
-+++ b/block.c
-@@ -7912,6 +7912,25 @@ void bdrv_add_child(BlockDriverState *parent_bs, BlockDriverState *child_bs,
-         return;
-     }
- 
-+    /*
-+     * Non-zoned block drivers do not follow zoned storage constraints
-+     * (i.e. sequential writes to zones). Refuse mixing zoned and non-zoned
-+     * drivers in a graph.
-+     */
-+    if (!parent_bs->drv->supports_zoned_children &&
-+        child_bs->bl.zoned == BLK_Z_HM) {
-+        /*
-+         * The host-aware model allows zoned storage constraints and random
-+         * write. Allow mixing host-aware and non-zoned drivers. Using
-+         * host-aware device as a regular device.
-+         */
-+        error_setg(errp, "Cannot add a %s child to a %s parent",
-+                   child_bs->bl.zoned == BLK_Z_HM ? "zoned" : "non-zoned",
-+                   parent_bs->drv->supports_zoned_children ?
-+                   "support zoned children" : "not support zoned children");
-+        return;
-+    }
-+
-     if (!QLIST_EMPTY(&child_bs->parents)) {
-         error_setg(errp, "The node %s already has a parent",
-                    child_bs->node_name);
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 269c5b508a..091a95c1a9 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -775,6 +775,18 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-             goto fail;
-         }
-     }
-+#ifdef CONFIG_BLKZONED
-+    /*
-+     * The kernel page cache does not reliably work for writes to SWR zones
-+     * of zoned block device because it can not guarantee the order of writes.
-+     */
-+    if ((strcmp(bs->drv->format_name, "zoned_host_device") == 0) &&
-+        (!(s->open_flags & O_DIRECT))) {
-+        error_setg(errp, "driver=zoned_host_device was specified, but it "
-+                   "requires cache.direct=on, which was not specified.");
-+        return -EINVAL; /* No host kernel page cache */
-+    }
-+#endif
- 
-     if (S_ISBLK(st.st_mode)) {
- #ifdef __linux__
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 8e42fa83ed..2fcc2ad7f6 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -617,6 +617,7 @@ static void raw_child_perm(BlockDriverState *bs, BdrvChild *c,
- BlockDriver bdrv_raw = {
-     .format_name          = "raw",
-     .instance_size        = sizeof(BDRVRawState),
-+    .supports_zoned_children = true,
-     .bdrv_probe           = &raw_probe,
-     .bdrv_reopen_prepare  = &raw_reopen_prepare,
-     .bdrv_reopen_commit   = &raw_reopen_commit,
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index dc6ee8006c..77eb0a2a8b 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -141,6 +141,11 @@ struct BlockDriver {
-      */
-     bool is_format;
- 
-+    /*
-+     * Set to true if the BlockDriver supports zoned children.
-+     */
-+    bool supports_zoned_children;
-+
-     /*
-      * Drivers not implementing bdrv_parse_filename nor bdrv_open should have
-      * this field set to true, except ones that are defined only by their
--- 
-2.38.1
-
+Thanks,
+Chao
+> 
+> > Here is the original discussion:
+> > https://lore.kernel.org/all/YkJLFu98hZOvTSrL@google.com/
+> > 
+> > Thanks,
+> > Chao
 
