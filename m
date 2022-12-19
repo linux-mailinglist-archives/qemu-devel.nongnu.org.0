@@ -2,55 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688CD650F64
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:54:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5AD650F5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:54:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7IQW-0002hz-V2; Mon, 19 Dec 2022 10:51:40 -0500
+	id 1p7IQW-0002hk-Vb; Mon, 19 Dec 2022 10:51:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQJ-0002XY-0C
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQK-0002Xo-AM
  for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQH-0000ZZ-6k
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:26 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7IQH-0000Zd-Jn
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:51:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671465084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FkqxzmbocBbQ7LPbMJis0iKkqXkaKfYVINFCiVt2BGo=;
- b=f0htghHX3T8fboDsv1KUcQQjTq+W3PwjZYqMgy4umXzBLisK7oUAUZ/l+SWp5nRr8UI+BN
- LHp771fwhpJNJBwJmBef3GvtfYeZo9i3c3cs7l1v9BbxhlzIrfAyzXyG1MuOGbsxMgN8WA
- 517Wu8F4zWMZgMcQTzqFSQY6kftHLSk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7mNAZMVGKhkXnvNBCGHt9IbwV3LsRKkwsbsubKDR2Ec=;
+ b=U2TUD3TZW132XIQJQgtCrv2DQz566vcnuSErgpjq4QOuCug6H2Img9Zd3NsWhlRNHzZkoQ
+ QYOa7p38Vs5bKFxuGT6/d+vGQkXv9xbbPozH/QkbIMr8grDEkxRsn/uCNfrO9DfIe+V037
+ E/XJDctALkXI92bckHiSylf0VuFKJEs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-395-1anqH7A7MaOF2UCTlBQRsA-1; Mon, 19 Dec 2022 10:51:22 -0500
-X-MC-Unique: 1anqH7A7MaOF2UCTlBQRsA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-395-ZZ060WMnPmyPcF2uCgBBEQ-1; Mon, 19 Dec 2022 10:51:22 -0500
+X-MC-Unique: ZZ060WMnPmyPcF2uCgBBEQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF5FA80234E;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B65DB3813F50;
  Mon, 19 Dec 2022 15:51:21 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 86D6D2166B26;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 869E714152F4;
  Mon, 19 Dec 2022 15:51:21 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 53EA521E688F; Mon, 19 Dec 2022 16:51:20 +0100 (CET)
+ id 5539021E6891; Mon, 19 Dec 2022 16:51:20 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 00/13] Monitor patches for 2022-12-19
-Date: Mon, 19 Dec 2022 16:51:07 +0100
-Message-Id: <20221219155120.2273041-1-armbru@redhat.com>
+Cc: peter.maydell@linaro.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 01/13] pci: Clean up a few things checkpatch.pl would flag
+ later on
+Date: Mon, 19 Dec 2022 16:51:08 +0100
+Message-Id: <20221219155120.2273041-2-armbru@redhat.com>
+In-Reply-To: <20221219155120.2273041-1-armbru@redhat.com>
+References: <20221219155120.2273041-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -75,52 +80,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 562d4af32ec2213061f844b3838223fd7711b56a:
+Fix a few style violations so that checkpatch.pl won't complain when I
+move this code.
 
-  Merge tag 'pull-loongarch-20221215' of https://gitlab.com/gaosong/qemu into staging (2022-12-18 13:53:29 +0000)
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221201121133.3813857-2-armbru@redhat.com>
+---
+ hw/pci/pci.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-are available in the Git repository at:
-
-  https://repo.or.cz/qemu/armbru.git tags/pull-monitor-2022-12-19
-
-for you to fetch changes up to e221cfac5935b0fea0989da9ef4ee5024777f23e:
-
-  pci: Reject pcie_aer_inject_error -c with symbolic error status (2022-12-19 16:21:56 +0100)
-
-----------------------------------------------------------------
-Monitor patches for 2022-12-19
-
-----------------------------------------------------------------
-Markus Armbruster (13):
-      pci: Clean up a few things checkpatch.pl would flag later on
-      pci: Move QMP commands to new hw/pci/pci-qmp-cmds.c
-      pci: Move HMP commands from monitor/ to new hw/pci/pci-hmp-cmds.c
-      pci: Make query-pci stub consistent with the real one
-      pci: Build hw/pci/pci-hmp-cmds.c only when CONFIG_PCI
-      pci: Deduplicate get_class_desc()
-      pci: Move pcibus_dev_print() to pci-hmp-cmds.c
-      pci: Fix silent truncation of pcie_aer_inject_error argument
-      pci: Move HMP command from hw/pci/pcie_aer.c to pci-hmp-cmds.c
-      pci: Inline do_pcie_aer_inject_error() into its only caller
-      pci: Rename hmp_pcie_aer_inject_error()'s local variable @err
-      pci: Improve do_pcie_aer_inject_error()'s error messages
-      pci: Reject pcie_aer_inject_error -c with symbolic error status
-
- hw/pci/pci-internal.h   |  25 +++++
- include/monitor/hmp.h   |   1 +
- include/sysemu/sysemu.h |   3 -
- hw/pci/pci-hmp-cmds.c   | 238 ++++++++++++++++++++++++++++++++++++++++++++++++
- hw/pci/pci-qmp-cmds.c   | 199 ++++++++++++++++++++++++++++++++++++++++
- hw/pci/pci-stub.c       |   9 +-
- hw/pci/pci.c            | 224 +--------------------------------------------
- hw/pci/pcie_aer.c       | 113 +----------------------
- monitor/hmp-cmds.c      | 107 ----------------------
- hw/pci/meson.build      |   2 +
- 10 files changed, 478 insertions(+), 443 deletions(-)
- create mode 100644 hw/pci/pci-internal.h
- create mode 100644 hw/pci/pci-hmp-cmds.c
- create mode 100644 hw/pci/pci-qmp-cmds.c
-
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index c61348dca0..d70a567490 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1851,10 +1851,12 @@ static PciBridgeInfo *qmp_query_pci_bridge(PCIDevice *dev, PCIBus *bus,
+     range->limit = pci_bridge_get_limit(dev, PCI_BASE_ADDRESS_MEM_PREFETCH);
+ 
+     if (dev->config[PCI_SECONDARY_BUS] != 0) {
+-        PCIBus *child_bus = pci_find_bus_nr(bus, dev->config[PCI_SECONDARY_BUS]);
++        PCIBus *child_bus = pci_find_bus_nr(bus,
++                                            dev->config[PCI_SECONDARY_BUS]);
+         if (child_bus) {
+             info->has_devices = true;
+-            info->devices = qmp_query_pci_devices(child_bus, dev->config[PCI_SECONDARY_BUS]);
++            info->devices = qmp_query_pci_devices(child_bus,
++                                            dev->config[PCI_SECONDARY_BUS]);
+         }
+     }
+ 
+@@ -2610,8 +2612,9 @@ static void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+                    pci_get_word(d->config + PCI_SUBSYSTEM_ID));
+     for (i = 0; i < PCI_NUM_REGIONS; i++) {
+         r = &d->io_regions[i];
+-        if (!r->size)
++        if (!r->size) {
+             continue;
++        }
+         monitor_printf(mon, "%*sbar %d: %s at 0x%"FMT_PCIBUS
+                        " [0x%"FMT_PCIBUS"]\n",
+                        indent, "",
 -- 
 2.37.3
 
