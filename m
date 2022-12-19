@@ -2,129 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC339651023
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 17:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65225651015
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 17:15:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Ipw-0005E8-IT; Mon, 19 Dec 2022 11:17:56 -0500
+	id 1p7InH-00043v-0P; Mon, 19 Dec 2022 11:15:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1p7Ips-0005Dr-4T
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:17:52 -0500
-Received: from mail-dm6nam10on2062e.outbound.protection.outlook.com
- ([2a01:111:f400:7e88::62e]
- helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1p7Ipm-0005rj-V3
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:17:48 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G7pzW9HoGQh3fGNs2s5qOcApBAwNAMYNOZNtb9ihcf2FeBpTJUjFuTXoXXEeA6FV6n07YMXZNfNwZjLC06+Lax0nwS+7+FkAMauJXf8zZca7cX2PWGerJE/Gpl0uPMvFZC2Lvfe0yUyTcusAB+5909JxiOKQze/isC9g91RyoPpAR19uow5EseW5kpVah11dex9RPtVTYI1nZ4lTFXgnq4HcLrbH3GMaFWUY7QZ1gEjOnKLuUVfFntgkoRrlFpBcLmAf00gmhiANugY6xsRqSg9ph/MALr9MOuz9kx2QjEKFgOimWZytaVhSCkO7DcttcLrC30XGn8GneyvNe/+Lig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WIlNWpRvNQiagD5PJ1KNa8BiVxUMfoI+XYyZg/Ce/s8=;
- b=KzZYfTPLhlBjKovronR0+dDnKtNryOaM+5d3ZGunlp0cyN0zfeH6pvDyRN4IZ+G0q7UXY7wU/AXAU9MFEvP0MGat0J30oP2SM3ijNiPCo60hODmOgYeQlX5h14PztXNQFVrdW7vV6GmZOy5YNc/3quQS6xrQKnL2ZMibF+Ob5RYgz3CtUZSCNyfhez9KXBHLv30n8bWGB6ZKeOqcKMTqX82wAFLj5jrOHWwpVDN9G8UzrDRZQFPfg3AgqUPB0SwGWtJwZcOToFeFNeSc48hzCHZqzN9cNskXWfinCd8GYHfR/riUJmblligr0+DlT3RLfhTVYysnXRuD+lgcO/4KhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WIlNWpRvNQiagD5PJ1KNa8BiVxUMfoI+XYyZg/Ce/s8=;
- b=qfKCPWV3MMhKu0h+6mYzYWjrirpHRm0DDqBh6HudKa83F/duQXbhZzVthU6bi6VBtKCNYA+AJ48CKtHglQfaEPwkKwRF9O4CGo520DuksOrw9im2ErPIDVKWCu24s4O0sv6HVOD6fX2kloqXT6+WpwnQPsiv1qocHbqWqG1muB0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by DM4PR17MB6293.namprd17.prod.outlook.com (2603:10b6:8:10b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Mon, 19 Dec
- 2022 16:12:41 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::3299:1f35:894f:69df]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::3299:1f35:894f:69df%6]) with mapi id 15.20.5924.016; Mon, 19 Dec 2022
- 16:12:41 +0000
-Date: Mon, 19 Dec 2022 11:12:34 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, alison.schofield@intel.com,
- dave@stgolabs.net, a.manzanares@samsung.com, bwidawsk@kernel.org,
- hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
-Subject: Re: [RFC v4 3/3] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
- and Persistent)
-Message-ID: <Y6CNcuIzUVmKL0SM@memverge.com>
-References: <20221128150157.97724-1-gregory.price@memverge.com>
- <20221128150157.97724-4-gregory.price@memverge.com>
- <20221219124211.000032b7@Huawei.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221219124211.000032b7@Huawei.com>
-X-ClientProxiedBy: MN2PR14CA0003.namprd14.prod.outlook.com
- (2603:10b6:208:23e::8) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7InC-00042X-KW
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:15:07 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7InA-0005H8-I6
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 11:15:05 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id c13so6598511pfp.5
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 08:15:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3F+vUCbanK0jr30yMko/eIZnLrc1z4dF1HGYjZSQv4w=;
+ b=WCAyRXktjqzgTGwXrIG0yEh/CDl5/+ct82cdKZAUdcc8lYnQkmdXwqsQLRxVOszzZ5
+ 1zvrS0xd0UUfCgDYFp4Km0aZeDDvcKirlCSY4+WUXkccmtkIPs2fRjPaUGmXCgEevjcn
+ B+XufSdv7wq57jgLWipJpEkyHdOxxc6EbaNUAvF5nypZsB4gb7YOllPhQ6mWud7oN6EZ
+ MBG+d0KS0GxsNKbqLA7LfzQUjmUs6sGQen0dIOYpmlfScKg1aXndSiVxS+K8DbY9YHWs
+ JE+iES+0EvnlBT8mXESqwQedRe3oiwXF6gDZWmmFGW39jQmC33k7wyHOfKcUzngYSSck
+ 4n/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3F+vUCbanK0jr30yMko/eIZnLrc1z4dF1HGYjZSQv4w=;
+ b=1asvZ0xrEdnkxfzPrOCpqFRGMCENG/Rw7lXwTqd37pR+fPqUvpmHhfjdEzWdGB04tr
+ nCjcYjdQVxxxWclKS1iwEFeJAXDe7S6d0VawjZzw4mHGP0GC1T3Snu5o14veKksnUEVr
+ M59M3mXMBJesk4iYX2W81M/W85SHiFzbwJrE9jJc1KWugXKQzYiEBnZUGXi78f13snOA
+ b3zCfJ3PAigRMEF5PkRROflZ2FIXJOx8waBS6LfQUaLA4oN9m0X+06/RJw9ofDJgC/Vf
+ dN24dyPbM0r0aJI2uhI0fHo+wEUUOMD+wE2pd2cWrSDR3/pxq0XD2aXiOln2yT5C+vvi
+ 6/MQ==
+X-Gm-Message-State: ANoB5plovzV+15LIfjwUzymIsIr5TCyJfPjg1fPwa4E6tfCrtExb7E/b
+ Hsr0Gt6/xDUDcR17yru88ZC2iCgXsgaaqxaw4DfG0Q==
+X-Google-Smtp-Source: AA0mqf6DFPM92yOBhQSEFxJympArvAPVDzVqmjQPfMQ7A5UCxMEq7nYCDJMjDFs78MK1ysMZ3Etfv2zcwb3JIPEh8XQ=
+X-Received: by 2002:a63:d20d:0:b0:479:18a:8359 with SMTP id
+ a13-20020a63d20d000000b00479018a8359mr6665945pgg.105.1671466503097; Mon, 19
+ Dec 2022 08:15:03 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|DM4PR17MB6293:EE_
-X-MS-Office365-Filtering-Correlation-Id: 588dac1c-5e18-443a-7312-08dae1dbdac2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dbMkEYwRRNHd5V2Mw2MewWMmbcFohBe9XZPCplhJ52oiBhohAkqfAJcewFMlmIAzpPPG8Av/KyVv7sflHMFUgmBUv9nP2GJZA0t9LGCNZa6FzHhroQlWOE3MA330L+5Wc1fCOVMxG5b2j5ZPQrj1If7LQ1yzwuLJ4xs8PLQAnYl9hnuaR50LGXijx5jK3AalPJnpUNoh3SPzDCIY3cxFJSY6SkxK6wjyfhGbtD9uoeQn+mcQH87fahr9pLUcKrYMg4xbbKwWBMw5LAp1sWUpyzXqceNkhdTza7jr70jwWHGIF1Hpm4YA5064XPMtbFCBgGeS3GksbAnWfb5sdo7g3PLTojAEQOOGjCubJBANRN2RGUCR5V6ZFQ/LvYJgZUoXsHrOpEoXndXiafrlRdApn2XSpYKoZw9RObHDy1Wmq8+aX5gFUcMykMt6TdKZEz6UYB/0nroNmrPXzt6BXyOSMPmgSxCtk2EFtc1gPBiHUjImEhc5/S913+F9rMIDOUrNkJQnPVFO5HJ4IY1usQukCdyBFod60GJaZ7FwJsRxGl3lJnxpYXH1vY/dxI8l+fm04U6+khxAFRCGv/jsU+Vgf7Nw8Lft/diQHyZaVuHdTJRk0FmSiQFYI6xR/khOCqz9VD5dL3JZhi4l+Ho8Iw+dtw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(136003)(376002)(396003)(366004)(39840400004)(451199015)(2616005)(5660300002)(7416002)(6486002)(6666004)(478600001)(83380400001)(6916009)(316002)(186003)(4326008)(66556008)(66946007)(66476007)(8676002)(8936002)(6506007)(41300700001)(44832011)(26005)(6512007)(2906002)(86362001)(36756003)(38100700002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?T+BA/j9LEKHdLR5jslh2McSKTp23ZvTtMS5Cnf17Uyj9yaY8Oryl0TgltMhr?=
- =?us-ascii?Q?Ni9NTbcW/nm29gYZzQLVDXueGxAyhKE9kmRj1Wa0Q5N6E095e1dQUSLYsk2y?=
- =?us-ascii?Q?51uyxqFk5dB05/1MGJvYy8GlplD1w2XaLa4ySh4wH4HSwCzIcFuOnwW5D+V5?=
- =?us-ascii?Q?dkoVUwbdzFjNIyELaAjRzAnftQqm8znV0a2dWM1A+YvVRzCoGqZ3eTF9GtmG?=
- =?us-ascii?Q?EG/wNEYLcyPd5jUBJAA/9g499LOdCQ/vBzE3F0fqnUZY4Zo3THGun9xHLLWB?=
- =?us-ascii?Q?iTfdL8rCCog0crZajp2XIA9g8nVSfGwowragphANgG7d73wnQ9PXzc5eDlB9?=
- =?us-ascii?Q?ikGIWczESPH1n9EfwSuxeuy2RDbubyyjz8xfnlJne3VOiL0anXsrjg/UT2uD?=
- =?us-ascii?Q?uu+AdhvJmHQkeY4MFMNtkECbjvj3OxtNtHj8hMejlv+2Cl2Pa8qow6SgYqUU?=
- =?us-ascii?Q?MljNVg+liGz2fIzfhZXJvOzcXe7jiwHmKPLrs1uKlgmfchhH7IHmXEdADHAJ?=
- =?us-ascii?Q?RquIjo9Cb4UyyYHUQ93XjEOMU/GSuqhbLo/PgDcyzQOPpk3Wu3EjgP4MrdDT?=
- =?us-ascii?Q?JjizkLQWHqSSpMm13+DRPXogku/q8eFM3Zt70RGNfSCZRmfETkA4VRAZaqS6?=
- =?us-ascii?Q?KsJxxX6r5uv6QsjQ6KxQON4j1S0kpotLursYwnQNBOUG4WaZUf3PAaEevFC4?=
- =?us-ascii?Q?qXlezia3IHMtL4Hio9CiVzrEbAklvE0vbm8cx+Pp+bp5b/lmQf4WdXCvH3Nh?=
- =?us-ascii?Q?3NLF+mS835ht7S3UACjS608tBQBUiCEmR/AiODkJqrkTE3f4+4NREdISoNJR?=
- =?us-ascii?Q?4BfW4QGnkrCc2Ye2H5+iBqTwgFpMHmGm7IEF/kLBnWXhh5CmR9A6Ps/jPi1J?=
- =?us-ascii?Q?mcCJiyLM4GxeihsHYuQEpt6Sofwq02bv0J2RXHYDUjSKGdKo26gMgpWUVBAl?=
- =?us-ascii?Q?KtQRD2tkuKhTFNSKFezusQapCvytj0mdHIxOguaV98vSIBnTdqMmg4PMUoOa?=
- =?us-ascii?Q?J8iDRJGiurRsoOa2OFSLYBVC4lEWeU60mQAaPbcMhhCnu2og73kixh5CCZgQ?=
- =?us-ascii?Q?c2ogv3Ww8leXGeZrqRQXrFpgX4vYiZG4zS3+sJPDd843s6nVlP18n3OSgieo?=
- =?us-ascii?Q?EsiVjhCicYTvuAyknCC5wQ5FwxEsFyZVmWfaqXbIf089zUpmHDo2Gk/NblIU?=
- =?us-ascii?Q?PTN0c8mmHXPpMSH3wrSUJW6nrzv+7PTJb1JoZf3uh+OidnozfJkixmxBsNrZ?=
- =?us-ascii?Q?aMQZAybBZTubcWTvLWoPsOiXrOsQPYpQjWJiWqqGrTwofWD7J5R++AqWQx3V?=
- =?us-ascii?Q?aPgSGJfzbyRucJUcYv0o9ob4nkKAqffSQh3cf8bSczAOykzz+6scyLVugoBL?=
- =?us-ascii?Q?5mbqctRv/pPq9Q3mI7wKbvNgXLBy6OE1ZishtQyLOu4d1kqZFODUt7+dzjCI?=
- =?us-ascii?Q?Foc1qGKKyBTyRhvKkVCyjyJqnLOzg3i9fz68eApTYSvvw9djQVBvIKJZqePR?=
- =?us-ascii?Q?NgRwcu7XREBYBCn/v1WGJavNT7AxBTZRDnU+HaMf6oYwgyqkdfBTNLJwQPer?=
- =?us-ascii?Q?CjIV0Vn8YarCtkgXmpaMi/WGxu3MYMmErSWaCVi6NnrCpjMk1uKGgdT9CwPh?=
- =?us-ascii?Q?8w=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 588dac1c-5e18-443a-7312-08dae1dbdac2
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 16:12:41.2797 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e5yOymBQD6Hir781vC6hCIhcYvjV9EHtdNMWCX3oBVuOqZ6upArf0Xmm/sIu4SHM5RKSjC7li5RBsZ/37OcXmglwrFacN6QTtHqxeq9c0Qc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR17MB6293
-Received-SPF: none client-ip=2a01:111:f400:7e88::62e;
- envelope-from=gregory.price@memverge.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+References: <20221207021322.16165-1-vikram.garhwal@amd.com>
+ <20221207021322.16165-6-vikram.garhwal@amd.com>
+In-Reply-To: <20221207021322.16165-6-vikram.garhwal@amd.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Dec 2022 16:14:51 +0000
+Message-ID: <CAFEAcA8Rp39A1VESBmid3vAdgJ6_HvnydsZts-f0KWKyBcy5Yg@mail.gmail.com>
+Subject: Re: [QEMU][PATCH v3 4/4] tests/qtest: Introduce tests for Xilinx
+ VERSAL CANFD controller
+To: Vikram Garhwal <vikram.garhwal@amd.com>
+Cc: qemu-devel@nongnu.org, francisco.iglesias@amd.com, 
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -140,97 +86,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 19, 2022 at 12:42:11PM +0000, Jonathan Cameron wrote:
-> As a process thing, when reworking a patch I picked up for the
-> CXL qemu gitlab tree, drop the SOB that I added as it's not relevant
-> to the new patch.
-> 
+On Wed, 7 Dec 2022 at 02:13, Vikram Garhwal <vikram.garhwal@amd.com> wrote:
+>
+> The QTests perform three tests on the Xilinx VERSAL CANFD controller:
+>     Tests the CANFD controllers in loopback.
+>     Tests the CANFD controllers in normal mode with CAN frame.
+>     Tests the CANFD controllers in normal mode with CANFD frame.
+>
+> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> Reviewed-by: Francisco Iglesias <francisco.iglesias@amd.com>
 
-ack
+> --- /dev/null
+> +++ b/tests/qtest/xlnx-canfd-test.c
+> @@ -0,0 +1,422 @@
+> +/* SPDX-License-Identifier: MIT
 
-> Still no need to post a new version unless you particularly
-> want to or there are other changes to make.
+'/*' should be on a line of its own in a multi-line comment.
 
-ack
+Otherwise
 
-> > +Deprecations
-> > +------------
-> > +
-> > +The Type 3 device [memdev] attribute has been deprecated in favor
-> > +of the [persistent-memdev] and [volatile-memdev] attributes. [memdev]
-> 
-> That's not quite correct as it sort of implies we could previously use
-> memdev for the volatile case.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-An early version of the patch explicitly errored out / warned the user
-if they attempted to do this, but that got rebuffed.  This could be
-added back in.
-
-> > -    return address_space_read(&ct3d->hostmem_as, dpa_offset, attrs, data, size);
-> > +    if (vmr) {
-> > +        if (dpa_offset <= int128_get64(vmr->size)) {
-> > +            as = &ct3d->hostvmem_as;
-> 
-> As a follow up it might be worth exploring if we can combine the two address spaces.
-> I'm not keen to do it yet, because of no simple way to test it and it's less obviously
-> correct than just having separate address spaces.
-> 
-> Would involve mapping a the two hostmem regions into a container memory region which
-> would be the one we use to build the address space.  Advantage would be that we wouldn't
-> need special handling for which region it was in here or the write path as QEMUs
-> normal heirarchical memory regions would handle that for us.
-> I'm not 100% sure it would work though!
-> 
-
-Originally I had tried putting them both into one, with the thought that
-since it's technically one device address space there should only be one
-way to access the address space instead of two.
-
-After investigating, the address space has to be initialized with a
-memdev, and an address space only supports a single memdev, so i settled
-on two address spaces in order to keep the memdevs separate (considering
-each region may have different attributes).
-
-This opens the question as to how to actually represent a persistent
-memory device that can be partitioned as volatile.
-
-Consider the following setup:
-
-device[pmem 512mb, volatile 512 mb]
-produces:
-    memdev(512mb, pmem) && memdev(512mb, volatile)
-
-But if I partition the device to 256p/768v, when i access data in range
-[256mb,512mb), then i have volatile data going into the persistent memory
-store by nature of the fact that the capacity is located in that memdev.
-
-An alternative would be to require a vmem region the same size as the
-pmem region (+ whatever additional volatile capacity), but this
-means using 2x the resources to represent the real capacity of the
-device. That's not good.
-
-Another alternative would be to create a wrapper memdev that encompasses
-persistent and volatile operations, and then create the partitioning
-logic on top of it, such that it can use a single memdev while handling
-whatever sematics only apply to each individual region.
-
-The tl;dr here:  Going down to a single address space would probably
-require writing a wrapper memdev that abstracts away all the
-partitioning logic.  Maybe that's worth it?
-
-> > @@ -744,30 +891,35 @@ static void validate_lsa_access(MemoryRegion *mr, uint64_t size,
-> >  static uint64_t get_lsa(CXLType3Dev *ct3d, void *buf, uint64_t size,
-> >                      uint64_t offset)
-> >  {
-> > -    return size;
-> > +    return 0;
-> 
-> Hmm. Maybe this should return an error, but then we can't use the uint64_t as a return
-> value.  As this function would never be called with !ct3d->lsa let's leave it as it stands.
-> 
-> >  }
-
-I originally wanted to do that, but I chose to keep the current contract
-semantics so as to minimize the change set.  I agree though that this
-should probably return an error.
+thanks
+-- PMM
 
