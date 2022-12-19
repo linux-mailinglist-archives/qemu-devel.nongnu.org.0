@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C5A650A2B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:34:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7443B650A32
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 11:37:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7DH7-0003Br-Nz; Mon, 19 Dec 2022 05:21:38 -0500
+	id 1p7DHP-0003L5-Vv; Mon, 19 Dec 2022 05:21:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9352c01a6b=bin.meng@windriver.com>)
- id 1p7DGg-0003Aj-Pf
+ id 1p7DGf-0003Ad-9V
  for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:13 -0500
 Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9352c01a6b=bin.meng@windriver.com>)
- id 1p7DGb-0007PI-8o
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:10 -0500
+ id 1p7DGa-0007Nh-HJ
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 05:21:08 -0500
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BJA0m7O003812; Mon, 19 Dec 2022 10:20:47 GMT
+ 2BJA0m7P003812; Mon, 19 Dec 2022 10:20:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=PPS06212021;
- bh=PfnK1WqiGbskdJNSZ6wJnL4YH9zuwz79hhHyJkZEASc=;
- b=VKD4Z+2B9IDPEdjmeccJ25DEVxFt2VaQL+iJ1hVrz6SYlrEyc0W4IQtjf/SPFzBPzzcs
- wV5cG+eXJUoHSQGSe3MvwcCqNkrPAMYonocBbBC2MzgoIX5viZaIu4eK9bZqSBSBsjBc
- xcd385/OKCfYcoTTrVoIi9/UaZfXZc/PGfmJ/inC9itoN9rMGZnFT6mU8Uh9jBprUA9d
- 2A4YzcJ3GodgWuDLhfII1+D1qw6vgeMocA1o27hM5DOC2MK7VW1Zs0ehXgV6iC4I71e6
- 04x9xgQJKMNncdHSgdQ3q9VpHfc7JqOZ9abTSuqpe6yvSyR/l5CUFK/MkBYr71ZYmYbn OQ== 
+ subject : date : message-id : in-reply-to : references :
+ content-transfer-encoding : content-type : mime-version; s=PPS06212021;
+ bh=3J2NROZnClrvuX5c5BEezlgW8s+8HRmDzv9cpo+LHXE=;
+ b=TWuxxvnwCzYLMsDojYpQhsFVoJK6SDsaT1NtvEPgZ7oGlZ4PMC0/KQWvmZYsWIPo+Tr1
+ A+I8x30R4TFs6auJJ3y0v3FuzwuOiB5naRoKsdM3JjWG5D96I7IudTUdwpWjGa1Il/E1
+ 0PljYdC3W+z8pGe5ee/fHOlFYhQCobYgK84vWq5UtJwlrDNxR+35zinJo4CajGpXr4dP
+ jYG7IisNuTFe8Qi7QxZzi7kL/Bt8uAzEqkzhRsrqOwpGOU3XN1HLcazWskruzsR74J+4
+ Z8aAD2dv7Fh37qwF1EhMvJBEs/0Izgc1g525yvUnVl/Kimv5XNCaQQmeDph+DuFOdCty EQ== 
 Received: from nam12-bn8-obe.outbound.protection.outlook.com
  (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mh301hdgm-1
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mh301hdgm-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 10:20:47 +0000
+ Mon, 19 Dec 2022 10:20:48 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eLN4pLeHE9Ur/6S8j1SAtajUfH7pTFkQBPBKbdM1i60y6HwFIj3qgPMoqziwL0fP8dRd57AmnRkDsGJcDPB26iprqq8DQadhqmx3HBqv9O/6WUFegoP5PC19SnVlEafWVk8iXCE5HqSA0KYo1qToNNdMsaAh0lllWoia8R8vavi0Okno2+bUuLfWyDzpPP+gQGiNh8+/HkZop22eT7fzJDhTZCdGxMbHJ/36CGaRdEl/mjVB1Q/ChJQl9R0WmoJ7zsdqM42JgT/r5h15CSbEYV9jZ9DH93vNhXicGMtsRuWVLhkpg5j54jicYkCU70aaHQ/2E9lW72zBPGHl/F8icA==
+ b=b3QDYyHGT8XP8Y//iauGY1TxjB/wKyKEY0mXo+VbzjJnWtsjta6CwfKNY2ZFjZC9fq2Fyboz3f59Bf843uWI1I6CQWSdMiSB5P+BcfSHv1sKivaJTPjgipVmKw/ppEH/eeCuEayDjcW2WFqp3EWwf7TjJvPFbEU0XoiVxZRwlGuMdXl5wfy/LF/SRzg9QYhyyotH97BvXgRAs/3BAq1F4FWwQO7GN5/pphKmKhTiHcaAVuNcaH/OOtKi6/bui4UINeuANav/lly1o1s0RzN1NbW7A6iPsRLdHc4EEvaMFlmpOrRHSP0kFe6vkpRzMlzwL6Y9tDGmY/yno8AELIC+Sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PfnK1WqiGbskdJNSZ6wJnL4YH9zuwz79hhHyJkZEASc=;
- b=cqp9/c6brjbj71xZ9fVWcU93ByamrcFYcbBTzX0ILM3MhDP0hv4sI4l1LVSH6cqos7cbx+9rTjww4HVJjmBxIicynuuQYfBG0DUO27tKS88zw3hVxYUh651tIJOeoJFxEPw8s+ZIHLV4mWfs461WFUiNFQ9Ra4HgmbXfb4p2qEGc5paoc7+Pq2cpWZHWeobA08/6YEAI9to3mDSnS/mwOxDyg5p0+Zy7p8Fc2EEGoSobWXrB2VHQACfPkClM79XVVFX6r6Lf3pt/yBJCnhNfrQwEfyipIyZdFBSQ7H3trj0LnHpd0ZYQ1KpEme+w8rZirUednZMZdjMFTUGYTO5DiA==
+ bh=3J2NROZnClrvuX5c5BEezlgW8s+8HRmDzv9cpo+LHXE=;
+ b=L6eJ3YKNotJBPxJ4LnMUSLO2Ttv2gKwAmR7Z0rzM7Gcu0gDMMT0XVy9nGxpdpHj87JtkR67C4wE0B8Ty0hl5nDRlCokCrTJvKEOlZVa5jrVbGRCAG4CBeyz9gcm0ZBY0TEYqBnXDXQCY0yCkGyeL2HTbnwT9OpvQisYOkRKjqeRss23JcVwgJPYARryEyyVjU8575syVGln9bvsSbFRmr7isnd6LSnJ2a1dVfqc7rsGmNlo8MCql3O5jbqSA65D34XZs79uB/z1YORmJLuOpDbHlVejQFDzAvu3IJDOisa+dal9iO7rDtFt4RvyRg4D3813FAAmZyyS2SWuvUMJVWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,99 +52,88 @@ Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
  DM6PR11MB4691.namprd11.prod.outlook.com (2603:10b6:5:2a6::21) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5924.16; Mon, 19 Dec 2022 10:20:44 +0000
+ 15.20.5924.16; Mon, 19 Dec 2022 10:20:46 +0000
 Received: from DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::8e5e:71da:1e29:bc15]) by DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::8e5e:71da:1e29:bc15%5]) with mapi id 15.20.5880.019; Mon, 19 Dec 2022
- 10:20:44 +0000
+ 10:20:46 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
  qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Will Cohen <wwcohen@gmail.com>
-Subject: [PATCH v3 00/17] hw/9pfs: Add 9pfs support for Windows
-Date: Mon, 19 Dec 2022 18:20:04 +0800
-Message-Id: <20221219102022.2167736-1-bin.meng@windriver.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Will Cohen <wwcohen@gmail.com>
+Subject: [PATCH v3 01/17] qemu/xattr.h: Exclude <sys/xattr.h> for Windows
+Date: Mon, 19 Dec 2022 18:20:05 +0800
+Message-Id: <20221219102022.2167736-2-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20221219102022.2167736-1-bin.meng@windriver.com>
+References: <20221219102022.2167736-1-bin.meng@windriver.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: SL2P216CA0158.KORP216.PROD.OUTLOOK.COM
  (2603:1096:101:35::14) To DM4PR11MB5358.namprd11.prod.outlook.com
  (2603:10b6:5:395::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|DM6PR11MB4691:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae89be57-e01b-402a-4c48-08dae1aaaf09
+X-MS-Office365-Filtering-Correlation-Id: 4e128311-314d-4c1a-bcfb-08dae1aab17e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 63XmDPqBs+Kr3C7Y+vUOWMO3jkP2kY+udg6PJFNqS+NTfsLNQTNB8IP+7b0CznEDHiRFf6CxMigh2OpOcfk9kazITbGbCm6+S+rj6+DdqhZSKx6sb9HIO5odvQUX4c3Y3dTTWOItCeLzFjpK6KnH5Aig5HcxRXDBfSbCD4mVZEBKh/uCi7ARNx4quP2lowc3RHC/5Ydgjcb8SkfbjR6uw6LXsxJoZwt8MMD1LjIMKYlUUaus3awoGD6S4c2dDS7mi//i74ggcl7p7gHRG3Mf0eYBl7i0X+C97gsVpy0/K8HibCV/wWoyIbcYQuS3ILtrMU27KY2RfeFo4k13OEevBy7dNXQWZsB5IsENhVTZsQek18bUjbfaGZq64WCxVgvc0HW43yJLkMQ6upXGqJZnRzKN4jaGGsAv+NMGKPU5R16odu5tqvjZdIMu2xlcHN3U2D5bcRFA9udbOr9GeVRbgOBJBuWuBK39kUhTL3N1MCOBERiVzdGJNC6UNSaoyA64SQ+We11OIyAEok53SpgKLhRlf9lMBkMxCWWuqa3zGoVo7rUaIGVLBKdwX387DsH54qYXHNMd3OJ1vuek2kecrZgnRy56aH4tvcskDsqiU10nPbRht4bs8egeZ7M1cpZ7ebhKG8r+pL3LokxZdMj80wk0XgjgDbuXhxCGvk4o47d8MkKRL6oTfxtzKc/e5vwVsxBQ6gKJMg/0UfrPJrQ83w==
+X-Microsoft-Antispam-Message-Info: 59wDUlhYi4CVIKr97v19SHfKAX6XI2KupiaxhpH7FDMdF7Fn2NN6nFzJWBzSvshaHqyl6+K0Swq1LrZL7omnUREkimErPouChH1RSHYlKGbfSo8rtvagll0QdjRhEDPzu2k42ijzPeyed96oQ431X8XqxCJ5a7DLTXYU3BVYk7Zv6ayZGDAJCDAwM8hQTSpgNAWOX3QzgkSzYFtutZaEwJHR8F8z/yzHupv2oWhkpNbnOkUZS8g5P7mopk/cdJnAAN7WFgFdvFHGVFDuUCOcT6J1UqoBGCQU93cU4Tt0/gNpREDRWvZvVBp29uqSfjRNZI+w7m7bScgY8y6gYwfnqvJBZ7FNYNNgARPyC2dsz654nHjYwwbkAsiQ20sPDYPoifKK7gKhF8Pnte43YFF92IUGebbTOIDCDCu+ztdmyqr/wL3J60W3yIB2DJblEEXHeoLamsVyUjCL7e01Z/sc1K9D4DZL1Q3pZ/3N6YTGjuyLmW4RKRSiDHKL+LHAu2e50f3tqmE2g3cd5Ag934VjU+Gm2em78qcOq1bjTfmvn5BDNTjuYM2E0CMUQqiPdxugvsSdhhwBVBrcGTb4r+dR/i48vc774wL2tQIkn7CgKKnYtwOoCglpcQq1edC+1dR+73/TxGM28dENdTnnZwAKuoKHfyctakTMXaHOLxY3jlbyhQPEwMWVEWSbQxb0KR4rGiRgm74Xm7Qvq6TLtLOgaQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39840400004)(136003)(376002)(346002)(366004)(396003)(451199015)(5660300002)(6666004)(8936002)(83380400001)(186003)(26005)(6512007)(44832011)(2906002)(41300700001)(36756003)(6486002)(110136005)(1076003)(38350700002)(7416002)(52116002)(316002)(478600001)(54906003)(4326008)(38100700002)(8676002)(66476007)(2616005)(6506007)(66946007)(66556008)(86362001);
+ SFS:(13230022)(4636009)(39840400004)(136003)(376002)(346002)(366004)(396003)(451199015)(5660300002)(6666004)(8936002)(4744005)(83380400001)(186003)(26005)(6512007)(44832011)(2906002)(41300700001)(36756003)(6486002)(110136005)(1076003)(38350700002)(52116002)(316002)(478600001)(54906003)(4326008)(38100700002)(8676002)(66476007)(2616005)(6506007)(66946007)(66556008)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OFo0bE05YmtEUjM1NlYwdng1WGhiM2I0UFE2L2FibDlOYjdtV0VDaEg0dklv?=
- =?utf-8?B?cCs0akJyRVFEOTEwYmk1OE5ZT0s3ZHZhUExUaFdqb280Sm9ZRlNQaXFGczRH?=
- =?utf-8?B?eDVQNlp6c0hzUW4wSFd2Y1V3dGk3cExWV29PRUNhUDRuS1BjQTZMWGZuMDdk?=
- =?utf-8?B?ZFJZWXh3SHBUNHNEeVZjRDdKRTZPRFhwNnIyU25EaCtjSmEvZXVxZnJad0t2?=
- =?utf-8?B?c2Q0QnBNdjh4eHV1bjREWUF5Rk1Ia2JaS2VkK01xbFJRcnFIdmx5MWNHaXRt?=
- =?utf-8?B?TVV2SEFoTDRMSjhMclVPWDJwNkJETzg4eXNoaHRIVWhkWlFoZnMwMzA2S3Yx?=
- =?utf-8?B?MUttS1ZiaHBPNGdJdEVjMkRJNnRsWmI4amE4akdSZ3R5cVhOUnVHTk44d1RM?=
- =?utf-8?B?b1Rpcy9TSWxuVEJ1QlFBZ1cxcnFybFlqcVA3cjNCRE5IamYwaGNRb0M0MmdM?=
- =?utf-8?B?ZmFKY2ZPS0gzYk9qNlh6Q0FaaWp3MVpoRmlmMTRZTkNyY01EYXI0dzRxYTRs?=
- =?utf-8?B?MXpzbmJNcEd1Sld5NytSbXY0NWZ5Z2YvdWlxSERHeThpUlNidDBCT2FsZnRF?=
- =?utf-8?B?SmNJV1Z6WXF0SlBpVmRzZ3hrclR4UG5HbGFaeFNuY1pYRldoS2RFbzg3bXdn?=
- =?utf-8?B?ejhpNWF1bDdXL0ZiSG9STUptSXdpVEpMbFpNVmpMQlRXWEVJVjE5MElkSmNF?=
- =?utf-8?B?dFFlY2I1N2xZWmttcldqdDZGRTZvY2ZwaEZpVjQwd3RBMG1KYnVmamorSjlW?=
- =?utf-8?B?OFlkbndNbVRTRW1rak9qWTkyVm5uK21NU21McGxqdEtZYlZCTnh3TU15dDBm?=
- =?utf-8?B?Y1ZIRkQzWDhONDdsNlpYOXNTYXNnSHBQT3ZrT0huUStnc2lqK0szRWZmcGR3?=
- =?utf-8?B?bVBsRGR4dll0YzZDcVNrN0NXTXp0NzE0c0I3eWNNUFd3UzFoVjlGTW54WEhM?=
- =?utf-8?B?bVVXUDhTMUpHZm5uenBXSWRDVGt2L3U4MHAyRzJEZGY2eHIrdHBRRko0bkRD?=
- =?utf-8?B?d3R0b0NRajdrdW1vSmlOZnREVkNFaWN3VXFvRVV2U3RhZFFzSzI5eElSRDU0?=
- =?utf-8?B?WVV6djRiYUFVa0lyQzRSNGNiRGY0T2ZrMzlPWmY2ckptNFFSVCtpdHdLUHFv?=
- =?utf-8?B?U0ZwQVQreEJ5YzBSNkd0NCtHTWtBeW9xcHVYRXh3ek16YmpOZXZkbHh1cTdZ?=
- =?utf-8?B?Mko4c1N4WjNsaFlVMTVka0Z6QUhiMWtjWUY1R0VpUG4yRWZONlppTTN0Q0l4?=
- =?utf-8?B?OHJGbzY4a29JUlFDRmxBTERXQyt5UHBneDNIMktsVGR1RjVpZWw4emFjczUw?=
- =?utf-8?B?cWM5enNjaVJRcGRWVmFKaE9rdUdxSnZQcENRSmg4NWN5L3JDM2UySVRHeU56?=
- =?utf-8?B?WXRxVEZkTWRhYVEzMFhsS3dNODNzdUNFMklDVDZXRXRKT2JIYzJ2ZDdtL05n?=
- =?utf-8?B?TytsUUV3cGdlSjdkOCtqWStVMzJPdUZ0dmEvSUl5dmJKbTJXYXUrNTZaV0Zm?=
- =?utf-8?B?OUovL3FEdUFkK3hIUlFjaFR2bE52eVVSVEpNMlFlZEVhVHhWZmZmT2lrUjFI?=
- =?utf-8?B?VXF2WXdIcnk4TzhMeG9NS052azJNQ21HeVNZQW40VGViL0ZiSHo4RStLVW5B?=
- =?utf-8?B?OFNoWXBRSjBUUHpkSTV5WURZbjZabWNIQlVsTkhIYkFxU3E3YnpkREZtRVpZ?=
- =?utf-8?B?SnlnUEh6cHdXM2VNTW1vdVJIUlJxWnBQWUNITkp3bVhtMGNnRGFCa01OVGZk?=
- =?utf-8?B?NTJnTXZUanVJMXpkbndaWTZ6cWxVajMrdjVBYll0TDRobVdUbjk2SVFFR3dz?=
- =?utf-8?B?dWtYcXpSODRmdzJ4NTlTVXVEVldnSjJlaklVelNSWldQU0NzVGJsWTQ1T1kw?=
- =?utf-8?B?UVBCSVowRFd1NzBBV2M3OHNBSko0SDlNcng3Y1ZuRHNXR1JiZTEvdGtVQlFw?=
- =?utf-8?B?dmI2QUxRRy9RL3VYRTFyeC82RmFJT3ozUmtyUFMxNlRNcERvRW9IL1g0aWlE?=
- =?utf-8?B?TnF0OGprTmNWZllxaFNqRktVSUVySGlTNCtITFovVWpsWUZFUlIvU2w3L0lD?=
- =?utf-8?B?QkZRNWJPbktTTTBvSzRXdElidDF5ekNPYUY4dlZsNnU2LzdzSU9sSXRlN1N6?=
- =?utf-8?B?ZUJtSVd6Tk5wbUdsWUxvRkRmd1l0L2tTVUprdkhxMFZ4NXBQUE5NRGtOam5O?=
- =?utf-8?B?anc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R0Rv2/Wfex3fg7LHneig8YlJNf/4RnHfCTX8+mjq3Y/k84+8MbOUOMkGrZJu?=
+ =?us-ascii?Q?Ym2w843BFJ4b91fd64m2HU4vV6S7ooDynievX+eQgno15Gdgt4DMSmVaS19i?=
+ =?us-ascii?Q?0NoQgllxUoX3hXniDAHT+ztECu7KdiQ1tDkz/y4oF0MKRlrDNzBKkSNDN7fJ?=
+ =?us-ascii?Q?p0h4OMR56wc1tNE1sbI0F6q5IU8Rx0YG/MbvvVrsoYfrFQl3tOQa0Sd319ov?=
+ =?us-ascii?Q?/vZmC68R5BLLyqwAWJ3Ehi2B1uy7IerTH9rcjUnKYjmzdnWGa9hEA3xaP2c0?=
+ =?us-ascii?Q?Mvk2lGND99NenEkNcPPu+f82e/nIpGFHm0G8cDMp968sJezsLn7oJVksz7FN?=
+ =?us-ascii?Q?3Ih7n9914KX+XxbHnZZWQKwlMb7dinlPbnuhrglFnpNQi81Ny+dhKiEeb1ZR?=
+ =?us-ascii?Q?8TN2qlQuRnBESgze8741JWyPIp1fkRzOlXqG8rhPL83FaUvnByXqY77QAKwI?=
+ =?us-ascii?Q?MQ9Vv97kiz54Vl/pQ+rdIMRixtmbiaINpQQkizP5zUXOE16ccjRlQ6jfG1Rs?=
+ =?us-ascii?Q?1pIHfEykGXVUzz2ZZr5QJB5ai1fb+YuwTwt0IUV1Agbmjtq4yoKP1NvD+vJ/?=
+ =?us-ascii?Q?4WwGr+sUoDXeaOa61N7utzyAKWzGdGRX6XjIV9ZAaUgkpCmg1dKz3wqOrH1+?=
+ =?us-ascii?Q?j2IWGGDiPlLf4oiefhtnJtmOUni8RvHIf8fN6Wlm74STuBMu1+ScKgLmvyi/?=
+ =?us-ascii?Q?jzlSQKEnSqPrx4k8NWgBpX2LOGWP2Z0gVfJ6yjVOGI0tyTGW0hQ8U3oIX0yM?=
+ =?us-ascii?Q?CVHRVsnfo25v/F4gnSDtyN4tcdmKM4y+fwbJhKZIAY8KS/AOxjN7rM6KwrZF?=
+ =?us-ascii?Q?96GpG7U53lbl3brEIQLwM0Xq/kkqn8M0bd9PdGszKZNQLOnWDbbN0tpNCxLF?=
+ =?us-ascii?Q?k9f88+ifdjxJSkUju7M0jHeBW34wJN06MFgGD6g0ZJVfjQS/TSlUf79OUdT0?=
+ =?us-ascii?Q?4NGtu3oPaTChpvSFxFFaC2+/I5uyr3f40wdZrcYXxV4e09QEzDAeWOE9ndTy?=
+ =?us-ascii?Q?MdtB16+puN6btSzcLFlD7SQaysEV0L1SnkcbwOiML0TLyT5il+/SBcrLMFjU?=
+ =?us-ascii?Q?JG/GOB8Ap1cSC3Eszi3LG5zZmxeOLGiQNhO/845g32V+ZxpRRnpWrAMJc3ie?=
+ =?us-ascii?Q?DsmJpovntD7qwaoitdxlo9zPTqrFL0v4uhs5LHyaNGXXxgmmyeOILOkgIbNv?=
+ =?us-ascii?Q?ANuoOb4sGcHC/PXQJPpsTOnofDnF+7btMIVrpl/cvIvH5GZnDJh+Ow14dQvQ?=
+ =?us-ascii?Q?Xl8dQiJuVcD4g1U9GbKgCcvHbZ+RC8AKwfIB2OUVO7cKjwFxmCBiw41pzaRX?=
+ =?us-ascii?Q?vgRdON3bZuUHilTjetnV/j2LEplYkPjbyh46LWIbyFT3nS7PXamGJ06d6Ez4?=
+ =?us-ascii?Q?r2Une2MWOM4DVzbZlTc5nQ4erewHcbQOsMDBOFdYlnt+0qWNc0l3rbqv64fd?=
+ =?us-ascii?Q?jETrydn1AAO530tzMfOv6tgSmY4IfQos+bD5Zv1ElMoCKPdliEPu2QvHr7mn?=
+ =?us-ascii?Q?Omu0IBLZ1LN/p8tFCIy7mxXYLE2vtFvaYt3V8YUSp7Zk6JcXLq6ZEDgmEvKR?=
+ =?us-ascii?Q?VPzZoMIJNEyCZ3IfUqOXE5MoQx263E5Y5cCqJNvSjzOzJVi7pSaUkMi2wm3G?=
+ =?us-ascii?Q?pQ=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae89be57-e01b-402a-4c48-08dae1aaaf09
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e128311-314d-4c1a-bcfb-08dae1aab17e
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 10:20:44.3980 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2022 10:20:46.8360 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SBemd7Q702bhMiskrfhEOy+gZAJtPzxUZl2uuxuR1bCDVvIRkWMWsZhWPyjO1BFsVTYRRIQT+h0piql6YrtatQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 03vPqkrrOSi0xFKJiRfWVxFS6bllS1x5MHYUQT34Z3u3jV4qM8EQQVenxBu0LNP2+fWKRsEkiqbBW9XuAlUDxw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4691
-X-Proofpoint-ORIG-GUID: uieuM0NZFbcgQW5kDcXDS85qka3nGeh7
-X-Proofpoint-GUID: uieuM0NZFbcgQW5kDcXDS85qka3nGeh7
+X-Proofpoint-ORIG-GUID: a_Embh3W71v1dyNB6qBa4aDQhfOLCnrq
+X-Proofpoint-GUID: a_Embh3W71v1dyNB6qBa4aDQhfOLCnrq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-18_13,2022-12-15_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
+ clxscore=1015
  priorityscore=1501 impostorscore=0 mlxscore=0 lowpriorityscore=0
  suspectscore=0 bulkscore=0 malwarescore=0 phishscore=0 adultscore=0
- mlxlogscore=489 spamscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=679 spamscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.12.0-2212070000 definitions=main-2212190091
 Received-SPF: pass client-ip=205.220.178.238;
  envelope-from=prvs=9352c01a6b=bin.meng@windriver.com;
@@ -171,65 +160,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At present there is no Windows support for 9p file system.
-This series adds initial Windows support for 9p file system.
+Windows does not have <sys/xattr.h>.
 
-'local' file system backend driver is supported on Windows,
-including open, read, write, close, rename, remove, etc.
-All security models are supported. The mapped (mapped-xattr)
-security model is implemented using NTFS Alternate Data Stream
-(ADS) so the 9p export path shall be on an NTFS partition.
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-'synth' driver is adapted for Windows too so that we can now
-run qtests on Windows for 9p related regression testing.
+(no changes since v1)
 
-Example command line to test:
+ include/qemu/xattr.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-  "-fsdev local,path=c:\msys64,security_model=mapped,id=p9 -device virtio-9p-pci,fsdev=p9,mount_tag=p9fs"
-
-Base-commit: 562d4af32ec2213061f844b3838223fd7711b56a
-
-Bin Meng (5):
-  qemu/xattr.h: Exclude <sys/xattr.h> for Windows
-  hw/9pfs: Drop unnecessary *xattr wrapper API declarations
-  hw/9pfs: Replace the direct call to xxxat() APIs with a wrapper
-  hw/9pfs: update helper qemu_stat_rdev()
-  hw/9pfs: Add a helper qemu_stat_blksize()
-
-Guohuai Shi (12):
-  hw/9pfs: Add missing definitions for Windows
-  hw/9pfs: Implement Windows specific utilities functions for 9pfs
-  hw/9pfs: Update the local fs driver to support Windows
-  hw/9pfs: Support getting current directory offset for Windows
-  hw/9pfs: Disable unsupported flags and features for Windows
-  hw/9pfs: Update v9fs_set_fd_limit() for Windows
-  hw/9pfs: Add Linux error number definition
-  hw/9pfs: Translate Windows errno to Linux value
-  fsdev: Disable proxy fs driver on Windows
-  hw/9pfs: Update synth fs driver for Windows
-  tests/qtest: virtio-9p-test: Adapt the case for win32
-  meson.build: Turn on virtfs for Windows
-
- meson.build                           |  10 +-
- fsdev/file-op-9p.h                    |  33 +
- hw/9pfs/9p-linux-errno.h              | 151 ++++
- hw/9pfs/9p-local.h                    |   8 +
- hw/9pfs/9p-util.h                     | 137 +++-
- hw/9pfs/9p.h                          |  43 ++
- include/qemu/xattr.h                  |   4 +-
- tests/qtest/libqos/virtio-9p-client.h |   7 +
- fsdev/qemu-fsdev.c                    |   2 +
- hw/9pfs/9p-local.c                    | 386 ++++++++++-
- hw/9pfs/9p-synth.c                    |   5 +-
- hw/9pfs/9p-util-win32.c               | 963 ++++++++++++++++++++++++++
- hw/9pfs/9p.c                          |  90 ++-
- hw/9pfs/codir.c                       |   2 +-
- fsdev/meson.build                     |   1 +
- hw/9pfs/meson.build                   |   8 +-
- 16 files changed, 1759 insertions(+), 91 deletions(-)
- create mode 100644 hw/9pfs/9p-linux-errno.h
- create mode 100644 hw/9pfs/9p-util-win32.c
-
+diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
+index f1d0f7be74..b08a934acc 100644
+--- a/include/qemu/xattr.h
++++ b/include/qemu/xattr.h
+@@ -25,7 +25,9 @@
+ #  if !defined(ENOATTR)
+ #    define ENOATTR ENODATA
+ #  endif
+-#  include <sys/xattr.h>
++#  ifndef CONFIG_WIN32
++#    include <sys/xattr.h>
++#  endif
+ #endif
+ 
+ #endif
 -- 
 2.25.1
 
