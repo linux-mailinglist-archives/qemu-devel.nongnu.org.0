@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD7C650E18
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 15:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA7C650EA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:32:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7HVD-0003c1-NW; Mon, 19 Dec 2022 09:52:27 -0500
+	id 1p7I7E-0004FH-47; Mon, 19 Dec 2022 10:31:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
- id 1p7HV9-0003a5-Rg
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:52:24 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p7I75-0004EF-By
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:31:36 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
- id 1p7HV7-0005E9-HL
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 09:52:23 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- b24-20020a05600c4a9800b003d21efdd61dso6597251wmp.3
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 06:52:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TmvDEkdrOVJ418IEXGxRUXtKSBw4KJWgCgo19vVoYs0=;
- b=C9LB3aPIDo52KK4pIRtzBGhnVoKvCnccObPPq0HXLs7xJ3XAjK0bhNKAyoW/rXWSvs
- W1SLnwi3DVS07bnORNh/WAhr8wQaCbpAw3rxAV7TKZMrf9VGlqIi9k38mRMtUoJE7nt7
- 9q3NtcBj5T7F48Nv66c1ta3Zuf3Cuy/gwcholI9BwSShWoO8E2uIUYTTyaUkGzz3WODZ
- 27xqBAO9rtZ98wlFVeOyDRdoiciXe0qZ5bSayrFLqq97i1wH6Ztx9VbBNlrsK0LYvcRw
- qMUR5lj1NrMDVv0KIAgMblCsx9eA7/WR4Fhrg6NYSwOnL9AkTOIlZZEWDgGR482+wIgJ
- V0Cg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p7I73-00055D-55
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:31:35 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ z8-20020a05600c220800b003d33b0bda11so5818758wml.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 07:31:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Pc5c+rt5SqAxDPTptGV/Nk/5/mKT1mgVUUw7sduiGX4=;
+ b=cSypAozGZvRBCORkqbfL+fqzORV8HAAhE/qevJ4gABWEC3+BEuf3Czm8O0Ho36aMnq
+ wyVIJlsOWsHy3XXAHLibSFcGi4BmGxbOdqpluVYepgA3a/SFhyahfBirC/5f6WddNwue
+ 5r4W0KELNR13tylUTTZfYtbYbGSxD6ZXRaQYhVMrhu1AujTBHQBQDsER/aIO2IimmLm6
+ +soJEBhc61ptm/sIwdvfJ+Qywq81U3t1U/clqWtT7IOZmNXlGpD0CTp2SBTqQnMhvhG8
+ PsLlwEooq1uyLGn/IUffaPL7nZsxzcZsE7lZ4jMlK6HEgQb+CA2P9fmLTU7rtiQ8WWYg
+ ltHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TmvDEkdrOVJ418IEXGxRUXtKSBw4KJWgCgo19vVoYs0=;
- b=OT06ip4Gu1UeQgqOIqN2UNDC/pvfu4RWvVAtCbiYhkcP6hPyTyMKM7SZftHyOtANxe
- pNAj4DRabmAvh7nqjFADLDKfU2w1w3SW/fdV9tbIoxRSaNWQY71wTHDuIDDC6CA88n/8
- j2JARyV3Rd0LPsLx86qdKMoiBOzqJP8Xy1rxSaMIYiRrsxjtvJCXeKb7nqEfyc1FL0ZO
- H76P0HjO9ZGH1/fmZUz+3DLZvlcA7nA3bbkQi1zKRR3oQAAiVo+vy1u3iGB5ENKAMjOQ
- 7jWjfZbr9llOe8YK/cILySKogePZDFY6NcwyD/bMKGNTMWyoIPu7+Im/Qx43+s2LZOgD
- cA4Q==
-X-Gm-Message-State: ANoB5pmiY7yzKiCvNsDHo19x87pNjve9f9Yrqx9Ss8l5eaqruTySod95
- EK/O9zmsrPL8KlQ8fR7bHUA=
-X-Google-Smtp-Source: AA0mqf6iAbo2HeUHSlzq3EUi/V4KYRmizjeb0KEuymlmtZcbyq4rFpFmEKR3cf4TkDq3ILf80YWbtw==
-X-Received: by 2002:a05:600c:310e:b0:3cf:a39f:eb2a with SMTP id
- g14-20020a05600c310e00b003cfa39feb2amr32718025wmo.11.1671461537201; 
- Mon, 19 Dec 2022 06:52:17 -0800 (PST)
-Received: from [192.168.0.162] (bzq-109-64-198-226.red.bezeqint.net.
- [109.64.198.226]) by smtp.gmail.com with ESMTPSA id
- m16-20020a05600c4f5000b003d358beab9dsm3888092wmq.47.2022.12.19.06.52.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 06:52:16 -0800 (PST)
-Message-ID: <5cb4db99-02c6-02a4-76a0-8761fd66a7fc@gmail.com>
-Date: Mon, 19 Dec 2022 16:52:15 +0200
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Pc5c+rt5SqAxDPTptGV/Nk/5/mKT1mgVUUw7sduiGX4=;
+ b=2IHu76qF349mzdajFuB/GJu0OLUFCNFSJt1Wg4ZuQ6k1UJlGzCOGxlXFZ676UtOLzI
+ VsLSSBqrFciLOujBJGhvO6tJe9THhAmURYAV0cIUGcc9qClicBx4CxHHBDKSrd6FgDN+
+ a4GxSC24AgIz+yv1dxDXDOGes/LYhfgUHBLoSU3WaGonPELHw7+QsmU37CQftL5elWZJ
+ QDil/aENUuuY8PMXpXsX4km+dY6o3Gw2S7qh6CyLzDNRtviT5LYY5PtCZdHVtWLaohR2
+ DCxtfDVKdkQlOHd0ANpmvM8Kqrb714R11rA071MqHq1+LHXiS8gRB0D55xKHQrpsBKrc
+ eXKg==
+X-Gm-Message-State: ANoB5pmYb8kAIlVWyAtojyDKtqtzlTzmZE+7Ka18BpYMffitHy1pwxf0
+ jR5L5a1W89dFKh40l00fFYhIMsnkvzoknHpT
+X-Google-Smtp-Source: AA0mqf7e+kECjHV5+LSiE81KovzKIr3QVKltCTJ1a70g3/uw3bxF5jXpcwQLaiod9X1yJL+/e/KWUg==
+X-Received: by 2002:a05:600c:3b13:b0:3d1:f16b:30e6 with SMTP id
+ m19-20020a05600c3b1300b003d1f16b30e6mr34259758wms.28.1671463891190; 
+ Mon, 19 Dec 2022 07:31:31 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ i27-20020a05600c4b1b00b003d220ef3232sm12085759wmp.34.2022.12.19.07.31.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Dec 2022 07:31:30 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5FC401FFB7;
+ Mon, 19 Dec 2022 15:31:30 +0000 (GMT)
+References: <CAE5MsNYXB_yFiD07FXf=KD=Zq74mQ9TCtSMBbZB9U-Vk1DE7Tg@mail.gmail.com>
+User-agent: mu4e 1.9.7; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Rowan Hart <rowanbhart+devel@gmail.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: QEMU Rust Crates + Plugins in Rust
+Date: Mon, 19 Dec 2022 13:52:50 +0000
+In-reply-to: <CAE5MsNYXB_yFiD07FXf=KD=Zq74mQ9TCtSMBbZB9U-Vk1DE7Tg@mail.gmail.com>
+Message-ID: <877cynl8a5.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 10/11] contrib/gitdm: add Idan to IBM's group map
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20221219121914.851488-1-alex.bennee@linaro.org>
- <20221219121914.851488-11-alex.bennee@linaro.org>
-From: Idan Horowitz <idan.horowitz@gmail.com>
-In-Reply-To: <20221219121914.851488-11-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=idan.horowitz@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,28 +94,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/12/2022 14:19, Alex Bennée wrote:
-> According to LinkedIn Idan works at IBM. Please confirm if you want
-> these contributions counted under IBM or as personal contributions.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Idan Horowitz <idan.horowitz@gmail.com>
-> ---
->  contrib/gitdm/group-map-ibm | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/contrib/gitdm/group-map-ibm b/contrib/gitdm/group-map-ibm
-> index da62fa3f44..24d8dc1b86 100644
-> --- a/contrib/gitdm/group-map-ibm
-> +++ b/contrib/gitdm/group-map-ibm
-> @@ -12,3 +12,4 @@ jcfaracco@gmail.com
->  joel@jms.id.au
->  sjitindarsingh@gmail.com
->  tommusta@gmail.com
-> +idan.horowitz@gmail.com
 
-Most of the contributions are related to IBM, so I'm fine with counting
-them under there.
+Rowan Hart <rowanbhart+devel@gmail.com> writes:
 
-Acked-by: Idan Horowitz <idan.horowitz@gmail.com>
+> Hi all, this is my first post to the mailing list!
+
+Apologies on the delay in responding. I've been mostly focused on the
+recent release.
+
+> I've spent the last
+> couple weeks building QEMU Rust crates to enable a couple goals:
+>
+> - Install QEMU binaries using cargo, the Rust package manager
+> - Use git-latest QEMU binaries in Rust projects as a dependency
+> - Write QEMU TCG plugins entirely in Rust
+>
+> The main crate is https://crates.io/crates/qemu, a thin wrapper around
+> the existing QEMU build system, using crate features to toggle
+> configure options. There are also crates for each binary build target,
+> for example https://crates.io/crates/qemu-system-x86_64. These
+> crates allow users to run `cargo install qemu-system-x86_64`, which
+> installs a small wrapper binary with a dependency on the built
+> binaries from the qemu crate. These binary installs run exactly as a
+> normal QEMU installation via package manager would, and essentially
+> just provide another alternative distro-agnostic packaging mechanism.
+
+I find it a little confusing that the numbering scheme doesn't follow
+the upstream. Is it possible to mirror the upstream version numbers?
+Does rust's semver have any concept of an edge or HEAD build?
+
+I tried:
+
+  cargo install qemu-aarch64
+
+but it fell over with complains about various rust bits:
+
+
+     Compiling nix v0.25.1
+  error[E0658]: `let...else` statements are unstable
+     --> /home/alex/.cargo/registry/src/github.com-1ecc6299db9ec823/memfd-e=
+xec-0.1.4/src/executable.rs:347:13
+      |
+  347 |             let Err(err) =3D (unsafe { self.do_exec(theirs, envp) }=
+) else { unreachable!("..."); };
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      |
+      =3D note: see issue #87335 <https://github.com/rust-lang/rust/issues/=
+87335> for more information
+
+  error[E0658]: `let...else` statements are unstable
+     --> /home/alex/.cargo/registry/src/github.com-1ecc6299db9ec823/memfd-e=
+xec-0.1.4/src/executable.rs:468:17
+      |
+  468 |                 let Err(e) =3D self.do_exec(theirs, envp) else { un=
+reachable!("..."); };
+      |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^
+      |
+      =3D note: see issue #87335 <https://github.com/rust-lang/rust/issues/=
+87335> for more information
+
+  error[E0658]: use of unstable library feature 'io_safety'
+   --> /home/alex/.cargo/registry/src/github.com-1ecc6299db9ec823/memfd-exe=
+c-0.1.4/src/anon_pipe.rs:4:25
+    |
+  4 |     os::unix::prelude::{AsFd, AsRawFd, BorrowedFd, FromRawFd, IntoRaw=
+Fd, RawFd},
+    |                         ^^^^
+    |
+    =3D note: see issue #87074 <https://github.com/rust-lang/rust/issues/87=
+074> for more information
+
+  error[E0658]: use of unstable library feature 'io_safety'
+   --> /home/alex/.cargo/registry/src/github.com-1ecc6299db9ec823/memfd-exe=
+c-0.1.4/src/anon_pipe.rs:4:40
+    |
+  4 |     os::unix::prelude::{AsFd, AsRawFd, BorrowedFd, FromRawFd, IntoRaw=
+Fd, RawFd},
+    |                                        ^^^^^^^^^^
+    |
+    =3D note: see issue #87074 <https://github.com/rust-lang/rust/issues/87=
+074> for more information
+
+  error[E0658]: use of unstable library feature 'io_safety'
+    --> /home/alex/.cargo/registry/src/github.com-1ecc6299db9ec823/memfd-ex=
+ec-0.1.4/src/anon_pipe.rs:68:5
+     |
+  68 | /     fn as_fd(&self) -> BorrowedFd<'_> {
+  69 | |         self.0.as_fd()
+  70 | |     }
+     | |_____^
+     |
+     =3D note: see issue #87074 <https://github.com/rust-lang/rust/issues/8=
+7074> for more information
+
+Running:
+
+  cargo build
+
+in a checked out repo completes but I don't see any binaries in the
+output. This is perhaps a misunderstanding on my part on how the repo is
+meant to be used?
+
+> More interesting (I think) is the crate
+> https://github.com/novafacing/cannonball, which depends on the qemu
+> crate and enables developers
+> to write QEMU TCG plugins entirely in Rust. This enables a very nice
+> workflow for Rust developers interested in building tracers,
+> profilers, and
+> other tooling already supported by the TCG Plugin API. The cannonball
+> repository has one example of such a tracer that outputs various
+> events
+> as JSON.
+
+I ran into the same build problems with this.
+
+> This is a pretty rough implementation I've hacked together over a week
+> or two, but I've heard from IRC there is some interest in
+> experimenting
+> with Rust as part of QEMU and I'm interested in feedback on this
+> attempt in that direction.
+
+I expect the biggest thing would be how to incorporate the build of any
+rust bits in the main build environment. I don't think we are at the
+point we would want to dump the entire build environment for a native
+rust based one.
+
+From a plugin point of view I'm certainly keen to enable the building of
+plugins written in rust. However currently having everything wrapped up
+in cargo makes it confusing as to what exactly is going on. For example
+if I just pick up libjaivana.so like:
+
+  ./qemu-aarch64 -d plugin -plugin
+    ~/lsrc/cannonball.git/target/debug/libjaivana.so \
+    ./tests/tcg/aarch64-linux-user/sysregs
+
+I don't see anything output (btw qemu_plugin_outs uses the logging
+system so you need to enable the output with -d plugin).
+
+
+> There's a bit more information in my post about this on cohost:
+> https://cohost.org/novafacing/post/240422-some-qemu-and-plugi
+>
+> Finally, I am acutely aware in doing this I've taken control of almost
+> 70 crate names the QEMU project might like to use at some point. I'm
+> not
+> here to step on toes, so if the decision makers would like the QEMU
+> project to get control of these crate names, just let me know and I'll
+> email
+> the crates.io team about getting them moved. Otherwise, comments,
+> discussion about Rust-ifying QEMU and its plugins, ideas, and PRs
+> welcome,
+> as an author of a decent number of TCG plugins the last few years I'm
+> pretty excited about what even this rudimentary approach has enabled
+> with regards to ease of use and development speed.
+
+Me too. I'm hoping to get register access sorted next year although
+I have some clean-up for the gdbstub to do first.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
