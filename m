@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FC9650B40
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 13:15:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62048650BEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 13:42:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7F2e-0006rV-Ei; Mon, 19 Dec 2022 07:14:48 -0500
+	id 1p7F7K-0008CQ-VY; Mon, 19 Dec 2022 07:19:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p7F2c-0006qJ-Op; Mon, 19 Dec 2022 07:14:46 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p7F70-0008Ab-Ox
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 07:19:18 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p7F2a-0005MX-Pl; Mon, 19 Dec 2022 07:14:46 -0500
-Received: by mail-ej1-x635.google.com with SMTP id ud5so21005061ejc.4;
- Mon, 19 Dec 2022 04:14:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=derpuGDC4NK96PelJbV9Yfkh6stLkxDwTskS7LM7f5w=;
- b=Jhz2L8DHfNGvdX+Un+VMPDaVTV5pLg8VJSp5+Xck0AR+QJMaKNUvUq3TpktrQGpDwU
- Q/y6J7GVFLaInY+zjG0FJazugrH5ZHxmd2Ta7JeQ8QXD/rDQcvlVUeJmL3RsEPIoPms6
- 13cvqIRlNoApBJokbb/XSC0aD3rEfo86jTwjpRoSEGnA3rMyTM3I7TQ6jrdbBjj5Nk0u
- YRVayo7rQv8Unk7RreE806Hufl3cxpJvv6XTAxr1SiR28ky7olrZAAXz78PaWZ9bEgQU
- UbcxrLnsDdZymPDLj3kvcnf06df/8GaZ+USsE44QydGKW8eN5DD+tweXCrf71Q2iD79b
- vjhQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p7F6z-0006Tv-5i
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 07:19:18 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id h11so8387025wrw.13
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 04:19:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hl+ytaNCcuCMyl2tf8rl7C9GIYWjl5dbEWSsuJmYAmE=;
+ b=h2nSdxwTU324VEksVRkVh/EwbXXlidlnPqRUS18mxoqI8iuul530bg6r294Xa74I61
+ NDe35jneIvXlX7shuUARjwfzqqzLaV65oSypFxyTrEDxaTwitLZC4V3KSXUk7YgoIbyF
+ pwaBWLP4Sw5osyQBVaW2IOgr/mfZJ5wLpiP/80rAS/du7pgOUr2y1tD9JlmSsbFjBXST
+ 3w+ysoHWdDYACjbFghozeGYDYNNGAEKpKLXBZ/2qs8/qt+WX34w3lsJXp1fEX5gwkH4d
+ r0+9VwB66Catnh+QuypZIuKcTmDgAb638e7SH1SGSQNbowk9Y5354WJ9fiDpaOzHr8ZA
+ Y7GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=derpuGDC4NK96PelJbV9Yfkh6stLkxDwTskS7LM7f5w=;
- b=Not+RSmKC6GugdTMlVeMDV72uy9/6T3zHcBpiEzS8yMGPhb2223yloCxnnE/t6zIFK
- QCk9zkxypGkRPu7liHehn6Xiv8SNNBQjxDA8JfTGxppeHQ3Gnxjz++yf9muZK8bxdGB0
- X3ODX9vb3rwQ6J+dJ5SNIqzkcf88MltN0CAw7yjvqmYBMFmR/Pp72wzdehJaWCa8OyrR
- PIuHObFPgvMREkuZtfzQHPQKK1I1L/ng3wuicdLUdKxpsFNzyOZAzSn0L3BOou70i97s
- Z0b/XLRkQtpqhAIVtQ+kuXH5ShlaeKuK6xL9EUntzc3w/+WW43XDj7VTeImTcaf1LyYt
- C6kg==
-X-Gm-Message-State: AFqh2kq1uIIoCDrACljsUA9q2Jffd2Hx6v0/rBw++lm8qayhqKQUOOrf
- nsUXFDTlSegezURj9vypAck=
-X-Google-Smtp-Source: AMrXdXvu2TPuSv718nROdKJGtwI79kPcOxLfwihoSCM6RmUgBk/SxFKc9aV3EwxftfpRa6ZsJDm4wg==
-X-Received: by 2002:a17:906:9f26:b0:7cd:dbe8:e4f7 with SMTP id
- fy38-20020a1709069f2600b007cddbe8e4f7mr17568845ejc.77.1671452082480; 
- Mon, 19 Dec 2022 04:14:42 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-078-055-056-244.78.55.pool.telefonica.de.
- [78.55.56.244]) by smtp.gmail.com with ESMTPSA id
- d22-20020a056402401600b004585eba4baesm4272963eda.80.2022.12.19.04.14.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 04:14:42 -0800 (PST)
-Date: Mon, 19 Dec 2022 12:14:33 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH 00/32] Consolidate PIIX south bridges
-In-Reply-To: <3aace928-1f23-acc3-9643-29f540b3f744@linaro.org>
-References: <20221204190553.3274-1-shentey@gmail.com>
- <B5EE1B75-28AF-406F-96BE-9247E1D1C08D@gmail.com>
- <3aace928-1f23-acc3-9643-29f540b3f744@linaro.org>
-Message-ID: <B525722E-0E68-4C4C-9B82-A86F23768341@gmail.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Hl+ytaNCcuCMyl2tf8rl7C9GIYWjl5dbEWSsuJmYAmE=;
+ b=RHWnO8RrCFqh5K0aIFrfI5cDAYPey4i/x57HqJAb3E1CofxNZnb03LX45RImgll1jz
+ PQzRB2vNaGWXQ1Yue1mku/d1Lp2+foXAZQygUqMAamL9j+fqVGdsUulSvAj2l5GI7t9E
+ KDtijGKRvX4GkthP1K4YCC2L+6T6mC8FDN8PZI8qLc8icDf2rDbwgE/rX3fs1uEYqR3l
+ gfyE15/i5EPOV1jCJSkN65pS/ihahCPEkHP73foxnTijlAgnDlqqE2r1so/qiJZChsla
+ 7uLEsQUnYyuwWu638uCT7A06pcq+e5ulkFMaWKGGj/YNgyweH1/he+fjEtgB/u2GnIl3
+ eOiA==
+X-Gm-Message-State: ANoB5plOaj3wI4t7wajxRNaK/fL6V4wvpJg8wucnFoXxvqfN9kqpci0N
+ hkPBwMsqsVevSu0IJqbUITc8tS/x8X6VVbiZ
+X-Google-Smtp-Source: AA0mqf5xTNyIqeqbFTA3lNgRRcO39TDUk6w0IELQQ8PUrC4nGkd+bvYzrajXu4GymkkvDDpv5ktK+A==
+X-Received: by 2002:a5d:438f:0:b0:242:43f3:894c with SMTP id
+ i15-20020a5d438f000000b0024243f3894cmr24169790wrq.28.1671452355420; 
+ Mon, 19 Dec 2022 04:19:15 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ b4-20020a5d4d84000000b002423a5d7cb1sm9775848wru.113.2022.12.19.04.19.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Dec 2022 04:19:15 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9B37E1FFB7;
+ Mon, 19 Dec 2022 12:19:14 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH 00/11] gitdm metadata updates
+Date: Mon, 19 Dec 2022 12:19:03 +0000
+Message-Id: <20221219121914.851488-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,145 +90,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
+As Christmas approaches Santa has asked to make sure our lists are up
+to date so he can see who's been nice (there is no naughty when
+contributing to QEMU ;-).
 
-Am 18=2E Dezember 2022 14:17:48 UTC schrieb "Philippe Mathieu-Daud=C3=A9" =
-<philmd@linaro=2Eorg>:
->On 18/12/22 11:33, Bernhard Beschow wrote:
->>=20
->>=20
->> Am 4=2E Dezember 2022 19:05:21 UTC schrieb Bernhard Beschow <shentey@gm=
-ail=2Ecom>:
->>> This series consolidates the implementations of the PIIX3 and PIIX4 so=
-uth
->>>=20
->>> bridges and is an extended version of [1]=2E The motivation is to shar=
-e as much
->>>=20
->>> code as possible and to bring both device models to feature parity suc=
-h that
->>>=20
->>> perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc mac=
-hine=2E This
->>>=20
->>> could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed o=
-n this
->>>=20
->>> list before=2E
->>>=20
->>>=20
->>>=20
->>> The series is structured as follows: First, PIIX3 is changed to instan=
-tiate
->>>=20
->>> internal devices itself, like PIIX4 does already=2E Second, PIIX3 gets=
- prepared
->>>=20
->>> for the merge with PIIX4 which includes some fixes, cleanups, and rena=
-mings=2E
->>>=20
->>> Third, the same is done for PIIX4=2E In step four the implementations =
-are merged=2E
->>>=20
->>> Since some consolidations could be done easier with merged implementat=
-ions, the
->>>=20
->>> consolidation continues in step five which concludes the series=2E
->>>=20
->>>=20
->>>=20
->>> One particular challenge in this series was that the PIC of PIIX3 used=
- to be
->>>=20
->>> instantiated outside of the south bridge while some sub functions requ=
-ire a PIC
->>>=20
->>> with populated qemu_irqs=2E This has been solved by introducing a prox=
-y PIC which
->>>=20
->>> furthermore allows PIIX3 to be agnostic towards the virtualization tec=
-hnology
->>>=20
->>> used (KVM, TCG, Xen)=2E Due to consolidation PIIX4 gained the proxy PI=
-C as well=2E
->>>=20
->>>=20
->>>=20
->>> Another challenge was dealing with optional devices where Peter alread=
-y gave
->>>=20
->>> advice in [1] which this series implements=2E
->>>=20
->>>=20
->>>=20
->>> A challenge still remains with consolidating PCI interrupt handling=2E=
- There are
->>>=20
->>> still board-specific piix3_pci_slot_get_pirq() and piix4_pci_slot_get_=
-pirq()
->>>=20
->>> which are implemented in isa/piix=2Ec=2E Any advice how to resolve the=
-se would be
->>>=20
->>> highly appreaciated=2E See [2] for details=2E
->>>=20
->>>=20
->>>=20
->>> Last but not least there might be some opportunity to consolidate VM s=
-tate
->>>=20
->>> handling, probably by reusing the one from PIIX3=2E Since I'm not very=
- familiar
->>>=20
->>> with the requirements I didn't touch it so far=2E
->>>=20
->>>=20
->>>=20
->>> Testing done:
->>>=20
->>> * make check
->>>=20
->>> * make check-avocado
->>>=20
->>> * Boot live CD:
->>>=20
->>>   * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom manjar=
-o-kde-21=2E3=2E2-220704-linux515=2Eiso`
->>>=20
->>>   * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom manja=
-ro-kde-21=2E3=2E2-220704-linux515=2Eiso`
->>>=20
->>> * 'qemu-system-mips64el -M malta -kernel vmlinux-3=2E2=2E0-4-5kc-malta=
- -hda debian_wheezy_mipsel_standard=2Eqcow2 -append "root=3D/dev/sda1 conso=
-le=3DttyS0"`
->>>=20
->>>=20
->>>=20
->>> v3:
->>>=20
->>> - Introduce one TYPE_ICH9_USB_UHCI(fn) rather than several TYPE_ICH9_U=
-SB_UHCIx (Philippe)
->>>=20
->>> - Make proxy PIC generic (Philippe)
->>>=20
->>> - Track Malta's PIIX dependencies through KConfig
->>>=20
->>> - Rebase onto Philippe's 'hw/isa/piix4: Remove MIPS Malta specific bit=
-s' series [3]
->>>=20
->>> - Also rebase onto latest master to resolve merge conflicts=2E This re=
-quired copying
->>>=20
->>>   Philippe's series as first three patches - please ignore=2E
->>>=20
->>=20
->> Ping
->
->Could you review patches 1-3?
+Thanks,
 
-I reviewed patches 1 & 3=2E Patch 2 still has the todo [1]=2E Could you re=
-spin v2?
+Alex.
 
-[1] https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2022-10/msg05367=
-=2Ehtml ?
+Alex Bennée (11):
+  contrib/gitdm: add C-Sky to the domain map
+  contrib/gitdm: Add Rivos Inc to the domain map
+  contrib/gitdm: Add VRULL to the domain map
+  contrib/gitdm: add a group map for SiFive
+  contrib/gitdm: Add Ventana Micro Systems to the domain map
+  contrib/gitdm: add Tsukasa as an individual contributor
+  contrib/gitdm: Add ASPEED Technology to the domain map
+  contrib/gitdm: Add Facebook the domain map
+  contrib/gitdm: add a group map for Google
+  contrib/gitdm: add Idan to IBM's group map
+  contrib/gitdm: Add SYRMIA to the domain map
+
+ contrib/gitdm/domain-map            | 7 +++++++
+ contrib/gitdm/group-map-facebook    | 5 +++++
+ contrib/gitdm/group-map-google      | 5 +++++
+ contrib/gitdm/group-map-ibm         | 1 +
+ contrib/gitdm/group-map-individuals | 1 +
+ contrib/gitdm/group-map-sifive      | 5 +++++
+ gitdm.config                        | 3 +++
+ 7 files changed, 27 insertions(+)
+ create mode 100644 contrib/gitdm/group-map-facebook
+ create mode 100644 contrib/gitdm/group-map-google
+ create mode 100644 contrib/gitdm/group-map-sifive
+
+-- 
+2.34.1
+
 
