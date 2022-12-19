@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A83650920
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 10:10:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8477265093F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 10:19:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7C9e-00037S-Ry; Mon, 19 Dec 2022 04:09:50 -0500
+	id 1p7CHE-00072o-VK; Mon, 19 Dec 2022 04:17:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7C9c-00035d-IN
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:09:48 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7C9a-0003IK-EW
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:09:48 -0500
-Received: by mail-wr1-x429.google.com with SMTP id co23so7938644wrb.4
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 01:09:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OfnHStrHke8Pme44/tBv15k8RmXyAsR4OwB7GJaX9Wc=;
- b=AzngIdrUuJ4Qd0x8W8TFkNZs514/hrfU6We3AFo4zZMc9yBvmmZQgi32SLUEsilHxS
- fj3X1MXN160NokJeECt3rMDq3YO7Ec/ogJRghN68x1mRmrmCEvo9+TxMIiz6m+HyRgPV
- EssGD19x47HsGOzlucVJZESX3PNp7VelFS2NvtUU0YqeQ3EuYisCwZkcNq1v7+XgBziq
- vSYpl7K6MIDnezESyV1zTEDJbKI0fOryzaecMZVmJaudSGKKLgY/q9Al4/LVo87hWRek
- Cu3+KkXMMurn6dE25uwh4GZv8k+Yo1r8g/1bNA0P3ZYN0tDyWSM9hd6MHLJJBKmhFGKZ
- RDOA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p7CHD-00072d-5k
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:17:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p7CHA-0004vL-Vp
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 04:17:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671441455;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oW2z9PDb9P+CdOBRzz18yiXe8IKELEen4ep6VnGXwqg=;
+ b=Ut0mPegP49ivJ2achIXcaQ74YLadnSVYJhHXed7X1z8gs57Kt9SmcRWQ1vPnikGz+SVnKr
+ bKQUxOPSqiyLYp+fbuRHT1DbvFds+S72YjhGSgw9w4YPNT91wlrPuvBkDLFXG0uqUQuk/F
+ 8fgiuYWUI0bAK4ACryIY9OgIgCvMfuA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-643-roUPNEJ5NWaafUnLB49slw-1; Mon, 19 Dec 2022 04:17:34 -0500
+X-MC-Unique: roUPNEJ5NWaafUnLB49slw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ sb19-20020a1709076d9300b007c17017bb51so5764285ejc.21
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 01:17:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OfnHStrHke8Pme44/tBv15k8RmXyAsR4OwB7GJaX9Wc=;
- b=jv6roNf7xnKmLfG4LfSFupuyC15b2b//LpN/YFuayuiEgt5z1qMYe5gqCaY9pg0Va7
- e1McaJhNJeerLynAM7mgFhbpaHDbrHvdcwcbuII2Gf/u3fS2kQtBZThLjkSrh9TNliR1
- i9O1OFc/1z8PP4WRO8FcT8owu74pwC9GuZAjfwaiO6hh8kQ/KO0v9hTgoe2NtDA+yPoM
- m6aMylqJqFpvgEold919VReIAwYbgE3Pshvx8K2KKTwxOMhuJnImaeaC2ndCO3dlQo2f
- 2h3YZTVpvZb8zidX8vMvyxzA1A2BJTWmI1ofDsRml7caX0ffxe9REuqIbfdTn2sOvpXy
- S8Hg==
-X-Gm-Message-State: ANoB5pkmY2e5aJl2XrBh2HGpGntB0iYvtUSQj6JOgQqa21IhIdEfnAro
- jcboblS/l6BGYCE2X7mZfBDmsw==
-X-Google-Smtp-Source: AA0mqf46fMgANiaJAyJzyeoeS/rrp9PpCmuHME6VIW347d76MZzao5AXnMZV1D8hLMpNSwy9vqbJkA==
-X-Received: by 2002:a05:6000:170f:b0:253:62af:8025 with SMTP id
- n15-20020a056000170f00b0025362af8025mr17763427wrc.61.1671440984803; 
- Mon, 19 Dec 2022 01:09:44 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- bo28-20020a056000069c00b002415dd45320sm9478734wrb.112.2022.12.19.01.09.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 01:09:44 -0800 (PST)
-Message-ID: <be555e77-f650-787b-e9a7-6cd92d34234c@linaro.org>
-Date: Mon, 19 Dec 2022 10:09:43 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oW2z9PDb9P+CdOBRzz18yiXe8IKELEen4ep6VnGXwqg=;
+ b=D2l8eUOD0j1aV7H4IDIuxUqiFO1uAZUgSi/i9YiI0fwlq9mq1i6BEDFRiL2oG3WboQ
+ Voy55oOCwpeNrJIvftV2PdVAhJlcsZX5+3fxZgVaNOxTlC5hBU4WA9wAXQj8RGGCBR3o
+ 5+Iek8cU0J6PgpDYIlypi9dGDBPhsFaZsCxc/FPSaylZsh8SDWuXNmu3JYgJGCyWKpuR
+ P+ZOVIJzWeeYOufZu34x+OnVyhOFOiq/y4LuFfr3qz+TuolucbH6OpTG128sqWG1wxQs
+ DVmPfHtZ1iorEXtuLdGy+2zc0BeA1ApCP+M95XsKDvNOEA8+r+xbCzDBlUjwOo0Z4dfX
+ /lSg==
+X-Gm-Message-State: AFqh2kr+vnoAlHFp14ZcpwfIyIAkCErPmm0/eOgoC/tImqft1zIIuP4X
+ UugLMO+m5I8QriO99VDBbIx0FhlbylOV5DPQemAVAOtwvx/swJfjb3VDoRdB53Z9WhEScVIug7V
+ KGBTcFCcpLnbPaitDcDkHBk/T0WvYcAyEIgMEdLbyWz/Bhm4Heiq6cJiwrsyjnPpEOVM=
+X-Received: by 2002:a17:907:7244:b0:82d:1d5f:2617 with SMTP id
+ ds4-20020a170907724400b0082d1d5f2617mr1188810ejc.69.1671441452725; 
+ Mon, 19 Dec 2022 01:17:32 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtlrDuKGU60CUxo8yGFvKXwAb7m8SS6pqgbzNctOC12e+SkIFRs1UdOIF885gVIBKNPVzhGmQ==
+X-Received: by 2002:a17:907:7244:b0:82d:1d5f:2617 with SMTP id
+ ds4-20020a170907724400b0082d1d5f2617mr1188795ejc.69.1671441452444; 
+ Mon, 19 Dec 2022 01:17:32 -0800 (PST)
+Received: from avogadro.local ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
+ by smtp.gmail.com with ESMTPSA id
+ d30-20020a056402401e00b0046b25b93451sm4048274eda.85.2022.12.19.01.17.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Dec 2022 01:17:31 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: philmd@redhat.com
+Subject: [PATCH] chardev: clean up chardev-parallel.c
+Date: Mon, 19 Dec 2022 10:17:29 +0100
+Message-Id: <20221219091729.690645-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.5.1
-Subject: Re: [PATCH] target/i386/hax: Add XCR0 support
-Content-Language: en-US
-To: "Wang, Wenchao" <wenchao.wang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-References: <DM6PR11MB40909B4A33D66A3100F6D219870E9@DM6PR11MB4090.namprd11.prod.outlook.com>
- <4e35a2b6-12ca-e43c-6ee7-7090280c9341@linaro.org>
- <DM6PR11MB40906BFDB7E263064C1BBC4587189@DM6PR11MB4090.namprd11.prod.outlook.com>
- <04484bf1-c6fc-d430-9939-474c0dab158f@linaro.org>
- <DM6PR11MB40901A46FA5D76F2FCA47E9B87E59@DM6PR11MB4090.namprd11.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <DM6PR11MB40901A46FA5D76F2FCA47E9B87E59@DM6PR11MB4090.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,74 +96,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Wenchao,
+Replace HAVE_CHARDEV_PARPORT with a Meson conditional, remove unnecessary
+defines, and close the file descriptor on FreeBSD/DragonFly.
 
-On 19/12/22 10:01, Wang, Wenchao wrote:
-> Hi, Philippe,
-> 
-> As Paolo did not comment with this patch, as you used to think it looks correct, could you help to merge this one-line patch as no one picked it up so far? Thanks a lot.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ chardev/char-parallel.c | 15 ++-------------
+ chardev/meson.build     |  5 ++++-
+ include/qemu/osdep.h    |  5 -----
+ 3 files changed, 6 insertions(+), 19 deletions(-)
 
-I'm pretty sure Paolo is busy with KVM stuff and will take this patch
-when he switch to QEMU (it really is within his area). If he doesn't
-comment I'll take it with a generic target/ cleanup series next week.
-
-> Best Regards,
-> Wenchao
-> 
-> -----Original Message-----
-> From: Wang, Wenchao
-> Sent: Monday, December 5, 2022 17:10
-> To: Philippe Mathieu-Daudé <philmd@linaro.org>; qemu-devel@nongnu.org
-> Cc: haxm-team <haxm-team@intel.com>; Paolo Bonzini <pbonzini@redhat.com>
-> Subject: RE: [PATCH] target/i386/hax: Add XCR0 support
-> 
-> Thanks for Phillippe's reply.
-> 
-> Hi, Paolo,
-> 
-> Could you help to review the patch of HAX? If there is any concern about it, feel free to discuss with me. Thanks a lot.
-> 
-> 
-> Best Regards,
-> Wenchao
-> 
-> -----Original Message-----
-> From: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Sent: Monday, December 5, 2022 17:05
-> To: Wang, Wenchao <wenchao.wang@intel.com>; qemu-devel@nongnu.org
-> Cc: haxm-team <haxm-team@intel.com>; Paolo Bonzini <pbonzini@redhat.com>
-> Subject: Re: [PATCH] target/i386/hax: Add XCR0 support
-> 
-> Hi Wenchao,
-> 
-> On 5/12/22 09:35, Wang, Wenchao wrote:
->> Hi, Philippe,
->>
->> Do you agree with my opinion and is there any further process that I need to follow to get this patch merged? Thanks a lot.
-> 
-> I don't understand this part of HAXM enough, but per your explanation, your change looks correct. I'll let Paolo decide :)
-> 
-> Regards,
-> 
-> Phil.
-> 
->> Best Regards,
->> Wenchao
->>
->> -----Original Message-----
->> From: Wang, Wenchao
->> Sent: Monday, November 28, 2022 16:11
->> To: Philippe Mathieu-Daudé <philmd@linaro.org>; qemu-devel@nongnu.org
->> Cc: haxm-team <haxm-team@intel.com>; Paolo Bonzini
->> <pbonzini@redhat.com>
->> Subject: RE: [PATCH] target/i386/hax: Add XCR0 support
->>
->> Hi, Philippe,
->>
->> It is just the full patch. Currently, the implementation of HAXM is simple, we did not synchronize the vCPU register for xcr0 from QEMU. HAXM will handle the xcr0 state within the kernel space, including initialization, update, etc. This patch adds the xcr0 variable for allocating extra 8-byte buffer occupation, which will be passed between QEMU and HAXM when hax_sync_vcpu_state() is invoked. We have verified the patched QEMU and it can launch all guest OSes. Thanks for your comments.
->>
->>
->> Best Regards,
->> Wenchao
+diff --git a/chardev/char-parallel.c b/chardev/char-parallel.c
+index 05e7efbd6ca9..a5164f975af3 100644
+--- a/chardev/char-parallel.c
++++ b/chardev/char-parallel.c
+@@ -238,7 +238,6 @@ static void qemu_chr_open_pp_fd(Chardev *chr,
+ }
+ #endif
+ 
+-#ifdef HAVE_CHARDEV_PARPORT
+ static void qmp_chardev_open_parallel(Chardev *chr,
+                                       ChardevBackend *backend,
+                                       bool *be_opened,
+@@ -276,29 +275,21 @@ static void char_parallel_class_init(ObjectClass *oc, void *data)
+ 
+     cc->parse = qemu_chr_parse_parallel;
+     cc->open = qmp_chardev_open_parallel;
+-#if defined(__linux__)
+     cc->chr_ioctl = pp_ioctl;
+-#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || \
+-    defined(__DragonFly__)
+-    cc->chr_ioctl = pp_ioctl;
+-#endif
+ }
+ 
+ static void char_parallel_finalize(Object *obj)
+ {
+-#if defined(__linux__)
+     Chardev *chr = CHARDEV(obj);
+     ParallelChardev *drv = PARALLEL_CHARDEV(chr);
+     int fd = drv->fd;
+ 
++#if defined(__linux__)
+     pp_hw_mode(drv, IEEE1284_MODE_COMPAT);
+     ioctl(fd, PPRELEASE);
++#endif
+     close(fd);
+     qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
+-#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || \
+-    defined(__DragonFly__)
+-    /* FIXME: close fd? */
+-#endif
+ }
+ 
+ static const TypeInfo char_parallel_type_info = {
+@@ -315,5 +306,3 @@ static void register_types(void)
+ }
+ 
+ type_init(register_types);
+-
+-#endif
+diff --git a/chardev/meson.build b/chardev/meson.build
+index 664f77b8879a..ceedb68d4f95 100644
+--- a/chardev/meson.build
++++ b/chardev/meson.build
+@@ -14,9 +14,12 @@ chardev_ss.add(files(
+ ))
+ chardev_ss.add(when: 'CONFIG_POSIX', if_true: [files(
+   'char-fd.c',
+-  'char-parallel.c',
+   'char-pty.c',
+ ), util])
++if targetos in ['linux', 'gnu/kfreebsd', 'freebsd', 'dragonfly']
++  'char-parallel.c',
++endif
++
+ chardev_ss.add(when: 'CONFIG_WIN32', if_true: files(
+   'char-console.c',
+   'char-win-stdio.c',
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index b9c4307779c5..4886361be6a7 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -421,11 +421,6 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+ #define HAVE_CHARDEV_SERIAL 1
+ #endif
+ 
+-#if defined(__linux__) || defined(__FreeBSD__) ||               \
+-    defined(__FreeBSD_kernel__) || defined(__DragonFly__)
+-#define HAVE_CHARDEV_PARPORT 1
+-#endif
+-
+ #if defined(__HAIKU__)
+ #define SIGIO SIGPOLL
+ #endif
+-- 
+2.38.1
 
 
