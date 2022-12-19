@@ -2,104 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203B4650E8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8643A650E8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Dec 2022 16:23:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Hxy-0007DD-0j; Mon, 19 Dec 2022 10:22:10 -0500
+	id 1p7Hz5-0007xx-Kh; Mon, 19 Dec 2022 10:23:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p7Hxu-0007CW-O1
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:22:07 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1p7Hyn-0007wg-HG
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:23:04 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1p7Hxp-0002WS-Kj
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:22:06 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BJFBZg3005722
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 15:21:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : content-transfer-encoding : mime-version; s=pp1;
- bh=Bf+WRwD5dlZCzafvZuaiaSm3hxHYLMIS2rzlIvrwCHg=;
- b=b1I8sTEdivYN7Jc8Q53lUzmIEsGHQgoAOcGkU1ib7ofXtBDnjYgZr7f9sv51RD48/Sj/
- lMJjMIIrL8isCNkHChR6mvBIRBqCHi89hChHZgHz0GaekFz4vxbsYGFfrRhSPOlvfA3b
- Vud0FI8nGDSA0nf03z0BHRc6vp0BMa5YDpe4np3yINNOpLTULo80jjK4E85djAclvXr5
- iGqIkT51kl24Rg14/lbNgH3lAIhOspevub/TKNgY/dZQEtXgRl21qY6z8ScVO/Z6+1Fz
- xM9kSFvRCZjxSJwO58fKFUpGuodWxgteBAmf/rWDJMQWr005sWJyjjn3mFSVdpXWE9kh Dg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjtcn8etv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 15:21:50 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BJFDG6J024037
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 15:21:50 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mjtcn8etg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 15:21:50 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BJEwmet032663;
- Mon, 19 Dec 2022 15:21:49 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3mh6yyhp5v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Dec 2022 15:21:49 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BJFLlqv15925566
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Dec 2022 15:21:48 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8AAF97805E;
- Mon, 19 Dec 2022 16:43:36 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B796E7805C;
- Mon, 19 Dec 2022 16:43:35 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.163.33.74])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 19 Dec 2022 16:43:35 +0000 (GMT)
-Message-ID: <9798dca3264b0df2af7cd40d845d9f932af5f5db.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 0/2] tpm: add mssim backend
-From: James Bottomley <jejb@linux.ibm.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: "Daniel P ." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-Date: Mon, 19 Dec 2022 10:21:45 -0500
-In-Reply-To: <bf7aa576-b4b0-5054-915e-7933bf1abac8@linux.ibm.com>
-References: <20221219131344.18909-1-jejb@linux.ibm.com>
- <bf7aa576-b4b0-5054-915e-7933bf1abac8@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Pgl4uBcxi7yXGUN_XQNYC7RINgLPd9fz
-X-Proofpoint-ORIG-GUID: yfARj2fH61PXm60jAK3u2kvuQvrXYOIS
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-19_01,2022-12-15_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=838 clxscore=1015 malwarescore=0 phishscore=0 adultscore=0
- priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212190134
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1p7Hyh-0002ng-QH
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 10:23:00 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id BD3D95C012A;
+ Mon, 19 Dec 2022 10:22:52 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 19 Dec 2022 10:22:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1671463372; x=
+ 1671549772; bh=u9U5LOpzhWy0YxrJWA+zeE18kMAhb1Lk+A9B6iT5kko=; b=N
+ eyvZN/0E/fZTvSKbGU3naE8mapnhtiNpro7L9nvX5wTS8aHcykQKJYiihU+OQzIy
+ X9/1DlXInW83OeGB20wczHXryvGQuZb1FzIZziJ1NMQ00a7IHXIJmIOtCaIbwEhy
+ kza/n0WL/TJjCefyZQy93bahZZtsb7mrRH0hQC0zczswLu2BVeBJBg6gJZZv1weX
+ nGXpnnjXIdSP97bLKI6efz58S7vFv1OcxHnoEn3d8tu8+4p50K0xaepdpQKWW0Hu
+ Gws80myCVxoarQtWrRodIkhJVhTxdKCbgdyMAre3zxzVjNoddLDdnDC7NdktOw8t
+ e3uKIBBgfAmZFADxDTP5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1671463372; x=
+ 1671549772; bh=u9U5LOpzhWy0YxrJWA+zeE18kMAhb1Lk+A9B6iT5kko=; b=R
+ oezqPe7LrlgpCiVUg1cT6+ZUtqz5rhymGc4UspaqHZDz8U/Rk2UOF9VBLH211Mma
+ JM6rFfaErIedeUHxnv9/HXz4XSOsIC64pyIlTNKQIwi2meVAjMVDxRnNI0GomcMa
+ 2SYZVK4YRBizdhHx+Xsrigf06jqiEJH9mjeuNKaNcn3wFKM949fc2oB22Tg5RsZ9
+ /jHbD4kLnfGODtjBuGF5S55bgcPaJ8iHuKboA/GQ6BzurBOEMlN1AlBl6RzBE9y7
+ mWXmU010OFgonmIbUtzCSsS7HJTgnwzr+B5iyNNU4fWwWeXos9nozpBMNnA+nY3H
+ OnP+5Mkmp7+E0vL/Zaetw==
+X-ME-Sender: <xms:zIGgY6tjaEdSIByKjoWD-DSKDPnonP7zjrd9CLgRmF7O70g8uw_BiA>
+ <xme:zIGgY_ctmKTNywkW0ARWa4I0A-up98tNj7CHxnUC1V2oDoE0iG31UER1C-W7zzHyJ
+ dzLOCYB5gSVzj9oMu0>
+X-ME-Received: <xmr:zIGgY1zUK1cW0TRtbLcbCM1HxIGU4lbSZP_YFge88HgvGsZrowRSpug4zrLsktGWWiVYIL4N8xY4sxl6cxSsEX9mf1otembNe3Iqrq8VUA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefgdeglecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpegtgffhggfufffkfhevjgfvofesthhqmhdthhdtjeenucfhrhhomheprfgvthgv
+ rhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrfgrth
+ htvghrnhepueeitddvjefggeffgfdutedvtdeuffeujeffjeegleevuedttdevheffhfef
+ teeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepph
+ gvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:zIGgY1N_J1B1PRIJuOXflu0GAPc9yBZUTTxjv7vOL2K2NSLv_n3JMg>
+ <xmx:zIGgY6-M_TMz5WjjF0lDqqyvQDnYPDvqhhCL0NtKhFg_l1fwHMXbJw>
+ <xmx:zIGgY9W8lONLuTJqndxDWQRoMbkH0kpnYOtuMdon2XIwuBY1IrPFwA>
+ <xmx:zIGgYxYI5jLXBJNBkyOp3vS4WNtor9yuKRUnw6UsJ1DuYY6tZNVN5A>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Dec 2022 10:22:52 -0500 (EST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Peter Delevoryas <peter@pjd.dev>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 08/11] contrib/gitdm: Add Facebook the domain map
+Date: Mon, 19 Dec 2022 07:22:40 -0800
+Message-Id: <052012F1-2E78-40FC-990B-6AA3C95FDB37@pjd.dev>
+References: <20221219121914.851488-9-alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Iris Chen <irischenlj@fb.com>,
+ Peter Delevoryas <pdel@meta.com>, Daniel Mueller <muellerd@meta.com>
+In-Reply-To: <20221219121914.851488-9-alex.bennee@linaro.org>
+To: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+X-Mailer: iPhone Mail (20B110)
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=peter@pjd.dev;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,36 +98,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2022-12-19 at 10:16 -0500, Stefan Berger wrote:
-> 
-> 
-> On 12/19/22 08:13, James Bottomley wrote:
-> > From: James Bottomley <James.Bottomley@HansenPartnership.com>
-> > 
-> > The requested feedback was to convert the tpmdev handler to being
-> > json
-> > based, which requires rethreading all the backends.  The good news
-> > is
-> > this reduced quite a bit of code (especially as I converted it to
-> > error_fatal handling as well, which removes the return status
-> > threading).  The bad news is I can't test any of the conversions.
-> > swtpm still isn't building on opensuse and, apparently, passthrough
-> > doesn't like my native TPM because it doesn't allow cancellation.
-> 
-> For passthrough you can use /dev/null in place of the cancel file.
-> Libvirt does that also:
-> 
-> https://github.com/stefanberger/libvirt-tpm/blob/master/src/util/virtpm.c#L88
 
-OK, so passthrough works with the visitor conversion.  If /dev/null is
-the default for no cancel path, the backend shouldn't really beat the
-end user up about not specifying it if it can't find the cancel path
-for the chosen host TPM.
 
-James
+> On Dec 19, 2022, at 4:19 AM, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>=20
+> =EF=BB=BF!----------------------------------------------------------------=
+---|
+>  This Message Is =46rom an External Sender
+>=20
+> |-------------------------------------------------------------------!
+>=20
+> A number of Facebook developers contribute to the project. Peter can
+> you confirm your want pjd.dev contributions counted here or as
+> an individual contributor?
+
+Oh, hey: yes I can confirm that, I want pjd.dev contributions counted here a=
+s fb stuff.
+
+By the way: recently, every Facebook developers email has migrated to =E2=80=
+=9Cusername@meta.com=E2=80=9D. So now all my fb.com email goes to my meta.co=
+m inbox. We may or may not want to include both emails. I think the fb.com e=
+mails will stay around for quite a while, but yeah.
+
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Iris Chen <irischenlj@fb.com>
+> Cc: Peter Delevoryas <pdel@fb.com>
+> Cc: Peter Delevoryas <peter@pjd.dev>
+> Cc: Daniel M=C3=BCller <muellerd@fb.com>
+> ---
+> contrib/gitdm/domain-map         | 1 +
+> contrib/gitdm/group-map-facebook | 5 +++++
+> gitdm.config                     | 1 +
+> 3 files changed, 7 insertions(+)
+> create mode 100644 contrib/gitdm/group-map-facebook
+>=20
+> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+> index 03d12b3ba6..22d7f953e1 100644
+> --- a/contrib/gitdm/domain-map
+> +++ b/contrib/gitdm/domain-map
+> @@ -14,6 +14,7 @@ citrix.com      Citrix
+> crudebyte.com   Crudebyte
+> chinatelecom.cn China Telecom
+> eldorado.org.br Instituto de Pesquisas Eldorado
+> +fb.com          Facebook
+> fujitsu.com     Fujitsu
+> google.com      Google
+> greensocs.com   GreenSocs
+> diff --git a/contrib/gitdm/group-map-facebook b/contrib/gitdm/group-map-fa=
+cebook
+> new file mode 100644
+> index 0000000000..38589f8fb9
+> --- /dev/null
+> +++ b/contrib/gitdm/group-map-facebook
+> @@ -0,0 +1,5 @@
+> +#
+> +# Some Facebook contributors also occasionally use personal email address=
+es.
+> +#
+> +
+> +peter@pjd.dev
+> diff --git a/gitdm.config b/gitdm.config
+> index f79d39df63..75b55b3603 100644
+> --- a/gitdm.config
+> +++ b/gitdm.config
+> @@ -33,6 +33,7 @@ EmailMap contrib/gitdm/domain-map
+>=20
+> GroupMap contrib/gitdm/group-map-cadence Cadence Design Systems
+> GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
+> +GroupMap contrib/gitdm/group-map-facebook Facebook
+> GroupMap contrib/gitdm/group-map-ibm IBM
+> GroupMap contrib/gitdm/group-map-janustech Janus Technologies
+> GroupMap contrib/gitdm/group-map-netflix Netflix
+> --=20
+> 2.34.1
+>=20
 
 
