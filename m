@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F148F6523F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:50:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5D76523F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:50:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7erR-0004Qu-1A; Tue, 20 Dec 2022 10:48:58 -0500
+	id 1p7esU-0005Aj-5F; Tue, 20 Dec 2022 10:50:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7eqm-0004KX-Le
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:48:20 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7eqf-0005xh-Gr
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:48:15 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id x66so8784706pfx.3
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 07:48:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zrmmls3sAWqwVFmhx2BSQWclMKMNgLbqjoKnsVs4SU0=;
- b=hAruqmH/zbukb0JJn3O8hM6OJa/CNfS9kZo4kXxsjBNzrZcnxBBvs/LIXFoCFndd8w
- lQnNjpmpO+8v1L5l2iLZJ981qjVND0ifnKYu7mjdIKEU2G7x+fUNYhOc7OZlAnHDegLt
- bH7BHqGhmoLdWA3G1NJ6+D+ZYrugrH+ULHmn6qqEIBTWYVW/DJINqhpsQ2O8jzZY7hlw
- Ydub+EI+Vb6FO6TeUFhPB2c/JhvcXjPUzS1R9JcMtvGKQpSnOA5froAppPcFsNdqxxFE
- JkQiv0qTtdc1WowaUGjAOWu8qZ2UiU67IqVDdZ8K5Z83d/B5WjhzW6SQpscIDMCGpaX1
- HmWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zrmmls3sAWqwVFmhx2BSQWclMKMNgLbqjoKnsVs4SU0=;
- b=f55nhwnt2QO/PvLSrk5ntVvPrfjvLbxbo18W/JRMq+yHCgnwMs/pOKD4j2dgYU6BMy
- pkJCyMBFaNwgyH+wmXPL9FGQYoda6Iecnhks0g+4E3mWxXmPIToHdX8M9NJ8bn36X7TL
- x6XwZafUoUw6B2B8cGS+GWtf/Iv28bxstisnt6vvY6KHWsI+BoL52siIdR20YHFrAjXC
- uxh1YNwL3Aqx4GNsZZfTCubJdWCQyFuBiGVyGQsBsB38EASoisAAMbJVOjhb3tL79Lxm
- 04SCADsrFIZgwPvgMpxYu6s1yvIcAL/rpH6vGYp3rcgphL7KfN89nkVLBq247mXbMfMU
- xorQ==
-X-Gm-Message-State: ANoB5pmsoykPAEtvosTAsYMsmVSgBsbWmJMsIQ+w/FI6DqN73HbmHK17
- 4dryT3/f7hiIeQCklS8HEE0gqMExc4UPuvXEww+NiA==
-X-Google-Smtp-Source: AA0mqf7776XKcmRkbE4pcDpILR2y2zG9lZR8r0QRspbgUGgUjuYuiHePBEUSBl42EUVhiC6T8vcUoXedV7b52O92hNE=
-X-Received: by 2002:a63:c149:0:b0:477:86c1:640f with SMTP id
- p9-20020a63c149000000b0047786c1640fmr2448223pgi.231.1671551287869; Tue, 20
- Dec 2022 07:48:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7esR-00059z-Me
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:49:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7esQ-000660-5S
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:49:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671551397;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Fx7o2tNeA6adYj5JeDzTKm2HMmlREJGttHHQnMgaZKA=;
+ b=YtI2MTg0+2ocI4zteVLoimOfihZ+TOVdSfcOlCVmLOc6UbXZPKWvF3EaQLBz+YgM2xI38e
+ yHSUqh+YDuvjDsJbYlXk9q/mh19ZVywoUuhEDlM4yteMUQ4HmW9jd1QGh+QpJSlp2YAf1e
+ 2R/cMIEIPAbaMUTyO3P6VL596ahilvQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-385-sweGg5HROjysHd333Yvo-A-1; Tue, 20 Dec 2022 10:49:46 -0500
+X-MC-Unique: sweGg5HROjysHd333Yvo-A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4302719705D0
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 15:49:46 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 05ED0400D79E;
+ Tue, 20 Dec 2022 15:49:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B209221E691D; Tue, 20 Dec 2022 16:49:44 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com,
+	kwolf@redhat.com,
+	pbonzini@redhat.com
+Subject: [PATCH v2 0/5] coroutine: Clean up includes
+Date: Tue, 20 Dec 2022 16:49:39 +0100
+Message-Id: <20221220154944.3611845-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20221220144219.25254-1-philmd@linaro.org>
- <20221220144219.25254-3-philmd@linaro.org>
-In-Reply-To: <20221220144219.25254-3-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Dec 2022 15:47:56 +0000
-Message-ID: <CAFEAcA--drO58jSz5LeXzrc3pqpZgLwXh4KyocXBP3cgnTX-pA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] linux-user/signal: Silent -Winitializer-overrides
- warnings
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42a.google.com
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,84 +77,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 20 Dec 2022 at 14:43, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> The target SIGIOT signal is sometimes aliased with SIGABRT,
-> producing the following warning when compiling with -Wextra:
->
->   ../linux-user/signal.c:57:9: warning: initializer overrides prior initi=
-alization of this subobject [-Winitializer-overrides]
->           MAKE_SIGNAL_LIST
->           ^~~~~~~~~~~~~~~~
->   ../linux-user/signal-common.h:165:9: note: expanded from macro 'MAKE_SI=
-GNAL_LIST'
->           MAKE_SIG_ENTRY_SIGIOT
->           ^~~~~~~~~~~~~~~~~~~~~
->   ../linux-user/signal-common.h:128:41: note: expanded from macro 'MAKE_S=
-IG_ENTRY_SIGIOT'
->   #define MAKE_SIG_ENTRY_SIGIOT           MAKE_SIG_ENTRY(SIGIOT)
->                                           ^~~~~~~~~~~~~~~~~~~~~~
->   ../linux-user/signal.c:56:41: note: expanded from macro 'MAKE_SIG_ENTRY=
-'
->   #define MAKE_SIG_ENTRY(sig)     [sig] =3D TARGET_##sig,
->                                           ^~~~~~~~~~~~
->   <scratch space>:81:1: note: expanded from here
->   TARGET_SIGIOT
->   ^~~~~~~~~~~~~
->   ../linux-user/sh4/../generic/signal.h:26:34: note: expanded from macro =
-'TARGET_SIGIOT'
->   #define TARGET_SIGIOT            6
->                                    ^
->   <scratch space>:55:1: note: expanded from here
->   TARGET_SIGABRT
->   ^~~~~~~~~~~~~~
->   ../linux-user/sh4/../generic/signal.h:25:34: note: expanded from macro =
-'TARGET_SIGABRT'
->   #define TARGET_SIGABRT           6
->                                    ^
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  linux-user/signal-common.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
-> index 3e2dc604c2..a168ea4851 100644
-> --- a/linux-user/signal-common.h
-> +++ b/linux-user/signal-common.h
-> @@ -124,7 +124,7 @@ static inline void finish_sigsuspend_mask(int ret)
->  #define MAKE_SIG_ENTRY_SIGSTKFLT
->  #endif
->
-> -#if defined(SIGIOT) && defined(TARGET_SIGIOT)
-> +#if defined(SIGIOT) && defined(TARGET_SIGIOT) && TARGET_SIGABRT !=3D TAR=
-GET_SIGIOT
->  #define MAKE_SIG_ENTRY_SIGIOT           MAKE_SIG_ENTRY(SIGIOT)
->  #else
->  #define MAKE_SIG_ENTRY_SIGIOT
+v2:
+* Rebased
+* PATCH 4: Rewritten [Paolo]
+* PATCH 5: New
 
-This suppresses the array entry in the case where TARGET_SIGABRT =3D=3D
-TARGET_SIGIOT,
-but the compiler error is I think complaining about the case where
-host SIGABRT =3D=3D SIGIOT.
+Markus Armbruster (5):
+  coroutine: Clean up superfluous inclusion of qemu/coroutine.h
+  coroutine: Move coroutine_fn to qemu/osdep.h, trim includes
+  coroutine: Clean up superfluous inclusion of qemu/lockable.h
+  coroutine: Split qemu/coroutine-core.h off qemu/coroutine.h
+  coroutine: Use Coroutine typedef name instead of structure tag
 
-The MAKE_SIG_ENTRY macros are used to construct both the host-to-target sig=
-nal
-table in signal.c and also a target-signal-to-string table in strace.c;
-so whether you want to check "target signals the same?" or "host signals
-the same?" to suppress the overriding entry varies depending on which table=
-.
+ crypto/block-luks-priv.h      |   1 -
+ hw/9pfs/coth.h                |   2 +-
+ include/block/aio.h           |   9 +-
+ include/block/aio_task.h      |   2 -
+ include/block/block-common.h  |   1 -
+ include/block/graph-lock.h    |   2 -
+ include/block/raw-aio.h       |   1 -
+ include/io/channel.h          |   2 +-
+ include/monitor/hmp.h         |   1 -
+ include/qemu/coroutine-core.h | 154 ++++++++++++++++++++++++++++++++++
+ include/qemu/coroutine.h      | 113 ++-----------------------
+ include/qemu/lockable.h       |   2 +-
+ include/qemu/osdep.h          |  16 ++++
+ include/qemu/progress_meter.h |   2 +-
+ include/qemu/typedefs.h       |   1 -
+ include/scsi/pr-manager.h     |   1 -
+ nbd/nbd-internal.h            |   1 -
+ block.c                       |   2 +-
+ block/block-copy.c            |   2 +-
+ block/io_uring.c              |   2 +-
+ block/linux-aio.c             |   2 +-
+ block/mirror.c                |   2 +-
+ block/progress_meter.c        |   2 +
+ block/vdi.c                   |   2 +-
+ blockjob.c                    |   1 -
+ chardev/char.c                |   2 +-
+ crypto/block-luks.c           |   1 -
+ hw/9pfs/codir.c               |   1 -
+ hw/9pfs/cofile.c              |   1 -
+ hw/9pfs/cofs.c                |   1 -
+ hw/9pfs/coth.c                |   2 +-
+ hw/9pfs/coxattr.c             |   1 -
+ hw/block/virtio-blk.c         |   2 +-
+ migration/rdma.c              |   2 +-
+ nbd/client-connection.c       |   1 +
+ net/colo-compare.c            |   2 +-
+ qapi/qmp-dispatch.c           |   2 +-
+ tests/unit/test-aio.c         |   2 +-
+ tests/unit/test-coroutine.c   |   2 -
+ tests/unit/test-vmstate.c     |   1 -
+ ui/console.c                  |   1 +
+ util/async.c                  |   4 +-
+ util/qemu-coroutine-lock.c    |   1 -
+ util/qemu-coroutine-sleep.c   |   1 -
+ util/qemu-coroutine.c         |   1 -
+ util/thread-pool.c            |   2 +-
+ 46 files changed, 205 insertions(+), 154 deletions(-)
+ create mode 100644 include/qemu/coroutine-core.h
 
-However, this is all a bit moot because:
- (1) we deliberately do not enable the -Winitializer-overrides
-     warning, because it produces false positives on the various
-     cases where we want to use the coding pattern "initialize a range
-     first, then override some specific members within it"
- (2) There is no Linux architecture where SIGIOT is not a synonym
-     for SIGABRT, so the right thing to do here is just to
-     delete MAKE_SIG_ENTRY_SIGIOT entirely.
+-- 
+2.38.1
 
-thanks
--- PMM
 
