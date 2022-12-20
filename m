@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864CD65269D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:53:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE27652686
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:47:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7hbv-0004Hg-NP; Tue, 20 Dec 2022 13:45:07 -0500
+	id 1p7hd9-00055K-Co; Tue, 20 Dec 2022 13:46:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7hbr-0004F9-S2
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 13:45:03 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1p7hd0-00051Y-9P; Tue, 20 Dec 2022 13:46:14 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7hbj-0002Zc-P7
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 13:44:59 -0500
-Received: by mail-pl1-x631.google.com with SMTP id s7so13161849plk.5
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 10:44:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cUV8pG/Yyx/nsKvZQimT3QFq5pMp6Rsb/QjJITjz4fc=;
- b=Gt2tmR/SvXrxvq4pRM6AHQrFmDDwL/9A7bMVdwcIIIH+5vNGl/3CwIoRzgTbe6nFsO
- 7oVHbniFDLd/LuYS89T3ODyhAxl5oboS5TJTbp7oJcp+0Bsw28qvh35PsLq7LilCSdgt
- kcN3VmpbGjSenoqqfTbyL17OAcclQW+8czcExVlT5Aqpi7I5F+7wye0hp62p/2IQX8th
- KRRNYPCjYvw42l6ybElhiXLTw+PWHi5pWUDuCDSYGrFDaXPLFkn+9F6xPTVB/bpaWfIw
- bjuqcWazw/XtTWtc6Zlsi1MQIq/KX1xRX42N4aMcqw0smhGFvmTSUvyc1Z0XzfbOYO4w
- qv2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cUV8pG/Yyx/nsKvZQimT3QFq5pMp6Rsb/QjJITjz4fc=;
- b=hqvb7jP+Ce5RiWDKr+cTTsFD6xz3+iwQfyTqRsm5+4DeOvzo4l/IM98EWrf2uPbktY
- FVuf3fTyuNyfPXiv5TNfEYSg0piA9JXgPR4MNdbBqula30SlqOVEfL1fIc2GeamAEYT1
- TCCZe5lXRIQ0soLhPz+WEjxMEaugMMa36U71D1EAoz7A2bDipUPeru0Slmj7LdGOmYmF
- vlkqhbhMPiy3fBdSVt0CZGjYnlQ1ik4avnaW7RvfLdYjO+z1uej8ri05t0Sr9eL1kTv6
- V4fCNB0Q9zGyTfqzXejt7J9OeMLNNGZu5n9MfV87IkLxuusBLNX62t31iHHqqDgePdj5
- aKMQ==
-X-Gm-Message-State: ANoB5pncxx0eu8VSd16+XUL4eR+yqE5o0aMkP4m6bOzobiubl8xpHCoM
- 7cg8Jj5zqb7P1XdX4y1FjwTX5jYpGd7dDs3+4GgGcQ==
-X-Google-Smtp-Source: AA0mqf5gEL45MhrRJ20fQBw5rHH22nxOmNakQVblUCjGcSAGCRM7dluLVx1pc4Ntv3kvQ/yJsA74v+24HiszM+cayAo=
-X-Received: by 2002:a17:902:70c5:b0:189:b0a3:cf4a with SMTP id
- l5-20020a17090270c500b00189b0a3cf4amr37233125plt.60.1671561893869; Tue, 20
- Dec 2022 10:44:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1p7hcs-0002x6-Ne; Tue, 20 Dec 2022 13:46:10 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 901D076AD7;
+ Tue, 20 Dec 2022 18:46:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1671561962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZTO6pa7qaHpP6piL1fH0HXlYhosk9HC3Rfh+1xK3aNY=;
+ b=ymFWm29H47AuPPYFsa7KhGixI3R4KkT3FrWBv95WYNU4zYtSWE4eZ4Q5CcEEV0lHTI9tec
+ V/n81SnTpTM58mVQy1UBxdlcer4jI411OmvoRt2jKzRPxDmPmLWulOuVHpxDDYoQCiz81h
+ XbYO9zyOg7yVSRk2vsg5iq3wqoLg7Jo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1671561962;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZTO6pa7qaHpP6piL1fH0HXlYhosk9HC3Rfh+1xK3aNY=;
+ b=XkUixFaNB/K5bsn8ztc7QEpU/wQd3bI73FROOHb1pbvBeEuvE2M2AEvGONomNQkw2nU7ct
+ 5CICtLNqCh+bKVDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 15C531390E;
+ Tue, 20 Dec 2022 18:46:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id A+4SM+kComMNLQAAMHmgww
+ (envelope-from <farosas@suse.de>); Tue, 20 Dec 2022 18:46:01 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>, Hanna Reitz
+ <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>, Stefan Hajnoczi
+ <stefanha@redhat.com>
+Subject: Re: [PATCH] block/io: Check for replay-enabled in
+ bdrv_drain_all_begin()
+In-Reply-To: <20221220174638.2156308-1-peter.maydell@linaro.org>
+References: <20221220174638.2156308-1-peter.maydell@linaro.org>
+Date: Tue, 20 Dec 2022 15:45:59 -0300
+Message-ID: <873599syl4.fsf@suse.de>
 MIME-Version: 1.0
-References: <20221219222935.284704-1-deller@gmx.de>
-In-Reply-To: <20221219222935.284704-1-deller@gmx.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Dec 2022 18:44:42 +0000
-Message-ID: <CAFEAcA_y9Gdq66PxehfYCdX5Ck=1UQi+r3kp7rvZEWHnuj22qg@mail.gmail.com>
-Subject: Re: [PULL 0/2] Hppa fixes patches
-To: Helge Deller <deller@gmx.de>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,30 +84,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 19 Dec 2022 at 22:29, Helge Deller <deller@gmx.de> wrote:
->
-> The following changes since commit c15dc499cc22f4a71639e42e36051e118761c25f:
->
->   Merge tag 'pull-misc-20221218' of https://gitlab.com/rth7680/qemu into staging (2022-12-19 10:28:57 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/hdeller/qemu-hppa.git tags/hppa-fixes-pull-request
->
-> for you to fetch changes up to 59f8c04b222ff4b9f3799fe92a7e5d427ae48197:
->
->   target/hppa: Fix fid instruction emulation (2022-12-19 23:14:06 +0100)
->
-> ----------------------------------------------------------------
-> target/hppa patches
->
-> ----------------------------------------------------------------
+Peter Maydell <peter.maydell@linaro.org> writes:
 
+> In commit da0bd74434 we refactored bdrv_drain_all_begin() to pull out
+> the non-polling part into bdrv_drain_all_begin_nopoll().  This change
+> broke record-and-replay, because the "return early if replay enabled"
+> check is now in the sub-function bdrv_drain_all_begin_nopoll(), and
+> so it only causes us to return from that function, and not from the
+> calling bdrv_drain_all_begin().
+>
+> Fix the regression by checking whether replay is enabled in both
+> functions.
+>
+> The breakage and fix can be tested via 'make check-avocado': the
+> tests/avocado/reverse_debugging.py:ReverseDebugging_X86_64.test_x86_64_pc
+> tests/avocado/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt
+> tests were both broken by this.
+>
+> Fixes: da0bd744344adb1f285 ("block: Factor out bdrv_drain_all_begin_nopoll()")
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
+Tested-by: Fabiano Rosas <farosas@suse.de>
 
