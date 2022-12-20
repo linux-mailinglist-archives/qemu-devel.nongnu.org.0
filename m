@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25516524AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 17:33:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976D86525BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 18:46:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7fVq-0004BJ-Vg; Tue, 20 Dec 2022 11:30:44 -0500
+	id 1p7fZz-0005xb-96; Tue, 20 Dec 2022 11:35:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7fVd-0004BA-N1
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 11:30:29 -0500
-Received: from casper.infradead.org ([90.155.50.34])
+ id 1p7fZi-0005uW-Fw
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 11:34:42 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7fVV-0004TO-CM
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 11:30:29 -0500
+ id 1p7fZZ-0004aK-GD
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 11:34:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
  MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
  :Reply-To:Content-ID:Content-Description;
- bh=nBAbJmz5PWAOWSeqMHvSWohCtQOZ2LpZYIo6jQstgSI=; b=n/wXgBV2MflTM/PnGlyOk8fRkg
- 6dbC3ooli8TLwx6iJpc1hHxDgqeEfOK4u619uQip/MPIIwwqXiXIrdOsGt473ojzDmCTVJ/j7a5Jp
- w5LrKqq5xklJ6VKkRFZRXnCnZ7/8V4U9MCoyj2oLLbXf551LORR51uBDgO//vhuUgUqRJoZ/wSdiM
- Amo9MMOk4h8djLU0EaO/wkt6J3fLsysvpRoZ3kyRGc9v8XU0FT234ndspIU0sJlyjvV8iVkN6MXP+
- QiVlGTRc2YLZ9IBoXgersEvYFouKpHbDLrp6TA3JhzrVMSUwblrrJS+xcR/k4tf2VluodpgjYl3bO
- MRSfVE3w==;
+ bh=jVgazt+dmJ/3WOBapuF0GiZZREIVytzfoahHpaa4MNs=; b=XFJmnnqhrk+ZqW73IPjEMbSJ9j
+ n5bNHqgkNCca6e8wrDRG5FkFVTmhlTRl5Cf9o3PSHya+onflXehq4rkGzy9ohqCiYJNDash54+y6+
+ 1oXksPUqYuGWZvGDDs1ascYr/3x64FbxSjW3rodioVG7iqwsuilafGN26SyjlH3H7QlPhhhP8cS4m
+ 2IkdeYahf4TVn1djcGJSyonVWQ6lKFwupJlkIP2xK1l0PvDVHI95SIQxA9bqRT58Y52kUkddXGXMO
+ 7WhboCOrRHA44KnBwNKSFzKsDAMb3EL1ncB/piTKGf7LZujdmOGee5vj1RlavzsHyNkkKo9g2byzb
+ GJ8y/dCw==;
 Received: from [109.144.17.74] (helo=[127.0.0.1])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p7fSj-001xsq-BE; Tue, 20 Dec 2022 16:27:29 +0000
-Date: Tue, 20 Dec 2022 16:27:15 +0000
+ id 1p7fUy-001y0j-3g; Tue, 20 Dec 2022 16:29:48 +0000
+Date: Tue, 20 Dec 2022 16:29:36 +0000
 From: David Woodhouse <dwmw2@infradead.org>
-To: Paul Durrant <xadimgnik@gmail.com>, qemu-devel@nongnu.org
+To: paul@xen.org, Paul Durrant <xadimgnik@gmail.com>, qemu-devel@nongnu.org
 CC: Paolo Bonzini <pbonzini@redhat.com>,
  Joao Martins <joao.m.martins@oracle.com>, 
  Ankur Arora <ankur.a.arora@oracle.com>,
@@ -45,33 +45,30 @@ CC: Paolo Bonzini <pbonzini@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: =?US-ASCII?Q?Re=3A_=5BRFC_PATCH_v2_20/22=5D_i386/xen=3A_HV?=
- =?US-ASCII?Q?MOP=5Fset=5Fparam_/_HVM=5FPARAM=5FCALLBACK=5FIRQ?=
+Subject: =?US-ASCII?Q?Re=3A_=5BRFC_PATCH_v3_07/38=5D_xen-platform=3A_?=
+ =?US-ASCII?Q?allow_its_creation_with_XEN=5FEMULATE_mode?=
 User-Agent: K-9 Mail for Android
-In-Reply-To: <bec6ab0c-c73e-f5f8-f4a3-e35aa0501e6e@xen.org>
-References: <20221209095612.689243-1-dwmw2@infradead.org>
- <20221209095612.689243-21-dwmw2@infradead.org>
- <f4b7feff-c41a-25c6-d098-c4eab9b94eb1@xen.org>
- <9dbe4265d43063348a8fe6ddd2b732615f0631b9.camel@infradead.org>
- <65ccf311-be94-7cf2-6610-360549b547ab@xen.org>
- <eba6ab55c8fa4bf889744287d006a5c085ba8976.camel@infradead.org>
- <bec6ab0c-c73e-f5f8-f4a3-e35aa0501e6e@xen.org>
-Message-ID: <B09974FC-9E61-4D7E-BFFF-4B2DB9C09AB4@infradead.org>
+In-Reply-To: <6e5ab37f-4797-70f1-7e49-d1699af2a425@xen.org>
+References: <20221216004117.862106-1-dwmw2@infradead.org>
+ <20221216004117.862106-8-dwmw2@infradead.org>
+ <6e5ab37f-4797-70f1-7e49-d1699af2a425@xen.org>
+Message-ID: <09035118-6DB1-47D3-AC0E-9AB5FF802D21@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=90.155.50.34;
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
  envelope-from=BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org;
  helo=casper.infradead.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,24 +86,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 20 December 2022 13:56:39 GMT, Paul Durrant <xadimgnik@gmail=2Ecom> wro=
+On 20 December 2022 16:19:54 GMT, Paul Durrant <xadimgnik@gmail=2Ecom> wro=
 te:
->The callback via is essentially just another line interrupt but its asser=
-tion is closely coupled with the vcpu upcall_pending bit=2E Because that is=
- being dealt with in-kernel then the via should be dealt with in-kernel, ri=
-ght?
+>On 16/12/2022 00:40, David Woodhouse wrote:
+>> From: Joao Martins <joao=2Em=2Emartins@oracle=2Ecom>
+>>=20
+>> The only thing we need to handle on KVM side is to change the
+>> pfn from R/W to R/O=2E
+>>=20
+>> Signed-off-by: Joao Martins <joao=2Em=2Emartins@oracle=2Ecom>
+>> Signed-off-by: David Woodhouse <dwmw@amazon=2Eco=2Euk>
+>> ---
+>>   hw/i386/xen/xen_platform=2Ec | 11 ++++-------
+>>   1 file changed, 4 insertions(+), 7 deletions(-)
+>>=20
+>> diff --git a/hw/i386/xen/xen_platform=2Ec b/hw/i386/xen/xen_platform=2E=
+c
+>> index a6f0fb478a=2E=2E15d5ae7c69 100644
+>> --- a/hw/i386/xen/xen_platform=2Ec
+>> +++ b/hw/i386/xen/xen_platform=2Ec
+>> @@ -283,7 +283,10 @@ static void platform_fixed_ioport_writeb(void *opa=
+que, uint32_t addr, uint32_t v
+>>       case 0: /* Platform flags */ {
+>>           hvmmem_type_t mem_type =3D (val & PFFLAG_ROM_LOCK) ?
+>>               HVMMEM_ram_ro : HVMMEM_ram_rw;
+>> -        if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
+>> +        if (xen_mode =3D=3D XEN_EMULATE) {
+>> +            /* XXX */
+>
+>???
 
-Not right now, because there's not a lot of point in kernel acceleration i=
-n the case that it's delivered as GSI=2E There's no per-vCPU delivery, so i=
-t doesn't get used for IPI, for timers=2E None of the stuff we want to acce=
-lerate in-kernel=2E Only the actual PV drivers=2E
-
-If we do FIFO event channels in the future then the kernel will probably n=
-eed to own those; they need spinlocks and you can have *both* userspace and=
- kernel delivering with test-and-set-bit sequences like you can with 2level=
-=2E
-
-Even so, I was tempted to add a VFIO-like eventfd pair for the vCPU0 evtch=
-n_upcall_pending and let the kernel drive it=2E=2E=2E but qemu doesn't even=
- do the EOI side of that as $DEITY intended, so I didn't=2E
+Needs to mess with the q35/i440gx pam_update() I think=2E
 
