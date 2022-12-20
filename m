@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE37652206
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38AF86521F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:05:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7dCg-0005yz-QS; Tue, 20 Dec 2022 09:02:46 -0500
+	id 1p7dCg-0005yN-9o; Tue, 20 Dec 2022 09:02:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p7dCW-0005st-JC
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:02:40 -0500
+ id 1p7dCa-0005wp-NS
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:02:41 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p7dCU-0002XA-TI
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:02:36 -0500
+ id 1p7dCZ-0002Xl-1r
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:02:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671544953;
+ s=mimecast20190719; t=1671544957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RoglSNHRStA7iusp7Ok/OG6eExg60+j4uM7vv5xGEmg=;
- b=PWW2om8J9qUhJZSPmnl5BMc6l1JJ+Vvxqek4MrArVwvSRrdSIJOanaWb/5E3wfOPKUqzr5
- c4hp2RuqQe8h5VGxeeUry0VqROEjA2Bef8GAHJXTQyLztmjqplr+iWrqYXgiY34oipUZST
- ZCxjpCHCivIRY/6zobEJjeQQsLiUx6c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VBNyMX+OlU77yDDpbKs/c0cqbxMQdPVs0W/gqD71INU=;
+ b=elbLGfUbxfwhcqbVHzr/YbqMeqiatjEvXqW4Tr5LgOswZ/8DH8l9yzFphXIksy4UDmcNf0
+ WeySZoaLOXJsvXQpp9V04JKlycSM8J9rfXgcAX8FRjgO9BJQg4aybJmtTqM6fV7Db7C0hJ
+ 4CVM4/nLUG8HqevaGyBWJ8CKl8SNz6o=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-xzn1V_uGP82pprkRM7owiw-1; Tue, 20 Dec 2022 09:02:31 -0500
-X-MC-Unique: xzn1V_uGP82pprkRM7owiw-1
+ us-mta-113-Q5QpbhxYNF-gJ-6qdBGayA-1; Tue, 20 Dec 2022 09:02:34 -0500
+X-MC-Unique: Q5QpbhxYNF-gJ-6qdBGayA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B64B858F0E;
- Tue, 20 Dec 2022 14:02:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3A741C09C8C;
+ Tue, 20 Dec 2022 14:02:32 +0000 (UTC)
 Received: from kostyanf14nb.Dlink (ovpn-192-73.brq.redhat.com [10.40.192.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97F0714152F6;
- Tue, 20 Dec 2022 14:02:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D8FC914152F4;
+ Tue, 20 Dec 2022 14:02:31 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL v3 2/6] qga:/qga-win: skip getting pci info for USB disks
-Date: Tue, 20 Dec 2022 16:02:21 +0200
-Message-Id: <20221220140225.615908-3-kkostiuk@redhat.com>
+Subject: [PULL v3 3/6] qga: Add initial OpenBSD and NetBSD support
+Date: Tue, 20 Dec 2022 16:02:22 +0200
+Message-Id: <20221220140225.615908-4-kkostiuk@redhat.com>
 In-Reply-To: <20221220140225.615908-1-kkostiuk@redhat.com>
 References: <20221220140225.615908-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
@@ -78,41 +78,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Kfir Manor <kfir@daynix.com>
+From: Brad Smith <brad@comstyle.com>
 
-Skip getting PCI info from disks type USB and give them an empty PCI address instead.
+qga: Add initial OpenBSD and NetBSD support
 
-Signed-off-by: Kfir Manor <kfir@daynix.com>
+Signed-off-by: Brad Smith <brad@comstyle.com>
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- qga/commands-win32.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ meson.build          | 2 +-
+ qga/commands-bsd.c   | 5 +++++
+ qga/commands-posix.c | 9 +++++++--
+ qga/main.c           | 6 +++---
+ 4 files changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index bd0f3cccfe..b5fee6a2cd 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -874,10 +874,14 @@ static void get_single_disk_info(int disk_number,
-      * if that doesn't hold since that suggests some other unexpected
-      * breakage
-      */
--    disk->pci_controller = get_pci_info(disk_number, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        goto err_close;
-+    if (disk->bus_type == GUEST_DISK_BUS_TYPE_USB) {
-+        disk->pci_controller = get_empty_pci_address();
-+    } else {
-+        disk->pci_controller = get_pci_info(disk_number, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            goto err_close;
-+        }
-     }
-     if (disk->bus_type == GUEST_DISK_BUS_TYPE_SCSI
-             || disk->bus_type == GUEST_DISK_BUS_TYPE_IDE
+diff --git a/meson.build b/meson.build
+index 5c6b5a1c75..4c6f8a674a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -75,7 +75,7 @@ have_tools = get_option('tools') \
+   .allowed()
+ have_ga = get_option('guest_agent') \
+   .disable_auto_if(not have_system and not have_tools) \
+-  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd'],
++  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd', 'netbsd', 'openbsd'],
+            error_message: 'unsupported OS for QEMU guest agent') \
+   .allowed()
+ have_block = have_system or have_tools
+diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
+index 15cade2d4c..17bddda1cf 100644
+--- a/qga/commands-bsd.c
++++ b/qga/commands-bsd.c
+@@ -21,7 +21,12 @@
+ #include <sys/ucred.h>
+ #include <sys/mount.h>
+ #include <net/if_dl.h>
++#if defined(__NetBSD__) || defined(__OpenBSD__)
++#include <net/if_arp.h>
++#include <netinet/if_ether.h>
++#else
+ #include <net/ethernet.h>
++#endif
+ #include <paths.h>
+ 
+ #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 1a28326ec7..b19b9c5d18 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -45,7 +45,12 @@
+ #include <arpa/inet.h>
+ #include <sys/socket.h>
+ #include <net/if.h>
++#if defined(__NetBSD__) || defined(__OpenBSD__)
++#include <net/if_arp.h>
++#include <netinet/if_ether.h>
++#else
+ #include <net/ethernet.h>
++#endif
+ #include <sys/types.h>
+ #ifdef CONFIG_SOLARIS
+ #include <sys/sockio.h>
+@@ -2872,7 +2877,7 @@ static int guest_get_network_stats(const char *name,
+     return -1;
+ }
+ 
+-#ifndef __FreeBSD__
++#ifndef CONFIG_BSD
+ /*
+  * Fill "buf" with MAC address by ifaddrs. Pointer buf must point to a
+  * buffer with ETHER_ADDR_LEN length at least.
+@@ -2921,7 +2926,7 @@ bool guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
+     close(sock);
+     return true;
+ }
+-#endif /* __FreeBSD__ */
++#endif /* CONFIG_BSD */
+ 
+ /*
+  * Build information about guest interfaces
+diff --git a/qga/main.c b/qga/main.c
+index b3580508fa..0865c992f0 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -40,11 +40,11 @@
+ #include "commands-common.h"
+ 
+ #ifndef _WIN32
+-#ifdef __FreeBSD__
++#ifdef CONFIG_BSD
+ #define QGA_VIRTIO_PATH_DEFAULT "/dev/vtcon/org.qemu.guest_agent.0"
+-#else /* __FreeBSD__ */
++#else /* CONFIG_BSD */
+ #define QGA_VIRTIO_PATH_DEFAULT "/dev/virtio-ports/org.qemu.guest_agent.0"
+-#endif /* __FreeBSD__ */
++#endif /* CONFIG_BSD */
+ #define QGA_SERIAL_PATH_DEFAULT "/dev/ttyS0"
+ #define QGA_STATE_RELATIVE_DIR  "run"
+ #else
 -- 
 2.25.1
 
