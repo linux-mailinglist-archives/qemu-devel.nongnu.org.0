@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D797651F95
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 12:21:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C729E651F9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 12:25:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7aXH-00048J-6J; Tue, 20 Dec 2022 06:11:51 -0500
+	id 1p7aXN-0004DA-8Z; Tue, 20 Dec 2022 06:11:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7aXD-00047E-B2
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:11:47 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7aXH-00049p-T7
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:11:52 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7aXA-0003il-I9
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:11:47 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id o15so8406534wmr.4
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 03:11:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7aXF-0003gq-OH
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:11:51 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id y16so11411597wrm.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 03:11:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MyQMRgrRRtBuBRaMJJ8Zm89RkSug1TwSfRjxwE6LfEk=;
- b=Cwj0Jl3rq3QyIy/DuYaQV3mPAyRBWU4A+3ZPP6rkWqiwmD9OW3nvtH0Mi+Hb8n1BCe
- jcqEPS0R8MPU2Z2l+qU/he7Cc0GRTwRjzgyE4ZFlpOjkzcAB+ehWBFr+Q205zbx9DVLi
- oKs3V8mbEKu32Y/fq1zwkAl/BorOjKnf5XQAhJQGtHnvPPDAwiMRKh8bhPlLBNZgHF95
- LaiyJwxcpg/SjqWJgk+cOfEFjxdR3B0IhiQDmnZtq+ZBdwILq+bdUlM5BN7TgvPcTXRO
- tkGF24+oIZsju8XUYxDceLiKHXuukC+uvEKJCBIdOuW9luHDlW0ABDo5d9MJE/FT8kfY
- EPyA==
+ bh=e1KLjwcpkRpHkyHTd4A9nwCZS64HWEF8CTuzylI9ZoM=;
+ b=OU5BSyF04QdnicIifhGADL+Gj7OWykvfKE3UcoqFvYYSFMjqR2IUM/yRNKMXN6sxpn
+ r78EBMvrw0gUCLrT/3KVyldKeU5wfGwL+qhlW6c+7rJnE/EcCn4fruHOWbgpse9w8niN
+ rXr9pCw5R2Ekc4+277RsUUrVNrUw43ll5R4jIgdK7ATHawPwmhlvjckpatAY3pnRZedy
+ Uh+shMiYgZbFHD/PQnmWV7DXfqr5p5jZSDftAj6UXkWJx4D2ZSIykbVbJXlHcmRdWQ7j
+ 7SdKIkhKs5+98gCj8sOqIoaiqz++0URWTwYgCF0ys0ySZk25sY/fij4lKZYUAEXm95VM
+ HUrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MyQMRgrRRtBuBRaMJJ8Zm89RkSug1TwSfRjxwE6LfEk=;
- b=v4mO1DNf27rV4zSQMOm6RzvBHhhx8B9fLek5zVVCfVZH2UifZ0uzW+Ey5/Vnv/cZTd
- CRyNaL4wVwEVbrerqfOD6HqTh/+LrxErnb7SxGuTFRhzxEP5hxp002Ef27Isg8tkoL24
- zhKqgJa3V1oP7y7TvaG7nDrOGw0ibip5ZIb0wOkJJFRaDxqysexa0opIDtPudYDgnBVa
- 7Rjo4lHpxNrig8YH5nZWecADdPxWoslD6hqZBckQ/55M1rBYZmXpmQFNz9t5PDnIlbrx
- ja4rfwq5eTlG3/B5rS4kwzbs/NQiynnVr2S7c3BpRjWP4MRpshCqf1EaeBrJprfTebZj
- GC/A==
-X-Gm-Message-State: ANoB5pmdSOgSOH1GmISC+210gWAIl8+bF4jHHXo1DY4AVVL5d0NDywvT
- hWuSEUj9SmMqOOmFvv5R/XPF9TL/WYFFwBWrAQQ=
-X-Google-Smtp-Source: AA0mqf65BBFxdxNo7YpqIxO7ZYrHqEq1ptwOI3CEvx2jxH4Dn9d/Xi1mxBRObJMm1esxWuZWpm//bg==
-X-Received: by 2002:a05:600c:1c81:b0:3d1:e907:17cb with SMTP id
- k1-20020a05600c1c8100b003d1e90717cbmr34340720wms.1.1671534702873; 
- Tue, 20 Dec 2022 03:11:42 -0800 (PST)
+ bh=e1KLjwcpkRpHkyHTd4A9nwCZS64HWEF8CTuzylI9ZoM=;
+ b=hRFMyovl6jwAOxpF74OZBoNq2E/Aja4/CD8DWmI4ugTvv89riyvaZZ8jIIli9OisVp
+ Jb+MkisSOkXO3u/tyTI6kFJyoTsXZa/6fYWqL5qk5b9l9LPtoZiemMjQ5VbjOwfK5V7B
+ hbLDcTf/kLGymoNn1DsAgSVcJqn9QWj0e5ef/7NzyWfwKkkwSdT591wnoZ5BBPwNMo5g
+ al+spjiDbkMaOFXN2BZJnt+QeIcYkOy/NBZuvo0VukPbDaKSgJtA3P0mhT6S1xLSO2RT
+ +uMqViu4xvn9lCrrtFFn7kX9MZEePLQ0INRzI4F1U4jR9MPd/tBz2plNX3Qx2CtebE6V
+ 5Oqw==
+X-Gm-Message-State: AFqh2kpIwT5+kdJZs/Kk3jStVp2EBtXga7ahLO3+gBNvHRg59/hM2AwJ
+ FwxcnKY4yUd5fBRRTPdEaF6LSmfztv7WuXAJU6c=
+X-Google-Smtp-Source: AMrXdXteL+UfxSviWjQBIaYK793Ul9Q1bRLk9jOII6yzOadiDThclvPUla4St0N46nDHLV52uN2hJQ==
+X-Received: by 2002:adf:f6c2:0:b0:242:144:90c4 with SMTP id
+ y2-20020adff6c2000000b00242014490c4mr1053505wrp.28.1671534708756; 
+ Tue, 20 Dec 2022 03:11:48 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p189-20020a1c29c6000000b003c701c12a17sm22181405wmp.12.2022.12.20.03.11.40
+ az29-20020adfe19d000000b0024246991121sm12422027wrb.116.2022.12.20.03.11.46
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Dec 2022 03:11:42 -0800 (PST)
+ Tue, 20 Dec 2022 03:11:48 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
@@ -65,25 +65,25 @@ Cc: qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Markus Armbruster <armbru@redhat.com>, Song Gao <gaosong@loongson.cn>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH RESEND v2 3/5] target/loongarch: Restrict
- 'qapi-commands-machine.h' to system emulation
-Date: Tue, 20 Dec 2022 12:11:20 +0100
-Message-Id: <20221220111122.8966-4-philmd@linaro.org>
+Subject: [PATCH RESEND v2 4/5] target/mips: Restrict 'qapi-commands-machine.h'
+ to system emulation
+Date: Tue, 20 Dec 2022 12:11:21 +0100
+Message-Id: <20221220111122.8966-5-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221220111122.8966-1-philmd@linaro.org>
 References: <20221220111122.8966-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,45 +103,46 @@ Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
 user-mode builds") we don't generate the "qapi-commands-machine.h"
 header in a user-emulation-only build.
 
-Extract the QMP functions from cpu.c (which is always compiled)
-to the new 'monitor.c' unit (which is only compiled when system
+Extract the QMP functions from cpu.c (which is always compiled) to
+the new 'sysemu/monitor.c' unit (which is only compiled when system
 emulation is selected).
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/cpu.c       | 27 --------------------------
- target/loongarch/meson.build |  1 +
- target/loongarch/monitor.c   | 37 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 38 insertions(+), 27 deletions(-)
- create mode 100644 target/loongarch/monitor.c
+ target/mips/cpu.c              | 29 -------------------------
+ target/mips/sysemu/meson.build |  1 +
+ target/mips/sysemu/monitor.c   | 39 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+), 29 deletions(-)
+ create mode 100644 target/mips/sysemu/monitor.c
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index e7b0e12be6..0fb853d915 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -12,7 +12,6 @@
- #include "qemu/module.h"
- #include "sysemu/qtest.h"
- #include "exec/exec-all.h"
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 7a565466cb..7a37123419 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -32,7 +32,6 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/qdev-clock.h"
+ #include "semihosting/semihost.h"
 -#include "qapi/qapi-commands-machine-target.h"
- #include "cpu.h"
- #include "internals.h"
- #include "fpu/softfloat-helpers.h"
-@@ -744,29 +743,3 @@ static const TypeInfo loongarch_cpu_type_infos[] = {
- };
+ #include "fpu_helper.h"
  
- DEFINE_TYPES(loongarch_cpu_type_infos)
--
--static void loongarch_cpu_add_definition(gpointer data, gpointer user_data)
+ const char regnames[32][3] = {
+@@ -627,34 +626,6 @@ static void mips_cpu_register_types(void)
+ 
+ type_init(mips_cpu_register_types)
+ 
+-static void mips_cpu_add_definition(gpointer data, gpointer user_data)
 -{
 -    ObjectClass *oc = data;
 -    CpuDefinitionInfoList **cpu_list = user_data;
--    CpuDefinitionInfo *info = g_new0(CpuDefinitionInfo, 1);
--    const char *typename = object_class_get_name(oc);
+-    CpuDefinitionInfo *info;
+-    const char *typename;
 -
+-    typename = object_class_get_name(oc);
+-    info = g_malloc0(sizeof(*info));
 -    info->name = g_strndup(typename,
--                           strlen(typename) - strlen("-" TYPE_LOONGARCH_CPU));
+-                           strlen(typename) - strlen("-" TYPE_MIPS_CPU));
 -    info->q_typename = g_strdup(typename);
 -
 -    QAPI_LIST_PREPEND(*cpu_list, info);
@@ -152,51 +153,56 @@ index e7b0e12be6..0fb853d915 100644
 -    CpuDefinitionInfoList *cpu_list = NULL;
 -    GSList *list;
 -
--    list = object_class_get_list(TYPE_LOONGARCH_CPU, false);
--    g_slist_foreach(list, loongarch_cpu_add_definition, &cpu_list);
+-    list = object_class_get_list(TYPE_MIPS_CPU, false);
+-    g_slist_foreach(list, mips_cpu_add_definition, &cpu_list);
 -    g_slist_free(list);
 -
 -    return cpu_list;
 -}
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index 6376f9e84b..48a7eb7c40 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -18,6 +18,7 @@ loongarch_tcg_ss.add(zlib)
- loongarch_softmmu_ss = ss.source_set()
- loongarch_softmmu_ss.add(files(
+-
+ /* Could be used by generic CPU object */
+ MIPSCPU *mips_cpu_create_with_clock(const char *cpu_type, Clock *cpu_refclk)
+ {
+diff --git a/target/mips/sysemu/meson.build b/target/mips/sysemu/meson.build
+index cefc227582..0e424c9cc6 100644
+--- a/target/mips/sysemu/meson.build
++++ b/target/mips/sysemu/meson.build
+@@ -3,5 +3,6 @@ mips_softmmu_ss.add(files(
+   'cp0.c',
+   'cp0_timer.c',
    'machine.c',
 +  'monitor.c',
-   'tlb_helper.c',
-   'constant_timer.c',
-   'csr_helper.c',
-diff --git a/target/loongarch/monitor.c b/target/loongarch/monitor.c
+   'physaddr.c',
+ ))
+diff --git a/target/mips/sysemu/monitor.c b/target/mips/sysemu/monitor.c
 new file mode 100644
-index 0000000000..6c25957881
+index 0000000000..6db4626412
 --- /dev/null
-+++ b/target/loongarch/monitor.c
-@@ -0,0 +1,37 @@
++++ b/target/mips/sysemu/monitor.c
+@@ -0,0 +1,39 @@
 +/*
-+ * QEMU LoongArch CPU (monitor definitions)
++ * QEMU MIPS CPU (monitor definitions)
 + *
-+ * SPDX-FileCopyrightText: 2021 Loongson Technology Corporation Limited
++ * SPDX-FileCopyrightText: 2012 SUSE LINUX Products GmbH
 + *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * SPDX-License-Identifier: LGPL-2.1-or-later
 + */
 +
 +#include "qemu/osdep.h"
 +#include "qapi/qapi-commands-machine-target.h"
 +#include "cpu.h"
 +
-+static void loongarch_cpu_add_definition(gpointer data, gpointer user_data)
++static void mips_cpu_add_definition(gpointer data, gpointer user_data)
 +{
 +    ObjectClass *oc = data;
 +    CpuDefinitionInfoList **cpu_list = user_data;
-+    CpuDefinitionInfo *info = g_new0(CpuDefinitionInfo, 1);
-+    const char *typename = object_class_get_name(oc);
++    CpuDefinitionInfo *info;
++    const char *typename;
 +
++    typename = object_class_get_name(oc);
++    info = g_malloc0(sizeof(*info));
 +    info->name = g_strndup(typename,
-+                           strlen(typename) - strlen("-" TYPE_LOONGARCH_CPU));
++                           strlen(typename) - strlen("-" TYPE_MIPS_CPU));
 +    info->q_typename = g_strdup(typename);
 +
 +    QAPI_LIST_PREPEND(*cpu_list, info);
@@ -207,8 +213,8 @@ index 0000000000..6c25957881
 +    CpuDefinitionInfoList *cpu_list = NULL;
 +    GSList *list;
 +
-+    list = object_class_get_list(TYPE_LOONGARCH_CPU, false);
-+    g_slist_foreach(list, loongarch_cpu_add_definition, &cpu_list);
++    list = object_class_get_list(TYPE_MIPS_CPU, false);
++    g_slist_foreach(list, mips_cpu_add_definition, &cpu_list);
 +    g_slist_free(list);
 +
 +    return cpu_list;
