@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C36D6523A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:28:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373F76523AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:30:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7eWx-0007RR-Tr; Tue, 20 Dec 2022 10:27:47 -0500
+	id 1p7eZO-0000oG-Km; Tue, 20 Dec 2022 10:30:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7eWt-0007PW-VW
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:27:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7eZJ-0000nq-N2
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:30:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7eWs-000208-G4
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:27:43 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7eZH-0002Ry-No
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:30:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671550061;
+ s=mimecast20190719; t=1671550211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2Memed1gtxEA/orE0bvrH+aE16y+jup+jzZvFu/EpWA=;
- b=ZXWr7DgJQCKeDqsr9eETCiIWk82uQpWIY8jBk1Z1bS4pT2amc35pphYlxerT8YXYR+Vr73
- Vfu0ziHUMv9iV3wnFQHX8nGXmTd+iC+Hve1r4E4w30eKLcVbiDCWGHujcKxZ68leRhBWnn
- IVgryOug1Jvz5iOpWTBpBPgdhnvC8es=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XX0hvPZqr1UYPcxo6wpQ6WVQ/y8Z5jmEDrjpo4EBFYs=;
+ b=RysnvS47B7+Qebp8KCfitOIpCsCm/+p/IBPDHL9+j8x8iOab2V1H59e7e2GI4KihJMQF29
+ LXXFDdSqctHACJGHGdPzadxjxBqUm39lbXIXA8u4ARWI3rb7Bf3QCFvubMpxO47K/T56O5
+ vCVZygvlVwAR6opMB1aOGeGbsjezhF0=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-107-Q3xEL7LPOUinNFUBeR1vfg-1; Tue, 20 Dec 2022 10:27:40 -0500
-X-MC-Unique: Q3xEL7LPOUinNFUBeR1vfg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- cm12-20020a05622a250c00b003a521f66e8eso5665235qtb.17
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 07:27:40 -0800 (PST)
+ us-mta-640-nb6IdcotNO6qGa4Y60hOLg-1; Tue, 20 Dec 2022 10:30:10 -0500
+X-MC-Unique: nb6IdcotNO6qGa4Y60hOLg-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-3bd1ff8fadfso145789067b3.18
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 07:30:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2Memed1gtxEA/orE0bvrH+aE16y+jup+jzZvFu/EpWA=;
- b=b/PZUh2ZzCSLisDnGSHk8OdzQHsr6vUoLai4yFD72Ty5C3GlV/a9zYW8EFebDgugrY
- ekiRQI3CKTigYA1b/j4XRazE/XOlSshPydyF0/gS5zh/D8/FqX22uY5JtARtVeB5pmmL
- v0bcnbDs1+vsD+8qkR7lI3tzcVNS2gZWuLfWFdcbuxQTfcG2iKtZMW2c/XYR5EcKOaFE
- dkYTir2lDNP7363Qt/5cTuQRSxIwS0iEEfi5PSBIPgiEQNFB/8wkfF1IceXSlAxDWK8H
- 3ffSN/jTsPFg/E6WZlPg9Voyze6I0tNStytwpZtg5Icc/VRm5HfHd3Qklq3SuETsUCid
- mq4g==
-X-Gm-Message-State: AFqh2kpuAaRL5KxwcJmpRartUsCPo9kvaCZ3Cb8bG5oh46W+CMRK38N9
- Red8zSPXdBx2y4e4BmIFVqWiF3tM6JnB3gosv4u2a9rAea/Afc+w/GHxPogo/0GaGxLa948Khzs
- 8KeX4ibdFR5ptZo4=
-X-Received: by 2002:ad4:4508:0:b0:4d7:45fb:f5a2 with SMTP id
- k8-20020ad44508000000b004d745fbf5a2mr16086041qvu.13.1671550059823; 
- Tue, 20 Dec 2022 07:27:39 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtZZ95iFBkgM/1sztBZLJew0sU3LHFHSHDrI8ByZK6/fSMSYVJ5t/q/fpFqC1o26nvX3sG1mQ==
-X-Received: by 2002:ad4:4508:0:b0:4d7:45fb:f5a2 with SMTP id
- k8-20020ad44508000000b004d745fbf5a2mr16086016qvu.13.1671550059548; 
- Tue, 20 Dec 2022 07:27:39 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XX0hvPZqr1UYPcxo6wpQ6WVQ/y8Z5jmEDrjpo4EBFYs=;
+ b=kfFJ4SDLXOnQ5IAW68hVW8WN6lk66jmGx8xjj5fss89he6gPcc+DxQ96QHZQu48UDz
+ Ivx0/MlqAWnFXrFcp8+uRiu1Hn+3CZ5hK4yN0K2HnnodYEemI4DzaOS3D+1lO9rC+sQc
+ 1/f3jR1lzO0WLvPFRuXunotJ9q68xkSs1IAAoyuRbpNCjb7C4nM6DWC0uQmluZphGO/8
+ go8PPwcS9qmmwoxHL5c04fWVa1+1LUQzerlEmGo39XwgdX88SG+jEDuMqbnlTBIIcmI0
+ NkUN8bATLokkYxk9xVBUwLqCAVWj3O1x41fApBuSO/H6Lu2ITmFrSCH4Fz7X1GjNvbrS
+ SCRw==
+X-Gm-Message-State: ANoB5pn8vqtxwNHtemlkfQPZn2TCy7nbYyQ+YbCThNjL3H45wtewr3fP
+ zmqMK/CiR+5bgRQM5w3VMDLa1qIdPmg/3qxY2b/szuGOT4vJ1vkSAEu0Sk7LvXNTNB1CpDT02uF
+ n85GY/yTILjICkQ8=
+X-Received: by 2002:a81:791:0:b0:3bc:303a:25a3 with SMTP id
+ 139-20020a810791000000b003bc303a25a3mr34347997ywh.29.1671550209131; 
+ Tue, 20 Dec 2022 07:30:09 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5JJ3rZTDxaMmtSjz8KrZH7Xv+K8gAyxpZY++cisxNm3aK48UOTfovYhgFndIGKnRtYvnjo0A==
+X-Received: by 2002:a81:791:0:b0:3bc:303a:25a3 with SMTP id
+ 139-20020a810791000000b003bc303a25a3mr34347948ywh.29.1671550208760; 
+ Tue, 20 Dec 2022 07:30:08 -0800 (PST)
 Received: from redhat.com ([37.19.199.118]) by smtp.gmail.com with ESMTPSA id
- bn1-20020a05620a2ac100b006fafc111b12sm9007047qkb.83.2022.12.20.07.27.35
+ l10-20020a37f90a000000b006fcab4da037sm8969222qkj.39.2022.12.20.07.30.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 07:27:39 -0800 (PST)
-Date: Tue, 20 Dec 2022 10:27:32 -0500
+ Tue, 20 Dec 2022 07:30:08 -0800 (PST)
+Date: Tue, 20 Dec 2022 10:30:00 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Cc: stefanha@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
- cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
- yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v10 5/5] docs: Add generic vhost-vdpa device documentation
-Message-ID: <20221220102712-mutt-send-email-mst@kernel.org>
-References: <20221205084943.2259-1-longpeng2@huawei.com>
- <20221205084943.2259-6-longpeng2@huawei.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH 00/32] Consolidate PIIX south bridges
+Message-ID: <20221220102921-mutt-send-email-mst@kernel.org>
+References: <20221204190553.3274-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221205084943.2259-6-longpeng2@huawei.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221204190553.3274-1-shentey@gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,7 +91,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,91 +107,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 05, 2022 at 04:49:43PM +0800, Longpeng(Mike) wrote:
-> From: Longpeng <longpeng2@huawei.com>
+On Sun, Dec 04, 2022 at 08:05:21PM +0100, Bernhard Beschow wrote:
+> This series consolidates the implementations of the PIIX3 and PIIX4 south
+> bridges and is an extended version of [1]. The motivation is to share as much
+> code as possible and to bring both device models to feature parity such that
+> perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc machine. This
+> could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on this
+> list before.
 > 
-> Signed-off-by: Longpeng <longpeng2@huawei.com>
-
-Dropped 5/5 for now due to comments and build errors.
-
-> ---
->  .../devices/vhost-vdpa-generic-device.rst     | 66 +++++++++++++++++++
->  1 file changed, 66 insertions(+)
->  create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
+> The series is structured as follows: First, PIIX3 is changed to instantiate
+> internal devices itself, like PIIX4 does already. Second, PIIX3 gets prepared
+> for the merge with PIIX4 which includes some fixes, cleanups, and renamings.
+> Third, the same is done for PIIX4. In step four the implementations are merged.
+> Since some consolidations could be done easier with merged implementations, the
+> consolidation continues in step five which concludes the series.
 > 
-> diff --git a/docs/system/devices/vhost-vdpa-generic-device.rst b/docs/system/devices/vhost-vdpa-generic-device.rst
-> new file mode 100644
-> index 0000000000..7d13359ea1
-> --- /dev/null
-> +++ b/docs/system/devices/vhost-vdpa-generic-device.rst
-> @@ -0,0 +1,66 @@
-> +
-> +=========================
-> +vhost-vDPA generic device
-> +=========================
-> +
-> +This document explains the usage of the vhost-vDPA generic device.
-> +
-> +Description
-> +-----------
-> +
-> +vDPA(virtio data path acceleration) device is a device that uses a datapath
-> +which complies with the virtio specifications with vendor specific control
-> +path.
-> +
-> +QEMU provides two types of vhost-vDPA devices to enable the vDPA device, one
-> +is type sensitive which means QEMU needs to know the actual device type
-> +(e.g. net, blk, scsi) and another is called "vhost-vDPA generic device" which
-> +is type insensitive.
-> +
-> +The vhost-vDPA generic device builds on the vhost-vdpa subsystem and virtio
-> +subsystem. It is quite small, but it can support any type of virtio device.
-> +
-> +Examples
-> +--------
-> +
-> +1. Please make sure the modules listed bellow are installed:
-> +    vhost.ko
-> +    vhost_iotlb.ko
-> +    vdpa.ko
-> +    vhost_vdpa.ko
-> +
-> +
-> +2. Prepare the vhost-vDPA backends, here is an example using vdpa_sim_blk
-> +   device:
-> +
-> +::
-> +  host# modprobe vdpa_sim_blk
-> +  host# vdpa dev add mgmtdev vdpasim_blk name blk0
-> +  (...you can see the vhost-vDPA device under /dev directory now...)
-> +  host# ls -l /dev/vhost-vdpa-*
-> +  crw------- 1 root root 236, 0 Nov  2 00:49 /dev/vhost-vdpa-0
-> +
-> +Note:
-> +It needs some vendor-specific steps to provision the vDPA device if you're
-> +using real HW devices, such as installing the vendor-specific vDPA driver
-> +and binding the device to the driver.
-> +
-> +
-> +3. Start the virtual machine:
-> +
-> +Start QEMU with virtio-mmio bus:
-> +
-> +::
-> +  host# qemu-system                                                  \
-> +      -M microvm -m 512 -smp 2 -kernel ... -initrd ...               \
-> +      -device vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-0           \
-> +      ...
-> +
-> +
-> +Start QEMU with virtio-pci bus:
-> +
-> +::
-> +  host# qemu-system                                                  \
-> +      -M pc -m 512 -smp 2                                            \
-> +      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-0       \
-> +      ...
+> One particular challenge in this series was that the PIC of PIIX3 used to be
+> instantiated outside of the south bridge while some sub functions require a PIC
+> with populated qemu_irqs. This has been solved by introducing a proxy PIC which
+> furthermore allows PIIX3 to be agnostic towards the virtualization technology
+> used (KVM, TCG, Xen). Due to consolidation PIIX4 gained the proxy PIC as well.
+> 
+> Another challenge was dealing with optional devices where Peter already gave
+> advice in [1] which this series implements.
+> 
+> A challenge still remains with consolidating PCI interrupt handling. There are
+> still board-specific piix3_pci_slot_get_pirq() and piix4_pci_slot_get_pirq()
+> which are implemented in isa/piix.c. Any advice how to resolve these would be
+> highly appreaciated. See [2] for details.
+> 
+> Last but not least there might be some opportunity to consolidate VM state
+> handling, probably by reusing the one from PIIX3. Since I'm not very familiar
+> with the requirements I didn't touch it so far.
+
+Series
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+ok to be merged through mips tree.
+
+> Testing done:
+> * make check
+> * make check-avocado
+> * Boot live CD:
+>   * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom manjaro-kde-21.3.2-220704-linux515.iso`
+>   * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom manjaro-kde-21.3.2-220704-linux515.iso`
+> * 'qemu-system-mips64el -M malta -kernel vmlinux-3.2.0-4-5kc-malta -hda debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=ttyS0"`
+> 
+> v3:
+> - Introduce one TYPE_ICH9_USB_UHCI(fn) rather than several TYPE_ICH9_USB_UHCIx (Philippe)
+> - Make proxy PIC generic (Philippe)
+> - Track Malta's PIIX dependencies through KConfig
+> - Rebase onto Philippe's 'hw/isa/piix4: Remove MIPS Malta specific bits' series [3]
+> - Also rebase onto latest master to resolve merge conflicts. This required copying
+>   Philippe's series as first three patches - please ignore.
+> 
+> v2:
+> - Introduce TYPE_ defines for IDE and USB device models (Mark)
+> - Omit unexporting of PIIXState (Mark)
+> - Improve commit message of patch 5 to mention reset triggering through PCI
+>   configuration space (Mark)
+> - Move reviewed patches w/o dependencies to the bottom of the series for early
+>   upstreaming
+> 
+> [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg02348.html
+> [2] https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03310.html
+> [3] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg05367.html
+> 
+> Bernhard Beschow (29):
+>   hw/mips/Kconfig: Track Malta's PIIX dependencies via Kconfig
+>   hw/i386/pc_piix: Allow for setting properties before realizing PIIX3
+>     south bridge
+>   hw/usb/hcd-uhci: Introduce TYPE_ defines for device models
+>   hw/i386/pc: Create RTC controllers in south bridges
+>   hw/i386/pc: No need for rtc_state to be an out-parameter
+>   hw/isa/piix3: Create USB controller in host device
+>   hw/isa/piix3: Create power management controller in host device
+>   hw/core: Introduce proxy-pic
+>   hw/isa/piix3: Create Proxy PIC in host device
+>   hw/isa/piix3: Create IDE controller in host device
+>   hw/isa/piix3: Wire up ACPI interrupt internally
+>   hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
+>   hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
+>   hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
+>   hw/isa/piix3: Prefix pci_slot_get_pirq() with "piix3_"
+>   hw/isa/piix3: Rename typedef PIIX3State to PIIXState
+>   hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
+>   hw/isa/piix4: Remove unused code
+>   hw/isa/piix4: Use Proxy PIC device
+>   hw/isa/piix4: Reuse struct PIIXState from PIIX3
+>   hw/isa/piix4: Rename reset control operations to match PIIX3
+>   hw/isa/piix4: Prefix pci_slot_get_pirq() with "piix4_"
+>   hw/isa/piix3: Merge hw/isa/piix4.c
+>   hw/isa/piix: Harmonize names of reset control memory regions
+>   hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
+>   hw/isa/piix: Rename functions to be shared for interrupt triggering
+>   hw/isa/piix: Consolidate IRQ triggering
+>   hw/isa/piix: Share PIIX3 base class with PIIX4
+>   hw/isa/piix: Drop the "3" from the PIIX base class
+> 
+> Philippe Mathieu-Daudé (3):
+>   hw/mips/malta: Introduce PIIX4_PCI_DEVFN definition
+>   hw/mips/malta: Set PIIX4 IRQ routes in embedded bootloader
+>   hw/isa/piix4: Correct IRQRC[A:D] reset values
+> 
+>  MAINTAINERS                             |   8 +-
+>  configs/devices/mips-softmmu/common.mak |   2 -
+>  hw/core/Kconfig                         |   3 +
+>  hw/core/meson.build                     |   1 +
+>  hw/core/proxy-pic.c                     |  70 +++++
+>  hw/i386/Kconfig                         |   4 +-
+>  hw/i386/pc.c                            |  16 +-
+>  hw/i386/pc_piix.c                       |  71 ++---
+>  hw/i386/pc_q35.c                        |  16 +-
+>  hw/isa/Kconfig                          |  10 +-
+>  hw/isa/lpc_ich9.c                       |   8 +
+>  hw/isa/meson.build                      |   3 +-
+>  hw/isa/{piix3.c => piix.c}              | 302 +++++++++++++++++-----
+>  hw/isa/piix4.c                          | 327 ------------------------
+>  hw/mips/Kconfig                         |   2 +
+>  hw/mips/malta.c                         |  38 ++-
+>  hw/usb/hcd-uhci.c                       |  16 +-
+>  hw/usb/hcd-uhci.h                       |   4 +
+>  include/hw/core/proxy-pic.h             |  54 ++++
+>  include/hw/i386/ich9.h                  |   2 +
+>  include/hw/i386/pc.h                    |   2 +-
+>  include/hw/southbridge/piix.h           |  30 ++-
+>  22 files changed, 520 insertions(+), 469 deletions(-)
+>  create mode 100644 hw/core/proxy-pic.c
+>  rename hw/isa/{piix3.c => piix.c} (56%)
+>  delete mode 100644 hw/isa/piix4.c
+>  create mode 100644 include/hw/core/proxy-pic.h
+> 
 > -- 
-> 2.23.0
+> 2.38.1
+> 
 
 
