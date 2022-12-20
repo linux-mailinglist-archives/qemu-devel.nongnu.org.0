@@ -2,84 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1C06516F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 01:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013016516F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 01:03:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Q4g-0003kj-8B; Mon, 19 Dec 2022 19:01:38 -0500
+	id 1p7Q6R-00055l-9H; Mon, 19 Dec 2022 19:03:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7Q4d-0003in-OE
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:01:35 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7Q4b-0004mK-W4
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:01:35 -0500
-Received: by mail-pl1-x632.google.com with SMTP id 4so10627326plj.3
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 16:01:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=iS4THvKnSwTsfAxz+CNXXE5rmskm9qZha4MGsWEDNw8=;
- b=DuRyjxz9g1j4Co4nQRnYDHsun/hSB9+vkWLk1gS0HCd7bgf8YFb2HJC000U0ecMhq4
- q++N+EDKWO09cqLrojpnzrynz6uNT6WLk8MxKBDeLiUfU+GHVHA2AePbw019wDDaM2CS
- lHzlG67rRgi1jcBEFkBavs6mjyA8pRsswTycfZtbm6j2DSdOWI51FBgwSGMDCoUh7MQq
- Rp/pFPyCC0cbkf2rAjax9HWdRS2o9SmKRTjpN28V9bdRRwiOkqd013wHt4dB8UR/pX1i
- FPBHQ+gjXjiAZ0UuZ8/GzfXVCz0+G6ZfhKhyvXEsqegaOBPOubPw8WnOe7j3cawWwyoR
- 8W1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iS4THvKnSwTsfAxz+CNXXE5rmskm9qZha4MGsWEDNw8=;
- b=2V2tCvgFYkAhZpmJzizPwJqlp3DP/2uGrAJm5gIR/n4VQhOoxE+DS+tlSlv8MwvU8B
- 26S6gUCnxulHiaJXrSOS7foMqmuNhFInmV4/pYxA7Mnw9jUpUJIhIWNc2PZY7iyNnFT5
- Ta/YvezYhHV+twRTeIU2biXgEVPl/NgBaX7gK5tSW+Hn5IhzxE8AYWlSDYcYh/LxDEa4
- ulJ19VAondlgSFgV35MWMoNUnnbJfnX9sd8tIoNBmBxsxScrbMDV368+aIRvhVf+B2Md
- yFmSyCIfUBcJoilW0T13pKhtgcXWbcmuaQ21FSABQ2O+j1DBhxHEjbSB2hKGeKKcTdg9
- 5dBg==
-X-Gm-Message-State: AFqh2kpO+yP5fvWvXny76uggu6QyIlpsQ9xh8+r4YyqlUiU6ysRbIwCk
- 5pwlU5iPTdh5lhak5eD6qDDVwOwFagpkGmRk
-X-Google-Smtp-Source: AMrXdXsJbN54YYCKssRW8huXH46mnjyBsrQdb6fy1HoRVX1GAZUBDmdrGtarFGFueIjpekX5ZvRleQ==
-X-Received: by 2002:a17:90b:297:b0:223:de05:eace with SMTP id
- az23-20020a17090b029700b00223de05eacemr2204671pjb.41.1671494492131; 
- Mon, 19 Dec 2022 16:01:32 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:b343:d344:137b:e318?
- ([2602:47:d48c:8101:b343:d344:137b:e318])
- by smtp.gmail.com with ESMTPSA id
- e13-20020a17090a7c4d00b00218e8a0d7f0sm9759066pjl.22.2022.12.19.16.01.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 16:01:31 -0800 (PST)
-Message-ID: <fb0772c7-123e-c862-3f7d-875c2180cfda@linaro.org>
-Date: Mon, 19 Dec 2022 16:01:28 -0800
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1p7Q6D-0004rC-CU
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:03:13 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1p7Q6A-0004w1-Eh
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:03:13 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4NbcB51xJqzHqV4;
+ Tue, 20 Dec 2022 07:59:09 +0800 (CST)
+Received: from [10.174.148.223] (10.174.148.223) by
+ kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Tue, 20 Dec 2022 08:02:52 +0800
+Message-ID: <607f5e9e-710f-1436-0fc4-eb32d30e0c3a@huawei.com>
+Date: Tue, 20 Dec 2022 08:02:51 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 5/4] target/i386: Restrict 'qapi-commands-machine.h' to
- system emulation
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>
-References: <20221219211034.70491-1-philmd@linaro.org>
- <20221219212229.72052-1-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221219212229.72052-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v11 5/5] docs: Add generic vhost-vdpa device documentation
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
+CC: <stefanha@redhat.com>, <sgarzare@redhat.com>, <cohuck@redhat.com>,
+ <pbonzini@redhat.com>, <arei.gonglei@huawei.com>, <yechuan@huawei.com>,
+ <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>
+References: <20221215134944.2809-1-longpeng2@huawei.com>
+ <20221215134944.2809-6-longpeng2@huawei.com>
+ <CACGkMEt65Nr_M6aTU1NwS3t=S6CaMROt7C+Hb0HqszzO7gJKMw@mail.gmail.com>
+ <20221219163711-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221219163711-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi100025.china.huawei.com (7.221.188.158)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
+ helo=szxga03-in.huawei.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,28 +66,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/19/22 13:22, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daude<philmd@linaro.org>
-> 
-> Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
-> user-mode builds") we don't generate the "qapi-commands-machine.h"
-> header in a user-emulation-only build.
-> 
-> Guard qmp_query_cpu_definitions() within CONFIG_USER_ONLY; move
-> x86_cpu_class_check_missing_features() closer since it is only used
-> by this QMP command handler.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
-> ---
->   target/i386/cpu.c | 74 +++++++++++++++++++++++++----------------------
->   1 file changed, 39 insertions(+), 35 deletions(-)
 
-Not moving these out to a separate file?  Anyway,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+在 2022/12/20 5:37, Michael S. Tsirkin 写道:
+> On Fri, Dec 16, 2022 at 11:33:49AM +0800, Jason Wang wrote:
+>> On Thu, Dec 15, 2022 at 9:50 PM Longpeng(Mike) <longpeng2@huawei.com> wrote:
+>>>
+>>> From: Longpeng <longpeng2@huawei.com>
+>>>
+>>> Signed-off-by: Longpeng <longpeng2@huawei.com>
+>>> ---
+>>>   .../devices/vhost-vdpa-generic-device.rst     | 68 +++++++++++++++++++
+>>>   1 file changed, 68 insertions(+)
+>>>   create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
+>>>
+>>> diff --git a/docs/system/devices/vhost-vdpa-generic-device.rst b/docs/system/devices/vhost-vdpa-generic-device.rst
+>>> new file mode 100644
+>>> index 0000000000..24c825ef1a
+>>> --- /dev/null
+>>> +++ b/docs/system/devices/vhost-vdpa-generic-device.rst
+>>> @@ -0,0 +1,68 @@
+>>> +
+>>> +=========================
+>>> +vhost-vDPA generic device
+>>> +=========================
+>>> +
+>>> +This document explains the usage of the vhost-vDPA generic device.
+>>> +
+>>> +
+>>> +Description
+>>> +-----------
+>>> +
+>>> +vDPA(virtio data path acceleration) device is a device that uses a datapath
+>>> +which complies with the virtio specifications with vendor specific control
+>>> +path.
+>>> +
+>>> +QEMU provides two types of vhost-vDPA devices to enable the vDPA device, one
+>>> +is type sensitive which means QEMU needs to know the actual device type
+>>> +(e.g. net, blk, scsi) and another is called "vhost-vDPA generic device" which
+>>> +is type insensitive.
+>>> +
+>>> +The vhost-vDPA generic device builds on the vhost-vdpa subsystem and virtio
+>>> +subsystem. It is quite small, but it can support any type of virtio device.
+>>> +
+>>> +
+>>> +Requirements
+>>> +------------
+>>> +Linux 5.18+
+>>> +iproute2/vdpa 5.12.0+
+>>> +
+>>> +
+>>> +Examples
+>>> +--------
+>>> +
+>>> +1. Prepare the vhost-vDPA backends, here is an example using vdpa_sim_blk
+>>> +   device:
+>>> +
+>>> +::
+>>> +  host# modprobe vhost_vdpa
+>>> +  host# modprobe vdpa_sim_blk
+>>
+>> Nit: it's probably better to add driver binding steps here.
+>>
+>>> +  host# vdpa dev add mgmtdev vdpasim_blk name blk0
+>>> +  (...you can see the vhost-vDPA device under /dev directory now...)
+>>
+>> And then the vhost char dev name could be fetch via
+>>
+>> ls /sys/bus/vdpa/device/blk0/vhost-vdpa*
+>>
+>> With the above changes.
+>>
+>> Acked-by: Jason Wang <jasowang@redhat.com>
+>>
+>> Thanks
+> 
+> 
+> Sounds minor enough, I'll queue, pls fix with a patch on top.
+> 
+OK, thanks. I'll send when I'm free.
 
-r~
+>>> +  host# ls -l /dev/vhost-vdpa-*
+>>> +  crw------- 1 root root 236, 0 Nov  2 00:49 /dev/vhost-vdpa-0
+>>> +
+>>> +Note:
+>>> +It needs some vendor-specific steps to provision the vDPA device if you're
+>>> +using real HW devices, such as loading the vendor-specific vDPA driver and
+>>> +binding the device to the driver.
+>>> +
+>>> +
+>>> +2. Start the virtual machine:
+>>> +
+>>> +Start QEMU with virtio-mmio bus:
+>>> +
+>>> +::
+>>> +  host# qemu-system                                                  \
+>>> +      -M microvm -m 512 -smp 2 -kernel ... -initrd ...               \
+>>> +      -device vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-0           \
+>>> +      ...
+>>> +
+>>> +
+>>> +Start QEMU with virtio-pci bus:
+>>> +
+>>> +::
+>>> +  host# qemu-system                                                  \
+>>> +      -M pc -m 512 -smp 2                                            \
+>>> +      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-0       \
+>>> +      ...
+>>> --
+>>> 2.23.0
+>>>
+> 
+> .
 
