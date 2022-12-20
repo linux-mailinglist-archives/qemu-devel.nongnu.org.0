@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4496F651CDA
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:08:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270AD651D0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:19:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7YaT-0000Yq-Lx; Tue, 20 Dec 2022 04:07:01 -0500
+	id 1p7YaU-0000Zm-IP; Tue, 20 Dec 2022 04:07:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaQ-0000XD-E9
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:58 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaO-0000WC-EG
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:56 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaK-0006TF-Kw
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:58 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaK-0006TA-JH
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671527212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aMfRvclsq00xSIFGHJMcZFW8pklzhPRcdXRBJWFjx1w=;
- b=Kq77EhDu1kNG0xB+bO19uzWu4qzLWOZaPTOkU7Ly03cvD/81VxH3zEfs1jiMzKrmMRHZst
- N1HLRVFuU0CFCobHSAN6UV88oj7q4JCtNbi5q4wxNurjbfz5C36eXQB+40xiO22dnlrcP7
- XwX/jv7x9I7hREugx/ZwncYDWhYcNYs=
+ bh=LwGIEFCb9AsgR92Pq+1Qw8kosu4BV9r5IBmwYpSmV5Y=;
+ b=EOjwwX8H8m7wQMeVXjhXP4Eabnru4tIAKSrlfGhDFMjN7hoB97l584U6r3THzWxnwJLY+c
+ AV3PxkjnG+KBDctd+pFf2wcbUGsEFj4yppW3RpQr0+X/AJSBfi8D9pg+BEtf40+OBP63Pl
+ zTLAMui4EWbh+zE+UfgbG0BPlaB+r0o=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256--dvC2OcaP1-pA6d-08-gHg-1; Tue, 20 Dec 2022 04:06:48 -0500
-X-MC-Unique: -dvC2OcaP1-pA6d-08-gHg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-256-3ltptZUGNX2k4M4Tt1T_vw-1; Tue, 20 Dec 2022 04:06:48 -0500
+X-MC-Unique: 3ltptZUGNX2k4M4Tt1T_vw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BADD857D0D;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CD2085C06A;
  Tue, 20 Dec 2022 09:06:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6CFB2166B26;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C8E0B40C2064;
  Tue, 20 Dec 2022 09:06:47 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8CD7A21E680C; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
+ id 8F90721E6821; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v3 11/18] ui: Move HMP commands from monitor to new
- ui/ui-hmp-cmds.c
-Date: Tue, 20 Dec 2022 10:06:38 +0100
-Message-Id: <20221220090645.2844881-12-armbru@redhat.com>
+Subject: [PATCH v3 12/18] ui: Move more HMP commands from monitor to ui/
+Date: Tue, 20 Dec 2022 10:06:39 +0100
+Message-Id: <20221220090645.2844881-13-armbru@redhat.com>
 In-Reply-To: <20221220090645.2844881-1-armbru@redhat.com>
 References: <20221220090645.2844881-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -84,775 +83,200 @@ This moves these commands from MAINTAINERS section "Human
 Monitor (HMP)" to "Graphics".
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- monitor/hmp-cmds.c | 339 ------------------------------------------
- ui/ui-hmp-cmds.c   | 357 +++++++++++++++++++++++++++++++++++++++++++++
- ui/meson.build     |   1 +
- 3 files changed, 358 insertions(+), 339 deletions(-)
- create mode 100644 ui/ui-hmp-cmds.c
+ include/monitor/hmp.h |  2 ++
+ monitor/misc.c        | 66 -------------------------------------------
+ ui/ui-hmp-cmds.c      | 66 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 68 insertions(+), 66 deletions(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 5b41225bb9..c4f161a596 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -51,7 +51,6 @@
- #include "qapi/string-input-visitor.h"
- #include "qapi/string-output-visitor.h"
- #include "qom/object_interfaces.h"
--#include "ui/console.h"
- #include "qemu/cutils.h"
- #include "qemu/error-report.h"
- #include "hw/core/cpu.h"
-@@ -59,10 +58,6 @@
- #include "migration/snapshot.h"
- #include "migration/misc.h"
- 
--#ifdef CONFIG_SPICE
--#include <spice/enums.h>
--#endif
--
- bool hmp_handle_error(Monitor *mon, Error *err)
- {
-     if (err) {
-@@ -178,26 +173,6 @@ void hmp_info_chardev(Monitor *mon, const QDict *qdict)
-     qapi_free_ChardevInfoList(char_info);
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 27f86399f7..b228a406f3 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -81,6 +81,8 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict);
+ void hmp_netdev_del(Monitor *mon, const QDict *qdict);
+ void hmp_getfd(Monitor *mon, const QDict *qdict);
+ void hmp_closefd(Monitor *mon, const QDict *qdict);
++void hmp_mouse_move(Monitor *mon, const QDict *qdict);
++void hmp_mouse_button(Monitor *mon, const QDict *qdict);
+ void hmp_sendkey(Monitor *mon, const QDict *qdict);
+ void coroutine_fn hmp_screendump(Monitor *mon, const QDict *qdict);
+ void hmp_chardev_add(Monitor *mon, const QDict *qdict);
+diff --git a/monitor/misc.c b/monitor/misc.c
+index bf3f1c67ca..3d68940d28 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -34,7 +34,6 @@
+ #include "qemu/config-file.h"
+ #include "qemu/ctype.h"
+ #include "ui/console.h"
+-#include "ui/input.h"
+ #include "audio/audio.h"
+ #include "disas/disas.h"
+ #include "qemu/timer.h"
+@@ -825,49 +824,6 @@ static void hmp_sum(Monitor *mon, const QDict *qdict)
+     monitor_printf(mon, "%05d\n", sum);
  }
  
--void hmp_info_mice(Monitor *mon, const QDict *qdict)
--{
--    MouseInfoList *mice_list, *mouse;
+-static int mouse_button_state;
 -
--    mice_list = qmp_query_mice(NULL);
--    if (!mice_list) {
--        monitor_printf(mon, "No mouse devices connected\n");
+-static void hmp_mouse_move(Monitor *mon, const QDict *qdict)
+-{
+-    int dx, dy, dz, button;
+-    const char *dx_str = qdict_get_str(qdict, "dx_str");
+-    const char *dy_str = qdict_get_str(qdict, "dy_str");
+-    const char *dz_str = qdict_get_try_str(qdict, "dz_str");
+-
+-    dx = strtol(dx_str, NULL, 0);
+-    dy = strtol(dy_str, NULL, 0);
+-    qemu_input_queue_rel(NULL, INPUT_AXIS_X, dx);
+-    qemu_input_queue_rel(NULL, INPUT_AXIS_Y, dy);
+-
+-    if (dz_str) {
+-        dz = strtol(dz_str, NULL, 0);
+-        if (dz != 0) {
+-            button = (dz > 0) ? INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;
+-            qemu_input_queue_btn(NULL, button, true);
+-            qemu_input_event_sync();
+-            qemu_input_queue_btn(NULL, button, false);
+-        }
+-    }
+-    qemu_input_event_sync();
+-}
+-
+-static void hmp_mouse_button(Monitor *mon, const QDict *qdict)
+-{
+-    static uint32_t bmap[INPUT_BUTTON__MAX] = {
+-        [INPUT_BUTTON_LEFT]       = MOUSE_EVENT_LBUTTON,
+-        [INPUT_BUTTON_MIDDLE]     = MOUSE_EVENT_MBUTTON,
+-        [INPUT_BUTTON_RIGHT]      = MOUSE_EVENT_RBUTTON,
+-    };
+-    int button_state = qdict_get_int(qdict, "button_state");
+-
+-    if (mouse_button_state == button_state) {
 -        return;
 -    }
--
--    for (mouse = mice_list; mouse; mouse = mouse->next) {
--        monitor_printf(mon, "%c Mouse #%" PRId64 ": %s%s\n",
--                       mouse->value->current ? '*' : ' ',
--                       mouse->value->index, mouse->value->name,
--                       mouse->value->absolute ? " (absolute)" : "");
--    }
--
--    qapi_free_MouseInfoList(mice_list);
+-    qemu_input_update_buttons(NULL, bmap, mouse_button_state, button_state);
+-    qemu_input_event_sync();
+-    mouse_button_state = button_state;
 -}
 -
- void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+ static void hmp_ioport_read(Monitor *mon, const QDict *qdict)
  {
-     MigrationInfo *info;
-@@ -516,168 +491,6 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
-     qapi_free_MigrationParameters(params);
+     int size = qdict_get_int(qdict, "size");
+@@ -1700,28 +1656,6 @@ void object_del_completion(ReadLineState *rs, int nb_args, const char *str)
+     qapi_free_ObjectPropertyInfoList(start);
  }
  
--
--#ifdef CONFIG_VNC
--/* Helper for hmp_info_vnc_clients, _servers */
--static void hmp_info_VncBasicInfo(Monitor *mon, VncBasicInfo *info,
--                                  const char *name)
+-void sendkey_completion(ReadLineState *rs, int nb_args, const char *str)
 -{
--    monitor_printf(mon, "  %s: %s:%s (%s%s)\n",
--                   name,
--                   info->host,
--                   info->service,
--                   NetworkAddressFamily_str(info->family),
--                   info->websocket ? " (Websocket)" : "");
--}
+-    int i;
+-    char *sep;
+-    size_t len;
 -
--/* Helper displaying and auth and crypt info */
--static void hmp_info_vnc_authcrypt(Monitor *mon, const char *indent,
--                                   VncPrimaryAuth auth,
--                                   VncVencryptSubAuth *vencrypt)
--{
--    monitor_printf(mon, "%sAuth: %s (Sub: %s)\n", indent,
--                   VncPrimaryAuth_str(auth),
--                   vencrypt ? VncVencryptSubAuth_str(*vencrypt) : "none");
--}
--
--static void hmp_info_vnc_clients(Monitor *mon, VncClientInfoList *client)
--{
--    while (client) {
--        VncClientInfo *cinfo = client->value;
--
--        hmp_info_VncBasicInfo(mon, qapi_VncClientInfo_base(cinfo), "Client");
--        monitor_printf(mon, "    x509_dname: %s\n",
--                       cinfo->x509_dname ?: "none");
--        monitor_printf(mon, "    sasl_username: %s\n",
--                       cinfo->sasl_username ?: "none");
--
--        client = client->next;
--    }
--}
--
--static void hmp_info_vnc_servers(Monitor *mon, VncServerInfo2List *server)
--{
--    while (server) {
--        VncServerInfo2 *sinfo = server->value;
--        hmp_info_VncBasicInfo(mon, qapi_VncServerInfo2_base(sinfo), "Server");
--        hmp_info_vnc_authcrypt(mon, "    ", sinfo->auth,
--                               sinfo->has_vencrypt ? &sinfo->vencrypt : NULL);
--        server = server->next;
--    }
--}
--
--void hmp_info_vnc(Monitor *mon, const QDict *qdict)
--{
--    VncInfo2List *info2l, *info2l_head;
--    Error *err = NULL;
--
--    info2l = qmp_query_vnc_servers(&err);
--    info2l_head = info2l;
--    if (hmp_handle_error(mon, err)) {
+-    if (nb_args != 2) {
 -        return;
 -    }
--    if (!info2l) {
--        monitor_printf(mon, "None\n");
--        return;
+-    sep = strrchr(str, '-');
+-    if (sep) {
+-        str = sep + 1;
 -    }
--
--    while (info2l) {
--        VncInfo2 *info = info2l->value;
--        monitor_printf(mon, "%s:\n", info->id);
--        hmp_info_vnc_servers(mon, info->server);
--        hmp_info_vnc_clients(mon, info->clients);
--        if (!info->server) {
--            /*
--             * The server entry displays its auth, we only need to
--             * display in the case of 'reverse' connections where
--             * there's no server.
--             */
--            hmp_info_vnc_authcrypt(mon, "  ", info->auth,
--                               info->has_vencrypt ? &info->vencrypt : NULL);
+-    len = strlen(str);
+-    readline_set_completion_index(rs, len);
+-    for (i = 0; i < Q_KEY_CODE__MAX; i++) {
+-        if (!strncmp(str, QKeyCode_str(i), len)) {
+-            readline_add_completion(rs, QKeyCode_str(i));
 -        }
--        if (info->display) {
--            monitor_printf(mon, "  Display: %s\n", info->display);
--        }
--        info2l = info2l->next;
 -    }
--
--    qapi_free_VncInfo2List(info2l_head);
--
 -}
--#endif
 -
--#ifdef CONFIG_SPICE
--void hmp_info_spice(Monitor *mon, const QDict *qdict)
--{
--    SpiceChannelList *chan;
--    SpiceInfo *info;
--    const char *channel_name;
--    static const char *const channel_names[] = {
--        [SPICE_CHANNEL_MAIN] = "main",
--        [SPICE_CHANNEL_DISPLAY] = "display",
--        [SPICE_CHANNEL_INPUTS] = "inputs",
--        [SPICE_CHANNEL_CURSOR] = "cursor",
--        [SPICE_CHANNEL_PLAYBACK] = "playback",
--        [SPICE_CHANNEL_RECORD] = "record",
--        [SPICE_CHANNEL_TUNNEL] = "tunnel",
--        [SPICE_CHANNEL_SMARTCARD] = "smartcard",
--        [SPICE_CHANNEL_USBREDIR] = "usbredir",
--        [SPICE_CHANNEL_PORT] = "port",
--        [SPICE_CHANNEL_WEBDAV] = "webdav",
--    };
--
--    info = qmp_query_spice(NULL);
--
--    if (!info->enabled) {
--        monitor_printf(mon, "Server: disabled\n");
--        goto out;
--    }
--
--    monitor_printf(mon, "Server:\n");
--    if (info->has_port) {
--        monitor_printf(mon, "     address: %s:%" PRId64 "\n",
--                       info->host, info->port);
--    }
--    if (info->has_tls_port) {
--        monitor_printf(mon, "     address: %s:%" PRId64 " [tls]\n",
--                       info->host, info->tls_port);
--    }
--    monitor_printf(mon, "    migrated: %s\n",
--                   info->migrated ? "true" : "false");
--    monitor_printf(mon, "        auth: %s\n", info->auth);
--    monitor_printf(mon, "    compiled: %s\n", info->compiled_version);
--    monitor_printf(mon, "  mouse-mode: %s\n",
--                   SpiceQueryMouseMode_str(info->mouse_mode));
--
--    if (!info->has_channels || info->channels == NULL) {
--        monitor_printf(mon, "Channels: none\n");
--    } else {
--        for (chan = info->channels; chan; chan = chan->next) {
--            monitor_printf(mon, "Channel:\n");
--            monitor_printf(mon, "     address: %s:%s%s\n",
--                           chan->value->host, chan->value->port,
--                           chan->value->tls ? " [tls]" : "");
--            monitor_printf(mon, "     session: %" PRId64 "\n",
--                           chan->value->connection_id);
--            monitor_printf(mon, "     channel: %" PRId64 ":%" PRId64 "\n",
--                           chan->value->channel_type, chan->value->channel_id);
--
--            channel_name = "unknown";
--            if (chan->value->channel_type > 0 &&
--                chan->value->channel_type < ARRAY_SIZE(channel_names) &&
--                channel_names[chan->value->channel_type]) {
--                channel_name = channel_names[chan->value->channel_type];
--            }
--
--            monitor_printf(mon, "     channel name: %s\n", channel_name);
--        }
--    }
--
--out:
--    qapi_free_SpiceInfo(info);
--}
--#endif
--
- void hmp_info_balloon(Monitor *mon, const QDict *qdict)
+ void set_link_completion(ReadLineState *rs, int nb_args, const char *str)
  {
-     BalloonInfo *info;
-@@ -1262,69 +1075,6 @@ void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
- }
- 
--void hmp_set_password(Monitor *mon, const QDict *qdict)
--{
--    const char *protocol  = qdict_get_str(qdict, "protocol");
--    const char *password  = qdict_get_str(qdict, "password");
--    const char *display = qdict_get_try_str(qdict, "display");
--    const char *connected = qdict_get_try_str(qdict, "connected");
--    Error *err = NULL;
--
--    SetPasswordOptions opts = {
--        .password = (char *)password,
--        .has_connected = !!connected,
--    };
--
--    opts.connected = qapi_enum_parse(&SetPasswordAction_lookup, connected,
--                                     SET_PASSWORD_ACTION_KEEP, &err);
--    if (err) {
--        goto out;
--    }
--
--    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
--                                    DISPLAY_PROTOCOL_VNC, &err);
--    if (err) {
--        goto out;
--    }
--
--    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
--        opts.u.vnc.display = (char *)display;
--    }
--
--    qmp_set_password(&opts, &err);
--
--out:
--    hmp_handle_error(mon, err);
--}
--
--void hmp_expire_password(Monitor *mon, const QDict *qdict)
--{
--    const char *protocol  = qdict_get_str(qdict, "protocol");
--    const char *whenstr = qdict_get_str(qdict, "time");
--    const char *display = qdict_get_try_str(qdict, "display");
--    Error *err = NULL;
--
--    ExpirePasswordOptions opts = {
--        .time = (char *)whenstr,
--    };
--
--    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
--                                    DISPLAY_PROTOCOL_VNC, &err);
--    if (err) {
--        goto out;
--    }
--
--    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
--        opts.u.vnc.display = (char *)display;
--    }
--
--    qmp_expire_password(&opts, &err);
--
--out:
--    hmp_handle_error(mon, err);
--}
--
--
- #ifdef CONFIG_VNC
- static void hmp_change_read_arg(void *opaque, const char *password,
-                                 void *readline_opaque)
-@@ -1521,95 +1271,6 @@ void hmp_closefd(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
- }
- 
--void hmp_sendkey(Monitor *mon, const QDict *qdict)
--{
--    const char *keys = qdict_get_str(qdict, "keys");
--    KeyValue *v = NULL;
--    KeyValueList *head = NULL, **tail = &head;
--    int has_hold_time = qdict_haskey(qdict, "hold-time");
--    int hold_time = qdict_get_try_int(qdict, "hold-time", -1);
--    Error *err = NULL;
--    const char *separator;
--    int keyname_len;
--
--    while (1) {
--        separator = qemu_strchrnul(keys, '-');
--        keyname_len = separator - keys;
--
--        /* Be compatible with old interface, convert user inputted "<" */
--        if (keys[0] == '<' && keyname_len == 1) {
--            keys = "less";
--            keyname_len = 4;
--        }
--
--        v = g_malloc0(sizeof(*v));
--
--        if (strstart(keys, "0x", NULL)) {
--            const char *endp;
--            unsigned long value;
--
--            if (qemu_strtoul(keys, &endp, 0, &value) < 0
--                || value >= INT_MAX) {
--                goto err_out;
--            }
--            assert(endp <= keys + keyname_len);
--            if (endp != keys + keyname_len) {
--                goto err_out;
--            }
--            v->type = KEY_VALUE_KIND_NUMBER;
--            v->u.number.data = value;
--        } else {
--            int idx = index_from_key(keys, keyname_len);
--            if (idx == Q_KEY_CODE__MAX) {
--                goto err_out;
--            }
--            v->type = KEY_VALUE_KIND_QCODE;
--            v->u.qcode.data = idx;
--        }
--        QAPI_LIST_APPEND(tail, v);
--        v = NULL;
--
--        if (!*separator) {
--            break;
--        }
--        keys = separator + 1;
--    }
--
--    qmp_send_key(head, has_hold_time, hold_time, &err);
--    hmp_handle_error(mon, err);
--
--out:
--    qapi_free_KeyValue(v);
--    qapi_free_KeyValueList(head);
--    return;
--
--err_out:
--    monitor_printf(mon, "invalid parameter: %.*s\n", keyname_len, keys);
--    goto out;
--}
--
--void coroutine_fn
--hmp_screendump(Monitor *mon, const QDict *qdict)
--{
--    const char *filename = qdict_get_str(qdict, "filename");
--    const char *id = qdict_get_try_str(qdict, "device");
--    int64_t head = qdict_get_try_int(qdict, "head", 0);
--    const char *input_format  = qdict_get_try_str(qdict, "format");
--    Error *err = NULL;
--    ImageFormat format;
--
--    format = qapi_enum_parse(&ImageFormat_lookup, input_format,
--                              IMAGE_FORMAT_PPM, &err);
--    if (err) {
--        goto end;
--    }
--
--    qmp_screendump(filename, id, id != NULL, head,
--                   input_format != NULL, format, &err);
--end:
--    hmp_handle_error(mon, err);
--}
--
- void hmp_chardev_add(Monitor *mon, const QDict *qdict)
- {
-     const char *args = qdict_get_str(qdict, "args");
+     size_t len;
 diff --git a/ui/ui-hmp-cmds.c b/ui/ui-hmp-cmds.c
-new file mode 100644
-index 0000000000..aecd996968
---- /dev/null
+index aecd996968..95abd4693f 100644
+--- a/ui/ui-hmp-cmds.c
 +++ b/ui/ui-hmp-cmds.c
-@@ -0,0 +1,357 @@
-+/*
-+ * HMP commands related to UI
-+ *
-+ * Copyright IBM, Corp. 2011
-+ *
-+ * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ *
-+ * Contributions after 2012-01-13 are licensed under the terms of the
-+ * GNU GPL, version 2 or (at your option) any later version.
-+ */
+@@ -23,6 +23,50 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qemu/cutils.h"
+ #include "ui/console.h"
++#include "ui/input.h"
 +
-+#include "qemu/osdep.h"
-+#ifdef CONFIG_SPICE
-+#include <spice/enums.h>
-+#endif
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
-+#include "qapi/qapi-commands-ui.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qemu/cutils.h"
-+#include "ui/console.h"
++static int mouse_button_state;
 +
-+void hmp_info_mice(Monitor *mon, const QDict *qdict)
++void hmp_mouse_move(Monitor *mon, const QDict *qdict)
 +{
-+    MouseInfoList *mice_list, *mouse;
++    int dx, dy, dz, button;
++    const char *dx_str = qdict_get_str(qdict, "dx_str");
++    const char *dy_str = qdict_get_str(qdict, "dy_str");
++    const char *dz_str = qdict_get_try_str(qdict, "dz_str");
 +
-+    mice_list = qmp_query_mice(NULL);
-+    if (!mice_list) {
-+        monitor_printf(mon, "No mouse devices connected\n");
++    dx = strtol(dx_str, NULL, 0);
++    dy = strtol(dy_str, NULL, 0);
++    qemu_input_queue_rel(NULL, INPUT_AXIS_X, dx);
++    qemu_input_queue_rel(NULL, INPUT_AXIS_Y, dy);
++
++    if (dz_str) {
++        dz = strtol(dz_str, NULL, 0);
++        if (dz != 0) {
++            button = (dz > 0) ? INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;
++            qemu_input_queue_btn(NULL, button, true);
++            qemu_input_event_sync();
++            qemu_input_queue_btn(NULL, button, false);
++        }
++    }
++    qemu_input_event_sync();
++}
++
++void hmp_mouse_button(Monitor *mon, const QDict *qdict)
++{
++    static uint32_t bmap[INPUT_BUTTON__MAX] = {
++        [INPUT_BUTTON_LEFT]       = MOUSE_EVENT_LBUTTON,
++        [INPUT_BUTTON_MIDDLE]     = MOUSE_EVENT_MBUTTON,
++        [INPUT_BUTTON_RIGHT]      = MOUSE_EVENT_RBUTTON,
++    };
++    int button_state = qdict_get_int(qdict, "button_state");
++
++    if (mouse_button_state == button_state) {
 +        return;
 +    }
-+
-+    for (mouse = mice_list; mouse; mouse = mouse->next) {
-+        monitor_printf(mon, "%c Mouse #%" PRId64 ": %s%s\n",
-+                       mouse->value->current ? '*' : ' ',
-+                       mouse->value->index, mouse->value->name,
-+                       mouse->value->absolute ? " (absolute)" : "");
-+    }
-+
-+    qapi_free_MouseInfoList(mice_list);
++    qemu_input_update_buttons(NULL, bmap, mouse_button_state, button_state);
++    qemu_input_event_sync();
++    mouse_button_state = button_state;
 +}
-+
-+#ifdef CONFIG_VNC
-+/* Helper for hmp_info_vnc_clients, _servers */
-+static void hmp_info_VncBasicInfo(Monitor *mon, VncBasicInfo *info,
-+                                  const char *name)
+ 
+ void hmp_info_mice(Monitor *mon, const QDict *qdict)
+ {
+@@ -334,6 +378,28 @@ err_out:
+     goto out;
+ }
+ 
++void sendkey_completion(ReadLineState *rs, int nb_args, const char *str)
 +{
-+    monitor_printf(mon, "  %s: %s:%s (%s%s)\n",
-+                   name,
-+                   info->host,
-+                   info->service,
-+                   NetworkAddressFamily_str(info->family),
-+                   info->websocket ? " (Websocket)" : "");
-+}
++    int i;
++    char *sep;
++    size_t len;
 +
-+/* Helper displaying and auth and crypt info */
-+static void hmp_info_vnc_authcrypt(Monitor *mon, const char *indent,
-+                                   VncPrimaryAuth auth,
-+                                   VncVencryptSubAuth *vencrypt)
-+{
-+    monitor_printf(mon, "%sAuth: %s (Sub: %s)\n", indent,
-+                   VncPrimaryAuth_str(auth),
-+                   vencrypt ? VncVencryptSubAuth_str(*vencrypt) : "none");
-+}
-+
-+static void hmp_info_vnc_clients(Monitor *mon, VncClientInfoList *client)
-+{
-+    while (client) {
-+        VncClientInfo *cinfo = client->value;
-+
-+        hmp_info_VncBasicInfo(mon, qapi_VncClientInfo_base(cinfo), "Client");
-+        monitor_printf(mon, "    x509_dname: %s\n",
-+                       cinfo->x509_dname ?: "none");
-+        monitor_printf(mon, "    sasl_username: %s\n",
-+                       cinfo->sasl_username ?: "none");
-+
-+        client = client->next;
-+    }
-+}
-+
-+static void hmp_info_vnc_servers(Monitor *mon, VncServerInfo2List *server)
-+{
-+    while (server) {
-+        VncServerInfo2 *sinfo = server->value;
-+        hmp_info_VncBasicInfo(mon, qapi_VncServerInfo2_base(sinfo), "Server");
-+        hmp_info_vnc_authcrypt(mon, "    ", sinfo->auth,
-+                               sinfo->has_vencrypt ? &sinfo->vencrypt : NULL);
-+        server = server->next;
-+    }
-+}
-+
-+void hmp_info_vnc(Monitor *mon, const QDict *qdict)
-+{
-+    VncInfo2List *info2l, *info2l_head;
-+    Error *err = NULL;
-+
-+    info2l = qmp_query_vnc_servers(&err);
-+    info2l_head = info2l;
-+    if (hmp_handle_error(mon, err)) {
++    if (nb_args != 2) {
 +        return;
 +    }
-+    if (!info2l) {
-+        monitor_printf(mon, "None\n");
-+        return;
++    sep = strrchr(str, '-');
++    if (sep) {
++        str = sep + 1;
 +    }
-+
-+    while (info2l) {
-+        VncInfo2 *info = info2l->value;
-+        monitor_printf(mon, "%s:\n", info->id);
-+        hmp_info_vnc_servers(mon, info->server);
-+        hmp_info_vnc_clients(mon, info->clients);
-+        if (!info->server) {
-+            /*
-+             * The server entry displays its auth, we only need to
-+             * display in the case of 'reverse' connections where
-+             * there's no server.
-+             */
-+            hmp_info_vnc_authcrypt(mon, "  ", info->auth,
-+                               info->has_vencrypt ? &info->vencrypt : NULL);
-+        }
-+        if (info->display) {
-+            monitor_printf(mon, "  Display: %s\n", info->display);
-+        }
-+        info2l = info2l->next;
-+    }
-+
-+    qapi_free_VncInfo2List(info2l_head);
-+
-+}
-+#endif
-+
-+#ifdef CONFIG_SPICE
-+void hmp_info_spice(Monitor *mon, const QDict *qdict)
-+{
-+    SpiceChannelList *chan;
-+    SpiceInfo *info;
-+    const char *channel_name;
-+    static const char *const channel_names[] = {
-+        [SPICE_CHANNEL_MAIN] = "main",
-+        [SPICE_CHANNEL_DISPLAY] = "display",
-+        [SPICE_CHANNEL_INPUTS] = "inputs",
-+        [SPICE_CHANNEL_CURSOR] = "cursor",
-+        [SPICE_CHANNEL_PLAYBACK] = "playback",
-+        [SPICE_CHANNEL_RECORD] = "record",
-+        [SPICE_CHANNEL_TUNNEL] = "tunnel",
-+        [SPICE_CHANNEL_SMARTCARD] = "smartcard",
-+        [SPICE_CHANNEL_USBREDIR] = "usbredir",
-+        [SPICE_CHANNEL_PORT] = "port",
-+        [SPICE_CHANNEL_WEBDAV] = "webdav",
-+    };
-+
-+    info = qmp_query_spice(NULL);
-+
-+    if (!info->enabled) {
-+        monitor_printf(mon, "Server: disabled\n");
-+        goto out;
-+    }
-+
-+    monitor_printf(mon, "Server:\n");
-+    if (info->has_port) {
-+        monitor_printf(mon, "     address: %s:%" PRId64 "\n",
-+                       info->host, info->port);
-+    }
-+    if (info->has_tls_port) {
-+        monitor_printf(mon, "     address: %s:%" PRId64 " [tls]\n",
-+                       info->host, info->tls_port);
-+    }
-+    monitor_printf(mon, "    migrated: %s\n",
-+                   info->migrated ? "true" : "false");
-+    monitor_printf(mon, "        auth: %s\n", info->auth);
-+    monitor_printf(mon, "    compiled: %s\n", info->compiled_version);
-+    monitor_printf(mon, "  mouse-mode: %s\n",
-+                   SpiceQueryMouseMode_str(info->mouse_mode));
-+
-+    if (!info->has_channels || info->channels == NULL) {
-+        monitor_printf(mon, "Channels: none\n");
-+    } else {
-+        for (chan = info->channels; chan; chan = chan->next) {
-+            monitor_printf(mon, "Channel:\n");
-+            monitor_printf(mon, "     address: %s:%s%s\n",
-+                           chan->value->host, chan->value->port,
-+                           chan->value->tls ? " [tls]" : "");
-+            monitor_printf(mon, "     session: %" PRId64 "\n",
-+                           chan->value->connection_id);
-+            monitor_printf(mon, "     channel: %" PRId64 ":%" PRId64 "\n",
-+                           chan->value->channel_type, chan->value->channel_id);
-+
-+            channel_name = "unknown";
-+            if (chan->value->channel_type > 0 &&
-+                chan->value->channel_type < ARRAY_SIZE(channel_names) &&
-+                channel_names[chan->value->channel_type]) {
-+                channel_name = channel_names[chan->value->channel_type];
-+            }
-+
-+            monitor_printf(mon, "     channel name: %s\n", channel_name);
++    len = strlen(str);
++    readline_set_completion_index(rs, len);
++    for (i = 0; i < Q_KEY_CODE__MAX; i++) {
++        if (!strncmp(str, QKeyCode_str(i), len)) {
++            readline_add_completion(rs, QKeyCode_str(i));
 +        }
 +    }
-+
-+out:
-+    qapi_free_SpiceInfo(info);
-+}
-+#endif
-+
-+void hmp_set_password(Monitor *mon, const QDict *qdict)
-+{
-+    const char *protocol  = qdict_get_str(qdict, "protocol");
-+    const char *password  = qdict_get_str(qdict, "password");
-+    const char *display = qdict_get_try_str(qdict, "display");
-+    const char *connected = qdict_get_try_str(qdict, "connected");
-+    Error *err = NULL;
-+
-+    SetPasswordOptions opts = {
-+        .password = (char *)password,
-+        .has_connected = !!connected,
-+    };
-+
-+    opts.connected = qapi_enum_parse(&SetPasswordAction_lookup, connected,
-+                                     SET_PASSWORD_ACTION_KEEP, &err);
-+    if (err) {
-+        goto out;
-+    }
-+
-+    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-+                                    DISPLAY_PROTOCOL_VNC, &err);
-+    if (err) {
-+        goto out;
-+    }
-+
-+    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
-+        opts.u.vnc.display = (char *)display;
-+    }
-+
-+    qmp_set_password(&opts, &err);
-+
-+out:
-+    hmp_handle_error(mon, err);
 +}
 +
-+void hmp_expire_password(Monitor *mon, const QDict *qdict)
-+{
-+    const char *protocol  = qdict_get_str(qdict, "protocol");
-+    const char *whenstr = qdict_get_str(qdict, "time");
-+    const char *display = qdict_get_try_str(qdict, "display");
-+    Error *err = NULL;
-+
-+    ExpirePasswordOptions opts = {
-+        .time = (char *)whenstr,
-+    };
-+
-+    opts.protocol = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-+                                    DISPLAY_PROTOCOL_VNC, &err);
-+    if (err) {
-+        goto out;
-+    }
-+
-+    if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
-+        opts.u.vnc.display = (char *)display;
-+    }
-+
-+    qmp_expire_password(&opts, &err);
-+
-+out:
-+    hmp_handle_error(mon, err);
-+}
-+
-+void hmp_sendkey(Monitor *mon, const QDict *qdict)
-+{
-+    const char *keys = qdict_get_str(qdict, "keys");
-+    KeyValue *v = NULL;
-+    KeyValueList *head = NULL, **tail = &head;
-+    int has_hold_time = qdict_haskey(qdict, "hold-time");
-+    int hold_time = qdict_get_try_int(qdict, "hold-time", -1);
-+    Error *err = NULL;
-+    const char *separator;
-+    int keyname_len;
-+
-+    while (1) {
-+        separator = qemu_strchrnul(keys, '-');
-+        keyname_len = separator - keys;
-+
-+        /* Be compatible with old interface, convert user inputted "<" */
-+        if (keys[0] == '<' && keyname_len == 1) {
-+            keys = "less";
-+            keyname_len = 4;
-+        }
-+
-+        v = g_malloc0(sizeof(*v));
-+
-+        if (strstart(keys, "0x", NULL)) {
-+            const char *endp;
-+            unsigned long value;
-+
-+            if (qemu_strtoul(keys, &endp, 0, &value) < 0
-+                || value >= INT_MAX) {
-+                goto err_out;
-+            }
-+            assert(endp <= keys + keyname_len);
-+            if (endp != keys + keyname_len) {
-+                goto err_out;
-+            }
-+            v->type = KEY_VALUE_KIND_NUMBER;
-+            v->u.number.data = value;
-+        } else {
-+            int idx = index_from_key(keys, keyname_len);
-+            if (idx == Q_KEY_CODE__MAX) {
-+                goto err_out;
-+            }
-+            v->type = KEY_VALUE_KIND_QCODE;
-+            v->u.qcode.data = idx;
-+        }
-+        QAPI_LIST_APPEND(tail, v);
-+        v = NULL;
-+
-+        if (!*separator) {
-+            break;
-+        }
-+        keys = separator + 1;
-+    }
-+
-+    qmp_send_key(head, has_hold_time, hold_time, &err);
-+    hmp_handle_error(mon, err);
-+
-+out:
-+    qapi_free_KeyValue(v);
-+    qapi_free_KeyValueList(head);
-+    return;
-+
-+err_out:
-+    monitor_printf(mon, "invalid parameter: %.*s\n", keyname_len, keys);
-+    goto out;
-+}
-+
-+void coroutine_fn
-+hmp_screendump(Monitor *mon, const QDict *qdict)
-+{
-+    const char *filename = qdict_get_str(qdict, "filename");
-+    const char *id = qdict_get_try_str(qdict, "device");
-+    int64_t head = qdict_get_try_int(qdict, "head", 0);
-+    const char *input_format  = qdict_get_try_str(qdict, "format");
-+    Error *err = NULL;
-+    ImageFormat format;
-+
-+    format = qapi_enum_parse(&ImageFormat_lookup, input_format,
-+                              IMAGE_FORMAT_PPM, &err);
-+    if (err) {
-+        goto end;
-+    }
-+
-+    qmp_screendump(filename, id, id != NULL, head,
-+                   input_format != NULL, format, &err);
-+end:
-+    hmp_handle_error(mon, err);
-+}
-diff --git a/ui/meson.build b/ui/meson.build
-index 9194ea335b..612ea2325b 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -14,6 +14,7 @@ softmmu_ss.add(files(
-   'kbd-state.c',
-   'keymaps.c',
-   'qemu-pixman.c',
-+  'ui-hmp-cmds.c',
-   'ui-qmp-cmds.c',
-   'util.c',
- ))
+ void coroutine_fn
+ hmp_screendump(Monitor *mon, const QDict *qdict)
+ {
 -- 
 2.38.1
 
