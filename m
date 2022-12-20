@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88BB651FD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 12:40:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A34EE651FE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 12:50:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7atR-0003vr-GT; Tue, 20 Dec 2022 06:34:45 -0500
+	id 1p7atW-00040L-6t; Tue, 20 Dec 2022 06:34:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7atC-0003r5-JK; Tue, 20 Dec 2022 06:34:37 -0500
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7atO-0003wK-HG
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:34:42 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7at9-0007v0-JC; Tue, 20 Dec 2022 06:34:30 -0500
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-1445ca00781so15079612fac.1; 
- Tue, 20 Dec 2022 03:34:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=37hD4bNlkDwxByXx2PZHCm7fmHjRGBiEiS+O/Y3EvIo=;
- b=YTzeCJ4TZIkfrQQSZO7ysNnArbIQWm7he+jK4362mbzRoJ1yiAAj3PF+/vTDCpK1wr
- 25p1f+3DYdN0fNS+2gicATQkNKfeL2ZEftSfWHkF5sL/zBSHsaN/tTzzykHkOWjV8Xm6
- rnGClfZcJiUyl9mvl/QNtDbEHku0jiTDo+FzVexnRf8hGRmwZQ0/JuuN7HRDSZ9jTzhf
- EUCdx6To5vH3w76hHL118ArC3CdGEF7ieSi+ev26U3PNi3ZTmCrs6yUek9vq4adhRtK6
- XTnwiWGUwqtLT2ls4I19tLrcpRsi7xE4Rt6aMUGagdRRMor3heh/9nPGdEqrgOqB8ZSo
- 91tQ==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7atM-0007xC-No
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:34:42 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id w15so11423890wrl.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 03:34:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KMtFXkxth+Pqg/m5gJ23rWTq6dEumxmDlt1ZlpxusaI=;
+ b=QXso5BiS+vmk+dLITWap2CeQOALPIqPkeV6Z7SLlghCGwHzjYD/WtN504bPO0CiJFY
+ ctkLMeNebaHcR0LusLfhyICvDAq9/isl3kGBgfL1/0KXqY2BgJzf84xsdktAa2pwxu4w
+ ithWWTiQehj3gFACM/vc5ECn2i19u1jlTbG2yvOaM8Sbv2Eaqk7EQ8sG1sxJu3EOWxnJ
+ O+t99b6ejLVp2QC0chN5POb/xf5e0o2p00Cx7Hqkm5CcR+dUNzOM+iFsHQa5S7wvVGib
+ 06s5HjnjYU1OZtMZA4zV/0IfWk8QOE5BOI3+mIbaYvTfPrD1Sfe+kw/VnX+VmQ50Vo7u
+ CfEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=37hD4bNlkDwxByXx2PZHCm7fmHjRGBiEiS+O/Y3EvIo=;
- b=vFHYYkREwPUyR4N3KbmD5SXgUxxE+6DaCB37ivbwKGNgUQlFZwywhmybPcphNdhYDv
- TVKjKNxV78BoUN+GsU/LZTt08ZvCnetMk02O8bR6vFi9GYe4w3+CPWr1UR+Rwh2si0VQ
- wRP05ZMn/put8Snah8LV1qNNYqzA7s0RP+AQ7IMWb4qJsCDJym28n4EOjyfHoLPOHBOz
- v+oKFN2uSWHOpRxfYbX+FQB+p8u+JU5AgByAG4zLx9emOr8IIKYSJm4q3rma0x1QBwQl
- 9rL2+rvevZrE01/bzDGKxbzIaYgR1Xs+Wdyu/ymh0b+MDv0GL5U/seROVLVjjoGBfMT2
- N0jw==
-X-Gm-Message-State: AFqh2kru7/A4n6c58B6VOOgmjI4kkCw3zXm8Hb7SmXat2YCoMHGRznKj
- l5fGOZzpqjfYz01faeXPh8w=
-X-Google-Smtp-Source: AMrXdXtEptCaOIVtSFZoehTnONkwYD2OuusQGknbaVKrbCtkoIramrJsUFJbONcDntkLxDF5kgBcnA==
-X-Received: by 2002:a05:6870:588:b0:14b:c93f:ebc0 with SMTP id
- m8-20020a056870058800b0014bc93febc0mr5653074oap.4.1671536065732; 
- Tue, 20 Dec 2022 03:34:25 -0800 (PST)
-Received: from [192.168.68.106] (201-43-103-101.dsl.telesp.net.br.
- [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
- i6-20020a056870c1c600b00144e18d8525sm5883201oad.25.2022.12.20.03.34.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 03:34:25 -0800 (PST)
-Message-ID: <155f3600-8bbd-b150-7b19-8fd4eaaf9f2c@gmail.com>
-Date: Tue, 20 Dec 2022 08:34:22 -0300
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KMtFXkxth+Pqg/m5gJ23rWTq6dEumxmDlt1ZlpxusaI=;
+ b=UCTQWHnQFYCjlM2WCqMvyzvaw4SIrlR/4cmpT5O4ngHzDgbtHpC2uGxB65ytYA5iuM
+ 1HC7xbnm6Fx3Ap76AnAXiR5PzrhA3+YDvybDIplPXnGcrO/ByVs5R2cNWMaQolVOFbin
+ vWPNJK/vy1Pfer3sX3FCtwxoyad4MWINBlCtwKSM+CvlgzO6g42mLPbEyKi36ItE7PDq
+ ehYod/5pBm/J7SQMZKcjfiKEg16k1QBTOFJzbbOASoI1MOCKVF2AGaHsgOw3K5o/drp5
+ t5DgTuWl3Lxm+ccZgb/6ptnIli2ERFnO3+2OIfUNT9gWMpwgXMJlxkur43Cl73j7alzk
+ /wrw==
+X-Gm-Message-State: ANoB5pkLYntrGQHNJ8zWzo5m0ToUkwFuS0zkMetJKxuVVsNCRoHfUb/y
+ v9FaTO4zT4NWgvVH1MmBzLM/XJxDB7ZM9d8n+ew=
+X-Google-Smtp-Source: AA0mqf4QMWTdEkO3/ZR7zaHDER5SjjVEG+bSi9yv01e1tHiEuspRjcZ0vV/KNuwsScLzlw8samAkXg==
+X-Received: by 2002:adf:eb4f:0:b0:251:d76:94d1 with SMTP id
+ u15-20020adfeb4f000000b002510d7694d1mr19870490wrn.54.1671536079015; 
+ Tue, 20 Dec 2022 03:34:39 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ u18-20020adfeb52000000b002423dc3b1a9sm12425545wrn.52.2022.12.20.03.34.37
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 20 Dec 2022 03:34:38 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Huth <thuth@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 0/7] hw/mips: Make gt64xxx_pci.c endian-agnostic
+Date: Tue, 20 Dec 2022 12:34:29 +0100
+Message-Id: <20221220113436.14299-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 0/2] target/ppc: Implement Dynamic Execution Control
- Registers
-Content-Language: en-US
-To: Nicholas Miehlbradt <nicholas@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au,
- groug@kaod.org, victor.colombo@eldorado.org.br
-References: <20221220042330.2387944-1-nicholas@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221220042330.2387944-1-nicholas@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.161,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,41 +87,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+Patches missing review: 3 & 4
 
+Respining an old/unfinished series... Add the 'cpu-little-endian'
+qdev property to the GT64120 north bridge so [target-specific]
+machines can set its endianness, allowing it to be endian agnostic.
 
-Daniel
+Since v1:
+- use DEFINE_PROP_BOOL (Richard)
+- use R_GT_CPU_Endianness_MASK instead of deposit32 (Richard)
+- keep qdev_prop_set_bit() for QOM boolean
+  (there is no qdev_prop_set_bool, object_property_set_bool
+  seems overkill here).
 
-On 12/20/22 01:23, Nicholas Miehlbradt wrote:
-> Implements the Dynamic Execution Control Register (DEXCR) and the
-> Hypervisor Dynamic Execution Control Register (HDEXCR) in TCG as
-> defined in Power ISA 3.1B. Only aspects 5 (Non-privileged hash instruction
-> enable) and 6 (Privileged hash instruction enable) have architectural
-> effects. Other aspects can be manipulated but have no effect on execution.
-> 
-> Adds checks to these registers in the hashst and hashchk instructions so
-> that they are executed as nops when not enabled.
-> 
-> There is currently an RFC for the kernel interface for the DEXCR on the
-> Linux PPC mailing list:
-> https://lore.kernel.org/linuxppc-dev/20221128024458.46121-1-bgray@linux.ibm.com/
-> 
-> v3:
->   - Fix typos
-> 
-> v2:
->   - Clearing of upper 32 bits of userspace registers is now performed on
->     register read rather than register write.
-> 
-> Nicholas Miehlbradt (2):
->    target/ppc: Implement the DEXCR and HDEXCR
->    target/ppc: Check DEXCR on hash{st, chk} instructions
-> 
->   target/ppc/cpu.h         | 19 +++++++++++++
->   target/ppc/cpu_init.c    | 25 +++++++++++++++++
->   target/ppc/excp_helper.c | 58 +++++++++++++++++++++++++++++-----------
->   target/ppc/spr_common.h  |  1 +
->   target/ppc/translate.c   | 19 +++++++++++++
->   5 files changed, 107 insertions(+), 15 deletions(-)
-> 
+Philippe Mathieu-Daudé (7):
+  hw/mips/Kconfig: Introduce CONFIG_GT64120 to select gt64xxx_pci.c
+  hw/mips/gt64xxx_pci: Let the GT64120 manage the lower 512MiB hole
+  hw/mips/gt64xxx_pci: Manage endian bits with the RegisterFields API
+  hw/mips/gt64xxx_pci: Add a 'cpu-little-endian' qdev property
+  hw/mips/malta: Explicit GT64120 endianness upon device creation
+  hw/mips/meson: Make gt64xxx_pci.c endian-agnostic
+  hw/mips/gt64xxx_pci: Move it to hw/pci-host/
+
+ MAINTAINERS                                   |  2 +-
+ configs/devices/mips-softmmu/common.mak       |  1 -
+ hw/mips/Kconfig                               |  1 +
+ hw/mips/malta.c                               | 11 ++--
+ hw/mips/meson.build                           |  2 +-
+ hw/mips/trace-events                          |  6 ---
+ hw/pci-host/Kconfig                           |  6 +++
+ hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} | 52 +++++++++++++------
+ hw/pci-host/meson.build                       |  1 +
+ hw/pci-host/trace-events                      |  7 +++
+ meson.build                                   |  1 -
+ 11 files changed, 57 insertions(+), 33 deletions(-)
+ delete mode 100644 hw/mips/trace-events
+ rename hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} (96%)
+
+-- 
+2.38.1
+
 
