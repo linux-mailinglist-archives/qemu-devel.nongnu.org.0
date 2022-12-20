@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270AD651D0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:19:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F53651DD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:44:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7YaU-0000Zm-IP; Tue, 20 Dec 2022 04:07:02 -0500
+	id 1p7YaR-0000Xk-Hy; Tue, 20 Dec 2022 04:06:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaO-0000WC-EG
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:56 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaL-0000Td-Eo
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaK-0006TA-JH
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:56 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaI-0006SJ-On
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671527212;
+ s=mimecast20190719; t=1671527210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LwGIEFCb9AsgR92Pq+1Qw8kosu4BV9r5IBmwYpSmV5Y=;
- b=EOjwwX8H8m7wQMeVXjhXP4Eabnru4tIAKSrlfGhDFMjN7hoB97l584U6r3THzWxnwJLY+c
- AV3PxkjnG+KBDctd+pFf2wcbUGsEFj4yppW3RpQr0+X/AJSBfi8D9pg+BEtf40+OBP63Pl
- zTLAMui4EWbh+zE+UfgbG0BPlaB+r0o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fu6bsEVKNyys7EmC8KoIVPopUzjka0Kot7CcR+gCvOQ=;
+ b=c+4c29pOjJSIifBobVR38Bzaopl/NTQD8ddxPh2rtV5asegMkm5QVkfI+tZlebzRAvacZQ
+ IdpKnGYGiUdralfbKTRn94540pmDvhe3R0I3uF1OIAhs1krvVe0m7Wic/crqPJRDHq1YES
+ rhWzojFO0JbgvRWRd8/zbKhYXagpWE0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-3ltptZUGNX2k4M4Tt1T_vw-1; Tue, 20 Dec 2022 04:06:48 -0500
-X-MC-Unique: 3ltptZUGNX2k4M4Tt1T_vw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-626-lvlrK-PFPPu_mi7Ge38D-w-1; Tue, 20 Dec 2022 04:06:48 -0500
+X-MC-Unique: lvlrK-PFPPu_mi7Ge38D-w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CD2085C06A;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2CB4629AA2C4;
  Tue, 20 Dec 2022 09:06:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8E0B40C2064;
- Tue, 20 Dec 2022 09:06:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04B102166B2B;
+ Tue, 20 Dec 2022 09:06:48 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8F90721E6821; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
+ id 9203121E6826; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v3 12/18] ui: Move more HMP commands from monitor to ui/
-Date: Tue, 20 Dec 2022 10:06:39 +0100
-Message-Id: <20221220090645.2844881-13-armbru@redhat.com>
+Subject: [PATCH v3 13/18] ui: Improve "change vnc" error reporting
+Date: Tue, 20 Dec 2022 10:06:40 +0100
+Message-Id: <20221220090645.2844881-14-armbru@redhat.com>
 In-Reply-To: <20221220090645.2844881-1-armbru@redhat.com>
 References: <20221220090645.2844881-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,204 +79,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This moves these commands from MAINTAINERS section "Human
-Monitor (HMP)" to "Graphics".
+Switch from monitor_printf() to error_setg() and hmp_handle_error().
+This makes "this is an error" more obvious both in the source and in
+the monitor, where hmp_handle_error() prefixes the message with
+"Error: ".
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- include/monitor/hmp.h |  2 ++
- monitor/misc.c        | 66 -------------------------------------------
- ui/ui-hmp-cmds.c      | 66 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 68 insertions(+), 66 deletions(-)
+ monitor/hmp-cmds.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 27f86399f7..b228a406f3 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -81,6 +81,8 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict);
- void hmp_netdev_del(Monitor *mon, const QDict *qdict);
- void hmp_getfd(Monitor *mon, const QDict *qdict);
- void hmp_closefd(Monitor *mon, const QDict *qdict);
-+void hmp_mouse_move(Monitor *mon, const QDict *qdict);
-+void hmp_mouse_button(Monitor *mon, const QDict *qdict);
- void hmp_sendkey(Monitor *mon, const QDict *qdict);
- void coroutine_fn hmp_screendump(Monitor *mon, const QDict *qdict);
- void hmp_chardev_add(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/misc.c b/monitor/misc.c
-index bf3f1c67ca..3d68940d28 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -34,7 +34,6 @@
- #include "qemu/config-file.h"
- #include "qemu/ctype.h"
- #include "ui/console.h"
--#include "ui/input.h"
- #include "audio/audio.h"
- #include "disas/disas.h"
- #include "qemu/timer.h"
-@@ -825,49 +824,6 @@ static void hmp_sum(Monitor *mon, const QDict *qdict)
-     monitor_printf(mon, "%05d\n", sum);
- }
- 
--static int mouse_button_state;
--
--static void hmp_mouse_move(Monitor *mon, const QDict *qdict)
--{
--    int dx, dy, dz, button;
--    const char *dx_str = qdict_get_str(qdict, "dx_str");
--    const char *dy_str = qdict_get_str(qdict, "dy_str");
--    const char *dz_str = qdict_get_try_str(qdict, "dz_str");
--
--    dx = strtol(dx_str, NULL, 0);
--    dy = strtol(dy_str, NULL, 0);
--    qemu_input_queue_rel(NULL, INPUT_AXIS_X, dx);
--    qemu_input_queue_rel(NULL, INPUT_AXIS_Y, dy);
--
--    if (dz_str) {
--        dz = strtol(dz_str, NULL, 0);
--        if (dz != 0) {
--            button = (dz > 0) ? INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;
--            qemu_input_queue_btn(NULL, button, true);
--            qemu_input_event_sync();
--            qemu_input_queue_btn(NULL, button, false);
--        }
--    }
--    qemu_input_event_sync();
--}
--
--static void hmp_mouse_button(Monitor *mon, const QDict *qdict)
--{
--    static uint32_t bmap[INPUT_BUTTON__MAX] = {
--        [INPUT_BUTTON_LEFT]       = MOUSE_EVENT_LBUTTON,
--        [INPUT_BUTTON_MIDDLE]     = MOUSE_EVENT_MBUTTON,
--        [INPUT_BUTTON_RIGHT]      = MOUSE_EVENT_RBUTTON,
--    };
--    int button_state = qdict_get_int(qdict, "button_state");
--
--    if (mouse_button_state == button_state) {
--        return;
--    }
--    qemu_input_update_buttons(NULL, bmap, mouse_button_state, button_state);
--    qemu_input_event_sync();
--    mouse_button_state = button_state;
--}
--
- static void hmp_ioport_read(Monitor *mon, const QDict *qdict)
- {
-     int size = qdict_get_int(qdict, "size");
-@@ -1700,28 +1656,6 @@ void object_del_completion(ReadLineState *rs, int nb_args, const char *str)
-     qapi_free_ObjectPropertyInfoList(start);
- }
- 
--void sendkey_completion(ReadLineState *rs, int nb_args, const char *str)
--{
--    int i;
--    char *sep;
--    size_t len;
--
--    if (nb_args != 2) {
--        return;
--    }
--    sep = strrchr(str, '-');
--    if (sep) {
--        str = sep + 1;
--    }
--    len = strlen(str);
--    readline_set_completion_index(rs, len);
--    for (i = 0; i < Q_KEY_CODE__MAX; i++) {
--        if (!strncmp(str, QKeyCode_str(i), len)) {
--            readline_add_completion(rs, QKeyCode_str(i));
--        }
--    }
--}
--
- void set_link_completion(ReadLineState *rs, int nb_args, const char *str)
- {
-     size_t len;
-diff --git a/ui/ui-hmp-cmds.c b/ui/ui-hmp-cmds.c
-index aecd996968..95abd4693f 100644
---- a/ui/ui-hmp-cmds.c
-+++ b/ui/ui-hmp-cmds.c
-@@ -23,6 +23,50 @@
- #include "qapi/qmp/qdict.h"
- #include "qemu/cutils.h"
- #include "ui/console.h"
-+#include "ui/input.h"
-+
-+static int mouse_button_state;
-+
-+void hmp_mouse_move(Monitor *mon, const QDict *qdict)
-+{
-+    int dx, dy, dz, button;
-+    const char *dx_str = qdict_get_str(qdict, "dx_str");
-+    const char *dy_str = qdict_get_str(qdict, "dy_str");
-+    const char *dz_str = qdict_get_try_str(qdict, "dz_str");
-+
-+    dx = strtol(dx_str, NULL, 0);
-+    dy = strtol(dy_str, NULL, 0);
-+    qemu_input_queue_rel(NULL, INPUT_AXIS_X, dx);
-+    qemu_input_queue_rel(NULL, INPUT_AXIS_Y, dy);
-+
-+    if (dz_str) {
-+        dz = strtol(dz_str, NULL, 0);
-+        if (dz != 0) {
-+            button = (dz > 0) ? INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;
-+            qemu_input_queue_btn(NULL, button, true);
-+            qemu_input_event_sync();
-+            qemu_input_queue_btn(NULL, button, false);
-+        }
-+    }
-+    qemu_input_event_sync();
-+}
-+
-+void hmp_mouse_button(Monitor *mon, const QDict *qdict)
-+{
-+    static uint32_t bmap[INPUT_BUTTON__MAX] = {
-+        [INPUT_BUTTON_LEFT]       = MOUSE_EVENT_LBUTTON,
-+        [INPUT_BUTTON_MIDDLE]     = MOUSE_EVENT_MBUTTON,
-+        [INPUT_BUTTON_RIGHT]      = MOUSE_EVENT_RBUTTON,
-+    };
-+    int button_state = qdict_get_int(qdict, "button_state");
-+
-+    if (mouse_button_state == button_state) {
-+        return;
-+    }
-+    qemu_input_update_buttons(NULL, bmap, mouse_button_state, button_state);
-+    qemu_input_event_sync();
-+    mouse_button_state = button_state;
-+}
- 
- void hmp_info_mice(Monitor *mon, const QDict *qdict)
- {
-@@ -334,6 +378,28 @@ err_out:
-     goto out;
- }
- 
-+void sendkey_completion(ReadLineState *rs, int nb_args, const char *str)
-+{
-+    int i;
-+    char *sep;
-+    size_t len;
-+
-+    if (nb_args != 2) {
-+        return;
-+    }
-+    sep = strrchr(str, '-');
-+    if (sep) {
-+        str = sep + 1;
-+    }
-+    len = strlen(str);
-+    readline_set_completion_index(rs, len);
-+    for (i = 0; i < Q_KEY_CODE__MAX; i++) {
-+        if (!strncmp(str, QKeyCode_str(i), len)) {
-+            readline_add_completion(rs, QKeyCode_str(i));
-+        }
-+    }
-+}
-+
- void coroutine_fn
- hmp_screendump(Monitor *mon, const QDict *qdict)
- {
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index c4f161a596..4340e71c90 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1097,9 +1097,8 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+ #ifdef CONFIG_VNC
+     if (strcmp(device, "vnc") == 0) {
+         if (read_only) {
+-            monitor_printf(mon,
+-                           "Parameter 'read-only-mode' is invalid for VNC\n");
+-            return;
++            error_setg(&err, "Parameter 'read-only-mode' is invalid for VNC");
++            goto end;
+         }
+         if (strcmp(target, "passwd") == 0 ||
+             strcmp(target, "password") == 0) {
+@@ -1111,7 +1110,8 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+                 qmp_change_vnc_password(arg, &err);
+             }
+         } else {
+-            monitor_printf(mon, "Expected 'password' after 'vnc'\n");
++            error_setg(&err, "Expected 'password' after 'vnc'");
++            goto end;
+         }
+     } else
+ #endif
 -- 
 2.38.1
 
