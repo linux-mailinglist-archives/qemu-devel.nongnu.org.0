@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B3A4652306
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3606521D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 14:56:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ckQ-0006q3-Gp; Tue, 20 Dec 2022 08:33:34 -0500
+	id 1p7cv6-00024J-2q; Tue, 20 Dec 2022 08:44:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7ckM-0006mq-IJ
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:33:30 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7ckL-0005Sy-1O
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:33:30 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- u15-20020a17090a3fcf00b002191825cf02so12120421pjm.2
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 05:33:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZUnm1Lc1bnEBacgSFQj7Q8NFw4LGD+KhZVxvPJYjEug=;
- b=U9OtJdTXtrRiTGqw/tcq79NLA8//XadxSWerHjD5dlqHt9+crrW4iTWQm+oV2qj2vw
- Bf1RgI1fB0Qh1CqEIcJ9yzJANcwISCr1nJXfe1qdQz7Fa0syp+g0wTI/Y9mBvhkmeN/e
- yIdfUhCjkSQyNmfZ+RbsQk9JlF3DrXpGvIOcE5R4xssufSWMiprZqWJR0uAD78+DHGTi
- 1Y7O0vTtfwr5ModHjJeCNRa6PpmBwaZHlkUJrd5uSuZF/sDK5MQlD6x7Kgakt/TzRA2S
- B1bIX1DafTX00n0D1YYL139l+Pq+7hqrJX21WiTsAmTlHDEht1GOk2tkW/4pZoAfLSmW
- lHxw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7cuz-00023M-5b
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:44:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7cuw-0007o9-VS
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:44:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671543865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=82cX4KANAk9/Ybww6C007Al20pM9ndgKzkoxQXvhrPg=;
+ b=ggsEQT3pbtiGB/hqP12jVb4gG7LlnLQyqxk6IqnHwzkcTwB9UeaLWpNN56e4DWkZS/aFXN
+ 8AloGkOz61ape3F/iRn/eM3dKXHYQoSUZq3Mva+i/UFYNCCCLkvvZfZLhcSyeCaEdzLW9o
+ xenap2gMLGDQBwmPRgjjXAQXipg3r1Y=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-488-e4tAlzEBNQm84fKrk1hMGQ-1; Tue, 20 Dec 2022 08:44:23 -0500
+X-MC-Unique: e4tAlzEBNQm84fKrk1hMGQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ y11-20020ad457cb000000b004c6fafdde42so7034134qvx.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 05:44:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZUnm1Lc1bnEBacgSFQj7Q8NFw4LGD+KhZVxvPJYjEug=;
- b=g2YMQhQzkge4dWzD7znIo/hfXsiDFAMIGfEdAjtHXPel55V4VjOjk4C4+lH0750xa7
- VreFcx2ZyN6H6xMPZs6vp+G0/MdH2OhhL4SFzROJtSu3MyF96YuyK93MPLA0+yZrG/FD
- N+LcAXmGpWlJ6sD/KLpI1IiV4TobLvscwD9Osi867A7Wq1nYi+7gOKskmDJ4/q/OFnT4
- dZXJGrFspTOEj2btx+AuFUHGuFMFtaIo1wjS8+P8lOIvf4/gVb6MuNwSkNVBL6E7s6za
- LaRAHSXePovCXgQgDfd1qNbcdu4Q5zrxto4zrfK+dgDiUTjSMV6MTj4/Q59J3T+Joj4z
- +hWw==
-X-Gm-Message-State: AFqh2kokPSIz3nCCgjkG7dlkJodqNhACOH8DKI6Upi2jW6KiD7+rx2PZ
- 1ENosVVeu/CzaSZNTzw6Sinat0pyP8uQJrLcI3DIyJvaj0RSWQ==
-X-Google-Smtp-Source: AMrXdXvkyyVbsQhs34Q4wrexYWYp4hNgBVXoORJOqY0GB0Ts7/1RH5LLl0hwQYOmVpCDD8hCOnjG3oUvjyzuozr3sYA=
-X-Received: by 2002:a17:90b:4f8d:b0:219:9874:c7d3 with SMTP id
- qe13-20020a17090b4f8d00b002199874c7d3mr1858483pjb.221.1671543207255; Tue, 20
- Dec 2022 05:33:27 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=82cX4KANAk9/Ybww6C007Al20pM9ndgKzkoxQXvhrPg=;
+ b=ZuSWFIkoWikYr9kSbakoMHukz79VG1l5OASpgL/0A3aetHzOzbWgSiblrFeafh1wuy
+ alvYBSDNxuuviQ2xfxF5TB/TyxVITf+n/qRipUXQd+i0S4Vo5+yUTSYuckVyTdEemQuR
+ tJzk9Hhc4TiwneDaFjWmILu+JhbfUvZ8QUC5pk2EBGu28nPd+ySkFxAuSZSQxdzBWY0P
+ jPWwaK4aUqTqGpK7BvKRLZiqAb9N3DXh3q3UqdH88qtcagP6Oazf3O1rQbd60S2vrrxY
+ 9amVajSa/dddeaxbnc6DH1XrMfjMv0mgD3kJ1yiGGbieeVxL9T5RxjP84JYf8ZhXJMtA
+ lSwg==
+X-Gm-Message-State: AFqh2krMO06Z4B89BgMtb6/2R3mWAKPKLcrR1W+/JUwN/Ku2CSrVeOUF
+ xyBOwRENu0N6JnN9ldaJPlLDB/a/kkkaelJvpilJkiDp5dXx/Ihqopka1EGsTdWmczKHb28AIL6
+ Sx7ug7PunV2gFaPM=
+X-Received: by 2002:a05:622a:198d:b0:3a9:9cbb:7cdf with SMTP id
+ u13-20020a05622a198d00b003a99cbb7cdfmr5630048qtc.40.1671543863326; 
+ Tue, 20 Dec 2022 05:44:23 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuEBnhxuRccFC6+Xi76WgU+Qbb9hJh7yFCLO8FmI6kpqzWd7jfeVjlEbGqX5EjQVgAIMhO8Jg==
+X-Received: by 2002:a05:622a:198d:b0:3a9:9cbb:7cdf with SMTP id
+ u13-20020a05622a198d00b003a99cbb7cdfmr5630021qtc.40.1671543863090; 
+ Tue, 20 Dec 2022 05:44:23 -0800 (PST)
+Received: from redhat.com ([37.19.199.118]) by smtp.gmail.com with ESMTPSA id
+ u9-20020a37ab09000000b006fcaa1eab0esm8739892qke.123.2022.12.20.05.44.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Dec 2022 05:44:22 -0800 (PST)
+Date: Tue, 20 Dec 2022 08:44:15 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+ qemu-devel@nongnu.org, Eli Cohen <eli@mellanox.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Laurent Vivier <lvivier@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Lei Yang <leiyang@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>, Cindy Lu <lulu@redhat.com>
+Subject: Re: [PATCH v2 2/4] virtio_net: copy VIRTIO_NET_S_ANNOUNCE if device
+ model has it
+Message-ID: <20221220084406-mutt-send-email-mst@kernel.org>
+References: <20221124173314.2123015-1-eperezma@redhat.com>
+ <20221124173314.2123015-3-eperezma@redhat.com>
+ <CACGkMEsbib_drMeDecQeHw2ND+s7T2zMOtcQMEtFBzW-0yV=hA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221219155120.2273041-1-armbru@redhat.com>
-In-Reply-To: <20221219155120.2273041-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Dec 2022 13:33:16 +0000
-Message-ID: <CAFEAcA_no44BXZUf=fXgTYymcx2zdjaxpieSTfbvUUNUoKCG7A@mail.gmail.com>
-Subject: Re: [PULL 00/13] Monitor patches for 2022-12-19
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1035.google.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACGkMEsbib_drMeDecQeHw2ND+s7T2zMOtcQMEtFBzW-0yV=hA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,30 +106,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 19 Dec 2022 at 15:51, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit 562d4af32ec2213061f844b3838223fd7711b56a:
->
->   Merge tag 'pull-loongarch-20221215' of https://gitlab.com/gaosong/qemu into staging (2022-12-18 13:53:29 +0000)
->
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/armbru.git tags/pull-monitor-2022-12-19
->
-> for you to fetch changes up to e221cfac5935b0fea0989da9ef4ee5024777f23e:
->
->   pci: Reject pcie_aer_inject_error -c with symbolic error status (2022-12-19 16:21:56 +0100)
->
-> ----------------------------------------------------------------
-> Monitor patches for 2022-12-19
->
-> ----------------------------------------------------------------
+On Wed, Nov 30, 2022 at 02:58:35PM +0800, Jason Wang wrote:
+> On Fri, Nov 25, 2022 at 1:33 AM Eugenio Pérez <eperezma@redhat.com> wrote:
+> >
+> > Status part of the emulated feature. It will follow device model, so we
+> > must copy it as long as NIC device model has it set.
+> >
+> > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> > ---
+> >  hw/net/virtio-net.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > index eed629766f..bf71ef33e8 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -183,6 +183,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+> >              memcpy(netcfg.mac, n->mac, ETH_ALEN);
+> >          }
+> >
+> > +        netcfg.status |= (n->status & VIRTIO_NET_S_ANNOUNCE);
+> 
+> Do we need to care about the endian here? We use:
+> 
+>     virtio_stw_p(vdev, &netcfg.status, n->status);
+> 
+> At the beginning of this function.
+> 
+> Thanks
 
 
-Applied, thanks.
+Didn't see this answered.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+> >          memcpy(config, &netcfg, n->config_size);
+> >      }
+> >  }
+> > --
+> > 2.31.1
+> >
 
--- PMM
 
