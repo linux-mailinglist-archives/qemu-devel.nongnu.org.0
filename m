@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457AF652624
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E0D652683
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:46:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7gay-0002T4-PU; Tue, 20 Dec 2022 12:40:04 -0500
+	id 1p7ghQ-0003Kw-7o; Tue, 20 Dec 2022 12:46:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7gaw-0002Sl-E2
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 12:40:02 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1p7ghP-0003Kg-2A
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 12:46:43 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7gau-0007Ea-Lr
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 12:40:02 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id v23so7884326pju.3
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 09:40:00 -0800 (PST)
+ id 1p7ghN-00005k-HA
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 12:46:42 -0500
+Received: by mail-wm1-x332.google.com with SMTP id ay40so9325981wmb.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 09:46:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UcmEUcyxQ+aLPow1sNzuvjPBsa9aUy6bew4CTbgeQXg=;
- b=exmnfSRxxJOIpAubm5kTdrJSjuYyZJBFtJMgZXq/YVUbBaL0Qs6c+WNKQOdvkQtoSy
- NnDuw3yZNWVkyJDC5zKQF7ssVnVxcHLT3pNoGfRuk6xX/SxE52pNBjFFSb4TO75U3JYn
- 1InutoEu4Tfwgzy6O36FdKtClEgF1LtMyObXPWo59vetcRipAkfWVK6ibXwvH5d/Kn8i
- REcxXKqgzLkFqQ6UplKbvnKmRqM3LM/PJ7SbcXf4dtBp/UpdE+CJLn9ltFQ1zXS1jnjn
- YqnOy5Qq90DkW3VmWFphQCd3fdzGkdbYmw6WgJZrHGNNgURB56b8G7K7RX7k4pPhZZX8
- mDXg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wFikyosjlVj+KI769mCTL7Gw6h5RtUTnkPfi/ObNwEY=;
+ b=UianpQAXg6/7EdW92ZSFEXtF4/lRoAXukkYEa66VVXxvrMhsZq7ZFklhs38cMmlRPl
+ BXsYx1djefVXmKQV3qUsg5M5RbBiyyXdDsKMgvlgHDp6yvvo+RzjE4Ps678wdLA7OAj1
+ 63FP1Qo+ukRimrwfPzcAyed/4L6PD4c/1qWJ/GvWgboyTe6Ny7Mk27jgTzGzLXsI0VGe
+ JZYGM//0yUEASB7ruPiwNq/3/sMC0EoADhvX34v0cWVhgaKYoX1kKv9cj8UHoillq3Hw
+ B0mbK00yNFH3T94eEbcF0893t2DW+a5EMLggmqGO5f8mb2swza6R0w5jj2eepB1Kb4J6
+ MfkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UcmEUcyxQ+aLPow1sNzuvjPBsa9aUy6bew4CTbgeQXg=;
- b=viDieOjKDF2+/B499HftIhphAxefPYDlYYedVYMJUjK0PJug0hxBHbjp4+KCrgFKmL
- RSLfRW4foN9whjsoSXdEFFPPHIHFALGD0xvGcfXEv+fZOuYE46cyd2mT/yYfMkYPRNcr
- 0ULG5hsUCddfojQvBytdtjQSwTW+boMXSgCsnTD5d0ZYEj/akUHePgKdykQQ54/OLpXe
- JzYVjpS4CorBq3aPh0kODbmFOtPXt07yYILDgkj/u9c5y6W9gf30DXGdWUhI+B6CPPWS
- eRcIRwkZKgVcAgD0KVl21Yb5sTNMP7hrEGsEH6zMp1/7VSSNslCj610cdKooMf5cKqcK
- /MCQ==
-X-Gm-Message-State: AFqh2kq9RjNHQZZW+5OPmtjmirqkB+udtg7azo5TyoMqdgG4NJqjnsl7
- FPAUzocoihRP/QMhABRcSHD/bao5h56JmJJw4hZm5g==
-X-Google-Smtp-Source: AMrXdXu+RrTa6L5IzIG8CvE0MdVh1EHPzSKlK84U7etxLzkKSCIQw+StvuLZiuZTumhQSDA+TERgGFzWh7k4UdPiiJY=
-X-Received: by 2002:a17:90b:4f8d:b0:219:9874:c7d3 with SMTP id
- qe13-20020a17090b4f8d00b002199874c7d3mr1931894pjb.221.1671557999113; Tue, 20
- Dec 2022 09:39:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20221215152407.201278-1-kwolf@redhat.com> <87r0wvosnn.fsf@suse.de>
-In-Reply-To: <87r0wvosnn.fsf@suse.de>
+ bh=wFikyosjlVj+KI769mCTL7Gw6h5RtUTnkPfi/ObNwEY=;
+ b=xCCiwjg+aVNmSHeLMfWVKqNkaUBrnhx1xNf8qQma/Ss+WQjzduu5S5yHOusITkLWwS
+ P7WUvJRj9kKBUeFCcRK44efWGHbAX14LTVTRtA7zmlJweQW4/PlxZJ1hgMcHvf0Rp0WT
+ xpbBa1lKGB3IsMR66jTOSjvkSS3p6kEOAx6CnwsDtAlOpebCQrEMbxEX/2Lj8czImoJm
+ xVFhsIH4xahhlfyI3e723TWcebGd2Ku0yJ84syQO5AacFeLAPvEjJJRs1Db6pRd6tgP7
+ aksYgL6Er7s58vyBdn5CczVNK14l5NA9a8DUzyYdI+GotMA5JZU9Qa65eTB6JvGhXq1u
+ 6GKg==
+X-Gm-Message-State: ANoB5pmPGzRPgJ8f6XG+vdb9y2ycM/0YQq3L+I25sJ/98j5Bmcfl5wJu
+ 3gKYkusEs54kwrFefd9hgSVHWVa5OpfqmrpP
+X-Google-Smtp-Source: AA0mqf5bYX2AGLz34ivI3YvCDdmlgJrcglgL6oULcv+0+tOpz9f34Ol0JpD2rks0iM7Y2BKGahdtOA==
+X-Received: by 2002:a05:600c:3c9a:b0:3c6:c6c9:d75e with SMTP id
+ bg26-20020a05600c3c9a00b003c6c6c9d75emr48053386wmb.0.1671558400080; 
+ Tue, 20 Dec 2022 09:46:40 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ f22-20020a05600c43d600b003cf6e1df4a8sm15998512wmn.15.2022.12.20.09.46.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Dec 2022 09:46:39 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Dec 2022 17:39:47 +0000
-Message-ID: <CAFEAcA-E_s5oN7xT2=C9kwDjJnBR4amYQp4Vqj0xE=pJVdTPBw@mail.gmail.com>
-Subject: Re: [PULL v3 00/50] Block layer patches
-To: Fabiano Rosas <farosas@suse.de>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fabiano Rosas <farosas@suse.de>
+Subject: [PATCH] block/io: Check for replay-enabled in bdrv_drain_all_begin()
+Date: Tue, 20 Dec 2022 17:46:38 +0000
+Message-Id: <20221220174638.2156308-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,29 +88,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 19 Dec 2022 at 23:55, Fabiano Rosas <farosas@suse.de> wrote:
-> With today's master at c15dc499cc (Merge tag 'pull-misc-20221218'
-> of https://gitlab.com/rth7680/qemu into staging, 2022-12-19),
->
-> I get a test failure:
->
-> $ make check-avocado AVOCADO_TESTS=../tests/avocado/reverse_debugging.py:ReverseDebugging_X86_64.test_x86_64_pc
-> ...
-> Output: qemu-system-x86_64: ../block/block-backend.c:2572:
-> blk_root_drained_poll: Assertion `blk->quiesce_counter' failed.
->
-> Bisect points to this patch
-> da0bd74434 (block: Factor out bdrv_drain_all_begin_nopoll(), 2022-12-07)
+In commit da0bd74434 we refactored bdrv_drain_all_begin() to pull out
+the non-polling part into bdrv_drain_all_begin_nopoll().  This change
+broke record-and-replay, because the "return early if replay enabled"
+check is now in the sub-function bdrv_drain_all_begin_nopoll(), and
+so it only causes us to return from that function, and not from the
+calling bdrv_drain_all_begin().
 
-Yep, that does seem to be the commit that introduces the
-regression. The problem is that the refactoring has broken
-the early-return if replay_events_enabled() is true --
-before the refactor that 'return' used to return direcly
-from bdrv_drain_all_begin(); now it only returns from
-bdrv_drain_all_begin_nopoll() and doesn't cause the
-calling bdrv_drain_all_begin() to return early, so
-execution continues into the following code when it should
-not.
+Fix the regression by checking whether replay is enabled in both
+functions.
 
--- PMM
+The breakage and fix can be tested via 'make check-avocado': the
+tests/avocado/reverse_debugging.py:ReverseDebugging_X86_64.test_x86_64_pc
+tests/avocado/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt
+tests were both broken by this.
+
+Fixes: da0bd744344adb1f285 ("block: Factor out bdrv_drain_all_begin_nopoll()")
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Thanks to Fabiano for doing the bisect on this.
+---
+ block/io.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/block/io.c b/block/io.c
+index d87788dfbbf..a09b1b34abf 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -506,6 +506,15 @@ void bdrv_drain_all_begin(void)
+         return;
+     }
+ 
++    /*
++     * bdrv queue is managed by record/replay,
++     * waiting for finishing the I/O requests may
++     * be infinite
++     */
++    if (replay_events_enabled()) {
++        return;
++    }
++
+     bdrv_drain_all_begin_nopoll();
+ 
+     /* Now poll the in-flight requests */
+-- 
+2.25.1
+
 
