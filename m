@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED1665200E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 13:00:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C7965205F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 13:31:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7bFG-0006Di-QT; Tue, 20 Dec 2022 06:57:18 -0500
+	id 1p7bkg-0002F5-Ik; Tue, 20 Dec 2022 07:29:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7bFE-0006D5-93
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:57:16 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7bke-0002Ex-T3
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 07:29:44 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7bFC-000434-Fd
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:57:15 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id v7so8554153wmn.0
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 03:57:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7bkd-0001yO-CD
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 07:29:44 -0500
+Received: by mail-wr1-x429.google.com with SMTP id z10so1005441wrh.10
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 04:29:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=v0nh9CGZDn5x2efbNBsbQ0pIsuz5St351PYmG6HGCMs=;
- b=zaSLfP7yZa+lDYYUhzkxEteDUdjTiBySFyRJw7JxoDLS6Z+F5pY1SRABlKx5JitPrE
- DwB6zEmunM5MPdn3t9nVsP63aL7y1CD39sVBUrv9w/DDRLeNs1JhJ58mnTlj+JeyQ1ZJ
- 4UwcByDO2I+tKoTb2fhwflDp2FEh5mpZvEuL+XqxHVSq7FHRnQxN7AWXHrY2A9FwY7Yo
- eVPjGOAOlchFJjON1Y+QbTMD3xyDIbWPKBLh818Q80bIHDJ5lWUgdOG6eJp7pOW/N9jw
- lmAku2JY41eMVHP5DmfsrPTDD4UDwPBjBZ4RJln8vLWkDced39A3wsBJ9LE+GjDSrEo1
- 19Lg==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eErY1wD4r0F7N3v4G4BfBZp1BLq6uAoutCTIi1eZjfc=;
+ b=d9TClU6jcluGCNTVcQ1caTK5L/b+aNiwHRcf/YRgcYo0+m1g+uj1L2k4Sq4K3uekka
+ Il0WyIEdHFrnp5coXUw9druYd3j5u4AuCc5+COFprqYOhfOoRikLLueZ826w7ZfF77DG
+ lCt2+4hT7WVmn8wcGBxLJRkjpfF0dqfo2nYAVwGZ8YO3mka4LEU2t+RRfyttGmXrOpvW
+ 6E06uBHIrLU0IWUMvnEF1aXEuhPnrQaVsUXAc7+HaiEg7174MIWorPo3wdZgy+gEY7kZ
+ +r/R1VeZPXDCnB51LXJWJMftPgyzGa+Q2eYMcxaPb3lIoAddvExZctnXoTsAv66iHx4T
+ KAyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v0nh9CGZDn5x2efbNBsbQ0pIsuz5St351PYmG6HGCMs=;
- b=vj2dO5ta3QuUVHjaNhQ/g0Qoti5sXVpS4CY5Jy80K9FjKbjiBtPAtBfY+zq3PHpin0
- HGayG3gjYnYItZPGJA2nBrBL5opDU7N8Lay4VEh6wSBi019pXeDpds8u4xro5VBJ7Z7r
- 8t5ZYU0C8iB9biNXkofFwq07bv4JJrAEv7pCecyZ3tGH2nW+n+MvSFzytPrrO4yi6HOF
- RLvtgtKHGzLQKoEBS0SjGhYdOKgE9ZFyTE5cEspRgQCJrXik8TzwdoI/gwlAXNN0CKkS
- l4h/WO3kve83g/QrEpLRkJqZScaefzdCUE8uqXSSnlswh6yK5r0IrIo5x8lCLzq1+HnI
- kfmw==
-X-Gm-Message-State: AFqh2kp3L1EsRxkGSak1vo3/r1fDEFMg2gdW+jeRPAji2nXXwOjc41l+
- LBjKc8uxuWibFj+de8svaAzLVIGcrj7yjuWpw5c=
-X-Google-Smtp-Source: AMrXdXtEveXrQaJIZa/4nmSws+q9bG+25n5fMQ0j8Fe/iYBzPWC1pf9vMqOp3DjJeG9fAwRz4yu7xQ==
-X-Received: by 2002:a05:600c:5010:b0:3d3:56ce:5693 with SMTP id
- n16-20020a05600c501000b003d356ce5693mr5654107wmr.17.1671537432367; 
- Tue, 20 Dec 2022 03:57:12 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- bi7-20020a05600c3d8700b003d1e051f671sm15253234wmb.9.2022.12.20.03.57.10
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Dec 2022 03:57:11 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] qom/object_interfaces: Fix QAPI headers included
-Date: Tue, 20 Dec 2022 12:57:09 +0100
-Message-Id: <20221220115709.18508-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eErY1wD4r0F7N3v4G4BfBZp1BLq6uAoutCTIi1eZjfc=;
+ b=BbFsRFYxYGxW2D+PANPEH4clc40EuJ6XDGw10FrY/l+tOq1s1hm1yZqZEP7VQugC9r
+ /DSt2C/UZsBp3q5aaA7UsRJW4JMKruf2uRrgIWxRGl2aU88zQI/GqbsbAO6vIS7JDREM
+ Ymo/s/9k0b7eVM6e4a80Zq7HXb7QxBQLO/+eEUIGHLNYVfgMs7JUfPDl8ro4kCroM6f4
+ wG4fRpATF+2jBTVVxaygO96ETPvD+XiIq+eiGmozS5f5A8t0/N8bWNdgK8dt9SfCGpk4
+ HMQcLe/n9trltxabgf8pybtwpiZYm/Lipj2grazqAs60/HTBgX2G5ubaUCuZknjADvs7
+ rsXg==
+X-Gm-Message-State: ANoB5pmmAKDQJD9ErwWcYILplly25mfUgqNUPJPkxLuHKKZPHLqpd7G7
+ RYHPMzjRD9TP4bbfeaKDb4DWMQ==
+X-Google-Smtp-Source: AA0mqf6Wi89cRpnU83MI0VJ5A7DsEmcLfujrvtreZxjOasf2YtJE1ht08DI05NWjESqmjXee5vfp1Q==
+X-Received: by 2002:a5d:574f:0:b0:242:5b60:e23c with SMTP id
+ q15-20020a5d574f000000b002425b60e23cmr25962859wrw.19.1671539381556; 
+ Tue, 20 Dec 2022 04:29:41 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ f4-20020a5d58e4000000b002425be3c9e2sm12571661wrd.60.2022.12.20.04.29.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 04:29:40 -0800 (PST)
+Message-ID: <0d5454ae-290e-b767-d633-f6dc7ff6d438@linaro.org>
+Date: Tue, 20 Dec 2022 13:29:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH v3 12/18] ui: Move more HMP commands from monitor to ui/
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, dgilbert@redhat.com,
+ berrange@redhat.com
+References: <20221220090645.2844881-1-armbru@redhat.com>
+ <20221220090645.2844881-13-armbru@redhat.com>
+ <cd8d91b0-b639-b7e5-ba62-f9b11fe5567b@linaro.org>
+ <87v8m68fcr.fsf@pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <87v8m68fcr.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.161,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,35 +93,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
-user-mode builds") we don't generate the "qapi-commands-qom.h"
-header in a user-emulation-only build.
+On 20/12/22 12:49, Markus Armbruster wrote:
+> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+> 
+>> On 20/12/22 10:06, Markus Armbruster wrote:
+>>> This moves these commands from MAINTAINERS section "Human
+>>> Monitor (HMP)" to "Graphics".
+>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>> ---
+>>>    include/monitor/hmp.h |  2 ++
+>>>    monitor/misc.c        | 66 -------------------------------------------
+>>>    ui/ui-hmp-cmds.c      | 66 +++++++++++++++++++++++++++++++++++++++++++
+>>>    3 files changed, 68 insertions(+), 66 deletions(-)
+>>
+>> You forgot to move hmp_sendkey() along.
+> 
+> Moved in the previous patch.
 
-Commit f375026606 ("qom: Factor out user_creatable_process_cmdline")
-incorrectly added a dependency on this "qapi/qapi-commands-qom.h"
-header (the QMP handlers are still defined in qom/qom-qmp-cmds.c).
-Remove it, and add "qapi/qmp/qobject.h" which declares qobject_unref.
+Oops :)
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- qom/object_interfaces.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> If I get your R-by, I'll squash the two patches together.
 
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index f94b6c3193..7d31589b04 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -2,8 +2,8 @@
- 
- #include "qemu/cutils.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-qom.h"
- #include "qapi/qapi-visit-qom.h"
-+#include "qapi/qmp/qobject.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/qmp/qjson.h"
--- 
-2.38.1
+Hmm not needed, the previous patch is already big enough.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+Thanks!
 
