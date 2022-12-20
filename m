@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464EA652932
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 23:53:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892C06528CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 23:17:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7lTK-0004zj-E1; Tue, 20 Dec 2022 17:52:30 -0500
+	id 1p7kuI-000681-Cr; Tue, 20 Dec 2022 17:16:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <37DOiYwoKCgEtmpohgjfmehpphmf.dpnrfnv-efwfmopohov.psh@flex--slongfield.bounces.google.com>)
- id 1p7ktE-0005Vb-OZ
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 17:15:13 -0500
-Received: from mail-yw1-x114a.google.com ([2607:f8b0:4864:20::114a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7kuG-000659-4Q
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 17:16:16 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <37DOiYwoKCgEtmpohgjfmehpphmf.dpnrfnv-efwfmopohov.psh@flex--slongfield.bounces.google.com>)
- id 1p7ktC-0007yJ-Sv
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 17:15:12 -0500
-Received: by mail-yw1-x114a.google.com with SMTP id
- 00721157ae682-45c1b233dd7so20052907b3.20
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 14:15:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=PGujqd1inTe25q9tw7SSNQK8UpTxpqpb11C+uNSu9rY=;
- b=XpzPaPOjB6bs0JqtXO1nPxm5cQjy+RBAGRC3sN8dy8yz9Ouwl2+LfWl8naTD0a2Q5X
- jsklX8vFpIzQRwMOQA9nmH9U4bLNfsWYIBnXX2j4WZh92LfxwnThIaeF88PmwaRghTwq
- J/Y6qw7dy5nKGEeJ8PZC3cJHrXFE+FEkvHXA3F2tWvWhlzTNCAqIwsyA1ETXvvshYEz1
- n9Hgunz1iPZQ/HP0sBdZsRGAB+l94ifSGbvbk2HNLQVNRIPzUQLQxqc8wkln5cGlHHpF
- OqjlkXiErkev4nF2G5zHyNzR54coY3lzR77Moc27xTm3WYX/tJ2N0DwNvnmLuPust8iv
- U1Nw==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7kuE-0008Lb-Az
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 17:16:15 -0500
+Received: by mail-ed1-x536.google.com with SMTP id d20so19643941edn.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 14:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=urBv+W+rBXUmHKKWa7gi+x7wXN2FRWVbzap1tkbFilU=;
+ b=fKDcONAVrviNH/MSOcBwGjzw/OnYGLV+Na3W/gnSTGOIYnlHde0VebHuwLMZLW/3vD
+ MxpbaMenKTu6wX/984/ARpFIG+PqKXcUmYAOn94lT8hmPyL8YPwAoJJ7Q8e5Ee+nXGIX
+ yquxrxAuvyiP2XU8eA1N2s00Upds87FQlUwqqQ+8HcxJOekD958VxlnLF7aAHVW/SoT5
+ jLZ8OBwDE+dpgm2xU6IJHuQAnJwDbJlb7ndZddFlq3X5B2hb9RiAWp10snf68FPpNUGO
+ k/D1eLL9NLJj1FaEIjaxgBhEI9I8lolAlMWRFfr/cvN7T9VSd2AKS9c+5HapaJIy69bW
+ 20+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PGujqd1inTe25q9tw7SSNQK8UpTxpqpb11C+uNSu9rY=;
- b=rKxMEZ26Bd7Ckn8/SnSAhqPgaKnPiSOSjfTeLsvuEvFDdtbAX3upHTWOwu2mK3S0Kk
- DEtY2raZH5GHtM7T1jRVD8XWB/mBU1T20Sn/MVbNjRsvzx+t5eZ6vvdK08lavy1QLMn3
- FTyDi5FEnO8ZDrL0wtVSSwptAvzQ3gCzytJvaV4GjymS7AcFxNN5bFLEs9bduuuU9ZV+
- SeowM9KIzJ967OH825Aadw5+z4DVs1zaVcMXM/kqw6dax7dXGdd41mqBC/Z8pgtVnSjC
- xjtqO64zh9c9Grc/V6RbdXUUmVGOYAJcKSj5iRHDgqGShaNIkUmfcjwGWvWOXyWXkvSi
- J4hQ==
-X-Gm-Message-State: AFqh2koq1dHIkWDtmASMQerMRNiJMZ8bEv8q5OzdcoFpqAketOHzVENB
- SG+CpczbVpjd9QQ3oatOR+SaIO/QB+VxtiTm
-X-Google-Smtp-Source: AMrXdXsJTzQ8IRYfOEmxTj5Wpj5X9wGTCUXJjybhSMCchm6p5FOC1m/zGdmKba7Pfp2oFTa7RrbkczsMHdfRvNMU
-X-Received: from vonneumann.svl.corp.google.com
- ([2620:15c:2a3:201:dee4:74b1:354e:6bfc])
- (user=slongfield job=sendgmr) by 2002:a0d:d243:0:b0:3df:1fd0:9dcf with SMTP
- id u64-20020a0dd243000000b003df1fd09dcfmr1286164ywd.447.1671574508665; Tue,
- 20 Dec 2022 14:15:08 -0800 (PST)
-Date: Tue, 20 Dec 2022 14:14:37 -0800
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-Message-ID: <20221220221437.3303721-1-slongfield@google.com>
-Subject: [PATCH] hw/net: Fix read of uninitialized memory in ftgmac100
-From: Stephen Longfield <slongfield@google.com>
-To: clg@kaod.org, peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, andrew@aj.id.au, 
- joel@jms.id.au, venture@google.com, wuhaotsh@google.com, 
- Stephen Longfield <slongfield@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
- envelope-from=37DOiYwoKCgEtmpohgjfmehpphmf.dpnrfnv-efwfmopohov.psh@flex--slongfield.bounces.google.com;
- helo=mail-yw1-x114a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=urBv+W+rBXUmHKKWa7gi+x7wXN2FRWVbzap1tkbFilU=;
+ b=k0+dI+ojMy4puOlu/j77Cm5qfjiCkM/18EnqyNPZaY8iulmTyUfa+9+RzoDkUfd0F8
+ sUAMdpphX8eNxJxKqwXdgYOCgECr9THfVedpRR+ao7loTd8OrnU23Br4i91D6uo6FsOP
+ 98dzXJK7ub60oV4a85VpWxqUUi6DJlOlg3zTeKz4d4qqELM/a/9dFFl8l9dPA5vhucAX
+ 7S6XuIgcQY21GGP3D+djMjlk4ZNUn74zsrgU+Ac0Eg6kkTG73dFIvE0xYOkzjZUGVh7x
+ t3HqskHilX6XJE+nR6GKA9u15vToHe6qwFzunxK5iJdtrdX4qTSO04UpTEwVyteo3M5P
+ PofQ==
+X-Gm-Message-State: AFqh2ko0np11RpKfPvkxO+/pG5PFM2z8HX4xlCfSF9S2kfjS8mgS4hUb
+ AGoc5ifHB6qMAKpCpeDzlZ5WTw==
+X-Google-Smtp-Source: AMrXdXvhUIfUzFmXoybVpYltOxsrWCOmYnOEXWSNdwUw++eDmEdDzV4QYAd7YJnkSY2WhlmTi0naWg==
+X-Received: by 2002:aa7:c64e:0:b0:467:4df0:7185 with SMTP id
+ z14-20020aa7c64e000000b004674df07185mr3067060edr.4.1671574572759; 
+ Tue, 20 Dec 2022 14:16:12 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ cb11-20020a0564020b6b00b004588ef795easm6277918edb.34.2022.12.20.14.16.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 14:16:12 -0800 (PST)
+Message-ID: <8144cfc0-ddb5-b48a-e0f9-050a4e97c5de@linaro.org>
+Date: Tue, 20 Dec 2022 23:16:11 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH] accel/tcg: Drop PAGE_RESERVED for CONFIG_BSD
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Warner Losh <imp@bsdimp.com>
+References: <20221217184823.3606676-1-richard.henderson@linaro.org>
+ <c6e49899-509d-6c81-1a89-7182c61896ec@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <c6e49899-509d-6c81-1a89-7182c61896ec@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.161,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 20 Dec 2022 17:52:18 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,39 +91,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-With the `size += 4` before the call to `crc32`, the CRC calculation
-would overrun the buffer. Size is used in the while loop starting on
-line 1009 to determine how much data to write back, with the last
-four bytes coming from `crc_ptr`, so do need to increase it, but should
-do this after the computation.
+On 20/12/22 20:31, Richard Henderson wrote:
+> On 12/17/22 10:48, Richard Henderson wrote:
+>> Make bsd-user match linux-user in not marking host pages
+>> as reserved.  This isn't especially effective anyway, as
+>> it doesn't take into account any heap memory that qemu
+>> may allocate after startup.
+>>
+>> Cc: Warner Losh <imp@bsdimp.com>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>
+>> I started to simply fix up this code to match my user-only interval-tree
+>> patch set, as L1_MAP_ADDR_SPACE_BITS gets removed from translate-all.c,
+>> but then I decided to remove it all.
+> 
+> A further justification for this:  The actual PAGE_RESERVED bit is 
+> write-only; there is no other reference to this bit elsewhere.
 
-I'm unsure why this use of uninitialized memory in the CRC doesn't
-result in CRC errors, but it seems clear to me that it should not be
-included in the calculation.
-
-Signed-off-by: Stephen Longfield <slongfield@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
----
- hw/net/ftgmac100.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 83ef0a783e..d3bf14be53 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -980,9 +980,9 @@ static ssize_t ftgmac100_receive(NetClientState *nc, const uint8_t *buf,
-         return size;
-     }
-
--    /* 4 bytes for the CRC.  */
--    size += 4;
-     crc = cpu_to_be32(crc32(~0, buf, size));
-+    /* Increase size by 4, loop below reads the last 4 bytes from crc_ptr. */
-+    size += 4;
-     crc_ptr = (uint8_t *) &crc;
-
-     /* Huge frames are truncated.  */
---
-2.39.0.314.g84b9a713c41-goog
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
