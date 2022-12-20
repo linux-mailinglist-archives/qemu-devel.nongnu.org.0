@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAB6651C86
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 09:44:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9885B651CDB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:08:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7YDL-0003JW-Rz; Tue, 20 Dec 2022 03:43:07 -0500
+	id 1p7YaQ-0000Wp-J8; Tue, 20 Dec 2022 04:06:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p7YDA-0003IU-04
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 03:42:58 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaL-0000Tf-1A
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p7YD8-0000du-8E
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 03:42:55 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaI-0006S2-CL
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671525772;
+ s=mimecast20190719; t=1671527208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=IQTYlT7DKteIN7LPObgobrwFgEFxgjatjVEatFARAE0=;
- b=LvgHJCueFHfsfsFheDdQslHhJGafD9Furx+tQF9bfrhv+/G0wZNL6edACJEM9HdW3OxTKL
- OL5Z9XOiiveJdoYuU6z0h58MvBqaeHQksRi9boPleFB1QmmTFlHlWf3dhLwPYytpco+Z9e
- itP1J5pnu8tgHTrG+UzR/g2ki54eQJw=
+ bh=vp/valfSGKuLYUhJXbSB+M2YyjZCbXow2vNBYYCLYVA=;
+ b=hZaZ4moSPOx4LGreFj7OJmtqBWlKMgaGSiVgenP/Sf34WHkTAPjKX71VVwPiBA7gCSWMN2
+ pVandOEeRmzn7tMkYgZk3pK+nn2dC8EIcS/vqbbxlpaChMviVHNDHUMn08PuXAVUCB11zn
+ ZHTxLILqPzWSEkFcKxWTiODKCTJUcWk=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-l6acZj49OqqQwbBFeq3E4w-1; Tue, 20 Dec 2022 03:42:49 -0500
-X-MC-Unique: l6acZj49OqqQwbBFeq3E4w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-664-JceptnWBM9eKk2w-ah-JKQ-1; Tue, 20 Dec 2022 04:06:47 -0500
+X-MC-Unique: JceptnWBM9eKk2w-ah-JKQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C129B1C08970;
- Tue, 20 Dec 2022 08:42:48 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.110])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B8E839D6D;
- Tue, 20 Dec 2022 08:42:48 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C719C18000B3; Tue, 20 Dec 2022 09:42:46 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDBB93810D5D;
+ Tue, 20 Dec 2022 09:06:46 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CFC41410DD7;
+ Tue, 20 Dec 2022 09:06:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6DE7321E691D; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- John Snow <jsnow@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>,
- Xiang Zheng <zhengxiang9@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2] pflash: Only read non-zero parts of backend image
-Date: Tue, 20 Dec 2022 09:42:46 +0100
-Message-Id: <20221220084246.1984871-1-kraxel@redhat.com>
+Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
+ philmd@linaro.org
+Subject: [PATCH v3 00/18] ui: Move and clean up monitor command code
+Date: Tue, 20 Dec 2022 10:06:27 +0100
+Message-Id: <20221220090645.2844881-1-armbru@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,80 +76,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Xiang Zheng <zhengxiang9@huawei.com>
+This is mainly about splitting off monitor-related code.  There's also
+a minimum Spice version bump, and a few UI improvements to HMP
+commands sendkey, change vnc, and info spice.
 
-Currently we fill the VIRT_FLASH memory space with two 64MB NOR images
-when using persistent UEFI variables on virt board. Actually we only use
-a very small(non-zero) part of the memory while the rest significant
-large(zero) part of memory is wasted.
+The only reason for keeping new PATCH 12 separate from old PATCH 11 is
+preserving PATCH 11's R-bys.  I might squash them together.
 
-So this patch checks the block status and only writes the non-zero part
-into memory. This requires pflash devices to use sparse files for
-backends.
+v3:
+* Rebased, straighforward conflicts with "qapi: Elide redundant
+  has_FOO in generated C" (merge commit ae2b87341b5)
+* PATCH 09: Commit message pasto fixed
+* PATCH 11: Comment tweaked
+* PATCH 12: New
+* PATCH 13: protocol_table[] made const [Philippe], #include tweaked
+* PATCH 16-18: New
 
-Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+Markus Armbruster (18):
+  ui: Check numeric part of expire_password argument @time properly
+  ui: Fix silent truncation of numeric keys in HMP sendkey
+  ui/spice: Require spice-protocol >= 0.14.0
+  Revert "hmp: info spice: take out webdav"
+  ui/spice: Require spice-server >= 0.14.0
+  ui/spice: QXLInterface method set_mm_time() is now dead, drop
+  ui/spice: Give hmp_info_spice()'s channel_names[] static linkage
+  ui: Clean up a few things checkpatch.pl would flag later on
+  ui: Move QMP commands from monitor to new ui/ui-qmp-cmds.c
+  ui: Factor out qmp_add_client() parts and move to ui/ui-qmp-cmds.c
+  ui: Move HMP commands from monitor to new ui/ui-hmp-cmds.c
+  ui: Move more HMP commands from monitor to ui/
+  ui: Improve "change vnc" error reporting
+  ui: Factor out hmp_change_vnc(), and move to ui/ui-hmp-cmds.c
+  ui: Reduce nesting in hmp_change_vnc() slightly
+  ui: Split hmp_mouse_set() and move the HMP part to ui/
+  ui: Don't check for mode change after mouse_set error
+  ui: Simplify control flow in qemu_mouse_set()
 
-[ kraxel: rebased to latest master ]
+ meson.build                   |   4 +-
+ hw/display/qxl.h              |   2 -
+ include/monitor/hmp.h         |   8 +
+ include/monitor/qmp-helpers.h |  26 ++
+ include/ui/console.h          |   2 +-
+ include/ui/qemu-spice.h       |   8 +-
+ include/ui/spice-display.h    |   2 -
+ chardev/spice.c               |   2 -
+ hw/display/qxl.c              |  26 +-
+ monitor/hmp-cmds.c            | 368 +--------------------------
+ monitor/misc.c                |  67 -----
+ monitor/qmp-cmds.c            | 176 +++----------
+ ui/input.c                    |  28 +--
+ ui/spice-display.c            |  10 -
+ ui/ui-hmp-cmds.c              | 461 ++++++++++++++++++++++++++++++++++
+ ui/ui-qmp-cmds.c              | 177 +++++++++++++
+ ui/vdagent.c                  |   4 -
+ hw/display/trace-events       |   1 -
+ ui/meson.build                |   2 +
+ 19 files changed, 725 insertions(+), 649 deletions(-)
+ create mode 100644 include/monitor/qmp-helpers.h
+ create mode 100644 ui/ui-hmp-cmds.c
+ create mode 100644 ui/ui-qmp-cmds.c
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/block/block.c | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
-
-diff --git a/hw/block/block.c b/hw/block/block.c
-index f9c4fe67673b..142ebe4267e4 100644
---- a/hw/block/block.c
-+++ b/hw/block/block.c
-@@ -14,6 +14,40 @@
- #include "qapi/error.h"
- #include "qapi/qapi-types-block.h"
- 
-+/*
-+ * Read the non-zeroes parts of @blk into @buf
-+ * Reading all of the @blk is expensive if the zeroes parts of @blk
-+ * is large enough. Therefore check the block status and only write
-+ * the non-zeroes block into @buf.
-+ *
-+ * Return 0 on success, non-zero on error.
-+ */
-+static int blk_pread_nonzeroes(BlockBackend *blk, hwaddr size, void *buf)
-+{
-+    int ret;
-+    int64_t bytes, offset = 0;
-+    BlockDriverState *bs = blk_bs(blk);
-+
-+    for (;;) {
-+        bytes = MIN(size - offset, BDRV_REQUEST_MAX_SECTORS);
-+        if (bytes <= 0) {
-+            return 0;
-+        }
-+        ret = bdrv_block_status(bs, offset, bytes, &bytes, NULL, NULL);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+        if (!(ret & BDRV_BLOCK_ZERO)) {
-+            ret = bdrv_pread(bs->file, offset, bytes,
-+                             (uint8_t *) buf + offset, 0);
-+            if (ret < 0) {
-+                return ret;
-+            }
-+        }
-+        offset += bytes;
-+    }
-+}
-+
- /*
-  * Read the entire contents of @blk into @buf.
-  * @blk's contents must be @size bytes, and @size must be at most
-@@ -53,7 +87,7 @@ bool blk_check_size_and_read_all(BlockBackend *blk, void *buf, hwaddr size,
-      * block device and read only on demand.
-      */
-     assert(size <= BDRV_REQUEST_MAX_BYTES);
--    ret = blk_pread(blk, 0, size, buf, 0);
-+    ret = blk_pread_nonzeroes(blk, size, buf);
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "can't read block backend");
-         return false;
 -- 
 2.38.1
 
