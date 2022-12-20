@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0CB65288A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 22:49:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66ED65288B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 22:49:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7kTH-0000zX-V8; Tue, 20 Dec 2022 16:48:24 -0500
+	id 1p7kUI-0001Xx-Vg; Tue, 20 Dec 2022 16:49:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7kTF-0000zI-4o
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 16:48:21 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7kUG-0001X3-LE
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 16:49:24 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7kTD-0003Tx-Et
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 16:48:20 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id gh17so32481615ejb.6
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 13:48:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7kUE-0003Xq-WA
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 16:49:24 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id vv4so32522160ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 13:49:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0+iqOIblPxwVB9sNs4mkCQdy5lAqhEn2eD9X4zNWwpg=;
- b=mjDdssgIznrTeqPnxf6V4KIKsjNk+hiWWoqlbga0pmekl1y3QDMB61PZFc+quWV2oD
- xYgdroC86ImGPpse77igtuuU1zVIlqYPyfe6Pc29vSnYS5gZnjUEky2bz7BTlyHaRetQ
- ni2t1nag8GrVjh3fESmvfITfNuQPATW5RmFeF8/oJsOjXbaPRsq/4iDqD/28eTcx+/cy
- b3nMqkmMtD2iaGDF9PQ2whzSJu1mvUzfb/cpx9RQN935p4lP1/RNdUsk+ACIlWN5Us/L
- 2CSoDH8sY7MGh6/AMO7ATAD6uZzwYvwzMoP7G3NVK1TEwU0rOJ6tjmWRHee2Cr6EBrwt
- ySDw==
+ bh=7hfOQHPZNog4jGxrXG6413KKkrf6l19cbyXIWhYc0JI=;
+ b=wtpCEZwRUNmbtgLDc5Lrx+HmFimfcFLVin8PMkvDaUNYqLhRdMOFCZjrydUBFOjyx4
+ P1/5qE7C7qf9xoVThkKIp9ImGVtY547LR3di4dBPd9xRtH/LVWLnfatGKkjZ9eG+v5Fs
+ AdwZ9R8Y2eUXI0iQaUW6YKyE9pVh0wpE+U/UAnhPr0HSIquII9aHna+4N7D3Jbs1BxYb
+ MgncBHud2GMMXm1YalpZgA81Is2EHCTygltZX2kIpZtIZlx3LYsw0rpR1kTJpBxinMHy
+ Jj4k+Q87wZqMyoV/RV8iKumSIdrfpk6wNM8ibdujkgcU98WidspQSk1mFoyEGQfOkY12
+ gKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0+iqOIblPxwVB9sNs4mkCQdy5lAqhEn2eD9X4zNWwpg=;
- b=OhVFD9+4uUOK5ut/xEEn+38yjRoWO5V7lUomrHrreqPXB+AtqUdBrWypEcJgEDdBzZ
- KSXH4a23oGtrRr3JjTA7LrgfM/SD71amG02JtwWRPGsDtJ9HVsQONFhyRMqKDYnLxNGX
- 05rBV1WxHcj5221Fd84hVAqjGOgDGZ/OFVhWgZV/V2jL33w6qXrqjd0lI4s1RrcIS7NR
- g1rbkWasRikfyd1iR6G/Gb8hN3nlGAHpAUhhIv35J94gIhK5wKkegxNsH0vdb1xyIzVr
- ag9Mdf0lpzNz51voP0npBu1wvOZ0RS7N7DeruL3huJVYH0t0LKpEIRMxpzMqUEazWkkK
- o4Zw==
-X-Gm-Message-State: AFqh2krNJ1/bM3nm6908qNTVpW0/LbGFm0Br7EO5gaGYqrDeCy4WC+Bk
- 3s226R855vaDMb8IiTxOTV3qYw==
-X-Google-Smtp-Source: AMrXdXs66/rO7ms8tki3d8asWaNFG+3jKJItet5q/TurqnpBKEseeH3lzlTcqF1ETVstg788s8Ii/A==
-X-Received: by 2002:a17:907:8d7:b0:83c:7308:b2ed with SMTP id
- zu23-20020a17090708d700b0083c7308b2edmr301843ejb.17.1671572897156; 
- Tue, 20 Dec 2022 13:48:17 -0800 (PST)
+ bh=7hfOQHPZNog4jGxrXG6413KKkrf6l19cbyXIWhYc0JI=;
+ b=gFylKhNao5zX4GryU32eH6OZsagb9l2eKnZRaGIzBP5mKtTgZJVRu6Rx8GImNFaCp6
+ qI2o1Ojnq3AsOEOo298RW34l0G5AnwGnkoILMH0/9ChU6t6TkDKWpfoK29nxjFn3xD2Q
+ K1EQtxyokgkO5Lte0wBuJL7ftuCM+Kv/D4pe8n++hI7UhnuhfBFPwyU3EL/RVchQ+QpJ
+ DC/kmeCMVObdROYED+bYjbB2tbYoADW+YDC58kIDXA9JQ6JHIu9ocOIRXGICbXrrzDsw
+ Q1yc0WhOoQAOUSFa0dFYijJGspLAwaXAvp9uCV9i1H5e9R2ljL+moZiGF2CaxdGISeWy
+ abyg==
+X-Gm-Message-State: ANoB5pmRnLQksjwmWvRkrtJUZP+ZpLwgm6Y3D9wHAYEFhsfaGw9BOk+i
+ LcslPp0SsuTSpLY1NdwsQxy4mg==
+X-Google-Smtp-Source: AA0mqf7Yk4+Zz8zdpMN5g7XhAnGQzwaHA+7jZnaW9lfLnexGYVB/kxj1/UziUAEz3w7moRYyNnCfZw==
+X-Received: by 2002:a17:906:d92:b0:7c0:fa2d:9af3 with SMTP id
+ m18-20020a1709060d9200b007c0fa2d9af3mr37951078eji.45.1671572961461; 
+ Tue, 20 Dec 2022 13:49:21 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- lb15-20020a170907784f00b007c0f217aadbsm6147342ejc.24.2022.12.20.13.48.16
+ o15-20020aa7c7cf000000b0046f77031d40sm6085684eds.10.2022.12.20.13.49.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 13:48:16 -0800 (PST)
-Message-ID: <a50d0983-b81e-9206-3e66-2d2cd3016990@linaro.org>
-Date: Tue, 20 Dec 2022 22:48:15 +0100
+ Tue, 20 Dec 2022 13:49:21 -0800 (PST)
+Message-ID: <dcde2911-8986-a59c-7ac7-5c68d5a320fa@linaro.org>
+Date: Tue, 20 Dec 2022 22:49:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH v2 02/10] libvhost-user: Replace typeof with __typeof__
+Subject: Re: [PATCH v2 05/10] libvhost-user: Declare uffdio_register early to
+ make it C90 compliant
 Content-Language: en-US
 To: Marcel Holtmann <marcel@holtmann.org>, qemu-devel@nongnu.org,
  mst@redhat.com, xieyongji@bytedance.com
 References: <cover.1671563795.git.marcel@holtmann.org>
- <02a920e8501b0f63e799b8dd4f22528efe73f544.1671563795.git.marcel@holtmann.org>
+ <13655a4dab546b6df5f2d2622f57c6063cf8b6b6.1671563795.git.marcel@holtmann.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <02a920e8501b0f63e799b8dd4f22528efe73f544.1671563795.git.marcel@holtmann.org>
+In-Reply-To: <13655a4dab546b6df5f2d2622f57c6063cf8b6b6.1671563795.git.marcel@holtmann.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -92,22 +93,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 20/12/22 20:27, Marcel Holtmann wrote:
-> Strictly speaking only -std=gnu99 support the usage of typeof and for
-> easier inclusion in external projects, it is better to use __typeof__.
+> When using libvhost-user source in an external project that wants to
+> comply with the C90 standard, it is best to declare variables before
+> code.
 > 
 >    CC       libvhost-user.o
-> libvhost-user.c: In function ‘vu_log_queue_fill’:
-> libvhost-user.c:86:13: error: implicit declaration of function ‘typeof’ [-Werror=implicit-function-declaration]
->     86 |             typeof(x) _min1 = (x);              \
->        |             ^~~~~~
+> libvhost-user.c: In function ‘generate_faults’:
+> libvhost-user.c:683:9: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
+>    683 |         struct uffdio_register reg_struct;
+>        |         ^~~~~~
 > 
-> Changing these two users of typeof makes the compiler happy and no extra
-> flags or pragmas need to be provided.
+> In this case, it is also simple enough and doesn't cause any extra
+> ifdef additions.
 > 
 > Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
 > ---
->   subprojects/libvhost-user/libvhost-user.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   subprojects/libvhost-user/libvhost-user.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
