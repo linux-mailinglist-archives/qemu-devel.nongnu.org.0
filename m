@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21C0651C53
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 09:27:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00496651C58
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 09:31:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Xwj-0003si-Gj; Tue, 20 Dec 2022 03:25:57 -0500
+	id 1p7Y1C-0005K2-Rn; Tue, 20 Dec 2022 03:30:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7Xwg-0003rf-2Y
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 03:25:55 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7Y0r-0005Iz-GX
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 03:30:16 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7Xwd-0004uq-Ur
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 03:25:53 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- 131-20020a1c0289000000b003d35acb0f9fso430021wmc.2
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 00:25:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7Y0p-0006EV-Iy
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 03:30:13 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so8149226wms.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 00:30:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eVus0cFhcLo23hyrqQSSUurfiVhbRmbjzbOBT9PNuS8=;
- b=WXhvCbDW2+uJYorrBAOHZbJftrfSacEaREI044aE0jPGyDxQf3LiHqIdLxqSeMbEn5
- PkzzOlHyZzsHueMmpXNvtvTVRwzljR8D2kcZJ6Rx12gOR1xKgkQXCd9ykSvKO2+Oj5sK
- ALqE/FpQUOUhsg1C2MRStNdDaGhrbZLH/t5O70ZCO8qjKvsRQiDXuxg4s8l9d3gszylr
- SUzjTm4XvWqTM9Lob6zFYfEdjaZRFGfGUe9HCyrjkw1FwwZ6TEX/Hkui3wKkak5iADsp
- 9/DTxJu+KnE8li2oBo4qv2wxuuP9DCHNZa2Eh8xWDcHgXBC2G83OAapKFEfxPLBv8xGC
- FMKw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oPTkGFdOHtdL6hmZPtQigSJHr3Kx3KD2sbk9A9tz+/o=;
+ b=wTg3aR/I1TTXxt+5GbyrC81ZqZQAqRLUKMPgzxTgsIUt5veoZy1LtiAJso/g4xncvf
+ 3g+di1VAc311uQebRWm/K8hc+RyfIw3EVUGJt6I8jbye2UpPlZKkVymr5Bctpk5nm+ez
+ /Sd7Mw0uCFAcB+5Ojl4VZFQQfs5MBIGPviTwX8wHaU4gR8n55Q9qBzCEqNCiW/dbYC6A
+ SGPO8i0EJEtL8Bqh1vIpcwDYSg7kua6o/gDXpWYLQEQIZ7A6FkT+C3ouSOGfmgqELcxc
+ CKbZ4rkTdWWhdD8WoaCw72dsbYUtPJ4Vb8aJzKdfyji+Bt/xFJ8R6uKposDkuyPYvSUa
+ O1JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=eVus0cFhcLo23hyrqQSSUurfiVhbRmbjzbOBT9PNuS8=;
- b=AS7M96/mLuULdk0J0s1ToyEMIHLadruZPL/M9bUrqSrZ3OlWSudOn2pcri8Sq29xVQ
- TZU0/B0yBgGURu+w0ajtx/1UmeX0nSBRZJUA497wv0SjLZd+ilfxNLlsrd+T+W41HiIP
- CQkRe1+PMmVEZEjSSAjNSkluHP4ZHh8fKGGKtuY3Rr6YkvKS7kxwLVN6DjkJABdn0V/E
- u9XATj67fhwI34iTjYkSc9SJltlP4cCuDapFR9g1BCFjNpQDdgaCrU/Aw6QMPDggwnth
- VuQxDXCkoHY3A0qcZSib7ahsXpfFAANP80HpAOOcM0ba7BNzeGrM7ak1E/Q78sYiHK4t
- EhgA==
-X-Gm-Message-State: ANoB5pmB7O1l5dZSqZvMsO8a6PX09l6Kf6HhI8iyf7PZVgIUEJaYf/vq
- xpHIo2ICCiNzw/KucGL5raKqGA==
-X-Google-Smtp-Source: AA0mqf4v3qNuLIw6I5+17LOMfUcVbh9zRVC+IpzoTJQEijYq5w/3NgBbV5Rq0oFmRWIqrNdHUFDPPQ==
-X-Received: by 2002:a05:600c:6549:b0:3cf:8b22:76b3 with SMTP id
- dn9-20020a05600c654900b003cf8b2276b3mr33844773wmb.0.1671524750111; 
- Tue, 20 Dec 2022 00:25:50 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- k62-20020a1ca141000000b003cf894dbc4fsm14875313wme.25.2022.12.20.00.25.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 00:25:49 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 07D161FFB7;
- Tue, 20 Dec 2022 08:25:49 +0000 (GMT)
-References: <20221219121914.851488-1-alex.bennee@linaro.org>
- <20221219121914.851488-2-alex.bennee@linaro.org>
- <b674a0e9-28a7-76b6-d1a1-d34807a803de@linux.alibaba.com>
-User-agent: mu4e 1.9.7; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Cc: qemu-devel@nongnu.org, Guo Ren <ren_guo@c-sky.com>, Liu Zhiwei
- <zhiwei_liu@c-sky.com>, guo_ren@linux.alibaba.com
-Subject: Re: [PATCH 01/11] contrib/gitdm: add C-Sky to the domain map
-Date: Tue, 20 Dec 2022 08:23:40 +0000
-In-reply-to: <b674a0e9-28a7-76b6-d1a1-d34807a803de@linux.alibaba.com>
-Message-ID: <875ye6iir7.fsf@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oPTkGFdOHtdL6hmZPtQigSJHr3Kx3KD2sbk9A9tz+/o=;
+ b=T9S0K7oKfJD4gDr6bHieSWyiUYI03Vjl/DRMJ9b/lD6fHqgwCQIGw+5pPaTLJMES3Y
+ UU1RYEPhtYz0aOHNSQSKf+ldly6X1ELkY1FQCYTRTFu7N9cbCDYTx+XJkqk6xyzFYepc
+ MMxkoDRXmJ02Ny8MzTIgTDNt0bRSdovI608PwTseB9be8A7fBB1VgdA/yu04wcpj10Le
+ r1kSFX+8xUboh+xhkVF1GNhcEsstclELd76mgAe9+HIl3HLkmmDo6M5uOjO/MF4V5gkW
+ 8LEfof7I3gv9a/SSRkrNyhNwRmxHb2VLJEX7sSkHvT/UwTWyU3ULTfgzcjuBpEBrr+3y
+ gfng==
+X-Gm-Message-State: AFqh2koaSlrl1Qijf9aQffTQb66txSEDFb2Fz34IvR4cMJUTuwqk5f7g
+ 7xNpm2D+3J8IxXLnnfkrQN7KKXLpNiNldopEhaQ=
+X-Google-Smtp-Source: AMrXdXsZeYD3AXOEs91c2M297BZNkmEH5a5H4NMf7EjPsxfrZ863GP7pyLxVUxZ1C+wMlCNV987xBg==
+X-Received: by 2002:a05:600c:4e09:b0:3d0:80e1:5995 with SMTP id
+ b9-20020a05600c4e0900b003d080e15995mr830502wmq.24.1671525009934; 
+ Tue, 20 Dec 2022 00:30:09 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ p2-20020a05600c358200b003d1f2c3e571sm24152715wmq.33.2022.12.20.00.30.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 00:30:09 -0800 (PST)
+Message-ID: <c8a2c501-efcf-e528-5ddc-21b286ce8926@linaro.org>
+Date: Tue, 20 Dec 2022 09:30:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH-for-8.0 5/7] hw/mips/malta: Explicit GT64120 endianness
+ upon device creation
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang
+ <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
+ <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+References: <20221209151533.69516-1-philmd@linaro.org>
+ <20221209151533.69516-6-philmd@linaro.org>
+ <95fe4231-ee7a-ff1a-4804-0e294e0adb58@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <95fe4231-ee7a-ff1a-4804-0e294e0adb58@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,57 +99,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
++Eduardo/Markus for QOM/QDEV clarification.
 
-LIU Zhiwei <zhiwei_liu@linux.alibaba.com> writes:
-
-> The c-sky domain mail is no longer being used for Guo Ren and me.
->
-> C-SKY company and C-SKY arch is still existing, but its website domain
-> has been moved to https://www.t-head.cn/.
-
-Is this the new corporate entity for the C-SKY architecture? I can
-change the domain-map for that and add the old c-sky.com emails to a
-group map.
-
->
-> Otherwise,
->
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-
-Or map your old c-sky.com email addresses to your current address via
-the .mailmap.
-
->
->
-> Thanks,
-> Zhiwei
->
-> On 2022/12/19 20:19, Alex Benn=C3=A9e wrote:
->> Although the majority of the recent work has been done by LIU Zhiwei
->> it does appear to be a corporate effort.
+On 20/12/22 01:52, Richard Henderson wrote:
+> On 12/9/22 07:15, Philippe Mathieu-Daudé wrote:
+>> Propagate the controller endianess from the machine, setting
+>> the "cpu-little-endian" property.
 >>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Cc: Guo Ren <ren_guo@c-sky.com>
->> Cc: Liu Zhiwei <zhiwei_liu@c-sky.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 >> ---
->>   contrib/gitdm/domain-map | 1 +
->>   1 file changed, 1 insertion(+)
+>>   hw/mips/malta.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> Modulo using qdev_prop_set_bool,
+
+Surprisingly there is no qdev_prop_set_bool()... I can use the QOM layer
+with object_property_add_bool(), i.e.:
+
+$ git grep memory-hotplug-support
+hw/acpi/ich9.c:451:    object_property_add_bool(obj, 
+"memory-hotplug-support",
+hw/acpi/piix4.c:608:    DEFINE_PROP_BOOL("memory-hotplug-support", 
+PIIX4PMState,
+
+But I notice some qdev_prop_set_bit() uses, i.e. in hw/arm/:
+
+$ git grep enable-bitband
+hw/arm/armv7m.c:528:    DEFINE_PROP_BOOL("enable-bitband", ARMv7MState, 
+enable_bitband, false),
+hw/arm/mps2.c:242:    qdev_prop_set_bit(armv7m, "enable-bitband", true);
+hw/arm/msf2-soc.c:138:    qdev_prop_set_bit(armv7m, "enable-bitband", true);
+hw/arm/stellaris.c:1070:    qdev_prop_set_bit(nvic, "enable-bitband", true);
+hw/arm/stm32f100_soc.c:119:    qdev_prop_set_bit(armv7m, 
+"enable-bitband", true);
+
+In that case this patch doesn't require any change.
+
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+Thanks!
+
 >>
->> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
->> index 3727918641..6f3a24b399 100644
->> --- a/contrib/gitdm/domain-map
->> +++ b/contrib/gitdm/domain-map
->> @@ -7,6 +7,7 @@
->>   amd.com         AMD
->>   baidu.com       Baidu
->>   bytedance.com   ByteDance
->> +c-sky.com       C-Sky
->>   cmss.chinamobile.com China Mobile
->>   citrix.com      Citrix
->>   crudebyte.com   Crudebyte
+>> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+>> index ba92022f87..1f4e0c7acc 100644
+>> --- a/hw/mips/malta.c
+>> +++ b/hw/mips/malta.c
+>> @@ -1390,7 +1390,9 @@ void mips_malta_init(MachineState *machine)
+>>       stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
+>>       /* Northbridge */
+>> -    dev = sysbus_create_simple("gt64120", -1, NULL);
+>> +    dev = qdev_new("gt64120");
+>> +    qdev_prop_set_bit(dev, "cpu-little-endian", !be);
+>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>>       pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
+>>       /* Southbridge */
+> 
 
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
