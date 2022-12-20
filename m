@@ -2,72 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D6F6522FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:46:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2F3652338
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:56:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7drg-0001as-3Q; Tue, 20 Dec 2022 09:45:08 -0500
+	id 1p7dub-0002pa-Bc; Tue, 20 Dec 2022 09:48:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p7dre-0001aV-0U
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:45:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p7drc-0002a3-Cp
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:45:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671547503;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y7FxCiNVbVe4Aeam7AWMfw6SzqBYckbxLBbD6zlvImA=;
- b=DKY7DQihN8PF9pHL6GQktLZlwHL4q9i2Xvf7eybpQldqDIUZkMHA9TDFSuUOJKf2FE53U7
- IqaTIH71+WwoAnntf/6JkNNDZ5cc3qsqhYOrMrQc1hzHyk6wCP3d9gfHpcL8rcPfuRQQyW
- hwk5bsz82fPlQob3TPb/jDgUBqUfo0c=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-228-7C7bwy4CO-uUTAAp6zNHLg-1; Tue, 20 Dec 2022 09:45:02 -0500
-X-MC-Unique: 7C7bwy4CO-uUTAAp6zNHLg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 179612805599;
- Tue, 20 Dec 2022 14:45:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 096E0492B00;
- Tue, 20 Dec 2022 14:45:00 +0000 (UTC)
-Date: Tue, 20 Dec 2022 14:44:58 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 3/3] softmmu: Silent -Wmissing-field-initializers warning
-Message-ID: <Y6HKalK+VUnn2Sna@redhat.com>
-References: <20221220143532.24958-1-philmd@linaro.org>
- <20221220143532.24958-4-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p7duW-0002oL-B0
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:48:04 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p7duU-00032s-PB
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:48:04 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ r204-20020a1c44d5000000b003d6b8e8e07fso44072wma.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:48:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RP+9dCjV5toBdJMkTD4UVAsu7B645XYhNcGz0e7jtnk=;
+ b=oe9h1CJKfCM54/JdlP/rOXcreCROCevyLmwwllnn2I7MbA0FClHMNvcmCBbo/EzGZJ
+ MB36p0dU6+3DOe+bWuiGlpQc4j4BGW9bNp5m2aCAygHDu0NQEchuci7leevm5yIkmetg
+ OLWnxRwlYJox4Hkt9T7q458+k7+zkuxhM2Z2ISj0Tv0f7kiePbg5/SSKOJbzMuxslnUi
+ sXIOxyzCU/bw0h+wdWSMwncWQnRpXTwBL85vPtHBDwE3o/Y5CgctjlklndCUBuLjQuZ+
+ eqqUAz9iPEZ3clicxxrR35WqGpbEkZv0qwb+O1vQYPQ7Va2ysvsYC4y8b4VpkAjDB+Dh
+ H8Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RP+9dCjV5toBdJMkTD4UVAsu7B645XYhNcGz0e7jtnk=;
+ b=YvRyQNCxZ8cq75NwJu5IlgGITLwyvan/IucAbnZgGJmMUpm6CmKkBqXXOU7DW8Cg06
+ rUoXhgBVbcv70W9v/YLjUMKdOm2tkVY68CHX8hMnBWC1JBpwXq7xbBpu/Iwv6tlet3vF
+ fGJnUGU7j3KV0PctiAENo8+dcRoAxGPuFWFEJBHC+XR621vG0FYvmLvthf6yV7vQMPS4
+ /19K45f9wJrNhb9OoLkH1i9WDdrdCx5bVZMg3BicIbcX8D3dFH8Mae3kdNjHzkZ4IS2A
+ WPmt3rvf6WG3biWuoeZ+Uk71uSIdOq9DFQFc+ZfshRfscWiW8oZSrt78LOfTj0UJU8iv
+ UxDA==
+X-Gm-Message-State: ANoB5pkpOPDAjOwlWIQMQ2txr850taDSvRzlaOh6dVuiLjnFxYSf7mF5
+ qvi6XSkxGECnA3/fKBQML/M=
+X-Google-Smtp-Source: AA0mqf55z3JjqSB9gCgqt+dwHW0tM1XkR4qxtK7hlYJfkzSrADkV0EIGRFOYF8Nnlr7QT57YxY7QHg==
+X-Received: by 2002:a05:600c:3512:b0:3d1:fcb4:4074 with SMTP id
+ h18-20020a05600c351200b003d1fcb44074mr47297305wmq.22.1671547680641; 
+ Tue, 20 Dec 2022 06:48:00 -0800 (PST)
+Received: from [192.168.6.89] (54-240-197-236.amazon.com. [54.240.197.236])
+ by smtp.gmail.com with ESMTPSA id
+ y24-20020a05600c341800b003d1de805de5sm14982078wmp.16.2022.12.20.06.47.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 06:48:00 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <d422ba20-4e30-f678-6738-552f74ebdb2a@xen.org>
+Date: Tue, 20 Dec 2022 14:47:58 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221220143532.24958-4-philmd@linaro.org>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [RFC PATCH v3 04/38] i386/kvm: Add xen-version machine property
+ and init KVM Xen support
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20221216004117.862106-1-dwmw2@infradead.org>
+ <20221216004117.862106-5-dwmw2@infradead.org>
+Organization: Xen Project
+In-Reply-To: <20221216004117.862106-5-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.161, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,30 +101,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 20, 2022 at 03:35:32PM +0100, Philippe Mathieu-Daudé wrote:
-> Silent when compiling with -Wextra:
+On 16/12/2022 00:40, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
->   ../softmmu/vl.c:886:12: warning: missing field 'flags' initializer [-Wmissing-field-initializers]
->     { NULL },
->            ^
+> This just initializes the basic Xen support in KVM for now.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->  softmmu/vl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   accel/kvm/kvm-all.c         |  1 +
+>   include/sysemu/kvm_int.h    |  1 +
+>   target/i386/kvm/kvm.c       | 53 +++++++++++++++++++++++++++++++++++++
+>   target/i386/kvm/meson.build |  2 ++
+>   target/i386/kvm/xen-emu.c   | 50 ++++++++++++++++++++++++++++++++++
+>   target/i386/kvm/xen-emu.h   | 19 +++++++++++++
+>   6 files changed, 126 insertions(+)
+>   create mode 100644 target/i386/kvm/xen-emu.c
+>   create mode 100644 target/i386/kvm/xen-emu.h
+> 
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
