@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DE265233A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CA9652347
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:59:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7e3A-0006sz-7u; Tue, 20 Dec 2022 09:57:00 -0500
+	id 1p7e3C-000720-SN; Tue, 20 Dec 2022 09:57:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7e35-0006qo-Ll
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:56:55 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7e3B-0006yw-4q
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:57:01 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7e33-0004kB-Jg
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:56:54 -0500
-Received: by mail-wr1-x431.google.com with SMTP id w15so11968362wrl.9
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:56:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7e39-0004kv-Lh
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:57:00 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 131-20020a1c0289000000b003d35acb0f9fso1244593wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:56:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TWYX+bkDoAyS5D4KoXYEloAhrykg6/BssqVR4T1fIB4=;
- b=BWYUpPKXnvShEs0Oxzgi4gu5/EkBNtF4QGPbo9bocTcyBeRykHKTzEd1jJtKMG4T5Y
- eA3akbqhPFUS26BXPHvNrGv1y8Sz/ukl2XAtEAurmvMGy3F5rEY2PWFpLY9OqUQQ/WdU
- iOWn+cXUcI1omJfkQWuwPjE/u+W4A639SOg0Uu22Z4eSJQtD9071uB01PJyurDBnJiRs
- FgDonSF97cI/TE8ntMgvbBOC15ICHf/1f7Benf86373c7w2b1uxkAq9J6L7J9EonXNfu
- HQ9/nDg583oKC3HsYJZG54Yp/OWKAt88Wt6H4l8lUst0lW5aDTiBZRdFG5myTb2GNWgd
- IJaw==
+ bh=/3O/TmPP9Jg8STxRQ7xCVDl3tcpFcYurVNtfZxqpXk4=;
+ b=KVZ7UZklCQdPZdBie5057P3rlP+0MEXxziNTCa4FkiV0BWFDd3cN322tzrR4+m3Rmu
+ sTEPQvWml9zQqNfa6cJoo8HQmtse3s0Q0DbbWTvuAfJISwwoXRh/aNSb8TPNumtpthDp
+ YRM2rKhjOlOqJbdUirS6sTEeMAJP+t1VP3F+xRStNcyWOHqjEjIShJcqc353kTVHN/VX
+ OUK0sI6RyW2I34DcgbcoTvaRxpkbWlRTxmnirBN/tITaDi9B4NG9c33mvEMm2GAw0UiQ
+ 2yUK8URIhPLUEkWimITTEejH0kHoLCWF/KlxwGiwRqXVZH/DGr2zaR7Q+E9TGAfygJAK
+ YZAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TWYX+bkDoAyS5D4KoXYEloAhrykg6/BssqVR4T1fIB4=;
- b=mqBaRAFDrgWRCSPG3w1njdiJK7HOmIYt2s9IeY5KQ0HZugDpQHC69KAD8AhVV6HBfw
- 317tPKG+s7tib0A09VsAc+Kz1Fp813GFs8kUFz8uEXQByargadJGYsJdiAuEkDs8+lSp
- umRdHoIisdQrATon6mD9kvE+BmQyrXmL0Gc2cqorh2zqBCF8eFynHrVjOkSfyBdaHCh4
- T2SyAEFVLQ5UJcWvnIZ/4Ln/6uoND6DCBGfM1BO9UO7dQNocIJwMYtCmINA128/VQk18
- oLqM4HbLxEkFz/GAsQOIl+TdWli8VEGHg+b0rq5Ou7pqpOEZtLftkGGz2aQGNM3Q4s+x
- latg==
-X-Gm-Message-State: AFqh2kpi3clcUMoqk1ILnqAGmYIwUOLc2s6nsgmg9MCe+0bQYD0QGzUC
- +iA+IkGzl/b9ZFqY0kaH2K0ihLo70cytCLWJZiE=
-X-Google-Smtp-Source: AMrXdXuoAu4ThmY+6P0bDNS/j7BAdzudrgi9ZJmI7X8yxSmsEVFX9yioNUFeAJfcmg1BblUACWBSaQ==
-X-Received: by 2002:a05:6000:1f1c:b0:261:d8be:3046 with SMTP id
- bv28-20020a0560001f1c00b00261d8be3046mr4608817wrb.0.1671548212133; 
- Tue, 20 Dec 2022 06:56:52 -0800 (PST)
+ bh=/3O/TmPP9Jg8STxRQ7xCVDl3tcpFcYurVNtfZxqpXk4=;
+ b=v8mDoh2iEoKAcAHPsMVQtOgfVcbY2ONsS2V5p2JOHFX6ht0sBmV7D4ZcVLjcZhHPRn
+ H0er/teNxwdytwFbYSw1B03YRiHZpo09xcewOGa2+QtwTSukXvJOHqP/BIE8TZ2AZnPu
+ yIp+9Ws4u+6Os0hpsJBMkcAbo08UAuZqkpUoFKML6L/INTY7mdnTS8fHGrE5ajXmLUTy
+ uyi3mNx0DqR0bL3ulf6p1uY+dGeHtrYJsuXhrxyHC/1DQdiA8fBGxN7v40sv8AkIKndb
+ AVwHqODx8WbMpsrP/zfasxAZ50CGgc9SVAXfy0jnOEzuto3RwASqjTo0wagA0m2k/djY
+ OX+w==
+X-Gm-Message-State: AFqh2kpm6NAfAQJAKMZS0SrnlCuEnWBzSvI4izyw/LRhr2hU7Y77MUoP
+ Ceol+8+mv7MQezvCOEyPuMMjgdQ9ntaaf6uGDbE=
+X-Google-Smtp-Source: AMrXdXsi1nMSWpxVfHZjzugp25C4+HT/5hS8EvcGgrWnk+D2kVCmJt7vDvJ6a7S6NfEs0xAJ14+oWg==
+X-Received: by 2002:a05:600c:1e84:b0:3d3:5cd6:760 with SMTP id
+ be4-20020a05600c1e8400b003d35cd60760mr4702308wmb.20.1671548217991; 
+ Tue, 20 Dec 2022 06:56:57 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- by14-20020a056000098e00b002366f9bd717sm15348269wrb.45.2022.12.20.06.56.50
+ i12-20020a05600c354c00b003cfd64b6be1sm30842762wmq.27.2022.12.20.06.56.56
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Dec 2022 06:56:51 -0800 (PST)
+ Tue, 20 Dec 2022 06:56:57 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -63,17 +64,18 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>, Thomas Huth <thuth@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 4/5] target/s390x: Restrict sysemu/reset.h to system emulation
-Date: Tue, 20 Dec 2022 15:56:24 +0100
-Message-Id: <20221220145625.26392-5-philmd@linaro.org>
+Subject: [PATCH 5/5] hw/core: Only build CPU reset handlers with system
+ emulation
+Date: Tue, 20 Dec 2022 15:56:25 +0100
+Message-Id: <20221220145625.26392-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221220145625.26392-1-philmd@linaro.org>
 References: <20221220145625.26392-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,35 +100,33 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 In user emulation, threads -- implemented as CPU -- are
 created/destroyed, but never reset. There is no point in
-allowing the user emulation access the sysemu/reset API.
+providing the sysemu/reset handlers there.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/s390x/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/core/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 96562c516d..b10a8541ff 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -26,7 +26,6 @@
- #include "s390x-internal.h"
- #include "kvm/kvm_s390x.h"
- #include "sysemu/kvm.h"
--#include "sysemu/reset.h"
- #include "qemu/module.h"
- #include "trace.h"
- #include "qapi/qapi-types-machine.h"
-@@ -35,6 +34,9 @@
- #include "fpu/softfloat-helpers.h"
- #include "disas/capstone.h"
- #include "sysemu/tcg.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "sysemu/reset.h"
-+#endif
- 
- #define CR0_RESET       0xE0UL
- #define CR14_RESET      0xC2000000UL;
+diff --git a/hw/core/meson.build b/hw/core/meson.build
+index 7a4d02b6c0..ce6fdb0064 100644
+--- a/hw/core/meson.build
++++ b/hw/core/meson.build
+@@ -3,7 +3,6 @@ hwcore_ss.add(files(
+   'bus.c',
+   'qdev-properties.c',
+   'qdev.c',
+-  'reset.c',
+   'resettable.c',
+   'vmstate-if.c',
+   # irq.c needed for qdev GPIO handling:
+@@ -15,6 +14,7 @@ if have_system
+   hwcore_ss.add(files(
+     'hotplug.c',
+     'qdev-hotplug.c',
++    'reset.c',
+   ))
+ else
+   hwcore_ss.add(files(
 -- 
 2.38.1
 
