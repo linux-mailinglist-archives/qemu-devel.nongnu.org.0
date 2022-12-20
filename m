@@ -2,60 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3326652129
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 14:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09785652394
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:18:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7cFe-0000JE-Ll; Tue, 20 Dec 2022 08:01:51 -0500
+	id 1p7ck4-0006X4-Vs; Tue, 20 Dec 2022 08:33:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p7cEt-00008T-T7
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:01:04 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7cjr-0006Vo-4P
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:32:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p7cEs-0007Oo-2U
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:00:59 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7cjp-0005FO-9J
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:32:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671541254;
+ s=mimecast20190719; t=1671543176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=H2t8W77PSTr4Llxbj7tYL3QF8gC1sNMoCFvARbmtY94=;
- b=HVSpV9r0leOGZZZnSdmyD/JAx/rGgL8mhs7Bw4pTVIEmE844aOfOFiAhWj1jMSsB0FcD/V
- 0FrDs9pCPwaVdRGhRspyCTSVNcHICgdOHdNQaF8lAIV8NCS5p5OT/XLcn1/1AADGqeMaYV
- z2iNsS0aPY5xwiBOnT2zGTnqltOhElw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-gegjNKZEN5OA-g0pkCielw-1; Tue, 20 Dec 2022 08:00:52 -0500
-X-MC-Unique: gegjNKZEN5OA-g0pkCielw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53E6687A9E2;
- Tue, 20 Dec 2022 13:00:52 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB8EF2166B26;
- Tue, 20 Dec 2022 13:00:51 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth
- <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric
- Auger <eauger@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v3 0/2] arm: enable MTE for QEMU + kvm
-In-Reply-To: <20221026160511.37162-1-cohuck@redhat.com>
-Organization: Red Hat GmbH
-References: <20221026160511.37162-1-cohuck@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Tue, 20 Dec 2022 14:00:49 +0100
-Message-ID: <87h6xqz0u6.fsf@redhat.com>
+ bh=xmds1EaWdqbCYHF1weSmzjLnm72lT0vg9j8WxBLW8IM=;
+ b=fsylutBWeyiz7E/4CpI1QDicG0FLjQEIr6JDh0IvKghzQcTIFIktrk0iGpK7j9JUtnBgGD
+ olc4m+A3YGctXbqejToGj/2cvm5KcFSjmUl2rRGWkL+s4naIOXIxD9Ddacz0Fj0nIcxWH9
+ p+HcgGP1JrVMo8kxSu3BL+v/xL/SwgA=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-214-GVJFxcFNO0aNCreKPJW4xg-1; Tue, 20 Dec 2022 08:32:54 -0500
+X-MC-Unique: GVJFxcFNO0aNCreKPJW4xg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bq39-20020a05620a46a700b006ffd5db9fe9so9322276qkb.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 05:32:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xmds1EaWdqbCYHF1weSmzjLnm72lT0vg9j8WxBLW8IM=;
+ b=RZE4n1FgMf/qDZztP5wIHI9HR3Atp63NC9hFwh4p12oIZj12NW0JF9cfRk51vta7va
+ QxQLD7ihyOSOK8EJEFiIN+FzgNA0Ua+tihdxETyTaKeHlu62t/cWgNjWNXx4nX56eaR7
+ s/sSOSCDKdn0tNFY18Kz3eXnTzRO0fxGS3dOmcvLziGI8WUu4YDpV4yX4BnjTcTQCA2r
+ LSuAlaoozMNbzg6/i7j8RlkzAGAXdMNPlPaRSOYE0qdIiYMwgzRaA37/dlUW0/A9c2jy
+ a+RyK6FgGi/xTehEGnKOYlee9wJB+WFkmBv6Lh/peL/c6XUa46/6/EslakMsZyVJVVkI
+ gN+g==
+X-Gm-Message-State: ANoB5pluMXygxFAABOCgy7WhWla43FV1aRPHX7E0J5V09PJekHiCIuvi
+ 4EPTlOxAVvmg/Me9PHKtmJPanO8tAKOEYjDBE6zX8cZ3qXit/gFKzQ7b7RMtHLNfYk6HkSsIFV5
+ B55FdvkDqZYmptOc=
+X-Received: by 2002:ac8:71c9:0:b0:3a8:112d:27de with SMTP id
+ i9-20020ac871c9000000b003a8112d27demr49826983qtp.26.1671543174146; 
+ Tue, 20 Dec 2022 05:32:54 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf52EqjpTMdkJeAgpDDI8Cu8c3e0c3yMw1xYx2k3+YcmxJef95dSdnuCtGusHslO9HrHOaSuKg==
+X-Received: by 2002:ac8:71c9:0:b0:3a8:112d:27de with SMTP id
+ i9-20020ac871c9000000b003a8112d27demr49826964qtp.26.1671543173897; 
+ Tue, 20 Dec 2022 05:32:53 -0800 (PST)
+Received: from redhat.com ([37.19.199.118]) by smtp.gmail.com with ESMTPSA id
+ n21-20020ac86755000000b0039cc944ebdasm7585440qtp.54.2022.12.20.05.32.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Dec 2022 05:32:53 -0800 (PST)
+Date: Tue, 20 Dec 2022 08:32:46 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Longpeng (Mike,
+ Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ stefanha@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
+ cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/2] vhost: configure all host notifiers in a single
+ MR transaction
+Message-ID: <20221220083222-mutt-send-email-mst@kernel.org>
+References: <20221206081841.2458-1-longpeng2@huawei.com>
+ <20221206081841.2458-2-longpeng2@huawei.com>
+ <ee85dd7e-7ec0-03f2-ba17-c8e2987f200c@linaro.org>
+ <1fc867d6-2c2b-36ca-1154-90ff6fc1b074@huawei.com>
+ <f43a3c8e-e82d-4992-fe5b-9833688277cc@linaro.org>
+ <0fbf411f-8438-f15e-5870-2e9dc46cc76e@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0fbf411f-8438-f15e-5870-2e9dc46cc76e@huawei.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,43 +104,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 26 2022, Cornelia Huck <cohuck@redhat.com> wrote:
+On Wed, Dec 07, 2022 at 08:22:18AM +0800, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
+> > > And we must commit before invoking virtio_bus_cleanup_host_notifier.
+> > 
+> > ... but with that info on top, finally your original patch is simpler.
+> 
+> Yes, I'll try in next version, thanks.
 
-> After wayyy too long (last version was sent in *July*), a respin of my
-> kvm/mte series. Still no migration support. I've been hacking around on
-> a device for transferring tags while stopped, but don't really have anything
-> to show, probably because I get distra- <ohh, what's that?>
->
-> ...I guess you get the point :(
->
-> Anyway, I wanted to post this as non-RFC; likely too late for 7.2, but maybe
-> for 8.0 (and I'd get a chance to make at least pre-copy migration work; I'm open
-> to suggestions for that. Support for post-copy needs kernel-side changes.) Tested
-> on the FVP models; qtests only on a non-MTE KVM host.
->
-> Changes v2->v3:
-> - rebase to current master
-> - drop some parts of the qtests that didn't actually work
-> - really minor stuff
-> - drop RFC
->
-> Cornelia Huck (2):
->   arm/kvm: add support for MTE
->   qtests/arm: add some mte tests
->
->  docs/system/arm/cpu-features.rst |  21 +++++
->  target/arm/cpu.c                 |  18 ++---
->  target/arm/cpu.h                 |   1 +
->  target/arm/cpu64.c               | 133 +++++++++++++++++++++++++++++++
->  target/arm/internals.h           |   1 +
->  target/arm/kvm64.c               |   5 ++
->  target/arm/kvm_arm.h             |  12 +++
->  target/arm/monitor.c             |   1 +
->  tests/qtest/arm-cpu-features.c   |  76 ++++++++++++++++++
->  9 files changed, 256 insertions(+), 12 deletions(-)
->
-
-Friendly ping, as 7.2 has been released now... this should still apply
-without problems AFAICS. I can also respin, if needed.
+OK so I'm waiting for v3.
 
 
