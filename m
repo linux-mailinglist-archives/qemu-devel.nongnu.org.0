@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EEA6523AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302E76523B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:33:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ebS-0002a2-Dh; Tue, 20 Dec 2022 10:32:26 -0500
+	id 1p7ecF-0003PO-Ey; Tue, 20 Dec 2022 10:33:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7ebQ-0002ZS-C7
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:32:24 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1p7ebN-0002xw-PZ
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:32:24 -0500
-Received: by mail-pl1-x632.google.com with SMTP id w20so6023755ply.12
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 07:32:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SdGSXS19zuYY3YpUNGaxKlRdApS8FKky8y20uNBNZFs=;
- b=zVFdOVeX9gRcw5/FlG/cH+ihv77SK84ENYkVTyfGN2RNOjWk40dxofUsTV3w1T95lA
- PFfI6v9ryFxjFVMDc8QTYE/9TFNlRKG3vKAQkC8cU5nxx+ocOxBKvsyM/m5YfzzxbhxO
- vcuBvT0dOvYs4d+HVDR73aAX9ApRE/utBECz3UcRrnI6Y71JQvzhuarSyUI4bFx9Jbdl
- TjxVQrEC6aFdwsfBg0SQIdKzz6kCDlqPBSL6ojoypWRYneL11SDY8kBtoNm6/PMWrDgq
- RUSTbfrk50Xby1/3M8lfIq+UlgPTAJR8/BNQKXURQaDak4fbu2souuM+nuPElrCYqy/n
- lD5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SdGSXS19zuYY3YpUNGaxKlRdApS8FKky8y20uNBNZFs=;
- b=KuVKa03HI+cqpg/McvlkWHx4HjxOSidxVI4a8O7ExYH1oVioEzXhU6hB6MXEd/gmqk
- OnmYnc8UhzOxY6NyxTDfQOp23yB16IgeigJVOi3SEluowylHOk9qWbM0ukxfUIypkAgq
- diWtLdR9AtjUuIpM3Z1fw0yzU14h71EeCgOaFECCiA2Q10oaKU84GJYoT9OXGWW9xzzp
- HQc3CoZ8u8cT5gsyRSCbIYfY3Gj9jt866uJfzOJO+hc74b+cVFL3R+XdVrGgD7ORxbBc
- 5/yf3UqDQwfwvrobBnEgz/ZHhJziFg6NNP/UlO0kyppHGfIOXyZriJAtG5Tf0Z5h1o1U
- y5gQ==
-X-Gm-Message-State: ANoB5pm1Q3lVOLFPrGyyQj+66C4ZzsPAsHwC6AOjzP3qEdUtBWMNEJtA
- /SpJonSQ042m0uvDvnX2Cz+cYgK5/1pXSH1kYYyK7g==
-X-Google-Smtp-Source: AA0mqf6ewownU6wHpCG0I8YAsMjNa9J1jGFJlSIjf2IIEOssBi7pvCE38nqUqP3XzNnUIxhJF7DkXchzj8+8Ap43QPA=
-X-Received: by 2002:a17:902:70c5:b0:189:b0a3:cf4a with SMTP id
- l5-20020a17090270c500b00189b0a3cf4amr37200899plt.60.1671550340239; Tue, 20
- Dec 2022 07:32:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p7ecC-0003Mq-Gh
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:33:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1p7ecB-000373-1b
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:33:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671550390;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ffmddQe9ricgigDQOWAY39BHz2JFTyJ3/5Imi4NJ2u0=;
+ b=A7tnFFKdM4qDmoPaEIjsDz2cgndPQHRXPHyeyIju2OhY+NRjKU6//kpmiHoa3DueeFGQ61
+ ZQ4vxs6UjSfacSatgekOay5yo3CsKyXOy42ek/k30wPSUnBs5r30eUs/U2UvvxsVZULz2B
+ /Lo6F5fd9Wsz5beB6h1rc3PHrPhehd4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-486-9otbTpZuMS2yZQmV1FEnVQ-1; Tue, 20 Dec 2022 10:33:05 -0500
+X-MC-Unique: 9otbTpZuMS2yZQmV1FEnVQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43DFE1C09B69;
+ Tue, 20 Dec 2022 15:33:04 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DD6112026D4B;
+ Tue, 20 Dec 2022 15:33:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 54DFF18000B3; Tue, 20 Dec 2022 16:33:01 +0100 (CET)
+Date: Tue, 20 Dec 2022 16:33:01 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Sunil V L <sunilvl@ventanamicro.com>,
+ Andrew Jones <ajones@ventanamicro.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Song Gao <gaosong@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Leif Lindholm <quic_llindhol@quicinc.com>
+Subject: Re: [PATCH v2] pflash: Only read non-zero parts of backend image
+Message-ID: <20221220153301.ku3zxwglhxepet6i@sirius.home.kraxel.org>
+References: <20221220084246.1984871-1-kraxel@redhat.com>
+ <a31967f6-6de5-bed2-8a1a-68a909850dd5@linaro.org>
 MIME-Version: 1.0
-References: <20221219021703.20473-1-alistair.francis@opensource.wdc.com>
- <CAFEAcA-yvQCGRURDBDLkgLgS2bxY-_Jat_2v-gDGde74eELRZg@mail.gmail.com>
- <CAKmqyKPcS1-ByO0LCg_c9V0wv9WBeUWdwVXWGyecyNJx2izdyg@mail.gmail.com>
-In-Reply-To: <CAKmqyKPcS1-ByO0LCg_c9V0wv9WBeUWdwVXWGyecyNJx2izdyg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Dec 2022 15:32:08 +0000
-Message-ID: <CAFEAcA-b9bGmELE=srcfXUL30JhCNMt38yrwoi0+L_-ALbedqQ@mail.gmail.com>
-Subject: Re: [PULL 00/45] riscv-to-apply queue
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x632.google.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a31967f6-6de5-bed2-8a1a-68a909850dd5@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,64 +97,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 19 Dec 2022 at 23:29, Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, Dec 20, 2022 at 1:12 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Mon, 19 Dec 2022 at 02:29, Alistair Francis
-> > <alistair.francis@opensource.wdc.com> wrote:
-> > >
-> > > From: Alistair Francis <alistair.francis@wdc.com>
-> > >
-> > > The following changes since commit 562d4af32ec2213061f844b3838223fd7711b56a:
-> > >
-> > >   Merge tag 'pull-loongarch-20221215' of https://gitlab.com/gaosong/qemu into staging (2022-12-18 13:53:29 +0000)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20221219-3
-> > >
-> > > for you to fetch changes up to e59b3c6ece6a1351aeca6b916cd9674e23d15e89:
-> > >
-> > >   hw/intc: sifive_plic: Fix the pending register range check (2022-12-19 10:42:14 +1000)
-> > >
-> > > ----------------------------------------------------------------
-> > > First RISC-V PR for QEMU 8.0
-> > >
-> > > * Fix PMP propagation for tlb
-> > > * Collection of bug fixes
-> > > * Add the `FIELDx_1CLEAR()` macro
-> > > * Bump the OpenTitan supported version
-> > > * Add smstateen support
-> > > * Support native debug icount trigger
-> > > * Remove the redundant ipi-id property in the virt machine
-> > > * Support cache-related PMU events in virtual mode
-> > > * Add some missing PolarFire SoC io regions
-> > > * Fix mret exception cause when no pmp rule is configured
-> > > * Fix bug where disabling compressed instructions would crash QEMU
-> > > * Add Zawrs ISA extension support
-> > > * A range of code refactoring and cleanups
-> >
-> > Hi -- gpg says your key expired last week. What keyserver can I
-> > download the updated key from, please ?
->
-> Sorry about that.
->
-> You should be able to get a valid key from:
->
-> https://keys.openpgp.org/search?q=F6C4AC46D4934868D3B8CE8F21E10D29DF977054
+On Tue, Dec 20, 2022 at 10:30:43AM +0100, Philippe Mathieu-Daudé wrote:
+> [Extending to people using UEFI VARStore on Virt machines]
+> 
+> On 20/12/22 09:42, Gerd Hoffmann wrote:
+> > From: Xiang Zheng <zhengxiang9@huawei.com>
+> > 
+> > Currently we fill the VIRT_FLASH memory space with two 64MB NOR images
+> > when using persistent UEFI variables on virt board. Actually we only use
+> > a very small(non-zero) part of the memory while the rest significant
+> > large(zero) part of memory is wasted.
+> > 
+> > So this patch checks the block status and only writes the non-zero part
+> > into memory. This requires pflash devices to use sparse files for
+> > backends.
+> 
+> I like the idea, but I'm not sure how to relate with NOR flash devices.
+> 
+> From the block layer, we get BDRV_BLOCK_ZERO when a block is fully
+> filled by zeroes ('\0').
+> 
+> We don't want to waste host memory, I get it.
+> 
+> Now what "sees" the guest? Is the UEFI VARStore filled with zeroes?
 
-Thanks. The pullreq seems to fail in 'make check-tcg' for the linux-user
-tests:
+The varstore is filled with 0xff.  It's 768k in size.  The padding
+following (63M plus a bit) is 0x00.  To be exact:
 
-TEST test-noc-with-libbb.so on riscv64
-make[1]: *** [Makefile:173: run-plugin-test-noc-with-libbb.so] Error 1
-make: *** [/builds/qemu-project/qemu/tests/Makefile.include:56:
-run-tcg-tests-riscv64-linux-user] Error 2
+kraxel@sirius ~# hex /usr/share/edk2/aarch64/vars-template-pflash.raw 
+00000000  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00  ................
+00000010  8d 2b f1 ff  96 76 8b 4c  a9 85 27 47  07 5b 4f 50  .+...v.L..'G.[OP
+00000020  00 00 0c 00  00 00 00 00  5f 46 56 48  ff fe 04 00  ........_FVH....
+00000030  48 00 28 09  00 00 00 02  03 00 00 00  00 00 04 00  H.(.............
+00000040  00 00 00 00  00 00 00 00  78 2c f3 aa  7b 94 9a 43  ........x,..{..C
+00000050  a1 80 2e 14  4e c3 77 92  b8 ff 03 00  5a fe 00 00  ....N.w.....Z...
+00000060  00 00 00 00  ff ff ff ff  ff ff ff ff  ff ff ff ff  ................
+00000070  ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff  ................
+*
+00040000  2b 29 58 9e  68 7c 7d 49  a0 ce 65 00  fd 9f 1b 95  +)X.h|}I..e.....
+00040010  5b e7 c6 86  fe ff ff ff  e0 ff 03 00  00 00 00 00  [...............
+00040020  ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff  ................
+*
+000c0000  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00  ................
+*
 
+> If so, is it a EDK2 specific case for all virt machines?  This would
+> be a virtualization optimization and in that case, this patch would
+> work.
 
-https://gitlab.com/qemu-project/qemu/-/jobs/3502502318
+vars-template-pflash.raw (padded image) is simply QEMU_VARS.fd (unpadded
+image) with 'truncate --size 64M' applied.
 
-thanks
--- PMM
+Yes, that's a pure virtual machine thing.  On physical hardware you
+would probably just flash the first 768k and leave the remaining flash
+capacity untouched.
+
+> * or you are trying to optimize paravirtualized guests.
+
+This.  Ideally without putting everything upside-down.
+
+>   In that case why insist with emulated NOR devices? Why not have EDK2
+>   directly use a paravirtualized block driver which we can optimize /
+>   tune without interfering with emulated models?
+
+While that probably would work for the variable store (I think we could
+very well do with variable store not being mapped and requiring explicit
+read/write requests) that idea is not going to work very well for the
+firmware code which must be mapped into the address space.  pflash is
+almost the only device we have which serves that need.  The only other
+option I can see would be a rom (the code is usually mapped r/o anyway),
+but that has pretty much the same problem space.  We would likewise want
+a big enough fixed size ROM, to avoid life migration problems and all
+that, and we want the unused space not waste memory.
+
+> Keeping insisting on optimizing guests using the QEMU pflash device
+> seems wrong to me. I'm pretty sure we can do better optimizing clouds
+> payloads.
+
+Moving away from pflash for efi variable storage would cause alot of
+churn through the whole stack.  firmware, qemu, libvirt, upper
+management, all affected.  Is that worth the trouble?  Using pflash
+isn't that much of a problem IMHO.
+
 
