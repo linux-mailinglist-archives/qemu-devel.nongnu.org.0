@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A0165233E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D6F6522FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:46:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7drL-0001WY-Li; Tue, 20 Dec 2022 09:44:47 -0500
+	id 1p7drg-0001as-3Q; Tue, 20 Dec 2022 09:45:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p7drJ-0001W3-8D
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:44:45 -0500
+ id 1p7dre-0001aV-0U
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:45:06 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p7drH-0002Ig-BD
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:44:44 -0500
+ id 1p7drc-0002a3-Cp
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:45:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671547482;
+ s=mimecast20190719; t=1671547503;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d1GQMUICO6xYhLtmXgALecJ35uu1YT3hnQQmSZ/JoBo=;
- b=IxTCt33qHCa5cLiNnw03EpQorMO5ZcOsiPwjVSUO8gTOaDn8uUK3DXlqsWV94D4D6+n77g
- wEmhMKUz9jCAVyTvKpQVkUsJ4ixx6eFd6tlb2slEV1SP1CsD1C/C0kL5ihzYCVGujVSpu3
- aDyZ+/NKoxPgST9Fw4pawVpvTb0rUPA=
+ bh=y7FxCiNVbVe4Aeam7AWMfw6SzqBYckbxLBbD6zlvImA=;
+ b=DKY7DQihN8PF9pHL6GQktLZlwHL4q9i2Xvf7eybpQldqDIUZkMHA9TDFSuUOJKf2FE53U7
+ IqaTIH71+WwoAnntf/6JkNNDZ5cc3qsqhYOrMrQc1hzHyk6wCP3d9gfHpcL8rcPfuRQQyW
+ hwk5bsz82fPlQob3TPb/jDgUBqUfo0c=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-536-ydMB-aspPqiZcfRjT7B0kw-1; Tue, 20 Dec 2022 09:44:38 -0500
-X-MC-Unique: ydMB-aspPqiZcfRjT7B0kw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-228-7C7bwy4CO-uUTAAp6zNHLg-1; Tue, 20 Dec 2022 09:45:02 -0500
+X-MC-Unique: 7C7bwy4CO-uUTAAp6zNHLg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F819280559B;
- Tue, 20 Dec 2022 14:44:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 179612805599;
+ Tue, 20 Dec 2022 14:45:02 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 76AEF112132D;
- Tue, 20 Dec 2022 14:44:37 +0000 (UTC)
-Date: Tue, 20 Dec 2022 14:44:35 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 096E0492B00;
+ Tue, 20 Dec 2022 14:45:00 +0000 (UTC)
+Date: Tue, 20 Dec 2022 14:44:58 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 2/3] accel/kvm: Silent -Wmissing-field-initializers warning
-Message-ID: <Y6HKUyUmjZ8LzsSJ@redhat.com>
+Subject: Re: [PATCH 3/3] softmmu: Silent -Wmissing-field-initializers warning
+Message-ID: <Y6HKalK+VUnn2Sna@redhat.com>
 References: <20221220143532.24958-1-philmd@linaro.org>
- <20221220143532.24958-3-philmd@linaro.org>
+ <20221220143532.24958-4-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221220143532.24958-3-philmd@linaro.org>
+In-Reply-To: <20221220143532.24958-4-philmd@linaro.org>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -85,17 +85,17 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 20, 2022 at 03:35:31PM +0100, Philippe Mathieu-Daudé wrote:
+On Tue, Dec 20, 2022 at 03:35:32PM +0100, Philippe Mathieu-Daudé wrote:
 > Silent when compiling with -Wextra:
 > 
->   ../accel/kvm/kvm-all.c:2291:17: warning: missing field 'num' initializer [-Wmissing-field-initializers]
->         { NULL, }
->                 ^
+>   ../softmmu/vl.c:886:12: warning: missing field 'flags' initializer [-Wmissing-field-initializers]
+>     { NULL },
+>            ^
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->  accel/kvm/kvm-all.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  softmmu/vl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
