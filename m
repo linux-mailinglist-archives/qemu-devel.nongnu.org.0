@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F224B651D7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:34:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0F1651D86
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:36:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7YaT-0000Yr-Hp; Tue, 20 Dec 2022 04:07:01 -0500
+	id 1p7YaW-0000b2-In; Tue, 20 Dec 2022 04:07:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaN-0000Vm-QS
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:55 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaP-0000Wv-Ql
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaJ-0006So-TN
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:55 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaN-0006UP-PW
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671527211;
+ s=mimecast20190719; t=1671527215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PhffZWvtQTtgDm49GqT1BUbfbuVZhciRBJpp7ThNC4Y=;
- b=S1f3ZyYTIKToLdyJ1Px+aGj9QkKBaoDFLQcekXwEkzzlH9lVZGtQgMuBt8jjXVNR3IpNuk
- 6X2NjFMOeCpPHdVYrCr03CmtZpw8Fxu4AUp9tnU3zinbtc9ilmQGFpMYYPiTDZ9V0p0lNI
- OeHbfG3OqFIwq7+MXU4nCEejxppIqYE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=n7LQWhmn7iKyM1nc9k7jXinnRLLnRjwgQRsotKorC/c=;
+ b=RevKWSUY6NRU2NKrtoVkHHAh5QyJZ4qTIREDHmJhY5/mYsbfMjEzG+F+6u1V9VnfqU4xO3
+ 53LSp9fL2DzATQlfENOQkZsAzCzaPKj3MlOJ8YW31UwQZiSjK+TTki/7FNN5GsiC8s0TDW
+ z7DQuOK7luXMkZOL1HDRgCweE0BPofI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-g9_P3Vy_Ms-Owfp27yiRdQ-1; Tue, 20 Dec 2022 04:06:49 -0500
-X-MC-Unique: g9_P3Vy_Ms-Owfp27yiRdQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-255-88vGhgqsOJSy-Z-DZB3iQA-1; Tue, 20 Dec 2022 04:06:49 -0500
+X-MC-Unique: 88vGhgqsOJSy-Z-DZB3iQA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D1721C05AF3;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 796BE85A588;
  Tue, 20 Dec 2022 09:06:49 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13E8914152F6;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14DD2112132D;
  Tue, 20 Dec 2022 09:06:49 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9798F21E683A; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
+ id 9A15B21E66CC; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v3 15/18] ui: Reduce nesting in hmp_change_vnc() slightly
-Date: Tue, 20 Dec 2022 10:06:42 +0100
-Message-Id: <20221220090645.2844881-16-armbru@redhat.com>
+Subject: [PATCH v3 16/18] ui: Split hmp_mouse_set() and move the HMP part to
+ ui/
+Date: Tue, 20 Dec 2022 10:06:43 +0100
+Message-Id: <20221220090645.2844881-17-armbru@redhat.com>
 In-Reply-To: <20221220090645.2844881-1-armbru@redhat.com>
 References: <20221220090645.2844881-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,60 +80,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Transform
-
-    if (good) {
-        do stuff
-    } else {
-        handle error
-    }
-
-to
-
-    if (!good) {
-        handle error
-	return;
-    }
-    do stuff
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- ui/ui-hmp-cmds.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ include/monitor/hmp.h | 1 +
+ include/ui/console.h  | 2 +-
+ monitor/misc.c        | 1 -
+ ui/input.c            | 5 +----
+ ui/ui-hmp-cmds.c      | 8 ++++++++
+ 5 files changed, 11 insertions(+), 6 deletions(-)
 
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index df89eac22a..8688769a27 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -88,6 +88,7 @@ void hmp_getfd(Monitor *mon, const QDict *qdict);
+ void hmp_closefd(Monitor *mon, const QDict *qdict);
+ void hmp_mouse_move(Monitor *mon, const QDict *qdict);
+ void hmp_mouse_button(Monitor *mon, const QDict *qdict);
++void hmp_mouse_set(Monitor *mon, const QDict *qdict);
+ void hmp_sendkey(Monitor *mon, const QDict *qdict);
+ void coroutine_fn hmp_screendump(Monitor *mon, const QDict *qdict);
+ void hmp_chardev_add(Monitor *mon, const QDict *qdict);
+diff --git a/include/ui/console.h b/include/ui/console.h
+index e400ee9fa7..e7f375312c 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -65,7 +65,7 @@ void qemu_remove_led_event_handler(QEMUPutLEDEntry *entry);
+ 
+ void kbd_put_ledstate(int ledstate);
+ 
+-void hmp_mouse_set(Monitor *mon, const QDict *qdict);
++void qemu_mouse_set(int index, Error **err);
+ 
+ /* keysym is a unicode code except for special keys (see QEMU_KEY_xxx
+    constants) */
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 3d68940d28..50cb9f008b 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -33,7 +33,6 @@
+ #include "ui/qemu-spice.h"
+ #include "qemu/config-file.h"
+ #include "qemu/ctype.h"
+-#include "ui/console.h"
+ #include "audio/audio.h"
+ #include "disas/disas.h"
+ #include "qemu/timer.h"
+diff --git a/ui/input.c b/ui/input.c
+index 8f4a87d1d7..7bece94e79 100644
+--- a/ui/input.c
++++ b/ui/input.c
+@@ -2,8 +2,6 @@
+ #include "sysemu/sysemu.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-ui.h"
+-#include "qapi/qmp/qdict.h"
+-#include "qemu/error-report.h"
+ #include "trace.h"
+ #include "ui/input.h"
+ #include "ui/console.h"
+@@ -594,10 +592,9 @@ MouseInfoList *qmp_query_mice(Error **errp)
+     return mice_list;
+ }
+ 
+-void hmp_mouse_set(Monitor *mon, const QDict *qdict)
++void qemu_mouse_set(int index, Error **err)
+ {
+     QemuInputHandlerState *s;
+-    int index = qdict_get_int(qdict, "index");
+     int found = 0;
+ 
+     QTAILQ_FOREACH(s, &handlers, node) {
 diff --git a/ui/ui-hmp-cmds.c b/ui/ui-hmp-cmds.c
-index 41d934acb9..adea425d35 100644
+index adea425d35..ad6a2a52e2 100644
 --- a/ui/ui-hmp-cmds.c
 +++ b/ui/ui-hmp-cmds.c
-@@ -328,19 +328,16 @@ void hmp_change_vnc(Monitor *mon, const char *device, const char *target,
-         error_setg(errp, "Parameter 'read-only-mode' is invalid for VNC");
-         return;
-     }
--    if (strcmp(target, "passwd") == 0 ||
--        strcmp(target, "password") == 0) {
--        if (!arg) {
--            MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
--            monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
--            return;
--        } else {
--            qmp_change_vnc_password(arg, errp);
--        }
--    } else {
-+    if (strcmp(target, "passwd") && strcmp(target, "password")) {
-         error_setg(errp, "Expected 'password' after 'vnc'");
-         return;
-     }
-+    if (!arg) {
-+        MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
-+        monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
-+    } else {
-+        qmp_change_vnc_password(arg, errp);
-+    }
+@@ -69,6 +69,14 @@ void hmp_mouse_button(Monitor *mon, const QDict *qdict)
+     mouse_button_state = button_state;
  }
- #endif
  
++void hmp_mouse_set(Monitor *mon, const QDict *qdict)
++{
++    Error *err = NULL;
++
++    qemu_mouse_set(qdict_get_int(qdict, "index"), &err);
++    hmp_handle_error(mon, err);
++}
++
+ void hmp_info_mice(Monitor *mon, const QDict *qdict)
+ {
+     MouseInfoList *mice_list, *mouse;
 -- 
 2.38.1
 
