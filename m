@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0899651BAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 08:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8659651BB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 08:31:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7X3y-0008Uj-Lg; Tue, 20 Dec 2022 02:29:22 -0500
+	id 1p7X57-0000Yp-Pp; Tue, 20 Dec 2022 02:30:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7X3v-0008UK-2u
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 02:29:19 -0500
-Received: from mga02.intel.com ([134.134.136.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7X3t-0006ul-8y
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 02:29:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671521357; x=1703057357;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=fjNSa0+921I8s8ST66iQKKAKKNcHFJo2C7vp0DyF6bU=;
- b=Hwa4E7mqsjbNs4E2yC/7gtSoTMu4GQlWQODVNxe0p7jYsxv1RRiVy94P
- T2Dye/o/hMJFIvkzBAI1tiua98ZDvHUtpcYobNqMrQzsLmNQYKYmaOzSR
- lMcH4ci1gumk9fUoHGbJBnjUa8DJp+kma1N/0o1A+UEKL+FImh3qvlkYh
- +In6sZzOtra1b82PUKMyr/IMaVxx4s562cGkGztFtV9GnBIqV4NMc2Wfz
- 65xMGJH3d4CcRAlBjvbv/TMNjOr9TPgRh+Zy2cYizPJrW+GsjYXdIEA6P
- gUFDi84/TCqXH4xFULQOZpa0FBpEi+GyN5/F1Z/2To5zmeaRnURXiVQMg A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="307230631"
-X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; d="scan'208";a="307230631"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2022 23:29:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="775191645"
-X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; d="scan'208";a="775191645"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga004.jf.intel.com with ESMTP; 19 Dec 2022 23:29:03 -0800
-Date: Tue, 20 Dec 2022 15:24:46 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <20221220072446.GB1724933@chaop.bj.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <Y5yKEpwCzZpNoBrp@zn.tnic>
- <20221219081532.GD1691829@chaop.bj.intel.com>
- <Y6A6MkFjckQ18fFH@zn.tnic>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7X4i-0000WN-8I
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 02:30:15 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7X4g-00079x-Ai
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 02:30:07 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ m5-20020a7bca45000000b003d2fbab35c6so8046981wml.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 23:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EbUUMP9RonkydEpBsPM34hJhv1HaWaZp2j3DYkViEH0=;
+ b=XR2Q3hFXiK5aj7rZ+KFbiuBFCrcYoxJSiBGr2gJULrLXDX4g2szyCTfIWnzAk/i36J
+ GSXRlzbv3f46tBYACHpBa6AEKMkByhSvxUy+P3GnbfXlKOcVNCu7nGX3pCcWihKRv+o3
+ nAGMX/YujnZGgN7/kFxliLXKuuD8IC2jJYW2TkRCRneLZWsJ7xWj4/gImAcDSF3Trige
+ /RDZEvAMiiUVfqR+obQ/lxg2JZYRHZknFDBhZZtQLhbm8o10gyWNq0Y44z8yiYnzHGQa
+ CfabYO7GKpS80CCSGsuXhnsiiGBP3uA7QZy3gQFicBRoWH9DqPenYOxmHw1xfbGbz2ih
+ sSrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EbUUMP9RonkydEpBsPM34hJhv1HaWaZp2j3DYkViEH0=;
+ b=E0DxwBlNs+IOm6GPNAWcNLNrBZN5OBCUOxnRHVMciYKJ+SsP5PU/+DAmz7gDq1FWIN
+ U0sNlgvBQt9ietUzQmFGZuw7Lm0IxKhJzxD+IryouCPICTKM0I9chFvL13K8zpQMZblm
+ 89H0D7zHmcebtHNac1js0tQ9QwZLnsaypHDZAVTesH3V1tJiVMkRTTFEgsgBTOrX+oHL
+ 1vRsc3WhQR3kA4JC+viO+fZVpeXx4kyI/eVzZO+Ydv3xMgOGy20/Va7vwdOCMHEyLaPP
+ DZesmWzYRWd/tSuRd2O+YmZOnpzm3uGOVWnj8rC7Jyg1+xzl8iAEUM+9ZkvLIgN8F15o
+ f9eA==
+X-Gm-Message-State: ANoB5pkUNH0hH8dWmns7jnx0S0V1xtIsXZFcodPTF04UrKRFToyL8pi1
+ 1rrmoFGka7CXZzt12L9XU61U3w==
+X-Google-Smtp-Source: AA0mqf5JtVYmxytP/yGZdjMNnGYSiiOjsdEFEpUefIa6K71UxL4sVJhOwl07CicpUIw5PAIWp8iAkg==
+X-Received: by 2002:a05:600c:3592:b0:3d1:bc32:2447 with SMTP id
+ p18-20020a05600c359200b003d1bc322447mr34138827wmq.21.1671521404440; 
+ Mon, 19 Dec 2022 23:30:04 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n35-20020a05600c502300b003cffd3c3d6csm14800695wmr.12.2022.12.19.23.30.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Dec 2022 23:30:04 -0800 (PST)
+Message-ID: <144e9b21-3bcc-4519-bdc7-4293f2c4af90@linaro.org>
+Date: Tue, 20 Dec 2022 08:30:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y6A6MkFjckQ18fFH@zn.tnic>
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PULL 00/21] Hexagon update: bug fixes, performance, idef-parser
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org,
+ Alessandro Di Federico <ale@rev.ng>, Paolo Montesel <babush@rev.ng>,
+ Anton Johansson <anjo@rev.ng>
+Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
+ bcain@quicinc.com, quic_mathbern@quicinc.com, stefanha@redhat.com
+References: <20221216204845.19290-1-tsimpson@quicinc.com>
+ <efcdbcb2-87c3-870f-5462-fad7a276de7a@linaro.org>
+In-Reply-To: <efcdbcb2-87c3-870f-5462-fad7a276de7a@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,42 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 19, 2022 at 11:17:22AM +0100, Borislav Petkov wrote:
-> On Mon, Dec 19, 2022 at 04:15:32PM +0800, Chao Peng wrote:
-> > Tamping down with error number a bit:
-> > 
-> >         if (attrs->flags)
-> >                 return -ENXIO;
-> >         if (attrs->attributes & ~supported_attrs)
-> >                 return -EOPNOTSUPP;
-> >         if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size) ||
-> >             attrs->size == 0)
-> >                 return -EINVAL;
-> >         if (attrs->address + attrs->size < attrs->address)
-> >                 return -E2BIG;
+On 20/12/22 00:19, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
-> Yap, better.
+> On 16/12/22 21:48, Taylor Simpson wrote:
 > 
-> I guess you should add those to the documentation of the ioctl too
-> so that people can find out why it fails. Or, well, they can look
-> at the code directly too but still... imagine some blurb about
-> user-friendliness here...
+>> ----------------------------------------------------------------
+> 
+>> 12-21)
+>> Instruction definition parser (idef-parser) from rev.ng
+>> Parses the instruction semantics and generates TCG
+> 
+> Building QEMU with Clang I'm now getting:
+> 
+> target/hexagon/idef-parser.p/idef-parser.tab.c:2197:9: error: variable 
+> 'yynerrs' set but not used [-Werror,-Wunused-but-set-variable]
+>      int yynerrs = 0;
+>          ^
 
-Thanks for reminding. Yes KVM api doc is the right place to put these
-documentation in.
+idef-parser.tab.c is built using:
 
-Thanks,
-Chao
-> 
-> :-)
-> 
-> -- 
-> Regards/Gruss,
->     Boris.
-> 
-> https://people.kernel.org/tglx/notes-about-netiquette
+193     idef_parser = executable(
+194         'idef-parser',
+195         [flex.process(idef_parser_dir / 'idef-parser.lex'),
+196          bison.process(idef_parser_dir / 'idef-parser.y'),
+197          idef_parser_dir / 'parser-helpers.c'],
+198         include_directories: ['idef-parser', '../../include/'],
+199         dependencies: [glib_dep],
+200         c_args: ['-Wextra'],
+                       ^^^^^^^^
+201         native: true
+202     )
+
+(see commit c0a41ee631 "target/hexagon: import parser for idef-parser")
+
+Do we really need this level? IIUC the problem with -Wextra is using a
+newer compiler toolchain it can include warnings we haven't fixed. Maybe
+worthwhile but it can break from times to times.
+
+Using '-Wextra -Wno-unused-but-set-variable' seems a hack. I guess I'd
+simply remove -Wextra for simplicity, since no much value is added here.
+
+Regards,
+
+Phil.
 
