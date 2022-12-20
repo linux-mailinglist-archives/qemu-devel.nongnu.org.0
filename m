@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450DE65265F
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:38:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4B4652625
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:23:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7gPH-0001Mh-Eb; Tue, 20 Dec 2022 12:28:00 -0500
+	id 1p7gPK-0001N5-Sk; Tue, 20 Dec 2022 12:28:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1p7gPA-0001LB-B3; Tue, 20 Dec 2022 12:27:52 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198])
+ id 1p7gPA-0001LC-DE; Tue, 20 Dec 2022 12:27:52 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1p7gP6-000575-6H; Tue, 20 Dec 2022 12:27:52 -0500
+ id 1p7gP6-00057S-7P; Tue, 20 Dec 2022 12:27:52 -0500
 Received: (Authenticated sender: jcd@tribudubois.net)
- by mail.gandi.net (Postfix) with ESMTPSA id 6B0CFC0008;
- Tue, 20 Dec 2022 17:27:35 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPSA id C8BD56000A;
+ Tue, 20 Dec 2022 17:27:41 +0000 (UTC)
 From: Jean-Christophe Dubois <jcd@tribudubois.net>
 To: qemu-devel@nongnu.org
 Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
 	qemu-arm@nongnu.org
-Subject: [PATCH] i.MX7D: Connect GPT timers to IRQ
-Date: Tue, 20 Dec 2022 18:27:30 +0100
-Message-Id: <63a81cac41c769989e23caebb476dc078e83731d.1671548388.git.jcd@tribudubois.net>
+Subject: [PATCH] i.MX7D: Compute clock frequency for the fixed frequency
+ clocks.
+Date: Tue, 20 Dec 2022 18:27:39 +0100
+Message-Id: <b39c13bd71adaa91559d3436e724d90280e81c63.1671548388.git.jcd@tribudubois.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1671548388.git.jcd@tribudubois.net>
 References: <cover.1671548388.git.jcd@tribudubois.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.70.183.198; envelope-from=jcd@tribudubois.net;
- helo=relay6-d.mail.gandi.net
+Received-SPF: pass client-ip=217.70.183.195; envelope-from=jcd@tribudubois.net;
+ helo=relay3-d.mail.gandi.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -53,54 +55,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-So far the GPT timers were unable to raise IRQs to the processor.
+CCM derived clocks will have to be added later.
 
 Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
 ---
- hw/arm/fsl-imx7.c         | 10 ++++++++++
- include/hw/arm/fsl-imx7.h |  5 +++++
- 2 files changed, 15 insertions(+)
+ hw/misc/imx7_ccm.c | 49 +++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index cc6fdb9373..146bb559bb 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -219,9 +219,19 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-             FSL_IMX7_GPT4_ADDR,
-         };
+diff --git a/hw/misc/imx7_ccm.c b/hw/misc/imx7_ccm.c
+index 075159e497..f135ec7b7e 100644
+--- a/hw/misc/imx7_ccm.c
++++ b/hw/misc/imx7_ccm.c
+@@ -16,6 +16,10 @@
+ #include "hw/misc/imx7_ccm.h"
+ #include "migration/vmstate.h"
  
-+        static const int FSL_IMX7_GPTn_IRQ[FSL_IMX7_NUM_GPTS] = {
-+            FSL_IMX7_GPT1_IRQ,
-+            FSL_IMX7_GPT2_IRQ,
-+            FSL_IMX7_GPT3_IRQ,
-+            FSL_IMX7_GPT4_IRQ,
-+        };
++#include "trace.h"
 +
-         s->gpt[i].ccm = IMX_CCM(&s->ccm);
-         sysbus_realize(SYS_BUS_DEVICE(&s->gpt[i]), &error_abort);
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpt[i]), 0, FSL_IMX7_GPTn_ADDR[i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpt[i]), 0,
-+                           qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-+                                            FSL_IMX7_GPTn_IRQ[i]));
-     }
- 
-     for (i = 0; i < FSL_IMX7_NUM_GPIOS; i++) {
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 1c5fa6fd67..50f19d8db0 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -235,6 +235,11 @@ enum FslIMX7IRQs {
-     FSL_IMX7_USB2_IRQ     = 42,
-     FSL_IMX7_USB3_IRQ     = 40,
- 
-+    FSL_IMX7_GPT1_IRQ     = 55,
-+    FSL_IMX7_GPT2_IRQ     = 54,
-+    FSL_IMX7_GPT3_IRQ     = 53,
-+    FSL_IMX7_GPT4_IRQ     = 52,
++#define CKIH_FREQ 24000000 /* 24MHz crystal input */
 +
-     FSL_IMX7_WDOG1_IRQ    = 78,
-     FSL_IMX7_WDOG2_IRQ    = 79,
-     FSL_IMX7_WDOG3_IRQ    = 10,
+ static void imx7_analog_reset(DeviceState *dev)
+ {
+     IMX7AnalogState *s = IMX7_ANALOG(dev);
+@@ -219,16 +223,43 @@ static const VMStateDescription vmstate_imx7_ccm = {
+ static uint32_t imx7_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
+ {
+     /*
+-     * This function is "consumed" by GPT emulation code, however on
+-     * i.MX7 each GPT block can have their own clock root. This means
+-     * that this functions needs somehow to know requester's identity
+-     * and the way to pass it: be it via additional IMXClk constants
+-     * or by adding another argument to this method needs to be
+-     * figured out
++     * This function is "consumed" by GPT emulation code. Some clocks
++     * have fixed frequencies and we can provide requested frequency
++     * easily. However for CCM provided clocks (like IPG) each GPT
++     * timer can have its own clock root.
++     * This means we need additionnal information when calling this
++     * function to know the requester's identity.
+      */
+-    qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Not implemented\n",
+-                  TYPE_IMX7_CCM, __func__);
+-    return 0;
++    uint32_t freq = 0;
++
++    switch (clock) {
++    case CLK_NONE:
++        break;
++    case CLK_32k:
++        freq = CKIL_FREQ;
++        break;
++    case CLK_HIGH:
++        freq = CKIH_FREQ;
++        break;
++    case CLK_IPG:
++    case CLK_IPG_HIGH:
++        /*
++         * For now we don't have a way to figure out the device this
++         * function is called for. Until then the IPG derived clocks
++         * are left unimplemented.
++         */
++        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Clock %d Not implemented\n",
++                      TYPE_IMX7_CCM, __func__, clock);
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: unsupported clock %d\n",
++                      TYPE_IMX7_CCM, __func__, clock);
++        break;
++    }
++
++    trace_ccm_clock_freq(clock, freq);
++
++    return freq;
+ }
+ 
+ static void imx7_ccm_class_init(ObjectClass *klass, void *data)
 -- 
 2.34.1
 
