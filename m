@@ -2,39 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FAD6526BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 20:06:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6DF652710
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 20:33:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7hul-0000pS-4u; Tue, 20 Dec 2022 14:04:35 -0500
+	id 1p7iH0-0004ay-9d; Tue, 20 Dec 2022 14:27:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcel@holtmann.org>)
- id 1p7hui-0000p8-7f
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 14:04:32 -0500
+ id 1p7iGy-0004ZP-3w
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 14:27:32 -0500
 Received: from coyote.holtmann.net ([212.227.132.17] helo=mail.holtmann.org)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel@holtmann.org>) id 1p7hug-0006ko-3l
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 14:04:31 -0500
-Received: from smtpclient.apple (p4fefcc21.dip0.t-ipconnect.de [79.239.204.33])
- by mail.holtmann.org (Postfix) with ESMTPSA id 726EECED09;
- Tue, 20 Dec 2022 20:04:25 +0100 (CET)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: [PATCH 7/7] libvhost-user: Switch to unsigned int for inuse field
- in struct VuVirtq
+ (envelope-from <marcel@holtmann.org>) id 1p7iGv-0002Z0-U4
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 14:27:31 -0500
+Received: from fedora.. (p4fefcc21.dip0.t-ipconnect.de [79.239.204.33])
+ by mail.holtmann.org (Postfix) with ESMTPSA id 50B14CED0A;
+ Tue, 20 Dec 2022 20:27:25 +0100 (CET)
 From: Marcel Holtmann <marcel@holtmann.org>
-In-Reply-To: <20221220101454-mutt-send-email-mst@kernel.org>
-Date: Tue, 20 Dec 2022 20:04:24 +0100
-Cc: qemu-devel@nongnu.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9C14D79D-886A-49A1-A69A-7BF260222E20@holtmann.org>
-References: <20221219175337.377435-8-marcel@holtmann.org>
- <20221220101454-mutt-send-email-mst@kernel.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
+To: qemu-devel@nongnu.org,
+	mst@redhat.com,
+	xieyongji@bytedance.com
+Cc: marcel@holtmann.org
+Subject: [PATCH v2 00/10] Compiler warning fixes for libvhost-user,libvduse
+Date: Tue, 20 Dec 2022 20:27:12 +0100
+Message-Id: <cover.1671563795.git.marcel@holtmann.org>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=212.227.132.17; envelope-from=marcel@holtmann.org;
  helo=mail.holtmann.org
 X-Spam_score_int: -18
@@ -57,40 +54,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Michael,
+The libvhost-user and libvduse libraries are also useful for external
+usage outside of QEMU and thus it would be nice if their files could
+be just copied and used. However due to different compiler settings, a
+lot of manual fixups are needed. This is the first attempt at some
+obvious fixes that can be done without any harm to the code and its
+readability.
 
->> It seems there is no need to keep the inuse field signed and end up =
-with
->> compiler warnings for sign-compare.
->>=20
->>  CC       libvhost-user.o
->> libvhost-user.c: In function =E2=80=98vu_queue_pop=E2=80=99:
->> libvhost-user.c:2763:19: error: comparison of integer expressions of =
-different signedness: =E2=80=98int=E2=80=99 and =E2=80=98unsigned int=E2=80=
-=99 [-Werror=3Dsign-compare]
->> 2763 |     if (vq->inuse >=3D vq->vring.num) {
->>      |                   ^~
->> libvhost-user.c: In function =E2=80=98vu_queue_rewind=E2=80=99:
->> libvhost-user.c:2808:13: error: comparison of integer expressions of =
-different signedness: =E2=80=98unsigned int=E2=80=99 and =E2=80=98int=E2=80=
-=99 [-Werror=3Dsign-compare]
->> 2808 |     if (num > vq->inuse) {
->>      |             ^
->>=20
->> Instead of casting the comparision to unsigned int, just make the =
-inuse
->> field unsigned int in the fist place.
->>=20
->> Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
->=20
->=20
-> Is this a part of a patchset? No threading visible and I'd rather not
-> guess.
+Please note that 10/10 in this series is marked as RFC since I have no
+idea what is correct here. From the structures point of view the
+assignment that is done makes no sense to me. I might have to dig into
+specification to figure it out or it better be commented accordingly
+to tell the compiler that it got this part wrong.
 
-I am going to re-send both series as v2.
+Marcel Holtmann (10):
+  libvhost-user: Provide _GNU_SOURCE when compiling outside of QEMU
+  libvhost-user: Replace typeof with __typeof__
+  libvhost-user: Cast rc variable to avoid compiler warning
+  libvhost-user: Use unsigned int i for some for-loop iterations
+  libvhost-user: Declare uffdio_register early to make it C90 compliant
+  libvhost-user: Change dev->postcopy_ufd assignment to make it C90 compliant
+  libvhost-user: Switch to unsigned int for inuse field in struct VuVirtq
+  libvduse: Provide _GNU_SOURCE when compiling outside of QEMU
+  libvduse: Switch to unsigned int for inuse field in struct VduseVirtq
+  libvduse: Fix assignment in vring_set_avail_event
 
-Regards
+ subprojects/libvduse/libvduse.c           | 11 ++++++--
+ subprojects/libvhost-user/libvhost-user.c | 31 ++++++++++++++---------
+ subprojects/libvhost-user/libvhost-user.h |  2 +-
+ 3 files changed, 29 insertions(+), 15 deletions(-)
 
-Marcel
+-- 
+2.38.1
 
 
