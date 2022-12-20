@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E93E7652291
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBF0652290
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:29:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7dYw-0002qN-Qq; Tue, 20 Dec 2022 09:25:46 -0500
+	id 1p7dZA-00038v-Ls; Tue, 20 Dec 2022 09:26:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dYh-0002jQ-Vs
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dYm-0002kM-SQ
  for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:25:36 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dYg-00077H-FI
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:25:31 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- m5-20020a7bca45000000b003d2fbab35c6so8923687wml.4
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:25:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dYl-0007Bq-7U
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:25:36 -0500
+Received: by mail-wr1-x430.google.com with SMTP id o5so11910270wrm.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:25:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YZacuc6hkXuywYHHFZgq2CU0UxEHNQQJhCq+mOWh6sc=;
- b=oK90c5EMFqv9gleN3CJ9GTFswxADLz1WoH7MV9oKWkECdkw9D3mfmpSY/zKO28OsZW
- LJpqB/Oq5owlBGdje5kthNYVHwRi6Wc3zQCUjQRlgUPB3Xa0uH3csLCS9h9rnOpPCezt
- 1F9IS30DxtaMELeod4B7k5Ysf7rPHuy7JJo8yl7jYkZDMaFbt+hjVAco/rcTEKbvyy5F
- UQhhatKoDxMXzzDooP2pi55ASEjpB5NmE0/tisFbFw57tVrsyQIvybpKH72QXCmpzbgw
- iKvCdttEqtry7gZVahF64ADPde2hNITkyvWeozSEDLDTCBA8YTT3msRrZkPqod43Fi9r
- QQkw==
+ bh=F2fp1/YYUdGWYu3hiUNYQ+xzlt+cNGmiBsfUbTz1rcI=;
+ b=ljfl/pppcwKBkleG4/Dc9kPUqxm13XD2Mrleelh/o4EvQlB25zBUaVbKbZN2K39es+
+ rxsTFvUA2Ja9O3dDuGUjTDvbxALW81tK7PftZmmOF1pLk6n2pLVAqgEkWln8aoyPI7Sh
+ preX8qvQ3se3zFHFenaHRl3s0EQIURiZuDpHkfwj/LGZtSnSz+4oFW9+Ha5dUrJULXZ1
+ FMRqipFjb30yFUzqAi/1/NJwaW2ZBL5QDmyVkngqGsQ2pVq1P5wQZQDaJ/r137oyXkzi
+ 2I8JlDlXGAoJKNpKfoR62suk6/GO+tRJUci6Zi1cSSnet6ehDB73hOzwVHgx45i7rrxy
+ sEZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YZacuc6hkXuywYHHFZgq2CU0UxEHNQQJhCq+mOWh6sc=;
- b=LaPVXgRTVv8wRr3Ue58FI7hE+Lr1G8F4c7IlznZ54yP3EH/PaijFwMyy4Um5DbJ0S5
- GPWaZrGSH5R8+TfL9jymc5nRZIbHda0GDAlw5DMuvhe6dhXiqFSaVo15BWQeUIzmu/rP
- iN13D9kSK1MwATWlJ0jRwkyop3AhlodtmgVZNFRRjTh2AM+73ZFCbhrT/01Hmdl7X9aj
- 3X+fela8cZVb/aPlXNLAmpLB+aoq0lNCr7F9CyMcc8LircJuTZ6CNjk9EfrHQSbXDIPv
- 4yaTtq99iB52dNnBARdnae51oBAm26mhKb0bPFOI6OhBIQYcJMiZCAcJJe35GzEWC4PG
- sG6Q==
-X-Gm-Message-State: ANoB5pnvq52giTgHsFTYgHalzzoOBwlX/tHsFm3u29Q6wgHKH4QsD+FD
- +nPOqazGERxdOjPyh+s7GkGWnIVvZ/vHIkYMGOY=
-X-Google-Smtp-Source: AA0mqf6VJopN9onlFZi2UaXIe2B7LfpM7unciiiaKwJQTYKR/z0LHSZYU3KtnPF+NgSGZqcpgMNGag==
-X-Received: by 2002:a7b:ca45:0:b0:3d2:fbab:3609 with SMTP id
- m5-20020a7bca45000000b003d2fbab3609mr14806088wml.27.1671546328774; 
- Tue, 20 Dec 2022 06:25:28 -0800 (PST)
+ bh=F2fp1/YYUdGWYu3hiUNYQ+xzlt+cNGmiBsfUbTz1rcI=;
+ b=mGb+HMYEwZHUXybw0/57/A0q9epcUhxVwJddNfqmgCkPrTH6v6e9ggWUbh4hZOdirQ
+ gsRoGPE3GbUG5J4eBqT3nMrHkNfD14E2xKSssL7l5ns0UJVSEjWltrURceLskyvH9dYx
+ /5e9WtAbultirri1scRL/wdAu+qDnBDP3s7tPC1wRYwgo5hm74gWrJ0fkDFQDGv5WLJX
+ lA42YYhIetysNT3W7mgUYkB6Hgu78YMYyraAQ/PEr9eZEf3Nxs5QSnEGzLy5uRxiOPmd
+ 7/xfTnFYSPQ682GQaHkg/xd22QonB6EqOIE19wZIuXqYFl+aNXM40CxTezDyYI3o8FpF
+ Na2A==
+X-Gm-Message-State: ANoB5pksxnQEDjCA0xy1f+LUS4OVAyXhyBFWe4AOca16+94zNCuD2lAA
+ RZc+7STQdCDFDO5RITm74UqVstUxYxeOJpLXFWw=
+X-Google-Smtp-Source: AA0mqf4p6Ix7hYUzTp2TljhLNbqVrfde5FqeC8IXiPkgsgY9374MoSeZS/TIEjoUFbFAoSIFuAyESQ==
+X-Received: by 2002:adf:ea8f:0:b0:242:70f1:2134 with SMTP id
+ s15-20020adfea8f000000b0024270f12134mr38863853wrm.60.1671546333661; 
+ Tue, 20 Dec 2022 06:25:33 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- 189-20020a1c02c6000000b003cfd58409desm23303881wmc.13.2022.12.20.06.25.27
+ bq1-20020a5d5a01000000b00236545edc91sm12853530wrb.76.2022.12.20.06.25.32
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Dec 2022 06:25:27 -0800 (PST)
+ Tue, 20 Dec 2022 06:25:33 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 1/3] hw/input/tsc2xxx: Constify set_transform()'s
- MouseTransformInfo arg
-Date: Tue, 20 Dec 2022 15:25:18 +0100
-Message-Id: <20221220142520.24094-2-philmd@linaro.org>
+Subject: [PATCH 2/3] hw/arm/nseries: Constify various read-only arrays
+Date: Tue, 20 Dec 2022 15:25:19 +0100
+Message-Id: <20221220142520.24094-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221220142520.24094-1-philmd@linaro.org>
 References: <20221220142520.24094-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,61 +89,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The pointed MouseTransformInfo structure is accessed read-only.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/input/tsc2005.c         | 2 +-
- hw/input/tsc210x.c         | 3 +--
- include/hw/input/tsc2xxx.h | 4 ++--
- 3 files changed, 4 insertions(+), 5 deletions(-)
+ hw/arm/nseries.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/input/tsc2005.c b/hw/input/tsc2005.c
-index 14698ce109..555b677173 100644
---- a/hw/input/tsc2005.c
-+++ b/hw/input/tsc2005.c
-@@ -523,7 +523,7 @@ void *tsc2005_init(qemu_irq pintdav)
-  * from the touchscreen.  Assuming 12-bit precision was used during
-  * tslib calibration.
-  */
--void tsc2005_set_transform(void *opaque, MouseTransformInfo *info)
-+void tsc2005_set_transform(void *opaque, const MouseTransformInfo *info)
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index b151113c27..2ff29f52e2 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -230,13 +230,13 @@ static void n8x0_i2c_setup(struct n800_s *s)
+ }
+ 
+ /* Touchscreen and keypad controller */
+-static MouseTransformInfo n800_pointercal = {
++static const MouseTransformInfo n800_pointercal = {
+     .x = 800,
+     .y = 480,
+     .a = { 14560, -68, -3455208, -39, -9621, 35152972, 65536 },
+ };
+ 
+-static MouseTransformInfo n810_pointercal = {
++static const MouseTransformInfo n810_pointercal = {
+     .x = 800,
+     .y = 480,
+     .a = { 15041, 148, -4731056, 171, -10238, 35933380, 65536 },
+@@ -334,7 +334,7 @@ static void n810_key_event(void *opaque, int keycode)
+ 
+ #define M	0
+ 
+-static int n810_keys[0x80] = {
++static const int n810_keys[0x80] = {
+     [0x01] = 16,	/* Q */
+     [0x02] = 37,	/* K */
+     [0x03] = 24,	/* O */
+@@ -810,7 +810,7 @@ static void n8x0_usb_setup(struct n800_s *s)
+ /* Setup done before the main bootloader starts by some early setup code
+  * - used when we want to run the main bootloader in emulation.  This
+  * isn't documented.  */
+-static uint32_t n800_pinout[104] = {
++static const uint32_t n800_pinout[104] = {
+     0x080f00d8, 0x00d40808, 0x03080808, 0x080800d0,
+     0x00dc0808, 0x0b0f0f00, 0x080800b4, 0x00c00808,
+     0x08080808, 0x180800c4, 0x00b80000, 0x08080808,
+@@ -1060,7 +1060,7 @@ static void n8x0_boot_init(void *opaque)
+ #define OMAP_TAG_CBUS		0x4e03
+ #define OMAP_TAG_EM_ASIC_BB5	0x4e04
+ 
+-static struct omap_gpiosw_info_s {
++static const struct omap_gpiosw_info_s {
+     const char *name;
+     int line;
+     int type;
+@@ -1102,7 +1102,7 @@ static struct omap_gpiosw_info_s {
+     { NULL }
+ };
+ 
+-static struct omap_partition_info_s {
++static const struct omap_partition_info_s {
+     uint32_t offset;
+     uint32_t size;
+     int mask;
+@@ -1125,15 +1125,15 @@ static struct omap_partition_info_s {
+     { 0, 0, 0, NULL }
+ };
+ 
+-static uint8_t n8x0_bd_addr[6] = { N8X0_BD_ADDR };
++static const uint8_t n8x0_bd_addr[6] = { N8X0_BD_ADDR };
+ 
+ static int n8x0_atag_setup(void *p, int model)
  {
-     TSC2005State *s = (TSC2005State *) opaque;
+     uint8_t *b;
+     uint16_t *w;
+     uint32_t *l;
+-    struct omap_gpiosw_info_s *gpiosw;
+-    struct omap_partition_info_s *partition;
++    const struct omap_gpiosw_info_s *gpiosw;
++    const struct omap_partition_info_s *partition;
+     const char *tag;
  
-diff --git a/hw/input/tsc210x.c b/hw/input/tsc210x.c
-index df7313db5d..fdd5ff87d9 100644
---- a/hw/input/tsc210x.c
-+++ b/hw/input/tsc210x.c
-@@ -1176,8 +1176,7 @@ I2SCodec *tsc210x_codec(uWireSlave *chip)
-  * from the touchscreen.  Assuming 12-bit precision was used during
-  * tslib calibration.
-  */
--void tsc210x_set_transform(uWireSlave *chip,
--                MouseTransformInfo *info)
-+void tsc210x_set_transform(uWireSlave *chip, const MouseTransformInfo *info)
- {
-     TSC210xState *s = (TSC210xState *) chip->opaque;
- #if 0
-diff --git a/include/hw/input/tsc2xxx.h b/include/hw/input/tsc2xxx.h
-index 5b76ebc177..00eca17674 100644
---- a/include/hw/input/tsc2xxx.h
-+++ b/include/hw/input/tsc2xxx.h
-@@ -30,12 +30,12 @@ uWireSlave *tsc2102_init(qemu_irq pint);
- uWireSlave *tsc2301_init(qemu_irq penirq, qemu_irq kbirq, qemu_irq dav);
- I2SCodec *tsc210x_codec(uWireSlave *chip);
- uint32_t tsc210x_txrx(void *opaque, uint32_t value, int len);
--void tsc210x_set_transform(uWireSlave *chip, MouseTransformInfo *info);
-+void tsc210x_set_transform(uWireSlave *chip, const MouseTransformInfo *info);
- void tsc210x_key_event(uWireSlave *chip, int key, int down);
- 
- /* tsc2005.c */
- void *tsc2005_init(qemu_irq pintdav);
- uint32_t tsc2005_txrx(void *opaque, uint32_t value, int len);
--void tsc2005_set_transform(void *opaque, MouseTransformInfo *info);
-+void tsc2005_set_transform(void *opaque, const MouseTransformInfo *info);
- 
- #endif
+     w = p;
 -- 
 2.38.1
 
