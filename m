@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7E3651762
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 01:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D456F651763
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 01:53:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Qrh-0006UA-KG; Mon, 19 Dec 2022 19:52:17 -0500
+	id 1p7QsI-00075i-9v; Mon, 19 Dec 2022 19:52:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7Qrf-0006U1-D0
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:52:15 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1p7QsG-00075T-U0
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:52:52 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7Qrd-0003yh-L4
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:52:14 -0500
-Received: by mail-pl1-x636.google.com with SMTP id d15so10707306pls.6
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 16:52:13 -0800 (PST)
+ id 1p7QsF-00041Y-6o
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:52:52 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id w20so4114245ply.12
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 16:52:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=N7ML961/8MjHwybrARKKRYLasuLF/vMTefc/Ih3n9bc=;
- b=vxNGEMKYvh/e3XTE1NoXCJEfC0TwgWX4U9I/nKp8JR1Z7jGhD23jVi3/IGOv9ar7Wj
- 4fiGtctcgpXqtPkAUH0RdqLsl9c5I6P550qHE4MgPaXKwb3AxxKT6n+lzt8brmDUqRVS
- ebnaE9Ri66YKFCgoD0HT30UMJAaxfWZuzyKj+AauzeUAdtF23/12VxkGagAtMIa16vx+
- wPoMzQQh6wW3BPezYdtPReDjNK6lDgYw1gwNSXhCyPHiQbu0UZ4qrGlyfFMFTeIGq/wT
- 0GZrYI61jU/FuS8/37FsrIGFuQC9tx+pmVnOLIoREVPe62+kbE5HhkpYEKAK7oBddqfU
- xrVA==
+ bh=XeljmiaDNnvmj+otpO2TC5EyHKzVgCeZv3sOMOFA7Hk=;
+ b=kqqkvbPOkm2VKPC/ayzJ1s8rT3wnPCVzC+CAuz1DrfsVnoQ6YEjMXlFTid25r5kj0C
+ jDPuaBTnJX+lyZd7f7GiN1WvU0teUoZy7zE4AHfRikGiqQw71D482nkYKIaKPxOYnt1I
+ rsIoOjorw5lCbtADbxwjwP5OfI5xKDtZBDjjVkGez0U0Yeu0R4vmcgpD2y8FeCejdmyC
+ v1hOQqs2VC9q2Lfk78oG4t8cD3CSn0oJaUN8MvU2A1sICAZyPYW2HC3r31KLpeZGFPBJ
+ +Xu1ALdrmoFjg6oYj+J6r/Bs1VfU9Vxlxo6TBegvh/BGYEAmCbM6FjJrMj+0TqUfsko6
+ +Jrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N7ML961/8MjHwybrARKKRYLasuLF/vMTefc/Ih3n9bc=;
- b=c9EGN65hN5rZNdRJQXyFwoVGBEvPR+ggGeFwXQKRO/F/U+U2TUh+OkoNVerFHYjLqc
- PNEoVCd1W8qUrBZr5kzPhQWHHfOVJtm2fSf/ivOSf/PHqbmCotnh/IKYM+wJvAMuc5/l
- JpS74kYDcFpJUQvye2gGpxz4o45d30vmjEiyDyFt9HxdeF0Vg9qv4yLO8bqm/hfFZHVz
- 00fwvM0Ks1Lt6hNHUACfpfKf/btK9+zjQVwddSxxq/6otZO3g4yFgb9WrfJtaaF59B0t
- 68DvWzX4lU0IPliCTLyf5vLyBQjVf1WbZPs+lGTF2ubv8bTxLGQeCOsMh8/q5EZIc9eV
- OT+g==
-X-Gm-Message-State: ANoB5pnz7Vl6vvzFPNaOHG6bdT6qOOyp/bxlt1US9t2HOF7EuD+iETkW
- JfgkXVVt18649XQh0ZjjldIL3w==
-X-Google-Smtp-Source: AA0mqf4EU93Z9FI8Jkgvr8l2x6+pZKl91M57FfX/vcXU7UkFgTm4BoSEYjURbnL5Nd0DWVfc/KFJLA==
-X-Received: by 2002:a17:90a:6506:b0:214:222:6ed3 with SMTP id
- i6-20020a17090a650600b0021402226ed3mr48241703pjj.43.1671497531855; 
- Mon, 19 Dec 2022 16:52:11 -0800 (PST)
+ bh=XeljmiaDNnvmj+otpO2TC5EyHKzVgCeZv3sOMOFA7Hk=;
+ b=ivr6hpXsFTvWml6km4hxTo4wHQ0OkAvFWWlGmSGcMhsj5U+GYvwLDMuHfZl+XHx3y7
+ G3unT56f+tHBX0jbl48ud4qxS1aM0/bQvi1Y+d51gVhEoIfTPJX07tRmbi1GnrHwLJbP
+ 7VDJ1NVKHv39Ye4ZchJTkenmzflS6ekwNr8DhBQJj1ox6ZRt0G6E5sAMt7tfwsZo1bVD
+ 5R9yKP5AmyvuTxJNGFzN08w2z4SwG1i9XCoZ3LKj1hk2FflOBbw2zLTEh5Rx0EP1/kVt
+ ml9O56OziQCTd7pWGAbi+hhsgtfX8YkYL3WpVLylpZjx8AvgU+aBnmS0MhgdLBSQolF0
+ R6Eg==
+X-Gm-Message-State: ANoB5pnNGxY0SPCtiRCrRtOx9ZVJP5QoGEMhDmJ+BsbjK0ATPqxy7Nek
+ qarKQK4b+Q08fBtBqTDNqPc7GQ==
+X-Google-Smtp-Source: AA0mqf7gV9uzuLFWwUyXzR4xHld4qufGmobgZNzT5OeWv4HfV0QWhnufdaQvbYZZewVXIFtR70k3ZA==
+X-Received: by 2002:a17:902:eb45:b0:189:dfb1:f087 with SMTP id
+ i5-20020a170902eb4500b00189dfb1f087mr41597283pli.24.1671497569862; 
+ Mon, 19 Dec 2022 16:52:49 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:b343:d344:137b:e318?
  ([2602:47:d48c:8101:b343:d344:137b:e318])
  by smtp.gmail.com with ESMTPSA id
- s14-20020a17090a760e00b0021984d697fbsm9874886pjk.20.2022.12.19.16.52.10
+ ja17-20020a170902efd100b0018f69009f3esm7750301plb.284.2022.12.19.16.52.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 16:52:11 -0800 (PST)
-Message-ID: <42cd6a94-5729-7b98-b6ab-5fe2061e4b1b@linaro.org>
-Date: Mon, 19 Dec 2022 16:52:09 -0800
+ Mon, 19 Dec 2022 16:52:49 -0800 (PST)
+Message-ID: <95fe4231-ee7a-ff1a-4804-0e294e0adb58@linaro.org>
+Date: Mon, 19 Dec 2022 16:52:47 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH-for-8.0 4/7] hw/mips/gt64xxx_pci: Add a
- 'cpu-little-endian' qdev property
+Subject: Re: [PATCH-for-8.0 5/7] hw/mips/malta: Explicit GT64120 endianness
+ upon device creation
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -70,16 +70,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+ Aurelien Jarno <aurelien@aurel32.net>
 References: <20221209151533.69516-1-philmd@linaro.org>
- <20221209151533.69516-5-philmd@linaro.org>
+ <20221209151533.69516-6-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221209151533.69516-5-philmd@linaro.org>
+In-Reply-To: <20221209151533.69516-6-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -103,12 +102,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/9/22 07:15, Philippe Mathieu-Daudé wrote:
-> +static Property gt64120_properties[] = {
-> +    DEFINE_PROP_BIT("cpu-little-endian", GT64120State,
-> +                    features, FEAT_CPU_LE, !TARGET_BIG_ENDIAN),
+> Propagate the controller endianess from the machine, setting
+> the "cpu-little-endian" property.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/mips/malta.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 
-Unless you're really planning on more feature bits, DEFINE_PROP_BOOL would be better.
+Modulo using qdev_prop_set_bool,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
+> 
+> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> index ba92022f87..1f4e0c7acc 100644
+> --- a/hw/mips/malta.c
+> +++ b/hw/mips/malta.c
+> @@ -1390,7 +1390,9 @@ void mips_malta_init(MachineState *machine)
+>       stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
+>   
+>       /* Northbridge */
+> -    dev = sysbus_create_simple("gt64120", -1, NULL);
+> +    dev = qdev_new("gt64120");
+> +    qdev_prop_set_bit(dev, "cpu-little-endian", !be);
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>       pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
+>   
+>       /* Southbridge */
+
 
