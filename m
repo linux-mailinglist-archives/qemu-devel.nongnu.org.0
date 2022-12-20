@@ -2,58 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A089651E4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 11:02:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDD0651E5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 11:05:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Z2w-0005B9-QI; Tue, 20 Dec 2022 04:36:26 -0500
+	id 1p7ZM0-0002UO-3E; Tue, 20 Dec 2022 04:56:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1p7Z2c-0004wV-Ks
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:36:06 -0500
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45])
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1p7ZLx-0002U0-Sz
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:56:05 -0500
+Received: from mail.skyhub.de ([2a01:4f8:190:11c2::b:1457])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1p7Z2Y-000382-MR
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:36:06 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VXkztOZ_1671528951; 
-Received: from 30.39.253.78(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VXkztOZ_1671528951) by smtp.aliyun-inc.com;
- Tue, 20 Dec 2022 17:35:52 +0800
-Content-Type: multipart/alternative;
- boundary="------------KNZfRptztUM012xWtfH0GBm1"
-Message-ID: <dd39a372-3a81-f6fe-8219-cf337394e42c@linux.alibaba.com>
-Date: Tue, 20 Dec 2022 17:35:35 +0800
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1p7ZLo-0006MF-Sj
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:56:05 -0500
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4C3521EC06A7;
+ Tue, 20 Dec 2022 10:55:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1671530149;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=GlbtlLRfbRpUo17huCK7BBuSn1JaYHKV7r2vn6Tyrlw=;
+ b=q9NSG3Tp/WSoDFfu6VqAVoqwQ3WM7QrkQkuw3zdapcNCFobFsjAHWi7Hf/4MDpXud2d6w/
+ wJ6R7wageTjS5m94cCgwsLGyRNNE5/dHyxdIZ3QrdxneT4/sYRH2195SB2d9tGgUClZEkE
+ E0r+LwWLZO+LRbnES0wpGBaG6DdeBMI=
+Date: Tue, 20 Dec 2022 10:55:44 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+ Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y6GGoAVQGPyCaDnS@zn.tnic>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
+ <Y6B27MpZO8o1Asfe@zn.tnic>
+ <20221220074318.GC1724933@chaop.bj.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 01/11] contrib/gitdm: add C-Sky to the domain map
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Guo Ren <ren_guo@c-sky.com>,
- Liu Zhiwei <zhiwei_liu@c-sky.com>, guo_ren@linux.alibaba.com
-References: <20221219121914.851488-1-alex.bennee@linaro.org>
- <20221219121914.851488-2-alex.bennee@linaro.org>
- <b674a0e9-28a7-76b6-d1a1-d34807a803de@linux.alibaba.com>
- <875ye6iir7.fsf@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <875ye6iir7.fsf@linaro.org>
-Received-SPF: pass client-ip=115.124.30.45;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-45.freemail.mail.aliyun.com
-X-Spam_score_int: -109
-X-Spam_score: -11.0
-X-Spam_bar: -----------
-X-Spam_report: (-11.0 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221220074318.GC1724933@chaop.bj.intel.com>
+Received-SPF: pass client-ip=2a01:4f8:190:11c2::b:1457;
+ envelope-from=bp@alien8.de; helo=mail.skyhub.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,178 +93,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------KNZfRptztUM012xWtfH0GBm1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Tue, Dec 20, 2022 at 03:43:18PM +0800, Chao Peng wrote:
+> RESTRICTEDMEM is needed by TDX_HOST, not TDX_GUEST.
 
+Which basically means that RESTRICTEDMEM should simply depend on KVM.
+Because you can't know upfront whether KVM will run a TDX guest or a SNP
+guest and so on.
 
-On 2022/12/20 16:23, Alex Bennée wrote:
-> LIU Zhiwei<zhiwei_liu@linux.alibaba.com>  writes:
->
->> The c-sky domain mail is no longer being used for Guo Ren and me.
->>
->> C-SKY company and C-SKY arch is still existing, but its website domain
->> has been moved tohttps://www.t-head.cn/.
-> Is this the new corporate entity for the C-SKY architecture?
-Yes, it is the website of new entity. And the new entity is T-Head 
-Semiconductor.
-> I can
-> change the domain-map for that and add the old c-sky.com emails to a
-> group map.
+Which then means that RESTRICTEDMEM will practically end up always
+enabled in KVM HV configs.
 
-If possible, I think
+> The only reason to add another HAVE_KVM_RESTRICTED_MEM is some code only
+> works for 64bit[*] and CONFIG_RESTRICTEDMEM is not sufficient to enforce
+> that.
 
-/linux.alibaba.com  Alibaba/
+This is what I mean with "we have too many Kconfig items". :-\
 
-is appreciated.
+-- 
+Regards/Gruss,
+    Boris.
 
->
->> Otherwise,
->>
->> Reviewed-by: LIU Zhiwei<zhiwei_liu@linux.alibaba.com>
-> Or map your old c-sky.com email addresses to your current address via
-> the .mailmap.
-
-If it doesn't conflict  with the domain-map, nor bother too much for 
-you, please go ahead with this.
-
-Thanks,
-Zhiwei
-
->
->>
->> Thanks,
->> Zhiwei
->>
->> On 2022/12/19 20:19, Alex Bennée wrote:
->>> Although the majority of the recent work has been done by LIU Zhiwei
->>> it does appear to be a corporate effort.
->>>
->>> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
->>> Cc: Guo Ren<ren_guo@c-sky.com>
->>> Cc: Liu Zhiwei<zhiwei_liu@c-sky.com>
->>> ---
->>>    contrib/gitdm/domain-map | 1 +
->>>    1 file changed, 1 insertion(+)
->>>
->>> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
->>> index 3727918641..6f3a24b399 100644
->>> --- a/contrib/gitdm/domain-map
->>> +++ b/contrib/gitdm/domain-map
->>> @@ -7,6 +7,7 @@
->>>    amd.com         AMD
->>>    baidu.com       Baidu
->>>    bytedance.com   ByteDance
->>> +c-sky.com       C-Sky
->>>    cmss.chinamobile.com China Mobile
->>>    citrix.com      Citrix
->>>    crudebyte.com   Crudebyte
->
---------------KNZfRptztUM012xWtfH0GBm1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2022/12/20 16:23, Alex Bennée wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:875ye6iir7.fsf@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
-LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@linux.alibaba.com">&lt;zhiwei_liu@linux.alibaba.com&gt;</a> writes:
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">The c-sky domain mail is no longer being used for Guo Ren and me.
-
-C-SKY company and C-SKY arch is still existing, but its website domain
-has been moved to <a class="moz-txt-link-freetext" href="https://www.t-head.cn/">https://www.t-head.cn/</a>.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Is this the new corporate entity for the C-SKY architecture? </pre>
-    </blockquote>
-    Yes, it is the website of new entity. And the new entity is T-Head 
-    Semiconductor.<br>
-    <blockquote type="cite" cite="mid:875ye6iir7.fsf@linaro.org">
-      <pre class="moz-quote-pre" wrap="">I can
-change the domain-map for that and add the old c-sky.com emails to a
-group map.</pre>
-    </blockquote>
-    <p>If possible, I think</p>
-    <p><i><font face="monospace">linux.alibaba.com  Alibaba</font></i></p>
-    <p>is appreciated.<br>
-    </p>
-    <blockquote type="cite" cite="mid:875ye6iir7.fsf@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-Otherwise,
-
-Reviewed-by: LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@linux.alibaba.com">&lt;zhiwei_liu@linux.alibaba.com&gt;</a>
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Or map your old c-sky.com email addresses to your current address via
-the .mailmap.</pre>
-    </blockquote>
-    <p>If it doesn't conflict  with the domain-map, nor bother too much
-      for you, please go ahead with this.<br>
-    </p>
-    <p>Thanks,<br>
-      Zhiwei<br>
-    </p>
-    <blockquote type="cite" cite="mid:875ye6iir7.fsf@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-
-Thanks,
-Zhiwei
-
-On 2022/12/19 20:19, Alex Bennée wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">Although the majority of the recent work has been done by LIU Zhiwei
-it does appear to be a corporate effort.
-
-Signed-off-by: Alex Bennée <a class="moz-txt-link-rfc2396E" href="mailto:alex.bennee@linaro.org">&lt;alex.bennee@linaro.org&gt;</a>
-Cc: Guo Ren <a class="moz-txt-link-rfc2396E" href="mailto:ren_guo@c-sky.com">&lt;ren_guo@c-sky.com&gt;</a>
-Cc: Liu Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@c-sky.com">&lt;zhiwei_liu@c-sky.com&gt;</a>
----
-  contrib/gitdm/domain-map | 1 +
-  1 file changed, 1 insertion(+)
-
-diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 3727918641..6f3a24b399 100644
---- a/contrib/gitdm/domain-map
-+++ b/contrib/gitdm/domain-map
-@@ -7,6 +7,7 @@
-  amd.com         AMD
-  baidu.com       Baidu
-  bytedance.com   ByteDance
-+c-sky.com       C-Sky
-  cmss.chinamobile.com China Mobile
-  citrix.com      Citrix
-  crudebyte.com   Crudebyte
-</pre>
-        </blockquote>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------KNZfRptztUM012xWtfH0GBm1--
+https://people.kernel.org/tglx/notes-about-netiquette
 
