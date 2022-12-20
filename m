@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12FCF651CDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:09:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E27651CFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:17:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7YaL-0000TS-9N; Tue, 20 Dec 2022 04:06:53 -0500
+	id 1p7YaP-0000W1-EM; Tue, 20 Dec 2022 04:06:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaJ-0000T9-DO
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:51 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaM-0000Ui-Fp
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:54 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaH-0006S0-Nt
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:51 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaJ-0006SV-CU
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671527208;
+ s=mimecast20190719; t=1671527210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tVvPiDgV3ARi/3cmEiihIf9D3qGbRvb7KWtlb6jSpg4=;
- b=QbnHyiPCb8M/X10nT4J17L4gZbZ6S2irwXsWHUvsRL2aBImfJ1ns9zII+TVZw9aDYh2yGG
- EAkWpFnZko0NeRgL2bnWwpWpiwjfdqvyFisRrhXtLecXggDss0GESEcOTiRnkDox/CzNWD
- xNI49o1G9K2iBLPy8r+VWZ6fAVZ5+4I=
+ bh=9HFh6QZGuCcfTlbrYQPqznulGgIsNd9uq3ASAKMjaHA=;
+ b=YtedAZ1yW+lBie/TJb3EP+2Nfx7svNnxj/EQUg21wnOUuLobRrpNrjUdiOr/YMbriEjGbA
+ h9UiboAvKCqI5/WRuXnDc2Rx5NdBFk/wN7Per5DUq0fdb+pOvYBRdUkxjc5S1NPSZ0pg6H
+ p7d88xR4zrO+ugL3L4jZEx7j2IT7uaQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-349-I3_ToykPMPi8Jjt6rLGTOw-1; Tue, 20 Dec 2022 04:06:47 -0500
-X-MC-Unique: I3_ToykPMPi8Jjt6rLGTOw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-421-tWu1tZt2M2qqxENyJdDUyg-1; Tue, 20 Dec 2022 04:06:47 -0500
+X-MC-Unique: tWu1tZt2M2qqxENyJdDUyg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02F3B85C06C;
- Tue, 20 Dec 2022 09:06:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C19A385C069;
+ Tue, 20 Dec 2022 09:06:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C26F7492C14;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CDAE17582;
  Tue, 20 Dec 2022 09:06:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 72ACF21E6928; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
+ id 75A7C21E6931; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v3 02/18] ui: Fix silent truncation of numeric keys in HMP
- sendkey
-Date: Tue, 20 Dec 2022 10:06:29 +0100
-Message-Id: <20221220090645.2844881-3-armbru@redhat.com>
+Subject: [PATCH v3 03/18] ui/spice: Require spice-protocol >= 0.14.0
+Date: Tue, 20 Dec 2022 10:06:30 +0100
+Message-Id: <20221220090645.2844881-4-armbru@redhat.com>
 In-Reply-To: <20221220090645.2844881-1-armbru@redhat.com>
 References: <20221220090645.2844881-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,38 +79,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Keys are int.  HMP sendkey assigns them from the value strtoul(),
-silently truncating values greater than INT_MAX.  Fix to reject them.
+Version 0.14.0 is now old enough to have made it into the major
+distributions:
 
-While there, use qemu_strtoul() instead of strtoul() so checkpatch.pl
-won't complain.
+   Debian 11: 0.14.3
+   RHEL-8: 0.14.2
+   FreeBSD (ports): 0.14.4
+   Fedora 35: 0.14.0
+   Ubuntu 20.04: 0.14.0
+   OpenSUSE Leap 15.3: 0.14.3
+
+Requiring it lets us drop two version checks in ui/vdagent.c.  It also
+enables the next commit.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- monitor/hmp-cmds.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meson.build  | 2 +-
+ ui/vdagent.c | 4 ----
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index ed78a87ddd..b8e294e6fa 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1549,8 +1549,13 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
-         v = g_malloc0(sizeof(*v));
+diff --git a/meson.build b/meson.build
+index 5c6b5a1c75..9f27c5cea3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -740,7 +740,7 @@ endif
  
-         if (strstart(keys, "0x", NULL)) {
--            char *endp;
--            int value = strtoul(keys, &endp, 0);
-+            const char *endp;
-+            unsigned long value;
-+
-+            if (qemu_strtoul(keys, &endp, 0, &value) < 0
-+                || value >= INT_MAX) {
-+                goto err_out;
-+            }
-             assert(endp <= keys + keyname_len);
-             if (endp != keys + keyname_len) {
-                 goto err_out;
+ spice_protocol = not_found
+ if not get_option('spice_protocol').auto() or have_system
+-  spice_protocol = dependency('spice-protocol', version: '>=0.12.3',
++  spice_protocol = dependency('spice-protocol', version: '>=0.14.0',
+                               required: get_option('spice_protocol'),
+                               method: 'pkg-config', kwargs: static_kwargs)
+ endif
+diff --git a/ui/vdagent.c b/ui/vdagent.c
+index 4bf50f0c4d..1f51a78da1 100644
+--- a/ui/vdagent.c
++++ b/ui/vdagent.c
+@@ -87,9 +87,7 @@ static const char *cap_name[] = {
+     [VD_AGENT_CAP_MONITORS_CONFIG_POSITION]       = "monitors-config-position",
+     [VD_AGENT_CAP_FILE_XFER_DISABLED]             = "file-xfer-disabled",
+     [VD_AGENT_CAP_FILE_XFER_DETAILED_ERRORS]      = "file-xfer-detailed-errors",
+-#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
+     [VD_AGENT_CAP_GRAPHICS_DEVICE_INFO]           = "graphics-device-info",
+-#endif
+ #if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
+     [VD_AGENT_CAP_CLIPBOARD_NO_RELEASE_ON_REGRAB] = "clipboard-no-release-on-regrab",
+     [VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL]          = "clipboard-grab-serial",
+@@ -112,9 +110,7 @@ static const char *msg_name[] = {
+     [VD_AGENT_CLIENT_DISCONNECTED]   = "client-disconnected",
+     [VD_AGENT_MAX_CLIPBOARD]         = "max-clipboard",
+     [VD_AGENT_AUDIO_VOLUME_SYNC]     = "audio-volume-sync",
+-#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
+     [VD_AGENT_GRAPHICS_DEVICE_INFO]  = "graphics-device-info",
+-#endif
+ };
+ 
+ static const char *sel_name[] = {
 -- 
 2.38.1
 
