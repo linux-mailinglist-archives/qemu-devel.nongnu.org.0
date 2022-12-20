@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3EEB651764
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 01:54:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D3565176D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 01:55:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7QtQ-0007ik-Uh; Mon, 19 Dec 2022 19:54:04 -0500
+	id 1p7Qub-0008UW-I1; Mon, 19 Dec 2022 19:55:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7QtO-0007i7-Nz
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:54:02 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1p7Qua-0008UO-O1
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:55:16 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7QtM-00044b-IV
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:54:02 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id u5so10792853pjy.5
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 16:54:00 -0800 (PST)
+ id 1p7QuZ-0004R7-3u
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:55:16 -0500
+Received: by mail-pl1-x631.google.com with SMTP id 17so10768255pll.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 16:55:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gRlj05b/EI/xUcUcP+R63Xt7w5BjbHIdL1zVJ36GA4Q=;
- b=jQht+OVUr5tLFF/EgRRfmoWCPxRDCnOw9sKHtozx6q9TeBocCJs9pVWnoY3tGnSy89
- tln11NBq6U97hIBdZ3Bv8lhS7McXBsGGuMzhWDcIrK75gSqr0kDsQIu72cChbpxdJ8IY
- u2Bjw8R6pvBq9AnZS7porSdZx6IcLwYwiDGtTyScgRXE2qll0jfmWuzJ59zANQuka2Zj
- aMSfxAwP3Oph8346RgTJFIL5ihwzGeYq2oJNsyScTuXq0ZvK7DvVSTRhi5XEq+sBWZfN
- pPELkzBRSgnCxENKpX3D1qnpieuZDtbp1cW7apxv+vSrxPws4BvaP8UbejoBFJj173a0
- 6NUA==
+ bh=NaxwCkoyK8HVGbyeBy7KWUsupYF3NKdwlpaidbYT/Vc=;
+ b=Yqtsbf2kd7FjITUhxY6M7A1ZOXH/Fcsz//FrWkCkqxnCtbdxAI0NjA/RQhf1atOUrJ
+ 4gH1ffdtGyyqFcSCLpu8Qeia0lbFii1CiWC1ktwP8YBJjlZp9K8+fualoXltLuNJqtfy
+ MRoT67eU9tNhNJF0SHSGgdD6Bln3cHEZflChBG1JecICJ18B7ID9CyV5hBuHVKmzm+K/
+ Y0O7cdaDg/HImFrg+m7dpU0L1goedD5PHQGqABZxYEc9ad9oDdFwSf+8B7p15vQY7dHv
+ gFZ7TTj3pAxMz/G8BYJJY9QR3NpUrIHfDSC0QrAivxtqYrTikdBlIuezbMQxObDTHtu+
+ DeZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gRlj05b/EI/xUcUcP+R63Xt7w5BjbHIdL1zVJ36GA4Q=;
- b=Zb85elKs6ZWSpQzFICjQnoVFXDjdLwL8xEuFn166xfA4BQgVn6NoJjXzi5jvSjEZZM
- GEmJD8sQGxjurbPXKul7Syg4HcPnJztNtXLkxO8jP3YIDFuTVYzWhtNKJzBcu478vm7v
- uxeyZi6zV/N0Y+T8kv01fJBB82WgQXopy/RjoFpyiU0x0zEn8iD7mZiuyXrnVmOdpopb
- x5x+bgjsJmnsih51Y3QwWtxx6tbu+0mECFv8CHTQJVvbbeDQtSxPrIdh+I83II+haLuP
- sVcjbevqX8mBfgc9SvyqfdSuDM3ctKUIXV7Y6iQFGVCEsTt49dFlR2z9QEIoKzF5/Ntl
- aK7g==
-X-Gm-Message-State: AFqh2kp5tcbOpn2TbGT7dpxQ1om1h0n0nwI/l68kAGZlch1v+28rw3p1
- k+UhxOWCHuEOqK0kmzrTprKRzw==
-X-Google-Smtp-Source: AMrXdXsm1MP6H5uLi5LbsrmfcNhZUpa1XBihh1cdDmn25QGLFMEdlOdCvD4MaQox73pgyQwQiis0Eg==
-X-Received: by 2002:a17:902:c252:b0:191:191f:e7a7 with SMTP id
- 18-20020a170902c25200b00191191fe7a7mr8145568plg.69.1671497638986; 
- Mon, 19 Dec 2022 16:53:58 -0800 (PST)
+ bh=NaxwCkoyK8HVGbyeBy7KWUsupYF3NKdwlpaidbYT/Vc=;
+ b=Bx4+7pKLHQtlS1Nv0zGw2GPZeVvcjPhUcZPFqA93T+T7DptYtzEued83eboyfQ5edV
+ e58SMY+zd3CEcBOEylfzBrPgQPMAjJe4ScOdtDitxtDSpGLYbYutzldDnd6bzlHhxgAj
+ gaRQiU24WHgfZJGTiDOCQWwsXHOrGbk3n5zDjp+WlRv9CoiAy2J0jfFgLooeaOL5xp0b
+ uo8AVlZOoc1rYXK88HWeJbL/S/YwrEcQ1bTLMQzVndZCgfWRVJb1X/oUmN8F3i1sNW/w
+ 2lJCPBJaCteqGzGldJZuxGEPYNLCsjyPIUvoMQtELlyVJggv0BMytSv0kVxl8ZSqY/3L
+ QkgQ==
+X-Gm-Message-State: ANoB5pkvHOnuvvON5nH9BDt1b40Jb1MzPEHfTNiMo+T/ugS3E4051WQy
+ 2wnvXRg+Ep1SkHKk3u1fUkqM70+/c3Xylaqb
+X-Google-Smtp-Source: AA0mqf5x7x5pFwt6yi3vFscD9pRN+l4rpAyoUg/whNrDl20dAs8nka5nA1zAYgLeFhSwsH2t2WvDNQ==
+X-Received: by 2002:a05:6a20:662f:b0:a4:cb41:298f with SMTP id
+ n47-20020a056a20662f00b000a4cb41298fmr39562865pzh.6.1671497713650; 
+ Mon, 19 Dec 2022 16:55:13 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:b343:d344:137b:e318?
  ([2602:47:d48c:8101:b343:d344:137b:e318])
  by smtp.gmail.com with ESMTPSA id
- l6-20020a170902d34600b00189393ab02csm7815921plk.99.2022.12.19.16.53.58
+ bc13-20020a656d8d000000b0043c732e1536sm6903327pgb.45.2022.12.19.16.55.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 16:53:58 -0800 (PST)
-Message-ID: <b049297b-d2a9-0dca-7287-bad681d1e3fa@linaro.org>
-Date: Mon, 19 Dec 2022 16:53:56 -0800
+ Mon, 19 Dec 2022 16:55:13 -0800 (PST)
+Message-ID: <464af603-847e-8547-d3d2-49a1087c5cea@linaro.org>
+Date: Mon, 19 Dec 2022 16:55:11 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH-for-8.0 6/7] hw/mips/meson: Make gt64xxx_pci.c
- endian-agnostic
+Subject: Re: [PATCH-for-8.0 7/7] hw/mips/gt64xxx_pci: Move it to hw/pci-host/
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -71,15 +70,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 References: <20221209151533.69516-1-philmd@linaro.org>
- <20221209151533.69516-7-philmd@linaro.org>
+ <20221209151533.69516-8-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221209151533.69516-7-philmd@linaro.org>
+In-Reply-To: <20221209151533.69516-8-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -103,17 +102,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/9/22 07:15, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé<philmd@redhat.com>
+> From: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > 
-> The single machine using this device explicitly sets its
-> endianness. We don't need to set a default. This allow us
-> to remove the target specificity from the build system.
+> The GT-64120 is a north-bridge, and it is not MIPS specific.
+> Move it with the other north-bridge devices.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   hw/mips/gt64xxx_pci.c | 2 +-
->   hw/mips/meson.build   | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+>   MAINTAINERS                                   | 2 +-
+>   hw/mips/Kconfig                               | 6 ------
+>   hw/mips/meson.build                           | 1 -
+>   hw/mips/trace-events                          | 6 ------
+>   hw/pci-host/Kconfig                           | 6 ++++++
+>   hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} | 0
+>   hw/pci-host/meson.build                       | 1 +
+>   hw/pci-host/trace-events                      | 7 +++++++
+>   meson.build                                   | 1 -
+>   9 files changed, 15 insertions(+), 15 deletions(-)
+>   delete mode 100644 hw/mips/trace-events
+>   rename hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} (100%)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
