@@ -2,71 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5F265298C
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 00:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3FC652994
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 00:05:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7laS-0007DM-1J; Tue, 20 Dec 2022 17:59:52 -0500
+	id 1p7leR-0008HK-DV; Tue, 20 Dec 2022 18:03:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7laN-0007Cw-7x
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 17:59:47 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7leL-0008GM-CP
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 18:03:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7laI-0006ai-8x
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 17:59:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=TzU10JXCQUOaM402hunWsnUJHZ1Ai3KNdY20Waq149s=; b=KP1Z9oQdGmNq/kVlMrJL2oFx3P
- 5u2wbUkjK135zVsQl98bR8PKblr7PlCMItVa4kRYuvPacDj+xhn8DbQVnR42vPC/3DB44u7qkSNyj
- vi77nYlx1ISfOyOG6ZmHVlIEC037wu49CMjfCUItvvC4awwYtwh3jS2VVzR8G/1ZNlKz+BjGyk7jO
- gGnSowTgkYIFuYZV4L0q2RzSgou7e59/mii5CawuNC7HtzqJop4TPIQQEm/Q9Ygk3cX0QOnGgjpYJ
- NGzNaYVJGo9//Zlye4kxL1avUqFHUG7rj4e7KXkBemkft2jGJjrKK3zd8t8v/JHGR6KmW7iYJiHvA
- yQb8ojiA==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p7laL-002Fg8-1M; Tue, 20 Dec 2022 22:59:45 +0000
-Message-ID: <91e5e1091fe354d529e692beb2c4b4c4d747b836.camel@infradead.org>
-Subject: Re: [RFC PATCH v3 03/38] xen: Add XEN_DISABLED mode and make it
- default
-From: David Woodhouse <dwmw2@infradead.org>
-To: Paul Durrant <xadimgnik@gmail.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
- <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>, 
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
- <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>, Alex
- =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
- Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>
-Date: Tue, 20 Dec 2022 22:59:33 +0000
-In-Reply-To: <9dea5cbb-1a8f-4e90-52ea-01fe1b7dbd80@xen.org>
-References: <20221216004117.862106-1-dwmw2@infradead.org>
- <20221216004117.862106-4-dwmw2@infradead.org>
- <9dea5cbb-1a8f-4e90-52ea-01fe1b7dbd80@xen.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-Lbc0oC1s6XrHAPptYZ4b"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7leJ-0007Rp-5V
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 18:03:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671577429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3rNEDhRZ/WWTvhIj7H0GtwP4+UmIJNE2FyI+qpyzx7k=;
+ b=MJufPkS1BM/cD1HPigXWPQjQ6FNXt7Ux0W46+84A86T29Mx8S61h9LvH2tMOnoacMtsK1v
+ 4spV6x/29vnOPxEeQM2GYcEyZmrDNgPepE/wBJ/oxv8CG70gRtcXBVc3cu+6EKEnQINQKu
+ GVDzIeQqjGbSVpguFA+SORQ+AHkQz0o=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-576-Bihk_uetNzS5o-KVdZlSIg-1; Tue, 20 Dec 2022 18:03:48 -0500
+X-MC-Unique: Bihk_uetNzS5o-KVdZlSIg-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-411c31a2c20so157699647b3.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 15:03:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3rNEDhRZ/WWTvhIj7H0GtwP4+UmIJNE2FyI+qpyzx7k=;
+ b=FGwPCIGd9GH0njEGZp6pLi6RmAWTSe9K5KCJDAxUvPi/ukVeJcrx50v4+/6KzuFrIi
+ 2hRwppwD4RM94asR5aWqrDWWv6Cm7eyy9g27g77NPqIPTizulYcOEFOCz08RUZ4iMUgR
+ /PSIkmD/Lg6E5JdGTTBHdLMGek7kXN5CefWpSVmF87Gl6hSeLw2ITLFjrkOwc631kefx
+ t73NnD7zq12PvfWqR/RqaoJdufc/hbv0nIgncCWguv+57bSz8BTOuo/I+4uT3W28Y/PL
+ LZlZ1s5iEkeIcnmf7k0sqEhrx7Ca1GUBldD8aDq+AZcKPC/9/VMU0ErAWilqC7it7nEE
+ Jpcg==
+X-Gm-Message-State: ANoB5pmB9ZCNAQW8OnXc2zNZICaU9oZcrQxRsGEhZdpEbWUEbZPcJX2x
+ Y6Bi9LAUoM0IBWaBDkEae227W98eLrNQsGaer9L2Ah3i1iI0wZFQRUT07K6m7AZg2MhLfBtsaFU
+ grkEvCj+MTBa27Bg=
+X-Received: by 2002:a05:7500:2489:b0:ea:577b:cdc9 with SMTP id
+ ba9-20020a057500248900b000ea577bcdc9mr4830994gab.38.1671577427869; 
+ Tue, 20 Dec 2022 15:03:47 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7YO1wTmnL1F5uxfY095qVdtXrRC9Kn7U7chnmt/dA2OwCTFKerHllWMEbbUpimi/ysThsytg==
+X-Received: by 2002:a05:7500:2489:b0:ea:577b:cdc9 with SMTP id
+ ba9-20020a057500248900b000ea577bcdc9mr4830977gab.38.1671577427435; 
+ Tue, 20 Dec 2022 15:03:47 -0800 (PST)
+Received: from redhat.com ([37.19.199.117]) by smtp.gmail.com with ESMTPSA id
+ a3-20020a05620a438300b006bbf85cad0fsm9526224qkp.20.2022.12.20.15.03.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Dec 2022 15:03:47 -0800 (PST)
+Date: Tue, 20 Dec 2022 18:03:40 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Ani Sinha <ani@anisinha.ca>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH 00/32] Consolidate PIIX south bridges
+Message-ID: <20221220180304-mutt-send-email-mst@kernel.org>
+References: <20221204190553.3274-1-shentey@gmail.com>
+ <20221220094738-mutt-send-email-mst@kernel.org>
+ <d5e1af45-9ff9-6b01-9650-bf5b960abee7@linaro.org>
+ <7030BFB2-DD96-4900-991C-DC962875D4D4@gmail.com>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7030BFB2-DD96-4900-991C-DC962875D4D4@gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,164 +110,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---=-Lbc0oC1s6XrHAPptYZ4b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 2022-12-20 at 14:39 +0000, Paul Durrant wrote:
-> On 16/12/2022 00:40, David Woodhouse wrote:
-> > From: David Woodhouse <dwmw@amazon.co.uk>
-> >=20
-> > Also check for XEN_ATTACH mode in xen_init()
-> >=20
-> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> > ---
-> > =C2=A0=C2=A0 accel/xen/xen-all.c=C2=A0 | 4 ++++
-> > =C2=A0=C2=A0 include/hw/xen/xen.h | 5 +++--
-> > =C2=A0=C2=A0 2 files changed, 7 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-> > index 69aa7d018b..109d2e84bc 100644
-> > --- a/accel/xen/xen-all.c
-> > +++ b/accel/xen/xen-all.c
-> > @@ -158,6 +158,10 @@ static int xen_init(MachineState *ms)
-> > =C2=A0=C2=A0 {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MachineClass *mc =3D MACHINE_GET_C=
-LASS(ms);
-> > =C2=A0=C2=A0=20
-> > +=C2=A0=C2=A0=C2=A0 if (xen_mode !=3D XEN_ATTACH) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 xen_pv_printf(NULL, 0, "xen=
- requires --xen-attach mode\n");
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -1;
-> > +=C2=A0=C2=A0=C2=A0 }
->=20
-> This is new requirement, isn't it? Libxl only passes --xen-attach
-> for PV domains so AFAICT this will break Xen HVM domains.
-
-So HVM domains are currently running with xen_mode =3D=3D XEN_EMULATE and
-work because nobody ever actually looks at that variable except in
-xen_init_pv().
-
-What was the reason for ever needing it to be explicitly set on the
-command line; couldn't it have been implicit?
-
-Seems like the right thing to do is to make it implicit in xen_init()
-above, and *set* it to XEN_ATTACH instead of requiring it to have been
-set on the command line?=20
-
---=-Lbc0oC1s6XrHAPptYZ4b
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjIwMjI1OTMzWjAvBgkqhkiG9w0BCQQxIgQgldmR0a5o
-xt2aM+XwtX9+ER9PYjXC6WWiMCI4QKE28wIwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBYirZY+qTBJu50CWpgV+5oKaNs+J48aglm
-bDzUd6yetjjC65GUuJjj4ZA9cURVO8Cr3fmR2v6uiuh9UOWrTVHIlf9JmMsk+gleQE6v0wjkULoq
-UYKP+ZIPS31o2tfwyuc99qaX06DbKpMeKZlOJqr9Cw2OjM7ZUw14tfyBdxtqHcSJW1vzIDtajLj9
-uYoQ4q+vc+P3PceBLvC2vD89ihi9oKjDKDRUSYfIm4GxGoeGP3v6VIzChlg9nhzuWERx0AeslaHD
-oW0KWtSQUdMgSmMatVR+eSosoNR80xg6JAAZ2QrhU8aIx7U3lY7x049dzcUJE6S8QykP9FBZLfL0
-A36jivg1mz7QKEVKPNdmYiORDq6DPeJvzyZMQikorLckPDv/szjna+UoxCMs0KryPjgYmUe0eyGu
-BjvPWmV8+rX7+CUGKcS3Sffam9jDYhsWulSIzFrYwBZpzMkLWqvGmbe0/T1nLHIpcw4/Z9rgQkwa
-rGwS0ZKYb/VoJ4fYukV+kVgGHlmkPHMMZR8pc2cu5y5R+RXgU2FuDgetzvptkJGzK9iV0GytfEAs
-9Ac0/Rkwj9iIa3TO0JVGN5SacBw91dCqpBCiuidoAvPIaiB2et7ipw9N+jMiWZuTrd/+Sx99mN37
-ri1oKMuTXvwXhDbjA8xEhQL9ui4MzB7co6qGdMviZgAAAAAAAA==
+On Tue, Dec 20, 2022 at 10:35:23PM +0000, Bernhard Beschow wrote:
+> 
+> 
+> Am 20. Dezember 2022 15:08:57 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
+> >On 20/12/22 15:48, Michael S. Tsirkin wrote:
+> >> On Sun, Dec 04, 2022 at 08:05:21PM +0100, Bernhard Beschow wrote:
+> >>> This series consolidates the implementations of the PIIX3 and PIIX4 south
+> >>> bridges and is an extended version of [1]. The motivation is to share as much
+> >>> code as possible and to bring both device models to feature parity such that
+> >>> perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc machine. This
+> >>> could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on this
+> >>> list before.
+> >>> 
+> >>> The series is structured as follows: First, PIIX3 is changed to instantiate
+> >>> internal devices itself, like PIIX4 does already. Second, PIIX3 gets prepared
+> >>> for the merge with PIIX4 which includes some fixes, cleanups, and renamings.
+> >>> Third, the same is done for PIIX4. In step four the implementations are merged.
+> >>> Since some consolidations could be done easier with merged implementations, the
+> >>> consolidation continues in step five which concludes the series.
+> >>> 
+> >>> One particular challenge in this series was that the PIC of PIIX3 used to be
+> >>> instantiated outside of the south bridge while some sub functions require a PIC
+> >>> with populated qemu_irqs. This has been solved by introducing a proxy PIC which
+> >>> furthermore allows PIIX3 to be agnostic towards the virtualization technology
+> >>> used (KVM, TCG, Xen). Due to consolidation PIIX4 gained the proxy PIC as well.
+> >>> 
+> >>> Another challenge was dealing with optional devices where Peter already gave
+> >>> advice in [1] which this series implements.
+> >>> 
+> >>> A challenge still remains with consolidating PCI interrupt handling. There are
+> >>> still board-specific piix3_pci_slot_get_pirq() and piix4_pci_slot_get_pirq()
+> >>> which are implemented in isa/piix.c. Any advice how to resolve these would be
+> >>> highly appreaciated. See [2] for details.
+> >>> 
+> >>> Last but not least there might be some opportunity to consolidate VM state
+> >>> handling, probably by reusing the one from PIIX3. Since I'm not very familiar
+> >>> with the requirements I didn't touch it so far.
+> >>> 
+> >>> Testing done:
+> >>> * make check
+> >>> * make check-avocado
+> >>> * Boot live CD:
+> >>>    * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom manjaro-kde-21.3.2-220704-linux515.iso`
+> >>>    * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom manjaro-kde-21.3.2-220704-linux515.iso`
+> >>> * 'qemu-system-mips64el -M malta -kernel vmlinux-3.2.0-4-5kc-malta -hda debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 console=ttyS0"`
+> >>> 
+> >>> v3:
+> >>> - Introduce one TYPE_ICH9_USB_UHCI(fn) rather than several TYPE_ICH9_USB_UHCIx (Philippe)
+> >>> - Make proxy PIC generic (Philippe)
+> >>> - Track Malta's PIIX dependencies through KConfig
+> >>> - Rebase onto Philippe's 'hw/isa/piix4: Remove MIPS Malta specific bits' series [3]
+> >>> - Also rebase onto latest master to resolve merge conflicts. This required copying
+> >>>    Philippe's series as first three patches - please ignore.
+> >> 
+> >> So IIUC, you are waiting for Philippe to respin his series then
+> >> you can include it all in v4, right?
+> >Correct. And mine is waiting for few more R-b tags. If you can Ack
+> >this series, no need for v4 and I can pick it via mips-next once the
+> >rest is ready (before Xmas I hope).
+> 
+> Nice!
+> 
+> Shall we integrate [1] 'Decouple INTx-to-LNKx routing from south bridges' via mips-next rather than x86 as well? This would 1/ make the consolidation more complete and 2/ simplify the process since these series conflict with one another.
 
 
---=-Lbc0oC1s6XrHAPptYZ4b--
+OK I'll drop it from my tree.
+
+> I could rebase [1] onto this series (perhaps simpler to review) or the other way around (less code movement). Please let me know what you'd prefer.
+> 
+> [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03310.html
+> 
+> >
+> >Regards.
+> >
+> >Phil.
+
 
