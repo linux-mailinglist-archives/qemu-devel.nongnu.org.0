@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4B4652625
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:23:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08D065260C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:11:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7gPK-0001N5-Sk; Tue, 20 Dec 2022 12:28:02 -0500
+	id 1p7gPN-0001PH-86; Tue, 20 Dec 2022 12:28:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1p7gPA-0001LC-DE; Tue, 20 Dec 2022 12:27:52 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195])
+ id 1p7gPA-0001LD-FR; Tue, 20 Dec 2022 12:27:52 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1p7gP6-00057S-7P; Tue, 20 Dec 2022 12:27:52 -0500
+ id 1p7gP7-00057f-9y; Tue, 20 Dec 2022 12:27:52 -0500
 Received: (Authenticated sender: jcd@tribudubois.net)
- by mail.gandi.net (Postfix) with ESMTPSA id C8BD56000A;
- Tue, 20 Dec 2022 17:27:41 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPSA id 38767E0005;
+ Tue, 20 Dec 2022 17:27:45 +0000 (UTC)
 From: Jean-Christophe Dubois <jcd@tribudubois.net>
 To: qemu-devel@nongnu.org
 Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
 	qemu-arm@nongnu.org
-Subject: [PATCH] i.MX7D: Compute clock frequency for the fixed frequency
- clocks.
-Date: Tue, 20 Dec 2022 18:27:39 +0100
-Message-Id: <b39c13bd71adaa91559d3436e724d90280e81c63.1671548388.git.jcd@tribudubois.net>
+Subject: [PATCH] i.MX6UL: Add a specific GPT timer instance for the i.MX6UL
+Date: Tue, 20 Dec 2022 18:27:43 +0100
+Message-Id: <0f5e2f5b92a72c2d96212d09c7d96f84d855e12c.1671548388.git.jcd@tribudubois.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1671548388.git.jcd@tribudubois.net>
 References: <cover.1671548388.git.jcd@tribudubois.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.70.183.195; envelope-from=jcd@tribudubois.net;
- helo=relay3-d.mail.gandi.net
+Received-SPF: pass client-ip=217.70.183.196; envelope-from=jcd@tribudubois.net;
+ helo=relay4-d.mail.gandi.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -55,81 +54,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-CCM derived clocks will have to be added later.
+The i.MX6UL doesn't support CLK_HIGH ou CLK_HIGH_DIV clock source.
 
 Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
 ---
- hw/misc/imx7_ccm.c | 49 +++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 40 insertions(+), 9 deletions(-)
+ hw/arm/fsl-imx6ul.c        |  2 +-
+ hw/misc/imx6ul_ccm.c       |  6 ------
+ hw/timer/imx_gpt.c         | 25 +++++++++++++++++++++++++
+ include/hw/timer/imx_gpt.h |  1 +
+ 4 files changed, 27 insertions(+), 7 deletions(-)
 
-diff --git a/hw/misc/imx7_ccm.c b/hw/misc/imx7_ccm.c
-index 075159e497..f135ec7b7e 100644
---- a/hw/misc/imx7_ccm.c
-+++ b/hw/misc/imx7_ccm.c
-@@ -16,6 +16,10 @@
- #include "hw/misc/imx7_ccm.h"
- #include "migration/vmstate.h"
- 
-+#include "trace.h"
-+
-+#define CKIH_FREQ 24000000 /* 24MHz crystal input */
-+
- static void imx7_analog_reset(DeviceState *dev)
- {
-     IMX7AnalogState *s = IMX7_ANALOG(dev);
-@@ -219,16 +223,43 @@ static const VMStateDescription vmstate_imx7_ccm = {
- static uint32_t imx7_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
- {
-     /*
--     * This function is "consumed" by GPT emulation code, however on
--     * i.MX7 each GPT block can have their own clock root. This means
--     * that this functions needs somehow to know requester's identity
--     * and the way to pass it: be it via additional IMXClk constants
--     * or by adding another argument to this method needs to be
--     * figured out
-+     * This function is "consumed" by GPT emulation code. Some clocks
-+     * have fixed frequencies and we can provide requested frequency
-+     * easily. However for CCM provided clocks (like IPG) each GPT
-+     * timer can have its own clock root.
-+     * This means we need additionnal information when calling this
-+     * function to know the requester's identity.
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index f189712329..d88d6cc1c5 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -81,7 +81,7 @@ static void fsl_imx6ul_init(Object *obj)
       */
--    qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Not implemented\n",
--                  TYPE_IMX7_CCM, __func__);
--    return 0;
-+    uint32_t freq = 0;
+     for (i = 0; i < FSL_IMX6UL_NUM_GPTS; i++) {
+         snprintf(name, NAME_SIZE, "gpt%d", i);
+-        object_initialize_child(obj, name, &s->gpt[i], TYPE_IMX7_GPT);
++        object_initialize_child(obj, name, &s->gpt[i], TYPE_IMX6UL_GPT);
+     }
+ 
+     /*
+diff --git a/hw/misc/imx6ul_ccm.c b/hw/misc/imx6ul_ccm.c
+index a65d031455..e01bb68ac7 100644
+--- a/hw/misc/imx6ul_ccm.c
++++ b/hw/misc/imx6ul_ccm.c
+@@ -522,12 +522,6 @@ static uint32_t imx6ul_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
+     case CLK_32k:
+         freq = CKIL_FREQ;
+         break;
+-    case CLK_HIGH:
+-        freq = CKIH_FREQ;
+-        break;
+-    case CLK_HIGH_DIV:
+-        freq = CKIH_FREQ / 8;
+-        break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: unsupported clock %d\n",
+                       TYPE_IMX6UL_CCM, __func__, clock);
+diff --git a/hw/timer/imx_gpt.c b/hw/timer/imx_gpt.c
+index 80b8302639..7222b1b387 100644
+--- a/hw/timer/imx_gpt.c
++++ b/hw/timer/imx_gpt.c
+@@ -115,6 +115,17 @@ static const IMXClk imx6_gpt_clocks[] = {
+     CLK_HIGH,      /* 111 reference clock */
+ };
+ 
++static const IMXClk imx6ul_gpt_clocks[] = {
++    CLK_NONE,      /* 000 No clock source */
++    CLK_IPG,       /* 001 ipg_clk, 532MHz*/
++    CLK_IPG_HIGH,  /* 010 ipg_clk_highfreq */
++    CLK_EXT,       /* 011 External clock */
++    CLK_32k,       /* 100 ipg_clk_32k */
++    CLK_NONE,      /* 101 not defined */
++    CLK_NONE,      /* 110 not defined */
++    CLK_NONE,      /* 111 not defined */
++};
 +
-+    switch (clock) {
-+    case CLK_NONE:
-+        break;
-+    case CLK_32k:
-+        freq = CKIL_FREQ;
-+        break;
-+    case CLK_HIGH:
-+        freq = CKIH_FREQ;
-+        break;
-+    case CLK_IPG:
-+    case CLK_IPG_HIGH:
-+        /*
-+         * For now we don't have a way to figure out the device this
-+         * function is called for. Until then the IPG derived clocks
-+         * are left unimplemented.
-+         */
-+        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Clock %d Not implemented\n",
-+                      TYPE_IMX7_CCM, __func__, clock);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: unsupported clock %d\n",
-+                      TYPE_IMX7_CCM, __func__, clock);
-+        break;
-+    }
-+
-+    trace_ccm_clock_freq(clock, freq);
-+
-+    return freq;
+ static const IMXClk imx7_gpt_clocks[] = {
+     CLK_NONE,      /* 000 No clock source */
+     CLK_IPG,       /* 001 ipg_clk, 532MHz*/
+@@ -539,6 +550,13 @@ static void imx6_gpt_init(Object *obj)
+     s->clocks = imx6_gpt_clocks;
  }
  
- static void imx7_ccm_class_init(ObjectClass *klass, void *data)
++static void imx6ul_gpt_init(Object *obj)
++{
++    IMXGPTState *s = IMX_GPT(obj);
++
++    s->clocks = imx6ul_gpt_clocks;
++}
++
+ static void imx7_gpt_init(Object *obj)
+ {
+     IMXGPTState *s = IMX_GPT(obj);
+@@ -566,6 +584,12 @@ static const TypeInfo imx6_gpt_info = {
+     .instance_init = imx6_gpt_init,
+ };
+ 
++static const TypeInfo imx6ul_gpt_info = {
++    .name = TYPE_IMX6UL_GPT,
++    .parent = TYPE_IMX25_GPT,
++    .instance_init = imx6ul_gpt_init,
++};
++
+ static const TypeInfo imx7_gpt_info = {
+     .name = TYPE_IMX7_GPT,
+     .parent = TYPE_IMX25_GPT,
+@@ -577,6 +601,7 @@ static void imx_gpt_register_types(void)
+     type_register_static(&imx25_gpt_info);
+     type_register_static(&imx31_gpt_info);
+     type_register_static(&imx6_gpt_info);
++    type_register_static(&imx6ul_gpt_info);
+     type_register_static(&imx7_gpt_info);
+ }
+ 
+diff --git a/include/hw/timer/imx_gpt.h b/include/hw/timer/imx_gpt.h
+index ff5c8a351a..5a1230da35 100644
+--- a/include/hw/timer/imx_gpt.h
++++ b/include/hw/timer/imx_gpt.h
+@@ -78,6 +78,7 @@
+ #define TYPE_IMX25_GPT "imx25.gpt"
+ #define TYPE_IMX31_GPT "imx31.gpt"
+ #define TYPE_IMX6_GPT "imx6.gpt"
++#define TYPE_IMX6UL_GPT "imx6ul.gpt"
+ #define TYPE_IMX7_GPT "imx7.gpt"
+ 
+ #define TYPE_IMX_GPT TYPE_IMX25_GPT
 -- 
 2.34.1
 
