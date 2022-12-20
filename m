@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF53651FFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 12:58:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD73651FD8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 12:41:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7arX-0002T5-Am; Tue, 20 Dec 2022 06:32:47 -0500
+	id 1p7aso-0003TX-NS; Tue, 20 Dec 2022 06:34:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7arU-0002QC-KX
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:32:44 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1p7asZ-0003Qr-Sw; Tue, 20 Dec 2022 06:33:53 -0500
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7arS-0007hD-Qz
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 06:32:44 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- h8-20020a1c2108000000b003d1efd60b65so10918628wmh.0
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 03:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1p7asX-0007rq-7F; Tue, 20 Dec 2022 06:33:51 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id r11so10273966oie.13;
+ Tue, 20 Dec 2022 03:33:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Ru7RHyUGJodXtTkYHPyt/8m3CYfqityYbsfTzG6OfXw=;
- b=hlGuuK3TZx+JdjE9LD/pwTa70KGrcNmUyZzlbYkfPQm0orcPvwR7NcC94sHs07vY0j
- DhpVgikHudtzBvrLxle1WwmYIjwSPLdzc7jOZM3tQH6y060cNPSCRplYCQeKsdTrqt2c
- jw91B/xvsqgKl1l5QSHgxLEOxrk8e6WFu4Cau81L7pwVdr+3zlY7bPpm+LQlFWg4eBHo
- YjbaCJ6fBQhDf+fC9an6QdztRxDtvudc0bigqOIjEEFN/LkYatQz3EqJkQ16E66AH/aN
- yS7tTw2XGPdtrsrnRjXFJ4/cCtZfHKFXqPTT+Ku2f9PhQ8IyrAmVpd/eaE8LyJjuTvXN
- EymA==
+ bh=Z+yL5Iir5drSnSOmB2Rq/rw6DBGGnbA2k28LGnohxm0=;
+ b=bjFdpEL+BFPcZexucuaIEhlUKOwW18+logdd9NDRjhI6BjvTW3BhiaRJblEgrcuG1f
+ Z0RKWI0JEx/cxgyygTFuH8+NyQPyh/g6vl+TC/MPvqCzbp3tbH8in74TFeCdfQGnj4Sh
+ bJVJgZXsLHsg0Mfldr3xCjU0maMstU55+OEEYbGcgpcfs+yolN21J+U0CzevQtrmRReG
+ RuujF6b3NiIr1BeVbl7TFChZblXaMyGb3n5OQ2ZV/QyJXQlOPyd+ItH7TtfqxTIhEH52
+ MX7EJDj8PskmAZw1QDuqj+w2HWwYrPKxLl6F02YMV4XDQhIc3OYAsYB8X9rS49fzzyBa
+ 7NvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ru7RHyUGJodXtTkYHPyt/8m3CYfqityYbsfTzG6OfXw=;
- b=GKcHXrAbBACJdSMDUrhn50qIeY+hO/k+GovF7hQNQeN4YKUp4wBuotdZr3eLzS0c1N
- syj+y4PQiRHi4OjQKK6SOS3llogM4waTrAMtf91ces5oU54UoHKtXGgemlCrBWKoZRXT
- 5QJoZOyv2N8boKYie++FKV4mVNwirRbF388IereQtxDutUimOzTkHVLhgsfmyaDksnUk
- ZQdf7K7MqU9thZ5cuOLxIYUsvPaF7EJXXp19dotmckFHixrR14W5yjo+9dg0wnIr/MEt
- 1EJdoWG2jsUGV1EirgTX74fd5zTJB8Kifbjbtz8P2L7EcuBiVAj4cg8ktdiz0EVWHQal
- AM9A==
-X-Gm-Message-State: AFqh2kpF496nGckWxxjqhR/bVZXpBc8gsJd/xONuL50yinSCk1oL2R6X
- eXw3D5r3Wy+PKSxevK2pUXe7cg==
-X-Google-Smtp-Source: AMrXdXtzC9z8fSswnQ2V6Hnow1ihX/kZA7zDkfKD81ezDQ7Ps8JMRUBEBFZgfs6kCD0y6IfgKXHwdQ==
-X-Received: by 2002:a05:600c:a13:b0:3d3:4ead:bb07 with SMTP id
- z19-20020a05600c0a1300b003d34eadbb07mr7806758wmp.5.1671535960976; 
- Tue, 20 Dec 2022 03:32:40 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i26-20020a1c541a000000b003c6c182bef9sm26783390wmb.36.2022.12.20.03.32.39
+ bh=Z+yL5Iir5drSnSOmB2Rq/rw6DBGGnbA2k28LGnohxm0=;
+ b=qft0EF1X4k4yCo5t7ewQs+mx9ecWyS/Q2xW4TUVONXFqwgY/wIGu/n+CDSHrSVDVDY
+ ZFC3gJ/mYFQBMfn5w1G5eoPlLKejRwtswmr28U/76G8hZJXB428408L5u+ilh7zwToqn
+ QfAic3BmRaxqSmVldonO8kTzkn5viqdottQIIeGbSd4JssRTLPX8eeqgR2IOczRGT8Nr
+ wUAq1HHwN0BwaNyL+zM2HCZgo2TVxWbrQ4n/dINTSmKSfc38sM6znjwnPxENqYO29q80
+ +y4vjMeAU3UkYYEgmAu2Cobv0uWRABfccTVksYygGHXo8f/H61ojOKw3ELFfprPk5lKt
+ hgPA==
+X-Gm-Message-State: ANoB5pkJV8fsgTcWD4VNnkeCngh5K3IuU3X3HIarcO0YaHGTEJdf089H
+ WC3U+iwBDiDDYjJ7dcpenks=
+X-Google-Smtp-Source: AA0mqf5cYdmq2GFgaaOannQM0XvQ2EWN7LC0X+oqqpvGC7fR2n53qiFBCHWkYI1McIFrdF8v0A2rqg==
+X-Received: by 2002:aca:1b0d:0:b0:35e:cf1a:9cd0 with SMTP id
+ b13-20020aca1b0d000000b0035ecf1a9cd0mr10140431oib.14.1671536027504; 
+ Tue, 20 Dec 2022 03:33:47 -0800 (PST)
+Received: from [192.168.68.106] (201-43-103-101.dsl.telesp.net.br.
+ [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
+ l20-20020aca1914000000b0035173c2fddasm5324603oii.51.2022.12.20.03.33.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 03:32:40 -0800 (PST)
-Message-ID: <0eb9f4d6-7d54-8156-61ce-d4296c9d5dc9@linaro.org>
-Date: Tue, 20 Dec 2022 12:32:38 +0100
+ Tue, 20 Dec 2022 03:33:47 -0800 (PST)
+Message-ID: <47e7cb45-1f4b-aa70-1838-5cb7fd924c2b@gmail.com>
+Date: Tue, 20 Dec 2022 08:33:43 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH-for-8.0 5/7] hw/mips/malta: Explicit GT64120 endianness
- upon device creation
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 1/2] target/ppc: Implement the DEXCR and HDEXCR
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang
- <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
- <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-References: <20221209151533.69516-1-philmd@linaro.org>
- <20221209151533.69516-6-philmd@linaro.org>
- <95fe4231-ee7a-ff1a-4804-0e294e0adb58@linaro.org>
- <c8a2c501-efcf-e528-5ddc-21b286ce8926@linaro.org>
-In-Reply-To: <c8a2c501-efcf-e528-5ddc-21b286ce8926@linaro.org>
+To: Nicholas Miehlbradt <nicholas@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au,
+ groug@kaod.org, victor.colombo@eldorado.org.br
+References: <20221220042330.2387944-1-nicholas@linux.ibm.com>
+ <20221220042330.2387944-2-nicholas@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221220042330.2387944-2-nicholas@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.161,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,78 +93,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/12/22 09:30, Philippe Mathieu-Daudé wrote:
-> +Eduardo/Markus for QOM/QDEV clarification.
-> 
-> On 20/12/22 01:52, Richard Henderson wrote:
->> On 12/9/22 07:15, Philippe Mathieu-Daudé wrote:
->>> Propagate the controller endianess from the machine, setting
->>> the "cpu-little-endian" property.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> ---
->>>   hw/mips/malta.c | 4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> Modulo using qdev_prop_set_bool,
-> 
-> Surprisingly there is no qdev_prop_set_bool()... I can use the QOM layer
-> with object_property_add_bool(), i.e.:
-> 
-> $ git grep memory-hotplug-support
-> hw/acpi/ich9.c:451:    object_property_add_bool(obj, 
-> "memory-hotplug-support",
-> hw/acpi/piix4.c:608:    DEFINE_PROP_BOOL("memory-hotplug-support", 
-> PIIX4PMState,
 
-Oops I meant:
 
-$ git grep reset-hivecs
-hw/arm/digic.c:55:    if (!object_property_set_bool(OBJECT(&s->cpu), 
-"reset-hivecs", true,
-hw/arm/npcm7xx.c:469: 
-object_property_set_bool(OBJECT(&s->cpu[i]), "reset-hivecs", true,
-hw/arm/xlnx-zynqmp.c:246: 
-object_property_set_bool(OBJECT(&s->rpu_cpu[i]), "reset-hivecs", true,
-target/arm/cpu.c:1245:            DEFINE_PROP_BOOL("reset-hivecs", 
-ARMCPU, reset_hivecs, false);
+On 12/20/22 01:23, Nicholas Miehlbradt wrote:
+> Define the DEXCR and HDEXCR as special purpose registers.
+> 
+> Each register occupies two SPR indicies, one which can be read in an
+> unprivileged state and one which can be modified in the appropriate
+> priviliged state, however both indicies refer to the same underlying
+> value.
+> 
+> Note that the ISA uses the abbreviation UDEXCR in two different
+> contexts: the userspace DEXCR, the SPR index which can be read from
+> userspace (implemented in this patch), and the ultravisor DEXCR, the
+> equivalent register for the ultravisor state (not implemented).
+> 
+> Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
+> ---
 
-> But I notice some qdev_prop_set_bit() uses, i.e. in hw/arm/:
-> 
-> $ git grep enable-bitband
-> hw/arm/armv7m.c:528:    DEFINE_PROP_BOOL("enable-bitband", ARMv7MState, 
-> enable_bitband, false),
-> hw/arm/mps2.c:242:    qdev_prop_set_bit(armv7m, "enable-bitband", true);
-> hw/arm/msf2-soc.c:138:    qdev_prop_set_bit(armv7m, "enable-bitband", 
-> true);
-> hw/arm/stellaris.c:1070:    qdev_prop_set_bit(nvic, "enable-bitband", 
-> true);
-> hw/arm/stm32f100_soc.c:119:    qdev_prop_set_bit(armv7m, 
-> "enable-bitband", true);
-> 
-> In that case this patch doesn't require any change.
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-I'll keep qdev_prop_set_bit() which is simpler.
-
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> v2: Clearing of upper 32 bits of DEXCR is now performed on read from
+> problem state rather than on write in privileged state.
+> v3: Fix typos
+> ---
+>   target/ppc/cpu.h        | 19 +++++++++++++++++++
+>   target/ppc/cpu_init.c   | 25 +++++++++++++++++++++++++
+>   target/ppc/spr_common.h |  1 +
+>   target/ppc/translate.c  | 19 +++++++++++++++++++
+>   4 files changed, 64 insertions(+)
 > 
-> Thanks!
-> 
->>>
->>> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
->>> index ba92022f87..1f4e0c7acc 100644
->>> --- a/hw/mips/malta.c
->>> +++ b/hw/mips/malta.c
->>> @@ -1390,7 +1390,9 @@ void mips_malta_init(MachineState *machine)
->>>       stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
->>>       /* Northbridge */
->>> -    dev = sysbus_create_simple("gt64120", -1, NULL);
->>> +    dev = qdev_new("gt64120");
->>> +    qdev_prop_set_bit(dev, "cpu-little-endian", !be);
->>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->>>       pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
->>>       /* Southbridge */
->>
-> 
-
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 81d4263a07..3923f174f8 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1068,6 +1068,21 @@ struct ppc_radix_page_info {
+>       uint32_t entries[PPC_PAGE_SIZES_MAX_SZ];
+>   };
+>   
+> +/*****************************************************************************/
+> +/* Dynamic Execution Control Register */
+> +
+> +#define DEXCR_ASPECT(name, num)                    \
+> +FIELD(DEXCR, PNH_##name, PPC_BIT_NR(num), 1)       \
+> +FIELD(DEXCR, PRO_##name, PPC_BIT_NR(num + 32), 1)  \
+> +FIELD(HDEXCR, HNU_##name, PPC_BIT_NR(num), 1)      \
+> +FIELD(HDEXCR, ENF_##name, PPC_BIT_NR(num + 32), 1) \
+> +
+> +DEXCR_ASPECT(SBHE, 0)
+> +DEXCR_ASPECT(IBRTPD, 1)
+> +DEXCR_ASPECT(SRAPD, 4)
+> +DEXCR_ASPECT(NPHIE, 5)
+> +DEXCR_ASPECT(PHIE, 6)
+> +
+>   /*****************************************************************************/
+>   /* The whole PowerPC CPU context */
+>   
+> @@ -1674,9 +1689,11 @@ void ppc_compat_add_property(Object *obj, const char *name,
+>   #define SPR_BOOKE_GIVOR13     (0x1BC)
+>   #define SPR_BOOKE_GIVOR14     (0x1BD)
+>   #define SPR_TIR               (0x1BE)
+> +#define SPR_UHDEXCR           (0x1C7)
+>   #define SPR_PTCR              (0x1D0)
+>   #define SPR_HASHKEYR          (0x1D4)
+>   #define SPR_HASHPKEYR         (0x1D5)
+> +#define SPR_HDEXCR            (0x1D7)
+>   #define SPR_BOOKE_SPEFSCR     (0x200)
+>   #define SPR_Exxx_BBEAR        (0x201)
+>   #define SPR_Exxx_BBTAR        (0x202)
+> @@ -1865,8 +1882,10 @@ void ppc_compat_add_property(Object *obj, const char *name,
+>   #define SPR_RCPU_L2U_RA2      (0x32A)
+>   #define SPR_MPC_MD_DBRAM1     (0x32A)
+>   #define SPR_RCPU_L2U_RA3      (0x32B)
+> +#define SPR_UDEXCR            (0x32C)
+>   #define SPR_TAR               (0x32F)
+>   #define SPR_ASDR              (0x330)
+> +#define SPR_DEXCR             (0x33C)
+>   #define SPR_IC                (0x350)
+>   #define SPR_VTB               (0x351)
+>   #define SPR_MMCRC             (0x353)
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index cbf0081374..6433f4fdfd 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -5727,6 +5727,30 @@ static void register_power10_hash_sprs(CPUPPCState *env)
+>               hashpkeyr_initial_value);
+>   }
+>   
+> +static void register_power10_dexcr_sprs(CPUPPCState *env)
+> +{
+> +    spr_register(env, SPR_DEXCR, "DEXCR",
+> +            SPR_NOACCESS, SPR_NOACCESS,
+> +            &spr_read_generic, &spr_write_generic,
+> +            0);
+> +
+> +    spr_register(env, SPR_UDEXCR, "DEXCR",
+> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
+> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
+> +            0);
+> +
+> +    spr_register_hv(env, SPR_HDEXCR, "HDEXCR",
+> +            SPR_NOACCESS, SPR_NOACCESS,
+> +            SPR_NOACCESS, SPR_NOACCESS,
+> +            &spr_read_generic, &spr_write_generic,
+> +            0);
+> +
+> +    spr_register(env, SPR_UHDEXCR, "HDEXCR",
+> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
+> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
+> +            0);
+> +}
+> +
+>   /*
+>    * Initialize PMU counter overflow timers for Power8 and
+>    * newer Power chips when using TCG.
+> @@ -6402,6 +6426,7 @@ static void init_proc_POWER10(CPUPPCState *env)
+>       register_power8_rpr_sprs(env);
+>       register_power9_mmu_sprs(env);
+>       register_power10_hash_sprs(env);
+> +    register_power10_dexcr_sprs(env);
+>   
+>       /* FIXME: Filter fields properly based on privilege level */
+>       spr_register_kvm_hv(env, SPR_PSSCR, "PSSCR", NULL, NULL, NULL, NULL,
+> diff --git a/target/ppc/spr_common.h b/target/ppc/spr_common.h
+> index b5a5bc6895..8437eb0340 100644
+> --- a/target/ppc/spr_common.h
+> +++ b/target/ppc/spr_common.h
+> @@ -195,6 +195,7 @@ void spr_read_ebb_upper32(DisasContext *ctx, int gprn, int sprn);
+>   void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn);
+>   void spr_write_hmer(DisasContext *ctx, int sprn, int gprn);
+>   void spr_write_lpcr(DisasContext *ctx, int sprn, int gprn);
+> +void spr_read_dexcr_ureg(DisasContext *ctx, int gprn, int sprn);
+>   #endif
+>   
+>   void register_low_BATs(CPUPPCState *env);
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 19c1d17cb0..0e4cabcf54 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -1249,6 +1249,25 @@ void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn)
+>       gen_fscr_facility_check(ctx, SPR_FSCR, FSCR_EBB, sprn, FSCR_IC_EBB);
+>       spr_write_prev_upper32(ctx, sprn, gprn);
+>   }
+> +
+> +void spr_read_dexcr_ureg(DisasContext *ctx, int gprn, int sprn)
+> +{
+> +    TCGv t0 = tcg_temp_new();
+> +
+> +    /*
+> +     * Access to the (H)DEXCR in problem state is done using seperate
+> +     * SPR indexes which are 16 below the SPR indexes which have full
+> +     * access to the (H)DEXCR in privileged state. Problem state can
+> +     * only read bits 32:63, bits 0:31 return 0.
+> +     *
+> +     * See section 9.3.1-9.3.2 of PowerISA v3.1B
+> +     */
+> +
+> +    gen_load_spr(t0, sprn + 16);
+> +    tcg_gen_ext32u_tl(cpu_gpr[gprn], t0);
+> +
+> +    tcg_temp_free(t0);
+> +}
+>   #endif
+>   
+>   #define GEN_HANDLER(name, opc1, opc2, opc3, inval, type)                      \
 
