@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF65652496
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 17:24:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25516524AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 17:33:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7fOk-00022y-3d; Tue, 20 Dec 2022 11:23:22 -0500
+	id 1p7fVq-0004BJ-Vg; Tue, 20 Dec 2022 11:30:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p7fOh-000218-5H
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 11:23:19 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p7fOT-0003bc-Ke
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 11:23:18 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- p13-20020a05600c468d00b003cf8859ed1bso9246153wmo.1
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 08:23:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=d1YTksavfwYYqa8if0wIA++N7mc6mNZMWiVCAyLHuzs=;
- b=oglmmxAhSsNz8wJYPk4ohaNAhtIvq8uZOwDaojxex8XMtmlqhRuBsci9xRqytS+Ipf
- Dl3ILy4ZyMb7/YIf4kFHS0mHvoy8q5K9LDz455V1m4xq6niPI1k47S40NmlPV+Q91poT
- xGp/os4mMeA+QWVNOYpfQoGG2E8GuMrPs/zJDDmJD2d14sfA+W5JE7e+F43GBbx7Gdgs
- OuVNCKAoI6n7gfYcHnrmST/7Bgw4yiXRVbLZbWA6gmOT+bsg39dSMWnmOZFW08WYIV61
- yQUD8jocEJ+xMFzWfoRbFrxUA9TCO/BKU0shScoLj4EVdP9imMtJi+9jALDHa9gqymZ2
- TsLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=d1YTksavfwYYqa8if0wIA++N7mc6mNZMWiVCAyLHuzs=;
- b=43ctwlqJDwiApTzM0BaeY8VLxd2flHvD8xOycMEKrldUdbWwMYU76a+ymr7S5G6yv8
- GPnfj2xk7/hojFTcITqqPS5J/lwxuXA8yL5MLZzZrofs3Bz960ZcDpoEc2u5pxgnm0oD
- ptCgL5fl42QFtU4TP4p2oZvb8/XFr/RQrwc9IrfrSj/QJimJz2RLgqm3/kptVCkvMPkp
- Lb/3hTjjWYSFO6VsgOLPgpLWs5LrYygZIVnaLfSvrLHhA+2RcDB5JHstT3dqdwAQSAOa
- eYvjtaIZYyfbmoM3vrKWpo+cUn83HLUpnlrKFFajtdjUDef37Rw3HTsgco1SyBN6Ukv1
- FCCQ==
-X-Gm-Message-State: ANoB5pnw+aIuTZWvSFZ0SBc8DGScuBMiVjlfwvwZ8Pi+gRCb//EkrDlv
- wM4+hqSisKMRcZ9OA3AZwOg=
-X-Google-Smtp-Source: AA0mqf7HRMq+tcZbevNcF3mFUGAX97wYNwpHELoG846pxSGCSDR6geNaie1PqD1dRWwr6NFLnac3qA==
-X-Received: by 2002:a05:600c:554b:b0:3d2:1761:3742 with SMTP id
- iz11-20020a05600c554b00b003d217613742mr30493044wmb.15.1671553379644; 
- Tue, 20 Dec 2022 08:22:59 -0800 (PST)
-Received: from [192.168.6.89] (54-240-197-236.amazon.com. [54.240.197.236])
- by smtp.gmail.com with ESMTPSA id
- k187-20020a1ca1c4000000b003d22528decesm23713324wme.43.2022.12.20.08.22.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 08:22:59 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <bccad857-8038-1406-209e-c5e0a1a721cd@xen.org>
-Date: Tue, 20 Dec 2022 16:22:57 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [RFC PATCH v3 08/38] hw/xen_backend: refactor xen_be_init()
-Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
+ (Exim 4.90_1) (envelope-from
+ <BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p7fVd-0004BA-N1
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 11:30:29 -0500
+Received: from casper.infradead.org ([90.155.50.34])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p7fVV-0004TO-CM
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 11:30:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=nBAbJmz5PWAOWSeqMHvSWohCtQOZ2LpZYIo6jQstgSI=; b=n/wXgBV2MflTM/PnGlyOk8fRkg
+ 6dbC3ooli8TLwx6iJpc1hHxDgqeEfOK4u619uQip/MPIIwwqXiXIrdOsGt473ojzDmCTVJ/j7a5Jp
+ w5LrKqq5xklJ6VKkRFZRXnCnZ7/8V4U9MCoyj2oLLbXf551LORR51uBDgO//vhuUgUqRJoZ/wSdiM
+ Amo9MMOk4h8djLU0EaO/wkt6J3fLsysvpRoZ3kyRGc9v8XU0FT234ndspIU0sJlyjvV8iVkN6MXP+
+ QiVlGTRc2YLZ9IBoXgersEvYFouKpHbDLrp6TA3JhzrVMSUwblrrJS+xcR/k4tf2VluodpgjYl3bO
+ MRSfVE3w==;
+Received: from [109.144.17.74] (helo=[127.0.0.1])
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1p7fSj-001xsq-BE; Tue, 20 Dec 2022 16:27:29 +0000
+Date: Tue, 20 Dec 2022 16:27:15 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: Paul Durrant <xadimgnik@gmail.com>, qemu-devel@nongnu.org
+CC: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>, 
  Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-References: <20221216004117.862106-1-dwmw2@infradead.org>
- <20221216004117.862106-9-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20221216004117.862106-9-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.161, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: =?US-ASCII?Q?Re=3A_=5BRFC_PATCH_v2_20/22=5D_i386/xen=3A_HV?=
+ =?US-ASCII?Q?MOP=5Fset=5Fparam_/_HVM=5FPARAM=5FCALLBACK=5FIRQ?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <bec6ab0c-c73e-f5f8-f4a3-e35aa0501e6e@xen.org>
+References: <20221209095612.689243-1-dwmw2@infradead.org>
+ <20221209095612.689243-21-dwmw2@infradead.org>
+ <f4b7feff-c41a-25c6-d098-c4eab9b94eb1@xen.org>
+ <9dbe4265d43063348a8fe6ddd2b732615f0631b9.camel@infradead.org>
+ <65ccf311-be94-7cf2-6610-360549b547ab@xen.org>
+ <eba6ab55c8fa4bf889744287d006a5c085ba8976.camel@infradead.org>
+ <bec6ab0c-c73e-f5f8-f4a3-e35aa0501e6e@xen.org>
+Message-ID: <B09974FC-9E61-4D7E-BFFF-4B2DB9C09AB4@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=90.155.50.34;
+ envelope-from=BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,21 +84,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/12/2022 00:40, David Woodhouse wrote:
-> From: Joao Martins <joao.m.martins@oracle.com>
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   hw/xen/xen-legacy-backend.c         | 40 +++++++++++++++++++++--------
->   include/hw/xen/xen-legacy-backend.h |  3 +++
->   2 files changed, 32 insertions(+), 11 deletions(-)
-> 
 
-Reviewed-by: Paul Durrant <paul@xen.org>
 
+On 20 December 2022 13:56:39 GMT, Paul Durrant <xadimgnik@gmail=2Ecom> wro=
+te:
+>The callback via is essentially just another line interrupt but its asser=
+tion is closely coupled with the vcpu upcall_pending bit=2E Because that is=
+ being dealt with in-kernel then the via should be dealt with in-kernel, ri=
+ght?
+
+Not right now, because there's not a lot of point in kernel acceleration i=
+n the case that it's delivered as GSI=2E There's no per-vCPU delivery, so i=
+t doesn't get used for IPI, for timers=2E None of the stuff we want to acce=
+lerate in-kernel=2E Only the actual PV drivers=2E
+
+If we do FIFO event channels in the future then the kernel will probably n=
+eed to own those; they need spinlocks and you can have *both* userspace and=
+ kernel delivering with test-and-set-bit sequences like you can with 2level=
+=2E
+
+Even so, I was tempted to add a VFIO-like eventfd pair for the vCPU0 evtch=
+n_upcall_pending and let the kernel drive it=2E=2E=2E but qemu doesn't even=
+ do the EOI side of that as $DEITY intended, so I didn't=2E
 
