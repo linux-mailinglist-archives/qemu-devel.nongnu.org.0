@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1677C6521D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 14:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E536521D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 14:55:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7d3r-0004Qx-W0; Tue, 20 Dec 2022 08:53:40 -0500
+	id 1p7d3p-0004Oj-Dl; Tue, 20 Dec 2022 08:53:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7d3p-0004Pi-LB; Tue, 20 Dec 2022 08:53:38 -0500
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7d3o-000137-0g; Tue, 20 Dec 2022 08:53:37 -0500
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-1322d768ba7so15439418fac.5; 
- Tue, 20 Dec 2022 05:53:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=duf0nNtYaItwYDzbhKlns2RnaTPeDICDvkZSxpPsxPw=;
- b=H5Bj34WVN0IK4ap+gPD3d2RITnqfbK+tgwsj1kOAhYAl0KPa8Jvv+vYIu4PeGO7tsV
- mXa9zBgmGAqKurWiBtp/mmjXo5A/m3cIrCf9wJ1H7tuZ6BF7XHHg0fjHOOaBkIF4bTba
- ygHdLiKSsvVS/9+v1B8ZMxN6e4Gjkm7L1e++jPFOUvrqXQlvOjs9a/PavFjxM+rkQBYQ
- ZsXdaiHTUggwbX2gIxGt/SjBqq9DepI2qFeYI3rWdz5pU3DjojQSWmb9zDXdmAnJV2A/
- Jnx2GdGCzdxB89Ii88Gu4nTdRGprgrlNcNMWXTVfpK/d8aoPPm5sV9N0iEE6T3v1YGvN
- NYWg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7d3n-0004OM-Du
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:53:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7d3l-00015G-Sg
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:53:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671544412;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8CotrqcgzXvQXtJ5kZZ0ruh2gQ5daV2bfK3mTqXxUBY=;
+ b=FFwwoJsZK8QTBbhqneO+TxvFsLBpLJdXr5deiuZm+FiRNxFcHqcgqD/j19MLy17q+qTrVE
+ vTaok9VTntHZIiLm2k8/StbOEt9prAgDg21XkgFRy5kQIFfIC96fBiB/j+tp34dzHdkeaf
+ XPPFwwLolpZRsGXJ1q7Fatg8o8U6K7Q=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-520-9dS85p5kPN6Natghb6Q12A-1; Tue, 20 Dec 2022 08:53:31 -0500
+X-MC-Unique: 9dS85p5kPN6Natghb6Q12A-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-3dfb9d11141so142290647b3.3
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 05:53:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=duf0nNtYaItwYDzbhKlns2RnaTPeDICDvkZSxpPsxPw=;
- b=Ous4c6dxkBpuHTbM1ImXTkUCFN78fC58eDFSs86//sdaSiqrIzQEwVCyy1QC4uf7ud
- h+wPe0xOv3inWIS4AvykbRP19B7MyNBfIEY2SvtfgY9QUFeAy0Bb/PsjLeb/Lg3Mgakw
- lgTHwkBQ9tCmxA+qRORUBoTnce3Vk67Yc9GgvJFKxLXIvXbfc+KbLcZiT9az4vemgVrj
- 7iMLSGXGAZ8SzbwVDMfSn+zmJQuhDGsmHG2aTBfYnnXFxScDukpqyNiS6MfdBw2GNPWD
- dKGJW04C+4m62EGUOrOBAxBCiyB/F8kXjoy1NvuUGxFLsv8X/ozt7STrUOudZhEV+acc
- ztPA==
-X-Gm-Message-State: ANoB5pmmOzum6N1+FQlcnFGtdB2GEC9fgzkvUSOGK6V9xef8BuGdVnu1
- QO/AGBJFTmFXSvlwzATRyzx7eg1X6gg=
-X-Google-Smtp-Source: AA0mqf7+L/fQKkltfhD8zvlZpD6kRoLBdd5TJaeGa2q770klwQzO9nYOdA9DRg6r8DzVMNnjxpZ3Xw==
-X-Received: by 2002:a05:6870:1d0f:b0:144:8c76:636 with SMTP id
- pa15-20020a0568701d0f00b001448c760636mr21134753oab.39.1671544414916; 
- Tue, 20 Dec 2022 05:53:34 -0800 (PST)
-Received: from fedora.dc1.ventanamicro.com (201-43-103-101.dsl.telesp.net.br.
- [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
- f14-20020a056870898e00b0014474019e50sm5994933oaq.24.2022.12.20.05.53.33
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8CotrqcgzXvQXtJ5kZZ0ruh2gQ5daV2bfK3mTqXxUBY=;
+ b=PEUovO5qwnFxIHet6SCtbwnnclnVkz/Hh4hsK/JVeV3OZegkcKfaUwV7+4uEBuMiJq
+ u6JRoFedf095ji9PV0V1CafehPXhquJ+Ituu4HtvH6MClMXGmTDebmcYtfqyTVGO83h8
+ qiavlD3QLeeQWYBUNdCMb4GLC7Gfi+gt9d4Oevzr7RIEW46Epc7YqURQY9a/0JjkQAKo
+ oLd7FKDnhrCKVRab4GEtPQEIA7QHQplkwh0TK0y5B/4vbxsy1yYK/Dn7M3rc7iXf53NR
+ JZCI6fneE43AjQcOHYoZqcLSO3+20nTLzA6ZTICYcbyFk0LI026c2VYF6sSwpOECyJYT
+ oJ+Q==
+X-Gm-Message-State: ANoB5pnRyXpfuuv14KZhjzMofbcWEflb1DAVBmD+N2qwswNnWY9DcZpz
+ yIo+5BlRTxVVMIHAtNX9PxqmxZCiq/P/uUrNaSjkjKnj24BKT4ixo//c3sWo8IgbGL1Yzqi5k3I
+ Is5vcEfQEM6cdtwI=
+X-Received: by 2002:a25:d30b:0:b0:6ff:19c7:bac1 with SMTP id
+ e11-20020a25d30b000000b006ff19c7bac1mr43963000ybf.12.1671544410953; 
+ Tue, 20 Dec 2022 05:53:30 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4XC0t8Q5I3bdzehgS6J58100S0xhOmi9zG+1iYQhdlcnIJIHSwkQH+Crl41dsoLeDYkRf1yw==
+X-Received: by 2002:a25:d30b:0:b0:6ff:19c7:bac1 with SMTP id
+ e11-20020a25d30b000000b006ff19c7bac1mr43962980ybf.12.1671544410688; 
+ Tue, 20 Dec 2022 05:53:30 -0800 (PST)
+Received: from redhat.com ([37.19.199.118]) by smtp.gmail.com with ESMTPSA id
+ u9-20020a37ab09000000b006fcaa1eab0esm8752278qke.123.2022.12.20.05.53.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 05:53:34 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- Nicholas Miehlbradt <nicholas@linux.ibm.com>
-Subject: [PULL 15/15] target/ppc: Check DEXCR on hash{st, chk} instructions
-Date: Tue, 20 Dec 2022 10:52:51 -0300
-Message-Id: <20221220135251.155176-16-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221220135251.155176-1-danielhb413@gmail.com>
-References: <20221220135251.155176-1-danielhb413@gmail.com>
+ Tue, 20 Dec 2022 05:53:29 -0800 (PST)
+Date: Tue, 20 Dec 2022 08:53:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: peterx@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ viktor@daynix.com
+Subject: Re: [PATCH 0/3] Fix UNMAP notifier for intel-iommu
+Message-ID: <20221220085253-mutt-send-email-mst@kernel.org>
+References: <20221129081037.12099-1-jasowang@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221129081037.12099-1-jasowang@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,100 +95,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Nicholas Miehlbradt <nicholas@linux.ibm.com>
+On Tue, Nov 29, 2022 at 04:10:34PM +0800, Jason Wang wrote:
+> Hi All:
+> 
+> According to ATS, device should work if ATS is disabled. This is not
+> correctly implemented in the current intel-iommu since it doesn't
+> handle the UNMAP notifier correctly. This breaks the vhost-net +
+> vIOMMU without dt.
+> 
+> The root casue is that the when there's a device IOTLB miss (note that
+> it's not specific to PCI so it can work without ATS), Qemu doesn't
+> build the IOVA tree, so when guest start an IOTLB invalidation, Qemu
+> won't trigger the UNMAP notifier.
+> 
+> Fixing by build IOVA tree during IOMMU translsation.
+> 
+> Thanks
 
-Adds checks to the hashst and hashchk instructions to only execute if
-enabled by the relevant aspect in the DEXCR and HDEXCR.
 
-This behaviour is guarded behind TARGET_PPC64 since Power10 is
-currently the only implementation which has the DEXCR.
+IIUC you were going to post v2? At least commit log fixes.
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
-Message-Id: <20221220042330.2387944-3-nicholas@linux.ibm.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/excp_helper.c | 58 +++++++++++++++++++++++++++++-----------
- 1 file changed, 43 insertions(+), 15 deletions(-)
-
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 94adcb766b..add4d54ae7 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -2902,29 +2902,57 @@ static uint64_t hash_digest(uint64_t ra, uint64_t rb, uint64_t key)
-     return stage1_h ^ stage1_l;
- }
- 
-+static void do_hash(CPUPPCState *env, target_ulong ea, target_ulong ra,
-+                    target_ulong rb, uint64_t key, bool store)
-+{
-+    uint64_t calculated_hash = hash_digest(ra, rb, key), loaded_hash;
-+
-+    if (store) {
-+        cpu_stq_data_ra(env, ea, calculated_hash, GETPC());
-+    } else {
-+        loaded_hash = cpu_ldq_data_ra(env, ea, GETPC());
-+        if (loaded_hash != calculated_hash) {
-+            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
-+                POWERPC_EXCP_TRAP, GETPC());
-+        }
-+    }
-+}
-+
- #include "qemu/guest-random.h"
- 
--#define HELPER_HASH(op, key, store)                                           \
-+#ifdef TARGET_PPC64
-+#define HELPER_HASH(op, key, store, dexcr_aspect)                             \
- void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong ra,          \
-                  target_ulong rb)                                             \
- {                                                                             \
--    uint64_t calculated_hash = hash_digest(ra, rb, key), loaded_hash;         \
--                                                                              \
--    if (store) {                                                              \
--        cpu_stq_data_ra(env, ea, calculated_hash, GETPC());                   \
--    } else {                                                                  \
--        loaded_hash = cpu_ldq_data_ra(env, ea, GETPC());                      \
--        if (loaded_hash != calculated_hash) {                                 \
--            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,                 \
--                POWERPC_EXCP_TRAP, GETPC());                                  \
--        }                                                                     \
-+    if (env->msr & R_MSR_PR_MASK) {                                           \
-+        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PRO_##dexcr_aspect##_MASK ||      \
-+            env->spr[SPR_HDEXCR] & R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
-+            return;                                                           \
-+    } else if (!(env->msr & R_MSR_HV_MASK)) {                                 \
-+        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PNH_##dexcr_aspect##_MASK ||      \
-+            env->spr[SPR_HDEXCR] & R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
-+            return;                                                           \
-+    } else if (!(env->msr & R_MSR_S_MASK)) {                                  \
-+        if (!(env->spr[SPR_HDEXCR] & R_HDEXCR_HNU_##dexcr_aspect##_MASK))     \
-+            return;                                                           \
-     }                                                                         \
-+                                                                              \
-+    do_hash(env, ea, ra, rb, key, store);                                     \
-+}
-+#else
-+#define HELPER_HASH(op, key, store, dexcr_aspect)                             \
-+void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong ra,          \
-+                 target_ulong rb)                                             \
-+{                                                                             \
-+    do_hash(env, ea, ra, rb, key, store);                                     \
- }
-+#endif /* TARGET_PPC64 */
- 
--HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
--HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
--HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
--HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
-+HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true, NPHIE)
-+HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false, NPHIE)
-+HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true, PHIE)
-+HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false, PHIE)
- #endif /* CONFIG_TCG */
- 
- #if !defined(CONFIG_USER_ONLY)
--- 
-2.38.1
+> Jason Wang (3):
+>   intel-iommu: fail MAP notifier without caching mode
+>   intel-iommu: fail DEVIOTLB_UNMAP without dt mode
+>   intel-iommu: build iova tree during IOMMU translation
+> 
+>  hw/i386/intel_iommu.c | 58 ++++++++++++++++++++++++-------------------
+>  1 file changed, 33 insertions(+), 25 deletions(-)
+> 
+> -- 
+> 2.25.1
 
 
