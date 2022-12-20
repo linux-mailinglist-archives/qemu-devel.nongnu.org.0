@@ -2,91 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612BF651BF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 08:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D960B651C2C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 09:08:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7XM8-0005T2-8Y; Tue, 20 Dec 2022 02:48:08 -0500
+	id 1p7XeS-00082k-8C; Tue, 20 Dec 2022 03:07:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7XLu-0005SW-KG
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 02:47:54 -0500
-Received: from mga11.intel.com ([192.55.52.93])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7XLr-0002pA-98
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 02:47:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671522471; x=1703058471;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=18JY1Rv+JmD8fqHB1Zwfy2CyVc6av0CO+XzWDU5pLU8=;
- b=XgWndg9Bd3Zx05LXWgRZ6TBZzdKI7E68ypZ8reKYg0N2zQA46RFEXBwU
- 5Zulh17cmHv/yKKxUZKznrF52IMn7tgHo4YHXABwNsE6NGkVZJbqZTUQH
- 73bITyiIosbSDkn2cElf9j9/axqEBWWaSPs4Q0JXeRku9vrPAXBO6LJgT
- cqAG8nCZ7UaDwiZkNIuZXu5M8u+R6FO3gphMSw+c0RvQNixWRVS8k9nO8
- HFBnuZ0acoT/+C6pEaLaO3SEuwwyb5ldsmm3ft/ByqNP9ZLiE/27RdB9D
- O87BFukfwrD49ec1WkS5uZ5Z+zZJqWdv1c4L9vDwIaKIG4Wb32drR3yqn g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="317187859"
-X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; d="scan'208";a="317187859"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2022 23:47:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10566"; a="896319288"
-X-IronPort-AV: E=Sophos;i="5.96,258,1665471600"; d="scan'208";a="896319288"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga006.fm.intel.com with ESMTP; 19 Dec 2022 23:47:34 -0800
-Date: Tue, 20 Dec 2022 15:43:18 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20221220074318.GC1724933@chaop.bj.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y6B27MpZO8o1Asfe@zn.tnic>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7XeP-00082K-Nm
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 03:07:01 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7XeO-0007fv-8d
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 03:07:01 -0500
+Received: by mail-wm1-x336.google.com with SMTP id o15so8041291wmr.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 00:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=iFjCmcFBWWzGbvniqR+eUIM+nsdbcnQrZlMlkjvFqI8=;
+ b=o5DDDFUqEu9r/D/5zOWg4z5eN0otrn2+5DaTS1qWPF4MiJIihPz+4u3e9pc8Vj2foJ
+ rfT3OgInX68MPIZC8GCz3KgtiEgtH+jNXZNRc+gWfpBYwX/y3TyTbNxDwc8yftxtDBJl
+ 1oBgHy0klRKeJ9BK7HqmNHhGneVP8qpTpyxlXesj9au7zV7WwwTNMmNcxPBo6p4Bm6pU
+ ZtbApRFPnq5mRPMtMgGG780qk+hFlb/qNQ+KdSFYiwLlZs+FcD0ClM/4tliuNH7nhTK5
+ ej3LkPq86CYY2t+vCJCU65VAo3YsAcAZNLYlCNwzkbvkmiYzgwJczZgYm8EeOZQtZ5LT
+ fTyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iFjCmcFBWWzGbvniqR+eUIM+nsdbcnQrZlMlkjvFqI8=;
+ b=nPns1D4o9YxEhI4MuM5O7mF7WXLlXKUWHkX6fqaYlsNsgUhntUSDVf5SjWQJOUHblB
+ 9W5fynQlliY5bbbd9UDEdX7JbKAtr+CkJgPZJ29vNtJOezVjKXY+28h3Hph0RdjSA0wM
+ 4QCdXX/qssg+KYgC3OLCN5quiQ+J4KYNbnSoK7ruKtbRVc29Log62UoostKBicOpPozb
+ YjoI74dwyzVlMiOc0kQ4UezaH4/PXgsi/AqR0Ts2ljOue4nmyoVuQFn5bBJxVCtm6uxF
+ A34lf+nEAgpU/TbKYyGxah8heaxRT5e2iGsJ+aaM+Ph+e1sr/RRuikOqmn9HFarLb4Ve
+ lrpQ==
+X-Gm-Message-State: ANoB5pnPGAf25vHP1ymz3hE5FSO5D2p8LOU6AqyTNBkC/Kle4GZplArV
+ oqoCa3l3z32SG4d+BtWyCgsyIQ==
+X-Google-Smtp-Source: AA0mqf7hoaZasaVsTBhwCxX/XGjwga7ZKnqZUAefBR+I0teVz8FDtoXQ2m4vzXqQNVYh5R0s6O2uxA==
+X-Received: by 2002:a05:600c:3ac8:b0:3c6:e63e:89c5 with SMTP id
+ d8-20020a05600c3ac800b003c6e63e89c5mr34603219wms.33.1671523618362; 
+ Tue, 20 Dec 2022 00:06:58 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ bq19-20020a5d5a13000000b002421db5f279sm12082702wrb.78.2022.12.20.00.06.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 00:06:57 -0800 (PST)
+Message-ID: <80f7cace-9824-f07b-ba4b-22d238300153@linaro.org>
+Date: Tue, 20 Dec 2022 09:06:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y6B27MpZO8o1Asfe@zn.tnic>
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.5.1
+Subject: Re: [PATCH-for-8.0 4/7] hw/mips/gt64xxx_pci: Add a
+ 'cpu-little-endian' qdev property
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang
+ <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20221209151533.69516-1-philmd@linaro.org>
+ <20221209151533.69516-5-philmd@linaro.org>
+ <42cd6a94-5729-7b98-b6ab-5fe2061e4b1b@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <42cd6a94-5729-7b98-b6ab-5fe2061e4b1b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,94 +95,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 19, 2022 at 03:36:28PM +0100, Borislav Petkov wrote:
-> On Fri, Dec 02, 2022 at 02:13:41PM +0800, Chao Peng wrote:
-> > In memory encryption usage, guest memory may be encrypted with special
-> > key and can be accessed only by the guest itself. We call such memory
-> > private memory. It's valueless and sometimes can cause problem to allow
+On 20/12/22 01:52, Richard Henderson wrote:
+> On 12/9/22 07:15, Philippe Mathieu-Daudé wrote:
+>> +static Property gt64120_properties[] = {
+>> +    DEFINE_PROP_BIT("cpu-little-endian", GT64120State,
+>> +                    features, FEAT_CPU_LE, !TARGET_BIG_ENDIAN),
 > 
-> valueless?
-> 
-> I can't parse that.
+> Unless you're really planning on more feature bits, DEFINE_PROP_BOOL 
+> would be better.
 
-It's unnecessary and ...
-
-> 
-> > userspace to access guest private memory. This new KVM memslot extension
-> > allows guest private memory being provided through a restrictedmem
-> > backed file descriptor(fd) and userspace is restricted to access the
-> > bookmarked memory in the fd.
-> 
-> bookmarked?
-
-userspace is restricted to access the memory content in the fd.
-
-> 
-> > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> > additional KVM memslot fields restricted_fd/restricted_offset to allow
-> > userspace to instruct KVM to provide guest memory through restricted_fd.
-> > 'guest_phys_addr' is mapped at the restricted_offset of restricted_fd
-> > and the size is 'memory_size'.
-> > 
-> > The extended memslot can still have the userspace_addr(hva). When use, a
-> 
-> "When un use, ..."
-
-When both userspace_addr and restricted_fd/offset were used, ...
-
-> 
-> ...
-> 
-> > diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> > index a8e379a3afee..690cb21010e7 100644
-> > --- a/arch/x86/kvm/Kconfig
-> > +++ b/arch/x86/kvm/Kconfig
-> > @@ -50,6 +50,8 @@ config KVM
-> >  	select INTERVAL_TREE
-> >  	select HAVE_KVM_PM_NOTIFIER if PM
-> >  	select HAVE_KVM_MEMORY_ATTRIBUTES
-> > +	select HAVE_KVM_RESTRICTED_MEM if X86_64
-> > +	select RESTRICTEDMEM if HAVE_KVM_RESTRICTED_MEM
-> 
-> Those deps here look weird.
-> 
-> RESTRICTEDMEM should be selected by TDX_GUEST as it can't live without
-> it.
-
-RESTRICTEDMEM is needed by TDX_HOST, not TDX_GUEST.
-
-> 
-> Then you don't have to select HAVE_KVM_RESTRICTED_MEM simply because of
-> X86_64 - you need that functionality when the respective guest support
-> is enabled in KVM.
-
-Letting the actual feature(e.g. TDX or pKVM) select it or add dependency
-sounds a viable and clearer solution. Sean, let me know your opinion.
-
-> 
-> Then, looking forward into your patchset, I'm not sure you even
-> need HAVE_KVM_RESTRICTED_MEM - you could make it all depend on
-> CONFIG_RESTRICTEDMEM. But that's KVM folks call - I'd always aim for
-> less Kconfig items because we have waay too many.
-
-The only reason to add another HAVE_KVM_RESTRICTED_MEM is some code only
-works for 64bit[*] and CONFIG_RESTRICTEDMEM is not sufficient to enforce
-that.
-
-[*] https://lore.kernel.org/all/YkJLFu98hZOvTSrL@google.com/
-
-Thanks,
-Chao
-> 
-> Thx.
-> 
-> -- 
-> Regards/Gruss,
->     Boris.
-> 
-> https://people.kernel.org/tglx/notes-about-netiquette
+I can easily convert to DEFINE_PROP_BIT() if I ever get there...
 
