@@ -2,55 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DB965266A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:44:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80EC652665
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 19:40:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7g8T-0000Gu-Le; Tue, 20 Dec 2022 12:10:37 -0500
+	id 1p7gN1-0001EW-Uo; Tue, 20 Dec 2022 12:25:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1p7g8R-0000Gf-1E; Tue, 20 Dec 2022 12:10:35 -0500
-Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1p7g3a-0001VO-Qt; Tue, 20 Dec 2022 12:10:34 -0500
-Received: from [192.168.106.127]
- (dynamic-095-114-015-034.95.114.pool.telefonica.de [95.114.15.34])
- by csgraf.de (Postfix) with ESMTPSA id DA0256080220;
- Tue, 20 Dec 2022 18:04:24 +0100 (CET)
-Message-ID: <601ba0ac-cbcd-50d4-c295-5cde4a4d6e97@csgraf.de>
-Date: Tue, 20 Dec 2022 18:04:24 +0100
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p7gMz-0001EL-Dg
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 12:25:37 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p7gMx-0004jJ-NH
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 12:25:37 -0500
+Received: by mail-wr1-x433.google.com with SMTP id m14so12420527wrh.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 09:25:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:reply-to
+ :references:cc:to:content-language:subject:user-agent:mime-version
+ :date:message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ijtElLO+/byUskeJV3oO7UriWUOlvd8NeXIY0IvFfVw=;
+ b=NoZwufSuF26C4ApubJedNXIfPffmxW0VLRUpMzKXodRruMVSb1e855qhHGMBqdZGZK
+ 4RrEwzsy0lukhvwZkO1dCjhDAGNtPFeV/cmymyAOa+YJJBHkZUcay4x7nBNSezI1eSay
+ 8zfsntp2HXzOVN9fNNopYBRYKG8NyFt4VX/bpsWS/taxfUiw9GMPx9IBUXPqQtgt0H1M
+ 7fiWhzBG5f8UXep3yNLQtjH2y46xyYCveibxtSDZiaYlxJk/dwvkrzumt3EwS81t1rdl
+ UR/AtrZ2DARrF/cya+v9FEVuc4jIUPKvEl5+ayXAEzvz/7HkSPmvD5lIT4MypDgo0Q+/
+ Iy2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:reply-to
+ :references:cc:to:content-language:subject:user-agent:mime-version
+ :date:message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ijtElLO+/byUskeJV3oO7UriWUOlvd8NeXIY0IvFfVw=;
+ b=16L0fLjRFeaZ1IZOmyYWSC2kh3p6MFuXLtIi1KkHovJVxFq7K2/PhSqNbUEUTwwE4V
+ 4HvuzHvGF6um3On0DDs/FCx2FPhRpBAGvxunUELSxxxtUUiP9PXFhGCcSIGMYjsQGk0u
+ Xu+fsvcScSYuoKBW3EFtG49rWz9RFr7KFBXQa7wGM4/uZSNRtkNphWjYhRl/Ta+XCTMH
+ SaVgH3tb4ZVZUgnKm0HhPRVmNz37YFE99Xqi6hdm42r1JWlxpkeerBGdcbW2ZE3FsLRL
+ 78trTWtMDP3SfwzskWxjm5m1144Epa9PqOBKcc9fImZmz+UtepGnItxVgCX6d4wRJ6jm
+ h8Tw==
+X-Gm-Message-State: ANoB5pmTHeH2WRPo0dVib3wq2gbz0XmD++bfA/yR3x+io4ekBpIA5AKa
+ VGRYZhJRasBeN3HoxGENAaM=
+X-Google-Smtp-Source: AA0mqf7nUEhnjnBkiVfk+Ny9TsBxVFUmMSCDBq3u+2yZy+H9Vc1R769QD2fUmiJ/K/9ZYSuctWiCAg==
+X-Received: by 2002:adf:e903:0:b0:242:1ef7:9ad5 with SMTP id
+ f3-20020adfe903000000b002421ef79ad5mr28558068wrm.68.1671557133079; 
+ Tue, 20 Dec 2022 09:25:33 -0800 (PST)
+Received: from [192.168.6.89] (54-240-197-236.amazon.com. [54.240.197.236])
+ by smtp.gmail.com with ESMTPSA id
+ c10-20020a5d4cca000000b0024278304ef6sm13130009wrt.13.2022.12.20.09.25.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 09:25:32 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <f9a2d62c-8a09-7e46-6435-8ba379e95a5c@xen.org>
+Date: Tue, 20 Dec 2022 17:25:31 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH 1/5] target/arm: only build psci for TCG
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [RFC PATCH v2 20/22] i386/xen: HVMOP_set_param /
+ HVM_PARAM_CALLBACK_IRQ
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20221216212944.28229-2-farosas@suse.de>
- <459E39B4-44F5-41B2-A595-1B0DB5AD80F3@csgraf.de>
- <3355a215-dd7a-e80a-ca53-b0d65eb435b5@suse.de>
- <76c8912f-4fb7-118a-2105-efe08f343f77@csgraf.de>
- <ced115e9-6bdb-fdb6-818d-b77e27b9ecb1@suse.de> <87r0wv8vsa.fsf@suse.de>
- <92da4de4-b00b-096a-8dd9-f4f2f9696598@csgraf.de> <875ye6rxk7.fsf@suse.de>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <875ye6rxk7.fsf@suse.de>
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20221209095612.689243-1-dwmw2@infradead.org>
+ <20221209095612.689243-21-dwmw2@infradead.org>
+ <f4b7feff-c41a-25c6-d098-c4eab9b94eb1@xen.org>
+ <9dbe4265d43063348a8fe6ddd2b732615f0631b9.camel@infradead.org>
+ <65ccf311-be94-7cf2-6610-360549b547ab@xen.org>
+ <eba6ab55c8fa4bf889744287d006a5c085ba8976.camel@infradead.org>
+ <bec6ab0c-c73e-f5f8-f4a3-e35aa0501e6e@xen.org>
+ <B09974FC-9E61-4D7E-BFFF-4B2DB9C09AB4@infradead.org>
+Organization: Xen Project
+In-Reply-To: <B09974FC-9E61-4D7E-BFFF-4B2DB9C09AB4@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.161,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.161, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,145 +107,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 20/12/2022 16:27, David Woodhouse wrote:
+> 
+> 
+> On 20 December 2022 13:56:39 GMT, Paul Durrant <xadimgnik@gmail.com> wrote:
+>> The callback via is essentially just another line interrupt but its assertion is closely coupled with the vcpu upcall_pending bit. Because that is being dealt with in-kernel then the via should be dealt with in-kernel, right?
+> 
+> Not right now, because there's not a lot of point in kernel acceleration in the case that it's delivered as GSI. There's no per-vCPU delivery, so it doesn't get used for IPI, for timers. None of the stuff we want to accelerate in-kernel. Only the actual PV drivers.
+> 
+> If we do FIFO event channels in the future then the kernel will probably need to own those; they need spinlocks and you can have *both* userspace and kernel delivering with test-and-set-bit sequences like you can with 2level.
+> 
+> Even so, I was tempted to add a VFIO-like eventfd pair for the vCPU0 evtchn_upcall_pending and let the kernel drive it... but qemu doesn't even do the EOI side of that as $DEITY intended, so I didn't.
 
-On 20.12.22 14:53, Fabiano Rosas wrote:
-> Alexander Graf <agraf@csgraf.de> writes:
->
->> Hey Fabiano,
->>
->> On 19.12.22 12:42, Fabiano Rosas wrote:
->>> Claudio Fontana <cfontana@suse.de> writes:
->>>
->>>> Ciao Alex,
->>>>
->>>> On 12/19/22 11:47, Alexander Graf wrote:
->>>>> Hey Claudio,
->>>>>
->>>>> On 19.12.22 09:37, Claudio Fontana wrote:
->>>>>> On 12/16/22 22:59, Alexander Graf wrote:
->>>>>>> Hi Claudio,
->>>>>>>
->>>>>>> If the PSCI implementation becomes TCG only, can we also move to a tcg accel directory? It slowly gets super confusing to keep track of which files are supposed to be generic target code and which ones TCG specific>
->>>>>>> Alex
->>>>>> Hi Alex, Fabiano, Peter and all,
->>>>>>
->>>>>> that was the plan but at the time of:
->>>>>>
->>>>>> https://lore.kernel.org/all/20210416162824.25131-1-cfontana@suse.de/
->>>>>>
->>>>>> Peter mentioned that HVF AArch64 might use that code too:
->>>>>>
->>>>>> https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg00509.html
->>>>>>
->>>>>> so from v2 to v3 the series changed to not move the code under tcg/ , expecting HVF to be reusing that code "soon".
->>>>>>
->>>>>> I see that your hvf code in hvf/ implements psci, is there some plan to reuse pieces from the tcg implementation now?
->>>>> I originally reused the PSCI code in earlier versions of my hvf patch
->>>>> set, but then we realized that some functions like remote CPU reset are
->>>>> wired in a TCG specific view of the world with full target CPU register
->>>>> ownership. So if we want to actually share it, we'll need to abstract it
->>>>> up a level.
->>>>>
->>>>> Hence I'd suggest to move it to a TCG directory for now and then later
->>>>> move it back into a generic helper if we want / need to. The code just
->>>>> simply isn't generic yet.
->>>>>
->>>>> Or alternatively, you create a patch (set) to actually merge the 2
->>>>> implementations into a generic one again which then can live at a
->>>>> generic place :)
->>>>>
->>>>>
->>>>> Alex
->>>> Thanks for the clarification, I'll leave the choice up to Fabiano now, since he is working on the series currently :-)
->>>>
->>>> Ciao,
->>>>
->>>> Claudio
->>> Hello, thank you all for the comments.
->>>
->>> I like the idea of merging the two implementations. However, I won't get
->>> to it anytime soon. There's still ~70 patches in the original series
->>> that I need to understand, rebase and test, including the introduction
->>> of the tcg directory.
->>
->> Sure, I am definitely fine with leaving them separate for now as well :).
->>
->>
->>> I'd say we merge this as is now, since this patch has no
->>> dependencies. Later when I introduce the tcg directory I can move the
->>> code there along with the other tcg-only files. I'll take note to come
->>> back to the PSCI code as well.
->> I'm confused about the patch ordering :). Why is it easier to move the
->> psci.c compilation target from generic to an if(CONFIG_TCG) only to
->> later move it into a tcg/ directory?
-> It's a simple patch, so the overhead didn't cross my mind. But you are
-> right, this could go directly into tcg/ without having to put it under
-> CONFIG_TCG first.
+My point was that clearing upcall_pending is essentially the equivalent 
+of EOI-at-device i.e. it's the thing that drops the line. So, without 
+some form of interception, we need some way to check it at an 
+appropriate time... and as you say, there may be no exit to VMM for EOI 
+of the APIC. So when?
 
-
-I'm sure more like this will follow, and it will be a lot easier on 
-everyone if the pattern is going to be "move tcg specific code to tcg/ 
-and leave generic code in the main directory".
-
-
->
->> Wouldn't it be easier to create a
->> tcg/ directory from the start and just put it there?
-> I don't know about "from the start". At this point we cannot have a
-> single commit moving everything into the tcg/ directory because some
-> files still contain tcg + non-tcg code.
-
-
-Yes, the only thing the initial commit at the start would do is create 
-the directory and ninja config, pretty much nothing else. All follow-on 
-commits then split the currently entangled code into tcg/ once code is 
-clearly separate :).
-
-
-I believe this was also the approach Claudio took in his patch set last 
-year, and I find it very reasonable. It allows you to stop at any point 
-mid-way.
-
-
-> We would end up with several
-> commits moving files into tcg/ along the history, which I think results
-> in a poor experience when inspecting the log later on (git blame and so
-> on). So my idea was to split as much as I can upfront and only later
-> move everything into the directory.
-
-
-Quite the opposite: Please make sure to move everything slowly at a 
-digestible pace. There is no way you will get 100 patches in at once. 
-Make sure you can cut off at any point in between.
-
-What you basically want is to move from "target/arm is tcg+generic code" 
-to "target/arm is generic, target/arm/tcg is tcg code". You will be in a 
-transitional phase along the way whatever you do, so just make it 
-"target/arm is tcg+generic code, target/arm/tcg is tcg code" while 
-things are in flight and have a final commit that indicates the 
-conversion is done.
-
-
-> I'm also rebasing this series [1] from 2021, which means I'd rather have
-> small chunks of code moved under CONFIG_TCG that I can build-test with
-> --disable-tcg (even though the build doesn't finish, I can see the
-> number of errors going down), than to move non-tcg code into tcg/ and
-> then pull it out later like in the original series.
-
-
-I think we're saying the same thing. Please don't move non-tcg code into 
-tcg/. Just move files that are absolutely clearly TCG into tcg/ right 
-from the start. The psci.c is a good example for that. translate*.c and 
-op-helper.c would be another.
-
-
-Alex
-
-
-> 1- https://lore.kernel.org/r/20210416162824.25131-1-cfontana@suse.de
->
-> But hey, that's just my reasoning, no strong feelings about it.
+   Paul
 
