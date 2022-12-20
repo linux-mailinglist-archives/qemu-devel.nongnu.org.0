@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C95652833
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 22:05:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E66C652872
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 22:36:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7jnl-0005T7-EW; Tue, 20 Dec 2022 16:05:29 -0500
+	id 1p7kG5-0004iF-Fk; Tue, 20 Dec 2022 16:34:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1p7jni-0005Sb-Cc
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 16:05:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1p7jng-0004Hl-Rl
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 16:05:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671570324;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q1mJK/JkAWe8QIwuULML8tJgjrILJ+kgJzCGgmhGGI4=;
- b=FtZWYc96RR4CkjJ7LeRv7gS+sSA+ZBxtZgP8MoNvgjY3hCuHxLIiF2yLaI1TFzNLb8cAf4
- pArtg4oEFJyAwwMqqt8CrH2ur7SUJRdsTYjiaIgYtm6yl9uhYZVqkadtBPKuljO+HNaxRg
- iCMokD2Fg6Z6gTf9iCklTAKppcF/YOs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-7h62SR0-Nc2tkJ5KwXojBw-1; Tue, 20 Dec 2022 16:05:20 -0500
-X-MC-Unique: 7h62SR0-Nc2tkJ5KwXojBw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 983ED101A52E;
- Tue, 20 Dec 2022 21:05:19 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 014474014D1A;
- Tue, 20 Dec 2022 21:05:18 +0000 (UTC)
-Date: Tue, 20 Dec 2022 16:05:17 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Hanna Reitz <hreitz@redhat.com>, damien.lemoal@opensource.wdc.com,
- hare@suse.de, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, dmitry.fomichev@wdc.com
-Subject: Re: [RFC v5 0/3] Add zoned storage emulation to virtio-blk driver
-Message-ID: <Y6IjjRFUxtHHbh5K@fedora>
-References: <20221219081644.11790-1-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7kG2-0004hj-Lm
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 16:34:43 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7kG0-0000um-Vv
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 16:34:42 -0500
+Received: by mail-pf1-x430.google.com with SMTP id k79so9391868pfd.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 13:34:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WCQsZXq3em49J8sijHtLwzQMt+b2ZIzcPazaG7zKuAw=;
+ b=WuoRkSy9ER3iv42KGSjePWe1RmvDggVrRROGGUeY7UmVQVvxdNE2DM3JxD9Qx0oI/c
+ m99jS+F/+4zmKj7AlyshQMj1DDBsA5wJ1ZtbkqiwrypJVSd4Rx8V2PBQgRdJZHE1EVk2
+ SouCycUA+6bINyCz75F+8q26Z/tUDvNVkDJaqs/MaL0Kib2fqTTN/murldj/rg156xur
+ VvscoaZLHvQBh7nw6Yb38kXrMrO8aT1ATtNDYpv3zVXKvC9LJr5gxKYc5qagwdOHDFLN
+ 5tqLuihdZGh7fVFrtcx1IBYNMGPYwjBebuffPMBLExUzZt0vgnu+e266nVBJh959auvN
+ lSFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WCQsZXq3em49J8sijHtLwzQMt+b2ZIzcPazaG7zKuAw=;
+ b=J49msJPPWQMyxEH1hZSNa50/dOAzTwfBozrDxW0jiV5fRgpUIomYHgtxJ+0l2BDtpW
+ M1K9Qzdh57uwcZzjs/3oBxhLSstmnqqIn6BZyak8UjOMm4D/y9YJKwvU1jpDmLS1w2BF
+ Ssh+oK0sYyFPB9CixElkCQmODAToI5mkvSBPTt8N+pzbteW22ivWuESA2PG7YfVVDvT3
+ yOBd/Sm3K1vffkRttPZHOuuSQ1A3s6Jqk01e2STneRvmyLuY9DtdfG8ZVmKFff6hizPz
+ VA/V5AZFYrcj6jN/QSdUOMv0+/ZNBpuKIfNmtbHd9XPnbXYrGfHbkaALCs3oyLFaYyP5
+ qaWw==
+X-Gm-Message-State: ANoB5pnccoVTUrCeAGthtTQYvOUYMnfmqc8l4OUlZ5UCm1NF7e+RiSFT
+ 0hCpbLlIerHPSPur54aweUIIQ63Hjw/vUY0HATEJ6Q==
+X-Google-Smtp-Source: AA0mqf43gXAPK2F41yhTWtNAHrdw47+DMgKmXwCqhrtzIll1U2OAbxB5ebJjwq6rztS6TD/G+nE5pnKY7XYjeklPdOk=
+X-Received: by 2002:a63:d20d:0:b0:479:18a:8359 with SMTP id
+ a13-20020a63d20d000000b00479018a8359mr7006933pgg.105.1671572078205; Tue, 20
+ Dec 2022 13:34:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="89T1HWTe3NxFOk29"
-Content-Disposition: inline
-In-Reply-To: <20221219081644.11790-1-faithilikerun@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221220135251.155176-1-danielhb413@gmail.com>
+In-Reply-To: <20221220135251.155176-1-danielhb413@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Dec 2022 21:34:26 +0000
+Message-ID: <CAFEAcA_52bvonP4YN1tr-W3x6rpRyJZe9jfw76yxw6SDyRzmZw@mail.gmail.com>
+Subject: Re: [PULL 00/15] ppc queue
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,38 +84,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, 20 Dec 2022 at 13:53, Daniel Henrique Barboza
+<danielhb413@gmail.com> wrote:
+>
+> The following changes since commit 33698d3abf8ce65c38bb4b12b600b130d2682c=
+79:
+>
+>   Merge tag 'pull-monitor-2022-12-19' of https://repo.or.cz/qemu/armbru i=
+nto staging (2022-12-19 16:12:59 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20221220
+>
+> for you to fetch changes up to bac9fdfd3940f7b79735f85cd3a6dd319365e978:
+>
+>   target/ppc: Check DEXCR on hash{st, chk} instructions (2022-12-20 10:39=
+:24 -0300)
+>
+> ----------------------------------------------------------------
+> ppc patch queue for 2022-12-20:
+>
+> This queue contains a MAINTAINERS update, the implementation of the
+> Freescale eSDHC, the introduction of the DEXCR/HDEXCR instructions and
+> other assorted fixes (most of them for the e500 board).
+>
+> ----------------------------------------------------------------
+> Bernhard Beschow (6):
+>       target/ppc/mmu_common: Log which effective address had no TLB entry=
+ found
+>       target/ppc/mmu_common: Fix table layout of "info tlb" HMP command
+>       hw/ppc/virtex_ml507: Prefer local over global variable
+>       hw/ppc/e500: Prefer local variable over qdev_get_machine()
+>       hw/ppc/e500: Resolve variable shadowing
+>       hw/ppc/e500: Move comment to more appropriate place
+>
+> Daniel Henrique Barboza (1):
+>       MAINTAINERS: downgrade PPC KVM/TCG CPUs and pSeries to 'Odd Fixes'
+>
+> Nicholas Miehlbradt (2):
+>       target/ppc: Implement the DEXCR and HDEXCR
+>       target/ppc: Check DEXCR on hash{st, chk} instructions
+>
+> Philippe Mathieu-Daud=C3=A9 (6):
+>       hw/sd/sdhci: MMIO region is implemented in 32-bit accesses
+>       hw/sd/sdhci: Support big endian SD host controller interfaces
+>       hw/ppc/e500: Add Freescale eSDHC to e500plat
+>       target/ppc/kvm: Add missing "cpu.h" and "exec/hwaddr.h"
+>       hw/ppc/vof: Do not include the full "cpu.h"
+>       hw/ppc/spapr: Reduce "vof.h" inclusion
 
---89T1HWTe3NxFOk29
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This fails 'make check'; I think the sdhci changes have
+broken the npmcm7xx-sdhci device:
 
-On Mon, Dec 19, 2022 at 04:16:41PM +0800, Sam Li wrote:
-> Note: the virtio-blk headers isn't upstream in the kernel yet therefore
-> marked as an RFC. More information can be found here:
-> https://patchwork.kernel.org/project/linux-block/cover/20221030043545.974223-1-dmitry.fomichev@wdc.com/
+https://gitlab.com/qemu-project/qemu/-/jobs/3504313175
 
-The VIRTIO spec changes have been merged. The Linux virtio_blk guest
-driver patches are in Michael Tsirkin's vhost tree:
-https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git/tree/drivers/block/virtio_blk.c?h=vhost
+46/106 ERROR:../tests/qtest/npcm7xx_sdhci-test.c:101:sdwrite_read:
+assertion failed: (!memcmp(rmsg, msg, len)) ERROR
+46/106 qemu:qtest+qtest-arm / qtest-arm/npcm7xx_sdhci-test ERROR 1.67s
+killed by signal 6 SIGABRT
 
-The "RFC" can be dropped as soon as Linus merges the changes. Almost
-there!
-
---89T1HWTe3NxFOk29
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmOiI40ACgkQnKSrs4Gr
-c8g6Ngf+MepxfD1vY65K4p9IJbPov19DxbaD03MLJ7/DksODUyx6lDO/KlEOEXJ3
-5w3fPbswpipylx74mgeP6WRjkOv+oeR0OQVRvLyde6TCJe3bmolfauJBNezdPoZL
-DbhKBK9CdipHWLVrAthCm+PW+ywU+2FE9NZ7gEtzzorMFn4kQVhISEivwFl6OMxV
-YV4Yfn978txUhL1zlmf5GkkeYlhBVM64r1SF3/wtOGXANy2JmgmxSBY7C5Nv5pzC
-QNxxAMH0onPaaHcAhzdS3Vfe2BQ+q23X3GzUtUGpD3oSpDXoDdcbmC3jeVsFEySy
-hEQzVKpzU/6X3RYo97NGIDRYUlE04w==
-=B4Du
------END PGP SIGNATURE-----
-
---89T1HWTe3NxFOk29--
-
+thanks
+-- PMM
 
