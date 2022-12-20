@@ -2,98 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9BF6529A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 00:12:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05756529C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 00:22:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7llJ-0002ds-Hb; Tue, 20 Dec 2022 18:11:05 -0500
+	id 1p7lwF-0000c7-5h; Tue, 20 Dec 2022 18:22:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7llD-0002dR-IO
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 18:10:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7llC-0000TW-A7
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 18:10:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671577857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5Wz7NntDF/HRX/Splxt9mXQ4QhGsikxUi5AaRvWZrLw=;
- b=LdX8vdtuzf23xRO9FuRh80bXrE7atooVEI5sZFXnTnJ5RVbi1TPIq9LIFf9k6EMJTFN0YE
- GJDQC84mNDZCuXCM/7UPX7NGm2cb6s2v0dXYHhEXM/CKWayc7YKJneEgB4nQqPKiZzNz+4
- 4wIIJMjZKSQ2qiCO+ZlOkVLXjCD20rs=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-213-VIYHcv1pOB29oMH3b3PtaA-1; Tue, 20 Dec 2022 18:10:53 -0500
-X-MC-Unique: VIYHcv1pOB29oMH3b3PtaA-1
-Received: by mail-qk1-f199.google.com with SMTP id
- f13-20020a05620a408d00b006fc740f837eso10472479qko.20
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 15:10:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p7lwC-0000bq-PR
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 18:22:20 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p7lwB-0002Bh-0D
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 18:22:20 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id d3so13795884plr.10
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 15:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hbenFuht+pm0Es/1NYhc/RDdZpfMYKMfRxxQHdwW6D0=;
+ b=Z7WUnyEOg/6/6HRup8juew4rwpXJpXSCrfqiJQ+oSByo0Yq3X7/khIWFGuau3xdNoa
+ UpxHZlXHYXH6ypFbY6tUflA5eA2iwzZONhHOKamAQEavfeirHOzA7SeZPz7vL+nwUJaj
+ B05XL/gxgb8JAQki8IilcZIHI0RIO4iR29GtS/LA0ixZxj2iYYTk+KxK/83Hh9LnZplw
+ nMIClbb02mUlAIB7X9JqL279yHXDsJ2+8CGHEZHDJX09JW0e1QVLbigBXCA8yiiY0Zr3
+ yGtxgCCvH33bpU/z/2A6EeV1MNf/pmo7ZWlMs28QbRlyGrwDayvHTMF2s0ahgQ9TlpaB
+ 8L0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5Wz7NntDF/HRX/Splxt9mXQ4QhGsikxUi5AaRvWZrLw=;
- b=nPUu/y+OcK6NOCBBdPa2HPynmvGCf58dU3uZ6yqtt9fmeUi3v1S/aeSFLixgl1i5Rw
- eUCkuSKJuI5IvHL+5wc352uPLQ6CynU3kU+SRVwNpK2qFMfNEJ7j1ABDR3/8K9Ryjmoz
- HhuHVapVi6kWJaqKww4/unn2r9wNB4Pa7alY6s4jX6ea8ty9Mz36ySjn3ikmE8YshN1k
- 6zkfIwQJ9GnNT/tzaH4VU8vIWfA7DjBG+ePRfKlWSqm5WguNQzB1EaJYIMmAyAGnTwGu
- Swq4OwWGCPiBdyDHDu5SobPhfQM8FJnEOQVBfDwIsDT0cYCDA8nEE7SVdff2ZDs9eH9Z
- an5w==
-X-Gm-Message-State: AFqh2krrGI1DjgzJg++jZzcg4g2hjOGjGPtKCDtXnPNs8X/Ipvwx3Sn6
- QST5EM5YuXEgzGKwsuRtPguRjJyTcJQlExXV39+gsId+iEaqC3h8Q/4O8hQKylouZHPqRQp5viY
- tbKKchTqn0OZ0G8I=
-X-Received: by 2002:a05:6214:8ce:b0:520:e57b:191d with SMTP id
- da14-20020a05621408ce00b00520e57b191dmr2622821qvb.15.1671577852721; 
- Tue, 20 Dec 2022 15:10:52 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuLIxGpcuWX7jYcnccUrrGQzBZn7yfDLxcPGwpxttq06oUFbMPCp51RIWMnjX1SHIKb7iutNA==
-X-Received: by 2002:a05:6214:8ce:b0:520:e57b:191d with SMTP id
- da14-20020a05621408ce00b00520e57b191dmr2622792qvb.15.1671577852465; 
- Tue, 20 Dec 2022 15:10:52 -0800 (PST)
-Received: from redhat.com ([37.19.199.117]) by smtp.gmail.com with ESMTPSA id
- n17-20020a05620a223100b006fc40dafaa2sm9307749qkh.8.2022.12.20.15.10.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 15:10:52 -0800 (PST)
-Date: Tue, 20 Dec 2022 18:10:45 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, John G Johnson <john.g.johnson@oracle.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-ppc@nongnu.org, qemu-arm@nongnu.org
-Subject: Re: [PATCH v2 0/3] Decouple INTx-to-LNKx routing from south bridges
-Message-ID: <20221220181024-mutt-send-email-mst@kernel.org>
-References: <20221120150550.63059-1-shentey@gmail.com>
- <17a7d714-8a1e-8a17-f657-2172060d02e5@linaro.org>
- <3F5A5F52-5815-4CB2-9DE8-894D59B0EB8C@gmail.com>
+ bh=hbenFuht+pm0Es/1NYhc/RDdZpfMYKMfRxxQHdwW6D0=;
+ b=htgZ3IXrZ3MfETueE5Z/gz0sT3yO+3cIHzhG7Ihc6tZZGI7M4M8MOXtbrHA4DrrFKC
+ PA/4FRBK2Qh9LS6Lax/i2bYn/ebMbvq0X97mk2ruZfbaF/6rQ2gDAFrAyqUs3h2FReZd
+ dmBpmSFuOMlqULIkM6Lmuf4211qG7GJ7DWP0cH9JffE51KrWAjjD8tF9/JEcCNh65PbN
+ jigQZJnc00or2LDd7dXXd9m+nmtmb87ZYjbV4TDSojKeYaqTMHxb1gTaRJnW6JgOxqAZ
+ y6+hS06E1rHuUrFi9eWN2QS/fYhU4MBJEufkyeFWmqC3mQQLbyp1n1hnmoYTPL8PFggr
+ v1ZQ==
+X-Gm-Message-State: ANoB5pnCil7TubqYVH7P69ajnGv9Vg7QMx5S/3cJbQxQwcTK3QkmrFhb
+ 2bQh9PKEWwG3EkRMYU6A8Wxaiw==
+X-Google-Smtp-Source: AA0mqf6L5oixl+XRDkxfA0MRh22g8iy6Gn/kxUM02KbLbFXT2JeKAGHtXtd8/kU3QVS2dQLM9M3msQ==
+X-Received: by 2002:a17:902:ccc1:b0:189:3580:48dd with SMTP id
+ z1-20020a170902ccc100b00189358048ddmr55688969ple.37.1671578536966; 
+ Tue, 20 Dec 2022 15:22:16 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:3efa:624c:5fb:32c0?
+ ([2602:47:d48c:8101:3efa:624c:5fb:32c0])
+ by smtp.gmail.com with ESMTPSA id
+ j14-20020a170902da8e00b001887e30b9ddsm9912422plx.257.2022.12.20.15.22.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 15:22:16 -0800 (PST)
+Message-ID: <0e52d0aa-74b6-6eb6-4e41-f904f51969ea@linaro.org>
+Date: Tue, 20 Dec 2022 15:22:14 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] accel/tcg: Drop PAGE_RESERVED for CONFIG_BSD
+Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
+References: <20221217184823.3606676-1-richard.henderson@linaro.org>
+ <CANCZdfpVabse8tnRaAE7f=E62e07ErqvuneDpg5V9UKDYOdoLQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CANCZdfpVabse8tnRaAE7f=E62e07ErqvuneDpg5V9UKDYOdoLQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3F5A5F52-5815-4CB2-9DE8-894D59B0EB8C@gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.161,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,37 +94,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Dec 18, 2022 at 10:21:49AM +0000, Bernhard Beschow wrote:
+On 12/20/22 14:09, Warner Losh wrote:
 > 
 > 
-> Am 9. Dezember 2022 15:23:59 UTC schrieb "Philippe Mathieu-Daud�" <philmd@linaro.org>:
-> >On 20/11/22 16:05, Bernhard Beschow wrote:
-> >> v1:
-> >> ===
-> >> 
-> >> During my PIIX consolidation work [1] I've noticed that both PIIX models have
-> >> quite different pci_slot_get_pirq() implementations. These functions seem to
-> >> map PCI INTx pins to input pins of a programmable interrupt router which is
-> >> AFAIU board-specific. IOW, board-specific assumptions are baked into the device
-> >> models which prevent e.g. the whole PIIX4 south bridge to be reusable in the PC
-> >> machine.
-> >> 
-> >> This series first factors out pci_bus_map_irqs() from pci_bus_irqs() which
-> >> then allowes for moving the two board-specific PIIX pci_slot_get_pirq()
-> >> funtions into their respective boards. With these changes, the PIIX4 south
-> >> bridge could eventually become an alternative to the PIIX3-Frankenstein
-> >> solution in the PC machine.
-> >
-> >Series:
-> >Reviewed-by: Philippe Mathieu-Daud� <philmd@linaro.org>
+> On Sat, Dec 17, 2022 at 11:48 AM Richard Henderson <richard.henderson@linaro.org 
+> <mailto:richard.henderson@linaro.org>> wrote:
 > 
-> Ping
+>     Make bsd-user match linux-user in not marking host pages
+>     as reserved.  This isn't especially effective anyway, as
+>     it doesn't take into account any heap memory that qemu
+>     may allocate after startup.
 > 
-> Who will pull this?
+>     Cc: Warner Losh <imp@bsdimp.com <mailto:imp@bsdimp.com>>
+>     Signed-off-by: Richard Henderson <richard.henderson@linaro.org
+>     <mailto:richard.henderson@linaro.org>>
+>     ---
+> 
+>     I started to simply fix up this code to match my user-only interval-tree
+>     patch set, as L1_MAP_ADDR_SPACE_BITS gets removed from translate-all.c,
+>     but then I decided to remove it all.
+> 
+> 
+> I think this is fine. We already do a translation for addresses so marking this as 'reserved'
+> doesn't help that much. We need to map memory into a contiguous guess-address-space,
+> but the underlying host memory needn't be contiguous at all.
+> 
+> I've not yet tested this, but would like to. What's your timeline on getting this done?
 
-To clarify, you want this dropped for now?
+ASAP.  I want to remove...
 
--- 
-MST
+>     -                    if (h2g_valid(endaddr)) {
+>     -                        endaddr = h2g(endaddr);
+>     -                        page_set_flags(startaddr, endaddr, PAGE_RESERVED);
+>     -                    } else {
+>     -#if TARGET_ABI_BITS <= L1_MAP_ADDR_SPACE_BITS
 
+L1_MAP_ADDR_SPACE_BITS.
+
+
+r~
 
