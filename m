@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15AE1651F30
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 11:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6536651F4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 11:54:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7a8c-0003Vy-OF; Tue, 20 Dec 2022 05:46:23 -0500
+	id 1p7aEn-0006ji-1E; Tue, 20 Dec 2022 05:52:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1p7a8a-0003Vb-Gy
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 05:46:20 -0500
-Received: from mr85p00im-hyfv06021401.me.com ([17.58.23.190])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1p7a8Y-00080p-Um
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 05:46:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1671533171; bh=+/eU1TAjx4WUSjXZ6JhSVqCcFUfV+vuJWIVq0JcPOrk=;
- h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=V6e+hvGRi/qMbxwUXXOCjaAAeljCF0VJ2je1F54nG+aDC/NX8a7QYt3WCXmbtQoY4
- znaJtDUPcR8eAP1QF5+X6gGECA+s026lu1x9yxfQ1CD118LJROJvPwQBE1QwsQekjJ
- tVVab+DaDES8o12jHy6Rul4aJCdU25DfH2y1ufV1rsNBXkpwDQZ12ImItWB7ofYYOp
- aKn5LNH+XEh0DJxCzHvySOhgsbDMy7oolDNs8Q+BhYsRk75+RoqEL6BARkhkDhzIbt
- l27v5EtEvTSVGhLi60ZkRe2oBsAc3gF38w0vXguDWF4asJpMyNMElpV8o66Cc7j6yD
- KOVJZgBKKDNrA==
-Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
- [17.57.152.18])
- by mr85p00im-hyfv06021401.me.com (Postfix) with ESMTPSA id EF840303FAC4;
- Tue, 20 Dec 2022 10:46:08 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: [PATCH] gdbstub: move update guest debug to accel ops
-From: Mads Ynddal <mads@ynddal.dk>
-In-Reply-To: <87h6xyjcdh.fsf@linaro.org>
-Date: Tue, 20 Dec 2022 11:45:56 +0100
-Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <4B19094C-63DC-4A81-A008-886504256D5D@ynddal.dk>
-References: <20221123121712.72817-1-mads@ynddal.dk>
- <af92080f-e708-f593-7ff5-81b7b264d587@linaro.org>
- <C8BC6E24-F98D-428D-80F8-98BDA40C7B15@ynddal.dk> <87h6xyjcdh.fsf@linaro.org>
-To: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
-X-Proofpoint-GUID: JCBdP1BveQSPN6rlqSgMr_A8JbhoN_u6
-X-Proofpoint-ORIG-GUID: JCBdP1BveQSPN6rlqSgMr_A8JbhoN_u6
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0 suspectscore=0
- mlxlogscore=999 adultscore=0 phishscore=0 clxscore=1030 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2212200090
-Received-SPF: pass client-ip=17.58.23.190; envelope-from=mads@ynddal.dk;
- helo=mr85p00im-hyfv06021401.me.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7aEd-0006iv-0x
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 05:52:42 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7aEb-0000gy-2K
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 05:52:34 -0500
+Received: by mail-wm1-x329.google.com with SMTP id o15so8365658wmr.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 02:52:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cH8FhgsBwCp7huEZ/90fO5d44i7Lmt+ZHS2Z1r3M68I=;
+ b=cPNQa0mKf8Yfp8F6sO8dked42GAjUrz+V3u4N5xt/3hrNMoN/m23nYfB3Hq/IkVf0D
+ EIKLRDncvRPKg6oVpwMKyV6CrS3Ss+IX6H5O2iOTfCrQTbtO7gUJOIGRkraWfpGTtrFq
+ V5RuVBy+uqNP2EXOXXPqgWYSY4q2Pvrf6t2xNo7jEHXy5CHl+qXnbgJLUNb8cizVdV1t
+ bPNRNWpoA5QDaxRzUOkoEDXibMi4iEwKN5J+5pLyGPOAkEqY6HuI/T/o9dH/9X7PzND/
+ jvAaoAfduUaGGEvUB2TV/CBxWgO0nSix3lC3t5lxsImRbQ6657dOMapyRFDzjCrnPHSI
+ Tn3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cH8FhgsBwCp7huEZ/90fO5d44i7Lmt+ZHS2Z1r3M68I=;
+ b=h6ZORzBoswZBGMSq3CzLNxrHvA0Udp1uwUnMpGvrpDnJ9RShZisUvnq1I2CE34hwoG
+ SVZKp+jxamKaLk74Xe+CvUW2wGhDaB7b7Y3yoRHPuiP7p5EIJZhWeffoEIwvfyCLaqif
+ Mup25/nMZ6JHm1CPgIwl0qtEAe+bt7KMIWXohI4MYMk5aKcaVtuGnw1ohK35fGF5yT/Z
+ kxxToLXZerNXZRIMGNa5GEAjfV4CM9jOZSOUQdZInbMuj/CfOFMBLpfHWJIMGM+q1uJp
+ 8JiwmmGbY1/xh1T2XXxrEJBd+1g2H0ArsYqAHdUndQ5EGAruhnsLKksvLGPQ8e4uxZE6
+ qmuQ==
+X-Gm-Message-State: AFqh2koww53RAntbzWxQ/D+8+pyqvQ7IzrEHHX3KUMfx/9RRBOAmwbYS
+ P9m0m2eyv98/qUXpca4xYFGihA==
+X-Google-Smtp-Source: AMrXdXvWN8wFWdCaX7iBOj+7E4S4jr2o9udJenWd8r4EEu60pTWsyAyI0CaQ+0lYszyoyI0UZSqflQ==
+X-Received: by 2002:a05:600c:4e0d:b0:3d6:6a17:7015 with SMTP id
+ b13-20020a05600c4e0d00b003d66a177015mr262965wmq.15.1671533551176; 
+ Tue, 20 Dec 2022 02:52:31 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ m34-20020a05600c3b2200b003d208eb17ecsm16307881wms.26.2022.12.20.02.52.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 02:52:30 -0800 (PST)
+Message-ID: <92b0d029-386d-8cb3-8dc6-416a24db2aa1@linaro.org>
+Date: Tue, 20 Dec 2022 11:52:29 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH v3 00/18] ui: Move and clean up monitor command code
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+References: <20221220090645.2844881-1-armbru@redhat.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221220090645.2844881-1-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,49 +90,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 20/12/22 10:06, Markus Armbruster wrote:
+> This is mainly about splitting off monitor-related code.  There's also
+> a minimum Spice version bump, and a few UI improvements to HMP
+> commands sendkey, change vnc, and info spice.
 
-> It will do. You could just call it update_guest_debug as it is an
-> internal static function although I guess that makes grepping a bit of =
-a
-> pain.
-
-I agree. It should preferably be something unique, to ease grep'ing.
-
-> Is something being accidentally linked with linux-user and softmmu?
-
-Good question. I'm not familiar enough with the code base to know.
-
-I experimented with enabling/disabling linux-user when configuring, and =
-it does
-affect whether it compiles or not.
-
-The following seems to fix it, and I can see the same approach is taken =
-other
-places in cpu.c. Would this be an acceptable solution?
-
-diff --git a/cpu.c b/cpu.c
-index 6effa5acc9..c9e8700691 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -386,6 +386,7 @@ void cpu_breakpoint_remove_all(CPUState *cpu, int =
-mask)
- void cpu_single_step(CPUState *cpu, int enabled)
- {
-     if (cpu->singlestep_enabled !=3D enabled) {
-+#if !defined(CONFIG_USER_ONLY)
-         const AccelOpsClass *ops =3D cpus_get_accel();
-
-         cpu->singlestep_enabled =3D enabled;
-@@ -393,6 +394,7 @@ void cpu_single_step(CPUState *cpu, int enabled)
-         if (ops->update_guest_debug) {
-             ops->update_guest_debug(cpu, 0);
-         }
-+#endif
-
-         trace_breakpoint_singlestep(cpu->cpu_index, enabled);
-     }
-
-=E2=80=94
-Mads Ynddal
-
+Possibly related, use of InputEvent in replay:
+https://lore.kernel.org/qemu-devel/20221219170806.60580-5-philmd@linaro.org/
 
