@@ -2,90 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D3565176D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 01:55:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC88F6517A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 02:14:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7Qub-0008UW-I1; Mon, 19 Dec 2022 19:55:17 -0500
+	id 1p7RB7-0003n4-Q7; Mon, 19 Dec 2022 20:12:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7Qua-0008UO-O1
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:55:16 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7QuZ-0004R7-3u
- for qemu-devel@nongnu.org; Mon, 19 Dec 2022 19:55:16 -0500
-Received: by mail-pl1-x631.google.com with SMTP id 17so10768255pll.0
- for <qemu-devel@nongnu.org>; Mon, 19 Dec 2022 16:55:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NaxwCkoyK8HVGbyeBy7KWUsupYF3NKdwlpaidbYT/Vc=;
- b=Yqtsbf2kd7FjITUhxY6M7A1ZOXH/Fcsz//FrWkCkqxnCtbdxAI0NjA/RQhf1atOUrJ
- 4gH1ffdtGyyqFcSCLpu8Qeia0lbFii1CiWC1ktwP8YBJjlZp9K8+fualoXltLuNJqtfy
- MRoT67eU9tNhNJF0SHSGgdD6Bln3cHEZflChBG1JecICJ18B7ID9CyV5hBuHVKmzm+K/
- Y0O7cdaDg/HImFrg+m7dpU0L1goedD5PHQGqABZxYEc9ad9oDdFwSf+8B7p15vQY7dHv
- gFZ7TTj3pAxMz/G8BYJJY9QR3NpUrIHfDSC0QrAivxtqYrTikdBlIuezbMQxObDTHtu+
- DeZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NaxwCkoyK8HVGbyeBy7KWUsupYF3NKdwlpaidbYT/Vc=;
- b=Bx4+7pKLHQtlS1Nv0zGw2GPZeVvcjPhUcZPFqA93T+T7DptYtzEued83eboyfQ5edV
- e58SMY+zd3CEcBOEylfzBrPgQPMAjJe4ScOdtDitxtDSpGLYbYutzldDnd6bzlHhxgAj
- gaRQiU24WHgfZJGTiDOCQWwsXHOrGbk3n5zDjp+WlRv9CoiAy2J0jfFgLooeaOL5xp0b
- uo8AVlZOoc1rYXK88HWeJbL/S/YwrEcQ1bTLMQzVndZCgfWRVJb1X/oUmN8F3i1sNW/w
- 2lJCPBJaCteqGzGldJZuxGEPYNLCsjyPIUvoMQtELlyVJggv0BMytSv0kVxl8ZSqY/3L
- QkgQ==
-X-Gm-Message-State: ANoB5pkvHOnuvvON5nH9BDt1b40Jb1MzPEHfTNiMo+T/ugS3E4051WQy
- 2wnvXRg+Ep1SkHKk3u1fUkqM70+/c3Xylaqb
-X-Google-Smtp-Source: AA0mqf5x7x5pFwt6yi3vFscD9pRN+l4rpAyoUg/whNrDl20dAs8nka5nA1zAYgLeFhSwsH2t2WvDNQ==
-X-Received: by 2002:a05:6a20:662f:b0:a4:cb41:298f with SMTP id
- n47-20020a056a20662f00b000a4cb41298fmr39562865pzh.6.1671497713650; 
- Mon, 19 Dec 2022 16:55:13 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:b343:d344:137b:e318?
- ([2602:47:d48c:8101:b343:d344:137b:e318])
- by smtp.gmail.com with ESMTPSA id
- bc13-20020a656d8d000000b0043c732e1536sm6903327pgb.45.2022.12.19.16.55.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Dec 2022 16:55:13 -0800 (PST)
-Message-ID: <464af603-847e-8547-d3d2-49a1087c5cea@linaro.org>
-Date: Mon, 19 Dec 2022 16:55:11 -0800
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1p7RB3-0003mm-84
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 20:12:18 -0500
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1p7RB0-0006q4-Fp
+ for qemu-devel@nongnu.org; Mon, 19 Dec 2022 20:12:17 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R431e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VXipyY2_1671498722; 
+Received: from 30.121.5.86(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VXipyY2_1671498722) by smtp.aliyun-inc.com;
+ Tue, 20 Dec 2022 09:12:02 +0800
+Message-ID: <b674a0e9-28a7-76b6-d1a1-d34807a803de@linux.alibaba.com>
+Date: Tue, 20 Dec 2022 09:11:45 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH-for-8.0 7/7] hw/mips/gt64xxx_pci: Move it to hw/pci-host/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 01/11] contrib/gitdm: add C-Sky to the domain map
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiaxun Yang
- <jiaxun.yang@flygoat.com>, Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20221209151533.69516-1-philmd@linaro.org>
- <20221209151533.69516-8-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221209151533.69516-8-philmd@linaro.org>
+Cc: Guo Ren <ren_guo@c-sky.com>, Liu Zhiwei <zhiwei_liu@c-sky.com>,
+ guo_ren@linux.alibaba.com
+References: <20221219121914.851488-1-alex.bennee@linaro.org>
+ <20221219121914.851488-2-alex.bennee@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20221219121914.851488-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.44;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-44.freemail.mail.aliyun.com
+X-Spam_score_int: -109
+X-Spam_score: -11.0
+X-Spam_bar: -----------
+X-Spam_report: (-11.0 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,28 +67,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/9/22 07:15, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> 
-> The GT-64120 is a north-bridge, and it is not MIPS specific.
-> Move it with the other north-bridge devices.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+The c-sky domain mail is no longer being used for Guo Ren and me.
+
+C-SKY company and C-SKY arch is still existing, but its website domain 
+has been moved to https://www.t-head.cn/.
+
+Otherwise,
+
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+
+
+Thanks,
+Zhiwei
+
+On 2022/12/19 20:19, Alex Bennée wrote:
+> Although the majority of the recent work has been done by LIU Zhiwei
+> it does appear to be a corporate effort.
+>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Guo Ren <ren_guo@c-sky.com>
+> Cc: Liu Zhiwei <zhiwei_liu@c-sky.com>
 > ---
->   MAINTAINERS                                   | 2 +-
->   hw/mips/Kconfig                               | 6 ------
->   hw/mips/meson.build                           | 1 -
->   hw/mips/trace-events                          | 6 ------
->   hw/pci-host/Kconfig                           | 6 ++++++
->   hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} | 0
->   hw/pci-host/meson.build                       | 1 +
->   hw/pci-host/trace-events                      | 7 +++++++
->   meson.build                                   | 1 -
->   9 files changed, 15 insertions(+), 15 deletions(-)
->   delete mode 100644 hw/mips/trace-events
->   rename hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} (100%)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+>   contrib/gitdm/domain-map | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+> index 3727918641..6f3a24b399 100644
+> --- a/contrib/gitdm/domain-map
+> +++ b/contrib/gitdm/domain-map
+> @@ -7,6 +7,7 @@
+>   amd.com         AMD
+>   baidu.com       Baidu
+>   bytedance.com   ByteDance
+> +c-sky.com       C-Sky
+>   cmss.chinamobile.com China Mobile
+>   citrix.com      Citrix
+>   crudebyte.com   Crudebyte
 
