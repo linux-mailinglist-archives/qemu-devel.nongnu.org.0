@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6040765224E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:19:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A07652264
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:23:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7dOt-0006DR-Nh; Tue, 20 Dec 2022 09:15:26 -0500
+	id 1p7dPx-0006lH-5d; Tue, 20 Dec 2022 09:16:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p7dOS-00067S-8C
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:14:58 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dPv-0006l1-As
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:16:27 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1p7dOQ-0004k8-1n
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:14:55 -0500
-Received: by mail-wr1-x432.google.com with SMTP id f18so11870815wrj.5
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:14:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dPp-0005a8-H5
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:16:24 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ i187-20020a1c3bc4000000b003d1e906ca23so8319737wma.3
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:16:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=2nawQEyhVNVr1D6lqgheUfCq2PTOFJQyVyDoG7toulU=;
- b=MpolAMKzXJ9WiN4WiH8mGeYhxUnFafVGxgu2b9okm3cyOG65x7VughgRsLDE5ykf6v
- 5ZR+TeITgw9inach19sUqrF2hCprNq6FLKrDAiygoHc+EBIbGaYAnIkkIVnw9X/J6SL4
- YyTcX/Pdw9LrLs0vMi4VVk8uu6ORxMdN8kDnktnh6CJDIvjTc9WIXm6bnxaANXvRtZ8z
- p6uQHL9PGYgvjKHFG+eZQFRs/3nGYaI2Iuz453g4/nV4LidLJBa9n31hCkTHZywy3f6l
- c0CX6qfSNl4T2AJbwMfww//3E0AUx13Wb9YsGEeJOz/5IUbg90NjUrTYwyvEytc/BCtN
- WqBQ==
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2Hkuy0ZQRhwG7WX5rLQj1lQAdU3ZsflkOywrVyJKTdc=;
+ b=hPR0D1q0cYfm+FOfx9pqLBYHNUkH1zN8BkQHFHFTcNoXxoJBEXywwWlo+vwlp7QfTC
+ aitPTLg9OsBblGef6TeZ3zr7LwHEIkkW2XPI9kjer3/2991vbmojgA+ROn1JS46TiGJG
+ 1ApYNZ7MnoH3S7KVy4JUGkXMuT1LvjjqswwS1UEmRZGieTw8K/iosKHYkEAbqnP0g9L6
+ jNFiIUf+wqTurCIh2N+jsuMQIEPBpYi6DsSge4PTLOvkxXYc/tyria7Xp21x6/hVPdZd
+ tGfr5Rn5R5p4q4FzY9gMyN9QpoHM6x+o8G9QvHkKoeWGAjszzLlNZdQ5gPRsrE8nF9eX
+ ICDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2nawQEyhVNVr1D6lqgheUfCq2PTOFJQyVyDoG7toulU=;
- b=TSXF50j9YpUhIp91cHG066ymDJoAqYSsCBg8kNWPsCupIo6dEsmN6MuYhrURwRYWqm
- 7BnmPuOhjvLI6dgz7sRSXMAW2ql7NeokbbY2bjKrszRa2k5eBbtpPxxxz2e2FTlif0kV
- lEswdVCN4WKuvRhD8IxF4kQA8i2RT4NKQ8xO43aoZ9Tv3Fx7kr5GYpdVz0aE3B6irx3R
- 5lDe9cvP0u6JrhAWwRp7SG0dvxDvJ/KnUHsfSfD31UF/bDjL7G7I9NUfitySIVnxXR/5
- 2C7iWvtC9tLJlRr7O2KTWGQsOFWs5+kEGbTvCssHw5ki9ag+RLdslRaARE64KjqPHy62
- URKw==
-X-Gm-Message-State: ANoB5pk9jS7g9epLSu68r5LEIGqCopgJnSwdXjQbpa3yGWqYyd/8irC8
- bnKpuU12W3cvri7j5Guo1Dc=
-X-Google-Smtp-Source: AA0mqf7XNi251mrQAEocE6E17JU5ytDBDPhnkl2IVHZOf8RVE0cTCNnu/AU0DPBIvRe/Fx5SxR8D7A==
-X-Received: by 2002:adf:e710:0:b0:24c:f3b8:816d with SMTP id
- c16-20020adfe710000000b0024cf3b8816dmr25209665wrm.60.1671545691748; 
- Tue, 20 Dec 2022 06:14:51 -0800 (PST)
-Received: from [192.168.6.89] (54-240-197-236.amazon.com. [54.240.197.236])
- by smtp.gmail.com with ESMTPSA id
- p2-20020adfe602000000b002368f6b56desm15187919wrm.18.2022.12.20.06.14.50
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2Hkuy0ZQRhwG7WX5rLQj1lQAdU3ZsflkOywrVyJKTdc=;
+ b=G794RxLuJXObRtQGnp/ecjyFeUhlk3VouVAUHfdW++UJPTOz3dpy89laD02IonbUbw
+ ZrikMDiJ9+Ue1cAqtwjYE118yyrsDYc0QWInd/J7adqYdF3cnkbv0QYgKEAxd8sVl1ZS
+ T08D2dRvOSVNFYuXD4sGTJs2tXLKJ8LI+catc4gU48GNhLFI3lHrU4Syes6usMgCT5An
+ HXxUdrG419iIg4rLJhhXwiXrkDTa7XmlpzvEeVBfDbI/M6GiWo0EqYYsDKB8SU6Eg3sy
+ TrGoGn4uqvCePy/x1/TDw4ZF+Z8iXwGKqzcnYyO0EXaSw8jRo4/+rddA+CDj9FTT4oHd
+ hjvQ==
+X-Gm-Message-State: ANoB5pl1qjwH5gERGZK8j+fuJaUkLo2urf7O38rgw5d8+qaYgYHuFYMx
+ jrSqhTYfH4A0LTaO703vO+7bxg==
+X-Google-Smtp-Source: AA0mqf6kMWWjsCNjq5MnPxTCwtKwk5CuvVTYW5qMH8XICFO2IiFWAdQ9lJGUsR4HbVvEBX95M6+lEQ==
+X-Received: by 2002:a05:600c:43c9:b0:3d1:f0b4:8827 with SMTP id
+ f9-20020a05600c43c900b003d1f0b48827mr37510153wmn.25.1671545779825; 
+ Tue, 20 Dec 2022 06:16:19 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ y21-20020a1c4b15000000b003d1b4d957aasm15997982wma.36.2022.12.20.06.16.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 06:14:51 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <aea5de7d-a938-6e36-69ca-68792d758004@xen.org>
-Date: Tue, 20 Dec 2022 14:14:49 +0000
+ Tue, 20 Dec 2022 06:16:19 -0800 (PST)
+Message-ID: <cc14240c-6fc7-7412-8023-a2d4a047efbc@linaro.org>
+Date: Tue, 20 Dec 2022 15:16:17 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [RFC PATCH v3 01/38] include: import xen public headers
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: Should -overcommit cpu-pm=on|off be converted to some machine
+ sugar property?
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
-References: <20221216004117.862106-1-dwmw2@infradead.org>
- <20221216004117.862106-2-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20221216004117.862106-2-dwmw2@infradead.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <3ce8e739-4894-b79e-1972-f972fd763e5b@linaro.org>
+ <CABgObfaWX=x-RinK0F+XbYi1oVHF53kiahb7FLQjBuoR4eQ_UQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CABgObfaWX=x-RinK0F+XbYi1oVHF53kiahb7FLQjBuoR4eQ_UQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x432.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.161, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.161,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,50 +93,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/12/2022 00:40, David Woodhouse wrote:
-> From: Joao Martins <joao.m.martins@oracle.com>
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> [dwmw2: Update to Xen public headers from 4.16.2 release]
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   include/standard-headers/xen/arch-x86/cpuid.h |  118 ++
->   .../xen/arch-x86/xen-x86_32.h                 |  194 +++
->   .../xen/arch-x86/xen-x86_64.h                 |  241 ++++
->   include/standard-headers/xen/arch-x86/xen.h   |  398 +++++++
->   include/standard-headers/xen/event_channel.h  |  388 ++++++
->   include/standard-headers/xen/features.h       |  143 +++
->   include/standard-headers/xen/grant_table.h    |  686 +++++++++++
->   include/standard-headers/xen/hvm/hvm_op.h     |  395 +++++++
->   include/standard-headers/xen/hvm/params.h     |  318 +++++
->   include/standard-headers/xen/memory.h         |  754 ++++++++++++
->   include/standard-headers/xen/physdev.h        |  383 ++++++
->   include/standard-headers/xen/sched.h          |  202 ++++
->   include/standard-headers/xen/trace.h          |  341 ++++++
->   include/standard-headers/xen/vcpu.h           |  248 ++++
->   include/standard-headers/xen/version.h        |  113 ++
->   include/standard-headers/xen/xen-compat.h     |   46 +
->   include/standard-headers/xen/xen.h            | 1049 +++++++++++++++++
->   17 files changed, 6017 insertions(+)
->   create mode 100644 include/standard-headers/xen/arch-x86/cpuid.h
->   create mode 100644 include/standard-headers/xen/arch-x86/xen-x86_32.h
->   create mode 100644 include/standard-headers/xen/arch-x86/xen-x86_64.h
->   create mode 100644 include/standard-headers/xen/arch-x86/xen.h
->   create mode 100644 include/standard-headers/xen/event_channel.h
->   create mode 100644 include/standard-headers/xen/features.h
->   create mode 100644 include/standard-headers/xen/grant_table.h
->   create mode 100644 include/standard-headers/xen/hvm/hvm_op.h
->   create mode 100644 include/standard-headers/xen/hvm/params.h
->   create mode 100644 include/standard-headers/xen/memory.h
->   create mode 100644 include/standard-headers/xen/physdev.h
->   create mode 100644 include/standard-headers/xen/sched.h
->   create mode 100644 include/standard-headers/xen/trace.h
->   create mode 100644 include/standard-headers/xen/vcpu.h
->   create mode 100644 include/standard-headers/xen/version.h
->   create mode 100644 include/standard-headers/xen/xen-compat.h
->   create mode 100644 include/standard-headers/xen/xen.h
-> 
+On 20/12/22 09:16, Paolo Bonzini wrote:
+> It's implemented only for x86, but it is not architecture-dependent. For 
+> example on ARM you would implement it by mapping guest WFx to the host 
+> instructions.
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+OK, thanks for clarifying!
+
+>     Hi Paolo,
+> 
+>     I just noticed 'enable_cpu_pm' which seems architecture specific
+>     option that ended into common code:
+> 
+>     $ git grep -E 'cpu[_-]pm'
+>     accel/tcg/user-exec-stub.c:5:bool enable_cpu_pm = false;
+>     include/sysemu/sysemu.h:49:extern bool enable_cpu_pm;
+>     Binary file pc-bios/skiboot.lid matches
+>     qemu-options.hx:4196:    "-overcommit
+>     [mem-lock=on|off][cpu-pm=on|off]\n"
+>     qemu-options.hx:4199:    "                cpu-pm=on|off controls cpu
+>     power management (default: off)\n",
+>     qemu-options.hx:4204:``-overcommit cpu-pm=on|off``
+>     qemu-options.hx:4214:    guest) can be enabled via ``cpu-pm=on``
+>     (disabled by default). This
+>     softmmu/globals.c:38:bool enable_cpu_pm;
+>     softmmu/vl.c:350:            .name = "cpu-pm",
+>     softmmu/vl.c:3440:                enable_cpu_pm =
+>     qemu_opt_get_bool(opts, "cpu-pm", false);
+>     target/i386/host-cpu.c:44:static void host_cpu_enable_cpu_pm(X86CPU
+>     *cpu)
+>     target/i386/host-cpu.c:88:    if (cpu->max_features && enable_cpu_pm) {
+>     target/i386/host-cpu.c:89:        host_cpu_enable_cpu_pm(cpu);
+>     target/i386/kvm/kvm-cpu.c:43:        if (enable_cpu_pm &&
+>     kvm_has_waitpkg()) {
+>     target/i386/kvm/kvm.c:390:        if (enable_cpu_pm) {
+>     target/i386/kvm/kvm.c:2576:    if (enable_cpu_pm) {
+> 
+>     Do we want to maintain this as a generic property or
+>     can it be deprecated / converted to a machine-specific one?
+> 
+>     Thanks,
+> 
+>     Phil.
+> 
 
 
