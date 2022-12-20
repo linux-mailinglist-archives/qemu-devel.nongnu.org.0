@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4806521D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 14:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1677C6521D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 14:57:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7d3r-0004QX-0T; Tue, 20 Dec 2022 08:53:39 -0500
+	id 1p7d3r-0004Qx-W0; Tue, 20 Dec 2022 08:53:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7d3n-0004OW-Uk; Tue, 20 Dec 2022 08:53:36 -0500
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
+ id 1p7d3p-0004Pi-LB; Tue, 20 Dec 2022 08:53:38 -0500
+Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7d3m-00012L-4X; Tue, 20 Dec 2022 08:53:35 -0500
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-1442977d77dso15420980fac.6; 
- Tue, 20 Dec 2022 05:53:33 -0800 (PST)
+ id 1p7d3o-000137-0g; Tue, 20 Dec 2022 08:53:37 -0500
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-1322d768ba7so15439418fac.5; 
+ Tue, 20 Dec 2022 05:53:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=m/S6uVqxcXUPFL/hsj37bNmOIw6RVrsWs4dBLs+Xikw=;
- b=DX3NngfoCIpEmJ58EFN2sL7mQnnU6NB7/6rH/mAr4ISCGBB+lw73LUmQ7GMcf/hG8e
- c+4QBRsCL9YlF89mNzWiG7bSN2mNdayhvZKoIySHMP/3bxMZnlWE+uxYcsp3qQOXHgZz
- f0H0x/6ZsXIysEOYb2nMnwUD60uaEBZLvuXOWSCUg5UobkEB776+j2OTIp+ttxz1f7p8
- tfucKl6hzGBcJFFCwwUTdELXAaO03XqTGGVzFFUbXEVF8n0FxQ9RRzpSH8tt9KHIvIzY
- RStRFOzcU4c62s/Pn5y0q9C20Ljh+tMbdNbY5O8Dsy220qIFhuQftGtEiIPlzKcMtmnC
- Buxg==
+ bh=duf0nNtYaItwYDzbhKlns2RnaTPeDICDvkZSxpPsxPw=;
+ b=H5Bj34WVN0IK4ap+gPD3d2RITnqfbK+tgwsj1kOAhYAl0KPa8Jvv+vYIu4PeGO7tsV
+ mXa9zBgmGAqKurWiBtp/mmjXo5A/m3cIrCf9wJ1H7tuZ6BF7XHHg0fjHOOaBkIF4bTba
+ ygHdLiKSsvVS/9+v1B8ZMxN6e4Gjkm7L1e++jPFOUvrqXQlvOjs9a/PavFjxM+rkQBYQ
+ ZsXdaiHTUggwbX2gIxGt/SjBqq9DepI2qFeYI3rWdz5pU3DjojQSWmb9zDXdmAnJV2A/
+ Jnx2GdGCzdxB89Ii88Gu4nTdRGprgrlNcNMWXTVfpK/d8aoPPm5sV9N0iEE6T3v1YGvN
+ NYWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m/S6uVqxcXUPFL/hsj37bNmOIw6RVrsWs4dBLs+Xikw=;
- b=jOt329phXkrvqqebZNMn6itSGlxMF1V4O9m77Us7AU79LZ3Sxtxd3hkcTUlkPLHo2N
- mS/cHYVhlj4/x4sv3SAnV1sGkos4qCEoyOk1q6cbNdBIPlorHTACjtqk7b6zBwvdXT6n
- rRlYrby7ABDhTRhaHbA8K4VxvrEYU2yA1FV+fYINYNvDxUTLHYOpMcxbOnglCKAcgknp
- 9Q6+F9bB4eADl3lDx7YZBjvB2fW4Wi6YoUs1wB0xqY3aeOcWCLG1pMXEfi7RTgovdJzd
- Cif6l+0afOh4RfyrPCUhWc+mOE4bIxqIMNPzyWGHVu3qVgKyAXzbf6T3JKPEA4iAER6F
- 6jFQ==
-X-Gm-Message-State: ANoB5plRYkA3UEE67gHSAOysYZESP1kPZuSzR+4VrS7zzjVQsir5Hv19
- /LzRSGzrBHr5ZfnXxiqojJYxCuILMUQ=
-X-Google-Smtp-Source: AA0mqf7UX42hFs4VJCYrK3Ucbgvc7wsTnV6htyKIGH6R7raWQpCH1XJi6qw+RPho0qjZXNMUw86Ocg==
-X-Received: by 2002:a05:6870:ec87:b0:144:6a45:bafb with SMTP id
- eo7-20020a056870ec8700b001446a45bafbmr25130059oab.42.1671544412701; 
- Tue, 20 Dec 2022 05:53:32 -0800 (PST)
+ bh=duf0nNtYaItwYDzbhKlns2RnaTPeDICDvkZSxpPsxPw=;
+ b=Ous4c6dxkBpuHTbM1ImXTkUCFN78fC58eDFSs86//sdaSiqrIzQEwVCyy1QC4uf7ud
+ h+wPe0xOv3inWIS4AvykbRP19B7MyNBfIEY2SvtfgY9QUFeAy0Bb/PsjLeb/Lg3Mgakw
+ lgTHwkBQ9tCmxA+qRORUBoTnce3Vk67Yc9GgvJFKxLXIvXbfc+KbLcZiT9az4vemgVrj
+ 7iMLSGXGAZ8SzbwVDMfSn+zmJQuhDGsmHG2aTBfYnnXFxScDukpqyNiS6MfdBw2GNPWD
+ dKGJW04C+4m62EGUOrOBAxBCiyB/F8kXjoy1NvuUGxFLsv8X/ozt7STrUOudZhEV+acc
+ ztPA==
+X-Gm-Message-State: ANoB5pmmOzum6N1+FQlcnFGtdB2GEC9fgzkvUSOGK6V9xef8BuGdVnu1
+ QO/AGBJFTmFXSvlwzATRyzx7eg1X6gg=
+X-Google-Smtp-Source: AA0mqf7+L/fQKkltfhD8zvlZpD6kRoLBdd5TJaeGa2q770klwQzO9nYOdA9DRg6r8DzVMNnjxpZ3Xw==
+X-Received: by 2002:a05:6870:1d0f:b0:144:8c76:636 with SMTP id
+ pa15-20020a0568701d0f00b001448c760636mr21134753oab.39.1671544414916; 
+ Tue, 20 Dec 2022 05:53:34 -0800 (PST)
 Received: from fedora.dc1.ventanamicro.com (201-43-103-101.dsl.telesp.net.br.
  [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
- f14-20020a056870898e00b0014474019e50sm5994933oaq.24.2022.12.20.05.53.31
+ f14-20020a056870898e00b0014474019e50sm5994933oaq.24.2022.12.20.05.53.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 05:53:32 -0800 (PST)
+ Tue, 20 Dec 2022 05:53:34 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  Nicholas Miehlbradt <nicholas@linux.ibm.com>
-Subject: [PULL 14/15] target/ppc: Implement the DEXCR and HDEXCR
-Date: Tue, 20 Dec 2022 10:52:50 -0300
-Message-Id: <20221220135251.155176-15-danielhb413@gmail.com>
+Subject: [PULL 15/15] target/ppc: Check DEXCR on hash{st, chk} instructions
+Date: Tue, 20 Dec 2022 10:52:51 -0300
+Message-Id: <20221220135251.155176-16-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221220135251.155176-1-danielhb413@gmail.com>
 References: <20221220135251.155176-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -92,163 +92,97 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Nicholas Miehlbradt <nicholas@linux.ibm.com>
 
-Define the DEXCR and HDEXCR as special purpose registers.
+Adds checks to the hashst and hashchk instructions to only execute if
+enabled by the relevant aspect in the DEXCR and HDEXCR.
 
-Each register occupies two SPR indicies, one which can be read in an
-unprivileged state and one which can be modified in the appropriate
-priviliged state, however both indicies refer to the same underlying
-value.
+This behaviour is guarded behind TARGET_PPC64 since Power10 is
+currently the only implementation which has the DEXCR.
 
-Note that the ISA uses the abbreviation UDEXCR in two different
-contexts: the userspace DEXCR, the SPR index which can be read from
-userspace (implemented in this patch), and the ultravisor DEXCR, the
-equivalent register for the ultravisor state (not implemented).
-
-Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20221220042330.2387944-2-nicholas@linux.ibm.com>
+Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
+Message-Id: <20221220042330.2387944-3-nicholas@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h        | 19 +++++++++++++++++++
- target/ppc/cpu_init.c   | 25 +++++++++++++++++++++++++
- target/ppc/spr_common.h |  1 +
- target/ppc/translate.c  | 19 +++++++++++++++++++
- 4 files changed, 64 insertions(+)
+ target/ppc/excp_helper.c | 58 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 43 insertions(+), 15 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 81d4263a07..3923f174f8 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1068,6 +1068,21 @@ struct ppc_radix_page_info {
-     uint32_t entries[PPC_PAGE_SIZES_MAX_SZ];
- };
- 
-+/*****************************************************************************/
-+/* Dynamic Execution Control Register */
-+
-+#define DEXCR_ASPECT(name, num)                    \
-+FIELD(DEXCR, PNH_##name, PPC_BIT_NR(num), 1)       \
-+FIELD(DEXCR, PRO_##name, PPC_BIT_NR(num + 32), 1)  \
-+FIELD(HDEXCR, HNU_##name, PPC_BIT_NR(num), 1)      \
-+FIELD(HDEXCR, ENF_##name, PPC_BIT_NR(num + 32), 1) \
-+
-+DEXCR_ASPECT(SBHE, 0)
-+DEXCR_ASPECT(IBRTPD, 1)
-+DEXCR_ASPECT(SRAPD, 4)
-+DEXCR_ASPECT(NPHIE, 5)
-+DEXCR_ASPECT(PHIE, 6)
-+
- /*****************************************************************************/
- /* The whole PowerPC CPU context */
- 
-@@ -1674,9 +1689,11 @@ void ppc_compat_add_property(Object *obj, const char *name,
- #define SPR_BOOKE_GIVOR13     (0x1BC)
- #define SPR_BOOKE_GIVOR14     (0x1BD)
- #define SPR_TIR               (0x1BE)
-+#define SPR_UHDEXCR           (0x1C7)
- #define SPR_PTCR              (0x1D0)
- #define SPR_HASHKEYR          (0x1D4)
- #define SPR_HASHPKEYR         (0x1D5)
-+#define SPR_HDEXCR            (0x1D7)
- #define SPR_BOOKE_SPEFSCR     (0x200)
- #define SPR_Exxx_BBEAR        (0x201)
- #define SPR_Exxx_BBTAR        (0x202)
-@@ -1865,8 +1882,10 @@ void ppc_compat_add_property(Object *obj, const char *name,
- #define SPR_RCPU_L2U_RA2      (0x32A)
- #define SPR_MPC_MD_DBRAM1     (0x32A)
- #define SPR_RCPU_L2U_RA3      (0x32B)
-+#define SPR_UDEXCR            (0x32C)
- #define SPR_TAR               (0x32F)
- #define SPR_ASDR              (0x330)
-+#define SPR_DEXCR             (0x33C)
- #define SPR_IC                (0x350)
- #define SPR_VTB               (0x351)
- #define SPR_MMCRC             (0x353)
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 95d25856a0..abee71d407 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -5727,6 +5727,30 @@ static void register_power10_hash_sprs(CPUPPCState *env)
-             hashpkeyr_initial_value);
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 94adcb766b..add4d54ae7 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -2902,29 +2902,57 @@ static uint64_t hash_digest(uint64_t ra, uint64_t rb, uint64_t key)
+     return stage1_h ^ stage1_l;
  }
  
-+static void register_power10_dexcr_sprs(CPUPPCState *env)
++static void do_hash(CPUPPCState *env, target_ulong ea, target_ulong ra,
++                    target_ulong rb, uint64_t key, bool store)
 +{
-+    spr_register(env, SPR_DEXCR, "DEXCR",
-+            SPR_NOACCESS, SPR_NOACCESS,
-+            &spr_read_generic, &spr_write_generic,
-+            0);
++    uint64_t calculated_hash = hash_digest(ra, rb, key), loaded_hash;
 +
-+    spr_register(env, SPR_UDEXCR, "DEXCR",
-+            &spr_read_dexcr_ureg, SPR_NOACCESS,
-+            &spr_read_dexcr_ureg, SPR_NOACCESS,
-+            0);
-+
-+    spr_register_hv(env, SPR_HDEXCR, "HDEXCR",
-+            SPR_NOACCESS, SPR_NOACCESS,
-+            SPR_NOACCESS, SPR_NOACCESS,
-+            &spr_read_generic, &spr_write_generic,
-+            0);
-+
-+    spr_register(env, SPR_UHDEXCR, "HDEXCR",
-+            &spr_read_dexcr_ureg, SPR_NOACCESS,
-+            &spr_read_dexcr_ureg, SPR_NOACCESS,
-+            0);
++    if (store) {
++        cpu_stq_data_ra(env, ea, calculated_hash, GETPC());
++    } else {
++        loaded_hash = cpu_ldq_data_ra(env, ea, GETPC());
++        if (loaded_hash != calculated_hash) {
++            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
++                POWERPC_EXCP_TRAP, GETPC());
++        }
++    }
 +}
 +
- /*
-  * Initialize PMU counter overflow timers for Power8 and
-  * newer Power chips when using TCG.
-@@ -6402,6 +6426,7 @@ static void init_proc_POWER10(CPUPPCState *env)
-     register_power8_rpr_sprs(env);
-     register_power9_mmu_sprs(env);
-     register_power10_hash_sprs(env);
-+    register_power10_dexcr_sprs(env);
+ #include "qemu/guest-random.h"
  
-     /* FIXME: Filter fields properly based on privilege level */
-     spr_register_kvm_hv(env, SPR_PSSCR, "PSSCR", NULL, NULL, NULL, NULL,
-diff --git a/target/ppc/spr_common.h b/target/ppc/spr_common.h
-index b5a5bc6895..8437eb0340 100644
---- a/target/ppc/spr_common.h
-+++ b/target/ppc/spr_common.h
-@@ -195,6 +195,7 @@ void spr_read_ebb_upper32(DisasContext *ctx, int gprn, int sprn);
- void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn);
- void spr_write_hmer(DisasContext *ctx, int sprn, int gprn);
- void spr_write_lpcr(DisasContext *ctx, int sprn, int gprn);
-+void spr_read_dexcr_ureg(DisasContext *ctx, int gprn, int sprn);
- #endif
- 
- void register_low_BATs(CPUPPCState *env);
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 19c1d17cb0..edb3daa9b5 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -1249,6 +1249,25 @@ void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn)
-     gen_fscr_facility_check(ctx, SPR_FSCR, FSCR_EBB, sprn, FSCR_IC_EBB);
-     spr_write_prev_upper32(ctx, sprn, gprn);
+-#define HELPER_HASH(op, key, store)                                           \
++#ifdef TARGET_PPC64
++#define HELPER_HASH(op, key, store, dexcr_aspect)                             \
+ void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong ra,          \
+                  target_ulong rb)                                             \
+ {                                                                             \
+-    uint64_t calculated_hash = hash_digest(ra, rb, key), loaded_hash;         \
+-                                                                              \
+-    if (store) {                                                              \
+-        cpu_stq_data_ra(env, ea, calculated_hash, GETPC());                   \
+-    } else {                                                                  \
+-        loaded_hash = cpu_ldq_data_ra(env, ea, GETPC());                      \
+-        if (loaded_hash != calculated_hash) {                                 \
+-            raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,                 \
+-                POWERPC_EXCP_TRAP, GETPC());                                  \
+-        }                                                                     \
++    if (env->msr & R_MSR_PR_MASK) {                                           \
++        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PRO_##dexcr_aspect##_MASK ||      \
++            env->spr[SPR_HDEXCR] & R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
++            return;                                                           \
++    } else if (!(env->msr & R_MSR_HV_MASK)) {                                 \
++        if (!(env->spr[SPR_DEXCR] & R_DEXCR_PNH_##dexcr_aspect##_MASK ||      \
++            env->spr[SPR_HDEXCR] & R_HDEXCR_ENF_##dexcr_aspect##_MASK))       \
++            return;                                                           \
++    } else if (!(env->msr & R_MSR_S_MASK)) {                                  \
++        if (!(env->spr[SPR_HDEXCR] & R_HDEXCR_HNU_##dexcr_aspect##_MASK))     \
++            return;                                                           \
+     }                                                                         \
++                                                                              \
++    do_hash(env, ea, ra, rb, key, store);                                     \
++}
++#else
++#define HELPER_HASH(op, key, store, dexcr_aspect)                             \
++void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong ra,          \
++                 target_ulong rb)                                             \
++{                                                                             \
++    do_hash(env, ea, ra, rb, key, store);                                     \
  }
-+
-+void spr_read_dexcr_ureg(DisasContext *ctx, int gprn, int sprn)
-+{
-+    TCGv t0 = tcg_temp_new();
-+
-+    /*
-+     * Access to the (H)DEXCR in problem state is done using separated
-+     * SPR indexes which are 16 below the SPR indexes which have full
-+     * access to the (H)DEXCR in privileged state. Problem state can
-+     * only read bits 32:63, bits 0:31 return 0.
-+     *
-+     * See section 9.3.1-9.3.2 of PowerISA v3.1B
-+     */
-+
-+    gen_load_spr(t0, sprn + 16);
-+    tcg_gen_ext32u_tl(cpu_gpr[gprn], t0);
-+
-+    tcg_temp_free(t0);
-+}
- #endif
++#endif /* TARGET_PPC64 */
  
- #define GEN_HANDLER(name, opc1, opc2, opc3, inval, type)                      \
+-HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
+-HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
+-HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
+-HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
++HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true, NPHIE)
++HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false, NPHIE)
++HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true, PHIE)
++HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false, PHIE)
+ #endif /* CONFIG_TCG */
+ 
+ #if !defined(CONFIG_USER_ONLY)
 -- 
 2.38.1
 
