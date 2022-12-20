@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBF0652290
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:29:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4B5652292
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:29:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7dZA-00038v-Ls; Tue, 20 Dec 2022 09:26:00 -0500
+	id 1p7dZA-000399-UF; Tue, 20 Dec 2022 09:26:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dYm-0002kM-SQ
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:25:36 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dYs-0002tT-PC
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:25:46 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dYl-0007Bq-7U
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:25:36 -0500
-Received: by mail-wr1-x430.google.com with SMTP id o5so11910270wrm.1
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:25:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7dYr-0007Di-7M
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:25:42 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id h7so11897034wrs.6
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:25:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=F2fp1/YYUdGWYu3hiUNYQ+xzlt+cNGmiBsfUbTz1rcI=;
- b=ljfl/pppcwKBkleG4/Dc9kPUqxm13XD2Mrleelh/o4EvQlB25zBUaVbKbZN2K39es+
- rxsTFvUA2Ja9O3dDuGUjTDvbxALW81tK7PftZmmOF1pLk6n2pLVAqgEkWln8aoyPI7Sh
- preX8qvQ3se3zFHFenaHRl3s0EQIURiZuDpHkfwj/LGZtSnSz+4oFW9+Ha5dUrJULXZ1
- FMRqipFjb30yFUzqAi/1/NJwaW2ZBL5QDmyVkngqGsQ2pVq1P5wQZQDaJ/r137oyXkzi
- 2I8JlDlXGAoJKNpKfoR62suk6/GO+tRJUci6Zi1cSSnet6ehDB73hOzwVHgx45i7rrxy
- sEZg==
+ bh=wS5CxhmEHaWzfXfeaPCFtcR9LUEn6cDWq+iuQTZsc7I=;
+ b=l1jlxIsvfSo8PNFA5hwP6NUH44msHURNTzOD27kGZjcfS8tz04zr5cB0/gSRh3MzOn
+ bIakl97bmFtQ4EYKu5r7BRTia9siCUhuA8ATdoMz1RWjaH4MzOmskkbanHr8fQAc5G2k
+ Bqh/ZbSlwj2Cu7e59dFPp/7jBGyhCUDz8QpxmgRgYdCcsLzrEz7yZluLtPp+jg+3MlNy
+ 7Pn/K5ZTnzKfR/6+2G75pgtgRpZGBlNLFEH1B4xHNqga6zjKD683KC4A1NSNttQxPo7Z
+ prccLjlBNnIjaPNsJ6gwOeYwwFKLk60j7eqWfWS8Ly4z6LOCSacFsKO4Y8CG0KCyQqW9
+ S/GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=F2fp1/YYUdGWYu3hiUNYQ+xzlt+cNGmiBsfUbTz1rcI=;
- b=mGb+HMYEwZHUXybw0/57/A0q9epcUhxVwJddNfqmgCkPrTH6v6e9ggWUbh4hZOdirQ
- gsRoGPE3GbUG5J4eBqT3nMrHkNfD14E2xKSssL7l5ns0UJVSEjWltrURceLskyvH9dYx
- /5e9WtAbultirri1scRL/wdAu+qDnBDP3s7tPC1wRYwgo5hm74gWrJ0fkDFQDGv5WLJX
- lA42YYhIetysNT3W7mgUYkB6Hgu78YMYyraAQ/PEr9eZEf3Nxs5QSnEGzLy5uRxiOPmd
- 7/xfTnFYSPQ682GQaHkg/xd22QonB6EqOIE19wZIuXqYFl+aNXM40CxTezDyYI3o8FpF
- Na2A==
-X-Gm-Message-State: ANoB5pksxnQEDjCA0xy1f+LUS4OVAyXhyBFWe4AOca16+94zNCuD2lAA
- RZc+7STQdCDFDO5RITm74UqVstUxYxeOJpLXFWw=
-X-Google-Smtp-Source: AA0mqf4p6Ix7hYUzTp2TljhLNbqVrfde5FqeC8IXiPkgsgY9374MoSeZS/TIEjoUFbFAoSIFuAyESQ==
-X-Received: by 2002:adf:ea8f:0:b0:242:70f1:2134 with SMTP id
- s15-20020adfea8f000000b0024270f12134mr38863853wrm.60.1671546333661; 
- Tue, 20 Dec 2022 06:25:33 -0800 (PST)
+ bh=wS5CxhmEHaWzfXfeaPCFtcR9LUEn6cDWq+iuQTZsc7I=;
+ b=rCoftwkh5aQSEZ0bH5/LwL3rtgndNhnuDlWgGHd7rj3e6wKliAw2xN00BZO08R9Ovz
+ 3xY01PeKoPaeHOID9BCnNbcx5b8eXw0jjKaYtCBG382Lw8T3D8aH88iIbvauYmMu8A1h
+ yiaxU8nlxH3fYaiU8v99XwCRe0/50pM4MkCD6fwptkdm29a6Zs5eeQcISdrscLkyXwm9
+ HjUAh8zCO3JxZm6Q6fUS0lVNtNM/FFz0Nt3yUjIRkOtpaX5WikhWLZeJg3iMVkYIcrEQ
+ jAygbk8XhaE6W8ubXSjOcxT3CTqaK8584eyH8ZXm7965aaxfSn0aBFtP8yGUMpysqP7E
+ oIIg==
+X-Gm-Message-State: AFqh2koKlYe+jB59zF3mAr6taLoLq52vkjWNKCpEOguK5cN3sF8J8MbG
+ mWBzNVUCgzLf9HaFiEDn8p41WgJEeH+LUQ8aHEw=
+X-Google-Smtp-Source: AMrXdXv3t0Iw1NOoMLyblTa4Ds+IB7eHrjGCPWI/sn/1asUwog8HEIbFdEnSPDPljwt0fPyv4+Rjjw==
+X-Received: by 2002:adf:a15b:0:b0:242:61ab:5979 with SMTP id
+ r27-20020adfa15b000000b0024261ab5979mr2302875wrr.71.1671546338972; 
+ Tue, 20 Dec 2022 06:25:38 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- bq1-20020a5d5a01000000b00236545edc91sm12853530wrb.76.2022.12.20.06.25.32
+ n17-20020a05600c4f9100b003d351a9db76sm11175015wmq.30.2022.12.20.06.25.37
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Dec 2022 06:25:33 -0800 (PST)
+ Tue, 20 Dec 2022 06:25:38 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 2/3] hw/arm/nseries: Constify various read-only arrays
-Date: Tue, 20 Dec 2022 15:25:19 +0100
-Message-Id: <20221220142520.24094-3-philmd@linaro.org>
+Subject: [PATCH 3/3] hw/arm/nseries: Silent -Wmissing-field-initializers
+ warning
+Date: Tue, 20 Dec 2022 15:25:20 +0100
+Message-Id: <20221220142520.24094-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221220142520.24094-1-philmd@linaro.org>
 References: <20221220142520.24094-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,86 +90,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Silent when compiling with -Wextra:
+
+  ../hw/arm/nseries.c:1081:12: warning: missing field 'line' initializer [-Wmissing-field-initializers]
+      { NULL }
+             ^
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/nseries.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ hw/arm/nseries.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-index b151113c27..2ff29f52e2 100644
+index 2ff29f52e2..c9df063a08 100644
 --- a/hw/arm/nseries.c
 +++ b/hw/arm/nseries.c
-@@ -230,13 +230,13 @@ static void n8x0_i2c_setup(struct n800_s *s)
- }
- 
- /* Touchscreen and keypad controller */
--static MouseTransformInfo n800_pointercal = {
-+static const MouseTransformInfo n800_pointercal = {
-     .x = 800,
-     .y = 480,
-     .a = { 14560, -68, -3455208, -39, -9621, 35152972, 65536 },
+@@ -1078,7 +1078,7 @@ static const struct omap_gpiosw_info_s {
+         "headphone", N8X0_HEADPHONE_GPIO,
+         OMAP_GPIOSW_TYPE_CONNECTION | OMAP_GPIOSW_INVERTED,
+     },
+-    { NULL }
++    { /* end of list */ }
+ }, n810_gpiosw_info[] = {
+     {
+         "gps_reset", N810_GPS_RESET_GPIO,
+@@ -1099,7 +1099,7 @@ static const struct omap_gpiosw_info_s {
+         "slide", N810_SLIDE_GPIO,
+         OMAP_GPIOSW_TYPE_COVER | OMAP_GPIOSW_INVERTED,
+     },
+-    { NULL }
++    { /* end of list */ }
  };
  
--static MouseTransformInfo n810_pointercal = {
-+static const MouseTransformInfo n810_pointercal = {
-     .x = 800,
-     .y = 480,
-     .a = { 15041, 148, -4731056, 171, -10238, 35933380, 65536 },
-@@ -334,7 +334,7 @@ static void n810_key_event(void *opaque, int keycode)
- 
- #define M	0
- 
--static int n810_keys[0x80] = {
-+static const int n810_keys[0x80] = {
-     [0x01] = 16,	/* Q */
-     [0x02] = 37,	/* K */
-     [0x03] = 24,	/* O */
-@@ -810,7 +810,7 @@ static void n8x0_usb_setup(struct n800_s *s)
- /* Setup done before the main bootloader starts by some early setup code
-  * - used when we want to run the main bootloader in emulation.  This
-  * isn't documented.  */
--static uint32_t n800_pinout[104] = {
-+static const uint32_t n800_pinout[104] = {
-     0x080f00d8, 0x00d40808, 0x03080808, 0x080800d0,
-     0x00dc0808, 0x0b0f0f00, 0x080800b4, 0x00c00808,
-     0x08080808, 0x180800c4, 0x00b80000, 0x08080808,
-@@ -1060,7 +1060,7 @@ static void n8x0_boot_init(void *opaque)
- #define OMAP_TAG_CBUS		0x4e03
- #define OMAP_TAG_EM_ASIC_BB5	0x4e04
- 
--static struct omap_gpiosw_info_s {
-+static const struct omap_gpiosw_info_s {
-     const char *name;
-     int line;
-     int type;
-@@ -1102,7 +1102,7 @@ static struct omap_gpiosw_info_s {
-     { NULL }
+ static const struct omap_partition_info_s {
+@@ -1113,16 +1113,14 @@ static const struct omap_partition_info_s {
+     { 0x00080000, 0x00200000, 0x0, "kernel" },
+     { 0x00280000, 0x00200000, 0x3, "initfs" },
+     { 0x00480000, 0x0fb80000, 0x3, "rootfs" },
+-
+-    { 0, 0, 0, NULL }
++    { /* end of list */ }
+ }, n810_part_info[] = {
+     { 0x00000000, 0x00020000, 0x3, "bootloader" },
+     { 0x00020000, 0x00060000, 0x0, "config" },
+     { 0x00080000, 0x00220000, 0x0, "kernel" },
+     { 0x002a0000, 0x00400000, 0x0, "initfs" },
+     { 0x006a0000, 0x0f960000, 0x0, "rootfs" },
+-
+-    { 0, 0, 0, NULL }
++    { /* end of list */ }
  };
  
--static struct omap_partition_info_s {
-+static const struct omap_partition_info_s {
-     uint32_t offset;
-     uint32_t size;
-     int mask;
-@@ -1125,15 +1125,15 @@ static struct omap_partition_info_s {
-     { 0, 0, 0, NULL }
- };
- 
--static uint8_t n8x0_bd_addr[6] = { N8X0_BD_ADDR };
-+static const uint8_t n8x0_bd_addr[6] = { N8X0_BD_ADDR };
- 
- static int n8x0_atag_setup(void *p, int model)
- {
-     uint8_t *b;
-     uint16_t *w;
-     uint32_t *l;
--    struct omap_gpiosw_info_s *gpiosw;
--    struct omap_partition_info_s *partition;
-+    const struct omap_gpiosw_info_s *gpiosw;
-+    const struct omap_partition_info_s *partition;
-     const char *tag;
- 
-     w = p;
+ static const uint8_t n8x0_bd_addr[6] = { N8X0_BD_ADDR };
 -- 
 2.38.1
 
