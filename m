@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD73651FD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 12:41:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88BB651FD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 12:40:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7aso-0003TX-NS; Tue, 20 Dec 2022 06:34:07 -0500
+	id 1p7atR-0003vr-GT; Tue, 20 Dec 2022 06:34:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7asZ-0003Qr-Sw; Tue, 20 Dec 2022 06:33:53 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ id 1p7atC-0003r5-JK; Tue, 20 Dec 2022 06:34:37 -0500
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7asX-0007rq-7F; Tue, 20 Dec 2022 06:33:51 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id r11so10273966oie.13;
- Tue, 20 Dec 2022 03:33:48 -0800 (PST)
+ id 1p7at9-0007v0-JC; Tue, 20 Dec 2022 06:34:30 -0500
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-1445ca00781so15079612fac.1; 
+ Tue, 20 Dec 2022 03:34:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Z+yL5Iir5drSnSOmB2Rq/rw6DBGGnbA2k28LGnohxm0=;
- b=bjFdpEL+BFPcZexucuaIEhlUKOwW18+logdd9NDRjhI6BjvTW3BhiaRJblEgrcuG1f
- Z0RKWI0JEx/cxgyygTFuH8+NyQPyh/g6vl+TC/MPvqCzbp3tbH8in74TFeCdfQGnj4Sh
- bJVJgZXsLHsg0Mfldr3xCjU0maMstU55+OEEYbGcgpcfs+yolN21J+U0CzevQtrmRReG
- RuujF6b3NiIr1BeVbl7TFChZblXaMyGb3n5OQ2ZV/QyJXQlOPyd+ItH7TtfqxTIhEH52
- MX7EJDj8PskmAZw1QDuqj+w2HWwYrPKxLl6F02YMV4XDQhIc3OYAsYB8X9rS49fzzyBa
- 7NvQ==
+ bh=37hD4bNlkDwxByXx2PZHCm7fmHjRGBiEiS+O/Y3EvIo=;
+ b=YTzeCJ4TZIkfrQQSZO7ysNnArbIQWm7he+jK4362mbzRoJ1yiAAj3PF+/vTDCpK1wr
+ 25p1f+3DYdN0fNS+2gicATQkNKfeL2ZEftSfWHkF5sL/zBSHsaN/tTzzykHkOWjV8Xm6
+ rnGClfZcJiUyl9mvl/QNtDbEHku0jiTDo+FzVexnRf8hGRmwZQ0/JuuN7HRDSZ9jTzhf
+ EUCdx6To5vH3w76hHL118ArC3CdGEF7ieSi+ev26U3PNi3ZTmCrs6yUek9vq4adhRtK6
+ XTnwiWGUwqtLT2ls4I19tLrcpRsi7xE4Rt6aMUGagdRRMor3heh/9nPGdEqrgOqB8ZSo
+ 91tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z+yL5Iir5drSnSOmB2Rq/rw6DBGGnbA2k28LGnohxm0=;
- b=qft0EF1X4k4yCo5t7ewQs+mx9ecWyS/Q2xW4TUVONXFqwgY/wIGu/n+CDSHrSVDVDY
- ZFC3gJ/mYFQBMfn5w1G5eoPlLKejRwtswmr28U/76G8hZJXB428408L5u+ilh7zwToqn
- QfAic3BmRaxqSmVldonO8kTzkn5viqdottQIIeGbSd4JssRTLPX8eeqgR2IOczRGT8Nr
- wUAq1HHwN0BwaNyL+zM2HCZgo2TVxWbrQ4n/dINTSmKSfc38sM6znjwnPxENqYO29q80
- +y4vjMeAU3UkYYEgmAu2Cobv0uWRABfccTVksYygGHXo8f/H61ojOKw3ELFfprPk5lKt
- hgPA==
-X-Gm-Message-State: ANoB5pkJV8fsgTcWD4VNnkeCngh5K3IuU3X3HIarcO0YaHGTEJdf089H
- WC3U+iwBDiDDYjJ7dcpenks=
-X-Google-Smtp-Source: AA0mqf5cYdmq2GFgaaOannQM0XvQ2EWN7LC0X+oqqpvGC7fR2n53qiFBCHWkYI1McIFrdF8v0A2rqg==
-X-Received: by 2002:aca:1b0d:0:b0:35e:cf1a:9cd0 with SMTP id
- b13-20020aca1b0d000000b0035ecf1a9cd0mr10140431oib.14.1671536027504; 
- Tue, 20 Dec 2022 03:33:47 -0800 (PST)
+ bh=37hD4bNlkDwxByXx2PZHCm7fmHjRGBiEiS+O/Y3EvIo=;
+ b=vFHYYkREwPUyR4N3KbmD5SXgUxxE+6DaCB37ivbwKGNgUQlFZwywhmybPcphNdhYDv
+ TVKjKNxV78BoUN+GsU/LZTt08ZvCnetMk02O8bR6vFi9GYe4w3+CPWr1UR+Rwh2si0VQ
+ wRP05ZMn/put8Snah8LV1qNNYqzA7s0RP+AQ7IMWb4qJsCDJym28n4EOjyfHoLPOHBOz
+ v+oKFN2uSWHOpRxfYbX+FQB+p8u+JU5AgByAG4zLx9emOr8IIKYSJm4q3rma0x1QBwQl
+ 9rL2+rvevZrE01/bzDGKxbzIaYgR1Xs+Wdyu/ymh0b+MDv0GL5U/seROVLVjjoGBfMT2
+ N0jw==
+X-Gm-Message-State: AFqh2kru7/A4n6c58B6VOOgmjI4kkCw3zXm8Hb7SmXat2YCoMHGRznKj
+ l5fGOZzpqjfYz01faeXPh8w=
+X-Google-Smtp-Source: AMrXdXtEptCaOIVtSFZoehTnONkwYD2OuusQGknbaVKrbCtkoIramrJsUFJbONcDntkLxDF5kgBcnA==
+X-Received: by 2002:a05:6870:588:b0:14b:c93f:ebc0 with SMTP id
+ m8-20020a056870058800b0014bc93febc0mr5653074oap.4.1671536065732; 
+ Tue, 20 Dec 2022 03:34:25 -0800 (PST)
 Received: from [192.168.68.106] (201-43-103-101.dsl.telesp.net.br.
  [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
- l20-20020aca1914000000b0035173c2fddasm5324603oii.51.2022.12.20.03.33.45
+ i6-20020a056870c1c600b00144e18d8525sm5883201oad.25.2022.12.20.03.34.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 03:33:47 -0800 (PST)
-Message-ID: <47e7cb45-1f4b-aa70-1838-5cb7fd924c2b@gmail.com>
-Date: Tue, 20 Dec 2022 08:33:43 -0300
+ Tue, 20 Dec 2022 03:34:25 -0800 (PST)
+Message-ID: <155f3600-8bbd-b150-7b19-8fd4eaaf9f2c@gmail.com>
+Date: Tue, 20 Dec 2022 08:34:22 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v3 1/2] target/ppc: Implement the DEXCR and HDEXCR
+Subject: Re: [PATCH v3 0/2] target/ppc: Implement Dynamic Execution Control
+ Registers
 Content-Language: en-US
 To: Nicholas Miehlbradt <nicholas@linux.ibm.com>, qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au,
  groug@kaod.org, victor.colombo@eldorado.org.br
 References: <20221220042330.2387944-1-nicholas@linux.ibm.com>
- <20221220042330.2387944-2-nicholas@linux.ibm.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221220042330.2387944-2-nicholas@linux.ibm.com>
+In-Reply-To: <20221220042330.2387944-1-nicholas@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -93,168 +94,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
+
+Daniel
 
 On 12/20/22 01:23, Nicholas Miehlbradt wrote:
-> Define the DEXCR and HDEXCR as special purpose registers.
+> Implements the Dynamic Execution Control Register (DEXCR) and the
+> Hypervisor Dynamic Execution Control Register (HDEXCR) in TCG as
+> defined in Power ISA 3.1B. Only aspects 5 (Non-privileged hash instruction
+> enable) and 6 (Privileged hash instruction enable) have architectural
+> effects. Other aspects can be manipulated but have no effect on execution.
 > 
-> Each register occupies two SPR indicies, one which can be read in an
-> unprivileged state and one which can be modified in the appropriate
-> priviliged state, however both indicies refer to the same underlying
-> value.
+> Adds checks to these registers in the hashst and hashchk instructions so
+> that they are executed as nops when not enabled.
 > 
-> Note that the ISA uses the abbreviation UDEXCR in two different
-> contexts: the userspace DEXCR, the SPR index which can be read from
-> userspace (implemented in this patch), and the ultravisor DEXCR, the
-> equivalent register for the ultravisor state (not implemented).
+> There is currently an RFC for the kernel interface for the DEXCR on the
+> Linux PPC mailing list:
+> https://lore.kernel.org/linuxppc-dev/20221128024458.46121-1-bgray@linux.ibm.com/
 > 
-> Signed-off-by: Nicholas Miehlbradt <nicholas@linux.ibm.com>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-> v2: Clearing of upper 32 bits of DEXCR is now performed on read from
-> problem state rather than on write in privileged state.
-> v3: Fix typos
-> ---
->   target/ppc/cpu.h        | 19 +++++++++++++++++++
->   target/ppc/cpu_init.c   | 25 +++++++++++++++++++++++++
->   target/ppc/spr_common.h |  1 +
->   target/ppc/translate.c  | 19 +++++++++++++++++++
->   4 files changed, 64 insertions(+)
+> v3:
+>   - Fix typos
 > 
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 81d4263a07..3923f174f8 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1068,6 +1068,21 @@ struct ppc_radix_page_info {
->       uint32_t entries[PPC_PAGE_SIZES_MAX_SZ];
->   };
->   
-> +/*****************************************************************************/
-> +/* Dynamic Execution Control Register */
-> +
-> +#define DEXCR_ASPECT(name, num)                    \
-> +FIELD(DEXCR, PNH_##name, PPC_BIT_NR(num), 1)       \
-> +FIELD(DEXCR, PRO_##name, PPC_BIT_NR(num + 32), 1)  \
-> +FIELD(HDEXCR, HNU_##name, PPC_BIT_NR(num), 1)      \
-> +FIELD(HDEXCR, ENF_##name, PPC_BIT_NR(num + 32), 1) \
-> +
-> +DEXCR_ASPECT(SBHE, 0)
-> +DEXCR_ASPECT(IBRTPD, 1)
-> +DEXCR_ASPECT(SRAPD, 4)
-> +DEXCR_ASPECT(NPHIE, 5)
-> +DEXCR_ASPECT(PHIE, 6)
-> +
->   /*****************************************************************************/
->   /* The whole PowerPC CPU context */
->   
-> @@ -1674,9 +1689,11 @@ void ppc_compat_add_property(Object *obj, const char *name,
->   #define SPR_BOOKE_GIVOR13     (0x1BC)
->   #define SPR_BOOKE_GIVOR14     (0x1BD)
->   #define SPR_TIR               (0x1BE)
-> +#define SPR_UHDEXCR           (0x1C7)
->   #define SPR_PTCR              (0x1D0)
->   #define SPR_HASHKEYR          (0x1D4)
->   #define SPR_HASHPKEYR         (0x1D5)
-> +#define SPR_HDEXCR            (0x1D7)
->   #define SPR_BOOKE_SPEFSCR     (0x200)
->   #define SPR_Exxx_BBEAR        (0x201)
->   #define SPR_Exxx_BBTAR        (0x202)
-> @@ -1865,8 +1882,10 @@ void ppc_compat_add_property(Object *obj, const char *name,
->   #define SPR_RCPU_L2U_RA2      (0x32A)
->   #define SPR_MPC_MD_DBRAM1     (0x32A)
->   #define SPR_RCPU_L2U_RA3      (0x32B)
-> +#define SPR_UDEXCR            (0x32C)
->   #define SPR_TAR               (0x32F)
->   #define SPR_ASDR              (0x330)
-> +#define SPR_DEXCR             (0x33C)
->   #define SPR_IC                (0x350)
->   #define SPR_VTB               (0x351)
->   #define SPR_MMCRC             (0x353)
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index cbf0081374..6433f4fdfd 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -5727,6 +5727,30 @@ static void register_power10_hash_sprs(CPUPPCState *env)
->               hashpkeyr_initial_value);
->   }
->   
-> +static void register_power10_dexcr_sprs(CPUPPCState *env)
-> +{
-> +    spr_register(env, SPR_DEXCR, "DEXCR",
-> +            SPR_NOACCESS, SPR_NOACCESS,
-> +            &spr_read_generic, &spr_write_generic,
-> +            0);
-> +
-> +    spr_register(env, SPR_UDEXCR, "DEXCR",
-> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
-> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
-> +            0);
-> +
-> +    spr_register_hv(env, SPR_HDEXCR, "HDEXCR",
-> +            SPR_NOACCESS, SPR_NOACCESS,
-> +            SPR_NOACCESS, SPR_NOACCESS,
-> +            &spr_read_generic, &spr_write_generic,
-> +            0);
-> +
-> +    spr_register(env, SPR_UHDEXCR, "HDEXCR",
-> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
-> +            &spr_read_dexcr_ureg, SPR_NOACCESS,
-> +            0);
-> +}
-> +
->   /*
->    * Initialize PMU counter overflow timers for Power8 and
->    * newer Power chips when using TCG.
-> @@ -6402,6 +6426,7 @@ static void init_proc_POWER10(CPUPPCState *env)
->       register_power8_rpr_sprs(env);
->       register_power9_mmu_sprs(env);
->       register_power10_hash_sprs(env);
-> +    register_power10_dexcr_sprs(env);
->   
->       /* FIXME: Filter fields properly based on privilege level */
->       spr_register_kvm_hv(env, SPR_PSSCR, "PSSCR", NULL, NULL, NULL, NULL,
-> diff --git a/target/ppc/spr_common.h b/target/ppc/spr_common.h
-> index b5a5bc6895..8437eb0340 100644
-> --- a/target/ppc/spr_common.h
-> +++ b/target/ppc/spr_common.h
-> @@ -195,6 +195,7 @@ void spr_read_ebb_upper32(DisasContext *ctx, int gprn, int sprn);
->   void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn);
->   void spr_write_hmer(DisasContext *ctx, int sprn, int gprn);
->   void spr_write_lpcr(DisasContext *ctx, int sprn, int gprn);
-> +void spr_read_dexcr_ureg(DisasContext *ctx, int gprn, int sprn);
->   #endif
->   
->   void register_low_BATs(CPUPPCState *env);
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 19c1d17cb0..0e4cabcf54 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -1249,6 +1249,25 @@ void spr_write_ebb_upper32(DisasContext *ctx, int sprn, int gprn)
->       gen_fscr_facility_check(ctx, SPR_FSCR, FSCR_EBB, sprn, FSCR_IC_EBB);
->       spr_write_prev_upper32(ctx, sprn, gprn);
->   }
-> +
-> +void spr_read_dexcr_ureg(DisasContext *ctx, int gprn, int sprn)
-> +{
-> +    TCGv t0 = tcg_temp_new();
-> +
-> +    /*
-> +     * Access to the (H)DEXCR in problem state is done using seperate
-> +     * SPR indexes which are 16 below the SPR indexes which have full
-> +     * access to the (H)DEXCR in privileged state. Problem state can
-> +     * only read bits 32:63, bits 0:31 return 0.
-> +     *
-> +     * See section 9.3.1-9.3.2 of PowerISA v3.1B
-> +     */
-> +
-> +    gen_load_spr(t0, sprn + 16);
-> +    tcg_gen_ext32u_tl(cpu_gpr[gprn], t0);
-> +
-> +    tcg_temp_free(t0);
-> +}
->   #endif
->   
->   #define GEN_HANDLER(name, opc1, opc2, opc3, inval, type)                      \
+> v2:
+>   - Clearing of upper 32 bits of userspace registers is now performed on
+>     register read rather than register write.
+> 
+> Nicholas Miehlbradt (2):
+>    target/ppc: Implement the DEXCR and HDEXCR
+>    target/ppc: Check DEXCR on hash{st, chk} instructions
+> 
+>   target/ppc/cpu.h         | 19 +++++++++++++
+>   target/ppc/cpu_init.c    | 25 +++++++++++++++++
+>   target/ppc/excp_helper.c | 58 +++++++++++++++++++++++++++++-----------
+>   target/ppc/spr_common.h  |  1 +
+>   target/ppc/translate.c   | 19 +++++++++++++
+>   5 files changed, 107 insertions(+), 15 deletions(-)
+> 
 
