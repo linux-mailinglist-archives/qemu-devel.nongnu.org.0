@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED486523FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:51:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EA86523F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:51:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7esN-00055V-Ka; Tue, 20 Dec 2022 10:49:55 -0500
+	id 1p7esL-00050h-Jo; Tue, 20 Dec 2022 10:49:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7esL-00051n-8H
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:49:53 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7esJ-0004xC-5I
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:49:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7esH-00064e-PB
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:49:52 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7esH-00064a-GJ
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:49:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1671551388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mumJNKVMVGU89SGM7NKdsxZ1cQb+5Rk3zpYOpnHHvu8=;
- b=PyETiIoW6FV/23l+sUtIwx+8gM1e0IBM11nda2y0/2RPvYrXN7LNAWgTtP/Tc2IYJT33Uq
- RbZ90fTpzO8PMp6zgRQ0fZ9DEBo55XSBL9JaXbUepEu4Tt71KhY/OQ+uZ5ivt6lcnRto9K
- 9V0R6ShVC/kMgSBEXWY+RKJDbAI4s1c=
+ bh=lEKOLlqwNgXaAI4cZFQV+6JRlUZBug07TFQp3654L8c=;
+ b=A/yBMQMamLNnCrg0vh8si3iWIIoDO8IrGBukjoi8F8mvnc0dh3SLhW3aop4vFEg1XBwe+h
+ 411Iw62Nq86H7nrue0zZQVcyA2WeHOnPxmItvl7zaJogmsyyzpW9q02ihUcq5C1Pg8knki
+ bMHtz2XUeiZoOZpqU3Ob555iUVZMWNg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-bBfMtXxsOGOOS_xJRTV0CQ-1; Tue, 20 Dec 2022 10:49:47 -0500
-X-MC-Unique: bBfMtXxsOGOOS_xJRTV0CQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-556-NVEuJuymNiWyuDxOtyS0hA-1; Tue, 20 Dec 2022 10:49:46 -0500
+X-MC-Unique: NVEuJuymNiWyuDxOtyS0hA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFF243C3C175
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 46CB4381796C
  for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 15:49:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 08BE31410DD7;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 03930492B00;
  Tue, 20 Dec 2022 15:49:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B738221E6928; Tue, 20 Dec 2022 16:49:44 +0100 (CET)
+ id BA55021E6931; Tue, 20 Dec 2022 16:49:44 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
 	kwolf@redhat.com,
 	pbonzini@redhat.com
-Subject: [PATCH v2 2/5] coroutine: Move coroutine_fn to qemu/osdep.h,
- trim includes
-Date: Tue, 20 Dec 2022 16:49:41 +0100
-Message-Id: <20221220154944.3611845-3-armbru@redhat.com>
+Subject: [PATCH v2 3/5] coroutine: Clean up superfluous inclusion of
+ qemu/lockable.h
+Date: Tue, 20 Dec 2022 16:49:42 +0100
+Message-Id: <20221220154944.3611845-4-armbru@redhat.com>
 In-Reply-To: <20221220154944.3611845-1-armbru@redhat.com>
 References: <20221220154944.3611845-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -81,140 +81,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-block/block-hmp-cmds.h and qemu/co-shared-resource.h use coroutine_fn
-without including qemu/coroutine.h.  They compile only if it's already
-included from elsewhere.
-
-I could fix that, but pulling in qemu/coroutine.h and everything it
-includes just for a macro that expands into nothing feels silly.
-Instead, move the macro to qemu/osdep.h.
-
-Inclusions of qemu/coroutine.h just for coroutine_fn become
-superfluous.  Drop them.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/block/aio_task.h     |  2 --
- include/block/block-common.h |  1 -
- include/block/graph-lock.h   |  2 --
- include/monitor/hmp.h        |  1 -
- include/qemu/coroutine.h     | 18 +++++++-----------
- include/qemu/osdep.h         | 16 ++++++++++++++++
- 6 files changed, 23 insertions(+), 17 deletions(-)
+ include/qemu/progress_meter.h | 2 +-
+ block/progress_meter.c        | 2 ++
+ tests/unit/test-coroutine.c   | 1 -
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/block/aio_task.h b/include/block/aio_task.h
-index 50bc1e1817..18a9c41f4e 100644
---- a/include/block/aio_task.h
-+++ b/include/block/aio_task.h
-@@ -25,8 +25,6 @@
- #ifndef BLOCK_AIO_TASK_H
- #define BLOCK_AIO_TASK_H
+diff --git a/include/qemu/progress_meter.h b/include/qemu/progress_meter.h
+index dadf822bbf..0f2c0a32d2 100644
+--- a/include/qemu/progress_meter.h
++++ b/include/qemu/progress_meter.h
+@@ -27,7 +27,7 @@
+ #ifndef QEMU_PROGRESS_METER_H
+ #define QEMU_PROGRESS_METER_H
  
--#include "qemu/coroutine.h"
--
- typedef struct AioTaskPool AioTaskPool;
- typedef struct AioTask AioTask;
- typedef int coroutine_fn (*AioTaskFunc)(AioTask *task);
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 4749c46a5e..434ffc5d34 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -27,7 +27,6 @@
- #include "block/aio.h"
- #include "block/aio-wait.h"
- #include "qemu/iov.h"
--#include "qemu/coroutine.h"
- #include "block/accounting.h"
- #include "qemu/hbitmap.h"
- #include "qemu/transactions.h"
-diff --git a/include/block/graph-lock.h b/include/block/graph-lock.h
-index 4c92cd8edf..3ab924d5e2 100644
---- a/include/block/graph-lock.h
-+++ b/include/block/graph-lock.h
-@@ -23,8 +23,6 @@
- #include "qemu/osdep.h"
- #include "qemu/clang-tsa.h"
+-#include "qemu/lockable.h"
++#include "qemu/thread.h"
  
--#include "qemu/coroutine.h"
--
- /**
-  * Graph Lock API
-  * This API provides a rwlock used to protect block layer
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index dfbc0c9a2f..c92f69da8b 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -15,7 +15,6 @@
- #define HMP_H
- 
- #include "qemu/readline.h"
--#include "qemu/coroutine.h"
- #include "qapi/qapi-types-common.h"
- 
- bool hmp_handle_error(Monitor *mon, Error *err);
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 89650a2d7f..2496a4f4ef 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -26,23 +26,19 @@
-  * waiting for events to complete.
-  *
-  * These functions are re-entrant and may be used outside the global mutex.
-- */
--
--/**
-- * Mark a function that executes in coroutine context
-  *
-- * Functions that execute in coroutine context cannot be called directly from
-- * normal functions.  In the future it would be nice to enable compiler or
-- * static checker support for catching such errors.  This annotation might make
-- * it possible and in the meantime it serves as documentation.
-- *
-- * For example:
-+ * Functions that execute in coroutine context cannot be called
-+ * directly from normal functions.  Use @coroutine_fn to mark such
-+ * functions.  For example:
-  *
-  *   static void coroutine_fn foo(void) {
-  *       ....
-  *   }
-+ *
-+ * In the future it would be nice to have the compiler or a static
-+ * checker catch misuse of such functions.  This annotation might make
-+ * it possible and in the meantime it serves as documentation.
+ typedef struct ProgressMeter {
+     /**
+diff --git a/block/progress_meter.c b/block/progress_meter.c
+index aa2e60248c..31a170a2cd 100644
+--- a/block/progress_meter.c
++++ b/block/progress_meter.c
+@@ -23,7 +23,9 @@
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  * THE SOFTWARE.
   */
--#define coroutine_fn
- 
- typedef struct Coroutine Coroutine;
- 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index b9c4307779..8e97e5d79a 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -157,6 +157,22 @@ extern "C" {
- 
- #include "qemu/typedefs.h"
- 
-+/**
-+ * Mark a function that executes in coroutine context
-+ *
-+ * Functions that execute in coroutine context cannot be called directly from
-+ * normal functions.  In the future it would be nice to enable compiler or
-+ * static checker support for catching such errors.  This annotation might make
-+ * it possible and in the meantime it serves as documentation.
-+ *
-+ * For example:
-+ *
-+ *   static void coroutine_fn foo(void) {
-+ *       ....
-+ *   }
-+ */
-+#define coroutine_fn
 +
+ #include "qemu/osdep.h"
++#include "qemu/coroutine.h"
+ #include "qemu/progress_meter.h"
+ 
+ void progress_init(ProgressMeter *pm)
+diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
+index 513800d3db..b0d21d673a 100644
+--- a/tests/unit/test-coroutine.c
++++ b/tests/unit/test-coroutine.c
+@@ -13,7 +13,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/coroutine_int.h"
+-#include "qemu/lockable.h"
+ 
  /*
-  * For mingw, as of v6.0.0, the function implementing the assert macro is
-  * not marked as noreturn, so the compiler cannot delete code following an
+  * Check that qemu_in_coroutine() works
 -- 
 2.38.1
 
