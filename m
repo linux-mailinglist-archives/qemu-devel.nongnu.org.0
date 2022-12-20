@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF1446528BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 23:08:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDD46528BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 23:09:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7klN-0006no-EL; Tue, 20 Dec 2022 17:07:05 -0500
+	id 1p7knc-0000nK-D3; Tue, 20 Dec 2022 17:09:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1p7klA-0006n9-VG; Tue, 20 Dec 2022 17:06:52 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1p7knZ-0000kW-A4
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 17:09:21 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1p7kl8-0006fG-Og; Tue, 20 Dec 2022 17:06:52 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6B18D76A4A;
- Tue, 20 Dec 2022 22:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1671574008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uNooRhtg57jwueZDg2HkPFfIvQcQ1FUxw6N+xDzNzjc=;
- b=ZjFyKStgZIG4w5VtecSY3HY3t9sRva9i42R+iLExDXf5Ge541G4aYWgDPUZ+Ica3gIkwO3
- ANNN9WB69k5CjVd+12IXJVUoRwO29FMSLVgqtrtjSGMfh28NPVFwACHsbwZ1CGsaWPRcZ+
- VkQV1yMFpfHVof420vQ6tSdTkmQXN0U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1671574008;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uNooRhtg57jwueZDg2HkPFfIvQcQ1FUxw6N+xDzNzjc=;
- b=TuAuMyq4RMxDU16RnMD4lEl3MXZ/wY2Bf/g1rc5eZD43TkTx4JbRGya1qPGdmLK8PCjAlX
- HJx48XYDxxFnwoAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 847BB13254;
- Tue, 20 Dec 2022 22:06:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IKAtEvUxomPwfAAAMHmgww
- (envelope-from <farosas@suse.de>); Tue, 20 Dec 2022 22:06:45 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-Subject: [PATCH v2 5/5] target/arm: only perform TCG cpu and machine inits if
- TCG enabled
-Date: Tue, 20 Dec 2022 19:04:26 -0300
-Message-Id: <20221220220426.8827-6-farosas@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20221220220426.8827-1-farosas@suse.de>
-References: <20221220220426.8827-1-farosas@suse.de>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1p7knW-0006zm-Lp
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 17:09:21 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id x22so32510130ejs.11
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 14:09:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=g8Qpk04kH2Ek6xFu8oNYQxLcGwRT3PYSJiO5F4wJfWE=;
+ b=Nu1ebGXBmBiofM+iYu+Cn/ByW5CVjV76yZA9ihonShqvDzZ1A3rESim/HQk+HCx9Lm
+ hwh0O0w456sloJpusb5IvYtC5kUCqsI0EImE7am2Yo0TFboxaoSWGRctb/H8t/MshNJ6
+ u1m4gXz/zmcWDepkL4pXtJPq99FrpLaycDn+P6WGw2UI/lBK8eyYBpv6fLvXjvz/SmC7
+ 99MuuqB7UAWy7jkm5laNyK56qih9k1OjWADWCMifRCFWmT2Uwwpz9Zb+/ta8kC/V8mJk
+ wgDT7pO9uP92LCILgyeesQy5mlsl/Qm7ESqrosRSBd3iBHjA6dMsjTJiKkXXPHqBaNEN
+ BvVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=g8Qpk04kH2Ek6xFu8oNYQxLcGwRT3PYSJiO5F4wJfWE=;
+ b=qubiltmjSNjeV9VfAIPi9LtCXMSrUhm5zf7CaGT7YrfTmxnktkkSZivSvEvlZUgxmU
+ 52w3+X/WIkWBsEKg3nsEfuXdAQ+nV7yCbTwt2auFjqBL7XMXCYVCeazAVUtZyY5bcbgL
+ rG4Umlv4BdkjeQf/f/XpLyxbJfA+jHrs20oIhJXNmNdiqt3CWDsiZ9rVkSFD+MMCPD0v
+ LvzZMOK55WBUJLlvMGsN8iHqdPUw/Avc0/Ba+VtzSsdUl9tMTN6IPwajTjt3nSHYPOr9
+ eh72+Q9Q6pDPUdHTeJybW+F3WRvDVXK1girDJlFb9KoRfTkXdkIfC9WmBJsQn7DBKbBA
+ X9Gg==
+X-Gm-Message-State: ANoB5pkM3S4+sRHzdb0jEcAUSPalAvca6BzdZhZUdsXFmTp/CEhxZHkK
+ y+4XLvcnJs8aUtrzYvSHUqew8zi9TdNAP/OeO/iuvA==
+X-Google-Smtp-Source: AA0mqf5up0NEUxFSznQHFXgOgcUyvx7jg7hJjXpKtbQzsDCGXJsnvWKxs87r0VU6aqceG8ynYs+CW9NXJpj2a+G7PrQ=
+X-Received: by 2002:a17:907:98ed:b0:7c0:e7a6:cd2d with SMTP id
+ ke13-20020a17090798ed00b007c0e7a6cd2dmr17690292ejc.317.1671574156187; Tue, 20
+ Dec 2022 14:09:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221217184823.3606676-1-richard.henderson@linaro.org>
+In-Reply-To: <20221217184823.3606676-1-richard.henderson@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Tue, 20 Dec 2022 15:09:05 -0700
+Message-ID: <CANCZdfpVabse8tnRaAE7f=E62e07ErqvuneDpg5V9UKDYOdoLQ@mail.gmail.com>
+Subject: Re: [PATCH] accel/tcg: Drop PAGE_RESERVED for CONFIG_BSD
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
+Content-Type: multipart/alternative; boundary="000000000000cbb35805f049af4b"
+Received-SPF: none client-ip=2a00:1450:4864:20::62d;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,254 +80,270 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Claudio Fontana <cfontana@suse.de>
+--000000000000cbb35805f049af4b
+Content-Type: text/plain; charset="UTF-8"
 
-of note, cpreg lists were previously initialized by TCG first,
-and then thrown away and replaced with the data coming from KVM.
+On Sat, Dec 17, 2022 at 11:48 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-Now we just initialize once, either for TCG or for KVM.
+> Make bsd-user match linux-user in not marking host pages
+> as reserved.  This isn't especially effective anyway, as
+> it doesn't take into account any heap memory that qemu
+> may allocate after startup.
+>
+> Cc: Warner Losh <imp@bsdimp.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>
+> I started to simply fix up this code to match my user-only interval-tree
+> patch set, as L1_MAP_ADDR_SPACE_BITS gets removed from translate-all.c,
+> but then I decided to remove it all.
+>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-[moved arm_cpu_register_gdb_regs_for_features out of tcg_enabled]
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
-Originally from:
-[RFC v14 16/80] target/arm: only perform TCG cpu and machine inits if
-TCG enabled
-https://lore.kernel.org/r/20210416162824.25131-17-cfontana@suse.de
----
- target/arm/cpu.c     | 31 +++++++++++++++++-------------
- target/arm/kvm.c     | 18 +++++++++---------
- target/arm/kvm_arm.h |  3 +--
- target/arm/machine.c | 45 +++++++++++++++++++++++++-------------------
- 4 files changed, 54 insertions(+), 43 deletions(-)
+I think this is fine. We already do a translation for addresses so marking
+this as 'reserved'
+doesn't help that much. We need to map memory into a contiguous
+guess-address-space,
+but the underlying host memory needn't be contiguous at all.
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 2fa022f62b..fdf30e7268 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -525,9 +525,11 @@ static void arm_cpu_reset_hold(Object *obj)
-     }
- #endif
- 
--    hw_breakpoint_update_all(cpu);
--    hw_watchpoint_update_all(cpu);
--    arm_rebuild_hflags(env);
-+    if (tcg_enabled()) {
-+        hw_breakpoint_update_all(cpu);
-+        hw_watchpoint_update_all(cpu);
-+        arm_rebuild_hflags(env);
-+    }
- }
- 
- #if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
-@@ -1600,6 +1602,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         }
-     }
- 
-+#ifdef CONFIG_TCG
-     {
-         uint64_t scale;
- 
-@@ -1625,7 +1628,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-                                                   arm_gt_hvtimer_cb, cpu);
-     }
--#endif
-+#endif /* CONFIG_TCG */
-+#endif /* !CONFIG_USER_ONLY */
- 
-     cpu_exec_realizefn(cs, &local_err);
-     if (local_err != NULL) {
-@@ -1943,17 +1947,16 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         unset_feature(env, ARM_FEATURE_PMU);
-     }
-     if (arm_feature(env, ARM_FEATURE_PMU)) {
--        pmu_init(cpu);
--
--        if (!kvm_enabled()) {
-+        if (tcg_enabled()) {
-+            pmu_init(cpu);
-             arm_register_pre_el_change_hook(cpu, &pmu_pre_el_change, 0);
-             arm_register_el_change_hook(cpu, &pmu_post_el_change, 0);
--        }
- 
- #ifndef CONFIG_USER_ONLY
--        cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, arm_pmu_timer_cb,
--                cpu);
-+            cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, arm_pmu_timer_cb,
-+                                          cpu);
- #endif
-+        }
-     } else {
-         cpu->isar.id_aa64dfr0 =
-             FIELD_DP64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, PMUVER, 0);
-@@ -2049,10 +2052,12 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         set_feature(env, ARM_FEATURE_VBAR);
-     }
- 
--    register_cp_regs_for_features(cpu);
--    arm_cpu_register_gdb_regs_for_features(cpu);
-+    if (tcg_enabled()) {
-+        register_cp_regs_for_features(cpu);
-+        init_cpreg_list(cpu);
-+    }
- 
--    init_cpreg_list(cpu);
-+    arm_cpu_register_gdb_regs_for_features(cpu);
- 
- #ifndef CONFIG_USER_ONLY
-     MachineState *ms = MACHINE(qdev_get_machine());
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index f022c644d2..2f01c26f54 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -438,9 +438,11 @@ static uint64_t *kvm_arm_get_cpreg_ptr(ARMCPU *cpu, uint64_t regidx)
-     return &cpu->cpreg_values[res - cpu->cpreg_indexes];
- }
- 
--/* Initialize the ARMCPU cpreg list according to the kernel's
-- * definition of what CPU registers it knows about (and throw away
-- * the previous TCG-created cpreg list).
-+/*
-+ * Initialize the ARMCPU cpreg list according to the kernel's
-+ * definition of what CPU registers it knows about.
-+ *
-+ * The parallel for TCG is init_cpreg_list()
-  */
- int kvm_arm_init_cpreg_list(ARMCPU *cpu)
- {
-@@ -482,12 +484,10 @@ int kvm_arm_init_cpreg_list(ARMCPU *cpu)
-         arraylen++;
-     }
- 
--    cpu->cpreg_indexes = g_renew(uint64_t, cpu->cpreg_indexes, arraylen);
--    cpu->cpreg_values = g_renew(uint64_t, cpu->cpreg_values, arraylen);
--    cpu->cpreg_vmstate_indexes = g_renew(uint64_t, cpu->cpreg_vmstate_indexes,
--                                         arraylen);
--    cpu->cpreg_vmstate_values = g_renew(uint64_t, cpu->cpreg_vmstate_values,
--                                        arraylen);
-+    cpu->cpreg_indexes = g_new(uint64_t, arraylen);
-+    cpu->cpreg_values = g_new(uint64_t, arraylen);
-+    cpu->cpreg_vmstate_indexes = g_new(uint64_t, arraylen);
-+    cpu->cpreg_vmstate_values = g_new(uint64_t, arraylen);
-     cpu->cpreg_array_len = arraylen;
-     cpu->cpreg_vmstate_array_len = arraylen;
- 
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 99017b635c..41de2a7cf1 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -70,8 +70,7 @@ void kvm_arm_register_device(MemoryRegion *mr, uint64_t devid, uint64_t group,
-  * @cpu: ARMCPU
-  *
-  * Initialize the ARMCPU cpreg list according to the kernel's
-- * definition of what CPU registers it knows about (and throw away
-- * the previous TCG-created cpreg list).
-+ * definition of what CPU registers it knows about.
-  *
-  * Returns: 0 if success, else < 0 error code
-  */
-diff --git a/target/arm/machine.c b/target/arm/machine.c
-index a186787d2b..5ac1e6173a 100644
---- a/target/arm/machine.c
-+++ b/target/arm/machine.c
-@@ -2,6 +2,7 @@
- #include "cpu.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
- #include "kvm_arm.h"
- #include "internals.h"
- #include "migration/cpu.h"
-@@ -687,7 +688,7 @@ static int cpu_pre_save(void *opaque)
- {
-     ARMCPU *cpu = opaque;
- 
--    if (!kvm_enabled()) {
-+    if (tcg_enabled()) {
-         pmu_op_start(&cpu->env);
-     }
- 
-@@ -722,7 +723,7 @@ static int cpu_post_save(void *opaque)
- {
-     ARMCPU *cpu = opaque;
- 
--    if (!kvm_enabled()) {
-+    if (tcg_enabled()) {
-         pmu_op_finish(&cpu->env);
-     }
- 
-@@ -741,7 +742,7 @@ static int cpu_pre_load(void *opaque)
-      */
-     env->irq_line_state = UINT32_MAX;
- 
--    if (!kvm_enabled()) {
-+    if (tcg_enabled()) {
-         pmu_op_start(&cpu->env);
-     }
- 
-@@ -820,27 +821,28 @@ static int cpu_post_load(void *opaque, int version_id)
-         return -1;
-     }
- 
--    hw_breakpoint_update_all(cpu);
--    hw_watchpoint_update_all(cpu);
-+    if (tcg_enabled()) {
-+        hw_breakpoint_update_all(cpu);
-+        hw_watchpoint_update_all(cpu);
- 
--    /*
--     * TCG gen_update_fp_context() relies on the invariant that
--     * FPDSCR.LTPSIZE is constant 4 for M-profile with the LOB extension;
--     * forbid bogus incoming data with some other value.
--     */
--    if (arm_feature(env, ARM_FEATURE_M) && cpu_isar_feature(aa32_lob, cpu)) {
--        if (extract32(env->v7m.fpdscr[M_REG_NS],
--                      FPCR_LTPSIZE_SHIFT, FPCR_LTPSIZE_LENGTH) != 4 ||
--            extract32(env->v7m.fpdscr[M_REG_S],
--                      FPCR_LTPSIZE_SHIFT, FPCR_LTPSIZE_LENGTH) != 4) {
--            return -1;
-+        /*
-+         * TCG gen_update_fp_context() relies on the invariant that
-+         * FPDSCR.LTPSIZE is constant 4 for M-profile with the LOB extension;
-+         * forbid bogus incoming data with some other value.
-+         */
-+        if (arm_feature(env, ARM_FEATURE_M) &&
-+            cpu_isar_feature(aa32_lob, cpu)) {
-+            if (extract32(env->v7m.fpdscr[M_REG_NS],
-+                          FPCR_LTPSIZE_SHIFT, FPCR_LTPSIZE_LENGTH) != 4 ||
-+                extract32(env->v7m.fpdscr[M_REG_S],
-+                          FPCR_LTPSIZE_SHIFT, FPCR_LTPSIZE_LENGTH) != 4) {
-+                return -1;
-+            }
-         }
--    }
- 
--    if (!kvm_enabled()) {
-         pmu_op_finish(&cpu->env);
-+        arm_rebuild_hflags(&cpu->env);
-     }
--    arm_rebuild_hflags(&cpu->env);
- 
-     return 0;
- }
-@@ -890,8 +892,13 @@ const VMStateDescription vmstate_arm_cpu = {
-         VMSTATE_UINT32(env.exception.syndrome, ARMCPU),
-         VMSTATE_UINT32(env.exception.fsr, ARMCPU),
-         VMSTATE_UINT64(env.exception.vaddress, ARMCPU),
-+#ifdef CONFIG_TCG
-         VMSTATE_TIMER_PTR(gt_timer[GTIMER_PHYS], ARMCPU),
-         VMSTATE_TIMER_PTR(gt_timer[GTIMER_VIRT], ARMCPU),
-+#else
-+        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
-+        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
-+#endif /* CONFIG_TCG */
-         {
-             .name = "power_state",
-             .version_id = 0,
--- 
-2.35.3
+I've not yet tested this, but would like to. What's your timeline on
+getting this done?
 
+Warner
+
+
+> r~
+>
+> ---
+>  accel/tcg/translate-all.c | 65 ---------------------------------------
+>  1 file changed, 65 deletions(-)
+>
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index b964ea44d7..48e9d70b4e 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -354,71 +354,6 @@ void page_init(void)
+>  {
+>      page_size_init();
+>      page_table_config_init();
+> -
+> -#if defined(CONFIG_BSD) && defined(CONFIG_USER_ONLY)
+> -    {
+> -#ifdef HAVE_KINFO_GETVMMAP
+> -        struct kinfo_vmentry *freep;
+> -        int i, cnt;
+> -
+> -        freep = kinfo_getvmmap(getpid(), &cnt);
+> -        if (freep) {
+> -            mmap_lock();
+> -            for (i = 0; i < cnt; i++) {
+> -                unsigned long startaddr, endaddr;
+> -
+> -                startaddr = freep[i].kve_start;
+> -                endaddr = freep[i].kve_end;
+> -                if (h2g_valid(startaddr)) {
+> -                    startaddr = h2g(startaddr) & TARGET_PAGE_MASK;
+> -
+> -                    if (h2g_valid(endaddr)) {
+> -                        endaddr = h2g(endaddr);
+> -                        page_set_flags(startaddr, endaddr, PAGE_RESERVED);
+> -                    } else {
+> -#if TARGET_ABI_BITS <= L1_MAP_ADDR_SPACE_BITS
+> -                        endaddr = ~0ul;
+> -                        page_set_flags(startaddr, endaddr, PAGE_RESERVED);
+> -#endif
+> -                    }
+> -                }
+> -            }
+> -            free(freep);
+> -            mmap_unlock();
+> -        }
+> -#else
+> -        FILE *f;
+> -
+> -        last_brk = (unsigned long)sbrk(0);
+> -
+> -        f = fopen("/compat/linux/proc/self/maps", "r");
+> -        if (f) {
+> -            mmap_lock();
+> -
+> -            do {
+> -                unsigned long startaddr, endaddr;
+> -                int n;
+> -
+> -                n = fscanf(f, "%lx-%lx %*[^\n]\n", &startaddr, &endaddr);
+> -
+> -                if (n == 2 && h2g_valid(startaddr)) {
+> -                    startaddr = h2g(startaddr) & TARGET_PAGE_MASK;
+> -
+> -                    if (h2g_valid(endaddr)) {
+> -                        endaddr = h2g(endaddr);
+> -                    } else {
+> -                        endaddr = ~0ul;
+> -                    }
+> -                    page_set_flags(startaddr, endaddr, PAGE_RESERVED);
+> -                }
+> -            } while (!feof(f));
+> -
+> -            fclose(f);
+> -            mmap_unlock();
+> -        }
+> -#endif
+> -    }
+> -#endif
+>  }
+>
+>  PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc)
+> --
+> 2.34.1
+>
+>
+
+--000000000000cbb35805f049af4b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Dec 17, 2022 at 11:48 AM Rich=
+ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
+enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">Make bsd-user match linux-user in not marking host pages=
+<br>
+as reserved.=C2=A0 This isn&#39;t especially effective anyway, as<br>
+it doesn&#39;t take into account any heap memory that qemu<br>
+may allocate after startup.<br>
+<br>
+Cc: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_blank">imp=
+@bsdimp.com</a>&gt;<br>
+Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
+naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+---<br>
+<br>
+I started to simply fix up this code to match my user-only interval-tree<br=
+>
+patch set, as L1_MAP_ADDR_SPACE_BITS gets removed from translate-all.c,<br>
+but then I decided to remove it all.<br></blockquote><div><br></div><div>I =
+think this is fine. We already do a translation for addresses so marking th=
+is as &#39;reserved&#39;</div><div>doesn&#39;t help that much. We need to m=
+ap memory into a contiguous guess-address-space,</div><div>but the underlyi=
+ng host memory needn&#39;t be contiguous at all.</div><div><br></div><div>I=
+&#39;ve not yet tested this, but would like to. What&#39;s your timeline on=
+ getting this done?<br></div><div><br></div><div>Warner<br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+r~<br>
+<br>
+---<br>
+=C2=A0accel/tcg/translate-all.c | 65 --------------------------------------=
+-<br>
+=C2=A01 file changed, 65 deletions(-)<br>
+<br>
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c<br>
+index b964ea44d7..48e9d70b4e 100644<br>
+--- a/accel/tcg/translate-all.c<br>
++++ b/accel/tcg/translate-all.c<br>
+@@ -354,71 +354,6 @@ void page_init(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0page_size_init();<br>
+=C2=A0 =C2=A0 =C2=A0page_table_config_init();<br>
+-<br>
+-#if defined(CONFIG_BSD) &amp;&amp; defined(CONFIG_USER_ONLY)<br>
+-=C2=A0 =C2=A0 {<br>
+-#ifdef HAVE_KINFO_GETVMMAP<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct kinfo_vmentry *freep;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int i, cnt;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 freep =3D kinfo_getvmmap(getpid(), &amp;cnt);<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (freep) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mmap_lock();<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; cnt; i++) {=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long star=
+taddr, endaddr;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 startaddr =3D free=
+p[i].kve_start;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 endaddr =3D freep[=
+i].kve_end;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (h2g_valid(star=
+taddr)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 star=
+taddr =3D h2g(startaddr) &amp; TARGET_PAGE_MASK;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (=
+h2g_valid(endaddr)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 endaddr =3D h2g(endaddr);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 page_set_flags(startaddr, endaddr, PAGE_RESERVED);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } el=
+se {<br>
+-#if TARGET_ABI_BITS &lt;=3D L1_MAP_ADDR_SPACE_BITS<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 endaddr =3D ~0ul;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 page_set_flags(startaddr, endaddr, PAGE_RESERVED);<br>
+-#endif<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 free(freep);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mmap_unlock();<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-#else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 FILE *f;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 last_brk =3D (unsigned long)sbrk(0);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 f =3D fopen(&quot;/compat/linux/proc/self/maps=
+&quot;, &quot;r&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (f) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mmap_lock();<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 do {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long star=
+taddr, endaddr;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int n;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 n =3D fscanf(f, &q=
+uot;%lx-%lx %*[^\n]\n&quot;, &amp;startaddr, &amp;endaddr);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (n =3D=3D 2 &am=
+p;&amp; h2g_valid(startaddr)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 star=
+taddr =3D h2g(startaddr) &amp; TARGET_PAGE_MASK;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (=
+h2g_valid(endaddr)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 endaddr =3D h2g(endaddr);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } el=
+se {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 endaddr =3D ~0ul;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 page=
+_set_flags(startaddr, endaddr, PAGE_RESERVED);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } while (!feof(f));<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fclose(f);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mmap_unlock();<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-#endif<br>
+-=C2=A0 =C2=A0 }<br>
+-#endif<br>
+=C2=A0}<br>
+<br>
+=C2=A0PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc)<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div></div>
+
+--000000000000cbb35805f049af4b--
 
