@@ -2,69 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541E7652827
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 22:00:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C36D6523A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 16:28:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7jew-0001v8-CR; Tue, 20 Dec 2022 15:56:22 -0500
+	id 1p7eWx-0007RR-Tr; Tue, 20 Dec 2022 10:27:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vysakhpillai@embeddedinn.xyz>)
- id 1p7eWh-0007LG-0K; Tue, 20 Dec 2022 10:27:31 -0500
-Received: from sender-of-o52.zoho.in ([103.117.158.52])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7eWt-0007PW-VW
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:27:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vysakhpillai@embeddedinn.xyz>)
- id 1p7eWd-0001yK-1q; Tue, 20 Dec 2022 10:27:30 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1671550028; cv=none; d=zohomail.in; s=zohoarc; 
- b=EdnWgCpqsmKi57ENZSfg9be9SlezBcu6oRwuWojfNeO2yl2PQrQpvnIJCQ7YS13YWe1jfv7YQ5iwGLtEoDrkehPr+URvtcuoK/G4xGjobkj8OdwWk39gm/2DzSkzJMU5+O+hjDzvD6RrsWrwM/TemnMney2ldzY035gazG8mBmw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1671550028;
- h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=IoSREUnQFNwOzNDivpIcncV4ungnb6L2jFkd/nG+QYg=; 
- b=UermsN9OAey5Zfilt6w9mji8owFpoYBeQGMM7Tvo/I2KUlxXrRtOsqYU+87YMQqt5KfSAnLMmWQQnl17YBn95q/Am7e4IXKtn23rR8SVjIUG5A0po1bzry3N8nnvfTf4NiSx5+1jKKrGuRMgZRi39chKBiGQTOoVw2QbRlvvPIM=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
- dkim=pass  header.i=embeddedinn.xyz;
- spf=pass  smtp.mailfrom=vysakhpillai@embeddedinn.xyz;
- dmarc=pass header.from=<vysakhpillai@embeddedinn.xyz>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1671550028; 
- s=zmail; d=embeddedinn.xyz; i=vysakhpillai@embeddedinn.xyz;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-Id:Message-Id:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Reply-To;
- bh=IoSREUnQFNwOzNDivpIcncV4ungnb6L2jFkd/nG+QYg=;
- b=DenE3NIIIEVk6DHUUiqun2divcnhyqb7bRl6/hKV+HWMFCPIEPLwYjosa38BLcZZ
- Sx6O15ptq+lmUXuZtDvDfk2M99uH9CPRu48gHm/oVbWgn5aVy5djxqpBxYgQZN+dUwG
- Hhgo31uvOapBk5af+xvIEfwabY9tTEstlZN2EXrE=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 167155002667639.50240115471149;
- Tue, 20 Dec 2022 20:57:06 +0530 (IST)
-Date: Tue, 20 Dec 2022 07:27:06 -0800
-From: Vysakh P Pillai <vysakhpillai@embeddedinn.xyz>
-To: <bmeng.cn@gmail.com>
-Cc: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Message-Id: <185302543b0.18ba608373080.7673654665642263784@embeddedinn.xyz>
-In-Reply-To: <CAEUhbmU4dbAY0hiARrKLarQf6_A+DZ1McW=fQftMBfBpVy7VKw@mail.gmail.com>
-References: <20221211052745.24738-1-vysakhpillai@embeddedinn.xyz>
- <CAEUhbmU4dbAY0hiARrKLarQf6_A+DZ1McW=fQftMBfBpVy7VKw@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: Add support to change default RISCV hart
- memory region
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7eWs-000208-G4
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 10:27:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671550061;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2Memed1gtxEA/orE0bvrH+aE16y+jup+jzZvFu/EpWA=;
+ b=ZXWr7DgJQCKeDqsr9eETCiIWk82uQpWIY8jBk1Z1bS4pT2amc35pphYlxerT8YXYR+Vr73
+ Vfu0ziHUMv9iV3wnFQHX8nGXmTd+iC+Hve1r4E4w30eKLcVbiDCWGHujcKxZ68leRhBWnn
+ IVgryOug1Jvz5iOpWTBpBPgdhnvC8es=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-107-Q3xEL7LPOUinNFUBeR1vfg-1; Tue, 20 Dec 2022 10:27:40 -0500
+X-MC-Unique: Q3xEL7LPOUinNFUBeR1vfg-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ cm12-20020a05622a250c00b003a521f66e8eso5665235qtb.17
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 07:27:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2Memed1gtxEA/orE0bvrH+aE16y+jup+jzZvFu/EpWA=;
+ b=b/PZUh2ZzCSLisDnGSHk8OdzQHsr6vUoLai4yFD72Ty5C3GlV/a9zYW8EFebDgugrY
+ ekiRQI3CKTigYA1b/j4XRazE/XOlSshPydyF0/gS5zh/D8/FqX22uY5JtARtVeB5pmmL
+ v0bcnbDs1+vsD+8qkR7lI3tzcVNS2gZWuLfWFdcbuxQTfcG2iKtZMW2c/XYR5EcKOaFE
+ dkYTir2lDNP7363Qt/5cTuQRSxIwS0iEEfi5PSBIPgiEQNFB/8wkfF1IceXSlAxDWK8H
+ 3ffSN/jTsPFg/E6WZlPg9Voyze6I0tNStytwpZtg5Icc/VRm5HfHd3Qklq3SuETsUCid
+ mq4g==
+X-Gm-Message-State: AFqh2kpuAaRL5KxwcJmpRartUsCPo9kvaCZ3Cb8bG5oh46W+CMRK38N9
+ Red8zSPXdBx2y4e4BmIFVqWiF3tM6JnB3gosv4u2a9rAea/Afc+w/GHxPogo/0GaGxLa948Khzs
+ 8KeX4ibdFR5ptZo4=
+X-Received: by 2002:ad4:4508:0:b0:4d7:45fb:f5a2 with SMTP id
+ k8-20020ad44508000000b004d745fbf5a2mr16086041qvu.13.1671550059823; 
+ Tue, 20 Dec 2022 07:27:39 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtZZ95iFBkgM/1sztBZLJew0sU3LHFHSHDrI8ByZK6/fSMSYVJ5t/q/fpFqC1o26nvX3sG1mQ==
+X-Received: by 2002:ad4:4508:0:b0:4d7:45fb:f5a2 with SMTP id
+ k8-20020ad44508000000b004d745fbf5a2mr16086016qvu.13.1671550059548; 
+ Tue, 20 Dec 2022 07:27:39 -0800 (PST)
+Received: from redhat.com ([37.19.199.118]) by smtp.gmail.com with ESMTPSA id
+ bn1-20020a05620a2ac100b006fafc111b12sm9007047qkb.83.2022.12.20.07.27.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Dec 2022 07:27:39 -0800 (PST)
+Date: Tue, 20 Dec 2022 10:27:32 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Cc: stefanha@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
+ cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v10 5/5] docs: Add generic vhost-vdpa device documentation
+Message-ID: <20221220102712-mutt-send-email-mst@kernel.org>
+References: <20221205084943.2259-1-longpeng2@huawei.com>
+ <20221205084943.2259-6-longpeng2@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
- boundary="----=_Part_250202_247026888.1671550026672"
-Importance: Normal
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Received-SPF: pass client-ip=103.117.158.52;
- envelope-from=vysakhpillai@embeddedinn.xyz; helo=sender-of-o52.zoho.in
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221205084943.2259-6-longpeng2@huawei.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_SUSPICIOUS_NTLD=0.001, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 20 Dec 2022 15:56:20 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,174 +97,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-------=_Part_250202_247026888.1671550026672
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Dec 05, 2022 at 04:49:43PM +0800, Longpeng(Mike) wrote:
+> From: Longpeng <longpeng2@huawei.com>
+> 
+> Signed-off-by: Longpeng <longpeng2@huawei.com>
 
-In the machine model that I am trying to create, there are two CPU clusters=
-. The management cluster has full access to the system resources through a =
-global address space while the application cluster has access to a subset o=
-f the resources through a cluster local address space.=C2=A0The current imp=
-lementation always attaches the system memory to the clusters and there is =
-no means to isolate access to peripherals. With this patch, I am able to cr=
-eate re-mapped aliases to the global address space and attach it as sub-reg=
-ions to the application cluster container.=C2=A0This approach also provides=
- a capability to dynamically attach and detach sub-regions at runtime.=C2=
-=A0 ---- On Thu, 15 Dec 2022 05:09:53 -0800  bmeng.cn@gmail.com  wrote ----=
-On Sun, Dec 11, 2022 at 1:29 PM Vysakh P Pillai
-<vysakhpillai@embeddedinn.xyz> wrote:
->
-> Add support to optionally specify a memory region container
-> to be used to override the default system memory used
-> by the the RISCV harts when they are realized. Additional
-> memory regions can be added as sub-regions of this container
-> to dynamically control the memory regions and mappings visible
-> from the hart.
+Dropped 5/5 for now due to comments and build errors.
 
-Could you please specify what user case are you trying to address with
-this patch?
-
->
-> Signed-off-by: Vysakh P Pillai <vysakhpillai@embeddedinn.xyz>
 > ---
->  hw/riscv/riscv_hart.c         | 5 +++++
->  include/hw/riscv/riscv_hart.h | 1 +
->  2 files changed, 6 insertions(+)
->
-> diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-> index 613ea2aaa0..7a8dcab7e7 100644
-> --- a/hw/riscv/riscv_hart.c
-> +++ b/hw/riscv/riscv_hart.c
-> @@ -33,6 +33,8 @@ static Property riscv_harts_props[] =3D {
->      DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type),
->      DEFINE_PROP_UINT64("resetvec", RISCVHartArrayState, resetvec,
->                         DEFAULT_RSTVEC),
-> +    DEFINE_PROP_UINT64("cpu-memory", RISCVHartArrayState,
-> +                       cpu_memory,NULL),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> @@ -49,6 +51,9 @@ static bool riscv_hart_realize(RISCVHartArrayState *s, =
-int idx,
->      qdev_prop_set_uint64(DEVICE(&s->harts[idx]), "resetvec", s->resetvec=
-);
->      s->harts[idx].env.mhartid =3D s->hartid_base + idx;
->      qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
-> +    if (s->cpu_memory) {
-> +        object_property_set_link(OBJECT(&s->harts[idx].parent_obj), "mem=
-ory",OBJECT(s->cpu_memory), &error_abort);
-> +    }
->      return qdev_realize(DEVICE(&s->harts[idx]), NULL, errp);
->  }
->
-> diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.=
-h
-> index bbc21cdc9a..3e5dfeeaae 100644
-> --- a/include/hw/riscv/riscv_hart.h
-> +++ b/include/hw/riscv/riscv_hart.h
-> @@ -38,6 +38,7 @@ struct RISCVHartArrayState {
->      uint32_t hartid_base;
->      char *cpu_type;
->      uint64_t resetvec;
-> +    uint64_t cpu_memory;
->      RISCVCPU *harts;
->  };
->
-
-Regards,
-Bin
-
-
-------=_Part_250202_247026888.1671550026672
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head>=
-<meta content=3D"text/html;charset=3DUTF-8" http-equiv=3D"Content-Type"></h=
-ead><body ><div style=3D'font-size:10pt;font-family:Verdana,Arial,Helvetica=
-,sans-serif;'><div id=3D"message"></div>In the machine model that I am tryi=
-ng to create, there are two CPU clusters. The management cluster has full a=
-ccess to the system resources through a global address space while the appl=
-ication cluster has access to a subset of the resources through a cluster l=
-ocal address space.&nbsp;<div><br></div><div>The current implementation alw=
-ays attaches the system memory to the clusters and there is no means to iso=
-late access to peripherals. With this patch, I am able to create re-mapped =
-aliases to the global address space and attach it as sub-regions to the app=
-lication cluster container.&nbsp;</div><div><br></div><div>This approach al=
-so provides a capability to dynamically attach and detach sub-regions at ru=
-ntime.&nbsp;<br id=3D"br3"><br id=3D"br3"><br id=3D"br3"><div id=3D"signatu=
-re"><div><br></div></div><div id=3D"content"><br> ---- On Thu, 15 Dec 2022 =
-05:09:53 -0800 <b> bmeng.cn@gmail.com </b> wrote ----<br><br><blockquote st=
-yle=3D"border-left: 1px solid rgb(204, 204, 204); padding-left: 6px; margin=
--left: 5px;"><div>On Sun, Dec 11, 2022 at 1:29 PM Vysakh P Pillai
-<br>&lt;<a href=3D"mailto:vysakhpillai@embeddedinn.xyz" target=3D"_blank">v=
-ysakhpillai@embeddedinn.xyz</a>&gt; wrote:
-<br>&gt;
-<br>&gt; Add support to optionally specify a memory region container
-<br>&gt; to be used to override the default system memory used
-<br>&gt; by the the RISCV harts when they are realized. Additional
-<br>&gt; memory regions can be added as sub-regions of this container
-<br>&gt; to dynamically control the memory regions and mappings visible
-<br>&gt; from the hart.
-<br>
-<br>Could you please specify what user case are you trying to address with
-<br>this patch?
-<br>
-<br>&gt;
-<br>&gt; Signed-off-by: Vysakh P Pillai &lt;<a href=3D"mailto:vysakhpillai@=
-embeddedinn.xyz" target=3D"_blank">vysakhpillai@embeddedinn.xyz</a>&gt;
-<br>&gt; ---
-<br>&gt;  hw/riscv/riscv_hart.c         | 5 +++++
-<br>&gt;  include/hw/riscv/riscv_hart.h | 1 +
-<br>&gt;  2 files changed, 6 insertions(+)
-<br>&gt;
-<br>&gt; diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
-<br>&gt; index 613ea2aaa0..7a8dcab7e7 100644
-<br>&gt; --- a/hw/riscv/riscv_hart.c
-<br>&gt; +++ b/hw/riscv/riscv_hart.c
-<br>&gt; @@ -33,6 +33,8 @@ static Property riscv_harts_props[] =3D {
-<br>&gt;      DEFINE_PROP_STRING("cpu-type", RISCVHartArrayState, cpu_type)=
-,
-<br>&gt;      DEFINE_PROP_UINT64("resetvec", RISCVHartArrayState, resetvec,
-<br>&gt;                         DEFAULT_RSTVEC),
-<br>&gt; +    DEFINE_PROP_UINT64("cpu-memory", RISCVHartArrayState,
-<br>&gt; +                       cpu_memory,NULL),
-<br>&gt;      DEFINE_PROP_END_OF_LIST(),
-<br>&gt;  };
-<br>&gt;
-<br>&gt; @@ -49,6 +51,9 @@ static bool riscv_hart_realize(RISCVHartArraySta=
-te *s, int idx,
-<br>&gt;      qdev_prop_set_uint64(DEVICE(&amp;s-&gt;harts[idx]), "resetvec=
-", s-&gt;resetvec);
-<br>&gt;      s-&gt;harts[idx].env.mhartid =3D s-&gt;hartid_base + idx;
-<br>&gt;      qemu_register_reset(riscv_harts_cpu_reset, &amp;s-&gt;harts[i=
-dx]);
-<br>&gt; +    if (s-&gt;cpu_memory) {
-<br>&gt; +        object_property_set_link(OBJECT(&amp;s-&gt;harts[idx].par=
-ent_obj), "memory",OBJECT(s-&gt;cpu_memory), &amp;error_abort);
-<br>&gt; +    }
-<br>&gt;      return qdev_realize(DEVICE(&amp;s-&gt;harts[idx]), NULL, errp=
-);
-<br>&gt;  }
-<br>&gt;
-<br>&gt; diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/risc=
-v_hart.h
-<br>&gt; index bbc21cdc9a..3e5dfeeaae 100644
-<br>&gt; --- a/include/hw/riscv/riscv_hart.h
-<br>&gt; +++ b/include/hw/riscv/riscv_hart.h
-<br>&gt; @@ -38,6 +38,7 @@ struct RISCVHartArrayState {
-<br>&gt;      uint32_t hartid_base;
-<br>&gt;      char *cpu_type;
-<br>&gt;      uint64_t resetvec;
-<br>&gt; +    uint64_t cpu_memory;
-<br>&gt;      RISCVCPU *harts;
-<br>&gt;  };
-<br>&gt;
-<br>
-<br>Regards,
-<br>Bin
-<br>
-<br></div></blockquote></div></div></div><br></body></html>
-------=_Part_250202_247026888.1671550026672--
+>  .../devices/vhost-vdpa-generic-device.rst     | 66 +++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+>  create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
+> 
+> diff --git a/docs/system/devices/vhost-vdpa-generic-device.rst b/docs/system/devices/vhost-vdpa-generic-device.rst
+> new file mode 100644
+> index 0000000000..7d13359ea1
+> --- /dev/null
+> +++ b/docs/system/devices/vhost-vdpa-generic-device.rst
+> @@ -0,0 +1,66 @@
+> +
+> +=========================
+> +vhost-vDPA generic device
+> +=========================
+> +
+> +This document explains the usage of the vhost-vDPA generic device.
+> +
+> +Description
+> +-----------
+> +
+> +vDPA(virtio data path acceleration) device is a device that uses a datapath
+> +which complies with the virtio specifications with vendor specific control
+> +path.
+> +
+> +QEMU provides two types of vhost-vDPA devices to enable the vDPA device, one
+> +is type sensitive which means QEMU needs to know the actual device type
+> +(e.g. net, blk, scsi) and another is called "vhost-vDPA generic device" which
+> +is type insensitive.
+> +
+> +The vhost-vDPA generic device builds on the vhost-vdpa subsystem and virtio
+> +subsystem. It is quite small, but it can support any type of virtio device.
+> +
+> +Examples
+> +--------
+> +
+> +1. Please make sure the modules listed bellow are installed:
+> +    vhost.ko
+> +    vhost_iotlb.ko
+> +    vdpa.ko
+> +    vhost_vdpa.ko
+> +
+> +
+> +2. Prepare the vhost-vDPA backends, here is an example using vdpa_sim_blk
+> +   device:
+> +
+> +::
+> +  host# modprobe vdpa_sim_blk
+> +  host# vdpa dev add mgmtdev vdpasim_blk name blk0
+> +  (...you can see the vhost-vDPA device under /dev directory now...)
+> +  host# ls -l /dev/vhost-vdpa-*
+> +  crw------- 1 root root 236, 0 Nov  2 00:49 /dev/vhost-vdpa-0
+> +
+> +Note:
+> +It needs some vendor-specific steps to provision the vDPA device if you're
+> +using real HW devices, such as installing the vendor-specific vDPA driver
+> +and binding the device to the driver.
+> +
+> +
+> +3. Start the virtual machine:
+> +
+> +Start QEMU with virtio-mmio bus:
+> +
+> +::
+> +  host# qemu-system                                                  \
+> +      -M microvm -m 512 -smp 2 -kernel ... -initrd ...               \
+> +      -device vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-0           \
+> +      ...
+> +
+> +
+> +Start QEMU with virtio-pci bus:
+> +
+> +::
+> +  host# qemu-system                                                  \
+> +      -M pc -m 512 -smp 2                                            \
+> +      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-0       \
+> +      ...
+> -- 
+> 2.23.0
 
 
