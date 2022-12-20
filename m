@@ -2,50 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B7A65210D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 13:53:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3326652129
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 14:03:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7c6Q-0006N8-6C; Tue, 20 Dec 2022 07:52:14 -0500
+	id 1p7cFe-0000JE-Ll; Tue, 20 Dec 2022 08:01:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1p7c6N-0006Mo-8S
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 07:52:11 -0500
-Received: from rev.ng ([5.9.113.41])
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p7cEt-00008T-T7
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:01:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1p7c6L-0005ow-0j
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 07:52:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=lU8gZixlEe3IZrO4eNvbzExtfTDZyg+4wfp1S2s9Kpc=; b=pxrWa966ACI5eLSvBkDgNpqO/p
- WPmNvkSTFgt1ud3Qea/L3jrnH6RhL2KU4AaITDwp3/wnTNjt7LD6hOHmkTHZYUPVQHK0MdDyFkYCF
- fI3CJZcqQDS4J9dC5hRzixUScMcJe5PWTIvSGF22fGK0UAG1f6x/UuhqALRUt72oMc7E=;
-Date: Tue, 20 Dec 2022 13:51:51 +0100
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
-Cc: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org, Paolo
- Montesel <babush@rev.ng>, Anton Johansson <anjo@rev.ng>,
- richard.henderson@linaro.org, peter.maydell@linaro.org, bcain@quicinc.com,
- quic_mathbern@quicinc.com, stefanha@redhat.com
-Subject: Re: [PULL 00/21] Hexagon update: bug fixes, performance, idef-parser
-Message-ID: <20221220135151.1e5394b9@orange>
-In-Reply-To: <144e9b21-3bcc-4519-bdc7-4293f2c4af90@linaro.org>
-References: <20221216204845.19290-1-tsimpson@quicinc.com>
- <efcdbcb2-87c3-870f-5462-fad7a276de7a@linaro.org>
- <144e9b21-3bcc-4519-bdc7-4293f2c4af90@linaro.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p7cEs-0007Oo-2U
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 08:00:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671541254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=H2t8W77PSTr4Llxbj7tYL3QF8gC1sNMoCFvARbmtY94=;
+ b=HVSpV9r0leOGZZZnSdmyD/JAx/rGgL8mhs7Bw4pTVIEmE844aOfOFiAhWj1jMSsB0FcD/V
+ 0FrDs9pCPwaVdRGhRspyCTSVNcHICgdOHdNQaF8lAIV8NCS5p5OT/XLcn1/1AADGqeMaYV
+ z2iNsS0aPY5xwiBOnT2zGTnqltOhElw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-642-gegjNKZEN5OA-g0pkCielw-1; Tue, 20 Dec 2022 08:00:52 -0500
+X-MC-Unique: gegjNKZEN5OA-g0pkCielw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53E6687A9E2;
+ Tue, 20 Dec 2022 13:00:52 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB8EF2166B26;
+ Tue, 20 Dec 2022 13:00:51 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric
+ Auger <eauger@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v3 0/2] arm: enable MTE for QEMU + kvm
+In-Reply-To: <20221026160511.37162-1-cohuck@redhat.com>
+Organization: Red Hat GmbH
+References: <20221026160511.37162-1-cohuck@redhat.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Tue, 20 Dec 2022 14:00:49 +0100
+Message-ID: <87h6xqz0u6.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,24 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Alessandro Di Federico <ale@rev.ng>
-From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 20 Dec 2022 08:30:02 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+On Wed, Oct 26 2022, Cornelia Huck <cohuck@redhat.com> wrote:
 
-> Do we really need this level? IIUC the problem with -Wextra is using a
-> newer compiler toolchain it can include warnings we haven't fixed.
-> Maybe worthwhile but it can break from times to times.
+> After wayyy too long (last version was sent in *July*), a respin of my
+> kvm/mte series. Still no migration support. I've been hacking around on
+> a device for transferring tags while stopped, but don't really have anything
+> to show, probably because I get distra- <ohh, what's that?>
+>
+> ...I guess you get the point :(
+>
+> Anyway, I wanted to post this as non-RFC; likely too late for 7.2, but maybe
+> for 8.0 (and I'd get a chance to make at least pre-copy migration work; I'm open
+> to suggestions for that. Support for post-copy needs kernel-side changes.) Tested
+> on the FVP models; qtests only on a non-MTE KVM host.
+>
+> Changes v2->v3:
+> - rebase to current master
+> - drop some parts of the qtests that didn't actually work
+> - really minor stuff
+> - drop RFC
+>
+> Cornelia Huck (2):
+>   arm/kvm: add support for MTE
+>   qtests/arm: add some mte tests
+>
+>  docs/system/arm/cpu-features.rst |  21 +++++
+>  target/arm/cpu.c                 |  18 ++---
+>  target/arm/cpu.h                 |   1 +
+>  target/arm/cpu64.c               | 133 +++++++++++++++++++++++++++++++
+>  target/arm/internals.h           |   1 +
+>  target/arm/kvm64.c               |   5 ++
+>  target/arm/kvm_arm.h             |  12 +++
+>  target/arm/monitor.c             |   1 +
+>  tests/qtest/arm-cpu-features.c   |  76 ++++++++++++++++++
+>  9 files changed, 256 insertions(+), 12 deletions(-)
+>
 
-I think we just wanted to be overly zealous.
-Flags typically used by QEMU are fine.
+Friendly ping, as 7.2 has been released now... this should still apply
+without problems AFAICS. I can also respin, if needed.
 
-Shall I send a patch to drop -Wextra?
-
---=20
-Alessandro Di Federico
-rev.ng Labs
 
