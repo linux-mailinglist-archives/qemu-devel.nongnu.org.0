@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714C46521F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:05:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B309652223
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:13:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7dCs-000631-ST; Tue, 20 Dec 2022 09:02:58 -0500
+	id 1p7dCv-00063g-04; Tue, 20 Dec 2022 09:03:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p7dCZ-0005w6-8q
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:02:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1p7dCf-0005z8-Ae
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:02:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p7dCX-0002XY-5N
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:02:38 -0500
+ id 1p7dCd-0002Yb-HY
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:02:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671544956;
+ s=mimecast20190719; t=1671544962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XFGCXiBXq7GXip/TxdUl+YDCxJBaCOEFes4FOAmMt+w=;
- b=d1lPKeGPTZiL+B9mHFyzBd26xEwGBjk1tzVoxwLfV2kESAGVn8Vv8fhE4UQozgsECHX2tx
- lWfa05ZM17hCErlQr+4JG7esIKkq653f76ReapczhpU2GOq4nWGpF2vxIVFFPYZTivryp3
- G47ZCrFZ/Oa5rqma04OAalEzNOqnv5M=
+ bh=EiqpLgMdKm5wDoDtt0Ai72IZcAFTUwTuIR+jsui5eJE=;
+ b=OzodAwT2zz0jwpjSHZd6if3rqeQy6niOaFsGn7iWAVBRwoeU48XaBfvVJQ1SzW9EvcPZah
+ jNUOwB0Lnf8yJRobxZQr0MrGi+N/zp9bFhoIKIKXQBa8ceP16mnDNbpu5hWz7Y7mudW6qX
+ AwTLycyrdETcrOwlsPu9FqsxmDlSL48=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-c_rmyUk3O4iJlP3xt1oprA-1; Tue, 20 Dec 2022 09:02:34 -0500
-X-MC-Unique: c_rmyUk3O4iJlP3xt1oprA-1
+ us-mta-639-YQPPFxisOsSTySgg0rzraQ-1; Tue, 20 Dec 2022 09:02:36 -0500
+X-MC-Unique: YQPPFxisOsSTySgg0rzraQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2539A100F903;
- Tue, 20 Dec 2022 14:02:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6858E85C069;
+ Tue, 20 Dec 2022 14:02:35 +0000 (UTC)
 Received: from kostyanf14nb.Dlink (ovpn-192-73.brq.redhat.com [10.40.192.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D23A14152F4;
- Tue, 20 Dec 2022 14:02:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 77CDA14152F4;
+ Tue, 20 Dec 2022 14:02:34 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL v3 4/6] qga-win: add logging to Windows event log
-Date: Tue, 20 Dec 2022 16:02:23 +0200
-Message-Id: <20221220140225.615908-5-kkostiuk@redhat.com>
+Subject: [PULL v3 5/6] qga: map GLib log levels to system levels
+Date: Tue, 20 Dec 2022 16:02:24 +0200
+Message-Id: <20221220140225.615908-6-kkostiuk@redhat.com>
 In-Reply-To: <20221220140225.615908-1-kkostiuk@redhat.com>
 References: <20221220140225.615908-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,16 +80,15 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
 
-This commit allows QGA to write to Windows event log using Win32 API's
-ReportEvent() [1], much like syslog() under *nix guests.
+This patch translates GLib-specific log levels to system ones, so that
+they may be used by both *nix syslog() (as a "priority" argument) and
+Windows ReportEvent() (as a "wType" argument).
 
-In order to generate log message definitions we use a very basic message
-text file [2], so that every QGA's message gets ID 1.  The tools
-"windmc" and "windres" respectively are used to generate ".rc" file and
-COFF object file, and then the COFF file is linked into qemu-ga.exe.
+Currently the only codepath to write to "syslog" domain is slog()
+function.  However, this patch allows the interface to be extended.
 
-[1] https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-reporteventa
-[2] https://learn.microsoft.com/en-us/windows/win32/eventlog/message-text-files
+Note that since slog() is using G_LOG_LEVEL_INFO level, its behaviour
+doesn't change.
 
 Originally-by: Yuri Pudgorodskiy <yur@virtuozzo.com>
 Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
@@ -98,155 +97,64 @@ Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Tested-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- configure                 |  3 +++
- qga/installer/qemu-ga.wxs |  5 +++++
- qga/main.c                | 16 +++++++++++++---
- qga/meson.build           | 19 ++++++++++++++++++-
- qga/messages-win32.mc     |  9 +++++++++
- 5 files changed, 48 insertions(+), 4 deletions(-)
- create mode 100644 qga/messages-win32.mc
+ qga/main.c | 36 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 34 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 26c7bc5154..789a4f6cc9 100755
---- a/configure
-+++ b/configure
-@@ -372,6 +372,7 @@ smbd="$SMBD"
- strip="${STRIP-${cross_prefix}strip}"
- widl="${WIDL-${cross_prefix}widl}"
- windres="${WINDRES-${cross_prefix}windres}"
-+windmc="${WINDMC-${cross_prefix}windmc}"
- pkg_config_exe="${PKG_CONFIG-${cross_prefix}pkg-config}"
- query_pkg_config() {
-     "${pkg_config_exe}" ${QEMU_PKG_CONFIG_FLAGS} "$@"
-@@ -2561,6 +2562,7 @@ if test "$skip_meson" = no; then
-   echo "strip = [$(meson_quote $strip)]" >> $cross
-   echo "widl = [$(meson_quote $widl)]" >> $cross
-   echo "windres = [$(meson_quote $windres)]" >> $cross
-+  echo "windmc = [$(meson_quote $windmc)]" >> $cross
-   if test "$cross_compile" = "yes"; then
-     cross_arg="--cross-file config-meson.cross"
-     echo "[host_machine]" >> $cross
-@@ -2667,6 +2669,7 @@ preserve_env SMBD
- preserve_env STRIP
- preserve_env WIDL
- preserve_env WINDRES
-+preserve_env WINDMC
- 
- printf "exec" >>config.status
- for i in "$0" "$@"; do
-diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-index 813d1c6ca6..e344c38e74 100644
---- a/qga/installer/qemu-ga.wxs
-+++ b/qga/installer/qemu-ga.wxs
-@@ -110,6 +110,11 @@
-               <RegistryValue Type="string" Name="ProductID" Value="fb0a0d66-c7fb-4e2e-a16b-c4a3bfe8d13b" />
-               <RegistryValue Type="string" Name="Version" Value="$(var.QEMU_GA_VERSION)" />
-             </RegistryKey>
-+            <RegistryKey Root="HKLM"
-+                         Key="System\CurrentControlSet\Services\EventLog\Application\qemu-ga">
-+              <RegistryValue Type="integer" Name="TypesSupported" Value="7" />
-+              <RegistryValue Type="string" Name="EventMessageFile" Value="[qemu_ga_directory]qemu-ga.exe" />
-+            </RegistryKey>
-           </Component>
-         </Directory>
-       </Directory>
 diff --git a/qga/main.c b/qga/main.c
-index 0865c992f0..1463a1c170 100644
+index 1463a1c170..85b7d6ced5 100644
 --- a/qga/main.c
 +++ b/qga/main.c
-@@ -83,6 +83,7 @@ struct GAState {
- #ifdef _WIN32
-     GAService service;
-     HANDLE wakeup_event;
-+    HANDLE event_log;
- #endif
-     bool delimit_response;
-     bool frozen;
-@@ -324,13 +325,14 @@ static void ga_log(const gchar *domain, GLogLevelFlags level,
-     }
+@@ -314,6 +314,38 @@ void ga_enable_logging(GAState *s)
+     s->logging_enabled = true;
+ }
  
-     level &= G_LOG_LEVEL_MASK;
--#ifndef _WIN32
-     if (g_strcmp0(domain, "syslog") == 0) {
++static int glib_log_level_to_system(int level)
++{
++    switch (level) {
 +#ifndef _WIN32
-         syslog(LOG_INFO, "%s: %s", level_str, msg);
--    } else if (level & s->log_level) {
- #else
--    if (level & s->log_level) {
-+        ReportEvent(s->event_log, EVENTLOG_INFORMATION_TYPE,
-+                    0, 1, NULL, 1, 0, &msg, NULL);
- #endif
-+    } else if (level & s->log_level) {
-         g_autoptr(GDateTime) now = g_date_time_new_now_utc();
-         g_autofree char *nowstr = g_date_time_format(now, "%s.%f");
-         fprintf(s->log_file, "%s: %s: %s\n", nowstr, level_str, msg);
-@@ -1286,6 +1288,13 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
-     g_debug("Guest agent version %s started", QEMU_FULL_VERSION);
- 
- #ifdef _WIN32
-+    s->event_log = RegisterEventSource(NULL, "qemu-ga");
-+    if (!s->event_log) {
-+        g_autofree gchar *errmsg = g_win32_error_message(GetLastError());
-+        g_critical("unable to register event source: %s", errmsg);
-+        return NULL;
++    case G_LOG_LEVEL_ERROR:
++        return LOG_ERR;
++    case G_LOG_LEVEL_CRITICAL:
++        return LOG_CRIT;
++    case G_LOG_LEVEL_WARNING:
++        return LOG_WARNING;
++    case G_LOG_LEVEL_MESSAGE:
++        return LOG_NOTICE;
++    case G_LOG_LEVEL_DEBUG:
++        return LOG_DEBUG;
++    case G_LOG_LEVEL_INFO:
++    default:
++        return LOG_INFO;
++#else
++    case G_LOG_LEVEL_ERROR:
++    case G_LOG_LEVEL_CRITICAL:
++        return EVENTLOG_ERROR_TYPE;
++    case G_LOG_LEVEL_WARNING:
++        return EVENTLOG_WARNING_TYPE;
++    case G_LOG_LEVEL_MESSAGE:
++    case G_LOG_LEVEL_INFO:
++    case G_LOG_LEVEL_DEBUG:
++    default:
++        return EVENTLOG_INFORMATION_TYPE;
++#endif
 +    }
++}
 +
-     /* On win32 the state directory is application specific (be it the default
-      * or a user override). We got past the command line parsing; let's create
-      * the directory (with any intermediate directories). If we run into an
-@@ -1377,6 +1386,7 @@ static void cleanup_agent(GAState *s)
+ static void ga_log(const gchar *domain, GLogLevelFlags level,
+                    const gchar *msg, gpointer opaque)
  {
- #ifdef _WIN32
-     CloseHandle(s->wakeup_event);
-+    CloseHandle(s->event_log);
+@@ -327,9 +359,9 @@ static void ga_log(const gchar *domain, GLogLevelFlags level,
+     level &= G_LOG_LEVEL_MASK;
+     if (g_strcmp0(domain, "syslog") == 0) {
+ #ifndef _WIN32
+-        syslog(LOG_INFO, "%s: %s", level_str, msg);
++        syslog(glib_log_level_to_system(level), "%s: %s", level_str, msg);
+ #else
+-        ReportEvent(s->event_log, EVENTLOG_INFORMATION_TYPE,
++        ReportEvent(s->event_log, glib_log_level_to_system(level),
+                     0, 1, NULL, 1, 0, &msg, NULL);
  #endif
-     if (s->command_state) {
-         ga_command_state_cleanup_all(s->command_state);
-diff --git a/qga/meson.build b/qga/meson.build
-index 3cfb9166e5..1ff159edc1 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -98,7 +98,24 @@ if targetos == 'windows'
-   endif
- endif
- 
--qga = executable('qemu-ga', qga_ss.sources(),
-+qga_objs = []
-+if targetos == 'windows'
-+  windmc = find_program('windmc', required: true)
-+  windres = find_program('windres', required: true)
-+
-+  msgrc = custom_target('messages-win32.rc',
-+                        input: 'messages-win32.mc',
-+                        output: ['messages-win32.rc', 'MSG00409.bin', 'messages-win32.h'],
-+                        command: [windmc, '-h', '@OUTDIR@', '-r', '@OUTDIR@', '@INPUT@'])
-+  msgobj = custom_target('messages-win32.o',
-+                         input: msgrc[0],
-+                         output: 'messages-win32.o',
-+                         command: [windres, '-I', '@OUTDIR@', '-o', '@OUTPUT@', '@INPUT@'])
-+
-+  qga_objs = [msgobj]
-+endif
-+
-+qga = executable('qemu-ga', qga_ss.sources() + qga_objs,
-                  link_args: qga_libs,
-                  dependencies: [qemuutil, libudev],
-                  install: true)
-diff --git a/qga/messages-win32.mc b/qga/messages-win32.mc
-new file mode 100644
-index 0000000000..e21019cebe
---- /dev/null
-+++ b/qga/messages-win32.mc
-@@ -0,0 +1,9 @@
-+LanguageNames=(
-+    English=0x409:MSG00409
-+)
-+
-+MessageId=1
-+SymbolicName=QEMU_GA_EVENTLOG_GENERAL
-+Language=English
-+%1
-+.
+     } else if (level & s->log_level) {
 -- 
 2.25.1
 
