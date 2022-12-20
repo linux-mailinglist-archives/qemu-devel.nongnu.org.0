@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9885B651CDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:08:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE504651CD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 10:08:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7YaQ-0000Wp-J8; Tue, 20 Dec 2022 04:06:58 -0500
+	id 1p7YaQ-0000Wo-Hb; Tue, 20 Dec 2022 04:06:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaL-0000Tf-1A
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaM-0000V5-Ut
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaI-0006S2-CL
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:52 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7YaJ-0006SY-LS
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 04:06:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671527208;
+ s=mimecast20190719; t=1671527210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vp/valfSGKuLYUhJXbSB+M2YyjZCbXow2vNBYYCLYVA=;
- b=hZaZ4moSPOx4LGreFj7OJmtqBWlKMgaGSiVgenP/Sf34WHkTAPjKX71VVwPiBA7gCSWMN2
- pVandOEeRmzn7tMkYgZk3pK+nn2dC8EIcS/vqbbxlpaChMviVHNDHUMn08PuXAVUCB11zn
- ZHTxLILqPzWSEkFcKxWTiODKCTJUcWk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OTk+Wpp3iPmA7OCivmdQUKBzESyu0HHdEfsrReeNkBc=;
+ b=dofTsweGZC7vfmeT+gezCjJVk46IQDaWFPM3xm7CB3xH3riU1AcUxjqGufHxXNOfVnTgiW
+ E6IjZRd8MIrH5gEJZn6H0IaKGj7YjBnBAbYMLsEdgk+B15lkBMHpsFDiU4qw0SuCysJo6F
+ aKyMlBoiXTAbwe/EYxeVJC31hjQsQJE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-JceptnWBM9eKk2w-ah-JKQ-1; Tue, 20 Dec 2022 04:06:47 -0500
-X-MC-Unique: JceptnWBM9eKk2w-ah-JKQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-423-YYosQJKtOTSF5XehfuqT4g-1; Tue, 20 Dec 2022 04:06:47 -0500
+X-MC-Unique: YYosQJKtOTSF5XehfuqT4g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDBB93810D5D;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3A81811E9C;
  Tue, 20 Dec 2022 09:06:46 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CFC41410DD7;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D55B40C2064;
  Tue, 20 Dec 2022 09:06:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6DE7321E691D; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
+ id 6F87C21E691E; Tue, 20 Dec 2022 10:06:45 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com, dgilbert@redhat.com, berrange@redhat.com,
  philmd@linaro.org
-Subject: [PATCH v3 00/18] ui: Move and clean up monitor command code
-Date: Tue, 20 Dec 2022 10:06:27 +0100
-Message-Id: <20221220090645.2844881-1-armbru@redhat.com>
+Subject: [PATCH v3 01/18] ui: Check numeric part of expire_password argument
+ @time properly
+Date: Tue, 20 Dec 2022 10:06:28 +0100
+Message-Id: <20221220090645.2844881-2-armbru@redhat.com>
+In-Reply-To: <20221220090645.2844881-1-armbru@redhat.com>
+References: <20221220090645.2844881-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,66 +80,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is mainly about splitting off monitor-related code.  There's also
-a minimum Spice version bump, and a few UI improvements to HMP
-commands sendkey, change vnc, and info spice.
+When argument @time isn't 'now' or 'never', we parse it as an integer,
+optionally prefixed with '+'.  If parsing fails, we silently assume
+zero.  Report an error and fail instead.
 
-The only reason for keeping new PATCH 12 separate from old PATCH 11 is
-preserving PATCH 11's R-bys.  I might squash them together.
+While there, use qemu_strtou64() instead of strtoull() so
+checkpatch.pl won't complain.
 
-v3:
-* Rebased, straighforward conflicts with "qapi: Elide redundant
-  has_FOO in generated C" (merge commit ae2b87341b5)
-* PATCH 09: Commit message pasto fixed
-* PATCH 11: Comment tweaked
-* PATCH 12: New
-* PATCH 13: protocol_table[] made const [Philippe], #include tweaked
-* PATCH 16-18: New
+Aside: encoding numbers in strings is bad QMP practice.
 
-Markus Armbruster (18):
-  ui: Check numeric part of expire_password argument @time properly
-  ui: Fix silent truncation of numeric keys in HMP sendkey
-  ui/spice: Require spice-protocol >= 0.14.0
-  Revert "hmp: info spice: take out webdav"
-  ui/spice: Require spice-server >= 0.14.0
-  ui/spice: QXLInterface method set_mm_time() is now dead, drop
-  ui/spice: Give hmp_info_spice()'s channel_names[] static linkage
-  ui: Clean up a few things checkpatch.pl would flag later on
-  ui: Move QMP commands from monitor to new ui/ui-qmp-cmds.c
-  ui: Factor out qmp_add_client() parts and move to ui/ui-qmp-cmds.c
-  ui: Move HMP commands from monitor to new ui/ui-hmp-cmds.c
-  ui: Move more HMP commands from monitor to ui/
-  ui: Improve "change vnc" error reporting
-  ui: Factor out hmp_change_vnc(), and move to ui/ui-hmp-cmds.c
-  ui: Reduce nesting in hmp_change_vnc() slightly
-  ui: Split hmp_mouse_set() and move the HMP part to ui/
-  ui: Don't check for mode change after mouse_set error
-  ui: Simplify control flow in qemu_mouse_set()
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ monitor/qmp-cmds.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
- meson.build                   |   4 +-
- hw/display/qxl.h              |   2 -
- include/monitor/hmp.h         |   8 +
- include/monitor/qmp-helpers.h |  26 ++
- include/ui/console.h          |   2 +-
- include/ui/qemu-spice.h       |   8 +-
- include/ui/spice-display.h    |   2 -
- chardev/spice.c               |   2 -
- hw/display/qxl.c              |  26 +-
- monitor/hmp-cmds.c            | 368 +--------------------------
- monitor/misc.c                |  67 -----
- monitor/qmp-cmds.c            | 176 +++----------
- ui/input.c                    |  28 +--
- ui/spice-display.c            |  10 -
- ui/ui-hmp-cmds.c              | 461 ++++++++++++++++++++++++++++++++++
- ui/ui-qmp-cmds.c              | 177 +++++++++++++
- ui/vdagent.c                  |   4 -
- hw/display/trace-events       |   1 -
- ui/meson.build                |   2 +
- 19 files changed, 725 insertions(+), 649 deletions(-)
- create mode 100644 include/monitor/qmp-helpers.h
- create mode 100644 ui/ui-hmp-cmds.c
- create mode 100644 ui/ui-qmp-cmds.c
-
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 2932b3f3a5..a1695b6c96 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -201,15 +201,28 @@ void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
+     time_t when;
+     int rc;
+     const char *whenstr = opts->time;
++    const char *numstr = NULL;
++    uint64_t num;
+ 
+     if (strcmp(whenstr, "now") == 0) {
+         when = 0;
+     } else if (strcmp(whenstr, "never") == 0) {
+         when = TIME_MAX;
+     } else if (whenstr[0] == '+') {
+-        when = time(NULL) + strtoull(whenstr+1, NULL, 10);
++        when = time(NULL);
++        numstr = whenstr + 1;
+     } else {
+-        when = strtoull(whenstr, NULL, 10);
++        when = 0;
++        numstr = whenstr;
++    }
++
++    if (numstr) {
++        if (qemu_strtou64(numstr, NULL, 10, &num) < 0) {
++            error_setg(errp, "Parameter 'time' doesn't take value '%s'",
++                       whenstr);
++            return;
++        }
++        when += num;
+     }
+ 
+     if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
 -- 
 2.38.1
 
