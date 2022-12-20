@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B94652293
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:29:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2616522B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Dec 2022 15:34:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7dbp-0006XL-8t; Tue, 20 Dec 2022 09:28:45 -0500
+	id 1p7dgW-00024R-5f; Tue, 20 Dec 2022 09:33:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p7dbn-0006VI-Ac
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:28:43 -0500
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1p7dbl-0007k5-Oi
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:28:43 -0500
-Received: by mail-qv1-xf30.google.com with SMTP id u10so8342741qvp.4
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:28:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:user-agent:references:mime-version
- :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dR42mZf2y+Z5D/A7BQqqdSFewCz+8IlHn9s8PXJOSSM=;
- b=T84GgODaU7HAabFmajGqbEFcdjDvj3IVSO+qQWrr4RLlziTI7yWUt0/8vUcPJI+/Hr
- dvAjGyI4lZrpQeNbHYx6rrr6doN0GoyMBHBXTPBmok6X1fnM028aBE+ryYkZ0O+Sxt5N
- M00SXKB+/R8AqzG8ipKXxC8w9j7HDHqthIy+VV9GeXk3W8Oh7NLTXkHJekj/DMFBa0np
- 1K+YTEZkJx2OZ6SRwKVVlJ7vCoyOGqVfcGO5dde9Bom13qRcrOHApeBwjcmyNpDS4nJ6
- y/IgXIj8N6lD9eY8CdNJv1TXZe2EED2jWcBRHMoLlmtFWwdLBfWk3kT31xDh8OzifwB5
- E45Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7dgT-00023a-ND
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:33:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7dgM-0000OM-4o
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 09:33:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671546805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=85Z1BTPkUsOlmrpsr7mN4e2fjQHx2yuy26KGVytA66s=;
+ b=IDuuZvqEClxV6FSAYijF48Vpsuy7PeaHEEq33AHReHAgMaWVaZ790e0zjW/OYx1SZZGdag
+ FHkHktxWMX96Mq6qWMy6XlL/FQBWgDvwgFMc1vPCBQoRuwj2xxPnu4V4SZ1JOxR/kAVLMO
+ 1KRlxrqiHaxl8m3lWRZjlZq1+irUvDY=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-403-75Ta-L6UM1u4TJRVvwKBRQ-1; Tue, 20 Dec 2022 09:33:21 -0500
+X-MC-Unique: 75Ta-L6UM1u4TJRVvwKBRQ-1
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-410f1a84ed2so143629547b3.15
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 06:33:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:user-agent:references:mime-version
- :in-reply-to:from:x-gm-message-state:from:to:cc:subject:date
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dR42mZf2y+Z5D/A7BQqqdSFewCz+8IlHn9s8PXJOSSM=;
- b=m5M7yEGKYp9tR+xURR14VhwA7ocSOlgMXzy357xiXROOAzsuqQcmdYEjS3d8u5i5uJ
- YMODLA284w2XO0Kinf89h4u3FUIXz8mwSSVF43Q2USFLu4CEGxT4gf2ZHtbPxiNtfROH
- LguInbbZG+aXs/fgzkzKMo9aY9DG8KEbYz6aQOUn4Ylk90PbunftN2ecd50x8zcoSwiN
- CGaiYWuy53I9rN7dpJGB1eix1LtQGzKHT76r51FRU0LCtMDZy8jIF1acxJFaQL051vRp
- CzKTPYjOY5iHUvQNNT2A+FV3bVtI7izLEridWH9CHTdIkZRBpuIVPojJKZJ6vGKq/YcV
- 0jRQ==
-X-Gm-Message-State: ANoB5pk7I9WcjFXBfAPATiQ+uNPYqFxMV3Tvet+0nM6EKXq2s8FCeLnf
- H8oa5v7ztGbeCFqqkhzwp4IKHreQk1r+iPC6Y8FqoQ==
-X-Google-Smtp-Source: AA0mqf5u76d2CnJ88VBimUZXfdxkzCvMm0h//xZudeFZHbYYLkHu0ov5HTkfftCTnEG0PcyKN/kX14BE+Aef+gnEa5M=
-X-Received: by 2002:ad4:442a:0:b0:4c6:e829:19eb with SMTP id
- e10-20020ad4442a000000b004c6e82919ebmr57134440qvt.23.1671546520623; Tue, 20
- Dec 2022 06:28:40 -0800 (PST)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Tue, 20 Dec 2022 06:28:40 -0800
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-In-Reply-To: <CAFEAcA8bD7SnHTL8r0cwjdUOJ4katcdgSqkLnknp1++JT5CKjg@mail.gmail.com>
-Mime-Version: 1.0
-References: <20221213133510.1279488-1-xuchuangxclwt@bytedance.com>
- <20221213133510.1279488-2-xuchuangxclwt@bytedance.com>
- <CAFEAcA8bD7SnHTL8r0cwjdUOJ4katcdgSqkLnknp1++JT5CKjg@mail.gmail.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Date: Tue, 20 Dec 2022 06:28:40 -0800
-Message-ID: <CALophuuPzKr6qX_TMJLQFRrRmVOHtv=FAnwXFZPFTTn0iuESDw@mail.gmail.com>
-Subject: Re: [RFC v3 1/3] memory: add depth assert in address_space_to_flatview
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com, 
- pbonzini@redhat.com, peterx@redhat.com, david@redhat.com, f4bug@amsat.org, 
- mst@redhat.com, zhouyibo@bytedance.com
-Content-Type: multipart/alternative; boundary="000000000000967beb05f043404c"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-qv1-xf30.google.com
-X-Spam_score_int: 17
-X-Spam_score: 1.7
-X-Spam_bar: +
-X-Spam_report: (1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FORGED_MUA_MOZILLA=2.309, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=1,
- HK_RANDOM_FROM=0.999, HTML_MESSAGE=0.001, NICE_REPLY_A=-1.161,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ bh=85Z1BTPkUsOlmrpsr7mN4e2fjQHx2yuy26KGVytA66s=;
+ b=vJlw9UqPMEDES5KNFTb2utmZXsIZPyEJrkv5Xwt9gRlv71+dPlz5LJbKG8LJ/1+Jqo
+ dwACTBN8uCXyBgd1TKICYvABjx7DXIkIfXVCYAeVWHfl6wI2v628CGmi6tIOXD0cXgDB
+ nVbKrBzf6tygC8oX1KIX0Tx1+F8xZZqSvPs5JnkWlea8Dmix7tfObhjcxfN/VuIRZbst
+ DZ1ysYXQqkvSny3wFijz6Nw74RhMJOQW9KfS5Ot0YZAOY5bHhKqS4eQr+tdwCVV8oGk6
+ CFmQ/hcqAm+gClqU6bBytamwN1JjvxdQ6zPC8LxGZrkLNhSGsWRtF3mu3hiQ12AldhFT
+ f4tw==
+X-Gm-Message-State: AFqh2kpXlKexgGOzD2qrTtE7Rowkr0Bp7HHqkzV0ecdJT9wdI4S/Ilh6
+ cUZ1mn7jykL72FeJQw05Uqyz0BF31Mrsyo/Nt5Fqn8kl5nCHQVpzBNC/8Tz37yf0EqctxapawU0
+ w8gdxN8QZYDVND5U=
+X-Received: by 2002:a05:7500:681b:b0:ea:832e:f64b with SMTP id
+ hd27-20020a057500681b00b000ea832ef64bmr673405gab.2.1671546800534; 
+ Tue, 20 Dec 2022 06:33:20 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtZbf73RTnE9/oFYNwCihc1Zx9qqx2v8I4bIETdWOUqmPYtQNm2V1zaxib94nvhqKS5GSZwLA==
+X-Received: by 2002:a05:7500:681b:b0:ea:832e:f64b with SMTP id
+ hd27-20020a057500681b00b000ea832ef64bmr673394gab.2.1671546800113; 
+ Tue, 20 Dec 2022 06:33:20 -0800 (PST)
+Received: from redhat.com ([37.19.199.118]) by smtp.gmail.com with ESMTPSA id
+ u12-20020a05620a454c00b006fb112f512csm9216606qkp.74.2022.12.20.06.33.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Dec 2022 06:33:19 -0800 (PST)
+Date: Tue, 20 Dec 2022 09:33:14 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cindy Lu <lulu@redhat.com>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v12 0/1] vhost-vdpa: add support for vIOMMU
+Message-ID: <20221220093253-mutt-send-email-mst@kernel.org>
+References: <20221209130805.3614970-1-lulu@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221209130805.3614970-1-lulu@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,107 +94,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000967beb05f043404c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Dec 09, 2022 at 09:08:04PM +0800, Cindy Lu wrote:
+> These patches are to support vIOMMU in vdpa device
+> Verified in vp_vdpa/vdpa_sim_net driverand intel_iommu
+> virtio-iommu device
 
-On 2022/12/16 =E4=B8=8A=E5=8D=8812:51, Peter Maydell wrote:
+Pls address comments and repost.
 
-On Tue, 13 Dec 2022 at 13:36, Chuang Xu <xuchuangxclwt@bytedance.com>
-<xuchuangxclwt@bytedance.com> wrote:
+> changes in V3
+> 1. Move function vfio_get_xlat_addr to memory.c
+> 2. Use the existing memory listener, while the MR is
+> iommu MR then call the function iommu_region_add/
+> iommu_region_del
+> 
+> changes in V4
+> 1.make the comments in vfio_get_xlat_addr more general
+> 
+> changes in V5
+> 1. Address the comments in the last version
+> 2. Add a new arg in the function vfio_get_xlat_addr, which shows whether
+> the memory is backed by a discard manager. So the device can have its
+> own warning.
+> 
+> changes in V6
+> move the error_report for the unpopulated discard back to
+> memeory_get_xlat_addr
+> 
+> changes in V7
+> organize the error massage to avoid the duplicate information
+> 
+> changes in V8
+> Organize the code follow the comments in the last version
+> 
+> changes in V9
+> Organize the code follow the comments
+> 
+> changes in V10
+> Address the comments
+> 
+> changes in V11
+> Address the comments
+> fix the crash found in test
+> 
+> changes in V12
+> Address the comments, squash patch 1 into the next patch
+> improve the code style issue
+> 
+> Cindy Lu (1):
+>   vhost-vdpa: add support for vIOMMU
+> 
+>  hw/virtio/vhost-vdpa.c         | 162 ++++++++++++++++++++++++++++++---
+>  include/hw/virtio/vhost-vdpa.h |  10 ++
+>  2 files changed, 161 insertions(+), 11 deletions(-)
+> 
+> -- 
+> 2.34.3
 
-Before using any flatview, sanity check we're not during a memory
-region transaction or the map can be invalid.
-
-Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
-<xuchuangxclwt@bytedance.com>
----
- include/exec/memory.h | 9 +++++++++
- softmmu/memory.c      | 1 -
- 2 files changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 91f8a2395a..b43cd46084 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1069,8 +1069,17 @@ struct FlatView {
-     MemoryRegion *root;
- };
-
-+static unsigned memory_region_transaction_depth;
-
-This looks odd. If you define a static variable in a
-header file then each .c file which directly or indirectly
-includes the header will get its own private copy of the
-variable. This probably isn't what you want...
-
-thanks
--- PMM
-
-Yes, Maybe we should add a function to acquire the value..
-
-I'll add this part to v4. Thanks!
-
---000000000000967beb05f043404c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8=
-">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix"><div id=3D"lark-mail-quote-e64bb891027e5=
-d7b4f2826a068af7bc6">On 2022/12/16 =E4=B8=8A=E5=8D=8812:51, Peter Maydell
-      wrote:<br>
-    </div></div>
-    <blockquote type=3D"cite" cite=3D"mid:CAFEAcA8bD7SnHTL8r0cwjdUOJ4katcdg=
-SqkLnknp1++JT5CKjg@mail.gmail.com">
-      <pre class=3D"moz-quote-pre">On Tue, 13 Dec 2022 at 13:36, Chuang Xu =
-<a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:xuchuangxclwt@bytedance.c=
-om">&lt;xuchuangxclwt@bytedance.com&gt;</a> wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre">Before using any flatview, sanity chec=
-k we&#39;re not during a memory
-region transaction or the map can be invalid.
-
-Signed-off-by: Chuang Xu <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:=
-xuchuangxclwt@bytedance.com">&lt;xuchuangxclwt@bytedance.com&gt;</a>
----
- include/exec/memory.h | 9 +++++++++
- softmmu/memory.c      | 1 -
- 2 files changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 91f8a2395a..b43cd46084 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1069,8 +1069,17 @@ struct FlatView {
-     MemoryRegion *root;
- };
-
-+static unsigned memory_region_transaction_depth;
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre">This looks odd. If you define a static v=
-ariable in a
-header file then each .c file which directly or indirectly
-includes the header will get its own private copy of the
-variable. This probably isn&#39;t what you want...
-
-thanks
--- PMM
-</pre>
-    </blockquote>
-    <pre>Yes, Maybe we should add a function to acquire the value..
-
-I&#39;ll add this part to v4. Thanks!
-</pre>
- =20
-</body></html>
-
---000000000000967beb05f043404c--
 
