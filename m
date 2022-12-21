@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B2165324D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 15:15:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C738D65324F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 15:16:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7zrh-000741-Hq; Wed, 21 Dec 2022 09:14:37 -0500
+	id 1p7zsI-0007JZ-E2; Wed, 21 Dec 2022 09:15:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1p7zrf-00073s-Qg
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 09:14:35 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1p7zrd-0007rl-U7
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 09:14:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=3tY55ljGXCKRgd61CTTFWJvG7l+4GchBf1YX6M3TkFQ=; b=JVB88UEbFlD/aonn5wHUkbD9oI
- x9nexhVlYUlxtmqLG/bXYFCKtmI5Qx6gnt8HDJIOo+C1wgQzWvzlIQkeQyLC6Z6/MA6xWtukzMC5e
- BTt31V/ajkOQ0bueU97mBW0YXz6Y6UcYzBNinb5zsEPAEU9CaHIPwuUWN5PJ+graGEp3fSSmGWMxj
- CjiiwPWPsyIFBfwhM+b+yG1qOewMcH9XXGxL9j5G/6jHj97qlRbwE/arm+QZNJ+FTgqFDbUBRJcix
- yKsvF0+x6n0VYm7SI5dqIBj2KmiyB52nCtjbfei3plfskrcgYIL1/Y/tpRf4Hke1GbO23olcXi9i/
- oGTF2aDuFkOOaQZ4cpPL6vQaR9xxhFDMau+Dz7V3PlF34g6t42/QU5RGxjZGA6VYOU4W1lSTc+dE1
- WzkIqnb8TJPHaOdb95ejAe/3ujSuxKA+LZzlM5XeLj4kLjJhSHlYopC1SMQLP0ZhcNubc9lcnR2L7
- 72WAXyoxvGtcIeQwq7NGdtQ6IFVoXIpeI9bFa8o1G1Rx6tD5GiiSkaUSElVUDKQGuW++Fgj6ZZzs7
- my8uFHZr9uw4FuWiH6oynxO344jMd5ALtHAgnpuSwy8ZFJBYe2k43SpR88WsxpYSwF5dnDVObBuxU
- 65JL04DMoKpAZOyJ4ECg+eMxhkJZ9WrzILZIahfLM=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-Cc: Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Will Cohen <wwcohen@gmail.com>,
- Bin Meng <bin.meng@windriver.com>, Guohuai Shi <guohuai.shi@windriver.com>
-Subject: Re: [PATCH v3 00/17] hw/9pfs: Add 9pfs support for Windows
-Date: Wed, 21 Dec 2022 15:14:29 +0100
-Message-ID: <1875482.isOkDvx3hk@silver>
-In-Reply-To: <20221219102022.2167736-1-bin.meng@windriver.com>
-References: <20221219102022.2167736-1-bin.meng@windriver.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7zsG-0007AB-8g
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 09:15:12 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1p7zsE-00086C-Nf
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 09:15:12 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ z8-20020a17090abd8800b00219ed30ce47so2387773pjr.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 06:15:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NrtnuWM6XK1BbNFV4Pq41+YcOnytNsBueUkqFUE3rts=;
+ b=v0HebVL/0laAxGW/X3EaMGiX0DA0t3AYgUwomKplN0VEzScm5YiDcdNmvNhU5p/F3B
+ LoGyP8v0mqoe4VV/EiNvITgD3i3kZobbt5vHrOt1X8hsk51DMW5ssRXO4/ytG9PaJZjz
+ ghtrZr6XHnwTxDZqCyTI8DjlVfw//n1Wze7m0VjFhqF4WBICPK4UBDgQ7t5DRRPtzSf+
+ bWT3grCFzKvt//nPNpXIydCxGLV0sf7BQh+vWrZ5bgq/HK/8aauQ5ro/y2IrPee+QKQR
+ pvUxdOaQP5uoItPbmLVPl8O+TZf/+nnvq1jIRbYNWg9h5m9KlTU4gT2m5wAMLgOOhld5
+ llWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NrtnuWM6XK1BbNFV4Pq41+YcOnytNsBueUkqFUE3rts=;
+ b=5Q21vAR4YaoXxnsKh/xGI043CURY1DQ6DRnVHOSmP46De+R1Yj9DKZteS3Zyqda25q
+ 8a+vasBpnnjkyKeTD3DGlVexyY+O7YCwWJjStoykySzzRWcrldSmVzeSSDfiwzGQ+IRs
+ YND+Mu6Lm+IFqE5HIvzpMkF8DrhTULs5SID5a247jo6JlnQr+jDnnx6g5DDPVKbMfHkf
+ QnV03KHH0L4hUgU3jncdVsmYy6YKZwhU8XPbduDkp7tGt2vW1JxXFtnVDDp9MJF5tqIk
+ c2hrY7P1vSy3iHyqCWKahs9vZzWFkQNVDQwxPHLOVYMTqVfr3Vd/YeUxozAR2CjpxBKH
+ zJwA==
+X-Gm-Message-State: AFqh2kq24MWPVRZDwFda54ROxUpVvfWSFc9ALnBWQGlmLcZD/JA9jIdw
+ QdREYb7PfJq6i41uzbXp3vfONbwLoWUivIb7j0+10g==
+X-Google-Smtp-Source: AMrXdXs6Pz+PQB/isTy8fVLA79udLDh/ue7HyZkBJSoGt1kP906u7scAsgm1yqzTcMeMTTN7VN2tuntcVy3OPdhywa4=
+X-Received: by 2002:a17:902:9890:b0:189:b0a3:cf4a with SMTP id
+ s16-20020a170902989000b00189b0a3cf4amr88386plp.60.1671632108861; Wed, 21 Dec
+ 2022 06:15:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+References: <20221220174638.2156308-1-peter.maydell@linaro.org>
+ <873599syl4.fsf@suse.de>
+In-Reply-To: <873599syl4.fsf@suse.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 21 Dec 2022 14:14:57 +0000
+Message-ID: <CAFEAcA_JG16xVWd3QAJxt+Bs9rKabWz9cLpw=CRWEOchRPCqVw@mail.gmail.com>
+Subject: Re: [PATCH] block/io: Check for replay-enabled in
+ bdrv_drain_all_begin()
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,33 +87,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Monday, December 19, 2022 11:20:04 AM CET Bin Meng wrote:
-> At present there is no Windows support for 9p file system.
-> This series adds initial Windows support for 9p file system.
-> 
-> 'local' file system backend driver is supported on Windows,
-> including open, read, write, close, rename, remove, etc.
-> All security models are supported. The mapped (mapped-xattr)
-> security model is implemented using NTFS Alternate Data Stream
-> (ADS) so the 9p export path shall be on an NTFS partition.
-> 
-> 'synth' driver is adapted for Windows too so that we can now
-> run qtests on Windows for 9p related regression testing.
-> 
-> Example command line to test:
-> 
->   "-fsdev local,path=c:\msys64,security_model=mapped,id=p9 -device 
-virtio-9p-pci,fsdev=p9,mount_tag=p9fs"
-> 
-> Base-commit: 562d4af32ec2213061f844b3838223fd7711b56a
+On Tue, 20 Dec 2022 at 18:46, Fabiano Rosas <farosas@suse.de> wrote:
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > In commit da0bd74434 we refactored bdrv_drain_all_begin() to pull out
+> > the non-polling part into bdrv_drain_all_begin_nopoll().  This change
+> > broke record-and-replay, because the "return early if replay enabled"
+> > check is now in the sub-function bdrv_drain_all_begin_nopoll(), and
+> > so it only causes us to return from that function, and not from the
+> > calling bdrv_drain_all_begin().
+> >
+> > Fix the regression by checking whether replay is enabled in both
+> > functions.
+> >
+> > The breakage and fix can be tested via 'make check-avocado': the
+> > tests/avocado/reverse_debugging.py:ReverseDebugging_X86_64.test_x86_64_pc
+> > tests/avocado/reverse_debugging.py:ReverseDebugging_AArch64.test_aarch64_virt
+> > tests were both broken by this.
+> >
+> > Fixes: da0bd744344adb1f285 ("block: Factor out bdrv_drain_all_begin_nopoll()")
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> Tested-by: Fabiano Rosas <farosas@suse.de>
 
-Queued patches 1..3 for now on 9p.next:
-https://github.com/cschoenebeck/qemu/commits/9p.next
+Thanks; I've applied this to git since it unbreaks 'make check'.
 
-Thanks!
-
-Best regards,
-Christian Schoenebeck
-
-
+-- PMM
 
