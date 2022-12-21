@@ -2,96 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D59B653938
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:59:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD1A6539A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 00:15:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87mO-0007yS-JR; Wed, 21 Dec 2022 17:41:40 -0500
+	id 1p88HZ-0008Hm-Se; Wed, 21 Dec 2022 18:13:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1p87mL-0007sO-0m
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:41:37 -0500
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1p87mI-0000kM-Pi
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:41:36 -0500
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BLMRDR1016133; Wed, 21 Dec 2022 22:41:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=bJ89UgkOBFgPAiR4mlY+EauBzQ88vRJ3V6Sb/FHkqss=;
- b=kBJRbltKVnfsXIcByZmLfBXFzR5aX7IeilI24+FzcZ7/qJp3D2Xv+tIpYuberscuTS5N
- YTyGSvK2FWzQGVZaUUYsMaoN91Cp2GBdms7Z9olK4ZSxrhalLZfnrejvZvwZVVdkU/3R
- PRz1pKlceWSBBxSVV+6ALJ8O1koKInMhDAk4ojo4/WCY8WwGl99cJveiPRi0HKz2+Yj0
- gscARf5KgOHOXpAK/F79IeX/JaMicItdOYKCKi8MoM4yGaKmJs8L3URaQioTFKk9dOke
- fK27TWFexz2jb4BKfGagNf4IUJIP2RAMVcJhCDlnfyWTKEHSdYLG301BGs3wvq+xyV+T 8g== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mm0wfhcm4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Dec 2022 22:41:31 +0000
-Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2BLMfUuc012264; 
- Wed, 21 Dec 2022 22:41:30 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3mh6ukkyw7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 21 Dec 2022 22:41:30 +0000
-Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BLMfTaE012243;
- Wed, 21 Dec 2022 22:41:29 GMT
-Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
- [10.47.235.220])
- by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 2BLMfTue012161;
- Wed, 21 Dec 2022 22:41:29 +0000
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id 117B65000B0; Wed, 21 Dec 2022 14:41:29 -0800 (PST)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
- ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
-Subject: [PATCH 4/4] Hexagon (target/hexagon) Add overrides for dealloc-return
- instructions
-Date: Wed, 21 Dec 2022 14:41:27 -0800
-Message-Id: <20221221224127.20916-5-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221221224127.20916-1-tsimpson@quicinc.com>
-References: <20221221224127.20916-1-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1p88HX-0008HP-E7; Wed, 21 Dec 2022 18:13:51 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1p88HU-0006aB-Ig; Wed, 21 Dec 2022 18:13:51 -0500
+Received: by mail-ej1-x631.google.com with SMTP id qk9so1095434ejc.3;
+ Wed, 21 Dec 2022 15:13:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JbUSAbX+r7mXkVfusUjUGiqbFiEA6iMQZrAXUYVPB28=;
+ b=YOV3QJFdmDOUCztawysPcVyWMXHenXDOkE6NjA0ndleYwY2fAkYXTZSqy+RSUI1AXy
+ o9djkozupA9k2z304NWPYrvGWIuxtkU/LA9PSe30bydR6IO3uAF5ax6GfkIbkGoHVZ5S
+ d7NAf+njfY4SbVoqr3h19JdfIuIh2pfC6d+njqvxRZpw9Bx3pxgW//UVImKwCIhR+cOb
+ iJpROHjOWH4zOYPE3Z65QBUxA1CxhzXLjvN/G2hmRbHuJ7YLxPIkpwHh3KoDzFFzF5Js
+ bk45HHFK5ITGz4WtRXkSTPKwTXM/xFZjt9vOLuih7fVEkM/V4H5PPVRlq3I00L84SlcN
+ 1h7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JbUSAbX+r7mXkVfusUjUGiqbFiEA6iMQZrAXUYVPB28=;
+ b=huBA9ogZ0rJ5VZczYdteRzetPwEGswdSNFioYvQtuFFXTcr/UbHp1lageetZIeaPRF
+ fpIMkRczFNtod4BbgC9gLbAiyKHGLTNB91vwItQv/FAY6BQ79X2PNaGtOsSe1CUh8bs3
+ Ih3hb93gKihMqLNkVy07vCAMhlk3g+QYhQ65CHcPkEPm9BNA54RUD5SEiLuschGjfM6o
+ +PHq5jZ6oe1abjjzQaoNFaC5c2w5gwxZovooVsJJCOOS0xcnjJTAA+2puoMod5fnjmxZ
+ XZqGoQ3xBWV/e6EKsVgaHDvbTjbMl4cHbNVxjGxTG/stAKGt2TT7Eq7HcOSJpfljO/0c
+ MgDQ==
+X-Gm-Message-State: AFqh2kokhX94VyhqppPGD2VQWKiKYZnD18L7gomZMm3d+N6zibMDTlfP
+ nFMHOeRYw7zxDmrLLez2BGg=
+X-Google-Smtp-Source: AMrXdXtkhYOXrOuMoTAtTX7R29tRmr87xmyxfn3PT1zkjztEHvjXj1IX37CQLL2ZzjtjO2nHbpU7vA==
+X-Received: by 2002:a17:906:a186:b0:82d:e2a6:4b0d with SMTP id
+ s6-20020a170906a18600b0082de2a64b0dmr3118010ejy.18.1671664426030; 
+ Wed, 21 Dec 2022 15:13:46 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-092-224-051-061.92.224.pool.telefonica.de.
+ [92.224.51.61]) by smtp.gmail.com with ESMTPSA id
+ g19-20020a170906539300b007c0efbaa8a0sm7669609ejo.4.2022.12.21.15.13.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Dec 2022 15:13:45 -0800 (PST)
+Date: Wed, 21 Dec 2022 23:13:35 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+CC: Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
+ John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_00/30=5D_This_series_consolidates_t?=
+ =?US-ASCII?Q?he_implementations_of_the_PIIX3_and_PIIX4_south?=
+In-Reply-To: <f4d9fd97-a986-d212-5cf5-332e831ee337@linaro.org>
+References: <20221221170003.2929-1-shentey@gmail.com>
+ <f4d9fd97-a986-d212-5cf5-332e831ee337@linaro.org>
+Message-ID: <DBC3D87B-7F66-4A83-BF1D-D67A66A06CF8@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: K17cWySvFTBHvvq7XgP7vRgp4U4Lo9NF
-X-Proofpoint-GUID: K17cWySvFTBHvvq7XgP7vRgp4U4Lo9NF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-21_12,2022-12-21_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=2
- mlxlogscore=168 clxscore=1015
- spamscore=2 suspectscore=0 phishscore=0 malwarescore=0 impostorscore=0
- priorityscore=1501 mlxscore=2 bulkscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2212210192
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@qualcomm.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,134 +99,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-VGhlc2UgaW5zdHJ1Y3Rpb25zIHBlcmZvcm0gYSBkZWFsbG9jZnJhbWUrcmV0dXJuIChqdW1wciBy
-MzEpCgpBZGQgb3ZlcnJpZGVzIGZvcgogICAgTDRfcmV0dXJuCiAgICBTTDJfcmV0dXJuCiAgICBM
-NF9yZXR1cm5fdAogICAgTDRfcmV0dXJuX2YKICAgIEw0X3JldHVybl90bmV3X3B0CiAgICBMNF9y
-ZXR1cm5fZm5ld19wdAogICAgTDRfcmV0dXJuX3RuZXdfcG50CiAgICBMNF9yZXR1cm5fZm5ld19w
-bnQKICAgIFNMMl9yZXR1cm5fdAogICAgU0wyX3JldHVybl9mCiAgICBTTDJfcmV0dXJuX3RuZXcK
-ICAgIFNMMl9yZXR1cm5fZm5ldwoKVGhpcyBwYXRjaCBlbGltaW5hdGVzIHRoZSBsYXN0IGhlbHBl
-ciB0aGF0IHVzZXMgd3JpdGVfbmV3X3BjLCBzbyB3ZQpyZW1vdmUgaXQgZnJvbSBvcF9oZWxwZXIu
-YwoKU2lnbmVkLW9mZi1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMuY29tPgot
-LS0KIHRhcmdldC9oZXhhZ29uL2dlbl90Y2cuaCAgIHwgNTQgKysrKysrKysrKysrKysrKysrKysr
-KysrCiB0YXJnZXQvaGV4YWdvbi9nZW5wdHIuYyAgICB8IDg2ICsrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrCiB0YXJnZXQvaGV4YWdvbi9vcF9oZWxwZXIuYyB8IDI0IC0tLS0t
-LS0tLS0tCiAzIGZpbGVzIGNoYW5nZWQsIDE0MCBpbnNlcnRpb25zKCspLCAyNCBkZWxldGlvbnMo
-LSkKCmRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdvbi9nZW5fdGNnLmggYi90YXJnZXQvaGV4YWdv
-bi9nZW5fdGNnLmgKaW5kZXggMWFjMjNiNzVhMC4uYjU0MDM2NjU1YSAxMDA2NDQKLS0tIGEvdGFy
-Z2V0L2hleGFnb24vZ2VuX3RjZy5oCisrKyBiL3RhcmdldC9oZXhhZ29uL2dlbl90Y2cuaApAQCAt
-NTA4LDYgKzUwOCw2MCBAQAogI2RlZmluZSBmR0VOX1RDR19TMl9zdG9yZXJpbmV3X3BjcihTSE9S
-VENPREUpIFwKICAgICBmR0VOX1RDR19TVE9SRV9wY3IoMiwgZlNUT1JFKDEsIDQsIEVBLCBOdE4p
-KQogCisvKgorICogZGVhbGxvY19yZXR1cm4KKyAqIEFzc2VtYmxlciBtYXBwZWQgdG8KKyAqIHIz
-MTozMCA9IGRlYWxsb2NfcmV0dXJuKHIzMCk6cmF3CisgKi8KKyNkZWZpbmUgZkdFTl9UQ0dfTDRf
-cmV0dXJuKFNIT1JUQ09ERSkgXAorICAgIGdlbl9yZXR1cm4oY3R4LCBSZGRWLCBSc1YpCisKKy8q
-CisgKiBzdWItaW5zdHJ1Y3Rpb24gdmVyc2lvbiAobm8gUmRkViwgc28gaGFuZGxlIGl0IG1hbnVh
-bGx5KQorICovCisjZGVmaW5lIGZHRU5fVENHX1NMMl9yZXR1cm4oU0hPUlRDT0RFKSBcCisgICAg
-ZG8geyBcCisgICAgICAgIFRDR3ZfaTY0IFJkZFYgPSB0Y2dfdGVtcF9uZXdfaTY0KCk7IFwKKyAg
-ICAgICAgZ2VuX3JldHVybihjdHgsIFJkZFYsIGhleF9ncHJbSEVYX1JFR19GUF0pOyBcCisgICAg
-ICAgIGdlbl9sb2dfcmVnX3dyaXRlX3BhaXIoSEVYX1JFR19GUCwgUmRkVik7IFwKKyAgICAgICAg
-dGNnX3RlbXBfZnJlZV9pNjQoUmRkVik7IFwKKyAgICB9IHdoaWxlICgwKQorCisvKgorICogQ29u
-ZGl0aW9uYWwgcmV0dXJucyBmb2xsb3cgdGhpcyBuYW1pbmcgY29udmVudGlvbgorICogICAgIF90
-ICAgICAgICAgICAgICAgICBwcmVkaWNhdGUgdHJ1ZQorICogICAgIF9mICAgICAgICAgICAgICAg
-ICBwcmVkaWNhdGUgZmFsc2UKKyAqICAgICBfdG5ld19wdCAgICAgICAgICAgcHJlZGljYXRlLm5l
-dyB0cnVlIHByZWRpY3QgdGFrZW4KKyAqICAgICBfZm5ld19wdCAgICAgICAgICAgcHJlZGljYXRl
-Lm5ldyBmYWxzZSBwcmVkaWN0IHRha2VuCisgKiAgICAgX3RuZXdfcG50ICAgICAgICAgIHByZWRp
-Y2F0ZS5uZXcgdHJ1ZSBwcmVkaWN0IG5vdCB0YWtlbgorICogICAgIF9mbmV3X3BudCAgICAgICAg
-ICBwcmVkaWNhdGUubmV3IGZhbHNlIHByZWRpY3Qgbm90IHRha2VuCisgKiBQcmVkaWN0aW9ucyBh
-cmUgbm90IG1vZGVsbGVkIGluIFFFTVUKKyAqCisgKiBFeGFtcGxlOgorICogICAgIGlmIChwMSkg
-cjMxOjMwID0gZGVhbGxvY19yZXR1cm4ocjMwKTpyYXcKKyAqLworI2RlZmluZSBmR0VOX1RDR19M
-NF9yZXR1cm5fdChTSE9SVENPREUpIFwKKyAgICBnZW5fY29uZF9yZXR1cm4oY3R4LCBSZGRWLCBS
-c1YsIFB2ViwgVENHX0NPTkRfRVEpOworI2RlZmluZSBmR0VOX1RDR19MNF9yZXR1cm5fZihTSE9S
-VENPREUpIFwKKyAgICBnZW5fY29uZF9yZXR1cm4oY3R4LCBSZGRWLCBSc1YsIFB2ViwgVENHX0NP
-TkRfTkUpCisjZGVmaW5lIGZHRU5fVENHX0w0X3JldHVybl90bmV3X3B0KFNIT1JUQ09ERSkgXAor
-ICAgIGdlbl9jb25kX3JldHVybihjdHgsIFJkZFYsIFJzViwgUHZOLCBUQ0dfQ09ORF9FUSkKKyNk
-ZWZpbmUgZkdFTl9UQ0dfTDRfcmV0dXJuX2ZuZXdfcHQoU0hPUlRDT0RFKSBcCisgICAgZ2VuX2Nv
-bmRfcmV0dXJuKGN0eCwgUmRkViwgUnNWLCBQdk4sIFRDR19DT05EX05FKQorI2RlZmluZSBmR0VO
-X1RDR19MNF9yZXR1cm5fdG5ld19wbnQoU0hPUlRDT0RFKSBcCisgICAgZ2VuX2NvbmRfcmV0dXJu
-KGN0eCwgUmRkViwgUnNWLCBQdk4sIFRDR19DT05EX0VRKQorI2RlZmluZSBmR0VOX1RDR19MNF9y
-ZXR1cm5fZm5ld19wbnQoU0hPUlRDT0RFKSBcCisgICAgZ2VuX2NvbmRfcmV0dXJuKGN0eCwgUmRk
-ViwgUnNWLCBQdk4sIFRDR19DT05EX05FKQorCisjZGVmaW5lIGZHRU5fVENHX1NMMl9yZXR1cm5f
-dChTSE9SVENPREUpIFwKKyAgICBnZW5fY29uZF9yZXR1cm5fc3ViaW5zbihjdHgsIFRDR19DT05E
-X0VRLCBoZXhfcHJlZFswXSkKKyNkZWZpbmUgZkdFTl9UQ0dfU0wyX3JldHVybl9mKFNIT1JUQ09E
-RSkgXAorICAgIGdlbl9jb25kX3JldHVybl9zdWJpbnNuKGN0eCwgVENHX0NPTkRfTkUsIGhleF9w
-cmVkWzBdKQorI2RlZmluZSBmR0VOX1RDR19TTDJfcmV0dXJuX3RuZXcoU0hPUlRDT0RFKSBcCisg
-ICAgZ2VuX2NvbmRfcmV0dXJuX3N1Ymluc24oY3R4LCBUQ0dfQ09ORF9FUSwgaGV4X25ld19wcmVk
-X3ZhbHVlWzBdKQorI2RlZmluZSBmR0VOX1RDR19TTDJfcmV0dXJuX2ZuZXcoU0hPUlRDT0RFKSBc
-CisgICAgZ2VuX2NvbmRfcmV0dXJuX3N1Ymluc24oY3R4LCBUQ0dfQ09ORF9ORSwgaGV4X25ld19w
-cmVkX3ZhbHVlWzBdKQorCiAvKgogICogTWF0aGVtYXRpY2FsIG9wZXJhdGlvbnMgd2l0aCBtb3Jl
-IHRoYW4gb25lIGRlZmluaXRpb24gcmVxdWlyZQogICogc3BlY2lhbCBoYW5kbGluZwpkaWZmIC0t
-Z2l0IGEvdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMgYi90YXJnZXQvaGV4YWdvbi9nZW5wdHIuYwpp
-bmRleCAwZWVmMmEyMDY4Li4xNTQ0ZDE4MWYxIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi9n
-ZW5wdHIuYworKysgYi90YXJnZXQvaGV4YWdvbi9nZW5wdHIuYwpAQCAtNzA2LDYgKzcwNiw5MiBA
-QCBzdGF0aWMgdm9pZCBnZW5fY29uZF9jYWxscihEaXNhc0NvbnRleHQgKmN0eCwKICAgICBnZW5f
-c2V0X2xhYmVsKHNraXApOwogfQogCisvKiBmcmFtZSBePSAoaW50NjRfdClGUkFNRUtFWSA8PCAz
-MiAqLworc3RhdGljIHZvaWQgZ2VuX2ZyYW1lX3Vuc2NyYW1ibGUoVENHdl9pNjQgZnJhbWUpCit7
-CisgICAgVENHdl9pNjQgZnJhbWVrZXkgPSB0Y2dfdGVtcF9uZXdfaTY0KCk7CisgICAgdGNnX2dl
-bl9leHR1X2kzMl9pNjQoZnJhbWVrZXksIGhleF9ncHJbSEVYX1JFR19GUkFNRUtFWV0pOworICAg
-IHRjZ19nZW5fc2hsaV9pNjQoZnJhbWVrZXksIGZyYW1la2V5LCAzMik7CisgICAgdGNnX2dlbl94
-b3JfaTY0KGZyYW1lLCBmcmFtZSwgZnJhbWVrZXkpOworICAgIHRjZ190ZW1wX2ZyZWVfaTY0KGZy
-YW1la2V5KTsKK30KKworc3RhdGljIHZvaWQgZ2VuX2xvYWRfZnJhbWUoRGlzYXNDb250ZXh0ICpj
-dHgsIFRDR3ZfaTY0IGZyYW1lLCBUQ0d2IEVBKQoreworICAgIEluc24gKmluc24gPSBjdHgtPmlu
-c247ICAvKiBOZWVkZWQgZm9yIENIRUNLX05PU0hVRiAqLworICAgIENIRUNLX05PU0hVRihFQSwg
-OCk7CisgICAgdGNnX2dlbl9xZW11X2xkNjQoZnJhbWUsIEVBLCBjdHgtPm1lbV9pZHgpOworfQor
-CitzdGF0aWMgdm9pZCBnZW5fcmV0dXJuX2Jhc2UoRGlzYXNDb250ZXh0ICpjdHgsIFRDR3ZfaTY0
-IGRzdCwgVENHdiBzcmMsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgVENHdiByMjkpCit7
-CisgICAgLyoKKyAgICAgKiBmcmFtZSA9ICpzcmMKKyAgICAgKiBkc3QgPSBmcmFtZV91bnNjcmFt
-YmxlKGZyYW1lKQorICAgICAqIFNQID0gc3JjICsgOAorICAgICAqIFBDID0gZHN0LndbMV0KKyAg
-ICAgKi8KKyAgICBUQ0d2X2k2NCBmcmFtZSA9IHRjZ190ZW1wX25ld19pNjQoKTsKKyAgICBUQ0d2
-IHIzMSA9IHRjZ190ZW1wX25ldygpOworCisgICAgZ2VuX2xvYWRfZnJhbWUoY3R4LCBmcmFtZSwg
-c3JjKTsKKyAgICBnZW5fZnJhbWVfdW5zY3JhbWJsZShmcmFtZSk7CisgICAgdGNnX2dlbl9tb3Zf
-aTY0KGRzdCwgZnJhbWUpOworICAgIHRjZ19nZW5fYWRkaV90bChyMjksIHNyYywgOCk7CisgICAg
-dGNnX2dlbl9leHRyaF9pNjRfaTMyKHIzMSwgZHN0KTsKKyAgICBnZW5fanVtcHIoY3R4LCByMzEp
-OworCisgICAgdGNnX3RlbXBfZnJlZV9pNjQoZnJhbWUpOworICAgIHRjZ190ZW1wX2ZyZWUocjMx
-KTsKK30KKworc3RhdGljIHZvaWQgZ2VuX3JldHVybihEaXNhc0NvbnRleHQgKmN0eCwgVENHdl9p
-NjQgZHN0LCBUQ0d2IHNyYykKK3sKKyAgICBUQ0d2IHIyOSA9IHRjZ190ZW1wX25ldygpOworICAg
-IGdlbl9yZXR1cm5fYmFzZShjdHgsIGRzdCwgc3JjLCByMjkpOworICAgIGdlbl9sb2dfcmVnX3dy
-aXRlKEhFWF9SRUdfU1AsIHIyOSk7CisgICAgdGNnX3RlbXBfZnJlZShyMjkpOworfQorCisvKiBp
-ZiAocHJlZCkgZHN0ID0gZGVhbGxvY19yZXR1cm4oc3JjKTpyYXcgKi8KK3N0YXRpYyB2b2lkIGdl
-bl9jb25kX3JldHVybihEaXNhc0NvbnRleHQgKmN0eCwgVENHdl9pNjQgZHN0LCBUQ0d2IHNyYywK
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICBUQ0d2IHByZWQsIFRDR0NvbmQgY29uZCkKK3sK
-KyAgICBUQ0d2IExTQiA9IHRjZ190ZW1wX25ldygpOworICAgIFRDR3YgbWFzayA9IHRjZ190ZW1w
-X25ldygpOworICAgIFRDR3YgcjI5ID0gdGNnX3RlbXBfbG9jYWxfbmV3KCk7CisgICAgVENHTGFi
-ZWwgKnNraXAgPSBnZW5fbmV3X2xhYmVsKCk7CisgICAgdGNnX2dlbl9hbmRpX3RsKExTQiwgcHJl
-ZCwgMSk7CisKKyAgICAvKiBJbml0aWFsaXplIHRoZSByZXN1bHRzIGluIGNhc2UgdGhlIHByZWRp
-Y2F0ZSBpcyBmYWxzZSAqLworICAgIHRjZ19nZW5fbW92aV9pNjQoZHN0LCAwKTsKKyAgICB0Y2df
-Z2VuX21vdmlfdGwocjI5LCAwKTsKKworICAgIC8qIFNldCB0aGUgYml0IGluIGhleF9zbG90X2Nh
-bmNlbGxlZCBpZiB0aGUgcHJlZGljYXRlIGlzIGZsYXNlICovCisgICAgdGNnX2dlbl9tb3ZpX3Rs
-KG1hc2ssIDEgPDwgY3R4LT5pbnNuLT5zbG90KTsKKyAgICB0Y2dfZ2VuX29yX3RsKG1hc2ssIGhl
-eF9zbG90X2NhbmNlbGxlZCwgbWFzayk7CisgICAgdGNnX2dlbl9tb3Zjb25kX3RsKGNvbmQsIGhl
-eF9zbG90X2NhbmNlbGxlZCwgTFNCLCB0Y2dfY29uc3RhbnRfdGwoMCksCisgICAgICAgICAgICAg
-ICAgICAgICAgIG1hc2ssIGhleF9zbG90X2NhbmNlbGxlZCk7CisgICAgdGNnX3RlbXBfZnJlZSht
-YXNrKTsKKworICAgIHRjZ19nZW5fYnJjb25kaV90bChjb25kLCBMU0IsIDAsIHNraXApOworICAg
-IHRjZ190ZW1wX2ZyZWUoTFNCKTsKKyAgICBnZW5fcmV0dXJuX2Jhc2UoY3R4LCBkc3QsIHNyYywg
-cjI5KTsKKyAgICBnZW5fc2V0X2xhYmVsKHNraXApOworICAgIGdlbl9sb2dfcHJlZGljYXRlZF9y
-ZWdfd3JpdGUoSEVYX1JFR19TUCwgcjI5LCBjdHgtPmluc24tPnNsb3QpOworICAgIHRjZ190ZW1w
-X2ZyZWUocjI5KTsKK30KKworLyogc3ViLWluc3RydWN0aW9uIHZlcnNpb24gKG5vIFJkZFYsIHNv
-IGhhbmRsZSBpdCBtYW51YWxseSkgKi8KK3N0YXRpYyB2b2lkIGdlbl9jb25kX3JldHVybl9zdWJp
-bnNuKERpc2FzQ29udGV4dCAqY3R4LCBUQ0dDb25kIGNvbmQsIFRDR3YgcHJlZCkKK3sKKyAgICBU
-Q0d2X2k2NCBSZGRWID0gdGNnX3RlbXBfbG9jYWxfbmV3X2k2NCgpOworICAgIGdlbl9jb25kX3Jl
-dHVybihjdHgsIFJkZFYsIGhleF9ncHJbSEVYX1JFR19GUF0sIHByZWQsIGNvbmQpOworICAgIGdl
-bl9sb2dfcHJlZGljYXRlZF9yZWdfd3JpdGVfcGFpcihIRVhfUkVHX0ZQLCBSZGRWLCBjdHgtPmlu
-c24tPnNsb3QpOworICAgIHRjZ190ZW1wX2ZyZWVfaTY0KFJkZFYpOworfQorCiBzdGF0aWMgdm9p
-ZCBnZW5fZW5kbG9vcDAoRGlzYXNDb250ZXh0ICpjdHgpCiB7CiAgICAgVENHdiBscGNmZyA9IHRj
-Z190ZW1wX2xvY2FsX25ldygpOwpkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hleGFnb24vb3BfaGVscGVy
-LmMgYi90YXJnZXQvaGV4YWdvbi9vcF9oZWxwZXIuYwppbmRleCAzNTQ0OWVmNTI0Li45YWEwZjk2
-M2ZhIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi9vcF9oZWxwZXIuYworKysgYi90YXJnZXQv
-aGV4YWdvbi9vcF9oZWxwZXIuYwpAQCAtMTA1LDMwICsxMDUsNiBAQCB2b2lkIGxvZ19zdG9yZTY0
-KENQVUhleGFnb25TdGF0ZSAqZW52LCB0YXJnZXRfdWxvbmcgYWRkciwKICAgICBlbnYtPm1lbV9s
-b2dfc3RvcmVzW3Nsb3RdLmRhdGE2NCA9IHZhbDsKIH0KIAotdm9pZCB3cml0ZV9uZXdfcGMoQ1BV
-SGV4YWdvblN0YXRlICplbnYsIGJvb2wgcGt0X2hhc19tdWx0aV9jb2YsCi0gICAgICAgICAgICAg
-ICAgICAgICAgICAgdGFyZ2V0X3Vsb25nIGFkZHIpCi17Ci0gICAgSEVYX0RFQlVHX0xPRygid3Jp
-dGVfbmV3X3BjKDB4IiBUQVJHRVRfRk1UX2x4ICIpXG4iLCBhZGRyKTsKLQotICAgIGlmIChwa3Rf
-aGFzX211bHRpX2NvZikgewotICAgICAgICAvKgotICAgICAgICAgKiBJZiBtb3JlIHRoYW4gb25l
-IGJyYW5jaCBpcyB0YWtlbiBpbiBhIHBhY2tldCwgb25seSB0aGUgZmlyc3Qgb25lCi0gICAgICAg
-ICAqIGlzIGFjdHVhbGx5IGRvbmUuCi0gICAgICAgICAqLwotICAgICAgICBpZiAoZW52LT5icmFu
-Y2hfdGFrZW4pIHsKLSAgICAgICAgICAgIEhFWF9ERUJVR19MT0coIklORk86IG11bHRpcGxlIGJy
-YW5jaGVzIHRha2VuIGluIHNhbWUgcGFja2V0LCAiCi0gICAgICAgICAgICAgICAgICAgICAgICAg
-ICJpZ25vcmluZyB0aGUgc2Vjb25kIG9uZVxuIik7Ci0gICAgICAgIH0gZWxzZSB7Ci0gICAgICAg
-ICAgICBmQ0hFQ0tfUENBTElHTihhZGRyKTsKLSAgICAgICAgICAgIGVudi0+Z3ByW0hFWF9SRUdf
-UENdID0gYWRkcjsKLSAgICAgICAgICAgIGVudi0+YnJhbmNoX3Rha2VuID0gMTsKLSAgICAgICAg
-fQotICAgIH0gZWxzZSB7Ci0gICAgICAgIGZDSEVDS19QQ0FMSUdOKGFkZHIpOwotICAgICAgICBl
-bnYtPmdwcltIRVhfUkVHX1BDXSA9IGFkZHI7Ci0gICAgfQotfQotCiAvKiBIYW5keSBwbGFjZSB0
-byBzZXQgYSBicmVha3BvaW50ICovCiB2b2lkIEhFTFBFUihkZWJ1Z19zdGFydF9wYWNrZXQpKENQ
-VUhleGFnb25TdGF0ZSAqZW52KQogewotLSAKMi4xNy4xCgo=
+
+
+Am 21=2E Dezember 2022 19:15:04 UTC schrieb "Philippe Mathieu-Daud=C3=A9" =
+<philmd@linaro=2Eorg>:
+>On 21/12/22 17:59, Bernhard Beschow wrote:
+>> code as possible and to bring both device models to feature parity such=
+ that
+>> perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc mach=
+ine=2E This
+>> could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on=
+ this
+>> list before=2E
+>>=20
+>> The series is structured as follows: First, PIIX3 is changed to instant=
+iate
+>> internal devices itself, like PIIX4 does already=2E Second, PIIX3 gets =
+prepared
+>> for the merge with PIIX4 which includes some fixes, cleanups, and renam=
+ings=2E
+>> Third, the same is done for PIIX4=2E In step four the implementations a=
+re merged=2E
+>> Since some consolidations could be done easier with merged implementati=
+ons, the
+>> consolidation continues in step five which concludes the series=2E
+>>=20
+>> One particular challenge in this series was that the PIC of PIIX3 used =
+to be
+>> instantiated outside of the south bridge while some sub functions requi=
+re a PIC
+>> with populated qemu_irqs=2E This has been solved by introducing a proxy=
+ PIC which
+>> furthermore allows PIIX3 to be agnostic towards the virtualization tech=
+nology
+>> used (KVM, TCG, Xen)=2E Due to consolidation PIIX4 gained the proxy PIC=
+ as well=2E
+>>=20
+>> Another challenge was dealing with optional devices where Peter already=
+ gave
+>> advice in [1] which this series implements=2E
+>>=20
+>> Last but not least there might be some opportunity to consolidate VM st=
+ate
+>> handling, probably by reusing the one from PIIX3=2E Since I'm not very =
+familiar
+>> with the requirements I didn't touch it so far=2E
+>>=20
+>> v4:
+>> - Rebase onto "[PATCH v2 0/3] Decouple INTx-to-LNKx routing from south =
+bridges"
+>>    since it is already queued via mips-next=2E This eliminates patches
+>>    'hw/isa/piix3: Prefix pci_slot_get_pirq() with "piix3_"' and 'hw/isa=
+/piix4:
+>>    Prefix pci_slot_get_pirq() with "piix4_"'=2E
+>> - Squash 'hw/isa/piix: Drop the "3" from the PIIX base class' into
+>>    'hw/isa/piix3: Rename typedef PIIX3State to PIIXState'=2E I original=
+ly only
+>>    split these patches since I wasn't sure whether renaming a type was =
+allowed=2E
+>> - Add new patch 'hw/i386/pc_piix: Associate pci_map_irq_fn as soon as P=
+CI bus is
+>>    created' for forther cleanup of INTx-to-LNKx route decoupling=2E
+>
+>Sigh I did the rebase this morning and was waiting for the test suite=2E=
+=2E=2E
+>https://gitlab=2Ecom/philmd/qemu/-/commits/mips-testing/
+
+Hmm, I'm a little confused=2E I thought to do the rebase myself in order t=
+o help which I announced yesterday=2E
+
+AFAICS the nanoMIPS bootloader still needs to be adapted before this serie=
+s can be queued and tested=2E Let me know if I could help=2E
+
+>Anyway I'll double-check with this series=2E
+
+Thank you!
+
+Best regards,
+Bernhard
 
