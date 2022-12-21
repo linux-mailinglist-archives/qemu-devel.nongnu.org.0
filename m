@@ -2,33 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C13265318B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1569B653199
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:23:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7yri-00058z-8N; Wed, 21 Dec 2022 08:10:34 -0500
+	id 1p7yri-0005BL-Pc; Wed, 21 Dec 2022 08:10:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcel@holtmann.org>)
- id 1p7yrg-00056A-3l
+ id 1p7yrg-00056v-ES
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:10:32 -0500
 Received: from coyote.holtmann.net ([212.227.132.17] helo=mail.holtmann.org)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel@holtmann.org>) id 1p7yre-0005C0-KT
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:10:31 -0500
+ (envelope-from <marcel@holtmann.org>) id 1p7yre-0005C6-VN
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:10:32 -0500
 Received: from fedora.. (p4fefcc21.dip0.t-ipconnect.de [79.239.204.33])
- by mail.holtmann.org (Postfix) with ESMTPSA id B8AE7CED12;
+ by mail.holtmann.org (Postfix) with ESMTPSA id EBB04CED14;
  Wed, 21 Dec 2022 14:10:29 +0100 (CET)
 From: Marcel Holtmann <marcel@holtmann.org>
 To: qemu-devel@nongnu.org,
 	mst@redhat.com,
 	xieyongji@bytedance.com
 Cc: marcel@holtmann.org
-Subject: [PATCH v3 00/10] Compiler warning fixes for libvhost-user,libvduse
-Date: Wed, 21 Dec 2022 14:10:16 +0100
-Message-Id: <cover.1671628158.git.marcel@holtmann.org>
+Subject: [PATCH v3 01/10] libvhost-user: Provide _GNU_SOURCE when compiling
+ outside of QEMU
+Date: Wed, 21 Dec 2022 14:10:17 +0100
+Message-Id: <9d286986fe538c3f7da8acad28f5ef3af0c4adc1.1671628158.git.marcel@holtmann.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <cover.1671628158.git.marcel@holtmann.org>
+References: <cover.1671628158.git.marcel@holtmann.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -54,30 +57,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The libvhost-user and libvduse libraries are also useful for external
-usage outside of QEMU and thus it would be nice if their files could
-be just copied and used. However due to different compiler settings, a
-lot of manual fixups are needed. This is the first attempt at some
-obvious fixes that can be done without any harm to the code and its
-readability.
+Then the libvhost-user sources are used by another project, it can not
+be guaranteed that _GNU_SOURCE is set by the build system. If it is for
+example not set, errors like this show up.
 
-Marcel Holtmann (10):
-  libvhost-user: Provide _GNU_SOURCE when compiling outside of QEMU
-  libvhost-user: Replace typeof with __typeof__
-  libvhost-user: Cast rc variable to avoid compiler warning
-  libvhost-user: Use unsigned int i for some for-loop iterations
-  libvhost-user: Declare uffdio_register early to make it C90 compliant
-  libvhost-user: Change dev->postcopy_ufd assignment to make it C90 compliant
-  libvhost-user: Switch to unsigned int for inuse field in struct VuVirtq
-  libvduse: Provide _GNU_SOURCE when compiling outside of QEMU
-  libvduse: Switch to unsigned int for inuse field in struct VduseVirtq
-  libvduse: Fix assignment in vring_set_avail_event
+  CC       libvhost-user.o
+libvhost-user.c: In function ‘vu_panic’:
+libvhost-user.c:195:9: error: implicit declaration of function ‘vasprintf’; did you mean ‘vsprintf’? [-Werror=implicit-function-declaration]
+  195 |     if (vasprintf(&buf, msg, ap) < 0) {
+      |         ^~~~~~~~~
+      |         vsprintf
 
- subprojects/libvduse/libvduse.c           | 11 ++++++--
- subprojects/libvhost-user/libvhost-user.c | 31 ++++++++++++++---------
- subprojects/libvhost-user/libvhost-user.h |  2 +-
- 3 files changed, 29 insertions(+), 15 deletions(-)
+The simplest way to allow external complication of libvhost-user.[ch] is
+by setting _GNU_SOURCE if it is not already set by the build system.
 
+Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
+---
+ subprojects/libvhost-user/libvhost-user.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index d6ee6e7d9168..b55b9e244d9a 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -13,6 +13,10 @@
+  * later.  See the COPYING file in the top-level directory.
+  */
+ 
++#ifndef _GNU_SOURCE
++#define _GNU_SOURCE
++#endif
++
+ /* this code avoids GLib dependency */
+ #include <stdlib.h>
+ #include <stdio.h>
 -- 
 2.38.1
 
