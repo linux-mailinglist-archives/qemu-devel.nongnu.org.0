@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A266F652E1B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 09:53:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1651652E1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 09:54:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7upU-0002FT-Si; Wed, 21 Dec 2022 03:52:00 -0500
+	id 1p7urF-0002og-Qs; Wed, 21 Dec 2022 03:53:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7upS-0002Ec-3Z
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 03:51:58 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7urD-0002mq-F3
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 03:53:47 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7upQ-0006jj-Bc
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 03:51:57 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id y16so14230842wrm.2
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 00:51:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7urB-0006sC-KL
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 03:53:46 -0500
+Received: by mail-wr1-x436.google.com with SMTP id co23so14221681wrb.4
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 00:53:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=CHwwpo6YP2fNyRb3/gRp8z+3eSoVMuErG3i5EVAl/xs=;
- b=PIpry9QehztY2kdeLIqv9ZXXrVwe9pW2bRtfy+r/X1X26NRdEVM1iuWOGLqyoJeZ9I
- qULZ5AWQVZ4l6yD1qx8XnB2CDA/Fa07LdI38f8kZdyQSCG6PYpLckjN16bfRfStiD6pc
- Pms6FEWjH/Y+cH8FdKTpQKwGxyVxh6a36Fsc/VjE7NDjI5i5g4jk5v5WH1GWrYTiyT1T
- gcljifKoA6Itl8aSMeTEeDfDwDABMOSnLky5oF7bVWZGc/NMEUTStPABSFJDdq1YV9Bj
- zJXoLSOKMxDvqXoETzf44gn75kl8MO9bTEXRjzj6Ogu9f+YCBhHHKB5m6it97CLj/r+/
- Zo1g==
+ bh=aLrvGFerY4L20s/3/UNWINMeGfR35Aekk7WeH052FkU=;
+ b=r4mXUDGbclG2IQ+7MDG21eGwmr+qewdhbcCJ08/IhWIYOJtLmRZ493Ca42BjWRidJL
+ elrgbmRJvf3wEetLQAtyB9qRFg8Pnc4C7UP5vhoOV2q0Mnni1w4KxCGcNF4ZGAjTf7h/
+ lXjYdX2gfKxIFK/NTXMWKdwyUQ3/E0GYQ93iTo9/RRKVAi1x6+2WqTcFLE2guIGG1Pib
+ Q4ZVCPEIewcgJ2M1I0hRR5w8Lf2WyiNUkiIp3EIPBRJMR77GBnpqapnhzFUrHeWHurzq
+ t0xP7r70rCkFpo+gjYaR18ZAagQWcXuJ9iZ8+imDmXzqnrvoPkB5QsddpWTkOfMzFXeq
+ phWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CHwwpo6YP2fNyRb3/gRp8z+3eSoVMuErG3i5EVAl/xs=;
- b=rtfndzqfpsud9r+Nk45ivPkbsN6JJKz7XsI5fGrXabLeSUY4HM+IO0kPrzuMCGbFqD
- uO1NJ6O0VEp54Ss+Qh8wxDagro88J9fzX1lYoUlSRAz7O2btVvVjRIJLEfzl6RdNd7dE
- X2gF/Ab7oOXXn/CjWHZKohZLbMAzJDmpl9Gr2J++Vz+dUXqNo2SxRKbZnmxa9Y3TkGzs
- qxj+NV/Hv8SJVHnEf2E2aBUagCF1CENy3ZhoDhB2t0TgLSDvId/8IBAbnBHcfEugZ0FD
- GUGmU/nntd35WDZ4arQmzxfjFdSIau+psHocQ6zv1iUHXXNjzjuzffhWcxJhpU4lGxdp
- zJCQ==
-X-Gm-Message-State: AFqh2kqnaSJgTD7tMjwjBCKSPZuL42lOIBncxIyG8m9hD0yoyf3SuBbz
- /qTfkWZAeOFAq+tCNuYDjVS/zQ==
-X-Google-Smtp-Source: AMrXdXuBGoB6EbdjCJj/jPG7gPAdMRIrAAfHAgNfjs/fFrdoEYqXWp8RxPEgV2GavIYZ0eIbb4QxgQ==
-X-Received: by 2002:a5d:4acb:0:b0:242:844a:70a5 with SMTP id
- y11-20020a5d4acb000000b00242844a70a5mr410753wrs.35.1671612714352; 
- Wed, 21 Dec 2022 00:51:54 -0800 (PST)
+ bh=aLrvGFerY4L20s/3/UNWINMeGfR35Aekk7WeH052FkU=;
+ b=5r3spTQq3PJvOLehgRE+9EHQcfYvZ5wc+9jGkGgRs4lXuxtbGMzi82LAVDx0DwTFck
+ qH5V35/KTwiOUHg+h+1MReEjoAQ73ek7FoZ/Iir6CZIZUEmNEqJxcUy12icw5iYr4K0V
+ ROehvO2+tPXyZr+n94Y4LCvXO1Qxgp7UNLZtLcyGlX3X3u9GrrOAfJisGS3lRqMI2ZbK
+ L7lMfesq0LtHwT3VU4xVAblGu+LnyeQIHETACFmD2Gq93447OozzwiElw1vgUHuE5pSw
+ iAfo2TsXBgwL8ipP9Xz9PVsQgnzAm1CsD4CegNEAfQnavKs41tX8acj+XH7XIv8Bxgxj
+ LofQ==
+X-Gm-Message-State: AFqh2kqPDpXn743NC0LNtjorb4ui9jrgA/NT6+2xpjcET4c/IcvLVVjJ
+ tUXo+sbYQAbVGw/LD93Y8K+GLPu+iDtvCLey/eI=
+X-Google-Smtp-Source: AMrXdXvuD+4XG6Pq3xojkRvJa6/RQIZ0KgEPL1MQrd77BEE4cDE7QBrRGzyyFxtp2F5DZkKpAthHlQ==
+X-Received: by 2002:adf:ed51:0:b0:242:659f:9411 with SMTP id
+ u17-20020adfed51000000b00242659f9411mr642464wro.9.1671612824121; 
+ Wed, 21 Dec 2022 00:53:44 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- d4-20020adfe884000000b00228cbac7a25sm14666553wrm.64.2022.12.21.00.51.53
+ az17-20020adfe191000000b00241bd7a7165sm14743973wrb.82.2022.12.21.00.53.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 00:51:53 -0800 (PST)
-Message-ID: <80b49ba9-e925-6708-be8b-3a8103826747@linaro.org>
-Date: Wed, 21 Dec 2022 09:51:52 +0100
+ Wed, 21 Dec 2022 00:53:43 -0800 (PST)
+Message-ID: <ce15788e-8254-e39a-f6ad-c249f06d2ac8@linaro.org>
+Date: Wed, 21 Dec 2022 09:53:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH] MIPS: remove support for trap and emulate KVM
+Subject: Re: [[PATCH]--edit 3/6] configure: repeat ourselves for the benefit
+ of CI
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhuacai@kernel.org>
-References: <20221218000649.686882-1-pbonzini@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20221221074252.1962896-1-alex.bennee@linaro.org>
+ <20221221074252.1962896-4-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221218000649.686882-1-pbonzini@redhat.com>
+In-Reply-To: <20221221074252.1962896-4-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -89,75 +95,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/12/22 01:06, Paolo Bonzini wrote:
-> This support was limited to the Malta board, drop it.
-> I do not have a machine that can run VZ KVM, so I am assuming
-> that it works for -M malta as well.
+On 21/12/22 08:42, Alex Bennée wrote:
+> Our CI system echos the lines it executes but not the expansions. For
+> the sake of a line of extra verbosity during the configure phase lets
+> echo the invocation of script to stdout as well as the log when on CI.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20221202174746.1218017-1-alex.bennee@linaro.org>
+> 
 > ---
->   docs/about/deprecated.rst       |  9 -------
->   docs/about/removed-features.rst |  9 +++++++
->   hw/mips/malta.c                 | 44 ++++-----------------------------
->   target/mips/cpu.c               |  7 +-----
->   target/mips/cpu.h               |  2 --
->   target/mips/kvm.c               | 11 +--------
->   target/mips/sysemu/addr.c       | 17 -------------
->   target/mips/sysemu/physaddr.c   | 13 ----------
->   8 files changed, 16 insertions(+), 96 deletions(-)
+> v2
+>    - only add the extra line on GITLAB_CI
+> ---
+>   configure | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-> index 7a565466cb3f..065a9cd10ec9 100644
-> --- a/target/mips/cpu.c
-> +++ b/target/mips/cpu.c
-> @@ -290,12 +290,7 @@ static void mips_cpu_reset(DeviceState *dev)
->       env->tlb->tlb_in_use = env->tlb->nb_tlb;
->       env->CP0_Wired = 0;
->       env->CP0_GlobalNumber = (cs->cpu_index & 0xFF) << CP0GN_VPId;
-> -    env->CP0_EBase = (cs->cpu_index & 0x3FF);
-> -    if (mips_um_ksegs_enabled()) {
-> -        env->CP0_EBase |= 0x40000000;
-> -    } else {
-> -        env->CP0_EBase |= (int32_t)0x80000000;
-> -    }
-> +    env->CP0_EBase = (cs->cpu_index & 0x3FF) | (int32_t)0x80000000;
-
-Pre-existing, but maybe clearer as:
-
-        env->CP0_EBase = KSEG0_BASE | (cs->cpu_index & 0x3FF);
-
->       if (env->CP0_Config3 & (1 << CP0C3_CMGCR)) {
->           env->CP0_CMGCRBase = 0x1fbf8000 >> 4;
->       }
-> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-> index 0a085643a3f1..3411cbc37825 100644
-> --- a/target/mips/cpu.h
-> +++ b/target/mips/cpu.h
-> @@ -1299,8 +1299,6 @@ uint64_t cpu_mips_phys_to_kseg0(void *opaque, uint64_t addr);
->   uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr);
-
-cpu_mips_kvm_um_phys_to_kseg0() is removed ...
-
->   uint64_t cpu_mips_kseg1_to_phys(void *opaque, uint64_t addr);
->   uint64_t cpu_mips_phys_to_kseg1(void *opaque, uint64_t addr);
-> -bool mips_um_ksegs_enabled(void);
-> -void mips_um_ksegs_enable(void);
->   
->   #if !defined(CONFIG_USER_ONLY)
-
-> diff --git a/target/mips/sysemu/addr.c b/target/mips/sysemu/addr.c
-> index 86f1c129c9f4..4f025be44a1d 100644
-> --- a/target/mips/sysemu/addr.c
-> +++ b/target/mips/sysemu/addr.c
-> @@ -23,8 +23,6 @@
->   #include "qemu/osdep.h"
->   #include "cpu.h"
-
-> -uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr)
-> -{
-> -    return addr | 0x40000000ll;
-> -}
-
-... here.
 
