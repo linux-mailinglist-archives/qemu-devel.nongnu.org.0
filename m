@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1651652E1D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 09:54:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70495652E1E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 09:55:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7urF-0002og-Qs; Wed, 21 Dec 2022 03:53:49 -0500
+	id 1p7usB-0003Zk-UY; Wed, 21 Dec 2022 03:54:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7urD-0002mq-F3
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 03:53:47 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7us8-0003ZD-JF
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 03:54:44 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7urB-0006sC-KL
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 03:53:46 -0500
-Received: by mail-wr1-x436.google.com with SMTP id co23so14221681wrb.4
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 00:53:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7us6-00076e-Oo
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 03:54:44 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ f13-20020a1cc90d000000b003d08c4cf679so915935wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 00:54:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=aLrvGFerY4L20s/3/UNWINMeGfR35Aekk7WeH052FkU=;
- b=r4mXUDGbclG2IQ+7MDG21eGwmr+qewdhbcCJ08/IhWIYOJtLmRZ493Ca42BjWRidJL
- elrgbmRJvf3wEetLQAtyB9qRFg8Pnc4C7UP5vhoOV2q0Mnni1w4KxCGcNF4ZGAjTf7h/
- lXjYdX2gfKxIFK/NTXMWKdwyUQ3/E0GYQ93iTo9/RRKVAi1x6+2WqTcFLE2guIGG1Pib
- Q4ZVCPEIewcgJ2M1I0hRR5w8Lf2WyiNUkiIp3EIPBRJMR77GBnpqapnhzFUrHeWHurzq
- t0xP7r70rCkFpo+gjYaR18ZAagQWcXuJ9iZ8+imDmXzqnrvoPkB5QsddpWTkOfMzFXeq
- phWA==
+ bh=1jAca+F3n/vRqvxczykWrkukpogBNLZO5L1OWv/O9tU=;
+ b=jvN8VzKy2X58jPvD3LoI5ys71g5v7RKgREaVFQqhswweO/mf3CysLYfbR8rg0Bsg60
+ 4T80gUnW0EPZmkLd8g5omMRnLHVLVC1yor4bF1JDfuvsfb1dTQum7VbM0K02ScjmxLPl
+ 94/kaU7Ac1EnbeCjoDnE/892loETN4Ct/ICazqHzDL9EgTGTeIzLT97JtXMc8dmqr10+
+ eSm87bd7jzVf9uWjJU9nspjllAZ5HTKEeCY3gNN4zueHJGUHu4c24Hm5/nMqgHLaxuLN
+ cE8907EzSHiHrcTI0qHlHz4JfVWqsAlvAmSdVlNWTZp6FbmCHb+cskkASesAw7F1niXY
+ dz5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aLrvGFerY4L20s/3/UNWINMeGfR35Aekk7WeH052FkU=;
- b=5r3spTQq3PJvOLehgRE+9EHQcfYvZ5wc+9jGkGgRs4lXuxtbGMzi82LAVDx0DwTFck
- qH5V35/KTwiOUHg+h+1MReEjoAQ73ek7FoZ/Iir6CZIZUEmNEqJxcUy12icw5iYr4K0V
- ROehvO2+tPXyZr+n94Y4LCvXO1Qxgp7UNLZtLcyGlX3X3u9GrrOAfJisGS3lRqMI2ZbK
- L7lMfesq0LtHwT3VU4xVAblGu+LnyeQIHETACFmD2Gq93447OozzwiElw1vgUHuE5pSw
- iAfo2TsXBgwL8ipP9Xz9PVsQgnzAm1CsD4CegNEAfQnavKs41tX8acj+XH7XIv8Bxgxj
- LofQ==
-X-Gm-Message-State: AFqh2kqPDpXn743NC0LNtjorb4ui9jrgA/NT6+2xpjcET4c/IcvLVVjJ
- tUXo+sbYQAbVGw/LD93Y8K+GLPu+iDtvCLey/eI=
-X-Google-Smtp-Source: AMrXdXvuD+4XG6Pq3xojkRvJa6/RQIZ0KgEPL1MQrd77BEE4cDE7QBrRGzyyFxtp2F5DZkKpAthHlQ==
-X-Received: by 2002:adf:ed51:0:b0:242:659f:9411 with SMTP id
- u17-20020adfed51000000b00242659f9411mr642464wro.9.1671612824121; 
- Wed, 21 Dec 2022 00:53:44 -0800 (PST)
+ bh=1jAca+F3n/vRqvxczykWrkukpogBNLZO5L1OWv/O9tU=;
+ b=DJbBeYa83w+dDOQ83pfTZRv1/N+kfn+UJJHY6PHXpvP5az1zkBNDi3cV9OtVcCKz9L
+ gcakVwkFXtcMGLFMu/OFbUeADoVHiJqTif5CwXuSVQZohEFIoT0XFUYTA9S8/o6Xbdd3
+ OaLy6aRbEKIbxNTEJnwFDeJif4MGL3/aB7CRDe2fIFZhcOVgLAUTud13jIcC6OuV5bEV
+ yWCgxWdMD4Y8CD0QugUApsomPJro49/XyzIe+0l2BQmc8nQ8dYuHqiycpgeXcaPIJ1Ab
+ 4CTpGICBawY8jTcXHVL3M7hojMN1ia9LO71WXHjd6K48+IrcaXYt83y0qtrpJFh5Ex90
+ N+eQ==
+X-Gm-Message-State: AFqh2krki52jpi94yFGukDD0t7sPnIvAUXC5EjZ2PLGoNqabXhiFUQW9
+ N6dcJG+TsHyflgo6BYsEuCYcAw==
+X-Google-Smtp-Source: AMrXdXsXolJmrnQNJ6/REejMMaHmtHsQnhmsVlAajCd+NzFluEyTA2uqP7yXTm3Fsia/lX2JkmS1IA==
+X-Received: by 2002:a05:600c:601e:b0:3d0:7fee:8a70 with SMTP id
+ az30-20020a05600c601e00b003d07fee8a70mr1174671wmb.19.1671612881406; 
+ Wed, 21 Dec 2022 00:54:41 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- az17-20020adfe191000000b00241bd7a7165sm14743973wrb.82.2022.12.21.00.53.43
+ l6-20020a05600c4f0600b003d351a9db76sm1612888wmq.30.2022.12.21.00.54.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 00:53:43 -0800 (PST)
-Message-ID: <ce15788e-8254-e39a-f6ad-c249f06d2ac8@linaro.org>
-Date: Wed, 21 Dec 2022 09:53:42 +0100
+ Wed, 21 Dec 2022 00:54:41 -0800 (PST)
+Message-ID: <d379c4e0-508b-c801-2ce7-2c274b1d2d99@linaro.org>
+Date: Wed, 21 Dec 2022 09:54:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [[PATCH]--edit 3/6] configure: repeat ourselves for the benefit
- of CI
+Subject: Re: [[PATCH]--edit 4/6] tests/tcg: fix unused variable in linux-test
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -66,13 +66,13 @@ Cc: Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
 References: <20221221074252.1962896-1-alex.bennee@linaro.org>
- <20221221074252.1962896-4-alex.bennee@linaro.org>
+ <20221221074252.1962896-5-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221221074252.1962896-4-alex.bennee@linaro.org>
+In-Reply-To: <20221221074252.1962896-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -96,19 +96,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 21/12/22 08:42, Alex Bennée wrote:
-> Our CI system echos the lines it executes but not the expansions. For
-> the sake of a line of extra verbosity during the configure phase lets
-> echo the invocation of script to stdout as well as the log when on CI.
+> The latest hexagon compiler picks up that we never consume wcount.
+> Given the name of the #define that rcount checks against is WCOUNT_MAX
+> I figured the check just got missed.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20221202174746.1218017-1-alex.bennee@linaro.org>
-> 
 > ---
-> v2
->    - only add the extra line on GITLAB_CI
-> ---
->   configure | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+>   tests/tcg/multiarch/linux/linux-test.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
