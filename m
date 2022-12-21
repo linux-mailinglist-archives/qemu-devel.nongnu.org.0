@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3794B6535F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 265B96535C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:02:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p83Q3-0000dX-Kx; Wed, 21 Dec 2022 13:02:19 -0500
+	id 1p83Q8-0000n1-Dn; Wed, 21 Dec 2022 13:02:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p83Pw-0000TM-TJ
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:13 -0500
+ id 1p83Q0-0000Z2-0y
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p83Pu-0004Hg-KK
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:11 -0500
+ id 1p83Px-0004JG-Aa
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671645729;
+ s=mimecast20190719; t=1671645732;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1DU2lyk4LUD+vcQqslLA9QT+Gbzjf3xmugA48H80Os8=;
- b=MLEpvNPpQnfbe5JNT9CCDJqP/SXA7ihdJkoSbugckrpatYOfGgOO0fhCsh/MwWsRJo+6gF
- PMhCHYs8vI90/ginHSjZCVeyTBHwLac9bPp2BqxiO6kbsHW7KwGSht2Oz86+Bz8v2bhFjR
- /vGO/ULGKxvSRXcMApjdcc0eLcRcFAU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PBODSe+9wJNvncsm+Vv6BK3PHV793OAwINbgAu0jenE=;
+ b=QOxU6Izj89t4W45+5MpYNxQMulfIP5T0i8r4yjTO3aAyFzLQuoFU1IpvMs3HHI3iCRocgY
+ 3iCkRCsQev45T/jflyVF6EiXDKGTZft2qyj3/sezZdRt7Czq9gLm7SBFFm/lE1+jeCiy+5
+ J1rH/7OycOcJVjP7Gi6RIrgiuFzFpok=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-674-NZO9H4ReOuq5iLgPIv3Ykg-1; Wed, 21 Dec 2022 13:02:08 -0500
-X-MC-Unique: NZO9H4ReOuq5iLgPIv3Ykg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- r14-20020a05640251ce00b0047d67ab2019so2805713edd.12
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 10:02:08 -0800 (PST)
+ us-mta-342-AioF3VgGMCqu_KJ0NuvYsg-1; Wed, 21 Dec 2022 13:02:11 -0500
+X-MC-Unique: AioF3VgGMCqu_KJ0NuvYsg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ hq42-20020a1709073f2a00b007c100387d64so10985553ejc.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 10:02:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1DU2lyk4LUD+vcQqslLA9QT+Gbzjf3xmugA48H80Os8=;
- b=5r+j//UDalorGWbabZgSAE6P+vtPTQ8W7G+Y3F4opKUXZSpryj1m17xHtHY4Zvt0Zx
- l/fSaTtis6XqWKJzarP7FuEi5ALux5durB8LYPZywHdsDiu8d44kBrmOFS0LAl1isIQP
- 8RGhr4E492LLUwSBAt9Ojvdz1xGIiw7J9aVFYePj30BGXZVP9Kx3jTHtiRIUq7/f+N1J
- yK5KIMppqcKoSn8bh6wZUYAibvuUn5Ep4xpKcyTe0wAckSQxAJqrVfwSam5lmFBTz0Hq
- GR52/JBe1hNf0ZNQLwu+aiYOSzUCqK/BUA2NmnqXJO+hYP0Cl7IkV8vLKT7yz9jmwCZt
- oV6w==
-X-Gm-Message-State: AFqh2kqO3o2JCIGM4XI7OQEAWWbk2L5yE1EqQBYyDp6Bn6rK8/kmQwcy
- +B5U8By2gxjfAG8KsHfa9fl/RWQgzOvjohFbFv08KLZnbiOAxg50o9pWfe2elDgeadlnrjft5lA
- s+7T+gBFp2A16B5tTEiP3FlgZzCGCx5FtmSPH2eP45C0FQW/aASUO4ht00xwOPCVCXNo=
-X-Received: by 2002:a17:906:6d97:b0:78d:f455:c386 with SMTP id
- h23-20020a1709066d9700b0078df455c386mr2299473ejt.44.1671645726631; 
- Wed, 21 Dec 2022 10:02:06 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvWLMTMBRRX8rBJcPFXvDBFxUeLZodhuFAq7+L7l4HGHdxPuLaR5e1itWcWQxl0mKkJbSI8zQ==
-X-Received: by 2002:a17:906:6d97:b0:78d:f455:c386 with SMTP id
- h23-20020a1709066d9700b0078df455c386mr2299453ejt.44.1671645726462; 
- Wed, 21 Dec 2022 10:02:06 -0800 (PST)
+ bh=PBODSe+9wJNvncsm+Vv6BK3PHV793OAwINbgAu0jenE=;
+ b=mapDbGPyFVCVMZR+H5H1Nyj4Rpo6npXSVKxaH2ZI+Wrxwr0A/fKgmeh30lPemUcINc
+ Kj3feYoWhyeO1yJNzxXuY8HzAbBQCar+KDWINDRcvFWsPMVnb08fB8JnJqmJDeHNgwPm
+ sHe3XG91uU9xfwr5LpZ9RWnyMZw94l9e/fvTpxgkKvio5SA7pWd/ywguknuuakmVtZUW
+ Bw3U677NTk/+JQLK5791XZ9pJuf8oXGzi0xX8SwsqULsVnu271N4fnk74bBGCe+CuW0s
+ 0N1FzvYqMRBY5XBhULXfsHSq33qT89wnXNf7FRfU5UXCOMIA1/Pr0+sZI0OLyiWCtfNV
+ w5lA==
+X-Gm-Message-State: AFqh2ko8C5qtqAn7/nXRbQU6Wb5Q3Bxy6m1p97FAPBeW1USLjtZ9/11y
+ FbaRcgmEqOr7kCZ3JS3kjqaNEBOAZi3s2l8ik7BOKmR0aGc8GbUeQ7ZNWiWUcpg54hFD0+uaJUI
+ K4BjOvHkc6LQfW02N4EiPpVgKCkMgqG9GpBwwkW6O1Ed9uwQtk5yL7IkwzauljVWRn+w=
+X-Received: by 2002:a17:906:430a:b0:7c1:54b9:c688 with SMTP id
+ j10-20020a170906430a00b007c154b9c688mr1942919ejm.60.1671645729317; 
+ Wed, 21 Dec 2022 10:02:09 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsJNgwsqp1jFzJC3MHWlPHkiMJnv2kahc90+RGtkKXlqeEbUFgbn7g8hiMKRosYo8iXh5/O/A==
+X-Received: by 2002:a17:906:430a:b0:7c1:54b9:c688 with SMTP id
+ j10-20020a170906430a00b007c154b9c688mr1942891ejm.60.1671645729016; 
+ Wed, 21 Dec 2022 10:02:09 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- a22-20020a170906671600b007806c1474e1sm7279427ejp.127.2022.12.21.10.02.05
+ ku13-20020a170907788d00b00837ac146a53sm2340571ejc.23.2022.12.21.10.02.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 10:02:06 -0800 (PST)
+ Wed, 21 Dec 2022 10:02:08 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 08/24] configure: remove dead function
-Date: Wed, 21 Dec 2022 19:01:25 +0100
-Message-Id: <20221221180141.839616-9-pbonzini@redhat.com>
+Subject: [PULL 09/24] configure: cleanup $cpu tests
+Date: Wed, 21 Dec 2022 19:01:26 +0100
+Message-Id: <20221221180141.839616-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221180141.839616-1-pbonzini@redhat.com>
 References: <20221221180141.839616-1-pbonzini@redhat.com>
@@ -99,27 +99,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+$cpu is derived from preprocessor defines rather than uname these days,
+so do not bother using isainfo on Solaris.  Likewise do not recognize
+BeOS's uname -m output.
+
+Keep the other, less OS-specific canonicalizations for the benefit
+of people using --cpu.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 4 ----
- 1 file changed, 4 deletions(-)
+ configure | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
 diff --git a/configure b/configure
-index e31d4522ea63..543fd5a48bf0 100755
+index 543fd5a48bf0..9cbbeaa269d1 100755
 --- a/configure
 +++ b/configure
-@@ -210,10 +210,6 @@ version_ge () {
-     done
- }
+@@ -337,9 +337,6 @@ for opt do
+   ;;
+   esac
+ done
+-# OS specific
+-# Using uname is really, really broken.  Once we have the right set of checks
+-# we can eliminate its usage altogether.
  
--glob() {
--    eval test -z '"${1#'"$2"'}"'
--}
--
- if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
- then
-   error_exit "main directory cannot contain spaces nor colons"
+ # Preferred compiler:
+ #  ${CC} (if set)
+@@ -489,13 +486,6 @@ sunos)
+   QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
+ # needed for TIOCWIN* defines in termios.h
+   QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
+-  # $(uname -m) returns i86pc even on an x86_64 box, so default based on isainfo
+-  # Note that this check is broken for cross-compilation: if you're
+-  # cross-compiling to one of these OSes then you'll need to specify
+-  # the correct CPU with the --cpu option.
+-  if test -z "$cpu" && test "$(isainfo -k)" = "amd64"; then
+-    cpu="x86_64"
+-  fi
+ ;;
+ haiku)
+   pie="no"
+@@ -550,16 +540,21 @@ elif check_define __aarch64__ ; then
+ elif check_define __loongarch64 ; then
+   cpu="loongarch64"
+ else
++  # Using uname is really broken, but it is just a fallback for architectures
++  # that are going to use TCI anyway
+   cpu=$(uname -m)
++  echo "WARNING: unrecognized host CPU, proceeding with 'uname -m' output '$cpu'"
+ fi
+ 
+-# Normalise host CPU name, set multilib cflags
++# Normalise host CPU name and set multilib cflags.  The canonicalization
++# isn't really necessary, because the architectures that we check for
++# should not hit the 'uname -m' case, but better safe than sorry.
+ # Note that this case should only have supported host CPUs, not guests.
+ case "$cpu" in
+   armv*b|armv*l|arm)
+     cpu="arm" ;;
+ 
+-  i386|i486|i586|i686|i86pc|BePC)
++  i386|i486|i586|i686)
+     cpu="i386"
+     CPU_CFLAGS="-m32" ;;
+   x32)
 -- 
 2.38.1
 
