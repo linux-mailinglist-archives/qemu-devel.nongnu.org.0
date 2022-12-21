@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827F26535C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:02:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0E06535E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:09:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p83Q0-0000XG-8n; Wed, 21 Dec 2022 13:02:16 -0500
+	id 1p83Q3-0000da-Hm; Wed, 21 Dec 2022 13:02:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p83Pp-0000Nc-A4
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:07 -0500
+ id 1p83Pu-0000SS-Sc
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:10 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p83Pm-0004Gh-RX
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:04 -0500
+ id 1p83Pr-0004HU-GD
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671645722;
+ s=mimecast20190719; t=1671645726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=edX+jDZNKjaZ+u+Si+4u+QIEgjdLUDEnkFgau27MKqA=;
- b=dgikEB4Qc1SnwuBRkDtwJAmCcQbi/0UucE8jDvYKfI6LzmxOXDNdi9RM1F/+g4wb3TAH/W
- EcClVZaI8rx9y+BGcNCQUJedtlGtzv6NyFHQ6EFto/IzeXH7woRes5xXWy8F6i1FQQGQVw
- who8399KCzUBP2Ks23sVpw/kNEibfQY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AAE5XBbZPxRtMxJ3gEaAlG9mV4wCpEybbi9pnLU1/nQ=;
+ b=G8XmjRAWT4u5lpC6HgHfITEmYD2CrTKqEI+QGTCqUoe3TLLbSHUrPLBz+ezBmnv4nsSoHH
+ XOUSInNKwU36NZxzalFpeklh4WqipoX64AJzb3iKo0IiSlg+OIh3nxQEziYafxJlm+Fi62
+ QtwXZr2Ld55pnNu69sniMJTyigimEww=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-83-tgnDRyIUPK291K5-r7wN1A-1; Wed, 21 Dec 2022 13:02:00 -0500
-X-MC-Unique: tgnDRyIUPK291K5-r7wN1A-1
-Received: by mail-ej1-f72.google.com with SMTP id
- sg39-20020a170907a42700b007c19b10a747so11116787ejc.11
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 10:02:00 -0800 (PST)
+ us-mta-617-Fx08TasWO6m7tZ56GS1pAg-1; Wed, 21 Dec 2022 13:02:03 -0500
+X-MC-Unique: Fx08TasWO6m7tZ56GS1pAg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ xj11-20020a170906db0b00b0077b6ecb23fcso11080859ejb.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 10:02:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=edX+jDZNKjaZ+u+Si+4u+QIEgjdLUDEnkFgau27MKqA=;
- b=6slk99kVPyHoiVabdD9nduA+dhoXn5/ovLdfpMa5omwuwkUWtcuaUvgFP6TpBzFRDS
- Akmpz/lDFVPWUyZ6RyevxtiahP1IlM34sTeqAEWkKAcpXfBkxVM11aUfwtmK5T9J3CQH
- wdKSZoTjCltV0xnDY+vNDKLtpAkiWdZX/ckNmwinycWoz2Fdu7ASiF9rp7JKVxAoPtEk
- 99P6xu2tPW/MzNpjj9qagxqyEXbEQXcD8ZpdhtJ83sho9NMtjz00vFOxEXgQAE5oIUog
- 8kBlBSk2Evz/daxp0ijSuJ+4KNNBLRCoHym6VdqdAA/MDErkVkcKsJX8qsdco6dZIOWq
- D69A==
-X-Gm-Message-State: AFqh2kq8xdQ5A3kkAIOk5QwovR0nKicW7a/WhmySYAB6m3cFk7md1qVZ
- ukZWF6CgG8DflzFPsHpe+GoaGqmdl7cWUGir+mddV5B+UYQcQempvrzrin/QYEz9gsKUD0uqJzg
- G+40DrYV3XaQMi91XzIk4IUpuhMzkqh8u+lBvn3qxFN3cvSrQFGZqy4N/YTGUPjh+bMI=
-X-Received: by 2002:a17:907:a707:b0:7c1:75e9:1180 with SMTP id
- vw7-20020a170907a70700b007c175e91180mr2288647ejc.22.1671645718923; 
- Wed, 21 Dec 2022 10:01:58 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXueiORvrpcZJS2BdJY40SW+BwE/4Vd5fAGIs22eo2LEGQV6Bi5QS2Y4/+sGKN+ZBAga+8nBJQ==
-X-Received: by 2002:a17:907:a707:b0:7c1:75e9:1180 with SMTP id
- vw7-20020a170907a70700b007c175e91180mr2288614ejc.22.1671645718672; 
- Wed, 21 Dec 2022 10:01:58 -0800 (PST)
+ bh=AAE5XBbZPxRtMxJ3gEaAlG9mV4wCpEybbi9pnLU1/nQ=;
+ b=a09N/PRIywKILBORss32nW12HhAD6vEZokh+fcQW4cTuBEx4AQgCLLhL74YjLlP08d
+ 5pE/Qf67PHT0wo5o3nl9Pau8ggWigrvIxOJgipGP0XwMeCONWrJnXQhWPLyn3dz8t+Vb
+ WPuHsizyDmWCAIgZhXyEfmXQIw9tzzsS28S6VkSvNnEwsjcZztpq76jx4TBK5ZekTttC
+ 0FrvgILb8VVc9AM/NbYZ/iqJYiTzqhzIXm+8myxQEm2aUC/Y6nN7kCswbDCv8eQIYp+s
+ a1ZWDSeF5AbXGNPFVQzJVVepezE44UQAs6rcFTCrzDqxyCGnKAobApgK/jr2eE0DVF5Q
+ Dyww==
+X-Gm-Message-State: AFqh2kribvubu8h2VWvljvIl4GrRkEggwNlhno1fCZZIjwsUVDtfK7FN
+ lPgspnjJ1AvrwbgELFL7JqXviyn9IFWJT/A7Dwt4nbM6oLSuNKsrRCNrFbFYeUlN8swW1YUdtU1
+ PeWXhOX79MxKXG1Ac4PbDai7dRoJ5mCgV2b+h0oYs40nqPGnmXnVkxnJLTGEAUNs2bPk=
+X-Received: by 2002:a17:906:6dd4:b0:836:e6f7:8138 with SMTP id
+ j20-20020a1709066dd400b00836e6f78138mr2317854ejt.13.1671645721618; 
+ Wed, 21 Dec 2022 10:02:01 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtz9NiO98rFIisjcQLy+a33NiFMA8me5RWH/4x2IGqySdM+etozbEHizPLQcs7ff/0Y1FSxeg==
+X-Received: by 2002:a17:906:6dd4:b0:836:e6f7:8138 with SMTP id
+ j20-20020a1709066dd400b00836e6f78138mr2317833ejt.13.1671645721348; 
+ Wed, 21 Dec 2022 10:02:01 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a17090618a200b008318e6d09easm3337678ejf.103.2022.12.21.10.01.57
+ sy26-20020a1709076f1a00b007c0b530f3cfsm7370946ejc.72.2022.12.21.10.02.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 10:01:58 -0800 (PST)
+ Wed, 21 Dec 2022 10:02:00 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PULL 05/24] ide: Add 8-bit data mode
-Date: Wed, 21 Dec 2022 19:01:22 +0100
-Message-Id: <20221221180141.839616-6-pbonzini@redhat.com>
+Subject: [PULL 06/24] ide: Add "ide-cf" driver, a CompactFlash card
+Date: Wed, 21 Dec 2022 19:01:23 +0100
+Message-Id: <20221221180141.839616-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221180141.839616-1-pbonzini@redhat.com>
 References: <20221221180141.839616-1-pbonzini@redhat.com>
@@ -101,99 +101,79 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Lubomir Rintel <lkundrak@v3.sk>
 
-CompactFlash uses features 0x01 and 0x81 to enable/disable 8-bit data
-path. Implement them.
+This allows attaching IDE_CFATA device to an IDE bus. Behaves like a
+CompactFlash card in True IDE mode.
+
+Tested with:
+
+  qemu-system-i386 \
+    -device driver=ide-cf,drive=cf,bus=ide.0 \
+    -drive id=cf,index=0,format=raw,if=none,file=cf.img
 
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-Message-Id: <20221130120238.706717-1-lkundrak@v3.sk>
+Message-Id: <20221130120319.706885-1-lkundrak@v3.sk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/ide/core.c             | 43 ++++++++++++++++++++++++++++++---------
- include/hw/ide/internal.h |  1 +
- 2 files changed, 34 insertions(+), 10 deletions(-)
+ hw/ide/qdev.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 39afdc0006b9..5d1039378f1d 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -1648,6 +1648,13 @@ static bool cmd_set_features(IDEState *s, uint8_t cmd)
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 618045b85ace..6f6c7462f3b6 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -283,6 +283,11 @@ static void ide_cd_realize(IDEDevice *dev, Error **errp)
+     ide_dev_initfn(dev, IDE_CD, errp);
+ }
  
-     /* XXX: valid for CDROM ? */
-     switch (s->feature) {
-+    case 0x01: /* 8-bit I/O enable (CompactFlash) */
-+    case 0x81: /* 8-bit I/O disable (CompactFlash) */
-+        if (s->drive_kind != IDE_CFATA) {
-+            goto abort_cmd;
-+        }
-+        s->io8 = !(s->feature & 0x80);
-+        return true;
-     case 0x02: /* write cache enable */
-         blk_set_enable_write_cache(s->blk, true);
-         identify_data = (uint16_t *)s->identify_data;
-@@ -2374,12 +2381,20 @@ void ide_data_writew(void *opaque, uint32_t addr, uint32_t val)
-     }
- 
-     p = s->data_ptr;
--    if (p + 2 > s->data_end) {
--        return;
--    }
-+    if (s->io8) {
-+        if (p + 1 > s->data_end) {
-+            return;
-+        }
- 
--    *(uint16_t *)p = le16_to_cpu(val);
--    p += 2;
-+        *p++ = val;
-+    } else {
-+        if (p + 2 > s->data_end) {
-+            return;
-+        }
++static void ide_cf_realize(IDEDevice *dev, Error **errp)
++{
++    ide_dev_initfn(dev, IDE_CFATA, errp);
++}
 +
-+        *(uint16_t *)p = le16_to_cpu(val);
-+        p += 2;
-+    }
-     s->data_ptr = p;
-     if (p >= s->data_end) {
-         s->status &= ~DRQ_STAT;
-@@ -2401,12 +2416,20 @@ uint32_t ide_data_readw(void *opaque, uint32_t addr)
-     }
+ #define DEFINE_IDE_DEV_PROPERTIES()                     \
+     DEFINE_BLOCK_PROPERTIES(IDEDrive, dev.conf),        \
+     DEFINE_BLOCK_ERROR_PROPERTIES(IDEDrive, dev.conf),  \
+@@ -341,6 +346,32 @@ static const TypeInfo ide_cd_info = {
+     .class_init    = ide_cd_class_init,
+ };
  
-     p = s->data_ptr;
--    if (p + 2 > s->data_end) {
--        return 0;
--    }
-+    if (s->io8) {
-+        if (p + 1 > s->data_end) {
-+            return 0;
-+        }
- 
--    ret = cpu_to_le16(*(uint16_t *)p);
--    p += 2;
-+        ret = *p++;
-+    } else {
-+        if (p + 2 > s->data_end) {
-+            return 0;
-+        }
++static Property ide_cf_properties[] = {
++    DEFINE_IDE_DEV_PROPERTIES(),
++    DEFINE_BLOCK_CHS_PROPERTIES(IDEDrive, dev.conf),
++    DEFINE_PROP_BIOS_CHS_TRANS("bios-chs-trans",
++                IDEDrive, dev.chs_trans, BIOS_ATA_TRANSLATION_AUTO),
++    DEFINE_PROP_END_OF_LIST(),
++};
 +
-+        ret = cpu_to_le16(*(uint16_t *)p);
-+        p += 2;
-+    }
-     s->data_ptr = p;
-     if (p >= s->data_end) {
-         s->status &= ~DRQ_STAT;
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index b17f36df957d..fc0aa81a88b9 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -402,6 +402,7 @@ struct IDEState {
-     uint8_t select;
-     uint8_t status;
++static void ide_cf_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    IDEDeviceClass *k = IDE_DEVICE_CLASS(klass);
++
++    k->realize  = ide_cf_realize;
++    dc->fw_name = "drive";
++    dc->desc    = "virtual CompactFlash card";
++    device_class_set_props(dc, ide_cf_properties);
++}
++
++static const TypeInfo ide_cf_info = {
++    .name          = "ide-cf",
++    .parent        = TYPE_IDE_DEVICE,
++    .instance_size = sizeof(IDEDrive),
++    .class_init    = ide_cf_class_init,
++};
++
+ static void ide_device_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *k = DEVICE_CLASS(klass);
+@@ -365,6 +396,7 @@ static void ide_register_types(void)
+     type_register_static(&ide_bus_info);
+     type_register_static(&ide_hd_info);
+     type_register_static(&ide_cd_info);
++    type_register_static(&ide_cf_info);
+     type_register_static(&ide_device_type_info);
+ }
  
-+    bool io8;
-     bool reset_reverts;
- 
-     /* set for lba48 access */
 -- 
 2.38.1
 
