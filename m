@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67881653493
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 630896534FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:22:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p82UB-0003l2-In; Wed, 21 Dec 2022 12:02:32 -0500
+	id 1p82UC-0003lN-4o; Wed, 21 Dec 2022 12:02:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82Sw-0002uk-8U; Wed, 21 Dec 2022 12:01:15 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ id 1p82Sx-0002v6-MP; Wed, 21 Dec 2022 12:01:15 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82Su-0008Gp-F0; Wed, 21 Dec 2022 12:01:13 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id i15so22911489edf.2;
- Wed, 21 Dec 2022 09:01:11 -0800 (PST)
+ id 1p82Sw-0008HK-3O; Wed, 21 Dec 2022 12:01:15 -0500
+Received: by mail-ed1-x533.google.com with SMTP id i15so22911628edf.2;
+ Wed, 21 Dec 2022 09:01:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uXlrvOa3A/irt3N+CTuOpnNg0yCdkaNUaBnHde+1e/4=;
- b=oPuYZtXzheB6xEWYvZNNaJ0OpN2xMu6FfD1TeKo9FoX8DG23PR+0B/FZTHcswei9ln
- baWgOpsAsiXiebiRuXsUMIgJQWgZL3oh2IYwjsp+bxA0zapbiulJTDUfnExfGrNAHwyU
- Ny9J7ueaBumzAOJab16B3nfMo2j6cv4cn1lQw8Zy/bPRm+dnghtl/94Tr3XGpgIEzo5n
- 4S5ls3foPXQYCPpM0AklGcupN+kZn05qo8AvkS4ymJ/taGYqTLGOOeVoKiCIjm4vNnmt
- mF0hXtTEHETUu555uNmGegfa3+j6FmL1zVJZo6hHTCcgz4z98I/skFU9t1i64DdyOIg4
- YyrQ==
+ bh=cyIaDXUUe1E2lKeSs+MY3/RWeIYYGkm/0q2/wOL9FL0=;
+ b=aXHF47hZj9Haqt45GRxcxshqdGcALxMj7MFxCUBb2fdHt8DsG6VgyZu8OkhsljHz11
+ I78nTxM86aaJPlfJzdoyEEn9wuhkuf9sFeBvdFMskv+I9FiKPqxFux0OFNhCoTg0P10S
+ rv8LLNRUDt5KVYnf2x8siNYKqsMXybq6RI9qW3hz0MFl556Fslmh5I2OugvhIvPsFfrB
+ 6CeCUGsZCYVEn9MIuz17Ppi9CcRb3Q03DZnmDxPsQhA/fmMdnl+HG0oJI3p5RxSykqS0
+ P4V05jt9hEtQb3BKspLDWjul/HKM9Ft23sNB0sc8FiUTf9Jz3qrH33FUq1+CZpb6gDY8
+ SprQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uXlrvOa3A/irt3N+CTuOpnNg0yCdkaNUaBnHde+1e/4=;
- b=LtzM1SjJ9wRh8gGclyT6KZd52tUEpg1JQ27p0IuphRJtb8wvDm9Qfm8fSMHwMMqMdv
- b/g7IJM2AK2LDWe2rkknMtB+A3ib5ES0CLmJYdqzfIx0OxK5LVS4vETi1FzSrP+zZhD2
- IUcRQ0S2PwAfXVL+4Bs/ouJyJnPP+/KY1mALf0QhxTuVQkZ5nedz5N1Hfd8yZ1dUwHe6
- 9wx+PALNWR8kdDJD4wrUM2XlNz821ZpFcLDBGHd7ZG7UIzmm4/crhtEtpNCyTC7Jk+fC
- PVy3iBmR39L9/9tYml2DY+w3CjL4gNw4TLXpa0rmbEwBTLBShNJv+D5Wkj1QXQYIvKCE
- Po1w==
-X-Gm-Message-State: AFqh2kpfiUXiE0394LAuhg07vQatG8ZicyraOdCyNr0ExOu7nWcn/EIG
- FUYsYp4Zn1cb9haAp5HgRB2ryyJD948=
-X-Google-Smtp-Source: AMrXdXvynf76fCTUahDEvIPL4lOp9FQpfcDfujWi/ghWRfTYohhlk7wz2Lee2LmCtGeRVpHKSZF+Bg==
-X-Received: by 2002:a05:6402:43cf:b0:461:8a1a:271f with SMTP id
- p15-20020a05640243cf00b004618a1a271fmr6415415edc.11.1671642070313; 
- Wed, 21 Dec 2022 09:01:10 -0800 (PST)
+ bh=cyIaDXUUe1E2lKeSs+MY3/RWeIYYGkm/0q2/wOL9FL0=;
+ b=iniGRBh2RDPlguyWWiJDO10fLAgcH8zA1CtER2ZoHOd4v9BYvwNLN9fNLV+CzDd9v/
+ 3IoUaASJo6EhStbf3IVfFVS68JMfZRI5x5QyAojQv71fNNQ54C//xrQlCRu5spl2GHuN
+ DiK3u6RP1wRk8T9kq5h8f4TGvPNE37l16PVq5t1ttznbyTYYE0sGVn54igESJyT0qPsb
+ zchdQySiF+bW8FGFVZlA1O2g7YZH2c+P9KJ9iNRSEVTiN7v3kZduzGZowrfOS42aBUNg
+ qenOdtMWfTBmYNyHe6cJrsjmZlW5C5n3e6M3gW67/SpMdzq/PDDg/8W3BX3H6CvQR0Gr
+ AbSw==
+X-Gm-Message-State: AFqh2kpIwNlZTnV11TTpex8R+uRFripkvhIHT6gtsUIKApnEw/Veq6kz
+ b2HMzzctFLONMJW+wZ8VGKObkwAuTQA=
+X-Google-Smtp-Source: AMrXdXugOWJsoanxsdB7XqqV5gvPxzsFlPMFlyBa2a/fjh6zcaNjFHAlRuIGumdMehouuNlDQFea5A==
+X-Received: by 2002:a05:6402:3224:b0:467:e9a5:77c4 with SMTP id
+ g36-20020a056402322400b00467e9a577c4mr2461403eda.14.1671642071666; 
+ Wed, 21 Dec 2022 09:01:11 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-092-224-051-061.92.224.pool.telefonica.de. [92.224.51.61])
  by smtp.gmail.com with ESMTPSA id
- n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.01.09
+ n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.01.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 09:01:09 -0800 (PST)
+ Wed, 21 Dec 2022 09:01:11 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -67,17 +67,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v4 20/30] hw/isa/piix4: Make PIIX4's ACPI and USB functions
- optional
-Date: Wed, 21 Dec 2022 17:59:53 +0100
-Message-Id: <20221221170003.2929-21-shentey@gmail.com>
+Subject: [PATCH v4 21/30] hw/isa/piix4: Remove unused inbound ISA interrupt
+ lines
+Date: Wed, 21 Dec 2022 17:59:54 +0100
+Message-Id: <20221221170003.2929-22-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221221170003.2929-1-shentey@gmail.com>
 References: <20221221170003.2929-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,118 +100,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This aligns PIIX4 with PIIX3.
+The Malta board, which is the only user of PIIX4, doesn't connect to the
+exported interrupt lines. PIIX3 doesn't expose such intterupt lines
+either, so remove them for PIIX4 for simplicity and consistency.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221022150508.26830-30-shentey@gmail.com>
+Message-Id: <20221022150508.26830-32-shentey@gmail.com>
 ---
- hw/isa/piix4.c  | 44 ++++++++++++++++++++++++++++++++------------
- hw/mips/malta.c |  6 ++++--
- 2 files changed, 36 insertions(+), 14 deletions(-)
+ hw/isa/piix4.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index de60ceef73..de4133f573 100644
+index de4133f573..9edaa5de3e 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -51,9 +51,16 @@ struct PIIX4State {
-     PCIIDEState ide;
-     UHCIState uhci;
-     PIIX4PMState pm;
-+
-+    uint32_t smb_io_base;
-+
-     /* Reset Control Register */
-     MemoryRegion rcr_mem;
-     uint8_t rcr;
-+
-+    bool has_acpi;
-+    bool has_usb;
-+    bool smm_enabled;
- };
- 
- OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
-@@ -234,17 +241,26 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-     }
- 
-     /* USB */
--    qdev_prop_set_int32(DEVICE(&s->uhci), "addr", dev->devfn + 2);
--    if (!qdev_realize(DEVICE(&s->uhci), BUS(pci_bus), errp)) {
--        return;
-+    if (s->has_usb) {
-+        object_initialize_child(OBJECT(dev), "uhci", &s->uhci,
-+                                TYPE_PIIX4_USB_UHCI);
-+        qdev_prop_set_int32(DEVICE(&s->uhci), "addr", dev->devfn + 2);
-+        if (!qdev_realize(DEVICE(&s->uhci), BUS(pci_bus), errp)) {
-+            return;
-+        }
-     }
- 
-     /* ACPI controller */
--    qdev_prop_set_int32(DEVICE(&s->pm), "addr", dev->devfn + 3);
--    if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
--        return;
-+    if (s->has_acpi) {
-+        object_initialize_child(OBJECT(s), "pm", &s->pm, TYPE_PIIX4_PM);
-+        qdev_prop_set_int32(DEVICE(&s->pm), "addr", dev->devfn + 3);
-+        qdev_prop_set_uint32(DEVICE(&s->pm), "smb_io_base", s->smb_io_base);
-+        qdev_prop_set_bit(DEVICE(&s->pm), "smm-enabled", s->smm_enabled);
-+        if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
-+            return;
-+        }
-+        qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->isa[9]);
-     }
--    qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->isa[9]);
- 
-     pci_bus_irqs(pci_bus, piix4_set_irq, s, PIIX_NUM_PIRQS);
+@@ -155,12 +155,6 @@ static void piix4_request_i8259_irq(void *opaque, int irq, int level)
+     qemu_set_irq(s->cpu_intr, level);
  }
-@@ -255,13 +271,16 @@ static void piix4_init(Object *obj)
  
-     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-     object_initialize_child(obj, "ide", &s->ide, TYPE_PIIX4_IDE);
--    object_initialize_child(obj, "uhci", &s->uhci, TYPE_PIIX4_USB_UHCI);
+-static void piix4_set_i8259_irq(void *opaque, int irq, int level)
+-{
+-    PIIX4State *s = opaque;
+-    qemu_set_irq(s->isa[irq], level);
+-}
 -
--    object_initialize_child(obj, "pm", &s->pm, TYPE_PIIX4_PM);
--    qdev_prop_set_uint32(DEVICE(&s->pm), "smb_io_base", 0x1100);
--    qdev_prop_set_bit(DEVICE(&s->pm), "smm-enabled", 0);
- }
- 
-+static Property piix4_props[] = {
-+    DEFINE_PROP_UINT32("smb_io_base", PIIX4State, smb_io_base, 0),
-+    DEFINE_PROP_BOOL("has-acpi", PIIX4State, has_acpi, true),
-+    DEFINE_PROP_BOOL("has-usb", PIIX4State, has_usb, true),
-+    DEFINE_PROP_BOOL("smm-enabled", PIIX4State, smm_enabled, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void piix4_class_init(ObjectClass *klass, void *data)
+ static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
+                             unsigned int len)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -280,6 +299,7 @@ static void piix4_class_init(ObjectClass *klass, void *data)
-      */
-     dc->user_creatable = false;
-     dc->hotpluggable = false;
-+    device_class_set_props(dc, piix4_props);
- }
+@@ -204,8 +198,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+         return;
+     }
  
- static const TypeInfo piix4_info = {
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index ef3e10dc4d..a930a91f00 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1448,8 +1448,10 @@ void mips_malta_init(MachineState *machine)
-     empty_slot_init("GT64120", 0, 0x20000000);
+-    qdev_init_gpio_in_named(DEVICE(dev), piix4_set_i8259_irq,
+-                            "isa", ISA_NUM_IRQS);
+     qdev_init_gpio_out_named(DEVICE(dev), &s->cpu_intr,
+                              "intr", 1);
  
-     /* Southbridge */
--    piix4 = pci_create_simple_multifunction(pci_bus, PIIX4_PCI_DEVFN, true,
--                                            TYPE_PIIX4_PCI_DEVICE);
-+    piix4 = pci_new_multifunction(PIIX4_PCI_DEVFN, true,
-+                                  TYPE_PIIX4_PCI_DEVICE);
-+    qdev_prop_set_uint32(DEVICE(piix4), "smb_io_base", 0x1100);
-+    pci_realize_and_unref(piix4, pci_bus, &error_fatal);
-     isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix4), "isa.0"));
- 
-     dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "ide"));
 -- 
 2.39.0
 
