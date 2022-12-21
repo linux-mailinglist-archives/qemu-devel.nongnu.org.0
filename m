@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194FA65355B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:36:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2967B65355E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:37:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p82wI-0004av-VN; Wed, 21 Dec 2022 12:31:35 -0500
+	id 1p830w-0001Yw-9I; Wed, 21 Dec 2022 12:36:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p82wE-0004Vt-R1
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 12:31:32 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p82wC-0006FD-W2
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 12:31:30 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- v13-20020a17090a6b0d00b00219c3be9830so2741589pjj.4
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 09:31:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BzfXU+65m1+EuRocaydYDANlIZBnDelolaKGZVP6Sro=;
- b=Ojq2AzyZZPB49APxgJhBdY0AQ/VFQmDlWYseAVaEaUwGpHzd1tpAh6yUBLqjO5rBTm
- YnZ9dDjcln6owR8e1IRMEV0CQZXjMe/rpSPJ04yQZ1oQo3Zp2CYkeun9rNDZnU5Ul2iW
- bzrMgwoTmjPCcMTygO/gzFZ5ZdMO7y+YKfHpfjTQt71Garr1pZpI7Vly4TTzrtLTkUyK
- B0nrGSRn+rI2c9pn9jKdfeMqnEtyODI7o7HW2vJCtzCxxhYIhLauGhoWqZbry8HJK44x
- tOpupExfDgZBBC2DxIejtIFzIyPWhWHDFWK+Q/Sxn14d2m9RAgNk4+qN8C9Dsp7CU+DN
- a/Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BzfXU+65m1+EuRocaydYDANlIZBnDelolaKGZVP6Sro=;
- b=Q3YJxUD9FUDQ48waw0rNfQRQVP1QePgACu7j4LL9EV8kb0knNM8jthGnqS21+cxE34
- CYBWWHIVviegwHl+AXzyc+yGNVaCXddaTvPmpmGZokVGzpvH1eG1siqQ/PnjURCFT5+Q
- c0DQ84bheC7UiSHeXB1H7iuL42OW1NT5WbAICu/kJ+erLwzMIfwO2XC0zs1RH0Z5OsTT
- /zV1wY9O+Yb+zWj+2R9yLZlawrtvVyepWwPUmrj6x1U1g/nN/OIb46hVYpD7obZvi/eD
- v3dWqYeoO5Z+SEloZhS8JPAgEDTA1YdoMNd1GYVtlz9tLu4u6J59H+PPOiT+R+JWFs3s
- o4XQ==
-X-Gm-Message-State: AFqh2koy74/QppR5PHI54llcqXVt6OkKq6L27KWpJBJCg8zbtvVEw95E
- RE37shmZzOvh2dkdM0JG7WTJvg==
-X-Google-Smtp-Source: AMrXdXugapoMgWk4M/6C7lfr+TgWgmHh7i/yUmaPnnEB6/LHldceHX3DZ13bXLzQfl4QZY9Gy4aexA==
-X-Received: by 2002:a17:90a:6aca:b0:223:9cfb:2f9e with SMTP id
- b10-20020a17090a6aca00b002239cfb2f9emr2948495pjm.22.1671643887404; 
- Wed, 21 Dec 2022 09:31:27 -0800 (PST)
-Received: from ?IPV6:2602:47:d48c:8101:e04c:516d:5698:abe8?
- ([2602:47:d48c:8101:e04c:516d:5698:abe8])
- by smtp.gmail.com with ESMTPSA id
- e7-20020a635007000000b0046b1dabf9a8sm10181611pgb.70.2022.12.21.09.31.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 09:31:26 -0800 (PST)
-Message-ID: <f9a9c36d-61d6-2bd8-fe19-1e3585ae5fdd@linaro.org>
-Date: Wed, 21 Dec 2022 09:31:25 -0800
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p830n-0001XD-FQ
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 12:36:13 -0500
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1p830i-0007Ml-T0
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 12:36:13 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id DD26D204D0;
+ Wed, 21 Dec 2022 17:36:03 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 21 Dec
+ 2022 18:36:03 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0023497609f-44f6-4d9a-9e7d-d534c54df56d,
+ 78B451B26E434E63100236457A08FF51A4610C03) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <2236d0ee-4fc6-5e2c-95b4-f97639e0955b@kaod.org>
+Date: Wed, 21 Dec 2022 18:36:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] MIPS: remove support for trap and emulate KVM
+ Thunderbird/102.5.1
+Subject: Re: [PATCH] m25p80: Add the is25wp256 SFPD table
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: libvir-list@redhat.com, kvm@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-References: <20221221091718.71844-1-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221221091718.71844-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Guenter Roeck <linux@roeck-us.net>, Alistair Francis
+ <alistair@alistair23.me>
+CC: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ <qemu-block@nongnu.org>, <qemu-devel@nongnu.org>, Michael Walle
+ <michael@walle.cc>, Tudor Ambarus <tudor.ambarus@linaro.org>
+References: <20221221122213.1458540-1-linux@roeck-us.net>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221221122213.1458540-1-linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 612bef8b-8b04-416d-ab7f-141f8adbf665
+X-Ovh-Tracer-Id: 4900760823282764652
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -90
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrgeekgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrhhlucfvnfffucdluddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugiesrhhovggtkhdquhhsrdhnvghtpdgrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvgdpkhifohhlfhesrhgvughhrghtrdgtohhmpdhhrhgvihhtiiesrhgvughhrghtrdgtohhmpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhmihgthhgrvghlseifrghllhgvrdgttgdpthhuughorhdrrghmsggrrhhusheslhhinhgrrhhordhorhhgpdfovfetjfhosh
+ htpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,44 +76,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/21/22 01:17, Philippe Mathieu-Daudé wrote:
-> From: Paolo Bonzini<pbonzini@redhat.com>
+On 12/21/22 13:22, Guenter Roeck wrote:
+> Generated from hardware using the following command and then padding
+> with 0xff to fill out a power-of-2:
+> 	xxd -p /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
 > 
-> This support was limited to the Malta board, drop it.
-> I do not have a machine that can run VZ KVM, so I am assuming
-> that it works for -M malta as well.
-> 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
-> ---
-> Since Paolo's v1:
-> 
-> - Remove cpu_mips_kvm_um_phys_to_kseg0() declaration in "cpu.h"
-> - Remove unused KVM_KSEG0_BASE/KVM_KSEG2_BASE definitions
-> - Use USEG_LIMIT/KSEG0_BASE instead of magic values
-> 
->         /* Check where the kernel has been linked */
->    -    if (!(kernel_entry & 0x80000000ll)) {
->    -        error_report("CONFIG_KVM_GUEST kernels are not supported");
->    +    if (kernel_entry <= USEG_LIMIT) {
->    +        error_report("Trap-and-Emul kernels (Linux CONFIG_KVM_GUEST)"
->    +                     " are not supported");
-> 
->    -    env->CP0_EBase = (cs->cpu_index & 0x3FF) | (int32_t)0x80000000;
->    +    env->CP0_EBase = KSEG0_BASE | (cs->cpu_index & 0x3FF);
-> ---
->   docs/about/deprecated.rst       |  9 -------
->   docs/about/removed-features.rst |  9 +++++++
->   hw/mips/malta.c                 | 46 +++++----------------------------
->   target/mips/cpu.c               |  7 +----
->   target/mips/cpu.h               |  3 ---
->   target/mips/internal.h          |  3 ---
->   target/mips/kvm.c               | 11 +-------
->   target/mips/sysemu/addr.c       | 17 ------------
->   target/mips/sysemu/physaddr.c   | 13 ----------
->   9 files changed, 18 insertions(+), 100 deletions(-)
+> Cc: Michael Walle <michael@walle.cc>
+> Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-r~
+
+Thanks,
+
+C.
+
+
+> ---
+>   hw/block/m25p80.c      |  3 ++-
+>   hw/block/m25p80_sfdp.c | 40 ++++++++++++++++++++++++++++++++++++++++
+>   hw/block/m25p80_sfdp.h |  2 ++
+>   3 files changed, 44 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 02adc87527..802d2eb021 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -221,7 +221,8 @@ static const FlashPartInfo known_devices[] = {
+>       { INFO("is25wp032",   0x9d7016,      0,  64 << 10,  64, ER_4K) },
+>       { INFO("is25wp064",   0x9d7017,      0,  64 << 10, 128, ER_4K) },
+>       { INFO("is25wp128",   0x9d7018,      0,  64 << 10, 256, ER_4K) },
+> -    { INFO("is25wp256",   0x9d7019,      0,  64 << 10, 512, ER_4K) },
+> +    { INFO("is25wp256",   0x9d7019,      0,  64 << 10, 512, ER_4K),
+> +      .sfdp_read = m25p80_sfdp_is25wp256 },
+>   
+>       /* Macronix */
+>       { INFO("mx25l2005a",  0xc22012,      0,  64 << 10,   4, ER_4K) },
+> diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
+> index 77615fa29e..b33811a4f5 100644
+> --- a/hw/block/m25p80_sfdp.c
+> +++ b/hw/block/m25p80_sfdp.c
+> @@ -330,3 +330,43 @@ static const uint8_t sfdp_w25q01jvq[] = {
+>       0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>   };
+>   define_sfdp_read(w25q01jvq);
+> +
+> +/*
+> + * Integrated Silicon Solution (ISSI)
+> + */
+> +
+> +static const uint8_t sfdp_is25wp256[] = {
+> +    0x53, 0x46, 0x44, 0x50, 0x06, 0x01, 0x01, 0xff,
+> +    0x00, 0x06, 0x01, 0x10, 0x30, 0x00, 0x00, 0xff,
+> +    0x9d, 0x05, 0x01, 0x03, 0x80, 0x00, 0x00, 0x02,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xe5, 0x20, 0xf9, 0xff, 0xff, 0xff, 0xff, 0x0f,
+> +    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x80, 0xbb,
+> +    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0xff,
+> +    0xff, 0xff, 0x44, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
+> +    0x10, 0xd8, 0x00, 0xff, 0x23, 0x4a, 0xc9, 0x00,
+> +    0x82, 0xd8, 0x11, 0xce, 0xcc, 0xcd, 0x68, 0x46,
+> +    0x7a, 0x75, 0x7a, 0x75, 0xf7, 0xae, 0xd5, 0x5c,
+> +    0x4a, 0x42, 0x2c, 0xff, 0xf0, 0x30, 0xfa, 0xa9,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0x50, 0x19, 0x50, 0x16, 0x9f, 0xf9, 0xc0, 0x64,
+> +    0x8f, 0xef, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +};
+> +define_sfdp_read(is25wp256);
+> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
+> index df7adfb5ce..011a880f66 100644
+> --- a/hw/block/m25p80_sfdp.h
+> +++ b/hw/block/m25p80_sfdp.h
+> @@ -26,4 +26,6 @@ uint8_t m25p80_sfdp_w25q512jv(uint32_t addr);
+>   
+>   uint8_t m25p80_sfdp_w25q01jvq(uint32_t addr);
+>   
+> +uint8_t m25p80_sfdp_is25wp256(uint32_t addr);
+> +
+>   #endif
+
 
