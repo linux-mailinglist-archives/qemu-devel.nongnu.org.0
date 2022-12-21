@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2E8652B0B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1BD652AF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:24:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7nZd-0003I2-Sl; Tue, 20 Dec 2022 20:07:10 -0500
+	id 1p7na1-0003yW-53; Tue, 20 Dec 2022 20:07:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7nZD-0002qv-SA
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:47 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1p7nZQ-0002yO-Ru
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:56 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7nZ9-0004Ct-6y
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:43 -0500
+ <BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1p7nZM-0004Hq-35
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
- To:From:Reply-To:Content-ID:Content-Description;
- bh=YOvR87kJsa/AihErV6JuBmHjPSBJeFW8kaXoHDKYgGk=; b=HsnFHK2gv2XQsrb6WYKjX1qtKM
- olo27rUD75nJbZ8oTmZGt7Znug4A46n76UNuTAvvLmoXKEzYAXt6fKliJIeImfutCOTaPzrMB6TYo
- /e63fQASoAezLQxdRxFLoiD2sgckwp62sJ2vlN65Nt9EdM15k4aCdF3QpLtxmkCFgQC6aDKS6jv3Y
- OobUuDvJhAwA3A2hkgxZBkTM1wNFl4+DtnaJyTPA/FBE+oWI2BEzo7bW3nRUgzsfGzVRt2TQz0uES
- V2GN0wgo8pg385Qc85BtYdYobPpdMlhkBXfLyGa0hzrpOorem+3x4mXYb9dgeuxFlbQNH3WalnBXs
- 7FcuqL8A==;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=DD+avfFDjgAvWEa095HhhPxj73azcATMwIrntn0kqSk=; b=p2v54gfm0DwB8y768MRQIoFeRk
+ D43AaEhHNrH3DRWhQDgfvWfKP1eoykgQsIosv0FBQhviZUWKXDEboWNNkdLhfbMdVveXlEmMg9xsc
+ cjBKD+nb6v2zPgO04FpMbt+/b42yT8VG04VxKVzlg3kmTo6Wo2LXZc6iOtmJHasuH5rPc41kWGKOh
+ LzXLZ/1yXfVpfN7HFbEl4syBOttn5H94RUUyjY0QVCCQqmf8mgFZZpbiEgJ/RFXmVRPilK9lR+C4d
+ eFOPR8bbRFfzxVebiHr/5yYPrxLbn3xxzkc1mAheFrjqY7P6Z6JgSdTAWuGKqfCdeEUf2BqTI7oL7
+ oB6NSd1w==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p7nZ8-002Kcp-Ek; Wed, 21 Dec 2022 01:06:39 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1p7nYx-00DDGR-1e; Wed, 21 Dec 2022 01:06:33 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p7nYw-004CMh-Sm; Wed, 21 Dec 2022 01:06:26 +0000
+ Hat Linux)) id 1p7nYw-004CMk-Te; Wed, 21 Dec 2022 01:06:26 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,21 +46,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v4 27/47] hw/xen: Add xen_evtchn device for event channel
- emulation
-Date: Wed, 21 Dec 2022 01:06:03 +0000
-Message-Id: <20221221010623.1000191-28-dwmw2@infradead.org>
+Subject: [RFC PATCH v4 28/47] i386/xen: Add support for Xen event channel
+ delivery to vCPU
+Date: Wed, 21 Dec 2022 01:06:04 +0000
+Message-Id: <20221221010623.1000191-29-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221221010623.1000191-1-dwmw2@infradead.org>
 References: <20221221010623.1000191-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,270 +84,124 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Include basic support for setting HVM_PARAM_CALLBACK_IRQ to the global
-vector method HVM_PARAM_CALLBACK_TYPE_VECTOR, which is handled in-kernel
-by raising the vector whenever the vCPU's vcpu_info->evtchn_upcall_pending
-flag is set.
+The kvm_xen_inject_vcpu_callback_vector() function will either deliver
+the per-vCPU local APIC vector (as an MSI), or just kick the vCPU out
+of the kernel to trigger KVM's automatic delivery of the global vector.
+In either of those cases, it returns true to indicate that the work is
+done. For other methods it returns false as those would need to be
+handled by the caller.
+
+Also add kvm_xen_get_vcpu_info_hva() which returns the vcpu_info of
+a given vCPU.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/meson.build   |   5 +-
- hw/i386/kvm/xen_evtchn.c  | 148 ++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |  18 +++++
- hw/i386/pc.c              |   2 +
- target/i386/kvm/xen-emu.c |  10 +++
- 5 files changed, 182 insertions(+), 1 deletion(-)
- create mode 100644 hw/i386/kvm/xen_evtchn.c
- create mode 100644 hw/i386/kvm/xen_evtchn.h
+ include/sysemu/kvm_xen.h  |  2 ++
+ target/i386/kvm/xen-emu.c | 71 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 73 insertions(+)
 
-diff --git a/hw/i386/kvm/meson.build b/hw/i386/kvm/meson.build
-index 6165cbf019..cab64df339 100644
---- a/hw/i386/kvm/meson.build
-+++ b/hw/i386/kvm/meson.build
-@@ -4,6 +4,9 @@ i386_kvm_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c'))
- i386_kvm_ss.add(when: 'CONFIG_I8254', if_true: files('i8254.c'))
- i386_kvm_ss.add(when: 'CONFIG_I8259', if_true: files('i8259.c'))
- i386_kvm_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
--i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files('xen_overlay.c'))
-+i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files(
-+  'xen_overlay.c',
-+  'xen_evtchn.c',
-+  ))
+diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
+index 3e43cd7843..d975416f2e 100644
+--- a/include/sysemu/kvm_xen.h
++++ b/include/sysemu/kvm_xen.h
+@@ -17,6 +17,8 @@
+ #define INVALID_GFN UINT64_MAX
  
- i386_ss.add_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
-diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-new file mode 100644
-index 0000000000..018f4ef4da
---- /dev/null
-+++ b/hw/i386/kvm/xen_evtchn.c
-@@ -0,0 +1,148 @@
-+/*
-+ * QEMU Xen emulation: Event channel support
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/host-utils.h"
-+#include "qemu/module.h"
-+#include "qemu/main-loop.h"
-+#include "qapi/error.h"
-+#include "qom/object.h"
-+#include "exec/target_page.h"
-+#include "exec/address-spaces.h"
-+#include "migration/vmstate.h"
-+
-+#include "hw/sysbus.h"
-+#include "hw/xen/xen.h"
-+#include "xen_evtchn.h"
-+
-+#include "sysemu/kvm.h"
-+#include "sysemu/kvm_xen.h"
-+#include <linux/kvm.h>
-+
-+#include "standard-headers/xen/memory.h"
-+#include "standard-headers/xen/hvm/params.h"
-+
-+#define TYPE_XEN_EVTCHN "xen-evtchn"
-+OBJECT_DECLARE_SIMPLE_TYPE(XenEvtchnState, XEN_EVTCHN)
-+
-+struct XenEvtchnState {
-+    /*< private >*/
-+    SysBusDevice busdev;
-+    /*< public >*/
-+
-+    uint64_t callback_param;
-+    bool evtchn_in_kernel;
-+
-+    QemuMutex port_lock;
-+};
-+
-+struct XenEvtchnState *xen_evtchn_singleton;
-+
-+/* Top bits of callback_param are the type (HVM_PARAM_CALLBACK_TYPE_xxx) */
-+#define CALLBACK_VIA_TYPE_SHIFT 56
-+
-+static int xen_evtchn_post_load(void *opaque, int version_id)
-+{
-+    XenEvtchnState *s = opaque;
-+
-+    if (s->callback_param) {
-+        xen_evtchn_set_callback_param(s->callback_param);
-+    }
-+
-+    return 0;
-+}
-+
-+static bool xen_evtchn_is_needed(void *opaque)
-+{
-+    return xen_mode == XEN_EMULATE;
-+}
-+
-+static const VMStateDescription xen_evtchn_vmstate = {
-+    .name = "xen_evtchn",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = xen_evtchn_is_needed,
-+    .post_load = xen_evtchn_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(callback_param, XenEvtchnState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void xen_evtchn_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->vmsd = &xen_evtchn_vmstate;
-+}
-+
-+static const TypeInfo xen_evtchn_info = {
-+    .name          = TYPE_XEN_EVTCHN,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(XenEvtchnState),
-+    .class_init    = xen_evtchn_class_init,
-+};
-+
-+void xen_evtchn_create(void)
-+{
-+    XenEvtchnState *s = XEN_EVTCHN(sysbus_create_simple(TYPE_XEN_EVTCHN,
-+                                                        -1, NULL));
-+    xen_evtchn_singleton = s;
-+
-+    qemu_mutex_init(&s->port_lock);
-+}
-+
-+static void xen_evtchn_register_types(void)
-+{
-+    type_register_static(&xen_evtchn_info);
-+}
-+
-+type_init(xen_evtchn_register_types)
-+
-+int xen_evtchn_set_callback_param(uint64_t param)
-+{
-+    XenEvtchnState *s = xen_evtchn_singleton;
-+    bool in_kernel = false;
-+    int ret;
-+
-+    if (!s) {
-+        return -ENOTSUP;
-+    }
-+
-+    qemu_mutex_lock(&s->port_lock);
-+
-+    switch (param >> CALLBACK_VIA_TYPE_SHIFT) {
-+    case HVM_PARAM_CALLBACK_TYPE_VECTOR: {
-+        struct kvm_xen_hvm_attr xa = {
-+            .type = KVM_XEN_ATTR_TYPE_UPCALL_VECTOR,
-+            .u.vector = (uint8_t)param,
-+        };
-+
-+        ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &xa);
-+        if (!ret && kvm_xen_has_cap(EVTCHN_SEND)) {
-+            in_kernel = true;
-+        }
-+        break;
-+    }
-+    default:
-+        ret = -ENOSYS;
-+        break;
-+    }
-+
-+    if (!ret) {
-+        s->callback_param = param;
-+        s->evtchn_in_kernel = in_kernel;
-+    }
-+
-+    qemu_mutex_unlock(&s->port_lock);
-+
-+    return ret;
-+}
-diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-new file mode 100644
-index 0000000000..c9b7f9d11f
---- /dev/null
-+++ b/hw/i386/kvm/xen_evtchn.h
-@@ -0,0 +1,18 @@
-+/*
-+ * QEMU Xen emulation: Event channel support
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_XEN_EVTCHN_H
-+#define QEMU_XEN_EVTCHN_H
-+
-+void xen_evtchn_create(void);
-+int xen_evtchn_set_callback_param(uint64_t param);
-+
-+#endif /* QEMU_XEN_EVTCHN_H */
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d8c5b1814e..c1328a779d 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -90,6 +90,7 @@
- #include "hw/virtio/virtio-pmem-pci.h"
- #include "hw/virtio/virtio-mem-pci.h"
- #include "hw/i386/kvm/xen_overlay.h"
-+#include "hw/i386/kvm/xen_evtchn.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
- #include "target/i386/cpu.h"
-@@ -1848,6 +1849,7 @@ int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
- #ifdef CONFIG_XEN_EMU
-     if (xen_mode == XEN_EMULATE) {
-         xen_overlay_create();
-+        xen_evtchn_create();
-     }
- #endif
-     return 0;
+ uint32_t kvm_xen_get_caps(void);
++void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id);
++bool kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type);
+ 
+ #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
+                                  KVM_XEN_HVM_CONFIG_ ## cap))
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index cb2c243629..5932400e61 100644
+index 5932400e61..b01570535e 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -23,6 +23,7 @@
+@@ -22,6 +22,8 @@
+ #include "trace.h"
  #include "sysemu/runstate.h"
  
++#include "hw/pci/msi.h"
++#include "hw/i386/apic-msidef.h"
  #include "hw/i386/kvm/xen_overlay.h"
-+#include "hw/i386/kvm/xen_evtchn.h"
+ #include "hw/i386/kvm/xen_evtchn.h"
  
- #include "standard-headers/xen/version.h"
- #include "standard-headers/xen/sched.h"
-@@ -509,6 +510,10 @@ static bool handle_set_param(struct kvm_xen_exit *exit, X86CPU *cpu,
-     }
+@@ -274,6 +276,75 @@ static void do_set_vcpu_info_gpa(CPUState *cs, run_on_cpu_data data)
+                           env->xen_vcpu_info_gpa);
+ }
  
-     switch (hp.index) {
-+    case HVM_PARAM_CALLBACK_IRQ:
-+        err = xen_evtchn_set_callback_param(hp.value);
-+        xen_set_long_mode(exit->u.hcall.longmode);
-+        break;
-     default:
-         return false;
-     }
-@@ -711,6 +716,11 @@ static int kvm_xen_soft_reset(void)
-     CPUState *cpu;
-     int err;
- 
-+    err = xen_evtchn_set_callback_param(0);
-+    if (err) {
-+        return err;
++static void *gpa_to_hva(uint64_t gpa)
++{
++    MemoryRegionSection mrs;
++
++    mrs = memory_region_find(get_system_memory(), gpa, 1);
++    return !mrs.mr ? NULL : qemu_map_ram_ptr(mrs.mr->ram_block,
++                                             mrs.offset_within_region);
++}
++
++void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id)
++{
++    CPUState *cs = qemu_get_cpu(vcpu_id);
++    CPUX86State *env;
++    uint64_t gpa;
++
++    if (!cs) {
++        return NULL;
++    }
++    env = &X86_CPU(cs)->env;
++
++    gpa = env->xen_vcpu_info_gpa;
++    if (gpa == INVALID_GPA) {
++        gpa = env->xen_vcpu_info_default_gpa;
++    }
++    if (gpa == INVALID_GPA) {
++        return NULL;
 +    }
 +
-     CPU_FOREACH(cpu) {
-         async_run_on_cpu(cpu, do_vcpu_soft_reset, RUN_ON_CPU_NULL);
-     }
++    return gpa_to_hva(gpa);
++}
++
++bool kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type)
++{
++    CPUState *cs = qemu_get_cpu(vcpu_id);
++    uint8_t vector;
++
++    if (!cs) {
++        return false;
++    }
++
++    vector = X86_CPU(cs)->env.xen_vcpu_callback_vector;
++    if (vector) {
++        /*
++         * The per-vCPU callback vector injected via lapic. Just
++         * deliver it as an MSI.
++         */
++        MSIMessage msg = {
++            .address = APIC_DEFAULT_ADDRESS | X86_CPU(cs)->apic_id,
++            .data = vector | (1UL << MSI_DATA_LEVEL_SHIFT),
++        };
++        kvm_irqchip_send_msi(kvm_state, msg);
++        return true;
++    }
++
++    switch (type) {
++    case HVM_PARAM_CALLBACK_TYPE_VECTOR:
++        /*
++         * If the evtchn_upcall_pending field in the vcpu_info is set, then
++         * KVM will automatically deliver the vector on entering the vCPU
++         * so all we have to do is kick it out.
++         */
++        qemu_cpu_kick(cs);
++        return true;
++    }
++
++    /* Not handled here. */
++    return false;
++}
++
+ static void do_set_vcpu_time_info_gpa(CPUState *cs, run_on_cpu_data data)
+ {
+     X86CPU *cpu = X86_CPU(cs);
 -- 
 2.35.3
 
