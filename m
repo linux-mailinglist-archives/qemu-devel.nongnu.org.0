@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF837652AD7
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BCF652AE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:17:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7naH-0004kP-PX; Tue, 20 Dec 2022 20:07:50 -0500
+	id 1p7nZa-000386-Iy; Tue, 20 Dec 2022 20:07:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7nZD-0002qm-Hm
+ id 1p7nZD-0002qn-QZ
  for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:47 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7nZ9-0004Cu-8f
+ id 1p7nZ9-0004Cx-7D
  for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=5mo+y135udXICdD3NALTktF2BemxUCZjwha6G1c5CTc=; b=B41TrPhXOziwpsRL4lj0AZydPM
- sCOV95/XZ/RLNMgz7KCSC9G3zRamRBMRnMQxRYwl82Eq1t5LysjxiHHZ4xwSlGJygb+8yjYplyUbk
- I90/K551lb9fblZfSvK7CnbZwgkuryNWQEX6+T2SWsGlZA8oPgScDi6rHA5P1PcQyCZ4/qjd+wWvA
- SzWZNGg90wkdvOXvGUqa/+S83n0QF3NZfhVVviT/mgkA4Iddz8ke3E0mxUU05evbwY7+5ERWOtWuy
- CUHI8jyah0ic3qGBUT52Uz2INOXDwfXQ1R0U1Ed0JrZctHYh7l0+UOPewvi8QVYHfjl12KYPEnzqK
- 5sV8hVTA==;
+ bh=xUf+XP+ndUDNWmr8zln0oa3DKyB3WsKrhA/W4qam+dA=; b=O0VEKMSHEbz4jWxxJIU25IhiYc
+ vyvXxFFFBBDSjN4Nqe/M/djfJ7ejZZtasuHA8TjOqkkMi3O2SBXelhL/4pK0tNBxNBppMWTHyt/ye
+ aGS4pq7Yo5uwotNpO92ZmCib1RRj+JEZ8ateVldK1wgw7p2dd6pr6GrnQtA/E2nJLIPY+enxAw8Ht
+ NeULcwrnLmaTuUbbyfTFc/BJpNOsYNgFWEbAC7uGtHFUGOQ0pTs1hzmNNcvqvIcsYUZSz5t759NEl
+ f4C/07y0krg671WyDlLxW3mDcImw6gO+U5Nch30CM4/oH9hGRK3xwQqDCc9ZiRENhGtApN1VHx6dS
+ 5bTlb3Zg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p7nZ8-002Kce-Eu; Wed, 21 Dec 2022 01:06:39 +0000
+ id 1p7nZ8-002KcW-DO; Wed, 21 Dec 2022 01:06:38 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p7nYw-004CLs-FI; Wed, 21 Dec 2022 01:06:26 +0000
+ Hat Linux)) id 1p7nYw-004CLv-G5; Wed, 21 Dec 2022 01:06:26 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,9 +46,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v4 10/47] i386/xen: handle guest hypercalls
-Date: Wed, 21 Dec 2022 01:05:46 +0000
-Message-Id: <20221221010623.1000191-11-dwmw2@infradead.org>
+Subject: [RFC PATCH v4 11/47] i386/xen: implement HYPERVISOR_xen_version
+Date: Wed, 21 Dec 2022 01:05:47 +0000
+Message-Id: <20221221010623.1000191-12-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221221010623.1000191-1-dwmw2@infradead.org>
 References: <20221221010623.1000191-1-dwmw2@infradead.org>
@@ -83,121 +83,131 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-This means handling the new exit reason for Xen but still
-crashing on purpose. As we implement each of the hypercalls
-we will then return the right return code.
+This is just meant to serve as an example on how we can implement
+hypercalls. xen_version specifically since Qemu does all kind of
+feature controllability. So handling that here seems appropriate.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-[dwmw2: Add CPL to hypercall tracing, disallow hypercalls from CPL > 0]
+[dwmw2: Implement kvm_gva_rw() safely]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- target/i386/kvm/kvm.c        |  5 ++++
- target/i386/kvm/trace-events |  3 +++
- target/i386/kvm/xen-emu.c    | 44 ++++++++++++++++++++++++++++++++++++
- target/i386/kvm/xen-emu.h    |  1 +
- 4 files changed, 53 insertions(+)
+ target/i386/kvm/xen-emu.c | 86 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index be5e50b4fc..f365e56fcc 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -5477,6 +5477,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-         assert(run->msr.reason == KVM_MSR_EXIT_REASON_FILTER);
-         ret = kvm_handle_wrmsr(cpu, run);
-         break;
-+#ifdef CONFIG_XEN_EMU
-+    case KVM_EXIT_XEN:
-+        ret = kvm_xen_handle_exit(cpu, &run->xen);
-+        break;
-+#endif
-     default:
-         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
-         ret = -1;
-diff --git a/target/i386/kvm/trace-events b/target/i386/kvm/trace-events
-index 7c369db1e1..cd6f842b1f 100644
---- a/target/i386/kvm/trace-events
-+++ b/target/i386/kvm/trace-events
-@@ -5,3 +5,6 @@ kvm_x86_fixup_msi_error(uint32_t gsi) "VT-d failed to remap interrupt for GSI %"
- kvm_x86_add_msi_route(int virq) "Adding route entry for virq %d"
- kvm_x86_remove_msi_route(int virq) "Removing route entry for virq %d"
- kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
-+
-+# xen-emu.c
-+kvm_xen_hypercall(int cpu, uint8_t cpl, uint64_t input, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t ret) "xen_hypercall: cpu %d cpl %d input %" PRIu64 " a0 0x%" PRIx64 " a1 0x%" PRIx64 " a2 0x%" PRIx64" ret 0x%" PRIx64
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 4883b95d9d..476f464ee2 100644
+index 476f464ee2..1dea6feb90 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -10,10 +10,12 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
+@@ -14,9 +14,55 @@
  #include "sysemu/kvm_int.h"
  #include "sysemu/kvm_xen.h"
  #include "kvm/kvm_i386.h"
++#include "exec/address-spaces.h"
  #include "xen-emu.h"
-+#include "trace.h"
+ #include "trace.h"
  
- int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
- {
-@@ -84,3 +86,45 @@ uint32_t kvm_xen_get_caps(void)
- {
-     return kvm_state->xen_caps;
- }
++#include "standard-headers/xen/version.h"
 +
-+static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
++static int kvm_gva_rw(CPUState *cs, uint64_t gva, void *_buf, size_t sz,
++                      bool is_write)
 +{
-+    uint16_t code = exit->u.hcall.input;
++    uint8_t *buf = (uint8_t *)_buf;
++    int ret;
 +
-+    if (exit->u.hcall.cpl > 0) {
-+        exit->u.hcall.result = -EPERM;
-+        return true;
++    while (sz) {
++        struct kvm_translation tr = {
++            .linear_address = gva,
++        };
++
++        size_t len = TARGET_PAGE_SIZE - (tr.linear_address & ~TARGET_PAGE_MASK);
++        if (len > sz) {
++            len = sz;
++        }
++
++        ret = kvm_vcpu_ioctl(cs, KVM_TRANSLATE, &tr);
++        if (ret || !tr.valid || (is_write && !tr.writeable)) {
++            return -EFAULT;
++        }
++
++        cpu_physical_memory_rw(tr.physical_address, buf, len, is_write);
++
++        buf += len;
++        sz -= len;
++        gva += len;
 +    }
 +
-+    switch (code) {
++    return 0;
++}
++
++static inline int kvm_copy_from_gva(CPUState *cs, uint64_t gva, void *buf,
++                                    size_t sz)
++{
++    return kvm_gva_rw(cs, gva, buf, sz, false);
++}
++
++static inline int kvm_copy_to_gva(CPUState *cs, uint64_t gva, void *buf,
++                                  size_t sz)
++{
++    return kvm_gva_rw(cs, gva, buf, sz, true);
++}
++
+ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
+ {
+     const int required_caps = KVM_XEN_HVM_CONFIG_HYPERCALL_MSR |
+@@ -87,6 +133,43 @@ uint32_t kvm_xen_get_caps(void)
+     return kvm_state->xen_caps;
+ }
+ 
++static bool kvm_xen_hcall_xen_version(struct kvm_xen_exit *exit, X86CPU *cpu,
++                                     int cmd, uint64_t arg)
++{
++    int err = 0;
++
++    switch (cmd) {
++    case XENVER_get_features: {
++        struct xen_feature_info fi;
++
++        /* No need for 32/64 compat handling */
++        qemu_build_assert(sizeof(fi) == 8);
++
++        err = kvm_copy_from_gva(CPU(cpu), arg, &fi, sizeof(fi));
++        if (err) {
++            break;
++        }
++
++        fi.submap = 0;
++        if (fi.submap_idx == 0) {
++            fi.submap |= 1 << XENFEAT_writable_page_tables |
++                         1 << XENFEAT_writable_descriptor_tables |
++                         1 << XENFEAT_auto_translated_physmap |
++                         1 << XENFEAT_supervisor_mode_kernel;
++        }
++
++        err = kvm_copy_to_gva(CPU(cpu), arg, &fi, sizeof(fi));
++        break;
++    }
++
 +    default:
 +        return false;
 +    }
++
++    exit->u.hcall.result = err;
++    return true;
 +}
 +
-+int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
-+{
-+    if (exit->type != KVM_EXIT_XEN_HCALL) {
-+        return -1;
-+    }
-+
-+    if (!do_kvm_xen_handle_exit(cpu, exit)) {
-+        /*
-+         * Some hypercalls will be deliberately "implemented" by returning
-+         * -ENOSYS. This case is for hypercalls which are unexpected.
-+         */
-+        exit->u.hcall.result = -ENOSYS;
-+        qemu_log_mask(LOG_UNIMP, "Unimplemented Xen hypercall %"
-+                      PRId64 " (0x%" PRIx64 " 0x%" PRIx64 " 0x%" PRIx64 ")\n",
-+                      (uint64_t)exit->u.hcall.input,
-+                      (uint64_t)exit->u.hcall.params[0],
-+                      (uint64_t)exit->u.hcall.params[1],
-+                      (uint64_t)exit->u.hcall.params[2]);
-+    }
-+
-+    trace_kvm_xen_hypercall(CPU(cpu)->cpu_index, exit->u.hcall.cpl,
-+                            exit->u.hcall.input, exit->u.hcall.params[0],
-+                            exit->u.hcall.params[1], exit->u.hcall.params[2],
-+                            exit->u.hcall.result);
-+    return 0;
-+}
-diff --git a/target/i386/kvm/xen-emu.h b/target/i386/kvm/xen-emu.h
-index d62f1d8ed8..21faf6bf38 100644
---- a/target/i386/kvm/xen-emu.h
-+++ b/target/i386/kvm/xen-emu.h
-@@ -25,5 +25,6 @@
+ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+ {
+     uint16_t code = exit->u.hcall.input;
+@@ -97,6 +180,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+     }
  
- int kvm_xen_init(KVMState *s, uint32_t hypercall_msr);
- int kvm_xen_init_vcpu(CPUState *cs);
-+int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit);
- 
- #endif /* QEMU_I386_KVM_XEN_EMU_H */
+     switch (code) {
++    case __HYPERVISOR_xen_version:
++        return kvm_xen_hcall_xen_version(exit, cpu, exit->u.hcall.params[0],
++                                         exit->u.hcall.params[1]);
+     default:
+         return false;
+     }
 -- 
 2.35.3
 
