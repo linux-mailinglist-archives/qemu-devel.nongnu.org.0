@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93BCF652AE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:17:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9DA5652AC2
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:10:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7nZa-000386-Iy; Tue, 20 Dec 2022 20:07:07 -0500
+	id 1p7na9-0004J6-83; Tue, 20 Dec 2022 20:07:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7nZD-0002qn-QZ
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:47 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1p7nZP-0002xA-9G
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:55 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7nZ9-0004Cx-7D
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:43 -0500
+ <BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1p7nZM-0004Ht-2j
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=xUf+XP+ndUDNWmr8zln0oa3DKyB3WsKrhA/W4qam+dA=; b=O0VEKMSHEbz4jWxxJIU25IhiYc
- vyvXxFFFBBDSjN4Nqe/M/djfJ7ejZZtasuHA8TjOqkkMi3O2SBXelhL/4pK0tNBxNBppMWTHyt/ye
- aGS4pq7Yo5uwotNpO92ZmCib1RRj+JEZ8ateVldK1wgw7p2dd6pr6GrnQtA/E2nJLIPY+enxAw8Ht
- NeULcwrnLmaTuUbbyfTFc/BJpNOsYNgFWEbAC7uGtHFUGOQ0pTs1hzmNNcvqvIcsYUZSz5t759NEl
- f4C/07y0krg671WyDlLxW3mDcImw6gO+U5Nch30CM4/oH9hGRK3xwQqDCc9ZiRENhGtApN1VHx6dS
- 5bTlb3Zg==;
+ bh=CU/MUPgLwwlHW7d/G35FwT4tMsj+fiVv1E9c4PqPQRI=; b=eOSoyu9kS6CmivN8Z1ZS0Ufl1o
+ Z06WjLMWlLdUDAGPqnFBtJMNwv5NhWqN1kyq+f90KA3QeIJpszVND+q8HDYfDAxFNMZBEjvOgIzpN
+ 5xekjWD0gTZBBevDTaIzqEtT6iV89Ro2bPG139/Da1FmuDTFnPVX76WLkbMsYwbr9ls0RceUH0JIU
+ /0wv1Q53F4Sss0P2Cuqw7lJkD+ecYI9jp9mjMxcAKWFcb1bZw+HLpqQbzGUCRJbcfnwt6GDXPJJGH
+ wEu3kbyvWK76s/y+ufcw0xGYTTeq3B7QiokJuQP4bSuUKvUrh612wzSP+2mcOdzeLA+bD9bIZ7x4T
+ WmHdGxSg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p7nZ8-002KcW-DO; Wed, 21 Dec 2022 01:06:38 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1p7nYx-00DDGB-1d; Wed, 21 Dec 2022 01:06:33 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p7nYw-004CLv-G5; Wed, 21 Dec 2022 01:06:26 +0000
+ Hat Linux)) id 1p7nYw-004CLy-Gq; Wed, 21 Dec 2022 01:06:26 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,19 +46,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v4 11/47] i386/xen: implement HYPERVISOR_xen_version
-Date: Wed, 21 Dec 2022 01:05:47 +0000
-Message-Id: <20221221010623.1000191-12-dwmw2@infradead.org>
+Subject: [RFC PATCH v4 12/47] i386/xen: implement HYPERVISOR_sched_op,
+ SCHEDOP_shutdown
+Date: Wed, 21 Dec 2022 01:05:48 +0000
+Message-Id: <20221221010623.1000191-13-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221221010623.1000191-1-dwmw2@infradead.org>
 References: <20221221010623.1000191-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -83,109 +84,100 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-This is just meant to serve as an example on how we can implement
-hypercalls. xen_version specifically since Qemu does all kind of
-feature controllability. So handling that here seems appropriate.
+It allows to shutdown itself via hypercall with any of the 3 reasons:
+  1) self-reboot
+  2) shutdown
+  3) crash
+
+Implementing SCHEDOP_shutdown sub op let us handle crashes gracefully rather
+than leading to triple faults if it remains unimplemented.
+
+In addition, the SHUTDOWN_soft_reset reason is used for kexec, to reset
+Xen shared pages and other enlightenments and leave a clean slate for the
+new kernel without the hypervisor helpfully writing information at
+unexpected addresses.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-[dwmw2: Implement kvm_gva_rw() safely]
+[dwmw2: Ditch sched_op_compat which was never available for HVM guests,
+        Add SCHEDOP_soft_reset]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- target/i386/kvm/xen-emu.c | 86 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+ target/i386/kvm/xen-emu.c | 68 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 476f464ee2..1dea6feb90 100644
+index 1dea6feb90..5f2b55ef10 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -14,9 +14,55 @@
- #include "sysemu/kvm_int.h"
- #include "sysemu/kvm_xen.h"
- #include "kvm/kvm_i386.h"
-+#include "exec/address-spaces.h"
+@@ -17,8 +17,10 @@
+ #include "exec/address-spaces.h"
  #include "xen-emu.h"
  #include "trace.h"
++#include "sysemu/runstate.h"
  
-+#include "standard-headers/xen/version.h"
-+
-+static int kvm_gva_rw(CPUState *cs, uint64_t gva, void *_buf, size_t sz,
-+                      bool is_write)
+ #include "standard-headers/xen/version.h"
++#include "standard-headers/xen/sched.h"
+ 
+ static int kvm_gva_rw(CPUState *cs, uint64_t gva, void *_buf, size_t sz,
+                       bool is_write)
+@@ -170,6 +172,69 @@ static bool kvm_xen_hcall_xen_version(struct kvm_xen_exit *exit, X86CPU *cpu,
+     return true;
+ }
+ 
++static int kvm_xen_soft_reset(void)
 +{
-+    uint8_t *buf = (uint8_t *)_buf;
-+    int ret;
-+
-+    while (sz) {
-+        struct kvm_translation tr = {
-+            .linear_address = gva,
-+        };
-+
-+        size_t len = TARGET_PAGE_SIZE - (tr.linear_address & ~TARGET_PAGE_MASK);
-+        if (len > sz) {
-+            len = sz;
-+        }
-+
-+        ret = kvm_vcpu_ioctl(cs, KVM_TRANSLATE, &tr);
-+        if (ret || !tr.valid || (is_write && !tr.writeable)) {
-+            return -EFAULT;
-+        }
-+
-+        cpu_physical_memory_rw(tr.physical_address, buf, len, is_write);
-+
-+        buf += len;
-+        sz -= len;
-+        gva += len;
-+    }
-+
++    /* Nothing to reset... yet. */
 +    return 0;
 +}
 +
-+static inline int kvm_copy_from_gva(CPUState *cs, uint64_t gva, void *buf,
-+                                    size_t sz)
++static int schedop_shutdown(CPUState *cs, uint64_t arg)
 +{
-+    return kvm_gva_rw(cs, gva, buf, sz, false);
-+}
++    struct sched_shutdown shutdown;
++    int ret = 0;
 +
-+static inline int kvm_copy_to_gva(CPUState *cs, uint64_t gva, void *buf,
-+                                  size_t sz)
-+{
-+    return kvm_gva_rw(cs, gva, buf, sz, true);
-+}
++    /* No need for 32/64 compat handling */
++    qemu_build_assert(sizeof(shutdown) == 4);
 +
- int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
- {
-     const int required_caps = KVM_XEN_HVM_CONFIG_HYPERCALL_MSR |
-@@ -87,6 +133,43 @@ uint32_t kvm_xen_get_caps(void)
-     return kvm_state->xen_caps;
- }
- 
-+static bool kvm_xen_hcall_xen_version(struct kvm_xen_exit *exit, X86CPU *cpu,
-+                                     int cmd, uint64_t arg)
-+{
-+    int err = 0;
++    if (kvm_copy_from_gva(cs, arg, &shutdown, sizeof(shutdown))) {
++        return -EFAULT;
++    }
 +
-+    switch (cmd) {
-+    case XENVER_get_features: {
-+        struct xen_feature_info fi;
++    switch (shutdown.reason) {
++    case SHUTDOWN_crash:
++        cpu_dump_state(cs, stderr, CPU_DUMP_CODE);
++        qemu_system_guest_panicked(NULL);
++        break;
 +
-+        /* No need for 32/64 compat handling */
-+        qemu_build_assert(sizeof(fi) == 8);
++    case SHUTDOWN_reboot:
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        break;
 +
-+        err = kvm_copy_from_gva(CPU(cpu), arg, &fi, sizeof(fi));
-+        if (err) {
-+            break;
-+        }
++    case SHUTDOWN_poweroff:
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        break;
 +
-+        fi.submap = 0;
-+        if (fi.submap_idx == 0) {
-+            fi.submap |= 1 << XENFEAT_writable_page_tables |
-+                         1 << XENFEAT_writable_descriptor_tables |
-+                         1 << XENFEAT_auto_translated_physmap |
-+                         1 << XENFEAT_supervisor_mode_kernel;
-+        }
++    case SHUTDOWN_soft_reset:
++        ret = kvm_xen_soft_reset();
++        break;
 +
-+        err = kvm_copy_to_gva(CPU(cpu), arg, &fi, sizeof(fi));
++    default:
++        ret = -EINVAL;
 +        break;
 +    }
++
++    return ret;
++}
++
++static bool kvm_xen_hcall_sched_op(struct kvm_xen_exit *exit, X86CPU *cpu,
++                                   int cmd, uint64_t arg)
++{
++    CPUState *cs = CPU(cpu);
++    int err = -ENOSYS;
++
++    switch (cmd) {
++    case SCHEDOP_shutdown:
++        err = schedop_shutdown(cs, arg);
++        break;
 +
 +    default:
 +        return false;
@@ -198,16 +190,16 @@ index 476f464ee2..1dea6feb90 100644
  static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
  {
      uint16_t code = exit->u.hcall.input;
-@@ -97,6 +180,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+@@ -180,6 +245,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
      }
  
      switch (code) {
-+    case __HYPERVISOR_xen_version:
-+        return kvm_xen_hcall_xen_version(exit, cpu, exit->u.hcall.params[0],
-+                                         exit->u.hcall.params[1]);
-     default:
-         return false;
-     }
++    case __HYPERVISOR_sched_op:
++        return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
++                                      exit->u.hcall.params[1]);
+     case __HYPERVISOR_xen_version:
+         return kvm_xen_hcall_xen_version(exit, cpu, exit->u.hcall.params[0],
+                                          exit->u.hcall.params[1]);
 -- 
 2.35.3
 
