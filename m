@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E16652D34
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 08:18:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D546652D43
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 08:26:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7tLE-0006hp-Ex; Wed, 21 Dec 2022 02:16:40 -0500
+	id 1p7tTO-00021T-8H; Wed, 21 Dec 2022 02:25:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7tKu-0006Xq-05
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:16:20 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7tTL-000211-Dt
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:25:03 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7tKr-0008NF-VT
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:16:19 -0500
-Received: by mail-wr1-x429.google.com with SMTP id bx10so14058527wrb.0
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 23:16:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7tTJ-0000zz-NW
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:25:03 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id bg10so10542862wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 23:25:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dD9OcS9dhPhnWdTVhyUVnRBRQyOg/tkXlZTQonGB08A=;
- b=rBaaP/YChnNAhAmuWhUCiJDSEjQY+XhsMUchtM7A689/bP0er96IDXx8SZrkGs1Xsk
- M/7A1OG/Rx48piI8rx4lT55X1OWHO/9z5phXcO2fteT7LA+rjqnDdDYjkgg1lsEpQpx1
- T23jPUpHk/0Wj+b2/hN6/X/XL8swbtRY4Jc81wBkE7yQAzdBczhD2gb94Ed1XvmbCZX5
- +v5VTaEEd32yTQrG6I6WadF7ReDpj3t9b8wd/qWx8GCux5H4nytWjGHU2mJngfrc9GXw
- zapAo3FwTs4MxnQQ9fzo9XTQCGfOsUv6ap802YM8yRz8YLXTsw5wG4AO39ZyMBwcTKkO
- P/Cw==
+ bh=Z6zZsajT9SsvaNuxvc5/OP9mHZZjarB9QJuIjloT8vg=;
+ b=vbjmfmvtfYuLOrQehvF3dG2cnnlXoYI5C0Fb9rZPocLvx/lmgwygWxF6WYh+TfqKmL
+ 7MAFCuer+1bhbJ0P7dGhytexDmHey52Dl/B25bOACvNYjWXGWDM1oZUc17Ova4BSp9fG
+ kVqES5hkOdKryxKr8N4LYPIpzI0PsI7IKWaaohabAiGihX5tkxnHI35cim6cBtk3xyzU
+ IPJL83DhlPhtwp7oiQoihVreX44twEvB8cyhYxslAW41xtWEN9q9X49wCV6qNSicZQoO
+ J5IkEhLHN3XqPEO54bMejANCuIOZhUDIbkUIDPLmsTKuqAYB+BQGnVPRUPowhQ4rKfTw
+ 7QGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dD9OcS9dhPhnWdTVhyUVnRBRQyOg/tkXlZTQonGB08A=;
- b=vnh3a4qycCY5fTr62PSPOdOE4KtSkyRj9eafpS/D4clOuEe6MqU6ecCAH3hwKLSBS3
- UqrudTR0a+QVHztJ2V2/SAtYJv5iKEpDtJp6wMwHd8F5cT36RD3n9tngC1qp26DMCBHs
- deU2dmy54R1cOkhwQoRyPewJvwQItedub1MLP0t3nZKzwj5pn7CHY2aM73km1LFjcDRD
- PbICjf30hDHMavcuZrfdbsSIvWTfRxO5tXMQPHkWWaI9VEEtgJ8bqYQ89VxS0g8d49/x
- p8UdAmUf9oZXv5rEHPRtwJ0y1xcuPAt0Uren3Qxiwdtg4hJoc3j/Z945bE3ZNSFZxC3h
- IOFQ==
-X-Gm-Message-State: AFqh2koQVP/u3yN1p2q+ti0z5QygefuHfUzE/5BgG19AhvFp4mnvqiaY
- v4ozVaFWeA4zK80mgL8gu3/d7A==
-X-Google-Smtp-Source: AMrXdXvRz6nnnvglsDKaH6ul6CK56HGg9ZgKqRFIPm94pfXJEjtg2XCVBavUuW8A5EJ+rvtttfVZNQ==
-X-Received: by 2002:adf:f742:0:b0:242:1551:974f with SMTP id
- z2-20020adff742000000b002421551974fmr443918wrp.13.1671606975699; 
- Tue, 20 Dec 2022 23:16:15 -0800 (PST)
+ bh=Z6zZsajT9SsvaNuxvc5/OP9mHZZjarB9QJuIjloT8vg=;
+ b=08jlUdaeZ/SuEh3PnyeK1eG1uQfLB6jRt9to1XKryg2syC07F1lIwz63vjEzDizNgQ
+ VRNoYwKJnKthVhVZTs23vgBzvKgW1AcsEcTUxYYPXkHXmqa/6BjQ11qsuIUXra6CNQMU
+ DjdtGs9UeDfV6upXeO8MOrte5fi9N59FNEHgd9GaXMcrUwaHST9nHHgcYoWYX1meTY8r
+ al6X7WHfbCu7aWnwqhSHfF+n3l6N4/eQkSciHloxsTc+9H+23i1AaJVqxvc+DCErxYK4
+ bS07WHGCmms3Dwnynx8a1+y5BdFYYg7Fi8PW9uTHIDrZihE68aT6ezqq3dsKSckhjahX
+ 0N/A==
+X-Gm-Message-State: AFqh2koUslWWooSZQ3HFBwHFP4Tw9w1sdM3MmGvBGns4FcFq81l+x849
+ eT3aiCt38eP2PbgZcsj5cgdTow==
+X-Google-Smtp-Source: AMrXdXvaM1HU3IWcp5PZi6BxbFsn3ngeyRhsmXxIP+FzAtY3kGsHqfo7nS03ZlutXAYx9eezVip7qw==
+X-Received: by 2002:a05:600c:3b29:b0:3cf:d18e:528b with SMTP id
+ m41-20020a05600c3b2900b003cfd18e528bmr444968wms.39.1671607500189; 
+ Tue, 20 Dec 2022 23:25:00 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- cc6-20020a5d5c06000000b002428c4fb16asm14586593wrb.10.2022.12.20.23.16.14
+ m16-20020a05600c3b1000b003c5571c27a1sm1720036wms.32.2022.12.20.23.24.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 23:16:15 -0800 (PST)
-Message-ID: <4398ae9e-c29a-503f-0738-4a4a161eb714@linaro.org>
-Date: Wed, 21 Dec 2022 08:16:14 +0100
+ Tue, 20 Dec 2022 23:24:59 -0800 (PST)
+Message-ID: <12e12e2f-f69b-eb98-9b22-cb6633433c9f@linaro.org>
+Date: Wed, 21 Dec 2022 08:24:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH 3/3] hw/arm/nseries: Silent -Wmissing-field-initializers
- warning
+Subject: Re: [PATCH v2 0/3] Decouple INTx-to-LNKx routing from south bridges
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-References: <20221220142520.24094-1-philmd@linaro.org>
- <20221220142520.24094-4-philmd@linaro.org>
- <eac96f81-8cd5-5951-6b0f-69da5985d47c@linaro.org>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: John G Johnson <john.g.johnson@oracle.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Huacai Chen
+ <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20221120150550.63059-1-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <eac96f81-8cd5-5951-6b0f-69da5985d47c@linaro.org>
+In-Reply-To: <20221120150550.63059-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -92,25 +100,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/12/22 02:01, Richard Henderson wrote:
-> On 12/20/22 06:25, Philippe Mathieu-Daudé wrote:
->> Silent when compiling with -Wextra:
->>
->>    ../hw/arm/nseries.c:1081:12: warning: missing field 'line' 
->> initializer [-Wmissing-field-initializers]
->>        { NULL }
->>               ^
->>
->> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
->> ---
->>   hw/arm/nseries.c | 10 ++++------
->>   1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> Not a fan of this specific warning.
+On 20/11/22 16:05, Bernhard Beschow wrote:
 
-Me neither, and I don't think we can enforce it on QEMU codebase.
+> Bernhard Beschow (3):
+>    hw/pci/pci: Factor out pci_bus_map_irqs() from pci_bus_irqs()
+>    hw/isa/piix3: Decouple INTx-to-LNKx routing which is board-specific
+>    hw/isa/piix4: Decouple INTx-to-LNKx routing which is board-specific
 
-However I find '{ /* end of list */ }' cleaner/clearer than assigning
-the first field.
+Thanks, series queued to mips-next.
 
 
