@@ -2,76 +2,155 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C470A653666
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:33:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595C86536B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:58:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p83t2-0002d6-Nf; Wed, 21 Dec 2022 13:32:16 -0500
+	id 1p84Gv-0001XC-7C; Wed, 21 Dec 2022 13:56:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3JFGjYwoKCncngjibadZgYbjjbgZ.XjhlZhp-YZqZgijibip.jmb@flex--slongfield.bounces.google.com>)
- id 1p83sy-0002cW-NB
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:32:14 -0500
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3JFGjYwoKCncngjibadZgYbjjbgZ.XjhlZhp-YZqZgijibip.jmb@flex--slongfield.bounces.google.com>)
- id 1p83st-0001CZ-0n
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:32:09 -0500
-Received: by mail-yb1-xb49.google.com with SMTP id
- s6-20020a259006000000b00706c8bfd130so18516747ybl.11
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 10:32:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=7B07ofpcA7tRmi2XyukXiykSOBgmFs9jsO808EFWmoc=;
- b=HffvBwOzn9pt2EFwA3DAnXUC0M+MJA9E7lUI6pFdhnkk01HmcWxFkZwhiJcBiOWF4b
- zQWt++wQW7yiVfKESw+MfCbGaqMtV+yFmdIkhKFo76Iazoq2FQipKjv/BsZKrnoehTJl
- oXJTigD0vjMbGi8qvLHgY5jLTrIhflGVkBiAvebsgZ+GLLOpi0njif3IF5/Phy86DIAW
- RctxcTNGepROHrx1+w/fCVrEYgt6fdW0OdO7GTDXaVnmrDya1/08OjOlZ2+ch8aHp2hn
- rh2BseiLtWBNk7cdls1+1r7BwWskMs5D4VASZD51iNrjbrDP6dsNyZ2ixb0jOFtTSuiF
- nXQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7B07ofpcA7tRmi2XyukXiykSOBgmFs9jsO808EFWmoc=;
- b=mT9YptqCBuAUSODlQXFV2YBCmPqff1UIp5e67hCrgBtvrC6CzcsPo957bSQKqpIInS
- OXdn800GGE4i90LgNES1ooP5nLAsKPGPMDs3twmJeOMNW+0BOUN2HlEXjSgBRTImGAos
- XtvL2ynWMEwobnRmhPeDbQNLliYeIUo9TowvwBzhWYtk0wOcfyDl949Mo7ZRd6RWQdum
- R8HGnS4v6aEUSO7Lo9IK3OPjNCvhrC+dxNb2jKWno12GxeScgrtQH1wayw16mDnv41dj
- kCdD006gCvmMV4yQ9JuiC5pFXrhaWGzMYOhDcgtjR71w1iHfOdX3DzyxNULsu8O2u8rR
- x1WA==
-X-Gm-Message-State: AFqh2kq+4BIsMJ2f57tbL2MfTn4aeZ7BP1FD9VokQR9oubzTT+2xaeIt
- XTlIVrlN6E6Xe9FeWBocnYp116fpE9fDq5oK
-X-Google-Smtp-Source: AMrXdXvB3ALFuRD1ud1l4IUh9Z/KFIjhACSaI9L0f/9MAs7YZzhb7VgQYSPzX4wyt4hIDLltHVfKzErDVJaWZUY2
-X-Received: from vonneumann.svl.corp.google.com
- ([2620:15c:2a3:201:82df:1739:d438:9992])
- (user=slongfield job=sendgmr) by 2002:a25:d88e:0:b0:701:a966:d3f9 with SMTP
- id p136-20020a25d88e000000b00701a966d3f9mr272924ybg.262.1671647524759; Wed,
- 21 Dec 2022 10:32:04 -0800 (PST)
-Date: Wed, 21 Dec 2022 10:32:02 -0800
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
-Message-ID: <20221221183202.3788132-1-slongfield@google.com>
-Subject: [PATCH] hw/net: Fix read of uninitialized memory in imx_fec.
-From: Stephen Longfield <slongfield@google.com>
-To: clg@kaod.org, peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, venture@google.com, 
- wuhaotsh@google.com, Stephen Longfield <slongfield@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
- envelope-from=3JFGjYwoKCncngjibadZgYbjjbgZ.XjhlZhp-YZqZgijibip.jmb@flex--slongfield.bounces.google.com;
- helo=mail-yb1-xb49.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1p84Gt-0001X4-MW
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:56:55 -0500
+Received: from mga18.intel.com ([134.134.136.126])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
+ id 1p84Gq-00058e-Gn
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:56:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1671649012; x=1703185012;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=TObf4jfpdEpyh4xUTHNs6+1bboZZS8uiUd2IiXKOiHc=;
+ b=LmEVhi1v2Lvbo0/cTb2YSR6HgukholgW0wmVscjrvcjugo8QUH5myYG2
+ qDayyVa93dJ7iTX5EIHbUHYgNKDdDZAOXpj2mtsfQjPMx2a94R5TDJA5i
+ SgCoW5hcq/Vn9ILBRH5xzrtezQx8S7iMsUxqNmwCLlPN2JoAwnZv2VphJ
+ MlIU3Dpg2U6Zt/4ef1cHxd8RZ+FeNnQP5xuemnQxAVObREJEjuZ00OmhO
+ hqmld/nbulxB8p+lAwWSpdSv0U6seNcCxZemICQJUPXmhWnhOoORqnvvo
+ JAW1zUKSVMBJDzU6KGVUDf+Sn3Pz616m3/76EHx+sFJpiC3dPV0Lvv5/o w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="303378420"
+X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; d="scan'208";a="303378420"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2022 10:56:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="793806092"
+X-IronPort-AV: E=Sophos;i="5.96,263,1665471600"; d="scan'208";a="793806092"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga001.fm.intel.com with ESMTP; 21 Dec 2022 10:56:46 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 21 Dec 2022 10:56:45 -0800
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Wed, 21 Dec 2022 10:56:45 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Wed, 21 Dec 2022 10:56:45 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Wed, 21 Dec 2022 10:56:44 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VTjXwoD4GczSdXG9lDoQQ8uZUh8SZT2UqThS2giIbdEsJV4UAT4OOn76GxioStiAoZaON1Z3rsYfwvJo0LqJNU1wpMDLsKnujHPXKFGVNMRQWVeRFSH5s0zCuUTsF5LFU+tDBauyhdAqJqMUJOZbA9aM5tlc9jp+2L04PLZf/Iemc4CkFt3uxek/OAu6rEKc9sPQxHYgLn6UOT2nLWdugS/CB8Y+vRJkecWOXKCL6JheeSmSxStE0t+alD93gryeNLi0N/1mnGt9TayZm+nt1VTSJ4kNCYT/iVuVln2qe2/BVg8wqaIZxGCI4C2XDIA7eP6Jz2DhGDoHmaYE5F7SZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ns3DTahGneYOUUfW+qatI0osxUU0aMrh8JeRlGttJbw=;
+ b=kYE8lQJNYQNMy5k+ceejc1GUE82frUrYkViSFMUlhbEARh6xJ4AKQ7p+vnmblUzOhiKSNnKTv67UoYUQpNGeUJqepCt/+q2nfA64aFxOhrO6qpaDnKFsHH4XsDUd6gWk3ZEox2+gCy/x8OpS7Els8v4LgO2WENNgBK7IDhWV/ZZhP0DWhJXLC/O2UJWIL2Z4JeDjZtQq23EsS/k3n3Y2QcG2UuR+9tG85FBT9o3oFotKw5nEaJbk1Tv4y9KRjiqwi31o5pfTNktzm5hFKPS3sPK3y6CqM6s0CRKwJxLquUSY47oGQMtBzY+e54dz8cNBvASGDbz6ZhlFZOgcfRMutQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by CO6PR11MB5668.namprd11.prod.outlook.com (2603:10b6:5:355::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Wed, 21 Dec
+ 2022 18:56:42 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::288d:5cae:2f30:828b%6]) with mapi id 15.20.5924.016; Wed, 21 Dec 2022
+ 18:56:42 +0000
+Date: Wed, 21 Dec 2022 10:56:38 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>
+Subject: Re: [RFC PATCH 3/6] hw/cxl/cxl-events: Add CXL mock events
+Message-ID: <Y6NW5hhNbGYUJJCZ@iweiny-desk3>
+References: <20221010222944.3923556-1-ira.weiny@intel.com>
+ <20221010222944.3923556-4-ira.weiny@intel.com>
+ <20221219100723.000021a9@Huawei.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20221219100723.000021a9@Huawei.com>
+X-ClientProxiedBy: SJ0PR03CA0186.namprd03.prod.outlook.com
+ (2603:10b6:a03:2ef::11) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|CO6PR11MB5668:EE_
+X-MS-Office365-Filtering-Correlation-Id: 254df47a-6f36-4d4d-1c4a-08dae385195d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oOyQFOTQ25F5cJRzhVySRNUXjIRyxkUvcN89tX8lRGKSjSFyaM1I8BgWvVhtky2fqyhZx6roxXP0bDsaBlnhhGY5bnyieScqat5yInSO91iTpndLQJmWXQpy+1uh+HcpEbSJo2+v3GHk8uHQn4xD2HwHdzAbaihRxmHJKOZAFCECsUEJf4kW4jdQhRPolnAaHO2pSyREasNF6VLReY+WD/FBwAHSMpdqNDv/bwu7eLFjkw/D03lcmnDE/jcWYvdak6RiGHbv4M0aydswlHmzkILViNaROial9fRSHjpCIihe+977gQdQXvylyFTZefeJ2W7lsvXzSyX5SwtiNis6NULx6artJpyEWrgogBDKiO/RBtJlPZACbxYTQxSgydHVzPONDL64Z5Xxf20mfT/jDH7aUgu/mguYwWocAltQampHbnpAYZnC+vRxZwkh8xiT96YSaod5Ru0G4qxAGaxHyu6K5h8J5l36o1ART0Uf02x0/EKLE7iRH9u5UXym1zgS5y9Z8HWHqkIhV743/JxWf14e4Tb68iGC+L2CSSFyBHskklbS37GgyHgsatcghKEyJ4MA7fZ+nAbCTTRPs+RccupBaWjXiJtEV2eZjP8vdPWiWOEy51yKZuJA8S2yJ75aEEUyU5dGTw2tAmK7Vw23XA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(7916004)(136003)(366004)(376002)(396003)(39860400002)(346002)(451199015)(44832011)(82960400001)(54906003)(38100700002)(478600001)(6916009)(6486002)(2906002)(4001150100001)(5660300002)(316002)(8936002)(86362001)(4326008)(66946007)(66556008)(66476007)(8676002)(26005)(186003)(41300700001)(6506007)(33716001)(9686003)(6666004)(6512007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Wf+bP7RGElascJk9tq49tIbnXDpreA37+U43DlErW7hjndipQSSsCzqo1Lk9?=
+ =?us-ascii?Q?fp6q/k8YVFOQXObxsdw5m7RzCDz2egO/4iEHTOJVwJFPB/HQdIHPSebQUKi5?=
+ =?us-ascii?Q?jOgf1qOHs4LmyygSOgjCF4HGHVIAHSVmAInBYzSAQpHPv8JV1UdhGuxZq93c?=
+ =?us-ascii?Q?o2i217usuxSRXw7lCwVh+WJq9sqHTrsXQw5fMzOzFcGViV+o/LglybKSM2hm?=
+ =?us-ascii?Q?V/IcNFvavbwpj4bWkeHk/mq+FIhSATn+3rfdRoYZBJzP7szSAWAXWLqvVtJ8?=
+ =?us-ascii?Q?zLdA5ZHfF2Sen5MXs3LIpqql5CptuvtL6Y4MO5onzHD7WQoVlvkdwVpNyT/P?=
+ =?us-ascii?Q?Kq6OwWg/iWzUh5Ub0WukUJJfViRSple0wXtoYv8SB4uHASlfTFcoOUfQsn55?=
+ =?us-ascii?Q?8iMgoQKqk6TR/4l90q3x3ip1tBsZkoCnE9NpFyy4m0yruAbA+WCsixNTYPuw?=
+ =?us-ascii?Q?Ad5yUKQ8gUq8T0OKZA11ycgOxS+QJFi1388e/7aOaj4dSMJeG5c/1cYnB5h1?=
+ =?us-ascii?Q?9G3agZ4hmJerhnBbXoRuIOnF+WHxS/UnwGuJmQ2Ky7k8/ZDKhjb8fdoWzZ6r?=
+ =?us-ascii?Q?K2oFuGqQx41LsM1eKU2SUkYUUXqSi5X8WNNpUsp+AMiEDw9CG6JDYVdLSfao?=
+ =?us-ascii?Q?ZZHT/N50MdyAVh4jB9msdQcWPWxC7CV+MHzUhpyux0kZMzCT+sbfReQFHoxG?=
+ =?us-ascii?Q?1MmGljXKauT0tmZ5SNKc980P8ZrBvfMNHaz63fNL6/QNXawhHKDfQJaA/oAQ?=
+ =?us-ascii?Q?yxkIa4GPcjBQHrdKm42GAUpI4wWndEMpf8g9SC8wiKQAudSVhqk384UoG7wo?=
+ =?us-ascii?Q?wcKXPrvnXE543jJ7dNhITC4ZNk0tWAeagvcwAUxnNtoNvPCQT+RDlc9XsEnh?=
+ =?us-ascii?Q?Fbc0kTrsfWLZ5X4bKNlJ1JK8lvpDorOkBmTlCyn4aX6oaSog5pMlhpkwLz0t?=
+ =?us-ascii?Q?UGanTwGA7n2S2vn9t5M3KJ1qttFFXzGofNIG6xN3L/d03EDY/WJ8mPqg0DZQ?=
+ =?us-ascii?Q?1nBqum2xOFMfSJdoj4BLbCc+9X/usC7lAfDogh4rB02BZmSjn2v+OWbCOach?=
+ =?us-ascii?Q?bySYzLOAa2FRmbeNlrXnqsUolsDZvoVJRkU6otVt8EJGpAGcHggKuVhg+mYy?=
+ =?us-ascii?Q?+bFYqvQ8BPg5/eOLi8YtxWUq/av5jt4LoNY5UWWmnPJ7o6xTHJFcDIzIIMFz?=
+ =?us-ascii?Q?t1l+XpFylJ+aB1mYtI29McUe+2AndWzBMfXG496N85StDBBJCUYfI6PpDTWs?=
+ =?us-ascii?Q?0LlIKn0rT0glYZ9mJePGeDnKUy0uivJzCO4Sc5B3vcvbWV7AaMT9vtuumN2E?=
+ =?us-ascii?Q?Jeuy9eGXBplyMpvvC4ZQxEUkP/My+BklHfcvTkLsFOsI/03mqSsbxDol6oOM?=
+ =?us-ascii?Q?1L9BljIMT0eXk3Zol0mrbJOtdSg4my7MBNiwnhsNXsTRJ4eTbQto3x7dV3pT?=
+ =?us-ascii?Q?gszoTfYAXt7G5MZaXkqqLSLFwJAVJdU2mPZ3D4qerlNnUCqps3RJAzxk3N9g?=
+ =?us-ascii?Q?QAXJ1eJMdN2j18mtzHKOywQXK/yf5JL3EvA9D2dBG4sMM7G4Cdc7L5NpcoOW?=
+ =?us-ascii?Q?7CIEM1/7gXS40LjUpFZNynRVO3eWb6Z+yp1n3dNt?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 254df47a-6f36-4d4d-1c4a-08dae385195d
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Dec 2022 18:56:42.4065 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9GOkF3uqycydZl1tqqA5g5QUPCh2IYMoxXSqghtH2ROXgtI4rnOtUnGQTNNtVyytZEKxlv4L1ajqxaBBfW2HYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5668
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.126; envelope-from=ira.weiny@intel.com;
+ helo=mga18.intel.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,50 +166,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Size is used at lines 1088/1188 for the loop, which reads the last 4
-bytes from the crc_ptr so it does need to get increased, however it
-shouldn't be increased before the buffer is passed to CRC computation,
-or the crc32 function will access uninitialized memory.
+On Mon, Dec 19, 2022 at 10:07:23AM +0000, Jonathan Cameron wrote:
+> On Mon, 10 Oct 2022 15:29:41 -0700
+> ira.weiny@intel.com wrote:
+> 
+> > From: Ira Weiny <ira.weiny@intel.com>
+> > 
+> > To facilitate testing of guest software add mock events and code to
+> > support iterating through the event logs.
+> > 
+> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> 
+> An FYI for the next version as I hit an issue with this when
+> testing resets (there are lots of other issues with resets
+> but this one crashed QEMU :)
+> 
+> > ---
+> 
+> > +static void event_store_add_event(CXLDeviceState *cxlds,
+> > +                                  enum cxl_event_log_type log_type,
+> > +                                  struct cxl_event_record_raw *event)
+> > +{
+> > +    struct cxl_event_log *log;
+> > +
+> > +    assert(log_type < CXL_EVENT_TYPE_MAX);
+> > +
+> > +    log = &cxlds->event_logs[log_type];
+> > +    assert(log->nr_events < CXL_TEST_EVENT_CNT_MAX);
+> 
+> This assert triggers on a reset as the function is called without
+> clearing the buffer first.
 
-This was pointed out to me by clg@kaod.org during the code review of
-a similar patch to hw/net/ftgmac100.c
+Not quite sure what happened there. But this code is completely gone in the new
+version.  As is the mass insertion of events at start up.  I've jettisoned all
+that in favor of the QMP injection of individual events.
 
-Change-Id: Ib0464303b191af1e28abeb2f5105eb25aadb5e9b
-Signed-off-by: Stephen Longfield <slongfield@google.com>
-Reviewed-by: Patrick Venture <venture@google.com>
----
- hw/net/imx_fec.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+I should be sending out a new version today.  It is based on cxl-2022-11-17.  I
+I believe it is much cleaner.  But I'm only supporting general media event
+right now.  The others can be added pretty easily but I want to get the
+infrastructure settled before working on those.
 
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index 8c11b237de..c862d96593 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -1068,9 +1068,9 @@ static ssize_t imx_fec_receive(NetClientState *nc, const uint8_t *buf,
-         return 0;
-     }
+Ira
 
--    /* 4 bytes for the CRC.  */
--    size += 4;
-     crc = cpu_to_be32(crc32(~0, buf, size));
-+    /* Increase size by 4, loop below reads the last 4 bytes from crc_ptr. */
-+    size += 4;
-     crc_ptr = (uint8_t *) &crc;
-
-     /* Huge frames are truncated.  */
-@@ -1164,9 +1164,9 @@ static ssize_t imx_enet_receive(NetClientState *nc, const uint8_t *buf,
-         return 0;
-     }
-
--    /* 4 bytes for the CRC.  */
--    size += 4;
-     crc = cpu_to_be32(crc32(~0, buf, size));
-+    /* Increase size by 4, loop below reads the last 4 bytes from crc_ptr. */
-+    size += 4;
-     crc_ptr = (uint8_t *) &crc;
-
-     if (shift16) {
---
-2.39.0.314.g84b9a713c41-goog
-
+> 
+> I'd suggest moving the setup of any dummy events over to a code
+> path that isn't run on reset.
+> 
+> 
+> > +
+> > +    log->events[log->nr_events] = event;
+> > +    log->nr_events++;
+> > +}
+> 
 
