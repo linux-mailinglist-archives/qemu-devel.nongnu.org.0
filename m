@@ -2,93 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34AFB653209
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2C16531F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:44:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7zRO-0000ik-To; Wed, 21 Dec 2022 08:47:30 -0500
+	id 1p7zOQ-00054N-Sr; Wed, 21 Dec 2022 08:44:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7zRG-0000dX-8k
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:47:19 -0500
-Received: from mga04.intel.com ([192.55.52.120])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7zOP-0004xl-IZ
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:44:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7zRE-0003e3-FK
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:47:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671630436; x=1703166436;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=Ey/uI44qPCpd4ueyxtxDLkQhSghq6Fbj8dB2OhBP0No=;
- b=IMFsZTl1jM8q5Vepef2Mx53Z1OydbQ0FksDeTh6kfVhgVf4drWgFO0i+
- m325odoy/XGNAWWDha9ZYvPY3KA+lqpPqEhD5WMe8oVGx1FnCdvlDzZMx
- Ebt0IqozKQ493fzuLF1ccfSCHpF9jGmrnqURP4aHYfp85FtaYTi0dlLoa
- Fd6mx+lqQ8KuHLZbTip9F6hLcybqIP/tXGC4sDVYep5F5sybo/cYIWXy3
- O17nj6SdnXre3l8TGO0E5zyYFe834QJYgDDJV3Dtk4nRcoOaqYwftQi+N
- SK4nsxCMHzSbJicR2B0bUG4kQtFtqDqXok0nLr8odgpHuTiKQu88yuSk0 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="318568475"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="318568475"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 05:47:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="651402272"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="651402272"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga002.jf.intel.com with ESMTP; 21 Dec 2022 05:47:03 -0800
-Date: Wed, 21 Dec 2022 21:42:46 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 3/9] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20221221134246.GB1766136@chaop.bj.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-4-chao.p.peng@linux.intel.com>
- <Y6B27MpZO8o1Asfe@zn.tnic>
- <20221220074318.GC1724933@chaop.bj.intel.com>
- <Y6GGoAVQGPyCaDnS@zn.tnic>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7zON-0002xK-A9
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:44:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671630258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KEy4v9f8l1FnU90DwFD9CBq/2E8qxUzwOfrumw/dl8E=;
+ b=X2xJWqRHqyjy0+goVVKxjdxy9HTMmknEJsmbdlKEvpakTjtgkyE4b/bFVzN0lKy09F53fh
+ deDQ/TcfhD1qUWEEL4rqG9up8lqN9/cw9+Nl3bbrl9iKBPrQF/PYVFeHBRu9zXA/Czpo1l
+ vKIvJCsrvtl//uTwVwD0knWylZlY2mw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-322-K0QQfcNTOd68B2mbNr7tOQ-1; Wed, 21 Dec 2022 08:44:17 -0500
+X-MC-Unique: K0QQfcNTOd68B2mbNr7tOQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bi19-20020a05600c3d9300b003cf9d6c4016so955591wmb.8
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:44:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KEy4v9f8l1FnU90DwFD9CBq/2E8qxUzwOfrumw/dl8E=;
+ b=1fZiX/AxeGQJx06+rDlsyZo/mCsHFRyqqGXPVFimSMGJRmHHbiWuAh6Z1E0HMa/l0B
+ gENlT6mcWq7vdFCBjoCWHdXC7ZFfpoyCsSJdVuFdhsIQp61EWQm70+6yXnVs5BzuVA7i
+ OznMwYumfQWVPlbZqFdCsQY2OYqBnbVUeXkxJgJ6cOaUzWHUQ6mYTcSJxf+1c5bEP7s/
+ L7JQNyBRNrz3GAWg34iHP5nWTbYFuRcn2TjL80l8c2AntK7AUfQGZhRQQ+ozNcuN6epE
+ m2eXVVf9nqE1TzogZ03PWkxbK6OXDx7ofVQ5u4ExiN9Poiug2BkBhYD5XXxU3xJHC8vb
+ 6zew==
+X-Gm-Message-State: AFqh2koZaQblnyEr4TBsxXqLIJHMnPVBZWdzhlG8mwMFYM5LdYnRNdQW
+ Vzh4XF7Putmv7PcKoxhsCWuIdVvPUv5nK7Gt0ezH0/0e2rSJ5oB7X8cCb92JWZ5IvFQcSVUAelm
+ cZ4QwxEFFYyhTzj7jI+wEndwpxfC/8I46C074X2H6mmeBaf/BKXF/9CIRP3cv
+X-Received: by 2002:adf:f1c9:0:b0:242:763:34ad with SMTP id
+ z9-20020adff1c9000000b00242076334admr1198179wro.1.1671630256076; 
+ Wed, 21 Dec 2022 05:44:16 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs1Df+eyXhdqhUs9hwebKlhDHGjTK0wmvZCFyuAmpc2lJG1Ss13lWEfBVpY3EH7iVun1EJp3A==
+X-Received: by 2002:adf:f1c9:0:b0:242:763:34ad with SMTP id
+ z9-20020adff1c9000000b00242076334admr1198162wro.1.1671630255804; 
+ Wed, 21 Dec 2022 05:44:15 -0800 (PST)
+Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
+ c3-20020a5d5283000000b0024206ed539fsm15426702wrv.66.2022.12.21.05.44.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Dec 2022 05:44:15 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:44:13 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Jonah Palmer <jonah.palmer@oracle.com>
+Subject: [PULL 36/41] hw/virtio: Guard and restrict scope of
+ qmp_virtio_feature_map_t[]
+Message-ID: <20221221130339.1234592-37-mst@redhat.com>
+References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y6GGoAVQGPyCaDnS@zn.tnic>
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,40 +99,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 20, 2022 at 10:55:44AM +0100, Borislav Petkov wrote:
-> On Tue, Dec 20, 2022 at 03:43:18PM +0800, Chao Peng wrote:
-> > RESTRICTEDMEM is needed by TDX_HOST, not TDX_GUEST.
-> 
-> Which basically means that RESTRICTEDMEM should simply depend on KVM.
-> Because you can't know upfront whether KVM will run a TDX guest or a SNP
-> guest and so on.
-> 
-> Which then means that RESTRICTEDMEM will practically end up always
-> enabled in KVM HV configs.
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-That's right, CONFIG_RESTRICTEDMEM is always selected for supported KVM
-architectures (currently x86_64).
+Commit f3034ad71f ("qmp: decode feature & status bits in
+virtio-status") did not guard all qmp_virtio_feature_map_t
+arrays with the corresponding #ifdef'ry used in
+qmp_decode_features(). Fix that and reduce the arrays scope
+by declaring them static.
 
-> 
-> > The only reason to add another HAVE_KVM_RESTRICTED_MEM is some code only
-> > works for 64bit[*] and CONFIG_RESTRICTEDMEM is not sufficient to enforce
-> > that.
-> 
-> This is what I mean with "we have too many Kconfig items". :-\
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221213111707.34921-4-philmd@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Jonah Palmer<jonah.palmer@oracle.com>
+Suggested-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
+Signed-off-by: Philippe Mathieu-Daudé <a class="moz-txt-link-rfc2396E" href="mailto:philmd@linaro.org">&lt;philmd@linaro.org&gt;</a>
+---
+ hw/virtio/virtio.c | 56 ++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 42 insertions(+), 14 deletions(-)
 
-Yes I agree. One way to remove this is probably additionally checking
-CONFIG_64BIT instead.
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 15197002ef..7345261ed8 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -179,7 +179,8 @@ static qmp_virtio_feature_map_t virtio_config_status_map[] = {
+ };
+ 
+ /* virtio-blk features mapping */
+-qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
++#ifdef CONFIG_VIRTIO_BLK
++static qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_BLK_F_SIZE_MAX, \
+             "VIRTIO_BLK_F_SIZE_MAX: Max segment size is size_max"),
+     FEATURE_ENTRY(VIRTIO_BLK_F_SEG_MAX, \
+@@ -216,9 +217,11 @@ qmp_virtio_feature_map_t virtio_blk_feature_map[] = {
+             "negotiation supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-serial features mapping */
+-qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
++#ifdef CONFIG_VIRTIO_SERIAL
++static qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_CONSOLE_F_SIZE, \
+             "VIRTIO_CONSOLE_F_SIZE: Host providing console size"),
+     FEATURE_ENTRY(VIRTIO_CONSOLE_F_MULTIPORT, \
+@@ -227,9 +230,11 @@ qmp_virtio_feature_map_t virtio_serial_feature_map[] = {
+             "VIRTIO_CONSOLE_F_EMERG_WRITE: Emergency write supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-gpu features mapping */
+-qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
++#ifdef CONFIG_VIRTIO_GPU
++static qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_GPU_F_VIRGL, \
+             "VIRTIO_GPU_F_VIRGL: Virgl 3D mode supported"),
+     FEATURE_ENTRY(VIRTIO_GPU_F_EDID, \
+@@ -248,9 +253,11 @@ qmp_virtio_feature_map_t virtio_gpu_feature_map[] = {
+             "negotiation supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-input features mapping */
+-qmp_virtio_feature_map_t virtio_input_feature_map[] = {
++#ifdef CONFIG_VIRTIO_INPUT
++static qmp_virtio_feature_map_t virtio_input_feature_map[] = {
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+@@ -258,9 +265,11 @@ qmp_virtio_feature_map_t virtio_input_feature_map[] = {
+             "negotiation supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-net features mapping */
+-qmp_virtio_feature_map_t virtio_net_feature_map[] = {
++#ifdef CONFIG_VIRTIO_NET
++static qmp_virtio_feature_map_t virtio_net_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_NET_F_CSUM, \
+             "VIRTIO_NET_F_CSUM: Device handling packets with partial checksum "
+             "supported"),
+@@ -336,9 +345,11 @@ qmp_virtio_feature_map_t virtio_net_feature_map[] = {
+             "negotiation supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-scsi features mapping */
+-qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
++#ifdef CONFIG_VIRTIO_SCSI
++static qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_SCSI_F_INOUT, \
+             "VIRTIO_SCSI_F_INOUT: Requests including read and writable data "
+             "buffers suppoted"),
+@@ -357,9 +368,11 @@ qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
+             "negotiation supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio/vhost-user-fs features mapping */
+-qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
++#ifdef CONFIG_VHOST_USER_FS
++static qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+@@ -367,9 +380,11 @@ qmp_virtio_feature_map_t virtio_fs_feature_map[] = {
+             "negotiation supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio/vhost-user-i2c features mapping */
+-qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
++#ifdef CONFIG_VIRTIO_I2C_ADAPTER
++static qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_I2C_F_ZERO_LENGTH_REQUEST, \
+             "VIRTIO_I2C_F_ZERO_LEGNTH_REQUEST: Zero length requests supported"),
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+@@ -379,9 +394,11 @@ qmp_virtio_feature_map_t virtio_i2c_feature_map[] = {
+             "negotiation supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio/vhost-vsock features mapping */
+-qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
++#ifdef CONFIG_VHOST_VSOCK
++static qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_VSOCK_F_SEQPACKET, \
+             "VIRTIO_VSOCK_F_SEQPACKET: SOCK_SEQPACKET supported"),
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+@@ -391,9 +408,11 @@ qmp_virtio_feature_map_t virtio_vsock_feature_map[] = {
+             "negotiation supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-balloon features mapping */
+-qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
++#ifdef CONFIG_VIRTIO_BALLOON
++static qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_BALLOON_F_MUST_TELL_HOST, \
+             "VIRTIO_BALLOON_F_MUST_TELL_HOST: Tell host before reclaiming "
+             "pages"),
+@@ -409,16 +428,20 @@ qmp_virtio_feature_map_t virtio_balloon_feature_map[] = {
+             "VIRTIO_BALLOON_F_REPORTING: Page reporting VQ enabled"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-crypto features mapping */
+-qmp_virtio_feature_map_t virtio_crypto_feature_map[] = {
++#ifdef CONFIG_VIRTIO_CRYPTO
++static qmp_virtio_feature_map_t virtio_crypto_feature_map[] = {
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-iommu features mapping */
+-qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
++#ifdef CONFIG_VIRTIO_IOMMU
++static qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
+     FEATURE_ENTRY(VIRTIO_IOMMU_F_INPUT_RANGE, \
+             "VIRTIO_IOMMU_F_INPUT_RANGE: Range of available virtual addrs. "
+             "available"),
+@@ -439,9 +462,11 @@ qmp_virtio_feature_map_t virtio_iommu_feature_map[] = {
+             "available"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-mem features mapping */
+-qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
++#ifdef CONFIG_VIRTIO_MEM
++static qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
+ #ifndef CONFIG_ACPI
+     FEATURE_ENTRY(VIRTIO_MEM_F_ACPI_PXM, \
+             "VIRTIO_MEM_F_ACPI_PXM: node_id is an ACPI PXM and is valid"),
+@@ -451,9 +476,11 @@ qmp_virtio_feature_map_t virtio_mem_feature_map[] = {
+             "accessed"),
+     { -1, "" }
+ };
++#endif
+ 
+ /* virtio-rng features mapping */
+-qmp_virtio_feature_map_t virtio_rng_feature_map[] = {
++#ifdef CONFIG_VIRTIO_RNG
++static qmp_virtio_feature_map_t virtio_rng_feature_map[] = {
+     FEATURE_ENTRY(VHOST_F_LOG_ALL, \
+             "VHOST_F_LOG_ALL: Logging write descriptors supported"),
+     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+@@ -461,6 +488,7 @@ qmp_virtio_feature_map_t virtio_rng_feature_map[] = {
+             "negotiation supported"),
+     { -1, "" }
+ };
++#endif
+ 
+ /*
+  * The alignment to use between consumer and producer parts of vring.
+-- 
+MST
 
-Thanks,
-Chao
-> 
-> -- 
-> Regards/Gruss,
->     Boris.
-> 
-> https://people.kernel.org/tglx/notes-about-netiquette
 
