@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F7A652AB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32272652AB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:04:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7nV3-0000tc-DV; Tue, 20 Dec 2022 20:02:25 -0500
+	id 1p7nWt-000201-Jx; Tue, 20 Dec 2022 20:04:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7nUg-0000jP-Pu
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:02:04 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1p7nWs-0001ze-1E
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:04:18 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7nUd-0003Mk-7B
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:02:02 -0500
-Received: by mail-pl1-x631.google.com with SMTP id s7so14010147plk.5
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 17:01:58 -0800 (PST)
+ id 1p7nWp-0003cT-VE
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:04:17 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ hd14-20020a17090b458e00b0021909875bccso2244534pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 17:04:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=TYC4RlEZX85DcloEeHvm418WSLDMXrtH8IdhzDztsgw=;
- b=qWmP1JdTZYm1xu5SBoAvBC1azB8iTw+pNm9I6sTKCOBvN0IrjnOnr4WKyfcUAk6CaH
- bNg2vBWbo4G/xjfAnHR6OiwEjLZ/2N4GXRUW6xmg6kVLn2o8CuR7sLc6BVJuBR35r+it
- FZwPAV5OJK2aCJ2eDSrkwayM3Rh9iBgN6hut1OApFdbmZKzMEPDlYD2XRVAQRgZTRIQV
- qyyBloQl0VoMgoKEv0DZGervtesC56sHffIjG/WHeStj3uFXx++egamNQRipzEw7tA0x
- EsSRMKU1GaCQM0Eli96a09wvNfR4OVLd7WW4i6Wtb2w1Rj2Mu6KuyOX1wRyJYSIiXTnh
- swlA==
+ bh=piqH7YD4unzGrRvMOF3nwvHTOkxfYWuU4XTFusVJrVU=;
+ b=jctvinIHSrg4T1aiLd4Jyo8fGVErVDZNn019tqi3OCq/vOB1avZTVS9R3EjoJJu0iy
+ MfdfdlumB/TDpw9kMI5qDkyNlGAyZUbvCjFMYFIJlgABPn6Db1XwztorAcCmgkZtJSOv
+ vwR264EdQtVBOD8IwTEUcDyB//Hx/cUaVYN4qWsCfjnoX2/cuUcbEoki7O9Nt+gOVhev
+ yupRyLAoKPwcyHP8vIEqcCq8OHKlNSubROFIej1tWj3ULPbHOer0CgMYFyBNJQZnIZma
+ KiLAP0zHEvgqEqJEEDtrzgsW0zIHCQVYk/8hI1Ge+XDIAXqcktv3SG8xEar0udO53UkE
+ HfqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TYC4RlEZX85DcloEeHvm418WSLDMXrtH8IdhzDztsgw=;
- b=C9n1xXi/P5LVZWuf6LUCSFCdfe9FSIzTLfpC0NHVq0N91qTZH9Udpm7Xy/dcV3G3Ac
- ECQafoJ6maxJOAMdkSrf+OkCB5+KGbyTNCS9uNjaNJsOelr5GEC/UQkrx2j59czGbcm4
- awXMZ3MPLem5Pd1ioQPSY8zaiPn8MrIMuzCLAv2NBjqBr7V94oTYv6W68xVvle8wDDi8
- NUldE5/QMPD8WGfOoLxCLPPT0R+FHMH5Ww5v6qyRSHw3uc1yTemOuxMBTaQpomb41RtE
- pCPhedRq4DJIYPaGetBeE7eDgPTzewiu2wIEtCSlTWafpWmIjlEm2zZWiSEyXXuyhKlS
- xMag==
-X-Gm-Message-State: AFqh2kq83CPqTxozi0EyXV49HUZTWquSmi5qjXVs7rMZFEnknKVUGr13
- 3KAk5XAqJjrGtoAwUjqp5J4ITw==
-X-Google-Smtp-Source: AMrXdXvV35he04HnqO7JzfQisvFJmP+q90GOmRYq2WxVB2QFzTdWPlnOK1joQ6tR8T0qiKtD0fISgw==
-X-Received: by 2002:a17:90b:4d8c:b0:219:c2f2:f818 with SMTP id
- oj12-20020a17090b4d8c00b00219c2f2f818mr29848pjb.42.1671584517789; 
- Tue, 20 Dec 2022 17:01:57 -0800 (PST)
+ bh=piqH7YD4unzGrRvMOF3nwvHTOkxfYWuU4XTFusVJrVU=;
+ b=kvIdpjEbvR8E0R5CK6wBImG9cUmgYbMK9Cp2NyeyF+2/QL4W6R6zaQTRXUEcyiZhaN
+ 7l3bSlj7rnDq1dNChANHyW2/RDfa4c8yhFgHNPQm72CTzMoDiBAXq0oZGuyIUZTzpMGG
+ fMLXGE1InVgtrO7LkfS2OQp68xAGINdDk3IJ55nHIMeeb/c4roDjIeOkOhOoe7OqXbyz
+ 47Fgmqp9nKvln396oez7a5KhzMFivnPXOENV1zQtYgiezhjBk/ClZI7kxHWtVZozwFvt
+ sr2bfqQHJDgoxp+1M86l2oSJD0k3DyXwy6VGc+ZSm8XYdCJhPsInyWUQk9poBwxD6o36
+ 2poA==
+X-Gm-Message-State: AFqh2krWG4AkLSnAE1MrFrp6+TVYZrwAVB4WjngjO2Aoz2C1r4XwnkI8
+ Q6WMohMzYmjtfn5d7jrbV5pR4g==
+X-Google-Smtp-Source: AMrXdXvUt6HjzUxrsZqCio0mQGQy3RJBJ27NrPofQj2vaACXeVwx+xQv1ompGj+VvGropIKB0Q4Mng==
+X-Received: by 2002:a17:902:bf43:b0:185:441e:2d77 with SMTP id
+ u3-20020a170902bf4300b00185441e2d77mr78843pls.14.1671584654173; 
+ Tue, 20 Dec 2022 17:04:14 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:3efa:624c:5fb:32c0?
  ([2602:47:d48c:8101:3efa:624c:5fb:32c0])
  by smtp.gmail.com with ESMTPSA id
- v23-20020a17090a0e1700b00218a4795b0dsm142061pje.34.2022.12.20.17.01.56
+ f7-20020a170902ce8700b00186b758c9fasm10051425plg.33.2022.12.20.17.04.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 17:01:57 -0800 (PST)
-Message-ID: <eac96f81-8cd5-5951-6b0f-69da5985d47c@linaro.org>
-Date: Tue, 20 Dec 2022 17:01:55 -0800
+ Tue, 20 Dec 2022 17:04:13 -0800 (PST)
+Message-ID: <4dfaeb0f-8173-0123-e7f6-2180a53eb313@linaro.org>
+Date: Tue, 20 Dec 2022 17:04:12 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 3/3] hw/arm/nseries: Silent -Wmissing-field-initializers
- warning
+Subject: Re: [PATCH] trace: Do not try to include QMP commands in user
+ emulation binaries
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-References: <20221220142520.24094-1-philmd@linaro.org>
- <20221220142520.24094-4-philmd@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+References: <20221220150417.26751-1-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221220142520.24094-4-philmd@linaro.org>
+In-Reply-To: <20221220150417.26751-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.161,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,20 +97,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/20/22 06:25, Philippe Mathieu-Daudé wrote:
-> Silent when compiling with -Wextra:
+On 12/20/22 07:04, Philippe Mathieu-Daudé wrote:
+> QMP is not available on user emulation; there is not monitor.
+> Besides, since commit a0e61807a3 ("qapi: Remove QMP events
+> and commands from user-mode builds") we don't generate the
+> qapi-commands-trace.h header in a user-emulation-only build.
 > 
->    ../hw/arm/nseries.c:1081:12: warning: missing field 'line' initializer [-Wmissing-field-initializers]
->        { NULL }
->               ^
+> Remove the QMP trace commands from qemu-user binaries.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   hw/arm/nseries.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
+>   trace/meson.build | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 
-Not a fan of this specific warning.
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
+> 
+> diff --git a/trace/meson.build b/trace/meson.build
+> index 26b54714d5..4385afbff0 100644
+> --- a/trace/meson.build
+> +++ b/trace/meson.build
+> @@ -88,4 +88,6 @@ if 'ftrace' in get_option('trace_backends')
+>     trace_ss.add(files('ftrace.c'))
+>   endif
+>   trace_ss.add(files('control.c'))
+> -trace_ss.add(files('qmp.c'))
+> +if have_system or have_tools or have_ga
+> +  trace_ss.add(files('qmp.c'))
+> +endif
+
 
