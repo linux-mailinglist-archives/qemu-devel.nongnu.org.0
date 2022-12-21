@@ -2,114 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CB16531F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:44:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDD66531E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:42:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7zNz-0003t1-Fn; Wed, 21 Dec 2022 08:43:55 -0500
+	id 1p7zM7-0008GS-Q9; Wed, 21 Dec 2022 08:41:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7zNj-0003qd-94
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:43:39 -0500
-Received: from mga04.intel.com ([192.55.52.120])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7zM0-0008ES-NT
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:41:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1p7zNh-0002sP-3f
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:43:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671630217; x=1703166217;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=KeOWd+1s5+y+piSUTaodricsl+2xgK/0jmwlSljJARM=;
- b=Oz8pUPLgKCpxAFENmNLR39vm3QTbZ1q3PnAxWXGpb//w5t7hNpJkQKOM
- xWlbOatcY9r7EmbI/mpVwp0OkUS1M5/m5ltiGlLi9FDOEiy59iF+uPx1f
- 88U4IOaEalaPfMFrNphxKL6t89NJldVTYELTm9PtEjGV01Xw8ddlcjd0D
- 6IGMsg6iI75EcfZZ169952CO5+dNzsFD1vtn7rTCdPsTojjM1KqzVy6g2
- 2XYeyRz4xAmlYtUKHx5isH2LL4d63YyRHpH99QFjwHbbNkkGv/hmVRMEm
- QvtFiwS5ZwCBrHzTC679rpCyzvNkefU1NEYDpvtdHIrioNa9gh6FxGrtq Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="318567874"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="318567874"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 05:43:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10567"; a="651401281"
-X-IronPort-AV: E=Sophos;i="5.96,262,1665471600"; d="scan'208";a="651401281"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga002.jf.intel.com with ESMTP; 21 Dec 2022 05:43:21 -0800
-Date: Wed, 21 Dec 2022 21:39:05 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: "Huang, Kai" <kai.huang@intel.com>
-Cc: "tglx@linutronix.de" <tglx@linutronix.de>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jmattson@google.com" <jmattson@google.com>,
- "Lutomirski, Andy" <luto@kernel.org>,
- "ak@linux.intel.com" <ak@linux.intel.com>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
- "Hocko, Michal" <mhocko@suse.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "tabba@google.com" <tabba@google.com>,
- "david@redhat.com" <david@redhat.com>,
- "michael.roth@amd.com" <michael.roth@amd.com>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "bfields@fieldses.org" <bfields@fieldses.org>,
- "dhildenb@redhat.com" <dhildenb@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "rppt@kernel.org" <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
- "vkuznets@redhat.com" <vkuznets@redhat.com>,
- "vbabka@suse.cz" <vbabka@suse.cz>,
- "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
- "ddutile@redhat.com" <ddutile@redhat.com>,
- "qperret@google.com" <qperret@google.com>, "arnd@arndb.de" <arnd@arndb.de>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "vannapurve@google.com" <vannapurve@google.com>,
- "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
- "Christopherson,, Sean" <seanjc@google.com>,
- "wanpengli@tencent.com" <wanpengli@tencent.com>,
- "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
- "hughd@google.com" <hughd@google.com>,
- "aarcange@redhat.com" <aarcange@redhat.com>,
- "mingo@redhat.com" <mingo@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- "jlayton@kernel.org" <jlayton@kernel.org>,
- "joro@8bytes.org" <joro@8bytes.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "Wang, Wei W" <wei.w.wang@intel.com>,
- "steven.price@arm.com" <steven.price@arm.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "Hansen, Dave" <dave.hansen@intel.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linmiaohe@huawei.com" <linmiaohe@huawei.com>
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221221133905.GA1766136@chaop.bj.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
- <20221219075313.GB1691829@chaop.bj.intel.com>
- <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
- <20221220072228.GA1724933@chaop.bj.intel.com>
- <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7zLy-0002WC-Kw
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:41:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671630109;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OZ8rNZ9vkLJ1qZu/EVJ3tU3Fcrp5MNrh20xbY6fHBcE=;
+ b=RQv6PnYYIr/7X/OtH+E6lntJZmSAtv5lz9hEx3Lwrlv9Lz+P03ee471f+lPo/2aukfumfm
+ J/lZsyp00cK7MPiQDl+e5DfnX1dv/+HqKpbw7Vgbq/+WJoiDVDkYgOMW77hTVWyHRxzswB
+ /uQaio8OPBB1c/yQWwFpyM4ev1QzL4c=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-97-5SbZA9rrNcK6nyAPjbyyGw-1; Wed, 21 Dec 2022 08:41:48 -0500
+X-MC-Unique: 5SbZA9rrNcK6nyAPjbyyGw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n12-20020adf8b0c000000b0025d56d58653so2216905wra.8
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:41:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OZ8rNZ9vkLJ1qZu/EVJ3tU3Fcrp5MNrh20xbY6fHBcE=;
+ b=kfV+zBsF+CVb7OTjYVbm7BLU7GT9hddQDX2AMuyN39FAHfvw8hRy+X5XFQgacTP/va
+ 0uTK5akr+/JetZNwVaW/yb+OABraLEj9ZCZXHF4Sye9dv4nxPAII+VKSJFCXa/vR2NVj
+ +mlI3eO1ml5BLITvnyL30ztZ+GLZ2+XWgW7NBFdR72ZX3pqEMCgEoVPeJFq3gm/wYnpM
+ 98Wibh6gDiOBJBg2aRT+jzZ4k4mGDJK6nxjGqunj7NQoKCjK4bCK52JpKRTHlDrxzNvp
+ 8ixuTdt8zYcYbXHnL7O+dz8QYamUctAL0k4FHNAHu3/mTmDwuKLKA0XrLQDDwEb1Ci2i
+ i10A==
+X-Gm-Message-State: AFqh2krxglR/mfrTNK/TeBZVffw37N69vXP+JDrzERYpKKYMvEhSoWJF
+ v3mYd+5oevPUpUBlRI3Nb1XtbVmCVYIl3EeCRScFk3VTh/Yeia7lD2axYCUz3MrGI6Uk3lZSS67
+ klYU7Mdso8tcaDJ/zbW1Z7tXJlscTpG36YncdQgt9U0EmYnKdAbLdAqsiEWWY
+X-Received: by 2002:a5d:4a48:0:b0:250:b68f:8b8b with SMTP id
+ v8-20020a5d4a48000000b00250b68f8b8bmr1281202wrs.25.1671630106672; 
+ Wed, 21 Dec 2022 05:41:46 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsLRv73fcvQeuBq9hAl2/6ux4Hfmiou7fFseRn5Fgjh5XW2PFmXUp3AioR7nBqA3jC9+Ca9KQ==
+X-Received: by 2002:a5d:4a48:0:b0:250:b68f:8b8b with SMTP id
+ v8-20020a5d4a48000000b00250b68f8b8bmr1281184wrs.25.1671630106197; 
+ Wed, 21 Dec 2022 05:41:46 -0800 (PST)
+Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
+ q15-20020adff94f000000b002368a6deaf8sm15207568wrr.57.2022.12.21.05.41.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Dec 2022 05:41:45 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:41:43 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 38/41] hw/virtio: Extract config read/write accessors to
+ virtio-config-io.c
+Message-ID: <20221221130339.1234592-39-mst@redhat.com>
+References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,90 +97,455 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 20, 2022 at 08:33:05AM +0000, Huang, Kai wrote:
-> On Tue, 2022-12-20 at 15:22 +0800, Chao Peng wrote:
-> > On Mon, Dec 19, 2022 at 08:48:10AM +0000, Huang, Kai wrote:
-> > > On Mon, 2022-12-19 at 15:53 +0800, Chao Peng wrote:
-> > > > > 
-> > > > > [...]
-> > > > > 
-> > > > > > +
-> > > > > > +	/*
-> > > > > > +	 * These pages are currently unmovable so don't place them into
-> > > > > > movable
-> > > > > > +	 * pageblocks (e.g. CMA and ZONE_MOVABLE).
-> > > > > > +	 */
-> > > > > > +	mapping = memfd->f_mapping;
-> > > > > > +	mapping_set_unevictable(mapping);
-> > > > > > +	mapping_set_gfp_mask(mapping,
-> > > > > > +			†††† mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
-> > > > > 
-> > > > > But, IIUC removing __GFP_MOVABLE flag here only makes page allocation from
-> > > > > non-
-> > > > > movable zones, but doesn't necessarily prevent page from being migrated.† My
-> > > > > first glance is you need to implement either a_ops->migrate_folio() or just
-> > > > > get_page() after faulting in the page to prevent.
-> > > > 
-> > > > The current api restrictedmem_get_page() already does this, after the
-> > > > caller calling it, it holds a reference to the page. The caller then
-> > > > decides when to call put_page() appropriately.
-> > > 
-> > > I tried to dig some history. Perhaps I am missing something, but it seems Kirill
-> > > said in v9 that this code doesn't prevent page migration, and we need to
-> > > increase page refcount in restrictedmem_get_page():
-> > > 
-> > > https://lore.kernel.org/linux-mm/20221129112139.usp6dqhbih47qpjl@box.shutemov.name/
-> > > 
-> > > But looking at this series it seems restrictedmem_get_page() in this v10 is
-> > > identical to the one in v9 (except v10 uses 'folio' instead of 'page')?
-> > 
-> > restrictedmem_get_page() increases page refcount several versions ago so
-> > no change in v10 is needed. You probably missed my reply:
-> > 
-> > https://lore.kernel.org/linux-mm/20221129135844.GA902164@chaop.bj.intel.com/
-> 
-> But for non-restricted-mem case, it is correct for KVM to decrease page's
-> refcount after setting up mapping in the secondary mmu, otherwise the page will
-> be pinned by KVM for normal VM (since KVM uses GUP to get the page).
+From: Philippe Mathieu-Daud√© <philmd@linaro.org>
 
-That's true. Actually even true for restrictedmem case, most likely we
-will still need the kvm_release_pfn_clean() for KVM generic code. On one
-side, other restrictedmem users like pKVM may not require page pinning
-at all. On the other side, see below.
+These config helpers use the target-dependent LD/ST API.
 
-> 
-> So what we are expecting is: for KVM if the page comes from restricted mem, then
-> KVM cannot decrease the refcount, otherwise for normal page via GUP KVM should.
+Signed-off-by: Philippe Mathieu-Daud√© <philmd@linaro.org>
+Message-Id: <20221213111707.34921-6-philmd@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/virtio/virtio-config-io.c | 204 +++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio.c           | 190 --------------------------------
+ hw/virtio/meson.build        |   1 +
+ 3 files changed, 205 insertions(+), 190 deletions(-)
+ create mode 100644 hw/virtio/virtio-config-io.c
 
-I argue that this page pinning (or page migration prevention) is not
-tied to where the page comes from, instead related to how the page will
-be used. Whether the page is restrictedmem backed or GUP() backed, once
-it's used by current version of TDX then the page pinning is needed. So
-such page migration prevention is really TDX thing, even not KVM generic
-thing (that's why I think we don't need change the existing logic of
-kvm_release_pfn_clean()). Wouldn't better to let TDX code (or who
-requires that) to increase/decrease the refcount when it populates/drops
-the secure EPT entries? This is exactly what the current TDX code does:
+diff --git a/hw/virtio/virtio-config-io.c b/hw/virtio/virtio-config-io.c
+new file mode 100644
+index 0000000000..ad78e0b9bc
+--- /dev/null
++++ b/hw/virtio/virtio-config-io.c
+@@ -0,0 +1,204 @@
++/*
++ * Virtio Support
++ *
++ * Copyright IBM, Corp. 2007
++ *
++ * Authors:
++ *  Anthony Liguori   <aliguori@us.ibm.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "hw/virtio/virtio.h"
++#include "cpu.h"
++
++uint32_t virtio_config_readb(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint8_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = ldub_p(vdev->config + addr);
++    return val;
++}
++
++uint32_t virtio_config_readw(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint16_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = lduw_p(vdev->config + addr);
++    return val;
++}
++
++uint32_t virtio_config_readl(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint32_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = ldl_p(vdev->config + addr);
++    return val;
++}
++
++void virtio_config_writeb(VirtIODevice *vdev, uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint8_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stb_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++void virtio_config_writew(VirtIODevice *vdev, uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint16_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stw_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++void virtio_config_writel(VirtIODevice *vdev, uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint32_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stl_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++uint32_t virtio_config_modern_readb(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint8_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = ldub_p(vdev->config + addr);
++    return val;
++}
++
++uint32_t virtio_config_modern_readw(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint16_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = lduw_le_p(vdev->config + addr);
++    return val;
++}
++
++uint32_t virtio_config_modern_readl(VirtIODevice *vdev, uint32_t addr)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint32_t val;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return (uint32_t)-1;
++    }
++
++    k->get_config(vdev, vdev->config);
++
++    val = ldl_le_p(vdev->config + addr);
++    return val;
++}
++
++void virtio_config_modern_writeb(VirtIODevice *vdev,
++                                 uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint8_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stb_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++void virtio_config_modern_writew(VirtIODevice *vdev,
++                                 uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint16_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stw_le_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
++void virtio_config_modern_writel(VirtIODevice *vdev,
++                                 uint32_t addr, uint32_t data)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    uint32_t val = data;
++
++    if (addr + sizeof(val) > vdev->config_len) {
++        return;
++    }
++
++    stl_le_p(vdev->config + addr, val);
++
++    if (k->set_config) {
++        k->set_config(vdev, vdev->config);
++    }
++}
++
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 989c96229c..e0aa70248a 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -18,7 +18,6 @@
+ #include "qapi/qapi-commands-qom.h"
+ #include "qapi/qapi-visit-virtio.h"
+ #include "qapi/qmp/qjson.h"
+-#include "cpu.h"
+ #include "trace.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+@@ -2580,195 +2579,6 @@ void virtio_reset(void *opaque)
+     }
+ }
+ 
+-uint32_t virtio_config_readb(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint8_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = ldub_p(vdev->config + addr);
+-    return val;
+-}
+-
+-uint32_t virtio_config_readw(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint16_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = lduw_p(vdev->config + addr);
+-    return val;
+-}
+-
+-uint32_t virtio_config_readl(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint32_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = ldl_p(vdev->config + addr);
+-    return val;
+-}
+-
+-void virtio_config_writeb(VirtIODevice *vdev, uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint8_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stb_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-void virtio_config_writew(VirtIODevice *vdev, uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint16_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stw_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-void virtio_config_writel(VirtIODevice *vdev, uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint32_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stl_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-uint32_t virtio_config_modern_readb(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint8_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = ldub_p(vdev->config + addr);
+-    return val;
+-}
+-
+-uint32_t virtio_config_modern_readw(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint16_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = lduw_le_p(vdev->config + addr);
+-    return val;
+-}
+-
+-uint32_t virtio_config_modern_readl(VirtIODevice *vdev, uint32_t addr)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint32_t val;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return (uint32_t)-1;
+-    }
+-
+-    k->get_config(vdev, vdev->config);
+-
+-    val = ldl_le_p(vdev->config + addr);
+-    return val;
+-}
+-
+-void virtio_config_modern_writeb(VirtIODevice *vdev,
+-                                 uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint8_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stb_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-void virtio_config_modern_writew(VirtIODevice *vdev,
+-                                 uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint16_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stw_le_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+-void virtio_config_modern_writel(VirtIODevice *vdev,
+-                                 uint32_t addr, uint32_t data)
+-{
+-    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    uint32_t val = data;
+-
+-    if (addr + sizeof(val) > vdev->config_len) {
+-        return;
+-    }
+-
+-    stl_le_p(vdev->config + addr, val);
+-
+-    if (k->set_config) {
+-        k->set_config(vdev, vdev->config);
+-    }
+-}
+-
+ void virtio_queue_set_addr(VirtIODevice *vdev, int n, hwaddr addr)
+ {
+     if (!vdev->vq[n].vring.num) {
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index 0d1ea1fea6..a52f4e5c01 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -5,6 +5,7 @@ softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'
+ 
+ specific_virtio_ss = ss.source_set()
+ specific_virtio_ss.add(files('virtio.c'))
++specific_virtio_ss.add(files('virtio-config-io.c'))
+ 
+ if have_vhost
+   specific_virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
+-- 
+MST
 
-get_page():
-https://github.com/intel/tdx/blob/kvm-upstream/arch/x86/kvm/vmx/tdx.c#L1217
-
-put_page():
-https://github.com/intel/tdx/blob/kvm-upstream/arch/x86/kvm/vmx/tdx.c#L1334
-
-Thanks,
-Chao
-> 
-> > 
-> > The current solution is clear: unless we have better approach, we will
-> > let restrictedmem user (KVM in this case) to hold the refcount to
-> > prevent page migration.
-> > 
-> 
-> OK.  Will leave to others :)
-> 
 
