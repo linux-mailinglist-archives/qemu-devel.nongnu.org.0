@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6116653926
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:56:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB931653922
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:56:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87oD-0003DX-Rr; Wed, 21 Dec 2022 17:43:33 -0500
+	id 1p87oE-0003MV-Kk; Wed, 21 Dec 2022 17:43:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87nv-0003AW-Nd
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:15 -0500
+ id 1p87o5-0003FG-VE
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:26 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87nt-0000Xf-ET
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:15 -0500
+ id 1p87o3-0000bf-Kw
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671662593; x=1703198593;
+ t=1671662603; x=1703198603;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3esrjL+0ACOe7jvODgUx8nE+o14tGGAQ9W+P0DFAYvY=;
- b=FPsBryOqKnUh+/NObzkrg2mRwFeBDLD+oVw7V1iz7mJlCPCVmcESBCLw
- ShXCYqZizD+QhOhUx8Unt4hA0rC55tr0kbL9uFjYb8DT+zc32GZ7X07qL
- gJQkjAm4I+CXZP00qNz5hFaiRqiQyhq1ufnOwHOad+eye8IW0/2G8ttV6
- mOF4fZH+ecHdf+CWzhGJw1jz4VOpnX9lSJNoUNn+tEaH7fNYZaWy0dWeO
- vtwQgUyZCUdrTase3XT53r/IO7z6xqsMsu1W3IGmNGp15CAQZmkXLzXRW
- P6doIrBdOOs3DKfPjE4JKnSWhrKrgFvmIJuGgvdi8/ufO71VLY0z9GKvh Q==;
-X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561453"
+ bh=RignxIYbKCPHxUnIhIqB+bDCTC2InNMQAhk2vcktKns=;
+ b=dtA6JLN+puNEw1iyGv5Sfhl7C51FMh8re3LD9aX0Z0D/hUs93nHWEWkE
+ yz9SXdr6KJuNnUhSKJlsXenIYruMZtwFeRcZNLfiun+U0ZNbCApYxbHtg
+ 9nE1TfgIc2j+sfqQDNwgXcp33oWyu6+wDbM8HxuBYQG1hCY++MhNVe28s
+ hp/5q02gbrjl6GihdYGf8d8aOsDOCJZbHqQQtqXJfrpgUZiPcZ/QLRC97
+ u0HJ5JgQxiMgqDIxUZh32hY3676RSOGsvp0uCxUG/xdiY+2MLNnhqiDFR
+ K2ZWtSQozzPJCIXx4PVQym++uJ2smpPPtW46vrZrJu3opnry1ZHrm2jht Q==;
+X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561463"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:51 +0800
-IronPort-SDR: uhgVkPp2hDIshxLfHiNFw36fXnb4wP31DuECJGlI6Dx3Qnny5g+LuARReaSMEla4QDmvnXV3KI
- msU7+8+ivjfHYeLh3rixr20RSXXSEU/LH3XuYlzRw8avzHNjgxsdDHOqw9HXn11Lxp9zZxP9FB
- piJF2yGhxqf3gXV9TNOILlPT/A7ymX0/3G06gLtBkkxBmYdgax5beXEW6WJWaZTd2OTAZ27iBo
- rD3JjOG/bxIoSyH5L9NbLFQTs3p90at8D80tSeo7MBgbMGHhUt/fViZnpdjVQsPErCiJd1ZiSx
- IsM=
+ by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:54 +0800
+IronPort-SDR: yc7WDHUB8mYcjBvl/buc0nQttWwpYg26EUBTD7Kvl+QRvqpZJGhhEgbnt1+6Y92XhjEFVuSSpi
+ DdSzWlbCwocK0WLmY0qvuq+5kvPfL6pD/objkmUFV+NwYLwFboZyRGP9lRVzDPu1L1wzPvFb8K
+ tR5qEwuGfsqfib7RO1kZmFkNOBylLvwfhh7DTu/+GiDsKQ6t0RUfOvcHj3igIorf+/lCJJsEl4
+ hVd3vGO31qLuKJkRMl+QRcHDmI1ko/MJv49g1iIlAz/SxpMJjQdS3bbUqtbDB0ooa6j7TrPCdY
+ wx0=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 13:54:20 -0800
-IronPort-SDR: bxvxhxbkCUtBnGiIkm7NjaMSsPUyoaru+B20p2FN3fNtuPg87SYrXyGacR5mJ416BioxSCdurH
- h2tEIcRZOfeAv6rW77q4aod3V++DSy3s0zhao+SlcVRmE+ZWq4gfoTc69aBS7SDo2ACH7KfZAc
- YO3g/sAbPhJLrIdLadxjtiOn+aBJoKw0xJOtEQv0KEY0VocKjQfwPmYAN6uaTgiXU5IfNncaOM
- CAsrcHKxBHntPmO51oFbZ9gQW8uoJk6If/CALChQQHwh6W6inUUABlsNNftAf1dhWilZtIB8YY
- lP8=
+ 21 Dec 2022 13:54:23 -0800
+IronPort-SDR: 3BmY6GyVImqwGwBAsGMl+nWsB6OWhjLrBOXWj+IjvVQxr3XnEPDMh2NnP1GjAM7Nwzx4qWUEux
+ RgyuoyUBkKnkFAOFmZwj2MoMXmCI13ofpeBg5ROCz17alARdfxxsRQk6Lb+fEjzCFHTYdAmfPL
+ CaxsgIINUuSeo4BeBzZhoFjC6ih39gfb2uCsJ11if1BbZ3XBC0PbwRPFUsY4pfhl7mH5Lb380w
+ xBD/WzbXbdH1YTROe5+VEXWGwzSUNPu+qWDd3dUUWMY93c/6vbY7+cmFSK+Qh7LnIDmNthMe0b
+ lcM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 14:41:52 -0800
+ 21 Dec 2022 14:41:55 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMz6yNMz1RvTr
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:51 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpN25C70z1RvTr
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:54 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671662511; x=1674254512; bh=3esrjL+0ACOe7jvODg
- Ux8nE+o14tGGAQ9W+P0DFAYvY=; b=QyQnuu7ZAu2njD+43lwoOfw+SViImCMg9V
- D1n5phA6OZFRsvRHKG0RmZ49MwYzBrtWyseWmeV0LR7PwQ904da1Fq6MNFjkCzQM
- pNVWjCqAMbX3tAh95B9flOU+0zV7u59bTWKZ3Yb+fV5McY+ZbVeBAkw0wF50YsgF
- ht8F6rTq4dthXNvL50rOEapz//X3r1oipSOzLhCueBvtST+uv9ll0RlnaQEnzblZ
- 6h5WsmsEasCbRLNvQ95vgUbJA4gXzxRPj1g1e6vTsnlT4Uebp1saSol0ysFvEZNl
- ER5s6ucdlgCBl13IPRShBDS8Kz5E46tREdnPK9nDINq26aZAZ5sQ==
+ :from; s=dkim; t=1671662514; x=1674254515; bh=RignxIYbKCPHxUnIhI
+ qB+bDCTC2InNMQAhk2vcktKns=; b=nYFLLVdk44ihmkKisefJU4LOOibfLaCvZZ
+ hJaDu3ma5BeVezzVAA/8X6WERvtaKItBROyGrVuvawiXoXlxxMTElCTmJ0Dg6Cr2
+ z9NT2nPeovpFFuYhMPueP6Q79+eDQDZbEiJabqGvhQk9A1ZkIxAsbLt77njKYq32
+ EnR+EW6cEi9PRd16CyP3zLs7BwPHdVEUDPduZk5RdvKxG49azKogYXvcs/XsjYea
+ 4WbflW3uA8N+IRGzNnGxjUV37sM34ar/faIxay7Bgzfy9096QI5JuvuhC7w4QG/e
+ Yw89zL8n+GaU9tfCXy3Gj8x22WZSbBLVn7edUrpeXJPS4mr9zJyw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 6sl2JfNxT2T6 for <qemu-devel@nongnu.org>;
- Wed, 21 Dec 2022 14:41:51 -0800 (PST)
+ port 10026) with ESMTP id kE8tCdMBm5oM for <qemu-devel@nongnu.org>;
+ Wed, 21 Dec 2022 14:41:54 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.8])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMx4LS2z1Rwrq;
- Wed, 21 Dec 2022 14:41:49 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMz5n08z1RvLy;
+ Wed, 21 Dec 2022 14:41:51 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
  Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Conor Dooley <conor.dooley@microchip.com>
-Subject: [PULL v2 39/45] hw/riscv: microchip_pfsoc: Fix the number of
- interrupt sources of PLIC
-Date: Thu, 22 Dec 2022 08:40:16 +1000
-Message-Id: <20221221224022.425831-40-alistair.francis@opensource.wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL v2 40/45] hw/riscv: sifive_e: Fix the number of interrupt
+ sources of PLIC
+Date: Thu, 22 Dec 2022 08:40:17 +1000
+Message-Id: <20221221224022.425831-41-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
@@ -119,40 +118,51 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-Per chapter 6.5.2 in [1], the number of interupt sources including
-interrupt source 0 should be 187.
+Per chapter 10 in Freedom E310 manuals [1][2][3], E310 G002 and G003
+supports 52 interrupt sources while G000 supports 51 interrupt sources.
 
-[1] PolarFire SoC MSS TRM:
-https://ww1.microchip.com/downloads/aemDocuments/documents/FPGA/ProductDo=
-cuments/ReferenceManuals/PolarFire_SoC_FPGA_MSS_Technical_Reference_Manua=
-l_VC.pdf
+We use the value of G002 and G003, so it is 53 (including source 0).
 
-Fixes: 56f6e31e7b7e ("hw/riscv: Initial support for Microchip PolarFire S=
-oC Icicle Kit board")
+[1] G000 manual:
+https://sifive.cdn.prismic.io/sifive/4faf3e34-4a42-4c2f-be9e-c77baa4928c7=
+_fe310-g000-manual-v3p2.pdf
+
+[2] G002 manual:
+https://sifive.cdn.prismic.io/sifive/034760b5-ac6a-4b1c-911c-f4148bb2c4a5=
+_fe310-g002-v1p5.pdf
+
+[3] G003 manual:
+https://sifive.cdn.prismic.io/sifive/3af39c59-6498-471e-9dab-5355a0d539eb=
+_fe310-g003-manual.pdf
+
+Fixes: eb637edb1241 ("SiFive Freedom E Series RISC-V Machine")
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Message-Id: <20221211030829.802437-10-bmeng@tinylab.org>
+Message-Id: <20221211030829.802437-11-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/microchip_pfsoc.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/riscv/sifive_e.h | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microc=
-hip_pfsoc.h
-index 69a686b54a..577efad0c4 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -153,7 +153,7 @@ enum {
- #define MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT    1
- #define MICROCHIP_PFSOC_COMPUTE_CPU_COUNT       4
+diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+index d738745925..9e58247fd8 100644
+--- a/include/hw/riscv/sifive_e.h
++++ b/include/hw/riscv/sifive_e.h
+@@ -82,7 +82,12 @@ enum {
+ };
 =20
--#define MICROCHIP_PFSOC_PLIC_NUM_SOURCES        185
-+#define MICROCHIP_PFSOC_PLIC_NUM_SOURCES        187
- #define MICROCHIP_PFSOC_PLIC_NUM_PRIORITIES     7
- #define MICROCHIP_PFSOC_PLIC_PRIORITY_BASE      0x04
- #define MICROCHIP_PFSOC_PLIC_PENDING_BASE       0x1000
+ #define SIFIVE_E_PLIC_HART_CONFIG "M"
+-#define SIFIVE_E_PLIC_NUM_SOURCES 127
++/*
++ * Freedom E310 G002 and G003 supports 52 interrupt sources while
++ * Freedom E310 G000 supports 51 interrupt sources. We use the value
++ * of G002 and G003, so it is 53 (including interrupt source 0).
++ */
++#define SIFIVE_E_PLIC_NUM_SOURCES 53
+ #define SIFIVE_E_PLIC_NUM_PRIORITIES 7
+ #define SIFIVE_E_PLIC_PRIORITY_BASE 0x04
+ #define SIFIVE_E_PLIC_PENDING_BASE 0x1000
 --=20
 2.38.1
 
