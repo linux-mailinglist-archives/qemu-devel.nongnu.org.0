@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1CF65347C
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:02:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C222865347E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:02:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p82T9-0002yl-Ux; Wed, 21 Dec 2022 12:01:29 -0500
+	id 1p82TC-00030T-0L; Wed, 21 Dec 2022 12:01:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82Sb-0002mn-LP; Wed, 21 Dec 2022 12:00:53 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ id 1p82Sd-0002n8-Ea; Wed, 21 Dec 2022 12:00:57 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82SZ-0008C6-Vc; Wed, 21 Dec 2022 12:00:53 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id t17so38335499eju.1;
- Wed, 21 Dec 2022 09:00:51 -0800 (PST)
+ id 1p82Sb-0008CM-Iy; Wed, 21 Dec 2022 12:00:55 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id r26so22844034edc.10;
+ Wed, 21 Dec 2022 09:00:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0n/SCpv5aiBm+X16I26hh3ltLrnYFlTaexw96i1C/dI=;
- b=At5ucn5r/KYZwEY2ldUDeWZiPfz4Pc5gGY66Z5OsKmqmOHmB8LC98IbLg2TLv94QBN
- Vr2WWdLJxmp4Cok/e89ysUURzm/FKmbYisvnvawYd9k1lsZt4Q47YMSHuE/qv8FoUfmh
- 31FxzsNhPKO4KNJf5QooaBlpzqIN8BZnICPmO3eIpWLN3BhtqOAdeDrQmDo1osqLlAub
- RLI/FdgVnPWb9N0NaGpG2vUrJUQh8NWjdWxyfCaacQQ7mTFwXNOAW1cpMf8HnMZCAHc2
- XwdkZkXgsmlRnwnSygqPTd0CMK38v1rjSzG4kkV/r0wMg7PPrYcG4SqlgzSB7gbd5qUr
- +EnQ==
+ bh=VwWKR1OMt4vLP6fqIL6c7wco4dMX9lc0xSkQTrYOIRU=;
+ b=Wt/j2qzGLoPC55T/6DDO+S4yV0iDRwjovs1Z+CqfGwzrVo+Mo7kQZ8KFuT/J5mS3bW
+ G8Yp3a/JMWSn6RuQhR6KnYTyXw67f9s4UjYMzAfrkePUr+WUQ+y6GCnlhAS6QMokxr1T
+ V62f77UlmQE2stb5q1OTGLr5L7VM7s5l5TDNlmDfUMFf/mQMENC/9Tw2KCJGgEGyZAp5
+ h+hFbpWt2tVlJoyKZV8zKVRAMPQqZrBAWqLZvgUo9MWKfzCJSADcpMOR2Dsow0RDwxIF
+ DlmEfMZ8anJaNhKb90gdKfUqk2OS6B/Cf7A776jv+oqAoz6bXiL52OxhHB1MnVP1P1yU
+ WTIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0n/SCpv5aiBm+X16I26hh3ltLrnYFlTaexw96i1C/dI=;
- b=wmDVuWrPUAu0y0TVcZyfsMon6NnQPGPbCWbaA608G3O7aqZgMqHIGK023ZkupI2Fmz
- vUQnQjC/kEuD6nFqEqMIGhbezYFctbgKtRIox2lm/I7hUhoTimLJvje9z6NN+I2Izo0V
- d3vLeVNpifJxqdSXj6Oxl2qQF0ygJOZGRx/VrWuzwsRDyUuBuR43Ft2zD7YJ0+mh33Th
- F6jwW1OH1mXKqkao4348gpZf/pXYgP9yAkETBD5m/rIBzxJu4SOptUvg9vMPLnamKk6U
- 8gyDBOfXbf4mczT9qt7enkJiNx5zd6gidkrOMn1LdkdW7lwxkBE5p613ZfdlOX9JmTBl
- oDhA==
-X-Gm-Message-State: AFqh2krCQlggHNv6JgE/gyVp4a6ZpPsiD9NaUbpN39XktLqlVh0BiYX2
- gXfWIq1EFgChPqdHALCQrXJyBl5vYWc=
-X-Google-Smtp-Source: AMrXdXuHtt+kd8hF3k6jEikEdqvq+1SQgO8naGHqMX+YBskekRHnl58OOgDVd9SnMNvkbLxxodUpzQ==
-X-Received: by 2002:a17:906:32c3:b0:82a:5b57:3fe4 with SMTP id
- k3-20020a17090632c300b0082a5b573fe4mr2023134ejk.68.1671642049982; 
- Wed, 21 Dec 2022 09:00:49 -0800 (PST)
+ bh=VwWKR1OMt4vLP6fqIL6c7wco4dMX9lc0xSkQTrYOIRU=;
+ b=w95AC+YYmhjkjuxaNuBd2BdVXJAywaINcoOC+Sq3frQ1maB9u7AwAWsUDVyJAi/ECD
+ j6nRk6yvs1bhxFSmOaBPM1pJbMVlX70po6PZbQxrOsvN5GUgWKm+8R4xKJeEqCJLCTwH
+ qMcHa/0mtJ7QtMnyCpzmvd+v/z3tAh5hk1P4q2HstUTUhPYnGszju+ptjwA4S2XFbuDd
+ 1oHCT83CQdYGLeYreShfMqA51AnXJgLqtveEFU9SQJy6J8F5pZL0DKxUtKY4ITZXdx1p
+ KAYG4umtyWy2BE5UxURyvb7sMaRcYxSqo4ZaTUcKN3HVwDDcmShmw9s6J7wcq//1tNTL
+ ewsw==
+X-Gm-Message-State: AFqh2kprmbREmj1cAI+9whiZ7qbO3XFJuyQT5DQ2qFwVzeVeUlJH1cSa
+ 1wT/7h3EznZ76w+8v9f7FGov3owwxSM=
+X-Google-Smtp-Source: AMrXdXuMSwqQiabG38VaJTkkB1cTMyNENz7oQ4GLwIR06zu5D71+kzkL8mlpexMrw+NtPBT6X/iYrg==
+X-Received: by 2002:a05:6402:5d6:b0:470:3762:2d83 with SMTP id
+ n22-20020a05640205d600b0047037622d83mr2229948edx.36.1671642051236; 
+ Wed, 21 Dec 2022 09:00:51 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-092-224-051-061.92.224.pool.telefonica.de. [92.224.51.61])
  by smtp.gmail.com with ESMTPSA id
- n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.00.48
+ n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.00.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 09:00:49 -0800 (PST)
+ Wed, 21 Dec 2022 09:00:50 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -66,19 +66,20 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v4 04/30] hw/mips/Kconfig: Track Malta's PIIX dependencies via
- Kconfig
-Date: Wed, 21 Dec 2022 17:59:37 +0100
-Message-Id: <20221221170003.2929-5-shentey@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH v4 05/30] hw/usb/hcd-uhci: Introduce TYPE_ defines for device
+ models
+Date: Wed, 21 Dec 2022 17:59:38 +0100
+Message-Id: <20221221170003.2929-6-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221221170003.2929-1-shentey@gmail.com>
 References: <20221221170003.2929-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,45 +102,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Tracking dependencies via Kconfig seems much cleaner.
-
-Note that PIIX4 already depends on ACPI_PIIX4.
-
+Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20221022150508.26830-10-shentey@gmail.com>
 ---
- configs/devices/mips-softmmu/common.mak | 2 --
- hw/mips/Kconfig                         | 1 +
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ hw/i386/pc_piix.c |  3 ++-
+ hw/i386/pc_q35.c  | 13 +++++++------
+ hw/isa/piix4.c    |  2 +-
+ hw/usb/hcd-uhci.c | 16 ++++++++--------
+ hw/usb/hcd-uhci.h |  4 ++++
+ 5 files changed, 22 insertions(+), 16 deletions(-)
 
-diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
-index 416161f833..7813fd1b41 100644
---- a/configs/devices/mips-softmmu/common.mak
-+++ b/configs/devices/mips-softmmu/common.mak
-@@ -18,10 +18,8 @@ CONFIG_PCSPK=y
- CONFIG_PCKBD=y
- CONFIG_FDC=y
- CONFIG_ACPI=y
--CONFIG_ACPI_PIIX4=y
- CONFIG_APM=y
- CONFIG_I8257=y
--CONFIG_PIIX4=y
- CONFIG_IDE_ISA=y
- CONFIG_PFLASH_CFI01=y
- CONFIG_I8259=y
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index 725525358d..4e7042f03d 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -1,6 +1,7 @@
- config MALTA
-     bool
-     select ISA_SUPERIO
-+    select PIIX4
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index ecae85a31e..e4bb8994da 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -51,6 +51,7 @@
+ #include "exec/memory.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/piix4.h"
++#include "hw/usb/hcd-uhci.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/xen.h"
+@@ -306,7 +307,7 @@ static void pc_init1(MachineState *machine,
+ #endif
  
- config MIPSSIM
-     bool
+     if (pcmc->pci_enabled && machine_usb(machine)) {
+-        pci_create_simple(pci_bus, piix3_devfn + 2, "piix3-usb-uhci");
++        pci_create_simple(pci_bus, piix3_devfn + 2, TYPE_PIIX3_USB_UHCI);
+     }
+ 
+     if (pcmc->pci_enabled && x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 39f035903c..ed541102f4 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -48,6 +48,7 @@
+ #include "hw/ide/pci.h"
+ #include "hw/ide/ahci.h"
+ #include "hw/usb.h"
++#include "hw/usb/hcd-uhci.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/numa.h"
+@@ -65,15 +66,15 @@ struct ehci_companions {
+ };
+ 
+ static const struct ehci_companions ich9_1d[] = {
+-    { .name = "ich9-usb-uhci1", .func = 0, .port = 0 },
+-    { .name = "ich9-usb-uhci2", .func = 1, .port = 2 },
+-    { .name = "ich9-usb-uhci3", .func = 2, .port = 4 },
++    { .name = TYPE_ICH9_USB_UHCI(1), .func = 0, .port = 0 },
++    { .name = TYPE_ICH9_USB_UHCI(2), .func = 1, .port = 2 },
++    { .name = TYPE_ICH9_USB_UHCI(3), .func = 2, .port = 4 },
+ };
+ 
+ static const struct ehci_companions ich9_1a[] = {
+-    { .name = "ich9-usb-uhci4", .func = 0, .port = 0 },
+-    { .name = "ich9-usb-uhci5", .func = 1, .port = 2 },
+-    { .name = "ich9-usb-uhci6", .func = 2, .port = 4 },
++    { .name = TYPE_ICH9_USB_UHCI(4), .func = 0, .port = 0 },
++    { .name = TYPE_ICH9_USB_UHCI(5), .func = 1, .port = 2 },
++    { .name = TYPE_ICH9_USB_UHCI(6), .func = 2, .port = 4 },
+ };
+ 
+ static int ehci_create_ich9_with_companions(PCIBus *bus, int slot)
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 6e9434129d..de60ceef73 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -255,7 +255,7 @@ static void piix4_init(Object *obj)
+ 
+     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+     object_initialize_child(obj, "ide", &s->ide, TYPE_PIIX4_IDE);
+-    object_initialize_child(obj, "uhci", &s->uhci, "piix4-usb-uhci");
++    object_initialize_child(obj, "uhci", &s->uhci, TYPE_PIIX4_USB_UHCI);
+ 
+     object_initialize_child(obj, "pm", &s->pm, TYPE_PIIX4_PM);
+     qdev_prop_set_uint32(DEVICE(&s->pm), "smb_io_base", 0x1100);
+diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+index d1b5657d72..30ae0104bb 100644
+--- a/hw/usb/hcd-uhci.c
++++ b/hw/usb/hcd-uhci.c
+@@ -1292,56 +1292,56 @@ void uhci_data_class_init(ObjectClass *klass, void *data)
+ 
+ static UHCIInfo uhci_info[] = {
+     {
+-        .name       = "piix3-usb-uhci",
++        .name      = TYPE_PIIX3_USB_UHCI,
+         .vendor_id = PCI_VENDOR_ID_INTEL,
+         .device_id = PCI_DEVICE_ID_INTEL_82371SB_2,
+         .revision  = 0x01,
+         .irq_pin   = 3,
+         .unplug    = true,
+     },{
+-        .name      = "piix4-usb-uhci",
++        .name      = TYPE_PIIX4_USB_UHCI,
+         .vendor_id = PCI_VENDOR_ID_INTEL,
+         .device_id = PCI_DEVICE_ID_INTEL_82371AB_2,
+         .revision  = 0x01,
+         .irq_pin   = 3,
+         .unplug    = true,
+     },{
+-        .name      = "ich9-usb-uhci1", /* 00:1d.0 */
++        .name      = TYPE_ICH9_USB_UHCI(1), /* 00:1d.0 */
+         .vendor_id = PCI_VENDOR_ID_INTEL,
+         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI1,
+         .revision  = 0x03,
+         .irq_pin   = 0,
+         .unplug    = false,
+     },{
+-        .name      = "ich9-usb-uhci2", /* 00:1d.1 */
++        .name      = TYPE_ICH9_USB_UHCI(2), /* 00:1d.1 */
+         .vendor_id = PCI_VENDOR_ID_INTEL,
+         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI2,
+         .revision  = 0x03,
+         .irq_pin   = 1,
+         .unplug    = false,
+     },{
+-        .name      = "ich9-usb-uhci3", /* 00:1d.2 */
++        .name      = TYPE_ICH9_USB_UHCI(3), /* 00:1d.2 */
+         .vendor_id = PCI_VENDOR_ID_INTEL,
+         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI3,
+         .revision  = 0x03,
+         .irq_pin   = 2,
+         .unplug    = false,
+     },{
+-        .name      = "ich9-usb-uhci4", /* 00:1a.0 */
++        .name      = TYPE_ICH9_USB_UHCI(4), /* 00:1a.0 */
+         .vendor_id = PCI_VENDOR_ID_INTEL,
+         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI4,
+         .revision  = 0x03,
+         .irq_pin   = 0,
+         .unplug    = false,
+     },{
+-        .name      = "ich9-usb-uhci5", /* 00:1a.1 */
++        .name      = TYPE_ICH9_USB_UHCI(5), /* 00:1a.1 */
+         .vendor_id = PCI_VENDOR_ID_INTEL,
+         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI5,
+         .revision  = 0x03,
+         .irq_pin   = 1,
+         .unplug    = false,
+     },{
+-        .name      = "ich9-usb-uhci6", /* 00:1a.2 */
++        .name      = TYPE_ICH9_USB_UHCI(6), /* 00:1a.2 */
+         .vendor_id = PCI_VENDOR_ID_INTEL,
+         .device_id = PCI_DEVICE_ID_INTEL_82801I_UHCI6,
+         .revision  = 0x03,
+diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
+index c85ab7868e..83e6f548b1 100644
+--- a/hw/usb/hcd-uhci.h
++++ b/hw/usb/hcd-uhci.h
+@@ -91,4 +91,8 @@ typedef struct UHCIInfo {
+ void uhci_data_class_init(ObjectClass *klass, void *data);
+ void usb_uhci_common_realize(PCIDevice *dev, Error **errp);
+ 
++#define TYPE_PIIX3_USB_UHCI "piix3-usb-uhci"
++#define TYPE_PIIX4_USB_UHCI "piix4-usb-uhci"
++#define TYPE_ICH9_USB_UHCI(fn) "ich9-usb-uhci" #fn
++
+ #endif
 -- 
 2.39.0
 
