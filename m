@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACE6652C41
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 06:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F591652C4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 06:09:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7rGO-0002Iu-DW; Wed, 21 Dec 2022 00:03:32 -0500
+	id 1p7rGQ-0002Jy-HM; Wed, 21 Dec 2022 00:03:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7rGL-0002HT-0i
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 00:03:29 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1p7rGM-0002II-8D
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 00:03:30 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7rGJ-0003Ov-FF
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 00:03:28 -0500
-Received: by mail-pl1-x632.google.com with SMTP id b2so1752362pld.7
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 21:03:27 -0800 (PST)
+ id 1p7rGK-0003P9-Fj
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 00:03:29 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ t11-20020a17090a024b00b0021932afece4so995743pje.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 21:03:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=znZNd3WG/BhN4qCSHGo7fJ9BmZ3G69LA+YD4Q3QuGKE=;
- b=QQb4qA9mlJQuPb5HL3ire0ouceqMrntlm1GE9yMPMDocvkDfq42rMgcxdyFKj2PYoX
- TxNg0xGvSenZ9PSkr8dKBlv++xOcmLV+hgdQ6LIdCFmEuAio9j1diIiPr7OBiNGaUPkG
- 3kzfQL0HJ3VHjdJ4nSmg/ao2Nmw9834CMDKirnkVfbnfmbDHY3/TDk8qAX5RIQ463d2/
- JS9hqp9GWv/B/Am1ytfnt7yXDBWw6H3vsADyIlsprUSCtinE7LYWzaFOp5m3Tl7oA1wU
- SFtB/UwKQrBPX9QcA347eoglDwxVP6HUejE3Db3b9J9sdRoPm57R7wSp1sdDJWC4E1BI
- tk8w==
+ bh=L1M2wRoJOi+BqzGwIPM2hSiFC08op8oobTL1vRrCJmc=;
+ b=xYODdjB9+Fmmdza1GhwZWsKcYARE/16mGbfGVghWwPCx1jYOU66Il4kjUbnuoRf4+r
+ j9jdx7QYorP81e4uUiN5/wOL2HKJb2tQVDdab1ivyS1Zq5WwwKdSvsZ0UIauaR0/R0c/
+ xlgT6HuBLLzBQ74HEURnE/f7F3SuFlvprw3Dn6xS4aVV57fo/qxbXj9SENaRpnX6W8Ch
+ dWSPk8I6gUnQOP9h/wsGjB4m7QFylouJQYJ8vPTGAs3X8S4o28wiFFDU2FxWibHaZDEo
+ Yr3OV05WtTT0TFaoRWjSs3BVDgaQebDRLogS0p+dW8IntkSiB0TAXGxsbyq19oWBKs4T
+ qtXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=znZNd3WG/BhN4qCSHGo7fJ9BmZ3G69LA+YD4Q3QuGKE=;
- b=w4mhdvQbh6DWYhlHahY7P4aw7VAJN0lzwQ2PPVKiA4WED1eK6deEAADdVb2DWACgn6
- WahY7qu/xIJdmiuHTn8hZIXPyrXE4gs11uTtUcqukl87KGfmYML9LHKEvA6C6lPhbEso
- 4PCtUjKS+ZLmQl824NUngDv5g0Xm2LUpaiANybSQVrUjYRcg0QemMdbRPrKOE2k0wqnC
- 7iMKfGkA+LilSeDOklxJbWbY2qs+T8U3BKAV/cvOsMczpejOUHp21Y/kIMzJxzFOzd7Q
- GSCH2aLPGbvHmbdWRqwbQUkG2sDWQ1l/h5P38ULAkZpSIC/IjILatO7uFgRyYt67pIol
- 82SA==
-X-Gm-Message-State: AFqh2krXcj+porSinzYv3DIVZNdcl1EYyisizvUjQ/iVSTrfNyjRT+bC
- VyH9gG2rbRZcd33EPnpOglj2vEHjMh3XU08B
-X-Google-Smtp-Source: AMrXdXst8cLgKj9PQFWwLyyabgYnX0xglToL8CAEQGchf4ngu4z1ha9KZ4xNsr5Br8TZNFAYAXMrxQ==
-X-Received: by 2002:a17:90b:3689:b0:223:7922:654d with SMTP id
- mj9-20020a17090b368900b002237922654dmr823581pjb.5.1671599006094; 
- Tue, 20 Dec 2022 21:03:26 -0800 (PST)
+ bh=L1M2wRoJOi+BqzGwIPM2hSiFC08op8oobTL1vRrCJmc=;
+ b=M+7+sbCzU25HE/VlmGGESEddL0OA5DsI0vdMKdhwb/lRkyZU71K47Enqz0RQyxkCGt
+ 7I1hh79UNXFqFJeDcNTHfjU2rzmDHW1zomOLaEomfL2EZLW7aat94RV/wQho4heUlfu/
+ lNrnTiKjFLPcLdiTGKQRc2UEiCajYFm6TWmzcT06fXEHwAFl4/yfELV4aYEvBskcB6g0
+ O8BquNbrC6Xy72XjBmiCITSp7+fMWeIP8G0vuTpEJ+1RbNZkIGe8mZDinbekhvsG5AH0
+ KmKowt0BSmYO81DZsPJdQoO25ceVKY7E6GZu9WzGKg1hGjkFoKkJ1/YLiRymblzCBN3L
+ chWw==
+X-Gm-Message-State: AFqh2kr0JwJYGCAb//ODj2GkHBCBOtrCkmtmtmiiOQrIW3qcfVy9ujqo
+ tKjFJRAuA8r+pA5yDqYReAbKWuzL/AVi3T0o
+X-Google-Smtp-Source: AMrXdXsWbbr6FjXFXrr5rDGVPiTJ1mbwRs0+t0PuGlNmIMQv5eDMRG3Ozie/9NeeatjsuJhbGk16uQ==
+X-Received: by 2002:a17:90a:cc18:b0:219:4011:b836 with SMTP id
+ b24-20020a17090acc1800b002194011b836mr15338874pju.23.1671599007105; 
+ Tue, 20 Dec 2022 21:03:27 -0800 (PST)
 Received: from stoup.. ([2602:47:d48c:8101:3efa:624c:5fb:32c0])
  by smtp.gmail.com with ESMTPSA id
- a8-20020a17090a688800b002135e8074b1sm390645pjd.55.2022.12.20.21.03.25
+ a8-20020a17090a688800b002135e8074b1sm390645pjd.55.2022.12.20.21.03.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Dec 2022 21:03:25 -0800 (PST)
+ Tue, 20 Dec 2022 21:03:26 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL v2 10/14] accel/tcg: Restrict cpu_io_recompile() to system
- emulation
-Date: Tue, 20 Dec 2022 21:03:09 -0800
-Message-Id: <20221221050313.2950701-11-richard.henderson@linaro.org>
+Subject: [PULL v2 11/14] accel/tcg: Remove trace events from trace-root.h
+Date: Tue, 20 Dec 2022 21:03:10 -0800
+Message-Id: <20221221050313.2950701-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221221050313.2950701-1-richard.henderson@linaro.org>
 References: <20221221050313.2950701-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,35 +95,62 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Missed in commit 6526919224 ("accel/tcg: Restrict cpu_io_recompile()
-from other accelerators").
+Commit d9bb58e510 ("tcg: move tcg related files into accel/tcg/
+subdirectory") introduced accel/tcg/trace-events, so we don't
+need to use the root trace-events anymore.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221209093649.43738-2-philmd@linaro.org>
+Message-Id: <20221209093649.43738-3-philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/internal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/tcg/cputlb.c     | 2 +-
+ accel/tcg/trace-events | 4 ++++
+ trace-events           | 4 ----
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index e1429a53ac..35419f3fe1 100644
---- a/accel/tcg/internal.h
-+++ b/accel/tcg/internal.h
-@@ -43,12 +43,12 @@ void tb_invalidate_phys_page_fast(struct page_collection *pages,
- struct page_collection *page_collection_lock(tb_page_addr_t start,
-                                              tb_page_addr_t end);
- void page_collection_unlock(struct page_collection *set);
-+G_NORETURN void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
- #endif /* CONFIG_SOFTMMU */
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 6f1c00682b..ac459478f4 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -33,7 +33,7 @@
+ #include "qemu/atomic.h"
+ #include "qemu/atomic128.h"
+ #include "exec/translate-all.h"
+-#include "trace/trace-root.h"
++#include "trace.h"
+ #include "tb-hash.h"
+ #include "internal.h"
+ #ifdef CONFIG_PLUGIN
+diff --git a/accel/tcg/trace-events b/accel/tcg/trace-events
+index 59eab96f26..4e9b450520 100644
+--- a/accel/tcg/trace-events
++++ b/accel/tcg/trace-events
+@@ -6,5 +6,9 @@ exec_tb(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
+ exec_tb_nocache(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
+ exec_tb_exit(void *last_tb, unsigned int flags) "tb:%p flags=0x%x"
  
- TranslationBlock *tb_gen_code(CPUState *cpu, target_ulong pc,
-                               target_ulong cs_base, uint32_t flags,
-                               int cflags);
--G_NORETURN void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
- void page_init(void);
- void tb_htable_init(void);
- void tb_reset_jump(TranslationBlock *tb, int n);
++# cputlb.c
++memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
++memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
++
+ # translate-all.c
+ translate_block(void *tb, uintptr_t pc, const void *tb_code) "tb:%p, pc:0x%"PRIxPTR", tb_code:%p"
+diff --git a/trace-events b/trace-events
+index 035f3d570d..b6b84b175e 100644
+--- a/trace-events
++++ b/trace-events
+@@ -42,10 +42,6 @@ find_ram_offset(uint64_t size, uint64_t offset) "size: 0x%" PRIx64 " @ 0x%" PRIx
+ find_ram_offset_loop(uint64_t size, uint64_t candidate, uint64_t offset, uint64_t next, uint64_t mingap) "trying size: 0x%" PRIx64 " @ 0x%" PRIx64 ", offset: 0x%" PRIx64" next: 0x%" PRIx64 " mingap: 0x%" PRIx64
+ ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_madvise, bool need_fallocate, int ret) "%s@%p + 0x%zx: madvise: %d fallocate: %d ret: %d"
+ 
+-# accel/tcg/cputlb.c
+-memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
+-memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
+-
+ # job.c
+ job_state_transition(void *job,  int ret, const char *legal, const char *s0, const char *s1) "job %p (ret: %d) attempting %s transition (%s-->%s)"
+ job_apply_verb(void *job, const char *state, const char *verb, const char *legal) "job %p in state %s; applying verb %s (%s)"
 -- 
 2.34.1
 
