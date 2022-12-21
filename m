@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45955652AC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB31C652AEB
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:22:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7nXM-0002Ab-Uy; Tue, 20 Dec 2022 20:04:49 -0500
+	id 1p7nZo-0003ba-K3; Tue, 20 Dec 2022 20:07:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1p7nX7-000254-4i
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:04:33 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1p7nX4-0003io-Mf
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:04:32 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id n20so33408384ejh.0
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 17:04:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eMktvyyZF/2OAZT4q3Ou76Fxkafg9dfOQFvbQnyUG/M=;
- b=MAckEt7qs1O7BO0lqVL15TqYayQ8MyGstjsDF1eh8iP97BIpAZrxyuLPfFWy8EGo/6
- cdcQ3FhEGRTNH8XcO3sDNG3Qz5uTYzw5cfx4OO9YIsCPD8ts3CZRfkmUwEOCP5vk4iaM
- 5jJI6remb6QNiB/ezHMenf5UDp8CKZHVELPJ8Z4eyzsH4t8wVDRujwFzDS0RNVr+1VAy
- laBsuwBVHFdtQ2Sn1KWZSsT+SrTUqtTTts7nE69GzVrU1w6ssYZjO80H74hIQvl1UMqY
- 2cJK+Gv04H2jSrV46vCn9Vd2FDMzAC7fpZQs7pcrZjhfxrSCQ0C9JJ06JixgOUEd6lxW
- S12Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eMktvyyZF/2OAZT4q3Ou76Fxkafg9dfOQFvbQnyUG/M=;
- b=2qoUfluaFaCWZOc1RGPAJjtFUGBwyPzIHfkte7xXYzR+dkGVbsjD/A6FWGxJc3D1tD
- 5rz6JydUrrAt/id5VHgEn+14Q3EZVpeTB88/Alrk1ho143HXELKGRaiGi6UvXJH6oOd0
- FzC/720RQGrCGRwhXf8eEPZcI6y3PhMqU1ExkQ9RwaR3JQETSdliyJNEMcIgrdDXP8o7
- Vmu3b7rfLmucJz+iiJBhaWn0v0GKmSbaOIs9wCdEbIYxbDoX2uo1vuHsfT+MTWEBpWpP
- BatA7N4JcMvhKg2pMHKMUxqGvDxxmiAuxPV/lyGyIOID3/weYfChMS4gS11xQ6zqUBsx
- pZdw==
-X-Gm-Message-State: ANoB5pl+kOvY3t9oI/dtVWUD2CmstiOBm8x47AFdckn0/b5oiWHkEq9U
- gPTTvmvZIVRd6IURBHAxv6ppp0CCupUWG7xGPWZrfA==
-X-Google-Smtp-Source: AA0mqf5ABv1QLZI9flBN9NRIqoCThhgLxmjLkNjF3wcLTTKpr9aHG2ctjMP6+uv5FlLY0UId6KHWG98fQn7wAypI2Y0=
-X-Received: by 2002:a17:906:29c3:b0:7c0:e0db:f136 with SMTP id
- y3-20020a17090629c300b007c0e0dbf136mr19867447eje.333.1671584668715; Tue, 20
- Dec 2022 17:04:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1p7nZJ-0002s8-3f
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:52 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1p7nZC-0004HN-1B
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=0G9pAJkWro23axgDoHyVah/Na8VAKXt3868Cssd2Qfw=; b=rAjDNE4u+zz5fYjxIj9PduWyYj
+ 19Kh+x+GSqVWLduP8D+azfAe3/FdIAcC8D/Rh+3Rx35jXMmPVlZiTMHgko5av2p42lBkUOG7Bgi1P
+ afZvPDRw34kdZxwUKTiA1yQ15SXu86CeVr2l9Yz2DczKxlhgEM6UkEVTJB0fvdwOWQY9kE9NM39Sb
+ x7Uc0bKvvIpVZgwPCCnS+vHRMy4kRJxd38Zw5Bf4OrbbhXECh8fBlqDdO5vnWNP5FZsPNFjKwOftd
+ 4v73wj+BHvLWyuUFIuvB/zZrchvOHmkd/V9h26iiFfDYDvYcs87M5UyxXRTdfADXEQ11exgKYUJu9
+ WfxrxtJQ==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1p7nYx-00DDGO-1c; Wed, 21 Dec 2022 01:06:33 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1p7nYv-004CLO-UL; Wed, 21 Dec 2022 01:06:25 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+Subject: [RFC PATCH v4 01/47] Xen HVM support under KVM
+Date: Wed, 21 Dec 2022 01:05:36 +0000
+Message-Id: <20221221010623.1000191-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20221217184823.3606676-1-richard.henderson@linaro.org>
- <CANCZdfpVabse8tnRaAE7f=E62e07ErqvuneDpg5V9UKDYOdoLQ@mail.gmail.com>
- <0e52d0aa-74b6-6eb6-4e41-f904f51969ea@linaro.org>
-In-Reply-To: <0e52d0aa-74b6-6eb6-4e41-f904f51969ea@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Tue, 20 Dec 2022 18:04:17 -0700
-Message-ID: <CANCZdfrDDPVyZ5JfoikpSS2hLbTT69WYY4YiZ6jEbFSRh9J55w@mail.gmail.com>
-Subject: Re: [PATCH] accel/tcg: Drop PAGE_RESERVED for CONFIG_BSD
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
-Content-Type: multipart/alternative; boundary="00000000000064278705f04c229b"
-Received-SPF: none client-ip=2a00:1450:4864:20::62c;
- envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,162 +80,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000064278705f04c229b
-Content-Type: text/plain; charset="UTF-8"
+Round 4, and it might even be almost time to drop the 'RFC'. The basic 
+platform support is working here, soft reset (for kexec) is implemented. 
+We have the start of grant tables, and timers are working both using the 
+in-kernel support and the userspace version. Everything should be 
+surviving migration.
 
-On Tue, Dec 20, 2022 at 4:22 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Timers do need locking, if I can't work out how to ensure that the vCPU's
+timer actually fires on that vCPU's own thread.
 
-> On 12/20/22 14:09, Warner Losh wrote:
-> >
-> >
-> > On Sat, Dec 17, 2022 at 11:48 AM Richard Henderson <
-> richard.henderson@linaro.org
-> > <mailto:richard.henderson@linaro.org>> wrote:
-> >
-> >     Make bsd-user match linux-user in not marking host pages
-> >     as reserved.  This isn't especially effective anyway, as
-> >     it doesn't take into account any heap memory that qemu
-> >     may allocate after startup.
-> >
-> >     Cc: Warner Losh <imp@bsdimp.com <mailto:imp@bsdimp.com>>
-> >     Signed-off-by: Richard Henderson <richard.henderson@linaro.org
-> >     <mailto:richard.henderson@linaro.org>>
-> >     ---
-> >
-> >     I started to simply fix up this code to match my user-only
-> interval-tree
-> >     patch set, as L1_MAP_ADDR_SPACE_BITS gets removed from
-> translate-all.c,
-> >     but then I decided to remove it all.
-> >
-> >
-> > I think this is fine. We already do a translation for addresses so
-> marking this as 'reserved'
-> > doesn't help that much. We need to map memory into a contiguous
-> guess-address-space,
-> > but the underlying host memory needn't be contiguous at all.
-> >
-> > I've not yet tested this, but would like to. What's your timeline on
-> getting this done?
->
-> ASAP.  I want to remove...
->
-> >     -                    if (h2g_valid(endaddr)) {
-> >     -                        endaddr = h2g(endaddr);
-> >     -                        page_set_flags(startaddr, endaddr,
-> PAGE_RESERVED);
-> >     -                    } else {
-> >     -#if TARGET_ABI_BITS <= L1_MAP_ADDR_SPACE_BITS
->
-> L1_MAP_ADDR_SPACE_BITS.
->
+In an uncommitted emacs buffer I have the start of a XenStore ring
+implementation; I'm hoping to make that just pass through to the real
+xenstored over its UNIX socket interface. I actually quite like the idea
+of having a "virtual XenStore" purely within qemu, but it's a bunch of
+code, and the one I have here to crib from is all in C++ so not very
+straightforward to port. So using the external xenstored is probably
+the right approach for now. Once that's done, I can make the driver
+backends cope with true Xen vs. emulated-Xen with ops tables for the
+evtchn/gnttab/etc (some of which is in Joao's original patch set waiting
+for me to get to that point).
 
-OK. I've tested this with both 32-bit and 64-bit binaries on a 64-bit host.
-It works both with the
-incomplete upstream as well as our 'blitz' branch which is basically
-complete. I've not run our
-full regression tests, though, but I suspect they will produce similar
-results before/after. My test
-machine is missing a few things due to an incomplete package upgrade that I
-don't have the time
-to sort out this evening.
+v4:
+ • Add soft reset support near the beginning and thread it through the
+   rest of the feature enablement.
 
-And looking at things, I agree with the analysis: It's a pesky nop. At
-worst, if it does change something,
-it's likely to change it for the better. And if not, I'll deal with that
-when I do my next round of upstreaming
-after the first of the year.
+ • Add PV timer	support	and advertise XENFEAT_safe_hvm_pvclock.
 
-So:
+ • Add basic grant table mapping and [gs]et_version / query_size support.
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-Tested-by: Warner Losh <imp@bsdimp.com>
+ • Make	xen_platform device build (and work) without CONFIG_XEN.
 
-Warner
+ • Fix Xen HVM mode not to require --xen-attach.
 
---00000000000064278705f04c229b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v3: https://lore.kernel.org/qemu-devel/20221216004117.862106-1-dwmw2@infradead.org/
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 20, 2022 at 4:22 PM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 12/20/22 14:09, Warner Losh wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Sat, Dec 17, 2022 at 11:48 AM Richard Henderson &lt;<a href=3D"mail=
-to:richard.henderson@linaro.org" target=3D"_blank">richard.henderson@linaro=
-.org</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_=
-blank">richard.henderson@linaro.org</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Make bsd-user match linux-user in not marking host =
-pages<br>
-&gt;=C2=A0 =C2=A0 =C2=A0as reserved.=C2=A0 This isn&#39;t especially effect=
-ive anyway, as<br>
-&gt;=C2=A0 =C2=A0 =C2=A0it doesn&#39;t take into account any heap memory th=
-at qemu<br>
-&gt;=C2=A0 =C2=A0 =C2=A0may allocate after startup.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Cc: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.co=
-m" target=3D"_blank">imp@bsdimp.com</a> &lt;mailto:<a href=3D"mailto:imp@bs=
-dimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Signed-off-by: Richard Henderson &lt;<a href=3D"mai=
-lto:richard.henderson@linaro.org" target=3D"_blank">richard.henderson@linar=
-o.org</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0---<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0I started to simply fix up this code to match my us=
-er-only interval-tree<br>
-&gt;=C2=A0 =C2=A0 =C2=A0patch set, as L1_MAP_ADDR_SPACE_BITS gets removed f=
-rom translate-all.c,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0but then I decided to remove it all.<br>
-&gt; <br>
-&gt; <br>
-&gt; I think this is fine. We already do a translation for addresses so mar=
-king this as &#39;reserved&#39;<br>
-&gt; doesn&#39;t help that much. We need to map memory into a contiguous gu=
-ess-address-space,<br>
-&gt; but the underlying host memory needn&#39;t be contiguous at all.<br>
-&gt; <br>
-&gt; I&#39;ve not yet tested this, but would like to. What&#39;s your timel=
-ine on getting this done?<br>
-<br>
-ASAP.=C2=A0 I want to remove...<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 if (h2g_valid(endaddr)) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 endaddr =3D h2g(endaddr);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 page_set_flags(startaddr, endaddr, PAGE_=
-RESERVED);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-#if TARGET_ABI_BITS &lt;=3D L1_MAP_ADDR_SPACE_BITS=
-<br>
-<br>
-L1_MAP_ADDR_SPACE_BITS.<br></blockquote><div><br></div><div>OK. I&#39;ve te=
-sted this with both 32-bit and 64-bit binaries on a 64-bit host. It works b=
-oth with the</div><div>incomplete upstream as well as our &#39;blitz&#39; b=
-ranch which is basically complete. I&#39;ve not run our</div><div>full regr=
-ession tests, though, but I suspect they will produce similar results befor=
-e/after. My test</div><div>machine is missing a few things due to an incomp=
-lete package upgrade that I don&#39;t have the time</div><div>to sort out t=
-his evening.</div><div><br></div><div>And looking at things, I agree with t=
-he analysis: It&#39;s a pesky nop. At worst, if it does change something,</=
-div><div>it&#39;s likely to change it for the better. And if not, I&#39;ll =
-deal with that when I do my next round of upstreaming</div><div>after the f=
-irst of the year.</div><div><br></div><div>So:</div><div><br></div><div>Rev=
-iewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com<=
-/a>&gt;</div><div>Tested-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.c=
-om">imp@bsdimp.com</a>&gt;</div><div><br></div><div>Warner</div></div></div=
->
+ • Switch back to xen-version as KVM accelerator property, other review
+   feedback and bug fixes.
 
---00000000000064278705f04c229b--
+ • Fix Hyper-V coexistence (ick, calling kvm_xen_init() again because
+   hyperv_enabled() doesn't return the right answer the first time).
+
+ • Implement event channel support, including GSI/PCI_INTX callback.
+
+ • Implement 32-bit guest support.
+
+v2: https://lore.kernel.org/qemu-devel/20221209095612.689243-1-dwmw2@infradead.org/
+
+ • Attempt to implement migration support; every Xen enlightenment is
+   now recorded either from vmstate_x86_cpu or from a new sysdev device
+   created for that purpose. And — I believe — correctly restored, in
+   the right order, on vmload.
+
+ • The shared_info page is created as a proper overlay instead of abusing
+   the underlying guest page. This is important because Windows doesn't
+   even select a GPA which had RAM behind it beforehand. This will be
+   extended to handle the grant frames too, in the fullness of time.
+
+ • Set vCPU attributes from the correct vCPU thread to avoid deadlocks.
+
+ • Carefully copy the entire hypercall argument structure from userspace
+   instead of assuming that it's contiguous in HVA space.
+
+ • Distinguish between "handled but intentionally returns -ENOSYS" and
+   "no idea what that was" in hypercalls, allowing us to emit a
+   GUEST_ERROR (actually, shouldn't that change to UNIMP?) on the
+   latter. Experience shows that to we'll end up having to intentionally
+   return -ENOSYS to a bunch of weird crap that ancient guests still
+   attempt to use, including XenServer local hacks that nobody even
+   remembers what they were (hvmop 0x101, anyone? Some old Windows
+   PV driver appears to be trying to use it...).
+
+ * Drop the '+xen' CPU property and present Xen CPUID instead of KVM
+   unconditionally when running in Xen mode. Make the Xen CPUID coexist
+   with Hyper-V CPUID as it should, though.
+
+ • Add XEN_EMU and XENFV_MACHINE (the latter to be XEN_EMU||XEN) config
+   options. Some more work on this, and the incestuous relationships
+   between the KVM target code and the 'platform' code, is going to be
+   required but it's probably better to get on with implementing the
+   real code so we can see those interactions in all their glory,
+   before losing too much sleep over the details here.
+
+ • Drop the GSI-2 hack, and also the patch which made the PCI platform
+   device have real RAM (which isn't needed now we have overlays, qv).
+
+ • Drop the XenState and XenVcpuState from KVMState and CPUArchState
+   respectively. The Xen-specific fields are natively included in
+   CPUArchState now though, for migration purposes. And we don't
+   keep a host pointer to the shared_info or vcpu_info at all any
+   more. With the kernel doing everything for us, we don't actually
+   need them.
+
+v1: https://lore.kernel.org/qemu-devel/20221205173137.607044-1-dwmw2@infradead.org/
+
+v0: https://github.com/jpemartins/qemu/commits/xen-shim-rfc (Joao et al.)
+
+Ankur Arora (2):
+      i386/xen: implement HVMOP_set_evtchn_upcall_vector
+      i386/xen: implement HVMOP_set_param
+
+David Woodhouse (28):
+      xen: add CONFIG_XENFV_MACHINE and CONFIG_XEN_EMU options for Xen emulation
+      xen: Add XEN_DISABLED mode and make it default
+      i386/kvm: Add xen-version KVM accelerator property and init KVM Xen support
+      i386/hvm: Set Xen vCPU ID in KVM
+      i386/xen: Implement SCHEDOP_poll and SCHEDOP_yield
+      hw/xen: Add xen_overlay device for emulating shared xenheap pages
+      i386/xen: add pc_machine_kvm_type to initialize XEN_EMULATE mode
+      i386/xen: manage and save/restore Xen guest long_mode setting
+      i386/xen: implement XENMEM_add_to_physmap_batch
+      hw/xen: Add xen_evtchn device for event channel emulation
+      i386/xen: Add support for Xen event channel delivery to vCPU
+      hw/xen: Implement EVTCHNOP_status
+      hw/xen: Implement EVTCHNOP_close
+      hw/xen: Implement EVTCHNOP_unmask
+      hw/xen: Implement EVTCHNOP_bind_virq
+      hw/xen: Implement EVTCHNOP_bind_ipi
+      hw/xen: Implement EVTCHNOP_send
+      hw/xen: Implement EVTCHNOP_alloc_unbound
+      hw/xen: Implement EVTCHNOP_bind_interdomain
+      hw/xen: Implement EVTCHNOP_bind_vcpu
+      hw/xen: Implement EVTCHNOP_reset
+      hw/xen: Support HVM_PARAM_CALLBACK_TYPE_GSI callback
+      hw/xen: Support HVM_PARAM_CALLBACK_TYPE_PCI_INTX callback
+      kvm/i386: Add xen-gnttab-max-frames property
+      hw/xen: Add xen_gnttab device for grant table emulation
+      hw/xen: Support mapping grant frames
+      i386/xen: Implement HYPERVISOR_grant_table_op and GNTTABOP_[gs]et_verson
+      hw/xen: Implement GNTTABOP_query_size
+
+Joao Martins (17):
+      include: import Xen public headers to include/standard-headers/
+      i386/kvm: handle Xen HVM cpuid leaves
+      xen-platform: exclude vfio-pci from the PCI platform unplug
+      xen-platform: allow its creation with XEN_EMULATE mode
+      hw/xen_backend: refactor xen_be_init()
+      i386/xen: handle guest hypercalls
+      i386/xen: implement HYPERVISOR_xen_version
+      i386/xen: implement HYPERVISOR_sched_op, SCHEDOP_shutdown
+      i386/xen: implement HYPERVISOR_memory_op
+      i386/xen: implement HYPERVISOR_hvm_op
+      i386/xen: implement HYPERVISOR_vcpu_op
+      i386/xen: handle VCPUOP_register_vcpu_info
+      i386/xen: handle VCPUOP_register_vcpu_time_info
+      i386/xen: handle VCPUOP_register_runstate_memory_area
+      i386/xen: implement HYPERVISOR_event_channel_op
+      i386/xen: add monitor commands to test event injection
+      i386/xen: handle PV timer hypercalls
+
+ accel/kvm/kvm-all.c                                |    2 +
+ accel/xen/xen-all.c                                |    2 +
+ hmp-commands.hx                                    |   29 +
+ hw/Kconfig                                         |    1 +
+ hw/i386/Kconfig                                    |    5 +
+ hw/i386/kvm/meson.build                            |    5 +
+ hw/i386/kvm/xen_evtchn.c                           | 1254 ++++++++++++++++
+ hw/i386/kvm/xen_evtchn.h                           |   49 +
+ hw/i386/kvm/xen_gnttab.c                           |  241 +++
+ hw/i386/kvm/xen_gnttab.h                           |   25 +
+ hw/i386/kvm/xen_overlay.c                          |  265 ++++
+ hw/i386/kvm/xen_overlay.h                          |   26 +
+ hw/i386/pc.c                                       |   21 +
+ hw/i386/xen/meson.build                            |    5 +-
+ hw/i386/xen/xen_platform.c                         |   57 +-
+ hw/xen/Kconfig                                     |    3 +
+ hw/xen/xen-legacy-backend.c                        |   40 +-
+ include/hw/i386/pc.h                               |    3 +
+ include/hw/xen/xen-legacy-backend.h                |    3 +
+ include/hw/xen/xen.h                               |    5 +-
+ include/standard-headers/xen/arch-x86/cpuid.h      |  118 ++
+ include/standard-headers/xen/arch-x86/xen-x86_32.h |  194 +++
+ include/standard-headers/xen/arch-x86/xen-x86_64.h |  241 +++
+ include/standard-headers/xen/arch-x86/xen.h        |  398 +++++
+ include/standard-headers/xen/event_channel.h       |  388 +++++
+ include/standard-headers/xen/features.h            |  143 ++
+ include/standard-headers/xen/grant_table.h         |  686 +++++++++
+ include/standard-headers/xen/hvm/hvm_op.h          |  395 +++++
+ include/standard-headers/xen/hvm/params.h          |  318 ++++
+ include/standard-headers/xen/io/console.h          |   56 +
+ include/standard-headers/xen/io/ring.h             |  495 +++++++
+ include/standard-headers/xen/io/xs_wire.h          |  153 ++
+ include/standard-headers/xen/memory.h              |  754 ++++++++++
+ include/standard-headers/xen/physdev.h             |  383 +++++
+ include/standard-headers/xen/sched.h               |  202 +++
+ include/standard-headers/xen/trace.h               |  341 +++++
+ include/standard-headers/xen/vcpu.h                |  248 ++++
+ include/standard-headers/xen/version.h             |  113 ++
+ include/standard-headers/xen/xen-compat.h          |   46 +
+ include/standard-headers/xen/xen.h                 | 1049 +++++++++++++
+ include/sysemu/kvm_int.h                           |    3 +
+ include/sysemu/kvm_xen.h                           |   28 +
+ meson.build                                        |    1 +
+ monitor/misc.c                                     |    4 +
+ softmmu/globals.c                                  |    2 +-
+ target/i386/cpu.c                                  |    1 +
+ target/i386/cpu.h                                  |   16 +
+ target/i386/kvm/kvm.c                              |  208 ++-
+ target/i386/kvm/meson.build                        |    2 +
+ target/i386/kvm/trace-events                       |    6 +
+ target/i386/kvm/xen-compat.h                       |   51 +
+ target/i386/kvm/xen-emu.c                          | 1566 ++++++++++++++++++++
+ target/i386/kvm/xen-emu.h                          |   33 +
+ target/i386/machine.c                              |   25 +
+ 54 files changed, 10676 insertions(+), 32 deletions(-)
+
 
