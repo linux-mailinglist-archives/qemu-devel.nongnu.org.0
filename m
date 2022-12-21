@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD7B652D68
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 08:45:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B8E652D66
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 08:44:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7tkq-00070c-W1; Wed, 21 Dec 2022 02:43:09 -0500
+	id 1p7tkq-00070d-TF; Wed, 21 Dec 2022 02:43:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7tkg-0006zz-G1
+ id 1p7tkg-0006zt-Ao
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:42:58 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7tke-00048i-Nx
+ id 1p7tke-00048m-Oj
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:42:58 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- k22-20020a05600c1c9600b003d1ee3a6289so809811wms.2
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 23:42:55 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id w15so14036819wrl.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 23:42:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7gzfip+VtarrKCNhyN3EQVuk1lZMb8d8K27dCXSbGMI=;
- b=Mk22DxyjD0zdw6NDjGCqF2Wcey6Ovas4yU4DvgV7TzHErQ6F1smyjrtqgqUjWFtj9j
- FR9VYwiGEkLALSgGJiOWRdJhZquwKY51vLpz+T4mwHWiN+eSndO/KzA2r6TFHkj0EBA/
- 7mT3hiIwVT0FeJYwJo+sYQL8TNE+88OOSjF4IpOaSMcfObZsdyJKewUrBFz6uHAkzzaA
- XNnwfngE+YPgIVm0iJxjpt6kKVyYpFVktQbovrM2/SG5r1YjIHHMd8AtHLEEP7UfJRY1
- NSV8nFfcjNDU300lh/Q6ZjmHeKDNi3cn8juSHep0SycKfkNgPO8O2huqDIewE19tIlGG
- THZg==
+ bh=zn8RE9bkGb5wvE/Wo/L+tyIK7nNLQkZXvyqS6ZelWWU=;
+ b=icPi5z68TEE0JNAzOOB4+LLMgx+zGcT79ND3LTALsFoNIdZ4Iy2+rJGJOOLVJkSDYz
+ v4prhhnOzfbudk+j5fXdwMFIhOW6X8fs1VQOpAc4Zl6SdJEd+RmZ3eQ/4a/hxlQovaQn
+ FFGnh1EtI2nx08gfnFIqoStrjbDlFMs4qav1ig4mBlueYMHCc9X+QqdRMmLX4WRYGh2d
+ POiRYLq75yCrzj4bxc+q1sLzaLK0UA5ACVfLhL5QLCG00yGE0+W4+roMrHX52wQwrh+1
+ Og4ajYVgV1m4JaDChx1a39MwCEBhMW4KrPuWu/dYW7h8Gb8DKODNVET+STKLDpA1lz8y
+ vMiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7gzfip+VtarrKCNhyN3EQVuk1lZMb8d8K27dCXSbGMI=;
- b=RNAGe7/PpBUZmFyMyOzN5wB+wtVqgcHkC3/kOLtIcZOk9Nt1h1flcOJDst1rt/v+Lp
- 0pZWC5NIkmX4x/cvC070O3BFF/B5TqrioUr5CfbstQqBQ+ScaDsgLkFfWwXbUEEOayXI
- z4HuGJdsYfjCbtYe2S/ROuYIvUUFSA3q+T7unUxrqH3ECEahTd/imvlc5Jc3OIX7SGg4
- Csa10bunXAOW61g3OEg4axDi4o7CoACQ/9d3kKVl9I5CX7eM+fs34p0mIIf71DE0jsHI
- hSMqhr/7UrfKLr2n1JHw0tjM1KgFo4X0F2AITW5VmulCXTgOE5z3T5WYPGgZxbdT76Mv
- q9Eg==
-X-Gm-Message-State: AFqh2kof29MYvrI7O/6lK94BuqeQT/cg7LofRmKoeR7WKQsRW+6+MqLC
- WcWGDnLzxV3G/CxfkEA2rslilnPLo/NAKlrQ
-X-Google-Smtp-Source: AMrXdXvibcHlm9FBoXciJPkYyJx55Zt4qVcJbV0YpdruGRtbCUd6RHwC+68FbzKuCOT5vexqB/rp8g==
-X-Received: by 2002:a05:600c:54ef:b0:3d0:5254:8a43 with SMTP id
- jb15-20020a05600c54ef00b003d052548a43mr998797wmb.38.1671608574529; 
- Tue, 20 Dec 2022 23:42:54 -0800 (PST)
+ bh=zn8RE9bkGb5wvE/Wo/L+tyIK7nNLQkZXvyqS6ZelWWU=;
+ b=JclC1VPOsombZdTdzKnaz6/qmjoRd4X+5NYhhBtZeAvD7vBgi+adSIO6+HAEI0NfwF
+ 00JWmBlPWfDCb506T6mzmuVvUDb6+3e2EobvbMksDvnFYjAmqqEPWnxydf1l50uC6B4W
+ HrL8KdLd1z4ihRAUuQcZeBBaaODDYiRt0LduNFzG5bf0YE/0dRPxOcN0mlw5QJxk6lVa
+ MQ/lF4XiKWIu9eUo+iCJmT/2vrZny7pEqNih5+Og1sBNdBX7+sFcnnGgUtELF6WVTUn/
+ P9Rtr+3eysiU03/rQJs9cWIo1e+4nOTJSitMUmfHmvRyEAd6+OlFgiavj4xa7anoFS5f
+ 3UcQ==
+X-Gm-Message-State: AFqh2krsv3szRb2Eb5UeZTpa2YWYWj81l9WILzTZsk0X8uqieBg7bqg7
+ Smxb3bAggGBE6Ek+/DlYSI/3tpKP+GJGE25T
+X-Google-Smtp-Source: AMrXdXuEycVc7JxgwYb4+fGN3jVGPL3mz88YpD2lHMc+DZ9W9B4oMBHS02JBqi9S1bwW/V7vApv6IQ==
+X-Received: by 2002:adf:eb4f:0:b0:242:659c:dc7 with SMTP id
+ u15-20020adfeb4f000000b00242659c0dc7mr394592wrn.61.1671608575237; 
+ Tue, 20 Dec 2022 23:42:55 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g11-20020a05600c4ecb00b003cfd64b6be1sm1716299wmq.27.2022.12.20.23.42.52
+ w12-20020a05600018cc00b002423edd7e50sm14307188wrq.32.2022.12.20.23.42.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Dec 2022 23:42:53 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A851F1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id BE7701FFBC;
  Wed, 21 Dec 2022 07:42:52 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -66,17 +65,17 @@ Cc: Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [[PATCH]--edit 3/6] configure: repeat ourselves for the benefit of CI
-Date: Wed, 21 Dec 2022 07:42:49 +0000
-Message-Id: <20221221074252.1962896-4-alex.bennee@linaro.org>
+Subject: [[PATCH]--edit 4/6] tests/tcg: fix unused variable in linux-test
+Date: Wed, 21 Dec 2022 07:42:50 +0000
+Message-Id: <20221221074252.1962896-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221221074252.1962896-1-alex.bennee@linaro.org>
 References: <20221221074252.1962896-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,38 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Our CI system echos the lines it executes but not the expansions. For
-the sake of a line of extra verbosity during the configure phase lets
-echo the invocation of script to stdout as well as the log when on CI.
+The latest hexagon compiler picks up that we never consume wcount.
+Given the name of the #define that rcount checks against is WCOUNT_MAX
+I figured the check just got missed.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221202174746.1218017-1-alex.bennee@linaro.org>
-
 ---
-v2
-  - only add the extra line on GITLAB_CI
----
- configure | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ tests/tcg/multiarch/linux/linux-test.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 7a804fb657..d89e883844 100755
---- a/configure
-+++ b/configure
-@@ -83,9 +83,10 @@ rm -f config.log
- # Print a helpful header at the top of config.log
- echo "# QEMU configure log $(date)" >> config.log
- printf "# Configured with:" >> config.log
--printf " '%s'" "$0" "$@" >> config.log
--echo >> config.log
--echo "#" >> config.log
-+# repeat the invocation to log and stdout for CI
-+invoke=$(printf " '%s'" "$0" "$@")
-+test -n "$GITLAB_CI" && echo "configuring with: $invoke"
-+{ echo "$invoke"; echo; echo "#"; } >> config.log
- 
- quote_sh() {
-     printf "%s" "$1" | sed "s,','\\\\'',g; s,.*,'&',"
+diff --git a/tests/tcg/multiarch/linux/linux-test.c b/tests/tcg/multiarch/linux/linux-test.c
+index 5a2a4f2258..64f57cb287 100644
+--- a/tests/tcg/multiarch/linux/linux-test.c
++++ b/tests/tcg/multiarch/linux/linux-test.c
+@@ -354,13 +354,17 @@ static void test_pipe(void)
+             if (FD_ISSET(fds[0], &rfds)) {
+                 chk_error(read(fds[0], &ch, 1));
+                 rcount++;
+-                if (rcount >= WCOUNT_MAX)
++                if (rcount >= WCOUNT_MAX) {
+                     break;
++                }
+             }
+             if (FD_ISSET(fds[1], &wfds)) {
+                 ch = 'a';
+                 chk_error(write(fds[1], &ch, 1));
+                 wcount++;
++                if (wcount >= WCOUNT_MAX) {
++                    break;
++                }
+             }
+         }
+     }
 -- 
 2.34.1
 
