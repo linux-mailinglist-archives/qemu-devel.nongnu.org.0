@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D74653490
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:07:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1987D65348B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:07:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p82Ss-0002mo-6b; Wed, 21 Dec 2022 12:01:13 -0500
+	id 1p82Sz-0002nT-R4; Wed, 21 Dec 2022 12:01:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82SZ-0002l1-Gk; Wed, 21 Dec 2022 12:00:51 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ id 1p82Sa-0002ly-HE; Wed, 21 Dec 2022 12:00:52 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82SX-0008BY-Le; Wed, 21 Dec 2022 12:00:51 -0500
-Received: by mail-ej1-x634.google.com with SMTP id jo4so29368258ejb.7;
- Wed, 21 Dec 2022 09:00:48 -0800 (PST)
+ id 1p82SY-0008Bi-OM; Wed, 21 Dec 2022 12:00:52 -0500
+Received: by mail-ej1-x636.google.com with SMTP id fc4so38187091ejc.12;
+ Wed, 21 Dec 2022 09:00:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ncw5nnPVK/uF8+rX+LoiYH3+/VQ+iJInXM5uQBXVtuY=;
- b=WDLsRrkFABsAvvAz4ZChQpfB3V+gvUOLjuhdELODJ+3kVyKLfibwURUDKbrpUmYcr+
- htn6JdgqH34MPjLBEHP0vhzaTQu/nnSlCPezDW9khNxDf7uUdMwZi8q++E3EEHOHNwrH
- VXMJiog2w2hMRXZew9afkkZxYYt5JHbzs/NvWb0YLnALLxpXaxVpvZ7ZJ7TCtKYbE7EQ
- qoDbd64ceevh5/biGc7TBrpfoiRnOpJGwLsts8HxpsF8vhToCBvL5yu+kqDW3nSJZWUr
- U42mqHE5Xu3VoEY81HBvA91XmDeRTyU/Qx3XAa7woIjDADVBbwXHncr5r4EzW9HuZi22
- lAYQ==
+ bh=YHtHVYo4NVUXU56/alQ0bH+UtHEiwYpVK/P9pel6Axs=;
+ b=A7mlrkZ+8JH4o5MojQBoo/ZjKtYyRxDBViFMHDczrvDAd6W/pctQUv96oJUemh0e9D
+ 2r46gHFolry1vZ0EoTgfZyv/ybzgB8X3kr40K0HX1/Kh+IEJCe7lF8P+hH0TIQk1Umjn
+ 32jzCEBXZzgHNI/JwjZn4IjMHy31E18MZ5ihZXOkfmTD4/1SyIPT9nccDUxrF+uw5EI3
+ vAczdfyxI/PkXB/2Fd1rBnKKnaoGmczKPt0LJHqOid2tAJAAbJALt8EEpGHy9cgmueYA
+ 36cGIEV3qYrMkTJvfmQDx6uDnxzP+Z+bwyKgUByPxhzzyFkgrKStzZpsbGJHNcolt2bn
+ sizA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ncw5nnPVK/uF8+rX+LoiYH3+/VQ+iJInXM5uQBXVtuY=;
- b=B4TFdFVzObUcSN8Z6migmwh1x7bXFmLqxTjVAuHeVPGAxZAKuPafOGIKzej/s+N+y/
- Ukgfn+N4Z1q0NDj6kjY9WMcLmcbuf+HBZWmc0j8F4KaDGJqUmb5G8PYwf3k44s0BZqoV
- hFoDZYtRtVobdfNURA6AYZoQVhDqTr/wkPa1rzJufy6CYVlsYVT5ON8Ahh2pk4REPwE+
- RIuYePe+HNz3fmUb3bhwjTm0/0Dpd0cQ9nD+l2QobLzA0ysgjiD3KyVdkWgyp7a7lag7
- uOO75YrSrm4CXiPDPgsmzCHb4cNr/1If0Pte/PRr33ATcd7sBFgdCrYK9GFtKYZq04l8
- JGOA==
-X-Gm-Message-State: AFqh2kr8O6LEj8edX0PuJ7dlHWK8JOiInPQNXAh4EQp6IoKVfxatjL+M
- u8u40cWAtxKQt/rfog1cXBZwLZgjxIs=
-X-Google-Smtp-Source: AMrXdXs4RIDMBgkoXN5zM0QlbDldZI5fpTtYAzk3ywp+xsQatl8tlAN4yq07o7tly/Iyf1rjC7CWxw==
-X-Received: by 2002:a17:907:c70b:b0:7c0:e535:13fd with SMTP id
- ty11-20020a170907c70b00b007c0e53513fdmr1978224ejc.70.1671642047575; 
- Wed, 21 Dec 2022 09:00:47 -0800 (PST)
+ bh=YHtHVYo4NVUXU56/alQ0bH+UtHEiwYpVK/P9pel6Axs=;
+ b=43JGzEFr5hyHvrP0enQCvRgJLyIaT55UFbZDJfDlSQYZLSYkW+ayEJhrBk1sRk6tr0
+ PmMXA0wx7dqWO5dDFsLR6Ecx8gbrU/k6rHESL4bE0dMDsK5CbjxOjZWgGSKSnC3JMmaw
+ IhB/W7lHiDM7K4U6hQOPQcr/N9FJS4yE3VhxfC4xpIUOW7Ukk0WS8fIHuo6dfQh+ZWwl
+ mmXlq8z48DkquPO/I3mH0igYVmAkmSDT8BOEEReH5fNYLXq2A48igjSCTA41hnU8XTmB
+ IEK5ViYnAoZ/PQJdzeI6oQHkpQkr61N+DiCS/mmV5kFQ2nmmCXV/6sHXjkmmzz2433LW
+ R4Ug==
+X-Gm-Message-State: AFqh2kqlUZpkJXZtT7DztT0JI4OEjOCelpxG1W2nlbVxtOtEXRTLLP+M
+ 7CeXGLaDje8wvJqktuP5UBVvmL1tw5s=
+X-Google-Smtp-Source: AMrXdXspYuGne4A/qc5mGEpNvoAw0wxq1JEoVugCSTE85lTIGyqPsUCuECDDdbypa0OQ7MknFZs30A==
+X-Received: by 2002:a17:907:9877:b0:81e:8dd4:4ea6 with SMTP id
+ ko23-20020a170907987700b0081e8dd44ea6mr1770296ejc.74.1671642048724; 
+ Wed, 21 Dec 2022 09:00:48 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-092-224-051-061.92.224.pool.telefonica.de. [92.224.51.61])
  by smtp.gmail.com with ESMTPSA id
- n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.00.46
+ n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.00.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 09:00:47 -0800 (PST)
+ Wed, 21 Dec 2022 09:00:48 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -66,18 +66,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH v4 02/30] hw/mips/malta: Set PIIX4 IRQ routes in embedded
- bootloader
-Date: Wed, 21 Dec 2022 17:59:35 +0100
-Message-Id: <20221221170003.2929-3-shentey@gmail.com>
+Subject: [PATCH v4 03/30] hw/isa/piix4: Correct IRQRC[A:D] reset values
+Date: Wed, 21 Dec 2022 17:59:36 +0100
+Message-Id: <20221221170003.2929-4-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221221170003.2929-1-shentey@gmail.com>
 References: <20221221170003.2929-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,69 +101,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Linux kernel expects the northbridge & southbridge chipsets
-configured by the BIOS firmware. We emulate that by writing
-a tiny bootloader code in write_bootloader().
-
-Upon introduction in commit 5c2b87e34d ("PIIX4 support"),
-the PIIX4 configuration space included values specific to
-the Malta board.
-
-Set the Malta-specific IRQ routing values in the embedded
-bootloader, so the next commit can remove the Malta specific
-bits from the PIIX4 PCI-ISA bridge and make it generic
-(matching the real hardware).
+IRQRC[A:D] registers reset value is 0x80. We were forcing
+the MIPS Malta machine routing to be able to boot a Linux
+kernel without any bootloader.
+We now have these registers initialized in the Malta machine
+write_bootloader(), so we can use the correct reset values.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221027204720.33611-3-philmd@linaro.org>
+Message-Id: <20221027204720.33611-4-philmd@linaro.org>
 ---
- hw/mips/malta.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ hw/isa/piix4.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 2e175741ff..ef3e10dc4d 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -804,6 +804,8 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
-     stw_p(p++, 0x8422); stw_p(p++, 0x9088);
-                                 /* sw t0, 0x88(t1)              */
- 
-+    /* TODO set PIIX IRQC[A:D] routing values! */
-+
-     stw_p(p++, 0xe320 | NM_HI1(kernel_entry));
- 
-     stw_p(p++, NM_HI2(kernel_entry));
-@@ -841,6 +843,9 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
- static void write_bootloader(uint8_t *base, uint64_t run_addr,
-                              uint64_t kernel_entry)
- {
-+    const char pci_pins_cfg[PCI_NUM_PINS] = {
-+        10, 10, 11, 11 /* PIIX IRQRC[A:D] */
-+    };
-     uint32_t *p;
- 
-     /* Small bootloader */
-@@ -915,6 +920,20 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
- 
- #undef cpu_to_gt32
- 
-+    /*
-+     * The PIIX ISA bridge is on PCI bus 0 dev 10 func 0.
-+     * Load the PIIX IRQC[A:D] routing config address, then
-+     * write routing configuration to the config data register.
-+     */
-+    bl_gen_write_u32(&p, /* GT_PCI0_CFGADDR */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0xcf8),
-+                     tswap32((1 << 31) /* ConfigEn */
-+                             | PCI_BUILD_BDF(0, PIIX4_PCI_DEVFN) << 8
-+                             | PIIX_PIRQCA));
-+    bl_gen_write_u32(&p, /* GT_PCI0_CFGDATA */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0xcfc),
-+                     tswap32(ldl_be_p(pci_pins_cfg)));
-+
-     bl_gen_jump_kernel(&p,
-                        true, ENVP_VADDR - 64,
-                        /*
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index eca96fb8f0..6e9434129d 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -91,10 +91,10 @@ static void piix4_isa_reset(DeviceState *dev)
+     pci_conf[0x4c] = 0x4d;
+     pci_conf[0x4e] = 0x03;
+     pci_conf[0x4f] = 0x00;
+-    pci_conf[0x60] = 0x0a; // PCI A -> IRQ 10
+-    pci_conf[0x61] = 0x0a; // PCI B -> IRQ 10
+-    pci_conf[0x62] = 0x0b; // PCI C -> IRQ 11
+-    pci_conf[0x63] = 0x0b; // PCI D -> IRQ 11
++    pci_conf[0x60] = 0x80;
++    pci_conf[0x61] = 0x80;
++    pci_conf[0x62] = 0x80;
++    pci_conf[0x63] = 0x80;
+     pci_conf[0x69] = 0x02;
+     pci_conf[0x70] = 0x80;
+     pci_conf[0x76] = 0x0c;
 -- 
 2.39.0
 
