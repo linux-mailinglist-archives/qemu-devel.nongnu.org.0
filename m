@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF2D6531E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:38:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF7B6531E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:41:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7z7w-0001T5-Vo; Wed, 21 Dec 2022 08:27:21 -0500
+	id 1p7zGd-0000QM-29; Wed, 21 Dec 2022 08:36:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7z7c-0001Sg-1u; Wed, 21 Dec 2022 08:27:00 -0500
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p7z7a-00080f-2r; Wed, 21 Dec 2022 08:26:59 -0500
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-1443a16b71cso19090152fac.13; 
- Wed, 21 Dec 2022 05:26:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sfAx5V1o1e/QdKHDl+1bc+xUXDa6fYhV+plOxuA3aLU=;
- b=TB1ijPDYtOSaO3IZyGxMDT/6TdAnpolPx4fLsdc8SA71rFwP1skxv4IsCc55qHIxu+
- NClrSfUmJOlZeHUR3QkbC54WbwdOFMDhsQ6zIn/FCHGDle0mrScIiCHPOgbRulCG4xj/
- 7vMT3GCKx88q0S1cTCsvI68p/mgmKd8r/qhOJ2ntPBv06dg6zzHhVRbhugcoqPXD08gP
- rzfzIf+ql8UTAL54vWTUIhOljBMw1VEAyOcZmlM2f1aC7lzis1qIt/bchYqB14n4Mw+g
- X4tRLY/lJzvlvgtAJW3/eZOa380HOOelg6Qo+Gu8rQYwLodrnu+ivY1OhMQH7NYbEwhT
- KK9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sfAx5V1o1e/QdKHDl+1bc+xUXDa6fYhV+plOxuA3aLU=;
- b=RCTovuqz+fwMuqj2kGzzJkSILATMAZa7m7sOh5JkrGnRg257NyzHgpxt80FOuBSp2M
- +N50yrH4Evlq+xk6V71k92sw83sjv+LCG6/dO0t+ohcoAbzMZCLUH4Qkzy6PgF8Pzw0Z
- LskK5bOH+nffEKvddXuobo3SALR16v5MbB9BsoYWqYwTZWlBofzKagN94tdoVLhI6V7k
- O32uk7m2Tt+5zWAMhl2WtWyeYAp+7B4V4+/0goy6iSuq6JwUlWqZXwKzCiwa9v8/dwGS
- xCUkCkbudl8YrseT7/Ck5OG8QDYnLnx13Qe+MWCr6SAsbn2UiIo1N3ymiktw9uP1exKF
- 9IZQ==
-X-Gm-Message-State: AFqh2kobPewgPtVdw0Ss3JLwqb5nlsW8K+lmidGS+/w5YVbLnzK9PuMV
- QM4+gj1dICInC4N/Qksose0=
-X-Google-Smtp-Source: AMrXdXtIWCAc/Brt99I1yXYQ8Xd5LCkRdCPuf4H7uKUWRmqQjsFd1UpmWmuwoIruy1wunRiRtqjyZQ==
-X-Received: by 2002:a05:6871:458f:b0:144:df53:a4f6 with SMTP id
- nl15-20020a056871458f00b00144df53a4f6mr742685oab.10.1671629216186; 
- Wed, 21 Dec 2022 05:26:56 -0800 (PST)
-Received: from [192.168.68.106] (201-43-103-101.dsl.telesp.net.br.
- [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
- i3-20020a056870890300b001446d5702b5sm7193582oao.56.2022.12.21.05.26.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 05:26:55 -0800 (PST)
-Message-ID: <7c67f0e8-f7b7-8d0d-ba72-06cd2c8d29d3@gmail.com>
-Date: Wed, 21 Dec 2022 10:26:51 -0300
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7zGL-0000I0-Nl
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:36:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p7zGF-0001Jc-I7
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:36:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671629754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fXW/UrlnF5OD3F3wDjRG5zYWVKlmzbNLq1H3rh3wmIQ=;
+ b=BliP1n4m4rOejGtXDyFbaDlTgNTq7n1l1FJ2ZsDK4fL44SXtpj5wQ6wTpfRqpbaVI1XmBW
+ pmEsItwq7AcR4APks4g36CpZEtmMUfHQJiGO81CMxXqtaPfYRP7/kFBdK+XGuhTuOyxemu
+ FsgSfPH6sHf0VvUR/8Z8wqRm0kpklJI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-344-c7FC5NTmPf-vFDeVHfzJ0A-1; Wed, 21 Dec 2022 08:35:53 -0500
+X-MC-Unique: c7FC5NTmPf-vFDeVHfzJ0A-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CCAD0101B429;
+ Wed, 21 Dec 2022 13:35:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A91C1492B00;
+ Wed, 21 Dec 2022 13:35:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 98B3D21E691D; Wed, 21 Dec 2022 14:35:51 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com,
+	hreitz@redhat.com,
+	qemu-block@nongnu.org
+Subject: [PATCH v2 0/3] block: Clean up includes
+Date: Wed, 21 Dec 2022 14:35:48 +0100
+Message-Id: <20221221133551.3967339-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH-for-8.0 4/4] hw/ppc/spapr_ovec: Avoid target_ulong
- spapr_ovec_parse_vector()
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- kvm@vger.kernel.org, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20221213123550.39302-1-philmd@linaro.org>
- <20221213123550.39302-5-philmd@linaro.org>
- <c871b044-4241-2f02-ebd6-6b797663a140@gmail.com>
- <5f70da81-2854-766f-1804-59a037a605b8@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <5f70da81-2854-766f-1804-59a037a605b8@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,102 +77,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Based-on: <20221221131435.3851212-1-armbru@redhat.com>
 
+v2:
+* Rebased
+* PATCH 1: Comment typo fixed [Paolo]
 
-On 12/21/22 06:46, Cédric Le Goater wrote:
-> On 12/16/22 17:47, Daniel Henrique Barboza wrote:
->>
->>
->> On 12/13/22 09:35, Philippe Mathieu-Daudé wrote:
->>> spapr_ovec.c is a device, but it uses target_ulong which is
->>> target specific. The hwaddr type (declared in "exec/hwaddr.h")
->>> better fits hardware addresses.
->>
->> As said by Harsh, spapr_ovec is in fact a data structure that stores platform
->> options that are supported by the guest.
->>
->> That doesn't mean that I oppose the change made here. Aside from semantics - which
->> I also don't have a strong opinion about it - I don't believe it matters that
->> much - spapr is 64 bit only, so hwaddr will always be == target_ulong.
->>
->> Cedric/David/Greg, let me know if you have any restriction/thoughts about this.
->> I'm inclined to accept it as is.
-> 
-> Well, I am not sure.
-> 
-> The vector table variable is the result of a ppc64_phys_to_real() conversion
-> of the CAS hcall parameter, which is a target_ulong, but ppc64_phys_to_real()
-> returns a uint64_t.
-> 
-> The code is not consistent in another places :
-> 
->    hw/ppc/spapr_tpm_proxy.c uses a uint64_t
->    hw/ppc/spapr_hcall.c, a target_ulong
->    hw/ppc/spapr_rtas.c, a hwaddr
->    hw/ppc/spapr_drc.c, a hwaddr indirectly
-> 
-> Should we change ppc64_phys_to_real() to return an hwaddr (also) ?
+Markus Armbruster (3):
+  include/block: Untangle inclusion loops
+  hw/sparc64/niagara: Use blk_name() instead of open-coding it
+  include/hw/block: Include hw/block/block.h where needed
 
-It makes sense to me a function called ppc64_phys_to_real() returning
-a hwaddr type.
+ include/block/block-common.h           |  9 ++-------
+ include/block/block-copy.h             |  4 ++--
+ include/block/block-global-state.h     |  4 +++-
+ include/block/block-hmp-cmds.h         |  2 ++
+ include/block/block-io.h               |  5 ++++-
+ include/block/block.h                  |  4 ++--
+ include/block/block_backup.h           |  2 +-
+ include/block/block_int-common.h       | 14 +++++---------
+ include/block/block_int-global-state.h |  5 ++++-
+ include/block/block_int-io.h           |  4 +++-
+ include/block/block_int.h              |  4 ++--
+ include/block/blockjob.h               |  2 +-
+ include/block/blockjob_int.h           |  1 -
+ include/block/dirty-bitmap.h           |  1 +
+ include/block/qapi.h                   |  2 +-
+ include/block/thread-pool.h            |  2 +-
+ include/block/throttle-groups.h        |  2 +-
+ include/hw/block/swim.h                |  1 +
+ include/sysemu/block-backend-io.h      |  1 +
+ block.c                                |  1 +
+ block/amend.c                          |  1 +
+ block/backup.c                         |  1 +
+ block/blkdebug.c                       |  1 +
+ block/blklogwrites.c                   |  1 +
+ block/blkreplay.c                      |  1 +
+ block/blkverify.c                      |  1 +
+ block/block-copy.c                     |  4 ++++
+ block/bochs.c                          |  1 +
+ block/cloop.c                          |  1 +
+ block/copy-before-write.c              |  1 +
+ block/copy-on-read.c                   |  1 +
+ block/curl.c                           |  1 +
+ block/dirty-bitmap.c                   |  2 ++
+ block/dmg.c                            |  1 +
+ block/export/fuse.c                    |  3 ++-
+ block/file-posix.c                     |  1 +
+ block/file-win32.c                     |  1 +
+ block/filter-compress.c                |  1 +
+ block/gluster.c                        |  1 +
+ block/io.c                             |  1 +
+ block/iscsi.c                          |  1 +
+ block/mirror.c                         |  1 +
+ block/monitor/bitmap-qmp-cmds.c        |  2 ++
+ block/nfs.c                            |  1 +
+ block/null.c                           |  1 +
+ block/nvme.c                           |  1 +
+ block/parallels-ext.c                  |  2 ++
+ block/preallocate.c                    |  1 +
+ block/qapi-sysemu.c                    |  1 +
+ block/qapi.c                           |  1 +
+ block/qcow2-bitmap.c                   |  2 ++
+ block/qcow2-cache.c                    |  1 +
+ block/qcow2-cluster.c                  |  1 +
+ block/qcow2-refcount.c                 |  1 +
+ block/qcow2-threads.c                  |  1 +
+ block/qcow2.c                          |  1 +
+ block/qed-check.c                      |  1 +
+ block/qed-table.c                      |  1 +
+ block/raw-format.c                     |  1 +
+ block/rbd.c                            |  1 +
+ block/ssh.c                            |  1 +
+ block/throttle.c                       |  2 ++
+ block/vhdx-log.c                       |  1 +
+ block/vvfat.c                          |  1 +
+ block/win32-aio.c                      |  1 +
+ block/write-threshold.c                |  1 +
+ blockdev.c                             |  1 +
+ blockjob.c                             |  1 +
+ hw/block/block.c                       |  1 +
+ hw/sparc64/niagara.c                   |  5 ++---
+ hw/virtio/virtio-pmem.c                |  1 +
+ migration/block-dirty-bitmap.c         |  1 +
+ migration/block.c                      |  1 +
+ migration/savevm.c                     |  1 +
+ monitor/qmp-cmds.c                     |  1 +
+ nbd/server.c                           |  2 ++
+ qemu-img.c                             |  1 +
+ softmmu/cpus.c                         |  1 +
+ softmmu/physmem.c                      |  1 +
+ storage-daemon/qemu-storage-daemon.c   |  1 +
+ target/i386/kvm/kvm.c                  |  1 +
+ tests/unit/test-bdrv-drain.c           |  2 +-
+ tests/unit/test-block-iothread.c       |  1 +
+ scripts/block-coroutine-wrapper.py     |  3 ++-
+ 84 files changed, 114 insertions(+), 38 deletions(-)
 
-Daniel
+-- 
+2.38.1
 
-
-> 
-> C.
-> 
-> 
->>
->>
->> Daniel
->>
->>>
->>> Change spapr_ovec_parse_vector() to take a hwaddr argument,
->>> allowing the removal of "cpu.h" in a device header.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> ---
->>>   hw/ppc/spapr_ovec.c         | 3 ++-
->>>   include/hw/ppc/spapr_ovec.h | 4 ++--
->>>   2 files changed, 4 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/hw/ppc/spapr_ovec.c b/hw/ppc/spapr_ovec.c
->>> index b2567caa5c..a18a751b57 100644
->>> --- a/hw/ppc/spapr_ovec.c
->>> +++ b/hw/ppc/spapr_ovec.c
->>> @@ -19,6 +19,7 @@
->>>   #include "qemu/error-report.h"
->>>   #include "trace.h"
->>>   #include <libfdt.h>
->>> +#include "cpu.h"
->>>   #define OV_MAXBYTES 256 /* not including length byte */
->>>   #define OV_MAXBITS (OV_MAXBYTES * BITS_PER_BYTE)
->>> @@ -176,7 +177,7 @@ static target_ulong vector_addr(target_ulong table_addr, int vector)
->>>       return table_addr;
->>>   }
->>> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector)
->>> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector)
->>>   {
->>>       SpaprOptionVector *ov;
->>>       target_ulong addr;
->>> diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
->>> index c3e8b98e7e..d756b916e4 100644
->>> --- a/include/hw/ppc/spapr_ovec.h
->>> +++ b/include/hw/ppc/spapr_ovec.h
->>> @@ -37,7 +37,7 @@
->>>   #ifndef SPAPR_OVEC_H
->>>   #define SPAPR_OVEC_H
->>> -#include "cpu.h"
->>> +#include "exec/hwaddr.h"
->>>   typedef struct SpaprOptionVector SpaprOptionVector;
->>> @@ -73,7 +73,7 @@ void spapr_ovec_set(SpaprOptionVector *ov, long bitnr);
->>>   void spapr_ovec_clear(SpaprOptionVector *ov, long bitnr);
->>>   bool spapr_ovec_test(SpaprOptionVector *ov, long bitnr);
->>>   bool spapr_ovec_empty(SpaprOptionVector *ov);
->>> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector);
->>> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector);
->>>   int spapr_dt_ovec(void *fdt, int fdt_offset,
->>>                     SpaprOptionVector *ov, const char *name);
-> 
 
