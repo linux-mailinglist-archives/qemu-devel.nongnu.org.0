@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED976534A8
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1613C653505
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:23:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p82U2-0003fg-W6; Wed, 21 Dec 2022 12:02:23 -0500
+	id 1p82UG-0003yT-9w; Wed, 21 Dec 2022 12:02:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82Su-0002sz-8p; Wed, 21 Dec 2022 12:01:13 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ id 1p82Su-0002t1-A5; Wed, 21 Dec 2022 12:01:13 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82Sr-0008Fd-Ku; Wed, 21 Dec 2022 12:01:11 -0500
-Received: by mail-ed1-x532.google.com with SMTP id i9so22890496edj.4;
- Wed, 21 Dec 2022 09:01:06 -0800 (PST)
+ id 1p82Ss-0008BK-Dm; Wed, 21 Dec 2022 12:01:12 -0500
+Received: by mail-ed1-x531.google.com with SMTP id m21so12387639edc.3;
+ Wed, 21 Dec 2022 09:01:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eg1AOHmdL1Cl4vboNxtnJSqnyjTIOrRgcvAXGTNsXzk=;
- b=konPZvSgi6DaQUPsBNQTSiP3O0sj6eqbOTW4ojHjNrocKusVEZLIHD5EqDlleQY3wn
- R8LZ5+zZSRWEA4I34x2jyEtaVntaV18vpdTAVJ4L1tc5WemJhpil6nTW4JhDO6Nu820o
- qUuz7TZfH3TvtThQR4lhQ8GwrDFCS2eOtV1+a72AnnoHC4ByIwejYs2ItFrpk0NgKA+C
- G2aopaN8sN+U/vSwSbRKVa24hJPd7jshn0WMBiVQiaNYu1sOhjoSlQIiuzfZ4kiNwMRU
- xKhoaVUHVrQLOtJ44jHPDI0aboWmPLRI9clIOut9JNYEJcyd6cBHhvtITSdFlRTvXOfc
- ND7w==
+ bh=sdpWMchu40fuVgWhFHcXygW0YC6QE67IM8HMV7vB9TE=;
+ b=M1J7w+bVMPz5rzYSk8LS1onuAtPlI+u1+M1bH/nSlnGyVz195x708FSiqek5O+3tq1
+ FwBjfI1MpTHP3PMIL7CzLT2mTrdICumbfNBCG7CzwW83i+PbcHRhDaCAvjNhhVKMGtQB
+ NYadFV3Uspmj+9jdXn4I7EJIrQgVaLh6kjacqLeCtpg8y01GI569pFKH1FPyLMQnsJsQ
+ arxwuGZKMEfiy4x289tFiAkHz/XOnkp+pcsJF35H8gIPoE/GJsoP8GqAU2ygKHlpL3dV
+ FoyrdYrJycGkh7o68m7wD4LMp7ZqgkNfwUZNQGk865zutBrQP3C1MyhtED7NVsIweHNk
+ r1Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eg1AOHmdL1Cl4vboNxtnJSqnyjTIOrRgcvAXGTNsXzk=;
- b=ptDiYWMkOghMTDFKK2lXi1s1pwEEdsFAP4RFhEYFFjTs03iq+vjQRyJFhgDUds8ol7
- 0ORD1ZebmZfAcLC/HYC/Ljx34WXc0rb9ca7WH6wZTbKgDEwP/19J0OH1uCeAbc6LTDr+
- cpwlXBD0NvgmK7HKEBPM33TD83C83tcvqRztCUuK86HWa+it8SRDZX/mnH6CzS5x61rC
- /50lOAjgkRNFL15t3e7rZJziZHlbV+u44kiSPRycLsvZbT6ASCVSputy6+dqZk2NtIRB
- eDNBP2Wq7B9v8xD7DWUSE49S0WD1OBodCP81CQBDKTeCV0OIomGlG2kbxjmZAYATNjnw
- TNdA==
-X-Gm-Message-State: AFqh2krjMHYsSW1qBGdaXLzP7FKQvJmVTWljY1uBdJlJf4u1d4pOsUaj
- oDx2ztraodj33pbCMyitw97dVoi8M5w=
-X-Google-Smtp-Source: AMrXdXs020RZ0NinIem7j8fSIJbSFtj28SJiGqPVJ4Fb5lQiY5aSrYCE/iUwHzJloNBxr/cW89XXQQ==
-X-Received: by 2002:a05:6402:360f:b0:474:47ce:ee8e with SMTP id
- el15-20020a056402360f00b0047447ceee8emr2194521edb.30.1671642065522; 
- Wed, 21 Dec 2022 09:01:05 -0800 (PST)
+ bh=sdpWMchu40fuVgWhFHcXygW0YC6QE67IM8HMV7vB9TE=;
+ b=pkzYMAbtmDn6x8Fzu/CiGw0SXGmeCdZvnh2bXAyoag7fzmGx0dL5kU9joaSvpb4bkx
+ YYCdnFsnW26CuqIZYfBgaQqyPe5WRXERbUCxnN11n2ng9zSWtNTbc4O8Xq4tN3n67t5e
+ qSehzf/tjwZ8ssHW8hzlmkWT043404pY1al+AO8DPZz3mKE6YJLqUjItUHcFqY7zzTuV
+ WO29HpZ6lyGfRnxJlqOxNqvVGBpwf35urq9p5Zb+HFB0HSHqrrvZpzSHLhlfIkPaJWih
+ Ios/o2QOE6ck/PEzF8RSuySf0w/vWpJUuN27VFXPnFINaMnGaL5vLtEtqK5Xt1L5r6kZ
+ rHXQ==
+X-Gm-Message-State: AFqh2kqNKkF/dvMqZA4KguM5NggQW+CJpK6Gou+z+bg0C76Z4lqX9SfI
+ RPBxBs4U5KK48Q3oRSONu12UtutogDk=
+X-Google-Smtp-Source: AMrXdXuyYxeCsvnKMRjUSrpd3xKrr4efAtLtHReGrwVJ5uMHBec4j9gw4u4GRVTUc8IvbrGFyE0EVw==
+X-Received: by 2002:a05:6402:1caa:b0:46f:a73d:367c with SMTP id
+ cz10-20020a0564021caa00b0046fa73d367cmr1967219edb.34.1671642066735; 
+ Wed, 21 Dec 2022 09:01:06 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-092-224-051-061.92.224.pool.telefonica.de. [92.224.51.61])
  by smtp.gmail.com with ESMTPSA id
- n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.01.04
+ n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.01.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 09:01:05 -0800 (PST)
+ Wed, 21 Dec 2022 09:01:06 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -67,16 +67,18 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v4 16/30] hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
-Date: Wed, 21 Dec 2022 17:59:49 +0100
-Message-Id: <20221221170003.2929-17-shentey@gmail.com>
+Subject: [PATCH v4 17/30] hw/isa/piix3: Rename pci_piix3_props for sharing
+ with PIIX4
+Date: Wed, 21 Dec 2022 17:59:50 +0100
+Message-Id: <20221221170003.2929-18-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221221170003.2929-1-shentey@gmail.com>
 References: <20221221170003.2929-1-shentey@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,82 +101,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PIIX_NUM_PIC_IRQS is assumed to be the same as ISA_NUM_IRQS, otherwise
-inconsistencies can occur.
-
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221022150508.26830-21-shentey@gmail.com>
+Message-Id: <20221022150508.26830-22-shentey@gmail.com>
 ---
- hw/isa/piix3.c                | 8 ++++----
- include/hw/southbridge/piix.h | 5 ++---
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ hw/isa/piix3.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index c33a3faa2f..a1fd1e0d3e 100644
+index a1fd1e0d3e..63f41741e0 100644
 --- a/hw/isa/piix3.c
 +++ b/hw/isa/piix3.c
-@@ -52,7 +52,7 @@ static void piix3_set_irq_level_internal(PIIX3State *piix3, int pirq, int level)
-     uint64_t mask;
+@@ -381,7 +381,7 @@ static void pci_piix3_init(Object *obj)
+     object_initialize_child(obj, "ide", &d->ide, TYPE_PIIX3_IDE);
+ }
  
-     pic_irq = piix3->dev.config[PIIX_PIRQCA + pirq];
--    if (pic_irq >= PIIX_NUM_PIC_IRQS) {
-+    if (pic_irq >= ISA_NUM_IRQS) {
-         return;
-     }
- 
-@@ -66,7 +66,7 @@ static void piix3_set_irq_level(PIIX3State *piix3, int pirq, int level)
-     int pic_irq;
- 
-     pic_irq = piix3->dev.config[PIIX_PIRQCA + pirq];
--    if (pic_irq >= PIIX_NUM_PIC_IRQS) {
-+    if (pic_irq >= ISA_NUM_IRQS) {
-         return;
-     }
- 
-@@ -87,7 +87,7 @@ static PCIINTxRoute piix3_route_intx_pin_to_irq(void *opaque, int pin)
-     int irq = piix3->dev.config[PIIX_PIRQCA + pin];
-     PCIINTxRoute route;
- 
--    if (irq < PIIX_NUM_PIC_IRQS) {
-+    if (irq < ISA_NUM_IRQS) {
-         route.mode = PCI_INTX_ENABLED;
-         route.irq = irq;
-     } else {
-@@ -119,7 +119,7 @@ static void piix3_write_config(PCIDevice *dev,
- 
-         pci_bus_fire_intx_routing_notifier(pci_get_bus(&piix3->dev));
-         piix3_update_irq_levels(piix3);
--        for (pic_irq = 0; pic_irq < PIIX_NUM_PIC_IRQS; pic_irq++) {
-+        for (pic_irq = 0; pic_irq < ISA_NUM_IRQS; pic_irq++) {
-             piix3_set_irq_pic(piix3, pic_irq);
-         }
-     }
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index c4e6e9f827..39c31da9ad 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -32,7 +32,6 @@
-  */
- #define PIIX_RCR_IOPORT 0xcf9
- 
--#define PIIX_NUM_PIC_IRQS       16      /* i8259 * 2 */
- #define PIIX_NUM_PIRQS          4ULL    /* PIRQ[A-D] */
- 
- struct PIIXState {
-@@ -44,10 +43,10 @@ struct PIIXState {
-      * So one PIC level is tracked by PIIX_NUM_PIRQS bits.
-      *
-      * PIRQ is mapped to PIC pins, we track it by
--     * PIIX_NUM_PIRQS * PIIX_NUM_PIC_IRQS = 64 bits with
-+     * PIIX_NUM_PIRQS * ISA_NUM_IRQS = 64 bits with
-      * pic_irq * PIIX_NUM_PIRQS + pirq
+-static Property pci_piix3_props[] = {
++static Property pci_piix_props[] = {
+     DEFINE_PROP_UINT32("smb_io_base", PIIX3State, smb_io_base, 0),
+     DEFINE_PROP_BOOL("has-acpi", PIIX3State, has_acpi, true),
+     DEFINE_PROP_BOOL("has-usb", PIIX3State, has_usb, true),
+@@ -408,7 +408,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+      * pc_piix.c's pc_init1()
       */
--#if PIIX_NUM_PIC_IRQS * PIIX_NUM_PIRQS > 64
-+#if ISA_NUM_IRQS * PIIX_NUM_PIRQS > 64
- #error "unable to encode pic state in 64bit in pic_levels."
- #endif
-     uint64_t pic_levels;
+     dc->user_creatable = false;
+-    device_class_set_props(dc, pci_piix3_props);
++    device_class_set_props(dc, pci_piix_props);
+     adevc->build_dev_aml = build_pci_isa_aml;
+ }
+ 
 -- 
 2.39.0
 
