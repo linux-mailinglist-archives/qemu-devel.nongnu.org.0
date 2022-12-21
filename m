@@ -2,93 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD316538FB
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73C6653908
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:52:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87nv-00036f-9v; Wed, 21 Dec 2022 17:43:15 -0500
+	id 1p87nv-00037M-V4; Wed, 21 Dec 2022 17:43:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87ni-0002ni-Fs
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:02 -0500
+ id 1p87nt-00035s-8F
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:13 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87nX-0000Xf-CJ
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:01 -0500
+ id 1p87nq-0000bf-EG
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671662571; x=1703198571;
+ t=1671662590; x=1703198590;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FTpM9wSisWlcMO9trrZZ4PMyQatiOo+GCvuYX47JsM8=;
- b=GPSF/ZbI5gaJ3b8ofjNaMXZYU1cV9ZbaTUFVdssOZOB9ajJCTyPVX10X
- Y7YsXh5EfYcYTegb56nGEnz6iPYHtCaaMvSoxJxiq50dHvlpocoWp8nRb
- C+XLXEisSJijvE/T+OVHE0ieB62/dwSUoUPHBlKiie8wsjvCDA7c5O6gU
- Z2x3LR45zzrtXiFbr2F9Uu7gGUli7pb06sBX7rLZ74iePa7gwHgiD4mVi
- wR+QQdzm2rCZuygoqXDGc2+DvAatezDsGGRwV+div2A7K4onCnxLFzokJ
- RdDh1rXaVyxi2unZtm3szor/VZrlMq917rPnHu5nmE1AalkeVy+abQ9e+ g==;
-X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561440"
+ bh=nlKcnGFnnezn/uyVuR1UsLHc6jl6EbJxpvVfxGJcUTE=;
+ b=ruXEuZD6E6/9rj+wJu+cWxbLdVYxh5epyIvX0dXdWDbnFI4V98iHG+EK
+ aZEhQ5o5SQ5Ig77C0RmQNQZlCbwc4njFPH9W210Og3Adn8xSavjsF45FG
+ H22KZrwUIMP7lgMDzt5rKv2eo0giIlDwC9Q2XrnHy5CzKRn8JH2VcF+DH
+ 5jNKMjdwhnM5tC04nzCq4L/P59OqOoooedk0YAEAiEjB+ZH9fiIBd4WlG
+ rSPZMudfOhOTl5Ps7R5uKZIG4/OgAZF/pbn67+SIIJYM0JR+8K6Y4KFKi
+ gLa5LH+8RjPZx1hLHu6DFUE0ga30XE/k9C0G6uCGH1gpwjLec5Kj83GhK g==;
+X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561444"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:45 +0800
-IronPort-SDR: Sn9qk+fPAvUq1LaonfJQBYZ9bWM+wW0aOEiZ3GgGH5J/7CLoZP3zCJWpUQ5vj4ok4pwVgZdWRa
- cDV4/yXOfglXLnTWSiTZun58pAw1jGF1E7XwEJ54Pse0q2vgeI3+ZUEM7gdDngnGOoasN10Mq7
- yE0x2wNqy7f/u36Z1GQPRxyRVSf0XzvCS5C/bCV87MP4OZgRSpaEtFofJJxIUzHLsWXKl8cWsa
- rd/phG2Ahs7b3N05E9+bvjNjYSpuMaZgk3tbmzkS6ClNZZksTk//mhFIX0EoId+tS2XYmKL00e
- J2Y=
+ by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:47 +0800
+IronPort-SDR: +K21h8SAwPYFHxD0tCQYkoBpoVXKLSsK07pLWiWuEsTm3b6wu0fnDvNNCNLX7q+ag0UDlk7Azm
+ mw5cY6i9CCkeK7wahUdkaFw+Qne2l+nDBcEACoxxEpIvJmmGo1aG6Ep8dc4V/mS3QfcZrsXqyC
+ ++6CeboFCt7Lgg2qp5k9uFXClvHA/q5iv5Xul17fpp9jCCCKP5Dnjk1gq83Ehq824Kb6x76CqR
+ 5cvEjtm1OaP6ruDEk7/G1x1q99f2PFdamvGnvgo03+otJyuv0nFgH4QUZoiCBbUt01k+PKLgSi
+ 9Ho=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 13:54:14 -0800
-IronPort-SDR: 8rA94bQ3qvXg04GEuqKB75iUP1tpV6i65XKYNxv7C5E0bvHNk2iAEJjbpVHplXXQ+ogkiPLCGa
- RG+UDSllPZU6DhYKpWK6WPe61/hFVMctSHe5TGad400XO3ZM6M4tV+sU0OvB2+ol1RPXkD4uwz
- HoblGWSU2gWsR8syHes4xlaUzHZDTd0j6lPw1KfE8RtSKka+XfwKTFbcRevbm60slpORf7vgOz
- rl7fmZNeraBqDAOwr8hmh9+zFUNSuitJA4zYDadMAEKW6SfN7J1nYmGXxNyzypUUPCra18fN2m
- guw=
+ 21 Dec 2022 13:54:16 -0800
+IronPort-SDR: IqohX79GpIJiNCom6ULZGx+XewGd/XBcGZpcHXjacZsWTFbqxOTLoZWLrCBUbtKTxtWjaV3tCd
+ wlSrSM9TkZVGYrB77MEkCrzmG70WdrxsJh/KPa+Z8CYspDPwAUIozmFyXiKgsyIMkUbqa1Jq+q
+ trCF8Hgq6VvXrkojB9CZjG2Kl7/HyT5gvtayYFlFCqU0kwTzlIWhtbWA19K8vyadatIyTYakLv
+ UOYNAtrb3/nLcJq6LLkTT1HlWaq8qc0IFWHbP1zUa+CDseslYmAktTkYGX50IB9QQPfPGQO/FY
+ lCg=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 14:41:46 -0800
+ 21 Dec 2022 14:41:48 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMs691bz1RvTr
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:45 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMw0DXgz1RwqL
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:48 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671662505; x=1674254506; bh=FTpM9wSisWlcMO9trr
- ZZ4PMyQatiOo+GCvuYX47JsM8=; b=kYtGfFBYvzqidI5zbu/WCczRObfCrL3IkS
- PlLok71VcQD2LeuLcbonBWA4ezi+TBKAHyEYHmxIIJj5CsSoFfTpUpBesWRD1tjY
- 3DwdyZvg0NBAFJvRWZlETxY0pUvtH9WmbkDa80yQCxVniaVZvRv2Ku8Xya+TyCOd
- VwswABz5St9fZ4kir9PaxVZ9FBbE5gmdJFQZdEhguxOlFhCAhv3aTDkqIsQo6W3P
- sklHnrTWW8x7MNHqEnUZm9Bjc6ExoJQSahe7RwoeoGbgxcYtLZs4Mypgw9480ns0
- dwpjvis0ShKssaLUVqClG41XkwAGQ9lJ8ukFvWH67LFY2vl+PNUg==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1671662507; x=1674254508; bh=nlKcnGF
+ nnezn/uyVuR1UsLHc6jl6EbJxpvVfxGJcUTE=; b=ZwaibLiwJjqLT++aaacvqhX
+ SsQl6DIjTtMqECqRY+b+ei+AV1uNhIcGJUbaeiyU8nfTzAcvowMz7Vi/k0R6XgJS
+ eitg3EK52rY+OtnALPgygIYAqlk43XM9a8z9XE8Hj401TBGHpY/Bbv9hvW8bu08d
+ 6sW2Nb2ZgEb78GpocyRFIxeUl1Prb7HymqqdsnltHlyAA4HAt7vvig1npDsus6np
+ 7Q2GY1DAGD0yEqkQgRwoaOOJ6cRH12+BzUndTZwg7wvySUKJjP74LGYby7+Iz/b6
+ 9xLvTHRCqtkcW5BCfSZxCIqtOQLKtA3Sf547NOSizaFxfLxyxLdEkwlG7n5qR2Q=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 5KkKAlqKMP67 for <qemu-devel@nongnu.org>;
- Wed, 21 Dec 2022 14:41:45 -0800 (PST)
+ port 10026) with ESMTP id XY4C-0-NKSF4 for <qemu-devel@nongnu.org>;
+ Wed, 21 Dec 2022 14:41:47 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.8])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMr1gJqz1RwtC;
- Wed, 21 Dec 2022 14:41:44 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMs6GcZz1Rwrq;
+ Wed, 21 Dec 2022 14:41:45 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 36/45] hw/intc: sifive_plic: Improve robustness of the PLIC
- config parser
-Date: Thu, 22 Dec 2022 08:40:13 +1000
-Message-Id: <20221221224022.425831-37-alistair.francis@opensource.wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL v2 37/45] hw/intc: sifive_plic: Use error_setg() to propagate
+ the error up via errp in sifive_plic_realize()
+Date: Thu, 22 Dec 2022 08:40:14 +1000
+Message-Id: <20221221224022.425831-38-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=3472792e2=alistair.francis@opensource.wdc.com;
@@ -117,83 +120,49 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-At present the PLIC config parser can only handle legal config string
-like "MS,MS". However if a config string like ",MS,MS,,MS,MS,," is
-given the parser won't get the correct configuration.
-
-This commit improves the config parser to make it more robust.
+The realize() callback has an errp for us to propagate the error up.
+While we are here, correct the wrong multi-line comment format.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221211030829.802437-7-bmeng@tinylab.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+Message-Id: <20221211030829.802437-8-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/intc/sifive_plic.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ hw/intc/sifive_plic.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index 936dcf74bc..c9af94a888 100644
+index c9af94a888..9cb4c6d6d4 100644
 --- a/hw/intc/sifive_plic.c
 +++ b/hw/intc/sifive_plic.c
-@@ -290,7 +290,7 @@ static void sifive_plic_reset(DeviceState *dev)
-  */
- static void parse_hart_config(SiFivePLICState *plic)
- {
--    int addrid, hartid, modes;
-+    int addrid, hartid, modes, m;
-     const char *p;
-     char c;
+@@ -379,7 +379,8 @@ static void sifive_plic_realize(DeviceState *dev, Err=
+or **errp)
+     s->m_external_irqs =3D g_malloc(sizeof(qemu_irq) * s->num_harts);
+     qdev_init_gpio_out(dev, s->m_external_irqs, s->num_harts);
 =20
-@@ -299,11 +299,13 @@ static void parse_hart_config(SiFivePLICState *plic=
-)
-     p =3D plic->hart_config;
-     while ((c =3D *p++)) {
-         if (c =3D=3D ',') {
--            addrid +=3D ctpop8(modes);
--            modes =3D 0;
--            hartid++;
-+            if (modes) {
-+                addrid +=3D ctpop8(modes);
-+                hartid++;
-+                modes =3D 0;
-+            }
-         } else {
--            int m =3D 1 << char_to_mode(c);
-+            m =3D 1 << char_to_mode(c);
-             if (modes =3D=3D (modes | m)) {
-                 error_report("plic: duplicate mode '%c' in config: %s",
-                              c, plic->hart_config);
-@@ -314,8 +316,9 @@ static void parse_hart_config(SiFivePLICState *plic)
-     }
-     if (modes) {
-         addrid +=3D ctpop8(modes);
-+        hartid++;
-+        modes =3D 0;
-     }
--    hartid++;
-=20
-     plic->num_addrs =3D addrid;
-     plic->num_harts =3D hartid;
-@@ -326,11 +329,16 @@ static void parse_hart_config(SiFivePLICState *plic=
-)
-     p =3D plic->hart_config;
-     while ((c =3D *p++)) {
-         if (c =3D=3D ',') {
--            hartid++;
-+            if (modes) {
-+                hartid++;
-+                modes =3D 0;
-+            }
-         } else {
-+            m =3D char_to_mode(c);
-             plic->addr_config[addrid].addrid =3D addrid;
-             plic->addr_config[addrid].hartid =3D hartid;
--            plic->addr_config[addrid].mode =3D char_to_mode(c);
-+            plic->addr_config[addrid].mode =3D m;
-+            modes |=3D (1 << m);
-             addrid++;
+-    /* We can't allow the supervisor to control SEIP as this would allow=
+ the
++    /*
++     * We can't allow the supervisor to control SEIP as this would allow=
+ the
+      * supervisor to clear a pending external interrupt which will resul=
+t in
+      * lost a interrupt in the case a PLIC is attached. The SEIP bit mus=
+t be
+      * hardware controlled when a PLIC is attached.
+@@ -387,8 +388,8 @@ static void sifive_plic_realize(DeviceState *dev, Err=
+or **errp)
+     for (i =3D 0; i < s->num_harts; i++) {
+         RISCVCPU *cpu =3D RISCV_CPU(qemu_get_cpu(s->hartid_base + i));
+         if (riscv_cpu_claim_interrupts(cpu, MIP_SEIP) < 0) {
+-            error_report("SEIP already claimed");
+-            exit(1);
++            error_setg(errp, "SEIP already claimed");
++            return;
          }
      }
+=20
 --=20
 2.38.1
 
