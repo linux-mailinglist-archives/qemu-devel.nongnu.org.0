@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AD9653179
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56094653192
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:21:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ynj-0006Rk-3e; Wed, 21 Dec 2022 08:06:27 -0500
+	id 1p7yng-0006FU-CG; Wed, 21 Dec 2022 08:06:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynI-0005xE-Ub
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynJ-0005xL-2y
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynH-0004Ls-Dp
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynH-0004M8-EY
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627952;
+ s=mimecast20190719; t=1671627956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hPpWqNtmrHVi5C08UzosSwpboDQEgfrtNpwi9rIqMqI=;
- b=SOQpru37lpzatbyI++O8m0BwjYx/Lk4D03S+HeCQHWRzZuBSws7gZS3Pz44bGUyWk2pzsp
- 8ABBkYmHTm3Cv7GkyTxSFdU456MhsUNVxJPuizjJCeFwWX/Gd6ZF72FTOjDeRD7isrTOPl
- WqZK1fXmHASrVSefO8uQAvrKGbbA7S4=
+ bh=IqIM7Ih2QfU9GsZBZ7nDrefLZe0QrMtj6k2iRrcRs5c=;
+ b=SJZPOY/0ogWRm6zrf+sWeVL2sKr6u8ZkQrpyozs3piq3tjNsRmSC7T8Z7KG06h3VbLvWq4
+ od3wy/gtvU0laT47MzM33BmbEn5/9GQT/5rQVgTzFWZ/io5NeGAuuzzjW/QSQtHxgtPpe+
+ DK5PyVOi9vw/0IHEfUzXF15m0xew3ww=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-31-_gJZMOfXM-udbdJKdWdhAw-1; Wed, 21 Dec 2022 08:05:51 -0500
-X-MC-Unique: _gJZMOfXM-udbdJKdWdhAw-1
+ us-mta-275-pCZFkjo9O66kdeo6ZM9tKA-1; Wed, 21 Dec 2022 08:05:55 -0500
+X-MC-Unique: pCZFkjo9O66kdeo6ZM9tKA-1
 Received: by mail-wm1-f69.google.com with SMTP id
- i7-20020a05600c354700b003d62131fe46so919965wmq.5
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:05:51 -0800 (PST)
+ v188-20020a1cacc5000000b003cf76c4ae66so914799wme.7
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:05:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hPpWqNtmrHVi5C08UzosSwpboDQEgfrtNpwi9rIqMqI=;
- b=iJ6MmKtiIGz6hHW1UsiZPfgmQVGyPer/TKj5PcVpB5cm2PiaorltTzKNompCbzub0i
- rOT0rd9euDFVxfDVbg3gtfc+WWGJ0WIfiagWSKyQLdBCK8lFt6G/bZ8Sgtm2Idg8YBj2
- pN44wsJMO9FlYP3ISVipbr9NuJcKNpH13NM/+kF3OMfr/ZVPsmdLvND271/2/PR6XxIX
- v8UFAPxCbG/lkLXoW4DaBBJNmXS1achTsuEuU9hdhVol5/bme5BjOBbICnnK9tM97Yum
- 8y5je3Q9SnPSqi2RPd1E5gcpBPUE62q3LP2J45fYzFTC3AHcbulKgFvadYcQ+h3xiiBg
- 9Prg==
-X-Gm-Message-State: AFqh2koCxVwUGx3iAL6DQIYc8uot4Eh990NnMPCJ4YGH2Oido4clPR29
- 3TmI2kLCyRaSXLMXo6Kx8X0kMDtpvdcN5uGIHsWvBf31Gv+JnG8v6AZ5hGF/QykZ2WFZwngtV/T
- 6Oo8NNABZLx0SCw44K+u2Rcow6xQejo0JFzcDxk7hochli8TUBqBNSRKz05h2
-X-Received: by 2002:a05:600c:1e10:b0:3d3:404a:8a1a with SMTP id
- ay16-20020a05600c1e1000b003d3404a8a1amr4476690wmb.11.1671627950058; 
- Wed, 21 Dec 2022 05:05:50 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtsPzsPfAHikmlC0sAbEQ77I2DrW+oWjmOyuteIx0/bgncUp7hjSQ9jjTHisw1ZBdBhjwXwfA==
-X-Received: by 2002:a05:600c:1e10:b0:3d3:404a:8a1a with SMTP id
- ay16-20020a05600c1e1000b003d3404a8a1amr4476677wmb.11.1671627949853; 
- Wed, 21 Dec 2022 05:05:49 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IqIM7Ih2QfU9GsZBZ7nDrefLZe0QrMtj6k2iRrcRs5c=;
+ b=rY5JmcQg6wKZ9GZtoRq7KYbSLdNAV+inWj19S/uXh1O0J8bk9aa/VMtAgfVQL0IULc
+ wfTIDkGNWGnw8WQAXHe1gj68x56tHLaAm5Cx98XVT81AxRpRJRoQFliWUwh9yNIYMYYI
+ B5tEvRzxzeVDtZ9yFchVFCQrRRGtPCECIxDSjucXt+QHUIxSALRxatUuas3hXC1slATA
+ cMlNJLZ8i8AIO7Fh7IurRAH2gL2p5xL7AtqRhkOaTg9p/NDwRp8Z6VJaJYZxRGqf9SrJ
+ fQQ/OrZnL6q+YDcqCTDlDmnIv2pFTbZYy33H3qyDDPu6ub5oxtjhkQz++8lbsShIJUlf
+ PXtQ==
+X-Gm-Message-State: AFqh2kqCplbFbK4FCXlthdOgq4rOJDFdjUFs5W91nhEDT89tAZ0MRifV
+ WSk16lDQbxtkf7Sk/p2eaRihqrbKCai7CUCo8rO3Bd9MqsVLpVvv927P9dFAg3K8NY+bBhiZ+4+
+ v7LhGA8ChYPfkfl9THJXQGt+pTBYyYH6kv37sFKRmu0SpZ/yBSrDzcIHhwzK1
+X-Received: by 2002:a05:600c:4d97:b0:3d2:3e73:7175 with SMTP id
+ v23-20020a05600c4d9700b003d23e737175mr1575875wmp.40.1671627953553; 
+ Wed, 21 Dec 2022 05:05:53 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtuHO+nj1sywEsVXcmSkl0XXNAftCPamv0CvCaPHzYvaxUWR3oux8amRSuVFtCNCU67LQXBGA==
+X-Received: by 2002:a05:600c:4d97:b0:3d2:3e73:7175 with SMTP id
+ v23-20020a05600c4d9700b003d23e737175mr1575859wmp.40.1671627953254; 
+ Wed, 21 Dec 2022 05:05:53 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- v64-20020a1cac43000000b003cf483ee8e0sm2225596wme.24.2022.12.21.05.05.48
+ l42-20020a05600c1d2a00b003cfbbd54178sm7886629wms.2.2022.12.21.05.05.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:05:49 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:05:47 -0500
+ Wed, 21 Dec 2022 05:05:52 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:05:50 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Yajun Wu <yajunw@nvidia.com>,
- Parav Pandit <parav@nvidia.com>
-Subject: [PULL 24/41] vhost-user: send set log base message only once
-Message-ID: <20221221130339.1234592-25-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Subject: [PULL 25/41] include/hw: attempt to document VirtIO feature variables
+Message-ID: <20221221130339.1234592-26-mst@redhat.com>
 References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -97,36 +101,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Yajun Wu <yajunw@nvidia.com>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Vhost message VHOST_USER_SET_LOG_BASE is device wide. So only
-send it once with the first queue pair.
+We have a bunch of variables associated with the device and the vhost
+backend which are used inconsistently throughout the code base. Lets
+start trying to bring some order by agreeing what each variable is
+for.
 
-Signed-off-by: Yajun Wu <yajunw@nvidia.com>
-Acked-by: Parav Pandit <parav@nvidia.com>
-Message-Id: <20221122051447.248462-1-yajunw@nvidia.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Stefano Garzarella <sgarzare@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>
+
+Message-Id: <20221123152134.179929-2-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-user.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ include/hw/virtio/vhost.h  | 25 ++++++++++++++++++++++---
+ include/hw/virtio/virtio.h | 19 ++++++++++++++++++-
+ 2 files changed, 40 insertions(+), 4 deletions(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index b8aaa99ab5..d9ce0501b2 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -527,6 +527,11 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
-         .hdr.size = sizeof(msg.payload.log),
-     };
- 
-+    /* Send only once with first queue pair */
-+    if (dev->vq_index != 0) {
-+        return 0;
-+    }
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 67a6807fac..1cafa0d776 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -88,13 +88,32 @@ struct vhost_dev {
+     int vq_index_end;
+     /* if non-zero, minimum required value for max_queues */
+     int num_queues;
++    /**
++     * vhost feature handling requires matching the feature set
++     * offered by a backend which may be a subset of the total
++     * features eventually offered to the guest.
++     *
++     * @features: available features provided by the backend
++     * @acked_features: final negotiated features with front-end driver
++     *
++     * @backend_features: this is used in a couple of places to either
++     * store VHOST_USER_F_PROTOCOL_FEATURES to apply to
++     * VHOST_USER_SET_FEATURES or VHOST_NET_F_VIRTIO_NET_HDR. Its
++     * future use should be discouraged and the variable retired as
++     * its easy to confuse with the VirtIO backend_features.
++     */
+     uint64_t features;
+-    /** @acked_features: final set of negotiated features */
+     uint64_t acked_features;
+-    /** @backend_features: backend specific feature bits */
+     uint64_t backend_features;
+-    /** @protocol_features: final negotiated protocol features */
 +
-     if (shmfd && log->fd != -1) {
-         fds[fd_num++] = log->fd;
-     }
++    /**
++     * @protocol_features: is the vhost-user only feature set by
++     * VHOST_USER_SET_PROTOCOL_FEATURES. Protocol features are only
++     * negotiated if VHOST_USER_F_PROTOCOL_FEATURES has been offered
++     * by the backend (see @features).
++     */
+     uint64_t protocol_features;
++
+     uint64_t max_queues;
+     uint64_t backend_cap;
+     /* @started: is the vhost device started? */
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index acfd4df125..24561e933a 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -93,6 +93,12 @@ enum virtio_device_endian {
+     VIRTIO_DEVICE_ENDIAN_BIG,
+ };
+ 
++/**
++ * struct VirtIODevice - common VirtIO structure
++ * @name: name of the device
++ * @status: VirtIO Device Status field
++ *
++ */
+ struct VirtIODevice
+ {
+     DeviceState parent_obj;
+@@ -100,9 +106,20 @@ struct VirtIODevice
+     uint8_t status;
+     uint8_t isr;
+     uint16_t queue_sel;
+-    uint64_t guest_features;
++    /**
++     * These fields represent a set of VirtIO features at various
++     * levels of the stack. @host_features indicates the complete
++     * feature set the VirtIO device can offer to the driver.
++     * @guest_features indicates which features the VirtIO driver has
++     * selected by writing to the feature register. Finally
++     * @backend_features represents everything supported by the
++     * backend (e.g. vhost) and could potentially be a subset of the
++     * total feature set offered by QEMU.
++     */
+     uint64_t host_features;
++    uint64_t guest_features;
+     uint64_t backend_features;
++
+     size_t config_len;
+     void *config;
+     uint16_t config_vector;
 -- 
 MST
 
