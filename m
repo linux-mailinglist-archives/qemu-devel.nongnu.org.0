@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC85C653486
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:06:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E416534BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 18:13:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p82Ty-0003Xk-45; Wed, 21 Dec 2022 12:02:18 -0500
+	id 1p82U4-0003iF-2A; Wed, 21 Dec 2022 12:02:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82Ss-0002s8-7q; Wed, 21 Dec 2022 12:01:13 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ id 1p82Ss-0002sA-7j; Wed, 21 Dec 2022 12:01:13 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1p82Sl-0008EV-6f; Wed, 21 Dec 2022 12:01:04 -0500
-Received: by mail-ed1-x535.google.com with SMTP id d14so22801449edj.11;
- Wed, 21 Dec 2022 09:00:57 -0800 (PST)
+ id 1p82Sl-0008BF-7m; Wed, 21 Dec 2022 12:01:05 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id a16so22854386edb.9;
+ Wed, 21 Dec 2022 09:00:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0Hq2h6GKJj1uaJ0KwLEkcBzG/LOfXgaufyFvCR3c4dE=;
- b=C7oOiGrcFqPWErvh6BsuRF2VYiqV8i4QLh/++YPKCQTgob2jyBem1D1XJg5Q3n6qZ+
- Y+SxQfHCwe4Nx8kyzUDLg0wyR+LBmaE05sqoWvwJmO4AgfDZod74ZpifVmp+EgT/ofrx
- Mz07kbqCFdgU3j27cle7aYRthjKOyPMemdIRS2k722isa67HuNr5yOMSUhBuOZK8cOl/
- CtE5eZeXUoat6uQjmVyoejOQdWtr+AYuhut4MLnMSUc8H312CI92OckCI6ps9IsHhWPj
- p964ENfvfJ1KIHwhEXWE1H8RiIcc1fCM+TyFILCxwUEfM3TYP0LknU8KDH6hsaXt5paG
- w0LQ==
+ bh=JSMBY2h/csmxFlaaff1wG8kVLjQ/AmAtCNi3BhbPIgg=;
+ b=WGt2/dzjEJfqGUVHzHV2bBJN8OzWHOvw38vgjy/qNWO0YsNvZf339xyoRn+2XyoUyk
+ IdjPgsUpPWzruixQUthmJsES4MbR4GW9L8g4vk/7BYzcjMmJErTpKZ/67RxNCbYC0r4u
+ v91r07l6CaFmuQlf8rZVIy0+C6eHaSdaNNtNHh5DnGJmsAHuQe62AqiCUFof/Fsn7vZ/
+ gQb5co7PWUS/VCwtALeHqKNlCRNeHOCEKGXvUr4I3S/9jM40faWfcbbtDjx2XIIhJpe1
+ jo6/X31onxoJRZ8En/XcP7KQFhqZrS5GAfegUhgcqf34HpC3Swa21nAVBZD1XUGU28sV
+ OgGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0Hq2h6GKJj1uaJ0KwLEkcBzG/LOfXgaufyFvCR3c4dE=;
- b=5qLEIR0c0UJO4YSEFLKz6GtLEK//wFAwSc9frE7PIVNAokJnXcyKri9QRTaIVqPKwC
- xZgJhzTQ87XbmigJCMPQwTpkEkm+hKaqLHvSR+atgK0wJCq0mZ61s+HbqtTtrjx/wwo+
- PauNbkRM5UBOz4pmG8A9NoGl7Kq+MTNuqcyx+lCFn5nqGnYjWFxm46a8KaHPH/FAfDE+
- 93pmFLeMjnZG1lqrPGK+uvrUllIHhYOBIVFFF+CrOxRzzxSBXgIZC9EV3CnGWO9JK1DL
- E3b42BKTUZhcuI7cx8Rtr54EDyeDnUoYMhBM4zWr/ECJhwdn5emz0gt1xa4PnVziLVMS
- dDGA==
-X-Gm-Message-State: AFqh2kqxKewPUuoDeSVZGTsy/oNQsqdZML1URXotDz4sCka0sGmQwSmu
- iJxz/z3QxhSNneP9wtm1lKJK7bj6Iw0=
-X-Google-Smtp-Source: AMrXdXvQXjtN5F/AJqRuQt0aJpQjNBBAWzMp37wfwcFCmKOCJoP7vLjmGga/Ugxc6dUu8IU+O1UCow==
-X-Received: by 2002:a05:6402:790:b0:470:1e5a:a333 with SMTP id
- d16-20020a056402079000b004701e5aa333mr1908248edy.34.1671642056625; 
- Wed, 21 Dec 2022 09:00:56 -0800 (PST)
+ bh=JSMBY2h/csmxFlaaff1wG8kVLjQ/AmAtCNi3BhbPIgg=;
+ b=gJv+1oZ1sqq9b30R+8isN7hwmgJNzSdFuv69ov1xQufqB3V5tlnEmcI3vnEnjIFtRQ
+ Nyfz3gWFBemteIlVEW+WIB4wQXBgl8MODb4by2I8op6XmrMPqQrJG4ZcO4kECOKtSnWm
+ c+TJDArIGpQR71TaDiLKx00WZV0RfsyWPcijhm3D9TvPE48+Frv58+CsU9XP1/cxBJZC
+ MeScg3clctC7/nWPVGMM8SennsdD/FzwGOHcKcUpZrDmhnU0EVUCWxu/AuxYZFh+q7hB
+ ISuZQAukmWPb14+KBxZPFAmWg3/OnF0HPHSDozMMrLwgINhfJPt+C5rlXrWAS//u+iEc
+ 54Ng==
+X-Gm-Message-State: AFqh2kpkMJxqDnGFk2FOWDPBKpT8DRHmmXnnUjrOE3GlWOExnCz52o8b
+ ne1fwp6DVBi3SufkzyOP4MdW8969ItU=
+X-Google-Smtp-Source: AMrXdXs9W/tYkkCMr9HmvQDR4sfTCgLvh8ilVGfLMfGfFuPJqNAcLNfw/LOsWBuUFh49qPKphIVeVA==
+X-Received: by 2002:a05:6402:174c:b0:467:8dd2:b42 with SMTP id
+ v12-20020a056402174c00b004678dd20b42mr1886524edx.10.1671642057935; 
+ Wed, 21 Dec 2022 09:00:57 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-092-224-051-061.92.224.pool.telefonica.de. [92.224.51.61])
  by smtp.gmail.com with ESMTPSA id
- n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.00.55
+ n14-20020aa7db4e000000b0047466e46662sm7204019edt.39.2022.12.21.09.00.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 09:00:56 -0800 (PST)
+ Wed, 21 Dec 2022 09:00:57 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -66,19 +66,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v4 09/30] hw/i386/pc: No need for rtc_state to be an
- out-parameter
-Date: Wed, 21 Dec 2022 17:59:42 +0100
-Message-Id: <20221221170003.2929-10-shentey@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v4 10/30] hw/isa/piix3: Create USB controller in host device
+Date: Wed, 21 Dec 2022 17:59:43 +0100
+Message-Id: <20221221170003.2929-11-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221221170003.2929-1-shentey@gmail.com>
 References: <20221221170003.2929-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,95 +99,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that the RTC is created as part of the southbridges it doesn't need
-to be an out-parameter any longer.
+The USB controller is an integral part of PIIX3 (function 2). So create
+it as part of the south bridge.
+
+Note that the USB function is optional in QEMU. This is why it gets
+object_initialize_child()'ed in realize rather than in instance_init.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221022150508.26830-12-shentey@gmail.com>
+Message-Id: <20221022150508.26830-13-shentey@gmail.com>
 ---
- hw/i386/pc.c         | 12 ++++++------
- hw/i386/pc_piix.c    |  2 +-
- hw/i386/pc_q35.c     |  2 +-
- include/hw/i386/pc.h |  2 +-
- 4 files changed, 9 insertions(+), 9 deletions(-)
+ hw/i386/pc_piix.c             |  7 ++-----
+ hw/isa/Kconfig                |  1 +
+ hw/isa/piix3.c                | 17 +++++++++++++++++
+ include/hw/southbridge/piix.h |  4 ++++
+ 4 files changed, 24 insertions(+), 5 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d154eedcb3..6990687211 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1246,7 +1246,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl,
- 
- void pc_basic_device_init(struct PCMachineState *pcms,
-                           ISABus *isa_bus, qemu_irq *gsi,
--                          ISADevice **rtc_state,
-+                          ISADevice *rtc_state,
-                           bool create_fdctrl,
-                           uint32_t hpet_irqs)
- {
-@@ -1301,17 +1301,17 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-     }
- 
-     if (rtc_irq) {
--        qdev_connect_gpio_out(DEVICE(*rtc_state), 0, rtc_irq);
-+        qdev_connect_gpio_out(DEVICE(rtc_state), 0, rtc_irq);
-     } else {
--        uint32_t irq = object_property_get_uint(OBJECT(*rtc_state),
-+        uint32_t irq = object_property_get_uint(OBJECT(rtc_state),
-                                                 "irq",
-                                                 &error_fatal);
--        isa_connect_gpio_out(*rtc_state, 0, irq);
-+        isa_connect_gpio_out(rtc_state, 0, irq);
-     }
--    object_property_add_alias(OBJECT(pcms), "rtc-time", OBJECT(*rtc_state),
-+    object_property_add_alias(OBJECT(pcms), "rtc-time", OBJECT(rtc_state),
-                               "date");
- 
--    qemu_register_boot_set(pc_boot_set, *rtc_state);
-+    qemu_register_boot_set(pc_boot_set, rtc_state);
- 
-     if (!xen_enabled() &&
-         (x86ms->pit == ON_OFF_AUTO_AUTO || x86ms->pit == ON_OFF_AUTO_ON)) {
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index d4a9c79713..5e6dba3558 100644
+index 5e6dba3558..18523e8a80 100644
 --- a/hw/i386/pc_piix.c
 +++ b/hw/i386/pc_piix.c
-@@ -277,7 +277,7 @@ static void pc_init1(MachineState *machine,
+@@ -52,7 +52,6 @@
+ #include "exec/memory.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/piix4.h"
+-#include "hw/usb/hcd-uhci.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/xen.h"
+@@ -236,6 +235,8 @@ static void pc_init1(MachineState *machine,
+         pcms->bus = pci_bus;
+ 
+         pci_dev = pci_new_multifunction(-1, true, type);
++        object_property_set_bool(OBJECT(pci_dev), "has-usb",
++                                 machine_usb(machine), &error_abort);
+         pci_realize_and_unref(pci_dev, pci_bus, &error_fatal);
+         piix3 = PIIX3_PCI_DEVICE(pci_dev);
+         piix3->pic = x86ms->gsi;
+@@ -314,10 +315,6 @@ static void pc_init1(MachineState *machine,
      }
+ #endif
  
-     /* init basic PC hardware */
--    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, true,
-+    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, rtc_state, true,
-                          0x4);
+-    if (pcmc->pci_enabled && machine_usb(machine)) {
+-        pci_create_simple(pci_bus, piix3_devfn + 2, TYPE_PIIX3_USB_UHCI);
+-    }
+-
+     if (pcmc->pci_enabled && x86_machine_is_acpi_enabled(X86_MACHINE(pcms))) {
+         PCIDevice *piix4_pm;
  
-     pc_nic_init(pcmc, isa_bus, pci_bus);
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 92817a9ebd..ef3e1c72f0 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -293,7 +293,7 @@ static void pc_q35_init(MachineState *machine)
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index af5ec9cd61..97b8ea7c06 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -36,6 +36,7 @@ config PIIX3
+     select I8257
+     select ISA_BUS
+     select MC146818RTC
++    select USB_UHCI
+ 
+ config PIIX4
+     bool
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index e8ddb6a602..45c20dea17 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -288,6 +288,7 @@ static const MemoryRegionOps rcr_ops = {
+ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+ {
+     PIIX3State *d = PIIX3_PCI_DEVICE(dev);
++    PCIBus *pci_bus = pci_get_bus(dev);
+     ISABus *isa_bus;
+ 
+     isa_bus = isa_bus_new(DEVICE(d), pci_address_space(dev),
+@@ -308,6 +309,16 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+     if (!qdev_realize(DEVICE(&d->rtc), BUS(isa_bus), errp)) {
+         return;
      }
++
++    /* USB */
++    if (d->has_usb) {
++        object_initialize_child(OBJECT(dev), "uhci", &d->uhci,
++                                TYPE_PIIX3_USB_UHCI);
++        qdev_prop_set_int32(DEVICE(&d->uhci), "addr", dev->devfn + 2);
++        if (!qdev_realize(DEVICE(&d->uhci), BUS(pci_bus), errp)) {
++            return;
++        }
++    }
+ }
  
-     /* init basic PC hardware */
--    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, !mc->no_floppy,
-+    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, rtc_state, !mc->no_floppy,
-                          0xff0104);
+ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+@@ -341,6 +352,11 @@ static void pci_piix3_init(Object *obj)
+     object_initialize_child(obj, "rtc", &d->rtc, TYPE_MC146818_RTC);
+ }
  
-     /* connect pm stuff to lpc */
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index c95333514e..0cf3ccdf0d 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -169,7 +169,7 @@ uint64_t pc_pci_hole64_start(void);
- DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
- void pc_basic_device_init(struct PCMachineState *pcms,
-                           ISABus *isa_bus, qemu_irq *gsi,
--                          ISADevice **rtc_state,
-+                          ISADevice *rtc_state,
-                           bool create_fdctrl,
-                           uint32_t hpet_irqs);
- void pc_cmos_init(PCMachineState *pcms,
++static Property pci_piix3_props[] = {
++    DEFINE_PROP_BOOL("has-usb", PIIX3State, has_usb, true),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -360,6 +376,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+      * pc_piix.c's pc_init1()
+      */
+     dc->user_creatable = false;
++    device_class_set_props(dc, pci_piix3_props);
+     adevc->build_dev_aml = build_pci_isa_aml;
+ }
+ 
+diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+index b1fa08dd2b..5367917182 100644
+--- a/include/hw/southbridge/piix.h
++++ b/include/hw/southbridge/piix.h
+@@ -15,6 +15,7 @@
+ #include "hw/pci/pci.h"
+ #include "qom/object.h"
+ #include "hw/rtc/mc146818rtc.h"
++#include "hw/usb/hcd-uhci.h"
+ 
+ /* PIRQRC[A:D]: PIRQx Route Control Registers */
+ #define PIIX_PIRQCA 0x60
+@@ -54,12 +55,15 @@ struct PIIXState {
+     int32_t pci_irq_levels_vmstate[PIIX_NUM_PIRQS];
+ 
+     RTCState rtc;
++    UHCIState uhci;
+ 
+     /* Reset Control Register contents */
+     uint8_t rcr;
+ 
+     /* IO memory region for Reset Control Register (PIIX_RCR_IOPORT) */
+     MemoryRegion rcr_mem;
++
++    bool has_usb;
+ };
+ typedef struct PIIXState PIIX3State;
+ 
 -- 
 2.39.0
 
