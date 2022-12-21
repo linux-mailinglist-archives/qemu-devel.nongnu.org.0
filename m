@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34F365319B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:24:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DED65315D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:10:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ymn-0005IE-0x; Wed, 21 Dec 2022 08:05:30 -0500
+	id 1p7yma-0004uk-CL; Wed, 21 Dec 2022 08:05:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymg-0005G4-4w
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:05:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymX-0004mn-47
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:05:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7yme-0004Ca-0w
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:05:21 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymV-0004B8-FB
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:05:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627918;
+ s=mimecast20190719; t=1671627907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+fJFy+bG2kFVCmcNoUDubLovIvAzDrzBEyx+UgjT1oY=;
- b=WxVfxNA0JOhB9Jlsb2Wns62taaMaKgZ16KICfV0ojodQ3BzCf6GyTspUGrmfAkgwFDJKcx
- xc3Xmr1rhylM034MGrire7fdLyJ3hW9CpQQ7i3OSL6eVyi76Pp27TYYn3t/QJfPPVD94gB
- Q/5vyx5dvoRG/edeDyKSm8EQMYJsRGI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eBOwj6JDM1U7pLSucgaE+caCjlxPIqE+hIWrIrT6Stg=;
+ b=iDfQrJE6OeRPhBfXk98VofoD4i0Nt9+TCf2zFtNd6w+3wE+B+sDbvSc9cG0QTraBX8VUOT
+ Hhr+TC4aVzOkjw/BrokrGfVUGorKUI8RheY7xxnoY6WqRIDVAL9LgO8gkRUpTxGc64/C2E
+ mbxRsr/LHlkw/cD6rRsZRVjeaYEe+G0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-247-BuxJMrHfO6aU78ev_cRRdg-1; Wed, 21 Dec 2022 08:05:02 -0500
-X-MC-Unique: BuxJMrHfO6aU78ev_cRRdg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- h64-20020a1c2143000000b003d65ff910e1so927563wmh.2
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:05:02 -0800 (PST)
+ us-mta-646-bWHiOPDJP4qKy5sPy0Vqow-1; Wed, 21 Dec 2022 08:05:06 -0500
+X-MC-Unique: bWHiOPDJP4qKy5sPy0Vqow-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h64-20020a1c2143000000b003d65ff910e1so927619wmh.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:05:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+fJFy+bG2kFVCmcNoUDubLovIvAzDrzBEyx+UgjT1oY=;
- b=wpkCRRHHUJqI2dl9pVuASNOS6aqOx55eI1Vd/aQxL+u/ECsxJmw/w/v+vo7hdjnEBJ
- WtrrLvdkvc0LIa+wg/G4MOH3RvMdlD/DS+9qlXXqVHicoplctdz3S6f2oFRZK4jLeSCK
- RLlZY5FNoFolMOJ1vDcB+HMhyAq3298lbb2txFQyC2BZ/9DBe6sDgrxGgIt2jMFKH8/1
- V/lUS41vfFGRMIQLjKRpgRrTfZm9+papongqHCBZrOPPIq72g1htLKVy9xkUlrtP56UQ
- eruKRhu5flaGOY8hUNQQjkONsvW+U/fnJzm5iNL/cXDVagm0oAmulft25wasI5z+icTr
- /VOQ==
-X-Gm-Message-State: AFqh2krV99OR1t+me0g0mAUW8nM/VyL6LQQIJyVZB+9W8egnIBw60wTF
- TuupF1tnyIgRQW/JWZrP8aN9vLksf7S5mrUF0jimKc7LVHAiQQ5OA+7Rppic8r8jqDP90WhawUD
- YeUl0ffgCkUbtemvSzUOSZJrxWSW7czLK4dj5/wdFoxU/ytpYhEssbuvGMIHZ
-X-Received: by 2002:a05:600c:22d4:b0:3cf:82b9:2fe6 with SMTP id
- 20-20020a05600c22d400b003cf82b92fe6mr1912441wmg.8.1671627900699; 
- Wed, 21 Dec 2022 05:05:00 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtXQUag+a3wdgdUotlJsUOAc/JtL587YYYNl39oxmgYjyopmBHY/quy55SawbN8p0EgRDfyGA==
-X-Received: by 2002:a05:600c:22d4:b0:3cf:82b9:2fe6 with SMTP id
- 20-20020a05600c22d400b003cf82b92fe6mr1912419wmg.8.1671627900401; 
- Wed, 21 Dec 2022 05:05:00 -0800 (PST)
+ bh=eBOwj6JDM1U7pLSucgaE+caCjlxPIqE+hIWrIrT6Stg=;
+ b=cqDLESvgIzsg/lszSupF7t6TEsZwk0j9/X3A/ihh1IzET+YYztEBrOiKeI+e4ZwpoB
+ f7rfqkoJ1yFkJpqGGNPbWysHlg5wF6cDSRM7SYtof0lYeBuIOPpa08b6rDU9XrPsfV9c
+ jHHzngdqbjpabxVS9o7Yixdhcw7TPSgvtoZyzGGokieJo2ITWVziWjzsTH/Z3a1ZxCZ9
+ Ch5Mc3Ebnw+5t3g3D5Ek1vz7sIlMJR/Eb1hRe70lLuh9Up4gWgi2GoOn2mXKJzctgH+2
+ 0Hg/pFBgPOXXOfeBgVrV3OO8VtBQAKNFlFGFrsWmuSvIa7ZiZZajUlHLAVJlyYEJC1dD
+ BHUA==
+X-Gm-Message-State: AFqh2kp2+D3in7J1hfJRTJeoXHh6UHOLHiiIwGDJpPQ0mfQlJ1hD2nCt
+ vMZu5zyoOTZx0tY2jtOeUiJooEwr5JSpYiYjpHyTsUTMaW5TJxOcS0fzCJTzXqHKwZ6/zEOuUuN
+ r/+UqJIosbPGIW33xBirrknkLd0x/zDOoLte8/LshYJE/mHyN4brngMoJE5fw
+X-Received: by 2002:a05:600c:ace:b0:3d1:fe0a:f134 with SMTP id
+ c14-20020a05600c0ace00b003d1fe0af134mr1620307wmr.19.1671627903968; 
+ Wed, 21 Dec 2022 05:05:03 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuUOuVZriEKDf3EfliyeuLfsZxrO4hejnSxb0hTsizKfqSMvHIdQZy6hP45ttyhDR5FMoOTjQ==
+X-Received: by 2002:a05:600c:ace:b0:3d1:fe0a:f134 with SMTP id
+ c14-20020a05600c0ace00b003d1fe0af134mr1620290wmr.19.1671627903747; 
+ Wed, 21 Dec 2022 05:05:03 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- p19-20020a1c5453000000b003d2157627a8sm2157430wmi.47.2022.12.21.05.04.57
+ e19-20020a05600c4e5300b003cf6a55d8e8sm2326520wmq.7.2022.12.21.05.05.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:04:59 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:04:56 -0500
+ Wed, 21 Dec 2022 05:05:02 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:05:00 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, Longpeng <longpeng2@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 10/41] vdpa: add vdpa-dev-pci support
-Message-ID: <20221221130339.1234592-11-mst@redhat.com>
+ Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL 11/41] vdpa-dev: mark the device as unmigratable
+Message-ID: <20221221130339.1234592-12-mst@redhat.com>
 References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -76,7 +73,7 @@ Content-Disposition: inline
 In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,142 +99,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Longpeng <longpeng2@huawei.com>
 
-Supports vdpa-dev-pci, we can use the device as follow:
-
--device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+The generic vDPA device doesn't support migration currently, so
+mark it as unmigratable temporarily.
 
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Longpeng <longpeng2@huawei.com>
-Message-Id: <20221215134944.2809-4-longpeng2@huawei.com>
+Message-Id: <20221215134944.2809-5-longpeng2@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vdpa-dev-pci.c | 102 +++++++++++++++++++++++++++++++++++++++
- hw/virtio/meson.build    |   1 +
- 2 files changed, 103 insertions(+)
- create mode 100644 hw/virtio/vdpa-dev-pci.c
+ hw/virtio/vdpa-dev.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/virtio/vdpa-dev-pci.c b/hw/virtio/vdpa-dev-pci.c
-new file mode 100644
-index 0000000000..5446e6b393
---- /dev/null
-+++ b/hw/virtio/vdpa-dev-pci.c
-@@ -0,0 +1,102 @@
-+/*
-+ * Vhost Vdpa Device PCI Bindings
-+ *
-+ * Copyright (c) Huawei Technologies Co., Ltd. 2022. All Rights Reserved.
-+ *
-+ * Authors:
-+ *   Longpeng <longpeng2@huawei.com>
-+ *
-+ * Largely based on the "vhost-user-blk-pci.c" and "vhost-user-blk.c"
-+ * implemented by:
-+ *   Changpeng Liu <changpeng.liu@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include <sys/ioctl.h>
-+#include <linux/vhost.h>
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/vdpa-dev.h"
-+#include "hw/pci/pci.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/module.h"
-+#include "hw/virtio/virtio-pci.h"
-+#include "qom/object.h"
-+
-+
-+typedef struct VhostVdpaDevicePCI VhostVdpaDevicePCI;
-+
-+#define TYPE_VHOST_VDPA_DEVICE_PCI "vhost-vdpa-device-pci-base"
-+DECLARE_INSTANCE_CHECKER(VhostVdpaDevicePCI, VHOST_VDPA_DEVICE_PCI,
-+                         TYPE_VHOST_VDPA_DEVICE_PCI)
-+
-+struct VhostVdpaDevicePCI {
-+    VirtIOPCIProxy parent_obj;
-+    VhostVdpaDevice vdev;
-+};
-+
-+static void vhost_vdpa_device_pci_instance_init(Object *obj)
-+{
-+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VHOST_VDPA_DEVICE);
-+    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-+                              "bootindex");
-+}
-+
-+static Property vhost_vdpa_device_pci_properties[] = {
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static int vhost_vdpa_device_pci_post_init(VhostVdpaDevice *v, Error **errp)
-+{
-+    VhostVdpaDevicePCI *dev = container_of(v, VhostVdpaDevicePCI, vdev);
-+    VirtIOPCIProxy *vpci_dev = &dev->parent_obj;
-+
-+    vpci_dev->class_code = virtio_pci_get_class_id(v->vdev_id);
-+    vpci_dev->trans_devid = virtio_pci_get_trans_devid(v->vdev_id);
-+    /* one for config vector */
-+    vpci_dev->nvectors = v->num_queues + 1;
-+
-+    return 0;
-+}
-+
-+static void
-+vhost_vdpa_device_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(vpci_dev);
-+
-+    dev->vdev.post_init = vhost_vdpa_device_pci_post_init;
-+    qdev_realize(DEVICE(&dev->vdev), BUS(&vpci_dev->bus), errp);
-+}
-+
-+static void vhost_vdpa_device_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    device_class_set_props(dc, vhost_vdpa_device_pci_properties);
-+    k->realize = vhost_vdpa_device_pci_realize;
-+}
-+
-+static const VirtioPCIDeviceTypeInfo vhost_vdpa_device_pci_info = {
-+    .base_name               = TYPE_VHOST_VDPA_DEVICE_PCI,
-+    .generic_name            = "vhost-vdpa-device-pci",
-+    .transitional_name       = "vhost-vdpa-device-pci-transitional",
-+    .non_transitional_name   = "vhost-vdpa-device-pci-non-transitional",
-+    .instance_size  = sizeof(VhostVdpaDevicePCI),
-+    .instance_init  = vhost_vdpa_device_pci_instance_init,
-+    .class_init     = vhost_vdpa_device_pci_class_init,
-+};
-+
-+static void vhost_vdpa_device_pci_register(void)
-+{
-+    virtio_pci_types_register(&vhost_vdpa_device_pci_info);
-+}
-+
-+type_init(vhost_vdpa_device_pci_register);
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 54d6d29af7..559b80cb28 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -57,6 +57,7 @@ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-serial-pc
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_PMEM', if_true: files('virtio-pmem-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_IOMMU', if_true: files('virtio-iommu-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
-+virtio_pci_ss.add(when: 'CONFIG_VHOST_VDPA_DEV', if_true: files('vdpa-dev-pci.c'))
+diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
+index dbc4f8001d..db6ba61152 100644
+--- a/hw/virtio/vdpa-dev.c
++++ b/hw/virtio/vdpa-dev.c
+@@ -327,6 +327,7 @@ static Property vhost_vdpa_device_properties[] = {
  
- virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
- 
+ static const VMStateDescription vmstate_vhost_vdpa_device = {
+     .name = "vhost-vdpa-device",
++    .unmigratable = 1,
+     .minimum_version_id = 1,
+     .version_id = 1,
+     .fields = (VMStateField[]) {
 -- 
 MST
 
