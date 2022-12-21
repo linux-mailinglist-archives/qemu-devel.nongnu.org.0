@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E1B653910
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:54:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7945D6538DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:42:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87ll-0007OM-Cc; Wed, 21 Dec 2022 17:41:01 -0500
+	id 1p87lm-0007Oy-3k; Wed, 21 Dec 2022 17:41:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87lj-0007Nl-2T
+ id 1p87lj-0007Nt-D4
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:40:59 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87lc-0000Xf-1W
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:40:58 -0500
+ id 1p87le-0000bf-IP
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:40:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671662451; x=1703198451;
+ t=1671662454; x=1703198454;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wLon510VHyvWrBnIFxTDZasif/XairXPaP+olplQ0og=;
- b=F8EXDoUffAEBrwmSnkq36QwEOjxilHV4YFj7HdCzl9cnzPZbb+6iNqfx
- ybcWPea9ApCOM6Z5Z6W8uJH98Ni2JC81/VuytTJsh9dQPuMvv+fcF6Uxn
- 5xw2VVHzvJ+ii3pxz50Yss13if/8gqDTaQgp72jjftPAtM53zMfE6l0/k
- EmvWRTX3hmLpGqapMwD30LuFd47aSAg7IZpZNDeMsPUQ7EWH8PSDRSGId
- 34hCYJy/LdL2J8nUXDVmUP3aVO2OmgAKddVeNbl16cXrC1+S7f5VhGv7W
- ijobtgKDzH1CiOnN0yRklvZeV5fWoeOQGFWo2V4Yod1ezKlHsx0DD//2M w==;
-X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561283"
+ bh=nZrlKiAsAn7MNytGWr5N4/b3L8vVhvkGQkq8G2qzSWk=;
+ b=AXansJmWA65o3uekZtsqFJWZ4pWFA09tnfWpfCKSyTDooQxPWG7O/fn0
+ 5exTyKNfRqsQ2aYaREvwnArgZv0c2eSmMhD9P32R1UI/2r7iGR9PeID//
+ mDn82QW29mad0ypRta8WHdYAHW9/XzPaP8ECKLVvqe5L7n4sLNQedIZmj
+ Cmsk+snfFcVtwwYV85R1rc+4HJChSJu8xhXNzwh2gHPKK6OMVS0Yb4pPq
+ 94o4WHGhkIWuCjVqvt2uERiA0qo0zQmte06DxuBU4xdGJHwbsquYwIXyT
+ rrj1vtBQEZKmrVaaqz6OEMzRV6xvtK4DZRIyzzKlQv+XvWY99Zb9Nb2H9 Q==;
+X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561289"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:40:41 +0800
-IronPort-SDR: jo66Iu3gIRbvwbIrQMB5p1dn4VaTwxSup9YUcxrwyONx7Me+7J+K4gBTSUKGzyDMfLuMg+QGM3
- XBf6a7f8YOU3xXzBVhjyd/Z9CtccbOfNYpgN+kMtdEHpUkYyOXRX34fdxkDSUWgc045JYiMydh
- vpf8YHaCBACB6G3mXmJ5Sj5czM4G1XsqAtMqv4Kcdguyo2SgfWuKTsqFn9mcxXnmINMCaHO7vq
- 6Sf+i83y1WmAAZl86c35cXsjXHWT9T0hvjoAuJLWSM3etAbsILObeD0os8cPGMLgVNSGI+2C9w
- aog=
+ by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:40:44 +0800
+IronPort-SDR: O6nOwe3QSEum4X376tHdKjxvuwfONs16Djp0XP4Yp+O1955JKj3h8Dk9Nd3AENjRYGPR6L7BNB
+ ZaKikH5hUqT4d70v9vAqktTKimhqUf7DYKPkE8O1KlENqFg/+6+NuWj70irkbPj07kG31mszJh
+ eRq6SkQPCg/Sh7/1T4BLxmpKswX5FUhMyjrOPnHoz41ybKy3LTfAjJj6KT8YtYN1Ttx87u501S
+ xSiIBJuJ8199N5v2nVTQHNuylFeaFWajqx/OHvidRWS8fq3G1MYEHlXp+7eXygkut3htUp9iNe
+ RPo=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 13:53:10 -0800
-IronPort-SDR: wGb2i3jAk1HcJiVNPn9J50lRT/JwzLPJQN5QE7HzWiIUlk0vUWCQn19dpz/CI4qZrnBZpG3lMu
- 3NyWvhHxbSrM4MYPCXbJvvCLXiecX1lddGdG1TNffhU1SFYieCGSxG6XgeNm0juWuCu47/yiM1
- Z3dUs+OcM6fCJv/44k7RDuXNkGRfGA4gYxbhoJTpgCP8tKNjA3notdEuUxwUNHDCAD3w4avMV9
- 6KPUHNQv061PAGw6XSBRNoIW4L4j2O2Kurl8dD2Hubx6nqUoK5E5YRTD0rYhOfv/RQbA2jL9vc
- R38=
+ 21 Dec 2022 13:53:13 -0800
+IronPort-SDR: EdO1dEUuR6wzRcqXHp8IO9eOSh+14892S2fgcO69Ouy4jsTLzEVc2c3TzG4BJxuzB/IIeTRV9j
+ Q3ccdotaCtlQI1ZvDXm2NWn++TTVR7CpN8Mn5yvvnG5QSEAV3wkXbUh/LuuMFrQXU53XlkXQN+
+ plTn63Bz03yacKT78M+8AyVULt8WMzWX/tursVplSmz3fxoHgxwIcwDFGlCvbmUrw9mSKTqLey
+ AJNLCRXJjYRrpqr8AqWdl/zTdIAZjf1Ecum6+2+rwompry2lz710nzPpnZmACC3K++J3Rg6jS3
+ tzc=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 14:40:42 -0800
+ 21 Dec 2022 14:40:44 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpLd5F0nz1Rwt8
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:40:41 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpLh1zP2z1Rwt8
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:40:44 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671662441; x=1674254442; bh=wLon510VHyvWrBnIFx
- TDZasif/XairXPaP+olplQ0og=; b=TqcX/z1wwwRPinwpR4Gh0up30R23mCQHPF
- +N1aNyJKqXkHMiG/zF6yk19gtSz1flUscb5oBn9qtNrQOtks1ina3d/CL6EblKzo
- IOriRmw1d/7wxS/nDiHOtvWYOQqw2Hk4wx3+PJs65zV0Zggl/WN7D5hWeuY6SBcz
- 7PxNXwMI8a4VnaE2ATV+nUGrUhD7cIfcQlzNk9kHjMJ8lyiRh0IIUKmjj7fYB609
- nhmad5r+SkMegUI5NCryMsa+7HZdywZxwrqhyOfIaENJC+cUkddqApl2JigxRFf2
- OuDA6Gqm/kuz9M1Rn+BXoi+n20U6zOuYox6EAhWp2N5sGUNLR1Dg==
+ :from; s=dkim; t=1671662443; x=1674254444; bh=nZrlKiAsAn7MNytGWr
+ 5N4/b3L8vVhvkGQkq8G2qzSWk=; b=GUDXGFOO7PtrePzGTczMcsOfMdGC7lmd8n
+ KlYY2nLD3h9+1V8Nf2Sd+wJi5gZ5VTsuCMdQK9+qaKjouo692eiv3sBpgBoI54c2
+ gkvT+qBYGFk06m59rSxk8RO6QHp/2TYFV8z/xwfN9oKanA7TLMM9Js1wLWMUXvqR
+ Ds+5betG9ReNX6W1hPXv7srKG0xXFiG2mnevYIzowHZvDdJnL4kT+k2vulQgofZQ
+ cSyKP/TAvBey5RC4BP8dzrFuZ2ridws1K/uKdArk5FlsIxCXpxPrsZKoz0PWpYE+
+ 6RMzzKq1fJsRrwfRJ+sveXV4srdl9z10YX7MAHxo2OU4MzyRSBQw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id HNsGv5D0rwSx for <qemu-devel@nongnu.org>;
- Wed, 21 Dec 2022 14:40:41 -0800 (PST)
+ port 10026) with ESMTP id siAV_d5KbHgF for <qemu-devel@nongnu.org>;
+ Wed, 21 Dec 2022 14:40:43 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.8])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpLb3MF3z1Rwrq;
- Wed, 21 Dec 2022 14:40:39 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpLd4mXYz1RvTp;
+ Wed, 21 Dec 2022 14:40:41 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 06/45] tcg/riscv: Fix base register for user-only qemu_ld/st
-Date: Thu, 22 Dec 2022 08:39:43 +1000
-Message-Id: <20221221224022.425831-7-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL v2 07/45] hw/riscv/opentitan: bump opentitan
+Date: Thu, 22 Dec 2022 08:39:44 +1000
+Message-Id: <20221221224022.425831-8-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
@@ -115,150 +114,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-When guest_base !=3D 0, we were not coordinating the usage of
-TCG_REG_TMP0 as base properly, leading to a previous zero-extend
-of the input address being discarded.
+This patch updates the OpenTitan model to match
+the specified register layout as per [1]. Which is also the latest
+commit of OpenTitan supported by TockOS.
 
-Shuffle the alignment check to the front, because that does not
-depend on the zero-extend, and it keeps the register usage clear.
-Set base after each step of the address arithmetic instead of before.
+Note: Pinmux and Padctrl has been merged into Pinmux [2][3], this patch r=
+emoves
+any references to Padctrl. Note: OpenTitan doc [2] has not yet specified
+much detail regarding this, except for a note that states `TODO: this
+section needs to be updated to reflect the pinmux/padctrl merger`
 
-Return the base register used from tcg_out_tlb_load, so as to
-keep that register choice localized to that function.
+[1] https://github.com/lowRISC/opentitan/blob/d072ac505f82152678d6e04be95=
+c72b728a347b8/hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h
+[2] https://docs.opentitan.org/hw/top_earlgrey/doc/design/
+[3] https://docs.opentitan.org/hw/ip/pinmux/doc/#overview
 
-Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221023233337.2846860-1-richard.henderson@linaro.org>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-Id: <20221025043335.339815-2-wilfred.mallawa@opensource.wdc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- tcg/riscv/tcg-target.c.inc | 39 +++++++++++++++++++++-----------------
- 1 file changed, 22 insertions(+), 17 deletions(-)
+ include/hw/riscv/opentitan.h |  9 ++++-----
+ hw/riscv/opentitan.c         | 21 +++++++++++++--------
+ 2 files changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 2a84c57bec..e3b608034f 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -923,9 +923,9 @@ static void tcg_out_goto(TCGContext *s, const tcg_ins=
-n_unit *target)
-     tcg_debug_assert(ok);
- }
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index 6665cd5794..1fc055cdff 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -81,7 +81,6 @@ enum {
+     IBEX_DEV_RSTMGR,
+     IBEX_DEV_CLKMGR,
+     IBEX_DEV_PINMUX,
+-    IBEX_DEV_PADCTRL,
+     IBEX_DEV_USBDEV,
+     IBEX_DEV_FLASH_CTRL,
+     IBEX_DEV_PLIC,
+@@ -109,10 +108,10 @@ enum {
+     IBEX_UART0_RX_TIMEOUT_IRQ     =3D 7,
+     IBEX_UART0_RX_PARITY_ERR_IRQ  =3D 8,
+     IBEX_TIMER_TIMEREXPIRED0_0    =3D 127,
+-    IBEX_SPI_HOST0_ERR_IRQ        =3D 151,
+-    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 152,
+-    IBEX_SPI_HOST1_ERR_IRQ        =3D 153,
+-    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 154,
++    IBEX_SPI_HOST0_ERR_IRQ        =3D 134,
++    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 135,
++    IBEX_SPI_HOST1_ERR_IRQ        =3D 136,
++    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 137,
+ };
 =20
--static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
--                             TCGReg addrh, MemOpIdx oi,
--                             tcg_insn_unit **label_ptr, bool is_load)
-+static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-+                               TCGReg addrh, MemOpIdx oi,
-+                               tcg_insn_unit **label_ptr, bool is_load)
- {
-     MemOp opc =3D get_memop(oi);
-     unsigned s_bits =3D opc & MO_SIZE;
-@@ -975,6 +975,7 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg ad=
-drl,
-         addrl =3D TCG_REG_TMP0;
-     }
-     tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
-+    return TCG_REG_TMP0;
- }
-=20
- static void add_qemu_ldst_label(TCGContext *s, int is_ld, MemOpIdx oi,
-@@ -1177,7 +1178,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TC=
-GArg *args, bool is_64)
- #else
-     unsigned a_bits;
  #endif
--    TCGReg base =3D TCG_REG_TMP0;
-+    TCGReg base;
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index be7ff1eea0..92493c629d 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -28,8 +28,16 @@
+ #include "qemu/units.h"
+ #include "sysemu/sysemu.h"
 =20
-     data_regl =3D *args++;
-     data_regh =3D (TCG_TARGET_REG_BITS =3D=3D 32 && is_64 ? *args++ : 0)=
-;
-@@ -1187,23 +1188,25 @@ static void tcg_out_qemu_ld(TCGContext *s, const =
-TCGArg *args, bool is_64)
-     opc =3D get_memop(oi);
++/*
++ * This version of the OpenTitan machine currently supports
++ * OpenTitan RTL version:
++ * <lowRISC/opentitan@d072ac505f82152678d6e04be95c72b728a347b8>
++ *
++ * MMIO mapping as per (specified commit):
++ * lowRISC/opentitan: hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h
++ */
+ static const MemMapEntry ibex_memmap[] =3D {
+-    [IBEX_DEV_ROM] =3D            {  0x00008000,   0x8000 },
++    [IBEX_DEV_ROM] =3D            {  0x00008000,  0x8000 },
+     [IBEX_DEV_RAM] =3D            {  0x10000000,  0x20000 },
+     [IBEX_DEV_FLASH] =3D          {  0x20000000,  0x100000 },
+     [IBEX_DEV_UART] =3D           {  0x40000000,  0x1000  },
+@@ -38,17 +46,17 @@ static const MemMapEntry ibex_memmap[] =3D {
+     [IBEX_DEV_I2C] =3D            {  0x40080000,  0x1000  },
+     [IBEX_DEV_PATTGEN] =3D        {  0x400e0000,  0x1000  },
+     [IBEX_DEV_TIMER] =3D          {  0x40100000,  0x1000  },
+-    [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40110000,  0x1000  },
+     [IBEX_DEV_OTP_CTRL] =3D       {  0x40130000,  0x4000  },
+     [IBEX_DEV_LC_CTRL] =3D        {  0x40140000,  0x1000  },
+-    [IBEX_DEV_USBDEV] =3D         {  0x40150000,  0x1000  },
++    [IBEX_DEV_ALERT_HANDLER] =3D  {  0x40150000,  0x1000  },
+     [IBEX_DEV_SPI_HOST0] =3D      {  0x40300000,  0x1000  },
+     [IBEX_DEV_SPI_HOST1] =3D      {  0x40310000,  0x1000  },
++    [IBEX_DEV_USBDEV] =3D         {  0x40320000,  0x1000  },
+     [IBEX_DEV_PWRMGR] =3D         {  0x40400000,  0x1000  },
+     [IBEX_DEV_RSTMGR] =3D         {  0x40410000,  0x1000  },
+     [IBEX_DEV_CLKMGR] =3D         {  0x40420000,  0x1000  },
+     [IBEX_DEV_PINMUX] =3D         {  0x40460000,  0x1000  },
+-    [IBEX_DEV_PADCTRL] =3D        {  0x40470000,  0x1000  },
++    [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40490000,  0x1000  },
+     [IBEX_DEV_FLASH_CTRL] =3D     {  0x41000000,  0x1000  },
+     [IBEX_DEV_AES] =3D            {  0x41100000,  0x1000  },
+     [IBEX_DEV_HMAC] =3D           {  0x41110000,  0x1000  },
+@@ -59,10 +67,9 @@ static const MemMapEntry ibex_memmap[] =3D {
+     [IBEX_DEV_ENTROPY] =3D        {  0x41160000,  0x1000  },
+     [IBEX_DEV_EDNO] =3D           {  0x41170000,  0x1000  },
+     [IBEX_DEV_EDN1] =3D           {  0x41180000,  0x1000  },
+-    [IBEX_DEV_ALERT_HANDLER] =3D  {  0x411b0000,  0x1000  },
+     [IBEX_DEV_NMI_GEN] =3D        {  0x411c0000,  0x1000  },
+     [IBEX_DEV_PERI] =3D           {  0x411f0000,  0x10000 },
+-    [IBEX_DEV_PLIC] =3D           {  0x48000000,  0x4005000  },
++    [IBEX_DEV_PLIC] =3D           {  0x48000000,  0x4005000 },
+     [IBEX_DEV_FLASH_VIRTUAL] =3D  {  0x80000000,  0x80000 },
+ };
 =20
- #if defined(CONFIG_SOFTMMU)
--    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1);
-+    base =3D tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1)=
-;
-     tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
-     add_qemu_ldst_label(s, 1, oi,
-                         (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
-                         data_regl, data_regh, addr_regl, addr_regh,
-                         s->code_ptr, label_ptr);
- #else
--    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
--        tcg_out_ext32u(s, base, addr_regl);
--        addr_regl =3D base;
--    }
-     a_bits =3D get_alignment_bits(opc);
-     if (a_bits) {
-         tcg_out_test_alignment(s, true, addr_regl, a_bits);
-     }
-+    base =3D addr_regl;
-+    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-+        tcg_out_ext32u(s, TCG_REG_TMP0, base);
-+        base =3D TCG_REG_TMP0;
-+    }
-     if (guest_base !=3D 0) {
--        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl)=
-;
-+        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, ba=
-se);
-+        base =3D TCG_REG_TMP0;
-     }
-     tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
- #endif
-@@ -1249,7 +1252,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TC=
-GArg *args, bool is_64)
- #else
-     unsigned a_bits;
- #endif
--    TCGReg base =3D TCG_REG_TMP0;
-+    TCGReg base;
-=20
-     data_regl =3D *args++;
-     data_regh =3D (TCG_TARGET_REG_BITS =3D=3D 32 && is_64 ? *args++ : 0)=
-;
-@@ -1259,23 +1262,25 @@ static void tcg_out_qemu_st(TCGContext *s, const =
-TCGArg *args, bool is_64)
-     opc =3D get_memop(oi);
-=20
- #if defined(CONFIG_SOFTMMU)
--    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0);
-+    base =3D tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0)=
-;
-     tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
-     add_qemu_ldst_label(s, 0, oi,
-                         (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
-                         data_regl, data_regh, addr_regl, addr_regh,
-                         s->code_ptr, label_ptr);
- #else
--    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
--        tcg_out_ext32u(s, base, addr_regl);
--        addr_regl =3D base;
--    }
-     a_bits =3D get_alignment_bits(opc);
-     if (a_bits) {
-         tcg_out_test_alignment(s, false, addr_regl, a_bits);
-     }
-+    base =3D addr_regl;
-+    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-+        tcg_out_ext32u(s, TCG_REG_TMP0, base);
-+        base =3D TCG_REG_TMP0;
-+    }
-     if (guest_base !=3D 0) {
--        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl)=
-;
-+        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, ba=
-se);
-+        base =3D TCG_REG_TMP0;
-     }
-     tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
- #endif
+@@ -265,8 +272,6 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
+_soc, Error **errp)
+         memmap[IBEX_DEV_CLKMGR].base, memmap[IBEX_DEV_CLKMGR].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.pinmux",
+         memmap[IBEX_DEV_PINMUX].base, memmap[IBEX_DEV_PINMUX].size);
+-    create_unimplemented_device("riscv.lowrisc.ibex.padctrl",
+-        memmap[IBEX_DEV_PADCTRL].base, memmap[IBEX_DEV_PADCTRL].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.usbdev",
+         memmap[IBEX_DEV_USBDEV].base, memmap[IBEX_DEV_USBDEV].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.flash_ctrl",
 --=20
 2.38.1
 
