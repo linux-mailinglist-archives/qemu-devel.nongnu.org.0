@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FF5653159
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E373653158
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:08:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ynz-0006yI-3l; Wed, 21 Dec 2022 08:06:43 -0500
+	id 1p7yo2-000765-FQ; Wed, 21 Dec 2022 08:06:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynx-0006ve-BN
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:41 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7yo0-00073e-6G
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:44 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynv-0004X6-PC
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:41 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7yny-0004XO-O8
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627999;
+ s=mimecast20190719; t=1671628002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=22HTiVqCUQY8+u/d6nSRb69AufwfEdruw3bnWkKLKMU=;
- b=Se4t9meBcfzs9tsJWCWG8ugehEybtMfyF2iuN2HXHtGvNUNc8pQrpvFEr+Fuo158g8tBhV
- uWN4EDCHRp1fqx1phQWeHVlbx/Fn/yIRiBKAiKq4pYIczvnuQNvBHSIGzo+/lKgczS0GH/
- upjZ/6fh17+1yOA8KhsxsZoDblnQ7/M=
+ bh=pIdU6BU5H/qloVVXjAafwV6ZU0KH98qQP66NNxgw9cY=;
+ b=MrfJQt4KDFgmHjk7U+zhljGv0nIet8cj0meTFPERyirQX33wfI5LXbm6H1QcCogfNuC4v5
+ jH1C4Wwc8MM1SDEC79zuc84Qk8mFA60h/wawC65Ln2SNIQbESkx7W8TTjvuZmjOtVPaPEY
+ BgkG6BjnOi4ZdEYL8ffkMx13stKUuUI=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-2R3wqvTqOvqvo6i1CRbKvg-1; Wed, 21 Dec 2022 08:06:37 -0500
-X-MC-Unique: 2R3wqvTqOvqvo6i1CRbKvg-1
+ us-mta-401-U_kFSfeiPhG-LVi38hb-yQ-1; Wed, 21 Dec 2022 08:06:40 -0500
+X-MC-Unique: U_kFSfeiPhG-LVi38hb-yQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- c7-20020a1c3507000000b003d355c13ba8so4304203wma.6
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:06:37 -0800 (PST)
+ i187-20020a1c3bc4000000b003d634aca337so1766780wma.1
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:06:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=22HTiVqCUQY8+u/d6nSRb69AufwfEdruw3bnWkKLKMU=;
- b=TPlNzLfB5dmYgoUw2XSdhXxeacNqjQUHZh7rma9cnfamiz7GqVa0sQX9LREB/ekxi3
- JvSr48lObuKiD1WHJb1Ae2IEkoWu+Mtjkp9GCOmA9cTphMQ9Y4QROGsMJnvP9OZ7VG3f
- SX5Eajce+UnYLoywcZakkbDSCqvrIduvhOjPukZ3KVWrElKsHxWbKU+gnX0mFQ3RGLTr
- UFQQWsp+8j90iP0G0lRR5otfhzV6Ug8kMAi1qMbeK6fv/5llgdyCI3iIAYvTIk4nZn1u
- B9pFJcsUPnLTzpYuieeqvc14KECclZrtuEKvRunq4Tv4Y41pisxRbzZydByYYOMrSpt8
- Eyqg==
-X-Gm-Message-State: AFqh2koqntQEqWh1qzk6wDNcLeXD7ZNeYDAFLn8bALzdMjLIvrezAe8P
- tibXZEvejCUeji+SDWTY0mjntA3csQuRT2B918ukQGeQ4C5YyHfdt5/RFqls5E037pMmvQHxK7q
- dGyv7qSFG1GmE9n1uL6RxwnQhWMaGsl+TsBX1CzjoQXdwJJU3wTqD/SYltzTg
-X-Received: by 2002:a05:600c:1e10:b0:3d3:404a:8a1a with SMTP id
- ay16-20020a05600c1e1000b003d3404a8a1amr4478927wmb.11.1671627996116; 
- Wed, 21 Dec 2022 05:06:36 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsbwIpwmykxb3ZxV2X8OG+9nzhKv3Qwak6P7CxHdXJsVnJ/j68w9E2UI9BaS2TUxl+t8sE3xQ==
-X-Received: by 2002:a05:600c:1e10:b0:3d3:404a:8a1a with SMTP id
- ay16-20020a05600c1e1000b003d3404a8a1amr4478908wmb.11.1671627995836; 
- Wed, 21 Dec 2022 05:06:35 -0800 (PST)
+ bh=pIdU6BU5H/qloVVXjAafwV6ZU0KH98qQP66NNxgw9cY=;
+ b=d+E7YcEJpMa/ffdhAVdOzgFxDZxWnFnMfVzc5K3x9MEfLP02yExAyMjUVGctuHXfTC
+ 3uklCPj22LQvxpvGwdimrtlJWdSqTGS5u2Rrgoi0ycTNDA6uOw+JfFWsnEJ7qvZtT8GR
+ tDhPcrU5vVZ9fp37uiAdv9a2raCJ+CCBzdSRlJ8kqC7xdPv3fGCTTChq09LDsMlQ97Vt
+ kE4DdsMLjK8W2DZhLc5stAzuqZCaLgVBrHgYXI+U6Hc9Y8j86wrwmDr0oy0sYGqZiWzF
+ 93ofQjldEqFr8/d4NYO32AtcVj3L0JeSiQ3NXizS/2GX6FJMGZW9WSBMzdzp2kJ/x0ri
+ hv4w==
+X-Gm-Message-State: AFqh2krQYqap+qwDYBovMNkaZElklHDnfgivvKRWoWX5XswktFdM05wM
+ 6COqjrXjURFHgg2meIU7mTZ28fJTFnCkLkEQF283yIRlbzxpnoVzMzYfENDB1t1N244x7Mb+Zq6
+ mHNaMYavT1xDCXw7M07y/tdoRWv0fszSCqWacsMHIKg9ep20Vjpzn3KJMpvv4
+X-Received: by 2002:a5d:664e:0:b0:242:483f:e9b9 with SMTP id
+ f14-20020a5d664e000000b00242483fe9b9mr1150115wrw.24.1671627999069; 
+ Wed, 21 Dec 2022 05:06:39 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsqrMJN2jHW0neXAjTJI6wxFlvhPa7Ooi37xvhmvcPAsl56GAUZdItnkidPbtullr7lT1v/Iw==
+X-Received: by 2002:a5d:664e:0:b0:242:483f:e9b9 with SMTP id
+ f14-20020a5d664e000000b00242483fe9b9mr1150099wrw.24.1671627998818; 
+ Wed, 21 Dec 2022 05:06:38 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- y33-20020a05600c342100b003d01b84e9b2sm2141325wmp.27.2022.12.21.05.06.34
+ bn22-20020a056000061600b002366e3f1497sm15585320wrb.6.2022.12.21.05.06.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:06:35 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:06:33 -0500
+ Wed, 21 Dec 2022 05:06:38 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:06:36 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marcel Holtmann <marcel@holtmann.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Khem Raj <raj.khem@gmail.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 40/41] libvhost-user: Switch to unsigned int for inuse field
- in struct VuVirtq
-Message-ID: <20221221130339.1234592-41-mst@redhat.com>
+Subject: [PULL 41/41] contrib/vhost-user-blk: Replace lseek64 with lseek
+Message-ID: <20221221130339.1234592-42-mst@redhat.com>
 References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -101,46 +100,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marcel Holtmann <marcel@holtmann.org>
+From: Khem Raj <raj.khem@gmail.com>
 
-It seems there is no need to keep the inuse field signed and end up with
-compiler warnings for sign-compare.
+64bit off_t is already in use since build uses _FILE_OFFSET_BITS=64
+already. Using lseek/off_t also makes it work with latest musl without
+using _LARGEFILE64_SOURCE macro. This macro is implied with _GNU_SOURCE
+when using glibc but not with musl.
 
-  CC       libvhost-user.o
-libvhost-user.c: In function ‘vu_queue_pop’:
-libvhost-user.c:2763:19: error: comparison of integer expressions of different signedness: ‘int’ and ‘unsigned int’ [-Werror=sign-compare]
- 2763 |     if (vq->inuse >= vq->vring.num) {
-      |                   ^~
-libvhost-user.c: In function ‘vu_queue_rewind’:
-libvhost-user.c:2808:13: error: comparison of integer expressions of different signedness: ‘unsigned int’ and ‘int’ [-Werror=sign-compare]
- 2808 |     if (num > vq->inuse) {
-      |             ^
-
-Instead of casting the comparision to unsigned int, just make the inuse
-field unsigned int in the fist place.
-
-Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
-Message-Id: <20221219175337.377435-8-marcel@holtmann.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+CC: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Message-Id: <20221218220740.315839-1-raj.khem@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- subprojects/libvhost-user/libvhost-user.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ contrib/vhost-user-blk/vhost-user-blk.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
-index aea7ec5061..8cda9b8f57 100644
---- a/subprojects/libvhost-user/libvhost-user.h
-+++ b/subprojects/libvhost-user/libvhost-user.h
-@@ -343,7 +343,7 @@ typedef struct VuVirtq {
-     /* Notification enabled? */
-     bool notification;
+diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+index aa99877fcd..7941694e53 100644
+--- a/contrib/vhost-user-blk/vhost-user-blk.c
++++ b/contrib/vhost-user-blk/vhost-user-blk.c
+@@ -532,9 +532,9 @@ vub_get_blocksize(int fd)
+ static void
+ vub_initialize_config(int fd, struct virtio_blk_config *config)
+ {
+-    off64_t capacity;
++    off_t capacity;
  
--    int inuse;
-+    unsigned int inuse;
- 
-     vu_queue_handler_cb handler;
- 
+-    capacity = lseek64(fd, 0, SEEK_END);
++    capacity = lseek(fd, 0, SEEK_END);
+     config->capacity = capacity >> 9;
+     config->blk_size = vub_get_blocksize(fd);
+     config->size_max = 65536;
 -- 
 MST
 
