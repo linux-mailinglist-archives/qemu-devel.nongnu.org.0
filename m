@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3EB652AF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:23:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4547D652AFF
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:30:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7nZX-00030I-4l; Tue, 20 Dec 2022 20:07:03 -0500
+	id 1p7nZQ-0002tX-KU; Tue, 20 Dec 2022 20:06:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p7nZJ-0002s3-3K
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:52 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p7nZC-0002qO-7K
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:42 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1p7nZC-0004HM-01
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:47 -0500
+ <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1p7nZ9-0004Cp-8R
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
- To:From:Reply-To:Content-ID:Content-Description;
- bh=8H7pJXSOgN+szwAWkuBMvHFY7wLSar+M/8ySBTFzn5g=; b=PJoHy9j5IB7shUaUQ+6fMnF8la
- 9Kr3/xWHMkUKlte7GZwaqkpB77BeNANJ7osI5a0y0JnE/wU/XIYTUZGfPROndGxRLmUBqfPMb+OEs
- HwcX4x1g59J1a7BiWh1cWQBMsHn/atxV0nW/8e/7hxp4RcqiDXF0cvcg16wMaL0kkUbgkNrvPoET4
- cfMlsWchbuC+3SS2R4gtKZCe2Mt0iAdBjRiCT94dMFo6W2sVZMBsz3pj+HgqRkVCQV++9lfL4J7G4
- hIgZwtUv2EBd5HOXoF7hkV36EMo7pzVDrQ6DvDDMasO2AwzYcEJnXMgE0oV0gm4pttH9JL/uysv5j
- sk+EjWnA==;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=AJZSrP5ErY+F6yNJps7iT/Cjs+xlWBNxo3sWFMVbfVg=; b=YvDcRlay69RUtqiCcK6h5H+NxT
+ SdUsHF2NLxoVlU0nLkLPQIZmCL6swxlPvoUJ7IXJ7+l2neHsgv6uHSCST9XrYY7o+YrGPhusbc96J
+ LG1z1P8/ylE9ZeXvFUOkBp4aoIg6tl7E1Qb1ACEX6Muh52M5HBAptxwLK1HnkB+qCKRy1CDqGaCO5
+ Z9CLgwzUsvtOAL4G1W48553mBhA3V9QoNmTdum+8kwXYTgADcnWUXemXqSpy/UN6Ml7H8Gn2SnLVb
+ CYZFIFBkd/7eGmCc2fQdC+RN+sQYgBKRuNUPDkrgI4ll2dMesLy/7IdH7TU1Snmd0+0IljXh3GHv8
+ y2wtu5lg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1p7nYx-00DDGS-1e; Wed, 21 Dec 2022 01:06:33 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1p7nZ8-002Kci-ET; Wed, 21 Dec 2022 01:06:38 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p7nYw-004CM4-IK; Wed, 21 Dec 2022 01:06:26 +0000
+ Hat Linux)) id 1p7nYw-004CM7-JD; Wed, 21 Dec 2022 01:06:26 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,21 +46,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v4 14/47] hw/xen: Add xen_overlay device for emulating
- shared xenheap pages
-Date: Wed, 21 Dec 2022 01:05:50 +0000
-Message-Id: <20221221010623.1000191-15-dwmw2@infradead.org>
+Subject: [RFC PATCH v4 15/47] i386/xen: add pc_machine_kvm_type to initialize
+ XEN_EMULATE mode
+Date: Wed, 21 Dec 2022 01:05:51 +0000
+Message-Id: <20221221010623.1000191-16-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221221010623.1000191-1-dwmw2@infradead.org>
 References: <20221221010623.1000191-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+7cc631609c1bd8ad3247+7059+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,294 +84,66 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-For the shared info page and for grant tables, Xen shares its own pages
-from the "Xen heap" to the guest. The guest requests that a given page
-from a certain address space (XENMAPSPACE_shared_info, etc.) be mapped
-to a given GPA using the XENMEM_add_to_physmap hypercall.
-
-To support that in qemu when *emulating* Xen, create a memory region
-(migratable) and allow it to be mapped as an overlay when requested.
-
-Xen theoretically allows the same page to be mapped multiple times
-into the guest, but that's hard to track and reinstate over migration,
-so we automatically *unmap* any previous mapping when creating a new
-one. This approach has been used in production with.... a non-trivial
-number of guests expecting true Xen, without any problems yet being
-noticed.
-
-This adds just the shared info page for now. The grant tables will be
-a larger region, and will need to be overlaid one page at a time. I
-think that means I need to create separate aliases for each page of
-the overall grant_frames region, so that they can be mapped individually.
+The xen_overlay device (and later similar devices for event channels and
+grant tables) need to be instantiated. Do this from a kvm_type method on
+the PC machine derivatives, since KVM is only way to support Xen emulation
+for now.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/meson.build   |   1 +
- hw/i386/kvm/xen_overlay.c | 200 ++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_overlay.h |  20 ++++
- include/sysemu/kvm_xen.h  |   4 +
- 4 files changed, 225 insertions(+)
- create mode 100644 hw/i386/kvm/xen_overlay.c
- create mode 100644 hw/i386/kvm/xen_overlay.h
+ hw/i386/pc.c         | 11 +++++++++++
+ include/hw/i386/pc.h |  3 +++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/hw/i386/kvm/meson.build b/hw/i386/kvm/meson.build
-index 95467f1ded..6165cbf019 100644
---- a/hw/i386/kvm/meson.build
-+++ b/hw/i386/kvm/meson.build
-@@ -4,5 +4,6 @@ i386_kvm_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c'))
- i386_kvm_ss.add(when: 'CONFIG_I8254', if_true: files('i8254.c'))
- i386_kvm_ss.add(when: 'CONFIG_I8259', if_true: files('i8259.c'))
- i386_kvm_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
-+i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files('xen_overlay.c'))
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 546b703cb4..d8c5b1814e 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -89,6 +89,7 @@
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/virtio/virtio-pmem-pci.h"
+ #include "hw/virtio/virtio-mem-pci.h"
++#include "hw/i386/kvm/xen_overlay.h"
+ #include "hw/mem/memory-device.h"
+ #include "sysemu/replay.h"
+ #include "target/i386/cpu.h"
+@@ -1842,6 +1843,16 @@ static void pc_machine_initfn(Object *obj)
+     cxl_machine_init(obj, &pcms->cxl_devices_state);
+ }
  
- i386_ss.add_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
-diff --git a/hw/i386/kvm/xen_overlay.c b/hw/i386/kvm/xen_overlay.c
-new file mode 100644
-index 0000000000..331dea6b8b
---- /dev/null
-+++ b/hw/i386/kvm/xen_overlay.c
-@@ -0,0 +1,200 @@
-+/*
-+ * QEMU Xen emulation: Shared/overlay pages support
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/host-utils.h"
-+#include "qemu/module.h"
-+#include "qemu/main-loop.h"
-+#include "qapi/error.h"
-+#include "qom/object.h"
-+#include "exec/target_page.h"
-+#include "exec/address-spaces.h"
-+#include "migration/vmstate.h"
-+
-+#include "hw/sysbus.h"
-+#include "hw/xen/xen.h"
-+#include "xen_overlay.h"
-+
-+#include "sysemu/kvm.h"
-+#include "sysemu/kvm_xen.h"
-+#include <linux/kvm.h>
-+
-+#include "standard-headers/xen/memory.h"
-+
-+
-+#define TYPE_XEN_OVERLAY "xen-overlay"
-+OBJECT_DECLARE_SIMPLE_TYPE(XenOverlayState, XEN_OVERLAY)
-+
-+#define XEN_PAGE_SHIFT 12
-+#define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
-+
-+struct XenOverlayState {
-+    /*< private >*/
-+    SysBusDevice busdev;
-+    /*< public >*/
-+
-+    MemoryRegion shinfo_mem;
-+    void *shinfo_ptr;
-+    uint64_t shinfo_gpa;
-+};
-+
-+struct XenOverlayState *xen_overlay_singleton;
-+
-+static void xen_overlay_map_page_locked(MemoryRegion *page, uint64_t gpa)
++int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
 +{
-+    /*
-+     * Xen allows guests to map the same page as many times as it likes
-+     * into guest physical frames. We don't, because it would be hard
-+     * to track and restore them all. One mapping of each page is
-+     * perfectly sufficient for all known guests... and we've tested
-+     * that theory on a few now in other implementations. dwmw2.
-+     */
-+    if (memory_region_is_mapped(page)) {
-+        if (gpa == INVALID_GPA) {
-+            memory_region_del_subregion(get_system_memory(), page);
-+        } else {
-+            /* Just move it */
-+            memory_region_set_address(page, gpa);
-+        }
-+    } else if (gpa != INVALID_GPA) {
-+        memory_region_add_subregion_overlap(get_system_memory(), gpa, page, 0);
++#ifdef CONFIG_XEN_EMU
++    if (xen_mode == XEN_EMULATE) {
++        xen_overlay_create();
 +    }
-+}
-+
-+/* KVM is the only existing back end for now. Let's not overengineer it yet. */
-+static int xen_overlay_set_be_shinfo(uint64_t gfn)
-+{
-+    struct kvm_xen_hvm_attr xa = {
-+        .type = KVM_XEN_ATTR_TYPE_SHARED_INFO,
-+        .u.shared_info.gfn = gfn,
-+    };
-+
-+    return kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &xa);
-+}
-+
-+
-+static void xen_overlay_realize(DeviceState *dev, Error **errp)
-+{
-+    XenOverlayState *s = XEN_OVERLAY(dev);
-+
-+    if (xen_mode != XEN_EMULATE) {
-+        error_setg(errp, "Xen overlay page support is for Xen emulation");
-+        return;
-+    }
-+
-+    memory_region_init_ram(&s->shinfo_mem, OBJECT(dev), "xen:shared_info",
-+                           XEN_PAGE_SIZE, &error_abort);
-+    memory_region_set_enabled(&s->shinfo_mem, true);
-+
-+    s->shinfo_ptr = memory_region_get_ram_ptr(&s->shinfo_mem);
-+    s->shinfo_gpa = INVALID_GPA;
-+    memset(s->shinfo_ptr, 0, XEN_PAGE_SIZE);
-+}
-+
-+static int xen_overlay_post_load(void *opaque, int version_id)
-+{
-+    XenOverlayState *s = opaque;
-+
-+    if (s->shinfo_gpa != INVALID_GPA) {
-+        xen_overlay_map_page_locked(&s->shinfo_mem, s->shinfo_gpa);
-+        xen_overlay_set_be_shinfo(s->shinfo_gpa >> XEN_PAGE_SHIFT);
-+    }
-+
++#endif
 +    return 0;
 +}
 +
-+static bool xen_overlay_is_needed(void *opaque)
-+{
-+    return xen_mode == XEN_EMULATE;
-+}
-+
-+static const VMStateDescription xen_overlay_vmstate = {
-+    .name = "xen_overlay",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = xen_overlay_is_needed,
-+    .post_load = xen_overlay_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(shinfo_gpa, XenOverlayState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void xen_overlay_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = xen_overlay_realize;
-+    dc->vmsd = &xen_overlay_vmstate;
-+}
-+
-+static const TypeInfo xen_overlay_info = {
-+    .name          = TYPE_XEN_OVERLAY,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(XenOverlayState),
-+    .class_init    = xen_overlay_class_init,
-+};
-+
-+void xen_overlay_create(void)
-+{
-+    xen_overlay_singleton = XEN_OVERLAY(sysbus_create_simple(TYPE_XEN_OVERLAY,
-+                                                             -1, NULL));
-+}
-+
-+static void xen_overlay_register_types(void)
-+{
-+    type_register_static(&xen_overlay_info);
-+}
-+
-+type_init(xen_overlay_register_types)
-+
-+int xen_overlay_map_shinfo_page(uint64_t gpa)
-+{
-+    XenOverlayState *s = xen_overlay_singleton;
-+    int ret;
-+
-+    if (!s) {
-+        return -ENOENT;
-+    }
-+
-+    qemu_mutex_lock_iothread();
-+    if (s->shinfo_gpa) {
-+            /* If removing shinfo page, turn the kernel magic off first */
-+        ret = xen_overlay_set_be_shinfo(INVALID_GFN);
-+        if (ret) {
-+            goto out;
-+        }
-+    }
-+
-+    xen_overlay_map_page_locked(&s->shinfo_mem, gpa);
-+    if (gpa != INVALID_GPA) {
-+        ret = xen_overlay_set_be_shinfo(gpa >> XEN_PAGE_SHIFT);
-+        if (ret) {
-+            goto out;
-+        }
-+    }
-+    s->shinfo_gpa = gpa;
-+ out:
-+    qemu_mutex_unlock_iothread();
-+
-+    return ret;
-+}
-+
-+void *xen_overlay_get_shinfo_ptr(void)
-+{
-+    XenOverlayState *s = xen_overlay_singleton;
-+
-+    if (!s) {
-+        return NULL;
-+    }
-+
-+    return s->shinfo_ptr;
-+}
-diff --git a/hw/i386/kvm/xen_overlay.h b/hw/i386/kvm/xen_overlay.h
-new file mode 100644
-index 0000000000..00cff05bb0
---- /dev/null
-+++ b/hw/i386/kvm/xen_overlay.h
-@@ -0,0 +1,20 @@
-+/*
-+ * QEMU Xen emulation: Shared/overlay pages support
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_XEN_OVERLAY_H
-+#define QEMU_XEN_OVERLAY_H
-+
-+void xen_overlay_create(void);
-+
-+int xen_overlay_map_shinfo_page(uint64_t gpa);
-+void *xen_overlay_get_shinfo_ptr(void);
-+
-+#endif /* QEMU_XEN_OVERLAY_H */
-diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
-index 296533f2d5..3e43cd7843 100644
---- a/include/sysemu/kvm_xen.h
-+++ b/include/sysemu/kvm_xen.h
-@@ -12,6 +12,10 @@
- #ifndef QEMU_SYSEMU_KVM_XEN_H
- #define QEMU_SYSEMU_KVM_XEN_H
+ static void pc_machine_reset(MachineState *machine, ShutdownCause reason)
+ {
+     CPUState *cs;
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index c95333514e..e82224857e 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -290,12 +290,15 @@ extern const size_t pc_compat_1_5_len;
+ extern GlobalProperty pc_compat_1_4[];
+ extern const size_t pc_compat_1_4_len;
  
-+/* The KVM API uses these to indicate "no GPA" or "no GFN" */
-+#define INVALID_GPA UINT64_MAX
-+#define INVALID_GFN UINT64_MAX
++extern int pc_machine_kvm_type(MachineState *machine, const char *vm_type);
 +
- uint32_t kvm_xen_get_caps(void);
- 
- #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
+ #define DEFINE_PC_MACHINE(suffix, namestr, initfn, optsfn) \
+     static void pc_machine_##suffix##_class_init(ObjectClass *oc, void *data) \
+     { \
+         MachineClass *mc = MACHINE_CLASS(oc); \
+         optsfn(mc); \
+         mc->init = initfn; \
++        mc->kvm_type = pc_machine_kvm_type; \
+     } \
+     static const TypeInfo pc_machine_type_##suffix = { \
+         .name       = namestr TYPE_MACHINE_SUFFIX, \
 -- 
 2.35.3
 
