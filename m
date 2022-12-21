@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98AF6535ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30B16535CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:04:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p83Q3-0000eZ-Se; Wed, 21 Dec 2022 13:02:19 -0500
+	id 1p83Q8-0000mt-N3; Wed, 21 Dec 2022 13:02:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p83Q1-0000bF-Li
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:17 -0500
+ id 1p83Q4-0000j5-Ah
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p83Q0-0004JU-0M
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:17 -0500
+ id 1p83Q2-0004Jq-Q7
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671645735;
+ s=mimecast20190719; t=1671645738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3+/09ynFcBHA4MWVO2yoREd4a+0CntG42IHNkNDsO8s=;
- b=WQbEM9en/8B0CQyRmpjX+XH+U8rF39qcuCtaMAJI0XCOVuxAhwXkBSLfoCrp+gowsl8WA0
- 8wLoWsEgy65XuGqcfH8ZmPMUobZ4dGjE6+4CZj2rayvCUuqkp2STmC9jm0+CfBMOiJ4/FJ
- AOWC2FpvrTHK16cTGi24CAtgoGMmvGg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Wyr5JrWTZ0YvqwA7HlA5lc+mTPvzQE5kv1C6a+Lq9oQ=;
+ b=EtvSvOFMadOFWaOx90JXjdf2b8t6m/J2MBEE28Ii5W51CtIJDhFFmyq2dNs/8Wnsp+/4pB
+ xjsnyPc6foCrjvU5liFww8uQwZ9kSpVYU9iTpKEbvjVsVHpyMQWz7md0pF2RV5Scn/BUA1
+ /rBjqR0dgC0D/xeYjMZlFalMJSdvjDA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-9-J4zxJ0KROka7CEt8UsfmYw-1; Wed, 21 Dec 2022 13:02:13 -0500
-X-MC-Unique: J4zxJ0KROka7CEt8UsfmYw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- h8-20020a056402280800b0046af59e0986so12039252ede.22
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 10:02:13 -0800 (PST)
+ us-mta-527-ebCXXKUzPoufI4ATuijf9g-1; Wed, 21 Dec 2022 13:02:16 -0500
+X-MC-Unique: ebCXXKUzPoufI4ATuijf9g-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ xh12-20020a170906da8c00b007413144e87fso11079319ejb.14
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 10:02:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3+/09ynFcBHA4MWVO2yoREd4a+0CntG42IHNkNDsO8s=;
- b=g0kUC0IUQb9tzi1/xOU1cnsm0GGBtdTq+1AMmcl8sPTnCbkCMTpZmnv9DVatIsICsD
- vgxZ/JfZPIKXp1Dft/VTg+VqoYgrkNF06YcsNzCWXoTiyqi1JndY1FTQ5RoagmQExTRi
- yuvS1UOhJAd//6RbCtaIttuPxZOWjH5Py6ZoEn/Lrlc/DUQ05ylKZMuJDI1GO+Ttn1eH
- T1i5LEh4L6cLL3+7r/uA8R5CSGFBFWoO5z61baB9VGg2GA+wnLQDMyfW03Bpr0UggnHW
- u4c/kQ1FOA1Vtyzax0pdAjdXtqWJ+QtKqarfqGtyNj7rbzjnrxlQpIMWzpmFXHCgPGMX
- Sg9g==
-X-Gm-Message-State: AFqh2ko3oG7jQZ9JpkNnrXvKEihPQca8YK/KoP+1azANDTg5GZlvKKsH
- FdGoiwT8GNcNBGs10Z1FYMtiVS89vvYVtRainyI21d5BrdV+iImJsTaOhRYTddHkq3LNSmoI6TP
- qjUE7Rl2CfYrHfOxPBz7NjV+BdutL2pIvv8lJzAacQnlJMyAHhR6kwid3qnLV0vBK6DQ=
-X-Received: by 2002:a05:6402:1948:b0:470:1f1:257a with SMTP id
- f8-20020a056402194800b0047001f1257amr2455613edz.25.1671645732118; 
- Wed, 21 Dec 2022 10:02:12 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsdHKUZ54pb9sJq6BVWZm3WZ+CbSPYpBWyc2vOk8gqORJw4wGelEXDAgxoUGs9i+1ggZHvKkA==
-X-Received: by 2002:a05:6402:1948:b0:470:1f1:257a with SMTP id
- f8-20020a056402194800b0047001f1257amr2455581edz.25.1671645731860; 
- Wed, 21 Dec 2022 10:02:11 -0800 (PST)
+ bh=Wyr5JrWTZ0YvqwA7HlA5lc+mTPvzQE5kv1C6a+Lq9oQ=;
+ b=zOpm6m8RVH7fdCyLKndp5peRbA+lBhiV5A5L3Qunrgv/LZGwIdrBzRGd3+cMQvi6P7
+ +yk2SrfEr0tRNXTJ2D0RfIJ76CoY8LKMoE5s8IQaaobSViDRKvCW2mxa0vGQ8MvKLRv+
+ 7SdoyzPnXkDKa0sGsmnEMlmiObw3r45KU6LnFf/bYumSL5Cjio4gMtl6i21TFnsEQewE
+ mu2USWi6f7cYzaAyL4G8+cVrCc207h865GEauz+V3idOrR0nu8pWB7p1OO7eDS2dvzmz
+ ijK3udF3JG7ru0AZvrYiC1jxMJMoJVU3qChx3MpJbsFvKpRBSW6k06JMihohp/CRnuI7
+ Ov2A==
+X-Gm-Message-State: AFqh2kq47vt7ERHfCTjhtx6BKHuKw/LTI7em9T0GDNSvcCSGBqMsuyI/
+ fu9QUWEk8HMBI/0Oq/XqrtgUTC+bcEV6NFQFj/Us384fCNWlOpwwSYGeBBaPCkAzhtz5m+clV+g
+ E3hYCxCPbuu8A96oCVLVoEzPJ3Nlderx27IkhtZVnhZ3X/VUERLOR3qMITb0odiXjd/c=
+X-Received: by 2002:aa7:d3d9:0:b0:46b:1715:e64 with SMTP id
+ o25-20020aa7d3d9000000b0046b17150e64mr5291152edr.18.1671645734683; 
+ Wed, 21 Dec 2022 10:02:14 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvBzyFozc6ShaeNNmUzpTLsRjJxh2VpcKI4UX5QRDCGlzHk+C9G1Aw5fyhzp3Khq0ZdGTe5rA==
+X-Received: by 2002:aa7:d3d9:0:b0:46b:1715:e64 with SMTP id
+ o25-20020aa7d3d9000000b0046b17150e64mr5291136edr.18.1671645734447; 
+ Wed, 21 Dec 2022 10:02:14 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- r22-20020aa7cb96000000b0045726e8a22bsm7246090edt.46.2022.12.21.10.02.11
+ cf25-20020a0564020b9900b0045b4b67156fsm7349998edb.45.2022.12.21.10.02.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 10:02:11 -0800 (PST)
+ Wed, 21 Dec 2022 10:02:14 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 10/24] configure: preserve qemu-ga variables
-Date: Wed, 21 Dec 2022 19:01:27 +0100
-Message-Id: <20221221180141.839616-11-pbonzini@redhat.com>
+Subject: [PULL 11/24] configure: remove backwards-compatibility and obsolete
+ options
+Date: Wed, 21 Dec 2022 19:01:28 +0100
+Message-Id: <20221221180141.839616-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221180141.839616-1-pbonzini@redhat.com>
 References: <20221221180141.839616-1-pbonzini@redhat.com>
@@ -101,65 +102,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ensure that qemu-ga variables set at configure time are kept
-later when the script is rerun.  For preserve_env to work,
-the variables need to be empty so move the default values
-to config-host.mak generation.
-
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 23 ++++++-----------------
- 1 file changed, 6 insertions(+), 17 deletions(-)
+ configure | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
 diff --git a/configure b/configure
-index 9cbbeaa269d1..4958ac99bcef 100755
+index 4958ac99bcef..0667dde1654c 100755
 --- a/configure
 +++ b/configure
-@@ -2227,20 +2227,6 @@ if test "$have_ubsan" = "yes"; then
-   QEMU_LDFLAGS="-fsanitize=undefined $QEMU_LDFLAGS"
- fi
- 
--##########################################
--# Guest agent Windows MSI package
--
--if test "$QEMU_GA_MANUFACTURER" = ""; then
--  QEMU_GA_MANUFACTURER=QEMU
--fi
--if test "$QEMU_GA_DISTRO" = ""; then
--  QEMU_GA_DISTRO=Linux
--fi
--if test "$QEMU_GA_VERSION" = ""; then
--    QEMU_GA_VERSION=$(cat "$source_path"/VERSION)
--fi
--
--
- #######################################
- # cross-compiled firmware targets
- 
-@@ -2336,9 +2322,9 @@ if test "$debug_tcg" = "yes" ; then
- fi
- if test "$mingw32" = "yes" ; then
-   echo "CONFIG_WIN32=y" >> $config_host_mak
--  echo "QEMU_GA_MANUFACTURER=${QEMU_GA_MANUFACTURER}" >> $config_host_mak
--  echo "QEMU_GA_DISTRO=${QEMU_GA_DISTRO}" >> $config_host_mak
--  echo "QEMU_GA_VERSION=${QEMU_GA_VERSION}" >> $config_host_mak
-+  echo "QEMU_GA_MANUFACTURER=${QEMU_GA_MANUFACTURER-QEMU}" >> $config_host_mak
-+  echo "QEMU_GA_DISTRO=${QEMU_GA_DISTRO-Linux}" >> $config_host_mak
-+  echo "QEMU_GA_VERSION=${QEMU_GA_VERSION-$(cat "$source_path"/VERSION)}" >> $config_host_mak
- else
-   echo "CONFIG_POSIX=y" >> $config_host_mak
- fi
-@@ -2652,6 +2638,9 @@ preserve_env PKG_CONFIG
- preserve_env PKG_CONFIG_LIBDIR
- preserve_env PKG_CONFIG_PATH
- preserve_env PYTHON
-+preserve_env QEMU_GA_MANUFACTURER
-+preserve_env QEMU_GA_DISTRO
-+preserve_env QEMU_GA_VERSION
- preserve_env SDL2_CONFIG
- preserve_env SMBD
- preserve_env STRIP
+@@ -843,17 +843,6 @@ for opt do
+   ;;
+   --with-coroutine=*) coroutine="$optarg"
+   ;;
+-  --disable-zlib-test)
+-  ;;
+-  --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
+-      echo "$0: $opt is obsolete, virtio-blk data-plane is always on" >&2
+-  ;;
+-  --enable-vhdx|--disable-vhdx)
+-      echo "$0: $opt is obsolete, VHDX driver is always built" >&2
+-  ;;
+-  --enable-uuid|--disable-uuid)
+-      echo "$0: $opt is obsolete, UUID support is always built" >&2
+-  ;;
+   --with-git=*) git="$optarg"
+   ;;
+   --with-git-submodules=*)
+@@ -873,19 +862,10 @@ for opt do
+   ;;
+   --gdb=*) gdb_bin="$optarg"
+   ;;
+-  # backwards compatibility options
+-  --enable-trace-backend=*) meson_option_parse "--enable-trace-backends=$optarg" "$optarg"
+-  ;;
+-  --disable-blobs) meson_option_parse --disable-install-blobs ""
+-  ;;
+   --enable-vfio-user-server) vfio_user_server="enabled"
+   ;;
+   --disable-vfio-user-server) vfio_user_server="disabled"
+   ;;
+-  --enable-tcmalloc) meson_option_parse --enable-malloc=tcmalloc tcmalloc
+-  ;;
+-  --enable-jemalloc) meson_option_parse --enable-malloc=jemalloc jemalloc
+-  ;;
+   # everything else has the same name in configure and meson
+   --*) meson_option_parse "$opt" "$optarg"
+   ;;
 -- 
 2.38.1
 
