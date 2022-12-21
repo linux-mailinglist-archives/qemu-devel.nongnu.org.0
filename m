@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF11652EC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 10:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A49A652ED3
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 10:47:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7vdg-0006pA-6j; Wed, 21 Dec 2022 04:43:52 -0500
+	id 1p7vgl-0000eZ-3b; Wed, 21 Dec 2022 04:47:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vdY-0006lg-8C
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:43:45 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vdW-0000Xx-Kp
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:43:44 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- f13-20020a1cc90d000000b003d08c4cf679so1002917wmb.5
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 01:43:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=l5O7H77fbEf5a3v3V32B4qSp90L7UIUagCASyC3Wou0=;
- b=l3VlODuXRLqPZJnxhCIiLdVs4UhRgO7qe1sf6+LNPHcUn8rLqggUUWM2+MpS7qSMM1
- 2Bk7iMtQ3g8/TQ10GsFLd/hR3sroUNrK7kYbT5PXos8O7D9XzRLqTmBHR2ldcFgyZJR0
- kDGeWyWahZ80U5vGD/h+m1RxUexxZ1jSbxou4ArA13J11akibEYP6lAmYSfdrjImOg6D
- txHAqBSiHSa/oEawpfvKvCwesw4GAU9eHHxQxdz4s5dH2LRyw5pDr+sCWBfALnMPq97s
- C/PjJNL3lWLSA9kNe2yCnoyc21tAXsP6Sf+60i6BP1iVFhlMKYjgmh8UfikBZ7h9kSd9
- 8TcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l5O7H77fbEf5a3v3V32B4qSp90L7UIUagCASyC3Wou0=;
- b=sCXIWwWHLsHaovuoXK/7689vhiPPk40qthqdcuLS9BUbVoXeW3IfKkw4K3ftUy246P
- D/LDvxr9C4kFjrw1oJE37yRn7WE83I8imRaxUG+do6HTkX8GiVuCyp/F4QmEuRf5IrFx
- uPBVafFHl5WNR5+oddv917ExwumvspUy8eMeU8YD7N+ffIJ9UtMOreSDx/yb8Au8eME3
- J6nMChcD70Zj60glYXj2dpSSsIfZaWchtmJ5N3PGemQtoZ+WFKkuW7JRedqkdHAVoI/F
- yWf9pNkoua1EcT7GOz2SpCDuUemW+JP2VbbuWlOwe1luj4hIagrR2lR8pSKaxRODa3cH
- dbQw==
-X-Gm-Message-State: AFqh2kqX/HkY7tJepsXHUbLOYpu0P9d9dc3SB2o7iDVOv7K5lT92vEu4
- Svsdf7f3ycXpyWYqiyrbaNA51A==
-X-Google-Smtp-Source: AMrXdXszo1RDRqUrHr6FZrfVBafDOOi6UM9geBRjunH9w0QVSGIRBA20oJGL+qe6WnTCdNSk3awR4g==
-X-Received: by 2002:a05:600c:48a8:b0:3cf:7197:e68a with SMTP id
- j40-20020a05600c48a800b003cf7197e68amr825021wmp.18.1671615821025; 
- Wed, 21 Dec 2022 01:43:41 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k31-20020a05600c1c9f00b003d22528decesm1743716wms.43.2022.12.21.01.43.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 01:43:40 -0800 (PST)
-Message-ID: <886e896f-a111-d820-defa-198f05b8fba5@linaro.org>
-Date: Wed, 21 Dec 2022 10:43:39 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1p7vgf-0000eC-H4; Wed, 21 Dec 2022 04:46:57 -0500
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1p7vgd-0001nc-KP; Wed, 21 Dec 2022 04:46:57 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.118])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9D29A227D8;
+ Wed, 21 Dec 2022 09:46:49 +0000 (UTC)
+Received: from kaod.org (37.59.142.104) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 21 Dec
+ 2022 10:46:48 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R005d4855720-8b16-4427-901a-c42b53fb0d65,
+ 78B451B26E434E63100236457A08FF51A4610C03) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <5f70da81-2854-766f-1804-59a037a605b8@kaod.org>
+Date: Wed, 21 Dec 2022 10:46:48 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH v2 2/2] hw/arm/virt: Make accels in GIC finalize logic
- explicit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH-for-8.0 4/4] hw/ppc/spapr_ovec: Avoid target_ulong
+ spapr_ovec_parse_vector()
 Content-Language: en-US
-To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Zenghui Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>
-References: <20221221092850.61332-1-agraf@csgraf.de>
- <20221221092850.61332-3-agraf@csgraf.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221221092850.61332-3-agraf@csgraf.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-devel@nongnu.org>
+CC: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ <qemu-ppc@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>,
+ <kvm@vger.kernel.org>, Alexey Kardashevskiy <aik@ozlabs.ru>, Greg Kurz
+ <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>
+References: <20221213123550.39302-1-philmd@linaro.org>
+ <20221213123550.39302-5-philmd@linaro.org>
+ <c871b044-4241-2f02-ebd6-6b797663a140@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <c871b044-4241-2f02-ebd6-6b797663a140@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: a29dbd1d-b91e-4753-9a1d-58263a462809
+X-Ovh-Tracer-Id: 15422858400342510581
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrgeekgddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrlhgvgidrsggvnhhnvggvsehlihhnrghrohdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruhdpkhhvmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprghikhesohiilhgrsghsrdhruhdpphgsohhniihinhhisehrvgguhhgrth
+ drtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.161,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.161,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,23 +82,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/12/22 10:28, Alexander Graf wrote:
-> Let's explicitly list out all accelerators that we support when trying to
-> determine the supported set of GIC versions. KVM was already separate, so
-> the only missing one is HVF which simply reuses all of TCG's emulation
-> code and thus has the same compatibility matrix.
+On 12/16/22 17:47, Daniel Henrique Barboza wrote:
 > 
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
 > 
-> ---
+> On 12/13/22 09:35, Philippe Mathieu-Daudé wrote:
+>> spapr_ovec.c is a device, but it uses target_ulong which is
+>> target specific. The hwaddr type (declared in "exec/hwaddr.h")
+>> better fits hardware addresses.
 > 
-> v1 -> v2:
+> As said by Harsh, spapr_ovec is in fact a data structure that stores platform
+> options that are supported by the guest.
 > 
->    - Include TCG header for tcg_enabled()
-> ---
->   hw/arm/virt.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+> That doesn't mean that I oppose the change made here. Aside from semantics - which
+> I also don't have a strong opinion about it - I don't believe it matters that
+> much - spapr is 64 bit only, so hwaddr will always be == target_ulong.
+> 
+> Cedric/David/Greg, let me know if you have any restriction/thoughts about this.
+> I'm inclined to accept it as is.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Well, I am not sure.
+
+The vector table variable is the result of a ppc64_phys_to_real() conversion
+of the CAS hcall parameter, which is a target_ulong, but ppc64_phys_to_real()
+returns a uint64_t.
+
+The code is not consistent in another places :
+
+   hw/ppc/spapr_tpm_proxy.c uses a uint64_t
+   hw/ppc/spapr_hcall.c, a target_ulong
+   hw/ppc/spapr_rtas.c, a hwaddr
+   hw/ppc/spapr_drc.c, a hwaddr indirectly
+
+Should we change ppc64_phys_to_real() to return an hwaddr (also) ?
+
+C.
+
+
+> 
+> 
+> Daniel
+> 
+>>
+>> Change spapr_ovec_parse_vector() to take a hwaddr argument,
+>> allowing the removal of "cpu.h" in a device header.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   hw/ppc/spapr_ovec.c         | 3 ++-
+>>   include/hw/ppc/spapr_ovec.h | 4 ++--
+>>   2 files changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr_ovec.c b/hw/ppc/spapr_ovec.c
+>> index b2567caa5c..a18a751b57 100644
+>> --- a/hw/ppc/spapr_ovec.c
+>> +++ b/hw/ppc/spapr_ovec.c
+>> @@ -19,6 +19,7 @@
+>>   #include "qemu/error-report.h"
+>>   #include "trace.h"
+>>   #include <libfdt.h>
+>> +#include "cpu.h"
+>>   #define OV_MAXBYTES 256 /* not including length byte */
+>>   #define OV_MAXBITS (OV_MAXBYTES * BITS_PER_BYTE)
+>> @@ -176,7 +177,7 @@ static target_ulong vector_addr(target_ulong table_addr, int vector)
+>>       return table_addr;
+>>   }
+>> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector)
+>> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector)
+>>   {
+>>       SpaprOptionVector *ov;
+>>       target_ulong addr;
+>> diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
+>> index c3e8b98e7e..d756b916e4 100644
+>> --- a/include/hw/ppc/spapr_ovec.h
+>> +++ b/include/hw/ppc/spapr_ovec.h
+>> @@ -37,7 +37,7 @@
+>>   #ifndef SPAPR_OVEC_H
+>>   #define SPAPR_OVEC_H
+>> -#include "cpu.h"
+>> +#include "exec/hwaddr.h"
+>>   typedef struct SpaprOptionVector SpaprOptionVector;
+>> @@ -73,7 +73,7 @@ void spapr_ovec_set(SpaprOptionVector *ov, long bitnr);
+>>   void spapr_ovec_clear(SpaprOptionVector *ov, long bitnr);
+>>   bool spapr_ovec_test(SpaprOptionVector *ov, long bitnr);
+>>   bool spapr_ovec_empty(SpaprOptionVector *ov);
+>> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector);
+>> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector);
+>>   int spapr_dt_ovec(void *fdt, int fdt_offset,
+>>                     SpaprOptionVector *ov, const char *name);
 
 
