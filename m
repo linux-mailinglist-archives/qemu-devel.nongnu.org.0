@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B259652D64
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 08:44:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD7B652D68
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 08:45:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7tkt-00073M-HR; Wed, 21 Dec 2022 02:43:11 -0500
+	id 1p7tkq-00070c-W1; Wed, 21 Dec 2022 02:43:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7tkf-0006zn-TE
+ id 1p7tkg-0006zz-G1
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:42:58 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p7tkd-00048e-I9
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:42:57 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id m19so10529865wms.5
+ id 1p7tke-00048i-Nx
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:42:58 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so809811wms.2
  for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 23:42:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uqWW7IL4wGNN919LQfSA7oklF6f1eaV5kpUPVgpB+s4=;
- b=HuJZh5dK8j0essCsioNrJeYfWyisMiuTp3lq7AOoQfSEOCSnhJLqlPsENknk9cP9BV
- Q4Rm+umhjOa+Z7CyUJ20MWdBWCNdd6SVr3jEb64KSdLV1ImJZnmY86qwNnJVCZfkmOci
- bkYi6SDNKe4wPwT7gGvHveRnCJ/ZahP0dSBPqnrVLF75W1WMYGDfcag7e8ZDMYeghT6y
- QmFNtwqg2MMxHWdtrn0fvd4WG+aoVNnlW3Gnz39iVQLhIb8PQ2SfVlAc8f+lDT1xM3Xd
- 0ulWFkrPWvaDGNM7mNdqzl2S2d4+243M+Tt5tPSdc2Y2VhBPaRdA1H98glq9rphbKA4r
- gFTw==
+ bh=7gzfip+VtarrKCNhyN3EQVuk1lZMb8d8K27dCXSbGMI=;
+ b=Mk22DxyjD0zdw6NDjGCqF2Wcey6Ovas4yU4DvgV7TzHErQ6F1smyjrtqgqUjWFtj9j
+ FR9VYwiGEkLALSgGJiOWRdJhZquwKY51vLpz+T4mwHWiN+eSndO/KzA2r6TFHkj0EBA/
+ 7mT3hiIwVT0FeJYwJo+sYQL8TNE+88OOSjF4IpOaSMcfObZsdyJKewUrBFz6uHAkzzaA
+ XNnwfngE+YPgIVm0iJxjpt6kKVyYpFVktQbovrM2/SG5r1YjIHHMd8AtHLEEP7UfJRY1
+ NSV8nFfcjNDU300lh/Q6ZjmHeKDNi3cn8juSHep0SycKfkNgPO8O2huqDIewE19tIlGG
+ THZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uqWW7IL4wGNN919LQfSA7oklF6f1eaV5kpUPVgpB+s4=;
- b=LtoXxJe1wNgj9SV+Rwlv7gt5MQR4W7tMYExQpg/JdUaQK0YbTpTcqXwgebY8K/AGOd
- eMx7mODC5sjNxhZZr5Z3Kfp2vDyirBm6sl239hoHgBaffdeQDcMcCbNUJlXKOkEEZp/v
- 2Vhlz3xv6esJ4UEdCzTsTX8kSF78L62atQHrr93sLYHQ71ZAnGPUF1X0d/Wp0RK0JHqq
- 7QSDvuspp/g/Gz2nKFLs+6UW9ICoJHSnzHNBEtIJs2yCtUIJZFSGTgOHP1GJfCrwR4zl
- zoibXbSYToTorvSHsNoFpd/lZGPKQVqpG/R1rfM4mfXQpAUTV9NJ8EvSh9s5HKjLHt8X
- gKgg==
-X-Gm-Message-State: AFqh2kqG4Sio22njXNfPR+bz6XalQPxiE+7B7MPGFpvJKS667GmN3s8p
- pCD1pStKu0zk958x3gxydHbOFw==
-X-Google-Smtp-Source: AMrXdXuqKYGnEcEAzNCJZkFqlowbmY3ca79U9DagjoUVv8ssr9b24YWeqRbBTzEGD2QDB3ndMpnkGg==
-X-Received: by 2002:a05:600c:4998:b0:3cf:68d3:3047 with SMTP id
- h24-20020a05600c499800b003cf68d33047mr783296wmp.41.1671608574250; 
+ bh=7gzfip+VtarrKCNhyN3EQVuk1lZMb8d8K27dCXSbGMI=;
+ b=RNAGe7/PpBUZmFyMyOzN5wB+wtVqgcHkC3/kOLtIcZOk9Nt1h1flcOJDst1rt/v+Lp
+ 0pZWC5NIkmX4x/cvC070O3BFF/B5TqrioUr5CfbstQqBQ+ScaDsgLkFfWwXbUEEOayXI
+ z4HuGJdsYfjCbtYe2S/ROuYIvUUFSA3q+T7unUxrqH3ECEahTd/imvlc5Jc3OIX7SGg4
+ Csa10bunXAOW61g3OEg4axDi4o7CoACQ/9d3kKVl9I5CX7eM+fs34p0mIIf71DE0jsHI
+ hSMqhr/7UrfKLr2n1JHw0tjM1KgFo4X0F2AITW5VmulCXTgOE5z3T5WYPGgZxbdT76Mv
+ q9Eg==
+X-Gm-Message-State: AFqh2kof29MYvrI7O/6lK94BuqeQT/cg7LofRmKoeR7WKQsRW+6+MqLC
+ WcWGDnLzxV3G/CxfkEA2rslilnPLo/NAKlrQ
+X-Google-Smtp-Source: AMrXdXvibcHlm9FBoXciJPkYyJx55Zt4qVcJbV0YpdruGRtbCUd6RHwC+68FbzKuCOT5vexqB/rp8g==
+X-Received: by 2002:a05:600c:54ef:b0:3d0:5254:8a43 with SMTP id
+ jb15-20020a05600c54ef00b003d052548a43mr998797wmb.38.1671608574529; 
  Tue, 20 Dec 2022 23:42:54 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a05600c348700b003cf6e1df4a8sm1327440wmq.15.2022.12.20.23.42.52
+ g11-20020a05600c4ecb00b003cfd64b6be1sm1716299wmq.27.2022.12.20.23.42.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Dec 2022 23:42:53 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 91F191FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id A851F1FFBB;
  Wed, 21 Dec 2022 07:42:52 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,18 +66,17 @@ Cc: Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [[PATCH]--edit 2/6] gitlab: turn off verbose logging for make check
- on custom runners
-Date: Wed, 21 Dec 2022 07:42:48 +0000
-Message-Id: <20221221074252.1962896-3-alex.bennee@linaro.org>
+Subject: [[PATCH]--edit 3/6] configure: repeat ourselves for the benefit of CI
+Date: Wed, 21 Dec 2022 07:42:49 +0000
+Message-Id: <20221221074252.1962896-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221221074252.1962896-1-alex.bennee@linaro.org>
 References: <20221221074252.1962896-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,131 +99,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The verbosity adds a lot of unnecessary output to the CI logs which
-end up getting truncated anyway. We can always extract information
-from the meson test logs on a failure and for the custom runners its
-generally easier to re-create failures anyway.
+Our CI system echos the lines it executes but not the expansions. For
+the sake of a line of extra verbosity during the configure phase lets
+echo the invocation of script to stdout as well as the log when on CI.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20221215144035.2364830-1-alex.bennee@linaro.org>
----
- .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml   | 12 ++++++------
- .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml |  2 +-
- .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml | 12 ++++++------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+Message-Id: <20221202174746.1218017-1-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-index 0c835939db..fcaef9e5ef 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-@@ -19,9 +19,9 @@ ubuntu-20.04-s390x-all-linux-static:
-  - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
-- - make --output-sync -j`nproc` check-tcg V=1
-+ - make --output-sync -j`nproc` check-tcg
-    || { cat meson-logs/testlog.txt; exit 1; } ;
+---
+v2
+  - only add the extra line on GITLAB_CI
+---
+ configure | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/configure b/configure
+index 7a804fb657..d89e883844 100755
+--- a/configure
++++ b/configure
+@@ -83,9 +83,10 @@ rm -f config.log
+ # Print a helpful header at the top of config.log
+ echo "# QEMU configure log $(date)" >> config.log
+ printf "# Configured with:" >> config.log
+-printf " '%s'" "$0" "$@" >> config.log
+-echo >> config.log
+-echo "#" >> config.log
++# repeat the invocation to log and stdout for CI
++invoke=$(printf " '%s'" "$0" "$@")
++test -n "$GITLAB_CI" && echo "configuring with: $invoke"
++{ echo "$invoke"; echo; echo "#"; } >> config.log
  
- ubuntu-20.04-s390x-all:
-@@ -40,7 +40,7 @@ ubuntu-20.04-s390x-all:
-  - ../configure --disable-libssh
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-20.04-s390x-alldbg:
-@@ -63,7 +63,7 @@ ubuntu-20.04-s390x-alldbg:
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make clean
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-20.04-s390x-clang:
-@@ -85,7 +85,7 @@ ubuntu-20.04-s390x-clang:
-  - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-20.04-s390x-tci:
-@@ -127,5 +127,5 @@ ubuntu-20.04-s390x-notcg:
-  - ../configure --disable-libssh --disable-tcg
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-index 1a2f9b8dbe..2c386fa3e9 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-@@ -21,5 +21,5 @@ ubuntu-22.04-aarch32-all:
-  - ../configure --cross-prefix=arm-linux-gnueabihf-
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-index ce0b18af6f..abeb33eaff 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-@@ -19,9 +19,9 @@ ubuntu-22.04-aarch64-all-linux-static:
-  - ../configure --enable-debug --static --disable-system --disable-pie
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
-- - make --output-sync -j`nproc --ignore=40` check-tcg V=1
-+ - make --output-sync -j`nproc --ignore=40` check-tcg
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-22.04-aarch64-all:
-@@ -43,7 +43,7 @@ ubuntu-22.04-aarch64-all:
-  - ../configure
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-22.04-aarch64-alldbg:
-@@ -62,7 +62,7 @@ ubuntu-22.04-aarch64-alldbg:
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make clean
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-22.04-aarch64-clang:
-@@ -84,7 +84,7 @@ ubuntu-22.04-aarch64-clang:
-  - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
- 
- ubuntu-22.04-aarch64-tci:
-@@ -126,5 +126,5 @@ ubuntu-22.04-aarch64-notcg:
-  - ../configure --disable-tcg
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-- - make --output-sync -j`nproc --ignore=40` check V=1
-+ - make --output-sync -j`nproc --ignore=40` check
-    || { cat meson-logs/testlog.txt; exit 1; } ;
+ quote_sh() {
+     printf "%s" "$1" | sed "s,','\\\\'',g; s,.*,'&',"
 -- 
 2.34.1
 
