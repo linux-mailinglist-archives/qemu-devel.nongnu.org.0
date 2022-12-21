@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F2C6529FF
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 00:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 274CF652AAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 01:56:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7mIk-0005z0-QN; Tue, 20 Dec 2022 18:45:39 -0500
+	id 1p7nO6-0005xe-Bu; Tue, 20 Dec 2022 19:55:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7mIe-0005yY-9Z
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 18:45:32 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7mIb-0005iS-BO
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 18:45:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=PWxnb0c5/ntbmKt2TvHj3P9+etMsapiIofHc5BneyuE=; b=WpmHb3bm3ZxrbACFafdlJttE0U
- Ty0ESMTU0doSTx7ie5cdKTDPAl9ocLCzjHGiiwT7y5jjeX+NepTUhwDKge3R9Fba389t0DNJ6J5qF
- UrvQEq6G5V8uXnPbsADv/r3sg5USHgPKTFIbD2HrANs9qFmGnRvyMBkHJ3jwfoON4qyyU61sgAX89
- Jj8UNCg0GknE4mogStZZpMLkC7lgJSVW91IB6ImgDN4myZm+A5eX3y4fOConQE1+pIjWdV/KaR9Jh
- oxog/cacFQKj5nzn59z9Bp5QGl4139pljmUCjhDPd1RewboYoRX0mts04Kmrqg9Pq8poBf5FJEpgN
- oUZ+Ubvw==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p7mId-002HEh-FJ; Tue, 20 Dec 2022 23:45:31 +0000
-Message-ID: <b2fd6676446f5bb19f08ae26b8c4fbbd5ebd1c10.camel@infradead.org>
-Subject: Re: [Qemu-devel] [PATCH] Remove restriction that prevents bootimg
- elf64 images
-From: David Woodhouse <dwmw2@infradead.org>
-To: Anatol Pomozov <anatol.pomozov@gmail.com>, qemu-devel@nongnu.org, Adam
- Lackorzynski <adam@os.inf.tu-dresden.de>
-Cc: Goswin von Brederlow <goswin-v-b@web.de>
-Date: Tue, 20 Dec 2022 23:45:20 +0000
-In-Reply-To: <CAOMFOmXQDUd0m0uFxVOWQP35dfkvurbj7YRuDT_=0Xubib0PBw@mail.gmail.com>
-References: <20170607044148.10481-1-anatol.pomozov@gmail.com>
- <20170608204116.svjgt323qrbghyku@os.inf.tu-dresden.de>
- <CAOMFOmX3YXKJ-JkOpiedZZaG4RpgFg+LJhhLTFN+LaS9i17TMg@mail.gmail.com>
- <CAOMFOmWsODJzsqhF7mexh=NT_sF7HYs4UuVK41YOBGSYB6o4Sg@mail.gmail.com>
- <20170619210807.ejwk5zfe2f4g5znw@os.inf.tu-dresden.de>
- <CAOMFOmXQDUd0m0uFxVOWQP35dfkvurbj7YRuDT_=0Xubib0PBw@mail.gmail.com>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-vutbipsPrx8qkWb3aZtq"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p7nNw-0005vf-59
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 19:55:05 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1p7nNu-0002DV-II
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 19:55:03 -0500
+Received: by mail-pg1-x534.google.com with SMTP id w37so9433284pga.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 16:55:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fXgSW+FCBnikGvcoBBPrfnKpnoAufMV/I4f5RF0KWVY=;
+ b=GCT6Sv+MttngC2SjLLXofh8zTfbCYe5OfqcFZG5QKon6+sxKcFEsAPStFYoFFzCkV7
+ YUm3oZHf6Z07teoRrc+qGUGetqP/3dOvxnkhdYOhZNT9MYhMfYPdyVDbXWIVmwztsJ5R
+ ys40EhD96OZPUIBJYCFIqKXY5zGrtn1Q+p9cUIJCbjUx697mxcsSiUevTjb7I6xPeKU6
+ nSZzEE8uRSvcCoE7fTTCP38B5j0W3sK3WvwwulGOUb8UeM619zucLWBske9g/znDWTDE
+ TxUrsZfN/TPaHzOuBrOWilD43F/liXwGeLG8X/ZckJw+lPx7QSa5lgqg15IQUhUXZ2yt
+ 1TjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fXgSW+FCBnikGvcoBBPrfnKpnoAufMV/I4f5RF0KWVY=;
+ b=0HqlEKM+dk7GZGbDjnzUmVNG7V2Osyk7WjIPo9HuIFygS7mGCQJ0m2A2UV5fVGjz3b
+ 0AVYPupXUadweTcY4xJNQ4fc4Lxt3WPx6QIy18E/yLUMubpbd7uJpDOjnibfFF9kWUUx
+ w5EVLTJegZN2lOBadLF7AR2ncHzXST7TFCPHZtnFwVcMbyBrXdontR5DEeKdR3S04c7F
+ /S6dAVYD45SGuRyEBaDssSpgtq5zBRE5ZityHPLAOkyS7KdYVxb8Xets5XE8gFXbWTzf
+ rI/u4Ob8+H8fDcpWmOgyLE5qTia/+KbqaAjGlmL7GOtiypm59qLY0EQYP9eh/ThGoVKo
+ Vb5Q==
+X-Gm-Message-State: AFqh2kpbsyJadLr0BJV4KAz2ROHea7/IGBckiaHIGQsSNItW3O9S7a0I
+ efrZjpI67w7a4L/FP8xxpgiJDA==
+X-Google-Smtp-Source: AMrXdXsVHIOfgX30xxepCQiWwPMMRDcAIoE42dr0TsWUSr8dctHy7SZiQED4EMthyyrMPGDrcTHW7Q==
+X-Received: by 2002:a62:184c:0:b0:576:1078:5abf with SMTP id
+ 73-20020a62184c000000b0057610785abfmr354130pfy.6.1671584100740; 
+ Tue, 20 Dec 2022 16:55:00 -0800 (PST)
+Received: from ?IPV6:2602:47:d48c:8101:3efa:624c:5fb:32c0?
+ ([2602:47:d48c:8101:3efa:624c:5fb:32c0])
+ by smtp.gmail.com with ESMTPSA id
+ d68-20020a623647000000b005765a5ff1fasm9190227pfa.213.2022.12.20.16.54.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Dec 2022 16:55:00 -0800 (PST)
+Message-ID: <766727aa-53d4-5c99-7bde-5f4ba9b26132@linaro.org>
+Date: Tue, 20 Dec 2022 16:54:58 -0800
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+3d4d80a81840c180149e+7058+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 3/7] hw/mips/gt64xxx_pci: Manage endian bits with the
+ RegisterFields API
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Huth <thuth@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
+References: <20221220113436.14299-1-philmd@linaro.org>
+ <20221220113436.14299-4-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221220113436.14299-4-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.161,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,204 +97,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 12/20/22 03:34, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Message-Id:<20221209151533.69516-4-philmd@linaro.org>
+> ---
+>   hw/mips/gt64xxx_pci.c | 38 +++++++++++++++++++++++---------------
+>   1 file changed, 23 insertions(+), 15 deletions(-)
 
---=-vutbipsPrx8qkWb3aZtq
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-On Wed, 2017-06-21 at 13:45 -0700, Anatol Pomozov wrote:
-> Hi Adam, thank you for your reply.
->=20
-> On Mon, Jun 19, 2017 at 2:08 PM, Adam Lackorzynski
-> <adam@os.inf.tu-dresden.de> wrote:
-> > Hi,
-> >=20
-> > On Tue Jun 13, 2017 at 17:05:41 -0700, Anatol Pomozov wrote:
-> > > Do these arguments sound reasonable to apply the patch?
-> >=20
-> > I'm not really convinced.
-> >=20
-> > > On Thu, Jun 8, 2017 at 2:07 PM, Anatol Pomozov <anatol.pomozov@gmail.=
-com> wrote:
-> > > > +reply-all
-> > > >=20
-> > > > On Thu, Jun 8, 2017 at 1:41 PM, Adam Lackorzynski
-> > > > <adam@os.inf.tu-dresden.de> wrote:
-> > > > >=20
-> > > > > On Tue Jun 06, 2017 at 21:41:48 -0700, Anatol Pomozov wrote:
-> > > > > > It is possible to create a 64 bit elf image that has valid mult=
-iboot header.
-> > > > > > qemu should be able to boot such images.
-> > > > >=20
-> > > > > But this 64bit image actually starts with 32bit code, right?
-> > > >=20
-> > > > Correct. The very first part of the startup code has to be 32bit.
-> > > > After it sets "long mode" it can use 64bit instructions. To make su=
-re
-> > > > that the preamble has only 32bit instructions one have to use asm
-> > > > directive such as ".code32".
-> > > >=20
-> > > > Here is an example from LitleKernel sturtup code:
-> > > >=20
-> > > > https://github.com/littlekernel/lk/blob/master/arch/x86/64/start.S#=
-L50
-> > > >=20
-> > > > .code32 tells assembler to treat following text as 32 bit code. And
-> > > > later when it jumps into "long mode"
-> > > >=20
-> > > > https://github.com/littlekernel/lk/blob/master/arch/x86/64/start.S#=
-L214
-> > > > one can use 64bit code.
-> > > >=20
-> > > > > So it's a 32bit program and the check verifies that this is the c=
-ase.
-> > > >=20
-> > > > While preamble have to contain 32 only instructions the rest of the
-> > > > image can perfectly contain 64bit code. Right now 64bit binary cann=
-ot
-> > > > be run with "qemu-system-x86_64 -kernel". But the same binary runs
-> > > > fine if packed with GRUB as iso.
-> > > >=20
-> > > > I tried to hack around this restriction by adding
-> > > > "OUTPUT_FORMAT(elf32-i386)" to the linker file and compiling projec=
-t
-> > > > with 64bit support. But GNU ld program crashed at Ubuntu 14.04. It
-> > > > means not that many people use this code path. GNU ld compiled from
-> > > > HEAD does not have this problem but now GDB is confused by the fact
-> > > > that ELF contains 64bit code while header reports i386.
-> >=20
-> > That's unfortunate.
-> >=20
-> > > > Practically there is no reason for this check as it prevents runnin=
-g
-> > > > 64bit binaries with "qemu-system-x86_64 -kernel".
-> >=20
-> > One reason for the check is that it prevents that one loads a 64bit ELF
-> > binary that then fails strangely because it does not have the magic
-> > 32bit code to set up things.
->=20
-> I would not call the 32bit preamble a magic - it is fairly well
-> documented; it is just a result of backward compatibility that
-> AMD/Intel carry for a long time. Every single 64-bit operation system
-> (Linux, Windows, FreeBSD, ...) has such 32bit init sequence.
-
-FWIW, Anatol's patch also makes it possible for qemu to load the 64-bit
-Xen XTF tests.
-
-It would be a useful to at least have a way to override the check, even
-if it's still present by default.
-
---=-vutbipsPrx8qkWb3aZtq
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMjIwMjM0NTIwWjAvBgkqhkiG9w0BCQQxIgQgp7lySg/T
-0xeA0xF+gFpZTr8+1WfymHTN12b5jyzxP6kwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAXt0/TCJELoHC8fX8NMhNQYzFB3xmeBRS+
-qoJEEEqyTOETJR+iDKuTHmA7bNs/PkRBa0ADTdGW5/VqGa5DVXAXrC99PHBlUPXy5ofjJuPtoT8g
-OO/hphS+r0nqKPqxsBj8/gtrDUO7w48JFcXEUobCyFRyvuIVVtpXCifVddQObmMGEfzI7aLLZuE0
-h51+B+kpckDrw1prXFpGm+tjwXX59wTeHrGprHADl68aDW73M/HEdW1GBzlcd+xLVgYvILL7CT4P
-BLokDkBuHjnBdOmZFdPkV97ns9z3PDSRm8MErBn4PPRyLobnAvi5G+GS56jzoZzanIEl1KDc3oK/
-XFxSHnmVTC36nlFqACjUW5VabXLj2vJvgR4v+AFU5W0w/mbPgHDB0elgE8e5pTJ6ytg9jeaQ2r1o
-GJP05QuMfcE2laUjIdaCr42k3sYeIQk8y+lV+BoXzOhOz+Sh5ce7XDWum0HJFKotpXKSBSh5kZcI
-fa9YUCZGSs0V8+EmUh7jRe9+X4C4bDPByXC1EirQUBUMknpEFYERIUTTLJBTmE3LmUmToPrNLBCA
-Gk6bEdlFZy9Vblta8OZeRH77AnLYcbKIvtV1pV8l1lBgiRCH7Y/XLaOydK/MXqfbwoblkcaxIahQ
-mOqFM/z6ekzq77jVG3fCTavyvUi1j41JK+Ul0itE/AAAAAAAAA==
-
-
---=-vutbipsPrx8qkWb3aZtq--
+r~
 
