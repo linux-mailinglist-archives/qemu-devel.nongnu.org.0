@@ -2,58 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700E365319A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:23:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F8865317D
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:15:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7yod-0008AP-7R; Wed, 21 Dec 2022 08:07:23 -0500
+	id 1p7ypg-00018K-36; Wed, 21 Dec 2022 08:08:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1p7yoY-00083f-GW
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:07:18 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220] helo=chinatelecom.cn)
+ (Exim 4.90_1) (envelope-from <marcel@holtmann.org>)
+ id 1p7ypa-00016N-Nw
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:08:23 -0500
+Received: from coyote.holtmann.net ([212.227.132.17] helo=mail.holtmann.org)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1p7yoV-0004aQ-KL
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:07:18 -0500
-HMM_SOURCE_IP: 172.18.0.188:55424.1607262639
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.98.159 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id DFBD0280099;
- Wed, 21 Dec 2022 21:07:10 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([171.223.98.159])
- by app0023 with ESMTP id c6283691628f428fa0cc1cf3c18222a7 for
- qemu-devel@nongnu.org; Wed, 21 Dec 2022 21:07:11 CST
-X-Transaction-ID: c6283691628f428fa0cc1cf3c18222a7
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 171.223.98.159
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>, 
- Guoyi Tu <tugy@chinatelecom.cn>
-Subject: [PATCH v6 3/3] vhost-user: Fix the virtio features negotiation flaw
-Date: Wed, 21 Dec 2022 21:06:40 +0800
-Message-Id: <b9f8cf5561a79ea65ea38960e5a5e6d3707eef0a.1671627406.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1671627406.git.huangy81@chinatelecom.cn>
-References: <cover.1671627406.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1671627406.git.huangy81@chinatelecom.cn>
-References: <cover.1671627406.git.huangy81@chinatelecom.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+ (envelope-from <marcel@holtmann.org>) id 1p7ypZ-0004fU-0T
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:08:22 -0500
+Received: from smtpclient.apple (p4fefcc21.dip0.t-ipconnect.de [79.239.204.33])
+ by mail.holtmann.org (Postfix) with ESMTPSA id 411DACED12;
+ Wed, 21 Dec 2022 14:08:16 +0100 (CET)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+Subject: Re: [RFC v2 10/10] libvduse: Fix assignment in vring_set_avail_event
+From: Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <CACycT3vYU11RwEGK9m3SndeQPRPU0a=V_ujK4SUVe+kjUH=ASA@mail.gmail.com>
+Date: Wed, 21 Dec 2022 14:08:15 +0100
+Cc: qemu devel list <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2704927D-ED7F-412A-B93A-DE9C9546ADF7@holtmann.org>
+References: <cover.1671563795.git.marcel@holtmann.org>
+ <743f1c04347de12e7e94360eed74a8dbdcff6477.1671563795.git.marcel@holtmann.org>
+ <CACycT3vYU11RwEGK9m3SndeQPRPU0a=V_ujK4SUVe+kjUH=ASA@mail.gmail.com>
+To: Yongji Xie <xieyongji@bytedance.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.1)
+Received-SPF: pass client-ip=212.227.132.17; envelope-from=marcel@holtmann.org;
+ helo=mail.holtmann.org
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,94 +58,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Hi Yongji,
 
-This patch aims to fix unexpected negotiation features for
-vhost-user netdev interface.
+>>  CC       libvduse.o
+>> libvduse.c: In function =E2=80=98vring_set_avail_event=E2=80=99:
+>> libvduse.c:603:7: error: dereferencing type-punned pointer will break =
+strict-aliasing rules [-Werror=3Dstrict-aliasin]
+>>  603 |     *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) =3D =
+htole16(val);
+>>      |      ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>=20
+>> Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
+>> ---
+>> subprojects/libvduse/libvduse.c | 5 ++++-
+>> 1 file changed, 4 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/subprojects/libvduse/libvduse.c =
+b/subprojects/libvduse/libvduse.c
+>> index 338ad5e352e7..51a4ba1b6878 100644
+>> --- a/subprojects/libvduse/libvduse.c
+>> +++ b/subprojects/libvduse/libvduse.c
+>> @@ -582,7 +582,10 @@ void vduse_queue_notify(VduseVirtq *vq)
+>>=20
+>> static inline void vring_set_avail_event(VduseVirtq *vq, uint16_t =
+val)
+>> {
+>> -    *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) =3D =
+htole16(val);
+>> +    vring_used_elem_t *ring =3D =
+&vq->vring.used->ring[vq->vring.num];
+>> +
+>> +    /* FIXME: Is this actually correct since this is __virtio32 id; =
+*/
+>> +    ring->id =3D htole16(val);
+>> }
+>=20
+> Can we do it as libvhost-user does=EF=BC=9F
+>=20
+> static inline void
+> vring_set_avail_event(VuVirtq *vq, uint16_t val)
+> {
+>    uint16_t *avail;
+>=20
+>    avail =3D (uint16_t *)&vq->vring.used->ring[vq->vring.num];
+>    *avail =3D htole16(val);
+> }
 
-When openvswitch reconnect Qemu after an unexpected disconnection
-and Qemu therefore start the vhost_dev, acked_features field in
-vhost_dev is initialized with value fetched from acked_features
-field in NetVhostUserState, which should be up-to-date at that
-moment but Qemu could not make it actually during the time window
-of virtio features negotiation.
+that will also work. Sending a v3 in a few moments.
 
-So we save the acked_features right after being configured by
-guest virtio driver so it can be used to restore acked_features
-field in vhost_dev correctly.
+Regards
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
-Signed-off-by: Liuxiangdong <liuxiangdong5@huawei.com>
----
- hw/net/vhost_net-stub.c | 5 +++++
- hw/net/vhost_net.c      | 9 +++++++++
- hw/net/virtio-net.c     | 6 ++++++
- include/net/vhost_net.h | 2 ++
- 4 files changed, 22 insertions(+)
-
-diff --git a/hw/net/vhost_net-stub.c b/hw/net/vhost_net-stub.c
-index 9f7daae..66ed5f0 100644
---- a/hw/net/vhost_net-stub.c
-+++ b/hw/net/vhost_net-stub.c
-@@ -113,3 +113,8 @@ int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
- {
-     return 0;
- }
-+
-+void vhost_net_save_acked_features(NetClientState *nc)
-+{
-+
-+}
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 043058f..984b130 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -144,6 +144,15 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net)
-     return net->dev.acked_features;
- }
- 
-+void vhost_net_save_acked_features(NetClientState *nc)
-+{
-+#ifdef CONFIG_VHOST_NET_USER
-+    if (nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-+        vhost_user_save_acked_features(nc);
-+    }
-+#endif
-+}
-+
- static int vhost_net_get_fd(NetClientState *backend)
- {
-     switch (backend->info->type) {
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 9cbdfa5..105fc30 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -980,6 +980,12 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
-             continue;
-         }
-         vhost_net_ack_features(get_vhost_net(nc->peer), features);
-+
-+        /*
-+         * keep acked_features in NetVhostUserState up-to-date so it
-+         * can't miss any features configured by guest virtio driver.
-+         */
-+        vhost_net_save_acked_features(nc->peer);
-     }
- 
-     if (virtio_has_feature(features, VIRTIO_NET_F_CTRL_VLAN)) {
-diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-index 40b9a40..dfb1375 100644
---- a/include/net/vhost_net.h
-+++ b/include/net/vhost_net.h
-@@ -52,4 +52,6 @@ void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
-                                int vq_index);
- int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
-                                 int vq_index);
-+
-+void vhost_net_save_acked_features(NetClientState *nc);
- #endif
--- 
-1.8.3.1
+Marcel
 
 
