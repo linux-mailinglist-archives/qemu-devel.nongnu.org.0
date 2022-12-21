@@ -2,94 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF24E6538E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406E1653927
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:57:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87mo-0000j5-Us; Wed, 21 Dec 2022 17:42:06 -0500
+	id 1p87my-00017P-KT; Wed, 21 Dec 2022 17:42:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87mm-0000gc-Dx
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:04 -0500
+ id 1p87mv-00010S-Sr
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:13 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87mk-0000Xf-1a
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:04 -0500
+ id 1p87mt-0000bf-0t
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671662521; x=1703198521;
+ t=1671662530; x=1703198530;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CAdCSxJeKKq8tYmIBqs3LqQExUqaPNsJrRGHQLOgr7o=;
- b=fANgUzOGw/oJm+gPx/y5MhqgsXFy08HFl76Af+ef6t8y9uafeuRYK9Af
- cIMk9PKEgu/JOy9xQhmuQ/XiNAO51+7Y9ptd5w9hZ6z6vHdCjWMR3YN6t
- 2YLWDbbZGCfQvNl0Tz+cqYmbxj0kNY1fZRfHXTE47UfZDrgHKbl/zvTLL
- yA60nCnyw23giXt77qNClkazzDrpnh9FrzPrBuDPT48b0b8baq1cyV0Ae
- czlR6eeYH37QS5VVnt1ORjjPuvlitpL4TvueFppwWZ5/S6gDqn4R/1kjo
- KAl+xKOh4o7Kw4LZGexsqMhz5E3U0YGawuJBWZE+xA0EU8zF2+njlAW+P w==;
-X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561381"
+ bh=vGws/My0D8GntyXliouHfD7qOmROlWfOigfQcR/d9kU=;
+ b=cWRgrhM+CxdkSsYGGNhHaVEE2NMJ5OQzu+JtJeWiClEhAaNSvLIHfJTf
+ fPabsCJy12ys3w6a48ViUtzahfDSivYDzfWmc7999Ycps14uFR/9ErGzX
+ 7NY0Xo62Z2YQZ5/I7jTk2a6YzQxYp/fhCZx4Wu9tgeKjO+47tr460Kvze
+ f6ZQPDfO5xyivAG8G4/eZlcmDeaW1dM6pkrQ1DITMrclCnZi2ZRwsTCTP
+ WE78Dw8pXoeeHFRzcGrQ40U8woGSWMk7+iNS3EQH01hwkskZKjNsNtgh/
+ m59dbq338wamiixRwxaYLHQO4mVGcZoOf+vPFrZGevICRr7s7TPqQfMuR w==;
+X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561387"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:21 +0800
-IronPort-SDR: lDAIjVTCULF00aUWE7eQopV2DmSqpvFml6knrYYIuG0HiV7zBIxOBytzwuzB+rBZxgxQEimtsz
- 5qraN9hOAi9wh1kRMHcnGfnFWfhmdLWhlW7GA5UKKmJ1c2djM6id3yhl0D809BzIuMZhivASuT
- F/be9kxxQpDMOvs9Bi/M7yIS8tLId31RHqFCfaQrYgusQNTyH4dHosgCKMhPAa4hybwh7qqgEt
- R48x/GQUMtrmJIlK+Q8f/lRXygM7cHIvv4JZWjHul3EImGkJucHZkkfzAoNaBQ1xqb7Y/4H57k
- 5P4=
+ by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:24 +0800
+IronPort-SDR: pjRjW7x6Es2e3JjvmTcVomknIV6ZzTbhZo6E8pfd15e/iumYKmOXkJMLAoA/nn0YYQOTsYaVA7
+ rXUAV9cqwPf/IGaIVXWyODcHT92Bi2xbHij/qbSK94dPMC2V2zGkDVwiYTG9FfFJgeDbMie6Cm
+ awBnS6vCn/tYyHnn6BrSH8mXSQNtth+oiY++jgYz/Cz2gBiBnOxA8Ud8lTejlXaPrNr4srMCe4
+ 8/J3I1+ZLuBUjXbXq5ruUuiYerx+ozg5X/zYbXEeCLTzc4yG25OeEFgdzT6TnyVhhpVB03AzS/
+ gBg=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 13:53:50 -0800
-IronPort-SDR: t0HO1NjFXcnc2UazOqYLpYy4ZZMWuN3wPsUXnplDU1WTYNMgt762Ui4rvwE4kO7fLs103Bhiiz
- iBlEp4jcC0oonMP8iu4H/LcDzakCpssZlonQGekDSlxa0BB7WtAOYM+lDH0IOOkavqVRE0jh5I
- oPHPsx14hXFyGF32vs9xW1G24+g8Ax2iNOg2dDkM9DHfDpAO9eizAZmeeeqjaFqhT2NBUlGkuY
- zpo7cPZ2rv5J9j2zt/NBA/mKdBjDJHAte+SBTbiniXnRlD69Xa4dZILYaKRhQlNKWUeSvWrk1N
- chE=
+ 21 Dec 2022 13:53:53 -0800
+IronPort-SDR: 0xOH7uWCRLhdIy5xmVLljjmx4kiN13/IkVzvnZrSmChnohM6EaTLxeZEtuqzngUaAuPMkYnyhF
+ DjaoXyRHFXJ5g59hWdUAO3ySjhL3QdBfHNWZb5CHUa6CzeqY7PAYzJWcw+Wn7l+XfXEVAihBr6
+ TvsevJFhicQ5YiCNUYY/rh+hpEUCekEJKlCW5q3Ym2V2R1rvMaEp461SjBk4vBUHHUTL0O98rR
+ hyEk6x/+Ea8xMthpp81LY8Affj8q2jRu5j0RlAiz7lQZqMz5ZEeTOf7Oy/DqcvelzkzODI4/4s
+ tJ8=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 14:41:21 -0800
+ 21 Dec 2022 14:41:25 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMP1w9Wz1RvTp
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:21 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMS2RNkz1Rwt8
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:24 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671662480; x=1674254481; bh=CAdCSxJeKKq8tYmIBq
- s3LqQExUqaPNsJrRGHQLOgr7o=; b=NQtsQxIItQ4r2o9k8ZGqdjg+YnoFoIf+qu
- 2CDm2Q9+EVAYAHY7y0nriII6U5KXFPB2jnJjBt0G15k9hxvuXcAZUqWUV39BeGmf
- 1Rp8Adcj5lcC8F2zwzBaQp5li3noL/2YStyUN6eYEbGO85PwiS57sv2luB6FwHBi
- lRMpvPVK6R4cw6qLqHRrmT8x9TYj+NE9VolqieHGQKl/Kdbx0+YGYYH6veS6hv3q
- 97RjfaGaBDyy7wwATnv0bcY1x2LT7NGb3WQ/9Q0GoL0IoIsa4nkM0K6R2IyppCz7
- Ic+PtdHfW7eV04UP2Ck3mR4Q8LFy3xm8NyWrTij9bNNymeuC2j+A==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1671662483; x=1674254484; bh=vGws/My
+ 0D8GntyXliouHfD7qOmROlWfOigfQcR/d9kU=; b=YxrwVgXC0VQTIJcP475T1xz
+ 3WNl1dsotKZu5sB9kpKACIm95abhjdqXYCaFfniLPK4E+jJVLRjZcCYdJHhf8Uml
+ C7QTBfS7iNhiWeXHmRuiyxZHFz0bmK2dmTiS/RbNvf84VMQq4SOe72CcVVy5ZwO1
+ qkOq19oxPbUi3KWnImKt02oLvgP374LPDIRZOau5B9emR9wIW/vOBchfPxMQYgrl
+ 7s4Rx2NZC0IzcUslYZHR5dIEoCCS1s5V26eGGlqMxPHaw3BSkDs2CB5O7JVFkbaN
+ v5tQP2YYv02FVo8SHpO2rDIqwdILCHU9yqmZb4At+iEmiUUvBVQ9POtNnYQJ8AQ=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 2rBFbCqcJm5C for <qemu-devel@nongnu.org>;
- Wed, 21 Dec 2022 14:41:20 -0800 (PST)
+ port 10026) with ESMTP id Ej8TFlE1sSe2 for <qemu-devel@nongnu.org>;
+ Wed, 21 Dec 2022 14:41:23 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.8])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpML5t2qz1RvLy;
- Wed, 21 Dec 2022 14:41:18 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMP2vCRz1RvLy;
+ Wed, 21 Dec 2022 14:41:21 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 25/45] target/riscv: Fix mret exception cause when no pmp
- rule is configured
-Date: Thu, 22 Dec 2022 08:40:02 +1000
-Message-Id: <20221221224022.425831-26-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-stable@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL v2 26/45] target/riscv: Set pc_succ_insn for !rvc illegal insn
+Date: Thu, 22 Dec 2022 08:40:03 +1000
+Message-Id: <20221221224022.425831-27-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=3472792e2=alistair.francis@opensource.wdc.com;
@@ -116,43 +117,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The priv spec v1.12 says:
+Failure to set pc_succ_insn may result in a TB covering zero bytes,
+which triggers an assert within the code generator.
 
-  If no PMP entry matches an M-mode access, the access succeeds. If
-  no PMP entry matches an S-mode or U-mode access, but at least one
-  PMP entry is implemented, the access fails. Failed accesses generate
-  an instruction, load, or store access-fault exception.
-
-At present the exception cause is set to 'illegal instruction' but
-should have been 'instruction access fault'.
-
-Fixes: d102f19a2085 ("target/riscv/pmp: Raise exception if no PMP entry i=
-s configured")
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Cc: qemu-stable@nongnu.org
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1224
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221205065303.204095-1-bmeng@tinylab.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+Message-Id: <20221203175744.151365-1-richard.henderson@linaro.org>
+[ Changes by AF:
+ - Add missing run-plugin-test-noc-% line
+]
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/op_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/translate.c          | 12 ++++--------
+ tests/tcg/Makefile.target         |  2 ++
+ tests/tcg/riscv64/Makefile.target |  6 ++++++
+ tests/tcg/riscv64/test-noc.S      | 32 +++++++++++++++++++++++++++++++
+ 4 files changed, 44 insertions(+), 8 deletions(-)
+ create mode 100644 tests/tcg/riscv64/test-noc.S
 
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 09f1f5185d..d7af7f056b 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -202,7 +202,7 @@ target_ulong helper_mret(CPURISCVState *env)
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index cd5eb25ee8..160aefc3df 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -1096,14 +1096,10 @@ static void decode_opc(CPURISCVState *env, DisasC=
+ontext *ctx, uint16_t opcode)
+     ctx->virt_inst_excp =3D false;
+     /* Check for compressed insn */
+     if (insn_len(opcode) =3D=3D 2) {
+-        if (!has_ext(ctx, RVC)) {
+-            gen_exception_illegal(ctx);
+-        } else {
+-            ctx->opcode =3D opcode;
+-            ctx->pc_succ_insn =3D ctx->base.pc_next + 2;
+-            if (decode_insn16(ctx, opcode)) {
+-                return;
+-            }
++        ctx->opcode =3D opcode;
++        ctx->pc_succ_insn =3D ctx->base.pc_next + 2;
++        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
++            return;
+         }
+     } else {
+         uint32_t opcode32 =3D opcode;
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index 75257f2b29..14bc013181 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -117,6 +117,8 @@ endif
 =20
-     if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-         !pmp_get_num_rules(env) && (prev_priv !=3D PRV_M)) {
--        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+        riscv_raise_exception(env, RISCV_EXCP_INST_ACCESS_FAULT, GETPC()=
-);
-     }
-=20
-     target_ulong prev_virt =3D get_field(env->mstatus, MSTATUS_MPV);
+ %: %.c
+ 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
++%: %.S
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ else
+ # For softmmu targets we include a different Makefile fragement as the
+ # build options for bare programs are usually pretty different. They
+diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefi=
+le.target
+index b5b89dfb0e..cc3ed65ffd 100644
+--- a/tests/tcg/riscv64/Makefile.target
++++ b/tests/tcg/riscv64/Makefile.target
+@@ -4,3 +4,9 @@
+ VPATH +=3D $(SRC_PATH)/tests/tcg/riscv64
+ TESTS +=3D test-div
+ TESTS +=3D noexec
++
++# Disable compressed instructions for test-noc
++TESTS +=3D test-noc
++test-noc: LDFLAGS =3D -nostdlib -static
++run-test-noc: QEMU_OPTS +=3D -cpu rv64,c=3Dfalse
++run-plugin-test-noc-%: QEMU_OPTS +=3D -cpu rv64,c=3Dfalse
+diff --git a/tests/tcg/riscv64/test-noc.S b/tests/tcg/riscv64/test-noc.S
+new file mode 100644
+index 0000000000..e29d60c8b3
+--- /dev/null
++++ b/tests/tcg/riscv64/test-noc.S
+@@ -0,0 +1,32 @@
++#include <asm/unistd.h>
++
++	.text
++	.globl _start
++_start:
++	.option	norvc
++	li	a0, 4		/* SIGILL */
++	la	a1, sa
++	li	a2, 0
++	li	a3, 8
++	li	a7, __NR_rt_sigaction
++	scall
++
++	.option	rvc
++	li	a0, 1
++	j	exit
++	.option	norvc
++
++pass:
++	li	a0, 0
++exit:
++	li	a7, __NR_exit
++	scall
++
++	.data
++	/* struct kernel_sigaction sa =3D { .sa_handler =3D pass }; */
++	.type	sa, @object
++	.size	sa, 32
++sa:
++	.dword	pass
++	.zero	24
++
 --=20
 2.38.1
 
