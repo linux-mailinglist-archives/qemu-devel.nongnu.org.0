@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B748652AD1
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:15:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF837652AD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:16:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7nZm-0003XH-IG; Tue, 20 Dec 2022 20:07:19 -0500
+	id 1p7naH-0004kP-PX; Tue, 20 Dec 2022 20:07:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7nZJ-0002tD-9u
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:52 -0500
+ id 1p7nZD-0002qm-Hm
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:47 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+b12bb331c036832273ad+7059+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1p7nZD-0004Cr-K6
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:48 -0500
+ id 1p7nZ9-0004Cu-8f
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:06:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=RMwn8pk01KyU/O6ggazjDrt07E6iMQlh/6Gyq4Ux3fg=; b=aEHxngcm06E5y+42wHkzUdkusR
- P0fqz2ie6FizCUnI/ZCd2ECN735DlBdTjUGTcE9yaVkMcNaPhwo2BeImQClcoS781ARFX4UPeZpuZ
- 193ZFW4nv1ozY2z6xKoP+zpzlGFmbO3PC146kGLbRnbC+tgoUMiMu20xXWF2IorNvsU+vY2wOsbfh
- ffro6jaEvC4xfxhtO9Pp6CUakEo2/I7agjwDiyq0ZogqSdD8Y9h5b+bMDtL958I/F/43+XFRpM0ow
- 5x8Mlj8JS4ARJfcAFISRpvkvbdmY3vPfrhs918b6jmg/oFz8hYiL/ZJIVCQi5ZRKs2Um0fuPhu9c9
- Mi9T4N6A==;
+ bh=5mo+y135udXICdD3NALTktF2BemxUCZjwha6G1c5CTc=; b=B41TrPhXOziwpsRL4lj0AZydPM
+ sCOV95/XZ/RLNMgz7KCSC9G3zRamRBMRnMQxRYwl82Eq1t5LysjxiHHZ4xwSlGJygb+8yjYplyUbk
+ I90/K551lb9fblZfSvK7CnbZwgkuryNWQEX6+T2SWsGlZA8oPgScDi6rHA5P1PcQyCZ4/qjd+wWvA
+ SzWZNGg90wkdvOXvGUqa/+S83n0QF3NZfhVVviT/mgkA4Iddz8ke3E0mxUU05evbwY7+5ERWOtWuy
+ CUHI8jyah0ic3qGBUT52Uz2INOXDwfXQ1R0U1Ed0JrZctHYh7l0+UOPewvi8QVYHfjl12KYPEnzqK
+ 5sV8hVTA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1p7nZ8-002KcZ-Dg; Wed, 21 Dec 2022 01:06:40 +0000
+ id 1p7nZ8-002Kce-Eu; Wed, 21 Dec 2022 01:06:39 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1p7nYw-004CLp-EY; Wed, 21 Dec 2022 01:06:26 +0000
+ Hat Linux)) id 1p7nYw-004CLs-FI; Wed, 21 Dec 2022 01:06:26 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,9 +46,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [RFC PATCH v4 09/47] hw/xen_backend: refactor xen_be_init()
-Date: Wed, 21 Dec 2022 01:05:45 +0000
-Message-Id: <20221221010623.1000191-10-dwmw2@infradead.org>
+Subject: [RFC PATCH v4 10/47] i386/xen: handle guest hypercalls
+Date: Wed, 21 Dec 2022 01:05:46 +0000
+Message-Id: <20221221010623.1000191-11-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221221010623.1000191-1-dwmw2@infradead.org>
 References: <20221221010623.1000191-1-dwmw2@infradead.org>
@@ -83,97 +83,121 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
----
- hw/xen/xen-legacy-backend.c         | 40 +++++++++++++++++++++--------
- include/hw/xen/xen-legacy-backend.h |  3 +++
- 2 files changed, 32 insertions(+), 11 deletions(-)
+This means handling the new exit reason for Xen but still
+crashing on purpose. As we implement each of the hypercalls
+we will then return the right return code.
 
-diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-index 085fd31ef7..694e7bbc54 100644
---- a/hw/xen/xen-legacy-backend.c
-+++ b/hw/xen/xen-legacy-backend.c
-@@ -676,17 +676,40 @@ void xenstore_update_fe(char *watch, struct XenLegacyDevice *xendev)
- }
- /* -------------------------------------------------------------------- */
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+[dwmw2: Add CPL to hypercall tracing, disallow hypercalls from CPL > 0]
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ target/i386/kvm/kvm.c        |  5 ++++
+ target/i386/kvm/trace-events |  3 +++
+ target/i386/kvm/xen-emu.c    | 44 ++++++++++++++++++++++++++++++++++++
+ target/i386/kvm/xen-emu.h    |  1 +
+ 4 files changed, 53 insertions(+)
+
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index be5e50b4fc..f365e56fcc 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -5477,6 +5477,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+         assert(run->msr.reason == KVM_MSR_EXIT_REASON_FILTER);
+         ret = kvm_handle_wrmsr(cpu, run);
+         break;
++#ifdef CONFIG_XEN_EMU
++    case KVM_EXIT_XEN:
++        ret = kvm_xen_handle_exit(cpu, &run->xen);
++        break;
++#endif
+     default:
+         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+         ret = -1;
+diff --git a/target/i386/kvm/trace-events b/target/i386/kvm/trace-events
+index 7c369db1e1..cd6f842b1f 100644
+--- a/target/i386/kvm/trace-events
++++ b/target/i386/kvm/trace-events
+@@ -5,3 +5,6 @@ kvm_x86_fixup_msi_error(uint32_t gsi) "VT-d failed to remap interrupt for GSI %"
+ kvm_x86_add_msi_route(int virq) "Adding route entry for virq %d"
+ kvm_x86_remove_msi_route(int virq) "Removing route entry for virq %d"
+ kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
++
++# xen-emu.c
++kvm_xen_hypercall(int cpu, uint8_t cpl, uint64_t input, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t ret) "xen_hypercall: cpu %d cpl %d input %" PRIu64 " a0 0x%" PRIx64 " a1 0x%" PRIx64 " a2 0x%" PRIx64" ret 0x%" PRIx64
+diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
+index 4883b95d9d..476f464ee2 100644
+--- a/target/i386/kvm/xen-emu.c
++++ b/target/i386/kvm/xen-emu.c
+@@ -10,10 +10,12 @@
+  */
  
--int xen_be_init(void)
-+int xen_be_xenstore_open(void)
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "sysemu/kvm_int.h"
+ #include "sysemu/kvm_xen.h"
+ #include "kvm/kvm_i386.h"
+ #include "xen-emu.h"
++#include "trace.h"
+ 
+ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
  {
--    xengnttab_handle *gnttabdev;
--
-     xenstore = xs_daemon_open();
-     if (!xenstore) {
--        xen_pv_printf(NULL, 0, "can't connect to xenstored\n");
-         return -1;
-     }
- 
-     qemu_set_fd_handler(xs_fileno(xenstore), xenstore_update, NULL, NULL);
-+    return 0;
+@@ -84,3 +86,45 @@ uint32_t kvm_xen_get_caps(void)
+ {
+     return kvm_state->xen_caps;
+ }
++
++static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
++{
++    uint16_t code = exit->u.hcall.input;
++
++    if (exit->u.hcall.cpl > 0) {
++        exit->u.hcall.result = -EPERM;
++        return true;
++    }
++
++    switch (code) {
++    default:
++        return false;
++    }
 +}
 +
-+void xen_be_xenstore_close(void)
++int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
 +{
-+    qemu_set_fd_handler(xs_fileno(xenstore), NULL, NULL, NULL);
-+    xs_daemon_close(xenstore);
-+    xenstore = NULL;
-+}
-+
-+void xen_be_sysdev_init(void)
-+{
-+    xen_sysdev = qdev_new(TYPE_XENSYSDEV);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
-+    xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
-+    qbus_set_bus_hotplug_handler(xen_sysbus);
-+}
-+
-+int xen_be_init(void)
-+{
-+    xengnttab_handle *gnttabdev;
-+
-+    if (xen_be_xenstore_open()) {
-+        xen_pv_printf(NULL, 0, "can't connect to xenstored\n");
++    if (exit->type != KVM_EXIT_XEN_HCALL) {
 +        return -1;
 +    }
++
++    if (!do_kvm_xen_handle_exit(cpu, exit)) {
++        /*
++         * Some hypercalls will be deliberately "implemented" by returning
++         * -ENOSYS. This case is for hypercalls which are unexpected.
++         */
++        exit->u.hcall.result = -ENOSYS;
++        qemu_log_mask(LOG_UNIMP, "Unimplemented Xen hypercall %"
++                      PRId64 " (0x%" PRIx64 " 0x%" PRIx64 " 0x%" PRIx64 ")\n",
++                      (uint64_t)exit->u.hcall.input,
++                      (uint64_t)exit->u.hcall.params[0],
++                      (uint64_t)exit->u.hcall.params[1],
++                      (uint64_t)exit->u.hcall.params[2]);
++    }
++
++    trace_kvm_xen_hypercall(CPU(cpu)->cpu_index, exit->u.hcall.cpl,
++                            exit->u.hcall.input, exit->u.hcall.params[0],
++                            exit->u.hcall.params[1], exit->u.hcall.params[2],
++                            exit->u.hcall.result);
++    return 0;
++}
+diff --git a/target/i386/kvm/xen-emu.h b/target/i386/kvm/xen-emu.h
+index d62f1d8ed8..21faf6bf38 100644
+--- a/target/i386/kvm/xen-emu.h
++++ b/target/i386/kvm/xen-emu.h
+@@ -25,5 +25,6 @@
  
-     if (xen_xc == NULL || xen_fmem == NULL) {
-         /* Check if xen_init() have been called */
-@@ -701,17 +724,12 @@ int xen_be_init(void)
-         xengnttab_close(gnttabdev);
-     }
+ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr);
+ int kvm_xen_init_vcpu(CPUState *cs);
++int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit);
  
--    xen_sysdev = qdev_new(TYPE_XENSYSDEV);
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
--    xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
--    qbus_set_bus_hotplug_handler(xen_sysbus);
-+    xen_be_sysdev_init();
- 
-     return 0;
- 
- err:
--    qemu_set_fd_handler(xs_fileno(xenstore), NULL, NULL, NULL);
--    xs_daemon_close(xenstore);
--    xenstore = NULL;
-+    xen_be_xenstore_close();
- 
-     return -1;
- }
-diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
-index be281e1f38..0aa171f6c2 100644
---- a/include/hw/xen/xen-legacy-backend.h
-+++ b/include/hw/xen/xen-legacy-backend.h
-@@ -42,6 +42,9 @@ int xenstore_read_fe_uint64(struct XenLegacyDevice *xendev, const char *node,
- void xen_be_check_state(struct XenLegacyDevice *xendev);
- 
- /* xen backend driver bits */
-+int xen_be_xenstore_open(void);
-+void xen_be_xenstore_close(void);
-+void xen_be_sysdev_init(void);
- int xen_be_init(void);
- void xen_be_register_common(void);
- int xen_be_register(const char *type, struct XenDevOps *ops);
+ #endif /* QEMU_I386_KVM_XEN_EMU_H */
 -- 
 2.35.3
 
