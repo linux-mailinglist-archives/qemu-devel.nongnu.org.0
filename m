@@ -2,93 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECDB65391F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348A76538FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:49:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87nA-0001jG-BD; Wed, 21 Dec 2022 17:42:28 -0500
+	id 1p87nC-0001ne-Da; Wed, 21 Dec 2022 17:42:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87n7-0001cP-Ss
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:25 -0500
+ id 1p87n9-0001jX-Sc
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:27 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87n6-0000bf-4w
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:25 -0500
+ id 1p87n7-0000bQ-N1
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671662543; x=1703198543;
+ t=1671662545; x=1703198545;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DKKYFsAWy3mQQVNV1VM5SmTNOYbIwJL0N/VaovONcxU=;
- b=cfzdIdJJSQRfmQRqUc3YWPiq5bWq7m7TMdp/JROML59c1w2IZGpvQwql
- O0Gx6xVzZifdtFKkmLhc/jxI4LwhXUvn4epm+jZ6vIRDZ27djXT1HdjjJ
- MqnRM27jvhty5hc9Kp69Ag5n80kGHfRzffTeP6uUZw2RnAbF+Htf5P7RE
- pegm7sC0VL0RJy5HiP4OpBpRkLv8ir1mBOQLg2FGaoQjYv5UQsrVno/NY
- 0mxk6sig/awKVjveytIGq6DZSQaDsespsPqY1y2vcpN1ttLbs7aYjn2so
- cDUlGqKkC3ycv9WY+ZXMnPJswN1MPwHsxBooxUGCjSU+JayzfMEgM6x1z w==;
-X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561398"
+ bh=TZ8ZSQ/6EJPt3aV5ej9Xbmbe3XTCl5tkWbAwM/q28aQ=;
+ b=eph9djThsViXUitWzgADbtMH4QleKckpVjkx4NVNKGJ2X9zERfTj4OcF
+ 7AxR9iNX9ocA9biEbZ6nC1sv9jRW6OXWeCLvEs0CNvhR2od9MRyVn5wV+
+ LCtz0NIOxXR24smHSTtdg8WbXRp+iW2224X6auNncud1qDavNqLrkjHQA
+ 5nCm49XVzQR2PPHoUv1TLo/Yl1MRUM1yOkGAb3X3EznGUhTThM0KjbhHL
+ aHCUoa5CDWd3/ysgPw0rHAJ0hVnpt0b9AK9RKcV0jjl/6fQPw64SW1qUW
+ QWJLLH3b6m6+T6E2CRDVm3u7F5EEU/EpAXdJawZSOpI6fV7/+BFTcdH3B g==;
+X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561405"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:28 +0800
-IronPort-SDR: DLPCd8fdgI2oqlnnys/DsHY8AtG9xe2cJ6ReaV2hD3wafcIm84zG7PdX4rhIVYffhVHglH7Dl3
- 1MrbuaWl2JGW8Px5009kN9RfJu86o+pLnZy3uG8feUk4BMEiSLsd/FyYF34tojdPMhkdcpZqOX
- eyKXXEeX6oKSuJ2n2UiUGe5S6j4KFhhknrm43j7fILAOr9dUvD74UycUo+jg4R1GalZPLqtMGn
- bIg1FL4YfH+ZSwCqu3EYZxpxbG4C/UlVJrGHdaapT/n2Z71zjaS3S078rAIgy+dS2f+LuxIr7w
- FT4=
+ by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:30 +0800
+IronPort-SDR: /UwXE6013IZqa93sAo+Kan6YXKpq0BB/tZg6My6+oEbzle3qmr3zIWKiscg2+1bMEdijNw4YPq
+ gEbouc0bhHqjaRNz+zhhttdRotDsagDshf43Vz2OrNG6ZyAdV0KX95teW4XEflly6ACMwvC/Be
+ i6yFcsq/ZPeNVSbwsINDtXGDy9ACxqD3JaZsQTI/apq0+jL7Xu6xUFzPVGMJzy8SPvGtLG7PDF
+ 61lVK5tnjLjC+6eUBWuPXlv54on1VwjE5Vk19FhbHp0/QADM9avf6hItQFtQPzVL/abBHQgrcx
+ t6Q=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 13:53:57 -0800
-IronPort-SDR: RnkR/ckR3Elfedf5r20uQTtcWTbTZwzpp35ZrY/vXdm0j+1VaigogssemZvseR3Sjw1H2HpAuZ
- R+v3izPNZR4Lx9UKAS+pM4dLVm3uRdK3EtLoit5xXY0bDn8CCYCZgbgSIzF6OXt1f3zf2SN1zr
- IrPJEafO5ra7ywojld5aRtC81RfilFEF7t2A8jEnZX2bK1tNQGAPdAyEn71ZKvkBWFs7OaT0Tf
- GynGDLza6heccDFdpnCYa/W3L2UqXXLSb+WRxI/rpMH7fAbtwod1+AdB6NE18hjKJU/NtGURfW
- Hns=
+ 21 Dec 2022 13:53:59 -0800
+IronPort-SDR: h3kM96KZkPLOreR6G+RgvmGWEM4PZRFYx6gb+xb7ihXwOeYekoizDOVg3Dd2FFbV8wjuN5d/XA
+ 4fYlBGlO/3qphmpOA8U+6JdKQhvL7bL1HGmrEX+Y2k4h/TLKKxESnCf1NXIaCcqZ6rkDrPid0a
+ iCmnnX1D5l3IU63HS2WNPk9iraQTjY67c8Zeb5++zQr3/P6ehev3PyMEzsqLHlwj+nYW3/iJPm
+ 3jV7Uh8GXjKKOe7bIUxt1MJ+OmgBpDnWlEVDurAU6r7uAX2QiXSEQtwmKRu5m7Fyq+/Awhe9X5
+ tPI=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 14:41:29 -0800
+ 21 Dec 2022 14:41:31 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMX2tVbz1RvTr
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:28 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMZ5R29z1Rwrq
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:30 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671662488; x=1674254489; bh=DKKYFsAWy3mQQVNV1V
- M5SmTNOYbIwJL0N/VaovONcxU=; b=b/Tf/g3Lqn3xWlHq+fmASOxbZeNuRLzZCl
- MJR6IZLDCnLNkPgbPCMmqNnO1L7478yWm+/f7NX4u8sR7NIRv7wcQ9W2FzrtBlO/
- evTmrXNQ8khB+0C3JzBsmq8UrAupoQzLsafQvCQI4KffaXOktcQiW7N+pO8fffbM
- YgeLsu+txzQD/eXnAGjHXtz0UT9RlEAoi+Xfi9PTx5A8WYh1pRd+Da9bJiESIfz5
- qsB3ESuRwIUcCIMGa+PsqRgEPWWHZydxy5yqsTdgI7tmkWla1+WSQ1RnhV0iAmnW
- rHbFf++e1ldAAHkA0Syr0YzJ3WkhEEpUeke1/HDbw2ZM38vVtGGA==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1671662489; x=1674254490; bh=TZ8ZSQ/
+ 6EJPt3aV5ej9Xbmbe3XTCl5tkWbAwM/q28aQ=; b=e8iFTQbNdamG1x888mNqMhk
+ +nGjxhAzF6r+l7ZRSqAwHJ8DhXLA63Fcr45oFNMpzVTy+MiYsTRb2UpUVnkVDG21
+ rGY3PTKZGvxbK0BUyuCsR4/CRcjU4jAOOQDUYqmkjKT/bp60hu0xTdUAjyaD//6R
+ H6rkLeRSoPc2aPat6FPx7e5Zd9ze0h3pgQeZQTVcs1OZQGx7oVYLZkEgS3ycLmSY
+ i+/XAD/kh6lI8Wikg+fWpTHGgV4+OVTl3n/zwDT/Jyv4yckklcKH2itfwwH3prgK
+ By6Vlz9tRDiedU2DujZ35rdQwOIWOvme6dkT2iuFGSMTTTQjUrUEN4ND2MmN5Ow=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id c1HJ7AJwVDjs for <qemu-devel@nongnu.org>;
- Wed, 21 Dec 2022 14:41:28 -0800 (PST)
+ port 10026) with ESMTP id Zle_GB1fR8ub for <qemu-devel@nongnu.org>;
+ Wed, 21 Dec 2022 14:41:29 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.8])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMV2wxLz1RvTp;
- Wed, 21 Dec 2022 14:41:26 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMX3Jmrz1Rwt8;
+ Wed, 21 Dec 2022 14:41:28 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
+Cc: alistair23@gmail.com, Christoph Muellner <christoph.muellner@vrull.eu>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 28/45] target/riscv: Clear mstatus.MPRV when leaving M-mode
- for priv spec 1.12+
-Date: Thu, 22 Dec 2022 08:40:05 +1000
-Message-Id: <20221221224022.425831-29-alistair.francis@opensource.wdc.com>
+Subject: [PULL v2 29/45] RISC-V: Add Zawrs ISA extension support
+Date: Thu, 22 Dec 2022 08:40:06 +1000
+Message-Id: <20221221224022.425831-30-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=3472792e2=alistair.francis@opensource.wdc.com;
@@ -115,44 +116,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+From: Christoph Muellner <christoph.muellner@vrull.eu>
 
-Since priv spec v1.12, MRET and SRET now clear mstatus.MPRV when
-leaving M-mode.
+This patch adds support for the Zawrs ISA extension.
+Given the current (incomplete) implementation of reservation sets
+there seems to be no way to provide a full emulation of the WRS
+instruction (wake on reservation set invalidation or timeout or
+interrupt). Therefore, we just exit the TB and return to the main loop.
 
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
+The specification can be found here:
+  https://github.com/riscv/riscv-zawrs/blob/main/zawrs.adoc
+
+Note, that the Zawrs extension is frozen, but not ratified yet.
+
+Changes since v3:
+* Remove "RFC" since the extension is frozen
+* Rebase on master and fix integration issues
+* Fix entry ordering in extension list
+
+Changes since v2:
+* Rebase on master and resolve conflicts
+* Adjustments according to a specification change
+* Inline REQUIRE_ZAWRS() since it has only one user
+
+Changes since v1:
+* Adding zawrs to the ISA string that is passed to the kernel
+
+Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221207090037.281452-2-bmeng@tinylab.org>
+Message-Id: <20221005144948.3421504-1-christoph.muellner@vrull.eu>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/op_helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/riscv/cpu.h                          |  1 +
+ target/riscv/insn32.decode                  |  4 ++
+ target/riscv/cpu.c                          |  7 +++
+ target/riscv/translate.c                    |  1 +
+ target/riscv/insn_trans/trans_rvzawrs.c.inc | 51 +++++++++++++++++++++
+ 5 files changed, 64 insertions(+)
+ create mode 100644 target/riscv/insn_trans/trans_rvzawrs.c.inc
 
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index a047d38152..878bcb03b8 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -154,6 +154,9 @@ target_ulong helper_sret(CPURISCVState *env)
-                         get_field(mstatus, MSTATUS_SPIE));
-     mstatus =3D set_field(mstatus, MSTATUS_SPIE, 1);
-     mstatus =3D set_field(mstatus, MSTATUS_SPP, PRV_U);
-+    if (env->priv_ver >=3D PRIV_VERSION_1_12_0) {
-+        mstatus =3D set_field(mstatus, MSTATUS_MPRV, 0);
-+    }
-     env->mstatus =3D mstatus;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 37f9516941..f5609b62a2 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -453,6 +453,7 @@ struct RISCVCPUConfig {
+     bool ext_svnapot;
+     bool ext_svpbmt;
+     bool ext_zdinx;
++    bool ext_zawrs;
+     bool ext_zfh;
+     bool ext_zfhmin;
+     bool ext_zfinx;
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index d0253b8104..b7e7613ea2 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -718,6 +718,10 @@ vsetvli         0 ........... ..... 111 ..... 101011=
+1  @r2_zimm11
+ vsetivli        11 .......... ..... 111 ..... 1010111  @r2_zimm10
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 =20
-     if (riscv_has_ext(env, RVH) && !riscv_cpu_virt_enabled(env)) {
-@@ -203,6 +206,9 @@ target_ulong helper_mret(CPURISCVState *env)
-     mstatus =3D set_field(mstatus, MSTATUS_MPIE, 1);
-     mstatus =3D set_field(mstatus, MSTATUS_MPP, PRV_U);
-     mstatus =3D set_field(mstatus, MSTATUS_MPV, 0);
-+    if ((env->priv_ver >=3D PRIV_VERSION_1_12_0) && (prev_priv !=3D PRV_=
-M)) {
-+        mstatus =3D set_field(mstatus, MSTATUS_MPRV, 0);
-+    }
-     env->mstatus =3D mstatus;
-     riscv_cpu_set_mode(env, prev_priv);
++# *** Zawrs Standard Extension ***
++wrs_nto    000000001101 00000 000 00000 1110011
++wrs_sto    000000011101 00000 000 00000 1110011
++
+ # *** RV32 Zba Standard Extension ***
+ sh1add     0010000 .......... 010 ..... 0110011 @r
+ sh2add     0010000 .......... 100 ..... 0110011 @r
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index b2c132e269..cc75ca7667 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -76,6 +76,7 @@ static const struct isa_ext_data isa_edata_arr[] =3D {
+     ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
+     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei)=
+,
+     ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihin=
+tpause),
++    ISA_EXT_DATA_ENTRY(zawrs, true, PRIV_VERSION_1_12_0, ext_zawrs),
+     ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_12_0, ext_zfh),
+     ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
+     ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
+@@ -766,6 +767,11 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
+r **errp)
+             return;
+         }
 =20
++        if ((cpu->cfg.ext_zawrs) && !cpu->cfg.ext_a) {
++            error_setg(errp, "Zawrs extension requires A extension");
++            return;
++        }
++
+         if ((cpu->cfg.ext_zfh || cpu->cfg.ext_zfhmin) && !cpu->cfg.ext_f=
+) {
+             error_setg(errp, "Zfh/Zfhmin extensions require F extension"=
+);
+             return;
+@@ -1021,6 +1027,7 @@ static Property riscv_cpu_extensions[] =3D {
+     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+     DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true)=
+,
++    DEFINE_PROP_BOOL("Zawrs", RISCVCPU, cfg.ext_zawrs, true),
+     DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+     DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 160aefc3df..df38db7553 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -1060,6 +1060,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase,=
+ target_ulong pc)
+ #include "insn_trans/trans_rvh.c.inc"
+ #include "insn_trans/trans_rvv.c.inc"
+ #include "insn_trans/trans_rvb.c.inc"
++#include "insn_trans/trans_rvzawrs.c.inc"
+ #include "insn_trans/trans_rvzfh.c.inc"
+ #include "insn_trans/trans_rvk.c.inc"
+ #include "insn_trans/trans_privileged.c.inc"
+diff --git a/target/riscv/insn_trans/trans_rvzawrs.c.inc b/target/riscv/i=
+nsn_trans/trans_rvzawrs.c.inc
+new file mode 100644
+index 0000000000..8254e7dfe2
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_rvzawrs.c.inc
+@@ -0,0 +1,51 @@
++/*
++ * RISC-V translation routines for the RISC-V Zawrs Extension.
++ *
++ * Copyright (c) 2022 Christoph Muellner, christoph.muellner@vrull.io
++ *
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++static bool trans_wrs(DisasContext *ctx)
++{
++    if (!ctx->cfg_ptr->ext_zawrs) {
++        return false;
++    }
++
++    /*
++     * The specification says:
++     * While stalled, an implementation is permitted to occasionally
++     * terminate the stall and complete execution for any reason.
++     *
++     * So let's just exit TB and return to the main loop.
++     */
++
++    /* Clear the load reservation  (if any).  */
++    tcg_gen_movi_tl(load_res, -1);
++
++    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
++    tcg_gen_exit_tb(NULL, 0);
++    ctx->base.is_jmp =3D DISAS_NORETURN;
++
++    return true;
++}
++
++#define GEN_TRANS_WRS(insn)                                     \
++static bool trans_ ## insn(DisasContext *ctx, arg_ ## insn *a)  \
++{                                                               \
++    (void)a;                                                    \
++    return trans_wrs(ctx);                                      \
++}
++
++GEN_TRANS_WRS(wrs_nto)
++GEN_TRANS_WRS(wrs_sto)
 --=20
 2.38.1
 
