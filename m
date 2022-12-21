@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01F7653180
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:15:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB256531BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:28:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ynn-0006a3-F5; Wed, 21 Dec 2022 08:06:31 -0500
+	id 1p7ynn-0006ZA-62; Wed, 21 Dec 2022 08:06:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynO-0005yt-QW
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynS-00062V-9X
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynM-0004NN-LT
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:06 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynQ-0004O8-B5
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627963;
+ s=mimecast20190719; t=1671627966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=e8powB56JtbuYONWR+65Vy5r+z/+gbMt2xbscg5z9Vc=;
- b=TX+928GBKoLVaNA5TgZsf1cHfL4NfM68YaJeNpKBCFWWI9ynhJ2KpaskjGmzjY7ubXxiaW
- cV/JlXcclHCgZn/bwbhT2u3reao9BCMUK1aUqPdTOfwDvLGENGkMooZBQ0HSi/12SSA9sc
- Kv4W5Rj5JNGfw0gPpLz4tMJl+kucBoo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KtEaU7ZUdfH7aiyHY0WN2NywOP43io4TlcNXxYcdxak=;
+ b=dzLtSkF9WSt8tOwBvj9IcMjIoct4NjcH8tHUlKOGTIKxvLABkPzhn/8KzcIw/p4PHEVmRH
+ WqhD3GDKi/cN61nfauvRQ0SegBuAZw+5WaqAIuO1qgeMMqmlrWVKRscAfgMq0laS6/epAr
+ lmrv51Ja+zANkjbo8r92FbWMXXbvCKg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-279-Qo0WDWOJPwSBBlxF0TSr5Q-1; Wed, 21 Dec 2022 08:06:02 -0500
-X-MC-Unique: Qo0WDWOJPwSBBlxF0TSr5Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- h5-20020adfa4c5000000b0026755f9b55eso970886wrb.11
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:06:02 -0800 (PST)
+ us-mta-168-G1S7oZc4MIajXo0bQlZYdQ-1; Wed, 21 Dec 2022 08:06:05 -0500
+X-MC-Unique: G1S7oZc4MIajXo0bQlZYdQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c7-20020a1c3507000000b003d355c13ba8so4303690wma.6
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:06:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=e8powB56JtbuYONWR+65Vy5r+z/+gbMt2xbscg5z9Vc=;
- b=kAxv/MqytJa0VR87V14Zz2AwP5PG/KStOdhccKeJXBZg+mQ+j3dsJVIdid75FWH+nn
- xBVky/5uOMsmzkJ5V5NXbtyPR8Fr84SjGsjw3U3KkJc06Y0e/MVty16KSv8lxODvZVZM
- jJzdHluZmaKY4JIf/3FVkqkoGojL44ZImln3ORZN/k8c9YRRJRfalZEKfxiUAY6qdWJJ
- yZWls/bI0w9BHacbaXwTGwmTeqYRnHH7fsp3F9qSLgs1NWHom9z492bw8RIT0Y1Ecx8b
- Oe4G/0W9/R/4ZwahzFyi/kMQ3m6Btjp8cEHt9cwvOHSXtFHMwgyMap7zPt528+e5m3zk
- H4xw==
-X-Gm-Message-State: AFqh2koddYIOxqxtmo7+r8UXQmY+Dv8cV8eQAXF6y9CLof5pKz2DsAjk
- x/3rl7PExpopmeu/cYQuTkaEQ8Ijf/9D0t5LXxrt/5yZin1e5ct/7lWKsMFNXT2XmkRp743/8Mz
- 4dnWQr7Ono9cwD5pH8X2hcILtk3DzG8KuaO9W5AAbezFDif/QwsdeZauIH7Be
-X-Received: by 2002:a5d:4008:0:b0:264:ae8b:7de0 with SMTP id
- n8-20020a5d4008000000b00264ae8b7de0mr1200878wrp.39.1671627960501; 
- Wed, 21 Dec 2022 05:06:00 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvAaJskPhcQdCjsDCOLn+wn/eFW0GiVL74cWIwiWlsmnfgs3Zmev1lo227Ga71YiwpZdeoIbA==
-X-Received: by 2002:a5d:4008:0:b0:264:ae8b:7de0 with SMTP id
- n8-20020a5d4008000000b00264ae8b7de0mr1200858wrp.39.1671627960151; 
- Wed, 21 Dec 2022 05:06:00 -0800 (PST)
+ bh=KtEaU7ZUdfH7aiyHY0WN2NywOP43io4TlcNXxYcdxak=;
+ b=ZCxRt1HSb8wPleLhnKs5OXtZ5ziS96zf2I8TF84vT8Wf7XslLth+3MKXbVthz+DmZt
+ tYAfz0ShaDkY7Va3u8QMgHYv9E87+3MXJF3R3Q8ULyzluEBKYQs+fNdvtVAGoVCYJd04
+ K7ceyNx4MxEb5EQb9O+XnGA6HIhP1ALkK1mW65l3zszwuSjr5cTUWuML7gZ04HCvQ6MA
+ BgVL78xJlZduklT/nmHQj7s4Fsj7ikuDKo4eVwaSVc1yuVMl3bp+Mk7ZlCvBuiobajRM
+ pzY0iJ74Nl+FkY/O9b05S73zjXmTXTG1awlV2RsgPZOunHevZ/E8Yanu33qHQmnfshL6
+ UbOw==
+X-Gm-Message-State: AFqh2kq1syxGT80IZe7wcDzSLZ+sWakdkbtRsLF+CjAOfGV8ixebx4eE
+ F4llbScxuq1jmFb9/N0cujx4yBzyoyeSLEpjz+mHcw8/eMKcdryOH/p0nzsatxu0wID4fYtl1SP
+ OoBZtCdcPnmoOTKmHmrn5mkBKDam8YK0zOuAk+vykhl8MTuNTq9N4q+sc8JBC
+X-Received: by 2002:a1c:4b04:0:b0:3c6:f0b8:74e6 with SMTP id
+ y4-20020a1c4b04000000b003c6f0b874e6mr1662082wma.4.1671627963591; 
+ Wed, 21 Dec 2022 05:06:03 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtZNscTFIVPxAaAXktTT1jesJ7wDunxLKU7jpI5kMRRRaaQBoasaeIK7FevYuVanmoMLROHEA==
+X-Received: by 2002:a1c:4b04:0:b0:3c6:f0b8:74e6 with SMTP id
+ y4-20020a1c4b04000000b003c6f0b874e6mr1662052wma.4.1671627963245; 
+ Wed, 21 Dec 2022 05:06:03 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- r4-20020adfa144000000b002367ad808a9sm15646373wrr.30.2022.12.21.05.05.58
+ y5-20020a056000108500b0023657e1b980sm15384215wrw.53.2022.12.21.05.06.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:05:59 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:05:57 -0500
+ Wed, 21 Dec 2022 05:06:02 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:06:00 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org,
- Lei Yang <leiyang@redhat.com>, Yalan Zhang <yalzhang@redhat.com>
-Subject: [PULL 27/41] vhost: fix vq dirty bitmap syncing when vIOMMU is enabled
-Message-ID: <20221221130339.1234592-28-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org
+Subject: [PULL 28/41] remove DEC 21154 PCI bridge
+Message-ID: <20221221130339.1234592-29-mst@redhat.com>
 References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -74,7 +75,7 @@ Content-Disposition: inline
 In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,142 +99,267 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jason Wang <jasowang@redhat.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-When vIOMMU is enabled, the vq->used_phys is actually the IOVA not
-GPA. So we need to translate it to GPA before the syncing otherwise we
-may hit the following crash since IOVA could be out of the scope of
-the GPA log size. This could be noted when using virtio-IOMMU with
-vhost using 1G memory.
+Code has not been used practically since its inception (2004)
+  f2aa58c6f4a20 UniNorth PCI bridge support
+or maybe even earlier, but it was consuming contributors time
+as QEMU was being rewritten.
+Drop it for now. Whomever would like to actually
+use the thing, can make sure it actually works/reintroduce
+it back when there is a user.
 
-Fixes: c471ad0e9bd46 ("vhost_net: device IOTLB support")
-Cc: qemu-stable@nongnu.org
-Tested-by: Lei Yang <leiyang@redhat.com>
-Reported-by: Yalan Zhang <yalzhang@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20221216033552.77087-1-jasowang@redhat.com>
+PS:
+I've stumbled upon this when replacing PCIDeviceClass::is_bridge
+field with QOM cast to PCI_BRIDGE type. Unused DEC 21154
+was the only one trying to use the field with plain PCIDevice.
+It's not worth keeping the field around for the sake of the code
+that was commented out 'forever'.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20221129101341.185621-2-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost.c | 84 ++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 64 insertions(+), 20 deletions(-)
+ hw/pci-bridge/dec.h       |   9 ---
+ include/hw/pci/pci_ids.h  |   1 -
+ hw/pci-bridge/dec.c       | 164 --------------------------------------
+ hw/pci-host/uninorth.c    |   9 +--
+ hw/pci-bridge/meson.build |   2 -
+ 5 files changed, 4 insertions(+), 181 deletions(-)
+ delete mode 100644 hw/pci-bridge/dec.h
+ delete mode 100644 hw/pci-bridge/dec.c
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 7fb008bc9e..fdcd1a8fdf 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -20,6 +20,7 @@
- #include "qemu/range.h"
- #include "qemu/error-report.h"
- #include "qemu/memfd.h"
-+#include "qemu/log.h"
- #include "standard-headers/linux/vhost_types.h"
- #include "hw/virtio/virtio-bus.h"
- #include "hw/virtio/virtio-access.h"
-@@ -106,6 +107,24 @@ static void vhost_dev_sync_region(struct vhost_dev *dev,
-     }
- }
- 
-+static bool vhost_dev_has_iommu(struct vhost_dev *dev)
-+{
-+    VirtIODevice *vdev = dev->vdev;
-+
-+    /*
-+     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
-+     * incremental memory mapping API via IOTLB API. For platform that
-+     * does not have IOMMU, there's no need to enable this feature
-+     * which may cause unnecessary IOTLB miss/update transactions.
-+     */
-+    if (vdev) {
-+        return virtio_bus_device_iommu_enabled(vdev) &&
-+            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-+    } else {
-+        return false;
-+    }
-+}
-+
- static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
-                                    MemoryRegionSection *section,
-                                    hwaddr first,
-@@ -137,8 +156,51 @@ static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
-             continue;
-         }
- 
--        vhost_dev_sync_region(dev, section, start_addr, end_addr, vq->used_phys,
--                              range_get_last(vq->used_phys, vq->used_size));
-+        if (vhost_dev_has_iommu(dev)) {
-+            IOMMUTLBEntry iotlb;
-+            hwaddr used_phys = vq->used_phys, used_size = vq->used_size;
-+            hwaddr phys, s, offset;
-+
-+            while (used_size) {
-+                rcu_read_lock();
-+                iotlb = address_space_get_iotlb_entry(dev->vdev->dma_as,
-+                                                      used_phys,
-+                                                      true,
-+                                                      MEMTXATTRS_UNSPECIFIED);
-+                rcu_read_unlock();
-+
-+                if (!iotlb.target_as) {
-+                    qemu_log_mask(LOG_GUEST_ERROR, "translation "
-+                                  "failure for used_iova %"PRIx64"\n",
-+                                  used_phys);
-+                    return -EINVAL;
-+                }
-+
-+                offset = used_phys & iotlb.addr_mask;
-+                phys = iotlb.translated_addr + offset;
-+
-+                /*
-+                 * Distance from start of used ring until last byte of
-+                 * IOMMU page.
-+                 */
-+                s = iotlb.addr_mask - offset;
-+                /*
-+                 * Size of used ring, or of the part of it until end
-+                 * of IOMMU page. To avoid zero result, do the adding
-+                 * outside of MIN().
-+                 */
-+                s = MIN(s, used_size - 1) + 1;
-+
-+                vhost_dev_sync_region(dev, section, start_addr, end_addr, phys,
-+                                      range_get_last(phys, s));
-+                used_size -= s;
-+                used_phys += s;
-+            }
-+        } else {
-+            vhost_dev_sync_region(dev, section, start_addr,
-+                                  end_addr, vq->used_phys,
-+                                  range_get_last(vq->used_phys, vq->used_size));
-+        }
-     }
-     return 0;
- }
-@@ -306,24 +368,6 @@ static inline void vhost_dev_log_resize(struct vhost_dev *dev, uint64_t size)
-     dev->log_size = size;
- }
- 
--static bool vhost_dev_has_iommu(struct vhost_dev *dev)
--{
--    VirtIODevice *vdev = dev->vdev;
+diff --git a/hw/pci-bridge/dec.h b/hw/pci-bridge/dec.h
+deleted file mode 100644
+index 869e90b136..0000000000
+--- a/hw/pci-bridge/dec.h
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#ifndef HW_PCI_BRIDGE_DEC_H
+-#define HW_PCI_BRIDGE_DEC_H
 -
--    /*
--     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
--     * incremental memory mapping API via IOTLB API. For platform that
--     * does not have IOMMU, there's no need to enable this feature
--     * which may cause unnecessary IOTLB miss/update transactions.
--     */
--    if (vdev) {
--        return virtio_bus_device_iommu_enabled(vdev) &&
--            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
--    } else {
--        return false;
--    }
+-
+-#define TYPE_DEC_21154 "dec-21154-sysbus"
+-
+-PCIBus *pci_dec_21154_init(PCIBus *parent_bus, int devfn);
+-
+-#endif
+diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+index bc9f834fd1..e4386ebb20 100644
+--- a/include/hw/pci/pci_ids.h
++++ b/include/hw/pci/pci_ids.h
+@@ -169,7 +169,6 @@
+ 
+ #define PCI_VENDOR_ID_DEC                0x1011
+ #define PCI_DEVICE_ID_DEC_21143          0x0019
+-#define PCI_DEVICE_ID_DEC_21154          0x0026
+ 
+ #define PCI_VENDOR_ID_CIRRUS             0x1013
+ 
+diff --git a/hw/pci-bridge/dec.c b/hw/pci-bridge/dec.c
+deleted file mode 100644
+index 4773d07e6d..0000000000
+--- a/hw/pci-bridge/dec.c
++++ /dev/null
+@@ -1,164 +0,0 @@
+-/*
+- * QEMU DEC 21154 PCI bridge
+- *
+- * Copyright (c) 2006-2007 Fabrice Bellard
+- * Copyright (c) 2007 Jocelyn Mayer
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a copy
+- * of this software and associated documentation files (the "Software"), to deal
+- * in the Software without restriction, including without limitation the rights
+- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+- * copies of the Software, and to permit persons to whom the Software is
+- * furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice shall be included in
+- * all copies or substantial portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+- * THE SOFTWARE.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "dec.h"
+-#include "hw/sysbus.h"
+-#include "qapi/error.h"
+-#include "qemu/module.h"
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pci_host.h"
+-#include "hw/pci/pci_bridge.h"
+-#include "hw/pci/pci_bus.h"
+-#include "qom/object.h"
+-
+-OBJECT_DECLARE_SIMPLE_TYPE(DECState, DEC_21154)
+-
+-struct DECState {
+-    PCIHostState parent_obj;
+-};
+-
+-static int dec_map_irq(PCIDevice *pci_dev, int irq_num)
+-{
+-    return irq_num;
 -}
 -
- static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
-                               hwaddr *plen, bool is_write)
- {
+-static void dec_pci_bridge_realize(PCIDevice *pci_dev, Error **errp)
+-{
+-    pci_bridge_initfn(pci_dev, TYPE_PCI_BUS);
+-}
+-
+-static void dec_21154_pci_bridge_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+-
+-    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+-    k->realize = dec_pci_bridge_realize;
+-    k->exit = pci_bridge_exitfn;
+-    k->vendor_id = PCI_VENDOR_ID_DEC;
+-    k->device_id = PCI_DEVICE_ID_DEC_21154;
+-    k->config_write = pci_bridge_write_config;
+-    k->is_bridge = true;
+-    dc->desc = "DEC 21154 PCI-PCI bridge";
+-    dc->reset = pci_bridge_reset;
+-    dc->vmsd = &vmstate_pci_device;
+-}
+-
+-static const TypeInfo dec_21154_pci_bridge_info = {
+-    .name          = "dec-21154-p2p-bridge",
+-    .parent        = TYPE_PCI_BRIDGE,
+-    .instance_size = sizeof(PCIBridge),
+-    .class_init    = dec_21154_pci_bridge_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-        { },
+-    },
+-};
+-
+-PCIBus *pci_dec_21154_init(PCIBus *parent_bus, int devfn)
+-{
+-    PCIDevice *dev;
+-    PCIBridge *br;
+-
+-    dev = pci_new_multifunction(devfn, false, "dec-21154-p2p-bridge");
+-    br = PCI_BRIDGE(dev);
+-    pci_bridge_map_irq(br, "DEC 21154 PCI-PCI bridge", dec_map_irq);
+-    pci_realize_and_unref(dev, parent_bus, &error_fatal);
+-    return pci_bridge_get_sec_bus(br);
+-}
+-
+-static void pci_dec_21154_device_realize(DeviceState *dev, Error **errp)
+-{
+-    PCIHostState *phb;
+-    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-
+-    phb = PCI_HOST_BRIDGE(dev);
+-
+-    memory_region_init_io(&phb->conf_mem, OBJECT(dev), &pci_host_conf_le_ops,
+-                          dev, "pci-conf-idx", 0x1000);
+-    memory_region_init_io(&phb->data_mem, OBJECT(dev), &pci_host_data_le_ops,
+-                          dev, "pci-data-idx", 0x1000);
+-    sysbus_init_mmio(sbd, &phb->conf_mem);
+-    sysbus_init_mmio(sbd, &phb->data_mem);
+-}
+-
+-static void dec_21154_pci_host_realize(PCIDevice *d, Error **errp)
+-{
+-    /* PCI2PCI bridge same values as PearPC - check this */
+-}
+-
+-static void dec_21154_pci_host_class_init(ObjectClass *klass, void *data)
+-{
+-    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+-    k->realize = dec_21154_pci_host_realize;
+-    k->vendor_id = PCI_VENDOR_ID_DEC;
+-    k->device_id = PCI_DEVICE_ID_DEC_21154;
+-    k->revision = 0x02;
+-    k->class_id = PCI_CLASS_BRIDGE_PCI;
+-    k->is_bridge = true;
+-    /*
+-     * PCI-facing part of the host bridge, not usable without the
+-     * host-facing part, which can't be device_add'ed, yet.
+-     */
+-    dc->user_creatable = false;
+-}
+-
+-static const TypeInfo dec_21154_pci_host_info = {
+-    .name          = "dec-21154",
+-    .parent        = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(PCIDevice),
+-    .class_init    = dec_21154_pci_host_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-        { },
+-    },
+-};
+-
+-static void pci_dec_21154_device_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->realize = pci_dec_21154_device_realize;
+-}
+-
+-static const TypeInfo pci_dec_21154_device_info = {
+-    .name          = TYPE_DEC_21154,
+-    .parent        = TYPE_PCI_HOST_BRIDGE,
+-    .instance_size = sizeof(DECState),
+-    .class_init    = pci_dec_21154_device_class_init,
+-};
+-
+-static void dec_register_types(void)
+-{
+-    type_register_static(&pci_dec_21154_device_info);
+-    type_register_static(&dec_21154_pci_host_info);
+-    type_register_static(&dec_21154_pci_bridge_info);
+-}
+-
+-type_init(dec_register_types)
+diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
+index aebd44d265..8396c91d59 100644
+--- a/hw/pci-host/uninorth.c
++++ b/hw/pci-host/uninorth.c
+@@ -128,11 +128,10 @@ static void pci_unin_main_realize(DeviceState *dev, Error **errp)
+ 
+     pci_create_simple(h->bus, PCI_DEVFN(11, 0), "uni-north-pci");
+ 
+-    /* DEC 21154 bridge */
+-#if 0
+-    /* XXX: not activated as PPC BIOS doesn't handle multiple buses properly */
+-    pci_create_simple(h->bus, PCI_DEVFN(12, 0), "dec-21154");
+-#endif
++    /*
++     * DEC 21154 bridge was unused for many years, this comment is
++     * a placeholder for whoever wishes to resurrect it
++     */
+ }
+ 
+ static void pci_unin_main_init(Object *obj)
+diff --git a/hw/pci-bridge/meson.build b/hw/pci-bridge/meson.build
+index 243ceeda50..fe92d43de6 100644
+--- a/hw/pci-bridge/meson.build
++++ b/hw/pci-bridge/meson.build
+@@ -8,8 +8,6 @@ pci_ss.add(when: 'CONFIG_PXB', if_true: files('pci_expander_bridge.c'),
+ pci_ss.add(when: 'CONFIG_XIO3130', if_true: files('xio3130_upstream.c', 'xio3130_downstream.c'))
+ pci_ss.add(when: 'CONFIG_CXL', if_true: files('cxl_root_port.c', 'cxl_upstream.c', 'cxl_downstream.c'))
+ 
+-# NewWorld PowerMac
+-pci_ss.add(when: 'CONFIG_DEC_PCI', if_true: files('dec.c'))
+ # Sun4u
+ pci_ss.add(when: 'CONFIG_SIMBA', if_true: files('simba.c'))
+ 
 -- 
 MST
 
