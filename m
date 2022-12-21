@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A49A652ED3
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 10:47:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C486652EE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 10:50:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7vgl-0000eZ-3b; Wed, 21 Dec 2022 04:47:03 -0500
+	id 1p7vj6-0001gy-46; Wed, 21 Dec 2022 04:49:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1p7vgf-0000eC-H4; Wed, 21 Dec 2022 04:46:57 -0500
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1p7vgd-0001nc-KP; Wed, 21 Dec 2022 04:46:57 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.118])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9D29A227D8;
- Wed, 21 Dec 2022 09:46:49 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 21 Dec
- 2022 10:46:48 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005d4855720-8b16-4427-901a-c42b53fb0d65,
- 78B451B26E434E63100236457A08FF51A4610C03) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <5f70da81-2854-766f-1804-59a037a605b8@kaod.org>
-Date: Wed, 21 Dec 2022 10:46:48 +0100
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p7vj1-0001gT-OV
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:49:24 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1p7vj0-0002DE-66
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:49:23 -0500
+Received: by mail-wr1-x436.google.com with SMTP id y16so14374238wrm.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 01:49:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:reply-to
+ :references:cc:to:content-language:subject:user-agent:mime-version
+ :date:message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8cH30VnQRJzBVCVXreUOOdWmTFybA6lxqbZLYCMUbsY=;
+ b=YMhPuBMeOPT3LfkaFT91G5jrpoQa7zudDaY6CbHIpjOzV+wNkcvb5BlrtWZji9Tc59
+ Hq8FV4SKLiIecxdFnVgH7GEHZLcdfcCCLwRYS2mPsXKHTba9dYRVH/TfC+3XEHPWwhBt
+ r0ZQgbTlp4CBIbjUaCyn4rC+VRDjcvuNMVrZVRFEtErzEsHuUa5UH1DXOnCYbJEaqs1Y
+ G+X1ufodrIoX9tZjJaOghXj/R2KzsSMBbNgDk8/M/otiuPCTTPsmaqWpf1aMW9KZ/RgB
+ kPkOreqvPF20QdqOcw2n0H4U/c286YoCeE5kgwctYO4Y2gArsBkzKnUGRXQQoy0RrAUh
+ 0VcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:reply-to
+ :references:cc:to:content-language:subject:user-agent:mime-version
+ :date:message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8cH30VnQRJzBVCVXreUOOdWmTFybA6lxqbZLYCMUbsY=;
+ b=LIFieCtU8AN3Tx6UnVRdyfUm8fFdq73n8qaFkz/+5Yw+mWQx/fOdxtCdhvVLEL/nqO
+ n1iu5UIkewz/MxvzHwu9Mw0ZAjnoCyGFegYPxZYj0WbVENSGmnEFULhMfZYLEdGyQ8Sb
+ yEYr/GT1OJ6QrvWcsyWNp+aHEFe90Rpxpfg4CtOLRR3rEXOqr5KMpfQG/PBj7+LVaCtR
+ 1PprLMf2SgkpR6mrq0xCpCB9K+MxTJHySY6OYQ8GmuI1SEXOZkPN67LgltjvZZIlCBvN
+ P2awszzv18PPe1dm9fSet7v9NUeoH97KZQtfLiWh+ITs+M/r5Ziwjb1rRP5i/yEfS+JF
+ wE4g==
+X-Gm-Message-State: AFqh2kqZ2oPrLtarJSyLFe7QZxh5OTpNG6WWO8g5jbccJaCtuxrp/qg0
+ TgOfx09cPVULczP9tr68eZk=
+X-Google-Smtp-Source: AMrXdXvZq/3Mw6Pg+vf+FsHdZ9xv9qrg1Q8NFj3GhsqGhqnCEpX+zSmpOONykiw0TRAZ6TpTLOR4GQ==
+X-Received: by 2002:a05:6000:a0b:b0:242:1ad2:15e4 with SMTP id
+ co11-20020a0560000a0b00b002421ad215e4mr865177wrb.3.1671616159971; 
+ Wed, 21 Dec 2022 01:49:19 -0800 (PST)
+Received: from [192.168.6.210] (54-240-197-232.amazon.com. [54.240.197.232])
+ by smtp.gmail.com with ESMTPSA id
+ ba18-20020a0560001c1200b002421ce6a275sm15018339wrb.114.2022.12.21.01.49.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Dec 2022 01:49:19 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <d70bda7e-4d3c-4cbf-5b7a-6704e01a3d85@xen.org>
+Date: Wed, 21 Dec 2022 09:49:18 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH-for-8.0 4/4] hw/ppc/spapr_ovec: Avoid target_ulong
- spapr_ovec_parse_vector()
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RFC PATCH v3 03/38] xen: Add XEN_DISABLED mode and make it
+ default
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- <qemu-devel@nongnu.org>
-CC: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- <qemu-ppc@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>,
- <kvm@vger.kernel.org>, Alexey Kardashevskiy <aik@ozlabs.ru>, Greg Kurz
- <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster
- <armbru@redhat.com>
-References: <20221213123550.39302-1-philmd@linaro.org>
- <20221213123550.39302-5-philmd@linaro.org>
- <c871b044-4241-2f02-ebd6-6b797663a140@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <c871b044-4241-2f02-ebd6-6b797663a140@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20221216004117.862106-1-dwmw2@infradead.org>
+ <20221216004117.862106-4-dwmw2@infradead.org>
+ <9dea5cbb-1a8f-4e90-52ea-01fe1b7dbd80@xen.org>
+ <91e5e1091fe354d529e692beb2c4b4c4d747b836.camel@infradead.org>
+Organization: Xen Project
+In-Reply-To: <91e5e1091fe354d529e692beb2c4b4c4d747b836.camel@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: a29dbd1d-b91e-4753-9a1d-58263a462809
-X-Ovh-Tracer-Id: 15422858400342510581
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrgeekgddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrlhgvgidrsggvnhhnvggvsehlihhnrghrohdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruhdpkhhvmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprghikhesohiilhgrsghsrdhruhdpphgsohhniihinhhisehrvgguhhgrth
- drtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.161,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.161, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,95 +103,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/16/22 17:47, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 12/13/22 09:35, Philippe Mathieu-Daudé wrote:
->> spapr_ovec.c is a device, but it uses target_ulong which is
->> target specific. The hwaddr type (declared in "exec/hwaddr.h")
->> better fits hardware addresses.
-> 
-> As said by Harsh, spapr_ovec is in fact a data structure that stores platform
-> options that are supported by the guest.
-> 
-> That doesn't mean that I oppose the change made here. Aside from semantics - which
-> I also don't have a strong opinion about it - I don't believe it matters that
-> much - spapr is 64 bit only, so hwaddr will always be == target_ulong.
-> 
-> Cedric/David/Greg, let me know if you have any restriction/thoughts about this.
-> I'm inclined to accept it as is.
-
-Well, I am not sure.
-
-The vector table variable is the result of a ppc64_phys_to_real() conversion
-of the CAS hcall parameter, which is a target_ulong, but ppc64_phys_to_real()
-returns a uint64_t.
-
-The code is not consistent in another places :
-
-   hw/ppc/spapr_tpm_proxy.c uses a uint64_t
-   hw/ppc/spapr_hcall.c, a target_ulong
-   hw/ppc/spapr_rtas.c, a hwaddr
-   hw/ppc/spapr_drc.c, a hwaddr indirectly
-
-Should we change ppc64_phys_to_real() to return an hwaddr (also) ?
-
-C.
-
-
-> 
-> 
-> Daniel
-> 
+On 20/12/2022 22:59, David Woodhouse wrote:
+> On Tue, 2022-12-20 at 14:39 +0000, Paul Durrant wrote:
+>> On 16/12/2022 00:40, David Woodhouse wrote:
+>>> From: David Woodhouse <dwmw@amazon.co.uk>
+>>>
+>>> Also check for XEN_ATTACH mode in xen_init()
+>>>
+>>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+>>> ---
+>>>     accel/xen/xen-all.c  | 4 ++++
+>>>     include/hw/xen/xen.h | 5 +++--
+>>>     2 files changed, 7 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+>>> index 69aa7d018b..109d2e84bc 100644
+>>> --- a/accel/xen/xen-all.c
+>>> +++ b/accel/xen/xen-all.c
+>>> @@ -158,6 +158,10 @@ static int xen_init(MachineState *ms)
+>>>     {
+>>>         MachineClass *mc = MACHINE_GET_CLASS(ms);
+>>>     
+>>> +    if (xen_mode != XEN_ATTACH) {
+>>> +        xen_pv_printf(NULL, 0, "xen requires --xen-attach mode\n");
+>>> +        return -1;
+>>> +    }
 >>
->> Change spapr_ovec_parse_vector() to take a hwaddr argument,
->> allowing the removal of "cpu.h" in a device header.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->>   hw/ppc/spapr_ovec.c         | 3 ++-
->>   include/hw/ppc/spapr_ovec.h | 4 ++--
->>   2 files changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/ppc/spapr_ovec.c b/hw/ppc/spapr_ovec.c
->> index b2567caa5c..a18a751b57 100644
->> --- a/hw/ppc/spapr_ovec.c
->> +++ b/hw/ppc/spapr_ovec.c
->> @@ -19,6 +19,7 @@
->>   #include "qemu/error-report.h"
->>   #include "trace.h"
->>   #include <libfdt.h>
->> +#include "cpu.h"
->>   #define OV_MAXBYTES 256 /* not including length byte */
->>   #define OV_MAXBITS (OV_MAXBYTES * BITS_PER_BYTE)
->> @@ -176,7 +177,7 @@ static target_ulong vector_addr(target_ulong table_addr, int vector)
->>       return table_addr;
->>   }
->> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector)
->> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector)
->>   {
->>       SpaprOptionVector *ov;
->>       target_ulong addr;
->> diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
->> index c3e8b98e7e..d756b916e4 100644
->> --- a/include/hw/ppc/spapr_ovec.h
->> +++ b/include/hw/ppc/spapr_ovec.h
->> @@ -37,7 +37,7 @@
->>   #ifndef SPAPR_OVEC_H
->>   #define SPAPR_OVEC_H
->> -#include "cpu.h"
->> +#include "exec/hwaddr.h"
->>   typedef struct SpaprOptionVector SpaprOptionVector;
->> @@ -73,7 +73,7 @@ void spapr_ovec_set(SpaprOptionVector *ov, long bitnr);
->>   void spapr_ovec_clear(SpaprOptionVector *ov, long bitnr);
->>   bool spapr_ovec_test(SpaprOptionVector *ov, long bitnr);
->>   bool spapr_ovec_empty(SpaprOptionVector *ov);
->> -SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int vector);
->> +SpaprOptionVector *spapr_ovec_parse_vector(hwaddr table_addr, int vector);
->>   int spapr_dt_ovec(void *fdt, int fdt_offset,
->>                     SpaprOptionVector *ov, const char *name);
+>> This is new requirement, isn't it? Libxl only passes --xen-attach
+>> for PV domains so AFAICT this will break Xen HVM domains.
+> 
+> So HVM domains are currently running with xen_mode == XEN_EMULATE and
+> work because nobody ever actually looks at that variable except in
+> xen_init_pv().
+> 
+> What was the reason for ever needing it to be explicitly set on the
+> command line; couldn't it have been implicit?
+> 
 
+Judging by the comments on the enum, it dates back to xenner. I guess it 
+was needed to disambiguate use of xenner from attaching to a real Xen 
+instance.
+The only cases I see it being used in libxl are for starting up a qdisk 
+backend when spawning a PV domU, or retrospectively for dom0.
+
+As you say, the only place it is checked is in xen_init_pv() and even 
+then it has no effect. The comment in the code says "nothing to do, 
+libxl handles everything".
+
+> Seems like the right thing to do is to make it implicit in xen_init()
+> above, and *set* it to XEN_ATTACH instead of requiring it to have been
+> set on the command line?
+
+I guess, now that your reviving Xen emulation in QEMU, the mode does 
+become relevant again so making XEN_ATTACH implicit when QEMU is 
+launched by libxl, in all cases, is the appropriate thing to do.
+
+   Paul
 
