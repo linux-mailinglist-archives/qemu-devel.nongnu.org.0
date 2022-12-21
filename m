@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB107653359
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 16:27:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00B9965335C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 16:27:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p80yl-0005Or-0K; Wed, 21 Dec 2022 10:25:59 -0500
+	id 1p80zh-0005uD-Jy; Wed, 21 Dec 2022 10:26:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p80yf-0005Oi-QU
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 10:25:53 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p80zc-0005t4-BY
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 10:26:52 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p80ye-00073l-9t
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 10:25:53 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p80za-00078q-Ug
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 10:26:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671636351;
+ s=mimecast20190719; t=1671636410;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FKLQ4CL2Fnag1jLCS7V20VA6ivmCcPLGba3CUbYo2QE=;
- b=Zui9/9x5veAYy6P/UGmno1U7rTR3zSabVj/EALLm5q5iMAbUShGjj5zRoJaNGqMo960zGE
- m/dbKaBm7Kl4XZf2g5jK2mTvE6QfREkeOQht1Qs5iTAfePCsfAGmN0wQ62CdYTQ7lLLFo9
- hAOs2eYe7n6p2ptefVSzklJlQPnsdJA=
+ bh=+N8MEUe3LKQ/NuNAlF/ow2P5V8BYwIs/I6C+6xZvLgE=;
+ b=HZHRg6R8VG45O07x3+pFyzTqMp9XCfGglIycTvW2yZi+dGYSc9CzaQ0e4huR9y0oc8bs73
+ gnl7rxTwfG1OL4q+8yp62Y3TKJLjxdqPwcc9j1hKkQI4RoC3luVHEQ3J16zneKUxg7ih46
+ wJqvIYCSyQbrk18+hb9Vn46oZLUfMS0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-480-xXCP9yv2NmGgggGoLqaIkw-1; Wed, 21 Dec 2022 10:25:42 -0500
-X-MC-Unique: xXCP9yv2NmGgggGoLqaIkw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-538-X1XeLrzQMN-PUA_XyG6rdw-1; Wed, 21 Dec 2022 10:26:47 -0500
+X-MC-Unique: X1XeLrzQMN-PUA_XyG6rdw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 13E0118A64E0;
- Wed, 21 Dec 2022 15:25:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7785087B2A3;
+ Wed, 21 Dec 2022 15:26:46 +0000 (UTC)
 Received: from localhost (unknown [10.22.32.189])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A01E8400D79E;
- Wed, 21 Dec 2022 15:25:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 295E240C2064;
+ Wed, 21 Dec 2022 15:26:45 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org, Zenghui
  Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v2 1/2] hw/arm/virt: Consolidate GIC finalize logic
-In-Reply-To: <20221221092850.61332-2-agraf@csgraf.de>
+Subject: Re: [PATCH v2 2/2] hw/arm/virt: Make accels in GIC finalize logic
+ explicit
+In-Reply-To: <20221221092850.61332-3-agraf@csgraf.de>
 Organization: Red Hat GmbH
 References: <20221221092850.61332-1-agraf@csgraf.de>
- <20221221092850.61332-2-agraf@csgraf.de>
+ <20221221092850.61332-3-agraf@csgraf.de>
 User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Wed, 21 Dec 2022 16:25:39 +0100
-Message-ID: <87o7rw6aoc.fsf@redhat.com>
+Date: Wed, 21 Dec 2022 16:26:44 +0100
+Message-ID: <87len06amj.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,21 +81,10 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Wed, Dec 21 2022, Alexander Graf <agraf@csgraf.de> wrote:
 
-> Up to now, the finalize_gic_version() code open coded what is essentially
-> a support bitmap match between host/emulation environment and desired
-> target GIC type.
->
-> This open coding leads to undesirable side effects. For example, a VM with
-> KVM and -smp 10 will automatically choose GICv3 while the same command
-> line with TCG will stay on GICv2 and fail the launch.
->
-> This patch combines the TCG and KVM matching code paths by making
-> everything a 2 pass process. First, we determine which GIC versions the
-> current environment is able to support, then we go through a single
-> state machine to determine which target GIC mode that means for us.
->
-> After this patch, the only user noticable changes should be consolidated
-> error messages as well as TCG -M virt supporting -smp > 8 automatically.
+> Let's explicitly list out all accelerators that we support when trying to
+> determine the supported set of GIC versions. KVM was already separate, so
+> the only missing one is HVF which simply reuses all of TCG's emulation
+> code and thus has the same compatibility matrix.
 >
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
 >
@@ -102,76 +92,11 @@ On Wed, Dec 21 2022, Alexander Graf <agraf@csgraf.de> wrote:
 >
 > v1 -> v2:
 >
->   - leave VIRT_GIC_VERSION defines intact, we need them for MADT generation
+>   - Include TCG header for tcg_enabled()
 > ---
->  hw/arm/virt.c         | 199 ++++++++++++++++++++++--------------------
->  include/hw/arm/virt.h |  15 ++--
->  2 files changed, 113 insertions(+), 101 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 04eb6c201d..7b54387958 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1820,6 +1820,85 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
->      }
->  }
->  
-> +static VirtGICType finalize_gic_version_do(const char *accel_name,
-> +                                           VirtGICType gic_version,
-> +                                           int gics_supported,
-> +                                           unsigned int max_cpus)
-> +{
-> +    /* Convert host/max/nosel to GIC version number */
-> +    switch (gic_version) {
-> +    case VIRT_GIC_VERSION_HOST:
-> +        if (kvm_enabled()) {
-> +            /* For KVM, -cpu host means -cpu max */
+>  hw/arm/virt.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
-That should rather be "gic-version" instead of "cpu", I guess?
-
-> +            return finalize_gic_version_do(accel_name, VIRT_GIC_VERSION_MAX,
-> +                                           gics_supported, max_cpus);
-> +        }
-> +
-> +        error_report("gic-version=host requires KVM");
-> +        exit(1);
-> +        break;
-
-I wonder whether reporting an error for !kvm_enabled() and falling
-through would be more readable.
-
-...although all of this is already more readable than before :)
-
-> +    case VIRT_GIC_VERSION_MAX:
-> +        if (gics_supported & VIRT_GIC_VERSION_4_MASK) {
-> +            gic_version = VIRT_GIC_VERSION_4;
-> +        } else if (gics_supported & VIRT_GIC_VERSION_3_MASK) {
-> +            gic_version = VIRT_GIC_VERSION_3;
-> +        } else {
-> +            gic_version = VIRT_GIC_VERSION_2;
-> +        }
-> +        break;
-> +    case VIRT_GIC_VERSION_NOSEL:
-> +        if ((gics_supported & VIRT_GIC_VERSION_2_MASK) &&
-> +            max_cpus <= GIC_NCPU) {
-> +            gic_version = VIRT_GIC_VERSION_2;
-> +        } else if (gics_supported & VIRT_GIC_VERSION_3_MASK) {
-> +            /*
-> +             * in case the host does not support v2 emulation or
-> +             * the end-user requested more than 8 VCPUs we now default
-> +             * to v3. In any case defaulting to v2 would be broken.
-> +             */
-> +            gic_version = VIRT_GIC_VERSION_3;
-> +        } else if (max_cpus > GIC_NCPU) {
-> +            error_report("%s only supports GICv2 emulation but more than 8 "
-> +                         "vcpus are requested", accel_name);
-> +            exit(1);
-> +        }
-> +        break;
-> +    case VIRT_GIC_VERSION_2:
-> +    case VIRT_GIC_VERSION_3:
-> +    case VIRT_GIC_VERSION_4:
-> +        break;
-> +    }
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
