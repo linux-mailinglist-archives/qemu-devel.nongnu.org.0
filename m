@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A22653421
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 17:35:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58398653427
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 17:37:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p823C-00035L-D2; Wed, 21 Dec 2022 11:34:38 -0500
+	id 1p825f-00056r-4G; Wed, 21 Dec 2022 11:37:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p8239-00034C-V6
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:34:35 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p8238-0003l2-GB
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:34:35 -0500
-Received: by mail-wm1-x334.google.com with SMTP id ja17so11541140wmb.3
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 08:34:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ztUkTOonrWZYhYPwQNXcCqqDgNvYBsDBRrTMrlpbbYg=;
- b=h8DHTio/VC4F/gQfHZo9PvpzJG88Y+eMFv128sBML3514lGgVGfGMbRwPoSVIyhvkw
- 1ga4ClPxsrP1FIYzl1uCGw/GTKxZzBWPFNaFnMIQ1tnbgKj8v0d23sHTMMPWWmLdsymf
- n1jhydKTPpTyIcwq51Hdd4dXLW82XXhpyVVNvlMRg/3B3pRCE6JKKLc4nIhaB1ULSAdm
- NmXMgt8SyKStlSp1wpQzcpkS6CRPoTuBfjBcBzF9cff3MKTSLqQKSy4LULVD6j/mkXds
- zMBGtXcaJ2eyxYsiafimW4/5UoMICN3sWRgFw4FTKGYKZeihmanMFQCW4H3V6qK1+xBW
- qw+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=ztUkTOonrWZYhYPwQNXcCqqDgNvYBsDBRrTMrlpbbYg=;
- b=JGajEfzz/McnpzhMmDA7ePrOGCfoWAoV+Xgq4ebRn9EXwzSGQbhWFYXnwBILbgeJRm
- ADNZgQgMvDyMdqTL5K8NbYiWjiDYAX0i2c7jcBbccvo8BPdk72ZaFTwEpYIhnd8F6Z0E
- I4aJP52nz3GqloJXDM2sq8/83gl9SDYcfr+AwwVqDYgLgiH4epXpXEc8n+Qfwr8YCnKX
- C9/88fB3mhJp4fizjRn5nE75M2IcE9qBWefvFdmQpMzLlq6E0zS3+m9qb0vxLg2DbZtM
- PcswYt+EW7aGkAB3ZxOkjI1OCK8QX65E2PenxCHeoVLQny1B0ug6F1B/yHNeimVbp9Ty
- c4bA==
-X-Gm-Message-State: AFqh2kooNHAch0qex+2qF8Xkfvi3y8fbiK9toKxpl7a9pPgid/Kq4mkY
- jjITdcdiDEqS+PSueNrhtcpm5g==
-X-Google-Smtp-Source: AMrXdXsa2lGgf8lExYi2So+PwO5x51HoYghYKCfUBl1/lEfNlnDOnxGoMv8XnOt9UFGiNDrYDfGTOw==
-X-Received: by 2002:a05:600c:3d98:b0:3cf:d70d:d5a8 with SMTP id
- bi24-20020a05600c3d9800b003cfd70dd5a8mr2255188wmb.6.1671640472318; 
- Wed, 21 Dec 2022 08:34:32 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- r64-20020a1c4443000000b003d1e4120700sm3259523wma.41.2022.12.21.08.34.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 08:34:31 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 23EFC1FFB7;
- Wed, 21 Dec 2022 16:34:31 +0000 (GMT)
-References: <20221221132310.1485715-1-clg@kaod.org>
-User-agent: mu4e 1.9.7; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Marcel Apfelbaum
- <marcel@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/core/loader: Remove declarations of
- option_rom_has_mr/rom_file_has_mr
-Date: Wed, 21 Dec 2022 16:34:26 +0000
-In-reply-to: <20221221132310.1485715-1-clg@kaod.org>
-Message-ID: <87pmccyauh.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p825b-00056W-2U
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:37:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1p825Y-0004I2-Tz
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:37:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671640621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lldtptq4WwzJeJykxzoDNSc+s6rmg+R902DZmJGazck=;
+ b=cdUd+kMgbeTmCA9mXu5Bv8/FDCjJSMpyfZkc+ipU06v7T6VpDSPUuPYpX0h7BCK1Q/JKMD
+ HtBBQoUvvT28OXK4CLKSEt5s5ap8SAPSviZ55LPFoENSoKRjLGJprHOeswNl7pdNsG2fLa
+ HnfCfLMiByYhXAdYSXN5Kb1lCiIVeFs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-344-NnbqrRiZM4K5NeM8HzqB6g-1; Wed, 21 Dec 2022 11:36:58 -0500
+X-MC-Unique: NnbqrRiZM4K5NeM8HzqB6g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1CC8281DE74;
+ Wed, 21 Dec 2022 16:36:57 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.39.194.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 525781731B;
+ Wed, 21 Dec 2022 16:36:55 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, pbonzini@redhat.com,
+ richard.henderson@linaro.org, paul@nowt.org, qemu-devel@nongnu.org,
+ stefanha@fmail.com, peter.maydell@linaro.org, sw@weilnetz.de
+Subject: [PATCH v2] target/i386: Remove compilation errors when
+ -Werror=maybe-uninitialized
+Date: Wed, 21 Dec 2022 17:36:52 +0100
+Message-Id: <20221221163652.1239362-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,20 +77,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+To avoid compilation errors when -Werror=maybe-uninitialized is used,
+replace 'case 3' by 'default'.
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+Otherwise we get:
 
-> These globals were moved to MachineClass by commit 71ae9e94d9 ("pc: Move
-> option_rom_has_mr/rom_file_has_mr globals to MachineClass"). Finish clean=
-up.
->
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Marcel Apfelbaum <marcel@redhat.com>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+../target/i386/ops_sse.h: In function ‘helper_vpermdq_ymm’:
+../target/i386/ops_sse.h:2495:13: error: ‘r3’ may be used
+uninitialized in this function [-Werror=maybe-uninitialized]
+   2495 |     d->Q(3) = r3;
+        |     ~~~~~~~~^~~~
+../target/i386/ops_sse.h:2494:13: error: ‘r2’ may be used
+uninitialized in this function [-Werror=maybe-uninitialized]
+   2494 |     d->Q(2) = r2;
+        |     ~~~~~~~~^~~~
+../target/i386/ops_sse.h:2493:13: error: ‘r1’ may be used
+uninitialized in this function [-Werror=maybe-uninitialized]
+   2493 |     d->Q(1) = r1;
+        |     ~~~~~~~~^~~~
+../target/i386/ops_sse.h:2492:13: error: ‘r0’ may be used
+uninitialized in this function [-Werror=maybe-uninitialized]
+   2492 |     d->Q(0) = r0;
+        |     ~~~~~~~~^~~~
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Suggested-by: Stefan Weil <sw@weilnetz.de>
+Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
+---
+ target/i386/ops_sse.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+index 3cbc36a59d..c442c8c10c 100644
+--- a/target/i386/ops_sse.h
++++ b/target/i386/ops_sse.h
+@@ -2466,7 +2466,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, uint32_t order)
+         r0 = s->Q(0);
+         r1 = s->Q(1);
+         break;
+-    case 3:
++    default:
+         r0 = s->Q(2);
+         r1 = s->Q(3);
+         break;
+@@ -2484,7 +2484,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, uint32_t order)
+         r2 = s->Q(0);
+         r3 = s->Q(1);
+         break;
+-    case 3:
++    default:
+         r2 = s->Q(2);
+         r3 = s->Q(3);
+         break;
+-- 
+2.37.3
+
 
