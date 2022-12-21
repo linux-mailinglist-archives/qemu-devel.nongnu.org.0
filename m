@@ -2,106 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970CA6537EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 22:02:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC1D65384E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 22:50:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p86Cz-0001r8-Je; Wed, 21 Dec 2022 16:01:01 -0500
+	id 1p86wc-0003lI-3k; Wed, 21 Dec 2022 16:48:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1p86Cx-0001qa-CP; Wed, 21 Dec 2022 16:00:59 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1p86Cv-0000Xo-65; Wed, 21 Dec 2022 16:00:59 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BLKfh8n028198; Wed, 21 Dec 2022 21:00:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=XpuC6buLRIWsGo2HwD+fuX1oGZ26UgX9K/2WWbQTKa4=;
- b=NzO7r2za1ZOpETSs27vHggSlQY7usa5kTf3mnQFurUNsplYC6in9UGJlVRhkXxDfZn04
- 2Luq0x2QgeIu46uFweCz/XhXBf1p4xIUYc++mZl19rH2bHiSQ5dslSdnxFuOOLkUgOdJ
- PVNfKO8AtVo6g01xHfK5v8EVV190xjpnua4ISv+nVIZJ2XfHk+qAG0G/m5hv1x5yLu/L
- LO8BfNfY41arA1HSmC+764KN2HtLxO+eIf87hrOBSPyDg/v5WqWuJcNTot9nYLEL1vI+
- sO6jrcqRnz8XbQVs4oJ7A83LAAftSt9TZGb+K1TQRuzYu/PZbLGiat93CBgnmdjNQD7x uA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mm9de0cr1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Dec 2022 21:00:52 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BLL0pYY030024;
- Wed, 21 Dec 2022 21:00:51 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mm9de0cqp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Dec 2022 21:00:51 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BLJGDTG005611;
- Wed, 21 Dec 2022 21:00:50 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3mh6yw4t5a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 21 Dec 2022 21:00:50 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
- [10.241.53.104])
- by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BLL0miU3539684
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 21 Dec 2022 21:00:48 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4B7035804C;
- Wed, 21 Dec 2022 21:00:48 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7D52B58056;
- Wed, 21 Dec 2022 21:00:47 +0000 (GMT)
-Received: from li-479af74c-31f9-11b2-a85c-e4ddee11713b.ibm.com (unknown
- [9.60.89.68]) by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 21 Dec 2022 21:00:47 +0000 (GMT)
-Message-ID: <80495767440d9a8402535f69ac28280b3f0a99a5.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 1/5] exec/memory: Expose memory_region_access_valid()
-From: Eric Farman <farman@linux.ibm.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, Matthew
- Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>, David
- Hildenbrand <david@redhat.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, Ilya
- Leoshkevich <iii@linux.ibm.com>
-Date: Wed, 21 Dec 2022 16:00:47 -0500
-In-Reply-To: <20221217152454.96388-2-philmd@linaro.org>
-References: <20221217152454.96388-1-philmd@linaro.org>
- <20221217152454.96388-2-philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p86wP-0003km-Bf
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 16:47:58 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p86wM-00005A-Gk
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 16:47:55 -0500
+Received: by mail-ej1-x633.google.com with SMTP id kw15so631514ejc.10
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 13:47:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DyOSa9169n2zrZEDsVPLzpCPhafi4QZ5NGN1qzCqO9g=;
+ b=OdDBpv8kXL09PEPR5TYNqqIVmRVIS5KQ2v3eA2i2ERCj5C+9YDJNCweNYX8fmzUjFx
+ s7tgkDinLvQxzAKeY6eZDSRqpEFwuxYsQa7dkih7QWOk2900cea+1xRcWmmW9fwma7u8
+ 1VCwDlomUnINV9NjW01mTNA5Hotxy5G8TKEB6EmLof/Ys8r3vcPewIJuWAamPdDT2ADg
+ wYIu6oZAQ/U+nn5n54g+KvaT76aN/ixbI36LFiGPW1auF+4YvHavRGWqG/oZ1HNm5f56
+ 836KrjA9jA3ifcW1lVglzR5jUt0XprY60HOt9YlqZr+O6eXWZxNiCJ0fId46/jGr8L6e
+ b+7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DyOSa9169n2zrZEDsVPLzpCPhafi4QZ5NGN1qzCqO9g=;
+ b=NcGYigPzwPOtMP2QjEFpW2B1zs9q1wMRpbvMPn/W/ippbYnXF++xZmak1Q34bLMcU3
+ AZD2eeS3FTY/xCcwa4RC2lr/r+1TRBxtfemShPWyug7J7c+B2e5r2+WjumxR1drcA5hg
+ 82OnGeehmfnoklhM+is2o4ugfj5hdI3hTZrWnO3xiEa6vlk68t9hz3RryJ2Mdc8p4s6Z
+ rbVq9MlTsduZ4QOEjXyWDXDp+IS/6AYMThaARD5lujJKPKA19gpr8an/BuLrjXltviYi
+ 9pg1wC5S3Kvj6zTUcVZiXa5IRfpn8JTKSEL/o5BpK90ev/Lveg2jCj9RQ5Mayi83Hh3c
+ A5BQ==
+X-Gm-Message-State: AFqh2kqEKAIYaL+qb+3qyR1DK34eiO8qCOBhp+NTBXoM0EbSnc0l6jsj
+ pPX0yexHCbVhVXytyQ7cxvIzyQ==
+X-Google-Smtp-Source: AMrXdXuenXEBF6Kx5WdEwNyNxZ9b2uo+kt2SCfPiNhBG/FQrF10Xp1SE+x35SS9o3P/NHPjAIZdjlQ==
+X-Received: by 2002:a17:907:9d19:b0:7b9:f9d8:9554 with SMTP id
+ kt25-20020a1709079d1900b007b9f9d89554mr2464948ejc.40.1671659272047; 
+ Wed, 21 Dec 2022 13:47:52 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ ox16-20020a170907101000b007c16f120aacsm7552850ejb.121.2022.12.21.13.47.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Dec 2022 13:47:43 -0800 (PST)
+Message-ID: <18f53ca6-3cd0-313c-8940-1f7d013eba87@linaro.org>
+Date: Wed, 21 Dec 2022 22:47:36 +0100
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: gocLx9BZCGMBRadGs0_YNKgxO9qNty56
-X-Proofpoint-ORIG-GUID: zuFKlBjhgEEb6YqTZAgZDsgRt4JCJZ0d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-21_11,2022-12-21_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 mlxscore=0
- adultscore=0 phishscore=0 malwarescore=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 mlxlogscore=818 bulkscore=0
- priorityscore=1501 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2212210174
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH v3 0/5] coroutine: Clean up includes
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: stefanha@redhat.com, kwolf@redhat.com, pbonzini@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20221221131435.3851212-1-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221221131435.3851212-1-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,80 +91,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 2022-12-17 at 16:24 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
-> Instead of having hardware device poking into memory
-> internal API, expose memory_region_access_valid().
->=20
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+On 21/12/22 14:14, Markus Armbruster wrote:
+> v3:
+> * PATCH 4: Unnecessary hunks dropped
+> 
+> v2:
+> * Rebased
+> * PATCH 4: Rewritten [Paolo]
+> * PATCH 5: New
+> 
+> Markus Armbruster (5):
+>    coroutine: Clean up superfluous inclusion of qemu/coroutine.h
+>    coroutine: Move coroutine_fn to qemu/osdep.h, trim includes
+>    coroutine: Clean up superfluous inclusion of qemu/lockable.h
+>    coroutine: Split qemu/coroutine-core.h off qemu/coroutine.h
+>    coroutine: Use Coroutine typedef name instead of structure tag
 
-That's the only memory_region_ function s390 calls that isn't already
-in memory.h, so makes sense to me.
+I had to add:
 
-Reviewed-by: Eric Farman <farman@linux.ibm.com>
+-- >8 --
+diff --git a/hw/pci/pci-hmp-cmds.c b/hw/pci/pci-hmp-cmds.c
+index fb7591d6ab..b09fce9377 100644
+--- a/hw/pci/pci-hmp-cmds.c
++++ b/hw/pci/pci-hmp-cmds.c
+@@ -15,6 +15,7 @@
 
-> ---
-> =C2=A0hw/s390x/s390-pci-inst.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
-> =C2=A0include/exec/memory-internal.h | 4 ----
-> =C2=A0include/exec/memory.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 4 ++++
-> =C2=A03 files changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> index 66e764f901..35db7777e4 100644
-> --- a/hw/s390x/s390-pci-inst.c
-> +++ b/hw/s390x/s390-pci-inst.c
-> @@ -13,7 +13,7 @@
-> =C2=A0
-> =C2=A0#include "qemu/osdep.h"
-> =C2=A0#include "exec/memop.h"
-> -#include "exec/memory-internal.h"
-> +#include "exec/memory.h"
-> =C2=A0#include "qemu/error-report.h"
-> =C2=A0#include "sysemu/hw_accel.h"
-> =C2=A0#include "hw/s390x/s390-pci-inst.h"
-> diff --git a/include/exec/memory-internal.h b/include/exec/memory-
-> internal.h
-> index 9fcc2af25c..100c1237ac 100644
-> --- a/include/exec/memory-internal.h
-> +++ b/include/exec/memory-internal.h
-> @@ -38,10 +38,6 @@ void flatview_unref(FlatView *view);
-> =C2=A0
-> =C2=A0extern const MemoryRegionOps unassigned_mem_ops;
-> =C2=A0
-> -bool memory_region_access_valid(MemoryRegion *mr, hwaddr addr,
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned size, bool is_write,
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemTxAttrs attrs);
-> -
-> =C2=A0void flatview_add_to_dispatch(FlatView *fv, MemoryRegionSection
-> *section);
-> =C2=A0AddressSpaceDispatch *address_space_dispatch_new(FlatView *fv);
-> =C2=A0void address_space_dispatch_compact(AddressSpaceDispatch *d);
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 91f8a2395a..c37ffdbcd1 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -2442,6 +2442,10 @@ void memory_global_dirty_log_stop(unsigned int
-> flags);
-> =C2=A0
-> =C2=A0void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool
-> disabled);
-> =C2=A0
-> +bool memory_region_access_valid(MemoryRegion *mr, hwaddr addr,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned size, bool is_write,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemTxAttrs attrs);
-> +
-> =C2=A0/**
-> =C2=A0 * memory_region_dispatch_read: perform a read directly to the
-> specified
-> =C2=A0 * MemoryRegion.
+  #include "qemu/osdep.h"
+  #include "hw/pci/pci.h"
++#include "hw/pci/pci_device.h"
+  #include "monitor/hmp.h"
+  #include "monitor/monitor.h"
+  #include "pci-internal.h"
+diff --git a/hw/virtio/virtio-qmp.c b/hw/virtio/virtio-qmp.c
+index 8e7282658f..3d4497da99 100644
+--- a/hw/virtio/virtio-qmp.c
++++ b/hw/virtio/virtio-qmp.c
+@@ -11,6 +11,7 @@
+
+  #include "qemu/osdep.h"
+  #include "hw/virtio/virtio.h"
++#include "hw/virtio/vhost.h"
+  #include "virtio-qmp.h"
+
+---
+
+Otherwise I get:
+
+../hw/pci/pci-hmp-cmds.c: In function ‘pcibus_dev_print’:
+../hw/pci/pci-hmp-cmds.c:129:31: error: invalid use of incomplete 
+typedef ‘PCIDevice’
+   129 |     int class = pci_get_word(d->config + PCI_CLASS_DEVICE);
+       |                               ^~
+
+../hw/virtio/virtio-qmp.c:187:19: error: 
+‘VHOST_USER_F_PROTOCOL_FEATURES’ undeclared here (not in a function); 
+did you mean ‘VHOST_USER_PROTOCOL_F_RARP’?
+   187 |     FEATURE_ENTRY(VHOST_USER_F_PROTOCOL_FEATURES, \
+       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Maybe some recently merged change?
+
+Otherwise:
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
