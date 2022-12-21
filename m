@@ -2,95 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2904A653913
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:54:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FBE6538E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:43:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87ml-0000a2-78; Wed, 21 Dec 2022 17:42:03 -0500
+	id 1p87mn-0000gz-A3; Wed, 21 Dec 2022 17:42:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87mi-0000Ua-Ne
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:00 -0500
+ id 1p87ml-0000bR-4I
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:03 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87mg-0000bf-Dk
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:00 -0500
+ id 1p87mj-0000bQ-Fu
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671662518; x=1703198518;
+ t=1671662521; x=1703198521;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QjIke9qrZ9cvn5GeMe573On+qIo4TLWOFmWcJlPWex8=;
- b=ZrVoK1uat8ENXRdi+7yA3T1ZHqeas/gZALPokT3hWtGJ3NrMToQfWBUS
- Ie9l1e0oPYhbHif31P23vFqTEJSaImoFV6MO440qkOTTBDYXxof6hyNab
- jdr1Vu4UHbHNtOTeqMxEniDxmgI9m3xc0hXf9+Cs14Pr13+2AX6GbK2Bz
- yCZ6Oe14a24JsTJFCKAzUpHBts+Kzv8JCSBFbl/iAkossLe1Ez+7WaOPG
- MqHpTtJvcQOonblwMyFC2J5Avhj7wQ3PgYqeTnJywxX4+83I8LmWg+2eg
- V2TLcfUrceP7Py1bD8JEjg1W9dPFVdeGsBuGWfiCn7JOOjGLMel1xNme0 g==;
-X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561371"
+ bh=lkr40dqOmoRlHb4uKWd/0UnkaNvhnwtWV+0/s7TpnTE=;
+ b=C8RPgGv2lp27L02z1k+8rAc3f3DLARpjLUz7GmMgSTMQb+RrhPoZGv7p
+ v+sOHg6hWHy6NsuSG17wGkvBpwOibdpKyjEImL45sC3sckw8t12+/yuKY
+ 5+N2yWIe2mdEvryVyREE3AbbA0BBG8rspGbjPfrGJJTiI38TFPokMKqS1
+ uQWv+NtK6LyDr1+SkiUetibI/LhUiNvAsFHVe9ljmhHYHsK3kl6VeH08g
+ yUmPWVf9zNqbNAnsW+zFLOqZiDFmuHMLKgIMd7CuW3DuG5p6RWyo9X4/N
+ NVaj2Nnv6UxkWxQXU7MJ921OyR3DTyo94T04r1Bsvwh55zA6wJ7jAsqhZ Q==;
+X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561375"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:16 +0800
-IronPort-SDR: pu8v/MdF8SVYcg1ELaqNycz1oSYUfKSq65ZUJy60XRHhOGaK9csLv0ShT61Nfst4A/o15W1Btq
- rqrhcC1R3Bdw8fZnqDpBJeLCp/WXAVXbmyM5I7FGlkDwm7YP4uJXDl4OprcX5cN/v1APfRmzo6
- xBsYctd7BT6twWNwNUME2I2RsuIpT32y3VagvJiERg0rBpjDG6Za32QcWwjdbceOYpDiP6FbAe
- TgLpzPT/WKpeK86XSW1JjQUZWlvw3b3cPuSkYzOTT8b//bmNob19EAip7wSdlJQk3oZXvVyso6
- Y8E=
+ by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:18 +0800
+IronPort-SDR: 9IprI3Y1JIUjA8+/yFv/klfMystyEUNeVyPLjpJNA4MzRbkz6boiduB08advrtYBo7b9myW42b
+ MQh0mVoMJu45l8Ev5pe3r/XLblREHTVRAzfp6eYdr6muj6HU2QX38jZR+mOH8L6RmxkvB15rq1
+ ZAzW92UgFkM0RpJVBEbONqVxMNd4tyIgpE6Egy5trej6GMTlkVUiljgJBPv80oqaBScBBZWzCr
+ FQVT8x5SRUTov6k7SIB/y5tfqMxicG14C2wpJ7h/3+WBfFFrIbek6iXr/Anu3znRE3DdEnaNBz
+ Xhw=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 13:53:45 -0800
-IronPort-SDR: 8uKrtH4K0Gs7cdl6jAeZqri6XBRLeW/hrW6vA4m/Ha5n6ECpukfPncegJJa7mABd0QQFa6iaqw
- tnu7hJRW6ZwXZdLl2wdtlKZBctRm+al6QYVumm1zUfM3vXG/Jf56iVpCgmFAWWMsC0XkYwa8TS
- thTInSzjpwTqrS4ObQzeOR4OMe+qOZaxZuqMqPg8ZEzoqqObH3WvcBs9I66XclUnJd3rwnf0Yu
- cRuU6YznIRbX52oNJSHbTFebZSzZT9ywAlKsuM88M1C4znaaA+IJS0FhRY22DRtI7vLuivoFPB
- 8uM=
+ 21 Dec 2022 13:53:47 -0800
+IronPort-SDR: 7y+uvs4N4RlFMnovzkYHKJLfFo45bluAa9Owr2LguG0AHdtoJwli0dzk+IvFqUVAOqoFF0aXZ8
+ 22Ivg0XE4NfkpEszlM8Zv1rEOzruMa4g0Vf8xmXm+cLEnPNlXPjHuJvkzjZ/y3Ekra9rvfvKEK
+ Ufkal7n2+e0DEzYw8/iPYTjuXgevgS7JRV+TMJp8HwSF5zkHyNBMNp6X8NUnWEOvdqWatzEWk8
+ wZqSwFMolKdgeqzavYJ+Y7eWAwIk44MmokzGAw8eRfHqSVGOVs862MJrHZU/T9n/PquN3N5zK3
+ 7I4=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 14:41:17 -0800
+ 21 Dec 2022 14:41:18 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMJ4SvLz1RvTr
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:16 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpML2XFGz1Rwrq
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:18 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1671662475; x=1674254476; bh=QjIke9q
- rZ9cvn5GeMe573On+qIo4TLWOFmWcJlPWex8=; b=f+VBMFauvhKjHnVn4FIZvbP
- fttb2Zkw1HHSEydQx5ahQtHJs5gNqyJQ23b+Qz30jZNZ0UuuM605FcGh4IoBCY6q
- 598MXMyAeFhdBuOadWmr82/3CTSoGegcShu6lzh7sn7tWhZSsFhQuJ+Pk8x1IWDW
- 54O5aWXnk1lf07KnGv2zVmEZa/4qLOXWaKEHPH/TjNL5n1tMDTZlHdn3f0Fbe/ti
- uUdk/2FO8znjle/yzyBOz3AWe9LFBqiX8VA08sSjX1U9tXZGsRKJm0KwImYDWFuy
- aw1doABFkvnluWzKUgnAmoDy/iVo91VTij4kUY6Nohe9yuf8Jul2WkJs5JH77Eg=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1671662477; x=1674254478; bh=lkr40dqOmoRlHb4uKW
+ d/0UnkaNvhnwtWV+0/s7TpnTE=; b=lsxG9xXV9PTwHsAEyZUHh7blMa+aPZXDkM
+ I4KtZmzKKXHtNVEJ/cOY4bDeQsO2G6GjES7X4K4BF9Ag4EUW14D9smnVx4Mvp94f
+ i21tg1TOIsYf9uw2m6Ljqomy7x+Ug/nmRwje8qXjppRz7OpVfjFGPC5G3uyvFXdb
+ 7ePAvt6y4u/uq+QxpJ550GUOuvp+LET63VD3yA45yu6ag9qVjr91l/AjdhYiKs3B
+ +AnE02YO/ZldIgJaYnwkbd3HOjNE6n80yQQ6HokD2jr/2H1jxPg/sbN1IahQik5g
+ jcZrl1gq5IbD3DyJtT4qDldd15gy8kwwvQvZupBlHFurZ5xmeFxA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id eMzTujcPxxK8 for <qemu-devel@nongnu.org>;
- Wed, 21 Dec 2022 14:41:15 -0800 (PST)
+ port 10026) with ESMTP id 4kCwpIL25Lnx for <qemu-devel@nongnu.org>;
+ Wed, 21 Dec 2022 14:41:17 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.8])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMG3zzkz1RvLy;
- Wed, 21 Dec 2022 14:41:14 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMJ31z1z1RvTp;
+ Wed, 21 Dec 2022 14:41:16 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Conor Dooley <conor.dooley@microchip.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 23/45] hw/{misc,
- riscv}: pfsoc: add system controller as unimplemented
-Date: Thu, 22 Dec 2022 08:40:00 +1000
-Message-Id: <20221221224022.425831-24-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Jim Shu <jim.shu@sifive.com>,
+ Bin Meng <bmeng@tinylab.org>, Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL v2 24/45] hw/intc: sifive_plic: fix out-of-bound access of
+ source_priority array
+Date: Thu, 22 Dec 2022 08:40:01 +1000
+Message-Id: <20221221224022.425831-25-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=3472792e2=alistair.francis@opensource.wdc.com;
@@ -117,297 +115,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Conor Dooley <conor.dooley@microchip.com>
+From: Jim Shu <jim.shu@sifive.com>
 
-The system controller on PolarFire SoC is access via a mailbox. The
-control registers for this mailbox lie in the "IOSCB" region & the
-interrupt is cleared via write to the "SYSREG" region. It also has a
-QSPI controller, usually connected to a flash chip, that is used for
-storing FPGA bitstreams and used for In-Application Programming (IAP).
+If the number of interrupt is not multiple of 32, PLIC will have
+out-of-bound access to source_priority array. Compute the number of
+interrupt in the last word to avoid this out-of-bound access of array.
 
-Linux has an implementation of the system controller, through which the
-hwrng is accessed, leading to load/store access faults.
-
-Add the QSPI as unimplemented and a very basic (effectively
-unimplemented) version of the system controller's mailbox. Rather than
-purely marking the regions as unimplemented, service the mailbox
-requests by reporting failures and raising the interrupt so a guest can
-better handle the lack of support.
-
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221117225518.4102575-4-conor@kernel.org>
+Signed-off-by: Jim Shu <jim.shu@sifive.com>
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Message-Id: <20221127165753.30533-1-jim.shu@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/misc/mchp_pfsoc_ioscb.h  |  3 ++
- include/hw/misc/mchp_pfsoc_sysreg.h |  1 +
- include/hw/riscv/microchip_pfsoc.h  |  1 +
- hw/misc/mchp_pfsoc_ioscb.c          | 72 ++++++++++++++++++++++++++++-
- hw/misc/mchp_pfsoc_sysreg.c         | 18 ++++++--
- hw/riscv/microchip_pfsoc.c          |  6 +++
- 6 files changed, 95 insertions(+), 6 deletions(-)
+ hw/intc/sifive_plic.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/misc/mchp_pfsoc_ioscb.h b/include/hw/misc/mchp_pf=
-soc_ioscb.h
-index 687b213742..a1104862c8 100644
---- a/include/hw/misc/mchp_pfsoc_ioscb.h
-+++ b/include/hw/misc/mchp_pfsoc_ioscb.h
-@@ -29,6 +29,8 @@ typedef struct MchpPfSoCIoscbState {
-     MemoryRegion lane01;
-     MemoryRegion lane23;
-     MemoryRegion ctrl;
-+    MemoryRegion qspixip;
-+    MemoryRegion mailbox;
-     MemoryRegion cfg;
-     MemoryRegion ccc;
-     MemoryRegion pll_mss;
-@@ -41,6 +43,7 @@ typedef struct MchpPfSoCIoscbState {
-     MemoryRegion cfm_sgmii;
-     MemoryRegion bc_sgmii;
-     MemoryRegion io_calib_sgmii;
-+    qemu_irq irq;
- } MchpPfSoCIoscbState;
+diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+index b4949bef97..0c7696520d 100644
+--- a/hw/intc/sifive_plic.c
++++ b/hw/intc/sifive_plic.c
+@@ -78,6 +78,7 @@ static uint32_t sifive_plic_claimed(SiFivePLICState *pl=
+ic, uint32_t addrid)
+     uint32_t max_irq =3D 0;
+     uint32_t max_prio =3D plic->target_priority[addrid];
+     int i, j;
++    int num_irq_in_word =3D 32;
 =20
- #define TYPE_MCHP_PFSOC_IOSCB "mchp.pfsoc.ioscb"
-diff --git a/include/hw/misc/mchp_pfsoc_sysreg.h b/include/hw/misc/mchp_p=
-fsoc_sysreg.h
-index 546ba68f6a..3cebe40ea9 100644
---- a/include/hw/misc/mchp_pfsoc_sysreg.h
-+++ b/include/hw/misc/mchp_pfsoc_sysreg.h
-@@ -28,6 +28,7 @@
- typedef struct MchpPfSoCSysregState {
-     SysBusDevice parent;
-     MemoryRegion sysreg;
-+    qemu_irq irq;
- } MchpPfSoCSysregState;
+     for (i =3D 0; i < plic->bitfield_words; i++) {
+         uint32_t pending_enabled_not_claimed =3D
+@@ -88,7 +89,16 @@ static uint32_t sifive_plic_claimed(SiFivePLICState *p=
+lic, uint32_t addrid)
+             continue;
+         }
 =20
- #define TYPE_MCHP_PFSOC_SYSREG "mchp.pfsoc.sysreg"
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microc=
-hip_pfsoc.h
-index 7e7950dd36..69a686b54a 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -147,6 +147,7 @@ enum {
-     MICROCHIP_PFSOC_MMUART2_IRQ =3D 92,
-     MICROCHIP_PFSOC_MMUART3_IRQ =3D 93,
-     MICROCHIP_PFSOC_MMUART4_IRQ =3D 94,
-+    MICROCHIP_PFSOC_MAILBOX_IRQ =3D 96,
- };
-=20
- #define MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT    1
-diff --git a/hw/misc/mchp_pfsoc_ioscb.c b/hw/misc/mchp_pfsoc_ioscb.c
-index f976e42f72..a71d134295 100644
---- a/hw/misc/mchp_pfsoc_ioscb.c
-+++ b/hw/misc/mchp_pfsoc_ioscb.c
-@@ -24,6 +24,7 @@
- #include "qemu/bitops.h"
- #include "qemu/log.h"
- #include "qapi/error.h"
-+#include "hw/irq.h"
- #include "hw/sysbus.h"
- #include "hw/misc/mchp_pfsoc_ioscb.h"
-=20
-@@ -34,6 +35,9 @@
- #define IOSCB_WHOLE_REG_SIZE        0x10000000
- #define IOSCB_SUBMOD_REG_SIZE       0x1000
- #define IOSCB_CCC_REG_SIZE          0x2000000
-+#define IOSCB_CTRL_REG_SIZE         0x800
-+#define IOSCB_QSPIXIP_REG_SIZE      0x200
+-        for (j =3D 0; j < 32; j++) {
++        if (i =3D=3D (plic->bitfield_words - 1)) {
++            /*
++             * If plic->num_sources is not multiple of 32, num-of-irq in=
+ last
++             * word is not 32. Compute the num-of-irq of last word to av=
+oid
++             * out-of-bound access of source_priority array.
++             */
++            num_irq_in_word =3D plic->num_sources - ((plic->bitfield_wor=
+ds - 1) << 5);
++        }
 +
-=20
- /*
-  * There are many sub-modules in the IOSCB module.
-@@ -45,6 +49,8 @@
- #define IOSCB_LANE01_BASE           0x06500000
- #define IOSCB_LANE23_BASE           0x06510000
- #define IOSCB_CTRL_BASE             0x07020000
-+#define IOSCB_QSPIXIP_BASE          0x07020100
-+#define IOSCB_MAILBOX_BASE          0x07020800
- #define IOSCB_CFG_BASE              0x07080000
- #define IOSCB_CCC_BASE              0x08000000
- #define IOSCB_PLL_MSS_BASE          0x0E001000
-@@ -143,6 +149,58 @@ static const MemoryRegionOps mchp_pfsoc_io_calib_ddr=
-_ops =3D {
-     .endianness =3D DEVICE_LITTLE_ENDIAN,
- };
-=20
-+#define SERVICES_CR             0x50
-+#define SERVICES_SR             0x54
-+#define SERVICES_STATUS_SHIFT   16
-+
-+static uint64_t mchp_pfsoc_ctrl_read(void *opaque, hwaddr offset,
-+                                     unsigned size)
-+{
-+    uint32_t val =3D 0;
-+
-+    switch (offset) {
-+    case SERVICES_SR:
-+        /*
-+         * Although some services have no error codes, most do. All serv=
-ices
-+         * that do implement errors, begin their error codes at 1. Treat=
- all
-+         * service requests as failures & return 1.
-+         * See the "PolarFire=C2=AE FPGA and PolarFire SoC FPGA System S=
-ervices"
-+         * user guide for more information on service error codes.
-+         */
-+        val =3D 1u << SERVICES_STATUS_SHIFT;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
-+                      "(size %d, offset 0x%" HWADDR_PRIx ")\n",
-+                      __func__, size, offset);
-+    }
-+
-+    return val;
-+}
-+
-+static void mchp_pfsoc_ctrl_write(void *opaque, hwaddr offset,
-+                                  uint64_t value, unsigned size)
-+{
-+    MchpPfSoCIoscbState *s =3D opaque;
-+
-+    switch (offset) {
-+    case SERVICES_CR:
-+        qemu_irq_raise(s->irq);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
-+                      "(size %d, value 0x%" PRIx64
-+                      ", offset 0x%" HWADDR_PRIx ")\n",
-+                      __func__, size, value, offset);
-+    }
-+}
-+
-+static const MemoryRegionOps mchp_pfsoc_ctrl_ops =3D {
-+    .read =3D mchp_pfsoc_ctrl_read,
-+    .write =3D mchp_pfsoc_ctrl_write,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
-+};
-+
- static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
- {
-     MchpPfSoCIoscbState *s =3D MCHP_PFSOC_IOSCB(dev);
-@@ -162,10 +220,18 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *d=
-ev, Error **errp)
-                           "mchp.pfsoc.ioscb.lane23", IOSCB_SUBMOD_REG_SI=
-ZE);
-     memory_region_add_subregion(&s->container, IOSCB_LANE23_BASE, &s->la=
-ne23);
-=20
--    memory_region_init_io(&s->ctrl, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
--                          "mchp.pfsoc.ioscb.ctrl", IOSCB_SUBMOD_REG_SIZE=
-);
-+    memory_region_init_io(&s->ctrl, OBJECT(s), &mchp_pfsoc_ctrl_ops, s,
-+                          "mchp.pfsoc.ioscb.ctrl", IOSCB_CTRL_REG_SIZE);
-     memory_region_add_subregion(&s->container, IOSCB_CTRL_BASE, &s->ctrl=
-);
-=20
-+    memory_region_init_io(&s->qspixip, OBJECT(s), &mchp_pfsoc_dummy_ops,=
- s,
-+                          "mchp.pfsoc.ioscb.qspixip", IOSCB_QSPIXIP_REG_=
-SIZE);
-+    memory_region_add_subregion(&s->container, IOSCB_QSPIXIP_BASE, &s->q=
-spixip);
-+
-+    memory_region_init_io(&s->mailbox, OBJECT(s), &mchp_pfsoc_dummy_ops,=
- s,
-+                          "mchp.pfsoc.ioscb.mailbox", IOSCB_SUBMOD_REG_S=
-IZE);
-+    memory_region_add_subregion(&s->container, IOSCB_MAILBOX_BASE, &s->m=
-ailbox);
-+
-     memory_region_init_io(&s->cfg, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
-                           "mchp.pfsoc.ioscb.cfg", IOSCB_SUBMOD_REG_SIZE)=
-;
-     memory_region_add_subregion(&s->container, IOSCB_CFG_BASE, &s->cfg);
-@@ -222,6 +288,8 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *dev=
-, Error **errp)
-                           IOSCB_SUBMOD_REG_SIZE);
-     memory_region_add_subregion(&s->container, IOSCB_IO_CALIB_SGMII_BASE=
-,
-                                 &s->io_calib_sgmii);
-+
-+    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- }
-=20
- static void mchp_pfsoc_ioscb_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/misc/mchp_pfsoc_sysreg.c b/hw/misc/mchp_pfsoc_sysreg.c
-index 89571eded5..7876fe0c5b 100644
---- a/hw/misc/mchp_pfsoc_sysreg.c
-+++ b/hw/misc/mchp_pfsoc_sysreg.c
-@@ -24,10 +24,12 @@
- #include "qemu/bitops.h"
- #include "qemu/log.h"
- #include "qapi/error.h"
-+#include "hw/irq.h"
- #include "hw/sysbus.h"
- #include "hw/misc/mchp_pfsoc_sysreg.h"
-=20
- #define ENVM_CR         0xb8
-+#define MESSAGE_INT     0x118c
-=20
- static uint64_t mchp_pfsoc_sysreg_read(void *opaque, hwaddr offset,
-                                        unsigned size)
-@@ -52,10 +54,17 @@ static uint64_t mchp_pfsoc_sysreg_read(void *opaque, =
-hwaddr offset,
- static void mchp_pfsoc_sysreg_write(void *opaque, hwaddr offset,
-                                     uint64_t value, unsigned size)
- {
--    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
--                  "(size %d, value 0x%" PRIx64
--                  ", offset 0x%" HWADDR_PRIx ")\n",
--                  __func__, size, value, offset);
-+    MchpPfSoCSysregState *s =3D opaque;
-+    switch (offset) {
-+    case MESSAGE_INT:
-+        qemu_irq_lower(s->irq);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
-+                      "(size %d, value 0x%" PRIx64
-+                      ", offset 0x%" HWADDR_PRIx ")\n",
-+                      __func__, size, value, offset);
-+    }
- }
-=20
- static const MemoryRegionOps mchp_pfsoc_sysreg_ops =3D {
-@@ -73,6 +82,7 @@ static void mchp_pfsoc_sysreg_realize(DeviceState *dev,=
- Error **errp)
-                           "mchp.pfsoc.sysreg",
-                           MCHP_PFSOC_SYSREG_REG_SIZE);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->sysreg);
-+    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- }
-=20
- static void mchp_pfsoc_sysreg_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 2a24e3437a..b10321b564 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -306,6 +306,9 @@ static void microchip_pfsoc_soc_realize(DeviceState *=
-dev, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->sysreg), errp);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysreg), 0,
-                     memmap[MICROCHIP_PFSOC_SYSREG].base);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sysreg), 0,
-+                       qdev_get_gpio_in(DEVICE(s->plic),
-+                       MICROCHIP_PFSOC_MAILBOX_IRQ));
-=20
-     /* AXISW */
-     create_unimplemented_device("microchip.pfsoc.axisw",
-@@ -459,6 +462,9 @@ static void microchip_pfsoc_soc_realize(DeviceState *=
-dev, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->ioscb), errp);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->ioscb), 0,
-                     memmap[MICROCHIP_PFSOC_IOSCB].base);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->ioscb), 0,
-+                       qdev_get_gpio_in(DEVICE(s->plic),
-+                       MICROCHIP_PFSOC_MAILBOX_IRQ));
-=20
-     /* FPGA Fabric */
-     create_unimplemented_device("microchip.pfsoc.fabricfic3",
++        for (j =3D 0; j < num_irq_in_word; j++) {
+             int irq =3D (i << 5) + j;
+             uint32_t prio =3D plic->source_priority[irq];
+             int enabled =3D pending_enabled_not_claimed & (1 << j);
 --=20
 2.38.1
 
