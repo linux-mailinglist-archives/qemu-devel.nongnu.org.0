@@ -2,97 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4B16538E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:43:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B406538F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:46:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87mG-0007iw-Ts; Wed, 21 Dec 2022 17:41:33 -0500
+	id 1p87mN-0007xG-Qk; Wed, 21 Dec 2022 17:41:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87mB-0007fG-3w
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:41:27 -0500
+ id 1p87mJ-0007ql-Uq
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:41:35 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87m9-0000Xf-7u
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:41:26 -0500
+ id 1p87mI-0000bf-0l
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:41:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671662484; x=1703198484;
+ t=1671662493; x=1703198493;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KOmkdsaG2L/1f6aUZirO4FA9LnT3y2PXMdUmb+q6hDk=;
- b=ASRsT2+buYalDiOHo6y/i2LX7j2bMRjWSlY1RCQ7ETYKUI19T0IW2zK/
- L7+dgCeKAQBY00RGaYend12vhm/SXR/JyQUguA1kLnvCFyuNz+IYtnwzF
- hipJuA+qNLWGpyLZ4Own6pLmY6Qjf29bmGOk4GMiJSFND6WJ2Lp+2Hzrb
- du8QQHDgrLNOLmXFlqkw9E4rfjsrDgFkatB0CbXAD5xhX1nOIg+/DZrKj
- lpanpDm7o/mYu6BR/UkdLZdXP2l8drVdO3O6cOJ3QwsTdGh/h28d4LGGM
- KU+4s09qoV27bKVJzKTUuSBXTeB1wswl/YlJS0VgXqqu5RBA7u3ybR0o1 Q==;
-X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561340"
+ bh=icpZO5Thn7rLQmM9zLyvo4epmOEtTo4HPzPsWRyUaiM=;
+ b=MaIO02G8/eiyH3jbJ6DNpWsK+CvKhP2oiSVO8qGdAhb0Wa28HVpxuDHe
+ RB+/lkqokXvkD55GrMFTr4fFG6j8Wl6ELH7zasKpCgy1Na+vuQ3QP1XnD
+ aUNtIUkVE5VkuyUOU3m9+GThs5+xUmUQdU0ZRJNFSCb1tfWQVAH/J69yW
+ EObkoUNEVn0Sd+g/tJZf22U60nT8tDtpOQ4+IA4PIo2PGToloRP2cW5Sw
+ uk8wXFi9+sXhYB/kE6KsuxFAvfkZxUFtFBuiE8SqVOHUSBJr652RalonC
+ SBP/qzLpiS9elwwp7AbJiLEGRfhN/bnzN+hlB+ocKkTD0WDCXV5gTUBqA A==;
+X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561346"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:03 +0800
-IronPort-SDR: DZ8Vy+89NIaoqgAiifVmwSA3R14x2xJNQLZpmLOLkBmvhvZ6DJ5ZxjEy87REb8Uyo68Vwx2VdR
- rZZL+wWTrFKLCDWQSrqF11+uIke1YZDILVdrPTNc8wHZ7KdLGtj84ufeIChzYXjPfVwgOf+CfE
- mXPRw/1DIJ+3xrExlyZ0xGLnQzUJtHCKXfVfLazUvGswjAYuW+OZBvAs0AYDuSYC/E19cYRgH+
- GF+PFgrYK8l4wA3O/T/2GxnsAbbq0UEujiK8bDtdSEPPQe6lMMu1JEz4euxnNyjvOE70op3DMt
- lLw=
+ by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:05 +0800
+IronPort-SDR: nZIfk5uW0MQZH7Y/KwlPndKdJT5fWgLWtH/im5OjWXD/4PUPPwctPuc5qYZQV8X+3pqt9EjiFN
+ 5bk48BuGcUD9V3y+as4wvj8B+7ChJcyq0bZf+8W8bHWGuUCHEjH7hYJgR0A1fz/WnNR+sAT3nS
+ dWzVFYkX2+hPgYLnMUC/jq7/GEiReAHqYYPfVoQ/L+e9KrKFqL+VRAF/Z+e9ea65EIdT7Gp3E3
+ Jh5VgENTniLQ0E2l8DFasdkfZtFelsKLWMUlWtKPu+rVb86MuQgNBMqimH4tDiwTvgJ0cH2DHa
+ lDA=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 13:53:31 -0800
-IronPort-SDR: XmHuAM+YVVMNq4V8SYgYXvv1oSASxjPqos9cNWIuagJHMAFgywHJJS3U0GyZbG71GqI7AD2oHL
- G0uX6stbYI1ceNgJhL5LpCOtIv3Y3pQJXU+Wvc3c18wYIirNBbbfFCbpxir2P+bHlXIJ45cyUl
- 6q/mZ9liKEAm4a6k7baA8EcYCP7flIoY8wOLHp6F5Qz/mx20QL/RW+btJH2powtoedP6IX1T6a
- BJvfrTkky5GrcavYBgjOZGklg9DbZ7h8sc0NLnydkz3nybiVR1YPaxU1AV0UXfi8lCqwhjAxVv
- eqg=
+ 21 Dec 2022 13:53:34 -0800
+IronPort-SDR: CiKQwP8OMweF7q7XhrcWhBoUzwyJIAZoXu7sDZ2WwQuWTo2DtMDfyNMPl6IPiLTuH+0YkjBaOW
+ RBhN+RA1jSA1XXg5p3dIzXFgZtEeA5ztsJwt0/gaNbe0YT3U1ZOmlQYELdYLABX6RsINk+1MWs
+ KUL64nkMA8PASjXGU3qmHiuQ7N/aIO8f63FbnJC0w92MYc4eylDS745BhEUR6F2ih/j2sQx/bc
+ HcVBd+mCLS4faMmfvQ7KiGT5Kw7gBm/2RUZ1UY690jbVpHHBQiVOQ7jVQpKrga1R7kwEacZ259
+ mGM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 14:41:03 -0800
+ 21 Dec 2022 14:41:05 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpM30kZ3z1RvLy
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:03 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpM50lyfz1RvLy
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:05 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1671662462; x=1674254463; bh=KOmkdsa
- G2L/1f6aUZirO4FA9LnT3y2PXMdUmb+q6hDk=; b=dzVDggCJp99xMF57iNPHmZ2
- kFeMKGqLTWmypXoq2zMaSEvMr+3Jjrn+HLmZ6tAjBrzkfsFaKc22JvLTb/e7e9jy
- zwJrE+jWCrjjLCfI9iADRTz7Dp8BpUJNFiw7+dnvgl0JTA49hBBO11fhC1Gcd4z9
- GvAdhsr9ZojVKZ68I84DlN/qBdRN8O5RRoZdIqSQda3lmptfRGvjixM3U4hnwAW4
- VQl1lkgc9eJG5otiuhUd3QXwjW1FeRSYjx1ZLrTCFYa80rLxI1VrZpZ09AXZQecR
- jrn3De0PgzzmkD7vWXKJT7fJwrEgl5lpT11n+QfyGPBoGMDDkygxxqmKm5BCzqQ=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1671662464; x=1674254465; bh=icpZO5Thn7rLQmM9zL
+ yvo4epmOEtTo4HPzPsWRyUaiM=; b=CQOb1xPa0Iytu+YdDIBLk+2mCGljHgJe9Y
+ KvVjcNs+egS2lX54jYT/ahPQPmKHeFDvAIzB9pycr8m/P9iR6kjLXgVG0iazDByY
+ NfDyfczpUhz5yYMDuVDEFavvY4HDfnT1ulFnaplJXLneF80/6Not1TOUThP73q0o
+ ruGHpBgJDvCyfHRbt372oFz1zxfm7x/YjxP5MRQIW38ehmQQC7JLSve2YMzPGHsX
+ S/6TWInlcVY45YU7si/rr3vgkZGqJ0mpfSZHA6rwU/EOdrI01rtzFR8ZTuztaO/t
+ +Jzd5MUL5VQIRonH0RzFUkbkLKOLFICMAmFcS5Qmie0jTGG+dhCA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id nPh_dqBgkZz4 for <qemu-devel@nongnu.org>;
- Wed, 21 Dec 2022 14:41:02 -0800 (PST)
+ port 10026) with ESMTP id HSkCmtEm0-Db for <qemu-devel@nongnu.org>;
+ Wed, 21 Dec 2022 14:41:04 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.8])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpM10mqjz1RvTr;
- Wed, 21 Dec 2022 14:41:00 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpM319rnz1RvTr;
+ Wed, 21 Dec 2022 14:41:02 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>, 
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v2 16/45] hw/intc: sifive_plic: Renumber the S irqs for numa
- support
-Date: Thu, 22 Dec 2022 08:39:53 +1000
-Message-Id: <20221221224022.425831-17-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Anup Patel <apatel@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL v2 17/45] target/riscv: Typo fix in sstc() predicate
+Date: Thu, 22 Dec 2022 08:39:54 +1000
+Message-Id: <20221221224022.425831-18-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=3472792e2=alistair.francis@opensource.wdc.com;
@@ -119,64 +114,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fr=C3=A9d=C3=A9ric P=C3=A9trot <frederic.petrot@univ-grenoble-alpes=
-.fr>
+From: Anup Patel <apatel@ventanamicro.com>
 
-Commit 40244040a7a changed the way the S irqs are numbered. This breaks w=
-hen
-using numa configuration, e.g.:
-./qemu-system-riscv64 -nographic -machine virt,dumpdtb=3Dnuma-tree.dtb \
-                      -m 2G -smp cpus=3D16 \
-		      -object memory-backend-ram,id=3Dmem0,size=3D512M \
-		      -object memory-backend-ram,id=3Dmem1,size=3D512M \
-		      -object memory-backend-ram,id=3Dmem2,size=3D512M \
-		      -object memory-backend-ram,id=3Dmem3,size=3D512M \
-		      -numa node,cpus=3D0-3,memdev=3Dmem0,nodeid=3D0 \
-		      -numa node,cpus=3D4-7,memdev=3Dmem1,nodeid=3D1 \
-		      -numa node,cpus=3D8-11,memdev=3Dmem2,nodeid=3D2 \
-		      -numa node,cpus=3D12-15,memdev=3Dmem3,nodeid=3D3
-leads to:
-Unexpected error in object_property_find_err() at ../qom/object.c:1304:
-qemu-system-riscv64: Property 'riscv.sifive.plic.unnamed-gpio-out[8]' not
-found
+We should use "&&" instead of "&" when checking hcounteren.TM and
+henvcfg.STCE bits.
 
-This patch makes the nubering of the S irqs identical to what it was befo=
-re.
-
+Fixes: 3ec0fe18a31f ("target/riscv: Add vstimecmp suppor")
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-Signed-off-by: Fr=C3=A9d=C3=A9ric P=C3=A9trot <frederic.petrot@univ-greno=
-ble-alpes.fr>
-Message-Id: <20221114135122.1668703-1-frederic.petrot@univ-grenoble-alpes=
-.fr>
+Message-Id: <20221108125703.1463577-2-apatel@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/intc/sifive_plic.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/csr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index c2dfacf028..b4949bef97 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -476,11 +476,11 @@ DeviceState *sifive_plic_create(hwaddr addr, char *=
-hart_config,
-         CPUState *cpu =3D qemu_get_cpu(cpu_num);
-=20
-         if (plic->addr_config[i].mode =3D=3D PLICMode_M) {
--            qdev_connect_gpio_out(dev, num_harts - plic->hartid_base + c=
-pu_num,
-+            qdev_connect_gpio_out(dev, cpu_num - hartid_base + num_harts=
-,
-                                   qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EX=
-T));
-         }
-         if (plic->addr_config[i].mode =3D=3D PLICMode_S) {
--            qdev_connect_gpio_out(dev, cpu_num,
-+            qdev_connect_gpio_out(dev, cpu_num - hartid_base,
-                                   qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EX=
-T));
-         }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 71236f2b5d..0db2c233e5 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -940,7 +940,7 @@ static RISCVException sstc(CPURISCVState *env, int cs=
+rno)
      }
+=20
+     if (riscv_cpu_virt_enabled(env)) {
+-        if (!(get_field(env->hcounteren, COUNTEREN_TM) &
++        if (!(get_field(env->hcounteren, COUNTEREN_TM) &&
+               get_field(env->henvcfg, HENVCFG_STCE))) {
+             return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+         }
 --=20
 2.38.1
 
