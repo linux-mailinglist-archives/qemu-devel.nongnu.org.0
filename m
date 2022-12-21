@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DED65315D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CED9653147
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:05:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7yma-0004uk-CL; Wed, 21 Dec 2022 08:05:16 -0500
+	id 1p7ymZ-0004rh-GD; Wed, 21 Dec 2022 08:05:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymX-0004mn-47
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymX-0004mm-2G
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:05:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymV-0004B8-FB
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymV-0004BC-FU
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:05:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627907;
+ s=mimecast20190719; t=1671627910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eBOwj6JDM1U7pLSucgaE+caCjlxPIqE+hIWrIrT6Stg=;
- b=iDfQrJE6OeRPhBfXk98VofoD4i0Nt9+TCf2zFtNd6w+3wE+B+sDbvSc9cG0QTraBX8VUOT
- Hhr+TC4aVzOkjw/BrokrGfVUGorKUI8RheY7xxnoY6WqRIDVAL9LgO8gkRUpTxGc64/C2E
- mbxRsr/LHlkw/cD6rRsZRVjeaYEe+G0=
+ bh=aBO1emW4emjWgJNkqbwYbIL4X85na4dvr4bspfy6T/o=;
+ b=WvT6VAodGwGoKA3+uXeBRaSUTpeQCxEk4xhJ5cn2ba7Flq1z4vtdTVq1iBOYNbfm8dzwbS
+ etC4S/zXWmM40EEUY+h8oAnHCTo5HRs/EEO+n4GYrvawdLFBxFaOPoZGILG/zoMvZHjo6U
+ 3D3LSVXGV8vPyKFkK08y7BvEZddRha8=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-646-bWHiOPDJP4qKy5sPy0Vqow-1; Wed, 21 Dec 2022 08:05:06 -0500
-X-MC-Unique: bWHiOPDJP4qKy5sPy0Vqow-1
+ us-mta-657-TB9L2p06NqWAV304EG8a_w-1; Wed, 21 Dec 2022 08:05:09 -0500
+X-MC-Unique: TB9L2p06NqWAV304EG8a_w-1
 Received: by mail-wm1-f72.google.com with SMTP id
- h64-20020a1c2143000000b003d65ff910e1so927619wmh.2
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:05:05 -0800 (PST)
+ 125-20020a1c0283000000b003d1d8d7f266so7912318wmc.7
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:05:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eBOwj6JDM1U7pLSucgaE+caCjlxPIqE+hIWrIrT6Stg=;
- b=cqDLESvgIzsg/lszSupF7t6TEsZwk0j9/X3A/ihh1IzET+YYztEBrOiKeI+e4ZwpoB
- f7rfqkoJ1yFkJpqGGNPbWysHlg5wF6cDSRM7SYtof0lYeBuIOPpa08b6rDU9XrPsfV9c
- jHHzngdqbjpabxVS9o7Yixdhcw7TPSgvtoZyzGGokieJo2ITWVziWjzsTH/Z3a1ZxCZ9
- Ch5Mc3Ebnw+5t3g3D5Ek1vz7sIlMJR/Eb1hRe70lLuh9Up4gWgi2GoOn2mXKJzctgH+2
- 0Hg/pFBgPOXXOfeBgVrV3OO8VtBQAKNFlFGFrsWmuSvIa7ZiZZajUlHLAVJlyYEJC1dD
- BHUA==
-X-Gm-Message-State: AFqh2kp2+D3in7J1hfJRTJeoXHh6UHOLHiiIwGDJpPQ0mfQlJ1hD2nCt
- vMZu5zyoOTZx0tY2jtOeUiJooEwr5JSpYiYjpHyTsUTMaW5TJxOcS0fzCJTzXqHKwZ6/zEOuUuN
- r/+UqJIosbPGIW33xBirrknkLd0x/zDOoLte8/LshYJE/mHyN4brngMoJE5fw
-X-Received: by 2002:a05:600c:ace:b0:3d1:fe0a:f134 with SMTP id
- c14-20020a05600c0ace00b003d1fe0af134mr1620307wmr.19.1671627903968; 
- Wed, 21 Dec 2022 05:05:03 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuUOuVZriEKDf3EfliyeuLfsZxrO4hejnSxb0hTsizKfqSMvHIdQZy6hP45ttyhDR5FMoOTjQ==
-X-Received: by 2002:a05:600c:ace:b0:3d1:fe0a:f134 with SMTP id
- c14-20020a05600c0ace00b003d1fe0af134mr1620290wmr.19.1671627903747; 
- Wed, 21 Dec 2022 05:05:03 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aBO1emW4emjWgJNkqbwYbIL4X85na4dvr4bspfy6T/o=;
+ b=ZdaxDPxXMEKMyvtAnz+ksuI1DZKO6tP8cPzwNzFbpg4LtzPz31sMqnq0YLUxJO0gzN
+ u2gNs0YpVzs85ObRhSad+hhvTfYBxHjXfG7dHTcSLu9dQtse+ZqyPL3muv+UWBhMUR5J
+ W5zpZWXdUTb6TvPTEMBrj8mWBjJh29I9k6jhPW/Wltum1Iy8LCQDZ/xtZRBuWgdWovVD
+ UHvg7obhjBwEdOLj/VCa5mJzsRBumxRnLjARu8vXOi4kuFjT0GtffOuINW7Rl8BIjTX1
+ 5EFDmbakqVDSypRuwtVaRNGq3O4rdde94fXwbxstfniu8vTe3h0oqU2y8h04dvYj/U7Y
+ Olvw==
+X-Gm-Message-State: AFqh2kpWq4VS/7gP/ND5bMnBX8aJ4jfPuyf2SxsQ3aN4r9XuYZ+W5VAU
+ Q07h5DmKIxr0KeciDEuWusDDZwDE3Pn+yKsPeLGEIa2RtfqOgX0ieRXcFMgwNaVVKU3dLE6MzRq
+ ajJHmPnPRvtp8ZmvFawG9wN2aiopV1hbRM4Gbx6A8eOfuH71uRB/L25vZumVV
+X-Received: by 2002:adf:ce82:0:b0:25d:d262:5f4 with SMTP id
+ r2-20020adfce82000000b0025dd26205f4mr1364332wrn.63.1671627907349; 
+ Wed, 21 Dec 2022 05:05:07 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvveeqmtz5KYemCYJqbOGuH6b6Q02EKsLIrTlR4LOZ57/eDU+gOCXbrZtv0CezwxAIalNvbQA==
+X-Received: by 2002:adf:ce82:0:b0:25d:d262:5f4 with SMTP id
+ r2-20020adfce82000000b0025dd26205f4mr1364310wrn.63.1671627907076; 
+ Wed, 21 Dec 2022 05:05:07 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- e19-20020a05600c4e5300b003cf6a55d8e8sm2326520wmq.7.2022.12.21.05.05.01
+ ay8-20020a5d6f08000000b00241b5af8697sm15241705wrb.85.2022.12.21.05.05.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:05:02 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:05:00 -0500
+ Wed, 21 Dec 2022 05:05:06 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:05:03 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Longpeng <longpeng2@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 11/41] vdpa-dev: mark the device as unmigratable
-Message-ID: <20221221130339.1234592-12-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PULL 12/41] vdpa: use v->shadow_vqs_enabled in
+ vhost_vdpa_svqs_start & stop
+Message-ID: <20221221130339.1234592-13-mst@redhat.com>
 References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,33 +101,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Longpeng <longpeng2@huawei.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-The generic vDPA device doesn't support migration currently, so
-mark it as unmigratable temporarily.
+This function used to trust in v->shadow_vqs != NULL to know if it must
+start svq or not.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+This is not going to be valid anymore, as qemu is going to allocate svq
+array unconditionally (but it will only start them conditionally).
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
-Signed-off-by: Longpeng <longpeng2@huawei.com>
-Message-Id: <20221215134944.2809-5-longpeng2@huawei.com>
+Message-Id: <20221215113144.322011-2-eperezma@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vdpa-dev.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/virtio/vhost-vdpa.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
-index dbc4f8001d..db6ba61152 100644
---- a/hw/virtio/vdpa-dev.c
-+++ b/hw/virtio/vdpa-dev.c
-@@ -327,6 +327,7 @@ static Property vhost_vdpa_device_properties[] = {
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index bc1c79b325..220a9a2e6e 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -1029,7 +1029,7 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
+     Error *err = NULL;
+     unsigned i;
  
- static const VMStateDescription vmstate_vhost_vdpa_device = {
-     .name = "vhost-vdpa-device",
-+    .unmigratable = 1,
-     .minimum_version_id = 1,
-     .version_id = 1,
-     .fields = (VMStateField[]) {
+-    if (!v->shadow_vqs) {
++    if (!v->shadow_vqs_enabled) {
+         return true;
+     }
+ 
+@@ -1082,7 +1082,7 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+ {
+     struct vhost_vdpa *v = dev->opaque;
+ 
+-    if (!v->shadow_vqs) {
++    if (!v->shadow_vqs_enabled) {
+         return;
+     }
+ 
 -- 
 MST
 
