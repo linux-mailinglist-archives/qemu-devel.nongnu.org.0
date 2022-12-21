@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34EA653288
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 15:41:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D43A465328C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 15:41:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p80Gg-0006ut-Gw; Wed, 21 Dec 2022 09:40:26 -0500
+	id 1p80Gm-0006vL-3d; Wed, 21 Dec 2022 09:40:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p80Ge-0006tr-IS
+ id 1p80Ge-0006ty-Pb
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 09:40:24 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1p80Gc-0004tC-IB
+ id 1p80Gc-0004tF-Mf
  for qemu-devel@nongnu.org; Wed, 21 Dec 2022 09:40:24 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- c65-20020a1c3544000000b003cfffd00fc0so1719696wma.1
+Received: by mail-wm1-x32f.google.com with SMTP id
+ r126-20020a1c4484000000b003d6b8e8e07fso1514209wma.0
  for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 06:40:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UREun9/w211oRcp0+fsUoxLBLbHw4sPRzwueBM1Yr3w=;
- b=VF0Rbqbf3MGlXBPYvJjiM/F4zMlsf650M0shUSTblXgKV1mOPj1lfO8hF11khkjuFM
- BuvlelVe3/TcNNhow2P973ykD55R7k9YlIcfgkmQJIgM96mO1VrP7m3NzTlGE/E3i7Al
- RU3PE2spUjo2yEC2/ogjFd1BpFlxJMWCGUG/nd56yRp1inaJTqNe2DfABpMTQp/+xSYZ
- MTV/TEL9DOPd47gtmJZ/12Ze0UZ+34VCTJZVkpwOtBjuDrC8rqBfVWhqHoc4AGii20Nb
- P0AJg4Lanw1W4NrZoVGfAHPDldJFz3g0VDo2IMEGq5MpcTe4D4ZUPhYjIOSYmPofVMXE
- Ngsg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=87B4xJDM8OIXYXegfKHvBAcAzKRV4DRuOlrFU4smc8k=;
+ b=KVJJbDMUk974i5fqeyEKzAZsPR3EuJkfWeJirG45Vx11ut83jWjVbRfJDInvgXGjM3
+ DnFEZf0WU58WhpVItKFLjcutpbk2WxqUI6c/YERfSg82dJvM4pfYabxM6Gv63MsVLVdI
+ kHxcV1BiOqvsZpM/fKjI8264GXXP5/lYxWRqnWKr7r8gk6uzcm2rEJ8HZLA8rBlqEeSu
+ bdZ5oXauKutzthV+daifBTcoKlVmn5xnLe5+2yZRcySo8MUQTSeqf7h/gn4ajKR0eJnQ
+ waQlasqlpLUX6KfhsaBR3sMdhCLFj+N8qZ9tYuvGRvMaqyOpyvbdeEt5/Zz/FhY8aKcJ
+ zCgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UREun9/w211oRcp0+fsUoxLBLbHw4sPRzwueBM1Yr3w=;
- b=nsVC56O+WIXhGA21yxErb0vOWeQIZ/IohlCcA23ZCv66zlB46i8Q21iUX5KRkQEucR
- 2t48zTHA+ORvB/OEUTavkfnOdGiI6vLn4JjQi3sgBuzhtl5CCJb10RT0vLxA9J0001KV
- 9gXzqubINDohrgqaX88p9qkVc8x47bceigm6G615VHhGAB1xe7uw3OlqeWs1zWudt30k
- GGX0dHQw8F9URblLVSmi38/lhjl0wgOd3lGNM3k3TIshn2rxakF1YokIwRhe0iTx7iQV
- IpL5nkWik9/1hTrQyKdKG100vuI0FhkZmHNRqEtIkji5Ne7Wttloem/GUeUqYj+AMaIy
- 3/0w==
-X-Gm-Message-State: AFqh2kokpBX8o9oMFmMAQVSd9xQM6a/29hjTEQopbBPsGZsm9bREG+lx
- /q+ykfPaLhAxJmTp70UKyqO7oN7ueZKS9FHU
-X-Google-Smtp-Source: AMrXdXtNqP6RXvXyVkBAla0aa05hBgnpYk90X2/XLqEU1zyznRpO4okp4BDhNJybvvHfUz5MqSeITA==
-X-Received: by 2002:a05:600c:348b:b0:3d1:fcb4:4074 with SMTP id
- a11-20020a05600c348b00b003d1fcb44074mr2100325wmq.22.1671633620805; 
- Wed, 21 Dec 2022 06:40:20 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=87B4xJDM8OIXYXegfKHvBAcAzKRV4DRuOlrFU4smc8k=;
+ b=njqe/UZ10+K8OQnrmVXM/vNmUGD6oqIKaI4X78xf0nqDrAjlwFWphomLoqav1bJ5xr
+ dVM/xMyL9QUcPw0r0EKuFSfLmMuSzGZZVeIkeaIObO+6MqDWcYXPhpvnzhP8E6QTpb4j
+ w932WyNYuEgGmPX9yuPx67KSNEYpiG5aa/oJWvVOdDyxQtnmPdp78+/ItOFnXmPdaIl5
+ wCdjTZ7gBLal+PpTI6roAUlqCxnq+gKttugkOOQLhDKATuHKRR44lBYSgHZOV2cbbp27
+ WKkGZbmjnh02V2LvI7oypQ9SFoTZEPgys64FNh+Xv+LuZFGzaNbCzgi30oAifZ3NoNSn
+ shfA==
+X-Gm-Message-State: AFqh2koL4ywFiZqcOEYtIpBIbT5dfJAFtcdiDIzgWsgivjU28RDhGwPy
+ mGezcNQuzBsPSpou+tZKt+l5CA==
+X-Google-Smtp-Source: AMrXdXu/3oiZX8dEYn/wqsQRMxaL/drHniKnLRt/LVZA9ZDqHTkwsH91zabpxStfVkLbZyDzNIEdQA==
+X-Received: by 2002:a05:600c:34d1:b0:3d7:72e3:f437 with SMTP id
+ d17-20020a05600c34d100b003d772e3f437mr1845751wmq.21.1671633621093; 
+ Wed, 21 Dec 2022 06:40:21 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bg40-20020a05600c3ca800b003b4cba4ef71sm2711858wmb.41.2022.12.21.06.40.20
+ m24-20020a05600c461800b003cfd0bd8c0asm2315210wmo.30.2022.12.21.06.40.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 21 Dec 2022 06:40:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C17431FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id D788B1FFB8;
  Wed, 21 Dec 2022 14:40:19 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 0/6] testing updates
-Date: Wed, 21 Dec 2022 14:40:13 +0000
-Message-Id: <20221221144019.2149905-1-alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PULL 1/6] configure: Fix check-tcg not executing any tests
+Date: Wed, 21 Dec 2022 14:40:14 +0000
+Message-Id: <20221221144019.2149905-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221221144019.2149905-1-alex.bennee@linaro.org>
+References: <20221221144019.2149905-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,56 +97,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 8540a1f69578afb3b37866b1ce5bec46a9f6efbc:
+From: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
 
-  Merge tag 'hppa-fixes-pull-request' of https://github.com/hdeller/qemu-hppa into staging (2022-12-20 15:32:27 +0000)
+After configuring with --target-list=hexagon-linux-user
+running `make check-tcg` just prints the following:
 
-are available in the Git repository at:
+```
+make: Nothing to be done for 'check-tcg'
+```
 
-  https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-211222-1
+In the probe_target_compiler function, the 'break'
+command is used incorrectly. There are no lexically
+enclosing loops associated with that break command which
+is an unspecfied behaviour in the POSIX standard.
 
-for you to fetch changes up to 7a8ec48480c116db93e0d91688be1dcf34147795:
+The dash shell implementation aborts the currently executing
+loop, in this case, causing the rest of the logic for the loop
+in line 2490 to be skipped, which means no Makefiles are
+generated for the tcg target tests.
 
-  gitlab-ci: Disable docs and GUIs for the build-tci and build-tcg-disabled jobs (2022-12-21 11:19:05 +0000)
+Fixes: c3b570b5a9a24d25 (configure: don't enable
+cross compilers unless in target_list)
 
-----------------------------------------------------------------
-testing updates:
+Signed-off-by: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Link: https://patchew.org/QEMU/20221207082309.9966-1-quic._5Fmthiyaga@quicinc.com/
+Message-Id: <20221207082309.9966-1-quic_mthiyaga@quicinc.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20221221090411.1995037-2-alex.bennee@linaro.org>
 
-  - fix minor shell-ism that can break check-tcg
-  - turn off verbose logging on custom runners
-  - make configure echo call in CI
-  - fix unused variable in linux-test
-  - add binary compiler docker image for hexagon
-  - disable doc and gui builds for tci and disable-tcg builds
-
-----------------------------------------------------------------
-Alex Bennée (3):
-      gitlab: turn off verbose logging for make check on custom runners
-      configure: repeat ourselves for the benefit of CI
-      tests/tcg: fix unused variable in linux-test
-
-Mukilan Thiyagarajan (2):
-      configure: Fix check-tcg not executing any tests
-      tests/docker: use prebuilt toolchain for debian-hexagon-cross
-
-Thomas Huth (1):
-      gitlab-ci: Disable docs and GUIs for the build-tci and build-tcg-disabled jobs
-
- configure                                          |  11 +-
- tests/tcg/multiarch/linux/linux-test.c             |   6 +-
- .gitlab-ci.d/buildtest.yml                         |  10 +-
- .gitlab-ci.d/container-cross.yml                   |  19 +--
- .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml |  12 +-
- .../custom-runners/ubuntu-22.04-aarch32.yml        |   2 +-
- .../custom-runners/ubuntu-22.04-aarch64.yml        |  12 +-
- MAINTAINERS                                        |   1 -
- tests/docker/Makefile.include                      |   4 -
- .../debian-hexagon-cross.d/build-toolchain.sh      | 141 ---------------------
- .../docker/dockerfiles/debian-hexagon-cross.docker |  53 +++-----
- 11 files changed, 47 insertions(+), 224 deletions(-)
- delete mode 100755 tests/docker/dockerfiles/debian-hexagon-cross.d/build-toolchain.sh
-
-
+diff --git a/configure b/configure
+index 26c7bc5154..7a804fb657 100755
+--- a/configure
++++ b/configure
+@@ -1881,9 +1881,7 @@ probe_target_compiler() {
+   # We shall skip configuring the target compiler if the user didn't
+   # bother enabling an appropriate guest. This avoids building
+   # extraneous firmware images and tests.
+-  if test "${target_list#*$1}" != "$1"; then
+-      break;
+-  else
++  if test "${target_list#*$1}" = "$1"; then
+       return 1
+   fi
+ 
 -- 
 2.34.1
 
