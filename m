@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB931653922
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:56:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71C7653902
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:51:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87oE-0003MV-Kk; Wed, 21 Dec 2022 17:43:34 -0500
+	id 1p87oF-0003O3-Hu; Wed, 21 Dec 2022 17:43:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87o5-0003FG-VE
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:26 -0500
+ id 1p87o7-0003Fc-4N
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:27 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87o3-0000bf-Kw
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:25 -0500
+ id 1p87o5-0000bQ-HG
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:43:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671662603; x=1703198603;
+ t=1671662605; x=1703198605;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=RignxIYbKCPHxUnIhIqB+bDCTC2InNMQAhk2vcktKns=;
- b=dtA6JLN+puNEw1iyGv5Sfhl7C51FMh8re3LD9aX0Z0D/hUs93nHWEWkE
- yz9SXdr6KJuNnUhSKJlsXenIYruMZtwFeRcZNLfiun+U0ZNbCApYxbHtg
- 9nE1TfgIc2j+sfqQDNwgXcp33oWyu6+wDbM8HxuBYQG1hCY++MhNVe28s
- hp/5q02gbrjl6GihdYGf8d8aOsDOCJZbHqQQtqXJfrpgUZiPcZ/QLRC97
- u0HJ5JgQxiMgqDIxUZh32hY3676RSOGsvp0uCxUG/xdiY+2MLNnhqiDFR
- K2ZWtSQozzPJCIXx4PVQym++uJ2smpPPtW46vrZrJu3opnry1ZHrm2jht Q==;
-X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561463"
+ bh=B4bsb7C+WvHwOgjHhyitFcg8hTn062ir9rkIHz/V44c=;
+ b=hQHNG4dTMbDdgQ6IunGiNACkZ2X9jtE5iuRJ38l0BSVsxVzaaWr9Z54Y
+ h+Y8wCrmUa/DuPj14szM3/4XBxK87LyQtsT4e9vK+DG5sZiyWJFYlOiAF
+ COv1Isr7kS4od0fuAPCVT5V56sp1jlDy4+Pu8j6fDceELqty3h67ql79H
+ cs/gXfrxqe/735GZP8K3xqv93c/f2vwtl6XW7vCGbWd7hONnkbx2AsQt1
+ da5I9yHfiHMdSAEpFvtuxvzDxjSmqmJb27m/5X0MXQDutpgghY5Pf1wnI
+ 0SAtY/R0NmUctxtPkNsHgTqy1878+X1X0Ak7oENIBszbqFxpjgcMTT4Lg w==;
+X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561469"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:54 +0800
-IronPort-SDR: yc7WDHUB8mYcjBvl/buc0nQttWwpYg26EUBTD7Kvl+QRvqpZJGhhEgbnt1+6Y92XhjEFVuSSpi
- DdSzWlbCwocK0WLmY0qvuq+5kvPfL6pD/objkmUFV+NwYLwFboZyRGP9lRVzDPu1L1wzPvFb8K
- tR5qEwuGfsqfib7RO1kZmFkNOBylLvwfhh7DTu/+GiDsKQ6t0RUfOvcHj3igIorf+/lCJJsEl4
- hVd3vGO31qLuKJkRMl+QRcHDmI1ko/MJv49g1iIlAz/SxpMJjQdS3bbUqtbDB0ooa6j7TrPCdY
- wx0=
+ by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:57 +0800
+IronPort-SDR: bZ5TWgYzh85rHN8geTbgJjS3ye/2rj7LXeKgVxwFdf/DLfG13vlYYK0K4ldbQqo3mgx2TVqZAI
+ PKxlPBpfiRqhcDq5zVkL7qdc69jV+Ny++PLFkc/LWN3rO6Py6nUpekH5IRCuhFCMwvQGP/e0lc
+ kGgAT3dxETDBvaH15jQ/xP7BKYa7zQ+UHNzAp7M2+0bVBn49vWjTeDR60fmcx9J/BcJ6fqKWMT
+ 9Yu/yzJLuT5yVv1qoHhCXaD3xj1R69qk3M1xoNTjj60r5fsGYhgmmAAoPI0iy3eeB8QZFE4Lxc
+ Il4=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 13:54:23 -0800
-IronPort-SDR: 3BmY6GyVImqwGwBAsGMl+nWsB6OWhjLrBOXWj+IjvVQxr3XnEPDMh2NnP1GjAM7Nwzx4qWUEux
- RgyuoyUBkKnkFAOFmZwj2MoMXmCI13ofpeBg5ROCz17alARdfxxsRQk6Lb+fEjzCFHTYdAmfPL
- CaxsgIINUuSeo4BeBzZhoFjC6ih39gfb2uCsJ11if1BbZ3XBC0PbwRPFUsY4pfhl7mH5Lb380w
- xBD/WzbXbdH1YTROe5+VEXWGwzSUNPu+qWDd3dUUWMY93c/6vbY7+cmFSK+Qh7LnIDmNthMe0b
- lcM=
+ 21 Dec 2022 13:54:26 -0800
+IronPort-SDR: QZl4uUWuVMyKqFpn++23nptAMNwSvKc8ISP+ekuyHKZWjTzEsLVCmKijSMepIejbpuR1RJJjFH
+ JCjwWdQkRM2I2mNwtolBt5w/rH3up7rQ2+CGsmYvSiqNAQ0zI3wEA3X9jtfaS6cTkMVrdVO0KZ
+ G7segMwJBj8C2Nl2iysjuPtDv9baH4Xwp6xChCOVCepmdhXoqEZyV/TAN0GHjdrQW8TLktE4z4
+ qhK7iHi20wyUoV+hk4jo2PZci9Vbj3bp2HlpDw1UV80hMIoFu7cKf/r3R5hODcDKmE3bYG+WFz
+ M04=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 14:41:55 -0800
+ 21 Dec 2022 14:41:58 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpN25C70z1RvTr
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:54 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpN528ssz1RwqL
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:57 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1671662514; x=1674254515; bh=RignxIYbKCPHxUnIhI
- qB+bDCTC2InNMQAhk2vcktKns=; b=nYFLLVdk44ihmkKisefJU4LOOibfLaCvZZ
- hJaDu3ma5BeVezzVAA/8X6WERvtaKItBROyGrVuvawiXoXlxxMTElCTmJ0Dg6Cr2
- z9NT2nPeovpFFuYhMPueP6Q79+eDQDZbEiJabqGvhQk9A1ZkIxAsbLt77njKYq32
- EnR+EW6cEi9PRd16CyP3zLs7BwPHdVEUDPduZk5RdvKxG49azKogYXvcs/XsjYea
- 4WbflW3uA8N+IRGzNnGxjUV37sM34ar/faIxay7Bgzfy9096QI5JuvuhC7w4QG/e
- Yw89zL8n+GaU9tfCXy3Gj8x22WZSbBLVn7edUrpeXJPS4mr9zJyw==
+ :from; s=dkim; t=1671662516; x=1674254517; bh=B4bsb7C+WvHwOgjHhy
+ itFcg8hTn062ir9rkIHz/V44c=; b=lmzC9D683hnOOWfaS2qDvhr2fCMxjAF+2/
+ bz5IW8zB0eUIcV+SIeYDIwxwAvtVKti0RyS5fnxlqjqf09MPuf6e0ntBzCpKjvVk
+ zY0RqmfI6lkPE3X4x3XtEBm32SUiWCJqqY62TSn3xlOkKw+gk1BuxRqIY0L4gkVH
+ 6DwK5TlzAU1vsf3dTFhXeGw/2XjLFVjpV0Qn6z53QMm9PxLn/OfHw0ZsYHh9bo1z
+ r0bdjdL5BBgj38iiyTroK8+d2RfUm5EdpBZMp8d1pZN8j9yZZ/5tvmKixLzgCRSx
+ lHeQMDhjEqmgQsA4mTZabdyOZWYvxQTplT8dcrZBcZggWCicl+hQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id kE8tCdMBm5oM for <qemu-devel@nongnu.org>;
- Wed, 21 Dec 2022 14:41:54 -0800 (PST)
+ port 10026) with ESMTP id 5AChHbwDp8uT for <qemu-devel@nongnu.org>;
+ Wed, 21 Dec 2022 14:41:56 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.8])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMz5n08z1RvLy;
- Wed, 21 Dec 2022 14:41:51 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpN24z81z1RvTp;
+ Wed, 21 Dec 2022 14:41:54 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
  Wilfred Mallawa <wilfred.mallawa@wdc.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 40/45] hw/riscv: sifive_e: Fix the number of interrupt
- sources of PLIC
-Date: Thu, 22 Dec 2022 08:40:17 +1000
-Message-Id: <20221221224022.425831-41-alistair.francis@opensource.wdc.com>
+Subject: [PULL v2 41/45] hw/riscv: sifive_u: Avoid using magic number for
+ "riscv, ndev"
+Date: Thu, 22 Dec 2022 08:40:18 +1000
+Message-Id: <20221221224022.425831-42-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
@@ -118,51 +118,34 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-Per chapter 10 in Freedom E310 manuals [1][2][3], E310 G002 and G003
-supports 52 interrupt sources while G000 supports 51 interrupt sources.
+At present magic number is used to create "riscv,ndev" property
+in the dtb. Let's use the macro SIFIVE_U_PLIC_NUM_SOURCES that
+is used to instantiate the PLIC model instead.
 
-We use the value of G002 and G003, so it is 53 (including source 0).
-
-[1] G000 manual:
-https://sifive.cdn.prismic.io/sifive/4faf3e34-4a42-4c2f-be9e-c77baa4928c7=
-_fe310-g000-manual-v3p2.pdf
-
-[2] G002 manual:
-https://sifive.cdn.prismic.io/sifive/034760b5-ac6a-4b1c-911c-f4148bb2c4a5=
-_fe310-g002-v1p5.pdf
-
-[3] G003 manual:
-https://sifive.cdn.prismic.io/sifive/3af39c59-6498-471e-9dab-5355a0d539eb=
-_fe310-g003-manual.pdf
-
-Fixes: eb637edb1241 ("SiFive Freedom E Series RISC-V Machine")
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221211030829.802437-11-bmeng@tinylab.org>
+Message-Id: <20221211030829.802437-12-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/sifive_e.h | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_u.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index d738745925..9e58247fd8 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -82,7 +82,12 @@ enum {
- };
-=20
- #define SIFIVE_E_PLIC_HART_CONFIG "M"
--#define SIFIVE_E_PLIC_NUM_SOURCES 127
-+/*
-+ * Freedom E310 G002 and G003 supports 52 interrupt sources while
-+ * Freedom E310 G000 supports 51 interrupt sources. We use the value
-+ * of G002 and G003, so it is 53 (including interrupt source 0).
-+ */
-+#define SIFIVE_E_PLIC_NUM_SOURCES 53
- #define SIFIVE_E_PLIC_NUM_PRIORITIES 7
- #define SIFIVE_E_PLIC_PRIORITY_BASE 0x04
- #define SIFIVE_E_PLIC_PENDING_BASE 0x1000
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index b139824aab..b40a4767e2 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -287,7 +287,8 @@ static void create_fdt(SiFiveUState *s, const MemMapE=
+ntry *memmap,
+     qemu_fdt_setprop_cells(fdt, nodename, "reg",
+         0x0, memmap[SIFIVE_U_DEV_PLIC].base,
+         0x0, memmap[SIFIVE_U_DEV_PLIC].size);
+-    qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev", 0x35);
++    qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev",
++                          SIFIVE_U_PLIC_NUM_SOURCES - 1);
+     qemu_fdt_setprop_cell(fdt, nodename, "phandle", plic_phandle);
+     plic_phandle =3D qemu_fdt_get_phandle(fdt, nodename);
+     g_free(cells);
 --=20
 2.38.1
 
