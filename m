@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964F7653150
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65FF5653159
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:09:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ynw-0006pw-BJ; Wed, 21 Dec 2022 08:06:40 -0500
+	id 1p7ynz-0006yI-3l; Wed, 21 Dec 2022 08:06:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynu-0006lV-4R
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynx-0006ve-BN
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7yns-0004Ws-0u
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:37 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynv-0004X6-PC
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627995;
+ s=mimecast20190719; t=1671627999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OZ8rNZ9vkLJ1qZu/EVJ3tU3Fcrp5MNrh20xbY6fHBcE=;
- b=cV+Bt+930n8alEE+D90x8qZQpLiVIcG8OorH1GUCjbiBwl6CydC9L8Q9Y4Jtk6VmoC038N
- lLzpwI/AGZD1K3RS8tRLUtsbJ+JNABCkyoR0Pj1IXCrjsENArR7GpwBkQ3vuTQvVRkpyIj
- jTOWr3/ooDTlfw0fjIE2Zc/O7Tpo+uI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=22HTiVqCUQY8+u/d6nSRb69AufwfEdruw3bnWkKLKMU=;
+ b=Se4t9meBcfzs9tsJWCWG8ugehEybtMfyF2iuN2HXHtGvNUNc8pQrpvFEr+Fuo158g8tBhV
+ uWN4EDCHRp1fqx1phQWeHVlbx/Fn/yIRiBKAiKq4pYIczvnuQNvBHSIGzo+/lKgczS0GH/
+ upjZ/6fh17+1yOA8KhsxsZoDblnQ7/M=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-210-3NtK34RdPEuMUT9QwBdrtQ-1; Wed, 21 Dec 2022 08:06:33 -0500
-X-MC-Unique: 3NtK34RdPEuMUT9QwBdrtQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v188-20020a1cacc5000000b003cf76c4ae66so915349wme.7
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:06:33 -0800 (PST)
+ us-mta-641-2R3wqvTqOvqvo6i1CRbKvg-1; Wed, 21 Dec 2022 08:06:37 -0500
+X-MC-Unique: 2R3wqvTqOvqvo6i1CRbKvg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c7-20020a1c3507000000b003d355c13ba8so4304203wma.6
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:06:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OZ8rNZ9vkLJ1qZu/EVJ3tU3Fcrp5MNrh20xbY6fHBcE=;
- b=nLGszy6fEWxYub4R3d/r/sUl6cyzyTKGXQi9F7y4gAhv2rInl3SxvEAKtlF4mQQKjR
- lIU600K65FKzwg7DfF+CR3z+KbX8Hf8utWTDjgouGp5pXUJFwtYM9o8VFWdpkxQmq2Zc
- 6hdYvX4hd/jr6UKL5ZbaPWCsJyAGMalXnKeVzUwseOrNwnS2puW3MWUkrpp9OytqeCKU
- JWTUTNN7D4R5mtecppsgGPq1CX+0bQNzgh3N1gjqQEgz5SeZ02gq2v/DMSzKENC2RS82
- +wtWyt9stRKqGmLGO4pwhk/W31Ksv40j8xXpbdxxS/PN6HBF0II9PAQ7TsfQvXvz2Csw
- 6XGg==
-X-Gm-Message-State: AFqh2kpBKD97irUDswc1VussgBTkurSzza7WqqOOil/HONYSDmZ/475k
- +sc49auxV/oZGkIgqEontnPLhGhqIxu5Sw8c1fM3I7j7pSnDjkRRq8TUkbKsmGJ++lXd7f8fr4P
- vW65Bhq6AMPzpkt26yQhYjoKdGNbSnT/1HuWLatsjQAxqTKoRxY0rpMy842b9
-X-Received: by 2002:a1c:2906:0:b0:3d2:3d7b:6115 with SMTP id
- p6-20020a1c2906000000b003d23d7b6115mr1689806wmp.7.1671627991879; 
- Wed, 21 Dec 2022 05:06:31 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtM1gSVWtcKLKkk5NrpRd5t8Jj3solEyGQYAE7p9oCPEoc4DWnTKVGNxu0C23QWm210tizjUQ==
-X-Received: by 2002:a1c:2906:0:b0:3d2:3d7b:6115 with SMTP id
- p6-20020a1c2906000000b003d23d7b6115mr1689781wmp.7.1671627991552; 
- Wed, 21 Dec 2022 05:06:31 -0800 (PST)
+ bh=22HTiVqCUQY8+u/d6nSRb69AufwfEdruw3bnWkKLKMU=;
+ b=TPlNzLfB5dmYgoUw2XSdhXxeacNqjQUHZh7rma9cnfamiz7GqVa0sQX9LREB/ekxi3
+ JvSr48lObuKiD1WHJb1Ae2IEkoWu+Mtjkp9GCOmA9cTphMQ9Y4QROGsMJnvP9OZ7VG3f
+ SX5Eajce+UnYLoywcZakkbDSCqvrIduvhOjPukZ3KVWrElKsHxWbKU+gnX0mFQ3RGLTr
+ UFQQWsp+8j90iP0G0lRR5otfhzV6Ug8kMAi1qMbeK6fv/5llgdyCI3iIAYvTIk4nZn1u
+ B9pFJcsUPnLTzpYuieeqvc14KECclZrtuEKvRunq4Tv4Y41pisxRbzZydByYYOMrSpt8
+ Eyqg==
+X-Gm-Message-State: AFqh2koqntQEqWh1qzk6wDNcLeXD7ZNeYDAFLn8bALzdMjLIvrezAe8P
+ tibXZEvejCUeji+SDWTY0mjntA3csQuRT2B918ukQGeQ4C5YyHfdt5/RFqls5E037pMmvQHxK7q
+ dGyv7qSFG1GmE9n1uL6RxwnQhWMaGsl+TsBX1CzjoQXdwJJU3wTqD/SYltzTg
+X-Received: by 2002:a05:600c:1e10:b0:3d3:404a:8a1a with SMTP id
+ ay16-20020a05600c1e1000b003d3404a8a1amr4478927wmb.11.1671627996116; 
+ Wed, 21 Dec 2022 05:06:36 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsbwIpwmykxb3ZxV2X8OG+9nzhKv3Qwak6P7CxHdXJsVnJ/j68w9E2UI9BaS2TUxl+t8sE3xQ==
+X-Received: by 2002:a05:600c:1e10:b0:3d3:404a:8a1a with SMTP id
+ ay16-20020a05600c1e1000b003d3404a8a1amr4478908wmb.11.1671627995836; 
+ Wed, 21 Dec 2022 05:06:35 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- 5-20020a05600c230500b003d1e051f671sm2214645wmo.9.2022.12.21.05.06.30
+ y33-20020a05600c342100b003d01b84e9b2sm2141325wmp.27.2022.12.21.05.06.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:06:31 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:06:29 -0500
+ Wed, 21 Dec 2022 05:06:35 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:06:33 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Marcel Holtmann <marcel@holtmann.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 38/41] hw/virtio: Extract config read/write accessors to
- virtio-config-io.c
-Message-ID: <20221221130339.1234592-39-mst@redhat.com>
+Subject: [PULL 40/41] libvhost-user: Switch to unsigned int for inuse field
+ in struct VuVirtq
+Message-ID: <20221221130339.1234592-41-mst@redhat.com>
 References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -76,7 +77,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,451 +101,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Marcel Holtmann <marcel@holtmann.org>
 
-These config helpers use the target-dependent LD/ST API.
+It seems there is no need to keep the inuse field signed and end up with
+compiler warnings for sign-compare.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221213111707.34921-6-philmd@linaro.org>
+  CC       libvhost-user.o
+libvhost-user.c: In function ‘vu_queue_pop’:
+libvhost-user.c:2763:19: error: comparison of integer expressions of different signedness: ‘int’ and ‘unsigned int’ [-Werror=sign-compare]
+ 2763 |     if (vq->inuse >= vq->vring.num) {
+      |                   ^~
+libvhost-user.c: In function ‘vu_queue_rewind’:
+libvhost-user.c:2808:13: error: comparison of integer expressions of different signedness: ‘unsigned int’ and ‘int’ [-Werror=sign-compare]
+ 2808 |     if (num > vq->inuse) {
+      |             ^
+
+Instead of casting the comparision to unsigned int, just make the inuse
+field unsigned int in the fist place.
+
+Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
+Message-Id: <20221219175337.377435-8-marcel@holtmann.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-config-io.c | 204 +++++++++++++++++++++++++++++++++++
- hw/virtio/virtio.c           | 190 --------------------------------
- hw/virtio/meson.build        |   1 +
- 3 files changed, 205 insertions(+), 190 deletions(-)
- create mode 100644 hw/virtio/virtio-config-io.c
+ subprojects/libvhost-user/libvhost-user.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-config-io.c b/hw/virtio/virtio-config-io.c
-new file mode 100644
-index 0000000000..ad78e0b9bc
---- /dev/null
-+++ b/hw/virtio/virtio-config-io.c
-@@ -0,0 +1,204 @@
-+/*
-+ * Virtio Support
-+ *
-+ * Copyright IBM, Corp. 2007
-+ *
-+ * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/virtio/virtio.h"
-+#include "cpu.h"
-+
-+uint32_t virtio_config_readb(VirtIODevice *vdev, uint32_t addr)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint8_t val;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
-+    }
-+
-+    k->get_config(vdev, vdev->config);
-+
-+    val = ldub_p(vdev->config + addr);
-+    return val;
-+}
-+
-+uint32_t virtio_config_readw(VirtIODevice *vdev, uint32_t addr)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint16_t val;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
-+    }
-+
-+    k->get_config(vdev, vdev->config);
-+
-+    val = lduw_p(vdev->config + addr);
-+    return val;
-+}
-+
-+uint32_t virtio_config_readl(VirtIODevice *vdev, uint32_t addr)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint32_t val;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
-+    }
-+
-+    k->get_config(vdev, vdev->config);
-+
-+    val = ldl_p(vdev->config + addr);
-+    return val;
-+}
-+
-+void virtio_config_writeb(VirtIODevice *vdev, uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint8_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stb_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+void virtio_config_writew(VirtIODevice *vdev, uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint16_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stw_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+void virtio_config_writel(VirtIODevice *vdev, uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint32_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stl_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+uint32_t virtio_config_modern_readb(VirtIODevice *vdev, uint32_t addr)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint8_t val;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
-+    }
-+
-+    k->get_config(vdev, vdev->config);
-+
-+    val = ldub_p(vdev->config + addr);
-+    return val;
-+}
-+
-+uint32_t virtio_config_modern_readw(VirtIODevice *vdev, uint32_t addr)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint16_t val;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
-+    }
-+
-+    k->get_config(vdev, vdev->config);
-+
-+    val = lduw_le_p(vdev->config + addr);
-+    return val;
-+}
-+
-+uint32_t virtio_config_modern_readl(VirtIODevice *vdev, uint32_t addr)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint32_t val;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return (uint32_t)-1;
-+    }
-+
-+    k->get_config(vdev, vdev->config);
-+
-+    val = ldl_le_p(vdev->config + addr);
-+    return val;
-+}
-+
-+void virtio_config_modern_writeb(VirtIODevice *vdev,
-+                                 uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint8_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stb_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+void virtio_config_modern_writew(VirtIODevice *vdev,
-+                                 uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint16_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stw_le_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-+void virtio_config_modern_writel(VirtIODevice *vdev,
-+                                 uint32_t addr, uint32_t data)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    uint32_t val = data;
-+
-+    if (addr + sizeof(val) > vdev->config_len) {
-+        return;
-+    }
-+
-+    stl_le_p(vdev->config + addr, val);
-+
-+    if (k->set_config) {
-+        k->set_config(vdev, vdev->config);
-+    }
-+}
-+
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 989c96229c..e0aa70248a 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -18,7 +18,6 @@
- #include "qapi/qapi-commands-qom.h"
- #include "qapi/qapi-visit-virtio.h"
- #include "qapi/qmp/qjson.h"
--#include "cpu.h"
- #include "trace.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
-@@ -2580,195 +2579,6 @@ void virtio_reset(void *opaque)
-     }
- }
+diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
+index aea7ec5061..8cda9b8f57 100644
+--- a/subprojects/libvhost-user/libvhost-user.h
++++ b/subprojects/libvhost-user/libvhost-user.h
+@@ -343,7 +343,7 @@ typedef struct VuVirtq {
+     /* Notification enabled? */
+     bool notification;
  
--uint32_t virtio_config_readb(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint8_t val;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
--    }
--
--    k->get_config(vdev, vdev->config);
--
--    val = ldub_p(vdev->config + addr);
--    return val;
--}
--
--uint32_t virtio_config_readw(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint16_t val;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
--    }
--
--    k->get_config(vdev, vdev->config);
--
--    val = lduw_p(vdev->config + addr);
--    return val;
--}
--
--uint32_t virtio_config_readl(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint32_t val;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
--    }
--
--    k->get_config(vdev, vdev->config);
--
--    val = ldl_p(vdev->config + addr);
--    return val;
--}
--
--void virtio_config_writeb(VirtIODevice *vdev, uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint8_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stb_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--void virtio_config_writew(VirtIODevice *vdev, uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint16_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stw_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--void virtio_config_writel(VirtIODevice *vdev, uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint32_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stl_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--uint32_t virtio_config_modern_readb(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint8_t val;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
--    }
--
--    k->get_config(vdev, vdev->config);
--
--    val = ldub_p(vdev->config + addr);
--    return val;
--}
--
--uint32_t virtio_config_modern_readw(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint16_t val;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
--    }
--
--    k->get_config(vdev, vdev->config);
--
--    val = lduw_le_p(vdev->config + addr);
--    return val;
--}
--
--uint32_t virtio_config_modern_readl(VirtIODevice *vdev, uint32_t addr)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint32_t val;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return (uint32_t)-1;
--    }
--
--    k->get_config(vdev, vdev->config);
--
--    val = ldl_le_p(vdev->config + addr);
--    return val;
--}
--
--void virtio_config_modern_writeb(VirtIODevice *vdev,
--                                 uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint8_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stb_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--void virtio_config_modern_writew(VirtIODevice *vdev,
--                                 uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint16_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stw_le_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
--void virtio_config_modern_writel(VirtIODevice *vdev,
--                                 uint32_t addr, uint32_t data)
--{
--    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
--    uint32_t val = data;
--
--    if (addr + sizeof(val) > vdev->config_len) {
--        return;
--    }
--
--    stl_le_p(vdev->config + addr, val);
--
--    if (k->set_config) {
--        k->set_config(vdev, vdev->config);
--    }
--}
--
- void virtio_queue_set_addr(VirtIODevice *vdev, int n, hwaddr addr)
- {
-     if (!vdev->vq[n].vring.num) {
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 0d1ea1fea6..a52f4e5c01 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -5,6 +5,7 @@ softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'
+-    int inuse;
++    unsigned int inuse;
  
- specific_virtio_ss = ss.source_set()
- specific_virtio_ss.add(files('virtio.c'))
-+specific_virtio_ss.add(files('virtio-config-io.c'))
+     vu_queue_handler_cb handler;
  
- if have_vhost
-   specific_virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
 -- 
 MST
 
