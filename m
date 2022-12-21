@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E68652E4F
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 10:15:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12AB7652E54
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 10:16:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7vCF-0006l0-Hb; Wed, 21 Dec 2022 04:15:31 -0500
+	id 1p7vD1-0007uP-Ho; Wed, 21 Dec 2022 04:16:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vC1-0006iC-CR
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:15:17 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vCu-0007qS-3f
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:16:15 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vBz-0001sY-SJ
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:15:17 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- z8-20020a05600c220800b003d33b0bda11so2219454wml.0
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 01:15:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vCs-0002Gv-AH
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:16:11 -0500
+Received: by mail-wr1-x433.google.com with SMTP id f18so14275970wrj.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 01:16:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=wSZhX9MDbXxRMh0iSciLgfvVhy3nB7jM4dYyYgkuvb0=;
- b=smc+omFEAzDNgZ5NZoDJyDy1s0Cn5ktmI68M1PoGuTEqSONKlyNLwUwzZCBwbVsf1X
- D5BaaW9toO7gMt2lbN3rZJO9v5IT11gHwrl/PzGaE8P6kwaaJiatrkIMYZ+PrzCrhtPT
- l5+RiZxZNX8sF6nXYRTLsVj4Fv22jK4Q1o3MurOS1OlW2SDDOtJ97SEn9eOVbT9EVh1J
- wjDmiPoSLI4eN4MIhwS7J1MNXCZ0/bgaEvNAY/SABvO8pTY3N9lQvQkIKJrd2oHDb4rB
- NkHgKNAAXcviL8Ust8M8EE+1RWp8m1Hvlmz76me7O8wgQay2j128aZaXAx2G+oK9ym7+
- kdQA==
+ bh=+/CeYpa31rYPj/AvulX/QrAwFix2rlSrEY28abmGRG0=;
+ b=Lu2n/z3je+1gcXb49WpbM4VglWppZ7n6hxyGruiTVJ+4icGaCix2j8vPfmhkhztol6
+ to91K06bn6moVmB2V1MP/M8CNFIHEgzMo63bbUSROrOmISLgrvRO4dXaKeW+REfjvga8
+ oB6grsPfDQCDj70JE8aT/ye9Psce8noJiLUaZa/hkFb4ZxvCcS1LjiKZpl8ob5rDOBnM
+ 7Lf1QvvIv8VyNZnin53494MMtGnuAF9FPWJvYsci5b5ldippy+cP7oJw5SMtCImfV2JS
+ vndXxfz0HML9R+rhpsqsG5X9Kxq7G5vWehiNfDsC2JdJGheIayTMqEgKNfIgp7ygmwa+
+ g6GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wSZhX9MDbXxRMh0iSciLgfvVhy3nB7jM4dYyYgkuvb0=;
- b=M4+4ey/Y2l4ktemTNhNIdM6ubO8zTqtiEZdhWHj1LB5lSvMbhKUMPH+kPbHVjy7h6G
- LcxJPf/R/o9E/loBYNUrcnIfduwU3y2mvcCdgdtDwEoEjo8Kgl2IQGANeeir/SsWgun7
- b/WSHgQHf0OGZPhXMvkWni1ZFZER8JoFJLd3Fi5pRWYIDRNBVR8hPuukgZEngMyvEk6A
- AlHoTnENEFFDS21iBPnqA6wi/xarnYXGq8ksvjx9RqCI8UYGEEOMezzWKtSQjvdwtGxM
- FSQFl1506D/+IlXppMUGRbL+uMZQRmz6KCx6XSZSI0WBEIGqjmpnHR7bviS1D69Itkql
- VB4w==
-X-Gm-Message-State: AFqh2kpvOvXwbF8MTgxtklE13mp+sQbMCk27KtdLh/5ZDSzvMIu6gO7R
- or1gQqN1wlZDtYUGTAUXB+IGldYc/4k+Uf0m3PA=
-X-Google-Smtp-Source: AMrXdXsXnSpQCvvs7r+/383UhOG2CR/nV7qGHoDKNWuIFldgVB5tp9G0GlmwkiLRaaXdirk3/0FlZA==
-X-Received: by 2002:a05:600c:4148:b0:3d3:52bb:3985 with SMTP id
- h8-20020a05600c414800b003d352bb3985mr1090207wmm.31.1671614115220; 
- Wed, 21 Dec 2022 01:15:15 -0800 (PST)
+ bh=+/CeYpa31rYPj/AvulX/QrAwFix2rlSrEY28abmGRG0=;
+ b=cCfRL/A5LXOitxUC6mCUXAKHDcDfNFCWLntMfIoPmMPd8FZRTn/Ro0NzlIfv0ukK+s
+ N1KXxMoLYSYjqURc/zJ2yquanyCp8dM1Ts+mermhCQ0MbgchxcGMknKyWJWJLhXQutlp
+ PQbhDEJOgusl6PkfXkc46Xh8JECyctzFDMjtx0gJ+mRL7vK24Sew0nCIJAtiYsOnEBrQ
+ B1zPypxr862Xx3cVDSaRGSBF7nT9SHMeMrjbo+mPkDZWx7xQEZD0ALiKec3sPR+UN/l7
+ G20d9iFP7BQkT2MZDKY+EIb7MK3ytOqYtT4orcpBufDanIanvF/TvltNCxZ9QGGj37lJ
+ U8Vw==
+X-Gm-Message-State: AFqh2koeTY3bJ/FOONtOYbIBr5CB+ry99hBuJS2ZrP+AZcXHd0+l7DzF
+ rd791rg8Fp43/5Zgm/zB2D47zw==
+X-Google-Smtp-Source: AMrXdXsPKhCKtjjdUsmW46kuXXxG+mtuFTrh5wV47RNHkhOo/mgLqAEagu0/CLrNwMYVwNaEQINtsQ==
+X-Received: by 2002:a5d:5050:0:b0:26a:ec47:210f with SMTP id
+ h16-20020a5d5050000000b0026aec47210fmr604883wrt.3.1671614168265; 
+ Wed, 21 Dec 2022 01:16:08 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- iv7-20020a05600c548700b003d35c09d4b9sm1744351wmb.40.2022.12.21.01.15.14
+ s13-20020a5d510d000000b00241e5b917d0sm17498235wrt.36.2022.12.21.01.16.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 01:15:14 -0800 (PST)
-Message-ID: <c75b58b8-42e8-0267-be29-01809b1bf0e9@linaro.org>
-Date: Wed, 21 Dec 2022 10:15:13 +0100
+ Wed, 21 Dec 2022 01:16:07 -0800 (PST)
+Message-ID: <2c7e81ce-fd51-e005-353f-d3bd6e37e2bc@linaro.org>
+Date: Wed, 21 Dec 2022 10:16:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH v2 6/6] gitlab-ci: Disable docs and GUIs for the build-tci
- and build-tcg-disabled jobs
+Subject: Re: [PATCH v2 5/6] tests/docker: use prebuilt toolchain for
+ debian-hexagon-cross
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>, fam@euphon.net,
  berrange@redhat.com, f4bug@amsat.org, pbonzini@redhat.com,
- stefanha@redhat.com, crosa@redhat.com, Beraldo Leal <bleal@redhat.com>
+ stefanha@redhat.com, crosa@redhat.com, Beraldo Leal <bleal@redhat.com>,
+ Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
 References: <20221221090411.1995037-1-alex.bennee@linaro.org>
- <20221221090411.1995037-7-alex.bennee@linaro.org>
+ <20221221090411.1995037-6-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221221090411.1995037-7-alex.bennee@linaro.org>
+In-Reply-To: <20221221090411.1995037-6-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -97,20 +97,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 21/12/22 10:04, Alex Bennée wrote:
-> From: Thomas Huth <thuth@redhat.com>
+> From: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
 > 
-> These jobs use their own "script:" section and thus do not profit from
-> the global "--disable-docs" from the template. While we're at it, disable
-> also some GUI front ends here since we do not gain any additional test
-> coverage by compiling those here again.
+> The current docker image for cross compiling hexagon guests
+> is manually built since it takes >2 hours to build from source.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20221208135945.99975-1-thuth@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   .gitlab-ci.d/buildtest.yml | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+> This patch:
+>   1. Solves the above issue by using the prebuilt clang
+>      toolchain hosted on CodeLinaro [1] and maintained by QUIC [2].
+>   2. The dockerfile is also switched from multi-stage to single stage
+>      build to allow the CI docker engine to reuse the layer cache.
+>   3. Re-enables the hexagon-cross-container job to be always run in
+>      CI and makes it a non-optional dependency for the
+>      build-user-hexagon job.
+> 
+> The changes for 1 & 2 together bring down the build time to
+> ~3 minutes in GitLab CI when cache is reused and ~9 minutes
+> when cache cannot be reused.
+> 
+> [1]: https://github.com/CodeLinaro/hexagon-builder
+> [2]: https://github.com/quic/toolchain_for_hexagon/releases/
+> 
+> Based-on: <20221215095820.13374-1-quic._5Fmthiyaga@quicinc.com>
+>   tests/tcg/multiarch: remove unused variable in linux-test
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Please remove this tag before sending the pull request ^
+
+> Signed-off-by: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
+> [AJB: also tweak MAINTAINERS]
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20221219144354.11659-1-quic_mthiyaga@quicinc.com>
+> ---
+>   .gitlab-ci.d/buildtest.yml                    |   4 -
+>   .gitlab-ci.d/container-cross.yml              |  19 +--
+>   MAINTAINERS                                   |   1 -
+>   tests/docker/Makefile.include                 |   4 -
+>   .../debian-hexagon-cross.d/build-toolchain.sh | 141 ------------------
+>   .../dockerfiles/debian-hexagon-cross.docker   |  53 +++----
+>   6 files changed, 20 insertions(+), 202 deletions(-)
+>   delete mode 100755 tests/docker/dockerfiles/debian-hexagon-cross.d/build-toolchain.sh
 
 
