@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12AB7652E54
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 10:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCAC652E59
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 10:17:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7vD1-0007uP-Ho; Wed, 21 Dec 2022 04:16:19 -0500
+	id 1p7vEP-0000js-1y; Wed, 21 Dec 2022 04:17:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vCu-0007qS-3f
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:16:15 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vE9-0000fS-V6
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:17:42 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vCs-0002Gv-AH
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:16:11 -0500
-Received: by mail-wr1-x433.google.com with SMTP id f18so14275970wrj.5
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 01:16:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7vE3-0002S2-Sk
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 04:17:27 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id o5so14281459wrm.1
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 01:17:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+/CeYpa31rYPj/AvulX/QrAwFix2rlSrEY28abmGRG0=;
- b=Lu2n/z3je+1gcXb49WpbM4VglWppZ7n6hxyGruiTVJ+4icGaCix2j8vPfmhkhztol6
- to91K06bn6moVmB2V1MP/M8CNFIHEgzMo63bbUSROrOmISLgrvRO4dXaKeW+REfjvga8
- oB6grsPfDQCDj70JE8aT/ye9Psce8noJiLUaZa/hkFb4ZxvCcS1LjiKZpl8ob5rDOBnM
- 7Lf1QvvIv8VyNZnin53494MMtGnuAF9FPWJvYsci5b5ldippy+cP7oJw5SMtCImfV2JS
- vndXxfz0HML9R+rhpsqsG5X9Kxq7G5vWehiNfDsC2JdJGheIayTMqEgKNfIgp7ygmwa+
- g6GA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=U5gesIE8UAIuVUKf8+/lZC1j3rlzn36FnhUs2jVaVHI=;
+ b=OS+Dm1Q/z2HHG0djp05nScH7ptHc2AZwlbMy9r15XqFwEBI2Pq+tjys0nWvqsY2UzL
+ zsd4/miTNCOTDKVI4UIwahZ7LH73h9PQYkrWp698adh2R5rhD1m+f8iEvweEEJ3K8Aue
+ EEeF1A8HJ+VOgi8D+XUZUCbhdpZr6Yn2JJHnvdzpFcKrJviGWQ/I4N9eb7Xrksa0q+ei
+ +flILQwdUsTcOKPcEs4LmOzf42TQMT86QKW+J1LxvkSpZQb3VTuKOVBUDN+C+ZRrcxNM
+ F9Q4za2LOarh+sAWWy2/oM06go2+klnhkcbm3CceElC2BO4HZiDhhqigo7gTirrN7MWE
+ Z8Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+/CeYpa31rYPj/AvulX/QrAwFix2rlSrEY28abmGRG0=;
- b=cCfRL/A5LXOitxUC6mCUXAKHDcDfNFCWLntMfIoPmMPd8FZRTn/Ro0NzlIfv0ukK+s
- N1KXxMoLYSYjqURc/zJ2yquanyCp8dM1Ts+mermhCQ0MbgchxcGMknKyWJWJLhXQutlp
- PQbhDEJOgusl6PkfXkc46Xh8JECyctzFDMjtx0gJ+mRL7vK24Sew0nCIJAtiYsOnEBrQ
- B1zPypxr862Xx3cVDSaRGSBF7nT9SHMeMrjbo+mPkDZWx7xQEZD0ALiKec3sPR+UN/l7
- G20d9iFP7BQkT2MZDKY+EIb7MK3ytOqYtT4orcpBufDanIanvF/TvltNCxZ9QGGj37lJ
- U8Vw==
-X-Gm-Message-State: AFqh2koeTY3bJ/FOONtOYbIBr5CB+ry99hBuJS2ZrP+AZcXHd0+l7DzF
- rd791rg8Fp43/5Zgm/zB2D47zw==
-X-Google-Smtp-Source: AMrXdXsPKhCKtjjdUsmW46kuXXxG+mtuFTrh5wV47RNHkhOo/mgLqAEagu0/CLrNwMYVwNaEQINtsQ==
-X-Received: by 2002:a5d:5050:0:b0:26a:ec47:210f with SMTP id
- h16-20020a5d5050000000b0026aec47210fmr604883wrt.3.1671614168265; 
- Wed, 21 Dec 2022 01:16:08 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- s13-20020a5d510d000000b00241e5b917d0sm17498235wrt.36.2022.12.21.01.16.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 01:16:07 -0800 (PST)
-Message-ID: <2c7e81ce-fd51-e005-353f-d3bd6e37e2bc@linaro.org>
-Date: Wed, 21 Dec 2022 10:16:06 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=U5gesIE8UAIuVUKf8+/lZC1j3rlzn36FnhUs2jVaVHI=;
+ b=BApeiHUBJA91Cvqh8h2UHK5AhcYDKr0mGjFCtSUGUr4TQMqc2bs77Ih61X/rzqPW5Z
+ CQwH4QXTqbI+zECB01O/gZfWkq3pm5JS9aHvzCIzU9bpUkhmwfQFybdPKxbFDfAhxP/r
+ vBA7Lln/wKj/2/PiMdvzabErrLKPohXq9TjHzj+npOWYszP6HLPseRV8n1KzSO/thROP
+ LgQsrTvuDaVmRIHP/gxQD3MXBXbxEZvAukCZqLfLX0GvlMRuRJ+9/EfLzEYN8BIuVOAi
+ IZQkOe90OwzCbHDp2ixyZf1VNboC//Enh4kqAcVgzlgMBhvOTFlnmTSOFfaM/ymlH3Fp
+ 47SQ==
+X-Gm-Message-State: AFqh2koyk87dpq8Ub3UQArWAC/1QgAigGP93gb0CeMupKJpT07Msr06j
+ in5rSWRvSMxMXDZAhEhACYvUVNzXXAuNcX8Tpnw=
+X-Google-Smtp-Source: AMrXdXtv6jEqkdWhxjlxet03akoO0LD2o+57ddhSQuvFR8L8o0qFuYK/cxrVOouFrvc2BL6myjULaQ==
+X-Received: by 2002:a05:6000:16c9:b0:242:5f07:35a4 with SMTP id
+ h9-20020a05600016c900b002425f0735a4mr702742wrf.54.1671614240836; 
+ Wed, 21 Dec 2022 01:17:20 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ bx25-20020a5d5b19000000b00225307f43fbsm14859894wrb.44.2022.12.21.01.17.19
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 21 Dec 2022 01:17:20 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: libvir-list@redhat.com, kvm@vger.kernel.org,
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2] MIPS: remove support for trap and emulate KVM
+Date: Wed, 21 Dec 2022 10:17:18 +0100
+Message-Id: <20221221091718.71844-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH v2 5/6] tests/docker: use prebuilt toolchain for
- debian-hexagon-cross
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, fam@euphon.net,
- berrange@redhat.com, f4bug@amsat.org, pbonzini@redhat.com,
- stefanha@redhat.com, crosa@redhat.com, Beraldo Leal <bleal@redhat.com>,
- Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
-References: <20221221090411.1995037-1-alex.bennee@linaro.org>
- <20221221090411.1995037-6-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221221090411.1995037-6-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.161,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,45 +89,326 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/12/22 10:04, Alex Bennée wrote:
-> From: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
-> 
-> The current docker image for cross compiling hexagon guests
-> is manually built since it takes >2 hours to build from source.
-> 
-> This patch:
->   1. Solves the above issue by using the prebuilt clang
->      toolchain hosted on CodeLinaro [1] and maintained by QUIC [2].
->   2. The dockerfile is also switched from multi-stage to single stage
->      build to allow the CI docker engine to reuse the layer cache.
->   3. Re-enables the hexagon-cross-container job to be always run in
->      CI and makes it a non-optional dependency for the
->      build-user-hexagon job.
-> 
-> The changes for 1 & 2 together bring down the build time to
-> ~3 minutes in GitLab CI when cache is reused and ~9 minutes
-> when cache cannot be reused.
-> 
-> [1]: https://github.com/CodeLinaro/hexagon-builder
-> [2]: https://github.com/quic/toolchain_for_hexagon/releases/
-> 
-> Based-on: <20221215095820.13374-1-quic._5Fmthiyaga@quicinc.com>
->   tests/tcg/multiarch: remove unused variable in linux-test
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Please remove this tag before sending the pull request ^
+This support was limited to the Malta board, drop it.
+I do not have a machine that can run VZ KVM, so I am assuming
+that it works for -M malta as well.
 
-> Signed-off-by: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
-> [AJB: also tweak MAINTAINERS]
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20221219144354.11659-1-quic_mthiyaga@quicinc.com>
-> ---
->   .gitlab-ci.d/buildtest.yml                    |   4 -
->   .gitlab-ci.d/container-cross.yml              |  19 +--
->   MAINTAINERS                                   |   1 -
->   tests/docker/Makefile.include                 |   4 -
->   .../debian-hexagon-cross.d/build-toolchain.sh | 141 ------------------
->   .../dockerfiles/debian-hexagon-cross.docker   |  53 +++----
->   6 files changed, 20 insertions(+), 202 deletions(-)
->   delete mode 100755 tests/docker/dockerfiles/debian-hexagon-cross.d/build-toolchain.sh
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+Since Paolo's v1:
+
+- Remove cpu_mips_kvm_um_phys_to_kseg0() declaration in "cpu.h"
+- Remove unused KVM_KSEG0_BASE/KVM_KSEG2_BASE definitions
+- Use USEG_LIMIT/KSEG0_BASE instead of magic values
+
+       /* Check where the kernel has been linked */
+  -    if (!(kernel_entry & 0x80000000ll)) {
+  -        error_report("CONFIG_KVM_GUEST kernels are not supported");
+  +    if (kernel_entry <= USEG_LIMIT) {
+  +        error_report("Trap-and-Emul kernels (Linux CONFIG_KVM_GUEST)"
+  +                     " are not supported");
+
+  -    env->CP0_EBase = (cs->cpu_index & 0x3FF) | (int32_t)0x80000000;
+  +    env->CP0_EBase = KSEG0_BASE | (cs->cpu_index & 0x3FF);
+---
+ docs/about/deprecated.rst       |  9 -------
+ docs/about/removed-features.rst |  9 +++++++
+ hw/mips/malta.c                 | 46 +++++----------------------------
+ target/mips/cpu.c               |  7 +----
+ target/mips/cpu.h               |  3 ---
+ target/mips/internal.h          |  3 ---
+ target/mips/kvm.c               | 11 +-------
+ target/mips/sysemu/addr.c       | 17 ------------
+ target/mips/sysemu/physaddr.c   | 13 ----------
+ 9 files changed, 18 insertions(+), 100 deletions(-)
+
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 93affe3669..b28f50b22f 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -199,15 +199,6 @@ deprecated.  Use ``sections`` instead.
+ Member ``section-size`` in return value elements with meta-type ``uint64`` is
+ deprecated.  Use ``sections`` instead.
+ 
+-System accelerators
+--------------------
+-
+-MIPS ``Trap-and-Emul`` KVM support (since 6.0)
+-''''''''''''''''''''''''''''''''''''''''''''''
+-
+-The MIPS ``Trap-and-Emul`` KVM host and guest support has been removed
+-from Linux upstream kernel, declare it deprecated.
+-
+ Host Architectures
+ ------------------
+ 
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index 63df9848fd..22b4b5d128 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -617,6 +617,15 @@ x86 ``Icelake-Client`` CPU (removed in 7.1)
+ There isn't ever Icelake Client CPU, it is some wrong and imaginary one.
+ Use ``Icelake-Server`` instead.
+ 
++System accelerators
++-------------------
++
++MIPS "Trap-and-Emulate" KVM support (removed in 8.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++The MIPS "Trap-and-Emulate" KVM host and guest support was removed
++from Linux in 2021, and is not supported anymore by QEMU either.
++
+ System emulator machines
+ ------------------------
+ 
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index e5050ecd3c..fed8b65f1e 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -58,6 +58,7 @@
+ #include "semihosting/semihost.h"
+ #include "hw/mips/cps.h"
+ #include "hw/qdev-clock.h"
++#include "target/mips/internal.h"
+ 
+ #define ENVP_PADDR          0x2000
+ #define ENVP_VADDR          cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
+@@ -870,7 +871,6 @@ static uint64_t load_kernel(void)
+     uint32_t *prom_buf;
+     long prom_size;
+     int prom_index = 0;
+-    uint64_t (*xlate_to_kseg0) (void *opaque, uint64_t addr);
+     uint8_t rng_seed[32];
+     char rng_seed_hex[sizeof(rng_seed) * 2 + 1];
+     size_t rng_seed_prom_offset;
+@@ -894,19 +894,10 @@ static uint64_t load_kernel(void)
+     }
+ 
+     /* Check where the kernel has been linked */
+-    if (kernel_entry & 0x80000000ll) {
+-        if (kvm_enabled()) {
+-            error_report("KVM guest kernels must be linked in useg. "
+-                         "Did you forget to enable CONFIG_KVM_GUEST?");
+-            exit(1);
+-        }
+-
+-        xlate_to_kseg0 = cpu_mips_phys_to_kseg0;
+-    } else {
+-        /* if kernel entry is in useg it is probably a KVM T&E kernel */
+-        mips_um_ksegs_enable();
+-
+-        xlate_to_kseg0 = cpu_mips_kvm_um_phys_to_kseg0;
++    if (kernel_entry <= USEG_LIMIT) {
++        error_report("Trap-and-Emul kernels (Linux CONFIG_KVM_GUEST)"
++                     " are not supported");
++        exit(1);
+     }
+ 
+     /* load initrd */
+@@ -947,7 +938,7 @@ static uint64_t load_kernel(void)
+     if (initrd_size > 0) {
+         prom_set(prom_buf, prom_index++,
+                  "rd_start=0x%" PRIx64 " rd_size=%" PRId64 " %s",
+-                 xlate_to_kseg0(NULL, initrd_offset),
++                 cpu_mips_phys_to_kseg0(NULL, initrd_offset),
+                  initrd_size, loaderparams.kernel_cmdline);
+     } else {
+         prom_set(prom_buf, prom_index++, "%s", loaderparams.kernel_cmdline);
+@@ -1039,11 +1030,6 @@ static void main_cpu_reset(void *opaque)
+     }
+ 
+     malta_mips_config(cpu);
+-
+-    if (kvm_enabled()) {
+-        /* Start running from the bootloader we wrote to end of RAM */
+-        env->active_tc.PC = 0x40000000 + loaderparams.ram_low_size;
+-    }
+ }
+ 
+ static void create_cpu_without_cps(MachineState *ms, MaltaState *s,
+@@ -1177,13 +1163,7 @@ void mips_malta_init(MachineState *machine)
+     fl_idx++;
+     if (kernel_filename) {
+         ram_low_size = MIN(ram_size, 256 * MiB);
+-        /* For KVM we reserve 1MB of RAM for running bootloader */
+-        if (kvm_enabled()) {
+-            ram_low_size -= 0x100000;
+-            bootloader_run_addr = cpu_mips_kvm_um_phys_to_kseg0(NULL, ram_low_size);
+-        } else {
+-            bootloader_run_addr = cpu_mips_phys_to_kseg0(NULL, RESET_ADDRESS);
+-        }
++        bootloader_run_addr = cpu_mips_phys_to_kseg0(NULL, RESET_ADDRESS);
+ 
+         /* Write a small bootloader to the flash location. */
+         loaderparams.ram_size = ram_size;
+@@ -1200,20 +1180,8 @@ void mips_malta_init(MachineState *machine)
+             write_bootloader_nanomips(memory_region_get_ram_ptr(bios),
+                                       bootloader_run_addr, kernel_entry);
+         }
+-        if (kvm_enabled()) {
+-            /* Write the bootloader code @ the end of RAM, 1MB reserved */
+-            write_bootloader(memory_region_get_ram_ptr(ram_low_preio) +
+-                                    ram_low_size,
+-                             bootloader_run_addr, kernel_entry);
+-        }
+     } else {
+         target_long bios_size = FLASH_SIZE;
+-        /* The flash region isn't executable from a KVM guest */
+-        if (kvm_enabled()) {
+-            error_report("KVM enabled but no -kernel argument was specified. "
+-                         "Booting from flash is not supported with KVM.");
+-            exit(1);
+-        }
+         /* Load firmware from flash. */
+         if (!dinfo) {
+             /* Load a BIOS image. */
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 17bbcbf5ff..f8c8e0ba39 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -291,12 +291,7 @@ static void mips_cpu_reset_hold(Object *obj)
+     env->tlb->tlb_in_use = env->tlb->nb_tlb;
+     env->CP0_Wired = 0;
+     env->CP0_GlobalNumber = (cs->cpu_index & 0xFF) << CP0GN_VPId;
+-    env->CP0_EBase = (cs->cpu_index & 0x3FF);
+-    if (mips_um_ksegs_enabled()) {
+-        env->CP0_EBase |= 0x40000000;
+-    } else {
+-        env->CP0_EBase |= (int32_t)0x80000000;
+-    }
++    env->CP0_EBase = KSEG0_BASE | (cs->cpu_index & 0x3FF);
+     if (env->CP0_Config3 & (1 << CP0C3_CMGCR)) {
+         env->CP0_CMGCRBase = 0x1fbf8000 >> 4;
+     }
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 0a085643a3..caf2b06911 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1296,11 +1296,8 @@ void cpu_set_exception_base(int vp_index, target_ulong address);
+ uint64_t cpu_mips_kseg0_to_phys(void *opaque, uint64_t addr);
+ uint64_t cpu_mips_phys_to_kseg0(void *opaque, uint64_t addr);
+ 
+-uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr);
+ uint64_t cpu_mips_kseg1_to_phys(void *opaque, uint64_t addr);
+ uint64_t cpu_mips_phys_to_kseg1(void *opaque, uint64_t addr);
+-bool mips_um_ksegs_enabled(void);
+-void mips_um_ksegs_enable(void);
+ 
+ #if !defined(CONFIG_USER_ONLY)
+ 
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index 57b312689a..4b0031d10d 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -99,9 +99,6 @@ int mips_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ #define KSEG2_BASE      ((target_ulong)(int32_t)0xC0000000UL)
+ #define KSEG3_BASE      ((target_ulong)(int32_t)0xE0000000UL)
+ 
+-#define KVM_KSEG0_BASE  ((target_ulong)(int32_t)0x40000000UL)
+-#define KVM_KSEG2_BASE  ((target_ulong)(int32_t)0x60000000UL)
+-
+ #if !defined(CONFIG_USER_ONLY)
+ 
+ enum {
+diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+index bcb8e06b2c..c14e8f550f 100644
+--- a/target/mips/kvm.c
++++ b/target/mips/kvm.c
+@@ -1268,25 +1268,16 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+ 
+ int mips_kvm_type(MachineState *machine, const char *vm_type)
+ {
+-#if defined(KVM_CAP_MIPS_VZ) || defined(KVM_CAP_MIPS_TE)
++#if defined(KVM_CAP_MIPS_VZ)
+     int r;
+     KVMState *s = KVM_STATE(machine->accelerator);
+-#endif
+ 
+-#if defined(KVM_CAP_MIPS_VZ)
+     r = kvm_check_extension(s, KVM_CAP_MIPS_VZ);
+     if (r > 0) {
+         return KVM_VM_MIPS_VZ;
+     }
+ #endif
+ 
+-#if defined(KVM_CAP_MIPS_TE)
+-    r = kvm_check_extension(s, KVM_CAP_MIPS_TE);
+-    if (r > 0) {
+-        return KVM_VM_MIPS_TE;
+-    }
+-#endif
+-
+     return -1;
+ }
+ 
+diff --git a/target/mips/sysemu/addr.c b/target/mips/sysemu/addr.c
+index 86f1c129c9..4f025be44a 100644
+--- a/target/mips/sysemu/addr.c
++++ b/target/mips/sysemu/addr.c
+@@ -23,8 +23,6 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ 
+-static int mips_um_ksegs;
+-
+ uint64_t cpu_mips_kseg0_to_phys(void *opaque, uint64_t addr)
+ {
+     return addr & 0x1fffffffll;
+@@ -35,11 +33,6 @@ uint64_t cpu_mips_phys_to_kseg0(void *opaque, uint64_t addr)
+     return addr | ~0x7fffffffll;
+ }
+ 
+-uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr)
+-{
+-    return addr | 0x40000000ll;
+-}
+-
+ uint64_t cpu_mips_kseg1_to_phys(void *opaque, uint64_t addr)
+ {
+     return addr & 0x1fffffffll;
+@@ -49,13 +42,3 @@ uint64_t cpu_mips_phys_to_kseg1(void *opaque, uint64_t addr)
+ {
+     return (addr & 0x1fffffffll) | 0xffffffffa0000000ll;
+ }
+-
+-bool mips_um_ksegs_enabled(void)
+-{
+-    return mips_um_ksegs;
+-}
+-
+-void mips_um_ksegs_enable(void)
+-{
+-    mips_um_ksegs = 1;
+-}
+diff --git a/target/mips/sysemu/physaddr.c b/target/mips/sysemu/physaddr.c
+index 1918633aa1..2970df8a09 100644
+--- a/target/mips/sysemu/physaddr.c
++++ b/target/mips/sysemu/physaddr.c
+@@ -130,19 +130,6 @@ int get_physical_address(CPUMIPSState *env, hwaddr *physical,
+     /* effective address (modified for KVM T&E kernel segments) */
+     target_ulong address = real_address;
+ 
+-    if (mips_um_ksegs_enabled()) {
+-        /* KVM T&E adds guest kernel segments in useg */
+-        if (real_address >= KVM_KSEG0_BASE) {
+-            if (real_address < KVM_KSEG2_BASE) {
+-                /* kseg0 */
+-                address += KSEG0_BASE - KVM_KSEG0_BASE;
+-            } else if (real_address <= USEG_LIMIT) {
+-                /* kseg2/3 */
+-                address += KSEG2_BASE - KVM_KSEG2_BASE;
+-            }
+-        }
+-    }
+-
+     if (address <= USEG_LIMIT) {
+         /* useg */
+         uint16_t segctl;
+-- 
+2.38.1
 
 
