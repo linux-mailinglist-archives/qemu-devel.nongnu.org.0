@@ -2,96 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96517653901
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC2F653925
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 23:56:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p87nM-0002Ek-6f; Wed, 21 Dec 2022 17:42:40 -0500
+	id 1p87nO-0002MX-Ot; Wed, 21 Dec 2022 17:42:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87nJ-0002Bf-Px
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:37 -0500
+ id 1p87nL-0002F3-Tt
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:39 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=3472792e2=alistair.francis@opensource.wdc.com>)
- id 1p87nI-0000bf-6K
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:37 -0500
+ id 1p87nK-0000bQ-5o
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 17:42:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1671662555; x=1703198555;
+ t=1671662557; x=1703198557;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wy8uMlexCTLFy7zcIJSicrjiNVPO7dvX3ZUqTF3gE+Y=;
- b=nFRRoTZh4yiOmHDpHP2ndtZXTbQGdCwLp+qFQo1bdh9ubgDktd/z5HXe
- bBLJsFWExvJqFLCa4aA/F1IyMGDfmBJ57b0cL6BU7+itReDuLawziLzf3
- RMlBbXglERbyzcyouq0X3Dy8hiE0UmmnGvsS598OWo6+VQwFiaPoauS7F
- zzOc6M2QyMdaZzxzbwxVVLm7crSCgAN7RJNch931xSFba6Vy94s8Y79Jg
- wpunJzsLiGl62isi6khdEwdZ7E8wqEp3f98MvpsNfclM9EGSQNwIgqc92
- uVJ7eu+c7MmoTrq1dmuCH8Vek+/RrQXJsS8JaG1sAFuRSIoU7Kpn85kl8 A==;
-X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561414"
+ bh=QikRAc9jhPx+8qjwv2aF1TI8bV2sm7YwxCfz1ApfiCc=;
+ b=im8bAhOu6dI2LBMP2SvIO+Najm1yxpSspaK/N72WHG7ocjMPKVc3NIfI
+ 8lqrwpEQ1hYJqvLHJB2XG5LKUpOgok07fYHNBGCp7ZpGEWng3gcTDSk4d
+ Mnse6uteXIkkOufNieDw1R9cxK8HX8xV3sHF+wSCL4G2gpxcK/QAHWnql
+ jBgRViUAkFkDtIX3GW2bHGV4Q3Y7aA/P/RQYnqtWRPyn9HxjbINKsHfCX
+ AHdk04IQTeoNgsjBLfpkdL5cNUlgTmbiWaJNdytJcyj8G+jp6cgCKDOU+
+ tHqE+5nswX3Cz8ZNCN/QdNq2EtbUHfInqHxUVHHH9GqnLpYDvvZom1FPh g==;
+X-IronPort-AV: E=Sophos;i="5.96,263,1665417600"; d="scan'208";a="323561420"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:35 +0800
-IronPort-SDR: Memce6k+tlyS/EwWKx0EWjFlb071jYdiwx/ZsO1s44y/lx1KzjfkSim7NI+7MBmGwrMBcvTS4E
- 87PwEsDRdLq3zv1oP8F3/iAjll/m6SMjWKwhjbJHge6pWKYPLud7wcFlIRxEFYzxyuFf0jtQzD
- W+47H3Pns2s8Y2EiexXWpEMoQQi4AwY4sjYhR5LjrfiNhhPhamKkX0TlkV3sXxwf0E8zxzN/FH
- zoL7Rifam8ywQ7D0QspqSH0dVrlqLiMIckmkRfKJwkJjOIoayEzt4EUZR/bkvs5LIfOZMvwB9X
- 5Lk=
+ by ob1.hgst.iphmx.com with ESMTP; 22 Dec 2022 06:41:37 +0800
+IronPort-SDR: N8iU1YrajXH3y7VG2+Ym3Edrg2ZGUYi2MjObVmYzhwSAXwYFCM+AedimvXrqvr7dxeLyVzrl7a
+ Z0E9PXWda7FBtfbYsyTMQobvrDztgfiukQBJ8tpKspjVcTMhNhJYUPORmIEr8FxARqvKTRcsh+
+ VLcNG3JYqmTTfFld7mlwKZlrjXfEO9qKjWWAUJxUC5oJwDK8dRjieXBATuDpmUjtIRjUfGAACe
+ 0XN75aurn7Xm4AHX2qf7TQvfeaQTX5Yp8NJEeZafRfCjzAJCEyz5NV0oD3jqb9GcE24FDT0ZU/
+ UGQ=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 13:54:04 -0800
-IronPort-SDR: 8XPOYyyKwSCDzE0dWn3+QxB5K0/VEH0xKsGtYNZnXZYGlKC6pKCZhFLu90IRESbky5QRRLwpXv
- cRTPYT3WJi4ISuh4zpyhiGgEjsjWlgbk75LsI1Iyvni1iIcBGtIV95sGEPwNtZD0jH8HxVsPS/
- 81KZOqoEVjx5sstAwSHvwhNZq9DUQITZB2k84FgWrdYDynNOpIA+Cff5n21H5lWiWJfahZGToP
- efKz/0pmlPm0PU7m16spoxfQCeHKLboWqSt5oljOzRR/XOYHD44LGWPxoaBQ+mUUM8DEwHG/B9
- 1uo=
+ 21 Dec 2022 13:54:06 -0800
+IronPort-SDR: Ar7EvfYlP8k9K7vz3iq3BKYAbz04liOH9mdKAHJYDLedQBBeKX7ZEXqgjm+QEw8gi7mVmcgZZk
+ erW3DRn7LS/p1vSooCCnvNG6M81waYTxVlOzoDTFfltHAN1LNyl+lLUoMnwhL263nrN4LexMgS
+ MsbFcCaR9Ao5rcXhcwyLPdwiJgzPVzZMZ9KgTcJK2uFFqvyZEkrTwPN4ra4eORf8QupEh2LlKd
+ aQ75Er3T6KVkfosvJu9XZdG9wDgKc2jEoR5HSGlBAjs05BhPJ+0lcG1OVE38ccLsmxx5O6p/36
+ MqY=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Dec 2022 14:41:35 -0800
+ 21 Dec 2022 14:41:37 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMg1WL2z1RvTr
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:35 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NcpMj1rgcz1RwtC
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 14:41:37 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1671662494; x=1674254495; bh=wy8uMle
- xCTLFy7zcIJSicrjiNVPO7dvX3ZUqTF3gE+Y=; b=DmHzQXvQex8SJvaqgiyHpu/
- UgeHYFDvNK9Jb5F7s8Zz1QIB6lj+a6410Z18+MbsiC84QuGCg0THRCXEVRWuqHdb
- 0uppMkzPJsdbXptRwmwA3NuOr4mKBafQERO0V5/moW0Eb6+ahVQspC8AkfA7pNOk
- Gc+2O92rvn6+QaTGol7NqZ/g77WwWrKspxUvP6NKstqKBbV51K5C+toXEJoHtMHI
- fDaKokcROO7F4IG5TAdbPn27w7jPKnyb62fsWj8sn8uAgH0BegjeOHwMVrADgNwp
- YRTXXexZn/Q3Jfm6u/VmB+xeQrM4wqkIVqsZLOqjbf4xsWT50UDmM5GY/l4YPmQ=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1671662496; x=1674254497; bh=QikRAc9jhPx+8qjwv2
+ aF1TI8bV2sm7YwxCfz1ApfiCc=; b=TBY2ug0cEFg9DuK76oobOOcTSvzknBB5XT
+ mwyeCzi7R5zRXoJ5ZWln5ZPOJc+ftaLU7GVEM9nnF1wHyJuGyMaryCsx8FCQ3hTi
+ Msa1zo6yNd8fbLue2T1N3z1c5TM4lNOV7hqLZNH/0UPcP+f9KTLB7ItJgP21D8eR
+ Hh5b/BiOY8Tci63duK6VEc//ENnw6VBBO5/bjnS2kG2MITWnwpChzI+9iHoCeHY3
+ gs1lkYVxD/eUMQagaIX5wuN99NyVgCJVEbZcVbIenVGzMzN5keJevWsdFrkn4qg5
+ Hmc/6/7JFHplMxPgPB8bhvRibRTosHpJsTNQONytAVbJbCLNKdyg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id cNLwqIapRciT for <qemu-devel@nongnu.org>;
- Wed, 21 Dec 2022 14:41:34 -0800 (PST)
+ port 10026) with ESMTP id IarlFg4J0a2p for <qemu-devel@nongnu.org>;
+ Wed, 21 Dec 2022 14:41:36 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.167.8])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMd1Lxwz1Rwtl;
- Wed, 21 Dec 2022 14:41:32 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NcpMg2Lbrz1Rwt8;
+ Wed, 21 Dec 2022 14:41:35 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v2 31/45] hw/intc: Select MSI_NONBROKEN in RISC-V AIA interrupt
- controllers
-Date: Thu, 22 Dec 2022 08:40:08 +1000
-Message-Id: <20221221224022.425831-32-alistair.francis@opensource.wdc.com>
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL v2 32/45] hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
+Date: Thu, 22 Dec 2022 08:40:09 +1000
+Message-Id: <20221221224022.425831-33-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=3472792e2=alistair.francis@opensource.wdc.com;
@@ -120,38 +117,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-hw/pci/Kconfig says MSI_NONBROKEN should be selected by interrupt
-controllers regardless of how MSI is implemented. msi_nonbroken is
-initialized to true in both riscv_aplic_realize() and
-riscv_imsic_realize().
-
-Select MSI_NONBROKEN in RISCV_APLIC and RISCV_IMSIC.
+Since commit ef6310064820 ("hw/riscv: opentitan: Update to the latest bui=
+ld")
+the IBEX PLIC model was replaced with the SiFive PLIC model in the
+'opentitan' machine but we forgot the add the dependency there.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-Message-Id: <20221211030829.802437-2-bmeng@tinylab.org>
+Message-Id: <20221211030829.802437-3-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/intc/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/riscv/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index 1d4573e803..21441d0a0c 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -72,9 +72,11 @@ config RISCV_ACLINT
-=20
- config RISCV_APLIC
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index 167dc4cca6..1e4b58024f 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -19,6 +19,7 @@ config MICROCHIP_PFSOC
+ config OPENTITAN
      bool
-+    select MSI_NONBROKEN
+     select IBEX
++    select SIFIVE_PLIC
+     select UNIMP
 =20
- config RISCV_IMSIC
-     bool
-+    select MSI_NONBROKEN
-=20
- config SIFIVE_PLIC
-     bool
+ config SHAKTI_C
 --=20
 2.38.1
 
