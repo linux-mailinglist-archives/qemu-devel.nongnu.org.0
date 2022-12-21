@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296A4653009
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 12:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2C565303A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 12:27:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7wtJ-0004oH-A9; Wed, 21 Dec 2022 06:04:05 -0500
+	id 1p7xEc-0000m3-LM; Wed, 21 Dec 2022 06:26:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1p7wtE-0004o6-PA
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 06:04:02 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7xEC-0000kB-96
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 06:25:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1p7wtC-0007ap-OS
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 06:04:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=MzbjyeYuyl2KfKhg4XyXWdtd+RO5fZ3NwGADhuSinHg=; b=Z7GadPObX05TTyV1MVt9ncoPWK
- 1LSqVdGANKM9k/BU7mMhHWriIiR8VxTq2291ZKymSC5GP//W+uB1RK+W4cwuEe8275ywii5/NfwCT
- 7XP7kWggtfN+KkQznMTu93GlhYZ4WEjLDSG4diYmKVo8XEX9GauwXUWYNnnZWl60pOIrFALkFXctX
- p4OsoTehv97kyfPBVaO+4lVZ7Pl36KeOBWvIik5WbYc5RgzzRXxtRrshdJPPMb3Z2GgQ107e5W3ej
- /wMfyhT6ldmxiqyY3g5a+AkO0Cbi6Y38kiPb7PaksPWxoT+YA1MSJd9XjpyPfJ6PSauAsUL/wjBR2
- 7YEaO1BdMHYOwzrf6PL0lfKdCqAV8RLJbfIpstiIPR/YKQKpOgvHGsN9dEnGSK0xCzGuXW3IqksTA
- W7uzdjKGhRZPqZ5idVaQZM916MXJk+tkmTlNnMgq8XzZXkZkAgujKp520vTtqh9clof5+CuBXH5nx
- qoYMmLe2sFaLl3/JqWsM20UIF126XmidryjHBCJfEM5cI4V8eelacIMtF8TsmfHsnl6kdf6Yazu4q
- f8ud7Mzx28mJccoq7xkuv+LJBcfE18O52NXA7Q7MWdjzTquYrgjY5nD94TKWS6XfWwg+1C/x/80JL
- LGgDN1Q0XP4mlt+lt8katOHcKRJWcOxmc04z1WvFY=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org,
- Volker =?ISO-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH 10/11] alsaaudio: change default playback settings
-Date: Wed, 21 Dec 2022 12:03:53 +0100
-Message-ID: <2230283.NDGgU1aIbp@silver>
-In-Reply-To: <20221218171539.11193-10-vr_qemu@t-online.de>
-References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <20221218171539.11193-10-vr_qemu@t-online.de>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7xE8-000339-5E
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 06:25:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671621922;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=n/YoJWYKN+SYp0MCSTREwr7EHlUgm2ulcn2pUEqRREc=;
+ b=AejBFUckHhpMMV9pfHDY971WNCuEhCl7b0lCHIlMuBOoiP4P2FsugfQpCprJ4OUj3WvU+A
+ HL6hGOZZL/umI/FEhaBqD07R1OW3w25CjYmUg7NSG0ff3OEIbeaej3jHVlyLBJ+34VkhS7
+ V48ci5kZfKMzQA7X8HI4b4uhy+f3XxA=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-55-pDlNJnk_OhGSJL77JD5lnQ-1; Wed, 21 Dec 2022 06:25:20 -0500
+X-MC-Unique: pDlNJnk_OhGSJL77JD5lnQ-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ bk24-20020a05620a1a1800b006ffcdd05756so11357399qkb.22
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 03:25:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=n/YoJWYKN+SYp0MCSTREwr7EHlUgm2ulcn2pUEqRREc=;
+ b=L8N0GyrymeYNie+EPwhO+BQRdFn8P2xreYZS0Nzfk6i6pWQ8kA0+yoUCVlGjLNgqc3
+ KmPozFlZHRUsy1B5VaaEvl/9MD0D2mTN3yA734iFvzTX8EA7lXXVSGUl2ZLG58kei5oJ
+ XRMa6O7UcEPJl94KEaFswpuQ1ab5wfl+F6E+3CBNyQtzmlziDN9qqdqjKpg368K1Apw8
+ gKRmOONCwn9Ey2zttE4D6uO1pNxbf4aVtTAMTBUxuffDrCIBFq7M4fzHm5lWJHiLYFYU
+ Pz3rqeRAwBJDFDTt8aZnJ2R8Cosfp1g6JqxQvi+gdZf0HdgN0/YF9wwrWbA5wNDL6pxZ
+ Bl5w==
+X-Gm-Message-State: AFqh2kqydlQIizDoC3fT9YN9GSeowCfrzFJtKtyrjuX3EZB/r3qWQS7J
+ 1hlH52I2kIkgsbVuYQYZOlxGCYMpLZJUxeQA/SZvHtf4d5BrYVyul0WuQ6o6Bn21TOBA4+yF7P5
+ 07kc4BlYOamTMnrM=
+X-Received: by 2002:a05:6214:2cd6:b0:4c6:ed1d:5988 with SMTP id
+ lf22-20020a0562142cd600b004c6ed1d5988mr1897530qvb.49.1671621920390; 
+ Wed, 21 Dec 2022 03:25:20 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtgoyC0dx6MS4ybqmcbFX3S19iYgFY/+XFHAvUYIEdlDKmsnBQd4hCt1k1m1FGtp3WE+Ly2MQ==
+X-Received: by 2002:a05:6214:2cd6:b0:4c6:ed1d:5988 with SMTP id
+ lf22-20020a0562142cd600b004c6ed1d5988mr1897516qvb.49.1671621920127; 
+ Wed, 21 Dec 2022 03:25:20 -0800 (PST)
+Received: from redhat.com ([37.19.199.117]) by smtp.gmail.com with ESMTPSA id
+ bp31-20020a05620a459f00b006bb2cd2f6d1sm10716045qkb.127.2022.12.21.03.25.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Dec 2022 03:25:19 -0800 (PST)
+Date: Wed, 21 Dec 2022 06:25:15 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cindy Lu <lulu@redhat.com>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v20 08/10] virtio-net: add support for configure interrupt
+Message-ID: <20221221062407-mutt-send-email-mst@kernel.org>
+References: <20221211172042.3969410-1-lulu@redhat.com>
+ <20221211172042.3969410-9-lulu@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221211172042.3969410-9-lulu@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,81 +95,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sunday, December 18, 2022 6:15:38 PM CET Volker R=FCmelin wrote:
-> The currently used default playback settings in the ALSA audio
-> backend are a bit unfortunate. With a few emulated audio devices,
-> audio playback does not work properly. Here is a short part of
-> the debug log while audio is playing (elapsed time in seconds).
+On Mon, Dec 12, 2022 at 01:20:40AM +0800, Cindy Lu wrote:
+> Add functions to support configure interrupt in virtio_net
+> Add the functions to support vhost_net_config_pending
+> and vhost_net_config_mask.
+> 
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
 
-Which emulated devices are these?
 
-> audio: Elapsed since last alsa run (running): 0.046244
-> audio: Elapsed since last alsa run (running): 0.023137
-> audio: Elapsed since last alsa run (running): 0.023170
-> audio: Elapsed since last alsa run (running): 0.023650
-> audio: Elapsed since last alsa run (running): 0.060802
-> audio: Elapsed since last alsa run (running): 0.031931
->=20
-> For some audio devices the time of more than 23ms between updates
-> is too long.
->=20
-> Set the period time to 5.8ms so that the maximum time between
-> two updates typically does not exceed 11ms. This roughly matches
-> the 10ms period time when doing playback with the audio timer.
-> After this patch the debug log looks like this.
 
-And what about dynamically adapting that value instead of reducing period t=
-ime
-for everyone by default?
+Causes a bunch of failures including mingw.
+See:
+https://gitlab.com/mstredhat/qemu/-/pipelines/728492799/failures
 
-23ms is usually a good trade off between low latency, CPU load and potential
-for audio dropouts.
+lots of:
+/builds/mstredhat/qemu/build/../hw/net/virtio-net.c:3366: undefined reference to `vhost_net_config_mask'
 
-> audio: Elapsed since last alsa run (running): 0.011919
-> audio: Elapsed since last alsa run (running): 0.005788
-> audio: Elapsed since last alsa run (running): 0.005995
-> audio: Elapsed since last alsa run (running): 0.011069
-> audio: Elapsed since last alsa run (running): 0.005901
-> audio: Elapsed since last alsa run (running): 0.006084
->=20
-> Signed-off-by: Volker R=FCmelin <vr_qemu@t-online.de>
+Pls fix and repost.
+
+
 > ---
->  audio/alsaaudio.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
->=20
-> diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-> index 5f50dfa0bf..0cc982e61f 100644
-> --- a/audio/alsaaudio.c
-> +++ b/audio/alsaaudio.c
-> @@ -913,17 +913,14 @@ static void *alsa_audio_init(Audiodev *dev)
->      alsa_init_per_direction(aopts->in);
->      alsa_init_per_direction(aopts->out);
-> =20
-> -    /*
-> -     * need to define them, as otherwise alsa produces no sound
-> -     * doesn't set has_* so alsa_open can identify it wasn't set by the =
-user
-> -     */
-> +    /* don't set has_* so alsa_open can identify it wasn't set by the us=
-er */
->      if (!dev->u.alsa.out->has_period_length) {
-> -        /* 1024 frames assuming 44100Hz */
-> -        dev->u.alsa.out->period_length =3D 1024 * 1000000 / 44100;
-> +        /* 256 frames assuming 44100Hz */
-> +        dev->u.alsa.out->period_length =3D 5805;
+>  hw/net/vhost_net.c      | 9 +++++++++
+>  hw/net/virtio-net.c     | 4 ++--
+>  include/net/vhost_net.h | 2 ++
+>  3 files changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index 043058ff43..6a55f5a473 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -478,6 +478,15 @@ void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
+>      vhost_virtqueue_mask(&net->dev, dev, idx, mask);
+>  }
+>  
+> +bool vhost_net_config_pending(VHostNetState *net)
+> +{
+> +    return vhost_config_pending(&net->dev);
+> +}
+> +
+> +void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev, bool mask)
+> +{
+> +    vhost_config_mask(&net->dev, dev, mask);
+> +}
+>  VHostNetState *get_vhost_net(NetClientState *nc)
+>  {
+>      VHostNetState *vhost_net = 0;
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index bee35d6f9f..ec974f7a76 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3323,7 +3323,7 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>       */
+>  
+>      if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> -        return false;
+> +        return vhost_net_config_pending(get_vhost_net(nc->peer));
 >      }
->      if (!dev->u.alsa.out->has_buffer_length) {
->          /* 4096 frames assuming 44100Hz */
-> -        dev->u.alsa.out->buffer_length =3D 4096ll * 1000000 / 44100;
-> +        dev->u.alsa.out->buffer_length =3D 92880;
-
-Not a big fan of magic numbers, as it makes code less readable.
-
+>      return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
+>  }
+> @@ -3355,9 +3355,9 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>       */
+>  
+>      if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        vhost_net_config_mask(get_vhost_net(nc->peer), vdev, mask);
+>          return;
 >      }
-> =20
->      /*
->=20
-
-
+> -
+>      vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask);
+>  }
+>  
+> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+> index 40b9a40074..dbbd0dc04e 100644
+> --- a/include/net/vhost_net.h
+> +++ b/include/net/vhost_net.h
+> @@ -39,6 +39,8 @@ int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
+>  bool vhost_net_virtqueue_pending(VHostNetState *net, int n);
+>  void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
+>                                int idx, bool mask);
+> +bool vhost_net_config_pending(VHostNetState *net);
+> +void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev, bool mask);
+>  int vhost_net_notify_migration_done(VHostNetState *net, char* mac_addr);
+>  VHostNetState *get_vhost_net(NetClientState *nc);
+>  
+> -- 
+> 2.34.3
 
 
