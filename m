@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A1B653151
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:07:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CAA653142
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:05:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ymH-0004Or-Rx; Wed, 21 Dec 2022 08:04:57 -0500
+	id 1p7ymL-0004WR-Lp; Wed, 21 Dec 2022 08:05:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymF-0004Lq-9b
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymI-0004S3-VD
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymD-0003xA-JR
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymH-0003yr-7E
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627891;
+ s=mimecast20190719; t=1671627896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8r+UfXDR9XgvwCY4Mgc5xJd4ZNuxduWvXYRuwGCgCEU=;
- b=gqS+ConrN4Ez/ZI/fKVHw2wQxUNv5so4xRM04y7PQrabNTsEg3C3uICKEt1UESBnDQ4uKC
- 65zBWWNvXQs2UdjgFAy4+vN9aBmfR8K0u6oV3kN+jhz6hrSJS92cu7NrTtrel/zCLcaY9P
- 7wSskeXxXZHy7KpPpu4Xy5eJeubsmyY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=D6fT+Iu1jI6RLvNgNp7FxJIv+uR0ETmIVUr1p91FboM=;
+ b=RGlqmzDK7BOl/HTCq0icQRHT7JvAb2PvIaAb0/8acO0PjmBmkvF5effWthKLn6GGVLsTGH
+ PqYu29ONf3VuWeH7/PwWwdKF8FfFquk5SYyP01jP1HCfUw1+vgD0p2SuigcTGlHFbXyAz8
+ 6N3O5XGwGnUoJF0Yyj44fTXGFEm9PZg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-249-ItCSRoLZMCWfitsRqt9lFQ-1; Wed, 21 Dec 2022 08:04:49 -0500
-X-MC-Unique: ItCSRoLZMCWfitsRqt9lFQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- sd1-20020a1709076e0100b00810be49e7afso7098919ejc.22
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:04:49 -0800 (PST)
+ us-mta-74-63sBwlDfMgSldLGxsx_eYQ-1; Wed, 21 Dec 2022 08:04:55 -0500
+X-MC-Unique: 63sBwlDfMgSldLGxsx_eYQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i187-20020a1c3bc4000000b003d634aca337so1765281wma.1
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:04:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8r+UfXDR9XgvwCY4Mgc5xJd4ZNuxduWvXYRuwGCgCEU=;
- b=PXGS8w/fImnTEk75oUlmqQ2ivStPCy6oyhG1AbABOCc/zIt0heYqXKEGMr4JuARgKK
- uRIl1Ejba9yVE29Cf0488ylDCr/3vj06fRFo/KI1TV31MGjr2bS58aWLs+AWOlcW5G7g
- Kjk1WOZF2blWwruNHyJyhFJC282lc6upq26J2L+utsE1KqnIGwEcVc8SnHaj++n2o8uf
- h21p8wr79gSPvZDEjmFa5NIE7eZXreybx1osBBMUZ336iSF/vGmDlqQAOs/Wkph/T6zl
- wjT85V/ltObGO1ZmUBTfJeq7cC9N+ZRCZgPfPn//7SBge/x6G3LEe1WsxsgAsPDCjn3H
- 0cgg==
-X-Gm-Message-State: AFqh2krxea13T9dQ1z6QWpMJNLidBfIXudD8lqsEUBP2mKC8w//DrLIj
- ocp3OhulOFRYVIA3+toajjJR0VmwojICwJeodObv1kgocf35vc5laKu3hmrnmY0VUfBhqZDMQcd
- c9dGAv4GzhAr1BX/kWXj8milclEBVpV9SCW8rm57rWMjG5dC8fcxmF4RN2Mlc
-X-Received: by 2002:a17:907:7e84:b0:7a4:bbce:ddae with SMTP id
- qb4-20020a1709077e8400b007a4bbceddaemr1658620ejc.59.1671627887463; 
- Wed, 21 Dec 2022 05:04:47 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuzNJJOn7iiQ/de+Y+9vcZX+vghpop2VeDwq0DEbii/UUhs+DQL+6twypwbEpcOO6SMjn/fcg==
-X-Received: by 2002:a17:907:7e84:b0:7a4:bbce:ddae with SMTP id
- qb4-20020a1709077e8400b007a4bbceddaemr1658592ejc.59.1671627887190; 
- Wed, 21 Dec 2022 05:04:47 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D6fT+Iu1jI6RLvNgNp7FxJIv+uR0ETmIVUr1p91FboM=;
+ b=nRKe6jLmC3kZBQ0rEx0QLEKC0GF+oEXcvltjqJZrodUW6ag/ZnZjNfaAR2DTQyAth4
+ cR/Wcix0usY4DQzeSLTn9FA1kF08jJhYVjYM9BeankSgU/8XU0o3K6lWLEMvXgEps3QP
+ PuxqyQ3Q64GcSVS9wm3p27FygH3l2sbHzFB97Frizy84BXgH4OhJKBSH/jQba4qyxAsi
+ WJhMgS8VbWaGvAYOQ4cUAyA3UbT84lhhcMxiksq/kj9LL8H10YEQ+OAHH4hH5qnlu7EE
+ LM3ym4ow95h5xlNac2FzOoSUb1Kar4Cs5mjXMl7upWDBdk/vErkzf4MybpALV9iZpGaP
+ NXFA==
+X-Gm-Message-State: AFqh2krL2n236wcnOApGkZQB56ecoP9v5aPzWQJHDN7EhPhxMi8Q/twB
+ rndS3dKRzUQkQjuf5THKresVAy5T4j2jPZ4YsPtesF82CV2os1Z/YXq08G9pqgMBvvqeRAGWOr+
+ hCQtwEMkquw1SVzY61c6DE+4+wjyz/SIrvRm/bz1l0wEdXqV38OqZElZoGeGM
+X-Received: by 2002:a05:600c:a4d:b0:3cf:6e78:e2ca with SMTP id
+ c13-20020a05600c0a4d00b003cf6e78e2camr4322450wmq.5.1671627892207; 
+ Wed, 21 Dec 2022 05:04:52 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsdyqZShxCsQzx7NWYfKO5Q1XZR38l76dOAhvpwvNJL+D0HIo8Tumb5/R7FIm++ExaBRUd0uQ==
+X-Received: by 2002:a05:600c:a4d:b0:3cf:6e78:e2ca with SMTP id
+ c13-20020a05600c0a4d00b003cf6e78e2camr4322431wmq.5.1671627891891; 
+ Wed, 21 Dec 2022 05:04:51 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- d7-20020a5d4f87000000b00236576c8eddsm15154042wru.12.2022.12.21.05.04.43
+ f1-20020a1c6a01000000b003cfa80443a0sm2207294wmc.35.2022.12.21.05.04.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:04:46 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:04:42 -0500
+ Wed, 21 Dec 2022 05:04:49 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:04:47 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 07/41] ich9: honour 'enable_tco' property
-Message-ID: <20221221130339.1234592-8-mst@redhat.com>
+ Longpeng <longpeng2@huawei.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL 08/41] virtio: get class_id and pci device id by the virtio id
+Message-ID: <20221221130339.1234592-9-mst@redhat.com>
 References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,89 +97,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Longpeng <longpeng2@huawei.com>
 
-An 'ICH9-LPC.enable_tco' property has been exposed for a
-very long time, but attempts to set it have never been
-honoured.
+Add helpers to get the "Transitional PCI Device ID" and "class_id"
+of the device specified by the "Virtio Device ID".
 
-Originally, any user provided 'enable_tco' value was force
-replaced by a value passed from the machine type setup
-code that was determine by machine type compat properties.
+These helpers will be used to build the generic vDPA device later.
 
-  commit d6b304ba924b95d12edfddaac99777b577301309
-  Author: Eduardo Habkost <ehabkost@redhat.com>
-  Date:   Sat Jan 23 14:02:10 2016 -0200
-
-    machine: Remove no_tco field
-
-    The field is always set to zero, so it is not necessary anymore.
-
-After legacy Q35 machine types were deleted in:
-
-  commit 86165b499edf8b03bb2d0e926d116c2f12a95bfe
-  Author: Eduardo Habkost <ehabkost@redhat.com>
-  Date:   Sat Jan 23 14:02:09 2016 -0200
-
-    q35: Remove old machine versions
-
-the machine type code ended up just unconditionally passing
-'true', all the time, so this was further simplified in
-
-  commit d6b304ba924b95d12edfddaac99777b577301309
-  Author: Eduardo Habkost <ehabkost@redhat.com>
-  Date:   Sat Jan 23 14:02:10 2016 -0200
-
-    machine: Remove no_tco field
-
-    The field is always set to zero, so it is not necessary anymore.
-
-  commit 18d6abae3ea092950629e5d26aff1dcfc9a2d78e
-  Author: Eduardo Habkost <ehabkost@redhat.com>
-  Date:   Sat Jan 23 14:02:11 2016 -0200
-
-    ich9: Remove enable_tco arguments from init functions
-
-    The enable_tco arguments are always true, so they are not needed
-    anymore.
-
-Leaving the ich9_pm_init to just force set 'enable_tco' to true.
-This still overrides any user specified property. The initialization
-of property defaults should be done when properties are first
-registered, rather than during object construction.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20221216125749.596075-6-berrange@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Longpeng <longpeng2@huawei.com>
+Message-Id: <20221215134944.2809-2-longpeng2@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/ich9.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ include/hw/virtio/virtio-pci.h |  5 ++
+ hw/virtio/virtio-pci.c         | 88 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 93 insertions(+)
 
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index bd9bbade70..ea4182256d 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -316,8 +316,9 @@ void ich9_pm_init(PCIDevice *lpc_pci, ICH9LPCPMRegs *pm,
+diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
+index 938799e8f6..24fba1604b 100644
+--- a/include/hw/virtio/virtio-pci.h
++++ b/include/hw/virtio/virtio-pci.h
+@@ -151,6 +151,8 @@ struct VirtIOPCIProxy {
+     bool disable_modern;
+     bool ignore_backend_features;
+     OnOffAuto disable_legacy;
++    /* Transitional device id */
++    uint16_t trans_devid;
+     uint32_t class_code;
+     uint32_t nvectors;
+     uint32_t dfselect;
+@@ -184,6 +186,9 @@ static inline void virtio_pci_disable_modern(VirtIOPCIProxy *proxy)
+     proxy->disable_modern = true;
+ }
  
-     pm->smm_enabled = smm_enabled;
++uint16_t virtio_pci_get_trans_devid(uint16_t device_id);
++uint16_t virtio_pci_get_class_id(uint16_t device_id);
++
+ /*
+  * virtio-input-pci: This extends VirtioPCIProxy.
+  */
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 7873083b86..70639300aa 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -19,6 +19,7 @@
  
--    pm->enable_tco = true;
--    acpi_pm_tco_init(&pm->tco_regs, &pm->io);
-+    if (pm->enable_tco) {
-+        acpi_pm_tco_init(&pm->tco_regs, &pm->io);
+ #include "exec/memop.h"
+ #include "standard-headers/linux/virtio_pci.h"
++#include "standard-headers/linux/virtio_ids.h"
+ #include "hw/boards.h"
+ #include "hw/virtio/virtio.h"
+ #include "migration/qemu-file-types.h"
+@@ -224,6 +225,90 @@ static int virtio_pci_load_queue(DeviceState *d, int n, QEMUFile *f)
+     return 0;
+ }
+ 
++typedef struct VirtIOPCIIDInfo {
++    /* virtio id */
++    uint16_t vdev_id;
++    /* pci device id for the transitional device */
++    uint16_t trans_devid;
++    uint16_t class_id;
++} VirtIOPCIIDInfo;
++
++static const VirtIOPCIIDInfo virtio_pci_id_info[] = {
++    {
++        .vdev_id = VIRTIO_ID_CRYPTO,
++        .class_id = PCI_CLASS_OTHERS,
++    }, {
++        .vdev_id = VIRTIO_ID_FS,
++        .class_id = PCI_CLASS_STORAGE_OTHER,
++    }, {
++        .vdev_id = VIRTIO_ID_NET,
++        .trans_devid = PCI_DEVICE_ID_VIRTIO_NET,
++        .class_id = PCI_CLASS_NETWORK_ETHERNET,
++    }, {
++        .vdev_id = VIRTIO_ID_BLOCK,
++        .trans_devid = PCI_DEVICE_ID_VIRTIO_BLOCK,
++        .class_id = PCI_CLASS_STORAGE_SCSI,
++    }, {
++        .vdev_id = VIRTIO_ID_CONSOLE,
++        .trans_devid = PCI_DEVICE_ID_VIRTIO_CONSOLE,
++        .class_id = PCI_CLASS_COMMUNICATION_OTHER,
++    }, {
++        .vdev_id = VIRTIO_ID_SCSI,
++        .trans_devid = PCI_DEVICE_ID_VIRTIO_SCSI,
++        .class_id = PCI_CLASS_STORAGE_SCSI
++    }, {
++        .vdev_id = VIRTIO_ID_9P,
++        .trans_devid = PCI_DEVICE_ID_VIRTIO_9P,
++        .class_id = PCI_BASE_CLASS_NETWORK,
++    }, {
++        .vdev_id = VIRTIO_ID_BALLOON,
++        .trans_devid = PCI_DEVICE_ID_VIRTIO_BALLOON,
++        .class_id = PCI_CLASS_OTHERS,
++    }, {
++        .vdev_id = VIRTIO_ID_RNG,
++        .trans_devid = PCI_DEVICE_ID_VIRTIO_RNG,
++        .class_id = PCI_CLASS_OTHERS,
++    },
++};
++
++static const VirtIOPCIIDInfo *virtio_pci_get_id_info(uint16_t vdev_id)
++{
++    const VirtIOPCIIDInfo *info = NULL;
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(virtio_pci_id_info); i++) {
++        if (virtio_pci_id_info[i].vdev_id == vdev_id) {
++            info = &virtio_pci_id_info[i];
++            break;
++        }
 +    }
- 
-     if (pm->use_acpi_hotplug_bridge) {
-         acpi_pcihp_init(OBJECT(lpc_pci),
-@@ -440,6 +441,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-     pm->s4_val = 2;
-     pm->use_acpi_hotplug_bridge = true;
-     pm->keep_pci_slot_hpc = true;
-+    pm->enable_tco = true;
- 
-     object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
-                                    &pm->pm_io_base, OBJ_PROP_FLAG_READ);
++
++    if (!info) {
++        /* The device id is invalid or not added to the id_info yet. */
++        error_report("Invalid virtio device(id %u)", vdev_id);
++        abort();
++    }
++
++    return info;
++}
++
++/*
++ * Get the Transitional Device ID for the specific device, return
++ * zero if the device is non-transitional.
++ */
++uint16_t virtio_pci_get_trans_devid(uint16_t device_id)
++{
++    return virtio_pci_get_id_info(device_id)->trans_devid;
++}
++
++/*
++ * Get the Class ID for the specific device.
++ */
++uint16_t virtio_pci_get_class_id(uint16_t device_id)
++{
++    return virtio_pci_get_id_info(device_id)->class_id;
++}
++
+ static bool virtio_pci_ioeventfd_enabled(DeviceState *d)
+ {
+     VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
+@@ -1729,6 +1814,9 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
+          * is set to PCI_SUBVENDOR_ID_REDHAT_QUMRANET by default.
+          */
+         pci_set_word(config + PCI_SUBSYSTEM_ID, virtio_bus_get_vdev_id(bus));
++        if (proxy->trans_devid) {
++            pci_config_set_device_id(config, proxy->trans_devid);
++        }
+     } else {
+         /* pure virtio-1.0 */
+         pci_set_word(config + PCI_VENDOR_ID,
 -- 
 MST
 
