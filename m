@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17E6652D27
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 08:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2604E652D28
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 08:08:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7tBS-0002Cn-NQ; Wed, 21 Dec 2022 02:06:34 -0500
+	id 1p7tCY-0002aG-Vb; Wed, 21 Dec 2022 02:07:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7tBH-00029M-AT
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:06:26 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7tCP-0002ZP-Do
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:07:33 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7tBF-0006gh-9q
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:06:22 -0500
-Received: by mail-wr1-x435.google.com with SMTP id i7so13974401wrv.8
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 23:06:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7tCN-0006xM-Pl
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 02:07:33 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id bg10so10518595wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 23:07:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=BO3D5TxSObyykwQ+uLG5Z+zydylBZh8Y5Wuxwtmdmts=;
- b=NP8ZB5Lt+4kuoV+KlPvoq+bg4ytfMyysb7xZ1+eNEA3s1c/fv6KUvp8+OTJFSMrqxR
- 1+HoV4weV5h7ju6Jq8dRkqsoW9E0J0/eNlDrSvYcKl5HI+zWkBil4Yk/DrnVulZGSAjZ
- bYBpzXaNv6DTEyyJuc739NfExPBjcb19/lF4Xmdrb62WAfuLGewePuhdfQp+pFLeh3jM
- ZSqjtcjzgRDAR4Vh7kEw4HCMOe5Y7mdVyNpIVbt6z4hFYFK003Jwok6eQQb2i/aBMBGz
- f026CDoA3Ny9pbgZV/398Zv1yYB6te0a/1XG/UuVOK3MgpwaNT4znIiWex/7yDOlrsP7
- LltQ==
+ bh=UiMr4eqExyDc02lB4lUy+lavJZ9dW35qy4mbNhYlAb0=;
+ b=Zc/EH7JXjkbXAkckOu9R2MugRXZ2E09hO3tlxMg2Qx92O3x1uUWmJ7N1KoOT6NrD3H
+ I5VEFo3/LvoXow183NKi/BbkudUf3x3O/KZUx0ZFFHHLBCaPeS3b544bI+DsW1FFzwOH
+ KeDN2sNS6TJ2u0w9oPTkSrCwo+uFsa57LgTnBFUNiIhWA0Pqu2v8cNY7Hdu+UqDnXNPy
+ ta5aNO91oZi5pJW86dFuZJidqNwWUpic3Jc3/69mN3pXLNHOGlpBRTkBtWFWYL+qGPBF
+ fUmlMb5Vj+qXhQMadN2CW9LSAth+K6OlO1ueqphZht8RrUXORt8BDkcALIEoPiMRq2BZ
+ 8Lug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BO3D5TxSObyykwQ+uLG5Z+zydylBZh8Y5Wuxwtmdmts=;
- b=rcePcvECwf7YI9z7T+lRFautajCgKMCrGYQmQMNghaZYazDORalt7sf0xRFF1e8X4G
- IT+igDt3gDlNiumY7U74tSU5iORvIJNojxdm6dHNRp0mMVWbMjWcBDnKiqcN8YZas+Zh
- Kg1OkAj0zdQUM+guHjeIQCbKJAp2CflUaIYLQLGfputzVh4ZPGj9JhCck/xcNoHoswyH
- VMtQP5JBH1qqvO9DTJIKqd2pc761q8gJZGin3fRzylU1uOqr/TWRoKb6poKfiEeYTPL1
- USmLOpx3CyRo8KnkKmcMWlWEkQJ59tpN5GKi28r1k3VVqJLQVB+tKt/KFQkzFRtzqgHO
- 2JAA==
-X-Gm-Message-State: AFqh2kqcbyV1ortXx2zzJnQuIemLNWVqKMbG0d1cln6QMgzcMuPHvCrH
- xCmD1/mMuTbauEoqYv6fkwAAZUK51jOmAQ7/pxY=
-X-Google-Smtp-Source: AMrXdXucpglA8qbOyWNOKYaRUJbejWApGqLVb8+E3LxeaUTQrPtZMwMxuTUJh0cdYuL0eQCN9PfWtQ==
-X-Received: by 2002:adf:e3c9:0:b0:253:62a0:2dbf with SMTP id
- k9-20020adfe3c9000000b0025362a02dbfmr340935wrm.62.1671606378318; 
- Tue, 20 Dec 2022 23:06:18 -0800 (PST)
+ bh=UiMr4eqExyDc02lB4lUy+lavJZ9dW35qy4mbNhYlAb0=;
+ b=AfWl8mdUbxVyNefljISuxLeOoZB0mgHXPPV6fuDYH2AyMfp7pZrHtwBYai6Dbl9HJc
+ XbPzAxlXSNxAmFVtHsFXbKEpQXSzNQU+9q0w/qJrr6w8zw3qYGP81hjy3dNTJH5jauOa
+ PERjXfw6iaz95ElvIuZ8hhRzN0nFDozS9Kc9TrrLuqvv7Ald2yZJbeExC68KW6K6icLs
+ xlYIA4xTMpVsKonqwEa5SHznITwXg1DX73yh9v1EV4XRePjGvtPzn97TQVSiGjj0bal/
+ t+akGQDuOmxrDOtSOyZ6eJQcejXTmH3ZzOWiEARlxSM9jk6HLA9lukUFgjWq9DmXYZNi
+ Cn4w==
+X-Gm-Message-State: AFqh2kosdl347uY04NjbJL+/hsnUe0sMwEmC1pyCMvDVWj/zNiU3RGmV
+ 1Z4wXJ2rT4LD6wIwahRY0rU7a/I+pMwAN+lkFc4=
+X-Google-Smtp-Source: AMrXdXucE/HyA7M1cCTp5gDmlNu7xYfDURyjrz8zg3rpA8qIJpUnJzvLBgFa9L0W+dsU9MgEvv1BTA==
+X-Received: by 2002:a05:600c:1e24:b0:3d0:8643:caf1 with SMTP id
+ ay36-20020a05600c1e2400b003d08643caf1mr742239wmb.16.1671606449817; 
+ Tue, 20 Dec 2022 23:07:29 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j9-20020a056000124900b002422bc69111sm17243013wrx.9.2022.12.20.23.06.16
+ m185-20020a1c26c2000000b003c6f1732f65sm1157686wmm.38.2022.12.20.23.07.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 23:06:17 -0800 (PST)
-Message-ID: <9b9ea50c-1407-d2d1-486e-be3740d65178@linaro.org>
-Date: Wed, 21 Dec 2022 08:06:15 +0100
+ Tue, 20 Dec 2022 23:07:29 -0800 (PST)
+Message-ID: <a3c3f639-dbb1-88a7-43fe-547a234c5890@linaro.org>
+Date: Wed, 21 Dec 2022 08:07:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH v2 0/7] hw/mips: Make gt64xxx_pci.c endian-agnostic
+Subject: Re: [PATCH-for-8.0 v2 00/11] hw/mips/malta: Generate nanoMIPS
+ bootloader with bootloader generator API
 Content-Language: en-US
 To: qemu-devel@nongnu.org
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Huth <thuth@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
-References: <20221220113436.14299-1-philmd@linaro.org>
+Cc: Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>,
+ Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Djordje Todorovic <djordje.todorovic@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Bernhard Beschow <shentey@gmail.com>
+References: <20221211204533.85359-1-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221220113436.14299-1-philmd@linaro.org>
+In-Reply-To: <20221211204533.85359-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -90,15 +95,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/12/22 12:34, Philippe Mathieu-Daudé wrote:
+On 11/12/22 21:45, Philippe Mathieu-Daudé wrote:
 
->    hw/mips/Kconfig: Introduce CONFIG_GT64120 to select gt64xxx_pci.c
->    hw/mips/gt64xxx_pci: Let the GT64120 manage the lower 512MiB hole
->    hw/mips/gt64xxx_pci: Manage endian bits with the RegisterFields API
->    hw/mips/gt64xxx_pci: Add a 'cpu-little-endian' qdev property
->    hw/mips/malta: Explicit GT64120 endianness upon device creation
->    hw/mips/meson: Make gt64xxx_pci.c endian-agnostic
->    hw/mips/gt64xxx_pci: Move it to hw/pci-host/
+>    hw/mips/bootloader: Handle buffers as opaque arrays
+>    hw/mips/bootloader: Implement nanoMIPS NOP opcode generator
+>    hw/mips/bootloader: Implement nanoMIPS SW opcode generator
+>    hw/mips/bootloader: Implement nanoMIPS LI (LUI+ORI) opcode generator
+>    hw/mips/bootloader: Implement nanoMIPS JALRc opcode generator
+>    hw/mips/malta: Use bootloader generator API for nanoMIPS CPUs (1/5)
+>    hw/mips/malta: Use bootloader generator API for nanoMIPS CPUs (2/5)
+>    hw/mips/malta: Use bootloader generator API for nanoMIPS CPUs (3/5)
+>    hw/mips/malta: Use bootloader generator API for nanoMIPS CPUs (4/5)
+>    hw/mips/malta: Use bootloader generator API for nanoMIPS CPUs (5/5)
+>    hw/mips/malta: Merge common BL code as bl_setup_gt64120_jump_kernel()
 
 Series queued to mips-next.
+
 
