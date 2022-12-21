@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85306653144
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A1B653151
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:07:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ymC-0004F6-30; Wed, 21 Dec 2022 08:04:52 -0500
+	id 1p7ymH-0004Or-Rx; Wed, 21 Dec 2022 08:04:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ym9-0004C4-Gb
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:49 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymF-0004Lq-9b
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:55 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ym7-0003wg-K5
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:49 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ymD-0003xA-JR
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627886;
+ s=mimecast20190719; t=1671627891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SlANOX9JMi83mA8OVFzuJKebnNhfltbLO4qI4F4bqwQ=;
- b=Evk86vth+W0/aa8lMByl2XwqzpTh/zcxTKcpd+lr21Tu4ETnwLkEOOtpwZzbhxxWztUF6M
- V6fjGRep7Td74xywjUTQ5pFqxHhIWI9vokfHWluiNQi4c0Zr6P/jmBb8hRTG+CBrR7oGQC
- lcHyUxeBymRiUsuD79/GIXIuRAhwSa4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8r+UfXDR9XgvwCY4Mgc5xJd4ZNuxduWvXYRuwGCgCEU=;
+ b=gqS+ConrN4Ez/ZI/fKVHw2wQxUNv5so4xRM04y7PQrabNTsEg3C3uICKEt1UESBnDQ4uKC
+ 65zBWWNvXQs2UdjgFAy4+vN9aBmfR8K0u6oV3kN+jhz6hrSJS92cu7NrTtrel/zCLcaY9P
+ 7wSskeXxXZHy7KpPpu4Xy5eJeubsmyY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-315--CsmcQmtPgqVYkF-jiyIGg-1; Wed, 21 Dec 2022 08:04:45 -0500
-X-MC-Unique: -CsmcQmtPgqVYkF-jiyIGg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 21-20020a05600c021500b003d227b209e1so671813wmi.1
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:04:45 -0800 (PST)
+ us-mta-249-ItCSRoLZMCWfitsRqt9lFQ-1; Wed, 21 Dec 2022 08:04:49 -0500
+X-MC-Unique: ItCSRoLZMCWfitsRqt9lFQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ sd1-20020a1709076e0100b00810be49e7afso7098919ejc.22
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:04:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SlANOX9JMi83mA8OVFzuJKebnNhfltbLO4qI4F4bqwQ=;
- b=TSbwzQVvhO7KiguhrO6geNYGCfvWjizzvjyMKvj5yOEfdZUhkLg4pnHImORideBTDF
- +MytYpjdM0plaE9GuKR9+WabWry2wBhJVCgbyQH/+gfOnVAXklyqxHYuwHh8gUfgERi8
- ASqiBJxDKJ2Ktdih+UmKfewXpe8I9BTrUv9jsiir5cfjQhXg9/wHtR+qlmWeX2RlNiJg
- tvIzFUXLOZKVgodGuvukRDwMflmFheBZ7TzXmQTqwiNFD8uAaUjNPYgoaEoNFnKpabke
- nf/z6U1J5QMq3d4a8FqUbUa/JnLHM60MBuaM/N+iTCfw6owhfYXu9HvrdkF06QAUx9qj
- rznA==
-X-Gm-Message-State: AFqh2krKFnDti3ZnyATjiSil5dI/8VW2386Y/LFvj1D0PA1G8bfCLGID
- TlQzaufIhnvtSooexhGt+T4E8rgLlGYHUCtIvJ6yHr7l7VeNnMx6yotnjwrNHtHuotqYf/jOQ/J
- kQZybASVfTdByjvFPgvHfIeTnLH69VVqR0cmIDiGpaTDW0HDpaaYRY4fVOTrH
-X-Received: by 2002:a05:600c:1603:b0:3d1:c895:930c with SMTP id
- m3-20020a05600c160300b003d1c895930cmr1646169wmn.35.1671627883057; 
- Wed, 21 Dec 2022 05:04:43 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtlcC3cQJDcp9OGiF4QnaE/nt4/CPQK3E2/YAPPwLmB95lI3Bxlwe5FJMQ7vtQwe4x1tQXFYg==
-X-Received: by 2002:a05:600c:1603:b0:3d1:c895:930c with SMTP id
- m3-20020a05600c160300b003d1c895930cmr1646145wmn.35.1671627882758; 
- Wed, 21 Dec 2022 05:04:42 -0800 (PST)
+ bh=8r+UfXDR9XgvwCY4Mgc5xJd4ZNuxduWvXYRuwGCgCEU=;
+ b=PXGS8w/fImnTEk75oUlmqQ2ivStPCy6oyhG1AbABOCc/zIt0heYqXKEGMr4JuARgKK
+ uRIl1Ejba9yVE29Cf0488ylDCr/3vj06fRFo/KI1TV31MGjr2bS58aWLs+AWOlcW5G7g
+ Kjk1WOZF2blWwruNHyJyhFJC282lc6upq26J2L+utsE1KqnIGwEcVc8SnHaj++n2o8uf
+ h21p8wr79gSPvZDEjmFa5NIE7eZXreybx1osBBMUZ336iSF/vGmDlqQAOs/Wkph/T6zl
+ wjT85V/ltObGO1ZmUBTfJeq7cC9N+ZRCZgPfPn//7SBge/x6G3LEe1WsxsgAsPDCjn3H
+ 0cgg==
+X-Gm-Message-State: AFqh2krxea13T9dQ1z6QWpMJNLidBfIXudD8lqsEUBP2mKC8w//DrLIj
+ ocp3OhulOFRYVIA3+toajjJR0VmwojICwJeodObv1kgocf35vc5laKu3hmrnmY0VUfBhqZDMQcd
+ c9dGAv4GzhAr1BX/kWXj8milclEBVpV9SCW8rm57rWMjG5dC8fcxmF4RN2Mlc
+X-Received: by 2002:a17:907:7e84:b0:7a4:bbce:ddae with SMTP id
+ qb4-20020a1709077e8400b007a4bbceddaemr1658620ejc.59.1671627887463; 
+ Wed, 21 Dec 2022 05:04:47 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuzNJJOn7iiQ/de+Y+9vcZX+vghpop2VeDwq0DEbii/UUhs+DQL+6twypwbEpcOO6SMjn/fcg==
+X-Received: by 2002:a17:907:7e84:b0:7a4:bbce:ddae with SMTP id
+ qb4-20020a1709077e8400b007a4bbceddaemr1658592ejc.59.1671627887190; 
+ Wed, 21 Dec 2022 05:04:47 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- m16-20020a05600c3b1000b003c5571c27a1sm3432673wms.32.2022.12.21.05.04.39
+ d7-20020a5d4f87000000b00236576c8eddsm15154042wru.12.2022.12.21.05.04.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:04:41 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:04:38 -0500
+ Wed, 21 Dec 2022 05:04:46 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:04:42 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- "Richard W . M . Jones" <rjones@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PULL 06/41] hw/isa: enable TCO watchdog reboot pin strap by default
-Message-ID: <20221221130339.1234592-7-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 07/41] ich9: honour 'enable_tco' property
+Message-ID: <20221221130339.1234592-8-mst@redhat.com>
 References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -107,115 +103,87 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-The TCO watchdog implementation default behaviour from POV of the
-guest OS relies on the initial values for two I/O ports:
+An 'ICH9-LPC.enable_tco' property has been exposed for a
+very long time, but attempts to set it have never been
+honoured.
 
-  * TCO1_CNT == 0x0
+Originally, any user provided 'enable_tco' value was force
+replaced by a value passed from the machine type setup
+code that was determine by machine type compat properties.
 
-    Since bit 11 (TCO Timer Halt) is clear, the watchdog state
-    is considered to be initially running
+  commit d6b304ba924b95d12edfddaac99777b577301309
+  Author: Eduardo Habkost <ehabkost@redhat.com>
+  Date:   Sat Jan 23 14:02:10 2016 -0200
 
-  * GCS == 0x20
+    machine: Remove no_tco field
 
-    Since bit 5 (No Reboot) is set, the watchdog will not trigger
-    when the timer expires
+    The field is always set to zero, so it is not necessary anymore.
 
-This is a safe default, because the No Reboot bit will prevent the
-watchdog from triggering if the guest OS is unaware of its existance,
-or is slow in configuring it. When a Linux guest initializes the TCO
-watchdog, it will attempt to clear the "No Reboot" flag, and read the
-value back. If the clear was honoured, the driver will treat this as
-an indicator that the watchdog is functional and create the guest
-watchdog device.
+After legacy Q35 machine types were deleted in:
 
-QEMU implements a second "no reboot" flag, however, via pin straps
-which overrides the behaviour of the guest controlled "no reboot"
-flag:
+  commit 86165b499edf8b03bb2d0e926d116c2f12a95bfe
+  Author: Eduardo Habkost <ehabkost@redhat.com>
+  Date:   Sat Jan 23 14:02:09 2016 -0200
 
-  commit 5add35bec1e249bb5345a47008c8f298d4760be4
-  Author: Paulo Alcantara <pcacjr@gmail.com>
-  Date:   Sun Jun 28 14:58:58 2015 -0300
+    q35: Remove old machine versions
 
-    ich9: implement strap SPKR pin logic
+the machine type code ended up just unconditionally passing
+'true', all the time, so this was further simplified in
 
-This second 'noreboot' pin was defaulted to high, which also inhibits
-triggering of the requested watchdog actions, unless QEMU is launched
-with the magic flag "-global ICH9-LPC.noreboot=false".
+  commit d6b304ba924b95d12edfddaac99777b577301309
+  Author: Eduardo Habkost <ehabkost@redhat.com>
+  Date:   Sat Jan 23 14:02:10 2016 -0200
 
-This is a bad default as we are exposing a watchdog to every guest OS
-using the q35 machine type, but preventing it from actually doing what
-it is designed to do. What is worse is that the guest OS and its apps
-have no way to know that the watchdog is never going to fire, due to
-this second 'noreboot' pin.
+    machine: Remove no_tco field
 
-If a guest OS had no watchdog device at all, then apps whose operation
-and/or data integrity relies on a watchdog can refuse to launch, and
-alert the administrator of the problematic deployment. With Q35 machines
-unconditionally exposing a watchdog though, apps will think their
-deployment is correct but in fact have no protection at all.
+    The field is always set to zero, so it is not necessary anymore.
 
-This patch flips the default of the second 'no reboot' flag, so that
-configured watchdog actions will be honoured out of the box for the
-7.2 Q35 machine type onwards, if the guest enables use of the watchdog.
+  commit 18d6abae3ea092950629e5d26aff1dcfc9a2d78e
+  Author: Eduardo Habkost <ehabkost@redhat.com>
+  Date:   Sat Jan 23 14:02:11 2016 -0200
 
-See also related bug reports
+    ich9: Remove enable_tco arguments from init functions
 
-  https://bugzilla.redhat.com/show_bug.cgi?id=2080207
-  https://bugzilla.redhat.com/show_bug.cgi?id=2136889
-  https://bugzilla.redhat.com/show_bug.cgi?id=2137346
+    The enable_tco arguments are always true, so they are not needed
+    anymore.
 
-Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
+Leaving the ich9_pm_init to just force set 'enable_tco' to true.
+This still overrides any user specified property. The initialization
+of property defaults should be done when properties are first
+registered, rather than during object construction.
+
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20221216125749.596075-5-berrange@redhat.com>
+Message-Id: <20221216125749.596075-6-berrange@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/pc.c           | 4 +++-
- hw/isa/lpc_ich9.c      | 2 +-
- tests/qtest/tco-test.c | 2 +-
- 3 files changed, 5 insertions(+), 3 deletions(-)
+ hw/acpi/ich9.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d6c1d31c28..d489ecc0d1 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -107,7 +107,9 @@
-     { "qemu64-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
-     { "athlon-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index bd9bbade70..ea4182256d 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -316,8 +316,9 @@ void ich9_pm_init(PCIDevice *lpc_pci, ICH9LPCPMRegs *pm,
  
--GlobalProperty pc_compat_7_2[] = {};
-+GlobalProperty pc_compat_7_2[] = {
-+    { "ICH9-LPC", "noreboot", "true" },
-+};
- const size_t pc_compat_7_2_len = G_N_ELEMENTS(pc_compat_7_2);
+     pm->smm_enabled = smm_enabled;
  
- GlobalProperty pc_compat_7_1[] = {};
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index cea73924b4..8d541e2b54 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -792,7 +792,7 @@ static const VMStateDescription vmstate_ich9_lpc = {
- };
+-    pm->enable_tco = true;
+-    acpi_pm_tco_init(&pm->tco_regs, &pm->io);
++    if (pm->enable_tco) {
++        acpi_pm_tco_init(&pm->tco_regs, &pm->io);
++    }
  
- static Property ich9_lpc_properties[] = {
--    DEFINE_PROP_BOOL("noreboot", ICH9LPCState, pin_strap.spkr_hi, true),
-+    DEFINE_PROP_BOOL("noreboot", ICH9LPCState, pin_strap.spkr_hi, false),
-     DEFINE_PROP_BOOL("smm-compat", ICH9LPCState, pm.smm_compat, false),
-     DEFINE_PROP_BIT64("x-smi-broadcast", ICH9LPCState, smi_host_features,
-                       ICH9_LPC_SMI_F_BROADCAST_BIT, true),
-diff --git a/tests/qtest/tco-test.c b/tests/qtest/tco-test.c
-index 254f735370..caabcac6e5 100644
---- a/tests/qtest/tco-test.c
-+++ b/tests/qtest/tco-test.c
-@@ -60,7 +60,7 @@ static void test_init(TestData *d)
-     QTestState *qs;
+     if (pm->use_acpi_hotplug_bridge) {
+         acpi_pcihp_init(OBJECT(lpc_pci),
+@@ -440,6 +441,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+     pm->s4_val = 2;
+     pm->use_acpi_hotplug_bridge = true;
+     pm->keep_pci_slot_hpc = true;
++    pm->enable_tco = true;
  
-     qs = qtest_initf("-machine q35 %s %s",
--                     d->noreboot ? "" : "-global ICH9-LPC.noreboot=false",
-+                     d->noreboot ? "-global ICH9-LPC.noreboot=true" : "",
-                      !d->args ? "" : d->args);
-     qtest_irq_intercept_in(qs, "ioapic");
- 
+     object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+                                    &pm->pm_io_base, OBJ_PROP_FLAG_READ);
 -- 
 MST
 
