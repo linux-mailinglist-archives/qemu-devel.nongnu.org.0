@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46282653174
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:13:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC926531C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:30:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7ynp-0006eM-S4; Wed, 21 Dec 2022 08:06:33 -0500
+	id 1p7ynr-0006gd-Eh; Wed, 21 Dec 2022 08:06:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynb-0006CI-FW
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7yne-0006HI-Ox
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ynZ-0004Ud-80
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:19 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ync-0004V9-Us
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:06:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627976;
+ s=mimecast20190719; t=1671627980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mpG/jeKoXLsRSOdYYmlj0uBig3MFnGjPLR17hAdlVik=;
- b=Zg2Fqzqyds9kHN+sslXL0H5Vcn5MVH7Sbf+zWeJzxZhcA6NkGXGsObr+/ZijhTeRAoLqSO
- eGnfxMZ6ltVIvWyg8VissNBfo5+cU/Sp4nSbGqxw4+ffAUfL/lspMLL0A4TjUPWD78Ekt9
- c5kuIGbfGdu6v3kC2+F8pzO/7o3WJc0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iukuCA+rzJ80KucAWcE5G28qrjaAATvHC4LYdC0eHpw=;
+ b=ZETIqvxUa+JynjYf+OXnorExmdOKp4s5UgZK45qkdNk15tjaGU2mXhRhrSN5+i00W5CXUo
+ u9lDai9Jf1QmeEwGhYi5CWxGXs4vuNgGZEBaaFtwLvrzac6i5ctvaR/D2Zvu/SkumCSTai
+ +Hq0ANA7V8Gze6y4t0DGzNBmXvHBoEo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-187-nmgb7f8CNhG7kbYH6j1K0g-1; Wed, 21 Dec 2022 08:06:15 -0500
-X-MC-Unique: nmgb7f8CNhG7kbYH6j1K0g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- x10-20020a05600c420a00b003cfa33f2e7cso7930843wmh.2
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:06:15 -0800 (PST)
+ us-mta-256-3qY5bTnsMVCHf8CO9LXiwg-1; Wed, 21 Dec 2022 08:06:19 -0500
+X-MC-Unique: 3qY5bTnsMVCHf8CO9LXiwg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ q21-20020a7bce95000000b003d236c91639so664986wmj.8
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:06:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mpG/jeKoXLsRSOdYYmlj0uBig3MFnGjPLR17hAdlVik=;
- b=sXKXiNXvD7RHP+gMwVm2gKZsE7Ns6qPTDNNLFXo08tAJz8oB9LegTgLHlwV3TbqCsu
- qodvZ30yHOeSYGh/sEpC3M5SyzJNJb4UMeRppdogCkuQ5ICYyij5c1jsFYIagt3Kq4R5
- xX9MHPhY7yODIBr/NHS2PG44+xNQuBCDXbxf+JdIfqec0PcT9fhh21ory15mldLOebZz
- 2uIEm0sK+qrieha8fLBxF3KofOchhi490Jugf8KJWbVq+mrL4hu2tXrJgEETQIiBJU7j
- mDojcYIOIoZQjjJqVFJlGRpxnWcnjLbrqWIZL1M2KX7wDlaeepVEDDrRcNQQgkB9LjF9
- jNgQ==
-X-Gm-Message-State: AFqh2krhO5sLV0YnF73ICFGzc8cQmweJGc6Pitzlt5YKAcI8OmzsCEi5
- 7kBoakksHTEoqUVzhHvrvKoZGKXSRlBxmF8of+3LZtRlDZ9+uPEhDiPLkY1dLyhg+DYUKWAb/Jh
- IcaS4jIzd8yNYx6LKRIKNlAK7z/24MovnvMGCRFEIv9Qkkx4budaYvNYJUXdw
-X-Received: by 2002:a05:600c:5024:b0:3d3:55ad:a114 with SMTP id
- n36-20020a05600c502400b003d355ada114mr1593064wmr.38.1671627973834; 
- Wed, 21 Dec 2022 05:06:13 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXseDmIcDJ4bdH0VxyoYlEVVu0EQv8Ynit9Lly+uHQN9u9ixQMZ357d5YTyL3yGKONyrdsl2BA==
-X-Received: by 2002:a05:600c:5024:b0:3d3:55ad:a114 with SMTP id
- n36-20020a05600c502400b003d355ada114mr1593046wmr.38.1671627973603; 
- Wed, 21 Dec 2022 05:06:13 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iukuCA+rzJ80KucAWcE5G28qrjaAATvHC4LYdC0eHpw=;
+ b=6+PX4kRupHxHe6pzfSLY5LUM1uy3NfPA02kkC+e4nsnAeY22rDbVih4842ZwFSOlEy
+ wBXwu6nGKAqhVlHi8QSytc+HNNfMx67sKey2FBigBAVJnkSxGmVPtHuNnQdkLVHV1z/v
+ WXPbJJat2HxLNX0c5Yjyc3UhrKyU5MdU6Xc1NbbaRbYCS3IK51/SFBAHFKjT/g8YYKIz
+ 9oMsmk+xr4QjIZ0WQCQclXI3hqRrry34Yuy/joScD0s/2vnJGWeZdTa+Eva5Q7e2vNFY
+ 53sQ3OlHvQrv/gOfIt4tu+SZoibiEggZmVh6QDmWJy86wgOtxp097sY9YMlaU2o365ZJ
+ ASpQ==
+X-Gm-Message-State: AFqh2kqwLAAuA3NqZ1EAlgf7zlqVbj35UyQwCAHvUipabXXCilupRtlW
+ 7ctYFV4wusVYNqzPsuU6Mg1p6TG1c3s6AmWoqyAyL2vJyB5enUNTRhRZ4Er5bjjnC2NjuJZW9pi
+ C9zkTsZBZCVCNoC3Z8WzhxyXzHa8d+R3Z1Ma65iyVW26iOdkRynAGh3A+CGh7
+X-Received: by 2002:adf:e54f:0:b0:242:7fd6:1c82 with SMTP id
+ z15-20020adfe54f000000b002427fd61c82mr1069641wrm.16.1671627977003; 
+ Wed, 21 Dec 2022 05:06:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuII7X3BMSgprR5PfFpSgF+NlEm24UOP4VQ3mhtvho4YkFYKK5KnSpjI6EVYtXvCMfmFNyNgg==
+X-Received: by 2002:adf:e54f:0:b0:242:7fd6:1c82 with SMTP id
+ z15-20020adfe54f000000b002427fd61c82mr1069618wrm.16.1671627976717; 
+ Wed, 21 Dec 2022 05:06:16 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- m4-20020a05600c3b0400b003c6b7f5567csm8660060wms.0.2022.12.21.05.06.12
+ 5-20020a05600c230500b003d1e051f671sm2214007wmo.9.2022.12.21.05.06.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:06:13 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:06:11 -0500
+ Wed, 21 Dec 2022 05:06:16 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:06:13 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
- Cleber Rosa <crosa@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 31/41] acpi/tests/avocado/bits: add mformat as one of the
- dependencies
-Message-ID: <20221221130339.1234592-32-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 32/41] hw/acpi: Rename tco.c -> ich9_tco.c
+Message-ID: <20221221130339.1234592-33-mst@redhat.com>
 References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,34 +103,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ani Sinha <ani@anisinha.ca>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-mformat is needed by grub-mkrescue and hence, add this as one of the
-dependencies to run bits tests. This avoids errors such as the following:
+tco.c contains the ICH9 implementation of its "total cost
+of ownership". Rename it accordingly to emphasis this is
+a part of the ICH9 model.
 
-/var/tmp/acpi-bits-wju6tqoa.tmp/grub-inst-x86_64-efi/bin/grub-mkrescue: 360: mformat: not found
-
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20221203132407.34539-1-ani@anisinha.ca>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221212105115.2113-1-philmd@linaro.org>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/avocado/acpi-bits.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/acpi/ich9.h                | 2 +-
+ include/hw/acpi/{tco.h => ich9_tco.h} | 2 +-
+ hw/acpi/ich9.c                        | 2 +-
+ hw/acpi/{tco.c => ich9_tco.c}         | 2 +-
+ tests/qtest/tco-test.c                | 2 +-
+ MAINTAINERS                           | 4 ++--
+ hw/acpi/meson.build                   | 2 +-
+ 7 files changed, 8 insertions(+), 8 deletions(-)
+ rename include/hw/acpi/{tco.h => ich9_tco.h} (97%)
+ rename hw/acpi/{tco.c => ich9_tco.c} (99%)
 
-diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-index 898c837f26..14038fa3c4 100644
---- a/tests/avocado/acpi-bits.py
-+++ b/tests/avocado/acpi-bits.py
-@@ -50,7 +50,7 @@
- from avocado import skipIf
- from avocado_qemu import QemuBaseTest
+diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
+index 7ca92843c6..d41866a229 100644
+--- a/include/hw/acpi/ich9.h
++++ b/include/hw/acpi/ich9.h
+@@ -27,7 +27,7 @@
+ #include "hw/acpi/pcihp.h"
+ #include "hw/acpi/memory_hotplug.h"
+ #include "hw/acpi/acpi_dev_interface.h"
+-#include "hw/acpi/tco.h"
++#include "hw/acpi/ich9_tco.h"
  
--deps = ["xorriso"] # dependent tools needed in the test setup/box.
-+deps = ["xorriso", "mformat"] # dependent tools needed in the test setup/box.
- supported_platforms = ['x86_64'] # supported test platforms.
+ #define ACPI_PCIHP_ADDR_ICH9 0x0cc0
  
+diff --git a/include/hw/acpi/tco.h b/include/hw/acpi/ich9_tco.h
+similarity index 97%
+rename from include/hw/acpi/tco.h
+rename to include/hw/acpi/ich9_tco.h
+index a1e0da8213..c4393caee0 100644
+--- a/include/hw/acpi/tco.h
++++ b/include/hw/acpi/ich9_tco.h
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU ICH9 TCO emulation
++ * QEMU ICH9 TCO emulation (total cost of ownership)
+  *
+  * Copyright (c) 2015 Paulo Alcantara <pcacjr@zytor.com>
+  *
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index ea4182256d..a93c470e9d 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -34,7 +34,7 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "hw/acpi/acpi.h"
+-#include "hw/acpi/tco.h"
++#include "hw/acpi/ich9_tco.h"
  
+ #include "hw/i386/ich9.h"
+ #include "hw/mem/pc-dimm.h"
+diff --git a/hw/acpi/tco.c b/hw/acpi/ich9_tco.c
+similarity index 99%
+rename from hw/acpi/tco.c
+rename to hw/acpi/ich9_tco.c
+index 9ebd3e5e64..fbf97f81f4 100644
+--- a/hw/acpi/tco.c
++++ b/hw/acpi/ich9_tco.c
+@@ -12,7 +12,7 @@
+ #include "hw/i386/ich9.h"
+ #include "migration/vmstate.h"
+ 
+-#include "hw/acpi/tco.h"
++#include "hw/acpi/ich9_tco.h"
+ #include "trace.h"
+ 
+ enum {
+diff --git a/tests/qtest/tco-test.c b/tests/qtest/tco-test.c
+index caabcac6e5..d865e95dfc 100644
+--- a/tests/qtest/tco-test.c
++++ b/tests/qtest/tco-test.c
+@@ -16,7 +16,7 @@
+ #include "hw/pci/pci_regs.h"
+ #include "hw/i386/ich9.h"
+ #include "hw/acpi/ich9.h"
+-#include "hw/acpi/tco.h"
++#include "hw/acpi/ich9_tco.h"
+ 
+ #define RCBA_BASE_ADDR    0xfed1c000
+ #define PM_IO_BASE_ADDR   0xb000
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 716d5a24ad..a2773108f2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1659,8 +1659,8 @@ F: hw/isa/piix3.c
+ F: hw/isa/lpc_ich9.c
+ F: hw/i2c/smbus_ich9.c
+ F: hw/acpi/piix4.c
+-F: hw/acpi/ich9.c
+-F: include/hw/acpi/ich9.h
++F: hw/acpi/ich9*.c
++F: include/hw/acpi/ich9*.h
+ F: include/hw/southbridge/piix.h
+ F: hw/misc/sga.c
+ F: hw/isa/apm.c
+diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+index f8c820ca94..2ed29ae94c 100644
+--- a/hw/acpi/meson.build
++++ b/hw/acpi/meson.build
+@@ -22,7 +22,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_PIIX4', if_true: files('piix4.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_true: files('pcihp.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_false: files('acpi-pci-hotplug-stub.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_VIOT', if_true: files('viot.c'))
+-acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'ich9_tco.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_ERST', if_true: files('erst.c'))
+ acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
+ acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
 -- 
 MST
 
