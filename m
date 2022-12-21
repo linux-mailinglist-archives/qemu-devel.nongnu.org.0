@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6B16533C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 17:05:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5013A65341C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 17:34:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p81Zg-0001Zx-72; Wed, 21 Dec 2022 11:04:08 -0500
+	id 1p821O-0001zW-CR; Wed, 21 Dec 2022 11:32:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1p81Za-0001Z1-Lm; Wed, 21 Dec 2022 11:04:05 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p821M-0001zF-Ts
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:32:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1p81ZY-0006As-VO; Wed, 21 Dec 2022 11:04:02 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.217])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 00A7F14E0516D;
- Wed, 21 Dec 2022 17:03:54 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Wed, 21 Dec
- 2022 17:03:54 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G00263c2dcef-50e1-4f61-99bd-b8a90ba0fce9,
- 78B451B26E434E63100236457A08FF51A4610C03) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7ababaf9-9c00-37e8-a2d0-565b8de57010@kaod.org>
-Date: Wed, 21 Dec 2022 17:03:53 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1p821K-0003XW-Qw
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:32:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671640361;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=CDFEEXfN7oLMVC+N/Zr4BgD3O0IxzimUCUkan9DGGsg=;
+ b=bBa3d2wmZtHaa3LkX3zMGs1kjrtpqchtGq8ZYSfr1dZR0Qdk7dd8gflI490RMpzWZa8U/g
+ rfHBpKgerFYoP7m+qsdjz910NK3LCh9pQElTLM1UORRxluPH6PPpTG+R7HbCNqe7kTOsc5
+ gTXlQNjfOQlnblPbHj7f+EFRn4Ukau0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-150-uhEWZzkrM3e-WHb-wMptMQ-1; Wed, 21 Dec 2022 11:32:37 -0500
+X-MC-Unique: uhEWZzkrM3e-WHb-wMptMQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5074B80D0E1;
+ Wed, 21 Dec 2022 16:32:37 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A2CA492C14;
+ Wed, 21 Dec 2022 16:32:35 +0000 (UTC)
+Date: Wed, 21 Dec 2022 16:32:22 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: James Bottomley <jejb@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Stefan Berger <stefanb@linux.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 1/2] tpm: convert tpmdev options processing to new
+ visitor format
+Message-ID: <Y6M1FkKxnRv1Ev3I@redhat.com>
+References: <20221219131344.18909-1-jejb@linux.ibm.com>
+ <20221219131344.18909-2-jejb@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [RFC PATCH-for-8.0 2/3] hw/ppc/spapr: Replace tswap64(HPTE) by
- cpu_to_be64(HPTE)
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, David Gibson
- <david@gibson.dropbear.id.au>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- <qemu-devel@nongnu.org>, BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, Alistair Francis
- <alistair@alistair23.me>, Jason Wang <jasowang@redhat.com>, Greg Kurz
- <groug@kaod.org>, <qemu-arm@nongnu.org>, "Edgar E. Iglesias"
- <edgar.iglesias@gmail.com>, <qemu-ppc@nongnu.org>
-References: <20221213125218.39868-1-philmd@linaro.org>
- <20221213125218.39868-3-philmd@linaro.org>
- <CAFEAcA96ncqvN9iXybCd2SrVKJ9CKsu5t3_GtdNt1ZEDAkFt0w@mail.gmail.com>
- <e8c3fdcb-81f1-7067-217c-c49e8748b84a@gmail.com>
- <CAFEAcA_jH3Zn1cFfnvsd_GhiBj1bNKscs7S7cwFa+FnTC9QC=g@mail.gmail.com>
- <Y6AFLpDEkpS+muSJ@yekko>
- <CAFEAcA9CUtdLXKPOqC0uRCyA0xQFZ_SrJ62SSDvPKESaxL3X2A@mail.gmail.com>
- <Y6JeXJn1qCkeIzuz@yekko>
- <CAFEAcA96faOvyo9cqpTZm+U1iMpRphnxvXfUuqStonzGGcMTLQ@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAFEAcA96faOvyo9cqpTZm+U1iMpRphnxvXfUuqStonzGGcMTLQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 7b888b27-5647-4c99-90f3-b7d95290d9c2
-X-Ovh-Tracer-Id: 3344485675587046331
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrgeekgdekgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgsrghlrghtohhnsegvihhkrdgsmhgvrdhhuhdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdgrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvgdpjhgrsh
- hofigrnhhgsehrvgguhhgrthdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpvggughgrrhdrihhglhgvshhirghssehgmhgrihhlrdgtohhmpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221219131344.18909-2-jejb@linux.ibm.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,33 +78,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/21/22 13:33, Peter Maydell wrote:
-> On Wed, 21 Dec 2022 at 01:35, David Gibson <david@gibson.dropbear.id.au> wrote:
->> On Mon, Dec 19, 2022 at 10:39:40AM +0000, Peter Maydell wrote:
->>> OK. I still think we should consistently change all the places that are
->>> accessing this data structure, though, not just half of them.
->>
->> Yes, that makes sense.  Although what exactly constitutes "this data
->> structure" is a bit complex here.  If we mean just the spapr specific
->> "external HPT", then there are only a few more references to it.  If
->> we mean all instances of a powerpc hashed page table, then there are a
->> bunch more in the cpu target code.
+On Mon, Dec 19, 2022 at 08:13:43AM -0500, James Bottomley wrote:
+> From: James Bottomley <James.Bottomley@HansenPartnership.com>
 > 
-> I had in mind "places where we write this specific array of bytes
-> spapr->htab".
+> Instead of processing the tpmdev options using the old qemu options,
+> convert to the new visitor format which also allows the passing of
+> json on the command line.
+> 
+> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
+> ---
+>  backends/tpm/tpm_emulator.c    | 35 ++++++-------
+>  backends/tpm/tpm_passthrough.c | 37 +++++---------
+>  include/sysemu/tpm.h           |  4 +-
+>  include/sysemu/tpm_backend.h   |  2 +-
+>  monitor/hmp-cmds.c             |  4 +-
+>  qapi/tpm.json                  | 26 ++--------
+>  softmmu/tpm.c                  | 90 ++++++++++++++--------------------
+>  softmmu/vl.c                   | 19 +------
+>  8 files changed, 73 insertions(+), 144 deletions(-)
+> 
+
+> diff --git a/qapi/tpm.json b/qapi/tpm.json
+> index 4e2ea9756a..d8cbd5ea0e 100644
+> --- a/qapi/tpm.json
+> +++ b/qapi/tpm.json
+> @@ -99,39 +99,23 @@
+>  { 'struct': 'TPMEmulatorOptions', 'data': { 'chardev' : 'str' },
+>    'if': 'CONFIG_TPM' }
+>  
+> -##
+> -# @TPMPassthroughOptionsWrapper:
+> -#
+> -# Since: 1.5
+> -##
+> -{ 'struct': 'TPMPassthroughOptionsWrapper',
+> -  'data': { 'data': 'TPMPassthroughOptions' },
+> -  'if': 'CONFIG_TPM' }
+> -
+> -##
+> -# @TPMEmulatorOptionsWrapper:
+> -#
+> -# Since: 2.11
+> -##
+> -{ 'struct': 'TPMEmulatorOptionsWrapper',
+> -  'data': { 'data': 'TPMEmulatorOptions' },
+> -  'if': 'CONFIG_TPM' }
+> -
+>  ##
+>  # @TpmTypeOptions:
+>  #
+>  # A union referencing different TPM backend types' configuration options
+>  #
+> +# @id: identifier of the backend
+>  # @type: - 'passthrough' The configuration options for the TPM passthrough type
+>  #        - 'emulator' The configuration options for TPM emulator backend type
+>  #
+>  # Since: 1.5
+>  ##
+>  { 'union': 'TpmTypeOptions',
+> -  'base': { 'type': 'TpmType' },
+> +  'base': { 'type': 'TpmType',
+> +            'id': 'str' },
+>    'discriminator': 'type',
+> -  'data': { 'passthrough' : 'TPMPassthroughOptionsWrapper',
+> -            'emulator': 'TPMEmulatorOptionsWrapper' },
+> +  'data': { 'passthrough' : 'TPMPassthroughOptions',
+> +            'emulator': 'TPMEmulatorOptions' },
+>    'if': 'CONFIG_TPM' }
+
+This isn't a valid change todo, as it affects the public facing
+data structure for the  query-tpm command.
+
+I understand why you're doing it though, to get rid fo the
+extra nesting, which is a hangover from earlier QAPI days
+where we couldn't cope with flat unions.
+
+Instead of changing TpmTypeOptions, you'll need to introduce
+a new TpmTypeCreateOptions that eliminates the wrapping, and
+use that in the CLI creation path, leaving the query-tpm
+command unchanged.
 
 
-spapr_store_hpte() seems to be the most annoying part. It is used
-by hcalls h_enter, h_remove, h_protect. Reworking the interface
-to present pte0/pte1 as BE variables means reworking the whole
-hw/ppc/spapr_softmmu.c file. That's feasible but not a small task
-since the changes will root down in the target hash mmu code which
-is shared by all platforms ... :/
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-spapr_hpte_set_c() are spapr_hpte_set_r() are of a different kind.
-
-C.
 
