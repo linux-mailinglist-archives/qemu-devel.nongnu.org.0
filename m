@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A846535CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF8C6535D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 19:07:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p83Q9-0000qk-W1; Wed, 21 Dec 2022 13:02:26 -0500
+	id 1p83QA-0000s7-On; Wed, 21 Dec 2022 13:02:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p83Q6-0000nd-Ry
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p83Q9-0000qt-5b
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p83Q4-0004K4-Up
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:22 -0500
+ id 1p83Q7-0004KE-HE
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 13:02:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671645740;
+ s=mimecast20190719; t=1671645742;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/jY4sDZGlqpxnHZO0MFdt7TM4ihTKq+v+miIcD6185U=;
- b=LJ4a3h/qdTyo/z8zOi1yZqql5kGNsSBsGpuB565SZ9Ba2dEMqpsUo3/9ZuV/97/N3ylWix
- +GnNNF86aG60klx3C64Eqv1vIKZmMAiHPDxjvVgi8XbgJr4od3qgpzq/bu8xPrp2iVm9w6
- ezorUGjunmFMMiZ3tPkyFkkkelGJ6pE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lNbeKtBEPdV4c/ohPUb/KqQoDWRa4JxrKQWIRrnkmoI=;
+ b=cgc32ZxDhy/eZUJ24R6g3Ch5hDhmbeU/j7EqOTpCii8x04jbPztn59y2CNkO+zaiGOuMnF
+ 4YBufiQowZZFTbSMcKpGRBf8BfH7JJ4EP0tV++39Q73QSr7Ykg0uf/3q977KGFcqTEKIgm
+ +qX0lHF4c0dTJ3QOMGIC645U8ioG6YA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-83-4ZPrhC9bO5Kr2BL57if6cQ-1; Wed, 21 Dec 2022 13:02:18 -0500
-X-MC-Unique: 4ZPrhC9bO5Kr2BL57if6cQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- dn11-20020a17090794cb00b007c14ea70afcso10967196ejc.0
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 10:02:18 -0800 (PST)
+ us-mta-344-FzbLI7jMMUWrVXOkSlLtEA-1; Wed, 21 Dec 2022 13:02:21 -0500
+X-MC-Unique: FzbLI7jMMUWrVXOkSlLtEA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ s13-20020a056402520d00b0046c78433b54so11847056edd.16
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 10:02:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/jY4sDZGlqpxnHZO0MFdt7TM4ihTKq+v+miIcD6185U=;
- b=6E2V+7UMNSjQpfH+NSPqiC072SsljWA3aptSlxYLmaCNrv4w4t5PIIqgOxYpErGn2A
- 3feMFwy8qJubS6jw1B/FAnUiqJEvWTeYzI/pZHTeTj6zPMHhSoLXiUI+rxtLRha+Jexx
- SBP9JbspznfhIFvsaH1BFBmChROIxrrQgbR3jb52adAV5+qevVZOv7h0YZmLXgjmqBa3
- lxloDV6mee6QH6YuvbzK09hdfZsqExDMNSZD3TuuTaXfpcxqe3CPgTFG5yUzW1G9MgMi
- HZ8NrFEYcB2SFgRJt68gKF9gDuJuMbv9VfzEbXXpo40+O8VqfXEmMDR51REVtMwKDnBr
- xSXQ==
-X-Gm-Message-State: AFqh2kq67N6Y42O3sK8Rb2Dcz9VJB3bnoi9Qtwh2SVUVboT9eXn5jeTI
- fsG0ybhaNk723mFzo8qvVVjubettMlIKDQbUd1WpCoDLFf/L+YweDMScPIFUjaSodL6pHMw+9Dx
- zyIQcZhZizb5Gz7ukhcOj+0XBy5Vfaj2K8Q2ZKj0NanEeihr+miRwLpheGJDq1fJ9I/M=
-X-Received: by 2002:a17:906:1583:b0:83f:384f:ea23 with SMTP id
- k3-20020a170906158300b0083f384fea23mr1822343ejd.57.1671645737158; 
- Wed, 21 Dec 2022 10:02:17 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuwb1VCOXVnCFh2LkoXSzWZz5NPURz0zpcK8ezXdgzLZN7SKBf0iixt8nDFJd0Xx77lHmFzqQ==
-X-Received: by 2002:a17:906:1583:b0:83f:384f:ea23 with SMTP id
- k3-20020a170906158300b0083f384fea23mr1822326ejd.57.1671645736960; 
- Wed, 21 Dec 2022 10:02:16 -0800 (PST)
+ bh=lNbeKtBEPdV4c/ohPUb/KqQoDWRa4JxrKQWIRrnkmoI=;
+ b=hgt9TZytsZP7bFG3vlbDG8a/07mO0dqVBPGDSp8XmHZVxdL1wtsleoosjlfp0hTrzC
+ 4TqV3wGwMtOlggDMDL3cyVXbMw+Vtc0dfR0xGk1PlAncO7hB98JnIIyj6g+lge5wGA+w
+ +xl4XGe1oKOLe/JARXI28C4R9ayFeLKCGvh0GoLyK3G40dTCTDggG9Nob2+D0ZN01TBp
+ pWfEkcan34B8ptW18jXB9JtUdXMgkLS/6iw+4fZSNqS5aEE3SVPEYU31aUr8BPWLYpKy
+ IIr8E2Dm7pcaqEFDkYkSevdmr2ua34juM3d1CT5DVW3mqR5hP4n5ZOgzj/RyYOVYCpVE
+ JJlA==
+X-Gm-Message-State: AFqh2koEp0PSCWBYuRD54SLA89jZozr+bWheW8dea3LC8DwDkJsvYkbo
+ 1c2UnEXAZ35W3umGE7ejxjfa2P6HGuW3Nq3WBAkUg3H6omAc92E30WoeJYK7THbfFaSR5Qu6KbQ
+ EEFfaBAYwY7XBhp2LTCzudM2yHkeJ/ldX5nd9WRGEX3u8+tt9kaUSiW4K3hSQKyfiHEQ=
+X-Received: by 2002:a17:906:4d58:b0:7c4:fa17:7204 with SMTP id
+ b24-20020a1709064d5800b007c4fa177204mr2186988ejv.7.1671645739719; 
+ Wed, 21 Dec 2022 10:02:19 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuzY+7jlo49ab1DviTY3qnEOj1u0iUChTNiUImK9CXAKtdHG9oLIzqYvBhb2k9uFHJA9Uxb9g==
+X-Received: by 2002:a17:906:4d58:b0:7c4:fa17:7204 with SMTP id
+ b24-20020a1709064d5800b007c4fa177204mr2186970ejv.7.1671645739454; 
+ Wed, 21 Dec 2022 10:02:19 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- r20-20020aa7da14000000b0046b9c536fc5sm7218763eds.63.2022.12.21.10.02.16
- for <qemu-devel@nongnu.org>
+ sy26-20020a1709076f1a00b007c0b530f3cfsm7371256ejc.72.2022.12.21.10.02.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 10:02:16 -0800 (PST)
+ Wed, 21 Dec 2022 10:02:19 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/24] meson: tweak hardening options for Windows
-Date: Wed, 21 Dec 2022 19:01:29 +0100
-Message-Id: <20221221180141.839616-13-pbonzini@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 13/24] meson: cleanup dummy-cpus.c rules
+Date: Wed, 21 Dec 2022 19:01:30 +0100
+Message-Id: <20221221180141.839616-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221221180141.839616-1-pbonzini@redhat.com>
 References: <20221221180141.839616-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,42 +101,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-meson.build has been enabling ASLR _only_ for debug builds since
-commit d2147e04f95f ("configure: move Windows flags detection to meson",
-2022-05-07); instead it was supposed to disable it for debug builds.
+Now that qtest is available on all targets including Windows, dummy-cpus.c
+is included unconditionally in the build.  It also does not need to be
+compiled per-target.
 
-However, the flag has been enabled for DLLs upstream for roughly 2
-years (https://sourceware.org/bugzilla/show_bug.cgi?id=19011), and
-also by some distros including Debian for 6 years even
-(https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=836365).
-
-Enable it unconditionally; we can fix the reversed logic of commit
-d2147e04f95f later if there are any reports, but for now just
-enable the hardening.
-
-Also add -Wl,--high-entropy-va, which also controls ASLR.
-
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ accel/meson.build | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 5c6b5a1c757f..d61c7a82f112 100644
---- a/meson.build
-+++ b/meson.build
-@@ -193,10 +193,7 @@ qemu_ldflags += cc.get_supported_link_arguments('-Wl,-z,relro', '-Wl,-z,now')
- 
- if targetos == 'windows'
-   qemu_ldflags += cc.get_supported_link_arguments('-Wl,--no-seh', '-Wl,--nxcompat')
--  # Disable ASLR for debug builds to allow debugging with gdb
--  if get_option('optimization') == '0'
--    qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase')
--  endif
-+  qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase', '-Wl,--high-entropy-va')
+diff --git a/accel/meson.build b/accel/meson.build
+index 259c35c4c882..3a480cc2efef 100644
+--- a/accel/meson.build
++++ b/accel/meson.build
+@@ -11,10 +11,5 @@ if have_system
+   subdir('stubs')
  endif
  
- if get_option('gprof')
+-dummy_ss = ss.source_set()
+-dummy_ss.add(files(
+-  'dummy-cpus.c',
+-))
+-
+-specific_ss.add_all(when: ['CONFIG_SOFTMMU'], if_true: dummy_ss)
+-specific_ss.add_all(when: ['CONFIG_XEN'], if_true: dummy_ss)
++# qtest
++softmmu_ss.add(files('dummy-cpus.c'))
 -- 
 2.38.1
 
