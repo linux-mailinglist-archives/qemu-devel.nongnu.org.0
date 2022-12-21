@@ -2,44 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56EAE652F22
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 11:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C4D652F31
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 11:15:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7vwk-0005fE-M1; Wed, 21 Dec 2022 05:03:34 -0500
+	id 1p7w6Q-00082V-NO; Wed, 21 Dec 2022 05:13:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1p7vwX-0005cg-Om
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 05:03:25 -0500
-Received: from rev.ng ([5.9.113.41])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1p7vwV-0006Ej-Ad
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 05:03:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
- To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=qULaFiI+StIdbEcRzwlqXAfgkSfpPqzT1JH/WI2GpyM=; b=cQOeCi/6qLgYVsXKyWBku/vaQG
- y/uDdEjks4iQQmol8I90u9ujQ7eC7eZBO6A8JLJIGhzoQCzVZbLt4lWUOTc/6sCUipuwWPa4F/J2n
- 2inYxZdGZ2e70EiGgvR8J+NOqD9NCmj46LD2EA4LO+m4HF6Z5ohJgWmMzTRlN2Rp7XzI=;
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Taylor Simpson <tsimpson@quicinc.com>, Anton Johansson <anjo@rev.ng>,
- Alessandro Di Federico <ale@rev.ng>
-Subject: [PATCH] target/hexagon: suppress unused variable warning
-Date: Wed, 21 Dec 2022 11:02:54 +0100
-Message-Id: <20221221100254.1352686-1-ale@rev.ng>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7w6P-000829-35
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 05:13:33 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p7w6M-0007uk-Fm
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 05:13:32 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id v7so10839636wmn.0
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 02:13:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PDwRBSFfA4PZk4+reRlKF33AUK/4ezBjkzPVJbtank8=;
+ b=G07UdKonI0Ofg/qnaE8co/FzFq/+Rg/1G5IDHs8g7AzH5ypNUYfV9YiYmWimPQpdNg
+ 6RdKYwMIryXR0PQbxFkJVNB413iYbE3Em5D6GZWOhyWWutRlG+QgusfpMIgd2SqQH0pv
+ OAOsYLehQh26AC9zZSiGafGVKmOvVz3/WH1XKX9qpNzHup+7+mvAG7GOGJbvgb1S/F/R
+ ZrSnaHHXIOublNAU9vP/giCoEjWtvo463dzW5dVJdpEfku5KDbICTkZSrAWizjV74UzW
+ mVd1Z8DO1+/GE2owZLsglkGBthKvX5BaeA0iAjXBIikg5uYSjP9wuailvfPXKVNPpZk/
+ GqgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PDwRBSFfA4PZk4+reRlKF33AUK/4ezBjkzPVJbtank8=;
+ b=cK8wfux348r4l3EAJIgYGpLNePFVfyGqX4C4O3rzabonj/KESwIqUUbChLX5XtksSM
+ XJLHEyOAhS+pI/csiHEzpG+FzHt2cwQTkjsW4PzILcEd0EOsVUP184oJsdnMHsLCHQFh
+ 0il28jJqoP/I3W5CACDeLAqK8l3X6KpZ/ZK/LcBBg7JGMLGHDCxRb8llS8w0hWqdr4px
+ 1SCkk6VIyUvthGanzfrSN3Chb2AKt+37J5wesZ6GOHvDqMjg1KhpdHImU397ZKA6xWQ3
+ tFjEUQ5b4qt/w25dyvvvKES0m6kGBiKOd6fuYvCDB7GprG1H4gyuT5q7i6EYMu5yXMf4
+ riAQ==
+X-Gm-Message-State: AFqh2kqHyQkWBztA3RfscirUz5STdC8QBjnRZ3uQOGjqMKPkyFJBU47a
+ wK1Dzd07ORIAOh7E/gsFybCKgA==
+X-Google-Smtp-Source: AMrXdXswXWE72NzxbSiH4k+ig60XPWDUlrQUVR1PhIafdJ/bcL8pP1F2gvcqcNfiXL1bDOG00q+fuw==
+X-Received: by 2002:a05:600c:6016:b0:3d3:3c93:af5e with SMTP id
+ az22-20020a05600c601600b003d33c93af5emr1161853wmb.35.1671617608637; 
+ Wed, 21 Dec 2022 02:13:28 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ c12-20020a05600c0a4c00b003cfa3a12660sm6270257wmq.1.2022.12.21.02.13.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Dec 2022 02:13:28 -0800 (PST)
+Message-ID: <fc91975e-572a-ec7d-a451-9acc127527e5@linaro.org>
+Date: Wed, 21 Dec 2022 11:13:26 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH] target/hexagon: suppress unused variable warning
+Content-Language: en-US
+To: Alessandro Di Federico <ale@rev.ng>, qemu-devel@nongnu.org
+Cc: Taylor Simpson <tsimpson@quicinc.com>, Anton Johansson <anjo@rev.ng>
+References: <20221221100254.1352686-1-ale@rev.ng>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221221100254.1352686-1-ale@rev.ng>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.161,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,52 +86,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Alessandro Di Federico <ale@rev.ng>
-From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch manually suppresses a warning for an unused variable
-(yynerrs) emitted by bison.
+On 21/12/22 11:02, Alessandro Di Federico wrote:
+> This patch manually suppresses a warning for an unused variable
+> (yynerrs) emitted by bison.
+> 
+> This warning has been triggered for the first time by clang 15.
+> 
+> This patch also disables `-Wextra`, which is not usually adopted in
+> QEMU. However, clang 15 triggers the warning fixed in this patch even in
+> absence of `-Wextra`.
+> 
+> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> ---
+>   target/hexagon/idef-parser/idef-parser.y | 2 ++
+>   target/hexagon/meson.build               | 1 -
+>   2 files changed, 2 insertions(+), 1 deletion(-)
 
-This warning has been triggered for the first time by clang 15.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-This patch also disables `-Wextra`, which is not usually adopted in
-QEMU. However, clang 15 triggers the warning fixed in this patch even in
-absence of `-Wextra`.
-
-Signed-off-by: Alessandro Di Federico <ale@rev.ng>
----
- target/hexagon/idef-parser/idef-parser.y | 2 ++
- target/hexagon/meson.build               | 1 -
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/target/hexagon/idef-parser/idef-parser.y b/target/hexagon/idef-parser/idef-parser.y
-index 8be44a0ad17..de61f48a628 100644
---- a/target/hexagon/idef-parser/idef-parser.y
-+++ b/target/hexagon/idef-parser/idef-parser.y
-@@ -99,6 +99,8 @@
- /* Input file containing the description of each hexagon instruction */
- input : instructions
-       {
-+          // Suppress warning about unused yynerrs
-+          (void) yynerrs;
-           YYACCEPT;
-       }
-       ;
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index e8f250fcac5..c9d31d095ca 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -197,7 +197,6 @@ if idef_parser_enabled and 'hexagon-linux-user' in target_dirs
-          idef_parser_dir / 'parser-helpers.c'],
-         include_directories: ['idef-parser', '../../include/'],
-         dependencies: [glib_dep],
--        c_args: ['-Wextra'],
-         native: true
-     )
- 
--- 
-2.38.1
-
+Thanks!
 
