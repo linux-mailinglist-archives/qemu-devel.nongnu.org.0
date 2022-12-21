@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D194652CC0
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 07:16:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76967652CD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 07:22:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7sN7-0006lU-Cy; Wed, 21 Dec 2022 01:14:33 -0500
+	id 1p7sTc-0000Kq-Ek; Wed, 21 Dec 2022 01:21:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p7sN5-0006lG-GJ
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 01:14:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p7sN3-0006YS-Kt
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 01:14:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671603268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nfmMtz5UJ23oiQ4feoB/6H0sYtlD1lIewRFC5pcAS58=;
- b=G9Dds54opOS7cz4gDdNsl1lIx8aKegKNPlI1p7zXMInzMGEwcE5oPDDw4v35xYYRm1xoJo
- HlefvEz7Hrjgz7WKTYunwtRswTDZxOd+86ivXGr/XfbPI8Zd+zwqm+oZFXKLDXB+IuMIH8
- YDUNxbEYugVjMoSpkJDu0W3DCq6gXTA=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-617-IdCE2g67M0CWWk6Ps2HnaQ-1; Wed, 21 Dec 2022 01:14:26 -0500
-X-MC-Unique: IdCE2g67M0CWWk6Ps2HnaQ-1
-Received: by mail-oo1-f69.google.com with SMTP id
- s17-20020a4a7311000000b004a35a996d0bso6626156ooc.20
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 22:14:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p7sTa-0000KZ-Kp; Wed, 21 Dec 2022 01:21:14 -0500
+Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p7sTY-0007tK-Jn; Wed, 21 Dec 2022 01:21:14 -0500
+Received: by mail-vk1-xa2a.google.com with SMTP id f24so6801548vkl.9;
+ Tue, 20 Dec 2022 22:21:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Zf8f3RG78hUiHLrKJx1Yy2VsT+1N68MtJs6UOlmpwz4=;
+ b=eA3n5Jc/4GZ+bbC5tkEk3MH3pxeykC3877NiknNfevAir5dnRvV8vhTwhD4x5F5F9Y
+ Dr4wrKPbsTaK9xOFCvZQuUXii2eGqkcahh9qAGB2mpBYz30BJ7Z0YUX5uniGDm9vOgV+
+ 2GcQbLCi6XE9IcREgGCaiBjHVKTF6c41fjD+5NSgxUvWYvUIrgCLD5+GjjumBKOO8/ov
+ Unz/lMDKVfWH3O09qOjF66lu0JTWb3TbXnZlz+sJRpGJmNY4HTXSep9qA9wZp1kZOYMH
+ jNsLwLXKQjXEBfQAz8KucuPc41dCZTbkBcN4iQXQJ3VOknyjohbLGUixxASOjf7ETsj1
+ +gxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=nfmMtz5UJ23oiQ4feoB/6H0sYtlD1lIewRFC5pcAS58=;
- b=wAmltdTOofYUUPF2UYMGk46Z9LWaMnonYkHEf16TNl1QF1nwqjeXY9b2GNNJdRu+lB
- e3RIz+U0urcnEhMeA5HpNeW7HgBt/AVdN1snDRybjhnHa02LAEVZ3vdF8RcKKLk5G7sz
- Gn+uswwpAECEnqO6gBuYnHc3S06KR29tkSdjRVpQ1DwWCom5nbZ+TJlDysgAiOcq4Flw
- N+j/HnRiB0mANWjX8x1zNTtJe/f30jgmwIsv+vSnvlT38DfCriPADicCS4vP+XvlZJ+6
- pt+0CRXp2XlVUtJR0XwN2AM8MwlzKHMyDHoAfRQyy1JTyFpMsIgD8qc6hTV6juCRr0Fa
- fY1w==
-X-Gm-Message-State: AFqh2kp8Gc3lBHhjiF9+hSh8vy52IVkrbBqQP/Ba0Wyt3kUPBUEYgrRC
- +qBycjZxfNr2DKN6vbipUVWtKfrkWtFMXyjQTPzO/h3l6gW8SgaUjmyZCZfU2TkaTHoqUsRTkYN
- 01Ojlz46G6F1Bl1WLkE+p4mq0ALanwS0=
-X-Received: by 2002:a54:4e96:0:b0:361:11fc:d1f9 with SMTP id
- c22-20020a544e96000000b0036111fcd1f9mr49538oiy.105.1671603265554; 
- Tue, 20 Dec 2022 22:14:25 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtdOJFgPNbx4mFJRIbSR9csBqOHEfv8drPg/wIdkK/DSnTbEFbFtgxN02RkE0apgfXRTEEWzgw2UgbT/lh+0bg=
-X-Received: by 2002:a54:4e96:0:b0:361:11fc:d1f9 with SMTP id
- c22-20020a544e96000000b0036111fcd1f9mr49537oiy.105.1671603265385; Tue, 20 Dec
- 2022 22:14:25 -0800 (PST)
+ bh=Zf8f3RG78hUiHLrKJx1Yy2VsT+1N68MtJs6UOlmpwz4=;
+ b=02TaPNpPFbWA2EQPAFLifkmQd960EjRcJnuv9OCcjs6WvE2vjcxHGmy0Xd4t4t2w4A
+ KhkJoL27urwb7Pie6ka8fMoneNRUtCR8LftmaDB3dnXlD/8pQqx1nGnkIUISY6cpzkXw
+ OrV04fJBIyPXc04Hpe+wmJAfubqcbM3b83IxGoN0We6TFfOlLEAXsRUjT2WD4gOKFPTh
+ b01AexIPI41vF9Yb3pycVPVTyl/bqnUGzTpZxReKljPASNLhZPdZwdDnPMw5c7dKyo0J
+ K+z//rGOdCgvUOTRbtGRzQvIRrB8ICj7/51nynq9R+uNHb/Oto5B+h/lsyNsxGvxrIsv
+ Zq7g==
+X-Gm-Message-State: AFqh2koLA6ksaQQqioOVaJ48VMpH+ei0N/xRVvHMp++Pe1s39+HDmect
+ 4RWnds/mPalHsA0/JERTljQ0iXzGeun28cnC1cA=
+X-Google-Smtp-Source: AMrXdXt2dIPtx+SjWBgv567ebnbvTFDnalD/KK80r09TK/U+TGr7QsFoN+p1gs09yTiacIs+w7FVzD1S+t97qu7SK08=
+X-Received: by 2002:a1f:a954:0:b0:3b8:ba98:bd43 with SMTP id
+ s81-20020a1fa954000000b003b8ba98bd43mr66557vke.34.1671603670433; Tue, 20 Dec
+ 2022 22:21:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20221209130805.3614970-1-lulu@redhat.com>
- <20221220093253-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221220093253-mutt-send-email-mst@kernel.org>
-From: Cindy Lu <lulu@redhat.com>
-Date: Wed, 21 Dec 2022 14:13:48 +0800
-Message-ID: <CACLfguViBrWj3Zt4jkLRoyRuKr7CtHQ2wYwNK9QvOzEBSpBYMA@mail.gmail.com>
-Subject: Re: [PATCH v12 0/1] vhost-vdpa: add support for vIOMMU
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org
+References: <20221203175744.151365-1-richard.henderson@linaro.org>
+In-Reply-To: <20221203175744.151365-1-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 21 Dec 2022 16:20:44 +1000
+Message-ID: <CAKmqyKOY-RfSOeuuQazaZ6UvGRfOhrT7-Lk_FCDfpyybN9GZAA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Set pc_succ_insn for !rvc illegal insn
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, alistair.francis@wdc.com, bin.meng@windriver.com, 
+ qemu-riscv@nongnu.org, qemu-stable@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2a;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,69 +82,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 20 Dec 2022 at 22:33, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Sun, Dec 4, 2022 at 3:58 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On Fri, Dec 09, 2022 at 09:08:04PM +0800, Cindy Lu wrote:
-> > These patches are to support vIOMMU in vdpa device
-> > Verified in vp_vdpa/vdpa_sim_net driverand intel_iommu
-> > virtio-iommu device
+> Failure to set pc_succ_insn may result in a TB covering zero bytes,
+> which triggers an assert within the code generator.
 >
-> Pls address comments and repost.
+> Cc: qemu-stable@nongnu.org
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1224
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/riscv/translate.c          | 12 ++++--------
+>  tests/tcg/Makefile.target         |  2 ++
+>  tests/tcg/riscv64/Makefile.target |  5 +++++
+>  tests/tcg/riscv64/test-noc.S      | 32 +++++++++++++++++++++++++++++++
+>  4 files changed, 43 insertions(+), 8 deletions(-)
+>  create mode 100644 tests/tcg/riscv64/test-noc.S
 >
-Hi Micheal
-There are some issues found while dpdk running with svq enable
-we are still working on it, and will post a new version after we
-address the bugs
-Thanks
-Cindy
-> > changes in V3
-> > 1. Move function vfio_get_xlat_addr to memory.c
-> > 2. Use the existing memory listener, while the MR is
-> > iommu MR then call the function iommu_region_add/
-> > iommu_region_del
-> >
-> > changes in V4
-> > 1.make the comments in vfio_get_xlat_addr more general
-> >
-> > changes in V5
-> > 1. Address the comments in the last version
-> > 2. Add a new arg in the function vfio_get_xlat_addr, which shows whether
-> > the memory is backed by a discard manager. So the device can have its
-> > own warning.
-> >
-> > changes in V6
-> > move the error_report for the unpopulated discard back to
-> > memeory_get_xlat_addr
-> >
-> > changes in V7
-> > organize the error massage to avoid the duplicate information
-> >
-> > changes in V8
-> > Organize the code follow the comments in the last version
-> >
-> > changes in V9
-> > Organize the code follow the comments
-> >
-> > changes in V10
-> > Address the comments
-> >
-> > changes in V11
-> > Address the comments
-> > fix the crash found in test
-> >
-> > changes in V12
-> > Address the comments, squash patch 1 into the next patch
-> > improve the code style issue
-> >
-> > Cindy Lu (1):
-> >   vhost-vdpa: add support for vIOMMU
-> >
-> >  hw/virtio/vhost-vdpa.c         | 162 ++++++++++++++++++++++++++++++---
-> >  include/hw/virtio/vhost-vdpa.h |  10 ++
-> >  2 files changed, 161 insertions(+), 11 deletions(-)
-> >
-> > --
-> > 2.34.3
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index db123da5ec..1ed4bb5ec3 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -1064,14 +1064,10 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
 >
+>      /* Check for compressed insn */
+>      if (insn_len(opcode) == 2) {
+> -        if (!has_ext(ctx, RVC)) {
+> -            gen_exception_illegal(ctx);
+> -        } else {
+> -            ctx->opcode = opcode;
+> -            ctx->pc_succ_insn = ctx->base.pc_next + 2;
+> -            if (decode_insn16(ctx, opcode)) {
+> -                return;
+> -            }
+> +        ctx->opcode = opcode;
+> +        ctx->pc_succ_insn = ctx->base.pc_next + 2;
+> +        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
+> +            return;
+>          }
+>      } else {
+>          uint32_t opcode32 = opcode;
+> diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+> index 75257f2b29..14bc013181 100644
+> --- a/tests/tcg/Makefile.target
+> +++ b/tests/tcg/Makefile.target
+> @@ -117,6 +117,8 @@ endif
+>
+>  %: %.c
+>         $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+> +%: %.S
+> +       $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+>  else
+>  # For softmmu targets we include a different Makefile fragement as the
+>  # build options for bare programs are usually pretty different. They
+> diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
+> index b5b89dfb0e..9973ba3b5f 100644
+> --- a/tests/tcg/riscv64/Makefile.target
+> +++ b/tests/tcg/riscv64/Makefile.target
+> @@ -4,3 +4,8 @@
+>  VPATH += $(SRC_PATH)/tests/tcg/riscv64
+>  TESTS += test-div
+>  TESTS += noexec
+> +
+> +# Disable compressed instructions for test-noc
+> +TESTS += test-noc
+> +test-noc: LDFLAGS = -nostdlib -static
+> +run-test-noc: QEMU_OPTS += -cpu rv64,c=false
 
+This fails the `make check-tcg` for Linux user mode when testing plugins.
+
+This diff is required to get it working. I have applied the change myself
+
+diff --git a/tests/tcg/riscv64/Makefile.target
+b/tests/tcg/riscv64/Makefile.target
+index 9973ba3b5f..cc3ed65ffd 100644
+--- a/tests/tcg/riscv64/Makefile.target
++++ b/tests/tcg/riscv64/Makefile.target
+@@ -9,3 +9,4 @@ TESTS += noexec
+TESTS += test-noc
+test-noc: LDFLAGS = -nostdlib -static
+run-test-noc: QEMU_OPTS += -cpu rv64,c=false
++run-plugin-test-noc-%: QEMU_OPTS += -cpu rv64,c=false
+
+Alistair
+
+> diff --git a/tests/tcg/riscv64/test-noc.S b/tests/tcg/riscv64/test-noc.S
+> new file mode 100644
+> index 0000000000..e29d60c8b3
+> --- /dev/null
+> +++ b/tests/tcg/riscv64/test-noc.S
+> @@ -0,0 +1,32 @@
+> +#include <asm/unistd.h>
+> +
+> +       .text
+> +       .globl _start
+> +_start:
+> +       .option norvc
+> +       li      a0, 4           /* SIGILL */
+> +       la      a1, sa
+> +       li      a2, 0
+> +       li      a3, 8
+> +       li      a7, __NR_rt_sigaction
+> +       scall
+> +
+> +       .option rvc
+> +       li      a0, 1
+> +       j       exit
+> +       .option norvc
+> +
+> +pass:
+> +       li      a0, 0
+> +exit:
+> +       li      a7, __NR_exit
+> +       scall
+> +
+> +       .data
+> +       /* struct kernel_sigaction sa = { .sa_handler = pass }; */
+> +       .type   sa, @object
+> +       .size   sa, 32
+> +sa:
+> +       .dword  pass
+> +       .zero   24
+> +
+> --
+> 2.34.1
+>
+>
 
