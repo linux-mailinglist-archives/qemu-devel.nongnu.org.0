@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D5F653143
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC47653141
 	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 14:05:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7yld-0003oL-55; Wed, 21 Dec 2022 08:04:17 -0500
+	id 1p7yll-0003yW-P8; Wed, 21 Dec 2022 08:04:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ylb-0003nU-4o
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ylj-0003x9-MV
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ylY-0003tH-T2
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:14 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p7ylh-0003uW-9W
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 08:04:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671627851;
+ s=mimecast20190719; t=1671627860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=urymiA2STJS2SXSntUtihzR7NcQe2r5dCkGS6hep0+Q=;
- b=P82kQEEIxtMrynZJbZEE45R/I9v08kvzwS7f3E7fCJwkVrFlqMfXNZYOD4wZ2849X1P2Mx
- 7VEgGdNDv7Mplz0m6cxFfxXtN/lm0BSpeXj5XTKAZhOIr1RkjwuPd65+rp3EvMl3v7gqfg
- atqc6JTo2YfsFBvDyxoUgYUpWJUyndA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=estDuuS6eTISuM/8xP+V6EClOQT23mxmy/FNAfxSQac=;
+ b=KCz3hPfCbC9jzbv+g0CXgKufZNQ+CrXpZzGxJLHrIcY1BHhlLwemsHwacv+8L7TSxjMRYS
+ eV1WFAbS4bX6daAeXSr7pSVPs/vODgRZ621H6mKdBv2eAoXs9uAz6vmPH2HiNCbuT5ub1A
+ wflWB0nFllvH77Fqj7R9MCHU/2Bmi/U=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-307-BIn4oZ8CNOa3QWU4SCjN9g-1; Wed, 21 Dec 2022 08:04:10 -0500
-X-MC-Unique: BIn4oZ8CNOa3QWU4SCjN9g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- g9-20020a7bc4c9000000b003d214cffa4eso667506wmk.5
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:04:10 -0800 (PST)
+ us-mta-288-dv6XwU34OnegdEsmCnjUVw-1; Wed, 21 Dec 2022 08:04:18 -0500
+X-MC-Unique: dv6XwU34OnegdEsmCnjUVw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ hs18-20020a1709073e9200b007c0f9ac75f9so10440563ejc.9
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 05:04:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=urymiA2STJS2SXSntUtihzR7NcQe2r5dCkGS6hep0+Q=;
- b=QMyjb20QuVspK/yh2xUdyOqxpsFHnZ9pjNcVajSgn3nmdD7J1BTUjst6AshTPUbo5s
- mn6PyFmdjEE2g3hP5GeTb9TU2sZks0RTmqdvTyb8feP1mULM14u4OfvEY0j3W7v/+T9V
- agjURhVc2OiRN+nEW/tOqEY5jhtaIyr/HjC2+/ngq2Xo2VYSQg6MdKjw0yLHBATbJXOl
- sBghCVy8PUEJHxVYW/Y6+gY0ADOB8S99leFbAlmq79p6bvPDyc6dIFjRPEvcyOG9fqhR
- bDUuGsK6Ks2+ATp35MRSW0imUsMqxZiIPCw9X1Il0sJf20iXEf0wg1pLqO/Nq2Wk5T1W
- BdNQ==
-X-Gm-Message-State: AFqh2kq8Mem3AqleKemsLyW64IwRWqmrhqKLdmqOs6FRQStnMENP4+E0
- H64VNKsTStQ78XoHMPKm/ig4JT1y7Y41hWnjD4vKD9QFKlFUCvRSEeH9tWnw0inYaMHj4Vvv/po
- xgfYsM92GD9mBA2VnKnHJC6EY3JiTJTe1uUMWDTzqR6gfu6jM/9IVUe1iM8WI
-X-Received: by 2002:a5d:5c07:0:b0:242:3353:26f5 with SMTP id
- cc7-20020a5d5c07000000b00242335326f5mr1175927wrb.9.1671627846665; 
- Wed, 21 Dec 2022 05:04:06 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtATjTw86GLMDzIjvxZFeTDt5Go+pUNFLtlqQRoGQpsH3RVscBX4eJE8oD3NB7vH0dmc6/J4w==
-X-Received: by 2002:a5d:5c07:0:b0:242:3353:26f5 with SMTP id
- cc7-20020a5d5c07000000b00242335326f5mr1175900wrb.9.1671627846263; 
- Wed, 21 Dec 2022 05:04:06 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=estDuuS6eTISuM/8xP+V6EClOQT23mxmy/FNAfxSQac=;
+ b=O0xkg6n9+w59ZsIh4mXNDw69QH6Lx1zjuZj/Yc8n2PDww7jDEgr1nDXfle4QIhU3Qx
+ VYRNoMjx3zOag2b/999IU7mpaYd4m+7KyC4T/s44RZHimgPiP8fHGrjqqSFSD2d73zXb
+ x7Y8ZhApTdzIC8ENPuEFIigKFvwEplGI6eG6pEO7C/p13KN02THF0X7/0KRw1ypiS3Wa
+ 4XjTkJ49VYLvkhpgt7NTC2v1fkF9aTLNiU3d02pLgrGXj+1zhgsDUEaiZqMS1E+SEGCR
+ pxli860AWIPUejMVLYxisJJGyL501UXMxaesZX51CuMlNzQ8DVOS3jK+cmzypV1SJ7jG
+ LmhQ==
+X-Gm-Message-State: AFqh2krnw/XrkucFR1AeK/qfQWbTbQKDKhsr+8ivqs5dQ2j4RuAy5qcA
+ Nd+ERlku05+gAroW+wIuQUleX8hu3DKN2WdASHOY47pvE3tpmbnbGO3YDksLIpsBeXNDpdcQZTA
+ iMK0cOov3kTy9Se7gUbcoTGm9xC2uJlMSHo2phcpdzs4CBJfd4QDVoIFRzkr/
+X-Received: by 2002:aa7:d60e:0:b0:46c:edb5:afdf with SMTP id
+ c14-20020aa7d60e000000b0046cedb5afdfmr1362667edr.41.1671627853558; 
+ Wed, 21 Dec 2022 05:04:13 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs42xPR4QCkcwlNRrCAd6fwut5ifed9rb60UGBo/AGCd1dyLAwkU6bzsKLQ2F6oNuhD8hoJiw==
+X-Received: by 2002:aa7:d60e:0:b0:46c:edb5:afdf with SMTP id
+ c14-20020aa7d60e000000b0046cedb5afdfmr1362626edr.41.1671627853205; 
+ Wed, 21 Dec 2022 05:04:13 -0800 (PST)
 Received: from redhat.com ([2.52.8.61]) by smtp.gmail.com with ESMTPSA id
- p9-20020a5d4e09000000b00236c1f2cecesm17774990wrt.81.2022.12.21.05.04.02
+ q185-20020a1c43c2000000b003cff309807esm2243387wma.23.2022.12.21.05.04.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Dec 2022 05:04:03 -0800 (PST)
-Date: Wed, 21 Dec 2022 08:04:01 -0500
+ Wed, 21 Dec 2022 05:04:11 -0800 (PST)
+Date: Wed, 21 Dec 2022 08:04:06 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/41] virtio,pc,pci: features, cleanups, fixes
-Message-ID: <20221221130339.1234592-1-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Richard W . M . Jones" <rjones@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 01/41] hw/acpi: add trace events for TCO watchdog register
+ access
+Message-ID: <20221221130339.1234592-2-mst@redhat.com>
+References: <20221221130339.1234592-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221221130339.1234592-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,181 +102,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit c15dc499cc22f4a71639e42e36051e118761c25f:
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-  Merge tag 'pull-misc-20221218' of https://gitlab.com/rth7680/qemu into staging (2022-12-19 10:28:57 +0000)
+These tracepoints aid in understanding and debugging the guest drivers
+for the TCO watchdog.
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 87d67ffe4f7e4faad9fa5bc7129ca91d314677ed:
-
-  contrib/vhost-user-blk: Replace lseek64 with lseek (2022-12-21 07:32:24 -0500)
-
-----------------------------------------------------------------
-virtio,pc,pci: features, cleanups, fixes
-
-make TCO watchdog work by default
-part of generic vdpa support
-asid interrupt for vhost-vdpa
-added flex bus port DVSEC for cxl
-
-misc fixes, cleanups, documentation
-
+Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20221216125749.596075-2-berrange@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/acpi/tco.c        | 41 ++++++++++++++++++++++++++++-------------
+ hw/acpi/trace-events |  2 ++
+ 2 files changed, 30 insertions(+), 13 deletions(-)
 
-----------------------------------------------------------------
-Alex Bennée (1):
-      include/hw: attempt to document VirtIO feature variables
-
-Ani Sinha (3):
-      acpi/tests/avocado/bits: add SPDX license identifiers for bios bits tests
-      docs/acpi/bits: document BITS_DEBUG environment variable
-      acpi/tests/avocado/bits: add mformat as one of the dependencies
-
-Cornelia Huck (2):
-      hw: Add compat machines for 8.0
-      pc: clean up compat machines
-
-Daniel P. Berrangé (5):
-      hw/acpi: add trace events for TCO watchdog register access
-      hw/isa: add trace events for ICH9 LPC chip config access
-      hw/watchdog: add trace events for watchdog action handling
-      hw/isa: enable TCO watchdog reboot pin strap by default
-      ich9: honour 'enable_tco' property
-
-Eugenio Pérez (12):
-      vdpa: use v->shadow_vqs_enabled in vhost_vdpa_svqs_start & stop
-      vhost: set SVQ device call handler at SVQ start
-      vhost: allocate SVQ device file descriptors at device start
-      vhost: move iova_tree set to vhost_svq_start
-      vdpa: add vhost_vdpa_net_valid_svq_features
-      vdpa: request iova_range only once
-      vdpa: move SVQ vring features check to net/
-      vdpa: allocate SVQ array unconditionally
-      vdpa: add asid parameter to vhost_vdpa_dma_map/unmap
-      vdpa: store x-svq parameter in VhostVDPAState
-      vdpa: add shadow_data to vhost_vdpa
-      vdpa: always start CVQ in SVQ mode if possible
-
-Igor Mammedov (2):
-      remove DEC 21154 PCI bridge
-      pci: drop redundant PCIDeviceClass::is_bridge field
-
-Ira Weiny (1):
-      hw/cxl/device: Add Flex Bus Port DVSEC
-
-Jason Wang (1):
-      vhost: fix vq dirty bitmap syncing when vIOMMU is enabled
-
-Khem Raj (1):
-      contrib/vhost-user-blk: Replace lseek64 with lseek
-
-Longpeng (Mike) (4):
-      virtio: get class_id and pci device id by the virtio id
-      vdpa: add vdpa-dev support
-      vdpa: add vdpa-dev-pci support
-      vdpa-dev: mark the device as unmigratable
-
-Marcel Holtmann (1):
-      libvhost-user: Switch to unsigned int for inuse field in struct VuVirtq
-
-Philippe Mathieu-Daudé (7):
-      hw/acpi: Rename tco.c -> ich9_tco.c
-      hw/virtio: Add missing "hw/core/cpu.h" include
-      hw/virtio: Rename virtio_ss[] -> specific_virtio_ss[]
-      hw/virtio: Guard and restrict scope of qmp_virtio_feature_map_t[]
-      hw/virtio: Constify qmp_virtio_feature_map_t[]
-      hw/virtio: Extract config read/write accessors to virtio-config-io.c
-      hw/virtio: Extract QMP related code virtio-qmp.c
-
-Yajun Wu (1):
-      vhost-user: send set log base message only once
-
- hw/pci-bridge/dec.h                              |   9 -
- hw/virtio/vhost-shadow-virtqueue.h               |   5 +-
- hw/virtio/virtio-qmp.h                           |  20 +
- include/hw/acpi/ich9.h                           |   2 +-
- include/hw/acpi/{tco.h => ich9_tco.h}            |   2 +-
- include/hw/boards.h                              |   3 +
- include/hw/i386/pc.h                             |   3 +
- include/hw/pci/pci.h                             |  10 +-
- include/hw/pci/pci_bridge.h                      |   1 +
- include/hw/pci/pci_ids.h                         |   1 -
- include/hw/virtio/vdpa-dev.h                     |  43 ++
- include/hw/virtio/vhost-vdpa.h                   |  16 +-
- include/hw/virtio/vhost.h                        |  25 +-
- include/hw/virtio/virtio-pci.h                   |   5 +
- include/hw/virtio/virtio.h                       |  19 +-
- subprojects/libvhost-user/libvhost-user.h        |   2 +-
- contrib/vhost-user-blk/vhost-user-blk.c          |   4 +-
- hw/acpi/ich9.c                                   |   8 +-
- hw/acpi/{tco.c => ich9_tco.c}                    |  43 +-
- hw/acpi/pcihp.c                                  |   3 +-
- hw/arm/virt.c                                    |  11 +-
- hw/core/machine.c                                |   3 +
- hw/i386/acpi-build.c                             |   5 +-
- hw/i386/pc.c                                     |   5 +
- hw/i386/pc_piix.c                                |  41 +-
- hw/i386/pc_q35.c                                 |  29 +-
- hw/isa/lpc_ich9.c                                |   5 +-
- hw/m68k/virt.c                                   |  11 +-
- hw/mem/cxl_type3.c                               |  11 +
- hw/pci-bridge/cxl_downstream.c                   |   1 -
- hw/pci-bridge/cxl_upstream.c                     |   1 -
- hw/pci-bridge/dec.c                              | 164 -----
- hw/pci-bridge/i82801b11.c                        |   1 -
- hw/pci-bridge/pci_bridge_dev.c                   |   1 -
- hw/pci-bridge/pcie_pci_bridge.c                  |   1 -
- hw/pci-bridge/pcie_root_port.c                   |   1 -
- hw/pci-bridge/simba.c                            |   1 -
- hw/pci-bridge/xio3130_downstream.c               |   1 -
- hw/pci-bridge/xio3130_upstream.c                 |   1 -
- hw/pci-host/designware.c                         |   1 -
- hw/pci-host/uninorth.c                           |   9 +-
- hw/pci-host/xilinx-pcie.c                        |   1 -
- hw/pci/pci.c                                     |  20 +-
- hw/ppc/spapr.c                                   |  17 +-
- hw/ppc/spapr_pci.c                               |  15 +-
- hw/s390x/s390-virtio-ccw.c                       |  14 +-
- hw/virtio/vdpa-dev-pci.c                         | 102 +++
- hw/virtio/vdpa-dev.c                             | 377 +++++++++++
- hw/virtio/vhost-shadow-virtqueue.c               |  44 +-
- hw/virtio/vhost-user.c                           |   5 +
- hw/virtio/vhost-vdpa.c                           | 140 ++--
- hw/virtio/vhost.c                                |  84 ++-
- hw/virtio/virtio-config-io.c                     | 204 ++++++
- hw/virtio/virtio-pci.c                           |  88 +++
- hw/virtio/virtio-qmp.c                           | 659 +++++++++++++++++++
- hw/virtio/virtio.c                               | 798 +----------------------
- hw/watchdog/watchdog.c                           |   4 +
- net/vhost-vdpa.c                                 | 174 ++++-
- tests/qtest/tco-test.c                           |   4 +-
- MAINTAINERS                                      |   4 +-
- docs/devel/acpi-bits.rst                         |   3 +
- hw/acpi/meson.build                              |   2 +-
- hw/acpi/trace-events                             |   2 +
- hw/isa/trace-events                              |   4 +
- hw/pci-bridge/meson.build                        |   2 -
- hw/virtio/Kconfig                                |   5 +
- hw/virtio/meson.build                            |  44 +-
- hw/virtio/trace-events                           |   4 +-
- hw/watchdog/trace-events                         |   4 +
- tests/avocado/acpi-bits.py                       |   2 +-
- tests/avocado/acpi-bits/bits-tests/smbios.py2    |   4 +
- tests/avocado/acpi-bits/bits-tests/testacpi.py2  |   4 +
- tests/avocado/acpi-bits/bits-tests/testcpuid.py2 |   4 +
- 73 files changed, 2074 insertions(+), 1292 deletions(-)
- delete mode 100644 hw/pci-bridge/dec.h
- create mode 100644 hw/virtio/virtio-qmp.h
- rename include/hw/acpi/{tco.h => ich9_tco.h} (97%)
- create mode 100644 include/hw/virtio/vdpa-dev.h
- rename hw/acpi/{tco.c => ich9_tco.c} (91%)
- delete mode 100644 hw/pci-bridge/dec.c
- create mode 100644 hw/virtio/vdpa-dev-pci.c
- create mode 100644 hw/virtio/vdpa-dev.c
- create mode 100644 hw/virtio/virtio-config-io.c
- create mode 100644 hw/virtio/virtio-qmp.c
+diff --git a/hw/acpi/tco.c b/hw/acpi/tco.c
+index 4783721e4e..9ebd3e5e64 100644
+--- a/hw/acpi/tco.c
++++ b/hw/acpi/tco.c
+@@ -86,6 +86,7 @@ static inline int can_start_tco_timer(TCOIORegs *tr)
+ static uint32_t tco_ioport_readw(TCOIORegs *tr, uint32_t addr)
+ {
+     uint16_t rld;
++    uint32_t ret = 0;
+ 
+     switch (addr) {
+     case TCO_RLD:
+@@ -96,35 +97,49 @@ static uint32_t tco_ioport_readw(TCOIORegs *tr, uint32_t addr)
+         } else {
+             rld = tr->tco.rld;
+         }
+-        return rld;
++        ret = rld;
++        break;
+     case TCO_DAT_IN:
+-        return tr->tco.din;
++        ret = tr->tco.din;
++        break;
+     case TCO_DAT_OUT:
+-        return tr->tco.dout;
++        ret = tr->tco.dout;
++        break;
+     case TCO1_STS:
+-        return tr->tco.sts1;
++        ret = tr->tco.sts1;
++        break;
+     case TCO2_STS:
+-        return tr->tco.sts2;
++        ret = tr->tco.sts2;
++        break;
+     case TCO1_CNT:
+-        return tr->tco.cnt1;
++        ret = tr->tco.cnt1;
++        break;
+     case TCO2_CNT:
+-        return tr->tco.cnt2;
++        ret = tr->tco.cnt2;
++        break;
+     case TCO_MESSAGE1:
+-        return tr->tco.msg1;
++        ret = tr->tco.msg1;
++        break;
+     case TCO_MESSAGE2:
+-        return tr->tco.msg2;
++        ret = tr->tco.msg2;
++        break;
+     case TCO_WDCNT:
+-        return tr->tco.wdcnt;
++        ret = tr->tco.wdcnt;
++        break;
+     case TCO_TMR:
+-        return tr->tco.tmr;
++        ret = tr->tco.tmr;
++        break;
+     case SW_IRQ_GEN:
+-        return tr->sw_irq_gen;
++        ret = tr->sw_irq_gen;
++        break;
+     }
+-    return 0;
++    trace_tco_io_read(addr, ret);
++    return ret;
+ }
+ 
+ static void tco_ioport_writew(TCOIORegs *tr, uint32_t addr, uint32_t val)
+ {
++    trace_tco_io_write(addr, val);
+     switch (addr) {
+     case TCO_RLD:
+         tr->timeouts_no = 0;
+diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+index eb60b04f9b..78e0a8670e 100644
+--- a/hw/acpi/trace-events
++++ b/hw/acpi/trace-events
+@@ -55,6 +55,8 @@ piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64
+ # tco.c
+ tco_timer_reload(int ticks, int msec) "ticks=%d (%d ms)"
+ tco_timer_expired(int timeouts_no, bool strap, bool no_reboot) "timeouts_no=%d no_reboot=%d/%d"
++tco_io_write(uint64_t addr, uint32_t val) "addr=0x%" PRIx64 " val=0x%" PRIx32
++tco_io_read(uint64_t addr, uint32_t val) "addr=0x%" PRIx64 " val=0x%" PRIx32
+ 
+ # erst.c
+ acpi_erst_reg_write(uint64_t addr, uint64_t val, unsigned size) "addr: 0x%04" PRIx64 " <== 0x%016" PRIx64 " (size: %u)"
+-- 
+MST
 
 
