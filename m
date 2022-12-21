@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5013A65341C
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 17:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A22653421
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 17:35:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p821O-0001zW-CR; Wed, 21 Dec 2022 11:32:46 -0500
+	id 1p823C-00035L-D2; Wed, 21 Dec 2022 11:34:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p821M-0001zF-Ts
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:32:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1p821K-0003XW-Qw
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:32:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671640361;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=CDFEEXfN7oLMVC+N/Zr4BgD3O0IxzimUCUkan9DGGsg=;
- b=bBa3d2wmZtHaa3LkX3zMGs1kjrtpqchtGq8ZYSfr1dZR0Qdk7dd8gflI490RMpzWZa8U/g
- rfHBpKgerFYoP7m+qsdjz910NK3LCh9pQElTLM1UORRxluPH6PPpTG+R7HbCNqe7kTOsc5
- gTXlQNjfOQlnblPbHj7f+EFRn4Ukau0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-150-uhEWZzkrM3e-WHb-wMptMQ-1; Wed, 21 Dec 2022 11:32:37 -0500
-X-MC-Unique: uhEWZzkrM3e-WHb-wMptMQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5074B80D0E1;
- Wed, 21 Dec 2022 16:32:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A2CA492C14;
- Wed, 21 Dec 2022 16:32:35 +0000 (UTC)
-Date: Wed, 21 Dec 2022 16:32:22 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: James Bottomley <jejb@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, Stefan Berger <stefanb@linux.ibm.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 1/2] tpm: convert tpmdev options processing to new
- visitor format
-Message-ID: <Y6M1FkKxnRv1Ev3I@redhat.com>
-References: <20221219131344.18909-1-jejb@linux.ibm.com>
- <20221219131344.18909-2-jejb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p8239-00034C-V6
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:34:35 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p8238-0003l2-GB
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 11:34:35 -0500
+Received: by mail-wm1-x334.google.com with SMTP id ja17so11541140wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 08:34:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ztUkTOonrWZYhYPwQNXcCqqDgNvYBsDBRrTMrlpbbYg=;
+ b=h8DHTio/VC4F/gQfHZo9PvpzJG88Y+eMFv128sBML3514lGgVGfGMbRwPoSVIyhvkw
+ 1ga4ClPxsrP1FIYzl1uCGw/GTKxZzBWPFNaFnMIQ1tnbgKj8v0d23sHTMMPWWmLdsymf
+ n1jhydKTPpTyIcwq51Hdd4dXLW82XXhpyVVNvlMRg/3B3pRCE6JKKLc4nIhaB1ULSAdm
+ NmXMgt8SyKStlSp1wpQzcpkS6CRPoTuBfjBcBzF9cff3MKTSLqQKSy4LULVD6j/mkXds
+ zMBGtXcaJ2eyxYsiafimW4/5UoMICN3sWRgFw4FTKGYKZeihmanMFQCW4H3V6qK1+xBW
+ qw+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ztUkTOonrWZYhYPwQNXcCqqDgNvYBsDBRrTMrlpbbYg=;
+ b=JGajEfzz/McnpzhMmDA7ePrOGCfoWAoV+Xgq4ebRn9EXwzSGQbhWFYXnwBILbgeJRm
+ ADNZgQgMvDyMdqTL5K8NbYiWjiDYAX0i2c7jcBbccvo8BPdk72ZaFTwEpYIhnd8F6Z0E
+ I4aJP52nz3GqloJXDM2sq8/83gl9SDYcfr+AwwVqDYgLgiH4epXpXEc8n+Qfwr8YCnKX
+ C9/88fB3mhJp4fizjRn5nE75M2IcE9qBWefvFdmQpMzLlq6E0zS3+m9qb0vxLg2DbZtM
+ PcswYt+EW7aGkAB3ZxOkjI1OCK8QX65E2PenxCHeoVLQny1B0ug6F1B/yHNeimVbp9Ty
+ c4bA==
+X-Gm-Message-State: AFqh2kooNHAch0qex+2qF8Xkfvi3y8fbiK9toKxpl7a9pPgid/Kq4mkY
+ jjITdcdiDEqS+PSueNrhtcpm5g==
+X-Google-Smtp-Source: AMrXdXsa2lGgf8lExYi2So+PwO5x51HoYghYKCfUBl1/lEfNlnDOnxGoMv8XnOt9UFGiNDrYDfGTOw==
+X-Received: by 2002:a05:600c:3d98:b0:3cf:d70d:d5a8 with SMTP id
+ bi24-20020a05600c3d9800b003cfd70dd5a8mr2255188wmb.6.1671640472318; 
+ Wed, 21 Dec 2022 08:34:32 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ r64-20020a1c4443000000b003d1e4120700sm3259523wma.41.2022.12.21.08.34.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Dec 2022 08:34:31 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 23EFC1FFB7;
+ Wed, 21 Dec 2022 16:34:31 +0000 (GMT)
+References: <20221221132310.1485715-1-clg@kaod.org>
+User-agent: mu4e 1.9.7; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Marcel Apfelbaum
+ <marcel@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/core/loader: Remove declarations of
+ option_rom_has_mr/rom_file_has_mr
+Date: Wed, 21 Dec 2022 16:34:26 +0000
+In-reply-to: <20221221132310.1485715-1-clg@kaod.org>
+Message-ID: <87pmccyauh.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221219131344.18909-2-jejb@linux.ibm.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,96 +92,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 19, 2022 at 08:13:43AM -0500, James Bottomley wrote:
-> From: James Bottomley <James.Bottomley@HansenPartnership.com>
-> 
-> Instead of processing the tpmdev options using the old qemu options,
-> convert to the new visitor format which also allows the passing of
-> json on the command line.
-> 
-> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
-> ---
->  backends/tpm/tpm_emulator.c    | 35 ++++++-------
->  backends/tpm/tpm_passthrough.c | 37 +++++---------
->  include/sysemu/tpm.h           |  4 +-
->  include/sysemu/tpm_backend.h   |  2 +-
->  monitor/hmp-cmds.c             |  4 +-
->  qapi/tpm.json                  | 26 ++--------
->  softmmu/tpm.c                  | 90 ++++++++++++++--------------------
->  softmmu/vl.c                   | 19 +------
->  8 files changed, 73 insertions(+), 144 deletions(-)
-> 
 
-> diff --git a/qapi/tpm.json b/qapi/tpm.json
-> index 4e2ea9756a..d8cbd5ea0e 100644
-> --- a/qapi/tpm.json
-> +++ b/qapi/tpm.json
-> @@ -99,39 +99,23 @@
->  { 'struct': 'TPMEmulatorOptions', 'data': { 'chardev' : 'str' },
->    'if': 'CONFIG_TPM' }
->  
-> -##
-> -# @TPMPassthroughOptionsWrapper:
-> -#
-> -# Since: 1.5
-> -##
-> -{ 'struct': 'TPMPassthroughOptionsWrapper',
-> -  'data': { 'data': 'TPMPassthroughOptions' },
-> -  'if': 'CONFIG_TPM' }
-> -
-> -##
-> -# @TPMEmulatorOptionsWrapper:
-> -#
-> -# Since: 2.11
-> -##
-> -{ 'struct': 'TPMEmulatorOptionsWrapper',
-> -  'data': { 'data': 'TPMEmulatorOptions' },
-> -  'if': 'CONFIG_TPM' }
-> -
->  ##
->  # @TpmTypeOptions:
->  #
->  # A union referencing different TPM backend types' configuration options
->  #
-> +# @id: identifier of the backend
->  # @type: - 'passthrough' The configuration options for the TPM passthrough type
->  #        - 'emulator' The configuration options for TPM emulator backend type
->  #
->  # Since: 1.5
->  ##
->  { 'union': 'TpmTypeOptions',
-> -  'base': { 'type': 'TpmType' },
-> +  'base': { 'type': 'TpmType',
-> +            'id': 'str' },
->    'discriminator': 'type',
-> -  'data': { 'passthrough' : 'TPMPassthroughOptionsWrapper',
-> -            'emulator': 'TPMEmulatorOptionsWrapper' },
-> +  'data': { 'passthrough' : 'TPMPassthroughOptions',
-> +            'emulator': 'TPMEmulatorOptions' },
->    'if': 'CONFIG_TPM' }
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
-This isn't a valid change todo, as it affects the public facing
-data structure for the  query-tpm command.
+> These globals were moved to MachineClass by commit 71ae9e94d9 ("pc: Move
+> option_rom_has_mr/rom_file_has_mr globals to MachineClass"). Finish clean=
+up.
+>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Marcel Apfelbaum <marcel@redhat.com>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-I understand why you're doing it though, to get rid fo the
-extra nesting, which is a hangover from earlier QAPI days
-where we couldn't cope with flat unions.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Instead of changing TpmTypeOptions, you'll need to introduce
-a new TpmTypeCreateOptions that eliminates the wrapping, and
-use that in the CLI creation path, leaving the query-tpm
-command unchanged.
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
