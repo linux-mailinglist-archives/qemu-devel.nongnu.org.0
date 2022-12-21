@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61EE1652AB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:01:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 866CA652AB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Dec 2022 02:01:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p7nTI-0000By-OI; Tue, 20 Dec 2022 20:00:36 -0500
+	id 1p7nUF-0000Yj-Ni; Tue, 20 Dec 2022 20:01:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7nTH-0000Bp-QU
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:00:35 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1p7nTy-0000Ws-Eh
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:01:25 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p7nTG-00036j-7k
- for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:00:35 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- q17-20020a17090aa01100b002194cba32e9so561196pjp.1
- for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 17:00:33 -0800 (PST)
+ id 1p7nTw-0003Bw-T5
+ for qemu-devel@nongnu.org; Tue, 20 Dec 2022 20:01:18 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ o8-20020a17090a9f8800b00223de0364beso533826pjp.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Dec 2022 17:01:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WyekTRW+97ltxUXOINXM2jx9fnDKNYTKA/E4fwTFN+Y=;
- b=o91XmJU8U1B+QMX/D6mOem543OTrZVUnlUuM3eN/vxfdgcaEuziETw+Qz1uE8zWzqI
- ir0tDE2YZfHOEqyDr2ku98ZQpwVH9liu84IpI0de6WiLnJzPhwuOUjCZWTi5xfW+fKEh
- 1gVph+LJmhRvtR46wNNOTiA3nGv2WzFzZnos8Xd8cbtWBiJT76ft4MtNXF0AS0vdfpqU
- JU/lvgNTilAOMMPX8Z8VM0zHElKA3z96gmhn1bzxPX+4mbw83EfUo8Q/EmlYnKlhnFxp
- p2cGsz5NjHhTb+eKNPIqV9qozmYv4XqFA9OYKCQU9P+CFtLjVbX+0O77jOcG9EjRgJNb
- DfBQ==
+ bh=5uW3tnCiJw3pKNnYKXDQcQQmEbifJEXNiStUaj8SpuA=;
+ b=mCuzBRTEUi9TpjanlmmbBbyxl/vimfhn0H15FXJtGw1fEWOzwCCCsQpdvI8Lk2kU+k
+ ID01Om1KbKI59YrRSzkD1QfnJdtxKRHMjb4vLg4/gCc8870ThmZEzjFun6QXH4S9wLKr
+ UoWRaUGqL+Gi/Sc6Kh+t09v+ZHtINBiMiZ7ltijCFXTNmMRmsGNzdClxoNWYqaYBDXiS
+ JzAnnJHzST0umDNJnIVHAYQqejKal90rXRYk7HX7EqlHi7MA1sO+Rjnb1Iq8IcLbupZW
+ MuyF03CtVR/eL2aQP8ILs0PM6v/4qI2u1Tea/VcAXwJLSlU67FQGEn7XQe6Jozz1xSGD
+ FIMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WyekTRW+97ltxUXOINXM2jx9fnDKNYTKA/E4fwTFN+Y=;
- b=R4NebN5QJ/BfWrtb6UvOSDswPGWqWxRVl9jJoYgrhcDoSo/lpwofBNC3YshX5CzIWE
- Km4jursiI8+D2GcGlPAZGqDprdDa4gUuX/OJYa7V/5dsbQWIjExKOqFusPtzYcPTDHkY
- AjseGQtiqUAwbpCXSSNbHEFyErE3tEhf2kCoxUXLDJpxZm7D0M3v7s69Yw4cklIrjXBk
- EOq56wtF08XtpPw8wNxL+ObQIrBtTXevZ3F6lex7rCT6nBU6P1qI0rJPhvGtnRwAlZZv
- 1l/DxptU8zwwtoiONY6WM/uXfdDk4xtvGNAfAQr2VYJAF1Jh5+IROYZPEPaWrg3Rfdht
- vXAg==
-X-Gm-Message-State: AFqh2krS9sfIVTI7XRAT+wVk9MPUgah0PA8MrVmZ3dQ1FZ2hX9z+gs0f
- 5FxUqDx68RjEK4W8TMXatsAKzQ==
-X-Google-Smtp-Source: AMrXdXtBCku6gtSpqLmtCyvDjqOaoY4DNC1U3uBvJ42E/63fVPl9fQ0AqzJAe5hx+yTnrXjNkbbTAw==
-X-Received: by 2002:a17:902:c401:b0:189:ba1f:b168 with SMTP id
- k1-20020a170902c40100b00189ba1fb168mr176284plk.1.1671584432519; 
- Tue, 20 Dec 2022 17:00:32 -0800 (PST)
+ bh=5uW3tnCiJw3pKNnYKXDQcQQmEbifJEXNiStUaj8SpuA=;
+ b=HftqSLnRJ+akiyRW5tw7HKEIqZ00LR/Lr87tx/mWbdOFk1tj0YvX5HnOPexeSQKzXH
+ 6nvTINFaNpbT3Ybxa0eSRT8C3gaFGcicmZelz/FS2mK4nG3N3wFEtKnOl6VOTw5S1V/s
+ 85ijGtS7eZrnL3TgrOZ1LZFhsKSW2C4jleb7GBf6AThVryHSb7rsfrdLrYYLBHodGzq8
+ wC90iyxssm4o0WKQE0534RmXasTdAUCChw5CNfVGcNMvAOCjRCaxDDCXvyawKgaWIk8Z
+ ngjmgaFTP62Bb4BrawM5tjbQ+1+vLoRaSM68hnqAuUbr++cwRpDyxkN7223g85NWnJKq
+ U6CQ==
+X-Gm-Message-State: AFqh2krR23aZVyNbgwuOTuQ/jP40AWDELSHQfNAD3PWHs5GCpQBYyNif
+ aYxRtJGns3RxIo7g0T+xRAzfQTWsO0l+bqTL
+X-Google-Smtp-Source: AMrXdXsm6GFIirtvi5BBdkeEsMFPUS1Zpr7869vduFyPn0s1gvMg7p7IqGG4OJ8Q90Vpaus4Lcx1kg==
+X-Received: by 2002:a17:90a:46c7:b0:223:a07e:1f9d with SMTP id
+ x7-20020a17090a46c700b00223a07e1f9dmr122010pjg.21.1671584475446; 
+ Tue, 20 Dec 2022 17:01:15 -0800 (PST)
 Received: from ?IPV6:2602:47:d48c:8101:3efa:624c:5fb:32c0?
  ([2602:47:d48c:8101:3efa:624c:5fb:32c0])
  by smtp.gmail.com with ESMTPSA id
- l4-20020a656804000000b004792b557b1csm9013133pgt.87.2022.12.20.17.00.31
+ ie20-20020a17090b401400b00213c7cf21c0sm165137pjb.5.2022.12.20.17.01.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Dec 2022 17:00:31 -0800 (PST)
-Message-ID: <ca7c39b0-c3d1-2993-b1cc-b4550c674440@linaro.org>
-Date: Tue, 20 Dec 2022 17:00:30 -0800
+ Tue, 20 Dec 2022 17:01:14 -0800 (PST)
+Message-ID: <71580657-0598-fef4-3b8f-fc0db0c06c0f@linaro.org>
+Date: Tue, 20 Dec 2022 17:01:13 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 1/3] hw/input/tsc2xxx: Constify set_transform()'s
- MouseTransformInfo arg
+Subject: Re: [PATCH 2/3] hw/arm/nseries: Constify various read-only arrays
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 References: <20221220142520.24094-1-philmd@linaro.org>
- <20221220142520.24094-2-philmd@linaro.org>
+ <20221220142520.24094-3-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221220142520.24094-2-philmd@linaro.org>
+In-Reply-To: <20221220142520.24094-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -98,14 +97,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/20/22 06:25, Philippe Mathieu-Daudé wrote:
-> The pointed MouseTransformInfo structure is accessed read-only.
-> 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   hw/input/tsc2005.c         | 2 +-
->   hw/input/tsc210x.c         | 3 +--
->   include/hw/input/tsc2xxx.h | 4 ++--
->   3 files changed, 4 insertions(+), 5 deletions(-)
+>   hw/arm/nseries.c | 18 +++++++++---------
+>   1 file changed, 9 insertions(+), 9 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
