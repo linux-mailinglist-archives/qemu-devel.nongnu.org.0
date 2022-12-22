@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66F6654817
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB10654813
 	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 22:57:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8TYQ-0006GU-I0; Thu, 22 Dec 2022 16:56:42 -0500
+	id 1p8TYa-0006JV-8m; Thu, 22 Dec 2022 16:56:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8TYO-0006Eu-Mg
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 16:56:40 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8TYY-0006J8-J0
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 16:56:50 -0500
 Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8TYM-0007BZ-UK
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 16:56:40 -0500
-Received: by mail-ej1-x629.google.com with SMTP id x22so7916808ejs.11
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 13:56:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8TYW-0007BZ-VC
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 16:56:50 -0500
+Received: by mail-ej1-x629.google.com with SMTP id x22so7917543ejs.11
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 13:56:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tY6SKki/uWVAIv0MsBbw55az0oWSvt0PY3G9FmsSaas=;
- b=dL2p6foofY2Hh8ZXBKcxBNbv/lgbNEFe5cLgSUrKSUL+jWtf1wanV1AMKwCRFciuJa
- xIooGOS3YkjLkhuit47Mn5MbWS5t3Gducg7evlcKxWBkrhN76QWacmDIZmIlLXYvm7qx
- SyxOTaumiunB9eCKnaAkO+jHD5r7UQRRkrmFxgpDS3cBCebveK5sjIgtkk7iJtW3roKl
- T2J5nZh9xPTzhnyW/q2vQfs/lqb4A91T00B/8JIRDmVo8Ya365bwU/dN4Zt5lO8hlUMj
- 0dM3DrIkHCTqCds2lywM8cCGc50ct5xYEz2qOCErERNvUR4Z8YAW/UIIhwl7QMSskyM8
- thCg==
+ bh=eJ7KNsaeAIcuwibRTmPK9N9xgsftdW4nEKhohT2Tqnw=;
+ b=iEJLpHzxwaMTP58pZ88b0id+U1wBqsANL8xy71bWCVFNFM5kcDG3ZdVXfazrcPtyX/
+ ixcgwz+TC0oP0uRW97t/ytQ+1XJdlDOFCwuC/hjbSiIu/IMX9NUMtXef0b+/rjzN6iaG
+ wsFz61/5/GT/yfanAI+qySmtDVLSMasDNPux5GBjDmQ3RamY1zvRJ5gDjKuoEN8BaIGg
+ /hqnFlGpvU+xN5E/MOOZj0aavFIXbWtp9CcjTT5txDXZp+mVNxK/cIYN0FXI4s3UDx6s
+ lX32iIwQD3rrfo/yVo0IAAOTWfhwD8XXnC5Rc1ZGXNyIEFKN+xvaZwWcLT4b85wIxC/F
+ cJkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tY6SKki/uWVAIv0MsBbw55az0oWSvt0PY3G9FmsSaas=;
- b=EL1xUyHVHGV/qwbMgBP8JOxaHBx3ufRqG16drb/6yzzuOEOMtifRVkaPtFTZgqTfXb
- aAEAPb3vzJJp6GkpG7JONIDkkHBYYARj/Kn1n2Vdmjm36fJwwZ5Tk7f/p6DpZ3JNAe4R
- fp3lFJqsJhXPQZBzb7Hv5D95Iak0wsXevrmr1pJ5PsZNRHsvT+5tjw6QGPVomNQLkHK/
- vMGIIpyC6jCLrZpMuIQFrfptOHzYZv4vDxngRxfmbC3CT9QBgQUoiylNfmptJ6UZqIit
- Yr+dnRepdNeK7hqzYqSUuLyD1C1SYEgv2k8nPjcg7TW/hnhMh4yLQGPkYQYXHC6vbmtM
- 74mw==
-X-Gm-Message-State: AFqh2krmGFTM1p4jfWFUeEC8y6ef9ifA/cfy5Nl0zQd+oqFiUQ0tVA2Z
- chGkwuUX+ErAILaj4zCj3nEaMVo+94R6UebeTUQ=
-X-Google-Smtp-Source: AMrXdXtHMU7gQ8Ru7YY8/bkUVTK46FlRiW6635DDWvaACMvDiMLjDtB//vZufnjG6WdCU78F4x66CQ==
-X-Received: by 2002:a17:907:9a98:b0:7c1:d4c:f08c with SMTP id
- km24-20020a1709079a9800b007c10d4cf08cmr5506851ejc.4.1671746197418; 
- Thu, 22 Dec 2022 13:56:37 -0800 (PST)
+ bh=eJ7KNsaeAIcuwibRTmPK9N9xgsftdW4nEKhohT2Tqnw=;
+ b=NeqxxRzBShtfHObof87ByPCK3YWDPijfjyHkBycWXy+apEFzqvW++THhJJRiQVbZSl
+ TPscShFagaZpaGmHkvCJ71JtgpKWDbif5VZiqJXyOUCOgcqp1BZk68OVrWNpGuqaMrMe
+ LG/od5dX5wJ9pF9d+xAg/lgNTTQbdU5IU7H4NdGG8mCemweh+n2UyK5cJt6pmHAMqV8w
+ jpQTVMyp95MvxLj8UCTSfbsgxw4QJHlqnQMWSJcUXlQPR5uCdwhYiSFik/mTGeDnxxm5
+ tHT/y1FhPVpz4nki3oqUO2IaHWLSth1sEag++OZUl3d2EhrPndkdD++XeB9cCteUXgyx
+ FtGw==
+X-Gm-Message-State: AFqh2kpaa8VjsXpqPnO/j5SIZLkNsJv+6ar7uRqJR+qxycxFgCHD8q+g
+ A2jvZpbHKpyeZNGoa2s0Ps5v2gbDWYIzW0MLE6M=
+X-Google-Smtp-Source: AMrXdXtuss5o08KxNpb5nby1BGvCG90E3B43FCMc4TXwkj2/xqgItww1hPCW2i/2MjMOMUbEN/UOxw==
+X-Received: by 2002:a17:907:c28f:b0:7c1:eb:b2a7 with SMTP id
+ tk15-20020a170907c28f00b007c100ebb2a7mr9430560ejc.13.1671746208107; 
+ Thu, 22 Dec 2022 13:56:48 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- v6-20020a1709062f0600b007933047f923sm646867eji.118.2022.12.22.13.56.31
+ s22-20020aa7cb16000000b00457b5ba968csm788692edt.27.2022.12.22.13.56.45
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 22 Dec 2022 13:56:37 -0800 (PST)
+ Thu, 22 Dec 2022 13:56:47 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Andrew Jeffery <andrew@aj.id.au>,
@@ -63,10 +63,10 @@ Cc: Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
  Tyrone Ting <kfting@nuvoton.com>
-Subject: [PATCH 4/6] hw/arm/npcm7xx: Remove tswap32() calls and constify
+Subject: [PATCH 5/6] hw/arm/xilinx_zynq: Remove tswap32() calls and constify
  smpboot[]
-Date: Thu, 22 Dec 2022 22:55:47 +0100
-Message-Id: <20221222215549.86872-5-philmd@linaro.org>
+Date: Thu, 22 Dec 2022 22:55:48 +0100
+Message-Id: <20221222215549.86872-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221222215549.86872-1-philmd@linaro.org>
 References: <20221222215549.86872-1-philmd@linaro.org>
@@ -123,81 +123,62 @@ for the dubious tswap().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
-Note there is still a tswap() call in npcm7xx_init_fuses()
----
- hw/arm/npcm7xx.c | 49 ++++++++++++++++++++----------------------------
- 1 file changed, 20 insertions(+), 29 deletions(-)
+ hw/arm/xilinx_zynq.c | 27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
 
-diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-index d85cc02765..2976192731 100644
---- a/hw/arm/npcm7xx.c
-+++ b/hw/arm/npcm7xx.c
-@@ -291,22 +291,18 @@ static const struct {
- static void npcm7xx_write_board_setup(ARMCPU *cpu,
-                                       const struct arm_boot_info *info)
- {
--    uint32_t board_setup[] = {
--        0xe59f0010,     /* ldr r0, clk_base_addr */
--        0xe59f1010,     /* ldr r1, pllcon1_value */
--        0xe5801010,     /* str r1, [r0, #16] */
--        0xe59f100c,     /* ldr r1, clksel_value */
--        0xe5801004,     /* str r1, [r0, #4] */
--        0xe12fff1e,     /* bx lr */
--        NPCM7XX_CLK_BA,
--        NPCM7XX_PLLCON1_FIXUP_VAL,
--        NPCM7XX_CLKSEL_FIXUP_VAL,
-+    static const uint32_t board_setup[] = {
-+        const_le32(0xe59f0010),     /* ldr r0, clk_base_addr */
-+        const_le32(0xe59f1010),     /* ldr r1, pllcon1_value */
-+        const_le32(0xe5801010),     /* str r1, [r0, #16] */
-+        const_le32(0xe59f100c),     /* ldr r1, clksel_value */
-+        const_le32(0xe5801004),     /* str r1, [r0, #4] */
-+        const_le32(0xe12fff1e),     /* bx lr */
-+        const_le32(NPCM7XX_CLK_BA),
-+        const_le32(NPCM7XX_PLLCON1_FIXUP_VAL),
-+        const_le32(NPCM7XX_CLKSEL_FIXUP_VAL),
-     };
--    int i;
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index 3190cc0b8d..4316143b71 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -71,6 +71,11 @@ static const int dma_irqs[8] = {
  
--    for (i = 0; i < ARRAY_SIZE(board_setup); i++) {
--        board_setup[i] = tswap32(board_setup[i]);
--    }
-     rom_add_blob_fixed("board-setup", board_setup, sizeof(board_setup),
-                        info->board_setup_addr);
- }
-@@ -321,22 +317,17 @@ static void npcm7xx_write_secondary_boot(ARMCPU *cpu,
-      * we need to provide our own smpboot stub that can not use 'wfi', it has
-      * to spin the secondary CPU until the first CPU writes to the SCRPAD reg.
-      */
--    uint32_t smpboot[] = {
--        0xe59f2018,     /* ldr r2, bootreg_addr */
--        0xe3a00000,     /* mov r0, #0 */
--        0xe5820000,     /* str r0, [r2] */
--        0xe320f002,     /* wfe */
--        0xe5921000,     /* ldr r1, [r2] */
--        0xe1110001,     /* tst r1, r1 */
--        0x0afffffb,     /* beq <wfe> */
--        0xe12fff11,     /* bx r1 */
--        NPCM7XX_SMP_BOOTREG_ADDR,
-+    static const uint32_t smpboot[] = {
-+        const_le32(0xe59f2018),             /* ldr r2, bootreg_addr */
-+        const_le32(0xe3a00000),             /* mov r0, #0 */
-+        const_le32(0xe5820000),             /* str r0, [r2] */
-+        const_le32(0xe320f002),             /* wfe */
-+        const_le32(0xe5921000),             /* ldr r1, [r2] */
-+        const_le32(0xe1110001),             /* tst r1, r1 */
-+        const_le32(0x0afffffb),             /* beq <wfe> */
-+        const_le32(0xe12fff11),             /* bx r1 */
-+        const_le32(NPCM7XX_SMP_BOOTREG_ADDR),
-     };
--    int i;
+ #define ZYNQ_SDHCI_CAPABILITIES 0x69ec0080  /* Datasheet: UG585 (v1.12.1) */
+ 
++struct ZynqMachineState {
++    MachineState parent;
++    Clock *ps_clk;
++};
++
+ #define ARMV7_IMM16(x) (extract32((x),  0, 12) | \
+                         extract32((x), 12,  4) << 16)
+ 
+@@ -79,29 +84,21 @@ static const int dma_irqs[8] = {
+  */
+ 
+ #define SLCR_WRITE(addr, val) \
+-    0xe3001000 + ARMV7_IMM16(extract32((val),  0, 16)), /* movw r1 ... */ \
+-    0xe3401000 + ARMV7_IMM16(extract32((val), 16, 16)), /* movt r1 ... */ \
+-    0xe5801000 + (addr)
 -
--    for (i = 0; i < ARRAY_SIZE(smpboot); i++) {
--        smpboot[i] = tswap32(smpboot[i]);
--    }
+-struct ZynqMachineState {
+-    MachineState parent;
+-    Clock *ps_clk;
+-};
++    cpu_to_le32(0xe3001000 + ARMV7_IMM16(extract32((val),  0, 16))), /* movw r1 ... */ \
++    cpu_to_le32(0xe3401000 + ARMV7_IMM16(extract32((val), 16, 16))), /* movt r1 ... */ \
++    const_le32(0xe5801000 + (addr))
  
-     rom_add_blob_fixed("smpboot", smpboot, sizeof(smpboot),
-                        NPCM7XX_SMP_LOADER_START);
+ static void zynq_write_board_setup(ARMCPU *cpu,
+                                    const struct arm_boot_info *info)
+ {
+-    int n;
+-    uint32_t board_setup_blob[] = {
+-        0xe3a004f8, /* mov r0, #0xf8000000 */
++    const uint32_t board_setup_blob[] = {
++        const_le32(0xe3a004f8),         /* mov r0, #0xf8000000 */
+         SLCR_WRITE(SLCR_UNLOCK_OFFSET, SLCR_XILINX_UNLOCK_KEY),
+         SLCR_WRITE(SLCR_ARM_PLL_OFFSET, 0x00014008),
+         SLCR_WRITE(SLCR_LOCK_OFFSET, SLCR_XILINX_LOCK_KEY),
+-        0xe12fff1e, /* bx lr */
++        const_le32(0xe12fff1e)          /* bx lr */
+     };
+-    for (n = 0; n < ARRAY_SIZE(board_setup_blob); n++) {
+-        board_setup_blob[n] = tswap32(board_setup_blob[n]);
+-    }
++
+     rom_add_blob_fixed("board-setup", board_setup_blob,
+                        sizeof(board_setup_blob), BOARD_SETUP_ADDR);
+ }
 -- 
 2.38.1
 
