@@ -2,95 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8D56543F9
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C5F6543F7
 	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 16:10:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8NBl-00017e-Ec; Thu, 22 Dec 2022 10:08:53 -0500
+	id 1p8NCh-0001WZ-6X; Thu, 22 Dec 2022 10:09:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1p8NBh-00017R-HR
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 10:08:49 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ id 1p8NCa-0001UY-2g
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 10:09:44 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1p8NBf-00060P-Kl
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 10:08:49 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BMF8Bir009411
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 15:08:29 GMT
+ id 1p8NCY-00066U-DN
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 10:09:43 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BMF7ujK022202
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 15:09:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=ycz56TspCEbYiNvHVwk7Wc5zjSmD263s8wOAi65t2OA=;
- b=KdDf9GzGm1o1NSWNMewXI5+bNT2RX6R4RY/0lXQY8FrjykO0xKBC5/ZHoF5i+hdb8QBq
- 9lSx+tYrPXGht/U0VGR0gAqpMTOW5GG827NJH1XcfXcUXLs5HehIRRuZ3Z/kDqS5A6yy
- AIrOiUCb9dcoVac5mPwtiBPqU2uuW9zB79dhWffRBh6E+vfE71eJ41ahyL0YL5MtzFQ+
- wJlq63QJ+GYESshMETWqB0ULgzdqstyAMK6k95V8AW8LtpC1X5ldhP0TMZD+ffpzaOQy
- xrmFswi/dy3Q3cU1gWpEl9/5kLb6tSLBYEXOYOJUii3x874r4vYpB3VF4cYIbMr/CLaH Qw== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=w8kYYf1Wb1w9srg5wiZ4mB3fdBgYLcLpeeaQFfVJTMY=;
+ b=eqSnorpC3Mkupl0+ekzQrdXmIMzCbR3xtgpvFQyMysPJLvYmFoWdJZ1vSYta+fdDtBWR
+ WHmMNihsW/soBQMT9p8jcSTJqg/N6VGT3Ior6bVsXnQYvO9h4Nc+hLT2li9FS6Oqa1h+
+ TjwF/aX+LJZfTOK5Ux3ASYxRsStbKStI+ShfsNXm5lbpV/NNZGw4T9ilq3gGWetRQzo+
+ KZSOMn46Cqxn3DQoXJRF205YG0ua7WdmjKh+Hgnto2IQxXEicRI3I3XttA7QPqJ6VKBd
+ Ab1T07Xml5Oqlhw3/+Pamxkxlfnm57J6XMQ98mXTXafXrBp6f4RaHsdzKInuRMRakt4Q 0A== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mms5p8k8h-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mmru5hus3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 15:08:27 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BMF8B2D009427
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 15:08:11 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mms5p8jnp-1
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 15:09:38 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BMF8DY7023832
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 15:09:37 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mmru5hub9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Dec 2022 15:08:11 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BMDBjDU014025;
- Thu, 22 Dec 2022 15:04:25 GMT
+ Thu, 22 Dec 2022 15:09:37 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BM4mMfB000918;
+ Thu, 22 Dec 2022 15:04:26 GMT
 Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3mh6yw77ux-1
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3mh6ywq75j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 22 Dec 2022 15:04:25 +0000
+ Thu, 22 Dec 2022 15:04:26 +0000
 Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
  [10.20.54.100])
  by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BMF4MgW23462524
+ 2BMF4MRG14614908
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 22 Dec 2022 15:04:22 GMT
+ Thu, 22 Dec 2022 15:04:23 GMT
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4F43920043;
+ by IMSVA (Postfix) with ESMTP id E33C42004F;
  Thu, 22 Dec 2022 15:04:22 +0000 (GMT)
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C58502004E;
- Thu, 22 Dec 2022 15:04:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 63A1320049;
+ Thu, 22 Dec 2022 15:04:22 +0000 (GMT)
 Received: from p-imbrenda.ibmuc.com (unknown [9.171.22.213])
  by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 22 Dec 2022 15:04:21 +0000 (GMT)
+ Thu, 22 Dec 2022 15:04:22 +0000 (GMT)
 From: Claudio Imbrenda <imbrenda@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: david@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com,
  frankja@linux.ibm.com, pasic@linux.ibm.com, nrb@linux.ibm.com,
  nsg@linux.ibm.com, seiden@linux.ibm.com
-Subject: [PATCH v1 0/2] s390x/pv: Add support for asynchronous teardown for
- reboot
-Date: Thu, 22 Dec 2022 16:04:19 +0100
-Message-Id: <20221222150421.35839-1-imbrenda@linux.ibm.com>
+Subject: [PATCH v1 1/2] Linux header update
+Date: Thu, 22 Dec 2022 16:04:20 +0100
+Message-Id: <20221222150421.35839-2-imbrenda@linux.ibm.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221222150421.35839-1-imbrenda@linux.ibm.com>
+References: <20221222150421.35839-1-imbrenda@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: N2zp50Qv4vjSAtLQ9U10dx6gCK4YGTPQ
-X-Proofpoint-ORIG-GUID: XNxbDUB-2yfG9SIxLtc6lThTjUnaHugv
+X-Proofpoint-GUID: gmzk3KfrV9YdpxrNr6hPMBukHTtLF39N
+X-Proofpoint-ORIG-GUID: SUPu1HCVy8zvUsDBBjXw8t0UnSOUl1e9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-22_08,2022-12-22_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- priorityscore=1501 adultscore=0 mlxlogscore=502 mlxscore=0 suspectscore=0
- impostorscore=0 bulkscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2212220131
-Received-SPF: pass client-ip=148.163.158.5;
+ spamscore=0 mlxlogscore=938
+ suspectscore=0 mlxscore=0 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 phishscore=0 impostorscore=0 malwarescore=0
+ clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212220131
+Received-SPF: pass client-ip=148.163.156.1;
  envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -113,26 +114,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The first patch is just a minimal header update to compile the second
-patch; it can be safely discarded once the Linux headers are updated to
-6.2.
+Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+---
+ linux-headers/linux/kvm.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-The second patch adds support for asynchronous teardown of protected
-guests when rebooting. First the existing guest is prepared for
-asynchronous teardown, the rebooted guest will be able to continue
-immediately, while a background thread actually performs the necessary
-cleanup.
-
-Claudio Imbrenda (2):
-  Linux header update
-  s390x/pv: Add support for asynchronous teardown for reboot
-
- hw/s390x/pv.c              | 28 ++++++++++++++++++++++++++++
- hw/s390x/s390-virtio-ccw.c |  5 ++++-
- include/hw/s390x/pv.h      |  2 ++
- linux-headers/linux/kvm.h  |  3 +++
- 4 files changed, 37 insertions(+), 1 deletion(-)
-
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index ebdafa576d..122b273433 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1175,6 +1175,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_VM_DISABLE_NX_HUGE_PAGES 220
+ #define KVM_CAP_S390_ZPCI_OP 221
+ #define KVM_CAP_S390_CPU_TOPOLOGY 222
++#define KVM_CAP_S390_PROTECTED_ASYNC_DISABLE 224
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1737,6 +1738,8 @@ enum pv_cmd_id {
+ 	KVM_PV_UNSHARE_ALL,
+ 	KVM_PV_INFO,
+ 	KVM_PV_DUMP,
++	KVM_PV_ASYNC_CLEANUP_PREPARE,
++	KVM_PV_ASYNC_CLEANUP_PERFORM,
+ };
+ 
+ struct kvm_pv_cmd {
 -- 
 2.38.1
 
