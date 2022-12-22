@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A254A654751
+	by mail.lfdr.de (Postfix) with ESMTPS id D28AC654752
 	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 21:38:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8SJS-0004t6-7k; Thu, 22 Dec 2022 15:37:10 -0500
+	id 1p8SJb-0004v2-5L; Thu, 22 Dec 2022 15:37:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcel@holtmann.org>)
- id 1p8SJO-0004rG-Iu
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:37:06 -0500
+ id 1p8SJZ-0004uk-AJ
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:37:17 -0500
 Received: from coyote.holtmann.net ([212.227.132.17] helo=mail.holtmann.org)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel@holtmann.org>) id 1p8SJM-0002LK-QK
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:37:06 -0500
+ (envelope-from <marcel@holtmann.org>) id 1p8SJX-0002Lm-Sz
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:37:17 -0500
 Received: from fedora.. (p4fefcc21.dip0.t-ipconnect.de [79.239.204.33])
- by mail.holtmann.org (Postfix) with ESMTPSA id 8963BCED2B;
+ by mail.holtmann.org (Postfix) with ESMTPSA id D1933CED2C;
  Thu, 22 Dec 2022 21:36:58 +0100 (CET)
 From: Marcel Holtmann <marcel@holtmann.org>
 To: qemu-devel@nongnu.org, mst@redhat.com, xieyongji@bytedance.com,
  pbonzini@redhat.com
 Cc: marcel@holtmann.org
-Subject: [PATCH v4 08/12] libvduse: Switch to unsigned int for inuse field in
- struct VduseVirtq
-Date: Thu, 22 Dec 2022 21:36:47 +0100
-Message-Id: <9fe3fd8b042e048bd04d506ca6e43d738b5c45b7.1671741278.git.marcel@holtmann.org>
+Subject: [PATCH v4 09/12] libvduse: Fix assignment in vring_set_avail_event
+Date: Thu, 22 Dec 2022 21:36:48 +0100
+Message-Id: <4a0fe2a6436464473119fdbf0bc4076b36fbb37f.1671741278.git.marcel@holtmann.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <cover.1671741278.git.marcel@holtmann.org>
 References: <cover.1671741278.git.marcel@holtmann.org>
@@ -56,37 +55,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It seems there is no need to keep the inuse field signed and end up with
-compiler warnings for sign-compare.
+Since the assignment is causing a compiler warning, fix it by using
+memcpy instead.
 
   CC       libvduse.o
-libvduse.c: In function ‘vduse_queue_pop’:
-libvduse.c:789:19: error: comparison of integer expressions of different signedness: ‘int’ and ‘unsigned int’ [-Werror=sign-compare]
-  789 |     if (vq->inuse >= vq->vring.num) {
-      |                   ^~
-
-Instead of casting the comparison to unsigned int, just make the inuse
-field unsigned int in the fist place.
+libvduse.c: In function ‘vring_set_avail_event’:
+libvduse.c:603:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasin]
+  603 |     *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) = htole16(val);
+      |      ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
-Reviewed-by: Xie Yongji <xieyongji@bytedance.com>
+Suggested-by: Xie Yongji <xieyongji@bytedance.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- subprojects/libvduse/libvduse.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ subprojects/libvduse/libvduse.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
-index c871bd331a6b..338ad5e352e7 100644
+index 338ad5e352e7..377959a0b4fb 100644
 --- a/subprojects/libvduse/libvduse.c
 +++ b/subprojects/libvduse/libvduse.c
-@@ -101,7 +101,7 @@ struct VduseVirtq {
-     uint16_t signalled_used;
-     bool signalled_used_valid;
-     int index;
--    int inuse;
-+    unsigned int inuse;
-     bool ready;
-     int fd;
-     VduseDev *dev;
+@@ -582,7 +582,8 @@ void vduse_queue_notify(VduseVirtq *vq)
+ 
+ static inline void vring_set_avail_event(VduseVirtq *vq, uint16_t val)
+ {
+-    *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) = htole16(val);
++    uint16_t val_le = htole16(val);
++    memcpy(&vq->vring.used->ring[vq->vring.num], &val_le, sizeof(uint16_t));
+ }
+ 
+ static bool vduse_queue_map_single_desc(VduseVirtq *vq, unsigned int *p_num_sg,
 -- 
 2.38.1
 
