@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2C1653A74
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 03:03:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7228A653AB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 03:39:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8Au3-0001Q2-9r; Wed, 21 Dec 2022 21:01:47 -0500
+	id 1p8BSZ-0007LA-VZ; Wed, 21 Dec 2022 21:37:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1p8Au1-0001Pd-4L
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 21:01:45 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1p8Aty-00043e-Sp
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 21:01:44 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id w26so267603pfj.6
- for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 18:01:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oND5vRBnou/T9gazA8yhw3b+NzyhguRbgO6VEjVfod4=;
- b=Jazu6Qq6WvWX6QIXVFqExtMU2C/cHxaM6AuTEamX/4v6BPvUei1wbOsFXsxhBFUt7f
- Ng2OxMyjYu0U2+JrldjhzENPocmyB9MW6dhwrlz/WtYzPtgCcAITRR6tjqnZ38frCOrM
- BRJhE7Rxb0M/F61j2u71RANeBB63buZ7sjowqM6klGs3q68U5t1RMlALh2RHPH6aFrD4
- pb2cbcpVpyQ/2nvE3t+7sgbsL0I2Pu2dSKlXgkex8FBVb/xoH48eqDiCte8eVadZOy1D
- 01tUKMM9of+0+Hdkxgw+TngWH8er+XewO+PzNgKYV0mlq0G9aXpqZLfy8yiLQYceyr/d
- 93UQ==
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p8BSV-0007Kn-Lp
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 21:37:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p8BST-0001gv-Tf
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 21:37:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671676641;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=giMLUkqj/o4K+7IOjmHONXqnBVOerXMgtcTq/C/fzIU=;
+ b=COMrDUetGc+62lL+rxtouOdyZiWGO0jtOi6mWl8ztWVErFIDwZlXiPir21sJIjoKUAnw0C
+ bXC+6iSIPD7NkaN7hrHTdbEgH7B2ecnqEeK+4+qywt6OPp2p5ezE+AtgDKwTIlGqygTCir
+ L+owOMT2I0ngyvVXw0lpx6DQG1/XKZg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-556-E5FLCGSFOmaSIYdmB8d-0g-1; Wed, 21 Dec 2022 21:37:19 -0500
+X-MC-Unique: E5FLCGSFOmaSIYdmB8d-0g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r67-20020a1c4446000000b003d09b0fbf54so1707940wma.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 18:37:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oND5vRBnou/T9gazA8yhw3b+NzyhguRbgO6VEjVfod4=;
- b=FgaGdZ3FzMwJYb6xJbgBu0KR8vZMiKz8xsoIxRN70OJ+MYmtY1jyMeRQ7iAli16AI3
- 3yGGHQRsciMhVDQEFcpsvE4huYrHjObP+dbqoCZg0uyqTK4iicALnC8vZ8rzS6LcgjHx
- p68g4iYc3Nrwzgfdr6c2rB48jM14qfVakwWbZPRHONWMtmZM0ZJevt7d+y3NUNqOmJ9j
- D0KlLULQ5fzfcbQKJqwU4bGroQIhethVgtVI1nPW5slWcBuaFSsXyXTRhMYWixlzD/Ig
- pTwfUEXjADoyBF7utBCVhPpO05Y1wAvtC3/6kLlOFFK45OLXQYqDDswK9Gfcy9JQXY+K
- nZpg==
-X-Gm-Message-State: AFqh2krI98j7XurrPbuIIgVsIsdCiwRRKpQ6ZiAFpGSREoA6NbMxiDZc
- qm7c17c1e0fI1M3dSSj3JzdvbQ==
-X-Google-Smtp-Source: AMrXdXuKM5EKSy+C7weJHNOYSE8ifTz0hzfuDAPpTr/swYYDrDbn0wFUpzHR3QGNaJP1v83flJn0WQ==
-X-Received: by 2002:aa7:9210:0:b0:577:8bae:29a7 with SMTP id
- 16-20020aa79210000000b005778bae29a7mr4575196pfo.33.1671674495637; 
- Wed, 21 Dec 2022 18:01:35 -0800 (PST)
-Received: from [10.5.70.213] ([139.177.225.237])
- by smtp.gmail.com with ESMTPSA id
- 80-20020a621453000000b0054ee4b632dasm11267292pfu.169.2022.12.21.18.01.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Dec 2022 18:01:34 -0800 (PST)
-Message-ID: <5823a483-9189-4e81-42f7-12579995bcfe@bytedance.com>
-Date: Thu, 22 Dec 2022 10:04:48 +0800
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=giMLUkqj/o4K+7IOjmHONXqnBVOerXMgtcTq/C/fzIU=;
+ b=8PLOUd4v5gcrCUQkrmmOMvGR7RoQjsXyjAtqlPjfEXwe6y85CmSH2KJEw5R/HKgCGg
+ rP6neLTWi1zz7YX04cyKoS6vlXm8/GzyLVrLB/QngLj5czdcN6/kJdZ4GahpTLMKdJj4
+ juBGIQOBobmBfiXkju/nceMEqQA6sPW5oZ1O3koZwgZywAL4giWNKC3yYSoNbe5CEDiV
+ CWEsEJo89xAowCXxb3E/RGTUUMcJVvP19hWUvMyx7rbg/uvPxKovj4tz5BcV2akljmIT
+ /G2HAyZTnB9pqt1wqEgm+BaVz2NA/wppUZJ3AmMP78i3MG4xGQM4egp+E8MVVG8N+mnx
+ 2zQQ==
+X-Gm-Message-State: AFqh2koegCp8J8nj9wCSIBqoH4S5EdhgY29WnDtUdxY4M03h/piffMle
+ gq2J5wRAdh0ZtAgZgs+2xbA6P93o5M+7u96HjlSN6iXS2XogoFRAmPp2jPZtflkujR2joAiTR2C
+ i85MgwvPy/24OI2j8oBquGXlKnx3qHH8=
+X-Received: by 2002:a5d:4561:0:b0:242:87f3:1de9 with SMTP id
+ a1-20020a5d4561000000b0024287f31de9mr162035wrc.40.1671676638343; 
+ Wed, 21 Dec 2022 18:37:18 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvgmd3/hwruQUUASnEeG4RfgVxr1U1U2L389iPo76lZRp+Gm0d0LWM7n8Kgdgp19CJZgZ2cM9g0T6jkFugcS0E=
+X-Received: by 2002:a5d:4561:0:b0:242:87f3:1de9 with SMTP id
+ a1-20020a5d4561000000b0024287f31de9mr162032wrc.40.1671676638141; Wed, 21 Dec
+ 2022 18:37:18 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: Re: [for-8.0 v2 00/11] Refactor cryptodev
-Content-Language: en-US
-To: armbru@redhat.com, michael.roth@amd.com
-Cc: arei.gonglei@huawei.com, dgilbert@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, eblake@redhat.com,
- pbonzini@redhat.com, qemu-devel@nongnu.org
-References: <20221122140756.686982-1-pizhenwei@bytedance.com>
- <20221220103602-mutt-send-email-mst@kernel.org>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <20221220103602-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221211172042.3969410-1-lulu@redhat.com>
+ <20221211172042.3969410-9-lulu@redhat.com>
+ <20221221062407-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221221062407-mutt-send-email-mst@kernel.org>
+From: Cindy Lu <lulu@redhat.com>
+Date: Thu, 22 Dec 2022 10:36:38 +0800
+Message-ID: <CACLfguV1eUz=Y5-wFRvF9rMGtoQEAjma01wXFUNdC+dvVcvwZA@mail.gmail.com>
+Subject: Re: [PATCH v20 08/10] virtio-net: add support for configure interrupt
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,75 +91,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 21 Dec 2022 at 19:25, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Mon, Dec 12, 2022 at 01:20:40AM +0800, Cindy Lu wrote:
+> > Add functions to support configure interrupt in virtio_net
+> > Add the functions to support vhost_net_config_pending
+> > and vhost_net_config_mask.
+> >
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+>
+>
+>
+> Causes a bunch of failures including mingw.
+> See:
+> https://gitlab.com/mstredhat/qemu/-/pipelines/728492799/failures
+>
+> lots of:
+> /builds/mstredhat/qemu/build/../hw/net/virtio-net.c:3366: undefined reference to `vhost_net_config_mask'
+>
+> Pls fix and repost.
+>
+Sorry,  Michael, will post a new version soon
+>
+> > ---
+> >  hw/net/vhost_net.c      | 9 +++++++++
+> >  hw/net/virtio-net.c     | 4 ++--
+> >  include/net/vhost_net.h | 2 ++
+> >  3 files changed, 13 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > index 043058ff43..6a55f5a473 100644
+> > --- a/hw/net/vhost_net.c
+> > +++ b/hw/net/vhost_net.c
+> > @@ -478,6 +478,15 @@ void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
+> >      vhost_virtqueue_mask(&net->dev, dev, idx, mask);
+> >  }
+> >
+> > +bool vhost_net_config_pending(VHostNetState *net)
+> > +{
+> > +    return vhost_config_pending(&net->dev);
+> > +}
+> > +
+> > +void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev, bool mask)
+> > +{
+> > +    vhost_config_mask(&net->dev, dev, mask);
+> > +}
+> >  VHostNetState *get_vhost_net(NetClientState *nc)
+> >  {
+> >      VHostNetState *vhost_net = 0;
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > index bee35d6f9f..ec974f7a76 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -3323,7 +3323,7 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
+> >       */
+> >
+> >      if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> > -        return false;
+> > +        return vhost_net_config_pending(get_vhost_net(nc->peer));
+> >      }
+> >      return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
+> >  }
+> > @@ -3355,9 +3355,9 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> >       */
+> >
+> >      if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> > +        vhost_net_config_mask(get_vhost_net(nc->peer), vdev, mask);
+> >          return;
+> >      }
+> > -
+> >      vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask);
+> >  }
+> >
+> > diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+> > index 40b9a40074..dbbd0dc04e 100644
+> > --- a/include/net/vhost_net.h
+> > +++ b/include/net/vhost_net.h
+> > @@ -39,6 +39,8 @@ int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
+> >  bool vhost_net_virtqueue_pending(VHostNetState *net, int n);
+> >  void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
+> >                                int idx, bool mask);
+> > +bool vhost_net_config_pending(VHostNetState *net);
+> > +void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev, bool mask);
+> >  int vhost_net_notify_migration_done(VHostNetState *net, char* mac_addr);
+> >  VHostNetState *get_vhost_net(NetClientState *nc);
+> >
+> > --
+> > 2.34.3
+>
 
-
-On 12/20/22 23:36, Michael S. Tsirkin wrote:
-> On Tue, Nov 22, 2022 at 10:07:45PM +0800, zhenwei pi wrote:
->> v1 -> v2:
->> - fix coding style and use 'g_strjoin()' instead of 'char services[128]'
->>    (suggested by Dr. David Alan Gilbert)
->> - wrapper function 'cryptodev_backend_account' to record statistics, and
->>    allocate sym_stat/asym_stat in cryptodev base class. see patch:
->>    'cryptodev: Support statistics'.
->> - add more arguments into struct CryptoDevBackendOpInfo, then
->>    cryptodev_backend_crypto_operation() uses *op_info only.
->> - support cryptodev QoS settings(BPS&OPS), both QEMU command line and QMP
->>    command works fine.
->> - add myself as the maintainer for cryptodev.
->>
->> v1:
->> - introduce cryptodev.json to describe the attributes of crypto device, then
->>    drop duplicated type declare, remove some virtio related dependence.
->> - add statistics: OPS and bandwidth.
->> - add QMP command: query-cryptodev
->> - add HMP info command: cryptodev
->> - misc fix: detect akcipher capability instead of exposing akcipher service
->>    unconditionally.
-> 
-> 
-> Can we get ACK on QAPI things please?
-> Thanks!
-> 
-
-Hi, Markus & Michael
-
-Could you please review the changes of QAPI part?
-
->> Zhenwei Pi (11):
->>    cryptodev: Introduce cryptodev.json
->>    cryptodev: Remove 'name' & 'model' fields
->>    cryptodev: Introduce cryptodev alg type in QAPI
->>    cryptodev: Introduce server type in QAPI
->>    cryptodev: Introduce 'query-cryptodev' QMP command
->>    cryptodev: Support statistics
->>    cryptodev-builtin: Detect akcipher capability
->>    hmp: add cryptodev info command
->>    cryptodev: Use CryptoDevBackendOpInfo for operation
->>    cryptodev: support QoS
->>    MAINTAINERS: add myself as the maintainer for cryptodev
->>
->>   MAINTAINERS                     |   2 +
->>   backends/cryptodev-builtin.c    |  42 +++--
->>   backends/cryptodev-lkcf.c       |  19 +-
->>   backends/cryptodev-vhost-user.c |  13 +-
->>   backends/cryptodev-vhost.c      |   4 +-
->>   backends/cryptodev.c            | 295 +++++++++++++++++++++++++++++---
->>   hmp-commands-info.hx            |  14 ++
->>   hw/virtio/virtio-crypto.c       |  48 ++++--
->>   include/monitor/hmp.h           |   1 +
->>   include/sysemu/cryptodev.h      |  94 +++++-----
->>   monitor/hmp-cmds.c              |  36 ++++
->>   qapi/cryptodev.json             | 144 ++++++++++++++++
->>   qapi/meson.build                |   1 +
->>   qapi/qapi-schema.json           |   1 +
->>   qapi/qom.json                   |   8 +-
->>   15 files changed, 604 insertions(+), 118 deletions(-)
->>   create mode 100644 qapi/cryptodev.json
->>
->> -- 
->> 2.20.1
-> 
-
--- 
-zhenwei pi
 
