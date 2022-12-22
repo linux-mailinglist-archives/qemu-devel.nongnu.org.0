@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB03D653C6A
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 08:06:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCE6653C6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 08:07:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8Fed-0005mH-6E; Thu, 22 Dec 2022 02:06:11 -0500
+	id 1p8Fej-0005nU-U0; Thu, 22 Dec 2022 02:06:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p8FeU-0005ay-FU
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 02:06:04 -0500
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p8FeV-0005bQ-Md
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 02:06:05 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p8FeP-0003Jn-8E
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 02:05:58 -0500
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p8FeU-0003K4-31
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 02:06:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671692756;
+ s=mimecast20190719; t=1671692758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mYg1jvI6tjkFfFk0fOxA+wuPT1k9GhFHFQlHY8fqSCw=;
- b=E5U5WM2L3UP9Q36Wcvu0lOypFSriF1/W17Gu9vuLl/y09bEP1O+z8hrdPue4WDCde2boTg
- Y/c6PLk9mIyHabka5+VsDf27QMQskOM4qUVPlWM8CL1hahv0asmNWpg/4RpvwMoKEbgOaR
- HUhDkUZ7Rntgnh1H40Dvi05p+G15rnw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LB4CfQx9s+35BW37dnjcmXsiio5CDI06a2XBsTqBxFA=;
+ b=iDlszyxLPCP83s5j+LxNgN+sRQclSU5V2g0Z/xNOzY/YBCvipJoEDsFcQhdmyW4EFnL+VC
+ yO8gOruXULv1GU+NVcRhOY9nszUmQh9ha0pVlqCAtwPWTshCgJZYMkrE8yZVLtW1BLh7ld
+ f5kPD68fEii0tPOUbPvXvjnOLRl6A24=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-pzD6T-qUOu25uT8u-9lluw-1; Thu, 22 Dec 2022 02:05:54 -0500
-X-MC-Unique: pzD6T-qUOu25uT8u-9lluw-1
+ us-mta-606-BXt5t9cyOZOYiCYEo24toA-1; Thu, 22 Dec 2022 02:05:56 -0500
+X-MC-Unique: BXt5t9cyOZOYiCYEo24toA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11D2C101A52E
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 07:05:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9E1229AA2C2
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 07:05:56 +0000 (UTC)
 Received: from server.redhat.com (ovpn-12-67.pek2.redhat.com [10.72.12.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10C7851FF;
- Thu, 22 Dec 2022 07:05:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B03C651FF;
+ Thu, 22 Dec 2022 07:05:54 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v21 04/10] vhost: introduce new VhostOps vhost_set_config_call
-Date: Thu, 22 Dec 2022 15:04:45 +0800
-Message-Id: <20221222070451.936503-5-lulu@redhat.com>
+Subject: [PATCH v21 05/10] vhost-vdpa: add support for config interrupt
+Date: Thu, 22 Dec 2022 15:04:46 +0800
+Message-Id: <20221222070451.936503-6-lulu@redhat.com>
 In-Reply-To: <20221222070451.936503-1-lulu@redhat.com>
 References: <20221222070451.936503-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -74,36 +74,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch introduces new VhostOps vhost_set_config_call.
-This function allows the qemu to set the config
-event fd to kernel driver.
+Add new call back function in vhost-vdpa, The function
+vhost_set_config_call can set the event fd to kernel.
+This function will be called in the vhost_dev_start
+and vhost_dev_stop
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/virtio/trace-events | 1 +
+ hw/virtio/vhost-vdpa.c | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index eab46d7f0b..c5ab49051e 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -128,6 +128,8 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index 14fc5b9bb2..46f2faf04e 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -62,6 +62,7 @@ vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRI
+ vhost_vdpa_set_owner(void *dev) "dev: %p"
+ vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
+ vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
++vhost_vdpa_set_config_call(void *dev, int fd)"dev: %p fd: %d"
  
- typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+ # virtio.c
+ virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 7468e44b87..c5be2645b0 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -754,6 +754,13 @@ static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
+     return 0;
+ }
  
-+typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-+                                       int fd);
- typedef struct VhostOps {
-     VhostBackendType backend_type;
-     vhost_backend_init vhost_backend_init;
-@@ -174,6 +176,7 @@ typedef struct VhostOps {
-     vhost_vq_get_addr_op  vhost_vq_get_addr;
-     vhost_get_device_id_op vhost_get_device_id;
-     vhost_force_iommu_op vhost_force_iommu;
-+    vhost_set_config_call_op vhost_set_config_call;
- } VhostOps;
- 
- int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
++static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
++                                       int fd)
++{
++    trace_vhost_vdpa_set_config_call(dev, fd);
++    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
++}
++
+ static void vhost_vdpa_dump_config(struct vhost_dev *dev, const uint8_t *config,
+                                    uint32_t config_len)
+ {
+@@ -1310,4 +1317,5 @@ const VhostOps vdpa_ops = {
+         .vhost_get_device_id = vhost_vdpa_get_device_id,
+         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
+         .vhost_force_iommu = vhost_vdpa_force_iommu,
++        .vhost_set_config_call = vhost_vdpa_set_config_call,
+ };
 -- 
 2.34.3
 
