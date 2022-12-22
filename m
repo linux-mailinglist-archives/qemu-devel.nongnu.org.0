@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8D4654327
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 15:33:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F9F65439E
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 16:05:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8MZR-0001PD-NU; Thu, 22 Dec 2022 09:29:17 -0500
+	id 1p8N6k-0008NQ-LL; Thu, 22 Dec 2022 10:03:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8MZJ-0001Jm-OZ
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 09:29:10 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8N6b-0008JP-RO
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 10:03:35 -0500
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8MZI-0006iG-8D
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 09:29:09 -0500
-Received: by mail-wr1-x433.google.com with SMTP id h10so1830864wrx.3
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 06:29:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8N6Z-00056w-EJ
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 10:03:32 -0500
+Received: by mail-lf1-x130.google.com with SMTP id y25so3094585lfa.9
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 07:03:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=SO2XheO8YJfqLCfc91OBL3JWp1dxvx2bT04GTmFnMaE=;
- b=u+oPZ4dQShNmu5dmBhnTmP9KUOX5K5IERidPYjOHcy2bL6jP/wrZpHYa+62c8xcsIg
- 4JkvFcFWJ95uFsLerxwqrdm6uxnBqbexNhuxO8S8WT5TKyp+gzsMPNj8sAbZh/rZ0Trn
- 8g8hcfPs+PuFxu0Ozn1UFt9TOnBHksXfydHG2wESUjKoCrNDNqM0fT4nOEbXjREtRXBB
- gf7DSUMkWwf3FOe1jssY1O6+Uwfrxnc0/R5xWNd3HI+XC1BnrNHb+KBRCPDsPxKHGAUP
- dVmTN+9KLWuqtHwXD5CTkbvQq5poCiMPRq4Pjkqo9xn2/5M5gRj4GrbNzd5mhEWuAg4R
- UZYg==
+ bh=bYB27TogxpwypzUmCcWbKBZhi+QrbE+jluz3XJ8G/CQ=;
+ b=wSWzPYpCQdcvu2vwBweUT4f1zTEwe8wwcqatn5vIImRhR+ilfjzUzjFDmA75AKS2N4
+ LktXOumICSZO5s7WZLiaZ0HwVFwfihpgaRE6w1bhOaLK+rIpSx/w4LZMVvfgeH0SBPxA
+ 1NRaNe91pBDig5PMV/9uNSXr04L5DlbvdIf988rWdywP9vTFGSygRLeA0HTecVuLiQ59
+ uZHh7dd2SK9d8lympwsbpTX2RLtHhAXbU+7QuacynQ/u5nVRQ4znCAMOQFmjZrZeM3vF
+ kVzWMaf+0+XusiCSvRi/gG7vdPrVrVG9+C/fTXKl+eRazt01huNz2/RR6yrohsbw/qJq
+ Db7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SO2XheO8YJfqLCfc91OBL3JWp1dxvx2bT04GTmFnMaE=;
- b=2TvcZSKn9E8sV+F9ddZDu7b1yvVnneBoDP2FYzpVj7+0NmBBbEp29joiBVk7us8gsg
- sPd+FDf0sGMgeD15Qg7fum/6/ZEtKi1YZDjknj3BqEEYUqUqfrIGV8Lnw/6p2JsxjuBb
- 5wgnEDMqlfAR+jV1H2a7GD25o0cRFHkVOX8HBq4vvIWNHgVO0FMeMBh/OqKIF6dZ8Mol
- tNCDcfzkwju9a8HjS4bl25MEMUDrJkWdlFySKUv6Fq97PmV5JOlE5PEC8pwy9puJT0rz
- Y9kwF1xbCttPWI6hRZoEVyiHslMkxEWJRuV1lEmGK9o16ta0bKYzWVCDvjxckI5ZMt69
- FTxQ==
-X-Gm-Message-State: AFqh2koYRj+Zb62NBw+7BToc/hA3ya9Oc31jiNJjTv3K1958CLdQR1LQ
- GDR84FkQj/zNCvx5AzUKpOkOodxtRBnwakzKNKk=
-X-Google-Smtp-Source: AMrXdXtIIt3QKwzOOSvNhm9872Fj45paxh4dIUtN+VNZtvsm4TFW7DOxzrUJO7E7k9YUCvAApE/jXA==
-X-Received: by 2002:adf:aa89:0:b0:248:2d6e:aa3c with SMTP id
- h9-20020adfaa89000000b002482d6eaa3cmr4290687wrc.58.1671719344865; 
- Thu, 22 Dec 2022 06:29:04 -0800 (PST)
+ bh=bYB27TogxpwypzUmCcWbKBZhi+QrbE+jluz3XJ8G/CQ=;
+ b=rQrnUijiNjSz1CmbEo9B+t6Jzp6hC46UmvLMo/+BF0AFl5h5X3ObAm2Kh3ufULEC97
+ SkqUGmXlPHEUKQg+CwEyEUbKiFAMTXE5qO2ocpBFhcxlIQi4KMN1/+QR8r5umQJq9olV
+ 4mytJU/8bWyyv6kWarhDl2g7F6923gJTeWoEqbTRjyec1DZzb2oFMGGO2+JFCvWfGW2n
+ V5J2uF8fUdyYwhFQBm4Vz4KsGKTuLwi0IjQL1NGuFgeOCp2Ql0TGzfAf9VIA113mUXF4
+ 9p0EOo2MfgrTdw37tHxi1gEiB5fbUzLI/BSquJuqresY1p0B0+ZRekSPi/4QqER4+FTt
+ czBg==
+X-Gm-Message-State: AFqh2kre85wYZJbc76Ydba26BdRzdw1dU4vZJrCeKJrLavS3cpucyd4P
+ OlHSBFXWeBhmDrWPc54wSRy3JQ==
+X-Google-Smtp-Source: AMrXdXsfp8GGdXOXPnQNDBRfzgV/c/oHVWcUw0UGIJdpqwSf41sL71QyQVN+M2hXhwWV2rNcjk1PMA==
+X-Received: by 2002:a05:6512:79:b0:4b5:43ef:a555 with SMTP id
+ i25-20020a056512007900b004b543efa555mr1686710lfo.69.1671721409272; 
+ Thu, 22 Dec 2022 07:03:29 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- u13-20020a5d468d000000b00241e4bff85asm654689wrq.100.2022.12.22.06.29.04
+ o2-20020a5d58c2000000b0026a4bb75477sm759539wrf.28.2022.12.22.07.03.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 06:29:04 -0800 (PST)
-Message-ID: <7eb28821-eb6b-a7a5-b29c-bdc081d89b28@linaro.org>
-Date: Thu, 22 Dec 2022 15:29:03 +0100
+ Thu, 22 Dec 2022 07:03:28 -0800 (PST)
+Message-ID: <6ccd925d-b965-4da0-13f2-365bd75abe88@linaro.org>
+Date: Thu, 22 Dec 2022 16:03:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH 12/15] hw/riscv/boot.c: make riscv_load_initrd() static
+Subject: Re: [PATCH v9 08/14] hw/nvram: NPCM7xx OTP device model
 Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Bin Meng <bin.meng@windriver.com>
-References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
- <20221221182300.307900-13-dbarboza@ventanamicro.com>
+To: Havard Skinnemoen <hskinnemoen@google.com>, peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com,
+ kfting@nuvoton.com, Alexander Bulekov <alxndr@bu.edu>,
+ Shengtan Mao <stmao@google.com>, Hao Wu <wuhaotsh@google.com>,
+ Chris Rauer <crauer@google.com>, Tyrone Ting <kfting@nuvoton.com>
+References: <20200911052101.2602693-1-hskinnemoen@google.com>
+ <20200911052101.2602693-9-hskinnemoen@google.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221221182300.307900-13-dbarboza@ventanamicro.com>
+In-Reply-To: <20200911052101.2602693-9-hskinnemoen@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=philmd@linaro.org; helo=mail-lf1-x130.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -91,16 +93,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/12/22 19:22, Daniel Henrique Barboza wrote:
-> The only remaining caller is riscv_load_kernel() which belongs to the
-> same file.
+Hi,
+
+(old patch)
+
+On 11/9/20 07:20, Havard Skinnemoen wrote:
+> This supports reading and writing OTP fuses and keys. Only fuse reading
+> has been tested. Protection is not implemented.
 > 
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> Reviewed-by: Avi Fishman <avi.fishman@nuvoton.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Tested-by: Alexander Bulekov <alxndr@bu.edu>
+> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
 > ---
->   hw/riscv/boot.c         | 76 ++++++++++++++++++++---------------------
->   include/hw/riscv/boot.h |  1 -
->   2 files changed, 38 insertions(+), 39 deletions(-)
+>   include/hw/arm/npcm7xx.h       |   3 +
+>   include/hw/nvram/npcm7xx_otp.h |  79 ++++++
+>   hw/arm/npcm7xx.c               |  29 +++
+>   hw/nvram/npcm7xx_otp.c         | 440 +++++++++++++++++++++++++++++++++
+>   hw/nvram/meson.build           |   1 +
+>   5 files changed, 552 insertions(+)
+>   create mode 100644 include/hw/nvram/npcm7xx_otp.h
+>   create mode 100644 hw/nvram/npcm7xx_otp.c
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> +/**
+> + * npcm7xx_otp_array_write - ECC encode and write data to OTP array.
+> + * @s: OTP module.
+> + * @data: Data to be encoded and written.
+> + * @offset: Offset of first byte to be written in the OTP array.
+> + * @len: Number of bytes before ECC encoding.
+> + *
+> + * Each nibble of data is encoded into a byte, so the number of bytes written
+> + * to the array will be @len * 2.
+> + */
+> +extern void npcm7xx_otp_array_write(NPCM7xxOTPState *s, const void *data,
+> +                                    unsigned int offset, unsigned int len);
 
+> +static void npcm7xx_init_fuses(NPCM7xxState *s)
+> +{
+> +    NPCM7xxClass *nc = NPCM7XX_GET_CLASS(s);
+> +    uint32_t value;
+> +
+> +    /*
+> +     * The initial mask of disabled modules indicates the chip derivative (e.g.
+> +     * NPCM750 or NPCM730).
+> +     */
+> +    value = tswap32(nc->disabled_modules);
+
+In which endianness do you want this 32-bit fuse value to be written?
+
+I suppose you used a little-endian host, so we want it big-endian in
+the OTP? In that case it would be better to use cpu_to_be32(), to
+be able to use the OTP on a big-endian host such s390x.
+
+> +    npcm7xx_otp_array_write(&s->fuse_array, &value, NPCM7XX_FUSE_DERIVATIVE,
+> +                            sizeof(value));
+> +}
+
+For completeness:
+
+ > +static void npcm730_class_init(ObjectClass *oc, void *data)
+ > +{
+ > +    NPCM7xxClass *nc = NPCM7XX_CLASS(oc);
+ > +
+ > +    /* NPCM730 is optimized for data center use, so no graphics, etc. */
+ > +    nc->disabled_modules = 0x00300395;
+ > +    nc->num_cpus = 2;
+ > +}
+ > +
+ > +static void npcm750_class_init(ObjectClass *oc, void *data)
+ > +{
+ > +    NPCM7xxClass *nc = NPCM7XX_CLASS(oc);
+ > +
+ > +    /* NPCM750 has 2 cores and a full set of peripherals */
+ > +    nc->disabled_modules = 0x00000000;
+ > +    nc->num_cpus = 2;
+ > +}
+
+Thanks,
+
+Phil.
 
