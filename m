@@ -2,98 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA757653E23
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 11:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92826653E58
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 11:33:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8IUJ-0006Hz-I3; Thu, 22 Dec 2022 05:07:43 -0500
+	id 1p8IlM-000320-RC; Thu, 22 Dec 2022 05:25:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p8IUH-0006H9-Rx
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 05:07:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p8IUD-0008Fq-7Z
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 05:07:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671703656;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a7vMgdOPbvvJbw5NPDT3cSsc3lKu7v2FKQI+I+KZjY0=;
- b=WGLmy9egCnmMA8YQQtTZTk1NtmMj4K3kSAs4dPm82+XIpkyoDeiWP4Y1UIYtzZKgk4UdLj
- XWeG564MnTJUZAAfx+htOdKuISOz8OtN9ObhCO7/JEwjbA+5mp9Ws5toR071t0AAzoLbQI
- LO8NRHipaTzemfdxkTEo28Jmintj+RY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-417-cGg-3N5aM_CVRxWMPsTjdQ-1; Thu, 22 Dec 2022 05:07:34 -0500
-X-MC-Unique: cGg-3N5aM_CVRxWMPsTjdQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n8-20020a05600c294800b003d1cc68889dso350837wmd.7
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 02:07:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p8IlI-00031R-ME; Thu, 22 Dec 2022 05:25:16 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p8IlD-0002lO-3K; Thu, 22 Dec 2022 05:25:13 -0500
+Received: by mail-ej1-x636.google.com with SMTP id gh17so3854288ejb.6;
+ Thu, 22 Dec 2022 02:25:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QeYpS9ZYpETzTZu427UJCwGGU7NkwnT6TbX89yQfbJU=;
+ b=YlM/cgwUSQBym8QpfBDMab7LPDjBQa2SVazL4a8TtDp0B/cxO6PfUZSwJA4ZFXCBQP
+ ieN+ErIlWQlB8VPFQzl0rUbjv664u9uAvjT6Mi1ccGIP2TXHqg0eJP/cnW6QWWpDS8n0
+ vAxZb3C0FHJn+DQ/8No8HFql6FxyMUmrKSwZxyXWrMdiKnj9KuW0WvSaTsnHJNc6xwXS
+ G6F+xDRkff1UTWChmdgBzULaASODZjHarZnxlvg3ka5H/MoM+wF00vyjZl9a4jKFBIAd
+ D2PXO8gJe82OkJFazx2XFO7S/V880XX1J92gwDcYD3ruBjJdpliZOLQ73SMo+NelxqBj
+ C53A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=a7vMgdOPbvvJbw5NPDT3cSsc3lKu7v2FKQI+I+KZjY0=;
- b=vgd5ELVow6ZxGL7PWiQgpz4NmcxpJzCg3VaCew3IGp7Gv8pkklO0shJteK0mRAzRcd
- 2jEAKqI8bXLIzud7NYL4FHzkxmB4rNGHmbCzDHUpRlZ+zsDcpbsd6nEkyaC07g5ga0OX
- eG6H8frr1iF1ZS3cCgn8Dh9TOd0nrmUQxvxzkcDjjw7fb09PfynbaTpMtzbdhZVgD0d9
- G4DhtGE7s+qXfPP4aLMuV4ouKwjkB9pGI6so5kqmzPcmzaGq3GId69D1s3ptAr5P5cPK
- BEILfkArmuHD++NGvYHanBI2odRn9U71E3rJUX6iJu8fXJ59vgaIRAUanHgXn1w/Q6r0
- tzKA==
-X-Gm-Message-State: AFqh2koDaMWSoafwmsroQrReQxLc5jbbtj4tOTQPuQCpdp5hECHm6G7I
- fDoJtsBMNMOTUh2HUt33Jpv0gZLF4ZZF6KNJjkeLkPVCZC6tNxyO4q/OA/AtcmJZtIXzQWkeFdy
- DSxHEOR2uaIrWrZI=
-X-Received: by 2002:a05:600c:688f:b0:3d9:69a5:949e with SMTP id
- fn15-20020a05600c688f00b003d969a5949emr551183wmb.8.1671703653460; 
- Thu, 22 Dec 2022 02:07:33 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsy61T+OM+VpxbrazylrRFX8/bM4nV+CWQDddGuJ6926C7IfkDqCWv75D0FKpjM+QpVthQrqw==
-X-Received: by 2002:a05:600c:688f:b0:3d9:69a5:949e with SMTP id
- fn15-20020a05600c688f00b003d969a5949emr551169wmb.8.1671703653248; 
- Thu, 22 Dec 2022 02:07:33 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- n9-20020a05600c4f8900b003d1b4d957aasm541656wmq.36.2022.12.22.02.07.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 02:07:32 -0800 (PST)
-Message-ID: <5045cc9a-b383-b1d3-b3fd-a9f84dd74f36@redhat.com>
-Date: Thu, 22 Dec 2022 11:07:31 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QeYpS9ZYpETzTZu427UJCwGGU7NkwnT6TbX89yQfbJU=;
+ b=2iOUKgf47yY6QkuL78cbTGAbjw1m78nap0L8kaof9f4PjHq84ls3gz3PAH3nCOyAgC
+ beXUPmdUnpZK/p2w4eSHxwb9UT3o2XpaEeOCJ5l0X+HnYPswIgeaknzdgsSHW3g5rEW8
+ EsSW8JpqPzyMM1w1cijqFRnx3FWmaxRRypNwULmBlwLWb9nvUOaOeooaim6EtSp8IV4Q
+ goQjoBBwAoboxqGV14Kif8Nt+UM1fG5TgdaAbHr4E2c8hq1/KAsvp3uGGL1aUZnAc3Qy
+ GSnxkszKkWjIfmB7RNQseK65vP0cHk6kaGKEinyefzqciVHPKDsO0Tk8cdVGatdXQpQh
+ QqBA==
+X-Gm-Message-State: AFqh2kqha+j4BrltYKO1MX8ZsBVJZ/URjnba1heIQ6vJogCVU5NpcZ4U
+ 1lJf6Fl+cyfuf6L+PE5lLaQ2kMAW7AU+0dBjMDk=
+X-Google-Smtp-Source: AMrXdXv74o6ompjOrPuX28j5tdD6AGPtiwu7lTzywu28EgtOvYiHKFbBCuOrM4J9BYs8BtQwfGaRWxCVHbnNKlwE41k=
+X-Received: by 2002:a17:906:5798:b0:7c0:dcb3:718b with SMTP id
+ k24-20020a170906579800b007c0dcb3718bmr314823ejq.711.1671704708798; Thu, 22
+ Dec 2022 02:25:08 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2] target/i386: Remove compilation errors when
- -Werror=maybe-uninitialized
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, eric.auger.pro@gmail.com,
- richard.henderson@linaro.org, paul@nowt.org, qemu-devel@nongnu.org,
- stefanha@fmail.com, peter.maydell@linaro.org, sw@weilnetz.de
-References: <20221221163652.1239362-1-eric.auger@redhat.com>
- <ed6d68f4-81aa-d9a1-3a71-628855e8a376@redhat.com>
- <bafaad8e-f4f7-ddeb-4fbd-cebc7b8c360e@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <bafaad8e-f4f7-ddeb-4fbd-cebc7b8c360e@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
+ <20221221182300.307900-2-dbarboza@ventanamicro.com>
+In-Reply-To: <20221221182300.307900-2-dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 22 Dec 2022 18:24:58 +0800
+Message-ID: <CAEUhbmX03QVTCOyeMZy6_=RSOZUAz84_WDyTbQMUKJ0Dec2v2Q@mail.gmail.com>
+Subject: Re: [PATCH 01/15] tests/avocado: add RISC-V opensbi boot test
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,107 +84,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Philippe,
-
-On 12/22/22 10:01, Philippe Mathieu-Daudé wrote:
-> On 22/12/22 09:18, Paolo Bonzini wrote:
->> On 12/21/22 17:36, Eric Auger wrote:
->>> To avoid compilation errors when -Werror=maybe-uninitialized is used,
->>> replace 'case 3' by 'default'.
->>>
->>> Otherwise we get:
->>>
->>> ../target/i386/ops_sse.h: In function ‘helper_vpermdq_ymm’:
->>> ../target/i386/ops_sse.h:2495:13: error: ‘r3’ may be used
->>> uninitialized in this function [-Werror=maybe-uninitialized]
->>>     2495 |     d->Q(3) = r3;
->>>          |     ~~~~~~~~^~~~
->>> ../target/i386/ops_sse.h:2494:13: error: ‘r2’ may be used
->>> uninitialized in this function [-Werror=maybe-uninitialized]
->>>     2494 |     d->Q(2) = r2;
->>>          |     ~~~~~~~~^~~~
->>> ../target/i386/ops_sse.h:2493:13: error: ‘r1’ may be used
->>> uninitialized in this function [-Werror=maybe-uninitialized]
->>>     2493 |     d->Q(1) = r1;
->>>          |     ~~~~~~~~^~~~
->>> ../target/i386/ops_sse.h:2492:13: error: ‘r0’ may be used
->>> uninitialized in this function [-Werror=maybe-uninitialized]
->>>     2492 |     d->Q(0) = r0;
->>>          |     ~~~~~~~~^~~~
+On Thu, Dec 22, 2022 at 2:29 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
 >
-> With what compiler? Is that a supported one?
-https://lore.kernel.org/qemu-devel/3aab489e-9d90-c1ad-0b6b-b2b5d80db723@redhat.com/
+> This test is used to do a quick sanity check to ensure that we're able
+> to run the existing QEMU FW image.
 >
->>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>> Suggested-by: Stefan Weil <sw@weilnetz.de>
->>> Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
->>> ---
->>>   target/i386/ops_sse.h | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
->>> index 3cbc36a59d..c442c8c10c 100644
->>> --- a/target/i386/ops_sse.h
->>> +++ b/target/i386/ops_sse.h
->>> @@ -2466,7 +2466,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg
->>> *s, uint32_t order)
->>>           r0 = s->Q(0);
->>>           r1 = s->Q(1);
->>>           break;
->>> -    case 3:
->>> +    default:
->>>           r0 = s->Q(2);
->>>           r1 = s->Q(3);
->>>           break;
->>> @@ -2484,7 +2484,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg
->>> *s, uint32_t order)
->>>           r2 = s->Q(0);
->>>           r3 = s->Q(1);
->>>           break;
->>> -    case 3:
->>> +    default:
->>>           r2 = s->Q(2);
->>>           r3 = s->Q(3);
->>>           break;
->>
->> Queued, but this compiler sucks. :)
+> 'sifive_u', 'spike' and 'virt' riscv64 machines, and 'sifive_u' and
+> 'virt' 32 bit machines are able to run the default RISCV64_BIOS_BIN |
+> RISCV32_BIOS_BIN firmware with minimal options.
 >
-> Can't we simply add a dumb 'default' case? So when reviewing we don't
-> have to evaluate 'default' means 3 here.
->
-> -- >8 --
-> --- a/target/i386/ops_sse.h
-> +++ b/target/i386/ops_sse.h
-> @@ -2470,6 +2470,8 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s,
-> uint32_t order)
->          r0 = s->Q(2);
->          r1 = s->Q(3);
->          break;
-> +    default:
-> +        qemu_build_not_reached();
->      }
->      switch ((order >> 4) & 3) {
->      case 0:
-> @@ -2488,6 +2490,8 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s,
-> uint32_t order)
->          r2 = s->Q(2);
->          r3 = s->Q(3);
->          break;
-> +    default:
-> +        qemu_build_not_reached();
->      }
-I guess this won't fix the fact r0, r1, r2, r3 are not initialized, will it?
-
-Thanks
-
-Eric
->      d->Q(0) = r0;
->      d->Q(1) = r1;
+> Cc: Cleber Rosa <crosa@redhat.com>
+> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Cc: Beraldo Leal <bleal@redhat.com>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 > ---
+>  tests/avocado/riscv_opensbi.py | 65 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 65 insertions(+)
+>  create mode 100644 tests/avocado/riscv_opensbi.py
 >
+> diff --git a/tests/avocado/riscv_opensbi.py b/tests/avocado/riscv_opensbi=
+.py
+> new file mode 100644
+> index 0000000000..abc99ced30
+> --- /dev/null
+> +++ b/tests/avocado/riscv_opensbi.py
+> @@ -0,0 +1,65 @@
+> +# opensbi boot test for RISC-V machines
+> +#
+> +# Copyright (c) 2022, Ventana Micro
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +from avocado_qemu import QemuSystemTest
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class RiscvOpensbi(QemuSystemTest):
+> +    """
+> +    :avocado: tags=3Daccel:tcg
+> +    """
+> +    timeout =3D 5
+> +
+> +    def test_riscv64_virt(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv64
+> +        :avocado: tags=3Dmachine:virt
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, 'Platform Name')
+> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
+> +
+> +    def test_riscv64_spike(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv64
+> +        :avocado: tags=3Dmachine:spike
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, 'Platform Name')
+> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
+> +
+> +    def test_riscv64_sifive_u(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv64
+> +        :avocado: tags=3Dmachine:sifive_u
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, 'Platform Name')
+> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
+> +
+> +    def test_riscv32_virt(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv32
+> +        :avocado: tags=3Dmachine:virt
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, 'Platform Name')
+> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
 
+How about testing riscv32_spike too?
+
+> +
+> +    def test_riscv32_sifive_u(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv32
+> +        :avocado: tags=3Dmachine:sifive_u
+> +        """
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, 'Platform Name')
+> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
+> --
+
+Regards,
+Bin
 
