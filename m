@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B81E653CC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 09:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4C2653CD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 09:13:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8GbQ-0002s7-Lg; Thu, 22 Dec 2022 03:06:56 -0500
+	id 1p8GeD-0003Yv-Sq; Thu, 22 Dec 2022 03:09:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8Gb6-0002l0-Bc
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:06:38 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8Gb4-0005HO-EO
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:06:35 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- 131-20020a1c0289000000b003d35acb0f9fso3290138wmc.2
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 00:06:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pFjyqbpnz02nXZRvchFyHNpd7pQiGZsTqk5Z7SiuaF8=;
- b=eW5xUV4UQsXhlD8Q8Octu9n9cPSq6Sm197N0qRQPhIU32SabSOxk+11LHzxdmlTo9A
- OVU2hDkwRQFwr9+WDXkpTLlMoZbd6om/HyGfMxHhvKGbdSembbwcfgNStVJruDNK5Otg
- EULwUIgjWAkH6FIEsPoRZBi8dziwTT3ZwaKCMvSECdjnynljneJdLRfFPJrp+h4CHqPL
- 6C5c1Fr2bXfLXo1rtNaKM9/7bMcIhjqe0YKQpZwu2Ou4nx0rcC7OXqv+ehFdsl9xuewR
- /RieivbkjqEGpsjTaFHezkT05IIt1qLtq2w0VibL3LTfv0sw5g60Fx4AFYb6JlP+yxDW
- FRBQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p8GeC-0003YN-6X
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:09:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p8GeA-0005Ty-Iy
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:09:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671696583;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fInc+JkUAyuUBr4VwR3d1VSkKanPTFN1ZYhappOmWMc=;
+ b=BLhlOvYpXH9i2lcHbo/lm5kZgkpK0Zf7AY9iI0bDtOeVn1WaIKEJVQdJBk5bqphygPivlZ
+ gsqTVZJHLPeMvl3Am49R00ZdOvaMDviJkHWtESRBfAwZ9vYebSH8pDpfy+eEmJETrkHnOy
+ xroX9p7vUWusuwsL1zu3JHRJDSDFSJQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-190-9xqekOzYOoGeuraysNuRww-1; Thu, 22 Dec 2022 03:09:41 -0500
+X-MC-Unique: 9xqekOzYOoGeuraysNuRww-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ x13-20020a05640226cd00b0047ac11c9774so983010edd.17
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 00:09:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pFjyqbpnz02nXZRvchFyHNpd7pQiGZsTqk5Z7SiuaF8=;
- b=M8Oup3wWKtZmNTfYUMRa66+QmD4qtkNtr9bDSFez78ZASxsPxwBL7zpSSmFhm/9R9Q
- 79+N5TvnFHL1yJYRE6HgnO0/dp2o3t5CrTsIbjfc9ZAZrw7kVZjKNvdpWfWlC8l0OctV
- blplHM32AECZtC5Xt0YMGHPqW8VmxyDdYmfNxOhagjeYEPJMm+PzjJR3oYZ09Sk2ysET
- GLi4s+bcUkVpwL7BHSkDNjCu1BaLuvmfAQvCaTdUWz9D3s5VqcUH34Mc6JzN5+PUBnEZ
- 4jFrR1T7w0c8w8RTxpBG2D+PMuCOXfsDIBFAh1GgduiZpim3gUN+m+TZCBwYjukyipnX
- gdLg==
-X-Gm-Message-State: AFqh2kqvM7cgVdqb426ly3Al1uX6pq7FrcEYRv6StSG/PUbFwqae9vZg
- O+uZhLjvC067/MQtGDDaIfTkaQeUjA0rg0a33qI=
-X-Google-Smtp-Source: AMrXdXs5goaEzrr0Isx4+zXUKVAdcbu6ZsaBdU2WK04IY4Zy0L0UiqvznqE6j5qNhocgTeWOOLDaIw==
-X-Received: by 2002:a1c:4b03:0:b0:3d9:103d:9081 with SMTP id
- y3-20020a1c4b03000000b003d9103d9081mr2047772wma.28.1671696392616; 
- Thu, 22 Dec 2022 00:06:32 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n41-20020a05600c3ba900b003d358beab9dsm46242wms.47.2022.12.22.00.06.31
+ bh=fInc+JkUAyuUBr4VwR3d1VSkKanPTFN1ZYhappOmWMc=;
+ b=jrTazXDF4puDCnjL9HI+dNPDKHSJNizVtpdSFUBzHgECKgvfhBIyvcnpPmb0446FKW
+ 7syI3U3mBFiFknCh+7sdcjumQX2vbN3K/IZz+shrU1KV067WAenBzN/jyc5G/vkkZqP0
+ 14Pn2jiHuTH7CvqVW7AYD1sF1tKE3bLp4chQKCUmr2ydylIQzMoBbr1nfSGq70lPoYIS
+ xtByrsbg2OqWueHbYLX/tvP1SRCkDQob8zhntJ6wFP+qZiGHDwnOhty08GRDiPaYD8hl
+ YZmzcb9oYiFr0dVCHW+v66Ax7VknzklawWi6keHh1sk5fx2jqX/SGCwKmInoM+PP9+NL
+ ueCQ==
+X-Gm-Message-State: AFqh2koYJ1DTy0S3FY4SfKxSxYJjMwHlhDAL7DqLqp4hvx+pBh8Op050
+ nQ95gzbLCm9RNElCjHvP0OtyK5GOOcJfwd9dt3GFGqb/SQ35OhL3dTzkghSAsXjjP9VG44R8mCP
+ DCfozNID7w6OQYpE=
+X-Received: by 2002:a17:907:a08d:b0:7c0:dac7:36d8 with SMTP id
+ hu13-20020a170907a08d00b007c0dac736d8mr4074788ejc.10.1671696580704; 
+ Thu, 22 Dec 2022 00:09:40 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvdwON2bcJ7K0sGDnQiJtX65NgxCkH5ri4TC6VyNJEUzDAER4ilNsMuD8tRyis9q+OnM1DVTA==
+X-Received: by 2002:a17:907:a08d:b0:7c0:dac7:36d8 with SMTP id
+ hu13-20020a170907a08d00b007c0dac736d8mr4074768ejc.10.1671696580486; 
+ Thu, 22 Dec 2022 00:09:40 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ 25-20020a170906309900b007c53090d511sm8132514ejv.192.2022.12.22.00.09.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 00:06:32 -0800 (PST)
-Message-ID: <947734cf-7790-fa14-cb48-b2b48cc54896@linaro.org>
-Date: Thu, 22 Dec 2022 09:06:31 +0100
+ Thu, 22 Dec 2022 00:09:40 -0800 (PST)
+Message-ID: <9930d0ba-1771-91bc-75b8-9d3acf206037@redhat.com>
+Date: Thu, 22 Dec 2022 09:09:38 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH v2] MIPS: remove support for trap and emulate KVM
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3 10/10] libvduse: Fix assignment in vring_set_avail_event
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: libvir-list@redhat.com, kvm@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-References: <20221221091718.71844-1-philmd@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221221091718.71844-1-philmd@linaro.org>
+To: Marcel Holtmann <marcel@holtmann.org>, qemu-devel@nongnu.org,
+ mst@redhat.com, xieyongji@bytedance.com
+References: <cover.1671628158.git.marcel@holtmann.org>
+ <88882e496f70a7f606eabfd8b6183cc2b148c222.1671628158.git.marcel@holtmann.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <88882e496f70a7f606eabfd8b6183cc2b148c222.1671628158.git.marcel@holtmann.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,42 +103,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/12/22 10:17, Philippe Mathieu-Daudé wrote:
-> From: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> This support was limited to the Malta board, drop it.
-> I do not have a machine that can run VZ KVM, so I am assuming
-> that it works for -M malta as well.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
-> Since Paolo's v1:
-> 
-> - Remove cpu_mips_kvm_um_phys_to_kseg0() declaration in "cpu.h"
-> - Remove unused KVM_KSEG0_BASE/KVM_KSEG2_BASE definitions
-> - Use USEG_LIMIT/KSEG0_BASE instead of magic values
-> 
->         /* Check where the kernel has been linked */
->    -    if (!(kernel_entry & 0x80000000ll)) {
->    -        error_report("CONFIG_KVM_GUEST kernels are not supported");
->    +    if (kernel_entry <= USEG_LIMIT) {
->    +        error_report("Trap-and-Emul kernels (Linux CONFIG_KVM_GUEST)"
->    +                     " are not supported");
-> 
->    -    env->CP0_EBase = (cs->cpu_index & 0x3FF) | (int32_t)0x80000000;
->    +    env->CP0_EBase = KSEG0_BASE | (cs->cpu_index & 0x3FF);
-> ---
->   docs/about/deprecated.rst       |  9 -------
->   docs/about/removed-features.rst |  9 +++++++
->   hw/mips/malta.c                 | 46 +++++----------------------------
->   target/mips/cpu.c               |  7 +----
->   target/mips/cpu.h               |  3 ---
->   target/mips/internal.h          |  3 ---
->   target/mips/kvm.c               | 11 +-------
->   target/mips/sysemu/addr.c       | 17 ------------
->   target/mips/sysemu/physaddr.c   | 13 ----------
->   9 files changed, 18 insertions(+), 100 deletions(-)
+On 12/21/22 14:10, Marcel Holtmann wrote:
+>   static inline void vring_set_avail_event(VduseVirtq *vq, uint16_t val)
+>   {
+> -    *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) = htole16(val);
+> +    uint16_t *avail;
+> +
+> +    avail = (uint16_t *)&vq->vring.used->ring[vq->vring.num];
+> +    *avail = htole16(val);
 
-Thanks, queued to mips-next.
+That this doesn't warn is basically a compiler bug.
+
+Please use memcpy instead, i.e.
+
+   uint16_t val_le = htole16(val);
+   memcpy(&vq->vring.used->ring[vq->vring.num]), &val_le, sizeof(uint16_t));
+
+Paolo
+
 
