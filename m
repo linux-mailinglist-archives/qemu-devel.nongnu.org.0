@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B8465424E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 15:03:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E706542E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 15:27:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8M9E-0004B1-Tj; Thu, 22 Dec 2022 09:02:12 -0500
+	id 1p8MVk-0007l0-MD; Thu, 22 Dec 2022 09:25:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p8M9C-00049D-M0
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 09:02:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1p8M9A-0002Jv-Pg
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 09:02:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671717727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=psYpXFZJd9iMBCgIXFCT667Wt4KdIeMQMYQbJ2QeeZk=;
- b=Urmccq0DUxCcPd4bsTmDKLtcHAAmSMcwa3ftYz1z1EKNwr29R+dBwwF5PIiXc+qeD4ndQ2
- GLa/YPpMKvdEP9urzOztZtOHeeCLDUxRevdS+s7VBmbyUBEoDBLWw9HLQ55USfb2pbFFJA
- Ipmg4zu0AQSlI19jUn4ATiUhrQBaPmM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-KroXwitFMYuCvrIuq4lxuw-1; Thu, 22 Dec 2022 09:02:05 -0500
-X-MC-Unique: KroXwitFMYuCvrIuq4lxuw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3F32D38149B5;
- Thu, 22 Dec 2022 14:02:04 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.39.194.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5521E51EF;
- Thu, 22 Dec 2022 14:02:02 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, pbonzini@redhat.com,
- richard.henderson@linaro.org, paul@nowt.org, qemu-devel@nongnu.org,
- stefanha@redhat.com, peter.maydell@linaro.org, sw@weilnetz.de
-Subject: [PATCH v3] target/i386: Remove compilation errors when
- -Werror=maybe-uninitialized
-Date: Thu, 22 Dec 2022 15:01:58 +0100
-Message-Id: <20221222140158.1260748-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8MVb-0007kU-Al
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 09:25:20 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8MVY-000688-CC
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 09:25:18 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ z8-20020a05600c220800b003d33b0bda11so4139826wml.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 06:25:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=IenfgQXRReZpGHZHQHXrcB/uJH9iXh0IVb93SrI1Wd0=;
+ b=b+AkD9YXtdmkHgfVSs14IvD3QUdRhrPb+qLyJ1aYmUFBGlelqIl1SIwfDn1C8fM6hH
+ BTF3bdhbf0wTRIcFJCmpSLpAUr8uLdjugbPIzX4biLiJmtvdLYAVUvIIAE9NC9vnDJQX
+ 35zvTXj/KzCCiUXo5iM+v8LCY9h+kgMjYnwSowPoZ4cHbUJv1bvXAyMcgfl+mwM/1nyQ
+ gb2z1Ltyfh40s5YfBO/8an4JArJgQzwM8B6KwGt+3Z0wmfC1gGBUbCOJi+ZyjD2AaCSM
+ bMn2W2J7Np4tE70UEHhP+Ec1a0eCigcwpZMIXrB9uzw7KkbgInWREdO598X33d0/w7H6
+ Qp9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IenfgQXRReZpGHZHQHXrcB/uJH9iXh0IVb93SrI1Wd0=;
+ b=CD7+IcF9IWzEz7uxoZhsr5Klv48CuPyiuwavhdtKnXpt+JatG7R/dyXvU6tpXBMnGT
+ gSFS4+9JiPNpeqW30bpQlZ6VjmP6Gl61WdcfT3MOrQ3JuBRzvX918LgUrQalGxSJwPn8
+ HNe2+J//u9rNIrZobi4SxV0QxAwkSnxn/k+rQOXCDw54BmSxUIpwZbK9/UhZDazhOAeN
+ g1PMCE6QfbY/IwY2zEmPQjT2L2RUv8cxr96EPXkY1hk83ilb7I1YudfGvWsCSOWg0RQW
+ nx0r7Mm5nF7xwiS2G9U3NtHJj6/vTjvxLacqoa15FnvRTYct9kTjXHwf1WwOfZhOy31Y
+ OIeA==
+X-Gm-Message-State: AFqh2kpRWpuyPFbXGvEVrkVmC+OxBofTP8RpkU0rqjofo3TaVrdrg4pT
+ tUKEoRXlCcCzZHC8cycbRXC3iA==
+X-Google-Smtp-Source: AMrXdXsltapmm4b+gfmgMdE3Z1mllA3WRrvRLRzDxVkVnFB1kuQOB4EU0oaoUkJxB/SM7qilUuMucA==
+X-Received: by 2002:a05:600c:3209:b0:3cf:5fd2:87a0 with SMTP id
+ r9-20020a05600c320900b003cf5fd287a0mr4572859wmp.40.1671719114263; 
+ Thu, 22 Dec 2022 06:25:14 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ l6-20020a05600c4f0600b003d351a9db76sm6612866wmq.30.2022.12.22.06.25.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Dec 2022 06:25:13 -0800 (PST)
+Message-ID: <35c460e1-8e4d-eb1a-c25c-71f1a6d7d094@linaro.org>
+Date: Thu, 22 Dec 2022 15:25:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH 02/15] hw/riscv/spike: use 'fdt' from MachineState
+Content-Language: en-US
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Bin Meng <bin.meng@windriver.com>
+References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
+ <20221221182300.307900-3-dbarboza@ventanamicro.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221221182300.307900-3-dbarboza@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,62 +92,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To avoid compilation errors when -Werror=maybe-uninitialized is used,
-add a default case with g_assert_not_reached().
+On 21/12/22 19:22, Daniel Henrique Barboza wrote:
+> The MachineState object provides a 'fdt' pointer that is already being
+> used by other RISC-V machines, and it's also used by the 'dumpdtb' QMP
+> command.
+> 
+> Remove the 'fdt' pointer from SpikeState and use MachineState::fdt
+> instead.
+> 
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>   hw/riscv/spike.c         | 12 +++++-------
+>   include/hw/riscv/spike.h |  2 --
+>   2 files changed, 5 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index 13946acf0d..d96f013e2e 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -52,6 +52,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+>                          uint64_t mem_size, const char *cmdline, bool is_32_bit)
+>   {
+>       void *fdt;
+> +    int fdt_size;
+>       uint64_t addr, size;
+>       unsigned long clint_addr;
+>       int cpu, socket;
+> @@ -64,7 +65,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+>           "sifive,clint0", "riscv,clint0"
+>       };
+>   
+> -    fdt = s->fdt = create_device_tree(&s->fdt_size);
+> +    fdt = mc->fdt = create_device_tree(&fdt_size);
 
-Otherwise with GCC 11.3.1 "cc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2)"
-we get:
+We use 'ms' for MachineState and 'mc' for MachineClass. I first got
+scared while looking at that patch that a class field was used. The
+variable is simply badly named. Possible future cleanup: s/mc/ms/.
 
-../target/i386/ops_sse.h: In function ‘helper_vpermdq_ymm’:
-../target/i386/ops_sse.h:2495:13: error: ‘r3’ may be used
-uninitialized in this function [-Werror=maybe-uninitialized]
-     2495 |     d->Q(3) = r3;
-          |     ~~~~~~~~^~~~
-../target/i386/ops_sse.h:2494:13: error: ‘r2’ may be used
-uninitialized in this function [-Werror=maybe-uninitialized]
-     2494 |     d->Q(2) = r2;
-          |     ~~~~~~~~^~~~
-../target/i386/ops_sse.h:2493:13: error: ‘r1’ may be used
-uninitialized in this function [-Werror=maybe-uninitialized]
-     2493 |     d->Q(1) = r1;
-          |     ~~~~~~~~^~~~
-../target/i386/ops_sse.h:2492:13: error: ‘r0’ may be used
-uninitialized in this function [-Werror=maybe-uninitialized]
-     2492 |     d->Q(0) = r0;
-          |     ~~~~~~~~^~~~
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
----
-v2 -> v3:
-- use g_assert_not_reached() and document the compiler in use
----
- target/i386/ops_sse.h | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 3cbc36a59d..0bd6bfad8a 100644
---- a/target/i386/ops_sse.h
-+++ b/target/i386/ops_sse.h
-@@ -2470,6 +2470,8 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, uint32_t order)
-         r0 = s->Q(2);
-         r1 = s->Q(3);
-         break;
-+    default: /* default case added to help the compiler to avoid warnings */
-+        g_assert_not_reached();
-     }
-     switch ((order >> 4) & 3) {
-     case 0:
-@@ -2488,6 +2490,8 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, uint32_t order)
-         r2 = s->Q(2);
-         r3 = s->Q(3);
-         break;
-+    default: /* default case added to help the compiler to avoid warnings */
-+        g_assert_not_reached();
-     }
-     d->Q(0) = r0;
-     d->Q(1) = r1;
--- 
-2.37.3
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
