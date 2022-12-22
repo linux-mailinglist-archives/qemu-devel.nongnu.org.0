@@ -2,127 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574DF6545E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 19:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7793E654660
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 20:08:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8Q6Q-0003YR-TA; Thu, 22 Dec 2022 13:15:34 -0500
+	id 1p8QuZ-0006IZ-Lp; Thu, 22 Dec 2022 14:07:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1p8Q6P-0003YI-9m
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 13:15:33 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1p8Q6N-0004wn-42
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 13:15:33 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id x3so2694355pjv.4
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 10:15:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=752C77UYWYC/kCXAv9m+o+bKyybany3JU3TCXHGZR0U=;
- b=mnWHipNRICDDr9o9B9k9tzUHQ5DlJw7QNZU1NFFDGUJ/WFgmaKL6adljuLzxsRCR1T
- yOt1llvxRLddf3o8tFdD1XSrfvJKY91Y6BA+Ue/bxbYYHAufNWWHf+w2InX7LDglGQta
- 9K3BVA4lZMYr2iIsmJ+f1M3V5mNVtVOBrDe0He7TJ193jL7X5zGQlNAIk8two/do47Qa
- +IAmme0Ak9mW8lBakzH8LqHkhC04c8aYC5+Yadk9FKgybASwcKtR2kDtwpwTkfLtjN0F
- Pf78IoRu0kt98rlTKH1ZJdwA91Ht9u39VkBXmY2L8neh0zXKIViW79WjZdA8w13OMOlE
- OnLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=752C77UYWYC/kCXAv9m+o+bKyybany3JU3TCXHGZR0U=;
- b=z3+4LY8AQ9TCZamXubNgdx31iCoCgHBcBOYnRr9cITo8mvoEEkj72yrhIjbemA9EGv
- JYNqbsbQ6v0AitNPiYWn6ThH0//wXJHgi80lCj4R2fRn1zXoOqgkrWLVtKdWeWFIc0qK
- 1ZeOj1PYBlcgh+6DBXn7kDD54oNjjm0anEILVQWSo1UC2M45pnEwHUBDsin6x4EGr18h
- yGttAeZ4so3BdJX16D7haqGk9qnuRdhHWcJE+ZtvziNiTfsWRJEBAL9oqY7UX2oclV9E
- 7YwfC3RFfLljUKg+3AOG1BZvGptLz4GlqlwuO+EoRxPNeYYSUgDDN7+mwPHNeMo3nyBh
- rJWg==
-X-Gm-Message-State: AFqh2kpvnUcUnxQQPC+u0rR+B6GMWeNnpmnpNMAfacPfTyvtAgENC9Yu
- ggNz1RA8WWrReJ2ccU0NZkwY2Q==
-X-Google-Smtp-Source: AMrXdXtVsGTXmJ+OudFvpboyWukOEY96QmhFL3/LDUsVn+qtHCwo04yMbEQyfv9hcz3t0HxxdVHCiA==
-X-Received: by 2002:a17:903:41ca:b0:189:6624:58c0 with SMTP id
- u10-20020a17090341ca00b00189662458c0mr1174380ple.3.1671732928592; 
- Thu, 22 Dec 2022 10:15:28 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- a7-20020a17090a70c700b00219feae9486sm3443216pjm.7.2022.12.22.10.15.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Dec 2022 10:15:28 -0800 (PST)
-Date: Thu, 22 Dec 2022 18:15:24 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: "Huang, Kai" <kai.huang@intel.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jmattson@google.com" <jmattson@google.com>,
- "Lutomirski, Andy" <luto@kernel.org>,
- "ak@linux.intel.com" <ak@linux.intel.com>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
- "Hocko, Michal" <mhocko@suse.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "tabba@google.com" <tabba@google.com>,
- "david@redhat.com" <david@redhat.com>,
- "michael.roth@amd.com" <michael.roth@amd.com>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "bfields@fieldses.org" <bfields@fieldses.org>,
- "dhildenb@redhat.com" <dhildenb@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "rppt@kernel.org" <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
- "vkuznets@redhat.com" <vkuznets@redhat.com>,
- "vbabka@suse.cz" <vbabka@suse.cz>,
- "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
- "ddutile@redhat.com" <ddutile@redhat.com>,
- "qperret@google.com" <qperret@google.com>, "arnd@arndb.de" <arnd@arndb.de>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "vannapurve@google.com" <vannapurve@google.com>,
- "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
- "wanpengli@tencent.com" <wanpengli@tencent.com>,
- "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
- "hughd@google.com" <hughd@google.com>,
- "aarcange@redhat.com" <aarcange@redhat.com>,
- "mingo@redhat.com" <mingo@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- "jlayton@kernel.org" <jlayton@kernel.org>,
- "joro@8bytes.org" <joro@8bytes.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "Wang, Wei W" <wei.w.wang@intel.com>,
- "steven.price@arm.com" <steven.price@arm.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "Hansen, Dave" <dave.hansen@intel.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linmiaohe@huawei.com" <linmiaohe@huawei.com>
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <Y6SevJt6XXOsmIBD@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
- <20221219075313.GB1691829@chaop.bj.intel.com>
- <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
- <20221220072228.GA1724933@chaop.bj.intel.com>
- <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
- <20221221133905.GA1766136@chaop.bj.intel.com>
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p8QuX-0006I8-V1
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 14:07:21 -0500
+Received: from mout.gmx.net ([212.227.15.15])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p8QuU-0004lj-VI
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 14:07:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1671736035; bh=2IqwgqZRJ3MH1Tz0ZSzmkKGXM/wD9cK7ufmyjFQgjCU=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=uFunK9JlolBbV8DGnZ1F6EggYqOC4YjEk4h9PAoPGGGJFFBm7qSfgn1RaWSga/lvL
+ fFLfDzvBWyPDJTfK9AgU8dFsUMN/AgskezS0kuSKfBphNMaeeFHe/CwKg0PNMu2wF6
+ j3QAzknohI9krgDdtcfReFdHzyaSQsrxtRj0o0KpJB0zuG04ftRrD55kZBxTEl/dcN
+ OOZT8Q4fSXntzCyHYR2MH0vCrTiU1C2eNUiLsGyHoA0jKDNdMD/PuXo4rbRwt9C7CZ
+ 94snb6/cgyoz1r1Y6nz5neTk9j1AXs389K2wr8y7YMFb2crJSi8VwHQdKCH54Xdp0v
+ m3Rsm8j83KmLg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100.fritz.box ([92.116.142.238]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mnps0-1oXQ412nCU-00pPfL; Thu, 22
+ Dec 2022 20:07:15 +0100
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>,
+	qemu-devel@nongnu.org
+Cc: Helge Deller <deller@gmx.de>
+Subject: [PATCH] linux-user: Add strace for prlimit64() syscall
+Date: Thu, 22 Dec 2022 20:06:39 +0100
+Message-Id: <20221222190639.124078-1-deller@gmx.de>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221221133905.GA1766136@chaop.bj.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=seanjc@google.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:CxpGHemehYFYfeDJGhqOYz+WJdAEzGy3kGrlMgMmt6ZuKnRy01W
+ k4ucOW+x5ed3IIGxD8ncInfz38HzDp6zgMiAfXD2q2IxlBKG2drQHs0hcINNqeBejvYSITw
+ 4h3w4NLaXGG1rzejwyIIPEK+D9y5s8p/K1Qh1kgmB+1xGpuo0XGIh2FweD5qNCrHIL6E2Am
+ ZtRuRIM+fyJfviy/ElKWA==
+UI-OutboundReport: notjunk:1;M01:P0:0weTCvnUvEI=;9eB2+O8o/0mg8AguauyeBXLyA3f
+ e/JMfytWPRUBRMDbT+mS2LquOzyoLaKgZeUdogMItTJuiyYepr1Pbl+GmSTCKagT0006M37DY
+ suidHe9Gy0l3Yh3Bc/fFCe8wh0+A1eLI+MCrEMB/WI4lsYjjy0LobXBOiimdx19mXuJREDYgc
+ tR3cxbLeAHwHO19jP5rOCpdpgPy8mJlCW3sCP1TseV12duvaVF7C4DeKOrQ3Vpv+vcaYwZuZt
+ vtdjepb7bd6yBzDbnRgFeoUp/K1a0S2Okm30UkqZVqNSQj1Gm+ISMnYubE9t/jzEKuQwQ0Wsm
+ lNyZGdzGiW8L3axWLmhzELGmjjh/ANdIK2LrbKCkG0UgnAUiJujxVbtKY1hA5rxiv2X530IRs
+ oFg+4xSZEFNRl0LwKRfpZBTZMepLNn2OYfYfP9dITc+OiQmVf9+amNkHkhFisACVy4DKkatT/
+ Z6LdYBy7tZHjkFsSCZPQ3t+i0nE6NmAoe6fT4Hx708SyryaDHRO8evSLxNMijp2s+n8qAmSUY
+ rIXCMUkH+rgUY/Nm2sKQ6dXPn9YDJr15vA2knnEFdSanSI+cDuik6qsEgYLHty3wHOyHgdipG
+ PW/pwHG9yOj4EzV4dhrKtqOFleLMcRzVCSs1xmDfbOARVoXyWybCFwGwdmpgX8Wcdc9e6eeEO
+ RrLNVvtVU0BboIInsexlYZ/Biw7Ytk6MlXfu/Zf9LirzkokE71ffMjkk236x7IY4V045vZfJ/
+ aJ50mhBmDnWIEEZqtvSSYzeqoAy+7vBxXP+JCWHKuothEUm4/DsAxuCBQ3vwLp4f7ROp4w05D
+ LszIY1mbe8pJiNcD/stM0HrUKWjDOX12w7gR08+jnT4TT6SzrpXfhuhWmADS1WxyRt5Qua7JV
+ vE+UjliasoNnJlZ4UyMPUI44NlHNsigXAS9kYIOl9WATQh3qVHdG3e+l+EChv8L89PSAorKvg
+ zTZKhjKAUeSemubHatxV2hSmLoQ=
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -138,56 +82,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Dec 21, 2022, Chao Peng wrote:
-> On Tue, Dec 20, 2022 at 08:33:05AM +0000, Huang, Kai wrote:
-> > On Tue, 2022-12-20 at 15:22 +0800, Chao Peng wrote:
-> > > On Mon, Dec 19, 2022 at 08:48:10AM +0000, Huang, Kai wrote:
-> > > > On Mon, 2022-12-19 at 15:53 +0800, Chao Peng wrote:
-> > But for non-restricted-mem case, it is correct for KVM to decrease page's
-> > refcount after setting up mapping in the secondary mmu, otherwise the page will
-> > be pinned by KVM for normal VM (since KVM uses GUP to get the page).
-> 
-> That's true. Actually even true for restrictedmem case, most likely we
-> will still need the kvm_release_pfn_clean() for KVM generic code. On one
-> side, other restrictedmem users like pKVM may not require page pinning
-> at all. On the other side, see below.
-> 
-> > 
-> > So what we are expecting is: for KVM if the page comes from restricted mem, then
-> > KVM cannot decrease the refcount, otherwise for normal page via GUP KVM should.
+Add proper prlimit64() strace output.
 
-No, requiring the user (KVM) to guard against lack of support for page migration
-in restricted mem is a terrible API.  It's totally fine for restricted mem to not
-support page migration until there's a use case, but punting the problem to KVM
-is not acceptable.  Restricted mem itself doesn't yet support page migration,
-e.g. explosions would occur even if KVM wanted to allow migration since there is
-no notification to invalidate existing mappings.
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+ linux-user/strace.c    | 89 ++++++++++++++++++++++++++++++++++++++++++
+ linux-user/strace.list |  3 +-
+ 2 files changed, 91 insertions(+), 1 deletion(-)
 
-> I argue that this page pinning (or page migration prevention) is not
-> tied to where the page comes from, instead related to how the page will
-> be used. Whether the page is restrictedmem backed or GUP() backed, once
-> it's used by current version of TDX then the page pinning is needed. So
-> such page migration prevention is really TDX thing, even not KVM generic
-> thing (that's why I think we don't need change the existing logic of
-> kvm_release_pfn_clean()). Wouldn't better to let TDX code (or who
-> requires that) to increase/decrease the refcount when it populates/drops
-> the secure EPT entries? This is exactly what the current TDX code does:
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 3ea91084fb..82dc1a1e20 100644
+=2D-- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -3774,6 +3774,95 @@ print_futex(CPUArchState *cpu_env, const struct sys=
+callname *name,
+ }
+ #endif
 
-I agree that whether or not migration is supported should be controllable by the
-user, but I strongly disagree on punting refcount management to KVM (or TDX).
-The whole point of restricted mem is to support technologies like TDX and SNP,
-accomodating their special needs for things like page migration should be part of
-the API, not some footnote in the documenation.
++#ifdef TARGET_NR_prlimit64
++static const char *target_ressource_string(abi_ulong r)
++{
++    #define RET_RES_ENTRY(res) case TARGET_##res:  return #res;
++    switch (r) {
++    RET_RES_ENTRY(RLIMIT_AS);
++    RET_RES_ENTRY(RLIMIT_CORE);
++    RET_RES_ENTRY(RLIMIT_CPU);
++    RET_RES_ENTRY(RLIMIT_DATA);
++    RET_RES_ENTRY(RLIMIT_FSIZE);
++    RET_RES_ENTRY(RLIMIT_LOCKS);
++    RET_RES_ENTRY(RLIMIT_MEMLOCK);
++    RET_RES_ENTRY(RLIMIT_MSGQUEUE);
++    RET_RES_ENTRY(RLIMIT_NICE);
++    RET_RES_ENTRY(RLIMIT_NOFILE);
++    RET_RES_ENTRY(RLIMIT_NPROC);
++    RET_RES_ENTRY(RLIMIT_RSS);
++    RET_RES_ENTRY(RLIMIT_RTPRIO);
++#ifdef RLIMIT_RTTIME
++    RET_RES_ENTRY(RLIMIT_RTTIME);
++#endif
++    RET_RES_ENTRY(RLIMIT_SIGPENDING);
++    RET_RES_ENTRY(RLIMIT_STACK);
++    default:
++        return NULL;
++    }
++    #undef RET_RES_ENTRY
++}
++
++static void
++print_rlimit64(abi_ulong rlim_addr, int last)
++{
++    if (rlim_addr) {
++        struct target_rlimit64 *rl;
++
++        rl =3D lock_user(VERIFY_READ, rlim_addr, sizeof(*rl), 1);
++        if (!rl) {
++            print_pointer(rlim_addr, last);
++            return;
++        }
++        qemu_log("{rlim_cur =3D %lld, rlim_max =3D %lld}%s",
++                 (long long)tswap64(rl->rlim_cur),
++                 (long long)tswap64(rl->rlim_max),
++                 get_comma(last));
++        unlock_user(rl, rlim_addr, 0);
++    } else {
++        qemu_log("NULL%s", get_comma(last));
++    }
++}
++
++static void
++print_prlimit64(CPUArchState *cpu_env, const struct syscallname *name,
++           abi_long arg0, abi_long arg1, abi_long arg2,
++           abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    const char *rlim_name;
++
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    rlim_name =3D target_ressource_string(arg1);
++    if (rlim_name) {
++        qemu_log("%s,", rlim_name);
++    } else {
++        print_raw_param("%d", arg1, 0);
++    }
++    print_rlimit64(arg2, 0);
++    print_pointer(arg3, 1);
++    print_syscall_epilogue(name);
++}
++
++static void
++print_syscall_ret_prlimit64(CPUArchState *cpu_env,
++                       const struct syscallname *name,
++                       abi_long ret, abi_long arg0, abi_long arg1,
++                       abi_long arg2, abi_long arg3, abi_long arg4,
++                       abi_long arg5)
++{
++    if (!print_syscall_err(ret)) {
++        qemu_log(TARGET_ABI_FMT_ld, ret);
++        if (arg3) {
++            qemu_log(" (");
++            print_rlimit64(arg3, 1);
++            qemu_log(")");
++        }
++    }
++    qemu_log("\n");
++}
++#endif
++
+ #ifdef TARGET_NR_kill
+ static void
+ print_kill(CPUArchState *cpu_env, const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index ac8f872371..f9254725a1 100644
+=2D-- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -1067,7 +1067,8 @@
+ { TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_prlimit64
+-{ TARGET_NR_prlimit64, "prlimit64" , NULL, NULL, NULL },
++{ TARGET_NR_prlimit64, "prlimit64" , NULL, print_prlimit64,
++                    print_syscall_ret_prlimit64 },
+ #endif
+ #ifdef TARGET_NR_process_vm_readv
+ { TARGET_NR_process_vm_readv, "process_vm_readv" , NULL, NULL, NULL },
+=2D-
+2.38.1
 
-It's not difficult to let the user communicate support for page migration, e.g.
-if/when restricted mem gains support, add a hook to restrictedmem_notifier_ops
-to signal support (or lack thereof) for page migration.  NULL == no migration,
-non-NULL == migration allowed.
-
-We know that supporting page migration in TDX and SNP is possible, and we know
-that page migration will require a dedicated API since the backing store can't
-memcpy() the page.  I don't see any reason to ignore that eventuality.
-
-But again, unless I'm missing something, that's a future problem because restricted
-mem doesn't yet support page migration regardless of the downstream user.
 
