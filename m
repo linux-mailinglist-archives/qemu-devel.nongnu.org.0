@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B61653D32
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 09:58:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B18653D3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 10:02:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8HO1-0001ZF-0J; Thu, 22 Dec 2022 03:57:09 -0500
+	id 1p8HST-0003Yn-NM; Thu, 22 Dec 2022 04:01:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8HNz-0001Z1-5J
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:57:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8HNx-0004vJ-5C
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:57:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671699423;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PQfk582r4+u7TCeTqomhtfZtcwIzbWX3f0PR5lC+fgU=;
- b=FFsjMgrXLI78nVYwgVSfQIDd+MtAfZYmnKjvZ6cJCBt7gRArPzue+Ie+Jw2Z3AxgTyyKFY
- QVmmmac1TNJaP7dFWSt8Ywz352MBzd+O8/uILzXkbOeTu0Xr5BXTGcIUoe17ZU9/Z6G2vI
- 30Ms/F79YZZCDC4xI77wA00lqEv8y6U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-weHGX861NNGQTpGr-sO9bA-1; Thu, 22 Dec 2022 03:56:54 -0500
-X-MC-Unique: weHGX861NNGQTpGr-sO9bA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B0C2101A521
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 08:56:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BBCE51EF;
- Thu, 22 Dec 2022 08:56:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F3B5A21E691D; Thu, 22 Dec 2022 09:56:52 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org,  stefanha@redhat.com,  kwolf@redhat.com
-Subject: Re: [PATCH v3 4/5] coroutine: Split qemu/coroutine-core.h off
- qemu/coroutine.h
-References: <20221221131435.3851212-1-armbru@redhat.com>
- <20221221131435.3851212-5-armbru@redhat.com>
- <f6be3b34-acfd-8ac2-1b13-9cff62a8542e@redhat.com>
-Date: Thu, 22 Dec 2022 09:56:52 +0100
-In-Reply-To: <f6be3b34-acfd-8ac2-1b13-9cff62a8542e@redhat.com> (Paolo
- Bonzini's message of "Thu, 22 Dec 2022 09:01:24 +0100")
-Message-ID: <87sfh7g6jv.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8HSN-0003Y0-UT
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 04:01:40 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8HSM-0005jj-6b
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 04:01:39 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so776497wms.2
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 01:01:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=a/72PC+f1U3InYxCSxVUCdhrCCw5IgzyW2967poOjbs=;
+ b=hYI0Pc8hvd0hne5wEmJhSaMVcA+fTh51QaPPB96JUNhgKYawANtRmlnFG06flRxnnX
+ WLE78ODL3wUqs9VV+Ew35AhL5ats/0X+xvxcLjGcu6TTz06bOv67rXfqZIzJO3MaSGeQ
+ v15MWIkU21LU0uiw+I+A1XQRR69tb5ABSgjFI179o+kEh0n5QwuYDjp4G8w49CcvTDan
+ 4ZY6O1wjD6+Zr0qPNtH0M5Ve1xen4E76+VxJk0CDs1cjWC6n5fqGErVCgM8f6hZPW4IU
+ HE85x7EFo81Cl5EoMvjomFVTMVAk+PDcwCaU5Q/Und5GC1LWdwSBckZWslckNSAIb7R8
+ RHeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=a/72PC+f1U3InYxCSxVUCdhrCCw5IgzyW2967poOjbs=;
+ b=Nm6bcUXwUCWXk35dpjr+HFUtAOElHLUfK/EeyzfbDN0Irgk/v/tnVqY9yvttkhuRKW
+ X4IVH6kS2dC982G1v9wvGrqvO+CjyLzrVpjUSrd2G1Co3EMvsTVxtelJOwGAdTqooJHC
+ PoeRneZ7yTHatwN3Bcwd9Zz9NZH9AYFsv6120IXidOOG3qwiyg5hxg/h7aGDYRnfiPJ5
+ PDjH8XZj7U5Gphv8vpmiYzxOECedPL8KS2FPY+QFy4aV+wzr4IUZ1MMMtaSNNLxpt+Li
+ hZ/bkkK0km+zNWwiIqE7yv5bk4od4uX/hJQ1IFDqh8VTqWk3PwmYlaperl/c1CTp2SQN
+ SR6g==
+X-Gm-Message-State: AFqh2kpKSiaC5iTd66ZSwnmRQf5W716sp5XxZ5jETL1+bImm67smXqmB
+ fuNchYXDK3Fw6H9Ui+YyDRTQEA==
+X-Google-Smtp-Source: AMrXdXtgb2ckPA1ssiC4mCGEAmodWlXrUnMx6+BZBsD706D38NYMoHtp5wrRLMOzWl2DuxeJU0Hz+A==
+X-Received: by 2002:a05:600c:3491:b0:3d1:f16d:5848 with SMTP id
+ a17-20020a05600c349100b003d1f16d5848mr3723421wmq.26.1671699696375; 
+ Thu, 22 Dec 2022 01:01:36 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ j30-20020a05600c1c1e00b003c71358a42dsm6912643wms.18.2022.12.22.01.01.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Dec 2022 01:01:35 -0800 (PST)
+Message-ID: <bafaad8e-f4f7-ddeb-4fbd-cebc7b8c360e@linaro.org>
+Date: Thu, 22 Dec 2022 10:01:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH v2] target/i386: Remove compilation errors when
+ -Werror=maybe-uninitialized
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ eric.auger.pro@gmail.com, richard.henderson@linaro.org, paul@nowt.org,
+ qemu-devel@nongnu.org, stefanha@fmail.com, peter.maydell@linaro.org,
+ sw@weilnetz.de
+References: <20221221163652.1239362-1-eric.auger@redhat.com>
+ <ed6d68f4-81aa-d9a1-3a71-628855e8a376@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <ed6d68f4-81aa-d9a1-3a71-628855e8a376@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,35 +94,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On 22/12/22 09:18, Paolo Bonzini wrote:
+> On 12/21/22 17:36, Eric Auger wrote:
+>> To avoid compilation errors when -Werror=maybe-uninitialized is used,
+>> replace 'case 3' by 'default'.
+>>
+>> Otherwise we get:
+>>
+>> ../target/i386/ops_sse.h: In function ‘helper_vpermdq_ymm’:
+>> ../target/i386/ops_sse.h:2495:13: error: ‘r3’ may be used
+>> uninitialized in this function [-Werror=maybe-uninitialized]
+>>     2495 |     d->Q(3) = r3;
+>>          |     ~~~~~~~~^~~~
+>> ../target/i386/ops_sse.h:2494:13: error: ‘r2’ may be used
+>> uninitialized in this function [-Werror=maybe-uninitialized]
+>>     2494 |     d->Q(2) = r2;
+>>          |     ~~~~~~~~^~~~
+>> ../target/i386/ops_sse.h:2493:13: error: ‘r1’ may be used
+>> uninitialized in this function [-Werror=maybe-uninitialized]
+>>     2493 |     d->Q(1) = r1;
+>>          |     ~~~~~~~~^~~~
+>> ../target/i386/ops_sse.h:2492:13: error: ‘r0’ may be used
+>> uninitialized in this function [-Werror=maybe-uninitialized]
+>>     2492 |     d->Q(0) = r0;
+>>          |     ~~~~~~~~^~~~
 
-> On 12/21/22 14:14, Markus Armbruster wrote:
->> +/**
->> + * Mark a function that executes in coroutine context
->> + *
->> + *
->> + * Functions that execute in coroutine context cannot be called
->> + * directly from normal functions.  Use @coroutine_fn to mark such
->> + * functions.  For example:
->> + *
->> + *   static void coroutine_fn foo(void) {
->> + *       ....
->> + *   }
->> + *
->> + * In the future it would be nice to have the compiler or a static
->> + * checker catch misuse of such functions.  This annotation might make
->> + * it possible and in the meantime it serves as documentation.
->> + */
->> +
->
-> Is it intentional that "#define coroutine_fn" is not here?
+With what compiler? Is that a supported one?
 
-Yes: I moved it to qemu/osdep.h in PATCH 2, along with its doc comment.
-To avoid compromising coroutine.h as overview documentation, I added
-rephrased documentation there.
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Suggested-by: Stefan Weil <sw@weilnetz.de>
+>> Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
+>> ---
+>>   target/i386/ops_sse.h | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+>> index 3cbc36a59d..c442c8c10c 100644
+>> --- a/target/i386/ops_sse.h
+>> +++ b/target/i386/ops_sse.h
+>> @@ -2466,7 +2466,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, 
+>> uint32_t order)
+>>           r0 = s->Q(0);
+>>           r1 = s->Q(1);
+>>           break;
+>> -    case 3:
+>> +    default:
+>>           r0 = s->Q(2);
+>>           r1 = s->Q(3);
+>>           break;
+>> @@ -2484,7 +2484,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, 
+>> uint32_t order)
+>>           r2 = s->Q(0);
+>>           r3 = s->Q(1);
+>>           break;
+>> -    case 3:
+>> +    default:
+>>           r2 = s->Q(2);
+>>           r3 = s->Q(3);
+>>           break;
+> 
+> Queued, but this compiler sucks. :)
 
-This patch copies this rephrased documentation to coroutine-core.h.
+Can't we simply add a dumb 'default' case? So when reviewing we don't
+have to evaluate 'default' means 3 here.
 
-I'm open to better ideas.
-
+-- >8 --
+--- a/target/i386/ops_sse.h
++++ b/target/i386/ops_sse.h
+@@ -2470,6 +2470,8 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, 
+uint32_t order)
+          r0 = s->Q(2);
+          r1 = s->Q(3);
+          break;
++    default:
++        qemu_build_not_reached();
+      }
+      switch ((order >> 4) & 3) {
+      case 0:
+@@ -2488,6 +2490,8 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, 
+uint32_t order)
+          r2 = s->Q(2);
+          r3 = s->Q(3);
+          break;
++    default:
++        qemu_build_not_reached();
+      }
+      d->Q(0) = r0;
+      d->Q(1) = r1;
+---
 
