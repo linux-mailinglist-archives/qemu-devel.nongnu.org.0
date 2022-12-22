@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAFA65476C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 21:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A254A654751
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 21:38:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8SJQ-0004sX-B2; Thu, 22 Dec 2022 15:37:08 -0500
+	id 1p8SJS-0004t6-7k; Thu, 22 Dec 2022 15:37:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcel@holtmann.org>)
- id 1p8SJO-0004rD-HJ
+ id 1p8SJO-0004rG-Iu
  for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:37:06 -0500
 Received: from coyote.holtmann.net ([212.227.132.17] helo=mail.holtmann.org)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel@holtmann.org>) id 1p8SJM-0002LL-QB
+ (envelope-from <marcel@holtmann.org>) id 1p8SJM-0002LK-QK
  for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:37:06 -0500
 Received: from fedora.. (p4fefcc21.dip0.t-ipconnect.de [79.239.204.33])
- by mail.holtmann.org (Postfix) with ESMTPSA id 4BE8BCED2A;
+ by mail.holtmann.org (Postfix) with ESMTPSA id 8963BCED2B;
  Thu, 22 Dec 2022 21:36:58 +0100 (CET)
 From: Marcel Holtmann <marcel@holtmann.org>
 To: qemu-devel@nongnu.org, mst@redhat.com, xieyongji@bytedance.com,
  pbonzini@redhat.com
 Cc: marcel@holtmann.org
-Subject: [PATCH v4 07/12] libvduse: Provide _GNU_SOURCE when compiling outside
- of QEMU
-Date: Thu, 22 Dec 2022 21:36:46 +0100
-Message-Id: <407f3665f0605df936e5bfe60831d180edfb8cca.1671741278.git.marcel@holtmann.org>
+Subject: [PATCH v4 08/12] libvduse: Switch to unsigned int for inuse field in
+ struct VduseVirtq
+Date: Thu, 22 Dec 2022 21:36:47 +0100
+Message-Id: <9fe3fd8b042e048bd04d506ca6e43d738b5c45b7.1671741278.git.marcel@holtmann.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <cover.1671741278.git.marcel@holtmann.org>
 References: <cover.1671741278.git.marcel@holtmann.org>
@@ -56,40 +56,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When the libvduse sources are used by another project, it can not be
-guaranteed that _GNU_SOURCE is set by the build system. If it is for
-example not set, errors like this show up.
+It seems there is no need to keep the inuse field signed and end up with
+compiler warnings for sign-compare.
 
   CC       libvduse.o
-libvduse.c: In function ‘vduse_log_get’:
-libvduse.c:172:9: error: implicit declaration of function ‘ftruncate’; did you mean ‘strncat’? [-Werror=implicit-function-declaration]
-  172 |     if (ftruncate(fd, size) == -1) {
-      |         ^~~~~~~~~
-      |         strncat
+libvduse.c: In function ‘vduse_queue_pop’:
+libvduse.c:789:19: error: comparison of integer expressions of different signedness: ‘int’ and ‘unsigned int’ [-Werror=sign-compare]
+  789 |     if (vq->inuse >= vq->vring.num) {
+      |                   ^~
 
-The simplest way to allow external complication of libvduse.[ch] by
-setting _GNU_SOURCE if it is not already set by the build system.
+Instead of casting the comparison to unsigned int, just make the inuse
+field unsigned int in the fist place.
 
 Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
+Reviewed-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- subprojects/libvduse/libvduse.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ subprojects/libvduse/libvduse.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
-index e089d4d546cf..c871bd331a6b 100644
+index c871bd331a6b..338ad5e352e7 100644
 --- a/subprojects/libvduse/libvduse.c
 +++ b/subprojects/libvduse/libvduse.c
-@@ -16,6 +16,10 @@
-  * later.  See the COPYING file in the top-level directory.
-  */
- 
-+#ifndef _GNU_SOURCE
-+#define _GNU_SOURCE
-+#endif
-+
- #include <stdlib.h>
- #include <stdio.h>
- #include <stdbool.h>
+@@ -101,7 +101,7 @@ struct VduseVirtq {
+     uint16_t signalled_used;
+     bool signalled_used_valid;
+     int index;
+-    int inuse;
++    unsigned int inuse;
+     bool ready;
+     int fd;
+     VduseDev *dev;
 -- 
 2.38.1
 
