@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAFF653CFD
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 09:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2CC653CFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 09:29:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8GvH-0008Sa-Uu; Thu, 22 Dec 2022 03:27:31 -0500
+	id 1p8Gw1-0000HG-Jx; Thu, 22 Dec 2022 03:28:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p8Guz-0008PJ-6j
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:27:11 -0500
+ id 1p8Gvu-0000GG-9i
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:28:06 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p8Guu-0008Bd-Cr
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:27:06 -0500
+ id 1p8Gvs-0008L5-78
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:28:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671697622;
+ s=mimecast20190719; t=1671697683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9x5N4FHhT7gdXEi8CzrWldYDSZUzeFZ+fN9t5oMwRQk=;
- b=bE2zj8FZP9La4ENjqyJj4gpwmca6JAdqKatuze24Sqj4y0Tx9iYkiWScIvxE1zh+zzU7Y0
- z3oHjXjxjWin1ITMbtJvMxdSDIkF0maYULYWODahcIlHX/u5tJ76vVAeDP6gdzmhGtvBG4
- 9w/O7IDA6nvup4hL1hU+PRB0h9+KmZ8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1iztJhjIdSLC/UaGXeGU806lJ3O3/H7g5Sj618eT3vY=;
+ b=Uw+NvPreNTQegponHXAuxacjC4a5neaaBE2OLVJMrpSP/K+i7b8p+cPpB+SHkgvuHPTx/t
+ Y9v56ZI5oKYjbWK0JiEbR2R0JF4QuP4GH4XDzkZvqE4mY5xEGxdLaPXGw/illhBhkDLavh
+ 6DcCKc6omXfW3VBKXw9NB/7Ypn+C5UA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-484-vFECujVwN5ivQneR-YFo9Q-1; Thu, 22 Dec 2022 03:27:00 -0500
-X-MC-Unique: vFECujVwN5ivQneR-YFo9Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- v4-20020a056402348400b0046cbbc786bdso1025622edc.7
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 00:27:00 -0800 (PST)
+ us-mta-446-3XkX3keEPKup0LF-3OQBzQ-1; Thu, 22 Dec 2022 03:28:01 -0500
+X-MC-Unique: 3XkX3keEPKup0LF-3OQBzQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hq42-20020a1709073f2a00b007c100387d64so978496ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 00:28:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9x5N4FHhT7gdXEi8CzrWldYDSZUzeFZ+fN9t5oMwRQk=;
- b=WuTPT3ZNp73fCr94WP1q3cTE5oi8ruCCDJ6IA/HLGNVctDzximShKqOv+VSISnwIDl
- ace4sSDmLx0qJ9Z1XNXAqq3GsEjqvh5W7JN4pF6YZRGfPX0IwC/49vCqZh6qr+iTbOY3
- ockdvPXv0p00+QGmpEO15EVL0FpbRjlOcv8PN7gt1892yFd1oRe3odPHnqlOXyYxsudh
- PkL+5RoHcq6LNH0INvSTgJYlwXtTvk6VlsKHrQhLCPRzePT56yb4BDzSe2Xp3fBn9pOm
- H6msmW57sN+GQmMY6w7FxhmovBpfjD/sdg4q+FdLnd8uWza+mBKfGwQGZUvGiOetkO5S
- sglA==
-X-Gm-Message-State: AFqh2kredWNG61sARuYjbBsJ6lRy+uTV+wHgD2E6qaaX/2jsusAPrRRl
- +Za93/L4VwB0qJ26bqHLAhzfldKxDu5dIl4XjU8m+/UtTgtu0Uk2DXJzwr2AmHLNforLsokbmgu
- oiOF0zvvg/4TeUwo=
-X-Received: by 2002:a05:6402:31e4:b0:462:6d7d:ab09 with SMTP id
- dy4-20020a05640231e400b004626d7dab09mr4253047edb.38.1671697619711; 
- Thu, 22 Dec 2022 00:26:59 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtaP8dCzu5SyJE9qpSQl/E36x7m3HleAXvhd000yZMX/HnTKMGglmd2nOAsKIBd82D7UCWmgg==
-X-Received: by 2002:a05:6402:31e4:b0:462:6d7d:ab09 with SMTP id
- dy4-20020a05640231e400b004626d7dab09mr4253033edb.38.1671697619546; 
- Thu, 22 Dec 2022 00:26:59 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1iztJhjIdSLC/UaGXeGU806lJ3O3/H7g5Sj618eT3vY=;
+ b=7mSN8JxeYo8DpUszXMv+4gEsoPSDDzdEMi2TjAhKdv6+vGEEE7TLbE9WqggwxTI9Fb
+ mLoCOkW7DoofSfS5pcmwN6uC0Ol3pICqE3YOy0OClaFiqukdyNP5szVLR9BK+A6clyQx
+ ou1xSXmvDfl5ygMEyDgNZiullzrntkzd3TNzB2fGky5pC4b9PF76CQtph2F/hPsr8lb2
+ gbp/2RqqnV22jYn+78sBkgsHb8IWLEx3XJp/R/ktIU4sWfIRb5YqXUJcpGMvKMnUG1DG
+ 0Gi22xqIaHgT0PhrcsZieKfoMHPViGfF6eFylZTZps0t456R0b9xluiCgORb2T2mzQTL
+ wP9g==
+X-Gm-Message-State: AFqh2kpH6YgTQ7EpIwtZWDa82UUOPziARZYdMupjruCvougEAXshAE63
+ qJ3tYU4qmd097a61KQMesJ5fUbZMcwU4TZxgkVdmQjMFvYhdfqQBg5dTqJ8lVwWlhKhashzibN3
+ 1FrNmQsdPbXx4zHOetQZ1G1u+VQJP3sMEBaJFp5JXRhhv6F229qML519xJGW/7lDw9uo=
+X-Received: by 2002:a17:907:a805:b0:78d:f454:ba2c with SMTP id
+ vo5-20020a170907a80500b0078df454ba2cmr4385659ejc.43.1671697679937; 
+ Thu, 22 Dec 2022 00:27:59 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvIbW7cT8HQakfgQsXkJkATQqGF/pY2W75lwBR19IrGnqDDi3s1/fs9r12IQ9y5RYoqln2TAA==
+X-Received: by 2002:a17:907:a805:b0:78d:f454:ba2c with SMTP id
+ vo5-20020a170907a80500b0078df454ba2cmr4385641ejc.43.1671697679667; 
+ Thu, 22 Dec 2022 00:27:59 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- y16-20020aa7d510000000b00462e1d8e914sm101835edq.68.2022.12.22.00.26.58
+ s22-20020aa7cb16000000b00457b5ba968csm111859edt.27.2022.12.22.00.27.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Dec 2022 00:26:58 -0800 (PST)
+ Thu, 22 Dec 2022 00:27:59 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
-To: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 0/2] gitlab: improve debuggability of jobs
-Date: Thu, 22 Dec 2022 09:26:43 +0100
-Message-Id: <20221222082642.859706-1-pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+Subject: [PATCH] dockerfiles: update to Fedora 36
+Date: Thu, 22 Dec 2022 09:27:56 +0100
+Message-Id: <20221222082756.859848-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221103173044.3969425-1-berrange@redhat.com>
-References: 
 MIME-Version: 1.0
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -103,8 +96,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Queued patch 1 while the second is figured out, thanks.
+lcitool has removed the fedora-35 target, so let's follow
+suit.
 
-Paolo
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 4 ++--
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 4 ++--
+ tests/docker/dockerfiles/fedora.docker             | 4 ++--
+ tests/lcitool/libvirt-ci                           | 2 +-
+ tests/lcitool/refresh                              | 6 +++---
+ 5 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 75383ba185a4..aece4f55818d 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -1,10 +1,10 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile --layers all --cross mingw32 fedora-35 qemu
++#  $ lcitool dockerfile --layers all --cross mingw32 fedora-36 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+-FROM registry.fedoraproject.org/fedora:35
++FROM registry.fedoraproject.org/fedora:36
+ 
+ RUN dnf install -y nosync && \
+     echo -e '#!/bin/sh\n\
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index 98c03dc13b9c..2d573e2505f2 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -1,10 +1,10 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile --layers all --cross mingw64 fedora-35 qemu
++#  $ lcitool dockerfile --layers all --cross mingw64 fedora-36 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+-FROM registry.fedoraproject.org/fedora:35
++FROM registry.fedoraproject.org/fedora:36
+ 
+ RUN dnf install -y nosync && \
+     echo -e '#!/bin/sh\n\
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index d200c7fc1055..901562bb8e5a 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,10 +1,10 @@
+ # THIS FILE WAS AUTO-GENERATED
+ #
+-#  $ lcitool dockerfile --layers all fedora-35 qemu
++#  $ lcitool dockerfile --layers all fedora-36 qemu
+ #
+ # https://gitlab.com/libvirt/libvirt-ci
+ 
+-FROM registry.fedoraproject.org/fedora:35
++FROM registry.fedoraproject.org/fedora:36
+ 
+ RUN dnf install -y nosync && \
+     echo -e '#!/bin/sh\n\
+diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+index e3eb28cf2e17..a29b1c9925ed 160000
+--- a/tests/lcitool/libvirt-ci
++++ b/tests/lcitool/libvirt-ci
+@@ -1 +1 @@
+-Subproject commit e3eb28cf2e17fbcf7fe7e19505ee432b8ec5bbb5
++Subproject commit a29b1c9925ed8549b2a9e83374a8aa5ebe16bc71
+diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
+index fa966e4009d5..ee55ee40ee5d 100755
+--- a/tests/lcitool/refresh
++++ b/tests/lcitool/refresh
+@@ -111,7 +111,7 @@ try:
+     generate_dockerfile("centos8", "centos-stream-8")
+     generate_dockerfile("debian-amd64", "debian-11",
+                         trailer="".join(debian11_extras))
+-    generate_dockerfile("fedora", "fedora-35")
++    generate_dockerfile("fedora", "fedora-36")
+     generate_dockerfile("opensuse-leap", "opensuse-leap-153")
+     generate_dockerfile("ubuntu2004", "ubuntu-2004",
+                         trailer="".join(ubuntu2004_tsanhack))
+@@ -161,12 +161,12 @@ try:
+                         trailer=cross_build("s390x-linux-gnu-",
+                                             "s390x-softmmu,s390x-linux-user"))
+ 
+-    generate_dockerfile("fedora-win32-cross", "fedora-35",
++    generate_dockerfile("fedora-win32-cross", "fedora-36",
+                         cross="mingw32",
+                         trailer=cross_build("i686-w64-mingw32-",
+                                             "i386-softmmu"))
+ 
+-    generate_dockerfile("fedora-win64-cross", "fedora-35",
++    generate_dockerfile("fedora-win64-cross", "fedora-36",
+                         cross="mingw64",
+                         trailer=cross_build("x86_64-w64-mingw32-",
+                                             "x86_64-softmmu"))
+-- 
+2.38.1
 
 
