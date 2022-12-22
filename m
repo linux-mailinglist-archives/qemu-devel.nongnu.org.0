@@ -2,127 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A80654355
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 15:46:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE0C65401A
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 12:53:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8Mp7-0008BP-Pk; Thu, 22 Dec 2022 09:45:29 -0500
+	id 1p8K7L-0001O1-Tu; Thu, 22 Dec 2022 06:52:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1p8JzH-00005E-P1
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 06:43:47 -0500
-Received: from mail-db5eur01on2135.outbound.protection.outlook.com
- ([40.107.15.135] helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1p8JzG-0007nu-5H
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 06:43:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DDC9A3bVpuxjz6lFg7NWAVrB5STC3c4atJ+kfs186eNKI7aCLHD777L1ErLCsucdCpWcUAPDYwYZoIUPtWzuphtaAhZ+/JY6p11kL71YxH63bIvkj9zeH3Uodi5g8EZ81TegMij3Uo00I6rGhzrgBZ3zBtoVj45pOG4NSCVGq8ezsR0hRS+4sqqaND1OZNSTBCLIVPEvy3SSSFAx6ob4WWHOL6GggXXegg8bT36Z66ZuPK0XZhohQKHRae1VMfbAlx0z3oLkzNE1jKXzkZV3RznsOLK/G8UKQ1CUYpgRWufrLMdxt3P9xMEGWs/NyDk9qmCC576GRxjs/5o/ZcqVEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ueVTWV6t58/qTuyVZFPfOyeertc95jE8D2/j1PGPmdg=;
- b=DUyVS3SEHscjFyCMEAKUDSOnP+z3zWARsBKabNNBTSgpILQ0sEEDaLd5DGyVPX4cMYjtH2EczgJ+TRKsmDzlqHMJXPsBIpHDHYdG5wrfZvnHgoCOJWCteh75QhM0+LP9rO7G1BnOHKHjdUUbZMsnhZDxTTZr9Eqs7EfKnFEdcNy0xjsnBWmuQW/Je1O5Mk4klaq1QidpVjJ0qJc7HzRsCRm3likIUliGbFNCYxu4wtzkC+UMCOpAP/+sckLbU+GaMVkAm0PoFWBTSiMAIf51CxwUXRtWqfI7iTxOct+/+s3wolcBDMMAmCS7t5IhjMN6afjb/HPpvF7aAvCYMt/auw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
- s=selector2-estab-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ueVTWV6t58/qTuyVZFPfOyeertc95jE8D2/j1PGPmdg=;
- b=fWnE7EDG9VaTyfwK6QsUloLHw0tSHghA3C5eR/DdG03Q9+TAOGOn59ZQ9pjDhtMSAyz4HpZ7Fsfofsfrx4YAKKkCSEqlQXuCFMXWbe+/iWzh7PFeZFjMaZhTs/uAHOUZTVDQUL9UNc3YYnJzYPaObK+uUGpHHJ2aM2KU1F4NMCQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
- by GVXP189MB2055.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.6; Thu, 22 Dec
- 2022 11:43:10 +0000
-Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
- ([fe80::8f70:435b:ab64:9420]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
- ([fe80::8f70:435b:ab64:9420%3]) with mapi id 15.20.5944.006; Thu, 22 Dec 2022
- 11:43:10 +0000
-From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-To: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Subject: [PATCH 5/5] hw/net/igb: build support for igb/igbvf devices
-Date: Thu, 22 Dec 2022 12:41:20 +0100
-Message-Id: <20221222114120.8790-6-sriram.yagnaraman@est.tech>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221222114120.8790-1-sriram.yagnaraman@est.tech>
-References: <20221222114120.8790-1-sriram.yagnaraman@est.tech>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: GVX0EPF000013EA.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:144:1::1e) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:10:1e7::15)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8K71-0001JO-Lk
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 06:51:48 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8K6w-0000dr-UT
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 06:51:47 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ c65-20020a1c3544000000b003cfffd00fc0so3685120wma.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 03:51:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=n1zSAKSo4bHQoYmsxWfmPjHlKTV7qR7gSCxumDEW8Hg=;
+ b=CqCYXw4rTNP8VdH+BJerJ4YGmJ/b5r+Uspss7Zp0fVPeGG+JgUrNp0YqZaIP9pxq1h
+ LsOa+uNQ+bElriFj6BIMpNZMh5NRPQMO206bD0aMWEW8JCa7JrEKjB1eW+scng+9IeBk
+ fOZdy2H/CkYFM3/oFqanzm5YJJMcqBd/GLsFmkZIfY3zGiwTkPD00NzcD+mjGKdvM+eH
+ uzqq50jjxQclCjYj579D2JqDeBK6mEenRIxl8Br5TIZbzM/lxmoithal1WvGw3J+4kNG
+ oSFAIvxxrrb0MKBDe/+EFbKLSpG358ulcNYpYEB0w2DZYdK6qM19l5b66Ibbl1EJ5JiN
+ dd8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=n1zSAKSo4bHQoYmsxWfmPjHlKTV7qR7gSCxumDEW8Hg=;
+ b=vIxObKV5BHN1E5QsLsb5G44ezijBAasdMw8Kre8Xeo5tyke++xrkQEB2Okdu2+vKpC
+ OD2i+x/Ib2twdyd0K71MRLdqy3aGXg77whiVKfAEBJkH6RL47DzIYJXH/ORVxcm+opoq
+ PNtb6H5OWCfuXDRldJjuU0xKi2mHKJaU+3OZWoJbXfpBjaxERiTPvmfu9JVUMOMCj6FN
+ jwXhm3Hg5kuhRM8F21t2n/GBVqZ77WoOM4RFOhOpnoStA+iImSAJvrb658yEKBD2BDlr
+ 5x89uxogzV70EKYMTw4VE7S4ZsC3ceN5kllWUJJJJ2RtRKwO7bNsIK4CTDmn70mUFo6a
+ zhrQ==
+X-Gm-Message-State: AFqh2kpkrq1YyiUzCbNCy1ezsDwqXtEZ4lqf/v+MjNwYVKxeCrdGsg/M
+ iJzdGRafeM57nNPPZxOEW2Wx2A==
+X-Google-Smtp-Source: AMrXdXu0RXo2FRXjW5yTbCBntGVieqmukB2c+eWLyFOL9vlujbJxCqBaDx1mhbZv/iH1h48s81iiaw==
+X-Received: by 2002:a05:600c:4e08:b0:3cf:d0b1:8aa1 with SMTP id
+ b8-20020a05600c4e0800b003cfd0b18aa1mr4050306wmq.0.1671709900231; 
+ Thu, 22 Dec 2022 03:51:40 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ l1-20020a05600c4f0100b003cf5ec79bf9sm801541wmq.40.2022.12.22.03.51.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Dec 2022 03:51:39 -0800 (PST)
+Message-ID: <d0cefb94-4442-3277-51c2-6a615c766129@linaro.org>
+Date: Thu, 22 Dec 2022 12:51:38 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|GVXP189MB2055:EE_
-X-MS-Office365-Filtering-Correlation-Id: c391f2ef-f624-48cf-e013-08dae411b329
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9wLHa1tNt02xJxtQ6r65it/HiXnlij1zsSb9RWCoNBmBSLux2wwUovBhGiLgv8EYqKTQFuEBdgIYJ/B4xE1RYHQTSMA8Jv3I8JAnNnPft2QvptflXdh7RNW5qpaUmifQSJG4LzV4M2CQ4tkJIviD79PVlnOXOZEtJSdF3Gcg6ehvq8fM0+8dmfVkJkf/FjqM4x/kgTyFbrFX6Ds4gBnqoCUmGa9WgzJHuiUFkCEih0o1evf1jyGZJyiYpo40+54xH6iAuu26uh9EjUYqvu79Nnht3HeUzX8cbOWpOuHMgF2581GqCHUuylO2ugu46+9Oms0qgdS3EzY+I41gc8tNx0WyyN4hBykILnHwfHeaz2irF/y1tSWmeSpQiChwuv4yNoxp2RvGth8f7gjeOIcbWVB2sCStJy/cUXp+7IxJ44oPu/XdA0ZcL5WEibtPrd8ci5I2JYQS7OV5qQkSteiPD20+0DXYbmPGDRRZo3t3mDdmmH340wlZlSGjCwPsxQxfEIWQQuvbpXKB0JFkx1hmvcyntAU47oV+2IhHr75hnRO8Cg5f9+cx12EaiGv94irav9Jg5NHzg87yuWJ3a5mfA4YSALRvLC9suJvtL8HrmxW9aK2+Dh0OBHS9YDxSna10FYytxzJYC3ZqGCPXsXNfXlmtJqnlJ1xD9udTC4uqsdIqPJ+OyVAagyyfd7dpRSPA
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(136003)(39830400003)(376002)(396003)(451199015)(36756003)(316002)(478600001)(86362001)(5660300002)(26005)(70586007)(44832011)(38100700002)(8936002)(66946007)(66556008)(2616005)(110136005)(186003)(4326008)(6486002)(1076003)(2906002)(66476007)(41300700001)(8676002)(6512007)(6506007)(6666004)(83380400001)(37730700002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?p0Gw7PTJky984V9Rs5QXh0FSOtL8MJK0k+DHizwLvngJda+bPHf9A1ypooBH?=
- =?us-ascii?Q?HltmqZW+pA2sxGEGa1actC6UF+YHVXtQQlGiVorX7p9URgz0EK/DM7Jm+VU/?=
- =?us-ascii?Q?GHxLVPFWHMur0Tt69o0t/4p88IfPMMJgElTY/OMI5LrFc0CJdpwFlJcg4B/f?=
- =?us-ascii?Q?kj1m7OGowpPmPz+6QpV47DX5bQx5CRzaWFta9DXbk8a7vvaNe3PnSeFDeezm?=
- =?us-ascii?Q?zuKdRwm2erln9IZRMfGX8LrDbjJiMRfmYsMd6caG26hBEIWFA3B/GCaUu1ZP?=
- =?us-ascii?Q?Q364nj97l0nTb9hSEXaWTZW6M2lu+Tv3qXHEtHZd9fWIFT4EfoQI22c1V6xR?=
- =?us-ascii?Q?ao89jiJDthdDWExQsbrdmTNy1MgebDQmB0nvzEun187esTZ7V2EyWOkgxf2y?=
- =?us-ascii?Q?GXjex/Jui5X0nByKL67KP4AeKArvlVY8JCP718sU2C4oqgMjiLWBBVT0gopU?=
- =?us-ascii?Q?XtJFAj4lzEgR2ljdl5Fk5J6eAt/ounYrpOUCK/MlNUhmJ01vVSGI9kiHvMwE?=
- =?us-ascii?Q?Fq1JUzoddcVwKERG8S9aJtKgHdHbsxUhnIBb93UU30VBOGChUiu/vgIyU3nb?=
- =?us-ascii?Q?McwLjoFFRhsgcyEht6hzyvVExElxX6uq7EeUjK9t4QJdDRg5HCfMVLkvJ3ZH?=
- =?us-ascii?Q?1re1//e0bLc9aGCpke54d5S3OKCvk56VC24vUF5SJdUPON3lU6bdjjCtPqaU?=
- =?us-ascii?Q?rC0vQ3usXtqessSzfAn79jccKc/EdkOVmHB5A5uyypwo5Ajedf3I45E/oqmp?=
- =?us-ascii?Q?buJ4mdmcsZV5rnoKxVYEZVfFqYQShEhklOPPuRr30W4PzAyJH+wjaBiYeCFM?=
- =?us-ascii?Q?e1fKX+K2qTr+tkJbjG6HZg/NAE+Hs6Zewnb1bAtHmw5nMztQBLgY5yfKodAy?=
- =?us-ascii?Q?PhnXQm41vYMnE0CQfdXDUVRzvaNNiGcELsO3s4t5O6hrdDmwx1kYOtkaqJkU?=
- =?us-ascii?Q?YtVCxw75OVjXbtI5lFIK0zZ6dRjMIKC1JZfB744Htv+Rwd0b/DBSl7KEwEkn?=
- =?us-ascii?Q?xK7WmWJXCkHqaOKZsg5GlkWjQzh5EHh+WW9D3hhZ/I9BAtusruUr4hv2T9Mz?=
- =?us-ascii?Q?qLt10INRsxFL+JFbmjS/kLfDzCzXoUUou9zXuGByK0cG0BHOKJdrQUEEO7Jt?=
- =?us-ascii?Q?jjxIepydNdqUm0nbcJIWBXBiuO3YVK15WfLKJWFJR9SYMnSkHnDXIQtwGAdx?=
- =?us-ascii?Q?YjFMLWWh9B8y15H7qVL8C44h5UBMvarCh8VWNh7JE5VRxhwQAknwLe/z7lZr?=
- =?us-ascii?Q?BW0PTQCzCM9sZAnMgXj5rTCOgUfPHCG3KMiH2W6ZYR8P/0TsaykVL4s+0A5c?=
- =?us-ascii?Q?l2NBVqqZPN2oyK82CN9KomEJ9uP+rxz914sOQwrl5ogtQc7wyfykA4HhjT82?=
- =?us-ascii?Q?BOndEjxyGQoSHQlKnLKuVDZrUrBy06BWm/qM2Ymk6EDVy8xvasNYy+yQY0GL?=
- =?us-ascii?Q?PMNEF/9iGhYf0yVwiTRhw4dltyEQGmrF9POZd3gAqF2KcsROuDl9AvzaxfG0?=
- =?us-ascii?Q?cp8A3EOGpPfEPbxDwi0BxSy1G5M3D+xJgmJT6CRWqu6nufyvXdWrX8nNl8Ci?=
- =?us-ascii?Q?Ql191uFVFMU0O8zN20417qONvJBYa1pLQeYV4873vZs6LjmumfK+gIdprRuy?=
- =?us-ascii?Q?oA=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: c391f2ef-f624-48cf-e013-08dae411b329
-X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2022 11:43:09.9507 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DbpZNjsSX0a8vuRK8QGbKW5Sl4nuh8cZXuTGsyxmRdRDZh3IM/Q7/IA5PTfV+WSyFhLJ63ka1lgWWZLkFPV4kwPYrBkGrk1oC3TFYbqheoA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB2055
-Received-SPF: pass client-ip=40.107.15.135;
- envelope-from=sriram.yagnaraman@est.tech;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH v2] target/i386: Remove compilation errors when
+ -Werror=maybe-uninitialized
+Content-Language: en-US
+To: eric.auger@redhat.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, eric.auger.pro@gmail.com,
+ richard.henderson@linaro.org, paul@nowt.org, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org, sw@weilnetz.de,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20221221163652.1239362-1-eric.auger@redhat.com>
+ <ed6d68f4-81aa-d9a1-3a71-628855e8a376@redhat.com>
+ <bafaad8e-f4f7-ddeb-4fbd-cebc7b8c360e@linaro.org>
+ <5045cc9a-b383-b1d3-b3fd-a9f84dd74f36@redhat.com>
+ <Y6Q636fbFWDnF0w7@redhat.com>
+ <a8f5caa6-e0b4-25fb-4eab-ff33dc45fbef@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <a8f5caa6-e0b4-25fb-4eab-ff33dc45fbef@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 22 Dec 2022 09:45:21 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,76 +100,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
----
- hw/i386/Kconfig    | 1 +
- hw/net/Kconfig     | 5 +++++
- hw/net/igb_core.c  | 4 +---
- hw/net/meson.build | 2 ++
- 4 files changed, 9 insertions(+), 3 deletions(-)
+On 22/12/22 12:18, Eric Auger wrote:
+> Hi All,
+> 
+> On 12/22/22 12:09, Daniel P. Berrangé wrote:
+>> On Thu, Dec 22, 2022 at 11:07:31AM +0100, Eric Auger wrote:
+>>> Hi Philippe,
+>>>
+>>> On 12/22/22 10:01, Philippe Mathieu-Daudé wrote:
+>>>> On 22/12/22 09:18, Paolo Bonzini wrote:
+>>>>> On 12/21/22 17:36, Eric Auger wrote:
+>>>>>> To avoid compilation errors when -Werror=maybe-uninitialized is used,
+>>>>>> replace 'case 3' by 'default'.
+>>>>>>
+>>>>>> Otherwise we get:
+>>>>>>
+>>>>>> ../target/i386/ops_sse.h: In function ‘helper_vpermdq_ymm’:
+>>>>>> ../target/i386/ops_sse.h:2495:13: error: ‘r3’ may be used
+>>>>>> uninitialized in this function [-Werror=maybe-uninitialized]
+>>>>>>      2495 |     d->Q(3) = r3;
+>>>>>>           |     ~~~~~~~~^~~~
+>>>>>> ../target/i386/ops_sse.h:2494:13: error: ‘r2’ may be used
+>>>>>> uninitialized in this function [-Werror=maybe-uninitialized]
+>>>>>>      2494 |     d->Q(2) = r2;
+>>>>>>           |     ~~~~~~~~^~~~
+>>>>>> ../target/i386/ops_sse.h:2493:13: error: ‘r1’ may be used
+>>>>>> uninitialized in this function [-Werror=maybe-uninitialized]
+>>>>>>      2493 |     d->Q(1) = r1;
+>>>>>>           |     ~~~~~~~~^~~~
+>>>>>> ../target/i386/ops_sse.h:2492:13: error: ‘r0’ may be used
+>>>>>> uninitialized in this function [-Werror=maybe-uninitialized]
+>>>>>>      2492 |     d->Q(0) = r0;
+>>>>>>           |     ~~~~~~~~^~~~
+>>>> With what compiler? Is that a supported one?
+>>> https://lore.kernel.org/qemu-devel/3aab489e-9d90-c1ad-0b6b-b2b5d80db723@redhat.com/
+>>>>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>>>>> Suggested-by: Stefan Weil <sw@weilnetz.de>
+>>>>>> Fixes: 790684776861 ("target/i386: reimplement 0x0f 0x3a, add AVX")
+>>>>>> ---
+>>>>>>    target/i386/ops_sse.h | 4 ++--
+>>>>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+>>>>>> index 3cbc36a59d..c442c8c10c 100644
+>>>>>> --- a/target/i386/ops_sse.h
+>>>>>> +++ b/target/i386/ops_sse.h
+>>>>>> @@ -2466,7 +2466,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg
+>>>>>> *s, uint32_t order)
+>>>>>>            r0 = s->Q(0);
+>>>>>>            r1 = s->Q(1);
+>>>>>>            break;
+>>>>>> -    case 3:
+>>>>>> +    default:
+>>>>>>            r0 = s->Q(2);
+>>>>>>            r1 = s->Q(3);
+>>>>>>            break;
+>>>>>> @@ -2484,7 +2484,7 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg
+>>>>>> *s, uint32_t order)
+>>>>>>            r2 = s->Q(0);
+>>>>>>            r3 = s->Q(1);
+>>>>>>            break;
+>>>>>> -    case 3:
+>>>>>> +    default:
+>>>>>>            r2 = s->Q(2);
+>>>>>>            r3 = s->Q(3);
+>>>>>>            break;
+>>>>> Queued, but this compiler sucks. :)
+>>>> Can't we simply add a dumb 'default' case? So when reviewing we don't
+>>>> have to evaluate 'default' means 3 here.
+>>>>
+>>>> -- >8 --
+>>>> --- a/target/i386/ops_sse.h
+>>>> +++ b/target/i386/ops_sse.h
+>>>> @@ -2470,6 +2470,8 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s,
+>>>> uint32_t order)
+>>>>           r0 = s->Q(2);
+>>>>           r1 = s->Q(3);
+>>>>           break;
+>>>> +    default:
+>>>> +        qemu_build_not_reached();
+>>>>       }
+>>>>       switch ((order >> 4) & 3) {
+>>>>       case 0:
+>>>> @@ -2488,6 +2490,8 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s,
+>>>> uint32_t order)
+>>>>           r2 = s->Q(2);
+>>>>           r3 = s->Q(3);
+>>>>           break;
+>>>> +    default:
+>>>> +        qemu_build_not_reached();
+>>>>       }
+>>> I guess this won't fix the fact r0, r1, r2, r3 are not initialized, will it?
+>> This ultimately expands to assert() and the compiler should see that it
+>> terminates the control flow at this point, so shouldn't have a reason
+>> to warn.
+> 
+> OK so with qemu_build_not_reached(); I get
+> 
+> /home/augere/UPSTREAM/qemu/include/qemu/osdep.h:184:35: error: call to
+> ‘qemu_build_not_reached_always’ declared with attribute error: code path
+> is reachable
+>    184 | #define qemu_build_not_reached()  qemu_build_not_reached_always()
+>        |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+> However with g_assert_not_reached(), it does not complain and errors are
+> removed. So I will respin with g_assert_not_reached() if nobody advises
+> me against that.
 
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index d22ac4a4b9..97a0b08842 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -94,6 +94,7 @@ config Q35
-     imply VTD
-     imply AMD_IOMMU
-     imply E1000E_PCI_EXPRESS
-+    imply IGB_PCI_EXPRESS
-     imply VMPORT
-     imply VMMOUSE
-     select PC_PCI
-diff --git a/hw/net/Kconfig b/hw/net/Kconfig
-index 1cc1c5775e..18c7851efe 100644
---- a/hw/net/Kconfig
-+++ b/hw/net/Kconfig
-@@ -44,6 +44,11 @@ config E1000E_PCI_EXPRESS
-     default y if PCI_DEVICES
-     depends on PCI_EXPRESS && MSI_NONBROKEN
- 
-+config IGB_PCI_EXPRESS
-+    bool
-+    default y if PCI_DEVICES
-+    depends on PCI_EXPRESS && MSI_NONBROKEN
-+
- config RTL8139_PCI
-     bool
-     default y if PCI_DEVICES
-diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index c6b2ed9d3e..f9745f9b26 100644
---- a/hw/net/igb_core.c
-+++ b/hw/net/igb_core.c
-@@ -993,14 +993,12 @@ igb_start_recv(IGBCore *core)
- bool
- igb_can_receive(IGBCore *core)
- {
--    int i;
--
-     if (!e1000x_rx_ready(core->owner, core->mac)) {
-         trace_igb_rx_disabled();
-         return false;
-     }
- 
--    for (i = 0; i < IGB_NUM_QUEUES; i++) {
-+    for (int i = 0; i < IGB_NUM_QUEUES; i++) {
-         IGBRingInfo *rxi = &core->rx_ring_info[i];
-         if (igb_ring_enabled(core, rxi) &&
-                 igb_has_rxbufs(core, rxi, 1) &&
-diff --git a/hw/net/meson.build b/hw/net/meson.build
-index ebac261542..a5b56452f5 100644
---- a/hw/net/meson.build
-+++ b/hw/net/meson.build
-@@ -10,6 +10,8 @@ softmmu_ss.add(when: 'CONFIG_PCNET_COMMON', if_true: files('pcnet.c'))
- softmmu_ss.add(when: 'CONFIG_E1000_PCI', if_true: files('e1000.c', 'e1000x_common.c'))
- softmmu_ss.add(when: 'CONFIG_E1000E_PCI_EXPRESS', if_true: files('net_tx_pkt.c', 'net_rx_pkt.c'))
- softmmu_ss.add(when: 'CONFIG_E1000E_PCI_EXPRESS', if_true: files('e1000e.c', 'e1000e_core.c', 'e1000x_common.c'))
-+softmmu_ss.add(when: 'CONFIG_IGB_PCI_EXPRESS', if_true: files('net_tx_pkt.c', 'net_rx_pkt.c'))
-+softmmu_ss.add(when: 'CONFIG_IGB_PCI_EXPRESS', if_true: files('igb.c', 'igb_core.c', 'igbvf.c', 'e1000x_common.c'))
- softmmu_ss.add(when: 'CONFIG_RTL8139_PCI', if_true: files('rtl8139.c'))
- softmmu_ss.add(when: 'CONFIG_TULIP', if_true: files('tulip.c'))
- softmmu_ss.add(when: 'CONFIG_VMXNET3_PCI', if_true: files('net_tx_pkt.c', 'net_rx_pkt.c'))
--- 
-2.34.1
-
+Thank you!
 
