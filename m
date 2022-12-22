@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE69B654684
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 20:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E0565472C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 21:34:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8R9Z-0000M3-MD; Thu, 22 Dec 2022 14:22:53 -0500
+	id 1p8SEx-0001r6-HE; Thu, 22 Dec 2022 15:32:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p8R9W-0000LX-1v
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 14:22:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p8R9U-0007HQ-Ky
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 14:22:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671736966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gMQdiFuFKjpZNFhelq2FVi1rghiIaDfQe5KxyHX1pck=;
- b=M21HRGirNdbHgr/Jk6Xtld6aN9GsylJ2uXSNyV4J8EF8uKaYXebTeppscc4wIMMQUrpZ0/
- bs54a7FR9+IVd2o5hQ/tMempK1DCxAbm9rNRW1I2hyhYZL8Tf4UJqtvy6XE8ee6ws4HQP2
- ohQp1H9E3mA8ZvIQ45YldE6pw1UX9XM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-379-xXewo6ohO22-LCwL1iexwg-1; Thu, 22 Dec 2022 14:22:45 -0500
-X-MC-Unique: xXewo6ohO22-LCwL1iexwg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- l17-20020a056402255100b00472d2ff0e59so2138047edb.19
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 11:22:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p8SEv-0001qy-S1
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:32:29 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p8SEt-0001a8-Vn
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:32:29 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id bs20so685147wrb.3
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 12:32:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6zrMlZfdXCKaannbLy+wdLLM2ypQDvDGrlwSWVf2wts=;
+ b=DuagJmm1x7QU5RD8QuC7TWOSR2zJg4fYrJW6sB9aadZpto17lPJOq6mdAmjB8nLi+5
+ 4ukG0YnPoKiHAKRUxty4BLsUOVgnnoaSMRF2s4XXTJRmYUEpQaCexYTBy8BX4MUlR995
+ ogusUVc7Swkso07VBGxOszyvGBHQ1lq+KfcDFkre+BI0SkUgbO879ZMwjQoV/rJlRH9L
+ JqTGSyAaS4yaK33HehuMeZX7oao6vGBo9zyG7IhqHFWxCCe+xaqVLV/NX7kN03PkY0i6
+ m2haA9jB/k4cTc6RUy73KhMHwfcS3dMR3DibA9+P2vo9mlCz5GXrISAhmhL06q4CpbE9
+ drEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gMQdiFuFKjpZNFhelq2FVi1rghiIaDfQe5KxyHX1pck=;
- b=fceUMITh+a8dtwQUzhYZVyMcTV8JTYgsMK4KUF/swymDRkMY1PWgI1bVtWLXcTWXdb
- cCX04YVsRFiTEsSNt/LZagKqzFYa2T3NfXmgcUuVwwV5B3Jsp1VEc1d4ro4Yn/0ObF0D
- x9HIgYAs6YYiF52H/713/3e2EYfYSlZZCFWb9JhaQuCAKfI6PMBPyTsdTAwNBQWFJUt/
- 2LRi8g0ZEG1r63nkrwCQ7IZyfIkABTzOar9LzFz6MrGNv/g3VeNDwjA1wfuwhRh7hfIM
- HK+s6vAT66GcNN+lBt7NQ1THGUR4Qi3voeWDDEDWpCR1r6dD7wJ1Yl/nQlwpO+3WVvSD
- JqRw==
-X-Gm-Message-State: AFqh2krv8K6MDZvDfhYOfh/UiXrpDdcS37YVEgCvbVv7XjSyifPrSOXB
- 0P4bXdkzHEzjZ0Mg/dI7CzmilgyFyRmvQXfrgS6g2LyZxu1nAkauqiEJWTfrBMH//3qJmTwiA87
- H/0hNO1PhMwhjqXg=
-X-Received: by 2002:a17:906:555:b0:7c1:47bd:1814 with SMTP id
- k21-20020a170906055500b007c147bd1814mr5721475eja.63.1671736964326; 
- Thu, 22 Dec 2022 11:22:44 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsg5ZR9oQZJI5Is54E39fwy2XreEzSJNn4WQb/MFUUqIdBlrKXpiYfLW4OBBrW7heIx595Oew==
-X-Received: by 2002:a17:906:555:b0:7c1:47bd:1814 with SMTP id
- k21-20020a170906055500b007c147bd1814mr5721461eja.63.1671736964069; 
- Thu, 22 Dec 2022 11:22:44 -0800 (PST)
-Received: from redhat.com ([2.55.175.215]) by smtp.gmail.com with ESMTPSA id
- a11-20020a1709062b0b00b007c1675d2626sm553625ejg.96.2022.12.22.11.22.42
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=6zrMlZfdXCKaannbLy+wdLLM2ypQDvDGrlwSWVf2wts=;
+ b=PQVoWcaVOMX+v7de/fpB4Bt7ioM2gFmOxbnflSxuqt0DO8xaXIM1FhRi1tXKWkHBV8
+ DormYY5K/YZ99ud73gtoipScHYszmh039UKBAfAyMsiZQzLbWRL9ml33z/eYePPLoPs2
+ cJXcZuhV2/A82XxJruIuu2zl0OnNa9SY086Jl08I7tyX7j6M6hHzPkGEzavdIp9KTLkI
+ aEXbRolN+lbR4i7f4H+JG30QMsVrSnKIVejMNmMtPOcWa38ZyGPMd991x1mv2TDBM2wb
+ gxi5DxpkKWvV1dNT8llj+/IhCDMTYskIUDQILGeThMCnucQs4cKHMG+xUlLvPBpr8iIL
+ Q+/A==
+X-Gm-Message-State: AFqh2kowKifHkZ8mpI9PKX3l28xINclBrnhZl8tuePfy5+6ZgKfZYLe/
+ vd27NUwIZ+6sc7hT5pFS7nhYzg==
+X-Google-Smtp-Source: AMrXdXthM7BK7GeOcplAvG+HpvDfuEMbw5uiUXWEDrdcRXjSfh7n3QRn/EGJE71TuqzTye35c2/NZQ==
+X-Received: by 2002:a5d:61ce:0:b0:242:fd7:285c with SMTP id
+ q14-20020a5d61ce000000b002420fd7285cmr4393398wrv.48.1671741144721; 
+ Thu, 22 Dec 2022 12:32:24 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ a1-20020a5d53c1000000b00241e8d00b79sm1628075wrw.54.2022.12.22.12.32.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Dec 2022 11:22:43 -0800 (PST)
-Date: Thu, 22 Dec 2022 14:22:39 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- marcel.apfelbaum@gmail.com, jonathan.cameron@huawei.com, philmd@linaro.org
-Subject: Re: [PATCH v2 0/7] include/hw/pci include/hw/cxl: Clean up includes
-Message-ID: <20221222142149-mutt-send-email-mst@kernel.org>
-References: <20221222100330.380143-1-armbru@redhat.com>
- <B98EF322-5449-4942-8718-D3504B863B96@gmail.com>
- <87edsremti.fsf@pond.sub.org>
+ Thu, 22 Dec 2022 12:32:24 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CC3EA1FFB7;
+ Thu, 22 Dec 2022 20:32:23 +0000 (GMT)
+References: <20221221144019.2149905-1-alex.bennee@linaro.org>
+ <CAFEAcA82JV9B-kuW-fZVAHv=VCs7H5KWqG=XYAhjzmK+9wmCyg@mail.gmail.com>
+User-agent: mu4e 1.9.7; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL 0/6] testing updates
+Date: Thu, 22 Dec 2022 20:31:53 +0000
+In-reply-to: <CAFEAcA82JV9B-kuW-fZVAHv=VCs7H5KWqG=XYAhjzmK+9wmCyg@mail.gmail.com>
+Message-ID: <87lemzxjqg.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87edsremti.fsf@pond.sub.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,32 +94,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 22, 2022 at 11:48:25AM +0100, Markus Armbruster wrote:
-> Bernhard Beschow <shentey@gmail.com> writes:
-> 
-> > Am 22. Dezember 2022 10:03:23 UTC schrieb Markus Armbruster <armbru@redhat.com>:
-> >>Back in 2016, we discussed[1] rules for headers, and these were
-> >>generally liked:
-> >>
-> >>1. Have a carefully curated header that's included everywhere first.  We
-> >>   got that already thanks to Peter: osdep.h.
-> >>
-> >>2. Headers should normally include everything they need beyond osdep.h.
-> >>   If exceptions are needed for some reason, they must be documented in
-> >>   the header.  If all that's needed from a header is typedefs, put
-> >>   those into qemu/typedefs.h instead of including the header.
-> >>
-> >>3. Cyclic inclusion is forbidden.
-> >
-> > Sounds like these -- useful and sane -- rules belong in QEMU's coding style. What about putting them there for easy reference?
-> 
-> Makes sense.  I'll see what I can do.  Thanks!
 
-It would be even better if there was e.g. a make target
-pulling in each header and making sure it's self consistent and
-no circularity. We could run it e.g. in CI.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
--- 
-MST
+> On Wed, 21 Dec 2022 at 14:40, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> The following changes since commit 8540a1f69578afb3b37866b1ce5bec46a9f6e=
+fbc:
+>>
+>>   Merge tag 'hppa-fixes-pull-request' of
+>> https://github.com/hdeller/qemu-hppa into staging (2022-12-20
+>> 15:32:27 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-211222-1
+>>
+>> for you to fetch changes up to 7a8ec48480c116db93e0d91688be1dcf34147795:
+>>
+>>   gitlab-ci: Disable docs and GUIs for the build-tci and
+>> build-tcg-disabled jobs (2022-12-21 11:19:05 +0000)
+>>
+>> ----------------------------------------------------------------
+>> testing updates:
+>>
+>>   - fix minor shell-ism that can break check-tcg
+>>   - turn off verbose logging on custom runners
+>>   - make configure echo call in CI
+>>   - fix unused variable in linux-test
+>>   - add binary compiler docker image for hexagon
+>>   - disable doc and gui builds for tci and disable-tcg builds
+>>
+>
+> Gitlab's CI marks this with a "yaml invalid" tag:
+> https://gitlab.com/qemu-project/qemu/-/pipelines/729324088
+>
+> and the error:
+> 'build-user-hexagon' job needs 'hexagon-cross-container' job, but
+> 'hexagon-cross-container' is not in any previous stage
 
+Ahh and doesn't show up on my run:
+
+  https://gitlab.com/stsquad/qemu/-/pipelines/728840940
+
+I guess because it is qemu-project only.
+
+>
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
