@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFE66540D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 13:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DD386540D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 13:13:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8KNB-0007T9-LW; Thu, 22 Dec 2022 07:08:29 -0500
+	id 1p8KP1-000897-8d; Thu, 22 Dec 2022 07:10:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8KN7-0007Qh-Rf
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 07:08:26 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8KOv-000887-Gj
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 07:10:18 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8KN2-0004Yf-Nr
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 07:08:25 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8KOu-0004wh-1B
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 07:10:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671710899;
+ s=mimecast20190719; t=1671711015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j3uM8RpKhBaSx4HGrEkRlS0tuMuWREecwrjQoZcx4/Y=;
- b=i2/MN3wycOxuqMnfHaqQdBuprT3Zqs5JQSSM+GLu+YiYJHDvtY2vPjStAy6rqW1myCDAmU
- HyInu36uu+q+EyUwAGuvpsnCrax1/SzMG0TzqSx1eZSsHRGu/PcJ3oOHl1cJELWWneKUZc
- 0ssC1j1TE1zBH239UGFZwxdjWQyPi/8=
+ bh=SmuOKcmhc5P8kB9mxDdXSAF3BAiFiDucFWG7ceOtKqM=;
+ b=MOmpzW/sPNe7f6Pp05q/XUHsL7A8jdxWe0dr5ro+KrSX/ixZaLZ3BVELXmQO8kb77FHD1F
+ pV16x0aLOROTQKPVJi2/JDWWfzEIrllCqejRimZCT89YVYNSj/h98iabQHCTYSsalZbBgQ
+ ehWsjzTNtGtWTSfnj232mzQuyXouy5o=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-418-hzmqdjV5OFa1ocu-HF7Fyw-1; Thu, 22 Dec 2022 07:08:16 -0500
-X-MC-Unique: hzmqdjV5OFa1ocu-HF7Fyw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-656-KAq2bMT9MyuSYtgLgzcndg-1; Thu, 22 Dec 2022 07:10:10 -0500
+X-MC-Unique: KAq2bMT9MyuSYtgLgzcndg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D53485C064;
- Thu, 22 Dec 2022 12:08:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4651B85C1A4;
+ Thu, 22 Dec 2022 12:10:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 67CA3C16029;
- Thu, 22 Dec 2022 12:08:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C35534014EB9;
+ Thu, 22 Dec 2022 12:10:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4E5B821E6935; Thu, 22 Dec 2022 13:08:13 +0100 (CET)
+ id 9FEA821E691D; Thu, 22 Dec 2022 13:10:07 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
- peter.maydell@linaro.org, laurent@vivier.eu, edgar.iglesias@gmail.com,
- Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
- marcel.apfelbaum@gmail.com, yangxiaojuan@loongson.cn, gaosong@loongson.cn,
- richard.henderson@linaro.org, deller@gmx.de, jasowang@redhat.com,
- vikram.garhwal@amd.com, francisco.iglesias@amd.com, clg@kaod.org,
- kraxel@redhat.com, marcandre.lureau@redhat.com, riku.voipio@iki.fi,
- qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-ppc@nongnu.org,
- crwulff@gmail.com, marex@denx.de, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 4/4] docs/devel: Rules on #include in headers
-Date: Thu, 22 Dec 2022 13:08:13 +0100
-Message-Id: <20221222120813.727830-5-armbru@redhat.com>
-In-Reply-To: <20221222120813.727830-1-armbru@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org,  imammedo@redhat.com,  ani@anisinha.ca,
+ peter.maydell@linaro.org,  laurent@vivier.eu,  edgar.iglesias@gmail.com,
+ Alistair.Francis@wdc.com,  bin.meng@windriver.com,  palmer@dabbelt.com,
+ marcel.apfelbaum@gmail.com,  yangxiaojuan@loongson.cn,
+ gaosong@loongson.cn,  richard.henderson@linaro.org,  deller@gmx.de,
+ jasowang@redhat.com,  vikram.garhwal@amd.com,
+ francisco.iglesias@amd.com,  clg@kaod.org,  kraxel@redhat.com,
+ marcandre.lureau@redhat.com,  riku.voipio@iki.fi,  qemu-arm@nongnu.org,
+ qemu-riscv@nongnu.org,  qemu-ppc@nongnu.org,  crwulff@gmail.com,
+ marex@denx.de
+Subject: Re: [PATCH v2 0/4] Clean up includes
 References: <20221222120813.727830-1-armbru@redhat.com>
+Date: Thu, 22 Dec 2022 13:10:07 +0100
+In-Reply-To: <20221222120813.727830-1-armbru@redhat.com> (Markus Armbruster's
+ message of "Thu, 22 Dec 2022 13:08:09 +0100")
+Message-ID: <871qorej1c.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -86,38 +87,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Rules for headers were proposed a long time ago, and generally liked:
-
-    Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
-    https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
-
-Wortk them into docs/devel/style.rst.
-
-Suggested-by: Bernhard Beschow <shentey@gmail.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- docs/devel/style.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/docs/devel/style.rst b/docs/devel/style.rst
-index 7ddd42b6c2..68aa776930 100644
---- a/docs/devel/style.rst
-+++ b/docs/devel/style.rst
-@@ -293,6 +293,13 @@ that QEMU depends on.
- Do not include "qemu/osdep.h" from header files since the .c file will have
- already included it.
- 
-+Headers should normally include everything they need beyond osdep.h.
-+If exceptions are needed for some reason, they must be documented in
-+the header.  If all that's needed from a header is typedefs, consider
-+putting those into qemu/typedefs.h instead of including the header.
-+
-+Cyclic inclusion is forbidden.
-+
- C types
- =======
- 
--- 
-2.38.1
+Michael, I forgot to add your R-bys.  I'll fix that in the next
+revision if I need one, else in the pull request.
 
 
