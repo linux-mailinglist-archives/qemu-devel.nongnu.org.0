@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E0565416C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 13:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787646541D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 14:23:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8L7t-0005NR-0K; Thu, 22 Dec 2022 07:56:45 -0500
+	id 1p8LWN-00039e-C7; Thu, 22 Dec 2022 08:22:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1p8L7q-0005N9-20; Thu, 22 Dec 2022 07:56:42 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <minglei.liu@smartx.com>)
+ id 1p8LW9-00038j-PX
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 08:21:50 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1p8L7o-00055n-6h; Thu, 22 Dec 2022 07:56:41 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id t17so4741670eju.1;
- Thu, 22 Dec 2022 04:56:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vtnEIeUzciqTDpSYBpUyzbnmyUfiG+8RUPG3J2cUkQo=;
- b=ZeoZgdSV6C0T+qU/DwuNEASwysLVCOxcRBDJdESxcOLEcWoutFGHGsyJdI8YLKlZgB
- mR7tmPLfCjgtytrgjH7Yf4TROs/ns0vPnl0XXbfeu83Tf0wp6oq1momObA6NSDIYEHzU
- ErWKGf/p+IvYaO2FM+7ljhLb5QaBvJLlNt58q+gIBG9l67mOu82clc1BaB31Y1v2LxXv
- 41wbPUDAITC+ZyNVm2yMfxP3djv3J6W2o3bdV13IJ7GeU3RoFb/DqrqdELfRveEyrNyN
- LtgqWky4zHLuTQL3s8OeRtRREV3WePgiKbiV0Ms/2j7F6HhwH9q23LN3oCfnf/IZddBq
- FivQ==
+ (Exim 4.90_1) (envelope-from <minglei.liu@smartx.com>)
+ id 1p8LW6-00026c-PD
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 08:21:49 -0500
+Received: by mail-ed1-x533.google.com with SMTP id s5so2856088edc.12
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 05:21:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wPFhIVSlonoYFbU9g6wy4OEsXEW9yD92wDaaS9qjvSc=;
+ b=euq7Ox0YInL4NjofhmCqHb49gXmTUJSzmWi2V3rHybgeSojpb+UCwgtoKgRaipjx5Z
+ MB93a+Qjc1wWdniqapl+3BGjRQQVeBtyqsfG/rJWl7zxYZAQp9WZBli/l4yMtmVoL5id
+ Y4D6KNJIZRJNV22Sz02Qt2qPE2EZE2p5/jazsbkX4FlVADCpVuaakLrNg04k/c2+3hdl
+ 4d1W0kROyesgeXh3b2BRAS98njKerI1cbSxhl55cC7Ms5KoQGEmwHjyPDuXHaMIQjk1B
+ sLMrQo22+PQ1bCdSlMoc6TB9clamSvOgkTbOWMGyvbfSu2sBrZNrslcDy6D9UvJcF2Df
+ +Bbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vtnEIeUzciqTDpSYBpUyzbnmyUfiG+8RUPG3J2cUkQo=;
- b=B5CFENmV7YbJRWM5d7slnpfXT62Z6d4iTidKKZ1nMV05RXzmoDI5n2XqetmrjrVpLY
- vUgbqQBH6fWdDsJWL7+TtMT//PMW5I4Gt9PkhD8vnFKQXSiWlBKq7CUkFriOJRu5TpUM
- A+oM+mYSxx2BcZkejOYSRDPdXORa8i5K8mXObcaQ72aX/3c7jTx6aHvLr1wtkXtMnzW4
- Zbh/d5hZmTnDIXIgoNZ3FuEw/9rYq31fHJnJ2h2BPA87nFUvUvAYj7mWQvgHIJXpokrj
- 4r82QsFCPYL7OhvLWm38EWd6eARuf9oubJJdG64/68uXNJlBpHzTWikXKthF0Bj9G451
- WG7w==
-X-Gm-Message-State: AFqh2krLDK9IWQU42P1cfFrWvaEZr7aIrjp0NUzQX+yQ/Yj1ScSqg8df
- QZllXZGHwO33+XC7+6X0rgU17Z/sWHt4gzoNadA=
-X-Google-Smtp-Source: AMrXdXukThHewEdOIx/ox6i4ni9C4m3x6RVHEX1yMEHsq/yVmRhIr96+d9Y9O9lS1dsZy4lmSb1XdbCuU+2byO1sEco=
-X-Received: by 2002:a17:906:1945:b0:7c0:bb4c:e792 with SMTP id
- b5-20020a170906194500b007c0bb4ce792mr465261eje.618.1671713798351; Thu, 22 Dec
- 2022 04:56:38 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wPFhIVSlonoYFbU9g6wy4OEsXEW9yD92wDaaS9qjvSc=;
+ b=q2tbqbnEoKSR6Sr1ScBdldZgBRwCUPgZdeva6VN2Dd0mQU0r7VJmK7dPwry3RdSwft
+ QJydHQVJNiZtY7PAK33Yv9+hChAJ/H+MLQ0ARGuvg0YExq815yREqDlg0QQflcIdhwGR
+ 8la93kctZL/b9+NJAoYllSaR11a1Sso/hkwWA/A6w+hQcY2IuvfBhzey4jdJAiFRsIdE
+ oxyd0KZn9iTKsgMIHuFq22Q6uGXIRChptxRjb7A4YhKd62o8V/thmlJcvMTP89zv2YlH
+ bop1ikjgJUQ9A6aqebak41VVczo2iMdHHThT7s59gTxlBtsJoOgE9It3GXz5aptuXiz5
+ 9MZw==
+X-Gm-Message-State: AFqh2krOkrmeu6RYYRu25kTkjwqiidt+yMVph4RCloK+WCULE8JB+smf
+ bSbznO3XepgZY67ijQUes1kW3OSG7ZAOJHwXhRbgpACxbVmKk7FzD64hCA==
+X-Google-Smtp-Source: AMrXdXtWFzeGpRBduJd7C/tdiLLa5PtYTg9e3VyKPgyLUHB8Rs4mHcjcgCpmnklogZAxhj9sn2IQ45Ee8DFLVeT8Sq4=
+X-Received: by 2002:a05:6402:5002:b0:46b:51e5:832a with SMTP id
+ p2-20020a056402500200b0046b51e5832amr733003eda.331.1671715296285; Thu, 22 Dec
+ 2022 05:21:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
- <20221221182300.307900-2-dbarboza@ventanamicro.com>
- <CAEUhbmX03QVTCOyeMZy6_=RSOZUAz84_WDyTbQMUKJ0Dec2v2Q@mail.gmail.com>
- <c8c87014-0c50-1649-2889-fa54a6110c19@ventanamicro.com>
-In-Reply-To: <c8c87014-0c50-1649-2889-fa54a6110c19@ventanamicro.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 22 Dec 2022 20:56:27 +0800
-Message-ID: <CAEUhbmVPt2uN-=OGg6qu2HVAm1zc83hO3MpAbnQsBnTAOm1YYg@mail.gmail.com>
-Subject: Re: [PATCH 01/15] tests/avocado: add RISC-V opensbi boot test
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221109115619.696826-1-minglei.liu@smartx.com>
+In-Reply-To: <20221109115619.696826-1-minglei.liu@smartx.com>
+From: Minglei Liu <minglei.liu@smartx.com>
+Date: Thu, 22 Dec 2022 21:21:25 +0800
+Message-ID: <CAP-5UDvpgzQ32fdvTk5t95L+KZh84DonUeRygbAobmjUh8JwVg@mail.gmail.com>
+Subject: Re: [PATCH] usbredir: Do not detach usb if backend chardev disconnect
+To: qemu-devel@nongnu.org
+Cc: kraxel@redhat.com
+Content-Type: multipart/alternative; boundary="00000000000066ae8d05f06a8cb3"
+Received-SPF: none client-ip=2a00:1450:4864:20::533;
+ envelope-from=minglei.liu@smartx.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,138 +82,315 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 22, 2022 at 6:47 PM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
+--00000000000066ae8d05f06a8cb3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+ping !
+please review this patch : [PATCH] usbredir: Do not detach usb if backend
+chardev disconnect - minglei.liu (kernel.org)
+<https://lore.kernel.org/qemu-devel/20221109115619.696826-1-minglei.liu@sma=
+rtx.com/>
+
+minglei.liu <minglei.liu@smartx.com> =E4=BA=8E2022=E5=B9=B411=E6=9C=889=E6=
+=97=A5=E5=91=A8=E4=B8=89 19:56=E5=86=99=E9=81=93=EF=BC=9A
+
+> If the network between qemu and usbredirserver is temporarily disconnecte=
+d,
+> the USB device in the VM will be unplugged. If the reconnect parameter is
+> configured for the backend chardev, the device will be reconnected later.
+> But from the inside of the VM, this USB device has experienced unplug and
+> re-plug, if the USB storage device has been mounted in the VM before,
+> the drive letter will change after the device is re-plugged.
 >
+> So in this case, we no longer unplug the device, and operations to the US=
+B
+> is returned immediately at this point.
 >
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1305
+> Signed-off-by: minglei.liu <minglei.liu@smartx.com>
+> ---
+>  hw/usb/redirect.c | 37 +++++++++++++++++++++++++++++++++++--
+>  1 file changed, 35 insertions(+), 2 deletions(-)
 >
-> On 12/22/22 07:24, Bin Meng wrote:
-> > On Thu, Dec 22, 2022 at 2:29 AM Daniel Henrique Barboza
-> > <dbarboza@ventanamicro.com> wrote:
-> >> This test is used to do a quick sanity check to ensure that we're able
-> >> to run the existing QEMU FW image.
-> >>
-> >> 'sifive_u', 'spike' and 'virt' riscv64 machines, and 'sifive_u' and
-> >> 'virt' 32 bit machines are able to run the default RISCV64_BIOS_BIN |
-> >> RISCV32_BIOS_BIN firmware with minimal options.
-> >>
-> >> Cc: Cleber Rosa <crosa@redhat.com>
-> >> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> >> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> >> Cc: Beraldo Leal <bleal@redhat.com>
-> >> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> >> ---
-> >>   tests/avocado/riscv_opensbi.py | 65 ++++++++++++++++++++++++++++++++=
-++
-> >>   1 file changed, 65 insertions(+)
-> >>   create mode 100644 tests/avocado/riscv_opensbi.py
-> >>
-> >> diff --git a/tests/avocado/riscv_opensbi.py b/tests/avocado/riscv_open=
-sbi.py
-> >> new file mode 100644
-> >> index 0000000000..abc99ced30
-> >> --- /dev/null
-> >> +++ b/tests/avocado/riscv_opensbi.py
-> >> @@ -0,0 +1,65 @@
-> >> +# opensbi boot test for RISC-V machines
-> >> +#
-> >> +# Copyright (c) 2022, Ventana Micro
-> >> +#
-> >> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> >> +# later.  See the COPYING file in the top-level directory.
-> >> +
-> >> +from avocado_qemu import QemuSystemTest
-> >> +from avocado_qemu import wait_for_console_pattern
-> >> +
-> >> +class RiscvOpensbi(QemuSystemTest):
-> >> +    """
-> >> +    :avocado: tags=3Daccel:tcg
-> >> +    """
-> >> +    timeout =3D 5
-> >> +
-> >> +    def test_riscv64_virt(self):
-> >> +        """
-> >> +        :avocado: tags=3Darch:riscv64
-> >> +        :avocado: tags=3Dmachine:virt
-> >> +        """
-> >> +        self.vm.set_console()
-> >> +        self.vm.launch()
-> >> +        wait_for_console_pattern(self, 'Platform Name')
-> >> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
-> >> +
-> >> +    def test_riscv64_spike(self):
-> >> +        """
-> >> +        :avocado: tags=3Darch:riscv64
-> >> +        :avocado: tags=3Dmachine:spike
-> >> +        """
-> >> +        self.vm.set_console()
-> >> +        self.vm.launch()
-> >> +        wait_for_console_pattern(self, 'Platform Name')
-> >> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
-> >> +
-> >> +    def test_riscv64_sifive_u(self):
-> >> +        """
-> >> +        :avocado: tags=3Darch:riscv64
-> >> +        :avocado: tags=3Dmachine:sifive_u
-> >> +        """
-> >> +        self.vm.set_console()
-> >> +        self.vm.launch()
-> >> +        wait_for_console_pattern(self, 'Platform Name')
-> >> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
-> >> +
-> >> +    def test_riscv32_virt(self):
-> >> +        """
-> >> +        :avocado: tags=3Darch:riscv32
-> >> +        :avocado: tags=3Dmachine:virt
-> >> +        """
-> >> +        self.vm.set_console()
-> >> +        self.vm.launch()
-> >> +        wait_for_console_pattern(self, 'Platform Name')
-> >> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
-> > How about testing riscv32_spike too?
+> diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+> index 1bd30efc3e..73731bcab5 100644
+> --- a/hw/usb/redirect.c
+> +++ b/hw/usb/redirect.c
+> @@ -379,6 +379,11 @@ static void usbredir_cancel_packet(USBDevice *udev,
+> USBPacket *p)
+>      USBRedirDevice *dev =3D USB_REDIRECT(udev);
+>      int i =3D USBEP2I(p->ep);
 >
+> +    if(!dev->parser) {
+> +        ERROR("usbredir parser is not available, need reconnect.\n");
+> +        return;
+> +    }
+> +
+>      if (p->combined) {
+>          usb_combined_packet_cancel(udev, p);
+>          return;
+> @@ -519,6 +524,11 @@ static void usbredir_handle_reset(USBDevice *udev)
+>  {
+>      USBRedirDevice *dev =3D USB_REDIRECT(udev);
 >
-> I didn't manage to make it work. This riscv64 spark command line boots op=
-ensbi:
+> +    if(!dev->parser) {
+> +        ERROR("usbredir parser is not available, need reconnect.\n");
+> +        return;
+> +    }
+> +
+>      DPRINTF("reset device\n");
+>      usbredirparser_send_reset(dev->parser);
+>      usbredirparser_do_write(dev->parser);
+> @@ -959,6 +969,11 @@ static void usbredir_handle_data(USBDevice *udev,
+> USBPacket *p)
+>      USBRedirDevice *dev =3D USB_REDIRECT(udev);
+>      uint8_t ep;
 >
+> +    if(!dev->parser) {
+> +        ERROR("usbredir parser is not available, need reconnect.\n");
+> +        return;
+> +    }
+> +
+>      ep =3D p->ep->nr;
+>      if (p->pid =3D=3D USB_TOKEN_IN) {
+>          ep |=3D USB_DIR_IN;
+> @@ -1027,6 +1042,11 @@ static void usbredir_ep_stopped(USBDevice *udev,
+> USBEndpoint *uep)
+>  {
+>      USBRedirDevice *dev =3D USB_REDIRECT(udev);
 >
-> $ ./qemu-system-riscv64 -nographic -display none -vga none -machine spike
+> +    if(!dev->parser) {
+> +        ERROR("usbredir parser is not available, need reconnect.\n");
+> +        return;
+> +    }
+> +
+>      usbredir_stop_ep(dev, USBEP2I(uep));
+>      usbredirparser_do_write(dev->parser);
+>  }
+> @@ -1098,6 +1118,11 @@ static void usbredir_handle_control(USBDevice
+> *udev, USBPacket *p,
+>      USBRedirDevice *dev =3D USB_REDIRECT(udev);
+>      struct usb_redir_control_packet_header control_packet;
 >
-> OpenSBI v1.1
->     ____                    _____ ____ _____
->    / __ \                  / ____|  _ \_   _|
->   | |  | |_ __   ___ _ __ | (___ | |_) || |
->   | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
->   | |__| | |_) |  __/ | | |____) | |_) || |_
->    \____/| .__/ \___|_| |_|_____/|____/_____|
->          | |
->          |_|
+> +    if(!dev->parser) {
+> +        ERROR("usbredir parser is not available, need reconnect.\n");
+> +        return;
+> +    }
+> +
+>      if (usbredir_already_in_flight(dev, p->id)) {
+>          p->status =3D USB_RET_ASYNC;
+>          return;
+> @@ -1155,6 +1180,11 @@ static int usbredir_alloc_streams(USBDevice *udev,
+> USBEndpoint **eps,
+>      struct usb_redir_alloc_bulk_streams_header alloc_streams;
+>      int i;
 >
-> (...)
+> +    if(!dev->parser) {
+> +        ERROR("usbredir parser is not available, need reconnect.\n");
+> +        return -1;
+> +    }
+> +
+>      if (!usbredirparser_peer_has_cap(dev->parser,
+>                                       usb_redir_cap_bulk_streams)) {
+>          ERROR("peer does not support streams\n");
+> @@ -1193,6 +1223,11 @@ static void usbredir_free_streams(USBDevice *udev,
+> USBEndpoint **eps,
+>      struct usb_redir_free_bulk_streams_header free_streams;
+>      int i;
 >
-> The same command line doesn't boot riscv32 spark:
+> +    if(!dev->parser) {
+> +        ERROR("usbredir parser is not available, need reconnect.\n");
+> +        return;
+> +    }
+> +
+>      if (!usbredirparser_peer_has_cap(dev->parser,
+>                                       usb_redir_cap_bulk_streams)) {
+>          return;
+> @@ -1219,8 +1254,6 @@ static void usbredir_chardev_close_bh(void *opaque)
+>      USBRedirDevice *dev =3D opaque;
 >
-> ./qemu-system-riscv32 -nographic -display none -vga none -machine spike
-> (--- hangs indefinitely ---)
+>      qemu_bh_cancel(dev->device_reject_bh);
+> -    usbredir_device_disconnect(dev);
+> -
+>      if (dev->parser) {
+>          DPRINTF("destroying usbredirparser\n");
+>          usbredirparser_destroy(dev->parser);
+> --
+> 2.27.0
 >
-> I debugged it a bit and, as far as boot code goes, it goes all the way an=
-d loads the
-> opensbi 32bit binary.
->
-> After that I tried to found any command line example that boots spike wit=
-h riscv32
-> bit and didn't find any.  So I gave up digging it further because I becam=
-e unsure
-> about whether 32-bit spike works.
->
-> If someone can verify that yes, 32-bit spike is supposed to work, then I =
-believe it's
-> worth investigating why it's not the case ATM.
 >
 
-+Anup who might know if QEMU spike 32-bit machine works with opensbi
-32-bit generic image.
+--=20
+=E5=88=98=E6=98=8E=E7=A3=8A Smartx =E8=BD=AF=E4=BB=B6=E5=B7=A5=E7=A8=8B=E5=
+=B8=88
 
-Regards,
-Bin
+--00000000000066ae8d05f06a8cb3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">ping !<div>please review this patch :=C2=A0<a href=3D"http=
+s://lore.kernel.org/qemu-devel/20221109115619.696826-1-minglei.liu@smartx.c=
+om/">[PATCH] usbredir: Do not detach usb if backend chardev disconnect - mi=
+nglei.liu (kernel.org)</a></div></div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">minglei.liu &lt;<a href=3D"mailto:minglei.l=
+iu@smartx.com">minglei.liu@smartx.com</a>&gt; =E4=BA=8E2022=E5=B9=B411=E6=
+=9C=889=E6=97=A5=E5=91=A8=E4=B8=89 19:56=E5=86=99=E9=81=93=EF=BC=9A<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">If the network between =
+qemu and usbredirserver is temporarily disconnected,<br>
+the USB device in the VM will be unplugged. If the reconnect parameter is<b=
+r>
+configured for the backend chardev, the device will be reconnected later.<b=
+r>
+But from the inside of the VM, this USB device has experienced unplug and<b=
+r>
+re-plug, if the USB storage device has been mounted in the VM before,<br>
+the drive letter will change after the device is re-plugged.<br>
+<br>
+So in this case, we no longer unplug the device, and operations to the USB<=
+br>
+is returned immediately at this point.<br>
+<br>
+Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/1305" re=
+l=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/i=
+ssues/1305</a><br>
+Signed-off-by: minglei.liu &lt;<a href=3D"mailto:minglei.liu@smartx.com" ta=
+rget=3D"_blank">minglei.liu@smartx.com</a>&gt;<br>
+---<br>
+=C2=A0hw/usb/redirect.c | 37 +++++++++++++++++++++++++++++++++++--<br>
+=C2=A01 file changed, 35 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c<br>
+index 1bd30efc3e..73731bcab5 100644<br>
+--- a/hw/usb/redirect.c<br>
++++ b/hw/usb/redirect.c<br>
+@@ -379,6 +379,11 @@ static void usbredir_cancel_packet(USBDevice *udev, US=
+BPacket *p)<br>
+=C2=A0 =C2=A0 =C2=A0USBRedirDevice *dev =3D USB_REDIRECT(udev);<br>
+=C2=A0 =C2=A0 =C2=A0int i =3D USBEP2I(p-&gt;ep);<br>
+<br>
++=C2=A0 =C2=A0 if(!dev-&gt;parser) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ERROR(&quot;usbredir parser is not available, =
+need reconnect.\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0if (p-&gt;combined) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0usb_combined_packet_cancel(udev, p);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+@@ -519,6 +524,11 @@ static void usbredir_handle_reset(USBDevice *udev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0USBRedirDevice *dev =3D USB_REDIRECT(udev);<br>
+<br>
++=C2=A0 =C2=A0 if(!dev-&gt;parser) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ERROR(&quot;usbredir parser is not available, =
+need reconnect.\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0DPRINTF(&quot;reset device\n&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0usbredirparser_send_reset(dev-&gt;parser);<br>
+=C2=A0 =C2=A0 =C2=A0usbredirparser_do_write(dev-&gt;parser);<br>
+@@ -959,6 +969,11 @@ static void usbredir_handle_data(USBDevice *udev, USBP=
+acket *p)<br>
+=C2=A0 =C2=A0 =C2=A0USBRedirDevice *dev =3D USB_REDIRECT(udev);<br>
+=C2=A0 =C2=A0 =C2=A0uint8_t ep;<br>
+<br>
++=C2=A0 =C2=A0 if(!dev-&gt;parser) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ERROR(&quot;usbredir parser is not available, =
+need reconnect.\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0ep =3D p-&gt;ep-&gt;nr;<br>
+=C2=A0 =C2=A0 =C2=A0if (p-&gt;pid =3D=3D USB_TOKEN_IN) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ep |=3D USB_DIR_IN;<br>
+@@ -1027,6 +1042,11 @@ static void usbredir_ep_stopped(USBDevice *udev, USB=
+Endpoint *uep)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0USBRedirDevice *dev =3D USB_REDIRECT(udev);<br>
+<br>
++=C2=A0 =C2=A0 if(!dev-&gt;parser) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ERROR(&quot;usbredir parser is not available, =
+need reconnect.\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0usbredir_stop_ep(dev, USBEP2I(uep));<br>
+=C2=A0 =C2=A0 =C2=A0usbredirparser_do_write(dev-&gt;parser);<br>
+=C2=A0}<br>
+@@ -1098,6 +1118,11 @@ static void usbredir_handle_control(USBDevice *udev,=
+ USBPacket *p,<br>
+=C2=A0 =C2=A0 =C2=A0USBRedirDevice *dev =3D USB_REDIRECT(udev);<br>
+=C2=A0 =C2=A0 =C2=A0struct usb_redir_control_packet_header control_packet;<=
+br>
+<br>
++=C2=A0 =C2=A0 if(!dev-&gt;parser) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ERROR(&quot;usbredir parser is not available, =
+need reconnect.\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0if (usbredir_already_in_flight(dev, p-&gt;id)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p-&gt;status =3D USB_RET_ASYNC;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+@@ -1155,6 +1180,11 @@ static int usbredir_alloc_streams(USBDevice *udev, U=
+SBEndpoint **eps,<br>
+=C2=A0 =C2=A0 =C2=A0struct usb_redir_alloc_bulk_streams_header alloc_stream=
+s;<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+<br>
++=C2=A0 =C2=A0 if(!dev-&gt;parser) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ERROR(&quot;usbredir parser is not available, =
+need reconnect.\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0if (!usbredirparser_peer_has_cap(dev-&gt;parser,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 usb_redir_cap_b=
+ulk_streams)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ERROR(&quot;peer does not support streams=
+\n&quot;);<br>
+@@ -1193,6 +1223,11 @@ static void usbredir_free_streams(USBDevice *udev, U=
+SBEndpoint **eps,<br>
+=C2=A0 =C2=A0 =C2=A0struct usb_redir_free_bulk_streams_header free_streams;=
+<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+<br>
++=C2=A0 =C2=A0 if(!dev-&gt;parser) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ERROR(&quot;usbredir parser is not available, =
+need reconnect.\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0if (!usbredirparser_peer_has_cap(dev-&gt;parser,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 usb_redir_cap_b=
+ulk_streams)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+@@ -1219,8 +1254,6 @@ static void usbredir_chardev_close_bh(void *opaque)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0USBRedirDevice *dev =3D opaque;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0qemu_bh_cancel(dev-&gt;device_reject_bh);<br>
+-=C2=A0 =C2=A0 usbredir_device_disconnect(dev);<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0if (dev-&gt;parser) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DPRINTF(&quot;destroying usbredirparser\n=
+&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0usbredirparser_destroy(dev-&gt;parser);<b=
+r>
+-- <br>
+2.27.0<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"lt=
+r"><div dir=3D"ltr"><font size=3D"4" style=3D"font-family:&quot;comic sans =
+ms&quot;,sans-serif">=E5=88=98=E6=98=8E=E7=A3=8A</font><span style=3D"font-=
+family:&quot;comic sans ms&quot;,sans-serif"> Smartx =E8=BD=AF=E4=BB=B6=E5=
+=B7=A5=E7=A8=8B=E5=B8=88</span></div></div></div></div></div>
+
+--00000000000066ae8d05f06a8cb3--
 
