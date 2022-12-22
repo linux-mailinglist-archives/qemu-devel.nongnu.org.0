@@ -2,61 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D541653C64
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 08:04:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFE4653C67
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 08:06:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8Fbc-00041d-18; Thu, 22 Dec 2022 02:03:04 -0500
+	id 1p8Fdz-0005Le-3B; Thu, 22 Dec 2022 02:05:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8FbW-000410-Vj
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 02:03:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p8Fdu-0005Kn-76
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 02:05:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8FbU-0002sr-ID
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 02:02:58 -0500
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1p8Fds-0003GS-BV
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 02:05:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671692575;
+ s=mimecast20190719; t=1671692722;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3/y1BB0XW/itIgRSb+jFGmPNulg8BueVthh0Gh7g2EY=;
- b=XYKm4Udg41Gr55BQZ7PMI9MLCt0R1JFpuAxC7aZpg0JyFUeEWKwcBBDdTqgHkxDBTWTxEe
- gpua3WdXqqUxRLOhcY4Iz2tcOz7dJ89YPqrUvHOXiol4DqzJatClGdyTefGvb+ugOY3nH/
- 1LBqobPy2UNc4uY6bPnOZ1i5d5CIfHg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Uq8AeOo8b4SsfiEQDzmHQyZJzA0lAw7gr3G2E0pwzUA=;
+ b=Vr1AxhCYXUoJetPuGPRgnCyH8/6cPuyTpRcUtueoVCkr3I8M1esEoekvy6eEpMq5kcx8VU
+ +jTq9C/lGSmdIQ8+50VbqVh7LBbpPXp91A64tLadTVZW49uPTgncEDHUJQP8OzKaEB47IT
+ YUNoRnFysJybORPsVKg1D92kZWXirhY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-161-detd1W31OB2_DWIXFRhMvw-1; Thu, 22 Dec 2022 02:02:50 -0500
-X-MC-Unique: detd1W31OB2_DWIXFRhMvw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-26-0xUIbFAdOkKlZK5ZmGwewQ-1; Thu, 22 Dec 2022 02:05:21 -0500
+X-MC-Unique: 0xUIbFAdOkKlZK5ZmGwewQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B286180D0E9;
- Thu, 22 Dec 2022 07:02:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B00551EF;
- Thu, 22 Dec 2022 07:02:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5822221E691D; Thu, 22 Dec 2022 08:02:48 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org,  marcel.apfelbaum@gmail.com,
- ben.widawsky@intel.com,  jonathan.cameron@huawei.com,  philmd@linaro.org
-Subject: Re: [PATCH 0/5] include/hw/pci include/hw/cxl: Clean up includes
-References: <20221209134802.3642942-1-armbru@redhat.com>
- <20221221063353-mutt-send-email-mst@kernel.org>
-Date: Thu, 22 Dec 2022 08:02:48 +0100
-In-Reply-To: <20221221063353-mutt-send-email-mst@kernel.org> (Michael
- S. Tsirkin's message of "Wed, 21 Dec 2022 06:34:10 -0500")
-Message-ID: <873597hqef.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA37C29AA2C6
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 07:05:20 +0000 (UTC)
+Received: from server.redhat.com (ovpn-12-67.pek2.redhat.com [10.72.12.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EBDC72026D4B;
+ Thu, 22 Dec 2022 07:05:18 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org
+Subject: [PATCH v21 00/10] vhost-vdpa: add support for configure interrupt
+Date: Thu, 22 Dec 2022 15:04:41 +0800
+Message-Id: <20221222070451.936503-1-lulu@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,26 +71,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+These patches introduced the support for configure interrupt 
 
-> On Fri, Dec 09, 2022 at 02:47:57PM +0100, Markus Armbruster wrote:
->> Back in 2016, we discussed[1] rules for headers, and these were
->> generally liked:
->> 
->> 1. Have a carefully curated header that's included everywhere first.  We
->>    got that already thanks to Peter: osdep.h.
->> 
->> 2. Headers should normally include everything they need beyond osdep.h.
->>    If exceptions are needed for some reason, they must be documented in
->>    the header.  If all that's needed from a header is typedefs, put
->>    those into qemu/typedefs.h instead of including the header.
->> 
->> 3. Cyclic inclusion is forbidden.
->
-> Looks like this breaks fuzzer build:
->
-> https://gitlab.com/mstredhat/qemu/-/jobs/3506121308
+These codes are tested on x86_64 and aarch64 platforms.  
 
-Will be fixed in v2, thanks!
+the test scenario is based on vp-vdpa/vdpa_sim_net /vhost/vhost_user/testpmd,
+with/without irqfd.
+
+Tested in virtio-pci bus and virtio-mmio bus
+
+
+Change in v2:
+Add support for virtio-mmio bus
+active the notifier while the backend support configure interrupt
+misc fixes from v1
+
+Change in v3
+fix the coding style problems
+
+Change in v4
+misc fixes from v3
+merge the set_config_notifier to set_guest_notifier
+when vdpa start, check the feature by VIRTIO_NET_F_STATUS
+
+Change in v5
+misc fixes from v4
+split the code to introduce configure interrupt type and the callback function
+will init the configure interrupt in all virtio-pci and virtio-mmio bus, but will
+only active while using vhost-vdpa driver
+
+Change in v6
+misc fixes from v5
+decouple vq from interrupt setting and misc process
+fix the bug in virtio_net_handle_rx
+
+Change in v7
+misc fixes from v6
+decouple vq from interrupt setting and misc process
+decouple vq from vector use/release process
+decouple vq from set notifier fd handler process
+move config_notifier and masked_config_notifier to VirtIODevice
+fix the bug in virtio_net_handle_rx, add more information
+add VIRTIO_CONFIG_IRQ_IDX as the queue number for configure interrupt 
+
+Change in v8
+misc fixes from v7
+decouple vq from interrupt setting and misc process
+decouple vq from vector use/release process
+decouple vq from set notifier fd handler process
+move the vhost configure interrupt to vhost_net
+
+Change in v9
+misc fixes from v8
+address the comments from v8
+
+Change in v10
+fix the hang issue in qtest
+address the comments from v9
+
+Change in v11
+fix the crash in aarch64 plateform.
+fix the crash upstream reported
+
+Change in v12
+fix the typo and the comments
+
+changes in v13
+re-send the patches by git-publish
+
+changes in v14
+rebased the code based on upstream
+
+changes in v15
+rebased the code based on upstream
+
+changes in v16
+resend the patch, seems there not send successfully
+
+changes in v18
+fix the crash in qtest
+Because hw/virtio/vhost-user-gpio.c is a new device,So I missed 
+to add the VIRTIO_CONFIG_IRQ_IDX check in notifier_mask
+
+changes in v19
+fix the crash in qtest
+rebased the code based on upstream
+
+changes in v20
+fix the compile issue in mingw32
+
+Cindy Lu (10):
+  virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX
+  virtio-pci: decouple notifier from interrupt process
+  virtio-pci: decouple the single vector from the interrupt process
+  vhost: introduce new VhostOps vhost_set_config_call
+  vhost-vdpa: add support for config interrupt
+  virtio: add support for configure interrupt
+  vhost: add support for configure interrupt
+  virtio-net: add support for configure interrupt
+  virtio-mmio: add support for configure interrupt
+  virtio-pci: add support for configure interrupt
+
+ hw/display/vhost-user-gpu.c       |  18 ++
+ hw/net/vhost_net-stub.c           |   9 +
+ hw/net/vhost_net.c                |   9 +
+ hw/net/virtio-net.c               |  22 ++-
+ hw/virtio/trace-events            |   1 +
+ hw/virtio/vhost-user-fs.c         |  18 ++
+ hw/virtio/vhost-user-gpio.c       |  10 +
+ hw/virtio/vhost-vdpa.c            |   8 +
+ hw/virtio/vhost-vsock-common.c    |  18 ++
+ hw/virtio/vhost.c                 |  78 +++++++-
+ hw/virtio/virtio-crypto.c         |  18 ++
+ hw/virtio/virtio-mmio.c           |  27 +++
+ hw/virtio/virtio-pci.c            | 291 +++++++++++++++++++++---------
+ hw/virtio/virtio.c                |  29 +++
+ include/hw/virtio/vhost-backend.h |   3 +
+ include/hw/virtio/vhost.h         |   4 +
+ include/hw/virtio/virtio-pci.h    |   4 +-
+ include/hw/virtio/virtio.h        |   7 +
+ include/net/vhost_net.h           |   2 +
+ 19 files changed, 487 insertions(+), 89 deletions(-)
+
+-- 
+2.34.3
 
 
