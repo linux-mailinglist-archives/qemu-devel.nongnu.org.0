@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27CD653E90
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 11:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF1E653E94
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 11:54:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8J6f-0002CO-LH; Thu, 22 Dec 2022 05:47:21 -0500
+	id 1p8J81-0002nb-Iu; Thu, 22 Dec 2022 05:48:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1p8J6Y-0002BW-19
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 05:47:14 -0500
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1p8J6V-0006YG-Uv
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 05:47:13 -0500
-Received: by mail-oi1-x22a.google.com with SMTP id r205so1532871oib.9
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 02:47:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1VUtE5Ch2sYTKY+XgKfIMy3aL+RrI2LdPdYB5xA3taw=;
- b=Wkl1yBNSKlzwtpKr5qBT4+uU577Y+mfavX6k4/G+CtkNAtSkNXw9V/Fd9G6+GWCyUb
- 4HqMV/H3bTr+6RcJ2jFo7PsPLMLarht+Ub5lu93o4ABBHv9rtGvtT93bHrJCwUV7qWav
- 0v6Khr+ayp3HJ8Lh7T9vgDUjxIgABHOnXUHhPJLiVdaQkl1rR5VUSaB7Q8aG2JgMH7Ml
- 3faTMMLqsQpb0dROid6wW++5S8VfUynIAqcO028JCvdep/uqbG9lrO4m0otC4U3L43n8
- ERNp6jSYL5/b72vQLWzCzQpr9BA61LuCZOAr1Ht+ZabvTpQF2WvFpeYLr/7wkGKKS2ox
- e4FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1VUtE5Ch2sYTKY+XgKfIMy3aL+RrI2LdPdYB5xA3taw=;
- b=szeQo3x9jvZHnIrVxBHSgNf2nT0Dnkq7mQnRwYIUVKR8FtjocGn2uEj5+CTMEMM4Wz
- FA17IQyo0c9qixDW3qBRoRinWqkkuCmmticanqdkcjtX9hJD3XObbvW3ojyOpuPRnScD
- lPkoKk9Sy5WNQjaZwZmnWoaNiAc9gneqjjMjFv6IGEIaJ+0O30eHn+sDqLjhz/3G8UVP
- AAPcp7xPvJbe4wTq6iej65sSYoNznFTAdEPHqXKY7LxJbO0Vg+cwHv4lQfiSflRBgKll
- 2YfaxiAX4KbaAOC9gyFDeZLRWHnwlMZbvM2SS5RdtkRWlSSrEGU3QDQT5N1xScvtJcm8
- AcOw==
-X-Gm-Message-State: AFqh2kpyqouZwzLDciZnGjWv6RqlnZ1iiAvxEvD9NfLQOtn0Ke8X+3oL
- oPkLcQFS1x4ASWdBEvLnDIzJvA==
-X-Google-Smtp-Source: AMrXdXvjoGpZGLEBXae0+CDd+Uq3cZxxfujU4MuBLyj3rvPHd5yh77pYb8WicahNZfUDC3TogZKnyg==
-X-Received: by 2002:a05:6808:30a9:b0:35c:6a5c:29e6 with SMTP id
- bl41-20020a05680830a900b0035c6a5c29e6mr2663234oib.28.1671706030781; 
- Thu, 22 Dec 2022 02:47:10 -0800 (PST)
-Received: from [192.168.68.106] (201-43-103-101.dsl.telesp.net.br.
- [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
- bf17-20020a056808191100b0035173c2fddasm157040oib.51.2022.12.22.02.47.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 02:47:10 -0800 (PST)
-Message-ID: <c8c87014-0c50-1649-2889-fa54a6110c19@ventanamicro.com>
-Date: Thu, 22 Dec 2022 07:47:06 -0300
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8J7z-0002nC-J5
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 05:48:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8J7y-0006lO-6X
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 05:48:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671706121;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ll2eJ/w3EVkDHrWdkTHwI//MS8xUYjKtBfDPKqJgDPk=;
+ b=clgIMNV9lvMkdvQpaUcBVII2IUIJ6H/gmaqU/MmZy3G/oXaWCPpq8FLp5I+fm1nZ2+fawr
+ 5u1eqQM2RqvoXppzGatTCvavxlfdalQ3hqka5j8YFgKI4XVdiZQtATvb6FXbg/fiNfthlU
+ HNTpwRd7nw8WpsqIqh4Jj5WLWGvkr2s=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-592-qJGbPn_oOCSIKLSWfLTgxg-1; Thu, 22 Dec 2022 05:48:27 -0500
+X-MC-Unique: qJGbPn_oOCSIKLSWfLTgxg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41610381796D;
+ Thu, 22 Dec 2022 10:48:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F027F51EF;
+ Thu, 22 Dec 2022 10:48:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C069B21E691D; Thu, 22 Dec 2022 11:48:25 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org,  mst@redhat.com,  marcel.apfelbaum@gmail.com,
+ jonathan.cameron@huawei.com,  philmd@linaro.org
+Subject: Re: [PATCH v2 0/7] include/hw/pci include/hw/cxl: Clean up includes
+References: <20221222100330.380143-1-armbru@redhat.com>
+ <B98EF322-5449-4942-8718-D3504B863B96@gmail.com>
+Date: Thu, 22 Dec 2022 11:48:25 +0100
+In-Reply-To: <B98EF322-5449-4942-8718-D3504B863B96@gmail.com> (Bernhard
+ Beschow's message of "Thu, 22 Dec 2022 10:38:22 +0000")
+Message-ID: <87edsremti.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 01/15] tests/avocado: add RISC-V opensbi boot test
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
- <20221221182300.307900-2-dbarboza@ventanamicro.com>
- <CAEUhbmX03QVTCOyeMZy6_=RSOZUAz84_WDyTbQMUKJ0Dec2v2Q@mail.gmail.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAEUhbmX03QVTCOyeMZy6_=RSOZUAz84_WDyTbQMUKJ0Dec2v2Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22a.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,143 +80,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Bernhard Beschow <shentey@gmail.com> writes:
 
-
-On 12/22/22 07:24, Bin Meng wrote:
-> On Thu, Dec 22, 2022 at 2:29 AM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
->> This test is used to do a quick sanity check to ensure that we're able
->> to run the existing QEMU FW image.
+> Am 22. Dezember 2022 10:03:23 UTC schrieb Markus Armbruster <armbru@redhat.com>:
+>>Back in 2016, we discussed[1] rules for headers, and these were
+>>generally liked:
 >>
->> 'sifive_u', 'spike' and 'virt' riscv64 machines, and 'sifive_u' and
->> 'virt' 32 bit machines are able to run the default RISCV64_BIOS_BIN |
->> RISCV32_BIOS_BIN firmware with minimal options.
+>>1. Have a carefully curated header that's included everywhere first.  We
+>>   got that already thanks to Peter: osdep.h.
 >>
->> Cc: Cleber Rosa <crosa@redhat.com>
->> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
->> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
->> Cc: Beraldo Leal <bleal@redhat.com>
->> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->> ---
->>   tests/avocado/riscv_opensbi.py | 65 ++++++++++++++++++++++++++++++++++
->>   1 file changed, 65 insertions(+)
->>   create mode 100644 tests/avocado/riscv_opensbi.py
+>>2. Headers should normally include everything they need beyond osdep.h.
+>>   If exceptions are needed for some reason, they must be documented in
+>>   the header.  If all that's needed from a header is typedefs, put
+>>   those into qemu/typedefs.h instead of including the header.
 >>
->> diff --git a/tests/avocado/riscv_opensbi.py b/tests/avocado/riscv_opensbi.py
->> new file mode 100644
->> index 0000000000..abc99ced30
->> --- /dev/null
->> +++ b/tests/avocado/riscv_opensbi.py
->> @@ -0,0 +1,65 @@
->> +# opensbi boot test for RISC-V machines
->> +#
->> +# Copyright (c) 2022, Ventana Micro
->> +#
->> +# This work is licensed under the terms of the GNU GPL, version 2 or
->> +# later.  See the COPYING file in the top-level directory.
->> +
->> +from avocado_qemu import QemuSystemTest
->> +from avocado_qemu import wait_for_console_pattern
->> +
->> +class RiscvOpensbi(QemuSystemTest):
->> +    """
->> +    :avocado: tags=accel:tcg
->> +    """
->> +    timeout = 5
->> +
->> +    def test_riscv64_virt(self):
->> +        """
->> +        :avocado: tags=arch:riscv64
->> +        :avocado: tags=machine:virt
->> +        """
->> +        self.vm.set_console()
->> +        self.vm.launch()
->> +        wait_for_console_pattern(self, 'Platform Name')
->> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
->> +
->> +    def test_riscv64_spike(self):
->> +        """
->> +        :avocado: tags=arch:riscv64
->> +        :avocado: tags=machine:spike
->> +        """
->> +        self.vm.set_console()
->> +        self.vm.launch()
->> +        wait_for_console_pattern(self, 'Platform Name')
->> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
->> +
->> +    def test_riscv64_sifive_u(self):
->> +        """
->> +        :avocado: tags=arch:riscv64
->> +        :avocado: tags=machine:sifive_u
->> +        """
->> +        self.vm.set_console()
->> +        self.vm.launch()
->> +        wait_for_console_pattern(self, 'Platform Name')
->> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
->> +
->> +    def test_riscv32_virt(self):
->> +        """
->> +        :avocado: tags=arch:riscv32
->> +        :avocado: tags=machine:virt
->> +        """
->> +        self.vm.set_console()
->> +        self.vm.launch()
->> +        wait_for_console_pattern(self, 'Platform Name')
->> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
-> How about testing riscv32_spike too?
-
-
-I didn't manage to make it work. This riscv64 spark command line boots opensbi:
-
-
-$ ./qemu-system-riscv64 -nographic -display none -vga none -machine spike
-
-OpenSBI v1.1
-    ____                    _____ ____ _____
-   / __ \                  / ____|  _ \_   _|
-  | |  | |_ __   ___ _ __ | (___ | |_) || |
-  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
-  | |__| | |_) |  __/ | | |____) | |_) || |_
-   \____/| .__/ \___|_| |_|_____/|____/_____|
-         | |
-         |_|
-
-(...)
-
-The same command line doesn't boot riscv32 spark:
-
-./qemu-system-riscv32 -nographic -display none -vga none -machine spike
-(--- hangs indefinitely ---)
-
-I debugged it a bit and, as far as boot code goes, it goes all the way and loads the
-opensbi 32bit binary.
-
-After that I tried to found any command line example that boots spike with riscv32
-bit and didn't find any.  So I gave up digging it further because I became unsure
-about whether 32-bit spike works.
-
-If someone can verify that yes, 32-bit spike is supposed to work, then I believe it's
-worth investigating why it's not the case ATM.
-
-
-Thanks,
-
-
-Daniel
-
+>>3. Cyclic inclusion is forbidden.
 >
->> +
->> +    def test_riscv32_sifive_u(self):
->> +        """
->> +        :avocado: tags=arch:riscv32
->> +        :avocado: tags=machine:sifive_u
->> +        """
->> +        self.vm.set_console()
->> +        self.vm.launch()
->> +        wait_for_console_pattern(self, 'Platform Name')
->> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
->> --
-> Regards,
-> Bin
+> Sounds like these -- useful and sane -- rules belong in QEMU's coding style. What about putting them there for easy reference?
+
+Makes sense.  I'll see what I can do.  Thanks!
 
 
