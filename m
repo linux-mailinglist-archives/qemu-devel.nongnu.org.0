@@ -2,81 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5191B653CBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 09:01:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2327653CBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 09:02:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8GVB-0000BL-3q; Thu, 22 Dec 2022 03:00:29 -0500
+	id 1p8GWV-0000fi-P6; Thu, 22 Dec 2022 03:01:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8GV4-00008k-I1
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:00:23 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p8GV0-0003nG-Vb
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:00:22 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- c65-20020a1c3544000000b003cfffd00fc0so3279881wma.1
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 00:00:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yzkZR6NpC7O5EhSQR19B0/UuekedlTmG41/Uubgc1gQ=;
- b=xZFETl7rcI+VLp7lyMwpKhwKQT1wiZnkW9gOu0j3wVx6pCBj8sN8R4dGW5TdKNAM9d
- DFWwkdfPvuPkcr8PVc1lHUHSSvRUvuT2x3VUgbfNPn5FoiAkWcdzKL7mQqbKlaEo4ojQ
- tJv1qaNygMiVXNS2CJdbSIxIrhOeQdYMdtpCpPrqRNZFUT3VfrVMl1xUtkUizc9oAWeN
- cbjTl5sZxchWyo8Z67NA8OWfLylODXxZoFXTNzzjWnx1DLJAXbL5iMKGKFzVdZFYFiYV
- DSGQPzG4/bVKFLCn4GpIZn0wfLEnS8DZdqK2F6DMaK5s/mvIT9xq25t0DU0cMzFuzLpe
- 9V+g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p8GWE-0000af-Hd
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:01:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1p8GWC-00046D-DA
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:01:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671696091;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ughr9q/aNsddUnXF9I8fHNIKCIj+wP0QNMNVjYdSzbk=;
+ b=W0kNXbglT/8gpvgE1n9Wipx4BXWpM7hFkBijLEOkB0/LmQrbSQdOzze9ddpC9rOace0Hps
+ qEQDSbjexAcozEVxrgDL7/9wrFlOkOPi9J0w4yoCt/sRaBxdAk8q/pdtGwvlIIHVv5TVls
+ zAi7oU737jJcxISAGA7UAvE5OsKwhO8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-348-zjLQL2SlNDSZem-wFsmJeg-1; Thu, 22 Dec 2022 03:01:27 -0500
+X-MC-Unique: zjLQL2SlNDSZem-wFsmJeg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hr34-20020a1709073fa200b0083a60c1d7abso932404ejc.13
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 00:01:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yzkZR6NpC7O5EhSQR19B0/UuekedlTmG41/Uubgc1gQ=;
- b=g+2q+ZTwAIRHPFH9ekX7DFKvg9i9VLSFl6RUrEnkwfoXZE7/YMB7jf16Q/+P10AKFe
- kkDbUjugGTiBu5U3v3zaTrBZ4AGf7P8yl7rG+gWpZsTNloh9xDmEKw7+mgucWGvICH/a
- PFikDi0vcE6HJpRNyx44tOH4tDEesCTtMA4+TAIdBZjHkIXQy5v3tzLLf9vaXPM8lxsf
- 1p7hvqeKKHIJR6H6jdb2r+xr7znQBvZFhFE0XTyJBQW25k+mL5+ajIUGYAeqnNiCceke
- gHxXR6sCY3/fLBp46IjJo0eAMjQffbQrvmehteAfMTARuBmxyEfeARAUyV2poe7rGNb7
- rtww==
-X-Gm-Message-State: AFqh2kqoJjLqLPwHLzeJ9jhJCSaV7L10oCU1iy3/52BHbF3EUOq2aikW
- YHrLeDJs2vhkJhNoKwamwnI94QFFMpIvapQ9f5c=
-X-Google-Smtp-Source: AMrXdXvjsbRxBcpGqNi0zOw+35Tnoygs1Tl4QozMdUA2yRPohgqHZQCGhKNnYRLtqI9zN/22JQHWTg==
-X-Received: by 2002:a05:600c:5128:b0:3c6:e62e:2e67 with SMTP id
- o40-20020a05600c512800b003c6e62e2e67mr3311185wms.2.1671696017321; 
- Thu, 22 Dec 2022 00:00:17 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- w16-20020a5d5450000000b0026a4bb75477sm3620516wrv.28.2022.12.22.00.00.16
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 22 Dec 2022 00:00:16 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Jonah Palmer <jonah.palmer@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 2/2] hw/virtio: Extract QMP QOM-specific functions to
- virtio-qmp.c
-Date: Thu, 22 Dec 2022 09:00:05 +0100
-Message-Id: <20221222080005.27616-3-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221222080005.27616-1-philmd@linaro.org>
-References: <20221222080005.27616-1-philmd@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ughr9q/aNsddUnXF9I8fHNIKCIj+wP0QNMNVjYdSzbk=;
+ b=dxWGZIiMUFDJ8Do7VfPjgMQo8erWU3d3VYfQYq+Q8DBfFPbkWFJB0y1cFVcJZ/8dm0
+ ZBzu18ENJWSeRgJQFOxrNzxyfom5LZH1JZnEBo+n8itPQAycVyyd/B3qbInXUyTOJbZZ
+ YwPSvcmqg1uMzw/KbSJ6Ada2esr2HpLF44QbkfZNy6FApfBK+TKxKEgSJ5SsdWFd99uG
+ IXBiMXD+VMTqHJSFDf4jLmgau3LnkkgS4VO3LoyRxXJMotQrcFJ9E3h2QkNbY9hTig76
+ 3gEWFaJ934lHLzL99Dp7SPFlnGDUST5TE8HykpOQKMLKiW3KJx4DZ4LT1LNPgFflz0ig
+ Q2Rg==
+X-Gm-Message-State: AFqh2koOSO4MH+iNeBMw/ALMr7x+yHJtzmMt+vQR188O8U7qMg28zeQx
+ Csl0nSbaF57l9mRXSh7XPNggDsEwmFEfa+Ly4oV+6UKWmwVnmzrcwbBVGK/7Zumut0Cz0osd3wg
+ 2e8xHLw0VE1055yk=
+X-Received: by 2002:a17:906:d052:b0:7c1:5098:907a with SMTP id
+ bo18-20020a170906d05200b007c15098907amr3718372ejb.35.1671696086518; 
+ Thu, 22 Dec 2022 00:01:26 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtOLz0qC5yJZkPmII6OIReaomDaaa6+Coa1NByirapF1OuESB4iqBKhFnyVC/rPX24IonbNNA==
+X-Received: by 2002:a17:906:d052:b0:7c1:5098:907a with SMTP id
+ bo18-20020a170906d05200b007c15098907amr3718360ejb.35.1671696086301; 
+ Thu, 22 Dec 2022 00:01:26 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ ku10-20020a170907788a00b007c0d4d3a0c1sm8016059ejc.32.2022.12.22.00.01.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Dec 2022 00:01:25 -0800 (PST)
+Message-ID: <f6be3b34-acfd-8ac2-1b13-9cff62a8542e@redhat.com>
+Date: Thu, 22 Dec 2022 09:01:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v3 4/5] coroutine: Split qemu/coroutine-core.h off
+ qemu/coroutine.h
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: stefanha@redhat.com, kwolf@redhat.com
+References: <20221221131435.3851212-1-armbru@redhat.com>
+ <20221221131435.3851212-5-armbru@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20221221131435.3851212-5-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,470 +104,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-virtio.c is big enough, extract more QMP related code to virtio-qmp.c.
-To do so, expose qmp_find_virtio_device() and declar virtio_list in
-the internal virtio-qmp.h header.
+On 12/21/22 14:14, Markus Armbruster wrote:
+> +/**
+> + * Mark a function that executes in coroutine context
+> + *
+> + *
+> + * Functions that execute in coroutine context cannot be called
+> + * directly from normal functions.  Use @coroutine_fn to mark such
+> + * functions.  For example:
+> + *
+> + *   static void coroutine_fn foo(void) {
+> + *       ....
+> + *   }
+> + *
+> + * In the future it would be nice to have the compiler or a static
+> + * checker catch misuse of such functions.  This annotation might make
+> + * it possible and in the meantime it serves as documentation.
+> + */
+> +
 
-Note we have to leave qmp_x_query_virtio_queue_status() and
-qmp_x_query_virtio_queue_element(), because they access VirtQueue
-internal fields, and VirtQueue is only declared within virtio.c.
+Is it intentional that "#define coroutine_fn" is not here?
 
-Suggested-by: Jonah Palmer <jonah.palmer@oracle.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/virtio/virtio-qmp.c | 192 ++++++++++++++++++++++++++++++++++++++++-
- hw/virtio/virtio-qmp.h |   9 ++
- hw/virtio/virtio.c     | 191 +---------------------------------------
- 3 files changed, 201 insertions(+), 191 deletions(-)
-
-diff --git a/hw/virtio/virtio-qmp.c b/hw/virtio/virtio-qmp.c
-index 8e7282658f..e4d4bece2d 100644
---- a/hw/virtio/virtio-qmp.c
-+++ b/hw/virtio/virtio-qmp.c
-@@ -10,9 +10,14 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "hw/virtio/virtio.h"
- #include "virtio-qmp.h"
- 
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-virtio.h"
-+#include "qapi/qapi-commands-qom.h"
-+#include "qapi/qmp/qobject.h"
-+#include "qapi/qmp/qjson.h"
-+
- #include "standard-headers/linux/virtio_ids.h"
- #include "standard-headers/linux/vhost_types.h"
- #include "standard-headers/linux/virtio_blk.h"
-@@ -657,3 +662,188 @@ VirtioDeviceFeatures *qmp_decode_features(uint16_t device_id, uint64_t bitmap)
- 
-     return features;
- }
-+
-+VirtioInfoList *qmp_x_query_virtio(Error **errp)
-+{
-+    VirtioInfoList *list = NULL;
-+    VirtioInfoList *node;
-+    VirtIODevice *vdev;
-+
-+    QTAILQ_FOREACH(vdev, &virtio_list, next) {
-+        DeviceState *dev = DEVICE(vdev);
-+        Error *err = NULL;
-+        QObject *obj = qmp_qom_get(dev->canonical_path, "realized", &err);
-+
-+        if (err == NULL) {
-+            GString *is_realized = qobject_to_json_pretty(obj, true);
-+            /* virtio device is NOT realized, remove it from list */
-+            if (!strncmp(is_realized->str, "false", 4)) {
-+                QTAILQ_REMOVE(&virtio_list, vdev, next);
-+            } else {
-+                node = g_new0(VirtioInfoList, 1);
-+                node->value = g_new(VirtioInfo, 1);
-+                node->value->path = g_strdup(dev->canonical_path);
-+                node->value->name = g_strdup(vdev->name);
-+                QAPI_LIST_PREPEND(list, node->value);
-+            }
-+           g_string_free(is_realized, true);
-+        }
-+        qobject_unref(obj);
-+    }
-+
-+    return list;
-+}
-+
-+VirtIODevice *qmp_find_virtio_device(const char *path)
-+{
-+    VirtIODevice *vdev;
-+
-+    QTAILQ_FOREACH(vdev, &virtio_list, next) {
-+        DeviceState *dev = DEVICE(vdev);
-+
-+        if (strcmp(dev->canonical_path, path) != 0) {
-+            continue;
-+        }
-+
-+        Error *err = NULL;
-+        QObject *obj = qmp_qom_get(dev->canonical_path, "realized", &err);
-+        if (err == NULL) {
-+            GString *is_realized = qobject_to_json_pretty(obj, true);
-+            /* virtio device is NOT realized, remove it from list */
-+            if (!strncmp(is_realized->str, "false", 4)) {
-+                g_string_free(is_realized, true);
-+                qobject_unref(obj);
-+                QTAILQ_REMOVE(&virtio_list, vdev, next);
-+                return NULL;
-+            }
-+            g_string_free(is_realized, true);
-+        } else {
-+            /* virtio device doesn't exist in QOM tree */
-+            QTAILQ_REMOVE(&virtio_list, vdev, next);
-+            qobject_unref(obj);
-+            return NULL;
-+        }
-+        /* device exists in QOM tree & is realized */
-+        qobject_unref(obj);
-+        return vdev;
-+    }
-+    return NULL;
-+}
-+
-+VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
-+{
-+    VirtIODevice *vdev;
-+    VirtioStatus *status;
-+
-+    vdev = qmp_find_virtio_device(path);
-+    if (vdev == NULL) {
-+        error_setg(errp, "Path %s is not a VirtIODevice", path);
-+        return NULL;
-+    }
-+
-+    status = g_new0(VirtioStatus, 1);
-+    status->name = g_strdup(vdev->name);
-+    status->device_id = vdev->device_id;
-+    status->vhost_started = vdev->vhost_started;
-+    status->guest_features = qmp_decode_features(vdev->device_id,
-+                                                 vdev->guest_features);
-+    status->host_features = qmp_decode_features(vdev->device_id,
-+                                                vdev->host_features);
-+    status->backend_features = qmp_decode_features(vdev->device_id,
-+                                                   vdev->backend_features);
-+
-+    switch (vdev->device_endian) {
-+    case VIRTIO_DEVICE_ENDIAN_LITTLE:
-+        status->device_endian = g_strdup("little");
-+        break;
-+    case VIRTIO_DEVICE_ENDIAN_BIG:
-+        status->device_endian = g_strdup("big");
-+        break;
-+    default:
-+        status->device_endian = g_strdup("unknown");
-+        break;
-+    }
-+
-+    status->num_vqs = virtio_get_num_queues(vdev);
-+    status->status = qmp_decode_status(vdev->status);
-+    status->isr = vdev->isr;
-+    status->queue_sel = vdev->queue_sel;
-+    status->vm_running = vdev->vm_running;
-+    status->broken = vdev->broken;
-+    status->disabled = vdev->disabled;
-+    status->use_started = vdev->use_started;
-+    status->started = vdev->started;
-+    status->start_on_kick = vdev->start_on_kick;
-+    status->disable_legacy_check = vdev->disable_legacy_check;
-+    status->bus_name = g_strdup(vdev->bus_name);
-+    status->use_guest_notifier_mask = vdev->use_guest_notifier_mask;
-+
-+    if (vdev->vhost_started) {
-+        VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-+        struct vhost_dev *hdev = vdc->get_vhost(vdev);
-+
-+        status->vhost_dev = g_new0(VhostStatus, 1);
-+        status->vhost_dev->n_mem_sections = hdev->n_mem_sections;
-+        status->vhost_dev->n_tmp_sections = hdev->n_tmp_sections;
-+        status->vhost_dev->nvqs = hdev->nvqs;
-+        status->vhost_dev->vq_index = hdev->vq_index;
-+        status->vhost_dev->features =
-+            qmp_decode_features(vdev->device_id, hdev->features);
-+        status->vhost_dev->acked_features =
-+            qmp_decode_features(vdev->device_id, hdev->acked_features);
-+        status->vhost_dev->backend_features =
-+            qmp_decode_features(vdev->device_id, hdev->backend_features);
-+        status->vhost_dev->protocol_features =
-+            qmp_decode_protocols(hdev->protocol_features);
-+        status->vhost_dev->max_queues = hdev->max_queues;
-+        status->vhost_dev->backend_cap = hdev->backend_cap;
-+        status->vhost_dev->log_enabled = hdev->log_enabled;
-+        status->vhost_dev->log_size = hdev->log_size;
-+    }
-+
-+    return status;
-+}
-+
-+VirtVhostQueueStatus *qmp_x_query_virtio_vhost_queue_status(const char *path,
-+                                                            uint16_t queue,
-+                                                            Error **errp)
-+{
-+    VirtIODevice *vdev;
-+    VirtVhostQueueStatus *status;
-+
-+    vdev = qmp_find_virtio_device(path);
-+    if (vdev == NULL) {
-+        error_setg(errp, "Path %s is not a VirtIODevice", path);
-+        return NULL;
-+    }
-+
-+    if (!vdev->vhost_started) {
-+        error_setg(errp, "Error: vhost device has not started yet");
-+        return NULL;
-+    }
-+
-+    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    struct vhost_dev *hdev = vdc->get_vhost(vdev);
-+
-+    if (queue < hdev->vq_index || queue >= hdev->vq_index + hdev->nvqs) {
-+        error_setg(errp, "Invalid vhost virtqueue number %d", queue);
-+        return NULL;
-+    }
-+
-+    status = g_new0(VirtVhostQueueStatus, 1);
-+    status->name = g_strdup(vdev->name);
-+    status->kick = hdev->vqs[queue].kick;
-+    status->call = hdev->vqs[queue].call;
-+    status->desc = (uintptr_t)hdev->vqs[queue].desc;
-+    status->avail = (uintptr_t)hdev->vqs[queue].avail;
-+    status->used = (uintptr_t)hdev->vqs[queue].used;
-+    status->num = hdev->vqs[queue].num;
-+    status->desc_phys = hdev->vqs[queue].desc_phys;
-+    status->desc_size = hdev->vqs[queue].desc_size;
-+    status->avail_phys = hdev->vqs[queue].avail_phys;
-+    status->avail_size = hdev->vqs[queue].avail_size;
-+    status->used_phys = hdev->vqs[queue].used_phys;
-+    status->used_size = hdev->vqs[queue].used_size;
-+
-+    return status;
-+}
-diff --git a/hw/virtio/virtio-qmp.h b/hw/virtio/virtio-qmp.h
-index 075fc27030..59681082e5 100644
---- a/hw/virtio/virtio-qmp.h
-+++ b/hw/virtio/virtio-qmp.h
-@@ -12,7 +12,16 @@
- #define HW_VIRTIO_QMP_H
- 
- #include "qapi/qapi-types-virtio.h"
-+#include "hw/virtio/virtio.h"
- 
-+#include "qemu/queue.h"
-+
-+typedef QTAILQ_HEAD(QmpVirtIODeviceList, VirtIODevice) QmpVirtIODeviceList;
-+
-+/* QAPI list of realized VirtIODevices */
-+extern QmpVirtIODeviceList virtio_list;
-+
-+VirtIODevice *qmp_find_virtio_device(const char *path);
- VirtioDeviceStatus *qmp_decode_status(uint8_t bitmap);
- VhostDeviceProtocols *qmp_decode_protocols(uint64_t bitmap);
- VirtioDeviceFeatures *qmp_decode_features(uint16_t device_id, uint64_t bitmap);
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index a87007d22f..40a1d3e8db 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -13,10 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qapi/qmp/qdict.h"
- #include "qapi/qapi-commands-virtio.h"
--#include "qapi/qapi-commands-qom.h"
--#include "qapi/qmp/qjson.h"
- #include "trace.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
-@@ -47,8 +44,7 @@
- #include "standard-headers/linux/virtio_mem.h"
- #include "standard-headers/linux/virtio_vsock.h"
- 
--/* QAPI list of realized VirtIODevices */
--static QTAILQ_HEAD(, VirtIODevice) virtio_list;
-+QmpVirtIODeviceList virtio_list;
- 
- /*
-  * Maximum size of virtio device config space
-@@ -3795,191 +3791,6 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
-     return virtio_bus_ioeventfd_enabled(vbus);
- }
- 
--VirtioInfoList *qmp_x_query_virtio(Error **errp)
--{
--    VirtioInfoList *list = NULL;
--    VirtioInfoList *node;
--    VirtIODevice *vdev;
--
--    QTAILQ_FOREACH(vdev, &virtio_list, next) {
--        DeviceState *dev = DEVICE(vdev);
--        Error *err = NULL;
--        QObject *obj = qmp_qom_get(dev->canonical_path, "realized", &err);
--
--        if (err == NULL) {
--            GString *is_realized = qobject_to_json_pretty(obj, true);
--            /* virtio device is NOT realized, remove it from list */
--            if (!strncmp(is_realized->str, "false", 4)) {
--                QTAILQ_REMOVE(&virtio_list, vdev, next);
--            } else {
--                node = g_new0(VirtioInfoList, 1);
--                node->value = g_new(VirtioInfo, 1);
--                node->value->path = g_strdup(dev->canonical_path);
--                node->value->name = g_strdup(vdev->name);
--                QAPI_LIST_PREPEND(list, node->value);
--            }
--           g_string_free(is_realized, true);
--        }
--        qobject_unref(obj);
--    }
--
--    return list;
--}
--
--static VirtIODevice *qmp_find_virtio_device(const char *path)
--{
--    VirtIODevice *vdev;
--
--    QTAILQ_FOREACH(vdev, &virtio_list, next) {
--        DeviceState *dev = DEVICE(vdev);
--
--        if (strcmp(dev->canonical_path, path) != 0) {
--            continue;
--        }
--
--        Error *err = NULL;
--        QObject *obj = qmp_qom_get(dev->canonical_path, "realized", &err);
--        if (err == NULL) {
--            GString *is_realized = qobject_to_json_pretty(obj, true);
--            /* virtio device is NOT realized, remove it from list */
--            if (!strncmp(is_realized->str, "false", 4)) {
--                g_string_free(is_realized, true);
--                qobject_unref(obj);
--                QTAILQ_REMOVE(&virtio_list, vdev, next);
--                return NULL;
--            }
--            g_string_free(is_realized, true);
--        } else {
--            /* virtio device doesn't exist in QOM tree */
--            QTAILQ_REMOVE(&virtio_list, vdev, next);
--            qobject_unref(obj);
--            return NULL;
--        }
--        /* device exists in QOM tree & is realized */
--        qobject_unref(obj);
--        return vdev;
--    }
--    return NULL;
--}
--
--VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
--{
--    VirtIODevice *vdev;
--    VirtioStatus *status;
--
--    vdev = qmp_find_virtio_device(path);
--    if (vdev == NULL) {
--        error_setg(errp, "Path %s is not a VirtIODevice", path);
--        return NULL;
--    }
--
--    status = g_new0(VirtioStatus, 1);
--    status->name = g_strdup(vdev->name);
--    status->device_id = vdev->device_id;
--    status->vhost_started = vdev->vhost_started;
--    status->guest_features = qmp_decode_features(vdev->device_id,
--                                                 vdev->guest_features);
--    status->host_features = qmp_decode_features(vdev->device_id,
--                                                vdev->host_features);
--    status->backend_features = qmp_decode_features(vdev->device_id,
--                                                   vdev->backend_features);
--
--    switch (vdev->device_endian) {
--    case VIRTIO_DEVICE_ENDIAN_LITTLE:
--        status->device_endian = g_strdup("little");
--        break;
--    case VIRTIO_DEVICE_ENDIAN_BIG:
--        status->device_endian = g_strdup("big");
--        break;
--    default:
--        status->device_endian = g_strdup("unknown");
--        break;
--    }
--
--    status->num_vqs = virtio_get_num_queues(vdev);
--    status->status = qmp_decode_status(vdev->status);
--    status->isr = vdev->isr;
--    status->queue_sel = vdev->queue_sel;
--    status->vm_running = vdev->vm_running;
--    status->broken = vdev->broken;
--    status->disabled = vdev->disabled;
--    status->use_started = vdev->use_started;
--    status->started = vdev->started;
--    status->start_on_kick = vdev->start_on_kick;
--    status->disable_legacy_check = vdev->disable_legacy_check;
--    status->bus_name = g_strdup(vdev->bus_name);
--    status->use_guest_notifier_mask = vdev->use_guest_notifier_mask;
--
--    if (vdev->vhost_started) {
--        VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
--        struct vhost_dev *hdev = vdc->get_vhost(vdev);
--
--        status->vhost_dev = g_new0(VhostStatus, 1);
--        status->vhost_dev->n_mem_sections = hdev->n_mem_sections;
--        status->vhost_dev->n_tmp_sections = hdev->n_tmp_sections;
--        status->vhost_dev->nvqs = hdev->nvqs;
--        status->vhost_dev->vq_index = hdev->vq_index;
--        status->vhost_dev->features =
--            qmp_decode_features(vdev->device_id, hdev->features);
--        status->vhost_dev->acked_features =
--            qmp_decode_features(vdev->device_id, hdev->acked_features);
--        status->vhost_dev->backend_features =
--            qmp_decode_features(vdev->device_id, hdev->backend_features);
--        status->vhost_dev->protocol_features =
--            qmp_decode_protocols(hdev->protocol_features);
--        status->vhost_dev->max_queues = hdev->max_queues;
--        status->vhost_dev->backend_cap = hdev->backend_cap;
--        status->vhost_dev->log_enabled = hdev->log_enabled;
--        status->vhost_dev->log_size = hdev->log_size;
--    }
--
--    return status;
--}
--
--VirtVhostQueueStatus *qmp_x_query_virtio_vhost_queue_status(const char *path,
--                                                            uint16_t queue,
--                                                            Error **errp)
--{
--    VirtIODevice *vdev;
--    VirtVhostQueueStatus *status;
--
--    vdev = qmp_find_virtio_device(path);
--    if (vdev == NULL) {
--        error_setg(errp, "Path %s is not a VirtIODevice", path);
--        return NULL;
--    }
--
--    if (!vdev->vhost_started) {
--        error_setg(errp, "Error: vhost device has not started yet");
--        return NULL;
--    }
--
--    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
--    struct vhost_dev *hdev = vdc->get_vhost(vdev);
--
--    if (queue < hdev->vq_index || queue >= hdev->vq_index + hdev->nvqs) {
--        error_setg(errp, "Invalid vhost virtqueue number %d", queue);
--        return NULL;
--    }
--
--    status = g_new0(VirtVhostQueueStatus, 1);
--    status->name = g_strdup(vdev->name);
--    status->kick = hdev->vqs[queue].kick;
--    status->call = hdev->vqs[queue].call;
--    status->desc = (uintptr_t)hdev->vqs[queue].desc;
--    status->avail = (uintptr_t)hdev->vqs[queue].avail;
--    status->used = (uintptr_t)hdev->vqs[queue].used;
--    status->num = hdev->vqs[queue].num;
--    status->desc_phys = hdev->vqs[queue].desc_phys;
--    status->desc_size = hdev->vqs[queue].desc_size;
--    status->avail_phys = hdev->vqs[queue].avail_phys;
--    status->avail_size = hdev->vqs[queue].avail_size;
--    status->used_phys = hdev->vqs[queue].used_phys;
--    status->used_size = hdev->vqs[queue].used_size;
--
--    return status;
--}
--
- VirtQueueStatus *qmp_x_query_virtio_queue_status(const char *path,
-                                                  uint16_t queue,
-                                                  Error **errp)
--- 
-2.38.1
+Paolo
 
 
