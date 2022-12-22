@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772F8653B42
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 05:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0421A653BB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 06:16:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8D8n-0007pi-Tj; Wed, 21 Dec 2022 23:25:09 -0500
+	id 1p8DvN-0006yV-EO; Thu, 22 Dec 2022 00:15:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1p8D8g-0007nr-UT
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 23:25:04 -0500
-Received: from mga03.intel.com ([134.134.136.65])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p8DvL-0006xz-4y
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 00:15:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1p8D8e-00015K-Ko
- for qemu-devel@nongnu.org; Wed, 21 Dec 2022 23:25:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1671683100; x=1703219100;
- h=date:from:subject:message-id:mime-version:
- content-transfer-encoding:to:cc;
- bh=0cTOW4aQbeJrB4PyXJK/ul38tT7E9EdZZ3sSJioccjo=;
- b=bvQ1J+Nu+CfeLW0WCmkKTOXjBXcYroUpi//I+R98PUWvqRxzC5Xv6yf3
- 7FntlJdK3JW+ki33PU5iQy/mH7hIGeSLDeb3N4fWqitohRLoX1Fd2fq/2
- 5iMLarZ/lVeMO4LuKr0L+qwRDI+Pdm7VBe3cPPN21MGUA8kh7txfUPfDb
- KOlovjLXAFgjMta31w+Ci1VVCEThyma7NzgILLZv5EcKFniJ4UMV5S32Z
- Vd3/xAI3xv3i1QBDTwAfqc+FZkYY0lbRYre7b3g1/L095P3bUaduKWN24
- BzU1j56An/DgxgpU31dG6y1TzDodNBVLHwFttdYb1t9/racI1G2bCgvto Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="321957574"
-X-IronPort-AV: E=Sophos;i="5.96,264,1665471600"; d="scan'208";a="321957574"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 20:24:54 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10568"; a="601733184"
-X-IronPort-AV: E=Sophos;i="5.96,264,1665471600"; d="scan'208";a="601733184"
-Received: from iweiny-mobl.amr.corp.intel.com (HELO localhost)
- ([10.212.20.211])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2022 20:24:54 -0800
-Date: Wed, 21 Dec 2022 20:24:53 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-Subject: [PATCH v2 0/8] QEMU CXL Provide mock CXL events and irq support
-Message-Id: <20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p8DvJ-0000rI-1l
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 00:15:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671686115;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/L50MwsF2OomJtv+22gnHpiQ6cRMDJAeC5Sl2GNXgEA=;
+ b=TuctxR544LXVxjBa9LEadbiyHjSNPnEeUD6MRSwusbEFdIxs5fVZhG/u8e8Y0fPnn+nTPG
+ CaWKXvVFhXWrGs+eLC+01011BGymO5mal2WSLvJcYEf1ETiG65kaVjBl4rJ6911MScBox1
+ hS6qeNnQDXLSRGFoRHuTJt4Rs+WNItw=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-296-pvtg0jSoMwyF0_kc96Mb7g-1; Thu, 22 Dec 2022 00:15:11 -0500
+X-MC-Unique: pvtg0jSoMwyF0_kc96Mb7g-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ e8-20020a9d63c8000000b006704cedcfe2so459210otl.19
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 21:15:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/L50MwsF2OomJtv+22gnHpiQ6cRMDJAeC5Sl2GNXgEA=;
+ b=imvTOebYZHaCyU9jYutTQuQWjOrcObrY3GUmLhw3NIqICvC3RZrbGOGSXH0E7xuV+h
+ klticqhAZpWd8Z2Gw0n3vtULTePlBJBtZsluVHPd/SSGQeId1VIANjJBW2rVih2BqZZ4
+ goh1L8niiD7eA5vCugHYhztoWorsJ302DSIVK8METWYChIHPBF5JWSiyqaYvz1myKwgs
+ maLEBCT6eb7DxpEslLHiMaT8B3dGIjNT3rNBRiS5u4DSzotUzU/oodJ8jpIl0+Z+XWaY
+ p5TewnpiZ2we2iX6CT5tgpysjNoaeGObg8ihfpKrePjAp4T69ZiC9FJciMJ7IGiEXDrX
+ Q6zw==
+X-Gm-Message-State: AFqh2kqqnuJpWErm4tMi2ibphG97nK0tocqjqIbhy7cyv24BkHJ39kYj
+ XexP1+GrjwhkutLoGUdWRrwmWZU8cnCHA1+QZm/AHya2ZTLJkKx/ERzKWOMHdWQyQjLKWh5KIh2
+ JZejYVwctvfLWExNmMr1NzEzoU4QCAAY=
+X-Received: by 2002:a05:6830:4a3:b0:670:8334:ccf2 with SMTP id
+ l3-20020a05683004a300b006708334ccf2mr260306otd.201.1671686110890; 
+ Wed, 21 Dec 2022 21:15:10 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvhc9sU0XWFbhcUBe1mC+gY3ARGU2x5lRDOEvW4/Zzxx6YpHbHvJxrS0skEauvqHX8c48oF01DH6F3YpVbYCTA=
+X-Received: by 2002:a05:6830:4a3:b0:670:8334:ccf2 with SMTP id
+ l3-20020a05683004a300b006708334ccf2mr260296otd.201.1671686110681; Wed, 21 Dec
+ 2022 21:15:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAP/bo2MC/yWNUQqDMAxAryL9XsRW3ei+do/hR+3SGejqaJ1Tp
- HdfdBAC70HyNpEwEiZxLTYRcaZEY2BQp0LYwYQnAj2YhaqUkjxA0YBdPOCMYUqwe5AS5AUcurZ2
- utfGKsH3vUkIfTTBDvwhfLxn+Y7oaDmC9455oDSNcT36s9ztP1VJ3ko3TVlrVbftGY50+UUK643
- ChL6040t0OecfP/HoncUAAAA=
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- Ira Weiny <ira.weiny@intel.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, Peter Maydell <peter.maydell@linaro.org>
-X-Mailer: b4 0.11.0-dev-141d4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1671683093; l=3489;
- i=ira.weiny@intel.com; s=20221211; h=from:subject:message-id;
- bh=0cTOW4aQbeJrB4PyXJK/ul38tT7E9EdZZ3sSJioccjo=;
- b=1iRz1qeQGo9GloWC0yIpbjh4y2y4jyPd9Ox7Gf1UGq1483JNGfW47IV4SQ+4UDjm1zZC6vDhfsoV
- hbiqM4ikBZYW18Ot680pZjecuOH0CngXJlJfFOAXthrzxrOW9mll
-X-Developer-Key: i=ira.weiny@intel.com; a=ed25519;
- pk=noldbkG+Wp1qXRrrkfY1QJpDf7QsOEthbOT7vm0PqsE=
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=ira.weiny@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20221221115015.1400889-1-eperezma@redhat.com>
+ <20221221115015.1400889-3-eperezma@redhat.com>
+In-Reply-To: <20221221115015.1400889-3-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 22 Dec 2022 13:14:59 +0800
+Message-ID: <CACGkMEuCwmD=JaRPOQnVD45WN1Tc4vquzQrvdNDxazt+c-Ew5A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] virtio_net: copy VIRTIO_NET_S_ANNOUNCE if device
+ model has it
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>, 
+ Lei Yang <leiyang@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Eli Cohen <eli@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, 
+ Parav Pandit <parav@mellanox.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Harpreet Singh Anand <hanand@xilinx.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Cindy Lu <lulu@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,98 +101,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-CXL Event records inform the OS of various CXL device events.  Thus far CXL
-memory devices are emulated and therefore don't naturally generate events.
+On Wed, Dec 21, 2022 at 7:50 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+ote:
+>
+> Status part of the emulated feature. It will follow device model, so we
+> must copy it as long as NIC device model has it set.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-Add an event infrastructure and mock event injection.  Previous versions
-included a bulk insertion of lots of events.  However, this series focuses on
-providing the ability to inject individual events through QMP.  Only the
-General Media Event is included in this series as an example.  Other events can
-be added pretty easily once the infrastructure is acceptable.
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-In addition, this version updates the code to be in line with the
-specification based on discussions around the kernel patches.
+Thanks
 
-This series is based on Jonathan's CXL branch here:
-https://gitlab.com/jic23/qemu/-/tree/cxl-2022-11-17
+> ---
+> v3: Add virtio byte swapping writing net config status.
+> ---
+>  hw/net/virtio-net.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index b30038d130..122eac25ee 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -183,6 +183,8 @@ static void virtio_net_get_config(VirtIODevice *vdev,=
+ uint8_t *config)
+>              memcpy(netcfg.mac, n->mac, ETH_ALEN);
+>          }
+>
+> +        netcfg.status |=3D virtio_tswap16(vdev,
+> +                                        n->status & VIRTIO_NET_S_ANNOUNC=
+E);
+>          memcpy(config, &netcfg, n->config_size);
+>      }
+>  }
+> --
+> 2.31.1
+>
 
-Kernel code found here:
-https://lore.kernel.org/all/20221212070627.1372402-1-ira.weiny@intel.com/
-
-Previous RFC (V1) version:
-https://lore.kernel.org/linux-cxl/20221010222944.3923556-1-ira.weiny@intel.com/
-
-Instructions:
-
-Add qmp option to qemu:
-
-	<host> $ qemu-system-x86_64 ... -qmp unix:/tmp/run_qemu_qmp_0,server,nowait ...
-
-	OR
-
-	<host> $ run_qemu.sh ... --qmp ...
-
-Enable tracing of events within the guest:
-
-	<guest> $ echo "" > /sys/kernel/tracing/trace
-	<guest> $ echo 1 > /sys/kernel/tracing/events/cxl/enable
-	<guest> $ echo 1 > /sys/kernel/tracing/tracing_on
-
-	OPTIONAL: set up ndctl to monitor for events (events will show up as
-		  they are injected)
-
-	<guest> $ <path to ndctl>/cxl monitor
-
-Trigger event generation and interrupts in the host:
-
-	<host> $ qmpcmd="${qemusrcdir}/build/scripts/qmp/qmp-shell /tmp/run_qemu_qmp_0"
-
-	<host> $ echo "cxl-inject-gen-media-event path=cxl-dev0 log=0 flags=1 \
-			physaddr=1000 descriptor=127 type=3 transactiontype=192 \
-			channel=3 rank=-1 device=5 componentid='Iras mem'" | $qmpcmd
-
-	<Repeat for more events with different values>
-
-View events on the guest:
-
-	<guest> $ cat /sys/kernel/tracing/trace
-
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Michael Tsirkin <mst@redhat.com>
-Cc: Ben Widawsky <bwidawsk@kernel.org>
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: qemu-devel@nongnu.org
-Cc: linux-cxl@vger.kernel.org
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-
----
-Ira Weiny (8):
-      qemu/bswap: Add const_le64()
-      qemu/uuid: Add UUID static initializer
-      hw/cxl/mailbox: Use new UUID network order define for cel_uuid
-      hw/cxl/events: Add event status register
-      hw/cxl/events: Wire up get/clear event mailbox commands
-      hw/cxl/events: Add event interrupt support
-      bswap: Add the ability to store to an unaligned 24 bit field
-      hw/cxl/events: Add in inject general media event
-
- hw/cxl/cxl-device-utils.c   |  54 ++++++++--
- hw/cxl/cxl-events.c         | 252 ++++++++++++++++++++++++++++++++++++++++++++
- hw/cxl/cxl-mailbox-utils.c  | 160 ++++++++++++++++++++++------
- hw/cxl/meson.build          |   1 +
- hw/mem/cxl_type3.c          |  96 ++++++++++++++++-
- hw/mem/cxl_type3_stubs.c    |   8 ++
- include/hw/cxl/cxl_device.h |  56 +++++++++-
- include/hw/cxl/cxl_events.h | 126 ++++++++++++++++++++++
- include/qemu/bswap.h        |  40 +++++++
- include/qemu/uuid.h         |  12 +++
- qapi/cxl.json               |  25 +++++
- 11 files changed, 785 insertions(+), 45 deletions(-)
----
-base-commit: 1b4133103d20fc3fea05c7ceca4a242468a5179d
-change-id: 20221221-ira-cxl-events-2022-11-17-fef53f9b9ac2
-
-Best regards,
--- 
-Ira Weiny <ira.weiny@intel.com>
 
