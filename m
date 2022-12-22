@@ -2,60 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF91A653AC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 03:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2C1653A74
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 03:03:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8BYH-0000Kp-SL; Wed, 21 Dec 2022 21:43:22 -0500
+	id 1p8Au3-0001Q2-9r; Wed, 21 Dec 2022 21:01:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1p8BYF-0000Jx-0i; Wed, 21 Dec 2022 21:43:19 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1p8BYB-0002im-B2; Wed, 21 Dec 2022 21:43:18 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4NcvkM2kCVz4xZ3; Thu, 22 Dec 2022 13:43:07 +1100 (AEDT)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1p8Au1-0001Pd-4L
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 21:01:45 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1p8Aty-00043e-Sp
+ for qemu-devel@nongnu.org; Wed, 21 Dec 2022 21:01:44 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id w26so267603pfj.6
+ for <qemu-devel@nongnu.org>; Wed, 21 Dec 2022 18:01:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1671676987;
- bh=CudkdyXg3Kzs84QGZmym5+9Cet4eXEofqXLDPdK0cUQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NcZ4WPkBvw0Ji2oKGF7VBdF4x6hTJ+jc9L9nhVKfNdPPW8TzmY1cKA/3LMkRsfRYu
- s5uau9ayGq4OF8DzuevEbcjzFb5IKlRe0F8aTZjYUVtJhX87mQooESyOoxp9mjipfU
- c8ZuEsf7r7/cq2LeHqUEVrPYTPO37xynE0fmixjQ=
-Date: Thu, 22 Dec 2022 12:57:44 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-ppc@nongnu.org, kvm@vger.kernel.org,
- Alexey Kardashevskiy <aik@ozlabs.ru>, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH-for-8.0 4/4] hw/ppc/spapr_ovec: Avoid target_ulong
- spapr_ovec_parse_vector()
-Message-ID: <Y6O5mL60bGnwiHgO@yekko>
-References: <20221213123550.39302-1-philmd@linaro.org>
- <20221213123550.39302-5-philmd@linaro.org>
- <c871b044-4241-2f02-ebd6-6b797663a140@gmail.com>
- <5f70da81-2854-766f-1804-59a037a605b8@kaod.org>
- <7c67f0e8-f7b7-8d0d-ba72-06cd2c8d29d3@gmail.com>
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oND5vRBnou/T9gazA8yhw3b+NzyhguRbgO6VEjVfod4=;
+ b=Jazu6Qq6WvWX6QIXVFqExtMU2C/cHxaM6AuTEamX/4v6BPvUei1wbOsFXsxhBFUt7f
+ Ng2OxMyjYu0U2+JrldjhzENPocmyB9MW6dhwrlz/WtYzPtgCcAITRR6tjqnZ38frCOrM
+ BRJhE7Rxb0M/F61j2u71RANeBB63buZ7sjowqM6klGs3q68U5t1RMlALh2RHPH6aFrD4
+ pb2cbcpVpyQ/2nvE3t+7sgbsL0I2Pu2dSKlXgkex8FBVb/xoH48eqDiCte8eVadZOy1D
+ 01tUKMM9of+0+Hdkxgw+TngWH8er+XewO+PzNgKYV0mlq0G9aXpqZLfy8yiLQYceyr/d
+ 93UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oND5vRBnou/T9gazA8yhw3b+NzyhguRbgO6VEjVfod4=;
+ b=FgaGdZ3FzMwJYb6xJbgBu0KR8vZMiKz8xsoIxRN70OJ+MYmtY1jyMeRQ7iAli16AI3
+ 3yGGHQRsciMhVDQEFcpsvE4huYrHjObP+dbqoCZg0uyqTK4iicALnC8vZ8rzS6LcgjHx
+ p68g4iYc3Nrwzgfdr6c2rB48jM14qfVakwWbZPRHONWMtmZM0ZJevt7d+y3NUNqOmJ9j
+ D0KlLULQ5fzfcbQKJqwU4bGroQIhethVgtVI1nPW5slWcBuaFSsXyXTRhMYWixlzD/Ig
+ pTwfUEXjADoyBF7utBCVhPpO05Y1wAvtC3/6kLlOFFK45OLXQYqDDswK9Gfcy9JQXY+K
+ nZpg==
+X-Gm-Message-State: AFqh2krI98j7XurrPbuIIgVsIsdCiwRRKpQ6ZiAFpGSREoA6NbMxiDZc
+ qm7c17c1e0fI1M3dSSj3JzdvbQ==
+X-Google-Smtp-Source: AMrXdXuKM5EKSy+C7weJHNOYSE8ifTz0hzfuDAPpTr/swYYDrDbn0wFUpzHR3QGNaJP1v83flJn0WQ==
+X-Received: by 2002:aa7:9210:0:b0:577:8bae:29a7 with SMTP id
+ 16-20020aa79210000000b005778bae29a7mr4575196pfo.33.1671674495637; 
+ Wed, 21 Dec 2022 18:01:35 -0800 (PST)
+Received: from [10.5.70.213] ([139.177.225.237])
+ by smtp.gmail.com with ESMTPSA id
+ 80-20020a621453000000b0054ee4b632dasm11267292pfu.169.2022.12.21.18.01.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Dec 2022 18:01:34 -0800 (PST)
+Message-ID: <5823a483-9189-4e81-42f7-12579995bcfe@bytedance.com>
+Date: Thu, 22 Dec 2022 10:04:48 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="e3Ed+WV8hTo8PG4H"
-Content-Disposition: inline
-In-Reply-To: <7c67f0e8-f7b7-8d0d-ba72-06cd2c8d29d3@gmail.com>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: Re: [for-8.0 v2 00/11] Refactor cryptodev
+Content-Language: en-US
+To: armbru@redhat.com, michael.roth@amd.com
+Cc: arei.gonglei@huawei.com, dgilbert@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, eblake@redhat.com,
+ pbonzini@redhat.com, qemu-devel@nongnu.org
+References: <20221122140756.686982-1-pizhenwei@bytedance.com>
+ <20221220103602-mutt-send-email-mst@kernel.org>
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <20221220103602-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,85 +96,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---e3Ed+WV8hTo8PG4H
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 21, 2022 at 10:26:51AM -0300, Daniel Henrique Barboza wrote:
->=20
->=20
-> On 12/21/22 06:46, C=E9dric Le Goater wrote:
-> > On 12/16/22 17:47, Daniel Henrique Barboza wrote:
-> > >=20
-> > >=20
-> > > On 12/13/22 09:35, Philippe Mathieu-Daud=E9 wrote:
-> > > > spapr_ovec.c is a device, but it uses target_ulong which is
-> > > > target specific. The hwaddr type (declared in "exec/hwaddr.h")
-> > > > better fits hardware addresses.
-> > >=20
-> > > As said by Harsh, spapr_ovec is in fact a data structure that stores =
-platform
-> > > options that are supported by the guest.
-> > >=20
-> > > That doesn't mean that I oppose the change made here. Aside from sema=
-ntics - which
-> > > I also don't have a strong opinion about it - I don't believe it matt=
-ers that
-> > > much - spapr is 64 bit only, so hwaddr will always be =3D=3D target_u=
-long.
-> > >=20
-> > > Cedric/David/Greg, let me know if you have any restriction/thoughts a=
-bout this.
-> > > I'm inclined to accept it as is.
-> >=20
-> > Well, I am not sure.
-> >=20
-> > The vector table variable is the result of a ppc64_phys_to_real() conve=
-rsion
-> > of the CAS hcall parameter, which is a target_ulong, but ppc64_phys_to_=
-real()
-> > returns a uint64_t.
-> >=20
-> > The code is not consistent in another places :
-> >=20
-> >  =A0 hw/ppc/spapr_tpm_proxy.c uses a uint64_t
-> >  =A0 hw/ppc/spapr_hcall.c, a target_ulong
-> >  =A0 hw/ppc/spapr_rtas.c, a hwaddr
-> >  =A0 hw/ppc/spapr_drc.c, a hwaddr indirectly
-> >=20
-> > Should we change ppc64_phys_to_real() to return an hwaddr (also) ?
->=20
-> It makes sense to me a function called ppc64_phys_to_real() returning
-> a hwaddr type.
+On 12/20/22 23:36, Michael S. Tsirkin wrote:
+> On Tue, Nov 22, 2022 at 10:07:45PM +0800, zhenwei pi wrote:
+>> v1 -> v2:
+>> - fix coding style and use 'g_strjoin()' instead of 'char services[128]'
+>>    (suggested by Dr. David Alan Gilbert)
+>> - wrapper function 'cryptodev_backend_account' to record statistics, and
+>>    allocate sym_stat/asym_stat in cryptodev base class. see patch:
+>>    'cryptodev: Support statistics'.
+>> - add more arguments into struct CryptoDevBackendOpInfo, then
+>>    cryptodev_backend_crypto_operation() uses *op_info only.
+>> - support cryptodev QoS settings(BPS&OPS), both QEMU command line and QMP
+>>    command works fine.
+>> - add myself as the maintainer for cryptodev.
+>>
+>> v1:
+>> - introduce cryptodev.json to describe the attributes of crypto device, then
+>>    drop duplicated type declare, remove some virtio related dependence.
+>> - add statistics: OPS and bandwidth.
+>> - add QMP command: query-cryptodev
+>> - add HMP info command: cryptodev
+>> - misc fix: detect akcipher capability instead of exposing akcipher service
+>>    unconditionally.
+> 
+> 
+> Can we get ACK on QAPI things please?
+> Thanks!
+> 
 
-Yes, I also think that makes sense.
+Hi, Markus & Michael
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Could you please review the changes of QAPI part?
 
---e3Ed+WV8hTo8PG4H
-Content-Type: application/pgp-signature; name="signature.asc"
+>> Zhenwei Pi (11):
+>>    cryptodev: Introduce cryptodev.json
+>>    cryptodev: Remove 'name' & 'model' fields
+>>    cryptodev: Introduce cryptodev alg type in QAPI
+>>    cryptodev: Introduce server type in QAPI
+>>    cryptodev: Introduce 'query-cryptodev' QMP command
+>>    cryptodev: Support statistics
+>>    cryptodev-builtin: Detect akcipher capability
+>>    hmp: add cryptodev info command
+>>    cryptodev: Use CryptoDevBackendOpInfo for operation
+>>    cryptodev: support QoS
+>>    MAINTAINERS: add myself as the maintainer for cryptodev
+>>
+>>   MAINTAINERS                     |   2 +
+>>   backends/cryptodev-builtin.c    |  42 +++--
+>>   backends/cryptodev-lkcf.c       |  19 +-
+>>   backends/cryptodev-vhost-user.c |  13 +-
+>>   backends/cryptodev-vhost.c      |   4 +-
+>>   backends/cryptodev.c            | 295 +++++++++++++++++++++++++++++---
+>>   hmp-commands-info.hx            |  14 ++
+>>   hw/virtio/virtio-crypto.c       |  48 ++++--
+>>   include/monitor/hmp.h           |   1 +
+>>   include/sysemu/cryptodev.h      |  94 +++++-----
+>>   monitor/hmp-cmds.c              |  36 ++++
+>>   qapi/cryptodev.json             | 144 ++++++++++++++++
+>>   qapi/meson.build                |   1 +
+>>   qapi/qapi-schema.json           |   1 +
+>>   qapi/qom.json                   |   8 +-
+>>   15 files changed, 604 insertions(+), 118 deletions(-)
+>>   create mode 100644 qapi/cryptodev.json
+>>
+>> -- 
+>> 2.20.1
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmOjuZEACgkQgypY4gEw
-YSJDeA//ZjZ49AyGlSmymeaAd5ZDdavOON2pCJ11rEOOVppGLLDZBFLVdOO/sG2t
-BPQ5j0Du2t8wtNu6ELojxewz7be36Ga9svFHq+O4xOXFUWW7ENNcOBM4ecwZfAp0
-FfVgbjttVDHBzCDbGy/mEXC62KeR+RdbbOFExQ97ZPPKc9Mo937X9/L9/2W/QzL1
-hnToe2VrdDt9XAUMMynnLDut3G/W1SeqWT5IFFKJI0smglpeGFEVNHnnSy0jkxh7
-itSPeOMsXrX6LNI5LaADinMcquKwqfK2J9poWr7WaeOJkC2aru9cbGKN998DqBAe
-e6MYkGHrLgwXNL1x4deNXpT2Iho5B2N1gaAjv/dBi2fhbAeJFYo6Y873Zw0CRAEy
-pwcruBjNLjJaAh2/0N4LpXpKoVatbY8W3aHvhD9eqa1IUGwxxy69tn7EFtOo9mjy
-zvcAwwXjWM6GfYOuscmcRMf2llS6/Xr3/Udz6iIO/BUlEDd0X3ywAEmNn7ka+V+i
-5cLF6T/tmUJ7gjmH/EW9Et5C24P0c/BuOakeA7g91EDHzU0BGRja04BrgciaE2/x
-VqC2rHbm07N/h+RIbk8S1tye2pXaxex5kmFvxF4HB+42CDQlUvKeXTyYjIZbxBpi
-R3RBdRPqVqMjSWt4Mh5I3LFtve9njSDa5F7nN/Bn5CA4oNIezfs=
-=fANF
------END PGP SIGNATURE-----
-
---e3Ed+WV8hTo8PG4H--
+-- 
+zhenwei pi
 
