@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA66B654759
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 21:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAFA65476C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 21:42:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8SJR-0004sv-FM; Thu, 22 Dec 2022 15:37:09 -0500
+	id 1p8SJQ-0004sX-B2; Thu, 22 Dec 2022 15:37:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcel@holtmann.org>)
- id 1p8SJO-0004r8-DJ
+ id 1p8SJO-0004rD-HJ
  for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:37:06 -0500
 Received: from coyote.holtmann.net ([212.227.132.17] helo=mail.holtmann.org)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcel@holtmann.org>) id 1p8SJM-0002LF-Me
+ (envelope-from <marcel@holtmann.org>) id 1p8SJM-0002LL-QB
  for qemu-devel@nongnu.org; Thu, 22 Dec 2022 15:37:06 -0500
 Received: from fedora.. (p4fefcc21.dip0.t-ipconnect.de [79.239.204.33])
- by mail.holtmann.org (Postfix) with ESMTPSA id 0570CCED29;
+ by mail.holtmann.org (Postfix) with ESMTPSA id 4BE8BCED2A;
  Thu, 22 Dec 2022 21:36:58 +0100 (CET)
 From: Marcel Holtmann <marcel@holtmann.org>
 To: qemu-devel@nongnu.org, mst@redhat.com, xieyongji@bytedance.com,
  pbonzini@redhat.com
 Cc: marcel@holtmann.org
-Subject: [PATCH v4 06/12] libvhost-user: Change dev->postcopy_ufd assignment
- to make it C90 compliant
-Date: Thu, 22 Dec 2022 21:36:45 +0100
-Message-Id: <74db52afb1203c4580ffc7fa462b4b2ba260a353.1671741278.git.marcel@holtmann.org>
+Subject: [PATCH v4 07/12] libvduse: Provide _GNU_SOURCE when compiling outside
+ of QEMU
+Date: Thu, 22 Dec 2022 21:36:46 +0100
+Message-Id: <407f3665f0605df936e5bfe60831d180edfb8cca.1671741278.git.marcel@holtmann.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <cover.1671741278.git.marcel@holtmann.org>
 References: <cover.1671741278.git.marcel@holtmann.org>
@@ -56,44 +56,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The assignment of dev->postcopy_ufd can be moved into an else clause and
-then the code becomes C90 compliant.
+When the libvduse sources are used by another project, it can not be
+guaranteed that _GNU_SOURCE is set by the build system. If it is for
+example not set, errors like this show up.
 
-  CC       libvhost-user.o
-libvhost-user.c: In function ‘vu_set_postcopy_advise’:
-libvhost-user.c:1625:5: error: ISO C90 forbids mixed declarations and code [-Werror=declaration-after-statement]
- 1625 |     struct uffdio_api api_struct;
-      |     ^~~~~~
+  CC       libvduse.o
+libvduse.c: In function ‘vduse_log_get’:
+libvduse.c:172:9: error: implicit declaration of function ‘ftruncate’; did you mean ‘strncat’? [-Werror=implicit-function-declaration]
+  172 |     if (ftruncate(fd, size) == -1) {
+      |         ^~~~~~~~~
+      |         strncat
 
-Understandable, it might be desired to avoid else clauses, but in this
-case it seems clear enough and frankly the dev->postcopy_ufd is only
-assigned once.
+The simplest way to allow external complication of libvduse.[ch] by
+setting _GNU_SOURCE if it is not already set by the build system.
 
 Signed-off-by: Marcel Holtmann <marcel@holtmann.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- subprojects/libvhost-user/libvhost-user.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ subprojects/libvduse/libvduse.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index bf92cc85c086..b28b66cdb159 100644
---- a/subprojects/libvhost-user/libvhost-user.c
-+++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -1599,12 +1599,13 @@ vu_set_config(VuDev *dev, VhostUserMsg *vmsg)
- static bool
- vu_set_postcopy_advise(VuDev *dev, VhostUserMsg *vmsg)
- {
--    dev->postcopy_ufd = -1;
- #ifdef UFFDIO_API
-     struct uffdio_api api_struct;
+diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
+index e089d4d546cf..c871bd331a6b 100644
+--- a/subprojects/libvduse/libvduse.c
++++ b/subprojects/libvduse/libvduse.c
+@@ -16,6 +16,10 @@
+  * later.  See the COPYING file in the top-level directory.
+  */
  
-     dev->postcopy_ufd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
-     vmsg->size = 0;
-+#else
-+    dev->postcopy_ufd = -1;
- #endif
- 
-     if (dev->postcopy_ufd == -1) {
++#ifndef _GNU_SOURCE
++#define _GNU_SOURCE
++#endif
++
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <stdbool.h>
 -- 
 2.38.1
 
