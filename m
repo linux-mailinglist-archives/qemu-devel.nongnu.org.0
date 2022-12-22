@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4C2653CD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 09:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961F3653CD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Dec 2022 09:17:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8GeD-0003Yv-Sq; Thu, 22 Dec 2022 03:09:49 -0500
+	id 1p8Gks-0005Wc-2a; Thu, 22 Dec 2022 03:16:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p8GeC-0003YN-6X
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:09:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1p8Gkm-0005W3-MS
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:16:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1p8GeA-0005Ty-Iy
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:09:47 -0500
+ id 1p8Gkl-0006r8-05
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 03:16:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671696583;
+ s=mimecast20190719; t=1671696994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fInc+JkUAyuUBr4VwR3d1VSkKanPTFN1ZYhappOmWMc=;
- b=BLhlOvYpXH9i2lcHbo/lm5kZgkpK0Zf7AY9iI0bDtOeVn1WaIKEJVQdJBk5bqphygPivlZ
- gsqTVZJHLPeMvl3Am49R00ZdOvaMDviJkHWtESRBfAwZ9vYebSH8pDpfy+eEmJETrkHnOy
- xroX9p7vUWusuwsL1zu3JHRJDSDFSJQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5nnn8a2ryahylQYbsxeQGFRtd9mD5dCQYBv3cjQ6hcc=;
+ b=IRYl2S781yuO4UpQ3nWOlgzVU3bLq049Mndj6LiRio49fMs5zWQVwLzJTA26eS9WkyaxH4
+ 0ZMWEpP0yB5gij4OZJIbau5tHy8Bddzs9lJOppEKflHMdQUO1SVszsfTdayTSXBe+K+aPG
+ fuBF4+7ZnaOcd7Avtdv0oGqr12yQcl0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-190-9xqekOzYOoGeuraysNuRww-1; Thu, 22 Dec 2022 03:09:41 -0500
-X-MC-Unique: 9xqekOzYOoGeuraysNuRww-1
-Received: by mail-ed1-f72.google.com with SMTP id
- x13-20020a05640226cd00b0047ac11c9774so983010edd.17
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 00:09:41 -0800 (PST)
+ us-mta-235-bxlFo9GqOI6nUXubW50oeQ-1; Thu, 22 Dec 2022 03:16:32 -0500
+X-MC-Unique: bxlFo9GqOI6nUXubW50oeQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ hq42-20020a1709073f2a00b007c100387d64so958979ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 00:16:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fInc+JkUAyuUBr4VwR3d1VSkKanPTFN1ZYhappOmWMc=;
- b=jrTazXDF4puDCnjL9HI+dNPDKHSJNizVtpdSFUBzHgECKgvfhBIyvcnpPmb0446FKW
- 7syI3U3mBFiFknCh+7sdcjumQX2vbN3K/IZz+shrU1KV067WAenBzN/jyc5G/vkkZqP0
- 14Pn2jiHuTH7CvqVW7AYD1sF1tKE3bLp4chQKCUmr2ydylIQzMoBbr1nfSGq70lPoYIS
- xtByrsbg2OqWueHbYLX/tvP1SRCkDQob8zhntJ6wFP+qZiGHDwnOhty08GRDiPaYD8hl
- YZmzcb9oYiFr0dVCHW+v66Ax7VknzklawWi6keHh1sk5fx2jqX/SGCwKmInoM+PP9+NL
- ueCQ==
-X-Gm-Message-State: AFqh2koYJ1DTy0S3FY4SfKxSxYJjMwHlhDAL7DqLqp4hvx+pBh8Op050
- nQ95gzbLCm9RNElCjHvP0OtyK5GOOcJfwd9dt3GFGqb/SQ35OhL3dTzkghSAsXjjP9VG44R8mCP
- DCfozNID7w6OQYpE=
-X-Received: by 2002:a17:907:a08d:b0:7c0:dac7:36d8 with SMTP id
- hu13-20020a170907a08d00b007c0dac736d8mr4074788ejc.10.1671696580704; 
- Thu, 22 Dec 2022 00:09:40 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvdwON2bcJ7K0sGDnQiJtX65NgxCkH5ri4TC6VyNJEUzDAER4ilNsMuD8tRyis9q+OnM1DVTA==
-X-Received: by 2002:a17:907:a08d:b0:7c0:dac7:36d8 with SMTP id
- hu13-20020a170907a08d00b007c0dac736d8mr4074768ejc.10.1671696580486; 
- Thu, 22 Dec 2022 00:09:40 -0800 (PST)
+ bh=5nnn8a2ryahylQYbsxeQGFRtd9mD5dCQYBv3cjQ6hcc=;
+ b=tZT1JV/L73j+LtxEwYDwx8w+VEImYMRXGeA+WAb50ZMg4Fb3tzg4oXGpLiY+ATTYxg
+ cSC+ml7SB3zB088OkWxrEstuubCztW04PNJwPeQHJzTFTnaRjs5LQHRDZ+Jm1NlWpkdW
+ 2oD4PTnNvI2K7mwPT6/Uo69pJ5/q6uuBoNrQhwljGd/It/ti++IY3S3uVIcSsfwhQG3z
+ 2rY/rsjSOYbLbkq2mLXV60eJn8oMB5xQsLO6RzVYjIR5rJQ+Ux6smKLTiaAWsqQKmzFJ
+ auxq1KK8hCV3wNcp6pxw5rxlJks3rvST6MJJvdgaVpXz2OjFK4F3KYUwoRhjavkFy+Zt
+ PSCA==
+X-Gm-Message-State: AFqh2kr7jzLojMTA7zUV6aprx6z2v6I8zWLlMjCtk+TfHmqI4otS+9sH
+ e5F+LY9gYBiveZXKfp4dtr9OeCou3Rg5UkYF6DHu6ZjSSXUKIzG4D3gbCBf6/TT1wuKefbFRVqB
+ Yg/p4dvw3dZlQW4s=
+X-Received: by 2002:a17:907:3e26:b0:7ad:c8d7:4fd9 with SMTP id
+ hp38-20020a1709073e2600b007adc8d74fd9mr5430232ejc.36.1671696991422; 
+ Thu, 22 Dec 2022 00:16:31 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtRkxC4N+xhLGRLQAsAEsVqfZnoEsCbQ10HqrG5H2ATZ91OqLjKF/ZctByL68uEo4Vzal3KCQ==
+X-Received: by 2002:a17:907:3e26:b0:7ad:c8d7:4fd9 with SMTP id
+ hp38-20020a1709073e2600b007adc8d74fd9mr5430214ejc.36.1671696991171; 
+ Thu, 22 Dec 2022 00:16:31 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
  ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.googlemail.com with ESMTPSA id
- 25-20020a170906309900b007c53090d511sm8132514ejv.192.2022.12.22.00.09.39
+ j9-20020a1709066dc900b007ad84cf1346sm8027309ejt.110.2022.12.22.00.16.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Dec 2022 00:09:40 -0800 (PST)
-Message-ID: <9930d0ba-1771-91bc-75b8-9d3acf206037@redhat.com>
-Date: Thu, 22 Dec 2022 09:09:38 +0100
+ Thu, 22 Dec 2022 00:16:30 -0800 (PST)
+Message-ID: <2196cf80-5f59-37a5-1efe-7e4ff9767109@redhat.com>
+Date: Thu, 22 Dec 2022 09:16:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v3 10/10] libvduse: Fix assignment in vring_set_avail_event
+Subject: Re: [PATCH v3 02/10] libvhost-user: Replace typeof with __typeof__
 Content-Language: en-US
 To: Marcel Holtmann <marcel@holtmann.org>, qemu-devel@nongnu.org,
  mst@redhat.com, xieyongji@bytedance.com
 References: <cover.1671628158.git.marcel@holtmann.org>
- <88882e496f70a7f606eabfd8b6183cc2b148c222.1671628158.git.marcel@holtmann.org>
+ <79297841f1aad83d85297afef99369004d9d19a4.1671628158.git.marcel@holtmann.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <88882e496f70a7f606eabfd8b6183cc2b148c222.1671628158.git.marcel@holtmann.org>
+In-Reply-To: <79297841f1aad83d85297afef99369004d9d19a4.1671628158.git.marcel@holtmann.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -104,20 +104,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/21/22 14:10, Marcel Holtmann wrote:
->   static inline void vring_set_avail_event(VduseVirtq *vq, uint16_t val)
->   {
-> -    *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) = htole16(val);
-> +    uint16_t *avail;
-> +
-> +    avail = (uint16_t *)&vq->vring.used->ring[vq->vring.num];
-> +    *avail = htole16(val);
+> Strictly speaking only -std=gnu99 support the usage of typeof and for
+> easier inclusion in external projects, it is better to use __typeof__.
+> 
+>    CC       libvhost-user.o
+> libvhost-user.c: In function ‘vu_log_queue_fill’:
+> libvhost-user.c:86:13: error: implicit declaration of function ‘typeof’ [-Werror=implicit-function-declaration]
+>     86 |             typeof(x) _min1 = (x);              \
+>        |             ^~~~~~
+> 
+> Changing these two users of typeof makes the compiler happy and no extra
+> flags or pragmas need to be provided.
+> 
+> Signed-off-by: Marcel Holtmann<marcel@holtmann.org>
+> Reviewed-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 
-That this doesn't warn is basically a compiler bug.
+The build system uses "c_std=gnu99".  If you are extracting 
+libvhost-user and not using its build files, you need to add --std=gnu99 
+yourself when compiling.
 
-Please use memcpy instead, i.e.
+If you really don't want to do that, as long as it's just a couple 
+underscores that's fine I guess, but mixed declarations and code are 
+going to reappear sooner or later.  Please add a patch like this:
 
-   uint16_t val_le = htole16(val);
-   memcpy(&vq->vring.used->ring[vq->vring.num]), &val_le, sizeof(uint16_t));
+diff --git a/subprojects/libvhost-user/meson.build 
+b/subprojects/libvhost-user/meson.build
+index 39825d9404ae..5deecbfe377d 100644
+--- a/subprojects/libvhost-user/meson.build
++++ b/subprojects/libvhost-user/meson.build
+@@ -1,6 +1,13 @@
+  project('libvhost-user', 'c',
+          license: 'GPL-2.0-or-later',
+-        default_options: ['c_std=gnu99'])
++        default_options: ['warning_level=1', 'c_std=gnu99'])
++
++cc = meson.get_compiler('c')
++add_project_arguments(cc.get_supported_arguments(
++  '-Wsign-compare',
++  '-Wdeclaration-after-statement',
++  '-Wstrict-aliasing'),
++  native: false, language: 'c')
+
+  threads = dependency('threads')
+  glib = dependency('glib-2.0')
+
+
+to avoid regressions, and likewise for libvduse.
 
 Paolo
 
