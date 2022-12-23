@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A411655060
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 13:31:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0419765509F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 13:57:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8hCF-00026B-9J; Fri, 23 Dec 2022 07:30:43 -0500
+	id 1p8haG-0006uh-8t; Fri, 23 Dec 2022 07:55:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p8hCC-00025f-83
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 07:30:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p8hCA-0003Pd-FY
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 07:30:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671798636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uJ+JkTKmyQENgA8B9rWW0fE13kZvic9jKdEKXuw3tWQ=;
- b=PyCOV05zyjxlBqT8xwRKFtVliDhoSEd5fuBqODYRLZ50+m+fvHWshw5o4Dtw0NTMR+ocHp
- R2H0KA8rMTJ7W8ZwDsVOV27st8qL6ND8xiBGLrBGFJFCHzO2r1mD20xX7RFbATqB6xr9aU
- jSx/LKEibKLcVdZWO2ABnAm7+MP6PJ8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-SLVEbZcEONOLgdp1rZNe4w-1; Fri, 23 Dec 2022 07:30:30 -0500
-X-MC-Unique: SLVEbZcEONOLgdp1rZNe4w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 896A31875041;
- Fri, 23 Dec 2022 12:30:30 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BCFAC15BA0;
- Fri, 23 Dec 2022 12:30:28 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org, Zenghui
- Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3 1/2] hw/arm/virt: Consolidate GIC finalize logic
-In-Reply-To: <20221223090107.98888-2-agraf@csgraf.de>
-Organization: Red Hat GmbH
-References: <20221223090107.98888-1-agraf@csgraf.de>
- <20221223090107.98888-2-agraf@csgraf.de>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Fri, 23 Dec 2022 13:30:27 +0100
-Message-ID: <87mt7expy4.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p8haC-0006tT-2m; Fri, 23 Dec 2022 07:55:28 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p8ha8-0002j7-LL; Fri, 23 Dec 2022 07:55:27 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id m19so6984339edj.8;
+ Fri, 23 Dec 2022 04:55:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LzMrvAea4+aygOzGCIyqhw1hM42d4El7ZksSyN6EhmI=;
+ b=ELieSjuEjKMIsgPbqWyHT0v2SetnDmdgR0g90LoNX8DicfEQppVHcxOACAtICIWHJ6
+ hKbd2E+kEjdgIrWdwBsyry5+7rwy1aeCItbd360As8d3lHCB4FFmBpFU6AgiQFJ3icyW
+ /J5S5IOE5c6tE1G7lsOkLyM38qCedG6PpOqJl60+/ozkK+8ekRltPlWMPOM3313xnZ3X
+ YOTQS+05lCwIcC99Zik2E3F9pORm8L/M1s2hhZNGBq4akiUYk0hU6siSKLL0qN13NCFs
+ M9qkxrHZo+xQZHNriSgBCzS31ndIx740BQAmdtsi0xmuqS6fU4CP+k6icfBCVqAMe4mL
+ POew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LzMrvAea4+aygOzGCIyqhw1hM42d4El7ZksSyN6EhmI=;
+ b=mIwj6Gys9u1Sa2yqjjqfOdtGHqnHYNfPc93U4HWCaTQ9rK2Y3QBcaclPcu4DvNtnwl
+ rvXtErPdXcwctibqDgaxi8MmgypVd5Wlhpt6ScYKKYVBRhhLUspA/JicU3s+oMM5Xlqu
+ q60bRvoeQoVV16sZzrT3V9QIxHOS3MSYFeNHOzgtnuSohYkfDhE8Per1KesBH7gn3mVy
+ QmHMY7ngkMuvUHhUqPr4NsAAU4oqrt40ifmqCtfP92nVQxV7LPrVX4vc8ErBHO2x+Ofb
+ MbdJfgZDrdaaKlKRTR0qO2V7XuT60o4QbWpduGDSOHB3dzi9kXImarqveUvr9MAV2iKK
+ qtBQ==
+X-Gm-Message-State: AFqh2krCr4JlwiTVLN9/ir0dhAtBzXT6G7Gvi3u+p0DvShM1t3ww9uNh
+ kbRbWu/HnL8XT3S/JDqz5gEf4g63ylN+cpv0IjM=
+X-Google-Smtp-Source: AMrXdXtiPqDQtgCcOyL62eKw41rwme+fCvQ+KoC3etFI8OVbmc8NBOD3lvpBnivHgLtlLlEnyYYRvdO3t2H7zYCjpnU=
+X-Received: by 2002:aa7:d741:0:b0:47d:f760:d4b2 with SMTP id
+ a1-20020aa7d741000000b0047df760d4b2mr1067136eds.202.1671800122296; Fri, 23
+ Dec 2022 04:55:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
+ <20221221182300.307900-12-dbarboza@ventanamicro.com>
+In-Reply-To: <20221221182300.307900-12-dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 23 Dec 2022 20:55:10 +0800
+Message-ID: <CAEUhbmWkB73m_rQW463U-5bO10rKOOOgs2RXZh8rPDToh2Fb=w@mail.gmail.com>
+Subject: Re: [PATCH 11/15] hw/riscv/boot.c: consolidate all kernel init in
+ riscv_load_kernel()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,108 +83,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 23 2022, Alexander Graf <agraf@csgraf.de> wrote:
-
-> Up to now, the finalize_gic_version() code open coded what is essentially
-> a support bitmap match between host/emulation environment and desired
-> target GIC type.
+On Thu, Dec 22, 2022 at 2:29 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
 >
-> This open coding leads to undesirable side effects. For example, a VM with
-> KVM and -smp 10 will automatically choose GICv3 while the same command
-> line with TCG will stay on GICv2 and fail the launch.
+> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
+> the same steps when '-kernel' is used:
 >
-> This patch combines the TCG and KVM matching code paths by making
-> everything a 2 pass process. First, we determine which GIC versions the
-> current environment is able to support, then we go through a single
-> state machine to determine which target GIC mode that means for us.
+> - execute load_kernel()
+> - load init_rd()
+> - write kernel_cmdline
 >
-> After this patch, the only user noticable changes should be consolidated
-> error messages as well as TCG -M virt supporting -smp > 8 automatically.
+> Let's fold everything inside riscv_load_kernel() to avoid code
+> repetition. Every other board that uses riscv_load_kernel() will have
+> this same behavior, including boards that doesn't have a valid FDT, so
+> we need to take care to not do FDT operations without checking it first.
 >
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 > ---
+>  hw/riscv/boot.c            | 21 ++++++++++++++++++---
+>  hw/riscv/microchip_pfsoc.c |  9 ---------
+>  hw/riscv/sifive_u.c        |  9 ---------
+>  hw/riscv/spike.c           |  9 ---------
+>  hw/riscv/virt.c            |  9 ---------
+>  5 files changed, 18 insertions(+), 39 deletions(-)
 >
-> v1 -> v2:
->
->   - Leave VIRT_GIC_VERSION defines intact, we need them for MADT generation
->
-> v2 -> v3:
->
->   - Fix comment
->   - Flip kvm-enabled logic for host around
-> ---
->  hw/arm/virt.c         | 198 ++++++++++++++++++++++--------------------
->  include/hw/arm/virt.h |  15 ++--
->  2 files changed, 112 insertions(+), 101 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index ea2413a0ba..6d27f044fe 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1820,6 +1820,84 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
->      }
->  }
->  
-> +static VirtGICType finalize_gic_version_do(const char *accel_name,
-> +                                           VirtGICType gic_version,
-> +                                           int gics_supported,
-> +                                           unsigned int max_cpus)
-> +{
-> +    /* Convert host/max/nosel to GIC version number */
-> +    switch (gic_version) {
-> +    case VIRT_GIC_VERSION_HOST:
-> +        if (!kvm_enabled()) {
-> +            error_report("gic-version=host requires KVM");
-> +            exit(1);
-> +        }
-> +
-> +        /* For KVM, gic-version=host means gic-version=max */
-> +        return finalize_gic_version_do(accel_name, VIRT_GIC_VERSION_MAX,
-> +                                       gics_supported, max_cpus);
 
-I think I'd still rather use /* fallthrough */ here, but let's leave
-that decision to the maintainers.
-
-In any case,
-
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-
-[As an aside, we have a QEMU_FALLTHROUGH #define that maps to
-__attribute__((fallthrough)) if available, but unlike the Linux kernel,
-we didn't bother to convert everything to use it in QEMU. Should we?
-Would using the attribute give us some extra benefits?]
-
-> +    case VIRT_GIC_VERSION_MAX:
-> +        if (gics_supported & VIRT_GIC_VERSION_4_MASK) {
-> +            gic_version = VIRT_GIC_VERSION_4;
-> +        } else if (gics_supported & VIRT_GIC_VERSION_3_MASK) {
-> +            gic_version = VIRT_GIC_VERSION_3;
-> +        } else {
-> +            gic_version = VIRT_GIC_VERSION_2;
-> +        }
-> +        break;
-> +    case VIRT_GIC_VERSION_NOSEL:
-> +        if ((gics_supported & VIRT_GIC_VERSION_2_MASK) &&
-> +            max_cpus <= GIC_NCPU) {
-> +            gic_version = VIRT_GIC_VERSION_2;
-> +        } else if (gics_supported & VIRT_GIC_VERSION_3_MASK) {
-> +            /*
-> +             * in case the host does not support v2 emulation or
-> +             * the end-user requested more than 8 VCPUs we now default
-> +             * to v3. In any case defaulting to v2 would be broken.
-> +             */
-> +            gic_version = VIRT_GIC_VERSION_3;
-> +        } else if (max_cpus > GIC_NCPU) {
-> +            error_report("%s only supports GICv2 emulation but more than 8 "
-> +                         "vcpus are requested", accel_name);
-> +            exit(1);
-> +        }
-> +        break;
-> +    case VIRT_GIC_VERSION_2:
-> +    case VIRT_GIC_VERSION_3:
-> +    case VIRT_GIC_VERSION_4:
-> +        break;
-> +    }
-
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
 
