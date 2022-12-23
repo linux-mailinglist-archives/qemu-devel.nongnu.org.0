@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055F9654C21
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 06:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F155654C34
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 06:28:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8aEk-0007gM-VN; Fri, 23 Dec 2022 00:04:50 -0500
+	id 1p8aaU-0002XX-6a; Fri, 23 Dec 2022 00:27:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
- id 1p8aEi-0007fy-MP
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 00:04:48 -0500
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8aaS-0002XN-P0
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 00:27:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
- id 1p8aEh-0008UO-1J
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 00:04:48 -0500
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BN4x4aO015340; Fri, 23 Dec 2022 05:04:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=xt1AUDsdeT+15woJV+r7BSgmgLtVqARJyLiQl+rWvvo=;
- b=KNNT4Y+uXTJJmC4fgEKQdYxxpq1ebTQGtR5hjO2Gn11xWkVKG167H77XLG65bRGC2tQu
- GfTs5eCFcy/2rW6sVa2F03Lgyqs30ep7pPh9hvBZ/L1Y9L3qwcnEFcZhItih+Uc/wn4i
- o7IaGt0Vwye1HHY0KmMaF64X+A1Wu9if+HwrGdcA0oxPNPWH9s0qgIGCUIBEv2yUanE/
- MEYnuNW5TUIN0qJyO8LF0yo+ViEt2w4HjFLi/34fn/cpWmegHhubDITztIJnfslib/zC
- 9DKgbOSBaIK0fGxNqCzZGC9z0FH7RlHuwRcLtVkuTk9IgvHpf2RlmSCCpSuEtDQW+1Or 9Q== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mm4xkuxtf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Dec 2022 05:04:42 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BN54fVW021917
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Dec 2022 05:04:41 GMT
-Received: from mthiyaga-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 22 Dec 2022 21:04:39 -0800
-From: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
-To: <alex.bennee@linaro.org>
-CC: <qemu-devel@nongnu.org>, <peter.maydell@linaro.org>, Mukilan Thiyagarajan
- <quic_mthiyaga@quicinc.com>
-Subject: Re: [PULL 0/6] testing updates
-Date: Fri, 23 Dec 2022 10:34:10 +0530
-Message-ID: <20221223050410.12970-1-quic_mthiyaga@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <87h6xnxjpm.fsf@linaro.org>
-References: <87h6xnxjpm.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1p8aaQ-0000eY-Uh
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 00:27:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671773233;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vDsQoRkOyah5PTp5fdGZ4KZm5TdzBTKRsuaU13w7wuM=;
+ b=BXLp7EKJDcg+e9+ZC6uN27OSb01xXHB/T8SqtmUAqOUrlV0Sy4wvIUXulGcl6/NaV0CJp/
+ HtfyeXsGtw7l++DjAp3rfqRYpxO/cNqG9d/LS/fs1/lkNy1yGUWIwOEQrXOivZWsUWa3ks
+ 2DXBchhCkj4JRu2/D0sBwaO2Fv4zae8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-42-KmXldXtQNMmvj5ukV-n2vg-1; Fri, 23 Dec 2022 00:27:09 -0500
+X-MC-Unique: KmXldXtQNMmvj5ukV-n2vg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DBECF1875041;
+ Fri, 23 Dec 2022 05:27:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 922F6492B00;
+ Fri, 23 Dec 2022 05:27:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 714FD21E691D; Fri, 23 Dec 2022 06:27:07 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Bernhard Beschow <shentey@gmail.com>,  qemu-devel@nongnu.org,
+ marcel.apfelbaum@gmail.com,  jonathan.cameron@huawei.com, philmd@linaro.org
+Subject: Re: [PATCH v2 0/7] include/hw/pci include/hw/cxl: Clean up includes
+References: <20221222100330.380143-1-armbru@redhat.com>
+ <B98EF322-5449-4942-8718-D3504B863B96@gmail.com>
+ <87edsremti.fsf@pond.sub.org>
+ <20221222142149-mutt-send-email-mst@kernel.org>
+Date: Fri, 23 Dec 2022 06:27:07 +0100
+In-Reply-To: <20221222142149-mutt-send-email-mst@kernel.org> (Michael
+ S. Tsirkin's message of "Thu, 22 Dec 2022 14:22:39 -0500")
+Message-ID: <87k02i7kr8.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: vmAgQuSfe3pd9BUsCGlyqVroNw6AmzdA
-X-Proofpoint-ORIG-GUID: vmAgQuSfe3pd9BUsCGlyqVroNw6AmzdA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-23_02,2022-12-22_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 adultscore=0 clxscore=1015 mlxscore=0 mlxlogscore=920
- phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2212230044
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=quic_mthiyaga@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,38 +82,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thank you, Alex!
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-Here is the patch to fix the issue. I've also removed
-the comment which is no longer applicable.
+> On Thu, Dec 22, 2022 at 11:48:25AM +0100, Markus Armbruster wrote:
+>> Bernhard Beschow <shentey@gmail.com> writes:
+>> 
+>> > Am 22. Dezember 2022 10:03:23 UTC schrieb Markus Armbruster <armbru@redhat.com>:
+>> >>Back in 2016, we discussed[1] rules for headers, and these were
+>> >>generally liked:
+>> >>
+>> >>1. Have a carefully curated header that's included everywhere first.  We
+>> >>   got that already thanks to Peter: osdep.h.
+>> >>
+>> >>2. Headers should normally include everything they need beyond osdep.h.
+>> >>   If exceptions are needed for some reason, they must be documented in
+>> >>   the header.  If all that's needed from a header is typedefs, put
+>> >>   those into qemu/typedefs.h instead of including the header.
+>> >>
+>> >>3. Cyclic inclusion is forbidden.
+>> >
+>> > Sounds like these -- useful and sane -- rules belong in QEMU's coding style. What about putting them there for easy reference?
+>> 
+>> Makes sense.  I'll see what I can do.  Thanks!
+>
+> It would be even better if there was e.g. a make target
+> pulling in each header and making sure it's self consistent and
+> no circularity. We could run it e.g. in CI.
 
-Regards,
-Mukilan
+Yes, that would be nice, but the problem I've been unable to crack is
+deciding whether a header is supposed to compile target-independently or
+not.  In my manual testing, I use trial and error: if it fails to
+compile target-independently, compile for all targets.  This is s-l-o-w.
 
----
- .gitlab-ci.d/container-cross.yml | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index 5486dc43c6..e0d75d5824 100644
---- a/.gitlab-ci.d/container-cross.yml
-+++ b/.gitlab-ci.d/container-cross.yml
-@@ -34,14 +34,11 @@ armhf-debian-cross-container:
-   variables:
-     NAME: debian-armhf-cross
- 
--# We never want to build hexagon in the CI system and by default we
--# always want to refer to the master registry where it lives.
- hexagon-cross-container:
-   extends: .container_job_template
-   stage: containers
-   variables:
-     NAME: debian-hexagon-cross
--    QEMU_JOB_ONLY_FORKS: 1
- 
- hppa-debian-cross-container:
-   extends: .container_job_template
--- 
-2.17.1
+The other problem, of course, is coding it up in Meson.  I haven't even
+tried.
 
 
