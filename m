@@ -2,87 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD796552CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 17:27:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4266552E3
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 17:39:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8ksw-0003Nd-GU; Fri, 23 Dec 2022 11:27:02 -0500
+	id 1p8l3Q-0005DJ-3r; Fri, 23 Dec 2022 11:37:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p8ksu-0003NS-Mc
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:27:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p8ksq-0008V5-4h
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:27:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671812815;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z6YLnTZy99M5kq2cxPBwDgPpvo94LAA9X6Xzrr7tJig=;
- b=CVxwkoSZDKv0HNhb7+IbjQ0NGavQ+aHVl/tBpGYNCIXjAlBBPQdMbyZ4Rpc9dP/nq1zKfT
- sSuEPKQvroGlK0DKdMkeQyjbRA7gSBCnuGXZuUFl+U56OJOKAsu3qZMo1BcYbxaMkPEP4s
- fgVnUBMOmOtLhNrtO9LefX/GYyewHfg=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-vxAJWC75Oj-Tm_niTN4Rtg-1; Fri, 23 Dec 2022 11:26:53 -0500
-X-MC-Unique: vxAJWC75Oj-Tm_niTN4Rtg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- bp6-20020a05620a458600b006ffd3762e78so3446444qkb.13
- for <qemu-devel@nongnu.org>; Fri, 23 Dec 2022 08:26:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z6YLnTZy99M5kq2cxPBwDgPpvo94LAA9X6Xzrr7tJig=;
- b=OAPJ6FN+9sm/egE/wjac1yLwIUCR5Wy0u73OYjCFScEE/rmqkKUiejZ8/AftrUV/Bp
- YbH92ZOjB6CsuBSC5qpkAhStUeTaez+cx/JSdblc+qkiEx8fqSxzR2FeZcqNY1QHX/v3
- 0BfnELViif3Ql60xjU7Ryqcot6ms3VJCWTeS3j0WCt0Ei8F3XrKrdXqdTKsGHsV0yRBr
- P2QLL/tPC2YqjHFG3e1Bp9K7FsxGucfzcsCTgO/QsSVy/jFdstGezMfHHpb2jt9seXmb
- NqqfdMEQu7X3XeON9lmqutcR1t6P3ER6dn2o1REHEmxZpdIwVXgw79xtck/9yLk0rJ/5
- Kr3w==
-X-Gm-Message-State: AFqh2koBchetEhrDoloSZBypOdcAWnloyw3XPI45JSlgYQQEQFPHOjx5
- CMTAtocARWQFiaX5LHdlOyltBPzRjrAdUaCyor+gUirdQveWMjMvZ1KI3qUkA+PpHZ+0EAGDmw0
- 9OKxtawv47I8eKFM=
-X-Received: by 2002:ac8:44ac:0:b0:3a8:2ab9:7f9c with SMTP id
- a12-20020ac844ac000000b003a82ab97f9cmr11548165qto.57.1671812813297; 
- Fri, 23 Dec 2022 08:26:53 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt5m53/0bKJrBGxYxvAWRwhhy+82RqTuDCUXd+MWu1ZsclFV8SboXjxKiF6qR8R8fR35hv9/A==
-X-Received: by 2002:ac8:44ac:0:b0:3a8:2ab9:7f9c with SMTP id
- a12-20020ac844ac000000b003a82ab97f9cmr11548145qto.57.1671812813020; 
- Fri, 23 Dec 2022 08:26:53 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-45-70-31-26-132.dsl.bell.ca.
- [70.31.26.132]) by smtp.gmail.com with ESMTPSA id
- h20-20020ac85694000000b003a7e9db074asm2108676qta.67.2022.12.23.08.26.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Dec 2022 08:26:52 -0800 (PST)
-Date: Fri, 23 Dec 2022 11:26:51 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v3] intel-iommu: Document iova_tree
-Message-ID: <Y6XWy9XPHqhK8BMh@x1n>
-References: <20221206221348.396020-1-peterx@redhat.com>
- <CACGkMEtK8w2OkeZR=Ebp3t8t6bfaJusTRyC0eB3BGyA7KuX5-g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1p8l3N-0005Cn-T8; Fri, 23 Dec 2022 11:37:50 -0500
+Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1p8l3L-0004Xk-PQ; Fri, 23 Dec 2022 11:37:49 -0500
+Received: from [192.168.106.118]
+ (dynamic-095-118-065-151.95.118.pool.telefonica.de [95.118.65.151])
+ by csgraf.de (Postfix) with ESMTPSA id B196E6080584;
+ Fri, 23 Dec 2022 17:37:44 +0100 (CET)
+Message-ID: <94c1de49-c028-3368-f980-a6908049dca9@csgraf.de>
+Date: Fri, 23 Dec 2022 17:37:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CACGkMEtK8w2OkeZR=Ebp3t8t6bfaJusTRyC0eB3BGyA7KuX5-g@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.0
+Subject: Re: [PATCH v3 1/2] hw/arm/virt: Consolidate GIC finalize logic
+Content-Language: en-US
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Zenghui Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20221223090107.98888-1-agraf@csgraf.de>
+ <20221223090107.98888-2-agraf@csgraf.de> <87mt7expy4.fsf@redhat.com>
+From: Alexander Graf <agraf@csgraf.de>
+In-Reply-To: <87mt7expy4.fsf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,79 +59,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 23, 2022 at 03:48:01PM +0800, Jason Wang wrote:
-> On Wed, Dec 7, 2022 at 6:13 AM Peter Xu <peterx@redhat.com> wrote:
-> >
-> > It seems not super clear on when iova_tree is used, and why.  Add a rich
-> > comment above iova_tree to track why we needed the iova_tree, and when we
-> > need it.
-> >
-> > Also comment for the map/unmap messages, on how they're used and
-> > implications (e.g. unmap can be larger than the mapped ranges).
-> >
-> > Suggested-by: Jason Wang <jasowang@redhat.com>
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> > v3:
-> > - Adjust according to Eric's comment
-> > ---
-> >  include/exec/memory.h         | 28 ++++++++++++++++++++++++++
-> >  include/hw/i386/intel_iommu.h | 38 ++++++++++++++++++++++++++++++++++-
-> >  2 files changed, 65 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/exec/memory.h b/include/exec/memory.h
-> > index 91f8a2395a..269ecb873b 100644
-> > --- a/include/exec/memory.h
-> > +++ b/include/exec/memory.h
-> > @@ -129,6 +129,34 @@ struct IOMMUTLBEntry {
-> >  /*
-> >   * Bitmap for different IOMMUNotifier capabilities. Each notifier can
-> >   * register with one or multiple IOMMU Notifier capability bit(s).
-> > + *
-> > + * Normally there're two use cases for the notifiers:
-> > + *
-> > + *   (1) When the device needs accurate synchronizations of the vIOMMU page
-> > + *       tables, it needs to register with both MAP|UNMAP notifies (which
-> > + *       is defined as IOMMU_NOTIFIER_IOTLB_EVENTS below).
-> > + *
-> > + *       Regarding to accurate synchronization, it's when the notified
-> > + *       device maintains a shadow page table and must be notified on each
-> > + *       guest MAP (page table entry creation) and UNMAP (invalidation)
-> > + *       events (e.g. VFIO). Both notifications must be accurate so that
-> > + *       the shadow page table is fully in sync with the guest view.
-> > + *
-> > + *   (2) When the device doesn't need accurate synchronizations of the
-> > + *       vIOMMU page tables, it needs to register only with UNMAP or
-> > + *       DEVIOTLB_UNMAP notifies.
-> > + *
-> > + *       It's when the device maintains a cache of IOMMU translations
-> > + *       (IOTLB) and is able to fill that cache by requesting translations
-> > + *       from the vIOMMU through a protocol similar to ATS (Address
-> > + *       Translation Service).
-> > + *
-> > + *       Note that in this mode the vIOMMU will not maintain a shadowed
-> > + *       page table for the address space, and the UNMAP messages can be
-> > + *       actually larger than the real invalidations (just like how the
-> > + *       Linux IOMMU driver normally works, where an invalidation can be
-> > + *       enlarged as long as it still covers the target range).  The IOMMU
-> 
-> Just spot this when testing your fix for DSI:
-> 
->         assert(entry->iova >= notifier->start && entry_end <= notifier->end);
-> 
-> Do we need to remove this (but it seems a partial revert of
-> 03c7140c1a0336af3d4fca768de791b9c0e2b128)?
+Hey Cornelia,
 
-Replied in the othe thread.
+On 23.12.22 13:30, Cornelia Huck wrote:
+> On Fri, Dec 23 2022, Alexander Graf <agraf@csgraf.de> wrote:
+>
+>> Up to now, the finalize_gic_version() code open coded what is essentially
+>> a support bitmap match between host/emulation environment and desired
+>> target GIC type.
+>>
+>> This open coding leads to undesirable side effects. For example, a VM with
+>> KVM and -smp 10 will automatically choose GICv3 while the same command
+>> line with TCG will stay on GICv2 and fail the launch.
+>>
+>> This patch combines the TCG and KVM matching code paths by making
+>> everything a 2 pass process. First, we determine which GIC versions the
+>> current environment is able to support, then we go through a single
+>> state machine to determine which target GIC mode that means for us.
+>>
+>> After this patch, the only user noticable changes should be consolidated
+>> error messages as well as TCG -M virt supporting -smp > 8 automatically.
+>>
+>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>>
+>> ---
+>>
+>> v1 -> v2:
+>>
+>>    - Leave VIRT_GIC_VERSION defines intact, we need them for MADT generation
+>>
+>> v2 -> v3:
+>>
+>>    - Fix comment
+>>    - Flip kvm-enabled logic for host around
+>> ---
+>>   hw/arm/virt.c         | 198 ++++++++++++++++++++++--------------------
+>>   include/hw/arm/virt.h |  15 ++--
+>>   2 files changed, 112 insertions(+), 101 deletions(-)
+>>
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index ea2413a0ba..6d27f044fe 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -1820,6 +1820,84 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+>>       }
+>>   }
+>>   
+>> +static VirtGICType finalize_gic_version_do(const char *accel_name,
+>> +                                           VirtGICType gic_version,
+>> +                                           int gics_supported,
+>> +                                           unsigned int max_cpus)
+>> +{
+>> +    /* Convert host/max/nosel to GIC version number */
+>> +    switch (gic_version) {
+>> +    case VIRT_GIC_VERSION_HOST:
+>> +        if (!kvm_enabled()) {
+>> +            error_report("gic-version=host requires KVM");
+>> +            exit(1);
+>> +        }
+>> +
+>> +        /* For KVM, gic-version=host means gic-version=max */
+>> +        return finalize_gic_version_do(accel_name, VIRT_GIC_VERSION_MAX,
+>> +                                       gics_supported, max_cpus);
+> I think I'd still rather use /* fallthrough */ here, but let's leave
+> that decision to the maintainers.
 
-I assume this documentation patch is still correct, am I right?  It's
-talking about the possibility of enlarged invalidation range sent from the
-guest and vIOMMU.  That should still not be bigger than the registered
-range in iommu notifiers (even if bigger than the actual unmapped range).
 
-Thanks,
+I originally had a fallthrough here, then looked at the code and 
+concluded for myself that I dislike fallthroughs :). They make more 
+complicated code flows insanely complicated and are super error prone.
 
--- 
-Peter Xu
+> In any case,
+>
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+>
+> [As an aside, we have a QEMU_FALLTHROUGH #define that maps to
+> __attribute__((fallthrough)) if available, but unlike the Linux kernel,
+> we didn't bother to convert everything to use it in QEMU. Should we?
+> Would using the attribute give us some extra benefits?]
+
+
+IMHO we're be better off just refactoring code in ways that don't 
+require fall-throughs. Modern compilers inline functions pretty well, so 
+I think there's very little reason for them anymore.
+
+Thanks a lot for the reviews!
+
+
+Alex
+
 
 
