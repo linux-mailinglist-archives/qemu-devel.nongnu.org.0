@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B45654BB2
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 04:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70764654BB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 04:24:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8Yb8-0007Hk-OC; Thu, 22 Dec 2022 22:19:50 -0500
+	id 1p8YfD-0008EB-1q; Thu, 22 Dec 2022 22:24:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p8Yb6-0007H3-It; Thu, 22 Dec 2022 22:19:48 -0500
-Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1p8Yaw-0003Ez-D1; Thu, 22 Dec 2022 22:19:43 -0500
-Received: by mail-vs1-xe34.google.com with SMTP id m2so3475129vsv.9;
- Thu, 22 Dec 2022 19:19:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YMeICoaABifER8ncBwj1Ia/yU4N05iJ40CGgYEUQ9Z0=;
- b=k+TKULjaoXoiS0vcqAISYb+BQSrqDqIkRrsCOtmWtRVFBGeAfwISuc0QD6dcoejeQS
- EAisVob0BmgM03PczA0SwpSRIzgob3eP4aEnkxlGwk/S55EGeJOsHMVmVkNsZwi8ofLA
- /ryKSwcqJqFp16ht9/Aw7oF1xM0JIPeQVXxmFC+20Ae/TaAfGyUBaMMXu9A3D3fv/KfG
- c1kItfeTtY9cBjRHVTq3nb6MDQ4h5hT32XleU6kktnH9VMeVGMczoCIqFZVLD4Svehdy
- lqb/SJ4Ezh4FJvttY3PDUn9SRj042QkkrW3P7f6LkNovKOiGh6yymq6mQ5m/CWuV+DgY
- DnNA==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p8YfB-0008Dz-5i
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 22:24:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1p8Yf8-0004Hj-UB
+ for qemu-devel@nongnu.org; Thu, 22 Dec 2022 22:24:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671765837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/TTVruRnP3jJrBCvZHN/gB6LT4JG2AtpLyp/o8Q0ofY=;
+ b=XWtOJugRSF/AxmZ/0KZZXU2+zLP2/1c1BFnIaHgoyEyB7TEYV21ZeSxDNEeXzPzc7ifvYT
+ ix2SOXT6aA7ac38zgPBmX7kA2bKdZXtqmZ1msrI/yqjW55U9mwI/oMgFPyLmxEDSj9nXHr
+ f+h/p7k5HueJ5miQ4pxrdzaBrl7/e5M=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-433-nZdNucp1PPGoi4ORhUkNXw-1; Thu, 22 Dec 2022 22:23:55 -0500
+X-MC-Unique: nZdNucp1PPGoi4ORhUkNXw-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ s8-20020a056808008800b00360b62b697bso762920oic.3
+ for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 19:23:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=YMeICoaABifER8ncBwj1Ia/yU4N05iJ40CGgYEUQ9Z0=;
- b=IWbwAcPymVWWQrDuIKSrV/XNH0439vP2xF7e/PcKPA1D4B7gJK1bd4bIUpwUizvGxC
- nuCr8jZy+n6ssC7b6p7Q+SMwU1xAdMNkbsewauawMxZv9P4ne2GyQrv/RLcJ/A1cPmaU
- 46rRnYE5jlY+5FYOzb0KYmCwk4NBJx7bySuCpqDkxdLZ7GB3i7RYv7AtOQHqjVyK4Hu+
- S/KI5BpzDlaNANXQ9ptngNK87dP7Yt9OXOanfUvQmV7VletZJPrSyxoAfD9BohzMR4bu
- LTGGCHl6euuBDCC9XhxJF7cHly8uCQLkHR5fPd4W8ymNukBRCwAIA3orECAwqwbuAAqV
- PvNQ==
-X-Gm-Message-State: AFqh2kqn2pX98YAg27Jie2Or19y4XesXZ97he4nx8+oI9yE8UJEFci4w
- f5AqyNaFKwDEff0g31yQ+HLH9L6+Y2vjrf15/V67ZKVYbudjMA==
-X-Google-Smtp-Source: AMrXdXsHfWradt1AUnA7HH/DFsYk+pqIiZmf8cPSjoINR7RLa+XjgC4cfyBomAD1udoyL84jbfu/15SjGG3+q94lnFo=
-X-Received: by 2002:a67:e208:0:b0:3ba:8fa7:5f9e with SMTP id
- g8-20020a67e208000000b003ba8fa75f9emr833233vsa.64.1671765576980; Thu, 22 Dec
- 2022 19:19:36 -0800 (PST)
+ bh=/TTVruRnP3jJrBCvZHN/gB6LT4JG2AtpLyp/o8Q0ofY=;
+ b=PhNqaw3XxRBKMgtM+5B3l8kflkXltGpyN4HVgrLrcoT26/478d1h22aovpsVU59vCp
+ JFw8gq0GlaepDNbpYirc2k5LN89A7kSReJ7R74SM3+5RYtbTzn/KasEI0ncDoUxByo57
+ A8kR0p45sf3YKh+GJQSRVxUqwWpaEVji1c+w/3O7j3UMVdICSwid5dn9QlUTVBERzllx
+ 1QoDFMocCD1EtgsCA93xUa5IivnrHhWF6J9j5rRDzN/kaTFUI03cw8ofSpKL7BOiwWqO
+ B7C5KDpm9QKQ/hGzC0NT9Rk6TjWJBz3ySIaqq60OJkNj+eomU1drUNqnnF3T2oPHL+2U
+ j/cQ==
+X-Gm-Message-State: AFqh2krbr5PxrtboRDjjil6aw1bj4Cey334JzKMVaXQV84ZazA+kEXyW
+ 4/mpx1XkZhuh7K3ix7PILUWPNKRmPxI1rJcixLcqVXWCexiLz2O40YApq64Qezsgu2UcAYU1xNJ
+ klJP0pupAIUYpfwVhVVTF5QboYhNIox8=
+X-Received: by 2002:a9d:7843:0:b0:678:1eb4:3406 with SMTP id
+ c3-20020a9d7843000000b006781eb43406mr494303otm.237.1671765834666; 
+ Thu, 22 Dec 2022 19:23:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs+z30RH+aOjWmu62gtZCbkXwfwc8gcC1D0n0JlmoMzZKBC1SS2QAG1+Ac0S9v4Kbu0WnhkUw/26RUwDHZ1fAQ=
+X-Received: by 2002:a9d:7843:0:b0:678:1eb4:3406 with SMTP id
+ c3-20020a9d7843000000b006781eb43406mr494300otm.237.1671765834476; Thu, 22 Dec
+ 2022 19:23:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
- <20221221182300.307900-7-dbarboza@ventanamicro.com>
-In-Reply-To: <20221221182300.307900-7-dbarboza@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 23 Dec 2022 13:19:10 +1000
-Message-ID: <CAKmqyKOpKZ4anXZS4XA3do+C_LgSeg-kx5sdBqj57Y000oa2sQ@mail.gmail.com>
-Subject: Re: [PATCH 06/15] hw/riscv/spike.c: load initrd right after
- riscv_load_kernel()
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- Bin Meng <bin.meng@windriver.com>
+References: <20221222114120.8790-1-sriram.yagnaraman@est.tech>
+In-Reply-To: <20221222114120.8790-1-sriram.yagnaraman@est.tech>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 23 Dec 2022 11:23:43 +0800
+Message-ID: <CACGkMEtFvmQ3th8TxApOuOtRVQz-7S7NZ-dFyOX73L1YS7Fh4g@mail.gmail.com>
+Subject: Re: [PATCH 0/5] hw/net/igb: emulated network device with SR-IOV
+To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Cc: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe34.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,81 +93,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 22, 2022 at 4:28 AM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
+On Thu, Dec 22, 2022 at 7:43 PM Sriram Yagnaraman
+<sriram.yagnaraman@est.tech> wrote:
 >
-> This will make the code more in line with what the other boards are
-> doing. We'll also avoid an extra check to machine->kernel_filename since
-> we already checked that before executing riscv_load_kernel().
+> A new attempt at adding support for Intel 82576 Gigabit Ethernet adapter
+> with SR-IOV support.
 >
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> Start qemu with the following parameters.
+>    qemu-system-x86_64 -enable-kvm -M q35 \
+>    ...
+>    -device pcie-root-port,slot=3,id=pcie_port.3 \
+>    -netdev tap,id=net3,script=no,downscript=/tmp/rmtap,ifname=xcbr3_t2,queues=1 \
+>    -device igb,bus=pcie_port.3,netdev=net3,mac=00:00:00:01:03:02
+>
+> Load IGB/IGBVF modules if needed.
+> modprobe igb
+> modprobe igbvf
+>
+> Create VFs via /sys
+> ls /sys/bus/pci/devices/0000:01:00.0/
+> echo 2 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+>
+> Sriram Yagnaraman (5):
+>   pcie: add helper function to get number of VFs
+>   hw/net/net_tx_pkt: helper function to get l2 hdr
+>   hw/net/igb: register definitions
+>   hw/net/igb: emulated intel IGB (82576EB) network device
+>   hw/net/igb: build support for igb/igbvf devices
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Haven't reviewed this series but I think we'd have two more things:
 
-Alistair
+1) update the MAINTAINERS
+2) a qtest for igb (having a qtest for sr-iov would be even better)
 
-> ---
->  hw/riscv/spike.c | 31 +++++++++++++++----------------
->  1 file changed, 15 insertions(+), 16 deletions(-)
+Thanks
+
 >
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index 43341c20b6..f37a9bebbf 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -257,6 +257,10 @@ static void spike_board_init(MachineState *machine)
->      memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
->                                  mask_rom);
+>  hw/i386/Kconfig             |    1 +
+>  hw/net/Kconfig              |    5 +
+>  hw/net/e1000_regs.h         |  357 +++-
+>  hw/net/e1000x_common.c      |   13 +
+>  hw/net/e1000x_common.h      |   28 +
+>  hw/net/igb.c                |  627 ++++++
+>  hw/net/igb.h                |  184 ++
+>  hw/net/igb_core.c           | 3782 +++++++++++++++++++++++++++++++++++
+>  hw/net/igb_core.h           |  216 ++
+>  hw/net/igbvf.c              |  262 +++
+>  hw/net/meson.build          |    2 +
+>  hw/net/net_tx_pkt.c         |   17 +-
+>  hw/net/net_tx_pkt.h         |    8 +
+>  hw/net/trace-events         |  190 ++
+>  hw/pci/pcie_sriov.c         |    6 +
+>  include/hw/pci/pcie_sriov.h |    5 +
+>  16 files changed, 5671 insertions(+), 32 deletions(-)
+>  create mode 100644 hw/net/igb.c
+>  create mode 100644 hw/net/igb.h
+>  create mode 100644 hw/net/igb_core.c
+>  create mode 100644 hw/net/igb_core.h
+>  create mode 100644 hw/net/igbvf.c
 >
-> +    /* Create device tree */
-> +    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> +               riscv_is_32bit(&s->soc[0]));
-> +
->      /*
->       * Not like other RISC-V machines that use plain binary bios images,
->       * keeping ELF files here was intentional because BIN files don't work
-> @@ -275,6 +279,17 @@ static void spike_board_init(MachineState *machine)
->          kernel_entry = riscv_load_kernel(machine->kernel_filename,
->                                           kernel_start_addr,
->                                           htif_symbol_callback);
-> +
-> +        if (machine->initrd_filename) {
-> +            hwaddr start;
-> +            hwaddr end = riscv_load_initrd(machine->initrd_filename,
-> +                                           machine->ram_size, kernel_entry,
-> +                                           &start);
-> +            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-> +                                  "linux,initrd-start", start);
-> +            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
-> +                                  end);
-> +        }
->      } else {
->         /*
->          * If dynamic firmware is used, it doesn't know where is the next mode
-> @@ -283,22 +298,6 @@ static void spike_board_init(MachineState *machine)
->          kernel_entry = 0;
->      }
->
-> -    /* Create device tree */
-> -    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> -               riscv_is_32bit(&s->soc[0]));
-> -
-> -    /* Load initrd */
-> -    if (machine->kernel_filename && machine->initrd_filename) {
-> -        hwaddr start;
-> -        hwaddr end = riscv_load_initrd(machine->initrd_filename,
-> -                                       machine->ram_size, kernel_entry,
-> -                                       &start);
-> -        qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-> -                              "linux,initrd-start", start);
-> -        qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
-> -                              end);
-> -    }
-> -
->      /* Compute the fdt load address in dram */
->      fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
->                                     machine->ram_size, machine->fdt);
 > --
-> 2.38.1
+> 2.34.1
 >
->
+
 
