@@ -2,89 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A6E654D2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 09:04:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7580654D3E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 09:10:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8d12-00007z-Rq; Fri, 23 Dec 2022 03:02:52 -0500
+	id 1p8d6v-0002OE-Du; Fri, 23 Dec 2022 03:08:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p8d0u-00007L-VO
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 03:02:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p8d0t-0000Be-EU
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 03:02:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671782562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iCwNH9wz+QgJwA1f47/U6brYkFw0TCbCxysEMWPdan8=;
- b=aoQ8VFTc+O7dVy9OKBnB1r5ESqQN1piKpxXtiNW+RA2EljE1KLTMjtjjVy3Cs7K67QNNNW
- jrSHAXuP58wCnXQ3cNb3hWnhYnQODBUOIT9gyYfFZH0qPzuAjD5nJAvESA04rnPaS52jfY
- /NSWqQH7XOYa4006J0piOc2myQkItsw=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-307-iFKnT14dM9yWhO-n-YwZpg-1; Fri, 23 Dec 2022 03:02:41 -0500
-X-MC-Unique: iFKnT14dM9yWhO-n-YwZpg-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-144ea535efbso2133543fac.16
- for <qemu-devel@nongnu.org>; Fri, 23 Dec 2022 00:02:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iCwNH9wz+QgJwA1f47/U6brYkFw0TCbCxysEMWPdan8=;
- b=U+6Ns6ms1a9Pd9DckNL0PeL3oIC3RclA8lzdgIOt/t7G0+ZDAG6BqXgWKzXHpJGlJP
- XlizeJBQZQatCu7TeIdVztQcs5EAPUYPP1z1g0j6G+sseJLj9MeNCY3TtPl+G6PfrVoz
- Px1x2AVBgqUDhhwkK5Ouxv1E7QcwqEHvKHWcWXRjN/WEZXm7UPWyRAdkJoDHBUdoXcpu
- OMP2KBoyoRaApHSBOkEZRAuDTD9qFFoPwDfq9bbPoSmPZyp97sn1Q/ImaqOwmVH1XBP3
- 7g02bY8GO768AzXNVCbQ2HSFCLvH92rSvXOHcdqLvei2+wUi7GQp6b0KSe6DUp90edW0
- 2X5Q==
-X-Gm-Message-State: AFqh2kpnpYiQG1CJhMMTbZAZgjJhYgf7/OtDm+1yLvXpE4VgS3zz7PmO
- VWs65lfRLQg0tmk89VsxIh1bgpxClLpUortlxlmnzWimafZSl3j5841q9ZHgYTNptwJWAnmjboS
- nNQvrkUj8qmBI/cWtaqVjqJ2h605kGXM=
-X-Received: by 2002:aca:1111:0:b0:35e:7a42:7ab5 with SMTP id
- 17-20020aca1111000000b0035e7a427ab5mr441794oir.280.1671782560278; 
- Fri, 23 Dec 2022 00:02:40 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtUow04nylGyRR0wstyRzCD3x28h9vN02/3r9xRKc4iQVINnh1U15vv1g3VV3XYnPoX7Ngklv0XmLMf1PCosjk=
-X-Received: by 2002:aca:1111:0:b0:35e:7a42:7ab5 with SMTP id
- 17-20020aca1111000000b0035e7a427ab5mr441789oir.280.1671782560098; Fri, 23 Dec
- 2022 00:02:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1p8d6r-0002Mn-J4
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 03:08:53 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <zhaotianrui@loongson.cn>) id 1p8d6j-0004aC-4N
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 03:08:47 -0500
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8CxKekDYqVjVQoIAA--.14615S3;
+ Fri, 23 Dec 2022 16:08:35 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxTL4DYqVjvi4JAA--.4241S2; 
+ Fri, 23 Dec 2022 16:08:35 +0800 (CST)
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn,
+	maobibo@loongson.cn,
+	philmd@linaro.org
+Subject: [PATCH v2 0/2] Add irq number property for loongarch pch interrupt
+ controller
+Date: Fri, 23 Dec 2022 16:08:33 +0800
+Message-Id: <20221223080835.4067281-1-zhaotianrui@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20221129081037.12099-1-jasowang@redhat.com>
- <20221129081037.12099-4-jasowang@redhat.com> <Y4Yr5WvfioOJWOEX@x1n>
- <CACGkMEuC41jFin3XAVSs3ra0tmxZD7L5NeDLn5OD6ziq7z1huA@mail.gmail.com>
- <Y4d0HokcV/tg0wlk@x1n>
- <CACGkMEu-t7J=GP2ZJ3cw6X427SzzPk=XFV9tSCfffK4RKuFnAQ@mail.gmail.com>
- <Y4jBMkNEFqUA7edN@x1n>
- <CACGkMEszjH02RPRy5ps7JBqkELCqLSdcCCLyPLoxY155zh8BgQ@mail.gmail.com>
- <Y458YMavxao9XSwL@x1n>
- <CACGkMEut82E-c_w_0MUPOwYDLkcM+mt127dbs3bkhATDSr6JQg@mail.gmail.com>
- <Y49Kcr4ivGGZ2hhF@x1n>
-In-Reply-To: <Y49Kcr4ivGGZ2hhF@x1n>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 23 Dec 2022 16:02:29 +0800
-Message-ID: <CACGkMEtgZY_2CHQwivuyMp+C=uJ7+Vom3WrDYqZesMonWKtd4A@mail.gmail.com>
-Subject: Re: [PATCH 3/3] intel-iommu: build iova tree during IOMMU translation
-To: Peter Xu <peterx@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com, 
- viktor@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxTL4DYqVjvi4JAA--.4241S2
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvdXoW7Xr1rGrWUJF4rGw1UAw4fKrg_yoW3ZFc_ua
+ 4fJr98GwsrXFyY9ayUtrn3JrWDAa1ftFnxAF9FqF43GFnrJr15Jw4UXryrZryvgrWDX3sY
+ krWkKr1FyF12kjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
+ V7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+ vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+ xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
+ 0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE
+ 44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
+ AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
+ Y20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+ 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
+ I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+ k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+ xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,55 +75,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 6, 2022 at 9:58 PM Peter Xu <peterx@redhat.com> wrote:
->
-> On Tue, Dec 06, 2022 at 11:18:03AM +0800, Jason Wang wrote:
-> > On Tue, Dec 6, 2022 at 7:19 AM Peter Xu <peterx@redhat.com> wrote:
-> > >
-> > > Jason,
-> > >
-> > > On Mon, Dec 05, 2022 at 12:12:04PM +0800, Jason Wang wrote:
-> > > > I'm fine to go without iova-tree. Would you mind to post patches for
-> > > > fix? I can test and include it in this series then.
-> > >
-> > > One sample patch attached, only compile tested.
-> >
-> > I don't see any direct connection between the attached patch and the
-> > intel-iommu?
->
-> Sorry!  Wrong tree dumped...  Trying again.
+This series add irq number property for loongarch pch_msi
+and pch_pic interrupt controller.
 
-The HWADDR breaks memory_region_notify_iommu_one():
+Changes for v2:
+(1) Free pch_msi_irq array in pch_msi_unrealize().
 
-qemu-system-x86_64: ../softmmu/memory.c:1991:
-memory_region_notify_iommu_one: Assertion `entry->iova >=
-notifier->start && entry_end <= notifier->end' failed.
+Changes for v1:
+(1) Add irq number property for loongarch_pch_msi.
+(2) Add irq number property for loongarch_pch_pic.
 
-I wonder if we need either:
+Tianrui Zhao (2):
+  hw/intc/loongarch_pch_msi: add irq number property
+  hw/intc/loongarch_pch_pic: add irq number property
 
-1) remove the assert
+ hw/intc/loongarch_pch_msi.c         | 30 ++++++++++++++++++++++++++---
+ hw/intc/loongarch_pch_pic.c         | 29 ++++++++++++++++++++++++----
+ hw/loongarch/virt.c                 | 19 +++++++++++-------
+ include/hw/intc/loongarch_pch_msi.h |  3 ++-
+ include/hw/intc/loongarch_pch_pic.h |  5 ++---
+ include/hw/pci-host/ls7a.h          |  1 -
+ 6 files changed, 68 insertions(+), 19 deletions(-)
 
-or
-
-2) introduce a new memory_region_notify_unmap_all() to unmap from
-notifier->start to notifier->end.
-
-Thanks
-
->
-> >
-> > >
-> > > I can also work on this but I'll be slow in making progress, so I'll add it
-> > > into my todo.  If you can help to fix this issue it'll be more than great.
-> >
-> > Ok, let me try but it might take some time :)
->
-> Sure. :)
->
-> I'll also add it into my todo (and I think the other similar one has been
-> there for a while.. :( ).
->
-> --
-> Peter Xu
+-- 
+2.31.1
 
 
