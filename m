@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BC46552B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 17:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCAC6552BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 17:23:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8kmC-0000AK-J6; Fri, 23 Dec 2022 11:20:04 -0500
+	id 1p8koc-0002QZ-VU; Fri, 23 Dec 2022 11:22:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p8klz-00009k-3y; Fri, 23 Dec 2022 11:19:51 -0500
-Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1p8klw-0004y5-UK; Fri, 23 Dec 2022 11:19:50 -0500
-Received: by mail-oo1-xc35.google.com with SMTP id
- d2-20020a4ab202000000b004ae3035538bso842292ooo.12; 
- Fri, 23 Dec 2022 08:19:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CutwQDgVMACMb1f596AvbEtN979EI2CLR79jpkR3Wmg=;
- b=OGNlyhB+FvEOLxDtkwd/g1vMm3LVwpds/k3KiN1U5F7/E5NDedCb1kOIkmXFbm4JeD
- uAQskSYnqy46/UeYJxbpOOaohE9Z2FRix8GUxjBp+xHu/BmaZDiMUmXkjZafeGcgelxw
- 67Qj8PXZhoEcHrCt8iVdYbmzvk8cFin7w4Qblp50iwHqYaArbJmU06J0FlGEyGE4Sk0I
- sbVg7P27OttPsMvW6wRwNq6laB/SErp3NelPMLbMn9dSVHSS/MDQjJ5/NDvIk4LKDWpV
- UXhsF8RYMAyNIZLzRuUMPDa9l2Y1Qd3bdUlN1qswoDhR0b8uLEn+pmageSTaYINZxk+1
- lzlA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p8koa-0002OW-6B
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:22:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p8koX-0007lC-S0
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:22:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671812548;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sDYDR1LNbBC46pLmxEIsSM75uN/jzQdoY4jnOg0V8S4=;
+ b=Fv+LwrVwCNDKQZeolz1KkTQDpRYN2jouw9OmSCAJURmMJKmODpRSjUFN+vYNsBR6tSS70u
+ 7+v+cQhuOMMzYRq7zj7XAb6YZiocE2FTpILEgNZBhwmTMogG0xBEzGevAuq0w6dT7Rkhno
+ 45Zb+RkaQuP/cKRvNuDm5oT3igAu648=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-605-EOh9rWSUMIC7FLEkuQb9zQ-1; Fri, 23 Dec 2022 11:22:27 -0500
+X-MC-Unique: EOh9rWSUMIC7FLEkuQb9zQ-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ r3-20020ab04a43000000b0041168b89479so1717311uae.6
+ for <qemu-devel@nongnu.org>; Fri, 23 Dec 2022 08:22:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CutwQDgVMACMb1f596AvbEtN979EI2CLR79jpkR3Wmg=;
- b=3d9P92Pg3cehrX5Q7Dkclt7gQwFUC32qSXhg+CdHjtw8nIcUT11X8/dYGnBHalL2kb
- detxhZgMtsy/UJnmD4EoYNGf6f6SuZjW0cWi1VfE9izL9HtXSwYtG50osoi+IuQQQWnO
- 4E/wUhdU36dcBOnmCHVgRLnlhsvkWF/YlANo0ocOFQOEeFEvWd1L7Najk8iPqOstIhCi
- 2kgSdlyes7uTw7XYf3EPMeHPjFH6LbniZDAoz7nb88RBw+Nti/khkzktsvFq/pfIsuE0
- bB8gMriYDJrPVqzvF7+l5NMvDkFuQ13Ib6n2xAXByHrHsVKWf1AukuY2iqCC5ayoMcb4
- YXaw==
-X-Gm-Message-State: AFqh2koh2hEejW0uGVWVToPNlWAH9CWk9XudTICm4b1AlRMpBNPO7LFG
- UplHPbr7a7gI5gfScYZnWjo=
-X-Google-Smtp-Source: AMrXdXt8YJbyHn1uOgdxDR1xvQIanvc/1Rk0aXy9HoYRGeW4noLr5xS1/BY9R9i1fKvZLI+Mssqs9Q==
-X-Received: by 2002:a4a:5891:0:b0:4a3:78f9:1cb1 with SMTP id
- f139-20020a4a5891000000b004a378f91cb1mr5422723oob.4.1671812387244; 
- Fri, 23 Dec 2022 08:19:47 -0800 (PST)
-Received: from [192.168.68.107] (201-43-103-101.dsl.telesp.net.br.
- [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
- q4-20020a4aa884000000b004a382acad85sm1470749oom.15.2022.12.23.08.19.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Dec 2022 08:19:47 -0800 (PST)
-Message-ID: <d6bea113-6753-7b52-fd84-05edb8a134fd@gmail.com>
-Date: Fri, 23 Dec 2022 13:19:43 -0300
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sDYDR1LNbBC46pLmxEIsSM75uN/jzQdoY4jnOg0V8S4=;
+ b=gdDw17QMwkQw5P/9yol7uy0L8eVk/m6BAH77FXg2wPF7dGz6rSup9ulA9eNZpKiEX2
+ paPqFad+hOdTQLliQQrWgz0NCF+6LrqPZw7GsAQ2CE64JviV/LAJgJLb3DoO5D5KyyVe
+ v/1XoFwRSCRiAgCM+1AIxrLwZVPph6OUy/Wgv17GqcluEtcW/Ls24Fl7lRpi6K/cKe5g
+ 431HP9K9pwYFrGeqZZoL97ZIBlHaD3DtexbNzN7iOSEb8wu/HSZIElF23z1I1a/XgyX+
+ zsG62ELEYZAO/Mc9ukkySM6dgcvmMr+tVFwlpVJGEIaJfkw5Fpru4jhZfd2r3tAhS3I+
+ G0ew==
+X-Gm-Message-State: AFqh2kqOuiZsyWmi+kFxtofr+Ui5YwdEagD1ShQpTzTWbaRoY/3nmpg7
+ 560SAfm4IYF4r+PHT26O/B2MntSzclEtpi7TYUFfi4IhWsDoTD+HjXad9Fj23VN4bABnNEQK8/2
+ R21sf0wKNLdcYZkg=
+X-Received: by 2002:a05:6102:3d96:b0:3b1:3b81:1279 with SMTP id
+ h22-20020a0561023d9600b003b13b811279mr4544136vsv.21.1671812546625; 
+ Fri, 23 Dec 2022 08:22:26 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXu73wH64tf5aTZQ5AmldwkbIfYVH7A7Ckqkd4lAbZ9kqON9weYCz8AV4kESyeLPTUU8K4Js5A==
+X-Received: by 2002:a05:6102:3d96:b0:3b1:3b81:1279 with SMTP id
+ h22-20020a0561023d9600b003b13b811279mr4544118vsv.21.1671812546333; 
+ Fri, 23 Dec 2022 08:22:26 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-45-70-31-26-132.dsl.bell.ca.
+ [70.31.26.132]) by smtp.gmail.com with ESMTPSA id
+ 133-20020a37088b000000b006bb2cd2f6d1sm2425904qki.127.2022.12.23.08.22.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Dec 2022 08:22:25 -0800 (PST)
+Date: Fri, 23 Dec 2022 11:22:24 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ viktor@daynix.com
+Subject: Re: [PATCH 3/3] intel-iommu: build iova tree during IOMMU translation
+Message-ID: <Y6XVwMXooIIQJZms@x1n>
+References: <Y4Yr5WvfioOJWOEX@x1n>
+ <CACGkMEuC41jFin3XAVSs3ra0tmxZD7L5NeDLn5OD6ziq7z1huA@mail.gmail.com>
+ <Y4d0HokcV/tg0wlk@x1n>
+ <CACGkMEu-t7J=GP2ZJ3cw6X427SzzPk=XFV9tSCfffK4RKuFnAQ@mail.gmail.com>
+ <Y4jBMkNEFqUA7edN@x1n>
+ <CACGkMEszjH02RPRy5ps7JBqkELCqLSdcCCLyPLoxY155zh8BgQ@mail.gmail.com>
+ <Y458YMavxao9XSwL@x1n>
+ <CACGkMEut82E-c_w_0MUPOwYDLkcM+mt127dbs3bkhATDSr6JQg@mail.gmail.com>
+ <Y49Kcr4ivGGZ2hhF@x1n>
+ <CACGkMEtgZY_2CHQwivuyMp+C=uJ7+Vom3WrDYqZesMonWKtd4A@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/2] tests/migration: add support for ppc64le for
- guestperf.py
-Content-Language: en-US
-To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com,
- farosas@suse.de
-References: <20220809002451.91541-1-muriloo@linux.ibm.com>
- <20220809002451.91541-3-muriloo@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220809002451.91541-3-muriloo@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc35.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CACGkMEtgZY_2CHQwivuyMp+C=uJ7+Vom3WrDYqZesMonWKtd4A@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,76 +105,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 8/8/22 21:24, Murilo Opsfelder Araujo wrote:
-> Add support for ppc64le for guestperf.py. On ppc, console is usually
-> hvc0 and serial device for pseries machine is spapr-vty.
+On Fri, Dec 23, 2022 at 04:02:29PM +0800, Jason Wang wrote:
+> On Tue, Dec 6, 2022 at 9:58 PM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > On Tue, Dec 06, 2022 at 11:18:03AM +0800, Jason Wang wrote:
+> > > On Tue, Dec 6, 2022 at 7:19 AM Peter Xu <peterx@redhat.com> wrote:
+> > > >
+> > > > Jason,
+> > > >
+> > > > On Mon, Dec 05, 2022 at 12:12:04PM +0800, Jason Wang wrote:
+> > > > > I'm fine to go without iova-tree. Would you mind to post patches for
+> > > > > fix? I can test and include it in this series then.
+> > > >
+> > > > One sample patch attached, only compile tested.
+> > >
+> > > I don't see any direct connection between the attached patch and the
+> > > intel-iommu?
+> >
+> > Sorry!  Wrong tree dumped...  Trying again.
 > 
-> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   tests/migration/guestperf/engine.py | 28 +++++++++++++++++++++++++---
->   1 file changed, 25 insertions(+), 3 deletions(-)
+> The HWADDR breaks memory_region_notify_iommu_one():
 > 
-> diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-> index 87a6ab2009..88da516899 100644
-> --- a/tests/migration/guestperf/engine.py
-> +++ b/tests/migration/guestperf/engine.py
-> @@ -282,6 +282,26 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
->                   resp = src.command("stop")
->                   paused = True
->   
-> +    def _is_ppc64le(self):
-> +        _, _, _, _, machine = os.uname()
-> +        if machine == "ppc64le":
-> +            return True
-> +        return False
-> +
-> +    def _get_guest_console_args(self):
-> +        if self._is_ppc64le():
-> +            return "console=hvc0"
-> +        else:
-> +            return "console=ttyS0"
-> +
-> +    def _get_qemu_serial_args(self):
-> +        if self._is_ppc64le():
-> +            return ["-chardev", "stdio,id=cdev0",
-> +                    "-device", "spapr-vty,chardev=cdev0"]
-> +        else:
-> +            return ["-chardev", "stdio,id=cdev0",
-> +                    "-device", "isa-serial,chardev=cdev0"]
-> +
->       def _get_common_args(self, hardware, tunnelled=False):
->           args = [
->               "noapic",
-> @@ -290,8 +310,10 @@ def _get_common_args(self, hardware, tunnelled=False):
->               "noreplace-smp",
->               "cgroup_disable=memory",
->               "pci=noearly",
-> -            "console=ttyS0",
->           ]
-> +
-> +        args.append(self._get_guest_console_args())
-> +
->           if self._debug:
->               args.append("debug")
->           else:
-> @@ -309,12 +331,12 @@ def _get_common_args(self, hardware, tunnelled=False):
->               "-kernel", self._kernel,
->               "-initrd", self._initrd,
->               "-append", cmdline,
-> -            "-chardev", "stdio,id=cdev0",
-> -            "-device", "isa-serial,chardev=cdev0",
->               "-m", str((hardware._mem * 1024) + 512),
->               "-smp", str(hardware._cpus),
->           ]
->   
-> +        argv.extend(self._get_qemu_serial_args())
-> +
->           if self._debug:
->               argv.extend(["-device", "sga"])
->   
+> qemu-system-x86_64: ../softmmu/memory.c:1991:
+> memory_region_notify_iommu_one: Assertion `entry->iova >=
+> notifier->start && entry_end <= notifier->end' failed.
+> 
+> I wonder if we need either:
+> 
+> 1) remove the assert
+
+I vote for this one.  Not only removing the assertion, we should probably
+crop the range too just like dev-iotlb unmaps?
+
+Thanks,
+
+> 
+> or
+> 
+> 2) introduce a new memory_region_notify_unmap_all() to unmap from
+> notifier->start to notifier->end.
+
+-- 
+Peter Xu
+
 
