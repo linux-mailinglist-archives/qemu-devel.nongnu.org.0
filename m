@@ -2,93 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCAC6552BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 17:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD796552CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 17:27:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8koc-0002QZ-VU; Fri, 23 Dec 2022 11:22:34 -0500
+	id 1p8ksw-0003Nd-GU; Fri, 23 Dec 2022 11:27:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p8koa-0002OW-6B
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:22:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p8ksu-0003NS-Mc
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:27:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p8koX-0007lC-S0
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:22:31 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1p8ksq-0008V5-4h
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:27:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671812548;
+ s=mimecast20190719; t=1671812815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sDYDR1LNbBC46pLmxEIsSM75uN/jzQdoY4jnOg0V8S4=;
- b=Fv+LwrVwCNDKQZeolz1KkTQDpRYN2jouw9OmSCAJURmMJKmODpRSjUFN+vYNsBR6tSS70u
- 7+v+cQhuOMMzYRq7zj7XAb6YZiocE2FTpILEgNZBhwmTMogG0xBEzGevAuq0w6dT7Rkhno
- 45Zb+RkaQuP/cKRvNuDm5oT3igAu648=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=z6YLnTZy99M5kq2cxPBwDgPpvo94LAA9X6Xzrr7tJig=;
+ b=CVxwkoSZDKv0HNhb7+IbjQ0NGavQ+aHVl/tBpGYNCIXjAlBBPQdMbyZ4Rpc9dP/nq1zKfT
+ sSuEPKQvroGlK0DKdMkeQyjbRA7gSBCnuGXZuUFl+U56OJOKAsu3qZMo1BcYbxaMkPEP4s
+ fgVnUBMOmOtLhNrtO9LefX/GYyewHfg=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-605-EOh9rWSUMIC7FLEkuQb9zQ-1; Fri, 23 Dec 2022 11:22:27 -0500
-X-MC-Unique: EOh9rWSUMIC7FLEkuQb9zQ-1
-Received: by mail-ua1-f69.google.com with SMTP id
- r3-20020ab04a43000000b0041168b89479so1717311uae.6
- for <qemu-devel@nongnu.org>; Fri, 23 Dec 2022 08:22:27 -0800 (PST)
+ us-mta-556-vxAJWC75Oj-Tm_niTN4Rtg-1; Fri, 23 Dec 2022 11:26:53 -0500
+X-MC-Unique: vxAJWC75Oj-Tm_niTN4Rtg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ bp6-20020a05620a458600b006ffd3762e78so3446444qkb.13
+ for <qemu-devel@nongnu.org>; Fri, 23 Dec 2022 08:26:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sDYDR1LNbBC46pLmxEIsSM75uN/jzQdoY4jnOg0V8S4=;
- b=gdDw17QMwkQw5P/9yol7uy0L8eVk/m6BAH77FXg2wPF7dGz6rSup9ulA9eNZpKiEX2
- paPqFad+hOdTQLliQQrWgz0NCF+6LrqPZw7GsAQ2CE64JviV/LAJgJLb3DoO5D5KyyVe
- v/1XoFwRSCRiAgCM+1AIxrLwZVPph6OUy/Wgv17GqcluEtcW/Ls24Fl7lRpi6K/cKe5g
- 431HP9K9pwYFrGeqZZoL97ZIBlHaD3DtexbNzN7iOSEb8wu/HSZIElF23z1I1a/XgyX+
- zsG62ELEYZAO/Mc9ukkySM6dgcvmMr+tVFwlpVJGEIaJfkw5Fpru4jhZfd2r3tAhS3I+
- G0ew==
-X-Gm-Message-State: AFqh2kqOuiZsyWmi+kFxtofr+Ui5YwdEagD1ShQpTzTWbaRoY/3nmpg7
- 560SAfm4IYF4r+PHT26O/B2MntSzclEtpi7TYUFfi4IhWsDoTD+HjXad9Fj23VN4bABnNEQK8/2
- R21sf0wKNLdcYZkg=
-X-Received: by 2002:a05:6102:3d96:b0:3b1:3b81:1279 with SMTP id
- h22-20020a0561023d9600b003b13b811279mr4544136vsv.21.1671812546625; 
- Fri, 23 Dec 2022 08:22:26 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu73wH64tf5aTZQ5AmldwkbIfYVH7A7Ckqkd4lAbZ9kqON9weYCz8AV4kESyeLPTUU8K4Js5A==
-X-Received: by 2002:a05:6102:3d96:b0:3b1:3b81:1279 with SMTP id
- h22-20020a0561023d9600b003b13b811279mr4544118vsv.21.1671812546333; 
- Fri, 23 Dec 2022 08:22:26 -0800 (PST)
+ bh=z6YLnTZy99M5kq2cxPBwDgPpvo94LAA9X6Xzrr7tJig=;
+ b=OAPJ6FN+9sm/egE/wjac1yLwIUCR5Wy0u73OYjCFScEE/rmqkKUiejZ8/AftrUV/Bp
+ YbH92ZOjB6CsuBSC5qpkAhStUeTaez+cx/JSdblc+qkiEx8fqSxzR2FeZcqNY1QHX/v3
+ 0BfnELViif3Ql60xjU7Ryqcot6ms3VJCWTeS3j0WCt0Ei8F3XrKrdXqdTKsGHsV0yRBr
+ P2QLL/tPC2YqjHFG3e1Bp9K7FsxGucfzcsCTgO/QsSVy/jFdstGezMfHHpb2jt9seXmb
+ NqqfdMEQu7X3XeON9lmqutcR1t6P3ER6dn2o1REHEmxZpdIwVXgw79xtck/9yLk0rJ/5
+ Kr3w==
+X-Gm-Message-State: AFqh2koBchetEhrDoloSZBypOdcAWnloyw3XPI45JSlgYQQEQFPHOjx5
+ CMTAtocARWQFiaX5LHdlOyltBPzRjrAdUaCyor+gUirdQveWMjMvZ1KI3qUkA+PpHZ+0EAGDmw0
+ 9OKxtawv47I8eKFM=
+X-Received: by 2002:ac8:44ac:0:b0:3a8:2ab9:7f9c with SMTP id
+ a12-20020ac844ac000000b003a82ab97f9cmr11548165qto.57.1671812813297; 
+ Fri, 23 Dec 2022 08:26:53 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt5m53/0bKJrBGxYxvAWRwhhy+82RqTuDCUXd+MWu1ZsclFV8SboXjxKiF6qR8R8fR35hv9/A==
+X-Received: by 2002:ac8:44ac:0:b0:3a8:2ab9:7f9c with SMTP id
+ a12-20020ac844ac000000b003a82ab97f9cmr11548145qto.57.1671812813020; 
+ Fri, 23 Dec 2022 08:26:53 -0800 (PST)
 Received: from x1n (bras-base-aurron9127w-grc-45-70-31-26-132.dsl.bell.ca.
  [70.31.26.132]) by smtp.gmail.com with ESMTPSA id
- 133-20020a37088b000000b006bb2cd2f6d1sm2425904qki.127.2022.12.23.08.22.25
+ h20-20020ac85694000000b003a7e9db074asm2108676qta.67.2022.12.23.08.26.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Dec 2022 08:22:25 -0800 (PST)
-Date: Fri, 23 Dec 2022 11:22:24 -0500
+ Fri, 23 Dec 2022 08:26:52 -0800 (PST)
+Date: Fri, 23 Dec 2022 11:26:51 -0500
 From: Peter Xu <peterx@redhat.com>
 To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
- viktor@daynix.com
-Subject: Re: [PATCH 3/3] intel-iommu: build iova tree during IOMMU translation
-Message-ID: <Y6XVwMXooIIQJZms@x1n>
-References: <Y4Yr5WvfioOJWOEX@x1n>
- <CACGkMEuC41jFin3XAVSs3ra0tmxZD7L5NeDLn5OD6ziq7z1huA@mail.gmail.com>
- <Y4d0HokcV/tg0wlk@x1n>
- <CACGkMEu-t7J=GP2ZJ3cw6X427SzzPk=XFV9tSCfffK4RKuFnAQ@mail.gmail.com>
- <Y4jBMkNEFqUA7edN@x1n>
- <CACGkMEszjH02RPRy5ps7JBqkELCqLSdcCCLyPLoxY155zh8BgQ@mail.gmail.com>
- <Y458YMavxao9XSwL@x1n>
- <CACGkMEut82E-c_w_0MUPOwYDLkcM+mt127dbs3bkhATDSr6JQg@mail.gmail.com>
- <Y49Kcr4ivGGZ2hhF@x1n>
- <CACGkMEtgZY_2CHQwivuyMp+C=uJ7+Vom3WrDYqZesMonWKtd4A@mail.gmail.com>
+Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v3] intel-iommu: Document iova_tree
+Message-ID: <Y6XWy9XPHqhK8BMh@x1n>
+References: <20221206221348.396020-1-peterx@redhat.com>
+ <CACGkMEtK8w2OkeZR=Ebp3t8t6bfaJusTRyC0eB3BGyA7KuX5-g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CACGkMEtgZY_2CHQwivuyMp+C=uJ7+Vom3WrDYqZesMonWKtd4A@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <CACGkMEtK8w2OkeZR=Ebp3t8t6bfaJusTRyC0eB3BGyA7KuX5-g@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,45 +98,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 23, 2022 at 04:02:29PM +0800, Jason Wang wrote:
-> On Tue, Dec 6, 2022 at 9:58 PM Peter Xu <peterx@redhat.com> wrote:
+On Fri, Dec 23, 2022 at 03:48:01PM +0800, Jason Wang wrote:
+> On Wed, Dec 7, 2022 at 6:13 AM Peter Xu <peterx@redhat.com> wrote:
 > >
-> > On Tue, Dec 06, 2022 at 11:18:03AM +0800, Jason Wang wrote:
-> > > On Tue, Dec 6, 2022 at 7:19 AM Peter Xu <peterx@redhat.com> wrote:
-> > > >
-> > > > Jason,
-> > > >
-> > > > On Mon, Dec 05, 2022 at 12:12:04PM +0800, Jason Wang wrote:
-> > > > > I'm fine to go without iova-tree. Would you mind to post patches for
-> > > > > fix? I can test and include it in this series then.
-> > > >
-> > > > One sample patch attached, only compile tested.
-> > >
-> > > I don't see any direct connection between the attached patch and the
-> > > intel-iommu?
+> > It seems not super clear on when iova_tree is used, and why.  Add a rich
+> > comment above iova_tree to track why we needed the iova_tree, and when we
+> > need it.
 > >
-> > Sorry!  Wrong tree dumped...  Trying again.
+> > Also comment for the map/unmap messages, on how they're used and
+> > implications (e.g. unmap can be larger than the mapped ranges).
+> >
+> > Suggested-by: Jason Wang <jasowang@redhat.com>
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> > v3:
+> > - Adjust according to Eric's comment
+> > ---
+> >  include/exec/memory.h         | 28 ++++++++++++++++++++++++++
+> >  include/hw/i386/intel_iommu.h | 38 ++++++++++++++++++++++++++++++++++-
+> >  2 files changed, 65 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/include/exec/memory.h b/include/exec/memory.h
+> > index 91f8a2395a..269ecb873b 100644
+> > --- a/include/exec/memory.h
+> > +++ b/include/exec/memory.h
+> > @@ -129,6 +129,34 @@ struct IOMMUTLBEntry {
+> >  /*
+> >   * Bitmap for different IOMMUNotifier capabilities. Each notifier can
+> >   * register with one or multiple IOMMU Notifier capability bit(s).
+> > + *
+> > + * Normally there're two use cases for the notifiers:
+> > + *
+> > + *   (1) When the device needs accurate synchronizations of the vIOMMU page
+> > + *       tables, it needs to register with both MAP|UNMAP notifies (which
+> > + *       is defined as IOMMU_NOTIFIER_IOTLB_EVENTS below).
+> > + *
+> > + *       Regarding to accurate synchronization, it's when the notified
+> > + *       device maintains a shadow page table and must be notified on each
+> > + *       guest MAP (page table entry creation) and UNMAP (invalidation)
+> > + *       events (e.g. VFIO). Both notifications must be accurate so that
+> > + *       the shadow page table is fully in sync with the guest view.
+> > + *
+> > + *   (2) When the device doesn't need accurate synchronizations of the
+> > + *       vIOMMU page tables, it needs to register only with UNMAP or
+> > + *       DEVIOTLB_UNMAP notifies.
+> > + *
+> > + *       It's when the device maintains a cache of IOMMU translations
+> > + *       (IOTLB) and is able to fill that cache by requesting translations
+> > + *       from the vIOMMU through a protocol similar to ATS (Address
+> > + *       Translation Service).
+> > + *
+> > + *       Note that in this mode the vIOMMU will not maintain a shadowed
+> > + *       page table for the address space, and the UNMAP messages can be
+> > + *       actually larger than the real invalidations (just like how the
+> > + *       Linux IOMMU driver normally works, where an invalidation can be
+> > + *       enlarged as long as it still covers the target range).  The IOMMU
 > 
-> The HWADDR breaks memory_region_notify_iommu_one():
+> Just spot this when testing your fix for DSI:
 > 
-> qemu-system-x86_64: ../softmmu/memory.c:1991:
-> memory_region_notify_iommu_one: Assertion `entry->iova >=
-> notifier->start && entry_end <= notifier->end' failed.
+>         assert(entry->iova >= notifier->start && entry_end <= notifier->end);
 > 
-> I wonder if we need either:
-> 
-> 1) remove the assert
+> Do we need to remove this (but it seems a partial revert of
+> 03c7140c1a0336af3d4fca768de791b9c0e2b128)?
 
-I vote for this one.  Not only removing the assertion, we should probably
-crop the range too just like dev-iotlb unmaps?
+Replied in the othe thread.
+
+I assume this documentation patch is still correct, am I right?  It's
+talking about the possibility of enlarged invalidation range sent from the
+guest and vIOMMU.  That should still not be bigger than the registered
+range in iommu notifiers (even if bigger than the actual unmapped range).
 
 Thanks,
-
-> 
-> or
-> 
-> 2) introduce a new memory_region_notify_unmap_all() to unmap from
-> notifier->start to notifier->end.
 
 -- 
 Peter Xu
