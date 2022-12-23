@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE61565505D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 13:29:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A411655060
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 13:31:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8h9T-0001Bb-UO; Fri, 23 Dec 2022 07:27:51 -0500
+	id 1p8hCF-00026B-9J; Fri, 23 Dec 2022 07:30:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p8h98-0001BC-Ht
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 07:27:30 -0500
-Received: from mout.gmx.net ([212.227.17.21])
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p8hCC-00025f-83
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 07:30:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1p8h95-0008CL-Rm
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 07:27:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1671798443; bh=oBtPk+Pird0k2mhHShwCKFkwOY7e9SfPv2iJ+E5273E=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=YMlPmQB6fwxQXnAf/AbbaqcRhVPFKFWYDEBg62WDvMT34zHytdV5igMpJDdv9O4ip
- AdlS26GNHe9eQrsHxZKsE0osw+WuiLUEDU4iBbf70+KkZUb/z3ZRJindzziFeZ86ca
- TNOpLKa3yCPJ3nERwgFZ3f5ygOk7jMzf/YIcz5aijhfd9SSXJLeB0Z6x8wALsGeXn4
- RrraPgOVfRHVOxxOrTjKQMRoSLNk/WNuihTCffF73WoCsCJ8zWb0E0K/mDhlYr9JJd
- 83FAyutSuX79chxzfLkkigf5nybaqTrdTr9aZ9VmTZx8M/qwWiIBMwTh3Ot5BizBdA
- gTvsdlYT/7FJw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.152.212]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M7sDq-1pDcpU3p1W-0054pH; Fri, 23
- Dec 2022 13:27:22 +0100
-Message-ID: <f66e5330-99fe-db9f-13eb-d3501c65cf17@gmx.de>
-Date: Fri, 23 Dec 2022 13:27:20 +0100
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1p8hCA-0003Pd-FY
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 07:30:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671798636;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uJ+JkTKmyQENgA8B9rWW0fE13kZvic9jKdEKXuw3tWQ=;
+ b=PyCOV05zyjxlBqT8xwRKFtVliDhoSEd5fuBqODYRLZ50+m+fvHWshw5o4Dtw0NTMR+ocHp
+ R2H0KA8rMTJ7W8ZwDsVOV27st8qL6ND8xiBGLrBGFJFCHzO2r1mD20xX7RFbATqB6xr9aU
+ jSx/LKEibKLcVdZWO2ABnAm7+MP6PJ8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-44-SLVEbZcEONOLgdp1rZNe4w-1; Fri, 23 Dec 2022 07:30:30 -0500
+X-MC-Unique: SLVEbZcEONOLgdp1rZNe4w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 896A31875041;
+ Fri, 23 Dec 2022 12:30:30 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BCFAC15BA0;
+ Fri, 23 Dec 2022 12:30:28 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org, Zenghui
+ Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v3 1/2] hw/arm/virt: Consolidate GIC finalize logic
+In-Reply-To: <20221223090107.98888-2-agraf@csgraf.de>
+Organization: Red Hat GmbH
+References: <20221223090107.98888-1-agraf@csgraf.de>
+ <20221223090107.98888-2-agraf@csgraf.de>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Fri, 23 Dec 2022 13:30:27 +0100
+Message-ID: <87mt7expy4.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] linux-user: Improve strace output of personality() and
- sysinfo()
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20221223100107.17303-1-deller@gmx.de>
- <5780556e-ef12-408d-7f8b-9104314cf9f4@linaro.org>
- <69357647-288c-a032-27f9-2912c6483418@gmx.de>
- <5a06e9f8-f7ea-1dbf-d44b-b9d134d3c400@linaro.org>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <5a06e9f8-f7ea-1dbf-d44b-b9d134d3c400@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:LW2K6U9G08jfnr4vukmANFyJT5Lo3G7baKd2aUuBuC0B5Jn4xj1
- V2VPpkJ4XbG7L6rPokTvQqwGhOaX1uWUvkm4SsyB/J17yI4I0DcOnRj6A2YS6TRFpkG3Ms8
- hV6adVDMNNOuf1abolASDkWXj8AT7aQpn+8JdI+CFrDCczcBgAi6spWxq0esSY8tiryslS7
- U/a3eKaWuS4l2lumIQ2Pg==
-UI-OutboundReport: notjunk:1;M01:P0:gy75e0gHdgo=;LB/jPbtk0gpfjAXTiWBkyttIqT1
- 890BttrLJ3eD6Gf0V1/Ies1Wb5Xw3gBjt4H4jbb1LnioFUrw+yd4WgU3lZrZHdvx0hHs3PG+a
- Dnyfw7w4JOdgabeA5GhONd0qfY3C9YvJxVxQRtFhW5dnzNNRhIWKJj7E1H0ZHG/eW3FxOq2wj
- vsAzwkXJ8w5BKReyPMOAs/+w7zpvO1oSdHDPylIcuODj0arIDGlK7QAilj6IVtHIln6aRYIvH
- Q2oCpZZ1kpMWNY7ZIRi1Ly/z5Ab1TMjOG57qllBZ8kBVWrFm1t5x++PEM0YilzKNkhyFxUP3a
- N8Ttefz4HxG2qUfR/iFpXvD+2dUORuD5k1B217nTyaSlj0GS1yKukj1N1HFMrWv2GwehJWTgB
- swKE3G+V3YZjkil1lt1Gc+Dc2dDlUm8udZO5JrbiEeQSUA5OL2yT3k0/jqMlu5Qf7r6XnSMYU
- QlDODzqneadrPFLjLAJFurUvaf8OXoAh7o/SwjA1yoqb6wU5QNaSTzP/cgDSG/v3lMHdGjjpM
- cWbJ5+aa79b/c01mz1B0vmRFEI7bCoSEgi0CWjpO5DQLMX8dLcYopD9rzr1X0sKeLk88T5luU
- vKeKGY23kgd77Bq4dZKShQqXGolgMNP7IFfwreNv5lWj+x/xMS9K2TJdqNqEi1JwvDQz1KPl5
- MPjMUP8VucrIojStwp/RU6bNOcNPfduOKKxqRxDq8MrGYz0A+wjntBSb2lFDMprUd2Xi/lkMU
- 0c5hKNP+ivFYFdNufEhlv54uIii3YubfHuKh32cSJl66sQCufHdlRZgxXOwXO+ARBWWX0LlQ0
- wPyj7ut7RrA6VZaFDyPotQDhXbtm+SkHoy6yFQRz1QzY4SCGgQMplXsMSh6Xr/Lx40pUzGKqz
- oFYolczsNVr4exoQl2eHpoavIMw0Xow/lulNvUzHd6/OflBUkYfZvR+9bw5LkH3itAB2363t2
- v0Jk8hz5Uho4UjfTd/Sf6n1VwyFWLyO/pACNySItHEwvXR3dmS/ZbnFMQ4HQgOefpVb1Dg==
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,56 +79,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/23/22 12:01, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 23/12/22 11:53, Helge Deller wrote:
->> On 12/23/22 11:50, Philippe Mathieu-Daud=C3=A9 wrote:
->>> On 23/12/22 11:01, Helge Deller wrote:
->>>> Make the strace look nicer for those two syscalls.
->>>>
->>>> Signed-off-by: Helge Deller <deller@gmx.de>
->>>> ---
->>>> =C2=A0 linux-user/strace.list | 4 ++--
->>>> =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/linux-user/strace.list b/linux-user/strace.list
->>>> index f9254725a1..909298099e 100644
->>>> --- a/linux-user/strace.list
->>>> +++ b/linux-user/strace.list
->>>> @@ -1043,7 +1043,7 @@
->>>> =C2=A0 { TARGET_NR_perfctr, "perfctr" , NULL, NULL, NULL },
->>>> =C2=A0 #endif
->>>> =C2=A0 #ifdef TARGET_NR_personality
->>>> -{ TARGET_NR_personality, "personality" , NULL, NULL, NULL },
->>>> +{ TARGET_NR_personality, "personality" , "%s(%p)", NULL, print_sysca=
-ll_ret_addr },
->>>
->>> Shouldn't this be:
->>>
->>> =C2=A0=C2=A0=C2=A0 { TARGET_NR_personality, "personality" , "%s(%u)", =
-NULL, NULL },
->>
->> Basically yes, but...
->> it's a bitmap, so printing it as hex value (similiar to a pointer)
->> is easier to read/analyze.
->
-> Oh, good point. Then "%s(0x"TARGET_ABI_FMT_lx")" is self-explicit.
+On Fri, Dec 23 2022, Alexander Graf <agraf@csgraf.de> wrote:
 
-Hmm ... I don't see that as any benefit for the user and the output is the=
- same.
-
-> Also for clarity:
+> Up to now, the finalize_gic_version() code open coded what is essentially
+> a support bitmap match between host/emulation environment and desired
+> target GIC type.
 >
-> #define print_syscall_ret_persona print_syscall_ret_addr
+> This open coding leads to undesirable side effects. For example, a VM with
+> KVM and -smp 10 will automatically choose GICv3 while the same command
+> line with TCG will stay on GICv2 and fail the launch.
 >
-> So what do you think of:
+> This patch combines the TCG and KVM matching code paths by making
+> everything a 2 pass process. First, we determine which GIC versions the
+> current environment is able to support, then we go through a single
+> state machine to determine which target GIC mode that means for us.
 >
-> { TARGET_NR_personality, "personality" , "%s(0x"TARGET_ABI_FMT_lx")",
->  =C2=A0=C2=A0 NULL, print_syscall_ret_persona },
+> After this patch, the only user noticable changes should be consolidated
+> error messages as well as TCG -M virt supporting -smp > 8 automatically.
+>
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>
+> ---
+>
+> v1 -> v2:
+>
+>   - Leave VIRT_GIC_VERSION defines intact, we need them for MADT generation
+>
+> v2 -> v3:
+>
+>   - Fix comment
+>   - Flip kvm-enabled logic for host around
+> ---
+>  hw/arm/virt.c         | 198 ++++++++++++++++++++++--------------------
+>  include/hw/arm/virt.h |  15 ++--
+>  2 files changed, 112 insertions(+), 101 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index ea2413a0ba..6d27f044fe 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1820,6 +1820,84 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+>      }
+>  }
+>  
+> +static VirtGICType finalize_gic_version_do(const char *accel_name,
+> +                                           VirtGICType gic_version,
+> +                                           int gics_supported,
+> +                                           unsigned int max_cpus)
+> +{
+> +    /* Convert host/max/nosel to GIC version number */
+> +    switch (gic_version) {
+> +    case VIRT_GIC_VERSION_HOST:
+> +        if (!kvm_enabled()) {
+> +            error_report("gic-version=host requires KVM");
+> +            exit(1);
+> +        }
+> +
+> +        /* For KVM, gic-version=host means gic-version=max */
+> +        return finalize_gic_version_do(accel_name, VIRT_GIC_VERSION_MAX,
+> +                                       gics_supported, max_cpus);
 
-This change does make sense if someone fully implements the
-strace of personality() including showing the flags as string.
-Until then it's IMHO just one more function which uses space
-and gains nothing.
+I think I'd still rather use /* fallthrough */ here, but let's leave
+that decision to the maintainers.
 
-Helge
+In any case,
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+[As an aside, we have a QEMU_FALLTHROUGH #define that maps to
+__attribute__((fallthrough)) if available, but unlike the Linux kernel,
+we didn't bother to convert everything to use it in QEMU. Should we?
+Would using the attribute give us some extra benefits?]
+
+> +    case VIRT_GIC_VERSION_MAX:
+> +        if (gics_supported & VIRT_GIC_VERSION_4_MASK) {
+> +            gic_version = VIRT_GIC_VERSION_4;
+> +        } else if (gics_supported & VIRT_GIC_VERSION_3_MASK) {
+> +            gic_version = VIRT_GIC_VERSION_3;
+> +        } else {
+> +            gic_version = VIRT_GIC_VERSION_2;
+> +        }
+> +        break;
+> +    case VIRT_GIC_VERSION_NOSEL:
+> +        if ((gics_supported & VIRT_GIC_VERSION_2_MASK) &&
+> +            max_cpus <= GIC_NCPU) {
+> +            gic_version = VIRT_GIC_VERSION_2;
+> +        } else if (gics_supported & VIRT_GIC_VERSION_3_MASK) {
+> +            /*
+> +             * in case the host does not support v2 emulation or
+> +             * the end-user requested more than 8 VCPUs we now default
+> +             * to v3. In any case defaulting to v2 would be broken.
+> +             */
+> +            gic_version = VIRT_GIC_VERSION_3;
+> +        } else if (max_cpus > GIC_NCPU) {
+> +            error_report("%s only supports GICv2 emulation but more than 8 "
+> +                         "vcpus are requested", accel_name);
+> +            exit(1);
+> +        }
+> +        break;
+> +    case VIRT_GIC_VERSION_2:
+> +    case VIRT_GIC_VERSION_3:
+> +    case VIRT_GIC_VERSION_4:
+> +        break;
+> +    }
+
 
