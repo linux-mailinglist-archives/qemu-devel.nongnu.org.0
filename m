@@ -2,40 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5867E654DE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 09:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55ED8654DFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 10:02:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8dly-0007Sh-Hj; Fri, 23 Dec 2022 03:51:22 -0500
+	id 1p8dvp-0002SR-3Q; Fri, 23 Dec 2022 04:01:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1p8dle-0007LZ-9W; Fri, 23 Dec 2022 03:51:02 -0500
+ id 1p8dvU-0002R6-Ml; Fri, 23 Dec 2022 04:01:12 -0500
 Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1p8dlc-00046r-NI; Fri, 23 Dec 2022 03:51:02 -0500
+ id 1p8dvS-0001Ou-ME; Fri, 23 Dec 2022 04:01:12 -0500
 Received: from localhost.localdomain
  (dynamic-095-118-065-151.95.118.pool.telefonica.de [95.118.65.151])
- by csgraf.de (Postfix) with ESMTPSA id 747226080975;
- Fri, 23 Dec 2022 09:50:49 +0100 (CET)
+ by csgraf.de (Postfix) with ESMTPSA id CFD6E608042C;
+ Fri, 23 Dec 2022 10:01:07 +0100 (CET)
 From: Alexander Graf <agraf@csgraf.de>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Shashi Mallela <shashi.mallela@linaro.org>,
- Eric Auger <eric.auger@redhat.com>,
- Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH 2/2] hw/intc/arm_gicv3: Bump ITT entry size to 16
-Date: Fri, 23 Dec 2022 09:50:47 +0100
-Message-Id: <20221223085047.94832-3-agraf@csgraf.de>
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v3 0/2] hw/arm/virt: Handle HVF in finalize_gic_version()
+Date: Fri, 23 Dec 2022 10:01:05 +0100
+Message-Id: <20221223090107.98888-1-agraf@csgraf.de>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20221223085047.94832-1-agraf@csgraf.de>
-References: <20221223085047.94832-1-agraf@csgraf.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
@@ -60,51 +54,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some Operating Systems (like Windows) can only deal with ITT entry sizes
-that are a power of 2. While the spec allows arbitrarily sized ITT entry
-sizes, in practice all hardware will use power of 2 because that
-simplifies offset calculation and ensures that a power of 2 sized region
-can hold a set of entries without gap at the end.
+The finalize_gic_version() function tries to determine which GIC version
+the current accelerator / host combination supports. During the initial
+HVF porting efforts, I didn't realize that I also had to touch this
+function. Then Zenghui brought up this function as reply to my HVF GICv3
+enablement patch - and boy it is a mess.
 
-So let's just bump the entry size to 16. That gives us enough space for
-the 12 bytes of data that we want to have in each ITT entry and makes
-QEMU look a bit more like real hardware.
+This patch set cleans up all of the GIC finalization so that we can
+easily plug HVF in and also hopefully will have a better time extending
+it in the future. As second step, it explicitly adds HVF support and
+fails loudly for any unsupported accelerators.
 
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
----
- hw/core/machine.c       | 4 +++-
- hw/intc/arm_gicv3_its.c | 3 +--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+Alex
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index f589b92909..d9a3f01ed9 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -40,7 +40,9 @@
- #include "hw/virtio/virtio-pci.h"
- #include "qom/object_interfaces.h"
- 
--GlobalProperty hw_compat_7_2[] = {};
-+GlobalProperty hw_compat_7_2[] = {
-+    { "arm-gicv3-its", "itt-entry-size", "12" },
-+};
- const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
- 
- GlobalProperty hw_compat_7_1[] = {
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index e7cabeb46c..6754523321 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -2014,8 +2014,7 @@ static void gicv3_its_post_load(GICv3ITSState *s)
- static Property gicv3_its_props[] = {
-     DEFINE_PROP_LINK("parent-gicv3", GICv3ITSState, gicv3, "arm-gicv3",
-                      GICv3State *),
--    DEFINE_PROP_UINT8("itt-entry-size", GICv3ITSState, itt_entry_size,
--                      MIN_ITS_ITT_ENTRY_SIZE),
-+    DEFINE_PROP_UINT8("itt-entry-size", GICv3ITSState, itt_entry_size, 16),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+v1 -> v2:
+
+  - Leave VIRT_GIC_VERSION defines intact, we need them for MADT generation
+  - Include TCG header for tcg_enabled()
+
+v2 -> v3:
+
+  - Fix comment
+  - Flip kvm-enabled logic for host around
+
+Alexander Graf (2):
+  hw/arm/virt: Consolidate GIC finalize logic
+  hw/arm/virt: Make accels in GIC finalize logic explicit
+
+ hw/arm/virt.c         | 200 ++++++++++++++++++++++--------------------
+ include/hw/arm/virt.h |  15 ++--
+ 2 files changed, 115 insertions(+), 100 deletions(-)
+
 -- 
 2.37.1 (Apple Git-137.1)
 
