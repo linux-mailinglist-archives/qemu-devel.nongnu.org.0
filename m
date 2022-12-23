@@ -2,96 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496EB6551B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 15:56:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D256D65516C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 15:35:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8jRm-0002ep-I5; Fri, 23 Dec 2022 09:54:54 -0500
+	id 1p8j7u-0005B2-Bu; Fri, 23 Dec 2022 09:34:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p8jRh-0002bx-Lr
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 09:54:49 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1p8j7g-00056y-D3; Fri, 23 Dec 2022 09:34:11 -0500
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p8jRf-0002g3-53
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 09:54:49 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BNEhG4U024219; Fri, 23 Dec 2022 14:54:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- content-transfer-encoding : mime-version; s=pp1;
- bh=3dNGDFEIqE7bBaE1Aj8aCxgOdL1Oa9r18kinZwMND6Q=;
- b=NIXiLVYWYykLI40Rl1fxB6nkaGiDWvlX2CwbYPzbaxkFxZCCi+LAnk5v4D1kuVQPBS62
- J109wZXWVGkTeHaMElpwbZck0mf9LTfpzxRRKjVz6wYkEaQk+3vL4pdBrTFD65JTyVd6
- bEYxf2TDop9Un8QmCDHPYhYumGRkbxKzaTPIuAWFYnN+PH7W2wRoAOh/3U1wQkmDnjbX
- kVcdnI7CeHO9+JZwdXPkDKE+seyGnzVSHtpn4pQf7VUWdzIMZ65FCYEV4bp26H9RMbrX
- fGND+QWhnweiBIP/28gT2VQDkMuB7HtOLLzXcNgwBC45IS8QFH2JZE4pZIhQnrEq8cKK 7w== 
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mnebag88t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Dec 2022 14:54:45 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BMLGOpK006628;
- Fri, 23 Dec 2022 14:32:43 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3mh6yxp5qm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Dec 2022 14:32:43 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BNEWfGI40304946
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 23 Dec 2022 14:32:41 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0F31020049;
- Fri, 23 Dec 2022 14:32:41 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9F94720040;
- Fri, 23 Dec 2022 14:32:40 +0000 (GMT)
-Received: from heavy (unknown [9.171.46.120])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Fri, 23 Dec 2022 14:32:40 +0000 (GMT)
-Date: Fri, 23 Dec 2022 15:32:39 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PULL v2 07/14] accel/tcg: Use interval tree for user-only page
- tracking
-Message-ID: <20221223143239.t47nod56iu7p4xbg@heavy>
-References: <20221221050313.2950701-1-richard.henderson@linaro.org>
- <20221221050313.2950701-8-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20221221050313.2950701-8-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: xkKlLqU7pGytUyyvlEp7k4ADRRBpr41J
-X-Proofpoint-GUID: xkKlLqU7pGytUyyvlEp7k4ADRRBpr41J
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1p8j7c-0005Ez-LV; Fri, 23 Dec 2022 09:34:07 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8D3D560F74;
+ Fri, 23 Dec 2022 14:33:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA96C4339E;
+ Fri, 23 Dec 2022 14:33:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1671806031;
+ bh=i78MCQ30G80ajVIBVA2UX7jOa9KC4fgE6A8ei9cQdCw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=WrqcTD8hzfKcLUHfQhaOjQi+ynOM+ERhDLMyZh6rwxH2IPkLw62LlWXfdh26t6VPk
+ FNwQCdd5HaPmKMeDq9BydbgOo4Vt2CUav+0xCa6C66U5vwxTaXgFbT7K/kgZHkfmlP
+ LLlxR7tB/hhSqFeoCt6dQTY74hOqnGbL1d0aBgEoCHOAInuIZjAPgJ7ykKXZpzwdLm
+ dY7Hqspe5IjqW5Vu9WCanLgQbeLJnasqG2Zvn0j+QO0tQaqqOORGngyjtzE9xx/6MK
+ U9Y9p1Jmhejy0x7rqeEH1tZ6bKWOQYCCd8gy32ex7anBvqaTe4BQj2UvKPdeRnQWEc
+ fz45JSIlQp4kA==
+Received: by mail-lf1-f47.google.com with SMTP id o6so7310556lfi.5;
+ Fri, 23 Dec 2022 06:33:51 -0800 (PST)
+X-Gm-Message-State: AFqh2krcU0m69SVmpdSCdiEUHhYN/aWxBU2Q8zS46UBAHzEaQZ77gXS5
+ fPXxCpGJcXW7ugVP1OzVLuINa9OwHgNpq6Qx1RM=
+X-Google-Smtp-Source: AMrXdXtlxL25IMQBtXAjMER7cPhxDiCU+Fc06o21xzle259bphJgh0v4pYZNOMes1bDBrjeaBqmUcNXqZ1EMLUqpdqs=
+X-Received: by 2002:a05:6512:15a3:b0:4bc:bdf5:f163 with SMTP id
+ bp35-20020a05651215a300b004bcbdf5f163mr520074lfb.583.1671806029642; Fri, 23
+ Dec 2022 06:33:49 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-23_06,2022-12-23_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015
- mlxlogscore=999 mlxscore=0 impostorscore=0 suspectscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212230124
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221220084246.1984871-1-kraxel@redhat.com>
+ <a31967f6-6de5-bed2-8a1a-68a909850dd5@linaro.org>
+ <20221220153301.ku3zxwglhxepet6i@sirius.home.kraxel.org>
+In-Reply-To: <20221220153301.ku3zxwglhxepet6i@sirius.home.kraxel.org>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 23 Dec 2022 15:33:38 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXF=SNeK6fSgo0821XF+dgs-i__bEoUwvJsDRCtpixsTsg@mail.gmail.com>
+Message-ID: <CAMj1kXF=SNeK6fSgo0821XF+dgs-i__bEoUwvJsDRCtpixsTsg@mail.gmail.com>
+Subject: Re: [PATCH v2] pflash: Only read non-zero parts of backend image
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org, 
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ John Snow <jsnow@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>, 
+ Xiang Zheng <zhengxiang9@huawei.com>,
+ David Edmondson <david.edmondson@oracle.com>, 
+ Markus Armbruster <armbru@redhat.com>, Sunil V L <sunilvl@ventanamicro.com>, 
+ Andrew Jones <ajones@ventanamicro.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Song Gao <gaosong@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Radoslaw Biernacki <rad@semihalf.com>, 
+ Leif Lindholm <quic_llindhol@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=ardb@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,282 +93,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 20, 2022 at 09:03:06PM -0800, Richard Henderson wrote:
-> Finish weaning user-only away from PageDesc.
-> 
-> Using an interval tree to track page permissions means that
-> we can represent very large regions efficiently.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/290
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/967
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1214
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  accel/tcg/internal.h           |   4 +-
->  accel/tcg/tb-maint.c           |  20 +-
->  accel/tcg/user-exec.c          | 615 ++++++++++++++++++++++-----------
->  tests/tcg/multiarch/test-vma.c |  22 ++
->  4 files changed, 451 insertions(+), 210 deletions(-)
->  create mode 100644 tests/tcg/multiarch/test-vma.c
+On Tue, 20 Dec 2022 at 16:33, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Tue, Dec 20, 2022 at 10:30:43AM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> > [Extending to people using UEFI VARStore on Virt machines]
+> >
+> > On 20/12/22 09:42, Gerd Hoffmann wrote:
+> > > From: Xiang Zheng <zhengxiang9@huawei.com>
+> > >
+> > > Currently we fill the VIRT_FLASH memory space with two 64MB NOR image=
+s
+> > > when using persistent UEFI variables on virt board. Actually we only =
+use
+> > > a very small(non-zero) part of the memory while the rest significant
+> > > large(zero) part of memory is wasted.
+> > >
+> > > So this patch checks the block status and only writes the non-zero pa=
+rt
+> > > into memory. This requires pflash devices to use sparse files for
+> > > backends.
+> >
+> > I like the idea, but I'm not sure how to relate with NOR flash devices.
+> >
+> > From the block layer, we get BDRV_BLOCK_ZERO when a block is fully
+> > filled by zeroes ('\0').
+> >
+> > We don't want to waste host memory, I get it.
+> >
+> > Now what "sees" the guest? Is the UEFI VARStore filled with zeroes?
+>
+> The varstore is filled with 0xff.  It's 768k in size.  The padding
+> following (63M plus a bit) is 0x00.  To be exact:
+>
+> kraxel@sirius ~# hex /usr/share/edk2/aarch64/vars-template-pflash.raw
+> 00000000  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00  ...........=
+.....
+> 00000010  8d 2b f1 ff  96 76 8b 4c  a9 85 27 47  07 5b 4f 50  .+...v.L..'=
+G.[OP
+> 00000020  00 00 0c 00  00 00 00 00  5f 46 56 48  ff fe 04 00  ........_FV=
+H....
+> 00000030  48 00 28 09  00 00 00 02  03 00 00 00  00 00 04 00  H.(........=
+.....
+> 00000040  00 00 00 00  00 00 00 00  78 2c f3 aa  7b 94 9a 43  ........x,.=
+.{..C
+> 00000050  a1 80 2e 14  4e c3 77 92  b8 ff 03 00  5a fe 00 00  ....N.w....=
+.Z...
+> 00000060  00 00 00 00  ff ff ff ff  ff ff ff ff  ff ff ff ff  ...........=
+.....
+> 00000070  ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff  ...........=
+.....
+> *
+> 00040000  2b 29 58 9e  68 7c 7d 49  a0 ce 65 00  fd 9f 1b 95  +)X.h|}I..e=
+.....
+> 00040010  5b e7 c6 86  fe ff ff ff  e0 ff 03 00  00 00 00 00  [..........=
+.....
+> 00040020  ff ff ff ff  ff ff ff ff  ff ff ff ff  ff ff ff ff  ...........=
+.....
+> *
+> 000c0000  00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00  ...........=
+.....
+> *
+>
+> > If so, is it a EDK2 specific case for all virt machines?  This would
+> > be a virtualization optimization and in that case, this patch would
+> > work.
+>
+> vars-template-pflash.raw (padded image) is simply QEMU_VARS.fd (unpadded
+> image) with 'truncate --size 64M' applied.
+>
+> Yes, that's a pure virtual machine thing.  On physical hardware you
+> would probably just flash the first 768k and leave the remaining flash
+> capacity untouched.
+>
+> > * or you are trying to optimize paravirtualized guests.
+>
+> This.  Ideally without putting everything upside-down.
+>
+> >   In that case why insist with emulated NOR devices? Why not have EDK2
+> >   directly use a paravirtualized block driver which we can optimize /
+> >   tune without interfering with emulated models?
+>
+> While that probably would work for the variable store (I think we could
+> very well do with variable store not being mapped and requiring explicit
+> read/write requests) that idea is not going to work very well for the
+> firmware code which must be mapped into the address space.  pflash is
+> almost the only device we have which serves that need.  The only other
+> option I can see would be a rom (the code is usually mapped r/o anyway),
+> but that has pretty much the same problem space.  We would likewise want
+> a big enough fixed size ROM, to avoid life migration problems and all
+> that, and we want the unused space not waste memory.
+>
+> > Keeping insisting on optimizing guests using the QEMU pflash device
+> > seems wrong to me. I'm pretty sure we can do better optimizing clouds
+> > payloads.
+>
+> Moving away from pflash for efi variable storage would cause alot of
+> churn through the whole stack.  firmware, qemu, libvirt, upper
+> management, all affected.  Is that worth the trouble?  Using pflash
+> isn't that much of a problem IMHO.
+>
 
-Hi,
+Agreed. pflash is a bit clunky but not a huge problem atm (although
+setting up and tearing down the r/o memslot for every read resp. write
+results in some performance issues under kvm/arm64)
 
-After staring at vma-pthread.c failures for some time, I finally
-spotted a few lines here that look suspicious.
-
-<skip>
-
->  int page_get_flags(target_ulong address)
->  {
-> -    PageDesc *p;
-> +    PageFlagsNode *p = pageflags_find(address, address);
->  
-> -    p = page_find(address >> TARGET_PAGE_BITS);
-> -    if (!p) {
-> +    /*
-> +     * See util/interval-tree.c re lockless lookups: no false positives but
-> +     * there are false negatives.  If we find nothing, retry with the mmap
-> +     * lock acquired.
-> +     */
-> +    if (p) {
-> +        return p->flags;
-> +    }
-> +    if (have_mmap_lock()) {
->          return 0;
->      }
-> -    return p->flags;
-> +
-> +    mmap_lock();
-> +    p = pageflags_find(address, address);
-> +    mmap_unlock();
-
-How does the code ensure that p is not freed here?
-
-> +    return p ? p->flags : 0;
-> +}
-
-<skip>
-
->  int page_check_range(target_ulong start, target_ulong len, int flags)
->  {
-> -    PageDesc *p;
-> -    target_ulong end;
-> -    target_ulong addr;
-> -
-> -    /*
-> -     * This function should never be called with addresses outside the
-> -     * guest address space.  If this assert fires, it probably indicates
-> -     * a missing call to h2g_valid.
-> -     */
-> -    if (TARGET_ABI_BITS > L1_MAP_ADDR_SPACE_BITS) {
-> -        assert(start < ((target_ulong)1 << L1_MAP_ADDR_SPACE_BITS));
-> -    }
-> +    target_ulong last;
->  
->      if (len == 0) {
-> -        return 0;
-> -    }
-> -    if (start + len - 1 < start) {
-> -        /* We've wrapped around.  */
-> -        return -1;
-> +        return 0;  /* trivial length */
->      }
->  
-> -    /* must do before we loose bits in the next step */
-> -    end = TARGET_PAGE_ALIGN(start + len);
-> -    start = start & TARGET_PAGE_MASK;
-> +    last = start + len - 1;
-> +    if (last < start) {
-> +        return -1; /* wrap around */
-> +    }
-> +
-> +    while (true) {
-> +        PageFlagsNode *p = pageflags_find(start, last);
-
-We can end up here without mmap_lock if we come from the syscall code.
-Do we need a retry like in page_get_flags()?
-Or would it make sense to just take mmap_lock in lock_user()?
-
-Speaking of which: does lock_user() actually guarantee that it's safe
-to access the respective pages until unlock_user()? If yes, doesn't
-this mean that mmap_lock must be held between the two? And if no, and
-the SEGV handler is already supposed to gracefully handle SEGVs in
-syscall.c, do we need to call access_ok_untagged() there at all?
-
-> +        int missing;
->  
-> -    for (addr = start, len = end - start;
-> -         len != 0;
-> -         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
-> -        p = page_find(addr >> TARGET_PAGE_BITS);
->          if (!p) {
-> -            return -1;
-> +            return -1; /* entire region invalid */
->          }
-> -        if (!(p->flags & PAGE_VALID)) {
-> -            return -1;
-> +        if (start < p->itree.start) {
-> +            return -1; /* initial bytes invalid */
->          }
->  
-> -        if ((flags & PAGE_READ) && !(p->flags & PAGE_READ)) {
-> -            return -1;
-> +        missing = flags & ~p->flags;
-> +        if (missing & PAGE_READ) {
-> +            return -1; /* page not readable */
->          }
-> -        if (flags & PAGE_WRITE) {
-> +        if (missing & PAGE_WRITE) {
->              if (!(p->flags & PAGE_WRITE_ORG)) {
-> +                return -1; /* page not writable */
-> +            }
-> +            /* Asking about writable, but has been protected: undo. */
-> +            if (!page_unprotect(start, 0)) {
->                  return -1;
->              }
-> -            /* unprotect the page if it was put read-only because it
-> -               contains translated code */
-> -            if (!(p->flags & PAGE_WRITE)) {
-> -                if (!page_unprotect(addr, 0)) {
-> -                    return -1;
-> -                }
-> +            /* TODO: page_unprotect should take a range, not a single page. */
-> +            if (last - start < TARGET_PAGE_SIZE) {
-> +                return 0; /* ok */
->              }
-> +            start += TARGET_PAGE_SIZE;
-> +            continue;
->          }
-> +
-> +        if (last <= p->itree.last) {
-> +            return 0; /* ok */
-> +        }
-> +        start = p->itree.last + 1;
->      }
-> -    return 0;
->  }
-
-<skip>
-
->  int page_unprotect(target_ulong address, uintptr_t pc)
->  {
-> -    unsigned int prot;
-> +    PageFlagsNode *p;
->      bool current_tb_invalidated;
-> -    PageDesc *p;
-> -    target_ulong host_start, host_end, addr;
->  
->      /*
->       * Technically this isn't safe inside a signal handler.  However we
-> @@ -429,40 +627,54 @@ int page_unprotect(target_ulong address, uintptr_t pc)
->       */
->      mmap_lock();
->  
-> -    p = page_find(address >> TARGET_PAGE_BITS);
-> -    if (!p) {
-> +    p = pageflags_find(address, address);
-> +
-> +    /* If this address was not really writable, nothing to do. */
-> +    if (!p || !(p->flags & PAGE_WRITE_ORG)) {
->          mmap_unlock();
->          return 0;
->      }
->  
-> -    /*
-> -     * If the page was really writable, then we change its
-> -     * protection back to writable.
-> -     */
-> -    if (p->flags & PAGE_WRITE_ORG) {
-> -        current_tb_invalidated = false;
-> -        if (p->flags & PAGE_WRITE) {
-> -            /*
-> -             * If the page is actually marked WRITE then assume this is because
-> -             * this thread raced with another one which got here first and
-> -             * set the page to PAGE_WRITE and did the TB invalidate for us.
-> -             */
-> +    current_tb_invalidated = false;
-> +    if (p->flags & PAGE_WRITE) {
-> +        /*
-> +         * If the page is actually marked WRITE then assume this is because
-> +         * this thread raced with another one which got here first and
-> +         * set the page to PAGE_WRITE and did the TB invalidate for us.
-> +         */
->  #ifdef TARGET_HAS_PRECISE_SMC
-> -            TranslationBlock *current_tb = tcg_tb_lookup(pc);
-> -            if (current_tb) {
-> -                current_tb_invalidated = tb_cflags(current_tb) & CF_INVALID;
-> -            }
-> +        TranslationBlock *current_tb = tcg_tb_lookup(pc);
-> +        if (current_tb) {
-> +            current_tb_invalidated = tb_cflags(current_tb) & CF_INVALID;
-> +        }
->  #endif
-> +    } else {
-> +        target_ulong start, len, i;
-> +        int prot;
-> +
-> +        if (qemu_host_page_size <= TARGET_PAGE_SIZE) {
-> +            start = address & TARGET_PAGE_MASK;
-> +            len = TARGET_PAGE_SIZE;
-> +            prot = p->flags | PAGE_WRITE;
-> +            pageflags_set_clear(start, start + len - 1, PAGE_WRITE, 0);
-> +            current_tb_invalidated = tb_invalidate_phys_page_unwind(start, pc);
-
-When we come from page_check_range(), pc == 0 and the assertion in
-tb_invalidate_phys_page_unwind() fires. Should we pass
-current_cpu->cc->get_pc() to page_unprotect() instead of 0, so that
-current_tb is resolved to the TB that invoked the syscall?
-
->          } else {
-> -            host_start = address & qemu_host_page_mask;
-> -            host_end = host_start + qemu_host_page_size;
-> -
-> +            start = address & qemu_host_page_mask;
-> +            len = qemu_host_page_size;
->              prot = 0;
-> -            for (addr = host_start; addr < host_end; addr += TARGET_PAGE_SIZE) {
-> -                p = page_find(addr >> TARGET_PAGE_BITS);
-> -                p->flags |= PAGE_WRITE;
-> -                prot |= p->flags;
->  
-> +            for (i = 0; i < len; i += TARGET_PAGE_SIZE) {
-> +                target_ulong addr = start + i;
-> +
-> +                p = pageflags_find(addr, addr);
-> +                if (p) {
-> +                    prot |= p->flags;
-> +                    if (p->flags & PAGE_WRITE_ORG) {
-> +                        prot |= PAGE_WRITE;
-> +                        pageflags_set_clear(addr, addr + TARGET_PAGE_SIZE - 1,
-> +                                            PAGE_WRITE, 0);
-> +                    }
-> +                }
->                  /*
->                   * Since the content will be modified, we must invalidate
->                   * the corresponding translated code.
-> @@ -470,15 +682,16 @@ int page_unprotect(target_ulong address, uintptr_t pc)
->                  current_tb_invalidated |=
->                      tb_invalidate_phys_page_unwind(addr, pc);
->              }
-> -            mprotect((void *)g2h_untagged(host_start), qemu_host_page_size,
-> -                     prot & PAGE_BITS);
->          }
-> -        mmap_unlock();
-> -        /* If current TB was invalidated return to main loop */
-> -        return current_tb_invalidated ? 2 : 1;
-> +        if (prot & PAGE_EXEC) {
-> +            prot = (prot & ~PAGE_EXEC) | PAGE_READ;
-> +        }
-> +        mprotect((void *)g2h_untagged(start), len, prot & PAGE_BITS);
->      }
->      mmap_unlock();
-> -    return 0;
-> +
-> +    /* If current TB was invalidated return to main loop */
-> +    return current_tb_invalidated ? 2 : 1;
->  }
-
-Best regards,
-Ilya
+*If* we decide to replace it, I would suggest an emulated ROM for the
+executable image (without any emulated programming facility
+whatsoever) and a paravirtualized get/setvariable interface which can
+be used in a sane way to virtualize secure boot without having to
+emulate SMM or other secure world firmware interfaces.
 
