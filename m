@@ -2,95 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195B265528A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 17:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E44B6552B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 17:20:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8kZN-0006Ge-Dd; Fri, 23 Dec 2022 11:06:49 -0500
+	id 1p8klv-00008o-2Y; Fri, 23 Dec 2022 11:19:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p8kZI-0006G9-OO
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:06:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1p8kZH-00028Y-18
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 11:06:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671811600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VPzzJJ/JjKJ7QRHlNAGPfayOzUH4hoCC8OYpEfBUwy8=;
- b=gxfjTntbwjduxGYmFzdECqMAAg/T7LesQqMhbBaEPGJrtAe8MM3PUzczfUvuejNCkZBalS
- t7rMILwzLxwzzgu4ZIx83X3/JeyBFu/ML3mkemU8n/h5Lm/PZIYAVqLDZ5CwFCU+Ae/Jlb
- 2YvAkT9RbjMFlrw3QvBERtGb6QjzwmY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-134-BIdW0KDYOECDzEyJBuxoWg-1; Fri, 23 Dec 2022 11:06:38 -0500
-X-MC-Unique: BIdW0KDYOECDzEyJBuxoWg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- q21-20020a7bce95000000b003d236c91639so1322693wmj.8
- for <qemu-devel@nongnu.org>; Fri, 23 Dec 2022 08:06:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1p8klj-000089-RN; Fri, 23 Dec 2022 11:19:39 -0500
+Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1p8klh-0004vO-5Y; Fri, 23 Dec 2022 11:19:34 -0500
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-143ffc8c2b2so6406862fac.2; 
+ Fri, 23 Dec 2022 08:19:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=59hKZQruJ/encUBpsoB5107KL+4txddRt6dYKWC1pnU=;
+ b=cHrqkjRf4v9mMn0/UxSCIMe0bQPWVntOn8QJj8KZTzk25RUkzRXzE9D2fhCnP+ySMk
+ AFLwukWitnE7UjQFGvqjFvhrE2fUBb7GPYrY0OlWp7DOsJjMumGFHyGKZpd+yrOZrsLs
+ I2HQC0cknf+FAD8oWbZ/WcDVTLe+7lfubHdN9NbmG4ucvJQux3YUd+C5yVRGClCtwB7L
+ 4LMIZTVaIY7/F372ng++axIzQFdU/QdayOTWEnyf2NO/JyoEzy9i1mMSxIu9YLfiImGp
+ mqQPWKU5FmLmcAvWGA6v5ZVww5j70ZWPcfITmWgnGeguLy+lmBULMJMjzbhJ1kv5PS/d
+ FfrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VPzzJJ/JjKJ7QRHlNAGPfayOzUH4hoCC8OYpEfBUwy8=;
- b=g3ebJdCtXw8RmyIVNE1BqVv2zjjB6iJFdh5JkTtzfLyKnz+DAL7ZZJ6R1vo87ButaI
- stO581vR80MSEPLBwtzB6dOZuTIWbtjvXlMo+M8rbizzT9qQV8n6FwEaBLa5FiYCjn4s
- bIel1ZiRCLeyxvmdlYvX2a1R50ML6zuHzXQeWVqyKdbjIWKsLn4UFouN/Du9Jky/HUtw
- 3ue+jaXf0TWmMRm4G59OWWkyfspwQR8ee6RXQtN4QiqrjMBIMzqQg5cA7N+hv149y27O
- LLeOpWI1nfN8E0kDi8oV9U5S4WP+Pna4PUGviElpdpcG7M3Mio+AMXs+PczjY9H5QuUV
- lqpQ==
-X-Gm-Message-State: AFqh2komITufrNG9TheHinlI9xniAotZI5gOmABWTl+18f+Ja2SN7jLr
- beUaikk6LeH3TZDjtl9l9EBzlm0fJKQ7VhBX0xWmfjdACcMTk7znbaMY9C68LBqSLMHpYFbm9ck
- jMfTMtJs1rBx+/ks=
-X-Received: by 2002:adf:e703:0:b0:26a:5b49:829a with SMTP id
- c3-20020adfe703000000b0026a5b49829amr7557828wrm.33.1671811597553; 
- Fri, 23 Dec 2022 08:06:37 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv+fpSEUdU65BHil724Zf4kAN3gNBa6DBqmZ04S2hXK3JlGOs+YvDLRtcMcyytpj9TImQkvIg==
-X-Received: by 2002:adf:e703:0:b0:26a:5b49:829a with SMTP id
- c3-20020adfe703000000b0026a5b49829amr7557810wrm.33.1671811597299; 
- Fri, 23 Dec 2022 08:06:37 -0800 (PST)
-Received: from ?IPV6:2003:cb:c707:ab00:3d8e:16c4:a38d:2827?
- (p200300cbc707ab003d8e16c4a38d2827.dip0.t-ipconnect.de.
- [2003:cb:c707:ab00:3d8e:16c4:a38d:2827])
- by smtp.gmail.com with ESMTPSA id
- k17-20020a5d4291000000b002415dd45320sm3341673wrq.112.2022.12.23.08.06.36
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=59hKZQruJ/encUBpsoB5107KL+4txddRt6dYKWC1pnU=;
+ b=QoES9jK1OhLJQwhXLPSiKYVaxFogUB8vODC/KITETdvBIW7lYDqZjyHSaNlRtgKHvd
+ ej+PELuKCD2luQ0L9Z24DKQLbYLT7W0cBN/JfbXJJikol3rjbk47bDt4lUeT9gEpfx4y
+ uBZu9KzcHbPh8MwPPjxfcl6IlmtkKV2PbIocpy4enXCXHYV8ClUrfP8ggT9bCDJIZywb
+ c+2q1G+ODD0687KhTgHIEsiPFyxhOZR1JnLNPNabLqK1gKbLnsMM3vRH01qV/SkweMSo
+ a0+mSMXRPKWQMgU9B08M9+D6a1Z0AKOjqMYZY7hHjJ62iLU14aRNhm81NlRhlFMZ2KM0
+ Cneg==
+X-Gm-Message-State: AFqh2krowo9S+waiOk9IWTjlnt65rhwcuyz7IY1pjELnTSPpTBwLzW5p
+ iEU2wPnjXSQFGtm60RPhNGY=
+X-Google-Smtp-Source: AMrXdXsi9NftWpG2BLs/TKNI55u4RX1ChIz6gRc3QgxNDjtJ+1YHGBH1a0iz+tX4r3tIWU84Q+VuPA==
+X-Received: by 2002:a05:6871:4698:b0:14c:22f8:431c with SMTP id
+ ni24-20020a056871469800b0014c22f8431cmr4004804oab.4.1671812368472; 
+ Fri, 23 Dec 2022 08:19:28 -0800 (PST)
+Received: from [192.168.68.107] (201-43-103-101.dsl.telesp.net.br.
+ [201.43.103.101]) by smtp.gmail.com with ESMTPSA id
+ bh28-20020a056808181c00b00359a9663053sm1671968oib.4.2022.12.23.08.19.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Dec 2022 08:06:36 -0800 (PST)
-Message-ID: <8d7fe410-4b44-040e-5e6b-b123207913bd@redhat.com>
-Date: Fri, 23 Dec 2022 17:06:35 +0100
+ Fri, 23 Dec 2022 08:19:28 -0800 (PST)
+Message-ID: <9fa6299b-a4ae-9a02-3e46-14ddf5bafa0b@gmail.com>
+Date: Fri, 23 Dec 2022 13:19:24 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [RFC v4 3/3] migration: reduce time of loading non-iterable
- vmstate
+Subject: Re: [PATCH 1/2] tests/migration: add sysprof-capture-4 as dependency
+ for stress binary
+To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, mopsfelder@gmail.com,
+ farosas@suse.de
+References: <20220809002451.91541-1-muriloo@linux.ibm.com>
+ <20220809002451.91541-2-muriloo@linux.ibm.com>
 Content-Language: en-US
-To: Chuang Xu <xuchuangxclwt@bytedance.com>, qemu-devel@nongnu.org
-Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com,
- peterx@redhat.com, philmd@linaro.org, zhouyibo@bytedance.com
-References: <20221223142307.1614945-1-xuchuangxclwt@bytedance.com>
- <20221223142307.1614945-4-xuchuangxclwt@bytedance.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20221223142307.1614945-4-xuchuangxclwt@bytedance.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220809002451.91541-2-muriloo@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Received-SPF: pass client-ip=2001:4860:4864:20::2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,93 +97,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23.12.22 15:23, Chuang Xu wrote:
-> The duration of loading non-iterable vmstate accounts for a significant
-> portion of downtime (starting with the timestamp of source qemu stop and
-> ending with the timestamp of target qemu start). Most of the time is spent
-> committing memory region changes repeatedly.
+Until it's upstream or rejected, no patch will be left behind.
+
+
+I wasn't able to compile tests/migration/stress at all without this patch,
+regardless of having sysprof-4 libraries installed in the host.
+
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+Juan/Dr.David, if  you don't mind I'll take this via ppc-next since
+there's a PPC only change that depends on it.
+
+
+
+Daniel
+
+
+On 8/8/22 21:24, Murilo Opsfelder Araujo wrote:
+> `make tests/migration/stress` fails with:
 > 
-> This patch packs all the changes to memory region during the period of
-> loading non-iterable vmstate in a single memory transaction. With the
-> increase of devices, this patch will greatly improve the performance.
+>      FAILED: tests/migration/stress
+>      cc -m64 -mlittle-endian  -o tests/migration/stress tests/migration/stress.p/stress.c.o -Wl,--as-needed -Wl,--no-undefined -pie -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -fstack-protector-strong -static -pthread -Wl,--start-group -lgthread-2.0 -lglib-2.0 -Wl,--end-group
+>      /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gutils.c.o): in function `.annobin_gutils.c':
+>      (.text+0x3b4): warning: Using 'getpwuid' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+>      /usr/bin/ld: (.text+0x178): warning: Using 'getpwnam_r' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+>      /usr/bin/ld: (.text+0x1bc): warning: Using 'getpwuid_r' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+>      /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gthread.c.o):(.toc+0x0): undefined reference to `sysprof_clock'
+>      /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gtrace.c.o): in function `.annobin_gtrace.c':
+>      (.text+0x24): undefined reference to `sysprof_collector_mark_vprintf'
+>      /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gtrace.c.o): in function `g_trace_define_int64_counter':
+>      (.text+0x8c): undefined reference to `sysprof_collector_request_counters'
+>      /usr/bin/ld: (.text+0x108): undefined reference to `sysprof_collector_define_counters'
+>      /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gtrace.c.o): in function `g_trace_set_int64_counter':
+>      (.text+0x23c): undefined reference to `sysprof_collector_set_counters'
+>      /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gspawn.c.o):(.toc+0x0): undefined reference to `sysprof_clock'
+>      /usr/bin/ld: /usr/lib/gcc/ppc64le-redhat-linux/11/../../../../lib64/libglib-2.0.a(gmain.c.o):(.toc+0x0): undefined reference to `sysprof_clock'
+>      collect2: error: ld returned 1 exit status
+>      ninja: build stopped: subcommand failed.
+>      make: *** [Makefile:162: run-ninja] Error 1
 > 
-> Here are the test1 results:
-> test info:
-> - Host
->    - Intel(R) Xeon(R) Platinum 8260 CPU
->    - NVIDIA Mellanox ConnectX-5
-> - VM
->    - 32 CPUs 128GB RAM VM
->    - 8 16-queue vhost-net device
->    - 16 4-queue vhost-user-blk device.
+> Add sysprof-capture-4 as dependency for stress binary.
 > 
-> 	time of loading non-iterable vmstate     downtime
-> before		about 150 ms			  740+ ms
-> after		about 30 ms			  630+ ms
+> Tested on:
+>    - CentOS Stream 9 ppc64le
+>    - Fedora 36 x86_64
 > 
-> In test2, we keep the number of the device the same as test1, reduce the
-> number of queues per device:
-> 
-> Here are the test2 results:
-> test info:
-> - Host
->    - Intel(R) Xeon(R) Platinum 8260 CPU
->    - NVIDIA Mellanox ConnectX-5
-> - VM
->    - 32 CPUs 128GB RAM VM
->    - 8 1-queue vhost-net device
->    - 16 1-queue vhost-user-blk device.
-> 
-> 	time of loading non-iterable vmstate     downtime
-> before		about 90 ms			 about 250 ms
-> 
-> after		about 25 ms			 about 160 ms
-> 
-> In test3, we keep the number of queues per device the same as test1, reduce
-> the number of devices:
-> 
-> Here are the test3 results:
-> test info:
-> - Host
->    - Intel(R) Xeon(R) Platinum 8260 CPU
->    - NVIDIA Mellanox ConnectX-5
-> - VM
->    - 32 CPUs 128GB RAM VM
->    - 1 16-queue vhost-net device
->    - 1 4-queue vhost-user-blk device.
-> 
-> 	time of loading non-iterable vmstate     downtime
-> before		about 20 ms			 about 70 ms
-> after		about 11 ms			 about 60 ms
-> 
-> As we can see from the test results above, both the number of queues and
-> the number of devices have a great impact on the time of loading non-iterable
-> vmstate. The growth of the number of devices and queues will lead to more
-> mr commits, and the time consumption caused by the flatview reconstruction
-> will also increase.
-> 
-> Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
+> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 > ---
->   migration/savevm.c | 7 +++++++
->   1 file changed, 7 insertions(+)
+>   tests/migration/meson.build | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index a0cdb714f7..19785e5a54 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2617,6 +2617,9 @@ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis)
->       uint8_t section_type;
->       int ret = 0;
->   
-> +    /* call memory_region_transaction_begin() before loading vmstate */
-
-
-I'd suggest extending the comment *why* you are doing that, that it's a 
-pure performance optimization, and how it achieves that.
-
--- 
-Thanks,
-
-David / dhildenb
-
+> diff --git a/tests/migration/meson.build b/tests/migration/meson.build
+> index f215ee7d3a..3fd87f7849 100644
+> --- a/tests/migration/meson.build
+> +++ b/tests/migration/meson.build
+> @@ -1,7 +1,9 @@
+> +sysprof = dependency('sysprof-capture-4')
+> +
+>   stress = executable(
+>     'stress',
+>     files('stress.c'),
+> -  dependencies: [glib],
+> +  dependencies: [glib, sysprof],
+>     link_args: ['-static'],
+>     build_by_default: false,
+>   )
 
