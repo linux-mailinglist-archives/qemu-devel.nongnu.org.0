@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC762654B71
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 04:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1083654B9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 04:12:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8YGQ-0000yI-O8; Thu, 22 Dec 2022 21:58:26 -0500
+	id 1p8YSW-0003Le-CW; Thu, 22 Dec 2022 22:10:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p8YGO-0000xu-C6
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 21:58:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p8YGM-0000Ql-6z
- for qemu-devel@nongnu.org; Thu, 22 Dec 2022 21:58:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1671764300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=37T1Ua6f16ASCKshtuVi6SLKoblBpsm65cEzKCjvKw4=;
- b=GnCRd7CvHHTYaNORWfDilUWm96DhEBgP8sdzgZDjjSciarhT5XB4eD6QdzBgiI2Ne6iNtc
- zfUIO0/rnAZJxC+s+p1y9niwQn1O1wvyPU1xqSyLb/BH5q3CNlIW7UvFVeQf2//EqnNZTc
- pnGtBe5qx51gZ7Y2X+oB3qCZCsJ4eI8=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-168-zVIXckWpNeG-JWreIFrVLg-1; Thu, 22 Dec 2022 21:58:19 -0500
-X-MC-Unique: zVIXckWpNeG-JWreIFrVLg-1
-Received: by mail-oi1-f198.google.com with SMTP id
- o1-20020a05680803c100b0035ea5685b6bso760819oie.23
- for <qemu-devel@nongnu.org>; Thu, 22 Dec 2022 18:58:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p8YST-0003L6-NM; Thu, 22 Dec 2022 22:10:53 -0500
+Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1p8YSS-0005zL-5a; Thu, 22 Dec 2022 22:10:53 -0500
+Received: by mail-vs1-xe34.google.com with SMTP id c184so3483200vsc.3;
+ Thu, 22 Dec 2022 19:10:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ttvdwJVqfsUOwfc+zpLs7RSFjGVYAmds/l/3br/Bn4c=;
+ b=dRYC4HOVqnFTB+ptrvKHPbZ2RxV1HT4GpQnTPOBAqOwkFcP0BdE3gN5pW7tA5Dv1Mc
+ AjgYRhSq9p87j1j5hKEjBZrrGCD+C9mSvEuGWGc2TYvpY5ffxLBiqAM/Lzq2j7unGIgA
+ iZD69N8k28zmClTdf0PCngghgKm3ahoqzw6hyC3KC9hvfmQlOBq7uoA5rFLS+QJd+UcT
+ rmdBzHwkqUF/X/ZA2nWXtviqGpRlsgrnvHTxdjLcFPdLKn9vUEWU9dIFWghT6RFBryaM
+ vdTqsXpbFAXURw7UhOmyc1qQEPNQCFNZEoYBXeWEoEYPfSF9C6ev80ozB1Lwp+3J7buM
+ r8DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=37T1Ua6f16ASCKshtuVi6SLKoblBpsm65cEzKCjvKw4=;
- b=H4Xg+bdUrvgHH33res1DiGGArlrmDEc1PdYdxHAyiyvHPrpbqtxc27QZD4cupnYFhS
- 1e1IxlISL6RuWewFYga5hZ+yrw+2afjzOB+6zB+89ZziQHBT1eL6FMyz9M5WhLnae6hS
- MclZ1jBmXdXW4YM7MBU/xiS+u/JUbjgqbzwm8VE3wxPWcp9/PCdCnIR0TbUIZxCZZRz2
- UxRmwI/mmoK1oYG+0btGhar+UgnNDGfFZ0YD3uO0ldj7/c1M6r+KoZt6ejSesLFTz1C5
- nXv5bS6de5DUlWngi3tnCYmtgYUSZN6Ue64SgttEsSdIJbwLoVmEup6ZtpYKhLwg1LyB
- X/yg==
-X-Gm-Message-State: AFqh2krBbXbeneXHLpLwwcWL/OjtPqN1A5ryqwrBBiRm1oHUy0ndSKgB
- 5GJmmxLwGByPgiL9efLQF1V3BNIstftyD0SP2yMZDGqhieDT49R5d5TZIzU6JMD6l+74waUfsqD
- 8hK/X911nfPBEplclyzrHN4L4NTav+hM=
-X-Received: by 2002:a4a:d287:0:b0:49f:449a:5f6c with SMTP id
- h7-20020a4ad287000000b0049f449a5f6cmr356510oos.93.1671764298431; 
- Thu, 22 Dec 2022 18:58:18 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvTjkB7mYQM07EvAF5MRKOIQWtwBGZ19FtayGPZmgDJk0/6CRSzSKyc37LHhEClds6F5GkmqsEyjPAnQyjZ8yI=
-X-Received: by 2002:a4a:d287:0:b0:49f:449a:5f6c with SMTP id
- h7-20020a4ad287000000b0049f449a5f6cmr356504oos.93.1671764298212; Thu, 22 Dec
- 2022 18:58:18 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ttvdwJVqfsUOwfc+zpLs7RSFjGVYAmds/l/3br/Bn4c=;
+ b=YPW5LM2bDFzEz/7hdDgwan56fLxjOwPxx0zlhXGR9RM1N6veS+etccvRzdFFeyhSNB
+ i8kUxHWgQ1eLGQokpFs+YSVYk4Ehr1JkhDSPqimJnbxM+Hsu5rhB16CYIn0gEIVe/QZF
+ a+Yf+TqFO+Om/5UUIfyPsk5aPOGyedLar8U5YhJ9PiVoSHm198c73W3EjrsO2pionDwT
+ 6kcYsgRDKkYiXfAFcnTJwT8e3qSmBssL7zrWL4W5NC6Z3u13BhC/N6JZ6Zce9ZvgTNWw
+ BiB6OtZIU6N3fXID9de4r1T391XZLr49hMukMcJXoZPx7oHhGmVh0gZ6nynr2+YKzWqf
+ CJQw==
+X-Gm-Message-State: AFqh2kpZhs2FFcfi6SUJGzvNNjQTFT51nuIVimeLFaEzHMHoyDt3fm/J
+ hGMMTjqGiEwvCfe5pcratk198DDpfPxL4x8WTaY=
+X-Google-Smtp-Source: AMrXdXuI6eemhzZHHoyqBW0d7OPNg4llZE2LwCGAGKAYOaQ5IAmR9lqP7lg9M0OUpsz6o/gH3QByZsVVz0vcDs6ZF2c=
+X-Received: by 2002:a05:6102:2453:b0:3b0:f936:788b with SMTP id
+ g19-20020a056102245300b003b0f936788bmr886818vss.54.1671765050800; Thu, 22 Dec
+ 2022 19:10:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20221222120813.727830-1-armbru@redhat.com>
- <20221222120813.727830-2-armbru@redhat.com>
-In-Reply-To: <20221222120813.727830-2-armbru@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 23 Dec 2022 10:58:06 +0800
-Message-ID: <CACGkMEs6R45JkYm294ms33yWJheD0oB6Zs3gvC1d7sv+-oHufA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] include/hw/virtio: Break inclusion loop
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, imammedo@redhat.com, 
- ani@anisinha.ca, peter.maydell@linaro.org, laurent@vivier.eu, 
- edgar.iglesias@gmail.com, Alistair.Francis@wdc.com, bin.meng@windriver.com, 
- palmer@dabbelt.com, marcel.apfelbaum@gmail.com, yangxiaojuan@loongson.cn, 
- gaosong@loongson.cn, richard.henderson@linaro.org, deller@gmx.de, 
- vikram.garhwal@amd.com, francisco.iglesias@amd.com, clg@kaod.org, 
- kraxel@redhat.com, marcandre.lureau@redhat.com, riku.voipio@iki.fi, 
- qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, 
- crwulff@gmail.com, marex@denx.de, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Stefano Garzarella <sgarzare@redhat.com>
+References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
+ <20221221182300.307900-3-dbarboza@ventanamicro.com>
+In-Reply-To: <20221221182300.307900-3-dbarboza@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 23 Dec 2022 13:10:24 +1000
+Message-ID: <CAKmqyKPq=SDpXo6oSwZ5W=QeSS6hO2ezKh33odbTMScPCd12tg@mail.gmail.com>
+Subject: Re: [PATCH 02/15] hw/riscv/spike: use 'fdt' from MachineState
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,66 +83,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 22, 2022 at 8:08 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
+On Thu, Dec 22, 2022 at 4:30 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
 >
-> hw/virtio/virtio.h and hw/virtio/vhost.h include each other.  The
-> former doesn't actually need the latter, so drop that inclusion to
-> break the loop.
+> The MachineState object provides a 'fdt' pointer that is already being
+> used by other RISC-V machines, and it's also used by the 'dumpdtb' QMP
+> command.
 >
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> Remove the 'fdt' pointer from SpikeState and use MachineState::fdt
+> instead.
+>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Thanks
+Alistair
 
 > ---
->  include/hw/virtio/virtio.h | 1 -
->  hw/virtio/virtio-qmp.c     | 1 +
->  hw/virtio/virtio.c         | 1 +
->  3 files changed, 2 insertions(+), 1 deletion(-)
+>  hw/riscv/spike.c         | 12 +++++-------
+>  include/hw/riscv/spike.h |  2 --
+>  2 files changed, 5 insertions(+), 9 deletions(-)
 >
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 24561e933a..48ab2117b5 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -22,7 +22,6 @@
->  #include "standard-headers/linux/virtio_config.h"
->  #include "standard-headers/linux/virtio_ring.h"
->  #include "qom/object.h"
-> -#include "hw/virtio/vhost.h"
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index 13946acf0d..d96f013e2e 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -52,6 +52,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+>                         uint64_t mem_size, const char *cmdline, bool is_32_bit)
+>  {
+>      void *fdt;
+> +    int fdt_size;
+>      uint64_t addr, size;
+>      unsigned long clint_addr;
+>      int cpu, socket;
+> @@ -64,7 +65,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+>          "sifive,clint0", "riscv,clint0"
+>      };
 >
->  /*
->   * A guest should never accept this. It implies negotiation is broken
-> diff --git a/hw/virtio/virtio-qmp.c b/hw/virtio/virtio-qmp.c
-> index 8e7282658f..3d4497da99 100644
-> --- a/hw/virtio/virtio-qmp.c
-> +++ b/hw/virtio/virtio-qmp.c
-> @@ -11,6 +11,7 @@
+> -    fdt = s->fdt = create_device_tree(&s->fdt_size);
+> +    fdt = mc->fdt = create_device_tree(&fdt_size);
+>      if (!fdt) {
+>          error_report("create_device_tree() failed");
+>          exit(1);
+> @@ -296,18 +297,15 @@ static void spike_board_init(MachineState *machine)
+>          hwaddr end = riscv_load_initrd(machine->initrd_filename,
+>                                         machine->ram_size, kernel_entry,
+>                                         &start);
+> -        qemu_fdt_setprop_cell(s->fdt, "/chosen",
+> +        qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+>                                "linux,initrd-start", start);
+> -        qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
+> +        qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
+>                                end);
+>      }
 >
->  #include "qemu/osdep.h"
->  #include "hw/virtio/virtio.h"
-> +#include "hw/virtio/vhost.h"
->  #include "virtio-qmp.h"
+>      /* Compute the fdt load address in dram */
+>      fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
+> -                                   machine->ram_size, s->fdt);
+> -
+> -    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
+> -    machine->fdt = s->fdt;
+> +                                   machine->ram_size, machine->fdt);
 >
->  #include "standard-headers/linux/virtio_ids.h"
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 289eb71045..0ec6ff9ae4 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -25,6 +25,7 @@
->  #include "qom/object_interfaces.h"
->  #include "hw/core/cpu.h"
->  #include "hw/virtio/virtio.h"
-> +#include "hw/virtio/vhost.h"
->  #include "migration/qemu-file-types.h"
->  #include "qemu/atomic.h"
->  #include "hw/virtio/virtio-bus.h"
+>      /* load the reset vector */
+>      riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base,
+> diff --git a/include/hw/riscv/spike.h b/include/hw/riscv/spike.h
+> index 73d69234de..d13a147942 100644
+> --- a/include/hw/riscv/spike.h
+> +++ b/include/hw/riscv/spike.h
+> @@ -37,8 +37,6 @@ struct SpikeState {
+>
+>      /*< public >*/
+>      RISCVHartArrayState soc[SPIKE_SOCKETS_MAX];
+> -    void *fdt;
+> -    int fdt_size;
+>  };
+>
+>  enum {
 > --
 > 2.38.1
 >
-
+>
 
