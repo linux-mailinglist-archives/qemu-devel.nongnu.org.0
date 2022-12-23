@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7327654DE5
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 09:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5867E654DE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 09:52:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8dlu-0007Qq-Fd; Fri, 23 Dec 2022 03:51:19 -0500
+	id 1p8dly-0007Sh-Hj; Fri, 23 Dec 2022 03:51:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1p8dlb-0007K8-Ti; Fri, 23 Dec 2022 03:51:00 -0500
+ id 1p8dle-0007LZ-9W; Fri, 23 Dec 2022 03:51:02 -0500
 Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1p8dlZ-00046m-Nu; Fri, 23 Dec 2022 03:50:59 -0500
+ id 1p8dlc-00046r-NI; Fri, 23 Dec 2022 03:51:02 -0500
 Received: from localhost.localdomain
  (dynamic-095-118-065-151.95.118.pool.telefonica.de [95.118.65.151])
- by csgraf.de (Postfix) with ESMTPSA id 0231260804D4;
- Fri, 23 Dec 2022 09:50:48 +0100 (CET)
+ by csgraf.de (Postfix) with ESMTPSA id 747226080975;
+ Fri, 23 Dec 2022 09:50:49 +0100 (CET)
 From: Alexander Graf <agraf@csgraf.de>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
@@ -30,9 +30,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  Shashi Mallela <shashi.mallela@linaro.org>,
  Eric Auger <eric.auger@redhat.com>,
  Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH 1/2] hw/intc/arm_gicv3: Make ITT entry size configurable
-Date: Fri, 23 Dec 2022 09:50:46 +0100
-Message-Id: <20221223085047.94832-2-agraf@csgraf.de>
+Subject: [PATCH 2/2] hw/intc/arm_gicv3: Bump ITT entry size to 16
+Date: Fri, 23 Dec 2022 09:50:47 +0100
+Message-Id: <20221223085047.94832-3-agraf@csgraf.de>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 In-Reply-To: <20221223085047.94832-1-agraf@csgraf.de>
 References: <20221223085047.94832-1-agraf@csgraf.de>
@@ -60,101 +60,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-An ITT entry is opaque to the OS. The only thing it does get told by HW is
-its size. In theory, that size can be any byte aligned number, in practice
-HW will always use power of 2s to simplify offset calculation. We currently
-expose the size as 12, which is not a power of 2.
+Some Operating Systems (like Windows) can only deal with ITT entry sizes
+that are a power of 2. While the spec allows arbitrarily sized ITT entry
+sizes, in practice all hardware will use power of 2 because that
+simplifies offset calculation and ensures that a power of 2 sized region
+can hold a set of entries without gap at the end.
 
-To prepare for a future where we expose power of 2 sized entry sizes, let's
-make the size itself configurable. We only need to watch out that we don't
-have an entry be smaller than the fields we want to access inside. Bigger
-is always fine.
+So let's just bump the entry size to 16. That gives us enough space for
+the 12 bytes of data that we want to have in each ITT entry and makes
+QEMU look a bit more like real hardware.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 ---
- hw/intc/arm_gicv3_its.c                | 14 +++++++++++---
- hw/intc/gicv3_internal.h               |  2 +-
- include/hw/intc/arm_gicv3_its_common.h |  1 +
- 3 files changed, 13 insertions(+), 4 deletions(-)
+ hw/core/machine.c       | 4 +++-
+ hw/intc/arm_gicv3_its.c | 3 +--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index f589b92909..d9a3f01ed9 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -40,7 +40,9 @@
+ #include "hw/virtio/virtio-pci.h"
+ #include "qom/object_interfaces.h"
+ 
+-GlobalProperty hw_compat_7_2[] = {};
++GlobalProperty hw_compat_7_2[] = {
++    { "arm-gicv3-its", "itt-entry-size", "12" },
++};
+ const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
+ 
+ GlobalProperty hw_compat_7_1[] = {
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 57c79da5c5..e7cabeb46c 100644
+index e7cabeb46c..6754523321 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -215,7 +215,7 @@ static bool update_ite(GICv3ITSState *s, uint32_t eventid, const DTEntry *dte,
- {
-     AddressSpace *as = &s->gicv3->dma_as;
-     MemTxResult res = MEMTX_OK;
--    hwaddr iteaddr = dte->ittaddr + eventid * ITS_ITT_ENTRY_SIZE;
-+    hwaddr iteaddr = dte->ittaddr + eventid * s->itt_entry_size;
-     uint64_t itel = 0;
-     uint32_t iteh = 0;
- 
-@@ -253,7 +253,7 @@ static MemTxResult get_ite(GICv3ITSState *s, uint32_t eventid,
-     MemTxResult res = MEMTX_OK;
-     uint64_t itel;
-     uint32_t iteh;
--    hwaddr iteaddr = dte->ittaddr + eventid * ITS_ITT_ENTRY_SIZE;
-+    hwaddr iteaddr = dte->ittaddr + eventid * s->itt_entry_size;
- 
-     itel = address_space_ldq_le(as, iteaddr, MEMTXATTRS_UNSPECIFIED, &res);
-     if (res != MEMTX_OK) {
-@@ -1934,6 +1934,12 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
-+    if (s->itt_entry_size < MIN_ITS_ITT_ENTRY_SIZE) {
-+        error_setg(errp, "ITT entry size must be at least %d",
-+                   MIN_ITS_ITT_ENTRY_SIZE);
-+        return;
-+    }
-+
-     gicv3_add_its(s->gicv3, dev);
- 
-     gicv3_its_init_mmio(s, &gicv3_its_control_ops, &gicv3_its_translation_ops);
-@@ -1941,7 +1947,7 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
-     /* set the ITS default features supported */
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL, 1);
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, ITT_ENTRY_SIZE,
--                          ITS_ITT_ENTRY_SIZE - 1);
-+                          s->itt_entry_size - 1);
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, IDBITS, ITS_IDBITS);
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, DEVBITS, ITS_DEVBITS);
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIL, 1);
-@@ -2008,6 +2014,8 @@ static void gicv3_its_post_load(GICv3ITSState *s)
+@@ -2014,8 +2014,7 @@ static void gicv3_its_post_load(GICv3ITSState *s)
  static Property gicv3_its_props[] = {
      DEFINE_PROP_LINK("parent-gicv3", GICv3ITSState, gicv3, "arm-gicv3",
                       GICv3State *),
-+    DEFINE_PROP_UINT8("itt-entry-size", GICv3ITSState, itt_entry_size,
-+                      MIN_ITS_ITT_ENTRY_SIZE),
+-    DEFINE_PROP_UINT8("itt-entry-size", GICv3ITSState, itt_entry_size,
+-                      MIN_ITS_ITT_ENTRY_SIZE),
++    DEFINE_PROP_UINT8("itt-entry-size", GICv3ITSState, itt_entry_size, 16),
      DEFINE_PROP_END_OF_LIST(),
  };
  
-diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 29d5cdc1b6..2aca1ba095 100644
---- a/hw/intc/gicv3_internal.h
-+++ b/hw/intc/gicv3_internal.h
-@@ -450,7 +450,7 @@ FIELD(VINVALL_1, VPEID, 32, 16)
-  * the value of that field in memory cannot be relied upon -- older
-  * versions of QEMU did not correctly write to that memory.)
-  */
--#define ITS_ITT_ENTRY_SIZE            0xC
-+#define MIN_ITS_ITT_ENTRY_SIZE            0xC
- 
- FIELD(ITE_L, VALID, 0, 1)
- FIELD(ITE_L, INTTYPE, 1, 1)
-diff --git a/include/hw/intc/arm_gicv3_its_common.h b/include/hw/intc/arm_gicv3_its_common.h
-index a11a0f6654..e730a5482c 100644
---- a/include/hw/intc/arm_gicv3_its_common.h
-+++ b/include/hw/intc/arm_gicv3_its_common.h
-@@ -66,6 +66,7 @@ struct GICv3ITSState {
-     int dev_fd; /* kvm device fd if backed by kvm vgic support */
-     uint64_t gits_translater_gpa;
-     bool translater_gpa_known;
-+    uint8_t itt_entry_size;
- 
-     /* Registers */
-     uint32_t ctlr;
 -- 
 2.37.1 (Apple Git-137.1)
 
