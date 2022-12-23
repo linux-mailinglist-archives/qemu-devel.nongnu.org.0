@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5385654F33
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 11:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CB0654F4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 11:48:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8fMk-0004Hf-Mb; Fri, 23 Dec 2022 05:33:26 -0500
+	id 1p8faE-0007XY-RQ; Fri, 23 Dec 2022 05:47:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p8fMi-0004HV-LY
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 05:33:24 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p8faB-0007XD-Sq; Fri, 23 Dec 2022 05:47:20 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p8fMg-0001hD-Hc
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 05:33:24 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id u28so1709505edd.10
- for <qemu-devel@nongnu.org>; Fri, 23 Dec 2022 02:33:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p8faA-0001cP-Bi; Fri, 23 Dec 2022 05:47:19 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id q15so4980545edb.1;
+ Fri, 23 Dec 2022 02:47:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c/yhGSz4v9NSWZ2xomgsiAjJSmRIK8Z3OvJHOvmKjks=;
- b=pIgk/3N7o3e+JFhMT0N5rZJcyRiI673ngjP3R/BPKmOCSZ3qShWbNRclViq4yt+Hxe
- 7bl1MI3I1Mlf/PpJbeWZA9m5vRqGjtEvCcmRW3NQeR/D8hC5A+paiOUwkNPK9O8g3A5d
- cifP4DAsIKQUGQ7yLFkDzo8wdBTLMI02A9vOzrlwWvX/sJJ5h6cD187ip+1jugZmz8n+
- 1ls4rUkSg4c0titmTUeqAvJLX9++TX3NlVlyciU3lvgEKFK0eYIB+m9Qkz7+x+iRRWCw
- f93rY7LFju7ptEn8YVRC5qM2Eou8wWsKhZ5CbXhlPsP+7wf69tT2J+911/5Ms2KAeqfv
- 2/ng==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=n7Wiiu8tlapJK55u1aQvntG6l5kgQbESy2X//o4GqOI=;
+ b=O8WnFD98We4S6+q5FwtfJ2nUyOA2MGRUPJzJHxTMJtZR2TWkami79FaawCJ/luiZLx
+ AOM13xikVEralLEBiiHjqlUXw4kOHs01QAZLPDaCJMbQr+TYzDlGonDqycTHMgLCWIUx
+ /tN3CJ0tXAkkzuvnU+VwZYOHXlY+OR3s+L5lLuRPowGBuC05/G4g8zueQbd/4QvFfezP
+ wwMnrXmG1fqK5FJDcAahnm+mjpUtKcx9ogMwjjHLI+K2Hrr+AHOva0OPWfYbQxikHHwK
+ yBWBeFTnkj5TErtydt0pAN7ekE9YnHefCelmVOhcDWXEOFERzl5OQJ/REg9jJv5VuHPm
+ txEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=c/yhGSz4v9NSWZ2xomgsiAjJSmRIK8Z3OvJHOvmKjks=;
- b=bXNwGCiy/uZVQ5rMGjZA7mT7OJ+u+XhxFPFCyJaRAyloXr3nf+qi8FNEel5NZmBVUe
- ogn+yVBQeteoy/vU4kzhxWKY4LrM1EZXpidfX9xe+egHVyUFWDr0g66xrN1BHSjIMACB
- M3hzyTPGSlmjndcSTHNdZ6xnc4RE3I0x7pA1l8tsVlVeGI6BwXFg2jHwvdpKLRk1O2V7
- 4v6VfQCmjBJYv6ied6CT0Hw87Z/HUbGPeNUVt3kO5420UuYwf5RgHHWdZDUqpcq1Ne5E
- EwmJqJyR/DR/cAoQlKnUsW+H1mx/s4oW8BXICmelD85ukUAscI3jsolLuOZxObHVTzeq
- 7fQw==
-X-Gm-Message-State: AFqh2kqbTr2vvFFM6p195aECYrJGgzFHFNgXCSCDlbDIRzotajpqCMx2
- HQisu8RHnt9kvEV7bDPNg1c=
-X-Google-Smtp-Source: AMrXdXssZcyxU80VcUv7JbHuyIwZjiCpw1eghEse6jk+icYlT2vtVK3aUU3geGHnDee1OPYD2xwI4Q==
-X-Received: by 2002:a50:d0d1:0:b0:46d:7ed4:1f66 with SMTP id
- g17-20020a50d0d1000000b0046d7ed41f66mr8211732edf.3.1671791600599; 
- Fri, 23 Dec 2022 02:33:20 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-089-014-080-075.89.14.pool.telefonica.de.
- [89.14.80.75]) by smtp.gmail.com with ESMTPSA id
- d27-20020a056402517b00b0046b531fcf9fsm1339637ede.59.2022.12.23.02.33.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Dec 2022 02:33:20 -0800 (PST)
-Date: Fri, 23 Dec 2022 10:33:17 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-CC: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
- jonathan.cameron@huawei.com, philmd@linaro.org
-Subject: Re: [PATCH v2 0/7] include/hw/pci include/hw/cxl: Clean up includes
-In-Reply-To: <87k02i7kr8.fsf@pond.sub.org>
-References: <20221222100330.380143-1-armbru@redhat.com>
- <B98EF322-5449-4942-8718-D3504B863B96@gmail.com>
- <87edsremti.fsf@pond.sub.org> <20221222142149-mutt-send-email-mst@kernel.org>
- <87k02i7kr8.fsf@pond.sub.org>
-Message-ID: <B663E587-61F8-471C-9F94-3FF972BFC9B6@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n7Wiiu8tlapJK55u1aQvntG6l5kgQbESy2X//o4GqOI=;
+ b=OEp0gti7j5cGwnhLSUGMHxqgCZsbS3G2rnePnMGbtrNgQZ+c9ByNYtQgmNskGteNCf
+ IMNOjSpvHhlRarkcxNzscQgM0w/x9DvLvs7+IIBkMqeX8p5XdDSssQwyolGs12eUmzXv
+ sLiTybML3IJGCcoTumROEGpnGg3R+iZUR2m/3mVdWU6ixuw9rdRAqFi5Sfs8hbKBKmyo
+ NAWcyp+EdM0ggdDK7QyJ86RTnma4KGW9FWZdM0oEY7iyXzh2X9KZfARkwonbdrtEIS8A
+ U6evr2hLoMmNHSMElaNw1ifF0EbISst9e1wdlrlg3w2MeuaFXkLxpaBuykxkHdSF+JWA
+ w+yA==
+X-Gm-Message-State: AFqh2kqFyvp6DIftbq+0p+uhsI7SPckp1FH3SsmwKmKhR7CwSdTPvs7Q
+ H/bccZwjiu/ls2VIZNxl1PRsfgqQBtf5kIO9lHg=
+X-Google-Smtp-Source: AMrXdXtTMbdxvVDiuyOtqxf/Ws3EOMnWWLKAeGac+/V8q/MyiksKQJF2u8orIJ7i7tfutnHKWFGc2AdCJhS4iLO3k8g=
+X-Received: by 2002:a05:6402:6c1:b0:46d:94b0:e6e5 with SMTP id
+ n1-20020a05640206c100b0046d94b0e6e5mr1057299edy.380.1671792434979; Fri, 23
+ Dec 2022 02:47:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
+References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
+ <20221221182300.307900-10-dbarboza@ventanamicro.com>
+In-Reply-To: <20221221182300.307900-10-dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 23 Dec 2022 18:47:03 +0800
+Message-ID: <CAEUhbmX9LEOPcmmfAe+t6kL5xEyPqhQaisWJp0CewhFr8R6ECg@mail.gmail.com>
+Subject: Re: [PATCH 09/15] hw/riscv/boot.c: use MachineState in
+ riscv_load_initrd()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,55 +83,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-Am 23=2E Dezember 2022 05:27:07 UTC schrieb Markus Armbruster <armbru@redh=
-at=2Ecom>:
->"Michael S=2E Tsirkin" <mst@redhat=2Ecom> writes:
+On Thu, Dec 22, 2022 at 2:24 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
 >
->> On Thu, Dec 22, 2022 at 11:48:25AM +0100, Markus Armbruster wrote:
->>> Bernhard Beschow <shentey@gmail=2Ecom> writes:
->>>=20
->>> > Am 22=2E Dezember 2022 10:03:23 UTC schrieb Markus Armbruster <armbr=
-u@redhat=2Ecom>:
->>> >>Back in 2016, we discussed[1] rules for headers, and these were
->>> >>generally liked:
->>> >>
->>> >>1=2E Have a carefully curated header that's included everywhere firs=
-t=2E  We
->>> >>   got that already thanks to Peter: osdep=2Eh=2E
->>> >>
->>> >>2=2E Headers should normally include everything they need beyond osd=
-ep=2Eh=2E
->>> >>   If exceptions are needed for some reason, they must be documented=
- in
->>> >>   the header=2E  If all that's needed from a header is typedefs, pu=
-t
->>> >>   those into qemu/typedefs=2Eh instead of including the header=2E
->>> >>
->>> >>3=2E Cyclic inclusion is forbidden=2E
->>> >
->>> > Sounds like these -- useful and sane -- rules belong in QEMU's codin=
-g style=2E What about putting them there for easy reference?
->>>=20
->>> Makes sense=2E  I'll see what I can do=2E  Thanks!
->>
->> It would be even better if there was e=2Eg=2E a make target
->> pulling in each header and making sure it's self consistent and
->> no circularity=2E We could run it e=2Eg=2E in CI=2E
+> 'filename', 'mem_size' and 'fdt' from riscv_load_initrd() can all be
+> retrieved by the MachineState object for all callers.
 >
->Yes, that would be nice, but the problem I've been unable to crack is
->deciding whether a header is supposed to compile target-independently or
->not=2E  In my manual testing, I use trial and error: if it fails to
->compile target-independently, compile for all targets=2E  This is s-l-o-w=
-=2E
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  hw/riscv/boot.c            | 6 ++++--
+>  hw/riscv/microchip_pfsoc.c | 3 +--
+>  hw/riscv/sifive_u.c        | 3 +--
+>  hw/riscv/spike.c           | 3 +--
+>  hw/riscv/virt.c            | 3 +--
+>  include/hw/riscv/boot.h    | 3 +--
+>  6 files changed, 9 insertions(+), 12 deletions(-)
 >
->The other problem, of course, is coding it up in Meson=2E  I haven't even
->tried=2E
 
-There is https://include-what-you-use=2Eorg which is a Clang-based tool=2E=
- Maybe that works?
-
-Best regards,
-Bernhard
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
 
