@@ -2,53 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E466D654F89
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 12:14:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0844E655022
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 13:06:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8fzs-0007hE-Di; Fri, 23 Dec 2022 06:13:52 -0500
+	id 1p8gmm-0002qQ-DC; Fri, 23 Dec 2022 07:04:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <6ca60cd7a388a776d72739e5a404e65c19460511@lizzy.crudebyte.com>)
- id 1p8fzq-0007gz-LM
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 06:13:50 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p8gme-0002pM-Tz
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 07:04:18 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <6ca60cd7a388a776d72739e5a404e65c19460511@lizzy.crudebyte.com>)
- id 1p8fzo-0007eb-OC
- for qemu-devel@nongnu.org; Fri, 23 Dec 2022 06:13:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=lqC9lEIA5RFx7eEW6LF74zK/StDZFYQEnrEcY+FkB4Y=; b=CXhCH
- UE6T9gPpE/IbA/LJOOuh4m1OFlEQm10bPge6dEgMz3e2yuzTKAq+/Sy33hVwRba8IiKSFw4a2DaCK
- plLLz7W7gQi0N91W/5kpurTD6q5auUs9mKRaND7Wkx9f6/+KymjjSpXPSxd+hMaWjbM6/cJrCKU84
- vQTABLMcCwq9KSskUq8Biw4fphufzAHkXE0GJSAY4Y8+u95gDRb7i8vtbnGRCTatE1e8qjpm3zqzD
- +qUHFwHapHEYv/9mSVQzM82x8SY3SnZ14+vWv1XV6DcYEz9Yp8kU4XC4dshVjXgWfT4Zuaj0Tpu+Y
- 3bHfl7LVvB3c44WlGi+8umYriKDmQ==;
-Message-Id: <6ca60cd7a388a776d72739e5a404e65c19460511.1671793476.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1671793476.git.qemu_oss@crudebyte.com>
-References: <cover.1671793476.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 23 Dec 2022 12:04:36 +0100
-Subject: [PULL 5/5] hw/9pfs: Replace the direct call to xxxat() APIs with a
- wrapper
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>,
-    Bin Meng <bin.meng@windriver.com>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=6ca60cd7a388a776d72739e5a404e65c19460511@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1p8gma-0005Gl-L7
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 07:04:16 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BNBfm7l024440; Fri, 23 Dec 2022 12:03:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=wQSLHGdekAyIUxn7f/fIXF52Tq/8tz4sgCpAk1cpfcc=;
+ b=O+tOfR+/wFl+RVphcQXsu+rgFuY4uo7A0HZ8XLhwLbAkpXIM+w5CaR76D86y9pq/EG2u
+ K1lcKOvTnmJnzWcohte/RcuhcF2k9uN4+l1RNs6CBsFqQpeeecZtNyyIdV1ExUPx/+uP
+ fjvqiFeZumWH9o8O6UhqXgmcokyXcxnYq8CKRR0JNJSFlSHuNaNTl20i+4X8BWhjdvZ0
+ EKBXqXgAzM4Ayn3YqMS+ZNeHPjdg301zk+qBmUO9VVYfEjJyiWAguBp2vEDYQabaTO7S
+ Wq7AS58mK5VMJX/SPUEj1cQEy3goYCj4MpqC4OJLqitLH8m0RLM+lMQOX+bPntHqAEMF iA== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mnbparft9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Dec 2022 12:03:07 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BN9H9ew001740;
+ Fri, 23 Dec 2022 12:03:05 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3mh6yy61mj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Dec 2022 12:03:05 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BNC315Q31130004
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 23 Dec 2022 12:03:01 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8BB5720063;
+ Fri, 23 Dec 2022 12:03:01 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3E3352004D;
+ Fri, 23 Dec 2022 12:03:01 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.46.120])
+ by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 23 Dec 2022 12:03:01 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] tests/tcg/multiarch: add vma-pthread.c
+Date: Fri, 23 Dec 2022 13:02:52 +0100
+Message-Id: <20221223120252.513319-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221223115348.tgfwdlektsulebxk@heavy>
+References: <20221223115348.tgfwdlektsulebxk@heavy>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: u0Xh4DSVYSTbei4CzxNiqNVMj9QN4oba
+X-Proofpoint-GUID: u0Xh4DSVYSTbei4CzxNiqNVMj9QN4oba
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-23_05,2022-12-22_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ spamscore=0 bulkscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ phishscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212230104
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,208 +102,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bin.meng@windriver.com>
+Add a test that locklessly changes and exercises page protection bits
+from various threads. This helps catch race conditions in the VMA
+handling.
 
-xxxat() APIs are only available on POSIX platforms. For future
-extension to Windows, let's replace the direct call to xxxat()
-APIs with a wrapper.
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Message-Id: <20221219102022.2167736-4-bin.meng@windriver.com>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- hw/9pfs/9p-local.c | 32 ++++++++++++++++----------------
- hw/9pfs/9p-util.h  | 15 +++++++++++----
- 2 files changed, 27 insertions(+), 20 deletions(-)
+ tests/tcg/multiarch/Makefile.target  |   3 +
+ tests/tcg/multiarch/munmap-pthread.c |  16 +--
+ tests/tcg/multiarch/nop_func.h       |  25 ++++
+ tests/tcg/multiarch/vma-pthread.c    | 185 +++++++++++++++++++++++++++
+ 4 files changed, 214 insertions(+), 15 deletions(-)
+ create mode 100644 tests/tcg/multiarch/nop_func.h
+ create mode 100644 tests/tcg/multiarch/vma-pthread.c
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index d42ce6d8b8..d2246a3d7e 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -103,14 +103,14 @@ static void renameat_preserve_errno(int odirfd, const char *opath, int ndirfd,
-                                     const char *npath)
- {
-     int serrno = errno;
--    renameat(odirfd, opath, ndirfd, npath);
-+    qemu_renameat(odirfd, opath, ndirfd, npath);
-     errno = serrno;
- }
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index 5f0fee1aadb..e7213af4925 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -39,6 +39,9 @@ signals: LDFLAGS+=-lrt -lpthread
+ munmap-pthread: CFLAGS+=-pthread
+ munmap-pthread: LDFLAGS+=-pthread
  
- static void unlinkat_preserve_errno(int dirfd, const char *path, int flags)
- {
-     int serrno = errno;
--    unlinkat(dirfd, path, flags);
-+    qemu_unlinkat(dirfd, path, flags);
-     errno = serrno;
- }
- 
-@@ -194,7 +194,7 @@ static int local_lstat(FsContext *fs_ctx, V9fsPath *fs_path, struct stat *stbuf)
-         goto out;
-     }
- 
--    err = fstatat(dirfd, name, stbuf, AT_SYMLINK_NOFOLLOW);
-+    err = qemu_fstatat(dirfd, name, stbuf, AT_SYMLINK_NOFOLLOW);
-     if (err) {
-         goto err_out;
-     }
-@@ -253,7 +253,7 @@ static int local_set_mapped_file_attrat(int dirfd, const char *name,
-             }
-         }
-     } else {
--        ret = mkdirat(dirfd, VIRTFS_META_DIR, 0700);
-+        ret = qemu_mkdirat(dirfd, VIRTFS_META_DIR, 0700);
-         if (ret < 0 && errno != EEXIST) {
-             return -1;
-         }
-@@ -349,7 +349,7 @@ static int fchmodat_nofollow(int dirfd, const char *name, mode_t mode)
-      */
- 
-      /* First, we clear non-racing symlinks out of the way. */
--    if (fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW)) {
-+    if (qemu_fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW)) {
-         return -1;
-     }
-     if (S_ISLNK(stbuf.st_mode)) {
-@@ -734,7 +734,7 @@ static int local_mkdir(FsContext *fs_ctx, V9fsPath *dir_path,
- 
-     if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
-         fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
--        err = mkdirat(dirfd, name, fs_ctx->dmode);
-+        err = qemu_mkdirat(dirfd, name, fs_ctx->dmode);
-         if (err == -1) {
-             goto out;
-         }
-@@ -750,7 +750,7 @@ static int local_mkdir(FsContext *fs_ctx, V9fsPath *dir_path,
-         }
-     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
-                fs_ctx->export_flags & V9FS_SM_NONE) {
--        err = mkdirat(dirfd, name, credp->fc_mode);
-+        err = qemu_mkdirat(dirfd, name, credp->fc_mode);
-         if (err == -1) {
-             goto out;
-         }
-@@ -990,7 +990,7 @@ static int local_link(FsContext *ctx, V9fsPath *oldpath,
-     if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-         int omap_dirfd, nmap_dirfd;
- 
--        ret = mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
-+        ret = qemu_mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
-         if (ret < 0 && errno != EEXIST) {
-             goto err_undo_link;
-         }
-@@ -1085,7 +1085,7 @@ static int local_utimensat(FsContext *s, V9fsPath *fs_path,
-         goto out;
-     }
- 
--    ret = utimensat(dirfd, name, buf, AT_SYMLINK_NOFOLLOW);
-+    ret = qemu_utimensat(dirfd, name, buf, AT_SYMLINK_NOFOLLOW);
-     close_preserve_errno(dirfd);
- out:
-     g_free(dirpath);
-@@ -1116,7 +1116,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-             if (fd == -1) {
-                 return -1;
-             }
--            ret = unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
-+            ret = qemu_unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
-             close_preserve_errno(fd);
-             if (ret < 0 && errno != ENOENT) {
-                 return -1;
-@@ -1124,7 +1124,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-         }
-         map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
-         if (map_dirfd != -1) {
--            ret = unlinkat(map_dirfd, name, 0);
-+            ret = qemu_unlinkat(map_dirfd, name, 0);
-             close_preserve_errno(map_dirfd);
-             if (ret < 0 && errno != ENOENT) {
-                 return -1;
-@@ -1134,7 +1134,7 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-         }
-     }
- 
--    return unlinkat(dirfd, name, flags);
-+    return qemu_unlinkat(dirfd, name, flags);
- }
- 
- static int local_remove(FsContext *ctx, const char *path)
-@@ -1151,7 +1151,7 @@ static int local_remove(FsContext *ctx, const char *path)
-         goto out;
-     }
- 
--    if (fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW) < 0) {
-+    if (qemu_fstatat(dirfd, name, &stbuf, AT_SYMLINK_NOFOLLOW) < 0) {
-         goto err_out;
-     }
- 
-@@ -1296,7 +1296,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
-         return -1;
-     }
- 
--    ret = renameat(odirfd, old_name, ndirfd, new_name);
-+    ret = qemu_renameat(odirfd, old_name, ndirfd, new_name);
-     if (ret < 0) {
-         goto out;
-     }
-@@ -1304,7 +1304,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
-     if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-         int omap_dirfd, nmap_dirfd;
- 
--        ret = mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
-+        ret = qemu_mkdirat(ndirfd, VIRTFS_META_DIR, 0700);
-         if (ret < 0 && errno != EEXIST) {
-             goto err_undo_rename;
-         }
-@@ -1321,7 +1321,7 @@ static int local_renameat(FsContext *ctx, V9fsPath *olddir,
-         }
- 
-         /* rename the .virtfs_metadata files */
--        ret = renameat(omap_dirfd, old_name, nmap_dirfd, new_name);
-+        ret = qemu_renameat(omap_dirfd, old_name, nmap_dirfd, new_name);
-         close_preserve_errno(nmap_dirfd);
-         close_preserve_errno(omap_dirfd);
-         if (ret < 0 && errno != ENOENT) {
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index ccfc8b1cb3..c314cf381d 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -94,6 +94,13 @@ static inline int errno_to_dotl(int err) {
- #define qemu_fgetxattr fgetxattr
- #endif
- 
-+#define qemu_openat     openat
-+#define qemu_fstatat    fstatat
-+#define qemu_mkdirat    mkdirat
-+#define qemu_renameat   renameat
-+#define qemu_utimensat  utimensat
-+#define qemu_unlinkat   unlinkat
++vma-pthread: CFLAGS+=-pthread
++vma-pthread: LDFLAGS+=-pthread
 +
- static inline void close_preserve_errno(int fd)
- {
-     int serrno = errno;
-@@ -103,8 +110,8 @@ static inline void close_preserve_errno(int fd)
+ # We define the runner for test-mmap after the individual
+ # architectures have defined their supported pages sizes. If no
+ # additional page sizes are defined we only run the default test.
+diff --git a/tests/tcg/multiarch/munmap-pthread.c b/tests/tcg/multiarch/munmap-pthread.c
+index d7143b00d5f..1c79005846d 100644
+--- a/tests/tcg/multiarch/munmap-pthread.c
++++ b/tests/tcg/multiarch/munmap-pthread.c
+@@ -7,21 +7,7 @@
+ #include <sys/mman.h>
+ #include <unistd.h>
  
- static inline int openat_dir(int dirfd, const char *name)
- {
--    return openat(dirfd, name,
--                  O_DIRECTORY | O_RDONLY | O_NOFOLLOW | O_PATH_9P_UTIL);
-+    return qemu_openat(dirfd, name,
-+                       O_DIRECTORY | O_RDONLY | O_NOFOLLOW | O_PATH_9P_UTIL);
- }
+-static const char nop_func[] = {
+-#if defined(__aarch64__)
+-    0xc0, 0x03, 0x5f, 0xd6,     /* ret */
+-#elif defined(__alpha__)
+-    0x01, 0x80, 0xFA, 0x6B,     /* ret */
+-#elif defined(__arm__)
+-    0x1e, 0xff, 0x2f, 0xe1,     /* bx lr */
+-#elif defined(__riscv)
+-    0x67, 0x80, 0x00, 0x00,     /* ret */
+-#elif defined(__s390__)
+-    0x07, 0xfe,                 /* br %r14 */
+-#elif defined(__i386__) || defined(__x86_64__)
+-    0xc3,                       /* ret */
+-#endif
+-};
++#include "nop_func.h"
  
- static inline int openat_file(int dirfd, const char *name, int flags,
-@@ -115,8 +122,8 @@ static inline int openat_file(int dirfd, const char *name, int flags,
- #ifndef CONFIG_DARWIN
- again:
- #endif
--    fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
--                mode);
-+    fd = qemu_openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
-+                     mode);
-     if (fd == -1) {
- #ifndef CONFIG_DARWIN
-         if (errno == EPERM && (flags & O_NOATIME)) {
+ static void *thread_mmap_munmap(void *arg)
+ {
+diff --git a/tests/tcg/multiarch/nop_func.h b/tests/tcg/multiarch/nop_func.h
+new file mode 100644
+index 00000000000..f714d210000
+--- /dev/null
++++ b/tests/tcg/multiarch/nop_func.h
+@@ -0,0 +1,25 @@
++/*
++ * No-op functions that can be safely copied.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#ifndef NOP_FUNC_H
++#define NOP_FUNC_H
++
++static const char nop_func[] = {
++#if defined(__aarch64__)
++    0xc0, 0x03, 0x5f, 0xd6,     /* ret */
++#elif defined(__alpha__)
++    0x01, 0x80, 0xFA, 0x6B,     /* ret */
++#elif defined(__arm__)
++    0x1e, 0xff, 0x2f, 0xe1,     /* bx lr */
++#elif defined(__riscv)
++    0x67, 0x80, 0x00, 0x00,     /* ret */
++#elif defined(__s390__)
++    0x07, 0xfe,                 /* br %r14 */
++#elif defined(__i386__) || defined(__x86_64__)
++    0xc3,                       /* ret */
++#endif
++};
++
++#endif
+diff --git a/tests/tcg/multiarch/vma-pthread.c b/tests/tcg/multiarch/vma-pthread.c
+new file mode 100644
+index 00000000000..c405cd46329
+--- /dev/null
++++ b/tests/tcg/multiarch/vma-pthread.c
+@@ -0,0 +1,185 @@
++/*
++ * Test that VMA updates do not race.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * Map a contiguous chunk of RWX memory. Split it into 8 equally sized
++ * regions, each of which is guaranteed to have a certain combination of
++ * protection bits set.
++ *
++ * Reader, writer and executor threads perform the respective operations on
++ * pages, which are guaranteed to have the respective protection bit set.
++ * Two mutator threads change the non-fixed protection bits randomly.
++ */
++#include <assert.h>
++#include <fcntl.h>
++#include <pthread.h>
++#include <stdbool.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/mman.h>
++#include <unistd.h>
++
++#include "nop_func.h"
++
++#define PAGE_IDX_BITS 10
++#define PAGE_COUNT (1 << PAGE_IDX_BITS)
++#define PAGE_IDX_MASK (PAGE_COUNT - 1)
++#define REGION_IDX_BITS 3
++#define PAGE_IDX_R_MASK (1 << 7)
++#define PAGE_IDX_W_MASK (1 << 8)
++#define PAGE_IDX_X_MASK (1 << 9)
++#define REGION_MASK (PAGE_IDX_R_MASK | PAGE_IDX_W_MASK | PAGE_IDX_X_MASK)
++#define PAGES_PER_REGION (1 << (PAGE_IDX_BITS - REGION_IDX_BITS))
++
++struct context {
++    int pagesize;
++    char *ptr;
++    int dev_null_fd;
++    volatile int mutator_count;
++};
++
++static void *thread_read(void *arg)
++{
++    struct context *ctx = arg;
++    ssize_t sret;
++    size_t i, j;
++    int ret;
++
++    for (i = 0; ctx->mutator_count; i++) {
++        j = (i & PAGE_IDX_MASK) | PAGE_IDX_R_MASK;
++        /* Read directly. */
++        ret = memcmp(&ctx->ptr[j * ctx->pagesize], nop_func, sizeof(nop_func));
++        assert(ret == 0);
++        /* Read indirectly. */
++        sret = write(ctx->dev_null_fd, &ctx->ptr[j * ctx->pagesize], 1);
++        assert(sret == 1);
++    }
++
++    return NULL;
++}
++
++static void *thread_write(void *arg)
++{
++    struct context *ctx = arg;
++    struct timespec *ts;
++    size_t i, j;
++    int ret;
++
++    for (i = 0; ctx->mutator_count; i++) {
++        j = (i & PAGE_IDX_MASK) | PAGE_IDX_W_MASK;
++        /* Write directly. */
++        memcpy(&ctx->ptr[j * ctx->pagesize], nop_func, sizeof(nop_func));
++        /* Write using a syscall. */
++        ts = (struct timespec *)(&ctx->ptr[(j + 1) * ctx->pagesize] -
++                                 sizeof(struct timespec));
++        ret = clock_gettime(CLOCK_REALTIME, ts);
++        assert(ret == 0);
++    }
++
++    return NULL;
++}
++
++static void *thread_execute(void *arg)
++{
++    struct context *ctx = arg;
++    size_t i, j;
++
++    for (i = 0; ctx->mutator_count; i++) {
++        j = (i & PAGE_IDX_MASK) | PAGE_IDX_X_MASK;
++        ((void(*)(void))&ctx->ptr[j * ctx->pagesize])();
++    }
++
++    return NULL;
++}
++
++static void *thread_mutate(void *arg)
++{
++    size_t i, start_idx, end_idx, page_idx, tmp;
++    struct context *ctx = arg;
++    unsigned int seed;
++    int prot, ret;
++
++    seed = (unsigned int)time(NULL);
++    for (i = 0; i < 50000; i++) {
++        start_idx = rand_r(&seed) & PAGE_IDX_MASK;
++        end_idx = rand_r(&seed) & PAGE_IDX_MASK;
++        if (start_idx > end_idx) {
++            tmp = start_idx;
++            start_idx = end_idx;
++            end_idx = tmp;
++        }
++        prot = rand_r(&seed) & (PROT_READ | PROT_WRITE | PROT_EXEC);
++        for (page_idx = start_idx & REGION_MASK; page_idx <= end_idx;
++             page_idx += PAGES_PER_REGION) {
++            if (page_idx & PAGE_IDX_R_MASK) {
++                prot |= PROT_READ;
++            }
++            if (page_idx & PAGE_IDX_W_MASK) {
++                prot |= PROT_WRITE;
++            }
++            if (page_idx & PAGE_IDX_X_MASK) {
++                prot |= PROT_EXEC;
++            }
++        }
++        ret = mprotect(&ctx->ptr[start_idx * ctx->pagesize],
++                       (end_idx - start_idx + 1) * ctx->pagesize, prot);
++        assert(ret == 0);
++    }
++
++    __atomic_fetch_sub(&ctx->mutator_count, 1, __ATOMIC_SEQ_CST);
++
++    return NULL;
++}
++
++int main(void)
++{
++    pthread_t threads[5];
++    struct context ctx;
++    size_t i;
++    int ret;
++
++    /* Without a template, nothing to test. */
++    if (sizeof(nop_func) == 0) {
++        return EXIT_SUCCESS;
++    }
++
++    /* Initialize memory chunk. */
++    ctx.pagesize = getpagesize();
++    ctx.ptr = mmap(NULL, PAGE_COUNT * ctx.pagesize,
++                   PROT_READ | PROT_WRITE | PROT_EXEC,
++                   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++    assert(ctx.ptr != MAP_FAILED);
++    for (i = 0; i < PAGE_COUNT; i++) {
++        memcpy(&ctx.ptr[i * ctx.pagesize], nop_func, sizeof(nop_func));
++    }
++    ctx.dev_null_fd = open("/dev/null", O_WRONLY);
++    assert(ctx.dev_null_fd >= 0);
++    ctx.mutator_count = 2;
++
++    /* Start threads. */
++    ret = pthread_create(&threads[0], NULL, thread_read, &ctx);
++    assert(ret == 0);
++    ret = pthread_create(&threads[1], NULL, thread_write, &ctx);
++    assert(ret == 0);
++    ret = pthread_create(&threads[2], NULL, thread_execute, &ctx);
++    assert(ret == 0);
++    for (i = 3; i <= 4; i++) {
++        ret = pthread_create(&threads[i], NULL, thread_mutate, &ctx);
++        assert(ret == 0);
++    }
++
++    /* Wait for threads to stop. */
++    for (i = 0; i < sizeof(threads) / sizeof(threads[0]); i++) {
++        ret = pthread_join(threads[i], NULL);
++        assert(ret == 0);
++    }
++
++    /* Destroy memory chunk. */
++    ret = close(ctx.dev_null_fd);
++    assert(ret == 0);
++    ret = munmap(ctx.ptr, PAGE_COUNT * ctx.pagesize);
++    assert(ret == 0);
++
++    return EXIT_SUCCESS;
++}
 -- 
-2.30.2
+2.38.1
 
 
