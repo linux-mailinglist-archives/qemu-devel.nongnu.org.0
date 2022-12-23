@@ -2,48 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4266552E3
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 17:39:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C97E165533C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 18:23:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8l3Q-0005DJ-3r; Fri, 23 Dec 2022 11:37:52 -0500
+	id 1p8ljz-0000Rw-MD; Fri, 23 Dec 2022 12:21:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1p8l3N-0005Cn-T8; Fri, 23 Dec 2022 11:37:50 -0500
-Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1p8l3L-0004Xk-PQ; Fri, 23 Dec 2022 11:37:49 -0500
-Received: from [192.168.106.118]
- (dynamic-095-118-065-151.95.118.pool.telefonica.de [95.118.65.151])
- by csgraf.de (Postfix) with ESMTPSA id B196E6080584;
- Fri, 23 Dec 2022 17:37:44 +0100 (CET)
-Message-ID: <94c1de49-c028-3368-f980-a6908049dca9@csgraf.de>
-Date: Fri, 23 Dec 2022 17:37:43 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p8ljr-0000RV-Df
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 12:21:43 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1p8ljp-0005fP-IF
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 12:21:43 -0500
+Received: by mail-wm1-x331.google.com with SMTP id ay40so4034720wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 23 Dec 2022 09:21:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=N6VH20qL4sE0lZpyOaFGtgugUA6r5bHhLgm4QE8OBOw=;
+ b=ymVMmx+T+QOaiMXjFM3b1CZYnxGktkaAoPkR0SCwmFw0T95ir5imqoKOgn4GAWPIHZ
+ +u+muaPQo9WA/ktH/8VjHlM2G9gKpYOV6P6d42XZe6ayAPMnRGtedHlVG/QmMqTb9PT0
+ axNR4hqySfzYIKViUZNVjgsDj+UeCqL5c6cLRaXOuS5lPq4rCjmH16Bzep3ZbcgVrE/K
+ JRJTfxqTNX9PYxaJOCcHFiZ4hHXcEdRXLT7D8qTrz0KFVcRD2f7wXMTaf9rxeAHttvzc
+ qx337QE9GjJMkwPR9lg8wwiWB85GUBihzcC4oVrnxpSiDKnP/YgPUCgFFD/mZ/pBy2eb
+ F8tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=N6VH20qL4sE0lZpyOaFGtgugUA6r5bHhLgm4QE8OBOw=;
+ b=fpJajNfuuIBqoXdzWxHm08QLuTrTEVRBU7xRbRTLYQvUuFh8ceVh2lyQ3Sxh8g0ByG
+ 1L0XSUDtcw+dHynZ2nNgnp0/QgUYHrhMwkptjbqPHMdYjhXyitGmSGGs0f09aBgTUmxk
+ ZdvwUw3/PWSbgvoI3BjzrFVE4laOTOaEl1/chZEXDYuzbGx+dVajfFyksw+ZqSprScoA
+ ZpfR+j85gke0fKNTBUuSyMILSWXX2XVt3l57N6lcEZTYr+C5JAFu6gfyyrA1cBt28MkM
+ jPwPStHyxMB56r3eAjj/LB3bxltf2VDZviFysLusIUgGOPgnTJmrTpGFiYhmm9vcSlv7
+ U0fQ==
+X-Gm-Message-State: AFqh2ko954PFJLTZ02/NG+aNpSL84I4F8s6fFyJ4rOkWy7eEt9UwKZ0W
+ OP9uR980HzeH/GQOrnRfCPQ3XQ==
+X-Google-Smtp-Source: AMrXdXvQXHjMs32tFSo54CENGIOH4C0sjabuQN22p502MydPfshnutC0L3ef4i4TFoFPXcfVlVx+yw==
+X-Received: by 2002:a05:600c:4998:b0:3cf:68d3:3047 with SMTP id
+ h24-20020a05600c499800b003cf68d33047mr7620160wmp.41.1671816096602; 
+ Fri, 23 Dec 2022 09:21:36 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bi20-20020a05600c3d9400b003c6c5a5a651sm4949426wmb.28.2022.12.23.09.21.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Dec 2022 09:21:36 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CBC801FFB7;
+ Fri, 23 Dec 2022 17:21:35 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL v2 0/6] testing updates
+Date: Fri, 23 Dec 2022 17:21:35 +0000
+Message-Id: <20221223172135.3450109-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH v3 1/2] hw/arm/virt: Consolidate GIC finalize logic
-Content-Language: en-US
-To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Zenghui Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20221223090107.98888-1-agraf@csgraf.de>
- <20221223090107.98888-2-agraf@csgraf.de> <87mt7expy4.fsf@redhat.com>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <87mt7expy4.fsf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,94 +91,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hey Cornelia,
+The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f9a0b:
 
-On 23.12.22 13:30, Cornelia Huck wrote:
-> On Fri, Dec 23 2022, Alexander Graf <agraf@csgraf.de> wrote:
->
->> Up to now, the finalize_gic_version() code open coded what is essentially
->> a support bitmap match between host/emulation environment and desired
->> target GIC type.
->>
->> This open coding leads to undesirable side effects. For example, a VM with
->> KVM and -smp 10 will automatically choose GICv3 while the same command
->> line with TCG will stay on GICv2 and fail the launch.
->>
->> This patch combines the TCG and KVM matching code paths by making
->> everything a 2 pass process. First, we determine which GIC versions the
->> current environment is able to support, then we go through a single
->> state machine to determine which target GIC mode that means for us.
->>
->> After this patch, the only user noticable changes should be consolidated
->> error messages as well as TCG -M virt supporting -smp > 8 automatically.
->>
->> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->>
->> ---
->>
->> v1 -> v2:
->>
->>    - Leave VIRT_GIC_VERSION defines intact, we need them for MADT generation
->>
->> v2 -> v3:
->>
->>    - Fix comment
->>    - Flip kvm-enabled logic for host around
->> ---
->>   hw/arm/virt.c         | 198 ++++++++++++++++++++++--------------------
->>   include/hw/arm/virt.h |  15 ++--
->>   2 files changed, 112 insertions(+), 101 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index ea2413a0ba..6d27f044fe 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -1820,6 +1820,84 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
->>       }
->>   }
->>   
->> +static VirtGICType finalize_gic_version_do(const char *accel_name,
->> +                                           VirtGICType gic_version,
->> +                                           int gics_supported,
->> +                                           unsigned int max_cpus)
->> +{
->> +    /* Convert host/max/nosel to GIC version number */
->> +    switch (gic_version) {
->> +    case VIRT_GIC_VERSION_HOST:
->> +        if (!kvm_enabled()) {
->> +            error_report("gic-version=host requires KVM");
->> +            exit(1);
->> +        }
->> +
->> +        /* For KVM, gic-version=host means gic-version=max */
->> +        return finalize_gic_version_do(accel_name, VIRT_GIC_VERSION_MAX,
->> +                                       gics_supported, max_cpus);
-> I think I'd still rather use /* fallthrough */ here, but let's leave
-> that decision to the maintainers.
+  Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu into staging (2022-12-21 18:08:09 +0000)
 
+are available in the Git repository at:
 
-I originally had a fallthrough here, then looked at the code and 
-concluded for myself that I dislike fallthroughs :). They make more 
-complicated code flows insanely complicated and are super error prone.
+  https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-231222-1
 
-> In any case,
->
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
->
-> [As an aside, we have a QEMU_FALLTHROUGH #define that maps to
-> __attribute__((fallthrough)) if available, but unlike the Linux kernel,
-> we didn't bother to convert everything to use it in QEMU. Should we?
-> Would using the attribute give us some extra benefits?]
+for you to fetch changes up to 3b4f911921e4233df0ba78d4acd2077da0b144ef:
 
+  gitlab-ci: Disable docs and GUIs for the build-tci and build-tcg-disabled jobs (2022-12-23 15:17:13 +0000)
 
-IMHO we're be better off just refactoring code in ways that don't 
-require fall-throughs. Modern compilers inline functions pretty well, so 
-I think there's very little reason for them anymore.
+----------------------------------------------------------------
+testing updates:
 
-Thanks a lot for the reviews!
+  - fix minor shell-ism that can break check-tcg
+  - turn off verbose logging on custom runners
+  - make configure echo call in CI
+  - fix unused variable in linux-test
+  - add binary compiler docker image for hexagon
+  - disable doc and gui builds for tci and disable-tcg builds
 
+----------------------------------------------------------------
+Alex Bennée (3):
+      gitlab: turn off verbose logging for make check on custom runners
+      configure: repeat ourselves for the benefit of CI
+      tests/tcg: fix unused variable in linux-test
 
-Alex
+Mukilan Thiyagarajan (2):
+      configure: Fix check-tcg not executing any tests
+      tests/docker: use prebuilt toolchain for debian-hexagon-cross
 
+Thomas Huth (1):
+      gitlab-ci: Disable docs and GUIs for the build-tci and build-tcg-disabled jobs
+
+ configure                                          |  11 +-
+ tests/tcg/multiarch/linux/linux-test.c             |   6 +-
+ .gitlab-ci.d/buildtest.yml                         |  10 +-
+ .gitlab-ci.d/container-cross.yml                   |  22 +---
+ .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml |  12 +-
+ .../custom-runners/ubuntu-22.04-aarch32.yml        |   2 +-
+ .../custom-runners/ubuntu-22.04-aarch64.yml        |  12 +-
+ MAINTAINERS                                        |   1 -
+ tests/docker/Makefile.include                      |   4 -
+ .../debian-hexagon-cross.d/build-toolchain.sh      | 141 ---------------------
+ .../docker/dockerfiles/debian-hexagon-cross.docker |  53 +++-----
+ 11 files changed, 47 insertions(+), 227 deletions(-)
+ delete mode 100755 tests/docker/dockerfiles/debian-hexagon-cross.d/build-toolchain.sh
+
+-- 
+2.34.1
 
 
