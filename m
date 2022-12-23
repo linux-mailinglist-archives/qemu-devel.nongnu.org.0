@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A56654BD5
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 04:56:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 055F9654C21
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 06:06:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8Z8w-0005Iq-Oy; Thu, 22 Dec 2022 22:54:46 -0500
+	id 1p8aEk-0007gM-VN; Fri, 23 Dec 2022 00:04:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1p8Z8q-0005IY-Og; Thu, 22 Dec 2022 22:54:40 -0500
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1p8Z8p-0005vZ-5Q; Thu, 22 Dec 2022 22:54:40 -0500
-Received: by mail-lf1-x12a.google.com with SMTP id b3so5542177lfv.2;
- Thu, 22 Dec 2022 19:54:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=hMgKS50buxG5u6eQHVXow7dss4+T6HHv2FK10nTZY0A=;
- b=eOqoqD0tSQJJ4lG8ej0Mkj9Wce4jDZb8th5nZLevZnjf+JTm7Vxo5caw5nbc77qjQq
- cUpdtiOiJyTgtlBQnh2cdGUDj5/xF21q+hCeXHkS2ge74K0CpGaLBNSZO0MN9+ubdTed
- 1GA9ZIwH4hNjzRb5veU6a/4/QeoapnKpkNluMhye+c/Ax69dkp9pe+GhV8vcW8m3kovm
- 0eWNOdhwODWfW158ll6g6He6nkBOXBJJC541YMR90GTwgazqFPyMVCVazVRE+9PgHqB1
- G240ayOXxI3M9r6i1XwtIOei7FEMeBI86FBbrb8b1ajDfcjmEQEsxlXawDBi58j3Gr3P
- bvIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hMgKS50buxG5u6eQHVXow7dss4+T6HHv2FK10nTZY0A=;
- b=T7dcgWyIcA3x0K1OyaZXuNEDlZFVsYwscgzAC6s/08UjLkNC4r/ZkQRtCZVWK6yBIB
- HpPktKgx/Wece1hi3gm5D+dW0VIp9FtLVWSO2LwhYPnoBwlBeFiwOIAbg7oGDILOyRF0
- IHqtzK9Tug9YH5FerBwwOBNQUJLFOMlhlpp9FgW9TBLf6eCHutcoFDAq42J7K9kqFjuO
- nnsyhRy7/K41XEVwKZWDSZ1dWNhBOR03196owq4xZCzFns5F5N98peVwlk3lzOb6LykN
- d2AuzQMn7XWU6kJ+M3Oa/8RbNcIT7jz0qkJj0qumx7EKZmgJOHUI7iwxDU/zviQgnJ0G
- rZHA==
-X-Gm-Message-State: AFqh2kq36J0P2T6gLhd0ePkS7Y5nga7hTuGOEfsMV+dg99/SMXTE1igr
- TA6BwQj1qewC3AxNMWtyxKA=
-X-Google-Smtp-Source: AMrXdXux76JtAihO6Es1t+bHIaJbMJB8OFP70k+rO9+3yOxHbYVQWQTIxVgcdpM+/VqUBUTlUfsCqw==
-X-Received: by 2002:ac2:539c:0:b0:4b5:3e6e:382d with SMTP id
- g28-20020ac2539c000000b004b53e6e382dmr2072608lfh.29.1671767676802; 
- Thu, 22 Dec 2022 19:54:36 -0800 (PST)
-Received: from gmail.com (81-232-4-135-no39.tbcn.telia.com. [81.232.4.135])
- by smtp.gmail.com with ESMTPSA id
- be31-20020a05651c171f00b0027a13ad14afsm248197ljb.125.2022.12.22.19.54.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Dec 2022 19:54:36 -0800 (PST)
-Date: Fri, 23 Dec 2022 04:54:36 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- Tyrone Ting <kfting@nuvoton.com>
-Subject: Re: [PATCH 5/6] hw/arm/xilinx_zynq: Remove tswap32() calls and
- constify smpboot[]
-Message-ID: <Y6UmfCkKwD463kqQ@toto>
-References: <20221222215549.86872-1-philmd@linaro.org>
- <20221222215549.86872-6-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
+ id 1p8aEi-0007fy-MP
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 00:04:48 -0500
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
+ id 1p8aEh-0008UO-1J
+ for qemu-devel@nongnu.org; Fri, 23 Dec 2022 00:04:48 -0500
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BN4x4aO015340; Fri, 23 Dec 2022 05:04:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=xt1AUDsdeT+15woJV+r7BSgmgLtVqARJyLiQl+rWvvo=;
+ b=KNNT4Y+uXTJJmC4fgEKQdYxxpq1ebTQGtR5hjO2Gn11xWkVKG167H77XLG65bRGC2tQu
+ GfTs5eCFcy/2rW6sVa2F03Lgyqs30ep7pPh9hvBZ/L1Y9L3qwcnEFcZhItih+Uc/wn4i
+ o7IaGt0Vwye1HHY0KmMaF64X+A1Wu9if+HwrGdcA0oxPNPWH9s0qgIGCUIBEv2yUanE/
+ MEYnuNW5TUIN0qJyO8LF0yo+ViEt2w4HjFLi/34fn/cpWmegHhubDITztIJnfslib/zC
+ 9DKgbOSBaIK0fGxNqCzZGC9z0FH7RlHuwRcLtVkuTk9IgvHpf2RlmSCCpSuEtDQW+1Or 9Q== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mm4xkuxtf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Dec 2022 05:04:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BN54fVW021917
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Dec 2022 05:04:41 GMT
+Received: from mthiyaga-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Thu, 22 Dec 2022 21:04:39 -0800
+From: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
+To: <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, <peter.maydell@linaro.org>, Mukilan Thiyagarajan
+ <quic_mthiyaga@quicinc.com>
+Subject: Re: [PULL 0/6] testing updates
+Date: Fri, 23 Dec 2022 10:34:10 +0530
+Message-ID: <20221223050410.12970-1-quic_mthiyaga@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <87h6xnxjpm.fsf@linaro.org>
+References: <87h6xnxjpm.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221222215549.86872-6-philmd@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: vmAgQuSfe3pd9BUsCGlyqVroNw6AmzdA
+X-Proofpoint-ORIG-GUID: vmAgQuSfe3pd9BUsCGlyqVroNw6AmzdA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-23_02,2022-12-22_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 adultscore=0 clxscore=1015 mlxscore=0 mlxlogscore=920
+ phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2212230044
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=quic_mthiyaga@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,99 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 22, 2022 at 10:55:48PM +0100, Philippe Mathieu-Daudé wrote:
-> ARM CPUs fetch instructions in little-endian.
-> 
-> smpboot[] encoded instructions are written in little-endian.
-> 
-> We call tswap32() on the array. tswap32 function swap a 32-bit
-> value if the target endianness doesn't match the host one.
-> Otherwise it is a NOP.
-> 
-> * On a little-endian host, the array is stored as it. tswap32()
->   is a NOP, and the vCPU fetches the instructions as it, in
->   little-endian.
-> 
-> * On a big-endian host, the array is stored as it. tswap32()
->   swap the instructions to little-endian, and the vCPU fetches
->   the instructions as it, in little-endian.
-> 
-> Using tswap() on system emulation is a bit odd: while the target
-> particularities might change the system emulation, the host ones
-> (such its endianness) shouldn't interfere.
-> 
-> We can simplify by using const_le32() to always store the
-> instructions in the array in little-endian, removing the need
-> for the dubious tswap().
+Thank you, Alex!
 
+Here is the patch to fix the issue. I've also removed
+the comment which is no longer applicable.
 
-Hi Philippe,
+Regards,
+Mukilan
 
+---
+ .gitlab-ci.d/container-cross.yml | 3 ---
+ 1 file changed, 3 deletions(-)
 
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->  hw/arm/xilinx_zynq.c | 27 ++++++++++++---------------
->  1 file changed, 12 insertions(+), 15 deletions(-)
-> 
-> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-> index 3190cc0b8d..4316143b71 100644
-> --- a/hw/arm/xilinx_zynq.c
-> +++ b/hw/arm/xilinx_zynq.c
-> @@ -71,6 +71,11 @@ static const int dma_irqs[8] = {
->  
->  #define ZYNQ_SDHCI_CAPABILITIES 0x69ec0080  /* Datasheet: UG585 (v1.12.1) */
->  
-> +struct ZynqMachineState {
-> +    MachineState parent;
-> +    Clock *ps_clk;
-> +};
-> +
->  #define ARMV7_IMM16(x) (extract32((x),  0, 12) | \
->                          extract32((x), 12,  4) << 16)
->  
-> @@ -79,29 +84,21 @@ static const int dma_irqs[8] = {
->   */
->  
->  #define SLCR_WRITE(addr, val) \
-> -    0xe3001000 + ARMV7_IMM16(extract32((val),  0, 16)), /* movw r1 ... */ \
-> -    0xe3401000 + ARMV7_IMM16(extract32((val), 16, 16)), /* movt r1 ... */ \
-> -    0xe5801000 + (addr)
-> -
-> -struct ZynqMachineState {
-> -    MachineState parent;
-> -    Clock *ps_clk;
-> -};
-> +    cpu_to_le32(0xe3001000 + ARMV7_IMM16(extract32((val),  0, 16))), /* movw r1 ... */ \
-> +    cpu_to_le32(0xe3401000 + ARMV7_IMM16(extract32((val), 16, 16))), /* movt r1 ... */ \
+diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
+index 5486dc43c6..e0d75d5824 100644
+--- a/.gitlab-ci.d/container-cross.yml
++++ b/.gitlab-ci.d/container-cross.yml
+@@ -34,14 +34,11 @@ armhf-debian-cross-container:
+   variables:
+     NAME: debian-armhf-cross
+ 
+-# We never want to build hexagon in the CI system and by default we
+-# always want to refer to the master registry where it lives.
+ hexagon-cross-container:
+   extends: .container_job_template
+   stage: containers
+   variables:
+     NAME: debian-hexagon-cross
+-    QEMU_JOB_ONLY_FORKS: 1
+ 
+ hppa-debian-cross-container:
+   extends: .container_job_template
+-- 
+2.17.1
 
-Looks like the callers all pass in constants, perhaps const_le32 should be used everywhere or am I missing something?
-
-
-> +    const_le32(0xe5801000 + (addr))
->  
->  static void zynq_write_board_setup(ARMCPU *cpu,
->                                     const struct arm_boot_info *info)
->  {
-> -    int n;
-> -    uint32_t board_setup_blob[] = {
-> -        0xe3a004f8, /* mov r0, #0xf8000000 */
-> +    const uint32_t board_setup_blob[] = {
-> +        const_le32(0xe3a004f8),         /* mov r0, #0xf8000000 */
->          SLCR_WRITE(SLCR_UNLOCK_OFFSET, SLCR_XILINX_UNLOCK_KEY),
->          SLCR_WRITE(SLCR_ARM_PLL_OFFSET, 0x00014008),
->          SLCR_WRITE(SLCR_LOCK_OFFSET, SLCR_XILINX_LOCK_KEY),
-> -        0xe12fff1e, /* bx lr */
-> +        const_le32(0xe12fff1e)          /* bx lr */
->      };
-> -    for (n = 0; n < ARRAY_SIZE(board_setup_blob); n++) {
-> -        board_setup_blob[n] = tswap32(board_setup_blob[n]);
-> -    }
-> +
->      rom_add_blob_fixed("board-setup", board_setup_blob,
->                         sizeof(board_setup_blob), BOARD_SETUP_ADDR);
->  }
-> -- 
-> 2.38.1
-> 
 
