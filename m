@@ -2,45 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A7F654E00
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 10:02:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88ADC654E27
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Dec 2022 10:11:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8dvp-0002ST-3V; Fri, 23 Dec 2022 04:01:33 -0500
+	id 1p8e4M-0005pD-Pq; Fri, 23 Dec 2022 04:10:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1p8dvW-0002RH-2P; Fri, 23 Dec 2022 04:01:14 -0500
-Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1p8dvT-0001P5-Qw; Fri, 23 Dec 2022 04:01:13 -0500
-Received: from localhost.localdomain
- (dynamic-095-118-065-151.95.118.pool.telefonica.de [95.118.65.151])
- by csgraf.de (Postfix) with ESMTPSA id A0C366080975;
- Fri, 23 Dec 2022 10:01:08 +0100 (CET)
-From: Alexander Graf <agraf@csgraf.de>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Zenghui Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v3 2/2] hw/arm/virt: Make accels in GIC finalize logic explicit
-Date: Fri, 23 Dec 2022 10:01:07 +0100
-Message-Id: <20221223090107.98888-3-agraf@csgraf.de>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20221223090107.98888-1-agraf@csgraf.de>
-References: <20221223090107.98888-1-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p8e4D-0005nL-1t; Fri, 23 Dec 2022 04:10:16 -0500
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1p8e4B-000558-Bq; Fri, 23 Dec 2022 04:10:12 -0500
+Received: by mail-lj1-x22c.google.com with SMTP id v11so4363308ljk.12;
+ Fri, 23 Dec 2022 01:10:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZN0FXykyWIoNVZhTRLiPb0PX3c97d9vcVgUlaLhMh+M=;
+ b=JSLxMoko6V1VmZ+Mn9hKhMVpZRVvowh2mRc+pFeU64Xjxu0nDzEPbK75+IjAz9OijJ
+ /hDiGIPwg6Sn/F18Zsz7vlpkp73z3+Vv8gEkaMu6rkf8Urju3W9h4eeuFj1OgWtDm3Vs
+ Ck6L6KE0x6Q4sRSuegN+u6PxU7zyrz7ds9ZXROQu4UN1OnDso7QMx8oSC7gO3fvh40qN
+ kCRWBQ/fh4xRQiVcO+BSEp3Jr66D5wKERxAG06I33q6D2kBP3OpoOdsh+NsVSwyqJr08
+ N3B4LGHDd13/p+xsB06LraulPG9mHHJvg8/mcAmyRMGIaWRh/JNsnivPVKrf747uQpn/
+ WnwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZN0FXykyWIoNVZhTRLiPb0PX3c97d9vcVgUlaLhMh+M=;
+ b=gc5fI5Q8mIyWzvcQ/JNmx5SZorB8pfhI8mkXr0bRPnWD3QYVEmxRmhajmdVH+g5TeH
+ Y+8W1N8+xvuQz6LP0qUYWAeTW08av6zg58JuXHImA4ZeWfX/dXvbBJoE69lc790UGSmo
+ Jx0YjLbxMgvxfQSOKodniThAGBDL2SVNTEQiCb3A0m6m2IypefZcKQp8ISZ89r16yWqx
+ +In5DMEdykIADjWPKw+FXR/RSREpnMuIwnntHT4FFTMJFL1yI7XNBRBcIwqEjZEGjvWE
+ iKQMXYUi6nBPRI90zCWi3puhZEXdCDlRldRuSf6FCENHRhrWVJ3W9shanzPW2yBpLKKg
+ X9BA==
+X-Gm-Message-State: AFqh2kqKVTnU7rlBEjXW/Mb0tdY3gzJX9zcaBuEuGm4YsI3aIgIjBMsk
+ fpIz9jRkCQSTdrnUXljg0j8Oz4D/GNbu1TCvGCU=
+X-Google-Smtp-Source: AMrXdXu8krHNqM7M72rufi6uF0pli8oYSZI/YlELQqqv7GvLVmbkCS3/1EDS78WTlqPX61zcanIxijrGb3U7263O13g=
+X-Received: by 2002:a2e:b5b8:0:b0:277:44b2:6b9c with SMTP id
+ f24-20020a2eb5b8000000b0027744b26b9cmr437681ljn.26.1671786607850; Fri, 23 Dec
+ 2022 01:10:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
+ <20221221182300.307900-3-dbarboza@ventanamicro.com>
+In-Reply-To: <20221221182300.307900-3-dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 23 Dec 2022 17:09:56 +0800
+Message-ID: <CAEUhbmW2rJuGfrmobAPY7oe6gSVic3HrmG_kWXPDOi3-8xK2-w@mail.gmail.com>
+Subject: Re: [PATCH 02/15] hw/riscv/spike: use 'fdt' from MachineState
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-lj1-x22c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,56 +82,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Let's explicitly list out all accelerators that we support when trying to
-determine the supported set of GIC versions. KVM was already separate, so
-the only missing one is HVF which simply reuses all of TCG's emulation
-code and thus has the same compatibility matrix.
+On Thu, Dec 22, 2022 at 2:24 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+> The MachineState object provides a 'fdt' pointer that is already being
+> used by other RISC-V machines, and it's also used by the 'dumpdtb' QMP
+> command.
+>
+> Remove the 'fdt' pointer from SpikeState and use MachineState::fdt
+> instead.
+>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  hw/riscv/spike.c         | 12 +++++-------
+>  include/hw/riscv/spike.h |  2 --
+>  2 files changed, 5 insertions(+), 9 deletions(-)
+>
 
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-
----
-
-v1 -> v2:
-
-  - Include TCG header for tcg_enabled()
----
- hw/arm/virt.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 6d27f044fe..611f40c1da 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -47,6 +47,7 @@
- #include "sysemu/numa.h"
- #include "sysemu/runstate.h"
- #include "sysemu/tpm.h"
-+#include "sysemu/tcg.h"
- #include "sysemu/kvm.h"
- #include "sysemu/hvf.h"
- #include "hw/loader.h"
-@@ -1929,7 +1930,7 @@ static void finalize_gic_version(VirtMachineState *vms)
-         /* KVM w/o kernel irqchip can only deal with GICv2 */
-         gics_supported |= VIRT_GIC_VERSION_2_MASK;
-         accel_name = "KVM with kernel-irqchip=off";
--    } else {
-+    } else if (tcg_enabled() || hvf_enabled())  {
-         gics_supported |= VIRT_GIC_VERSION_2_MASK;
-         if (module_object_class_by_name("arm-gicv3")) {
-             gics_supported |= VIRT_GIC_VERSION_3_MASK;
-@@ -1938,6 +1939,9 @@ static void finalize_gic_version(VirtMachineState *vms)
-                 gics_supported |= VIRT_GIC_VERSION_4_MASK;
-             }
-         }
-+    } else {
-+        error_report("Unsupported accelerator, can not determine GIC support");
-+        exit(1);
-     }
- 
-     /*
--- 
-2.37.1 (Apple Git-137.1)
-
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
 
