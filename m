@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF13E65594F
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20662655960
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:41:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8zj8-0006Pq-LC; Sat, 24 Dec 2022 03:17:54 -0500
+	id 1p8zjA-0006Ub-Hv; Sat, 24 Dec 2022 03:17:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p8zi5-00068F-O5
+ id 1p8zi5-00068E-Nn
  for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:03 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p8zhy-0000Jh-KQ
+ (envelope-from <gaosong@loongson.cn>) id 1p8zhy-0000KW-GQ
  for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:16:49 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Axz+tktaZjEEkIAA--.18545S3;
+ by gateway (Coremail) with SMTP id _____8Dx9vBktaZjEUkIAA--.18454S3;
  Sat, 24 Dec 2022 16:16:36 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxPuRhtaZjuccKAA--.38440S7; 
+ AQAAf8CxPuRhtaZjuccKAA--.38440S8; 
  Sat, 24 Dec 2022 16:16:35 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH 05/43] target/loongarch: Implement vadd/vsub
-Date: Sat, 24 Dec 2022 16:15:55 +0800
-Message-Id: <20221224081633.4185445-6-gaosong@loongson.cn>
+Subject: [RFC PATCH 06/43] target/loongarch: Implement vaddi/vsubi
+Date: Sat, 24 Dec 2022 16:15:56 +0800
+Message-Id: <20221224081633.4185445-7-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221224081633.4185445-1-gaosong@loongson.cn>
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S7
+X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S8
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxKrWUZr17CryUAF13AFy7Jrb_yoWxArWfpw
- 17trW7Kr48GFZ7X3Zavw13Zw1YqrsFkw17uw1fJw18Z3y7JF9rXr1Fq3y29FW7C3ykuFy0
- 9a43C34UKFZ8Jw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxKw4xKF4xAFWDCF47Kw4fuFg_yoW3JF43pw
+ 1UtrW7KF4UGFZ7X3Zavw1a9w4qqrsrKw1Uuwn3Kw18ZrW3XFnrZr1vq3y29FWDW3yDXFy0
+ g3WUuryqkF98Jw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bnxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
@@ -75,219 +75,220 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VADD.{B/H/W/D/Q};
-- VSUB.{B/H/W/D/Q}.
+- VADDI.{B/H/W/D}U;
+- VSUBI.{B/H/W/D}U.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    | 23 ++++++
- target/loongarch/helper.h                   | 12 +++
- target/loongarch/insn_trans/trans_lsx.c.inc | 23 ++++++
- target/loongarch/insns.decode               | 22 ++++++
- target/loongarch/lsx_helper.c               | 81 +++++++++++++++++++++
- 5 files changed, 161 insertions(+)
+ target/loongarch/disas.c                    | 14 +++++
+ target/loongarch/helper.h                   |  9 +++
+ target/loongarch/insn_trans/trans_lsx.c.inc | 21 +++++++
+ target/loongarch/insns.decode               | 11 ++++
+ target/loongarch/lsx_helper.c               | 67 +++++++++++++++++++++
+ 5 files changed, 122 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 858dfcc53a..51c597603e 100644
+index 51c597603e..13a503951a 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -755,3 +755,26 @@ static bool trans_fcmp_cond_##suffix(DisasContext *ctx, \
+@@ -768,6 +768,11 @@ static void output_vvv(DisasContext *ctx, arg_vvv *a, const char *mnemonic)
+     output(ctx, mnemonic, "v%d, v%d, v%d", a->vd, a->vj, a->vk);
+ }
  
- FCMP_INSN(s)
- FCMP_INSN(d)
-+
-+#define INSN_LSX(insn, type)                                \
-+static bool trans_##insn(DisasContext *ctx, arg_##type * a) \
-+{                                                           \
-+    output_##type(ctx, a, #insn);                           \
-+    return true;                                            \
-+}
-+
-+static void output_vvv(DisasContext *ctx, arg_vvv *a, const char *mnemonic)
++static void output_vv_i(DisasContext *ctx, arg_vv_i *a, const char *mnemonic)
 +{
-+    output(ctx, mnemonic, "v%d, v%d, v%d", a->vd, a->vj, a->vk);
++    output(ctx, mnemonic, "v%d, v%d, 0x%x", a->vd, a->vj, a->imm);
 +}
 +
-+INSN_LSX(vadd_b,           vvv)
-+INSN_LSX(vadd_h,           vvv)
-+INSN_LSX(vadd_w,           vvv)
-+INSN_LSX(vadd_d,           vvv)
-+INSN_LSX(vadd_q,           vvv)
-+INSN_LSX(vsub_b,           vvv)
-+INSN_LSX(vsub_h,           vvv)
-+INSN_LSX(vsub_w,           vvv)
-+INSN_LSX(vsub_d,           vvv)
-+INSN_LSX(vsub_q,           vvv)
+ INSN_LSX(vadd_b,           vvv)
+ INSN_LSX(vadd_h,           vvv)
+ INSN_LSX(vadd_w,           vvv)
+@@ -778,3 +783,12 @@ INSN_LSX(vsub_h,           vvv)
+ INSN_LSX(vsub_w,           vvv)
+ INSN_LSX(vsub_d,           vvv)
+ INSN_LSX(vsub_q,           vvv)
++
++INSN_LSX(vaddi_bu,         vv_i)
++INSN_LSX(vaddi_hu,         vv_i)
++INSN_LSX(vaddi_wu,         vv_i)
++INSN_LSX(vaddi_du,         vv_i)
++INSN_LSX(vsubi_bu,         vv_i)
++INSN_LSX(vsubi_hu,         vv_i)
++INSN_LSX(vsubi_wu,         vv_i)
++INSN_LSX(vsubi_du,         vv_i)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 9c01823a26..465bc36cb8 100644
+index 465bc36cb8..d6d50f6771 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -130,3 +130,15 @@ DEF_HELPER_4(ldpte, void, env, tl, tl, i32)
- DEF_HELPER_1(ertn, void, env)
- DEF_HELPER_1(idle, void, env)
- #endif
+@@ -142,3 +142,12 @@ DEF_HELPER_4(vsub_h, void, env, i32, i32, i32)
+ DEF_HELPER_4(vsub_w, void, env, i32, i32, i32)
+ DEF_HELPER_4(vsub_d, void, env, i32, i32, i32)
+ DEF_HELPER_4(vsub_q, void, env, i32, i32, i32)
 +
-+/* LoongArch LSX  */
-+DEF_HELPER_4(vadd_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vadd_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vadd_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vadd_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vadd_q, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsub_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsub_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsub_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsub_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsub_q, void, env, i32, i32, i32)
++DEF_HELPER_4(vaddi_bu, void, env, i32, i32, i32)
++DEF_HELPER_4(vaddi_hu, void, env, i32, i32, i32)
++DEF_HELPER_4(vaddi_wu, void, env, i32, i32, i32)
++DEF_HELPER_4(vaddi_du, void, env, i32, i32, i32)
++DEF_HELPER_4(vsubi_bu, void, env, i32, i32, i32)
++DEF_HELPER_4(vsubi_hu, void, env, i32, i32, i32)
++DEF_HELPER_4(vsubi_wu, void, env, i32, i32, i32)
++DEF_HELPER_4(vsubi_du, void, env, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index d0bc9f561e..b2276ae688 100644
+index b2276ae688..9485a03a08 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -14,3 +14,26 @@
- #else
- #define CHECK_SXE
- #endif
-+
-+static bool gen_vvv(DisasContext *ctx, arg_vvv *a,
-+                    void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32))
+@@ -27,6 +27,18 @@ static bool gen_vvv(DisasContext *ctx, arg_vvv *a,
+     return true;
+ }
+ 
++static bool gen_vv_i(DisasContext *ctx, arg_vv_i *a,
++                     void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32))
 +{
 +    TCGv_i32 vd = tcg_constant_i32(a->vd);
 +    TCGv_i32 vj = tcg_constant_i32(a->vj);
-+    TCGv_i32 vk = tcg_constant_i32(a->vk);
++    TCGv_i32 imm = tcg_constant_i32(a->imm);
 +
 +    CHECK_SXE;
-+    func(cpu_env, vd, vj, vk);
++    func(cpu_env, vd, vj, imm);
 +    return true;
 +}
 +
-+TRANS(vadd_b, gen_vvv, gen_helper_vadd_b)
-+TRANS(vadd_h, gen_vvv, gen_helper_vadd_h)
-+TRANS(vadd_w, gen_vvv, gen_helper_vadd_w)
-+TRANS(vadd_d, gen_vvv, gen_helper_vadd_d)
-+TRANS(vadd_q, gen_vvv, gen_helper_vadd_q)
-+TRANS(vsub_b, gen_vvv, gen_helper_vsub_b)
-+TRANS(vsub_h, gen_vvv, gen_helper_vsub_h)
-+TRANS(vsub_w, gen_vvv, gen_helper_vsub_w)
-+TRANS(vsub_d, gen_vvv, gen_helper_vsub_d)
-+TRANS(vsub_q, gen_vvv, gen_helper_vsub_q)
+ TRANS(vadd_b, gen_vvv, gen_helper_vadd_b)
+ TRANS(vadd_h, gen_vvv, gen_helper_vadd_h)
+ TRANS(vadd_w, gen_vvv, gen_helper_vadd_w)
+@@ -37,3 +49,12 @@ TRANS(vsub_h, gen_vvv, gen_helper_vsub_h)
+ TRANS(vsub_w, gen_vvv, gen_helper_vsub_w)
+ TRANS(vsub_d, gen_vvv, gen_helper_vsub_d)
+ TRANS(vsub_q, gen_vvv, gen_helper_vsub_q)
++
++TRANS(vaddi_bu, gen_vv_i, gen_helper_vaddi_bu)
++TRANS(vaddi_hu, gen_vv_i, gen_helper_vaddi_hu)
++TRANS(vaddi_wu, gen_vv_i, gen_helper_vaddi_wu)
++TRANS(vaddi_du, gen_vv_i, gen_helper_vaddi_du)
++TRANS(vsubi_bu, gen_vv_i, gen_helper_vsubi_bu)
++TRANS(vsubi_hu, gen_vv_i, gen_helper_vsubi_hu)
++TRANS(vsubi_wu, gen_vv_i, gen_helper_vsubi_wu)
++TRANS(vsubi_du, gen_vv_i, gen_helper_vsubi_du)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 3fdc6e148c..0dd6ab20a2 100644
+index 0dd6ab20a2..4f8226060a 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -484,3 +484,25 @@ ldpte            0000 01100100 01 ........ ..... 00000    @j_i
- ertn             0000 01100100 10000 01110 00000 00000    @empty
- idle             0000 01100100 10001 ...............      @i15
- dbcl             0000 00000010 10101 ...............      @i15
+@@ -490,11 +490,13 @@ dbcl             0000 00000010 10101 ...............      @i15
+ #
+ 
+ &vvv          vd vj vk
++&vv_i         vd vj imm
+ 
+ #
+ # LSX Formats
+ #
+ @vvv               .... ........ ..... vk:5 vj:5 vd:5    &vvv
++@vv_ui5           .... ........ ..... imm:5 vj:5 vd:5    &vv_i
+ 
+ vadd_b           0111 00000000 10100 ..... ..... .....    @vvv
+ vadd_h           0111 00000000 10101 ..... ..... .....    @vvv
+@@ -506,3 +508,12 @@ vsub_h           0111 00000000 11001 ..... ..... .....    @vvv
+ vsub_w           0111 00000000 11010 ..... ..... .....    @vvv
+ vsub_d           0111 00000000 11011 ..... ..... .....    @vvv
+ vsub_q           0111 00010010 11011 ..... ..... .....    @vvv
 +
-+#
-+# LSX Argument sets
-+#
-+
-+&vvv          vd vj vk
-+
-+#
-+# LSX Formats
-+#
-+@vvv               .... ........ ..... vk:5 vj:5 vd:5    &vvv
-+
-+vadd_b           0111 00000000 10100 ..... ..... .....    @vvv
-+vadd_h           0111 00000000 10101 ..... ..... .....    @vvv
-+vadd_w           0111 00000000 10110 ..... ..... .....    @vvv
-+vadd_d           0111 00000000 10111 ..... ..... .....    @vvv
-+vadd_q           0111 00010010 11010 ..... ..... .....    @vvv
-+vsub_b           0111 00000000 11000 ..... ..... .....    @vvv
-+vsub_h           0111 00000000 11001 ..... ..... .....    @vvv
-+vsub_w           0111 00000000 11010 ..... ..... .....    @vvv
-+vsub_d           0111 00000000 11011 ..... ..... .....    @vvv
-+vsub_q           0111 00010010 11011 ..... ..... .....    @vvv
++vaddi_bu         0111 00101000 10100 ..... ..... .....    @vv_ui5
++vaddi_hu         0111 00101000 10101 ..... ..... .....    @vv_ui5
++vaddi_wu         0111 00101000 10110 ..... ..... .....    @vv_ui5
++vaddi_du         0111 00101000 10111 ..... ..... .....    @vv_ui5
++vsubi_bu         0111 00101000 11000 ..... ..... .....    @vv_ui5
++vsubi_hu         0111 00101000 11001 ..... ..... .....    @vv_ui5
++vsubi_wu         0111 00101000 11010 ..... ..... .....    @vv_ui5
++vsubi_du         0111 00101000 11011 ..... ..... .....    @vv_ui5
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index 325574a026..195b2ffa8d 100644
+index 195b2ffa8d..e227db20d3 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -4,3 +4,84 @@
-  *
-  * Copyright (c) 2022 Loongson Technology Corporation Limited
-  */
+@@ -15,6 +15,11 @@
+                        uint32_t vd, uint32_t vj, uint32_t vk) \
+     { FUNC(env, vd, vj, vk, BIT, __VA_ARGS__); }
+ 
++#define DO_HELPER_VV_I(NAME, BIT, FUNC, ...)                   \
++    void helper_##NAME(CPULoongArchState *env,                 \
++                       uint32_t vd, uint32_t vj, uint32_t imm) \
++    { FUNC(env, vd, vj, imm, BIT, __VA_ARGS__ ); }
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "exec/helper-proto.h"
-+
-+#define DO_HELPER_VVV(NAME, BIT, FUNC, ...)                   \
-+    void helper_##NAME(CPULoongArchState *env,                \
-+                       uint32_t vd, uint32_t vj, uint32_t vk) \
-+    { FUNC(env, vd, vj, vk, BIT, __VA_ARGS__); }
-+
-+static void helper_vvv(CPULoongArchState *env,
-+                       uint32_t vd, uint32_t vj, uint32_t vk, int bit,
-+                       void (*func)(vec_t*, vec_t*, vec_t*, int, int))
+ static void helper_vvv(CPULoongArchState *env,
+                        uint32_t vd, uint32_t vj, uint32_t vk, int bit,
+                        void (*func)(vec_t*, vec_t*, vec_t*, int, int))
+@@ -29,6 +34,19 @@ static void helper_vvv(CPULoongArchState *env,
+     }
+ }
+ 
++static  void helper_vv_i(CPULoongArchState *env,
++                         uint32_t vd, uint32_t vj, uint32_t imm, int bit,
++                         void (*func)(vec_t*, vec_t*, uint32_t, int, int))
 +{
 +    int i;
 +    vec_t *Vd = &(env->fpr[vd].vec);
 +    vec_t *Vj = &(env->fpr[vj].vec);
-+    vec_t *Vk = &(env->fpr[vk].vec);
 +
 +    for (i = 0; i < LSX_LEN/bit; i++) {
-+        func(Vd, Vj, Vk, bit, i);
++        func(Vd, Vj, imm, bit, i);
 +    }
 +}
 +
-+static void do_vadd(vec_t *Vd, vec_t *Vj, vec_t *Vk,  int bit, int n)
+ static void do_vadd(vec_t *Vd, vec_t *Vj, vec_t *Vk,  int bit, int n)
+ {
+     switch (bit) {
+@@ -85,3 +103,52 @@ DO_HELPER_VVV(vsub_h, 16, helper_vvv, do_vsub)
+ DO_HELPER_VVV(vsub_w, 32, helper_vvv, do_vsub)
+ DO_HELPER_VVV(vsub_d, 64, helper_vvv, do_vsub)
+ DO_HELPER_VVV(vsub_q, 128, helper_vvv, do_vsub)
++
++static void do_vaddi(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
 +{
 +    switch (bit) {
 +    case 8:
-+        Vd->B[n] = Vj->B[n] + Vk->B[n];
++        Vd->B[n] = Vj->B[n] + imm;
 +        break;
 +    case 16:
-+        Vd->H[n] = Vj->H[n] + Vk->H[n];
++        Vd->H[n] = Vj->H[n] + imm;
 +        break;
 +    case 32:
-+        Vd->W[n] = Vj->W[n] + Vk->W[n];
++        Vd->W[n] = Vj->W[n] + imm;
 +        break;
 +    case 64:
-+        Vd->D[n] = Vj->D[n] + Vk->D[n];
-+        break;
-+    case 128:
-+        Vd->Q[n] = Vj->Q[n] + Vk->Q[n];
++        Vd->D[n] = Vj->D[n] + imm;
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static void do_vsub(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++static void do_vsubi(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
 +{
 +    switch (bit) {
 +    case 8:
-+        Vd->B[n] = Vj->B[n] - Vk->B[n];
++        Vd->B[n] = Vj->B[n] - imm;
 +        break;
 +    case 16:
-+        Vd->H[n] = Vj->H[n] - Vk->H[n];
++        Vd->H[n] = Vj->H[n] - imm;
 +        break;
 +    case 32:
-+        Vd->W[n] = Vj->W[n] - Vk->W[n];
++        Vd->W[n] = Vj->W[n] - imm;
 +        break;
 +    case 64:
-+        Vd->D[n] = Vj->D[n] - Vk->D[n];
-+        break;
-+    case 128:
-+        Vd->Q[n] = Vj->Q[n] - Vk->Q[n];
++        Vd->D[n] = Vd->D[n] - imm;
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+DO_HELPER_VVV(vadd_b, 8, helper_vvv, do_vadd)
-+DO_HELPER_VVV(vadd_h, 16, helper_vvv, do_vadd)
-+DO_HELPER_VVV(vadd_w, 32, helper_vvv, do_vadd)
-+DO_HELPER_VVV(vadd_d, 64, helper_vvv, do_vadd)
-+DO_HELPER_VVV(vadd_q, 128, helper_vvv, do_vadd)
-+DO_HELPER_VVV(vsub_b, 8, helper_vvv, do_vsub)
-+DO_HELPER_VVV(vsub_h, 16, helper_vvv, do_vsub)
-+DO_HELPER_VVV(vsub_w, 32, helper_vvv, do_vsub)
-+DO_HELPER_VVV(vsub_d, 64, helper_vvv, do_vsub)
-+DO_HELPER_VVV(vsub_q, 128, helper_vvv, do_vsub)
++DO_HELPER_VV_I(vaddi_bu, 8, helper_vv_i, do_vaddi)
++DO_HELPER_VV_I(vaddi_hu, 16, helper_vv_i, do_vaddi)
++DO_HELPER_VV_I(vaddi_wu, 32, helper_vv_i, do_vaddi)
++DO_HELPER_VV_I(vaddi_du, 64, helper_vv_i, do_vaddi)
++DO_HELPER_VV_I(vsubi_bu, 8, helper_vv_i, do_vsubi)
++DO_HELPER_VV_I(vsubi_hu, 16, helper_vv_i, do_vsubi)
++DO_HELPER_VV_I(vsubi_wu, 32, helper_vv_i, do_vsubi)
++DO_HELPER_VV_I(vsubi_du, 64, helper_vv_i, do_vsubi)
 -- 
 2.31.1
 
