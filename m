@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62BEA655AE7
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 19:08:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6808A655AE8
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 19:10:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p98vp-0006LJ-VV; Sat, 24 Dec 2022 13:07:37 -0500
+	id 1p98xs-0007IG-Td; Sat, 24 Dec 2022 13:09:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p98vo-0006L2-7q
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 13:07:36 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1p98xp-0007Hy-TS
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 13:09:41 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p98vm-0005wd-Hq
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 13:07:36 -0500
-Received: by mail-pl1-x634.google.com with SMTP id 4so7609379plj.3
- for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 10:07:33 -0800 (PST)
+ id 1p98xo-0006BP-Az
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 13:09:41 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id n4so7621087plp.1
+ for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 10:09:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=KLqMcv/pshFSNmf5DFTOj4LYp3xdfvtqY2D3mScUeoM=;
- b=KtNfiDx9n6maB8OF0rV7vGn0uHcjGYWRgN8eUSbPQLagCtrTtgCJRQWO++9/GJ8tsP
- gIDEY/kyJNsg01c596QWsvXD4yPNi7e7SV+F8X3o+36RvIHevisleGOAB+IJNtAgrSol
- h80kcfn07uOrhS1zyAnjoFOTakbhS6mbnn/RNKZe75biS9QEVNZ80cCX+KUTwyb+VDkc
- ac1B7P+FCYS1EUBwiss7d4Az81MDuD0tEs3uLs+z2xulmP4pSqxTOe5AhKu1OfGjvSsL
- Zt56X1CfQOZSDlk34FimeVEQIo5PDMDt6jBCNxRCtlPyye/R+PPtkCLFR/FeI2WkvuSk
- VEMg==
+ bh=3nnwYIhqbIG01A/mHtQ5F147lqXQ4Ac4AYmfsDz7X10=;
+ b=fEv+8PoHnwFaLq9FTKEmRyUtt62uvcg/EG6dGAL2pT3GlqBS37q1U0aJcIfnKNHgTJ
+ jRFOK3/td1uCAhR8yWeXCBNs+D8RX7wCo0kFqMEb36iAQ5k5rmOGyd0xHulp3X2OW0B0
+ rPrdKgN77Ke4eNf6drSq1i65RS/itHrz6JCP32FswipndBvHFXCo1j2wybWC9kr8/SLB
+ jpd49dFlfQJ8dhClTaAi7jsuHkUZGi7O91qoO50wxJ++NyNz/UNxoyC0neqc6BOUQcJp
+ iA3WIPJozHqET7MvxdQzeao6FCq81YnwuI5L2/7JMXwG0YuAW3mNSmSd9ESLHpVmKjG8
+ FTuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KLqMcv/pshFSNmf5DFTOj4LYp3xdfvtqY2D3mScUeoM=;
- b=LhLjZ1ZwVCyn8Zd5ZVFfIrBz8jiLnts8bJRyzITuVSsz6bzIdEQj30nEDzfqt5+c6K
- zn6IOhY0F4gcMsWte7dVyV27xotI91PCuLHYNwbrzuAT3d+L+Q6NaWIQu3qhEV8l9WEL
- W2v+eA3xVJycWzzkvLvH2j/LfEhUBm7C0Nhsu2TTlQg0uq6AtipTGsfcVJdI86l2MUGx
- pSM3xf1uZkZh8iw9TwDjcO5Iz8DgMKZaRgZEj48HAoInDTxWbj2FyBmmxt5r4uDF3++T
- 9F6bXpi2uhcdEvCtMalgXZpzLk7OYLigPpiK2/4NSSAVq3HoRjpY3llMJGY/IudR32nP
- Yhpw==
-X-Gm-Message-State: AFqh2kqU2UokayodVO+XtMbX5O91L1BSqD9Rkk2c0NCWNujRk3aQa09L
- xYl6mluE5+bXJSi/bHyFcr9zC+9lqfVrOkSY
-X-Google-Smtp-Source: AMrXdXtVJD8g+mYPQfDFnuM1/rrE0DxfsMps+DduAWY8Ezj0o2Unova9uTZMXpKekQ/BPTNsAOjWNg==
-X-Received: by 2002:a17:902:7891:b0:191:3c62:3be8 with SMTP id
- q17-20020a170902789100b001913c623be8mr18465953pll.4.1671905252320; 
- Sat, 24 Dec 2022 10:07:32 -0800 (PST)
+ bh=3nnwYIhqbIG01A/mHtQ5F147lqXQ4Ac4AYmfsDz7X10=;
+ b=2cFaOl9h1eKKeyYytbBySQFJ2VHKb3fr9MY6yY7ileJdd4JENxirG3ds8lXm9Vj05y
+ fGjx7+OBjDZXui0OWUl2TUEjhUkDN11ja5je3eogcByhjRF7G8qAn8BT2ZN0OXpgt+yf
+ P7H9YywxN60sAGlTbassg9bY3b/oJM39uXShbNXmMI/ccLOwdmh1TXDeDTYB/JI5Jjfq
+ PR+XU5Q+RNSq4NgVOhFa+8vxCHmN/TE7I/TpHxdgNk18Q9cHm2bt31o8IN87PCFga1Gk
+ yf5kUOQT0PagVh71ljhXsbUI7+ZzloH9ZD9qcYb54YbGNz7wSGW4e8Uo7G4dORPT2Qkr
+ s5cw==
+X-Gm-Message-State: AFqh2kqj+VIHiynMiCXAVFmTsunaYQuP6+v6GJAthuzXjVCKQzphJ/WC
+ 929xvLPYNlUq+rzDRsXhflDASw==
+X-Google-Smtp-Source: AMrXdXuz10OEFpY71MHhiTyAWu+ATWfEfWTzOyoVgE1HNZ+V4bQUhoJNdFtC132bTohV2zK3HYtDWg==
+X-Received: by 2002:a05:6a20:c78e:b0:aa:15b6:6322 with SMTP id
+ hk14-20020a056a20c78e00b000aa15b66322mr15469771pzb.42.1671905378429; 
+ Sat, 24 Dec 2022 10:09:38 -0800 (PST)
 Received: from [172.16.2.110] (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- i18-20020a170902e49200b0018157b415dbsm4409609ple.63.2022.12.24.10.07.31
+ k3-20020aa79723000000b0053e62b6fd22sm4398971pfg.126.2022.12.24.10.09.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Dec 2022 10:07:31 -0800 (PST)
-Message-ID: <10925cbb-3113-b915-ce7a-3f9867119606@linaro.org>
-Date: Sat, 24 Dec 2022 10:07:30 -0800
+ Sat, 24 Dec 2022 10:09:37 -0800 (PST)
+Message-ID: <4452751a-2af6-adf1-8ac9-9001cef9a22a@linaro.org>
+Date: Sat, 24 Dec 2022 10:09:36 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 15/43] target/loongarch: Implement
- vmul/vmuh/vmulw{ev/od}
+Subject: Re: [RFC PATCH 16/43] target/loongarch: Implement
+ vmadd/vmsub/vmaddw{ev/od}
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-16-gaosong@loongson.cn>
+ <20221224081633.4185445-17-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221224081633.4185445-16-gaosong@loongson.cn>
+In-Reply-To: <20221224081633.4185445-17-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -94,51 +94,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/24/22 00:16, Song Gao wrote:
-> +DEF_HELPER_4(vmul_b, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmul_h, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmul_w, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmul_d, void, env, i32, i32, i32)
+> +TRANS(vmadd_b, gen_vvv, gen_helper_vmadd_b)
+> +TRANS(vmadd_h, gen_vvv, gen_helper_vmadd_h)
+> +TRANS(vmadd_w, gen_vvv, gen_helper_vmadd_w)
+> +TRANS(vmadd_d, gen_vvv, gen_helper_vmadd_d)
+> +TRANS(vmsub_b, gen_vvv, gen_helper_vmsub_b)
+> +TRANS(vmsub_h, gen_vvv, gen_helper_vmsub_h)
+> +TRANS(vmsub_w, gen_vvv, gen_helper_vmsub_w)
+> +TRANS(vmsub_d, gen_vvv, gen_helper_vmsub_d)
 
-These are tcg_gen_gvec_mul.
+Implement with mul, add, sub.
 
-> +DEF_HELPER_4(vmuh_b, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmuh_h, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmuh_w, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmuh_d, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmuh_bu, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmuh_hu, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmuh_wu, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmuh_du, void, env, i32, i32, i32)
+> +TRANS(vmaddwev_h_b, gen_vvv, gen_helper_vmaddwev_h_b)
+> +TRANS(vmaddwev_w_h, gen_vvv, gen_helper_vmaddwev_w_h)
+> +TRANS(vmaddwev_d_w, gen_vvv, gen_helper_vmaddwev_d_w)
+> +TRANS(vmaddwev_q_d, gen_vvv, gen_helper_vmaddwev_q_d)
+> +TRANS(vmaddwod_h_b, gen_vvv, gen_helper_vmaddwod_h_b)
+> +TRANS(vmaddwod_w_h, gen_vvv, gen_helper_vmaddwod_w_h)
+> +TRANS(vmaddwod_d_w, gen_vvv, gen_helper_vmaddwod_d_w)
+> +TRANS(vmaddwod_q_d, gen_vvv, gen_helper_vmaddwod_q_d)
+> +TRANS(vmaddwev_h_bu, gen_vvv, gen_helper_vmaddwev_h_bu)
+> +TRANS(vmaddwev_w_hu, gen_vvv, gen_helper_vmaddwev_w_hu)
+> +TRANS(vmaddwev_d_wu, gen_vvv, gen_helper_vmaddwev_d_wu)
+> +TRANS(vmaddwev_q_du, gen_vvv, gen_helper_vmaddwev_q_du)
+> +TRANS(vmaddwod_h_bu, gen_vvv, gen_helper_vmaddwod_h_bu)
+> +TRANS(vmaddwod_w_hu, gen_vvv, gen_helper_vmaddwod_w_hu)
+> +TRANS(vmaddwod_d_wu, gen_vvv, gen_helper_vmaddwod_d_wu)
+> +TRANS(vmaddwod_q_du, gen_vvv, gen_helper_vmaddwod_q_du)
+> +TRANS(vmaddwev_h_bu_b, gen_vvv, gen_helper_vmaddwev_h_bu_b)
+> +TRANS(vmaddwev_w_hu_h, gen_vvv, gen_helper_vmaddwev_w_hu_h)
+> +TRANS(vmaddwev_d_wu_w, gen_vvv, gen_helper_vmaddwev_d_wu_w)
+> +TRANS(vmaddwev_q_du_d, gen_vvv, gen_helper_vmaddwev_q_du_d)
+> +TRANS(vmaddwod_h_bu_b, gen_vvv, gen_helper_vmaddwod_h_bu_b)
+> +TRANS(vmaddwod_w_hu_h, gen_vvv, gen_helper_vmaddwod_w_hu_h)
+> +TRANS(vmaddwod_d_wu_w, gen_vvv, gen_helper_vmaddwod_d_wu_w)
+> +TRANS(vmaddwod_q_du_d, gen_vvv, gen_helper_vmaddwod_q_du_d)
 
-These, sadly, have no generic equivalent.  We should probably create one, since several 
-targets have it.  E.g. do_vx_mulh in target/ppc/translate/vmx-impl.c.inc.
-
-> +DEF_HELPER_4(vmulwev_h_b, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_w_h, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_d_w, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_q_d, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_h_b, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_w_h, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_d_w, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_q_d, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_h_bu, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_w_hu, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_d_wu, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_q_du, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_h_bu, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_w_hu, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_d_wu, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_q_du, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_h_bu_b, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_w_hu_h, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_d_wu_w, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwev_q_du_d, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_h_bu_b, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_w_hu_h, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_d_wu_w, void, env, i32, i32, i32)
-> +DEF_HELPER_4(vmulwod_q_du_d, void, env, i32, i32, i32)
-
-Similar to widening add: shifts, and, mul.
+Similar to widening add, mul.
 
 
 r~
