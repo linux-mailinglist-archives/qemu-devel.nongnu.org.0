@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2146655932
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F809655946
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:30:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8zjD-0006Ye-9C; Sat, 24 Dec 2022 03:17:59 -0500
+	id 1p8zjk-0006ss-Ai; Sat, 24 Dec 2022 03:18:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p8ziE-00068W-95
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:03 -0500
+ id 1p8zjN-0006g8-A2
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:09 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p8ziB-0000tg-M2
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:16:57 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1p8zjK-0003Pu-Hk
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:09 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8DxfetrtaZjOkkIAA--.18602S3;
+ by gateway (Coremail) with SMTP id _____8Cx5vBrtaZjPEkIAA--.18216S3;
  Sat, 24 Dec 2022 16:16:43 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxPuRhtaZjuccKAA--.38440S23; 
+ AQAAf8CxPuRhtaZjuccKAA--.38440S24; 
  Sat, 24 Dec 2022 16:16:43 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH 21/43] target/loongarch: Implement vmskltz/vmskgez/vmsknz
-Date: Sat, 24 Dec 2022 16:16:11 +0800
-Message-Id: <20221224081633.4185445-22-gaosong@loongson.cn>
+Subject: [RFC PATCH 22/43] target/loongarch: Implement LSX logic instructions
+Date: Sat, 24 Dec 2022 16:16:12 +0800
+Message-Id: <20221224081633.4185445-23-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221224081633.4185445-1-gaosong@loongson.cn>
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S23
+X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S24
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3Xw1DAF45uF1rJr1Utry8uFg_yoW7GF1Dpr
- 47try7trWxJFZ3Z3Z2vayfu3yDXrsxKw48uan3tw18ZrW7WF1DZr48t39rKFWrWr1DXryI
- qasFyryDKFW5Jw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3AFy3ArW7Zr4DAw4UuFWfZrb_yoWxWry3pF
+ WYqry3trW8JFWDX3Wvvw43Zws0qrs3Kw1xua1rJr18ZFW7JFnrXrykt3yj9FWUWF95ZryI
+ ga4UZryUtryrJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bnxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -75,141 +75,176 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VMSKLTZ.{B/H/W/D};
-- VMSKGEZ.B;
-- VMSKNZ.B.
+- V{AND/OR/XOR/NOR/ANDN/ORN}.V;
+- V{AND/OR/XOR/NOR}I.B.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  7 +++
- target/loongarch/helper.h                   |  7 +++
- target/loongarch/insn_trans/trans_lsx.c.inc |  7 +++
- target/loongarch/insns.decode               |  7 +++
- target/loongarch/lsx_helper.c               | 54 +++++++++++++++++++++
- 5 files changed, 82 insertions(+)
+ target/loongarch/disas.c                    | 12 ++++
+ target/loongarch/helper.h                   | 12 ++++
+ target/loongarch/insn_trans/trans_lsx.c.inc | 12 ++++
+ target/loongarch/insns.decode               | 13 +++++
+ target/loongarch/lsx_helper.c               | 62 +++++++++++++++++++++
+ 5 files changed, 111 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 34a459410b..b674167120 100644
+index b674167120..3e8015ac0e 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -1055,3 +1055,10 @@ INSN_LSX(vsigncov_b,       vvv)
- INSN_LSX(vsigncov_h,       vvv)
- INSN_LSX(vsigncov_w,       vvv)
- INSN_LSX(vsigncov_d,       vvv)
+@@ -1062,3 +1062,15 @@ INSN_LSX(vmskltz_w,        vv)
+ INSN_LSX(vmskltz_d,        vv)
+ INSN_LSX(vmskgez_b,        vv)
+ INSN_LSX(vmsknz_b,         vv)
 +
-+INSN_LSX(vmskltz_b,        vv)
-+INSN_LSX(vmskltz_h,        vv)
-+INSN_LSX(vmskltz_w,        vv)
-+INSN_LSX(vmskltz_d,        vv)
-+INSN_LSX(vmskgez_b,        vv)
-+INSN_LSX(vmsknz_b,         vv)
++INSN_LSX(vand_v,           vvv)
++INSN_LSX(vor_v,            vvv)
++INSN_LSX(vxor_v,           vvv)
++INSN_LSX(vnor_v,           vvv)
++INSN_LSX(vandn_v,          vvv)
++INSN_LSX(vorn_v,           vvv)
++
++INSN_LSX(vandi_b,          vv_i)
++INSN_LSX(vori_b,           vv_i)
++INSN_LSX(vxori_b,          vv_i)
++INSN_LSX(vnori_b,          vv_i)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index c2b4407663..ae9351f513 100644
+index ae9351f513..77b576f22f 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -410,3 +410,10 @@ DEF_HELPER_4(vsigncov_b, void, env, i32, i32, i32)
- DEF_HELPER_4(vsigncov_h, void, env, i32, i32, i32)
- DEF_HELPER_4(vsigncov_w, void, env, i32, i32, i32)
- DEF_HELPER_4(vsigncov_d, void, env, i32, i32, i32)
+@@ -417,3 +417,15 @@ DEF_HELPER_3(vmskltz_w, void, env, i32, i32)
+ DEF_HELPER_3(vmskltz_d, void, env, i32, i32)
+ DEF_HELPER_3(vmskgez_b, void, env, i32, i32)
+ DEF_HELPER_3(vmsknz_b, void, env, i32,i32)
 +
-+DEF_HELPER_3(vmskltz_b, void, env, i32, i32)
-+DEF_HELPER_3(vmskltz_h, void, env, i32, i32)
-+DEF_HELPER_3(vmskltz_w, void, env, i32, i32)
-+DEF_HELPER_3(vmskltz_d, void, env, i32, i32)
-+DEF_HELPER_3(vmskgez_b, void, env, i32, i32)
-+DEF_HELPER_3(vmsknz_b, void, env, i32,i32)
++DEF_HELPER_4(vand_v, void, env, i32, i32, i32)
++DEF_HELPER_4(vor_v, void, env, i32, i32, i32)
++DEF_HELPER_4(vxor_v, void, env, i32, i32, i32)
++DEF_HELPER_4(vnor_v, void, env, i32, i32, i32)
++DEF_HELPER_4(vandn_v, void, env, i32, i32, i32)
++DEF_HELPER_4(vorn_v, void, env, i32, i32, i32)
++
++DEF_HELPER_4(vandi_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vori_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vxori_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vnori_b, void, env, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index ce207eda05..c02602c409 100644
+index c02602c409..c12de1d3d4 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -326,3 +326,10 @@ TRANS(vsigncov_b, gen_vvv, gen_helper_vsigncov_b)
- TRANS(vsigncov_h, gen_vvv, gen_helper_vsigncov_h)
- TRANS(vsigncov_w, gen_vvv, gen_helper_vsigncov_w)
- TRANS(vsigncov_d, gen_vvv, gen_helper_vsigncov_d)
+@@ -333,3 +333,15 @@ TRANS(vmskltz_w, gen_vv, gen_helper_vmskltz_w)
+ TRANS(vmskltz_d, gen_vv, gen_helper_vmskltz_d)
+ TRANS(vmskgez_b, gen_vv, gen_helper_vmskgez_b)
+ TRANS(vmsknz_b,  gen_vv, gen_helper_vmsknz_b)
 +
-+TRANS(vmskltz_b, gen_vv, gen_helper_vmskltz_b)
-+TRANS(vmskltz_h, gen_vv, gen_helper_vmskltz_h)
-+TRANS(vmskltz_w, gen_vv, gen_helper_vmskltz_w)
-+TRANS(vmskltz_d, gen_vv, gen_helper_vmskltz_d)
-+TRANS(vmskgez_b, gen_vv, gen_helper_vmskgez_b)
-+TRANS(vmsknz_b,  gen_vv, gen_helper_vmsknz_b)
++TRANS(vand_v, gen_vvv, gen_helper_vand_v)
++TRANS(vor_v, gen_vvv, gen_helper_vor_v)
++TRANS(vxor_v, gen_vvv, gen_helper_vxor_v)
++TRANS(vnor_v, gen_vvv, gen_helper_vnor_v)
++TRANS(vandn_v, gen_vvv, gen_helper_vandn_v)
++TRANS(vorn_v, gen_vvv, gen_helper_vorn_v)
++
++TRANS(vandi_b, gen_vv_i, gen_helper_vandi_b)
++TRANS(vori_b, gen_vv_i, gen_helper_vori_b)
++TRANS(vxori_b, gen_vv_i, gen_helper_vxori_b)
++TRANS(vnori_b, gen_vv_i, gen_helper_vnori_b)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index c7237730d3..864a524fe6 100644
+index 864a524fe6..03b7f76712 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -782,3 +782,10 @@ vsigncov_b       0111 00010010 11100 ..... ..... .....    @vvv
- vsigncov_h       0111 00010010 11101 ..... ..... .....    @vvv
- vsigncov_w       0111 00010010 11110 ..... ..... .....    @vvv
- vsigncov_d       0111 00010010 11111 ..... ..... .....    @vvv
+@@ -502,6 +502,7 @@ dbcl             0000 00000010 10101 ...............      @i15
+ @vv_ui4         .... ........ ..... . imm:4 vj:5 vd:5    &vv_i
+ @vv_ui5           .... ........ ..... imm:5 vj:5 vd:5    &vv_i
+ @vv_ui6            .... ........ .... imm:6 vj:5 vd:5    &vv_i
++@vv_ui8              .... ........ .. imm:8 vj:5 vd:5    &vv_i
+ @vv_i5           .... ........ ..... imm:s5 vj:5 vd:5    &vv_i
+ 
+ vadd_b           0111 00000000 10100 ..... ..... .....    @vvv
+@@ -789,3 +790,15 @@ vmskltz_w        0111 00101001 11000 10010 ..... .....    @vv
+ vmskltz_d        0111 00101001 11000 10011 ..... .....    @vv
+ vmskgez_b        0111 00101001 11000 10100 ..... .....    @vv
+ vmsknz_b         0111 00101001 11000 11000 ..... .....    @vv
 +
-+vmskltz_b        0111 00101001 11000 10000 ..... .....    @vv
-+vmskltz_h        0111 00101001 11000 10001 ..... .....    @vv
-+vmskltz_w        0111 00101001 11000 10010 ..... .....    @vv
-+vmskltz_d        0111 00101001 11000 10011 ..... .....    @vv
-+vmskgez_b        0111 00101001 11000 10100 ..... .....    @vv
-+vmsknz_b         0111 00101001 11000 11000 ..... .....    @vv
++vand_v           0111 00010010 01100 ..... ..... .....    @vvv
++vor_v            0111 00010010 01101 ..... ..... .....    @vvv
++vxor_v           0111 00010010 01110 ..... ..... .....    @vvv
++vnor_v           0111 00010010 01111 ..... ..... .....    @vvv
++vandn_v          0111 00010010 10000 ..... ..... .....    @vvv
++vorn_v           0111 00010010 10001 ..... ..... .....    @vvv
++
++vandi_b          0111 00111101 00 ........ ..... .....    @vv_ui8
++vori_b           0111 00111101 01 ........ ..... .....    @vv_ui8
++vxori_b          0111 00111101 10 ........ ..... .....    @vv_ui8
++vnori_b          0111 00111101 11 ........ ..... .....    @vv_ui8
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index 73360e45e2..cea1d99eb6 100644
+index cea1d99eb6..c61479bf74 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -1858,3 +1858,57 @@ DO_HELPER_VVV(vsigncov_b, 8, helper_vvv, do_vsigncov)
- DO_HELPER_VVV(vsigncov_h, 16, helper_vvv, do_vsigncov)
- DO_HELPER_VVV(vsigncov_w, 32, helper_vvv, do_vsigncov)
- DO_HELPER_VVV(vsigncov_d, 64, helper_vvv, do_vsigncov)
+@@ -1912,3 +1912,65 @@ DO_HELPER_VV(vmskltz_w, 32, helper_vv_z, do_vmskltz)
+ DO_HELPER_VV(vmskltz_d, 64, helper_vv_z, do_vmskltz)
+ DO_HELPER_VV(vmskgez_b, 8, helper_vv_z, do_vmskgez)
+ DO_HELPER_VV(vmsknz_b, 8, helper_vv_z, do_vmsknz)
 +
-+/* Vd, Vj, vd = 0 */
-+static void helper_vv_z(CPULoongArchState *env,
-+                        uint32_t vd, uint32_t vj, int bit,
-+                        void (*func)(vec_t*, vec_t*, int, int))
++static void do_vand_v(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
-+    int i;
-+    vec_t *Vd = &(env->fpr[vd].vec);
-+    vec_t *Vj = &(env->fpr[vj].vec);
-+
-+    Vd->D[0] = 0;
-+    Vd->D[1] = 0;
-+
-+    for (i = 0; i < LSX_LEN/bit; i++) {
-+        func(Vd, Vj, bit, i);
-+    }
++    Vd->D[n] = Vj->D[n] & Vk->D[n];
 +}
 +
-+static void do_vmskltz(vec_t *Vd, vec_t *Vj, int bit, int n)
++static void do_vor_v(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
-+    switch (bit) {
-+    case 8:
-+        Vd->H[0] |= ((0x80 & Vj->B[n]) == 0) << n;
-+        break;
-+    case 16:
-+        Vd->H[0] |= ((0x8000 & Vj->H[n]) == 0) << n;
-+        break;
-+    case 32:
-+        Vd->H[0] |= ((0x80000000 & Vj->W[n]) == 0) << n;
-+        break;
-+    case 64:
-+        Vd->H[0] |= ((0x8000000000000000 & Vj->D[n]) == 0) << n;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
++    Vd->D[n] = Vj->D[n] | Vk->D[n];
 +}
 +
-+static void do_vmskgez(vec_t *Vd, vec_t *Vj, int bit, int n)
++static void do_vxor_v(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
-+    Vd->H[0] |= !((0x80 & Vj->B[n]) == 0) << n;
++    Vd->D[n] = Vj->D[n] ^ Vk->D[n];
 +}
 +
-+static void do_vmsknz(vec_t *Vd, vec_t *Vj, int bit, int n)
++static void do_vnor_v(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
-+    Vd->H[0] |=  (Vj->B[n] == 0) << n;
++    Vd->D[n] = ~(Vj->D[n] | Vk->D[n]);
 +}
 +
-+DO_HELPER_VV(vmskltz_b, 8, helper_vv_z, do_vmskltz)
-+DO_HELPER_VV(vmskltz_h, 16, helper_vv_z, do_vmskltz)
-+DO_HELPER_VV(vmskltz_w, 32, helper_vv_z, do_vmskltz)
-+DO_HELPER_VV(vmskltz_d, 64, helper_vv_z, do_vmskltz)
-+DO_HELPER_VV(vmskgez_b, 8, helper_vv_z, do_vmskgez)
-+DO_HELPER_VV(vmsknz_b, 8, helper_vv_z, do_vmsknz)
++static void do_vandn_v(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++{
++    Vd->D[n] = ~Vj->D[n] & Vk->D[n];
++}
++
++static void do_vorn_v(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++{
++    Vd->D[n] = Vj->D[n] | ~Vk->D[n];
++}
++
++DO_HELPER_VVV(vand_v, 64, helper_vvv, do_vand_v)
++DO_HELPER_VVV(vor_v, 64, helper_vvv, do_vor_v)
++DO_HELPER_VVV(vxor_v, 64, helper_vvv, do_vxor_v)
++DO_HELPER_VVV(vnor_v, 64, helper_vvv, do_vnor_v)
++DO_HELPER_VVV(vandn_v, 64, helper_vvv, do_vandn_v)
++DO_HELPER_VVV(vorn_v, 64, helper_vvv, do_vorn_v)
++
++static void do_vandi_b(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
++{
++    Vd->B[n] = Vj->B[n] & imm;
++}
++
++static void do_vori_b(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
++{
++    Vd->B[n] = Vj->B[n] | imm;
++}
++
++static void do_vxori_b(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
++{
++    Vd->B[n] = Vj->B[n] ^ imm;
++}
++
++static void do_vnori_b(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
++{
++    Vd->B[n] = ~(Vj->B[n] | imm);
++}
++
++DO_HELPER_VV_I(vandi_b, 8, helper_vv_i, do_vandi_b)
++DO_HELPER_VV_I(vori_b, 8, helper_vv_i, do_vori_b)
++DO_HELPER_VV_I(vxori_b, 8, helper_vv_i, do_vxori_b)
++DO_HELPER_VV_I(vnori_b, 8, helper_vv_i, do_vnori_b)
 -- 
 2.31.1
 
