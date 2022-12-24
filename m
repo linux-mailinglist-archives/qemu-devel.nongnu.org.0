@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D749655961
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29618655941
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:28:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8zj8-0006Q8-MR; Sat, 24 Dec 2022 03:17:54 -0500
+	id 1p8zjq-0007De-Hd; Sat, 24 Dec 2022 03:18:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p8ziA-00068J-1t
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:03 -0500
+ id 1p8zjO-0006gk-JL
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:11 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p8zi6-0000Wu-U9
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:16:53 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1p8zjK-0003Q2-Iw
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:10 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8DxvutmtaZjHEkIAA--.18822S3;
- Sat, 24 Dec 2022 16:16:38 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8BxVPBntaZjHkkIAA--.18722S3;
+ Sat, 24 Dec 2022 16:16:39 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxPuRhtaZjuccKAA--.38440S13; 
+ AQAAf8CxPuRhtaZjuccKAA--.38440S14; 
  Sat, 24 Dec 2022 16:16:38 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH 11/43] target/loongarch: Implement vavg/vavgr
-Date: Sat, 24 Dec 2022 16:16:01 +0800
-Message-Id: <20221224081633.4185445-12-gaosong@loongson.cn>
+Subject: [RFC PATCH 12/43] target/loongarch: Implement vabsd
+Date: Sat, 24 Dec 2022 16:16:02 +0800
+Message-Id: <20221224081633.4185445-13-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221224081633.4185445-1-gaosong@loongson.cn>
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S13
+X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S14
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxKrW7CFy5Kr43ZF15CFyxGrg_yoWfXF15pw
- 4ayry7tw4UWFZrZF1vvw4fAws0gwsFgw17uwn3X3W8uay7JFykZrykt3y29rW7CryDJry8
- X3W7AryqyFW5Gw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3WFW8Jw1xJw4xXw17WFW5Awb_yoW7Cw1xpr
+ W3trW7trWUGFZrZ3ZYvw43J3WYqr4qgw4I9an3Jw48uayxJFykZFyrt3yI9FWxGw4DAryI
+ g3Wjy34qyFyrJ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bnxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -75,251 +75,156 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VAVG.{B/H/W/D}[U];
-- VAVGR.{B/H/W/D}[U].
+- VABSD.{B/H/W/D}[U].
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  17 +++
- target/loongarch/helper.h                   |  17 +++
- target/loongarch/insn_trans/trans_lsx.c.inc |  17 +++
- target/loongarch/insns.decode               |  17 +++
- target/loongarch/lsx_helper.c               | 125 ++++++++++++++++++++
- 5 files changed, 193 insertions(+)
+ target/loongarch/disas.c                    |  9 +++
+ target/loongarch/helper.h                   |  9 +++
+ target/loongarch/insn_trans/trans_lsx.c.inc |  9 +++
+ target/loongarch/insns.decode               |  9 +++
+ target/loongarch/lsx_helper.c               | 63 +++++++++++++++++++++
+ 5 files changed, 99 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 81253f00e9..b0a491033e 100644
+index b0a491033e..8ec612446c 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -879,3 +879,20 @@ INSN_LSX(vaddwod_h_bu_b,   vvv)
- INSN_LSX(vaddwod_w_hu_h,   vvv)
- INSN_LSX(vaddwod_d_wu_w,   vvv)
- INSN_LSX(vaddwod_q_du_d,   vvv)
+@@ -896,3 +896,12 @@ INSN_LSX(vavgr_bu,         vvv)
+ INSN_LSX(vavgr_hu,         vvv)
+ INSN_LSX(vavgr_wu,         vvv)
+ INSN_LSX(vavgr_du,         vvv)
 +
-+INSN_LSX(vavg_b,           vvv)
-+INSN_LSX(vavg_h,           vvv)
-+INSN_LSX(vavg_w,           vvv)
-+INSN_LSX(vavg_d,           vvv)
-+INSN_LSX(vavg_bu,          vvv)
-+INSN_LSX(vavg_hu,          vvv)
-+INSN_LSX(vavg_wu,          vvv)
-+INSN_LSX(vavg_du,          vvv)
-+INSN_LSX(vavgr_b,          vvv)
-+INSN_LSX(vavgr_h,          vvv)
-+INSN_LSX(vavgr_w,          vvv)
-+INSN_LSX(vavgr_d,          vvv)
-+INSN_LSX(vavgr_bu,         vvv)
-+INSN_LSX(vavgr_hu,         vvv)
-+INSN_LSX(vavgr_wu,         vvv)
-+INSN_LSX(vavgr_du,         vvv)
++INSN_LSX(vabsd_b,          vvv)
++INSN_LSX(vabsd_h,          vvv)
++INSN_LSX(vabsd_w,          vvv)
++INSN_LSX(vabsd_d,          vvv)
++INSN_LSX(vabsd_bu,         vvv)
++INSN_LSX(vabsd_hu,         vvv)
++INSN_LSX(vabsd_wu,         vvv)
++INSN_LSX(vabsd_du,         vvv)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index ff16626381..c6a387c54d 100644
+index c6a387c54d..8298af2d40 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -233,3 +233,20 @@ DEF_HELPER_4(vaddwod_h_bu_b, void, env, i32, i32, i32)
- DEF_HELPER_4(vaddwod_w_hu_h, void, env, i32, i32, i32)
- DEF_HELPER_4(vaddwod_d_wu_w, void, env, i32, i32, i32)
- DEF_HELPER_4(vaddwod_q_du_d, void, env, i32, i32, i32)
+@@ -250,3 +250,12 @@ DEF_HELPER_4(vavgr_bu, void, env, i32, i32, i32)
+ DEF_HELPER_4(vavgr_hu, void, env, i32, i32, i32)
+ DEF_HELPER_4(vavgr_wu, void, env, i32, i32, i32)
+ DEF_HELPER_4(vavgr_du, void, env, i32, i32, i32)
 +
-+DEF_HELPER_4(vavg_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavg_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavg_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavg_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavg_bu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavg_hu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavg_wu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavg_du, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavgr_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavgr_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavgr_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavgr_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavgr_bu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavgr_hu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavgr_wu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vavgr_du, void, env, i32, i32, i32)
++DEF_HELPER_4(vabsd_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vabsd_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vabsd_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vabsd_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vabsd_bu, void, env, i32, i32, i32)
++DEF_HELPER_4(vabsd_hu, void, env, i32, i32, i32)
++DEF_HELPER_4(vabsd_wu, void, env, i32, i32, i32)
++DEF_HELPER_4(vabsd_du, void, env, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index 69111c498c..2d43a88d74 100644
+index 2d43a88d74..00a921a935 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -151,3 +151,20 @@ TRANS(vaddwod_h_bu_b, gen_vvv, gen_helper_vaddwod_h_bu_b)
- TRANS(vaddwod_w_hu_h, gen_vvv, gen_helper_vaddwod_w_hu_h)
- TRANS(vaddwod_d_wu_w, gen_vvv, gen_helper_vaddwod_d_wu_w)
- TRANS(vaddwod_q_du_d, gen_vvv, gen_helper_vaddwod_q_du_d)
+@@ -168,3 +168,12 @@ TRANS(vavgr_bu, gen_vvv, gen_helper_vavgr_bu)
+ TRANS(vavgr_hu, gen_vvv, gen_helper_vavgr_hu)
+ TRANS(vavgr_wu, gen_vvv, gen_helper_vavgr_wu)
+ TRANS(vavgr_du, gen_vvv, gen_helper_vavgr_du)
 +
-+TRANS(vavg_b, gen_vvv, gen_helper_vavg_b)
-+TRANS(vavg_h, gen_vvv, gen_helper_vavg_h)
-+TRANS(vavg_w, gen_vvv, gen_helper_vavg_w)
-+TRANS(vavg_d, gen_vvv, gen_helper_vavg_d)
-+TRANS(vavg_bu, gen_vvv, gen_helper_vavg_bu)
-+TRANS(vavg_hu, gen_vvv, gen_helper_vavg_hu)
-+TRANS(vavg_wu, gen_vvv, gen_helper_vavg_wu)
-+TRANS(vavg_du, gen_vvv, gen_helper_vavg_du)
-+TRANS(vavgr_b, gen_vvv, gen_helper_vavgr_b)
-+TRANS(vavgr_h, gen_vvv, gen_helper_vavgr_h)
-+TRANS(vavgr_w, gen_vvv, gen_helper_vavgr_w)
-+TRANS(vavgr_d, gen_vvv, gen_helper_vavgr_d)
-+TRANS(vavgr_bu, gen_vvv, gen_helper_vavgr_bu)
-+TRANS(vavgr_hu, gen_vvv, gen_helper_vavgr_hu)
-+TRANS(vavgr_wu, gen_vvv, gen_helper_vavgr_wu)
-+TRANS(vavgr_du, gen_vvv, gen_helper_vavgr_du)
++TRANS(vabsd_b, gen_vvv, gen_helper_vabsd_b)
++TRANS(vabsd_h, gen_vvv, gen_helper_vabsd_h)
++TRANS(vabsd_w, gen_vvv, gen_helper_vabsd_w)
++TRANS(vabsd_d, gen_vvv, gen_helper_vabsd_d)
++TRANS(vabsd_bu, gen_vvv, gen_helper_vabsd_bu)
++TRANS(vabsd_hu, gen_vvv, gen_helper_vabsd_hu)
++TRANS(vabsd_wu, gen_vvv, gen_helper_vabsd_wu)
++TRANS(vabsd_du, gen_vvv, gen_helper_vabsd_du)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 7e99ead2de..de6e8a72a9 100644
+index de6e8a72a9..a770f37b99 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -601,3 +601,20 @@ vaddwod_h_bu_b   0111 00000100 00000 ..... ..... .....    @vvv
- vaddwod_w_hu_h   0111 00000100 00001 ..... ..... .....    @vvv
- vaddwod_d_wu_w   0111 00000100 00010 ..... ..... .....    @vvv
- vaddwod_q_du_d   0111 00000100 00011 ..... ..... .....    @vvv
+@@ -618,3 +618,12 @@ vavgr_bu         0111 00000110 10100 ..... ..... .....    @vvv
+ vavgr_hu         0111 00000110 10101 ..... ..... .....    @vvv
+ vavgr_wu         0111 00000110 10110 ..... ..... .....    @vvv
+ vavgr_du         0111 00000110 10111 ..... ..... .....    @vvv
 +
-+vavg_b           0111 00000110 01000 ..... ..... .....    @vvv
-+vavg_h           0111 00000110 01001 ..... ..... .....    @vvv
-+vavg_w           0111 00000110 01010 ..... ..... .....    @vvv
-+vavg_d           0111 00000110 01011 ..... ..... .....    @vvv
-+vavg_bu          0111 00000110 01100 ..... ..... .....    @vvv
-+vavg_hu          0111 00000110 01101 ..... ..... .....    @vvv
-+vavg_wu          0111 00000110 01110 ..... ..... .....    @vvv
-+vavg_du          0111 00000110 01111 ..... ..... .....    @vvv
-+vavgr_b          0111 00000110 10000 ..... ..... .....    @vvv
-+vavgr_h          0111 00000110 10001 ..... ..... .....    @vvv
-+vavgr_w          0111 00000110 10010 ..... ..... .....    @vvv
-+vavgr_d          0111 00000110 10011 ..... ..... .....    @vvv
-+vavgr_bu         0111 00000110 10100 ..... ..... .....    @vvv
-+vavgr_hu         0111 00000110 10101 ..... ..... .....    @vvv
-+vavgr_wu         0111 00000110 10110 ..... ..... .....    @vvv
-+vavgr_du         0111 00000110 10111 ..... ..... .....    @vvv
++vabsd_b          0111 00000110 00000 ..... ..... .....    @vvv
++vabsd_h          0111 00000110 00001 ..... ..... .....    @vvv
++vabsd_w          0111 00000110 00010 ..... ..... .....    @vvv
++vabsd_d          0111 00000110 00011 ..... ..... .....    @vvv
++vabsd_bu         0111 00000110 00100 ..... ..... .....    @vvv
++vabsd_hu         0111 00000110 00101 ..... ..... .....    @vvv
++vabsd_wu         0111 00000110 00110 ..... ..... .....    @vvv
++vabsd_du         0111 00000110 00111 ..... ..... .....    @vvv
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index 9e3131af1b..63161ecd1a 100644
+index 63161ecd1a..61dc92059e 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -716,3 +716,128 @@ DO_HELPER_VVV(vaddwod_h_bu_b, 16, helper_vvv, do_vaddwod_u_s)
- DO_HELPER_VVV(vaddwod_w_hu_h, 32, helper_vvv, do_vaddwod_u_s)
- DO_HELPER_VVV(vaddwod_d_wu_w, 64, helper_vvv, do_vaddwod_u_s)
- DO_HELPER_VVV(vaddwod_q_du_d, 128, helper_vvv, do_vaddwod_u_s)
+@@ -841,3 +841,66 @@ DO_HELPER_VVV(vavgr_bu, 8, helper_vvv, do_vavgr_u)
+ DO_HELPER_VVV(vavgr_hu, 16, helper_vvv, do_vavgr_u)
+ DO_HELPER_VVV(vavgr_wu, 32, helper_vvv, do_vavgr_u)
+ DO_HELPER_VVV(vavgr_du, 64, helper_vvv, do_vavgr_u)
 +
-+
-+static int64_t vavg_s(int64_t s1, int64_t s2)
++static int64_t vabsd_s(int64_t s1, int64_t s2)
 +{
-+    return (s1 >> 1) + (s2 >> 1) + (s1 & s2 & 1);
++    return s1 < s2 ? s2- s1 : s1 -s2;
 +}
 +
-+static void do_vavg_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++static void do_vabsd_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
 +    case 8:
-+        Vd->B[n] = vavg_s(Vj->B[n], Vk->B[n]);
++        Vd->B[n] = vabsd_s(Vj->B[n], Vk->B[n]);
 +        break;
 +    case 16:
-+        Vd->H[n] = vavg_s(Vj->H[n], Vk->H[n]);
++        Vd->H[n] = vabsd_s(Vj->H[n], Vk->H[n]);
 +        break;
 +    case 32:
-+        Vd->W[n] = vavg_s(Vj->W[n], Vk->W[n]);
++        Vd->W[n] = vabsd_s(Vj->W[n], Vk->W[n]);
 +        break;
 +    case 64:
-+        Vd->D[n] = vavg_s(Vj->D[n], Vk->D[n]);
++        Vd->D[n] = vabsd_s(Vj->D[n], Vk->D[n]);
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static uint64_t vavg_u(int64_t s1, int64_t s2, int bit)
-+{
-+    uint64_t umax = MAKE_64BIT_MASK(0, bit);
-+    uint64_t u1 = s1 & umax;
-+    uint64_t u2 = s2 & umax;
-+    return (u1 >> 1) + (u2 >> 1) + (u1 & u2 & 1);
-+}
-+
-+static void do_vavg_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
-+{
-+    switch (bit) {
-+    case 8:
-+        Vd->B[n] = vavg_u(Vj->B[n], Vk->B[n], bit);
-+        break;
-+    case 16:
-+        Vd->H[n] = vavg_u(Vj->H[n], Vk->H[n], bit);
-+        break;
-+    case 32:
-+        Vd->W[n] = vavg_u(Vj->W[n], Vk->W[n], bit);
-+        break;
-+    case 64:
-+        Vd->D[n] = vavg_u(Vj->D[n], Vk->D[n], bit);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+static int64_t vavgr_s(int64_t s1, int64_t s2)
-+{
-+    return (s1 >> 1) + (s2 >> 1) + ((s1 | s2) & 1);
-+}
-+
-+static void do_vavgr_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
-+{
-+    switch (bit) {
-+    case 8:
-+        Vd->B[n] = vavgr_s(Vj->B[n], Vk->B[n]);
-+        break;
-+    case 16:
-+        Vd->H[n] = vavgr_s(Vj->H[n], Vk->H[n]);
-+        break;
-+    case 32:
-+        Vd->W[n] = vavgr_s(Vj->W[n], Vk->W[n]);
-+        break;
-+    case 64:
-+        Vd->D[n] = vavgr_s(Vj->D[n], Vk->D[n]);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+static uint64_t vavgr_u(int64_t s1, int64_t s2, int bit)
++static uint64_t vabsd_u(int64_t s1, int64_t s2, int bit)
 +{
 +    uint64_t umax = MAKE_64BIT_MASK(0, bit);
 +    uint64_t u1 = s1 & umax;
 +    uint64_t u2 = s2 & umax;
 +
-+    return (u1 >> 1) + (u2 >> 1) + ((u1 | u2) & 1);
++    return u1 < u2 ? u2 - u1 : u1 -u2;
 +}
 +
-+static void do_vavgr_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++static void do_vabsd_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
 +    case 8:
-+        Vd->B[n] = vavgr_u(Vj->B[n], Vk->B[n], bit);
++        Vd->B[n] = vabsd_u(Vj->B[n], Vk->B[n], bit);
 +        break;
 +    case 16:
-+        Vd->H[n] = vavgr_u(Vj->H[n], Vk->H[n], bit);
++        Vd->H[n] = vabsd_u(Vj->H[n], Vk->H[n], bit);
 +        break;
 +    case 32:
-+        Vd->W[n] = vavgr_u(Vj->W[n], Vk->W[n], bit);
++        Vd->W[n] = vabsd_u(Vj->W[n], Vk->W[n], bit);
 +        break;
 +    case 64:
-+        Vd->D[n] = vavgr_u(Vj->D[n], Vk->D[n], bit);
++        Vd->D[n] = vabsd_u(Vj->D[n], Vk->D[n], bit);
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+DO_HELPER_VVV(vavg_b, 8, helper_vvv, do_vavg_s)
-+DO_HELPER_VVV(vavg_h, 16, helper_vvv, do_vavg_s)
-+DO_HELPER_VVV(vavg_w, 32, helper_vvv, do_vavg_s)
-+DO_HELPER_VVV(vavg_d, 64, helper_vvv, do_vavg_s)
-+DO_HELPER_VVV(vavg_bu, 8, helper_vvv, do_vavg_u)
-+DO_HELPER_VVV(vavg_hu, 16, helper_vvv, do_vavg_u)
-+DO_HELPER_VVV(vavg_wu, 32, helper_vvv, do_vavg_u)
-+DO_HELPER_VVV(vavg_du, 64, helper_vvv, do_vavg_u)
-+DO_HELPER_VVV(vavgr_b, 8, helper_vvv, do_vavgr_s)
-+DO_HELPER_VVV(vavgr_h, 16, helper_vvv, do_vavgr_s)
-+DO_HELPER_VVV(vavgr_w, 32, helper_vvv, do_vavgr_s)
-+DO_HELPER_VVV(vavgr_d, 64, helper_vvv, do_vavgr_s)
-+DO_HELPER_VVV(vavgr_bu, 8, helper_vvv, do_vavgr_u)
-+DO_HELPER_VVV(vavgr_hu, 16, helper_vvv, do_vavgr_u)
-+DO_HELPER_VVV(vavgr_wu, 32, helper_vvv, do_vavgr_u)
-+DO_HELPER_VVV(vavgr_du, 64, helper_vvv, do_vavgr_u)
++DO_HELPER_VVV(vabsd_b, 8, helper_vvv, do_vabsd_s)
++DO_HELPER_VVV(vabsd_h, 16, helper_vvv, do_vabsd_s)
++DO_HELPER_VVV(vabsd_w, 32, helper_vvv, do_vabsd_s)
++DO_HELPER_VVV(vabsd_d, 64, helper_vvv, do_vabsd_s)
++DO_HELPER_VVV(vabsd_bu, 8, helper_vvv, do_vabsd_u)
++DO_HELPER_VVV(vabsd_hu, 16, helper_vvv, do_vabsd_u)
++DO_HELPER_VVV(vabsd_wu, 32, helper_vvv, do_vabsd_u)
++DO_HELPER_VVV(vabsd_du, 64, helper_vvv, do_vabsd_u)
 -- 
 2.31.1
 
