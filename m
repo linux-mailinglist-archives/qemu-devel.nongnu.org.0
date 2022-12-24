@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9FF655ACC
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 18:09:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75242655AD0
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 18:18:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p980B-0003yV-6D; Sat, 24 Dec 2022 12:08:03 -0500
+	id 1p9893-0006Za-UC; Sat, 24 Dec 2022 12:17:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9807-0003y4-Td
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 12:08:00 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1p988u-0006XQ-UM
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 12:17:10 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9806-0005ZS-Eq
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 12:07:59 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- n10-20020a17090a73ca00b00225cbc4dfaeso3104765pjk.3
- for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 09:07:52 -0800 (PST)
+ id 1p988m-0007QC-3I
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 12:17:03 -0500
+Received: by mail-pl1-x634.google.com with SMTP id b2so7521448pld.7
+ for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 09:16:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ExtzzUQAabiwgXUluG2TTntedsJ1EafDlIgqAiiooS8=;
- b=Nlo35/0L8YToe1OqQqKLqg+Uwr+8xU1OZQVElfqbFoqkFxaNAnRDFzO+3VFwn0vJvD
- 2kbf4oes2fClJlsr99Bi/Y9N8/BdEOLFTpeEBJNca6l26JS3G1WXeb7bMcY4aCqMR8iv
- 7211Q+G/+7HagzQC0beTQop/j7t4XBoE+H+edGe7LRvsTUUKVxXjdP3CPmaF6i9+orA6
- IS4ZnQh+mACSB7SezZstZjl8zbqGagpiBe+mh9QNcaX4uHhIw4nqiXtasz6fS+nl6lbO
- AWs/jItov89wmh++IP1L54PCaGo1mVQD7iA6ydkZgAmU0PnVH9V/LYOaCvKDgTXLR8jt
- tuxw==
+ bh=tZfh6SGAED2pPoyoLwgBjyeFUnunRUjfLIRQrXCQLdI=;
+ b=qt269dPFU5IXGGn9gJUUzsrVLm75RC+o9gTmt7PkD2YrUl+xiGYXo85Q6SEcy6DzAI
+ n7pN3SCYsmiHgFMSDhg/QSpveUdb+Jhzeyjll+BsQ/UBZjLN4wyIj1ekfqrsoLmUzTWp
+ ATosShhrGOcDeO8IsQZ/9PMfRTTC1uFIg2/E6QOKUrMGE1GDWDDK0/1CHyH/HfQ78o02
+ EiMHCm16cDIDiQpWl7mQvhrpa7SrNB6eq96ysPKD+yPOVlsR2njUEVxWvw006Siqhmxa
+ ApSP96ISs+OeIyrCTazh8iC8mRN/Vug395vZP51uqx4V7r5zdYznmhf877LZi32WENJK
+ FSlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ExtzzUQAabiwgXUluG2TTntedsJ1EafDlIgqAiiooS8=;
- b=ebduEIWmMdNR+8b+Y+OGb3NkGAEfqrC1Ssbrmw/XgEL4s5VPJy9wL1C0yQ2wlwXoaP
- 5LaGacgKS+YFrJX3bskHnPFHuUx6egkis4CWwE4N/N0aHeoDPAa2/+yWdC4uYJ5kVfye
- W3CXBXnrDYvPGxuzSMO67j+NthqB020tPfP9N8n6AhJhlO6T/5jZi64OAfpLxW2aAE+0
- I+ykrp93MghrRbxNaY81DbOGkpr51vv1XhGbMXpCcd0NI4hHeckLEPh6L53+sCwOttde
- GUEb2ceN+45JKrdmdCAx348522AuEqbNNoLqn/SEnscAl5Yx/qnEG/HwxlFF53wuCQ8c
- Cufg==
-X-Gm-Message-State: AFqh2kr+9/gy10QaS63eMKTvOGHlii7/3hJFlgGii8Tf0u7PczFsOc3P
- XF3u7XKKjdC6D1ZD/d/sgZT8HA==
-X-Google-Smtp-Source: AMrXdXsKxCwRWF++oTOkFuEmgWYZOblmJAiwhESP2jsTSdmJTXfUzkQGMSvGd5Du/Z8ftuaikNx9Iw==
-X-Received: by 2002:a17:903:2052:b0:190:ec3f:7362 with SMTP id
- q18-20020a170903205200b00190ec3f7362mr13276710pla.42.1671901671533; 
- Sat, 24 Dec 2022 09:07:51 -0800 (PST)
+ bh=tZfh6SGAED2pPoyoLwgBjyeFUnunRUjfLIRQrXCQLdI=;
+ b=8LYALHhz7nAugTHEmvTALmUrctUT11HsCTZkcwThy+jKqgRdZx1PN3u9OyrLiSChjY
+ CYWpoxfzh7gX0KFSPFlqcKKJoky9XDuZDGLnNB/KAv+hiFWXTCsqVmeO9zPZ+ghnrSFl
+ X63fffhGn3aOZQwSOJnwJDpK6CiLtqg/1+2nnHJhd+T/VCgSS99Avo0HWldOi/zhR6bj
+ CPkXADMGycGphcsq3y9L54FZLOrT25WOuKRR2f5lamr5pbQxsSzRns6LmQwMNBitdSbR
+ cmqvFUDtNsiKKz00/tNw9WG+6G1caYPMIIFuxn5I9n7Q/ctro3lW8pPN72r8UiQRfX5s
+ X+mQ==
+X-Gm-Message-State: AFqh2kpmrgLQrzepnP/Vvxuh+BUpPBmjDjNWdUOOe4NgkU8LF6BnkUxL
+ TQqs07jk0DTNsfzh8QWsd1Af7g==
+X-Google-Smtp-Source: AMrXdXu1qwY1jOnUqSZNFVSiYcSLu6IUIemE0l89YupDvXlH1VETpgkhs6mEwEmf1d9QszfkQ7ZLnA==
+X-Received: by 2002:a05:6a20:a888:b0:af:758e:5923 with SMTP id
+ ca8-20020a056a20a88800b000af758e5923mr16297615pzb.21.1671902214143; 
+ Sat, 24 Dec 2022 09:16:54 -0800 (PST)
 Received: from [172.16.2.110] (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- x2-20020a170902ec8200b0017f72a430adsm4364039plg.71.2022.12.24.09.07.50
+ p8-20020a170902780800b00174f7d10a03sm4299377pll.86.2022.12.24.09.16.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Dec 2022 09:07:50 -0800 (PST)
-Message-ID: <86018c2b-7773-473d-328d-c11a41406532@linaro.org>
-Date: Sat, 24 Dec 2022 09:07:49 -0800
+ Sat, 24 Dec 2022 09:16:53 -0800 (PST)
+Message-ID: <9bfb8161-1341-75ce-2e9c-b73c3856dc52@linaro.org>
+Date: Sat, 24 Dec 2022 09:16:51 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 01/43] target/loongarch: Add vector data type vec_t
+Subject: Re: [RFC PATCH 05/43] target/loongarch: Implement vadd/vsub
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-2-gaosong@loongson.cn>
+ <20221224081633.4185445-6-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221224081633.4185445-2-gaosong@loongson.cn>
+In-Reply-To: <20221224081633.4185445-6-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -94,33 +93,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/24/22 00:15, Song Gao wrote:
-> +#define LSX_LEN   (128)
-> +typedef union vec_t vec_t;
-> +union vec_t {
-> +    int8_t   B[LSX_LEN / 8];
-> +    int16_t  H[LSX_LEN / 16];
-> +    int32_t  W[LSX_LEN / 32];
-> +    int64_t  D[LSX_LEN / 64];
-> +    __int128 Q[LSX_LEN / 128];
-> +};
+> +static bool gen_vvv(DisasContext *ctx, arg_vvv *a,
+> +                    void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32))
+> +{
+> +    TCGv_i32 vd = tcg_constant_i32(a->vd);
+> +    TCGv_i32 vj = tcg_constant_i32(a->vj);
+> +    TCGv_i32 vk = tcg_constant_i32(a->vk);
 > +
-> +typedef union fpr_t fpr_t;
-> +union fpr_t {
-> +    uint64_t d;
-> +    vec_t vec;
-> +};
+> +    CHECK_SXE;
+> +    func(cpu_env, vd, vj, vk);
+> +    return true;
+> +}
+> +
+> +TRANS(vadd_b, gen_vvv, gen_helper_vadd_b)
+> +TRANS(vadd_h, gen_vvv, gen_helper_vadd_h)
+> +TRANS(vadd_w, gen_vvv, gen_helper_vadd_w)
+> +TRANS(vadd_d, gen_vvv, gen_helper_vadd_d)
+> +TRANS(vadd_q, gen_vvv, gen_helper_vadd_q)
+> +TRANS(vsub_b, gen_vvv, gen_helper_vsub_b)
+> +TRANS(vsub_h, gen_vvv, gen_helper_vsub_h)
+> +TRANS(vsub_w, gen_vvv, gen_helper_vsub_w)
+> +TRANS(vsub_d, gen_vvv, gen_helper_vsub_d)
+> +TRANS(vsub_q, gen_vvv, gen_helper_vsub_q)
 
-You need to think about host endianness with this overlap and indexing.
-
-There are two different models which can be emulated:
-
-(1) target/{arm,s390x}/ has each uint64_t in host-endian order, but the words are indexed 
-little-endian.  See, for instance, target/s390x/tcg/vec.h.
-
-(2) target/{ppc,i386}/ has the entire vector in host-endian order.  See, for instance, 
-ZMM_* in target/i386/cpu.h.
-
-If you do nothing, I assume this will fail on a big-endian host.
+The 8 to 64-bit operations can be implemented with tcg_gen_gvec_{add,sub}.
+The 128-bit operations can be implemented with tcg_gen_{add,sub}2_i64.
 
 
 r~
