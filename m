@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE82655950
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:33:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A457655936
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:25:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8zjE-0006aP-9i; Sat, 24 Dec 2022 03:18:00 -0500
+	id 1p8zjC-0006Xp-In; Sat, 24 Dec 2022 03:17:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p8ziP-0006Bc-AH
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:09 -0500
+ id 1p8ziQ-0006Ce-E0
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:11 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p8ziM-0001gF-0W
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:09 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1p8ziM-0001ge-QX
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:10 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8DxtfB0taZjXUkIAA--.18289S3;
- Sat, 24 Dec 2022 16:16:52 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8Cxbet1taZjXkkIAA--.18623S3;
+ Sat, 24 Dec 2022 16:16:53 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxPuRhtaZjuccKAA--.38440S40; 
+ AQAAf8CxPuRhtaZjuccKAA--.38440S41; 
  Sat, 24 Dec 2022 16:16:52 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH 38/43] target/loongarch: Implement vbitsel vset
-Date: Sat, 24 Dec 2022 16:16:28 +0800
-Message-Id: <20221224081633.4185445-39-gaosong@loongson.cn>
+Subject: [RFC PATCH 39/43] target/loongarch: Implement vinsgr2vr vpickve2gr
+ vreplgr2vr
+Date: Sat, 24 Dec 2022 16:16:29 +0800
+Message-Id: <20221224081633.4185445-40-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221224081633.4185445-1-gaosong@loongson.cn>
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S40
+X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S41
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3AF18Xr17GF1DWryUtF1fWFg_yoWfZr1kp3
- yIyry3tr4UJFZ7X3ZYvw1Yv3Z8XrsxKw1j9a1fK3yv9w47WF1DAr40q3y29F45X3yvvFyj
- g3WUA34q9a95Xa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- be8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
- kF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020E
- x4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFV
- Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
- 1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
- 0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAI
- cVC0I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0x
- vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280
- aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
+X-Coremail-Antispam: 1Uk129KBjvAXoW3urW3Wr4DXFy8ZF1xZw1xuFg_yoW8Jw43Co
+ Z7W34Yyw18Jw1fur9Ik3WDW3WDJ340vw4DJayDuwnrGa4rJr12k348Gwn5Aa1kJFyFyFyU
+ GwsxAFy3tayagryDn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
+ J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
+ UUqG1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64
+ kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY
+ 1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aV
+ CY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x2
+ 6I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4
+ IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AG
+ Y7Cv6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+ 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF
+ 0xvE2Ix0cI8IcVAFwI0_Ar0_tr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42
+ IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: -18
@@ -75,288 +76,382 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VBITSEL.V;
-- VBITSELI.B;
-- VSET{EQZ/NEZ}.V;
-- VSETANYEQZ.{B/H/W/D};
-- VSETALLNEZ.{B/H/W/D}.
+- VINSGR2VR.{B/H/W/D};
+- VPICKVE2GR.{B/H/W/D}[U];
+- VREPLGR2VR.{B/H/W/D}.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  20 ++++
- target/loongarch/helper.h                   |  14 +++
- target/loongarch/insn_trans/trans_lsx.c.inc |  25 +++++
- target/loongarch/insns.decode               |  17 +++
- target/loongarch/lsx_helper.c               | 116 ++++++++++++++++++++
- 5 files changed, 192 insertions(+)
+ target/loongarch/disas.c                    |  33 +++++
+ target/loongarch/helper.h                   |  18 +++
+ target/loongarch/insn_trans/trans_lsx.c.inc |  53 +++++++
+ target/loongarch/insns.decode               |  30 ++++
+ target/loongarch/lsx_helper.c               | 154 ++++++++++++++++++++
+ 5 files changed, 288 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 0ea5418e5e..88e6ed1eef 100644
+index 88e6ed1eef..2f7c726158 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -763,6 +763,12 @@ static bool trans_##insn(DisasContext *ctx, arg_##type * a) \
-     return true;                                            \
+@@ -789,6 +789,21 @@ static void output_vvvv(DisasContext *ctx, arg_vvvv *a, const char *mnemonic)
+     output(ctx, mnemonic, "v%d, v%d, v%d, v%d", a->vd, a->vj, a->vk, a->va);
  }
  
-+static void output_cv(DisasContext *ctx, arg_cv *a,
-+                        const char *mnemonic)
++static void output_vr_i(DisasContext *ctx, arg_vr_i *a, const char *mnemonic)
 +{
-+    output(ctx, mnemonic, "fcc%d, v%d", a->cd, a->vj);
++    output(ctx, mnemonic, "v%d, r%d, 0x%x", a->vd, a->rj, a->imm);
 +}
 +
- static void output_vvv(DisasContext *ctx, arg_vvv *a, const char *mnemonic)
- {
-     output(ctx, mnemonic, "v%d, v%d, v%d", a->vd, a->vj, a->vk);
-@@ -1512,3 +1518,17 @@ static bool trans_vfcmp_cond_##suffix(DisasContext *ctx, \
- 
- LSX_FCMP_INSN(s)
- LSX_FCMP_INSN(d)
++static void output_rv_i(DisasContext *ctx, arg_rv_i *a, const char *mnemonic)
++{
++    output(ctx, mnemonic, "r%d, v%d, 0x%x", a->rd, a->vj,  a->imm);
++}
 +
-+INSN_LSX(vbitsel_v,        vvvv)
-+INSN_LSX(vbitseli_b,       vv_i)
++static void output_vr(DisasContext *ctx, arg_vr *a, const char *mnemonic)
++{
++    output(ctx, mnemonic, "v%d, r%d", a->vd, a->rj);
++}
 +
-+INSN_LSX(vseteqz_v,        cv)
-+INSN_LSX(vsetnez_v,        cv)
-+INSN_LSX(vsetanyeqz_b,     cv)
-+INSN_LSX(vsetanyeqz_h,     cv)
-+INSN_LSX(vsetanyeqz_w,     cv)
-+INSN_LSX(vsetanyeqz_d,     cv)
-+INSN_LSX(vsetallnez_b,     cv)
-+INSN_LSX(vsetallnez_h,     cv)
-+INSN_LSX(vsetallnez_w,     cv)
-+INSN_LSX(vsetallnez_d,     cv)
+ INSN_LSX(vadd_b,           vvv)
+ INSN_LSX(vadd_h,           vvv)
+ INSN_LSX(vadd_w,           vvv)
+@@ -1532,3 +1547,21 @@ INSN_LSX(vsetallnez_b,     cv)
+ INSN_LSX(vsetallnez_h,     cv)
+ INSN_LSX(vsetallnez_w,     cv)
+ INSN_LSX(vsetallnez_d,     cv)
++
++INSN_LSX(vinsgr2vr_b,      vr_i)
++INSN_LSX(vinsgr2vr_h,      vr_i)
++INSN_LSX(vinsgr2vr_w,      vr_i)
++INSN_LSX(vinsgr2vr_d,      vr_i)
++INSN_LSX(vpickve2gr_b,     rv_i)
++INSN_LSX(vpickve2gr_h,     rv_i)
++INSN_LSX(vpickve2gr_w,     rv_i)
++INSN_LSX(vpickve2gr_d,     rv_i)
++INSN_LSX(vpickve2gr_bu,    rv_i)
++INSN_LSX(vpickve2gr_hu,    rv_i)
++INSN_LSX(vpickve2gr_wu,    rv_i)
++INSN_LSX(vpickve2gr_du,    rv_i)
++
++INSN_LSX(vreplgr2vr_b,     vr)
++INSN_LSX(vreplgr2vr_h,     vr)
++INSN_LSX(vreplgr2vr_w,     vr)
++INSN_LSX(vreplgr2vr_d,     vr)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 9d8ade9dc8..1bef2a901f 100644
+index 1bef2a901f..00570221c7 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -777,3 +777,17 @@ DEF_HELPER_5(vfcmp_s_s, void, env, i32, i32, i32, i32)
- DEF_HELPER_5(vfcmp_c_d, void, env, i32, i32, i32, i32)
- /* vfcmp.sXXX.d */
- DEF_HELPER_5(vfcmp_s_d, void, env, i32, i32, i32, i32)
+@@ -791,3 +791,21 @@ DEF_HELPER_3(vsetallnez_b, void, env, i32, i32)
+ DEF_HELPER_3(vsetallnez_h, void, env, i32, i32)
+ DEF_HELPER_3(vsetallnez_w, void, env, i32, i32)
+ DEF_HELPER_3(vsetallnez_d, void, env, i32, i32)
 +
-+DEF_HELPER_5(vbitsel_v, void, env, i32, i32, i32, i32)
-+DEF_HELPER_4(vbitseli_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vinsgr2vr_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vinsgr2vr_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vinsgr2vr_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vinsgr2vr_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vpickve2gr_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vpickve2gr_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vpickve2gr_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vpickve2gr_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vpickve2gr_bu, void, env, i32, i32, i32)
++DEF_HELPER_4(vpickve2gr_hu, void, env, i32, i32, i32)
++DEF_HELPER_4(vpickve2gr_wu, void, env, i32, i32, i32)
++DEF_HELPER_4(vpickve2gr_du, void, env, i32, i32, i32)
 +
-+DEF_HELPER_3(vseteqz_v, void, env, i32, i32)
-+DEF_HELPER_3(vsetnez_v, void, env, i32, i32)
-+DEF_HELPER_3(vsetanyeqz_b, void, env, i32, i32)
-+DEF_HELPER_3(vsetanyeqz_h, void, env, i32, i32)
-+DEF_HELPER_3(vsetanyeqz_w, void, env, i32, i32)
-+DEF_HELPER_3(vsetanyeqz_d, void, env, i32, i32)
-+DEF_HELPER_3(vsetallnez_b, void, env, i32, i32)
-+DEF_HELPER_3(vsetallnez_h, void, env, i32, i32)
-+DEF_HELPER_3(vsetallnez_w, void, env, i32, i32)
-+DEF_HELPER_3(vsetallnez_d, void, env, i32, i32)
++DEF_HELPER_3(vreplgr2vr_b, void, env, i32, i32)
++DEF_HELPER_3(vreplgr2vr_h, void, env, i32, i32)
++DEF_HELPER_3(vreplgr2vr_w, void, env, i32, i32)
++DEF_HELPER_3(vreplgr2vr_d, void, env, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index 522d660113..7bf7f33724 100644
+index 7bf7f33724..c753e61b4c 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -50,6 +50,17 @@ static bool gen_vv(DisasContext *ctx, arg_vv *a,
+@@ -75,6 +75,41 @@ static bool gen_vvvv(DisasContext *ctx, arg_vvvv *a,
      return true;
  }
  
-+static bool gen_cv(DisasContext *ctx, arg_cv *a,
-+                    void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32))
++static bool gen_vr_i(DisasContext *ctx, arg_vr_i *a,
++                    void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32))
 +{
-+    TCGv_i32 vj = tcg_constant_i32(a->vj);
-+    TCGv_i32 cd = tcg_constant_i32(a->cd);
++    TCGv_i32 vd = tcg_constant_i32(a->vd);
++    TCGv_i32 rj = tcg_constant_i32(a->rj);
++    TCGv_i32 imm = tcg_constant_i32(a->imm);
 +
 +    CHECK_SXE;
-+    func(cpu_env, cd, vj);
++    func(cpu_env, vd, rj, imm);
 +    return true;
 +}
 +
- static bool gen_vvvv(DisasContext *ctx, arg_vvvv *a,
-                      void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32,
-                                   TCGv_i32, TCGv_i32))
-@@ -728,3 +739,17 @@ static bool trans_vfcmp_cond_d(DisasContext *ctx, arg_vvv_fcond *a)
- 
-     return true;
- }
++static bool gen_rv_i(DisasContext *ctx, arg_rv_i *a,
++                    void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32))
++{
++    TCGv_i32 rd = tcg_constant_i32(a->rd);
++    TCGv_i32 vj = tcg_constant_i32(a->vj);
++    TCGv_i32 imm = tcg_constant_i32(a->imm);
 +
-+TRANS(vbitsel_v, gen_vvvv, gen_helper_vbitsel_v)
-+TRANS(vbitseli_b, gen_vv_i, gen_helper_vbitseli_b)
++    CHECK_SXE;
++    func(cpu_env, rd, vj, imm);
++    return true;
++}
 +
-+TRANS(vseteqz_v, gen_cv, gen_helper_vseteqz_v)
-+TRANS(vsetnez_v, gen_cv, gen_helper_vsetnez_v)
-+TRANS(vsetanyeqz_b, gen_cv, gen_helper_vsetanyeqz_b)
-+TRANS(vsetanyeqz_h, gen_cv, gen_helper_vsetanyeqz_h)
-+TRANS(vsetanyeqz_w, gen_cv, gen_helper_vsetanyeqz_w)
-+TRANS(vsetanyeqz_d, gen_cv, gen_helper_vsetanyeqz_d)
-+TRANS(vsetallnez_b, gen_cv, gen_helper_vsetallnez_b)
-+TRANS(vsetallnez_h, gen_cv, gen_helper_vsetallnez_h)
-+TRANS(vsetallnez_w, gen_cv, gen_helper_vsetallnez_w)
-+TRANS(vsetallnez_d, gen_cv, gen_helper_vsetallnez_d)
++static bool gen_vr(DisasContext *ctx, arg_vr *a,
++                   void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32))
++{
++    TCGv_i32 vd = tcg_constant_i32(a->vd);
++    TCGv_i32 rj = tcg_constant_i32(a->rj);
++
++    CHECK_SXE;
++    func(cpu_env, vd, rj);
++    return true;
++}
++
+ TRANS(vadd_b, gen_vvv, gen_helper_vadd_b)
+ TRANS(vadd_h, gen_vvv, gen_helper_vadd_h)
+ TRANS(vadd_w, gen_vvv, gen_helper_vadd_w)
+@@ -753,3 +788,21 @@ TRANS(vsetallnez_b, gen_cv, gen_helper_vsetallnez_b)
+ TRANS(vsetallnez_h, gen_cv, gen_helper_vsetallnez_h)
+ TRANS(vsetallnez_w, gen_cv, gen_helper_vsetallnez_w)
+ TRANS(vsetallnez_d, gen_cv, gen_helper_vsetallnez_d)
++
++TRANS(vinsgr2vr_b, gen_vr_i, gen_helper_vinsgr2vr_b)
++TRANS(vinsgr2vr_h, gen_vr_i, gen_helper_vinsgr2vr_h)
++TRANS(vinsgr2vr_w, gen_vr_i, gen_helper_vinsgr2vr_w)
++TRANS(vinsgr2vr_d, gen_vr_i, gen_helper_vinsgr2vr_d)
++TRANS(vpickve2gr_b, gen_rv_i, gen_helper_vpickve2gr_b)
++TRANS(vpickve2gr_h, gen_rv_i, gen_helper_vpickve2gr_h)
++TRANS(vpickve2gr_w, gen_rv_i, gen_helper_vpickve2gr_w)
++TRANS(vpickve2gr_d, gen_rv_i, gen_helper_vpickve2gr_d)
++TRANS(vpickve2gr_bu, gen_rv_i, gen_helper_vpickve2gr_bu)
++TRANS(vpickve2gr_hu, gen_rv_i, gen_helper_vpickve2gr_hu)
++TRANS(vpickve2gr_wu, gen_rv_i, gen_helper_vpickve2gr_wu)
++TRANS(vpickve2gr_du, gen_rv_i, gen_helper_vpickve2gr_du)
++
++TRANS(vreplgr2vr_b, gen_vr, gen_helper_vreplgr2vr_b)
++TRANS(vreplgr2vr_h, gen_vr, gen_helper_vreplgr2vr_h)
++TRANS(vreplgr2vr_w, gen_vr, gen_helper_vreplgr2vr_w)
++TRANS(vreplgr2vr_d, gen_vr, gen_helper_vreplgr2vr_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 5b4114c39b..fb1cc29aff 100644
+index fb1cc29aff..45eff88830 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -490,6 +490,7 @@ dbcl             0000 00000010 10101 ...............      @i15
- #
- 
- &vv           vd vj
-+&cv           cd vj
- &vvv          vd vj vk
+@@ -495,6 +495,9 @@ dbcl             0000 00000010 10101 ...............      @i15
  &vv_i         vd vj imm
  &vvvv         vd vj vk va
-@@ -499,6 +500,7 @@ dbcl             0000 00000010 10101 ...............      @i15
- # LSX Formats
- #
- @vv               .... ........ ..... ..... vj:5 vd:5    &vv
-+@cv            .... ........ ..... ..... vj:5 .. cd:3    &cv
- @vvv               .... ........ ..... vk:5 vj:5 vd:5    &vvv
- @vv_ui3        .... ........ ..... .. imm:3 vj:5 vd:5    &vv_i
- @vv_ui4         .... ........ ..... . imm:4 vj:5 vd:5    &vv_i
-@@ -1149,3 +1151,18 @@ vslti_du         0111 00101000 10011 ..... ..... .....    @vv_ui5
+ &vvv_fcond    vd vj vk fcond
++&vr_i         vd rj imm
++&rv_i         rd vj imm
++&vr           vd rj
  
- vfcmp_cond_s     0000 11000101 ..... ..... ..... .....    @vvv_fcond
- vfcmp_cond_d     0000 11000110 ..... ..... ..... .....    @vvv_fcond
+ #
+ # LSX Formats
+@@ -511,6 +514,15 @@ dbcl             0000 00000010 10101 ...............      @i15
+ @vv_i5           .... ........ ..... imm:s5 vj:5 vd:5    &vv_i
+ @vvvv               .... ........ va:5 vk:5 vj:5 vd:5    &vvvv
+ @vvv_fcond      .... ........ fcond:5  vk:5 vj:5 vd:5    &vvv_fcond
++@vr_ui4         .... ........ ..... . imm:4 rj:5 vd:5    &vr_i
++@vr_ui3        .... ........ ..... .. imm:3 rj:5 vd:5    &vr_i
++@vr_ui2       .... ........ ..... ... imm:2 rj:5 vd:5    &vr_i
++@vr_ui1      .... ........ ..... .... imm:1 rj:5 vd:5    &vr_i
++@rv_ui4         .... ........ ..... . imm:4 vj:5 rd:5    &rv_i
++@rv_ui3        .... ........ ..... .. imm:3 vj:5 rd:5    &rv_i
++@rv_ui2       .... ........ ..... ... imm:2 vj:5 rd:5    &rv_i
++@rv_ui1      .... ........ ..... .... imm:1 vj:5 rd:5    &rv_i
++@vr               .... ........ ..... ..... rj:5 vd:5    &vr
+ 
+ vadd_b           0111 00000000 10100 ..... ..... .....    @vvv
+ vadd_h           0111 00000000 10101 ..... ..... .....    @vvv
+@@ -1166,3 +1178,21 @@ vsetallnez_b     0111 00101001 11001 01100 ..... 00 ...   @cv
+ vsetallnez_h     0111 00101001 11001 01101 ..... 00 ...   @cv
+ vsetallnez_w     0111 00101001 11001 01110 ..... 00 ...   @cv
+ vsetallnez_d     0111 00101001 11001 01111 ..... 00 ...   @cv
 +
-+vbitsel_v        0000 11010001 ..... ..... ..... .....    @vvvv
++vinsgr2vr_b      0111 00101110 10111 0 .... ..... .....   @vr_ui4
++vinsgr2vr_h      0111 00101110 10111 10 ... ..... .....   @vr_ui3
++vinsgr2vr_w      0111 00101110 10111 110 .. ..... .....   @vr_ui2
++vinsgr2vr_d      0111 00101110 10111 1110 . ..... .....   @vr_ui1
++vpickve2gr_b     0111 00101110 11111 0 .... ..... .....   @rv_ui4
++vpickve2gr_h     0111 00101110 11111 10 ... ..... .....   @rv_ui3
++vpickve2gr_w     0111 00101110 11111 110 .. ..... .....   @rv_ui2
++vpickve2gr_d     0111 00101110 11111 1110 . ..... .....   @rv_ui1
++vpickve2gr_bu    0111 00101111 00111 0 .... ..... .....   @rv_ui4
++vpickve2gr_hu    0111 00101111 00111 10 ... ..... .....   @rv_ui3
++vpickve2gr_wu    0111 00101111 00111 110 .. ..... .....   @rv_ui2
++vpickve2gr_du    0111 00101111 00111 1110 . ..... .....   @rv_ui1
 +
-+vbitseli_b       0111 00111100 01 ........ ..... .....    @vv_ui8
-+
-+vseteqz_v        0111 00101001 11001 00110 ..... 00 ...   @cv
-+vsetnez_v        0111 00101001 11001 00111 ..... 00 ...   @cv
-+vsetanyeqz_b     0111 00101001 11001 01000 ..... 00 ...   @cv
-+vsetanyeqz_h     0111 00101001 11001 01001 ..... 00 ...   @cv
-+vsetanyeqz_w     0111 00101001 11001 01010 ..... 00 ...   @cv
-+vsetanyeqz_d     0111 00101001 11001 01011 ..... 00 ...   @cv
-+vsetallnez_b     0111 00101001 11001 01100 ..... 00 ...   @cv
-+vsetallnez_h     0111 00101001 11001 01101 ..... 00 ...   @cv
-+vsetallnez_w     0111 00101001 11001 01110 ..... 00 ...   @cv
-+vsetallnez_d     0111 00101001 11001 01111 ..... 00 ...   @cv
++vreplgr2vr_b     0111 00101001 11110 00000 ..... .....    @vr
++vreplgr2vr_h     0111 00101001 11110 00001 ..... .....    @vr
++vreplgr2vr_w     0111 00101001 11110 00010 ..... .....    @vr
++vreplgr2vr_d     0111 00101001 11110 00011 ..... .....    @vr
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index 1e5a1d989a..f4cdfae87a 100644
+index f4cdfae87a..15dbf4fc32 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -31,6 +31,10 @@
-                        uint32_t vd, uint32_t vj, uint32_t vk, uint32_t va) \
-     { FUNC(env, vd, vj, vk, va, BIT, __VA_ARGS__); }
+@@ -35,6 +35,21 @@
+     void helper_##NAME(CPULoongArchState *env, uint32_t cd, uint32_t vj) \
+     { FUNC(env, cd, vj, BIT, __VA_ARGS__); }
  
-+#define DO_HELPER_CV(NAME, BIT, FUNC, ...)                               \
-+    void helper_##NAME(CPULoongArchState *env, uint32_t cd, uint32_t vj) \
-+    { FUNC(env, cd, vj, BIT, __VA_ARGS__); }
++#define DO_HELPER_VR_I(NAME, BIT, FUNC, ...)                   \
++    void helper_##NAME(CPULoongArchState *env,                 \
++                       uint32_t vd, uint32_t rj, uint32_t imm) \
++    { FUNC(env, vd, rj, imm, BIT, __VA_ARGS__ ); }
++
++#define DO_HELPER_RV_I(NAME, BIT, FUNC, ...)                   \
++    void helper_##NAME(CPULoongArchState *env,                 \
++                       uint32_t rd, uint32_t vj, uint32_t imm) \
++    { FUNC(env, rd, vj, imm, BIT, __VA_ARGS__ ); }
++
++#define DO_HELPER_VR(NAME, BIT, FUNC, ...)       \
++    void helper_##NAME(CPULoongArchState *env,   \
++                       uint32_t vd, uint32_t rj) \
++    { FUNC(env, vd, rj, BIT, __VA_ARGS__ ); }
 +
  static void helper_vvv(CPULoongArchState *env,
                         uint32_t vd, uint32_t vj, uint32_t vk, int bit,
                         void (*func)(vec_t*, vec_t*, vec_t*, int, int))
-@@ -4275,3 +4279,115 @@ void helper_v## name ##_d(CPULoongArchState *env, uint32_t vd,      \
- 
- LSX_FCMP_D(fcmp_c)
- LSX_FCMP_D(fcmp_s)
+@@ -4391,3 +4406,142 @@ DO_HELPER_CV(vsetallnez_b, 8, helper_setallnez, do_setallnez)
+ DO_HELPER_CV(vsetallnez_h, 16, helper_setallnez, do_setallnez)
+ DO_HELPER_CV(vsetallnez_w, 32, helper_setallnez, do_setallnez)
+ DO_HELPER_CV(vsetallnez_d, 64, helper_setallnez, do_setallnez)
 +
-+void helper_vbitsel_v(CPULoongArchState *env,
-+                      uint32_t vd, uint32_t vj, uint32_t vk, uint32_t va)
++static void helper_vr_i(CPULoongArchState *env,
++                        uint32_t vd, uint32_t rj, uint32_t imm, int bit,
++                        void (*func)(vec_t*, uint64_t, uint32_t, int))
 +{
 +    vec_t *Vd = &(env->fpr[vd].vec);
-+    vec_t *Vj = &(env->fpr[vj].vec);
-+    vec_t *Vk = &(env->fpr[vk].vec);
-+    vec_t *Va = &(env->fpr[va].vec);
++    uint64_t Rj = env->gpr[rj];
 +
-+    Vd->D[0] = (Vk->D[0] & Va->D[0]) | (Vj->D[0] & ~(Va->D[0]));
-+    Vd->D[1] = (Vk->D[1] & Va->D[1]) | (Vj->D[1] & ~(Va->D[1]));
++    imm %= (LSX_LEN/bit);
++
++    func(Vd, Rj, imm, bit);
 +}
 +
-+static void do_vbitseli_b(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
++static void do_insgr2vr(vec_t *Vd, uint64_t value, uint32_t imm, int bit)
 +{
-+    Vd->B[n] = (~Vd->B[n] & Vj->B[n] ) | (Vd->B[n] & imm);
-+}
-+
-+DO_HELPER_VV_I(vbitseli_b, 8, helper_vv_i, do_vbitseli_b)
-+
-+void helper_vseteqz_v(CPULoongArchState *env, uint32_t cd, uint32_t vj)
-+{
-+    vec_t *Vj = &(env->fpr[vj].vec);
-+    env->cf[cd & 0x7] = (Vj->Q[0] == 0);
-+}
-+
-+void helper_vsetnez_v(CPULoongArchState *env, uint32_t cd, uint32_t vj)
-+{
-+    vec_t *Vj = &(env->fpr[vj].vec);
-+    env->cf[cd & 0x7] = (Vj->Q[0] != 0);
-+}
-+
-+static void helper_setanyeqz(CPULoongArchState *env,
-+                             uint32_t cd, uint32_t vj, int bit,
-+                             bool (*func)(vec_t*, int, int))
-+{
-+    int i;
-+    bool ret = false;
-+    vec_t *Vj = &(env->fpr[vj].vec);
-+
-+    for (i = 0; i < LSX_LEN/bit; i++) {
-+        ret |= func(Vj, bit, i);
-+    }
-+    env->cf[cd & 0x7] = ret;
-+}
-+
-+static void helper_setallnez(CPULoongArchState *env,
-+                             uint32_t cd, uint32_t vj, int bit,
-+                             bool (*func)(vec_t*, int, int))
-+{
-+    int i;
-+    bool ret = true;
-+    vec_t *Vj = &(env->fpr[vj].vec);
-+
-+    for (i = 0; i < LSX_LEN/bit; i++) {
-+        ret &= func(Vj, bit, i);
-+    }
-+    env->cf[cd & 0x7] = ret;
-+}
-+
-+static bool do_setanyeqz(vec_t *Vj, int bit, int n)
-+{
-+    bool ret = false;
 +    switch (bit) {
 +    case 8:
-+        ret = (Vj->B[n] == 0);
++        Vd->B[imm] = (int8_t)value;
 +        break;
 +    case 16:
-+        ret = (Vj->H[n] == 0);
++        Vd->H[imm] = (int16_t)value;
 +        break;
 +    case 32:
-+        ret = (Vj->W[n] == 0);
++        Vd->W[imm] = (int32_t)value;
 +        break;
 +    case 64:
-+        ret = (Vj->D[n] == 0);
++        Vd->D[imm] = (int64_t)value;
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
-+    return ret;
 +}
 +
-+static bool do_setallnez(vec_t *Vj, int bit, int n)
++DO_HELPER_VR_I(vinsgr2vr_b, 8, helper_vr_i, do_insgr2vr)
++DO_HELPER_VR_I(vinsgr2vr_h, 16, helper_vr_i, do_insgr2vr)
++DO_HELPER_VR_I(vinsgr2vr_w, 32, helper_vr_i, do_insgr2vr)
++DO_HELPER_VR_I(vinsgr2vr_d, 64, helper_vr_i, do_insgr2vr)
++
++static void helper_rv_i(CPULoongArchState *env,
++                        uint32_t rd, uint32_t vj, uint32_t imm, int bit,
++                        void (*func)(CPULoongArchState*, uint32_t, vec_t*,
++                                     uint32_t, int))
 +{
-+    bool ret = false;
++    vec_t *Vj = &(env->fpr[vj].vec);
++
++    imm %=(LSX_LEN/bit);
++
++    func(env, rd, Vj, imm, bit);
++}
++
++static void do_pickve2gr_s(CPULoongArchState *env,
++                           uint32_t rd, vec_t *Vj, uint32_t imm, int bit)
++{
 +    switch (bit) {
 +    case 8:
-+        ret = (Vj->B[n] != 0);
++        env->gpr[rd] = Vj->B[imm];
 +        break;
 +    case 16:
-+        ret = (Vj->H[n] != 0);
++        env->gpr[rd] = Vj->H[imm];
 +        break;
 +    case 32:
-+        ret = (Vj->W[n] != 0);
++        env->gpr[rd] = Vj->W[imm];
 +        break;
 +    case 64:
-+        ret = (Vj->D[n] != 0);
++        env->gpr[rd] = Vj->D[imm];
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
-+    return ret;
 +}
 +
-+DO_HELPER_CV(vsetanyeqz_b, 8, helper_setanyeqz, do_setanyeqz)
-+DO_HELPER_CV(vsetanyeqz_h, 16, helper_setanyeqz, do_setanyeqz)
-+DO_HELPER_CV(vsetanyeqz_w, 32, helper_setanyeqz, do_setanyeqz)
-+DO_HELPER_CV(vsetanyeqz_d, 64, helper_setanyeqz, do_setanyeqz)
-+DO_HELPER_CV(vsetallnez_b, 8, helper_setallnez, do_setallnez)
-+DO_HELPER_CV(vsetallnez_h, 16, helper_setallnez, do_setallnez)
-+DO_HELPER_CV(vsetallnez_w, 32, helper_setallnez, do_setallnez)
-+DO_HELPER_CV(vsetallnez_d, 64, helper_setallnez, do_setallnez)
++static void do_pickve2gr_u(CPULoongArchState *env,
++                           uint32_t rd, vec_t *Vj, uint32_t imm, int bit)
++{
++    switch (bit) {
++    case 8:
++        env->gpr[rd] = (uint8_t)Vj->B[imm];
++        break;
++    case 16:
++        env->gpr[rd] = (uint16_t)Vj->H[imm];
++        break;
++    case 32:
++        env->gpr[rd] = (uint32_t)Vj->W[imm];
++        break;
++    case 64:
++        env->gpr[rd] = (uint64_t)Vj->D[imm];
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++DO_HELPER_RV_I(vpickve2gr_b, 8, helper_rv_i, do_pickve2gr_s)
++DO_HELPER_RV_I(vpickve2gr_h, 16, helper_rv_i, do_pickve2gr_s)
++DO_HELPER_RV_I(vpickve2gr_w, 32, helper_rv_i, do_pickve2gr_s)
++DO_HELPER_RV_I(vpickve2gr_d, 64, helper_rv_i, do_pickve2gr_s)
++DO_HELPER_RV_I(vpickve2gr_bu, 8, helper_rv_i, do_pickve2gr_u)
++DO_HELPER_RV_I(vpickve2gr_hu, 16, helper_rv_i, do_pickve2gr_u)
++DO_HELPER_RV_I(vpickve2gr_wu, 32, helper_rv_i, do_pickve2gr_u)
++DO_HELPER_RV_I(vpickve2gr_du, 64, helper_rv_i, do_pickve2gr_u)
++
++static void helper_vr(CPULoongArchState *env,
++                      uint32_t vd, uint32_t rj, int bit,
++                      void (*func)(CPULoongArchState*,
++                                   vec_t*, uint32_t,  int, int))
++{
++    int i;
++    vec_t *Vd = &(env->fpr[vd].vec);
++
++    for (i = 0; i < LSX_LEN/bit; i++) {
++        func(env, Vd, rj, bit, i);
++    }
++}
++
++static void do_replgr2vr(CPULoongArchState *env,
++                         vec_t *Vd, uint32_t rj, int bit, int n)
++{
++    switch (bit) {
++    case 8:
++        Vd->B[n] = (int8_t)env->gpr[rj];
++        break;
++    case 16:
++        Vd->H[n] = (int16_t)env->gpr[rj];
++        break;
++    case 32:
++        Vd->W[n] = (int32_t)env->gpr[rj];
++        break;
++    case 64:
++        Vd->D[n] = (int64_t)env->gpr[rj];
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++DO_HELPER_VR(vreplgr2vr_b, 8, helper_vr, do_replgr2vr)
++DO_HELPER_VR(vreplgr2vr_h, 16, helper_vr, do_replgr2vr)
++DO_HELPER_VR(vreplgr2vr_w, 32, helper_vr, do_replgr2vr)
++DO_HELPER_VR(vreplgr2vr_d, 64, helper_vr, do_replgr2vr)
 -- 
 2.31.1
 
