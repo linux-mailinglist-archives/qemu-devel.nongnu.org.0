@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21080655940
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:28:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5722B655930
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:22:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8ziq-0006L6-V6; Sat, 24 Dec 2022 03:17:40 -0500
+	id 1p8zjk-0006jg-2Y; Sat, 24 Dec 2022 03:18:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p8ziN-000690-0z
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:08 -0500
+ id 1p8zjN-0006fz-4F
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:09 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p8ziH-0001HD-1J
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:04 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1p8zjK-0003Pw-H8
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:08 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Cxl_FwtaZjTUkIAA--.17952S3;
- Sat, 24 Dec 2022 16:16:48 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8DxvutxtaZjTkkIAA--.18825S3;
+ Sat, 24 Dec 2022 16:16:49 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxPuRhtaZjuccKAA--.38440S32; 
+ AQAAf8CxPuRhtaZjuccKAA--.38440S33; 
  Sat, 24 Dec 2022 16:16:48 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH 30/43] target/loongarch: Implement vclo vclz
-Date: Sat, 24 Dec 2022 16:16:20 +0800
-Message-Id: <20221224081633.4185445-31-gaosong@loongson.cn>
+Subject: [RFC PATCH 31/43] target/loongarch: Implement vpcnt
+Date: Sat, 24 Dec 2022 16:16:21 +0800
+Message-Id: <20221224081633.4185445-32-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221224081633.4185445-1-gaosong@loongson.cn>
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S32
+X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S33
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3XrW8WrWxZr47ZF1rCF4Uurg_yoW7WF4xpr
- W7trW7tw48WFZ7W3Z2g3y3t3WjqrsrKw4xZa1ft348urW7XFn7Xry0q39FgFW5u3srZryI
- ga47AryqyF98JwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxuF1UWFWDuw1UKr1fZFWDurg_yoWrAFyDpr
+ 47KrWxKr4kWFZ7Aan2vw45X347Xrs29w4I9a1ft34rurW7Xr1DZr10qrZFgFWUXw4DZFyI
+ g3W2kryjyF95Jw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  be8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -75,143 +75,116 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VCLO.{B/H/W/D};
-- VCLZ.{B/H/W/D}.
+- VPCNT.{B/H/W/D}.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  9 ++++
- target/loongarch/helper.h                   |  9 ++++
- target/loongarch/insn_trans/trans_lsx.c.inc |  9 ++++
- target/loongarch/insns.decode               |  9 ++++
- target/loongarch/lsx_helper.c               | 49 +++++++++++++++++++++
- 5 files changed, 85 insertions(+)
+ target/loongarch/disas.c                    |  5 +++
+ target/loongarch/helper.h                   |  5 +++
+ target/loongarch/insn_trans/trans_lsx.c.inc |  5 +++
+ target/loongarch/insns.decode               |  5 +++
+ target/loongarch/lsx_helper.c               | 39 +++++++++++++++++++++
+ 5 files changed, 59 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index c1d256d8b4..865c293f43 100644
+index 865c293f43..e3d4d105fe 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -1229,3 +1229,12 @@ INSN_LSX(vssrarni_bu_h,    vv_i)
- INSN_LSX(vssrarni_hu_w,    vv_i)
- INSN_LSX(vssrarni_wu_d,    vv_i)
- INSN_LSX(vssrarni_du_q,    vv_i)
+@@ -1238,3 +1238,8 @@ INSN_LSX(vclz_b,           vv)
+ INSN_LSX(vclz_h,           vv)
+ INSN_LSX(vclz_w,           vv)
+ INSN_LSX(vclz_d,           vv)
 +
-+INSN_LSX(vclo_b,           vv)
-+INSN_LSX(vclo_h,           vv)
-+INSN_LSX(vclo_w,           vv)
-+INSN_LSX(vclo_d,           vv)
-+INSN_LSX(vclz_b,           vv)
-+INSN_LSX(vclz_h,           vv)
-+INSN_LSX(vclz_w,           vv)
-+INSN_LSX(vclz_d,           vv)
++INSN_LSX(vpcnt_b,          vv)
++INSN_LSX(vpcnt_h,          vv)
++INSN_LSX(vpcnt_w,          vv)
++INSN_LSX(vpcnt_d,          vv)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index e45eb211a6..0080890bf6 100644
+index 0080890bf6..6869b05105 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -584,3 +584,12 @@ DEF_HELPER_4(vssrarni_bu_h, void, env, i32, i32, i32)
- DEF_HELPER_4(vssrarni_hu_w, void, env, i32, i32, i32)
- DEF_HELPER_4(vssrarni_wu_d, void, env, i32, i32, i32)
- DEF_HELPER_4(vssrarni_du_q, void, env, i32, i32, i32)
+@@ -593,3 +593,8 @@ DEF_HELPER_3(vclz_b, void, env, i32, i32)
+ DEF_HELPER_3(vclz_h, void, env, i32, i32)
+ DEF_HELPER_3(vclz_w, void, env, i32, i32)
+ DEF_HELPER_3(vclz_d, void, env, i32, i32)
 +
-+DEF_HELPER_3(vclo_b, void, env, i32, i32)
-+DEF_HELPER_3(vclo_h, void, env, i32, i32)
-+DEF_HELPER_3(vclo_w, void, env, i32, i32)
-+DEF_HELPER_3(vclo_d, void, env, i32, i32)
-+DEF_HELPER_3(vclz_b, void, env, i32, i32)
-+DEF_HELPER_3(vclz_h, void, env, i32, i32)
-+DEF_HELPER_3(vclz_w, void, env, i32, i32)
-+DEF_HELPER_3(vclz_d, void, env, i32, i32)
++DEF_HELPER_3(vpcnt_b, void, env, i32, i32)
++DEF_HELPER_3(vpcnt_h, void, env, i32, i32)
++DEF_HELPER_3(vpcnt_w, void, env, i32, i32)
++DEF_HELPER_3(vpcnt_d, void, env, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index 5473adc163..105b6fac6e 100644
+index 105b6fac6e..38493c98b0 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -500,3 +500,12 @@ TRANS(vssrarni_bu_h, gen_vv_i, gen_helper_vssrarni_bu_h)
- TRANS(vssrarni_hu_w, gen_vv_i, gen_helper_vssrarni_hu_w)
- TRANS(vssrarni_wu_d, gen_vv_i, gen_helper_vssrarni_wu_d)
- TRANS(vssrarni_du_q, gen_vv_i, gen_helper_vssrarni_du_q)
+@@ -509,3 +509,8 @@ TRANS(vclz_b, gen_vv, gen_helper_vclz_b)
+ TRANS(vclz_h, gen_vv, gen_helper_vclz_h)
+ TRANS(vclz_w, gen_vv, gen_helper_vclz_w)
+ TRANS(vclz_d, gen_vv, gen_helper_vclz_d)
 +
-+TRANS(vclo_b, gen_vv, gen_helper_vclo_b)
-+TRANS(vclo_h, gen_vv, gen_helper_vclo_h)
-+TRANS(vclo_w, gen_vv, gen_helper_vclo_w)
-+TRANS(vclo_d, gen_vv, gen_helper_vclo_d)
-+TRANS(vclz_b, gen_vv, gen_helper_vclz_b)
-+TRANS(vclz_h, gen_vv, gen_helper_vclz_h)
-+TRANS(vclz_w, gen_vv, gen_helper_vclz_w)
-+TRANS(vclz_d, gen_vv, gen_helper_vclz_d)
++TRANS(vpcnt_b, gen_vv, gen_helper_vpcnt_b)
++TRANS(vpcnt_h, gen_vv, gen_helper_vpcnt_h)
++TRANS(vpcnt_w, gen_vv, gen_helper_vpcnt_w)
++TRANS(vpcnt_d, gen_vv, gen_helper_vpcnt_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 3b3c2520c3..27cfa306c9 100644
+index 27cfa306c9..812262ff78 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -958,3 +958,12 @@ vssrarni_bu_h    0111 00110110 11000 1 .... ..... .....   @vv_ui4
- vssrarni_hu_w    0111 00110110 11001 ..... ..... .....    @vv_ui5
- vssrarni_wu_d    0111 00110110 1101 ...... ..... .....    @vv_ui6
- vssrarni_du_q    0111 00110110 111 ....... ..... .....    @vv_ui7
+@@ -967,3 +967,8 @@ vclz_b           0111 00101001 11000 00100 ..... .....    @vv
+ vclz_h           0111 00101001 11000 00101 ..... .....    @vv
+ vclz_w           0111 00101001 11000 00110 ..... .....    @vv
+ vclz_d           0111 00101001 11000 00111 ..... .....    @vv
 +
-+vclo_b           0111 00101001 11000 00000 ..... .....    @vv
-+vclo_h           0111 00101001 11000 00001 ..... .....    @vv
-+vclo_w           0111 00101001 11000 00010 ..... .....    @vv
-+vclo_d           0111 00101001 11000 00011 ..... .....    @vv
-+vclz_b           0111 00101001 11000 00100 ..... .....    @vv
-+vclz_h           0111 00101001 11000 00101 ..... .....    @vv
-+vclz_w           0111 00101001 11000 00110 ..... .....    @vv
-+vclz_d           0111 00101001 11000 00111 ..... .....    @vv
++vpcnt_b          0111 00101001 11000 01000 ..... .....    @vv
++vpcnt_h          0111 00101001 11000 01001 ..... .....    @vv
++vpcnt_w          0111 00101001 11000 01010 ..... .....    @vv
++vpcnt_d          0111 00101001 11000 01011 ..... .....    @vv
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index d771ff953c..0abb06781f 100644
+index 0abb06781f..c9913dec54 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -3148,3 +3148,52 @@ DO_HELPER_VV_I(vssrarni_bu_h, 16, helper_vv_ni_c, do_vssrarni_u)
- DO_HELPER_VV_I(vssrarni_hu_w, 32, helper_vv_ni_c, do_vssrarni_u)
- DO_HELPER_VV_I(vssrarni_wu_d, 64, helper_vv_ni_c, do_vssrarni_u)
- DO_HELPER_VV_I(vssrarni_du_q, 128, helper_vv_ni_c, do_vssrarni_u)
+@@ -3197,3 +3197,42 @@ DO_HELPER_VV(vclz_b, 8, helper_vv, do_vclz)
+ DO_HELPER_VV(vclz_h, 16, helper_vv, do_vclz)
+ DO_HELPER_VV(vclz_w, 32, helper_vv, do_vclz)
+ DO_HELPER_VV(vclz_d, 64, helper_vv, do_vclz)
 +
-+static void do_vclo(vec_t *Vd, vec_t *Vj, int bit, int n)
++static uint64_t vpcnt(int64_t s1, int bit)
++{
++    uint64_t u1 = s1 & MAKE_64BIT_MASK(0, bit);
++
++    u1 = (u1 & 0x5555555555555555ULL) + ((u1 >>  1) & 0x5555555555555555ULL);
++    u1 = (u1 & 0x3333333333333333ULL) + ((u1 >>  2) & 0x3333333333333333ULL);
++    u1 = (u1 & 0x0F0F0F0F0F0F0F0FULL) + ((u1 >>  4) & 0x0F0F0F0F0F0F0F0FULL);
++    u1 = (u1 & 0x00FF00FF00FF00FFULL) + ((u1 >>  8) & 0x00FF00FF00FF00FFULL);
++    u1 = (u1 & 0x0000FFFF0000FFFFULL) + ((u1 >> 16) & 0x0000FFFF0000FFFFULL);
++    u1 = (u1 & 0x00000000FFFFFFFFULL) + ((u1 >> 32));
++
++    return u1;
++}
++
++static void do_vpcnt(vec_t *Vd, vec_t *Vj, int bit, int n)
 +{
 +    switch (bit) {
 +    case 8:
-+        Vd->B[n] = clz32((uint8_t)(~Vj->B[n])) - 24;
++        Vd->B[n] = vpcnt(Vj->B[n], bit);
 +        break;
 +    case 16:
-+        Vd->H[n] = clz32((uint16_t)(~Vj->H[n])) - 16;
++        Vd->H[n] = vpcnt(Vj->H[n], bit);
 +        break;
 +    case 32:
-+        Vd->W[n] = clz32((uint32_t)(~Vj->W[n]));
++        Vd->W[n] = vpcnt(Vj->W[n], bit);
 +        break;
 +    case 64:
-+        Vd->D[n] = clz64((uint64_t)(~Vj->D[n]));
++        Vd->D[n] = vpcnt(Vj->D[n], bit);
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static void do_vclz(vec_t *Vd, vec_t *Vj, int bit, int n)
-+{
-+    switch (bit) {
-+    case 8:
-+        Vd->B[n] = clz32((uint8_t)Vj->B[n]) - 24;
-+        break;
-+    case 16:
-+        Vd->H[n] = clz32((uint16_t)Vj->H[n]) - 16;
-+        break;
-+    case 32:
-+        Vd->W[n] = clz32((uint32_t)Vj->W[n]);
-+        break;
-+    case 64:
-+        Vd->D[n] = clz64((uint64_t)Vj->D[n]);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+DO_HELPER_VV(vclo_b, 8, helper_vv, do_vclo)
-+DO_HELPER_VV(vclo_h, 16, helper_vv, do_vclo)
-+DO_HELPER_VV(vclo_w, 32, helper_vv, do_vclo)
-+DO_HELPER_VV(vclo_d, 64, helper_vv, do_vclo)
-+DO_HELPER_VV(vclz_b, 8, helper_vv, do_vclz)
-+DO_HELPER_VV(vclz_h, 16, helper_vv, do_vclz)
-+DO_HELPER_VV(vclz_w, 32, helper_vv, do_vclz)
-+DO_HELPER_VV(vclz_d, 64, helper_vv, do_vclz)
++DO_HELPER_VV(vpcnt_b, 8, helper_vv, do_vpcnt)
++DO_HELPER_VV(vpcnt_h, 16, helper_vv, do_vpcnt)
++DO_HELPER_VV(vpcnt_w, 32, helper_vv, do_vpcnt)
++DO_HELPER_VV(vpcnt_d, 64, helper_vv, do_vpcnt)
 -- 
 2.31.1
 
