@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26755655BE2
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Dec 2022 01:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B09655BE0
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Dec 2022 01:06:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9EOX-0002Jp-Bm; Sat, 24 Dec 2022 18:57:37 -0500
+	id 1p9EOa-0002L8-8k; Sat, 24 Dec 2022 18:57:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9EOU-0002ID-JP
+ id 1p9EOU-0002II-Pf
  for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:34 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9EOT-0006Hd-1V
+ id 1p9EOT-0006Gi-7S
  for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:34 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id b2so8032122pld.7
+Received: by mail-pj1-x1036.google.com with SMTP id
+ m7-20020a17090a730700b00225ebb9cd01so30551pjk.3
  for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 15:57:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1y/tXWdTWI0vCwq66Bd7dAixKbHX6fB2Vsdpuh+SVC4=;
- b=G5vuMOqaKsTCUUUP7M0ZCTmn6uv/KwYRnto8TC7IBhrfeZxvqxpsYl6JRz4LN60sgp
- 7UMTJ7r0cvjyK5mqgUMiVCTcIQ6nF7FVjLuAeK8TH/fd0UYIWrKgE+iWZD+eCCKiAKJi
- P+/wYifLb0JgfImcGQd+pem5gOkrIDPhwzUkWxmP9z8ygXxCNJ+iEiN1k2ZzkqA05+pj
- vhOg27H5oFl2AhM6WErh5j6++O4XNMZtA9Z705sRga3PowESrGQd5cPXD9WxfriKnEke
- Op/cyMJ8ZRQz1EP5qK0pxRgLZDVJKO20oC+30qD+SmEMDjAUusPhfcIDqq0X2Xp7apEI
- qjpQ==
+ bh=rFR0O1YijUsq1uYIRbDYqS29WFSZX2n/uoAxYINV+hk=;
+ b=f1pSupuz8JnCPqeWS3Y+RLVCiI0ncCl4sYCj6dGf/Mq/XHznK7PQQLMgp+VRg+dL/N
+ bI6fwnwfvdbqjSG0FtjjE9RQeKN5IupVyFtqY2thAuumw5Nj5mSZUJX0mAAF2uVVJhbI
+ 1uaZgukb9ojokk6kyXvTfNzlYKlUMdPwwfYZRSsAH6vNCujZtt2pM5tnmfG9kwpLagC/
+ 9BwlPxNyt1L4W0YfP/ivsp4OTPsmKXdJO0W9Ti08q3vpz0SfYLONsl/7woYU6XYwWaQT
+ Lz+xf/0WBF/BD/4eheUbsjwEu9Lug+lgz6hL6DXo88CoJ8lwK//S8SEj/mI1v6u+Csay
+ LZzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1y/tXWdTWI0vCwq66Bd7dAixKbHX6fB2Vsdpuh+SVC4=;
- b=r1csSV+I42170JWhy7WGGVUOUgPLYzVhMjWhsoa6Ao2PqLINo+J8zptLUbhQvuyP8M
- GupbWBicSsov3Zok8ivCPQZUmcNXTWK1DWRV1w2RA5/EgXr3jOFRh6jitV2ZrL1ryFLt
- BagvmzvXW5nEjnpSAW5Ldy3gvftAqyghyT29bxKghvdUFPaNTxFWs95cg6Q+WS1uo7If
- YTsuXBSUznZL6xg6af4NesY/j+aILiyjxXSXnVubvXMY3fJdzZbd+xrXuC07vYpKxB98
- 31wNBpxq+IN19026ZybZhhLLcP/iOvTCpZD1T7L5O+jxsByHpZTBN0LilZkwFBWaf2XB
- s7ug==
-X-Gm-Message-State: AFqh2krVGFC6yMzMY/Wcalzsi1g5e7qgT6jAtvfK5HtaB4Gvm3IjthUe
- DbU7UeMqDrAvJ3gx6PR7QHKCKgDouY79O04i
-X-Google-Smtp-Source: AMrXdXv/pW7zoJQLszcAwAhrJPJP4SFTjX0/TZf8fI/KNUIeDnxFCJnogU2+ER7zGSd5nC8A3QwPxg==
-X-Received: by 2002:a17:902:74ca:b0:18d:dd85:303f with SMTP id
- f10-20020a17090274ca00b0018ddd85303fmr15681166plt.22.1671926251618; 
- Sat, 24 Dec 2022 15:57:31 -0800 (PST)
+ bh=rFR0O1YijUsq1uYIRbDYqS29WFSZX2n/uoAxYINV+hk=;
+ b=nL8WY9F9mrboDUlYjIOyiOkAtsWwU2xJLhT7mrP0tUnYlmLNae0T3GHnXvUGZvqCl0
+ foHYQZOlGJu/BPG86DVbGjHrSgMp0Q8z0XfXtuCiv0LSc9jT9U3jo24mFoVkMb8D53C+
+ YnzswXBIi+BuLJNHVBH07E9Fv05er+fULQkaBXhojVx2JtFVFGGYjuHNr0xg/vSUng/2
+ DsxhBr5srACufk1o8icAQnpxgsQ499KL9MfrSXNORLvfJBe7aPvm9Z8lCJUKAuuTbNMh
+ Y/g0oT/zLJ7YYTnZrFJYRk9BGV1wcbO2/NY8qcM/TXbbvxVC5W+XcTiQ3to/sXtYTgsN
+ z/mw==
+X-Gm-Message-State: AFqh2kqnpvFDgZLhmdbpHA50juptVEGuPzuWCDxlsiF6ojqFqdMMYSC0
+ FcHlMYJOkSrVup6E14NDBRkLRraTmuaL3zI8
+X-Google-Smtp-Source: AMrXdXvF253YVRqYeIwQzC0+4vUvXP/vnwTbbq0F1U5h6Dmecek/LbdujrmZ1752TTJd2/CnMcdOvA==
+X-Received: by 2002:a17:902:e74c:b0:189:9cfd:be79 with SMTP id
+ p12-20020a170902e74c00b001899cfdbe79mr21666649plf.15.1671926252521; 
+ Sat, 24 Dec 2022 15:57:32 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- cp12-20020a170902e78c00b00187022627d7sm4599716plb.36.2022.12.24.15.57.30
+ cp12-20020a170902e78c00b00187022627d7sm4599716plb.36.2022.12.24.15.57.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Dec 2022 15:57:31 -0800 (PST)
+ Sat, 24 Dec 2022 15:57:32 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org, philmd@linaro.org,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v5 09/43] target/riscv: Use QEMU_IOTHREAD_LOCK_GUARD in
- riscv_cpu_update_mip
-Date: Sat, 24 Dec 2022 15:56:46 -0800
-Message-Id: <20221224235720.842093-10-richard.henderson@linaro.org>
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH v5 10/43] hw/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in ppc_set_irq
+Date: Sat, 24 Dec 2022 15:56:47 -0800
+Message-Id: <20221224235720.842093-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221224235720.842093-1-richard.henderson@linaro.org>
 References: <20221224235720.842093-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,47 +93,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu_helper.c | 10 +---------
+ hw/ppc/ppc.c | 10 +---------
  1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 278d163803..241d06bab8 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -610,7 +610,6 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
-     CPURISCVState *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
-     uint64_t gein, vsgein = 0, vstip = 0, old = env->mip;
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index dc86c1c7db..4e816c68c7 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -44,13 +44,9 @@ void ppc_set_irq(PowerPCCPU *cpu, int irq, int level)
+ {
+     CPUPPCState *env = &cpu->env;
+     unsigned int old_pending;
 -    bool locked = false;
  
-     if (riscv_cpu_virt_enabled(env)) {
-         gein = get_field(env->hstatus, HSTATUS_VGEIN);
-@@ -621,10 +620,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
-     mask = ((mask == MIP_VSTIP) && env->vstime_irq) ? 0 : mask;
-     vstip = env->vstime_irq ? MIP_VSTIP : 0;
- 
+     /* We may already have the BQL if coming from the reset path */
 -    if (!qemu_mutex_iothread_locked()) {
 -        locked = true;
 -        qemu_mutex_lock_iothread();
 -    }
 +    QEMU_IOTHREAD_LOCK_GUARD();
  
-     env->mip = (env->mip & ~mask) | (value & mask);
+     old_pending = env->pending_interrupts;
  
-@@ -634,10 +630,6 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
-         cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-     }
+@@ -67,10 +63,6 @@ void ppc_set_irq(PowerPCCPU *cpu, int irq, int level)
  
+     trace_ppc_irq_set_exit(env, irq, level, env->pending_interrupts,
+                            CPU(cpu)->interrupt_request);
+-
 -    if (locked) {
 -        qemu_mutex_unlock_iothread();
 -    }
--
-     return old;
  }
  
+ /* PowerPC 6xx / 7xx internal IRQ controller */
 -- 
 2.34.1
 
