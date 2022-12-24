@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B166655A73
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 16:19:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92C13655A75
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 16:19:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p96I8-00056Y-TY; Sat, 24 Dec 2022 10:18:28 -0500
+	id 1p96IA-00056t-4u; Sat, 24 Dec 2022 10:18:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p96I7-00055t-1i
+ id 1p96I7-00056H-QE
  for qemu-devel@nongnu.org; Sat, 24 Dec 2022 10:18:27 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p96I5-00016Z-Cp
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 10:18:26 -0500
-Received: by mail-pg1-x532.google.com with SMTP id 79so4929729pgf.11
- for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 07:18:24 -0800 (PST)
+ id 1p96I6-00016e-4f
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 10:18:27 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id a14so4996047pfa.1
+ for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 07:18:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EogRULrLfJQmVZpCaE9KC8IG8I8XrMvRS8yWEac0lHY=;
- b=QefQAZ0Vlf6OZqv485bBrR4VBI563u/QNy3e9dlRZ7Rhl/ADexBgZX0evJ9/J+r6o+
- /kX1rwdbpU/D7zroy9uZP3WhBJWXJ6X/pQ3vDOGl3dDFXNZMD1h5ERLcAc2TDyh1czuv
- Wq2x2kHo+d7z8Moe6r0bxEdEVRqFlZlmvit7a4575P4+23+TbTvzvEEXIvxKWWF1mUzr
- 0pL0F6sXDze85/LrTKCUYnZJu4GEpj1GeYEQ0OCQti6qUannTK7mpF8AqY7Gc3IYjpVn
- QMFWvWqYhRatQR6klfKWzMl/GSyJ0HW8xLGCPojNlLT8uougL9RjB2xjOGGNNVIuygut
- TWEw==
+ bh=3ZdTKdjXZPsSu57R08aDOC5nHrf6U05QdlzIh/dh4Ps=;
+ b=aDUfRt60uiyPxMbkGC3D0P9U7IT90che4HNEepZo/fMsGQAEyFZgM4EFkOOuDlV3BQ
+ H1PJgpXz7+oUM+S17BszscIkYuFh0GqxSOD4ynhVZIvcra+4cmMzb1CY4p9qNJsMXCGx
+ 8pk0e3hhE5YqjDOk69AewG5vTdI8WtgaKhKykEjWj2knjh89AteKA6pa6Sx52qUOxfzc
+ SEVTKxiAocrBdsR1pgptHxPm12FRP5E9qAXe7F9BgdxrAPZmfwImYxfVsX8p8qsj3wnX
+ zVX4b081Vmdwv8cQCl8Nwagn0yE6vQDwV+Q0z1XydaQs5NUjUnRB1Hj/I+HT2Fsf0VtO
+ eQHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EogRULrLfJQmVZpCaE9KC8IG8I8XrMvRS8yWEac0lHY=;
- b=i/ROv1UYDHHvpcGAX4IjV92W0C73hrjevWvTl15NVjQqsFxG3qro+IlldWfopvNtBS
- Ng8VgXVaD641AfuwQZIDVL3iHOCJl8j0R/rHkqCwKc2g+su26fOavysDvRdd/RoB2tLW
- FBjYYGqbrdRNCCjyOmJU9suYxm01R8q/ErYdZU9rcue7qEHvr6gd9XEtV72ccXntqVBV
- rADTQvx/0Cjtv6wCBTGHqjQ96wlYwm4SVDv06cxeIsH7RoGUBlKXLlJaKE06R6WlabE7
- pNv/D0e2+ggs+UkRj7mY6m8HTwPJsZZzorJ4R7MdhjEUJvZCax/ptYvbL6jdKh3bQk4l
- juvw==
-X-Gm-Message-State: AFqh2krSnuSFJWvhTdq4ZEUkmPrPICki8gQp1AKeur+a7qXGksMvNVuw
- a5Y3ZzLnsiGMeNnd/flrseaD2EzfKUcA38E+
-X-Google-Smtp-Source: AMrXdXt5RR8raH2ywViZvh0n8ZT1NZikGTbPxB0hkLxJW8oEIGsuVum3JIIO0ELf91ctTxLNK8p8kg==
-X-Received: by 2002:aa7:9154:0:b0:57b:30b6:9e85 with SMTP id
- 20-20020aa79154000000b0057b30b69e85mr14201906pfi.22.1671895103731; 
- Sat, 24 Dec 2022 07:18:23 -0800 (PST)
+ bh=3ZdTKdjXZPsSu57R08aDOC5nHrf6U05QdlzIh/dh4Ps=;
+ b=BxNcAI4oycqIUMV8BvRg6YxEz2bsN03db2ipx/L2ON2K6YQ/tpGkW8xUB7KrwdzI/l
+ KV3uISFFcgrxcdFsazntrQDPyX7gBHtd4UwS8nTIMWzG5zVm+a7ec+i02IBJFk+Nqhdg
+ orl65HzNfVKDsf9gwq2l0RAcWOUGlmFB4MHTvpP3Dfftw/X4fI36/NoCeLy2eCnQbWRy
+ /Is4HnaFIhHfGQrQ1RApR5cyt9b6IE73Ec9lyuwt2qmKu8z9HHM+L+BDlKIrHVCAEHW7
+ 6GenS7IzgRrZim765dYHzHsil6qe+agP14eWvRYSjcnx/tDYDbpRi0EvxuhkYSBTCLjZ
+ GFlg==
+X-Gm-Message-State: AFqh2kpPHMsCC9yM/P0Rqbt9hEcnn8GHJPkle3Hg8q5Jqudpd8/wQBYf
+ 1y2zSL4rd4f7LSyrzyyMDXgC/h4xGOTdyGzg
+X-Google-Smtp-Source: AMrXdXsOD/ByCSMxbnJmCup3o2AJFoHZjy+xlE/DW9pQzns3P70ql31A0nctj1QwdzY+4yzvgRaUyA==
+X-Received: by 2002:aa7:83d1:0:b0:580:d71e:a2e5 with SMTP id
+ j17-20020aa783d1000000b00580d71ea2e5mr3089327pfn.22.1671895104676; 
+ Sat, 24 Dec 2022 07:18:24 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- t64-20020a625f43000000b005774f19b41csm4231124pfb.88.2022.12.24.07.18.22
+ t64-20020a625f43000000b005774f19b41csm4231124pfb.88.2022.12.24.07.18.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Dec 2022 07:18:23 -0800 (PST)
+ Sat, 24 Dec 2022 07:18:24 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: iii@linux.ibm.com
-Subject: [PATCH 1/4] accel/tcg: Fix tb_invalidate_phys_page_unwind
-Date: Sat, 24 Dec 2022 07:18:18 -0800
-Message-Id: <20221224151821.464455-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/4] accel/tcg: Use g_free_rcu for user-exec interval trees
+Date: Sat, 24 Dec 2022 07:18:19 -0800
+Message-Id: <20221224151821.464455-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221224151821.464455-1-richard.henderson@linaro.org>
 References: <20221224151821.464455-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,105 +89,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When called from syscall(), we are not within a TB and pc == 0.
-We can skip the check for invalidating the current TB.
+Because we allow lockless lookups, we have to be careful
+when it is freed.  Use rcu to delay the free until safe.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tb-maint.c | 78 ++++++++++++++++++++++++--------------------
- 1 file changed, 43 insertions(+), 35 deletions(-)
+ accel/tcg/user-exec.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
-index 1b8e860647..b3d6529ae2 100644
---- a/accel/tcg/tb-maint.c
-+++ b/accel/tcg/tb-maint.c
-@@ -1024,43 +1024,51 @@ void tb_invalidate_phys_page(tb_page_addr_t addr)
-  */
- bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc)
- {
--    assert(pc != 0);
--#ifdef TARGET_HAS_PRECISE_SMC
--    assert_memory_lock();
--    {
--        TranslationBlock *current_tb = tcg_tb_lookup(pc);
--        bool current_tb_modified = false;
--        TranslationBlock *tb;
--        PageForEachNext n;
-+    TranslationBlock *current_tb;
-+    bool current_tb_modified;
-+    TranslationBlock *tb;
-+    PageForEachNext n;
- 
--        addr &= TARGET_PAGE_MASK;
--
--        PAGE_FOR_EACH_TB(addr, addr + TARGET_PAGE_SIZE, unused, tb, n) {
--            if (current_tb == tb &&
--                (tb_cflags(current_tb) & CF_COUNT_MASK) != 1) {
--                /*
--                 * If we are modifying the current TB, we must stop its
--                 * execution. We could be more precise by checking that
--                 * the modification is after the current PC, but it would
--                 * require a specialized function to partially restore
--                 * the CPU state.
--                 */
--                current_tb_modified = true;
--                cpu_restore_state_from_tb(current_cpu, current_tb, pc);
--            }
--            tb_phys_invalidate__locked(tb);
--        }
--
--        if (current_tb_modified) {
--            /* Force execution of one insn next time.  */
--            CPUState *cpu = current_cpu;
--            cpu->cflags_next_tb = 1 | CF_NOIRQ | curr_cflags(current_cpu);
--            return true;
--        }
-+    /*
-+     * Without precise smc semantics, or when outside of a TB,
-+     * we can skip to invalidate.
-+     */
-+#ifndef TARGET_HAS_PRECISE_SMC
-+    pc = 0;
-+#endif
-+    if (!pc) {
-+        tb_invalidate_phys_page(addr);
-+        return false;
-+    }
-+
-+    assert_memory_lock();
-+    current_tb = tcg_tb_lookup(pc);
-+
-+    addr &= TARGET_PAGE_MASK;
-+    current_tb_modified = false;
-+
-+    PAGE_FOR_EACH_TB(addr, addr + TARGET_PAGE_SIZE, unused, tb, n) {
-+        if (current_tb == tb &&
-+            (tb_cflags(current_tb) & CF_COUNT_MASK) != 1) {
-+            /*
-+             * If we are modifying the current TB, we must stop its
-+             * execution. We could be more precise by checking that
-+             * the modification is after the current PC, but it would
-+             * require a specialized function to partially restore
-+             * the CPU state.
-+             */
-+            current_tb_modified = true;
-+            cpu_restore_state_from_tb(current_cpu, current_tb, pc);
-+        }
-+        tb_phys_invalidate__locked(tb);
-+    }
-+
-+    if (current_tb_modified) {
-+        /* Force execution of one insn next time.  */
-+        CPUState *cpu = current_cpu;
-+        cpu->cflags_next_tb = 1 | CF_NOIRQ | curr_cflags(current_cpu);
-+        return true;
-     }
--#else
--    tb_invalidate_phys_page(addr);
--#endif /* TARGET_HAS_PRECISE_SMC */
-     return false;
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index a3cecda405..2c5c10d2e6 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -22,6 +22,7 @@
+ #include "exec/exec-all.h"
+ #include "tcg/tcg.h"
+ #include "qemu/bitops.h"
++#include "qemu/rcu.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/translate-all.h"
+ #include "exec/helper-proto.h"
+@@ -136,6 +137,7 @@ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
  }
- #else
+ 
+ typedef struct PageFlagsNode {
++    struct rcu_head rcu;
+     IntervalTreeNode itree;
+     int flags;
+ } PageFlagsNode;
+@@ -266,7 +268,7 @@ static bool pageflags_unset(target_ulong start, target_ulong last)
+             }
+         } else if (p_last <= last) {
+             /* Range completely covers node -- remove it. */
+-            g_free(p);
++            g_free_rcu(p, rcu);
+         } else {
+             /* Truncate the node from the start. */
+             p->itree.start = last + 1;
+@@ -311,7 +313,7 @@ static void pageflags_create_merge(target_ulong start, target_ulong last,
+     if (prev) {
+         if (next) {
+             prev->itree.last = next->itree.last;
+-            g_free(next);
++            g_free_rcu(next, rcu);
+         } else {
+             prev->itree.last = last;
+         }
+@@ -376,7 +378,7 @@ static bool pageflags_set_clear(target_ulong start, target_ulong last,
+             p->flags = merge_flags;
+         } else {
+             interval_tree_remove(&p->itree, &pageflags_root);
+-            g_free(p);
++            g_free_rcu(p, rcu);
+         }
+         goto done;
+     }
+@@ -421,7 +423,7 @@ static bool pageflags_set_clear(target_ulong start, target_ulong last,
+                     p->flags = merge_flags;
+                 } else {
+                     interval_tree_remove(&p->itree, &pageflags_root);
+-                    g_free(p);
++                    g_free_rcu(p, rcu);
+                 }
+                 if (p_last < last) {
+                     start = p_last + 1;
+@@ -462,7 +464,7 @@ static bool pageflags_set_clear(target_ulong start, target_ulong last,
+         p->itree.start = last + 1;
+         interval_tree_insert(&p->itree, &pageflags_root);
+     } else {
+-        g_free(p);
++        g_free_rcu(p, rcu);
+         goto restart;
+     }
+     if (set_flags) {
+@@ -779,6 +781,7 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
+ #define TBD_MASK   (TARGET_PAGE_MASK * TPD_PAGES)
+ 
+ typedef struct TargetPageDataNode {
++    struct rcu_head rcu;
+     IntervalTreeNode itree;
+     char data[TPD_PAGES][TARGET_PAGE_DATA_SIZE] __attribute__((aligned));
+ } TargetPageDataNode;
+@@ -801,11 +804,11 @@ void page_reset_target_data(target_ulong start, target_ulong end)
+          n = next,
+          next = next ? interval_tree_iter_next(n, start, last) : NULL) {
+         target_ulong n_start, n_last, p_ofs, p_len;
+-        TargetPageDataNode *t;
++        TargetPageDataNode *t = container_of(n, TargetPageDataNode, itree);
+ 
+         if (n->start >= start && n->last <= last) {
+             interval_tree_remove(n, &targetdata_root);
+-            g_free(n);
++            g_free_rcu(t, rcu);
+             continue;
+         }
+ 
+@@ -819,7 +822,6 @@ void page_reset_target_data(target_ulong start, target_ulong end)
+         n_last = MIN(last, n->last);
+         p_len = (n_last + 1 - n_start) >> TARGET_PAGE_BITS;
+ 
+-        t = container_of(n, TargetPageDataNode, itree);
+         memset(t->data[p_ofs], 0, p_len * TARGET_PAGE_DATA_SIZE);
+     }
+ }
 -- 
 2.34.1
 
