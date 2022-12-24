@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37AD655962
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:42:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548D365592E
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:21:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8zil-0006L1-JK; Sat, 24 Dec 2022 03:17:31 -0500
+	id 1p8zjz-0007I4-3h; Sat, 24 Dec 2022 03:18:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p8ziN-00068z-0h
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:08 -0500
+ id 1p8zjP-0006lZ-Gr
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:15 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p8ziF-0001AK-NV
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:05 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1p8zjK-0003Py-JX
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:11 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Cx6+putaZjR0kIAA--.18702S3;
- Sat, 24 Dec 2022 16:16:46 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8Bx2+pvtaZjSEkIAA--.18619S3;
+ Sat, 24 Dec 2022 16:16:47 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxPuRhtaZjuccKAA--.38440S29; 
+ AQAAf8CxPuRhtaZjuccKAA--.38440S30; 
  Sat, 24 Dec 2022 16:16:46 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH 27/43] target/loongarch: Implement vsrlrn vsrarn
-Date: Sat, 24 Dec 2022 16:16:17 +0800
-Message-Id: <20221224081633.4185445-28-gaosong@loongson.cn>
+Subject: [RFC PATCH 28/43] target/loongarch: Implement vssrln vssran
+Date: Sat, 24 Dec 2022 16:16:18 +0800
+Message-Id: <20221224081633.4185445-29-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221224081633.4185445-1-gaosong@loongson.cn>
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S29
+X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S30
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxKFy5WFyDuFWxZFy7Zr48tFb_yoWfXry5p3
- yUGryUAr4DGFWvq3ZIva4Syw4vqwsrtw1fuw4fAr18uw47AF9aqr1ktrW29F48WF9xtFyI
- g3W7Gr9rAFy5JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- be8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
- kF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020E
- x4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFV
- Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
- 1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
- 0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAI
- cVC0I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0x
- vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280
- aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
+X-Coremail-Antispam: 1Uk129KBjvAXoW3Cr1xAw47Gr47Jr1fJw1DZFb_yoW8WFyfAo
+ WrJw15A3W8Grs2k39Fka4093Wkt3s2yw1DCFyDuw1DKFWvyF1Sv345K3s5Aa97tF4Yya47
+ urWkJr4YyF1Yqrnrn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
+ J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
+ UUqG1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64
+ kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY
+ 1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aV
+ CY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x2
+ 6I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4
+ IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AG
+ Y7Cv6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+ 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF
+ 0xvE2Ix0cI8IcVAFwI0_Ar0_tr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42
+ IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: -18
@@ -75,232 +75,451 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VSRLRN.{B.H/H.W/W.D};
-- VSRARN.{B.H/H.W/W.D};
-- VSRLRNI.{B.H/H.W/W.D/D.Q};
-- VSRARNI.{B.H/H.W/W.D/D.Q}.
+- VSSRLN.{B.H/H.W/W.D};
+- VSSRAN.{B.H/H.W/W.D};
+- VSSRLN.{BU.H/HU.W/WU.D};
+- VSSRAN.{BU.H/HU.W/WU.D};
+- VSSRLNI.{B.H/H.W/W.D/D.Q};
+- VSSRANI.{B.H/H.W/W.D/D.Q};
+- VSSRLNI.{BU.H/HU.W/WU.D/DU.Q};
+- VSSRANI.{BU.H/HU.W/WU.D/DU.Q}.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  16 +++
- target/loongarch/helper.h                   |  16 +++
- target/loongarch/insn_trans/trans_lsx.c.inc |  16 +++
- target/loongarch/insns.decode               |  16 +++
- target/loongarch/lsx_helper.c               | 108 ++++++++++++++++++++
- 5 files changed, 172 insertions(+)
+ target/loongarch/disas.c                    |  30 +++
+ target/loongarch/helper.h                   |  30 +++
+ target/loongarch/insn_trans/trans_lsx.c.inc |  30 +++
+ target/loongarch/insns.decode               |  30 +++
+ target/loongarch/lsx_helper.c               | 267 ++++++++++++++++++++
+ 5 files changed, 387 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index e6f4411b43..507f34feaa 100644
+index 507f34feaa..1b9bd6bb86 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -1153,3 +1153,19 @@ INSN_LSX(vsrani_b_h,       vv_i)
- INSN_LSX(vsrani_h_w,       vv_i)
- INSN_LSX(vsrani_w_d,       vv_i)
- INSN_LSX(vsrani_d_q,       vv_i)
+@@ -1169,3 +1169,33 @@ INSN_LSX(vsrarni_b_h,      vv_i)
+ INSN_LSX(vsrarni_h_w,      vv_i)
+ INSN_LSX(vsrarni_w_d,      vv_i)
+ INSN_LSX(vsrarni_d_q,      vv_i)
 +
-+INSN_LSX(vsrlrn_b_h,       vvv)
-+INSN_LSX(vsrlrn_h_w,       vvv)
-+INSN_LSX(vsrlrn_w_d,       vvv)
-+INSN_LSX(vsrarn_b_h,       vvv)
-+INSN_LSX(vsrarn_h_w,       vvv)
-+INSN_LSX(vsrarn_w_d,       vvv)
++INSN_LSX(vssrln_b_h,       vvv)
++INSN_LSX(vssrln_h_w,       vvv)
++INSN_LSX(vssrln_w_d,       vvv)
++INSN_LSX(vssran_b_h,       vvv)
++INSN_LSX(vssran_h_w,       vvv)
++INSN_LSX(vssran_w_d,       vvv)
++INSN_LSX(vssrln_bu_h,      vvv)
++INSN_LSX(vssrln_hu_w,      vvv)
++INSN_LSX(vssrln_wu_d,      vvv)
++INSN_LSX(vssran_bu_h,      vvv)
++INSN_LSX(vssran_hu_w,      vvv)
++INSN_LSX(vssran_wu_d,      vvv)
 +
-+INSN_LSX(vsrlrni_b_h,      vv_i)
-+INSN_LSX(vsrlrni_h_w,      vv_i)
-+INSN_LSX(vsrlrni_w_d,      vv_i)
-+INSN_LSX(vsrlrni_d_q,      vv_i)
-+INSN_LSX(vsrarni_b_h,      vv_i)
-+INSN_LSX(vsrarni_h_w,      vv_i)
-+INSN_LSX(vsrarni_w_d,      vv_i)
-+INSN_LSX(vsrarni_d_q,      vv_i)
++INSN_LSX(vssrlni_b_h,      vv_i)
++INSN_LSX(vssrlni_h_w,      vv_i)
++INSN_LSX(vssrlni_w_d,      vv_i)
++INSN_LSX(vssrlni_d_q,      vv_i)
++INSN_LSX(vssrani_b_h,      vv_i)
++INSN_LSX(vssrani_h_w,      vv_i)
++INSN_LSX(vssrani_w_d,      vv_i)
++INSN_LSX(vssrani_d_q,      vv_i)
++INSN_LSX(vssrlni_bu_h,     vv_i)
++INSN_LSX(vssrlni_hu_w,     vv_i)
++INSN_LSX(vssrlni_wu_d,     vv_i)
++INSN_LSX(vssrlni_du_q,     vv_i)
++INSN_LSX(vssrani_bu_h,     vv_i)
++INSN_LSX(vssrani_hu_w,     vv_i)
++INSN_LSX(vssrani_wu_d,     vv_i)
++INSN_LSX(vssrani_du_q,     vv_i)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index eccfbfbb3e..bb868961d1 100644
+index bb868961d1..4585f0eb55 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -508,3 +508,19 @@ DEF_HELPER_4(vsrani_b_h, void, env, i32, i32, i32)
- DEF_HELPER_4(vsrani_h_w, void, env, i32, i32, i32)
- DEF_HELPER_4(vsrani_w_d, void, env, i32, i32, i32)
- DEF_HELPER_4(vsrani_d_q, void, env, i32, i32, i32)
+@@ -524,3 +524,33 @@ DEF_HELPER_4(vsrarni_b_h, void, env, i32, i32, i32)
+ DEF_HELPER_4(vsrarni_h_w, void, env, i32, i32, i32)
+ DEF_HELPER_4(vsrarni_w_d, void, env, i32, i32, i32)
+ DEF_HELPER_4(vsrarni_d_q, void, env, i32, i32, i32)
 +
-+DEF_HELPER_4(vsrlrn_b_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrlrn_h_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrlrn_w_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrarn_b_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrarn_h_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrarn_w_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrln_b_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrln_h_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrln_w_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vssran_b_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vssran_h_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vssran_w_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrln_bu_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrln_hu_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrln_wu_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vssran_bu_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vssran_hu_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vssran_wu_d, void, env, i32, i32, i32)
 +
-+DEF_HELPER_4(vsrlrni_b_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrlrni_h_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrlrni_w_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrlrni_d_q, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrarni_b_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrarni_h_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrarni_w_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsrarni_d_q, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrlni_b_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrlni_h_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrlni_w_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrlni_d_q, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrani_b_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrani_h_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrani_w_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrani_d_q, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrlni_bu_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrlni_hu_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrlni_wu_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrlni_du_q, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrani_bu_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrani_hu_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrani_wu_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vssrani_du_q, void, env, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index 5b4410852d..d3ab0a4a6a 100644
+index d3ab0a4a6a..39e0e53677 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -424,3 +424,19 @@ TRANS(vsrani_b_h, gen_vv_i, gen_helper_vsrani_b_h)
- TRANS(vsrani_h_w, gen_vv_i, gen_helper_vsrani_h_w)
- TRANS(vsrani_w_d, gen_vv_i, gen_helper_vsrani_w_d)
- TRANS(vsrani_d_q, gen_vv_i, gen_helper_vsrani_d_q)
+@@ -440,3 +440,33 @@ TRANS(vsrarni_b_h, gen_vv_i, gen_helper_vsrarni_b_h)
+ TRANS(vsrarni_h_w, gen_vv_i, gen_helper_vsrarni_h_w)
+ TRANS(vsrarni_w_d, gen_vv_i, gen_helper_vsrarni_w_d)
+ TRANS(vsrarni_d_q, gen_vv_i, gen_helper_vsrarni_d_q)
 +
-+TRANS(vsrlrn_b_h, gen_vvv, gen_helper_vsrlrn_b_h)
-+TRANS(vsrlrn_h_w, gen_vvv, gen_helper_vsrlrn_h_w)
-+TRANS(vsrlrn_w_d, gen_vvv, gen_helper_vsrlrn_w_d)
-+TRANS(vsrarn_b_h, gen_vvv, gen_helper_vsrarn_b_h)
-+TRANS(vsrarn_h_w, gen_vvv, gen_helper_vsrarn_h_w)
-+TRANS(vsrarn_w_d, gen_vvv, gen_helper_vsrarn_w_d)
++TRANS(vssrln_b_h, gen_vvv, gen_helper_vssrln_b_h)
++TRANS(vssrln_h_w, gen_vvv, gen_helper_vssrln_h_w)
++TRANS(vssrln_w_d, gen_vvv, gen_helper_vssrln_w_d)
++TRANS(vssran_b_h, gen_vvv, gen_helper_vssran_b_h)
++TRANS(vssran_h_w, gen_vvv, gen_helper_vssran_h_w)
++TRANS(vssran_w_d, gen_vvv, gen_helper_vssran_w_d)
++TRANS(vssrln_bu_h, gen_vvv, gen_helper_vssrln_bu_h)
++TRANS(vssrln_hu_w, gen_vvv, gen_helper_vssrln_hu_w)
++TRANS(vssrln_wu_d, gen_vvv, gen_helper_vssrln_wu_d)
++TRANS(vssran_bu_h, gen_vvv, gen_helper_vssran_bu_h)
++TRANS(vssran_hu_w, gen_vvv, gen_helper_vssran_hu_w)
++TRANS(vssran_wu_d, gen_vvv, gen_helper_vssran_wu_d)
 +
-+TRANS(vsrlrni_b_h, gen_vv_i, gen_helper_vsrlrni_b_h)
-+TRANS(vsrlrni_h_w, gen_vv_i, gen_helper_vsrlrni_h_w)
-+TRANS(vsrlrni_w_d, gen_vv_i, gen_helper_vsrlrni_w_d)
-+TRANS(vsrlrni_d_q, gen_vv_i, gen_helper_vsrlrni_d_q)
-+TRANS(vsrarni_b_h, gen_vv_i, gen_helper_vsrarni_b_h)
-+TRANS(vsrarni_h_w, gen_vv_i, gen_helper_vsrarni_h_w)
-+TRANS(vsrarni_w_d, gen_vv_i, gen_helper_vsrarni_w_d)
-+TRANS(vsrarni_d_q, gen_vv_i, gen_helper_vsrarni_d_q)
++TRANS(vssrlni_b_h, gen_vv_i, gen_helper_vssrlni_b_h)
++TRANS(vssrlni_h_w, gen_vv_i, gen_helper_vssrlni_h_w)
++TRANS(vssrlni_w_d, gen_vv_i, gen_helper_vssrlni_w_d)
++TRANS(vssrlni_d_q, gen_vv_i, gen_helper_vssrlni_d_q)
++TRANS(vssrani_b_h, gen_vv_i, gen_helper_vssrani_b_h)
++TRANS(vssrani_h_w, gen_vv_i, gen_helper_vssrani_h_w)
++TRANS(vssrani_w_d, gen_vv_i, gen_helper_vssrani_w_d)
++TRANS(vssrani_d_q, gen_vv_i, gen_helper_vssrani_d_q)
++TRANS(vssrlni_bu_h, gen_vv_i, gen_helper_vssrlni_bu_h)
++TRANS(vssrlni_hu_w, gen_vv_i, gen_helper_vssrlni_hu_w)
++TRANS(vssrlni_wu_d, gen_vv_i, gen_helper_vssrlni_wu_d)
++TRANS(vssrlni_du_q, gen_vv_i, gen_helper_vssrlni_du_q)
++TRANS(vssrani_bu_h, gen_vv_i, gen_helper_vssrani_bu_h)
++TRANS(vssrani_hu_w, gen_vv_i, gen_helper_vssrani_hu_w)
++TRANS(vssrani_wu_d, gen_vv_i, gen_helper_vssrani_wu_d)
++TRANS(vssrani_du_q, gen_vv_i, gen_helper_vssrani_du_q)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 859def6752..0b30175f6b 100644
+index 0b30175f6b..3e1b4084bb 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -882,3 +882,19 @@ vsrani_b_h       0111 00110101 10000 1 .... ..... .....   @vv_ui4
- vsrani_h_w       0111 00110101 10001 ..... ..... .....    @vv_ui5
- vsrani_w_d       0111 00110101 1001 ...... ..... .....    @vv_ui6
- vsrani_d_q       0111 00110101 101 ....... ..... .....    @vv_ui7
+@@ -898,3 +898,33 @@ vsrarni_b_h      0111 00110101 11000 1 .... ..... .....   @vv_ui4
+ vsrarni_h_w      0111 00110101 11001 ..... ..... .....    @vv_ui5
+ vsrarni_w_d      0111 00110101 1101 ...... ..... .....    @vv_ui6
+ vsrarni_d_q      0111 00110101 111 ....... ..... .....    @vv_ui7
 +
-+vsrlrn_b_h       0111 00001111 10001 ..... ..... .....    @vvv
-+vsrlrn_h_w       0111 00001111 10010 ..... ..... .....    @vvv
-+vsrlrn_w_d       0111 00001111 10011 ..... ..... .....    @vvv
-+vsrarn_b_h       0111 00001111 10101 ..... ..... .....    @vvv
-+vsrarn_h_w       0111 00001111 10110 ..... ..... .....    @vvv
-+vsrarn_w_d       0111 00001111 10111 ..... ..... .....    @vvv
++vssrln_b_h       0111 00001111 11001 ..... ..... .....    @vvv
++vssrln_h_w       0111 00001111 11010 ..... ..... .....    @vvv
++vssrln_w_d       0111 00001111 11011 ..... ..... .....    @vvv
++vssran_b_h       0111 00001111 11101 ..... ..... .....    @vvv
++vssran_h_w       0111 00001111 11110 ..... ..... .....    @vvv
++vssran_w_d       0111 00001111 11111 ..... ..... .....    @vvv
++vssrln_bu_h      0111 00010000 01001 ..... ..... .....    @vvv
++vssrln_hu_w      0111 00010000 01010 ..... ..... .....    @vvv
++vssrln_wu_d      0111 00010000 01011 ..... ..... .....    @vvv
++vssran_bu_h      0111 00010000 01101 ..... ..... .....    @vvv
++vssran_hu_w      0111 00010000 01110 ..... ..... .....    @vvv
++vssran_wu_d      0111 00010000 01111 ..... ..... .....    @vvv
 +
-+vsrlrni_b_h      0111 00110100 01000 1 .... ..... .....   @vv_ui4
-+vsrlrni_h_w      0111 00110100 01001 ..... ..... .....    @vv_ui5
-+vsrlrni_w_d      0111 00110100 0101 ...... ..... .....    @vv_ui6
-+vsrlrni_d_q      0111 00110100 011 ....... ..... .....    @vv_ui7
-+vsrarni_b_h      0111 00110101 11000 1 .... ..... .....   @vv_ui4
-+vsrarni_h_w      0111 00110101 11001 ..... ..... .....    @vv_ui5
-+vsrarni_w_d      0111 00110101 1101 ...... ..... .....    @vv_ui6
-+vsrarni_d_q      0111 00110101 111 ....... ..... .....    @vv_ui7
++vssrlni_b_h      0111 00110100 10000 1 .... ..... .....   @vv_ui4
++vssrlni_h_w      0111 00110100 10001 ..... ..... .....    @vv_ui5
++vssrlni_w_d      0111 00110100 1001 ...... ..... .....    @vv_ui6
++vssrlni_d_q      0111 00110100 101 ....... ..... .....    @vv_ui7
++vssrani_b_h      0111 00110110 00000 1 .... ..... .....   @vv_ui4
++vssrani_h_w      0111 00110110 00001 ..... ..... .....    @vv_ui5
++vssrani_w_d      0111 00110110 0001 ...... ..... .....    @vv_ui6
++vssrani_d_q      0111 00110110 001 ....... ..... .....    @vv_ui7
++vssrlni_bu_h     0111 00110100 11000 1 .... ..... .....   @vv_ui4
++vssrlni_hu_w     0111 00110100 11001 ..... ..... .....    @vv_ui5
++vssrlni_wu_d     0111 00110100 1101 ...... ..... .....    @vv_ui6
++vssrlni_du_q     0111 00110100 111 ....... ..... .....    @vv_ui7
++vssrani_bu_h     0111 00110110 01000 1 .... ..... .....   @vv_ui4
++vssrani_hu_w     0111 00110110 01001 ..... ..... .....    @vv_ui5
++vssrani_wu_d     0111 00110110 0101 ...... ..... .....    @vv_ui6
++vssrani_du_q     0111 00110110 011 ....... ..... .....    @vv_ui7
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index 30b8da837a..8ccfa75fe3 100644
+index 8ccfa75fe3..6704eb4ea5 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -2516,3 +2516,111 @@ DO_HELPER_VV_I(vsrani_b_h, 16, helper_vv_ni_c, do_vsrani)
- DO_HELPER_VV_I(vsrani_h_w, 32, helper_vv_ni_c, do_vsrani)
- DO_HELPER_VV_I(vsrani_w_d, 64, helper_vv_ni_c, do_vsrani)
- DO_HELPER_VV_I(vsrani_d_q, 128, helper_vv_ni_c, do_vsrani)
+@@ -2624,3 +2624,270 @@ DO_HELPER_VV_I(vsrarni_b_h, 16, helper_vv_ni_c, do_vsrarni)
+ DO_HELPER_VV_I(vsrarni_h_w, 32, helper_vv_ni_c, do_vsrarni)
+ DO_HELPER_VV_I(vsrarni_w_d, 64, helper_vv_ni_c, do_vsrarni)
+ DO_HELPER_VV_I(vsrarni_d_q, 128, helper_vv_ni_c, do_vsrarni)
 +
-+static void do_vsrlrn(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++static int64_t vsra(int64_t s1, int64_t s2, int bit)
++{
++    return (s1 >> ((uint64_t)(s2) % bit));
++}
++
++static void do_vssrln(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
 +    case 16:
-+        Vd->B[n] = vsrlr((uint16_t)Vj->H[n], Vk->H[n], bit);
++        Vd->B[n] = sat_s(vsrl((uint16_t)Vj->H[n], Vk->H[n], bit), bit/2 - 1);
 +        break;
 +    case 32:
-+        Vd->H[n] = vsrlr((uint32_t)Vj->W[n], Vk->W[n], bit);
++        Vd->H[n] = sat_s(vsrl((uint32_t)Vj->W[n], Vk->W[n], bit), bit/2 - 1);
 +        break;
 +    case 64:
-+        Vd->W[n] = vsrlr((uint64_t)Vj->D[n], Vk->D[n], bit);
++        Vd->W[n] = sat_s(vsrl((uint64_t)Vj->D[n], Vk->D[n], bit), bit/2 - 1);
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static void do_vsrarn(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++static void do_vssran(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
 +    case 16:
-+        Vd->B[n] = vsrar(Vj->H[n], Vk->H[n], bit);
++        Vd->B[n] = sat_s(vsra(Vj->H[n], Vk->H[n], bit), bit/2 - 1);
 +        break;
 +    case 32:
-+        Vd->H[n] = vsrar(Vj->W[n], Vk->W[n], bit);
++        Vd->H[n] = sat_s(vsra(Vj->W[n], Vk->W[n], bit), bit/2 - 1);
 +        break;
 +    case 64:
-+        Vd->W[n] = vsrar(Vj->D[n], Vk->D[n], bit);
++        Vd->W[n] = sat_s(vsra(Vj->D[n], Vk->D[n], bit), bit/2 - 1);
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+DO_HELPER_VVV(vsrlrn_b_h, 16, helper_vvv_hz, do_vsrlrn)
-+DO_HELPER_VVV(vsrlrn_h_w, 32, helper_vvv_hz, do_vsrlrn)
-+DO_HELPER_VVV(vsrlrn_w_d, 64, helper_vvv_hz, do_vsrlrn)
-+DO_HELPER_VVV(vsrarn_b_h, 16, helper_vvv_hz, do_vsrarn)
-+DO_HELPER_VVV(vsrarn_h_w, 32, helper_vvv_hz, do_vsrarn)
-+DO_HELPER_VVV(vsrarn_w_d, 64, helper_vvv_hz, do_vsrarn)
++DO_HELPER_VVV(vssrln_b_h, 16, helper_vvv_hz, do_vssrln)
++DO_HELPER_VVV(vssrln_h_w, 32, helper_vvv_hz, do_vssrln)
++DO_HELPER_VVV(vssrln_w_d, 64, helper_vvv_hz, do_vssrln)
++DO_HELPER_VVV(vssran_b_h, 16, helper_vvv_hz, do_vssran)
++DO_HELPER_VVV(vssran_h_w, 32, helper_vvv_hz, do_vssran)
++DO_HELPER_VVV(vssran_w_d, 64, helper_vvv_hz, do_vssran)
 +
-+static __int128_t vsrlrn(__int128_t s1, uint32_t imm)
++static void do_vssrln_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
-+    if (imm == 0) {
-+        return s1;
++    switch (bit) {
++    case 16:
++        Vd->B[n] = sat_u(vsrl((uint16_t)Vj->H[n], Vk->H[n], bit), bit/2 - 1);
++        break;
++    case 32:
++        Vd->H[n] = sat_u(vsrl((uint32_t)Vj->W[n], Vk->W[n], bit), bit/2 - 1);
++        break;
++    case 64:
++        Vd->W[n] = sat_u(vsrl((uint64_t)Vj->D[n], Vk->D[n], bit), bit/2 - 1);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static void do_vssran_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++{
++    switch (bit) {
++    case 16:
++        Vd->B[n] = sat_u(vsra(Vj->H[n], Vk->H[n], bit), bit/2 - 1);
++        if (Vd->B[n] < 0) {
++            Vd->B[n] = 0;
++        }
++        break;
++    case 32:
++        Vd->H[n] = sat_u(vsra(Vj->W[n], Vk->W[n], bit), bit/2 - 1);
++        if (Vd->H[n] < 0) {
++            Vd->H[n] = 0;
++        }
++        break;
++    case 64:
++        Vd->W[n] = sat_u(vsra(Vj->D[n], Vk->D[n], bit), bit/2 - 1);
++        if (Vd->W[n] < 0) {
++            Vd->W[n] = 0;
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++DO_HELPER_VVV(vssrln_bu_h, 16, helper_vvv_hz, do_vssrln_u)
++DO_HELPER_VVV(vssrln_hu_w, 32, helper_vvv_hz, do_vssrln_u)
++DO_HELPER_VVV(vssrln_wu_d, 64, helper_vvv_hz, do_vssrln_u)
++DO_HELPER_VVV(vssran_bu_h, 16, helper_vvv_hz, do_vssran_u)
++DO_HELPER_VVV(vssran_hu_w, 32, helper_vvv_hz, do_vssran_u)
++DO_HELPER_VVV(vssran_wu_d, 64, helper_vvv_hz, do_vssran_u)
++
++static int64_t sat_s_128u(__uint128_t u1, uint32_t imm)
++{
++    uint64_t max = MAKE_64BIT_MASK(0, imm);
++    return u1 < max ? u1: max;
++}
++
++static void do_vssrlni(vec_t *dest, vec_t *Vd, vec_t *Vj,
++                       uint32_t imm, int bit, int n)
++{
++    switch (bit) {
++    case 16:
++        dest->B[n] = sat_s((((uint16_t)Vj->H[n]) >> imm), bit/2 - 1);
++        dest->B[n + 128/bit] = sat_s((((uint16_t)Vd->H[n]) >> imm), bit/2 -1);
++        break;
++    case 32:
++        dest->H[n] = sat_s((((uint32_t)Vj->W[n]) >> imm), bit/2 - 1);
++        dest->H[n + 128/bit] = sat_s((((uint32_t)Vd->W[n]) >> imm), bit/2 - 1);
++        break;
++    case 64:
++        dest->W[n] = sat_s((((uint64_t)Vj->D[n]) >> imm), bit/2 - 1);
++        dest->W[n + 128/bit] = sat_s((((uint64_t)Vd->D[n]) >> imm), bit/2 - 1);
++        break;
++    case 128:
++        dest->D[n] = sat_s_128u((((__uint128_t)Vj->Q[n]) >> imm), bit/2 - 1);
++        dest->D[n + 128/bit] = sat_s_128u((((__uint128_t)Vd->Q[n]) >> imm),
++                                          bit/2 - 1);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static int64_t sat_s_128(__int128_t s1, uint32_t imm)
++{
++    int64_t max = MAKE_64BIT_MASK(0, imm);
++    int64_t min = MAKE_64BIT_MASK(imm, 64);
++
++    if (s1 > max -1) {
++        return max;
++    } else if (s1 < - max) {
++        return min;
 +    } else {
-+        __uint128_t t1 = (__uint128_t)1 << (imm -1);
-+        return (s1 + t1) >> imm;
++        return s1;
 +    }
 +}
 +
-+static void do_vsrlrni(vec_t *dest, vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
++static void do_vssrani(vec_t *dest, vec_t *Vd, vec_t *Vj,
++                       uint32_t imm, int bit, int n)
 +{
 +    switch (bit) {
 +    case 16:
-+        dest->B[n] = vsrlrn((uint16_t)Vj->H[n], imm);
-+        dest->B[n + 128 / bit] = vsrlrn((uint16_t)Vd->H[n], imm);
++        dest->B[n] = sat_s((Vj->H[n] >> imm), bit/2 - 1);
++        dest->B[n + 128/bit] = sat_s((Vd->H[n] >> imm), bit/2 - 1);
 +        break;
 +    case 32:
-+        dest->H[n] = vsrlrn((uint32_t)Vj->W[n], imm);
-+        dest->H[n + 128 / bit] = vsrlrn((uint32_t)Vd->W[n], imm);
++        dest->H[n] = sat_s((Vj->W[n] >> imm), bit/2 - 1);
++        dest->H[n + 128/bit] = sat_s((Vd->W[n] >> imm), bit/2 - 1);
 +        break;
 +    case 64:
-+        dest->W[n] = vsrlrn((uint64_t)Vj->D[n], imm);
-+        dest->W[n + 128 / bit] = vsrlrn((uint64_t)Vd->D[n], imm);
++        dest->W[n] = sat_s((Vj->D[n] >> imm), bit/2 - 1);
++        dest->W[n + 128/bit] = sat_s((Vd->D[n] >> imm), bit/2 - 1);
 +        break;
 +    case 128:
-+        dest->D[n] = vsrlrn((__uint128_t)Vj->Q[n], imm);
-+        dest->D[n + 128 / bit] = vsrlrn((__uint128_t)Vd->Q[n], imm);
++        dest->D[n] = sat_s_128(((__int128_t)Vj->Q[n] >> imm), bit/2 - 1);
++        dest->D[n + 128/bit] = sat_s_128(((__int128_t)Vd->Q[n] >> imm),
++                                         bit/2 - 1);
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static void do_vsrarni(vec_t *dest, vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
++DO_HELPER_VV_I(vssrlni_b_h, 16, helper_vv_ni_c, do_vssrlni)
++DO_HELPER_VV_I(vssrlni_h_w, 32, helper_vv_ni_c, do_vssrlni)
++DO_HELPER_VV_I(vssrlni_w_d, 64, helper_vv_ni_c, do_vssrlni)
++DO_HELPER_VV_I(vssrlni_d_q, 128, helper_vv_ni_c, do_vssrlni)
++DO_HELPER_VV_I(vssrani_b_h, 16, helper_vv_ni_c, do_vssrani)
++DO_HELPER_VV_I(vssrani_h_w, 32, helper_vv_ni_c, do_vssrani)
++DO_HELPER_VV_I(vssrani_w_d, 64, helper_vv_ni_c, do_vssrani)
++DO_HELPER_VV_I(vssrani_d_q, 128, helper_vv_ni_c, do_vssrani)
++
++static int64_t sat_u_128(__uint128_t u1, uint32_t imm)
++{
++    uint64_t max = MAKE_64BIT_MASK(0, imm + 1);
++    return u1 < max ? u1 : max;
++}
++
++static void do_vssrlni_u(vec_t *dest, vec_t *Vd, vec_t *Vj,
++                         uint32_t imm, int bit, int n)
 +{
 +    switch (bit) {
 +    case 16:
-+        dest->B[n] = vsrlrn(Vj->H[n], imm);
-+        dest->B[n + 128 / bit] = vsrlrn(Vd->H[n], imm);
++        dest->B[n] = sat_u((((uint16_t)Vj->H[n]) >> imm),  bit/2 -1);
++        dest->B[n + 128/bit] = sat_u((((uint16_t)Vd->H[n]) >> imm), bit/2 -1);
 +        break;
 +    case 32:
-+        dest->H[n] = vsrlrn(Vj->W[n], imm);
-+        dest->H[n + 128 / bit] = vsrlrn(Vd->W[n], imm);
++        dest->H[n] = sat_u((((uint32_t)Vj->W[n]) >> imm), imm);
++        dest->H[n + 128/bit] = sat_u((((uint32_t)Vd->W[n]) >> imm), bit/2 -1);
 +        break;
 +    case 64:
-+        dest->W[n] = vsrlrn(Vj->D[n], imm);
-+        dest->W[n + 128 / bit] = vsrlrn(Vd->D[n], imm);
++        dest->W[n] = sat_u((((uint64_t)Vj->D[n]) >> imm), bit/2 - 1);
++        dest->W[n + 128/bit] = sat_u((((uint64_t)Vd->D[n]) >> imm), bit/2 -1);
 +        break;
 +    case 128:
-+        dest->D[n] = vsrlrn(Vj->Q[n], imm);
-+        dest->D[n + 128 / bit] = vsrlrn(Vd->Q[n], imm);
++        dest->D[n] = sat_u_128((((__uint128_t)Vj->Q[n]) >> imm), bit/2 - 1);
++        dest->D[n + 128/bit] = sat_u_128((((__uint128_t)Vd->Q[n]) >> imm),
++                                         bit/2 -1);
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+DO_HELPER_VV_I(vsrlrni_b_h, 16, helper_vv_ni_c, do_vsrlrni)
-+DO_HELPER_VV_I(vsrlrni_h_w, 32, helper_vv_ni_c, do_vsrlrni)
-+DO_HELPER_VV_I(vsrlrni_w_d, 64, helper_vv_ni_c, do_vsrlrni)
-+DO_HELPER_VV_I(vsrlrni_d_q, 128, helper_vv_ni_c, do_vsrlrni)
-+DO_HELPER_VV_I(vsrarni_b_h, 16, helper_vv_ni_c, do_vsrarni)
-+DO_HELPER_VV_I(vsrarni_h_w, 32, helper_vv_ni_c, do_vsrarni)
-+DO_HELPER_VV_I(vsrarni_w_d, 64, helper_vv_ni_c, do_vsrarni)
-+DO_HELPER_VV_I(vsrarni_d_q, 128, helper_vv_ni_c, do_vsrarni)
++static void  do_vssrani_u(vec_t *dest, vec_t *Vd, vec_t *Vj,
++                          uint32_t imm, int bit, int n)
++{
++    switch (bit) {
++    case 16:
++        dest->B[n] = sat_u((Vj->H[n] >> imm), bit/2 - 1);
++        if (dest->B[n] < 0) {
++            dest->B[n] = 0;
++        }
++        dest->B[n + 128/bit] = sat_u((Vd->H[n] >> imm), bit/2 - 1);
++        if (dest->B[n + 128/bit] < 0) {
++            dest->B[n + 128/bit] = 0;
++        }
++        break;
++    case 32:
++        dest->H[n] = sat_u((Vj->W[n] >> imm), bit/2 - 1);
++        if (dest->H[n] < 0) {
++            dest->H[n] = 0;
++        }
++        dest->H[n + 128/bit] = sat_u((Vd->W[n] >> imm), bit/2 - 1);
++        if (dest->H[n + 128/bit] < 0) {
++            dest->H[n + 128/bit] = 0;
++        }
++        break;
++    case 64:
++        dest->W[n] = sat_u((Vj->D[n] >> imm), bit/2 - 1);
++        if (dest->W[n] < 0) {
++            dest->W[n] = 0;
++        }
++        dest->W[n + 128/bit] = sat_u((Vd->D[n] >> imm), bit/2 - 1);
++        if (dest->W[n + 128/bit] < 0) {
++            dest->W[n + 128/bit] = 0;
++        }
++        break;
++    case 128:
++        dest->D[n] = sat_u_128((Vj->Q[n] >> imm), bit/2 - 1);
++        if (dest->D[n] < 0) {
++            dest->D[n] = 0;
++        }
++        dest->D[n + 128/bit] = sat_u_128((Vd->Q[n] >> imm), bit/2 - 1);
++        if (dest->D[n + 128/bit] < 0) {
++            dest->D[n + 128/bit] = 0;
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++DO_HELPER_VV_I(vssrlni_bu_h, 16, helper_vv_ni_c, do_vssrlni_u)
++DO_HELPER_VV_I(vssrlni_hu_w, 32, helper_vv_ni_c, do_vssrlni_u)
++DO_HELPER_VV_I(vssrlni_wu_d, 64, helper_vv_ni_c, do_vssrlni_u)
++DO_HELPER_VV_I(vssrlni_du_q, 128, helper_vv_ni_c, do_vssrlni_u)
++DO_HELPER_VV_I(vssrani_bu_h, 16, helper_vv_ni_c, do_vssrani_u)
++DO_HELPER_VV_I(vssrani_hu_w, 32, helper_vv_ni_c, do_vssrani_u)
++DO_HELPER_VV_I(vssrani_wu_d, 64, helper_vv_ni_c, do_vssrani_u)
++DO_HELPER_VV_I(vssrani_du_q, 128, helper_vv_ni_c, do_vssrani_u)
 -- 
 2.31.1
 
