@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605AF6559EC
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 12:24:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0FB655A07
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 12:45:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p92c2-0006jG-T8; Sat, 24 Dec 2022 06:22:46 -0500
+	id 1p92wU-0001sq-KS; Sat, 24 Dec 2022 06:43:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p92c1-0006j1-45
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 06:22:45 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1p92bz-00020h-CR
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 06:22:44 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id o5so6617707wrm.1
- for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 03:22:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2uTKy0J8ewqkC0BwQrn1qfGNwIllmcZAuH2sZ3ieCKQ=;
- b=YTVreyJR2DHvZW6OgtsKq/c36KhPtAIOeQJmIy3ctej7QEz9b3r+WbXk6Wde+VCk5V
- XULMSpqA8GdqraVqK0sWoc1NFJNzvcYtDBqmiA9fOm2DR0hdjyc6BXnJ3zPE1cuZ5Rq6
- 1awFDgxzhRVs4tEDzv8IffHxBKDv5bYcJL2AHE/TesWy5A0RE2jtl3GtJpLz1+9kp0g2
- FZuagxf+kmTU5SmajvICQv6FNhK5WimcYhKgZar6dJ2sjYPvqCE6ZP/XYNVpRcAvc0MO
- p1RXGz4LUizWWdQWlamN+i9IAL8DpB0oXMcVEIGYV/BnIkogt6JC4OGxYaHi5+T6Ye63
- zh/g==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p92wS-0001si-Ef
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 06:43:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1p92wQ-0007VU-NY
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 06:43:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1671882228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fSBsIA72wykcYqS1c3cziGc5YJ42vbmz/d3XgB3s83g=;
+ b=hxCkAkYvD8ecKTgjzmVMphz6i4P0pGPnYwpk5yuS1HXyp+fZvqm5uwh4nX/LuuwAbJ0NUZ
+ YvvmzHvX4xglOkXMk6GX1YR62vCgRHHOvfQ4yo1h7AvqxkfnWp+jl3fAmrM84hNPPdaNww
+ 649zcKdzXsWCpDwm1dfXQm3KBV9eUgQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-595-YHc6Mro5P_uuaDKv3SZfuA-1; Sat, 24 Dec 2022 06:43:46 -0500
+X-MC-Unique: YHc6Mro5P_uuaDKv3SZfuA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v14-20020adf8b4e000000b0024174021277so1170386wra.13
+ for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 03:43:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2uTKy0J8ewqkC0BwQrn1qfGNwIllmcZAuH2sZ3ieCKQ=;
- b=Qd3LWacCt2CjtqIGmohbLh3LHVqAeysOKOX6L58uSbFu0bK8bxnHqF/TxIuyO7vciJ
- WyiAP4005rhNNf5wqCxsk71RCG1TADJMSyWFJ63MZJH9wFbaoIOrdSCSEJVY/3UO7XR3
- URJ5bYCHudfz9lesKbNtysNDwCA0GpgtCwKbuSAlgH/uAzCrbAO5+JQl/e4wnNK2ywHA
- W0eoDACoCbSRIPAn0qcMBpCWMEFxjA9a2zWN9Xf/tyOWb8kBC8fEOiV5qzuVDfN7d/E7
- 7NIQYHwvf/K6ADx7MaDQzJbp2txUj94+rhbGDlmIlcQHVH8T9bsJCU98jgjKNutDHvKR
- DCXg==
-X-Gm-Message-State: AFqh2krXC1DmTuns+WylJTx6grRDDA2ACSSXwxvA3cKmeHHyuovkRj3h
- vD9m7JnLeRjOiDZNVyvwLI+aFg==
-X-Google-Smtp-Source: AMrXdXul7hZ3HdTBMLOQIlyYW6fScmJxFJU0Vbkji5Lls61uvUBXLKnFYJJxL7kWc3OhIbFkyDLXNQ==
-X-Received: by 2002:a5d:4e83:0:b0:25d:9954:32c9 with SMTP id
- e3-20020a5d4e83000000b0025d995432c9mr7374475wru.10.1671880956599; 
- Sat, 24 Dec 2022 03:22:36 -0800 (PST)
-Received: from [192.168.0.27] ([78.196.4.158])
- by smtp.gmail.com with ESMTPSA id
- h15-20020adfaa8f000000b002421888a011sm5384456wrc.69.2022.12.24.03.22.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Dec 2022 03:22:36 -0800 (PST)
-Message-ID: <ba877dc8-5628-4cb1-dc58-c68972982536@linaro.org>
-Date: Sat, 24 Dec 2022 12:22:35 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fSBsIA72wykcYqS1c3cziGc5YJ42vbmz/d3XgB3s83g=;
+ b=KJIlc7ibd+oBLt4wmquASa3+Qj7YfV/BTKHiyqcnhY6JtlX32G2Iq7kI5PiToWjgoQ
+ 5OPPylbt3LTiqw7spHqRVBndFDK3YFMm0l+C78sdWueyui6qJ7Us6IywVbk6f7wrRuFc
+ ft/cLrSTTaTlTCjI4q4Fh+6yQmfPbqxgf8wAYgE7xGtJeJoqrPABapyMorehI0zr2pEU
+ tT9OB8Tc5dgV2vi59D9rIOSBExuLS4JL8Eve0DBCekOZdqLWoINRuM62qtg1dau7TnH/
+ cqwRJzVMO/tdAN/PZGcrI1mGs7OkO43z9lsAkE38GBTtId2RY3JN8QnWs3SdvnZf7hYr
+ JjBw==
+X-Gm-Message-State: AFqh2kouXNKpvGuJSjXMN4xS1wHnGVw3EdnciSKGlfHgXiHGkZrdD+2A
+ rdfWEFZJkedv2yWyv/9ubW1JeJtUYr6TUNMEXkyJ5mqwgWyiCz7sTnCD0ksl52HjDBFdegLGASz
+ lTBlzwodjMShyIKE=
+X-Received: by 2002:a5d:4484:0:b0:242:806c:8612 with SMTP id
+ j4-20020a5d4484000000b00242806c8612mr7525968wrq.7.1671882225671; 
+ Sat, 24 Dec 2022 03:43:45 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtPU7qRHgdHyqp20ICg5Wg48HyRPvsnYpHoM6y2Nw9sfuS6OCjLlnlTk93h8HvKedxBSX8Ctg==
+X-Received: by 2002:a5d:4484:0:b0:242:806c:8612 with SMTP id
+ j4-20020a5d4484000000b00242806c8612mr7525961wrq.7.1671882225462; 
+ Sat, 24 Dec 2022 03:43:45 -0800 (PST)
+Received: from redhat.com ([2.52.27.62]) by smtp.gmail.com with ESMTPSA id
+ n14-20020a5d484e000000b00242814c2cf0sm5643778wrs.4.2022.12.24.03.43.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Dec 2022 03:43:44 -0800 (PST)
+Date: Sat, 24 Dec 2022 06:43:41 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ marcel.apfelbaum@gmail.com, jonathan.cameron@huawei.com, philmd@linaro.org
+Subject: Re: [PATCH v2 0/7] include/hw/pci include/hw/cxl: Clean up includes
+Message-ID: <20221224063930-mutt-send-email-mst@kernel.org>
+References: <20221222100330.380143-1-armbru@redhat.com>
+ <B98EF322-5449-4942-8718-D3504B863B96@gmail.com>
+ <87edsremti.fsf@pond.sub.org>
+ <20221222142149-mutt-send-email-mst@kernel.org>
+ <87k02i7kr8.fsf@pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.0
-Subject: Re: [PATCH] scripts/coverity-scan/model.c: update
- address_space_*_cached
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, armbru@redhat.com, pbonzini@redhat.com
-References: <20221223204330.260647-1-vsementsov@yandex-team.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221223204330.260647-1-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87k02i7kr8.fsf@pond.sub.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,53 +99,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/12/22 21:43, Vladimir Sementsov-Ogievskiy wrote:
-> Make prototypes correspond to their origins. Also drop
-> address_space_rw_cached() which doesn't exist anywhere in the code.
+On Fri, Dec 23, 2022 at 06:27:07AM +0100, Markus Armbruster wrote:
+> "Michael S. Tsirkin" <mst@redhat.com> writes:
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> ---
->   scripts/coverity-scan/model.c | 15 +--------------
->   1 file changed, 1 insertion(+), 14 deletions(-)
+> > On Thu, Dec 22, 2022 at 11:48:25AM +0100, Markus Armbruster wrote:
+> >> Bernhard Beschow <shentey@gmail.com> writes:
+> >> 
+> >> > Am 22. Dezember 2022 10:03:23 UTC schrieb Markus Armbruster <armbru@redhat.com>:
+> >> >>Back in 2016, we discussed[1] rules for headers, and these were
+> >> >>generally liked:
+> >> >>
+> >> >>1. Have a carefully curated header that's included everywhere first.  We
+> >> >>   got that already thanks to Peter: osdep.h.
+> >> >>
+> >> >>2. Headers should normally include everything they need beyond osdep.h.
+> >> >>   If exceptions are needed for some reason, they must be documented in
+> >> >>   the header.  If all that's needed from a header is typedefs, put
+> >> >>   those into qemu/typedefs.h instead of including the header.
+> >> >>
+> >> >>3. Cyclic inclusion is forbidden.
+> >> >
+> >> > Sounds like these -- useful and sane -- rules belong in QEMU's coding style. What about putting them there for easy reference?
+> >> 
+> >> Makes sense.  I'll see what I can do.  Thanks!
+> >
+> > It would be even better if there was e.g. a make target
+> > pulling in each header and making sure it's self consistent and
+> > no circularity. We could run it e.g. in CI.
 > 
-> diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
-> index 686d1a3008..b40d0fcbf3 100644
-> --- a/scripts/coverity-scan/model.c
-> +++ b/scripts/coverity-scan/model.c
-> @@ -69,7 +69,6 @@ static void __bufread(uint8_t *buf, ssize_t len)
->   }
->   
->   MemTxResult address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
-> -                                      MemTxAttrs attrs,
->                                         void *buf, int len)
->   {
->       MemTxResult result;
-> @@ -80,25 +79,13 @@ MemTxResult address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
->   }
->   
->   MemTxResult address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
-> -                                MemTxAttrs attrs,
-> -                                const void *buf, int len)
-> +                                       const void *buf, int len)
->   {
+> Yes, that would be nice, but the problem I've been unable to crack is
+> deciding whether a header is supposed to compile target-independently or
+> not.  In my manual testing, I use trial and error: if it fails to
+> compile target-independently, compile for all targets.  This is s-l-o-w.
 
-Oops, missed in commit daa3dda43a ("exec: Let the address_space API use
-void pointer arguments").
+Yes and it's annoying for developers too.
+Do we want to come up with a scheme for target-dependent files?
+Name them target-X or put in a target/ directory?
+We could also write checkpatch rules to disallow
+including target specific headers in target independent files then.
 
-> -MemTxResult address_space_rw_cached(MemoryRegionCache *cache, hwaddr addr,
-> -                                    MemTxAttrs attrs,
-> -                                    void *buf, int len, bool is_write)
-> -{
-> -    if (is_write) {
-> -        return address_space_write_cached(cache, addr, attrs, buf, len);
-> -    } else {
-> -        return address_space_read_cached(cache, addr, attrs, buf, len);
-> -    }
-> -}
+> The other problem, of course, is coding it up in Meson.  I haven't even
+> tried.
 
-Apparently never required?
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-Thanks!
 
