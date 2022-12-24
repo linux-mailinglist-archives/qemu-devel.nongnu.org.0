@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F83655C00
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Dec 2022 01:16:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC60E655BF8
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Dec 2022 01:14:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9EOV-0002Ia-Mu; Sat, 24 Dec 2022 18:57:35 -0500
+	id 1p9EOV-0002Id-NG; Sat, 24 Dec 2022 18:57:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9EOS-0002HQ-NJ
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:32 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1p9EOT-0002Hw-Tw
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:33 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9EOQ-0006Gx-Of
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:32 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- hd14-20020a17090b458e00b0021909875bccso10213681pjb.1
- for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 15:57:30 -0800 (PST)
+ id 1p9EOR-0006Ge-L5
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:33 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id 19so1057972plo.12
+ for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 15:57:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pj3A1RydZ5k++XJlvrH6d1P1H8txrpAYpf5yEofm078=;
- b=ZPvPDBrD3LjzYd+bOA2jDhlPFyel6/LPi78k5RWOeLH1Pdi+39AS63232BDTb8S0GE
- +BbjqjRchmxJofsjqrQWbO2wKWOv2wT4/izZ7drTfqXjZ0I7hDZEy0YoLNW0+syAduC2
- eZydlM9uY3JzhXmqlvdHrh4BfTJ035UjTw016LS0b5Rx0mV33vzYtij/32sBWLzx/Tw/
- g+im1DYDNLSsZxBhZ5TUrxFVK4LiLXhQ/4HJjjg7yPS5gi1Y0mRr+rODejdVtTOF9CTC
- jxrQtKY9mknJJTxqY7zMRiaTRwnntdeveJDnhcLu9zCJeE4Ny+jwgixm1vT2oQMvyCo9
- 0SBQ==
+ bh=plDIoOrc/jMHxHch1a/joN0jkJOzT26vJ1hDyyzmh0Q=;
+ b=SVJR9OLWTPY0kvUpYdGN8umjNIccKQiPrX9sSCj8WfQ+pkdML+NAgj2fvTzqjqXw6e
+ NyM8/quHvzzf1YgGFmdlMtVsFtxrbD+2cUnq4t0KgSR0iZ6x76Yf8IsIveG1W9hCwgv+
+ VZVuaBGgl/ROXlEKXgxKxSdugHb8EViOuUZ4lpaEgKAs5sdbVrqizJibvEPVPHgXt80w
+ wydAfL7GpZdx8GfWMjMRjEpEa8d2jNPYD2raTuPzJH4Kze2XWpyWgB/FwkaQQL1l7oRR
+ VmgjIeCnUy9+FjNw7ba2iHKQjHiujPb8x/O+dFVijanoa4vAiASNwxEScFz3SzINEQiq
+ GkfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pj3A1RydZ5k++XJlvrH6d1P1H8txrpAYpf5yEofm078=;
- b=YUlDgyRBccp9K/i2gjuaIEHJS3oiHEBY53UjP1CPvnDV4/KHzhgUDLm3ALiGSgbzRm
- 4Ht3YNILI2pB09poXYu8WW0lgi3pz8Js5n61nCqtjPRjreeLA1oAt5NY87x1W7cbtgF9
- azwYda04w0gnh5n5JNH6IOgEU00HAhO9Gxv5tILYURwn/Kg7rlxQ8yG3p3AA0pbLcOIB
- UeU9hJangIoIETGpUzbl3iFqgyjlySO42HIsISGzAa4t0wQlE17JgNll6SsonYQrbzwb
- 1oAh8SpBXsPrI6etl2UzJW4aRH/xB0HAmas9pbwfMn5fWLmu82VZo3RZhZ95W3wpB6a5
- 1OlA==
-X-Gm-Message-State: AFqh2koIp+zl5ATtwQM/xMv/eA/6RnX7MVrFKsz6sonu7NT/w4Hnp8yh
- GWIHQSUJVZwkNakh2nZPDvNXch2QUtQq/Mox
-X-Google-Smtp-Source: AMrXdXuc0UAoxwuj1A43m+i4axWf6ZxbaBAm10HC8ygb5KlVi1Tq5TSAYFzGgznrMmZuigDNik/10Q==
-X-Received: by 2002:a17:902:e944:b0:189:d8fb:1523 with SMTP id
- b4-20020a170902e94400b00189d8fb1523mr17004857pll.36.1671926249349; 
- Sat, 24 Dec 2022 15:57:29 -0800 (PST)
+ bh=plDIoOrc/jMHxHch1a/joN0jkJOzT26vJ1hDyyzmh0Q=;
+ b=leVu2j3ZDf0Me8Q+oqwWN1UELOouLonvJDmu5yLfu1KqZHmSmvGuGskbJe6F/fwqyY
+ Ko6besTHXfJh+kfngKNrDWyDfLLo/3omePe9ivw4h75SHPE3D3Ly2ayeoq0+AggL/N2b
+ AU0donsiALk46x8TQkR8lIRittwpE8AseaZxn+i8H+GhmQ1ZXuGcD05AY7X8GQWACHpq
+ 3iF1lmBi+gu8s0jEN8LtIqI8mA17yCssl3OPqNRBl0T/H6rhWR/UMg8LlJXxhZHiY/hC
+ XKjDN5m6XmJ9bwFdEdfxxe6Glw5Lpj5PyEgQ9HV2udkC6l9kRWaNoL7JEajzcvME6tin
+ S/ug==
+X-Gm-Message-State: AFqh2koCZx0bye6Pek/rzDcr0I9S2ryc7KdpVajYHr03qeAD0rIx6Hah
+ zcjv+z5ojBBKGRBMFVfL3ucuNt1yB3o44HJ5
+X-Google-Smtp-Source: AMrXdXv1DqNBOBA6RBi5Yh57AcnO1bqtAG6nDhIPzL0jte13V3ibj4qEPN6nxzY2+ZgQm9nLCIqpZQ==
+X-Received: by 2002:a17:902:e3d5:b0:192:6a20:3cb1 with SMTP id
+ r21-20020a170902e3d500b001926a203cb1mr2945222ple.51.1671926250677; 
+ Sat, 24 Dec 2022 15:57:30 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- cp12-20020a170902e78c00b00187022627d7sm4599716plb.36.2022.12.24.15.57.28
+ cp12-20020a170902e78c00b00187022627d7sm4599716plb.36.2022.12.24.15.57.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Dec 2022 15:57:28 -0800 (PST)
+ Sat, 24 Dec 2022 15:57:30 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org, philmd@linaro.org,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v5 07/43] target/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in
- ppc_maybe_interrupt
-Date: Sat, 24 Dec 2022 15:56:44 -0800
-Message-Id: <20221224235720.842093-8-richard.henderson@linaro.org>
+Subject: [PATCH v5 08/43] target/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in
+ cpu_interrupt_exittb
+Date: Sat, 24 Dec 2022 15:56:45 -0800
+Message-Id: <20221224235720.842093-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221224235720.842093-1-richard.henderson@linaro.org>
 References: <20221224235720.842093-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,41 +92,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+In addition, use tcg_enabled instead of !kvm_enabled.
+
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/excp_helper.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ target/ppc/helper_regs.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index add4d54ae7..287659c74d 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -2163,22 +2163,13 @@ static int ppc_next_unmasked_interrupt(CPUPPCState *env)
- void ppc_maybe_interrupt(CPUPPCState *env)
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index c0aee5855b..779e7db513 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -22,6 +22,7 @@
+ #include "qemu/main-loop.h"
+ #include "exec/exec-all.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/tcg.h"
+ #include "helper_regs.h"
+ #include "power8-pmu.h"
+ #include "cpu-models.h"
+@@ -203,17 +204,10 @@ void cpu_interrupt_exittb(CPUState *cs)
  {
-     CPUState *cs = env_cpu(env);
--    bool locked = false;
+     /*
+      * We don't need to worry about translation blocks
+-     * when running with KVM.
++     * unless running with TCG.
+      */
+-    if (kvm_enabled()) {
+-        return;
+-    }
 -
 -    if (!qemu_mutex_iothread_locked()) {
--        locked = true;
 -        qemu_mutex_lock_iothread();
--    }
-+    QEMU_IOTHREAD_LOCK_GUARD();
- 
-     if (ppc_next_unmasked_interrupt(env)) {
-         cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-     } else {
-         cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-     }
--
--    if (locked) {
+-        cpu_interrupt(cs, CPU_INTERRUPT_EXITTB);
 -        qemu_mutex_unlock_iothread();
--    }
+-    } else {
++    if (tcg_enabled()) {
++        QEMU_IOTHREAD_LOCK_GUARD();
+         cpu_interrupt(cs, CPU_INTERRUPT_EXITTB);
+     }
  }
- 
- #if defined(TARGET_PPC64)
 -- 
 2.34.1
 
