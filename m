@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD72B65592F
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FE765595C
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 09:38:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p8zik-0006Kn-66; Sat, 24 Dec 2022 03:17:30 -0500
+	id 1p8zjl-00078z-Ev; Sat, 24 Dec 2022 03:18:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1p8ziC-00068R-N5
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:17:03 -0500
+ id 1p8zjP-0006kp-Dj
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:13 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1p8zi9-0000k0-MV
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:16:56 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1p8zjK-0003Q0-N5
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 03:18:11 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxjutptaZjLkkIAA--.18769S3;
- Sat, 24 Dec 2022 16:16:41 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8DxM_BotaZjLUkIAA--.18498S3;
+ Sat, 24 Dec 2022 16:16:40 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxPuRhtaZjuccKAA--.38440S16; 
- Sat, 24 Dec 2022 16:16:39 +0800 (CST)
+ AQAAf8CxPuRhtaZjuccKAA--.38440S17; 
+ Sat, 24 Dec 2022 16:16:40 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH 14/43] target/loongarch: Implement vmax/vmin
-Date: Sat, 24 Dec 2022 16:16:04 +0800
-Message-Id: <20221224081633.4185445-15-gaosong@loongson.cn>
+Subject: [RFC PATCH 15/43] target/loongarch: Implement vmul/vmuh/vmulw{ev/od}
+Date: Sat, 24 Dec 2022 16:16:05 +0800
+Message-Id: <20221224081633.4185445-16-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221224081633.4185445-1-gaosong@loongson.cn>
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S16
+X-CM-TRANSID: AQAAf8CxPuRhtaZjuccKAA--.38440S17
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvAXoW3ZF18XrWxXr18Kr15uF4Uurg_yoW8GFWkZo
- WrJw1rGw1kKr1xt3srK3WUZF97K3yqv3yDGF9093WUGFZ5Ar1ayFy5Kwn5A3ySyrWFqr13
- CwsxJF45t3W5Xr1kn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
+X-Coremail-Antispam: 1Uk129KBjvAXoW3Zw13GrykZFWDKw1kuw1rJFb_yoW8WFyxto
+ Z5Jw15Aw1rKr1ftF9rGas7ZrnFy3yqyw4DuFWq9r1DJrW5ArnxtFyrK3s5Aa95KrWrKw13
+ Can7Ars5t3W3Xr1kn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
  J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
  UUqv1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64
  kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY
@@ -75,419 +75,429 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VMAX[I].{B/H/W/D}[U];
-- VMIN[I].{B/H/W/D}[U].
+- VMUL.{B/H/W/D};
+- VMUH.{B/H/W/D}[U];
+- VMULW{EV/OD}.{H.B/W.H/D.W/Q.D}[U];
+- VMULW{EV/OD}.{H.BU.B/W.HU.H/D.WU.W/Q.DU.D}.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  33 +++
- target/loongarch/helper.h                   |  34 +++
- target/loongarch/insn_trans/trans_lsx.c.inc |  33 +++
- target/loongarch/insns.decode               |  35 ++++
- target/loongarch/lsx_helper.c               | 219 ++++++++++++++++++++
- 5 files changed, 354 insertions(+)
+ target/loongarch/disas.c                    |  38 ++++
+ target/loongarch/helper.h                   |  38 ++++
+ target/loongarch/insn_trans/trans_lsx.c.inc |  37 ++++
+ target/loongarch/insns.decode               |  38 ++++
+ target/loongarch/lsx_helper.c               | 218 ++++++++++++++++++++
+ 5 files changed, 369 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index ff5d9e0e5b..2e86c48f4d 100644
+index 2e86c48f4d..8818e078c1 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -910,3 +910,36 @@ INSN_LSX(vadda_b,          vvv)
- INSN_LSX(vadda_h,          vvv)
- INSN_LSX(vadda_w,          vvv)
- INSN_LSX(vadda_d,          vvv)
+@@ -943,3 +943,41 @@ INSN_LSX(vmini_bu,         vv_i)
+ INSN_LSX(vmini_hu,         vv_i)
+ INSN_LSX(vmini_wu,         vv_i)
+ INSN_LSX(vmini_du,         vv_i)
 +
-+INSN_LSX(vmax_b,           vvv)
-+INSN_LSX(vmax_h,           vvv)
-+INSN_LSX(vmax_w,           vvv)
-+INSN_LSX(vmax_d,           vvv)
-+INSN_LSX(vmin_b,           vvv)
-+INSN_LSX(vmin_h,           vvv)
-+INSN_LSX(vmin_w,           vvv)
-+INSN_LSX(vmin_d,           vvv)
-+INSN_LSX(vmax_bu,          vvv)
-+INSN_LSX(vmax_hu,          vvv)
-+INSN_LSX(vmax_wu,          vvv)
-+INSN_LSX(vmax_du,          vvv)
-+INSN_LSX(vmin_bu,          vvv)
-+INSN_LSX(vmin_hu,          vvv)
-+INSN_LSX(vmin_wu,          vvv)
-+INSN_LSX(vmin_du,          vvv)
-+INSN_LSX(vmaxi_b,          vv_i)
-+INSN_LSX(vmaxi_h,          vv_i)
-+INSN_LSX(vmaxi_w,          vv_i)
-+INSN_LSX(vmaxi_d,          vv_i)
-+INSN_LSX(vmini_b,          vv_i)
-+INSN_LSX(vmini_h,          vv_i)
-+INSN_LSX(vmini_w,          vv_i)
-+INSN_LSX(vmini_d,          vv_i)
-+INSN_LSX(vmaxi_bu,         vv_i)
-+INSN_LSX(vmaxi_hu,         vv_i)
-+INSN_LSX(vmaxi_wu,         vv_i)
-+INSN_LSX(vmaxi_du,         vv_i)
-+INSN_LSX(vmini_bu,         vv_i)
-+INSN_LSX(vmini_hu,         vv_i)
-+INSN_LSX(vmini_wu,         vv_i)
-+INSN_LSX(vmini_du,         vv_i)
++INSN_LSX(vmul_b,           vvv)
++INSN_LSX(vmul_h,           vvv)
++INSN_LSX(vmul_w,           vvv)
++INSN_LSX(vmul_d,           vvv)
++INSN_LSX(vmuh_b,           vvv)
++INSN_LSX(vmuh_h,           vvv)
++INSN_LSX(vmuh_w,           vvv)
++INSN_LSX(vmuh_d,           vvv)
++INSN_LSX(vmuh_bu,          vvv)
++INSN_LSX(vmuh_hu,          vvv)
++INSN_LSX(vmuh_wu,          vvv)
++INSN_LSX(vmuh_du,          vvv)
++
++INSN_LSX(vmulwev_h_b,      vvv)
++INSN_LSX(vmulwev_w_h,      vvv)
++INSN_LSX(vmulwev_d_w,      vvv)
++INSN_LSX(vmulwev_q_d,      vvv)
++INSN_LSX(vmulwod_h_b,      vvv)
++INSN_LSX(vmulwod_w_h,      vvv)
++INSN_LSX(vmulwod_d_w,      vvv)
++INSN_LSX(vmulwod_q_d,      vvv)
++INSN_LSX(vmulwev_h_bu,     vvv)
++INSN_LSX(vmulwev_w_hu,     vvv)
++INSN_LSX(vmulwev_d_wu,     vvv)
++INSN_LSX(vmulwev_q_du,     vvv)
++INSN_LSX(vmulwod_h_bu,     vvv)
++INSN_LSX(vmulwod_w_hu,     vvv)
++INSN_LSX(vmulwod_d_wu,     vvv)
++INSN_LSX(vmulwod_q_du,     vvv)
++INSN_LSX(vmulwev_h_bu_b,   vvv)
++INSN_LSX(vmulwev_w_hu_h,   vvv)
++INSN_LSX(vmulwev_d_wu_w,   vvv)
++INSN_LSX(vmulwev_q_du_d,   vvv)
++INSN_LSX(vmulwod_h_bu_b,   vvv)
++INSN_LSX(vmulwod_w_hu_h,   vvv)
++INSN_LSX(vmulwod_d_wu_w,   vvv)
++INSN_LSX(vmulwod_q_du_d,   vvv)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 85321c8874..04afc93dc1 100644
+index 04afc93dc1..568a89eec1 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -264,3 +264,37 @@ DEF_HELPER_4(vadda_b, void, env, i32, i32, i32)
- DEF_HELPER_4(vadda_h, void, env, i32, i32, i32)
- DEF_HELPER_4(vadda_w, void, env, i32, i32, i32)
- DEF_HELPER_4(vadda_d, void, env, i32, i32, i32)
+@@ -298,3 +298,41 @@ DEF_HELPER_4(vmini_bu, void, env, i32, i32, i32)
+ DEF_HELPER_4(vmini_hu, void, env, i32, i32, i32)
+ DEF_HELPER_4(vmini_wu, void, env, i32, i32, i32)
+ DEF_HELPER_4(vmini_du, void, env, i32, i32, i32)
 +
-+DEF_HELPER_4(vmax_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmax_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmax_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmax_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmaxi_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmaxi_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmaxi_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmaxi_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmax_bu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmax_hu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmax_wu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmax_du, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmaxi_bu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmaxi_hu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmaxi_wu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmaxi_du, void, env, i32, i32, i32)
++DEF_HELPER_4(vmul_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vmul_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vmul_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vmul_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vmuh_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vmuh_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vmuh_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vmuh_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vmuh_bu, void, env, i32, i32, i32)
++DEF_HELPER_4(vmuh_hu, void, env, i32, i32, i32)
++DEF_HELPER_4(vmuh_wu, void, env, i32, i32, i32)
++DEF_HELPER_4(vmuh_du, void, env, i32, i32, i32)
 +
-+DEF_HELPER_4(vmin_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmin_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmin_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmin_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmini_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmini_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmini_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmini_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmin_bu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmin_hu, void, env, i32, i32 ,i32)
-+DEF_HELPER_4(vmin_wu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmin_du, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmini_bu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmini_hu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmini_wu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vmini_du, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_h_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_w_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_d_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_q_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_h_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_w_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_d_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_q_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_h_bu, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_w_hu, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_d_wu, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_q_du, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_h_bu, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_w_hu, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_d_wu, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_q_du, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_h_bu_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_w_hu_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_d_wu_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwev_q_du_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_h_bu_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_w_hu_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_d_wu_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vmulwod_q_du_d, void, env, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index a90fc44ba7..8bece985f1 100644
+index 8bece985f1..7d27f574ed 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -182,3 +182,36 @@ TRANS(vadda_b, gen_vvv, gen_helper_vadda_b)
- TRANS(vadda_h, gen_vvv, gen_helper_vadda_h)
- TRANS(vadda_w, gen_vvv, gen_helper_vadda_w)
- TRANS(vadda_d, gen_vvv, gen_helper_vadda_d)
+@@ -215,3 +215,40 @@ TRANS(vmini_bu, gen_vv_i, gen_helper_vmini_bu)
+ TRANS(vmini_hu, gen_vv_i, gen_helper_vmini_hu)
+ TRANS(vmini_wu, gen_vv_i, gen_helper_vmini_wu)
+ TRANS(vmini_du, gen_vv_i, gen_helper_vmini_du)
 +
-+TRANS(vmax_b, gen_vvv, gen_helper_vmax_b)
-+TRANS(vmax_h, gen_vvv, gen_helper_vmax_h)
-+TRANS(vmax_w, gen_vvv, gen_helper_vmax_w)
-+TRANS(vmax_d, gen_vvv, gen_helper_vmax_d)
-+TRANS(vmaxi_b, gen_vv_i, gen_helper_vmaxi_b)
-+TRANS(vmaxi_h, gen_vv_i, gen_helper_vmaxi_h)
-+TRANS(vmaxi_w, gen_vv_i, gen_helper_vmaxi_w)
-+TRANS(vmaxi_d, gen_vv_i, gen_helper_vmaxi_d)
-+TRANS(vmax_bu, gen_vvv, gen_helper_vmax_bu)
-+TRANS(vmax_hu, gen_vvv, gen_helper_vmax_hu)
-+TRANS(vmax_wu, gen_vvv, gen_helper_vmax_wu)
-+TRANS(vmax_du, gen_vvv, gen_helper_vmax_du)
-+TRANS(vmaxi_bu, gen_vv_i, gen_helper_vmaxi_bu)
-+TRANS(vmaxi_hu, gen_vv_i, gen_helper_vmaxi_hu)
-+TRANS(vmaxi_wu, gen_vv_i, gen_helper_vmaxi_wu)
-+TRANS(vmaxi_du, gen_vv_i, gen_helper_vmaxi_du)
-+TRANS(vmin_b, gen_vvv, gen_helper_vmin_b)
-+TRANS(vmin_h, gen_vvv, gen_helper_vmin_h)
-+TRANS(vmin_w, gen_vvv, gen_helper_vmin_w)
-+TRANS(vmin_d, gen_vvv, gen_helper_vmin_d)
-+TRANS(vmini_b, gen_vv_i, gen_helper_vmini_b)
-+TRANS(vmini_h, gen_vv_i, gen_helper_vmini_h)
-+TRANS(vmini_w, gen_vv_i, gen_helper_vmini_w)
-+TRANS(vmini_d, gen_vv_i, gen_helper_vmini_d)
-+TRANS(vmin_bu, gen_vvv, gen_helper_vmin_bu)
-+TRANS(vmin_hu, gen_vvv, gen_helper_vmin_hu)
-+TRANS(vmin_wu, gen_vvv, gen_helper_vmin_wu)
-+TRANS(vmin_du, gen_vvv, gen_helper_vmin_du)
-+TRANS(vmini_bu, gen_vv_i, gen_helper_vmini_bu)
-+TRANS(vmini_hu, gen_vv_i, gen_helper_vmini_hu)
-+TRANS(vmini_wu, gen_vv_i, gen_helper_vmini_wu)
-+TRANS(vmini_du, gen_vv_i, gen_helper_vmini_du)
++TRANS(vmul_b, gen_vvv, gen_helper_vmul_b)
++TRANS(vmul_h, gen_vvv, gen_helper_vmul_h)
++TRANS(vmul_w, gen_vvv, gen_helper_vmul_w)
++TRANS(vmul_d, gen_vvv, gen_helper_vmul_d)
++TRANS(vmuh_b, gen_vvv, gen_helper_vmuh_b)
++TRANS(vmuh_h, gen_vvv, gen_helper_vmuh_h)
++TRANS(vmuh_w, gen_vvv, gen_helper_vmuh_w)
++TRANS(vmuh_d, gen_vvv, gen_helper_vmuh_d)
++TRANS(vmuh_bu, gen_vvv, gen_helper_vmuh_bu)
++TRANS(vmuh_hu, gen_vvv, gen_helper_vmuh_hu)
++TRANS(vmuh_wu, gen_vvv, gen_helper_vmuh_wu)
++TRANS(vmuh_du, gen_vvv, gen_helper_vmuh_du)
++TRANS(vmulwev_h_b, gen_vvv, gen_helper_vmulwev_h_b)
++TRANS(vmulwev_w_h, gen_vvv, gen_helper_vmulwev_w_h)
++TRANS(vmulwev_d_w, gen_vvv, gen_helper_vmulwev_d_w)
++TRANS(vmulwev_q_d, gen_vvv, gen_helper_vmulwev_q_d)
++TRANS(vmulwod_h_b, gen_vvv, gen_helper_vmulwod_h_b)
++TRANS(vmulwod_w_h, gen_vvv, gen_helper_vmulwod_w_h)
++TRANS(vmulwod_d_w, gen_vvv, gen_helper_vmulwod_d_w)
++TRANS(vmulwod_q_d, gen_vvv, gen_helper_vmulwod_q_d)
++TRANS(vmulwev_h_bu, gen_vvv, gen_helper_vmulwev_h_bu)
++TRANS(vmulwev_w_hu, gen_vvv, gen_helper_vmulwev_w_hu)
++TRANS(vmulwev_d_wu, gen_vvv, gen_helper_vmulwev_d_wu)
++TRANS(vmulwev_q_du, gen_vvv, gen_helper_vmulwev_q_du)
++TRANS(vmulwod_h_bu, gen_vvv, gen_helper_vmulwod_h_bu)
++TRANS(vmulwod_w_hu, gen_vvv, gen_helper_vmulwod_w_hu)
++TRANS(vmulwod_d_wu, gen_vvv, gen_helper_vmulwod_d_wu)
++TRANS(vmulwod_q_du, gen_vvv, gen_helper_vmulwod_q_du)
++TRANS(vmulwev_h_bu_b, gen_vvv, gen_helper_vmulwev_h_bu_b)
++TRANS(vmulwev_w_hu_h, gen_vvv, gen_helper_vmulwev_w_hu_h)
++TRANS(vmulwev_d_wu_w, gen_vvv, gen_helper_vmulwev_d_wu_w)
++TRANS(vmulwev_q_du_d, gen_vvv, gen_helper_vmulwev_q_du_d)
++TRANS(vmulwod_h_bu_b, gen_vvv, gen_helper_vmulwod_h_bu_b)
++TRANS(vmulwod_w_hu_h, gen_vvv, gen_helper_vmulwod_w_hu_h)
++TRANS(vmulwod_d_wu_w, gen_vvv, gen_helper_vmulwod_d_wu_w)
++TRANS(vmulwod_q_du_d, gen_vvv, gen_helper_vmulwod_q_du_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 9529ffe970..c5d8859db2 100644
+index c5d8859db2..6f32fd290e 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -499,6 +499,7 @@ dbcl             0000 00000010 10101 ...............      @i15
- @vv               .... ........ ..... ..... vj:5 vd:5    &vv
- @vvv               .... ........ ..... vk:5 vj:5 vd:5    &vvv
- @vv_ui5           .... ........ ..... imm:5 vj:5 vd:5    &vv_i
-+@vv_i5           .... ........ ..... imm:s5 vj:5 vd:5    &vv_i
- 
- vadd_b           0111 00000000 10100 ..... ..... .....    @vvv
- vadd_h           0111 00000000 10101 ..... ..... .....    @vvv
-@@ -632,3 +633,37 @@ vadda_b          0111 00000101 11000 ..... ..... .....    @vvv
- vadda_h          0111 00000101 11001 ..... ..... .....    @vvv
- vadda_w          0111 00000101 11010 ..... ..... .....    @vvv
- vadda_d          0111 00000101 11011 ..... ..... .....    @vvv
+@@ -667,3 +667,41 @@ vmini_bu         0111 00101001 01100 ..... ..... .....    @vv_ui5
+ vmini_hu         0111 00101001 01101 ..... ..... .....    @vv_ui5
+ vmini_wu         0111 00101001 01110 ..... ..... .....    @vv_ui5
+ vmini_du         0111 00101001 01111 ..... ..... .....    @vv_ui5
 +
-+vmax_b           0111 00000111 00000 ..... ..... .....    @vvv
-+vmax_h           0111 00000111 00001 ..... ..... .....    @vvv
-+vmax_w           0111 00000111 00010 ..... ..... .....    @vvv
-+vmax_d           0111 00000111 00011 ..... ..... .....    @vvv
-+vmaxi_b          0111 00101001 00000 ..... ..... .....    @vv_i5
-+vmaxi_h          0111 00101001 00001 ..... ..... .....    @vv_i5
-+vmaxi_w          0111 00101001 00010 ..... ..... .....    @vv_i5
-+vmaxi_d          0111 00101001 00011 ..... ..... .....    @vv_i5
-+vmax_bu          0111 00000111 01000 ..... ..... .....    @vvv
-+vmax_hu          0111 00000111 01001 ..... ..... .....    @vvv
-+vmax_wu          0111 00000111 01010 ..... ..... .....    @vvv
-+vmax_du          0111 00000111 01011 ..... ..... .....    @vvv
-+vmaxi_bu         0111 00101001 01000 ..... ..... .....    @vv_ui5
-+vmaxi_hu         0111 00101001 01001 ..... ..... .....    @vv_ui5
-+vmaxi_wu         0111 00101001 01010 ..... ..... .....    @vv_ui5
-+vmaxi_du         0111 00101001 01011 ..... ..... .....    @vv_ui5
++vmul_b           0111 00001000 01000 ..... ..... .....    @vvv
++vmul_h           0111 00001000 01001 ..... ..... .....    @vvv
++vmul_w           0111 00001000 01010 ..... ..... .....    @vvv
++vmul_d           0111 00001000 01011 ..... ..... .....    @vvv
++vmuh_b           0111 00001000 01100 ..... ..... .....    @vvv
++vmuh_h           0111 00001000 01101 ..... ..... .....    @vvv
++vmuh_w           0111 00001000 01110 ..... ..... .....    @vvv
++vmuh_d           0111 00001000 01111 ..... ..... .....    @vvv
++vmuh_bu          0111 00001000 10000 ..... ..... .....    @vvv
++vmuh_hu          0111 00001000 10001 ..... ..... .....    @vvv
++vmuh_wu          0111 00001000 10010 ..... ..... .....    @vvv
++vmuh_du          0111 00001000 10011 ..... ..... .....    @vvv
 +
-+vmin_b           0111 00000111 00100 ..... ..... .....    @vvv
-+vmin_h           0111 00000111 00101 ..... ..... .....    @vvv
-+vmin_w           0111 00000111 00110 ..... ..... .....    @vvv
-+vmin_d           0111 00000111 00111 ..... ..... .....    @vvv
-+vmini_b          0111 00101001 00100 ..... ..... .....    @vv_i5
-+vmini_h          0111 00101001 00101 ..... ..... .....    @vv_i5
-+vmini_w          0111 00101001 00110 ..... ..... .....    @vv_i5
-+vmini_d          0111 00101001 00111 ..... ..... .....    @vv_i5
-+vmin_bu          0111 00000111 01100 ..... ..... .....    @vvv
-+vmin_hu          0111 00000111 01101 ..... ..... .....    @vvv
-+vmin_wu          0111 00000111 01110 ..... ..... .....    @vvv
-+vmin_du          0111 00000111 01111 ..... ..... .....    @vvv
-+vmini_bu         0111 00101001 01100 ..... ..... .....    @vv_ui5
-+vmini_hu         0111 00101001 01101 ..... ..... .....    @vv_ui5
-+vmini_wu         0111 00101001 01110 ..... ..... .....    @vv_ui5
-+vmini_du         0111 00101001 01111 ..... ..... .....    @vv_ui5
++vmulwev_h_b      0111 00001001 00000 ..... ..... .....    @vvv
++vmulwev_w_h      0111 00001001 00001 ..... ..... .....    @vvv
++vmulwev_d_w      0111 00001001 00010 ..... ..... .....    @vvv
++vmulwev_q_d      0111 00001001 00011 ..... ..... .....    @vvv
++vmulwod_h_b      0111 00001001 00100 ..... ..... .....    @vvv
++vmulwod_w_h      0111 00001001 00101 ..... ..... .....    @vvv
++vmulwod_d_w      0111 00001001 00110 ..... ..... .....    @vvv
++vmulwod_q_d      0111 00001001 00111 ..... ..... .....    @vvv
++vmulwev_h_bu     0111 00001001 10000 ..... ..... .....    @vvv
++vmulwev_w_hu     0111 00001001 10001 ..... ..... .....    @vvv
++vmulwev_d_wu     0111 00001001 10010 ..... ..... .....    @vvv
++vmulwev_q_du     0111 00001001 10011 ..... ..... .....    @vvv
++vmulwod_h_bu     0111 00001001 10100 ..... ..... .....    @vvv
++vmulwod_w_hu     0111 00001001 10101 ..... ..... .....    @vvv
++vmulwod_d_wu     0111 00001001 10110 ..... ..... .....    @vvv
++vmulwod_q_du     0111 00001001 10111 ..... ..... .....    @vvv
++vmulwev_h_bu_b   0111 00001010 00000 ..... ..... .....    @vvv
++vmulwev_w_hu_h   0111 00001010 00001 ..... ..... .....    @vvv
++vmulwev_d_wu_w   0111 00001010 00010 ..... ..... .....    @vvv
++vmulwev_q_du_d   0111 00001010 00011 ..... ..... .....    @vvv
++vmulwod_h_bu_b   0111 00001010 00100 ..... ..... .....    @vvv
++vmulwod_w_hu_h   0111 00001010 00101 ..... ..... .....    @vvv
++vmulwod_d_wu_w   0111 00001010 00110 ..... ..... .....    @vvv
++vmulwod_q_du_d   0111 00001010 00111 ..... ..... .....    @vvv
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index a9a0b01fd7..5bccb3111b 100644
+index 5bccb3111b..d55d2350dc 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -936,3 +936,222 @@ DO_HELPER_VVV(vadda_b, 8, helper_vvv, do_vadda_s)
- DO_HELPER_VVV(vadda_h, 16, helper_vvv, do_vadda_s)
- DO_HELPER_VVV(vadda_w, 32, helper_vvv, do_vadda_s)
- DO_HELPER_VVV(vadda_d, 64, helper_vvv, do_vadda_s)
+@@ -1155,3 +1155,221 @@ DO_HELPER_VV_I(vmini_bu, 8, helper_vv_i, do_vmini_u)
+ DO_HELPER_VV_I(vmini_hu, 16, helper_vv_i, do_vmini_u)
+ DO_HELPER_VV_I(vmini_wu, 32, helper_vv_i, do_vmini_u)
+ DO_HELPER_VV_I(vmini_du, 64, helper_vv_i, do_vmini_u)
 +
-+static int64_t vmax_s(int64_t s1, int64_t s2)
-+{
-+    return s1 > s2 ? s1 : s2;
-+}
-+
-+static void do_vmax_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++static void do_vmul(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
 +    case 8:
-+        Vd->B[n] = vmax_s(Vj->B[n], Vk->B[n]);
++        Vd->B[n] = Vj->B[n] * Vk->B[n];
 +        break;
 +    case 16:
-+        Vd->H[n] = vmax_s(Vj->H[n], Vk->H[n]);
++        Vd->H[n] = Vj->H[n] * Vk->H[n];
 +        break;
 +    case 32:
-+        Vd->W[n] = vmax_s(Vj->W[n], Vk->W[n]);
++        Vd->W[n] = Vj->W[n] * Vk->W[n];
 +        break;
 +    case 64:
-+        Vd->D[n] = vmax_s(Vj->D[n], Vk->D[n]);
++        Vd->D[n] = Vj->D[n] * Vk->D[n];
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static void do_vmaxi_s(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit , int n)
++static void do_vmuh_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
 +    case 8:
-+        Vd->B[n] = vmax_s(Vj->B[n], imm);
++        Vd->B[n] = ((int16_t)(Vj->B[n] * Vk->B[n])) >> 8;
 +        break;
 +    case 16:
-+        Vd->H[n] = vmax_s(Vj->H[n], imm);
++        Vd->H[n] = ((int32_t)(Vj->H[n] * Vk->H[n])) >> 16;
 +        break;
 +    case 32:
-+        Vd->W[n] = vmax_s(Vj->W[n], imm);
++        Vd->W[n] = ((int64_t)(Vj->W[n] * (int64_t)Vk->W[n])) >> 32;
 +        break;
 +    case 64:
-+        Vd->D[n] = vmax_s(Vj->D[n], imm);
++        Vd->D[n] = ((__int128_t)(Vj->D[n] * (__int128_t)Vk->D[n])) >> 64;
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static uint64_t vmax_u(int64_t s1, int64_t s2, int bit)
-+{
-+    uint64_t umax = MAKE_64BIT_MASK(0, bit);
-+    uint64_t u1 = s1 & umax;
-+    uint64_t u2 = s2 & umax;
-+    return u1 > u2 ? u1 : u2;
-+}
-+
-+static void do_vmax_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++static void do_vmuh_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
 +    case 8:
-+        Vd->B[n] = vmax_u(Vj->B[n], Vk->B[n], bit);
++        Vd->B[n] = ((uint16_t)(((uint8_t)Vj->B[n]) * ((uint8_t)Vk->B[n]))) >> 8;
 +        break;
 +    case 16:
-+        Vd->H[n] = vmax_u(Vj->H[n], Vk->H[n], bit);
++        Vd->H[n] = ((uint32_t)(((uint16_t)Vj->H[n]) * ((uint16_t)Vk->H[n]))) >> 16;
 +        break;
 +    case 32:
-+        Vd->W[n] = vmax_u(Vj->W[n], Vk->W[n], bit);
++        Vd->W[n] = ((uint64_t)(((uint32_t)Vj->W[n]) * ((uint64_t)(uint32_t)Vk->W[n]))) >> 32;
 +        break;
 +    case 64:
-+        Vd->D[n] = vmax_u(Vj->D[n], Vk->D[n], bit);
++        Vd->D[n] = ((__int128_t)(((uint64_t)Vj->D[n]) * ((__int128_t)(uint64_t)Vk->D[n]))) >> 64;
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static void do_vmaxi_u(vec_t *Vd, vec_t *Vj, uint32_t imm , int bit, int n)
++DO_HELPER_VVV(vmul_b, 8, helper_vvv, do_vmul)
++DO_HELPER_VVV(vmul_h, 16, helper_vvv, do_vmul)
++DO_HELPER_VVV(vmul_w, 32, helper_vvv, do_vmul)
++DO_HELPER_VVV(vmul_d, 64, helper_vvv, do_vmul)
++DO_HELPER_VVV(vmuh_b, 8, helper_vvv, do_vmuh_s)
++DO_HELPER_VVV(vmuh_h, 16, helper_vvv, do_vmuh_s)
++DO_HELPER_VVV(vmuh_w, 32, helper_vvv, do_vmuh_s)
++DO_HELPER_VVV(vmuh_d, 64, helper_vvv, do_vmuh_s)
++DO_HELPER_VVV(vmuh_bu, 8, helper_vvv, do_vmuh_u)
++DO_HELPER_VVV(vmuh_hu, 16, helper_vvv, do_vmuh_u)
++DO_HELPER_VVV(vmuh_wu, 32, helper_vvv, do_vmuh_u)
++DO_HELPER_VVV(vmuh_du, 64, helper_vvv, do_vmuh_u)
++
++static void do_vmulwev_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
-+    case 8:
-+        Vd->B[n] = vmax_u(Vj->B[n], imm, bit);
-+        break;
 +    case 16:
-+        Vd->H[n] = vmax_u(Vj->H[n], imm, bit);
++        Vd->H[n] = Vj->B[2 * n] * Vk->B[2 * n];
 +        break;
 +    case 32:
-+        Vd->W[n] = vmax_u(Vj->W[n], imm, bit);
++        Vd->W[n] = Vj->H[2 * n] * Vk->H[2 * n];
 +        break;
 +    case 64:
-+        Vd->D[n] = vmax_u(Vj->D[n], imm, bit);
++        Vd->D[n] = (int64_t)Vj->W[2 * n] * (int64_t)Vk->W[2 * n];
++        break;
++    case 128:
++        Vd->Q[n] = (__int128_t)Vj->D[2 * n] * (__int128_t)Vk->D[2 * n];
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static int64_t vmin_s(int64_t s1, int64_t s2)
-+{
-+    return s1 < s2 ? s1 : s2;
-+}
-+
-+static void do_vmin_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++static void do_vmulwod_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
-+    case 8:
-+        Vd->B[n] = vmin_s(Vj->B[n], Vk->B[n]);
-+        break;
 +    case 16:
-+        Vd->H[n] = vmin_s(Vj->H[n], Vk->H[n]);
++        Vd->H[n] = Vj->B[2 * n + 1] * Vk->B[2 * n + 1];
 +        break;
 +    case 32:
-+        Vd->W[n] = vmin_s(Vj->W[n], Vk->W[n]);
++        Vd->W[n] = Vj->H[2 * n + 1] * Vk->H[2 * n + 1];
 +        break;
 +    case 64:
-+        Vd->D[n] = vmin_s(Vj->D[n], Vk->D[n]);
++        Vd->D[n] = (int64_t)Vj->W[2 * n + 1] * (int64_t)Vk->W[2 * n + 1];
++        break;
++    case 128:
++        Vd->Q[n] = (__int128_t)Vj->D[2 * n + 1] * (__int128_t)Vk->D[2 * n + 1];
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static void do_vmini_s(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
++static void do_vmulwev_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
-+    case 8:
-+        Vd->B[n] = vmin_s(Vj->B[n], imm);
-+        break;
 +    case 16:
-+        Vd->H[n] = vmin_s(Vj->H[n], imm);
++        Vd->H[n] = (uint8_t)Vj->B[2 * n] * (uint8_t)Vk->B[2 * n];
 +        break;
 +    case 32:
-+        Vd->W[n] = vmin_s(Vj->W[n], imm);
++        Vd->W[n] = (uint16_t)Vj->H[2 * n] * (uint16_t)Vk->H[2 * n];
 +        break;
 +    case 64:
-+        Vd->D[n] = vmin_s(Vj->D[n], imm);
++        Vd->D[n] = (uint64_t)(uint32_t)Vj->W[2 * n] * (uint64_t)(uint32_t)Vk->W[2 * n];
++        break;
++    case 128:
++        Vd->Q[n] = (__uint128_t)(uint64_t)Vj->D[2 * n] * (__uint128_t)(uint64_t)Vk->D[2 * n];
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static uint64_t vmin_u(int64_t s1, int64_t s2, int bit)
-+{
-+    uint64_t umax = MAKE_64BIT_MASK(0, bit);
-+    uint64_t u1 = s1 & umax;
-+    uint64_t u2 = s2 & umax;
-+    return u1 < u2 ? u1 : u2;
-+}
-+
-+static void do_vmin_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++static void do_vmulwod_u(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
-+    case 8:
-+        Vd->B[n] = vmin_u(Vj->B[n], Vk->B[n], bit);
-+        break;
 +    case 16:
-+        Vd->H[n] = vmin_u(Vj->H[n], Vk->H[n], bit);
++        Vd->H[n] = (uint8_t)Vj->B[2 * n + 1] * (uint8_t)Vk->B[2 * n + 1];
 +        break;
 +    case 32:
-+        Vd->W[n] = vmin_u(Vj->W[n], Vk->W[n], bit);
++        Vd->W[n] = (uint16_t)Vj->H[2 * n + 1] * (uint16_t)Vk->H[2 * n + 1];
 +        break;
 +    case 64:
-+        Vd->D[n] = vmin_u(Vj->D[n], Vk->D[n], bit);
++        Vd->D[n] = (uint64_t)(uint32_t)Vj->W[2 * n + 1] * (uint64_t)(uint32_t)Vk->W[2 * n + 1];
++        break;
++    case 128:
++        Vd->Q[n] = (__uint128_t)(uint64_t)Vj->D[2 * n + 1] * (__uint128_t)(uint64_t)Vk->D[2 * n + 1];
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+static void do_vmini_u(vec_t *Vd, vec_t *Vj, uint32_t imm, int bit, int n)
++static void do_vmulwev_u_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
 +{
 +    switch (bit) {
-+    case 8:
-+        Vd->B[n] = vmin_u(Vj->B[n], imm, bit);
-+        break;
 +    case 16:
-+        Vd->H[n] = vmin_u(Vj->H[n], imm, bit);
++        Vd->H[n] = (uint8_t)Vj->B[2 * n] * Vk->B[2 * n];
 +        break;
 +    case 32:
-+        Vd->W[n] = vmin_u(Vj->W[n], imm, bit);
++        Vd->W[n] = (uint16_t)Vj->H[2 * n] * Vk->H[2 * n];
 +        break;
 +    case 64:
-+        Vd->D[n] = vmin_u(Vj->D[n], imm, bit);
++        Vd->D[n] = (int64_t)(uint32_t)Vj->W[2 * n] * (int64_t)Vk->W[2 * n];
++        break;
++    case 128:
++        Vd->Q[n] = (__int128_t)(uint64_t)Vj->D[2 * n] * (__int128_t)Vk->D[2 * n];
 +        break;
 +    default:
 +        g_assert_not_reached();
 +    }
 +}
 +
-+DO_HELPER_VVV(vmax_b, 8, helper_vvv, do_vmax_s)
-+DO_HELPER_VVV(vmax_h, 16, helper_vvv, do_vmax_s)
-+DO_HELPER_VVV(vmax_w, 32, helper_vvv, do_vmax_s)
-+DO_HELPER_VVV(vmax_d, 64, helper_vvv, do_vmax_s)
-+DO_HELPER_VV_I(vmaxi_b, 8, helper_vv_i, do_vmaxi_s)
-+DO_HELPER_VV_I(vmaxi_h, 16, helper_vv_i, do_vmaxi_s)
-+DO_HELPER_VV_I(vmaxi_w, 32, helper_vv_i, do_vmaxi_s)
-+DO_HELPER_VV_I(vmaxi_d, 64, helper_vv_i, do_vmaxi_s)
-+DO_HELPER_VVV(vmax_bu, 8, helper_vvv, do_vmax_u)
-+DO_HELPER_VVV(vmax_hu, 16, helper_vvv, do_vmax_u)
-+DO_HELPER_VVV(vmax_wu, 32, helper_vvv, do_vmax_u)
-+DO_HELPER_VVV(vmax_du, 64, helper_vvv, do_vmax_u)
-+DO_HELPER_VV_I(vmaxi_bu, 8, helper_vv_i, do_vmaxi_u)
-+DO_HELPER_VV_I(vmaxi_hu, 16, helper_vv_i, do_vmaxi_u)
-+DO_HELPER_VV_I(vmaxi_wu, 32, helper_vv_i, do_vmaxi_u)
-+DO_HELPER_VV_I(vmaxi_du, 64, helper_vv_i, do_vmaxi_u)
-+DO_HELPER_VVV(vmin_b, 8, helper_vvv, do_vmin_s)
-+DO_HELPER_VVV(vmin_h, 16, helper_vvv, do_vmin_s)
-+DO_HELPER_VVV(vmin_w, 32, helper_vvv, do_vmin_s)
-+DO_HELPER_VVV(vmin_d, 64, helper_vvv, do_vmin_s)
-+DO_HELPER_VV_I(vmini_b, 8, helper_vv_i, do_vmini_s)
-+DO_HELPER_VV_I(vmini_h, 16, helper_vv_i, do_vmini_s)
-+DO_HELPER_VV_I(vmini_w, 32, helper_vv_i, do_vmini_s)
-+DO_HELPER_VV_I(vmini_d, 64, helper_vv_i, do_vmini_s)
-+DO_HELPER_VVV(vmin_bu, 8, helper_vvv, do_vmin_u)
-+DO_HELPER_VVV(vmin_hu, 16, helper_vvv, do_vmin_u)
-+DO_HELPER_VVV(vmin_wu, 32, helper_vvv, do_vmin_u)
-+DO_HELPER_VVV(vmin_du, 64, helper_vvv, do_vmin_u)
-+DO_HELPER_VV_I(vmini_bu, 8, helper_vv_i, do_vmini_u)
-+DO_HELPER_VV_I(vmini_hu, 16, helper_vv_i, do_vmini_u)
-+DO_HELPER_VV_I(vmini_wu, 32, helper_vv_i, do_vmini_u)
-+DO_HELPER_VV_I(vmini_du, 64, helper_vv_i, do_vmini_u)
++static void do_vmulwod_u_s(vec_t *Vd, vec_t *Vj, vec_t *Vk, int bit, int n)
++{
++    switch (bit) {
++    case 16:
++        Vd->H[n] = (uint8_t)Vj->B[2 * n + 1] * Vk->B[2 * n + 1];
++        break;
++    case 32:
++        Vd->W[n] = (uint16_t)Vj->H[2 * n + 1] * Vk->H[2 * n + 1];
++        break;
++    case 64:
++        Vd->D[n] = (int64_t)(uint32_t)Vj->W[2 * n + 1] * (int64_t)Vk->W[2 * n + 1];
++        break;
++    case 128:
++        Vd->Q[n] = (__int128_t)(uint64_t)Vj->D[2 * n + 1] * (__int128_t)Vk->D[2 * n + 1];
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++DO_HELPER_VVV(vmulwev_h_b, 16, helper_vvv, do_vmulwev_s)
++DO_HELPER_VVV(vmulwev_w_h, 32, helper_vvv, do_vmulwev_s)
++DO_HELPER_VVV(vmulwev_d_w, 64, helper_vvv, do_vmulwev_s)
++DO_HELPER_VVV(vmulwev_q_d, 128, helper_vvv, do_vmulwev_s)
++DO_HELPER_VVV(vmulwod_h_b, 16, helper_vvv, do_vmulwod_s)
++DO_HELPER_VVV(vmulwod_w_h, 32, helper_vvv, do_vmulwod_s)
++DO_HELPER_VVV(vmulwod_d_w, 64, helper_vvv, do_vmulwod_s)
++DO_HELPER_VVV(vmulwod_q_d, 128, helper_vvv, do_vmulwod_s)
++DO_HELPER_VVV(vmulwev_h_bu, 16, helper_vvv, do_vmulwev_u)
++DO_HELPER_VVV(vmulwev_w_hu, 32, helper_vvv, do_vmulwev_u)
++DO_HELPER_VVV(vmulwev_d_wu, 64, helper_vvv, do_vmulwev_u)
++DO_HELPER_VVV(vmulwev_q_du, 128, helper_vvv, do_vmulwev_u)
++DO_HELPER_VVV(vmulwod_h_bu, 16, helper_vvv, do_vmulwod_u)
++DO_HELPER_VVV(vmulwod_w_hu, 32, helper_vvv, do_vmulwod_u)
++DO_HELPER_VVV(vmulwod_d_wu, 64, helper_vvv, do_vmulwod_u)
++DO_HELPER_VVV(vmulwod_q_du, 128, helper_vvv, do_vmulwod_u)
++DO_HELPER_VVV(vmulwev_h_bu_b, 16, helper_vvv, do_vmulwev_u_s)
++DO_HELPER_VVV(vmulwev_w_hu_h, 32, helper_vvv, do_vmulwev_u_s)
++DO_HELPER_VVV(vmulwev_d_wu_w, 64, helper_vvv, do_vmulwev_u_s)
++DO_HELPER_VVV(vmulwev_q_du_d, 128, helper_vvv, do_vmulwev_u_s)
++DO_HELPER_VVV(vmulwod_h_bu_b, 16, helper_vvv, do_vmulwod_u_s)
++DO_HELPER_VVV(vmulwod_w_hu_h, 32, helper_vvv, do_vmulwod_u_s)
++DO_HELPER_VVV(vmulwod_d_wu_w, 64, helper_vvv, do_vmulwod_u_s)
++DO_HELPER_VVV(vmulwod_q_du_d, 128, helper_vvv, do_vmulwod_u_s)
 -- 
 2.31.1
 
