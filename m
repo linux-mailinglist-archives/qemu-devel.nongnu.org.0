@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788C2655BE4
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Dec 2022 01:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE342655BD7
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Dec 2022 00:59:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9EOY-0002Ko-VE; Sat, 24 Dec 2022 18:57:38 -0500
+	id 1p9EOe-0002MZ-BR; Sat, 24 Dec 2022 18:57:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9EOW-0002Jl-Pr
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:36 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1p9EOY-0002KZ-AO
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:38 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9EOV-0006GI-48
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:36 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id p4so7977125pjk.2
- for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 15:57:34 -0800 (PST)
+ id 1p9EOW-0006Ix-J1
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:38 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id p4so7977136pjk.2
+ for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 15:57:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vtHTxOsR6ht0+9SPiWHuqeFVG+XUj4+DdhfsvFYW/Qc=;
- b=qT5zVeDNWmXJlpLGFcl6eBYmLzZT5M5rf1RsTaAvmzwWUGKEfOl02tIZjrOdoKJ2K9
- 3uH6+NF84wnrGzso60m5pDu+PJGWPCtrN6zDmbkogCl2guzIF1rf7qrxQuDscVyu1dX4
- 3ocTiFPrGd6h+OR63qtETHgfS3Byx8NQPAy6e79FkqmJhVx72dWRmbl9dPZyTfCytAd5
- vqFy4GaYsqqfkYaFZnOB/clF/GN7AgG7LE16IkyYP7joPjK0+RwSd6iAjyUTrYCWHsy5
- gm67Hznk/xeJ48/vK9Az04VpA/dWmkoerzqShv70I/bwXAHe1pPBC7eVEqLG+Y0N+dXx
- GEgA==
+ bh=ICnDE5CkA2lmO28avcdDx7Ov//rZAy7zNfU1ruYzqlU=;
+ b=cwggcCW4rnW3gXkxWMiPlWRWSUaEyNPWZorPNGibfV1/SDBkJCMWHe/WbMk7ee+HY7
+ 6m8oIoV5DdEmRwtOjFsS7qvhCXdrCSAYYp90qsrZn8e2aReOeny1RPTH0ItgKXK3S5X1
+ jmtHLNYkNMT9CmU9ZfkD5h9iiYgRSUmPH4qRZDIUxix0bbNgPrSQWoU5WyMDfd9Fgu4o
+ cx2dvzmzgSiFo7LjG/bT1+KhQw3WfRd9kTybjtkYOvcd4wvyFRPVuE/JL6iOQ5CJ2RVf
+ Z9Q7G0zOlATtHT9ofTHVkgGyfc7qSNP4wy0w5amCXSPEJehVzDmtPDAx9q8iOZ6BtLDH
+ F1TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vtHTxOsR6ht0+9SPiWHuqeFVG+XUj4+DdhfsvFYW/Qc=;
- b=wh+pG1pdjVThTohEJua0UJyEWT2Lrmqo1/kbqf/Qj2+aabzyjWaufZEt5f+dHTbzRS
- jfuPb0tKkvI4YciDbRBc9KH+yA3LdfND1BHOlkPYoJONPKggNEYFFH+s71IP2VbyWqWX
- u1qSfLmdkse2P8qVQOdNfXxyoZOBIIT5WUgp1dzjEQ8m6YD2/MGzndmHwz4kcKWm0V0M
- WrFkCmWUu1HqsL8fGcG7iSqvKuVVkL4iFRAlL8Ff+Eo/IPeoPPLhIztqyhy6+wffD/s4
- GgUNbAgSwHpLiStkEcPTv1V0lScSLEI7rRP7H+RKVPgoMWJXQIJLJn9p9qXjmub6wGcF
- 8uwA==
-X-Gm-Message-State: AFqh2kpYWGluSdParm0tYR1Eq/QqdmOxCldsNq0hgTqgnOmIzYD8BjaW
- CFbYpPUh+3RBM4D6B86M/ywzE1X4bMqK+5ha
-X-Google-Smtp-Source: AMrXdXsXxkN9SRYtz+dDym7SNA3ojxfdE9POs+cy6FtcnPBoD0F/GPeSQ470/t4mJxvUVeL1Py8dNw==
-X-Received: by 2002:a05:6a20:7d8b:b0:aa:23cb:a1a6 with SMTP id
- v11-20020a056a207d8b00b000aa23cba1a6mr46409724pzj.0.1671926254310; 
- Sat, 24 Dec 2022 15:57:34 -0800 (PST)
+ bh=ICnDE5CkA2lmO28avcdDx7Ov//rZAy7zNfU1ruYzqlU=;
+ b=ZIsQa68FQGOzYeeqp1Qp+dn8VqU71GdFj6Y+/j6Ypt+tzwFPs94Fj/Ed7/TtWLe10O
+ B1ZkOHl2ms+qCr8Zqx5TU+geZ4V7pR124BDrqHZE6ph3q31XV1CGxvGHWY/siZiflc05
+ PmuWRJfEqKKJFHsrsIJvaW6NWXq4ZSkXDXwbzNsoz/aSosm2DxjVAWx7OOsfRtfYBQpH
+ AG2C7l4bMHpNCkcEd6yn/Rx4I9Q6fz8Z/iEFQUkYWsf/ra8jHn5gSv5Ggo23YhoYkcM+
+ UaPNmkrdk6RyeZ2d4J1uMP3ugIg8T7sc7VQeWNso6nrx5jXZaARhjXFFJDgS42yyl1X8
+ bs8A==
+X-Gm-Message-State: AFqh2kp8cHaY0C/Y8p/rypCrMKVEfC7r824GXHkk2FSUY+hgh0G1uP5F
+ L+tLm/OdOnv0rSsSSC6gMwyeEGKw3j3/Pnxr
+X-Google-Smtp-Source: AMrXdXsry7QMWkTU9UGJHY+D4MycGyd7C0rhB2UePijdTBu9dDqTO1fxwAV5nXcuWoP7s6jexA4VGA==
+X-Received: by 2002:a17:902:6b89:b0:189:cf92:6f5c with SMTP id
+ p9-20020a1709026b8900b00189cf926f5cmr16456920plk.52.1671926255189; 
+ Sat, 24 Dec 2022 15:57:35 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- cp12-20020a170902e78c00b00187022627d7sm4599716plb.36.2022.12.24.15.57.33
+ cp12-20020a170902e78c00b00187022627d7sm4599716plb.36.2022.12.24.15.57.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Dec 2022 15:57:33 -0800 (PST)
+ Sat, 24 Dec 2022 15:57:34 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
 	philmd@linaro.org
-Subject: [PATCH v5 12/43] tcg: Tidy tcg_reg_alloc_op
-Date: Sat, 24 Dec 2022 15:56:49 -0800
-Message-Id: <20221224235720.842093-13-richard.henderson@linaro.org>
+Subject: [PATCH v5 13/43] tcg: Remove TCG_TARGET_STACK_GROWSUP
+Date: Sat, 24 Dec 2022 15:56:50 -0800
+Message-Id: <20221224235720.842093-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221224235720.842093-1-richard.henderson@linaro.org>
 References: <20221224235720.842093-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,97 +91,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Replace goto allocate_in_reg with a boolean.
-Remove o_preferred_regs which isn't used, except to copy.
+The hppa host code has been removed since 2013; this
+should have been deleted at the same time.
 
+Fixes: 802b5081233a ("tcg-hppa: Remove tcg backend")
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 45 +++++++++++++++++++++------------------------
- 1 file changed, 21 insertions(+), 24 deletions(-)
+ tcg/aarch64/tcg-target.h |  1 -
+ tcg/arm/tcg-target.h     |  1 -
+ tcg/tcg.c                | 32 ++------------------------------
+ 3 files changed, 2 insertions(+), 32 deletions(-)
 
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index 485f685bd2..e145d50fef 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -16,7 +16,6 @@
+ #define TCG_TARGET_INSN_UNIT_SIZE  4
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 24
+ #define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
+-#undef TCG_TARGET_STACK_GROWSUP
+ 
+ typedef enum {
+     TCG_REG_X0, TCG_REG_X1, TCG_REG_X2, TCG_REG_X3,
+diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+index 7e96495392..56c1ac4586 100644
+--- a/tcg/arm/tcg-target.h
++++ b/tcg/arm/tcg-target.h
+@@ -30,7 +30,6 @@ extern int arm_arch;
+ 
+ #define use_armv7_instructions  (__ARM_ARCH >= 7 || arm_arch >= 7)
+ 
+-#undef TCG_TARGET_STACK_GROWSUP
+ #define TCG_TARGET_INSN_UNIT_SIZE 4
+ #define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
+ #define MAX_CODE_GEN_BUFFER_SIZE  UINT32_MAX
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index db64799e03..215ddf2db5 100644
+index 215ddf2db5..05d2b70ab7 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -3607,7 +3607,8 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+@@ -1552,25 +1552,8 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
+         }
  
-     /* satisfy input constraints */
-     for (k = 0; k < nb_iargs; k++) {
--        TCGRegSet i_preferred_regs, o_preferred_regs;
-+        TCGRegSet i_preferred_regs;
-+        bool allocate_new_reg;
- 
-         i = def->args_ct[nb_oargs + k].sort_index;
-         arg = op->args[i];
-@@ -3622,9 +3623,12 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+         if (TCG_TARGET_REG_BITS < 64 && is_64bit) {
+-            /*
+-             * If stack grows up, then we will be placing successive
+-             * arguments at lower addresses, which means we need to
+-             * reverse the order compared to how we would normally
+-             * treat either big or little-endian.  For those arguments
+-             * that will wind up in registers, this still works for
+-             * HPPA (the only current STACK_GROWSUP target) since the
+-             * argument registers are *also* allocated in decreasing
+-             * order.  If another such target is added, this logic may
+-             * have to get more complicated to differentiate between
+-             * stack arguments and register arguments.
+-             */
+-#if HOST_BIG_ENDIAN != defined(TCG_TARGET_STACK_GROWSUP)
+-            op->args[pi++] = temp_arg(args[i] + 1);
+-            op->args[pi++] = temp_arg(args[i]);
+-#else
+-            op->args[pi++] = temp_arg(args[i]);
+-            op->args[pi++] = temp_arg(args[i] + 1);
+-#endif
++            op->args[pi++] = temp_arg(args[i] + HOST_BIG_ENDIAN);
++            op->args[pi++] = temp_arg(args[i] + !HOST_BIG_ENDIAN);
+             real_args += 2;
              continue;
          }
+@@ -3854,12 +3837,6 @@ static bool tcg_reg_alloc_dup2(TCGContext *s, const TCGOp *op)
+     return true;
+ }
  
--        i_preferred_regs = o_preferred_regs = 0;
-+        reg = ts->reg;
-+        i_preferred_regs = 0;
-+        allocate_new_reg = false;
-+
-         if (arg_ct->ialias) {
--            o_preferred_regs = op->output_pref[arg_ct->alias_index];
-+            i_preferred_regs = op->output_pref[arg_ct->alias_index];
- 
-             /*
-              * If the input is readonly, then it cannot also be an
-@@ -3633,30 +3637,23 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
-              * register and move it.
-              */
-             if (temp_readonly(ts) || !IS_DEAD_ARG(i)) {
--                goto allocate_in_reg;
-+                allocate_new_reg = true;
-+            } else if (ts->val_type == TEMP_VAL_REG) {
-+                /*
-+                 * Check if the current register has already been
-+                 * allocated for another input.
-+                 */
-+                allocate_new_reg = tcg_regset_test_reg(i_allocated_regs, reg);
-             }
+-#ifdef TCG_TARGET_STACK_GROWSUP
+-#define STACK_DIR(x) (-(x))
+-#else
+-#define STACK_DIR(x) (x)
+-#endif
 -
--            /*
--             * Check if the current register has already been allocated
--             * for another input aliased to an output.
--             */
--            if (ts->val_type == TEMP_VAL_REG) {
--                reg = ts->reg;
--                for (int k2 = 0; k2 < k; k2++) {
--                    int i2 = def->args_ct[nb_oargs + k2].sort_index;
--                    if (def->args_ct[i2].ialias && reg == new_args[i2]) {
--                        goto allocate_in_reg;
--                    }
--                }
--            }
--            i_preferred_regs = o_preferred_regs;
-         }
- 
--        temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
--        reg = ts->reg;
-+        if (!allocate_new_reg) {
-+            temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
-+            reg = ts->reg;
-+            allocate_new_reg = !tcg_regset_test_reg(arg_ct->regs, reg);
-+        }
- 
--        if (!tcg_regset_test_reg(arg_ct->regs, reg)) {
-- allocate_in_reg:
-+        if (allocate_new_reg) {
-             /*
-              * Allocate a new register matching the constraint
-              * and move the temporary register into it.
-@@ -3664,7 +3661,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+ {
+     const int nb_oargs = TCGOP_CALLO(op);
+@@ -3899,18 +3876,13 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+     stack_offset = TCG_TARGET_CALL_STACK_OFFSET;
+     for (i = nb_regs; i < nb_iargs; i++) {
+         arg = op->args[nb_oargs + i];
+-#ifdef TCG_TARGET_STACK_GROWSUP
+-        stack_offset -= sizeof(tcg_target_long);
+-#endif
+         if (arg != TCG_CALL_DUMMY_ARG) {
+             ts = arg_temp(arg);
              temp_load(s, ts, tcg_target_available_regs[ts->type],
-                       i_allocated_regs, 0);
-             reg = tcg_reg_alloc(s, arg_ct->regs, i_allocated_regs,
--                                o_preferred_regs, ts->indirect_base);
-+                                i_preferred_regs, ts->indirect_base);
-             if (!tcg_out_mov(s, ts->type, reg, ts->reg)) {
-                 /*
-                  * Cross register class move not supported.  Sync the
+                       s->reserved_regs, 0);
+             tcg_out_st(s, ts->type, ts->reg, TCG_REG_CALL_STACK, stack_offset);
+         }
+-#ifndef TCG_TARGET_STACK_GROWSUP
+         stack_offset += sizeof(tcg_target_long);
+-#endif
+     }
+ 
+     /* assign input registers */
 -- 
 2.34.1
 
