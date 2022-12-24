@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C33655BD1
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Dec 2022 00:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E31655BD5
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Dec 2022 00:59:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9E6L-0007p8-EE; Sat, 24 Dec 2022 18:38:49 -0500
+	id 1p9EOQ-0002GC-Dw; Sat, 24 Dec 2022 18:57:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9E6J-0007oY-FI
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:38:47 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1p9EOL-0002Fv-EF
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:28 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p9E6H-0005M3-QO
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:38:47 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- c8-20020a17090a4d0800b00225c3614161so4768527pjg.5
- for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 15:38:45 -0800 (PST)
+ id 1p9EOJ-0006GI-Mz
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 18:57:25 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id p4so7976959pjk.2
+ for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 15:57:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2p/wIHMt5QkVq4c2GBCeHoBMkVJIOYm8sUddhj7sHUI=;
- b=akpNQo8FdNjzOrI+hcw2DCihnBbDfz07lwVnaM4WObap8ql17RBEktTOeTvBfXES5g
- YNWp7eBPkWM/hzRrM36z3X2PmxCUNw7+N5V+tZO564MXqui2PiP5gMNst01mgWYMRKMb
- 65IjdCohoLTmEO/gvYFAfB/SuBlylp7zrndcBz0Fk6WzO7HRg4Gw5MGAp24bPOUEXJ9a
- R0vHJNUCigRmrV6xBvgPMSvngTMbjeN4Ti0TtQaIgrxXz04l7cTEGJsvzpI5J6i5uKQY
- x0ZtxIICZNMwCmmhHWkyRqsXvCwmsn0eJp/WuyigDg4g4wKyqxriE7CNDTM34DDIgm3D
- JAUQ==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zmZBta4OA8lDZ/3kYONYuz+WSPAUy4QHgAgO76bZBco=;
+ b=L5LxRwGOQG1fVN12UXX2jdX4Eqm13+1PhTLhIjVpVt3WNwawXKKMnL7y4bKXobwA0R
+ KMUi3h2W/E+lqHXYtrOxugZBYV/zeqYNn9FayxiYJl7p8cZab7xjc11+KvTgciDHqB37
+ uMdhhRdHXl5wBXmc7WmOlc5ANv0x16VM1ef3a4ZyLelenPcX2bIFTGRMDwvYHXftlfRO
+ YC1+M02MYgQQ5NWpGx/PhH2oqdtlz3ww10omw+tx3G6NzUP1p1PGLy8AweE9xjG3ZhKa
+ /ioM11jnv6GaN5YSqigSDCAKv8yV71dTFDAKR/rMBGrqe/QDRpfxciucOpXChOX0aYhO
+ kavA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2p/wIHMt5QkVq4c2GBCeHoBMkVJIOYm8sUddhj7sHUI=;
- b=SRvsCkVFAg+5refTktSb9e7W02XrejO/x7rA3U3Rt9FsshZ/TFIenUkukWpAD56jAT
- gdIxK2tn2MiKq/gRr2ZxnrEr9i61xO4Upkcp2lxt3bdazhhlhCYit+7sqIjxab1H4lq/
- nL+tJUadYO8++7nanXOyskTtHT9uiVb2EUtXWv0cwc5vGmuVxnmezbQ5DECN+5OUv6sC
- L+V+tI0MhxZIPPx9QVRk2xpHoHm9/X1Ez017UiqJbcEBei07pe5bvMm6HJ7M6xrA1QEu
- JLqi4V7cT+vY7VfcP+Gc26aSWKDpqvsHLkz99hgCOq+8aR77wQcxZTvta5qmShDrcGPI
- 1BaA==
-X-Gm-Message-State: AFqh2kpo1fnjeefKTDqn4YrJJT2m9ATVVL28348JRTA4loOt6YeC00rM
- Je49WEPDNLuTbZqLFmvy8RWZAg==
-X-Google-Smtp-Source: AMrXdXsDuoP/eRusnptWKx/XKiFbPIwBGUYWvS2QUxnPfz0Xcm89KauviEMLMXkXrqXbvXMygTvyzw==
-X-Received: by 2002:a17:902:7b94:b0:191:3ebd:c3a5 with SMTP id
- w20-20020a1709027b9400b001913ebdc3a5mr14059728pll.17.1671925124132; 
- Sat, 24 Dec 2022 15:38:44 -0800 (PST)
-Received: from [172.16.2.110] (76-14-210-194.or.wavecable.com. [76.14.210.194])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zmZBta4OA8lDZ/3kYONYuz+WSPAUy4QHgAgO76bZBco=;
+ b=QQ+LioHD3zZ+EtaD9FZayaMaIMZnrLR7hdnAGOxUmB+K6OWBvIbb5f1sAHJCpdXBkM
+ oRwFtmk58mhQ2Om3w4kamPM0L6iIMIWksTDMzu5/iso8r97Llz5Xhs2fd24vso7t5URe
+ myz6tvb63AbwELMB0wJ5AIREO/8Js6hRtzSo517ay8fgV6k8JgJBBe84CIJOxYawyTgE
+ 5149JuEcen5Ka+XZV/7rO0DcOBc0Ut6Kh6+mxW+Ku6iTiozq70OJj/Wjd/YbeA+L0MJa
+ qWJBCTzmkAKpqOjslz/wQU1FupNBWHrYmbojgy5MvSp9FwIScA4Mcc5rnsZW+DkIrOS1
+ GE4Q==
+X-Gm-Message-State: AFqh2kqJZ01u9InMASLq0aBaWEOu9+tD3QgXNpTE7zKiAXGI/Ak4iKqt
+ DE0hg/xlNiQKjjsotUrHyZADotFOCYR9mur9
+X-Google-Smtp-Source: AMrXdXtXg5VRA+kohcQRkRwiG69jBlstbNAA6uANKlK/+ycGc86ABWcK7LaX/pz4JUefyZh9Q80sEg==
+X-Received: by 2002:a17:903:200b:b0:189:6453:f455 with SMTP id
+ s11-20020a170903200b00b001896453f455mr13611971pla.35.1671926241954; 
+ Sat, 24 Dec 2022 15:57:21 -0800 (PST)
+Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- l2-20020a170902f68200b00177faf558b5sm4487183plg.250.2022.12.24.15.38.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Dec 2022 15:38:43 -0800 (PST)
-Message-ID: <0849f5d5-5f6c-f9f4-da05-361bcf914ec9@linaro.org>
-Date: Sat, 24 Dec 2022 15:38:41 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 0/2] hw/arm/virt: Handle HVF in finalize_gic_version()
-Content-Language: en-US
-To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Zenghui Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20221223090107.98888-1-agraf@csgraf.de>
+ cp12-20020a170902e78c00b00187022627d7sm4599716plb.36.2022.12.24.15.57.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Dec 2022 15:57:21 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221223090107.98888-1-agraf@csgraf.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org,
+	philmd@linaro.org
+Subject: [PATCH v5 00/43] tcg misc patches
+Date: Sat, 24 Dec 2022 15:56:37 -0800
+Message-Id: <20221224235720.842093-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,37 +88,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/23/22 01:01, Alexander Graf wrote:
-> The finalize_gic_version() function tries to determine which GIC version
-> the current accelerator / host combination supports. During the initial
-> HVF porting efforts, I didn't realize that I also had to touch this
-> function. Then Zenghui brought up this function as reply to my HVF GICv3
-> enablement patch - and boy it is a mess.
-> 
-> This patch set cleans up all of the GIC finalization so that we can
-> easily plug HVF in and also hopefully will have a better time extending
-> it in the future. As second step, it explicitly adds HVF support and
-> fails loudly for any unsupported accelerators.
-> 
-> Alex
-> 
-> v1 -> v2:
-> 
->    - Leave VIRT_GIC_VERSION defines intact, we need them for MADT generation
->    - Include TCG header for tcg_enabled()
-> 
-> v2 -> v3:
-> 
->    - Fix comment
->    - Flip kvm-enabled logic for host around
-> 
-> Alexander Graf (2):
->    hw/arm/virt: Consolidate GIC finalize logic
->    hw/arm/virt: Make accels in GIC finalize logic explicit
+For v5, I've not omitted some of the reviewed patches, as I did for v4.
+There are only a couple of patches lacking review:
 
-Series:
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  15-tcg-Fix-tcg_reg_alloc_dup.patch
+  19-tcg-Introduce-paired-register-allocation.patch
+  36-tcg-Vary-the-allocation-size-for-TCGOp.patch
+  38-tcg-Reorg-function-calls.patch
+
 
 r~
+
+
+Mark Cave-Ayland (1):
+  tcg: convert tcg/README to rst
+
+Philippe Mathieu-Daudé (5):
+  tcg/s390x: Fix coding style
+  tcg: Massage process_op_defs()
+  tcg: Pass number of arguments to tcg_emit_op() / tcg_op_insert_*()
+  tcg: Convert typecode_to_ffi from array to function
+  tcg: Factor init_ffi_layouts() out of tcg_context_init()
+
+Richard Henderson (37):
+  meson: Move CONFIG_TCG_INTERPRETER to config_host
+  tcg: Cleanup trailing whitespace
+  qemu/main-loop: Introduce QEMU_IOTHREAD_LOCK_GUARD
+  hw/mips: Use QEMU_IOTHREAD_LOCK_GUARD in cpu_mips_irq_request
+  target/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in ppc_maybe_interrupt
+  target/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in cpu_interrupt_exittb
+  target/riscv: Use QEMU_IOTHREAD_LOCK_GUARD in riscv_cpu_update_mip
+  hw/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in ppc_set_irq
+  accel/tcg: Use QEMU_IOTHREAD_LOCK_GUARD in io_readx/io_writex
+  tcg: Tidy tcg_reg_alloc_op
+  tcg: Remove TCG_TARGET_STACK_GROWSUP
+  tci: MAX_OPC_PARAM_IARGS is no longer used
+  tcg: Fix tcg_reg_alloc_dup*
+  tcg: Centralize updates to reg_to_temp
+  tcg: Remove check_regs
+  tcg: Introduce paired register allocation
+  accel/tcg: Set cflags_next_tb in cpu_common_initfn
+  target/sparc: Avoid TCGV_{LOW,HIGH}
+  tcg: Move TCG_{LOW,HIGH} to tcg-internal.h
+  tcg: Add temp_subindex to TCGTemp
+  tcg: Simplify calls to temp_sync vs mem_coherent
+  tcg: Allocate TCGTemp pairs in host memory order
+  tcg: Move TCG_TYPE_COUNT outside enum
+  tcg: Introduce tcg_type_size
+  tcg: Introduce TCGCallReturnKind and TCGCallArgumentKind
+  tcg: Replace TCG_TARGET_CALL_ALIGN_ARGS with TCG_TARGET_CALL_ARG_I64
+  tcg: Replace TCG_TARGET_EXTEND_ARGS with TCG_TARGET_CALL_ARG_I32
+  tcg: Use TCG_CALL_ARG_EVEN for TCI special case
+  accel/tcg/plugin: Don't search for the function pointer index
+  accel/tcg/plugin: Avoid duplicate copy in copy_call
+  accel/tcg/plugin: Use copy_op in append_{udata,mem}_cb
+  tcg: Vary the allocation size for TCGOp
+  tcg: Use output_pref wrapper function
+  tcg: Reorg function calls
+  tcg: Move ffi_cif pointer into TCGHelperInfo
+  tcg/aarch64: Merge tcg_out_callr into tcg_out_call
+  tcg: Add TCGHelperInfo argument to tcg_out_call
+
+ docs/devel/atomics.rst           |    2 +
+ docs/devel/index-tcg.rst         |    1 +
+ docs/devel/tcg-ops.rst           |  941 +++++++++++++++++
+ docs/devel/tcg.rst               |    2 +-
+ meson.build                      |    4 +-
+ include/exec/helper-head.h       |    2 +-
+ include/qemu/main-loop.h         |   29 +
+ include/tcg/tcg-op.h             |   35 +-
+ include/tcg/tcg.h                |   96 +-
+ tcg/aarch64/tcg-target.h         |    4 +-
+ tcg/arm/tcg-target.h             |    4 +-
+ tcg/i386/tcg-target.h            |    2 +
+ tcg/loongarch64/tcg-target.h     |    3 +-
+ tcg/mips/tcg-target.h            |    4 +-
+ tcg/riscv/tcg-target.h           |    7 +-
+ tcg/s390x/tcg-target.h           |    3 +-
+ tcg/sparc64/tcg-target.h         |    3 +-
+ tcg/tcg-internal.h               |   58 +-
+ tcg/tci/tcg-target.h             |    7 +
+ accel/tcg/cputlb.c               |   25 +-
+ accel/tcg/plugin-gen.c           |   54 +-
+ hw/core/cpu-common.c             |    1 +
+ hw/mips/mips_int.c               |   11 +-
+ hw/ppc/ppc.c                     |   10 +-
+ target/ppc/excp_helper.c         |   11 +-
+ target/ppc/helper_regs.c         |   14 +-
+ target/riscv/cpu_helper.c        |   10 +-
+ target/sparc/translate.c         |   21 +-
+ tcg/optimize.c                   |   10 +-
+ tcg/tcg-op-vec.c                 |   10 +-
+ tcg/tcg-op.c                     |   49 +-
+ tcg/tcg.c                        | 1655 +++++++++++++++++++-----------
+ tcg/tci.c                        |    1 -
+ tcg/aarch64/tcg-target.c.inc     |   19 +-
+ tcg/arm/tcg-target.c.inc         |   10 +-
+ tcg/i386/tcg-target.c.inc        |    5 +-
+ tcg/loongarch64/tcg-target.c.inc |    7 +-
+ tcg/mips/tcg-target.c.inc        |    3 +-
+ tcg/ppc/tcg-target.c.inc         |   36 +-
+ tcg/riscv/tcg-target.c.inc       |    7 +-
+ tcg/s390x/tcg-target.c.inc       |   32 +-
+ tcg/sparc64/tcg-target.c.inc     |    3 +-
+ tcg/tci/tcg-target.c.inc         |    7 +-
+ tcg/README                       |  784 --------------
+ 44 files changed, 2304 insertions(+), 1698 deletions(-)
+ create mode 100644 docs/devel/tcg-ops.rst
+ delete mode 100644 tcg/README
+
+-- 
+2.34.1
 
 
