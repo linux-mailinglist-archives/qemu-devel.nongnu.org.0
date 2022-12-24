@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0DC655AD5
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 18:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D19655AD6
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 18:33:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p98O1-0003SC-Ta; Sat, 24 Dec 2022 12:32:41 -0500
+	id 1p98OL-0003ZH-A3; Sat, 24 Dec 2022 12:33:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p98My-0003J4-HE
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 12:31:56 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+ id 1p98OJ-0003Y3-7Q
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 12:32:59 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p98Mw-0002XO-QU
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 12:31:36 -0500
-Received: by mail-pg1-x529.google.com with SMTP id w37so5072457pga.5
- for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 09:31:34 -0800 (PST)
+ id 1p98OG-0002hP-TJ
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 12:32:58 -0500
+Received: by mail-pf1-x430.google.com with SMTP id n3so5106486pfq.10
+ for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 09:32:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=pdRRwhksejbdrcCKw+JKb6eNznF1CUEjvihXr34XHAs=;
- b=xv2Ue0SYcpK0LeCMYqRj8ZHQ88pNV6lqRT0UcOwYUcl3BT4VgNA4doQIelUgmH/EiI
- z4fn5T7DxdNhLa8mImYNixI4BQZ3bhL62nzSj/Hr3i3dtoYaEFgbNXuBbiAqxc0dX3RL
- 6JDNXcAsDgm9+RuPyHDyT9uJ2GbWFDi31wNvNIOU1WpjeVzfgGJTIRQcU86qpYpAy1gL
- TITEylmFVmM0mu0YxSA5P8Yr4qlNCfBhRg6LmTQaNg5r9s4c0OX8OowzaY64DRuhXR5A
- wFh5B/S2pYMaeCVfyAgsLfKrHZocIcjs8wsIN9YR06wjIY2NICwcpvHdE281kltpZ51q
- Uslg==
+ bh=egLvCV8ic8eY4PldT5NgzkR3X+1oEzQ7NovdsOlpKbM=;
+ b=Hp3KFRaInxpUYgEE2zbwRGgFojZgYRTHoYdB84jYqA5QvWS+O5FMW6sKR0vIpvpbTs
+ R5R9AfsbnafDhnsdLXjXCVIXSl+qGIToowaLGp9fq3VPE06Vn6gAYZ5RiTDziRssRzee
+ T3dP6eLkfjqlV2sabUOx5rgLPj1QQ8+nKi5QcT/LeOZGtSXHf+PjRlcTdq4xttH3cpGU
+ FJ6tXSkx8NZxWmFbJimGpuYWsG6eOvgLwSe4JDJrlWESWVc0DOZOz8piQTdhIYjNpMXu
+ Oh1JEiUl4pnfKvQav+M8H5+e+uu6+jDdK61JDcrsAP7GIx+5PpgOXWcuGgJxQfV16dsF
+ zhbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pdRRwhksejbdrcCKw+JKb6eNznF1CUEjvihXr34XHAs=;
- b=jFEvIsqzUQKFf4PL8IjVyLlmns9Z3aPSQ/y1z4neAJQyz/qEeztAMzzRT/1Nxrb38x
- Fs3jT6lI+HyePfefywPR7Get+9sxNVlSKqy1FOlSlDCoC4iPPOhpnK/cQYugQ2GI+tl0
- 10swu+skiDRCLu4NGo/mvEYKwKA0pJnWaGCnmDKqLwDYD5hs/gt79gNC4slvy44cYRaI
- kFYFNQJxHu+pHXCZMgCuVv6nbKosP/DJ1ETQPNxchKrWOcqJCwwNSF/FsBeUgaQvwuaQ
- 2k/Iif7yClir0TbhMBU17Leq4E+KTVHwWQVyyX1TtlZm8jEXJ8uuutX7B4sCSUV8f8hX
- ujTA==
-X-Gm-Message-State: AFqh2kpuRRXVKnIqcvsk7iioTm7/oIpxeOaNDyj8oJfBpMjKpv0XdPIo
- sN/+amPqoQWz3JKUcsqpFJRIAg==
-X-Google-Smtp-Source: AMrXdXsczMiNhrgacytHjnCTKJBZGmADYwr8zorO8ZO2HMUBQJx5jD1CI1STVuvywNXv9cjBBFZi0w==
-X-Received: by 2002:aa7:8c46:0:b0:575:ff07:cb1e with SMTP id
- e6-20020aa78c46000000b00575ff07cb1emr16253805pfd.31.1671903093253; 
- Sat, 24 Dec 2022 09:31:33 -0800 (PST)
+ bh=egLvCV8ic8eY4PldT5NgzkR3X+1oEzQ7NovdsOlpKbM=;
+ b=pzfERk76+RXXiXttnnHAFy5E/b5CgYl6JkIt2SDqtHvJw10cC2u7byUohkeojH9hQS
+ mNp8WkY12HFamDRvY4kbVpun9102aWCPoJwG4eXwAaf8tOv43AZU4lm65SKgcBqCrRTh
+ Uwj/hftp843hxsn3v8f09Z5e3ioutUo/oV5yOS0X4UwPsxCnaRzYHryyntfr1Zex2Anr
+ C9a9qH/IoM9no1JGeG6w9lksTp/26D6gI06BK4c3W04IUv/4X2dYxgalPh9sx4kZSxOz
+ pxv/gk1lx+bzba04XP/MKQXbCVP6o3qkqHdAqskhrxhv+tpzrgX7Sdp2UA7AKfbcXpbB
+ QM+Q==
+X-Gm-Message-State: AFqh2kpaco650hn0tlwiGGhbUOeCSIJoUjqRxqiSqZtdS377zkrVoJ+Q
+ jU7VTKQ4zTVH0X65+zbShp2k6fYuGFrj6KeR
+X-Google-Smtp-Source: AMrXdXtchnkv4Cjz+b060INQgLkWme+tGbClmmW2Fx4YsK8OIBi4N0d361U9yNMOQDZ0ndKPPYzcxQ==
+X-Received: by 2002:a62:6143:0:b0:577:3546:d7be with SMTP id
+ v64-20020a626143000000b005773546d7bemr15042551pfb.30.1671903171378; 
+ Sat, 24 Dec 2022 09:32:51 -0800 (PST)
 Received: from [172.16.2.110] (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- c22-20020a621c16000000b0057716769289sm4303543pfc.196.2022.12.24.09.31.32
+ k8-20020aa79728000000b00575caf80d08sm4386996pfg.31.2022.12.24.09.32.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Dec 2022 09:31:32 -0800 (PST)
-Message-ID: <a579bc16-87bb-b432-372c-91fdef6d2e7d@linaro.org>
-Date: Sat, 24 Dec 2022 09:31:30 -0800
+ Sat, 24 Dec 2022 09:32:50 -0800 (PST)
+Message-ID: <fd5e8513-8890-ca06-194c-4ea4538bc7f3@linaro.org>
+Date: Sat, 24 Dec 2022 09:32:49 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 08/43] target/loongarch: Implement vsadd/vssub
+Subject: Re: [RFC PATCH 01/43] target/loongarch: Add vector data type vec_t
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-9-gaosong@loongson.cn>
+ <20221224081633.4185445-2-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221224081633.4185445-9-gaosong@loongson.cn>
+In-Reply-To: <20221224081633.4185445-2-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -93,24 +93,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/24/22 00:15, Song Gao wrote:
-> +TRANS(vsadd_b, gen_vvv, gen_helper_vsadd_b)
-> +TRANS(vsadd_h, gen_vvv, gen_helper_vsadd_h)
-> +TRANS(vsadd_w, gen_vvv, gen_helper_vsadd_w)
-> +TRANS(vsadd_d, gen_vvv, gen_helper_vsadd_d)
-> +TRANS(vsadd_bu, gen_vvv, gen_helper_vsadd_bu)
-> +TRANS(vsadd_hu, gen_vvv, gen_helper_vsadd_hu)
-> +TRANS(vsadd_wu, gen_vvv, gen_helper_vsadd_wu)
-> +TRANS(vsadd_du, gen_vvv, gen_helper_vsadd_du)
-> +TRANS(vssub_b, gen_vvv, gen_helper_vssub_b)
-> +TRANS(vssub_h, gen_vvv, gen_helper_vssub_h)
-> +TRANS(vssub_w, gen_vvv, gen_helper_vssub_w)
-> +TRANS(vssub_d, gen_vvv, gen_helper_vssub_d)
-> +TRANS(vssub_bu, gen_vvv, gen_helper_vssub_bu)
-> +TRANS(vssub_hu, gen_vvv, gen_helper_vssub_hu)
-> +TRANS(vssub_wu, gen_vvv, gen_helper_vssub_wu)
-> +TRANS(vssub_du, gen_vvv, gen_helper_vssub_du)
+> +union vec_t {
+> +    int8_t   B[LSX_LEN / 8];
+> +    int16_t  H[LSX_LEN / 16];
+> +    int32_t  W[LSX_LEN / 32];
+> +    int64_t  D[LSX_LEN / 64];
+> +    __int128 Q[LSX_LEN / 128];
 
-These can be implemented with tcg_gen_gvec_{ssadd,sssub,usadd,ussub}.
+Oh, you can't use __int128 directly.
+It won't compile on 32-bit hosts.
 
 
 r~
