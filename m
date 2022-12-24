@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89943655A60
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 15:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F6F655A67
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Dec 2022 16:03:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p95mo-0005Zp-P3; Sat, 24 Dec 2022 09:46:06 -0500
+	id 1p962D-0000kQ-Or; Sat, 24 Dec 2022 10:02:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p95mk-0005ZG-Mf
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 09:46:03 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1p9625-0000jt-RV
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 10:01:59 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1p95mi-0006R0-UK
- for qemu-devel@nongnu.org; Sat, 24 Dec 2022 09:46:02 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- n65-20020a17090a2cc700b0021bc5ef7a14so7362267pjd.0
- for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 06:46:00 -0800 (PST)
+ id 1p9621-0001od-BP
+ for qemu-devel@nongnu.org; Sat, 24 Dec 2022 10:01:52 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id v23so7324981pju.3
+ for <qemu-devel@nongnu.org>; Sat, 24 Dec 2022 07:01:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=qB/s00W2pJ0Txsdc2sbVF6t5CdAf8WdzFkoAKT7ygZQ=;
- b=Y5ocu+7JjQMUNb3VPffwN+VASQxqB0e7OLJmMlvY3Kb14zYd2Jeq+LIkNfeTux7lfD
- GoWpSOuAk+x09Jty4YcE1Oy+yv1qhDau7Ue1l17oURqckEkgV47tlN1vDRIHIKZAwNDK
- vR7ddPurUFmCy5nB0OWDfJPvihsxkVDfWUWNTz1NMOqKEj6OB1UXdB0bjlld7nq3NIFM
- HFb0Dn52MHDmkmmc7zKka83J5bmKDJS5Q96CnUn4UtURyDLwmIv0pZZ5p4qO1bPOWKb+
- aExeU9GaxmEJouDNQC8A4Sdkrxr4OHb8NPRPYZkd5vSyKnW+IK+Gq33AB0GC4sp4zLus
- 4zRg==
+ bh=zjI3oMgF56jERWQgkJfdPzOV4yk438YaviMLyf+4xJA=;
+ b=yK59vFsgxUjT63ll3YgDE+11LG+4wKfW99fhMZYDysSGaWa4Oern6VX8SfwnvsLE7z
+ sOYbUGLF2qVKsP+VRCOuGsWbCiQrMfs/83TIszujSS9aV20DnG3DdaW26kK+p0zPNbSv
+ Eqee5hqjY9gcwre0vil9Iog6G7XQeA5aK0lNdHbogpIFT/E1n27P24Mpbs+H//1vG3Mh
+ audaww96/Gh2R+FKYIW+cIlX1upRFSDtC3ZX6oA6IytO/6DXeqZMvSY4KyFh2uyOMRX+
+ pG28zkad/8uczoeKZHAM5naWac7m31DVZQc3NsQ8IEwQ30zu1TlrLYdzxKzMimgz8pp7
+ P72Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qB/s00W2pJ0Txsdc2sbVF6t5CdAf8WdzFkoAKT7ygZQ=;
- b=MiQb+dGV2x+dJvDHwwTYGZFGat1a+zjFVRQCAIdsERKrNiHWaChGGheC2ziPUth7NX
- 0FYG4e7mNRSQR2A9Ncpjld2peCMnzVRMkkqC/3iz3mC0LuIu6xbSZm8ob93omcRcrZIq
- ErbV8L1EVY02IPE64AAUVrW2XsPvGJFJbzTqQ/vn26hr+2eeRwgk3TiITWqnbxm39A2/
- EQEa7vGBz649zaJ8YWj8hyXTWzIvElICVcvd76PENgRgMw2au/egkUf3NEvM6PtfBspU
- BHz6fwhSNnqceXeNQVY8caGA7TqtK2jOQySTqHnP00z3Evy9iDkE3e5f6W+oo8iEtgT2
- ulVQ==
-X-Gm-Message-State: AFqh2kpVERE/McNUYIhaUPOGmo6xiN4mLMew5eaVYpI+5rJS9OzPtH0o
- ++Iuglwzjo9Tgk+O56ILXp1F4w==
-X-Google-Smtp-Source: AMrXdXtLc4Gxjvqp3QBQdV9dlAX3YN4O8l1yo4nxPlha3z8QpdxlEHaHjbJm7ObSCBn+Iu6pZMfyFA==
-X-Received: by 2002:a17:902:f24c:b0:189:7d30:7623 with SMTP id
- j12-20020a170902f24c00b001897d307623mr13489212plc.30.1671893158931; 
- Sat, 24 Dec 2022 06:45:58 -0800 (PST)
+ bh=zjI3oMgF56jERWQgkJfdPzOV4yk438YaviMLyf+4xJA=;
+ b=M9Oe+YDb+CUVVR+raSyny2jhTBfLLqPMTOm2Cf7q0tgH3xMcI0WQ/OtuZninwJA2EF
+ 2Gx8dXJYgUQe0KP2+ADSBvq1dwci76Xqoj2qzEpZ3JVw5EcjCbpVVPP2Y9jjG6g+rvuD
+ 3HFR+RyyCmTZp9pgfzBLJhihSqsc16zXc4MznVYLfxlX/1XatdSwmgY+Zt/nuBs/GWbv
+ yzDg0eC5EM/Z27wms+mRcd70KmYVoDOyus99DoZPGtI6Jbpm8qHRM9vZ7WfABN6t5W6y
+ z9kQbuGPmaNiApJ9a0xrylh0YgBavqfIiE/S6kPXf5dDbzQfj3TQhP5HtRIQ2HAvRZFV
+ SAwg==
+X-Gm-Message-State: AFqh2krpX5ksluk4haeb6hr5qEQ7/4exgOHnIt7eJmWtO0lXCUOZCHMS
+ xzfzZZLFAdHvC3yI5JSun2nmyg==
+X-Google-Smtp-Source: AMrXdXsTMmAbR10kAsxCr2blG8g+PHXK2vjFFqfx4ycDC2AM7mYDb6FJQN+dAibvZ6xe48ToHZWVPQ==
+X-Received: by 2002:a17:902:d887:b0:185:441e:2dda with SMTP id
+ b7-20020a170902d88700b00185441e2ddamr29064881plz.44.1671894107766; 
+ Sat, 24 Dec 2022 07:01:47 -0800 (PST)
 Received: from [172.16.2.110] (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- n14-20020a170902d2ce00b00189a7fbff33sm4159025plc.170.2022.12.24.06.45.57
+ d22-20020a170902aa9600b00189c93ce5easm4175299plr.166.2022.12.24.07.01.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Dec 2022 06:45:58 -0800 (PST)
-Message-ID: <ee90a980-98b7-4eaf-3230-7efac0336cde@linaro.org>
-Date: Sat, 24 Dec 2022 06:45:56 -0800
+ Sat, 24 Dec 2022 07:01:47 -0800 (PST)
+Message-ID: <4eec4a70-e450-4b46-9588-54a884c71b9d@linaro.org>
+Date: Sat, 24 Dec 2022 07:01:45 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PULL v2 07/14] accel/tcg: Use interval tree for user-only page
- tracking
-To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20221221050313.2950701-1-richard.henderson@linaro.org>
- <20221221050313.2950701-8-richard.henderson@linaro.org>
- <20221223143239.t47nod56iu7p4xbg@heavy>
+Subject: Re: [PATCH] tests/tcg/multiarch: add vma-pthread.c
 Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: qemu-devel@nongnu.org
+References: <20221223115348.tgfwdlektsulebxk@heavy>
+ <20221223120252.513319-1-iii@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221223143239.t47nod56iu7p4xbg@heavy>
+In-Reply-To: <20221223120252.513319-1-iii@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -97,55 +93,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/23/22 06:32, Ilya Leoshkevich wrote:
->> +    mmap_lock();
->> +    p = pageflags_find(address, address);
->> +    mmap_unlock();
-> 
-> How does the code ensure that p is not freed here?
-> 
->> +    return p ? p->flags : 0;
+On 12/23/22 04:02, Ilya Leoshkevich wrote:
+> +static void *thread_write(void *arg)
+> +{
+> +    struct context *ctx = arg;
+> +    struct timespec *ts;
+> +    size_t i, j;
+> +    int ret;
+> +
+> +    for (i = 0; ctx->mutator_count; i++) {
+> +        j = (i & PAGE_IDX_MASK) | PAGE_IDX_W_MASK;
+> +        /* Write directly. */
+> +        memcpy(&ctx->ptr[j * ctx->pagesize], nop_func, sizeof(nop_func));
+> +        /* Write using a syscall. */
+> +        ts = (struct timespec *)(&ctx->ptr[(j + 1) * ctx->pagesize] -
+> +                                 sizeof(struct timespec));
+> +        ret = clock_gettime(CLOCK_REALTIME, ts);
+> +        assert(ret == 0);
 
-Yep, need to use g_free_rcu.
+With the 3 issues that you pointed out in the other email, this is the only remaining 
+failure.  This happens because of two issues:
 
->> +    while (true) {
->> +        PageFlagsNode *p = pageflags_find(start, last);
-> 
-> We can end up here without mmap_lock if we come from the syscall code.
-> Do we need a retry like in page_get_flags()?
+(1) When checking for writability, we actually check for both read+write:
 
-Yep, need to retry.
+#define VERIFY_WRITE (PAGE_READ | PAGE_WRITE)
 
+This is very likely a bug, but we'd need to audit all uses to find out where we might 
+really want read+write.
 
-> Speaking of which: does lock_user() actually guarantee that it's safe
-> to access the respective pages until unlock_user()? If yes, doesn't
-> this mean that mmap_lock must be held between the two? And if no, and
-> the SEGV handler is already supposed to gracefully handle SEGVs in
-> syscall.c, do we need to call access_ok_untagged() there at all?
+> +static void *thread_mutate(void *arg)
+> +{
+> +    size_t i, start_idx, end_idx, page_idx, tmp;
+> +    struct context *ctx = arg;
+> +    unsigned int seed;
+> +    int prot, ret;
+> +
+> +    seed = (unsigned int)time(NULL);
+> +    for (i = 0; i < 50000; i++) {
+> +        start_idx = rand_r(&seed) & PAGE_IDX_MASK;
+> +        end_idx = rand_r(&seed) & PAGE_IDX_MASK;
+> +        if (start_idx > end_idx) {
+> +            tmp = start_idx;
+> +            start_idx = end_idx;
+> +            end_idx = tmp;
+> +        }
+> +        prot = rand_r(&seed) & (PROT_READ | PROT_WRITE | PROT_EXEC);
+> +        for (page_idx = start_idx & REGION_MASK; page_idx <= end_idx;
+> +             page_idx += PAGES_PER_REGION) {
+> +            if (page_idx & PAGE_IDX_R_MASK) {
+> +                prot |= PROT_READ;
+> +            }
+> +            if (page_idx & PAGE_IDX_W_MASK) {
+> +                prot |= PROT_WRITE;
+> +            }
+> +            if (page_idx & PAGE_IDX_X_MASK) {
+> +                prot |= PROT_EXEC;
+> +            }
 
-No, it doesn't, really guarantee anything.  We can't hold a lock across a blocking 
-syscall, so lock_user() can't really lock.  We do need to page_unprotect writable pages, 
-which is the main thing accomplished by the access_ok check.
+... and here we can wind up with write-only pages.
 
->> +        if (qemu_host_page_size <= TARGET_PAGE_SIZE) {
->> +            start = address & TARGET_PAGE_MASK;
->> +            len = TARGET_PAGE_SIZE;
->> +            prot = p->flags | PAGE_WRITE;
->> +            pageflags_set_clear(start, start + len - 1, PAGE_WRITE, 0);
->> +            current_tb_invalidated = tb_invalidate_phys_page_unwind(start, pc);
-> 
-> When we come from page_check_range(), pc == 0 and the assertion in
-> tb_invalidate_phys_page_unwind() fires.
-
-Yep, the assertion is wrong.
-
-
-> Should we pass
-> current_cpu->cc->get_pc() to page_unprotect() instead of 0, so that
-> current_tb is resolved to the TB that invoked the syscall?
-
-It's not a guest pc, but the host unwind pc, so, no.
+(2) Certain hardware, like x86_64, does not support write-only pages -- writable implies 
+readable -- so the testcase runs on some hardware.  It is a bug that we don't model this 
+as well.
 
 
 r~
+
 
