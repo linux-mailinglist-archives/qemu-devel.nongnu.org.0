@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444EE655D6D
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Dec 2022 15:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF979655EC1
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 00:18:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9SSV-00054b-6d; Sun, 25 Dec 2022 09:58:39 -0500
+	id 1p9aEz-0003yJ-EP; Sun, 25 Dec 2022 18:17:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p9SSS-000543-4d
- for qemu-devel@nongnu.org; Sun, 25 Dec 2022 09:58:36 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p9aEh-0003wM-Pk
+ for qemu-devel@nongnu.org; Sun, 25 Dec 2022 18:16:56 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p9SSQ-00016j-FL
- for qemu-devel@nongnu.org; Sun, 25 Dec 2022 09:58:35 -0500
-Received: by mail-ej1-x633.google.com with SMTP id u19so21878307ejm.8
- for <qemu-devel@nongnu.org>; Sun, 25 Dec 2022 06:58:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1p9aEg-0008CQ-0F
+ for qemu-devel@nongnu.org; Sun, 25 Dec 2022 18:16:55 -0500
+Received: by mail-ej1-x631.google.com with SMTP id x22so23261401ejs.11
+ for <qemu-devel@nongnu.org>; Sun, 25 Dec 2022 15:16:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=W3yW8H2imV4Jl/2LBRScJEFUeuwCJcdVkBRXAbX8mE0=;
- b=X+PLktEBPmYa29LC0iKL/b3s3+6uRxB9XByGH2yukjIG9NLUxh1LnXzEQtGO4id91c
- j57cMrvqQXxtUcQD2+XjvLTLh3WoWrLNemCM0SaqvuY1Q/bDzjIyK+yDBpkU8t7fFfD6
- 2X34GwF9dZd1YPIcKKWqt3w+3Hm7o3SToRP7U8mP4ctwAlu5SgqIVNKJJSPfOMXWF2Tu
- /knczEhjpMoXH2LhgqQGqRLvbv4jwHaDHXcfyLKPsnfGEcnMeE7Fh0AtfTVNoLuPxsQE
- Yo/9veQlfgDtAcRw7PtazfRRjAjuK7S8aJhLzdTwrN2foXKFjJn/OytAix88vutWbcwn
- oMvQ==
+ bh=SInUcKJLN8cROBM1zrTCvIqV1EKb5PI1zmCJ7piWEow=;
+ b=Y/c5e86LtUQMyXgrNtx9SOszMTQBHTK8bKtozyRaS20Hz7ovatPwchOkChU9iZgakE
+ nBldO1AQes8+aXisRWH9G3dHGIqQx1QB+vzQeqBRxNzpuZBdduRXH1FS+RnIu/WvVqUT
+ EdPJTRh6gGZuvE6y/fRlAkUGh9QCNyibnwMZwM3tgifgtxXAHd9kxA3HRqOtZ/EzAEdT
+ aSiu+vt/8gw6pIkujqPNLziAWERKv5rWuDUSIACT8EOqRTGDGFCzQFgLIAaM7oNQEWmx
+ fDjBKQkXWaZlW7DuB5NWjx0O0puIEoBnqfTkyHkAFsQ0zGYMzruFttrsVp6qH745YVcP
+ K14w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=W3yW8H2imV4Jl/2LBRScJEFUeuwCJcdVkBRXAbX8mE0=;
- b=I1bPZAKoFAMPwBVgyyNnfHn4e/oXAsmz9UCxNuOyaphQk9+TCD/WvahK8L4AefxMio
- I7lSmLu0Mc5GSHbf7+LRdUHFypfDPRsnRrNfSUg0qyVqQVW0daQDQAmsb27qGFSjhK4b
- oAIYyEBBWV7Zk3FbfwOT7Q01G+MHMYLXLtoi4SnoofVSGFj1U36Wcvs/InJfuktW/Ugr
- 6O0Cf91iIowBPkbZIRSS/DLQK81oswrODGUFb36odIaOWpGWKMrOJUdlklDBdsd8fG1u
- XL9llAoMytkzIiAbRkDCGjH76FOLEzwS7wEsErl6ahHMA6fX263y54fgfzMuHrFOLKSw
- uQPg==
-X-Gm-Message-State: AFqh2kruuw703ayUXAJu7zW8AwDKi60SkAYDoxx+M/W+K5LlY6I7RVE6
- IddObcOKLsCuHqUzh4SFb09tSeavS6g=
-X-Google-Smtp-Source: AMrXdXtPTXIm+rcXnjHXRHVXC4Wizl5S/X1/0scx1FwOALduXp8E2u3TTIetTil3W0zpOdGNFMq+HA==
-X-Received: by 2002:a17:906:9c96:b0:7c1:1c5:c7cd with SMTP id
- fj22-20020a1709069c9600b007c101c5c7cdmr14390727ejc.5.1671980312089; 
- Sun, 25 Dec 2022 06:58:32 -0800 (PST)
+ bh=SInUcKJLN8cROBM1zrTCvIqV1EKb5PI1zmCJ7piWEow=;
+ b=04/jLkiMepAaEuHMUYlpNXtRqkaxQQtpdh0CxidEVUXu9R6o1H+019PqpvKUS7bVz1
+ WU89nPoIkT4dNFWA1NM+ZlcfrVECBcw7OYFzZkKMRrzuZ/jGOTbqQxkRBlVIZvdtyqs7
+ tMeqJaMNjmJU7QLopOfaZUodrQ9Jg4utRixnTXnhSDcPkI7UMUtOEdJ4K9DGa/4pAEl5
+ AxpNcEnPXZqrc6SIoh2tw7dgqDCa9yDArHqenvPF+z8d/z/+vFAP/QwusMyn8WwXi8pT
+ 5fHgmMY5Gmumn5eVhIDe3lZuFuJCb4HP7BgHnobrDScR2h278VyuFLJ6ArSjX3dV1F9e
+ hbHw==
+X-Gm-Message-State: AFqh2kqPXktw6jk5YY0h9VrGyHkDs4Mu/QDC+e2zLpQfPRIfK5trXOmR
+ xk6dM/JRDfAuzZ63RzjZJil912GevK4=
+X-Google-Smtp-Source: AMrXdXuEBLrIjimiW2hn7ZnDT/nUWaoFnTMJWOlsNeEN8OyzKMbp4CSALJbSbn++BhiEKkeymADnUQ==
+X-Received: by 2002:a17:906:3707:b0:828:76a3:e6bf with SMTP id
+ d7-20020a170906370700b0082876a3e6bfmr16516133ejc.50.1672010211157; 
+ Sun, 25 Dec 2022 15:16:51 -0800 (PST)
 Received: from ?IPv6:::1?
- (p200300faaf0bb200b1286fdb95791fba.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:b128:6fdb:9579:1fba])
+ (p200300faaf0bb20074fe6f92c82370a4.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:74fe:6f92:c823:70a4])
  by smtp.gmail.com with ESMTPSA id
- hz8-20020a1709072ce800b007b839689adesm3746343ejc.166.2022.12.25.06.58.31
+ r4-20020a17090638c400b007c16f120aacsm4091450ejd.121.2022.12.25.15.16.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Dec 2022 06:58:31 -0800 (PST)
-Date: Sun, 25 Dec 2022 14:58:28 +0000
+ Sun, 25 Dec 2022 15:16:50 -0800 (PST)
+Date: Sun, 25 Dec 2022 23:16:45 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org, Qiang Liu <cyruscyliu@gmail.com>
 CC: =?ISO-8859-1?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>,
@@ -62,13 +62,13 @@ CC: =?ISO-8859-1?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>,
 Subject: Re: [PATCH] hw/audio/c97: fix abort in audio_calloc()
 In-Reply-To: <20221225121357.498040-1-cyruscyliu@gmail.com>
 References: <20221225121357.498040-1-cyruscyliu@gmail.com>
-Message-ID: <7E87B6CB-F309-41BC-B069-C443034B6A66@gmail.com>
+Message-ID: <6302EB41-FC6A-49FE-AAFC-881FEC3857FB@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,6 +95,12 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Am 25=2E Dezember 2022 12:13:57 UTC schrieb Qiang Liu <cyruscyliu@gmail=2E=
 com>:
+
+There is an 'a' missing in the topic: It should be ac97, not c97=2E
+
+Best regards,
+Bernhard
+
 >Section 5=2E10=2E2 of the AC97 specification (https://hands=2Ecom/~lkcl/a=
 c97_r23=2Epdf)
 >shows the feasibility to support for rates other than 48kHZ=2E Specifical=
@@ -134,15 +140,6 @@ uint32_t val)
 >+                dolog("Attempt to set front DAC rate to %d, but valid is=
 "
 >+                      "8-48kHZ\n", val);
-
-We probably want to log a guest error here=2E Not only does this communica=
-te clearly where the problem is (-> in guest code) but it is also incredibl=
-y useful for development (think of reusing this code in other device models=
- such as vt82c686b if applicable)=2E
-
-Best regards,
-Bernhard
-
 >+            }
 >         } else {
 >             dolog("Attempt to set front DAC rate to %d, but VRA is not s=
