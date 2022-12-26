@@ -2,79 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5C5656448
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 17:59:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8A66564AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 19:51:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9qnM-00048y-1v; Mon, 26 Dec 2022 11:57:48 -0500
+	id 1p9sYH-0002Uf-G8; Mon, 26 Dec 2022 13:50:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Dxcw=4Y=zx2c4.com=Jason@kernel.org>)
- id 1p9qnK-00048q-KH
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 11:57:46 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1p9sYF-0002UV-Sn
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 13:50:19 -0500
+Received: from mailout06.t-online.de ([194.25.134.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Dxcw=4Y=zx2c4.com=Jason@kernel.org>)
- id 1p9qnF-0006Nx-Qy
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 11:57:46 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id AEACEB80D68;
- Mon, 26 Dec 2022 16:57:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD4B7C433EF;
- Mon, 26 Dec 2022 16:57:36 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="b6POVW8y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1672073853;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WIE3Z+cKtBnA8yyHSJ3TV6iPDq1ETA37GJq6ok6agec=;
- b=b6POVW8yEcfP7tPgzQ7TRtlOal2frw2gJhyxTHnfPwvZLzRkfcu/ZvZo9GN3NYBv0WGWum
- Gs4ULzuh3nXE7ld7n+E8K1bpyHRb9AbbcdaTcAb16aydVznl/eWc6Hg3p92r263zpwS3os
- WFupn1O+/WUSx2mfPn2ca2VDAuU7uwo=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id abdc5615
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Mon, 26 Dec 2022 16:57:33 +0000 (UTC)
-Date: Mon, 26 Dec 2022 17:57:30 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Eric Biggers <ebiggers@kernel.org>, x86@kernel.org, linux-mm@kvack.org
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
-Message-ID: <Y6nSel5/wdnoSFpk@zx2c4.com>
-References: <20220921093134.2936487-1-Jason@zx2c4.com>
- <20220921093134.2936487-4-Jason@zx2c4.com>
- <Y6ZESPx4ettBLuMt@sol.localdomain> <Y6ZtVGtFpUNQP+KU@zx2c4.com>
- <Y6Z+WpqN59ZjIKkk@zx2c4.com> <Y6muh1E1fNOot+VZ@zx2c4.com>
- <Y6my+Oiz67G46snj@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1p9sYD-0005Tc-L4
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 13:50:19 -0500
+Received: from fwd74.dcpf.telekom.de (fwd74.aul.t-online.de [10.223.144.100])
+ by mailout06.t-online.de (Postfix) with SMTP id 731466602;
+ Mon, 26 Dec 2022 19:50:14 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.21.92]) by fwd74.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1p9sY8-4UMiZd0; Mon, 26 Dec 2022 19:50:12 +0100
+Message-ID: <4cef8c93-00ee-d1ad-77f5-7a328795e58c@t-online.de>
+Date: Mon, 26 Dec 2022 19:50:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH] hw/audio/c97: fix abort in audio_calloc()
+To: Qiang Liu <cyruscyliu@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+References: <20221225121357.498040-1-cyruscyliu@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20221225121357.498040-1-cyruscyliu@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y6my+Oiz67G46snj@zx2c4.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=Dxcw=4Y=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TOI-EXPURGATEID: 150726::1672080612-CACB7B6F-7670EEAB/0/0 CLEAN NORMAL
+X-TOI-MSGID: e2cc2cbb-a8ae-4ea4-9f0c-2524e62669ec
+Received-SPF: none client-ip=194.25.134.19; envelope-from=vr_qemu@t-online.de;
+ helo=mailout06.t-online.de
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,102 +65,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 26, 2022 at 03:43:04PM +0100, Jason A. Donenfeld wrote:
-> On Mon, Dec 26, 2022 at 03:24:07PM +0100, Jason A. Donenfeld wrote:
-> > Hi,
-> > 
-> > I'm currently stumped at the moment, so adding linux-mm@ and x86@. Still
-> > working on it though. Details of where I'm at are below the quote below.
-> > 
-> > On Sat, Dec 24, 2022 at 05:21:46AM +0100, Jason A. Donenfeld wrote:
-> > > On Sat, Dec 24, 2022 at 04:09:08AM +0100, Jason A. Donenfeld wrote:
-> > > > Hi Eric,
-> > > > 
-> > > > Replying to you from my telephone, and I'm traveling the next two days,
-> > > > but I thought I should mention some preliminary results right away from
-> > > > doing some termux compiles:
-> > > > 
-> > > > On Fri, Dec 23, 2022 at 04:14:00PM -0800, Eric Biggers wrote:
-> > > > > Hi Jason,
-> > > > > 
-> > > > > On Wed, Sep 21, 2022 at 11:31:34AM +0200, Jason A. Donenfeld wrote:
-> > > > > > This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
-> > > > > > for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
-> > > > > > 
-> > > > > > Cc: Laurent Vivier <laurent@vivier.eu>
-> > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > > Cc: Peter Maydell <peter.maydell@linaro.org>
-> > > > > > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > > > > > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > > > > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > > > > > ---
-> > > > > >  hw/i386/microvm.c | 2 +-
-> > > > > >  hw/i386/pc_piix.c | 3 ++-
-> > > > > >  hw/i386/pc_q35.c  | 3 ++-
-> > > > > >  3 files changed, 5 insertions(+), 3 deletions(-)
-> > > > > > 
-> > > > > 
-> > > > > After upgrading to QEMU 7.2, Linux 6.1 no longer boots with some configs.  There
-> > > > > is no output at all.  I bisected it to this commit, and I verified that the
-> > > > > following change to QEMU's master branch makes the problem go away:
-> > > > > 
-> > > > > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> > > > > index b48047f50c..42f5b07d2f 100644
-> > > > > --- a/hw/i386/pc_piix.c
-> > > > > +++ b/hw/i386/pc_piix.c
-> > > > > @@ -441,6 +441,7 @@ static void pc_i440fx_8_0_machine_options(MachineClass *m)
-> > > > >      pc_i440fx_machine_options(m);
-> > > > >      m->alias = "pc";
-> > > > >      m->is_default = true;
-> > > > > +    PC_MACHINE_CLASS(m)->legacy_no_rng_seed = true;
-> > > > >  }
-> > > > > 
-> > > > > I've attached the kernel config I am seeing the problem on.
-> > > > > 
-> > > > > For some reason, the problem also goes away if I disable CONFIG_KASAN.
-> > > > > 
-> > > > > Any idea what is causing this?
-> > > > 
-> > > > - Commenting out the call to parse_setup_data() doesn't fix the issue.
-> > > >   So there's no KASAN issue with the actual parser.
-> > > > 
-> > > > - Using KASAN_OUTLINE rather than INLINE does fix the issue!
-> > > > 
-> > > > That makes me suspect that it's file size related, and QEMU or the BIOS
-> > > > is placing setup data at an overlapping offset by accident, or something
-> > > > similar.
-> > > 
-> > > I removed the file systems from your config to bring the kernel size
-> > > back down, and voila, it works, even with KASAN_INLINE. So perhaps I'm
-> > > on the right track here...
-> > 
-> > QEMU sticks setup_data after the kernel image, the same as kexec-tools
-> > and everything else. Apparently, when the kernel image is large, the
-> > call to early_memremap(boot_params.hdr.setup_data, ...) returns a value
-> > that points some place bogus, and the system crashes or does something
-> > weird. I haven't yet determined what this limit is, but in my current
-> > test kernel, a value of 0x0000000001327650 is enough to make it point to
-> > rubbish.
-> > 
-> > Is this expected? What's going on here?
-> 
-> Attaching gdb to QEMU and switching it to physical memory mode
-> (`maintenance packet Qqemu.PhyMemMode:1 `) indicates that it
-> early_memremap is actually working fine and something *else* is at this
-> address? That's kinda weird... Is KASAN populating physical addresses
-> immediately after the kernel image extremely early in boot? I'm seeing
-> the crash happen from early_reserve_memory()->
-> memblock_x86_reserve_range_setup_data(), which should be before
-> kasan_init() even runs. Is QEMU calculating kernel_size wrong, when it
-> goes to determine where to put the setup_data data? But that's the same
-> calculation as used everywhere else, so hmm...
-> 
-> Jason
+Am 25.12.22 um 13:13 schrieb Qiang Liu:
 
-If bzImage is 15770544 bytes, it does not boot. If bzImage is 15641776
-bytes, it does boot. So something is happening somewhat close to the
-16MB mark?
+Hi Qiang,
+
+I didn't receive your email probably because the reverse DNS entry of 
+your mail server isn't setup correctly.
+This is from the mail header of the qemu-devel mailing list server.
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 220.184.252.86 (failed)
+
+Did you see my patches at 
+https://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg02895.html ?
+Patches 01/11 and 02/11 prevent the disturbing error message from 
+audio_calloc and later patches remove the audio_calloc function.
+
+I think the subject of your patch isn't correct. Your patch doesn't fix 
+an abort in audio_calloc. In 
+https://gitlab.com/qemu-project/qemu/-/issues/1393 you correctly notice 
+this was already fixed.
+
+> Section 5.10.2 of the AC97 specification (https://hands.com/~lkcl/ac97_r23.pdf)
+> shows the feasibility to support for rates other than 48kHZ. Specifically,
+> AC97_PCM_Front_DAC_Rate (reg 2Ch) should be from 8kHZ to 48kHZ.
+
+I think you misread section 5.10.2 of the AC97 Revision 2.3 
+specification. Section 5.10 is about S/PDIF concurrency. It doesn't say 
+anything about the lowest sample rate limit without concurrent S/PDIF 
+transmission. The emulated SigmaTel STAC9700 codec doesn't even have a 
+S/PDIF output. But I have an example for sample rates lower than 8kHz. 
+The Texas Instruments LM4546B is an AC97 codec which supports sample 
+rates from 4kHz - 48kHz.
+
+The STAC9700 is a 48kHz fixed rate codec. You won't find anything about 
+the highest or lowest sample rate in its data sheet. Someone added the 
+VRA and VRM modes in QEMU and the guest drivers don't seem to mind.
+
+I would like to keep the ability to select a 1Hz sample rate, as there 
+is no reason to artificially limit the lowest supported sample rate. See 
+https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg03987.html
+
+I would support a patch to limit the VRA and VRM modes to the highest 
+supported rate of 48kHz. This is a technical limit for single data rate.
+
+> Before Volker Rümelin fixed it in 12f4abf6a245 and 0cbc8bd4694f, an adversary
+> could leverage this to crash QEMU.
+>
+> Fixes: e5c9a13e2670 ("PCI AC97 emulation by malc.")
+> Reported-by: Volker Rümelin<vr_qemu@t-online.de>
+> Reported-by: Qiang Liu<cyruscyliu@gmail.com>
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1393
+> Signed-off-by: Qiang Liu<cyruscyliu@gmail.com>
+> ---
+>   hw/audio/ac97.c | 11 ++++++++---
+>   1 file changed, 8 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
+> index be2dd701a4..826411e462 100644
+> --- a/hw/audio/ac97.c
+> +++ b/hw/audio/ac97.c
+> @@ -625,9 +625,14 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
+>           break;
+>       case AC97_PCM_Front_DAC_Rate:
+>           if (mixer_load(s, AC97_Extended_Audio_Ctrl_Stat) & EACS_VRA) {
+> -            mixer_store(s, addr, val);
+> -            dolog("Set front DAC rate to %d\n", val);
+> -            open_voice(s, PO_INDEX, val);
+> +            if (val >= 8000 && val <= 48000) {
+> +                mixer_store(s, addr, val);
+> +                dolog("Set front DAC rate to %d\n", val);
+> +                open_voice(s, PO_INDEX, val);
+> +            } else {
+> +                dolog("Attempt to set front DAC rate to %d, but valid is"
+> +                      "8-48kHZ\n", val);
+
+This is not correct. If you limit the sample rate, you should echo back 
+the closest supported sample rate. See AC'97 2.3 Section 5.8.3. It's not 
+a guest error if the guest writes an unsupported sample rate to the 
+Audio Sample Rate Control Registers, which means it's also not necessary 
+to log this.
+
+With best regards,
+Volker
+
+> +            }
+>           } else {
+>               dolog("Attempt to set front DAC rate to %d, but VRA is not set\n",
+>                     val);
+
 
