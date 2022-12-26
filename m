@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A236562FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 15:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97FB86562FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 15:05:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9o4J-00071P-RD; Mon, 26 Dec 2022 09:03:07 -0500
+	id 1p9o6l-0000XT-8B; Mon, 26 Dec 2022 09:05:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p9o4H-00071A-1s
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 09:03:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1p9o6V-0000OU-Qr
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 09:05:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1p9o4F-0007Tb-GO
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 09:03:04 -0500
+ id 1p9o6S-0008FS-9u
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 09:05:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672063382;
+ s=mimecast20190719; t=1672063519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=n1uggNHteCn2Vc3YNETJXVLrnkJpJ4LxVqZ16PH/KNo=;
- b=LRNP32FwCD0ChHZF2yjDyLDuL8QxMg5a+Wpca2bmy7FiOlMQW+nHjXzKiLJ8zNLi5miFJP
- wUrMi+QdjA3YjiNqqgQtY15FyBfzOSs35HjWcRmcMA96gzT0JIsRtl0xzTwY1Xhn3hSX4U
- h/boedJYOHbqIWT6KPAa9yvnl6MdmKE=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BDr0xr7eIEB2Ro9+wkKivFMJ9VRC20JYPtL7wm03Drw=;
+ b=Qs83aJ+Y8PtA7tv1SHfv3ikj782PXo26yczEUUmu0aCD9c7Mb1C4BLyDEim7vVZUq8QzvC
+ 0Cq25YiIYFdL4Z+Zh8LPyd9rCtQct/MaNTrIpIIVQUKruUaH3WDQZRSGoz/1QAnrZNbpYS
+ 5YffStQZ6E/k1Fy2F3N3oC/qGrvg4L0=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-557-itOoyaKGNrW4D-ojZa5h5w-1; Mon, 26 Dec 2022 09:03:00 -0500
-X-MC-Unique: itOoyaKGNrW4D-ojZa5h5w-1
-Received: by mail-vs1-f69.google.com with SMTP id
- j68-20020a676e47000000b003c860388b23so664458vsc.3
- for <qemu-devel@nongnu.org>; Mon, 26 Dec 2022 06:03:00 -0800 (PST)
+ us-mta-186-0izsLS02N1-xJJW7Y-RYHQ-1; Mon, 26 Dec 2022 09:05:18 -0500
+X-MC-Unique: 0izsLS02N1-xJJW7Y-RYHQ-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ t30-20020a05610210de00b003c59346f348so1531266vsr.16
+ for <qemu-devel@nongnu.org>; Mon, 26 Dec 2022 06:05:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=n1uggNHteCn2Vc3YNETJXVLrnkJpJ4LxVqZ16PH/KNo=;
- b=0HB97uniY1JbqR9Mc//msSQWyNvO6Py/v+ETt3RDHr2nsENkcs4uOcVp9WwhHSFCoE
- pKVUQkoo8PUi1E6TMBzLcBVepF/0GAq5cxA6/JdcufgnvSwXSP/jlHH+f0v6yu6r2Zvr
- v5zksiP70+WUfZUHS4B57YnEA/eNMFBZgkdFbE6qQEcm1cEOylfdn/CRgJJwd/K8NAxr
- 9I4hHsUfIWwPJMnkjL4M04JhdZtup1vo/1BSESbIjNRMYlbFaqC36KPQSF1pRQVB3Ya3
- jPfvamdnp9Xi406dzNf9m7KVxvMd8oaApkoU9Bg5Zi1WrxBTQD3pwnEi9eJF6LZa3JLB
- pDzg==
-X-Gm-Message-State: AFqh2kpUJeTCRTzT++BWSv0eY67dKMw5GYvG+6cdAoFZAf46iJuFeyuP
- quRRUFkRPEbSZf2k4j2lrHFTqzrF1IV4NZ7h00ivk8HkVHDh3aTgtWZg8zki5MjeLeVRjTsrFg8
- H1lV3SJdIbDQZXXlz1HW3IVpZhkbbr2o=
-X-Received: by 2002:a67:fc8c:0:b0:3c6:68cd:6483 with SMTP id
- x12-20020a67fc8c000000b003c668cd6483mr694422vsp.1.1672063380191; 
- Mon, 26 Dec 2022 06:03:00 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsTD0S4vdNlAwN6pFrFGzh3RIYVzUOFSyRToaK0Ei+/bf3fXuDhpjVSGYoiRG6Q5JvwhgRX3xHPf2QFEYAtPeg=
-X-Received: by 2002:a67:fc8c:0:b0:3c6:68cd:6483 with SMTP id
- x12-20020a67fc8c000000b003c668cd6483mr694416vsp.1.1672063380022; Mon, 26 Dec
- 2022 06:03:00 -0800 (PST)
+ bh=BDr0xr7eIEB2Ro9+wkKivFMJ9VRC20JYPtL7wm03Drw=;
+ b=6OFsrGU0UauYHWHXlPMtv2OgAHswF5/QO9SNu7esCuKAYKFWwrrMuRPYo2/QjmKB/t
+ Fw6taIh6LDhymctKSEDwB/y6Bob4j/tjZAiIZrH5OXSOxchHbLywunOMfGPwD6kfNZhH
+ +bsY5Y0KL/ABFYyAXeq35WH8rxD7J17o1PgloQ0bHbpZqY+LoKfmO83XB0QERrGgfmns
+ QWlUdtwVUPpNUiKWgMdI6RXNgyQmccDn8mdVmMTjzQchHZ+TI4W92XSc8ib4LHPDGjxN
+ O37y6nxQHgwm+XNyPuALlXobbUUk/OZ6ccG57gFQ6XqnN2WxUEuNGN7ek7wKhxAhPSDM
+ Fo/w==
+X-Gm-Message-State: AFqh2kpiz/LDAe/khoXpbWpyh5hn1vKs6D+DtgKN3LAYN9GzC3dgV0nc
+ JmjR0TIAf1kN8Er/gqpt/eBttjzZecMx5wftFLmELFVpLmZ9TgBipOqSDio6NDzdr9kw8XEHzYd
+ F2/at6GmXXWOb6KZeBX4ynqx3W8e0z7c=
+X-Received: by 2002:a05:6102:5792:b0:3b5:3f84:287 with SMTP id
+ dh18-20020a056102579200b003b53f840287mr2272093vsb.66.1672063517173; 
+ Mon, 26 Dec 2022 06:05:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs3mnrJQtrVBLV09JH6RZeYOHypxVcGthD2IIvWR/mxOOh4h3Ps9QFkhn/sy/jLPl+JLqb6nkH40XVQzFzbryA=
+X-Received: by 2002:a05:6102:5792:b0:3b5:3f84:287 with SMTP id
+ dh18-20020a056102579200b003b53f840287mr2272090vsb.66.1672063516982; Mon, 26
+ Dec 2022 06:05:16 -0800 (PST)
 MIME-Version: 1.0
-References: <Y2+GO5jyd9E2uCT9@humpty.home.comstyle.com>
- <56ef5603-523f-f180-55e4-12c9a0b4d02a@linaro.org>
- <CAPMcbCoB_k0Qp2haWqU8j4fmmCnE+_b4T6hoK3+NpaOcHZO0Gg@mail.gmail.com>
-In-Reply-To: <CAPMcbCoB_k0Qp2haWqU8j4fmmCnE+_b4T6hoK3+NpaOcHZO0Gg@mail.gmail.com>
+References: <20221115184600.747961-1-alexander.ivanov@virtuozzo.com>
+In-Reply-To: <20221115184600.747961-1-alexander.ivanov@virtuozzo.com>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 26 Dec 2022 16:02:49 +0200
-Message-ID: <CAPMcbCoC5Jrq3BGyZGo3uLSEj86QrACjmhQxY_HaWaWoq3sEeQ@mail.gmail.com>
-Subject: Re: [PATCH] qga: Add initial OpenBSD and NetBSD support
-To: Brad Smith <brad@comstyle.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000cefa1705f0bb978a"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+Date: Mon, 26 Dec 2022 16:05:06 +0200
+Message-ID: <CAPMcbCqpi9zgNHi9n2_XTdCeaO7nMBG_DguMdURQL1Y7FCGCmg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] qga: Add ZFS TRIM support for FreeBSD
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+Cc: qemu-devel@nongnu.org, den@virtuozzo.com
+Content-Type: multipart/alternative; boundary="000000000000f8d16605f0bb9f23"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -94,77 +91,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000cefa1705f0bb978a
+--000000000000f8d16605f0bb9f23
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-the series was merged
+Hi Alexander,
+
+Can you please rebase your changes to the current master?
+I failed to apply these patches.
 
 Best Regards,
 Konstantin Kostiuk.
 
 
-On Thu, Nov 17, 2022 at 10:50 AM Konstantin Kostiuk <kkostiuk@redhat.com>
-wrote:
+On Tue, Nov 15, 2022 at 8:46 PM Alexander Ivanov <
+alexander.ivanov@virtuozzo.com> wrote:
 
-> Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+> Move Linux-specific FS TRIM code to commands-linux.c and add support of
+> ZFS TRIM for FreeBSD.
 >
-> On Sun, Nov 13, 2022 at 9:32 PM Philippe Mathieu-Daud=C3=A9 <philmd@linar=
-o.org>
-> wrote:
+> Alexander Ivanov (2):
+>   qga: Move FS TRIM code to commands-linux.c
+>   qga: Add ZFS TRIM support for FreeBSD
 >
->> On 12/11/22 12:40, Brad Smith wrote:
->> > qga: Add initial OpenBSD and NetBSD support
->> >
->> > Signed-off-by: Brad Smith <brad@comstyle.com>
->> > ---
->> >   meson.build          | 2 +-
->> >   qga/commands-bsd.c   | 5 +++++
->> >   qga/commands-posix.c | 9 +++++++--
->> >   qga/main.c           | 6 +++---
->> >   4 files changed, 16 insertions(+), 6 deletions(-)
->>
->> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->>
->>
+>  qga/commands-bsd.c    | 109 ++++++++++++++++++++++++++++++++++++++++++
+>  qga/commands-common.h |   1 +
+>  qga/commands-linux.c  |  73 ++++++++++++++++++++++++++++
+>  qga/commands-posix.c  |  72 ----------------------------
+>  4 files changed, 183 insertions(+), 72 deletions(-)
+>
+> --
+> 2.34.1
+>
+>
 
---000000000000cefa1705f0bb978a
+--000000000000f8d16605f0bb9f23
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>the series was merged</div><div><br></div><div><div d=
-ir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><di=
-v dir=3D"ltr"><div>Best Regards,</div><div>Konstantin Kostiuk.</div></div><=
-/div></div><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Nov 17, 2022 at 10:50 AM Konstantin Kostiuk &lt;<a =
-href=3D"mailto:kkostiuk@redhat.com">kkostiuk@redhat.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Rev=
-iewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.com" tar=
-get=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Nov 13, 2022 at 9:32 PM P=
-hilippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org" target=
-=3D"_blank">philmd@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">On 12/11/22 12:40, Brad Smith wrote:<br>
-&gt; qga: Add initial OpenBSD and NetBSD support<br>
-&gt; <br>
-&gt; Signed-off-by: Brad Smith &lt;<a href=3D"mailto:brad@comstyle.com" tar=
-get=3D"_blank">brad@comstyle.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt;=C2=A0 =C2=A0qga/commands-bsd.c=C2=A0 =C2=A0| 5 +++++<br>
-&gt;=C2=A0 =C2=A0qga/commands-posix.c | 9 +++++++--<br>
-&gt;=C2=A0 =C2=A0qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 6 +++=
----<br>
-&gt;=C2=A0 =C2=A04 files changed, 16 insertions(+), 6 deletions(-)<br>
+<div dir=3D"ltr"><div>Hi Alexander,</div><div><br></div><div>Can you please=
+ rebase your changes to the current master? <br></div><div>I failed to appl=
+y these patches.<br></div><div><br></div><div><div><div dir=3D"ltr" class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><d=
+iv>Best Regards,</div><div>Konstantin Kostiuk.</div></div></div></div><br><=
+/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Tue, Nov 15, 2022 at 8:46 PM Alexander Ivanov &lt;<a href=3D"mailto=
+:alexander.ivanov@virtuozzo.com">alexander.ivanov@virtuozzo.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Move Linux-s=
+pecific FS TRIM code to commands-linux.c and add support of<br>
+ZFS TRIM for FreeBSD.<br>
 <br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linar=
-o.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
+Alexander Ivanov (2):<br>
+=C2=A0 qga: Move FS TRIM code to commands-linux.c<br>
+=C2=A0 qga: Add ZFS TRIM support for FreeBSD<br>
 <br>
-</blockquote></div>
+=C2=A0qga/commands-bsd.c=C2=A0 =C2=A0 | 109 +++++++++++++++++++++++++++++++=
++++++++++++<br>
+=C2=A0qga/commands-common.h |=C2=A0 =C2=A01 +<br>
+=C2=A0qga/commands-linux.c=C2=A0 |=C2=A0 73 ++++++++++++++++++++++++++++<br=
+>
+=C2=A0qga/commands-posix.c=C2=A0 |=C2=A0 72 ----------------------------<br=
+>
+=C2=A04 files changed, 183 insertions(+), 72 deletions(-)<br>
+<br>
+-- <br>
+2.34.1<br>
+<br>
 </blockquote></div>
 
---000000000000cefa1705f0bb978a--
+--000000000000f8d16605f0bb9f23--
 
 
