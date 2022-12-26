@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1D4656305
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 15:20:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BED1656358
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 15:25:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9oJV-0006Th-F3; Mon, 26 Dec 2022 09:18:49 -0500
+	id 1p9oP3-0007xK-7O; Mon, 26 Dec 2022 09:24:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1p9oJS-0006T8-TT
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 09:18:46 -0500
-Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1p9oJQ-0004V1-QK
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 09:18:46 -0500
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-1441d7d40c6so12706633fac.8
- for <qemu-devel@nongnu.org>; Mon, 26 Dec 2022 06:18:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Nx1J004DBzhLjvwv5/3uMBlZBmbQMM0xqXFpepAX4iI=;
- b=mBu2gpvVSPqA5T/fgA2GmbKFkUBlKB2Hhc0CEri5vfNzKwL6UkVHNP/aKLkhoOu1mU
- wUdUuwELy0BQjQ4ZmvVK8NZlS3elUpo9D7DfYT77Eb8/OaONciEX4ndmxtplXrGx0Mej
- bvwrSPH12382eR+49mAvlep13iMokMWETM1ZbT6URMVxG/ecm9X1koMEBPDOkIqOfJ1B
- KiKbWOpb+SaE3UUYwkGiSsvUudSNG1DSkqjBAfTZLsSaGgIcA7TrT1qPebKBnYHtOshs
- V9qXUT3cnOFSlPkpsOXTFgn/VTBFxe7o8psFoMrHc2Wf/0fxkHmg7KmuSLhu4QJ4ElHh
- U2ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Nx1J004DBzhLjvwv5/3uMBlZBmbQMM0xqXFpepAX4iI=;
- b=HxnMlDUgdAqVFGTLH4XXKDFUveTY5NfZSOrknrYiU0TcPnsM9U3mnT6fT8tpMsFxaP
- yhgvrmgABJO126l2+MdXTi50sAnXNo7h5pzyPWHogOGEdmpTYLWsqjr7j/08thXoyiXV
- wUclTv9m5/prTiSVJON0doM2/0BvADdSUwXTbtdR13EGSDM9T0PJuVfSVMY6PxJVucpH
- i+K1O/CjJLGEolxHaLB/6+rXsL/qMg7lCbZjzF7XByJov8mkXflvmJIh8JePFpQywCE8
- 0+TZ6ct9woSw7DNF0su2WtwDheeAbxqYBzI0vq46NrXFaIpzVpfbXcQGSdP+kOE07tKy
- fTkA==
-X-Gm-Message-State: AFqh2kpb+n0nn5OfOZqA4pga75oNT9WMRX5Az2OTdZe96p0YKE/M62F6
- TZCKodQnHd1qkc99xbPlZoJDpA==
-X-Google-Smtp-Source: AMrXdXtnWokskvz0NHrtlv09P9OXe3dAITXzcpMUIPk+2wbmgtNV/Xg5AGT0F+OFI5WeBfCmyRh7bg==
-X-Received: by 2002:a05:6870:6987:b0:148:2ebe:20c9 with SMTP id
- my7-20020a056870698700b001482ebe20c9mr11732276oab.35.1672064323001; 
- Mon, 26 Dec 2022 06:18:43 -0800 (PST)
-Received: from [192.168.68.107] ([177.102.70.162])
- by smtp.gmail.com with ESMTPSA id
- o2-20020a9d6d02000000b006704589eb54sm5329653otp.74.2022.12.26.06.18.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Dec 2022 06:18:42 -0800 (PST)
-Message-ID: <f2e01a1c-4447-bfc6-de7e-5a2719946edf@ventanamicro.com>
-Date: Mon, 26 Dec 2022 11:18:39 -0300
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Dxcw=4Y=zx2c4.com=Jason@kernel.org>)
+ id 1p9oOy-0007we-Vq
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 09:24:29 -0500
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Dxcw=4Y=zx2c4.com=Jason@kernel.org>)
+ id 1p9oOx-0007NB-3e
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 09:24:28 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C499460EA7;
+ Mon, 26 Dec 2022 14:24:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A3CC433D2;
+ Mon, 26 Dec 2022 14:24:14 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="TGvK9CV+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1672064651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+PjVgheTmRbQKAuExj3xzO22Ben4VI5teURA2yxJhLo=;
+ b=TGvK9CV+6vgvSlJ5DdLaAPqT4V2pOSs+YhMJnnK6JxQCpOwqfBy3EdQhSoUuLZYyETQbs0
+ Gp4sB5YZ31XODWi3o+Bls1Cw+DJO9FBLOF1VOC+2eJcArwrKe5e9xDphpGxzb/YUrlOErc
+ J+r7UW98dnjFt5ifXTke3JSK3ZjlUac=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 544c39fb
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Mon, 26 Dec 2022 14:24:11 +0000 (UTC)
+Date: Mon, 26 Dec 2022 15:24:07 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Eric Biggers <ebiggers@kernel.org>, x86@kernel.org, linux-mm@kvack.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
+Message-ID: <Y6muh1E1fNOot+VZ@zx2c4.com>
+References: <20220921093134.2936487-1-Jason@zx2c4.com>
+ <20220921093134.2936487-4-Jason@zx2c4.com>
+ <Y6ZESPx4ettBLuMt@sol.localdomain> <Y6ZtVGtFpUNQP+KU@zx2c4.com>
+ <Y6Z+WpqN59ZjIKkk@zx2c4.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 13/15] hw/riscv/spike.c: simplify create_fdt()
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Bin Meng <bin.meng@windriver.com>
-References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
- <20221221182300.307900-14-dbarboza@ventanamicro.com>
- <CAEUhbmVRXYO-_0eJfFBmd+7-ofau+TjTx1+YVm70tC70dcEtMg@mail.gmail.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAEUhbmVRXYO-_0eJfFBmd+7-ofau+TjTx1+YVm70tC70dcEtMg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2f.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y6Z+WpqN59ZjIKkk@zx2c4.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=Dxcw=4Y=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,68 +89,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
+I'm currently stumped at the moment, so adding linux-mm@ and x86@. Still
+working on it though. Details of where I'm at are below the quote below.
 
-On 12/23/22 10:06, Bin Meng wrote:
-> On Thu, Dec 22, 2022 at 2:29 AM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
->> 'mem_size' and 'cmdline' aren't being used and the MachineState pointer
->> is being retrieved via a MACHINE() macro.
->>
->> Remove 'mem_size' and 'cmdline' and add MachineState as a parameter.
-> Why do you add MachineState as a parameter? What's the problem of
-> using the MACHINE() macro?
+On Sat, Dec 24, 2022 at 05:21:46AM +0100, Jason A. Donenfeld wrote:
+> On Sat, Dec 24, 2022 at 04:09:08AM +0100, Jason A. Donenfeld wrote:
+> > Hi Eric,
+> > 
+> > Replying to you from my telephone, and I'm traveling the next two days,
+> > but I thought I should mention some preliminary results right away from
+> > doing some termux compiles:
+> > 
+> > On Fri, Dec 23, 2022 at 04:14:00PM -0800, Eric Biggers wrote:
+> > > Hi Jason,
+> > > 
+> > > On Wed, Sep 21, 2022 at 11:31:34AM +0200, Jason A. Donenfeld wrote:
+> > > > This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
+> > > > for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
+> > > > 
+> > > > Cc: Laurent Vivier <laurent@vivier.eu>
+> > > > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > > Cc: Peter Maydell <peter.maydell@linaro.org>
+> > > > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > > > Cc: Richard Henderson <richard.henderson@linaro.org>
+> > > > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > > > ---
+> > > >  hw/i386/microvm.c | 2 +-
+> > > >  hw/i386/pc_piix.c | 3 ++-
+> > > >  hw/i386/pc_q35.c  | 3 ++-
+> > > >  3 files changed, 5 insertions(+), 3 deletions(-)
+> > > > 
+> > > 
+> > > After upgrading to QEMU 7.2, Linux 6.1 no longer boots with some configs.  There
+> > > is no output at all.  I bisected it to this commit, and I verified that the
+> > > following change to QEMU's master branch makes the problem go away:
+> > > 
+> > > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> > > index b48047f50c..42f5b07d2f 100644
+> > > --- a/hw/i386/pc_piix.c
+> > > +++ b/hw/i386/pc_piix.c
+> > > @@ -441,6 +441,7 @@ static void pc_i440fx_8_0_machine_options(MachineClass *m)
+> > >      pc_i440fx_machine_options(m);
+> > >      m->alias = "pc";
+> > >      m->is_default = true;
+> > > +    PC_MACHINE_CLASS(m)->legacy_no_rng_seed = true;
+> > >  }
+> > > 
+> > > I've attached the kernel config I am seeing the problem on.
+> > > 
+> > > For some reason, the problem also goes away if I disable CONFIG_KASAN.
+> > > 
+> > > Any idea what is causing this?
+> > 
+> > - Commenting out the call to parse_setup_data() doesn't fix the issue.
+> >   So there's no KASAN issue with the actual parser.
+> > 
+> > - Using KASAN_OUTLINE rather than INLINE does fix the issue!
+> > 
+> > That makes me suspect that it's file size related, and QEMU or the BIOS
+> > is placing setup data at an overlapping offset by accident, or something
+> > similar.
+> 
+> I removed the file systems from your config to bring the kernel size
+> back down, and voila, it works, even with KASAN_INLINE. So perhaps I'm
+> on the right track here...
 
-Yeah, I went overboard with the macro removal in this case and in patch 14.
-I'll also redo patch 15 to avoid the qdev_get_machine() call but keeping the
-macro.
+QEMU sticks setup_data after the kernel image, the same as kexec-tools
+and everything else. Apparently, when the kernel image is large, the
+call to early_memremap(boot_params.hdr.setup_data, ...) returns a value
+that points some place bogus, and the system crashes or does something
+weird. I haven't yet determined what this limit is, but in my current
+test kernel, a value of 0x0000000001327650 is enough to make it point to
+rubbish.
 
+Is this expected? What's going on here?
 
-
-Daniel
-
-
-
->
->> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->> ---
->>   hw/riscv/spike.c | 8 +++-----
->>   1 file changed, 3 insertions(+), 5 deletions(-)
->>
->> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
->> index 2b9af5689e..181bf394a0 100644
->> --- a/hw/riscv/spike.c
->> +++ b/hw/riscv/spike.c
->> @@ -48,15 +48,14 @@ static const MemMapEntry spike_memmap[] = {
->>       [SPIKE_DRAM] =     { 0x80000000,        0x0 },
->>   };
->>
->> -static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
->> -                       uint64_t mem_size, const char *cmdline, bool is_32_bit)
->> +static void create_fdt(MachineState *mc, SpikeState *s,
->> +                       const MemMapEntry *memmap, bool is_32_bit)
->>   {
->>       void *fdt;
->>       int fdt_size;
->>       uint64_t addr, size;
->>       unsigned long clint_addr;
->>       int cpu, socket;
->> -    MachineState *mc = MACHINE(s);
->>       uint32_t *clint_cells;
->>       uint32_t cpu_phandle, intc_phandle, phandle = 1;
->>       char *name, *mem_name, *clint_name, *clust_name;
->> @@ -254,8 +253,7 @@ static void spike_board_init(MachineState *machine)
->>                                   mask_rom);
->>
->>       /* Create device tree */
->> -    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
->> -               riscv_is_32bit(&s->soc[0]));
->> +    create_fdt(machine, s, memmap, riscv_is_32bit(&s->soc[0]));
->>
->>       /*
->>        * Not like other RISC-V machines that use plain binary bios images,
->> --
-> Regards,
-> Bin
-
+Jason
 
