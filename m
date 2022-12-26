@@ -2,54 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8A66564AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 19:51:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA6A65653E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 23:05:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9sYH-0002Uf-G8; Mon, 26 Dec 2022 13:50:21 -0500
+	id 1p9vZG-0004mJ-K9; Mon, 26 Dec 2022 17:03:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1p9sYF-0002UV-Sn
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 13:50:19 -0500
-Received: from mailout06.t-online.de ([194.25.134.19])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1p9sYD-0005Tc-L4
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 13:50:19 -0500
-Received: from fwd74.dcpf.telekom.de (fwd74.aul.t-online.de [10.223.144.100])
- by mailout06.t-online.de (Postfix) with SMTP id 731466602;
- Mon, 26 Dec 2022 19:50:14 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.21.92]) by fwd74.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1p9sY8-4UMiZd0; Mon, 26 Dec 2022 19:50:12 +0100
-Message-ID: <4cef8c93-00ee-d1ad-77f5-7a328795e58c@t-online.de>
-Date: Mon, 26 Dec 2022 19:50:12 +0100
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1p9vZ4-0004kj-Ol; Mon, 26 Dec 2022 17:03:22 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1p9vZ2-0003X0-RY; Mon, 26 Dec 2022 17:03:22 -0500
+Received: by mail-ed1-x531.google.com with SMTP id u28so12018269edd.10;
+ Mon, 26 Dec 2022 14:03:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=E0CNKufWJ9cgOLvsHBLXpX8GKTQDW5GWzj/kJv3Ez5w=;
+ b=AqZHmj72DquJ4PFgjFXSkabeaDolQyZ8zHefd1Q9h1LR+jatX1jN6txFb+cYCLaoqT
+ covXd8Dqe4vCZpzWy/5dLiN0nte+1NGzmFM7S40jWoEn7jDyHcSE3njwGFgaV+50zM7j
+ /6fF/TDp1da1bJQ8T5Q44ukbulyA/jW5+hf7nt8PXEml1EHDM94DUmoskt2oTpoQ+ZpS
+ IDPsV3zLQwKlKZXmC69pH2ITKEcqGPqUELwfrZEDj7YDOHk+OwID0wzhZh8wgg92XplC
+ lXpQC35xPREWHIGNwDqmJv0TOYfeyDZWg3VSWXLdFJOl1rRDNSrjI6URm7PEYtU9x6kA
+ t/Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=E0CNKufWJ9cgOLvsHBLXpX8GKTQDW5GWzj/kJv3Ez5w=;
+ b=r9Dd9nBHO+bRcPYuuPt8uYHRW7CwhFzeJetgHObCxfWDos0R+X4KJbXSWgSMkLHKd1
+ RtB6jgnOV4MVidxX5CFXqlsEMxISXMQqvWNkwW3lGfpXK7gGWK4+737sDu6e8EbET/bW
+ +CypIpXjbr37NN/PScB1bhfLf8syQoiPidmnXJagRBRpae1x1fV7IjYH2i8pj7vwMnbP
+ K8Y2qXq4m+GQgYCH0M+BWNu1qyyVhcf9/5JxOAZGJDwi2SenPBJKu5ybzAAZYQKZLSNt
+ lzenJG1klAYFEx4JR0NfYKiQzXQ1FPM2yY53UtjlnsxyYJT3I0rzoSs7NHL3bOPMzT0B
+ Js1Q==
+X-Gm-Message-State: AFqh2kr80qUwi3y2ZCkyJSpr0uRmT0BKD7IpXInGDMr12QNR84ZSaL3I
+ +YK2fR2cyHeUCSlNCqF4KBE=
+X-Google-Smtp-Source: AMrXdXu4alnEEhc7ZIErihVB4HszEThMIZ6tzR9XPXiUDZED223r1K2XzWHLrxZLYfMT0zXWVOEsHw==
+X-Received: by 2002:a05:6402:548e:b0:479:8303:dc1c with SMTP id
+ fg14-20020a056402548e00b004798303dc1cmr15320838edb.7.1672092197052; 
+ Mon, 26 Dec 2022 14:03:17 -0800 (PST)
+Received: from penguin.lxd ([87.116.176.120])
+ by smtp.googlemail.com with ESMTPSA id
+ u1-20020aa7d541000000b0046951b43e84sm5111467edr.55.2022.12.26.14.03.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Dec 2022 14:03:16 -0800 (PST)
+From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
+X-Google-Original-From: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Beniamino Galvani <b.galvani@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, philmd@linaro.org,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+Subject: [PATCH v3 0/7] Enable Cubieboard A10 boot SPL from SD card
+Date: Mon, 26 Dec 2022 23:02:56 +0100
+Message-Id: <20221226220303.14420-1-strahinja.p.jankovic@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH] hw/audio/c97: fix abort in audio_calloc()
-To: Qiang Liu <cyruscyliu@gmail.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-References: <20221225121357.498040-1-cyruscyliu@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20221225121357.498040-1-cyruscyliu@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1672080612-CACB7B6F-7670EEAB/0/0 CLEAN NORMAL
-X-TOI-MSGID: e2cc2cbb-a8ae-4ea4-9f0c-2524e62669ec
-Received-SPF: none client-ip=194.25.134.19; envelope-from=vr_qemu@t-online.de;
- helo=mailout06.t-online.de
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,91 +89,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 25.12.22 um 13:13 schrieb Qiang Liu:
+This patch series adds missing Allwinner A10 modules needed for
+successful SPL boot:
+- Clock controller module
+- DRAM controller
+- I2C0 controller (added also for Allwinner H3 since it is the same)
+- AXP-209 connected to I2C0 bus
 
-Hi Qiang,
+It also updates Allwinner A10 emulation so SPL is copied from attached
+SD card if `-kernel` parameter is not passed when starting QEMU
+(approach adapted from Allwinner H3 implementation).
 
-I didn't receive your email probably because the reverse DNS entry of 
-your mail server isn't setup correctly.
-This is from the mail header of the qemu-devel mailing list server.
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 220.184.252.86 (failed)
+Boot from SD card has been tested with Cubieboard Armbian SD card image and custom
+Yocto image built for Cubieboard.
+Example usage for Armbian image:
+qemu-system-arm -M cubieboard -nographic -sd ~/Armbian_22.11.0-trunk_Cubieboard_kinetic_edge_6.0.7.img
 
-Did you see my patches at 
-https://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg02895.html ?
-Patches 01/11 and 02/11 prevent the disturbing error message from 
-audio_calloc and later patches remove the audio_calloc function.
+v3:
+* new avocado test for SD card boot for Cubieboard with OpenWrt image 
+* renamed file and functions for AXP209 so there is not allwinner prefix
+* replaced cast with I2C_BUS in AXP209 instantiation for Cubieboard
+* squashed commit with Cubieboard and OrangePi-PC documentation update
+with actual code changes
+* added myself as Designated Reviewer to the Allwinner-A10 section in
+MAINTAINERS file and added hw/misc/axp209.c to the same section.
 
-I think the subject of your patch isn't correct. Your patch doesn't fix 
-an abort in audio_calloc. In 
-https://gitlab.com/qemu-project/qemu/-/issues/1393 you correctly notice 
-this was already fixed.
+v2:
+* replaced DB_PRINTF with tracing functions
+* removed .init function in AXP209 since .reset covers functionality
+* moved defines to allwinner_i2c.c from header file
+* updated docs with information about TWI
+* minor code style fixes
 
-> Section 5.10.2 of the AC97 specification (https://hands.com/~lkcl/ac97_r23.pdf)
-> shows the feasibility to support for rates other than 48kHZ. Specifically,
-> AC97_PCM_Front_DAC_Rate (reg 2Ch) should be from 8kHZ to 48kHZ.
 
-I think you misread section 5.10.2 of the AC97 Revision 2.3 
-specification. Section 5.10 is about S/PDIF concurrency. It doesn't say 
-anything about the lowest sample rate limit without concurrent S/PDIF 
-transmission. The emulated SigmaTel STAC9700 codec doesn't even have a 
-S/PDIF output. But I have an example for sample rates lower than 8kHz. 
-The Texas Instruments LM4546B is an AC97 codec which supports sample 
-rates from 4kHz - 48kHz.
+Strahinja Jankovic (7):
+  hw/misc: Allwinner-A10 Clock Controller Module Emulation
+  hw/misc: Allwinner A10 DRAM Controller Emulation
+  {hw/i2c,docs/system/arm}: Allwinner TWI/I2C Emulation
+  hw/misc: AXP209 PMU Emulation
+  hw/arm: Add AXP209 to Cubieboard
+  hw/arm: Allwinner A10 enable SPL load from MMC
+  tests/avocado: Add SD boot test to Cubieboard
 
-The STAC9700 is a 48kHz fixed rate codec. You won't find anything about 
-the highest or lowest sample rate in its data sheet. Someone added the 
-VRA and VRM modes in QEMU and the guest drivers don't seem to mind.
+ MAINTAINERS                           |   2 +
+ docs/system/arm/cubieboard.rst        |   1 +
+ docs/system/arm/orangepi.rst          |   1 +
+ hw/arm/Kconfig                        |   5 +
+ hw/arm/allwinner-a10.c                |  40 +++
+ hw/arm/allwinner-h3.c                 |  11 +-
+ hw/arm/cubieboard.c                   |  11 +
+ hw/i2c/Kconfig                        |   4 +
+ hw/i2c/allwinner-i2c.c                | 459 ++++++++++++++++++++++++++
+ hw/i2c/meson.build                    |   1 +
+ hw/i2c/trace-events                   |   5 +
+ hw/misc/Kconfig                       |  10 +
+ hw/misc/allwinner-a10-ccm.c           | 224 +++++++++++++
+ hw/misc/allwinner-a10-dramc.c         | 179 ++++++++++
+ hw/misc/axp209.c                      | 238 +++++++++++++
+ hw/misc/meson.build                   |   3 +
+ hw/misc/trace-events                  |   5 +
+ include/hw/arm/allwinner-a10.h        |  27 ++
+ include/hw/arm/allwinner-h3.h         |   3 +
+ include/hw/i2c/allwinner-i2c.h        |  55 +++
+ include/hw/misc/allwinner-a10-ccm.h   |  67 ++++
+ include/hw/misc/allwinner-a10-dramc.h |  68 ++++
+ tests/avocado/boot_linux_console.py   |  47 +++
+ 23 files changed, 1465 insertions(+), 1 deletion(-)
+ create mode 100644 hw/i2c/allwinner-i2c.c
+ create mode 100644 hw/misc/allwinner-a10-ccm.c
+ create mode 100644 hw/misc/allwinner-a10-dramc.c
+ create mode 100644 hw/misc/axp209.c
+ create mode 100644 include/hw/i2c/allwinner-i2c.h
+ create mode 100644 include/hw/misc/allwinner-a10-ccm.h
+ create mode 100644 include/hw/misc/allwinner-a10-dramc.h
 
-I would like to keep the ability to select a 1Hz sample rate, as there 
-is no reason to artificially limit the lowest supported sample rate. See 
-https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg03987.html
-
-I would support a patch to limit the VRA and VRM modes to the highest 
-supported rate of 48kHz. This is a technical limit for single data rate.
-
-> Before Volker Rümelin fixed it in 12f4abf6a245 and 0cbc8bd4694f, an adversary
-> could leverage this to crash QEMU.
->
-> Fixes: e5c9a13e2670 ("PCI AC97 emulation by malc.")
-> Reported-by: Volker Rümelin<vr_qemu@t-online.de>
-> Reported-by: Qiang Liu<cyruscyliu@gmail.com>
-> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1393
-> Signed-off-by: Qiang Liu<cyruscyliu@gmail.com>
-> ---
->   hw/audio/ac97.c | 11 ++++++++---
->   1 file changed, 8 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-> index be2dd701a4..826411e462 100644
-> --- a/hw/audio/ac97.c
-> +++ b/hw/audio/ac97.c
-> @@ -625,9 +625,14 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
->           break;
->       case AC97_PCM_Front_DAC_Rate:
->           if (mixer_load(s, AC97_Extended_Audio_Ctrl_Stat) & EACS_VRA) {
-> -            mixer_store(s, addr, val);
-> -            dolog("Set front DAC rate to %d\n", val);
-> -            open_voice(s, PO_INDEX, val);
-> +            if (val >= 8000 && val <= 48000) {
-> +                mixer_store(s, addr, val);
-> +                dolog("Set front DAC rate to %d\n", val);
-> +                open_voice(s, PO_INDEX, val);
-> +            } else {
-> +                dolog("Attempt to set front DAC rate to %d, but valid is"
-> +                      "8-48kHZ\n", val);
-
-This is not correct. If you limit the sample rate, you should echo back 
-the closest supported sample rate. See AC'97 2.3 Section 5.8.3. It's not 
-a guest error if the guest writes an unsupported sample rate to the 
-Audio Sample Rate Control Registers, which means it's also not necessary 
-to log this.
-
-With best regards,
-Volker
-
-> +            }
->           } else {
->               dolog("Attempt to set front DAC rate to %d, but VRA is not set\n",
->                     val);
+-- 
+2.30.2
 
 
