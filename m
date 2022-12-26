@@ -2,56 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D487A6563DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 16:39:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5C5656448
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 17:59:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9pYC-0004xN-UV; Mon, 26 Dec 2022 10:38:04 -0500
+	id 1p9qnM-00048y-1v; Mon, 26 Dec 2022 11:57:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1p9pYB-0004x8-Fk
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 10:38:03 -0500
-Received: from mailout01.t-online.de ([194.25.134.80])
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Dxcw=4Y=zx2c4.com=Jason@kernel.org>)
+ id 1p9qnK-00048q-KH
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 11:57:46 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1p9pY9-00057Q-9c
- for qemu-devel@nongnu.org; Mon, 26 Dec 2022 10:38:03 -0500
-Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
- by mailout01.t-online.de (Postfix) with SMTP id BD3DE685A;
- Mon, 26 Dec 2022 16:37:29 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.21.92]) by fwd75.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1p9pXc-0DtnH70; Mon, 26 Dec 2022 16:37:28 +0100
-Message-ID: <ec319082-7572-2c6d-aba5-d555d5399a59@t-online.de>
-Date: Mon, 26 Dec 2022 16:37:27 +0100
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Dxcw=4Y=zx2c4.com=Jason@kernel.org>)
+ id 1p9qnF-0006Nx-Qy
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 11:57:46 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id AEACEB80D68;
+ Mon, 26 Dec 2022 16:57:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD4B7C433EF;
+ Mon, 26 Dec 2022 16:57:36 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="b6POVW8y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1672073853;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WIE3Z+cKtBnA8yyHSJ3TV6iPDq1ETA37GJq6ok6agec=;
+ b=b6POVW8yEcfP7tPgzQ7TRtlOal2frw2gJhyxTHnfPwvZLzRkfcu/ZvZo9GN3NYBv0WGWum
+ Gs4ULzuh3nXE7ld7n+E8K1bpyHRb9AbbcdaTcAb16aydVznl/eWc6Hg3p92r263zpwS3os
+ WFupn1O+/WUSx2mfPn2ca2VDAuU7uwo=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id abdc5615
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Mon, 26 Dec 2022 16:57:33 +0000 (UTC)
+Date: Mon, 26 Dec 2022 17:57:30 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Eric Biggers <ebiggers@kernel.org>, x86@kernel.org, linux-mm@kvack.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
+Message-ID: <Y6nSel5/wdnoSFpk@zx2c4.com>
+References: <20220921093134.2936487-1-Jason@zx2c4.com>
+ <20220921093134.2936487-4-Jason@zx2c4.com>
+ <Y6ZESPx4ettBLuMt@sol.localdomain> <Y6ZtVGtFpUNQP+KU@zx2c4.com>
+ <Y6Z+WpqN59ZjIKkk@zx2c4.com> <Y6muh1E1fNOot+VZ@zx2c4.com>
+ <Y6my+Oiz67G46snj@zx2c4.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 10/11] alsaaudio: change default playback settings
-Content-Language: en-US
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <20221218171539.11193-10-vr_qemu@t-online.de> <2230283.NDGgU1aIbp@silver>
- <a257ab88-a779-bb84-e96e-664a3434b417@t-online.de>
-In-Reply-To: <a257ab88-a779-bb84-e96e-664a3434b417@t-online.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1672069048-2FFFE535-4A55A58A/0/0 CLEAN NORMAL
-X-TOI-MSGID: 3774af61-0d80-4de2-a385-cd2a06bf7a65
-Received-SPF: none client-ip=194.25.134.80; envelope-from=vr_qemu@t-online.de;
- helo=mailout01.t-online.de
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <Y6my+Oiz67G46snj@zx2c4.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=Dxcw=4Y=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,55 +90,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Dec 26, 2022 at 03:43:04PM +0100, Jason A. Donenfeld wrote:
+> On Mon, Dec 26, 2022 at 03:24:07PM +0100, Jason A. Donenfeld wrote:
+> > Hi,
+> > 
+> > I'm currently stumped at the moment, so adding linux-mm@ and x86@. Still
+> > working on it though. Details of where I'm at are below the quote below.
+> > 
+> > On Sat, Dec 24, 2022 at 05:21:46AM +0100, Jason A. Donenfeld wrote:
+> > > On Sat, Dec 24, 2022 at 04:09:08AM +0100, Jason A. Donenfeld wrote:
+> > > > Hi Eric,
+> > > > 
+> > > > Replying to you from my telephone, and I'm traveling the next two days,
+> > > > but I thought I should mention some preliminary results right away from
+> > > > doing some termux compiles:
+> > > > 
+> > > > On Fri, Dec 23, 2022 at 04:14:00PM -0800, Eric Biggers wrote:
+> > > > > Hi Jason,
+> > > > > 
+> > > > > On Wed, Sep 21, 2022 at 11:31:34AM +0200, Jason A. Donenfeld wrote:
+> > > > > > This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
+> > > > > > for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
+> > > > > > 
+> > > > > > Cc: Laurent Vivier <laurent@vivier.eu>
+> > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > > > > Cc: Peter Maydell <peter.maydell@linaro.org>
+> > > > > > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
+> > > > > > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > > > > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > > > > > ---
+> > > > > >  hw/i386/microvm.c | 2 +-
+> > > > > >  hw/i386/pc_piix.c | 3 ++-
+> > > > > >  hw/i386/pc_q35.c  | 3 ++-
+> > > > > >  3 files changed, 5 insertions(+), 3 deletions(-)
+> > > > > > 
+> > > > > 
+> > > > > After upgrading to QEMU 7.2, Linux 6.1 no longer boots with some configs.  There
+> > > > > is no output at all.  I bisected it to this commit, and I verified that the
+> > > > > following change to QEMU's master branch makes the problem go away:
+> > > > > 
+> > > > > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> > > > > index b48047f50c..42f5b07d2f 100644
+> > > > > --- a/hw/i386/pc_piix.c
+> > > > > +++ b/hw/i386/pc_piix.c
+> > > > > @@ -441,6 +441,7 @@ static void pc_i440fx_8_0_machine_options(MachineClass *m)
+> > > > >      pc_i440fx_machine_options(m);
+> > > > >      m->alias = "pc";
+> > > > >      m->is_default = true;
+> > > > > +    PC_MACHINE_CLASS(m)->legacy_no_rng_seed = true;
+> > > > >  }
+> > > > > 
+> > > > > I've attached the kernel config I am seeing the problem on.
+> > > > > 
+> > > > > For some reason, the problem also goes away if I disable CONFIG_KASAN.
+> > > > > 
+> > > > > Any idea what is causing this?
+> > > > 
+> > > > - Commenting out the call to parse_setup_data() doesn't fix the issue.
+> > > >   So there's no KASAN issue with the actual parser.
+> > > > 
+> > > > - Using KASAN_OUTLINE rather than INLINE does fix the issue!
+> > > > 
+> > > > That makes me suspect that it's file size related, and QEMU or the BIOS
+> > > > is placing setup data at an overlapping offset by accident, or something
+> > > > similar.
+> > > 
+> > > I removed the file systems from your config to bring the kernel size
+> > > back down, and voila, it works, even with KASAN_INLINE. So perhaps I'm
+> > > on the right track here...
+> > 
+> > QEMU sticks setup_data after the kernel image, the same as kexec-tools
+> > and everything else. Apparently, when the kernel image is large, the
+> > call to early_memremap(boot_params.hdr.setup_data, ...) returns a value
+> > that points some place bogus, and the system crashes or does something
+> > weird. I haven't yet determined what this limit is, but in my current
+> > test kernel, a value of 0x0000000001327650 is enough to make it point to
+> > rubbish.
+> > 
+> > Is this expected? What's going on here?
+> 
+> Attaching gdb to QEMU and switching it to physical memory mode
+> (`maintenance packet Qqemu.PhyMemMode:1 `) indicates that it
+> early_memremap is actually working fine and something *else* is at this
+> address? That's kinda weird... Is KASAN populating physical addresses
+> immediately after the kernel image extremely early in boot? I'm seeing
+> the crash happen from early_reserve_memory()->
+> memblock_x86_reserve_range_setup_data(), which should be before
+> kasan_init() even runs. Is QEMU calculating kernel_size wrong, when it
+> goes to determine where to put the setup_data data? But that's the same
+> calculation as used everywhere else, so hmm...
+> 
+> Jason
 
->>> diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
->>> index 5f50dfa0bf..0cc982e61f 100644
->>> --- a/audio/alsaaudio.c
->>> +++ b/audio/alsaaudio.c
->>> @@ -913,17 +913,14 @@ static void *alsa_audio_init(Audiodev *dev)
->>>       alsa_init_per_direction(aopts->in);
->>>       alsa_init_per_direction(aopts->out);
->>>   -    /*
->>> -     * need to define them, as otherwise alsa produces no sound
->>> -     * doesn't set has_* so alsa_open can identify it wasn't set by 
->>> the user
->>> -     */
->>> +    /* don't set has_* so alsa_open can identify it wasn't set by 
->>> the user */
->>>       if (!dev->u.alsa.out->has_period_length) {
->>> -        /* 1024 frames assuming 44100Hz */
->>> -        dev->u.alsa.out->period_length = 1024 * 1000000 / 44100;
->>> +        /* 256 frames assuming 44100Hz */
->>> +        dev->u.alsa.out->period_length = 5805;
->>>       }
->>>       if (!dev->u.alsa.out->has_buffer_length) {
->>>           /* 4096 frames assuming 44100Hz */
->>> -        dev->u.alsa.out->buffer_length = 4096ll * 1000000 / 44100;
->>> +        dev->u.alsa.out->buffer_length = 92880;
->> Not a big fan of magic numbers, as it makes code less readable.
->
-> I can't see how this can be improved. The buffer length is unchanged. 
-> I just evaluated the constant expression to have a time in 
-> microseconds like the rest of the audio backends. And libasound tells 
-> me to use 5804us for the period length which I rounded up to 5805us. I 
-> would prefer a period length of 5000us.
->
-> ./qemu-system-x86_64 -device ich9-intel-hda -device 
-> hda-duplex,audiodev=audio0 -audiodev 
-> alsa,id=audio0,out.period-length=5000,out.dev=PCH,,0
-> alsa: Requested period time 5000 was rejected, using 5804
-
-The correct command line is:
-./qemu-system-x86_64 -device ich9-intel-hda -device 
-hda-duplex,audiodev=audio0 -audiodev 
-alsa,id=audio0,out.period-length=5000,out.dev=hw:PCH,,0
-alsa: Requested period time 5000 was rejected, using 5804
-
->
->
->>>       }
->>>         /*
->>>
->
-
+If bzImage is 15770544 bytes, it does not boot. If bzImage is 15641776
+bytes, it does boot. So something is happening somewhat close to the
+16MB mark?
 
