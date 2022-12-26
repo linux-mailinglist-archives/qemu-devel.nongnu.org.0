@@ -2,84 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220EF655FA7
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 05:11:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45481656021
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 06:35:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9eob-00035c-0T; Sun, 25 Dec 2022 23:10:17 -0500
+	id 1p9g7f-0003u1-NY; Mon, 26 Dec 2022 00:34:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p9eoX-00035P-Qq
- for qemu-devel@nongnu.org; Sun, 25 Dec 2022 23:10:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
+ id 1p9g7d-0003tk-T5
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 00:34:01 -0500
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1p9eoT-0003ds-Jo
- for qemu-devel@nongnu.org; Sun, 25 Dec 2022 23:10:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672027806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JXpwUJOgicfAduF6Tid9E3GSpzYYEKxYXgDZ/RF9z6I=;
- b=IWhjIVODsXbqxV1KtrxBkBTcOztc0LvXDe24ObdhHS/As/sHE2a7Z2PgS8vZh8ZL8q45qD
- eFJjK+G0E/mUMUQISlwU/7ovhEg4kaFz74F/X+FjM915tdg4cL+znwstMdQbN5ITYLx35j
- mmLKFg69L9+rmAJrWYQopwYp/iWDQ+E=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-609-LFrliQYlNQKD3ywSD4lahg-1; Sun, 25 Dec 2022 23:10:04 -0500
-X-MC-Unique: LFrliQYlNQKD3ywSD4lahg-1
-Received: by mail-ot1-f69.google.com with SMTP id
- cj4-20020a056830640400b0066dee63bd77so5803911otb.9
- for <qemu-devel@nongnu.org>; Sun, 25 Dec 2022 20:10:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JXpwUJOgicfAduF6Tid9E3GSpzYYEKxYXgDZ/RF9z6I=;
- b=6Rsg8qkqQa9dcKHNdgq5F9yAae9+GogOiFKy8mkalrlOY65tPncMCMvdNxVJHPaMix
- bxBMjK9BnqoyxVah8JVg+Re7gt6uxlI1BDeQidEOne3fAGoiLV9yxH/fvPdHUBxlsm9j
- TEERXR5Sewzecx2pXugHgxeUOeIF8n4o2gwh0q6Wecn1fVJIhaCBAfgn3d2pAee4UaOq
- HJQb9CqRL/K2XWDTlKpOjcjgP4uNLm2un+aKNHJWXZ+hSZnQNBL9w4LXmTv0CXjB493Y
- K6Mt0u7yFxGPnxhn9wWkdSQ75R9c/D3V+LBCL9Kfenft4dJR8JA4Wt+nHyNClWfNatAi
- VX6g==
-X-Gm-Message-State: AFqh2kp0o1CtTPWjnUUtNXKYl84KI3zxmwzC2bPjSR7qT+heoAUGIj5L
- 5Mp1cTCivlZ0ReGXjXru5sQcnIHa0RsTzMxr60BoZmLPzBACU0+DYWIo4gH4As9+I9vUdKJbJ/m
- 8dula1ZBWImI3Zr+e75fLltJM3voyEAY=
-X-Received: by 2002:a9d:7843:0:b0:678:1eb4:3406 with SMTP id
- c3-20020a9d7843000000b006781eb43406mr1077933otm.237.1672027804033; 
- Sun, 25 Dec 2022 20:10:04 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu6KIRopCh5+DJBE8i9xg+gVP8xXYjbSKXfVmmQx6NYBRtKRWZsgSYUdamGqYEKO80XpWfXyVWSiUl6hjlu3RQ=
-X-Received: by 2002:a9d:7843:0:b0:678:1eb4:3406 with SMTP id
- c3-20020a9d7843000000b006781eb43406mr1077930otm.237.1672027803787; Sun, 25
- Dec 2022 20:10:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
+ id 1p9g7b-00019N-Ju
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 00:34:01 -0500
+Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BPLo3f4027688; Sun, 25 Dec 2022 21:33:54 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=proofpoint20171006;
+ bh=jbHdDkxqIZgMqvc9SLx2bZzIYRuHcB8pP3JjCJJ9rZ0=;
+ b=A5CwkG7+5+JOn5hJQUb5BxW/OOtU+0HubUB1LWpZCyDmTDRFULUODZkAD6QBzCH/8LHY
+ XT+sg7Ilhs4iEPy8qwxaG+ALPTfepyayXBRy0WPMKA517SSeZu2qJusmn2xD0+5V+U/d
+ pvBYJVmF8qZDqL95kcHdxpo05Ilvko9lGS9t33Qphk3mHuj/sYO4msmQuKLhjEviwlrQ
+ hotmxlr+8HBIc4yc5J7zi2JyWKsX6JtiVCGEiEgaeXTxOZjvqjjyFrRyg9YK3wf3sJ/q
+ 00vyXo65b2etZNigcswjIi0XNJBOOY8EFKlODD1GO84GdlrKgZVsSt0xL1Vtcz+WhSSR kg== 
+Received: from nam04-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04lp2043.outbound.protection.outlook.com [104.47.73.43])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3mp1cnuc09-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 25 Dec 2022 21:33:53 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OB4WmpBcW45eN1nl81heVt6F1pxshuRlMcVGvQLm2cA9z4wD6DpsVVMpOaSHfPcMrB5WcXzMdOhEoMHNOuySxL9x20ZFSpdA7qd7rWYx8YrzvJNhtoVgnULrRYqgG82s5wSZfBRIqGx7+k+sdRKnJsRxjHdw++yCR/tTxftzX76ETJBHTQajRP0HKiMoTvNYGQIbBMQyBmxdjqBgKJlIJpjtL8MPDf8IMHDSqadGUTtFrR02XFpzouHrfuvvZx1cFh4zwa+3uMVbOYOhms0nzoYQ25e2U63k7YOr9aKDgPy7AXcJ9261eWHLJ+Rt103I+f4i4Ss+6CAWqqtPYfXCMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jbHdDkxqIZgMqvc9SLx2bZzIYRuHcB8pP3JjCJJ9rZ0=;
+ b=FP+/r+KrvbhPWmh+06/2+aZX6fmIFXXpNA2CRDy6SNexw80BnqCJTrO0y6zX3cCgFlWuY9PlzH1u17SXNyfpmAQ0ql798gkepICFwqcNkjrf5aGHsWdiInHlQG+lg5fPjirHt/D5fDI0VDqkNguTsARz44j0CYvaCCYNGN1vd3Q09QObBFCXXG+djLUXTTMa9/EjQRefxyfSv2GAlEYH2kbhhP7kX1qqfgo1T4n7y6M+jDg2fBrnjoJI5tDrsBgQV2G7nWPHPkovq9u4iIOrfgFpFv1yp4EPd+99hJi9xQ1bJEx5pMSFczlaDxhAU7y1ojWcaGIxDnv7/Civ8YHQ6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jbHdDkxqIZgMqvc9SLx2bZzIYRuHcB8pP3JjCJJ9rZ0=;
+ b=aIYfi8chujFIPB89zhZRtjLyOCpY35+uR03LJ/fc0TqzY4jyH59KfBmtS6ryp3Ibx87ZRdXYNMW3SNCVZw3XaqaQf2R2MEMM3BAuoxnJCnpaD31FgQ8amdpJWstit2o4zyklKrlsTxQRrHfFAETb6m0aT4uJfm/TJHNOkDhK9Fw/tKCmtifcy3fP/wiC5AerKLUwfhNMfZTkmyc71hIbgLS2XiaTWEawF3EibyxHk5e4OR5i49j7NSW7bJgdBWi9/ui6CmOdghAcZsy3QeSHo3WnSFFUkG1xxoORFM+JZ8W8u9RrwwNgeoJ44xdphAEajfB8EEmdYirTTzrxTpoxKg==
+Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
+ by PH0PR02MB7655.namprd02.prod.outlook.com (2603:10b6:510:57::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.16; Mon, 26 Dec
+ 2022 05:33:51 +0000
+Received: from BYAPR02MB4343.namprd02.prod.outlook.com
+ ([fe80::6713:972f:95c7:a1f3]) by BYAPR02MB4343.namprd02.prod.outlook.com
+ ([fe80::6713:972f:95c7:a1f3%6]) with mapi id 15.20.5944.016; Mon, 26 Dec 2022
+ 05:33:50 +0000
+From: Het Gala <het.gala@nutanix.com>
+To: qemu-devel@nongnu.org
+Cc: prerna.saxena@nutanix.com, quintela@redhat.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, berrange@redhat.com, armbru@redhat.com,
+ eblake@redhat.com, Het Gala <het.gala@nutanix.com>
+Subject: [PATCH 0/5] migration: Modified 'migrate' QAPI command for migration
+Date: Mon, 26 Dec 2022 05:33:24 +0000
+Message-Id: <20221226053329.157905-1-het.gala@nutanix.com>
+X-Mailer: git-send-email 2.22.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR01CA0009.prod.exchangelabs.com (2603:10b6:a02:80::22)
+ To BYAPR02MB4343.namprd02.prod.outlook.com
+ (2603:10b6:a03:57::18)
 MIME-Version: 1.0
-References: <20221206221348.396020-1-peterx@redhat.com>
- <CACGkMEtK8w2OkeZR=Ebp3t8t6bfaJusTRyC0eB3BGyA7KuX5-g@mail.gmail.com>
- <Y6XWy9XPHqhK8BMh@x1n>
-In-Reply-To: <Y6XWy9XPHqhK8BMh@x1n>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 26 Dec 2022 12:09:52 +0800
-Message-ID: <CACGkMEu6OC7eCyR-ztBXGMe-mtWHfLMHPVJrGWO6Rpx3bHTCPQ@mail.gmail.com>
-Subject: Re: [PATCH v3] intel-iommu: Document iova_tree
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>, 
- Eric Auger <eric.auger@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Yi Liu <yi.l.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4343:EE_|PH0PR02MB7655:EE_
+X-MS-Office365-Filtering-Correlation-Id: a073d559-b0b1-4b6a-2032-08dae702c4d2
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 29k3LcSIMzLLqEqN01c7b6hRCwaA13z3oxjGIyFuyrzB5A7QkWB5CiFi4kkAPgPidxG8aUSKV6ROdaxGG+Ws6qoJH7udaltsRjsN7dX+Gm4BRvNUB7iGXLsV0Rcs6gv+stFWdaAQUp324ZpBt8FwXjJQlu4Vc0uhI8M5YU8/YSiX4Q2waSgKkkPpw6c3lHZzGXO6jC+V5qhAMIk5xZuHNm+0XGHzg8BB7WrEX/gvwKEwniShewId7gpAThnMtxZ7pfuNEcwGH7C5dGKL9YxysPCYuQnv8FYwyIZqVkwY/CQ9xgTgfrrT03P9Uf1GsBgpR48eb9O29iNV+J91QRhj9w1NHzxE65z5jrO4zTLa55ZUsjZ2luzbQvEFy4Utnq3qwlTLVWpM+386uF6YugMP1lMrfKsIdc4zJ74UxA2Fqyh9XueJKq8RE9H7oVnt+05GLUKrz/YDKtdaG9aeM8KK0Lb8j4vo5d53sZZ8XLsH7FsgUQaqRLOwt6cACSWL2fG82XACYkx+JHXoj8iBj6ezPflc71jd9RDOJqTE7rehaPRtPdEiIBD23Y10DfwaeurpghJGnfzeaWBiyLHtU+KawIU9zCW03+EcUmDsatL7a9C+fI3Q1SQ9FHQrItyvzFOnnPtP/LiIVUrw4ogG1XAhN1ZYN9dT+soGJq0XANWz/fQ2Wu8t8PiyGSsX0DwsSi5O7tNF6v4TYo/7OaDIlAitKA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39850400004)(396003)(346002)(376002)(366004)(136003)(451199015)(36756003)(86362001)(26005)(6486002)(478600001)(52116002)(6512007)(186003)(107886003)(6666004)(6506007)(8676002)(66556008)(66476007)(5660300002)(66946007)(41300700001)(8936002)(2906002)(6916009)(316002)(44832011)(4326008)(38100700002)(38350700002)(1076003)(2616005)(83380400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zuW80yrrLot1SG0Psle2SCkvs2p9HrCqM4dX4SpUB7irp2Nx2qb+BisDBFVe?=
+ =?us-ascii?Q?tdkH1x6Pq6/6OjucOeE/4o08rcIbTgPKWrLbQ46CzBKvDnooIQpuTW86ZjPT?=
+ =?us-ascii?Q?UQLmUfkSSM2L3xYROIzfMGQYcc7sHS99b0YSw2Cd4i7GKPVnIxb0bAzGPjgF?=
+ =?us-ascii?Q?14tNLSXTYP5uRdvgsR8YVVBlbSeeSgWHujuTK46R1dP5bE8rcHgVvQQA3YOt?=
+ =?us-ascii?Q?J/2T2sTC6iNBckBIVceNrLgqNMymOzTRNfqdK4C/vqAfVPdrtVKiRKC4H7ap?=
+ =?us-ascii?Q?sZSjkDVtDrUD7fizzBayczy61b4m3v95fPLq/aefswM2QPp+poSV1dpGpnWl?=
+ =?us-ascii?Q?ikhP+j7J4v5yD2AcC8p1sFbfHi+RZ9dl3yhpr1FOUVS9pxAmPQg5i+3ysvEI?=
+ =?us-ascii?Q?QT0KaNtuWdG2uTaz8mQOOKXt7SSIzcErZDcRh5PDEin9trEpAPRPQ96mkaQw?=
+ =?us-ascii?Q?5oQaSy1TzG+e/AojhS62FeaBTqH+6D4NClxDJ1YZAln56HO3QSG1dk71XNhC?=
+ =?us-ascii?Q?Otu7kkf7ImWIIrrlGfUo/ojZBKI0ECexQ77ZNBFrHYp9x4RMvguiIkcEuNIN?=
+ =?us-ascii?Q?mafc6taZc1tMckWPiD7PIZrCYael86GC6dzOeyjuwIixCnTHMsueBmD91XTR?=
+ =?us-ascii?Q?ZIDvBuGN3YPrkGulLbYgdQDztjQYoPLyANNBUCViz1ipI1IJRYcqGDdQtGbG?=
+ =?us-ascii?Q?uYJ1eC3k7yP3LbZLsGW65hgSnBb0hk3ndIH5FjGClfXkM6WxFaW8FSgZb86u?=
+ =?us-ascii?Q?o9EDJbscviaY/IVBnSF7jW9GHH1pl5juizNjaMs471uRiqx087n5BlryISpj?=
+ =?us-ascii?Q?B5xRawWrmFEV8KZCiK86ID+ctn/MZeQ09ST3h7cPc2s7gFIcRHH324cH4gpu?=
+ =?us-ascii?Q?9g5LBWH3equgO8OznA6JlKz8Oqy03HGz0ayI/ClIrZbnHNH1pg01yvvpjO1m?=
+ =?us-ascii?Q?OIaSfic4J7sLTu3jk9AiMBWlLhQ1vmQq7CQX+BBYAsJCer2kkXcQQPzK7eK+?=
+ =?us-ascii?Q?mNLw8SOlE0Lk9kdhBZ/KQPGCrWuU5oLZtS6z7voPxmZCf0m823/A0JkXEDeC?=
+ =?us-ascii?Q?hgDMBwkpO4n6uw8whzOuuU3UTLdyc/+2+qorSFzkmYAFyNCR7tn/A1e/eaOH?=
+ =?us-ascii?Q?dRhVCCpotYlfRv2NBFETXqfPt1d7hAU1UIGhxnblWpvsURDTczGpHGzPh9uL?=
+ =?us-ascii?Q?Scv+VNt6B31Z+Y9L1HdPffeu4M20ZISKn1iw072/a4FEkmwGmvodeZ0PDnB7?=
+ =?us-ascii?Q?FPAXqeAA4exfQFXYtdxL1nhSt2TCXv2iGucK0w6zL7XevRaLaQzaybAu9AJk?=
+ =?us-ascii?Q?gq4IqkZaB7oQHE1WaBhV/smQ39I2QDwluV9JFRUu+3GorND0pnryG16cn/TO?=
+ =?us-ascii?Q?fFLyAKO+USpjO5jncD2Z4O71iF+jOMaYvUKaFDe0fkQpIYKHy5/OVMAeiNbF?=
+ =?us-ascii?Q?RdHWesypth8f+f3pu3NnpCqtKmAr14YRUalKcRD42YwD0Pjs2MLyaXc4uA5P?=
+ =?us-ascii?Q?5VQStzpADGoMBFoiB2xb3YoisGvivh5PbA7EoScar7ZweVHSiFKVvyHVGGVe?=
+ =?us-ascii?Q?6JZpUCEwVuQj9PbxPH906mBCGTFrSGpRReTFSi+k?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a073d559-b0b1-4b6a-2032-08dae702c4d2
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Dec 2022 05:33:50.6902 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EAxVt0iOVEK9MKRTysMTVobn1kqlyFnquss5PvU2b0CnNLILuwSTahOsNxl5eH8D4wyj6mC+mnAgHH2DQ66IKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7655
+X-Proofpoint-GUID: doufIR5Ie4-HrcJPUX_x96knzMMXL2EJ
+X-Proofpoint-ORIG-GUID: doufIR5Ie4-HrcJPUX_x96knzMMXL2EJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-26_02,2022-12-23_01,2022-06-22_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68; envelope-from=het.gala@nutanix.com;
+ helo=mx0a-002c1b01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,115 +154,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Dec 24, 2022 at 12:26 AM Peter Xu <peterx@redhat.com> wrote:
->
-> On Fri, Dec 23, 2022 at 03:48:01PM +0800, Jason Wang wrote:
-> > On Wed, Dec 7, 2022 at 6:13 AM Peter Xu <peterx@redhat.com> wrote:
-> > >
-> > > It seems not super clear on when iova_tree is used, and why.  Add a rich
-> > > comment above iova_tree to track why we needed the iova_tree, and when we
-> > > need it.
-> > >
-> > > Also comment for the map/unmap messages, on how they're used and
-> > > implications (e.g. unmap can be larger than the mapped ranges).
-> > >
-> > > Suggested-by: Jason Wang <jasowang@redhat.com>
-> > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > > ---
-> > > v3:
-> > > - Adjust according to Eric's comment
-> > > ---
-> > >  include/exec/memory.h         | 28 ++++++++++++++++++++++++++
-> > >  include/hw/i386/intel_iommu.h | 38 ++++++++++++++++++++++++++++++++++-
-> > >  2 files changed, 65 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/include/exec/memory.h b/include/exec/memory.h
-> > > index 91f8a2395a..269ecb873b 100644
-> > > --- a/include/exec/memory.h
-> > > +++ b/include/exec/memory.h
-> > > @@ -129,6 +129,34 @@ struct IOMMUTLBEntry {
-> > >  /*
-> > >   * Bitmap for different IOMMUNotifier capabilities. Each notifier can
-> > >   * register with one or multiple IOMMU Notifier capability bit(s).
-> > > + *
-> > > + * Normally there're two use cases for the notifiers:
-> > > + *
-> > > + *   (1) When the device needs accurate synchronizations of the vIOMMU page
-> > > + *       tables, it needs to register with both MAP|UNMAP notifies (which
-> > > + *       is defined as IOMMU_NOTIFIER_IOTLB_EVENTS below).
-> > > + *
-> > > + *       Regarding to accurate synchronization, it's when the notified
-> > > + *       device maintains a shadow page table and must be notified on each
-> > > + *       guest MAP (page table entry creation) and UNMAP (invalidation)
-> > > + *       events (e.g. VFIO). Both notifications must be accurate so that
-> > > + *       the shadow page table is fully in sync with the guest view.
-> > > + *
-> > > + *   (2) When the device doesn't need accurate synchronizations of the
-> > > + *       vIOMMU page tables, it needs to register only with UNMAP or
-> > > + *       DEVIOTLB_UNMAP notifies.
-> > > + *
-> > > + *       It's when the device maintains a cache of IOMMU translations
-> > > + *       (IOTLB) and is able to fill that cache by requesting translations
-> > > + *       from the vIOMMU through a protocol similar to ATS (Address
-> > > + *       Translation Service).
-> > > + *
-> > > + *       Note that in this mode the vIOMMU will not maintain a shadowed
-> > > + *       page table for the address space, and the UNMAP messages can be
-> > > + *       actually larger than the real invalidations (just like how the
-> > > + *       Linux IOMMU driver normally works, where an invalidation can be
-> > > + *       enlarged as long as it still covers the target range).  The IOMMU
-> >
-> > Just spot this when testing your fix for DSI:
-> >
-> >         assert(entry->iova >= notifier->start && entry_end <= notifier->end);
-> >
-> > Do we need to remove this (but it seems a partial revert of
-> > 03c7140c1a0336af3d4fca768de791b9c0e2b128)?
->
-> Replied in the othe thread.
->
-> I assume this documentation patch is still correct, am I right?  It's
-> talking about the possibility of enlarged invalidation range sent from the
-> guest and vIOMMU.  That should still not be bigger than the registered
-> range in iommu notifiers (even if bigger than the actual unmapped range).
+Current QAPI 'migrate' command design (for initiating a migration
+stream) contains information regarding different migrate transport mechanism
+(tcp / unix / exec), dest-host IP address, and binding port number in form of
+a string. Thus the design does seem to have some design issues. Some of the
+issues, stated below are:
 
-Adding Eugenio.
+1. Use of string URIs is a data encoding scheme within a data encoding scheme.
+   QEMU code should directly be able to work with the results from QAPI,
+   without resorting to do a second level of parsing (eg. socket_parse()).
+2. For features / parameters related to migration, the migration tunables needs
+   to be defined and updated upfront. For example, 'migrate-set-capability'
+   and 'migrate-set-parameter' is required to enable multifd capability and
+   multifd-number of channels respectively. Instead, 'Multifd-channels' can
+   directly be represented as a single additional parameter to 'migrate'
+   QAPI. 'migrate-set-capability' and 'migrate-set-parameter' commands could
+   be used for runtime tunables that need setting after migration has already
+   started.
 
-So I think we need to evaluate the possible side effects to all the
-current nmap notifiers. For example the vfio_iommu_map_notify().
+The current patchset focuses on solving the first problem of multi-level
+encoding of URIs. The patch defines 'migrate' command as a QAPI discriminated
+union for the various transport backends (like socket, exec and rdma), and on
+basis of transport backends, different migration parameters are defined.
 
-And in another thread, if we crop the size, it basically means the
-notifier itself will still assume the range is valid, which is not
-what is documented in this patch.
+(uri) string -->  (channel) Channel-type
+                            Transport-type
+                            Migration parameters based on transport type
 
-What's more interesting I see smmu had:
+-----------------------------------------------------------------------------
 
-/* Unmap the whole notifier's range */
-static void smmu_unmap_notifier_range(IOMMUNotifier *n)
-{
-    IOMMUTLBEvent event;
+Author Het Gala (5):
+  migration: Updated QAPI format for 'migrate' qemu monitor command
+  migration: HMP side changes for modified 'migrate' QAPI design
+  migration: Avoid multiple parsing of uri in migration code flow
+  migration: Modified 'migrate-incoming' QAPI and HMP side changes on
+    the destination interface.
+  migration: Established connection for listener sockets on the dest
+    interface
 
-    event.type = IOMMU_NOTIFIER_UNMAP;
-    event.entry.target_as = &address_space_memory;
-    event.entry.iova = n->start;
-    event.entry.perm = IOMMU_NONE;
-    event.entry.addr_mask = n->end - n->start;
+ migration/migration.c | 133 +++++++++++++++++++++++++++++----------
+ migration/socket.c    |  31 +--------
+ migration/socket.h    |   5 +-
+ monitor/hmp-cmds.c    | 101 ++++++++++++++++++++++++++++-
+ qapi/migration.json   | 143 ++++++++++++++++++++++++++++++++++++++++--
+ softmmu/vl.c          |   2 +-
+ 6 files changed, 344 insertions(+), 71 deletions(-)
 
-    memory_region_notify_iommu_one(n, &event);
-}
-
-So it looks to me it's more safe to do something similar for vtd first.
-
-Btw, I forgot the reason why we need to crop the size in the case of
-device IOTLB, Eguenio do you know that?
-
-Thanks
-
->
-> Thanks,
->
-> --
-> Peter Xu
->
+-- 
+2.22.3
 
 
