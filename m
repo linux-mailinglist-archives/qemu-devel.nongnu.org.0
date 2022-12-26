@@ -2,79 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B75465653F
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A6265653D
 	for <lists+qemu-devel@lfdr.de>; Mon, 26 Dec 2022 23:05:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p9vZK-0004uL-DC; Mon, 26 Dec 2022 17:03:38 -0500
+	id 1p9va5-0005zO-9R; Mon, 26 Dec 2022 17:04:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p9vZ8-0004lh-LY; Mon, 26 Dec 2022 17:03:26 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1p9vZ6-0003Yh-TT; Mon, 26 Dec 2022 17:03:26 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id s5so16834668edc.12;
- Mon, 26 Dec 2022 14:03:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JWN1aEv28Joh2/ZLVeS7ANU8mdC3qcchN8nXt3z+4VY=;
- b=dYwpNCzvVKZCI8Xm3ii4afLZlEeS5envIDmcaeKPnfrnSPqcNRLf9ob/CGNpKUmWh5
- wR18qWwV/7baUdvwXjFfIUkH50wGDJqU7OY/LGXNZtkDF6CoVPYZ0FB4RXGk7VBD+Xch
- 0psIW/pfT0LGIW1tR4tPLr0pRQVbuY/UMlW+1ZK3T0/PljXi48XpDzxg9no68RZonzJY
- PtU/jR7Q+fg9DRjLHroA9i9+Z2ZxaQb6G4dkd4TKJQRd3K0yhw0vRpSNSLmO5aByryA4
- 8v/Kd1qEBzR+ncesJp6P86GZyLiTrNzuCc+vMu0A52ijiO9mNg1HtGXjAJLFGSDFU0GG
- Uq8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JWN1aEv28Joh2/ZLVeS7ANU8mdC3qcchN8nXt3z+4VY=;
- b=CV53wX6CK/6GORSx6P+uviUfkceTpMpEcSb1P3FbE3Vl8jNUynF8aH05m+AtgxRdns
- CwLsJIzh20du9LllIe8m6MhT2jEBKXe5ib7XqFO3aOQCyH4muh1PagShv5tUVvQLQ/Do
- zweFF0BGDLs1h/ZhFB+uPgpHT39wY1hr3WnOglrDbPb61gJyIrVFVD+/6FOmH6UIIQtv
- si2eG6X3Vrl9Hu4+BYXinAf+iQfu24DbYjoEHucpYDQEbhIDtFBWe0GZwfNvFpSecgrf
- a2wl/GSOwMwq3qcRh04fgBzkbh6WM5KUGvJpiw87wat+xFyRSxRBUYrN9SH1FBErzZX+
- f9TA==
-X-Gm-Message-State: AFqh2konTFkR1kypZW8qyZiXy6p2CO2PqjICYN1h1sdRNGu2keZyGPVP
- DFw34G0m99pMM+WUEJG7LtzEP9FnnkMp7Q==
-X-Google-Smtp-Source: AMrXdXuVFrlCz2Bti4L3Jmmp4N0S5utQz0/MmvbhNn/1roA7q65107Ikxgcauj9iJGgT7q46h4kdDg==
-X-Received: by 2002:a05:6402:13c4:b0:46a:be66:c0e2 with SMTP id
- a4-20020a05640213c400b0046abe66c0e2mr16955326edx.28.1672092203329; 
- Mon, 26 Dec 2022 14:03:23 -0800 (PST)
-Received: from penguin.lxd ([87.116.176.120])
- by smtp.googlemail.com with ESMTPSA id
- u1-20020aa7d541000000b0046951b43e84sm5111467edr.55.2022.12.26.14.03.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Dec 2022 14:03:23 -0800 (PST)
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-X-Google-Original-From: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, philmd@linaro.org,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Subject: [PATCH v3 7/7] tests/avocado: Add SD boot test to Cubieboard
-Date: Mon, 26 Dec 2022 23:03:03 +0100
-Message-Id: <20221226220303.14420-8-strahinja.p.jankovic@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221226220303.14420-1-strahinja.p.jankovic@gmail.com>
-References: <20221226220303.14420-1-strahinja.p.jankovic@gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p9va2-0005vj-To
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 17:04:23 -0500
+Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1p9vZz-0003wG-QU
+ for qemu-devel@nongnu.org; Mon, 26 Dec 2022 17:04:22 -0500
+Received: from vla5-b2806cb321eb.qloud-c.yandex.net
+ (vla5-b2806cb321eb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id CB8045FCA7;
+ Tue, 27 Dec 2022 01:04:05 +0300 (MSK)
+Received: from vsementsov-win.yandex-team.ru (unknown
+ [2a02:6b8:b081:7302::1:b])
+ by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ r3XNq20UleA1-kkdUHaH9; Tue, 27 Dec 2022 01:04:05 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1672092245; bh=GxS5oBGg62pjt9WymOQQdsKcKh0xpXTjhuke7xLRyAc=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=W6lhWx2oGCUIV/fq7RuQAbqxbS17hnoqoCq9iT4LokR37pAxWE+u1GrR6JmHJ0kXF
+ 3JBNVXptiDai0YzkcczACUSpO0rISNsjiqpWEQXai8rW2iNhHFfpAHUQYwVJhHl5gh
+ FLXOsvOgO24TtFxWiLhyK1uU+WvdivcV9lYyc1rQ=
+Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: philmd@linaro.org, david@redhat.com, peterx@redhat.com,
+ pbonzini@redhat.com, peter.maydell@linaro.org, armbru@redhat.com,
+ vsementsov@yandex-team.ru
+Subject: [PATCH] coverity: physmem: use simple assertions instead of modelling
+Date: Tue, 27 Dec 2022 01:03:51 +0300
+Message-Id: <20221226220351.754204-1-vsementsov@yandex-team.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=178.154.239.72;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,73 +71,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cubieboard now can boot directly from SD card, without the need to pass
-`-kernel` parameter. Update Avocado tests to cover this functionality.
+Unfortunately Coverity doesn't follow the logic aroung "len" and "l"
+variables in stacks finishing with flatview_{read,write}_continue() and
+generate a lot of OVERRUN false-positives. When small buffer (2 or 4
+bytes) is passed to mem read/write path, Coverity assumes the worst
+case of sz=8 in stn_he_p()/ldn_he_p() (defined in
+include/qemu/bswap.h), and reports buffer overrun.
 
-Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+To silence these false-positives we have model functions, which hide
+real logic from Coverity.
+
+However, it turned out that these new two assertions are enough to
+quiet Coverity.
+
+Assertions are better than hiding the logic, so let's drop the
+modelling and move to assertions for memory r/w call stacks.
+
+After patch, the sequence
+
+ cov-make-library --output-file /tmp/master.xmldb \
+    scripts/coverity-scan/model.c
+ cov-build --dir ~/covtmp/master make -j9
+ cov-analyze --user-model-file /tmp/master.xmldb \
+    --dir ~/covtmp/master --all --strip-path "$(pwd)
+ cov-format-errors --dir ~/covtmp/master \
+    --html-output ~/covtmp/master_html_report
+
+Generate for me the same big set of CIDs excepept for 6 disappeared (so
+it becomes even better).
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- tests/avocado/boot_linux_console.py | 47 +++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ scripts/coverity-scan/model.c | 88 -----------------------------------
+ softmmu/physmem.c             | 18 +++++++
+ 2 files changed, 18 insertions(+), 88 deletions(-)
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index ec07c64291..8c1d981586 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -620,6 +620,53 @@ def test_arm_cubieboard_sata(self):
-                                                 'sda')
-         # cubieboard's reboot is not functioning; omit reboot test.
+diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
+index 686d1a3008..a064d84084 100644
+--- a/scripts/coverity-scan/model.c
++++ b/scripts/coverity-scan/model.c
+@@ -42,94 +42,6 @@ typedef _Bool bool;
  
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
-+    def test_arm_cubieboard_openwrt_22_03_2(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:cubieboard
-+        :avocado: tags=device:sd
-+        """
+ typedef struct va_list_str *va_list;
+ 
+-/* exec.c */
+-
+-typedef struct AddressSpace AddressSpace;
+-typedef struct MemoryRegionCache MemoryRegionCache;
+-typedef uint64_t hwaddr;
+-typedef uint32_t MemTxResult;
+-typedef struct MemTxAttrs {} MemTxAttrs;
+-
+-static void __bufwrite(uint8_t *buf, ssize_t len)
+-{
+-    int first, last;
+-    __coverity_negative_sink__(len);
+-    if (len == 0) return;
+-    buf[0] = first;
+-    buf[len-1] = last;
+-    __coverity_writeall__(buf);
+-}
+-
+-static void __bufread(uint8_t *buf, ssize_t len)
+-{
+-    __coverity_negative_sink__(len);
+-    if (len == 0) return;
+-    int first = buf[0];
+-    int last = buf[len-1];
+-}
+-
+-MemTxResult address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
+-                                      MemTxAttrs attrs,
+-                                      void *buf, int len)
+-{
+-    MemTxResult result;
+-    // TODO: investigate impact of treating reads as producing
+-    // tainted data, with __coverity_tainted_data_argument__(buf).
+-    __bufwrite(buf, len);
+-    return result;
+-}
+-
+-MemTxResult address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
+-                                MemTxAttrs attrs,
+-                                const void *buf, int len)
+-{
+-    MemTxResult result;
+-    __bufread(buf, len);
+-    return result;
+-}
+-
+-MemTxResult address_space_rw_cached(MemoryRegionCache *cache, hwaddr addr,
+-                                    MemTxAttrs attrs,
+-                                    void *buf, int len, bool is_write)
+-{
+-    if (is_write) {
+-        return address_space_write_cached(cache, addr, attrs, buf, len);
+-    } else {
+-        return address_space_read_cached(cache, addr, attrs, buf, len);
+-    }
+-}
+-
+-MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+-                               MemTxAttrs attrs,
+-                               void *buf, int len)
+-{
+-    MemTxResult result;
+-    // TODO: investigate impact of treating reads as producing
+-    // tainted data, with __coverity_tainted_data_argument__(buf).
+-    __bufwrite(buf, len);
+-    return result;
+-}
+-
+-MemTxResult address_space_write(AddressSpace *as, hwaddr addr,
+-                                MemTxAttrs attrs,
+-                                const void *buf, int len)
+-{
+-    MemTxResult result;
+-    __bufread(buf, len);
+-    return result;
+-}
+-
+-MemTxResult address_space_rw(AddressSpace *as, hwaddr addr,
+-                             MemTxAttrs attrs,
+-                             void *buf, int len, bool is_write)
+-{
+-    if (is_write) {
+-        return address_space_write(as, addr, attrs, buf, len);
+-    } else {
+-        return address_space_read(as, addr, attrs, buf, len);
+-    }
+-}
+-
+ /* Tainting */
+ 
+ typedef struct {} name2keysym_t;
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index edec095c7a..24571002b3 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2821,6 +2821,15 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
+             l = memory_access_size(mr, l, addr1);
+             /* XXX: could force current_cpu to NULL to avoid
+                potential bugs */
 +
-+        # This test download a 7.5 MiB compressed image and expand it
-+        # to 126 MiB.
-+        image_url = ('https://downloads.openwrt.org/releases/22.03.2/targets/'
-+                     'sunxi/cortexa8/openwrt-22.03.2-sunxi-cortexa8-'
-+                     'cubietech_a10-cubieboard-ext4-sdcard.img.gz')
-+        image_hash = ('94b5ecbfbc0b3b56276e5146b899eafa'
-+                      '2ac5dc2d08733d6705af9f144f39f554')
-+        image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash,
-+                                         algorithm='sha256')
-+        image_path = archive.extract(image_path_gz, self.workdir)
-+        image_pow2ceil_expand(image_path)
++            /*
++             * Assure Coverity (and ourselves) that we are not going to OVERRUN
++             * the buffer by following ldn_he_p().
++             */
++            assert((l == 1 && len >= 1) ||
++                   (l == 2 && len >= 2) ||
++                   (l == 4 && len >= 4) ||
++                   (l == 8 && len >= 8));
+             val = ldn_he_p(buf, l);
+             result |= memory_region_dispatch_write(mr, addr1, val,
+                                                    size_memop(l), attrs);
+@@ -2891,6 +2900,15 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
+             l = memory_access_size(mr, l, addr1);
+             result |= memory_region_dispatch_read(mr, addr1, &val,
+                                                   size_memop(l), attrs);
 +
-+        self.vm.set_console()
-+        self.vm.add_args('-drive', 'file=' + image_path + ',if=sd,format=raw',
-+                         '-nic', 'user',
-+                         '-no-reboot')
-+        self.vm.launch()
-+
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'usbcore.nousb '
-+                               'noreboot')
-+
-+        self.wait_for_console_pattern('U-Boot SPL')
-+
-+        interrupt_interactive_console_until_pattern(
-+                self, 'Hit any key to stop autoboot:', '=>')
-+        exec_command_and_wait_for_pattern(self, "setenv extraargs '" +
-+                                                kernel_command_line + "'", '=>')
-+        exec_command_and_wait_for_pattern(self, 'boot', 'Starting kernel ...');
-+
-+        self.wait_for_console_pattern(
-+            'Please press Enter to activate this console.')
-+
-+        exec_command_and_wait_for_pattern(self, ' ', 'root@')
-+
-+        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-+                                                'Allwinner sun4i/sun5i')
-+        # cubieboard's reboot is not functioning; omit reboot test.
-+
-     @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
-     def test_arm_quanta_gsj(self):
-         """
++            /*
++             * Assure Coverity (and ourselves) that we are not going to OVERRUN
++             * the buffer by following stn_he_p().
++             */
++            assert((l == 1 && len >= 1) ||
++                   (l == 2 && len >= 2) ||
++                   (l == 4 && len >= 4) ||
++                   (l == 8 && len >= 8));
+             stn_he_p(buf, l, val);
+         } else {
+             /* RAM case */
 -- 
-2.30.2
+2.34.1
 
 
