@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6F0656791
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 07:50:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FEF0656799
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 07:53:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pA3ll-0006ID-Ho; Tue, 27 Dec 2022 01:49:01 -0500
+	id 1pA3la-0006HJ-15; Tue, 27 Dec 2022 01:48:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lV-0006FN-Mk
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lV-0006Es-8E
  for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:48:45 -0500
 Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lQ-0006fe-K5
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lQ-0006fJ-TF
  for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:48:45 -0500
-X-QQ-mid: bizesmtp64t1672123697thbo5cky
+X-QQ-mid: bizesmtp64t1672123700tdvllfih
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 27 Dec 2022 14:48:17 +0800 (CST)
+ id ; Tue, 27 Dec 2022 14:48:19 +0800 (CST)
 X-QQ-SSF: 01200000000000C0C000000A0000000
-X-QQ-FEAT: XBN7tc9DADIRk/EtqDKOgSAS6ATohMLjAfCgeI0Fhk0tR7+d9x9ZWLHa1TUgH
- 75NA1SQZJVH90gdAFbKulBC/mquWK1nS2Gk4uztVIEzn98IC1ep2ApcyuRPXESwXs4w/wPP
- z6UGl4c3GcGVEh2Iv8mAquO9Z9/d7huubKq/6ZFeyub05kZ+UlYCkHe1BWN7eIvYdaBRx2Q
- DN/qopV1MOEMEexy1cKwN25CJX9ofDYU6eBsmYE0qJ3W1zkhyHKTqRAJd6IWVmnjPC/kJ7E
- bOpwQiJCaDkZj+mMHpjPseXAFblObNFqTuZpRHpD+bLD+OcjRFQll/ayenVL4Xeg9OTM/y2
- Qy9hmOMN3N0wJ8ZzQP9pWFDRby2qPVy2X06BNsq
+X-QQ-FEAT: znfcQSa1hKbWAV1JNQd9BJuzOFZnVaMPbRBK46rNvMUvq4kvAgmMM0OKMvXkz
+ wJCi86wAm4IwP97A83+YLKQ7eJqQuaK9j8kHnLNwSvqAegKC3y1621rvQS50s9cmwzrnVDm
+ 3Z72wd1Ggana/3SN5rCpYVU6ESC0mtYUktp+ShLgKWcLHDoekycpDoVzj0uA+5XMRxMdaSB
+ EryykkH1GlI6HGvm/wGdfiU4LiosI3V3NOl4BUUw1iI+6AawF4do273mfqAyXX0QYX10ksf
+ IxmQqMpjQYM4yI1iNzl/mKIPmaZuS6IsetMe4tmiupbMvcdtYEFOxIqgbDVu5l2fwK2BZne
+ se4HMsJaFPPAyKNrK2cWv+brmJbmFYq428WqU65
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
 	qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 01/12] hw/char: riscv_htif: Avoid using magic numbers
-Date: Tue, 27 Dec 2022 14:48:01 +0800
-Message-Id: <20221227064812.1903326-2-bmeng@tinylab.org>
+ Alistair Francis <alistair.francis@wdc.com>,
+ Anup Patel <apatel@ventanamicro.com>
+Subject: [PATCH 02/12] hw/char: riscv_htif: Drop {to,
+ from}host_size in HTIFState
+Date: Tue, 27 Dec 2022 14:48:02 +0800
+Message-Id: <20221227064812.1903326-3-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221227064812.1903326-1-bmeng@tinylab.org>
 References: <20221227064812.1903326-1-bmeng@tinylab.org>
@@ -65,156 +66,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Spike HTIF is poorly documented. The only relevant info we can
-get from the internet is from Andrew Waterman at [1].
+These are not used anywhere. Drop them.
 
-Add a comment block before htif_handle_tohost_write() to explain
-the tohost register format, and use meaningful macros intead of
-magic numbers in the codes.
-
-While we are here, corret 2 multi-line comment blocks that have
-wrong format.
-
-Link: https://github.com/riscv-software-src/riscv-isa-sim/issues/364 [1]
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- hw/char/riscv_htif.c | 72 ++++++++++++++++++++++++++++++++------------
- 1 file changed, 52 insertions(+), 20 deletions(-)
+ include/hw/char/riscv_htif.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-index 6577f0e640..088556bb04 100644
---- a/hw/char/riscv_htif.c
-+++ b/hw/char/riscv_htif.c
-@@ -38,6 +38,16 @@
-         }                                                                      \
-     } while (0)
+diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
+index f888ac1b30..3eccc1914f 100644
+--- a/include/hw/char/riscv_htif.h
++++ b/include/hw/char/riscv_htif.h
+@@ -33,8 +33,6 @@ typedef struct HTIFState {
  
-+#define HTIF_DEV_SHIFT          56
-+#define HTIF_CMD_SHIFT          48
-+
-+#define HTIF_DEV_SYSTEM         0
-+#define HTIF_DEV_CONSOLE        1
-+
-+#define HTIF_SYSTEM_CMD_SYSCALL 0
-+#define HTIF_CONSOLE_CMD_GETC   0
-+#define HTIF_CONSOLE_CMD_PUTC   1
-+
- static uint64_t fromhost_addr, tohost_addr;
- static int address_symbol_set;
- 
-@@ -81,9 +91,11 @@ static void htif_recv(void *opaque, const uint8_t *buf, int size)
-         return;
-     }
- 
--    /* TODO - we need to check whether mfromhost is zero which indicates
--              the device is ready to receive. The current implementation
--              will drop characters */
-+    /*
-+     * TODO - we need to check whether mfromhost is zero which indicates
-+     *        the device is ready to receive. The current implementation
-+     *        will drop characters
-+     */
- 
-     uint64_t val_written = htifstate->pending_read;
-     uint64_t resp = 0x100 | *buf;
-@@ -110,10 +122,30 @@ static int htif_be_change(void *opaque)
-     return 0;
- }
- 
-+/*
-+ * See below the tohost register format.
-+ *
-+ * Bits 63:56 indicate the "device".
-+ * Bits 55:48 indicate the "command".
-+ *
-+ * Device 0 is the syscall device, which is used to emulate Unixy syscalls.
-+ * It only implements command 0, which has two subfunctions:
-+ * - If bit 0 is clear, then bits 47:0 represent a pointer to a struct
-+ *   describing the syscall.
-+ * - If bit 1 is set, then bits 47:1 represent an exit code, with a zero
-+ *   value indicating success and other values indicating failure.
-+ *
-+ * Device 1 is the blocking character device.
-+ * - Command 0 reads a character
-+ * - Command 1 writes a character from the 8 LSBs of tohost
-+ *
-+ * For RV32, the tohost register is zero-extended, so only device=0 and
-+ * command=0 (i.e. HTIF syscalls/exit codes) are supported.
-+ */
- static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
- {
--    uint8_t device = val_written >> 56;
--    uint8_t cmd = val_written >> 48;
-+    uint8_t device = val_written >> HTIF_DEV_SHIFT;
-+    uint8_t cmd = val_written >> HTIF_CMD_SHIFT;
-     uint64_t payload = val_written & 0xFFFFFFFFFFFFULL;
-     int resp = 0;
- 
-@@ -125,9 +157,9 @@ static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
-      * 0: riscv-tests Pass/Fail Reporting Only (no syscall proxy)
-      * 1: Console
-      */
--    if (unlikely(device == 0x0)) {
-+    if (unlikely(device == HTIF_DEV_SYSTEM)) {
-         /* frontend syscall handler, shutdown and exit code support */
--        if (cmd == 0x0) {
-+        if (cmd == HTIF_SYSTEM_CMD_SYSCALL) {
-             if (payload & 0x1) {
-                 /* exit code */
-                 int exit_code = payload >> 1;
-@@ -138,14 +170,14 @@ static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
-         } else {
-             qemu_log("HTIF device %d: unknown command\n", device);
-         }
--    } else if (likely(device == 0x1)) {
-+    } else if (likely(device == HTIF_DEV_CONSOLE)) {
-         /* HTIF Console */
--        if (cmd == 0x0) {
-+        if (cmd == HTIF_CONSOLE_CMD_GETC) {
-             /* this should be a queue, but not yet implemented as such */
-             htifstate->pending_read = val_written;
-             htifstate->env->mtohost = 0; /* clear to indicate we read */
-             return;
--        } else if (cmd == 0x1) {
-+        } else if (cmd == HTIF_CONSOLE_CMD_PUTC) {
-             qemu_chr_fe_write(&htifstate->chr, (uint8_t *)&payload, 1);
-             resp = 0x100 | (uint8_t)payload;
-         } else {
-@@ -157,15 +189,15 @@ static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
-             " payload: %016" PRIx64, device, cmd, payload & 0xFF, payload);
-     }
-     /*
--     * - latest bbl does not set fromhost to 0 if there is a value in tohost
--     * - with this code enabled, qemu hangs waiting for fromhost to go to 0
--     * - with this code disabled, qemu works with bbl priv v1.9.1 and v1.10
--     * - HTIF needs protocol documentation and a more complete state machine
--
--        while (!htifstate->fromhost_inprogress &&
--            htifstate->env->mfromhost != 0x0) {
--        }
--    */
-+     * Latest bbl does not set fromhost to 0 if there is a value in tohost.
-+     * With this code enabled, qemu hangs waiting for fromhost to go to 0.
-+     * With this code disabled, qemu works with bbl priv v1.9.1 and v1.10.
-+     * HTIF needs protocol documentation and a more complete state machine.
-+     *
-+     *  while (!htifstate->fromhost_inprogress &&
-+     *      htifstate->env->mfromhost != 0x0) {
-+     *  }
-+     */
-     htifstate->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
-     htifstate->env->mtohost = 0; /* clear to indicate we read */
- }
-@@ -196,7 +228,7 @@ static uint64_t htif_mm_read(void *opaque, hwaddr addr, unsigned size)
- 
- /* CPU wrote to an HTIF register */
- static void htif_mm_write(void *opaque, hwaddr addr,
--                            uint64_t value, unsigned size)
-+                          uint64_t value, unsigned size)
- {
-     HTIFState *htifstate = opaque;
-     if (addr == TOHOST_OFFSET1) {
+     hwaddr tohost_offset;
+     hwaddr fromhost_offset;
+-    uint64_t tohost_size;
+-    uint64_t fromhost_size;
+     MemoryRegion mmio;
+     MemoryRegion *address_space;
+     MemoryRegion *main_mem;
 -- 
 2.34.1
 
