@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E480656795
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 07:52:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3BC656790
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 07:50:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pA3lo-0006JQ-2f; Tue, 27 Dec 2022 01:49:04 -0500
+	id 1pA3lp-0006Kb-5g; Tue, 27 Dec 2022 01:49:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pA3lg-0006IO-5G; Tue, 27 Dec 2022 01:48:59 -0500
+ id 1pA3lm-0006J8-6O; Tue, 27 Dec 2022 01:49:02 -0500
 Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pA3le-0006it-Cl; Tue, 27 Dec 2022 01:48:55 -0500
-X-QQ-mid: bizesmtp64t1672123718to2bf9ar
+ id 1pA3lj-0006l2-N1; Tue, 27 Dec 2022 01:49:01 -0500
+X-QQ-mid: bizesmtp64t1672123721t7sb6n3s
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 27 Dec 2022 14:48:37 +0800 (CST)
-X-QQ-SSF: 01200000000000C0C000000A0000000
-X-QQ-FEAT: BYUemv+qiN2mj/RMlPcV3As1sRb87tf9RnATet64TFWe09htJL6KC5KX3DUsV
- iAXifjhAN2u1Pr1Em/7qN8DG0plPMBtbP+/14KDslTixc0BHqqFw75ptKGyvHjPvY6FTNxm
- AV6BHXHLuNjplyRiveht+XFLIJ89ffuZOcdv2pEYQJstTH7wl+DaEpv/tAOUZGeNXi/7ulz
- io8sJift6qYtskB4qDItEFMRZx5Gr6htnFn/zPO61UiuhEgh8lxwGjF3EgEBL7Vz2tUBOwb
- tMkRvQGnlo2meXNmjitBm9ibTbG8mGc0aDuKbVTCYQxj2dzg0/I/5NFj2JJ/3SpQD9uk3rS
- P2wpX/5au0dRs5/FZekS1z4+9e3YBbkDtJ+86q5
+ id ; Tue, 27 Dec 2022 14:48:40 +0800 (CST)
+X-QQ-SSF: 00200000000000C0C000000A0000000
+X-QQ-FEAT: sU1umfd9FQzurvrLfqpbqvg844PLIjKVaveMRiwz21C5IKDXApQTdYYLgoeLT
+ avftW9Seq94UavkeAUmwW90jqKcCTvMeiqVRnhAjbCLlxJdx9llRRV0uz6xd61lvREb0l6O
+ 7YawO+ZrLOAWbKrxtt6X0go5h30iMuDCwSHUp9E8dPYNhG3KRsW68kL1gpNtg2JZA3EglwZ
+ 8zhWZMKHCOyC29sfRLcjJPfELvxQ+NFocUgRaqB8PDpGciSsluwLeyfZyBz97VfcThjgf6U
+ gpKA+GE9w7MavguW4wO1ByBbhi7QEz5tafc2ec5jdluSAYz/t7fTuKxZJNXAc/JnqFTAX7p
+ bUFBgp6vxCPwNbSVIpHXRdi1RcI14q8iFnzWLkloyI2tABcCdI=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
 	qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Subject: [PATCH 08/12] hw/riscv: spike: Remove the out-of-date comments
-Date: Tue, 27 Dec 2022 14:48:08 +0800
-Message-Id: <20221227064812.1903326-9-bmeng@tinylab.org>
+Subject: [PATCH 09/12] hw/riscv/boot.c: make riscv_find_firmware() static
+Date: Tue, 27 Dec 2022 14:48:09 +0800
+Message-Id: <20221227064812.1903326-10-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221227064812.1903326-1-bmeng@tinylab.org>
 References: <20221227064812.1903326-1-bmeng@tinylab.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
@@ -66,31 +68,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Spike machine now supports OpenSBI plain binary bios image, so the
-comments are no longer valid.
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
+The only caller is riscv_find_and_load_firmware(), which is in the same
+file.
+
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Message-Id: <20221221182300.307900-5-dbarboza@ventanamicro.com>
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- hw/riscv/spike.c | 5 -----
- 1 file changed, 5 deletions(-)
+ include/hw/riscv/boot.h |  1 -
+ hw/riscv/boot.c         | 44 ++++++++++++++++++++---------------------
+ 2 files changed, 22 insertions(+), 23 deletions(-)
 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 8606331f61..ab0a945f8b 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -256,11 +256,6 @@ static void spike_board_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
-                                 mask_rom);
+diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+index 93e5f8760d..c03e4e74c5 100644
+--- a/include/hw/riscv/boot.h
++++ b/include/hw/riscv/boot.h
+@@ -37,7 +37,6 @@ target_ulong riscv_find_and_load_firmware(MachineState *machine,
+                                           const char *default_machine_firmware,
+                                           hwaddr firmware_load_addr,
+                                           symbol_fn_t sym_cb);
+-char *riscv_find_firmware(const char *firmware_filename);
+ target_ulong riscv_load_firmware(const char *firmware_filename,
+                                  hwaddr firmware_load_addr,
+                                  symbol_fn_t sym_cb);
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index ebd351c840..7361d5c0d8 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -75,6 +75,28 @@ target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState *harts,
+     }
+ }
  
--    /*
--     * Not like other RISC-V machines that use plain binary bios images,
--     * keeping ELF files here was intentional because BIN files don't work
--     * for the Spike machine as HTIF emulation depends on ELF parsing.
--     */
-     if (riscv_is_32bit(&s->soc[0])) {
-         firmware_end_addr = riscv_find_and_load_firmware(machine,
-                                     RISCV32_BIOS_BIN, memmap[SPIKE_DRAM].base,
++static char *riscv_find_firmware(const char *firmware_filename)
++{
++    char *filename;
++
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware_filename);
++    if (filename == NULL) {
++        if (!qtest_enabled()) {
++            /*
++             * We only ship OpenSBI binary bios images in the QEMU source.
++             * For machines that use images other than the default bios,
++             * running QEMU test will complain hence let's suppress the error
++             * report for QEMU testing.
++             */
++            error_report("Unable to load the RISC-V firmware \"%s\"",
++                         firmware_filename);
++            exit(1);
++        }
++    }
++
++    return filename;
++}
++
+ target_ulong riscv_find_and_load_firmware(MachineState *machine,
+                                           const char *default_machine_firmware,
+                                           hwaddr firmware_load_addr,
+@@ -104,28 +126,6 @@ target_ulong riscv_find_and_load_firmware(MachineState *machine,
+     return firmware_end_addr;
+ }
+ 
+-char *riscv_find_firmware(const char *firmware_filename)
+-{
+-    char *filename;
+-
+-    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware_filename);
+-    if (filename == NULL) {
+-        if (!qtest_enabled()) {
+-            /*
+-             * We only ship OpenSBI binary bios images in the QEMU source.
+-             * For machines that use images other than the default bios,
+-             * running QEMU test will complain hence let's suppress the error
+-             * report for QEMU testing.
+-             */
+-            error_report("Unable to load the RISC-V firmware \"%s\"",
+-                         firmware_filename);
+-            exit(1);
+-        }
+-    }
+-
+-    return filename;
+-}
+-
+ target_ulong riscv_load_firmware(const char *firmware_filename,
+                                  hwaddr firmware_load_addr,
+                                  symbol_fn_t sym_cb)
 -- 
 2.34.1
 
