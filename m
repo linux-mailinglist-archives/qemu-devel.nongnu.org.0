@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B153656D1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 17:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963E5656D66
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 18:24:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pADBH-0007Aq-TR; Tue, 27 Dec 2022 11:51:59 -0500
+	id 1pADfW-00023S-5Q; Tue, 27 Dec 2022 12:23:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pADBE-00077W-IC
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 11:51:56 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pADfU-000235-DZ
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:23:12 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pADB9-00012j-IN
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 11:51:56 -0500
-Received: by mail-ed1-x534.google.com with SMTP id b88so12444511edf.6
- for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 08:51:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pADfS-0006wO-UK
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:23:12 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id ja17so9735321wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 09:23:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xvFrpX+Js2OAy+uLa6QGZ8OxaXl2pMB247UjCuv/XjE=;
- b=C10syAeDxxwGkA4rT/kndUPBy6gkpj5hESqDmAjmHL8h1v9o4kqiwVe7ju3m5gFbj5
- 8HB5KKg6P1tewIGrOQAEajtbpfi9F4iNb6o7IuUwymPNrMVAMrtJ2kAHtPpJg5ezGh5D
- UDl2yT0Vp3y/IBn2oCTquLTq5PF4j+4tzEZYoe9IqlI2E16VjTiWFo3yUG9pj5D6Pbg9
- zj9iGZgmc9e4YlLgq5Aw/4PdFTGKvCBrMUjwZ3nQePfbfaJl9ikOeb0A3L+gW7pgEcau
- SAqt6bQNQ5P2U+6mOYuQDine3K2+Cl4EHTz1VRjbx4GJNBlC1VIWalXrKVlBUeGPcsvn
- jaBg==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=To5dGl4cZG2J8ORF7iOJBNxSFLT+55cRsOQPufl8xlc=;
+ b=iAdgMPQxJgoPq1LObmFz239wSWpuDQNpSC5scxYd5v4zKa3jCXXvF9YXLnLYQBVPpV
+ p8CZZRkdxHnr7exhUUEz4Za+FIk9nKNbK1ci8Sikl+p+yovZbrZHHPo3/i6Yg8uNR3w1
+ fd9ogMoCPGaYvtbsEkQZ+DqIf3aEOBHui7DlGdTOLMEp9kjsBb3GF5yFmTi0u3GY5avb
+ KKrxxQhev7P6tHWe8DjzRJKTxnxtIhfN9NwopPUJsdBt3e5iJGvPgHam8HVxqIWRejYQ
+ wl80d846BgN6McnwZJVHiGt3gJTuXfve28c8oiAYt3nLDV6rRqBMbQ3IxbDIfmJxgPqs
+ nkag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xvFrpX+Js2OAy+uLa6QGZ8OxaXl2pMB247UjCuv/XjE=;
- b=LXWPBdEwE6BVVsER/TRDgoshv+wQpd9zRTVU/jiVMQZZH0OqxFwEjPfzYhTpCrA32i
- veU0tGgiAqg65nSQ350E0dwNfNQEQbUHdxqec9G1xM0ETlFahpjsXAKH/B33HwfWno3z
- oD/50xqwpPgn+wOwjpStxeTts4iRJsnUzvdQukxS/CCf23+f13082SNLf8l4+uKTYNN4
- gAsGtg+l8lDJJG3ba8odY+zhQAxT+2j7iDCQcdOHOd1EO7trWR+D3PUg68s5p3k/52nI
- yvoAsSN9S96NGzhElPXnj8bTD7nNxC7sRo31D0iuymijySNy2WUcoD1AHvex4ynH4Ymb
- cN2w==
-X-Gm-Message-State: AFqh2koDEz0/7R8S5sNJWy0JgXCz6PzDz8+ULoQ33kKkMPX9rznl5VbN
- FY7zeAHVA736N5j2Gbq1gSZFpw==
-X-Google-Smtp-Source: AMrXdXubNBDchvoLh+sRIl84sgjWao2+USo9leHnUHeUrc3lYCNN6D0IvgLoS9VRv54JEgkJf6nhYQ==
-X-Received: by 2002:a05:6402:448a:b0:481:9219:f603 with SMTP id
- er10-20020a056402448a00b004819219f603mr13035494edb.28.1672159909965; 
- Tue, 27 Dec 2022 08:51:49 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=To5dGl4cZG2J8ORF7iOJBNxSFLT+55cRsOQPufl8xlc=;
+ b=P+4nesUwxdOdO9UutOlDoOYGN6bSL2eFwW8IXASzrxHa0FQxhBfTT9EcnkMsuwIg4b
+ O7OwUgRWUx0xB1Ygs5W/7klIcrB6unPXMp5C4ET7zi9PbWSQBlASASM38WwvVXv/uKeq
+ 7rvudX3ve9vsaWWYdgacIhfWQUKP5GLZnLJJuDbXgdC3OoHTv5YWJ5hKQCBJXPgsxP7k
+ /rdmsQEVaesTfxfzH3CGNLapcBLSV2x8NuakhemYJacDTohr1bNcX/f0ocTDgNTio0PZ
+ QHo+i6/LYDYW28OLfA07IxHg3NbZpfk6tkASkmCaJ/VC34Xa+CNI0KFfbGHAdZBbKCMl
+ 6S7A==
+X-Gm-Message-State: AFqh2kpk3eBtytZUdGmjBeCGMXb0ETzoTgMflME/16xqfNAe8E/GABVA
+ fhd/pCMntfGs7ftjhyEV8agrQA==
+X-Google-Smtp-Source: AMrXdXsf0iseg5/vm0hauWP4BShfW2iU9rrkZYcoLe+YiOyCEdMDMt907PTPHnDmsaQWXX9DuL76BA==
+X-Received: by 2002:a7b:c8ca:0:b0:3cf:728e:c224 with SMTP id
+ f10-20020a7bc8ca000000b003cf728ec224mr15911377wml.6.1672161788744; 
+ Tue, 27 Dec 2022 09:23:08 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- h25-20020aa7de19000000b00463b9d47e1fsm6043211edv.71.2022.12.27.08.51.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Dec 2022 08:51:49 -0800 (PST)
-Message-ID: <3cdfb4fc-70a9-db51-ac49-4ba984a3045a@linaro.org>
-Date: Tue, 27 Dec 2022 17:51:47 +0100
+ q2-20020a1cf302000000b003d1cc0464a2sm17933916wmq.8.2022.12.27.09.23.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Dec 2022 09:23:08 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E86501FFB7;
+ Tue, 27 Dec 2022 17:23:07 +0000 (GMT)
+References: <20221224151821.464455-1-richard.henderson@linaro.org>
+ <20221224151821.464455-5-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.7; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: iii@linux.ibm.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH 4/4] tests/tcg/multiarch: add vma-pthread.c
+Date: Tue, 27 Dec 2022 17:23:03 +0000
+In-reply-to: <20221224151821.464455-5-richard.henderson@linaro.org>
+Message-ID: <873590n4lg.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 3/3] vdpa: commit all host notifier MRs in a single MR
- transaction
-Content-Language: en-US
-To: "Longpeng(Mike)" <longpeng2@huawei.com>, stefanha@redhat.com,
- mst@redhat.com, jasowang@redhat.com, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>
-Cc: cohuck@redhat.com, sgarzare@redhat.com, pbonzini@redhat.com,
- arei.gonglei@huawei.com, yechuan@huawei.com, huangzhichao@huawei.com,
- qemu-devel@nongnu.org
-References: <20221227072015.3134-1-longpeng2@huawei.com>
- <20221227072015.3134-4-longpeng2@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221227072015.3134-4-longpeng2@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,45 +94,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/12/22 08:20, Longpeng(Mike) wrote:
-> From: Longpeng <longpeng2@huawei.com>
-> 
-> This allows the vhost-vdpa device to batch the setup of all its MRs of
-> host notifiers.
-> 
-> This significantly reduces the device starting time, e.g. the time spend
-> on setup the host notifier MRs reduce from 423ms to 32ms for a VM with
-> 64 vCPUs and 3 vhost-vDPA generic devices (vdpa_sim_blk, 64vq per device).
-> 
-> Signed-off-by: Longpeng <longpeng2@huawei.com>
-> ---
->   hw/virtio/vhost-vdpa.c | 25 +++++++++++++++++++------
->   1 file changed, 19 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index fd0c33b0e1..870265188a 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -512,9 +512,18 @@ static void vhost_vdpa_host_notifiers_uninit(struct vhost_dev *dev, int n)
->   {
->       int i;
->   
-> +    /*
-> +     * Pack all the changes to the memory regions in a single
-> +     * transaction to avoid a few updating of the address space
-> +     * topology.
-> +     */
-> +    memory_region_transaction_begin();
-> +
->       for (i = dev->vq_index; i < dev->vq_index + n; i++) {
->           vhost_vdpa_host_notifier_uninit(dev, i);
->       }
-> +
-> +    memory_region_transaction_commit();
->   }
 
-Instead of optimizing one frontend, I wonder if we shouldn't expose
-a 'bool memory_region_transaction_in_progress()' helper in memory.c,
-and in virtio_queue_set_host_notifier_mr() backend, assert we are
-within a transaction. That way we'd optimize all virtio frontends.
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> From: Ilya Leoshkevich <iii@linux.ibm.com>
+>
+> Add a test that locklessly changes and exercises page protection bits
+> from various threads. This helps catch race conditions in the VMA
+> handling.
+>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Message-Id: <20221223120252.513319-1-iii@linux.ibm.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
