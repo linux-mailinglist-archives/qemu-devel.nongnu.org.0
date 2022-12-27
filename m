@@ -2,79 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40DB656B62
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 14:38:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A047656BED
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 15:34:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAA8m-0006i2-Np; Tue, 27 Dec 2022 08:37:12 -0500
+	id 1pAB1T-0004oy-Dy; Tue, 27 Dec 2022 09:33:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Y2YX=4Z=zx2c4.com=Jason@kernel.org>)
- id 1pAA8k-0006h7-S8
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 08:37:10 -0500
-Received: from ams.source.kernel.org ([145.40.68.75])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Y2YX=4Z=zx2c4.com=Jason@kernel.org>)
- id 1pAA8g-0004Ws-ET
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 08:37:09 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8FB8FB80FEA;
- Tue, 27 Dec 2022 13:37:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5AE9C433D2;
- Tue, 27 Dec 2022 13:36:59 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="HsbP5xOE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1672148217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A6Tpz+0nHRofFNKNlRnj1MkH2P/4zYKJXoIQP8XxImY=;
- b=HsbP5xOEiKYJiyasySa0UMT4zXobhsSaqEJ35giVI7EZRf61AbjyX7fN31v632JdItsaV2
- MBWd8YE7QyAHDJ3fJ+/019DHifr+V48SBeiIb7fTg2vE+f61Ve186jv7+jTTDHKf2tODgZ
- FO+gIFwmrkQbTJUnAOihliiilMNydhI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 217de33c
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 27 Dec 2022 13:36:57 +0000 (UTC)
-Date: Tue, 27 Dec 2022 14:36:54 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Eric Biggers <ebiggers@kernel.org>, x86@kernel.org, linux-mm@kvack.org
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
-Message-ID: <Y6r09pm68oI7GMe1@zx2c4.com>
-References: <20220921093134.2936487-1-Jason@zx2c4.com>
- <20220921093134.2936487-4-Jason@zx2c4.com>
- <Y6ZESPx4ettBLuMt@sol.localdomain> <Y6ZtVGtFpUNQP+KU@zx2c4.com>
- <Y6Z+WpqN59ZjIKkk@zx2c4.com> <Y6muh1E1fNOot+VZ@zx2c4.com>
- <Y6my+Oiz67G46snj@zx2c4.com> <Y6nSel5/wdnoSFpk@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pAB1H-0004l4-5z
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 09:33:32 -0500
+Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pAB1B-0001e2-6q
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 09:33:30 -0500
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1441d7d40c6so15630242fac.8
+ for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 06:33:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6eij0VIWJ8NByESgScM2pnE0xIoYV4hdIc4QUJg9eQ8=;
+ b=bq+Mo67JobiGOC0hAVI2LXKkaslIB3Rh9A2M1VZsIqdiNSA4XuE4HgMr83i4WSOu/g
+ RF1VTPjU0+n1up27Gm+LB7Dm5mY2ohN7yJM9xwPfeKje3IqRcn+Dyn0ORTsXbWW4RBaB
+ B1XfLrUGGkaC7waEF5uyvsZfp3+5mNRAOUAjaNUe/g/oweSeu2zwF7+ZO+4vDfmxMs1A
+ KPOlObh8sr1pkyWgy6BShLoX88bkbfhpKvCdwlzhpKZFJ/uqOTb3MQU32v1OkzlhD20n
+ z+aaY3GRfb/1nbtLSV5tu9w3lOKlpdt9mrcThzdEJvIBpqjH7qfWSGnE+USibXBJLmeC
+ vOsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6eij0VIWJ8NByESgScM2pnE0xIoYV4hdIc4QUJg9eQ8=;
+ b=IVX7qdbiKirMvzzqMNRvBbHa5cv2myb6yvCe8uoHwWwyU9BXN6aODCw6vUCA6BvvTk
+ 2y0y2JHtk4jLixXF5TLI0tw8MBoAgD2PVQbgWwxmZjaHpOk24gvz1YrTRmFHiLShkmo6
+ rQzV8/eQ97FxiNboxgRZypaIGcVoH/w8tT8KXllxOrj2sgFUkuxKcz/u+Pyyjt88YrwH
+ SHwDyjqwa8suFYJmiH6wCnh8kUnbN02E71fdR3ON1ee3STdwHvJu4n2hnuTJrqdYm1Cc
+ G29qPHGxMQ4SkAYtpC7s0IKqQgaWc0yS/LbiWnqglRV6CTqb3JS8McIch5U6h3X6Vhze
+ pMdA==
+X-Gm-Message-State: AFqh2krb2Jn+Zyu55Cblpnso5io125x5RKqQXTz9u9cVf1gwE7dQhNsN
+ 95q7Rdg7S/c00KtLzVlKZq/qYg==
+X-Google-Smtp-Source: AMrXdXvu4PRpO1dKuzW+GV3RfK/NI8ZvQG3vrXm4Gr5IL6tPyWZu4y+xL7Hr9LBTMK9qShJXHC6Lvg==
+X-Received: by 2002:a05:6870:ed8c:b0:144:dad7:80f3 with SMTP id
+ fz12-20020a056870ed8c00b00144dad780f3mr11495127oab.37.1672151597712; 
+ Tue, 27 Dec 2022 06:33:17 -0800 (PST)
+Received: from [192.168.68.107] ([177.102.70.162])
+ by smtp.gmail.com with ESMTPSA id
+ k11-20020a056870350b00b0012b298699dbsm6196947oah.1.2022.12.27.06.33.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Dec 2022 06:33:17 -0800 (PST)
+Message-ID: <d501aa56-31c1-0efb-009c-bc0a991397eb@ventanamicro.com>
+Date: Tue, 27 Dec 2022 11:33:12 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 12/12] hw/riscv: spike: Decouple create_fdt() dependency
+ to ELF loading
+Content-Language: en-US
+To: Bin Meng <bmeng@tinylab.org>, Alistair Francis
+ <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org
+References: <20221227064812.1903326-1-bmeng@tinylab.org>
+ <20221227064812.1903326-13-bmeng@tinylab.org>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20221227064812.1903326-13-bmeng@tinylab.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y6nSel5/wdnoSFpk@zx2c4.com>
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=Y2YX=4Z=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x35.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,118 +100,257 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 26, 2022 at 05:57:30PM +0100, Jason A. Donenfeld wrote:
-> On Mon, Dec 26, 2022 at 03:43:04PM +0100, Jason A. Donenfeld wrote:
-> > On Mon, Dec 26, 2022 at 03:24:07PM +0100, Jason A. Donenfeld wrote:
-> > > Hi,
-> > > 
-> > > I'm currently stumped at the moment, so adding linux-mm@ and x86@. Still
-> > > working on it though. Details of where I'm at are below the quote below.
-> > > 
-> > > On Sat, Dec 24, 2022 at 05:21:46AM +0100, Jason A. Donenfeld wrote:
-> > > > On Sat, Dec 24, 2022 at 04:09:08AM +0100, Jason A. Donenfeld wrote:
-> > > > > Hi Eric,
-> > > > > 
-> > > > > Replying to you from my telephone, and I'm traveling the next two days,
-> > > > > but I thought I should mention some preliminary results right away from
-> > > > > doing some termux compiles:
-> > > > > 
-> > > > > On Fri, Dec 23, 2022 at 04:14:00PM -0800, Eric Biggers wrote:
-> > > > > > Hi Jason,
-> > > > > > 
-> > > > > > On Wed, Sep 21, 2022 at 11:31:34AM +0200, Jason A. Donenfeld wrote:
-> > > > > > > This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
-> > > > > > > for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
-> > > > > > > 
-> > > > > > > Cc: Laurent Vivier <laurent@vivier.eu>
-> > > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > > > Cc: Peter Maydell <peter.maydell@linaro.org>
-> > > > > > > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > > > > > > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > > > > > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> > > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > > > > > > ---
-> > > > > > >  hw/i386/microvm.c | 2 +-
-> > > > > > >  hw/i386/pc_piix.c | 3 ++-
-> > > > > > >  hw/i386/pc_q35.c  | 3 ++-
-> > > > > > >  3 files changed, 5 insertions(+), 3 deletions(-)
-> > > > > > > 
-> > > > > > 
-> > > > > > After upgrading to QEMU 7.2, Linux 6.1 no longer boots with some configs.  There
-> > > > > > is no output at all.  I bisected it to this commit, and I verified that the
-> > > > > > following change to QEMU's master branch makes the problem go away:
-> > > > > > 
-> > > > > > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> > > > > > index b48047f50c..42f5b07d2f 100644
-> > > > > > --- a/hw/i386/pc_piix.c
-> > > > > > +++ b/hw/i386/pc_piix.c
-> > > > > > @@ -441,6 +441,7 @@ static void pc_i440fx_8_0_machine_options(MachineClass *m)
-> > > > > >      pc_i440fx_machine_options(m);
-> > > > > >      m->alias = "pc";
-> > > > > >      m->is_default = true;
-> > > > > > +    PC_MACHINE_CLASS(m)->legacy_no_rng_seed = true;
-> > > > > >  }
-> > > > > > 
-> > > > > > I've attached the kernel config I am seeing the problem on.
-> > > > > > 
-> > > > > > For some reason, the problem also goes away if I disable CONFIG_KASAN.
-> > > > > > 
-> > > > > > Any idea what is causing this?
-> > > > > 
-> > > > > - Commenting out the call to parse_setup_data() doesn't fix the issue.
-> > > > >   So there's no KASAN issue with the actual parser.
-> > > > > 
-> > > > > - Using KASAN_OUTLINE rather than INLINE does fix the issue!
-> > > > > 
-> > > > > That makes me suspect that it's file size related, and QEMU or the BIOS
-> > > > > is placing setup data at an overlapping offset by accident, or something
-> > > > > similar.
-> > > > 
-> > > > I removed the file systems from your config to bring the kernel size
-> > > > back down, and voila, it works, even with KASAN_INLINE. So perhaps I'm
-> > > > on the right track here...
-> > > 
-> > > QEMU sticks setup_data after the kernel image, the same as kexec-tools
-> > > and everything else. Apparently, when the kernel image is large, the
-> > > call to early_memremap(boot_params.hdr.setup_data, ...) returns a value
-> > > that points some place bogus, and the system crashes or does something
-> > > weird. I haven't yet determined what this limit is, but in my current
-> > > test kernel, a value of 0x0000000001327650 is enough to make it point to
-> > > rubbish.
-> > > 
-> > > Is this expected? What's going on here?
-> > 
-> > Attaching gdb to QEMU and switching it to physical memory mode
-> > (`maintenance packet Qqemu.PhyMemMode:1 `) indicates that it
-> > early_memremap is actually working fine and something *else* is at this
-> > address? That's kinda weird... Is KASAN populating physical addresses
-> > immediately after the kernel image extremely early in boot? I'm seeing
-> > the crash happen from early_reserve_memory()->
-> > memblock_x86_reserve_range_setup_data(), which should be before
-> > kasan_init() even runs. Is QEMU calculating kernel_size wrong, when it
-> > goes to determine where to put the setup_data data? But that's the same
-> > calculation as used everywhere else, so hmm...
-> > 
-> > Jason
-> 
-> If bzImage is 15770544 bytes, it does not boot. If bzImage is 15641776
-> bytes, it does boot. So something is happening somewhat close to the
-> 16MB mark?
-> 
+Hi Bin,
 
-Okay, the issue is that it's being decompressed to an area that overlaps
-the source. So for example in my test kernel:
+On 12/27/22 03:48, Bin Meng wrote:
+> At present create_fdt() calls htif_uses_elf_symbols() to determine
+> whether to insert a <reg> property for the HTIF. This unfortunately
+> creates a hidden dependency to riscv_load_{firmware,kernel} that
+> create_fdt() must be called after the ELF {firmware,kernel} image
+> has been loaded.
+>
+> Decouple such dependency be adding a new parameter to create_fdt(),
+> whether custom HTIF base address is used. The flag will be set if
+> non ELF {firmware,kernel} image is given by user.
+>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+>
+> ---
+>
+>   include/hw/char/riscv_htif.h |  5 +---
+>   hw/char/riscv_htif.c         | 17 +++++-------
+>   hw/riscv/spike.c             | 54 ++++++++++++++++++++++++++++++------
+>   3 files changed, 53 insertions(+), 23 deletions(-)
+>
+> diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
+> index 9e8ebbe017..5958c5b986 100644
+> --- a/include/hw/char/riscv_htif.h
+> +++ b/include/hw/char/riscv_htif.h
+> @@ -44,11 +44,8 @@ typedef struct HTIFState {
+>   void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
+>       uint64_t st_size);
+>   
+> -/* Check if HTIF uses ELF symbols */
+> -bool htif_uses_elf_symbols(void);
+> -
+>   /* legacy pre qom */
+>   HTIFState *htif_mm_init(MemoryRegion *address_space, Chardev *chr,
+> -                        uint64_t nonelf_base);
+> +                        uint64_t nonelf_base, bool custom_base);
+>   
+>   #endif
+> diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
+> index 1477fc0090..098de50e35 100644
+> --- a/hw/char/riscv_htif.c
+> +++ b/hw/char/riscv_htif.c
+> @@ -52,20 +52,17 @@
+>   #define PK_SYS_WRITE            64
+>   
+>   static uint64_t fromhost_addr, tohost_addr;
+> -static int address_symbol_set;
+>   
+>   void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
+>                             uint64_t st_size)
+>   {
+>       if (strcmp("fromhost", st_name) == 0) {
+> -        address_symbol_set |= 1;
+>           fromhost_addr = st_value;
+>           if (st_size != 8) {
+>               error_report("HTIF fromhost must be 8 bytes");
+>               exit(1);
+>           }
+>       } else if (strcmp("tohost", st_name) == 0) {
+> -        address_symbol_set |= 2;
+>           tohost_addr = st_value;
+>           if (st_size != 8) {
+>               error_report("HTIF tohost must be 8 bytes");
+> @@ -275,19 +272,19 @@ static const MemoryRegionOps htif_mm_ops = {
+>       .write = htif_mm_write,
+>   };
+>   
+> -bool htif_uses_elf_symbols(void)
+> -{
+> -    return (address_symbol_set == 3) ? true : false;
+> -}
+> -
+>   HTIFState *htif_mm_init(MemoryRegion *address_space, Chardev *chr,
+> -                        uint64_t nonelf_base)
+> +                        uint64_t nonelf_base, bool custom_base)
+>   {
+>       uint64_t base, size, tohost_offset, fromhost_offset;
+>   
+> -    if (!htif_uses_elf_symbols()) {
+> +    if (custom_base) {
+>           fromhost_addr = nonelf_base;
+>           tohost_addr = nonelf_base + 8;
+> +    } else {
+> +        if (!fromhost_addr || !tohost_addr) {
+> +            error_report("Invalid HTIF fromhost or tohost address");
+> +            exit(1);
+> +        }
+>       }
+>   
+>       base = MIN(tohost_addr, fromhost_addr);
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index 810a18f283..90f9e581e4 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -50,7 +50,8 @@ static const MemMapEntry spike_memmap[] = {
+>   };
+>   
+>   static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+> -                       uint64_t mem_size, const char *cmdline, bool is_32_bit)
+> +                       uint64_t mem_size, const char *cmdline,
+> +                       bool is_32_bit, bool htif_custom_base)
+>   {
+>       void *fdt;
+>       uint64_t addr, size;
+> @@ -78,7 +79,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+>   
+>       qemu_fdt_add_subnode(fdt, "/htif");
+>       qemu_fdt_setprop_string(fdt, "/htif", "compatible", "ucb,htif0");
+> -    if (!htif_uses_elf_symbols()) {
+> +    if (htif_custom_base) {
+>           qemu_fdt_setprop_cells(fdt, "/htif", "reg",
+>               0x0, memmap[SPIKE_HTIF].base, 0x0, memmap[SPIKE_HTIF].size);
+>       }
+> @@ -184,6 +185,21 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+>       }
+>   }
+>   
+> +static bool spike_test_elf_image(char *filename)
+> +{
+> +    Error *err = NULL;
+> +
+> +    if (filename) {
+> +        load_elf_hdr(filename, NULL, NULL, &err);
+> +        if (err) {
+> +            error_free(err);
+> +            return false;
+> +        }
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>   static void spike_board_init(MachineState *machine)
+>   {
+>       const MemMapEntry *memmap = spike_memmap;
+> @@ -191,11 +207,12 @@ static void spike_board_init(MachineState *machine)
+>       MemoryRegion *system_memory = get_system_memory();
+>       MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+>       target_ulong firmware_end_addr, kernel_start_addr;
+> -    const char *firmware_name;
+> +    char *firmware_name;
+>       uint32_t fdt_load_addr;
+>       uint64_t kernel_entry;
+>       char *soc_name;
+>       int i, base_hartid, hart_count;
+> +    bool htif_custom_base;
+>   
+>       /* Check socket count limit */
+>       if (SPIKE_SOCKETS_MAX < riscv_socket_count(machine)) {
+> @@ -257,10 +274,28 @@ static void spike_board_init(MachineState *machine)
+>       memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
+>                                   mask_rom);
+>   
+> -    firmware_name = riscv_default_firmware_name(&s->soc[0]);
+> -    firmware_end_addr = riscv_find_and_load_firmware(machine, firmware_name,
+> -                                                     memmap[SPIKE_DRAM].base,
+> -                                                     htif_symbol_callback);
+> +    /* Find firmware */
+> +    firmware_name = riscv_find_firmware(machine->firmware,
+> +                        riscv_default_firmware_name(&s->soc[0]));
+> +
+> +    /*
+> +     * Test the given firmware or kernel file to see if it is an ELF image.
+> +     * If it is an ELF, we assume it contains the symbols required for
+> +     * the HTIF console, otherwise we fall back to use the custom base
+> +     * passed from device tree for the HTIF console.
+> +     */
+> +    htif_custom_base = !spike_test_elf_image(firmware_name);
+> +    if (!htif_custom_base) {
+> +        htif_custom_base = !spike_test_elf_image(machine->kernel_filename);
+> +    }
+> +
+> +    /* Load firmware */
+> +    if (firmware_name) {
+> +        firmware_end_addr = riscv_load_firmware(firmware_name,
+> +                                                memmap[SPIKE_DRAM].base,
+> +                                                htif_symbol_callback);
+> +        g_free(firmware_name);
+> +    }
+>   
+>       /* Load kernel */
+>       if (machine->kernel_filename) {
 
-input_addr: 0x3f112bf
-output_addr: 0x1000000
-output_len: 0x3a5d7d8
+'make' is giving me a maybe-uninitialized error in this point:
 
-Since 0x3a5d7d8 + 0x1000000 > 0x3f112bf, eventually this corrupts the
-setup_data at the end there.
+../hw/riscv/spike.c: In function ‘spike_board_init’:
+../hw/riscv/spike.c:301:29: error: ‘firmware_end_addr’ may be used uninitialized [-Werror=maybe-uninitialized]
+   301 |         kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
+       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   302 | firmware_end_addr);
+       | ~~~~~~~~~~~~~~~~~~
+../hw/riscv/spike.c:208:18: note: ‘firmware_end_addr’ was declared here
+   208 |     target_ulong firmware_end_addr, kernel_start_addr;
+       |                  ^~~~~~~~~~~~~~~~~
 
-Now digging into what can be done about it.
 
-Jason
+The full context:
+
+
+     /* Load firmware */
+     if (firmware_name) {
+         firmware_end_addr = riscv_load_firmware(firmware_name,
+memmap[SPIKE_DRAM].base,
+htif_symbol_callback);
+         g_free(firmware_name);
+     }
+
+     /* Load kernel */
+     if (machine->kernel_filename) {
+         kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
+firmware_end_addr);
+
+         kernel_entry = riscv_load_kernel(machine->kernel_filename,
+                                          kernel_start_addr,
+                                          htif_symbol_callback);
+     } else {
+
+
+The error is happening because, with this patch, 'firmware_end_addr' may not be
+initialized via riscv_load_firmware() because we're not guaranteeing that
+'firmware_name' will be valid.
+
+riscv_load_firmware() is guaranteed to either return > 0 or error out with exit(1),
+so a simple fix would be to initialize 'firmware_end_addr' with 0.
+
+
+
+Thanks,
+
+Daniel
+
+
+> @@ -280,7 +315,7 @@ static void spike_board_init(MachineState *machine)
+>   
+>       /* Create device tree */
+>       create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+> -               riscv_is_32bit(&s->soc[0]));
+> +               riscv_is_32bit(&s->soc[0]), htif_custom_base);
+>   
+>       /* Load initrd */
+>       if (machine->kernel_filename && machine->initrd_filename) {
+> @@ -308,7 +343,8 @@ static void spike_board_init(MachineState *machine)
+>                                 fdt_load_addr);
+>   
+>       /* initialize HTIF using symbols found in load_kernel */
+> -    htif_mm_init(system_memory, serial_hd(0), memmap[SPIKE_HTIF].base);
+> +    htif_mm_init(system_memory, serial_hd(0), memmap[SPIKE_HTIF].base,
+> +                 htif_custom_base);
+>   }
+>   
+>   static void spike_machine_instance_init(Object *obj)
+
 
