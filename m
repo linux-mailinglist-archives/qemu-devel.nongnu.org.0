@@ -2,88 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A91656BE5
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 15:33:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 773DC65678F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 07:50:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAB06-00046D-H3; Tue, 27 Dec 2022 09:32:18 -0500
+	id 1pA3lY-0006Fs-Qe; Tue, 27 Dec 2022 01:48:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tudor.ambarus@linaro.org>)
- id 1pA3VI-00049o-Aq
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:32:00 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tudor.ambarus@linaro.org>)
- id 1pA3VG-00030A-Mp
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:31:59 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id t17so29972807eju.1
- for <qemu-devel@nongnu.org>; Mon, 26 Dec 2022 22:31:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=boSTgo8avblyAnpJfjmZFtDtWHK2Dzzg/JPbsPnGYtg=;
- b=PPY1hEETf1GOUz7XRjE8eyFsuIPgJo7FAgcH50sdPuUj1RRWlQLG7eU6Up6IQ6HfQ6
- 1YoIZdT6LhnKdGG8+fYn5erVc3Gxhi7HpWZXxelUalzRLK/07z9zLlfGsUj6lLZXVVmF
- BSm5T3AvuL0DhhkHzpDT9+Vs8fduTxz8gyehQTvptCfbsuKOQtkolS5M9PQh/S3n6zzn
- b9z0EJ8n+Me5785p+oBA6LuURfTci1oIaJfONuE4WlPvnrmbGpmakJT2UQhxSNnXB9sk
- RpqjvZ2skw1YhH6qfearfnljwwiArVJZm8SOdrCTPjfIXHrtIJFEkaEssjufF7JD/6s9
- ZT1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=boSTgo8avblyAnpJfjmZFtDtWHK2Dzzg/JPbsPnGYtg=;
- b=Jnj2ohGEwP4vzYeLF1zFOAds6OCZIyVZo5T628kxNXF9Nj4VNWe/KSVHH1AoBMVCb9
- C40s5+zPHA9svgGtszMJ2MRUTceMMvmmKNXbF5o+aupHTCb1LYdpiHCEMeW3LWvVd5A1
- dqtG4xgAkR03tUMGQTXdStRz4WDReNnzCb++1ru+ONhaHlHtQ767aOhFYRJZs9wXoRLx
- dPO7ez8ub1PZ/HPcoOlSnaDtFK/ZgkM2MQ99cCNoK/+k+aSazeFZ6LxgCiRTfEoxwOFY
- 6+62h+APuyZH3Au5ECfXUljt5+3APJI186SmrG748V2H4ykeP9yUb2x28t/+EWxyPj5W
- ZmbQ==
-X-Gm-Message-State: AFqh2krynpUMR55LkMlrGRwhadvQA2jvpn0uz78wK5ov0uQrWlVIXgWF
- iclishNJCKEksVGvtioL97hkVQ==
-X-Google-Smtp-Source: AMrXdXt1EuQAwu78BN6SUwyqgZI3DqqGisONpL7bHtUL+zxy+yE+2XN9terMNrL++mg63J+m1loC/A==
-X-Received: by 2002:a17:907:7e9f:b0:7c1:7d81:d2a8 with SMTP id
- qb31-20020a1709077e9f00b007c17d81d2a8mr20655752ejc.3.1672122716336; 
- Mon, 26 Dec 2022 22:31:56 -0800 (PST)
-Received: from [192.168.0.104] ([82.77.81.131])
- by smtp.gmail.com with ESMTPSA id
- gf26-20020a170906e21a00b007c0b9500129sm5653264ejb.68.2022.12.26.22.31.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Dec 2022 22:31:55 -0800 (PST)
-Message-ID: <b00bb842-a9e6-fa5c-94d9-876c241be600@linaro.org>
-Date: Tue, 27 Dec 2022 08:31:54 +0200
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pA3lV-0006Er-6O; Tue, 27 Dec 2022 01:48:45 -0500
+Received: from bg4.exmail.qq.com ([43.155.65.254])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pA3lR-0006gB-A3; Tue, 27 Dec 2022 01:48:44 -0500
+X-QQ-mid: bizesmtp64t1672123694tsrio6za
+Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 27 Dec 2022 14:48:12 +0800 (CST)
+X-QQ-SSF: 01200000000000C0C000000A0000000
+X-QQ-FEAT: l8776ORugP0c8y/3w1DvLoKjlvpW1zxch/jk4+szLPYurflyHggbdntaZ9RVX
+ mzETxUrbmMTh+sO/+1xgpKn9Wea5KSf6396f3e9z74bx2Sbo67Ab9QiX/CNeRj0GS5Dd9M2
+ MIsVkPQjrXN7yJo4Ud4ODbl5a05AP+rOd6dB/ZHC+YHX2+64C1LM4Vc695G+k5yGmv8Suh5
+ GPwIEbfXEjnKkb21mvMOgnl3i4XJjRD8kxbmwz0qFyoHJsjlJhIkZ8yv6y+JVPR9ZmgTjEa
+ TrOYMSh0jTG5C8zXHI4GKIkKE2lZWp0UTRcvfNaWHpQkDfzKM7h11ziGJo28yADvIRLXP+X
+ 5gndEU+nkeX7Jl6DiM=
+X-QQ-GoodBg: 0
+From: Bin Meng <bmeng@tinylab.org>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+	qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Anup Patel <apatel@ventanamicro.com>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 00/12] hw/riscv: Improve Spike HTIF emulation fidelity
+Date: Tue, 27 Dec 2022 14:48:00 +0800
+Message-Id: <20221227064812.1903326-1-bmeng@tinylab.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] m25p80: Add the is25wp256 SFPD table
-Content-Language: en-US
-To: Ben Dooks <ben@fluff.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Cc: Guenter Roeck <linux@roeck-us.net>,
- Alistair Francis <alistair@alistair23.me>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Michael Walle <michael@walle.cc>
-References: <20221221122213.1458540-1-linux@roeck-us.net>
- <2236d0ee-4fc6-5e2c-95b4-f97639e0955b@kaod.org>
- <20221225121850.4bjnskmlhsot54cf@hetzy.fluff.org>
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <20221225121850.4bjnskmlhsot54cf@hetzy.fluff.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=tudor.ambarus@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
+Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
+ helo=bg4.exmail.qq.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 27 Dec 2022 09:32:14 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,25 +67,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+At present the 32-bit OpenSBI generic firmware image does not boot on
+Spike, only 64-bit image can. This is due to the HTIF emulation does
+not implement the proxy syscall interface which is required for the
+32-bit HTIF console output.
+
+An OpenSBI bug fix [1] is also needed when booting the plain binary image.
+
+With this series plus the above OpenSBI fix, both 32-bit OpenSBI BIN & ELF
+images can boot on QEMU 'spike' machine.
+
+[1] https://patchwork.ozlabs.org/project/opensbi/patch/20221226033603.1860569-1-bmeng@tinylab.org/
 
 
-On 25.12.2022 14:18, Ben Dooks wrote:
-> On Wed, Dec 21, 2022 at 06:36:02PM +0100, Cédric Le Goater wrote:
->> On 12/21/22 13:22, Guenter Roeck wrote:
->>> Generated from hardware using the following command and then padding
->>> with 0xff to fill out a power-of-2:
->>> 	xxd -p /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
->>>
->>> Cc: Michael Walle <michael@walle.cc>
->>> Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
->>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->>
->> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> 
-> If SFDP is a standard, couldn't we have an function to generate it from
-> the flash parameters?
-> 
+Bin Meng (10):
+  hw/char: riscv_htif: Avoid using magic numbers
+  hw/char: riscv_htif: Drop {to,from}host_size in HTIFState
+  hw/char: riscv_htif: Drop useless assignment of memory region
+  hw/char: riscv_htif: Use conventional 's' for HTIFState
+  hw/char: riscv_htif: Move registers from CPUArchState to HTIFState
+  hw/char: riscv_htif: Remove forward declarations for non-existent
+    variables
+  hw/char: riscv_htif: Support console output via proxy syscall
+  hw/riscv: spike: Remove the out-of-date comments
+  hw/riscv/boot.c: Introduce riscv_find_firmware()
+  hw/riscv: spike: Decouple create_fdt() dependency to ELF loading
 
-No, it's not practical as you have to specify all the flash parameters
-at flash declaration.
+Daniel Henrique Barboza (2):
+  hw/riscv/boot.c: make riscv_find_firmware() static
+  hw/riscv/boot.c: introduce riscv_default_firmware_name()
+
+ include/hw/char/riscv_htif.h |  19 +---
+ include/hw/riscv/boot.h      |   4 +-
+ target/riscv/cpu.h           |   4 -
+ hw/char/riscv_htif.c         | 172 +++++++++++++++++++++--------------
+ hw/riscv/boot.c              |  76 ++++++++++------
+ hw/riscv/sifive_u.c          |  11 +--
+ hw/riscv/spike.c             |  59 ++++++++----
+ hw/riscv/virt.c              |  10 +-
+ target/riscv/machine.c       |   6 +-
+ 9 files changed, 212 insertions(+), 149 deletions(-)
+
+-- 
+2.34.1
+
 
