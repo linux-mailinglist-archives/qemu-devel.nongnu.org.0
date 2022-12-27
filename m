@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D74656DB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 18:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55459656DBC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 18:55:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAE6r-0007ub-61; Tue, 27 Dec 2022 12:51:29 -0500
+	id 1pAE9h-0000If-LO; Tue, 27 Dec 2022 12:54:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAE6o-0007tr-Tw
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:51:26 -0500
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAE6m-00031n-Pp
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:51:26 -0500
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-1442977d77dso16199232fac.6
- for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 09:51:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GWT6VnkrHlQoRtLu2DA9858OPofMgMjRRiTGncGlu7k=;
- b=SWeLMw3ao4ELf/eKGXWaFMyW6zBxnnE+P+qO9+JQnMHurg4aj/gOMIctDXKpVCmDje
- RIiYnkfQJ/gghjDHNbIs4Oiu6PtCtbGrSotebECnxNbvia7M+rPOh/ZeJMOL4bhRgf/e
- fO9nXB+ptmgg4E7UjrjCWkJqVOCcCe/vsTwKL09GyqlhqqnelGTWJ2hyElbxpibJn4qq
- nXrlT+kEwf5Zfz3oqtb/a/nLRjrG0VL2U5wnRYrVYyJS4Uhs2SQgkwNdV6wIQyHBwcom
- kxyyP2ciyZ2JM4BxdKauDrU8xvXoNvsJqA4Vw86IHzijns4JFcUeaFkHc056tJ2cdM7o
- u2AA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pAE9f-0000IH-LZ
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:54:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pAE9e-0003U0-4i
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:54:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672163660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z4MhymrFbLMBFcpKIDP4gK0pYdoGSzZaS3kLiaMiiUI=;
+ b=TVcYL94W0YnZNYl8aG4JG7/sdSrvFIG27fswgo3j9yGV8HEdA/5g9JWfMYklNCXVsQizF2
+ g6Y0yziJJrLUm6cdctTIKtsmiUsIhOQX0VVIWTYuPPG4n/whgRAIY1FKv40btS0Z2lGcMR
+ P2uEuipb0b+Ik+Kl+lFB/m48TXGmFUU=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-351-KRTUWr_HMemvgDzheliP4A-1; Tue, 27 Dec 2022 12:54:18 -0500
+X-MC-Unique: KRTUWr_HMemvgDzheliP4A-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ q10-20020a056402518a00b00472a255eef7so9653312edd.15
+ for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 09:54:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GWT6VnkrHlQoRtLu2DA9858OPofMgMjRRiTGncGlu7k=;
- b=gDpz0e9qc6zeNHfT1xpsRN+SDJuHyF1OnKYJFj3idl4UHzX+7lPK3LZTAv4u+MKpwD
- E8bG4dIs/HP1aBPDwBKqerlSrT2WNsK8tDRnC3/eiFXaIdyaobQwdhywfNlrsGXdgBwx
- 8GOAimIp5b8Fdz20X1I8FmSu2JNeUvXwk3uMdwF7XxLH0QJOcrLFb0OyBTQtAJTfs27s
- Sh/C87AxrWymb68YUf68ukb7tDmY/Wswgcj5TA8eXcjCmfodFCgyZS+HtZbneyBtUVTQ
- 2+E3g3uj8QeeKE0UxLvnFtj5jgf+G4FRTQZ7rOhVFRe1e9IhtQjBzriLGa605xulFoJB
- llvQ==
-X-Gm-Message-State: AFqh2kqxEGaiVZYPAg6Jbi+SEowvw4+OzrsJZd8/dvze4uIOnL4ciKtT
- sGRV0W/M8LNLAUR9KD0rz5fYaw==
-X-Google-Smtp-Source: AMrXdXvQC3xSfbtYpKAPFnPtH7c9BRfMYoRB44xkE2u/e3zwro3iyL17GvPok3MqLvNruilzacHXiA==
-X-Received: by 2002:a05:6870:2194:b0:143:9c9f:c7e3 with SMTP id
- l20-20020a056870219400b001439c9fc7e3mr20080750oae.45.1672163482366; 
- Tue, 27 Dec 2022 09:51:22 -0800 (PST)
-Received: from [192.168.68.107] ([177.102.70.162])
- by smtp.gmail.com with ESMTPSA id
- g13-20020a056870c38d00b0014185b2b3d5sm6325630oao.18.2022.12.27.09.51.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Dec 2022 09:51:21 -0800 (PST)
-Message-ID: <670a96f5-b703-5c20-3cb6-c95f55249e4e@ventanamicro.com>
-Date: Tue, 27 Dec 2022 14:51:18 -0300
+ bh=Z4MhymrFbLMBFcpKIDP4gK0pYdoGSzZaS3kLiaMiiUI=;
+ b=FTWMzbw9etZV4qKAGS/AR2UlFwXIteCGNMVDlgn3q42SgTLCUujiA5Z+oo/nLY2kvv
+ xJW9WNyIcR8l6l/IqSwlEyfLJb4aaWYakBQnwcp9mx98Iw4bT447Ov7HZvmKjZFMakC2
+ QoLSpJCBGYMblJWqVst7t/GCXHh3YsCTxxw86PYR2wZj4xGaQ1+2VCTZSIPR/ShIdCEK
+ uTihRhu9ZWaqBY6oYVBu4l6u8589I75Mf6D+u4VEystCtWggPnxyu6QI17YYIpC9vepj
+ b2lEQdfgwox54vNXRHyhdTMwkmOWD2X+hxppMi8cZw77lsYBGv25VDqvFtfQpfEuiklv
+ GxfA==
+X-Gm-Message-State: AFqh2kp5c/wsZ/zyPfoSl7W2Z4VflVHJooRSOEO73X9eQh9UyDyGrC1w
+ uBfEblTtqwPba4t8kv3QnQiDYSUiNg++L2jjDkzffg6EJzsmY6yNGYyKLtn0Pz1Ixnv/gcbiP3V
+ WMRxylwImpc32570=
+X-Received: by 2002:a17:906:c192:b0:7c1:6fe:f4a2 with SMTP id
+ g18-20020a170906c19200b007c106fef4a2mr18824698ejz.45.1672163657440; 
+ Tue, 27 Dec 2022 09:54:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuFp/KMhVQ0wp2Tj+ShUyak1lPck4VhrbboEp5mpKBvZv3oyZyNG6086uRDbWThk3BVsMBj9w==
+X-Received: by 2002:a17:906:c192:b0:7c1:6fe:f4a2 with SMTP id
+ g18-20020a170906c19200b007c106fef4a2mr18824682ejz.45.1672163657254; 
+ Tue, 27 Dec 2022 09:54:17 -0800 (PST)
+Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
+ 16-20020a170906319000b0084c2065b388sm4275035ejy.128.2022.12.27.09.54.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Dec 2022 09:54:16 -0800 (PST)
+Date: Tue, 27 Dec 2022 12:54:12 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: "Longpeng(Mike)" <longpeng2@huawei.com>, stefanha@redhat.com,
+ jasowang@redhat.com, cohuck@redhat.com, sgarzare@redhat.com,
+ pbonzini@redhat.com, arei.gonglei@huawei.com, yechuan@huawei.com,
+ huangzhichao@huawei.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 2/3] vhost: configure all host notifiers in a single
+ MR transaction
+Message-ID: <20221227125331-mutt-send-email-mst@kernel.org>
+References: <20221227072015.3134-1-longpeng2@huawei.com>
+ <20221227072015.3134-3-longpeng2@huawei.com>
+ <8054d186-0196-ccb0-091d-0ee9caadb576@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 00/12] hw/riscv: Improve Spike HTIF emulation fidelity
-Content-Language: en-US
-To: Bin Meng <bmeng@tinylab.org>, Alistair Francis
- <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
-Cc: Anup Patel <apatel@ventanamicro.com>, Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-riscv@nongnu.org
-References: <20221227064812.1903326-1-bmeng@tinylab.org>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20221227064812.1903326-1-bmeng@tinylab.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x32.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <8054d186-0196-ccb0-091d-0ee9caadb576@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,77 +102,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Dec 27, 2022 at 05:43:57PM +0100, Philippe Mathieu-Daud� wrote:
+> On 27/12/22 08:20, Longpeng(Mike) wrote:
+> > From: Longpeng <longpeng2@huawei.com>
+> > 
+> > This allows the vhost device to batch the setup of all its host notifiers.
+> > This significantly reduces the device starting time, e.g. the time spend
+> > on enabling notifiers reduce from 376ms to 9.1ms for a VM with 64 vCPUs
+> > and 3 vhost-vDPA generic devices (vdpa_sim_blk, 64vq per device)
+> > 
+> > Signed-off-by: Longpeng <longpeng2@huawei.com>
+> > ---
+> >   hw/virtio/vhost.c | 24 ++++++++++++++++++++++++
+> >   1 file changed, 24 insertions(+)
+> > 
+> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> > index 5994559da8..064d4abe5c 100644
+> > --- a/hw/virtio/vhost.c
+> > +++ b/hw/virtio/vhost.c
+> > @@ -1562,16 +1562,25 @@ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
+> >           return r;
+> >       }
+> > +    /*
+> > +     * Batch all the host notifiers in a single transaction to avoid
+> > +     * quadratic time complexity in address_space_update_ioeventfds().
+> > +     */
+> > +    memory_region_transaction_begin();
+> > +
+> >       for (i = 0; i < hdev->nvqs; ++i) {
+> >           r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i,
+> >                                            true);
+> >           if (r < 0) {
+> >               error_report("vhost VQ %d notifier binding failed: %d", i, -r);
+> > +            memory_region_transaction_commit();
+> >               vhost_dev_disable_notifiers(hdev, vdev);
+> 
+> Could we 'break' here, ...
+> 
+> >               return r;
+> >           }
+> >       }
+> > +    memory_region_transaction_commit();
+> > +
+> >       return 0;
+> 
+> ... and return 'r' here?
 
 
-On 12/27/22 03:48, Bin Meng wrote:
-> At present the 32-bit OpenSBI generic firmware image does not boot on
-> Spike, only 64-bit image can. This is due to the HTIF emulation does
-> not implement the proxy syscall interface which is required for the
-> 32-bit HTIF console output.
->
-> An OpenSBI bug fix [1] is also needed when booting the plain binary image.
->
-> With this series plus the above OpenSBI fix, both 32-bit OpenSBI BIN & ELF
-> images can boot on QEMU 'spike' machine.
->
-> [1] https://patchwork.ozlabs.org/project/opensbi/patch/20221226033603.1860569-1-bmeng@tinylab.org/
+won't this commit twice? seems ugly ...
 
-Aside from a nit in patch 12/12, LGTM. I've tested with a patched version of
-Opensbi including [1] and I can get terminal output with riscv32 spike:
-
-$ ./qemu-system-riscv32 -M spike -display none -nographic
--bios ../../opensbi/build/platform/generic/firmware/fw_payload.bin
-
-OpenSBI v1.1-112-g6ce00f8
-    ____                    _____ ____ _____
-   / __ \                  / ____|  _ \_   _|
-  | |  | |_ __   ___ _ __ | (___ | |_) || |
-  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
-  | |__| | |_) |  __/ | | |____) | |_) || |_
-   \____/| .__/ \___|_| |_|_____/|____/_____|
-         | |
-         |_|
-(.......)
-
-
-Speaking of [1], it seems like the fix went a bit too late for the opensbi 1.2 release.
-Assuming that [1] is accepted, it would be nice if we could bake in this fix on top of the
-1.2 release when updating the QEMU roms.
-
-
-Thanks,
-
-Daniel
-
->
->
-> Bin Meng (10):
->    hw/char: riscv_htif: Avoid using magic numbers
->    hw/char: riscv_htif: Drop {to,from}host_size in HTIFState
->    hw/char: riscv_htif: Drop useless assignment of memory region
->    hw/char: riscv_htif: Use conventional 's' for HTIFState
->    hw/char: riscv_htif: Move registers from CPUArchState to HTIFState
->    hw/char: riscv_htif: Remove forward declarations for non-existent
->      variables
->    hw/char: riscv_htif: Support console output via proxy syscall
->    hw/riscv: spike: Remove the out-of-date comments
->    hw/riscv/boot.c: Introduce riscv_find_firmware()
->    hw/riscv: spike: Decouple create_fdt() dependency to ELF loading
->
-> Daniel Henrique Barboza (2):
->    hw/riscv/boot.c: make riscv_find_firmware() static
->    hw/riscv/boot.c: introduce riscv_default_firmware_name()
->
->   include/hw/char/riscv_htif.h |  19 +---
->   include/hw/riscv/boot.h      |   4 +-
->   target/riscv/cpu.h           |   4 -
->   hw/char/riscv_htif.c         | 172 +++++++++++++++++++++--------------
->   hw/riscv/boot.c              |  76 ++++++++++------
->   hw/riscv/sifive_u.c          |  11 +--
->   hw/riscv/spike.c             |  59 ++++++++----
->   hw/riscv/virt.c              |  10 +-
->   target/riscv/machine.c       |   6 +-
->   9 files changed, 212 insertions(+), 149 deletions(-)
->
+> >   }
+> 
+> Otherwise LGTM.
 
 
