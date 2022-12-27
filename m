@@ -2,89 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A047656BED
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 15:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217EA656C5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 16:15:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAB1T-0004oy-Dy; Tue, 27 Dec 2022 09:33:43 -0500
+	id 1pABe2-0007BR-9A; Tue, 27 Dec 2022 10:13:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAB1H-0004l4-5z
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 09:33:32 -0500
-Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAB1B-0001e2-6q
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 09:33:30 -0500
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-1441d7d40c6so15630242fac.8
- for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 06:33:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6eij0VIWJ8NByESgScM2pnE0xIoYV4hdIc4QUJg9eQ8=;
- b=bq+Mo67JobiGOC0hAVI2LXKkaslIB3Rh9A2M1VZsIqdiNSA4XuE4HgMr83i4WSOu/g
- RF1VTPjU0+n1up27Gm+LB7Dm5mY2ohN7yJM9xwPfeKje3IqRcn+Dyn0ORTsXbWW4RBaB
- B1XfLrUGGkaC7waEF5uyvsZfp3+5mNRAOUAjaNUe/g/oweSeu2zwF7+ZO+4vDfmxMs1A
- KPOlObh8sr1pkyWgy6BShLoX88bkbfhpKvCdwlzhpKZFJ/uqOTb3MQU32v1OkzlhD20n
- z+aaY3GRfb/1nbtLSV5tu9w3lOKlpdt9mrcThzdEJvIBpqjH7qfWSGnE+USibXBJLmeC
- vOsg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pABdt-0007B3-8L
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 10:13:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pABdr-0000T2-Ab
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 10:13:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672154002;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=M+IPZt0VEHfucAgJlA/F+W+UfNUYNQFPXvPgG9/roTc=;
+ b=aDbe1MCx5IIHgbSAOOZZZ2up4hOqwKH4K6aMFFExviDvvf9gCQsD9XMZPRVCQox8IgpU/L
+ OlJ2uSbUFx5HdzMxTNy4EdV9JMQob4Da4vMJnyzbHrLSqtOUtRUcjYI7+k7bzDEZGsfFF2
+ 7tfJP6sTArE4NjdqT4/zMCMC/RKSWVQ=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-255-y2qoMMfzMOSSPXuDcTjzUA-1; Tue, 27 Dec 2022 10:13:20 -0500
+X-MC-Unique: y2qoMMfzMOSSPXuDcTjzUA-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ 20-20020a1f1714000000b003bc77fdf3c9so3394160vkx.14
+ for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 07:13:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6eij0VIWJ8NByESgScM2pnE0xIoYV4hdIc4QUJg9eQ8=;
- b=IVX7qdbiKirMvzzqMNRvBbHa5cv2myb6yvCe8uoHwWwyU9BXN6aODCw6vUCA6BvvTk
- 2y0y2JHtk4jLixXF5TLI0tw8MBoAgD2PVQbgWwxmZjaHpOk24gvz1YrTRmFHiLShkmo6
- rQzV8/eQ97FxiNboxgRZypaIGcVoH/w8tT8KXllxOrj2sgFUkuxKcz/u+Pyyjt88YrwH
- SHwDyjqwa8suFYJmiH6wCnh8kUnbN02E71fdR3ON1ee3STdwHvJu4n2hnuTJrqdYm1Cc
- G29qPHGxMQ4SkAYtpC7s0IKqQgaWc0yS/LbiWnqglRV6CTqb3JS8McIch5U6h3X6Vhze
- pMdA==
-X-Gm-Message-State: AFqh2krb2Jn+Zyu55Cblpnso5io125x5RKqQXTz9u9cVf1gwE7dQhNsN
- 95q7Rdg7S/c00KtLzVlKZq/qYg==
-X-Google-Smtp-Source: AMrXdXvu4PRpO1dKuzW+GV3RfK/NI8ZvQG3vrXm4Gr5IL6tPyWZu4y+xL7Hr9LBTMK9qShJXHC6Lvg==
-X-Received: by 2002:a05:6870:ed8c:b0:144:dad7:80f3 with SMTP id
- fz12-20020a056870ed8c00b00144dad780f3mr11495127oab.37.1672151597712; 
- Tue, 27 Dec 2022 06:33:17 -0800 (PST)
-Received: from [192.168.68.107] ([177.102.70.162])
- by smtp.gmail.com with ESMTPSA id
- k11-20020a056870350b00b0012b298699dbsm6196947oah.1.2022.12.27.06.33.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Dec 2022 06:33:17 -0800 (PST)
-Message-ID: <d501aa56-31c1-0efb-009c-bc0a991397eb@ventanamicro.com>
-Date: Tue, 27 Dec 2022 11:33:12 -0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=M+IPZt0VEHfucAgJlA/F+W+UfNUYNQFPXvPgG9/roTc=;
+ b=1U2Zcm5hoHVyeyQCKfvscG5rlCshWDhbOM75nYYLUKB9zxBYt+RS2CYbn3SQciXRSx
+ n02LWwfpZTk3t7INFLYK9z6GT5Vi+pK4sAnxwiH8O5lhMlgjavBZCq2AJHkdSaiqEyOB
+ Qc5d1RLtwsY3xfzpAGWtPsobzWfuXuucoVJaKuZvB07y7pMtc8ipL7VqRBnQx/b3uJbo
+ sYkQQt5ilmnzc79lm7/Qe0/vjO8X18lFnkjEwuJRUj84q/t9tZfNuZ1ih8WXW6m00f/6
+ i8C7BftMEaoAn8E4DklkVrdowMAWlGuRCXPpbgg+VHBOoB9q/JQheVFT+hvMqNdTAOfp
+ ZUOg==
+X-Gm-Message-State: AFqh2kqPtxGWQaiDn9vv63zeO1YagIPRx1vUnhAxX31/IlVj+XC3DJim
+ RzgU6AlFyVKjq9aSsqp/2Zx05TnFt9s8SBzhUKSsRWCKDycrgDqpP/0fJsgHUDKDSlHZzwjc3E4
+ bbDWJMU47ROpLrqCSxU0cFtTBu/JrnsU=
+X-Received: by 2002:a67:ff85:0:b0:3a6:aae4:cab6 with SMTP id
+ v5-20020a67ff85000000b003a6aae4cab6mr2699107vsq.27.1672153999745; 
+ Tue, 27 Dec 2022 07:13:19 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs2Y1OE+ZkeCB70OGX0ZJyS22ANTrRWkF6dEHE2ZU0eb02i7kHoxJNFIew7AVGuiINehZZNEj8kaNQzUVJZQqQ=
+X-Received: by 2002:a67:ff85:0:b0:3a6:aae4:cab6 with SMTP id
+ v5-20020a67ff85000000b003a6aae4cab6mr2699103vsq.27.1672153999415; Tue, 27 Dec
+ 2022 07:13:19 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 12/12] hw/riscv: spike: Decouple create_fdt() dependency
- to ELF loading
-Content-Language: en-US
-To: Bin Meng <bmeng@tinylab.org>, Alistair Francis
- <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-riscv@nongnu.org
-References: <20221227064812.1903326-1-bmeng@tinylab.org>
- <20221227064812.1903326-13-bmeng@tinylab.org>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20221227064812.1903326-13-bmeng@tinylab.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::35;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x35.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <DM6PR11MB40909B4A33D66A3100F6D219870E9@DM6PR11MB4090.namprd11.prod.outlook.com>
+ <4e35a2b6-12ca-e43c-6ee7-7090280c9341@linaro.org>
+ <DM6PR11MB40908952D28C7C0CDD4D469E87139@DM6PR11MB4090.namprd11.prod.outlook.com>
+In-Reply-To: <DM6PR11MB40908952D28C7C0CDD4D469E87139@DM6PR11MB4090.namprd11.prod.outlook.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Tue, 27 Dec 2022 16:13:07 +0100
+Message-ID: <CABgObfYvxB-sBy00YhNoRR4bmT8Gz5pNbCpKg5H1Y=4fYCQwgg@mail.gmail.com>
+Subject: Re: [PATCH] target/i386/hax: Add XCR0 support
+To: "Wang, Wenchao" <wenchao.wang@intel.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel <qemu-devel@nongnu.org>, haxm-team <haxm-team@intel.com>
+Content-Type: multipart/alternative; boundary="00000000000025338c05f0d0b1b4"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,257 +94,263 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Bin,
+--00000000000025338c05f0d0b1b4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/27/22 03:48, Bin Meng wrote:
-> At present create_fdt() calls htif_uses_elf_symbols() to determine
-> whether to insert a <reg> property for the HTIF. This unfortunately
-> creates a hidden dependency to riscv_load_{firmware,kernel} that
-> create_fdt() must be called after the ELF {firmware,kernel} image
-> has been loaded.
+Il lun 28 nov 2022, 09:12 Wang, Wenchao <wenchao.wang@intel.com> ha scritto=
+:
+
+> Hi, Philippe,
 >
-> Decouple such dependency be adding a new parameter to create_fdt(),
-> whether custom HTIF base address is used. The flag will be set if
-> non ELF {firmware,kernel} image is given by user.
+> It is just the full patch. Currently, the implementation of HAXM is
+> simple, we did not synchronize the vCPU register for xcr0 from QEMU. HAXM
+> will handle the xcr0 state within the kernel space, including
+> initialization, update, etc. This patch adds the xcr0 variable for
+> allocating extra 8-byte buffer occupation, which will be passed between
+> QEMU and HAXM when hax_sync_vcpu_state() is invoked. We have verified the
+> patched QEMU and it can launch all guest OSes. Thanks for your comments.
 >
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+
+I don't understand the patch very well, and I am on the phone so it's hard
+to check QEMU's HAXM support sources right now. Did HAXM 7.8.0 break
+support for QEMU without this patch, and likewise will QEMU with this patch
+will HAXM versions older than 7.8.0?
+
+Or does this work on any version because QEMU treats the struct as a black
+box?
+
+Paolo
+
+
+
 >
-> ---
+> Best Regards,
+> Wenchao
 >
->   include/hw/char/riscv_htif.h |  5 +---
->   hw/char/riscv_htif.c         | 17 +++++-------
->   hw/riscv/spike.c             | 54 ++++++++++++++++++++++++++++++------
->   3 files changed, 53 insertions(+), 23 deletions(-)
+> -----Original Message-----
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Sent: Friday, November 25, 2022 21:37
+> To: Wang, Wenchao <wenchao.wang@intel.com>; qemu-devel@nongnu.org
+> Cc: haxm-team <haxm-team@intel.com>; Paolo Bonzini <pbonzini@redhat.com>
+> Subject: Re: [PATCH] target/i386/hax: Add XCR0 support
 >
-> diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
-> index 9e8ebbe017..5958c5b986 100644
-> --- a/include/hw/char/riscv_htif.h
-> +++ b/include/hw/char/riscv_htif.h
-> @@ -44,11 +44,8 @@ typedef struct HTIFState {
->   void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
->       uint64_t st_size);
->   
-> -/* Check if HTIF uses ELF symbols */
-> -bool htif_uses_elf_symbols(void);
-> -
->   /* legacy pre qom */
->   HTIFState *htif_mm_init(MemoryRegion *address_space, Chardev *chr,
-> -                        uint64_t nonelf_base);
-> +                        uint64_t nonelf_base, bool custom_base);
->   
->   #endif
-> diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-> index 1477fc0090..098de50e35 100644
-> --- a/hw/char/riscv_htif.c
-> +++ b/hw/char/riscv_htif.c
-> @@ -52,20 +52,17 @@
->   #define PK_SYS_WRITE            64
->   
->   static uint64_t fromhost_addr, tohost_addr;
-> -static int address_symbol_set;
->   
->   void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
->                             uint64_t st_size)
->   {
->       if (strcmp("fromhost", st_name) == 0) {
-> -        address_symbol_set |= 1;
->           fromhost_addr = st_value;
->           if (st_size != 8) {
->               error_report("HTIF fromhost must be 8 bytes");
->               exit(1);
->           }
->       } else if (strcmp("tohost", st_name) == 0) {
-> -        address_symbol_set |= 2;
->           tohost_addr = st_value;
->           if (st_size != 8) {
->               error_report("HTIF tohost must be 8 bytes");
-> @@ -275,19 +272,19 @@ static const MemoryRegionOps htif_mm_ops = {
->       .write = htif_mm_write,
->   };
->   
-> -bool htif_uses_elf_symbols(void)
-> -{
-> -    return (address_symbol_set == 3) ? true : false;
-> -}
-> -
->   HTIFState *htif_mm_init(MemoryRegion *address_space, Chardev *chr,
-> -                        uint64_t nonelf_base)
-> +                        uint64_t nonelf_base, bool custom_base)
->   {
->       uint64_t base, size, tohost_offset, fromhost_offset;
->   
-> -    if (!htif_uses_elf_symbols()) {
-> +    if (custom_base) {
->           fromhost_addr = nonelf_base;
->           tohost_addr = nonelf_base + 8;
-> +    } else {
-> +        if (!fromhost_addr || !tohost_addr) {
-> +            error_report("Invalid HTIF fromhost or tohost address");
-> +            exit(1);
-> +        }
->       }
->   
->       base = MIN(tohost_addr, fromhost_addr);
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index 810a18f283..90f9e581e4 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -50,7 +50,8 @@ static const MemMapEntry spike_memmap[] = {
->   };
->   
->   static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
-> -                       uint64_t mem_size, const char *cmdline, bool is_32_bit)
-> +                       uint64_t mem_size, const char *cmdline,
-> +                       bool is_32_bit, bool htif_custom_base)
->   {
->       void *fdt;
->       uint64_t addr, size;
-> @@ -78,7 +79,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
->   
->       qemu_fdt_add_subnode(fdt, "/htif");
->       qemu_fdt_setprop_string(fdt, "/htif", "compatible", "ucb,htif0");
-> -    if (!htif_uses_elf_symbols()) {
-> +    if (htif_custom_base) {
->           qemu_fdt_setprop_cells(fdt, "/htif", "reg",
->               0x0, memmap[SPIKE_HTIF].base, 0x0, memmap[SPIKE_HTIF].size);
->       }
-> @@ -184,6 +185,21 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
->       }
->   }
->   
-> +static bool spike_test_elf_image(char *filename)
-> +{
-> +    Error *err = NULL;
-> +
-> +    if (filename) {
-> +        load_elf_hdr(filename, NULL, NULL, &err);
-> +        if (err) {
-> +            error_free(err);
-> +            return false;
-> +        }
-> +    }
-> +
-> +    return true;
-> +}
-> +
->   static void spike_board_init(MachineState *machine)
->   {
->       const MemMapEntry *memmap = spike_memmap;
-> @@ -191,11 +207,12 @@ static void spike_board_init(MachineState *machine)
->       MemoryRegion *system_memory = get_system_memory();
->       MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
->       target_ulong firmware_end_addr, kernel_start_addr;
-> -    const char *firmware_name;
-> +    char *firmware_name;
->       uint32_t fdt_load_addr;
->       uint64_t kernel_entry;
->       char *soc_name;
->       int i, base_hartid, hart_count;
-> +    bool htif_custom_base;
->   
->       /* Check socket count limit */
->       if (SPIKE_SOCKETS_MAX < riscv_socket_count(machine)) {
-> @@ -257,10 +274,28 @@ static void spike_board_init(MachineState *machine)
->       memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
->                                   mask_rom);
->   
-> -    firmware_name = riscv_default_firmware_name(&s->soc[0]);
-> -    firmware_end_addr = riscv_find_and_load_firmware(machine, firmware_name,
-> -                                                     memmap[SPIKE_DRAM].base,
-> -                                                     htif_symbol_callback);
-> +    /* Find firmware */
-> +    firmware_name = riscv_find_firmware(machine->firmware,
-> +                        riscv_default_firmware_name(&s->soc[0]));
-> +
-> +    /*
-> +     * Test the given firmware or kernel file to see if it is an ELF image.
-> +     * If it is an ELF, we assume it contains the symbols required for
-> +     * the HTIF console, otherwise we fall back to use the custom base
-> +     * passed from device tree for the HTIF console.
-> +     */
-> +    htif_custom_base = !spike_test_elf_image(firmware_name);
-> +    if (!htif_custom_base) {
-> +        htif_custom_base = !spike_test_elf_image(machine->kernel_filename);
-> +    }
-> +
-> +    /* Load firmware */
-> +    if (firmware_name) {
-> +        firmware_end_addr = riscv_load_firmware(firmware_name,
-> +                                                memmap[SPIKE_DRAM].base,
-> +                                                htif_symbol_callback);
-> +        g_free(firmware_name);
-> +    }
->   
->       /* Load kernel */
->       if (machine->kernel_filename) {
+> Hi,
+>
+> On 25/11/22 13:18, Wang, Wenchao wrote:
+> > Hi, maintainers,
+> >
+> > As HAXM v7.8.0 is released and it added XCR0 support, could you help
+> > to merge this patch to add corresponding support into HAX user space
+> > of QEMU? The patch has been included in the attachment. Thanks.
+>
+> See
+>
+> https://www.qemu.org/docs/master/devel/submitting-a-patch.html#submitting=
+-your-patches
+> on how to send patches to a mailing list.
+>
+> >
+> > Best Regards,
+> >
+> > Wenchao
+> >
+> >  From b1789f2523d06798b8883664bfa9a9df797bfccf Mon Sep 17 00:00:00
+> > 2001
+> >
+> > From: Wenchao Wang <wenchao.wang@intel.com>
+> >
+> > Date: Fri, 25 Nov 2022 18:37:34 +0800
+> >
+> > Subject: [PATCH] target/i386/hax: Add XCR0 support
+> >
+> > Introduce extended control register XCR0 to support XSAVE feature set.
+> >
+> > Note: This change requires at least HAXM v7.8.0 to support.
+> >
+> > Reviewed-by: Hang Yuan <hang.yuan@intel.com>
+> >
+> > Signed-off-by: Wenchao Wang <wenchao.wang@intel.com>
+> >
+> > ---
+> >
+> > target/i386/hax/hax-interface.h | 2 ++
+> >
+> > 1 file changed, 2 insertions(+)
+> >
+> > diff --git a/target/i386/hax/hax-interface.h
+> > b/target/i386/hax/hax-interface.h
+> >
+> > index 537ae084e9..1d13bb2380 100644
+> >
+> > --- a/target/i386/hax/hax-interface.h
+> >
+> > +++ b/target/i386/hax/hax-interface.h
+> >
+> > @@ -201,6 +201,8 @@ struct vcpu_state_t {
+> >
+> >       uint64_t _cr3;
+> >
+> >       uint64_t _cr4;
+> >
+> > +    uint64_t _xcr0;
+> >
+> > +
+> >
+> >       uint64_t _dr0;
+> >
+> >       uint64_t _dr1;
+> >
+> >       uint64_t _dr2;
+> >
+> > --
+> >
+> > 2.17.1
+> >
+>
+> Is that the full patch? It is missing the register use in
+> hax_sync_vcpu_register()...
+>
+> Regards,
+>
+> Phil.
+>
 
-'make' is giving me a maybe-uninitialized error in this point:
+--00000000000025338c05f0d0b1b4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-../hw/riscv/spike.c: In function ‘spike_board_init’:
-../hw/riscv/spike.c:301:29: error: ‘firmware_end_addr’ may be used uninitialized [-Werror=maybe-uninitialized]
-   301 |         kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
-       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   302 | firmware_end_addr);
-       | ~~~~~~~~~~~~~~~~~~
-../hw/riscv/spike.c:208:18: note: ‘firmware_end_addr’ was declared here
-   208 |     target_ulong firmware_end_addr, kernel_start_addr;
-       |                  ^~~~~~~~~~~~~~~~~
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il lun 28 nov 2022, 09:12 Wang, Wenchao &lt;<a href=3D=
+"mailto:wenchao.wang@intel.com">wenchao.wang@intel.com</a>&gt; ha scritto:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">Hi, Philippe,<br>
+<br>
+It is just the full patch. Currently, the implementation of HAXM is simple,=
+ we did not synchronize the vCPU register for xcr0 from QEMU. HAXM will han=
+dle the xcr0 state within the kernel space, including initialization, updat=
+e, etc. This patch adds the xcr0 variable for allocating extra 8-byte buffe=
+r occupation, which will be passed between QEMU and HAXM when hax_sync_vcpu=
+_state() is invoked. We have verified the patched QEMU and it can launch al=
+l guest OSes. Thanks for your comments.<br></blockquote></div></div><div di=
+r=3D"auto"><br></div><div dir=3D"auto">I don&#39;t understand the patch ver=
+y well, and I am on the phone so it&#39;s hard to check QEMU&#39;s HAXM sup=
+port sources right now. Did HAXM 7.8.0 break support for QEMU without this =
+patch, and likewise will QEMU with this patch will HAXM versions older than=
+ 7.8.0?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Or does this wor=
+k on any version because QEMU treats the struct as a black box?</div><div d=
+ir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></=
+div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote=
+"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">
+<br>
+<br>
+Best Regards,<br>
+Wenchao<br>
+<br>
+-----Original Message-----<br>
+From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org" =
+target=3D"_blank" rel=3D"noreferrer">philmd@linaro.org</a>&gt; <br>
+Sent: Friday, November 25, 2022 21:37<br>
+To: Wang, Wenchao &lt;<a href=3D"mailto:wenchao.wang@intel.com" target=3D"_=
+blank" rel=3D"noreferrer">wenchao.wang@intel.com</a>&gt;; <a href=3D"mailto=
+:qemu-devel@nongnu.org" target=3D"_blank" rel=3D"noreferrer">qemu-devel@non=
+gnu.org</a><br>
+Cc: haxm-team &lt;<a href=3D"mailto:haxm-team@intel.com" target=3D"_blank" =
+rel=3D"noreferrer">haxm-team@intel.com</a>&gt;; Paolo Bonzini &lt;<a href=
+=3D"mailto:pbonzini@redhat.com" target=3D"_blank" rel=3D"noreferrer">pbonzi=
+ni@redhat.com</a>&gt;<br>
+Subject: Re: [PATCH] target/i386/hax: Add XCR0 support<br>
+<br>
+Hi,<br>
+<br>
+On 25/11/22 13:18, Wang, Wenchao wrote:<br>
+&gt; Hi, maintainers,<br>
+&gt; <br>
+&gt; As HAXM v7.8.0 is released and it added XCR0 support, could you help <=
+br>
+&gt; to merge this patch to add corresponding support into HAX user space <=
+br>
+&gt; of QEMU? The patch has been included in the attachment. Thanks.<br>
+<br>
+See<br>
+<a href=3D"https://www.qemu.org/docs/master/devel/submitting-a-patch.html#s=
+ubmitting-your-patches" rel=3D"noreferrer noreferrer" target=3D"_blank">htt=
+ps://www.qemu.org/docs/master/devel/submitting-a-patch.html#submitting-your=
+-patches</a><br>
+on how to send patches to a mailing list.<br>
+<br>
+&gt; <br>
+&gt; Best Regards,<br>
+&gt; <br>
+&gt; Wenchao<br>
+&gt; <br>
+&gt;=C2=A0 From b1789f2523d06798b8883664bfa9a9df797bfccf Mon Sep 17 00:00:0=
+0 <br>
+&gt; 2001<br>
+&gt; <br>
+&gt; From: Wenchao Wang &lt;<a href=3D"mailto:wenchao.wang@intel.com" targe=
+t=3D"_blank" rel=3D"noreferrer">wenchao.wang@intel.com</a>&gt;<br>
+&gt; <br>
+&gt; Date: Fri, 25 Nov 2022 18:37:34 +0800<br>
+&gt; <br>
+&gt; Subject: [PATCH] target/i386/hax: Add XCR0 support<br>
+&gt; <br>
+&gt; Introduce extended control register XCR0 to support XSAVE feature set.=
+<br>
+&gt; <br>
+&gt; Note: This change requires at least HAXM v7.8.0 to support.<br>
+&gt; <br>
+&gt; Reviewed-by: Hang Yuan &lt;<a href=3D"mailto:hang.yuan@intel.com" targ=
+et=3D"_blank" rel=3D"noreferrer">hang.yuan@intel.com</a>&gt;<br>
+&gt; <br>
+&gt; Signed-off-by: Wenchao Wang &lt;<a href=3D"mailto:wenchao.wang@intel.c=
+om" target=3D"_blank" rel=3D"noreferrer">wenchao.wang@intel.com</a>&gt;<br>
+&gt; <br>
+&gt; ---<br>
+&gt; <br>
+&gt; target/i386/hax/hax-interface.h | 2 ++<br>
+&gt; <br>
+&gt; 1 file changed, 2 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/target/i386/hax/hax-interface.h <br>
+&gt; b/target/i386/hax/hax-interface.h<br>
+&gt; <br>
+&gt; index 537ae084e9..1d13bb2380 100644<br>
+&gt; <br>
+&gt; --- a/target/i386/hax/hax-interface.h<br>
+&gt; <br>
+&gt; +++ b/target/i386/hax/hax-interface.h<br>
+&gt; <br>
+&gt; @@ -201,6 +201,8 @@ struct vcpu_state_t {<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 uint64_t _cr3;<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 uint64_t _cr4;<br>
+&gt; <br>
+&gt; +=C2=A0=C2=A0=C2=A0 uint64_t _xcr0;<br>
+&gt; <br>
+&gt; +<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 uint64_t _dr0;<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 uint64_t _dr1;<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 uint64_t _dr2;<br>
+&gt; <br>
+&gt; --<br>
+&gt; <br>
+&gt; 2.17.1<br>
+&gt; <br>
+<br>
+Is that the full patch? It is missing the register use in hax_sync_vcpu_reg=
+ister()...<br>
+<br>
+Regards,<br>
+<br>
+Phil.<br>
+</blockquote></div></div></div>
 
-
-The full context:
-
-
-     /* Load firmware */
-     if (firmware_name) {
-         firmware_end_addr = riscv_load_firmware(firmware_name,
-memmap[SPIKE_DRAM].base,
-htif_symbol_callback);
-         g_free(firmware_name);
-     }
-
-     /* Load kernel */
-     if (machine->kernel_filename) {
-         kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
-firmware_end_addr);
-
-         kernel_entry = riscv_load_kernel(machine->kernel_filename,
-                                          kernel_start_addr,
-                                          htif_symbol_callback);
-     } else {
-
-
-The error is happening because, with this patch, 'firmware_end_addr' may not be
-initialized via riscv_load_firmware() because we're not guaranteeing that
-'firmware_name' will be valid.
-
-riscv_load_firmware() is guaranteed to either return > 0 or error out with exit(1),
-so a simple fix would be to initialize 'firmware_end_addr' with 0.
-
-
-
-Thanks,
-
-Daniel
-
-
-> @@ -280,7 +315,7 @@ static void spike_board_init(MachineState *machine)
->   
->       /* Create device tree */
->       create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> -               riscv_is_32bit(&s->soc[0]));
-> +               riscv_is_32bit(&s->soc[0]), htif_custom_base);
->   
->       /* Load initrd */
->       if (machine->kernel_filename && machine->initrd_filename) {
-> @@ -308,7 +343,8 @@ static void spike_board_init(MachineState *machine)
->                                 fdt_load_addr);
->   
->       /* initialize HTIF using symbols found in load_kernel */
-> -    htif_mm_init(system_memory, serial_hd(0), memmap[SPIKE_HTIF].base);
-> +    htif_mm_init(system_memory, serial_hd(0), memmap[SPIKE_HTIF].base,
-> +                 htif_custom_base);
->   }
->   
->   static void spike_machine_instance_init(Object *obj)
+--00000000000025338c05f0d0b1b4--
 
 
