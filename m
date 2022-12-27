@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55459656DBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 18:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF39656DC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 18:57:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAE9h-0000If-LO; Tue, 27 Dec 2022 12:54:25 -0500
+	id 1pAEBy-0001F4-E4; Tue, 27 Dec 2022 12:56:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pAE9f-0000IH-LZ
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:54:23 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pAEBw-0001Ew-Bx
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:56:44 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pAE9e-0003U0-4i
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:54:23 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pAEBu-0003yk-SS
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:56:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672163660;
+ s=mimecast20190719; t=1672163802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z4MhymrFbLMBFcpKIDP4gK0pYdoGSzZaS3kLiaMiiUI=;
- b=TVcYL94W0YnZNYl8aG4JG7/sdSrvFIG27fswgo3j9yGV8HEdA/5g9JWfMYklNCXVsQizF2
- g6Y0yziJJrLUm6cdctTIKtsmiUsIhOQX0VVIWTYuPPG4n/whgRAIY1FKv40btS0Z2lGcMR
- P2uEuipb0b+Ik+Kl+lFB/m48TXGmFUU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jB8RsBzil72xI6D+2AGXF9zutoco3rXk0aiWSltBswc=;
+ b=giVKMSgnFZogIMz2ykbWdjlppb7ZZPKiaIm8P8dDADaKxIcPEj0XfRxWJ/+VFzyYl6YhHo
+ iQ3xYb5JF1nVudbqCPDp1dirQbH+qByupLXo7SAqW4/pho+rvXe+Qzhl7luPdcmzcNipeV
+ XHKfM1THZU1GX+V6Q7TcdBg+TliWpmQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-351-KRTUWr_HMemvgDzheliP4A-1; Tue, 27 Dec 2022 12:54:18 -0500
-X-MC-Unique: KRTUWr_HMemvgDzheliP4A-1
-Received: by mail-ed1-f70.google.com with SMTP id
- q10-20020a056402518a00b00472a255eef7so9653312edd.15
- for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 09:54:18 -0800 (PST)
+ us-mta-625-kV-g65a2Ns2t1eftwN2z6w-1; Tue, 27 Dec 2022 12:56:40 -0500
+X-MC-Unique: kV-g65a2Ns2t1eftwN2z6w-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ f15-20020a056402354f00b00485864db618so3228710edd.13
+ for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 09:56:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z4MhymrFbLMBFcpKIDP4gK0pYdoGSzZaS3kLiaMiiUI=;
- b=FTWMzbw9etZV4qKAGS/AR2UlFwXIteCGNMVDlgn3q42SgTLCUujiA5Z+oo/nLY2kvv
- xJW9WNyIcR8l6l/IqSwlEyfLJb4aaWYakBQnwcp9mx98Iw4bT447Ov7HZvmKjZFMakC2
- QoLSpJCBGYMblJWqVst7t/GCXHh3YsCTxxw86PYR2wZj4xGaQ1+2VCTZSIPR/ShIdCEK
- uTihRhu9ZWaqBY6oYVBu4l6u8589I75Mf6D+u4VEystCtWggPnxyu6QI17YYIpC9vepj
- b2lEQdfgwox54vNXRHyhdTMwkmOWD2X+hxppMi8cZw77lsYBGv25VDqvFtfQpfEuiklv
- GxfA==
-X-Gm-Message-State: AFqh2kp5c/wsZ/zyPfoSl7W2Z4VflVHJooRSOEO73X9eQh9UyDyGrC1w
- uBfEblTtqwPba4t8kv3QnQiDYSUiNg++L2jjDkzffg6EJzsmY6yNGYyKLtn0Pz1Ixnv/gcbiP3V
- WMRxylwImpc32570=
-X-Received: by 2002:a17:906:c192:b0:7c1:6fe:f4a2 with SMTP id
- g18-20020a170906c19200b007c106fef4a2mr18824698ejz.45.1672163657440; 
- Tue, 27 Dec 2022 09:54:17 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuFp/KMhVQ0wp2Tj+ShUyak1lPck4VhrbboEp5mpKBvZv3oyZyNG6086uRDbWThk3BVsMBj9w==
-X-Received: by 2002:a17:906:c192:b0:7c1:6fe:f4a2 with SMTP id
- g18-20020a170906c19200b007c106fef4a2mr18824682ejz.45.1672163657254; 
- Tue, 27 Dec 2022 09:54:17 -0800 (PST)
+ bh=jB8RsBzil72xI6D+2AGXF9zutoco3rXk0aiWSltBswc=;
+ b=GvXK0PRzI5a5wOWQoKYMBVcNdRiInii95mkOJ1EY/EeM+aCpMmmfEaLYZ4PQGogpo/
+ Snw1HIIZ049FzPLGiVEYmmAmUYnLsCHqYZfG7J5wsi5S0zlMOxxi8zlpcBVeWYb9g9Ol
+ tdOrZrBgFvPXU8aUx+jLcbPmOizW2xDmyAnmDslUH0vRsRuJG/77Ut7B/50/owPUjU/x
+ UaBbTHYXrGANTXEyvKbxTyVOrcQInvGU03mLfj4fGQCZqWyErptq1EVDEPr6YLmXnCBS
+ nJO+qu3S8XZhKk3lGPvEkYWJt3pO1mgt9rJKpj9dokres6kiJ+KNFMlqkkKaBEE+s7UE
+ hBZg==
+X-Gm-Message-State: AFqh2koHhobI+TTYuE5kbHO6efNenyYHP6zIX8Y0sZZqE40z6Q/p1ho+
+ 0HMq7TnoTXARCJbrQuIeifddR0Upm+o5zuQM6qoZpu9fmcm6uJRkbOOT5r4I8z1V2lH3R7/rJa8
+ +38RLwnw+QCIu/wk=
+X-Received: by 2002:a50:fd87:0:b0:47f:1013:f3ac with SMTP id
+ o7-20020a50fd87000000b0047f1013f3acmr19951120edt.4.1672163799586; 
+ Tue, 27 Dec 2022 09:56:39 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXv3bXcNBsBTP4sV4VoLVyPqSpqLfZ34DzjL/dtmyj29Zq2M6mEvxqNnD19NLAkqz0FyD9VsHA==
+X-Received: by 2002:a50:fd87:0:b0:47f:1013:f3ac with SMTP id
+ o7-20020a50fd87000000b0047f1013f3acmr19951103edt.4.1672163799404; 
+ Tue, 27 Dec 2022 09:56:39 -0800 (PST)
 Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- 16-20020a170906319000b0084c2065b388sm4275035ejy.128.2022.12.27.09.54.14
+ f20-20020a17090631d400b007bf24b8f80csm4214402ejf.63.2022.12.27.09.56.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Dec 2022 09:54:16 -0800 (PST)
-Date: Tue, 27 Dec 2022 12:54:12 -0500
+ Tue, 27 Dec 2022 09:56:38 -0800 (PST)
+Date: Tue, 27 Dec 2022 12:56:34 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
 Cc: "Longpeng(Mike)" <longpeng2@huawei.com>, stefanha@redhat.com,
- jasowang@redhat.com, cohuck@redhat.com, sgarzare@redhat.com,
- pbonzini@redhat.com, arei.gonglei@huawei.com, yechuan@huawei.com,
- huangzhichao@huawei.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 2/3] vhost: configure all host notifiers in a single
- MR transaction
-Message-ID: <20221227125331-mutt-send-email-mst@kernel.org>
+ jasowang@redhat.com, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>, cohuck@redhat.com,
+ sgarzare@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 3/3] vdpa: commit all host notifier MRs in a single MR
+ transaction
+Message-ID: <20221227125521-mutt-send-email-mst@kernel.org>
 References: <20221227072015.3134-1-longpeng2@huawei.com>
- <20221227072015.3134-3-longpeng2@huawei.com>
- <8054d186-0196-ccb0-091d-0ee9caadb576@linaro.org>
+ <20221227072015.3134-4-longpeng2@huawei.com>
+ <3cdfb4fc-70a9-db51-ac49-4ba984a3045a@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8054d186-0196-ccb0-091d-0ee9caadb576@linaro.org>
+In-Reply-To: <3cdfb4fc-70a9-db51-ac49-4ba984a3045a@linaro.org>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -102,57 +103,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 27, 2022 at 05:43:57PM +0100, Philippe Mathieu-Daudé wrote:
+On Tue, Dec 27, 2022 at 05:51:47PM +0100, Philippe Mathieu-Daudé wrote:
 > On 27/12/22 08:20, Longpeng(Mike) wrote:
 > > From: Longpeng <longpeng2@huawei.com>
 > > 
-> > This allows the vhost device to batch the setup of all its host notifiers.
+> > This allows the vhost-vdpa device to batch the setup of all its MRs of
+> > host notifiers.
+> > 
 > > This significantly reduces the device starting time, e.g. the time spend
-> > on enabling notifiers reduce from 376ms to 9.1ms for a VM with 64 vCPUs
-> > and 3 vhost-vDPA generic devices (vdpa_sim_blk, 64vq per device)
+> > on setup the host notifier MRs reduce from 423ms to 32ms for a VM with
+> > 64 vCPUs and 3 vhost-vDPA generic devices (vdpa_sim_blk, 64vq per device).
 > > 
 > > Signed-off-by: Longpeng <longpeng2@huawei.com>
 > > ---
-> >   hw/virtio/vhost.c | 24 ++++++++++++++++++++++++
-> >   1 file changed, 24 insertions(+)
+> >   hw/virtio/vhost-vdpa.c | 25 +++++++++++++++++++------
+> >   1 file changed, 19 insertions(+), 6 deletions(-)
 > > 
-> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> > index 5994559da8..064d4abe5c 100644
-> > --- a/hw/virtio/vhost.c
-> > +++ b/hw/virtio/vhost.c
-> > @@ -1562,16 +1562,25 @@ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
-> >           return r;
-> >       }
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index fd0c33b0e1..870265188a 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -512,9 +512,18 @@ static void vhost_vdpa_host_notifiers_uninit(struct vhost_dev *dev, int n)
+> >   {
+> >       int i;
 > > +    /*
-> > +     * Batch all the host notifiers in a single transaction to avoid
-> > +     * quadratic time complexity in address_space_update_ioeventfds().
+> > +     * Pack all the changes to the memory regions in a single
+> > +     * transaction to avoid a few updating of the address space
+> > +     * topology.
 > > +     */
 > > +    memory_region_transaction_begin();
 > > +
-> >       for (i = 0; i < hdev->nvqs; ++i) {
-> >           r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i,
-> >                                            true);
-> >           if (r < 0) {
-> >               error_report("vhost VQ %d notifier binding failed: %d", i, -r);
-> > +            memory_region_transaction_commit();
-> >               vhost_dev_disable_notifiers(hdev, vdev);
-> 
-> Could we 'break' here, ...
-> 
-> >               return r;
-> >           }
+> >       for (i = dev->vq_index; i < dev->vq_index + n; i++) {
+> >           vhost_vdpa_host_notifier_uninit(dev, i);
 > >       }
-> > +    memory_region_transaction_commit();
 > > +
-> >       return 0;
-> 
-> ... and return 'r' here?
-
-
-won't this commit twice? seems ugly ...
-
+> > +    memory_region_transaction_commit();
 > >   }
 > 
-> Otherwise LGTM.
+> Instead of optimizing one frontend, I wonder if we shouldn't expose
+> a 'bool memory_region_transaction_in_progress()' helper in memory.c,
+> and in virtio_queue_set_host_notifier_mr() backend, assert we are
+> within a transaction. That way we'd optimize all virtio frontends.
+
+
+If we are doing something like this, I'd rather pass around
+a "transaction" structure so this can be checked statically.
+Looks like something that can be done on top though.
+
+-- 
+MST
 
 
