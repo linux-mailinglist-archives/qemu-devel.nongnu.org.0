@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17226567C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 08:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD8A6567CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 08:22:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pA4Gg-0004md-4x; Tue, 27 Dec 2022 02:20:58 -0500
+	id 1pA4Gc-0004lY-8x; Tue, 27 Dec 2022 02:20:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1pA4GQ-0004jo-HI
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 02:20:43 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+ id 1pA4GM-0004hB-8G
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 02:20:38 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1pA4GL-00078z-Uo
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 02:20:39 -0500
-Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Nh5cP2fPBzRqJr;
- Tue, 27 Dec 2022 15:19:01 +0800 (CST)
+ id 1pA4GI-000790-36
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 02:20:36 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Nh5YV4JTVzJpVH;
+ Tue, 27 Dec 2022 15:16:30 +0800 (CST)
 Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Tue, 27 Dec 2022 15:20:20 +0800
+ 15.1.2375.34; Tue, 27 Dec 2022 15:20:21 +0800
 To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
  <philmd@linaro.org>
 CC: <cohuck@redhat.com>, <sgarzare@redhat.com>, <pbonzini@redhat.com>,
  <arei.gonglei@huawei.com>, <yechuan@huawei.com>, <huangzhichao@huawei.com>,
  <qemu-devel@nongnu.org>, Longpeng <longpeng2@huawei.com>
-Subject: [PATCH v3 2/3] vhost: configure all host notifiers in a single MR
+Subject: [PATCH v3 3/3] vdpa: commit all host notifier MRs in a single MR
  transaction
-Date: Tue, 27 Dec 2022 15:20:14 +0800
-Message-ID: <20221227072015.3134-3-longpeng2@huawei.com>
+Date: Tue, 27 Dec 2022 15:20:15 +0800
+Message-ID: <20221227072015.3134-4-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
 In-Reply-To: <20221227072015.3134-1-longpeng2@huawei.com>
 References: <20221227072015.3134-1-longpeng2@huawei.com>
@@ -44,8 +44,8 @@ X-Originating-IP: [10.174.148.223]
 X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  kwepemi100025.china.huawei.com (7.221.188.158)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
- helo=szxga02-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
+ helo=szxga03-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -70,75 +70,69 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Longpeng <longpeng2@huawei.com>
 
-This allows the vhost device to batch the setup of all its host notifiers.
+This allows the vhost-vdpa device to batch the setup of all its MRs of
+host notifiers.
+
 This significantly reduces the device starting time, e.g. the time spend
-on enabling notifiers reduce from 376ms to 9.1ms for a VM with 64 vCPUs
-and 3 vhost-vDPA generic devices (vdpa_sim_blk, 64vq per device)
+on setup the host notifier MRs reduce from 423ms to 32ms for a VM with
+64 vCPUs and 3 vhost-vDPA generic devices (vdpa_sim_blk, 64vq per device).
 
 Signed-off-by: Longpeng <longpeng2@huawei.com>
 ---
- hw/virtio/vhost.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ hw/virtio/vhost-vdpa.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 5994559da8..064d4abe5c 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1562,16 +1562,25 @@ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
-         return r;
-     }
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index fd0c33b0e1..870265188a 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -512,9 +512,18 @@ static void vhost_vdpa_host_notifiers_uninit(struct vhost_dev *dev, int n)
+ {
+     int i;
  
 +    /*
-+     * Batch all the host notifiers in a single transaction to avoid
-+     * quadratic time complexity in address_space_update_ioeventfds().
++     * Pack all the changes to the memory regions in a single
++     * transaction to avoid a few updating of the address space
++     * topology.
 +     */
 +    memory_region_transaction_begin();
 +
-     for (i = 0; i < hdev->nvqs; ++i) {
-         r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i,
-                                          true);
-         if (r < 0) {
-             error_report("vhost VQ %d notifier binding failed: %d", i, -r);
-+            memory_region_transaction_commit();
-             vhost_dev_disable_notifiers(hdev, vdev);
-             return r;
-         }
+     for (i = dev->vq_index; i < dev->vq_index + n; i++) {
+         vhost_vdpa_host_notifier_uninit(dev, i);
      }
- 
-+    memory_region_transaction_commit();
 +
-     return 0;
++    memory_region_transaction_commit();
  }
  
-@@ -1585,6 +1594,12 @@ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
-     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-     int i, r;
+ static void vhost_vdpa_host_notifiers_init(struct vhost_dev *dev)
+@@ -527,17 +536,21 @@ static void vhost_vdpa_host_notifiers_init(struct vhost_dev *dev)
+         return;
+     }
  
 +    /*
-+     * Batch all the host notifiers in a single transaction to avoid
-+     * quadratic time complexity in address_space_update_ioeventfds().
++     * Pack all the changes to the memory regions in a single
++     * transaction to avoid a few updating of the address space
++     * topology.
 +     */
 +    memory_region_transaction_begin();
 +
-     for (i = 0; i < hdev->nvqs; ++i) {
-         r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i,
-                                          false);
-@@ -1592,6 +1607,15 @@ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
-             error_report("vhost VQ %d notifier cleanup failed: %d", i, -r);
+     for (i = dev->vq_index; i < dev->vq_index + dev->nvqs; i++) {
+         if (vhost_vdpa_host_notifier_init(dev, i)) {
+-            goto err;
++            vhost_vdpa_host_notifiers_uninit(dev, i - dev->vq_index);
++            break;
          }
-         assert (r >= 0);
-+    }
-+
-+    /*
-+     * The transaction expects the ioeventfds to be open when it
-+     * commits. Do it now, before the cleanup loop.
-+     */
-+    memory_region_transaction_commit();
-+
-+    for (i = 0; i < hdev->nvqs; ++i) {
-         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i);
      }
-     virtio_device_release_ioeventfd(vdev);
+ 
+-    return;
+-
+-err:
+-    vhost_vdpa_host_notifiers_uninit(dev, i - dev->vq_index);
+-    return;
++    memory_region_transaction_commit();
+ }
+ 
+ static void vhost_vdpa_svq_cleanup(struct vhost_dev *dev)
 -- 
 2.23.0
 
