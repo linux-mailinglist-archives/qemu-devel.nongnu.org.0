@@ -2,40 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590DE65678D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 07:50:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7867065679A
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 07:53:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pA3lZ-0006HE-4e; Tue, 27 Dec 2022 01:48:49 -0500
+	id 1pA3lo-0006J7-3L; Tue, 27 Dec 2022 01:49:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lV-0006Ep-4h
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:48:45 -0500
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pA3lb-0006I4-QS; Tue, 27 Dec 2022 01:48:51 -0500
 Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lR-0006gQ-9A
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:48:44 -0500
-X-QQ-mid: bizesmtp64t1672123706tdvk9wqp
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pA3lZ-0006iL-IW; Tue, 27 Dec 2022 01:48:51 -0500
+X-QQ-mid: bizesmtp64t1672123709tohnlvic
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 27 Dec 2022 14:48:25 +0800 (CST)
+ id ; Tue, 27 Dec 2022 14:48:28 +0800 (CST)
 X-QQ-SSF: 01200000000000C0C000000A0000000
-X-QQ-FEAT: znfcQSa1hKbNYI/uL6Njf5Ln3bHSrTGwPTiUgYfTW6TrSUXua5bFUsEzZyrME
- WlBOh4SaxIhqi8CKi6gtbXuIW1hSJ1vhCZuYrezhsuCjXGzlMV1rrkmUnpuhnozaVSo6kki
- gmdSsN/lDmyV+IL8K3BTcqMWzgelJVT6UJ+aPHQ77ELVmgwSamzv5B1A+dOxf5Ws+A54jbW
- dOMtQBAuGGMljztGHTfk3/zioCum4fARa2JAqUFXUqYFWUiPMGCrmYaWjTxZdTrWW/VLZ3q
- SMj+st2WZzU9cnu6wI+Bibny05xGUz1U77vW4lbHE76tYb6TxX6EjHx/TDO2egIAb/jMhnm
- vB+9qdg9VNkWRT5vHnt1eNy7Qe4BxJeIe4eHzJv
+X-QQ-FEAT: 2d9G4llBGh4VY0flI/Wg+5AxU25O7PXXcpJsSr9IxsjWq/Cs00KI+ItkD+yzv
+ uGvwS2pvLi9RoYvXn/0jvbzRnm9ec01orPtstFQRNpUtiBsXcyPKES4UwbUhBzahRboew7V
+ bUn7hYrNcNyQhmkLVLnybFNbS2M8HEVXa8ONMbgp9UiP36HfId3abkaqJD2dg8fcwM1MnFa
+ yw2xydzbDZ4j7v1jZgQHOgi5xB9cHotZbe7ebF5klytINClwgEzbckSlm4R6WwcaMpqW5Uo
+ q2WG9ANmuyBnHdYfyiM+JEBzKRwM7n9DOUdJH6Wq/ZpFJeOE0zQyEUpLGU0C/VmUpPM7YVt
+ suGvOweFETkEgjQ1gvGzC20izcIiNzDRnSQpRcj
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
 	qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 04/12] hw/char: riscv_htif: Use conventional 's' for HTIFState
-Date: Tue, 27 Dec 2022 14:48:04 +0800
-Message-Id: <20221227064812.1903326-5-bmeng@tinylab.org>
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 05/12] hw/char: riscv_htif: Move registers from CPUArchState
+ to HTIFState
+Date: Tue, 27 Dec 2022 14:48:05 +0800
+Message-Id: <20221227064812.1903326-6-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221227064812.1903326-1-bmeng@tinylab.org>
 References: <20221227064812.1903326-1-bmeng@tinylab.org>
@@ -65,148 +69,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QEMU source codes tend to use 's' to represent the hardware state.
-Let's use it for HTIFState.
+At present for some unknown reason the HTIF registers (fromhost &
+tohost) are defined in the RISC-V CPUArchState. It should really
+be put in the HTIFState struct as it is only meaningful to HTIF.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- hw/char/riscv_htif.c | 64 ++++++++++++++++++++++----------------------
- 1 file changed, 32 insertions(+), 32 deletions(-)
+ include/hw/char/riscv_htif.h |  8 ++++----
+ target/riscv/cpu.h           |  4 ----
+ hw/char/riscv_htif.c         | 35 +++++++++++++++++------------------
+ hw/riscv/spike.c             |  3 +--
+ target/riscv/machine.c       |  6 ++----
+ 5 files changed, 24 insertions(+), 32 deletions(-)
 
+diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
+index 6d172ebd6d..55cc352331 100644
+--- a/include/hw/char/riscv_htif.h
++++ b/include/hw/char/riscv_htif.h
+@@ -23,7 +23,6 @@
+ #include "chardev/char.h"
+ #include "chardev/char-fe.h"
+ #include "exec/memory.h"
+-#include "target/riscv/cpu.h"
+ 
+ #define TYPE_HTIF_UART "riscv.htif.uart"
+ 
+@@ -31,11 +30,12 @@ typedef struct HTIFState {
+     int allow_tohost;
+     int fromhost_inprogress;
+ 
++    uint64_t tohost;
++    uint64_t fromhost;
+     hwaddr tohost_offset;
+     hwaddr fromhost_offset;
+     MemoryRegion mmio;
+ 
+-    CPURISCVState *env;
+     CharBackend chr;
+     uint64_t pending_read;
+ } HTIFState;
+@@ -51,7 +51,7 @@ void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
+ bool htif_uses_elf_symbols(void);
+ 
+ /* legacy pre qom */
+-HTIFState *htif_mm_init(MemoryRegion *address_space, CPURISCVState *env,
+-                        Chardev *chr, uint64_t nonelf_base);
++HTIFState *htif_mm_init(MemoryRegion *address_space, Chardev *chr,
++                        uint64_t nonelf_base);
+ 
+ #endif
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 443d15a47c..6f04d853dd 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -309,10 +309,6 @@ struct CPUArchState {
+     target_ulong sscratch;
+     target_ulong mscratch;
+ 
+-    /* temporary htif regs */
+-    uint64_t mfromhost;
+-    uint64_t mtohost;
+-
+     /* Sstc CSRs */
+     uint64_t stimecmp;
+ 
 diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-index e7e319ca1d..f28976b110 100644
+index f28976b110..3bb0a37a3e 100644
 --- a/hw/char/riscv_htif.c
 +++ b/hw/char/riscv_htif.c
-@@ -85,7 +85,7 @@ static int htif_can_recv(void *opaque)
-  */
- static void htif_recv(void *opaque, const uint8_t *buf, int size)
- {
--    HTIFState *htifstate = opaque;
-+    HTIFState *s = opaque;
- 
-     if (size != 1) {
-         return;
-@@ -97,10 +97,10 @@ static void htif_recv(void *opaque, const uint8_t *buf, int size)
-      *        will drop characters
-      */
- 
--    uint64_t val_written = htifstate->pending_read;
-+    uint64_t val_written = s->pending_read;
+@@ -100,7 +100,7 @@ static void htif_recv(void *opaque, const uint8_t *buf, int size)
+     uint64_t val_written = s->pending_read;
      uint64_t resp = 0x100 | *buf;
  
--    htifstate->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
-+    s->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
+-    s->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
++    s->fromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
  }
  
  /*
-@@ -142,7 +142,7 @@ static int htif_be_change(void *opaque)
-  * For RV32, the tohost register is zero-extended, so only device=0 and
-  * command=0 (i.e. HTIF syscalls/exit codes) are supported.
-  */
--static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
-+static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
- {
-     uint8_t device = val_written >> HTIF_DEV_SHIFT;
-     uint8_t cmd = val_written >> HTIF_CMD_SHIFT;
-@@ -174,11 +174,11 @@ static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
-         /* HTIF Console */
+@@ -175,7 +175,7 @@ static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
          if (cmd == HTIF_CONSOLE_CMD_GETC) {
              /* this should be a queue, but not yet implemented as such */
--            htifstate->pending_read = val_written;
--            htifstate->env->mtohost = 0; /* clear to indicate we read */
-+            s->pending_read = val_written;
-+            s->env->mtohost = 0; /* clear to indicate we read */
+             s->pending_read = val_written;
+-            s->env->mtohost = 0; /* clear to indicate we read */
++            s->tohost = 0; /* clear to indicate we read */
              return;
          } else if (cmd == HTIF_CONSOLE_CMD_PUTC) {
--            qemu_chr_fe_write(&htifstate->chr, (uint8_t *)&payload, 1);
-+            qemu_chr_fe_write(&s->chr, (uint8_t *)&payload, 1);
-             resp = 0x100 | (uint8_t)payload;
-         } else {
-             qemu_log("HTIF device %d: unknown command\n", device);
-@@ -194,31 +194,31 @@ static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
-      * With this code disabled, qemu works with bbl priv v1.9.1 and v1.10.
+             qemu_chr_fe_write(&s->chr, (uint8_t *)&payload, 1);
+@@ -195,11 +195,11 @@ static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
       * HTIF needs protocol documentation and a more complete state machine.
       *
--     *  while (!htifstate->fromhost_inprogress &&
--     *      htifstate->env->mfromhost != 0x0) {
-+     *  while (!s->fromhost_inprogress &&
-+     *      s->env->mfromhost != 0x0) {
+      *  while (!s->fromhost_inprogress &&
+-     *      s->env->mfromhost != 0x0) {
++     *      s->fromhost != 0x0) {
       *  }
       */
--    htifstate->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
--    htifstate->env->mtohost = 0; /* clear to indicate we read */
-+    s->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
-+    s->env->mtohost = 0; /* clear to indicate we read */
+-    s->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
+-    s->env->mtohost = 0; /* clear to indicate we read */
++    s->fromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
++    s->tohost = 0; /* clear to indicate we read */
  }
  
--#define TOHOST_OFFSET1 (htifstate->tohost_offset)
--#define TOHOST_OFFSET2 (htifstate->tohost_offset + 4)
--#define FROMHOST_OFFSET1 (htifstate->fromhost_offset)
--#define FROMHOST_OFFSET2 (htifstate->fromhost_offset + 4)
-+#define TOHOST_OFFSET1      (s->tohost_offset)
-+#define TOHOST_OFFSET2      (s->tohost_offset + 4)
-+#define FROMHOST_OFFSET1    (s->fromhost_offset)
-+#define FROMHOST_OFFSET2    (s->fromhost_offset + 4)
- 
- /* CPU wants to read an HTIF register */
- static uint64_t htif_mm_read(void *opaque, hwaddr addr, unsigned size)
+ #define TOHOST_OFFSET1      (s->tohost_offset)
+@@ -212,13 +212,13 @@ static uint64_t htif_mm_read(void *opaque, hwaddr addr, unsigned size)
  {
--    HTIFState *htifstate = opaque;
-+    HTIFState *s = opaque;
+     HTIFState *s = opaque;
      if (addr == TOHOST_OFFSET1) {
--        return htifstate->env->mtohost & 0xFFFFFFFF;
-+        return s->env->mtohost & 0xFFFFFFFF;
+-        return s->env->mtohost & 0xFFFFFFFF;
++        return s->tohost & 0xFFFFFFFF;
      } else if (addr == TOHOST_OFFSET2) {
--        return (htifstate->env->mtohost >> 32) & 0xFFFFFFFF;
-+        return (s->env->mtohost >> 32) & 0xFFFFFFFF;
+-        return (s->env->mtohost >> 32) & 0xFFFFFFFF;
++        return (s->tohost >> 32) & 0xFFFFFFFF;
      } else if (addr == FROMHOST_OFFSET1) {
--        return htifstate->env->mfromhost & 0xFFFFFFFF;
-+        return s->env->mfromhost & 0xFFFFFFFF;
+-        return s->env->mfromhost & 0xFFFFFFFF;
++        return s->fromhost & 0xFFFFFFFF;
      } else if (addr == FROMHOST_OFFSET2) {
--        return (htifstate->env->mfromhost >> 32) & 0xFFFFFFFF;
-+        return (s->env->mfromhost >> 32) & 0xFFFFFFFF;
+-        return (s->env->mfromhost >> 32) & 0xFFFFFFFF;
++        return (s->fromhost >> 32) & 0xFFFFFFFF;
      } else {
          qemu_log("Invalid htif read: address %016" PRIx64 "\n",
              (uint64_t)addr);
-@@ -230,25 +230,25 @@ static uint64_t htif_mm_read(void *opaque, hwaddr addr, unsigned size)
- static void htif_mm_write(void *opaque, hwaddr addr,
-                           uint64_t value, unsigned size)
+@@ -232,22 +232,22 @@ static void htif_mm_write(void *opaque, hwaddr addr,
  {
--    HTIFState *htifstate = opaque;
-+    HTIFState *s = opaque;
+     HTIFState *s = opaque;
      if (addr == TOHOST_OFFSET1) {
--        if (htifstate->env->mtohost == 0x0) {
--            htifstate->allow_tohost = 1;
--            htifstate->env->mtohost = value & 0xFFFFFFFF;
-+        if (s->env->mtohost == 0x0) {
-+            s->allow_tohost = 1;
-+            s->env->mtohost = value & 0xFFFFFFFF;
+-        if (s->env->mtohost == 0x0) {
++        if (s->tohost == 0x0) {
+             s->allow_tohost = 1;
+-            s->env->mtohost = value & 0xFFFFFFFF;
++            s->tohost = value & 0xFFFFFFFF;
          } else {
--            htifstate->allow_tohost = 0;
-+            s->allow_tohost = 0;
+             s->allow_tohost = 0;
          }
      } else if (addr == TOHOST_OFFSET2) {
--        if (htifstate->allow_tohost) {
--            htifstate->env->mtohost |= value << 32;
--            htif_handle_tohost_write(htifstate, htifstate->env->mtohost);
-+        if (s->allow_tohost) {
-+            s->env->mtohost |= value << 32;
-+            htif_handle_tohost_write(s, s->env->mtohost);
+         if (s->allow_tohost) {
+-            s->env->mtohost |= value << 32;
+-            htif_handle_tohost_write(s, s->env->mtohost);
++            s->tohost |= value << 32;
++            htif_handle_tohost_write(s, s->tohost);
          }
      } else if (addr == FROMHOST_OFFSET1) {
--        htifstate->fromhost_inprogress = 1;
--        htifstate->env->mfromhost = value & 0xFFFFFFFF;
-+        s->fromhost_inprogress = 1;
-+        s->env->mfromhost = value & 0xFFFFFFFF;
+         s->fromhost_inprogress = 1;
+-        s->env->mfromhost = value & 0xFFFFFFFF;
++        s->fromhost = value & 0xFFFFFFFF;
      } else if (addr == FROMHOST_OFFSET2) {
--        htifstate->env->mfromhost |= value << 32;
--        htifstate->fromhost_inprogress = 0;
-+        s->env->mfromhost |= value << 32;
-+        s->fromhost_inprogress = 0;
+-        s->env->mfromhost |= value << 32;
++        s->fromhost |= value << 32;
+         s->fromhost_inprogress = 0;
      } else {
          qemu_log("Invalid htif write: address %016" PRIx64 "\n",
-             (uint64_t)addr);
+@@ -265,8 +265,8 @@ bool htif_uses_elf_symbols(void)
+     return (address_symbol_set == 3) ? true : false;
+ }
+ 
+-HTIFState *htif_mm_init(MemoryRegion *address_space, CPURISCVState *env,
+-                        Chardev *chr, uint64_t nonelf_base)
++HTIFState *htif_mm_init(MemoryRegion *address_space, Chardev *chr,
++                        uint64_t nonelf_base)
+ {
+     uint64_t base, size, tohost_offset, fromhost_offset;
+ 
+@@ -281,7 +281,6 @@ HTIFState *htif_mm_init(MemoryRegion *address_space, CPURISCVState *env,
+     fromhost_offset = fromhost_addr - base;
+ 
+     HTIFState *s = g_new0(HTIFState, 1);
+-    s->env = env;
+     s->tohost_offset = tohost_offset;
+     s->fromhost_offset = fromhost_offset;
+     s->pending_read = 0;
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 82cf41ac27..8606331f61 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -317,8 +317,7 @@ static void spike_board_init(MachineState *machine)
+                               fdt_load_addr);
+ 
+     /* initialize HTIF using symbols found in load_kernel */
+-    htif_mm_init(system_memory, &s->soc[0].harts[0].env,
+-                 serial_hd(0), memmap[SPIKE_HTIF].base);
++    htif_mm_init(system_memory, serial_hd(0), memmap[SPIKE_HTIF].base);
+ }
+ 
+ static void spike_machine_instance_init(Object *obj)
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index c2a94a82b3..2e8beef06e 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -298,8 +298,8 @@ static const VMStateDescription vmstate_pmu_ctr_state = {
+ 
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+-    .version_id = 5,
+-    .minimum_version_id = 5,
++    .version_id = 6,
++    .minimum_version_id = 6,
+     .post_load = riscv_cpu_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
+@@ -349,8 +349,6 @@ const VMStateDescription vmstate_riscv_cpu = {
+         VMSTATE_UINTTL_ARRAY(env.mhpmeventh_val, RISCVCPU, RV_MAX_MHPMEVENTS),
+         VMSTATE_UINTTL(env.sscratch, RISCVCPU),
+         VMSTATE_UINTTL(env.mscratch, RISCVCPU),
+-        VMSTATE_UINT64(env.mfromhost, RISCVCPU),
+-        VMSTATE_UINT64(env.mtohost, RISCVCPU),
+         VMSTATE_UINT64(env.stimecmp, RISCVCPU),
+ 
+         VMSTATE_END_OF_LIST()
 -- 
 2.34.1
 
