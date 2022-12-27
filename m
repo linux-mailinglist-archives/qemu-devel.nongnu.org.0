@@ -2,91 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF39656DC1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 18:57:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B6C656DC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 19:03:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAEBy-0001F4-E4; Tue, 27 Dec 2022 12:56:46 -0500
+	id 1pAEI0-0002KM-TY; Tue, 27 Dec 2022 13:03:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pAEBw-0001Ew-Bx
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:56:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pAEBu-0003yk-SS
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 12:56:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672163802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jB8RsBzil72xI6D+2AGXF9zutoco3rXk0aiWSltBswc=;
- b=giVKMSgnFZogIMz2ykbWdjlppb7ZZPKiaIm8P8dDADaKxIcPEj0XfRxWJ/+VFzyYl6YhHo
- iQ3xYb5JF1nVudbqCPDp1dirQbH+qByupLXo7SAqW4/pho+rvXe+Qzhl7luPdcmzcNipeV
- XHKfM1THZU1GX+V6Q7TcdBg+TliWpmQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-625-kV-g65a2Ns2t1eftwN2z6w-1; Tue, 27 Dec 2022 12:56:40 -0500
-X-MC-Unique: kV-g65a2Ns2t1eftwN2z6w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- f15-20020a056402354f00b00485864db618so3228710edd.13
- for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 09:56:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pAEHm-0002Jx-CW
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 13:02:46 -0500
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pAEHk-0004kK-Hp
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 13:02:46 -0500
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-144bd860fdbso16300722fac.0
+ for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 10:02:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Wi7AVxtyW0cd4Gk5rlIqP9ndCzIoUxCVo/GTIWBQF4s=;
+ b=nfYkfI7iefnNSgjKJjdpkGXlhpX0OAF8W88J3CwP8Og34bK6lDIQ9YzwZozCKKcYjr
+ 56h28CDTz9ak89w/yrtK/iS3Pqk4TNtPQqCX+klYpC/C9clc8VvOKJpUyVAp70z6EAxd
+ vYCSuAqKbKMC1C2t3qHfoJqpkHaNYW8FPudx9sN2alsEejVfXADmER52QNec8at1ECv8
+ 11xgzqNSMTNHvE5j9L7V7tzBsOB3ytUm+ycdP5ffBsYn3tNpMaJZYxpmegxPh/+7HHr7
+ GJmaRAW+Xa56C2cFIaSw1INJnWdaaOSBtMe2CvoM/C0l1ga8jmlGVJoXcdmsKkSbUcmJ
+ Zqzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jB8RsBzil72xI6D+2AGXF9zutoco3rXk0aiWSltBswc=;
- b=GvXK0PRzI5a5wOWQoKYMBVcNdRiInii95mkOJ1EY/EeM+aCpMmmfEaLYZ4PQGogpo/
- Snw1HIIZ049FzPLGiVEYmmAmUYnLsCHqYZfG7J5wsi5S0zlMOxxi8zlpcBVeWYb9g9Ol
- tdOrZrBgFvPXU8aUx+jLcbPmOizW2xDmyAnmDslUH0vRsRuJG/77Ut7B/50/owPUjU/x
- UaBbTHYXrGANTXEyvKbxTyVOrcQInvGU03mLfj4fGQCZqWyErptq1EVDEPr6YLmXnCBS
- nJO+qu3S8XZhKk3lGPvEkYWJt3pO1mgt9rJKpj9dokres6kiJ+KNFMlqkkKaBEE+s7UE
- hBZg==
-X-Gm-Message-State: AFqh2koHhobI+TTYuE5kbHO6efNenyYHP6zIX8Y0sZZqE40z6Q/p1ho+
- 0HMq7TnoTXARCJbrQuIeifddR0Upm+o5zuQM6qoZpu9fmcm6uJRkbOOT5r4I8z1V2lH3R7/rJa8
- +38RLwnw+QCIu/wk=
-X-Received: by 2002:a50:fd87:0:b0:47f:1013:f3ac with SMTP id
- o7-20020a50fd87000000b0047f1013f3acmr19951120edt.4.1672163799586; 
- Tue, 27 Dec 2022 09:56:39 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv3bXcNBsBTP4sV4VoLVyPqSpqLfZ34DzjL/dtmyj29Zq2M6mEvxqNnD19NLAkqz0FyD9VsHA==
-X-Received: by 2002:a50:fd87:0:b0:47f:1013:f3ac with SMTP id
- o7-20020a50fd87000000b0047f1013f3acmr19951103edt.4.1672163799404; 
- Tue, 27 Dec 2022 09:56:39 -0800 (PST)
-Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- f20-20020a17090631d400b007bf24b8f80csm4214402ejf.63.2022.12.27.09.56.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Dec 2022 09:56:38 -0800 (PST)
-Date: Tue, 27 Dec 2022 12:56:34 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: "Longpeng(Mike)" <longpeng2@huawei.com>, stefanha@redhat.com,
- jasowang@redhat.com, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>, cohuck@redhat.com,
- sgarzare@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
- yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 3/3] vdpa: commit all host notifier MRs in a single MR
- transaction
-Message-ID: <20221227125521-mutt-send-email-mst@kernel.org>
-References: <20221227072015.3134-1-longpeng2@huawei.com>
- <20221227072015.3134-4-longpeng2@huawei.com>
- <3cdfb4fc-70a9-db51-ac49-4ba984a3045a@linaro.org>
+ bh=Wi7AVxtyW0cd4Gk5rlIqP9ndCzIoUxCVo/GTIWBQF4s=;
+ b=baTiceSCUVJYrfSJm1DfEDvmC/483nIr0yzreMd2KneRCfe6lXNHtaDD6z2pg1EHGH
+ VQj5IlqDPoI/JXYGhKexoKsWk2hxON82P0Rzhf8n7djPzU7CJZTk20GZ2GL0eOPko97a
+ lUj8pHmrZiwYqPZIQgCVL7GBquQhsfHGbDmcVpUkNGWnuOwaQZ7+YZRVUT2QVniNnToO
+ X9hqZi5tywvhSAw8itfz1Ye/RKFHmfpxbIj+zifOdVBUSX7YvFnbzMPuSzYEeI8JJ43t
+ 4VeKA76c5GnUZSmohy09MnAGTRBWQaycKoTNmp5rmVX5j++AhjR/Y+EsdBQSfa7kw+cc
+ iP/A==
+X-Gm-Message-State: AFqh2krZZJFOvxEVWNb4c0Nq1SpfCHwElK38UPCvRo0VRGQ+EpcJIDKN
+ 5dbpBrKkjPDeYYTxuj4DJJe5Ew==
+X-Google-Smtp-Source: AMrXdXvV3DjNvteAOW1//kinpVFmTD/pvrgozxdAudrGQuDnxor0Fzk/zVooFP7B/VOIyPbLOd8wjw==
+X-Received: by 2002:a05:6870:2f04:b0:14f:f0a0:fc59 with SMTP id
+ qj4-20020a0568702f0400b0014ff0a0fc59mr2417008oab.25.1672164163027; 
+ Tue, 27 Dec 2022 10:02:43 -0800 (PST)
+Received: from [192.168.68.107] ([177.102.70.162])
+ by smtp.gmail.com with ESMTPSA id
+ a15-20020a05687073cf00b00144bb1013e6sm6441681oan.4.2022.12.27.10.02.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Dec 2022 10:02:42 -0800 (PST)
+Message-ID: <ba1e50bd-9f1b-7d5c-e09a-980de870d70d@ventanamicro.com>
+Date: Tue, 27 Dec 2022 15:02:38 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3cdfb4fc-70a9-db51-ac49-4ba984a3045a@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 01/15] tests/avocado: add RISC-V opensbi boot test
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, Anup Patel <anup@brainfault.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Anup Patel <apatel@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
+ <20221221182300.307900-2-dbarboza@ventanamicro.com>
+ <CAEUhbmX03QVTCOyeMZy6_=RSOZUAz84_WDyTbQMUKJ0Dec2v2Q@mail.gmail.com>
+ <c8c87014-0c50-1649-2889-fa54a6110c19@ventanamicro.com>
+ <CAEUhbmVPt2uN-=OGg6qu2HVAm1zc83hO3MpAbnQsBnTAOm1YYg@mail.gmail.com>
+ <CAAhSdy1hhpzCpDJzMki7Rcd1Uu3gB2GFWyatbNFNNQMj-iHj1A@mail.gmail.com>
+ <CAEUhbmVEtPaHrOt2RWEad6-SA4Qwtd+Xe4Lir78t86N5GR2Q=Q@mail.gmail.com>
+ <CAEUhbmUJ8ViH-mVYZX6BkkWrgTMjH2meYg0=S8O=86N0YK-q-w@mail.gmail.com>
+ <CAEUhbmWRpX1iAuGO95ixQg3AS+Q0aw-+hAPbYsJaqcVtOmNj6Q@mail.gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAEUhbmWRpX1iAuGO95ixQg3AS+Q0aw-+hAPbYsJaqcVtOmNj6Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2c.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,54 +107,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 27, 2022 at 05:51:47PM +0100, Philippe Mathieu-Daudé wrote:
-> On 27/12/22 08:20, Longpeng(Mike) wrote:
-> > From: Longpeng <longpeng2@huawei.com>
-> > 
-> > This allows the vhost-vdpa device to batch the setup of all its MRs of
-> > host notifiers.
-> > 
-> > This significantly reduces the device starting time, e.g. the time spend
-> > on setup the host notifier MRs reduce from 423ms to 32ms for a VM with
-> > 64 vCPUs and 3 vhost-vDPA generic devices (vdpa_sim_blk, 64vq per device).
-> > 
-> > Signed-off-by: Longpeng <longpeng2@huawei.com>
-> > ---
-> >   hw/virtio/vhost-vdpa.c | 25 +++++++++++++++++++------
-> >   1 file changed, 19 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index fd0c33b0e1..870265188a 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -512,9 +512,18 @@ static void vhost_vdpa_host_notifiers_uninit(struct vhost_dev *dev, int n)
-> >   {
-> >       int i;
-> > +    /*
-> > +     * Pack all the changes to the memory regions in a single
-> > +     * transaction to avoid a few updating of the address space
-> > +     * topology.
-> > +     */
-> > +    memory_region_transaction_begin();
-> > +
-> >       for (i = dev->vq_index; i < dev->vq_index + n; i++) {
-> >           vhost_vdpa_host_notifier_uninit(dev, i);
-> >       }
-> > +
-> > +    memory_region_transaction_commit();
-> >   }
-> 
-> Instead of optimizing one frontend, I wonder if we shouldn't expose
-> a 'bool memory_region_transaction_in_progress()' helper in memory.c,
-> and in virtio_queue_set_host_notifier_mr() backend, assert we are
-> within a transaction. That way we'd optimize all virtio frontends.
+Bin,
+
+On 12/26/22 10:56, Bin Meng wrote:
+> On Sat, Dec 24, 2022 at 11:52 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>> Hi,
+>>
+>> On Fri, Dec 23, 2022 at 2:25 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>> Hi Anup,
+>>>
+>>> On Fri, Dec 23, 2022 at 12:56 AM Anup Patel <anup@brainfault.org> wrote:
+>>>> On Thu, Dec 22, 2022 at 6:27 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>>>> On Thu, Dec 22, 2022 at 6:47 PM Daniel Henrique Barboza
+>>>>> <dbarboza@ventanamicro.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 12/22/22 07:24, Bin Meng wrote:
+>>>>>>> On Thu, Dec 22, 2022 at 2:29 AM Daniel Henrique Barboza
+>>>>>>> <dbarboza@ventanamicro.com> wrote:
+>>>>>>>> This test is used to do a quick sanity check to ensure that we're able
+>>>>>>>> to run the existing QEMU FW image.
+
+[.....]
 
 
-If we are doing something like this, I'd rather pass around
-a "transaction" structure so this can be checked statically.
-Looks like something that can be done on top though.
 
--- 
-MST
+>>>>>>>> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
+>>>>>>> How about testing riscv32_spike too?
+>>>>>>
+>>>>>> I didn't manage to make it work. This riscv64 spark command line boots opensbi:
+>>>>>>
+>>>>>>
+>>>>>> $ ./qemu-system-riscv64 -nographic -display none -vga none -machine spike
+>>>>>>
+>>>>>> OpenSBI v1.1
+>>>>>>      ____                    _____ ____ _____
+>>>>>>     / __ \                  / ____|  _ \_   _|
+>>>>>>    | |  | |_ __   ___ _ __ | (___ | |_) || |
+>>>>>>    | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+>>>>>>    | |__| | |_) |  __/ | | |____) | |_) || |_
+>>>>>>     \____/| .__/ \___|_| |_|_____/|____/_____|
+>>>>>>           | |
+>>>>>>           |_|
+>>>>>>
+>>>>>> (...)
+>>>>>>
+>>>>>> The same command line doesn't boot riscv32 spark:
+>>>>>>
+>>>>>> ./qemu-system-riscv32 -nographic -display none -vga none -machine spike
+>>>>>> (--- hangs indefinitely ---)
+>>>>>>
+>>>>>> I debugged it a bit and, as far as boot code goes, it goes all the way and loads the
+>>>>>> opensbi 32bit binary.
+>>>>>>
+>>>>>> After that I tried to found any command line example that boots spike with riscv32
+>>>>>> bit and didn't find any.  So I gave up digging it further because I became unsure
+>>>>>> about whether 32-bit spike works.
+>>>>>>
+>>>>>> If someone can verify that yes, 32-bit spike is supposed to work, then I believe it's
+>>>>>> worth investigating why it's not the case ATM.
+>>>>>>
+>>>>> +Anup who might know if QEMU spike 32-bit machine works with opensbi
+>>>>> 32-bit generic image.
+>>>> We never got HTIF putc() working on QEMU RV32 Spike but it works
+>>>> perfectly fine on QEMU RV64 Spike.
+>>> Where is the problem for the 32-bit? Is it in OpenSBI or in QEMU?
+>>>
+>>>> See below log of QEMU RV64 Spike ...
+>>>>
+>>> If we cannot get Spike 32-bit to work in QEMU, should we drop the
+>>> 32-bit support? @Alistair Francis
+>> I got a deeper look at the 32-bit spike issue and I believe it is a
+>> problem of QEMU HTIF emulation.
+>>
+>> I will see if I can spin a patch to fix this.
+>>
+> It turns out there is a bug in OpenSBI too when booting 32-bit BIN
+> image on Spike.
+>
+> For ELF & BIN image boot on QEMU, QEMU changes are needed. I will send
+> the QEMU patches soon.
+
+I reviewed the QEMU patches and sent a tested-by ack in the opensbi fix
+as well. LGTM.
+
+As I commented in your QEMU patches earlier [1], it would be good if we could
+have an opensbi 1.2 rom with the fix already applied. If that's not possible then
+what we could do, w.r.t this patch, is to add the spike 32bit test with a skip note
+mentioning that we need an opensbi update before enabling it.
+
+[1] https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg04414.html
+
+
+Thanks,
+
+
+Daniel
+
+
+>
+> Regards,
+> Bin
 
 
