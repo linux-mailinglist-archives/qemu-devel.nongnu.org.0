@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33FE65679B
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 07:54:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77D7656793
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 07:50:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pA3lZ-0006H0-Nt; Tue, 27 Dec 2022 01:48:49 -0500
+	id 1pA3lk-0006I7-NL; Tue, 27 Dec 2022 01:49:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lV-0006Eq-Ah
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:48:45 -0500
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lZ-0006He-VN
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:48:49 -0500
 Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lS-0006gd-Pd
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:48:44 -0500
-X-QQ-mid: bizesmtp64t1672123712tsoluzod
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pA3lY-0006i7-1C
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 01:48:49 -0500
+X-QQ-mid: bizesmtp64t1672123715t25c56lu
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 27 Dec 2022 14:48:31 +0800 (CST)
+ id ; Tue, 27 Dec 2022 14:48:34 +0800 (CST)
 X-QQ-SSF: 01200000000000C0C000000A0000000
-X-QQ-FEAT: Q77qMjlDMfx7NxZDFWmG2gpDswcxSGNPuuNiee+Tywi9Jwd2kVLV77bOIj8uT
- 6FpIFCJH1BBMBF199PSCnfmgxyDXp/7NcWNFk8wAr6luIYfVl3BkOvdb2WD7gZlBgsvzxVM
- 2aLbGz2RRU4sRyBtgydifsiOk5jjLLMA1K85fnXXVHfEArlwRiHwmFQbGzfm/hUYc1lQ1fC
- xJ2rLc335k1PWSF0FEq7leANOpGmOaHR6uhlXSXwVy6LjuBzxqoRnmpxCVU4pHT1D2oRLFP
- HRC2Sjahoef+TYsPoO6WlnCfd73mTvWd1CIi2tLyS4TwQthnqfdyZ8cRsJKuLEPSSIg6sTE
- gLhv8xdN4m3Ze0j+4UabQIgDMZrvlDZJp2tOJc3kajFXWiZdLU=
+X-QQ-FEAT: znfcQSa1hKZ0gGTKmLeLCZhBxv49OQqRE+cTZBlSQHBuyR5Fm5LllHtJA13T4
+ du+2z+uln1omB8Lx3dcx5m07GC1PoFxR/h1KQTopv0+S2T6MjDicdV2XIe5gVJvuPt9Gm1k
+ X0oAhvUOpIJ3yO5g0bJ2C8TbPR1qMvirUsTfx3+nW4mCNYAJ7VrHIAhDP6hDVQzgze7+sKx
+ PYnocaLGgguVf4XdkshC7miSlm2+bJvEy9lyvdHkufSWowGYlR/xNK+l9cDAWHHWFGpxLAo
+ G7jFr+7slAOeCopicD/syLaPz5InQZxiyxwRe0dIxqg0X/g+THpURjiCQKJVFpD0S/XFFRC
+ mJ34JOc+ASRQiFRrgjp+dMu14HrmDrwjIsCZh2M4W1gnpoaBsg=
 X-QQ-GoodBg: 0
 From: Bin Meng <bmeng@tinylab.org>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
 	qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Anup Patel <apatel@ventanamicro.com>
-Subject: [PATCH 06/12] hw/char: riscv_htif: Remove forward declarations for
- non-existent variables
-Date: Tue, 27 Dec 2022 14:48:06 +0800
-Message-Id: <20221227064812.1903326-7-bmeng@tinylab.org>
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 07/12] hw/char: riscv_htif: Support console output via proxy
+ syscall
+Date: Tue, 27 Dec 2022 14:48:07 +0800
+Message-Id: <20221227064812.1903326-8-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221227064812.1903326-1-bmeng@tinylab.org>
 References: <20221227064812.1903326-1-bmeng@tinylab.org>
@@ -66,29 +66,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There are forward declarations for 'vmstate_htif' and 'htif_io_ops'
-in riscv_htif.h however there are no definitions in the C codes.
+At present the HTIF proxy syscall is unsupported. On RV32, only
+device 0 is supported so there is no console device for RV32.
+The only way to implement console funtionality on RV32 is to
+support the SYS_WRITE syscall.
+
+With this commit, the Spike machine is able to boot the 32-bit
+OpenSBI generic image.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- include/hw/char/riscv_htif.h | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/char/riscv_htif.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
-index 55cc352331..9e8ebbe017 100644
---- a/include/hw/char/riscv_htif.h
-+++ b/include/hw/char/riscv_htif.h
-@@ -40,9 +40,6 @@ typedef struct HTIFState {
-     uint64_t pending_read;
- } HTIFState;
+diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
+index 3bb0a37a3e..1477fc0090 100644
+--- a/hw/char/riscv_htif.c
++++ b/hw/char/riscv_htif.c
+@@ -48,6 +48,9 @@
+ #define HTIF_CONSOLE_CMD_GETC   0
+ #define HTIF_CONSOLE_CMD_PUTC   1
  
--extern const VMStateDescription vmstate_htif;
--extern const MemoryRegionOps htif_io_ops;
--
- /* HTIF symbol callback */
- void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-     uint64_t st_size);
++/* PK system call number */
++#define PK_SYS_WRITE            64
++
+ static uint64_t fromhost_addr, tohost_addr;
+ static int address_symbol_set;
+ 
+@@ -165,7 +168,19 @@ static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
+                 int exit_code = payload >> 1;
+                 exit(exit_code);
+             } else {
+-                qemu_log_mask(LOG_UNIMP, "pk syscall proxy not supported\n");
++                uint64_t syscall[8];
++                cpu_physical_memory_read(payload, syscall, sizeof(syscall));
++                if (syscall[0] == PK_SYS_WRITE &&
++                    syscall[1] == HTIF_DEV_CONSOLE &&
++                    syscall[3] == HTIF_CONSOLE_CMD_PUTC) {
++                    uint8_t ch;
++                    cpu_physical_memory_read(syscall[2], &ch, 1);
++                    qemu_chr_fe_write(&s->chr, &ch, 1);
++                    resp = 0x100 | (uint8_t)payload;
++                } else {
++                    qemu_log_mask(LOG_UNIMP,
++                                  "pk syscall proxy not supported\n");
++                }
+             }
+         } else {
+             qemu_log("HTIF device %d: unknown command\n", device);
 -- 
 2.34.1
 
