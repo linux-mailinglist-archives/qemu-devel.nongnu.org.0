@@ -2,95 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B6C656DC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 19:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FF8656F97
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 21:51:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAEI0-0002KM-TY; Tue, 27 Dec 2022 13:03:00 -0500
+	id 1pAGt2-00027z-Fn; Tue, 27 Dec 2022 15:49:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAEHm-0002Jx-CW
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 13:02:46 -0500
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAEHk-0004kK-Hp
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 13:02:46 -0500
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-144bd860fdbso16300722fac.0
- for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 10:02:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Wi7AVxtyW0cd4Gk5rlIqP9ndCzIoUxCVo/GTIWBQF4s=;
- b=nfYkfI7iefnNSgjKJjdpkGXlhpX0OAF8W88J3CwP8Og34bK6lDIQ9YzwZozCKKcYjr
- 56h28CDTz9ak89w/yrtK/iS3Pqk4TNtPQqCX+klYpC/C9clc8VvOKJpUyVAp70z6EAxd
- vYCSuAqKbKMC1C2t3qHfoJqpkHaNYW8FPudx9sN2alsEejVfXADmER52QNec8at1ECv8
- 11xgzqNSMTNHvE5j9L7V7tzBsOB3ytUm+ycdP5ffBsYn3tNpMaJZYxpmegxPh/+7HHr7
- GJmaRAW+Xa56C2cFIaSw1INJnWdaaOSBtMe2CvoM/C0l1ga8jmlGVJoXcdmsKkSbUcmJ
- Zqzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Wi7AVxtyW0cd4Gk5rlIqP9ndCzIoUxCVo/GTIWBQF4s=;
- b=baTiceSCUVJYrfSJm1DfEDvmC/483nIr0yzreMd2KneRCfe6lXNHtaDD6z2pg1EHGH
- VQj5IlqDPoI/JXYGhKexoKsWk2hxON82P0Rzhf8n7djPzU7CJZTk20GZ2GL0eOPko97a
- lUj8pHmrZiwYqPZIQgCVL7GBquQhsfHGbDmcVpUkNGWnuOwaQZ7+YZRVUT2QVniNnToO
- X9hqZi5tywvhSAw8itfz1Ye/RKFHmfpxbIj+zifOdVBUSX7YvFnbzMPuSzYEeI8JJ43t
- 4VeKA76c5GnUZSmohy09MnAGTRBWQaycKoTNmp5rmVX5j++AhjR/Y+EsdBQSfa7kw+cc
- iP/A==
-X-Gm-Message-State: AFqh2krZZJFOvxEVWNb4c0Nq1SpfCHwElK38UPCvRo0VRGQ+EpcJIDKN
- 5dbpBrKkjPDeYYTxuj4DJJe5Ew==
-X-Google-Smtp-Source: AMrXdXvV3DjNvteAOW1//kinpVFmTD/pvrgozxdAudrGQuDnxor0Fzk/zVooFP7B/VOIyPbLOd8wjw==
-X-Received: by 2002:a05:6870:2f04:b0:14f:f0a0:fc59 with SMTP id
- qj4-20020a0568702f0400b0014ff0a0fc59mr2417008oab.25.1672164163027; 
- Tue, 27 Dec 2022 10:02:43 -0800 (PST)
-Received: from [192.168.68.107] ([177.102.70.162])
- by smtp.gmail.com with ESMTPSA id
- a15-20020a05687073cf00b00144bb1013e6sm6441681oan.4.2022.12.27.10.02.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Dec 2022 10:02:42 -0800 (PST)
-Message-ID: <ba1e50bd-9f1b-7d5c-e09a-980de870d70d@ventanamicro.com>
-Date: Tue, 27 Dec 2022 15:02:38 -0300
+ (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
+ id 1pAGsu-00027E-6R; Tue, 27 Dec 2022 15:49:16 -0500
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
+ id 1pAGss-0005hz-8J; Tue, 27 Dec 2022 15:49:15 -0500
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BRKgS5R022355; Tue, 27 Dec 2022 20:49:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=qcppdkim1; bh=a6jYVvqitpGkanhNqFlj1BHPGilL2/AOFKHT7ytK/AQ=;
+ b=DDgFRNSmut9Ln5LRCW4SmmmP0NcLLjB2BTkr4+gao1uDWzjGcAhZm4O9maKJqM2ryrAy
+ kuaCU26ul1935MsZTuMUQ93K+UJ0igNnFqgRo/HToXzStELbIfCLZnnAcFPQ7JwRurq7
+ E4TQxsttdFiS0mYkr9D2A2O5DHoY4xPNtbv2fG2/IYXwSRMAtCprCJVqs4CcngiDsT/T
+ VBz3JbdzjZwZD3p5EabTGkZenNah8bmlFPS0kWqledeRTUp8AYobwDS4gFike053TCs3
+ iyP1/EqHD26cTlIvRWmbjo7E/VsrEHfwvB9er+rC3P48xXsKTZGygFa1VPW7cgqPfbMX TA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mnrd1djga-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Dec 2022 20:49:08 +0000
+Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2BRKn7EF012202; 
+ Tue, 27 Dec 2022 20:49:07 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 3mntgkkwef-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Dec 2022 20:49:07 +0000
+Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BRKn7FE012197;
+ Tue, 27 Dec 2022 20:49:07 GMT
+Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-mathbern-lv.qualcomm.com
+ [10.47.235.147])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 2BRKn6wB012170
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Dec 2022 20:49:07 +0000
+Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 4229910)
+ id 387DE5BD3; Tue, 27 Dec 2022 17:49:06 -0300 (-03)
+From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, ale@rev.ng, tsimpson@quicinc.com
+Subject: [PATCH] target/hexagon/idef-parser: fix two typos in README
+Date: Tue, 27 Dec 2022 17:49:04 -0300
+Message-Id: <fe67371e03f9dde38eb7554937da0a96a230730e.1672174122.git.quic_mathbern@quicinc.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 01/15] tests/avocado: add RISC-V opensbi boot test
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, Anup Patel <anup@brainfault.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
-Cc: Anup Patel <apatel@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221221182300.307900-1-dbarboza@ventanamicro.com>
- <20221221182300.307900-2-dbarboza@ventanamicro.com>
- <CAEUhbmX03QVTCOyeMZy6_=RSOZUAz84_WDyTbQMUKJ0Dec2v2Q@mail.gmail.com>
- <c8c87014-0c50-1649-2889-fa54a6110c19@ventanamicro.com>
- <CAEUhbmVPt2uN-=OGg6qu2HVAm1zc83hO3MpAbnQsBnTAOm1YYg@mail.gmail.com>
- <CAAhSdy1hhpzCpDJzMki7Rcd1Uu3gB2GFWyatbNFNNQMj-iHj1A@mail.gmail.com>
- <CAEUhbmVEtPaHrOt2RWEad6-SA4Qwtd+Xe4Lir78t86N5GR2Q=Q@mail.gmail.com>
- <CAEUhbmUJ8ViH-mVYZX6BkkWrgTMjH2meYg0=S8O=86N0YK-q-w@mail.gmail.com>
- <CAEUhbmWRpX1iAuGO95ixQg3AS+Q0aw-+hAPbYsJaqcVtOmNj6Q@mail.gmail.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAEUhbmWRpX1iAuGO95ixQg3AS+Q0aw-+hAPbYsJaqcVtOmNj6Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: D03kJ-GqsVMTdAMh43eH4y8FENCQz_0v
+X-Proofpoint-GUID: D03kJ-GqsVMTdAMh43eH4y8FENCQz_0v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-27_15,2022-12-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 bulkscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 phishscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=551
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212270173
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=mathbern@qualcomm.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,106 +101,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Bin,
+Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+---
+ target/hexagon/idef-parser/README.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 12/26/22 10:56, Bin Meng wrote:
-> On Sat, Dec 24, 2022 at 11:52 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->> Hi,
->>
->> On Fri, Dec 23, 2022 at 2:25 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>> Hi Anup,
->>>
->>> On Fri, Dec 23, 2022 at 12:56 AM Anup Patel <anup@brainfault.org> wrote:
->>>> On Thu, Dec 22, 2022 at 6:27 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>>>> On Thu, Dec 22, 2022 at 6:47 PM Daniel Henrique Barboza
->>>>> <dbarboza@ventanamicro.com> wrote:
->>>>>>
->>>>>>
->>>>>> On 12/22/22 07:24, Bin Meng wrote:
->>>>>>> On Thu, Dec 22, 2022 at 2:29 AM Daniel Henrique Barboza
->>>>>>> <dbarboza@ventanamicro.com> wrote:
->>>>>>>> This test is used to do a quick sanity check to ensure that we're able
->>>>>>>> to run the existing QEMU FW image.
-
-[.....]
-
-
-
->>>>>>>> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
->>>>>>> How about testing riscv32_spike too?
->>>>>>
->>>>>> I didn't manage to make it work. This riscv64 spark command line boots opensbi:
->>>>>>
->>>>>>
->>>>>> $ ./qemu-system-riscv64 -nographic -display none -vga none -machine spike
->>>>>>
->>>>>> OpenSBI v1.1
->>>>>>      ____                    _____ ____ _____
->>>>>>     / __ \                  / ____|  _ \_   _|
->>>>>>    | |  | |_ __   ___ _ __ | (___ | |_) || |
->>>>>>    | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
->>>>>>    | |__| | |_) |  __/ | | |____) | |_) || |_
->>>>>>     \____/| .__/ \___|_| |_|_____/|____/_____|
->>>>>>           | |
->>>>>>           |_|
->>>>>>
->>>>>> (...)
->>>>>>
->>>>>> The same command line doesn't boot riscv32 spark:
->>>>>>
->>>>>> ./qemu-system-riscv32 -nographic -display none -vga none -machine spike
->>>>>> (--- hangs indefinitely ---)
->>>>>>
->>>>>> I debugged it a bit and, as far as boot code goes, it goes all the way and loads the
->>>>>> opensbi 32bit binary.
->>>>>>
->>>>>> After that I tried to found any command line example that boots spike with riscv32
->>>>>> bit and didn't find any.  So I gave up digging it further because I became unsure
->>>>>> about whether 32-bit spike works.
->>>>>>
->>>>>> If someone can verify that yes, 32-bit spike is supposed to work, then I believe it's
->>>>>> worth investigating why it's not the case ATM.
->>>>>>
->>>>> +Anup who might know if QEMU spike 32-bit machine works with opensbi
->>>>> 32-bit generic image.
->>>> We never got HTIF putc() working on QEMU RV32 Spike but it works
->>>> perfectly fine on QEMU RV64 Spike.
->>> Where is the problem for the 32-bit? Is it in OpenSBI or in QEMU?
->>>
->>>> See below log of QEMU RV64 Spike ...
->>>>
->>> If we cannot get Spike 32-bit to work in QEMU, should we drop the
->>> 32-bit support? @Alistair Francis
->> I got a deeper look at the 32-bit spike issue and I believe it is a
->> problem of QEMU HTIF emulation.
->>
->> I will see if I can spin a patch to fix this.
->>
-> It turns out there is a bug in OpenSBI too when booting 32-bit BIN
-> image on Spike.
->
-> For ELF & BIN image boot on QEMU, QEMU changes are needed. I will send
-> the QEMU patches soon.
-
-I reviewed the QEMU patches and sent a tested-by ack in the opensbi fix
-as well. LGTM.
-
-As I commented in your QEMU patches earlier [1], it would be good if we could
-have an opensbi 1.2 rom with the fix already applied. If that's not possible then
-what we could do, w.r.t this patch, is to add the spike 32bit test with a skip note
-mentioning that we need an opensbi update before enabling it.
-
-[1] https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg04414.html
-
-
-Thanks,
-
-
-Daniel
-
-
->
-> Regards,
-> Bin
+diff --git a/target/hexagon/idef-parser/README.rst b/target/hexagon/idef-parser/README.rst
+index 65e6bf4ee5..ff6d14150a 100644
+--- a/target/hexagon/idef-parser/README.rst
++++ b/target/hexagon/idef-parser/README.rst
+@@ -552,11 +552,11 @@ to compare our buggy CPU state against, running
+ 
+ ::
+ 
+-    meson configure -Dhexagon_idef_parser_enabled=false
++    meson configure -Dhexagon_idef_parser=false
+ 
+ will disable the idef-parser for all instructions and fallback on manual
+ tinycode generator overrides, or on helper function implementations. Recompiling
+-gives us ``qemu-hexagon`` which passes all tests. If ``qemu-heaxgon-buggy`` is
++gives us ``qemu-hexagon`` which passes all tests. If ``qemu-hexagon-buggy`` is
+ our binary with the incorrect tinycode generators, we can compare the CPU state
+ between the two versions
+ 
+-- 
+2.37.2
 
 
