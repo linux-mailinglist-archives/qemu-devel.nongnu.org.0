@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2166567E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 08:36:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8909C65685B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Dec 2022 09:19:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pA4U5-0000tz-JV; Tue, 27 Dec 2022 02:34:50 -0500
+	id 1pA5AH-0007UI-2h; Tue, 27 Dec 2022 03:18:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1pA4Tr-0000r8-Vt
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 02:34:37 -0500
-Received: from mail-out-4.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:49])
+ (Exim 4.90_1) (envelope-from <leixiang@kylinos.cn>)
+ id 1pA59u-0007U0-Cx
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 03:18:02 -0500
+Received: from [124.126.103.232] (helo=mailgw.kylinos.cn)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1pA4Tl-0001Vw-HD
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 02:34:34 -0500
-X-IPAS-Result: =?us-ascii?q?A2DeDwBDn6pj/5sagoZaHgEBCxIMQIFRhQoXAYQ2kHExn?=
- =?us-ascii?q?TqBfQ8BAQEBAQEBAQEIAUQEAQGFBQKFECY6BA0BAgQBAQEBAwIDAQEBAQEBA?=
- =?us-ascii?q?wEBBgEBAQEBAQYEgR2FL0aGVgEBAQEDIw8BBUEQCxUDAgImAgJXBg0BBQIBA?=
- =?us-ascii?q?YJ6gyOuY3qBMoEBoBiBJwkBgQotiQ6IFIJQgTwMgkA3PogbgmcEhByKR4o0C?=
- =?us-ascii?q?oE9fYEnDkgcJQQOAxkrHUACAQs7MgpBNQkCDEsrGhsHgQoqKBUDBAQDAgYTA?=
- =?us-ascii?q?yICDSgxFAQpEw0nJmsJAgMiYQUDAwQoLQlABxURJDwHVjcBBAMCDx83BgMJA?=
- =?us-ascii?q?wIfT3IuERUFAwsVKkcECDYFBhs2EgIIDxIPBiZEDkI3NhMGXAEqCw4TA1CBT?=
- =?us-ascii?q?wQvXoEJBikonQ2CLVpGAcNCB4IigU+gSwZBlwQGkhqXRqIVhUACBAIEBQIWg?=
- =?us-ascii?q?XwIgXNxgzZSFwIPnHF0OwIHAQoBAQMJgjqEDYRIAYETAQE?=
-IronPort-Data: A9a23:VQTGgaiW9zu3QWtKPGinEH1LX161PxEKZh0ujC45NGQN5FlHY01je
- htvW2CBO6mIZWagedtzaNux80lS6sDUxoNkGgBprS40HihjpJueD7x1DKtR0wC6c5efFhI3t
- 63yTvGacajYm1eF/k/F3oDJ9CU6j+fRLlbFILasEjhrQgN5QzsWhxtmmuoo6qZlmtHR7zml4
- LsemOWCfg77s9JIGjhMsfja8kkw5K2aVA4w5zTSW9ga5DcyqFFIVPrzFYnpR1PkT49dGPKNR
- uqr5NlVKUuAon/Bovv8+lrKWhViroz6ZGBiuVIKM0SWuSWukwRpukoNHKdGNR0H223hc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEzutjT0QwHa8kveMuIDBf6
- +A0DCgAcUXW7w626OrTpuhEvPsfDOTbebhF/1sm1y7FDbMvTdbPTs0m5/cBh2t235sWW6yAI
- ZNENFKDbzyZC/FLEksQApM3h6GygXT/djBcgEiKuapy6mHYzAF3lrTgWDbQUoXUG5sLwRrE+
- woq+UzbWTsraf6cyQDb1WvzgNbArx32X60dQejQGvlCxQf7KnYoIAUbSVah5/ywm0KzX9Z3L
- 00S8zAp668o+ySDV9T4Qli0rWCJujYaXNxfFfB87xuCopc4+C6DGXQEQy4Ec4ZjvoksWiAqk
- 1aF2d/kbdByjICopbum3u/8hVuP1eI9dAfuuQdsodM53uTe
-IronPort-HdrOrdr: A9a23:oiS8wKmORqWM17W+MePFj+WoZMvpDfIb3DAbv31ZSRFFG/Fxl6
- iV/MjzpiWE6gr5P0tQ/+xoWZPwJk80mqQZ3WB8B8bGYOCighrNEGgA1+ffKl/bcREWn9Q1vc
- xdmupFeb7N5DBB/L/HCWKDferIruPnzEnlv4jjJyAHd3AQV0g21XYANjqm
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.96,277,1665439200"; d="scan'208";a="166667445"
-Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
- by mail-in-4.itc.rwth-aachen.de with ESMTP; 27 Dec 2022 08:34:20 +0100
-Received: from [137.226.252.249] (137.226.252.249) by RWTHEX-S2-B.rwth-ad.de
- (2a00:8a60:1:e500::26:155) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.20; Tue, 27 Dec
- 2022 08:34:19 +0100
-Message-ID: <6f3ade73-b856-cac6-1881-52ddbe2e3010@rwth-aachen.de>
-Date: Tue, 27 Dec 2022 08:34:18 +0100
+ (Exim 4.90_1) (envelope-from <leixiang@kylinos.cn>)
+ id 1pA59p-0002IG-PX
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 03:18:02 -0500
+X-UUID: 53a75e3850024c7f899513914641aba3-20221227
+X-CPASD-INFO: 1efd5595cda64213becc6a82df425169@erWghGJnZ2WPhKOCg3V8bYKWk5NmjVi
+ BpqBUYmNhYlmVhH5xTV5nX1V9gnNXZF5dXFV3dnBQYmBhXVJ3i3-XblBgXoZgUZB3gKeghGVjaQ==
+X-CLOUD-ID: 1efd5595cda64213becc6a82df425169
+X-CPASD-SUMMARY: SIP:-1, APTIP:-2.0, KEY:0.0, FROMBLOCK:1, OB:0.0, URL:-5,
+ TVAL:180.
+ 0, ESV:0.0, ECOM:-5.0, ML:0.0, FD:0.0, CUTS:81.0, IP:-2.0, MAL:-5.0, PHF:-5.0,
+ PHC:-5.
+ 0, SPF:4.0, EDMS:-5, IPLABEL:4480.0, FROMTO:0, AD:0, FFOB:0.0, CFOB:0.0, SPC:0,
+ SIG:-5
+ , AUF:3, DUF:11232, ACD:184, DCD:184, SL:0, EISP:0, AG:0, CFC:0.484, CFSR:0.061,
+ UAT:0, 
+ RAF:0, IMG:-5.0, DFA:0, DTA:0, IBL:-2.0, ADI:-5, SBL:0, REDM:0, REIP:0, ESB:0,
+ ATTNUM:0 ,EAF:0,CID:-5.0,VERSION:2.3.17
+X-CPASD-ID: 53a75e3850024c7f899513914641aba3-20221227
+X-CPASD-BLOCK: 1000
+X-CPASD-STAGE: 1
+X-UUID: 53a75e3850024c7f899513914641aba3-20221227
+X-User: leixiang@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+ (envelope-from <leixiang@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1345314771; Tue, 27 Dec 2022 16:17:44 +0800
+From: leixiang <leixiang@kylinos.cn>
+To: mst@redhat.com
+Cc: qemu-devel@nongnu.org, xieming@kylinos.cn, zengchi@kylinos.cn,
+ leixiang <leixiang@kylinos.cn>
+Subject: [RESEND PATCH] virtio-pci: fix proxy->vector_irqfd leak in
+ virtio_pci_set_guest_notifiers
+Date: Tue, 27 Dec 2022 16:16:04 +0800
+Message-Id: <20221227081604.806415-1-leixiang@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221220093838-mutt-send-email-mst@kernel.org>
+References: <20221220093838-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 0/7] Add ARM Cortex-R52 CPU
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: <qemu-devel@nongnu.org>
-References: <20221206102504.165775-1-tobias.roehmel@rwth-aachen.de>
- <CAFEAcA9AoyxpnCG2wBq1LOAZQ7=7i31TmgsuOW6bYkix==MbzA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Tobias_R=c3=b6hmel?= <tobias.roehmel@rwth-aachen.de>
-In-Reply-To: <CAFEAcA9AoyxpnCG2wBq1LOAZQ7=7i31TmgsuOW6bYkix==MbzA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [137.226.252.249]
-X-ClientProxiedBy: rwthex-w2-b.rwth-ad.de (2a00:8a60:1:e500::26:159) To
- RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:49;
- envelope-from=tobias.roehmel@rwth-aachen.de;
- helo=mail-out-4.itc.rwth-aachen.de
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 124.126.103.232 (failed)
+Received-SPF: pass client-ip=124.126.103.232; envelope-from=leixiang@kylinos.cn;
+ helo=mailgw.kylinos.cn
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,31 +77,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thanks for all the help, I learned a lot!
+proxy->vector_irqfd did not free when kvm_virtio_pci_vector_use or
+msix_set_vector_notifiers failed in virtio_pci_set_guest_notifiers.
 
-Best regards,
+Fixes: 7d37d351
 
-Tobias
+Signed-off-by: Lei Xiang <leixiang@kylinos.cn>
+Tested-by: Zeng Chi <zengchi@kylinos.cn>
+Suggested-by: Xie Ming <xieming@kylinos.cn>
+---
+ hw/virtio/virtio-pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On 19.12.22 18:05, Peter Maydell wrote:
-> On Tue, 6 Dec 2022 at 10:25, <tobias.roehmel@rwth-aachen.de> wrote:
->> From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
->>
->> Sorry for the "Reviewed-by" messup. I missed that on the explanation
->> page. Thanks again for the review :)
->>
->> v6:
->> patch 5:
->> - I also changed HPRENR from ARM_CP_ALIAS to ARM_CP_NO_RAW.
->>    Its state is also present in the HPRLAR registers,
->>    but it doesn't make sense to access it raw. (I think)
->> - I'm freeing the PRBAR/... strings explicitly now since
->>    I don't know how to use autofree in this setup correctly.
->>    Maybe {} around the part were the string is created/used,
->>    such that it is dropped at }?
->>
-> Applied to target-arm.next; thanks for your efforts in getting
-> this patchset through the code review process.
->
-> -- PMM
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index a50c5a57d7..5339be4e01 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1063,6 +1063,8 @@ assign_error:
+     while (--n >= 0) {
+         virtio_pci_set_guest_notifier(d, n, !assign, with_irqfd);
+     }
++    g_free(proxy->vector_irqfd);
++    proxy->vector_irqfd = NULL;
+     return r;
+ }
+ 
+-- 
+2.25.1
+
 
