@@ -2,60 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5C865869D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 21:11:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2006B6586A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 21:22:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAcks-0003iL-29; Wed, 28 Dec 2022 15:10:26 -0500
+	id 1pAcvM-0005kQ-HS; Wed, 28 Dec 2022 15:21:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pAcki-0003hx-VD; Wed, 28 Dec 2022 15:10:18 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pAckg-0007H1-GT; Wed, 28 Dec 2022 15:10:16 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1F2D2B8162C;
- Wed, 28 Dec 2022 20:10:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4498DC433EF;
- Wed, 28 Dec 2022 20:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1672258208;
- bh=dF6GtH05/NZV6POb54aaosrCf6/eOEOW8VJ/czyptkg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z1PcfxlbQkIAVGEJjZKpUaUgtyIzZsmHJsdqLuQcj3d3OCq3ZW1AUUzpjCceV1u8z
- mSOpqC75pwokjyP3eRdwpxyBRTZVC+DgXBxl0CQ4lEnttbfFLFrstBjALY2o5DjZHl
- NtE0Fvdq9Re6gTjrRU5Wj5vxhkZQWznr32/03q9vavNizPmSQn6RnhvqTtpIZ4lcP5
- 7iVVT3kC7Boq4uTg6HiZt8ti2CHltlnJKiUX1Btrfpf9Hiw2w8JOO8ioc8sv61MfVK
- c17IfJWn9p5z8RZoPA0AW9ZQCJ/GP348JSum/81AY9vNl/DtM0L0P6Ch6WSxt5t1rJ
- voQyHfu6P4QPw==
-Date: Wed, 28 Dec 2022 13:10:05 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Jonathan Derrick <jonathan.derrick@linux.dev>
-Cc: qemu-devel@nongnu.org, Michael Kropaczek <michael.kropaczek@solidigm.com>,
- qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v4 1/2] hw/nvme: Support for Namespaces Management from
- guest OS - create-ns
-Message-ID: <Y6yineh/g+qaCTkr@kbusch-mbp.dhcp.thefacebook.com>
-References: <20221228194141.118-1-jonathan.derrick@linux.dev>
- <20221228194141.118-2-jonathan.derrick@linux.dev>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAcvG-0005iD-SR
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 15:21:10 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAcvB-0001ea-O7
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 15:21:10 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id t17so40662568eju.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 12:21:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SKDjRCd00nSibsOSpbrf1WqYx/H5OYADSeyyHSiGTB0=;
+ b=xk65EChAXPlCHafGNnpz8rnNqdIRaabn3DfdDrMZ7/YZrpYhM8mC2fSJjhPGKM/UXv
+ eg2njxDiJY83IGqaXwrDvug5aY2KGeSEUF9JZa7uQfB0zuMahUUlz3phw70vxQoC1cf/
+ wFo6wKbaLeiJgD2WhSjgQiDjGZ9RjOQaWtFtFkXut9nS8rB85Thb5czMiiDC/bfJpgVi
+ ZPLoFdNZeaNbfpY8zvtdMBm95d5MKUFar/2wRAO4KoIwI/XZtPIRYXivTSGgcEWJbB/9
+ WfJril05ylohPzY8PDHCtz+uscc1waFhUPxvYmAepOMo10YgVVtT758Zo4EYlK9vc6yr
+ nYqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SKDjRCd00nSibsOSpbrf1WqYx/H5OYADSeyyHSiGTB0=;
+ b=HrwqdqG6RhmdfEefXp+M8yJl/CMzDsZ2QYH6WvT0cTw2pW8lu9183YMW8elYcX0qOp
+ 5Mn3KbUkn3C3un+WgK7UX0U2LPx2EfoiQKDLmMYc5HgBeAQHhD+XK2S8mjmxh7hkybw2
+ YdYNKfslXpG1uBL4x5SlEeWcdghNJcphhNQmMEur6w/+241fUmFvfMBh7d5NHZ2mthXU
+ BMkAC9NJQoubYTLagZeBk62f+wWCs81D322jQ+WXm/2M5FBu1FzZWMAsXIqKiO81KGro
+ I9tdvbsTQPLPkkQJd7vj9uqClwJytC92GuwFXKD6+YKFsFmH28lWAnAj3qP8ndlDDB8n
+ I6Ew==
+X-Gm-Message-State: AFqh2kr/VVThgJ3fB8qOgxbBL+20gZ9GUYc8yJ/8X3qJNKYhsWMn6sOm
+ dC9Oae8lhU+QIyYyigwQ7ggHCIaXty0v85/7
+X-Google-Smtp-Source: AMrXdXs118fHSQ/ggAHrItSccPzFEDzr0xlGw1u+RjNicET+NjI0yJNGCAI3Pw3b38RQomHF6ktAmw==
+X-Received: by 2002:a17:906:958:b0:7c0:be4d:46d6 with SMTP id
+ j24-20020a170906095800b007c0be4d46d6mr20023434ejd.59.1672258863647; 
+ Wed, 28 Dec 2022 12:21:03 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ p27-20020a1709066a9b00b0077a1dd3e7b7sm7824288ejr.102.2022.12.28.12.21.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Dec 2022 12:21:02 -0800 (PST)
+Message-ID: <2a07105f-249d-5842-ae5c-a52be6b0dae6@linaro.org>
+Date: Wed, 28 Dec 2022 21:21:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221228194141.118-2-jonathan.derrick@linux.dev>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=kbusch@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] linux-user/syscall: Endian-swap [res]uid/gid
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>, Zach van Rijn <me@zv.io>
+References: <20221228153553.83773-1-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221228153553.83773-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,128 +90,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Dec 28, 2022 at 01:41:40PM -0600, Jonathan Derrick wrote:
-> +static uint16_t nvme_ns_mgmt(NvmeCtrl *n, NvmeRequest *req)
-> +{
-> +    NvmeCtrl *n_p = NULL;     /* primary controller */
-> +    NvmeIdCtrl *id = &n->id_ctrl;
-> +    NvmeNamespace *ns;
-> +    NvmeIdNsMgmt id_ns = {};
-> +    uint8_t flags = req->cmd.flags;
-> +    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-> +    uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
-> +    uint32_t dw11 = le32_to_cpu(req->cmd.cdw11);
-> +    uint8_t sel = dw10 & 0xf;
-> +    uint8_t csi = (dw11 >> 24) & 0xf;
-> +    uint16_t i;
-> +    uint16_t ret;
-> +    Error *local_err = NULL;
-> +
-> +    trace_pci_nvme_ns_mgmt(nvme_cid(req), nsid, sel, csi, NVME_CMD_FLAGS_PSDT(flags));
-> +
-> +    if (!(le16_to_cpu(id->oacs) & NVME_OACS_NS_MGMT)) {
-> +        return NVME_NS_ATTACH_MGMT_NOTSPRD | NVME_DNR;
-> +    }
-> +
-> +    if (n->cntlid && !n->subsys) {
-> +        error_setg(&local_err, "Secondary controller without subsystem");
-> +        return NVME_NS_ATTACH_MGMT_NOTSPRD | NVME_DNR;
+On 28/12/22 16:35, Philippe Mathieu-Daudé wrote:
+> Various syscalls miss swapping the endiannes of the [res]uid/gid
+> values. Use the tswapid() helper meant to do exactly that.
+> 
+> Fixes: b03c60f351 ("more syscalls")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1394
 
-Leaking local_err. Any time you call error_setg(), the error needs to be
-reported or freed at some point.
+This is not the correct fix, simply an API cleanup.
 
-> +    }
-> +
-> +    n_p = n->subsys->ctrls[0];
-> +
-> +    switch (sel) {
-> +    case NVME_NS_MANAGEMENT_CREATE:
-> +        switch (csi) {
-> +        case NVME_CSI_NVM:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   linux-user/syscall.c | 55 ++++++++++++++++++++++++--------------------
+>   1 file changed, 30 insertions(+), 25 deletions(-)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 1f8c10f8ef..2aa19e33ca 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
 
-The following case is sufficiently large enough that the implementation
-should be its own function.
+>   #ifdef TARGET_NR_getuid
+>       case TARGET_NR_getuid:
+> -        return get_errno(high2lowuid(getuid()));
+> +        return get_errno(tswapid(high2lowuid(getuid())));
+>   #endif
 
-> +            if (nsid) {
-> +                return NVME_INVALID_FIELD | NVME_DNR;
-> +            }
-> +
-> +            ret = nvme_h2c(n, (uint8_t *)&id_ns, sizeof(id_ns), req);
-> +            if (ret) {
-> +                return ret;
-> +            }
-> +
-> +            uint64_t nsze = le64_to_cpu(id_ns.nsze);
-> +            uint64_t ncap = le64_to_cpu(id_ns.ncap);
-
-Please don't mix declarations with code; declare these local variables
-at the top of the scope.
-
-> +
-> +            if (ncap > nsze) {
-> +                return NVME_INVALID_FIELD | NVME_DNR;
-> +            } else if (ncap != nsze) {
-> +                return NVME_THIN_PROVISION_NOTSPRD | NVME_DNR;
-> +            }
-> +
-> +            nvme_validate_flbas(id_ns.flbas, &local_err);
-> +            if (local_err) {
-> +                error_report_err(local_err);
-> +                return NVME_INVALID_FORMAT | NVME_DNR;
-> +            }
-> +
-> +            for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-> +                if (nvme_ns(n_p, (uint32_t)i) || nvme_subsys_ns(n_p->subsys, (uint32_t)i)) {
-> +                    continue;
-> +                }
-> +                break;
-> +            }
-> +
-> +
-> +            if (i >  le32_to_cpu(n_p->id_ctrl.nn) || i >  NVME_MAX_NAMESPACES) {
-> +               return NVME_NS_IDNTIFIER_UNAVAIL | NVME_DNR;
-> +            }
-> +            nsid = i;
-> +
-> +            /* create ns here */
-> +            ns = nvme_ns_mgmt_create(n, nsid, &id_ns, &local_err);
-> +            if (!ns || local_err) {
-> +                if (local_err) {
-> +                    error_report_err(local_err);
-> +                }
-> +                return NVME_INVALID_FIELD | NVME_DNR;
-> +            }
-> +
-> +            if (nvme_cfg_update(n, ns->size, NVME_NS_ALLOC_CHK)) {
-> +                /* place for delete-ns */
-> +                error_setg(&local_err, "Insufficient capacity, an orphaned ns[%"PRIu32"] will be left behind", nsid);
-> +                return NVME_NS_INSUFFICIENT_CAPAC | NVME_DNR;
-
-Leaked local_err.
-
-> +            }
-> +            (void)nvme_cfg_update(n, ns->size, NVME_NS_ALLOC);
-> +            if (nvme_cfg_save(n)) {
-> +                (void)nvme_cfg_update(n, ns->size, NVME_NS_DEALLOC);
-> +                /* place for delete-ns */
-> +                error_setg(&local_err, "Cannot save conf file, an orphaned ns[%"PRIu32"] will be left behind", nsid);
-> +                return NVME_INVALID_FIELD | NVME_DNR;
-
-Another leaked local_err.
-
-> +            }
-> +            req->cqe.result = cpu_to_le32(nsid);
-> +            break;
-> +        case NVME_CSI_ZONED:
-> +            /* fall through for now */
-> +        default:
-> +            return NVME_INVALID_FIELD | NVME_DNR;
-> +	    }
-> +        break;
-> +    default:
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    return NVME_SUCCESS;
-> +}
 
