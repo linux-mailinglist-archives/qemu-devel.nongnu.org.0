@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7136576CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 14:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1F36576D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 14:13:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAWC8-000732-4h; Wed, 28 Dec 2022 08:10:08 -0500
+	id 1pAWEv-0000L1-AK; Wed, 28 Dec 2022 08:13:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAWC3-00072R-Ce
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:10:03 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAWEt-0000Ko-B3
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:12:59 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAWC1-0005Vu-Oy
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:10:03 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id l26so9631863wme.5
- for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 05:10:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAWEr-0006mL-KI
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:12:59 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id o15so11203801wmr.4
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 05:12:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=T3k+bQ1iJ0lDbsqrkg5Y3i0CjAbIkgORP4wzDU1zH0s=;
- b=vSAvsm+dAbGuXaFhHODrxHjxdxm9jJIFBAsowTINp0iWf7YR7iZbKN2+1NpVf9pDp4
- AvBkntPd7HKtKd2AkZO0Rbe4S4AMB+yIxqf95tsZFUmHRcguHk2bjWnLTPaXyO9x0RUN
- U8/RiKQhOM6KZfKZ01Bq2Zlji3BJwzmJ7jARZPlQHEdrPUg3B9I0EUXGcnITbVfUNWOc
- 4KQZHu+p1K7wDLKPqObopbjm/fBxXhOTEgmPtdD9sQej9OktVcBlySoD7pnuQKBlqQmB
- epvWeukKxVGS5Txk++NKMC7qmfS/5FMGJ4CdrNUcySbWIxWhXQziCSmrlPqmSibP5fNO
- bx7Q==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KIK0mFwHfNKfd8W04jR3CpdCTX2dAmZkqgyJ9QSv5LU=;
+ b=mefTQoe07/B1Pzjn96vqr7x3j71t4yyKmHxGW/cqga9GnAkwaGjhUBpTcX+Jwqk0a2
+ 8uZNPhNaauZxBZWqSGcfNsI1uLB4fGwOM7uuCYILrumRtKXifg2vO7ODKayFxjIagR1r
+ 9k0dazoeZAlGr3pZ/LGSl+w2uixCYCmzGaZn3o8xxNjDMkuSpLtoAlj/acugv0y7pOFj
+ /JEvQC3enlgMcnCrshzLIsXG3wnACZdVl+K3HodRAmt+yGaoIXcJ11nVn7WgU3B9xyeH
+ fAnegcxBv9F5N89WnzmUhDZkcDEMEOCkluRDfDQhYIJOSiViV8Vx0Kk9cRLy0XGd8cEk
+ RY9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=T3k+bQ1iJ0lDbsqrkg5Y3i0CjAbIkgORP4wzDU1zH0s=;
- b=wBWUbHhFMK84YF5nFOP5F4dJuOkwtLqOk4i+5uF7wprRP+IIXSB3fs9kP7q/JygzKC
- z74NqgJb693EahZvfhfYjxhNZp3ybakvD000IQ5J7Q8xF54LL7YoIi0fShl4dkREpt6I
- 6D/Z2UdmPYzwHyi+OiVg6K+6be9Q/pXigmA6fYQVmg6OC2mk/z7OSHHIYcW/UybsMD0Z
- PtmmnhqLvQm7YoJfZ/BoxIVXCytqqojdEeQ2mj89Y5x4XdtwknWZn1vkuNh4HWLt8+xe
- dymMjr586WMDtiKvZsW6/CFS+OytCCwnzlryHFE5pL55w5QZIQ92JumQhMSgosNDc9OX
- My/A==
-X-Gm-Message-State: AFqh2kq90Jgv8rVNAyisAShF33kbcBBmBsC/YLEPQX73xFjvYRLa+XbU
- v0LIAWkrkG+XAuMUt4kaMUuzSBbVk5v2k2F3
-X-Google-Smtp-Source: AMrXdXt3ScHjVVssAlEWIlt+qUtJT2+X69LQhJla+kMogytz3cxRTdRRiMnbwUf6H3P7DWJab8HKBw==
-X-Received: by 2002:a05:600c:4998:b0:3cf:68d3:3047 with SMTP id
- h24-20020a05600c499800b003cf68d33047mr17489230wmp.41.1672232998411; 
- Wed, 28 Dec 2022 05:09:58 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- h10-20020a05600c2caa00b003c701c12a17sm27515168wmc.12.2022.12.28.05.09.57
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 28 Dec 2022 05:09:58 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Chenyi Qiang <chenyi.qiang@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] virtio-mem: Fix typo in function name
-Date: Wed, 28 Dec 2022 14:09:56 +0100
-Message-Id: <20221228130956.80515-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KIK0mFwHfNKfd8W04jR3CpdCTX2dAmZkqgyJ9QSv5LU=;
+ b=0qrMlvL9/VfzayeQLVLtfEfLTydOk+KoFDMh27oukTsXGrMB09ETc68IdiiMyVc+1+
+ kApOKUi0FjS8QF4JbtuKdtwNNQp4jCq8qzzImQ+wAj/RwpmkowJbgsSUPxzRh5ZBNcKD
+ 1nxcCqk5PDzcbDeYaSCKNaADht5V25f9qGnXIeEREVq1vbA9hhBRA49UqZ4evkIF5oYe
+ NnwMKx4DULyovLXT1Tutw8GK7tysuZey2p3oZj2U1PDtFxhrYLWzIZCX3JHgTh8qiT95
+ NVJFEHy82SlimvBrCvA4KpLTfx8dRmcR6l4dqp0VaTppn9mkpVOO+9zvSvPMu2mZXH8k
+ DmYQ==
+X-Gm-Message-State: AFqh2kqQwy36TVNzTNnyOpUgTa6ctnmpAHqWY5JXRFu0/2SUsTn5WNzv
+ h80gee5BOkUQMCGxSrF586gh+Q==
+X-Google-Smtp-Source: AMrXdXtc66DzbqmCTwy0crWzRPr8rzNe3jLYQ4UOhGL/A/QI133Qr7WAUUB8Ste9zuxZpZByqbJBaQ==
+X-Received: by 2002:a05:600c:35ca:b0:3d1:f2de:195a with SMTP id
+ r10-20020a05600c35ca00b003d1f2de195amr20560629wmq.32.1672233176118; 
+ Wed, 28 Dec 2022 05:12:56 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ az27-20020a05600c601b00b003c65c9a36dfsm20493137wmb.48.2022.12.28.05.12.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Dec 2022 05:12:55 -0800 (PST)
+Message-ID: <114ff13b-86fd-7ca4-df93-0c05f54866b8@linaro.org>
+Date: Wed, 28 Dec 2022 14:12:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v3 2/3] vhost: configure all host notifiers in a single MR
+ transaction
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Longpeng(Mike)" <longpeng2@huawei.com>, stefanha@redhat.com,
+ jasowang@redhat.com, cohuck@redhat.com, sgarzare@redhat.com,
+ pbonzini@redhat.com, arei.gonglei@huawei.com, yechuan@huawei.com,
+ huangzhichao@huawei.com, qemu-devel@nongnu.org
+References: <20221227072015.3134-1-longpeng2@huawei.com>
+ <20221227072015.3134-3-longpeng2@huawei.com>
+ <8054d186-0196-ccb0-091d-0ee9caadb576@linaro.org>
+ <20221227125331-mutt-send-email-mst@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221227125331-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,70 +96,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+On 27/12/22 18:54, Michael S. Tsirkin wrote:
+> On Tue, Dec 27, 2022 at 05:43:57PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 27/12/22 08:20, Longpeng(Mike) wrote:
+>>> From: Longpeng <longpeng2@huawei.com>
+>>>
+>>> This allows the vhost device to batch the setup of all its host notifiers.
+>>> This significantly reduces the device starting time, e.g. the time spend
+>>> on enabling notifiers reduce from 376ms to 9.1ms for a VM with 64 vCPUs
+>>> and 3 vhost-vDPA generic devices (vdpa_sim_blk, 64vq per device)
+>>>
+>>> Signed-off-by: Longpeng <longpeng2@huawei.com>
+>>> ---
+>>>    hw/virtio/vhost.c | 24 ++++++++++++++++++++++++
+>>>    1 file changed, 24 insertions(+)
+>>>
+>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>>> index 5994559da8..064d4abe5c 100644
+>>> --- a/hw/virtio/vhost.c
+>>> +++ b/hw/virtio/vhost.c
+>>> @@ -1562,16 +1562,25 @@ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
+>>>            return r;
+>>>        }
+>>> +    /*
+>>> +     * Batch all the host notifiers in a single transaction to avoid
+>>> +     * quadratic time complexity in address_space_update_ioeventfds().
+>>> +     */
+>>> +    memory_region_transaction_begin();
+>>> +
+>>>        for (i = 0; i < hdev->nvqs; ++i) {
+>>>            r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i,
+>>>                                             true);
+>>>            if (r < 0) {
+>>>                error_report("vhost VQ %d notifier binding failed: %d", i, -r);
+>>> +            memory_region_transaction_commit();
+>>>                vhost_dev_disable_notifiers(hdev, vdev);
+>>
+>> Could we 'break' here, ...
+>>
+>>>                return r;
+>>>            }
+>>>        }
+>>> +    memory_region_transaction_commit();
+>>> +
+>>>        return 0;
+>>
+>> ... and return 'r' here?
+> 
+> 
+> won't this commit twice? seems ugly ...
+
+Twice? I meant keep the begin/commit() around the for() to have
+only *one* commit() call instead of 2:
+
+-- >8 --
++    memory_region_transaction_begin();
++
+      for (i = 0; i < hdev->nvqs; ++i) {
+          r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
+hdev->vq_index + i,
+                                           true);
+          if (r < 0) {
+              error_report("vhost VQ %d notifier binding failed: %d", i, 
+-r);
+              vhost_dev_disable_notifiers(hdev, vdev);
+-            return r;
++            break;
+          }
+      }
+
++    memory_region_transaction_commit();
++
+-    return 0;
++    return r;
+  }
 ---
- hw/virtio/virtio-mem.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index d96bde1fab..c252027391 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -207,7 +207,7 @@ static int virtio_mem_for_each_unplugged_range(const VirtIOMEM *vmem, void *arg,
-  *
-  * Returns false if the intersection is empty, otherwise returns true.
-  */
--static bool virito_mem_intersect_memory_section(MemoryRegionSection *s,
-+static bool virtio_mem_intersect_memory_section(MemoryRegionSection *s,
-                                                 uint64_t offset, uint64_t size)
- {
-     uint64_t start = MAX(s->offset_within_region, offset);
-@@ -245,7 +245,7 @@ static int virtio_mem_for_each_plugged_section(const VirtIOMEM *vmem,
-                                       first_bit + 1) - 1;
-         size = (last_bit - first_bit + 1) * vmem->block_size;
- 
--        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
-+        if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
-             break;
-         }
-         ret = cb(&tmp, arg);
-@@ -277,7 +277,7 @@ static int virtio_mem_for_each_unplugged_section(const VirtIOMEM *vmem,
-                                  first_bit + 1) - 1;
-         size = (last_bit - first_bit + 1) * vmem->block_size;
- 
--        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
-+        if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
-             break;
-         }
-         ret = cb(&tmp, arg);
-@@ -313,7 +313,7 @@ static void virtio_mem_notify_unplug(VirtIOMEM *vmem, uint64_t offset,
-     QLIST_FOREACH(rdl, &vmem->rdl_list, next) {
-         MemoryRegionSection tmp = *rdl->section;
- 
--        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
-+        if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
-             continue;
-         }
-         rdl->notify_discard(rdl, &tmp);
-@@ -329,7 +329,7 @@ static int virtio_mem_notify_plug(VirtIOMEM *vmem, uint64_t offset,
-     QLIST_FOREACH(rdl, &vmem->rdl_list, next) {
-         MemoryRegionSection tmp = *rdl->section;
- 
--        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
-+        if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
-             continue;
-         }
-         ret = rdl->notify_populate(rdl, &tmp);
-@@ -346,7 +346,7 @@ static int virtio_mem_notify_plug(VirtIOMEM *vmem, uint64_t offset,
-             if (rdl2 == rdl) {
-                 break;
-             }
--            if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
-+            if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
-                 continue;
-             }
-             rdl2->notify_discard(rdl2, &tmp);
--- 
-2.38.1
-
+Anyhow,
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
