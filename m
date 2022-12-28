@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5DE657302
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 06:47:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DA565732C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 07:23:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAPGz-0004TV-ON; Wed, 28 Dec 2022 00:46:41 -0500
+	id 1pAPoA-0000Vm-V7; Wed, 28 Dec 2022 01:20:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pAPGq-0004T1-Es; Wed, 28 Dec 2022 00:46:33 -0500
-Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pAPGo-0002Zd-Dw; Wed, 28 Dec 2022 00:46:31 -0500
-Received: by mail-vs1-xe35.google.com with SMTP id a66so14642721vsa.6;
- Tue, 27 Dec 2022 21:46:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pfY6x0eckhnmkEYpbGAOTahWWnAvo1WRZbPUi5siheE=;
- b=heWkDEUflSK9pLqlFKF2OTf6nKoN4wg5YOfcIq65R0zJZIpok9m618BP82bGmnadMu
- sXSUPTnGPuS793pGzpFzvXoE+T2D9le5mttR5y+pr4MJPMxSVRHLyLFuCyU9Fv/hR0fo
- jukK+R3l4JJn48cbgTI74jmO2QXpxWwwZpGDQUTPn1o2U+MVodQwISsoj9EbSj+CW/aa
- EkuyaE0fkF6wWPQJnh4WhGmb8wy0csP5E3iufxjAAB/oHgYtLzvgWfMAmrRAacJPBvUT
- p2CXwqHEJ+OvLp80/JlWZLCRgmazurz19SpoudWUhv8rzgM/LdcfqG6hDseNpzSiRg7n
- TDEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pfY6x0eckhnmkEYpbGAOTahWWnAvo1WRZbPUi5siheE=;
- b=fGQ6uUI4XCcvPjzaRWXF2nyks8hsl+pxdCBlKja05IMgW8xOEM9FghOOxFPxJjENIT
- F1z7aTzrSMnyevMUjtlMYd2TjwIbMmoj6jHzbdvDRrrs5nECyn0oLDM9VL01QMcGNx58
- P5xvngpTI2J/YKY2z896aX4n74UBrrijfy9WwUwVqqot+4jlaf2EJ6L1QCon0Z4BO+s7
- z5y/NSEVJdriCDYWa11/iBr7PATsTtrJXNApEHsl2URnb0mmntM+lPYPILP6rOKQyvrM
- 8jAzgjI1FXKDfoayjq26frlhCP1DFg7WQ3zVEZtIcYYIhFetDf4JqiayhL+B9UTq+Ia4
- aQuQ==
-X-Gm-Message-State: AFqh2koWHBafvyUXLLVMGUahxoomkBxUCaPDJxnI+J5lasyTQFDunmZM
- II1xQwL+USlMYng7EQOIEv8SwpDuVPKdae5sTqg=
-X-Google-Smtp-Source: AMrXdXuJGyo3LDebmQg+s5DaTUk2QX+GZN0DAIlEDFOWgJ8sMN1vUOHpB2Y6YfR6JrsjqUUighX3d+w9y0naVMiHC4Y=
-X-Received: by 2002:a67:dc10:0:b0:3b3:7675:d423 with SMTP id
- x16-20020a67dc10000000b003b37675d423mr2702123vsj.72.1672206389059; Tue, 27
- Dec 2022 21:46:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pAPo5-0000Sx-JA; Wed, 28 Dec 2022 01:20:53 -0500
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pAPo1-0000vH-44; Wed, 28 Dec 2022 01:20:53 -0500
+Received: from localhost.localdomain (unknown [61.165.33.198])
+ by APP-01 (Coremail) with SMTP id qwCowABX2ewx4KtjqJCSCQ--.53263S2;
+ Wed, 28 Dec 2022 14:20:35 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v9 0/9] support subsets of code size reduction extension
+Date: Wed, 28 Dec 2022 14:20:19 +0800
+Message-Id: <20221228062028.29415-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <tencent_60E46E9E0EA5052F26E07A56520177BE0008@qq.com>
-In-Reply-To: <tencent_60E46E9E0EA5052F26E07A56520177BE0008@qq.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 28 Dec 2022 15:46:02 +1000
-Message-ID: <CAKmqyKPhK9DpeSN0K45TBTs8T9Wo7ECSr3Bp1n=Mb-w0rm5dbA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv/cpu.c: Fix elen check
-To: Elta <503386372@qq.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, palmer <palmer@dabbelt.com>, 
- "alistair.francis" <alistair.francis@wdc.com>,
- "bin.meng" <bin.meng@windriver.com>, qemu-riscv <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowABX2ewx4KtjqJCSCQ--.53263S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZr1kZFyfCF1fXw17Gw4Uurg_yoW5Gr47pr
+ WrC3yakrZ8tFWxJw4ft3WUJw15AFs5Wr45Awn7Jw1kJay3ArW3Jrs7K3W3G3WxJF1rWrnF
+ 93WUCw13u3yUAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
+ I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+ xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
+ jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+ 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+ 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [61.165.33.198]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,41 +71,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 16, 2022 at 1:10 AM Elta <503386372@qq.com> wrote:
->
-> Should be cpu->cfg.elen in range [8, 64].
->
-> Signed-off-by: Dongxue Zhang <elta.era@gmail.com>
+This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instructions.
 
-Thanks for the patch!
+Specification:
+https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
 
-I'm seeing weird formatting issues though, it looks like the encoding
-is incorrect.
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v9
 
-Did you use `git send-email` to send the patch? If not can you try
-sending it again following the instructions here
-https://www.qemu.org/docs/master/devel/submitting-a-patch.html#submitting-your-patches
+To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extensions support.
 
-Alistair
 
-> ---
->  target/riscv/cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index d14e95c9dc..1e8032c969 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -870,7 +870,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->                          "Vector extension ELEN must be power of 2");
->                  return;
->              }
-> -            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-> +            if (cpu->cfg.elen > 64 || cpu->cfg.elen < 8) {
->                  error_setg(errp,
->                          "Vector extension implementation only supports ELEN "
->                          "in the range [8, 64]");
-> --
-> 2.17.1
->
+This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
+
+v9:
+* rebase on riscv-to-apply.next
+
+v8:
+* improve disas support in Patch 9
+
+v7:
+* Fix description for Zca
+
+v6：
+* fix base address for jump table in Patch 7
+* rebase on riscv-to-apply.next
+
+v5:
+* fix exception unwind problem for cpu_ld*_code in helper of cm_jalt
+
+v4:
+* improve Zcmp suggested by Richard
+* fix stateen related check for Zcmt
+
+v3:
+* update the solution for Zcf to the way of Zcd
+* update Zcb to reuse gen_load/store
+* use trans function instead of helper for push/pop
+
+v2:
+* add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
+* separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
+
+Weiwei Li (9):
+  target/riscv: add cfg properties for Zc* extension
+  target/riscv: add support for Zca extension
+  target/riscv: add support for Zcf extension
+  target/riscv: add support for Zcd extension
+  target/riscv: add support for Zcb extension
+  target/riscv: add support for Zcmp extension
+  target/riscv: add support for Zcmt extension
+  target/riscv: expose properties for Zc* extension
+  disas/riscv.c: add disasm support for Zc*
+
+ disas/riscv.c                             | 228 +++++++++++++++-
+ target/riscv/cpu.c                        |  56 ++++
+ target/riscv/cpu.h                        |  10 +
+ target/riscv/cpu_bits.h                   |   7 +
+ target/riscv/csr.c                        |  38 ++-
+ target/riscv/helper.h                     |   3 +
+ target/riscv/insn16.decode                |  63 ++++-
+ target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
+ target/riscv/insn_trans/trans_rvzce.c.inc | 313 ++++++++++++++++++++++
+ target/riscv/machine.c                    |  19 ++
+ target/riscv/meson.build                  |   3 +-
+ target/riscv/translate.c                  |  15 +-
+ target/riscv/zce_helper.c                 |  55 ++++
+ 15 files changed, 834 insertions(+), 16 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+ create mode 100644 target/riscv/zce_helper.c
+
+-- 
+2.25.1
+
 
