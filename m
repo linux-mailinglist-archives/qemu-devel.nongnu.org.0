@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1336576AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 13:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477F86576AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 13:53:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAVsP-0001EP-Ka; Wed, 28 Dec 2022 07:49:45 -0500
+	id 1pAVux-0003MB-HU; Wed, 28 Dec 2022 07:52:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAVs9-0000tl-EN
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 07:49:31 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAVuu-0003JM-5G
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 07:52:20 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAVs7-0002gi-Fy
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 07:49:29 -0500
-Received: by mail-wm1-x334.google.com with SMTP id m3so2280102wmq.0
- for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 04:49:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAVus-00043Z-JN
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 07:52:19 -0500
+Received: by mail-wr1-x431.google.com with SMTP id y8so14846534wrl.13
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 04:52:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5cIuqQ4skUeVHmlxcVqLU0zfv7mr6e0LURiFdaTPHd8=;
- b=oOpQVIJqPSNsWCXIZ2OCQDluc7ruiC0zIb+mrIHIEsNGH1PkBMpFwtHGPct62zFCHS
- Jd9BByGOVQAE4blBtE8ED48PnQtbxo6IuMGkysAHdgcYcLDDgtQxTBcqJbLE1MshIDIs
- TTjUhgjKQjSt+x+q9xp/XJoquJw/EkwGd0NHnM+4l1u4smzHmrWDrPG3foY0Om03demt
- jVRs6Goh6cqQtnaMHpgkRkYggucIOOkD0mZsFg0YOBDKjzMQyP/epNMqPKzTNIoZvPDM
- 5Le0DXPtOAqxQBoSHibmhx0KAKRJyXYzTfMuPBR48bLzDkUEQbi3yGxFrC4NxD7SUBJc
- 4Xug==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EL/Z36sXxdHC2TGjNArUEr6C0LdjQ8ge6ht/jxjnR5Y=;
+ b=LqmXSt7PDVCy5LlKt3jdqnAFQvIAtkgbS0h8M+M9F2b6SggeWEhTK07ksqzwdWoDxD
+ 0NUXHKE00JnyamF20rRqQUisEWgwKQJSZcZrNP39fdP86D9lt0T78jpE3kpI2Y4chf1E
+ 2jwKmGuuqpwvavjceXUeqaysNfM5Ub+VdEfQbpK4JvgDYt7eI5PZrbBxQCd/kIqkEP+d
+ mqYs03iXlFrzNJDlFpvHWUmKRWFgxh2oVPs+huweJVJbaFK2Hm77BSnvp3qEf+yKAmyy
+ Pl1g4C0tY+FE8D1rBw53kpnaD8SYr5X6S6G9m93DKkMYAfNP1i0ZPOVkL7yzaXYBeEtT
+ IeaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5cIuqQ4skUeVHmlxcVqLU0zfv7mr6e0LURiFdaTPHd8=;
- b=29F7znPIVUVqjwQUiryM0yr9Qkvjj2SNmt5ZwJIy8Mzv5BMuWPzDUdB74CjfJ9FDHd
- 0fLambie0LgjSwdqHvpD/yZzMMoFFs7jb5KkRPbOk0cqdrnrkafpnErLnXpqxNNe10Tz
- wRpKGSTAT8+zHThj6iJA2eUvrDYLz4OVHDCntCP0WSJPh1nuZiMhnELJ4d/G78mhn+0b
- BsDgoP9QL04Tpb6Cmenoqm2gHxnhXo4acsKQb/YSxRdp9FFI1SqoCF8JvLrdjRCKRlmL
- 28JlFVjMoBlUqXQ/iFCHXY+nQNa+ryQYdx08tAcE4k/gaSkYvS0hqd8XBxN2LIIPktJ8
- 6O7g==
-X-Gm-Message-State: AFqh2kouUSmgwcGrKcf5wYR6AEFr7OU2SlF2wKtptISfeNt0riaCkSGA
- PF2AHxhdpM4aPAY5aOAyZCV5gGXi1x2Oa1Qb
-X-Google-Smtp-Source: AMrXdXv7PCrBPXrNpGiLlgHoDWFSHp1CJ8CjL2sDrxHUgZmL7WDA8qdzXiLb6eZt4yyutw4j1KTIDw==
-X-Received: by 2002:a05:600c:18a1:b0:3d2:3ec4:7eed with SMTP id
- x33-20020a05600c18a100b003d23ec47eedmr20549816wmp.10.1672231765814; 
- Wed, 28 Dec 2022 04:49:25 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- h14-20020a05600c314e00b003d237d60318sm22600520wmo.2.2022.12.28.04.49.24
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 28 Dec 2022 04:49:25 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EL/Z36sXxdHC2TGjNArUEr6C0LdjQ8ge6ht/jxjnR5Y=;
+ b=E589tQ4o0h6v+M4FvQ+94HeZMwV0eXW5g10L2k1j2jXLOYMfgmO7gRVtRGpWwqGfVi
+ R0e3g8v3CLRDrspeZouBWJiosA3r594Jo/GpYw1ILjwZiLTX407t0PrvRuATKjBqCRxc
+ X7Iv2q4ywbBs2j+4wgyaAO64g4jBCDPCCgTDxJxZSqeA5zT2pP+mHE/ePpCjpMWfUQ6v
+ FeqebIb3R8d3v2AkDF9IhZIKxvLp5nJEtWPDlz5FCv5821495D3JyLNFFoAWecT30t4E
+ YVlDox1KSbcFALN7U2wk9HpARJKDBHAPlEsGHpDhBU2snr7Yg8TVTivL3XB+fBnG0SLN
+ VzCA==
+X-Gm-Message-State: AFqh2kqF+Nr+6vcVvsAXe+rS+/dKuJzB5CebHvwLHURJEofGCXG5c+Bd
+ l11rCNCQQpDPV+tuY3rDxhdYJ/pkIudHkmgy
+X-Google-Smtp-Source: AMrXdXuC+HFQZNs5nB14XFUHYO9Ws/+gMkSEZ3+3icyb2BzmM8DD2Oqgg/qJIUfbUNMblpvVyWVpUA==
+X-Received: by 2002:adf:c751:0:b0:273:e357:1ca with SMTP id
+ b17-20020adfc751000000b00273e35701camr12402937wrh.67.1672231936266; 
+ Wed, 28 Dec 2022 04:52:16 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h18-20020adff192000000b002422b462975sm15307572wro.34.2022.12.28.04.52.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Dec 2022 04:52:15 -0800 (PST)
+Message-ID: <ab06857d-e58c-b277-87a5-59516a01cf18@linaro.org>
+Date: Wed, 28 Dec 2022 13:52:14 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 1a/4] accel/tcg: Fix tb_invalidate_phys_page_unwind
+Content-Language: en-US
 To: qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 1b/4] accel/tcg: Unindent tb_invalidate_phys_page_unwind
-Date: Wed, 28 Dec 2022 13:49:18 +0100
-Message-Id: <20221228124918.80011-2-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221228124918.80011-1-philmd@linaro.org>
+ Paolo Bonzini <pbonzini@redhat.com>
 References: <20221224151821.464455-2-richard.henderson@linaro.org>
  <20221228124918.80011-1-philmd@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221228124918.80011-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,89 +92,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[PMD: Split patch in 2]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- accel/tcg/tb-maint.c | 53 ++++++++++++++++++++++----------------------
- 1 file changed, 27 insertions(+), 26 deletions(-)
+On 28/12/22 13:49, Philippe Mathieu-Daudé wrote:
+> When called from syscall(), we are not within a TB and pc == 0.
+> We can skip the check for invalidating the current TB.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> [PMD: Split patch in 2]
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   accel/tcg/tb-maint.c | 17 ++++++++++++-----
+>   1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
-index c9b8d3c6c3..b3d6529ae2 100644
---- a/accel/tcg/tb-maint.c
-+++ b/accel/tcg/tb-maint.c
-@@ -1024,6 +1024,11 @@ void tb_invalidate_phys_page(tb_page_addr_t addr)
-  */
- bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc)
- {
-+    TranslationBlock *current_tb;
-+    bool current_tb_modified;
-+    TranslationBlock *tb;
-+    PageForEachNext n;
-+
-     /*
-      * Without precise smc semantics, or when outside of a TB,
-      * we can skip to invalidate.
-@@ -1037,36 +1042,32 @@ bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc)
-     }
- 
-     assert_memory_lock();
--    {
--        TranslationBlock *current_tb = tcg_tb_lookup(pc);
--        bool current_tb_modified = false;
--        TranslationBlock *tb;
--        PageForEachNext n;
-+    current_tb = tcg_tb_lookup(pc);
- 
--        addr &= TARGET_PAGE_MASK;
-+    addr &= TARGET_PAGE_MASK;
-+    current_tb_modified = false;
- 
--        PAGE_FOR_EACH_TB(addr, addr + TARGET_PAGE_SIZE, unused, tb, n) {
--            if (current_tb == tb &&
--                (tb_cflags(current_tb) & CF_COUNT_MASK) != 1) {
--                /*
--                 * If we are modifying the current TB, we must stop its
--                 * execution. We could be more precise by checking that
--                 * the modification is after the current PC, but it would
--                 * require a specialized function to partially restore
--                 * the CPU state.
--                 */
--                current_tb_modified = true;
--                cpu_restore_state_from_tb(current_cpu, current_tb, pc);
--            }
--            tb_phys_invalidate__locked(tb);
-+    PAGE_FOR_EACH_TB(addr, addr + TARGET_PAGE_SIZE, unused, tb, n) {
-+        if (current_tb == tb &&
-+            (tb_cflags(current_tb) & CF_COUNT_MASK) != 1) {
-+            /*
-+             * If we are modifying the current TB, we must stop its
-+             * execution. We could be more precise by checking that
-+             * the modification is after the current PC, but it would
-+             * require a specialized function to partially restore
-+             * the CPU state.
-+             */
-+            current_tb_modified = true;
-+            cpu_restore_state_from_tb(current_cpu, current_tb, pc);
-         }
-+        tb_phys_invalidate__locked(tb);
-+    }
- 
--        if (current_tb_modified) {
--            /* Force execution of one insn next time.  */
--            CPUState *cpu = current_cpu;
--            cpu->cflags_next_tb = 1 | CF_NOIRQ | curr_cflags(current_cpu);
--            return true;
--        }
-+    if (current_tb_modified) {
-+        /* Force execution of one insn next time.  */
-+        CPUState *cpu = current_cpu;
-+        cpu->cflags_next_tb = 1 | CF_NOIRQ | curr_cflags(current_cpu);
-+        return true;
-     }
-     return false;
- }
--- 
-2.38.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
