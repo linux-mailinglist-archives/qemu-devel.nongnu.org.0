@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E896584A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 17:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB5865854A
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 18:32:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAZkr-00025c-59; Wed, 28 Dec 2022 11:58:13 -0500
+	id 1pAaGN-0004yI-33; Wed, 28 Dec 2022 12:30:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=vu6c=42=zx2c4.com=Jason@kernel.org>)
- id 1pAZkl-000259-Tt
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 11:58:09 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=vu6c=42=zx2c4.com=Jason@kernel.org>)
- id 1pAZki-0005XC-FV
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 11:58:07 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A947061572;
- Wed, 28 Dec 2022 16:58:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E479BC433F1;
- Wed, 28 Dec 2022 16:58:00 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="f9G1NL6P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1672246678;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/TBVDGYdRlG5U31yqV7pynGEXacXzLmZlTrofPWf0ws=;
- b=f9G1NL6Pa1K0WeUCjN7cMRJECqjZIM1uJkStKJn7z//z/h+IKVbcjv0PFYqXkrpvLYMlc4
- MFiI9xta0v+DDtKg8n5Sv6wxgOGVNuYZQdXb9mH6TmB6+/ffQxgoZ2nwbKqFCnBpJ5YZss
- 2bhQJzstgm+VLqf3A2Muu+bd7kZKoVw=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 46f0ad33
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 28 Dec 2022 16:57:58 +0000 (UTC)
-Date: Wed, 28 Dec 2022 17:57:54 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: hpa@zytor.com
-Cc: pbonzini@redhat.com, ebiggers@kernel.org, x86@kernel.org,
- linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
- ardb@kernel.org, kraxel@redhat.com, bp@alien8.de, philmd@linaro.org
-Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
- setup_data
-Message-ID: <Y6x1knb8udpSyMSp@zx2c4.com>
-References: <20221228143831.396245-1-Jason@zx2c4.com>
- <6cab26b5-06ae-468d-ac79-ecdecb86ef07@linaro.org>
- <Y6xvJheSYC83voCZ@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pAaGH-0004uV-Dd
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 12:30:43 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pAaGE-00043q-Ju
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 12:30:40 -0500
+Received: by mail-pl1-x634.google.com with SMTP id d15so16620577pls.6
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 09:30:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=ngfbmhws6TcjVG5WcK2IjG5FvOe8rBBoqVrFnsWvlsg=;
+ b=yI+NK85JDXLdSrvnrLEFSI1+DHz+alJ3njieIQsvq/CrXbxIdvGMIbzh/S/6mjn73C
+ X3cqWoijCaGM92uaC/XD6VfwB1wJlD57q7GANxVOH6kvuyBauXM+ewbwovEwkSDq536C
+ 8p8XvzIH2S4om1yxdQIPrZcBo7XdhEXTjDUZoQSw0zx8jhV+cQJZKll2RJCxxq4QEmSl
+ SD9ycEnpANPdW02WsUCKkl733MviYbUf+9mDM0okrdVgMrDiBMuTTQ17xwxD5/spGNcZ
+ yP2lwHDmp4raw/1OE8OKKsQYvSjAJeUt97Y/x3V4oIM87BmPAIeqeYmDRZZIcv5Ob1y7
+ sz6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ngfbmhws6TcjVG5WcK2IjG5FvOe8rBBoqVrFnsWvlsg=;
+ b=HMydkaFRkutTbN+QNDFAiEtWKnIY6lXqWQrpmRyMXhYkv4XllK5WT5PA5KpHRp3m+b
+ SWiuQuM8w3aFkN3K4Nq5VfZVZcDxiTgalj3neFPThRFDGqjLs+SpgRYjDLwu/toGQpPv
+ MZx8CRLZ3aE7fDYPzYVTkkTiYUDpMJTp0zdFHUG8vBWDPxwfBygOFq3hajbfi57EfhOE
+ N4ql/YGjn9mQKz2X45wStzW9vl99Mnl4pup31gBPac8BXEVi21SfwNlE+LpQJmYhXehz
+ /pfOYKgODg7bmkxURDjRJD9gtL2XodKrYrBEHVuYCqJypMxQ1nmLhnt/vrjUvu1h9bjM
+ 00gw==
+X-Gm-Message-State: AFqh2kowdsWthCrv2tLHJlOdpVlQOG3okRM7ZJSnnJjNnQN8PpRXBhSI
+ u9HInPPmOXk2Uq6wG2mcGqGmaSrqw2k+0tfk
+X-Google-Smtp-Source: AMrXdXv0oKKFLg8SATAy96j5kRhTgqOXvV86bWNOQZYXQvdRJpOF+6YbE7FoKXt1xj0H/dypSbm8gg==
+X-Received: by 2002:a17:902:d590:b0:192:90b1:9007 with SMTP id
+ k16-20020a170902d59000b0019290b19007mr5083852plh.27.1672248636150; 
+ Wed, 28 Dec 2022 09:30:36 -0800 (PST)
+Received: from [172.16.2.190] (76-14-210-194.or.wavecable.com. [76.14.210.194])
+ by smtp.gmail.com with ESMTPSA id
+ b8-20020a1709027e0800b001895d871c95sm11344225plm.70.2022.12.28.09.30.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Dec 2022 09:30:35 -0800 (PST)
+Message-ID: <d8e55869-8553-68b9-1b42-0075705dd03f@linaro.org>
+Date: Wed, 28 Dec 2022 09:30:33 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y6xvJheSYC83voCZ@zx2c4.com>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=vu6c=42=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 01/43] target/loongarch: Add vector data type vec_t
+To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-2-gaosong@loongson.cn>
+ <99e4fdf2-fe70-03c7-1168-f300ac7a1ead@linaro.org>
+ <4852b017-1841-cf6f-fbc2-e1789a7f9496@loongson.cn>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <4852b017-1841-cf6f-fbc2-e1789a7f9496@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,26 +94,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-HELLO H. PETER ANVIN,
-E
-L
-L
-O
-
-On Wed, Dec 28, 2022 at 05:30:30PM +0100, Jason A. Donenfeld wrote:
-> > Fix looks good, glad you figured out the problem.
+On 12/27/22 18:34, gaosong wrote:
+> The manual says "The lower 64 bits of each vector register overlap with the floating point 
+> register of the same number.  In other words
+> When the basic floating-point instruction is executed to update the floating-point 
+> register, the low 64 bits of the corresponding LSX register
+> are also updated to the same value."
 > 
-> I mean, kind of. The solution here sucks, especially given that in the
-> worst case, setup_data just gets dropped. I'm half inclined to consider
-> this a kernel bug instead, and add some code to relocate setup_data
-> prior to decompression, and then fix up all the links. It seems like
-> this would be a lot more robust.
+> So If we don't use the fpr_t.  we should:
+> 1 Update LSX low 64 bits after floating point instruction translation;
+> 2 Update floating-point registers after LSX instruction translation.
 > 
-> I just wish the people who wrote this stuff would chime in. I've had
-> x86@kernel.org CC'd but so far, no input from them.
+> Should we do this  or have I misunderstood?
 
-Apparently you are the x86 boot guru. What do you want to happen here?
-Your input would be very instrumental.
+You should use fpr_t, you should not use cpu_fpr[].
+This is the same as aarch64, for instance.
 
-Jason
+A related question though: does the manual mention whether the fpu instructions only 
+modify the lower 64 bits, or do the high 64-bits become zeroed, nanboxed, or unspecified?
+
+
+>> I strongly suggest that you introduce wrappers to load/store fpr values from their env 
+>> slots.  I would name them similarly to gpr_{src,dst}, gen_set_gpr.
+>>
+> Got it.
+
+
+r~
+
 
