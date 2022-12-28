@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0221657E5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 16:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43269657F56
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 17:04:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAYj5-0006gg-Vk; Wed, 28 Dec 2022 10:52:20 -0500
+	id 1pAYtE-0000xR-BA; Wed, 28 Dec 2022 11:02:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAYiz-0006eo-I6
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 10:52:17 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAYsu-0000sJ-Ui
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 11:02:31 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAYiv-0005zP-IF
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 10:52:11 -0500
-Received: by mail-wr1-x436.google.com with SMTP id n3so14525168wrc.5
- for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 07:52:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAYst-0002XU-6h
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 11:02:28 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id h16so15266764wrz.12
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 08:02:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ouNpBjITVl1/9DCdAcZAuVmdG2j8TP0kohnxhxppq8w=;
- b=dpl1++eWDcVLWXTIp0H5fiEPDBDIJKotEY0Ap2rm8w+W1ReDA7l9SBPXhcYhCVUamo
- jo3ekalnT4ps80wXkszYWq5+Uc36Qj2P1v6BZpMug/qbMbTbwuFj949ZuEzOxnVg784m
- NOUaCgYjQ4gQ0nFqfwh2bJFiIYr4h2ASm3sOpURxNdD6djha9RH/AztBqEEb+oiHjj8M
- mWBlgEDpIs/j3NR0wEooPIzu4nVYwK3MR9GrZJMPlgmEkppPT4HOqdsgA3/V+IVNeFgC
- ypY6t8Z1Dzl5rwXlxI47heNUbLxO7p6dOJxaNoO8QXdWGrnI1aA/eCow9TIKsfTQCyn7
- VKjQ==
+ bh=Jj57U2uI9msDNKTzmjpPKS0AnQ76SAjTHpihoUn6P3Y=;
+ b=KDZp30dSv+s3qN4vPW6zvrh6DM4NtJiH35WJO/kWBKb++abBFrqGeuySYQdYBH3Vp6
+ AnnPNW3GoUzAJg8aWWTBjYGxx/uHKBXsVuc8ZkgLAvRnLvWY47hmJq5pXeTOKZ3APoP1
+ 5l9yXZIjp2RFd+hamwWiwrRzIhC32FNr54SylOPdra1iOpOdE2P4YZZXwUPYnLOcCoIp
+ 5jEYOyhMiekv9oh3J3HUKi2KP6ZkbHruNOU17rIM3VXx9LN1AUkKdFqy6tQ+MkpwU5Tz
+ nnrNPMfeQZEefpJvGB7bom02oxPaub9WHP4tNkFr/XPeNMajJnOf5Y3DBZImqged1Jcr
+ ak7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ouNpBjITVl1/9DCdAcZAuVmdG2j8TP0kohnxhxppq8w=;
- b=Fgbu6V5a+5NHYMvTv5NTFAfztCd99eiLCVrHb2md2meE00oH5sVD5KIhlKDmVuFhPu
- Fwvr4ulYS4x766rTF4VpaDTdkMmnfIRR1KhCH2FSjZvcbNEJrgx7jxQWK0Mk0UtRKKwm
- WNjOMF7zC/6gXSxkQrqqlSvTwCmARVlq3uS6DazGJSYbZzcJF8QnUlWIjEjUjQXUsHr5
- T1X3xsngwpDAuDomj4dxxzQxlKq5BWjdyOVjDsKnCsMs53OVZAXoMiYNgXD2kGhleK0v
- V54eTkxIgf8kxsz+axLNDTEOTlaupyJx7dJapgsksYElQfp+r/Oxjn4VmxWwKBxc2IYI
- N3yg==
-X-Gm-Message-State: AFqh2krqs+4fyS0bPPzbXLzU67SeHtPESdtorqokLYjYHHfDFznpAmvo
- nW/XYhIJPTT3d/M0RxeKL1eZqg==
-X-Google-Smtp-Source: AMrXdXsbk3M7xVn86UGdypl/8CfSirAqXrViRDu/ymi2hm9sOL3iaIRSyToIqOcxdLvskM2ScXvauA==
-X-Received: by 2002:a5d:53cd:0:b0:261:d8be:3047 with SMTP id
- a13-20020a5d53cd000000b00261d8be3047mr16191809wrw.3.1672242728027; 
- Wed, 28 Dec 2022 07:52:08 -0800 (PST)
+ bh=Jj57U2uI9msDNKTzmjpPKS0AnQ76SAjTHpihoUn6P3Y=;
+ b=aKt/WYd2r+NawWhhkTJAmYvb2VqjoySJbv08xFLLiPRMeCja3Bhyd7Pxs9OPz/gqKd
+ QOBftRa7pxSCkqjn9ot3erGe50jzlAxbjoDurIP92yQp2NxOusxMJkJSeexoAtFBfONE
+ EbgY+TFkdfZNqa841t77ZuTHtTfCXxEAdpi5+U+k2x+IU5NPudcywRHI6XYhB+MVz+Fc
+ 3w9M3d4mXEP7gAzIiI/hrEh6l039T06UQ6nZHYCd2pRrS0NR2zJc4kyfdFM9RL7F3Em5
+ k9EJLk9ks/Kq7gcXQiynjvbp1dr4LVFfhr81JxPifd7O0N2I1oN2rJ7WHp6dTgMoGmpi
+ Rtng==
+X-Gm-Message-State: AFqh2kq84CHzQfOXMpEivV5zYRlmJHvUsm6pQaCzI8LeurPEG3V5iPLD
+ 84GYYray6SWFev1y/ZXNjRj7Wg==
+X-Google-Smtp-Source: AMrXdXtf3ayrmWdF60L/lWpzJOj9QHgs8JOUuL+LYBksy1ySN1/nW5SQWt9by/aROEYptjng4I4vWg==
+X-Received: by 2002:adf:f781:0:b0:242:1ba0:208b with SMTP id
+ q1-20020adff781000000b002421ba0208bmr20609543wrp.64.1672243344740; 
+ Wed, 28 Dec 2022 08:02:24 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- c4-20020a5d4f04000000b002365cd93d05sm15638972wru.102.2022.12.28.07.52.06
+ h6-20020adffa86000000b0024246991121sm16166006wrr.116.2022.12.28.08.02.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Dec 2022 07:52:07 -0800 (PST)
-Message-ID: <be60d9e5-4c9c-791f-564b-2a740fe3d261@linaro.org>
-Date: Wed, 28 Dec 2022 16:52:05 +0100
+ Wed, 28 Dec 2022 08:02:24 -0800 (PST)
+Message-ID: <6cab26b5-06ae-468d-ac79-ecdecb86ef07@linaro.org>
+Date: Wed, 28 Dec 2022 17:02:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 09/10] hw/riscv/boot.c: introduce
- riscv_load_kernel_and_initrd()
+Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
+ setup_data
 Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
-References: <20221228133336.197467-1-dbarboza@ventanamicro.com>
- <20221228133336.197467-10-dbarboza@ventanamicro.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, pbonzini@redhat.com,
+ ebiggers@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org, ardb@kernel.org, kraxel@redhat.com, hpa@zytor.com,
+ bp@alien8.de
+References: <20221228143831.396245-1-Jason@zx2c4.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221228133336.197467-10-dbarboza@ventanamicro.com>
+In-Reply-To: <20221228143831.396245-1-Jason@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -92,98 +92,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/12/22 14:33, Daniel Henrique Barboza wrote:
-> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
-> the same steps when '-kernel' is used:
+Hi Jason,
+
+On 28/12/22 15:38, Jason A. Donenfeld wrote:
+> The setup_data links are appended to the compressed kernel image. Since
+> the kernel image is typically loaded at 0x100000, setup_data lives at
+> `0x100000 + compressed_size`, which does not get relocated during the
+> kernel's boot process.
 > 
-> - execute load_kernel()
-> - load init_rd()
-> - write kernel_cmdline in the fdt
+> The kernel typically decompresses the image starting at address
+> 0x1000000 (note: there's one more zero there than the decompressed image
+> above). This usually is fine for most kernels.
 > 
-> Let's fold everything inside riscv_load_kernel() to avoid code
-> repetition. Every other board that uses riscv_load_kernel() will have
-> this same behavior, including boards that doesn't have a valid FDT, so
-> we need to take care to not do FDT operations without checking it first.
+> However, if the compressed image is actually quite large, then
+> setup_data will live at a `0x100000 + compressed_size` that extends into
+> the decompressed zone at 0x1000000. In other words, if compressed_size
+> is larger than `0x1000000 - 0x100000`, then the decompression step will
+> clobber setup_data, resulting in crashes.
 > 
-> Since we're now doing way more than just loading the kernel, rename
-> riscv_load_kernel() to riscv_load_kernel_and_initrd().
+> Fix this by detecting that possibility, and if it occurs, put setup_data
+> *after* the end of the decompressed kernel, so that it doesn't get
+> clobbered.
 > 
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> One caveat is that this only works for images less than around 64
+> megabytes, so just bail out in that case. This is unfortunate, but I
+> don't currently have a way of fixing it.
+> 
+> Cc: x86@kernel.org
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 > ---
->   hw/riscv/boot.c            | 27 +++++++++++++++++++++------
->   hw/riscv/microchip_pfsoc.c | 12 ++----------
->   hw/riscv/opentitan.c       |  2 +-
->   hw/riscv/sifive_e.c        |  3 ++-
->   hw/riscv/sifive_u.c        | 12 ++----------
->   hw/riscv/spike.c           | 14 +++-----------
->   hw/riscv/virt.c            | 12 ++----------
->   include/hw/riscv/boot.h    |  6 +++---
->   8 files changed, 36 insertions(+), 52 deletions(-)
+>   hw/i386/x86.c | 30 ++++++++++++++++++++++++++++++
+>   1 file changed, 30 insertions(+)
 > 
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index cd9c989edb..6d1243ad8b 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -171,12 +171,13 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
->       exit(1);
->   }
->   
-> -target_ulong riscv_load_kernel(MachineState *machine,
-> -                               target_ulong kernel_start_addr,
-> -                               symbol_fn_t sym_cb)
-> +target_ulong riscv_load_kernel_and_initrd(MachineState *machine,
-> +                                          target_ulong kernel_start_addr,
-> +                                          symbol_fn_t sym_cb)
->   {
->       const char *kernel_filename = machine->kernel_filename;
->       uint64_t kernel_load_base, kernel_entry;
-
-I wonder if compilers/static analyzers might end complaining
-because kernel_entry being set is not obvious.
-
-Anyhow,
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> +    void *fdt = machine->fdt;
->   
->       /*
->        * NB: Use low address not ELF entry point to ensure that the fw_dynamic
-> @@ -188,21 +189,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
->       if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
->                            NULL, &kernel_load_base, NULL, NULL, 0,
->                            EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-> -        return kernel_load_base;
-> +        kernel_entry = kernel_load_base;
-> +        goto out;
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 78cc131926..628fd2b2e9 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -1077,6 +1077,36 @@ void x86_load_linux(X86MachineState *x86ms,
 >       }
+>       fclose(f);
 >   
->       if (load_uimage_as(kernel_filename, &kernel_entry, NULL, NULL,
->                          NULL, NULL, NULL) > 0) {
-> -        return kernel_entry;
-> +        goto out;
->       }
->   
->       if (load_image_targphys_as(kernel_filename, kernel_start_addr,
->                                  current_machine->ram_size, NULL) > 0) {
-> -        return kernel_start_addr;
-> +        kernel_entry = kernel_start_addr;
-> +        goto out;
->       }
->   
->       error_report("could not load kernel '%s'", kernel_filename);
->       exit(1);
+> +    /* If a setup_data is going to be used, make sure that the bootloader won't
+> +     * decompress into it and clobber those bytes. */
+> +    if (dtb_filename || !legacy_no_rng_seed) {
+> +        uint32_t payload_offset = ldl_p(setup + 0x248);
+> +        uint32_t payload_length = ldl_p(setup + 0x24c);
+> +        uint32_t target_address = ldl_p(setup + 0x258);
+
+Nitpicking, can the Linux kernel add these magic values in
+arch/x86/include/uapi/asm/bootparam.h? Or can we use
+offsetof(setup_header) to get them?
+
+> +        uint32_t decompressed_length = ldl_p(kernel + payload_offset + payload_length - 4);
 > +
-> +out:
-> +    if (machine->initrd_filename) {
-> +        riscv_load_initrd(machine, kernel_entry);
+> +        uint32_t estimated_setup_data_length = 4096 * 16;
+> +        uint32_t start_setup_data = prot_addr + kernel_size;
+> +        uint32_t end_setup_data = start_setup_data + estimated_setup_data_length;
+> +        uint32_t start_target = target_address;
+> +        uint32_t end_target = target_address + decompressed_length;
+
+Maybe we can simply use 'unsigned' type.
+
+> +        if ((start_setup_data >= start_target && start_setup_data < end_target) ||
+> +            (end_setup_data >= start_target && end_setup_data < end_target)) {
+> +            uint32_t padded_size = target_address + decompressed_length - prot_addr;
+> +
+> +            /* The early stage can't address past around 64 MB from the original
+> +             * mapping, so just give up in that case. */
+> +            if (padded_size < 62 * 1024 * 1024)
+
+You mention 64 but check for 62, is that expected? You can use the MiB
+definitions to ease code review: 64 * MiB.
+
+> +                kernel_size = padded_size;
+> +            else {
+> +                fprintf(stderr, "qemu: Kernel image too large to hold setup_data\n");
+> +                dtb_filename = NULL;
+> +                legacy_no_rng_seed = true;
+> +            }
+> +        }
 > +    }
-> +
-> +    if (fdt && machine->kernel_cmdline && *machine->kernel_cmdline) {
-> +        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
-> +                                machine->kernel_cmdline);
-> +    }
-> +
-> +    return kernel_entry;
->   }
+Fix looks good, glad you figured out the problem.
+
+Regards,
+
+Phil.
 
