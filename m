@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9DA565732C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 07:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA651657321
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 07:22:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAPoA-0000Vm-V7; Wed, 28 Dec 2022 01:20:58 -0500
+	id 1pAPoN-0000XE-Qk; Wed, 28 Dec 2022 01:21:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pAPo5-0000Sx-JA; Wed, 28 Dec 2022 01:20:53 -0500
+ id 1pAPo5-0000T8-N8; Wed, 28 Dec 2022 01:20:53 -0500
 Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pAPo1-0000vH-44; Wed, 28 Dec 2022 01:20:53 -0500
+ id 1pAPo1-0000vI-En; Wed, 28 Dec 2022 01:20:53 -0500
 Received: from localhost.localdomain (unknown [61.165.33.198])
- by APP-01 (Coremail) with SMTP id qwCowABX2ewx4KtjqJCSCQ--.53263S2;
- Wed, 28 Dec 2022 14:20:35 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowABX2ewx4KtjqJCSCQ--.53263S3;
+ Wed, 28 Dec 2022 14:20:36 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
  bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v9 0/9] support subsets of code size reduction extension
-Date: Wed, 28 Dec 2022 14:20:19 +0800
-Message-Id: <20221228062028.29415-1-liweiwei@iscas.ac.cn>
+Subject: [PATCH v9 1/9] target/riscv: add cfg properties for Zc* extension
+Date: Wed, 28 Dec 2022 14:20:20 +0800
+Message-Id: <20221228062028.29415-2-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221228062028.29415-1-liweiwei@iscas.ac.cn>
+References: <20221228062028.29415-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowABX2ewx4KtjqJCSCQ--.53263S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZr1kZFyfCF1fXw17Gw4Uurg_yoW5Gr47pr
- WrC3yakrZ8tFWxJw4ft3WUJw15AFs5Wr45Awn7Jw1kJay3ArW3Jrs7K3W3G3WxJF1rWrnF
- 93WUCw13u3yUAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
- xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
- I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
- 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
- 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-TRANSID: qwCowABX2ewx4KtjqJCSCQ--.53263S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF1DurykXr47JF1kXwb_yoW8KF15pr
+ 48G3yYkrWDJr17C3yfXF1UK3Z8Wwn29ayIg392q3WxuFW7ArW3Xr1vkw1UWF45tFs5Xa1a
+ 9F17CF15CwsrJa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9l14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+ x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+ A2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
+ 8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
+ jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l4I
+ 8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
+ xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
+ AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8I
+ cIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r
+ 4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5SoXUUUUU
 X-Originating-IP: [61.165.33.198]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
@@ -71,78 +73,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instructions.
+Add properties for Zca,Zcb,Zcf,Zcd,Zcmp,Zcmt extension
+Add check for these properties
 
-Specification:
-https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+ target/riscv/cpu.h |  6 ++++++
+ 2 files changed, 49 insertions(+)
 
-The port is available here:
-https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v9
-
-To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extensions support.
-
-
-This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
-
-v9:
-* rebase on riscv-to-apply.next
-
-v8:
-* improve disas support in Patch 9
-
-v7:
-* Fix description for Zca
-
-v6：
-* fix base address for jump table in Patch 7
-* rebase on riscv-to-apply.next
-
-v5:
-* fix exception unwind problem for cpu_ld*_code in helper of cm_jalt
-
-v4:
-* improve Zcmp suggested by Richard
-* fix stateen related check for Zcmt
-
-v3:
-* update the solution for Zcf to the way of Zcd
-* update Zcb to reuse gen_load/store
-* use trans function instead of helper for push/pop
-
-v2:
-* add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
-* separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
-
-Weiwei Li (9):
-  target/riscv: add cfg properties for Zc* extension
-  target/riscv: add support for Zca extension
-  target/riscv: add support for Zcf extension
-  target/riscv: add support for Zcd extension
-  target/riscv: add support for Zcb extension
-  target/riscv: add support for Zcmp extension
-  target/riscv: add support for Zcmt extension
-  target/riscv: expose properties for Zc* extension
-  disas/riscv.c: add disasm support for Zc*
-
- disas/riscv.c                             | 228 +++++++++++++++-
- target/riscv/cpu.c                        |  56 ++++
- target/riscv/cpu.h                        |  10 +
- target/riscv/cpu_bits.h                   |   7 +
- target/riscv/csr.c                        |  38 ++-
- target/riscv/helper.h                     |   3 +
- target/riscv/insn16.decode                |  63 ++++-
- target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
- target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
- target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
- target/riscv/insn_trans/trans_rvzce.c.inc | 313 ++++++++++++++++++++++
- target/riscv/machine.c                    |  19 ++
- target/riscv/meson.build                  |   3 +-
- target/riscv/translate.c                  |  15 +-
- target/riscv/zce_helper.c                 |  55 ++++
- 15 files changed, 834 insertions(+), 16 deletions(-)
- create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
- create mode 100644 target/riscv/zce_helper.c
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index cc75ca7667..4f421130aa 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -810,6 +810,49 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             }
+         }
+ 
++        if (cpu->cfg.ext_c) {
++            cpu->cfg.ext_zca = true;
++            if (cpu->cfg.ext_f && env->misa_mxl_max == MXL_RV32) {
++                cpu->cfg.ext_zcf = true;
++            }
++            if (cpu->cfg.ext_d) {
++                cpu->cfg.ext_zcd = true;
++            }
++        }
++
++        if (env->misa_mxl_max != MXL_RV32 && cpu->cfg.ext_zcf) {
++            error_setg(errp, "Zcf extension is only relevant to RV32");
++            return;
++        }
++
++        if (!cpu->cfg.ext_f && cpu->cfg.ext_zcf) {
++            error_setg(errp, "Zcf extension requires F extension");
++            return;
++        }
++
++        if (!cpu->cfg.ext_d && cpu->cfg.ext_zcd) {
++            error_setg(errp, "Zcd extension requires D extension");
++            return;
++        }
++
++        if ((cpu->cfg.ext_zcf || cpu->cfg.ext_zcd || cpu->cfg.ext_zcb ||
++             cpu->cfg.ext_zcmp || cpu->cfg.ext_zcmt) && !cpu->cfg.ext_zca) {
++            error_setg(errp, "Zcf/Zcd/Zcb/Zcmp/Zcmt extensions require Zca "
++                             "extension");
++            return;
++        }
++
++        if (cpu->cfg.ext_zcd && (cpu->cfg.ext_zcmp || cpu->cfg.ext_zcmt)) {
++            error_setg(errp, "Zcmp/Zcmt extensions are incompatible with "
++                             "Zcd extension");
++            return;
++        }
++
++        if (cpu->cfg.ext_zcmt && !cpu->cfg.ext_icsr) {
++            error_setg(errp, "Zcmt extension requires Zicsr extension");
++            return;
++        }
++
+         if (cpu->cfg.ext_zk) {
+             cpu->cfg.ext_zkn = true;
+             cpu->cfg.ext_zkr = true;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index f5609b62a2..71545041a0 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -434,6 +434,12 @@ struct RISCVCPUConfig {
+     bool ext_zbkc;
+     bool ext_zbkx;
+     bool ext_zbs;
++    bool ext_zca;
++    bool ext_zcb;
++    bool ext_zcd;
++    bool ext_zcf;
++    bool ext_zcmp;
++    bool ext_zcmt;
+     bool ext_zk;
+     bool ext_zkn;
+     bool ext_zknd;
 -- 
 2.25.1
 
