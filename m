@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6ED6577EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 15:39:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDB6657B51
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 16:20:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAXaZ-0005Fk-JU; Wed, 28 Dec 2022 09:39:27 -0500
+	id 1pAYCg-0006jx-LB; Wed, 28 Dec 2022 10:18:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=vu6c=42=zx2c4.com=Jason@kernel.org>)
- id 1pAXaX-0005FJ-Fz
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 09:39:25 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=vu6c=42=zx2c4.com=Jason@kernel.org>)
- id 1pAXaU-0001fM-Oq
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 09:39:25 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6F671B8170E;
- Wed, 28 Dec 2022 14:39:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D5AC433D2;
- Wed, 28 Dec 2022 14:39:18 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="FmUMzWAF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1672238355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vq5HU2e0An2dJOWNwYu6KJi6n2DVTujSQj+JRa+gkDQ=;
- b=FmUMzWAFC2yEV6GXbLI3DRDJiJgom9v72rI8zcZKK2t9r+6e2GXZGvhXCOvtYKczJyhotJ
- WfjgePUsf1eEY22FIA3HNWFg7cB1POt0HctY1G00Kzby0bU2OPKcjzt/POiXXjQDY8zaOM
- BBHiFg0BpsUFOq56eBmnNX/tpkuDiw4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d267fddd
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 28 Dec 2022 14:39:15 +0000 (UTC)
-Date: Wed, 28 Dec 2022 15:39:12 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Eric Biggers <ebiggers@kernel.org>, x86@kernel.org, linux-mm@kvack.org
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
-Message-ID: <Y6xVELL0ZYNc5Bip@zx2c4.com>
-References: <20220921093134.2936487-1-Jason@zx2c4.com>
- <20220921093134.2936487-4-Jason@zx2c4.com>
- <Y6ZESPx4ettBLuMt@sol.localdomain> <Y6ZtVGtFpUNQP+KU@zx2c4.com>
- <Y6Z+WpqN59ZjIKkk@zx2c4.com> <Y6muh1E1fNOot+VZ@zx2c4.com>
- <Y6my+Oiz67G46snj@zx2c4.com> <Y6nSel5/wdnoSFpk@zx2c4.com>
- <Y6r09pm68oI7GMe1@zx2c4.com> <Y6uy4b71GX0epQsu@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pAYCe-0006jd-KK; Wed, 28 Dec 2022 10:18:48 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pAYCc-0003En-P1; Wed, 28 Dec 2022 10:18:48 -0500
+Received: by mail-ed1-x532.google.com with SMTP id m21so23209087edc.3;
+ Wed, 28 Dec 2022 07:18:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MigCwWKcBzDnQYKIbiy3VFgLGaenAg4DK8whJdJ9vB0=;
+ b=OGaqHbYJp9XHqbmiQX3CU+gvUsbjtWFYElqJn+wcQYzPjLjSpcZM9Lo+KsQvvcS1Sn
+ nGBK2+e6lcjpsuAszHvny3t0r0xMqJcVksFdBzy7YWkD+iWIoU3Abpr15PvAzcUVFQXh
+ mbXvBcrEldUQQk77MIAl/an/p3akLVaw3ExkHonQCREZuW454xzvE+Bu5x0pFI1bpX9B
+ YXFVFr/tsjA6Dox6gsgteEnkX3YrLd/1l6CDtH6eJFxLs+eFL7Ag8D7wu6rihDP4j06P
+ 81fzAnWtrgdYfzQxUh/ZBtpnh+f7nraqs/dhgI/jNnCY7c0zzpkq55MJ4916l3ePkcyi
+ PtIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MigCwWKcBzDnQYKIbiy3VFgLGaenAg4DK8whJdJ9vB0=;
+ b=mijQ9uiy3HYR5wMPfMe7mukY7DaW4OGNxHGnyR1zPwAt+xpQCIBsYFPC0zt5kH4lr7
+ TmlTWhFlQlwpM0ZPL60/Fg9LnYNSCGXxN9qrfyXUSxzNxc8+rla68HtxzIZrhhhrJEye
+ a8C9EtCjv5+C4sEtD/RCTqzCQsi/dAgyCwpJS2gLiJlORYoCivq5IypaYFHef8hS6r+Z
+ TsQ6oeYaIwpYAtJQVQ8V/HEW03UtCUS5szH1rGqn4run4LKh6rl3OvTU3skWwEO1ps8a
+ TDUgD4UEqWFDSo1VrfbqIcpcze+bLoDxo2gOUmwKkKI23MgDB+L1vidPTYu38xIA32xQ
+ tiGQ==
+X-Gm-Message-State: AFqh2kqiDhZw81hcZyUa5nCIKuUpKHFxa2+AAj2tcieAcMQgW1GTC/kx
+ 64ZEa9Tk+NHWwUhV7TviGvKxfmyvlLNtjJgv+4Q=
+X-Google-Smtp-Source: AMrXdXvzvgRMHxaVnP6x8n+SpjhLBArQEs9AsY1J6PkKnf8FQPoW80/SJL8kC4corhrNnH7aFKLFdJzjUQKrtMxme1E=
+X-Received: by 2002:aa7:d584:0:b0:46b:6096:a884 with SMTP id
+ r4-20020aa7d584000000b0046b6096a884mr1751130edq.152.1672240724744; Wed, 28
+ Dec 2022 07:18:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y6uy4b71GX0epQsu@zx2c4.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=vu6c=42=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <20221228133336.197467-1-dbarboza@ventanamicro.com>
+ <20221228133336.197467-2-dbarboza@ventanamicro.com>
+In-Reply-To: <20221228133336.197467-2-dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 28 Dec 2022 23:18:33 +0800
+Message-ID: <CAEUhbmXyth6ENTPkX8j5G=+OZ4XxL70S6V989g94w7JSSdAobQ@mail.gmail.com>
+Subject: Re: [PATCH v3 01/10] tests/avocado: add RISC-V opensbi boot test
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,149 +85,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Dec 28, 2022 at 04:07:13AM +0100, Jason A. Donenfeld wrote:
-> On Tue, Dec 27, 2022 at 02:36:54PM +0100, Jason A. Donenfeld wrote:
-> > On Mon, Dec 26, 2022 at 05:57:30PM +0100, Jason A. Donenfeld wrote:
-> > > On Mon, Dec 26, 2022 at 03:43:04PM +0100, Jason A. Donenfeld wrote:
-> > > > On Mon, Dec 26, 2022 at 03:24:07PM +0100, Jason A. Donenfeld wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > I'm currently stumped at the moment, so adding linux-mm@ and x86@. Still
-> > > > > working on it though. Details of where I'm at are below the quote below.
-> > > > > 
-> > > > > On Sat, Dec 24, 2022 at 05:21:46AM +0100, Jason A. Donenfeld wrote:
-> > > > > > On Sat, Dec 24, 2022 at 04:09:08AM +0100, Jason A. Donenfeld wrote:
-> > > > > > > Hi Eric,
-> > > > > > > 
-> > > > > > > Replying to you from my telephone, and I'm traveling the next two days,
-> > > > > > > but I thought I should mention some preliminary results right away from
-> > > > > > > doing some termux compiles:
-> > > > > > > 
-> > > > > > > On Fri, Dec 23, 2022 at 04:14:00PM -0800, Eric Biggers wrote:
-> > > > > > > > Hi Jason,
-> > > > > > > > 
-> > > > > > > > On Wed, Sep 21, 2022 at 11:31:34AM +0200, Jason A. Donenfeld wrote:
-> > > > > > > > > This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
-> > > > > > > > > for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
-> > > > > > > > > 
-> > > > > > > > > Cc: Laurent Vivier <laurent@vivier.eu>
-> > > > > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > > > > > Cc: Peter Maydell <peter.maydell@linaro.org>
-> > > > > > > > > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > > > > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > > > > > > > > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > > > > > > > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> > > > > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > > > > > > > > ---
-> > > > > > > > >  hw/i386/microvm.c | 2 +-
-> > > > > > > > >  hw/i386/pc_piix.c | 3 ++-
-> > > > > > > > >  hw/i386/pc_q35.c  | 3 ++-
-> > > > > > > > >  3 files changed, 5 insertions(+), 3 deletions(-)
-> > > > > > > > > 
-> > > > > > > > 
-> > > > > > > > After upgrading to QEMU 7.2, Linux 6.1 no longer boots with some configs.  There
-> > > > > > > > is no output at all.  I bisected it to this commit, and I verified that the
-> > > > > > > > following change to QEMU's master branch makes the problem go away:
-> > > > > > > > 
-> > > > > > > > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> > > > > > > > index b48047f50c..42f5b07d2f 100644
-> > > > > > > > --- a/hw/i386/pc_piix.c
-> > > > > > > > +++ b/hw/i386/pc_piix.c
-> > > > > > > > @@ -441,6 +441,7 @@ static void pc_i440fx_8_0_machine_options(MachineClass *m)
-> > > > > > > >      pc_i440fx_machine_options(m);
-> > > > > > > >      m->alias = "pc";
-> > > > > > > >      m->is_default = true;
-> > > > > > > > +    PC_MACHINE_CLASS(m)->legacy_no_rng_seed = true;
-> > > > > > > >  }
-> > > > > > > > 
-> > > > > > > > I've attached the kernel config I am seeing the problem on.
-> > > > > > > > 
-> > > > > > > > For some reason, the problem also goes away if I disable CONFIG_KASAN.
-> > > > > > > > 
-> > > > > > > > Any idea what is causing this?
-> > > > > > > 
-> > > > > > > - Commenting out the call to parse_setup_data() doesn't fix the issue.
-> > > > > > >   So there's no KASAN issue with the actual parser.
-> > > > > > > 
-> > > > > > > - Using KASAN_OUTLINE rather than INLINE does fix the issue!
-> > > > > > > 
-> > > > > > > That makes me suspect that it's file size related, and QEMU or the BIOS
-> > > > > > > is placing setup data at an overlapping offset by accident, or something
-> > > > > > > similar.
-> > > > > > 
-> > > > > > I removed the file systems from your config to bring the kernel size
-> > > > > > back down, and voila, it works, even with KASAN_INLINE. So perhaps I'm
-> > > > > > on the right track here...
-> > > > > 
-> > > > > QEMU sticks setup_data after the kernel image, the same as kexec-tools
-> > > > > and everything else. Apparently, when the kernel image is large, the
-> > > > > call to early_memremap(boot_params.hdr.setup_data, ...) returns a value
-> > > > > that points some place bogus, and the system crashes or does something
-> > > > > weird. I haven't yet determined what this limit is, but in my current
-> > > > > test kernel, a value of 0x0000000001327650 is enough to make it point to
-> > > > > rubbish.
-> > > > > 
-> > > > > Is this expected? What's going on here?
-> > > > 
-> > > > Attaching gdb to QEMU and switching it to physical memory mode
-> > > > (`maintenance packet Qqemu.PhyMemMode:1 `) indicates that it
-> > > > early_memremap is actually working fine and something *else* is at this
-> > > > address? That's kinda weird... Is KASAN populating physical addresses
-> > > > immediately after the kernel image extremely early in boot? I'm seeing
-> > > > the crash happen from early_reserve_memory()->
-> > > > memblock_x86_reserve_range_setup_data(), which should be before
-> > > > kasan_init() even runs. Is QEMU calculating kernel_size wrong, when it
-> > > > goes to determine where to put the setup_data data? But that's the same
-> > > > calculation as used everywhere else, so hmm...
-> > > > 
-> > > > Jason
-> > > 
-> > > If bzImage is 15770544 bytes, it does not boot. If bzImage is 15641776
-> > > bytes, it does boot. So something is happening somewhat close to the
-> > > 16MB mark?
-> > > 
-> > 
-> > Okay, the issue is that it's being decompressed to an area that overlaps
-> > the source. So for example in my test kernel:
-> > 
-> > input_addr: 0x3f112bf
-> > output_addr: 0x1000000
-> > output_len: 0x3a5d7d8
-> > 
-> > Since 0x3a5d7d8 + 0x1000000 > 0x3f112bf, eventually this corrupts the
-> > setup_data at the end there.
-> > 
-> > Now digging into what can be done about it.
-> 
-> Not quite. input_addr doesn't matter, since setup_data still points to
-> the old mapping.
-> 
-> So the actual issue is:
-> 
-> compressed_size: 	0xf028d4
-> decompressed_size:      0x3a5d7d8
-> setup_data:      	0x100000 + compressed_size
-> output_addr:    	0x1000000 (this is LOAD_PHYSICAL_ADDR)
-> 
-> Since `output_addr + decompressed_size > setup_data && output_addr <
-> setup_data`, then it means the decompressor will write over setup_data.
-> 
-> Note that this is also a problem for SETUP_DTB, so it's a longstanding
-> bug.
-> 
-> I'm experimenting now with appending lots of zeros between the kernel
-> image and setup_data, so that the decompressor doesn't overwrite
-> setup_data, but so far it's not working.
-> 
-> Another option would be to have the build system warn when this is going
-> to happen, and suggest that the user increase the value of
-> CONFIG_PHYSICAL_START. This might be the best option...
+On Wed, Dec 28, 2022 at 9:38 PM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+> This test is used to do a quick sanity check to ensure that we're able
+> to run the existing QEMU FW image.
+>
+> 'sifive_u', 'spike' and 'virt' riscv64 machines, and 'sifive_u' and
+> 'virt' 32 bit machines are able to run the default RISCV64_BIOS_BIN |
+> RISCV32_BIOS_BIN firmware with minimal options.
+>
+> The riscv32 'spike' machine isn't bootable at this moment, requiring an
+> Opensbi fix [1] and QEMU side changes [2]. We could just leave at that
 
-I posted a patch:
-https://lore.kernel.org/qemu-devel/20221228143831.396245-1-Jason@zx2c4.com/
+nits: OpenSBI
 
-We can move discussion on the topic over to that thread now.
+> or add a 'skip' test to remind us about it. To work as a reminder that
+> we have a riscv32 'spike' test that should be enabled as soon as Opensbi
 
-Jason
+ditto
+
+> QEMU rom receives the fix, we're adding a 'skip' test:
+>
+> (11/18) tests/avocado/riscv_opensbi.py:RiscvOpensbi.test_riscv32_spike:
+>         SKIP: requires OpenSBI fix to work
+>
+> [1] https://patchwork.ozlabs.org/project/opensbi/patch/20221226033603.186=
+0569-1-bmeng@tinylab.org/
+> [2] https://patchwork.ozlabs.org/project/qemu-devel/list/?series=3D334159
+>
+> Cc: Cleber Rosa <crosa@redhat.com>
+> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  tests/avocado/riscv_opensbi.py | 65 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 65 insertions(+)
+>  create mode 100644 tests/avocado/riscv_opensbi.py
+>
+> diff --git a/tests/avocado/riscv_opensbi.py b/tests/avocado/riscv_opensbi=
+.py
+> new file mode 100644
+> index 0000000000..3549d36a11
+> --- /dev/null
+> +++ b/tests/avocado/riscv_opensbi.py
+> @@ -0,0 +1,65 @@
+> +# OpenSBI boot test for RISC-V machines
+> +#
+> +# Copyright (c) 2022, Ventana Micro
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +from avocado_qemu import QemuSystemTest
+> +from avocado import skip
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class RiscvOpensbi(QemuSystemTest):
+> +    """
+> +    :avocado: tags=3Daccel:tcg
+> +    """
+> +    timeout =3D 5
+> +
+> +    def boot_opensbi(self):
+> +        self.vm.set_console()
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, 'Platform Name')
+> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
+> +
+> +    def test_riscv64_virt(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv64
+> +        :avocado: tags=3Dmachine:virt
+> +        """
+> +        self.boot_opensbi()
+> +
+> +    def test_riscv64_spike(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv64
+> +        :avocado: tags=3Dmachine:spike
+> +        """
+> +        self.boot_opensbi()
+> +
+> +    def test_riscv64_sifive_u(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv64
+> +        :avocado: tags=3Dmachine:sifive_u
+> +        """
+> +        self.boot_opensbi()
+
+nits: could we keep both 64-bit and 32-bit machines in the same order?
+e.g.: virt, sifive_u, spike
+
+> +
+> +    def test_riscv32_virt(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv32
+> +        :avocado: tags=3Dmachine:virt
+> +        """
+> +        self.boot_opensbi()
+> +
+> +    def test_riscv32_sifive_u(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv32
+> +        :avocado: tags=3Dmachine:sifive_u
+> +        """
+> +        self.boot_opensbi()
+> +
+> +    @skip("requires OpenSBI fix to work")
+> +    def test_riscv32_spike(self):
+> +        """
+> +        :avocado: tags=3Darch:riscv32
+> +        :avocado: tags=3Dmachine:spike
+> +        """
+> +        self.boot_opensbi()
+> --
+
+Otherwise,
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Tested-by: Bin Meng <bmeng@tinylab.org>
 
