@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5535765772E
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 14:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5748E657736
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 14:35:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAWZ5-0004bp-EY; Wed, 28 Dec 2022 08:33:51 -0500
+	id 1pAWZ7-0004eQ-FZ; Wed, 28 Dec 2022 08:33:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAWZ2-0004XF-SC
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:33:48 -0500
+ id 1pAWZ4-0004bk-PX
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:33:50 -0500
 Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAWYz-00080g-Qi
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:33:48 -0500
-Received: by mail-oi1-x231.google.com with SMTP id c133so14861696oif.1
- for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 05:33:45 -0800 (PST)
+ id 1pAWZ3-0008Aq-1l
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:33:50 -0500
+Received: by mail-oi1-x231.google.com with SMTP id d127so13464759oif.12
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 05:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=TltEne7D2rlHYQ4qmOkTMVGQSBDDcuOR9RZXwJKC4lU=;
- b=bktHiD++oepzisVEZBF71jic+K+0UyPpJAPuCN5uG2B6CX0w6O8zLtcvv1czeQ/XVa
- iXp0JxBN5lIw0aUUoZj7U1QkrmiZJH71NePngy2oIwYzeKHClOeEkWeCdNbqCZYvq+Na
- 5fH4O97277R7ZpT2qQjw2KhUanPMA7z2LMeu8n1NZFRSbi7bleKL5MP/mrqWe7vmt9QL
- Ov91Pz7BqDvTrzOWpV9e2j2/zUmUh13k0zq2LdSjpMjR/ILPUe+7OcMw6v30iYUAxXV9
- UVNjp+GHp6gqcMebAa7QGiNkU8JHeASh3sTbf2qDo+DPjdVt6ChPffleKRJJpXdtdRqo
- BG5w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hbm0SUMgOyGVm9UYUYsWKLbt1FN4F94mBirfTGyOnNA=;
+ b=MYXdVhuYh3XS7uMOlqTaMiRl6Lqywy+7hzWtnSwgYmb3x7SEA45fo3bh+NPC49R6b6
+ 9931hqsOZEKwBx0TAm1eHQS7z8xRYMeut1YsiFNVUm66+RPd5U5SxrnethglIJAzN12U
+ tDYScwP6caq5uyS4VyCAWCyKwW3Jeadwezcsh9QmiDWmWHOm02jXxy2JkbesfL/nagDA
+ T+tSrT0AhHqXfxi8Jk18oULZOAbMakEHa+I0ghJoUYj/qtcH9SgtBWvRnS+kB9avecbx
+ au0tdbPKQILPzPfy29zWpYvFqrB2AUkVSu1je2bg1D/rl447hSJzQcdEHWVPEyK9hZsp
+ ZPwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TltEne7D2rlHYQ4qmOkTMVGQSBDDcuOR9RZXwJKC4lU=;
- b=FBokAeIV0kJRZCHegX1fqmFXE6HxERwC/tXvj+B4v+EAK/JN9PR0JSFlWPlS61YZ7Z
- ECx/mw2q0GYrKmRwoAdHZZIVVgWhQmyQKuzqECBpXAs5NvEGJSK0Isi7LRa/gFy02H71
- SFg9awsPKce5gitJkEedl52aR8o98Mk4oYEA7umvDlHL/OUZbGHNrNtko4s1+4Ic1z6a
- caD2flz9DepVwiYSxufx23s9TxWlNLQ0fLkY3Qh4zHM8czX/64K0nbhPv5EkApW1YR+Y
- 7HaawCyDe1TM6imkKNTQHXtKQETkz/ckMwlk4iOYvhg8yyN6B3DAV72E+z8WXE7QUd65
- Nuww==
-X-Gm-Message-State: AFqh2krhEYCpOIdV1Ir0VdRHoNRDCoO/pfnC7ImrGGklaudnmEbMD0j0
- BbFWSOaO+jUPKb8o/gKe6v0iRDcho/lUElem
-X-Google-Smtp-Source: AMrXdXtLOpdf4nDy9n9s0qc9mhSM98VbhDT8UV4iO254qOXT2o9ZuxUDN9p5MzSwrSfgoGJcsUqRmw==
-X-Received: by 2002:a05:6808:178e:b0:35e:cc17:37c5 with SMTP id
- bg14-20020a056808178e00b0035ecc1737c5mr16686791oib.9.1672234424347; 
- Wed, 28 Dec 2022 05:33:44 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Hbm0SUMgOyGVm9UYUYsWKLbt1FN4F94mBirfTGyOnNA=;
+ b=LnCYGEvZ+75nbMIO9zYaG3Mont2uO+Y1JhU/fx/NfkIQy9rKi181ug/ZLmKE+5mpDZ
+ 6f/LKkAnvj99iZo1iwMmXXT5C4zscG/6oBf9ldRw9Ie/8bvYbKrR0oysjc9rsMYnPuQe
+ s3A3jT+Nr1WFa1+gIcMK/EwJvfkZoQWvzxvdX4T9vtCAGXJ5ycVkk1eRlDVWVb76UVdA
+ 0Ye3YLtTLUy/1QgQ3V2yx/tEEoqQYL3o7i1GgBNTOpAL4iGV6w8aHogK4MImyt6Fiw4R
+ 7GXSO3hu94i670mrnWtxQGUFv+4nFvNQVAMcoazAisPhKZerVuPQxQHS/W79IoofgyXk
+ HmRQ==
+X-Gm-Message-State: AFqh2ko5+HVg6hR9KzJX/nhubyFr09nnnao/L6iqODaInpZUnFcuVeNY
+ 6pmL608FogVGVVWPqERoOpFUM7sS9fSc6XqS
+X-Google-Smtp-Source: AMrXdXuZoWC5/AZUnEONG+Ef2jKWLWewi+gKetbmM0zh2Pk36Pep0OA+j33dG8hJJk044bUOdJB2aw==
+X-Received: by 2002:a05:6808:bc3:b0:360:d800:d10c with SMTP id
+ o3-20020a0568080bc300b00360d800d10cmr15595466oik.34.1672234427736; 
+ Wed, 28 Dec 2022 05:33:47 -0800 (PST)
 Received: from fedora.. ([191.17.222.139]) by smtp.gmail.com with ESMTPSA id
- bl22-20020a056808309600b0035e7d07bf9dsm6991626oib.16.2022.12.28.05.33.42
+ bl22-20020a056808309600b0035e7d07bf9dsm6991626oib.16.2022.12.28.05.33.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Dec 2022 05:33:43 -0800 (PST)
+ Wed, 28 Dec 2022 05:33:47 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH v3 00/10] irscv: OpenSBI boot test and cleanups
-Date: Wed, 28 Dec 2022 10:33:26 -0300
-Message-Id: <20221228133336.197467-1-dbarboza@ventanamicro.com>
+ Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v3 01/10] tests/avocado: add RISC-V opensbi boot test
+Date: Wed, 28 Dec 2022 10:33:27 -0300
+Message-Id: <20221228133336.197467-2-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221228133336.197467-1-dbarboza@ventanamicro.com>
+References: <20221228133336.197467-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -89,69 +93,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+This test is used to do a quick sanity check to ensure that we're able
+to run the existing QEMU FW image.
 
-This new version is still rebased on top of [1]:
+'sifive_u', 'spike' and 'virt' riscv64 machines, and 'sifive_u' and
+'virt' 32 bit machines are able to run the default RISCV64_BIOS_BIN |
+RISCV32_BIOS_BIN firmware with minimal options.
 
-"[PATCH 00/12] hw/riscv: Improve Spike HTIF emulation fidelity"
+The riscv32 'spike' machine isn't bootable at this moment, requiring an
+Opensbi fix [1] and QEMU side changes [2]. We could just leave at that
+or add a 'skip' test to remind us about it. To work as a reminder that
+we have a riscv32 'spike' test that should be enabled as soon as Opensbi
+QEMU rom receives the fix, we're adding a 'skip' test:
 
-from Bin Meng. All the changes made were proposed by Phil in
-the v2 review.
+(11/18) tests/avocado/riscv_opensbi.py:RiscvOpensbi.test_riscv32_spike:
+        SKIP: requires OpenSBI fix to work
 
+[1] https://patchwork.ozlabs.org/project/opensbi/patch/20221226033603.1860569-1-bmeng@tinylab.org/
+[2] https://patchwork.ozlabs.org/project/qemu-devel/list/?series=334159
 
-* Patches without reviews: 1, 9
-
-Changes from v2:
-- patch 1:
-  - reduced code repetition with a boot_opensbi() helper
-  - renamed 'opensbi' to 'OpenSBI' in the file header
-- patch 9:
-  - renamed riscv_load_kernel() to riscv_load_kernel_and_initrd()
-v2 link: https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg04466.html
-
-Changes from v1:
-- patches were rebased with [1]
-- patches 13-15: removed
-  * will be re-sent in a follow-up series
-- patches 4-5: removed since they're picked by Bin in [1]
-- patch 1:
-  - added a 'skip' riscv32 spike test
-v1 link: https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg03860.html
-
-
-Based-on: <20221227064812.1903326-1-bmeng@tinylab.org>
-
-Cc: Alistair Francis <alistair.francis@wdc.com>
-Cc: Bin Meng <bin.meng@windriver.com>
-
-[1] https://patchwork.ozlabs.org/project/qemu-devel/list/?series=334159
-
-Daniel Henrique Barboza (10):
-  tests/avocado: add RISC-V opensbi boot test
-  hw/riscv/spike: use 'fdt' from MachineState
-  hw/riscv/sifive_u: use 'fdt' from MachineState
-  hw/riscv/spike.c: load initrd right after riscv_load_kernel()
-  hw/riscv: write initrd 'chosen' FDT inside riscv_load_initrd()
-  hw/riscv: write bootargs 'chosen' FDT after riscv_load_kernel()
-  hw/riscv/boot.c: use MachineState in riscv_load_initrd()
-  hw/riscv/boot.c: use MachineState in riscv_load_kernel()
-  hw/riscv/boot.c: introduce riscv_load_kernel_and_initrd()
-  hw/riscv/boot.c: make riscv_load_initrd() static
-
- hw/riscv/boot.c                | 88 +++++++++++++++++++++-------------
- hw/riscv/microchip_pfsoc.c     | 20 +-------
- hw/riscv/opentitan.c           |  3 +-
- hw/riscv/sifive_e.c            |  4 +-
- hw/riscv/sifive_u.c            | 32 +++----------
- hw/riscv/spike.c               | 38 ++++-----------
- hw/riscv/virt.c                | 21 +-------
- include/hw/riscv/boot.h        |  8 ++--
- include/hw/riscv/sifive_u.h    |  3 --
- include/hw/riscv/spike.h       |  2 -
- tests/avocado/riscv_opensbi.py | 65 +++++++++++++++++++++++++
- 11 files changed, 147 insertions(+), 137 deletions(-)
+Cc: Cleber Rosa <crosa@redhat.com>
+Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+---
+ tests/avocado/riscv_opensbi.py | 65 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
  create mode 100644 tests/avocado/riscv_opensbi.py
 
+diff --git a/tests/avocado/riscv_opensbi.py b/tests/avocado/riscv_opensbi.py
+new file mode 100644
+index 0000000000..3549d36a11
+--- /dev/null
++++ b/tests/avocado/riscv_opensbi.py
+@@ -0,0 +1,65 @@
++# OpenSBI boot test for RISC-V machines
++#
++# Copyright (c) 2022, Ventana Micro
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++from avocado_qemu import QemuSystemTest
++from avocado import skip
++from avocado_qemu import wait_for_console_pattern
++
++class RiscvOpensbi(QemuSystemTest):
++    """
++    :avocado: tags=accel:tcg
++    """
++    timeout = 5
++
++    def boot_opensbi(self):
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, 'Platform Name')
++        wait_for_console_pattern(self, 'Boot HART MEDELEG')
++
++    def test_riscv64_virt(self):
++        """
++        :avocado: tags=arch:riscv64
++        :avocado: tags=machine:virt
++        """
++        self.boot_opensbi()
++
++    def test_riscv64_spike(self):
++        """
++        :avocado: tags=arch:riscv64
++        :avocado: tags=machine:spike
++        """
++        self.boot_opensbi()
++
++    def test_riscv64_sifive_u(self):
++        """
++        :avocado: tags=arch:riscv64
++        :avocado: tags=machine:sifive_u
++        """
++        self.boot_opensbi()
++
++    def test_riscv32_virt(self):
++        """
++        :avocado: tags=arch:riscv32
++        :avocado: tags=machine:virt
++        """
++        self.boot_opensbi()
++
++    def test_riscv32_sifive_u(self):
++        """
++        :avocado: tags=arch:riscv32
++        :avocado: tags=machine:sifive_u
++        """
++        self.boot_opensbi()
++
++    @skip("requires OpenSBI fix to work")
++    def test_riscv32_spike(self):
++        """
++        :avocado: tags=arch:riscv32
++        :avocado: tags=machine:spike
++        """
++        self.boot_opensbi()
 -- 
 2.38.1
 
