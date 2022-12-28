@@ -2,79 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BCCA657240
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 04:08:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798CE65723F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 04:08:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAMn4-00084p-AU; Tue, 27 Dec 2022 22:07:38 -0500
+	id 1pAMn4-00084l-BP; Tue, 27 Dec 2022 22:07:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=vu6c=42=zx2c4.com=Jason@kernel.org>)
- id 1pAMn1-00084a-H5
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 22:07:35 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=vu6c=42=zx2c4.com=Jason@kernel.org>)
- id 1pAMmz-0003d2-5Q
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 22:07:35 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9189261274;
- Wed, 28 Dec 2022 03:07:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FB95C433EF;
- Wed, 28 Dec 2022 03:07:21 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Y/y+c61q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1672196838;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1jNWkU54yw6S78YLSE3k9v90RmAGeElEG1sJBoSd7sU=;
- b=Y/y+c61q5QgJe/EpUkTbAcBinsBgfyBxam9iCnxy0SoDwgnxJfX72/ZQet/jtYzuD2wCsT
- qh2j94EnkJhzXNwwpsBJIGDx3EyePI+7TGEpm3jQEqAHN9WrYlImgxJ00W+l9+ctSqxdTZ
- fFHi4jlxT6j5Ej7oc8pSUXf4QTZLpkw=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9c2ced28
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 28 Dec 2022 03:07:18 +0000 (UTC)
-Date: Wed, 28 Dec 2022 04:07:13 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Eric Biggers <ebiggers@kernel.org>, x86@kernel.org, linux-mm@kvack.org
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
-Message-ID: <Y6uy4b71GX0epQsu@zx2c4.com>
-References: <20220921093134.2936487-1-Jason@zx2c4.com>
- <20220921093134.2936487-4-Jason@zx2c4.com>
- <Y6ZESPx4ettBLuMt@sol.localdomain> <Y6ZtVGtFpUNQP+KU@zx2c4.com>
- <Y6Z+WpqN59ZjIKkk@zx2c4.com> <Y6muh1E1fNOot+VZ@zx2c4.com>
- <Y6my+Oiz67G46snj@zx2c4.com> <Y6nSel5/wdnoSFpk@zx2c4.com>
- <Y6r09pm68oI7GMe1@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
+ id 1pAMn0-00084J-AB
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 22:07:34 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <maobibo@loongson.cn>) id 1pAMmx-0003cw-Ss
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 22:07:34 -0500
+Received: from loongson.cn (unknown [10.2.9.158])
+ by gateway (Coremail) with SMTP id _____8Cx5vDnsqtj7+0IAA--.19535S3;
+ Wed, 28 Dec 2022 11:07:20 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.9.158])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxjb7nsqtjdV4OAA--.22021S2; 
+ Wed, 28 Dec 2022 11:07:19 +0800 (CST)
+From: Bibo Mao <maobibo@loongson.cn>
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Cc: Song Gao <gaosong@loongson.cn>,
+	qemu-devel@nongnu.org
+Subject: [PATCH] hw/loongarch/virt: rename PCH_PIC_IRQ_OFFSET with
+ VIRT_GSI_BASE
+Date: Wed, 28 Dec 2022 11:07:19 +0800
+Message-Id: <20221228030719.991878-1-maobibo@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y6r09pm68oI7GMe1@zx2c4.com>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=vu6c=42=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: AQAAf8Bxjb7nsqtjdV4OAA--.22021S2
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxJFWkAF1fKr4DJF4fKrWfKrg_yoWrCFy3pa
+ 98uF9Iqr40gay7Xr92v3W5uasxJrsxCay29r43WryxKF17Kryjqry8Aws8tFyUXrZ5JFW2
+ qrykt3s2g3WUXrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b7kYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s
+ 026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+ JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+ v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
+ j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJV
+ W8JbIYCTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,143 +75,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 27, 2022 at 02:36:54PM +0100, Jason A. Donenfeld wrote:
-> On Mon, Dec 26, 2022 at 05:57:30PM +0100, Jason A. Donenfeld wrote:
-> > On Mon, Dec 26, 2022 at 03:43:04PM +0100, Jason A. Donenfeld wrote:
-> > > On Mon, Dec 26, 2022 at 03:24:07PM +0100, Jason A. Donenfeld wrote:
-> > > > Hi,
-> > > > 
-> > > > I'm currently stumped at the moment, so adding linux-mm@ and x86@. Still
-> > > > working on it though. Details of where I'm at are below the quote below.
-> > > > 
-> > > > On Sat, Dec 24, 2022 at 05:21:46AM +0100, Jason A. Donenfeld wrote:
-> > > > > On Sat, Dec 24, 2022 at 04:09:08AM +0100, Jason A. Donenfeld wrote:
-> > > > > > Hi Eric,
-> > > > > > 
-> > > > > > Replying to you from my telephone, and I'm traveling the next two days,
-> > > > > > but I thought I should mention some preliminary results right away from
-> > > > > > doing some termux compiles:
-> > > > > > 
-> > > > > > On Fri, Dec 23, 2022 at 04:14:00PM -0800, Eric Biggers wrote:
-> > > > > > > Hi Jason,
-> > > > > > > 
-> > > > > > > On Wed, Sep 21, 2022 at 11:31:34AM +0200, Jason A. Donenfeld wrote:
-> > > > > > > > This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
-> > > > > > > > for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
-> > > > > > > > 
-> > > > > > > > Cc: Laurent Vivier <laurent@vivier.eu>
-> > > > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > > > > Cc: Peter Maydell <peter.maydell@linaro.org>
-> > > > > > > > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > > > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > > > > > > > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > > > > > > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> > > > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > > > > > > > ---
-> > > > > > > >  hw/i386/microvm.c | 2 +-
-> > > > > > > >  hw/i386/pc_piix.c | 3 ++-
-> > > > > > > >  hw/i386/pc_q35.c  | 3 ++-
-> > > > > > > >  3 files changed, 5 insertions(+), 3 deletions(-)
-> > > > > > > > 
-> > > > > > > 
-> > > > > > > After upgrading to QEMU 7.2, Linux 6.1 no longer boots with some configs.  There
-> > > > > > > is no output at all.  I bisected it to this commit, and I verified that the
-> > > > > > > following change to QEMU's master branch makes the problem go away:
-> > > > > > > 
-> > > > > > > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> > > > > > > index b48047f50c..42f5b07d2f 100644
-> > > > > > > --- a/hw/i386/pc_piix.c
-> > > > > > > +++ b/hw/i386/pc_piix.c
-> > > > > > > @@ -441,6 +441,7 @@ static void pc_i440fx_8_0_machine_options(MachineClass *m)
-> > > > > > >      pc_i440fx_machine_options(m);
-> > > > > > >      m->alias = "pc";
-> > > > > > >      m->is_default = true;
-> > > > > > > +    PC_MACHINE_CLASS(m)->legacy_no_rng_seed = true;
-> > > > > > >  }
-> > > > > > > 
-> > > > > > > I've attached the kernel config I am seeing the problem on.
-> > > > > > > 
-> > > > > > > For some reason, the problem also goes away if I disable CONFIG_KASAN.
-> > > > > > > 
-> > > > > > > Any idea what is causing this?
-> > > > > > 
-> > > > > > - Commenting out the call to parse_setup_data() doesn't fix the issue.
-> > > > > >   So there's no KASAN issue with the actual parser.
-> > > > > > 
-> > > > > > - Using KASAN_OUTLINE rather than INLINE does fix the issue!
-> > > > > > 
-> > > > > > That makes me suspect that it's file size related, and QEMU or the BIOS
-> > > > > > is placing setup data at an overlapping offset by accident, or something
-> > > > > > similar.
-> > > > > 
-> > > > > I removed the file systems from your config to bring the kernel size
-> > > > > back down, and voila, it works, even with KASAN_INLINE. So perhaps I'm
-> > > > > on the right track here...
-> > > > 
-> > > > QEMU sticks setup_data after the kernel image, the same as kexec-tools
-> > > > and everything else. Apparently, when the kernel image is large, the
-> > > > call to early_memremap(boot_params.hdr.setup_data, ...) returns a value
-> > > > that points some place bogus, and the system crashes or does something
-> > > > weird. I haven't yet determined what this limit is, but in my current
-> > > > test kernel, a value of 0x0000000001327650 is enough to make it point to
-> > > > rubbish.
-> > > > 
-> > > > Is this expected? What's going on here?
-> > > 
-> > > Attaching gdb to QEMU and switching it to physical memory mode
-> > > (`maintenance packet Qqemu.PhyMemMode:1 `) indicates that it
-> > > early_memremap is actually working fine and something *else* is at this
-> > > address? That's kinda weird... Is KASAN populating physical addresses
-> > > immediately after the kernel image extremely early in boot? I'm seeing
-> > > the crash happen from early_reserve_memory()->
-> > > memblock_x86_reserve_range_setup_data(), which should be before
-> > > kasan_init() even runs. Is QEMU calculating kernel_size wrong, when it
-> > > goes to determine where to put the setup_data data? But that's the same
-> > > calculation as used everywhere else, so hmm...
-> > > 
-> > > Jason
-> > 
-> > If bzImage is 15770544 bytes, it does not boot. If bzImage is 15641776
-> > bytes, it does boot. So something is happening somewhat close to the
-> > 16MB mark?
-> > 
-> 
-> Okay, the issue is that it's being decompressed to an area that overlaps
-> the source. So for example in my test kernel:
-> 
-> input_addr: 0x3f112bf
-> output_addr: 0x1000000
-> output_len: 0x3a5d7d8
-> 
-> Since 0x3a5d7d8 + 0x1000000 > 0x3f112bf, eventually this corrupts the
-> setup_data at the end there.
-> 
-> Now digging into what can be done about it.
+In theory gsi base can start from 0 on loongarch virt machine,
+however gsi base is hard-coded in linux kernel loongarch system,
+else system fails to boot.
 
-Not quite. input_addr doesn't matter, since setup_data still points to
-the old mapping.
+This patch renames macro PCH_PIC_IRQ_OFFSET with VIRT_GSI_BASE,
+keeps value unchanged. GSI base is common concept in acpi spec
+and easy to understand.
 
-So the actual issue is:
+Signed-off-by: Bibo Mao <maobibo@loongson.cn>
+---
+ hw/loongarch/acpi-build.c  |  2 +-
+ hw/loongarch/virt.c        |  8 ++++----
+ include/hw/pci-host/ls7a.h | 17 +++++++++--------
+ 3 files changed, 14 insertions(+), 13 deletions(-)
 
-compressed_size: 	0xf028d4
-decompressed_size:      0x3a5d7d8
-setup_data:      	0x100000 + compressed_size
-output_addr:    	0x1000000 (this is LOAD_PHYSICAL_ADDR)
+diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
+index c2b237736d..33e04e4b76 100644
+--- a/hw/loongarch/acpi-build.c
++++ b/hw/loongarch/acpi-build.c
+@@ -272,7 +272,7 @@ static void build_pci_device_aml(Aml *scope, LoongArchMachineState *lams)
+         .pio.size    = VIRT_PCI_IO_SIZE,
+         .ecam.base   = VIRT_PCI_CFG_BASE,
+         .ecam.size   = VIRT_PCI_CFG_SIZE,
+-        .irq         = PCH_PIC_IRQ_OFFSET + VIRT_DEVICE_IRQS,
++        .irq         = VIRT_GSI_BASE + VIRT_DEVICE_IRQS,
+         .bus         = lams->pci_bus,
+     };
+ 
+diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+index c8a495ea30..3754e2151f 100644
+--- a/hw/loongarch/virt.c
++++ b/hw/loongarch/virt.c
+@@ -432,7 +432,7 @@ static DeviceState *create_acpi_ged(DeviceState *pch_pic, LoongArchMachineState
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 2, VIRT_GED_REG_ADDR);
+ 
+     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
+-                       qdev_get_gpio_in(pch_pic, VIRT_SCI_IRQ - PCH_PIC_IRQ_OFFSET));
++                       qdev_get_gpio_in(pch_pic, VIRT_SCI_IRQ - VIRT_GSI_BASE));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     return dev;
+ }
+@@ -452,7 +452,7 @@ static DeviceState *create_platform_bus(DeviceState *pch_pic)
+ 
+     sysbus = SYS_BUS_DEVICE(dev);
+     for (i = 0; i < VIRT_PLATFORM_BUS_NUM_IRQS; i++) {
+-        irq = VIRT_PLATFORM_BUS_IRQ - PCH_PIC_IRQ_OFFSET + i;
++        irq = VIRT_PLATFORM_BUS_IRQ - VIRT_GSI_BASE + i;
+         sysbus_connect_irq(sysbus, i, qdev_get_gpio_in(pch_pic, irq));
+     }
+ 
+@@ -509,7 +509,7 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
+ 
+     serial_mm_init(get_system_memory(), VIRT_UART_BASE, 0,
+                    qdev_get_gpio_in(pch_pic,
+-                                    VIRT_UART_IRQ - PCH_PIC_IRQ_OFFSET),
++                                    VIRT_UART_IRQ - VIRT_GSI_BASE),
+                    115200, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+     fdt_add_uart_node(lams);
+ 
+@@ -531,7 +531,7 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
+     create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
+     sysbus_create_simple("ls7a_rtc", VIRT_RTC_REG_BASE,
+                          qdev_get_gpio_in(pch_pic,
+-                         VIRT_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
++                         VIRT_RTC_IRQ - VIRT_GSI_BASE));
+     fdt_add_rtc_node(lams);
+ 
+     pm_mem = g_new(MemoryRegion, 1);
+diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+index df7fa55a30..194aac905e 100644
+--- a/include/hw/pci-host/ls7a.h
++++ b/include/hw/pci-host/ls7a.h
+@@ -28,24 +28,25 @@
+ #define VIRT_PCH_MSI_ADDR_LOW    0x2FF00000UL
+ 
+ /*
+- * According to the kernel pch irq start from 64 offset
+- * 0 ~ 16 irqs used for non-pci device while 16 ~ 64 irqs
+- * used for pci device.
++ * GSI_BASE is hard-coded with 64 in linux kernel, else kernel fails to boot
++ * 0  - 15  GSI for ISA devices even if there is no ISA devices
++ * 16 - 63  GSI for CPU devices such as timers/perf monitor etc
++ * 64 -     GSI for external devices
+  */
+-#define PCH_PIC_IRQ_OFFSET       64
++#define VIRT_GSI_BASE            64
+ #define VIRT_DEVICE_IRQS         16
+ #define VIRT_PCI_IRQS            48
+-#define VIRT_UART_IRQ            (PCH_PIC_IRQ_OFFSET + 2)
++#define VIRT_UART_IRQ            (VIRT_GSI_BASE + 2)
+ #define VIRT_UART_BASE           0x1fe001e0
+ #define VIRT_UART_SIZE           0X100
+-#define VIRT_RTC_IRQ             (PCH_PIC_IRQ_OFFSET + 3)
++#define VIRT_RTC_IRQ             (VIRT_GSI_BASE + 3)
+ #define VIRT_MISC_REG_BASE       (VIRT_PCH_REG_BASE + 0x00080000)
+ #define VIRT_RTC_REG_BASE        (VIRT_MISC_REG_BASE + 0x00050100)
+ #define VIRT_RTC_LEN             0x100
+-#define VIRT_SCI_IRQ             (PCH_PIC_IRQ_OFFSET + 4)
++#define VIRT_SCI_IRQ             (VIRT_GSI_BASE + 4)
+ 
+ #define VIRT_PLATFORM_BUS_BASEADDRESS   0x16000000
+ #define VIRT_PLATFORM_BUS_SIZE          0x2000000
+ #define VIRT_PLATFORM_BUS_NUM_IRQS      2
+-#define VIRT_PLATFORM_BUS_IRQ           69
++#define VIRT_PLATFORM_BUS_IRQ           (VIRT_GSI_BASE + 5)
+ #endif
+-- 
+2.27.0
 
-Since `output_addr + decompressed_size > setup_data && output_addr <
-setup_data`, then it means the decompressor will write over setup_data.
-
-Note that this is also a problem for SETUP_DTB, so it's a longstanding
-bug.
-
-I'm experimenting now with appending lots of zeros between the kernel
-image and setup_data, so that the decompressor doesn't overwrite
-setup_data, but so far it's not working.
-
-Another option would be to have the build system warn when this is going
-to happen, and suggest that the user increase the value of
-CONFIG_PHYSICAL_START. This might be the best option...
-
-Jason
 
