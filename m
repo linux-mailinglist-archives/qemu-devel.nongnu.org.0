@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3A8657182
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 01:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F7365721D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 03:36:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAKji-0000PM-AP; Tue, 27 Dec 2022 19:56:02 -0500
+	id 1pAMHW-00020l-M4; Tue, 27 Dec 2022 21:35:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pAKjc-0000P4-KP
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 19:55:59 -0500
+ id 1pAMHT-00020P-BM
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 21:34:59 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pAKja-0006X0-83
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 19:55:56 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1pAMHQ-0007jC-2i
+ for qemu-devel@nongnu.org; Tue, 27 Dec 2022 21:34:59 -0500
 Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8CxZPAOlKtjM+cIAA--.19704S3;
- Wed, 28 Dec 2022 08:55:43 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8DxdPBIq6tjWu0IAA--.20102S3;
+ Wed, 28 Dec 2022 10:34:48 +0800 (CST)
 Received: from [10.20.42.238] (unknown [10.20.42.238])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxb+QOlKtj80kOAA--.48132S3; 
- Wed, 28 Dec 2022 08:55:42 +0800 (CST)
-Subject: Re: [RFC PATCH 00/43] Add LoongArch LSX instructions
+ AQAAf8BxsORHq6tjL1oOAA--.48409S3; 
+ Wed, 28 Dec 2022 10:34:47 +0800 (CST)
+Subject: Re: [RFC PATCH 01/43] target/loongarch: Add vector data type vec_t
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <c3e01454-00fc-b71b-521f-d582731edc2f@linaro.org>
+ <20221224081633.4185445-2-gaosong@loongson.cn>
+ <99e4fdf2-fe70-03c7-1168-f300ac7a1ead@linaro.org>
 From: gaosong <gaosong@loongson.cn>
-Message-ID: <a7acee65-19f5-360c-a34a-783154633370@loongson.cn>
-Date: Wed, 28 Dec 2022 08:55:42 +0800
+Message-ID: <4852b017-1841-cf6f-fbc2-e1789a7f9496@loongson.cn>
+Date: Wed, 28 Dec 2022 10:34:47 +0800
 User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <c3e01454-00fc-b71b-521f-d582731edc2f@linaro.org>
+In-Reply-To: <99e4fdf2-fe70-03c7-1168-f300ac7a1ead@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8Bxb+QOlKtj80kOAA--.48132S3
+X-CM-TRANSID: AQAAf8BxsORHq6tjL1oOAA--.48409S3
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
- ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
- BjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
- xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
- j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
- wI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
- 67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
- AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF
- 1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
- 1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1wL
- 05UUUUU==
+X-Coremail-Antispam: 1Uk129KBjvJXoW7AFyrWr4rWw4fXw17Gr4kJFb_yoW8Ww48pF
+ ZYya4ftFyqg3Z3Wr48J3WDGryfXF18Ja1UZr1UXFyvkw47Zrn2gFWjqrWj9a13Cr4kZr15
+ JF4Yq3y5uF45ZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
+ kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
+ 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
+ k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+ MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr4
+ 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
+ IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1wL05UUUUU==
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: -29
@@ -78,21 +80,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2022/12/24 下午11:39, Richard Henderson 写道:
+在 2022/12/25 上午1:24, Richard Henderson 写道:
 > On 12/24/22 00:15, Song Gao wrote:
->> Hi, Merry Christmas!
->>
->> This series adds LoongArch LSX instructions, Since the LoongArch
->> Vol2 is not open, So we use 'RFC' title.
+>> +union fpr_t {
+>> +    uint64_t d;
+>> +    vec_t vec;
+>> +};
+>> +
+>>   struct LoongArchTLB {
+>>       uint64_t tlb_misc;
+>>       /* Fields corresponding to CSR_TLBELO0/1 */
+>> @@ -251,7 +267,7 @@ typedef struct CPUArchState {
+>>       uint64_t gpr[32];
+>>       uint64_t pc;
+>>   -    uint64_t fpr[32];
+>> +    fpr_t fpr[32];
 >
-> That is unfortunate, as it makes reviewing this difficult.
-> Is there a timeline for this being published?
+> I didn't spot it right away, because you didn't add ".d" to the tcg 
+> register allocation, 
+Oh,    my mistake.
+> but if you use tcg/tcg-op-gvec.h (and you really should), then you 
+> will also have to remove
 >
-Perhaps at the end of the first quarter of 2023.
+>>     for (i = 0; i < 32; i++) {
+>>         int off = offsetof(CPULoongArchState, fpr[i]);
+>>         cpu_fpr[i] = tcg_global_mem_new_i64(cpu_env, off, fregnames[i]);
+>>     }
+>
+> because one cannot modify global_mem variables with gvec.
+>
+The manual says "The lower 64 bits of each vector register overlap with 
+the floating point register of the same number.  In other words
+When the basic floating-point instruction is executed to update the 
+floating-point register, the low 64 bits of the corresponding LSX register
+are also updated to the same value."
 
-> In the meantime, I can at least point out some general issues.
+So If we don't use the fpr_t.  we should:
+1 Update LSX low 64 bits after floating point instruction translation;
+2 Update floating-point registers after LSX instruction translation.
+
+Should we do this  or have I misunderstood?
+> I strongly suggest that you introduce wrappers to load/store fpr 
+> values from their env slots.  I would name them similarly to 
+> gpr_{src,dst}, gen_set_gpr.
 >
-Thank you very much.
+Got it .
 
 Thanks.
 Song Gao
