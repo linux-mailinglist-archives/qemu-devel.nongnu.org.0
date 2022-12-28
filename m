@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4012E6586CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 21:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795C16586E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 22:03:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAdG7-0003bP-Mj; Wed, 28 Dec 2022 15:42:43 -0500
+	id 1pAdYH-0006RC-MT; Wed, 28 Dec 2022 16:01:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1pAdG2-0003b1-9t; Wed, 28 Dec 2022 15:42:38 -0500
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1pAdFy-0005i1-VC; Wed, 28 Dec 2022 15:42:36 -0500
-Received: by mail-yb1-xb30.google.com with SMTP id g4so18584121ybg.7;
- Wed, 28 Dec 2022 12:42:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wyT1y8MzFuYNPjaJ3WwbYkVyX7G467X8O7pcp6P7Mvg=;
- b=hqUuvw2RdM2KtnJvAcOv+Rx1sKuU+4gKKf0vttV7ehM2jdda0+NfbxQJ94XkascNSn
- cteqthxb8e6Et0DUGbOXBcTPJd0sgYPKjoqM21aNDnRjx3s4vsd08NbBPjjt0LzwK/Rj
- EHpC16IJEgfYw2VcUD8qkfI9X1XbzrholOJJO7A27YgRR9+3y3VbZjgOAr9TdPxWuzwV
- myX1LyQU35dK4pm21UuF54Diwj641kQj7tBCMvFYL60mCXYm//I5LTHzo+lyV48PjvJy
- hViV/lDj0DU03bKc65KUAJL57VZb4gCNhV5ezoU87kU7fRgKOms6abMGvR+VS6z1GrxY
- kfhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wyT1y8MzFuYNPjaJ3WwbYkVyX7G467X8O7pcp6P7Mvg=;
- b=WskaXu1qrTnUNJKOtoBVjiqbfX7hPrBsg5tn8LDlMrQvT4Zohx6oS/JkTBCeQt3YAx
- BwdyYbTxbTeokB8CX0aSeSaAhnw2cfO4WNGQ/a0HaOmK2dxSdZR4ky8xDWZS3h9e7db5
- myEiTdUKAaXTUK5gdVkYbR8uEk7tZ2i4KWS6S6E75k+f/aBHnlf+5XA8ZCKeGmBvkKwg
- iyLXyGWmDQxhd7Nt7pRjjne39ZrxNXUFgopJ+tQ0O7BXIBMos5Pq6FDblGDga7NItqTQ
- epU3JF7dkdyGKd14K2rgNaNUBz5Xsf5DyGZWeyppEWVOpM88jIXeCNZLpM00NA60MiM1
- B+cQ==
-X-Gm-Message-State: AFqh2koKLb5k9k4f2hOn97XRIi46RtIERpZ6cT3uTYm6DD+7Xptrbm+Z
- ns1EZmOyYuAtiM9/t9o00rcofVIz4Lma9MXA41Y=
-X-Google-Smtp-Source: AMrXdXvYag69z7Y2acePUisXRHn3hnycuqtQtMxIIETRdQ3Q4Ybz4+jtXwRMNJ7ehAA3Zi+DRXf4bptV741GbCxxC5w=
-X-Received: by 2002:a25:b78b:0:b0:703:657f:9c91 with SMTP id
- n11-20020a25b78b000000b00703657f9c91mr2189857ybh.387.1672260153671; Wed, 28
- Dec 2022 12:42:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pAdYE-0006Qe-2e
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 16:01:27 -0500
+Received: from mout.gmx.net ([212.227.17.22])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pAdY8-0004Gm-Sd
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 16:01:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1672261275; bh=klPCC1oQxh/8DQKChs9Q39TbYRGuQxenw3UuuKrqbzg=;
+ h=X-UI-Sender-Class:Date:Subject:From:To:References:In-Reply-To;
+ b=BkxY4vWLvnNmSk8J2u8FtIYguByKXpzRHPGmV/AzOMD2xefwsNJtgIlOljRTUrVNc
+ QzrI3Kusm13tAbntjJ290hyTCA5G3TBA1KzMwv4nWO3TLVPg3MYZoFk5POByNIzUM2
+ sHS7rwynGVLgn1nYHnFw1qd/5aY7wR58f6YvCxtni9D+vsNsf+UWjaNU5sGMz/K2PS
+ ft3PA7FRFI3MfGRrUqrXeuDhlykIAtVFZYdmoTO2boQcZ5kczsLAkR18LnRkikHbSt
+ 5QTsgwkEuU5LXIRkPEmA0nGp5I7S0+Lo39No+yNdd/4L9jZECf1lWT89mxFpdt05oQ
+ okPOzYcnrxh4w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.184.137]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MTzb8-1pK1EX0sdO-00QxBZ; Wed, 28
+ Dec 2022 22:01:15 +0100
+Message-ID: <3ce79ab4-c8c8-e5e5-94e3-07d02f8d2c6d@gmx.de>
+Date: Wed, 28 Dec 2022 22:01:14 +0100
 MIME-Version: 1.0
-References: <20221226220303.14420-1-strahinja.p.jankovic@gmail.com>
- <20221226220303.14420-8-strahinja.p.jankovic@gmail.com>
-In-Reply-To: <20221226220303.14420-8-strahinja.p.jankovic@gmail.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Wed, 28 Dec 2022 21:42:22 +0100
-Message-ID: <CAPan3Wriw0+zRf3+FbYpjDKBbsQSgozxEEcX8yR9F_6P-zdqzw@mail.gmail.com>
-Subject: Re: [PATCH v3 7/7] tests/avocado: Add SD boot test to Cubieboard
-To: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, philmd@linaro.org, 
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000006e838c05f0e9681b"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-yb1-xb30.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2] linux-user: Fix /proc/cpuinfo output for sparc and hppa
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <Y5juEOgG2Jnad1j9@p100>
+Content-Language: en-US
+In-Reply-To: <Y5juEOgG2Jnad1j9@p100>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:0XMcdsTpkP8lHPbfEgDDZ+1YzHcdbT/QEDhh5FHB+T1sDT5Ozts
+ qx2atAQSV1pc9EBjVqqij/TYAWCGw5fVaK2dfbSPeDwJ/XWjyw8Rofxm0LTF3TSXfC3iolk
+ FsecpOEfkxZJzmWz6Gn1/of7OGj+YsYZv/7vm6mGaLizwOKvzCMUhDR8VKTgOCYuz6rONQA
+ MGqn4FQqjOd4LI8fJVAUg==
+UI-OutboundReport: notjunk:1;M01:P0:6jwEe9e4bgI=;mWE39brlpKmHeIVis3epZHXfsKA
+ SsAVO/KBpKnMf2ID0g8dW4hgC7ap/CsOWb+klNPFWZpiVbSK9ij60bfy9zR2pmW/tqOfOo+L+
+ 3QtsOJZvmQmgyJIZd2sBU1PJYyyKUWJINdE96j/bAM0c25YdyH5mkXAm09A6XF1/EBqT0ckOl
+ 51JpIihQE/SYE1yvAa6biIJsn0ruHcoP1kTEeb2DjijWNAe6Yewp+3DQdlh/CU+vRp7qz5kvK
+ wWnR5AIayB9iQSzfyBVOVJeAK9/Gc4ImaxetKflV8iHrcIdInDEg57I8sdOtXncMjAXaNyHUN
+ odLvOVRV8ci5OuSWJ+Z9OoEoN4AyZNq15N7TFmiiO8qY7ScHYM0XSpManbpxKsi2pwWCctCRz
+ BOjnL420OL9kZo9l7dUmQYoLhxtzC7gMCKOMTlnqAlMX8wSgU4lBK4T0xtndBCkNa3h5jN3ax
+ 66LgTriWimyJ02dYAAFQub1MgewiNdmzzR+GGJCbMYKOeHrby0HUxfsbVfDmbYB8vKglZOaaV
+ 9NPoKfQn3VjMo9PeJqjQ0q/R0kxXFL7TFEnfitfYTUkFIIavpqroRzr3X9PtGL5e7M/+C5T2Q
+ hFiVJuMEcBcBa/4TwGOn3t2/JEnjPD9MIxx/pzZ/fmJD0JjNcjGbX3ZgLb1Fe2mrpseUlZZ/v
+ QW/ZaVrXlvF7KlZsnrz8+SdbettM2uhhKzO89DDnMPOGN4STodWmkQydwzu/caOV/XTLCapPX
+ cV10/o4JOUX1Ju7PxF2wZpzlSf8SPOo3Cf9hb1Fq82uH6tpFnjToV1DErvcBzwo6yNIfkYACR
+ C68MANSKWXgb9Om4Ey0iQaLJhb5cwuur5SoJshs3EeBussHHooavMYfbSK9/lePRx9brSkdw4
+ oavC6B4PVaHYzQDxlkH2J3sHOJkIm+eP0YYwsOuvW5wvelBCZHbPiukLjrZhKGVFzF90+KgwW
+ 40mzagajeRoVvYpCVrpCoKJmX+Q=
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,257 +86,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000006e838c05f0e9681b
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Dec 26, 2022 at 11:03 PM Strahinja Jankovic <
-strahinjapjankovic@gmail.com> wrote:
-
-> Cubieboard now can boot directly from SD card, without the need to pass
-> `-kernel` parameter. Update Avocado tests to cover this functionality.
+On 12/13/22 22:26, Helge Deller wrote:
+> The sparc and hppa architectures provide an own output for the emulated
+> /proc/cpuinfo file.
 >
-> Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+> Some userspace applications count (even if that's not the recommended
+> way) the number of lines which start with "processor:" and assume that
+> this number then reflects the number of online CPUs. Since those 3
+> architectures don't provide any such line, applications may assume "0"
+> CPUs.  One such issue can be seen in debian bug report:
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1024653
 >
-
-Test looks fine to me, and is also working well with:
-
-$ AVOCADO_ALLOW_LARGE_STORAGE=yes ./build/tests/venv/bin/avocado
---show=app,console run -t machine:cubieboard
-tests/avocado/boot_linux_console.py
-...
- (3/3)
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_openwrt_22_03_2:
- console: U-Boot SPL 2020.04-OpenWrt-r19803-9a599fee93 (Oct 14 2022 -
-22:44:41 +0000)
-console: DRAM: 1024 MiB
-console: CPU: 1008000000Hz, AXI/AHB/APB: 3/2/2
-...
-console: Hardware : Allwinner sun4i/sun5i Families
-PASS (13.98 s)
-RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 |
-CANCEL 0
-JOB TIME   : 36.82 s
-
-So for me:
-
-Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-
+> Avoid such issues by adding a "processor:" line for each of the online
+> CPUs.
+>
+> Signed-off-by: Helge Deller <deller@gmx.de>
+>
 > ---
->  tests/avocado/boot_linux_console.py | 47 +++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
->
-> diff --git a/tests/avocado/boot_linux_console.py
-> b/tests/avocado/boot_linux_console.py
-> index ec07c64291..8c1d981586 100644
-> --- a/tests/avocado/boot_linux_console.py
-> +++ b/tests/avocado/boot_linux_console.py
-> @@ -620,6 +620,53 @@ def test_arm_cubieboard_sata(self):
->                                                  'sda')
->          # cubieboard's reboot is not functioning; omit reboot test.
->
-> +    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage
-> limited')
-> +    def test_arm_cubieboard_openwrt_22_03_2(self):
-> +        """
-> +        :avocado: tags=arch:arm
-> +        :avocado: tags=machine:cubieboard
-> +        :avocado: tags=device:sd
-> +        """
-> +
-> +        # This test download a 7.5 MiB compressed image and expand it
-> +        # to 126 MiB.
-> +        image_url = ('
-> https://downloads.openwrt.org/releases/22.03.2/targets/'
-> +                     'sunxi/cortexa8/openwrt-22.03.2-sunxi-cortexa8-'
-> +                     'cubietech_a10-cubieboard-ext4-sdcard.img.gz')
-> +        image_hash = ('94b5ecbfbc0b3b56276e5146b899eafa'
-> +                      '2ac5dc2d08733d6705af9f144f39f554')
-> +        image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash,
-> +                                         algorithm='sha256')
-> +        image_path = archive.extract(image_path_gz, self.workdir)
-> +        image_pow2ceil_expand(image_path)
-> +
-> +        self.vm.set_console()
-> +        self.vm.add_args('-drive', 'file=' + image_path +
-> ',if=sd,format=raw',
-> +                         '-nic', 'user',
-> +                         '-no-reboot')
-> +        self.vm.launch()
-> +
-> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> +                               'usbcore.nousb '
-> +                               'noreboot')
-> +
-> +        self.wait_for_console_pattern('U-Boot SPL')
-> +
-> +        interrupt_interactive_console_until_pattern(
-> +                self, 'Hit any key to stop autoboot:', '=>')
-> +        exec_command_and_wait_for_pattern(self, "setenv extraargs '" +
-> +                                                kernel_command_line +
-> "'", '=>')
-> +        exec_command_and_wait_for_pattern(self, 'boot', 'Starting kernel
-> ...');
-> +
-> +        self.wait_for_console_pattern(
-> +            'Please press Enter to activate this console.')
-> +
-> +        exec_command_and_wait_for_pattern(self, ' ', 'root@')
-> +
-> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> +                                                'Allwinner sun4i/sun5i')
-> +        # cubieboard's reboot is not functioning; omit reboot test.
-> +
->      @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might
-> timeout')
->      def test_arm_quanta_gsj(self):
->          """
-> --
-> 2.30.2
+> v2:
+> - drop m68k part (based on feedback from Laurent Vivier <laurent@vivier.=
+eu>)
+> - change commit message
 >
 >
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 9e2c0a18fc..d58e9b8d10 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8299,7 +8299,13 @@ static int open_net_route(CPUArchState *cpu_env, =
+int fd)
+>   #if defined(TARGET_SPARC)
+>   static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   {
+> -    dprintf(fd, "type\t\t: sun4u\n");
+> +    int i, num_cpus;
+> +
+> +    num_cpus =3D sysconf(_SC_NPROCESSORS_ONLN);
+> +    for (i =3D 0; i < num_cpus; i++) {
+> +        dprintf(fd, "%sprocessor\t: %d\n", (i > 0) ? "\n":"", i);
 
--- 
-Niek Linnenbank
+it turned out, that the procps tools expect the /proc/cpuinfo file
+to have a trailing \n at the end of the file.
+So, I'll respin this patch and send a v3 version to replace this
+conditional \n-output.
 
---0000000000006e838c05f0e9681b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Same applies for the hppa arch.....
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 26, 2022 at 11:03 PM Stra=
-hinja Jankovic &lt;<a href=3D"mailto:strahinjapjankovic@gmail.com">strahinj=
-apjankovic@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">Cubieboard now can boot directly from SD card, without =
-the need to pass<br>
-`-kernel` parameter. Update Avocado tests to cover this functionality.<br>
-<br>
-Signed-off-by: Strahinja Jankovic &lt;<a href=3D"mailto:strahinja.p.jankovi=
-c@gmail.com" target=3D"_blank">strahinja.p.jankovic@gmail.com</a>&gt;<br></=
-blockquote><div><br></div><div>Test looks fine to me, and is also working w=
-ell with:</div><div><br></div><div>$ AVOCADO_ALLOW_LARGE_STORAGE=3Dyes ./bu=
-ild/tests/venv/bin/avocado --show=3Dapp,console run -t machine:cubieboard t=
-ests/avocado/boot_linux_console.py</div><div>...</div><div>=C2=A0(3/3) test=
-s/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_openwr=
-t_22_03_2: =C2=A0console: U-Boot SPL 2020.04-OpenWrt-r19803-9a599fee93 (Oct=
- 14 2022 - 22:44:41 +0000)<br>console: DRAM: 1024 MiB<br>console: CPU: 1008=
-000000Hz, AXI/AHB/APB: 3/2/2</div><div>...</div><div>console: Hardware	: Al=
-lwinner sun4i/sun5i Families<br>PASS (13.98 s)<br>RESULTS =C2=A0 =C2=A0: PA=
-SS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0<br>JOB T=
-IME =C2=A0 : 36.82 s<br></div><div><br></div><div>So for me:<br></div><div>=
-<br></div><div>Reviewed-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinne=
-nbank@gmail.com">nieklinnenbank@gmail.com</a>&gt;</div><div>Tested-by: Niek=
- Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com">nieklinnenbank@=
-gmail.com</a>&gt; <br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
----<br>
-=C2=A0tests/avocado/boot_linux_console.py | 47 ++++++++++++++++++++++++++++=
-+<br>
-=C2=A01 file changed, 47 insertions(+)<br>
-<br>
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux=
-_console.py<br>
-index ec07c64291..8c1d981586 100644<br>
---- a/tests/avocado/boot_linux_console.py<br>
-+++ b/tests/avocado/boot_linux_console.py<br>
-@@ -620,6 +620,53 @@ def test_arm_cubieboard_sata(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;sda&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# cubieboard&#39;s reboot is not function=
-ing; omit reboot test.<br>
-<br>
-+=C2=A0 =C2=A0 @skipUnless(os.getenv(&#39;AVOCADO_ALLOW_LARGE_STORAGE&#39;)=
-, &#39;storage limited&#39;)<br>
-+=C2=A0 =C2=A0 def test_arm_cubieboard_openwrt_22_03_2(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:arm<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:cubieboard<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Ddevice:sd<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # This test download a 7.5 MiB compressed imag=
-e and expand it<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # to 126 MiB.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_url =3D (&#39;<a href=3D"https://downloa=
-ds.openwrt.org/releases/22.03.2/targets/" rel=3D"noreferrer" target=3D"_bla=
-nk">https://downloads.openwrt.org/releases/22.03.2/targets/</a>&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&#39;sunxi/cortexa8/openwrt-22.03.2-sunxi-cortexa8-&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&#39;cubietech_a10-cubieboard-ext4-sdcard.img.gz&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_hash =3D (&#39;94b5ecbfbc0b3b56276e5146b=
-899eafa&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &#39;2ac5dc2d08733d6705af9f144f39f554&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_path_gz =3D self.fetch_asset(image_url, =
-asset_hash=3Dimage_hash,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0al=
-gorithm=3D&#39;sha256&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_path =3D archive.extract(image_path_gz, =
-self.workdir)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_pow2ceil_expand(image_path)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.set_console()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-drive&#39;, &#39;file=
-=3D&#39; + image_path + &#39;,if=3Dsd,format=3Draw&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&#39;-nic&#39;, &#39;user&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&#39;-no-reboot&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.launch()<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line =3D (self.KERNEL_COMMON_CO=
-MMAND_LINE +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;usbcore.nousb &#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;noreboot&#39;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(&#39;U-Boot SPL&=
-#39;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 interrupt_interactive_console_until_pattern(<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self, &#39;Hit any=
- key to stop autoboot:&#39;, &#39;=3D&gt;&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &quot;=
-setenv extraargs &#39;&quot; +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 kernel_command_line + &quot;&#39;&quot;, &#39;=3D&gt;&=
-#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;b=
-oot&#39;, &#39;Starting kernel ...&#39;);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;Please press Enter to activ=
-ate this console.&#39;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39; =
-&#39;, &#39;root@&#39;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;c=
-at /proc/cpuinfo&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 &#39;Allwinner sun4i/sun5i&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # cubieboard&#39;s reboot is not functioning; =
-omit reboot test.<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0@skipUnless(os.getenv(&#39;AVOCADO_TIMEOUT_EXPECTED&#39=
-;), &#39;Test might timeout&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0def test_arm_quanta_gsj(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
--- <br>
-2.30.2<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
 
---0000000000006e838c05f0e9681b--
+> +        dprintf(fd, "type\t\t: sun4u\n");
+> +    }
+>       return 0;
+>   }
+>   #endif
+> @@ -8307,11 +8313,17 @@ static int open_cpuinfo(CPUArchState *cpu_env, i=
+nt fd)
+>   #if defined(TARGET_HPPA)
+>   static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   {
+> -    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
+> -    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
+> -    dprintf(fd, "capabilities\t: os32\n");
+> -    dprintf(fd, "model\t\t: 9000/778/B160L\n");
+> -    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
+> +    int i, num_cpus;
+> +
+> +    num_cpus =3D sysconf(_SC_NPROCESSORS_ONLN);
+> +    for (i =3D 0; i < num_cpus; i++) {
+> +        dprintf(fd, "%sprocessor\t: %d\n", (i > 0) ? "\n":"", i);
+
+^^  here.
+
+Helge
+
+> +        dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
+> +        dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
+> +        dprintf(fd, "capabilities\t: os32\n");
+> +        dprintf(fd, "model\t\t: 9000/778/B160L - "
+> +                    "Merlin L2 160 QEMU (9000/778/B160L)\n");
+> +    }
+>       return 0;
+>   }
+>   #endif
+
 
