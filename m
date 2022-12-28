@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBBD96576BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 14:05:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7136576CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 14:10:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAW7Q-0005MU-Nk; Wed, 28 Dec 2022 08:05:17 -0500
+	id 1pAWC8-000732-4h; Wed, 28 Dec 2022 08:10:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAW6x-0005KD-Az
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:04:51 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAWC3-00072R-Ce
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:10:03 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAW6u-0002JU-6r
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:04:46 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id d4so6900005wrw.6
- for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 05:04:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAWC1-0005Vu-Oy
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 08:10:03 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id l26so9631863wme.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 05:10:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=J11etKy1I+eD1ZxYBXlK61HtI3MDE9eu0yS0RM5yA44=;
- b=ZCFsDORq/unrNsJDI1vegAbZXKMgvZ1by2Mnh7laqYUXMuiCBXLRPGxZcckDtA2uBW
- Y+mfZvQx3+qOwU1JqNUQVBQa6aPHi590h4wDRKC95vJykYwh24YtfTx3Mv3f8MFE0oOT
- eMt7GSXHOYKAUiLIkS0B9wIT8hm/1t3CL5tCbvkHsj/lHgR8PnUSI7ygz4fCriObjl01
- 8hMPMRWzySzo7OYMF6oH7lVmTUif9b8XXP7kMN20Ydj8yDyOGt5i79Q/vRHMdc3MS04F
- V6Ypd6hOY6otIP3vPNMkVGtsbOliSLZcQAoOgCd7dcdysHTGgyCrOTuuPLlWm1uLimFO
- 9DuA==
+ bh=T3k+bQ1iJ0lDbsqrkg5Y3i0CjAbIkgORP4wzDU1zH0s=;
+ b=vSAvsm+dAbGuXaFhHODrxHjxdxm9jJIFBAsowTINp0iWf7YR7iZbKN2+1NpVf9pDp4
+ AvBkntPd7HKtKd2AkZO0Rbe4S4AMB+yIxqf95tsZFUmHRcguHk2bjWnLTPaXyO9x0RUN
+ U8/RiKQhOM6KZfKZ01Bq2Zlji3BJwzmJ7jARZPlQHEdrPUg3B9I0EUXGcnITbVfUNWOc
+ 4KQZHu+p1K7wDLKPqObopbjm/fBxXhOTEgmPtdD9sQej9OktVcBlySoD7pnuQKBlqQmB
+ epvWeukKxVGS5Txk++NKMC7qmfS/5FMGJ4CdrNUcySbWIxWhXQziCSmrlPqmSibP5fNO
+ bx7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=J11etKy1I+eD1ZxYBXlK61HtI3MDE9eu0yS0RM5yA44=;
- b=3zqbv+9YaHNOU7Vd7x0oOZuj28zdeL1e3SGyZBRXmdGRkblO5vRBuMCjjaVSf5z+IB
- 4rvbH6LftMPHnlUEdCtYrDdCaJCknLvEuzVihBUD8EJn8MuOsKdshu36IG8hfhgGmDU1
- zQR8GtrF5UOl/g15iFgVFMNHhgyocQVZukP5oJZoOeTU9VzdX0GMqcLVmmdrVEn2u5HX
- 79i9ADcewCPGg7LMKBog4LBZRn8vx9KdfQU+9kzt1tf9Ve3FD4LI04nLLdkNMyptaOfc
- NduTujV+6om9Id9ZlAcAodOa/xMAzP9Ln2tEpqvhUvgSYOel9B2XJUsU3JNv05kbtqVr
- i5uA==
-X-Gm-Message-State: AFqh2kpSuNltVdVhNiqr2bUd8bR9uXmhW+TQsvCdHfpZV/JDdFLfUpNt
- 6Xwl/9Go6Ztc7sAq5rEwwe2vZZWyxKApcxQg
-X-Google-Smtp-Source: AMrXdXsQpv+bhPNA33i/6X+zPcOUNzSi932oBgGtTwxBm0h8b5EQWTfJDZOamk1kGHQSAdnpi/ngGA==
-X-Received: by 2002:a5d:43c7:0:b0:26b:c52e:f7c7 with SMTP id
- v7-20020a5d43c7000000b0026bc52ef7c7mr19673387wrr.29.1672232681669; 
- Wed, 28 Dec 2022 05:04:41 -0800 (PST)
+ bh=T3k+bQ1iJ0lDbsqrkg5Y3i0CjAbIkgORP4wzDU1zH0s=;
+ b=wBWUbHhFMK84YF5nFOP5F4dJuOkwtLqOk4i+5uF7wprRP+IIXSB3fs9kP7q/JygzKC
+ z74NqgJb693EahZvfhfYjxhNZp3ybakvD000IQ5J7Q8xF54LL7YoIi0fShl4dkREpt6I
+ 6D/Z2UdmPYzwHyi+OiVg6K+6be9Q/pXigmA6fYQVmg6OC2mk/z7OSHHIYcW/UybsMD0Z
+ PtmmnhqLvQm7YoJfZ/BoxIVXCytqqojdEeQ2mj89Y5x4XdtwknWZn1vkuNh4HWLt8+xe
+ dymMjr586WMDtiKvZsW6/CFS+OytCCwnzlryHFE5pL55w5QZIQ92JumQhMSgosNDc9OX
+ My/A==
+X-Gm-Message-State: AFqh2kq90Jgv8rVNAyisAShF33kbcBBmBsC/YLEPQX73xFjvYRLa+XbU
+ v0LIAWkrkG+XAuMUt4kaMUuzSBbVk5v2k2F3
+X-Google-Smtp-Source: AMrXdXt3ScHjVVssAlEWIlt+qUtJT2+X69LQhJla+kMogytz3cxRTdRRiMnbwUf6H3P7DWJab8HKBw==
+X-Received: by 2002:a05:600c:4998:b0:3cf:68d3:3047 with SMTP id
+ h24-20020a05600c499800b003cf68d33047mr17489230wmp.41.1672232998411; 
+ Wed, 28 Dec 2022 05:09:58 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- v7-20020adfe287000000b00241bd177f89sm15323279wri.14.2022.12.28.05.04.40
+ h10-20020a05600c2caa00b003c701c12a17sm27515168wmc.12.2022.12.28.05.09.57
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 28 Dec 2022 05:04:41 -0800 (PST)
+ Wed, 28 Dec 2022 05:09:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-trivial@nongnu.org,
- Mark Burton <mburton@qti.qualcomm.com>,
+Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Chenyi Qiang <chenyi.qiang@intel.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] memory: Do not print MR priority in flatview HMP output
-Date: Wed, 28 Dec 2022 14:04:39 +0100
-Message-Id: <20221228130439.80341-1-philmd@linaro.org>
+Subject: [PATCH] virtio-mem: Fix typo in function name
+Date: Wed, 28 Dec 2022 14:09:56 +0100
+Message-Id: <20221228130956.80515-1-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,43 +88,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When requesting the flatview output with 'info mtree -f',
-the MemoryRegion priority is irrelevant and noise. Remove it.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- softmmu/memory.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/virtio/virtio-mem.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index e05332d07f..89713dd5ce 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -3330,22 +3330,20 @@ static void mtree_print_flatview(gpointer key, gpointer value,
-         mr = range->mr;
-         if (range->offset_in_region) {
-             qemu_printf(MTREE_INDENT TARGET_FMT_plx "-" TARGET_FMT_plx
--                        " (prio %d, %s%s): %s @" TARGET_FMT_plx,
-+                        " (%s%s): %s @" TARGET_FMT_plx,
-                         int128_get64(range->addr.start),
-                         int128_get64(range->addr.start)
-                         + MR_SIZE(range->addr.size),
--                        mr->priority,
-                         range->nonvolatile ? "nv-" : "",
-                         range->readonly ? "rom" : memory_region_type(mr),
-                         memory_region_name(mr),
-                         range->offset_in_region);
-         } else {
-             qemu_printf(MTREE_INDENT TARGET_FMT_plx "-" TARGET_FMT_plx
--                        " (prio %d, %s%s): %s",
-+                        " (%s%s): %s",
-                         int128_get64(range->addr.start),
-                         int128_get64(range->addr.start)
-                         + MR_SIZE(range->addr.size),
--                        mr->priority,
-                         range->nonvolatile ? "nv-" : "",
-                         range->readonly ? "rom" : memory_region_type(mr),
-                         memory_region_name(mr));
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index d96bde1fab..c252027391 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -207,7 +207,7 @@ static int virtio_mem_for_each_unplugged_range(const VirtIOMEM *vmem, void *arg,
+  *
+  * Returns false if the intersection is empty, otherwise returns true.
+  */
+-static bool virito_mem_intersect_memory_section(MemoryRegionSection *s,
++static bool virtio_mem_intersect_memory_section(MemoryRegionSection *s,
+                                                 uint64_t offset, uint64_t size)
+ {
+     uint64_t start = MAX(s->offset_within_region, offset);
+@@ -245,7 +245,7 @@ static int virtio_mem_for_each_plugged_section(const VirtIOMEM *vmem,
+                                       first_bit + 1) - 1;
+         size = (last_bit - first_bit + 1) * vmem->block_size;
+ 
+-        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
++        if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
+             break;
+         }
+         ret = cb(&tmp, arg);
+@@ -277,7 +277,7 @@ static int virtio_mem_for_each_unplugged_section(const VirtIOMEM *vmem,
+                                  first_bit + 1) - 1;
+         size = (last_bit - first_bit + 1) * vmem->block_size;
+ 
+-        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
++        if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
+             break;
+         }
+         ret = cb(&tmp, arg);
+@@ -313,7 +313,7 @@ static void virtio_mem_notify_unplug(VirtIOMEM *vmem, uint64_t offset,
+     QLIST_FOREACH(rdl, &vmem->rdl_list, next) {
+         MemoryRegionSection tmp = *rdl->section;
+ 
+-        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
++        if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
+             continue;
+         }
+         rdl->notify_discard(rdl, &tmp);
+@@ -329,7 +329,7 @@ static int virtio_mem_notify_plug(VirtIOMEM *vmem, uint64_t offset,
+     QLIST_FOREACH(rdl, &vmem->rdl_list, next) {
+         MemoryRegionSection tmp = *rdl->section;
+ 
+-        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
++        if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
+             continue;
+         }
+         ret = rdl->notify_populate(rdl, &tmp);
+@@ -346,7 +346,7 @@ static int virtio_mem_notify_plug(VirtIOMEM *vmem, uint64_t offset,
+             if (rdl2 == rdl) {
+                 break;
+             }
+-            if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
++            if (!virtio_mem_intersect_memory_section(&tmp, offset, size)) {
+                 continue;
+             }
+             rdl2->notify_discard(rdl2, &tmp);
 -- 
 2.38.1
 
