@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AA8657261
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 04:35:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0185765726E
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 05:00:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pANE9-0007u0-Np; Tue, 27 Dec 2022 22:35:37 -0500
+	id 1pANab-0002sC-PO; Tue, 27 Dec 2022 22:58:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pANE6-0007tU-8u
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 22:35:35 -0500
-Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pANaV-0002rN-7p; Tue, 27 Dec 2022 22:58:44 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pANE3-0004gK-Ds
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 22:35:33 -0500
-Received: by mail-vs1-xe2e.google.com with SMTP id a64so10961621vsc.2
- for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 19:35:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pANaS-0004N8-Sb; Tue, 27 Dec 2022 22:58:42 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id x22so35848674ejs.11;
+ Tue, 27 Dec 2022 19:58:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Tjo7n4g8k+2lVMq9n5hzYZv12YKdXxO+HlbRmxc/LF8=;
- b=PoJ2xsWh/rMfoFwQ2LpurPV5njdXpGc8N3hHDfZXge+Qxfb/fgqG0A6cN3zy9fP814
- RppLgDSoy4n6yI2HxP0r7DXM6boRRVkkSmvkTFYa9hwVuCVpHtUhVGZ2Zr5eW23/Xb2e
- Z++qtAs8pPF5WXSEKdPWFEBaizztr7FOIVp4EfQazX+5NuhoA5e2FuBV5N4EBaG4u1qu
- SsIhKIvUeNLB5/MOpL0f05jUFI5bcqT5M9lI7ImQjzLh42YqdkH722CA2LAT0zRk+hC8
- n2jpiqh/lqUOLHIvl+5wcVPe0PxNQC2NSkjnNiqbGWp+b9o24N0G1HuCfHDvu/cPRJ7P
- e/vw==
+ bh=17b4FKF3xfVsARcz6NQz4B7syHWjCW/yqd036cr3Z/k=;
+ b=HZWEO6PKdyaWYW/LSqv5Ft6qxVIIhoryMJo63mRcs0yCYDGgJDiH4jKEV6sxqM2ykO
+ Ka4988L5T5L4AYa/iVGcRGmTjmWlsu9q6yTp0pgoMMnK487P3Eg1nXs6syBRzPsz63hs
+ JDqukouTNcFEAjAxLJHPyAF+jA9B3ten4bYDPq/Sat9Ap9aU3Uz3FikJhJgugQggBtny
+ nKVwvqpKJZ498r6nV7+NfUSGYYTvwe3e/vS7mTFS+0M4zdcZGfZ3CY4GSl/f0Nr/HGwg
+ uTYWUQTgQZLmSs+aObA0G5tLN3az2inFCy/C0+bz1Du89XQUOn60OrD2RiiCpkv+R88z
+ wd3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Tjo7n4g8k+2lVMq9n5hzYZv12YKdXxO+HlbRmxc/LF8=;
- b=b4/Yvde4LEqHy6RIe5hfnEqIqFUcW0w3K0WhmAplAEAuyC3qNRimxiwG0Dgaj4I1Lq
- dRgQWEmBSQqgKBNWpotFb0RhvJcTI+FZPTrYFkJr5ag57nUd2yA2LPedwmBTQixeJ/zq
- h5CsS2CUHWxKV9FJNzTwpzpCY+l9l2DQlkW8UKEBqWyVuNicQV7BQ+SOQWlx+R/E/3qN
- o5HQHSAvvnSkNpdOwwEu8fBSO4MOGx8ba644at2+bp3GxhDSMtNlLJeoEm/ytgxbEh2/
- o5OkKPUZmEGKJazuhZx5WncRFXB2o6/TGZfAmtR/ObBlvKwAif7MvoLaV9/CUzEvm6x4
- 5E+A==
-X-Gm-Message-State: AFqh2kqyPhntI3+tKnCUrgG0DqmSXn8b4nK9+kGvqLGje3HGUSw7dXXP
- Q0B1udytGs5UPzjpYtOA7jPI8zShleTlryoS0T0=
-X-Google-Smtp-Source: AMrXdXtz+01NM85YOftkZ0KXUsvDo/kX/5WgbJr4enRuGPtNPWHQT6t9lfT0UFlhAil5/Hm7VUS6J2vba1nT1NeffeE=
-X-Received: by 2002:a67:dc10:0:b0:3b3:7675:d423 with SMTP id
- x16-20020a67dc10000000b003b37675d423mr2670968vsj.72.1672198530348; Tue, 27
- Dec 2022 19:35:30 -0800 (PST)
+ bh=17b4FKF3xfVsARcz6NQz4B7syHWjCW/yqd036cr3Z/k=;
+ b=tUjiVVo/BpMMANBNp5+bbfBXGdHyiBMv6zEFFJyuaKo29scS4rCaFGJrDd/CQnWd+N
+ c/R0QFWebtr73LhhA9nHguoHtKRq+JlEe1bdgh+og/kX4NoWlT+0bdiaHOlP1a323h7L
+ 5n5UJVQr4qnrVU2kU2JaaXJnBh7T7RvHXOdtRJ9PAvmnMJOApC5Mg0kETVTwpivIDERL
+ eP32pDMZ1VeNXA8O3fhAwvkAmuLMMsTFVPZHOK2vXdoVW/0uZ52T52i3fQ7rL7COoAmZ
+ 4LKCGyVKlpGj7Y5SFd+lEryqDtm767sMHuwtcKBT8DvXnVAN1kLCmhHWvYftZ1eXM3FD
+ gVoQ==
+X-Gm-Message-State: AFqh2kpWwvSxpTDi/uM63hzt+ovlYtz7sxHqwjzqySsiDSba944sY+HN
+ HY5+83h08kS4gNKvs+2SDOgHWXSGVfPBWEJ7pgU=
+X-Google-Smtp-Source: AMrXdXtNkjhj5OJox41BXc9injrPpLWqvXKl5NaCw2uPEOXm8bMMuh3jvx6qa63eZtBAeHM4qFND/xQzgYw60Mpka3g=
+X-Received: by 2002:a17:906:824a:b0:7c1:6f0a:a2d6 with SMTP id
+ f10-20020a170906824a00b007c16f0aa2d6mr2673092ejx.337.1672199917713; Tue, 27
+ Dec 2022 19:58:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20221227064812.1903326-1-bmeng@tinylab.org>
- <20221227064812.1903326-5-bmeng@tinylab.org>
-In-Reply-To: <20221227064812.1903326-5-bmeng@tinylab.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 28 Dec 2022 13:35:04 +1000
-Message-ID: <CAKmqyKMwW3k0Df3QxbPQUXEqJsp9=9W46vi9t+jagtW7zx1LZQ@mail.gmail.com>
-Subject: Re: [PATCH 04/12] hw/char: riscv_htif: Use conventional 's' for
- HTIFState
-To: Bin Meng <bmeng@tinylab.org>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org, 
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
+ <670a96f5-b703-5c20-3cb6-c95f55249e4e@ventanamicro.com>
+In-Reply-To: <670a96f5-b703-5c20-3cb6-c95f55249e4e@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 28 Dec 2022 11:58:26 +0800
+Message-ID: <CAEUhbmV4z_CD85Cr8phySXR8Ts69e13Si4TVmz6z0j-Cg0+7HQ@mail.gmail.com>
+Subject: Re: [PATCH 00/12] hw/riscv: Improve Spike HTIF emulation fidelity
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: Bin Meng <bmeng@tinylab.org>, Alistair Francis <Alistair.Francis@wdc.com>,
+ qemu-devel@nongnu.org, 
+ Anup Patel <apatel@ventanamicro.com>, Bin Meng <bin.meng@windriver.com>, 
  =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,157 +86,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 27, 2022 at 4:52 PM Bin Meng <bmeng@tinylab.org> wrote:
->
-> QEMU source codes tend to use 's' to represent the hardware state.
-> Let's use it for HTIFState.
->
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Hi Daniel,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+On Wed, Dec 28, 2022 at 1:52 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+>
+>
+> On 12/27/22 03:48, Bin Meng wrote:
+> > At present the 32-bit OpenSBI generic firmware image does not boot on
+> > Spike, only 64-bit image can. This is due to the HTIF emulation does
+> > not implement the proxy syscall interface which is required for the
+> > 32-bit HTIF console output.
+> >
+> > An OpenSBI bug fix [1] is also needed when booting the plain binary image.
+> >
+> > With this series plus the above OpenSBI fix, both 32-bit OpenSBI BIN & ELF
+> > images can boot on QEMU 'spike' machine.
+> >
+> > [1] https://patchwork.ozlabs.org/project/opensbi/patch/20221226033603.1860569-1-bmeng@tinylab.org/
+>
+> Aside from a nit in patch 12/12, LGTM. I've tested with a patched version of
+> Opensbi including [1] and I can get terminal output with riscv32 spike:
+>
+> $ ./qemu-system-riscv32 -M spike -display none -nographic
+> -bios ../../opensbi/build/platform/generic/firmware/fw_payload.bin
+>
+> OpenSBI v1.1-112-g6ce00f8
+>     ____                    _____ ____ _____
+>    / __ \                  / ____|  _ \_   _|
+>   | |  | |_ __   ___ _ __ | (___ | |_) || |
+>   | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+>   | |__| | |_) |  __/ | | |____) | |_) || |_
+>    \____/| .__/ \___|_| |_|_____/|____/_____|
+>          | |
+>          |_|
+> (.......)
+>
+>
+> Speaking of [1], it seems like the fix went a bit too late for the opensbi 1.2 release.
+> Assuming that [1] is accepted, it would be nice if we could bake in this fix on top of the
+> 1.2 release when updating the QEMU roms.
+>
 
-Alistair
+Thanks for the review and testing!
 
-> ---
->
->  hw/char/riscv_htif.c | 64 ++++++++++++++++++++++----------------------
->  1 file changed, 32 insertions(+), 32 deletions(-)
->
-> diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-> index e7e319ca1d..f28976b110 100644
-> --- a/hw/char/riscv_htif.c
-> +++ b/hw/char/riscv_htif.c
-> @@ -85,7 +85,7 @@ static int htif_can_recv(void *opaque)
->   */
->  static void htif_recv(void *opaque, const uint8_t *buf, int size)
->  {
-> -    HTIFState *htifstate = opaque;
-> +    HTIFState *s = opaque;
->
->      if (size != 1) {
->          return;
-> @@ -97,10 +97,10 @@ static void htif_recv(void *opaque, const uint8_t *buf, int size)
->       *        will drop characters
->       */
->
-> -    uint64_t val_written = htifstate->pending_read;
-> +    uint64_t val_written = s->pending_read;
->      uint64_t resp = 0x100 | *buf;
->
-> -    htifstate->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
-> +    s->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
->  }
->
->  /*
-> @@ -142,7 +142,7 @@ static int htif_be_change(void *opaque)
->   * For RV32, the tohost register is zero-extended, so only device=0 and
->   * command=0 (i.e. HTIF syscalls/exit codes) are supported.
->   */
-> -static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
-> +static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
->  {
->      uint8_t device = val_written >> HTIF_DEV_SHIFT;
->      uint8_t cmd = val_written >> HTIF_CMD_SHIFT;
-> @@ -174,11 +174,11 @@ static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
->          /* HTIF Console */
->          if (cmd == HTIF_CONSOLE_CMD_GETC) {
->              /* this should be a queue, but not yet implemented as such */
-> -            htifstate->pending_read = val_written;
-> -            htifstate->env->mtohost = 0; /* clear to indicate we read */
-> +            s->pending_read = val_written;
-> +            s->env->mtohost = 0; /* clear to indicate we read */
->              return;
->          } else if (cmd == HTIF_CONSOLE_CMD_PUTC) {
-> -            qemu_chr_fe_write(&htifstate->chr, (uint8_t *)&payload, 1);
-> +            qemu_chr_fe_write(&s->chr, (uint8_t *)&payload, 1);
->              resp = 0x100 | (uint8_t)payload;
->          } else {
->              qemu_log("HTIF device %d: unknown command\n", device);
-> @@ -194,31 +194,31 @@ static void htif_handle_tohost_write(HTIFState *htifstate, uint64_t val_written)
->       * With this code disabled, qemu works with bbl priv v1.9.1 and v1.10.
->       * HTIF needs protocol documentation and a more complete state machine.
->       *
-> -     *  while (!htifstate->fromhost_inprogress &&
-> -     *      htifstate->env->mfromhost != 0x0) {
-> +     *  while (!s->fromhost_inprogress &&
-> +     *      s->env->mfromhost != 0x0) {
->       *  }
->       */
-> -    htifstate->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
-> -    htifstate->env->mtohost = 0; /* clear to indicate we read */
-> +    s->env->mfromhost = (val_written >> 48 << 48) | (resp << 16 >> 16);
-> +    s->env->mtohost = 0; /* clear to indicate we read */
->  }
->
-> -#define TOHOST_OFFSET1 (htifstate->tohost_offset)
-> -#define TOHOST_OFFSET2 (htifstate->tohost_offset + 4)
-> -#define FROMHOST_OFFSET1 (htifstate->fromhost_offset)
-> -#define FROMHOST_OFFSET2 (htifstate->fromhost_offset + 4)
-> +#define TOHOST_OFFSET1      (s->tohost_offset)
-> +#define TOHOST_OFFSET2      (s->tohost_offset + 4)
-> +#define FROMHOST_OFFSET1    (s->fromhost_offset)
-> +#define FROMHOST_OFFSET2    (s->fromhost_offset + 4)
->
->  /* CPU wants to read an HTIF register */
->  static uint64_t htif_mm_read(void *opaque, hwaddr addr, unsigned size)
->  {
-> -    HTIFState *htifstate = opaque;
-> +    HTIFState *s = opaque;
->      if (addr == TOHOST_OFFSET1) {
-> -        return htifstate->env->mtohost & 0xFFFFFFFF;
-> +        return s->env->mtohost & 0xFFFFFFFF;
->      } else if (addr == TOHOST_OFFSET2) {
-> -        return (htifstate->env->mtohost >> 32) & 0xFFFFFFFF;
-> +        return (s->env->mtohost >> 32) & 0xFFFFFFFF;
->      } else if (addr == FROMHOST_OFFSET1) {
-> -        return htifstate->env->mfromhost & 0xFFFFFFFF;
-> +        return s->env->mfromhost & 0xFFFFFFFF;
->      } else if (addr == FROMHOST_OFFSET2) {
-> -        return (htifstate->env->mfromhost >> 32) & 0xFFFFFFFF;
-> +        return (s->env->mfromhost >> 32) & 0xFFFFFFFF;
->      } else {
->          qemu_log("Invalid htif read: address %016" PRIx64 "\n",
->              (uint64_t)addr);
-> @@ -230,25 +230,25 @@ static uint64_t htif_mm_read(void *opaque, hwaddr addr, unsigned size)
->  static void htif_mm_write(void *opaque, hwaddr addr,
->                            uint64_t value, unsigned size)
->  {
-> -    HTIFState *htifstate = opaque;
-> +    HTIFState *s = opaque;
->      if (addr == TOHOST_OFFSET1) {
-> -        if (htifstate->env->mtohost == 0x0) {
-> -            htifstate->allow_tohost = 1;
-> -            htifstate->env->mtohost = value & 0xFFFFFFFF;
-> +        if (s->env->mtohost == 0x0) {
-> +            s->allow_tohost = 1;
-> +            s->env->mtohost = value & 0xFFFFFFFF;
->          } else {
-> -            htifstate->allow_tohost = 0;
-> +            s->allow_tohost = 0;
->          }
->      } else if (addr == TOHOST_OFFSET2) {
-> -        if (htifstate->allow_tohost) {
-> -            htifstate->env->mtohost |= value << 32;
-> -            htif_handle_tohost_write(htifstate, htifstate->env->mtohost);
-> +        if (s->allow_tohost) {
-> +            s->env->mtohost |= value << 32;
-> +            htif_handle_tohost_write(s, s->env->mtohost);
->          }
->      } else if (addr == FROMHOST_OFFSET1) {
-> -        htifstate->fromhost_inprogress = 1;
-> -        htifstate->env->mfromhost = value & 0xFFFFFFFF;
-> +        s->fromhost_inprogress = 1;
-> +        s->env->mfromhost = value & 0xFFFFFFFF;
->      } else if (addr == FROMHOST_OFFSET2) {
-> -        htifstate->env->mfromhost |= value << 32;
-> -        htifstate->fromhost_inprogress = 0;
-> +        s->env->mfromhost |= value << 32;
-> +        s->fromhost_inprogress = 0;
->      } else {
->          qemu_log("Invalid htif write: address %016" PRIx64 "\n",
->              (uint64_t)addr);
-> --
-> 2.34.1
->
->
+Regarding whether we can cherry-pick the fix on top of OpenSBI 1.2, I
+am not sure if that's allowed by the policy.
+
+Alistair, do you know?
+
+Regards,
+Bin
 
