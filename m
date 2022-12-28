@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F2365725C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 04:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844E865725F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 04:34:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pANBZ-0005Cs-Kn; Tue, 27 Dec 2022 22:32:57 -0500
+	id 1pANCo-0006y9-5E; Tue, 27 Dec 2022 22:34:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pANBU-0005CO-OA
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 22:32:52 -0500
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d])
+ id 1pANCm-0006ub-M6; Tue, 27 Dec 2022 22:34:12 -0500
+Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pANBT-00049X-Cu
- for qemu-devel@nongnu.org; Tue, 27 Dec 2022 22:32:52 -0500
-Received: by mail-vs1-xe2d.google.com with SMTP id i188so14462063vsi.8
- for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 19:32:50 -0800 (PST)
+ id 1pANCl-0004Hj-1O; Tue, 27 Dec 2022 22:34:12 -0500
+Received: by mail-vs1-xe2a.google.com with SMTP id k4so10371428vsc.4;
+ Tue, 27 Dec 2022 19:34:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=N7eg1bWpQSWdAx7QOV9RFjWMXvQOF+PtLHCf1ZJ1mX0=;
- b=jk+s4iSt0UOqGCWMBF/XzBSnYDzVdfgd8hK/ajgc7ibwLUlAXl3mKRaulaDpt2P6X7
- va64lLrOzBQ7AGZy5mJGEIGHc52D3S9xma6BtnIUM+v/Ln/tQftB+ZSpIbMfHsyGFk3v
- RjwMN0EWZFE/U7OQp6SZxA0zNqDay/306gAtydP3K4AXYGYYHTsMpBww9MpVeEUdi9rl
- ifJgMfgNb7sGWz9tJPTvCZKk1lSgDSnTwwIRiXB9HipByw5T2Fxxc3x0pLJDUnGSFCzR
- CCLnPG3CvB7f1CPgCweb9o6UbpTvA3Ls19bZwgs5IfKTHC3H9cOdiI/xFXVvtRMoyrI2
- 3gzg==
+ bh=vG4pclImSVJBqrYwLDUKcSVN4T35KUaUPedZmhQ2+fs=;
+ b=cGfZrYaoXO5pMRxSdAqeGsglQoAnrc3F5H3vcS07F5PoBkQ9BR4mSkiwctx0oBobLT
+ lNLapTyzgIZlclYGm9H8MCFemWQ2a3cNFbxA7EZQAn322lP9Lj71CPzsRIsKjbO1Hci1
+ 9V5Nz7DzJdkXMZx7R3NO2iVbx8FauDEAzPztbuXU+UbWsdoFmVr2clYwni50D52CRM7Z
+ 5dVlslMt0LXqCdnuRZY8PYQe3eC3CpmBKfsvChPS/wzRFGrtz3p3aZvlHfAYn+5w8WP8
+ A+mzSjXi64Gg7+pKDZ44GQUzxQnWCcX9OH+UGqVkjP2MQHNzYRc8h5enTdAzt5q1NuVT
+ mUGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=N7eg1bWpQSWdAx7QOV9RFjWMXvQOF+PtLHCf1ZJ1mX0=;
- b=efiW8d0OFvrie2KTwQbhvRmeOlzpbYkPJIRH+wS1HEPDE24zaJk+dGBLDk5fhO6bvD
- T23COywX7coT17QuaRLS6BeH1OkoGJeMQfyuam6A66syxA3/mdocUEtpG30rJc2RM97S
- wudmWn8TafcoK135YyWxx0rDyESAHNHZlAV8Sb9fPlxXfTnojf+qQRVVflq13nTTabj6
- 0EqAfxVAphLoYyelIXFnfvT8x96kr4uRAVrrO0DRSVO1dHd3PnXwwOKZd7sDK61zZXYf
- SFJfDIK1DBo2UItxKzGwLHKCp0V9N3gmL/i2pt2N8QmPnI2JBT9oTqCoU9PmGDFe8pCu
- HGNg==
-X-Gm-Message-State: AFqh2kp4FanPFGeSTqIkXA9VZNM/plEyDJTpWE05xcLp6zBd4i3JT89N
- VcWENZnr3UGhHzAegGiCruKQHDlS6ZMKBew4WOk=
-X-Google-Smtp-Source: AMrXdXsqkjADrcd9JYnIma8XKEMmZgWGoe27VYXulqReBQi7wYYqwNrSPshxFPkL0mOp8wJWbwU6B/MgVgDps5a1P54=
-X-Received: by 2002:a05:6102:510e:b0:3b1:2b83:1861 with SMTP id
- bm14-20020a056102510e00b003b12b831861mr2657110vsb.10.1672198370229; Tue, 27
- Dec 2022 19:32:50 -0800 (PST)
+ bh=vG4pclImSVJBqrYwLDUKcSVN4T35KUaUPedZmhQ2+fs=;
+ b=uV230OazRPf+RcIPkPF8Sk/ZGgxhXiAesy48ZG1qNdM3D7ChoBTbwCRZURo4nomi/E
+ 6OGJ2mdMNYutVD7ebQpcfDQshIiCyAfhH7CDRgsEub3Y6ZJfLedeT8STn52020MR7twe
+ FxBOf178ENE4eytDtrYkIEdUpG4dHgCPkk77VC6i4/jDwjgNfh0qS0RRU4QTo+UN1Z1u
+ PLfOp/jgmE+RvC/fh60vdDxJ3aWUuzFsUMdp0XvbqXMFp1pVtLVxH3xjjiKSV8VQlvqt
+ kCDXVBKEPKGBvw6qyjClZv02SpfTjZWp5nXCPouE+TNeMXuobJuMNTvNHSF5LYnGJCkq
+ 1AAA==
+X-Gm-Message-State: AFqh2kpsG7GEN7epthnwY4DGuVLWJ3jcYkq3R1fTw7p/JgKZRxyEQzcW
+ lwq2ufRmMHD4EjeTuz7RNWMjLtIlsFrPcVsTkuGqo5CK4Z8=
+X-Google-Smtp-Source: AMrXdXsp6KboD+4O4fPJNp89pS7PGmc7oWMiQwYVAxVqi4AsUD1t+89LhrUbMDsnqYi/iQvpvl2vaVB9t0NtMGIkdiU=
+X-Received: by 2002:a67:be0f:0:b0:3c7:c5d9:b841 with SMTP id
+ x15-20020a67be0f000000b003c7c5d9b841mr869178vsq.64.1672198449745; Tue, 27 Dec
+ 2022 19:34:09 -0800 (PST)
 MIME-Version: 1.0
 References: <20221227064812.1903326-1-bmeng@tinylab.org>
- <20221227064812.1903326-3-bmeng@tinylab.org>
-In-Reply-To: <20221227064812.1903326-3-bmeng@tinylab.org>
+ <20221227064812.1903326-4-bmeng@tinylab.org>
+In-Reply-To: <20221227064812.1903326-4-bmeng@tinylab.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 28 Dec 2022 13:32:23 +1000
-Message-ID: <CAKmqyKP3g+WJoOE+u=i9aEMxVPrwqwh2H6R4DTjBrdPhAQa9gA@mail.gmail.com>
-Subject: Re: [PATCH 02/12] hw/char: riscv_htif: Drop {to,
- from}host_size in HTIFState
+Date: Wed, 28 Dec 2022 13:33:43 +1000
+Message-ID: <CAKmqyKNRk4LL7wdUp=-pf7QoS8zZ+=ux-26YdOp6JjwPQmea3w@mail.gmail.com>
+Subject: Re: [PATCH 03/12] hw/char: riscv_htif: Drop useless assignment of
+ memory region
 To: Bin Meng <bmeng@tinylab.org>
 Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org, 
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>
+ Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2a;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,9 +88,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Dec 27, 2022 at 4:56 PM Bin Meng <bmeng@tinylab.org> wrote:
+On Tue, Dec 27, 2022 at 4:50 PM Bin Meng <bmeng@tinylab.org> wrote:
 >
-> These are not used anywhere. Drop them.
+> struct HTIFState has 3 members for address space and memory region,
+> and are initialized during htif_mm_init(). But they are actually
+> useless. Drop them.
 >
 > Signed-off-by: Bin Meng <bmeng@tinylab.org>
 
@@ -99,22 +102,76 @@ Alistair
 
 > ---
 >
->  include/hw/char/riscv_htif.h | 2 --
->  1 file changed, 2 deletions(-)
+>  include/hw/char/riscv_htif.h | 7 ++-----
+>  hw/char/riscv_htif.c         | 7 ++-----
+>  hw/riscv/spike.c             | 5 ++---
+>  3 files changed, 6 insertions(+), 13 deletions(-)
 >
 > diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
-> index f888ac1b30..3eccc1914f 100644
+> index 3eccc1914f..6d172ebd6d 100644
 > --- a/include/hw/char/riscv_htif.h
 > +++ b/include/hw/char/riscv_htif.h
-> @@ -33,8 +33,6 @@ typedef struct HTIFState {
->
+> @@ -34,9 +34,6 @@ typedef struct HTIFState {
 >      hwaddr tohost_offset;
 >      hwaddr fromhost_offset;
-> -    uint64_t tohost_size;
-> -    uint64_t fromhost_size;
 >      MemoryRegion mmio;
->      MemoryRegion *address_space;
->      MemoryRegion *main_mem;
+> -    MemoryRegion *address_space;
+> -    MemoryRegion *main_mem;
+> -    void *main_mem_ram_ptr;
+>
+>      CPURISCVState *env;
+>      CharBackend chr;
+> @@ -54,7 +51,7 @@ void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
+>  bool htif_uses_elf_symbols(void);
+>
+>  /* legacy pre qom */
+> -HTIFState *htif_mm_init(MemoryRegion *address_space, MemoryRegion *main_mem,
+> -    CPURISCVState *env, Chardev *chr, uint64_t nonelf_base);
+> +HTIFState *htif_mm_init(MemoryRegion *address_space, CPURISCVState *env,
+> +                        Chardev *chr, uint64_t nonelf_base);
+>
+>  #endif
+> diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
+> index 088556bb04..e7e319ca1d 100644
+> --- a/hw/char/riscv_htif.c
+> +++ b/hw/char/riscv_htif.c
+> @@ -265,8 +265,8 @@ bool htif_uses_elf_symbols(void)
+>      return (address_symbol_set == 3) ? true : false;
+>  }
+>
+> -HTIFState *htif_mm_init(MemoryRegion *address_space, MemoryRegion *main_mem,
+> -    CPURISCVState *env, Chardev *chr, uint64_t nonelf_base)
+> +HTIFState *htif_mm_init(MemoryRegion *address_space, CPURISCVState *env,
+> +                        Chardev *chr, uint64_t nonelf_base)
+>  {
+>      uint64_t base, size, tohost_offset, fromhost_offset;
+>
+> @@ -281,9 +281,6 @@ HTIFState *htif_mm_init(MemoryRegion *address_space, MemoryRegion *main_mem,
+>      fromhost_offset = fromhost_addr - base;
+>
+>      HTIFState *s = g_new0(HTIFState, 1);
+> -    s->address_space = address_space;
+> -    s->main_mem = main_mem;
+> -    s->main_mem_ram_ptr = memory_region_get_ram_ptr(main_mem);
+>      s->env = env;
+>      s->tohost_offset = tohost_offset;
+>      s->fromhost_offset = fromhost_offset;
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index 1e1d752c00..82cf41ac27 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -317,9 +317,8 @@ static void spike_board_init(MachineState *machine)
+>                                fdt_load_addr);
+>
+>      /* initialize HTIF using symbols found in load_kernel */
+> -    htif_mm_init(system_memory, mask_rom,
+> -                 &s->soc[0].harts[0].env, serial_hd(0),
+> -                 memmap[SPIKE_HTIF].base);
+> +    htif_mm_init(system_memory, &s->soc[0].harts[0].env,
+> +                 serial_hd(0), memmap[SPIKE_HTIF].base);
+>  }
+>
+>  static void spike_machine_instance_init(Object *obj)
 > --
 > 2.34.1
 >
