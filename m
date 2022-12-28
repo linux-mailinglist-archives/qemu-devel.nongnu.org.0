@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD208657CEB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 16:37:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C69657CF4
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 16:37:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAYTJ-00031G-Od; Wed, 28 Dec 2022 10:36:01 -0500
+	id 1pAYUd-0003rQ-6G; Wed, 28 Dec 2022 10:37:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAYTH-00030k-3k
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 10:35:59 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAYTF-0006mJ-9n
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 10:35:58 -0500
-Received: by mail-wr1-x429.google.com with SMTP id bk16so2029592wrb.11
- for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 07:35:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=J7j9Wk0f3OlackFV6lpjD3tFD965I78lpUTOMamnvHk=;
- b=mF89zWXbCqDwTenTkB80VzLDt7c0gQeoLSlefLauyrQyhhxW/YLjywOxQwdJPPbXdF
- cd8M4dUBQu4360cJel8BLpAexXEFEzEPWwwhzP3whxK3tV1MB5dSY22JL/YcIXa+vsGv
- 4y7U4tkLHvJHB3vYBMSS3cs4iC2hXGv8szIlqY2tV2Y9zb4Vo5z2Akb1rqD16xaykzDp
- b49GKaEDW5aSCo010qEB6FPhhVXkWpQeHXXqc4KyJsshrKOwzxo1PBe+QAYmEFL7RbGs
- GbYE88pfNhU1acjbhFk9lwVhVIit6W8wAE4ur5L5XDKDM7V0PyIes7lM80r/VobZu1uv
- jmPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=J7j9Wk0f3OlackFV6lpjD3tFD965I78lpUTOMamnvHk=;
- b=opA+ulvskvvNcbZOt92xfqSIRTp2ALfqTul1oKrLX/GyQWRR04GC8GpIL8L6YI50Jo
- JSJKWicgKIjzZWeMuO3mboMOvxDjCNjefBc7c9EhrMsuXBP5PeAXQPNyktixPTa6Vzdx
- XGM+FzV15PafO11lobUIAP8n5PwljFpsDFep159DlLCSEjuijtRxSgUqEOIEKGYQzp7D
- CsNmrrs8GkTB63mnPBew0YFAcQQoI6ChsbaH+JptzFVc4UQ1f9uBMPedcVL0onz+yt3z
- +aKCcOqqWpYA78DT/LWJsNvLxelfI6dcbGlXkl0P2sq/bCJznGXB34AxB8T81k7QeYm1
- 8TMA==
-X-Gm-Message-State: AFqh2kpvOhSI68z97qrSDhFmHi7DfGaVw7aQebhk6OgchI0R2Fu1/1xU
- RvYmFhkCF3O+KL+wZXojTS6c6NJJduk0u7k8
-X-Google-Smtp-Source: AMrXdXvisXXULEB0ZuL051H3hI1eSwN//8eNsJlhfKiUwIpxS9tt05DGJ9vUKTxriUnol60v57n9Ww==
-X-Received: by 2002:a5d:438e:0:b0:241:94bc:26d3 with SMTP id
- i14-20020a5d438e000000b0024194bc26d3mr17920453wrq.49.1672241755412; 
- Wed, 28 Dec 2022 07:35:55 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- f14-20020a5d664e000000b0027f4a7efc54sm7177666wrw.15.2022.12.28.07.35.54
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 28 Dec 2022 07:35:55 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>, Zach van Rijn <me@zv.io>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] linux-user/syscall: Endian-swap [res]uid/gid
-Date: Wed, 28 Dec 2022 16:35:53 +0100
-Message-Id: <20221228153553.83773-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
+ id 1pAYUb-0003rE-2E
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 10:37:21 -0500
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quic_mthiyaga@quicinc.com>)
+ id 1pAYUZ-00071s-8H
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 10:37:20 -0500
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BSDaRIS004220
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 15:37:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=4BMgwYKaJZOCmIqRbnLpTuqLWkNLfpynADVP7LrG3Ak=;
+ b=ELCLa8Y1hTG3lk60yMtNyEjISf9sHFVI1DqNxr3y129wzH/lWznesMgCDqKEaxEmGMQg
+ /OdcvWS3XH9A5aMEUCkW8kq0Et+axTR6grua3NPi78EVabBQl7t3cVujs+YxbwQJ5OOO
+ R88XGvaxYsouMzitffBaCbJGGZiv1pmoCUksWGf7QNmK67n02ZOKhyj5oMyxKmxdkqVk
+ UE/u7I3lRmnLMgPc3TyicRwFdM45SrF1fVPcqTeVOuXLTdaoO3zKGqwXoEVxKEb+vc8Z
+ RxV6l465zy1NCAZudHNGNSZNwzXjJ41n2iYYGAxajIPxF4D+XEF7VsEhBDEQferjnplg pw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3mrctr9441-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 15:37:16 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2BSFbFkS029693
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 15:37:15 GMT
+Received: from mthiyaga-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Wed, 28 Dec 2022 07:37:13 -0800
+From: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
+To: <qemu-devel@nongnu.org>, <tsimpson@quicinc.com>
+CC: <bcain@quicinc.com>, <quic_mathbern@quicinc.com>, Mukilan Thiyagarajan
+ <quic_mthiyaga@quicinc.com>
+Subject: [PATCH] tests/tcg/hexagon: fix underspecifed asm constraints
+Date: Wed, 28 Dec 2022 21:06:57 +0530
+Message-ID: <20221228153657.10210-1-quic_mthiyaga@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 2y_1ofmeQXtA2wrbltlV6BMDeJ2HBmuy
+X-Proofpoint-ORIG-GUID: 2y_1ofmeQXtA2wrbltlV6BMDeJ2HBmuy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-28_12,2022-12-28_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ phishscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 malwarescore=0
+ adultscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2212280134
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=quic_mthiyaga@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,149 +96,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Various syscalls miss swapping the endiannes of the [res]uid/gid
-values. Use the tswapid() helper meant to do exactly that.
+There are two test cases where the inline asm doesn't
+have the correct constraints causing them to fail when
+using certain clang versions/optimization levels.
 
-Fixes: b03c60f351 ("more syscalls")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1394
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+In mem_noshuf.c, the register r7 is written to but
+not specified in the clobber list.
+
+In misc.c, the 'result' output needs the early clobber
+modifier since the rest of the inputs are read after
+assignment to the output register.
+
+Signed-off-by: Mukilan Thiyagarajan <quic_mthiyaga@quicinc.com>
 ---
- linux-user/syscall.c | 55 ++++++++++++++++++++++++--------------------
- 1 file changed, 30 insertions(+), 25 deletions(-)
+ tests/tcg/hexagon/mem_noshuf.c | 2 +-
+ tests/tcg/hexagon/misc.c       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1f8c10f8ef..2aa19e33ca 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -11405,30 +11405,33 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_lchown:
-         if (!(p = lock_user_string(arg1)))
-             return -TARGET_EFAULT;
--        ret = get_errno(lchown(p, low2highuid(arg2), low2highgid(arg3)));
-+        ret = get_errno(lchown(p, low2highuid(tswapid(arg2)),
-+                               low2highgid(tswapid(arg3))));
-         unlock_user(p, arg1, 0);
-         return ret;
- #endif
- #ifdef TARGET_NR_getuid
-     case TARGET_NR_getuid:
--        return get_errno(high2lowuid(getuid()));
-+        return get_errno(tswapid(high2lowuid(getuid())));
- #endif
- #ifdef TARGET_NR_getgid
-     case TARGET_NR_getgid:
--        return get_errno(high2lowgid(getgid()));
-+        return get_errno(tswapid(high2lowgid(getgid())));
- #endif
- #ifdef TARGET_NR_geteuid
-     case TARGET_NR_geteuid:
--        return get_errno(high2lowuid(geteuid()));
-+        return get_errno(tswapid(high2lowuid(geteuid())));
- #endif
- #ifdef TARGET_NR_getegid
-     case TARGET_NR_getegid:
--        return get_errno(high2lowgid(getegid()));
-+        return get_errno(tswapid(high2lowgid(getegid())));
- #endif
-     case TARGET_NR_setreuid:
--        return get_errno(setreuid(low2highuid(arg1), low2highuid(arg2)));
-+        return get_errno(setreuid(low2highuid(tswapid(arg1)),
-+                                  low2highuid(tswapid(arg2))));
-     case TARGET_NR_setregid:
--        return get_errno(setregid(low2highgid(arg1), low2highgid(arg2)));
-+        return get_errno(setregid(low2highgid(tswapid(arg1)),
-+                                  low2highgid(tswapid(arg2))));
-     case TARGET_NR_getgroups:
-         {
-             int gidsetsize = arg1;
-@@ -11470,21 +11473,22 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             return get_errno(setgroups(gidsetsize, grouplist));
-         }
-     case TARGET_NR_fchown:
--        return get_errno(fchown(arg1, low2highuid(arg2), low2highgid(arg3)));
-+        return get_errno(fchown(arg1, low2highuid(tswapid(arg2)),
-+                                low2highgid(tswapid(arg3))));
- #if defined(TARGET_NR_fchownat)
-     case TARGET_NR_fchownat:
-         if (!(p = lock_user_string(arg2))) 
-             return -TARGET_EFAULT;
--        ret = get_errno(fchownat(arg1, p, low2highuid(arg3),
--                                 low2highgid(arg4), arg5));
-+        ret = get_errno(fchownat(arg1, p, low2highuid(tswapid(arg3)),
-+                                 low2highgid(tswapid(arg4)), arg5));
-         unlock_user(p, arg2, 0);
-         return ret;
- #endif
- #ifdef TARGET_NR_setresuid
-     case TARGET_NR_setresuid:
--        return get_errno(sys_setresuid(low2highuid(arg1),
--                                       low2highuid(arg2),
--                                       low2highuid(arg3)));
-+        return get_errno(sys_setresuid(low2highuid(tswapid(arg1)),
-+                                       low2highuid(tswapid(arg2)),
-+                                       low2highuid(tswapid(arg3))));
- #endif
- #ifdef TARGET_NR_getresuid
-     case TARGET_NR_getresuid:
-@@ -11492,9 +11496,9 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             uid_t ruid, euid, suid;
-             ret = get_errno(getresuid(&ruid, &euid, &suid));
-             if (!is_error(ret)) {
--                if (put_user_id(high2lowuid(ruid), arg1)
--                    || put_user_id(high2lowuid(euid), arg2)
--                    || put_user_id(high2lowuid(suid), arg3))
-+                if (put_user_id(tswapid(high2lowuid(ruid)), arg1)
-+                    || put_user_id(tswapid(high2lowuid(euid)), arg2)
-+                    || put_user_id(tswapid(high2lowuid(suid)), arg3))
-                     return -TARGET_EFAULT;
-             }
-         }
-@@ -11502,9 +11506,9 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
- #endif
- #ifdef TARGET_NR_getresgid
-     case TARGET_NR_setresgid:
--        return get_errno(sys_setresgid(low2highgid(arg1),
--                                       low2highgid(arg2),
--                                       low2highgid(arg3)));
-+        return get_errno(sys_setresgid(low2highgid(tswapid(arg1)),
-+                                       low2highgid(tswapid(arg2)),
-+                                       low2highgid(tswapid(arg3))));
- #endif
- #ifdef TARGET_NR_getresgid
-     case TARGET_NR_getresgid:
-@@ -11512,9 +11516,9 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             gid_t rgid, egid, sgid;
-             ret = get_errno(getresgid(&rgid, &egid, &sgid));
-             if (!is_error(ret)) {
--                if (put_user_id(high2lowgid(rgid), arg1)
--                    || put_user_id(high2lowgid(egid), arg2)
--                    || put_user_id(high2lowgid(sgid), arg3))
-+                if (put_user_id(tswapid(high2lowgid(rgid)), arg1)
-+                    || put_user_id(tswapid(high2lowgid(egid)), arg2)
-+                    || put_user_id(tswapid(high2lowgid(sgid)), arg3))
-                     return -TARGET_EFAULT;
-             }
-         }
-@@ -11524,14 +11528,15 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_chown:
-         if (!(p = lock_user_string(arg1)))
-             return -TARGET_EFAULT;
--        ret = get_errno(chown(p, low2highuid(arg2), low2highgid(arg3)));
-+        ret = get_errno(chown(p, low2highuid(tswapid(arg2)),
-+                              low2highgid(tswapid(arg3))));
-         unlock_user(p, arg1, 0);
-         return ret;
- #endif
-     case TARGET_NR_setuid:
--        return get_errno(sys_setuid(low2highuid(arg1)));
-+        return get_errno(sys_setuid(low2highuid(tswapid(arg1))));
-     case TARGET_NR_setgid:
--        return get_errno(sys_setgid(low2highgid(arg1)));
-+        return get_errno(sys_setgid(low2highgid(tswapid(arg1))));
-     case TARGET_NR_setfsuid:
-         return get_errno(setfsuid(arg1));
-     case TARGET_NR_setfsgid:
+diff --git a/tests/tcg/hexagon/mem_noshuf.c b/tests/tcg/hexagon/mem_noshuf.c
+index 0f4064e700..210b2f1208 100644
+--- a/tests/tcg/hexagon/mem_noshuf.c
++++ b/tests/tcg/hexagon/mem_noshuf.c
+@@ -144,7 +144,7 @@ static inline long long pred_ld_sd_pi(int pred, long long *p, long long *q,
+                  "}:mem_noshuf\n"
+                  : "=&r"(ret)
+                  : "r"(p), "r"(q), "r"(x), "r"(y), "r"(pred)
+-                 : "p0", "memory");
++                 : "r7", "p0", "memory");
+     return ret;
+ }
+ 
+diff --git a/tests/tcg/hexagon/misc.c b/tests/tcg/hexagon/misc.c
+index f0b1947fb3..9b1604d82f 100644
+--- a/tests/tcg/hexagon/misc.c
++++ b/tests/tcg/hexagon/misc.c
+@@ -189,7 +189,7 @@ static int L2_ploadrifnew_pi(void *p, int pred)
+                "    p0 = cmp.eq(%1, #1)\n\t"
+                "    if (!p0.new) %0 = memw(%2++#4)\n\t"
+                "}\n\t"
+-               : "=r"(result) : "r"(pred), "r"(p)
++               : "=&r"(result) : "r"(pred), "r"(p)
+                : "p0");
+   return result;
+ }
 -- 
-2.38.1
+2.17.1
 
 
