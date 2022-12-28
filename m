@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704B265735A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 07:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7274F657399
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 08:21:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAQEJ-0004Rz-Mo; Wed, 28 Dec 2022 01:47:59 -0500
+	id 1pAQj1-0003Jj-Hr; Wed, 28 Dec 2022 02:19:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pAQEA-0004Oj-GP
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 01:47:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pAQE9-0002hj-4b
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 01:47:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672210068;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+0V+KHDkTKzcOucSS3FxuSSpCHHmy0PktCvGEbnvWX4=;
- b=aNSIgXCXw8rIjYzkjyCmTaNYuu8bFN9st/jrc0KOmSSqK+h/8QYF9fwHQC4IMMtEY2w+1i
- 6k0QsrvbHBhA1s4t8hoY+ZHbJspb5Taj0AGzSrA2kYP51heG5RQJc7YUiuRXTUiIdeyBbQ
- KZHYhE4YhWCWMsa4p+DL4vUmL87GtHc=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-251-2z7CTLf4M-u4e2RKbNE4DQ-1; Wed, 28 Dec 2022 01:47:46 -0500
-X-MC-Unique: 2z7CTLf4M-u4e2RKbNE4DQ-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-14fa3e986a2so5453071fac.17
- for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 22:47:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAQix-0003Io-CD
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 02:19:39 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAQiv-0007OJ-TJ
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 02:19:39 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so10739893wms.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Dec 2022 23:19:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+vnfpTIyMM2zSGhuXvtjMHg3xkPN0wdZ1/mT7O6wnUI=;
+ b=CjMq2LohdEQOryM8cFSpJ+PyI7VchOM6jF9kuWUimtPLMnwE7N6f7TZCpMd5FXyN+b
+ G9+6Dk0I5BYouTPTqfOxwLbWlXGNq4NCyVM90bn2gxVyeLUI/mKUbr8EzJYnx6GmWtlx
+ ZJQJYx9TWn2vtuF078rJNghD+pvmLkGqFm5qPdv45pH/3vhDPbvr5aSDYT9CLe4hV8Ti
+ fdm/utIgPrwjofjCxv04V6/E9LGgP6F5nOizHBSw+6SxwyrpoVcrjLciXfrM7tbvOZY/
+ xSAUfJAfdkbEv+uNrezi7mYKJKC/hwwu6hOmUqHeMYopJaqi3/tfNvowPKRegQvfyZqU
+ w12g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+0V+KHDkTKzcOucSS3FxuSSpCHHmy0PktCvGEbnvWX4=;
- b=NQBiWKxceFzPP8DNY/apxib1caNtVa/tY+LOtfAFwWody8YuosOIF0jfzlbrw40Bh/
- cIAaMzHHu9AEGHtr5p0nlLsMSJaOmj55AgGwa2D4VCBmgnxFVl3FYRwVYJtvi3iveLAU
- c926UqS5uQmwyHpUjpwWg6kT026qHRwOt8oDnvG7yQVw4GT72clEk6rmb6iHBskP/nbv
- VknUNJg2uph1zGztnVWuRGsNq0Rtw3exgz2cbHFQ2aYTYmbqQ+ufO2j/ET7RmD8kXIua
- o6kB7t+WXfRVoKU1HtqY3bGeDczDQ0Lvn2+Khde4dfip7GfvYqy8IlGBZwj6uKcT+TFM
- we4w==
-X-Gm-Message-State: AFqh2kr3pZZQZuXc0DChbH1PIilR5INx2hzpf3gs5ubivswaS88jx7QG
- YJKuiF8hqw/VOZtB0KjBzimHBuWt7KZtCqy8rNnrLazq5cTyO0KI06KY2zUDUkk6w2NQp4zTZQ0
- V8r/9wkMEFPCZNVX/5W1kaoRgNESD+UI=
-X-Received: by 2002:a9d:7843:0:b0:678:1eb4:3406 with SMTP id
- c3-20020a9d7843000000b006781eb43406mr1528835otm.237.1672210066176; 
- Tue, 27 Dec 2022 22:47:46 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu1eXx8KUBqoMMzffVRICfPE4UrJN1qK6+O1OTRjZ+Z6/qnuQJfpFMQDg7AHvtVuDvvuN3t++kjweoFgKj2LEs=
-X-Received: by 2002:a9d:7843:0:b0:678:1eb4:3406 with SMTP id
- c3-20020a9d7843000000b006781eb43406mr1528830otm.237.1672210066008; Tue, 27
- Dec 2022 22:47:46 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+vnfpTIyMM2zSGhuXvtjMHg3xkPN0wdZ1/mT7O6wnUI=;
+ b=khmTKBHPjQfyGwPPKtdVGUtGyaz7ifBwz6hE4+1OzUr6ezQSLPkjrhWGeZq9iEsj2J
+ 4VIYUNyL1SmWNwdM8O/SwN2mVOi71rc8+wTO2lqo6gneK/VLINb8WGBYJlSFGUds0foQ
+ QU3i1b78bOa/QwzwppdkJwN7E3DrfnSXE39vYCMtNZrmOTC54SbnL8Epie2mNrQjsPBh
+ H6SAz0GJTLRi51N6rLeE6nk8WqaXbowQ7UicSxJJYdS3QA7wWiSZ2ykKyYPIjKRgJ3q6
+ ZpHddExgjV62x2TCGHWFpWfJRuKJuTs9ijvYwAPhTQUsHF5tHZUF/8ebi0HovpK8oUHf
+ HbjA==
+X-Gm-Message-State: AFqh2korUZfsX2MyOF5rYDzwFiT6nStXjUVPsyTS7GL5FHIVYoIZrR3a
+ E/hrFw+KjNNMJg4HyMulfE/xEQ==
+X-Google-Smtp-Source: AMrXdXsEJ6a1J5ybOhxiqLlEiKNjQqw82h5baRG/D8BVBNtt8drxNy0gTNsEFZ0pSozfbfKWfYyppQ==
+X-Received: by 2002:a05:600c:1c27:b0:3cf:a83c:184a with SMTP id
+ j39-20020a05600c1c2700b003cfa83c184amr17223731wms.24.1672211976051; 
+ Tue, 27 Dec 2022 23:19:36 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h14-20020a05600c314e00b003d237d60318sm21497774wmo.2.2022.12.27.23.19.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Dec 2022 23:19:35 -0800 (PST)
+Message-ID: <a38be29f-1ae3-1e10-6f56-2d1b4ca77bf5@linaro.org>
+Date: Wed, 28 Dec 2022 08:19:34 +0100
 MIME-Version: 1.0
-References: <20221224114848.3062-1-longpeng2@huawei.com>
- <20221224114848.3062-3-longpeng2@huawei.com>
-In-Reply-To: <20221224114848.3062-3-longpeng2@huawei.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 28 Dec 2022 14:47:35 +0800
-Message-ID: <CACGkMEtX+hCHTQ8esBivxVHpH3JcVUwv_nECnaJDOo5by7XKCw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] vdpa: harden the error path if get_iova_range failed
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Cc: stefanha@redhat.com, mst@redhat.com, sgarzare@redhat.com, 
- cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com, 
- yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org, 
- eperezma@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 2/4] accel/tcg: Use g_free_rcu for user-exec interval trees
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: iii@linux.ibm.com
+References: <20221224151821.464455-1-richard.henderson@linaro.org>
+ <20221224151821.464455-3-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221224151821.464455-3-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,43 +91,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Dec 24, 2022 at 7:49 PM Longpeng(Mike) <longpeng2@huawei.com> wrote:
->
-> From: Longpeng <longpeng2@huawei.com>
->
-> We should stop if the GET_IOVA_RANGE ioctl failed.
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-Thanks
-
->
-> Signed-off-by: Longpeng <longpeng2@huawei.com>
+On 24/12/22 16:18, Richard Henderson wrote:
+> Because we allow lockless lookups, we have to be careful
+> when it is freed.  Use rcu to delay the free until safe.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  net/vhost-vdpa.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index ffdc435d19..e65023d013 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -797,7 +797,13 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->          return queue_pairs;
->      }
->
-> -    vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-> +    r = vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-> +    if (unlikely(r < 0)) {
-> +        error_setg(errp, "vhost-vdpa: get iova range failed: %s",
-> +                   strerror(-r));
-> +        goto err;
-> +    }
-> +
->      if (opts->x_svq) {
->          if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
->              goto err_svq;
-> --
-> 2.23.0
->
+>   accel/tcg/user-exec.c | 18 ++++++++++--------
+>   1 file changed, 10 insertions(+), 8 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
