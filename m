@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477F86576AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 13:53:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5916576B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 13:54:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAVux-0003MB-HU; Wed, 28 Dec 2022 07:52:23 -0500
+	id 1pAVvA-0003UH-Sb; Wed, 28 Dec 2022 07:52:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAVuu-0003JM-5G
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 07:52:20 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAVv6-0003Rq-EF
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 07:52:32 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAVus-00043Z-JN
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 07:52:19 -0500
-Received: by mail-wr1-x431.google.com with SMTP id y8so14846534wrl.13
- for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 04:52:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAVv4-0004Wb-Tf
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 07:52:32 -0500
+Received: by mail-wr1-x429.google.com with SMTP id co23so14878186wrb.4
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 04:52:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=EL/Z36sXxdHC2TGjNArUEr6C0LdjQ8ge6ht/jxjnR5Y=;
- b=LqmXSt7PDVCy5LlKt3jdqnAFQvIAtkgbS0h8M+M9F2b6SggeWEhTK07ksqzwdWoDxD
- 0NUXHKE00JnyamF20rRqQUisEWgwKQJSZcZrNP39fdP86D9lt0T78jpE3kpI2Y4chf1E
- 2jwKmGuuqpwvavjceXUeqaysNfM5Ub+VdEfQbpK4JvgDYt7eI5PZrbBxQCd/kIqkEP+d
- mqYs03iXlFrzNJDlFpvHWUmKRWFgxh2oVPs+huweJVJbaFK2Hm77BSnvp3qEf+yKAmyy
- Pl1g4C0tY+FE8D1rBw53kpnaD8SYr5X6S6G9m93DKkMYAfNP1i0ZPOVkL7yzaXYBeEtT
- IeaA==
+ bh=gvupkxapq5gI0QMlcyegZ2s8IEjzH5BXi0qtcdzyuzw=;
+ b=qyPaacnGQK2QgujhBjUX2mmaJXWptVDolvR1Waoc2tR9NnE0RpXulsBgTwtJHjcGR6
+ /qZvkmdiAOZPBAmUkbNEl9lJRzdcPf/s/XeWDs0nE9VnDWbsCltHxe5OixysP7f5CsjW
+ xhXSLRFVr3MuxFwj2wX3HZTF3JqDTxjyvn82nTvCoAYJ6bLNRJVVXmxZJm9P/2TdNGwh
+ h9CET5szPhkSQmaH+BeyqzS5MaEh00QfwnhKX/8fLOlvyHTIf9okteJLmjpHCLHUIlgy
+ 7wxVOJBeNJ90AUhsxSIHGcsxcuof3fSchLlHEnYMSGZAXM37LRKL2sZk4boNsvKYrqEI
+ VAFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EL/Z36sXxdHC2TGjNArUEr6C0LdjQ8ge6ht/jxjnR5Y=;
- b=E589tQ4o0h6v+M4FvQ+94HeZMwV0eXW5g10L2k1j2jXLOYMfgmO7gRVtRGpWwqGfVi
- R0e3g8v3CLRDrspeZouBWJiosA3r594Jo/GpYw1ILjwZiLTX407t0PrvRuATKjBqCRxc
- X7Iv2q4ywbBs2j+4wgyaAO64g4jBCDPCCgTDxJxZSqeA5zT2pP+mHE/ePpCjpMWfUQ6v
- FeqebIb3R8d3v2AkDF9IhZIKxvLp5nJEtWPDlz5FCv5821495D3JyLNFFoAWecT30t4E
- YVlDox1KSbcFALN7U2wk9HpARJKDBHAPlEsGHpDhBU2snr7Yg8TVTivL3XB+fBnG0SLN
- VzCA==
-X-Gm-Message-State: AFqh2kqF+Nr+6vcVvsAXe+rS+/dKuJzB5CebHvwLHURJEofGCXG5c+Bd
- l11rCNCQQpDPV+tuY3rDxhdYJ/pkIudHkmgy
-X-Google-Smtp-Source: AMrXdXuC+HFQZNs5nB14XFUHYO9Ws/+gMkSEZ3+3icyb2BzmM8DD2Oqgg/qJIUfbUNMblpvVyWVpUA==
-X-Received: by 2002:adf:c751:0:b0:273:e357:1ca with SMTP id
- b17-20020adfc751000000b00273e35701camr12402937wrh.67.1672231936266; 
- Wed, 28 Dec 2022 04:52:16 -0800 (PST)
+ bh=gvupkxapq5gI0QMlcyegZ2s8IEjzH5BXi0qtcdzyuzw=;
+ b=i6ifbjLmX7TXGgR0gmBFSrNIlGj4kpTm9BhjtWEchgU+7YmAvyOYqTGtqA5mYy0Dbw
+ y1Mb7azIxNXVkkolQ5vs3pbCRyGmxjFXuqjWt0Fpnj1j848J1EukQwCjhHMfCkwScKHY
+ eH9jMN9wQasEn/Hjf8qego8a0EmzCUGz2w5oH5ihccO4da7oYCZqxnx2C6n8bHyObQa2
+ BQe/U+XTjzF8612iY/8lWMYmRWDzQ2StnIkirEOxQoJxUC6BV5Yk5J9jh5sbErBTKcFt
+ ZpCOM6LvL7HvJkPxoj8JEK+yWpDcbePo29dCMtRNFYZTCaoA0uVDc6/9qT7mrWkNnAID
+ UQyg==
+X-Gm-Message-State: AFqh2kruQPhZP5IarAC/cT2x2O+k9wyFsmZzaUyBDtYHQ6dDrRs0vpbx
+ 6ws8c08XIMqvL24c5GN1xKPIZOSBksXqKdbN
+X-Google-Smtp-Source: AMrXdXtz1Otf7cTfXxUMXDymwB1sdtsKmu24cLQJVzE1tZNK0Eea5+DrjgaGQytu8Hc3spbI+P95fg==
+X-Received: by 2002:a05:6000:910:b0:242:733b:af28 with SMTP id
+ bz16-20020a056000091000b00242733baf28mr21777618wrb.5.1672231948917; 
+ Wed, 28 Dec 2022 04:52:28 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h18-20020adff192000000b002422b462975sm15307572wro.34.2022.12.28.04.52.15
+ o6-20020adfa106000000b002423620d356sm15721665wro.35.2022.12.28.04.52.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Dec 2022 04:52:15 -0800 (PST)
-Message-ID: <ab06857d-e58c-b277-87a5-59516a01cf18@linaro.org>
-Date: Wed, 28 Dec 2022 13:52:14 +0100
+ Wed, 28 Dec 2022 04:52:28 -0800 (PST)
+Message-ID: <03ddc1ca-c0ff-6c36-827c-01a51f37fa32@linaro.org>
+Date: Wed, 28 Dec 2022 13:52:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 1a/4] accel/tcg: Fix tb_invalidate_phys_page_unwind
+Subject: Re: [PATCH 1b/4] accel/tcg: Unindent tb_invalidate_phys_page_unwind
 Content-Language: en-US
 To: qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
@@ -64,12 +64,13 @@ Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20221224151821.464455-2-richard.henderson@linaro.org>
  <20221228124918.80011-1-philmd@linaro.org>
+ <20221228124918.80011-2-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221228124918.80011-1-philmd@linaro.org>
+In-Reply-To: <20221228124918.80011-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -93,15 +94,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 28/12/22 13:49, Philippe Mathieu-Daudé wrote:
-> When called from syscall(), we are not within a TB and pc == 0.
-> We can skip the check for invalidating the current TB.
-> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > [PMD: Split patch in 2]
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   accel/tcg/tb-maint.c | 17 ++++++++++++-----
->   1 file changed, 12 insertions(+), 5 deletions(-)
+>   accel/tcg/tb-maint.c | 53 ++++++++++++++++++++++----------------------
+>   1 file changed, 27 insertions(+), 26 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
