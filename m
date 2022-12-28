@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469106577E9
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6ED6577EA
 	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 15:39:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAXZy-0004zz-0I; Wed, 28 Dec 2022 09:38:50 -0500
+	id 1pAXaZ-0005Fk-JU; Wed, 28 Dec 2022 09:39:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=vu6c=42=zx2c4.com=Jason@kernel.org>)
- id 1pAXZw-0004zU-3p
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 09:38:48 -0500
+ id 1pAXaX-0005FJ-Fz
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 09:39:25 -0500
 Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=vu6c=42=zx2c4.com=Jason@kernel.org>)
- id 1pAXZu-0001Zn-4A
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 09:38:47 -0500
+ id 1pAXaU-0001fM-Oq
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 09:39:25 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A90F9B816E6;
- Wed, 28 Dec 2022 14:38:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 241FCC433EF;
- Wed, 28 Dec 2022 14:38:41 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6F671B8170E;
+ Wed, 28 Dec 2022 14:39:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D5AC433D2;
+ Wed, 28 Dec 2022 14:39:18 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="A73fmF9l"
+ header.b="FmUMzWAF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1672238318;
+ t=1672238355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=dkJgTgd2jC8ETTG/AQ42cOUsYaFEUHH0gR+Zz3GXSTA=;
- b=A73fmF9lWmppNuC2KXpH47T/GR7PQl8TljcpIg0Gf0SivFw6DV9S8yGHxGfBgWJI0ldWQY
- Vb5I8HXrPFn5l9VAAL/Qwm/nGa4yvU1MWoL1hmAUwDA3QxJHswHgavJjMLfLtg8Hb9bhup
- Y+tVM8V0h0//pYpQSuX1yI00Jr4bAnE=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d884e2a0
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vq5HU2e0An2dJOWNwYu6KJi6n2DVTujSQj+JRa+gkDQ=;
+ b=FmUMzWAFC2yEV6GXbLI3DRDJiJgom9v72rI8zcZKK2t9r+6e2GXZGvhXCOvtYKczJyhotJ
+ WfjgePUsf1eEY22FIA3HNWFg7cB1POt0HctY1G00Kzby0bU2OPKcjzt/POiXXjQDY8zaOM
+ BBHiFg0BpsUFOq56eBmnNX/tpkuDiw4=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d267fddd
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 28 Dec 2022 14:38:38 +0000 (UTC)
+ Wed, 28 Dec 2022 14:39:15 +0000 (UTC)
+Date: Wed, 28 Dec 2022 15:39:12 +0100
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: pbonzini@redhat.com, ebiggers@kernel.org, x86@kernel.org,
- linux-kernel@vger.kernel.org, qemu-devel@nongnu.org, ardb@kernel.org,
- kraxel@redhat.com, hpa@zytor.com, bp@alien8.de
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH qemu] x86: don't let decompressed kernel image clobber
- setup_data
-Date: Wed, 28 Dec 2022 15:38:30 +0100
-Message-Id: <20221228143831.396245-1-Jason@zx2c4.com>
+To: Eric Biggers <ebiggers@kernel.org>, x86@kernel.org, linux-mm@kvack.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ kasan-dev@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
+Message-ID: <Y6xVELL0ZYNc5Bip@zx2c4.com>
+References: <20220921093134.2936487-1-Jason@zx2c4.com>
+ <20220921093134.2936487-4-Jason@zx2c4.com>
+ <Y6ZESPx4ettBLuMt@sol.localdomain> <Y6ZtVGtFpUNQP+KU@zx2c4.com>
+ <Y6Z+WpqN59ZjIKkk@zx2c4.com> <Y6muh1E1fNOot+VZ@zx2c4.com>
+ <Y6my+Oiz67G46snj@zx2c4.com> <Y6nSel5/wdnoSFpk@zx2c4.com>
+ <Y6r09pm68oI7GMe1@zx2c4.com> <Y6uy4b71GX0epQsu@zx2c4.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y6uy4b71GX0epQsu@zx2c4.com>
 Received-SPF: pass client-ip=2604:1380:4601:e00::1;
  envelope-from=SRS0=vu6c=42=zx2c4.com=Jason@kernel.org;
  helo=ams.source.kernel.org
@@ -78,77 +91,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The setup_data links are appended to the compressed kernel image. Since
-the kernel image is typically loaded at 0x100000, setup_data lives at
-`0x100000 + compressed_size`, which does not get relocated during the
-kernel's boot process.
+On Wed, Dec 28, 2022 at 04:07:13AM +0100, Jason A. Donenfeld wrote:
+> On Tue, Dec 27, 2022 at 02:36:54PM +0100, Jason A. Donenfeld wrote:
+> > On Mon, Dec 26, 2022 at 05:57:30PM +0100, Jason A. Donenfeld wrote:
+> > > On Mon, Dec 26, 2022 at 03:43:04PM +0100, Jason A. Donenfeld wrote:
+> > > > On Mon, Dec 26, 2022 at 03:24:07PM +0100, Jason A. Donenfeld wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > I'm currently stumped at the moment, so adding linux-mm@ and x86@. Still
+> > > > > working on it though. Details of where I'm at are below the quote below.
+> > > > > 
+> > > > > On Sat, Dec 24, 2022 at 05:21:46AM +0100, Jason A. Donenfeld wrote:
+> > > > > > On Sat, Dec 24, 2022 at 04:09:08AM +0100, Jason A. Donenfeld wrote:
+> > > > > > > Hi Eric,
+> > > > > > > 
+> > > > > > > Replying to you from my telephone, and I'm traveling the next two days,
+> > > > > > > but I thought I should mention some preliminary results right away from
+> > > > > > > doing some termux compiles:
+> > > > > > > 
+> > > > > > > On Fri, Dec 23, 2022 at 04:14:00PM -0800, Eric Biggers wrote:
+> > > > > > > > Hi Jason,
+> > > > > > > > 
+> > > > > > > > On Wed, Sep 21, 2022 at 11:31:34AM +0200, Jason A. Donenfeld wrote:
+> > > > > > > > > This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
+> > > > > > > > > for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
+> > > > > > > > > 
+> > > > > > > > > Cc: Laurent Vivier <laurent@vivier.eu>
+> > > > > > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > > > > > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > > > > > > > > Cc: Peter Maydell <peter.maydell@linaro.org>
+> > > > > > > > > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > > > > > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
+> > > > > > > > > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > > > > > > > > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> > > > > > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > > > > > > > > ---
+> > > > > > > > >  hw/i386/microvm.c | 2 +-
+> > > > > > > > >  hw/i386/pc_piix.c | 3 ++-
+> > > > > > > > >  hw/i386/pc_q35.c  | 3 ++-
+> > > > > > > > >  3 files changed, 5 insertions(+), 3 deletions(-)
+> > > > > > > > > 
+> > > > > > > > 
+> > > > > > > > After upgrading to QEMU 7.2, Linux 6.1 no longer boots with some configs.  There
+> > > > > > > > is no output at all.  I bisected it to this commit, and I verified that the
+> > > > > > > > following change to QEMU's master branch makes the problem go away:
+> > > > > > > > 
+> > > > > > > > diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> > > > > > > > index b48047f50c..42f5b07d2f 100644
+> > > > > > > > --- a/hw/i386/pc_piix.c
+> > > > > > > > +++ b/hw/i386/pc_piix.c
+> > > > > > > > @@ -441,6 +441,7 @@ static void pc_i440fx_8_0_machine_options(MachineClass *m)
+> > > > > > > >      pc_i440fx_machine_options(m);
+> > > > > > > >      m->alias = "pc";
+> > > > > > > >      m->is_default = true;
+> > > > > > > > +    PC_MACHINE_CLASS(m)->legacy_no_rng_seed = true;
+> > > > > > > >  }
+> > > > > > > > 
+> > > > > > > > I've attached the kernel config I am seeing the problem on.
+> > > > > > > > 
+> > > > > > > > For some reason, the problem also goes away if I disable CONFIG_KASAN.
+> > > > > > > > 
+> > > > > > > > Any idea what is causing this?
+> > > > > > > 
+> > > > > > > - Commenting out the call to parse_setup_data() doesn't fix the issue.
+> > > > > > >   So there's no KASAN issue with the actual parser.
+> > > > > > > 
+> > > > > > > - Using KASAN_OUTLINE rather than INLINE does fix the issue!
+> > > > > > > 
+> > > > > > > That makes me suspect that it's file size related, and QEMU or the BIOS
+> > > > > > > is placing setup data at an overlapping offset by accident, or something
+> > > > > > > similar.
+> > > > > > 
+> > > > > > I removed the file systems from your config to bring the kernel size
+> > > > > > back down, and voila, it works, even with KASAN_INLINE. So perhaps I'm
+> > > > > > on the right track here...
+> > > > > 
+> > > > > QEMU sticks setup_data after the kernel image, the same as kexec-tools
+> > > > > and everything else. Apparently, when the kernel image is large, the
+> > > > > call to early_memremap(boot_params.hdr.setup_data, ...) returns a value
+> > > > > that points some place bogus, and the system crashes or does something
+> > > > > weird. I haven't yet determined what this limit is, but in my current
+> > > > > test kernel, a value of 0x0000000001327650 is enough to make it point to
+> > > > > rubbish.
+> > > > > 
+> > > > > Is this expected? What's going on here?
+> > > > 
+> > > > Attaching gdb to QEMU and switching it to physical memory mode
+> > > > (`maintenance packet Qqemu.PhyMemMode:1 `) indicates that it
+> > > > early_memremap is actually working fine and something *else* is at this
+> > > > address? That's kinda weird... Is KASAN populating physical addresses
+> > > > immediately after the kernel image extremely early in boot? I'm seeing
+> > > > the crash happen from early_reserve_memory()->
+> > > > memblock_x86_reserve_range_setup_data(), which should be before
+> > > > kasan_init() even runs. Is QEMU calculating kernel_size wrong, when it
+> > > > goes to determine where to put the setup_data data? But that's the same
+> > > > calculation as used everywhere else, so hmm...
+> > > > 
+> > > > Jason
+> > > 
+> > > If bzImage is 15770544 bytes, it does not boot. If bzImage is 15641776
+> > > bytes, it does boot. So something is happening somewhat close to the
+> > > 16MB mark?
+> > > 
+> > 
+> > Okay, the issue is that it's being decompressed to an area that overlaps
+> > the source. So for example in my test kernel:
+> > 
+> > input_addr: 0x3f112bf
+> > output_addr: 0x1000000
+> > output_len: 0x3a5d7d8
+> > 
+> > Since 0x3a5d7d8 + 0x1000000 > 0x3f112bf, eventually this corrupts the
+> > setup_data at the end there.
+> > 
+> > Now digging into what can be done about it.
+> 
+> Not quite. input_addr doesn't matter, since setup_data still points to
+> the old mapping.
+> 
+> So the actual issue is:
+> 
+> compressed_size: 	0xf028d4
+> decompressed_size:      0x3a5d7d8
+> setup_data:      	0x100000 + compressed_size
+> output_addr:    	0x1000000 (this is LOAD_PHYSICAL_ADDR)
+> 
+> Since `output_addr + decompressed_size > setup_data && output_addr <
+> setup_data`, then it means the decompressor will write over setup_data.
+> 
+> Note that this is also a problem for SETUP_DTB, so it's a longstanding
+> bug.
+> 
+> I'm experimenting now with appending lots of zeros between the kernel
+> image and setup_data, so that the decompressor doesn't overwrite
+> setup_data, but so far it's not working.
+> 
+> Another option would be to have the build system warn when this is going
+> to happen, and suggest that the user increase the value of
+> CONFIG_PHYSICAL_START. This might be the best option...
 
-The kernel typically decompresses the image starting at address
-0x1000000 (note: there's one more zero there than the decompressed image
-above). This usually is fine for most kernels.
+I posted a patch:
+https://lore.kernel.org/qemu-devel/20221228143831.396245-1-Jason@zx2c4.com/
 
-However, if the compressed image is actually quite large, then
-setup_data will live at a `0x100000 + compressed_size` that extends into
-the decompressed zone at 0x1000000. In other words, if compressed_size
-is larger than `0x1000000 - 0x100000`, then the decompression step will
-clobber setup_data, resulting in crashes.
+We can move discussion on the topic over to that thread now.
 
-Fix this by detecting that possibility, and if it occurs, put setup_data
-*after* the end of the decompressed kernel, so that it doesn't get
-clobbered.
-
-One caveat is that this only works for images less than around 64
-megabytes, so just bail out in that case. This is unfortunate, but I
-don't currently have a way of fixing it.
-
-Cc: x86@kernel.org
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/i386/x86.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 78cc131926..628fd2b2e9 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1077,6 +1077,36 @@ void x86_load_linux(X86MachineState *x86ms,
-     }
-     fclose(f);
- 
-+    /* If a setup_data is going to be used, make sure that the bootloader won't
-+     * decompress into it and clobber those bytes. */
-+    if (dtb_filename || !legacy_no_rng_seed) {
-+        uint32_t payload_offset = ldl_p(setup + 0x248);
-+        uint32_t payload_length = ldl_p(setup + 0x24c);
-+        uint32_t target_address = ldl_p(setup + 0x258);
-+        uint32_t decompressed_length = ldl_p(kernel + payload_offset + payload_length - 4);
-+
-+        uint32_t estimated_setup_data_length = 4096 * 16;
-+        uint32_t start_setup_data = prot_addr + kernel_size;
-+        uint32_t end_setup_data = start_setup_data + estimated_setup_data_length;
-+        uint32_t start_target = target_address;
-+        uint32_t end_target = target_address + decompressed_length;
-+
-+        if ((start_setup_data >= start_target && start_setup_data < end_target) ||
-+            (end_setup_data >= start_target && end_setup_data < end_target)) {
-+            uint32_t padded_size = target_address + decompressed_length - prot_addr;
-+
-+            /* The early stage can't address past around 64 MB from the original
-+             * mapping, so just give up in that case. */
-+            if (padded_size < 62 * 1024 * 1024)
-+                kernel_size = padded_size;
-+            else {
-+                fprintf(stderr, "qemu: Kernel image too large to hold setup_data\n");
-+                dtb_filename = NULL;
-+                legacy_no_rng_seed = true;
-+            }
-+        }
-+    }
-+
-     /* append dtb to kernel */
-     if (dtb_filename) {
-         if (protocol < 0x209) {
--- 
-2.39.0
-
+Jason
 
