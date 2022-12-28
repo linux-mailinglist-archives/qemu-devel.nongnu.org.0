@@ -2,47 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D0265809B
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 17:18:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA41658277
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Dec 2022 17:37:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAZ75-0003bM-5y; Wed, 28 Dec 2022 11:17:07 -0500
+	id 1pAZPZ-0007ZI-V0; Wed, 28 Dec 2022 11:36:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1pAZ6S-0003VX-Rl
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 11:16:57 -0500
-Received: from rev.ng ([5.9.113.41])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1pAZ6Q-00005q-4e
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 11:16:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=zPQdS+Wv7fnrvCn5w4dmKkkrou+/4MNR7T5ISU7tFLY=; b=VAZDNsOzEsIhwbD67vJk4E2qwh
- uN0ssyWX8+g3x3+0+mFz+bMY+bDi2tXutKUmXnBUk/YgPWSg/BmbdpdGw222/SIWDlv5j0vTnPJm5
- Oo0ogW40nov5k1T8gR+4y4YS7rhroxI9SLpemu0KH28XOEnGMmTx8yXVcvjhxehh4JE8=;
-Date: Wed, 28 Dec 2022 17:16:17 +0100
-To: qemu-devel@nongnu.org
-Cc: Taylor Simpson <tsimpson@quicinc.com>, Philippe =?UTF-8?B?TWF0aGlldS1E?=
- =?UTF-8?B?YXVkw6k=?= <philmd@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>, Alex =?UTF-8?B?QmVubsOpZQ==?=
- <alex.bennee@linaro.org>
-Subject: [RFC] Reducing NEED_CPU_H usage
-Message-ID: <20221228171617.059750c3@orange>
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pAZP2-0007XA-L4
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 11:35:41 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pAZOz-0002V2-Io
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 11:35:40 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id d7so16469668pll.9
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 08:35:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wtV3xxzYq4eOVbDDFdjJX63NCt+4+O9c0kGrqzTWutQ=;
+ b=kUiNeB9jSoDsWYOilJJsXL64WQxoU+2MwFzndd6psF33agxqokswIAEL0qBZ6duhgg
+ B1pm4B8xq/jMTRfh1hUcF0ElpAsMkoAWLsKh0CPf9mohFkusCHyyZiLUFuJeOEOPSJhU
+ RbMgVerQrvJ32JKGYLprio7RbGGPKEiGQPpxnXUXavRVeju3CDpGlEYm8ji3wOTwMlFj
+ ZKlbV87MfuZ7pufSBquxmyVFgY4p2cfL1c/s7aAlyyDf1c/WynsEmrnMM4mX8DSgqrkb
+ z88BaY977bAosdRnqP8qGg6mEiA37U6KvUpH8Xk5nHUtcfA+KPpcccCFyF/fFUn1yAZU
+ jjSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wtV3xxzYq4eOVbDDFdjJX63NCt+4+O9c0kGrqzTWutQ=;
+ b=u/ixB+mVo46JVnXIkwOCo8rhSAASsmHJ1VecsUrlGbuUlrfb5+BIytSO2MAjsGQAHK
+ O1e6ZMIKN6z2iMaVyqNw+9/KtpxAdKUKKDQppTW4H8f1ef0oHoDWvstR2eDHX9cEZNj0
+ G8MilNhoqZtDokKYPmcvEyi9bYHQKXmnmgOwmFFzU81Zq5hN0bCk4RW8iggMDXa3WRlg
+ eaIZy6FTtp1cQ6UJACff3QPMRIopIkF3hjGCRa+3vOV9GKkaDwxisx/pymqQlFqaAzHW
+ DOmy2xOoDz64wIHdVBhfmWTMLSbkNwoA0llSP/bUVUmXdfz620/gfQoB592AfkarM0hI
+ 4DyQ==
+X-Gm-Message-State: AFqh2kq5WGeJtFLdQLSrn5++sVhQGmkx1vQdSqSGk+Gxkp6xQtyFSem0
+ H4xbQwLSa/8mlocA5fDIcnZhlVr9KsgZdpwmF8RoFQ==
+X-Google-Smtp-Source: AMrXdXsskV5ffDWNhiyj86HToKNy9GVDd+RetB3MGgeEMTfliHQ6SUmRrVisBPP8uSvz7cC0anCtjLs68+ACeLqnCrE=
+X-Received: by 2002:a17:902:ec8c:b0:192:5d9b:5895 with SMTP id
+ x12-20020a170902ec8c00b001925d9b5895mr1201725plg.127.1672245334557; Wed, 28
+ Dec 2022 08:35:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221218143927.597975-1-16567adigashreesh@gmail.com>
+ <d7f05d4f-2a56-6663-4a66-e53c3f14a061@linaro.org>
+ <Y6HjOqjECShxPfzU@arch.localdomain>
+In-Reply-To: <Y6HjOqjECShxPfzU@arch.localdomain>
+From: Andrew Melnichenko <andrew@daynix.com>
+Date: Wed, 28 Dec 2022 18:19:44 +0200
+Message-ID: <CABcq3pGii9c=f6LxNtNppoCky=jZbuqNFYcqKBuj1W2qgww84A@mail.gmail.com>
+Subject: Re: [PATCH] ebpf: fix compatibility with libbpf 1.0+
+To: Shreesh Adiga <16567adigashreesh@gmail.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, jasowang@redhat.com, yuri.benditovich@daynix.com, 
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Mauro Matteo Cascella <mcascell@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=andrew@daynix.com; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,332 +86,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Alessandro Di Federico <ale@rev.ng>
-From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello everyone, this is a proposal in the libtcg direction, i.e.,
-enabling building a single QEMU executable featuring multiple *targets*
-(i.e., TCG frontends).
-This follows what we discussed in recent KVM calls and originally at
-the KVM Forum Emulation BoF.
-
-Note that our commitment to this project is possible thanks to our
-collaboration with the Qualcomm Innovation Center!
-
-# Grand goal
-
-The following is the core point where translation of input code to host
-code takes place:
-
-    TranslationBlock *tb_gen_code(CPUState *cpu,
-                                  target_ulong pc, target_ulong cs_base,
-                                  uint32_t flags, int cflags)
-    {
-        // ...
-
-        gen_intermediate_code(cpu, tb, max_insns, pc, host_pc);
-        
-        // ...
-    
-        gen_code_size = tcg_gen_code(tcg_ctx, tb, pc);
-    
-        // ...
-    }
-
-    https://github.com/qemu/qemu/blob/4e4fa6c/accel/tcg/translate-all.c#L816
-
-We want:
-
-* `gen_intermediate_code` to be target-specific (provided by a shared
-  library)
-* `tb_gen_code` and `tcg_gen_code` to be target-agnostic
-
-Result: the frontend just emits instructions into the
-`TranslationBlock`, not much more.
-
-But first we need to make sure that QEMU is neatly divided into
-components that can make compile-time assumptions about the target and
-components that don't, which is what this proposal is about.
-
-This will be a large chunk of work affecting many parts of the code and
-requiring some infrastructural changes.
-
-# Strategy
-
-The strategy to make this happen is primarily to have an out-of-tree
-branch where the development of libtcg takes place. The main goal is to
-be able to limit usage of `NEED_CPU_H` and some other macros only to
-certain places (mainly `target/*` and `{bsd,linux}-user/*`).
-
-Initially we will focus on getting a `--target-list=x86_64-linux-user`
-configuration to build with reduced usage of `NEED_CPU_H`. This is just
-for simplicity, we intend to tackle all other configurations
-step-by-step.
-
-At first, there will be lots of hacks to make it build and QEMU won't
-be operational, but building it will enable us to identify all the core
-issues.
-
-Once all the core issues have been identified, we intend to prepare
-fixes for each one of them and frequently send them upstream in a form
-palatable for master. For instance, we expect to have a patch to move
-from `TARGET_TB_PCREL` to `TranslationBlock.pc_rel`.
-
-This way, we hope to be able to tackle the project in small bites and,
-at a certain point, send a patch upstream where `NEED_CPU_H` is
-actually disabled in many many places. Given the amount of work, doing
-everything in a single shot does not seem feasible or beneficial.
-
-# Core issues identifed so far
-
-In the following we report some of the core issues we identified, why
-they are problematic and what we intend to do to tackle them. Feedback
-on each and every point is very welcome! :)
-
-## `NEED_CPU_H`
-
-`NEED_CPU_H` is a macro to decide whether a certain translation unit
-needs `target/$ARCH/cpu.h` or not. In several headers, this macro is
-used to guard target-specific code.
-
-Problem: we need to build translation units out of the `target/`
-and `*-user/` directories *without* this macro being defined.
-This also means that many files will be compiled only once and not once
-per target!
-
-Solution: Fix all the issues caused by undefining it (main ones
-are reported below). Sometimes a solution is to take headers that are
-currently target-specific headers and introduce `#ifdef NEED_CPU_H` in
-certain parts so that they become target-agnostic.
-
-At a certain point it might make sense to count how many lines are
-guarded by such macro and consider splitting headers into
-target-agnostic and target-specific ones.
-
-Note: currently, we plan to get rid of all usages of `TARGET_*`
-macros in code that we want to become target agnostic but *not* of
-`CONFIG_USER_ONLY` and `CONFIG_SOFTMMU`. At least initially, our goal
-is just to decouple translation units out of `target/`/`*-user/` from
-target-specific assumptions.
-
-## `target_ulong`
-
-`target_ulong` is `uint32_t` in 32-bit targets and `uint64_t` in 64-bit
-targets.
-
-Problem: This is used in many many places to represent addresses in
-code that could become target-independent.
-
-Proposed solution: we can convert it to:
-
-    typedef uint64_t target_address;
-
-The problem with this is that, if arithmetic operations are performed
-on it, we might get undesired results:
-
-    // Was: char load_data(target_ulong address)
-    char load_data(target_address address) {
-      char *base_address = get_base_address();
-      // On a 32-bits target this would overflow, it doesn't with
-      // uint64_t
-      target_address real_address = address + 1;
-      return *(base_address + real_address);
-    }
-
-    load_data(UINT32_MAX);
-
-This is might be a source of subtle bugs.
-We're using a rough `clang-query` invocation to see who performs
-arithmetic on `target_ulong`:
-
-    $ cd build
-    $ cat compile_commands.json \
-        | jq -r '.[] | .["file"]' \
-        | grep -v 'target/' \
-        | grep -v 'linux-user/' \
-        | xargs -P$(nproc) -n1 \
-          clang-query \
-            --extra-arg='-Wno-error' \
-            --extra-arg='-w' \
-            -p . \
-            -c 'match binaryOperator(anyOf(hasOperatorName("-"),
-                                           hasOperatorName("+")),
-                                     hasDescendant(expr(hasType(typedefDecl(anyOf(hasName("target_ulong"),
-                                                                                  hasName("abi_ulong"))))))).bind("x")' \
-        | grep -v '0 matches.' \
-        | grep 'binds here' \
-        | sort -u \
-        | wc -l
-    34
-
-Not too bad.
-
-An alternative would be to do some "data hiding" and have:
-
-    struct target_address {
-      uint64_t address;
-    };
-
-And then have `increment_address(target_address *, CPUState *)` in
-order to perform safe arithmetic depending on the current target.
-However this seems a bit excessive, we could rely on simply letting the
-developer mask addresses in cases of arithmetic in target-independent
-code.
-
-## `abi_ulong`
-
-Similar to `target_ulong`, but with alignment info.
-
-The role of `abi_ulong` is not entirely clear to me. Some feedback on
-this would be welcome.
-
-## `TCGv`
-
-`TCGv` is a macro for `TCGv_i32` for 32-bit targets and `TCGv_i64`
-for 64-bit targets.
-
-Problem: it makes `tcg-op.h` and, more importantly, `tcg-op.c`
-target-specific.
-
-Solution: transform current functions using them into target-specific
-wrappers that dispatch to target-agnostic functions that accept
-`TCGv_dyn` instead of `TCGv`:
-
-    typedef struct {
-        union {
-            TCGv_i32 i32;
-            TCGv_i64 i64;
-        };
-        bool is_64;
-    } TCGv_dyn;
-
-In the semi-last KVM call, it has been suggested that instead of having
-a discriminated `union` we could stuff the address size in `MemOp`,
-which is a common argument to functions taking a `TCGv`. However, that
-would either require one of the following:
-
-* still have `TCG_dyn` as a union, use `MemOp` instead of the `is_64`
-  field; however I think the discriminated union is more suitable and
-  it'd be a bit of an abuse to use `MemOp` since currently it describe
-  *how* to perform the load but it says nothing about the size of the
-  address;
-
-* make `TCGv` become opaque (`typedef struct TCGv_d *TCGv`) and put a
-  cast in `tcg-op.h` code, we'd lose type safety here;
-
-* use `_Generic` but that, in turn, would require either moving all
-  functions taking a `TCGv` to the header and turn them into macros
-  *or* turn `tcg-op.c` into a template file where each function taking
-  a `TCGv` is instantiated twice with different suffixes depending on
-  the type of the argument;
-
-The changeset for the `TCGv_dyn` solution, on the other hand, is rather
-small:
-
-    https://github.com/revng/qemu-hexagon/commit/f4098d84c241b86418e401396851d12f2fdbcf7a
-    https://github.com/revng/qemu-hexagon/commit/251ef7631640e645a03b0ffa72fa96f3eb686129
-
-## `TARGET_` macros
-
-These are macros that provide target-specific information.
-
-Problem: they need to be abandoned in translation units that need to
-become target agnostic.
-
-Solution: promote them to fields of a `struct`.
-Current ideas:
-
-    TARGET_TB_PCREL -> TranslationBlock.pc_rel
-    TARGET_PAGE_BITS -> TranslationBlock.page_bits
-    TARGET_PAGE_MASK -> TranslationBlock.page_mask
-    TARGET_PAGE_ALIGN -> CPUArchState.page_align
-                      -> DisasContextBase.page_align
-    TARGET_LONG_BITS -> TCGContext.long_bits 
-    TARGET_PAGE_SIZE -> ???
-    TCG_OVERSIZED_GUEST -> ???
-    TARGET_FMT_lx -> ???
-    CPU_RESOLVING_TYPE -> ???
-
-Sometimes, this is trivial, other times this means adding arguments to
-functions that previously could rely on direct macro use.
-
-## `CPUState`
-
-`CPUState` is a target-agnostic `struct` representing common information
-of `ArchCPU`.
-
-Problem: given an (opaque) pointer to `CPU${Arch}State`,
-target-agnostic code often wants to reach `CPUState`, but this requires
-knowledge of the layout of `ArchCPU`, which is target-dependent.
-
-Solution: have a target-specific function to obtain the pointer to
-`CPUState` given `CPU${Arch}State`. Where this function would go, and
-how it would be retrieved, needs more consideration.
-I imagine a table of target-specific function pointers.
-
-## `CPUNegativeOffsetState`
-
-`CPUNegativeOffsetState` is a `struct` placed in `ArchCPU` before
-`CPU${Arch}State`.
-
-    struct ArchCPU {
-        /*< private >*/
-        CPUState parent_obj;
-        /*< public >*/
-    
-        CPUNegativeOffsetState neg;
-        CPUAlphaState env;
-    
-        /* This alarm doesn't exist in real hardware; we wish it did.
-    */ QEMUTimer *alarm_timer;
-    };
-
-Problem: used in several parts of the code that need to become
-target-agnostic.
-
-Solution: make it target-agnostic and push it into `CPUState`, which is
-the place for target-agnostic stuff.
-
-I'm not sure why this isn't already the case. I'm probably missing
-something here, so feedback is welcome.
-
-# What's left out?
-
-Quite a few minor things but.. you tell me!
-There's probably *a lot* more stuff when we dig into system mode
-emulation, but I'd postpone investigating those issues until we have
-user mode in a decent shape.
-
-Apart from this, let me know if there's something else we're missing.
-
-# Current status
-
-We currently have a branch where we can build (but not link nor run) a
-`x86_64-linux-user` configuration where `NEED_CPU_H` is defined only
-for translation units in `target/` and `linux-user/`.
-
-It's the result of a (painful) journey. You can try it here:
-
-    git clone https://github.com/revng/qemu-hexagon.git
-    cd qemu-hexagon
-    git checkout feature/multi-tcg
-    mkdir build
-    cd build
-    ../configure --target-list=x86_64-linux-user
-    ninja -k0 | grep FAILED
-    # It should build but fail linking qemu-x86_64
-
-This process required commenting a lot of code, it's not supposed to
-work at all and it's quite ugly. However, it has been very useful since
-it enabled us to use the compiler to discover what is problematic.
-
-Sorry for the wall of text.
-
-Enjoy the last few days of 2022!
-
--- 
-Alessandro Di Federico
-rev.ng Labs
+Hi, it's a good idea to update the skeleton generation. Technically
+skeleton generation is not a part of Qemu building. The skeleton is
+already presented in the Qemu tree, so we skip dependencies from
+clang/bpftool.
+It's a good idea to have an updated bpf program and simplified
+Makefile with Qemu sources. And the skeleton in the Qemu tree should
+be identical to what the Makefile.ebpf would generate.
+I think having one patch with all changes to eBPF RSS is acceptable.
+
+On Tue, Dec 20, 2022 at 6:30 PM Shreesh Adiga
+<16567adigashreesh@gmail.com> wrote:
+>
+> On Sun, Dec 18, 2022 at 05:15:04PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> > Hi,
+> >
+> > On 18/12/22 15:39, Shreesh Adiga wrote:
+> > > The current implementation fails to load on a system with
+> > > libbpf 1.0 and reports that legacy map definitions in 'maps'
+> > > section are not supported by libbpf v1.0+. This commit updates
+> > > the Makefile to add BTF (-g flag) and appropriately updates
+> > > the maps in rss.bpf.c and update the skeleton file in repo.
+> > >
+> > > Signed-off-by: Shreesh Adiga <16567adigashreesh@gmail.com>
+> > > ---
+> > >   ebpf/rss.bpf.skeleton.h  | 1171 ++++++++++++++++++++++++++++-------=
+---
+> > >   tools/ebpf/Makefile.ebpf |    8 +-
+> > >   tools/ebpf/rss.bpf.c     |   43 +-
+> > >   3 files changed, 891 insertions(+), 331 deletions(-)
+> >
+> >
+> > > +static inline const void *rss_bpf__elf_bytes(size_t *sz)
+> > > +{
+> > > +   *sz =3D 20440;
+> > > +   return (const void *)"\
+> > >   \x7f\x45\x4c\x46\x02\x01\x01\0\0\0\0\0\0\0\0\0\x01\0\xf7\0\x01\0\0\=
+0\0\0\0\0\0\
+> > > -\0\0\0\0\0\0\0\0\0\0\0\x18\x1d\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0\x40=
+\0\x0a\0\
+> > > -\x01\0\xbf\x18\0\0\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\x4c\xff\0\0\0=
+\0\xbf\xa7\
+> > > -\0\0\0\0\0\0\x07\x07\0\0\x4c\xff\xff\xff\x18\x01\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\
+> > > +\0\0\0\0\0\0\0\0\0\0\0\x98\x4c\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0\x40=
+\0\x0d\0\
+> > > +\x01\0\xbf\x19\0\0\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\x54\xff\0\0\0=
+\0\xbf\xa7\
+> > > +\0\0\0\0\0\0\x07\x07\0\0\x54\xff\xff\xff\x18\x01\0\0\0\0\0\0\0\0\0\0=
+\0\0\0\0\
+> > >   \xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x06\0\0\0\0\0\0\x18\x0=
+1\0\0\0\0\0\
+> > > -\0\0\0\0\0\0\0\0\0\xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x07\0=
+\0\0\0\0\0\
+> > > -\x18\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\x15\x06\x66\x02\0\0\0\0\x=
+bf\x79\0\0\
+> > > -\0\0\0\0\x15\x09\x64\x02\0\0\0\0\x71\x61\0\0\0\0\0\0\x55\x01\x01\0\0=
+\0\0\0\x05\
+> > > -\0\x5d\x02\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\xc0\xff\0\0\0\0\x7b\x=
+1a\xb8\xff\
+> > > -\0\0\0\0\x7b\x1a\xb0\xff\0\0\0\0\x7b\x1a\xa8\xff\0\0\0\0\x7b\x1a\xa0=
+\xff\0\0\0\
+> > > -\0\x63\x1a\x98\xff\0\0\0\0\x7b\x1a\x90\xff\0\0\0\0\x7b\x1a\x88\xff\0=
+\0\0\0\x7b\
+> > > -\x1a\x80\xff\0\0\0\0\x7b\x1a\x78\xff\0\0\0\0\x7b\x1a\x70\xff\0\0\0\0=
+\x7b\x1a\
+> > > -\x68\xff\0\0\0\0\x7b\x1a\x60\xff\0\0\0\0\x7b\x1a\x58\xff\0\0\0\0\x7b=
+\x1a\x50\
+> > > -\xff\0\0\0\0\x15\x08\x4c\x02\0\0\0\0\x6b\x1a\xd0\xff\0\0\0\0\xbf\xa3=
+\0\0\0\0\0\
+> > > -\0\x07\x03\0\0\xd0\xff\xff\xff\xbf\x81\0\0\0\0\0\0\xb7\x02\0\0\x0c\0=
+\0\0\xb7\
+> > > +\0\0\0\0\0\0\0\0\0\xbf\x72\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x08\0=
+\0\0\0\0\0\
+> > > +\x18\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\x15\x06\x67\x02\0\0\0\0\x=
+bf\x87\0\0\
+> > > +\0\0\0\0\x15\x07\x65\x02\0\0\0\0\x71\x61\0\0\0\0\0\0\x55\x01\x01\0\0=
+\0\0\0\x05\
+> > > +\0\x5e\x02\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\xc8\xff\0\0\0\0\x7b\x=
+1a\xc0\xff\
+> > > +\0\0\0\0\x7b\x1a\xb8\xff\0\0\0\0\x7b\x1a\xb0\xff\0\0\0\0\x7b\x1a\xa8=
+\xff\0\0\0\
+> > > +\0\x63\x1a\xa0\xff\0\0\0\0\x7b\x1a\x98\xff\0\0\0\0\x7b\x1a\x90\xff\0=
+\0\0\0\x7b\
+> > > +\x1a\x88\xff\0\0\0\0\x7b\x1a\x80\xff\0\0\0\0\x7b\x1a\x78\xff\0\0\0\0=
+\x7b\x1a\
+> > > +\x70\xff\0\0\0\0\x7b\x1a\x68\xff\0\0\0\0\x7b\x1a\x60\xff\0\0\0\0\x7b=
+\x1a\x58\
+> > > +\xff\0\0\0\0\x15\x09\x4d\x02\0\0\0\0\x6b\x1a\xd0\xff\0\0\0\0\xbf\xa3=
+\0\0\0\0\0\
+> > [...]
+> >
+> > Can we have a build system step which generates this file and compare
+> > with what is committed in the repository that we can run in our CI?
+> >
+> > That would avoid the need of human review of this blob.
+> >
+> Here are the steps to verify:
+> Pull latest archlinux/archlinux docker image and get a bash shell inside
+> the container. Install the required toolchain packages.
+> pacman -Syu --noconfirm
+> pacman -S --noconfirm  bpf libbpf llvm clang make
+>
+> Confirm the versions:
+> clang 14.0.6
+> bpftool 7.0.0
+> libbpf 1.0.1
+>
+> After this, ensure that the files Makefile.ebpf and rss.bpf.c from this
+> patch exist at /home/shreesh/c/qemu/tools/ebpf/ inside the docker.
+> This path seems to be important since BTF info seems to contain the absol=
+ute
+> path of rss.bpf.c which was compiled by clang and is embedded inside
+> the generated ELF object.
+>
+> Run `make -C /home/shreesh/c/qemu/tools/ebpf -f Makefile.ebpf` and
+> verify that `sha256sum /home/shreesh/c/qemu/tools/ebpf/rss.bpf.skeleton.h=
+` is
+> a54af3d1fb401ddd56c151f00ae20d6557e965c0a1a4d8ed5f8d925457158a0e which
+> should be the same as the one submitted as part of this patch.
+>
+> I'm not familiar with QEMU's CI and am not sure if the above steps can
+> be converted into build system steps. However it should be doable by a
+> human and verify that the generated skeleton file is correct and not
+> tampered with.
+>
+> Regards,
+> Shreesh
 
