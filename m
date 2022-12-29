@@ -2,82 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB8865902C
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 19:13:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE62F6590CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 20:17:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAxOB-0007Kv-1j; Thu, 29 Dec 2022 13:12:23 -0500
+	id 1pAyLb-0008IO-8Y; Thu, 29 Dec 2022 14:13:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAxO7-0007Jy-Is
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 13:12:19 -0500
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pAxO5-0003fs-N3
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 13:12:19 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id u204so17239535oib.7
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 10:12:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u7+22eHsp/sdotkCxCWkv/b53OuOxZgFQ9IjPprCZ4c=;
- b=CsMOHZ7zViJZmZtVXioghJKfRh/z5ngdGx8nlNgk2q4mnouh7i8se/4COYX7twxMFB
- tDwkcjAS0pZ//tETIofTG9dKu6a8HOLk3D7TEdrFkWOuurGhn9nhk13RRnQ4BpP3I/pP
- xnqKDHdVYqzlOTx+BvzxGG71tBwiPH3hl6As+pVuItULGKu6htYYhvGlYXjut3Y6GjAT
- KhROLj1WulmblsZnbfl+Be22tg9h8Cq7U+COx2axKnRgcupnNC05SrFp+/R410a1DNyr
- R/XzRwgcVr+YBkMXyEpLDij1FBeyYaU8n26VV4qm6mYvgrckcURgkxAp3WLVgxZNtLJi
- NvVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=u7+22eHsp/sdotkCxCWkv/b53OuOxZgFQ9IjPprCZ4c=;
- b=ixN0koCXVPaPoi0/qQcRsWmCHkOEPKaFZHc8Qo8beRZpF2Jzc7ASL5z9XOAdm2PgK+
- 3fxWHiGz4CEsXUuR6CevGA+LjBx4L8by+6pby2tCKvSD/K6M2JgEsq60xmpdI81bVyKU
- siGuNHW56HTBlPZ0xsO2a7T1BM68hQkixmVePVPwPAuHmoky9pPDZgVaRKwJrBEtKPq0
- wtXaS62Hm7X5J/6jzHuX9cjcWlQs0rDn4sMqIBK02NsBPxbQSg/a/l9vgaE2eQESudrq
- GHD9ErGxgI2IloL9JBzl41C+L7/PGC7E93A3L8N3tjgAKnY+5baTOET/audnbdJkRykX
- spTg==
-X-Gm-Message-State: AFqh2kpK2e6bqxYnBlfhcgu9Pj1zYwKSM1NLMDwO/JFKO1EQLlBiT+BH
- rYy20gBfPchXtRzkHzf0JJrVbolOWpeImPPu
-X-Google-Smtp-Source: AMrXdXuXMHsAl9AdXMVRQE4cvAR4Z98GoFaWYhVOkFIzlGviwamDky8Upr1RJegw78iOL47RnJsM2Q==
-X-Received: by 2002:a05:6808:638e:b0:360:d0db:d3c2 with SMTP id
- ec14-20020a056808638e00b00360d0dbd3c2mr15030408oib.15.1672337536691; 
- Thu, 29 Dec 2022 10:12:16 -0800 (PST)
-Received: from fedora.. ([191.17.222.139]) by smtp.gmail.com with ESMTPSA id
- d20-20020a056830139400b0066db09fb1b5sm9267205otq.66.2022.12.29.10.12.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 10:12:16 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bmeng@tinylab.org>
-Subject: [PATCH v4 11/11] hw/riscv/boot.c: make riscv_load_initrd() static
-Date: Thu, 29 Dec 2022 15:11:35 -0300
-Message-Id: <20221229181135.270661-12-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221229181135.270661-1-dbarboza@ventanamicro.com>
-References: <20221229181135.270661-1-dbarboza@ventanamicro.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pAyLZ-0008HM-1p
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 14:13:45 -0500
+Received: from mail-db3eur04on0708.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0c::708]
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pAyLX-0007uK-8i
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 14:13:44 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XkKc7tlSEYD6QdSYAarwNbZYuT2jHxWgJ609f812/WjcmWkCXNyk10QSQqlrzsOY002i1YgTxpBloU0h09WtGbUuyMCigxgQGDw+TxWaz79RlCNjA0/Rrnz99v5pUPrWkMAFErXoCqauXFBWuS1M7TkkMVoqTDiPbq4EiANViSGqThlo6EqB/6szgoKGvsThyAouPKIcHSM99Y03JmCxzBBFLdyyvSWTfdAmU8Rc6ATYBj+wg+TeuSeHIitW6M+Wvux/TDfChlKfS147FDpbnkFFwj55WtEI4bbkYtiy3AQMdXnwHCko43geJ+3Lbe9IhlFayKkA4lTtVKwYBw/FUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CbNPupfk5xR+2NfITWgBDwcNBYpmCp6LJb9aaT0+wcg=;
+ b=dxoMl3WcigugQSqdrfE/ooagpnQy/E1az7zImqd1ZGCPp41gFOEyONtxL4S9DL3tgY1ZTZ92GeWCqvxkbppXOhJ9xFAlehQGDZ7H3Jv4ynh8v+cFiOkkkjMiZscIZetf7iYjHY65cpiqdwb2leWBqbrIFUdjMfH0s0wCG1BfbRb2rcolLv60SnGcaQmnOqd9giyM+Svkq7JTNzqzXnsQDfRh0v/N683mS5RBHb3PTb0NeBzFVrpEvfPAHedF1ylJVqRukYb9uYG6faLV0CSxfotDNA2koCUFQNofriRbAIhW7HEvBGAKwpshdSujOS9JZZCsRGArLhroH6fp+a3rmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
+ s=selector2-estab-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CbNPupfk5xR+2NfITWgBDwcNBYpmCp6LJb9aaT0+wcg=;
+ b=ND5rqXXdTs8Th9bA+LUI98eIVxZ2GxR4Ud9U36oK3Nw0cHQ6G5gNxbgxIW2I7P9GlvQJr2U0K7qsB+LfhZxpg/X6Ls+bIr4Pp/z+7JldnrSA89oInHlRxy2hhS1Xm3WVatoyoocQyqvcgLevZH1FLD0fXKGE/2KaO+bSMOEIou8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
+ by PR3P189MB1049.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5966.17; Thu, 29 Dec
+ 2022 19:08:36 +0000
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::8f70:435b:ab64:9420]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::8f70:435b:ab64:9420%4]) with mapi id 15.20.5966.017; Thu, 29 Dec 2022
+ 19:08:36 +0000
+From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+To: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Subject: [PATCH v2 0/6] hw/net/igb: emulated network device with SR-IOV 
+Date: Thu, 29 Dec 2022 20:08:11 +0100
+Message-Id: <20221229190817.25500-1-sriram.yagnaraman@est.tech>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0081.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:a::21) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:1e7::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|PR3P189MB1049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28113e36-9748-49c1-a4f7-08dae9d015fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4ZaYcvLO2reFu0JZNR5A2S2uDreW/NncVt792kpfL7hOzXgJOqECvvMatKgELUQKEGWvxIIi7qng9ydirylkdsAm0BE1mHSVE9rBRVtXkarMdhiqzVSHMgCU2KWLIHiHlporbFPIRLmkyXeLyjZ6VRUU8+/sJQXKHIre/4XKHYbI4ikeY+2ECDeccJLddOsaY7DRhoMAjV8fJos/aZekXMsissilwgCX3AUkvoQm27IwjXIyw0diVz+uzgzFHkYJ6eo3FkPWzl9eKUCAcJlh0CXl9o0Rb5qDaX34Xnyjhe0bMctbTthL8ygJ0scg5V5mgLDcZxucizxm0GeeWrXjP/rYYbusEy2+7jUJwTvRUw+f9hI72x5hlF68smu6xCwl/ul0CaqeWek7CF393p5SkEdNw6lWNOaAWWW9INBjLhVRVHrXNl4XWff+AcEH9JYVsc9Til+UIWm5AA7rKQArRkPHLVI6SGYEgyGDAc+pv61zs3VVJ9esZpeSOarYGluSQqKO50sLUWdCUMBbQ4Zd/7jOriA6Em0zayE0eoOIsyU5GCEL24VsMo0L3yZUWPLp0848u9K2nESoDqv9HT7jdAGJh/3mVt4cLqdMI71n8EY1tiRg69o4l1QZbQIHb6iXRB8Cchd9JAySCAqqapOiHeGtkNusAlM52MFLLlhIHl6fKPt3sqV6yVrqWsTLa+DH
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230022)(39830400003)(346002)(376002)(396003)(136003)(451199015)(6512007)(36756003)(186003)(110136005)(26005)(4743002)(316002)(66476007)(5660300002)(44832011)(83380400001)(2616005)(70586007)(66946007)(66556008)(38100700002)(4326008)(1076003)(8676002)(2906002)(6486002)(8936002)(86362001)(478600001)(41300700001)(6666004)(6506007)(37730700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Kaf1+49qOXYxYJ04ENBPuhNS0Qjvg9b1TmRkxJIuAURR1eHxqg8ld/Dy3bnl?=
+ =?us-ascii?Q?exik6E5x+f1a7QhOvF9GGnGc5l0qkN8tFhTGG4dsJ7QLbpFA0a7UzFY1X6ci?=
+ =?us-ascii?Q?QK6YlsaTa3RcYsXQw1YrFgj7SW8qCGi/tlQUd7mPwTxHvFeyU5QCGSUQE4v6?=
+ =?us-ascii?Q?SJWbuRz4Jrv0wUIFgEP8k570Zfi3LXtIBDQMtLMscBLOl67UBfm3KKwe1tuu?=
+ =?us-ascii?Q?UFq/XWJsmNzpumrurjVgen6v+VAeEpw2ntF27QTaZD+mHkMNfXP29T7A9STY?=
+ =?us-ascii?Q?kIjlO/oUiBMUQqQ2vQgbnSUdnDB+FP+zY9u5GbqoNwBI2C6P2o3ttmX7RZ54?=
+ =?us-ascii?Q?tPUSvo7uB8JuNJo51t7Y1hK1vb3wgZ4KQCBuM+0fAGsWuWFrr4AtnDi6NO+4?=
+ =?us-ascii?Q?GIMqURmBCLXWHAT6k0woM6RVsJXqfPr/QXAmaeTPUazMP7jXAwNpbBrCMwn4?=
+ =?us-ascii?Q?WabIv8UxBJxUE1WzWdKdUc1vt/ERNDmsnvPIfXN3hJPLpCKJwWfSAYPLss0f?=
+ =?us-ascii?Q?dqnxUTEv2qU6z2DZXlszTcE4D88BXcGNQVXUPrcKTQu5ImayUEwzQeMApHU6?=
+ =?us-ascii?Q?r7cMONLhchsu4qWuND1y9EOLHkf7/g+qQXQ1LmPbI+hW/jzusaJkD0XEHnFR?=
+ =?us-ascii?Q?jr9JwCkrJmmHJy5hQsggG8p3M8F9h93zRRcxYtHLGxF1sphZGZpfveKLzKXh?=
+ =?us-ascii?Q?POIgnciNVEC64nx+IEu30mA8VOGxHL3Lk5s+kcVGxYEY1aZKhmYQpDOORIbZ?=
+ =?us-ascii?Q?kdQzTtwm+qZKm0SIrz7FlfUalUGeVSB5xqGGJec6OxgXvW5twexXWVBF2stY?=
+ =?us-ascii?Q?/0oYInK+z8htftxLH6BN1X/QoZN2scbAFdEKYZA4DfpVHz/trWug7jUQC+/s?=
+ =?us-ascii?Q?iMtinyWpmXz2AXn+PqCzrHU0WTOxRjX616H/H4OaMMlcI8hNK8GDrgyvWSbT?=
+ =?us-ascii?Q?OmtZVjOF0REk9fzBNVtnAoVw3DNlBpp/f9Yymx6PE0TxEABBSi2wX3tMXTSO?=
+ =?us-ascii?Q?//aXQtE4o+WqsOJafgtQ0oCZO9CBC2dgAhsn1y38Czw8MaSAwj/3WAPTv8O7?=
+ =?us-ascii?Q?pforcajHVtXMZldeE+ERVBkGATb3ar7LK6IQ2YlZes9P9TYVpeGGqhC+rmVN?=
+ =?us-ascii?Q?Bj7c4jSzrNqlfHH9JY95awndddMJgP7n+DA1wZaVJnnldvcdXr/hEpH8JGFj?=
+ =?us-ascii?Q?w+OIpmKl6ZqKwuIife5f8bldCUfp/CuG4SWGxB3H4OPPgo/haM5kaFFhDbj5?=
+ =?us-ascii?Q?01IdfxhE5TzCzmcNxrJKa0m50n5vjGP/vfBFX3JAET5ajeJlU77iKR0lhKqq?=
+ =?us-ascii?Q?wv3mqEredRWoIsEQMXY1q80YI1z0YEhrj6gkt7dr9YrHmN7FJFJujxmakXwA?=
+ =?us-ascii?Q?WvobjiJuTGrj9N4Tru+NOhq/eDqy1W08vi7mPlvmTP2skc1PIXAYnkuC+zJh?=
+ =?us-ascii?Q?uFIATXmkolAj/0OUPGELyQ2VptTQeUNiqkoi9zpPyIdg9bW/R5WOGphdqMqe?=
+ =?us-ascii?Q?xeINkhHuVUS/Ffjwixk3Un1m2DwbvfCbytaiG9sP84GoUDoUGsrGFilg7MCc?=
+ =?us-ascii?Q?iIK8LceBxtt7Pfkah+p49lpgpSmg3TSmkW/MBMzM68utd4FHgReU+DiL6QxM?=
+ =?us-ascii?Q?ag=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28113e36-9748-49c1-a4f7-08dae9d015fb
+X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2022 19:08:35.9035 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3jAwnL8wP30sWNtN/28ceL9LjC1TwEY5CD6f7N/FFB0lhwmbNTvDkk7eRWuAoYDSVJMRjSCe0Hx7KUjkdooNNRUuKyxkbH3ZXno50fG4F0w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB1049
+Received-SPF: pass client-ip=2a01:111:f400:fe0c::708;
+ envelope-from=sriram.yagnaraman@est.tech;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,128 +135,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The only remaining caller is riscv_load_kernel_and_initrd() which
-belongs to the same file.
+A new attempt at adding support for Intel 82576 Gigabit Ethernet adapter
+with SR-IOV support.
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
----
- hw/riscv/boot.c         | 80 ++++++++++++++++++++---------------------
- include/hw/riscv/boot.h |  1 -
- 2 files changed, 40 insertions(+), 41 deletions(-)
+Start qemu with the following parameters.
+   qemu-system-x86_64 -enable-kvm -M q35 \
+   ...
+   -device pcie-root-port,slot=3,id=pcie_port.3 \
+   -netdev tap,id=net3,script=no,downscript=/tmp/rmtap,ifname=xcbr3_t2,queues=1 \
+   -device igb,bus=pcie_port.3,netdev=net3,mac=00:00:00:01:03:02
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index d18262c302..1f7f13758c 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -171,6 +171,46 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
-     exit(1);
- }
- 
-+static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
-+{
-+    const char *filename = machine->initrd_filename;
-+    uint64_t mem_size = machine->ram_size;
-+    void *fdt = machine->fdt;
-+    hwaddr start, end;
-+    ssize_t size;
-+
-+    g_assert(filename != NULL);
-+
-+    /*
-+     * We want to put the initrd far enough into RAM that when the
-+     * kernel is uncompressed it will not clobber the initrd. However
-+     * on boards without much RAM we must ensure that we still leave
-+     * enough room for a decent sized initrd, and on boards with large
-+     * amounts of RAM we must avoid the initrd being so far up in RAM
-+     * that it is outside lowmem and inaccessible to the kernel.
-+     * So for boards with less  than 256MB of RAM we put the initrd
-+     * halfway into RAM, and for boards with 256MB of RAM or more we put
-+     * the initrd at 128MB.
-+     */
-+    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
-+
-+    size = load_ramdisk(filename, start, mem_size - start);
-+    if (size == -1) {
-+        size = load_image_targphys(filename, start, mem_size - start);
-+        if (size == -1) {
-+            error_report("could not load ramdisk '%s'", filename);
-+            exit(1);
-+        }
-+    }
-+
-+    /* Some RISC-V machines (e.g. opentitan) don't have a fdt. */
-+    if (fdt) {
-+        end = start + size;
-+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start", start);
-+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end", end);
-+    }
-+}
-+
- target_ulong riscv_load_kernel_and_initrd(MachineState *machine,
-                                           target_ulong kernel_start_addr,
-                                           symbol_fn_t sym_cb)
-@@ -222,46 +262,6 @@ out:
-     return kernel_entry;
- }
- 
--void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
--{
--    const char *filename = machine->initrd_filename;
--    uint64_t mem_size = machine->ram_size;
--    void *fdt = machine->fdt;
--    hwaddr start, end;
--    ssize_t size;
--
--    g_assert(filename != NULL);
--
--    /*
--     * We want to put the initrd far enough into RAM that when the
--     * kernel is uncompressed it will not clobber the initrd. However
--     * on boards without much RAM we must ensure that we still leave
--     * enough room for a decent sized initrd, and on boards with large
--     * amounts of RAM we must avoid the initrd being so far up in RAM
--     * that it is outside lowmem and inaccessible to the kernel.
--     * So for boards with less  than 256MB of RAM we put the initrd
--     * halfway into RAM, and for boards with 256MB of RAM or more we put
--     * the initrd at 128MB.
--     */
--    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
--
--    size = load_ramdisk(filename, start, mem_size - start);
--    if (size == -1) {
--        size = load_image_targphys(filename, start, mem_size - start);
--        if (size == -1) {
--            error_report("could not load ramdisk '%s'", filename);
--            exit(1);
--        }
--    }
--
--    /* Some RISC-V machines (e.g. opentitan) don't have a fdt. */
--    if (fdt) {
--        end = start + size;
--        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start", start);
--        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end", end);
--    }
--}
--
- uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
- {
-     uint64_t temp, fdt_addr;
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index 16b86450d3..9c2bd92eff 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -46,7 +46,6 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
- target_ulong riscv_load_kernel_and_initrd(MachineState *machine,
-                                           target_ulong firmware_end_addr,
-                                           symbol_fn_t sym_cb);
--void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
- uint64_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt);
- void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
-                                hwaddr saddr,
+Load IGB/IGBVF modules if needed.
+modprobe igb
+modprobe igbvf
+
+Create VFs via /sys 
+ls /sys/bus/pci/devices/0000:01:00.0/
+echo 2 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+
+Changes since v1:
+- Added qtest for igb
+
+Sriram Yagnaraman (6):
+  pcie: add helper function to get number of VFs
+  hw/net/net_tx_pkt: helper function to get l2 hdr
+  hw/net/igb: register definitions
+  hw/net/igb: emulated intel IGB (82576EB) network device
+  hw/net/igb: build support for igb/igbvf devices
+  tests/qtest/igb-test: introduce qtest for igb
+
+ hw/i386/Kconfig                |    1 +
+ hw/net/Kconfig                 |    5 +
+ hw/net/e1000_regs.h            |  363 ++-
+ hw/net/e1000x_common.c         |   13 +
+ hw/net/e1000x_common.h         |   29 +
+ hw/net/igb.c                   |  619 ++++++
+ hw/net/igb.h                   |  175 ++
+ hw/net/igb_core.c              | 3800 ++++++++++++++++++++++++++++++++
+ hw/net/igb_core.h              |  207 ++
+ hw/net/igbvf.c                 |  254 +++
+ hw/net/meson.build             |    2 +
+ hw/net/net_tx_pkt.c            |   17 +-
+ hw/net/net_tx_pkt.h            |    8 +
+ hw/net/trace-events            |  190 ++
+ hw/pci/pcie_sriov.c            |    6 +
+ include/hw/pci/pcie_sriov.h    |    5 +
+ tests/qtest/igb-test.c         |  222 ++
+ tests/qtest/libqos/igb.c       |  245 ++
+ tests/qtest/libqos/igb.h       |   51 +
+ tests/qtest/libqos/meson.build |    1 +
+ tests/qtest/meson.build        |    1 +
+ 21 files changed, 6179 insertions(+), 35 deletions(-)
+ create mode 100644 hw/net/igb.c
+ create mode 100644 hw/net/igb.h
+ create mode 100644 hw/net/igb_core.c
+ create mode 100644 hw/net/igb_core.h
+ create mode 100644 hw/net/igbvf.c
+ create mode 100644 tests/qtest/igb-test.c
+ create mode 100644 tests/qtest/libqos/igb.c
+ create mode 100644 tests/qtest/libqos/igb.h
+
 -- 
-2.38.1
+2.34.1
 
 
