@@ -2,65 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B95658C01
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 11:59:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F63658C0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 12:06:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAqcp-00056A-VU; Thu, 29 Dec 2022 05:59:03 -0500
+	id 1pAqiB-0006vl-0u; Thu, 29 Dec 2022 06:04:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pAqcl-00055J-AM
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:59:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pAqhu-0006qp-58; Thu, 29 Dec 2022 06:04:27 -0500
+Received: from mail-bn1nam02on2082.outbound.protection.outlook.com
+ ([40.107.212.82] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pAqci-0005Ub-Nd
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:58:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672311535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ormkTgJbVDXapTZO2uHirkMWZYHnsiJNohYf6pMrCTU=;
- b=LUqbqVMqMaa3+MYD0WsXl0jmfAPDFgAxz+xsICvnF48B3tAtBehJzn2W7mh+gAVZN5Nb1i
- QntE9NQUa5S2FlTF7o10sxcfRoKk8A8PGCNs3D6Fp/ofsfd4JErHzI2J8b2VMowxmS2MXP
- GM1/4s7enStsu6lw9QBD2wDSybuT58E=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-108-n9F0Q3HKP466JnLUiJRYyQ-1; Thu, 29 Dec 2022 05:58:54 -0500
-X-MC-Unique: n9F0Q3HKP466JnLUiJRYyQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6500101A521;
- Thu, 29 Dec 2022 10:58:53 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AB347AE5;
- Thu, 29 Dec 2022 10:58:51 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Bernhard Beschow <shentey@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Michael S Tsirkin <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4] hw/rtc/mc146818rtc: Make this rtc device target independent
-Date: Thu, 29 Dec 2022 11:58:48 +0100
-Message-Id: <20221229105848.147509-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pAqhq-0006QI-AO; Thu, 29 Dec 2022 06:04:16 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XaqBf9rdwUEJ3M1ffpbLaGtVEkPa8UYU3n0N12UZz5LywFoJMqBAkH6/7b2q27PdIEDwa2+HPzXOlqNewgRASZw2YDo+yYYT7lBfNQN++CvvSqn6tUMrN0lNmY7FQCV61ZV3kVxg7P51onwkvmhvOTAqF5Vmx55CKCMGc5Uo1D9MOIxl9BnViJ6FrIpxvaiMEJvDrOQSYzxIJUevxp0z+VwKFe3soLpccm8NTrvUh4PPYxXkcVOiuV7fMW4a/hF1gCWhfQvUegCFFwoS4iy13RK8s3ZXi8OCrzeEa/JtTj4HySnrWVmEHbvTMCysa3tEdzD2nR+OmY3dtPiDl5Zyww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4tt6U6QBO3eUwk8Dreh5Ye3KUidR2iP7JKyclENm7zk=;
+ b=O5KAZxTtlYKSTuXdKvBYzOQzCDVh/EJQSpCxNicrxxKUsQX50lnx1O1V646obiMdu8jk9ATp3fnzKxVyc6vEiPxUJdOZY3NeyxBLrJ5Xl3eQzWurkxj/8U63ySdo3OVOKYO4C0Lk5n1DN/ty+EmNTmVtrX33DMaRCakvFKgcm4S2ZqvYI/mf3YpBvgzESO66RvjzwOjJssJf5FIygAbXJu6sy70QoR6vmJ4q7FkheG76Zu8AeF3htRLCo9ivUIcZk4iXgMONz9Lz+M2Z07/98CQlbR4VHPQ+HwbBa28Dw8MKFlf+SsDp6vnXeZy2R9HpUMdhJqddjV4m1FanBwTMUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4tt6U6QBO3eUwk8Dreh5Ye3KUidR2iP7JKyclENm7zk=;
+ b=Mp6wQgHu5kJURMJ9pgB+g9PKRsyvRqdJE/hy+ieNPRA1ri8ppP/5S5h3Ja1+OpaC4JX6FsN4C2jwTOnSWur06rG6mGsgUpGT4qciBHsUmBKUUVA53vkjwcs6ip7S1xOr08lgH9uyuWFTT+ypMGAyWh2+HdXGPc8HH1Yx/QFF4sdCMOXkb76yc9Khm/ZqqYzMxAP5xxaPTWhu6vpmp4IVJAHDD1yEcvkl0JsaVFhc0LoPhp0eWCoHHdpdtyuSQu6Px8DySFjqAFwzWmTLFP36BSlrz6JRdc1cbO777rSasR/gaQK6AEtOE8rlEQ/V+IMy5J7DrDxx5jJ5egZ8F4h5sA==
+Received: from DS7PR03CA0191.namprd03.prod.outlook.com (2603:10b6:5:3b6::16)
+ by DM4PR12MB6253.namprd12.prod.outlook.com (2603:10b6:8:a6::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.16; Thu, 29 Dec
+ 2022 11:04:06 +0000
+Received: from DS1PEPF0000E646.namprd02.prod.outlook.com
+ (2603:10b6:5:3b6:cafe::db) by DS7PR03CA0191.outlook.office365.com
+ (2603:10b6:5:3b6::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5966.17 via Frontend
+ Transport; Thu, 29 Dec 2022 11:04:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ DS1PEPF0000E646.mail.protection.outlook.com (10.167.18.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5944.8 via Frontend Transport; Thu, 29 Dec 2022 11:04:06 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 29 Dec
+ 2022 03:03:53 -0800
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 29 Dec
+ 2022 03:03:53 -0800
+Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server id 15.2.986.36 via Frontend Transport; Thu, 29 Dec
+ 2022 03:03:46 -0800
+From: Avihai Horon <avihaih@nvidia.com>
+To: <qemu-devel@nongnu.org>
+CC: Alex Williamson <alex.williamson@redhat.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>, "Ilya
+ Leoshkevich" <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>, "Juan
+ Quintela" <quintela@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck
+ <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, Eric Blake
+ <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>,
+ <qemu-s390x@nongnu.org>, <qemu-block@nongnu.org>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Avihai Horon <avihaih@nvidia.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
+ <joao.m.martins@oracle.com>
+Subject: [PATCH v5 00/14] vfio/migration: Implement VFIO migration protocol v2
+Date: Thu, 29 Dec 2022 13:03:31 +0200
+Message-ID: <20221229110345.12480-1-avihaih@nvidia.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E646:EE_|DM4PR12MB6253:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f6773f2-6907-4d27-ef41-08dae98c676d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /M05NmZh4u1GmtMAt988fPpLtdZspSqtE7g2XTqTc1OKVx81wRTbliquKkDBf15MHHY4Gug9nLMliq7WFXNv1rpaeQDJuxUIhewNauLZd6MaBnSQWoMvH8bPwvem7vNYoWfE0MSgVMIzv+Q+c12oaALAkC6oT3LyAl1NVwbbRUoEEYKVQmwmo5MTlU1ymYMU4oEO4X0KDuKAr0IwpRmbCf9rykDgWaCmFF4cruyG9444K4YFP9ZsU4EtP6Pk6mJZl+aLqmUv6LblkMUeHmb7/qisuavlpsZNp7x4gHijR1RpWYCInA923T6YhASEu4atIq1LuQ4DUbVxtHxacVddBZfh4A9w0GaK8ZEcY4ahX98h0l1i2TqsgpQlJp0Ie0bA5ycIV8yNe5cp6Bgnucp8vEnBtYdyUd3G+7aTrrg3DHgG43HmsvbxSfrBR8u7hkc3dgFzwHZc2FKMMdsEOuFxP6qLEuBxGxkGx0Kx1TjxVS37nMaYvkB0W8oTyEM36wS3okIa3vz/rrs/sYDtU2oidvIZSH7eE1bX4Kcnh7HYCN8enVImMk8xX4Gbq7Z4kaT7d5c4Nh0Tk1mxeE2kZHGZFsgDJpgZBf5nlUL+KQyxlFgDsMx2FP/td0nB9HZ1IU2Udu+qrqCQvt0CTsTK9mKYsFfcTCnuVD2cATOpWMZy9tP05yDkzJ7+iRXq5kI31ul43bf1eKgZhVh8gf+FAf4ipGbv38xIX48PVTFANWBhzbRyR3d3rrc6vgOwC/YgMYSFvTtSfZoYsFL/n70zq3va/mDk1/Qsk2iEZa3peT2U+f7yHs5kQcegCGPyx684nE4d0MDnyv9dgw8G9LkTRsckwQ==
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(136003)(346002)(376002)(39860400002)(451199015)(40470700004)(46966006)(36840700001)(4326008)(8676002)(70586007)(70206006)(356005)(8936002)(5660300002)(41300700001)(2906002)(6916009)(82310400005)(316002)(7416002)(36756003)(40460700003)(7636003)(54906003)(478600001)(7696005)(86362001)(82740400003)(6666004)(336012)(966005)(186003)(26005)(2616005)(1076003)(36860700001)(40480700001)(47076005)(83380400001)(426003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2022 11:04:06.4891 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f6773f2-6907-4d27-ef41-08dae98c676d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E646.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6253
+Received-SPF: permerror client-ip=40.107.212.82;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM02-BN1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,268 +137,254 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The only reason for this code being target dependent is the apic-related
-code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
-simple, we can easily move them into a new, separate file (apic_irqcount.c)
-which will always be compiled and linked if either APIC or the mc146818 device
-are required. This way we can get rid of the #ifdef TARGET_I386 switches in
-mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
-that the code only gets compiled once for all targets.
+Hello,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v4: Check for QEMU_ARCH_I386 instead of looking for an APIC
+Now that QEMU 8.0 development cycle has started and MIG_DATA_SIZE ioctl
+is in kernel v6.2-rc1, I am sending v5 of this series with linux headers
+update and with the preview patches in v4 merged into this series.
 
- include/hw/i386/apic.h          |  1 +
- include/hw/i386/apic_internal.h |  1 -
- include/hw/rtc/mc146818rtc.h    |  1 +
- hw/intc/apic_common.c           | 27 -----------------
- hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
- hw/rtc/mc146818rtc.c            | 26 +++++-----------
- hw/intc/meson.build             |  6 +++-
- hw/rtc/meson.build              |  3 +-
- 8 files changed, 69 insertions(+), 49 deletions(-)
- create mode 100644 hw/intc/apic_irqcount.c
 
-diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
-index da1d2fe155..96b9939425 100644
---- a/include/hw/i386/apic.h
-+++ b/include/hw/i386/apic.h
-@@ -9,6 +9,7 @@ int apic_accept_pic_intr(DeviceState *s);
- void apic_deliver_pic_intr(DeviceState *s, int level);
- void apic_deliver_nmi(DeviceState *d);
- int apic_get_interrupt(DeviceState *s);
-+void apic_report_irq_delivered(int delivered);
- void apic_reset_irq_delivered(void);
- int apic_get_irq_delivered(void);
- void cpu_set_apic_base(DeviceState *s, uint64_t val);
-diff --git a/include/hw/i386/apic_internal.h b/include/hw/i386/apic_internal.h
-index c175e7e718..e61ad04769 100644
---- a/include/hw/i386/apic_internal.h
-+++ b/include/hw/i386/apic_internal.h
-@@ -199,7 +199,6 @@ typedef struct VAPICState {
- 
- extern bool apic_report_tpr_access;
- 
--void apic_report_irq_delivered(int delivered);
- bool apic_next_timer(APICCommonState *s, int64_t current_time);
- void apic_enable_tpr_access_reporting(DeviceState *d, bool enable);
- void apic_enable_vapic(DeviceState *d, hwaddr paddr);
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 1db0fcee92..45bcd6f040 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -55,5 +55,6 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
-                              qemu_irq intercept_irq);
- void rtc_set_memory(ISADevice *dev, int addr, int val);
- int rtc_get_memory(ISADevice *dev, int addr);
-+void qmp_rtc_reset_reinjection(Error **errp);
- 
- #endif /* HW_RTC_MC146818RTC_H */
-diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-index 2a20982066..b0f85f9384 100644
---- a/hw/intc/apic_common.c
-+++ b/hw/intc/apic_common.c
-@@ -33,7 +33,6 @@
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
- 
--static int apic_irq_delivered;
- bool apic_report_tpr_access;
- 
- void cpu_set_apic_base(DeviceState *dev, uint64_t val)
-@@ -122,32 +121,6 @@ void apic_handle_tpr_access_report(DeviceState *dev, target_ulong ip,
-     vapic_report_tpr_access(s->vapic, CPU(s->cpu), ip, access);
- }
- 
--void apic_report_irq_delivered(int delivered)
--{
--    apic_irq_delivered += delivered;
--
--    trace_apic_report_irq_delivered(apic_irq_delivered);
--}
--
--void apic_reset_irq_delivered(void)
--{
--    /* Copy this into a local variable to encourage gcc to emit a plain
--     * register for a sys/sdt.h marker.  For details on this workaround, see:
--     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
--     */
--    volatile int a_i_d = apic_irq_delivered;
--    trace_apic_reset_irq_delivered(a_i_d);
--
--    apic_irq_delivered = 0;
--}
--
--int apic_get_irq_delivered(void)
--{
--    trace_apic_get_irq_delivered(apic_irq_delivered);
--
--    return apic_irq_delivered;
--}
--
- void apic_deliver_nmi(DeviceState *dev)
- {
-     APICCommonState *s = APIC_COMMON(dev);
-diff --git a/hw/intc/apic_irqcount.c b/hw/intc/apic_irqcount.c
-new file mode 100644
-index 0000000000..0aadef1cb5
---- /dev/null
-+++ b/hw/intc/apic_irqcount.c
-@@ -0,0 +1,53 @@
-+/*
-+ * APIC support - functions for counting the delivered IRQs.
-+ * (this code is in a separate file since it is used from the
-+ * mc146818rtc code on targets without APIC, too)
-+ *
-+ *  Copyright (c) 2011      Jan Kiszka, Siemens AG
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/i386/apic.h"
-+#include "trace.h"
-+
-+static int apic_irq_delivered;
-+
-+void apic_report_irq_delivered(int delivered)
-+{
-+    apic_irq_delivered += delivered;
-+
-+    trace_apic_report_irq_delivered(apic_irq_delivered);
-+}
-+
-+void apic_reset_irq_delivered(void)
-+{
-+    /*
-+     * Copy this into a local variable to encourage gcc to emit a plain
-+     * register for a sys/sdt.h marker.  For details on this workaround, see:
-+     * https://sourceware.org/bugzilla/show_bug.cgi?id=13296
-+     */
-+    volatile int a_i_d = apic_irq_delivered;
-+    trace_apic_reset_irq_delivered(a_i_d);
-+
-+    apic_irq_delivered = 0;
-+}
-+
-+int apic_get_irq_delivered(void)
-+{
-+    trace_apic_get_irq_delivered(apic_irq_delivered);
-+
-+    return apic_irq_delivered;
-+}
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index 1ebb412479..5477ff6dbb 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -31,6 +31,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
- #include "qemu/timer.h"
-+#include "sysemu/arch_init.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/replay.h"
- #include "sysemu/reset.h"
-@@ -43,11 +44,7 @@
- #include "qapi/qapi-events-misc.h"
- #include "qapi/visitor.h"
- #include "hw/rtc/mc146818rtc_regs.h"
--
--#ifdef TARGET_I386
--#include "qapi/qapi-commands-misc-target.h"
- #include "hw/i386/apic.h"
--#endif
- 
- //#define DEBUG_CMOS
- //#define DEBUG_COALESCED
-@@ -112,7 +109,6 @@ static void rtc_coalesced_timer_update(RTCState *s)
- static QLIST_HEAD(, RTCState) rtc_devices =
-     QLIST_HEAD_INITIALIZER(rtc_devices);
- 
--#ifdef TARGET_I386
- void qmp_rtc_reset_reinjection(Error **errp)
- {
-     RTCState *s;
-@@ -145,13 +141,6 @@ static void rtc_coalesced_timer(void *opaque)
- 
-     rtc_coalesced_timer_update(s);
- }
--#else
--static bool rtc_policy_slew_deliver_irq(RTCState *s)
--{
--    assert(0);
--    return false;
--}
--#endif
- 
- static uint32_t rtc_periodic_clock_ticks(RTCState *s)
- {
-@@ -922,14 +911,15 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
-     rtc_set_date_from_host(isadev);
- 
-     switch (s->lost_tick_policy) {
--#ifdef TARGET_I386
--    case LOST_TICK_POLICY_SLEW:
--        s->coalesced_timer =
--            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
--        break;
--#endif
-     case LOST_TICK_POLICY_DISCARD:
-         break;
-+    case LOST_TICK_POLICY_SLEW:
-+        /* Slew tick policy is only available on x86 */
-+        if (arch_type == QEMU_ARCH_I386) {
-+            s->coalesced_timer = timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
-+            break;
-+        }
-+        /* fallthrough */
-     default:
-         error_setg(errp, "Invalid lost tick policy.");
-         return;
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index bcbf22ff51..036ad1936b 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -25,8 +25,12 @@ softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_intc.c'))
- softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-ipi.c'))
- softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-pmu-iomod-intc.c'))
- 
--specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
-+if config_all_devices.has_key('CONFIG_APIC') or config_all_devices.has_key('CONFIG_MC146818RTC')
-+    softmmu_ss.add(files('apic_irqcount.c'))
-+endif
- specific_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c', 'apic_common.c'))
-+
-+specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
- specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif_common.c'))
- specific_ss.add(when: 'CONFIG_ARM_GICV3_TCG', if_true: files('arm_gicv3_cpuif.c'))
- specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
-diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
-index dc33973384..34a4d316fa 100644
---- a/hw/rtc/meson.build
-+++ b/hw/rtc/meson.build
-@@ -13,5 +13,4 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
--
--specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-+softmmu_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
+
+Following VFIO migration protocol v2 acceptance in kernel, this series
+implements VFIO migration according to the new v2 protocol and replaces
+the now deprecated v1 implementation.
+
+The main differences between v1 and v2 migration protocols are:
+1. VFIO device state is represented as a finite state machine instead of
+   a bitmap.
+
+2. The migration interface with kernel is done using VFIO_DEVICE_FEATURE
+   ioctl and normal read() and write() instead of the migration region
+   used in v1.
+
+3. Pre-copy is made optional in v2 protocol. Support for pre-copy will
+   be added later on.
+
+Full description of the v2 protocol and the differences from v1 can be
+found here [1].
+
+
+
+Patch list:
+
+Patch 1 updates linux headers so we will have the MIG_DATA_SIZE ioctl.
+
+Patches 2-3 are patches taken from Juan's RFC [2].
+As discussed in the KVM call, since we have a new ioctl to get device
+data size while it's RUNNING, we don't need the stop and resume VM
+functionality from the RFC.
+
+Patches 4-9 are prep patches fixing bugs, adding QEMUFile function
+that will be used later and refactoring v1 protocol code to make it
+easier to add v2 protocol.
+
+Patches 10-14 implement v2 protocol and remove v1 protocol.
+
+Thanks.
+
+
+
+Changes from v4 [3]:
+- Rebased on latest master branch.
+- Added linux header update to kernel v6.2-rc1.
+- Merged preview patches (#13-14) into this series.
+
+
+
+Changes from v3 [4]:
+- Rebased on latest master branch.
+
+- Dropped patch #1 "migration: Remove res_compatible parameter" as
+  it's not mandatory to this series and needs some further discussion.
+
+- Dropped patch #3 "migration: Block migration comment or code is
+  wrong" as it has been merged already.
+
+- Addressed overlooked corner case reported by Vladimir in patch #4
+  "migration: Simplify migration_iteration_run()".
+
+- Dropped patch #5 "vfio/migration: Fix wrong enum usage" as it has
+  been merged already.
+
+- In patch #12 "vfio/migration: Implement VFIO migration protocol v2":
+  1. Changed vfio_save_pending() to update res_precopy_only instead of
+     res_postcopy_only (as VFIO migration doesn’t support postcopy).
+  2. Moved VFIOMigration->data_buffer allocation to vfio_save_setup()
+     and its de-allocation to vfio_save_cleanup(), so now it's
+     allocated when actually used (during migration and only on source
+     side).
+
+- Addressed Alex's comments:
+  1. Eliminated code duplication in patch #7 "vfio/migration: Allow
+     migration without VFIO IOMMU dirty tracking support".
+  2. Removed redundant initialization of vfio_region_info in patch #10
+     "vfio/migration: Move migration v1 logic to vfio_migration_init()".
+  3. Added comment about VFIO_MIG_DATA_BUFFER_SIZE heuristic (and
+     renamed to VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE).
+  4. Cast migration structs to their actual types instead of void *.
+  5. Return -errno and -EBADF instead of -1 in vfio_migration_set_state().
+  6. Set migration->device_state to new_state even in case of data_fd
+     out of sync. Although migration will be aborted, setting device
+     state succeeded so we should reflect that.
+  7. Renamed VFIO_MIG_PENDING_SIZE to VFIO_MIG_STOP_COPY_SIZE, set it
+     to 100G and added a comment about the size choice.
+  8. Changed vfio_save_block() to return -errno on error.
+  9. Squashed Patch #14 to patch #12.
+  10. Adjusted migration data buffer size according to MIG_DATA_SIZE
+      ioctl.
+
+- In preview patch #17 "vfio/migration: Query device data size in
+  vfio_save_pending()" - changed vfio_save_pending() to report
+  VFIO_MIG_STOP_COPY_SIZE on any error.
+   
+- Added another preview patch "vfio/migration: Optimize
+  vfio_save_pending()".
+
+- Added ret value on some traces as suggested by David.
+
+- Added Reviewed-By tags.
+
+
+
+Changes from v2 [5]:
+- Rebased on top of latest master branch.
+
+- Added relevant patches from Juan's RFC [2] with minor changes:
+  1. Added Reviewed-by tag to patch #3 in the RFC.
+  2. Adjusted patch #6 to work without patch #4 in the RFC.
+
+- Added a new patch "vfio/migration: Fix wrong enum usage" that fixes a
+  small bug in v1 code. This patch has been sent a few weeks ago [6] but
+  wasn't taken yet.
+
+- Patch #2 (vfio/migration: Skip pre-copy if dirty page tracking is not
+  supported):
+  1. Dropped this patch and replaced it with
+     "vfio/migration: Allow migration without VFIO IOMMU dirty tracking
+     support".
+     The new patch uses a different approach – instead of skipping
+     pre-copy phase completely, QEMU VFIO code will mark RAM dirty
+     (instead of kernel). This ensures that current migration behavior
+     is not changed and SLA is taken into account.
+
+- Patch #4 (vfio/common: Change vfio_devices_all_running_and_saving()
+  logic to equivalent one):
+  1. Improved commit message to better explain the change.
+
+- Patch #7 (vfio/migration: Implement VFIO migration protocol v2):
+  1. Enhanced vfio_migration_set_state() error reporting.
+  2. In vfio_save_complete_precopy() of v2 protocol - when changing
+     device state to STOP, set recover state to ERROR instead of STOP as
+     suggested by Joao.
+  3. Constify SaveVMHandlers of v2 protocol.
+  4. Modified trace_vfio_vmstate_change and
+     trace_vfio_migration_set_state
+     to print device state string instead of enum.
+  5. Replaced qemu_put_buffer_async() with qemu_put_buffer() in
+     vfio_save_block(), as requested by Juan.
+  6. Implemented v2 protocol version of vfio_save_pending() as requested
+     by Juan. Until ioctl to get device state size is added, we just
+     report some big hard coded value, as agreed in KVM call.
+
+- Patch #9 (vfio/migration: Reset device if setting recover state
+  fails):
+  1. Enhanced error reporting.
+  2. Set VFIOMigration->device_state to RUNNING after device reset.
+
+- Patch #11 (docs/devel: Align vfio-migration docs to VFIO migration
+  v2):
+  1. Adjusted vfio migration documentation to the added
+     vfio_save_pending()
+
+- Added the last patch (which is not for merging yet) that demonstrates
+  how the new ioctl to get device state size will work once added.
+
+
+
+Changes from v1 [7]:
+- Split the big patch that replaced v1 with v2 into several patches as
+  suggested by Joao, to make review easier.
+- Change warn_report to warn_report_once when container doesn't support
+  dirty tracking.
+- Add Reviewed-by tag.
+
+[1]
+https://lore.kernel.org/all/20220224142024.147653-10-yishaih@nvidia.com/
+
+[2]
+https://lore.kernel.org/qemu-devel/20221003031600.20084-1-quintela@redhat.com/T/
+
+[3]
+https://lore.kernel.org/qemu-devel/20221130094414.27247-1-avihaih@nvidia.com/
+
+[4]
+https://lore.kernel.org/qemu-devel/20221103161620.13120-1-avihaih@nvidia.com/
+
+[5]
+https://lore.kernel.org/all/20220530170739.19072-1-avihaih@nvidia.com/
+
+[6]
+https://lore.kernel.org/all/20221016085752.32740-1-avihaih@nvidia.com/
+
+[7]
+https://lore.kernel.org/all/20220512154320.19697-1-avihaih@nvidia.com/
+
+Avihai Horon (12):
+  linux-headers: Update to v6.2-rc1
+  vfio/migration: Fix NULL pointer dereference bug
+  vfio/migration: Allow migration without VFIO IOMMU dirty tracking
+    support
+  migration/qemu-file: Add qemu_file_get_to_fd()
+  vfio/common: Change vfio_devices_all_running_and_saving() logic to
+    equivalent one
+  vfio/migration: Move migration v1 logic to vfio_migration_init()
+  vfio/migration: Rename functions/structs related to v1 protocol
+  vfio/migration: Implement VFIO migration protocol v2
+  vfio/migration: Optimize vfio_save_pending()
+  vfio/migration: Remove VFIO migration protocol v1
+  vfio: Alphabetize migration section of VFIO trace-events file
+  docs/devel: Align VFIO migration docs to v2 protocol
+
+Juan Quintela (2):
+  migration: No save_live_pending() method uses the QEMUFile parameter
+  migration: Simplify migration_iteration_run()
+
+ docs/devel/vfio-migration.rst                 |  68 +-
+ include/hw/vfio/vfio-common.h                 |  10 +-
+ include/migration/register.h                  |   3 +-
+ include/standard-headers/drm/drm_fourcc.h     |  63 +-
+ include/standard-headers/linux/ethtool.h      |  81 +-
+ include/standard-headers/linux/fuse.h         |  20 +-
+ .../linux/input-event-codes.h                 |   4 +
+ include/standard-headers/linux/pci_regs.h     |   2 +
+ include/standard-headers/linux/virtio_blk.h   |  19 +
+ include/standard-headers/linux/virtio_bt.h    |   8 +
+ include/standard-headers/linux/virtio_net.h   |   4 +
+ linux-headers/asm-arm64/kvm.h                 |   1 +
+ linux-headers/asm-generic/hugetlb_encode.h    |  26 +-
+ linux-headers/asm-generic/mman-common.h       |   2 +
+ linux-headers/asm-mips/mman.h                 |   2 +
+ linux-headers/asm-riscv/kvm.h                 |   7 +
+ linux-headers/asm-x86/kvm.h                   |  11 +-
+ linux-headers/linux/kvm.h                     |  32 +-
+ linux-headers/linux/psci.h                    |  14 +
+ linux-headers/linux/userfaultfd.h             |   4 +
+ linux-headers/linux/vfio.h                    | 278 ++++++-
+ migration/qemu-file.h                         |   1 +
+ migration/savevm.h                            |   3 +-
+ hw/s390x/s390-stattrib.c                      |   2 +-
+ hw/vfio/common.c                              | 119 +--
+ hw/vfio/migration.c                           | 742 ++++++------------
+ migration/block-dirty-bitmap.c                |   3 +-
+ migration/block.c                             |   2 +-
+ migration/migration.c                         |  29 +-
+ migration/qemu-file.c                         |  34 +
+ migration/ram.c                               |   2 +-
+ migration/savevm.c                            |   7 +-
+ hw/vfio/trace-events                          |  29 +-
+ 33 files changed, 946 insertions(+), 686 deletions(-)
+
 -- 
-2.31.1
+2.26.3
 
 
