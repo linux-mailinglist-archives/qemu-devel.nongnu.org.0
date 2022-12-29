@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424D865901A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 19:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4873965902B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 19:13:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAxDc-0004Av-I0; Thu, 29 Dec 2022 13:01:29 -0500
+	id 1pAxNd-0006mO-OB; Thu, 29 Dec 2022 13:11:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAxDP-0004AH-8V
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 13:01:15 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pAxNb-0006lf-U8
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 13:11:47 -0500
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAxDN-00065W-3I
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 13:01:14 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id bj12so46603914ejb.13
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 10:01:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=L3l9whsmmdTnr68eVWxsOO1sL2/p8Aoo/iYFNbZr8Go=;
- b=rAc7anHUwy7+0nbHp3HZdGpn0DU2yMhkTVaXMvWLkMRoFvnLD/D4eyDyc57p+IEnHL
- fIdOGOMc7Ss8hDL6lj4uycZRmcdz6kZdXCPOC8qaDbDGkTMBWRATxIpg3/uNbu25Ld7m
- HvkerMAsuRgnkJJwfcw2wDPImq6m1Vv/lvYKHf8id0+pwbdXt+KuPUQZbJmVNI6uuV+W
- hS42TsJxgo/0XikMY3hcfeB6Lc0xRVjSSEAfi1TuENspi50l93C+7/mb5bXDS1Phesr/
- +6qVRstqXQ06tU3Y2u/VKB556ZuabvMJsZaY8wKWU9NXXOMG8Pj/u6TWXulF1cdvb+Fc
- BtWA==
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pAxNZ-0003WF-Ef
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 13:11:47 -0500
+Received: by mail-ot1-x32d.google.com with SMTP id
+ i26-20020a9d68da000000b00672301a1664so11873061oto.6
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 10:11:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GkPxuGqubo5gkcTC+CaHoKT5dFTep1pb+T85TAi9dGY=;
+ b=DPqyRdRSEJZ/5yNNKFkhPzvlK0qZR3/kp72T7q8etRS/R1pURVukT68hh+34C27I/O
+ JrXWNv4z15PZKaw5osmTPrBIIHN04H3ZmHGgPFIuqbAxSBkzAvLW6WStkxFkUkyPc/If
+ qiv52YVWfMeHele2GAKJwGkvOpCbeDyhdbZaniI+NR7mkbII294XvmHWKso4a0PTJeBL
+ 2fVuWF90mmB3eBVRqlklD9E075Fy2mGAhARQ/iUVaHY+JG9d1lbsZuiXAU7dPQO5c5/K
+ bTA0XcHA8AmQsrg/EMxZGOILFsqJlxfbMlSI+kfjnWHce6gyvSefSy+r4nuIeV3qvz+e
+ UHeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=L3l9whsmmdTnr68eVWxsOO1sL2/p8Aoo/iYFNbZr8Go=;
- b=DJ8A53tE4Gs/5IJrrcP8X0mVlH/tnSbL3iBOO8zKINx86qlQU170EOm4UO79qK1BK5
- B4p8ttmxzu2CpSk8hZJi/KsBBnFiX5mTFWlFDKbuQ2ZqOrMiDu0Pc7hQzZWwhYTTtGBA
- pgMTTNAwfaoMFMvUnnIxAQtxmbed4JLipRTJCAQ9WDPxvubxpx3Zq6oUwRM2vLM0/KvX
- 4TzRgphXzp1aquD/+It+J1ZstjkeVBaWdz0a0EGUb70LqT5RAUULu+mGG4xyEbS7NLoN
- fSQUH/0kKC3iWi/JebiEy1qY7idTyGKSUPRi0Q689Zy6YcR9SzkxPhaBGO96o7D6wE54
- Vd+A==
-X-Gm-Message-State: AFqh2kqBnEVj9bX5ISiEq84GYTRc90PaWK7+UU0ryOP3vTd19WI29Toq
- 9cFFSzShzcRw+1Q8m9cgr9bogg==
-X-Google-Smtp-Source: AMrXdXvY0UsETBbUBfshadg/E7nTuUhNq+W+UPZZps1eKhO0+cOhUAuWrIcryNgOGiF+NaxhT5AIDg==
-X-Received: by 2002:a17:907:d50e:b0:81f:fc05:2ba0 with SMTP id
- wb14-20020a170907d50e00b0081ffc052ba0mr25848961ejc.2.1672336871369; 
- Thu, 29 Dec 2022 10:01:11 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- y4-20020a17090668c400b007aed2057eacsm8772493ejr.221.2022.12.29.10.01.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Dec 2022 10:01:10 -0800 (PST)
-Message-ID: <04f01f1b-525b-ef99-4560-3a68f3bea15f@linaro.org>
-Date: Thu, 29 Dec 2022 19:01:08 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GkPxuGqubo5gkcTC+CaHoKT5dFTep1pb+T85TAi9dGY=;
+ b=PjiNjPDk5lTQ3Uzpr55NMMOH0jH3cx2232exLu4hbJTe9H0Xmof3B+Jbq6fsBivPKv
+ iagPGCW1v4Wh1gCDlJvBU7DOUlIxAAkENQov1YrR+L2U99Y5XDnX4md74Kxpup/Au07I
+ DybpItHd2oIktZ/oHFix4G/C2TJ/bTpW8E+ykNrlWxRTPm378ow9GwLPvbtI+3yWWzHr
+ /mMkzmwYGKrVXWBdk9ZUhUyJOLzxm60xz/6geXZvtT5/evXKql3cSZOSb5CkY3nn2tk1
+ GGIR5DMXRPlrSjmvdrNxcztkD+aZ7Zv6vX3xp4w2a01QlOivujzyGeqrngvUqy/G3fY4
+ CBPQ==
+X-Gm-Message-State: AFqh2krRlwaQQYcocYtF9Z+Gvs7Vxfd1BecfuykDy35kUkFP6IEqziYk
+ 6uUM7fvc50Z0DGmrqy1JKZo9O8jqr+S1MyvP
+X-Google-Smtp-Source: AMrXdXs1VLwH/n8kJA64sg2PJHgTlOdiVctQ3pAU+TVup1lKbEGvXnS0boqtskGZNMsU3xVrGvWAqA==
+X-Received: by 2002:a9d:4501:0:b0:670:75fc:9a04 with SMTP id
+ w1-20020a9d4501000000b0067075fc9a04mr14005094ote.13.1672337502526; 
+ Thu, 29 Dec 2022 10:11:42 -0800 (PST)
+Received: from fedora.. ([191.17.222.139]) by smtp.gmail.com with ESMTPSA id
+ d20-20020a056830139400b0066db09fb1b5sm9267205otq.66.2022.12.29.10.11.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Dec 2022 10:11:42 -0800 (PST)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Bin Meng <bin.meng@windriver.com>
+Subject: [PATCH v4 00/11] riscv: OpenSBI boot test and cleanups
+Date: Thu, 29 Dec 2022 15:11:24 -0300
+Message-Id: <20221229181135.270661-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] riscv: do not set the rounding mode via `gen_set_rm`
-To: Saleem Abdulrasool <abdulras@google.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, frank.chang@sifive.com,
- Saleem Abdulrasool <compnerd@compnerd.org>
-References: <20221229173743.123894-1-abdulras@google.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221229173743.123894-1-abdulras@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,152 +90,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/12/22 18:37, Saleem Abdulrasool wrote:
-> From: Saleem Abdulrasool <compnerd@compnerd.org>
-> 
-> Setting the rounding mode via the `gen_set_rm` call would alter the
-> state of the disassembler, resetting the `TransOp` in the assembler
-> context.  When we subsequently set the rounding mode to the desired
-> value, we would trigger an assertion in `decode_save_opc`.  Instead
-> we can set the rounding mode via the `gen_helper_set_rounding_mode`
-> which will still trigger the exception in the case of an invalid RM
-> without altering the CPU disassembler state.
-> 
-> Signed-off-by: Saleem Abdulrasool <compnerd@compnerd.org>
-> ---
->   target/riscv/insn_trans/trans_rvv.c.inc | 69 +++++++++++++------------
->   1 file changed, 36 insertions(+), 33 deletions(-)
-> 
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 4dea4413ae..73f6fab1c5 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -2679,8 +2679,10 @@ static bool do_opfv(DisasContext *s, arg_rmr *a,
->                       int rm)
->   {
->       if (checkfn(s, a)) {
-> +        // the helper will raise an exception if the rounding mode is invalid
->           if (rm != RISCV_FRM_DYN) {
-> -            gen_set_rm(s, RISCV_FRM_DYN);
-> +            gen_helper_set_rounding_mode(cpu_env,
-> +                                         tcg_constant_i32(RISCV_FRM_DYN));
->           }
->   
->           uint32_t data = 0;
-> @@ -3001,38 +3003,39 @@ static bool opffv_narrow_check(DisasContext *s, arg_rmr *a)
->              require_scale_zve64f(s);
->   }
->   
-> -#define GEN_OPFV_NARROW_TRANS(NAME, CHECK, HELPER, FRM)            \
-> -static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-> -{                                                                  \
-> -    if (CHECK(s, a)) {                                             \
-> -        if (FRM != RISCV_FRM_DYN) {                                \
-> -            gen_set_rm(s, RISCV_FRM_DYN);                          \
-> -        }                                                          \
-> -                                                                   \
-> -        uint32_t data = 0;                                         \
-> -        static gen_helper_gvec_3_ptr * const fns[2] = {            \
-> -            gen_helper_##HELPER##_h,                               \
-> -            gen_helper_##HELPER##_w,                               \
-> -        };                                                         \
-> -        TCGLabel *over = gen_new_label();                          \
-> -        gen_set_rm(s, FRM);                                        \
-> -        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-> -        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
-> -                                                                   \
-> -        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-> -        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-> -        data = FIELD_DP32(data, VDATA, VTA, s->vta);               \
-> -        data = FIELD_DP32(data, VDATA, VMA, s->vma);               \
-> -        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-> -                           vreg_ofs(s, a->rs2), cpu_env,           \
-> -                           s->cfg_ptr->vlen / 8,                   \
-> -                           s->cfg_ptr->vlen / 8, data,             \
-> -                           fns[s->sew - 1]);                       \
-> -        mark_vs_dirty(s);                                          \
-> -        gen_set_label(over);                                       \
-> -        return true;                                               \
-> -    }                                                              \
-> -    return false;                                                  \
-> +#define GEN_OPFV_NARROW_TRANS(NAME, CHECK, HELPER, FRM)                     \
-> +static bool trans_##NAME(DisasContext *s, arg_rmr *a)                       \
-> +{                                                                           \
-> +    if (CHECK(s, a)) {                                                      \
-> +        if (FRM != RISCV_FRM_DYN) {                                         \
-> +            gen_helper_set_rounding_mode(cpu_env,                           \
-> +                                         tcg_constant_i32(RISCV_FRM_DYN));  \
-> +        }                                                                   \
-> +                                                                            \
-> +        uint32_t data = 0;                                                  \
-> +        static gen_helper_gvec_3_ptr * const fns[2] = {                     \
-> +            gen_helper_##HELPER##_h,                                        \
-> +            gen_helper_##HELPER##_w,                                        \
-> +        };                                                                  \
-> +        TCGLabel *over = gen_new_label();                                   \
-> +        gen_set_rm(s, FRM);                                                 \
-> +        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);                   \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);          \
-> +                                                                            \
-> +        data = FIELD_DP32(data, VDATA, VM, a->vm);                          \
-> +        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);                      \
-> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);                        \
-> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);                        \
-> +        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),              \
-> +                           vreg_ofs(s, a->rs2), cpu_env,                    \
-> +                           s->cfg_ptr->vlen / 8,                            \
-> +                           s->cfg_ptr->vlen / 8, data,                      \
-> +                           fns[s->sew - 1]);                                \
-> +        mark_vs_dirty(s);                                                   \
-> +        gen_set_label(over);                                                \
-> +        return true;                                                        \
-> +    }                                                                       \
-> +    return false;                                                           \
->   }
+Hi,
 
-Perfect example of why I don't like aligned '\' formatting in macros,
-and prefer using a single unaligned space + '\'.
+This new version is still rebased on top of [1]:
 
-Anyhow, looking at this patch with 'git-diff --ignore-all-space' we get
-a 2 lines change:
+"[PATCH 00/12] hw/riscv: Improve Spike HTIF emulation fidelity"
 
--- >8 --
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc 
-b/target/riscv/insn_trans/trans_rvv.c.inc
-index 4dea4413ae..73f6fab1c5 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2679,8 +2679,10 @@ static bool do_opfv(DisasContext *s, arg_rmr *a,
-                      int rm)
-  {
-      if (checkfn(s, a)) {
-+        // the helper will raise an exception if the rounding mode is 
-invalid
-          if (rm != RISCV_FRM_DYN) {
--            gen_set_rm(s, RISCV_FRM_DYN);
-+            gen_helper_set_rounding_mode(cpu_env,
-+                                         tcg_constant_i32(RISCV_FRM_DYN));
-          }
+from Bin Meng.
 
-          uint32_t data = 0;
-@@ -3006,7 +3008,8 @@ static bool trans_##NAME(DisasContext *s, arg_rmr 
-*a)              \
-  { 
-      \
-      if (CHECK(s, a)) { 
-      \
-          if (FRM != RISCV_FRM_DYN) { 
-      \
--            gen_set_rm(s, RISCV_FRM_DYN);                          \
-+            gen_helper_set_rounding_mode(cpu_env, 
-     \
-+ 
-tcg_constant_i32(RISCV_FRM_DYN));  \
-          } 
-      \
- 
-      \
-          uint32_t data = 0; 
-      \
----
+In this version there's a new patch, patch 4, where we added a
+g_assert() guard in both riscv_load_kernel() and riscv_load_initrd(), as
+proposed by Alex in the v3 review.
+
+There were also some aesthetic changes were made in patch 1 w.r.t the
+order of the tests in the avocado file and fixing 'opensbi' and
+'Opensbi' instances to 'OpenSBI'.
+
+* Patch without reviews: 3
+
+Changes from v3:
+- patch 1:
+  - fixed more instances of 'opensbi' and 'Opensbi' to 'OpenSBI'
+  - changed tests order
+- patch 4 (new):
+  - added a g_assert(filename) guard in riscv_load_initrd() and
+    riscv_load_kernel()
+v3 link: https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg04491.html 
+
+Changes from v2:
+- patch 1:
+  - reduced code repetition with a boot_opensbi() helper
+  - renamed 'opensbi' to 'OpenSBI' in the file header
+- patch 9:
+  - renamed riscv_load_kernel() to riscv_load_kernel_and_initrd()
+v2 link: https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg04466.html
+
+
+Changes from v1:
+- patches were rebased with [1]
+- patches 13-15: removed
+  * will be re-sent in a follow-up series
+- patches 4-5: removed since they're picked by Bin in [1]
+- patch 1:
+  - added a 'skip' riscv32 spike test
+v1 link: https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg03860.html
+
+
+Based-on: <20221227064812.1903326-1-bmeng@tinylab.org>
+
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>
+
+[1] https://patchwork.ozlabs.org/project/qemu-devel/list/?series=334159
+
+Daniel Henrique Barboza (11):
+  tests/avocado: add RISC-V OpenSBI boot test
+  hw/riscv/spike: use 'fdt' from MachineState
+  hw/riscv/sifive_u: use 'fdt' from MachineState
+  hw/riscv/boot.c: exit early if filename is NULL in
+    load_(kernel|initrd)
+  hw/riscv/spike.c: load initrd right after riscv_load_kernel()
+  hw/riscv: write initrd 'chosen' FDT inside riscv_load_initrd()
+  hw/riscv: write bootargs 'chosen' FDT after riscv_load_kernel()
+  hw/riscv/boot.c: use MachineState in riscv_load_initrd()
+  hw/riscv/boot.c: use MachineState in riscv_load_kernel()
+  hw/riscv/boot.c: introduce riscv_load_kernel_and_initrd()
+  hw/riscv/boot.c: make riscv_load_initrd() static
+
+ hw/riscv/boot.c                | 92 ++++++++++++++++++++++------------
+ hw/riscv/microchip_pfsoc.c     | 20 +-------
+ hw/riscv/opentitan.c           |  3 +-
+ hw/riscv/sifive_e.c            |  4 +-
+ hw/riscv/sifive_u.c            | 32 +++---------
+ hw/riscv/spike.c               | 38 ++++----------
+ hw/riscv/virt.c                | 21 +-------
+ include/hw/riscv/boot.h        |  8 ++-
+ include/hw/riscv/sifive_u.h    |  3 --
+ include/hw/riscv/spike.h       |  2 -
+ tests/avocado/riscv_opensbi.py | 65 ++++++++++++++++++++++++
+ 11 files changed, 151 insertions(+), 137 deletions(-)
+ create mode 100644 tests/avocado/riscv_opensbi.py
+
+-- 
+2.38.1
+
 
