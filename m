@@ -2,92 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7D5658D12
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 14:26:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DBEC658D18
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 14:28:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAsu2-0003Wm-HV; Thu, 29 Dec 2022 08:24:58 -0500
+	id 1pAswf-0004d2-51; Thu, 29 Dec 2022 08:27:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ATMGND@OUTLOOK.COM>)
- id 1pAsu0-0003WE-Bu
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 08:24:56 -0500
-Received: from mail-sy4aus01olkn20815.outbound.protection.outlook.com
- ([2a01:111:f403:7005::815]
- helo=AUS01-SY4-obe.outbound.protection.outlook.com)
+ id 1pAswc-0004Yy-Ge
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 08:27:38 -0500
+Received: from mail-me3aus01olkn2145.outbound.protection.outlook.com
+ ([40.92.63.145] helo=AUS01-ME3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ATMGND@OUTLOOK.COM>)
- id 1pAsty-0002oL-8E
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 08:24:56 -0500
+ id 1pAswa-0003vq-EY
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 08:27:38 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qtr5Fc1CeFgTcfKALWR2GyFQHWtvl/7w5Rq3xOzPnwsufV1DFVNJA/RtvULz/6H9mY3ODyaGRKKVnkTaU+6eXNi6q/PRiZ3mL/2HPDug5aAfMeDZg+EqmPSx292qg9zN2DT7AyRi6lT1HvODHIKwkz/YHZnuOQiAXKLtiUbOVFnLSepM/hrnr1Ua5eh8Ov3rPs899EGZXyyKfgJsx4X8kb+AG4V+Py6sYVsPrEpu4wKr74bSddoMf7abLdhIpFkiigqoThlPm5DUtUd/W4Ng8wcx+kYNrXQ3YwIRkFAxsiiK1O94Q7SCHc9vNB3gsBneesQ0gWoupTXrELFhqIoOhA==
+ b=PNS4jp+cf19e2H8x2LatwC8Hp7hlACQbdCJJe3giFx3TB1ApJL9vrcK+miOKZXHkc9X8YlQiH/hgRaQ4XJQvwOcoNSOAsJ6Uf23FTDByYocl/rRkdfs4koKdQsn0MIUK0m8zJALghOCAUXW+Yjxb7eeduIyDZbKLUYxtz0xgc22cyieeQhoUQhehXZ6d2fo4EzpKWW8fGQ+LNXK8R4f+tUKZWqewTCx9PJChCBeGHKec7gxVx+U4tkCf1NFGnOoUO9Oy1WP3+FxNirXJaD3gJoIiduGTqpfGpb3g3ges1X8oQN0eg/rRDyIOr5p30a1wn1dbovtmqgfdUaIx6STt9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EoCRohe5/O2Tam+9l3tS53ntblHMCpUGiRjg7So8Vsw=;
- b=I8COouZv3FDHFWF+KUmmALHrSBJnAQzQbqymt+MZznIAzlfZPNUaQUka1pxgpZcJIlqrAgvPMqUKRl9Nrx0Vzrh8bitKL+cjpBQmy4oz+wY4QaQWHt0VTLY1DZDpnT80VwHrat0APoBkGffwmqrkNd2gKnv6VyZjggYzbTeW3PUBelsB6rHZYTEshZxpvGsHmgvyPYizK9mFBHl9qpheUU4vzM81OBT2tpnDQSawapBggY1pFdnYE6b+RaXzFIXrbY9wx8c0xF7QONAcPZikOvh3kMrdibQC68BW9kvuwD9w+gRDx/M4U8DVU3JV+igomzD0G+8G3V9joTFnw5eeJg==
+ bh=+4sEKuRdSV1eGMTKI/BrW8wP3LoxL8J190/W6HAe9O4=;
+ b=jAeu7FFOxIvFuO/tn7k/5TYsEX0j9AjFhfVAW7K19KXNwvJ1pSUr70MUHyS3IFyMNRGywwsSYcVFCqSqkujC1PjAv7RgTg4+uzxaJN+a1DlrllBnYoHeSfaMa0ztPUOMaFhcyQNWM9MXyq/7LqfHAI/Ktp6NJDNxS6OFFyVMTBqZIIpVUUY4HycBqjZVE2IKaP1KFikkXqMH/3Xjrk/ciGuAn4bKOLIIoFPWnBcVUYIzaUbMP8uLCqvDTKEkfAIDk8DcaQ5dLXM8Jc42b/zMJl0DomtCI/J4rKczoLP3GtIUNW6fCMav5bvFwvRWqYtWM1CfK0gv2bp+z2chh/Bi/A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EoCRohe5/O2Tam+9l3tS53ntblHMCpUGiRjg7So8Vsw=;
- b=vSJKEJVxK6BGAN0TY64bNj5MOnHGKgKZzDWguaDQo54+jI00ZPQSdNa2PM2opdCRfhmV4c2u6aArPK2PuhXXuKAJBd7g9IxYVELbEfwAyeqBQT4MMYhE18CEOlOs+S3BU7k9CjLUlGindJ9zMp88O8pggnbnNyRkJnJ2dO9T6/XohCFFzt2vbz8/SgV9tQ4lHQ21lEox6BvcEa0uyb3FnXNbYLPbpi4HQcmhSWbhPfo88s42VMDAf/fYg4qz0ZeHPjE8qWNc9ieKZR3JcCMkuQ3E0ONRMHnZ9XUVOBBGMELKgSfDSfxQVq4CbcPsxIVxEN5/2sayZzGqvVAetXMJQw==
+ bh=+4sEKuRdSV1eGMTKI/BrW8wP3LoxL8J190/W6HAe9O4=;
+ b=OlH4RHOAQaySYMjodbdSMa2c6d+oQw6Z04p1afixzVJOSbRUCwJ6HttdIZzOyw75As1z+SCmyJSsyRfSdx6+hWC4RSvnc9qlbKp5UWXfkStq6Jk5hk7EQ2vxguPsW+D7srYuWjD3lGeDo9iaWtteupuJIMGRtTTUefKWXqwuGLzJn9j5MYAAgrEhliLrL8wqxB4yjA6t+Wq8GdlxBYlW+Ky2viZzTz3xje9WkxjDJvCsWssN5icuvmQUoL4Mgjbx8nICsfli8TRs0EfVHkCyqjQTHeZRzShLAm+geyMoqcCppx8LvYmEkVV/D0y+e/oq2OSUBU9wAT2PQJDqFoW37A==
 Received: from SYZP282MB3252.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:169::6) by
- SY4P282MB2869.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:15c::6) with
+ ME3P282MB2626.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:115::8) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5944.17; Thu, 29 Dec 2022 13:19:43 +0000
+ 15.20.5944.16; Thu, 29 Dec 2022 13:27:27 +0000
 Received: from SYZP282MB3252.AUSP282.PROD.OUTLOOK.COM
  ([fe80::3021:4e2f:269f:86a2]) by SYZP282MB3252.AUSP282.PROD.OUTLOOK.COM
  ([fe80::3021:4e2f:269f:86a2%6]) with mapi id 15.20.5944.016; Thu, 29 Dec 2022
- 13:19:43 +0000
+ 13:27:27 +0000
 From: qi zhou <atmgnd@outlook.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, qi zhou
+To: "matthew.auld@intel.com" <matthew.auld@intel.com>, open list
+ <linux-kernel@vger.kernel.org>, "zhi.a.wang@intel.com"
+ <zhi.a.wang@intel.com>, "jani.nikula@linux.intel.com"
+ <jani.nikula@linux.intel.com>, "joonas.lahtinen@linux.intel.com"
+ <joonas.lahtinen@linux.intel.com>, "rodrigo.vivi@intel.com"
+ <rodrigo.vivi@intel.com>, "tvrtko.ursulin@linux.intel.com"
+ <tvrtko.ursulin@linux.intel.com>, "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "alex.williamson@redhat.com"
+ <alex.williamson@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, qi zhou
  <ATMGND@OUTLOOK.COM>
-Subject: [PATCH] fix gvtg cursor position if it is negative
+Subject: Re: [PATCH] fix gvtg cursor position if it is negative
 Thread-Topic: [PATCH] fix gvtg cursor position if it is negative
-Thread-Index: AQHZG4gkCslX+v8O2ku4IcEAac+4tg==
-Date: Thu, 29 Dec 2022 13:19:43 +0000
-Message-ID: <SYZP282MB32524DE09ADA28D4E4205D49C9F39@SYZP282MB3252.AUSP282.PROD.OUTLOOK.COM>
+Thread-Index: AQHZG4eUlO6VebNR50mtjCIRm5fqp66E2jBu
+Date: Thu, 29 Dec 2022 13:27:27 +0000
+Message-ID: <SYZP282MB3252C832275ACAD8C8C2A091C9F39@SYZP282MB3252.AUSP282.PROD.OUTLOOK.COM>
+References: <SYZP282MB3252074E5A0A1C467337132AC9F39@SYZP282MB3252.AUSP282.PROD.OUTLOOK.COM>
+In-Reply-To: <SYZP282MB3252074E5A0A1C467337132AC9F39@SYZP282MB3252.AUSP282.PROD.OUTLOOK.COM>
 Accept-Language: en-US, zh-CN
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: 
 x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [7R5Ui3fxFaq7xhmBcCAmwtUWDTiBYK8U]
+x-tmn: [LVo5SZwuP6AiZP0E16U1TMNxwPpiVhMt]
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SYZP282MB3252:EE_|SY4P282MB2869:EE_
-x-ms-office365-filtering-correlation-id: 16e7f1dc-efdf-4835-e5d7-08dae99f598a
-x-ms-exchange-slblob-mailprops: EgT5Wr3QDKz918u76bcdvRMWUZXhBQCAzk+KFi//9swbnAKLvLLIDJyklyNeMRFBqU6FJjpf+n7svQVxBALH+hrUeg5xU1DGgyTho9kFg3VWt9+KIn3FI+t8Hld6h7pdkl2/8MVnNdJLtQbiSXQgoWxU3DP6lU95w2ZBspRPvfRt7RFRFZHiynErJyLxJkooUCYOD3bv04amA/6EBMQAngWAySVyLfXw3L1wEkJHv+roJ2i6sys0xAQFuB9pSOSZEXKrL2KSqmSesd76sOnr4k5WzQDSc/RceGzOMC3/S2myiwQwD3QY0Pp160TP9r4tOyfvoGoLuJ/wmNmtvnvbtROjmZGemsgVW63o8D5uSI4gKzoxVIf3QFdyKzRAw3zePRMB8VvnD6is9J8Im2+MQJ3zRQkkg36s1LgPXkTptd6wc4TvZzr3+npe4qzIfryxJhfKXIUpR8TQS7b00z2dITUcIW1Bv84rZ6MxCxruc4WdnFwb6hafxUjOGLwseoAcFuqKOxFvs2T0skkGRkxFH85NbvK/r5V99d0uFBkzeyTPr7GJgHDMM+Pg7qLk45cjWE5JzblHJKhYw8vEW7IOcEsGx750y6wcmAzMhFBPDOUKRS2JZO6lT/UAnEv0Di6TIupcLWpsl/8rLru/ycotTcWR/A2LrTDrBz7NckXkrM4wZqWKns7vrGY3v/zTfG8qonuwdL4y+0pPsTCCTm84tBZXiwFW0HsHscJnroMFYLs=
+x-ms-traffictypediagnostic: SYZP282MB3252:EE_|ME3P282MB2626:EE_
+x-ms-office365-filtering-correlation-id: 73c4fa68-f318-4605-1db9-08dae9a06e1f
+x-ms-exchange-slblob-mailprops: EgT5Wr3QDKz918u76bcdvRMWUZXhBQCAJL9uKGdeHbeboL+FBVsfOZCqHvoGt/iho6kUuNsqOyXCCPrIY7KNnUSGis/MZ+4415HLWFkq6lgkfyGIw5w/h9sDaleJaRkRM3PcH+4j/0BxRD7CwPfwSYOBRpS6KJYEssDwG6qrrH9WKDzEUkPJJduG+dRdOGqoL8XoAvcz/WbxdZnLI5fR13aNWUlFXFUY0zAjPexxujHD8o3iQTdtoX4vJYJp65994TRrYf+jsoyoLVI8YEJn9785Tr3YMLKkb0B1O8Tfdz/zkztSQWpQulrejfm8yga9y5AWryYISW0zqdDBPG4sl3Te7XpKDAwZisNFizQ/Uy1/nH/C9ngmKvkTFxYRCCQIRHcfwzA69umLP929zuieBCQADwGOr+WWHNTKWUwRVXWnpsgPNrian4rRbM+NMtn2kwSe5CBuInw56Ivw36Tvekfgc0JmVI1WGvJEJOT1vklebXjST48Mv9LEIL00f841xiTYAAevximyKzpjSXR008e9ZpkYqSNNMwRmgnrldPW8nvt7guXdyLLBDoGYUtE2ZOuR6J11g/tUugvT5hySZtsTdnkuzgvVJ/FPLyR9n+MQT6cdMHxhaZCO07mMZ4szTXoV5+SkQQB709sVpnyh/ZdrFOFlisz8wcJy0j1VhhAl1gCB9J+3il4YxUtGFPGGi0onYdFHKjzxex97B4JRMNUXAijcRYonzjdyN2CGM0o=
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: z4qeVU8cqIsKcNGxIuyV+jVKX09rv3qkpUS5UD0ICXYiIqc1GzvaUC0EWrI1OYczWo8Kp8ojaLmJa6pZvMEW6xmG4Y7+IWtcBxwioZ1CVcWc9mwbmOa6mBOtO14DvArF2zZQehxil/rqEqnt60//yB8kXVP6POaMb5z7B8hsfPhXfGB27+sIdcTkYcAjry/nyvZrc0tZm2Wh+f+FmbL1qHrt+qASbIN91l/HpoQE+Gy/ntIyrwWkp3a3L/4BHCtNBVSxWY1Kwf9Yvxlqnr44TeA+89yuEaLrkFdwIJbaA6lqm3FpA1B6CEhWFr1KKa7YOswQLvjLXJegBQ9kEPf3Wxj4+x7ZutclZCC03u0Os40/bgrFc0vzMw+KLObhGzPbp0f9M09sN+36jvSDkU4PnqaDEYvE+BkGJaiN1ssIbb6kUlsLPdIAycmWA+sNEjaa1D7hfHHUF6GJyFoCzdC0XepvYEXIqdKv236Z65xsmpPhY+qyF1wwRIC1CTftZj3fuRNPbBOBqpeSZ5pqcdT+zyGJ/pb+rNTqbK4916Iz+ymHxrB5azGiYNaNhi3e+rS1FtnfMIuuerFSI3Yn6eMnFbORBHhQFaLR3usOL7QR7s9F0KCaaKzYFPuAefUv96NvD0NemeqLTDfEVFK57venyw==
+x-microsoft-antispam-message-info: 6L6XZ1fOzrE4jIgm4JmnsXUrrV3NX+P/vD9IfGJu4cSmZGRihbFw4btBZQHjJDRWuR+MeG9wgatsA2i1Y+Z8QypWG7YS5vjZe/ew7LeOhD9HsMo1xOXs3p9vshzjcu+9Ouu+CEAO9dFk/kpA8He4Ae1OM16nMccnu046OiLKqfwjo8UC0GMc6a8wmAufvFSkfW8r1dkHcE45pLpSPqVOumXneo3PO/SWfhKGE6fvlKIVcndpGgxirRouEOSKg3PDZ+3Y/gS+tX946F7lyEipwlypLhl3GTgflDEZ/V7Jr7qRE/0uoIJC8V4LORnI96kbvyVN1JIY1gXUbQoLYVcGZljXayFuuQol2UWz/LgZ8TuiMA6OPScvdtuGWXyQIg7bcvsCoKznqohznIaQCMss6A+PYkU8sXHw7yDkvsNHtkzMHldXZntJf+5zLgMEe2Oiv/b0lWkW2hay4hGPiIWvlHkEo/8Zox4mtXYKUkNwU20MnYQQbz9r7p2/n/nbdW6IktavKsLh0uKyBbafW6muEuVozEWtJV0sS5/F13gyVKWAtYZ15JyMHn0wt0RHu342QzN0cJj3HaX5TZPWCd9eAvt9v/6qN/VZRinLPf+4w48kCo5RGZ8mZcjwuAGs7qBiz6Cqr/yJvCXj0nTCGn57q/PV47+SXFk3ddtRHhSzsdE=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?MvyoDP8cvASoeJocoz8zZJXqF4To+MFx66gECntxcA8DJh+gdm+3g0URKF?=
- =?iso-8859-1?Q?I5b7wYypxXwHujK+yamXL0e/DhLkrGZ8o+NzxMFnUdjdLH8NxVURREFiwr?=
- =?iso-8859-1?Q?eJZc8PRC1doxgiqpfWKmQrIVGeQ/2Rbg/3UCUbbPsykgqCmCj+rw0rx461?=
- =?iso-8859-1?Q?YQQtxB4wTYp1EYIyHfmRU+Von8xY1eoHSdIkVY4S8+4wzIinfeFthk5j2Y?=
- =?iso-8859-1?Q?nix5hooglQMmqS+H1OiyLRkqYfCBYgZgc+LqxePSTWctoi842DhwYkjY2W?=
- =?iso-8859-1?Q?uVRC2GckSf3pnEVTEdATB4CAYcDN+HCKWNIks7WFYt8UkU3U+Bw3Qd50aW?=
- =?iso-8859-1?Q?l5sFxm5ZmlyX1OV41kovVzz40v3ux7ntbOhZ48aGv7IN8SG52wUEUkDSt8?=
- =?iso-8859-1?Q?NyBcZ5jRvVbzba5/D9iAzNhgbuK4qO6EU+B6XezkTzEFdezmBFgT+59Agv?=
- =?iso-8859-1?Q?n14XpIbYF8KF3Akisia78C0KM2SfqFPQLF7bVcRvS25TfK2X88Rtm6qRa1?=
- =?iso-8859-1?Q?yzlETNdsPl2Yjam9EeG4pg2JJaPHk1IgR5r1+wjXSeFyqSm9eklCbZ1b02?=
- =?iso-8859-1?Q?vmHYci5mTmFqV/js5xgwOPKJUCtbg7BfGqSz3eAAiyvD6oF/I7qt9iZaZQ?=
- =?iso-8859-1?Q?VmSeBV5lvX7gBWZ6wyoWP3HVkW4g+LdAD2ndWDFzosOqu6xNmoiCkLhPnM?=
- =?iso-8859-1?Q?7SNgz0a48Cz8q5Ubft3VFPPjU62dS7D8UjkHFpjcKBLsbmg+Q/MQ10Rvej?=
- =?iso-8859-1?Q?2Wx9+rNLZ0RcpO47ptOjqD+cqNvMR0znyKi5OhO+GdvdQvvmxEc8aeDTFP?=
- =?iso-8859-1?Q?L92nVrNkjwyq3Dkb4WYKwk5rx6hgTCiE2Bf2CrfrbfWmVHlHsar/Wi7q1t?=
- =?iso-8859-1?Q?bs8hF12XLux4EhuxXwt2+XwJ+tr6Jtnfj/U8p9jvqAEfX9q9wDAbILmzNW?=
- =?iso-8859-1?Q?3lU4FDS2mrpQQbXOzyx5sKutq9oPdizIuHmCppGgYDtSDeJmKOZxLnPNFs?=
- =?iso-8859-1?Q?DZJBgBlutz+9hCuEf9j7OyCjup1bcRgXTNaNBr/qrvrw2efHNvq2D7Ib8Z?=
- =?iso-8859-1?Q?LVUcrEvq3q+wGwM5hisbrpR/4wGzkkCCYr8+lOFgvR45gzQ3gVLS3FKKdn?=
- =?iso-8859-1?Q?2rqujJnQpDUOT8xVXsgf9dpw+OLUkJJueBSVL/dHputyCKUUaVy17TW26M?=
- =?iso-8859-1?Q?iI98gZLCU3pQjicEITkHh+LtEAV99hasvLh3b6ItZccH6iln2SP5+v1wGk?=
- =?iso-8859-1?Q?gkIcW2IOOzM2dXWKhni3bA4Fwxv0+/NAsdB4jCoHW0mAGnp4paaCi42gqu?=
- =?iso-8859-1?Q?2CeP?=
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?CSw2kqIV0/DvsqFJ/FoaYZb/nwDM8BFcsZbNhluzjSQTQiaTzSflnyn5Ge?=
+ =?iso-8859-1?Q?dMe734+ZT1/l/h+EQbvl7qPhxx3PQmAs5hRj0Gma8QbvjR8P16OuG1HXop?=
+ =?iso-8859-1?Q?NQwLGPZs/j2cCEcuel0NhP9J1EFuzN/A0de9ljeNEI9QR+1UhK8Nhu/yWB?=
+ =?iso-8859-1?Q?LYfi8jyW68S4xB8mA9W57Bu5KRunXahkzZkFeJkcJbT+WT56zOF4v0f5b1?=
+ =?iso-8859-1?Q?Mu06LjXTyur7ZGsxP3DEkJ51tjhUFt39hYq+RWR9MjnSBLJXEvrko+fZbB?=
+ =?iso-8859-1?Q?a45cqIhcyb6fL4qdIZbRK4HDCHDKJ+7lZ1zCW7n2J0fma37QaTnwc3flY3?=
+ =?iso-8859-1?Q?9BDSCaIwENwQKUNRNGO/3UhdobpZAh43OEk2Wm4rraUqSZpTY+m4b6PycI?=
+ =?iso-8859-1?Q?K3/Q2P32UHp1pAAzipmQAGvipvuC88qR5KXs6/L/kukBG4GAh06Df/Bq0y?=
+ =?iso-8859-1?Q?9ROoO6SbPXX/vFe5m+Vw9+EkPGWw3OJg1IeC/bmueJ5MWbh40XtWWPodTl?=
+ =?iso-8859-1?Q?y8lOwnBBmKNmrzX2RONWYj9fEvQkp3KXEKXKoA4e3VV0EV7emhaZraw/8I?=
+ =?iso-8859-1?Q?5sFrdfvj2X+np6QyWVjogalkKQp1oxQKjBJ392jydJsull6hFo56CxtfQJ?=
+ =?iso-8859-1?Q?rf+ZTI9lbWozy/+U2ipvPPsT7e/hRIB0yLj3P6r1m9X4Dy3id66yo0sytC?=
+ =?iso-8859-1?Q?9uKo8cKLrTyGDLSNrPjb/s7Y2yji9WWLp93FJrzYZRreb6/ongmXu54GXF?=
+ =?iso-8859-1?Q?o0IvfJQ8AEKqjZinp3ZcWSmGF1UTfW+V8Rx7b2hSH9ijHc++5b+XG7Aw67?=
+ =?iso-8859-1?Q?A9w5iSSuZaO4l99oUvN1aAyRYd+Zu8VYe/hKc6Bak+JshsrxBQefVJbedm?=
+ =?iso-8859-1?Q?sEbiKjL3RN2fSK1jvDvpS5cR0VovPJC2zkONPJ7+Ym+zBHwaWYOrJbEUl9?=
+ =?iso-8859-1?Q?2Pe33sVeObPQc4VC1zZuu4fYUOG9ZiGWKYaeZqzfwQELBZF21X5t3lT3Jy?=
+ =?iso-8859-1?Q?P94HmOqGQLf1KiDBv/zCGT0Hy7I8QRKTLTt3l8DUHfOXTLD8G/8lZeMIt3?=
+ =?iso-8859-1?Q?SIHysT6CAgHz5MbTyinUiRRdoTTKJQmaRldaD+t2O9vkLquuYFps7+FxiM?=
+ =?iso-8859-1?Q?oRy5s7aV0+YQmxipFAQwD0KlrhDbPAa2AZALT7ZAG+KuwIYCFrZ/5Y5UGr?=
+ =?iso-8859-1?Q?VrB0ELsETu2ih3Cuwekcbj1WVuOmTWRqvZ10wjzlhDMzKu6IS+fdkjDdP/?=
+ =?iso-8859-1?Q?oEqtpM+Su0SZqfN8l0FjHzjuct/El68J5ggq5bRzdYV+oyw+KxG5NBEzfH?=
+ =?iso-8859-1?Q?JGg9?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
@@ -95,22 +108,21 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SYZP282MB3252.AUSP282.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16e7f1dc-efdf-4835-e5d7-08dae99f598a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Dec 2022 13:19:43.7224 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73c4fa68-f318-4605-1db9-08dae9a06e1f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Dec 2022 13:27:27.7293 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY4P282MB2869
-Received-SPF: pass client-ip=2a01:111:f403:7005::815;
- envelope-from=ATMGND@OUTLOOK.COM;
- helo=AUS01-SY4-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ME3P282MB2626
+Received-SPF: pass client-ip=40.92.63.145; envelope-from=ATMGND@OUTLOOK.COM;
+ helo=AUS01-ME3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,6 +138,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+To test, you need patch qemu too, I paste it here for convenience, and I it=
+ have been sent to qemu dev mailling list=0A=
+=0A=
 From 4f14d6216d3f05f01ffe419ff0baeebe416a3e58 Mon Sep 17 00:00:00 2001=0A=
 From: Qi Zhou <atmgnd@outlook.com>=0A=
 Date: Thu, 29 Dec 2022 20:25:06 +0800=0A=
@@ -293,4 +308,113 @@ Listener *dcl,=0A=
  =0A=
 -- =0A=
 2.25.1=0A=
+=0A=
+=0A=
+=0A=
+=0A=
+=0A=
+From: qi zhou <atmgnd@outlook.com>=0A=
+Sent: Thursday, December 29, 2022 21:17=0A=
+To: matthew.auld@intel.com <matthew.auld@intel.com>; open list <linux-kerne=
+l@vger.kernel.org>; zhi.a.wang@intel.com <zhi.a.wang@intel.com>; jani.nikul=
+a@linux.intel.com <jani.nikula@linux.intel.com>; joonas.lahtinen@linux.inte=
+l.com <joonas.lahtinen@linux.intel.com>; rodrigo.vivi@intel.com <rodrigo.vi=
+vi@intel.com>; tvrtko.ursulin@linux.intel.com <tvrtko.ursulin@linux.intel.c=
+om>; airlied@gmail.com <airlied@gmail.com>; daniel@ffwll.ch <daniel@ffwll.c=
+h>; alex.williamson@redhat.com <alex.williamson@redhat.com>; cohuck@redhat.=
+com <cohuck@redhat.com>; intel-gvt-dev@lists.freedesktop.org <intel-gvt-dev=
+@lists.freedesktop.org>; intel-gfx@lists.freedesktop.org <intel-gfx@lists.f=
+reedesktop.org>; dri-devel@lists.freedesktop.org <dri-devel@lists.freedeskt=
+op.org>=0A=
+Subject: [PATCH] fix gvtg cursor position if it is negative =0A=
+=A0=0A=
+From 8d2a0c2c265119cb481deab825ea59c9605f3bd8 Mon Sep 17 00:00:00 2001=0A=
+From: Qi Zhou <atmgnd@outlook.com>=0A=
+Date: Thu, 29 Dec 2022 20:15:51 +0800=0A=
+Subject: [PATCH] fix gvtg cursor position if it is negative=0A=
+=0A=
+It is valid if position of cursor is negative(not hotspot coordinates). for=
+=0A=
+example: precision section, resize, move, north east arrow...=0A=
+=0A=
+Signed-off-by: Qi Zhou <atmgnd@outlook.com>=0A=
+---=0A=
+=A0drivers/gpu/drm/i915/gvt/dmabuf.c | 5 ++---=0A=
+=A0drivers/gpu/drm/i915/gvt/dmabuf.h | 4 ++--=0A=
+=A0include/uapi/linux/vfio.h=A0=A0=A0=A0=A0=A0=A0=A0 | 4 ++--=0A=
+=A03 files changed, 6 insertions(+), 7 deletions(-)=0A=
+=0A=
+diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.c b/drivers/gpu/drm/i915/gvt/d=
+mabuf.c=0A=
+index 355f1c0e8664..b91122b33222 100644=0A=
+--- a/drivers/gpu/drm/i915/gvt/dmabuf.c=0A=
++++ b/drivers/gpu/drm/i915/gvt/dmabuf.c=0A=
+@@ -299,9 +299,8 @@ static int vgpu_get_plane_info(struct drm_device *dev,=
+=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 info->stride =3D c.width *=
+ (c.bpp / 8);=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 info->drm_format =3D c.drm=
+_format;=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 info->drm_format_mod =3D 0=
+;=0A=
+-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 info->x_pos =3D c.x_pos;=0A=
+-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 info->y_pos =3D c.y_pos;=0A=
+-=0A=
++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 info->x_pos =3D c.x_sign ? -c.x=
+_pos : c.x_pos;=0A=
++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 info->y_pos =3D c.y_sign ? -c.y=
+_pos : c.y_pos;=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (validate_hotspot(&c)) =
+{=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 in=
+fo->x_hot =3D c.x_hot;=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 in=
+fo->y_hot =3D c.y_hot;=0A=
+diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.h b/drivers/gpu/drm/i915/gvt/d=
+mabuf.h=0A=
+index 3dcdb6570eda..4103106d7cc2 100644=0A=
+--- a/drivers/gpu/drm/i915/gvt/dmabuf.h=0A=
++++ b/drivers/gpu/drm/i915/gvt/dmabuf.h=0A=
+@@ -41,8 +41,8 @@ struct intel_vgpu_fb_info {=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 height;=A0=A0 /* height of plane */=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 stride;=A0=A0 /* stride of plane */=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 size;=A0=A0=A0=A0 /* size of plane in bytes,=
+ align on page */=0A=
+-=A0=A0=A0=A0=A0=A0 __u32 x_pos;=A0=A0=A0 /* horizontal position of cursor =
+plane */=0A=
+-=A0=A0=A0=A0=A0=A0 __u32 y_pos;=A0=A0=A0 /* vertical position of cursor pl=
+ane */=0A=
++=A0=A0=A0=A0=A0=A0 __s32 x_pos;=A0=A0=A0 /* horizontal position of cursor =
+plane */=0A=
++=A0=A0=A0=A0=A0=A0 __s32 y_pos;=A0=A0=A0 /* vertical position of cursor pl=
+ane */=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 x_hot;=A0=A0=A0 /* horizontal position of cu=
+rsor hotspot */=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 y_hot;=A0=A0=A0 /* vertical position of curs=
+or hotspot */=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 struct intel_vgpu_dmabuf_obj *obj;=0A=
+diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h=0A=
+index 23105eb036fa..a9b93251ac7f 100644=0A=
+--- a/include/uapi/linux/vfio.h=0A=
++++ b/include/uapi/linux/vfio.h=0A=
+@@ -720,8 +720,8 @@ struct vfio_device_gfx_plane_info {=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 height;=A0=A0 /* height of plane */=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 stride;=A0=A0 /* stride of plane */=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 size;=A0=A0=A0=A0 /* size of plane in bytes,=
+ align on page*/=0A=
+-=A0=A0=A0=A0=A0=A0 __u32 x_pos;=A0=A0=A0 /* horizontal position of cursor =
+plane */=0A=
+-=A0=A0=A0=A0=A0=A0 __u32 y_pos;=A0=A0=A0 /* vertical position of cursor pl=
+ane*/=0A=
++=A0=A0=A0=A0=A0=A0 __s32 x_pos;=A0=A0=A0 /* horizontal position of cursor =
+plane */=0A=
++=A0=A0=A0=A0=A0=A0 __s32 y_pos;=A0=A0=A0 /* vertical position of cursor pl=
+ane*/=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 x_hot;=A0=A0=A0 /* horizontal position of cu=
+rsor hotspot */=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 __u32 y_hot;=A0=A0=A0 /* vertical position of curs=
+or hotspot */=0A=
+=A0=A0=A0=A0=A0=A0=A0=A0 union {=0A=
+-- =0A=
+2.25.1=
 
