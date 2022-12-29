@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13456588A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 03:33:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E27E6588AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 03:44:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAihi-0003Q2-QT; Wed, 28 Dec 2022 21:31:34 -0500
+	id 1pAisf-0005RG-6e; Wed, 28 Dec 2022 21:42:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=1X+d=43=zx2c4.com=Jason@kernel.org>)
- id 1pAihg-0003PL-Cx
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 21:31:32 -0500
-Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=1X+d=43=zx2c4.com=Jason@kernel.org>)
- id 1pAihd-00073O-RB
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 21:31:31 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id EEC64CE10D6;
- Thu, 29 Dec 2022 02:31:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC84BC433EF;
- Thu, 29 Dec 2022 02:31:11 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Vq8QSPON"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1672281070;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fo1jslvfeopSkuICCRwlACwE2DX39yLIKwrIJZqYHzI=;
- b=Vq8QSPON47EV4x6TnTViJgI6ozO4r5JLnAo/dYSxkIpP6q+0821Jw9K4zZoaeGJecFR7GP
- AtZPNYm426vAh6bLbVxlhWUECiL0VLL2b5PfSODtaIVrDrenWx6Xxiie06KoATfLhAMvip
- zRW9dQqu13vmuk/sxaXYwGx9KfRTS8I=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 675c8781
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Thu, 29 Dec 2022 02:31:09 +0000 (UTC)
-Date: Thu, 29 Dec 2022 03:31:07 +0100
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: pbonzini@redhat.com, ebiggers@kernel.org, x86@kernel.org,
- linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
- ardb@kernel.org, kraxel@redhat.com, bp@alien8.de, philmd@linaro.org
-Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
- setup_data
-Message-ID: <Y6z765zHrQ6Rl/0o@zx2c4.com>
-References: <20221228143831.396245-1-Jason@zx2c4.com>
- <6cab26b5-06ae-468d-ac79-ecdecb86ef07@linaro.org>
- <Y6xvJheSYC83voCZ@zx2c4.com> <Y6x1knb8udpSyMSp@zx2c4.com>
- <9188EEE9-2759-4389-B39E-0FEBBA3FA57D@zytor.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1pAisc-0005Qr-Tg
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 21:42:50 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1pAisa-0004xp-VW
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 21:42:50 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id 36so11590376pgp.10
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 18:42:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8hDolg3B37g0PEseo4goTFhCnP+4ggh+xlUSaYqALi4=;
+ b=Tpb5thM0oBYErl0FXSIakdpDOPUXCksUPRlHJAzjYjTKV/aFeooODrhAUBegYpsOWy
+ JI6/oqQMiaYkp6eb+cQLOITrBgEWuvNGLEyEOkjrDRcJSwotPt0JazK45XnaE0MhY48T
+ NQdcblX1qtqw4x2tQ1LibXg3ZCzMgxhSYk5zaOFGI6neNEBUh3rruEMJ4qpdUhf/zIOg
+ eSi2+S3XshGM7GfCdfFkR3FKQmNLHr6tQ4xH9oJb1QbEfwHku6HTyBB9aEAorE0OEdHj
+ 9jD4SlI5U71UU6ezxtp5wU+u7PNHPvhnq5+2I2SO9vQj8dX/uVXGN9WMngo7xzzdjT84
+ UNhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8hDolg3B37g0PEseo4goTFhCnP+4ggh+xlUSaYqALi4=;
+ b=5vpvING+NhunPA8H1APjjZgkN9PsRRlkQ9BpcGP34gsSxKv8AED2ljG9tfNdpvsr6h
+ UgP1Ok2QAtWEznp7FGX/KRjgK28ABccXs9ENvPqS+kB5nUk0yDlTI4xSJJJ4KndIqrMG
+ yG3AkSvrdXy2lC6j3ZpoDSWHrcgMG0zc1y6FKGfCWPmNvy/iJDd5q74J6SU7jhIjkSPf
+ YiXHGAdvYAdbuU1zY8L5mIX2RHC8bfNf5ZR5C1mAENYfkPXq94fbj1TxWG041harG23d
+ 7zfyAefzJZ0V4GHrGPvHWcamghnYQfefLAYBfJZefg8B2RnCy43Ym6VYHsRfhOxVWikT
+ hLwQ==
+X-Gm-Message-State: AFqh2kqd+06G7n2KYCjxuO6Wng4BrcKVJrtakfdp/VOsGruM40CwQhPw
+ H3TravzXyUe9tEfAVB95KeE=
+X-Google-Smtp-Source: AMrXdXszytHHx8zYAELvGpkXFG9a8/vcj/0rGiHxxhWabgsPiwcUExVnie5UJBKYJv+h8GyEvn3JXA==
+X-Received: by 2002:a05:6a00:3217:b0:581:7430:aba with SMTP id
+ bm23-20020a056a00321700b0058174300abamr6314867pfb.10.1672281754512; 
+ Wed, 28 Dec 2022 18:42:34 -0800 (PST)
+Received: from ?IPV6:2400:4050:c360:8200:7b99:f7c3:d084:f1e2?
+ ([2400:4050:c360:8200:7b99:f7c3:d084:f1e2])
+ by smtp.gmail.com with ESMTPSA id
+ 141-20020a621493000000b005815217e665sm4597897pfu.65.2022.12.28.18.42.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Dec 2022 18:42:33 -0800 (PST)
+Message-ID: <34526159-762f-46ba-016e-5b9b0eae59bf@gmail.com>
+Date: Thu, 29 Dec 2022 11:42:30 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9188EEE9-2759-4389-B39E-0FEBBA3FA57D@zytor.com>
-Received-SPF: pass client-ip=2604:1380:40e1:4800::1;
- envelope-from=SRS0=1X+d=43=zx2c4.com=Jason@kernel.org;
- helo=sin.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 0/5] hw/net/igb: emulated network device with SR-IOV
+Content-Language: en-US
+To: Jason Wang <jasowang@redhat.com>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Cc: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Yan Vugenfirer <yan@daynix.com>
+References: <20221222114120.8790-1-sriram.yagnaraman@est.tech>
+ <CACGkMEtFvmQ3th8TxApOuOtRVQz-7S7NZ-dFyOX73L1YS7Fh4g@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <CACGkMEtFvmQ3th8TxApOuOtRVQz-7S7NZ-dFyOX73L1YS7Fh4g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,76 +98,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-Read this message in a fixed width text editor with a lot of columns.
-
-On Wed, Dec 28, 2022 at 03:58:12PM -0800, H. Peter Anvin wrote:
-> Glad you asked.
+On 2022/12/23 12:23, Jason Wang wrote:
+> On Thu, Dec 22, 2022 at 7:43 PM Sriram Yagnaraman
+> <sriram.yagnaraman@est.tech> wrote:
+>>
+>> A new attempt at adding support for Intel 82576 Gigabit Ethernet adapter
+>> with SR-IOV support.
+>>
+>> Start qemu with the following parameters.
+>>     qemu-system-x86_64 -enable-kvm -M q35 \
+>>     ...
+>>     -device pcie-root-port,slot=3,id=pcie_port.3 \
+>>     -netdev tap,id=net3,script=no,downscript=/tmp/rmtap,ifname=xcbr3_t2,queues=1 \
+>>     -device igb,bus=pcie_port.3,netdev=net3,mac=00:00:00:01:03:02
+>>
+>> Load IGB/IGBVF modules if needed.
+>> modprobe igb
+>> modprobe igbvf
+>>
+>> Create VFs via /sys
+>> ls /sys/bus/pci/devices/0000:01:00.0/
+>> echo 2 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+>>
+>> Sriram Yagnaraman (5):
+>>    pcie: add helper function to get number of VFs
+>>    hw/net/net_tx_pkt: helper function to get l2 hdr
+>>    hw/net/igb: register definitions
+>>    hw/net/igb: emulated intel IGB (82576EB) network device
+>>    hw/net/igb: build support for igb/igbvf devices
 > 
-> So the kernel load addresses are parameterized in the kernel image
-> setup header. One of the things that are so parameterized are the size
-> and possible realignment of the kernel image in memory.
+> Haven't reviewed this series but I think we'd have two more things:
 > 
-> I'm very confused where you are getting the 64 MB number from. There
-> should not be any such limitation.
+> 1) update the MAINTAINERS
+> 2) a qtest for igb (having a qtest for sr-iov would be even better)
+> 
+> Thanks
+> 
+>>
+>>   hw/i386/Kconfig             |    1 +
+>>   hw/net/Kconfig              |    5 +
+>>   hw/net/e1000_regs.h         |  357 +++-
+>>   hw/net/e1000x_common.c      |   13 +
+>>   hw/net/e1000x_common.h      |   28 +
+>>   hw/net/igb.c                |  627 ++++++
+>>   hw/net/igb.h                |  184 ++
+>>   hw/net/igb_core.c           | 3782 +++++++++++++++++++++++++++++++++++
+>>   hw/net/igb_core.h           |  216 ++
+>>   hw/net/igbvf.c              |  262 +++
+>>   hw/net/meson.build          |    2 +
+>>   hw/net/net_tx_pkt.c         |   17 +-
+>>   hw/net/net_tx_pkt.h         |    8 +
+>>   hw/net/trace-events         |  190 ++
+>>   hw/pci/pcie_sriov.c         |    6 +
+>>   include/hw/pci/pcie_sriov.h |    5 +
+>>   16 files changed, 5671 insertions(+), 32 deletions(-)
+>>   create mode 100644 hw/net/igb.c
+>>   create mode 100644 hw/net/igb.h
+>>   create mode 100644 hw/net/igb_core.c
+>>   create mode 100644 hw/net/igb_core.h
+>>   create mode 100644 hw/net/igbvf.c
+>>
+>> --
+>> 2.34.1
+>>
+> 
+> 
 
-Currently, QEMU appends it to the kernel image, not to the initramfs as
-you suggest below. So, that winds up looking, currently, like:
+Hi Sriram and Jason,
 
-          kernel image            setup_data
-   |--------------------------||----------------|
-0x100000                  0x100000+l1     0x100000+l1+l2
+Coincidentally we has also been working on igb emulation. Our tree is 
+available at:
+https://github.com/daynix/qemu/tree/akihikodaki/igb_sriov_rebase
 
-The problem is that this decompresses to 0x1000000 (one more zero). So
-if l1 is > (0x1000000-0x100000), then this winds up looking like:
+Briefly looking at Sriram's series, it seems to have better feature 
+coverage, but there are some changes present only in our tree as well. 
+For instance, our tree includes a qtest though it does not test SR-IOV 
+functionality.
 
-          kernel image            setup_data
-   |--------------------------||----------------|
-0x100000                  0x100000+l1     0x100000+l1+l2
+I'd like to suggest you to review and merge Sriram's series first, and I 
+can rebase our tree to extract changes present only in our tree, 
+including qtest. Or it can be the other way around; I think I can finish 
+my series in weeks so I may submit it once it is ready, and you can 
+apply changes in Sriram's series on top it. I'd like to hear which is 
+more convenient for you, or another idea if you have.
 
-                                 d e c o m p r e s s e d   k e r n e l
-		     |-------------------------------------------------------------|
-                0x1000000                                                     0x1000000+l3 
-
-The decompressed kernel seemingly overwriting the compressed kernel
-image isn't a problem, because that gets relocated to a higher address
-early on in the boot process. setup_data, however, stays in the same
-place, since those links are self referential and nothing fixes them up.
-So the decompressed kernel clobbers it.
-
-The solution in this commit adds a bunch of padding between the kernel
-image and setup_data to avoid this. That looks like this:
-
-          kernel image                            padding                               setup_data
-   |--------------------------||---------------------------------------------------||----------------|
-0x100000                  0x100000+l1                                         0x1000000+l3      0x1000000+l3+l2
-
-                                 d e c o m p r e s s e d   k e r n e l
-		     |-------------------------------------------------------------|
-                0x1000000                                                     0x1000000+l3 
-
-This way, the decompressed kernel doesn't clobber setup_data.
-
-The problem is that if 0x1000000+l3-0x100000 is around 62 megabytes,
-then the bootloader crashes when trying to dereference setup_data's
-->len param at the end of initialize_identity_maps() in ident_map_64.c.
-I don't know why it does this. If I could remove the 62 megabyte
-restriction, then I could keep with this technique and all would be
-well.
-
-> In general, setup_data should be able to go anywhere the initrd can
-> go, and so is subject to the same address cap (896 MB for old kernels,
-> 4 GB on newer ones; this address too is enumerated in the header.)
-
-It would be theoretically possible to attach it to the initrd image
-instead of to the kernel image. As a last resort, I guess I can look
-into doing that. However, that's going to require some serious rework
-and plumbing of a lot of different components. So if I can make it work
-as is, that'd be ideal. However, I need to figure out this weird 62 meg
-limitation.
-
-Any ideas on that?
-
-Jason
+Regards,
+Akihiko Odaki
 
