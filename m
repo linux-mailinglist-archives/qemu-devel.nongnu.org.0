@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BBB658C1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 12:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200C9658C68
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 12:51:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAqvV-0003IQ-Iw; Thu, 29 Dec 2022 06:18:21 -0500
+	id 1pArPd-00027C-FU; Thu, 29 Dec 2022 06:49:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pAqvT-0003Hn-A0; Thu, 29 Dec 2022 06:18:19 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pAqvQ-0005kP-LV; Thu, 29 Dec 2022 06:18:18 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id c17so26253944edj.13;
- Thu, 29 Dec 2022 03:18:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p9rTDLM3+byFxm1EaEDqnOzLtcbqunGtJlLYE+Gl8/g=;
- b=YSuLRtrHRmtV8qEnCTBcPN/XwNhx5fJ/fQAZx5d469TB91+sdHzyTZoEgp7SB+GaGe
- Vvo+xhC0STwGK6nFbFJcdJDWo+mNSY0NdnQss7kAE29IxCckBJ1dG+DNjWb6R6ahr0k7
- oHqgnwAvXtUQQqKIIdF26vUt6RVndpvEFTfIBw2teY/ZR6vIkGxSHlTwnk2djUzEWP9K
- hMUrciCZqkbWQoJJCHd9LfeYzWUwSl1w/9n6KR0/2cbr5xAgjWOVn/PD8AbE2/s+Z2xf
- AwQ0bqfZOw9TttNmFyrUUiKhMs2mbeFSXDKOxLBbeZSQ/iKbjElLQ8dPxNcACIBilJTu
- AfwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p9rTDLM3+byFxm1EaEDqnOzLtcbqunGtJlLYE+Gl8/g=;
- b=Vk2wkI6yUWbHRjEfcR7sVXf6k53AojTLjNN3UvTUTBuANoMdAuPFmIPWR/88xhpzvM
- PnjnNylCvtd3fz7uBIL/cm0DrTr6PJMT52BsqKZBstpMReN3eDTikR1KUOWn72fRxwlc
- cXda4BqLmmBjb7kx1Ei/pUQHn0EykQY0Z8zEblsoF/Qy8jobRUurSkrwcbOF7Yr/GUd6
- Nn2qdEt1iDgwe/yXMXfnKuYYkExKYDCA5eNOTORKLmMHOu5cYNfh7hfS9Vr/xIKmwOGR
- B/X44TBsJwZVcing5i4A+vIQXmz6aO/XN/Vv+Rx2RMAW5yiIV6f1rxTrUUk76OGk9Rqb
- STwA==
-X-Gm-Message-State: AFqh2koVRc1Ws7WC2JDvKQpTkWhbQQogxWtLgSzNVtrFOf6xkyHT2zz5
- pWufhDit5VXgX8jkQ1etQ9NpvlTdnDV46vxZtf8=
-X-Google-Smtp-Source: AMrXdXs/jSDoo8oPSKlRFvWlWVdSN7s4VzS8eq31+PkAgDofCBmyvUtApLOPAxKLOkLTPQfUei7js3UpLzYrmEYL3hw=
-X-Received: by 2002:a05:6402:6c1:b0:46d:94b0:e6e5 with SMTP id
- n1-20020a05640206c100b0046d94b0e6e5mr3290441edy.380.1672312694646; Thu, 29
- Dec 2022 03:18:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pArPb-000270-Qt
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 06:49:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pArPZ-0007d7-QB
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 06:49:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672314564;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dgpZTGcvFMfKXYqy1GaXe5Qbls/Rjs4CnEqJV8VK78s=;
+ b=TxNQcJbvgoZHLIVmqIW/tfMNrnPgXC+BEV3L3sckJddPw1py8QkAHXNGPFTXIgscWYzO56
+ aKFAGNFSVOqhTPYFBl/Te33qi+cKnxCiO+AsuSrcOE5Q5paCtOf1sr/QeJqoOISbjOqRju
+ /GDG+E/aQBOgQevnYuVnHNkGv6FN7Vw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-85-hYFDI8whM4SysMgU8WRnbQ-1; Thu, 29 Dec 2022 06:49:17 -0500
+X-MC-Unique: hYFDI8whM4SysMgU8WRnbQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96F50380673D
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 11:49:17 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A62D40AE1E9;
+ Thu, 29 Dec 2022 11:49:16 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: libvir-list@redhat.com,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2] i386: Deprecate the -no-hpet QEMU command line option
+Date: Thu, 29 Dec 2022 12:49:13 +0100
+Message-Id: <20221229114913.260400-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20221228133336.197467-1-dbarboza@ventanamicro.com>
- <20221228133336.197467-2-dbarboza@ventanamicro.com>
- <CAEUhbmXyth6ENTPkX8j5G=+OZ4XxL70S6V989g94w7JSSdAobQ@mail.gmail.com>
- <a759543f-91b4-4905-400d-3fbe1921226b@ventanamicro.com>
-In-Reply-To: <a759543f-91b4-4905-400d-3fbe1921226b@ventanamicro.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 29 Dec 2022 19:18:03 +0800
-Message-ID: <CAEUhbmXCMVU+eCzgCwNtBkLVYLDvG4XO_U9XkAgjCjZQKHB_Ag@mail.gmail.com>
-Subject: Re: [PATCH v3 01/10] tests/avocado: add RISC-V opensbi boot test
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52d.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,133 +73,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Daniel,
+The HPET setting has been turned into a machine property a while ago
+already, so we should finally do the next step and deprecate the
+legacy CLI option, too.
 
-On Thu, Dec 29, 2022 at 4:21 AM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
->
->
-> On 12/28/22 12:18, Bin Meng wrote:
-> > On Wed, Dec 28, 2022 at 9:38 PM Daniel Henrique Barboza
-> > <dbarboza@ventanamicro.com> wrote:
-> >> This test is used to do a quick sanity check to ensure that we're able
-> >> to run the existing QEMU FW image.
-> >>
-> >> 'sifive_u', 'spike' and 'virt' riscv64 machines, and 'sifive_u' and
-> >> 'virt' 32 bit machines are able to run the default RISCV64_BIOS_BIN |
-> >> RISCV32_BIOS_BIN firmware with minimal options.
-> >>
-> >> The riscv32 'spike' machine isn't bootable at this moment, requiring a=
-n
-> >> Opensbi fix [1] and QEMU side changes [2]. We could just leave at that
-> > nits: OpenSBI
-> >
-> >> or add a 'skip' test to remind us about it. To work as a reminder that
-> >> we have a riscv32 'spike' test that should be enabled as soon as Opens=
-bi
-> > ditto
-> >
-> >> QEMU rom receives the fix, we're adding a 'skip' test:
-> >>
-> >> (11/18) tests/avocado/riscv_opensbi.py:RiscvOpensbi.test_riscv32_spike=
-:
-> >>          SKIP: requires OpenSBI fix to work
-> >>
-> >> [1] https://patchwork.ozlabs.org/project/opensbi/patch/20221226033603.=
-1860569-1-bmeng@tinylab.org/
-> >> [2] https://patchwork.ozlabs.org/project/qemu-devel/list/?series=3D334=
-159
-> >>
-> >> Cc: Cleber Rosa <crosa@redhat.com>
-> >> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> >> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> >> ---
-> >>   tests/avocado/riscv_opensbi.py | 65 ++++++++++++++++++++++++++++++++=
-++
-> >>   1 file changed, 65 insertions(+)
-> >>   create mode 100644 tests/avocado/riscv_opensbi.py
-> >>
-> >> diff --git a/tests/avocado/riscv_opensbi.py b/tests/avocado/riscv_open=
-sbi.py
-> >> new file mode 100644
-> >> index 0000000000..3549d36a11
-> >> --- /dev/null
-> >> +++ b/tests/avocado/riscv_opensbi.py
-> >> @@ -0,0 +1,65 @@
-> >> +# OpenSBI boot test for RISC-V machines
-> >> +#
-> >> +# Copyright (c) 2022, Ventana Micro
-> >> +#
-> >> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> >> +# later.  See the COPYING file in the top-level directory.
-> >> +
-> >> +from avocado_qemu import QemuSystemTest
-> >> +from avocado import skip
-> >> +from avocado_qemu import wait_for_console_pattern
-> >> +
-> >> +class RiscvOpensbi(QemuSystemTest):
-> >> +    """
-> >> +    :avocado: tags=3Daccel:tcg
-> >> +    """
-> >> +    timeout =3D 5
-> >> +
-> >> +    def boot_opensbi(self):
-> >> +        self.vm.set_console()
-> >> +        self.vm.launch()
-> >> +        wait_for_console_pattern(self, 'Platform Name')
-> >> +        wait_for_console_pattern(self, 'Boot HART MEDELEG')
-> >> +
-> >> +    def test_riscv64_virt(self):
-> >> +        """
-> >> +        :avocado: tags=3Darch:riscv64
-> >> +        :avocado: tags=3Dmachine:virt
-> >> +        """
-> >> +        self.boot_opensbi()
-> >> +
-> >> +    def test_riscv64_spike(self):
-> >> +        """
-> >> +        :avocado: tags=3Darch:riscv64
-> >> +        :avocado: tags=3Dmachine:spike
-> >> +        """
-> >> +        self.boot_opensbi()
-> >> +
-> >> +    def test_riscv64_sifive_u(self):
-> >> +        """
-> >> +        :avocado: tags=3Darch:riscv64
-> >> +        :avocado: tags=3Dmachine:sifive_u
-> >> +        """
-> >> +        self.boot_opensbi()
-> > nits: could we keep both 64-bit and 32-bit machines in the same order?
-> > e.g.: virt, sifive_u, spike
->
-> I've changed the order to be first the default machine (spike), then the =
-other
-> machines in alphabetic order.
->
-> I've also put the 32 and 64 bit tests for the same machine one after the =
-other:
->
->   (06/18) tests/avocado/riscv_opensbi.py:RiscvOpenSBI.test_riscv32_spike:=
- SKIP: requires OpenSBI fix to work
->   (07/18) tests/avocado/riscv_opensbi.py:RiscvOpenSBI.test_riscv64_spike:=
- PASS (0.04 s)
->   (08/18) tests/avocado/riscv_opensbi.py:RiscvOpenSBI.test_riscv32_sifive=
-_u: PASS (0.07 s)
->   (09/18) tests/avocado/riscv_opensbi.py:RiscvOpenSBI.test_riscv64_sifive=
-_u: PASS (0.07 s)
->   (10/18) tests/avocado/riscv_opensbi.py:RiscvOpenSBI.test_riscv32_virt: =
-PASS (0.05 s)
->   (11/18) tests/avocado/riscv_opensbi.py:RiscvOpenSBI.test_riscv64_virt: =
-PASS (0.05 s)
->
->
->
-> If that's ok I'll send v4 tomorrow.
->
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ v2:
+ - Rebased to current version from master branch / adjusted version info
+ - Dropped the descrpition in hw/i386/pc.c (already done via another patch)
 
-Thanks, that looks good to me.
+ Note: The "hpet" property should now show up in the output of the
+ "query-command-line-options" QMP command since commit 2f129fc107b4a, so
+ it should be feasible for libvirt now to properly probe for the property .
 
-Regards,
-Bin
+ docs/about/deprecated.rst | 6 ++++++
+ softmmu/vl.c              | 1 +
+ qemu-options.hx           | 2 +-
+ 3 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 93affe3669..2ae6a79b21 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -114,6 +114,12 @@ form is preferred.
+ Using ``-drive if=none`` to configure the OTP device of the sifive_u
+ RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
+ 
++``-no-hpet`` (since 8.0)
++''''''''''''''''''''''''
++
++The HPET setting has been turned into a machine property.
++Use ``-machine hpet=off`` instead.
++
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 798e1dc933..9bd0e52d01 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3259,6 +3259,7 @@ void qemu_init(int argc, char **argv)
+                 qdict_put_str(machine_opts_dict, "acpi", "off");
+                 break;
+             case QEMU_OPTION_no_hpet:
++                warn_report("-no-hpet is deprecated, use '-machine hpet=off' instead");
+                 qdict_put_str(machine_opts_dict, "hpet", "off");
+                 break;
+             case QEMU_OPTION_no_reboot:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 7f99d15b23..a3adb4163e 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2542,7 +2542,7 @@ DEF("no-hpet", 0, QEMU_OPTION_no_hpet,
+     "-no-hpet        disable HPET\n", QEMU_ARCH_I386)
+ SRST
+ ``-no-hpet``
+-    Disable HPET support.
++    Disable HPET support. Deprecated, use '-machine hpet=off' instead.
+ ERST
+ 
+ DEF("acpitable", HAS_ARG, QEMU_OPTION_acpitable,
+-- 
+2.31.1
+
 
