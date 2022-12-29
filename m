@@ -2,56 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0D3658DC6
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 15:10:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC901658C02
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 11:59:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAtaR-0006Lg-JC; Thu, 29 Dec 2022 09:08:48 -0500
+	id 1pAqcB-0004y2-5x; Thu, 29 Dec 2022 05:58:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scalingtree@proton.me>)
- id 1pAqSZ-0003Nu-HT
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:48:31 -0500
-Received: from mail-4324.protonmail.ch ([185.70.43.24])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scalingtree@proton.me>)
- id 1pAqSV-0001Sb-Jy
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:48:26 -0500
-Date: Thu, 29 Dec 2022 10:47:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
- s=cp5a74xmsvbxben3zprofw27tq.protonmail; t=1672310892; x=1672570092;
- bh=npdBhTrvMOFqzkHU2GPm+W3G+DvAvgpLmNOpFvCgJgQ=;
- h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=OOE3cAgTWrfyyz/AGA3gWheiZCG+jUHbsbhnI1b49rlxAksXoUZSU5OaVZavkaHsY
- g6q5zVmd/XfFNxeTp6IKDm/hwtLzSls/hRYINQGtPBKFJTI3+kYzdhQP4JBcZIEdyA
- C8WXA41gMxZZsHR+xmly6NQoP923z0T3QWiPtIHZjntXzZWRxSRFw9TBsK1p6OaQMs
- +obM5PZy0eVq3STW5v1O1i35HWxARFc/9Cdz8c7w96+Br3XDu8uEJD/VvxBksjkbjR
- 6/sUk3Lv5sWeoqsth05iFFTl4Vem/Gez+gyAlbuV8l7H/LzLfR1iCMf807Jlv8Cyvh
- HH9CwGJM4IPmg==
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "firecracker-maintainers@amazon.com" <firecracker-maintainers@amazon.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "criu@openvz.org" <criu@openvz.org>
-From: scalingtree <scalingtree@proton.me>
-Subject: checkpoint/restore: Adding more "Getters" to the KVM API
-Message-ID: <adpJ8jbQtAUt-PBeSsepyoL3RhC_FATLu7n0OCZV_CVUbufKBArr_jQ4RER3zvKZmJEWFveyaze6iIR_Gh13E219nD1hhZa_PN7xB90p24s=@proton.me>
-Feedback-ID: 64659969:user:proton
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pAqc9-0004xm-Hd
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:58:21 -0500
+Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pAqc7-0005RI-Kb
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:58:21 -0500
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-14ffd3c5b15so9806728fac.3
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 02:58:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=F1mM8I1fdpLNXx+WXNI0FIERqWo4jgyBYr8e0WfZxeg=;
+ b=I8Jax1BMhQ0R4IOhsez7JEM+QFnb6ZPNlGbXaWQ5+QhMdq0xo5rBbLjR6HU/zb0zb7
+ m3mWHhmajVG1uG2tx3e3TsDID7xoxAPZ/g52syajhvVu4+JZAzvLgyBFdfcMJPcLrEwR
+ UeieKTOrFFprRitkmNYtv52GDmI1JhHLf/BkV9QZEPtQX4w3IlBKFvRE/Fb5iwdqF/Di
+ hU/UjgtTovB1BsBvolxlSQVRa21bQfcdX8tojQ3nn9tNwajC0HOyJPnyHaY4WkXFNcbP
+ HXoMyyv0q974oWoOihrMMNQ9SY+tnL8HLNittidufm6qSFc+WtfBL/6wGI6XkvfjbJD/
+ KyNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=F1mM8I1fdpLNXx+WXNI0FIERqWo4jgyBYr8e0WfZxeg=;
+ b=wgkMWsvkNoDmoh+ULgv6TpTyp2vqCItNQ9BNVEyqGudxY0y80VW/JnGoZhZxRPVKKi
+ UdgBreOKqPMnHwBHlNpSWmWqDJ3fvzJsHgQ+SwsJ1tHgXXpEd+iKG1tIz5AZPbSGEgiW
+ 9pliGM3+ZvYO1ao72N5Mz+ugtTzkDvGHVqtXkn3WAb+EtbdXcdi/LhEm/54dxl0wo9d1
+ JP7/EM/wN7QyMvMBfSSEPhebCrsR6/2j/3cL1FyJA/7zdzRFoq3upJttX1HU7XDlpGpE
+ kpKub3pg65VlNHNXPKWdbALqquz9Ch+NpSgtoDSJ5ScXP5fuO04bFJ6aVW3DVJ8M9wya
+ 2BQw==
+X-Gm-Message-State: AFqh2krlPYYM59LGtZWBmCG/3B8Kxa1YafZHqvDhUSgR5HVFC1MpWEb0
+ j7zlBKFgxDxIkugQu7du7Vpuvg==
+X-Google-Smtp-Source: AMrXdXuX7tfS5su7zr60H287fJLlL10gDg+kVMdHc7wJrufq+OjE0S4CLS939FzMIGKhZ8qSXRFuMg==
+X-Received: by 2002:a05:6870:814:b0:143:9967:7e8f with SMTP id
+ fw20-20020a056870081400b0014399677e8fmr14309180oab.53.1672311497913; 
+ Thu, 29 Dec 2022 02:58:17 -0800 (PST)
+Received: from [192.168.68.107] ([191.17.222.139])
+ by smtp.gmail.com with ESMTPSA id
+ y25-20020a056870b01900b00144a3c526d9sm8490667oae.52.2022.12.29.02.58.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Dec 2022 02:58:17 -0800 (PST)
+Message-ID: <d2a42da7-429b-2d82-2030-0b4b112ca614@ventanamicro.com>
+Date: Thu, 29 Dec 2022 07:58:13 -0300
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="b1_6BUAg9EaMvbSfk2uXhrgklxjsioS1o8TNt22uOhmk"
-Received-SPF: pass client-ip=185.70.43.24; envelope-from=scalingtree@proton.me;
- helo=mail-4324.protonmail.ch
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 00/12] hw/riscv: Improve Spike HTIF emulation fidelity
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: Bin Meng <bmeng@tinylab.org>, Alistair Francis
+ <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ Anup Patel <apatel@ventanamicro.com>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org
+References: <20221229091828.1945072-1-bmeng@tinylab.org>
+ <ca5bb1de-652c-8074-5b49-867e40d0a818@ventanamicro.com>
+ <CAEUhbmVs4-WCByerzqDK2G1FTaQVJ5RuzB_qaJ4yCeMeDqrKUA@mail.gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAEUhbmVs4-WCByerzqDK2G1FTaQVJ5RuzB_qaJ4yCeMeDqrKUA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2d;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2d.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 29 Dec 2022 09:08:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,67 +101,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
-
---b1_6BUAg9EaMvbSfk2uXhrgklxjsioS1o8TNt22uOhmk
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
-
-SGkgbGlzdHMsCgpXZSBhcmUgaW4gdGhlIHByb2Nlc3Mgb2YgdXNpbmcgYW4gZXh0ZXJuYWwgdG9v
-bCAoQ1JJVSkgdG8gY2hlY2twb2ludC9yZXN0b3JlIGEgS1ZNLWVuYWJsZWQgdmlydHVhbCBtYWNo
-aW5lLiBJbml0aWFsbHkgd2UgdGFyZ2V0IHRoZSBoeXBlcnZpc29yIGt2bXRvb2wgYnV0IHRoZSBl
-eHRlbnNpb24sIGlmIGRvbmUgd2VsbCwgc2hvdWxkIGFsbG93IHRvIGNoZWNrcG9pbnQgYW55IGh5
-cGVydmlzb3I6IGxpa2UgUWVtdSBvciBmaXJlY3JhY2tlci4KCkNSSVUgY2FuIGNoZWNrcG9pbnQg
-YW5kIHJlc3RvcmUgbW9zdCBvZiB0aGUgYXBwbGljYXRpb24gKG9yIHRoZSBWTU0gaW4gb3VyIGNh
-c2UpIHN0YXRlIGV4Y2VwdCB0aGUgc3RhdGUgb2YgdGhlIGtlcm5lbCBtb2R1bGUgS1ZNLiBUbyBv
-dmVyY29tZSB0aGlzIGxpbWl0YXRpb24sIHdlIG5lZWQgbW9yZSBnZXR0ZXJzIGluIHRoZSBLVk0g
-QVBJIHRvIGV4dHJhY3QgdGhlIHN0YXRlIG9mIHRoZSBWTS4KCk9uZSBleGFtcGxlIG9mIGEgbWlz
-c2luZyBnZXR0ZXIgaXMgdGhlIG9uZSBmb3IgdGhlIGd1ZXN0IG1lbW9yeS4gVGhlcmUgaXMgYSBL
-Vk1fU0VUX01FTU9SWSBBUEkgY2FsbC4gQnV0IHRoZXJlIGlzIG5vIGVxdWl2YWxlbnQgZ2V0dGVy
-OiBLVk1fR0VUX01FTU9SWS4KCkNhbiB3ZSBhZGQgc3VjaCBnZXR0ZXJzIHRvIHRoZSBLVk0gQVBJ
-PyBBbnkgaWRlYSBvZiB0aGUgZGlmZmljdWx0eT8gSSB0aGluayBvbmUgb2YgdGhlIGRpZmZpY3Vs
-dGllcyB3aWxsIGJlIHRvIGdldCB0aGUgc3RhdGUgb2YgdGhlIGFyY2hpdGVjdHVyZS1zcGVjaWZp
-YyBzdGF0ZSBvZiBLVk06IGZvciBub3csIHdlIGFyZSB0YXJnZXR0aW5nIEludGVsIHg4Nl82NCBh
-cmNoaXRlY3R1cmUgKFZULVgpLgoKQW55IGZlZWRiYWNrIHdpbGwgYmUgYXBwcmVjaWF0ZWQuCgpC
-ZXN0IFJlZ2FyZHMsClNjYWxpbmdUcmVl
-
---b1_6BUAg9EaMvbSfk2uXhrgklxjsioS1o8TNt22uOhmk
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
-
-PGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFsOyBmb250LXNpemU6IDE0cHg7Ij5IaSBsaXN0
-cyw8L2Rpdj48ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTogMTRweDsi
-Pjxicj48L2Rpdj48ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTogMTRw
-eDsiPldlIGFyZSBpbiB0aGUgcHJvY2VzcyBvZiB1c2luZyBhbiBleHRlcm5hbCB0b29sIChDUklV
-KSB0byBjaGVja3BvaW50L3Jlc3RvcmUgYSBLVk0tZW5hYmxlZCB2aXJ0dWFsIG1hY2hpbmUuIElu
-aXRpYWxseSB3ZSB0YXJnZXQgdGhlIGh5cGVydmlzb3Iga3ZtdG9vbCBidXQgdGhlIGV4dGVuc2lv
-biwgaWYgZG9uZSB3ZWxsLCBzaG91bGQgYWxsb3cgdG8gY2hlY2twb2ludCBhbnkgaHlwZXJ2aXNv
-cjogbGlrZSBRZW11IG9yIGZpcmVjcmFja2VyLjwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5
-OiBBcmlhbDsgZm9udC1zaXplOiAxNHB4OyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtZmFt
-aWx5OiBBcmlhbDsgZm9udC1zaXplOiAxNHB4OyI+Q1JJVSBjYW4gY2hlY2twb2ludCBhbmQgcmVz
-dG9yZSBtb3N0IG9mIHRoZSBhcHBsaWNhdGlvbiAob3IgdGhlIFZNTSBpbiBvdXIgY2FzZSkgc3Rh
-dGUgZXhjZXB0IHRoZSBzdGF0ZSBvZiB0aGUga2VybmVsIG1vZHVsZSBLVk0uIFRvIG92ZXJjb21l
-IHRoaXMgbGltaXRhdGlvbiwgd2UgbmVlZCBtb3JlIGdldHRlcnMgaW4gdGhlIEtWTSBBUEkgdG8g
-ZXh0cmFjdCB0aGUgc3RhdGUgb2YgdGhlIFZNLjwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5
-OiBBcmlhbDsgZm9udC1zaXplOiAxNHB4OyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtZmFt
-aWx5OiBBcmlhbDsgZm9udC1zaXplOiAxNHB4OyI+T25lIGV4YW1wbGUgb2YgYSBtaXNzaW5nIGdl
-dHRlciBpcyB0aGUgb25lIGZvciB0aGUgZ3Vlc3QgbWVtb3J5LiBUaGVyZSBpcyBhIEtWTV9TRVRf
-TUVNT1JZIEFQSSBjYWxsLiBCdXQgdGhlcmUgaXMgbm8gZXF1aXZhbGVudCBnZXR0ZXI6IEtWTV9H
-RVRfTUVNT1JZLiZuYnNwOzwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcmlhbDsgZm9u
-dC1zaXplOiAxNHB4OyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcmlhbDsg
-Zm9udC1zaXplOiAxNHB4OyI+Q2FuIHdlIGFkZCBzdWNoIGdldHRlcnMgdG8gdGhlIEtWTSBBUEk/
-IEFueSBpZGVhIG9mIHRoZSBkaWZmaWN1bHR5PyBJIHRoaW5rIG9uZSBvZiB0aGUgZGlmZmljdWx0
-aWVzIHdpbGwgYmUgdG8gZ2V0IHRoZSBzdGF0ZSBvZiB0aGUgYXJjaGl0ZWN0dXJlLXNwZWNpZmlj
-IHN0YXRlIG9mIEtWTTogZm9yIG5vdywgd2UgYXJlIHRhcmdldHRpbmcgSW50ZWwgeDg2XzY0IGFy
-Y2hpdGVjdHVyZSAoVlQtWCkuPC9kaXY+PGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFsOyBm
-b250LXNpemU6IDE0cHg7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IEFyaWFs
-OyBmb250LXNpemU6IDE0cHg7Ij5BbnkgZmVlZGJhY2sgd2lsbCBiZSBhcHByZWNpYXRlZC48L2Rp
-dj48ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTogMTRweDsiPjxicj48
-L2Rpdj48ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTogMTRweDsiPkJl
-c3QgUmVnYXJkcyw8L2Rpdj48ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6
-ZTogMTRweDsiPlNjYWxpbmdUcmVlPC9kaXY+DQo=
 
 
---b1_6BUAg9EaMvbSfk2uXhrgklxjsioS1o8TNt22uOhmk--
+On 12/29/22 07:38, Bin Meng wrote:
+> Hi Daniel,
+>
+> On Thu, Dec 29, 2022 at 6:25 PM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>> Bin,
+>>
+>> Not sure if it's a problem on my side but I can't find patch 12/12. I didn't
+>> received in my mailbox. I tried patchwork but didn't find in there:
+>>
+>> https://patchwork.ozlabs.org/project/qemu-devel/list/?series=334352
+>>
+>>
+>> And it's not in the ML archives as well:
+>>
+>> https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg04581.html
+>>
+> Thanks for reporting this!
+>
+> I just examined the "git send-email" log, and indeed the "git
+> send-email" aborted at the last patch for some unknown reason.
+>
+> I just resent the 12th patch using "git send-email" using the correct
+> Message-Id, and hopefully it will be correctly chained into the v2
+> patch thread.
+
+That worked for me!
+
+Good to know that there's a workaround to send missing patches in a
+series - historically I would just resend the series all over again when
+that happens,
+
+
+Daniel
+
+>
+> Regards,
+> Bin
 
 
