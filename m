@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23B96589FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 08:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28ED0658A1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 08:52:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAnOz-0007EF-H5; Thu, 29 Dec 2022 02:32:33 -0500
+	id 1pAnh2-00023s-Sh; Thu, 29 Dec 2022 02:51:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pAnOI-0007Au-Bf
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 02:31:53 -0500
-Received: from [2607:7c80:54:3::138] (helo=mail.zytor.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pAnOG-0007zv-Hz
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 02:31:49 -0500
-Received: from [127.0.0.1] ([73.223.250.219]) (authenticated bits=0)
- by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 2BT7VXCx843333
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Wed, 28 Dec 2022 23:31:34 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 2BT7VXCx843333
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2022120601; t=1672299094;
- bh=P9B3uTyi8J6q0aKf9lvY9XtgOYfhraMemSVXlke1pIA=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=WfW98zlmWRjat8XXY4YvCjtF2d0PV7rT+SdB96ndtnnoBKwdX/tOa6eLa2EkWSCRK
- CCoyD+laiIIWUgeKHqKq0hci7eRSLMbWMIvFPu/ORqu2BN2rzjDC/UrC4Vl27UnFF2
- TfrHoxxZ9RlyCJj294k97ulX28VeCqKDS3ixu0/enFvWSugbhiLsn42XFGuruY/avT
- iZrDcFkjXqWp6YyulCn2HLcEHcM2yz588rfzBo1CcoqIcfs94nTckFPzMha5gzOAI5
- s1MlB6P/10I00c2tN1uf+XIpAGM7w8dJufC2sQUTKSqgV8MYvAaB44ddsY3vJm6qIa
- wJCmDBVAceroA==
-Date: Wed, 28 Dec 2022 23:31:34 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-CC: pbonzini@redhat.com, ebiggers@kernel.org, x86@kernel.org,
- linux-kernel@vger.kernel.org, qemu-devel@nongnu.org, ardb@kernel.org,
- kraxel@redhat.com, bp@alien8.de, philmd@linaro.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_qemu=5D_x86=3A_don=27t_let_decomp?=
- =?US-ASCII?Q?ressed_kernel_image_clobber_setup=5Fdata?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Y6z765zHrQ6Rl/0o@zx2c4.com>
-References: <20221228143831.396245-1-Jason@zx2c4.com>
- <6cab26b5-06ae-468d-ac79-ecdecb86ef07@linaro.org>
- <Y6xvJheSYC83voCZ@zx2c4.com> <Y6x1knb8udpSyMSp@zx2c4.com>
- <9188EEE9-2759-4389-B39E-0FEBBA3FA57D@zytor.com> <Y6z765zHrQ6Rl/0o@zx2c4.com>
-Message-ID: <AF921575-0968-434A-8B46-095B78C209C1@zytor.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAnh1-00023k-8v
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 02:51:11 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAngx-0007IM-NE
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 02:51:11 -0500
+Received: by mail-wm1-x333.google.com with SMTP id ja17so12625685wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 23:51:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3I1o10VOmj/fnIZD4vbqfDHra2+BGaCRwk0fsDjddCM=;
+ b=PE+EDFtfUxnSXd0Kgcsy8PpivbDWq8+feomK5pdb73P2PDC4XJ2RRNWHilJEqDbt12
+ AT6maF4kd1U7Snq3bd1wFvjUXnWckekWKAoEfiDcVBw/ZikzgR1bmEvKHE6jBivuj1rW
+ cofApHlAmpmT8dWJUjYh9fPXsmrzCDM/AinxgOt7K0I3MwTJnGykw55uL2nMifv4Og3q
+ sd/JrJ0uaQAS0jua3w1lrpL9T5LZPmkjKH1odTR7Ha5VB6DvrFAnEIQ9P2EAQeoMzaWM
+ Nlw/Vn/tlFqfirzsHAoiJ/gmLrJjZ72qAQx/i64sCMejzgxnUvQeSlcq+wLY3sM++4Ej
+ 2UIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3I1o10VOmj/fnIZD4vbqfDHra2+BGaCRwk0fsDjddCM=;
+ b=QOlZH/7/kUzYYLA4qZjf5C4jJOLBt8mHdXTywEjxVtTvz0adRthH91lgjj7fHVlc6C
+ FsbHy8imc0TPuPRVL8VWivnEqUePHemplldYTzNHp2lGLi5N80wxs5M2ESLMgiYwPAEy
+ p0dDZ/xLLYHxH8QLu0oOettag+pBugjtoXn9Feb9g5z3hQmz6/4K1kBniLMqJeFWnNVS
+ Gp1oEpHtqvBguvamU1ns+mfithYieLrdsy4XawcgYMgb4yZYYwl6gW64RX65V6sMHFBk
+ zz/eXFn57c8LpHtqZWKCC9J2giIERhGPCetDU5mtOX3RrQrcMMcDkpHcdto8dMQah9W5
+ f0wA==
+X-Gm-Message-State: AFqh2kqMFDx4/ctlQt7/LR96xfMz6xs+9etWNyC2k3aa6StfYGdegYMS
+ HhLe+NM4y94/0A0tsVu+RdhjMQ==
+X-Google-Smtp-Source: AMrXdXtW6plmKw95CGY+58N9tzctL1yZi0XKPlw9v4NLsQJvnYTPeUwnV+r/fKrZPrBMY5n6cfacAg==
+X-Received: by 2002:a05:600c:4e07:b0:3d3:5319:b6d3 with SMTP id
+ b7-20020a05600c4e0700b003d35319b6d3mr19644595wmq.38.1672300266114; 
+ Wed, 28 Dec 2022 23:51:06 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ y22-20020a1c4b16000000b003d01b84e9b2sm23441380wma.27.2022.12.28.23.51.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Dec 2022 23:51:05 -0800 (PST)
+Message-ID: <54a4141c-85ab-6d1e-7f52-a4320b0c6556@linaro.org>
+Date: Thu, 29 Dec 2022 08:51:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:7c80:54:3::138
- (failed)
-Received-SPF: pass client-ip=2607:7c80:54:3::138; envelope-from=hpa@zytor.com;
- helo=mail.zytor.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v3] linux-user: Fix /proc/cpuinfo output for sparc and hppa
+Content-Language: en-US
+To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <Y6ywbxuxqQ/cGPJW@p100>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y6ywbxuxqQ/cGPJW@p100>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,92 +89,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On December 28, 2022 6:31:07 PM PST, "Jason A=2E Donenfeld" <Jason@zx2c4=2E=
-com> wrote:
->Hi,
->
->Read this message in a fixed width text editor with a lot of columns=2E
->
->On Wed, Dec 28, 2022 at 03:58:12PM -0800, H=2E Peter Anvin wrote:
->> Glad you asked=2E
->>=20
->> So the kernel load addresses are parameterized in the kernel image
->> setup header=2E One of the things that are so parameterized are the siz=
-e
->> and possible realignment of the kernel image in memory=2E
->>=20
->> I'm very confused where you are getting the 64 MB number from=2E There
->> should not be any such limitation=2E
->
->Currently, QEMU appends it to the kernel image, not to the initramfs as
->you suggest below=2E So, that winds up looking, currently, like:
->
->          kernel image            setup_data
->   |--------------------------||----------------|
->0x100000                  0x100000+l1     0x100000+l1+l2
->
->The problem is that this decompresses to 0x1000000 (one more zero)=2E So
->if l1 is > (0x1000000-0x100000), then this winds up looking like:
->
->          kernel image            setup_data
->   |--------------------------||----------------|
->0x100000                  0x100000+l1     0x100000+l1+l2
->
->                                 d e c o m p r e s s e d   k e r n e l
->		     |-------------------------------------------------------------|
->                0x1000000                                                =
-     0x1000000+l3=20
->
->The decompressed kernel seemingly overwriting the compressed kernel
->image isn't a problem, because that gets relocated to a higher address
->early on in the boot process=2E setup_data, however, stays in the same
->place, since those links are self referential and nothing fixes them up=
-=2E
->So the decompressed kernel clobbers it=2E
->
->The solution in this commit adds a bunch of padding between the kernel
->image and setup_data to avoid this=2E That looks like this:
->
->          kernel image                            padding                =
-               setup_data
->   |--------------------------||-----------------------------------------=
-----------||----------------|
->0x100000                  0x100000+l1                                    =
-     0x1000000+l3      0x1000000+l3+l2
->
->                                 d e c o m p r e s s e d   k e r n e l
->		     |-------------------------------------------------------------|
->                0x1000000                                                =
-     0x1000000+l3=20
->
->This way, the decompressed kernel doesn't clobber setup_data=2E
->
->The problem is that if 0x1000000+l3-0x100000 is around 62 megabytes,
->then the bootloader crashes when trying to dereference setup_data's
->->len param at the end of initialize_identity_maps() in ident_map_64=2Ec=
-=2E
->I don't know why it does this=2E If I could remove the 62 megabyte
->restriction, then I could keep with this technique and all would be
->well=2E
->
->> In general, setup_data should be able to go anywhere the initrd can
->> go, and so is subject to the same address cap (896 MB for old kernels,
->> 4 GB on newer ones; this address too is enumerated in the header=2E)
->
->It would be theoretically possible to attach it to the initrd image
->instead of to the kernel image=2E As a last resort, I guess I can look
->into doing that=2E However, that's going to require some serious rework
->and plumbing of a lot of different components=2E So if I can make it work
->as is, that'd be ideal=2E However, I need to figure out this weird 62 meg
->limitation=2E
->
->Any ideas on that?
->
->Jason
+On 28/12/22 22:09, Helge Deller wrote:
+> The sparc and hppa architectures provide an own output for the emulated
+> /proc/cpuinfo file.
+> 
+> Some userspace applications count (even if that's not the recommended
+> way) the number of lines which start with "processor:" and assume that
+> this number then reflects the number of online CPUs. Since those 3
+> architectures don't provide any such line, applications may assume "0"
+> CPUs.  One such issue can be seen in debian bug report:
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1024653
+> 
+> Avoid such issues by adding a "processor:" line for each of the online
+> CPUs.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> 
+> ---
+> v3:
+> - add trailing newline at end of /proc/cpuinfo file (needed by procps)
+> 
+> v2:
+> - drop m68k part (based on feedback from Laurent Vivier <laurent@vivier.eu>)
+> - change commit message
+> 
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index afb24fd0b9..5ec11a3683 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8310,7 +8310,13 @@ static int open_net_route(CPUArchState *cpu_env, int fd)
+>   #if defined(TARGET_SPARC)
+>   static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   {
+> -    dprintf(fd, "type\t\t: sun4u\n");
+> +    int i, num_cpus;
+> +
+> +    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+> +    for (i = 0; i < num_cpus; i++) {
+> +        dprintf(fd, "processor\t: %d\n", i);
+> +        dprintf(fd, "type\t\t: sun4u\n\n");
+> +    }
+>       return 0;
+>   }
+>   #endif
+> @@ -8318,11 +8324,17 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   #if defined(TARGET_HPPA)
+>   static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   {
+> -    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
+> -    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
+> -    dprintf(fd, "capabilities\t: os32\n");
+> -    dprintf(fd, "model\t\t: 9000/778/B160L\n");
+> -    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
+> +    int i, num_cpus;
+> +
+> +    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+> +    for (i = 0; i < num_cpus; i++) {
+> +        dprintf(fd, "processor\t: %d\n", i);
+> +        dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
+> +        dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
+> +        dprintf(fd, "capabilities\t: os32\n");
+> +        dprintf(fd, "model\t\t: 9000/778/B160L - "
+> +                    "Merlin L2 160 QEMU (9000/778/B160L)\n\n");
+> +    }
+>       return 0;
+>   }
+>   #endif
 
-As far as a crash=2E=2E=2E that sounds like a big and a pretty serious one=
- at that=2E
+I'd rather have common code in a single open_cpuinfo() and
+a per-arch dprintf_cpuinfo():
 
-Could you let me know what kernel you are using and how *exactly* you are =
-booting it?
+   static void dprintf_cpuinfo(CPUArchState *cpu_env, int fd,
+                               unsigned cpuid)
+   {
+       dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
+       dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
+       dprintf(fd, "capabilities\t: os32\n");
+       dprintf(fd, "model\t\t: 9000/778/B160L - "
+                   "Merlin L2 160 QEMU (9000/778/B160L)\n");
+   }
+
+   static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+   {
+       int i, num_cpus;
+
+       num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+       for (i = 0; i < num_cpus; i++) {
+           dprintf(fd, "processor\t: %d\n", i);
+           dprintf_cpuinfo(cpu_env, fd, i);
+           dprintf(fd, "\n");
+       }
+       return 0;
+   }
+
+Anyhow,
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
