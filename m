@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E27E6588AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 03:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC1D658913
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 04:15:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAisf-0005RG-6e; Wed, 28 Dec 2022 21:42:53 -0500
+	id 1pAjMZ-0001YS-Ka; Wed, 28 Dec 2022 22:13:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pAisc-0005Qr-Tg
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 21:42:50 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pAjMX-0001YB-CA
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 22:13:45 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pAisa-0004xp-VW
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 21:42:50 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id 36so11590376pgp.10
- for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 18:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pAjMV-0008Rk-QR
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 22:13:45 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ u4-20020a17090a518400b00223f7eba2c4so17758340pjh.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Dec 2022 19:13:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=8hDolg3B37g0PEseo4goTFhCnP+4ggh+xlUSaYqALi4=;
- b=Tpb5thM0oBYErl0FXSIakdpDOPUXCksUPRlHJAzjYjTKV/aFeooODrhAUBegYpsOWy
- JI6/oqQMiaYkp6eb+cQLOITrBgEWuvNGLEyEOkjrDRcJSwotPt0JazK45XnaE0MhY48T
- NQdcblX1qtqw4x2tQ1LibXg3ZCzMgxhSYk5zaOFGI6neNEBUh3rruEMJ4qpdUhf/zIOg
- eSi2+S3XshGM7GfCdfFkR3FKQmNLHr6tQ4xH9oJb1QbEfwHku6HTyBB9aEAorE0OEdHj
- 9jD4SlI5U71UU6ezxtp5wU+u7PNHPvhnq5+2I2SO9vQj8dX/uVXGN9WMngo7xzzdjT84
- UNhQ==
+ bh=DX/DGttRLdf5aEkF3P87bx3Ea86Sj8pXYBFhEPg9goQ=;
+ b=OigHWAC4tDZ8d4U5eEunmd9dkdx9sCvRk/I1jNQeSJUWkkYhf6/skq02gieIMI13sk
+ oE/phSsd+jo3LcMFe2vIrR86UZVIzc9U65GeUic46uR2NRe1hcwH8sxvsaswzRWtyqD1
+ PM6WVKv48En+UZy+H/Azw0mS722/l8e/JVRf5V2PzXNRwh/Yor78eBs6+4CF/qZOmAs+
+ tzpcYwIMuKCutpEogtSOP6ExfLBDYvXOXdR7GaA0BOiApuRnsEZPeehR1+y+wy6n00ur
+ ymCpw5ueVMOt2/rsgq/YNENvTzkNe1ck9ZPovn+u8Ksj9rvhzoxs+Cr6qn1hyler1ThS
+ 3gVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8hDolg3B37g0PEseo4goTFhCnP+4ggh+xlUSaYqALi4=;
- b=5vpvING+NhunPA8H1APjjZgkN9PsRRlkQ9BpcGP34gsSxKv8AED2ljG9tfNdpvsr6h
- UgP1Ok2QAtWEznp7FGX/KRjgK28ABccXs9ENvPqS+kB5nUk0yDlTI4xSJJJ4KndIqrMG
- yG3AkSvrdXy2lC6j3ZpoDSWHrcgMG0zc1y6FKGfCWPmNvy/iJDd5q74J6SU7jhIjkSPf
- YiXHGAdvYAdbuU1zY8L5mIX2RHC8bfNf5ZR5C1mAENYfkPXq94fbj1TxWG041harG23d
- 7zfyAefzJZ0V4GHrGPvHWcamghnYQfefLAYBfJZefg8B2RnCy43Ym6VYHsRfhOxVWikT
- hLwQ==
-X-Gm-Message-State: AFqh2kqd+06G7n2KYCjxuO6Wng4BrcKVJrtakfdp/VOsGruM40CwQhPw
- H3TravzXyUe9tEfAVB95KeE=
-X-Google-Smtp-Source: AMrXdXszytHHx8zYAELvGpkXFG9a8/vcj/0rGiHxxhWabgsPiwcUExVnie5UJBKYJv+h8GyEvn3JXA==
-X-Received: by 2002:a05:6a00:3217:b0:581:7430:aba with SMTP id
- bm23-20020a056a00321700b0058174300abamr6314867pfb.10.1672281754512; 
- Wed, 28 Dec 2022 18:42:34 -0800 (PST)
-Received: from ?IPV6:2400:4050:c360:8200:7b99:f7c3:d084:f1e2?
- ([2400:4050:c360:8200:7b99:f7c3:d084:f1e2])
+ bh=DX/DGttRLdf5aEkF3P87bx3Ea86Sj8pXYBFhEPg9goQ=;
+ b=3bMCR7z2f45+7eGZV9qKcfr3cygp/VYh7cUHic6J58jeDICTP7EsNCzAO7wbM8Nl9l
+ LCfMNuxzq9GcoQFe0nGv4H6xXFYTQyqw779B4WjTPVCkYDuLwuYxN6+FvumW/EKuflVY
+ 1PTs2626pS1w6gYGI3OKweIXn2InNq+NWFyu552l5JKc57s88WVZqOTuPWem4RvogMle
+ Nzkh97XIeKDVPJOmo1s7GO0E+Fd3lQRPNCo3qzNS/LE/tquAKu5uHCf2CnQMRhP6Noak
+ et8He5wnJ1UxtapZCIjASxpfPaXQmTEDMG+wZN6YNUS8gIbnJ7DgVcZ8US9ZXtI2rz93
+ rZaw==
+X-Gm-Message-State: AFqh2kr4ByMBTeHAF4mv5amDUdbfGVp45dLTpn+d1lJ6B/mpuooWTHR5
+ NqmEyFeL8/9V/jgFnQSWRpmRvz5vnWjHtF+Q
+X-Google-Smtp-Source: AMrXdXtMRWzrAXJsYayqbbcl43a10Aq+rrAkKPEqlDY26I6k1YD2q/4qPiT88AjRcp2zIzZdZxi+ag==
+X-Received: by 2002:a17:902:7042:b0:189:6a5a:7289 with SMTP id
+ h2-20020a170902704200b001896a5a7289mr36157374plt.52.1672283621884; 
+ Wed, 28 Dec 2022 19:13:41 -0800 (PST)
+Received: from [172.16.2.190] (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- 141-20020a621493000000b005815217e665sm4597897pfu.65.2022.12.28.18.42.32
+ 5-20020a630705000000b0047911890728sm9411781pgh.79.2022.12.28.19.13.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Dec 2022 18:42:33 -0800 (PST)
-Message-ID: <34526159-762f-46ba-016e-5b9b0eae59bf@gmail.com>
-Date: Thu, 29 Dec 2022 11:42:30 +0900
+ Wed, 28 Dec 2022 19:13:41 -0800 (PST)
+Message-ID: <27113bcc-c8f9-02cb-c218-bb11e8d5d794@linaro.org>
+Date: Wed, 28 Dec 2022 19:13:39 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 0/5] hw/net/igb: emulated network device with SR-IOV
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 01/43] target/loongarch: Add vector data type vec_t
 Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Cc: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yan Vugenfirer <yan@daynix.com>
-References: <20221222114120.8790-1-sriram.yagnaraman@est.tech>
- <CACGkMEtFvmQ3th8TxApOuOtRVQz-7S7NZ-dFyOX73L1YS7Fh4g@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CACGkMEtFvmQ3th8TxApOuOtRVQz-7S7NZ-dFyOX73L1YS7Fh4g@mail.gmail.com>
+To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-2-gaosong@loongson.cn>
+ <99e4fdf2-fe70-03c7-1168-f300ac7a1ead@linaro.org>
+ <4852b017-1841-cf6f-fbc2-e1789a7f9496@loongson.cn>
+ <d8e55869-8553-68b9-1b42-0075705dd03f@linaro.org>
+ <2544efc0-5eaa-31d3-99a1-95155d0f7859@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <2544efc0-5eaa-31d3-99a1-95155d0f7859@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,90 +97,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2022/12/23 12:23, Jason Wang wrote:
-> On Thu, Dec 22, 2022 at 7:43 PM Sriram Yagnaraman
-> <sriram.yagnaraman@est.tech> wrote:
+On 12/28/22 17:51, gaosong wrote:
+>> A related question though: does the manual mention whether the fpu instructions only 
+>> modify the lower 64 bits, or do the high 64-bits become zeroed, nanboxed, or unspecified?
 >>
->> A new attempt at adding support for Intel 82576 Gigabit Ethernet adapter
->> with SR-IOV support.
 >>
->> Start qemu with the following parameters.
->>     qemu-system-x86_64 -enable-kvm -M q35 \
->>     ...
->>     -device pcie-root-port,slot=3,id=pcie_port.3 \
->>     -netdev tap,id=net3,script=no,downscript=/tmp/rmtap,ifname=xcbr3_t2,queues=1 \
->>     -device igb,bus=pcie_port.3,netdev=net3,mac=00:00:00:01:03:02
->>
->> Load IGB/IGBVF modules if needed.
->> modprobe igb
->> modprobe igbvf
->>
->> Create VFs via /sys
->> ls /sys/bus/pci/devices/0000:01:00.0/
->> echo 2 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
->>
->> Sriram Yagnaraman (5):
->>    pcie: add helper function to get number of VFs
->>    hw/net/net_tx_pkt: helper function to get l2 hdr
->>    hw/net/igb: register definitions
->>    hw/net/igb: emulated intel IGB (82576EB) network device
->>    hw/net/igb: build support for igb/igbvf devices
-> 
-> Haven't reviewed this series but I think we'd have two more things:
-> 
-> 1) update the MAINTAINERS
-> 2) a qtest for igb (having a qtest for sr-iov would be even better)
-> 
-> Thanks
-> 
->>
->>   hw/i386/Kconfig             |    1 +
->>   hw/net/Kconfig              |    5 +
->>   hw/net/e1000_regs.h         |  357 +++-
->>   hw/net/e1000x_common.c      |   13 +
->>   hw/net/e1000x_common.h      |   28 +
->>   hw/net/igb.c                |  627 ++++++
->>   hw/net/igb.h                |  184 ++
->>   hw/net/igb_core.c           | 3782 +++++++++++++++++++++++++++++++++++
->>   hw/net/igb_core.h           |  216 ++
->>   hw/net/igbvf.c              |  262 +++
->>   hw/net/meson.build          |    2 +
->>   hw/net/net_tx_pkt.c         |   17 +-
->>   hw/net/net_tx_pkt.h         |    8 +
->>   hw/net/trace-events         |  190 ++
->>   hw/pci/pcie_sriov.c         |    6 +
->>   include/hw/pci/pcie_sriov.h |    5 +
->>   16 files changed, 5671 insertions(+), 32 deletions(-)
->>   create mode 100644 hw/net/igb.c
->>   create mode 100644 hw/net/igb.h
->>   create mode 100644 hw/net/igb_core.c
->>   create mode 100644 hw/net/igb_core.h
->>   create mode 100644 hw/net/igbvf.c
->>
->> --
->> 2.34.1
->>
-> 
-> 
+> Only modify the lower 64bits,   the high 64-bits is unpecified.
 
-Hi Sriram and Jason,
+These two options are mutually exclusive.  If upper 64 bits unmodified, then they *are* 
+specified to be the previous contents.
 
-Coincidentally we has also been working on igb emulation. Our tree is 
-available at:
-https://github.com/daynix/qemu/tree/akihikodaki/igb_sriov_rebase
 
-Briefly looking at Sriram's series, it seems to have better feature 
-coverage, but there are some changes present only in our tree as well. 
-For instance, our tree includes a qtest though it does not test SR-IOV 
-functionality.
-
-I'd like to suggest you to review and merge Sriram's series first, and I 
-can rebase our tree to extract changes present only in our tree, 
-including qtest. Or it can be the other way around; I think I can finish 
-my series in weeks so I may submit it once it is ready, and you can 
-apply changes in Sriram's series on top it. I'd like to hear which is 
-more convenient for you, or another idea if you have.
-
-Regards,
-Akihiko Odaki
+r~
 
