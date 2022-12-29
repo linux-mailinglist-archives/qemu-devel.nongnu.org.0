@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF556591BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 21:45:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 890EB6591CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 21:49:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAzll-0002wP-6S; Thu, 29 Dec 2022 15:44:53 -0500
+	id 1pAznb-0003on-61; Thu, 29 Dec 2022 15:46:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pAzli-0002vX-OK; Thu, 29 Dec 2022 15:44:50 -0500
+ id 1pAznN-0003ew-Tc; Thu, 29 Dec 2022 15:46:37 -0500
 Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pAzlh-0003vs-33; Thu, 29 Dec 2022 15:44:50 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 576215C00F3;
- Thu, 29 Dec 2022 15:44:48 -0500 (EST)
+ id 1pAznK-0004O5-7b; Thu, 29 Dec 2022 15:46:33 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 469EB5C009D;
+ Thu, 29 Dec 2022 15:46:29 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 29 Dec 2022 15:44:48 -0500
+ by compute2.internal (MEProxy); Thu, 29 Dec 2022 15:46:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1672346688; x=
- 1672433088; bh=6YmjZ35Vr6oKw173bF8vv6FpKv26K7ulaTwongPyvg0=; b=G
- ne+2UoZU0MQ0rDJW4rjKIiXnPwY0a5XvYyCmJKSdcndlmE0Z4fIJQKw7ktSuZ3y1
- B8He6VJglEYibjc59T6SxxRLsPcYcQwe+J2rIU0Fj/4QQuUK8Tag34R7GoDDiXv8
- 0bULk9kan2jOGc1wi0vy9cVyRRvc8lojYc7YiTgLYYg8NX9l60k1FfQNl1/UaUFa
- ANspyj9G1peatPGJCUoNRwvRIg7WLGmUy10bLAZbFDmmzQbSx+gkeYeJIUkV1JQj
- 9O1SIcazkxH/ye0ya3bOQzSvcBYuKciWH2GL6xG+c3VlXTTH0A2vcDrv8So8bT7c
- 6zGBLi8xeRt0nQ9D0lwug==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1672346789; x=
+ 1672433189; bh=HqqVL/hdJDFu3hJPvXnhhUb4vxL5zTUEo7LDRL44fPM=; b=W
+ FL6HpQao1S4fLsf7Qx0uF7fhjFdU8KxM5yUfHUDVJaA4Y0O2g4j9iksqokaJfY6O
+ 5tW5P1yav4a9zaQvFnekGkRvWCCOtEPdrpZfTbbHLY22co8/yQasgi0CiOFkoPI+
+ LpVtSfpC0XFFMc/KotI7QQ+cEAtehVeVLigWOf46gLJAc1a5yrpR0QzX6NIvv5Ho
+ ggrCmBF/gyXHwQx03PEiJszhd2krjGMFtrk/C0oMDqQK2jmACCOXTFYvFQYmzp+r
+ ztRtAycNCBa/1riW8cJs4OdU5EZyTYxIsamoJmfxixlqDh5Qn8v4paSwyHxFhozt
+ H+fEkp7kIszC0sbHorNHg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672346688; x=
- 1672433088; bh=6YmjZ35Vr6oKw173bF8vv6FpKv26K7ulaTwongPyvg0=; b=b
- 5jYfu5XjBgjhuEfAIzR779r13wzJmQRGIIv6Yl1j/V3qZhBk/dxqNj+JvqrJL3ul
- vnyqarEqe/maS7waWu5EGHt7CiODW8AFUhPWiMFT7d6DEtSfLooApoKH/XONUYuV
- 4z/xacf+rBecaczLPVw5pumgKW0yF2+MbnReJ8u61cvfEqH4w2PR7ApLWpgRZ828
- ewbwO/0LkGBvqWWrnmCvGuNFLaUGCuoh+TqsRaLRWfnFMZoQZakPS27M6VT/6cwZ
- /wgpbjwYEN31yWZYz7HJA+LHaXSz90H1EQMZYnkkFGMtWjOEK0T93+pzmDguQJFM
- y585a9rLr4o0WFa75Z7ZA==
-X-ME-Sender: <xms:QPytY3FDcNjBistNT4Z5kFjowZMBbDy3IEePzKZCzc93tntjgHcAnQ>
- <xme:QPytY0VZhnaN7xFk8Z5GAcWta4YqhLWz1K69qmLxaWL8J2MLInT_ZKh9ezU6tzzsH
- qWjM3Ysglwlg-LibUY>
-X-ME-Received: <xmr:QPytY5JYZETs415iXPa7aMHeG1bWTP8jfLV4XIu8_bs7ceO5nfbeFsRBmjHpEMjvKxvvuYvFfPv-V8L-4Rivww>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeggddugeduucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672346789; x=
+ 1672433189; bh=HqqVL/hdJDFu3hJPvXnhhUb4vxL5zTUEo7LDRL44fPM=; b=e
+ qDitLWJ9RbrwF6CgnxYflszwr5HCWCiVp6lmC2EBxE4ZmXu3F8wwLF+cOKcnwbqe
+ L+lydY0RMhH5opkUf3cdjtfKiDDiVNq5M1EJt4e5M1xsxS1n/qGaOp2A1x3mDzZ9
+ Um+nO7OvVqY2msivP0cIFSoHYS06FHM2+e8USArpPoTRjGIVJo66r3WLwREnSSQa
+ Yp82H1qn+Ab4bCUIhkdRNjlW1iR6mSEBdKjBSBG9Z64Uz/dPcf6ng+EPw/DNUKIb
+ jW8oW0i0CTPPrs2zdTFlIanSRBTY/SU4VYb39RE/muyx+fcVz1unhYF7ASsQiye/
+ Re6VoiCiRWp/ZLfqwuHsg==
+X-ME-Sender: <xms:pfytYxmSdiew-gKd6YJYmI2BhhEDI1kooXIU639OfdcuAzg-Wy_HxA>
+ <xme:pfytY83GwPnohzsZMKoC62SvqaCSQc3I1Kctqi6wHuP8dMOMRfRjantGvI9JjBtSR
+ VTOrEQT3rmXmheLMtI>
+X-ME-Received: <xmr:pfytY3orDYy3-cHnVk96FQIdUc2qN28cAxL_YJ0g39D6ddpNAnS5KBANk60Qv35sZSP-fLVFV7VTSoqzb0MLow>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeggddugedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
@@ -57,14 +57,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeggddugeduucetufdoteggod
  htthgvrhhnpefgueekffdtueetgfehteffledtueehgfehgeelfedujeefhfffteekvddt
  feetteenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
  eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:QPytY1FOyM3KVqytxrffS9ypY-Ep66FjIEzuousYV6sL8rFzlOfN7Q>
- <xmx:QPytY9XilUERVO0xuhiM6PtbkfxkFpT8InDdRsOx_GTlKcwyRYwGxQ>
- <xmx:QPytYwOP3-mXTnNwRiqXML5eM057TO7VMnWOpOgqVOrZRNwZP-qH0g>
- <xmx:QPytYyXc-x-pUrYBtQf6iTkVVv0sU26JOgg9uOzUSrG7Kisjg3su2Q>
+X-ME-Proxy: <xmx:pfytYxmLBpyowNYpudkOW6-uyNZ8hE3AFKNo84vsDnLDxUxy_jH9wg>
+ <xmx:pfytY_1zEXVlkVpRbtABN0zCKVMiRzQkKbBtzDWKYiFd9ypgny1oNw>
+ <xmx:pfytYwtNxlqtvzUmUXZvzwuwvEaOxjaBTDW2znG4dpUBI5-EyaxtTw>
+ <xmx:pfytY23_Pk5Eh0y6jC6TlmleZ5Ak6CZLfJ0W78myOZ-jkrqzKsvYnw>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Dec 2022 15:44:46 -0500 (EST)
-Date: Thu, 29 Dec 2022 12:44:44 -0800
+ 29 Dec 2022 15:46:27 -0500 (EST)
+Date: Thu, 29 Dec 2022 12:46:25 -0800
 From: Peter Delevoryas <peter@pjd.dev>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, Steven Lee <steven_lee@aspeedtech.com>,
@@ -76,16 +76,15 @@ Cc: qemu-devel@nongnu.org, Steven Lee <steven_lee@aspeedtech.com>,
  Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
  =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
  Peter Delevoryas <pdel@fb.com>, Jamin Lin <jamin_lin@aspeedtech.com>
-Subject: Re: [PATCH 3/9] hw/arm/aspeed_ast10x0: Add various unimplemented
- peripherals
-Message-ID: <Y638PCXC2eF+eUru@pdel-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCH 4/9] hw/arm/aspeed_ast10x0: Map I3C peripheral
+Message-ID: <Y638ocw5VdN5TeHK@pdel-mbp.dhcp.thefacebook.com>
 References: <20221229152325.32041-1-philmd@linaro.org>
- <20221229152325.32041-4-philmd@linaro.org>
+ <20221229152325.32041-5-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221229152325.32041-4-philmd@linaro.org>
+In-Reply-To: <20221229152325.32041-5-philmd@linaro.org>
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=peter@pjd.dev;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -110,138 +109,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-:n Thu, Dec 29, 2022 at 04:23:19PM +0100, Philippe Mathieu-Daudé wrote:
-> Based on booting Zephyr demo from [1] running QEMU with
-> '-d unimp' and checking missing devices in [2].
-> 
-> [1] https://github.com/AspeedTech-BMC/zephyr/releases/tag/v00.01.07
-> [2] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
+On Thu, Dec 29, 2022 at 04:23:20PM +0100, Philippe Mathieu-Daudé wrote:
+> Since I don't have access to the datasheet, the relevant
+> values were found in:
+> https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-Oh cool, yeah looks good.
-
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
-
 > ---
->  hw/arm/aspeed_ast10x0.c     | 35 +++++++++++++++++++++++++++++++++++
->  include/hw/arm/aspeed_soc.h | 11 +++++++++++
->  2 files changed, 46 insertions(+)
+>  hw/arm/aspeed_ast10x0.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
 > diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-> index 3500294df7..d7dbc1a801 100644
+> index d7dbc1a801..53ea6d471f 100644
 > --- a/hw/arm/aspeed_ast10x0.c
 > +++ b/hw/arm/aspeed_ast10x0.c
-> @@ -28,10 +28,15 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
->      [ASPEED_DEV_FMC]       = 0x7E620000,
->      [ASPEED_DEV_SPI1]      = 0x7E630000,
->      [ASPEED_DEV_SPI2]      = 0x7E640000,
-> +    [ASPEED_DEV_UDC]       = 0x7E6A2000,
->      [ASPEED_DEV_SCU]       = 0x7E6E2000,
-> +    [ASPEED_DEV_JTAG0]     = 0x7E6E4000,
-> +    [ASPEED_DEV_JTAG1]     = 0x7E6E4100,
->      [ASPEED_DEV_ADC]       = 0x7E6E9000,
-> +    [ASPEED_DEV_ESPI]      = 0x7E6EE000,
->      [ASPEED_DEV_SBC]       = 0x7E6F2000,
->      [ASPEED_DEV_GPIO]      = 0x7E780000,
-> +    [ASPEED_DEV_SGPIOM]    = 0x7E780500,
->      [ASPEED_DEV_TIMER1]    = 0x7E782000,
->      [ASPEED_DEV_UART1]     = 0x7E783000,
->      [ASPEED_DEV_UART2]     = 0x7E78D000,
-> @@ -79,12 +84,17 @@ static const int aspeed_soc_ast1030_irqmap[] = {
->      [ASPEED_DEV_LPC]       = 35,
->      [ASPEED_DEV_PECI]      = 38,
->      [ASPEED_DEV_FMC]       = 39,
-> +    [ASPEED_DEV_ESPI]      = 42,
->      [ASPEED_DEV_PWM]       = 44,
+> @@ -54,6 +54,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
+>      [ASPEED_DEV_WDT]       = 0x7E785000,
+>      [ASPEED_DEV_LPC]       = 0x7E789000,
+>      [ASPEED_DEV_PECI]      = 0x7E78B000,
+> +    [ASPEED_DEV_I3C]       = 0x7E7A0000,
+>      [ASPEED_DEV_I2C]       = 0x7E7B0000,
+>  };
+>  
+> @@ -89,6 +90,7 @@ static const int aspeed_soc_ast1030_irqmap[] = {
 >      [ASPEED_DEV_ADC]       = 46,
 >      [ASPEED_DEV_SPI1]      = 65,
 >      [ASPEED_DEV_SPI2]      = 66,
+> +    [ASPEED_DEV_I3C]       = 102, /* 102 -> 105 */
 >      [ASPEED_DEV_I2C]       = 110, /* 110 ~ 123 */
 >      [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
-> +    [ASPEED_DEV_UDC]       = 9,
-> +    [ASPEED_DEV_SGPIOM]    = 51,
-> +    [ASPEED_DEV_JTAG0]     = 27,
-> +    [ASPEED_DEV_JTAG1]     = 53,
->  };
+>      [ASPEED_DEV_UDC]       = 9,
+> @@ -130,6 +132,8 @@ static void aspeed_soc_ast1030_init(Object *obj)
+>      snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
+>      object_initialize_child(obj, "i2c", &s->i2c, typename);
 >  
->  static qemu_irq aspeed_soc_ast1030_get_irq(AspeedSoCState *s, int dev)
-> @@ -155,6 +165,15 @@ static void aspeed_soc_ast1030_init(Object *obj)
->      object_initialize_child(obj, "iomem", &s->iomem, TYPE_UNIMPLEMENTED_DEVICE);
->      object_initialize_child(obj, "sbc-unimplemented", &s->sbc_unimplemented,
->                              TYPE_UNIMPLEMENTED_DEVICE);
-> +    object_initialize_child(obj, "pwm", &s->pwm, TYPE_UNIMPLEMENTED_DEVICE);
-> +    object_initialize_child(obj, "espi", &s->espi, TYPE_UNIMPLEMENTED_DEVICE);
-> +    object_initialize_child(obj, "udc", &s->udc, TYPE_UNIMPLEMENTED_DEVICE);
-> +    object_initialize_child(obj, "sgpiom", &s->sgpiom,
-> +                            TYPE_UNIMPLEMENTED_DEVICE);
-> +    object_initialize_child(obj, "jtag[0]", &s->jtag[0],
-> +                            TYPE_UNIMPLEMENTED_DEVICE);
-> +    object_initialize_child(obj, "jtag[1]", &s->jtag[1],
-> +                            TYPE_UNIMPLEMENTED_DEVICE);
->  }
->  
->  static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-> @@ -337,6 +356,22 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
->                      sc->memmap[ASPEED_DEV_GPIO]);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio), 0,
->                         aspeed_soc_get_irq(s, ASPEED_DEV_GPIO));
+> +    object_initialize_child(obj, "i3c", &s->i3c, TYPE_ASPEED_I3C);
 > +
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->pwm), "aspeed.pwm",
-> +                                  sc->memmap[ASPEED_DEV_PWM], 0x100);
+>      snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
+>      object_initialize_child(obj, "timerctrl", &s->timerctrl, typename);
+>  
+> @@ -240,6 +244,18 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
+>      }
+>  
+> +    /* I3C */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
+> +        return;
+> +    }
+> +    aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_I3C]);
+> +    for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
+> +        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->armv7m),
+> +                                        sc->irqmap[ASPEED_DEV_I3C] + i);
+> +        /* The AST1030 I2C controller has one IRQ per bus. */
+
+Should this comment be I2C or I3C?
+
+Otherwise looks good!
+
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c.devices[i]), 0, irq);
+> +    }
 > +
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->espi), "aspeed.espi",
-> +                                  sc->memmap[ASPEED_DEV_ESPI], 0x800);
-> +
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->udc), "aspeed.udc",
-> +                                  sc->memmap[ASPEED_DEV_UDC], 0x1000);
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->sgpiom), "aspeed.sgpiom",
-> +                                  sc->memmap[ASPEED_DEV_SGPIOM], 0x100);
-> +
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->jtag[0]), "aspeed.jtag",
-> +                                  sc->memmap[ASPEED_DEV_JTAG0], 0x20);
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->jtag[1]), "aspeed.jtag",
-> +                                  sc->memmap[ASPEED_DEV_JTAG1], 0x20);
->  }
->  
->  static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
-> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-> index 8389200b2d..9a5e3c0bac 100644
-> --- a/include/hw/arm/aspeed_soc.h
-r +++ b/include/hw/arm/aspeed_soc.h
-> @@ -44,6 +44,7 @@
->  #define ASPEED_CPUS_NUM  2
->  #define ASPEED_MACS_NUM  4
->  #define ASPEED_UARTS_NUM 13
-> +#define ASPEED_JTAG_NUM  2
->  
->  struct AspeedSoCState {
->      /*< private >*/
-> @@ -87,6 +88,11 @@ struct AspeedSoCState {
->      UnimplementedDeviceState video;
->      UnimplementedDeviceState emmc_boot_controller;
->      UnimplementedDeviceState dpmcu;
-> +    UnimplementedDeviceState pwm;
-> +    UnimplementedDeviceState espi;
-> +    UnimplementedDeviceState udc;
-> +    UnimplementedDeviceState sgpiom;
-> +    UnimplementedDeviceState jtag[ASPEED_JTAG_NUM];
->  };
->  
->  #define TYPE_ASPEED_SOC "aspeed-soc"
-> @@ -174,6 +180,11 @@ enum {
->      ASPEED_DEV_DPMCU,
->      ASPEED_DEV_DP,
->      ASPEED_DEV_I3C,
-> +    ASPEED_DEV_ESPI,
-> +    ASPEED_DEV_UDC,
-> +    ASPEED_DEV_SGPIOM,
-> +    ASPEED_DEV_JTAG0,
-> +    ASPEED_DEV_JTAG1,
->  };
->  
->  qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
+>      /* PECI */
+>      if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
+>          return;
 > -- 
 > 2.38.1
-> 
+k 
 
