@@ -2,95 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2E3658AD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 10:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA3C658AD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 10:19:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAp2Q-0007Ut-1i; Thu, 29 Dec 2022 04:17:22 -0500
+	id 1pAp4N-0008D1-Qy; Thu, 29 Dec 2022 04:19:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pAp2O-0007Uk-8z
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 04:17:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pAp41-0008BS-Mi; Thu, 29 Dec 2022 04:19:02 -0500
+Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pAp2M-0006DC-TA
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 04:17:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672305438;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KwGXLBT2rVXOmDYDjj2CltQWF6rjs34JKlgK30hYKuQ=;
- b=SHxcCBP3VHYYpBJNvtebkai2wQlxz1gZPlLBTA+6bRgb16FC4etUh9dpix0g2stJm+BAyH
- Gtlgwph82E8yYEcXpNFZBHbw/HZMhZfFIoMSF9E97ytlvCzSejAkdWubHqJzMmQ9W3MNE3
- d+Du8HmnKu/Cliq43dZDGFM+r4hdVHk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-474-7qAmb8TjOqaEHCenazubMw-1; Thu, 29 Dec 2022 04:17:16 -0500
-X-MC-Unique: 7qAmb8TjOqaEHCenazubMw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m7-20020a05600c4f4700b003d971a5e770so7408102wmq.3
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 01:17:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KwGXLBT2rVXOmDYDjj2CltQWF6rjs34JKlgK30hYKuQ=;
- b=B5jczvm+mrvxLZnoYMNV7jVQ2liyTFeyb98zLzHT/S6Xgxxpi7dDcYRoGhRtPHosg2
- vCyLM6P8WfquDj1dDq2NIFXvRUcluJVpddA+xzevcxeDmFuAKE5ciAuAq91ABGwN6O8X
- 7KVSgzHG5fG2yxWTIjaZ6lQx0VpR/KiEhMg9EPlaNQxDE50vKvaZnv+CWOMpC8EqaraM
- 4MMvrdsW7lot4yU+3wh4Og6JWQXOcPiRm4GszGYtN+lEjWwIFxKj6qYYBuKtbz+kdiBQ
- uQmcKtVcxI1BNtn9sbTGvW2iu9tx+Czqg2LnyCjTVbmoXjGVkP2v23m0WHlZn+Mume8M
- 0osg==
-X-Gm-Message-State: AFqh2kpm5GRlXTm0HqGvLVTT8GjAox3FIoQyboC6l9AGALbwppHYHmOm
- iq4yCWtnP353vjmnWbvkgmfhakMWIsfhXXDsZMXNBF0hyR4ppk1xX5uEQd4eiEyKrr4w+9w5uoP
- jl6bt8ushsBaziDM=
-X-Received: by 2002:a05:600c:4fcf:b0:3cf:360e:f37d with SMTP id
- o15-20020a05600c4fcf00b003cf360ef37dmr19317099wmq.22.1672305434878; 
- Thu, 29 Dec 2022 01:17:14 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvTBIA/wR6bjRoWFATTu0ZwA2mImkupCgP7FReyB6P0jhYyXoQGOlXhml1OQVoRQsKwCoF93w==
-X-Received: by 2002:a05:600c:4fcf:b0:3cf:360e:f37d with SMTP id
- o15-20020a05600c4fcf00b003cf360ef37dmr19317070wmq.22.1672305434513; 
- Thu, 29 Dec 2022 01:17:14 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-42-113-203.web.vodafone.de.
- [109.42.113.203]) by smtp.gmail.com with ESMTPSA id
- f6-20020a05600c154600b003d98a7aa12csm10490725wmg.16.2022.12.29.01.17.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Dec 2022 01:17:13 -0800 (PST)
-Message-ID: <c95d4c84-3b91-2d11-313b-a1733fd16a61@redhat.com>
-Date: Thu, 29 Dec 2022 10:17:10 +0100
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pAp3y-0006vw-QW; Thu, 29 Dec 2022 04:19:01 -0500
+X-QQ-mid: bizesmtp73t1672305510tyg69441
+Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Thu, 29 Dec 2022 17:18:28 +0800 (CST)
+X-QQ-SSF: 01200000000000C0C000000A0000000
+X-QQ-FEAT: PsQCk6chbj4XbdEaS9QsOkESbQPB814qm/cJ1b7qWZuvunjbw3FC9nN4E28CA
+ /IKZg0HlWcsfiDu0Ssm5Sdz9ZQY2NwDj4kSvLbSzZtoYLPUWoxoVVWCgOmJgS6K2H1mWYLr
+ 1YJC/HQbpgHjiq9AO/R+xx85GpVQ7Yurj5QICjAjPirLBLw3YpQr5dbd/6v2U9cDJ4f+0g1
+ tMINHlkS3ipldBdmNt1YQVaA9ZwRF9rPn3nux262c0RbPXsd9tCLL/IpMwz5g+AbP9TH4rS
+ ZOdW5ZTOoKj/t3u278worAOM0d3EC2LDyZMMITWT2P78Q94FTNONOjV7sPdK7AvLZSTvh66
+ hv14EzjLPYo35gUusA=
+X-QQ-GoodBg: 0
+From: Bin Meng <bmeng@tinylab.org>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+	qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Anup Patel <apatel@ventanamicro.com>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v2 00/12] hw/riscv: Improve Spike HTIF emulation fidelity
+Date: Thu, 29 Dec 2022 17:18:16 +0800
+Message-Id: <20221229091828.1945072-1-bmeng@tinylab.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 1/5] exec/memory: Expose memory_region_access_valid()
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20221217152454.96388-1-philmd@linaro.org>
- <20221217152454.96388-2-philmd@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221217152454.96388-2-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
+Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
+ helo=bg4.exmail.qq.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,18 +67,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/12/2022 16.24, Philippe Mathieu-Daudé wrote:
-> Instead of having hardware device poking into memory
-> internal API, expose memory_region_access_valid().
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   hw/s390x/s390-pci-inst.c       | 2 +-
->   include/exec/memory-internal.h | 4 ----
->   include/exec/memory.h          | 4 ++++
->   3 files changed, 5 insertions(+), 5 deletions(-)
+At present the 32-bit OpenSBI generic firmware image does not boot on
+Spike, only 64-bit image can. This is due to the HTIF emulation does
+not implement the proxy syscall interface which is required for the
+32-bit HTIF console output.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+An OpenSBI bug fix [1] is also needed when booting the plain binary image.
+
+With this series plus the above OpenSBI fix, both 32-bit OpenSBI BIN & ELF
+images can boot on QEMU 'spike' machine.
+
+[1] https://patchwork.ozlabs.org/project/opensbi/patch/20221226033603.1860569-1-bmeng@tinylab.org/
+
+Changes in v2:
+- fix 2 typos in the commit message
+- initialize firmware_end_addr to memmap[SPIKE_DRAM].base
+- rework the htif_custom_base detection logic
+
+Bin Meng (10):
+  hw/char: riscv_htif: Avoid using magic numbers
+  hw/char: riscv_htif: Drop {to,from}host_size in HTIFState
+  hw/char: riscv_htif: Drop useless assignment of memory region
+  hw/char: riscv_htif: Use conventional 's' for HTIFState
+  hw/char: riscv_htif: Move registers from CPUArchState to HTIFState
+  hw/char: riscv_htif: Remove forward declarations for non-existent
+    variables
+  hw/char: riscv_htif: Support console output via proxy syscall
+  hw/riscv: spike: Remove the out-of-date comments
+  hw/riscv/boot.c: Introduce riscv_find_firmware()
+  hw/riscv: spike: Decouple create_fdt() dependency to ELF loading
+
+Daniel Henrique Barboza (2):
+  hw/riscv/boot.c: make riscv_find_firmware() static
+  hw/riscv/boot.c: introduce riscv_default_firmware_name()
+
+ include/hw/char/riscv_htif.h |  19 +---
+ include/hw/riscv/boot.h      |   4 +-
+ target/riscv/cpu.h           |   4 -
+ hw/char/riscv_htif.c         | 172 +++++++++++++++++++++--------------
+ hw/riscv/boot.c              |  76 ++++++++++------
+ hw/riscv/sifive_u.c          |  11 +--
+ hw/riscv/spike.c             |  64 +++++++++----
+ hw/riscv/virt.c              |  10 +-
+ target/riscv/machine.c       |   6 +-
+ 9 files changed, 217 insertions(+), 149 deletions(-)
+
+-- 
+2.34.1
 
 
