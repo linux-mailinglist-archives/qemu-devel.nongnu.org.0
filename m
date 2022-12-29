@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142416591F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 22:04:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66716591E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 22:01:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAzwm-0007S7-EA; Thu, 29 Dec 2022 15:56:16 -0500
+	id 1pAzxP-0007lH-Gx; Thu, 29 Dec 2022 15:56:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pAzw8-0007Gg-Em; Thu, 29 Dec 2022 15:55:37 -0500
+ id 1pAzwt-0007W6-N2; Thu, 29 Dec 2022 15:56:23 -0500
 Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pAzw7-0007it-0Z; Thu, 29 Dec 2022 15:55:36 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 396795C0040;
- Thu, 29 Dec 2022 15:55:34 -0500 (EST)
+ id 1pAzwr-0007mi-KG; Thu, 29 Dec 2022 15:56:23 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id C30775C00DB;
+ Thu, 29 Dec 2022 15:56:20 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 29 Dec 2022 15:55:34 -0500
+ by compute4.internal (MEProxy); Thu, 29 Dec 2022 15:56:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1672347334; x=
- 1672433734; bh=/PvDhT/beLl6NzvQv2ytane0xQn6O82paxWstLW5oAI=; b=I
- 8ipnqOqQXrI8EgmFHFhIX2yTcHp/OluNTmtF9cqUnaTn9SUje3hQk9vlwh6gcFGX
- 3ZYAy7otHGGRyGi0BzQl2TcpfsNEW0w/+g25dLZD1kGzR9LTKUsF0W9L4oidySYk
- hUikoVYzeOlA5xOQtbgdG+qRzIsAC+CZLaldFaWdR38flhov6CRhEOBS1A+nOSbd
- FEhLZTbAkFL4/7jkdAbfIfQv/AwGRi2jujtlu8dlRWc+ZIAeEn1cJQ6Z2ok56q//
- 8G43CYgdHKPdNmXBESPgoFym/dWBZKxGsMWeEwmxVT/gVn0TPrndRf3rMmMj4gZd
- yDGDAqAXFSY7t5QLm8ejg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1672347380; x=
+ 1672433780; bh=AfI/nr+Btfj0f9gTLXcejieWzRPBCiL+aiOhM0GQ7A4=; b=P
+ x269n9W2QjXC3CKa8J3uxsry7Fui1MoFZg8PEULzWmmNSz7F8GDrLIf6VEjMGNvJ
+ c/8+OOw2+VO5c8n01f7R9xLBPy66GcOshzfQX2W1/8ZklT757PggMTraozbG/AbA
+ fNZwa2W/7FRd2AF0NzP/OQQnRqj11VngCSVSnXf2YRxUFvdy8g6pWPq+X7hpd93c
+ vlvrqFCuumdk/z0ZM7N6CjkJJdKqE/BUVncMrbe6k0hkzRtYqBmqRZIn8LJ4eFOx
+ OJZadB1WOWRADr9NJ79hmgpuOmeU2Qb7+kRk+oDWPE14QJlcCK6x34+1DwXWVSi9
+ u3ahGZdkZlZ83QWynvzcA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672347334; x=
- 1672433734; bh=/PvDhT/beLl6NzvQv2ytane0xQn6O82paxWstLW5oAI=; b=I
- vGc7MyHn5LhjYM1eGPafVP40U7mmRxs7xmLEXXbbvQvuxHkFJUMKUNoqvfpAdTtl
- e4uH1qryudXSVA/4/KIHQrP+pkxdoXpWb7LQzNulXGm9967jrM6YxJ4ryDFHBl9j
- VU64DJcaz+UEmd9PlnRB6nTPdhynP5jBIDFs2TESBFP5bISqAgDzemxO4JZs2pJ+
- CEtQvu7pBe7TY4QAARvnfxn5SaCBnfCPH+4KfbZ+ngG2XVLEFJz4NPsI8NlC4RP+
- m312NdBhOOu6BjDDCSwWwZMJHveGuTwWpPQRj5Nw/CNmBBsG+K/Eq8oKgZ4PwtXl
- Bm8ag/VJgEHlIYs6I7WEA==
-X-ME-Sender: <xms:xv6tY5d-VExPmDMUvBhfCLBOl9aa6crp3zDnWRJ9VCR7mOncuBaoNQ>
- <xme:xv6tY3Os31aVyBjaZrHo4292tTwhuWRMAt4yE28P7Y8M3aDwzdbLm09nyTPYOi9rv
- vDUBvfxGoRjl31pjkc>
-X-ME-Received: <xmr:xv6tYygXkJ3sx8rgFK5uktPa0vl_a1xQL3n1VKqDi_tANkYzPSPuUO6R4XuPNfUpT-UaU3hcyi982BsgqpYolg>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672347380; x=
+ 1672433780; bh=AfI/nr+Btfj0f9gTLXcejieWzRPBCiL+aiOhM0GQ7A4=; b=K
+ UH826ObohsSclSVLmfDHeA6iJUJPaV+9Bhr9FeVBjdu6eq6q7ptXJUYmyfKxPhlf
+ r1BwBEl4VrI7PdNUqA+W9+WKN9YSBQmPgqUItxvR6eEVQvaUTmjF/r95BhQuhjcf
+ utZsx+Ux3i7KwV5Mpc4FFLYCXBUL8ATUjbvLwBn4F5rT4l4g6tuu7uI6FM20GUlg
+ 6kPe8KOV9Y70r2RtiBKtzIudmX6HJglPPAzpGC/ThHBd4Qe+9OZdONSutr/rp1f7
+ gcVh6RD0ogPM2bAQiNFNZRjXMVFyecZeHkjgJcOe09alL/F/0zqZ/qOxDNTH77Y9
+ /LXkWuAgJPn/QYN1fpjmQ==
+X-ME-Sender: <xms:9P6tY4yYJtlEO6GqpNYQ0Cu_uGSRgvYqV-Det91frYbASQNiR6cQ4Q>
+ <xme:9P6tY8TXgnN_BALmkh1nM4IwD6qQQ5LCB7vBCn8MN2JZYTbPnpaK9hcI3Vnexyt2o
+ HIIt8IaASyFoz607JU>
+X-ME-Received: <xmr:9P6tY6VOoJQjm9KLgtwwHNUHI7wriPwlp7umP-j97ir9uAxInhdAALRYGyaPRYRolsKBFYX-HqeuTQH3pBQPuA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeggddugeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
  vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
- htthgvrhhnpefhgeffvedufeevteegkeetieejhffhudeujedvgedvheffheejveethffh
- ffefueenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:xv6tYy8469gWFXeHmEeFIDqsNgqdlwAVHYO2G-By9oxIfX7-ReBHoA>
- <xmx:xv6tY1vqOHq1WeSVtr1bVV3UhzrYAmD-j9hBEOSt575irb411Rh8Xw>
- <xmx:xv6tYxEnlKO6OH4TxldYWlztLJ8U0IXa9qPalYQvpOc5Kt_09xQufw>
- <xmx:xv6tY2Ox5HYCqQhhgePoygLWzgvmqncgByBQIUyjx_oRRXUlrsf8_w>
+ htthgvrhhnpefgueekffdtueetgfehteffledtueehgfehgeelfedujeefhfffteekvddt
+ feetteenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:9P6tY2gm6SlY__sl7D8WH1zG4eE1mz4lk9LyTnQftP0vvV_TGosdaw>
+ <xmx:9P6tY6CO6iStkcJ0X7WucjiRMhk6JRrSOpjE38MsmZ1uN7JwtKJCTA>
+ <xmx:9P6tY3IWaTDmq9BguSq8TqgA94KN8Bva1fjUH5kz_iFwYfMAtnJqag>
+ <xmx:9P6tY2xu-AJh5pPQ8r_KheNuWVGzAJLRMhTSDsGeQjdZE1pAHE0jIw>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Dec 2022 15:55:32 -0500 (EST)
-Date: Thu, 29 Dec 2022 12:55:30 -0800
+ 29 Dec 2022 15:56:18 -0500 (EST)
+Date: Thu, 29 Dec 2022 12:56:17 -0800
 From: Peter Delevoryas <peter@pjd.dev>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, Steven Lee <steven_lee@aspeedtech.com>,
@@ -76,16 +76,16 @@ Cc: qemu-devel@nongnu.org, Steven Lee <steven_lee@aspeedtech.com>,
  Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
  =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
  Peter Delevoryas <pdel@fb.com>, Jamin Lin <jamin_lin@aspeedtech.com>
-Subject: Re: [PATCH 8/9] hw/arm/aspeed_ast10x0: Add TODO comment to use
- Cortex-M4F
-Message-ID: <Y63+wm37Nl6tNXY+@pdel-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCH 9/9] tests/avocado: Test Aspeed Zephyr SDK v00.01.08 on
+ AST1030 board
+Message-ID: <Y63+8Vvh86nibYwJ@pdel-mbp.dhcp.thefacebook.com>
 References: <20221229152325.32041-1-philmd@linaro.org>
- <20221229152325.32041-9-philmd@linaro.org>
+ <20221229152325.32041-10-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221229152325.32041-9-philmd@linaro.org>
+In-Reply-To: <20221229152325.32041-10-philmd@linaro.org>
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=peter@pjd.dev;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -110,34 +110,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 29, 2022 at 04:23:24PM +0100, Philippe Mathieu-Daudé wrote:
-> This SoC uses a Cortex-M4F. QEMU only implements a M4,
-> which is good enough. Add a TODO note in case the M4F
-> is added.
+On Thu, Dec 29, 2022 at 04:23:25PM +0100, Philippe Mathieu-Daudé wrote:
+> Add a very quick test that runs some commands in a Zephyr shell:
+> 
+>   $ tests/venv/bin/avocado --show=app,console run -t os:zephyr tests/avocado
+>   (2/2) tests/avocado/machine_aspeed.py:AST1030Machine.test_ast1030_zephyros_1_07:
+>   console: *** Booting Zephyr OS build v00.01.07  ***
+>   console: ast1030_evb demo
+>   console: SOC: AST1030-A1
+>   console: uart:~$ kernel stacks
+>   console: 0x36910 wdt_background (real size 1024):	unused 988	usage 36 / 1024 (3 %)
+>   console: 0x36ad8 shell_uart (real size 4096):	unused 3084	usage 1012 / 4096 (24 %)
+>   console: 0x2edb8 ADC0       (real size 400):	unused 260	usage 140 / 400 (35 %)
+>   console: 0x2f0f0 ADC1       (real size 400):	unused 260	usage 140 / 400 (35 %)
+>   console: 0x3b098 sysworkq   (real size 1024):	unused 860	usage 164 / 1024 (16 %)
+>   console: 0x36cc0 usbdworkq  (real size 1024):	unused 860	usage 164 / 1024 (16 %)
+>   console: 0x36bd8 usbworkq   (real size 1024):	unused 860	usage 164 / 1024 (16 %)
+>   console: 0x36a10 logging    (real size 768):	unused 548	usage 220 / 768 (28 %)
+>   console: 0x36ef8 idle 00    (real size 320):	unused 268	usage 52 / 320 (16 %)
+>   console: 0x47800 IRQ 00     (real size 2048):	unused 1504	usage 544 / 2048 (26 %)
+>   console: uart:~$ otp info scu
+>   console: SCU     BIT   reg_protect     Description
+>   console: ____________________________________________________________________
+>   console: 0x500   0x0   0x0             Disable ARM CM4 CPU boot (TXD5)
+>   console: 0x500   0x1   0x0            /Reserved
+>   console: 0x500   0x2   0x0            \ "
+>   console: 0x500   0x3   0x0             Address offset of single chip ABR mode
+>   console: 0x500   0x4   0x0            /Reserved
+>   console: 0x500   0x5   0x0            | "
+>   console: 0x500   0x6   0x0            | "
+>   console: 0x500   0x7   0x0            | "
+>   console: 0x500   0x8   0x0            | "
+>   console: 0x500   0x9   0x0            | "
+>   console: 0x500   0xA   0x0            | "
+>   console: 0x500   0xB   0x0            | "
+>   console: 0x500   0xC   0x0            | "
+>   console: 0x500   0xD   0x0            | "
+>   console: 0x500   0xE   0x0            | "
+>   console: 0x500   0xF   0x0            | "
+>   console: 0x500   0x10  0x0            \ "
+>   console: 0x500   0x11  0x0             Disabl3 ARM JTAG debug
+>   console: 0x500   0x12  0x0            /Reserved
+>   console: 0x500   0x13  0x0            | "
+>   console: 0x500   0x14  0x0            | "
+>   console: 0x500   0x15  0x0            | "
+>   console: 0x500   0x16  0x0            | "
+>   console: 0x500   0x17  0x0            | "
+>   console: 0x500   0x18  0x0            | "
+>   console: 0x500   0x19  0x0            | "
+>   console: 0x500   0x1A  0x0            | "
+>   console: 0x500   0x1B  0x0            | "
+>   console: 0x500   0x1C  0x0            | "
+>   console: 0x500   0x1D  0x0            | "
+>   console: 0x500   0x1E  0x0            | "
+>   console: 0x500   0x1F  0x0            \ "
+>   console: 0x510   0x0   0x0            /Reserved
+>   console: 0x510   0x1   0x0            | "
+>   console: 0x510   0x2   0x0            | "
+>   console: 0x510   0x3   0x0            \ "
+>   console: 0x510   0x4   0x0             Disable debug interfaces
+>   console: 0x510   0x5   0x0            /Reserved
+>   console: 0x510   0x6   0x0            | "
+>   console: 0x510   0x7   0x0            \ "
+>   console: 0x510   0x8   0x0             Enable boot from Uart5 by Pin Strap
+>   console: 0x510   0x9   0x0            /Reserved
+>   console: 0x510   0xA   0x0            \ "
+>   console: 0x510   0xB   0x0             Enable boot SPI ABR
+>   console: 0x510   0xC   0x0             Boot SPI ABR Mode
+>   console: 0x510   0xD   0x0            /Boot SPI flash size
+>   console: 0x510   0xE   0x0            | "
+>   console: 0x510   0xF   0x0            \ "
+>   console: 0x510   0x10  0x0            /Reserved
+>   console: 0x510   0x11  0x0            | "
+>   console: 0x510   0x12  0x0            | "
+>   console: 0x510   0x13  0x0            | "
+>   console: 0x510   0x14  0x0            | "
+>   console: 0x510   0x15  0x0            \ "
+>   console: 0x510   0x16  0x0             Enable boot SPI auxiliary control pins
+>   console: 0x510   0x19  0x0            /Reserved
+>   console: 0x510   0x1A  0x0            | "
+>   console: 0x510   0x1B  0x0            | "
+>   console: 0x510   0x1C  0x0            | "
+>   console: 0x510   0x1D  0x0            | "
+>   console: 0x510   0x1E  0x0            | "
+>   console: 0x510   0x1F  0x0            \ "
+>   console: 0x510   0x1E  0x0             Enable dedicate GPIO strap pins
+>   console: 0x510   0x1F  0x0             Enable Secure Boot by Pin Strap
+>   console: uart:~$ hwinfo devid
+>   console: Length: 8
+>   console: ID: 0x0000018000000180
+>   console: uart:~$ crypto aes256_cbc_vault
+>   console: aes256_cbc vault key 1
+>   console: Was waiting for:
+>   console: 6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a
+>   console: ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51
+>   console: 30 c8 1c 46 a3 5c e4 11 e5 fb c1 19 1a 0a 52 ef
+>   console: f6 9f 24 45 df 4f 9b 17 ad 2b 41 7b e6 6c 37 10
+>   console: But got:
+>   console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>   console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>   console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>   console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>   console: uart:~$ random get
+>   console: 0x862460d
+>   console: uart:~$ i2c scan I2C_0
+>   console: 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+>   console: 00:             -- -- -- -- -- -- -- -- -- -- -- --
+>   console: 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>   console: 20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>   console: 30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>   console: 40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>   console: 50: 50 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>   console: 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+>   console: 70: -- -- -- -- -- -- -- --
+>   console: 1 devices found on I2C_0
+>   console: uart:~$ kernel uptime
+>   console: Uptime: 9897 ms
+>   console: uart:~$ kernel reboot warm
+>   console: *** Booting Zephyr OS build v00.01.07  ***
+>   PASS (1.08 s)
+> 
+> Ref: https://github.com/AspeedTech-BMC/zephyr/releases/download/v00.01.07/Aspeed_Zephy_SDK_User_Guide_v00.01.07.pdf
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Oh, yeah good to have a note of this somewhere.
+Nice, very cool!
 
 Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 
 > ---
->  hw/arm/aspeed_ast10x0.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/avocado/machine_aspeed.py | 41 ++++++++++++++++++++++++++++++++-
+>  1 file changed, 40 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-> index 02636705b6..788827ca9d 100644
-> --- a/hw/arm/aspeed_ast10x0.c
-> +++ b/hw/arm/aspeed_ast10x0.c
-> @@ -421,7 +421,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
->      dc->realize = aspeed_soc_ast1030_realize;
+> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
+> index 1fc385e1c8..11f5b17eb9 100644
+> --- a/tests/avocado/machine_aspeed.py
+> +++ b/tests/avocado/machine_aspeed.py
+> @@ -22,10 +22,11 @@ class AST1030Machine(QemuSystemTest):
 >  
->      sc->name = "ast1030-a1";
-> -    sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
-> +    sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4"); /* TODO cortex-m4f */
->      sc->silicon_rev = AST1030_A1_SILICON_REV;
->      sc->sram_size = 768 * KiB;
->      sc->secsram_size = 9 * KiB;
+>      timeout = 10
+>  
+> -    def test_ast1030_zephyros(self):
+> +    def test_ast1030_zephyros_1_04(self):
+>          """
+>          :avocado: tags=arch:arm
+>          :avocado: tags=machine:ast1030-evb
+> +        :avocado: tags=os:zephyr
+>          """
+>          tar_url = ('https://github.com/AspeedTech-BMC'
+>                     '/zephyr/releases/download/v00.01.04/ast1030-evb-demo.zip')
+> @@ -41,6 +42,44 @@ def test_ast1030_zephyros(self):
+>          exec_command_and_wait_for_pattern(self, "help",
+>                                            "Available commands")
+>  
+> +    def test_ast1030_zephyros_1_07(self):
+> +        """
+> +        :avocado: tags=arch:arm
+> +        :avocado: tags=machine:ast1030-evb
+> +        :avocado: tags=os:zephyr
+> +        """
+> +        tar_url = ('https://github.com/AspeedTech-BMC'
+> +                   '/zephyr/releases/download/v00.01.07/ast1030-evb-demo.zip')
+> +        tar_hash = '40ac87eabdcd3b3454ce5aad11fedc72a33ecda2'
+> +        tar_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+> +        archive.extract(tar_path, self.workdir)
+> +        kernel_file = self.workdir + "/ast1030-evb-demo/zephyr.bin"
+> +        self.vm.set_console()
+> +        self.vm.add_args('-kernel', kernel_file,
+> +                         '-nographic')
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, "Booting Zephyr OS")
+> +        for shell_cmd in [
+> +                'kernel stacks',
+> +                'otp info conf',
+> +                'otp info scu',
+> +                'hwinfo devid',
+> +                'crypto aes256_cbc_vault',
+> +                'random get',
+> +                'jtag JTAG1 sw_xfer high TMS',
+> +                'adc ADC0 resolution 12',
+> +                'adc ADC0 read 42',
+> +                'adc ADC1 read 69',
+> +                'i2c scan I2C_0',
+> +                'i3c attach I3C_0',
+> +                'hash test',
+> +                'kernel uptime',
+> +                'kernel reboot warm',
+> +                'kernel uptime',
+> +                'kernel reboot cold',
+> +                'kernel uptime',
+> +        ]: exec_command_and_wait_for_pattern(self, shell_cmd, "uart:~$")
+> +
+>  class AST2x00Machine(QemuSystemTest):
+>  
+>      timeout = 90
 > -- 
 > 2.38.1
 > 
