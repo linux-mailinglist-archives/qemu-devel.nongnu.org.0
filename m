@@ -2,55 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB52658956
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 05:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D1A658982
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 06:20:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAkDi-00021V-PM; Wed, 28 Dec 2022 23:08:42 -0500
+	id 1pAlJV-0006cP-IJ; Thu, 29 Dec 2022 00:18:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1pAkDf-000217-IT
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 23:08:40 -0500
-Received: from mail-sender.a4lg.com ([153.120.152.154]
- helo=mail-sender-0.a4lg.com)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1pAlJQ-0006cC-4p
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 00:18:40 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1pAkDd-0006iT-7A
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 23:08:39 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 42685300089;
- Thu, 29 Dec 2022 04:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1672286907;
- bh=IqgAbx8Os0g3VR0MAdsUugLGcCQNWq6o9tVM+QZS6Zg=;
- h=Message-ID:Date:Mime-Version:Subject:To:References:Cc:From:
- In-Reply-To:Content-Type:Content-Transfer-Encoding;
- b=honEROClzK9qj2hY/0oc8tcPo18MJbQCO62TE/1vw9v0efjH/+IJJ9ssGBvp0HvxX
- ENGFXA1RO1yR4ZhnccipAbhyUNcghwqIwIsXbF6l326Du5auREE+LYddXX4+3GXzAk
- EZOM39PZ9O0kKjUlIrCyeboh9fbvJEqFehQ2qmA4=
-Message-ID: <1b9fb2e5-6b2f-59fa-d684-2491e389fb32@irq.a4lg.com>
-Date: Thu, 29 Dec 2022 13:08:25 +0900
-Mime-Version: 1.0
-Subject: Re: [PATCH 06/11] contrib/gitdm: add Tsukasa as an individual
- contributor
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20221219121914.851488-1-alex.bennee@linaro.org>
- <20221219121914.851488-7-alex.bennee@linaro.org>
-Content-Language: en-US
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-From: Tsukasa OI <research_trasio@irq.a4lg.com>
-In-Reply-To: <20221219121914.851488-7-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1pAlJ8-0004QS-QO
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 00:18:25 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NjGpN6QCSzmWw1;
+ Thu, 29 Dec 2022 13:16:44 +0800 (CST)
+Received: from [10.174.148.223] (10.174.148.223) by
+ kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Thu, 29 Dec 2022 13:18:02 +0800
+Message-ID: <976a7dd9-238d-9c71-27fb-0374b221c4bb@huawei.com>
+Date: Thu, 29 Dec 2022 13:18:01 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 2/3] vhost: configure all host notifiers in a single MR
+ transaction
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S.
+ Tsirkin" <mst@redhat.com>
+CC: <stefanha@redhat.com>, <jasowang@redhat.com>, <cohuck@redhat.com>,
+ <sgarzare@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>
+References: <20221227072015.3134-1-longpeng2@huawei.com>
+ <20221227072015.3134-3-longpeng2@huawei.com>
+ <8054d186-0196-ccb0-091d-0ee9caadb576@linaro.org>
+ <20221227125331-mutt-send-email-mst@kernel.org>
+ <114ff13b-86fd-7ca4-df93-0c05f54866b8@linaro.org>
+In-Reply-To: <114ff13b-86fd-7ca4-df93-0c05f54866b8@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=153.120.152.154;
- envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi100025.china.huawei.com (7.221.188.158)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,37 +69,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex,
 
-Sorry for being late.
-Yes, I'm an individual contributor (I'm working at TRASIO, a Japanese
-government-funded research project using RISC-V [and the corporation
-built for it] but all my QEMU contributions are not a part of TRASIO's
-work).
 
-Thanks,
-Tsukasa
-
-On 2022/12/19 21:19, Alex Bennée wrote:
-> I wasn't sure if you want to be added as an individual contributor or
-> an academic so please confirm.
+在 2022/12/28 21:12, Philippe Mathieu-Daudé 写道:
+> On 27/12/22 18:54, Michael S. Tsirkin wrote:
+>> On Tue, Dec 27, 2022 at 05:43:57PM +0100, Philippe Mathieu-Daudé wrote:
+>>> On 27/12/22 08:20, Longpeng(Mike) wrote:
+>>>> From: Longpeng <longpeng2@huawei.com>
+>>>>
+>>>> This allows the vhost device to batch the setup of all its host 
+>>>> notifiers.
+>>>> This significantly reduces the device starting time, e.g. the time 
+>>>> spend
+>>>> on enabling notifiers reduce from 376ms to 9.1ms for a VM with 64 vCPUs
+>>>> and 3 vhost-vDPA generic devices (vdpa_sim_blk, 64vq per device)
+>>>>
+>>>> Signed-off-by: Longpeng <longpeng2@huawei.com>
+>>>> ---
+>>>>    hw/virtio/vhost.c | 24 ++++++++++++++++++++++++
+>>>>    1 file changed, 24 insertions(+)
+>>>>
+>>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>>>> index 5994559da8..064d4abe5c 100644
+>>>> --- a/hw/virtio/vhost.c
+>>>> +++ b/hw/virtio/vhost.c
+>>>> @@ -1562,16 +1562,25 @@ int vhost_dev_enable_notifiers(struct 
+>>>> vhost_dev *hdev, VirtIODevice *vdev)
+>>>>            return r;
+>>>>        }
+>>>> +    /*
+>>>> +     * Batch all the host notifiers in a single transaction to avoid
+>>>> +     * quadratic time complexity in address_space_update_ioeventfds().
+>>>> +     */
+>>>> +    memory_region_transaction_begin();
+>>>> +
+>>>>        for (i = 0; i < hdev->nvqs; ++i) {
+>>>>            r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
+>>>> hdev->vq_index + i,
+>>>>                                             true);
+>>>>            if (r < 0) {
+>>>>                error_report("vhost VQ %d notifier binding failed: 
+>>>> %d", i, -r);
+>>>> +            memory_region_transaction_commit();
+>>>>                vhost_dev_disable_notifiers(hdev, vdev);
+>>>
+>>> Could we 'break' here, ...
+>>>
+>>>>                return r;
+>>>>            }
+>>>>        }
+>>>> +    memory_region_transaction_commit();
+>>>> +
+>>>>        return 0;
+>>>
+>>> ... and return 'r' here?
+>>
+>>
+>> won't this commit twice? seems ugly ...
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Tsukasa OI <research_trasio@irq.a4lg.com>
+> Twice? I meant keep the begin/commit() around the for() to have
+> only *one* commit() call instead of 2:
+> 
+
+There's a transaction in vhost_dev_disable_notifiers() too, We must 
+commit the outter transaction before invoking it, you can see the 
+comment in it.
+
+> -- >8 --
+> +    memory_region_transaction_begin();
+> +
+>       for (i = 0; i < hdev->nvqs; ++i) {
+>           r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), 
+> hdev->vq_index + i,
+>                                            true);
+>           if (r < 0) {
+>               error_report("vhost VQ %d notifier binding failed: %d", i, 
+> -r);
+>               vhost_dev_disable_notifiers(hdev, vdev);
+> -            return r;
+> +            break;
+>           }
+>       }
+> 
+> +    memory_region_transaction_commit();
+> +
+> -    return 0;
+> +    return r;
+>   }
 > ---
->  contrib/gitdm/group-map-individuals | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-> index 53883cc526..e2263a5ee3 100644
-> --- a/contrib/gitdm/group-map-individuals
-> +++ b/contrib/gitdm/group-map-individuals
-> @@ -37,3 +37,4 @@ akihiko.odaki@gmail.com
->  paul@nowt.org
->  git@xen0n.name
->  simon@simonsafar.com
-> +research_trasio@irq.a4lg.com
+> Anyhow,
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> .
 
