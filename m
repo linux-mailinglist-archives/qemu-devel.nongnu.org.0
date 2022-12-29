@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD572658BD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 11:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60DF658BE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 11:46:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAqLs-0007y6-Ln; Thu, 29 Dec 2022 05:41:32 -0500
+	id 1pAqOx-00017C-Cw; Thu, 29 Dec 2022 05:44:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pAqLq-0007xy-U8
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:41:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pAqOu-00016k-5q
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:44:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pAqLp-0008T4-4H
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:41:30 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pAqOq-0000gf-Ru
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 05:44:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672310488;
+ s=mimecast20190719; t=1672310675;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B8S6D+fFVbeePWKNHGtC4eQrZkPhM22xN/RpLzPCYJQ=;
- b=POPx+ulDCWUlQLPZTCyiuKKKHg4J74JsMqG6VmlIsGAbOwB7DUPXrVhv8Yra9bCR2nLLGQ
- 6LNiRbkQPlrlH2tNc49a84uMTzP3QQY69EKkrUEMcbSJ8V/n5wmqzfkkn0cWi0cnXb3n+x
- tNNNsfTWnH3nAKbTLf2Id+ZgU8Hjb5E=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rLp4JVv/Tdxu1tebxuCE2d6sAXLwFrvqGPHo7KrrIX4=;
+ b=FGQsfPAsVRTCqXr0X+cOXKzQp3/hn85Sli8dkHBJN/Ss/J0K28d2LTdzLQmHErMQgOKKPy
+ fpbvKfUh6Aa+V9fjRXoWqsS/Wqazfll53J6V7Q8YctTLyauNRGvAFfYd/2b218Za31U8yF
+ VH5J57/4OwxQ640iyyXug3qON3KZFk4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-642-nM1QNjBQNlCnD4Um6raDcw-1; Thu, 29 Dec 2022 05:41:26 -0500
-X-MC-Unique: nM1QNjBQNlCnD4Um6raDcw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n18-20020a05600c4f9200b003d993e08485so2226987wmq.2
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 02:41:26 -0800 (PST)
+ us-mta-339--LXrQdg-MEuDaWa31PacdQ-1; Thu, 29 Dec 2022 05:44:33 -0500
+X-MC-Unique: -LXrQdg-MEuDaWa31PacdQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c23-20020a7bc857000000b003d97c8d4935so5302660wml.8
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 02:44:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B8S6D+fFVbeePWKNHGtC4eQrZkPhM22xN/RpLzPCYJQ=;
- b=KIO8FykH+nVdZ8MceuKHWPI0Mo/W/fQJ1hliJhfbolhfmKTpzQ07r8pDMiCIK6wcHD
- 3aMUdWveoL5NxnSMKAD5IlrQ16WCm67+0aWqPGK0ngiyfP+s4eMPCqlzTI4FkMMrBTCU
- FEnG8+/fCV8e6G4AtgH5SonCeG9cCrPiObo9zIQJMbdDW3D9K3YBgjUKgqpwd1xRo65R
- AS8ybik4KQxW/lXecvagSzCf8MA6DX8jmTsQKR4vt/MNScxxIQcG0gd5Xrxf+yHn1oV8
- bLNACIlXUDQQP4Vj9YqWVVy0453pJCsYn1SPxZ0qytsg3CJOcPOu0NeQZMRh6croYTqN
- qIGA==
-X-Gm-Message-State: AFqh2kojrul2htNtybA1bF7bwTwEsWBlu4KjvMEx4DGRHkf47WxYhMjH
- 5yrDq5kGO/IU+vyudDuPyxjnBrABNtsYcUSLDkJunrxpGHacbYnWky37jE2h4N0wR1M674PiTBR
- v3qmqwz7OeIwekPI=
-X-Received: by 2002:a5d:6d0f:0:b0:28b:456c:1b6d with SMTP id
- e15-20020a5d6d0f000000b0028b456c1b6dmr2082600wrq.55.1672310485478; 
- Thu, 29 Dec 2022 02:41:25 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvCtEKw+sDcBBmaSguf9VwrUrVN67brDyn49QInSqDA8VIVvL57hQaFO/dOIQDST3Ss0VKMUQ==
-X-Received: by 2002:a5d:6d0f:0:b0:28b:456c:1b6d with SMTP id
- e15-20020a5d6d0f000000b0028b456c1b6dmr2082583wrq.55.1672310485282; 
- Thu, 29 Dec 2022 02:41:25 -0800 (PST)
+ bh=rLp4JVv/Tdxu1tebxuCE2d6sAXLwFrvqGPHo7KrrIX4=;
+ b=tblsqyQbh3YRFxlbd79N1JSX2wEvBJLOrLNSn6t00WylnDqwRk2yC7wI9ySuatrs/B
+ biWAJLt3RBCsydEcYuypwuqxv9LX9waMwqyWdRbzMRUSteqb52zISRd4UosS9/cPf2MN
+ 15fG+Dx4Up0pFybqq7zlEVZDLFzt9iBcWUGWDoibdzQvI9fO9Dg5bzNKJ0j4YHBi5OBw
+ eTMJ8NxC+AVu0TTtdqpEqw1mnJOEvTWYMj+1rUagn0ZTCDWyrq/Thl7YnX+z/KepcYYE
+ 2zwhOPJ8y717gjs7PGnSRjPE+c2Mez9OBtqMkWeq896k77vmGir6421Y4pgIjrvZjzXo
+ r5aw==
+X-Gm-Message-State: AFqh2kq83PQBnaekWHDh+occ4/TpD18pIVEKlHgepoYvMsMMi4PpzPrD
+ eCryCBX8oGHrY8xrlCmOwBNuhSbdE4VjSpXw78zBd1YxZtFbcDrWUrrMswSDBqTn2wgc8aFR83C
+ BXzXrlQllfa9PlfU=
+X-Received: by 2002:a05:600c:c0d:b0:3d9:7667:c0e4 with SMTP id
+ fm13-20020a05600c0c0d00b003d97667c0e4mr11306116wmb.31.1672310672781; 
+ Thu, 29 Dec 2022 02:44:32 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvYCW69nfpbp8gm2WnszvFOqFv3boieA3v7cdPaVGrrTIPQHiPCN8z9nbS2KGhuaLmI/GQ7Zg==
+X-Received: by 2002:a05:600c:c0d:b0:3d9:7667:c0e4 with SMTP id
+ fm13-20020a05600c0c0d00b003d97667c0e4mr11306102wmb.31.1672310672525; 
+ Thu, 29 Dec 2022 02:44:32 -0800 (PST)
 Received: from [192.168.0.5] (ip-109-42-113-203.web.vodafone.de.
  [109.42.113.203]) by smtp.gmail.com with ESMTPSA id
- r17-20020adfdc91000000b0027973315213sm12962708wrj.89.2022.12.29.02.41.23
+ t184-20020a1c46c1000000b003b4a699ce8esm28707536wma.6.2022.12.29.02.44.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Dec 2022 02:41:24 -0800 (PST)
-Message-ID: <fb4c2dc9-544e-9f8c-59e8-69c6c9a20178@redhat.com>
-Date: Thu, 29 Dec 2022 11:41:22 +0100
+ Thu, 29 Dec 2022 02:44:31 -0800 (PST)
+Message-ID: <4980caa6-f86f-bafa-b0d2-d5fb43279272@redhat.com>
+Date: Thu, 29 Dec 2022 11:44:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PULL 17/21] target/hexagon: prepare input for the idef-parser
+Subject: Re: [PATCH v3] hw/rtc/mc146818rtc: Make this rtc device target
+ independent
 Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, philmd@linaro.org,
- peter.maydell@linaro.org, bcain@quicinc.com, quic_mathbern@quicinc.com,
- stefanha@redhat.com, Alessandro Di Federico <ale@rev.ng>,
- Anton Johansson <anjo@rev.ng>
-References: <20221216204845.19290-1-tsimpson@quicinc.com>
- <20221216204845.19290-18-tsimpson@quicinc.com>
+To: Bernhard Beschow <shentey@gmail.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Michael S Tsirkin <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20221212075600.17408-1-thuth@redhat.com>
+ <6D2F0907-4D76-4D06-9728-7F2D16A1873F@gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221216204845.19290-18-tsimpson@quicinc.com>
+In-Reply-To: <6D2F0907-4D76-4D06-9728-7F2D16A1873F@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -103,45 +105,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/12/2022 21.48, Taylor Simpson wrote:
-> From: Alessandro Di Federico <ale@rev.ng>
+On 16/12/2022 15.26, Bernhard Beschow wrote:
 > 
-> Introduce infrastructure necessary to produce a file suitable for being
-> parsed by the idef-parser. A build option is also added to fully disable
-> the output of idef-parser, which is useful for debugging.
 > 
-> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-> Signed-off-by: Anton Johansson <anjo@rev.ng>
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-> Message-Id: <20220923173831.227551-8-anjo@rev.ng>
-> ---
->   meson_options.txt                       |   3 +
->   target/hexagon/gen_idef_parser_funcs.py | 130 ++++++++++++++++++++++
->   target/hexagon/idef-parser/macros.inc   | 140 ++++++++++++++++++++++++
->   target/hexagon/idef-parser/prepare      |  24 ++++
->   target/hexagon/meson.build              |  20 ++++
->   5 files changed, 317 insertions(+)
->   create mode 100644 target/hexagon/gen_idef_parser_funcs.py
->   create mode 100644 target/hexagon/idef-parser/macros.inc
->   create mode 100755 target/hexagon/idef-parser/prepare
+> Am 12. Dezember 2022 07:56:00 UTC schrieb Thomas Huth <thuth@redhat.com>:
+>> The only reason for this code being target dependent is the apic-related
+>> code in rtc_policy_slew_deliver_irq(). Since these apic functions are rather
+>> simple, we can easily move them into a new, separate file (apic_irqcount.c)
+>> which will always be compiled and linked if either APIC or the mc146818 device
+>> are required. This way we can get rid of the #ifdef TARGET_I386 switches in
+>> mc146818rtc.c and declare it in the softmmu_ss instead of specific_ss, so
+>> that the code only gets compiled once for all targets.
+>>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>> v3: Move TYPE_APIC_COMMON from apic_internal.h to apic.h and use it
+>>
+>> include/hw/i386/apic.h          |  2 ++
+>> include/hw/i386/apic_internal.h |  2 --
+>> include/hw/rtc/mc146818rtc.h    |  1 +
+>> hw/intc/apic_common.c           | 27 -----------------
+>> hw/intc/apic_irqcount.c         | 53 +++++++++++++++++++++++++++++++++
+>> hw/rtc/mc146818rtc.c            | 25 +++++-----------
+>> hw/intc/meson.build             |  6 +++-
+>> hw/rtc/meson.build              |  3 +-
+>> 8 files changed, 69 insertions(+), 50 deletions(-)
+>> create mode 100644 hw/intc/apic_irqcount.c
+[...]
+>> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+>> index 1ebb412479..d524dc02c2 100644
+>> --- a/hw/rtc/mc146818rtc.c
+>> +++ b/hw/rtc/mc146818rtc.c
+>> @@ -43,11 +43,7 @@
+>> #include "qapi/qapi-events-misc.h"
+>> #include "qapi/visitor.h"
+>> #include "hw/rtc/mc146818rtc_regs.h"
+>> -
+>> -#ifdef TARGET_I386
+>> -#include "qapi/qapi-commands-misc-target.h"
+>> #include "hw/i386/apic.h"
+>> -#endif
+>>
+>> //#define DEBUG_CMOS
+>> //#define DEBUG_COALESCED
+>> @@ -112,7 +108,6 @@ static void rtc_coalesced_timer_update(RTCState *s)
+>> static QLIST_HEAD(, RTCState) rtc_devices =
+>>      QLIST_HEAD_INITIALIZER(rtc_devices);
+>>
+>> -#ifdef TARGET_I386
+>> void qmp_rtc_reset_reinjection(Error **errp)
+>> {
+>>      RTCState *s;
+>> @@ -145,13 +140,6 @@ static void rtc_coalesced_timer(void *opaque)
+>>
+>>      rtc_coalesced_timer_update(s);
+>> }
+>> -#else
+>> -static bool rtc_policy_slew_deliver_irq(RTCState *s)
+>> -{
+>> -    assert(0);
+>> -    return false;
+>> -}
+>> -#endif
+>>
+>> static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+>> {
+>> @@ -922,14 +910,15 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+>>      rtc_set_date_from_host(isadev);
+>>
+>>      switch (s->lost_tick_policy) {
+>> -#ifdef TARGET_I386
+>> -    case LOST_TICK_POLICY_SLEW:
+>> -        s->coalesced_timer =
+>> -            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+>> -        break;
+>> -#endif
+>>      case LOST_TICK_POLICY_DISCARD:
+>>          break;
+>> +    case LOST_TICK_POLICY_SLEW:
+>> +        /* Slew tick policy is only available if the machine has an APIC */
+>> +        if (object_resolve_path_type("", TYPE_APIC_COMMON, NULL) != NULL) {
 > 
-> diff --git a/meson_options.txt b/meson_options.txt
-> index 4b749ca549..559a571b6b 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -321,3 +321,6 @@ option('profiler', type: 'boolean', value: false,
->          description: 'profiler support')
->   option('slirp_smbd', type : 'feature', value : 'auto',
->          description: 'use smbd (at path --smbd=*) in slirp networking')
-> +
-> +option('hexagon_idef_parser', type : 'boolean', value : true,
-> +       description: 'use idef-parser to automatically generate TCG code for the Hexagon frontend')
+> This looks like an attempt to fish out x86 machines to preserve behavior. Does this also work for PIC-only x86 machines such as -M isapc?
 
+Drat, I think you might be right. Looks like the slew code might be usable 
+via hw/i386/kvm/i8259.c on isapc, too... I guess I have to replace this with 
+a more generic check for x86 instead...
 
-I'm now seeing changes to scripts/meson-buildoptions.sh after rebuilding 
-QEMU ... looks like you likely forgot to update that file with the automatic 
-update after changing meson_options.txt ?
+Thanks for pointing this out, I'll try to come up with a v4!
 
   Thomas
 
