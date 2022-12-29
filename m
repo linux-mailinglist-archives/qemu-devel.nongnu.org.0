@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4BA6590CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 20:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4D86590CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 20:18:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAyHE-0006iR-SP; Thu, 29 Dec 2022 14:09:16 -0500
+	id 1pAyHH-0006jI-IG; Thu, 29 Dec 2022 14:09:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pAyHC-0006hc-Tj
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 14:09:14 -0500
+ id 1pAyHF-0006iw-LA
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 14:09:17 -0500
 Received: from mail-db3eur04on2132.outbound.protection.outlook.com
  ([40.107.6.132] helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pAyHB-00075d-G7
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 14:09:14 -0500
+ id 1pAyHE-00075d-7r
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 14:09:17 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GD+GyhflaAgaaoT1PeRqQQsx2t6AbmINw1oD5WtTKmj0Iqox+00eWb705hrix1cUBri8wC/OBFQTrbfYYIIk/dIdI6TwC4hd0BWLWI720Xzn9xIyBku8rIrOOnl8vAvXc5LfYCel6TAzBPrm6fjzMwkStwGBG+0yWSLX0jc8PJIp4MHScotZNOrSMyPKeYjZS0t4r8v9Y9h7dEzqHFsGNEseevairI6hTZTrlcEqPGAyNmEuzki3sEb8jViQkOU6OBMD5BnXecIfECogPtaEy4l7zCo77A+xGwIy1og/tMkw+PU+bB+P4U+D2mP2SklfHH6s2AOs6/vuk4I+S5EbbQ==
+ b=MV33zEg0kHnNQ/mGUw576MJ5riyaeTgjGPQ9XOymZa8ssSMRdxgH5BFvKy3+F1gD4UZzrSe0SZJrpwz4NLlarEcdos0SrjZSr03o69PdinGkDDmd5a4eKiq51tgxhmAyucVmlBzPRojZ0PpeEjGg25DFRPL/3CbRhwWCQDrzzi1mbSy3PprDv4FpHP9h1KFZ0Y4eyR3WnR7dULqA+5b0xeH9ku7Q7hbbwlkdTD/KW0gvJCzUFApm7OQ73GDD2TCeI10ZXr4Cex8AOTGXHEIs6om7+qzpTfnEBnhlJNDzoHO4wywzgY5Ljyxwk5gI6gMev+1wSx0OH1sDFyBk+36tvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T0m0cZlcwSjHifBQEmyr0hOm1owh50NOZ8QSDtUMOQE=;
- b=Oto2QqbosKFcNt7YIb+QdtWda7O0+3x+MkavO97CN525cflmmsxzQJe/9gRyZTo256bKnkbp7MYCuUUfLZEnfSiRQ7P5ML8JoDahraISHSHOpePedFePwDVrgUXX79+em5IHojDe73XRHM+frBRiT0TgDNfEk1XHXhD7CdzE1to7QBlUd/2jeNmGQO6tNC16BsRU7ZKvXsT2k60yjrq1ex8evpGye0H67b5ZWFVYEEwNMgz7lS1Ly/CscCu1nW9cNLea3p2EJwNsKzRjWwRT9OEmHm4D6HhQ139ZPIx3c/bt9AKbkl3c/JtnMvd8b+/Atscz+KcHK6+0tqGn8G9wjA==
+ bh=rqcTWvHyLYRl57rMJtS0bOUtzDmy3Og6pnT5xSZWFic=;
+ b=OaIQ3P4d2xz0irmE/PpAzd+feojPPQT5pPu0sKffyamB3gLi22AZcMfWS28dfpVSQtZspMtcZuevjRY25IRwDf6IJeH2+VYJD3VcOlzgn4NSGWgWh11x2ouQw5sN2X2EdTXffC9zQ3sE9hFJlLpUf2t+TL2tkqPOyXruD29i2j3Cil+MKUixlwIPKdQf8n+9LPZIkeaF1uvKuk9ZQqp8KT6xMsHuyXOKeNEWy5T7hipRoapTwmIzpZwWp5XgKvMGKARAnCDoxtXMs58qck9WAGTj+a3kVdWKIt0sfo8d97nIjB3imhHgGSx0aWzcOYcVbXBth/J0K03Ukv4di1Amyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
  s=selector2-estab-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T0m0cZlcwSjHifBQEmyr0hOm1owh50NOZ8QSDtUMOQE=;
- b=F1xTkKKNDLmtNxfGLCgIpxAxtoIoc9f2RhuITyx+24ObgWQerKLnaEC/bPIHwDd6wdZZOK9xZiDeLFfQ10iaqA3JSnRRrKJ1QkcQp38YE/ojgV2LMUsq2+aLvXeMgfAR1hKkFZyUnLpOtrZKft1NT6gCcunyQCAJTt8N3/1vwD8=
+ bh=rqcTWvHyLYRl57rMJtS0bOUtzDmy3Og6pnT5xSZWFic=;
+ b=XwMI9866+HsAnSKyYCFsrrmty95prIi8Viaj3T0hnNV65ZpTyUE0uZbDtA415JCfWaNHcef/HsPXAvQp/RUx2ygQ6+zW9Ll7nqulSUSqZeJlc7apMDqG+6goDT/8pteXDJuX+FQ5p8vEzr+o/QKQsJ36JLlCOhYPOtftug7LJ5g=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
@@ -50,67 +50,67 @@ To: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
  Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Subject: [PATCH v2 1/6] pcie: add helper function to get number of VFs
-Date: Thu, 29 Dec 2022 20:08:12 +0100
-Message-Id: <20221229190817.25500-2-sriram.yagnaraman@est.tech>
+Subject: [PATCH v2 2/6] hw/net/net_tx_pkt: helper function to get l2 hdr
+Date: Thu, 29 Dec 2022 20:08:13 +0100
+Message-Id: <20221229190817.25500-3-sriram.yagnaraman@est.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221229190817.25500-1-sriram.yagnaraman@est.tech>
 References: <20221229190817.25500-1-sriram.yagnaraman@est.tech>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: GV3P280CA0070.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:a::25) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: GV3P280CA0082.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:a::10) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:1e7::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|PR3P189MB1049:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e2dc4e0-9b76-432a-f949-08dae9d0170d
+X-MS-Office365-Filtering-Correlation-Id: 38da0056-8238-4ea6-176c-08dae9d01796
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iVAZ8IacdYMNWr2gK8J+GDtgiOH7yiDVxqRNghKfeEmTPVFlcZWDsIE1sRqzLW+2G1A4tH7Jq7/cLR2jVvPfoo/IBM5JfqLcCzEy8w6x3xzDBy22kymxpVNllA5nGLNBS4lLIpQDz6x0wHYZTArV/Gnw9MUhQ0OSbgqkrfON+PhzAfUvnZFruZhPgaz4+WUXTj3mh8WRbCsNSnCXFJhbqkg6irp4rO+HulNLNssvcfyZwX6HRzk48nTUBcn4Cra6og8Ei+PKlRKIASDVDIBjOzWziSgms3jJB0/he7kLSVYnsDj+aCL3+iGNLJfQpcpmOQ3w/gMSO0K4gO2LtcOvYhJUXmJKKKg3+610l821eyz2fcDTeSpNScmMyfZAKg2WJkx+nrd9qxeOAs1+YIwUQXhOk2Jhu+40HkkZvLnObROSbTvtzp+idA/HW69lTmucn2EhP2kK8RwqJHy+Azmbh+V8mmo6ftPjzaWe61GMOuYCayucaGfBInUgdTjfDbRVAGGQWMVV/9I0CG+sZuHCh6/lowB6KjxN6EUzCEhUSCGt3d3jUWwB4CdtnY1VbMm8c/ilJgDkULMKsFZTnc1Arpgg2r8Sl+F4DEDHFgqc2LMKUwMmaSYpEW2TSgmEkVyiiEkT2zXTpFqjwtCxgeJQjd1AlcrdBxadERpCfYlgU0BnJ+zK7lvRybB+MN9yGdTE5/gBkm1qT+ecAMw97KuCDQ==
+X-Microsoft-Antispam-Message-Info: GyuAn1SqdDtSjj3ZDOz7hr8P6lF8Yb7nkIzSZ/9h+qI8kh3/FFn69G7GgrBN9fk+UZSgZiKPhs2nS2PTHILIjtTwbRKTYztGr6dLEhO9a51xD5VpluUZyZaNXYknPt7X1PoPJrpKdbwFf+QvnoZkdOrZZZ95rFv5XH/EoHPP9KeLAjmrjfEQAdKHt/LVT1eNQ0eGI8LMxIE3jN4Or+PV6b6Qpq5Ns8q3K5hOiMzhdb2njx1mJLlqCWU8BkEjc1rrAERS3zAWSoAJjOGGQnVnoZRKgnqtth+Gcf93MzGsWZatxZSNnfCUvxuGnzZRXx29ZJljIiMDdRuGJDpGeCZ9yhqb9FN2OnIrVwrld918OsX10gYyjm8y330FwbvQopVEIheWpmtP5Q/6M27M9PMiqFymqaU28kmzRcn3Ke7JTkSgJnoaddNKbGSR/cYfecRRn+QjeF6WKvc8Y3hA1HlJsS2BwUTV+YDFta5t86gdgRdDH9xUKwsr5JRtzmYnHi17q/T0LrvyrSJUVoOVVOt6+2sd3ruKLxB4ESh1qAhUNPzCs8CR95WL5QUM9GUJf4wXd+Xlm3wdrP9Jc2tCWV4QrLgaZGsnaoU3+wG1eSMe45pjmSqYwP/YUsUvKfOZQgVGS0oWTGQj2ILhJRtzc+Mn4s9KWJn2Fch8ZjWzYm8rrhzeWW8VLJIce8HlzAnlegoyR6bgEf1VY33FM6rCL1ImzA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230022)(39830400003)(346002)(376002)(396003)(136003)(451199015)(6512007)(36756003)(186003)(110136005)(26005)(316002)(66476007)(5660300002)(4744005)(44832011)(2616005)(70586007)(66946007)(66556008)(38100700002)(4326008)(1076003)(8676002)(2906002)(6486002)(8936002)(86362001)(478600001)(41300700001)(6666004)(6506007)(37730700002);
+ SFS:(13230022)(39830400003)(346002)(376002)(396003)(136003)(451199015)(6512007)(36756003)(186003)(110136005)(26005)(316002)(66476007)(5660300002)(44832011)(83380400001)(2616005)(70586007)(66946007)(66556008)(38100700002)(4326008)(1076003)(8676002)(2906002)(6486002)(8936002)(86362001)(478600001)(41300700001)(6666004)(6506007)(37730700002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6LOJLg9odis3mCNbcOVJYxDgu8op/33qV6oWPuTKaI+KPw9xl76v1IhvcocD?=
- =?us-ascii?Q?B69TGZRMcb3SUlQ1Wo+AxMCcJSQtBUQXGxVZdzVuOigNMBQeKnpFzd8WDh5U?=
- =?us-ascii?Q?8NqyboKb0m7fPBG4wbAf7bnQr9FYzubHz94RILOfKoQmylfF2ECIF4QFjPqN?=
- =?us-ascii?Q?7t170wruL2m9d5Jxtn2MzPF7N/okuEa33XXWFS5kt5OjJTfQ26uwcsYSOYA8?=
- =?us-ascii?Q?aASwsUlQkDh6pQr17EkKeax68myzWeRU7G3CPyUGOIcCPR74wXZTNvqA214N?=
- =?us-ascii?Q?50K51PXQR+g/D/clVn3MgSlHqaJam4yegyKjm5siTuvJ0iV1rH194FDFAcan?=
- =?us-ascii?Q?gRc+I1XqGrL16xTzCNAAJqDtUb6iqZwFoC4YlCoFsHojhgKUbv/hoBHgPDCy?=
- =?us-ascii?Q?8tj0cAZLeKxoltcRPNpv3Bom9LWcfoAq/cfJp681SNZr410eH2Q6xNhMxiLm?=
- =?us-ascii?Q?ly9ZeTYXgGuENk2XzXcciKVde0FaC4PaKD03Ke7Xih9sktWsDvv9xI9gcHVA?=
- =?us-ascii?Q?kFCjF5ZLh6yHTHT3Nim5YhKvxeImpgOHFp7l4Yb+EoHUVHa3s2Ntywb6GSpH?=
- =?us-ascii?Q?IgKRQFUFnfuvf2xVjw4F5FrUtrns4zG/kgSv+o8B8tiXfsQC3Sv0K5CdN/xs?=
- =?us-ascii?Q?0sSJ1YjKlhPuh0iCKqnLpEbPYpotHp/qz7TIgshAFQXTp0ElVOVh78LlGXth?=
- =?us-ascii?Q?N/ChcIxYhGQjawuocGjWO2FZdv1vL7UPkIhc1ZBufM7Lmb81fpPaElf5rDZ9?=
- =?us-ascii?Q?tHHCu+3OsiVHe1fa6eOC7Qa6stejaYITYM42YymY8yv8S9aqGV5qKz8VlPkC?=
- =?us-ascii?Q?mOirjzS+NN/X/KSiMlTvFSf2FFE7sivjDlpTwFylwmDJQTouDxuvuzXSCBtk?=
- =?us-ascii?Q?ARs6exclQI2mx1PJrbsjSZK431jsdfGQpit62FhAyuI8TSTZ3OnxSfj3XpN7?=
- =?us-ascii?Q?2FgundYGo+9Nx7jasLCpjQGWEFR3XVVDD4ZHOkIV3RYlTU/hH2eSecy2o3PJ?=
- =?us-ascii?Q?5siX8dIpJvEne/m3deedySomE6ByRAJ764cIMLJjyzZA7iPuShaZf9KC9Hdn?=
- =?us-ascii?Q?Q/82O6tmpbthuDLwBg8fnXHJqcG0z4mcmz6wvljn0g3Awg8XFSw4LdfXrRfO?=
- =?us-ascii?Q?Sd4y1zDy6LSy+WOn8l8VxObZjKoaDkCJ0N13iIfgLtpDR6Lso+rBMURl2P9D?=
- =?us-ascii?Q?TyzgpculCq/sy4tB+/+z9V5zJvkr3YzYNQhiw4rI/M9BM59kIQQMfjIOHUii?=
- =?us-ascii?Q?3fjltQW/wFc6bOC0XUdDgMkz3bs4O0AakH3dH+LI0f/e4zRq2VhHEUz7PHkr?=
- =?us-ascii?Q?ABJAKGAumfoqtq9E1Jav46m0Nqohx2bqnV96+MuQ/dHF7U3+Iy1vOe/g1BUi?=
- =?us-ascii?Q?BFAwX/adVrHRn04ZffYiXE3hZPbp9V8F7emG/TUCaB1WGFHYQdpeW19WKgO9?=
- =?us-ascii?Q?Wydmm5iCs9+BartJQ/Gej4McB/jzRLQ/+ZVWwlygbP36I9KsD37d40UYEMIB?=
- =?us-ascii?Q?G9daWZDkssNN0PyR+wcZGQpLHo856/buHkzEpwus94iRH5+I0yFfTYgV8xDV?=
- =?us-ascii?Q?T9TVmLCAf2m3S3OOAZ1r07BaqQW2DC84MFfsz5w6jWcTVTJQ2wkekd2+dG3u?=
- =?us-ascii?Q?lg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QDuETJyTfUFsLnwXzhWXTUSJ4ScwcQazqwApO6wfESyEC6cW8u/HLeQ5f4jX?=
+ =?us-ascii?Q?uFdm4XR3s20Yic6wj2elJuK1d5LzA9QiLH9JP7+4GCG/dCAw0Sbpjsg6GLEs?=
+ =?us-ascii?Q?drWrHQKvzGKY3VA0xmDD2Bpftz/jTKyFJVkxU0gYbPZmJpusmqX9fHY1CQ3+?=
+ =?us-ascii?Q?VMdvjKboG2ZClOV9ydw6Bn8f49DeKei97DuvSBgHQq8frDfWgAF7BFksVdUi?=
+ =?us-ascii?Q?LRsyjhU1PXDkqITkKbLzKADIY0BtZtZj0HKnxpww/qAbLJruTZOsL4+HvfMS?=
+ =?us-ascii?Q?v1WsyD5n0DH4ngaT7FEX9oRvMA7eFwPy6lQzQuLVSoG0hLdmDylShLrIrvQ+?=
+ =?us-ascii?Q?gzwjuZW8OWwuu0PdvpWB2yqzumtROjme+ZX47TiOCR+fwUluKYxvBdFel4SN?=
+ =?us-ascii?Q?w6EXajQGXrNA1awXett7JW9m0Pv6EIZVHXKU7cCFGDTfnZ22SQqAZuNpMjce?=
+ =?us-ascii?Q?XULaahpGui/J0cxggjD/56LPztR6Lz1UymYIUkVHZRcDP6FcFWNl9beAoVQM?=
+ =?us-ascii?Q?DJv7iz6/RjS1dMYU79KGx5u9BvpPzDwdymhj0omvE9a14inwFZ1Uu4/iMAjy?=
+ =?us-ascii?Q?K+Ut0hXYZNwndWBpTHD9jABtPIKHrjk7qwaBOUgofigpL77f+bOc0gYOUaVs?=
+ =?us-ascii?Q?nQXzNnIao+m3TUwELLE53W1A/SAW+RwuIwyjejFI2bdZ8ZemlF8aZRO98vnN?=
+ =?us-ascii?Q?T+9JqH6gk1E7cLoYoyoa/x/0fSYVFT4KEJ9lCEjAv8UorjmiL+3eFh2FN68A?=
+ =?us-ascii?Q?ss4ImEIK9JLoWtX4d0bm3XH3T/Q1kelqXgme7dORRLtv91Fk/aKeesdCYpuJ?=
+ =?us-ascii?Q?Js9SPTHpBlUbHEzeNs0hGxoQtp6NPef52SwXf2P9OgKiRCjs0r+N89goXtyA?=
+ =?us-ascii?Q?TkWbtyk+UCvAVYxvlcN3apDUpu4lz/Lk2m7RHggXWIq+bc3YKZDCHzeZ4cWo?=
+ =?us-ascii?Q?nfrvX0Tuff/jZcIQp7lNiCiz1Bl4wluv5Ya5Y1IAG52PEePWbayasLLoQdkm?=
+ =?us-ascii?Q?mRyltt8bAzKCNh6zStVgdK4AZvva/IiMeg0B2Y/77h89JijLTNQ0R/AWYMFm?=
+ =?us-ascii?Q?ogbYCuKsuuDX+CdMS63IZ0d9uvLuPbNmf65uweBfzSF6RrEt2WjyBNTO78r0?=
+ =?us-ascii?Q?mnnlXIyGsbE9zAGKRslr+9hBIUAojsgRiUL6iKeqmh2LghmfEuG+t6bvOqYI?=
+ =?us-ascii?Q?y+JV5fn69XNohKi9MPmOsBFDIjVerofYjYwSUAqYisNsrOS+MntQ8wH57rOx?=
+ =?us-ascii?Q?ubkYRPIrqfHwF67I3H0qhNktGvkANAoFcLo/T1eWQEX79GpvI5xmQ3IsaphU?=
+ =?us-ascii?Q?GAnxjivKUgGlwSnTpKLj4sgvukqUSLZDK6BwisYkIIEEQ9g+o40xwjy0zL38?=
+ =?us-ascii?Q?xy5zpAYhSeYTq5mL4/kR2f8oLglPKm/0p42P/WXiWoiXcjylv9n0F6Q2v7So?=
+ =?us-ascii?Q?1i90YijLloV1TO13quQP2BBm1wssiZzO92ewDwuP9kwW2N8pBC/PFT3asrgd?=
+ =?us-ascii?Q?e+Uud1u56+ettUpY+W+jUFglL6qMr46/kJr08XDHjYhVDAV/XqQwsVdxsQ58?=
+ =?us-ascii?Q?zFKu3fCVuTl0sY9QuQe6R98ucuwdSsc3ac9euBEcOnXGPS7lQoWUszDxjE0x?=
+ =?us-ascii?Q?WQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e2dc4e0-9b76-432a-f949-08dae9d0170d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38da0056-8238-4ea6-176c-08dae9d01796
 X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2022 19:08:38.0466 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2022 19:08:38.5777 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q4gL+DgZ5MFk1hHlJwTLOZFmrs3DDJ6oBipX8+eewGzrVOzj84JPJ7ekEMMnp9PiGjQ0HWzgJG6mnJHi7uZftYzkYceNvawuz8vKNFSv4uU=
+X-MS-Exchange-CrossTenant-UserPrincipalName: vt+ZDjBTaxcTmAnCSZPy9xuP8gZRx/0qIR8k8cjguBVyH7YwKL7EVlC0sKpu049VRSPTN8H1H78kORDiOqnKLUJNuq6j2n9MRZ9BIxK08Cs=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB1049
 Received-SPF: pass client-ip=40.107.6.132;
  envelope-from=sriram.yagnaraman@est.tech;
@@ -136,40 +136,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Also add return value for to send functions
+
 Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 ---
- hw/pci/pcie_sriov.c         | 6 ++++++
- include/hw/pci/pcie_sriov.h | 5 +++++
- 2 files changed, 11 insertions(+)
+ hw/net/net_tx_pkt.c | 17 +++++++++++------
+ hw/net/net_tx_pkt.h |  8 ++++++++
+ 2 files changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
-index 8e3faf1f59..88ba642a20 100644
---- a/hw/pci/pcie_sriov.c
-+++ b/hw/pci/pcie_sriov.c
-@@ -300,3 +300,9 @@ PCIDevice *pcie_sriov_get_vf_at_index(PCIDevice *dev, int n)
-     }
-     return NULL;
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index 1cb1125d9f..f2e14008b6 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -284,6 +284,12 @@ struct virtio_net_hdr *net_tx_pkt_get_vhdr(struct NetTxPkt *pkt)
+     return &pkt->virt_hdr;
  }
-+
-+int pcie_sriov_get_num_vfs(PCIDevice *dev)
-+{
-+    assert(!pci_is_vf(dev));
-+    return dev->exp.sriov_pf.num_vfs;
-+}
-diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
-index 80f5c84e75..8e9367a03a 100644
---- a/include/hw/pci/pcie_sriov.h
-+++ b/include/hw/pci/pcie_sriov.h
-@@ -74,4 +74,9 @@ PCIDevice *pcie_sriov_get_pf(PCIDevice *dev);
-  */
- PCIDevice *pcie_sriov_get_vf_at_index(PCIDevice *dev, int n);
  
-+/*
-+ * Get the number of VFs created for this physical function.
-+ */
-+int pcie_sriov_get_num_vfs(PCIDevice *dev);
++struct eth_header *net_tx_pkt_get_l2hdr(struct NetTxPkt *pkt)
++{
++    assert(pkt);
++    return PKT_GET_ETH_HDR(&pkt->l2_hdr);
++}
 +
- #endif /* QEMU_PCIE_SRIOV_H */
+ static uint8_t net_tx_pkt_get_gso_type(struct NetTxPkt *pkt,
+                                           bool tso_enable)
+ {
+@@ -551,13 +557,13 @@ static size_t net_tx_pkt_fetch_fragment(struct NetTxPkt *pkt,
+     return fetched;
+ }
+ 
+-static inline void net_tx_pkt_sendv(struct NetTxPkt *pkt,
++static inline ssize_t net_tx_pkt_sendv(struct NetTxPkt *pkt,
+     NetClientState *nc, const struct iovec *iov, int iov_cnt)
+ {
+     if (pkt->is_loopback) {
+-        qemu_receive_packet_iov(nc, iov, iov_cnt);
++        return qemu_receive_packet_iov(nc, iov, iov_cnt);
+     } else {
+-        qemu_sendv_packet(nc, iov, iov_cnt);
++        return qemu_sendv_packet(nc, iov, iov_cnt);
+     }
+ }
+ 
+@@ -632,9 +638,8 @@ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc)
+     if (pkt->has_virt_hdr ||
+         pkt->virt_hdr.gso_type == VIRTIO_NET_HDR_GSO_NONE) {
+         net_tx_pkt_fix_ip6_payload_len(pkt);
+-        net_tx_pkt_sendv(pkt, nc, pkt->vec,
+-            pkt->payload_frags + NET_TX_PKT_PL_START_FRAG);
+-        return true;
++        return (net_tx_pkt_sendv(pkt, nc, pkt->vec,
++            pkt->payload_frags + NET_TX_PKT_PL_START_FRAG) >= 0);
+     }
+ 
+     return net_tx_pkt_do_sw_fragmentation(pkt, nc);
+diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+index 4ec8bbe9bd..64fae67c58 100644
+--- a/hw/net/net_tx_pkt.h
++++ b/hw/net/net_tx_pkt.h
+@@ -52,6 +52,14 @@ void net_tx_pkt_uninit(struct NetTxPkt *pkt);
+  */
+ struct virtio_net_hdr *net_tx_pkt_get_vhdr(struct NetTxPkt *pkt);
+ 
++/**
++ * get L2 header
++ *
++ * @pkt:            packet
++ * @ret:            L2 header
++ */
++struct eth_header *net_tx_pkt_get_l2hdr(struct NetTxPkt *pkt);
++
+ /**
+  * build virtio header (will be stored in module context)
+  *
 -- 
 2.34.1
 
