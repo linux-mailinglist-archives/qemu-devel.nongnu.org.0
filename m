@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C37658948
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 04:55:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB52658956
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 05:09:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAk02-0007sn-2C; Wed, 28 Dec 2022 22:54:35 -0500
+	id 1pAkDi-00021V-PM; Wed, 28 Dec 2022 23:08:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pAjzq-0007sY-2c
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 22:54:22 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pAjzn-0006mj-Qn
- for qemu-devel@nongnu.org; Wed, 28 Dec 2022 22:54:21 -0500
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8Bx2+plD61j3y8JAA--.20458S3;
- Thu, 29 Dec 2022 11:54:13 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxzr5kD61jxBUPAA--.29886S3; 
- Thu, 29 Dec 2022 11:54:12 +0800 (CST)
-Subject: Re: [RFC PATCH 01/43] target/loongarch: Add vector data type vec_t
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-2-gaosong@loongson.cn>
- <99e4fdf2-fe70-03c7-1168-f300ac7a1ead@linaro.org>
- <4852b017-1841-cf6f-fbc2-e1789a7f9496@loongson.cn>
- <d8e55869-8553-68b9-1b42-0075705dd03f@linaro.org>
- <2544efc0-5eaa-31d3-99a1-95155d0f7859@loongson.cn>
- <27113bcc-c8f9-02cb-c218-bb11e8d5d794@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <bbe6cbcc-4f6d-3247-8d36-82c34f306822@loongson.cn>
-Date: Thu, 29 Dec 2022 11:54:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <27113bcc-c8f9-02cb-c218-bb11e8d5d794@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1pAkDf-000217-IT
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 23:08:40 -0500
+Received: from mail-sender.a4lg.com ([153.120.152.154]
+ helo=mail-sender-0.a4lg.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1pAkDd-0006iT-7A
+ for qemu-devel@nongnu.org; Wed, 28 Dec 2022 23:08:39 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 42685300089;
+ Thu, 29 Dec 2022 04:08:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
+ s=2017s01; t=1672286907;
+ bh=IqgAbx8Os0g3VR0MAdsUugLGcCQNWq6o9tVM+QZS6Zg=;
+ h=Message-ID:Date:Mime-Version:Subject:To:References:Cc:From:
+ In-Reply-To:Content-Type:Content-Transfer-Encoding;
+ b=honEROClzK9qj2hY/0oc8tcPo18MJbQCO62TE/1vw9v0efjH/+IJJ9ssGBvp0HvxX
+ ENGFXA1RO1yR4ZhnccipAbhyUNcghwqIwIsXbF6l326Du5auREE+LYddXX4+3GXzAk
+ EZOM39PZ9O0kKjUlIrCyeboh9fbvJEqFehQ2qmA4=
+Message-ID: <1b9fb2e5-6b2f-59fa-d684-2491e389fb32@irq.a4lg.com>
+Date: Thu, 29 Dec 2022 13:08:25 +0900
+Mime-Version: 1.0
+Subject: Re: [PATCH 06/11] contrib/gitdm: add Tsukasa as an individual
+ contributor
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20221219121914.851488-1-alex.bennee@linaro.org>
+ <20221219121914.851488-7-alex.bennee@linaro.org>
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8Bxzr5kD61jxBUPAA--.29886S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvdXoWruw43Xr13tr1kuryUZF4UXFb_yoWxCFcEyw
- 1DZ3Z5Ca1kAFs7Zr1Utr1DGF9rCayDCryfZ3y7tFy5J3y3Gan3AF1kJrnav3WxG34Syr4a
- grn5Xa43K343XjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
- xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
- c7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
- AFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
- 6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7
- xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1le2I2
- 62IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4
- CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvj
- eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw2
- 8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
- x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrw
- CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI
- 42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
- 80aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.147,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+From: Tsukasa OI <research_trasio@irq.a4lg.com>
+In-Reply-To: <20221219121914.851488-7-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=153.120.152.154;
+ envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,24 +67,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Alex,
 
-在 2022/12/29 上午11:13, Richard Henderson 写道:
-> On 12/28/22 17:51, gaosong wrote:
->>> A related question though: does the manual mention whether the fpu 
->>> instructions only modify the lower 64 bits, or do the high 64-bits 
->>> become zeroed, nanboxed, or unspecified?
->>>
->>>
->> Only modify the lower 64bits,   the high 64-bits is unpecified.
->
-> These two options are mutually exclusive.  If upper 64 bits 
-> unmodified, then they *are* specified to be the previous contents.
->
-My description is not correct.
-'The fpu instruction will modify the low 64 bits, but the high 64 bits 
-are unspecified and their values are "unpredictable" '.
+Sorry for being late.
+Yes, I'm an individual contributor (I'm working at TRASIO, a Japanese
+government-funded research project using RISC-V [and the corporation
+built for it] but all my QEMU contributions are not a part of TRASIO's
+work).
 
-Thanks.
-Song Gao
+Thanks,
+Tsukasa
 
+On 2022/12/19 21:19, Alex Bennée wrote:
+> I wasn't sure if you want to be added as an individual contributor or
+> an academic so please confirm.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Tsukasa OI <research_trasio@irq.a4lg.com>
+> ---
+>  contrib/gitdm/group-map-individuals | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
+> index 53883cc526..e2263a5ee3 100644
+> --- a/contrib/gitdm/group-map-individuals
+> +++ b/contrib/gitdm/group-map-individuals
+> @@ -37,3 +37,4 @@ akihiko.odaki@gmail.com
+>  paul@nowt.org
+>  git@xen0n.name
+>  simon@simonsafar.com
+> +research_trasio@irq.a4lg.com
 
