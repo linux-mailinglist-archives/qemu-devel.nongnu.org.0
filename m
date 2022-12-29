@@ -2,154 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B26658ED4
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 17:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F67659026
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 19:11:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAvWt-0005Tw-W6; Thu, 29 Dec 2022 11:13:16 -0500
+	id 1pAxMF-0006Ag-R7; Thu, 29 Dec 2022 13:10:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pAvWs-0005Tk-Fn
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 11:13:14 -0500
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pAvWq-0007hN-FW
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 11:13:14 -0500
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BTFd40o010841; Thu, 29 Dec 2022 16:13:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=6RsKS2GzFq8nNdgCoMIgN7ykw0fZakdv2GOo3FV5h7s=;
- b=oEIFaenL4Ju0/SFmsTXEsFoWiTRM+NFVXpnijzFKGoVMeuw7Ixcj4WuCkToj7KJSDoYV
- BBwBWrUyKw6iceJhG3WLz8UzO53Q49Xa5Xp77cSEzK/jocXGijGH2bEveCV7cBPE47Dt
- oksm+wpW26YPVdU7FlFWL05Atfgp2HkORsE2gg2PU3+pOC9+eucH1RzJAxIpelU/WkHP
- 61Pq9GfYf8hHLkkbxCyUn7nS4bSGV0N/PjgfmzuiQ1LUyCcsuaPJpYI0BDLnklQ81HDO
- HjopiOisXX/zlUlUbVvMLYA0QhshIgEfyB5zMVyXPbovWnP4CD7Au3ODguzzmZwzskFf 4w== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ms2nr952e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Dec 2022 16:13:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AQhZy2iyW1R51Z073PwAo5NmXiI+dCUsyjyjQc27cLokNEB5dHdROpXZ2tYEGe534os4TO8b8LxKhG1W3h+vwo2jqDP8jFOJExZGTwFnsfmPV1dryZjwzHtWLadS4Y8K06ra++epObTFaIo+vL5XLoMIGEcvkjY6hNheIszhZa+bT/5gDp9IiEe7PCakyEQDv/XxYLaT7RlPvULmA5igjH/GMBo/AjmTq//5uKk1QG6s7d83TxXr7XEahnTYiMaZL1d7lBXxycxgoEnjxANeQF8k3SFfAW6EgIFMKTzpxjaCIOFCOSz8haiof6oUzwXBbCCqmgTU1HYIkos2fBPvgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6RsKS2GzFq8nNdgCoMIgN7ykw0fZakdv2GOo3FV5h7s=;
- b=NrdIzzS8b3pHg0eDfZvR7+AEE8rj3W126rsXSHaQG/n/30abFxJNLcLFhxG1zPJRVLa/UaZSmNCF7QM2Awaizpg75Fr5uW0Dy1qTkaptvBIMcFOc5CW+NdBFYJJ+RzyoU5E6JXfCiiZRdE2QrbCrHEEJWJFz4MKn/RuBYtjFH7COtte83WwaawmXWSFEk69FGOumc6ql/d7uGZbisdRuHNM1osf/vm4/ASxdS4+xatn6uquO76oe+EM0RC78+kuK1RKY227l1w8IPQ8VcdnFRTWEu/qkg04RVk9n2ddblRDOWvXueuug1eFdUGSzzXM3WeYoN0JDrgUYsiE8d1yV8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by DM6PR02MB6651.namprd02.prod.outlook.com
- (2603:10b6:5:21b::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.16; Thu, 29 Dec
- 2022 16:13:07 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::8ba2:2429:9eea:75fc]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::8ba2:2429:9eea:75fc%6]) with mapi id 15.20.5944.016; Thu, 29 Dec 2022
- 16:13:07 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: "Mukilan Thiyagarajan (QUIC)" <quic_mthiyaga@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "laurent@vivier.eu"
- <laurent@vivier.eu>
-CC: Brian Cain <bcain@quicinc.com>, "richard.henderson@linaro.org"
- <richard.henderson@linaro.org>, "alex.bennee@linaro.org"
- <alex.bennee@linaro.org>
-Subject: RE: [PATCH 1/2] linux-user/hexagon: fix signal context save & restore
-Thread-Topic: [PATCH 1/2] linux-user/hexagon: fix signal context save & restore
-Thread-Index: AQHZGgjTOOtBEyACFUyjqeVHPtIgrq6DlNpAgAEGqoCAAHEVcA==
-Date: Thu, 29 Dec 2022 16:13:07 +0000
-Message-ID: <SN4PR0201MB880830E4B5336690337C93D2DEF39@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20221227153447.2729-1-quic_mthiyaga@quicinc.com>
- <20221227153447.2729-2-quic_mthiyaga@quicinc.com>
- <SN4PR0201MB88089A3D541389E5DE6D2511DEF29@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <MWHPR0201MB3497E4CA18DBC12E1A990BE6F4F39@MWHPR0201MB3497.namprd02.prod.outlook.com>
-In-Reply-To: <MWHPR0201MB3497E4CA18DBC12E1A990BE6F4F39@MWHPR0201MB3497.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|DM6PR02MB6651:EE_
-x-ms-office365-filtering-correlation-id: 6fce8c13-fbee-44ef-a4f9-08dae9b79285
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RoZG5MNpmJrPwXbdZ1iM6sJVtS4N0haPdkFTcrcbuff/JODMPQDusFzfJEJnOiUB8CtXWR0Cd7RyB6UuDVk55z9l+M6Ixby4azOBoJhFMp/LstJOiQb60vjEUsOvVVTRFf3a8cRebStjnR2bTBzopctM+xwLtvemqqoI3N+8jFDaUiQQymSjfbrFWFa7BRWIH6rdQxpmZmyEg4+ROY/N83BPUzi8Rt9yMAjfdltQiop2BCj8R6JhzLegKImebb7lwrQKvj0VYJNPlDBL+mb3MPkOyXvN+lEt48bVbatrmeKgppE+WU1nRtKSZ1ieShwXIhntpV0vyGdCBpxzeZ9QF6xZtAxJOOqzOkt5De7m1quKsUM/5kv6We2BdN5cFo7YkJCb7ImQF1moukRiE/s81Cv97xYI/4eyFOaw7IIarg68YvBpObTCQ64piQHw/6sgdiOoqnrgZ9AdlRKrxQ4k8jf3LAIkgGC005P6aPSWdpCTOe6uXvR0S7RxOPSkt7Tik7f1INxnUJy+7T/WGwg+sOy0lfuFso4++/Iofpic+UiqQzI/I4SRBqviCn0Ae9iazejNrFxAo9x3gJB1oD788bMgGqv6BsDOBywmqdAb6DLlHmck8zLMUlp6wYryovDZavDSwnbWE5jMOT2dwAvBvAKTmpD8rgaRw3vvO5zML7cJrS3QpeZoJjQqhrqCkl2fvbaqWxYbQjh7wL4JMFPxKaEnOAj8aU68kjMghTSMRNo=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(39860400002)(376002)(136003)(366004)(396003)(451199015)(5660300002)(2906002)(8936002)(7696005)(52536014)(83380400001)(64756008)(66946007)(66476007)(66446008)(66556008)(4326008)(76116006)(8676002)(38100700002)(122000001)(478600001)(966005)(53546011)(6506007)(9686003)(41300700001)(38070700005)(86362001)(71200400001)(186003)(26005)(33656002)(55016003)(316002)(110136005)(54906003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NfA6dnrwM2WIjTxkIrOmQwsiuzVCRUkJzqB8ZGt4GYrDhpY9lkSm8NvZKReK?=
- =?us-ascii?Q?fROFOwAKzfQW+t+87bJNd38CZHUoOmwCZD1KJWnOTqFAT5LhhZveOSNjj7wO?=
- =?us-ascii?Q?oNCm96Aju4l/cztmVpbOW22lOxCGHy06sQ5J0BVyvZEHp3Zj41jCHLa50UTD?=
- =?us-ascii?Q?XTKJ0GPstv1GodT+0aHkw3oMqy7BKvKW7LnE8IH4Jckmuhv+lA16yt55zMbX?=
- =?us-ascii?Q?7coEst8Be1ldiWYF3gUFbkGGT/a2bb+DU7nsNYob46dC1Hfe1R18ZI95G4yx?=
- =?us-ascii?Q?4sUG6ylm7b3X2z/K/1P4WRF5Xi6R/EykAHnODVFOWJTtdXUQF9oUQengf910?=
- =?us-ascii?Q?0481FJuFp7R8yxPseBJM+1ljKqdU9i0FVAc+debDk0s606Nc150l0keTS+5K?=
- =?us-ascii?Q?yXHZCCoI6FkUthrxkaqZBu1v35j4OQ+u0haNda/rYrjtOQy3s9Jqa00t+e2m?=
- =?us-ascii?Q?tyVb1CeGBkfGryihbtmq3jU+KH560Jm48CZJ/ZWf2j4AxBfLD0iMeuNrdtTv?=
- =?us-ascii?Q?EIZc8TBhByjcAuCcbMdx2gePhctmBh0FL6XbrhqXzts5r1zMhx4rj2m1Yt5s?=
- =?us-ascii?Q?S8wNyKaNEXLTCIwSB9NOZ/iVCF8uOr+lRHPXIJWti6Tgmw30wVC3+gue2ybt?=
- =?us-ascii?Q?DJs1fM7+hUxv1YCMi2qgKdmT+yo/RmW6vWbc9WUX0SxPgfq060gbdctC1EVf?=
- =?us-ascii?Q?6x4TU/YB5VeQFpEBgflSSXpj4PqE5GuzLkWpmPys710TbLxEn2uDgztjbaSM?=
- =?us-ascii?Q?lSrUwcaiLOivIAm/vrbPIghPjCsZSFZAxP8mgaJ1ckl2rYh9QB69SxEX9V2L?=
- =?us-ascii?Q?lvM5oOPIfBjDSF+XtHDN+GX/IccAG/ZxsORpHtRQtwtFZiGoEkKjC9aa5JQv?=
- =?us-ascii?Q?Lc/w9gV6kJg14IfvZGSf1SE4J4E5HndIQUeCsCl1DrrqY89fg/FfR/iv+QZH?=
- =?us-ascii?Q?8ifM1cXFV2A4g53WDXsUP+ohsYWz22OLB6yHKLRRd6Y6eI7z9Fd9ra55iFtc?=
- =?us-ascii?Q?F5bIpuaHuuKvgTPGAU2NOu/pktGiHHExm4TMaP4wOppT+pcvZAf4iRokgrNn?=
- =?us-ascii?Q?FYvGlCs29MJ1ugHQAQkHxFOlW+xG2hDYyMDm5IaYzhUVW/24WFfAt4DKd1C8?=
- =?us-ascii?Q?uwGZ4YWJeJduowhx5ddhtcRfAWTkCjlc6rBm5gS5qBvv//OGrrai4yFd4HBN?=
- =?us-ascii?Q?fxAIGcGR6CEaRryApT909nOQxMMbAbQCwpgMYvbYQZ0UswhgEsen/Hiw+C6H?=
- =?us-ascii?Q?xV7XC170srAEuGMqFqwvzWGD81x6EkasUCmZGysTX3jkmAKKK/2Agx5g6HIG?=
- =?us-ascii?Q?n6P24EjEOwfDewDujWXZh72acidLeSN8RWKO6b/79jt3dASgu8LTqsZRnwet?=
- =?us-ascii?Q?gS+pVU6sa2bc5yqDIDMqRWcNG7NhFJDP/sZGR+x7Fs0De80NzhwJuRIe/9RT?=
- =?us-ascii?Q?xkgmBkowfDKTo5jC+FZG89fyDkhl4+QZ63DM7QnfPKSIwX7T39xVbR99gVjC?=
- =?us-ascii?Q?rHge2TQ7liwgAlvE6yWT6YM07VInnW3GnmDEJABa56o5AJCXC0tr5SkF1crM?=
- =?us-ascii?Q?el/QUmPEJ4hLDdtw3GC1EXmWzCLYxJsfmN6dvO5u?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6fce8c13-fbee-44ef-a4f9-08dae9b79285
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Dec 2022 16:13:07.2240 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ggq8N7PelTWFGMhNs0mXMHg5HwF1LEg/sfwdry/bInDmbKxj4CQKZh5g1PLCRir36tVOKW9nvZqwqm/ee+wztQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6651
-X-Proofpoint-ORIG-GUID: 5O2cTTOjVFqmdHFxJD8-3sCrpnR2gYer
-X-Proofpoint-GUID: 5O2cTTOjVFqmdHFxJD8-3sCrpnR2gYer
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-29_08,2022-12-29_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- impostorscore=0 malwarescore=0 phishscore=0 mlxlogscore=590 spamscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212290134
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3Ds6tYwgKCoUjkm3u0j1pxxpun.lxvznv3-mn4nuwxwpw3.x0p@flex--abdulras.bounces.google.com>)
+ id 1pAwh1-0002Bs-U1
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 12:27:47 -0500
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3Ds6tYwgKCoUjkm3u0j1pxxpun.lxvznv3-mn4nuwxwpw3.x0p@flex--abdulras.bounces.google.com>)
+ id 1pAwgy-0002Yt-Nb
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 12:27:47 -0500
+Received: by mail-yb1-xb49.google.com with SMTP id
+ z17-20020a25e311000000b00719e04e59e1so20337973ybd.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 09:27:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Cac1QtDTwybK/HIvFLlmk/EkE8UUKb1WJ/dIXW9vIrY=;
+ b=BCw+TSHjKd3CF2Fl8ZsG1RTWMrrh5tWCsi5Xth/fvZIKj63571iF1+OFRpivpgSLgW
+ JUfQtVPwsKwwZauJeRJgGeG95pmepUzDdwWgexLcTe08DPxPBYqiuOGOKm7tjEgujvnf
+ OPPA+l4FbPHRz4TF8ld2bxcXjyAy0jYr5FBFwfhF++4vVL1Hv4GEG3p0BwxgHTms9gaE
+ hlFLMG+5u18J+A2/uYwYbB12YszIbZXBQwcGAGYwxZGDuQqdNYXCBVhJGT7BnpXHJBiy
+ KrYarOU7TpFDZKd7rL8grofStiBV1P75dmE0bLO0GhE1Rio4WJndKyeww74FNBC6FDei
+ s1fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Cac1QtDTwybK/HIvFLlmk/EkE8UUKb1WJ/dIXW9vIrY=;
+ b=SxChK8PuCcIUWeHlu5fb5R2TgfNsQDJkGpK/orttsSD+ler7XQV4VDTQivekhej2lz
+ hofRIZ+aRDTAP+rPTW2lWaj4LLuCUw+RHG39vOb8S8igjVhbuT2WjE4F54AilmWoaz7s
+ ZbEWua8a0Xybn075UL7QFd1Wl0Ylts7bNtg/dJ5INTsJxcWHjaWA7Su0NH97XyGr2ZHe
+ iBZEbSkJFg5lAeOiUbLBU2Q+9ptBhNaPpv6IoFBlbK8qau+3K8dVKMcvxf9tsBtrhdY7
+ uYgKGdU79NUqYkL8YoYLDfRGr34S4RPVZ2Mos9vzuE16MErNkAYKoppUZt0GsqakcsZa
+ XXOw==
+X-Gm-Message-State: AFqh2kq6Z1eUa56zaPnEv8il1bj66thYhCXO5qU4bMEjujS5GnjYSPEa
+ K9ztzFg0fWt4oJqS66B3tJ06x1fRt0v9NiS4lRqUB2Sar7mJMkSjONoNbKvPBQjh7VHdzj8O9r9
+ Xj1Kdi62AbdpnsDrvKNqlN6RWwYb4h4pSFpYZyf18+MPwjBRKYL6zSkWYR8Wrqt8QXQ==
+X-Google-Smtp-Source: AMrXdXsMfS4b95UasDVVfnD5/UuA2HM53COWvUUWnNB99DSgO1CtC7L1XjkkjAjKJgomPzYrU5gHZD/iTmMbsw==
+X-Received: from abdulras-llvm.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:219b])
+ (user=abdulras job=sendgmr) by 2002:a25:4f03:0:b0:722:24a8:f05b with SMTP id
+ d3-20020a254f03000000b0072224a8f05bmr2717503ybb.418.1672334862995; Thu, 29
+ Dec 2022 09:27:42 -0800 (PST)
+Date: Thu, 29 Dec 2022 17:27:34 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
+Message-ID: <20221229172734.119600-1-abdulras@google.com>
+Subject: [PATCH] riscv: do not set the rounding mode via `gen_set_rm`
+From: Saleem Abdulrasool <abdulras@google.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, palmer@dabbelt.com, alistair.francis@wdc.com, 
+ bin.meng@windriver.com, frank.chang@sifive.com, 
+ Saleem Abdulrasool <compnerd@compnerd.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3Ds6tYwgKCoUjkm3u0j1pxxpun.lxvznv3-mn4nuwxwpw3.x0p@flex--abdulras.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 29 Dec 2022 13:10:15 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,124 +90,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Yes, the formatting is correct in patchew.
+From: Saleem Abdulrasool <compnerd@compnerd.org>
 
-I'll include these in my next PR.
+Setting the rounding mode via the `gen_set_rm` call would alter the
+state of the disassembler, resetting the `TransOp` in the assembler
+context.  When we subsequently set the rounding mode to the desired
+value, we would trigger an assertion in `decode_save_opc`.  Instead
+we can set the rounding mode via the `gen_helper_set_rounding_mode`
+which will still trigger the exception in the case of an invalid RM
+without altering the CPU disassembler state.
 
-Thanks,
-Taylor
+Signed-off-by: Saleem Abdulrasool <compnerd@compnerd.org>
+---
+ target/riscv/insn_trans/trans_rvv.c.inc | 69 +++++++++++++------------
+ 1 file changed, 36 insertions(+), 33 deletions(-)
 
-
-> -----Original Message-----
-> From: Mukilan Thiyagarajan (QUIC) <quic_mthiyaga@quicinc.com>
-> Sent: Thursday, December 29, 2022 3:28 AM
-> To: Taylor Simpson <tsimpson@quicinc.com>; Mukilan Thiyagarajan (QUIC)
-> <quic_mthiyaga@quicinc.com>; qemu-devel@nongnu.org;
-> laurent@vivier.eu
-> Cc: Brian Cain <bcain@quicinc.com>; richard.henderson@linaro.org;
-> alex.bennee@linaro.org
-> Subject: RE: [PATCH 1/2] linux-user/hexagon: fix signal context save &
-> restore
->=20
-> >> +        : : : "r7", "p0", "p1", "p2", "p3"); }
-> > Put the curly on the next line.
->=20
-> Not sure if this issue is on my end or your mail client, but the formatti=
-ng
-> appears to be correct in the patchew:
-> https://patchew.org/QEMU/20221227153447.2729-1-
-> quic._5Fmthiyaga@quicinc.com/20221227153447.2729-2-
-> quic._5Fmthiyaga@quicinc.com/
->=20
-> I've addressed the other review comments in v2:
-> https://patchew.org/QEMU/20221229092006.10709-1-
-> quic._5Fmthiyaga@quicinc.com/20221229092006.10709-2-
-> quic._5Fmthiyaga@quicinc.com/
->=20
-> Please let me know if the formatting is still off.
->=20
-> Thanks,
-> Mukilan
->=20
-> -----Original Message-----
-> From: Taylor Simpson <tsimpson@quicinc.com>
-> Sent: Wednesday, December 28, 2022 11:35 PM
-> To: Mukilan Thiyagarajan (QUIC) <quic_mthiyaga@quicinc.com>; qemu-
-> devel@nongnu.org; laurent@vivier.eu
-> Cc: Brian Cain <bcain@quicinc.com>; richard.henderson@linaro.org;
-> alex.bennee@linaro.org
-> Subject: RE: [PATCH 1/2] linux-user/hexagon: fix signal context save &
-> restore
->=20
->=20
->=20
-> > -----Original Message-----
-> > From: Mukilan Thiyagarajan (QUIC) <quic_mthiyaga@quicinc.com>
-> > Sent: Tuesday, December 27, 2022 9:35 AM
-> > To: qemu-devel@nongnu.org; Taylor Simpson <tsimpson@quicinc.com>;
-> > laurent@vivier.eu
-> > Cc: Brian Cain <bcain@quicinc.com>; richard.henderson@linaro.org;
-> > alex.bennee@linaro.org; Mukilan Thiyagarajan (QUIC)
-> > <quic_mthiyaga@quicinc.com>
-> > Subject: [PATCH 1/2] linux-user/hexagon: fix signal context save &
-> > restore
-> >
-> > diff --git a/tests/tcg/hexagon/signal_context.c
-> > b/tests/tcg/hexagon/signal_context.c
-> > new file mode 100644
-> > index 0000000000..297e6915a4
-> > --- /dev/null
-> > +++ b/tests/tcg/hexagon/signal_context.c
-> > @@ -0,0 +1,84 @@
-> > +/*
-> > + *  Copyright(c) 2019-2022 Qualcomm Innovation Center, Inc. All
-> > +Rights
->=20
-> Since this is a new file, only list 2022 (not 2019-2022).
->=20
-> > +void sig_user(int sig, siginfo_t *info, void *puc) {
-> > +    asm("r7 =3D #0\n\t"
-> > +        "p0 =3D r7\n\t"
-> > +        "p1 =3D r7\n\t"
-> > +        "p2 =3D r7\n\t"
-> > +        "p3 =3D r7\n\t"
-> > +        : : : "r7", "p0", "p1", "p2", "p3"); }
->=20
-> Put the curly on the next line.
->=20
-> > +
-> > +int main()
-> > +{
-> > +
-> > +    struct sigaction act;
-> > +    struct itimerspec it;
-> > +    timer_t tid;
-> > +    struct sigevent sev;
-> > +    act.sa_sigaction =3D sig_user;
-> > +    sigemptyset(&act.sa_mask);
-> > +    act.sa_flags =3D SA_SIGINFO;
-> > +    sigaction(SIGUSR1, &act, NULL);
-> > +    sev.sigev_notify =3D SIGEV_SIGNAL;
-> > +    sev.sigev_signo =3D SIGUSR1;
-> > +    sev.sigev_value.sival_ptr =3D &tid;
-> > +    timer_create(CLOCK_REALTIME, &sev, &tid);
-> > +    it.it_interval.tv_sec =3D 0;
-> > +    it.it_interval.tv_nsec =3D 100000;
-> > +    it.it_value.tv_sec =3D 0;
-> > +    it.it_value.tv_nsec =3D 100000;
-> > +    timer_settime(tid, 0, &it, NULL);
-> > +
-> > +    int err =3D 0;
-> > +    unsigned int i =3D 100000;
->=20
-> Put these declarations at the beginning of the function before any code
->=20
-> > +    return err;
->=20
-> Before return err, do puts(err ? "FAIL" : "PASS");
->=20
-> Otherwise
-> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
->=20
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index 4dea4413ae..73f6fab1c5 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -2679,8 +2679,10 @@ static bool do_opfv(DisasContext *s, arg_rmr *a,
+                     int rm)
+ {
+     if (checkfn(s, a)) {
++        // the helper will raise an exception if the rounding mode is invalid
+         if (rm != RISCV_FRM_DYN) {
+-            gen_set_rm(s, RISCV_FRM_DYN);
++            gen_helper_set_rounding_mode(cpu_env,
++                                         tcg_constant_i32(RISCV_FRM_DYN));
+         }
+ 
+         uint32_t data = 0;
+@@ -3001,38 +3003,39 @@ static bool opffv_narrow_check(DisasContext *s, arg_rmr *a)
+            require_scale_zve64f(s);
+ }
+ 
+-#define GEN_OPFV_NARROW_TRANS(NAME, CHECK, HELPER, FRM)            \
+-static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+-{                                                                  \
+-    if (CHECK(s, a)) {                                             \
+-        if (FRM != RISCV_FRM_DYN) {                                \
+-            gen_set_rm(s, RISCV_FRM_DYN);                          \
+-        }                                                          \
+-                                                                   \
+-        uint32_t data = 0;                                         \
+-        static gen_helper_gvec_3_ptr * const fns[2] = {            \
+-            gen_helper_##HELPER##_h,                               \
+-            gen_helper_##HELPER##_w,                               \
+-        };                                                         \
+-        TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, FRM);                                        \
+-        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+-        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+-                                                                   \
+-        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+-        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+-        data = FIELD_DP32(data, VDATA, VTA, s->vta);               \
+-        data = FIELD_DP32(data, VDATA, VMA, s->vma);               \
+-        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
+-                           vreg_ofs(s, a->rs2), cpu_env,           \
+-                           s->cfg_ptr->vlen / 8,                   \
+-                           s->cfg_ptr->vlen / 8, data,             \
+-                           fns[s->sew - 1]);                       \
+-        mark_vs_dirty(s);                                          \
+-        gen_set_label(over);                                       \
+-        return true;                                               \
+-    }                                                              \
+-    return false;                                                  \
++#define GEN_OPFV_NARROW_TRANS(NAME, CHECK, HELPER, FRM)                     \
++static bool trans_##NAME(DisasContext *s, arg_rmr *a)                       \
++{                                                                           \
++    if (CHECK(s, a)) {                                                      \
++        if (FRM != RISCV_FRM_DYN) {                                         \
++            gen_helper_set_rounding_mode(cpu_env,                           \
++                                         tcg_constant_i32(RISCV_FRM_DYN));  \
++        }                                                                   \
++                                                                            \
++        uint32_t data = 0;                                                  \
++        static gen_helper_gvec_3_ptr * const fns[2] = {                     \
++            gen_helper_##HELPER##_h,                                        \
++            gen_helper_##HELPER##_w,                                        \
++        };                                                                  \
++        TCGLabel *over = gen_new_label();                                   \
++        gen_set_rm(s, FRM);                                                 \
++        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);                   \
++        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);          \
++                                                                            \
++        data = FIELD_DP32(data, VDATA, VM, a->vm);                          \
++        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);                      \
++        data = FIELD_DP32(data, VDATA, VTA, s->vta);                        \
++        data = FIELD_DP32(data, VDATA, VMA, s->vma);                        \
++        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),              \
++                           vreg_ofs(s, a->rs2), cpu_env,                    \
++                           s->cfg_ptr->vlen / 8,                            \
++                           s->cfg_ptr->vlen / 8, data,                      \
++                           fns[s->sew - 1]);                                \
++        mark_vs_dirty(s);                                                   \
++        gen_set_label(over);                                                \
++        return true;                                                        \
++    }                                                                       \
++    return false;                                                           \
+ }
+ 
+ GEN_OPFV_NARROW_TRANS(vfncvt_f_xu_w, opfxv_narrow_check, vfncvt_f_xu_w,
+-- 
+2.39.0.314.g84b9a713c41-goog
 
 
