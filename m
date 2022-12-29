@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F3A658B12
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 10:34:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C6D658AEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 10:23:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAp60-0000nP-43; Thu, 29 Dec 2022 04:21:04 -0500
+	id 1pAp8C-0003XN-Uu; Thu, 29 Dec 2022 04:23:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pAp5h-0000f3-3g
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 04:20:49 -0500
-Received: from bg4.exmail.qq.com ([43.155.65.254])
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pAp7t-0003Vp-QD; Thu, 29 Dec 2022 04:23:02 -0500
+Received: from bg4.exmail.qq.com ([43.154.221.58])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1pAp5e-0001RU-ST
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 04:20:44 -0500
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
+ id 1pAp7o-0002hW-D3; Thu, 29 Dec 2022 04:23:00 -0500
 X-QQ-Spam: true
-X-QQ-mid: bizesmtp73t1672305531tygke2oe
+X-QQ-mid: bizesmtp73t1672305534tbza5eg3
 Received: from ubuntu.. ( [111.196.135.79]) by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 29 Dec 2022 17:18:50 +0800 (CST)
+ id ; Thu, 29 Dec 2022 17:18:53 +0800 (CST)
 X-QQ-SSF: 01200000000000C0C000000A0000000
 From: Bin Meng <bmeng@tinylab.org>
 To: Alistair Francis <Alistair.Francis@wdc.com>,
 	qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 07/12] hw/char: riscv_htif: Support console output via
- proxy syscall
-Date: Thu, 29 Dec 2022 17:18:23 +0800
-Message-Id: <20221229091828.1945072-8-bmeng@tinylab.org>
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v2 08/12] hw/riscv: spike: Remove the out-of-date comments
+Date: Thu, 29 Dec 2022 17:18:24 +0800
+Message-Id: <20221229091828.1945072-9-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221229091828.1945072-1-bmeng@tinylab.org>
 References: <20221229091828.1945072-1-bmeng@tinylab.org>
@@ -39,7 +38,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
+Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
  helo=bg4.exmail.qq.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,13 +60,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At present the HTIF proxy syscall is unsupported. On RV32, only
-device 0 is supported so there is no console device for RV32.
-The only way to implement console funtionality on RV32 is to
-support the SYS_WRITE syscall.
-
-With this commit, the Spike machine is able to boot the 32-bit
-OpenSBI generic image.
+Spike machine now supports OpenSBI plain binary bios image, so the
+comments are no longer valid.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
@@ -76,44 +70,25 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 (no changes since v1)
 
- hw/char/riscv_htif.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ hw/riscv/spike.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-index 3bb0a37a3e..1477fc0090 100644
---- a/hw/char/riscv_htif.c
-+++ b/hw/char/riscv_htif.c
-@@ -48,6 +48,9 @@
- #define HTIF_CONSOLE_CMD_GETC   0
- #define HTIF_CONSOLE_CMD_PUTC   1
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 8606331f61..ab0a945f8b 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -256,11 +256,6 @@ static void spike_board_init(MachineState *machine)
+     memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
+                                 mask_rom);
  
-+/* PK system call number */
-+#define PK_SYS_WRITE            64
-+
- static uint64_t fromhost_addr, tohost_addr;
- static int address_symbol_set;
- 
-@@ -165,7 +168,19 @@ static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
-                 int exit_code = payload >> 1;
-                 exit(exit_code);
-             } else {
--                qemu_log_mask(LOG_UNIMP, "pk syscall proxy not supported\n");
-+                uint64_t syscall[8];
-+                cpu_physical_memory_read(payload, syscall, sizeof(syscall));
-+                if (syscall[0] == PK_SYS_WRITE &&
-+                    syscall[1] == HTIF_DEV_CONSOLE &&
-+                    syscall[3] == HTIF_CONSOLE_CMD_PUTC) {
-+                    uint8_t ch;
-+                    cpu_physical_memory_read(syscall[2], &ch, 1);
-+                    qemu_chr_fe_write(&s->chr, &ch, 1);
-+                    resp = 0x100 | (uint8_t)payload;
-+                } else {
-+                    qemu_log_mask(LOG_UNIMP,
-+                                  "pk syscall proxy not supported\n");
-+                }
-             }
-         } else {
-             qemu_log("HTIF device %d: unknown command\n", device);
+-    /*
+-     * Not like other RISC-V machines that use plain binary bios images,
+-     * keeping ELF files here was intentional because BIN files don't work
+-     * for the Spike machine as HTIF emulation depends on ELF parsing.
+-     */
+     if (riscv_is_32bit(&s->soc[0])) {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+                                     RISCV32_BIOS_BIN, memmap[SPIKE_DRAM].base,
 -- 
 2.34.1
 
