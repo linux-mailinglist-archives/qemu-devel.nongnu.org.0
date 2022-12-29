@@ -2,88 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0522A658E53
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 16:27:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B26658ED4
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 17:15:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAuly-0001os-0b; Thu, 29 Dec 2022 10:24:46 -0500
+	id 1pAvWt-0005Tw-W6; Thu, 29 Dec 2022 11:13:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAulg-0001dq-P1
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 10:24:31 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pAulc-00081F-N5
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 10:24:27 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id z10so17652282wrh.10
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 07:24:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o1dV9rndKpMpZ6RbwwsYpa5BpL6sSZw04vUACIltoTk=;
- b=Y5hvrcpa404eZqRSo3sz2yDUHB73ak4Oyd5QFjWK5Ol/xLtnUkVxRYzoGu32lwlSan
- lizma/IILn2etOnrV9Q40WC3IDIzra02vK8NT4Z8T3KHsYfpXtu6m3X3r9hs0KHnTA3g
- J44ZsnKGHiPsieOF0TmXsPtmHgOxJM0o+HbGACZw8bPeDSccfejBEm5WnrePTGyapa7y
- 0+BNR8IT05ui0PiAZLdyuAidmdYZPwzdZATymaH3UHkeHzwJ1CEDw+JtwVzZE7A2YCff
- kYE+Ku85RPVgvMzWrALqrPas5C2EBBMMJqaISpH2cYfEguiokFzs/Cx2cD/MBC7GqVa+
- EEHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=o1dV9rndKpMpZ6RbwwsYpa5BpL6sSZw04vUACIltoTk=;
- b=Vdl24FRDHk3gr7gqaxIlhVyJjP+ieq5NBCxCmPBCWPNGX6BPrHv+skrPln7McdheCn
- wzqccLfuLVJBHdop1Q/QiaddPVBHbwZbPbSP8wcRJJmOtx6v44G9jmm2cCAnTAG+6VbZ
- 853vgst2PqPP5Ai06rBO6DnY5Xde2R4hPOrDI2DuhEYxCJpneGp4tN7N3uDczqlf/d69
- yOx/hOT4WltAdltwSxMtWWToAAXYDOcJP4SkS9q7drXgA1bRYGPfPlLcMqLrCAEqXGTx
- n541ni1wjJH6zH2YirsCx467HUzyk9RcD512soCjcAUz/mho0vf/iu98npJgL0PoA2v6
- UCEQ==
-X-Gm-Message-State: AFqh2krTd/EgtGaA0l1S5Xm52QkJejCtGhmmGLU+uFKhUuA21OOxgAu8
- VbrxCkwb8UzzctUum64RJmHp7ekrMI9gKi37
-X-Google-Smtp-Source: AMrXdXtap2IiqwuYot1xNI7XhYFr0vrn6FvVz9ZvMQyhOX9z1PQ68b6ldcVRnH9/NfQ5ovwfHHJXpg==
-X-Received: by 2002:a5d:5587:0:b0:288:c07a:bac5 with SMTP id
- i7-20020a5d5587000000b00288c07abac5mr3782177wrv.49.1672327461347; 
- Thu, 29 Dec 2022 07:24:21 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- a18-20020a5d4d52000000b0028df2d57204sm461782wru.81.2022.12.29.07.24.17
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 29 Dec 2022 07:24:19 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Steven Lee <steven_lee@aspeedtech.com>, Peter Delevoryas <peter@pjd.dev>,
- Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Troy Lee <troy_lee@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Delevoryas <pdel@fb.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Jamin Lin <jamin_lin@aspeedtech.com>
-Subject: [PATCH 9/9] tests/avocado: Test Aspeed Zephyr SDK v00.01.08 on
- AST1030 board
-Date: Thu, 29 Dec 2022 16:23:25 +0100
-Message-Id: <20221229152325.32041-10-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221229152325.32041-1-philmd@linaro.org>
-References: <20221229152325.32041-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1pAvWs-0005Tk-Fn
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 11:13:14 -0500
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1pAvWq-0007hN-FW
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 11:13:14 -0500
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BTFd40o010841; Thu, 29 Dec 2022 16:13:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=6RsKS2GzFq8nNdgCoMIgN7ykw0fZakdv2GOo3FV5h7s=;
+ b=oEIFaenL4Ju0/SFmsTXEsFoWiTRM+NFVXpnijzFKGoVMeuw7Ixcj4WuCkToj7KJSDoYV
+ BBwBWrUyKw6iceJhG3WLz8UzO53Q49Xa5Xp77cSEzK/jocXGijGH2bEveCV7cBPE47Dt
+ oksm+wpW26YPVdU7FlFWL05Atfgp2HkORsE2gg2PU3+pOC9+eucH1RzJAxIpelU/WkHP
+ 61Pq9GfYf8hHLkkbxCyUn7nS4bSGV0N/PjgfmzuiQ1LUyCcsuaPJpYI0BDLnklQ81HDO
+ HjopiOisXX/zlUlUbVvMLYA0QhshIgEfyB5zMVyXPbovWnP4CD7Au3ODguzzmZwzskFf 4w== 
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ms2nr952e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Dec 2022 16:13:09 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AQhZy2iyW1R51Z073PwAo5NmXiI+dCUsyjyjQc27cLokNEB5dHdROpXZ2tYEGe534os4TO8b8LxKhG1W3h+vwo2jqDP8jFOJExZGTwFnsfmPV1dryZjwzHtWLadS4Y8K06ra++epObTFaIo+vL5XLoMIGEcvkjY6hNheIszhZa+bT/5gDp9IiEe7PCakyEQDv/XxYLaT7RlPvULmA5igjH/GMBo/AjmTq//5uKk1QG6s7d83TxXr7XEahnTYiMaZL1d7lBXxycxgoEnjxANeQF8k3SFfAW6EgIFMKTzpxjaCIOFCOSz8haiof6oUzwXBbCCqmgTU1HYIkos2fBPvgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6RsKS2GzFq8nNdgCoMIgN7ykw0fZakdv2GOo3FV5h7s=;
+ b=NrdIzzS8b3pHg0eDfZvR7+AEE8rj3W126rsXSHaQG/n/30abFxJNLcLFhxG1zPJRVLa/UaZSmNCF7QM2Awaizpg75Fr5uW0Dy1qTkaptvBIMcFOc5CW+NdBFYJJ+RzyoU5E6JXfCiiZRdE2QrbCrHEEJWJFz4MKn/RuBYtjFH7COtte83WwaawmXWSFEk69FGOumc6ql/d7uGZbisdRuHNM1osf/vm4/ASxdS4+xatn6uquO76oe+EM0RC78+kuK1RKY227l1w8IPQ8VcdnFRTWEu/qkg04RVk9n2ddblRDOWvXueuug1eFdUGSzzXM3WeYoN0JDrgUYsiE8d1yV8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ (2603:10b6:806:203::12) by DM6PR02MB6651.namprd02.prod.outlook.com
+ (2603:10b6:5:21b::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.16; Thu, 29 Dec
+ 2022 16:13:07 +0000
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::8ba2:2429:9eea:75fc]) by SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::8ba2:2429:9eea:75fc%6]) with mapi id 15.20.5944.016; Thu, 29 Dec 2022
+ 16:13:07 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: "Mukilan Thiyagarajan (QUIC)" <quic_mthiyaga@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "laurent@vivier.eu"
+ <laurent@vivier.eu>
+CC: Brian Cain <bcain@quicinc.com>, "richard.henderson@linaro.org"
+ <richard.henderson@linaro.org>, "alex.bennee@linaro.org"
+ <alex.bennee@linaro.org>
+Subject: RE: [PATCH 1/2] linux-user/hexagon: fix signal context save & restore
+Thread-Topic: [PATCH 1/2] linux-user/hexagon: fix signal context save & restore
+Thread-Index: AQHZGgjTOOtBEyACFUyjqeVHPtIgrq6DlNpAgAEGqoCAAHEVcA==
+Date: Thu, 29 Dec 2022 16:13:07 +0000
+Message-ID: <SN4PR0201MB880830E4B5336690337C93D2DEF39@SN4PR0201MB8808.namprd02.prod.outlook.com>
+References: <20221227153447.2729-1-quic_mthiyaga@quicinc.com>
+ <20221227153447.2729-2-quic_mthiyaga@quicinc.com>
+ <SN4PR0201MB88089A3D541389E5DE6D2511DEF29@SN4PR0201MB8808.namprd02.prod.outlook.com>
+ <MWHPR0201MB3497E4CA18DBC12E1A990BE6F4F39@MWHPR0201MB3497.namprd02.prod.outlook.com>
+In-Reply-To: <MWHPR0201MB3497E4CA18DBC12E1A990BE6F4F39@MWHPR0201MB3497.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|DM6PR02MB6651:EE_
+x-ms-office365-filtering-correlation-id: 6fce8c13-fbee-44ef-a4f9-08dae9b79285
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RoZG5MNpmJrPwXbdZ1iM6sJVtS4N0haPdkFTcrcbuff/JODMPQDusFzfJEJnOiUB8CtXWR0Cd7RyB6UuDVk55z9l+M6Ixby4azOBoJhFMp/LstJOiQb60vjEUsOvVVTRFf3a8cRebStjnR2bTBzopctM+xwLtvemqqoI3N+8jFDaUiQQymSjfbrFWFa7BRWIH6rdQxpmZmyEg4+ROY/N83BPUzi8Rt9yMAjfdltQiop2BCj8R6JhzLegKImebb7lwrQKvj0VYJNPlDBL+mb3MPkOyXvN+lEt48bVbatrmeKgppE+WU1nRtKSZ1ieShwXIhntpV0vyGdCBpxzeZ9QF6xZtAxJOOqzOkt5De7m1quKsUM/5kv6We2BdN5cFo7YkJCb7ImQF1moukRiE/s81Cv97xYI/4eyFOaw7IIarg68YvBpObTCQ64piQHw/6sgdiOoqnrgZ9AdlRKrxQ4k8jf3LAIkgGC005P6aPSWdpCTOe6uXvR0S7RxOPSkt7Tik7f1INxnUJy+7T/WGwg+sOy0lfuFso4++/Iofpic+UiqQzI/I4SRBqviCn0Ae9iazejNrFxAo9x3gJB1oD788bMgGqv6BsDOBywmqdAb6DLlHmck8zLMUlp6wYryovDZavDSwnbWE5jMOT2dwAvBvAKTmpD8rgaRw3vvO5zML7cJrS3QpeZoJjQqhrqCkl2fvbaqWxYbQjh7wL4JMFPxKaEnOAj8aU68kjMghTSMRNo=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(39860400002)(376002)(136003)(366004)(396003)(451199015)(5660300002)(2906002)(8936002)(7696005)(52536014)(83380400001)(64756008)(66946007)(66476007)(66446008)(66556008)(4326008)(76116006)(8676002)(38100700002)(122000001)(478600001)(966005)(53546011)(6506007)(9686003)(41300700001)(38070700005)(86362001)(71200400001)(186003)(26005)(33656002)(55016003)(316002)(110136005)(54906003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NfA6dnrwM2WIjTxkIrOmQwsiuzVCRUkJzqB8ZGt4GYrDhpY9lkSm8NvZKReK?=
+ =?us-ascii?Q?fROFOwAKzfQW+t+87bJNd38CZHUoOmwCZD1KJWnOTqFAT5LhhZveOSNjj7wO?=
+ =?us-ascii?Q?oNCm96Aju4l/cztmVpbOW22lOxCGHy06sQ5J0BVyvZEHp3Zj41jCHLa50UTD?=
+ =?us-ascii?Q?XTKJ0GPstv1GodT+0aHkw3oMqy7BKvKW7LnE8IH4Jckmuhv+lA16yt55zMbX?=
+ =?us-ascii?Q?7coEst8Be1ldiWYF3gUFbkGGT/a2bb+DU7nsNYob46dC1Hfe1R18ZI95G4yx?=
+ =?us-ascii?Q?4sUG6ylm7b3X2z/K/1P4WRF5Xi6R/EykAHnODVFOWJTtdXUQF9oUQengf910?=
+ =?us-ascii?Q?0481FJuFp7R8yxPseBJM+1ljKqdU9i0FVAc+debDk0s606Nc150l0keTS+5K?=
+ =?us-ascii?Q?yXHZCCoI6FkUthrxkaqZBu1v35j4OQ+u0haNda/rYrjtOQy3s9Jqa00t+e2m?=
+ =?us-ascii?Q?tyVb1CeGBkfGryihbtmq3jU+KH560Jm48CZJ/ZWf2j4AxBfLD0iMeuNrdtTv?=
+ =?us-ascii?Q?EIZc8TBhByjcAuCcbMdx2gePhctmBh0FL6XbrhqXzts5r1zMhx4rj2m1Yt5s?=
+ =?us-ascii?Q?S8wNyKaNEXLTCIwSB9NOZ/iVCF8uOr+lRHPXIJWti6Tgmw30wVC3+gue2ybt?=
+ =?us-ascii?Q?DJs1fM7+hUxv1YCMi2qgKdmT+yo/RmW6vWbc9WUX0SxPgfq060gbdctC1EVf?=
+ =?us-ascii?Q?6x4TU/YB5VeQFpEBgflSSXpj4PqE5GuzLkWpmPys710TbLxEn2uDgztjbaSM?=
+ =?us-ascii?Q?lSrUwcaiLOivIAm/vrbPIghPjCsZSFZAxP8mgaJ1ckl2rYh9QB69SxEX9V2L?=
+ =?us-ascii?Q?lvM5oOPIfBjDSF+XtHDN+GX/IccAG/ZxsORpHtRQtwtFZiGoEkKjC9aa5JQv?=
+ =?us-ascii?Q?Lc/w9gV6kJg14IfvZGSf1SE4J4E5HndIQUeCsCl1DrrqY89fg/FfR/iv+QZH?=
+ =?us-ascii?Q?8ifM1cXFV2A4g53WDXsUP+ohsYWz22OLB6yHKLRRd6Y6eI7z9Fd9ra55iFtc?=
+ =?us-ascii?Q?F5bIpuaHuuKvgTPGAU2NOu/pktGiHHExm4TMaP4wOppT+pcvZAf4iRokgrNn?=
+ =?us-ascii?Q?FYvGlCs29MJ1ugHQAQkHxFOlW+xG2hDYyMDm5IaYzhUVW/24WFfAt4DKd1C8?=
+ =?us-ascii?Q?uwGZ4YWJeJduowhx5ddhtcRfAWTkCjlc6rBm5gS5qBvv//OGrrai4yFd4HBN?=
+ =?us-ascii?Q?fxAIGcGR6CEaRryApT909nOQxMMbAbQCwpgMYvbYQZ0UswhgEsen/Hiw+C6H?=
+ =?us-ascii?Q?xV7XC170srAEuGMqFqwvzWGD81x6EkasUCmZGysTX3jkmAKKK/2Agx5g6HIG?=
+ =?us-ascii?Q?n6P24EjEOwfDewDujWXZh72acidLeSN8RWKO6b/79jt3dASgu8LTqsZRnwet?=
+ =?us-ascii?Q?gS+pVU6sa2bc5yqDIDMqRWcNG7NhFJDP/sZGR+x7Fs0De80NzhwJuRIe/9RT?=
+ =?us-ascii?Q?xkgmBkowfDKTo5jC+FZG89fyDkhl4+QZ63DM7QnfPKSIwX7T39xVbR99gVjC?=
+ =?us-ascii?Q?rHge2TQ7liwgAlvE6yWT6YM07VInnW3GnmDEJABa56o5AJCXC0tr5SkF1crM?=
+ =?us-ascii?Q?el/QUmPEJ4hLDdtw3GC1EXmWzCLYxJsfmN6dvO5u?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fce8c13-fbee-44ef-a4f9-08dae9b79285
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Dec 2022 16:13:07.2240 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ggq8N7PelTWFGMhNs0mXMHg5HwF1LEg/sfwdry/bInDmbKxj4CQKZh5g1PLCRir36tVOKW9nvZqwqm/ee+wztQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6651
+X-Proofpoint-ORIG-GUID: 5O2cTTOjVFqmdHFxJD8-3sCrpnR2gYer
+X-Proofpoint-GUID: 5O2cTTOjVFqmdHFxJD8-3sCrpnR2gYer
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-29_08,2022-12-29_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0
+ impostorscore=0 malwarescore=0 phishscore=0 mlxlogscore=590 spamscore=0
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212290134
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,195 +164,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a very quick test that runs some commands in a Zephyr shell:
+Yes, the formatting is correct in patchew.
 
-  $ tests/venv/bin/avocado --show=app,console run -t os:zephyr tests/avocado
-  (2/2) tests/avocado/machine_aspeed.py:AST1030Machine.test_ast1030_zephyros_1_07:
-  console: *** Booting Zephyr OS build v00.01.07  ***
-  console: ast1030_evb demo
-  console: SOC: AST1030-A1
-  console: uart:~$ kernel stacks
-  console: 0x36910 wdt_background (real size 1024):	unused 988	usage 36 / 1024 (3 %)
-  console: 0x36ad8 shell_uart (real size 4096):	unused 3084	usage 1012 / 4096 (24 %)
-  console: 0x2edb8 ADC0       (real size 400):	unused 260	usage 140 / 400 (35 %)
-  console: 0x2f0f0 ADC1       (real size 400):	unused 260	usage 140 / 400 (35 %)
-  console: 0x3b098 sysworkq   (real size 1024):	unused 860	usage 164 / 1024 (16 %)
-  console: 0x36cc0 usbdworkq  (real size 1024):	unused 860	usage 164 / 1024 (16 %)
-  console: 0x36bd8 usbworkq   (real size 1024):	unused 860	usage 164 / 1024 (16 %)
-  console: 0x36a10 logging    (real size 768):	unused 548	usage 220 / 768 (28 %)
-  console: 0x36ef8 idle 00    (real size 320):	unused 268	usage 52 / 320 (16 %)
-  console: 0x47800 IRQ 00     (real size 2048):	unused 1504	usage 544 / 2048 (26 %)
-  console: uart:~$ otp info scu
-  console: SCU     BIT   reg_protect     Description
-  console: ____________________________________________________________________
-  console: 0x500   0x0   0x0             Disable ARM CM4 CPU boot (TXD5)
-  console: 0x500   0x1   0x0            /Reserved
-  console: 0x500   0x2   0x0            \ "
-  console: 0x500   0x3   0x0             Address offset of single chip ABR mode
-  console: 0x500   0x4   0x0            /Reserved
-  console: 0x500   0x5   0x0            | "
-  console: 0x500   0x6   0x0            | "
-  console: 0x500   0x7   0x0            | "
-  console: 0x500   0x8   0x0            | "
-  console: 0x500   0x9   0x0            | "
-  console: 0x500   0xA   0x0            | "
-  console: 0x500   0xB   0x0            | "
-  console: 0x500   0xC   0x0            | "
-  console: 0x500   0xD   0x0            | "
-  console: 0x500   0xE   0x0            | "
-  console: 0x500   0xF   0x0            | "
-  console: 0x500   0x10  0x0            \ "
-  console: 0x500   0x11  0x0             Disabl3 ARM JTAG debug
-  console: 0x500   0x12  0x0            /Reserved
-  console: 0x500   0x13  0x0            | "
-  console: 0x500   0x14  0x0            | "
-  console: 0x500   0x15  0x0            | "
-  console: 0x500   0x16  0x0            | "
-  console: 0x500   0x17  0x0            | "
-  console: 0x500   0x18  0x0            | "
-  console: 0x500   0x19  0x0            | "
-  console: 0x500   0x1A  0x0            | "
-  console: 0x500   0x1B  0x0            | "
-  console: 0x500   0x1C  0x0            | "
-  console: 0x500   0x1D  0x0            | "
-  console: 0x500   0x1E  0x0            | "
-  console: 0x500   0x1F  0x0            \ "
-  console: 0x510   0x0   0x0            /Reserved
-  console: 0x510   0x1   0x0            | "
-  console: 0x510   0x2   0x0            | "
-  console: 0x510   0x3   0x0            \ "
-  console: 0x510   0x4   0x0             Disable debug interfaces
-  console: 0x510   0x5   0x0            /Reserved
-  console: 0x510   0x6   0x0            | "
-  console: 0x510   0x7   0x0            \ "
-  console: 0x510   0x8   0x0             Enable boot from Uart5 by Pin Strap
-  console: 0x510   0x9   0x0            /Reserved
-  console: 0x510   0xA   0x0            \ "
-  console: 0x510   0xB   0x0             Enable boot SPI ABR
-  console: 0x510   0xC   0x0             Boot SPI ABR Mode
-  console: 0x510   0xD   0x0            /Boot SPI flash size
-  console: 0x510   0xE   0x0            | "
-  console: 0x510   0xF   0x0            \ "
-  console: 0x510   0x10  0x0            /Reserved
-  console: 0x510   0x11  0x0            | "
-  console: 0x510   0x12  0x0            | "
-  console: 0x510   0x13  0x0            | "
-  console: 0x510   0x14  0x0            | "
-  console: 0x510   0x15  0x0            \ "
-  console: 0x510   0x16  0x0             Enable boot SPI auxiliary control pins
-  console: 0x510   0x19  0x0            /Reserved
-  console: 0x510   0x1A  0x0            | "
-  console: 0x510   0x1B  0x0            | "
-  console: 0x510   0x1C  0x0            | "
-  console: 0x510   0x1D  0x0            | "
-  console: 0x510   0x1E  0x0            | "
-  console: 0x510   0x1F  0x0            \ "
-  console: 0x510   0x1E  0x0             Enable dedicate GPIO strap pins
-  console: 0x510   0x1F  0x0             Enable Secure Boot by Pin Strap
-  console: uart:~$ hwinfo devid
-  console: Length: 8
-  console: ID: 0x0000018000000180
-  console: uart:~$ crypto aes256_cbc_vault
-  console: aes256_cbc vault key 1
-  console: Was waiting for:
-  console: 6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a
-  console: ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51
-  console: 30 c8 1c 46 a3 5c e4 11 e5 fb c1 19 1a 0a 52 ef
-  console: f6 9f 24 45 df 4f 9b 17 ad 2b 41 7b e6 6c 37 10
-  console: But got:
-  console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  console: uart:~$ random get
-  console: 0x862460d
-  console: uart:~$ i2c scan I2C_0
-  console: 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
-  console: 00:             -- -- -- -- -- -- -- -- -- -- -- --
-  console: 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 50: 50 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 70: -- -- -- -- -- -- -- --
-  console: 1 devices found on I2C_0
-  console: uart:~$ kernel uptime
-  console: Uptime: 9897 ms
-  console: uart:~$ kernel reboot warm
-  console: *** Booting Zephyr OS build v00.01.07  ***
-  PASS (1.08 s)
+I'll include these in my next PR.
 
-Ref: https://github.com/AspeedTech-BMC/zephyr/releases/download/v00.01.07/Aspeed_Zephy_SDK_User_Guide_v00.01.07.pdf
+Thanks,
+Taylor
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- tests/avocado/machine_aspeed.py | 41 ++++++++++++++++++++++++++++++++-
- 1 file changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-index 1fc385e1c8..11f5b17eb9 100644
---- a/tests/avocado/machine_aspeed.py
-+++ b/tests/avocado/machine_aspeed.py
-@@ -22,10 +22,11 @@ class AST1030Machine(QemuSystemTest):
- 
-     timeout = 10
- 
--    def test_ast1030_zephyros(self):
-+    def test_ast1030_zephyros_1_04(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:ast1030-evb
-+        :avocado: tags=os:zephyr
-         """
-         tar_url = ('https://github.com/AspeedTech-BMC'
-                    '/zephyr/releases/download/v00.01.04/ast1030-evb-demo.zip')
-@@ -41,6 +42,44 @@ def test_ast1030_zephyros(self):
-         exec_command_and_wait_for_pattern(self, "help",
-                                           "Available commands")
- 
-+    def test_ast1030_zephyros_1_07(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:ast1030-evb
-+        :avocado: tags=os:zephyr
-+        """
-+        tar_url = ('https://github.com/AspeedTech-BMC'
-+                   '/zephyr/releases/download/v00.01.07/ast1030-evb-demo.zip')
-+        tar_hash = '40ac87eabdcd3b3454ce5aad11fedc72a33ecda2'
-+        tar_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-+        archive.extract(tar_path, self.workdir)
-+        kernel_file = self.workdir + "/ast1030-evb-demo/zephyr.bin"
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', kernel_file,
-+                         '-nographic')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, "Booting Zephyr OS")
-+        for shell_cmd in [
-+                'kernel stacks',
-+                'otp info conf',
-+                'otp info scu',
-+                'hwinfo devid',
-+                'crypto aes256_cbc_vault',
-+                'random get',
-+                'jtag JTAG1 sw_xfer high TMS',
-+                'adc ADC0 resolution 12',
-+                'adc ADC0 read 42',
-+                'adc ADC1 read 69',
-+                'i2c scan I2C_0',
-+                'i3c attach I3C_0',
-+                'hash test',
-+                'kernel uptime',
-+                'kernel reboot warm',
-+                'kernel uptime',
-+                'kernel reboot cold',
-+                'kernel uptime',
-+        ]: exec_command_and_wait_for_pattern(self, shell_cmd, "uart:~$")
-+
- class AST2x00Machine(QemuSystemTest):
- 
-     timeout = 90
--- 
-2.38.1
+> -----Original Message-----
+> From: Mukilan Thiyagarajan (QUIC) <quic_mthiyaga@quicinc.com>
+> Sent: Thursday, December 29, 2022 3:28 AM
+> To: Taylor Simpson <tsimpson@quicinc.com>; Mukilan Thiyagarajan (QUIC)
+> <quic_mthiyaga@quicinc.com>; qemu-devel@nongnu.org;
+> laurent@vivier.eu
+> Cc: Brian Cain <bcain@quicinc.com>; richard.henderson@linaro.org;
+> alex.bennee@linaro.org
+> Subject: RE: [PATCH 1/2] linux-user/hexagon: fix signal context save &
+> restore
+>=20
+> >> +        : : : "r7", "p0", "p1", "p2", "p3"); }
+> > Put the curly on the next line.
+>=20
+> Not sure if this issue is on my end or your mail client, but the formatti=
+ng
+> appears to be correct in the patchew:
+> https://patchew.org/QEMU/20221227153447.2729-1-
+> quic._5Fmthiyaga@quicinc.com/20221227153447.2729-2-
+> quic._5Fmthiyaga@quicinc.com/
+>=20
+> I've addressed the other review comments in v2:
+> https://patchew.org/QEMU/20221229092006.10709-1-
+> quic._5Fmthiyaga@quicinc.com/20221229092006.10709-2-
+> quic._5Fmthiyaga@quicinc.com/
+>=20
+> Please let me know if the formatting is still off.
+>=20
+> Thanks,
+> Mukilan
+>=20
+> -----Original Message-----
+> From: Taylor Simpson <tsimpson@quicinc.com>
+> Sent: Wednesday, December 28, 2022 11:35 PM
+> To: Mukilan Thiyagarajan (QUIC) <quic_mthiyaga@quicinc.com>; qemu-
+> devel@nongnu.org; laurent@vivier.eu
+> Cc: Brian Cain <bcain@quicinc.com>; richard.henderson@linaro.org;
+> alex.bennee@linaro.org
+> Subject: RE: [PATCH 1/2] linux-user/hexagon: fix signal context save &
+> restore
+>=20
+>=20
+>=20
+> > -----Original Message-----
+> > From: Mukilan Thiyagarajan (QUIC) <quic_mthiyaga@quicinc.com>
+> > Sent: Tuesday, December 27, 2022 9:35 AM
+> > To: qemu-devel@nongnu.org; Taylor Simpson <tsimpson@quicinc.com>;
+> > laurent@vivier.eu
+> > Cc: Brian Cain <bcain@quicinc.com>; richard.henderson@linaro.org;
+> > alex.bennee@linaro.org; Mukilan Thiyagarajan (QUIC)
+> > <quic_mthiyaga@quicinc.com>
+> > Subject: [PATCH 1/2] linux-user/hexagon: fix signal context save &
+> > restore
+> >
+> > diff --git a/tests/tcg/hexagon/signal_context.c
+> > b/tests/tcg/hexagon/signal_context.c
+> > new file mode 100644
+> > index 0000000000..297e6915a4
+> > --- /dev/null
+> > +++ b/tests/tcg/hexagon/signal_context.c
+> > @@ -0,0 +1,84 @@
+> > +/*
+> > + *  Copyright(c) 2019-2022 Qualcomm Innovation Center, Inc. All
+> > +Rights
+>=20
+> Since this is a new file, only list 2022 (not 2019-2022).
+>=20
+> > +void sig_user(int sig, siginfo_t *info, void *puc) {
+> > +    asm("r7 =3D #0\n\t"
+> > +        "p0 =3D r7\n\t"
+> > +        "p1 =3D r7\n\t"
+> > +        "p2 =3D r7\n\t"
+> > +        "p3 =3D r7\n\t"
+> > +        : : : "r7", "p0", "p1", "p2", "p3"); }
+>=20
+> Put the curly on the next line.
+>=20
+> > +
+> > +int main()
+> > +{
+> > +
+> > +    struct sigaction act;
+> > +    struct itimerspec it;
+> > +    timer_t tid;
+> > +    struct sigevent sev;
+> > +    act.sa_sigaction =3D sig_user;
+> > +    sigemptyset(&act.sa_mask);
+> > +    act.sa_flags =3D SA_SIGINFO;
+> > +    sigaction(SIGUSR1, &act, NULL);
+> > +    sev.sigev_notify =3D SIGEV_SIGNAL;
+> > +    sev.sigev_signo =3D SIGUSR1;
+> > +    sev.sigev_value.sival_ptr =3D &tid;
+> > +    timer_create(CLOCK_REALTIME, &sev, &tid);
+> > +    it.it_interval.tv_sec =3D 0;
+> > +    it.it_interval.tv_nsec =3D 100000;
+> > +    it.it_value.tv_sec =3D 0;
+> > +    it.it_value.tv_nsec =3D 100000;
+> > +    timer_settime(tid, 0, &it, NULL);
+> > +
+> > +    int err =3D 0;
+> > +    unsigned int i =3D 100000;
+>=20
+> Put these declarations at the beginning of the function before any code
+>=20
+> > +    return err;
+>=20
+> Before return err, do puts(err ? "FAIL" : "PASS");
+>=20
+> Otherwise
+> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+>=20
 
 
