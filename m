@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095E46591B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 21:44:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF556591BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Dec 2022 21:45:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pAzjv-00024G-QD; Thu, 29 Dec 2022 15:42:59 -0500
+	id 1pAzll-0002wP-6S; Thu, 29 Dec 2022 15:44:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pAzjt-00021s-Js; Thu, 29 Dec 2022 15:42:57 -0500
+ id 1pAzli-0002vX-OK; Thu, 29 Dec 2022 15:44:50 -0500
 Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pAzjs-0003lo-3u; Thu, 29 Dec 2022 15:42:57 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 4D9445C0056;
- Thu, 29 Dec 2022 15:42:54 -0500 (EST)
+ id 1pAzlh-0003vs-33; Thu, 29 Dec 2022 15:44:50 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 576215C00F3;
+ Thu, 29 Dec 2022 15:44:48 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 29 Dec 2022 15:42:54 -0500
+ by compute1.internal (MEProxy); Thu, 29 Dec 2022 15:44:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1672346574; x=
- 1672432974; bh=HBu7xmxCt+7VOIuxzAq79bW4ajMwIqXK7XCeCDT5B2I=; b=E
- YZH6QhKObOdDEENCF14zqyZGDT84YK+dw6REzeiBA8tItprFxcnDZ2JEwGWQ3B9g
- 3iqiQYHNndNI3GbKtG2+TNX3xI5GdXnDMiYc99Z/JmCL6ysQCsw/5E+2HON1ezOB
- xc85EwRTO0wfZ7Lnvq7UaTSLpyTfqhxohu628Oj1oVVH5HaF7lLFsDDmnPi2r75r
- 9byDwfO2aVu1f6msjJyhkCpl6K5bb8BkYpf6G/gxlXxPrAahpv2CiA6LMe2vOiUY
- tgzWSNfrYnUqfltSuV9edAt9LV8pkkAwkpSDn+kOblWEU2xaX5UogVhdSE8oTgMU
- jt/FwP8E81YYH0C/6WzYw==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1672346688; x=
+ 1672433088; bh=6YmjZ35Vr6oKw173bF8vv6FpKv26K7ulaTwongPyvg0=; b=G
+ ne+2UoZU0MQ0rDJW4rjKIiXnPwY0a5XvYyCmJKSdcndlmE0Z4fIJQKw7ktSuZ3y1
+ B8He6VJglEYibjc59T6SxxRLsPcYcQwe+J2rIU0Fj/4QQuUK8Tag34R7GoDDiXv8
+ 0bULk9kan2jOGc1wi0vy9cVyRRvc8lojYc7YiTgLYYg8NX9l60k1FfQNl1/UaUFa
+ ANspyj9G1peatPGJCUoNRwvRIg7WLGmUy10bLAZbFDmmzQbSx+gkeYeJIUkV1JQj
+ 9O1SIcazkxH/ye0ya3bOQzSvcBYuKciWH2GL6xG+c3VlXTTH0A2vcDrv8So8bT7c
+ 6zGBLi8xeRt0nQ9D0lwug==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672346574; x=
- 1672432974; bh=HBu7xmxCt+7VOIuxzAq79bW4ajMwIqXK7XCeCDT5B2I=; b=I
- Xqa0R3WrBKxl/q363Kf4+NAk0B2yjEoEObQ8Em1FTe4pgNM8fST3r8JDgHOlxIuY
- YEKpvfEPclwxb08NVSJL0FiZOF89bRLJpJB4oN1IXCxQRZJxBS6/jr43RhJg0nWc
- V7bYc/DwbuYWGNvol7evB+85TpfFvb1m+EIi2jBKtIPngjqlJlfyNlIcP7xbJtMW
- Vk/0+lOiUopUwLSdnBT3Ul+XgkCvCzzPBhZikCXEFqlu1kFcV6DTL2qrLGvKDXPm
- fzdvvA4a5tEeAcMO4t5FpU+0sehR+YrJbf2ObN8+rE5Hux77SA5A5LYVelyWo7xV
- ucIr5gR8H1DxuC/swY2RQ==
-X-ME-Sender: <xms:zvutY-ascshxva1u6fIFNpjGX6XCCepRgueJF_wQdhC2i4AWMXJAOw>
- <xme:zvutYxZeKICtZFEmOvvrcyzQk67jtx1sbU5ZnE_JB-oF6CWgffgHldYb7dda542Wz
- yT1spE3oR2egcxw02g>
-X-ME-Received: <xmr:zvutY48rYJ2luKUPKZgcpYluWeonHg9oRZB0n3ghFK7CvYf-KRX3BFvto5pr_DUmRVsBwrk-3_YkQySIXA4Ymw>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672346688; x=
+ 1672433088; bh=6YmjZ35Vr6oKw173bF8vv6FpKv26K7ulaTwongPyvg0=; b=b
+ 5jYfu5XjBgjhuEfAIzR779r13wzJmQRGIIv6Yl1j/V3qZhBk/dxqNj+JvqrJL3ul
+ vnyqarEqe/maS7waWu5EGHt7CiODW8AFUhPWiMFT7d6DEtSfLooApoKH/XONUYuV
+ 4z/xacf+rBecaczLPVw5pumgKW0yF2+MbnReJ8u61cvfEqH4w2PR7ApLWpgRZ828
+ ewbwO/0LkGBvqWWrnmCvGuNFLaUGCuoh+TqsRaLRWfnFMZoQZakPS27M6VT/6cwZ
+ /wgpbjwYEN31yWZYz7HJA+LHaXSz90H1EQMZYnkkFGMtWjOEK0T93+pzmDguQJFM
+ y585a9rLr4o0WFa75Z7ZA==
+X-ME-Sender: <xms:QPytY3FDcNjBistNT4Z5kFjowZMBbDy3IEePzKZCzc93tntjgHcAnQ>
+ <xme:QPytY0VZhnaN7xFk8Z5GAcWta4YqhLWz1K69qmLxaWL8J2MLInT_ZKh9ezU6tzzsH
+ qWjM3Ysglwlg-LibUY>
+X-ME-Received: <xmr:QPytY5JYZETs415iXPa7aMHeG1bWTP8jfLV4XIu8_bs7ceO5nfbeFsRBmjHpEMjvKxvvuYvFfPv-V8L-4Rivww>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeggddugeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
  vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
- htthgvrhhnpefhgeffvedufeevteegkeetieejhffhudeujedvgedvheffheejveethffh
- ffefueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:zvutYwpyzNcJDI4oB8k3jIZHeNI_EpWBElzTrVPe8BRNtEGOexAilg>
- <xmx:zvutY5pO_Zl-KM4UP4WjR-2IJ25JEx-c7RXNnNCihgmlkivxjmjYuw>
- <xmx:zvutY-RvV6iHNt0-IpS2MrhWcdQfSByAfQUmRNuDFAfEqnc3o93VAQ>
- <xmx:zvutY64GcuyBCOeE3SKWj_QNB1S5F-3pT1h-FBWNF2I_5wAidjVsgQ>
+ htthgvrhhnpefgueekffdtueetgfehteffledtueehgfehgeelfedujeefhfffteekvddt
+ feetteenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:QPytY1FOyM3KVqytxrffS9ypY-Ep66FjIEzuousYV6sL8rFzlOfN7Q>
+ <xmx:QPytY9XilUERVO0xuhiM6PtbkfxkFpT8InDdRsOx_GTlKcwyRYwGxQ>
+ <xmx:QPytYwOP3-mXTnNwRiqXML5eM057TO7VMnWOpOgqVOrZRNwZP-qH0g>
+ <xmx:QPytYyXc-x-pUrYBtQf6iTkVVv0sU26JOgg9uOzUSrG7Kisjg3su2Q>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Dec 2022 15:42:52 -0500 (EST)
-Date: Thu, 29 Dec 2022 12:42:50 -0800
+ 29 Dec 2022 15:44:46 -0500 (EST)
+Date: Thu, 29 Dec 2022 12:44:44 -0800
 From: Peter Delevoryas <peter@pjd.dev>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, Steven Lee <steven_lee@aspeedtech.com>,
@@ -76,15 +76,16 @@ Cc: qemu-devel@nongnu.org, Steven Lee <steven_lee@aspeedtech.com>,
  Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
  =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
  Peter Delevoryas <pdel@fb.com>, Jamin Lin <jamin_lin@aspeedtech.com>
-Subject: Re: [PATCH 2/9] hw/arm/aspeed: Use the IEC binary prefix definitions
-Message-ID: <Y637ygvJH5ge7rYY@pdel-mbp.dhcp.thefacebook.com>
+Subject: Re: [PATCH 3/9] hw/arm/aspeed_ast10x0: Add various unimplemented
+ peripherals
+Message-ID: <Y638PCXC2eF+eUru@pdel-mbp.dhcp.thefacebook.com>
 References: <20221229152325.32041-1-philmd@linaro.org>
- <20221229152325.32041-3-philmd@linaro.org>
+ <20221229152325.32041-4-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221229152325.32041-3-philmd@linaro.org>
+In-Reply-To: <20221229152325.32041-4-philmd@linaro.org>
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=peter@pjd.dev;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -109,85 +110,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 29, 2022 at 04:23:18PM +0100, Philippe Mathieu-Daudé wrote:
-> IEC binary prefixes ease code review: the unit is explicit.
+:n Thu, Dec 29, 2022 at 04:23:19PM +0100, Philippe Mathieu-Daudé wrote:
+> Based on booting Zephyr demo from [1] running QEMU with
+> '-d unimp' and checking missing devices in [2].
+> 
+> [1] https://github.com/AspeedTech-BMC/zephyr/releases/tag/v00.01.07
+> [2] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Oh, yeah, another good idea.
+Oh cool, yeah looks good.
 
 Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->  hw/arm/aspeed_ast10x0.c | 3 ++-
->  hw/arm/aspeed_ast2600.c | 3 ++-
->  hw/arm/aspeed_soc.c     | 4 ++--
->  3 files changed, 6 insertions(+), 4 deletions(-)
+>  hw/arm/aspeed_ast10x0.c     | 35 +++++++++++++++++++++++++++++++++++
+>  include/hw/arm/aspeed_soc.h | 11 +++++++++++
+>  2 files changed, 46 insertions(+)
 > 
 > diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-> index 122b3fd3f3..3500294df7 100644
+> index 3500294df7..d7dbc1a801 100644
 > --- a/hw/arm/aspeed_ast10x0.c
 > +++ b/hw/arm/aspeed_ast10x0.c
-> @@ -10,6 +10,7 @@
->   */
+> @@ -28,10 +28,15 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
+>      [ASPEED_DEV_FMC]       = 0x7E620000,
+>      [ASPEED_DEV_SPI1]      = 0x7E630000,
+>      [ASPEED_DEV_SPI2]      = 0x7E640000,
+> +    [ASPEED_DEV_UDC]       = 0x7E6A2000,
+>      [ASPEED_DEV_SCU]       = 0x7E6E2000,
+> +    [ASPEED_DEV_JTAG0]     = 0x7E6E4000,
+> +    [ASPEED_DEV_JTAG1]     = 0x7E6E4100,
+>      [ASPEED_DEV_ADC]       = 0x7E6E9000,
+> +    [ASPEED_DEV_ESPI]      = 0x7E6EE000,
+>      [ASPEED_DEV_SBC]       = 0x7E6F2000,
+>      [ASPEED_DEV_GPIO]      = 0x7E780000,
+> +    [ASPEED_DEV_SGPIOM]    = 0x7E780500,
+>      [ASPEED_DEV_TIMER1]    = 0x7E782000,
+>      [ASPEED_DEV_UART1]     = 0x7E783000,
+>      [ASPEED_DEV_UART2]     = 0x7E78D000,
+> @@ -79,12 +84,17 @@ static const int aspeed_soc_ast1030_irqmap[] = {
+>      [ASPEED_DEV_LPC]       = 35,
+>      [ASPEED_DEV_PECI]      = 38,
+>      [ASPEED_DEV_FMC]       = 39,
+> +    [ASPEED_DEV_ESPI]      = 42,
+>      [ASPEED_DEV_PWM]       = 44,
+>      [ASPEED_DEV_ADC]       = 46,
+>      [ASPEED_DEV_SPI1]      = 65,
+>      [ASPEED_DEV_SPI2]      = 66,
+>      [ASPEED_DEV_I2C]       = 110, /* 110 ~ 123 */
+>      [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
+> +    [ASPEED_DEV_UDC]       = 9,
+> +    [ASPEED_DEV_SGPIOM]    = 51,
+> +    [ASPEED_DEV_JTAG0]     = 27,
+> +    [ASPEED_DEV_JTAG1]     = 53,
+>  };
 >  
->  #include "qemu/osdep.h"
-> +#include "qemu/units.h"
->  #include "qapi/error.h"
->  #include "exec/address-spaces.h"
->  #include "sysemu/sysemu.h"
-> @@ -348,7 +349,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
->      sc->name = "ast1030-a1";
->      sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
->      sc->silicon_rev = AST1030_A1_SILICON_REV;
-> -    sc->sram_size = 0xc0000;
-> +    sc->sram_size = 768 * KiB;
->      sc->spis_num = 2;
->      sc->ehcis_num = 0;
->      sc->wdts_num = 4;
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index a79e05ddbd..72df72a540 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -8,6 +8,7 @@
->   */
+>  static qemu_irq aspeed_soc_ast1030_get_irq(AspeedSoCState *s, int dev)
+> @@ -155,6 +165,15 @@ static void aspeed_soc_ast1030_init(Object *obj)
+>      object_initialize_child(obj, "iomem", &s->iomem, TYPE_UNIMPLEMENTED_DEVICE);
+>      object_initialize_child(obj, "sbc-unimplemented", &s->sbc_unimplemented,
+>                              TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "pwm", &s->pwm, TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "espi", &s->espi, TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "udc", &s->udc, TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "sgpiom", &s->sgpiom,
+> +                            TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "jtag[0]", &s->jtag[0],
+> +                            TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "jtag[1]", &s->jtag[1],
+> +                            TYPE_UNIMPLEMENTED_DEVICE);
+>  }
 >  
->  #include "qemu/osdep.h"
-> +#include "qemu/units.h"
->  #include "qapi/error.h"
->  #include "hw/misc/unimp.h"
->  #include "hw/arm/aspeed_soc.h"
-> @@ -619,7 +620,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
->      sc->name         = "ast2600-a3";
->      sc->cpu_type     = ARM_CPU_TYPE_NAME("cortex-a7");
->      sc->silicon_rev  = AST2600_A3_SILICON_REV;
-> -    sc->sram_size    = 0x16400;
-> +    sc->sram_size    = 89 * KiB;
->      sc->spis_num     = 2;
->      sc->ehcis_num    = 2;
->      sc->wdts_num     = 4;
-> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-> index 2c0924d311..677342c9ed 100644
-> --- a/hw/arm/aspeed_soc.c
-> +++ b/hw/arm/aspeed_soc.c
-> @@ -517,7 +517,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
->      sc->name         = "ast2400-a1";
->      sc->cpu_type     = ARM_CPU_TYPE_NAME("arm926");
->      sc->silicon_rev  = AST2400_A1_SILICON_REV;
-> -    sc->sram_size    = 0x8000;
-> +    sc->sram_size    = 32 * KiB;
->      sc->spis_num     = 1;
->      sc->ehcis_num    = 1;
->      sc->wdts_num     = 2;
-> @@ -544,7 +544,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
->      sc->name         = "ast2500-a1";
->      sc->cpu_type     = ARM_CPU_TYPE_NAME("arm1176");
->      sc->silicon_rev  = AST2500_A1_SILICON_REV;
-> -    sc->sram_size    = 0x9000;
-> +    sc->sram_size    = 36 * KiB;
->      sc->spis_num     = 2;
->      sc->ehcis_num    = 2;
->      sc->wdts_num     = 3;
+>  static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+> @@ -337,6 +356,22 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+>                      sc->memmap[ASPEED_DEV_GPIO]);
+>      sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio), 0,
+>                         aspeed_soc_get_irq(s, ASPEED_DEV_GPIO));
+> +
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->pwm), "aspeed.pwm",
+> +                                  sc->memmap[ASPEED_DEV_PWM], 0x100);
+> +
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->espi), "aspeed.espi",
+> +                                  sc->memmap[ASPEED_DEV_ESPI], 0x800);
+> +
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->udc), "aspeed.udc",
+> +                                  sc->memmap[ASPEED_DEV_UDC], 0x1000);
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->sgpiom), "aspeed.sgpiom",
+> +                                  sc->memmap[ASPEED_DEV_SGPIOM], 0x100);
+> +
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->jtag[0]), "aspeed.jtag",
+> +                                  sc->memmap[ASPEED_DEV_JTAG0], 0x20);
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->jtag[1]), "aspeed.jtag",
+> +                                  sc->memmap[ASPEED_DEV_JTAG1], 0x20);
+>  }
+>  
+>  static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index 8389200b2d..9a5e3c0bac 100644
+> --- a/include/hw/arm/aspeed_soc.h
+r +++ b/include/hw/arm/aspeed_soc.h
+> @@ -44,6 +44,7 @@
+>  #define ASPEED_CPUS_NUM  2
+>  #define ASPEED_MACS_NUM  4
+>  #define ASPEED_UARTS_NUM 13
+> +#define ASPEED_JTAG_NUM  2
+>  
+>  struct AspeedSoCState {
+>      /*< private >*/
+> @@ -87,6 +88,11 @@ struct AspeedSoCState {
+>      UnimplementedDeviceState video;
+>      UnimplementedDeviceState emmc_boot_controller;
+>      UnimplementedDeviceState dpmcu;
+> +    UnimplementedDeviceState pwm;
+> +    UnimplementedDeviceState espi;
+> +    UnimplementedDeviceState udc;
+> +    UnimplementedDeviceState sgpiom;
+> +    UnimplementedDeviceState jtag[ASPEED_JTAG_NUM];
+>  };
+>  
+>  #define TYPE_ASPEED_SOC "aspeed-soc"
+> @@ -174,6 +180,11 @@ enum {
+>      ASPEED_DEV_DPMCU,
+>      ASPEED_DEV_DP,
+>      ASPEED_DEV_I3C,
+> +    ASPEED_DEV_ESPI,
+> +    ASPEED_DEV_UDC,
+> +    ASPEED_DEV_SGPIOM,
+> +    ASPEED_DEV_JTAG0,
+> +    ASPEED_DEV_JTAG1,
+>  };
+>  
+>  qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
 > -- 
 > 2.38.1
 > 
