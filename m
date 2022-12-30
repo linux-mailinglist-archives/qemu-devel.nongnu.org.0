@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685A9659838
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:29:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE81165980B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:14:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBEHh-0001dx-Ce; Fri, 30 Dec 2022 07:14:50 -0500
+	id 1pBEGB-0008AK-8m; Fri, 30 Dec 2022 07:13:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pBEG0-00082T-Tn
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:04 -0500
+ id 1pBEFs-0007lz-Vq
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:57 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pBEFu-000526-QA
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:04 -0500
+ id 1pBEFl-00050Z-Bu
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=ZhqOtKFe6pbBfn1EakE0TmSmfKZMMGw/2wZfAhRxqgk=; b=Jp9L1q9HIzyZrWbQ5XN2d88/U4
- sDz9kbfDtUMgKndFu1Z3yrmO0sowWjNhXuhhiocnN+99vAmXOOeTDcxqlpKGtLX+INWhn+Bcfw3Lh
- PtE5aKwdgr5nVJJG3QrdxUtkFHvMgN8UgudCe1hsQvkqAxlxqK3hKYB0zxrpZpqvLdKfDcvbJfAWz
- +y6k8xHVo1o5y9evmwQLfUxXAg5QQu5TDGx58LiMrmzADaECvNTkMGdR2gwiLHuZoLiw+nXC20Jsv
- 9hoGmlSi/DvYWz6ckdTpwJp9nlzU9pRRkR0J74mX9VZ5TY3E5s4qw5PVY8z6DDQ5rDzwbZVRCoLWb
- GPV432Xw==;
+ bh=YOuXdR7nUNgqeWOX2cfxPcKHxeNlhNE++pG/kIzsFHw=; b=jGUm7Gy5XkoeSfI/mLfXo14g/P
+ MO6xPCuIh3YLBgwvAw9iBsJtKlNM8bhhkyICOnaWdPIR3pRsRnp+9WIa69YGqcs+2gdYR4fPsJdrz
+ 1MLe0VGh8Hohy+Tb9MnXJ50CIA+jxq5AvuKfNpLw4U2c2xHfQKs8tFkK0xS41mmOz+kcTyQKRGNtV
+ kTKNewLgeSNoDZZCCnmx3iKkC6/Isnx1tSPSJNokYmNeqWhesytSusrMKgX0iCF3dOclbZilAA4Rv
+ 12+yOMI/9JFJeAgaM/1ZqQH43q2rKWy+0XoarJHGNwyXSnpIiEl6OlDSV9lnvRKEw/gm3AEDZffHa
+ Mo+T6gRg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pBEFW-00GpjY-0Q; Fri, 30 Dec 2022 12:12:43 +0000
+ id 1pBEFW-00GpjZ-0W; Fri, 30 Dec 2022 12:12:38 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pBEFZ-005Nwq-Oc; Fri, 30 Dec 2022 12:12:37 +0000
+ Hat Linux)) id 1pBEFZ-005Nwu-Pc; Fri, 30 Dec 2022 12:12:37 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,10 +46,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [RFC PATCH v5 23/52] i386/xen: handle
- VCPUOP_register_runstate_memory_area
-Date: Fri, 30 Dec 2022 12:12:06 +0000
-Message-Id: <20221230121235.1282915-24-dwmw2@infradead.org>
+Subject: [RFC PATCH v5 24/52] i386/xen: implement HYPERVISOR_event_channel_op
+Date: Fri, 30 Dec 2022 12:12:07 +0000
+Message-Id: <20221230121235.1282915-25-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221230121235.1282915-1-dwmw2@infradead.org>
 References: <20221230121235.1282915-1-dwmw2@infradead.org>
@@ -84,148 +83,63 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Allow guest to setup the vcpu runstates which is used as
-steal clock.
+Additionally set XEN_INTERFACE_VERSION to most recent in order to
+exercise the "new" event_channel_op.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+[dwmw2: Ditch event_channel_op_compat which was never available to HVM guests]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- target/i386/cpu.h         |  1 +
- target/i386/kvm/xen-emu.c | 57 +++++++++++++++++++++++++++++++++++++++
- target/i386/machine.c     |  1 +
- 3 files changed, 59 insertions(+)
+ target/i386/kvm/xen-emu.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 96c2d0d5cb..bf44a87ddb 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1791,6 +1791,7 @@ typedef struct CPUArchState {
-     uint64_t xen_vcpu_info_gpa;
-     uint64_t xen_vcpu_info_default_gpa;
-     uint64_t xen_vcpu_time_info_gpa;
-+    uint64_t xen_vcpu_runstate_gpa;
- #endif
- #if defined(CONFIG_HVF)
-     HVFX86LazyFlags hvf_lflags;
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index ebb5d1296a..6521df0461 100644
+index 6521df0461..9cc939b41e 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -161,6 +161,7 @@ int kvm_xen_init_vcpu(CPUState *cs)
-     env->xen_vcpu_info_gpa = INVALID_GPA;
-     env->xen_vcpu_info_default_gpa = INVALID_GPA;
-     env->xen_vcpu_time_info_gpa = INVALID_GPA;
-+    env->xen_vcpu_runstate_gpa = INVALID_GPA;
+@@ -29,6 +29,7 @@
+ #include "standard-headers/xen/memory.h"
+ #include "standard-headers/xen/hvm/hvm_op.h"
+ #include "standard-headers/xen/vcpu.h"
++#include "standard-headers/xen/event_channel.h"
  
-     return 0;
- }
-@@ -255,6 +256,17 @@ static void do_set_vcpu_time_info_gpa(CPUState *cs, run_on_cpu_data data)
-                           env->xen_vcpu_time_info_gpa);
+ #include "xen-compat.h"
+ 
+@@ -587,6 +588,24 @@ static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+     return true;
  }
  
-+static void do_set_vcpu_runstate_gpa(CPUState *cs, run_on_cpu_data data)
++static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
++                                    int cmd, uint64_t arg)
 +{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
++    int err = -ENOSYS;
 +
-+    env->xen_vcpu_runstate_gpa = data.host_ulong;
-+
-+    kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADDR,
-+                          env->xen_vcpu_runstate_gpa);
-+}
-+
- static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
- {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -263,10 +275,14 @@ static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
-     env->xen_vcpu_info_gpa = INVALID_GPA;
-     env->xen_vcpu_info_default_gpa = INVALID_GPA;
-     env->xen_vcpu_time_info_gpa = INVALID_GPA;
-+    env->xen_vcpu_runstate_gpa = INVALID_GPA;
- 
-     kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, INVALID_GPA);
-     kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO,
-                           INVALID_GPA);
-+    kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADDR,
-+                          INVALID_GPA);
-+
- }
- 
- static int xen_set_shared_info(uint64_t gfn)
-@@ -516,6 +532,35 @@ static int vcpuop_register_vcpu_time_info(CPUState *cs, CPUState *target,
-     return 0;
- }
- 
-+static int vcpuop_register_runstate_info(CPUState *cs, CPUState *target,
-+                                         uint64_t arg)
-+{
-+    struct vcpu_register_runstate_memory_area rma;
-+    uint64_t gpa;
-+    size_t len;
-+
-+    /* No need for 32/64 compat handling */
-+    qemu_build_assert(sizeof(rma) == 8);
-+    /* The runstate area actually does change size, but Linux copes. */
-+
-+    if (!target) {
-+        return -ENOENT;
-+    }
-+
-+    if (kvm_copy_from_gva(cs, arg, &rma, sizeof(rma))) {
-+        return -EFAULT;
-+    }
-+
-+    /* As with vcpu_time_info, Xen actually uses the GVA but KVM doesn't. */
-+    if (!kvm_gva_to_gpa(cs, rma.addr.p, &gpa, &len, false)) {
-+        return -EFAULT;
-+    }
-+
-+    async_run_on_cpu(target, do_set_vcpu_runstate_gpa,
-+                     RUN_ON_CPU_HOST_ULONG(gpa));
-+    return 0;
-+}
-+
- static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-                                   int cmd, int vcpu_id, uint64_t arg)
- {
-@@ -524,6 +569,9 @@ static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-     int err;
- 
-     switch (cmd) {
-+    case VCPUOP_register_runstate_memory_area:
-+        err = vcpuop_register_runstate_info(cs, dest, arg);
++    switch (cmd) {
++    case EVTCHNOP_init_control:
++        err = -ENOSYS;
 +        break;
-     case VCPUOP_register_vcpu_time_memory_area:
-         err = vcpuop_register_vcpu_time_info(cs, dest, arg);
-         break;
-@@ -722,6 +770,15 @@ int kvm_put_xen_state(CPUState *cs)
-         }
-     }
- 
-+    gpa = env->xen_vcpu_runstate_gpa;
-+    if (gpa != INVALID_GPA) {
-+        ret = kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADDR,
-+                                    gpa);
-+        if (ret < 0) {
-+            return ret;
-+        }
++
++    default:
++        return false;
 +    }
 +
-     return 0;
- }
- 
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index eb657907ca..3f3d436aaa 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1273,6 +1273,7 @@ static const VMStateDescription vmstate_xen_vcpu = {
-         VMSTATE_UINT64(env.xen_vcpu_info_gpa, X86CPU),
-         VMSTATE_UINT64(env.xen_vcpu_info_default_gpa, X86CPU),
-         VMSTATE_UINT64(env.xen_vcpu_time_info_gpa, X86CPU),
-+        VMSTATE_UINT64(env.xen_vcpu_runstate_gpa, X86CPU),
-         VMSTATE_END_OF_LIST()
-     }
- };
++    exit->u.hcall.result = err;
++    return true;
++}
++
+ static int kvm_xen_soft_reset(void)
+ {
+     CPUState *cpu;
+@@ -686,6 +705,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+     case __HYPERVISOR_sched_op:
+         return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
+                                       exit->u.hcall.params[1]);
++    case __HYPERVISOR_event_channel_op:
++        return kvm_xen_hcall_evtchn_op(exit, exit->u.hcall.params[0],
++                                       exit->u.hcall.params[1]);
+     case __HYPERVISOR_vcpu_op:
+         return kvm_xen_hcall_vcpu_op(exit, cpu,
+                                      exit->u.hcall.params[0],
 -- 
 2.35.3
 
