@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A66659867
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:45:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6582659860
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:43:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBEYH-0004mz-QE; Fri, 30 Dec 2022 07:31:57 -0500
+	id 1pBEeG-0002XC-6l; Fri, 30 Dec 2022 07:38:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEY2-0004jV-Fe
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:31:44 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEeB-0002PH-2i
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:38:05 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEY0-0001MW-71
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:31:41 -0500
-Received: by mail-wr1-x429.google.com with SMTP id w1so7676190wrt.8
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 04:31:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEe9-0002DZ-AK
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:38:02 -0500
+Received: by mail-wr1-x435.google.com with SMTP id d4so11812191wrw.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 04:38:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=oJzcBFzg7pIOQa/da8s6FCBWPV6la6FFq85YAwtjEko=;
- b=Rkdy2g/t19ardE78uL2TaNMWOUNABfhpBxF+atSH8Y1Fkcaf6zsEUQW8ufdGBnq5Ky
- zp6aRtBdZ+gkuImGv5w7q9lc8tisgvKzzNZPyqwMlBfgTPBEgWprKSoYhmi7urdjDOHr
- omz0pyqhhYRhNkrTqZppOhoxOopcZb9vxGrCT5sXGonFwBU4i3O4H9qnHhZJFKiy/wCD
- /UV7MuWPTJh3SQGFQkuzXvIPGb/BucSzwovcoGikB24afLz3bjcTRAyOG+qqMZjhqEiY
- dlHX6G/ZVtTaFRGH6fFOXpW397gZGAs+lp7twH2u4W+PUTo12KnhO3DOyFwC6dmG27pd
- R8CQ==
+ bh=hkLhyiEvpn+TwPUOhGSa2z4UnCevZJx3QB6aX6d6d7E=;
+ b=N3/Zk2PO/kfxSA+aJz7FEFDVR5edKIR4WjOpMX+exfts+BN851XbannxDjG892WdZ1
+ 8JYEQkd4Hg1L42/eZdeBt0WucTNtQ3p79qkuiXqtbdJrpE8RhCUb1AL8eibG2fJD60Oh
+ QoDANOmKYk4RLKsBSpNUWiirbUapEu28/QXYM0GhBpZR0wI4U6ydEtQtjgj3312Flfr2
+ BUOciX5Fx612QtpNqvMiaNvZBfw1mSuLK2J9+fd7PBuUfnzYAj4xe6c2CCseDkiwC/sN
+ DBpHYaewSQXwcLinjL4xPqDzAXR85e+FUIR6jKurYMyzlQuTgqsxw3TWbpgPg0XlHJqr
+ xo9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oJzcBFzg7pIOQa/da8s6FCBWPV6la6FFq85YAwtjEko=;
- b=yl2eKMhePfJUY6JZxYevzSUhlkztTC9XELvml6Pxki62WSUECyh3K6RecmRhskApP3
- RNPY78xajDZ78af4JgqSBxM7LZBXfu2xUGl+8wAChxk8j+kQ7l/UrX7zKj2CzfcyzpJW
- 7o7iKTL/AtCt3GOiAyZ8nzeFa++29TiIGOiQvIOR1rIXgVXnJOYE/6hf03QU7pZTzwBI
- U8rol8ERn7VdWfV7Iq66BjJlxprGDPOfQBiYMVPYQxkPi8hPHURSCgr1zuv8JtDkf+2r
- POYCWTbDRHBcoTiZyRHO4t8/LkQ+1yqroHes9oDDqfgxFk3185IfKRQTYHXPNB90X//q
- cu8g==
-X-Gm-Message-State: AFqh2kra7SLvrWd6zSD2JpgerZwUcYNyG68Plnnmz5y/LqQHy/CFQW14
- vcF5WrzSvYX28LOO1F0ToUGpxETomdeQdj2U
-X-Google-Smtp-Source: AMrXdXt2VC9O0iPOsrq1HhzOy/l0i8go3r4fGaOQUcOfL74WYjUhDFw+hHV1oxoZGE0dyzmLgWtl6Q==
-X-Received: by 2002:a5d:6b87:0:b0:26f:8bfc:98ff with SMTP id
- n7-20020a5d6b87000000b0026f8bfc98ffmr17077342wrx.38.1672403498306; 
- Fri, 30 Dec 2022 04:31:38 -0800 (PST)
+ bh=hkLhyiEvpn+TwPUOhGSa2z4UnCevZJx3QB6aX6d6d7E=;
+ b=nuxjgRaWxUQedt1VdGTb8dG9ZRnr1XGS85/E+/1664o0W9usYCpQ+riSXWV6DL3WPE
+ D+7sBefyNTni3ncMAX2efCeKN4/WIGe+yaGYQqbiEY1OsIjpXttpC6VRst6NEXxRVI4/
+ Pa7kL7CeNTDRPRFVhupGwGY3/2SvNy94kLtpBTV+9Y2/RL8WqdcctQ5/a9rWV/fO72zp
+ k55iMM2kQea3DdXDny78gLj2XVAfhN2pYJRwqfVgWjRzXnd5Es5tQkLbw+vr5Zi88KrN
+ dfjexiNcUWr0d70BrCqoMce5ban/psHf7e8LhbjRZ9ZO0Sn+HmsC526mhvBsoik9l5Hr
+ XmzA==
+X-Gm-Message-State: AFqh2kocC5Dm1yCvF8BjyII6ybQ3K3ZmkSjKyBuWtzuTUOaRufNkpA9Q
+ n2dVXIhIRCnq2JfJ1elIFuBTIg==
+X-Google-Smtp-Source: AMrXdXv6FdiDE3CZH7waVdMQf2NHOLgYXdwCDYy5jwq4mCh8PPsG/bRj6Fd1zFAvZ1z1NLh/yyR5iw==
+X-Received: by 2002:a5d:67c7:0:b0:242:57bb:ee0f with SMTP id
+ n7-20020a5d67c7000000b0024257bbee0fmr18054886wrw.25.1672403879085; 
+ Fri, 30 Dec 2022 04:37:59 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- ay19-20020a5d6f13000000b0022cdeba3f83sm1251568wrb.84.2022.12.30.04.31.35
+ b14-20020a05600010ce00b0023c8026841csm20468935wrx.23.2022.12.30.04.37.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Dec 2022 04:31:37 -0800 (PST)
-Message-ID: <90de6d57-25e1-d20f-15e3-069e06ef2f00@linaro.org>
-Date: Fri, 30 Dec 2022 13:31:35 +0100
+ Fri, 30 Dec 2022 04:37:58 -0800 (PST)
+Message-ID: <e2c6364c-eee9-2bf1-9738-deccc35a57b8@linaro.org>
+Date: Fri, 30 Dec 2022 13:37:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 02/11] hw/watchdog/wdt_aspeed: Extend MMIO range to
- cover more registers
+Subject: Re: [PATCH v4 1/3] hw/intc/loongarch_pch_msi: add irq number property
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
- Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
- Peter Delevoryas <peter@pjd.dev>, Steven Lee <steven_lee@aspeedtech.com>,
- Jamin Lin <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>,
- Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>
-References: <20221230113504.37032-1-philmd@linaro.org>
- <20221230113504.37032-3-philmd@linaro.org>
+To: Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn
+References: <20221230095950.2217103-1-zhaotianrui@loongson.cn>
+ <20221230095950.2217103-2-zhaotianrui@loongson.cn>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221230113504.37032-3-philmd@linaro.org>
+In-Reply-To: <20221230095950.2217103-2-zhaotianrui@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -100,118 +90,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/12/22 12:34, Philippe Mathieu-Daudé wrote:
-> When booting the Zephyr demo in [1] we get:
+On 30/12/22 10:59, Tianrui Zhao wrote:
+> This patch adds irq number property for loongarch msi interrupt
+> controller, and remove hard coding irq number macro.
 > 
->    aspeed.io: unimplemented device write (size 4, offset 0x185128, value 0x030f1ff1) <--
->    aspeed.io: unimplemented device write (size 4, offset 0x18512c, value 0x03fffff1)
-> 
-> This corresponds to this Zephyr code [2]:
-> 
->    static int aspeed_wdt_init(const struct device *dev)
->    {
->      const struct aspeed_wdt_config *config = dev->config;
->      struct aspeed_wdt_data *const data = dev->data;
->      uint32_t reg_val;
-> 
->      /* disable WDT by default */
->      reg_val = sys_read32(config->ctrl_base + WDT_CTRL_REG);
->      reg_val &= ~WDT_CTRL_ENABLE;
->      sys_write32(reg_val, config->ctrl_base + WDT_CTRL_REG);
-> 
->      sys_write32(data->rst_mask1,
->                  config->ctrl_base + WDT_SW_RESET_MASK1_REG);   <------
->      sys_write32(data->rst_mask2,
->                  config->ctrl_base + WDT_SW_RESET_MASK2_REG);
-> 
->      return 0;
->    }
-> 
-> The register definitions are [3]:
-> 
->    #define WDT_RELOAD_VAL_REG          0x0004
->    #define WDT_RESTART_REG             0x0008
->    #define WDT_CTRL_REG                0x000C
->    #define WDT_TIMEOUT_STATUS_REG      0x0010
->    #define WDT_TIMEOUT_STATUS_CLR_REG  0x0014
->    #define WDT_RESET_MASK1_REG         0x001C
->    #define WDT_RESET_MASK2_REG         0x0020
->    #define WDT_SW_RESET_MASK1_REG      0x0028   <------
->    #define WDT_SW_RESET_MASK2_REG      0x002C
->    #define WDT_SW_RESET_CTRL_REG       0x0024
-> 
-> Currently QEMU only cover a MMIO region of size 0x20:
-> 
->    #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
-> 
-> Change to map the whole 'iosize' which might be bigger, covering
-> the other registers. The MemoryRegionOps read/write handlers will
-> report the accesses as out-of-bounds guest-errors, but the next
-> commit will report them as unimplemented.
-
-I'll amend here for clarity:
-
----
-
-Memory layout before this change:
-
-   (qemu) info mtree -f
-     ...
-     000000007e785000-000000007e78501f (prio 0, i/o): aspeed.wdt
-     000000007e785020-000000007e78507f (prio -1000, i/o): aspeed.io 
-@0000000000185020
-     000000007e785080-000000007e78509f (prio 0, i/o): aspeed.wdt
-     000000007e7850a0-000000007e7850ff (prio -1000, i/o): aspeed.io 
-@00000000001850a0
-     000000007e785100-000000007e78511f (prio 0, i/o): aspeed.wdt
-     000000007e785120-000000007e78517f (prio -1000, i/o): aspeed.io 
-@0000000000185120
-     000000007e785180-000000007e78519f (prio 0, i/o): aspeed.wdt
-     000000007e7851a0-000000007e788fff (prio -1000, i/o): aspeed.io 
-@00000000001851a0
-
-After:
-
-   (qemu) info mtree -f
-     ...
-     000000007e785000-000000007e78507f (prio 0, i/o): aspeed.wdt
-     000000007e785080-000000007e7850ff (prio 0, i/o): aspeed.wdt
-     000000007e785100-000000007e78517f (prio 0, i/o): aspeed.wdt
-     000000007e785180-000000007e7851ff (prio 0, i/o): aspeed.wdt
-     000000007e785200-000000007e788fff (prio -1000, i/o): aspeed.io 
-@0000000000185200
----
-
-> [1] https://github.com/AspeedTech-BMC/zephyr/releases/tag/v00.01.07
-> [2] https://github.com/AspeedTech-BMC/zephyr/commit/2e99f10ac27b
-> [3] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/drivers/watchdog/wdt_aspeed.c#L31
-> 
-> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
 > ---
->   hw/watchdog/wdt_aspeed.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-> index 958725a1b5..eefca31ae4 100644
-> --- a/hw/watchdog/wdt_aspeed.c
-> +++ b/hw/watchdog/wdt_aspeed.c
-> @@ -260,6 +260,7 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
->   {
->       SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
->       AspeedWDTState *s = ASPEED_WDT(dev);
-> +    AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(dev);
+>   hw/intc/loongarch_pch_msi.c         | 33 ++++++++++++++++++++++++++---
+>   hw/loongarch/virt.c                 | 13 +++++++-----
+>   include/hw/intc/loongarch_pch_msi.h |  3 ++-
+>   include/hw/pci-host/ls7a.h          |  1 -
+>   4 files changed, 40 insertions(+), 10 deletions(-)
+
+
+> +static void loongarch_pch_msi_realize(DeviceState *dev, Error **errp)
+> +{
+> +    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(dev);
+> +
+> +    if (!s->irq_num || s->irq_num  > PCH_MSI_IRQ_NUM) {
+
+Here you check for s->irq_num != 0, ...
+
+> +        error_setg(errp, "Invalid 'msi_irq_num'");
+> +        return;
+> +    }
+> +
+> +    s->pch_msi_irq = g_new(qemu_irq, s->irq_num);
+> +    if (!s->pch_msi_irq) {
+
+... so this check is unreachable / pointless: g_new() will never
+return NULL but abort.
+
+> +        error_report("loongarch_pch_msi: fail to alloc memory");
+> +        exit(1);
+> +    }
+> +
+> +    qdev_init_gpio_out(dev, s->pch_msi_irq, s->irq_num);
+> +    qdev_init_gpio_in(dev, pch_msi_irq_handler, s->irq_num);
+> +}
+
+> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+> index 958be74fa1..1e58346aeb 100644
+> --- a/hw/loongarch/virt.c
+> +++ b/hw/loongarch/virt.c
+> @@ -496,7 +496,7 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+>       LoongArchCPU *lacpu;
+>       CPULoongArchState *env;
+>       CPUState *cpu_state;
+> -    int cpu, pin, i;
+> +    int cpu, pin, i, start, num;
 >   
->       assert(s->scu);
+>       ipi = qdev_new(TYPE_LOONGARCH_IPI);
+>       sysbus_realize_and_unref(SYS_BUS_DEVICE(ipi), &error_fatal);
+> @@ -576,14 +576,17 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+>       }
 >   
-> @@ -271,7 +272,7 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
->       s->pclk_freq = PCLK_HZ;
->   
->       memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_wdt_ops, s,
-> -                          TYPE_ASPEED_WDT, ASPEED_WDT_REGS_MAX * 4);
-> +                          TYPE_ASPEED_WDT, awc->iosize);
->       sysbus_init_mmio(sbd, &s->iomem);
->   }
->   
+>       pch_msi = qdev_new(TYPE_LOONGARCH_PCH_MSI);
+> -    qdev_prop_set_uint32(pch_msi, "msi_irq_base", PCH_MSI_IRQ_START);
+> +    start   =  PCH_PIC_IRQ_NUM;
+
+Maybe name this 'msi_irq_base'
+
+> +    num = EXTIOI_IRQS - start;
+
+and 'msi_irq_num' for clarity?
+
+> +    qdev_prop_set_uint32(pch_msi, "msi_irq_base", start);
+> +    qdev_prop_set_uint32(pch_msi, "msi_irq_num", num);
+>       d = SYS_BUS_DEVICE(pch_msi);
+>       sysbus_realize_and_unref(d, &error_fatal);
+>       sysbus_mmio_map(d, 0, VIRT_PCH_MSI_ADDR_LOW);
+> -    for (i = 0; i < PCH_MSI_IRQ_NUM; i++) {
+> -        /* Connect 192 pch_msi irqs to extioi */
+> +    for (i = 0; i < num; i++) {
+> +        /* Connect pch_msi irqs to extioi */
+>           qdev_connect_gpio_out(DEVICE(d), i,
+> -                              qdev_get_gpio_in(extioi, i + PCH_MSI_IRQ_START));
+> +                              qdev_get_gpio_in(extioi, i + start));
+>       }
+
+Removing the unreachable check:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
