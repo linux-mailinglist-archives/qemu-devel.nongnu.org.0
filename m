@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6582659860
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:43:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 862DD659866
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:45:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBEeG-0002XC-6l; Fri, 30 Dec 2022 07:38:08 -0500
+	id 1pBEjp-0007vu-Lp; Fri, 30 Dec 2022 07:43:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEeB-0002PH-2i
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:38:05 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEjj-0007th-Bc
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:43:47 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEe9-0002DZ-AK
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:38:02 -0500
-Received: by mail-wr1-x435.google.com with SMTP id d4so11812191wrw.6
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 04:38:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEjh-0003km-Kj
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:43:47 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ fm16-20020a05600c0c1000b003d96fb976efso13081690wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 04:43:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hkLhyiEvpn+TwPUOhGSa2z4UnCevZJx3QB6aX6d6d7E=;
- b=N3/Zk2PO/kfxSA+aJz7FEFDVR5edKIR4WjOpMX+exfts+BN851XbannxDjG892WdZ1
- 8JYEQkd4Hg1L42/eZdeBt0WucTNtQ3p79qkuiXqtbdJrpE8RhCUb1AL8eibG2fJD60Oh
- QoDANOmKYk4RLKsBSpNUWiirbUapEu28/QXYM0GhBpZR0wI4U6ydEtQtjgj3312Flfr2
- BUOciX5Fx612QtpNqvMiaNvZBfw1mSuLK2J9+fd7PBuUfnzYAj4xe6c2CCseDkiwC/sN
- DBpHYaewSQXwcLinjL4xPqDzAXR85e+FUIR6jKurYMyzlQuTgqsxw3TWbpgPg0XlHJqr
- xo9A==
+ bh=Ha2BxsAW0+cbOeuEud6L0fG28UhfdQ9kMV67Kz8bZRA=;
+ b=Egv/TS7zlk5uZl3VshfNeZafj9zc5oFtPGqpKt5cIlEhh2akK+TguTSDwTwyqnZ1oj
+ lVU0NaNacwSyRrZ9e2Os3vxcUU/fJ5wVsPDrA/RkwFqhhYNjUA6z/Xx6hDxMLFY6Z5PL
+ 2x0GJsWmYEiQycoq4Mm2yA0pOxXWv+oE5cAmCfJgYcVlWxPmUGA4ER0l3uKnFrBut/NZ
+ MDB8aEVcyXIxNglM+aQFdlqb9pN3jiJwwFbTy7sPi3LI7wRdENjO6qlqj1G9hU8ymYI4
+ 7rwN6W29QY8NPzGVLsm0sySxSC8brzun8I+p45vdwF9x1wBvn8oTNpO0F1OPpDnqgQzg
+ 0VAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hkLhyiEvpn+TwPUOhGSa2z4UnCevZJx3QB6aX6d6d7E=;
- b=nuxjgRaWxUQedt1VdGTb8dG9ZRnr1XGS85/E+/1664o0W9usYCpQ+riSXWV6DL3WPE
- D+7sBefyNTni3ncMAX2efCeKN4/WIGe+yaGYQqbiEY1OsIjpXttpC6VRst6NEXxRVI4/
- Pa7kL7CeNTDRPRFVhupGwGY3/2SvNy94kLtpBTV+9Y2/RL8WqdcctQ5/a9rWV/fO72zp
- k55iMM2kQea3DdXDny78gLj2XVAfhN2pYJRwqfVgWjRzXnd5Es5tQkLbw+vr5Zi88KrN
- dfjexiNcUWr0d70BrCqoMce5ban/psHf7e8LhbjRZ9ZO0Sn+HmsC526mhvBsoik9l5Hr
- XmzA==
-X-Gm-Message-State: AFqh2kocC5Dm1yCvF8BjyII6ybQ3K3ZmkSjKyBuWtzuTUOaRufNkpA9Q
- n2dVXIhIRCnq2JfJ1elIFuBTIg==
-X-Google-Smtp-Source: AMrXdXv6FdiDE3CZH7waVdMQf2NHOLgYXdwCDYy5jwq4mCh8PPsG/bRj6Fd1zFAvZ1z1NLh/yyR5iw==
-X-Received: by 2002:a5d:67c7:0:b0:242:57bb:ee0f with SMTP id
- n7-20020a5d67c7000000b0024257bbee0fmr18054886wrw.25.1672403879085; 
- Fri, 30 Dec 2022 04:37:59 -0800 (PST)
+ bh=Ha2BxsAW0+cbOeuEud6L0fG28UhfdQ9kMV67Kz8bZRA=;
+ b=J1/xW4jRJdRKUe7P2LFtFKm/ShkTHC9zxpHnDR69KS2pLY/UciX87L3s/az+Rg153B
+ v7zljfYyEK2heOdsT5fr3+/qjazaHojINZHo9ioXI7I4hH7417vpCnpR8tz0adHALLPw
+ KFTLsGRXnZfwxucFc7zT7wSC1U0CxmaSCIzEFGEtfR2JhIdgTrhQ+sC6xrfjcJEljJZs
+ SLBA/eD5TU3mn1da9npX+XrwvWjT1Y/mfstQqI+rWg54MockE6pzfRI9lzuO5Lrn/PYk
+ 0HeAm6xQ8BCUCnM0xxIcbnRHIv/i+nYOd+SE1WYajvAdspT3/cUjq7r1jqzDpXWLcFJM
+ rRjg==
+X-Gm-Message-State: AFqh2kpetYcfUxWQcrisHWbG0/9gsaaE7ZfXsfJ9ye3F7/Ct+H9KM6TP
+ GhNT1vMoAI3DwDlb/umKYCZXiA==
+X-Google-Smtp-Source: AMrXdXtVLcap5/+vUTX8gHjcUXBQuspDZjxupZLMbCTxDd3m2NOXFcmOUe5nJm8b0ZC1UjcxG1Ueuw==
+X-Received: by 2002:a05:600c:47d1:b0:3d3:496b:de9d with SMTP id
+ l17-20020a05600c47d100b003d3496bde9dmr22645963wmo.34.1672404223754; 
+ Fri, 30 Dec 2022 04:43:43 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- b14-20020a05600010ce00b0023c8026841csm20468935wrx.23.2022.12.30.04.37.57
+ k2-20020a05600c1c8200b003d974076f13sm24546633wms.3.2022.12.30.04.43.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Dec 2022 04:37:58 -0800 (PST)
-Message-ID: <e2c6364c-eee9-2bf1-9738-deccc35a57b8@linaro.org>
-Date: Fri, 30 Dec 2022 13:37:57 +0100
+ Fri, 30 Dec 2022 04:43:43 -0800 (PST)
+Message-ID: <57e4f5aa-7b74-7dcd-60e6-6185d5582979@linaro.org>
+Date: Fri, 30 Dec 2022 13:43:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v4 1/3] hw/intc/loongarch_pch_msi: add irq number property
+Subject: Re: [PATCH v4 2/3] hw/intc/loongarch_pch_pic: add irq number property
 Content-Language: en-US
 To: Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn
 References: <20221230095950.2217103-1-zhaotianrui@loongson.cn>
- <20221230095950.2217103-2-zhaotianrui@loongson.cn>
+ <20221230095950.2217103-3-zhaotianrui@loongson.cn>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221230095950.2217103-2-zhaotianrui@loongson.cn>
+In-Reply-To: <20221230095950.2217103-3-zhaotianrui@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -91,85 +92,69 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 30/12/22 10:59, Tianrui Zhao wrote:
-> This patch adds irq number property for loongarch msi interrupt
-> controller, and remove hard coding irq number macro.
+> With loongarch 7A1000 manual, irq number supported can be set
+> in PCH_PIC_INT_ID_HI register. This patch adds irq number property
+> for loongarch_pch_pic, so that virt machine can set different
+> irq number when pch_pic intc is added.
 > 
 > Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
 > ---
->   hw/intc/loongarch_pch_msi.c         | 33 ++++++++++++++++++++++++++---
->   hw/loongarch/virt.c                 | 13 +++++++-----
->   include/hw/intc/loongarch_pch_msi.h |  3 ++-
->   include/hw/pci-host/ls7a.h          |  1 -
->   4 files changed, 40 insertions(+), 10 deletions(-)
+>   hw/intc/loongarch_pch_pic.c         | 33 +++++++++++++++++++++++++----
+>   hw/loongarch/virt.c                 |  8 ++++---
+>   include/hw/intc/loongarch_pch_pic.h |  5 ++---
+>   3 files changed, 36 insertions(+), 10 deletions(-)
 
 
-> +static void loongarch_pch_msi_realize(DeviceState *dev, Error **errp)
-> +{
-> +    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(dev);
-> +
-> +    if (!s->irq_num || s->irq_num  > PCH_MSI_IRQ_NUM) {
+> @@ -78,7 +80,12 @@ static uint64_t loongarch_pch_pic_low_readw(void *opaque, hwaddr addr,
+>           val = PCH_PIC_INT_ID_VAL;
+>           break;
+>       case PCH_PIC_INT_ID_HI:
+> -        val = PCH_PIC_INT_ID_NUM;
+> +        /*
+> +         * With 7A1000 manual
+> +         *   bit  0-15 pch irqchip version
+> +         *   bit 16-31 irq number supported with pch irqchip
+> +         */
+> +        val = PCH_PIC_INT_ID_VER + ((s->irq_num - 1) << 16);
 
-Here you check for s->irq_num != 0, ...
+We usually use the '|' operator instead of '+', but you can also
+use deposit32() from "qemu/bitops.h":
 
-> +        error_setg(errp, "Invalid 'msi_irq_num'");
-> +        return;
-> +    }
-> +
-> +    s->pch_msi_irq = g_new(qemu_irq, s->irq_num);
-> +    if (!s->pch_msi_irq) {
+           val = deposit32(PCH_PIC_INT_ID_VER, 16, 15, s->irq_num - 1);
 
-... so this check is unreachable / pointless: g_new() will never
-return NULL but abort.
+>           break;
+>       case PCH_PIC_INT_MASK_LO:
+>           val = (uint32_t)s->int_mask;
+> @@ -365,6 +372,19 @@ static void loongarch_pch_pic_reset(DeviceState *d)
+>       s->int_polarity = 0x0;
+>   }
 
-> +        error_report("loongarch_pch_msi: fail to alloc memory");
-> +        exit(1);
-> +    }
-> +
-> +    qdev_init_gpio_out(dev, s->pch_msi_irq, s->irq_num);
-> +    qdev_init_gpio_in(dev, pch_msi_irq_handler, s->irq_num);
-> +}
 
-> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-> index 958be74fa1..1e58346aeb 100644
-> --- a/hw/loongarch/virt.c
-> +++ b/hw/loongarch/virt.c
-> @@ -496,7 +496,7 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
->       LoongArchCPU *lacpu;
->       CPULoongArchState *env;
->       CPUState *cpu_state;
-> -    int cpu, pin, i;
-> +    int cpu, pin, i, start, num;
+> diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
+> index 2d4aa9ed6f..ba3a47fa88 100644
+> --- a/include/hw/intc/loongarch_pch_pic.h
+> +++ b/include/hw/intc/loongarch_pch_pic.h
+> @@ -9,11 +9,9 @@
+>   #define PCH_PIC_NAME(name) TYPE_LOONGARCH_PCH_PIC#name
+>   OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHPIC, LOONGARCH_PCH_PIC)
 >   
->       ipi = qdev_new(TYPE_LOONGARCH_IPI);
->       sysbus_realize_and_unref(SYS_BUS_DEVICE(ipi), &error_fatal);
-> @@ -576,14 +576,17 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
->       }
+> -#define PCH_PIC_IRQ_START               0
+> -#define PCH_PIC_IRQ_END                 63
+>   #define PCH_PIC_IRQ_NUM                 64
+>   #define PCH_PIC_INT_ID_VAL              0x7000000UL
+> -#define PCH_PIC_INT_ID_NUM              0x3f0001UL
+> +#define PCH_PIC_INT_ID_VER              0x1UL
 >   
->       pch_msi = qdev_new(TYPE_LOONGARCH_PCH_MSI);
-> -    qdev_prop_set_uint32(pch_msi, "msi_irq_base", PCH_MSI_IRQ_START);
-> +    start   =  PCH_PIC_IRQ_NUM;
+>   #define PCH_PIC_INT_ID_LO               0x00
+>   #define PCH_PIC_INT_ID_HI               0x04
+> @@ -66,4 +64,5 @@ struct LoongArchPCHPIC {
+>       MemoryRegion iomem32_low;
+>       MemoryRegion iomem32_high;
+>       MemoryRegion iomem8;
+> +    unsigned int  irq_num;
 
-Maybe name this 'msi_irq_base'
+There is one extra space here, otherwise LGTM.
 
-> +    num = EXTIOI_IRQS - start;
-
-and 'msi_irq_num' for clarity?
-
-> +    qdev_prop_set_uint32(pch_msi, "msi_irq_base", start);
-> +    qdev_prop_set_uint32(pch_msi, "msi_irq_num", num);
->       d = SYS_BUS_DEVICE(pch_msi);
->       sysbus_realize_and_unref(d, &error_fatal);
->       sysbus_mmio_map(d, 0, VIRT_PCH_MSI_ADDR_LOW);
-> -    for (i = 0; i < PCH_MSI_IRQ_NUM; i++) {
-> -        /* Connect 192 pch_msi irqs to extioi */
-> +    for (i = 0; i < num; i++) {
-> +        /* Connect pch_msi irqs to extioi */
->           qdev_connect_gpio_out(DEVICE(d), i,
-> -                              qdev_get_gpio_in(extioi, i + PCH_MSI_IRQ_START));
-> +                              qdev_get_gpio_in(extioi, i + start));
->       }
-
-Removing the unreachable check:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>   };
 
 
