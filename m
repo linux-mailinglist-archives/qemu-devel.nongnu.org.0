@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992486593A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107A36593C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:17:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pB2rF-00034O-BJ; Thu, 29 Dec 2022 19:02:45 -0500
+	id 1pB2rK-00036a-KG; Thu, 29 Dec 2022 19:02:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2rD-00033g-SV
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:43 -0500
+ id 1pB2rF-00034b-6x
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:45 -0500
 Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2rC-0002hk-6a
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:43 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id n12so7889704pjp.1
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:02:41 -0800 (PST)
+ id 1pB2rD-0002ih-IB
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:44 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ h7-20020a17090aa88700b00225f3e4c992so11733466pjq.1
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:02:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0A7BGyHqAN6alhYKfJ9E1yLwyik0pT3tSjb2m0LkGsk=;
- b=VI7UhUvEZDHWqYD5ERMz9FgVAKOPMz7RTN3SpfU7hq9yxsPA2L9AjwJ1OLssbcJ6dz
- GvSsQGdeKs+HnBop3EDFvtmKhlgthEn2cnMLl7s9KYxYM8tkeRdIotLiMseNaCBUPw3Y
- xlZfHHJ5wRhkbLBTMadikHFljKlCwfUZwQKyh5Hlj7mdVKdVnx5ZpF9o8Zhif+2p2REZ
- whGaYynLOQshrugchZbk0yhIckWr66EewmXAWNs3qx16/+q5y1CyEF8rwaitLUMPzs/+
- EEAegjWNsDmuwnFkaRYXxk2siIndV2uke8VwBXCp8RR52gC1ySEsFM/gMhVb04qQZHl1
- t7xw==
+ bh=kWUlisroi1Ap5EswxjI+i9O+kMNxYO+3kWUIW10W2to=;
+ b=MyljtFO70CWLYUz475+SyA76dVgSH3RCDgOBr11yB5OgnW2gqvtsOVzYmDG7QELfvf
+ P0EbOq1QGIFIVcyZBeRQZkTSRQDJudHjKiIZ1ZokEie6ewiB84v/TwJDqz03ZJOwgLSS
+ e2DZ+zCB09LXRWecTzhBFyd2pUmZP+vLkK5vRHmgfglvO/+M/U1uUkDygulKAETUj5fe
+ FoccjPojIgnhDFIDC/PaeSO17s25Wjug1d72HPLnxzvpa0RftDbQsk18Jm1RAE+kugKt
+ 7WlD28NKJwE+ySh820DuX+OEgPLvsQBNPpICy/Abc20uz1+ofOtRxVP6K/Xp6DjzduRi
+ u9RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0A7BGyHqAN6alhYKfJ9E1yLwyik0pT3tSjb2m0LkGsk=;
- b=DmBBlCPJnTK2wHBZbr9KSdhQWO0pYMeQat+uI/fEobGksFt/VZKoER+iOUp45nGLiE
- 9G4jtQOrtVMwvu0IYfnOojOaNmBDRsy8Zya/S78kaeKg+QfZsYH2ITevHJoRSXz5Z//H
- qtB4sj5obfrV7bt4weUh9WzuTKvrVVnCX8PMjdpcO7+EPiy6czh+xI8JZN5vm5iOf0Zs
- dRwTlC/bhVBrw638rKxZPbCYCL31X7iYBpIuovoHax2fmt3Dh3x+RgKyt5VyKMxRBxkH
- RchXoWjuRGTmcBhzdrgqeoyZwDrFF9Q/kbh2RXCoCh4ldJMsXI2T+wwl70+A57kBYewA
- MErA==
-X-Gm-Message-State: AFqh2kr0yMdPHngWsPlbZGchTHWczd1rTzGBEP5sZZHa59FvKqhYif2g
- A4Bh7D1oM+QQcXjvrK6fvvsRMkWJ7ixFUW2B
-X-Google-Smtp-Source: AMrXdXt1V6rJAzK65jVteq4WAwlBkRgyYNYce3vs+Flk482MHRLptJ0qOSeYjE86ww49skxuTDYqiA==
-X-Received: by 2002:a05:6a20:e613:b0:ad:aaac:d3fe with SMTP id
- my19-20020a056a20e61300b000adaaacd3femr31399933pzb.47.1672358561413; 
- Thu, 29 Dec 2022 16:02:41 -0800 (PST)
+ bh=kWUlisroi1Ap5EswxjI+i9O+kMNxYO+3kWUIW10W2to=;
+ b=28FnQGwciWD6zXoYq97v92HPQoHjKjFCKuwcI/Z0MSyZ4iSyLc/UdOVutStjl9yzn6
+ 1Q33ytmnN0L2+9P24D1vdAvn1DuhCxxygL4HaopnyJSzCvtoEjSjvTAerfQjIy/DRti4
+ QF41wCfgtD+p8RMs5v5tSigyo4Y8MDwtT1vJzgPWYEYVOgCaZYQgm6368cz6d8N593+H
+ YEAr295DQOoGHEDnq5k1xpB3DNBas8FNbwwIG2LLmWJqzYpzvjTRGmN1y9R8BMxiteQq
+ GgnJxY+Q9vt0rg6Pxo/xGnq9PnapkYMjIFq9XMbS0yjIXqBrrS2c4FLW8YI6qVpAhxNI
+ onjA==
+X-Gm-Message-State: AFqh2kpskcjInfSe3UenA5BSoCHRTwO1NIlAM1UrL0jn+3KLuIhtaVb4
+ hX/IqFi0xTsZ+3zbXfPIiNKVRTOoDTBTp5aV
+X-Google-Smtp-Source: AMrXdXv3KysQqbl36XDOCoF2RCXrHFreCUxunh9g8t6s53y47fJAjVvuAHgWy7IB2yJzUy2KVTs8jw==
+X-Received: by 2002:a17:902:7247:b0:192:8f2c:dd23 with SMTP id
+ c7-20020a170902724700b001928f2cdd23mr9866112pll.13.1672358562342; 
+ Thu, 29 Dec 2022 16:02:42 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.40
+ j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 16:02:40 -0800 (PST)
+ Thu, 29 Dec 2022 16:02:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 20/47] accel/tcg: Set cflags_next_tb in cpu_common_initfn
-Date: Thu, 29 Dec 2022 16:01:54 -0800
-Message-Id: <20221230000221.2764875-21-richard.henderson@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 21/47] target/sparc: Avoid TCGV_{LOW,HIGH}
+Date: Thu, 29 Dec 2022 16:01:55 -0800
+Message-Id: <20221230000221.2764875-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221230000221.2764875-1-richard.henderson@linaro.org>
 References: <20221230000221.2764875-1-richard.henderson@linaro.org>
@@ -90,29 +92,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While we initialize this value in cpu_common_reset, that
-isn't called during startup, so set it as well in init.
-This fixes -singlestep versus the very first TB.
+Use the official extend/extract functions instead of routines
+that will shortly be internal to tcg.
 
-Fixes: 04f5b647ed07 ("accel/tcg: Handle -singlestep in curr_cflags")
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/core/cpu-common.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/sparc/translate.c | 21 ++++-----------------
+ 1 file changed, 4 insertions(+), 17 deletions(-)
 
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index 78b5f350a0..b177e761f0 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -235,6 +235,7 @@ static void cpu_common_initfn(Object *obj)
-     /* the default value is changed by qemu_init_vcpu() for softmmu */
-     cpu->nr_cores = 1;
-     cpu->nr_threads = 1;
-+    cpu->cflags_next_tb = -1;
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index 34858eb95f..150aeecd14 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -163,13 +163,6 @@ static inline void gen_update_fprs_dirty(DisasContext *dc, int rd)
+ /* floating point registers moves */
+ static TCGv_i32 gen_load_fpr_F(DisasContext *dc, unsigned int src)
+ {
+-#if TCG_TARGET_REG_BITS == 32
+-    if (src & 1) {
+-        return TCGV_LOW(cpu_fpr[src / 2]);
+-    } else {
+-        return TCGV_HIGH(cpu_fpr[src / 2]);
+-    }
+-#else
+     TCGv_i32 ret = get_temp_i32(dc);
+     if (src & 1) {
+         tcg_gen_extrl_i64_i32(ret, cpu_fpr[src / 2]);
+@@ -177,22 +170,16 @@ static TCGv_i32 gen_load_fpr_F(DisasContext *dc, unsigned int src)
+         tcg_gen_extrh_i64_i32(ret, cpu_fpr[src / 2]);
+     }
+     return ret;
+-#endif
+ }
  
-     qemu_mutex_init(&cpu->work_mutex);
-     QSIMPLEQ_INIT(&cpu->work_list);
+ static void gen_store_fpr_F(DisasContext *dc, unsigned int dst, TCGv_i32 v)
+ {
+-#if TCG_TARGET_REG_BITS == 32
+-    if (dst & 1) {
+-        tcg_gen_mov_i32(TCGV_LOW(cpu_fpr[dst / 2]), v);
+-    } else {
+-        tcg_gen_mov_i32(TCGV_HIGH(cpu_fpr[dst / 2]), v);
+-    }
+-#else
+-    TCGv_i64 t = (TCGv_i64)v;
++    TCGv_i64 t = tcg_temp_new_i64();
++
++    tcg_gen_extu_i32_i64(t, v);
+     tcg_gen_deposit_i64(cpu_fpr[dst / 2], cpu_fpr[dst / 2], t,
+                         (dst & 1 ? 0 : 32), 32);
+-#endif
++    tcg_temp_free_i64(t);
+     gen_update_fprs_dirty(dc, dst);
+ }
+ 
 -- 
 2.34.1
 
