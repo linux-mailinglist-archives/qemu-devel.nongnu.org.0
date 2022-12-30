@@ -2,104 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4846599B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 16:27:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07A4659A21
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 16:44:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBHHr-0003mS-Ed; Fri, 30 Dec 2022 10:27:11 -0500
+	id 1pBHXd-0000uH-DD; Fri, 30 Dec 2022 10:43:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pBHHp-0003m1-AW
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:27:09 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pBHHm-0006nf-Q8
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:27:09 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BUCvCda000968
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:27:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-transfer-encoding
- : mime-version; s=pp1; bh=2ZJttb1zeMzlh5Vmx5KiPhyXlHbAJCKv4M2zmgXpq98=;
- b=UlBAQ2MJSz4yoGpmBu8PV6Vpx1228LDL9y7CW4gw7CYIv4fsV+4yqTis8QAbHt7DOZTS
- k5yhtYBx8+tV66f/eIDIWT5ksXetx1tLi9EKMY7WMsJPMXM1JjOky7lXACh2yq76m96R
- HNT4IxgJnjjDuR6b64Q8gQLtIuVia7eZvgcbFWh4tswcbw6YkfprGLFZW49wzT+iEUs1
- VyMWF9deNh82D87blYBsiC0T6NHQAXtBpC2DHsepg++5YH4ccFTD4PcioqwrDBxx8mdN
- PiZ1fkouZEqz1WRrdUjl31aAJ8Qll0npJRwG7iuBAv2hpwyPlPnMCqBH68xB+fCUK4kT Hw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt0esannd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:27:04 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BUEoFmh002436
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:27:03 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt0esann3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Dec 2022 15:27:03 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BUD8JtZ013936;
- Fri, 30 Dec 2022 15:27:03 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([9.208.130.102])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3mns28jqyr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Dec 2022 15:27:03 +0000
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com
- [10.241.53.101])
- by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BUFR2sJ10289766
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Dec 2022 15:27:02 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0A7D35805C;
- Fri, 30 Dec 2022 15:27:02 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3989058065;
- Fri, 30 Dec 2022 15:27:01 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.211.136.248])
- by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 30 Dec 2022 15:27:01 +0000 (GMT)
-From: James Bottomley <jejb@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH v4 2/2] tpm: add backend for mssim
-Date: Fri, 30 Dec 2022 10:24:15 -0500
-Message-Id: <20221230152415.27375-3-jejb@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20221230152415.27375-1-jejb@linux.ibm.com>
-References: <20221230152415.27375-1-jejb@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: blj8MFBTu4ifkrNugCfHP-UJbPs2dKKY
-X-Proofpoint-ORIG-GUID: 2QT_-DX-sAZPARr9aML9w0sKZ9LpuvDj
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBHXb-0000s2-5c
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:43:27 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBHXZ-00021q-6G
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:43:26 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id g10so1607859wmo.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 07:43:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=m80Xl48AvNuUlY0gKwkHRMMfXe4ur38qDJmDxDx1KRk=;
+ b=xXyiZIX3K72kMULDnCCXPkVrRDkVvwpZ4v1zG/SyJocjzPwXVHMsxUB34cvyEtLLAh
+ cQUjjtdzBMoQpbIyjp8YroZtha+UuQ5w71HRqC6LhaWV6n8fhP639eyBDgrqEjOzYDcF
+ Gdl/UVb7H2dhH9opruH/uCSY9IGIlycNYnehbdadKdwn7250tZiV5x6PZ6jF5dkzBcfa
+ ULYiN3GHwTEE06e9EX/RDUL0zhujjzRLt7QqabkdWV2Lihs+fr6x2fl77Vsiq2ZvKZUM
+ B+OGyT4/L+1OmkMZ4aVgqYerF+aSr1TiiaWhBV87rg/MuXK7hSpf2t2oxHoGx9yRxYSX
+ wtEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=m80Xl48AvNuUlY0gKwkHRMMfXe4ur38qDJmDxDx1KRk=;
+ b=YYjoZJYIPkpLkhEjpg3DqCjFx8LcAXikZTsoaA8nOiOcauqHJst8xXYNOZGIdXazkU
+ Vvd99l+v1X/SQWbySsj/1Av6ERSfRbryqLv6KTuFDnqgIVRjTyuNL2HBIxCyu4RRwXSV
+ 0IAw4qnOx5V2ITs1aV7Te6MLZVdnUZrcOZQEI6euHqIC36jA30sAXt4sRmDLFAB4eqa9
+ m+NABJM6mXjALWbtNzr1mqFkbP4ZVRz0gIdAOfvg5VDBS4yb9Fn0aTXmRSu0Loe7Pd4f
+ p7MePVOzPV+lbN5FEkMTdOEeaLIV2Na4vgV9AFk1XN1vHQ92zWDqy1k9KSdbmkYqqN1b
+ ocGw==
+X-Gm-Message-State: AFqh2kqd0l4+p+ga4SvwEuLbqMUtm400rZI+o3qfD5Y3tD26AQHWap6C
+ XLDyPSx/05IXBH3qhuwvV8cw1w==
+X-Google-Smtp-Source: AMrXdXtV5I2NcPwO1WkPZjBts2PjGhX70nBP28Q4Z/OJ9IN3ioyTaAvfAuW1t1NkjVc4rZA2dSdzAg==
+X-Received: by 2002:a05:600c:510e:b0:3d3:4406:8a2e with SMTP id
+ o14-20020a05600c510e00b003d344068a2emr26005732wms.15.1672415002152; 
+ Fri, 30 Dec 2022 07:43:22 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ i17-20020a05600c355100b003d9980c5e7asm8323369wmq.21.2022.12.30.07.43.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Dec 2022 07:43:21 -0800 (PST)
+Message-ID: <258e42aa-1c32-15ac-137b-3d328fcf5106@linaro.org>
+Date: Fri, 30 Dec 2022 16:43:20 +0100
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-30_09,2022-12-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- priorityscore=1501 clxscore=1015 impostorscore=0 lowpriorityscore=0
- spamscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 bulkscore=0
- adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212300132
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 2/2] hw/arm: Add Olimex H405
+Content-Language: en-US
+To: Felipe Balbi <balbi@kernel.org>, Alistair Francis
+ <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221230145733.200496-1-balbi@kernel.org>
+ <20221230145733.200496-3-balbi@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221230145733.200496-3-balbi@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,584 +91,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
+On 30/12/22 15:57, Felipe Balbi wrote:
+> Olimex makes a series of low-cost STM32 boards. This commit introduces
+> the minimum setup to support SMT32-H405. See [1] for details
+> 
+> [1] https://www.olimex.com/Products/ARM/ST/STM32-H405/
+> 
+> Signed-off-by: Felipe Balbi <balbi@kernel.org>
+> ---
+> 
+> Changes since v1:
+> 	- Add a note in stm32.rst
+> 	- Initialize default_cpu_type to cortex-m4
+> 	- 0-initialize default_ram_size
+> 
+>   MAINTAINERS                             |  6 +++
+>   configs/devices/arm-softmmu/default.mak |  1 +
+>   docs/system/arm/stm32.rst               |  1 +
+>   hw/arm/Kconfig                          |  4 ++
+>   hw/arm/meson.build                      |  1 +
+>   hw/arm/olimex-stm32-h405.c              | 69 +++++++++++++++++++++++++
+>   6 files changed, 82 insertions(+)
+>   create mode 100644 hw/arm/olimex-stm32-h405.c
 
-The Microsoft Simulator (mssim) is the reference emulation platform
-for the TCG TPM 2.0 specification.
-
-https://github.com/Microsoft/ms-tpm-20-ref.git
-
-It exports a fairly simple network socket based protocol on two
-sockets, one for command (default 2321) and one for control (default
-2322).  This patch adds a simple backend that can speak the mssim
-protocol over the network.  It also allows the two sockets to be
-specified on the command line.  The benefits are twofold: firstly it
-gives us a backend that actually speaks a standard TPM emulation
-protocol instead of the linux specific TPM driver format of the
-current emulated TPM backend and secondly, using the microsoft
-protocol, the end point of the emulator can be anywhere on the
-network, facilitating the cloud use case where a central TPM service
-can be used over a control network.
-
-The implementation does basic control commands like power off/on, but
-doesn't implement cancellation or startup.  The former because
-cancellation is pretty much useless on a fast operating TPM emulator
-and the latter because this emulator is designed to be used with OVMF
-which itself does TPM startup and I wanted to validate that.
-
-To run this, simply download an emulator based on the MS specification
-(package ibmswtpm2 on openSUSE) and run it, then add these two lines
-to the qemu command and it will use the emulator.
-
-    -tpmdev mssim,id=tpm0 \
-    -device tpm-crb,tpmdev=tpm0 \
-
-to use a remote emulator replace the first line with
-
-    -tpmdev "{'type':'mssim','id':'tpm0','command':{'type':inet,'host':'remote','port':'2321'}}"
-
-tpm-tis also works as the backend.
-
-Signed-off-by: James Bottomley <jejb@linux.ibm.com>
-
----
-
-v2: convert to SocketAddr json and use qio_channel_socket_connect_sync()
-v3: gate control power off by migration state keep control socket disconnected
-    to test outside influence and add docs.
----
- MAINTAINERS              |   6 +
- backends/tpm/Kconfig     |   5 +
- backends/tpm/meson.build |   1 +
- backends/tpm/tpm_mssim.c | 265 +++++++++++++++++++++++++++++++++++++++
- backends/tpm/tpm_mssim.h |  43 +++++++
- docs/specs/tpm.rst       |  35 ++++++
- monitor/hmp-cmds.c       |   7 ++
- qapi/tpm.json            |  28 ++++-
- 8 files changed, 386 insertions(+), 4 deletions(-)
- create mode 100644 backends/tpm/tpm_mssim.c
- create mode 100644 backends/tpm/tpm_mssim.h
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6966490c94..b0f5cceda1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3043,9 +3043,15 @@ F: include/hw/acpi/tpm.h
- F: include/sysemu/tpm*
- F: qapi/tpm.json
- F: backends/tpm/
-+X: backends/tpm/tpm_mssim.*
- F: tests/qtest/*tpm*
- T: git https://github.com/stefanberger/qemu-tpm.git tpm-next
- 
-+MSSIM TPM Backend
-+M: James Bottomley <jejb@linux.ibm.com>
-+S: Maintained
-+F: backends/tpm/tpm_mssim.*
-+
- Checkpatch
- S: Odd Fixes
- F: scripts/checkpatch.pl
-diff --git a/backends/tpm/Kconfig b/backends/tpm/Kconfig
-index 5d91eb89c2..d6d6fa53e9 100644
---- a/backends/tpm/Kconfig
-+++ b/backends/tpm/Kconfig
-@@ -12,3 +12,8 @@ config TPM_EMULATOR
-     bool
-     default y
-     depends on TPM_BACKEND
-+
-+config TPM_MSSIM
-+    bool
-+    default y
-+    depends on TPM_BACKEND
-diff --git a/backends/tpm/meson.build b/backends/tpm/meson.build
-index 7f2503f84e..c7c3c79125 100644
---- a/backends/tpm/meson.build
-+++ b/backends/tpm/meson.build
-@@ -3,4 +3,5 @@ if have_tpm
-   softmmu_ss.add(files('tpm_util.c'))
-   softmmu_ss.add(when: 'CONFIG_TPM_PASSTHROUGH', if_true: files('tpm_passthrough.c'))
-   softmmu_ss.add(when: 'CONFIG_TPM_EMULATOR', if_true: files('tpm_emulator.c'))
-+  softmmu_ss.add(when: 'CONFIG_TPM_MSSIM', if_true: files('tpm_mssim.c'))
- endif
-diff --git a/backends/tpm/tpm_mssim.c b/backends/tpm/tpm_mssim.c
-new file mode 100644
-index 0000000000..e83ce7777f
---- /dev/null
-+++ b/backends/tpm/tpm_mssim.c
-@@ -0,0 +1,265 @@
-+/*
-+ * Emulator TPM driver which connects over the mssim protocol
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * Copyright (c) 2022
-+ * Author: James Bottomley <jejb@linux.ibm.com>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+#include "qemu/sockets.h"
-+
-+#include "qapi/clone-visitor.h"
-+#include "qapi/qapi-visit-tpm.h"
-+
-+#include "io/channel-socket.h"
-+
-+#include "sysemu/runstate.h"
-+#include "sysemu/tpm_backend.h"
-+#include "sysemu/tpm_util.h"
-+
-+#include "qom/object.h"
-+
-+#include "tpm_int.h"
-+#include "tpm_mssim.h"
-+
-+#define ERROR_PREFIX "TPM mssim Emulator: "
-+
-+#define TYPE_TPM_MSSIM "tpm-mssim"
-+OBJECT_DECLARE_SIMPLE_TYPE(TPMmssim, TPM_MSSIM)
-+
-+struct TPMmssim {
-+    TPMBackend parent;
-+
-+    TPMmssimOptions opts;
-+
-+    QIOChannelSocket *cmd_qc, *ctrl_qc;
-+};
-+
-+static int tpm_send_ctrl(TPMmssim *t, uint32_t cmd, Error **errp)
-+{
-+    int ret;
-+
-+    qio_channel_socket_connect_sync(t->ctrl_qc, t->opts.control, errp);
-+    cmd = htonl(cmd);
-+    ret = qio_channel_write_all(QIO_CHANNEL(t->ctrl_qc), (char *)&cmd, sizeof(cmd), errp);
-+    if (ret != 0)
-+        goto out;
-+    ret = qio_channel_read_all(QIO_CHANNEL(t->ctrl_qc), (char *)&cmd, sizeof(cmd), errp);
-+    if (ret != 0)
-+        goto out;
-+    if (cmd != 0) {
-+        error_setg(errp, ERROR_PREFIX "Incorrect ACK recieved on control channel 0x%x\n", cmd);
-+        ret = -1;
-+    }
-+ out:
-+    qio_channel_close(QIO_CHANNEL(t->ctrl_qc), errp);
-+    return ret;
-+}
-+
-+static void tpm_mssim_instance_init(Object *obj)
-+{
-+}
-+
-+static void tpm_mssim_instance_finalize(Object *obj)
-+{
-+    TPMmssim *t = TPM_MSSIM(obj);
-+
-+    if (t->ctrl_qc && !runstate_check(RUN_STATE_INMIGRATE))
-+        tpm_send_ctrl(t, TPM_SIGNAL_POWER_OFF, NULL);
-+
-+    object_unref(OBJECT(t->ctrl_qc));
-+    object_unref(OBJECT(t->cmd_qc));
-+}
-+
-+static void tpm_mssim_cancel_cmd(TPMBackend *tb)
-+{
-+        return;
-+}
-+
-+static TPMVersion tpm_mssim_get_version(TPMBackend *tb)
-+{
-+    return TPM_VERSION_2_0;
-+}
-+
-+static size_t tpm_mssim_get_buffer_size(TPMBackend *tb)
-+{
-+    /* TCG standard profile max buffer size */
-+    return 4096;
-+}
-+
-+static TpmTypeOptions *tpm_mssim_get_opts(TPMBackend *tb)
-+{
-+    TPMmssim *t = TPM_MSSIM(tb);
-+    TpmTypeOptions *opts = g_new0(TpmTypeOptions, 1);
-+
-+    opts->type = TPM_TYPE_MSSIM;
-+    opts->u.mssim = t->opts;
-+
-+    return opts;
-+}
-+
-+static void tpm_mssim_handle_request(TPMBackend *tb, TPMBackendCmd *cmd,
-+                                     Error **errp)
-+{
-+    TPMmssim *t = TPM_MSSIM(tb);
-+    uint32_t header, len;
-+    uint8_t locality = cmd->locty;
-+    struct iovec iov[4];
-+    int ret;
-+
-+    header = htonl(TPM_SEND_COMMAND);
-+    len = htonl(cmd->in_len);
-+
-+    iov[0].iov_base = &header;
-+    iov[0].iov_len = sizeof(header);
-+    iov[1].iov_base = &locality;
-+    iov[1].iov_len = sizeof(locality);
-+    iov[2].iov_base = &len;
-+    iov[2].iov_len = sizeof(len);
-+    iov[3].iov_base = (void *)cmd->in;
-+    iov[3].iov_len = cmd->in_len;
-+
-+    ret = qio_channel_writev_all(QIO_CHANNEL(t->cmd_qc), iov, 4, errp);
-+    if (ret != 0)
-+        goto fail;
-+
-+    ret = qio_channel_read_all(QIO_CHANNEL(t->cmd_qc), (char *)&len, sizeof(len), errp);
-+    if (ret != 0)
-+        goto fail;
-+    len = ntohl(len);
-+    if (len > cmd->out_len) {
-+        error_setg(errp, "receive size is too large");
-+        goto fail;
-+    }
-+    ret = qio_channel_read_all(QIO_CHANNEL(t->cmd_qc), (char *)cmd->out, len, errp);
-+    if (ret != 0)
-+        goto fail;
-+    /* ACK packet */
-+    ret = qio_channel_read_all(QIO_CHANNEL(t->cmd_qc), (char *)&header, sizeof(header), errp);
-+    if (ret != 0)
-+        goto fail;
-+    if (header != 0) {
-+        error_setg(errp, "incorrect ACK received on command channel 0x%x", len);
-+        goto fail;
-+    }
-+
-+    return;
-+
-+ fail:
-+    error_prepend(errp, ERROR_PREFIX);
-+    tpm_util_write_fatal_error_response(cmd->out, cmd->out_len);
-+}
-+
-+static TPMBackend *tpm_mssim_create(TpmCreateOptions *opts)
-+{
-+    TPMBackend *be = TPM_BACKEND(object_new(TYPE_TPM_MSSIM));
-+    TPMmssim *t = TPM_MSSIM(be);
-+    int sock;
-+    Error *errp = NULL;
-+    TPMmssimOptions *mo = &opts->u.mssim;
-+
-+    if (!mo->has_command) {
-+            mo->has_command = true;
-+            mo->command = g_new0(SocketAddress, 1);
-+            mo->command->type = SOCKET_ADDRESS_TYPE_INET;
-+            mo->command->u.inet.host = g_strdup("localhost");
-+            mo->command->u.inet.port = g_strdup("2321");
-+    }
-+    if (!mo->has_control) {
-+            int port;
-+
-+            mo->has_control = true;
-+            mo->control = g_new0(SocketAddress, 1);
-+            mo->control->type = SOCKET_ADDRESS_TYPE_INET;
-+            mo->control->u.inet.host = g_strdup(mo->command->u.inet.host);
-+            /* in the reference implementation, the control port is
-+             * always one above the command port */
-+            port = atoi(mo->command->u.inet.port) + 1;
-+            mo->control->u.inet.port = g_strdup_printf("%d", port);
-+    }
-+
-+    t->opts = opts->u.mssim;
-+    t->cmd_qc = qio_channel_socket_new();
-+    t->ctrl_qc = qio_channel_socket_new();
-+
-+    if (qio_channel_socket_connect_sync(t->cmd_qc, mo->command, &errp) < 0)
-+        goto fail;
-+
-+    if (qio_channel_socket_connect_sync(t->ctrl_qc, mo->control, &errp) < 0)
-+        goto fail;
-+    qio_channel_close(QIO_CHANNEL(t->ctrl_qc), &errp);
-+
-+    if (!runstate_check(RUN_STATE_INMIGRATE)) {
-+        /* reset the TPM using a power cycle sequence, in case someone
-+         * has previously powered it up */
-+        sock = tpm_send_ctrl(t, TPM_SIGNAL_POWER_OFF, &errp);
-+        if (sock != 0)
-+            goto fail;
-+        sock = tpm_send_ctrl(t, TPM_SIGNAL_POWER_ON, &errp);
-+        if (sock != 0)
-+            goto fail;
-+        sock = tpm_send_ctrl(t, TPM_SIGNAL_NV_ON, &errp);
-+        if (sock != 0)
-+            goto fail;
-+    }
-+
-+    return be;
-+
-+ fail:
-+    object_unref(OBJECT(t->ctrl_qc));
-+    object_unref(OBJECT(t->cmd_qc));
-+    t->ctrl_qc = NULL;
-+    t->cmd_qc = NULL;
-+    error_prepend(&errp, ERROR_PREFIX);
-+    error_report_err(errp);
-+    object_unref(OBJECT(be));
-+
-+    return NULL;
-+}
-+
-+static const QemuOptDesc tpm_mssim_cmdline_opts[] = {
-+    TPM_STANDARD_CMDLINE_OPTS,
-+    {
-+        .name = "command",
-+        .type = QEMU_OPT_STRING,
-+        .help = "Command socket (default localhost:2321)",
-+    },
-+    {
-+        .name = "control",
-+        .type = QEMU_OPT_STRING,
-+        .help = "control socket (default localhost:2322)",
-+    },
-+};
-+
-+static void tpm_mssim_class_init(ObjectClass *klass, void *data)
-+{
-+    TPMBackendClass *cl = TPM_BACKEND_CLASS(klass);
-+
-+    cl->type = TPM_TYPE_MSSIM;
-+    cl->opts = tpm_mssim_cmdline_opts;
-+    cl->desc = "TPM mssim emulator backend driver";
-+    cl->create = tpm_mssim_create;
-+    cl->cancel_cmd = tpm_mssim_cancel_cmd;
-+    cl->get_tpm_version = tpm_mssim_get_version;
-+    cl->get_buffer_size = tpm_mssim_get_buffer_size;
-+    cl->get_tpm_options = tpm_mssim_get_opts;
-+    cl->handle_request = tpm_mssim_handle_request;
-+}
-+
-+static const TypeInfo tpm_mssim_info = {
-+    .name = TYPE_TPM_MSSIM,
-+    .parent = TYPE_TPM_BACKEND,
-+    .instance_size = sizeof(TPMmssim),
-+    .class_init = tpm_mssim_class_init,
-+    .instance_init = tpm_mssim_instance_init,
-+    .instance_finalize = tpm_mssim_instance_finalize,
-+};
-+
-+static void tpm_mssim_register(void)
-+{
-+    type_register_static(&tpm_mssim_info);
-+}
-+
-+type_init(tpm_mssim_register)
-diff --git a/backends/tpm/tpm_mssim.h b/backends/tpm/tpm_mssim.h
-new file mode 100644
-index 0000000000..04a270338a
---- /dev/null
-+++ b/backends/tpm/tpm_mssim.h
-@@ -0,0 +1,43 @@
-+/*
-+ * SPDX-License-Identifier: BSD-2-Clause
-+ *
-+ * The code below is copied from the Microsoft/TCG Reference implementation
-+ *
-+ *  https://github.com/Microsoft/ms-tpm-20-ref.git
-+ *
-+ * In file TPMCmd/Simulator/include/TpmTcpProtocol.h
-+ */
-+
-+#define TPM_SIGNAL_POWER_ON         1
-+#define TPM_SIGNAL_POWER_OFF        2
-+#define TPM_SIGNAL_PHYS_PRES_ON     3
-+#define TPM_SIGNAL_PHYS_PRES_OFF    4
-+#define TPM_SIGNAL_HASH_START       5
-+#define TPM_SIGNAL_HASH_DATA        6
-+        // {uint32_t BufferSize, uint8_t[BufferSize] Buffer}
-+#define TPM_SIGNAL_HASH_END         7
-+#define TPM_SEND_COMMAND            8
-+        // {uint8_t Locality, uint32_t InBufferSize, uint8_t[InBufferSize] InBuffer} ->
-+        //     {uint32_t OutBufferSize, uint8_t[OutBufferSize] OutBuffer}
-+
-+#define TPM_SIGNAL_CANCEL_ON        9
-+#define TPM_SIGNAL_CANCEL_OFF       10
-+#define TPM_SIGNAL_NV_ON            11
-+#define TPM_SIGNAL_NV_OFF           12
-+#define TPM_SIGNAL_KEY_CACHE_ON     13
-+#define TPM_SIGNAL_KEY_CACHE_OFF    14
-+
-+#define TPM_REMOTE_HANDSHAKE        15
-+#define TPM_SET_ALTERNATIVE_RESULT  16
-+
-+#define TPM_SIGNAL_RESET            17
-+#define TPM_SIGNAL_RESTART          18
-+
-+#define TPM_SESSION_END             20
-+#define TPM_STOP                    21
-+
-+#define TPM_GET_COMMAND_RESPONSE_SIZES  25
-+
-+#define TPM_ACT_GET_SIGNALED        26
-+
-+#define TPM_TEST_FAILURE_MODE       30
-diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-index 535912a92b..1398735956 100644
---- a/docs/specs/tpm.rst
-+++ b/docs/specs/tpm.rst
-@@ -270,6 +270,38 @@ available as a module (assuming a TPM 2 is passed through):
-   /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
-   ...
- 
-+The QEMU TPM Microsoft Simulator Device
-+---------------------------------------
-+
-+The TCG provides a reference implementation for TPM 2.0 written by
-+Microsoft (See `ms-tpm-20-ref`_ on github).  The reference implementation
-+starts a network server and listens for TPM commands on port 2321 and
-+TPM Platform control commands on port 2322, although these can be
-+altered.  The QEMU mssim TPM backend talks to this implementation.  By
-+default it connects to the default ports on localhost:
-+
-+.. code-block:: console
-+
-+  qemu-system-x86_64 <qemu-options> \
-+    -tpmdev mssim,id=tpm0 \
-+    -device tpm-crb,tpmdev=tpm0
-+
-+
-+Although it can also communicate with a remote host, which must be
-+specified as a SocketAddress via json on the command line for each of
-+the command and control ports:
-+
-+.. code-block:: console
-+
-+  qemu-system-x86_64 <qemu-options> \
-+    -tpmdev "{'type':'mssim','id':'tpm0','command':{'type':'inet','host':'remote','port':'2321'},'control':{'type':'inet','host':'remote','port':'2322'}}" \
-+    -device tpm-crb,tpmdev=tpm0
-+
-+
-+The mssim backend supports snapshotting and migration, but the state
-+of the Microsoft Simulator server must be preserved (or the server
-+kept running) outside of QEMU for restore to be successful.
-+
- The QEMU TPM emulator device
- ----------------------------
- 
-@@ -526,3 +558,6 @@ the following:
- 
- .. _SWTPM protocol:
-    https://github.com/stefanberger/swtpm/blob/master/man/man3/swtpm_ioctls.pod
-+
-+.. _ms-tpm-20-ref:
-+   https://github.com/microsoft/ms-tpm-20-ref
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 01b789a79e..2a1d54e818 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -841,6 +841,7 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
-     unsigned int c = 0;
-     TPMPassthroughOptions *tpo;
-     TPMEmulatorOptions *teo;
-+    TPMmssimOptions *tmo;
- 
-     info_list = qmp_query_tpm(&err);
-     if (err) {
-@@ -874,6 +875,12 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
-             teo = ti->options->u.emulator.data;
-             monitor_printf(mon, ",chardev=%s", teo->chardev);
-             break;
-+        case TPM_TYPE_MSSIM:
-+            tmo = &ti->options->u.mssim;
-+            monitor_printf(mon, ",command=%s:%s,control=%s:%s",
-+                           tmo->command->u.inet.host, tmo->command->u.inet.port,
-+                           tmo->control->u.inet.host, tmo->control->u.inet.port);
-+            break;
-         case TPM_TYPE__MAX:
-             break;
-         }
-diff --git a/qapi/tpm.json b/qapi/tpm.json
-index 2b491c28b4..f9dde35377 100644
---- a/qapi/tpm.json
-+++ b/qapi/tpm.json
-@@ -5,6 +5,7 @@
- ##
- # = TPM (trusted platform module) devices
- ##
-+{ 'include': 'sockets.json' }
- 
- ##
- # @TpmModel:
-@@ -49,7 +50,7 @@
- #
- # Since: 1.5
- ##
--{ 'enum': 'TpmType', 'data': [ 'passthrough', 'emulator' ],
-+{ 'enum': 'TpmType', 'data': [ 'passthrough', 'emulator', 'mssim' ],
-   'if': 'CONFIG_TPM' }
- 
- ##
-@@ -64,7 +65,7 @@
- # Example:
- #
- # -> { "execute": "query-tpm-types" }
--# <- { "return": [ "passthrough", "emulator" ] }
-+# <- { "return": [ "passthrough", "emulator", "mssim" ] }
- #
- ##
- { 'command': 'query-tpm-types', 'returns': ['TpmType'],
-@@ -117,6 +118,22 @@
-   'data': { 'data': 'TPMEmulatorOptions' },
-   'if': 'CONFIG_TPM' }
- 
-+##
-+# @TPMmssimOptions:
-+#
-+# Information for the mssim emulator connection
-+#
-+# @command: command socket for the TPM emulator
-+# @control: control socket for the TPM emulator
-+#
-+# Since: 7.2.0
-+##
-+{ 'struct': 'TPMmssimOptions',
-+  'data': {
-+      '*command': 'SocketAddress',
-+      '*control': 'SocketAddress' },
-+  'if': 'CONFIG_TPM' }
-+
- ##
- # @TpmTypeOptions:
- #
-@@ -124,6 +141,7 @@
- #
- # @type: - 'passthrough' The configuration options for the TPM passthrough type
- #        - 'emulator' The configuration options for TPM emulator backend type
-+#        - 'mssim' The configuration options for TPM emulator mssim type
- #
- # Since: 1.5
- ##
-@@ -131,7 +149,8 @@
-   'base': { 'type': 'TpmType' },
-   'discriminator': 'type',
-   'data': { 'passthrough' : 'TPMPassthroughOptionsWrapper',
--            'emulator': 'TPMEmulatorOptionsWrapper' },
-+            'emulator': 'TPMEmulatorOptionsWrapper',
-+            'mssim' : 'TPMmssimOptions' },
-   'if': 'CONFIG_TPM' }
- 
- ##
-@@ -150,7 +169,8 @@
-             'id' : 'str' },
-   'discriminator': 'type',
-   'data': { 'passthrough' : 'TPMPassthroughOptions',
--            'emulator': 'TPMEmulatorOptions' },
-+            'emulator': 'TPMEmulatorOptions',
-+            'mssim': 'TPMmssimOptions' },
-   'if': 'CONFIG_TPM' }
- 
- ##
--- 
-2.35.3
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
