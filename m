@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2882C65967D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 10:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC5565967F
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 10:02:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBBEW-0004GC-Hb; Fri, 30 Dec 2022 03:59:20 -0500
+	id 1pBBH9-0005AF-L2; Fri, 30 Dec 2022 04:02:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pBBER-0004Eb-1Z; Fri, 30 Dec 2022 03:59:17 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pBBEP-0000Yr-5w; Fri, 30 Dec 2022 03:59:14 -0500
-Received: by mail-ej1-x632.google.com with SMTP id u19so50054830ejm.8;
- Fri, 30 Dec 2022 00:59:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eUc0juOQjJaqafR8Jo4/0qbZGrExdMwU94S8oWq92+0=;
- b=SyS/X7+m2lW3/K6ocKdN1vVppot/OMDNjaEYI4wIYlmSxsG1TYREbe48ifamVBgHYn
- ekm4yjLOSE+g9uPVwRFxiirPLiUwqcNsZIJadh48NeL6lbTJEJUPLBRPx0y6LRg1hIt1
- XH9T4z90bqddJGrBnSxR4sgFUsCgDsCCTf0jzne+VjqGeVxVjGHPigO7By/G0JkEnKnj
- R1C4M/t1HmhjKb8nmiygi7LymdNoVLj4a+4aoCJqeD6/yLPAPrJ+/Vd+0ZcC1Io4ylVg
- zHPVcJgYdg8ZmqYydASBvTR1QTGdQHgnwkhEzG7/AlmEG0bwpXQIy60a+dVC1tfO8DGd
- B8tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eUc0juOQjJaqafR8Jo4/0qbZGrExdMwU94S8oWq92+0=;
- b=r7q0nm2zeviGNOl+smt7cJNYwumF8J54v5eIegs82Lp87VVLy+EQHHsW86rvLchpvJ
- 8YiVJbpLXaSF5avNZ1E05Vm6FtIu/cUDxeuqmD03v3lyAs2agVmyRonV0ppimquq1MfT
- 4n0Brf0Hge4d5moi+6MOmOkdIjBqd/7DaLCnbIdMX4AiKdCai66Q1YtU3VMqYguCyaDv
- ZqK+0ykjek0ZoNhWIOocXhpxES5Rl90Vu9Aeq5RTBacFGVWWKpC/ezIU6Qx1zaOoetf4
- uVzXVYwNCdy08s6FnZrAKfIVjR28MOvWSfrwzoYiUZNhCHvmjYAF5y9eZ985rXXO71Zt
- 4I8A==
-X-Gm-Message-State: AFqh2kruV0JQxR/YpTEa5elJDMyrPQydr1S1KLBVk90TTNLP3wJz5+mI
- dDJxzqXOfgCV95b/UqSbuBuw4M2ldn7BBNRJM60=
-X-Google-Smtp-Source: AMrXdXufjVsnA8Fy4Sbj26o4OHNFTdPl8XFqO4zprYkgMRayxL/qXk/SW5BKtJeHnKhqoQWtm2HqqCFaM2FsvqJIqS0=
-X-Received: by 2002:a17:906:1945:b0:7c0:bb4c:e792 with SMTP id
- b5-20020a170906194500b007c0bb4ce792mr2424495eje.618.1672390750320; Fri, 30
- Dec 2022 00:59:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pBBGz-00058c-Nn
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 04:01:59 -0500
+Received: from mailout04.t-online.de ([194.25.134.18])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pBBGx-00017s-Ko
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 04:01:53 -0500
+Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
+ by mailout04.t-online.de (Postfix) with SMTP id 4D99014B17;
+ Fri, 30 Dec 2022 10:01:48 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.21.92]) by fwd79.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pBBGt-1HyCqf0; Fri, 30 Dec 2022 10:01:48 +0100
+Message-ID: <fa8fbff9-5c8d-d8c8-ae87-01d235ad5f98@t-online.de>
+Date: Fri, 30 Dec 2022 10:01:47 +0100
 MIME-Version: 1.0
-References: <20221229181135.270661-1-dbarboza@ventanamicro.com>
- <20221229181135.270661-5-dbarboza@ventanamicro.com>
-In-Reply-To: <20221229181135.270661-5-dbarboza@ventanamicro.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 30 Dec 2022 16:58:59 +0800
-Message-ID: <CAEUhbmWEdia4AQ4HK9hxh41v2bWPFSBfkz5DKMzRYqMVwmzfxw@mail.gmail.com>
-Subject: Re: [PATCH v4 04/11] hw/riscv/boot.c: exit early if filename is NULL
- in load_(kernel|initrd)
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH 10/11] alsaaudio: change default playback settings
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
+ <2230283.NDGgU1aIbp@silver>
+ <a257ab88-a779-bb84-e96e-664a3434b417@t-online.de>
+ <2081398.TCYG2cGmvX@silver>
+Content-Language: en-US
+In-Reply-To: <2081398.TCYG2cGmvX@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1672390908-0A697417-37D731C5/0/0 CLEAN NORMAL
+X-TOI-MSGID: f3db2c1c-c6da-4e26-958f-33bd7a18fba0
+Received-SPF: none client-ip=194.25.134.18; envelope-from=vr_qemu@t-online.de;
+ helo=mailout04.t-online.de
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,53 +69,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 30, 2022 at 2:21 AM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> riscv_load_kernel() and riscv_load_initrd() works under the assumption
-> that 'kernel_filename' and 'filename' are not NULL.
+Am 28.12.22 um 14:52 schrieb Christian Schoenebeck:
+> On Monday, December 26, 2022 4:08:37 PM CET Volker Rümelin wrote:
+>> Am 21.12.22 um 12:03 schrieb Christian Schoenebeck:
+>>> On Sunday, December 18, 2022 6:15:38 PM CET Volker Rümelin wrote:
+>>>> The currently used default playback settings in the ALSA audio
+>>>> backend are a bit unfortunate. With a few emulated audio devices,
+>>>> audio playback does not work properly. Here is a short part of
+>>>> the debug log while audio is playing (elapsed time in seconds).
+>>> Which emulated devices are these?
+>> The hda device and sb16. When I wrote this patch two months ago ac97
+>> also had occasional dropouts, but at the moment ac97 works without issues.
+>>
+>>>> audio: Elapsed since last alsa run (running): 0.046244
+>>>> audio: Elapsed since last alsa run (running): 0.023137
+>>>> audio: Elapsed since last alsa run (running): 0.023170
+>>>> audio: Elapsed since last alsa run (running): 0.023650
+>>>> audio: Elapsed since last alsa run (running): 0.060802
+>>>> audio: Elapsed since last alsa run (running): 0.031931
+>>>>
+>>>> For some audio devices the time of more than 23ms between updates
+>>>> is too long.
+>>>>
+>>>> Set the period time to 5.8ms so that the maximum time between
+>>>> two updates typically does not exceed 11ms. This roughly matches
+>>>> the 10ms period time when doing playback with the audio timer.
+>>>> After this patch the debug log looks like this.
+>>> And what about dynamically adapting that value instead of reducing period time
+>>> for everyone by default?
+>> It seems this would be only needed for the ALSA backend. All other
+>> backends with the exception of OSS are fine with a 10ms period, and the
+>> ALSA audio backend also uses 10ms with -audiodev
+>> alsa,out.try-poll=off,in.try-poll=off.
+> OK, but all it would need was adjusting dev->timer_period appropriately either
+> in audio_validate_opts() [audio/audio.c, line 2126] to handle it generalized
+> or at the end of alsa_audio_init() [audio/alsaaudio.c, line 944] if
+> specifically for ALSA only, no?
 
-We should do the same in riscv_load_firmware()
+I think this should be the other way around. If period-length wasn't 
+specified on the command line, it should be calculated from 
+timer-period. With timer based playback or recording, the guest should 
+be able to write or read new audio frames every timer-period 
+microseconds. To have a high probability that the guest can write or 
+read new frames every timer-period, the asynchronous updates of the 
+audio backend have to be faster than timer-period e.g. 75-80% of 
+timer-period. But that's a different patch.
 
->
-> This is currently the case since all callers of both functions are
-> checking for NULL before calling them. Put an assert in both to make
-> sure that a NULL value for both cases would be considered a bug.
->
-> Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->  hw/riscv/boot.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 98b80af51b..ad196f0fe4 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -177,6 +177,8 @@ target_ulong riscv_load_kernel(const char *kernel_fil=
-ename,
->  {
->      uint64_t kernel_load_base, kernel_entry;
->
-> +    g_assert(kernel_filename !=3D NULL);
-> +
->      /*
->       * NB: Use low address not ELF entry point to ensure that the fw_dyn=
-amic
->       * behaviour when loading an ELF matches the fw_payload, fw_jump and=
- BBL
-> @@ -209,6 +211,8 @@ hwaddr riscv_load_initrd(const char *filename, uint64=
-_t mem_size,
->  {
->      ssize_t size;
->
-> +    g_assert(filename !=3D NULL);
-> +
->      /*
->       * We want to put the initrd far enough into RAM that when the
->       * kernel is uncompressed it will not clobber the initrd. However
-> --
+>>> 23ms is usually a good trade off between low latency, CPU load and potential
+>>> for audio dropouts.
+>> Quite often it's longer than 23ms. For the rest of the audio backends a
+>> timer period of 10ms was selected as a good trade off between CPU load
+>> and audio dropouts. But you are right, this patch increases the CPU load.
+>>
+>> On my system the CPU load is increased by 0.9%. This was measured with a
+>> Linux guest using rhythmbox for audio playback. The guest was configured
+>> to use pulseaudio as sound server. The measurement was done with top -b
+>> -d 10 -n 14 over a period of two minutes. The first and last measurement
+>> was dropped. The average QEMU CPU load was 10.7% with and 9.8% without
+>> this patch.
+>>
+>> I would prefer a system with a 0.9% increased CPU load where audio just
+>> works over a system where you have to fine tune audio parameters.
+>>
 
-Regards,
-Bin
 
