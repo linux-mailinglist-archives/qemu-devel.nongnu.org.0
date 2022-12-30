@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2320C659862
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A475665986A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:48:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBEGA-00087m-2D; Fri, 30 Dec 2022 07:13:14 -0500
+	id 1pBEGn-0000LY-2m; Fri, 30 Dec 2022 07:13:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pBEFv-0007nw-0o
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:59 -0500
+ id 1pBEFz-0007zW-02
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:03 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pBEFo-0004xt-Qg
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:58 -0500
+ id 1pBEFr-00051A-VW
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
- To:From:Reply-To:Content-ID:Content-Description;
- bh=KxiQ7bh/Vn6hXlw2lNFLRPHYyiOZJ3Q4CLF+BCbFo1E=; b=dxA6o862RDqa+vqxX7muADmzE1
- RXGpCrL1uFny+pHaNeu0D1zicGQTA4Zj2ZUA6aZFamOoE9y0kgVIVmJfRxelygK41JpzzEEW0uRCU
- UYXJ7HWuDPwsjxE7wLlGW+I5g9pwLduwjFYlzozz5NFh0U0V2vYZYLWxowYO+B2mwEbA2jd0POoY3
- 29hMA9ulSb7EgxSd0r8oN9R+xtrQjNCsuCUBgKqYnaoNww+SMhjmreV2YyYwxrVsrq2tisiPcpFlV
- hp90P2tkzt2p9o3FrApVvr+RbDOz0TFj2Bff9Jt3vX+kcNuz0m9TDfyNKNJB8AwHu3ZWb5nNXue+/
- YNLuBiLQ==;
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=YcvF9yVvkF3lf1JY93ZEpdwVOnrP+TOi15MYhiv8ceQ=; b=lDEQbVLPEl6SjZsNOtx4xfI0jp
+ 8wfpdalSvFqo01vYMck28EVOhISWwzGRN+3PAtPfehDr1l/qjRm+5ABhucYHUfdkWzTZmz3NikxNG
+ +4YmipTU4kZiAfmuOqvDvc4g9YqL5BJVsuPmCIkBWl2xkP/jY5t0RldHOXP0nqrUapKz15vOgj/b9
+ eaRNaO5eVBtQGUmjLGkp2qnygToN0G04a0bKIDvAhuSV3u+8zNruwMcHy5EpXrQr3kdX//NIpYDp7
+ Hh0jpQZrgaTISaxRa19eOsK3iuRbbGoJhc2NtgcYhH8X2DXnYd7thrurwliYG+gSX+eiTT8dgxqmV
+ IUzMM/5w==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pBEFl-00Ac8X-I5; Fri, 30 Dec 2022 12:12:49 +0000
+ id 1pBEFl-00Ac8Y-Ig; Fri, 30 Dec 2022 12:12:49 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pBEFa-005Nyy-AU; Fri, 30 Dec 2022 12:12:38 +0000
+ Hat Linux)) id 1pBEFa-005NzB-BS; Fri, 30 Dec 2022 12:12:38 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,15 +46,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [RFC PATCH v5 41/52] hw/xen: Support HVM_PARAM_CALLBACK_TYPE_PCI_INTX
- callback
-Date: Fri, 30 Dec 2022 12:12:24 +0000
-Message-Id: <20221230121235.1282915-42-dwmw2@infradead.org>
+Subject: [RFC PATCH v5 42/52] kvm/i386: Add xen-gnttab-max-frames property
+Date: Fri, 30 Dec 2022 12:12:25 +0000
+Message-Id: <20221230121235.1282915-43-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221230121235.1282915-1-dwmw2@infradead.org>
 References: <20221230121235.1282915-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
  casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -85,160 +83,120 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-The guest is permitted to specify an arbitrary domain/bus/device/function
-and INTX pin from which the callback IRQ shall appear to have come.
-
-In QEMU we can only easily do this for devices that actually exist, and
-even that requires us "knowing" that it's a PCMachine in order to find
-the PCI root bus — although that's OK really because it's always true.
-
-We also don't get to get notified of INTX routing changes, because we
-can't do that as a passive observer; if we try to register a notifier
-it will overwrite any existing notifier callback on the device.
-
-But in practice, guests using PCI_INTX will only ever use pin A on the
-Xen platform device, and won't swizzle the INTX routing after they set
-it up. So this is just fine.
-
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/xen_evtchn.c | 73 ++++++++++++++++++++++++++++++++++------
- 1 file changed, 62 insertions(+), 11 deletions(-)
+ accel/kvm/kvm-all.c       |  1 +
+ include/sysemu/kvm_int.h  |  1 +
+ include/sysemu/kvm_xen.h  |  1 +
+ target/i386/kvm/kvm.c     | 34 ++++++++++++++++++++++++++++++++++
+ target/i386/kvm/xen-emu.c |  6 ++++++
+ 5 files changed, 43 insertions(+)
 
-diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index 29f5e60172..49caf69dc0 100644
---- a/hw/i386/kvm/xen_evtchn.c
-+++ b/hw/i386/kvm/xen_evtchn.c
-@@ -25,6 +25,8 @@
- #include "hw/sysbus.h"
- #include "hw/xen/xen.h"
- #include "hw/i386/x86.h"
-+#include "hw/i386/pc.h"
-+#include "hw/pci/pci.h"
- #include "hw/irq.h"
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 568bb09c09..54930e88e4 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -3621,6 +3621,7 @@ static void kvm_accel_instance_init(Object *obj)
+     s->notify_vmexit = NOTIFY_VMEXIT_OPTION_RUN;
+     s->notify_window = 0;
+     s->xen_version = 0;
++    s->xen_gnttab_max_frames = 64;
+ }
  
- #include "xen_evtchn.h"
-@@ -100,6 +102,7 @@ struct XenEvtchnState {
+ /**
+diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+index 9a8c062609..e6eb99030f 100644
+--- a/include/sysemu/kvm_int.h
++++ b/include/sysemu/kvm_int.h
+@@ -112,6 +112,7 @@ struct KVMState
+     uint32_t notify_window;
+     uint32_t xen_version;
+     uint32_t xen_caps;
++    uint16_t xen_gnttab_max_frames;
+ };
  
-     uint64_t callback_param;
-     bool evtchn_in_kernel;
-+    uint32_t callback_gsi;
+ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
+index 864772514f..4999a0cff4 100644
+--- a/include/sysemu/kvm_xen.h
++++ b/include/sysemu/kvm_xen.h
+@@ -20,6 +20,7 @@ uint32_t kvm_xen_get_caps(void);
+ void *kvm_xen_get_vcpu_info_hva(uint32_t vcpu_id);
+ void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type);
+ int kvm_xen_set_vcpu_virq(uint32_t vcpu_id, uint16_t virq, uint16_t port);
++uint16_t kvm_xen_get_gnttab_max_frames(void);
  
-     QemuMutex port_lock;
-     uint32_t nr_ports;
-@@ -205,20 +208,44 @@ static void xen_evtchn_register_types(void)
- 
- type_init(xen_evtchn_register_types)
- 
-+static int set_callback_pci_intx(XenEvtchnState *s, uint64_t param)
-+{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    uint8_t pin = param & 3;
-+    uint8_t devfn = (param >> 8) & 0xff;
-+    uint16_t bus = (param >> 16) & 0xffff;
-+    uint16_t domain = (param >> 32) & 0xffff;
-+    PCIDevice *pdev;
-+    PCIINTxRoute r;
-+
-+    if (domain || !pcms) {
-+        return 0;
-+    }
-+
-+    pdev = pci_find_device(pcms->bus, bus, devfn);
-+    if (!pdev) {
-+        return 0;
-+    }
-+
-+    r = pci_device_route_intx_to_irq(pdev, pin);
-+    if (r.mode != PCI_INTX_ENABLED) {
-+        return 0;
-+    }
-+
-+    /*
-+     * Hm, can we be notified of INTX routing changes? Not without
-+     * *owning* the device and being allowed to overwrite its own
-+     * ->intx_routing_notifier, AFAICT. So let's not.
-+     */
-+    return r.irq;
-+}
-+
- void xen_evtchn_set_callback_level(int level)
- {
-     XenEvtchnState *s = xen_evtchn_singleton;
- 
--    if (s) {
--        uint32_t param = (uint32_t)s->callback_param;
--
--        switch (s->callback_param >> CALLBACK_VIA_TYPE_SHIFT) {
--        case HVM_PARAM_CALLBACK_TYPE_GSI:
--            if (param < GSI_NUM_PINS) {
--                qemu_set_irq(s->gsis[param], level);
--            }
--            break;
--        }
-+    if (s && s->callback_gsi && s->callback_gsi < GSI_NUM_PINS) {
-+        qemu_set_irq(s->gsis[s->callback_gsi], level);
+ #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
+                                  KVM_XEN_HVM_CONFIG_ ## cap))
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 2488773e1e..8fbdc7c064 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -5869,6 +5869,33 @@ static void kvm_arch_set_xen_version(Object *obj, Visitor *v,
      }
  }
  
-@@ -226,6 +253,8 @@ int xen_evtchn_set_callback_param(uint64_t param)
++static void kvm_arch_get_xen_gnttab_max_frames(Object *obj, Visitor *v,
++                                               const char *name, void *opaque,
++                                               Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    uint16_t value = s->xen_gnttab_max_frames;
++
++    visit_type_uint16(v, name, &value, errp);
++}
++
++static void kvm_arch_set_xen_gnttab_max_frames(Object *obj, Visitor *v,
++                                               const char *name, void *opaque,
++                                               Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    Error *error = NULL;
++    uint16_t value;
++
++    visit_type_uint16(v, name, &value, &error);
++    if (error) {
++        error_propagate(errp, error);
++        return;
++    }
++
++    s->xen_gnttab_max_frames = value;
++}
++
+ void kvm_arch_accel_class_init(ObjectClass *oc)
  {
-     XenEvtchnState *s = xen_evtchn_singleton;
-     bool in_kernel = false;
-+    uint32_t gsi = 0;
-+    int type = param >> CALLBACK_VIA_TYPE_SHIFT;
-     int ret;
- 
-     if (!s) {
-@@ -234,7 +263,7 @@ int xen_evtchn_set_callback_param(uint64_t param)
- 
-     qemu_mutex_lock(&s->port_lock);
- 
--    switch (param >> CALLBACK_VIA_TYPE_SHIFT) {
-+    switch (type) {
-     case HVM_PARAM_CALLBACK_TYPE_VECTOR: {
-         struct kvm_xen_hvm_attr xa = {
-             .type = KVM_XEN_ATTR_TYPE_UPCALL_VECTOR,
-@@ -245,10 +274,17 @@ int xen_evtchn_set_callback_param(uint64_t param)
-         if (!ret && kvm_xen_has_cap(EVTCHN_SEND)) {
-             in_kernel = true;
-         }
-+        gsi = 0;
-         break;
-     }
- 
-+    case HVM_PARAM_CALLBACK_TYPE_PCI_INTX:
-+        gsi = set_callback_pci_intx(s, param);
-+        ret = gsi ? 0 : -EINVAL;
-+        break;
+     object_class_property_add_enum(oc, "notify-vmexit", "NotifyVMexitOption",
+@@ -5894,6 +5921,13 @@ void kvm_arch_accel_class_init(ObjectClass *oc)
+                                           "Xen version to be emulated "
+                                           "(in XENVER_version form "
+                                           "e.g. 0x4000a for 4.10)");
 +
-     case HVM_PARAM_CALLBACK_TYPE_GSI:
-+        gsi = (uint32_t)param;
-         ret = 0;
-         break;
++    object_class_property_add(oc, "xen-gnttab-max-frames", "uint16",
++                              kvm_arch_get_xen_gnttab_max_frames,
++                              kvm_arch_set_xen_gnttab_max_frames,
++                              NULL, NULL);
++    object_class_property_set_description(oc, "xen-gnttab-max-frames",
++                                          "Maximum number of grant table frames");
+ }
  
-@@ -260,6 +296,21 @@ int xen_evtchn_set_callback_param(uint64_t param)
-     if (!ret) {
-         s->callback_param = param;
-         s->evtchn_in_kernel = in_kernel;
-+
-+        if (gsi != s->callback_gsi) {
-+            struct vcpu_info *vi = kvm_xen_get_vcpu_info_hva(0);
-+
-+            xen_evtchn_set_callback_level(0);
-+            s->callback_gsi = gsi;
-+
-+            if (gsi && vi && vi->evtchn_upcall_pending) {
-+                /*
-+                 * The vCPU code needs to do it because it needs to set the
-+                 * flag in the right order to avoid races with clearing.
-+                 */
-+                kvm_xen_inject_vcpu_callback_vector(0, type);
-+            }
-+        }
-     }
+ void kvm_set_max_apic_id(uint32_t max_apic_id)
+diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
+index 9a8eb0f1f9..fd3e2464ee 100644
+--- a/target/i386/kvm/xen-emu.c
++++ b/target/i386/kvm/xen-emu.c
+@@ -1160,6 +1160,12 @@ int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+     return 0;
+ }
  
-     qemu_mutex_unlock(&s->port_lock);
++uint16_t kvm_xen_get_gnttab_max_frames(void)
++{
++    KVMState *s = KVM_STATE(current_accel());
++    return s->xen_gnttab_max_frames;
++}
++
+ int kvm_put_xen_state(CPUState *cs)
+ {
+     X86CPU *cpu = X86_CPU(cs);
 -- 
 2.35.3
 
