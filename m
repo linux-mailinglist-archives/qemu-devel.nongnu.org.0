@@ -2,104 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCBC6599B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 16:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4846599B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 16:27:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBHGw-0002zq-ET; Fri, 30 Dec 2022 10:26:14 -0500
+	id 1pBHHr-0003mS-Ed; Fri, 30 Dec 2022 10:27:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pBHGu-0002xC-AV
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:26:12 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ id 1pBHHp-0003m1-AW
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:27:09 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pBHGr-0006ct-KM
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:26:12 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BUDQsAa011414
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:26:07 GMT
+ id 1pBHHm-0006nf-Q8
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:27:09 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BUCvCda000968
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:27:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=VA3tOZua2PVbMDgDtezNQVy3NPvX+RYRIvN5G3RpvUQ=;
- b=SsKEwHz+k7uhg7+K5g1mFPUFYDlfgOA95o11/2sbf1fqOPnouS96N3u8R15/iQcatShs
- t3+s07L+Tc5WbLUL6N7Cj3Arz0KNlMnWMuveyCsr5CSZC68n267hxCO7wmaSbhtrJ6Si
- 5cu3kunHB3yl95hIMudbW41kyVkgltIYqF7VcVTwXqmK6tBphicXOWAHNs2+VZ4lMaxp
- o0TtCBu2BlwL9UKxYd8nYXcCbYkF1dIohGZjouK2cdHQ5Fa+4vmxRtB56c33sC7xXacV
- NpBb+nf9pPGqHRRb5lfVjBJt5ZV1D9Q2gKydLaStNgbd50qdHqNN9iQIOmrnqXO7iAxh pg== 
+ : date : message-id : in-reply-to : references : content-transfer-encoding
+ : mime-version; s=pp1; bh=2ZJttb1zeMzlh5Vmx5KiPhyXlHbAJCKv4M2zmgXpq98=;
+ b=UlBAQ2MJSz4yoGpmBu8PV6Vpx1228LDL9y7CW4gw7CYIv4fsV+4yqTis8QAbHt7DOZTS
+ k5yhtYBx8+tV66f/eIDIWT5ksXetx1tLi9EKMY7WMsJPMXM1JjOky7lXACh2yq76m96R
+ HNT4IxgJnjjDuR6b64Q8gQLtIuVia7eZvgcbFWh4tswcbw6YkfprGLFZW49wzT+iEUs1
+ VyMWF9deNh82D87blYBsiC0T6NHQAXtBpC2DHsepg++5YH4ccFTD4PcioqwrDBxx8mdN
+ PiZ1fkouZEqz1WRrdUjl31aAJ8Qll0npJRwG7iuBAv2hpwyPlPnMCqBH68xB+fCUK4kT Hw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt0vq24vc-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt0esannd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:26:07 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BUEwRRc015348
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:26:07 GMT
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:27:04 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BUEoFmh002436
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:27:03 GMT
 Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
  [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt0vq24uy-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt0esann3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Dec 2022 15:26:06 +0000
+ Fri, 30 Dec 2022 15:27:03 +0000
 Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BUDc1OL013477;
- Fri, 30 Dec 2022 15:26:06 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3mns28jqts-1
+ by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BUD8JtZ013936;
+ Fri, 30 Dec 2022 15:27:03 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([9.208.130.102])
+ by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3mns28jqyr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Dec 2022 15:26:06 +0000
+ Fri, 30 Dec 2022 15:27:03 +0000
 Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com
  [10.241.53.101])
- by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BUFQ5Xo8323722
+ by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BUFR2sJ10289766
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Dec 2022 15:26:05 GMT
+ Fri, 30 Dec 2022 15:27:02 GMT
 Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E109F58051;
- Fri, 30 Dec 2022 15:26:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0A7D35805C;
+ Fri, 30 Dec 2022 15:27:02 +0000 (GMT)
 Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2D0C45805C;
- Fri, 30 Dec 2022 15:26:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3989058065;
+ Fri, 30 Dec 2022 15:27:01 +0000 (GMT)
 Received: from lingrow.int.hansenpartnership.com (unknown [9.211.136.248])
  by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 30 Dec 2022 15:26:04 +0000 (GMT)
+ Fri, 30 Dec 2022 15:27:01 +0000 (GMT)
 From: James Bottomley <jejb@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH v4 1/2] tpm: convert tpmdev options processing to new visitor
- format
-Date: Fri, 30 Dec 2022 10:24:14 -0500
-Message-Id: <20221230152415.27375-2-jejb@linux.ibm.com>
+Subject: [PATCH v4 2/2] tpm: add backend for mssim
+Date: Fri, 30 Dec 2022 10:24:15 -0500
+Message-Id: <20221230152415.27375-3-jejb@linux.ibm.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221230152415.27375-1-jejb@linux.ibm.com>
 References: <20221230152415.27375-1-jejb@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Fbz2SmGVN8C4HCvUJMiTRLFR_X_fUWBq
-X-Proofpoint-GUID: wiG6yon7YRp0oCoPI6a3cKUuL_uCL02o
+X-Proofpoint-GUID: blj8MFBTu4ifkrNugCfHP-UJbPs2dKKY
+X-Proofpoint-ORIG-GUID: 2QT_-DX-sAZPARr9aML9w0sKZ9LpuvDj
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-30_09,2022-12-30_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 clxscore=1015 phishscore=0 impostorscore=0 mlxscore=0
- mlxlogscore=999 priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0
+ priorityscore=1501 clxscore=1015 impostorscore=0 lowpriorityscore=0
+ spamscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 bulkscore=0
+ adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2212300132
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,421 +117,581 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: James Bottomley <James.Bottomley@HansenPartnership.com>
 
-Instead of processing the tpmdev options using the old qemu options,
-convert to the new visitor format which also allows the passing of
-json on the command line.
+The Microsoft Simulator (mssim) is the reference emulation platform
+for the TCG TPM 2.0 specification.
+
+https://github.com/Microsoft/ms-tpm-20-ref.git
+
+It exports a fairly simple network socket based protocol on two
+sockets, one for command (default 2321) and one for control (default
+2322).  This patch adds a simple backend that can speak the mssim
+protocol over the network.  It also allows the two sockets to be
+specified on the command line.  The benefits are twofold: firstly it
+gives us a backend that actually speaks a standard TPM emulation
+protocol instead of the linux specific TPM driver format of the
+current emulated TPM backend and secondly, using the microsoft
+protocol, the end point of the emulator can be anywhere on the
+network, facilitating the cloud use case where a central TPM service
+can be used over a control network.
+
+The implementation does basic control commands like power off/on, but
+doesn't implement cancellation or startup.  The former because
+cancellation is pretty much useless on a fast operating TPM emulator
+and the latter because this emulator is designed to be used with OVMF
+which itself does TPM startup and I wanted to validate that.
+
+To run this, simply download an emulator based on the MS specification
+(package ibmswtpm2 on openSUSE) and run it, then add these two lines
+to the qemu command and it will use the emulator.
+
+    -tpmdev mssim,id=tpm0 \
+    -device tpm-crb,tpmdev=tpm0 \
+
+to use a remote emulator replace the first line with
+
+    -tpmdev "{'type':'mssim','id':'tpm0','command':{'type':inet,'host':'remote','port':'2321'}}"
+
+tpm-tis also works as the backend.
 
 Signed-off-by: James Bottomley <jejb@linux.ibm.com>
 
 ---
-v4: add TpmConfiOptions
----
- backends/tpm/tpm_emulator.c    | 24 ++++-----
- backends/tpm/tpm_passthrough.c | 27 +++-------
- include/sysemu/tpm.h           |  4 +-
- include/sysemu/tpm_backend.h   |  2 +-
- qapi/tpm.json                  | 19 +++++++
- softmmu/tpm.c                  | 90 ++++++++++++++--------------------
- softmmu/vl.c                   | 19 +------
- 7 files changed, 76 insertions(+), 109 deletions(-)
 
-diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-index 49cc3d749d..cb6bf9d7c2 100644
---- a/backends/tpm/tpm_emulator.c
-+++ b/backends/tpm/tpm_emulator.c
-@@ -584,33 +584,28 @@ err_exit:
-     return -1;
- }
+v2: convert to SocketAddr json and use qio_channel_socket_connect_sync()
+v3: gate control power off by migration state keep control socket disconnected
+    to test outside influence and add docs.
+---
+ MAINTAINERS              |   6 +
+ backends/tpm/Kconfig     |   5 +
+ backends/tpm/meson.build |   1 +
+ backends/tpm/tpm_mssim.c | 265 +++++++++++++++++++++++++++++++++++++++
+ backends/tpm/tpm_mssim.h |  43 +++++++
+ docs/specs/tpm.rst       |  35 ++++++
+ monitor/hmp-cmds.c       |   7 ++
+ qapi/tpm.json            |  28 ++++-
+ 8 files changed, 386 insertions(+), 4 deletions(-)
+ create mode 100644 backends/tpm/tpm_mssim.c
+ create mode 100644 backends/tpm/tpm_mssim.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6966490c94..b0f5cceda1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3043,9 +3043,15 @@ F: include/hw/acpi/tpm.h
+ F: include/sysemu/tpm*
+ F: qapi/tpm.json
+ F: backends/tpm/
++X: backends/tpm/tpm_mssim.*
+ F: tests/qtest/*tpm*
+ T: git https://github.com/stefanberger/qemu-tpm.git tpm-next
  
--static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, QemuOpts *opts)
-+static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, TpmCreateOptions *opts)
- {
--    const char *value;
-     Error *err = NULL;
-     Chardev *dev;
- 
--    value = qemu_opt_get(opts, "chardev");
--    if (!value) {
--        error_report("tpm-emulator: parameter 'chardev' is missing");
--        goto err;
--    }
-+    tpm_emu->options = QAPI_CLONE(TPMEmulatorOptions, &opts->u.emulator);
-+    tpm_emu->data_ioc = NULL;
- 
--    dev = qemu_chr_find(value);
-+    dev = qemu_chr_find(opts->u.emulator.chardev);
-     if (!dev) {
--        error_report("tpm-emulator: tpm chardev '%s' not found", value);
-+        error_report("tpm-emulator: tpm chardev '%s' not found",
-+                opts->u.emulator.chardev);
-         goto err;
-     }
- 
-     if (!qemu_chr_fe_init(&tpm_emu->ctrl_chr, dev, &err)) {
-         error_prepend(&err, "tpm-emulator: No valid chardev found at '%s':",
--                      value);
-+                      opts->u.emulator.chardev);
-         error_report_err(err);
-         goto err;
-     }
- 
--    tpm_emu->options->chardev = g_strdup(value);
--
-     if (tpm_emulator_prepare_data_fd(tpm_emu) < 0) {
-         goto err;
-     }
-@@ -649,7 +644,7 @@ err:
-     return -1;
- }
- 
--static TPMBackend *tpm_emulator_create(QemuOpts *opts)
-+static TPMBackend *tpm_emulator_create(TpmCreateOptions *opts)
- {
-     TPMBackend *tb = TPM_BACKEND(object_new(TYPE_TPM_EMULATOR));
- 
-@@ -972,7 +967,6 @@ static void tpm_emulator_inst_init(Object *obj)
- 
-     trace_tpm_emulator_inst_init();
- 
--    tpm_emu->options = g_new0(TPMEmulatorOptions, 1);
-     tpm_emu->cur_locty_number = ~0;
-     qemu_mutex_init(&tpm_emu->mutex);
-     tpm_emu->vmstate =
-@@ -990,7 +984,7 @@ static void tpm_emulator_shutdown(TPMEmulator *tpm_emu)
- {
-     ptm_res res;
- 
--    if (!tpm_emu->options->chardev) {
-+    if (!tpm_emu->data_ioc) {
-         /* was never properly initialized */
-         return;
-     }
-diff --git a/backends/tpm/tpm_passthrough.c b/backends/tpm/tpm_passthrough.c
-index 5a2f74db1b..f9771eaf1f 100644
---- a/backends/tpm/tpm_passthrough.c
-+++ b/backends/tpm/tpm_passthrough.c
-@@ -252,23 +252,11 @@ static int tpm_passthrough_open_sysfs_cancel(TPMPassthruState *tpm_pt)
- }
- 
- static int
--tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, QemuOpts *opts)
-+tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, TpmCreateOptions *opts)
- {
--    const char *value;
-+    tpm_pt->options = QAPI_CLONE(TPMPassthroughOptions, &opts->u.passthrough);
- 
--    value = qemu_opt_get(opts, "cancel-path");
--    if (value) {
--        tpm_pt->options->cancel_path = g_strdup(value);
--        tpm_pt->options->has_cancel_path = true;
--    }
--
--    value = qemu_opt_get(opts, "path");
--    if (value) {
--        tpm_pt->options->has_path = true;
--        tpm_pt->options->path = g_strdup(value);
--    }
--
--    tpm_pt->tpm_dev = value ? value : TPM_PASSTHROUGH_DEFAULT_DEVICE;
-+    tpm_pt->tpm_dev = opts->u.passthrough.has_path ? opts->u.passthrough.path : TPM_PASSTHROUGH_DEFAULT_DEVICE;
-     tpm_pt->tpm_fd = qemu_open_old(tpm_pt->tpm_dev, O_RDWR);
-     if (tpm_pt->tpm_fd < 0) {
-         error_report("Cannot access TPM device using '%s': %s",
-@@ -290,11 +278,11 @@ tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, QemuOpts *opts)
-     return 0;
- }
- 
--static TPMBackend *tpm_passthrough_create(QemuOpts *opts)
-+static TPMBackend *tpm_passthrough_create(TpmCreateOptions *tco)
- {
-     Object *obj = object_new(TYPE_TPM_PASSTHROUGH);
- 
--    if (tpm_passthrough_handle_device_opts(TPM_PASSTHROUGH(obj), opts)) {
-+    if (tpm_passthrough_handle_device_opts(TPM_PASSTHROUGH(obj), tco)) {
-         object_unref(obj);
-         return NULL;
-     }
-@@ -321,8 +309,8 @@ static TpmTypeOptions *tpm_passthrough_get_tpm_options(TPMBackend *tb)
-     TpmTypeOptions *options = g_new0(TpmTypeOptions, 1);
- 
-     options->type = TPM_TYPE_PASSTHROUGH;
--    options->u.passthrough.data = QAPI_CLONE(TPMPassthroughOptions,
--                                             TPM_PASSTHROUGH(tb)->options);
++MSSIM TPM Backend
++M: James Bottomley <jejb@linux.ibm.com>
++S: Maintained
++F: backends/tpm/tpm_mssim.*
 +
-+    options->u.passthrough.data = QAPI_CLONE(TPMPassthroughOptions, TPM_PASSTHROUGH(tb)->options);
+ Checkpatch
+ S: Odd Fixes
+ F: scripts/checkpatch.pl
+diff --git a/backends/tpm/Kconfig b/backends/tpm/Kconfig
+index 5d91eb89c2..d6d6fa53e9 100644
+--- a/backends/tpm/Kconfig
++++ b/backends/tpm/Kconfig
+@@ -12,3 +12,8 @@ config TPM_EMULATOR
+     bool
+     default y
+     depends on TPM_BACKEND
++
++config TPM_MSSIM
++    bool
++    default y
++    depends on TPM_BACKEND
+diff --git a/backends/tpm/meson.build b/backends/tpm/meson.build
+index 7f2503f84e..c7c3c79125 100644
+--- a/backends/tpm/meson.build
++++ b/backends/tpm/meson.build
+@@ -3,4 +3,5 @@ if have_tpm
+   softmmu_ss.add(files('tpm_util.c'))
+   softmmu_ss.add(when: 'CONFIG_TPM_PASSTHROUGH', if_true: files('tpm_passthrough.c'))
+   softmmu_ss.add(when: 'CONFIG_TPM_EMULATOR', if_true: files('tpm_emulator.c'))
++  softmmu_ss.add(when: 'CONFIG_TPM_MSSIM', if_true: files('tpm_mssim.c'))
+ endif
+diff --git a/backends/tpm/tpm_mssim.c b/backends/tpm/tpm_mssim.c
+new file mode 100644
+index 0000000000..e83ce7777f
+--- /dev/null
++++ b/backends/tpm/tpm_mssim.c
+@@ -0,0 +1,265 @@
++/*
++ * Emulator TPM driver which connects over the mssim protocol
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * Copyright (c) 2022
++ * Author: James Bottomley <jejb@linux.ibm.com>
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/error-report.h"
++#include "qemu/sockets.h"
++
++#include "qapi/clone-visitor.h"
++#include "qapi/qapi-visit-tpm.h"
++
++#include "io/channel-socket.h"
++
++#include "sysemu/runstate.h"
++#include "sysemu/tpm_backend.h"
++#include "sysemu/tpm_util.h"
++
++#include "qom/object.h"
++
++#include "tpm_int.h"
++#include "tpm_mssim.h"
++
++#define ERROR_PREFIX "TPM mssim Emulator: "
++
++#define TYPE_TPM_MSSIM "tpm-mssim"
++OBJECT_DECLARE_SIMPLE_TYPE(TPMmssim, TPM_MSSIM)
++
++struct TPMmssim {
++    TPMBackend parent;
++
++    TPMmssimOptions opts;
++
++    QIOChannelSocket *cmd_qc, *ctrl_qc;
++};
++
++static int tpm_send_ctrl(TPMmssim *t, uint32_t cmd, Error **errp)
++{
++    int ret;
++
++    qio_channel_socket_connect_sync(t->ctrl_qc, t->opts.control, errp);
++    cmd = htonl(cmd);
++    ret = qio_channel_write_all(QIO_CHANNEL(t->ctrl_qc), (char *)&cmd, sizeof(cmd), errp);
++    if (ret != 0)
++        goto out;
++    ret = qio_channel_read_all(QIO_CHANNEL(t->ctrl_qc), (char *)&cmd, sizeof(cmd), errp);
++    if (ret != 0)
++        goto out;
++    if (cmd != 0) {
++        error_setg(errp, ERROR_PREFIX "Incorrect ACK recieved on control channel 0x%x\n", cmd);
++        ret = -1;
++    }
++ out:
++    qio_channel_close(QIO_CHANNEL(t->ctrl_qc), errp);
++    return ret;
++}
++
++static void tpm_mssim_instance_init(Object *obj)
++{
++}
++
++static void tpm_mssim_instance_finalize(Object *obj)
++{
++    TPMmssim *t = TPM_MSSIM(obj);
++
++    if (t->ctrl_qc && !runstate_check(RUN_STATE_INMIGRATE))
++        tpm_send_ctrl(t, TPM_SIGNAL_POWER_OFF, NULL);
++
++    object_unref(OBJECT(t->ctrl_qc));
++    object_unref(OBJECT(t->cmd_qc));
++}
++
++static void tpm_mssim_cancel_cmd(TPMBackend *tb)
++{
++        return;
++}
++
++static TPMVersion tpm_mssim_get_version(TPMBackend *tb)
++{
++    return TPM_VERSION_2_0;
++}
++
++static size_t tpm_mssim_get_buffer_size(TPMBackend *tb)
++{
++    /* TCG standard profile max buffer size */
++    return 4096;
++}
++
++static TpmTypeOptions *tpm_mssim_get_opts(TPMBackend *tb)
++{
++    TPMmssim *t = TPM_MSSIM(tb);
++    TpmTypeOptions *opts = g_new0(TpmTypeOptions, 1);
++
++    opts->type = TPM_TYPE_MSSIM;
++    opts->u.mssim = t->opts;
++
++    return opts;
++}
++
++static void tpm_mssim_handle_request(TPMBackend *tb, TPMBackendCmd *cmd,
++                                     Error **errp)
++{
++    TPMmssim *t = TPM_MSSIM(tb);
++    uint32_t header, len;
++    uint8_t locality = cmd->locty;
++    struct iovec iov[4];
++    int ret;
++
++    header = htonl(TPM_SEND_COMMAND);
++    len = htonl(cmd->in_len);
++
++    iov[0].iov_base = &header;
++    iov[0].iov_len = sizeof(header);
++    iov[1].iov_base = &locality;
++    iov[1].iov_len = sizeof(locality);
++    iov[2].iov_base = &len;
++    iov[2].iov_len = sizeof(len);
++    iov[3].iov_base = (void *)cmd->in;
++    iov[3].iov_len = cmd->in_len;
++
++    ret = qio_channel_writev_all(QIO_CHANNEL(t->cmd_qc), iov, 4, errp);
++    if (ret != 0)
++        goto fail;
++
++    ret = qio_channel_read_all(QIO_CHANNEL(t->cmd_qc), (char *)&len, sizeof(len), errp);
++    if (ret != 0)
++        goto fail;
++    len = ntohl(len);
++    if (len > cmd->out_len) {
++        error_setg(errp, "receive size is too large");
++        goto fail;
++    }
++    ret = qio_channel_read_all(QIO_CHANNEL(t->cmd_qc), (char *)cmd->out, len, errp);
++    if (ret != 0)
++        goto fail;
++    /* ACK packet */
++    ret = qio_channel_read_all(QIO_CHANNEL(t->cmd_qc), (char *)&header, sizeof(header), errp);
++    if (ret != 0)
++        goto fail;
++    if (header != 0) {
++        error_setg(errp, "incorrect ACK received on command channel 0x%x", len);
++        goto fail;
++    }
++
++    return;
++
++ fail:
++    error_prepend(errp, ERROR_PREFIX);
++    tpm_util_write_fatal_error_response(cmd->out, cmd->out_len);
++}
++
++static TPMBackend *tpm_mssim_create(TpmCreateOptions *opts)
++{
++    TPMBackend *be = TPM_BACKEND(object_new(TYPE_TPM_MSSIM));
++    TPMmssim *t = TPM_MSSIM(be);
++    int sock;
++    Error *errp = NULL;
++    TPMmssimOptions *mo = &opts->u.mssim;
++
++    if (!mo->has_command) {
++            mo->has_command = true;
++            mo->command = g_new0(SocketAddress, 1);
++            mo->command->type = SOCKET_ADDRESS_TYPE_INET;
++            mo->command->u.inet.host = g_strdup("localhost");
++            mo->command->u.inet.port = g_strdup("2321");
++    }
++    if (!mo->has_control) {
++            int port;
++
++            mo->has_control = true;
++            mo->control = g_new0(SocketAddress, 1);
++            mo->control->type = SOCKET_ADDRESS_TYPE_INET;
++            mo->control->u.inet.host = g_strdup(mo->command->u.inet.host);
++            /* in the reference implementation, the control port is
++             * always one above the command port */
++            port = atoi(mo->command->u.inet.port) + 1;
++            mo->control->u.inet.port = g_strdup_printf("%d", port);
++    }
++
++    t->opts = opts->u.mssim;
++    t->cmd_qc = qio_channel_socket_new();
++    t->ctrl_qc = qio_channel_socket_new();
++
++    if (qio_channel_socket_connect_sync(t->cmd_qc, mo->command, &errp) < 0)
++        goto fail;
++
++    if (qio_channel_socket_connect_sync(t->ctrl_qc, mo->control, &errp) < 0)
++        goto fail;
++    qio_channel_close(QIO_CHANNEL(t->ctrl_qc), &errp);
++
++    if (!runstate_check(RUN_STATE_INMIGRATE)) {
++        /* reset the TPM using a power cycle sequence, in case someone
++         * has previously powered it up */
++        sock = tpm_send_ctrl(t, TPM_SIGNAL_POWER_OFF, &errp);
++        if (sock != 0)
++            goto fail;
++        sock = tpm_send_ctrl(t, TPM_SIGNAL_POWER_ON, &errp);
++        if (sock != 0)
++            goto fail;
++        sock = tpm_send_ctrl(t, TPM_SIGNAL_NV_ON, &errp);
++        if (sock != 0)
++            goto fail;
++    }
++
++    return be;
++
++ fail:
++    object_unref(OBJECT(t->ctrl_qc));
++    object_unref(OBJECT(t->cmd_qc));
++    t->ctrl_qc = NULL;
++    t->cmd_qc = NULL;
++    error_prepend(&errp, ERROR_PREFIX);
++    error_report_err(errp);
++    object_unref(OBJECT(be));
++
++    return NULL;
++}
++
++static const QemuOptDesc tpm_mssim_cmdline_opts[] = {
++    TPM_STANDARD_CMDLINE_OPTS,
++    {
++        .name = "command",
++        .type = QEMU_OPT_STRING,
++        .help = "Command socket (default localhost:2321)",
++    },
++    {
++        .name = "control",
++        .type = QEMU_OPT_STRING,
++        .help = "control socket (default localhost:2322)",
++    },
++};
++
++static void tpm_mssim_class_init(ObjectClass *klass, void *data)
++{
++    TPMBackendClass *cl = TPM_BACKEND_CLASS(klass);
++
++    cl->type = TPM_TYPE_MSSIM;
++    cl->opts = tpm_mssim_cmdline_opts;
++    cl->desc = "TPM mssim emulator backend driver";
++    cl->create = tpm_mssim_create;
++    cl->cancel_cmd = tpm_mssim_cancel_cmd;
++    cl->get_tpm_version = tpm_mssim_get_version;
++    cl->get_buffer_size = tpm_mssim_get_buffer_size;
++    cl->get_tpm_options = tpm_mssim_get_opts;
++    cl->handle_request = tpm_mssim_handle_request;
++}
++
++static const TypeInfo tpm_mssim_info = {
++    .name = TYPE_TPM_MSSIM,
++    .parent = TYPE_TPM_BACKEND,
++    .instance_size = sizeof(TPMmssim),
++    .class_init = tpm_mssim_class_init,
++    .instance_init = tpm_mssim_instance_init,
++    .instance_finalize = tpm_mssim_instance_finalize,
++};
++
++static void tpm_mssim_register(void)
++{
++    type_register_static(&tpm_mssim_info);
++}
++
++type_init(tpm_mssim_register)
+diff --git a/backends/tpm/tpm_mssim.h b/backends/tpm/tpm_mssim.h
+new file mode 100644
+index 0000000000..04a270338a
+--- /dev/null
++++ b/backends/tpm/tpm_mssim.h
+@@ -0,0 +1,43 @@
++/*
++ * SPDX-License-Identifier: BSD-2-Clause
++ *
++ * The code below is copied from the Microsoft/TCG Reference implementation
++ *
++ *  https://github.com/Microsoft/ms-tpm-20-ref.git
++ *
++ * In file TPMCmd/Simulator/include/TpmTcpProtocol.h
++ */
++
++#define TPM_SIGNAL_POWER_ON         1
++#define TPM_SIGNAL_POWER_OFF        2
++#define TPM_SIGNAL_PHYS_PRES_ON     3
++#define TPM_SIGNAL_PHYS_PRES_OFF    4
++#define TPM_SIGNAL_HASH_START       5
++#define TPM_SIGNAL_HASH_DATA        6
++        // {uint32_t BufferSize, uint8_t[BufferSize] Buffer}
++#define TPM_SIGNAL_HASH_END         7
++#define TPM_SEND_COMMAND            8
++        // {uint8_t Locality, uint32_t InBufferSize, uint8_t[InBufferSize] InBuffer} ->
++        //     {uint32_t OutBufferSize, uint8_t[OutBufferSize] OutBuffer}
++
++#define TPM_SIGNAL_CANCEL_ON        9
++#define TPM_SIGNAL_CANCEL_OFF       10
++#define TPM_SIGNAL_NV_ON            11
++#define TPM_SIGNAL_NV_OFF           12
++#define TPM_SIGNAL_KEY_CACHE_ON     13
++#define TPM_SIGNAL_KEY_CACHE_OFF    14
++
++#define TPM_REMOTE_HANDSHAKE        15
++#define TPM_SET_ALTERNATIVE_RESULT  16
++
++#define TPM_SIGNAL_RESET            17
++#define TPM_SIGNAL_RESTART          18
++
++#define TPM_SESSION_END             20
++#define TPM_STOP                    21
++
++#define TPM_GET_COMMAND_RESPONSE_SIZES  25
++
++#define TPM_ACT_GET_SIGNALED        26
++
++#define TPM_TEST_FAILURE_MODE       30
+diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+index 535912a92b..1398735956 100644
+--- a/docs/specs/tpm.rst
++++ b/docs/specs/tpm.rst
+@@ -270,6 +270,38 @@ available as a module (assuming a TPM 2 is passed through):
+   /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
+   ...
  
-     return options;
- }
-@@ -346,7 +334,6 @@ static void tpm_passthrough_inst_init(Object *obj)
- {
-     TPMPassthruState *tpm_pt = TPM_PASSTHROUGH(obj);
++The QEMU TPM Microsoft Simulator Device
++---------------------------------------
++
++The TCG provides a reference implementation for TPM 2.0 written by
++Microsoft (See `ms-tpm-20-ref`_ on github).  The reference implementation
++starts a network server and listens for TPM commands on port 2321 and
++TPM Platform control commands on port 2322, although these can be
++altered.  The QEMU mssim TPM backend talks to this implementation.  By
++default it connects to the default ports on localhost:
++
++.. code-block:: console
++
++  qemu-system-x86_64 <qemu-options> \
++    -tpmdev mssim,id=tpm0 \
++    -device tpm-crb,tpmdev=tpm0
++
++
++Although it can also communicate with a remote host, which must be
++specified as a SocketAddress via json on the command line for each of
++the command and control ports:
++
++.. code-block:: console
++
++  qemu-system-x86_64 <qemu-options> \
++    -tpmdev "{'type':'mssim','id':'tpm0','command':{'type':'inet','host':'remote','port':'2321'},'control':{'type':'inet','host':'remote','port':'2322'}}" \
++    -device tpm-crb,tpmdev=tpm0
++
++
++The mssim backend supports snapshotting and migration, but the state
++of the Microsoft Simulator server must be preserved (or the server
++kept running) outside of QEMU for restore to be successful.
++
+ The QEMU TPM emulator device
+ ----------------------------
  
--    tpm_pt->options = g_new0(TPMPassthroughOptions, 1);
-     tpm_pt->tpm_fd = -1;
-     tpm_pt->cancel_fd = -1;
- }
-diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-index fb40e30ff6..d00a833a21 100644
---- a/include/sysemu/tpm.h
-+++ b/include/sysemu/tpm.h
-@@ -17,8 +17,8 @@
+@@ -526,3 +558,6 @@ the following:
  
- #ifdef CONFIG_TPM
+ .. _SWTPM protocol:
+    https://github.com/stefanberger/swtpm/blob/master/man/man3/swtpm_ioctls.pod
++
++.. _ms-tpm-20-ref:
++   https://github.com/microsoft/ms-tpm-20-ref
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 01b789a79e..2a1d54e818 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -841,6 +841,7 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
+     unsigned int c = 0;
+     TPMPassthroughOptions *tpo;
+     TPMEmulatorOptions *teo;
++    TPMmssimOptions *tmo;
  
--int tpm_config_parse(QemuOptsList *opts_list, const char *optarg);
--int tpm_init(void);
-+void tpm_config_parse(const char *optarg);
-+void tpm_init(void);
- void tpm_cleanup(void);
- 
- typedef enum TPMVersion {
-diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
-index 8fd3269c11..846a9e39fa 100644
---- a/include/sysemu/tpm_backend.h
-+++ b/include/sysemu/tpm_backend.h
-@@ -57,7 +57,7 @@ struct TPMBackendClass {
-     /* get a descriptive text of the backend to display to the user */
-     const char *desc;
- 
--    TPMBackend *(*create)(QemuOpts *opts);
-+    TPMBackend *(*create)(TpmCreateOptions *tco);
- 
-     /* start up the TPM on the backend - optional */
-     int (*startup_tpm)(TPMBackend *t, size_t buffersize);
+     info_list = qmp_query_tpm(&err);
+     if (err) {
+@@ -874,6 +875,12 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
+             teo = ti->options->u.emulator.data;
+             monitor_printf(mon, ",chardev=%s", teo->chardev);
+             break;
++        case TPM_TYPE_MSSIM:
++            tmo = &ti->options->u.mssim;
++            monitor_printf(mon, ",command=%s:%s,control=%s:%s",
++                           tmo->command->u.inet.host, tmo->command->u.inet.port,
++                           tmo->control->u.inet.host, tmo->control->u.inet.port);
++            break;
+         case TPM_TYPE__MAX:
+             break;
+         }
 diff --git a/qapi/tpm.json b/qapi/tpm.json
-index 4e2ea9756a..2b491c28b4 100644
+index 2b491c28b4..f9dde35377 100644
 --- a/qapi/tpm.json
 +++ b/qapi/tpm.json
-@@ -134,6 +134,25 @@
-             'emulator': 'TPMEmulatorOptionsWrapper' },
+@@ -5,6 +5,7 @@
+ ##
+ # = TPM (trusted platform module) devices
+ ##
++{ 'include': 'sockets.json' }
+ 
+ ##
+ # @TpmModel:
+@@ -49,7 +50,7 @@
+ #
+ # Since: 1.5
+ ##
+-{ 'enum': 'TpmType', 'data': [ 'passthrough', 'emulator' ],
++{ 'enum': 'TpmType', 'data': [ 'passthrough', 'emulator', 'mssim' ],
+   'if': 'CONFIG_TPM' }
+ 
+ ##
+@@ -64,7 +65,7 @@
+ # Example:
+ #
+ # -> { "execute": "query-tpm-types" }
+-# <- { "return": [ "passthrough", "emulator" ] }
++# <- { "return": [ "passthrough", "emulator", "mssim" ] }
+ #
+ ##
+ { 'command': 'query-tpm-types', 'returns': ['TpmType'],
+@@ -117,6 +118,22 @@
+   'data': { 'data': 'TPMEmulatorOptions' },
    'if': 'CONFIG_TPM' }
  
 +##
-+# @TpmCreateOptions:
++# @TPMmssimOptions:
 +#
-+# A union referencing different TPM backend types' configuration options
-+#   without the wrapper to be usable by visitors.
++# Information for the mssim emulator connection
 +#
-+# @type: - 'passthrough' The configuration options for the TPM passthrough type
-+#        - 'emulator' The configuration options for TPM emulator backend type
++# @command: command socket for the TPM emulator
++# @control: control socket for the TPM emulator
 +#
-+# Since: 7.2
++# Since: 7.2.0
 +##
-+{ 'union': 'TpmCreateOptions',
-+  'base': { 'type': 'TpmType',
-+            'id' : 'str' },
-+  'discriminator': 'type',
-+  'data': { 'passthrough' : 'TPMPassthroughOptions',
-+            'emulator': 'TPMEmulatorOptions' },
++{ 'struct': 'TPMmssimOptions',
++  'data': {
++      '*command': 'SocketAddress',
++      '*control': 'SocketAddress' },
 +  'if': 'CONFIG_TPM' }
 +
  ##
- # @TPMInfo:
+ # @TpmTypeOptions:
  #
-diff --git a/softmmu/tpm.c b/softmmu/tpm.c
-index 578563f05a..699c46d3ae 100644
---- a/softmmu/tpm.c
-+++ b/softmmu/tpm.c
-@@ -17,14 +17,26 @@
- #include "qapi/error.h"
- #include "qapi/qapi-commands-tpm.h"
- #include "qapi/qmp/qerror.h"
-+#include "qapi/qobject-input-visitor.h"
-+#include "qapi/qapi-visit-tpm.h"
- #include "sysemu/tpm_backend.h"
- #include "sysemu/tpm.h"
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
-+#include "qemu/help_option.h"
+@@ -124,6 +141,7 @@
+ #
+ # @type: - 'passthrough' The configuration options for the TPM passthrough type
+ #        - 'emulator' The configuration options for TPM emulator backend type
++#        - 'mssim' The configuration options for TPM emulator mssim type
+ #
+ # Since: 1.5
+ ##
+@@ -131,7 +149,8 @@
+   'base': { 'type': 'TpmType' },
+   'discriminator': 'type',
+   'data': { 'passthrough' : 'TPMPassthroughOptionsWrapper',
+-            'emulator': 'TPMEmulatorOptionsWrapper' },
++            'emulator': 'TPMEmulatorOptionsWrapper',
++            'mssim' : 'TPMmssimOptions' },
+   'if': 'CONFIG_TPM' }
  
- static QLIST_HEAD(, TPMBackend) tpm_backends =
-     QLIST_HEAD_INITIALIZER(tpm_backends);
+ ##
+@@ -150,7 +169,8 @@
+             'id' : 'str' },
+   'discriminator': 'type',
+   'data': { 'passthrough' : 'TPMPassthroughOptions',
+-            'emulator': 'TPMEmulatorOptions' },
++            'emulator': 'TPMEmulatorOptions',
++            'mssim': 'TPMmssimOptions' },
+   'if': 'CONFIG_TPM' }
  
-+typedef struct TpmCreateOptionsQueueEntry {
-+        TpmCreateOptions *tco;
-+        QSIMPLEQ_ENTRY(TpmCreateOptionsQueueEntry) entry;
-+} TpmCreateOptionsQueueEntry;
-+
-+typedef QSIMPLEQ_HEAD(, TpmCreateOptionsQueueEntry) TpmCreateOptionsQueue;
-+
-+static TpmCreateOptionsQueue tco_queue = QSIMPLEQ_HEAD_INITIALIZER(tco_queue);
-+
- static const TPMBackendClass *
- tpm_be_find_by_type(enum TpmType type)
- {
-@@ -84,63 +96,31 @@ TPMBackend *qemu_find_tpm_be(const char *id)
-     return NULL;
- }
- 
--static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
-+static void tpm_init_tpmdev(TpmCreateOptions *tco)
- {
--    /*
--     * Use of error_report() in a function with an Error ** parameter
--     * is suspicious.  It is okay here.  The parameter only exists to
--     * make the function usable with qemu_opts_foreach().  It is not
--     * actually used.
--     */
--    const char *value;
--    const char *id;
-     const TPMBackendClass *be;
-     TPMBackend *drv;
--    Error *local_err = NULL;
--    int i;
- 
-     if (!QLIST_EMPTY(&tpm_backends)) {
-         error_report("Only one TPM is allowed.");
--        return 1;
-+        exit(1);
-     }
- 
--    id = qemu_opts_id(opts);
--    if (id == NULL) {
--        error_report(QERR_MISSING_PARAMETER, "id");
--        return 1;
--    }
--
--    value = qemu_opt_get(opts, "type");
--    if (!value) {
--        error_report(QERR_MISSING_PARAMETER, "type");
--        tpm_display_backend_drivers();
--        return 1;
--    }
--
--    i = qapi_enum_parse(&TpmType_lookup, value, -1, NULL);
--    be = i >= 0 ? tpm_be_find_by_type(i) : NULL;
-+    be = tco->type >= 0 ? tpm_be_find_by_type(tco->type) : NULL;
-     if (be == NULL) {
-         error_report(QERR_INVALID_PARAMETER_VALUE,
-                      "type", "a TPM backend type");
-         tpm_display_backend_drivers();
--        return 1;
--    }
--
--    /* validate backend specific opts */
--    if (!qemu_opts_validate(opts, be->opts, &local_err)) {
--        error_report_err(local_err);
--        return 1;
-+        exit(1);
-     }
- 
--    drv = be->create(opts);
-+    drv = be->create(tco);
-     if (!drv) {
--        return 1;
-+        exit(1);
-     }
- 
--    drv->id = g_strdup(id);
-+    drv->id = g_strdup(tco->id);
-     QLIST_INSERT_HEAD(&tpm_backends, drv, list);
--
--    return 0;
- }
- 
- /*
-@@ -161,33 +141,35 @@ void tpm_cleanup(void)
-  * Initialize the TPM. Process the tpmdev command line options describing the
-  * TPM backend.
-  */
--int tpm_init(void)
-+void tpm_init(void)
- {
--    if (qemu_opts_foreach(qemu_find_opts("tpmdev"),
--                          tpm_init_tpmdev, NULL, NULL)) {
--        return -1;
--    }
-+    while (!QSIMPLEQ_EMPTY(&tco_queue)) {
-+        TpmCreateOptionsQueueEntry *tcoqe = QSIMPLEQ_FIRST(&tco_queue);
- 
--    return 0;
-+        QSIMPLEQ_REMOVE_HEAD(&tco_queue, entry);
-+        tpm_init_tpmdev(tcoqe->tco);
-+        g_free(tcoqe);
-+    }
- }
- 
- /*
-  * Parse the TPM configuration options.
-  * To display all available TPM backends the user may use '-tpmdev help'
-  */
--int tpm_config_parse(QemuOptsList *opts_list, const char *optarg)
-+void tpm_config_parse(const char *optarg)
- {
--    QemuOpts *opts;
-+    Visitor *v;
-+    TpmCreateOptionsQueueEntry *tcqe;
- 
--    if (!strcmp(optarg, "help")) {
-+    if (is_help_option(optarg)) {
-         tpm_display_backend_drivers();
--        return -1;
--    }
--    opts = qemu_opts_parse_noisily(opts_list, optarg, true);
--    if (!opts) {
--        return -1;
-+        return;
-     }
--    return 0;
-+    v = qobject_input_visitor_new_str(optarg, "type", &error_fatal);
-+    tcqe = g_new(TpmCreateOptionsQueueEntry, 1);
-+    visit_type_TpmCreateOptions(v, NULL, &tcqe->tco, &error_fatal);
-+    visit_free(v);
-+    QSIMPLEQ_INSERT_TAIL(&tco_queue, tcqe, entry);
- }
- 
- /*
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 5115221efe..980f998c35 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -328,16 +328,6 @@ static QemuOptsList qemu_object_opts = {
-     },
- };
- 
--static QemuOptsList qemu_tpmdev_opts = {
--    .name = "tpmdev",
--    .implied_opt_name = "type",
--    .head = QTAILQ_HEAD_INITIALIZER(qemu_tpmdev_opts.head),
--    .desc = {
--        /* options are defined in the TPM backends */
--        { /* end of list */ }
--    },
--};
--
- static QemuOptsList qemu_overcommit_opts = {
-     .name = "overcommit",
-     .head = QTAILQ_HEAD_INITIALIZER(qemu_overcommit_opts.head),
-@@ -1934,9 +1924,7 @@ static void qemu_create_late_backends(void)
- 
-     object_option_foreach_add(object_create_late);
- 
--    if (tpm_init() < 0) {
--        exit(1);
--    }
-+    tpm_init();
- 
-     qemu_opts_foreach(qemu_find_opts("mon"),
-                       mon_init_func, NULL, &error_fatal);
-@@ -2658,7 +2646,6 @@ void qemu_init(int argc, char **argv)
-     qemu_add_opts(&qemu_boot_opts);
-     qemu_add_opts(&qemu_add_fd_opts);
-     qemu_add_opts(&qemu_object_opts);
--    qemu_add_opts(&qemu_tpmdev_opts);
-     qemu_add_opts(&qemu_overcommit_opts);
-     qemu_add_opts(&qemu_msg_opts);
-     qemu_add_opts(&qemu_name_opts);
-@@ -2906,9 +2893,7 @@ void qemu_init(int argc, char **argv)
-                 break;
- #ifdef CONFIG_TPM
-             case QEMU_OPTION_tpmdev:
--                if (tpm_config_parse(qemu_find_opts("tpmdev"), optarg) < 0) {
--                    exit(1);
--                }
-+                tpm_config_parse(optarg);
-                 break;
- #endif
-             case QEMU_OPTION_mempath:
+ ##
 -- 
 2.35.3
 
