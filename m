@@ -2,58 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53DBE659989
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 15:59:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7364A6599AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 16:25:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBGpZ-00006E-1A; Fri, 30 Dec 2022 09:58:01 -0500
+	id 1pBHFM-0000tg-5r; Fri, 30 Dec 2022 10:24:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balbi@kernel.org>)
- id 1pBGpX-00005Y-9B; Fri, 30 Dec 2022 09:57:55 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217])
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pBHFJ-0000rT-Bv
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:24:33 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balbi@kernel.org>)
- id 1pBGpV-0000VQ-91; Fri, 30 Dec 2022 09:57:54 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0322761229;
- Fri, 30 Dec 2022 14:57:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C574EC433D2;
- Fri, 30 Dec 2022 14:57:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1672412264;
- bh=tS1h+RoInBuflihKgL7AEisEZQke6048q0BOPbzTk28=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H/YDJs/0tRksxxgYWrx6CSptYarZGcHcbg+yglZpSMpRGuBnK5zVBS7pNIEUWb7Of
- 1JQflovmgm8BEalWcic5+cC5YqN4RP89mE6/umc9J9UfDIyTG+753mptA7/6pyxaKv
- N4ytSqr6TQ3QSLzDDZVF2KHv5nEIAdU1LJpiar2no9aUbDNznQlpYoCCwOGAOOyw/3
- jkRN48PklCHk9FDT/dg0SGAe3m2kx4PbtrjhKo59OEIAnXzehqTeJVJ3VpDFBC8r3a
- qCf3RCBSbWTXJTPmaRvRxbPioJ2hu11wf0zBKonHGDlsHFsLzgWgUcyYKYmXXpRIoY
- 7CVP6dCLjnjnw==
-From: Felipe Balbi <balbi@kernel.org>
-To: Alistair Francis <alistair@alistair23.me>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Felipe Balbi <balbi@kernel.org>
-Subject: [PATCH v2 2/2] hw/arm: Add Olimex H405
-Date: Fri, 30 Dec 2022 16:57:33 +0200
-Message-Id: <20221230145733.200496-3-balbi@kernel.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221230145733.200496-1-balbi@kernel.org>
-References: <20221230145733.200496-1-balbi@kernel.org>
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pBHFH-00069f-Dp
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:24:33 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BUEV1Kj010056
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:24:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=ZXymceSCAbKaeOY5M48jNv0cMxGMKPgWDwQkt02PeGg=;
+ b=THoVBFxhX+MQGVY4520U4or5i8XLeGAN4i2re32mesQW4z2Lf7Um5ykmnTmxVopSQ7+E
+ Rle2sAkE/6m+QrCjuotKivgvXa6Gie7vxi3DbWKuqHIQ6Af0I//aHEskzZ1F0Xy/JR53
+ XpgcAwGwD9svawE4K4C5SkQe6GdZvH4TntVsZKnCHEIakm2c5dS3FuU6ZuFnCKcFm0m7
+ lDkWWjKYLwPwl6G0LCzh2dJ40eU54zHlOwCKM61uOzhVLqTnzbBpdyT3p+R/m6nshffh
+ uOmDVC2DJYKLET1ZKnPpkUFEMWjp/WgEFL291z8hBmlhv4CsUfbaca2thsnE8hs90S82 KA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt1tq11dw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:24:29 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BUFN0sb040721
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 15:24:28 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt1tq11dj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Dec 2022 15:24:28 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BUDp4xm013713;
+ Fri, 30 Dec 2022 15:24:28 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3mns28jpky-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Dec 2022 15:24:28 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com
+ [10.241.53.101])
+ by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BUFORUB4719354
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 30 Dec 2022 15:24:27 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E997A5805C;
+ Fri, 30 Dec 2022 15:24:26 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 40BC65805A;
+ Fri, 30 Dec 2022 15:24:26 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.211.136.248])
+ by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 30 Dec 2022 15:24:26 +0000 (GMT)
+From: James Bottomley <jejb@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
+Subject: [PATCH v4 0/2] tpm: add mssim backend
+Date: Fri, 30 Dec 2022 10:24:13 -0500
+Message-Id: <20221230152415.27375-1-jejb@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=balbi@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Ii4JJ1N7xJPJCxQy_zyNX9xa1gENwAhL
+X-Proofpoint-GUID: zDSy_NUA61yo7LtzKKLZxtOFq6vr9chf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-30_09,2022-12-30_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 phishscore=0 mlxlogscore=561 impostorscore=0 spamscore=0
+ adultscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212300132
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,172 +111,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Olimex makes a series of low-cost STM32 boards. This commit introduces
-the minimum setup to support SMT32-H405. See [1] for details
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
 
-[1] https://www.olimex.com/Products/ARM/ST/STM32-H405/
+The requested feedback was to convert the tpmdev handler to being json
+based, which requires rethreading all the backends.  The good news is
+this reduced quite a bit of code (especially as I converted it to
+error_fatal handling as well, which removes the return status
+threading).  The bad news is I can't test any of the conversions.
+swtpm still isn't building on opensuse and, apparently, passthrough
+doesn't like my native TPM because it doesn't allow cancellation.
 
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
+v3 pulls out more unneeded code in the visitor conversion, makes
+migration work on external state preservation of the simulator and
+adds documentation
+
+v4 puts back the wrapper options (but doesn't add any for mssim since
+it post dates the necessity)
+
+James
+
 ---
 
-Changes since v1:
-	- Add a note in stm32.rst
-	- Initialize default_cpu_type to cortex-m4
-	- 0-initialize default_ram_size
+James Bottomley (2):
+  tpm: convert tpmdev options processing to new visitor format
+  tpm: add backend for mssim
 
- MAINTAINERS                             |  6 +++
- configs/devices/arm-softmmu/default.mak |  1 +
- docs/system/arm/stm32.rst               |  1 +
- hw/arm/Kconfig                          |  4 ++
- hw/arm/meson.build                      |  1 +
- hw/arm/olimex-stm32-h405.c              | 69 +++++++++++++++++++++++++
- 6 files changed, 82 insertions(+)
- create mode 100644 hw/arm/olimex-stm32-h405.c
+ MAINTAINERS                    |   6 +
+ backends/tpm/Kconfig           |   5 +
+ backends/tpm/meson.build       |   1 +
+ backends/tpm/tpm_emulator.c    |  24 ++-
+ backends/tpm/tpm_mssim.c       | 265 +++++++++++++++++++++++++++++++++
+ backends/tpm/tpm_mssim.h       |  43 ++++++
+ backends/tpm/tpm_passthrough.c |  27 +---
+ docs/specs/tpm.rst             |  35 +++++
+ include/sysemu/tpm.h           |   4 +-
+ include/sysemu/tpm_backend.h   |   2 +-
+ monitor/hmp-cmds.c             |   7 +
+ qapi/tpm.json                  |  45 +++++-
+ softmmu/tpm.c                  |  90 +++++------
+ softmmu/vl.c                   |  19 +--
+ 14 files changed, 461 insertions(+), 112 deletions(-)
+ create mode 100644 backends/tpm/tpm_mssim.c
+ create mode 100644 backends/tpm/tpm_mssim.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3bd433b65a55..e37846df0071 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1026,6 +1026,12 @@ L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/arm/netduinoplus2.c
- 
-+Olimex STM32 H405
-+M: Felipe Balbi <balbi@kernel.org>
-+L: qemu-arm@nongnu.org
-+S: Maintained
-+F: hw/arm/olimex-stm32-h405.c
-+
- SmartFusion2
- M: Subbaraya Sundeep <sundeep.lkml@gmail.com>
- M: Peter Maydell <peter.maydell@linaro.org>
-diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
-index 6985a25377a0..1b49a7830c7e 100644
---- a/configs/devices/arm-softmmu/default.mak
-+++ b/configs/devices/arm-softmmu/default.mak
-@@ -30,6 +30,7 @@ CONFIG_COLLIE=y
- CONFIG_ASPEED_SOC=y
- CONFIG_NETDUINO2=y
- CONFIG_NETDUINOPLUS2=y
-+CONFIG_OLIMEX_STM32_H405=y
- CONFIG_MPS2=y
- CONFIG_RASPI=y
- CONFIG_DIGIC=y
-diff --git a/docs/system/arm/stm32.rst b/docs/system/arm/stm32.rst
-index 508b92cf862b..d7265b763d47 100644
---- a/docs/system/arm/stm32.rst
-+++ b/docs/system/arm/stm32.rst
-@@ -20,6 +20,7 @@ The STM32F4 series is based on ARM Cortex-M4F core. This series is pin-to-pin
- compatible with STM32F2 series. The following machines are based on this chip :
- 
- - ``netduinoplus2``     Netduino Plus 2 board with STM32F405RGT6 microcontroller
-+- ``olimex-stm32-h405`` Olimex STM32 H405 board with STM32F405RGT6 microcontroller
- 
- There are many other STM32 series that are currently not supported by QEMU.
- 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 17fcde8e1ccc..9143533ef792 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -119,6 +119,10 @@ config NETDUINOPLUS2
-     bool
-     select STM32F405_SOC
- 
-+config OLIMEX_STM32_H405
-+    bool
-+    select STM32F405_SOC
-+
- config NSERIES
-     bool
-     select OMAP
-diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-index 92f9f6e000ea..76d4d650e42e 100644
---- a/hw/arm/meson.build
-+++ b/hw/arm/meson.build
-@@ -12,6 +12,7 @@ arm_ss.add(when: 'CONFIG_MICROBIT', if_true: files('microbit.c'))
- arm_ss.add(when: 'CONFIG_MUSICPAL', if_true: files('musicpal.c'))
- arm_ss.add(when: 'CONFIG_NETDUINO2', if_true: files('netduino2.c'))
- arm_ss.add(when: 'CONFIG_NETDUINOPLUS2', if_true: files('netduinoplus2.c'))
-+arm_ss.add(when: 'CONFIG_OLIMEX_STM32_H405', if_true: files('olimex-stm32-h405.c'))
- arm_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx.c', 'npcm7xx_boards.c'))
- arm_ss.add(when: 'CONFIG_NSERIES', if_true: files('nseries.c'))
- arm_ss.add(when: 'CONFIG_SX1', if_true: files('omap_sx1.c'))
-diff --git a/hw/arm/olimex-stm32-h405.c b/hw/arm/olimex-stm32-h405.c
-new file mode 100644
-index 000000000000..3aa61c91b759
---- /dev/null
-+++ b/hw/arm/olimex-stm32-h405.c
-@@ -0,0 +1,69 @@
-+/*
-+ * ST STM32VLDISCOVERY machine
-+ * Olimex STM32-H405 machine
-+ *
-+ * Copyright (c) 2022 Felipe Balbi <balbi@kernel.org>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "hw/boards.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-clock.h"
-+#include "qemu/error-report.h"
-+#include "hw/arm/stm32f405_soc.h"
-+#include "hw/arm/boot.h"
-+
-+/* olimex-stm32-h405 implementation is derived from netduinoplus2 */
-+
-+/* Main SYSCLK frequency in Hz (168MHz) */
-+#define SYSCLK_FRQ 168000000ULL
-+
-+static void olimex_stm32_h405_init(MachineState *machine)
-+{
-+    DeviceState *dev;
-+    Clock *sysclk;
-+
-+    /* This clock doesn't need migration because it is fixed-frequency */
-+    sysclk = clock_new(OBJECT(machine), "SYSCLK");
-+    clock_set_hz(sysclk, SYSCLK_FRQ);
-+
-+    dev = qdev_new(TYPE_STM32F405_SOC);
-+    qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
-+    qdev_connect_clock_in(dev, "sysclk", sysclk);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+
-+    armv7m_load_kernel(ARM_CPU(first_cpu),
-+                       machine->kernel_filename,
-+                       0, FLASH_SIZE);
-+}
-+
-+static void olimex_stm32_h405_machine_init(MachineClass *mc)
-+{
-+    mc->desc = "Olimex STM32-H405 (Cortex-M4)";
-+    mc->init = olimex_stm32_h405_init;
-+    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
-+
-+    /* SRAM pre-allocated as part of the SoC instantiation */
-+    mc->default_ram_size = 0;
-+}
-+
-+DEFINE_MACHINE("olimex-stm32-h405", olimex_stm32_h405_machine_init)
 -- 
-2.39.0
+2.35.3
 
 
