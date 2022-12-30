@@ -2,64 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D858659BC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 20:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B9F659C05
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 21:25:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBLSc-0002r7-ER; Fri, 30 Dec 2022 14:54:34 -0500
+	id 1pBLv0-0006km-Op; Fri, 30 Dec 2022 15:23:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pBLSZ-0002qf-9C
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 14:54:31 -0500
-Received: from mail.skyhub.de ([2a01:4f8:190:11c2::b:1457])
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pBLuw-0006k1-RR; Fri, 30 Dec 2022 15:23:50 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pBLSQ-0007Y0-4h
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 14:54:28 -0500
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 38F521EC0453;
- Fri, 30 Dec 2022 20:54:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1672430056;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=4d9mZokcf7UfkVL0VJHyHQx1vADaAzgo+xzFXO0gE5U=;
- b=W3nWTuFC4+SoGZ4dg81fPRaAAOUn4LHr8f0gnB3ufyE6nEkFfLvxLQNpkbhC44gAyUUF6Z
- 7mUlobY/V4ClDBHLImUQq70yjMtiydadbCZ+vL782EL3ew4sB2C7+rqkiqROk6kI48xHlF
- Y9y8ACSasRhvBCzpFWIu1WVIfz2q/vk=
-Date: Fri, 30 Dec 2022 20:54:11 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>, pbonzini@redhat.com,
- ebiggers@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, ardb@kernel.org, kraxel@redhat.com,
- philmd@linaro.org
-Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
- setup_data
-Message-ID: <Y69B40T9kWfxZpmf@zn.tnic>
-References: <6cab26b5-06ae-468d-ac79-ecdecb86ef07@linaro.org>
- <Y6xvJheSYC83voCZ@zx2c4.com> <Y6x1knb8udpSyMSp@zx2c4.com>
- <9188EEE9-2759-4389-B39E-0FEBBA3FA57D@zytor.com>
- <Y6z765zHrQ6Rl/0o@zx2c4.com>
- <AF921575-0968-434A-8B46-095B78C209C1@zytor.com>
- <Y62MdawGaasXmoVL@zn.tnic> <Y68Js5b0jW/2nLU4@zx2c4.com>
- <Y68Zf/MKmX3Rr18E@zn.tnic>
- <CAHmME9oPUJemVRvO3HX0q4BJGTFuzbLYANeizuRcNq2=Ykk1Gg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pBLuu-0007vU-Pf; Fri, 30 Dec 2022 15:23:50 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 893C65C0116;
+ Fri, 30 Dec 2022 15:23:46 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 30 Dec 2022 15:23:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1672431826; x=
+ 1672518226; bh=12qgOzoiwIpO6NQ4VPYLcNp4k2NlRZisIN9v0W1ZADQ=; b=s
+ M7AGyAJ9mubliRt5T5b7yWmnYbeKs/JEJlIoW4HoZsz5CF3mUW4YyRtcGOGjmbTJ
+ 55ZJvqmZx7yJ3z8cxxFibIqHpSoj1L00r4v/guiwqZvqvSNDBQ40j3oFdREz7cFH
+ KcoUO2GGwfUvrmIHHThTze2J8bQOJQHAxsI6XkCecCNJ/viLF8P0QTOcX7CXJ52i
+ RRTLyca1vL01wCLpvmitx0LtsJQyLrTowDiZivVgJns+A5j7lGxiW3Bt9G4aa7qT
+ sSObYfSvjY9Yp9YwXW9JHrrW0plcmU0YhnF13BdW2Ks3jKu/xEYu9ndCtf6F60xZ
+ dzUab62L1ExqOZJJs5vlw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672431826; x=
+ 1672518226; bh=12qgOzoiwIpO6NQ4VPYLcNp4k2NlRZisIN9v0W1ZADQ=; b=m
+ O9ZdrDzfhh3VUs2kuMCwMgewmNDjjpHhRTlUb5GM7AiqN8z4h3HmdjiCcC/LwaaD
+ n+myPC8F2mvyJcwQWeFH1D8TPne51o/Qv5NH5mrbWc9Ci7bq9wjCslG1XqXM/7xr
+ BcW3sgxmLTz7VCLVKaMuETOE9vqgTi/qY2DyHOQtyIUQLZ9wTeQgqMrXbNuZL3Wf
+ tkNZs23AUJOZqJHM9AjLSvOWvPVBsapRfpnMIWJKwboB3d87vHvxk+d9CCHXWM7T
+ m3oERxE2CQQojQNbVvjv23+u60FAbZO9mf226fUiwzrUGV4NG7yCrrKlQDM3RQZl
+ h22fcUpU63eWlQI7l20xg==
+X-ME-Sender: <xms:0UivYwlYUz38intsHS8lyQwURMQKCmJcAMB9lXHQ6odop2t8_s2jqw>
+ <xme:0UivY_2t1jthzVveEbG9gdZl0t4bM-eS7VReqtn04JiUVE5iTt1JhKOqrk1uZP7cw
+ WrIsWiTywpREKOOCSs>
+X-ME-Received: <xmr:0UivY-q6VR3wm7qp1gukg0_QdRbklHE7LEqXadb02vt6pmVu8uX5Ad1Fztx7sE2QJF1JLoI9c5EqMunQJXN9-k0DVQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeigddufeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeeuteekfffgtdegveefveduteelgfduteffvdffveejlefffeehffffleel
+ iedtgeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:0UivY8k9CgT7SKmFr0OERCFq8rcxfWOg0Q9aPiMsse7bfcJIui2a1g>
+ <xmx:0UivY-2obmvgAWVDq2nHtmqsDjObt0JYxOgQ4dnbAy_q9ML4Wz5fGA>
+ <xmx:0UivYzt3ResHAKUxhUdC2Woa9jXUT26Qpq5mHFfoKvyPsDHn3ubqpw>
+ <xmx:0kivYx35s98MtkAPRnpyNClJ-cfMO_ZCqjqJ1VTQCAR4yq-rsjcTVA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 30 Dec 2022 15:23:44 -0500 (EST)
+Date: Fri, 30 Dec 2022 12:23:41 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Steven Lee <steven_lee@aspeedtech.com>,
+ Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Troy Lee <troy_lee@aspeedtech.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Peter Delevoryas <pdel@fb.com>, Jamin Lin <jamin_lin@aspeedtech.com>
+Subject: Re: [PATCH 6/9] hw/arm/aspeed_ast10x0: Map HACE peripheral
+Message-ID: <Y69IzUapl4G6DXjo@pdel-mbp>
+References: <20221229152325.32041-1-philmd@linaro.org>
+ <20221229152325.32041-7-philmd@linaro.org>
+ <Y63+CpM1zG9lNEPX@pdel-mbp.dhcp.thefacebook.com>
+ <9de13ab3-beb6-a86e-5eb3-b4606b0f5b9b@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHmME9oPUJemVRvO3HX0q4BJGTFuzbLYANeizuRcNq2=Ykk1Gg@mail.gmail.com>
-Received-SPF: pass client-ip=2a01:4f8:190:11c2::b:1457;
- envelope-from=bp@alien8.de; helo=mail.skyhub.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9de13ab3-beb6-a86e-5eb3-b4606b0f5b9b@linaro.org>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=peter@pjd.dev;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,97 +111,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 30, 2022 at 06:07:24PM +0100, Jason A. Donenfeld wrote:
-> Look closer at the boot process. The compressed image is initially at
-> 0x100000, but it gets relocated to a safer area at the end of
-> startup_64:
+On Fri, Dec 30, 2022 at 09:13:29AM +0100, Philippe Mathieu-Daudé wrote:
+> On 29/12/22 21:52, Peter Delevoryas wrote:
+> > On Thu, Dec 29, 2022 at 04:23:22PM +0100, Philippe Mathieu-Daudé wrote:
+> > > Since I don't have access to the datasheet, the relevant
+> > > values were found in:
+> > > https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
+> > > 
+> > > Before on Zephyr:
+> > > 
+> > >    uart:~$ crypto aes256_cbc_vault
+> > >    aes256_cbc vault key 1
+> > >    [00:00:06.699,000] <inf> hace_global: aspeed_crypto_session_setup
+> > >    [00:00:06.699,000] <inf> hace_global: data->cmd: 1c2098
+> > >    [00:00:06.699,000] <inf> hace_global: crypto_data_src: 93340
+> > >    [00:00:06.699,000] <inf> hace_global: crypto_data_dst: 93348
+> > >    [00:00:06.699,000] <inf> hace_global: crypto_ctx_base: 93300
+> > >    [00:00:06.699,000] <inf> hace_global: crypto_data_len: 80000040
+> > >    [00:00:06.699,000] <inf> hace_global: crypto_cmd_reg:  11c2098
+> > >    [00:00:09.743,000] <inf> hace_global: HACE_STS: 0
+> > >    [00:00:09.743,000] <err> hace_global: HACE poll timeout
+> > >    [00:00:09.743,000] <err> crypto: CBC mode ENCRYPT - Failed
+> > >    [00:00:09.743,000] <inf> hace_global: aspeed_crypto_session_free
+> > >    uart:~$
+> > > 
+> > > After:
+> > > 
+> > >    uart:~$ crypto aes256_cbc_vault
+> > >    aes256_cbc vault key 1
+> > >    Was waiting for:
+> > >    6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a
+> > >    ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51
+> > >    30 c8 1c 46 a3 5c e4 11 e5 fb c1 19 1a 0a 52 ef
+> > >    f6 9f 24 45 df 4f 9b 17 ad 2b 41 7b e6 6c 37 10
+> > > 
+> > >     But got:
+> > >    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > >    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > >    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > >    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > 
+> > >    [00:00:05.771,000] <inf> hace_global: aspeed_crypto_session_setup
+> > >    [00:00:05.772,000] <inf> hace_global: data->cmd: 1c2098
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_data_src: 93340
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_data_dst: 93348
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_ctx_base: 93300
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_data_len: 80000040
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_cmd_reg:  11c2098
+> > >    [00:00:05.772,000] <inf> hace_global: HACE_STS: 1000
+> > >    [00:00:05.772,000] <inf> crypto: Output length (encryption): 80
+> > >    [00:00:05.772,000] <inf> hace_global: aspeed_crypto_session_free
+> > >    [00:00:05.772,000] <inf> hace_global: aspeed_crypto_session_setup
+> > >    [00:00:05.772,000] <inf> hace_global: data->cmd: 1c2018
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_data_src: 93340
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_data_dst: 93348
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_ctx_base: 93300
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_data_len: 80000040
+> > >    [00:00:05.772,000] <inf> hace_global: crypto_cmd_reg:  11c2018
+> > >    [00:00:05.772,000] <inf> hace_global: HACE_STS: 1000
+> > >    [00:00:05.772,000] <inf> crypto: Output length (decryption): 64
+> > >    [00:00:05.772,000] <err> crypto: CBC mode DECRYPT - Mismatch between plaintext and decrypted cipher text
+> > >    [00:00:05.774,000] <inf> hace_global: aspeed_crypto_session_free
+> > >    uart:~$
+> > > 
+> > > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> > 
+> > Awesome!
+> > 
+> > Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+> > 
+> > > ---
+> > > Should we rename HACE 'dram' as 'secram' / 'secure-ram'?
+> > 
+> > Sure, sounds good to me.
+> > 
+> > > ---
+> > >   hw/arm/aspeed_ast10x0.c | 15 +++++++++++++++
+> > >   1 file changed, 15 insertions(+)
+> > > 
+> > > diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+> > > index 21a2e62345..02636705b6 100644
+> > > --- a/hw/arm/aspeed_ast10x0.c
+> > > +++ b/hw/arm/aspeed_ast10x0.c
+> > > @@ -29,6 +29,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
+> > >       [ASPEED_DEV_SPI1]      = 0x7E630000,
+> > >       [ASPEED_DEV_SPI2]      = 0x7E640000,
+> > >       [ASPEED_DEV_UDC]       = 0x7E6A2000,
+> > > +    [ASPEED_DEV_HACE]      = 0x7E6D0000,
+> > >       [ASPEED_DEV_SCU]       = 0x7E6E2000,
+> > >       [ASPEED_DEV_JTAG0]     = 0x7E6E4000,
+> > >       [ASPEED_DEV_JTAG1]     = 0x7E6E4100,
+> > > @@ -166,6 +167,9 @@ static void aspeed_soc_ast1030_init(Object *obj)
+> > >       snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
+> > >       object_initialize_child(obj, "gpio", &s->gpio, typename);
+> > > +    snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
+> > > +    object_initialize_child(obj, "hace", &s->hace, typename);
+> > > +
+> > >       object_initialize_child(obj, "iomem", &s->iomem, TYPE_UNIMPLEMENTED_DEVICE);
+> > >       object_initialize_child(obj, "sbc-unimplemented", &s->sbc_unimplemented,
+> > >                               TYPE_UNIMPLEMENTED_DEVICE);
+> > > @@ -359,6 +363,17 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+> > >       }
+> > >       aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->sbc), 0, sc->memmap[ASPEED_DEV_SBC]);
+> > > +    /* HACE */
+> > > +    object_property_set_link(OBJECT(&s->hace), "dram", OBJECT(&s->secsram),
+> 
+> We need to link the SRAM here, not the sec-SRAM.
 
-That is the address we're executing here from, rip here looks like 0x100xxx.
+Nice catch 😅
 
-> /*
->  * Copy the compressed kernel to the end of our buffer
->  * where decompression in place becomes safe.
->  */
->         pushq   %rsi
->         leaq    (_bss-8)(%rip), %rsi
->         leaq    rva(_bss-8)(%rbx), %rdi
+> 
+> Doing so the hash test works:
+> 
+> uart:~$ hash test
+> sha256_test
+> tv[0]:PASS
+> tv[1]:PASS
+> tv[2]:PASS
+> tv[3]:PASS
+> tv[4]:PASS
+> sha384_test
+> tv[0]:PASS
+> tv[1]:PASS
+> tv[2]:PASS
+> tv[3]:PASS
+> tv[4]:PASS
+> tv[5]:PASS
+> sha512_test
+> tv[0]:PASS
+> tv[1]:PASS
+> tv[2]:PASS
+> tv[3]:PASS
+> tv[4]:PASS
+> tv[5]:PASS
+> uart:~$
+> 
+> rsa / aes256_cbc tests still fail.
+> 
 
-when you get to here, it looks something like this:
-
-        leaq    (_bss-8)(%rip), %rsi		# 0x9e7ff8
-        leaq    rva(_bss-8)(%rbx), %rdi		# 0xc6eeff8
-
-so the source address is that _bss thing and we copy...
-
->         movl    $(_bss - startup_32), %ecx
->         shrl    $3, %ecx
->         std
-
-... backwards since DF=1.
-
-Up to:
-
-# rsi = 0xffff8
-# rdi = 0xbe06ff8
-
-Ok, so the source address is 0x100000. Good.
-
-> HOWEVER, qemu currently appends setup_data to the end of the
-> compressed kernel image,
-
-Yeah, you mean the kernel which starts executing at 0x100000, i.e., that part
-which is compressed/head_64.S and which does the above and the relocation etc.
-
-> and this part isn't moved, and setup_data links aren't walked/relocated. So
-> that means the original address remains, of 0x100000.
-
-See above: when it starts copying the kernel image backwards to a higher
-address, that last byte is at 0x9e7ff8 so I'm guessing qemu has put setup_data
-*after* that address. And that doesn't get copied ofc.
-
-So far, so good.
-
-Now later, we extract the compressed kernel created with the mkpiggy magic:
-
-input_data:
-.incbin "arch/x86/boot/compressed/vmlinux.bin.gz"
-input_data_end:
-
-by doing
-
-/*
- * Do the extraction, and jump to the new kernel..
- */
-
-        pushq   %rsi                    /* Save the real mode argument */	0x13d00
-        movq    %rsi, %rdi              /* real mode address */			0x13d00
-        leaq    boot_heap(%rip), %rsi   /* malloc area for uncompression */	0xc6ef000
-        leaq    input_data(%rip), %rdx  /* input_data */			0xbe073a8
-        movl    input_len(%rip), %ecx   /* input_len */				0x8cfe13
-        movq    %rbp, %r8               /* output target address */		0x1000000
-        movl    output_len(%rip), %r9d  /* decompressed length, end of relocs */
-        call    extract_kernel          /* returns kernel location in %rax */
-        popq    %rsi
-
-(actual addresses at the end.)
-
-Now, when you say you triplefault somewhere in initialize_identity_maps() when
-trying to access setup_data, then if you look a couple of lines before that call
-we do
-
-	call load_stage2_idt
-
-which sets up a boottime #PF handler do_boot_page_fault() and it actually does
-call kernel_add_identity_map() so *actually* it should map any unmapped
-setup_data addresses.
-
-So why doesn't it do that and why do you triplefault?
-
-Hmmm.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Oh nice!!
 
