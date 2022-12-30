@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07A4659A21
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 16:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC329659A3E
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 16:56:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBHXd-0000uH-DD; Fri, 30 Dec 2022 10:43:29 -0500
+	id 1pBHie-0005Fq-5n; Fri, 30 Dec 2022 10:54:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBHXb-0000s2-5c
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:43:27 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBHXZ-00021q-6G
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:43:26 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id g10so1607859wmo.1
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 07:43:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=m80Xl48AvNuUlY0gKwkHRMMfXe4ur38qDJmDxDx1KRk=;
- b=xXyiZIX3K72kMULDnCCXPkVrRDkVvwpZ4v1zG/SyJocjzPwXVHMsxUB34cvyEtLLAh
- cQUjjtdzBMoQpbIyjp8YroZtha+UuQ5w71HRqC6LhaWV6n8fhP639eyBDgrqEjOzYDcF
- Gdl/UVb7H2dhH9opruH/uCSY9IGIlycNYnehbdadKdwn7250tZiV5x6PZ6jF5dkzBcfa
- ULYiN3GHwTEE06e9EX/RDUL0zhujjzRLt7QqabkdWV2Lihs+fr6x2fl77Vsiq2ZvKZUM
- B+OGyT4/L+1OmkMZ4aVgqYerF+aSr1TiiaWhBV87rg/MuXK7hSpf2t2oxHoGx9yRxYSX
- wtEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=m80Xl48AvNuUlY0gKwkHRMMfXe4ur38qDJmDxDx1KRk=;
- b=YYjoZJYIPkpLkhEjpg3DqCjFx8LcAXikZTsoaA8nOiOcauqHJst8xXYNOZGIdXazkU
- Vvd99l+v1X/SQWbySsj/1Av6ERSfRbryqLv6KTuFDnqgIVRjTyuNL2HBIxCyu4RRwXSV
- 0IAw4qnOx5V2ITs1aV7Te6MLZVdnUZrcOZQEI6euHqIC36jA30sAXt4sRmDLFAB4eqa9
- m+NABJM6mXjALWbtNzr1mqFkbP4ZVRz0gIdAOfvg5VDBS4yb9Fn0aTXmRSu0Loe7Pd4f
- p7MePVOzPV+lbN5FEkMTdOEeaLIV2Na4vgV9AFk1XN1vHQ92zWDqy1k9KSdbmkYqqN1b
- ocGw==
-X-Gm-Message-State: AFqh2kqd0l4+p+ga4SvwEuLbqMUtm400rZI+o3qfD5Y3tD26AQHWap6C
- XLDyPSx/05IXBH3qhuwvV8cw1w==
-X-Google-Smtp-Source: AMrXdXtV5I2NcPwO1WkPZjBts2PjGhX70nBP28Q4Z/OJ9IN3ioyTaAvfAuW1t1NkjVc4rZA2dSdzAg==
-X-Received: by 2002:a05:600c:510e:b0:3d3:4406:8a2e with SMTP id
- o14-20020a05600c510e00b003d344068a2emr26005732wms.15.1672415002152; 
- Fri, 30 Dec 2022 07:43:22 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i17-20020a05600c355100b003d9980c5e7asm8323369wmq.21.2022.12.30.07.43.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Dec 2022 07:43:21 -0800 (PST)
-Message-ID: <258e42aa-1c32-15ac-137b-3d328fcf5106@linaro.org>
-Date: Fri, 30 Dec 2022 16:43:20 +0100
+ (Exim 4.90_1)
+ (envelope-from <SRS0=ek1s=44=zx2c4.com=Jason@kernel.org>)
+ id 1pBHia-0005Ew-RT
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:54:48 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=ek1s=44=zx2c4.com=Jason@kernel.org>)
+ id 1pBHiZ-0004N9-1p
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 10:54:48 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B7288B81BAA;
+ Fri, 30 Dec 2022 15:54:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 368B7C433D2;
+ Fri, 30 Dec 2022 15:54:39 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="cthGg0NM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1672415676;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BxfkqOG1X9KuqUurA2SWp45MzpX2tzl76AOrYBX8vQ0=;
+ b=cthGg0NM0dVWdKvV1zp+jB5rca47a21IO6n3zxLLzOp65JWqNPbQJNl3WrtYsGIT0TEPPN
+ TorQyQeFPOUl9l7L9+CP2bIPR07oP181k7iAQDPwvaZ4N5oBMkcWM641IcoE9QcEecKgFu
+ 0vJZQPICKmJERWhDOqV+okWpoUilnf8=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2838488f
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Fri, 30 Dec 2022 15:54:35 +0000 (UTC)
+Date: Fri, 30 Dec 2022 16:54:27 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>, pbonzini@redhat.com,
+ ebiggers@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org, ardb@kernel.org, kraxel@redhat.com,
+ philmd@linaro.org
+Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
+ setup_data
+Message-ID: <Y68Js5b0jW/2nLU4@zx2c4.com>
+References: <20221228143831.396245-1-Jason@zx2c4.com>
+ <6cab26b5-06ae-468d-ac79-ecdecb86ef07@linaro.org>
+ <Y6xvJheSYC83voCZ@zx2c4.com> <Y6x1knb8udpSyMSp@zx2c4.com>
+ <9188EEE9-2759-4389-B39E-0FEBBA3FA57D@zytor.com>
+ <Y6z765zHrQ6Rl/0o@zx2c4.com>
+ <AF921575-0968-434A-8B46-095B78C209C1@zytor.com>
+ <Y62MdawGaasXmoVL@zn.tnic>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 2/2] hw/arm: Add Olimex H405
-Content-Language: en-US
-To: Felipe Balbi <balbi@kernel.org>, Alistair Francis
- <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20221230145733.200496-1-balbi@kernel.org>
- <20221230145733.200496-3-balbi@kernel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221230145733.200496-3-balbi@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y62MdawGaasXmoVL@zn.tnic>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=ek1s=44=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,29 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/12/22 15:57, Felipe Balbi wrote:
-> Olimex makes a series of low-cost STM32 boards. This commit introduces
-> the minimum setup to support SMT32-H405. See [1] for details
+On Thu, Dec 29, 2022 at 01:47:49PM +0100, Borislav Petkov wrote:
+> On Wed, Dec 28, 2022 at 11:31:34PM -0800, H. Peter Anvin wrote:
+> > As far as a crash... that sounds like a big and a pretty serious one at that.
+> > 
+> > Could you let me know what kernel you are using and how *exactly* you are booting it?
 > 
-> [1] https://www.olimex.com/Products/ARM/ST/STM32-H405/
+> Right, with CONFIG_X86_VERBOSE_BOOTUP=y in a guest here, it says:
 > 
-> Signed-off-by: Felipe Balbi <balbi@kernel.org>
-> ---
+> early console in extract_kernel
+> input_data: 0x000000000be073a8
+> input_len: 0x00000000008cfc43
+> output: 0x0000000001000000
+> output_len: 0x000000000b600a98
+> kernel_total_size: 0x000000000ac26000
+> needed_size: 0x000000000b800000
+> trampoline_32bit: 0x000000000009d000
 > 
-> Changes since v1:
-> 	- Add a note in stm32.rst
-> 	- Initialize default_cpu_type to cortex-m4
-> 	- 0-initialize default_ram_size
-> 
->   MAINTAINERS                             |  6 +++
->   configs/devices/arm-softmmu/default.mak |  1 +
->   docs/system/arm/stm32.rst               |  1 +
->   hw/arm/Kconfig                          |  4 ++
->   hw/arm/meson.build                      |  1 +
->   hw/arm/olimex-stm32-h405.c              | 69 +++++++++++++++++++++++++
->   6 files changed, 82 insertions(+)
->   create mode 100644 hw/arm/olimex-stm32-h405.c
+> so that's a ~9M kernel which gets decompressed at 0x1000000 and the
+> output len is, what, ~180M which looks like plenty to me...
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I think you might have misunderstood the thread. First, to reproduce the
+bug that this patch fixes, you need a kernel with a compressed size of
+around 16 megs, not 9. Secondly, that crash is well understood and
+doesn't need to be reproduced; this patch fixes it. Rather, the question
+now is how to improve this patch to remove the 62 meg limit. I'll follow
+up with hpa's request for reproduction info.
 
+Jason
 
