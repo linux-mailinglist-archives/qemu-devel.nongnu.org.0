@@ -2,49 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797B8659B59
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 19:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 661CD659B63
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 19:31:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBJwX-0000aS-7t; Fri, 30 Dec 2022 13:17:21 -0500
+	id 1pBK8i-0002eb-J4; Fri, 30 Dec 2022 13:29:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vt@altlinux.org>) id 1pBJwJ-0000a7-OS
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 13:17:08 -0500
-Received: from vmicros1.altlinux.org ([194.107.17.57])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vt@altlinux.org>) id 1pBJwH-00037s-8U
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 13:17:06 -0500
-Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
- by vmicros1.altlinux.org (Postfix) with ESMTP id 2171E72C90B;
- Fri, 30 Dec 2022 21:17:00 +0300 (MSK)
-Received: from altlinux.org (sole.flsd.net [185.75.180.6])
- by imap.altlinux.org (Postfix) with ESMTPSA id 050D44A5064;
- Fri, 30 Dec 2022 21:17:00 +0300 (MSK)
-Date: Fri, 30 Dec 2022 21:16:59 +0300
-From: Vitaly Chikunov <vt@altlinux.org>
-To: Alexander Graf <agraf@csgraf.de>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Alexey Shabalin <shaba@basealt.ru>, "Dmitry V. Levin" <ldv@altlinux.org>
-Subject: Re: qemu-system-i386: Could not install MSR_CORE_THREAD_COUNT
- handler: Success
-Message-ID: <20221230181659.obkhfe7g6jn2wkb6@altlinux.org>
-References: <20221230142222.r3ahbntnlvj7jpc2@altlinux.org>
- <13D59483-BE6C-4AB5-AAB8-78B3A03D96E7@csgraf.de>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pBK8d-0002dr-HB; Fri, 30 Dec 2022 13:29:51 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pBK8b-0005vZ-N2; Fri, 30 Dec 2022 13:29:51 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 792345C0114;
+ Fri, 30 Dec 2022 13:29:48 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 30 Dec 2022 13:29:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1672424988; x=
+ 1672511388; bh=l8l1mH/mawDUmBkAKZBqpsTax8xbpGOjbus6WTmZ/mM=; b=X
+ P3/Tud/sfpMDeiTT0c4HZT6vSuHbI6Z20QU9ZU0/9ugjXvE++dHJE5NjXKIvD3YV
+ B537vauhIUhdIuRWDxfJS7BT7LY9jV8Q60ywnUxLbfUvc+a3VZtIbridCRYtWMDD
+ ap12gksHrARao1bEiz+vlLYSIHcLiyMhmhqC45qiKzun/Tfx2rOPtCcqJgkVi6hr
+ SetaoCG3Hnw0lfDCTD5blAChDEykROJu79rfcWCIry/WLfocFGuTf4HSelrSGb6v
+ SU73a6s5y1RgOXvFQq3pLgNFsviUIBKRvhA1C/bsNAqEuhtwa+Kvswj6bCjnQbyW
+ Gra3cBziimmxF3cfcJ8eA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672424988; x=
+ 1672511388; bh=l8l1mH/mawDUmBkAKZBqpsTax8xbpGOjbus6WTmZ/mM=; b=K
+ HYFFXaZNvVu5sIatjUY2019kKl4ZVEik+uZ0dLzmYdqJg1UbnfL9KcnZn3RZXoo3
+ 7wtWV/4tSnmp6cCC8A8D/K70OnpHwJ9HDkjHg8J5tyiCGfwJEGKAw5mALihbzxIz
+ Bl/NTTOUbVkLmbRpzJN8xtrdyLvrmzhN44cR8Il+FjRhZ/NmbNBwdbPof1h5kALf
+ Btq1LiMckRkqOZ/8f6f0hJcY2HMiexetrYDQ7ml3qkcNPdxE4nU4+lTmQ3flURiY
+ pdGkFLkchx9iQdRhdsBCAccJdD3xScKOAs5SWhMCHQIL+YQ+fuvbATLYcG7zsHOx
+ u7ShgxO7dIz0s3AklvhOA==
+X-ME-Sender: <xms:Gy6vY-2ajBhTa_9OVPAxqaJPQvZvf3OG-hLpVDtzoCWDxJiaddk4Uw>
+ <xme:Gy6vYxEBgWfEQ-96ZqcDs9y3XEo77HB1vlIV2O67pCo3I8O4dE5aLxMlsja2OS8hd
+ 7_VNzS4nHTL2D_Neug>
+X-ME-Received: <xmr:Gy6vY24S76kQySO3m8c6tO2Yqs2yU7GpdvmwKwtFDUhlT-MUkXu_wYWKaXpx-vL7bbyZ0pXCCeGcqpttpIZXRleVSQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrieeigdduuddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpefgueekffdtueetgfehteffledtueehgfehgeelfedujeefhfffteekvddt
+ feetteenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:Gy6vY_0YpcvGTA-aA9OB9vBjH5oGBhHgoxdIGtls1_BMy3ZMaT0cBw>
+ <xmx:Gy6vYxG2PrVkeI2d-mGbo_9_8igdbxWDFpfd5NU1Bw0lYy1pzsaCBw>
+ <xmx:Gy6vY49n2Zl3yCfEX0-tXUDrbBpgWJASQUAO9sGd49kkj6qZUqo5tg>
+ <xmx:HC6vY-d8tYbzsgt1H3ugwGugr1d4e4FVTMiheg3fmz-SiCgOreyNsQ>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 30 Dec 2022 13:29:45 -0500 (EST)
+Date: Fri, 30 Dec 2022 10:29:42 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Troy Lee <troy_lee@aspeedtech.com>, Beraldo Leal <bleal@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+ Steven Lee <steven_lee@aspeedtech.com>,
+ Jamin Lin <jamin_lin@aspeedtech.com>,
+ Peter Delevoryas <pdel@fb.com>, Peter Delevoryas <pdel@meta.com>,
+ qemu-arm@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH v2 03/11] hw/watchdog/wdt_aspeed: Log unimplemented
+ registers as UNIMP level
+Message-ID: <Y68uFpriqi5gEUBR@pdel-mbp>
+References: <20221230113504.37032-1-philmd@linaro.org>
+ <20221230113504.37032-4-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <13D59483-BE6C-4AB5-AAB8-78B3A03D96E7@csgraf.de>
-Received-SPF: pass client-ip=194.107.17.57; envelope-from=vt@altlinux.org;
- helo=vmicros1.altlinux.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20221230113504.37032-4-philmd@linaro.org>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=peter@pjd.dev;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,49 +112,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alexander,
-
-On Fri, Dec 30, 2022 at 06:44:14PM +0100, Alexander Graf wrote:
-> Hi Vitaly,
+On Fri, Dec 30, 2022 at 12:34:56PM +0100, Philippe Mathieu-Daudé wrote:
+> Add more Aspeed watchdog registers from [*].
 > 
-> This is a kvm kernel bug and should be fixed with the latest stable releases. Which kernel version are you running?
-
-This is on latest v6.0 stable - 6.0.15.
-
-Maybe there could be workaround for such situations? (Or maybe it's
-possible to make this error non-fatal?) We use qemu+kvm for testing and
-now we cannot test on x86.
-
-Thanks,
-
-
+> Since guests can righteously access them, log the access at
+> 'unimplemented' level instead of 'guest-errors'.
 > 
-> Thanks,
+> [*] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/drivers/watchdog/wdt_aspeed.c#L31
 > 
-> Alex
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+
+> ---
+>  hw/watchdog/wdt_aspeed.c         | 13 +++++++++++++
+>  include/hw/watchdog/wdt_aspeed.h |  2 +-
+>  2 files changed, 14 insertions(+), 1 deletion(-)
 > 
-> 
-> > Am 30.12.2022 um 15:30 schrieb Vitaly Chikunov <vt@altlinux.org>:
-> > 
-> > ï»¿Hi,
-> > 
-> > QEMU 7.2.0 when run on 32-bit x86 architecture fails with:
-> > 
-> >  i586$ qemu-system-i386 -enable-kvm
-> >  qemu-system-i386: Could not install MSR_CORE_THREAD_COUNT handler: Success
-> >  i586$ qemu-system-x86_64 -enable-kvm
-> >  qemu-system-x86_64: Could not install MSR_CORE_THREAD_COUNT handler: Success
-> > 
-> > Minimal reproducer is `qemu-system-i386 -enable-kvm'. And this only
-> > happens on x86 (linux32 personality and binaries on x86_64 host):
-> > 
-> >  i586$ file /usr/bin/qemu-system-i386
-> >  /usr/bin/qemu-system-i386: ELF 32-bit LSB pie executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, BuildID[sha1]=0ba1d953bcb7a691014255954f060ff404c8df90, for GNU/Linux 3.2.0, stripped
-> >  i586$ /usr/bin/qemu-system-i386 --version
-> >  QEMU emulator version 7.2.0 (qemu-7.2.0-alt1)
-> >  Copyright (c) 2003-2022 Fabrice Bellard and the QEMU Project developers
-> > 
-> > Thanks,
-> > 
+> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+> index eefca31ae4..d267aa185c 100644
+> --- a/hw/watchdog/wdt_aspeed.c
+> +++ b/hw/watchdog/wdt_aspeed.c
+> @@ -42,6 +42,11 @@
+>  #define     WDT_PUSH_PULL_MAGIC         (0xA8 << 24)
+>  #define     WDT_OPEN_DRAIN_MAGIC        (0x8A << 24)
+>  #define WDT_RESET_MASK1                 (0x1c / 4)
+> +#define WDT_RESET_MASK2                 (0x20 / 4)
+> +
+> +#define WDT_SW_RESET_CTRL               (0x24 / 4)
+> +#define WDT_SW_RESET_MASK1              (0x28 / 4)
+> +#define WDT_SW_RESET_MASK2              (0x2c / 4)
+>  
+>  #define WDT_TIMEOUT_STATUS              (0x10 / 4)
+>  #define WDT_TIMEOUT_CLEAR               (0x14 / 4)
+> @@ -83,6 +88,10 @@ static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned size)
+>          return s->regs[WDT_RESET_MASK1];
+>      case WDT_TIMEOUT_STATUS:
+>      case WDT_TIMEOUT_CLEAR:
+> +    case WDT_RESET_MASK2:
+> +    case WDT_SW_RESET_CTRL:
+> +    case WDT_SW_RESET_MASK1:
+> +    case WDT_SW_RESET_MASK2:
+>          qemu_log_mask(LOG_UNIMP,
+>                        "%s: uninmplemented read at offset 0x%" HWADDR_PRIx "\n",
+>                        __func__, offset);
+> @@ -190,6 +199,10 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
+>  
+>      case WDT_TIMEOUT_STATUS:
+>      case WDT_TIMEOUT_CLEAR:
+> +    case WDT_RESET_MASK2:
+> +    case WDT_SW_RESET_CTRL:
+> +    case WDT_SW_RESET_MASK1:
+> +    case WDT_SW_RESET_MASK2:
+>          qemu_log_mask(LOG_UNIMP,
+>                        "%s: uninmplemented write at offset 0x%" HWADDR_PRIx "\n",
+>                        __func__, offset);
+> diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
+> index db91ee6b51..e90ef86651 100644
+> --- a/include/hw/watchdog/wdt_aspeed.h
+> +++ b/include/hw/watchdog/wdt_aspeed.h
+> @@ -21,7 +21,7 @@ OBJECT_DECLARE_TYPE(AspeedWDTState, AspeedWDTClass, ASPEED_WDT)
+>  #define TYPE_ASPEED_2600_WDT TYPE_ASPEED_WDT "-ast2600"
+>  #define TYPE_ASPEED_1030_WDT TYPE_ASPEED_WDT "-ast1030"
+>  
+> -#define ASPEED_WDT_REGS_MAX        (0x20 / 4)
+> +#define ASPEED_WDT_REGS_MAX        (0x30 / 4)
+>  
+>  struct AspeedWDTState {
+>      /*< private >*/
+> -- 
+> 2.38.1
 > 
 
