@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C2B6597C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F246597BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:36:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBDfS-0006EU-9I; Fri, 30 Dec 2022 06:35:18 -0500
+	id 1pBDfb-0006FA-Ga; Fri, 30 Dec 2022 06:35:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfQ-0006E3-Q2
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:16 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfX-0006Ey-6z
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:23 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfP-0003pk-6V
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:16 -0500
-Received: by mail-wm1-x330.google.com with SMTP id ja17so15006959wmb.3
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:35:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfU-0003rD-MX
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:22 -0500
+Received: by mail-wr1-x429.google.com with SMTP id j17so14310378wrr.7
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:35:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UOZfJuKjGnXyKynHrF0ryyVy+OVxkYOdTY6ayMGkBgk=;
- b=DBTZKCrqACtUO10TYcUd+HHcB8Ps4HcfHIsmuWpBIbGRaqi7NLiap7mXT/ieFhugrD
- cANS0EBLjBDYMaCI3s4ZDInps2efuEi4BGL/spIZTa5qm87KBaomho7LiJnpJwdCi4mJ
- jN3vHmzgnq8qklxPx5q6RRAPBOEjLPQE3JttJcC0rpzLGy0Zv/I9bz9HLxTHYyYZZTND
- opN0PUXSIW1yHOUkb7GZOhenp6SAL29UyAE630gXTKSWfQUMlyxE8qH1fWN2mNws6xet
- 6NGIo/pFPNO0vJWFZnhOvUSEO8Bw8LzDEgebp4JUv0XlcH5ifNnDZr5LoYUlxUtAC2Uh
- wLdQ==
+ bh=5cgaMd8Bs8Se35Vg/9IyfGZxyIX4IGlPHw4/V3um8/Y=;
+ b=qfnQ+3qj5R+06jV6SKRtuuysMitctw0HW7gFQNLHFxOSwQ/ZC7o6oxcUfT3ZsXP3Yf
+ REHYZbHCuPxSoGpSGsNdYZUnmJCNsqj5BG/ZP6WiWC6esYiYfbHOAywMUmSY9ELgfrdv
+ Jzh3z4uMOL8rfRnJmibxK8jBP1pRQILTQJG1oEy10XmIeR8iguohpl7pF+wYJowNc07U
+ Bco9XPmuIZNtBHGaxImtPX5y9xwbTRLoJCUXRRMHHr9y9z4UPHOUIRTxPp98J9xYLzaw
+ jyoO4c1ljCJygz3hYZ/yZ5Nf+HWW5ovH1aWtqjeQxn+Sx8OG4Maz74gbLNZmINvSoaEG
+ RVsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UOZfJuKjGnXyKynHrF0ryyVy+OVxkYOdTY6ayMGkBgk=;
- b=rr7DU5CBMptN2duFU7OX5LnOEM8kkbMsTTiLbdbf10WulZGzjruC8VZI7WNcKz6Q2K
- YwGgP6E6ok0nRYN0J+2Sxhlb5M8oB0LybZOzZ29/gSbYqZ61RO8CpHciemBFUorZBZM+
- bM3EeQ/g7BDH+ePP623Tm48He6MnLaj6Dn86DP3V8cmui+4mamBPtCzauwpGhw7y7ZfF
- 8z5LZZq4u2ckhsEuzeyZAV5z5syHFXaBkV78l7OFz5JY2bRT/IXN8f9YRD5JaPpQ+u19
- 0Ps/+q5yJkGsRYuLyXb2lUywmKgU5C9tzMrrrRQLGQeCdyr9fIVSJQFtae9MFBGIQJaA
- AHrw==
-X-Gm-Message-State: AFqh2kq7ZSIMueQupKCRkbqjC8bVOS3XljayCcrLZjn7ZUr4386sr5PI
- 0m3cDfrrDrN3SLH+1YtQwfuytX+GIw8peDQH
-X-Google-Smtp-Source: AMrXdXuxDPuQ1EoRouDzNwfoXFoSXDwxxFYzW55O5md4SM4Z9+5UvshIYNN6gHFXVqOo9/fza1SWWA==
-X-Received: by 2002:a05:600c:4d25:b0:3d2:27ba:dde0 with SMTP id
- u37-20020a05600c4d2500b003d227badde0mr22902840wmp.33.1672400113415; 
- Fri, 30 Dec 2022 03:35:13 -0800 (PST)
+ bh=5cgaMd8Bs8Se35Vg/9IyfGZxyIX4IGlPHw4/V3um8/Y=;
+ b=s4brnUhpcpbjR4vn7g/k3hKbh532NqKEkb0Bd/0Uwi+fnM8uPOmbQLYyy2RafHMcuM
+ Cshi3BUpcFqDg/Tomprf9QdKDV7q/3gfQJN4/ELrarq4Jgl6+hhULan57MFx0Mhaw6io
+ a+t4REjboK40txFu13GA9dcItD4MFFvrtqf4R1GofzcfdvM+amxRMJXrltgwDT7iD5JH
+ XFDVdqkwdM+BwLsp2BXqlGL7SxoEG+BFvTTvkSAAO3yQyNF5+QJaiGc41rR6tvmqwN1K
+ R6V9CxaXM6N8rhS+pcCPPkc5ylBUobZQB1NX09woLWPDDMxngoUch6ly/4sFhXmFGcZJ
+ yE9A==
+X-Gm-Message-State: AFqh2krSXAsIxOiUVHC2OYlaCJUbJGiPdQ5rnfnQo5I9r6a4L7UYAz6z
+ XEdbQHxYJKdc7oX8Xe3ezNbM8nNIqPN+JpJg
+X-Google-Smtp-Source: AMrXdXstJxlx3wuYu73V5HiHT3lCEwsMZ2i/abATu1qk86ESkKgIp6gY1bd6VXUQU8Y7xSVCWNHKaA==
+X-Received: by 2002:adf:e2d2:0:b0:242:4cf5:f385 with SMTP id
+ d18-20020adfe2d2000000b002424cf5f385mr19636019wrj.34.1672400118807; 
+ Fri, 30 Dec 2022 03:35:18 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- iz17-20020a05600c555100b003d1e1f421bfsm31857528wmb.10.2022.12.30.03.35.11
+ p14-20020adfe60e000000b0022584c82c80sm20446740wrm.19.2022.12.30.03.35.17
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 30 Dec 2022 03:35:12 -0800 (PST)
+ Fri, 30 Dec 2022 03:35:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
@@ -65,18 +65,18 @@ Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
  Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v2 01/11] hw/watchdog/wdt_aspeed: Rename MMIO region size as
- 'iosize'
-Date: Fri, 30 Dec 2022 12:34:54 +0100
-Message-Id: <20221230113504.37032-2-philmd@linaro.org>
+Subject: [PATCH v2 02/11] hw/watchdog/wdt_aspeed: Extend MMIO range to cover
+ more registers
+Date: Fri, 30 Dec 2022 12:34:55 +0100
+Message-Id: <20221230113504.37032-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221230113504.37032-1-philmd@linaro.org>
 References: <20221230113504.37032-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,117 +99,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Avoid confusing two different things:
-- the WDT I/O region size ('iosize')
-- at which offset the SoC map the WDT ('offset')
-While it is often the same, we can map smaller region sizes
-at larger offsets.
+When booting the Zephyr demo in [1] we get:
 
-Here we are interested in the I/O region size, so rename as
-'iosize'.
+  aspeed.io: unimplemented device write (size 4, offset 0x185128, value 0x030f1ff1) <--
+  aspeed.io: unimplemented device write (size 4, offset 0x18512c, value 0x03fffff1)
+
+This corresponds to this Zephyr code [2]:
+
+  static int aspeed_wdt_init(const struct device *dev)
+  {
+    const struct aspeed_wdt_config *config = dev->config;
+    struct aspeed_wdt_data *const data = dev->data;
+    uint32_t reg_val;
+
+    /* disable WDT by default */
+    reg_val = sys_read32(config->ctrl_base + WDT_CTRL_REG);
+    reg_val &= ~WDT_CTRL_ENABLE;
+    sys_write32(reg_val, config->ctrl_base + WDT_CTRL_REG);
+
+    sys_write32(data->rst_mask1,
+                config->ctrl_base + WDT_SW_RESET_MASK1_REG);   <------
+    sys_write32(data->rst_mask2,
+                config->ctrl_base + WDT_SW_RESET_MASK2_REG);
+
+    return 0;
+  }
+
+The register definitions are [3]:
+
+  #define WDT_RELOAD_VAL_REG          0x0004
+  #define WDT_RESTART_REG             0x0008
+  #define WDT_CTRL_REG                0x000C
+  #define WDT_TIMEOUT_STATUS_REG      0x0010
+  #define WDT_TIMEOUT_STATUS_CLR_REG  0x0014
+  #define WDT_RESET_MASK1_REG         0x001C
+  #define WDT_RESET_MASK2_REG         0x0020
+  #define WDT_SW_RESET_MASK1_REG      0x0028   <------
+  #define WDT_SW_RESET_MASK2_REG      0x002C
+  #define WDT_SW_RESET_CTRL_REG       0x0024
+
+Currently QEMU only cover a MMIO region of size 0x20:
+
+  #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
+
+Change to map the whole 'iosize' which might be bigger, covering
+the other registers. The MemoryRegionOps read/write handlers will
+report the accesses as out-of-bounds guest-errors, but the next
+commit will report them as unimplemented.
+
+[1] https://github.com/AspeedTech-BMC/zephyr/releases/tag/v00.01.07
+[2] https://github.com/AspeedTech-BMC/zephyr/commit/2e99f10ac27b
+[3] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/drivers/watchdog/wdt_aspeed.c#L31
 
 Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/aspeed_ast10x0.c          | 2 +-
- hw/arm/aspeed_ast2600.c          | 2 +-
- hw/arm/aspeed_soc.c              | 2 +-
- hw/watchdog/wdt_aspeed.c         | 8 ++++----
- include/hw/watchdog/wdt_aspeed.h | 2 +-
- 5 files changed, 8 insertions(+), 8 deletions(-)
+ hw/watchdog/wdt_aspeed.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index 4d0b9b115f..122b3fd3f3 100644
---- a/hw/arm/aspeed_ast10x0.c
-+++ b/hw/arm/aspeed_ast10x0.c
-@@ -325,7 +325,7 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-             return;
-         }
-         aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->wdt[i]), 0,
--                        sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
-+                        sc->memmap[ASPEED_DEV_WDT] + i * awc->iosize);
-     }
- 
-     /* GPIO */
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index cd75465c2b..a79e05ddbd 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -472,7 +472,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-             return;
-         }
-         aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->wdt[i]), 0,
--                        sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
-+                        sc->memmap[ASPEED_DEV_WDT] + i * awc->iosize);
-     }
- 
-     /* RAM */
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index b05b9dd416..2c0924d311 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -393,7 +393,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-             return;
-         }
-         aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->wdt[i]), 0,
--                        sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
-+                        sc->memmap[ASPEED_DEV_WDT] + i * awc->iosize);
-     }
- 
-     /* RAM  */
 diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index d753693a2e..958725a1b5 100644
+index 958725a1b5..eefca31ae4 100644
 --- a/hw/watchdog/wdt_aspeed.c
 +++ b/hw/watchdog/wdt_aspeed.c
-@@ -309,7 +309,7 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
-     AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
+@@ -260,6 +260,7 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     AspeedWDTState *s = ASPEED_WDT(dev);
++    AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(dev);
  
-     dc->desc = "ASPEED 2400 Watchdog Controller";
--    awc->offset = 0x20;
-+    awc->iosize = 0x20;
-     awc->ext_pulse_width_mask = 0xff;
-     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
-     awc->wdt_reload = aspeed_wdt_reload;
-@@ -346,7 +346,7 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
-     AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
+     assert(s->scu);
  
-     dc->desc = "ASPEED 2500 Watchdog Controller";
--    awc->offset = 0x20;
-+    awc->iosize = 0x20;
-     awc->ext_pulse_width_mask = 0xfffff;
-     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-@@ -369,7 +369,7 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
-     AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
+@@ -271,7 +272,7 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
+     s->pclk_freq = PCLK_HZ;
  
-     dc->desc = "ASPEED 2600 Watchdog Controller";
--    awc->offset = 0x40;
-+    awc->iosize = 0x40;
-     awc->ext_pulse_width_mask = 0xfffff; /* TODO */
-     awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-@@ -392,7 +392,7 @@ static void aspeed_1030_wdt_class_init(ObjectClass *klass, void *data)
-     AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
+     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_wdt_ops, s,
+-                          TYPE_ASPEED_WDT, ASPEED_WDT_REGS_MAX * 4);
++                          TYPE_ASPEED_WDT, awc->iosize);
+     sysbus_init_mmio(sbd, &s->iomem);
+ }
  
-     dc->desc = "ASPEED 1030 Watchdog Controller";
--    awc->offset = 0x80;
-+    awc->iosize = 0x80;
-     awc->ext_pulse_width_mask = 0xfffff; /* TODO */
-     awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-index dfa5dfa424..db91ee6b51 100644
---- a/include/hw/watchdog/wdt_aspeed.h
-+++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -40,7 +40,7 @@ struct AspeedWDTState {
- struct AspeedWDTClass {
-     SysBusDeviceClass parent_class;
- 
--    uint32_t offset;
-+    uint32_t iosize;
-     uint32_t ext_pulse_width_mask;
-     uint32_t reset_ctrl_reg;
-     void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
 -- 
 2.38.1
 
