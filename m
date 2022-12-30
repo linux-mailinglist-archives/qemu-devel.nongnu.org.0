@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD5A6597C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:36:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC9B6597C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:37:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBDgB-0006io-QD; Fri, 30 Dec 2022 06:36:03 -0500
+	id 1pBDgB-0006ig-I4; Fri, 30 Dec 2022 06:36:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDg2-0006aS-Tq
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:55 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDg8-0006eO-DB
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:36:01 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDg0-0003vX-PT
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:54 -0500
-Received: by mail-wr1-x434.google.com with SMTP id y8so19652358wrl.13
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:35:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDg6-0003wI-Gf
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:36:00 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id ay40so15034514wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:35:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jwcfecgiR0FIp2svYcWH8+Gc+mTlFvrMBZzkgfCKb4w=;
- b=XZERgT9F5sbNIEYJwMZp8XqwOlgcEdp3uAUz0spFvOE41bn7OFvWSlsfSTprUZ6SZA
- D07AnZg9RYGkzpZAVJpcRTNgXy4HbGgy4Zfoy/l42O8GhcsQcUEmJOMoqYf163JyU55i
- lgzCVAo1gywCDB9xuKKCGOIeevSBC1oYgEb/oYi+/mD3DahPOQ7+pohUNuq5DQ1PI2cH
- zRlKoN+ntzyhXbFiPsUMbN2rdyVnAx2FRhuHITapXgqhl6nHv6OzN63EEIRIjkQ68uGm
- 29TIj7B1QgclbYFnAgUQDWm5OxGFy+XbC6XQqcdGcrJMgy+AMtu4fXOGuQ5Y/CJJz0T5
- WGjQ==
+ bh=zQ43llp9uSrlxzbpXpwc6nZpfYE/bji1ywv0OnD5+3M=;
+ b=c6Skdgm3uxX2mGoECvPToeMuF9vXZVMaidfHJgp6Z6GCe1rom9GgaPDnHhhaB1v17w
+ JC0WP+cBSvunTbgRM9EYa0vkEs4Nc85Mohogrb01/MNQibCH/EmwlAhtHhI4j/LRUAFr
+ OcoUpdHljcC4DD860tj8p3VvrkwDVcSQL9T26sVrVH9YeZz2TICZiH0vOWKor81EKUPd
+ 73hN96CHmNUmhoPufesYMncTMDyzqaDHBlHhg9l+3px2dXP+irpzga9zMiXcKUmSXLVO
+ cxQHIeOOOovzxo8gu9g14Y6jyoD0dWJj94SLpvMDq8+knh5schbZT+KCl34ENCPaLYfS
+ ovxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jwcfecgiR0FIp2svYcWH8+Gc+mTlFvrMBZzkgfCKb4w=;
- b=NXLiOVM0xzsIcF9mXXgYxGGgg98sRj/vvTnZ/MQpvEmO2+xD+58sXYEd70IvyVPOaC
- asFWsUTeDoz9VcVhx9iHN6Fl0QsdYCT158BvTf1ocmCYNEaNwRZP+lWg/d7P9bvbUur5
- jI2AN2PqRuTCq1uraKWM4asNwE7VfWiQlIHTZVVR42ofatz83+vT37ic48PFALyAmdy8
- N6ihVy/N6Nz0bUj0EJHrtCHxHnZjDKJTJZSQFaRgztmbrK6BW2eTY83bE1i7Xw92OUCd
- B8TqoYnotfZ0tuaBLMl4AwCY0m2uTML6X9IfUpUHoQ9UzYKDCT5Pysauh4D19V0GSURu
- PlYA==
-X-Gm-Message-State: AFqh2kpiBsN4xcEtTpkP0GKUML6VLAxZ8JfosgvYMhFKWOYCQdmUWXGn
- LB3pDe6DDhHpq/wJUdRdkor4F6G5oDuum8F7
-X-Google-Smtp-Source: AMrXdXtaz9nR5/1KKRvLCpPAUtedFg9QUFL9BzfUzNCmCPsAIErpYVyJbYUaj/w+Jh6xZFfYQhQMhQ==
-X-Received: by 2002:a5d:4884:0:b0:242:3812:f948 with SMTP id
- g4-20020a5d4884000000b002423812f948mr20895635wrq.24.1672400151006; 
- Fri, 30 Dec 2022 03:35:51 -0800 (PST)
+ bh=zQ43llp9uSrlxzbpXpwc6nZpfYE/bji1ywv0OnD5+3M=;
+ b=jswx+gNz83HDqPyncSZz50oEke8rlcvhCFLZcGeOcAwORIUQbPiTfcGUUXA4lzMbgq
+ vdjkk0jRhWYfA9McraIwrv5BKhNz9TnmzvGOeDnX9s02mewGg+nQluGPTOeJutkfh3lp
+ /7T4vR1BrE6Vinl8ICpUmnUz3+u9rYg3tpkoQesdvi/HvltTwlXk4mHJHNvwDXp/rCge
+ ar1rZrJZninGjBBUV3/Re8hIkJJoOBsdkej8H2ckIMu/Y3xosPifTD2mVsOeD5VNgZs4
+ Sbvy3j7vqnzYudoXbAYkugAUi7/GU5LIO3v2OpfweTykuXTJRgc0jZyh1CJdEaLe5evz
+ oXFQ==
+X-Gm-Message-State: AFqh2kptb7CpbItx4RB/10fJbdvBu+uYXLfeswYmhvVGvmbmJw8rQj6Y
+ GJ6y7GI35W0K3EYMYHModBXqfgQi6zo4HMw9
+X-Google-Smtp-Source: AMrXdXtQVIc+syQZXX9yA/tVG4kiqFFeb0tk0dYOUz86JasUBQ0koYGMIHHFMzqtqKV9JXHhYY60Fg==
+X-Received: by 2002:a05:600c:3584:b0:3d9:719a:8f7d with SMTP id
+ p4-20020a05600c358400b003d9719a8f7dmr15338125wmq.35.1672400156394; 
+ Fri, 30 Dec 2022 03:35:56 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- c4-20020a5d4f04000000b002365cd93d05sm20185641wru.102.2022.12.30.03.35.49
+ b22-20020a05600c4e1600b003c6d21a19a0sm28195721wmq.29.2022.12.30.03.35.55
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 30 Dec 2022 03:35:50 -0800 (PST)
+ Fri, 30 Dec 2022 03:35:56 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
@@ -65,17 +65,17 @@ Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
  Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v2 08/11] hw/arm/aspeed_ast10x0: Map the secure SRAM
-Date: Fri, 30 Dec 2022 12:35:01 +0100
-Message-Id: <20221230113504.37032-9-philmd@linaro.org>
+Subject: [PATCH v2 09/11] hw/arm/aspeed_ast10x0: Map HACE peripheral
+Date: Fri, 30 Dec 2022 12:35:02 +0100
+Message-Id: <20221230113504.37032-10-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221230113504.37032-1-philmd@linaro.org>
 References: <20221230113504.37032-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,106 +98,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some SRAM appears to be used by the Secure Boot unit and
-crypto accelerators. Name it 'secure sram'.
+Since I don't have access to the datasheet, the relevant
+values were found in:
+https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
 
-Note, the SRAM base address was already present but unused
-(the 'SBC' index is used for the MMIO peripheral).
+Before on Zephyr:
 
-Interestingly using CFLAGS=-Winitializer-overrides reports:
+  uart:~$ hash test
+  sha256_test
+  tv[0]:hash_final error
+  sha384_test
+  tv[0]:hash_final error
+  sha512_test
+  tv[0]:hash_final error
+  [00:00:06.278,000] <err> hace_global: HACE poll timeout
+  [00:00:09.324,000] <err> hace_global: HACE poll timeout
+  [00:00:12.261,000] <err> hace_global: HACE poll timeout
 
-  ../hw/arm/aspeed_ast10x0.c:32:30: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-    [ASPEED_DEV_SBC]       = 0x7E6F2000,
-                             ^~~~~~~~~~
-  ../hw/arm/aspeed_ast10x0.c:24:30: note: previous initialization is here
-    [ASPEED_DEV_SBC]       = 0x79000000,
-                             ^~~~~~~~~~
-This fixes with Zephyr:
+  uart:~$ crypto aes256_cbc_vault
+  aes256_cbc vault key 1
+  [00:00:06.699,000] <inf> hace_global: aspeed_crypto_session_setup
+  [00:00:06.699,000] <inf> hace_global: data->cmd: 1c2098
+  [00:00:06.699,000] <inf> hace_global: crypto_data_src: 93340
+  [00:00:06.699,000] <inf> hace_global: crypto_data_dst: 93348
+  [00:00:06.699,000] <inf> hace_global: crypto_ctx_base: 93300
+  [00:00:06.699,000] <inf> hace_global: crypto_data_len: 80000040
+  [00:00:06.699,000] <inf> hace_global: crypto_cmd_reg:  11c2098
+  [00:00:09.743,000] <inf> hace_global: HACE_STS: 0
+  [00:00:09.743,000] <err> hace_global: HACE poll timeout
+  [00:00:09.743,000] <err> crypto: CBC mode ENCRYPT - Failed
+  [00:00:09.743,000] <inf> hace_global: aspeed_crypto_session_free
+  uart:~$
 
-  uart:~$ rsa test
-  rsa test vector[0]:
-  [00:00:26.156,000] <err> os: ***** BUS FAULT *****
-  [00:00:26.157,000] <err> os:   Precise data bus error
-  [00:00:26.157,000] <err> os:   BFAR Address: 0x79000000
-  [00:00:26.158,000] <err> os: r0/a1:  0x79000000  r1/a2:  0x00000000  r2/a3:  0x00001800
-  [00:00:26.158,000] <err> os: r3/a4:  0x79001800 r12/ip:  0x00000800 r14/lr:  0x0001098d
-  [00:00:26.158,000] <err> os:  xpsr:  0x81000000
-  [00:00:26.158,000] <err> os: Faulting instruction address (r15/pc): 0x0001e1bc
-  [00:00:26.158,000] <err> os: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0
-  [00:00:26.158,000] <err> os: Current thread: 0x38248 (shell_uart)
-  [00:00:26.165,000] <err> os: Halting system
+After:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+  uart:~$ hash test
+  sha256_test
+  tv[0]:PASS
+  tv[1]:PASS
+  tv[2]:PASS
+  tv[3]:PASS
+  tv[4]:PASS
+  sha384_test
+  tv[0]:PASS
+  tv[1]:PASS
+  tv[2]:PASS
+  tv[3]:PASS
+  tv[4]:PASS
+  tv[5]:PASS
+  sha512_test
+  tv[0]:PASS
+  tv[1]:PASS
+  tv[2]:PASS
+  tv[3]:PASS
+  tv[4]:PASS
+  tv[5]:PASS
+
+  uart:~$ crypto aes256_cbc_vault
+  aes256_cbc vault key 1
+  Was waiting for:
+  6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a
+  ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51
+  30 c8 1c 46 a3 5c e4 11 e5 fb c1 19 1a 0a 52 ef
+  f6 9f 24 45 df 4f 9b 17 ad 2b 41 7b e6 6c 37 10
+
+   But got:
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+  [00:00:05.771,000] <inf> hace_global: aspeed_crypto_session_setup
+  [00:00:05.772,000] <inf> hace_global: data->cmd: 1c2098
+  [00:00:05.772,000] <inf> hace_global: crypto_data_src: 93340
+  [00:00:05.772,000] <inf> hace_global: crypto_data_dst: 93348
+  [00:00:05.772,000] <inf> hace_global: crypto_ctx_base: 93300
+  [00:00:05.772,000] <inf> hace_global: crypto_data_len: 80000040
+  [00:00:05.772,000] <inf> hace_global: crypto_cmd_reg:  11c2098
+  [00:00:05.772,000] <inf> hace_global: HACE_STS: 1000
+  [00:00:05.772,000] <inf> crypto: Output length (encryption): 80
+  [00:00:05.772,000] <inf> hace_global: aspeed_crypto_session_free
+  [00:00:05.772,000] <inf> hace_global: aspeed_crypto_session_setup
+  [00:00:05.772,000] <inf> hace_global: data->cmd: 1c2018
+  [00:00:05.772,000] <inf> hace_global: crypto_data_src: 93340
+  [00:00:05.772,000] <inf> hace_global: crypto_data_dst: 93348
+  [00:00:05.772,000] <inf> hace_global: crypto_ctx_base: 93300
+  [00:00:05.772,000] <inf> hace_global: crypto_data_len: 80000040
+  [00:00:05.772,000] <inf> hace_global: crypto_cmd_reg:  11c2018
+  [00:00:05.772,000] <inf> hace_global: HACE_STS: 1000
+  [00:00:05.772,000] <inf> crypto: Output length (decryption): 64
+  [00:00:05.772,000] <err> crypto: CBC mode DECRYPT - Mismatch between plaintext and decrypted cipher text
+  [00:00:05.774,000] <inf> hace_global: aspeed_crypto_session_free
+  uart:~$
+
 Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/aspeed_ast10x0.c     | 11 ++++++++++-
- include/hw/arm/aspeed_soc.h |  3 +++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ hw/arm/aspeed_ast10x0.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index 6c6d33d4a0..e74e2660ce 100644
+index e74e2660ce..7a7443a95b 100644
 --- a/hw/arm/aspeed_ast10x0.c
 +++ b/hw/arm/aspeed_ast10x0.c
-@@ -22,7 +22,7 @@
+@@ -29,6 +29,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
+     [ASPEED_DEV_SPI1]      = 0x7E630000,
+     [ASPEED_DEV_SPI2]      = 0x7E640000,
+     [ASPEED_DEV_UDC]       = 0x7E6A2000,
++    [ASPEED_DEV_HACE]      = 0x7E6D0000,
+     [ASPEED_DEV_SCU]       = 0x7E6E2000,
+     [ASPEED_DEV_JTAG0]     = 0x7E6E4000,
+     [ASPEED_DEV_JTAG1]     = 0x7E6E4100,
+@@ -166,6 +167,9 @@ static void aspeed_soc_ast1030_init(Object *obj)
+     snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
+     object_initialize_child(obj, "gpio", &s->gpio, typename);
  
- static const hwaddr aspeed_soc_ast1030_memmap[] = {
-     [ASPEED_DEV_SRAM]      = 0x00000000,
--    [ASPEED_DEV_SBC]       = 0x79000000,
-+    [ASPEED_DEV_SECSRAM]   = 0x79000000,
-     [ASPEED_DEV_IOMEM]     = 0x7E600000,
-     [ASPEED_DEV_PWM]       = 0x7E610000,
-     [ASPEED_DEV_FMC]       = 0x7E620000,
-@@ -222,6 +222,14 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-     memory_region_add_subregion(s->memory,
-                                 sc->memmap[ASPEED_DEV_SRAM],
-                                 &s->sram);
-+    memory_region_init_ram(&s->secsram, OBJECT(s), "sec.sram",
-+                           sc->secsram_size, &err);
-+    if (err != NULL) {
-+        error_propagate(errp, err);
++    snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
++    object_initialize_child(obj, "hace", &s->hace, typename);
++
+     object_initialize_child(obj, "iomem", &s->iomem, TYPE_UNIMPLEMENTED_DEVICE);
+     object_initialize_child(obj, "sbc-unimplemented", &s->sbc_unimplemented,
+                             TYPE_UNIMPLEMENTED_DEVICE);
+@@ -359,6 +363,17 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+     }
+     aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->sbc), 0, sc->memmap[ASPEED_DEV_SBC]);
+ 
++    /* HACE */
++    object_property_set_link(OBJECT(&s->hace), "dram", OBJECT(&s->sram),
++                             &error_abort);
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->hace), errp)) {
 +        return;
 +    }
-+    memory_region_add_subregion(s->memory, sc->memmap[ASPEED_DEV_SECSRAM],
-+                                &s->secsram);
- 
-     /* SCU */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->scu), errp)) {
-@@ -401,6 +409,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
-     sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
-     sc->silicon_rev = AST1030_A1_SILICON_REV;
-     sc->sram_size = 768 * KiB;
-+    sc->secsram_size = 9 * KiB;
-     sc->spis_num = 2;
-     sc->ehcis_num = 0;
-     sc->wdts_num = 4;
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 9a5e3c0bac..bd1e03e78a 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -71,6 +71,7 @@ struct AspeedSoCState {
-     AspeedSMCState spi[ASPEED_SPIS_NUM];
-     EHCISysBusState ehci[ASPEED_EHCIS_NUM];
-     AspeedSBCState sbc;
-+    MemoryRegion secsram;
-     UnimplementedDeviceState sbc_unimplemented;
-     AspeedSDMCState sdmc;
-     AspeedWDTState wdt[ASPEED_WDTS_NUM];
-@@ -105,6 +106,7 @@ struct AspeedSoCClass {
-     const char *cpu_type;
-     uint32_t silicon_rev;
-     uint64_t sram_size;
-+    uint64_t secsram_size;
-     int spis_num;
-     int ehcis_num;
-     int wdts_num;
-@@ -143,6 +145,7 @@ enum {
-     ASPEED_DEV_SCU,
-     ASPEED_DEV_ADC,
-     ASPEED_DEV_SBC,
-+    ASPEED_DEV_SECSRAM,
-     ASPEED_DEV_EMMC_BC,
-     ASPEED_DEV_VIDEO,
-     ASPEED_DEV_SRAM,
++    aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->hace), 0,
++                    sc->memmap[ASPEED_DEV_HACE]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
++                       aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
++
+     /* Watch dog */
+     for (i = 0; i < sc->wdts_num; i++) {
+         AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
 -- 
 2.38.1
 
