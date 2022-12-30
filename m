@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FAE659847
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B024659829
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:28:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBEGC-0008BE-0u; Fri, 30 Dec 2022 07:13:16 -0500
+	id 1pBEGK-0008Nv-SD; Fri, 30 Dec 2022 07:13:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pBEFq-0007iF-DL
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:54 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ <BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pBEFw-0007pD-PE
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:00 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pBEFl-00051K-BT
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:54 -0500
+ <BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pBEFr-00050i-0o
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=a2AWD6NEjEJf5zmGTY1AFKnCaSFxMM/jMxcgT21wtyE=; b=XAg4yZTcn5ixONq/XJwoLLtzgw
- GXADYWbtCQO2WaHakyIUslaqj7hEIAkY1hWc8P/PhV2xHzMlbhvWvdgsJLIL1pUKGJiA8gXEo3E+x
- sfsTIiESRjpU9KpGDpgWasvsduWQVr8tUFc54CXDPgIfJ1tx1t8Ejvq6JBT1Xc9LlOUxDqDhWy58d
- 6S2s3iIElxXmxL4gY0+njMTEY4AkRF1pxh4GKeQrErk8uaTrLkwXi3LH3QNZGxpy4gRc8nIIm4WTO
- dtL94xG3qs7d5F1H1xCbHT0DFHB75wKKOf3OkI6q3ZRLRiyXKjX9KFED+GUO0EFWG1E5FRBz1xCok
- S4GWvPww==;
+ bh=RMwn8pk01KyU/O6ggazjDrt07E6iMQlh/6Gyq4Ux3fg=; b=mvn/c5b4zr8HNr3vPtIVdJc6mI
+ 1y4lcJuH5e6v9cw5JIS4LkqVzPJP/kf8kqfebVsRezh+sh6v+8IIvEGIlWDj/rPbLJXhlDKFWXNLV
+ HzOju3WU1+LOViwMpfzCmcnvY/akSxqFWjvxWdiTEQnKDzHelWV7w2Tj/x6DFeH0bMpD5GKoIBLb9
+ Oz4yu2wlb+GvGfLXiCxbZS39wAY9FKVzute8EHQtHmV7SAd0mj0dSvvc0LqR2uVrxHN7zaC+KkOpL
+ QAOsVQaAqvqqdE/bxvpwUOBVvo7663IiAWX0n67yNkla5aJFEpwfNSG5zN/Xa71qcFO8k7T4r1KwG
+ 1i3RuoSA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pBEFV-00GpjR-2G; Fri, 30 Dec 2022 12:12:40 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pBEFk-00Ac7z-KR; Fri, 30 Dec 2022 12:12:48 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pBEFZ-005Nvg-A7; Fri, 30 Dec 2022 12:12:37 +0000
+ Hat Linux)) id 1pBEFZ-005Nvk-Az; Fri, 30 Dec 2022 12:12:37 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,20 +46,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [RFC PATCH v5 08/52] xen-platform: allow its creation with
- XEN_EMULATE mode
-Date: Fri, 30 Dec 2022 12:11:51 +0000
-Message-Id: <20221230121235.1282915-9-dwmw2@infradead.org>
+Subject: [RFC PATCH v5 09/52] hw/xen_backend: refactor xen_be_init()
+Date: Fri, 30 Dec 2022 12:11:52 +0000
+Message-Id: <20221230121235.1282915-10-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221230121235.1282915-1-dwmw2@infradead.org>
 References: <20221230121235.1282915-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -84,106 +83,97 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-The only thing we need to handle on KVM side is to change the
-pfn from R/W to R/O.
-
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/xen/meson.build    |  5 ++++-
- hw/i386/xen/xen_platform.c | 39 +++++++++++++++++++++++++-------------
- 2 files changed, 30 insertions(+), 14 deletions(-)
+ hw/xen/xen-legacy-backend.c         | 40 +++++++++++++++++++++--------
+ include/hw/xen/xen-legacy-backend.h |  3 +++
+ 2 files changed, 32 insertions(+), 11 deletions(-)
 
-diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
-index be84130300..79d75cc927 100644
---- a/hw/i386/xen/meson.build
-+++ b/hw/i386/xen/meson.build
-@@ -2,6 +2,9 @@ i386_ss.add(when: 'CONFIG_XEN', if_true: files(
-   'xen-hvm.c',
-   'xen-mapcache.c',
-   'xen_apic.c',
--  'xen_platform.c',
-   'xen_pvdevice.c',
- ))
-+
-+i386_ss.add(when: 'CONFIG_XENFV_MACHINE', if_true: files(
-+  'xen_platform.c',
-+))
-diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
-index a6f0fb478a..123c1d7777 100644
---- a/hw/i386/xen/xen_platform.c
-+++ b/hw/i386/xen/xen_platform.c
-@@ -28,9 +28,9 @@
- #include "hw/ide.h"
- #include "hw/ide/pci.h"
- #include "hw/pci/pci.h"
--#include "hw/xen/xen_common.h"
- #include "migration/vmstate.h"
--#include "hw/xen/xen-legacy-backend.h"
-+#include "hw/xen/xen.h"
-+#include "net/net.h"
- #include "trace.h"
- #include "sysemu/xen.h"
- #include "sysemu/block-backend.h"
-@@ -38,6 +38,11 @@
- #include "qemu/module.h"
- #include "qom/object.h"
+diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
+index 085fd31ef7..694e7bbc54 100644
+--- a/hw/xen/xen-legacy-backend.c
++++ b/hw/xen/xen-legacy-backend.c
+@@ -676,17 +676,40 @@ void xenstore_update_fe(char *watch, struct XenLegacyDevice *xendev)
+ }
+ /* -------------------------------------------------------------------- */
  
-+#ifdef CONFIG_XEN
-+#include "hw/xen/xen_common.h"
-+#include "hw/xen/xen-legacy-backend.h"
-+#endif
-+
- //#define DEBUG_PLATFORM
- 
- #ifdef DEBUG_PLATFORM
-@@ -280,18 +285,26 @@ static void platform_fixed_ioport_writeb(void *opaque, uint32_t addr, uint32_t v
-     PCIXenPlatformState *s = opaque;
- 
-     switch (addr) {
--    case 0: /* Platform flags */ {
--        hvmmem_type_t mem_type = (val & PFFLAG_ROM_LOCK) ?
--            HVMMEM_ram_ro : HVMMEM_ram_rw;
--        if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
--            DPRINTF("unable to change ro/rw state of ROM memory area!\n");
--        } else {
-+    case 0: /* Platform flags */
-+        if (xen_mode == XEN_EMULATE) {
-+            /* XX: Use i440gx/q35 PAM setup to do this? */
-             s->flags = val & PFFLAG_ROM_LOCK;
--            DPRINTF("changed ro/rw state of ROM memory area. now is %s state.\n",
--                    (mem_type == HVMMEM_ram_ro ? "ro":"rw"));
-+#ifdef CONFIG_XEN
-+        } else {
-+            hvmmem_type_t mem_type = (val & PFFLAG_ROM_LOCK) ?
-+                HVMMEM_ram_ro : HVMMEM_ram_rw;
-+
-+            if (xen_set_mem_type(xen_domid, mem_type, 0xc0, 0x40)) {
-+                DPRINTF("unable to change ro/rw state of ROM memory area!\n");
-+            } else {
-+                s->flags = val & PFFLAG_ROM_LOCK;
-+                DPRINTF("changed ro/rw state of ROM memory area. now is %s state.\n",
-+                        (mem_type == HVMMEM_ram_ro ? "ro" : "rw"));
-+            }
-+#endif
-         }
-         break;
--    }
-+
-     case 2:
-         log_writeb(s, val);
-         break;
-@@ -509,8 +522,8 @@ static void xen_platform_realize(PCIDevice *dev, Error **errp)
-     uint8_t *pci_conf;
- 
-     /* Device will crash on reset if xen is not initialized */
--    if (!xen_enabled()) {
--        error_setg(errp, "xen-platform device requires the Xen accelerator");
-+    if (xen_mode == XEN_DISABLED) {
-+        error_setg(errp, "xen-platform device requires a Xen guest");
-         return;
+-int xen_be_init(void)
++int xen_be_xenstore_open(void)
+ {
+-    xengnttab_handle *gnttabdev;
+-
+     xenstore = xs_daemon_open();
+     if (!xenstore) {
+-        xen_pv_printf(NULL, 0, "can't connect to xenstored\n");
+         return -1;
      }
  
+     qemu_set_fd_handler(xs_fileno(xenstore), xenstore_update, NULL, NULL);
++    return 0;
++}
++
++void xen_be_xenstore_close(void)
++{
++    qemu_set_fd_handler(xs_fileno(xenstore), NULL, NULL, NULL);
++    xs_daemon_close(xenstore);
++    xenstore = NULL;
++}
++
++void xen_be_sysdev_init(void)
++{
++    xen_sysdev = qdev_new(TYPE_XENSYSDEV);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
++    xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
++    qbus_set_bus_hotplug_handler(xen_sysbus);
++}
++
++int xen_be_init(void)
++{
++    xengnttab_handle *gnttabdev;
++
++    if (xen_be_xenstore_open()) {
++        xen_pv_printf(NULL, 0, "can't connect to xenstored\n");
++        return -1;
++    }
+ 
+     if (xen_xc == NULL || xen_fmem == NULL) {
+         /* Check if xen_init() have been called */
+@@ -701,17 +724,12 @@ int xen_be_init(void)
+         xengnttab_close(gnttabdev);
+     }
+ 
+-    xen_sysdev = qdev_new(TYPE_XENSYSDEV);
+-    sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
+-    xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
+-    qbus_set_bus_hotplug_handler(xen_sysbus);
++    xen_be_sysdev_init();
+ 
+     return 0;
+ 
+ err:
+-    qemu_set_fd_handler(xs_fileno(xenstore), NULL, NULL, NULL);
+-    xs_daemon_close(xenstore);
+-    xenstore = NULL;
++    xen_be_xenstore_close();
+ 
+     return -1;
+ }
+diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
+index be281e1f38..0aa171f6c2 100644
+--- a/include/hw/xen/xen-legacy-backend.h
++++ b/include/hw/xen/xen-legacy-backend.h
+@@ -42,6 +42,9 @@ int xenstore_read_fe_uint64(struct XenLegacyDevice *xendev, const char *node,
+ void xen_be_check_state(struct XenLegacyDevice *xendev);
+ 
+ /* xen backend driver bits */
++int xen_be_xenstore_open(void);
++void xen_be_xenstore_close(void);
++void xen_be_sysdev_init(void);
+ int xen_be_init(void);
+ void xen_be_register_common(void);
+ int xen_be_register(const char *type, struct XenDevOps *ops);
 -- 
 2.35.3
 
