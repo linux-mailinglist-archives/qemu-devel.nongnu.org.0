@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545BE6597BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD5A6597C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:36:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBDg0-0006TN-T7; Fri, 30 Dec 2022 06:35:52 -0500
+	id 1pBDgB-0006io-QD; Fri, 30 Dec 2022 06:36:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfw-0006T5-1l
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:48 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDg2-0006aS-Tq
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:55 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfu-0003rB-AB
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:47 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id z10so19656984wrh.10
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:35:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDg0-0003vX-PT
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:54 -0500
+Received: by mail-wr1-x434.google.com with SMTP id y8so19652358wrl.13
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:35:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Iifc+3Al9YvWG0jFTBhIrUW5hx3TJ+e3zFqcRSlUTYY=;
- b=WTu8RSafQqQCY9Q/UPq9gMnF+NNq8FiSNMn8VRjrGre5cQeuBBt0586qY2wc9ffIIs
- 7+tAuxCNSq3bnrLKy0tAyqDbupdNZoJ2CFWOKTmFlR0bJO7/fCyQdKfmpzsBSrEoSfeP
- k5sZSUuIf0a9D8trQMuj1Wr+6DGJcCEeZkLVX/Z+oEBd/ZpZrmb+HCSBIiCgBV3SzX/o
- Xzph9xsRHbYz8pArxABJQg6P801Km48+My/9UnzPL3ByvXHQLG8eMsz5OXunui2WwbGb
- 8rAnGQpuUUdC3oB5D5zzEO7k4S+l5d3L3iSyyyiuw0dE2KOfad4KgujeotFCPOu6yzkm
- PaEQ==
+ bh=jwcfecgiR0FIp2svYcWH8+Gc+mTlFvrMBZzkgfCKb4w=;
+ b=XZERgT9F5sbNIEYJwMZp8XqwOlgcEdp3uAUz0spFvOE41bn7OFvWSlsfSTprUZ6SZA
+ D07AnZg9RYGkzpZAVJpcRTNgXy4HbGgy4Zfoy/l42O8GhcsQcUEmJOMoqYf163JyU55i
+ lgzCVAo1gywCDB9xuKKCGOIeevSBC1oYgEb/oYi+/mD3DahPOQ7+pohUNuq5DQ1PI2cH
+ zRlKoN+ntzyhXbFiPsUMbN2rdyVnAx2FRhuHITapXgqhl6nHv6OzN63EEIRIjkQ68uGm
+ 29TIj7B1QgclbYFnAgUQDWm5OxGFy+XbC6XQqcdGcrJMgy+AMtu4fXOGuQ5Y/CJJz0T5
+ WGjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Iifc+3Al9YvWG0jFTBhIrUW5hx3TJ+e3zFqcRSlUTYY=;
- b=5zrj5oZdrVPNBD4v7QqwMVGI+WoNwIS9JhEQkC8Ehy+l2W3dACDAu9afu3/qDKLz34
- uAIJqINCFIGCPSuVFwnhPROc6dXx1SroRa0uITzOSBaJqHWD8DGkPYso0IzK2hfUrA6D
- PSvvKcDiEiJJIG6gZTeSovRZqhPZkkpCge7dPSXNXXKBJ1Q+pwC0cjDU4W7EK6gDIiak
- NTNqHp/HOVOPSedViSMoHmK0L16bVGNZmMS7I/4gGp5JPdipO4oKUm2hKHLnN+yR6/ui
- sRUqcxgFeH2WAT6VCNoA0lPoiSjU+5wvsvvES58M29QQajF0DjoQGrDr3o0QnseKfU4V
- oEIg==
-X-Gm-Message-State: AFqh2konnpiLXHt+AD04XQhAjXPzTCaN/GGRGR1xoKutTfWrR0MIRJJU
- IdNIh4hmsEgE/K5hd2X3GkJN5NAH33Ml7ey2
-X-Google-Smtp-Source: AMrXdXt0p2otaDvubRfc7tbsoaSDU/jMUOfMBsX55W9m8HoHDmfhvsX8yyWfYMNp91vzqDT9xv3gCA==
-X-Received: by 2002:a5d:6545:0:b0:27f:4a7e:fc47 with SMTP id
- z5-20020a5d6545000000b0027f4a7efc47mr9588985wrv.67.1672400145411; 
- Fri, 30 Dec 2022 03:35:45 -0800 (PST)
+ bh=jwcfecgiR0FIp2svYcWH8+Gc+mTlFvrMBZzkgfCKb4w=;
+ b=NXLiOVM0xzsIcF9mXXgYxGGgg98sRj/vvTnZ/MQpvEmO2+xD+58sXYEd70IvyVPOaC
+ asFWsUTeDoz9VcVhx9iHN6Fl0QsdYCT158BvTf1ocmCYNEaNwRZP+lWg/d7P9bvbUur5
+ jI2AN2PqRuTCq1uraKWM4asNwE7VfWiQlIHTZVVR42ofatz83+vT37ic48PFALyAmdy8
+ N6ihVy/N6Nz0bUj0EJHrtCHxHnZjDKJTJZSQFaRgztmbrK6BW2eTY83bE1i7Xw92OUCd
+ B8TqoYnotfZ0tuaBLMl4AwCY0m2uTML6X9IfUpUHoQ9UzYKDCT5Pysauh4D19V0GSURu
+ PlYA==
+X-Gm-Message-State: AFqh2kpiBsN4xcEtTpkP0GKUML6VLAxZ8JfosgvYMhFKWOYCQdmUWXGn
+ LB3pDe6DDhHpq/wJUdRdkor4F6G5oDuum8F7
+X-Google-Smtp-Source: AMrXdXtaz9nR5/1KKRvLCpPAUtedFg9QUFL9BzfUzNCmCPsAIErpYVyJbYUaj/w+Jh6xZFfYQhQMhQ==
+X-Received: by 2002:a5d:4884:0:b0:242:3812:f948 with SMTP id
+ g4-20020a5d4884000000b002423812f948mr20895635wrq.24.1672400151006; 
+ Fri, 30 Dec 2022 03:35:51 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- m5-20020adfc585000000b00236488f62d6sm20838038wrg.79.2022.12.30.03.35.43
+ c4-20020a5d4f04000000b002365cd93d05sm20185641wru.102.2022.12.30.03.35.49
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 30 Dec 2022 03:35:44 -0800 (PST)
+ Fri, 30 Dec 2022 03:35:50 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
@@ -65,24 +65,24 @@ Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
  Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v2 07/11] hw/arm/aspeed_ast10x0: Map I3C peripheral
-Date: Fri, 30 Dec 2022 12:35:00 +0100
-Message-Id: <20221230113504.37032-8-philmd@linaro.org>
+Subject: [PATCH v2 08/11] hw/arm/aspeed_ast10x0: Map the secure SRAM
+Date: Fri, 30 Dec 2022 12:35:01 +0100
+Message-Id: <20221230113504.37032-9-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221230113504.37032-1-philmd@linaro.org>
 References: <20221230113504.37032-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,64 +98,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since I don't have access to the datasheet, the relevant
-values were found in:
-https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
+Some SRAM appears to be used by the Secure Boot unit and
+crypto accelerators. Name it 'secure sram'.
 
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+Note, the SRAM base address was already present but unused
+(the 'SBC' index is used for the MMIO peripheral).
+
+Interestingly using CFLAGS=-Winitializer-overrides reports:
+
+  ../hw/arm/aspeed_ast10x0.c:32:30: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+    [ASPEED_DEV_SBC]       = 0x7E6F2000,
+                             ^~~~~~~~~~
+  ../hw/arm/aspeed_ast10x0.c:24:30: note: previous initialization is here
+    [ASPEED_DEV_SBC]       = 0x79000000,
+                             ^~~~~~~~~~
+This fixes with Zephyr:
+
+  uart:~$ rsa test
+  rsa test vector[0]:
+  [00:00:26.156,000] <err> os: ***** BUS FAULT *****
+  [00:00:26.157,000] <err> os:   Precise data bus error
+  [00:00:26.157,000] <err> os:   BFAR Address: 0x79000000
+  [00:00:26.158,000] <err> os: r0/a1:  0x79000000  r1/a2:  0x00000000  r2/a3:  0x00001800
+  [00:00:26.158,000] <err> os: r3/a4:  0x79001800 r12/ip:  0x00000800 r14/lr:  0x0001098d
+  [00:00:26.158,000] <err> os:  xpsr:  0x81000000
+  [00:00:26.158,000] <err> os: Faulting instruction address (r15/pc): 0x0001e1bc
+  [00:00:26.158,000] <err> os: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0
+  [00:00:26.158,000] <err> os: Current thread: 0x38248 (shell_uart)
+  [00:00:26.165,000] <err> os: Halting system
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 ---
- hw/arm/aspeed_ast10x0.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ hw/arm/aspeed_ast10x0.c     | 11 ++++++++++-
+ include/hw/arm/aspeed_soc.h |  3 +++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index d7dbc1a801..6c6d33d4a0 100644
+index 6c6d33d4a0..e74e2660ce 100644
 --- a/hw/arm/aspeed_ast10x0.c
 +++ b/hw/arm/aspeed_ast10x0.c
-@@ -54,6 +54,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
-     [ASPEED_DEV_WDT]       = 0x7E785000,
-     [ASPEED_DEV_LPC]       = 0x7E789000,
-     [ASPEED_DEV_PECI]      = 0x7E78B000,
-+    [ASPEED_DEV_I3C]       = 0x7E7A0000,
-     [ASPEED_DEV_I2C]       = 0x7E7B0000,
- };
+@@ -22,7 +22,7 @@
  
-@@ -89,6 +90,7 @@ static const int aspeed_soc_ast1030_irqmap[] = {
-     [ASPEED_DEV_ADC]       = 46,
-     [ASPEED_DEV_SPI1]      = 65,
-     [ASPEED_DEV_SPI2]      = 66,
-+    [ASPEED_DEV_I3C]       = 102, /* 102 -> 105 */
-     [ASPEED_DEV_I2C]       = 110, /* 110 ~ 123 */
-     [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
-     [ASPEED_DEV_UDC]       = 9,
-@@ -130,6 +132,8 @@ static void aspeed_soc_ast1030_init(Object *obj)
-     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
-     object_initialize_child(obj, "i2c", &s->i2c, typename);
- 
-+    object_initialize_child(obj, "i3c", &s->i3c, TYPE_ASPEED_I3C);
-+
-     snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
-     object_initialize_child(obj, "timerctrl", &s->timerctrl, typename);
- 
-@@ -240,6 +244,18 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
-     }
- 
-+    /* I3C */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
+ static const hwaddr aspeed_soc_ast1030_memmap[] = {
+     [ASPEED_DEV_SRAM]      = 0x00000000,
+-    [ASPEED_DEV_SBC]       = 0x79000000,
++    [ASPEED_DEV_SECSRAM]   = 0x79000000,
+     [ASPEED_DEV_IOMEM]     = 0x7E600000,
+     [ASPEED_DEV_PWM]       = 0x7E610000,
+     [ASPEED_DEV_FMC]       = 0x7E620000,
+@@ -222,6 +222,14 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+     memory_region_add_subregion(s->memory,
+                                 sc->memmap[ASPEED_DEV_SRAM],
+                                 &s->sram);
++    memory_region_init_ram(&s->secsram, OBJECT(s), "sec.sram",
++                           sc->secsram_size, &err);
++    if (err != NULL) {
++        error_propagate(errp, err);
 +        return;
 +    }
-+    aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_I3C]);
-+    for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
-+        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->armv7m),
-+                                        sc->irqmap[ASPEED_DEV_I3C] + i);
-+        /* The AST1030 I3C controller has one IRQ per bus. */
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i3c.devices[i]), 0, irq);
-+    }
-+
-     /* PECI */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->peci), errp)) {
-         return;
++    memory_region_add_subregion(s->memory, sc->memmap[ASPEED_DEV_SECSRAM],
++                                &s->secsram);
+ 
+     /* SCU */
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->scu), errp)) {
+@@ -401,6 +409,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+     sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
+     sc->silicon_rev = AST1030_A1_SILICON_REV;
+     sc->sram_size = 768 * KiB;
++    sc->secsram_size = 9 * KiB;
+     sc->spis_num = 2;
+     sc->ehcis_num = 0;
+     sc->wdts_num = 4;
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 9a5e3c0bac..bd1e03e78a 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -71,6 +71,7 @@ struct AspeedSoCState {
+     AspeedSMCState spi[ASPEED_SPIS_NUM];
+     EHCISysBusState ehci[ASPEED_EHCIS_NUM];
+     AspeedSBCState sbc;
++    MemoryRegion secsram;
+     UnimplementedDeviceState sbc_unimplemented;
+     AspeedSDMCState sdmc;
+     AspeedWDTState wdt[ASPEED_WDTS_NUM];
+@@ -105,6 +106,7 @@ struct AspeedSoCClass {
+     const char *cpu_type;
+     uint32_t silicon_rev;
+     uint64_t sram_size;
++    uint64_t secsram_size;
+     int spis_num;
+     int ehcis_num;
+     int wdts_num;
+@@ -143,6 +145,7 @@ enum {
+     ASPEED_DEV_SCU,
+     ASPEED_DEV_ADC,
+     ASPEED_DEV_SBC,
++    ASPEED_DEV_SECSRAM,
+     ASPEED_DEV_EMMC_BC,
+     ASPEED_DEV_VIDEO,
+     ASPEED_DEV_SRAM,
 -- 
 2.38.1
 
