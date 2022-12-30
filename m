@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A12D65939E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:11:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE53659398
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:09:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pB2uc-0006Vd-Rz; Thu, 29 Dec 2022 19:06:14 -0500
+	id 1pB2ud-0006Wk-KE; Thu, 29 Dec 2022 19:06:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2uV-0006Lo-GF
+ id 1pB2uU-0006Li-Ij
  for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:06:11 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2uQ-0004E7-6L
+ id 1pB2uQ-0004EF-EL
  for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:06:05 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id a184so2793153pfa.9
+Received: by mail-pf1-x429.google.com with SMTP id k19so5864406pfg.11
  for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:06:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IrKLqLX2qUBb8CbspI2Ok/FI/tOS0JvQAeneXvCOOoQ=;
- b=qvenLfyQYHr9v8Rfw76KwcyodEmF4V76zETg/4qlZL8PlkG3ZZu/cAbbxzkksEY1QL
- 5nMeNYAQfByRj6legKSY14vG1Tz9MWFD6hbD73vOw5gWhhueF/O2Jumd8Eht69EPyryq
- FUN/nLTv8Cbf8GvEbEl7mYZRz9GNzoFVh0LMvSqAuBWTJPU7Gm/o90PJlgN0eKA5Ng/T
- +pKssxq/awbcTAI7Pk3eAltS7w0nyBav9NqK8G+tBNdthHw0dW3mNCDoiTBxPa8kmE2/
- 5+Pxmq4zuHus3gPwvZXQ7PQJCjJ6osoyzWmgk9hr+WSjgZ6nSGeFoZRD156zu58vP9RQ
- xjMw==
+ bh=vCLzxn0q0XTdpTpZ+mEjL5EuaQDV+OhjoinCv0kOApo=;
+ b=hsq9XH4SOumvEOfb8I1y37Ee+9ZWTSvt78BVA5kJCIESP3QZVoZIm2YDnbLl26e81L
+ VMDU/3rjMKGCRSRgzUU16wsgXnAJs31m7gw3p4cIsqbhFCnJx1QbTLffOpmvsx1fTkVu
+ tlpOKLtabVVJxPyqxVKEfEstK7xMfozcURz9QABMzpnEMTG49EgovJnV+iQDvZ5lUzNu
+ oKPqlGmFQRCL/cwnABP98zS9VktMv+JTKbLsHWdpi7LEh0a1tnHtyBCiR8KxoGvRuGvD
+ bt6DIAjy4QjCzDaTVGdDMA9I4gcEO6vnpiOXcv0cfh6vdNr45WaaB7zzcSsWHi1iWypt
+ 80HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IrKLqLX2qUBb8CbspI2Ok/FI/tOS0JvQAeneXvCOOoQ=;
- b=X6eU+2MkZ1/7tFUJj7SE+O2OT3IKwfrlnks7cgNqrcl0Ip2Z2aio55lmiQgOepKo1u
- Xvl5kcPWE6xo1zDDy0Jd+/QmiDpyed5hiYFA+HfB/Irv7XN1SHPZnKEIWoFsMA9QYkGv
- OTCI2QxtivZJA9eyQ7Os5MG6osQ26fBRErz8DOGDjHsG5ixxFW8MPm3Swm9n/Vjz7CDm
- l5lSXoXYElFFLShPByz3k0y/o8/Erm96JNeHbngG0NtvMFLX3GCNI+xnm8SjhgGoSbCD
- fCygHouT7iGcq1O/y7z6mMMwQ/fgDZzcwzkFgFPQ0vsvFzOjqHx5qGE8iDVnTf3YJeRT
- MjUw==
-X-Gm-Message-State: AFqh2kpT3RbFiCncbXXX5CwYNtvqNCp9dv3lSKI3IKmNzRiJXorPQfLW
- RrZvyKW7b2WqoHkDWgZClXKvT1XEM9mgEDVt
-X-Google-Smtp-Source: AMrXdXtGpesbv0OdhpW8bGowUkModGx762VLpmmVlVklYFKk7+R15E5qFA7b+cr/e17/mPrrNVnmgg==
-X-Received: by 2002:a05:6a00:4c84:b0:577:c181:bd61 with SMTP id
- eb4-20020a056a004c8400b00577c181bd61mr32512103pfb.20.1672358760115; 
- Thu, 29 Dec 2022 16:06:00 -0800 (PST)
+ bh=vCLzxn0q0XTdpTpZ+mEjL5EuaQDV+OhjoinCv0kOApo=;
+ b=UMLneP2vf1Yz3ekhO9PDUAWpDcAcK2qEfHAH1nB3q9RNpmdE7DOe41dOZjqIq6P1Z+
+ slzvBM9GcBKB0eJ9dG0+IymhZVn3EFd7t5qd9UaxyU8FT7cQ+A9yxpPY1HZNpeMLs5yf
+ eXLJH3DP/BUaILTbeIDpqqVWvh15iy67W461+EMCOEGFdG6aXKEdtTeWR8ruU4+cUHZ7
+ dNbaJYeJkeTaHvPdxtkPkJeSansI7R3cLx/Srskx3HgNZj7lIQhuYhi4G/tAtPDZVUne
+ D0Y7+HUgkFhajexTS1OjV0OVqY4wF8Da79KMYhQi8Ov+WpEoDVgsPQaONx+e7qB4XBMM
+ lWmA==
+X-Gm-Message-State: AFqh2koenLIIJW/53zZPe3rw1szta63sBoVAjoSTPGaFdzwEW8tlaCvs
+ UnDL3AWNFlre+q6HansjpHuzk+suuwtbnF94
+X-Google-Smtp-Source: AMrXdXs3JZljTZ5EggZ9ZdoOT+7ETdRqj+fK0kL/YfVln9PJSYfCPV7chR5mwlANmK+CET9UIfy/dw==
+X-Received: by 2002:a05:6a00:168d:b0:577:2a9:ec82 with SMTP id
+ k13-20020a056a00168d00b0057702a9ec82mr38207348pfc.5.1672358761045; 
+ Thu, 29 Dec 2022 16:06:01 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- x185-20020a6286c2000000b0056bfebfa6e4sm12586151pfd.190.2022.12.29.16.05.59
+ x185-20020a6286c2000000b0056bfebfa6e4sm12586151pfd.190.2022.12.29.16.06.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 16:05:59 -0800 (PST)
+ Thu, 29 Dec 2022 16:06:00 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 40/47] tcg: Factor init_ffi_layouts() out of tcg_context_init()
-Date: Thu, 29 Dec 2022 16:02:14 -0800
-Message-Id: <20221230000221.2764875-41-richard.henderson@linaro.org>
+Subject: [PULL 41/47] tcg: Move ffi_cif pointer into TCGHelperInfo
+Date: Thu, 29 Dec 2022 16:02:15 -0800
+Message-Id: <20221230000221.2764875-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221230000221.2764875-1-richard.henderson@linaro.org>
 References: <20221230000221.2764875-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,119 +90,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+Instead of requiring a separate hash table lookup,
+put a pointer to the CIF into TCGHelperInfo.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Message-Id: <20221111074101.2069454-27-richard.henderson@linaro.org>
 [PMD: Split from bigger patch]
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221122180804.938-3-philmd@linaro.org>
+Message-Id: <20221122180804.938-4-philmd@linaro.org>
 ---
- tcg/tcg.c | 83 +++++++++++++++++++++++++++++--------------------------
- 1 file changed, 44 insertions(+), 39 deletions(-)
+ tcg/tcg-internal.h |  7 +++++++
+ tcg/tcg.c          | 30 ++++++++++++++----------------
+ 2 files changed, 21 insertions(+), 16 deletions(-)
 
+diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
+index c7e87e193d..6e50aeba3a 100644
+--- a/tcg/tcg-internal.h
++++ b/tcg/tcg-internal.h
+@@ -25,6 +25,10 @@
+ #ifndef TCG_INTERNAL_H
+ #define TCG_INTERNAL_H
+ 
++#ifdef CONFIG_TCG_INTERPRETER
++#include <ffi.h>
++#endif
++
+ #define TCG_HIGHWATER 1024
+ 
+ /*
+@@ -57,6 +61,9 @@ typedef struct TCGCallArgumentLoc {
+ typedef struct TCGHelperInfo {
+     void *func;
+     const char *name;
++#ifdef CONFIG_TCG_INTERPRETER
++    ffi_cif *cif;
++#endif
+     unsigned typemask           : 32;
+     unsigned flags              : 8;
+     unsigned nr_in              : 8;
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 60a745c9cd..cfc0280883 100644
+index cfc0280883..76cf26870c 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -573,7 +573,49 @@ static ffi_type *typecode_to_ffi(int argmask)
-     }
-     g_assert_not_reached();
- }
--#endif
-+
-+static void init_ffi_layouts(void)
-+{
-+    /* g_direct_hash/equal for direct comparisons on uint32_t.  */
-+    ffi_table = g_hash_table_new(NULL, NULL);
-+    for (int i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
-+        uint32_t typemask = all_helpers[i].typemask;
-+        gpointer hash = (gpointer)(uintptr_t)typemask;
-+        struct {
-+            ffi_cif cif;
-+            ffi_type *args[];
-+        } *ca;
-+        ffi_status status;
-+        int nargs;
-+
-+        if (g_hash_table_lookup(ffi_table, hash)) {
-+            continue;
-+        }
-+
-+        /* Ignoring the return type, find the last non-zero field. */
-+        nargs = 32 - clz32(typemask >> 3);
-+        nargs = DIV_ROUND_UP(nargs, 3);
-+
-+        ca = g_malloc0(sizeof(*ca) + nargs * sizeof(ffi_type *));
-+        ca->cif.rtype = typecode_to_ffi(typemask & 7);
-+        ca->cif.nargs = nargs;
-+
-+        if (nargs != 0) {
-+            ca->cif.arg_types = ca->args;
-+            for (int j = 0; j < nargs; ++j) {
-+                int typecode = extract32(typemask, (j + 1) * 3, 3);
-+                ca->args[j] = typecode_to_ffi(typecode);
-+            }
-+        }
-+
-+        status = ffi_prep_cif(&ca->cif, FFI_DEFAULT_ABI, nargs,
-+                              ca->cif.rtype, ca->cif.arg_types);
-+        assert(status == FFI_OK);
-+
-+        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
-+    }
-+}
-+#endif /* CONFIG_TCG_INTERPRETER */
+@@ -62,10 +62,6 @@
+ #include "tcg/tcg-ldst.h"
+ #include "tcg-internal.h"
  
- typedef struct TCGCumulativeArgs {
-     int arg_idx;                /* tcg_gen_callN args[] */
-@@ -768,44 +810,7 @@ static void tcg_context_init(unsigned max_cpus)
+-#ifdef CONFIG_TCG_INTERPRETER
+-#include <ffi.h>
+-#endif
+-
+ /* Forward declarations for functions declared in tcg-target.c.inc and
+    used here. */
+ static void tcg_target_init(TCGContext *s);
+@@ -553,8 +549,6 @@ static TCGHelperInfo all_helpers[] = {
+ static GHashTable *helper_table;
+ 
+ #ifdef CONFIG_TCG_INTERPRETER
+-static GHashTable *ffi_table;
+-
+ static ffi_type *typecode_to_ffi(int argmask)
+ {
+     switch (argmask) {
+@@ -577,9 +571,11 @@ static ffi_type *typecode_to_ffi(int argmask)
+ static void init_ffi_layouts(void)
+ {
+     /* g_direct_hash/equal for direct comparisons on uint32_t.  */
+-    ffi_table = g_hash_table_new(NULL, NULL);
++    GHashTable *ffi_table = g_hash_table_new(NULL, NULL);
++
+     for (int i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
+-        uint32_t typemask = all_helpers[i].typemask;
++        TCGHelperInfo *info = &all_helpers[i];
++        unsigned typemask = info->typemask;
+         gpointer hash = (gpointer)(uintptr_t)typemask;
+         struct {
+             ffi_cif cif;
+@@ -587,8 +583,11 @@ static void init_ffi_layouts(void)
+         } *ca;
+         ffi_status status;
+         int nargs;
++        ffi_cif *cif;
+ 
+-        if (g_hash_table_lookup(ffi_table, hash)) {
++        cif = g_hash_table_lookup(ffi_table, hash);
++        if (cif) {
++            info->cif = cif;
+             continue;
+         }
+ 
+@@ -612,8 +611,12 @@ static void init_ffi_layouts(void)
+                               ca->cif.rtype, ca->cif.arg_types);
+         assert(status == FFI_OK);
+ 
+-        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
++        cif = &ca->cif;
++        info->cif = cif;
++        g_hash_table_insert(ffi_table, hash, (gpointer)cif);
+     }
++
++    g_hash_table_destroy(ffi_table);
+ }
+ #endif /* CONFIG_TCG_INTERPRETER */
+ 
+@@ -4388,12 +4391,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
      }
  
  #ifdef CONFIG_TCG_INTERPRETER
--    /* g_direct_hash/equal for direct comparisons on uint32_t.  */
--    ffi_table = g_hash_table_new(NULL, NULL);
--    for (i = 0; i < ARRAY_SIZE(all_helpers); ++i) {
--        struct {
--            ffi_cif cif;
--            ffi_type *args[];
--        } *ca;
--        uint32_t typemask = all_helpers[i].typemask;
--        gpointer hash = (gpointer)(uintptr_t)typemask;
--        ffi_status status;
--        int nargs;
--
--        if (g_hash_table_lookup(ffi_table, hash)) {
--            continue;
--        }
--
--        /* Ignoring the return type, find the last non-zero field. */
--        nargs = 32 - clz32(typemask >> 3);
--        nargs = DIV_ROUND_UP(nargs, 3);
--
--        ca = g_malloc0(sizeof(*ca) + nargs * sizeof(ffi_type *));
--        ca->cif.rtype = typecode_to_ffi(typemask & 7);
--        ca->cif.nargs = nargs;
--
--        if (nargs != 0) {
--            ca->cif.arg_types = ca->args;
--            for (int j = 0; j < nargs; ++j) {
--                int typecode = extract32(typemask, (j + 1) * 3, 3);
--                ca->args[j] = typecode_to_ffi(typecode);
--            }
--        }
--
--        status = ffi_prep_cif(&ca->cif, FFI_DEFAULT_ABI, nargs,
--                              ca->cif.rtype, ca->cif.arg_types);
--        assert(status == FFI_OK);
--
--        g_hash_table_insert(ffi_table, hash, (gpointer)&ca->cif);
+-    {
+-        gpointer hash = (gpointer)(uintptr_t)info->typemask;
+-        ffi_cif *cif = g_hash_table_lookup(ffi_table, hash);
+-        assert(cif != NULL);
+-        tcg_out_call(s, tcg_call_func(op), cif);
 -    }
-+    init_ffi_layouts();
++    tcg_out_call(s, tcg_call_func(op), info->cif);
+ #else
+     tcg_out_call(s, tcg_call_func(op));
  #endif
- 
-     tcg_target_init(s);
 -- 
 2.34.1
 
