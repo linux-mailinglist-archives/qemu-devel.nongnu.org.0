@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC476597CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:38:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725966597C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:36:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBDfj-0006IN-QC; Fri, 30 Dec 2022 06:35:35 -0500
+	id 1pBDfp-0006LY-AK; Fri, 30 Dec 2022 06:35:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfh-0006HO-4G
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:33 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfl-0006JV-Pq
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:37 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDff-0003sH-0f
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:32 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- ay2-20020a05600c1e0200b003d22e3e796dso15042340wmb.0
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:35:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfj-0003sg-T6
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:37 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id l26so13438192wme.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:35:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YI/G5H9E5YA8omUhdoABDbtm2oFm0oJUgcY9rScXwCA=;
- b=SVFtgJ2Lg7daTov8oRsCo8y6i6JXBNA/M9JMe3S2O6ZzuMgbewoJwL/YsXhNCRLRBi
- KKXXOaLsZULNgFFep8vSZTWSHsmJVQ8V3UtYiSGVLs1LTvPby1KdwlQXWyduTPq9u85g
- awmupWGCwtduWRDUm+/GtcG7WYXoDWfuspQNyS0A+7s2yDcwyxOC3+z0WcXwXK3Gf0yI
- +uLZbsyw5HiZTr33I9IyN1tZd1d8m8eCgDVgIYfxcvBoPaPEJijTtMUc1JFBpE5GCvfT
- cuJiXsYlAjd6wH6b5ttARo6VWoSnUa21MXrsTke2ChPCSLw9ywdUnMXi2f8l5ueY2c0S
- NGJg==
+ bh=Se9+ZKwl8LvQU91mt3B0+Vzbdjcyd4fnlDtudgozX50=;
+ b=R1gIu1qQ4ygNvGTJQj4UXSMGrzZ5TeJ+asqISnoBt5UhtlIXM7CRpWD6zQbli4WttM
+ reBND4JBkpagJR9Wz02gUTlxial+F/su9IuAJHEi4Q1V0B9fVjVvZA6wu3bbjBf3OlwY
+ vWtA5PoHBpbjVtcX9Asf9D5AMEhpVI2rFBv2hZQEVVrV+31Hrc4pG3HlngD+Pk6I9B6b
+ 8Ro6EopBzO8RzxKX62+iqoSS0T0hE6lE8gwFBRrPWJ3rpGDa3j2oFaUTytrwGZFk6hMl
+ hkMSSMcNy6g928zg6UQaqsFZGcQJz2l4MJkTmdmRJ1OkFukEVAXIV+SRepPKTL1MTjIL
+ qycw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YI/G5H9E5YA8omUhdoABDbtm2oFm0oJUgcY9rScXwCA=;
- b=JPnCmlKyUB6TY6P2XSkwSYG4seT7AnGmh3yC74/0BTc2HnhZs85zpEJqT4byvTrTRx
- +5NZDmfe8wGxCvWkPpq/EXMjqPsRaCkLZtWXfPPbf6ncPAId47om0VKtChgoAzJZlCEg
- w8tqYU4fh3q3DXr98jYRECw9gXHyT6HDpUZ1vzyKQxc61/4OvRf32bE9NOgvMONhwNAb
- zraQnd675SvS7T7RJvJitHQYYNRw8K3kcwyZfS6FPQ1zqD0A04ldP6QbH28k3jarOw2Q
- Y62eRajPVE53LXzBrXWl6lcHq2+5c3RWFZpYMREf23Z5QaS3UWEx/sgfhzcA+IYy6UHa
- J26A==
-X-Gm-Message-State: AFqh2kpHcVOR0yaFAuQFtPwb7Puz5/+67BvJlTjtUAm6m1671zlC3eCi
- n81hRJ0ut6OmHa+g+zPyAoapErnRFar0zwvw
-X-Google-Smtp-Source: AMrXdXvgxxK3iN5R+by4vWOcpswzxiemrfEnWa9mbBO4yGPqFM+fB+C6BK9d8TntxPkP4ER6wS2kgA==
-X-Received: by 2002:a7b:c3d2:0:b0:3c6:e62e:2e72 with SMTP id
- t18-20020a7bc3d2000000b003c6e62e2e72mr22841825wmj.13.1672400129276; 
- Fri, 30 Dec 2022 03:35:29 -0800 (PST)
+ bh=Se9+ZKwl8LvQU91mt3B0+Vzbdjcyd4fnlDtudgozX50=;
+ b=eyiXbvNFdzhAvQSX+r7+t1B6gyfWuGHUKeSvfByqPhME8zxtLclkDeKn5GwJNAs10V
+ vt+f6CjagelLoke3bkRqOJTsnD81tfSUvk7bhIJv9Y/Lmb5JoZolJUC0R9SOqXpGyFEI
+ joAc1rAXNs54EttIj40AzL9xscNSxWv68BxssoJt5miQ4184E8p8esVi40MjF9glPovI
+ RyjuBZv0y8zsU5oPzgOgRFoXy8aHIs4UG1hcC3kV3QuS5FswNCrFM4B0mVICk5gt892c
+ jUcgqHVHOAtuOgECIx0P+UFc2akwywa67dYxg25PwKSmK6+AtlfWfRo4cMtJLbRCbtoP
+ hWNA==
+X-Gm-Message-State: AFqh2krMI2LiQWFGiOplsYbLzPtn+LBXyf619Y6VCHhO0TqGsCVwiZQF
+ unthLffpZNV5jlM3tVQrmCD8+rrQcyi8cc4J
+X-Google-Smtp-Source: AMrXdXtfbI6dP/XyoMBAEDeQUiLWcPJ8pAmKzaGR4faQzoGkER5PakeZPfkFXHg6cyNzeaIZfBAZkA==
+X-Received: by 2002:a05:600c:34ce:b0:3cf:614e:b587 with SMTP id
+ d14-20020a05600c34ce00b003cf614eb587mr23792723wmq.26.1672400134502; 
+ Fri, 30 Dec 2022 03:35:34 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- x7-20020a05600c2d0700b003c6c3fb3cf6sm26627128wmf.18.2022.12.30.03.35.27
+ a21-20020a1cf015000000b003d070e45574sm27619829wmb.11.2022.12.30.03.35.33
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 30 Dec 2022 03:35:28 -0800 (PST)
+ Fri, 30 Dec 2022 03:35:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
@@ -66,17 +65,18 @@ Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
  Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v2 04/11] hw/arm/aspeed: Use the IEC binary prefix definitions
-Date: Fri, 30 Dec 2022 12:34:57 +0100
-Message-Id: <20221230113504.37032-5-philmd@linaro.org>
+Subject: [PATCH v2 05/11] hw/misc/aspeed_hace: Do not crash if
+ address_space_map() failed
+Date: Fri, 30 Dec 2022 12:34:58 +0100
+Message-Id: <20221230113504.37032-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221230113504.37032-1-philmd@linaro.org>
 References: <20221230113504.37032-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,80 +99,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-IEC binary prefixes ease code review: the unit is explicit.
+address_space_map() can fail:
+
+  uart:~$ hash test
+  sha256_test
+  tv[0]:
+  Segmentation fault: 11
+  Thread 3 "qemu-system-arm" received signal SIGSEGV, Segmentation fault.
+  gen_acc_mode_iov (req_len=0x7ffff18b7778, id=<optimized out>, iov=0x7ffff18b7780, s=0x555556ce0bd0)
+      at ../hw/misc/aspeed_hace.c:171
+  171         if (has_padding(s, &iov[id], *req_len, &total_msg_len, &pad_offset)) {
+  (gdb) bt
+  #0  gen_acc_mode_iov (req_len=0x7ffff18b7778, id=<optimized out>, iov=0x7ffff18b7780, s=0x555556ce0bd0)
+      at ../hw/misc/aspeed_hace.c:171
+  #1  do_hash_operation (s=s@entry=0x555556ce0bd0, algo=3, sg_mode=sg_mode@entry=true, acc_mode=acc_mode@entry=true)
+      at ../hw/misc/aspeed_hace.c:224
+  #2  0x00005555559bdbb8 in aspeed_hace_write (opaque=<optimized out>, addr=12, data=262488, size=<optimized out>)
+      at ../hw/misc/aspeed_hace.c:358
+
+This change doesn't fix much, but at least the guest
+can't crash QEMU anymore. Instead it is still usable:
+
+  uart:~$ hash test
+  sha256_test
+  tv[0]:hash_final error
+  sha384_test
+  tv[0]:hash_final error
+  sha512_test
+  tv[0]:hash_final error
+  [00:00:06.278,000] <err> hace_global: HACE poll timeout
+  [00:00:09.324,000] <err> hace_global: HACE poll timeout
+  [00:00:12.261,000] <err> hace_global: HACE poll timeout
+  uart:~$
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 ---
- hw/arm/aspeed_ast10x0.c | 3 ++-
- hw/arm/aspeed_ast2600.c | 3 ++-
- hw/arm/aspeed_soc.c     | 4 ++--
- 3 files changed, 6 insertions(+), 4 deletions(-)
+ hw/misc/aspeed_hace.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index 122b3fd3f3..3500294df7 100644
---- a/hw/arm/aspeed_ast10x0.c
-+++ b/hw/arm/aspeed_ast10x0.c
-@@ -10,6 +10,7 @@
-  */
+diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+index ac21be306c..12a761f1f5 100644
+--- a/hw/misc/aspeed_hace.c
++++ b/hw/misc/aspeed_hace.c
+@@ -193,6 +193,7 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
+     size_t digest_len = 0;
+     int niov = 0;
+     int i;
++    void *haddr;
  
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qapi/error.h"
- #include "exec/address-spaces.h"
- #include "sysemu/sysemu.h"
-@@ -348,7 +349,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
-     sc->name = "ast1030-a1";
-     sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
-     sc->silicon_rev = AST1030_A1_SILICON_REV;
--    sc->sram_size = 0xc0000;
-+    sc->sram_size = 768 * KiB;
-     sc->spis_num = 2;
-     sc->ehcis_num = 0;
-     sc->wdts_num = 4;
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index a79e05ddbd..72df72a540 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -8,6 +8,7 @@
-  */
+     if (sg_mode) {
+         uint32_t len = 0;
+@@ -217,9 +218,13 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
+             addr &= SG_LIST_ADDR_MASK;
  
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qapi/error.h"
- #include "hw/misc/unimp.h"
- #include "hw/arm/aspeed_soc.h"
-@@ -619,7 +620,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
-     sc->name         = "ast2600-a3";
-     sc->cpu_type     = ARM_CPU_TYPE_NAME("cortex-a7");
-     sc->silicon_rev  = AST2600_A3_SILICON_REV;
--    sc->sram_size    = 0x16400;
-+    sc->sram_size    = 89 * KiB;
-     sc->spis_num     = 2;
-     sc->ehcis_num    = 2;
-     sc->wdts_num     = 4;
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 2c0924d311..677342c9ed 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -517,7 +517,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
-     sc->name         = "ast2400-a1";
-     sc->cpu_type     = ARM_CPU_TYPE_NAME("arm926");
-     sc->silicon_rev  = AST2400_A1_SILICON_REV;
--    sc->sram_size    = 0x8000;
-+    sc->sram_size    = 32 * KiB;
-     sc->spis_num     = 1;
-     sc->ehcis_num    = 1;
-     sc->wdts_num     = 2;
-@@ -544,7 +544,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
-     sc->name         = "ast2500-a1";
-     sc->cpu_type     = ARM_CPU_TYPE_NAME("arm1176");
-     sc->silicon_rev  = AST2500_A1_SILICON_REV;
--    sc->sram_size    = 0x9000;
-+    sc->sram_size    = 36 * KiB;
-     sc->spis_num     = 2;
-     sc->ehcis_num    = 2;
-     sc->wdts_num     = 3;
+             plen = len & SG_LIST_LEN_MASK;
+-            iov[i].iov_base = address_space_map(&s->dram_as, addr, &plen, false,
+-                                                MEMTXATTRS_UNSPECIFIED);
+-
++            haddr = address_space_map(&s->dram_as, addr, &plen, false,
++                                      MEMTXATTRS_UNSPECIFIED);
++            if (haddr == NULL) {
++                qemu_log_mask(LOG_GUEST_ERROR, "%s: qcrypto failed\n", __func__);
++                return;
++            }
++            iov[i].iov_base = haddr;
+             if (acc_mode) {
+                 niov = gen_acc_mode_iov(s, iov, i, &plen);
+ 
+@@ -230,10 +235,14 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
+     } else {
+         hwaddr len = s->regs[R_HASH_SRC_LEN];
+ 
++        haddr = address_space_map(&s->dram_as, s->regs[R_HASH_SRC],
++                                  &len, false, MEMTXATTRS_UNSPECIFIED);
++        if (haddr == NULL) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: qcrypto failed\n", __func__);
++            return;
++        }
++        iov[0].iov_base = haddr;
+         iov[0].iov_len = len;
+-        iov[0].iov_base = address_space_map(&s->dram_as, s->regs[R_HASH_SRC],
+-                                            &len, false,
+-                                            MEMTXATTRS_UNSPECIFIED);
+         i = 1;
+ 
+         if (s->iov_count) {
 -- 
 2.38.1
 
