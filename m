@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2F86593B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:15:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E419659388
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:05:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pB2rA-00031m-Kx; Thu, 29 Dec 2022 19:02:40 -0500
+	id 1pB2rB-000322-DP; Thu, 29 Dec 2022 19:02:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2r8-00031D-Gq
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:38 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1pB2r9-00031n-Vt
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:40 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2r6-0002g0-To
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:38 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- o8-20020a17090a9f8800b00223de0364beso24358816pjp.4
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:02:36 -0800 (PST)
+ id 1pB2r8-0002hW-Ac
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:39 -0500
+Received: by mail-pl1-x630.google.com with SMTP id d9so3610128pll.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:02:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=D8QfQ1uDgH78xLrd7SQL4h0WAoUU3UOZ3RoOlmiv5EM=;
- b=XDvLP2D4sbHY9NDu/KvrVhYeB2GOX4knxUYlKvLRGZjXhRHdUK30YpqvQ2Fas5/WGm
- zBh95vQMfSOTxco1aIk6FzAilcBFIFJYBEZG8Fl/BTf2Q2MnWvNwktkiob28QYjs3RBT
- wS2tJ583tmnuQ0WWhIq9AYU2FRyhAD8rI4du2a2eq6ECMdym75GCFPcUMyxfzNaAUXMI
- xmyQaa3WBZlUzvPU6PN6eqo7e9OnJStNcwG0Y92RyVuXcg0NLZkN98R90LgCw4GrZya4
- 9viS6DM1o68IiGspa5d4RlvSB2zYyj2GTXdCMHtw50iYWVVLoGw64zvrfSbzaG6loQhS
- hWbg==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=14I+QLaNg6Y9e4H/8QMxuuyCzHk2ngznUAbtAPjHaRo=;
+ b=YXDY7Gnc2LNTkdXFDVwU0n9aaJIVsDn2nVtGQiBNASSBBJKzRZMFWhXIYcoZBiSeHP
+ laP/qxK9gFNhdqE1TrTz0xDRxn0rHqczYlUqzVPvRG3y4cYFy7E43z0BjWUNwJTQgNhm
+ ZSxiBSdClMDQ/Mrd32+4dPsaUY1IZQo2O+Zoq/ZEqDz7TCfwjot5qYydrHhBe5Wkf7v2
+ /8UJ/mt7Amf1Jl1NQje1lGYZ/DCWYRXxboOz9yRXiTlEjKC1PU1zmoFr6UNd1oDEfPLO
+ cAVEXtScYj8jgUaSVFWjCdMoRJN5PkUhdayNhzXlRibrUttmMX+1+5pix1ynmRN6wEfL
+ crRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=D8QfQ1uDgH78xLrd7SQL4h0WAoUU3UOZ3RoOlmiv5EM=;
- b=vNP5R/HUNC5GTdzdPQBNOSoUP1QDb70C1XCKR6DtmOdMgJHHqtSrSpdnJQrJMSWclg
- YTbKzlgQMYLa/ixKy7qc0rKsUqPHB1+z0uiK1SPGdBqwjnPwXL6NPnSdRcFpy2VD/Hzu
- t/WRPiEWOaFXk7rzBUPNLDnwRH0fZBwkmxsiR0B8eesat7DbquozmkT4m8PQBsbtXmfC
- 6bxAg4+V4JMSca1J0xzksF4PvTGMulDylauG9RdJno2SZjCKld47K+O1RiU3YqhTeajM
- YYhCIcQGuGmOFCEcdlqMSS9LphYF0V87l6+sjX/0axrufUqTw8CQkbUCZ5oluTtvZV+r
- Xc7g==
-X-Gm-Message-State: AFqh2kqEoBtZdK9Eu3I51dDd4FlfCq/jamYTRSOYhOBfKp7T61wzQUBt
- io2Gj2zZarJ/g+jJhBMC/CqVhh+GowmUlWyn
-X-Google-Smtp-Source: AMrXdXu+oRPFYHXtAXaiQWc/JClwyHBSWL2/CszSRZHfd+NnaLD9Ja4nX2kb7mB2AO6cXPQBHAjwXQ==
-X-Received: by 2002:a17:902:ea0a:b0:192:6b73:ccee with SMTP id
- s10-20020a170902ea0a00b001926b73cceemr30844831plg.18.1672358556097; 
+ bh=14I+QLaNg6Y9e4H/8QMxuuyCzHk2ngznUAbtAPjHaRo=;
+ b=CFBlFGXGHQVRZIzYqdN8BEzMBK+kG10OecrSt5BAYys9VfETYfRj/ppqh4Qb80pMAF
+ 6uJdhDDYnFsNj8VHzceDzSGM9lDj9VfMOEHaaIavQEo6KW+yTL1QRbTCDpBiURS6PyVE
+ v+huRJ6plRrLLQ0T6JdkjpOWjlCjpI9Kls8WpVD2CsxzJYEbvq52AIDNT5xeYX0tC4FH
+ KWQvh/Rqn4w9HGPf0idKwh8c012aCBsNWXRiMJv4FfZ8cDhHF1fWXU0n8AujEPj2AmZy
+ Z+MhljZPZVKIITr49JsdYWVAtLs6hPoTVcQQAeFns2JKF7+wlAomFD5M4JJNrdaajcUI
+ mjCw==
+X-Gm-Message-State: AFqh2kqYW3Ut9HD2ikqkfMJPOzIQM/qWXncYSs+VZCMPJaelwtJh8IO/
+ eU5fEYI+xApPc/4yuVYiX14bf+j/bi+Se2UA
+X-Google-Smtp-Source: AMrXdXuqpHSwdDPl5a/EveBJCtKoCeXj6zp9ak2BLFPapaKXtAqL+9WXAKbjvmuykCbvU/LmWhfqCw==
+X-Received: by 2002:a17:902:904b:b0:186:95c9:ddc9 with SMTP id
+ w11-20020a170902904b00b0018695c9ddc9mr37846166plz.55.1672358556934; 
  Thu, 29 Dec 2022 16:02:36 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.35
+ j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.36
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 16:02:35 -0800 (PST)
+ Thu, 29 Dec 2022 16:02:36 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 14/47] tci: MAX_OPC_PARAM_IARGS is no longer used
-Date: Thu, 29 Dec 2022 16:01:48 -0800
-Message-Id: <20221230000221.2764875-15-richard.henderson@linaro.org>
+Subject: [PULL 15/47] tcg: Fix tcg_reg_alloc_dup*
+Date: Thu, 29 Dec 2022 16:01:49 -0800
+Message-Id: <20221230000221.2764875-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221230000221.2764875-1-richard.henderson@linaro.org>
 References: <20221230000221.2764875-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,42 +88,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Unused since commit 7b7d8b2d9a ("tcg/tci: Use ffi for calls").
+The assignment to mem_coherent should be done with any
+modification, not simply with a newly allocated register.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c                | 1 -
- tcg/tci/tcg-target.c.inc | 4 ----
- 2 files changed, 5 deletions(-)
+ tcg/tcg.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tcg/tci.c b/tcg/tci.c
-index bdfac83492..05a24163d3 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -18,7 +18,6 @@
-  */
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 05d2b70ab7..371908b34b 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3498,7 +3498,6 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
+         ots->reg = tcg_reg_alloc(s, dup_out_regs, allocated_regs,
+                                  op->output_pref[0], ots->indirect_base);
+         ots->val_type = TEMP_VAL_REG;
+-        ots->mem_coherent = 0;
+         s->reg_to_temp[ots->reg] = ots;
+     }
  
- #include "qemu/osdep.h"
--#include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
- #include "exec/cpu_ldst.h"
- #include "tcg/tcg-op.h"
- #include "tcg/tcg-ldst.h"
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index f3d7441e06..c1acaa943e 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -197,10 +197,6 @@ static const int tcg_target_reg_alloc_order[] = {
-     TCG_REG_R0,
- };
+@@ -3552,6 +3551,7 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
+     tcg_debug_assert(ok);
  
--#if MAX_OPC_PARAM_IARGS != 7
--# error Fix needed, number of supported input arguments changed!
--#endif
--
- /* No call arguments via registers.  All will be stored on the "stack". */
- static const int tcg_target_call_iarg_regs[] = { };
+  done:
++    ots->mem_coherent = 0;
+     if (IS_DEAD_ARG(1)) {
+         temp_dead(s, its);
+     }
+@@ -3779,7 +3779,6 @@ static bool tcg_reg_alloc_dup2(TCGContext *s, const TCGOp *op)
+         ots->reg = tcg_reg_alloc(s, dup_out_regs, allocated_regs,
+                                  op->output_pref[0], ots->indirect_base);
+         ots->val_type = TEMP_VAL_REG;
+-        ots->mem_coherent = 0;
+         s->reg_to_temp[ots->reg] = ots;
+     }
  
+@@ -3823,6 +3822,7 @@ static bool tcg_reg_alloc_dup2(TCGContext *s, const TCGOp *op)
+     return false;
+ 
+  done:
++    ots->mem_coherent = 0;
+     if (IS_DEAD_ARG(1)) {
+         temp_dead(s, itsl);
+     }
 -- 
 2.34.1
 
