@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08286593C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:20:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FCA659382
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:04:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pB2r7-0002zs-1p; Thu, 29 Dec 2022 19:02:37 -0500
+	id 1pB2r9-00031U-8e; Thu, 29 Dec 2022 19:02:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2r1-0002xH-Fb
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:33 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1pB2r5-0002yw-Nj
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:35 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2qz-0002eq-8p
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:31 -0500
-Received: by mail-pl1-x634.google.com with SMTP id n4so20381404plp.1
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:02:24 -0800 (PST)
+ id 1pB2qz-0002fA-A1
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:35 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id p4so20796266pjk.2
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:02:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=wMfWWYPSA+Wvt2YDp37zKXv93i1Lj2ZWmCA3jKpiFKA=;
- b=GrlNShfBhgaUIyWz/xz0kUc7bj48rSY0kmHNHSJhBKj5GepkIcf3vjU8QKgplP7zJG
- wdRf6DjsAqxIKSn/QjlQ+XPSrd3/Jtf7yghURHs4E/ZDf40YVhq9hDkZqnIscyKTpk8+
- MwsMGtFRewnb+0Vn/p9t6okjakGuTMZT3KJ8WB+k8mfhgomJNZcAh1KvMkilvjAzyjSE
- f8ZVCG0vxxGHMzshOKU+ZyeqoBtLxTrh3oibdiSpnyVnsOP1RVgUzD5mNnNNtvcYHroJ
- o/6gXuVxMHU2eabJ8qbnsXvbVuel+POm60oKhxYpjYW09eIqj0Gu89YS6Re50SJvLkPn
- QFkQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=66qqJnLKSHXJyhZyhU1uJ6YcOFA+1qEwuEvMIZnPNic=;
+ b=tgKbNwyXSUmkJRb3BkugJQoJwjammc4dkuZxiUBcB7VgmfgKyjMsoLHVCb3D10Kp7m
+ pZZbT0zkph2o7owonZAOXKZcZ3Kyds58AQM2wTcrHn6ng55cIP6eDvLuebuvu0lfY4b5
+ +0MQPMFjLoDKO/Lu30IGou/P5TECWuo+sUgydjpSs7V78+VxvdALhVJIa86rzm8RhCoU
+ IspMOHMYiVUv4dUaPEeDiFNLV0IkveHIKP3URgE3UXENQee3EN4nOM+fBT5Ev07AFH0g
+ PIpTCBxkmZdxDS3HNJhJfZ7MDPvql1V4vnimdcfuRaV56+8M0bIy6X+fueNvt5kuFXPY
+ J1Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wMfWWYPSA+Wvt2YDp37zKXv93i1Lj2ZWmCA3jKpiFKA=;
- b=HGTcfkKPMotp/GzBK8kdfCrV4d++wyDqXB4qrrXYcJ+iDltlyHqXcXa3dab+/MZfJL
- gwPzwB+Pn4GqE3e5do218+MH1GQw8eDcIE9rZJdODX3G+o///NwazaxoTWBcmQWx0tDp
- 7rfVOgpsAllu92qhx8E+HNx8gxZHGYbEqfPXat6fIHSt78T0g98Ax3VFXzvnV1bEepYp
- jxAFXPgyBFSS/Pvt8oENpyqvybbt8HHCYE4++SBNaqqjDOw5I8H73cfHrHe6lOnV9I1z
- VDWvqHwiFh9AEiKemGXDSaULyiEURQBmgh3zykahlMn3ZPqMMRs3Q9VRo9w0pn4B20gk
- LzmA==
-X-Gm-Message-State: AFqh2ko8G4LhfOUuxZax0z6+AzucVq+jBOu9CkpEe2C7LeuPxNAtQVOl
- Gqu7xpXzALGgHfqvNMWVp/2hlIhoMu1kb2J+
-X-Google-Smtp-Source: AMrXdXufxj2GxIjUBYRbJWC/bzfK/+M/GTAFAnqX9GdXly2WCWbkXX0qirUx/jZiIUXQixOJgrpJyQ==
-X-Received: by 2002:a17:902:7b8b:b0:187:4920:3a3c with SMTP id
- w11-20020a1709027b8b00b0018749203a3cmr37087217pll.33.1672358542977; 
- Thu, 29 Dec 2022 16:02:22 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=66qqJnLKSHXJyhZyhU1uJ6YcOFA+1qEwuEvMIZnPNic=;
+ b=gsMAIOWOtQg+5zk5xaNHXbUxy3Soqiwkn5LdXgsPtbEDNm25k6AoQyQH/15cdfFVp8
+ RAIcTQIcVDE0GU0SG7/civKmQTaJLCNPOtpDo7n+m1/SrANbDLy/FzVMX5KQPzDQRRrP
+ XLLKZYnawkrqdEHCfaGHt/YTWNSzXwpQLJFscPshO/1jLAlvQdmyL7mDPST6WwyFwsZl
+ OreD2h2i2CpaWUsqwDnkyTRoGHhKmJRcdXQTBUmX7u65Msm4dSBRrH8jg8gnDNAH0AjP
+ LNMdU3s8uMqw1whGSf+7UZH0NNyaxxMhxmvYPAidIwd/IXdje0atJ4lGFJKP1s3uzoug
+ ac/g==
+X-Gm-Message-State: AFqh2kpOQeX0RF2g9lBPBgkgAUK39jFuG+NRMFBp7FjaoKksFK0wnAjx
+ cwOcylFxfWTuS3GEI91Qy7Kdfil3oE2zXDva
+X-Google-Smtp-Source: AMrXdXtv65GWk/1C/zFhX0iIKkhfkriRqdGIsLX29EPXXqldUNg17KildP7mk3p96xkHCTdE1AndlA==
+X-Received: by 2002:a17:902:e84d:b0:192:8824:e516 with SMTP id
+ t13-20020a170902e84d00b001928824e516mr16561788plg.51.1672358543977; 
+ Thu, 29 Dec 2022 16:02:23 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.22
- for <qemu-devel@nongnu.org>
+ j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 16:02:22 -0800 (PST)
+ Thu, 29 Dec 2022 16:02:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/47] tcg patch queue
-Date: Thu, 29 Dec 2022 16:01:34 -0800
-Message-Id: <20221230000221.2764875-1-richard.henderson@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabiano Rosas <farosas@suse.de>
+Subject: [PULL 01/47] tcg: convert tcg/README to rst
+Date: Thu, 29 Dec 2022 16:01:35 -0800
+Message-Id: <20221230000221.2764875-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221230000221.2764875-1-richard.henderson@linaro.org>
+References: <20221230000221.2764875-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,132 +90,1812 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f9a0b:
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-  Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu into staging (2022-12-21 18:08:09 +0000)
+Convert tcg/README to rst and move it to docs/devel as a new "TCG Intermediate
+Representation" page. There are a few minor changes to improve the aesthetic
+of the final output which are as follows:
 
-are available in the Git repository at:
+  - Rename the title from "Tiny Code Generator - Fabrice Bellard" to "TCG
+    Intermediate Representation"
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20221229
+  - Remove the section numbering
 
-for you to fetch changes up to b05e35533782a71a9fda472afd08442f50622a3e:
+  - Add the missing parameters to the ssadd_vec operations in the "Host
+    vector operations" section
 
-  tests/tcg/multiarch: add vma-pthread.c (2022-12-29 12:39:45 -0800)
+  - Change the path to the Atomic Operations document to use a proper
+    reference
 
-----------------------------------------------------------------
-Fix race conditions in new user-only vma tracking.
-Add tcg backend paired register allocation.
-Cleanup tcg backend function call abi.
+  - Replace tcg/README in tcg.rst with a proper reference to the new document
 
-----------------------------------------------------------------
-Ilya Leoshkevich (1):
-      tests/tcg/multiarch: add vma-pthread.c
-
-Mark Cave-Ayland (1):
-      tcg: convert tcg/README to rst
-
-Philippe Mathieu-Daudé (5):
-      tcg/s390x: Fix coding style
-      tcg: Massage process_op_defs()
-      tcg: Pass number of arguments to tcg_emit_op() / tcg_op_insert_*()
-      tcg: Convert typecode_to_ffi from array to function
-      tcg: Factor init_ffi_layouts() out of tcg_context_init()
-
-Richard Henderson (40):
-      meson: Move CONFIG_TCG_INTERPRETER to config_host
-      tcg: Cleanup trailing whitespace
-      qemu/main-loop: Introduce QEMU_IOTHREAD_LOCK_GUARD
-      hw/mips: Use QEMU_IOTHREAD_LOCK_GUARD in cpu_mips_irq_request
-      target/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in ppc_maybe_interrupt
-      target/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in cpu_interrupt_exittb
-      target/riscv: Use QEMU_IOTHREAD_LOCK_GUARD in riscv_cpu_update_mip
-      hw/ppc: Use QEMU_IOTHREAD_LOCK_GUARD in ppc_set_irq
-      accel/tcg: Use QEMU_IOTHREAD_LOCK_GUARD in io_readx/io_writex
-      tcg: Tidy tcg_reg_alloc_op
-      tcg: Remove TCG_TARGET_STACK_GROWSUP
-      tci: MAX_OPC_PARAM_IARGS is no longer used
-      tcg: Fix tcg_reg_alloc_dup*
-      tcg: Centralize updates to reg_to_temp
-      tcg: Remove check_regs
-      tcg: Introduce paired register allocation
-      accel/tcg: Set cflags_next_tb in cpu_common_initfn
-      target/sparc: Avoid TCGV_{LOW,HIGH}
-      tcg: Move TCG_{LOW,HIGH} to tcg-internal.h
-      tcg: Add temp_subindex to TCGTemp
-      tcg: Simplify calls to temp_sync vs mem_coherent
-      tcg: Allocate TCGTemp pairs in host memory order
-      tcg: Move TCG_TYPE_COUNT outside enum
-      tcg: Introduce tcg_type_size
-      tcg: Introduce TCGCallReturnKind and TCGCallArgumentKind
-      tcg: Replace TCG_TARGET_CALL_ALIGN_ARGS with TCG_TARGET_CALL_ARG_I64
-      tcg: Replace TCG_TARGET_EXTEND_ARGS with TCG_TARGET_CALL_ARG_I32
-      tcg: Use TCG_CALL_ARG_EVEN for TCI special case
-      accel/tcg/plugin: Don't search for the function pointer index
-      accel/tcg/plugin: Avoid duplicate copy in copy_call
-      accel/tcg/plugin: Use copy_op in append_{udata,mem}_cb
-      tcg: Vary the allocation size for TCGOp
-      tcg: Use output_pref wrapper function
-      tcg: Reorg function calls
-      tcg: Move ffi_cif pointer into TCGHelperInfo
-      tcg/aarch64: Merge tcg_out_callr into tcg_out_call
-      tcg: Add TCGHelperInfo argument to tcg_out_call
-      accel/tcg: Fix tb_invalidate_phys_page_unwind
-      accel/tcg: Use g_free_rcu for user-exec interval trees
-      accel/tcg: Handle false negative lookup in page_check_range
-
- docs/devel/atomics.rst               |    2 +
- docs/devel/index-tcg.rst             |    1 +
- docs/devel/tcg-ops.rst               |  941 +++++++++++++++++++
- docs/devel/tcg.rst                   |    2 +-
- meson.build                          |    4 +-
- include/exec/helper-head.h           |    2 +-
- include/qemu/main-loop.h             |   29 +
- include/tcg/tcg-op.h                 |   35 +-
- include/tcg/tcg.h                    |   96 +-
- tcg/aarch64/tcg-target.h             |    4 +-
- tcg/arm/tcg-target.h                 |    4 +-
- tcg/i386/tcg-target.h                |    2 +
- tcg/loongarch64/tcg-target.h         |    3 +-
- tcg/mips/tcg-target.h                |    4 +-
- tcg/riscv/tcg-target.h               |    7 +-
- tcg/s390x/tcg-target.h               |    3 +-
- tcg/sparc64/tcg-target.h             |    3 +-
- tcg/tcg-internal.h                   |   58 +-
- tcg/tci/tcg-target.h                 |    7 +
- tests/tcg/multiarch/nop_func.h       |   25 +
- accel/tcg/cputlb.c                   |   25 +-
- accel/tcg/plugin-gen.c               |   54 +-
- accel/tcg/tb-maint.c                 |   78 +-
- accel/tcg/user-exec.c                |   59 +-
- hw/core/cpu-common.c                 |    1 +
- hw/mips/mips_int.c                   |   11 +-
- hw/ppc/ppc.c                         |   10 +-
- target/ppc/excp_helper.c             |   11 +-
- target/ppc/helper_regs.c             |   14 +-
- target/riscv/cpu_helper.c            |   10 +-
- target/sparc/translate.c             |   21 +-
- tcg/optimize.c                       |   10 +-
- tcg/tcg-op-vec.c                     |   10 +-
- tcg/tcg-op.c                         |   49 +-
- tcg/tcg.c                            | 1658 +++++++++++++++++++++-------------
- tcg/tci.c                            |    1 -
- tests/tcg/multiarch/munmap-pthread.c |   16 +-
- tests/tcg/multiarch/vma-pthread.c    |  207 +++++
- tcg/aarch64/tcg-target.c.inc         |   19 +-
- tcg/arm/tcg-target.c.inc             |   10 +-
- tcg/i386/tcg-target.c.inc            |    5 +-
- tcg/loongarch64/tcg-target.c.inc     |    7 +-
- tcg/mips/tcg-target.c.inc            |    3 +-
- tcg/ppc/tcg-target.c.inc             |   36 +-
- tcg/riscv/tcg-target.c.inc           |    7 +-
- tcg/s390x/tcg-target.c.inc           |   32 +-
- tcg/sparc64/tcg-target.c.inc         |    3 +-
- tcg/tci/tcg-target.c.inc             |    7 +-
- tcg/README                           |  784 ----------------
- tests/tcg/multiarch/Makefile.target  |    3 +
- 50 files changed, 2630 insertions(+), 1763 deletions(-)
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Fabiano Rosas <farosas@suse.de>
+Message-Id: <20221130100434.64207-2-mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ docs/devel/atomics.rst   |   2 +
+ docs/devel/index-tcg.rst |   1 +
+ docs/devel/tcg-ops.rst   | 941 +++++++++++++++++++++++++++++++++++++++
+ docs/devel/tcg.rst       |   2 +-
+ tcg/README               | 784 --------------------------------
+ 5 files changed, 945 insertions(+), 785 deletions(-)
  create mode 100644 docs/devel/tcg-ops.rst
- create mode 100644 tests/tcg/multiarch/nop_func.h
- create mode 100644 tests/tcg/multiarch/vma-pthread.c
  delete mode 100644 tcg/README
+
+diff --git a/docs/devel/atomics.rst b/docs/devel/atomics.rst
+index 52baa0736d..7957310071 100644
+--- a/docs/devel/atomics.rst
++++ b/docs/devel/atomics.rst
+@@ -1,3 +1,5 @@
++.. _atomics-ref:
++
+ =========================
+ Atomic operations in QEMU
+ =========================
+diff --git a/docs/devel/index-tcg.rst b/docs/devel/index-tcg.rst
+index 7b9760b26f..b44ff8b5a4 100644
+--- a/docs/devel/index-tcg.rst
++++ b/docs/devel/index-tcg.rst
+@@ -9,6 +9,7 @@ are only implementing things for HW accelerated hypervisors.
+    :maxdepth: 2
+ 
+    tcg
++   tcg-ops
+    decodetree
+    multi-thread-tcg
+    tcg-icount
+diff --git a/docs/devel/tcg-ops.rst b/docs/devel/tcg-ops.rst
+new file mode 100644
+index 0000000000..9adc0c9b6c
+--- /dev/null
++++ b/docs/devel/tcg-ops.rst
+@@ -0,0 +1,941 @@
++.. _tcg-ops-ref:
++
++*******************************
++TCG Intermediate Representation
++*******************************
++
++Introduction
++============
++
++TCG (Tiny Code Generator) began as a generic backend for a C
++compiler. It was simplified to be used in QEMU. It also has its roots
++in the QOP code generator written by Paul Brook.
++
++Definitions
++===========
++
++TCG receives RISC-like *TCG ops* and performs some optimizations on them,
++including liveness analysis and trivial constant expression
++evaluation.  TCG ops are then implemented in the host CPU back end,
++also known as the TCG target.
++
++The TCG *target* is the architecture for which we generate the
++code. It is of course not the same as the "target" of QEMU which is
++the emulated architecture. As TCG started as a generic C backend used
++for cross compiling, it is assumed that the TCG target is different
++from the host, although it is never the case for QEMU.
++
++In this document, we use *guest* to specify what architecture we are
++emulating; *target* always means the TCG target, the machine on which
++we are running QEMU.
++
++A TCG *function* corresponds to a QEMU Translated Block (TB).
++
++A TCG *temporary* is a variable only live in a basic block. Temporaries are allocated explicitly in each function.
++
++A TCG *local temporary* is a variable only live in a function. Local temporaries are allocated explicitly in each function.
++
++A TCG *global* is a variable which is live in all the functions
++(equivalent of a C global variable). They are defined before the
++functions defined. A TCG global can be a memory location (e.g. a QEMU
++CPU register), a fixed host register (e.g. the QEMU CPU state pointer)
++or a memory location which is stored in a register outside QEMU TBs
++(not implemented yet).
++
++A TCG *basic block* corresponds to a list of instructions terminated
++by a branch instruction.
++
++An operation with *undefined behavior* may result in a crash.
++
++An operation with *unspecified behavior* shall not crash.  However,
++the result may be one of several possibilities so may be considered
++an *undefined result*.
++
++Intermediate representation
++===========================
++
++Introduction
++------------
++
++TCG instructions operate on variables which are temporaries, local
++temporaries or globals. TCG instructions and variables are strongly
++typed. Two types are supported: 32 bit integers and 64 bit
++integers. Pointers are defined as an alias to 32 bit or 64 bit
++integers depending on the TCG target word size.
++
++Each instruction has a fixed number of output variable operands, input
++variable operands and always constant operands.
++
++The notable exception is the call instruction which has a variable
++number of outputs and inputs.
++
++In the textual form, output operands usually come first, followed by
++input operands, followed by constant operands. The output type is
++included in the instruction name. Constants are prefixed with a '$'.
++
++.. code-block:: none
++
++   add_i32 t0, t1, t2    /* (t0 <- t1 + t2) */
++
++
++Assumptions
++-----------
++
++Basic blocks
++^^^^^^^^^^^^
++
++* Basic blocks end after branches (e.g. brcond_i32 instruction),
++  goto_tb and exit_tb instructions.
++
++* Basic blocks start after the end of a previous basic block, or at a
++  set_label instruction.
++
++After the end of a basic block, the content of temporaries is
++destroyed, but local temporaries and globals are preserved.
++
++Floating point types
++^^^^^^^^^^^^^^^^^^^^
++
++* Floating point types are not supported yet
++
++Pointers
++^^^^^^^^
++
++* Depending on the TCG target, pointer size is 32 bit or 64
++  bit. The type ``TCG_TYPE_PTR`` is an alias to ``TCG_TYPE_I32`` or
++  ``TCG_TYPE_I64``.
++
++Helpers
++^^^^^^^
++
++* Using the tcg_gen_helper_x_y it is possible to call any function
++  taking i32, i64 or pointer types. By default, before calling a helper,
++  all globals are stored at their canonical location and it is assumed
++  that the function can modify them. By default, the helper is allowed to
++  modify the CPU state or raise an exception.
++
++  This can be overridden using the following function modifiers:
++
++  - ``TCG_CALL_NO_READ_GLOBALS`` means that the helper does not read globals,
++    either directly or via an exception. They will not be saved to their
++    canonical locations before calling the helper.
++
++  - ``TCG_CALL_NO_WRITE_GLOBALS`` means that the helper does not modify any globals.
++    They will only be saved to their canonical location before calling helpers,
++    but they won't be reloaded afterwards.
++
++  - ``TCG_CALL_NO_SIDE_EFFECTS`` means that the call to the function is removed if
++    the return value is not used.
++
++  Note that ``TCG_CALL_NO_READ_GLOBALS`` implies ``TCG_CALL_NO_WRITE_GLOBALS``.
++
++  On some TCG targets (e.g. x86), several calling conventions are
++  supported.
++
++Branches
++^^^^^^^^
++
++* Use the instruction 'br' to jump to a label.
++
++Code Optimizations
++------------------
++
++When generating instructions, you can count on at least the following
++optimizations:
++
++- Single instructions are simplified, e.g.
++
++  .. code-block:: none
++
++     and_i32 t0, t0, $0xffffffff
++
++  is suppressed.
++
++- A liveness analysis is done at the basic block level. The
++  information is used to suppress moves from a dead variable to
++  another one. It is also used to remove instructions which compute
++  dead results. The later is especially useful for condition code
++  optimization in QEMU.
++
++  In the following example:
++
++  .. code-block:: none
++
++     add_i32 t0, t1, t2
++     add_i32 t0, t0, $1
++     mov_i32 t0, $1
++
++  only the last instruction is kept.
++
++
++Instruction Reference
++=====================
++
++Function call
++-------------
++
++.. list-table::
++
++   * - call *<ret>* *<params>* ptr
++
++     - |  call function 'ptr' (pointer type)
++       |
++       |  *<ret>* optional 32 bit or 64 bit return value
++       |  *<params>* optional 32 bit or 64 bit parameters
++
++Jumps/Labels
++------------
++
++.. list-table::
++
++   * - set_label $label
++
++     - | Define label 'label' at the current program point.
++
++   * - br $label
++
++     - | Jump to label.
++
++   * - brcond_i32/i64 *t0*, *t1*, *cond*, *label*
++
++     - | Conditional jump if *t0* *cond* *t1* is true. *cond* can be:
++       |
++       |   ``TCG_COND_EQ``
++       |   ``TCG_COND_NE``
++       |   ``TCG_COND_LT /* signed */``
++       |   ``TCG_COND_GE /* signed */``
++       |   ``TCG_COND_LE /* signed */``
++       |   ``TCG_COND_GT /* signed */``
++       |   ``TCG_COND_LTU /* unsigned */``
++       |   ``TCG_COND_GEU /* unsigned */``
++       |   ``TCG_COND_LEU /* unsigned */``
++       |   ``TCG_COND_GTU /* unsigned */``
++
++Arithmetic
++----------
++
++.. list-table::
++
++   * - add_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* + *t2*
++
++   * - sub_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* - *t2*
++
++   * - neg_i32/i64 *t0*, *t1*
++
++     - | *t0* = -*t1* (two's complement)
++
++   * - mul_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* * *t2*
++
++   * - div_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* / *t2* (signed)
++       | Undefined behavior if division by zero or overflow.
++
++   * - divu_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* / *t2* (unsigned)
++       | Undefined behavior if division by zero.
++
++   * - rem_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* % *t2* (signed)
++       | Undefined behavior if division by zero or overflow.
++
++   * - remu_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* % *t2* (unsigned)
++       | Undefined behavior if division by zero.
++
++
++Logical
++-------
++
++.. list-table::
++
++   * - and_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* & *t2*
++
++   * - or_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* | *t2*
++
++   * - xor_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* ^ *t2*
++
++   * - not_i32/i64 *t0*, *t1*
++
++     - | *t0* = ~\ *t1*
++
++   * - andc_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* & ~\ *t2*
++
++   * - eqv_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = ~(*t1* ^ *t2*), or equivalently, *t0* = *t1* ^ ~\ *t2*
++
++   * - nand_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = ~(*t1* & *t2*)
++
++   * - nor_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = ~(*t1* | *t2*)
++
++   * - orc_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* | ~\ *t2*
++
++   * - clz_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* ? clz(*t1*) : *t2*
++
++   * - ctz_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* ? ctz(*t1*) : *t2*
++
++   * - ctpop_i32/i64 *t0*, *t1*
++
++     - | *t0* = number of bits set in *t1*
++       |
++       | With *ctpop* short for "count population", matching
++       | the function name used in ``include/qemu/host-utils.h``.
++
++
++Shifts/Rotates
++--------------
++
++.. list-table::
++
++   * - shl_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* << *t2*
++       | Unspecified behavior if *t2* < 0 or *t2* >= 32 (resp 64)
++
++   * - shr_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* >> *t2* (unsigned)
++       | Unspecified behavior if *t2* < 0 or *t2* >= 32 (resp 64)
++
++   * - sar_i32/i64 *t0*, *t1*, *t2*
++
++     - | *t0* = *t1* >> *t2* (signed)
++       | Unspecified behavior if *t2* < 0 or *t2* >= 32 (resp 64)
++
++   * - rotl_i32/i64 *t0*, *t1*, *t2*
++
++     - | Rotation of *t2* bits to the left
++       | Unspecified behavior if *t2* < 0 or *t2* >= 32 (resp 64)
++
++   * - rotr_i32/i64 *t0*, *t1*, *t2*
++
++     - | Rotation of *t2* bits to the right.
++       | Unspecified behavior if *t2* < 0 or *t2* >= 32 (resp 64)
++
++
++Misc
++----
++
++.. list-table::
++
++   * - mov_i32/i64 *t0*, *t1*
++
++     - | *t0* = *t1*
++       | Move *t1* to *t0* (both operands must have the same type).
++
++   * - ext8s_i32/i64 *t0*, *t1*
++
++       ext8u_i32/i64 *t0*, *t1*
++
++       ext16s_i32/i64 *t0*, *t1*
++
++       ext16u_i32/i64 *t0*, *t1*
++
++       ext32s_i64 *t0*, *t1*
++
++       ext32u_i64 *t0*, *t1*
++
++     - | 8, 16 or 32 bit sign/zero extension (both operands must have the same type)
++
++   * - bswap16_i32/i64 *t0*, *t1*, *flags*
++
++     - | 16 bit byte swap on the low bits of a 32/64 bit input.
++       |
++       | If *flags* & ``TCG_BSWAP_IZ``, then *t1* is known to be zero-extended from bit 15.
++       | If *flags* & ``TCG_BSWAP_OZ``, then *t0* will be zero-extended from bit 15.
++       | If *flags* & ``TCG_BSWAP_OS``, then *t0* will be sign-extended from bit 15.
++       |
++       | If neither ``TCG_BSWAP_OZ`` nor ``TCG_BSWAP_OS`` are set, then the bits of *t0* above bit 15 may contain any value.
++
++   * - bswap32_i64 *t0*, *t1*, *flags*
++
++     - | 32 bit byte swap on a 64-bit value.  The flags are the same as for bswap16,
++         except they apply from bit 31 instead of bit 15.
++
++   * - bswap32_i32 *t0*, *t1*, *flags*
++
++       bswap64_i64 *t0*, *t1*, *flags*
++
++     - | 32/64 bit byte swap. The flags are ignored, but still present
++         for consistency with the other bswap opcodes.
++
++   * - discard_i32/i64 *t0*
++
++     - | Indicate that the value of *t0* won't be used later. It is useful to
++         force dead code elimination.
++
++   * - deposit_i32/i64 *dest*, *t1*, *t2*, *pos*, *len*
++
++     - | Deposit *t2* as a bitfield into *t1*, placing the result in *dest*.
++       |
++       | The bitfield is described by *pos*/*len*, which are immediate values:
++       |
++       |     *len* - the length of the bitfield
++       |     *pos* - the position of the first bit, counting from the LSB
++       |
++       | For example, "deposit_i32 dest, t1, t2, 8, 4" indicates a 4-bit field
++         at bit 8. This operation would be equivalent to
++       |
++       |     *dest* = (*t1* & ~0x0f00) | ((*t2* << 8) & 0x0f00)
++
++   * - extract_i32/i64 *dest*, *t1*, *pos*, *len*
++
++       sextract_i32/i64 *dest*, *t1*, *pos*, *len*
++
++     - | Extract a bitfield from *t1*, placing the result in *dest*.
++       |
++       | The bitfield is described by *pos*/*len*, which are immediate values,
++         as above for deposit.  For extract_*, the result will be extended
++         to the left with zeros; for sextract_*, the result will be extended
++         to the left with copies of the bitfield sign bit at *pos* + *len* - 1.
++       |
++       | For example, "sextract_i32 dest, t1, 8, 4" indicates a 4-bit field
++         at bit 8. This operation would be equivalent to
++       |
++       |    *dest* = (*t1* << 20) >> 28
++       |
++       | (using an arithmetic right shift).
++
++   * - extract2_i32/i64 *dest*, *t1*, *t2*, *pos*
++
++     - | For N = {32,64}, extract an N-bit quantity from the concatenation
++         of *t2*:*t1*, beginning at *pos*. The tcg_gen_extract2_{i32,i64} expander
++         accepts 0 <= *pos* <= N as inputs. The backend code generator will
++         not see either 0 or N as inputs for these opcodes.
++
++   * - extrl_i64_i32 *t0*, *t1*
++
++     - | For 64-bit hosts only, extract the low 32-bits of input *t1* and place it
++         into 32-bit output *t0*.  Depending on the host, this may be a simple move,
++         or may require additional canonicalization.
++
++   * - extrh_i64_i32 *t0*, *t1*
++
++     - | For 64-bit hosts only, extract the high 32-bits of input *t1* and place it
++         into 32-bit output *t0*.  Depending on the host, this may be a simple shift,
++         or may require additional canonicalization.
++
++
++Conditional moves
++-----------------
++
++.. list-table::
++
++   * - setcond_i32/i64 *dest*, *t1*, *t2*, *cond*
++
++     - | *dest* = (*t1* *cond* *t2*)
++       |
++       | Set *dest* to 1 if (*t1* *cond* *t2*) is true, otherwise set to 0.
++
++   * - movcond_i32/i64 *dest*, *c1*, *c2*, *v1*, *v2*, *cond*
++
++     - | *dest* = (*c1* *cond* *c2* ? *v1* : *v2*)
++       |
++       | Set *dest* to *v1* if (*c1* *cond* *c2*) is true, otherwise set to *v2*.
++
++
++Type conversions
++----------------
++
++.. list-table::
++
++   * - ext_i32_i64 *t0*, *t1*
++
++     - | Convert *t1* (32 bit) to *t0* (64 bit) and does sign extension
++
++   * - extu_i32_i64 *t0*, *t1*
++
++     - | Convert *t1* (32 bit) to *t0* (64 bit) and does zero extension
++
++   * - trunc_i64_i32 *t0*, *t1*
++
++     - | Truncate *t1* (64 bit) to *t0* (32 bit)
++
++   * - concat_i32_i64 *t0*, *t1*, *t2*
++
++     - | Construct *t0* (64-bit) taking the low half from *t1* (32 bit) and the high half
++         from *t2* (32 bit).
++
++   * - concat32_i64 *t0*, *t1*, *t2*
++
++     - | Construct *t0* (64-bit) taking the low half from *t1* (64 bit) and the high half
++         from *t2* (64 bit).
++
++
++Load/Store
++----------
++
++.. list-table::
++
++   * - ld_i32/i64 *t0*, *t1*, *offset*
++
++       ld8s_i32/i64 *t0*, *t1*, *offset*
++
++       ld8u_i32/i64 *t0*, *t1*, *offset*
++
++       ld16s_i32/i64 *t0*, *t1*, *offset*
++
++       ld16u_i32/i64 *t0*, *t1*, *offset*
++
++       ld32s_i64 t0, *t1*, *offset*
++
++       ld32u_i64 t0, *t1*, *offset*
++
++     - | *t0* = read(*t1* + *offset*)
++       |
++       | Load 8, 16, 32 or 64 bits with or without sign extension from host memory.
++         *offset* must be a constant.
++
++   * - st_i32/i64 *t0*, *t1*, *offset*
++
++       st8_i32/i64 *t0*, *t1*, *offset*
++
++       st16_i32/i64 *t0*, *t1*, *offset*
++
++       st32_i64 *t0*, *t1*, *offset*
++
++     - | write(*t0*, *t1* + *offset*)
++       |
++       | Write 8, 16, 32 or 64 bits to host memory.
++
++All this opcodes assume that the pointed host memory doesn't correspond
++to a global. In the latter case the behaviour is unpredictable.
++
++
++Multiword arithmetic support
++----------------------------
++
++.. list-table::
++
++   * - add2_i32/i64 *t0_low*, *t0_high*, *t1_low*, *t1_high*, *t2_low*, *t2_high*
++
++       sub2_i32/i64 *t0_low*, *t0_high*, *t1_low*, *t1_high*, *t2_low*, *t2_high*
++
++     - | Similar to add/sub, except that the double-word inputs *t1* and *t2* are
++         formed from two single-word arguments, and the double-word output *t0*
++         is returned in two single-word outputs.
++
++   * - mulu2_i32/i64 *t0_low*, *t0_high*, *t1*, *t2*
++
++     - | Similar to mul, except two unsigned inputs *t1* and *t2* yielding the full
++         double-word product *t0*. The latter is returned in two single-word outputs.
++
++   * - muls2_i32/i64 *t0_low*, *t0_high*, *t1*, *t2*
++
++     - | Similar to mulu2, except the two inputs *t1* and *t2* are signed.
++
++   * - mulsh_i32/i64 *t0*, *t1*, *t2*
++
++       muluh_i32/i64 *t0*, *t1*, *t2*
++
++     - | Provide the high part of a signed or unsigned multiply, respectively.
++       |
++       | If mulu2/muls2 are not provided by the backend, the tcg-op generator
++         can obtain the same results by emitting a pair of opcodes, mul + muluh/mulsh.
++
++
++Memory Barrier support
++----------------------
++
++.. list-table::
++
++   * - mb *<$arg>*
++
++     - | Generate a target memory barrier instruction to ensure memory ordering
++         as being  enforced by a corresponding guest memory barrier instruction.
++       |
++       | The ordering enforced by the backend may be stricter than the ordering
++         required by the guest. It cannot be weaker. This opcode takes a constant
++         argument which is required to generate the appropriate barrier
++         instruction. The backend should take care to emit the target barrier
++         instruction only when necessary i.e., for SMP guests and when MTTCG is
++         enabled.
++       |
++       | The guest translators should generate this opcode for all guest instructions
++         which have ordering side effects.
++       |
++       | Please see :ref:`atomics-ref` for more information on memory barriers.
++
++
++64-bit guest on 32-bit host support
++-----------------------------------
++
++The following opcodes are internal to TCG.  Thus they are to be implemented by
++32-bit host code generators, but are not to be emitted by guest translators.
++They are emitted as needed by inline functions within ``tcg-op.h``.
++
++.. list-table::
++
++   * - brcond2_i32 *t0_low*, *t0_high*, *t1_low*, *t1_high*, *cond*, *label*
++
++     - | Similar to brcond, except that the 64-bit values *t0* and *t1*
++         are formed from two 32-bit arguments.
++
++   * - setcond2_i32 *dest*, *t1_low*, *t1_high*, *t2_low*, *t2_high*, *cond*
++
++     - | Similar to setcond, except that the 64-bit values *t1* and *t2* are
++         formed from two 32-bit arguments. The result is a 32-bit value.
++
++
++QEMU specific operations
++------------------------
++
++.. list-table::
++
++   * - exit_tb *t0*
++
++     - | Exit the current TB and return the value *t0* (word type).
++
++   * - goto_tb *index*
++
++     - | Exit the current TB and jump to the TB index *index* (constant) if the
++         current TB was linked to this TB. Otherwise execute the next
++         instructions. Only indices 0 and 1 are valid and tcg_gen_goto_tb may be issued
++         at most once with each slot index per TB.
++
++   * - lookup_and_goto_ptr *tb_addr*
++
++     - | Look up a TB address *tb_addr* and jump to it if valid. If not valid,
++         jump to the TCG epilogue to go back to the exec loop.
++       |
++       | This operation is optional. If the TCG backend does not implement the
++         goto_ptr opcode, emitting this op is equivalent to emitting exit_tb(0).
++
++   * - qemu_ld_i32/i64 *t0*, *t1*, *flags*, *memidx*
++
++       qemu_st_i32/i64 *t0*, *t1*, *flags*, *memidx*
++
++       qemu_st8_i32 *t0*, *t1*, *flags*, *memidx*
++
++     - | Load data at the guest address *t1* into *t0*, or store data in *t0* at guest
++         address *t1*.  The _i32/_i64 size applies to the size of the input/output
++         register *t0* only.  The address *t1* is always sized according to the guest,
++         and the width of the memory operation is controlled by *flags*.
++       |
++       | Both *t0* and *t1* may be split into little-endian ordered pairs of registers
++         if dealing with 64-bit quantities on a 32-bit host.
++       |
++       | The *memidx* selects the qemu tlb index to use (e.g. user or kernel access).
++         The flags are the MemOp bits, selecting the sign, width, and endianness
++         of the memory access.
++       |
++       | For a 32-bit host, qemu_ld/st_i64 is guaranteed to only be used with a
++         64-bit memory access specified in *flags*.
++       |
++       | For i386, qemu_st8_i32 is exactly like qemu_st_i32, except the size of
++         the memory operation is known to be 8-bit.  This allows the backend to
++         provide a different set of register constraints.
++
++
++Host vector operations
++----------------------
++
++All of the vector ops have two parameters, ``TCGOP_VECL`` & ``TCGOP_VECE``.
++The former specifies the length of the vector in log2 64-bit units; the
++latter specifies the length of the element (if applicable) in log2 8-bit units.
++E.g. VECL = 1 -> 64 << 1 -> v128, and VECE = 2 -> 1 << 2 -> i32.
++
++.. list-table::
++
++   * - mov_vec *v0*, *v1*
++       ld_vec *v0*, *t1*
++       st_vec *v0*, *t1*
++
++     - | Move, load and store.
++
++   * - dup_vec *v0*, *r1*
++
++     - | Duplicate the low N bits of *r1* into VECL/VECE copies across *v0*.
++
++   * - dupi_vec *v0*, *c*
++
++     - | Similarly, for a constant.
++       | Smaller values will be replicated to host register size by the expanders.
++
++   * - dup2_vec *v0*, *r1*, *r2*
++
++     - | Duplicate *r2*:*r1* into VECL/64 copies across *v0*. This opcode is
++         only present for 32-bit hosts.
++
++   * - add_vec *v0*, *v1*, *v2*
++
++     - | *v0* = *v1* + *v2*, in elements across the vector.
++
++   * - sub_vec *v0*, *v1*, *v2*
++
++     - | Similarly, *v0* = *v1* - *v2*.
++
++   * - mul_vec *v0*, *v1*, *v2*
++
++     - | Similarly, *v0* = *v1* * *v2*.
++
++   * - neg_vec *v0*, *v1*
++
++     - | Similarly, *v0* = -*v1*.
++
++   * - abs_vec *v0*, *v1*
++
++     - | Similarly, *v0* = *v1* < 0 ? -*v1* : *v1*, in elements across the vector.
++
++   * - smin_vec *v0*, *v1*, *v2*
++
++       umin_vec *v0*, *v1*, *v2*
++
++     - | Similarly, *v0* = MIN(*v1*, *v2*), for signed and unsigned element types.
++
++   * - smax_vec *v0*, *v1*, *v2*
++
++       umax_vec *v0*, *v1*, *v2*
++
++     - | Similarly, *v0* = MAX(*v1*, *v2*), for signed and unsigned element types.
++
++   * - ssadd_vec *v0*, *v1*, *v2*
++
++       sssub_vec *v0*, *v1*, *v2*
++
++       usadd_vec *v0*, *v1*, *v2*
++
++       ussub_vec *v0*, *v1*, *v2*
++
++     - | Signed and unsigned saturating addition and subtraction.
++       |
++       | If the true result is not representable within the element type, the
++         element is set to the minimum or maximum value for the type.
++
++   * - and_vec *v0*, *v1*, *v2*
++
++       or_vec *v0*, *v1*, *v2*
++
++       xor_vec *v0*, *v1*, *v2*
++
++       andc_vec *v0*, *v1*, *v2*
++
++       orc_vec *v0*, *v1*, *v2*
++
++       not_vec *v0*, *v1*
++
++     - | Similarly, logical operations with and without complement.
++       |
++       | Note that VECE is unused.
++
++   * - shli_vec *v0*, *v1*, *i2*
++
++       shls_vec *v0*, *v1*, *s2*
++
++     - | Shift all elements from v1 by a scalar *i2*/*s2*. I.e.
++
++       .. code-block:: c
++
++          for (i = 0; i < VECL/VECE; ++i) {
++              v0[i] = v1[i] << s2;
++          }
++
++   * - shri_vec *v0*, *v1*, *i2*
++
++       sari_vec *v0*, *v1*, *i2*
++
++       rotli_vec *v0*, *v1*, *i2*
++
++       shrs_vec *v0*, *v1*, *s2*
++
++       sars_vec *v0*, *v1*, *s2*
++
++     - | Similarly for logical and arithmetic right shift, and left rotate.
++
++   * - shlv_vec *v0*, *v1*, *v2*
++
++     - | Shift elements from *v1* by elements from *v2*. I.e.
++
++       .. code-block:: c
++
++          for (i = 0; i < VECL/VECE; ++i) {
++              v0[i] = v1[i] << v2[i];
++          }
++
++   * - shrv_vec *v0*, *v1*, *v2*
++
++       sarv_vec *v0*, *v1*, *v2*
++
++       rotlv_vec *v0*, *v1*, *v2*
++
++       rotrv_vec *v0*, *v1*, *v2*
++
++     - | Similarly for logical and arithmetic right shift, and rotates.
++
++   * - cmp_vec *v0*, *v1*, *v2*, *cond*
++
++     - | Compare vectors by element, storing -1 for true and 0 for false.
++
++   * - bitsel_vec *v0*, *v1*, *v2*, *v3*
++
++     - | Bitwise select, *v0* = (*v2* & *v1*) | (*v3* & ~\ *v1*), across the entire vector.
++
++   * - cmpsel_vec *v0*, *c1*, *c2*, *v3*, *v4*, *cond*
++
++     - | Select elements based on comparison results:
++
++       .. code-block:: c
++
++          for (i = 0; i < n; ++i) {
++              v0[i] = (c1[i] cond c2[i]) ? v3[i] : v4[i].
++          }
++
++**Note 1**: Some shortcuts are defined when the last operand is known to be
++a constant (e.g. addi for add, movi for mov).
++
++**Note 2**: When using TCG, the opcodes must never be generated directly
++as some of them may not be available as "real" opcodes. Always use the
++function tcg_gen_xxx(args).
++
++
++Backend
++=======
++
++``tcg-target.h`` contains the target specific definitions. ``tcg-target.c.inc``
++contains the target specific code; it is #included by ``tcg/tcg.c``, rather
++than being a standalone C file.
++
++Assumptions
++-----------
++
++The target word size (``TCG_TARGET_REG_BITS``) is expected to be 32 bit or
++64 bit. It is expected that the pointer has the same size as the word.
++
++On a 32 bit target, all 64 bit operations are converted to 32 bits. A
++few specific operations must be implemented to allow it (see add2_i32,
++sub2_i32, brcond2_i32).
++
++On a 64 bit target, the values are transferred between 32 and 64-bit
++registers using the following ops:
++
++- trunc_shr_i64_i32
++- ext_i32_i64
++- extu_i32_i64
++
++They ensure that the values are correctly truncated or extended when
++moved from a 32-bit to a 64-bit register or vice-versa. Note that the
++trunc_shr_i64_i32 is an optional op. It is not necessary to implement
++it if all the following conditions are met:
++
++- 64-bit registers can hold 32-bit values
++- 32-bit values in a 64-bit register do not need to stay zero or
++  sign extended
++- all 32-bit TCG ops ignore the high part of 64-bit registers
++
++Floating point operations are not supported in this version. A
++previous incarnation of the code generator had full support of them,
++but it is better to concentrate on integer operations first.
++
++Constraints
++----------------
++
++GCC like constraints are used to define the constraints of every
++instruction. Memory constraints are not supported in this
++version. Aliases are specified in the input operands as for GCC.
++
++The same register may be used for both an input and an output, even when
++they are not explicitly aliased.  If an op expands to multiple target
++instructions then care must be taken to avoid clobbering input values.
++GCC style "early clobber" outputs are supported, with '``&``'.
++
++A target can define specific register or constant constraints. If an
++operation uses a constant input constraint which does not allow all
++constants, it must also accept registers in order to have a fallback.
++The constraint '``i``' is defined generically to accept any constant.
++The constraint '``r``' is not defined generically, but is consistently
++used by each backend to indicate all registers.
++
++The movi_i32 and movi_i64 operations must accept any constants.
++
++The mov_i32 and mov_i64 operations must accept any registers of the
++same type.
++
++The ld/st/sti instructions must accept signed 32 bit constant offsets.
++This can be implemented by reserving a specific register in which to
++compute the address if the offset is too big.
++
++The ld/st instructions must accept any destination (ld) or source (st)
++register.
++
++The sti instruction may fail if it cannot store the given constant.
++
++Function call assumptions
++-------------------------
++
++- The only supported types for parameters and return value are: 32 and
++  64 bit integers and pointer.
++- The stack grows downwards.
++- The first N parameters are passed in registers.
++- The next parameters are passed on the stack by storing them as words.
++- Some registers are clobbered during the call.
++- The function can return 0 or 1 value in registers. On a 32 bit
++  target, functions must be able to return 2 values in registers for
++  64 bit return type.
++
++
++Recommended coding rules for best performance
++=============================================
++
++- Use globals to represent the parts of the QEMU CPU state which are
++  often modified, e.g. the integer registers and the condition
++  codes. TCG will be able to use host registers to store them.
++
++- Avoid globals stored in fixed registers. They must be used only to
++  store the pointer to the CPU state and possibly to store a pointer
++  to a register window.
++
++- Use temporaries. Use local temporaries only when really needed,
++  e.g. when you need to use a value after a jump. Local temporaries
++  introduce a performance hit in the current TCG implementation: their
++  content is saved to memory at end of each basic block.
++
++- Free temporaries and local temporaries when they are no longer used
++  (tcg_temp_free). Since tcg_const_x() also creates a temporary, you
++  should free it after it is used. Freeing temporaries does not yield
++  a better generated code, but it reduces the memory usage of TCG and
++  the speed of the translation.
++
++- Don't hesitate to use helpers for complicated or seldom used guest
++  instructions. There is little performance advantage in using TCG to
++  implement guest instructions taking more than about twenty TCG
++  instructions. Note that this rule of thumb is more applicable to
++  helpers doing complex logic or arithmetic, where the C compiler has
++  scope to do a good job of optimisation; it is less relevant where
++  the instruction is mostly doing loads and stores, and in those cases
++  inline TCG may still be faster for longer sequences.
++
++- The hard limit on the number of TCG instructions you can generate
++  per guest instruction is set by ``MAX_OP_PER_INSTR`` in ``exec-all.h`` --
++  you cannot exceed this without risking a buffer overrun.
++
++- Use the 'discard' instruction if you know that TCG won't be able to
++  prove that a given global is "dead" at a given program point. The
++  x86 guest uses it to improve the condition codes optimisation.
+diff --git a/docs/devel/tcg.rst b/docs/devel/tcg.rst
+index a65fb7b1c4..136a7a0d96 100644
+--- a/docs/devel/tcg.rst
++++ b/docs/devel/tcg.rst
+@@ -9,7 +9,7 @@ which make it relatively easily portable and simple while achieving good
+ performances.
+ 
+ QEMU's dynamic translation backend is called TCG, for "Tiny Code
+-Generator". For more information, please take a look at ``tcg/README``.
++Generator". For more information, please take a look at :ref:`tcg-ops-ref`.
+ 
+ The following sections outline some notable features and implementation
+ details of QEMU's dynamic translator.
+diff --git a/tcg/README b/tcg/README
+deleted file mode 100644
+index bc15cc3b32..0000000000
+--- a/tcg/README
++++ /dev/null
+@@ -1,784 +0,0 @@
+-Tiny Code Generator - Fabrice Bellard.
+-
+-1) Introduction
+-
+-TCG (Tiny Code Generator) began as a generic backend for a C
+-compiler. It was simplified to be used in QEMU. It also has its roots
+-in the QOP code generator written by Paul Brook. 
+-
+-2) Definitions
+-
+-TCG receives RISC-like "TCG ops" and performs some optimizations on them,
+-including liveness analysis and trivial constant expression
+-evaluation.  TCG ops are then implemented in the host CPU back end,
+-also known as the TCG "target".
+-
+-The TCG "target" is the architecture for which we generate the
+-code. It is of course not the same as the "target" of QEMU which is
+-the emulated architecture. As TCG started as a generic C backend used
+-for cross compiling, it is assumed that the TCG target is different
+-from the host, although it is never the case for QEMU.
+-
+-In this document, we use "guest" to specify what architecture we are
+-emulating; "target" always means the TCG target, the machine on which
+-we are running QEMU.
+-
+-A TCG "function" corresponds to a QEMU Translated Block (TB).
+-
+-A TCG "temporary" is a variable only live in a basic
+-block. Temporaries are allocated explicitly in each function.
+-
+-A TCG "local temporary" is a variable only live in a function. Local
+-temporaries are allocated explicitly in each function.
+-
+-A TCG "global" is a variable which is live in all the functions
+-(equivalent of a C global variable). They are defined before the
+-functions defined. A TCG global can be a memory location (e.g. a QEMU
+-CPU register), a fixed host register (e.g. the QEMU CPU state pointer)
+-or a memory location which is stored in a register outside QEMU TBs
+-(not implemented yet).
+-
+-A TCG "basic block" corresponds to a list of instructions terminated
+-by a branch instruction. 
+-
+-An operation with "undefined behavior" may result in a crash.
+-
+-An operation with "unspecified behavior" shall not crash.  However,
+-the result may be one of several possibilities so may be considered
+-an "undefined result".
+-
+-3) Intermediate representation
+-
+-3.1) Introduction
+-
+-TCG instructions operate on variables which are temporaries, local
+-temporaries or globals. TCG instructions and variables are strongly
+-typed. Two types are supported: 32 bit integers and 64 bit
+-integers. Pointers are defined as an alias to 32 bit or 64 bit
+-integers depending on the TCG target word size.
+-
+-Each instruction has a fixed number of output variable operands, input
+-variable operands and always constant operands.
+-
+-The notable exception is the call instruction which has a variable
+-number of outputs and inputs.
+-
+-In the textual form, output operands usually come first, followed by
+-input operands, followed by constant operands. The output type is
+-included in the instruction name. Constants are prefixed with a '$'.
+-
+-add_i32 t0, t1, t2  (t0 <- t1 + t2)
+-
+-3.2) Assumptions
+-
+-* Basic blocks
+-
+-- Basic blocks end after branches (e.g. brcond_i32 instruction),
+-  goto_tb and exit_tb instructions.
+-- Basic blocks start after the end of a previous basic block, or at a
+-  set_label instruction.
+-
+-After the end of a basic block, the content of temporaries is
+-destroyed, but local temporaries and globals are preserved.
+-
+-* Floating point types are not supported yet
+-
+-* Pointers: depending on the TCG target, pointer size is 32 bit or 64
+-  bit. The type TCG_TYPE_PTR is an alias to TCG_TYPE_I32 or
+-  TCG_TYPE_I64.
+-
+-* Helpers:
+-
+-Using the tcg_gen_helper_x_y it is possible to call any function
+-taking i32, i64 or pointer types. By default, before calling a helper,
+-all globals are stored at their canonical location and it is assumed
+-that the function can modify them. By default, the helper is allowed to
+-modify the CPU state or raise an exception.
+-
+-This can be overridden using the following function modifiers:
+-- TCG_CALL_NO_READ_GLOBALS means that the helper does not read globals,
+-  either directly or via an exception. They will not be saved to their
+-  canonical locations before calling the helper.
+-- TCG_CALL_NO_WRITE_GLOBALS means that the helper does not modify any globals.
+-  They will only be saved to their canonical location before calling helpers,
+-  but they won't be reloaded afterwards.
+-- TCG_CALL_NO_SIDE_EFFECTS means that the call to the function is removed if
+-  the return value is not used.
+-
+-Note that TCG_CALL_NO_READ_GLOBALS implies TCG_CALL_NO_WRITE_GLOBALS.
+-
+-On some TCG targets (e.g. x86), several calling conventions are
+-supported.
+-
+-* Branches:
+-
+-Use the instruction 'br' to jump to a label.
+-
+-3.3) Code Optimizations
+-
+-When generating instructions, you can count on at least the following
+-optimizations:
+-
+-- Single instructions are simplified, e.g.
+-
+-   and_i32 t0, t0, $0xffffffff
+-    
+-  is suppressed.
+-
+-- A liveness analysis is done at the basic block level. The
+-  information is used to suppress moves from a dead variable to
+-  another one. It is also used to remove instructions which compute
+-  dead results. The later is especially useful for condition code
+-  optimization in QEMU.
+-
+-  In the following example:
+-
+-  add_i32 t0, t1, t2
+-  add_i32 t0, t0, $1
+-  mov_i32 t0, $1
+-
+-  only the last instruction is kept.
+-
+-3.4) Instruction Reference
+-
+-********* Function call
+-
+-* call <ret> <params> ptr
+-
+-call function 'ptr' (pointer type)
+-
+-<ret> optional 32 bit or 64 bit return value
+-<params> optional 32 bit or 64 bit parameters
+-
+-********* Jumps/Labels
+-
+-* set_label $label
+-
+-Define label 'label' at the current program point.
+-
+-* br $label
+-
+-Jump to label.
+-
+-* brcond_i32/i64 t0, t1, cond, label
+-
+-Conditional jump if t0 cond t1 is true. cond can be:
+-    TCG_COND_EQ
+-    TCG_COND_NE
+-    TCG_COND_LT /* signed */
+-    TCG_COND_GE /* signed */
+-    TCG_COND_LE /* signed */
+-    TCG_COND_GT /* signed */
+-    TCG_COND_LTU /* unsigned */
+-    TCG_COND_GEU /* unsigned */
+-    TCG_COND_LEU /* unsigned */
+-    TCG_COND_GTU /* unsigned */
+-
+-********* Arithmetic
+-
+-* add_i32/i64 t0, t1, t2
+-
+-t0=t1+t2
+-
+-* sub_i32/i64 t0, t1, t2
+-
+-t0=t1-t2
+-
+-* neg_i32/i64 t0, t1
+-
+-t0=-t1 (two's complement)
+-
+-* mul_i32/i64 t0, t1, t2
+-
+-t0=t1*t2
+-
+-* div_i32/i64 t0, t1, t2
+-
+-t0=t1/t2 (signed). Undefined behavior if division by zero or overflow.
+-
+-* divu_i32/i64 t0, t1, t2
+-
+-t0=t1/t2 (unsigned). Undefined behavior if division by zero.
+-
+-* rem_i32/i64 t0, t1, t2
+-
+-t0=t1%t2 (signed). Undefined behavior if division by zero or overflow.
+-
+-* remu_i32/i64 t0, t1, t2
+-
+-t0=t1%t2 (unsigned). Undefined behavior if division by zero.
+-
+-********* Logical
+-
+-* and_i32/i64 t0, t1, t2
+-
+-t0=t1&t2
+-
+-* or_i32/i64 t0, t1, t2
+-
+-t0=t1|t2
+-
+-* xor_i32/i64 t0, t1, t2
+-
+-t0=t1^t2
+-
+-* not_i32/i64 t0, t1
+-
+-t0=~t1
+-
+-* andc_i32/i64 t0, t1, t2
+-
+-t0=t1&~t2
+-
+-* eqv_i32/i64 t0, t1, t2
+-
+-t0=~(t1^t2), or equivalently, t0=t1^~t2
+-
+-* nand_i32/i64 t0, t1, t2
+-
+-t0=~(t1&t2)
+-
+-* nor_i32/i64 t0, t1, t2
+-
+-t0=~(t1|t2)
+-
+-* orc_i32/i64 t0, t1, t2
+-
+-t0=t1|~t2
+-
+-* clz_i32/i64 t0, t1, t2
+-
+-t0 = t1 ? clz(t1) : t2
+-
+-* ctz_i32/i64 t0, t1, t2
+-
+-t0 = t1 ? ctz(t1) : t2
+-
+-* ctpop_i32/i64 t0, t1
+-
+-t0 = number of bits set in t1
+-With "ctpop" short for "count population", matching
+-the function name used in include/qemu/host-utils.h.
+-
+-********* Shifts/Rotates
+-
+-* shl_i32/i64 t0, t1, t2
+-
+-t0=t1 << t2. Unspecified behavior if t2 < 0 or t2 >= 32 (resp 64)
+-
+-* shr_i32/i64 t0, t1, t2
+-
+-t0=t1 >> t2 (unsigned). Unspecified behavior if t2 < 0 or t2 >= 32 (resp 64)
+-
+-* sar_i32/i64 t0, t1, t2
+-
+-t0=t1 >> t2 (signed). Unspecified behavior if t2 < 0 or t2 >= 32 (resp 64)
+-
+-* rotl_i32/i64 t0, t1, t2
+-
+-Rotation of t2 bits to the left.
+-Unspecified behavior if t2 < 0 or t2 >= 32 (resp 64)
+-
+-* rotr_i32/i64 t0, t1, t2
+-
+-Rotation of t2 bits to the right.
+-Unspecified behavior if t2 < 0 or t2 >= 32 (resp 64)
+-
+-********* Misc
+-
+-* mov_i32/i64 t0, t1
+-
+-t0 = t1
+-
+-Move t1 to t0 (both operands must have the same type).
+-
+-* ext8s_i32/i64 t0, t1
+-ext8u_i32/i64 t0, t1
+-ext16s_i32/i64 t0, t1
+-ext16u_i32/i64 t0, t1
+-ext32s_i64 t0, t1
+-ext32u_i64 t0, t1
+-
+-8, 16 or 32 bit sign/zero extension (both operands must have the same type)
+-
+-* bswap16_i32/i64 t0, t1, flags
+-
+-16 bit byte swap on the low bits of a 32/64 bit input.
+-If flags & TCG_BSWAP_IZ, then t1 is known to be zero-extended from bit 15.
+-If flags & TCG_BSWAP_OZ, then t0 will be zero-extended from bit 15.
+-If flags & TCG_BSWAP_OS, then t0 will be sign-extended from bit 15.
+-If neither TCG_BSWAP_OZ nor TCG_BSWAP_OS are set, then the bits of
+-t0 above bit 15 may contain any value.
+-
+-* bswap32_i64 t0, t1, flags
+-
+-32 bit byte swap on a 64-bit value.  The flags are the same as for bswap16,
+-except they apply from bit 31 instead of bit 15.
+-
+-* bswap32_i32 t0, t1, flags
+-* bswap64_i64 t0, t1, flags
+-
+-32/64 bit byte swap.  The flags are ignored, but still present
+-for consistency with the other bswap opcodes.
+-
+-* discard_i32/i64 t0
+-
+-Indicate that the value of t0 won't be used later. It is useful to
+-force dead code elimination.
+-
+-* deposit_i32/i64 dest, t1, t2, pos, len
+-
+-Deposit T2 as a bitfield into T1, placing the result in DEST.
+-The bitfield is described by POS/LEN, which are immediate values:
+-
+-  LEN - the length of the bitfield
+-  POS - the position of the first bit, counting from the LSB
+-
+-For example, "deposit_i32 dest, t1, t2, 8, 4" indicates a 4-bit field
+-at bit 8.  This operation would be equivalent to
+-
+-  dest = (t1 & ~0x0f00) | ((t2 << 8) & 0x0f00)
+-
+-* extract_i32/i64 dest, t1, pos, len
+-* sextract_i32/i64 dest, t1, pos, len
+-
+-Extract a bitfield from T1, placing the result in DEST.
+-The bitfield is described by POS/LEN, which are immediate values,
+-as above for deposit.  For extract_*, the result will be extended
+-to the left with zeros; for sextract_*, the result will be extended
+-to the left with copies of the bitfield sign bit at pos + len - 1.
+-
+-For example, "sextract_i32 dest, t1, 8, 4" indicates a 4-bit field
+-at bit 8.  This operation would be equivalent to
+-
+-  dest = (t1 << 20) >> 28
+-
+-(using an arithmetic right shift).
+-
+-* extract2_i32/i64 dest, t1, t2, pos
+-
+-For N = {32,64}, extract an N-bit quantity from the concatenation
+-of t2:t1, beginning at pos.  The tcg_gen_extract2_{i32,i64} expander
+-accepts 0 <= pos <= N as inputs.  The backend code generator will
+-not see either 0 or N as inputs for these opcodes.
+-
+-* extrl_i64_i32 t0, t1
+-
+-For 64-bit hosts only, extract the low 32-bits of input T1 and place it
+-into 32-bit output T0.  Depending on the host, this may be a simple move,
+-or may require additional canonicalization.
+-
+-* extrh_i64_i32 t0, t1
+-
+-For 64-bit hosts only, extract the high 32-bits of input T1 and place it
+-into 32-bit output T0.  Depending on the host, this may be a simple shift,
+-or may require additional canonicalization.
+-
+-********* Conditional moves
+-
+-* setcond_i32/i64 dest, t1, t2, cond
+-
+-dest = (t1 cond t2)
+-
+-Set DEST to 1 if (T1 cond T2) is true, otherwise set to 0.
+-
+-* movcond_i32/i64 dest, c1, c2, v1, v2, cond
+-
+-dest = (c1 cond c2 ? v1 : v2)
+-
+-Set DEST to V1 if (C1 cond C2) is true, otherwise set to V2.
+-
+-********* Type conversions
+-
+-* ext_i32_i64 t0, t1
+-Convert t1 (32 bit) to t0 (64 bit) and does sign extension
+-
+-* extu_i32_i64 t0, t1
+-Convert t1 (32 bit) to t0 (64 bit) and does zero extension
+-
+-* trunc_i64_i32 t0, t1
+-Truncate t1 (64 bit) to t0 (32 bit)
+-
+-* concat_i32_i64 t0, t1, t2
+-Construct t0 (64-bit) taking the low half from t1 (32 bit) and the high half
+-from t2 (32 bit).
+-
+-* concat32_i64 t0, t1, t2
+-Construct t0 (64-bit) taking the low half from t1 (64 bit) and the high half
+-from t2 (64 bit).
+-
+-********* Load/Store
+-
+-* ld_i32/i64 t0, t1, offset
+-ld8s_i32/i64 t0, t1, offset
+-ld8u_i32/i64 t0, t1, offset
+-ld16s_i32/i64 t0, t1, offset
+-ld16u_i32/i64 t0, t1, offset
+-ld32s_i64 t0, t1, offset
+-ld32u_i64 t0, t1, offset
+-
+-t0 = read(t1 + offset)
+-Load 8, 16, 32 or 64 bits with or without sign extension from host memory. 
+-offset must be a constant.
+-
+-* st_i32/i64 t0, t1, offset
+-st8_i32/i64 t0, t1, offset
+-st16_i32/i64 t0, t1, offset
+-st32_i64 t0, t1, offset
+-
+-write(t0, t1 + offset)
+-Write 8, 16, 32 or 64 bits to host memory.
+-
+-All this opcodes assume that the pointed host memory doesn't correspond
+-to a global. In the latter case the behaviour is unpredictable.
+-
+-********* Multiword arithmetic support
+-
+-* add2_i32/i64 t0_low, t0_high, t1_low, t1_high, t2_low, t2_high
+-* sub2_i32/i64 t0_low, t0_high, t1_low, t1_high, t2_low, t2_high
+-
+-Similar to add/sub, except that the double-word inputs T1 and T2 are
+-formed from two single-word arguments, and the double-word output T0
+-is returned in two single-word outputs.
+-
+-* mulu2_i32/i64 t0_low, t0_high, t1, t2
+-
+-Similar to mul, except two unsigned inputs T1 and T2 yielding the full
+-double-word product T0.  The later is returned in two single-word outputs.
+-
+-* muls2_i32/i64 t0_low, t0_high, t1, t2
+-
+-Similar to mulu2, except the two inputs T1 and T2 are signed.
+-
+-* mulsh_i32/i64 t0, t1, t2
+-* muluh_i32/i64 t0, t1, t2
+-
+-Provide the high part of a signed or unsigned multiply, respectively.
+-If mulu2/muls2 are not provided by the backend, the tcg-op generator
+-can obtain the same results can be obtained by emitting a pair of
+-opcodes, mul+muluh/mulsh.
+-
+-********* Memory Barrier support
+-
+-* mb <$arg>
+-
+-Generate a target memory barrier instruction to ensure memory ordering as being
+-enforced by a corresponding guest memory barrier instruction. The ordering
+-enforced by the backend may be stricter than the ordering required by the guest.
+-It cannot be weaker. This opcode takes a constant argument which is required to
+-generate the appropriate barrier instruction. The backend should take care to
+-emit the target barrier instruction only when necessary i.e., for SMP guests and
+-when MTTCG is enabled.
+-
+-The guest translators should generate this opcode for all guest instructions
+-which have ordering side effects.
+-
+-Please see docs/devel/atomics.rst for more information on memory barriers.
+-
+-********* 64-bit guest on 32-bit host support
+-
+-The following opcodes are internal to TCG.  Thus they are to be implemented by
+-32-bit host code generators, but are not to be emitted by guest translators.
+-They are emitted as needed by inline functions within "tcg-op.h".
+-
+-* brcond2_i32 t0_low, t0_high, t1_low, t1_high, cond, label
+-
+-Similar to brcond, except that the 64-bit values T0 and T1
+-are formed from two 32-bit arguments.
+-
+-* setcond2_i32 dest, t1_low, t1_high, t2_low, t2_high, cond
+-
+-Similar to setcond, except that the 64-bit values T1 and T2 are
+-formed from two 32-bit arguments.  The result is a 32-bit value.
+-
+-********* QEMU specific operations
+-
+-* exit_tb t0
+-
+-Exit the current TB and return the value t0 (word type).
+-
+-* goto_tb index
+-
+-Exit the current TB and jump to the TB index 'index' (constant) if the
+-current TB was linked to this TB. Otherwise execute the next
+-instructions. Only indices 0 and 1 are valid and tcg_gen_goto_tb may be issued
+-at most once with each slot index per TB.
+-
+-* lookup_and_goto_ptr tb_addr
+-
+-Look up a TB address ('tb_addr') and jump to it if valid. If not valid,
+-jump to the TCG epilogue to go back to the exec loop.
+-
+-This operation is optional. If the TCG backend does not implement the
+-goto_ptr opcode, emitting this op is equivalent to emitting exit_tb(0).
+-
+-* qemu_ld_i32/i64 t0, t1, flags, memidx
+-* qemu_st_i32/i64 t0, t1, flags, memidx
+-* qemu_st8_i32 t0, t1, flags, memidx
+-
+-Load data at the guest address t1 into t0, or store data in t0 at guest
+-address t1.  The _i32/_i64 size applies to the size of the input/output
+-register t0 only.  The address t1 is always sized according to the guest,
+-and the width of the memory operation is controlled by flags.
+-
+-Both t0 and t1 may be split into little-endian ordered pairs of registers
+-if dealing with 64-bit quantities on a 32-bit host.
+-
+-The memidx selects the qemu tlb index to use (e.g. user or kernel access).
+-The flags are the MemOp bits, selecting the sign, width, and endianness
+-of the memory access.
+-
+-For a 32-bit host, qemu_ld/st_i64 is guaranteed to only be used with a
+-64-bit memory access specified in flags.
+-
+-For i386, qemu_st8_i32 is exactly like qemu_st_i32, except the size of
+-the memory operation is known to be 8-bit.  This allows the backend to
+-provide a different set of register constraints.
+-
+-********* Host vector operations
+-
+-All of the vector ops have two parameters, TCGOP_VECL & TCGOP_VECE.
+-The former specifies the length of the vector in log2 64-bit units; the
+-later specifies the length of the element (if applicable) in log2 8-bit units.
+-E.g. VECL=1 -> 64 << 1 -> v128, and VECE=2 -> 1 << 2 -> i32.
+-
+-* mov_vec   v0, v1
+-* ld_vec    v0, t1
+-* st_vec    v0, t1
+-
+-  Move, load and store.
+-
+-* dup_vec  v0, r1
+-
+-  Duplicate the low N bits of R1 into VECL/VECE copies across V0.
+-
+-* dupi_vec v0, c
+-
+-  Similarly, for a constant.
+-  Smaller values will be replicated to host register size by the expanders.
+-
+-* dup2_vec v0, r1, r2
+-
+-  Duplicate r2:r1 into VECL/64 copies across V0.  This opcode is
+-  only present for 32-bit hosts.
+-
+-* add_vec   v0, v1, v2
+-
+-  v0 = v1 + v2, in elements across the vector.
+-
+-* sub_vec   v0, v1, v2
+-
+-  Similarly, v0 = v1 - v2.
+-
+-* mul_vec   v0, v1, v2
+-
+-  Similarly, v0 = v1 * v2.
+-
+-* neg_vec   v0, v1
+-
+-  Similarly, v0 = -v1.
+-
+-* abs_vec   v0, v1
+-
+-  Similarly, v0 = v1 < 0 ? -v1 : v1, in elements across the vector.
+-
+-* smin_vec:
+-* umin_vec:
+-
+-  Similarly, v0 = MIN(v1, v2), for signed and unsigned element types.
+-
+-* smax_vec:
+-* umax_vec:
+-
+-  Similarly, v0 = MAX(v1, v2), for signed and unsigned element types.
+-
+-* ssadd_vec:
+-* sssub_vec:
+-* usadd_vec:
+-* ussub_vec:
+-
+-  Signed and unsigned saturating addition and subtraction.  If the true
+-  result is not representable within the element type, the element is
+-  set to the minimum or maximum value for the type.
+-
+-* and_vec   v0, v1, v2
+-* or_vec    v0, v1, v2
+-* xor_vec   v0, v1, v2
+-* andc_vec  v0, v1, v2
+-* orc_vec   v0, v1, v2
+-* not_vec   v0, v1
+-
+-  Similarly, logical operations with and without complement.
+-  Note that VECE is unused.
+-
+-* shli_vec   v0, v1, i2
+-* shls_vec   v0, v1, s2
+-
+-  Shift all elements from v1 by a scalar i2/s2.  I.e.
+-
+-    for (i = 0; i < VECL/VECE; ++i) {
+-      v0[i] = v1[i] << s2;
+-    }
+-
+-* shri_vec   v0, v1, i2
+-* sari_vec   v0, v1, i2
+-* rotli_vec  v0, v1, i2
+-* shrs_vec   v0, v1, s2
+-* sars_vec   v0, v1, s2
+-
+-  Similarly for logical and arithmetic right shift, and left rotate.
+-
+-* shlv_vec   v0, v1, v2
+-
+-  Shift elements from v1 by elements from v2.  I.e.
+-
+-    for (i = 0; i < VECL/VECE; ++i) {
+-      v0[i] = v1[i] << v2[i];
+-    }
+-
+-* shrv_vec   v0, v1, v2
+-* sarv_vec   v0, v1, v2
+-* rotlv_vec  v0, v1, v2
+-* rotrv_vec  v0, v1, v2
+-
+-  Similarly for logical and arithmetic right shift, and rotates.
+-
+-* cmp_vec  v0, v1, v2, cond
+-
+-  Compare vectors by element, storing -1 for true and 0 for false.
+-
+-* bitsel_vec v0, v1, v2, v3
+-
+-  Bitwise select, v0 = (v2 & v1) | (v3 & ~v1), across the entire vector.
+-
+-* cmpsel_vec v0, c1, c2, v3, v4, cond
+-
+-  Select elements based on comparison results:
+-  for (i = 0; i < n; ++i) {
+-    v0[i] = (c1[i] cond c2[i]) ? v3[i] : v4[i].
+-  }
+-
+-*********
+-
+-Note 1: Some shortcuts are defined when the last operand is known to be
+-a constant (e.g. addi for add, movi for mov).
+-
+-Note 2: When using TCG, the opcodes must never be generated directly
+-as some of them may not be available as "real" opcodes. Always use the
+-function tcg_gen_xxx(args).
+-
+-4) Backend
+-
+-tcg-target.h contains the target specific definitions. tcg-target.c.inc
+-contains the target specific code; it is #included by tcg/tcg.c, rather
+-than being a standalone C file.
+-
+-4.1) Assumptions
+-
+-The target word size (TCG_TARGET_REG_BITS) is expected to be 32 bit or
+-64 bit. It is expected that the pointer has the same size as the word.
+-
+-On a 32 bit target, all 64 bit operations are converted to 32 bits. A
+-few specific operations must be implemented to allow it (see add2_i32,
+-sub2_i32, brcond2_i32).
+-
+-On a 64 bit target, the values are transferred between 32 and 64-bit
+-registers using the following ops:
+-- trunc_shr_i64_i32
+-- ext_i32_i64
+-- extu_i32_i64
+-
+-They ensure that the values are correctly truncated or extended when
+-moved from a 32-bit to a 64-bit register or vice-versa. Note that the
+-trunc_shr_i64_i32 is an optional op. It is not necessary to implement
+-it if all the following conditions are met:
+-- 64-bit registers can hold 32-bit values
+-- 32-bit values in a 64-bit register do not need to stay zero or
+-  sign extended
+-- all 32-bit TCG ops ignore the high part of 64-bit registers
+-
+-Floating point operations are not supported in this version. A
+-previous incarnation of the code generator had full support of them,
+-but it is better to concentrate on integer operations first.
+-
+-4.2) Constraints
+-
+-GCC like constraints are used to define the constraints of every
+-instruction. Memory constraints are not supported in this
+-version. Aliases are specified in the input operands as for GCC.
+-
+-The same register may be used for both an input and an output, even when
+-they are not explicitly aliased.  If an op expands to multiple target
+-instructions then care must be taken to avoid clobbering input values.
+-GCC style "early clobber" outputs are supported, with '&'.
+-
+-A target can define specific register or constant constraints. If an
+-operation uses a constant input constraint which does not allow all
+-constants, it must also accept registers in order to have a fallback.
+-The constraint 'i' is defined generically to accept any constant.
+-The constraint 'r' is not defined generically, but is consistently
+-used by each backend to indicate all registers.
+-
+-The movi_i32 and movi_i64 operations must accept any constants.
+-
+-The mov_i32 and mov_i64 operations must accept any registers of the
+-same type.
+-
+-The ld/st/sti instructions must accept signed 32 bit constant offsets.
+-This can be implemented by reserving a specific register in which to
+-compute the address if the offset is too big.
+-
+-The ld/st instructions must accept any destination (ld) or source (st)
+-register.
+-
+-The sti instruction may fail if it cannot store the given constant.
+-
+-4.3) Function call assumptions
+-
+-- The only supported types for parameters and return value are: 32 and
+-  64 bit integers and pointer.
+-- The stack grows downwards.
+-- The first N parameters are passed in registers.
+-- The next parameters are passed on the stack by storing them as words.
+-- Some registers are clobbered during the call. 
+-- The function can return 0 or 1 value in registers. On a 32 bit
+-  target, functions must be able to return 2 values in registers for
+-  64 bit return type.
+-
+-5) Recommended coding rules for best performance
+-
+-- Use globals to represent the parts of the QEMU CPU state which are
+-  often modified, e.g. the integer registers and the condition
+-  codes. TCG will be able to use host registers to store them.
+-
+-- Avoid globals stored in fixed registers. They must be used only to
+-  store the pointer to the CPU state and possibly to store a pointer
+-  to a register window.
+-
+-- Use temporaries. Use local temporaries only when really needed,
+-  e.g. when you need to use a value after a jump. Local temporaries
+-  introduce a performance hit in the current TCG implementation: their
+-  content is saved to memory at end of each basic block.
+-
+-- Free temporaries and local temporaries when they are no longer used
+-  (tcg_temp_free). Since tcg_const_x() also creates a temporary, you
+-  should free it after it is used. Freeing temporaries does not yield
+-  a better generated code, but it reduces the memory usage of TCG and
+-  the speed of the translation.
+-
+-- Don't hesitate to use helpers for complicated or seldom used guest
+-  instructions. There is little performance advantage in using TCG to
+-  implement guest instructions taking more than about twenty TCG
+-  instructions. Note that this rule of thumb is more applicable to
+-  helpers doing complex logic or arithmetic, where the C compiler has
+-  scope to do a good job of optimisation; it is less relevant where
+-  the instruction is mostly doing loads and stores, and in those cases
+-  inline TCG may still be faster for longer sequences.
+-
+-- The hard limit on the number of TCG instructions you can generate
+-  per guest instruction is set by MAX_OP_PER_INSTR in exec-all.h --
+-  you cannot exceed this without risking a buffer overrun.
+-
+-- Use the 'discard' instruction if you know that TCG won't be able to
+-  prove that a given global is "dead" at a given program point. The
+-  x86 guest uses it to improve the condition codes optimisation.
+-- 
+2.34.1
+
 
