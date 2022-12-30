@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040B46597C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:38:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715336597F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:05:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBDgK-00075m-Te; Fri, 30 Dec 2022 06:36:12 -0500
+	id 1pBE7e-0003vZ-5K; Fri, 30 Dec 2022 07:04:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDgI-00072Y-Jw
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:36:10 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pBE7a-0003uL-TQ
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:04:23 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDgG-0003vX-9O
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:36:10 -0500
-Received: by mail-wr1-x434.google.com with SMTP id y8so19652921wrl.13
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:36:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5mn36Svw49kff47DGBREJk9PPKNIMvzg29Q4dzWpTCM=;
- b=zOjpkTE1RHuFiExPiqca5OcD4tUipamF1/3/QfOdxqj8DlSuttdPbaNkbS3QhJwTDZ
- mo0FiAk0cANE0oy9SqHsldE32DD55ZVkh9okgq+lNmFH99BeJ2TVq57s/nEzbqWQbW6e
- 7AZbXQ5k8/cV0v9MApSxYruJi3bxL95PcfK9DojarRQ8yaKmYvaLlViIQL1S2o9fNYRA
- 3SYJfd1c3x4BDCRCZj1ODN8MXOqOj6LhqEU8UoHVAPUu5gTPSB1z29pp32Euwfooxgur
- +iKRZQPLeUjWkLNaPy+5Ym2RtXJvwVmLnBQcz9A57vt+pTcQ7WkrF0QOWZd6SzVoqjhe
- i3yw==
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pBE7Y-0002BK-BV
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:04:22 -0500
+Received: by mail-oi1-x230.google.com with SMTP id r205so19280639oib.9
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 04:04:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=uKCtUqBhJq6IDY5EQutNhMR2zKeCeYIvEjtnvkC729M=;
+ b=LP6fNO6jh4apVv/cQmPxnxUVEPyad/fkzkx6naV3STxEMcrpZM6Mq7LrKg2BEXtY1G
+ 6wqWmakTXP6JgMKnpYpp9gvrPjmRsmI1u4x+OSWctfn1fXiFYCtEsRJXCEqrEwttzhxM
+ 6i5/4gFDUl3sGNPNSqt3iqJd52AnDvewSRuVpWNec9Lv8ysOeczxylxWUVhDcT1afm0I
+ PwJOzNIDiykv9iQTpg7LzsYhTZPvXT2qkYj1+iqrtiPqQq2OjCme8FpwnMz3abUfnlqs
+ P5OhbnkWJ3CV8tQHseXoH6V9Liz63fzQCXLanc0pYHsKIaAsyYZTwh59MimXJ779E0As
+ o+yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5mn36Svw49kff47DGBREJk9PPKNIMvzg29Q4dzWpTCM=;
- b=MbRPhsA/TOuHc0kLD8IQAVm5fn3OarsbFi7728zDXDNo7sENvvYke+4hOL2PWQt7Ku
- dI6GFmQlFp+kfNp4FBAzlT9D+4X8plwWcgveKhJTu99qJWJT3me1mG7eZn/BNANClJ6p
- VfOAs2QsdQis9509Oe+nfnpLsT7jdkLvDoshlvEkFWpJ4iM2wPBM9FTX8tPvmxrV1USp
- DEZSHEbb7Oy9TrYX1aV23M939UOofmJu4CC1x2EtEHQFXAkHixbYAZluHCWTyR4sCI4N
- tIx7GTSDruqI0w4Fw+ur1gpIS8wrYSwnkb8WU5gCdJcaXACTktQEwlGJVXVNRjEbg6ax
- cXvg==
-X-Gm-Message-State: AFqh2ko0uuxbxhURUml7LnYa/GDGn4+W+RPhqLerQ0jjNA3+IznHO5kn
- A3IZwsaHFO4hfvnB2t0UQuZud8QmHP3jNEra
-X-Google-Smtp-Source: AMrXdXudDTX0KDf/bWwg6ZuvcHc05P6oz0V4AP+98R5c91+6KdAC/2s+lAq6Qoak5TCTK0SRlcgS+w==
-X-Received: by 2002:adf:fc07:0:b0:288:ebd8:dc1f with SMTP id
- i7-20020adffc07000000b00288ebd8dc1fmr5110501wrr.55.1672400167252; 
- Fri, 30 Dec 2022 03:36:07 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uKCtUqBhJq6IDY5EQutNhMR2zKeCeYIvEjtnvkC729M=;
+ b=NiV+tbDW/bBgrJFB+yrZrVdvpmbW/ONHOxpyI7V6MTQSR+K/v2aGKuiFcLoUbRGmv+
+ qWk7greGeupgZ0pR1+q+PDdLmJ0HbRnqkf5/+063E5O8BY3Bojzx4++LSXJ/jmHeOMbV
+ 48LgRWYPW8Z+DbCWlngW30UjmvcMV+MxV17ZwVZefM1FY4fvYuSOD4gEGioN1gZPPhmA
+ 3Qx2vxeb7HyChAoolO7lytI2xj+XtTQbaONe3ds1Wm8OKqgrWjruRtb7P+OajK/IfFHT
+ 8ZfKWPMeFCp2q+R0jT2A/xgUzALd4LtoC5Wvr83/xVd/tVpdsMZfMr9HG1j96lFLJyVm
+ LuYQ==
+X-Gm-Message-State: AFqh2kp3utDscyfRMIHHYIxNDHU9nUW+6KdM9az/41MlvGuhoWT30oTh
+ jwXzYgAGWLcbf1aQuEvr9cJfgQ==
+X-Google-Smtp-Source: AMrXdXuVfTxLxteNWDN5bljc7fEB5fKG7Qx8ATmZBUxfgGouIdLKyA1shWh/bKoln8cM1vRzaUA0HA==
+X-Received: by 2002:a05:6808:247:b0:361:24dd:1f4 with SMTP id
+ m7-20020a056808024700b0036124dd01f4mr13930758oie.55.1672401858512; 
+ Fri, 30 Dec 2022 04:04:18 -0800 (PST)
+Received: from [192.168.68.107] ([191.17.222.139])
  by smtp.gmail.com with ESMTPSA id
- c10-20020a5d414a000000b0024242111a27sm20631548wrq.75.2022.12.30.03.36.05
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 30 Dec 2022 03:36:06 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
- Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
- Peter Delevoryas <peter@pjd.dev>, Steven Lee <steven_lee@aspeedtech.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Jamin Lin <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>,
- Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v2 11/11] tests/avocado: Test Aspeed Zephyr SDK v00.01.08 on
- AST1030 board
-Date: Fri, 30 Dec 2022 12:35:04 +0100
-Message-Id: <20221230113504.37032-12-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221230113504.37032-1-philmd@linaro.org>
-References: <20221230113504.37032-1-philmd@linaro.org>
+ y5-20020a544d85000000b0035474ff66b3sm8983534oix.35.2022.12.30.04.04.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Dec 2022 04:04:18 -0800 (PST)
+Message-ID: <797aa177-bb3a-8333-7a2b-79ee799e2633@ventanamicro.com>
+Date: Fri, 30 Dec 2022 09:04:13 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v4 10/11] hw/riscv/boot.c: introduce
+ riscv_load_kernel_and_initrd()
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20221229181135.270661-1-dbarboza@ventanamicro.com>
+ <20221229181135.270661-11-dbarboza@ventanamicro.com>
+ <CAEUhbmVa8g-s0wD+EE6iZNXBfjD+M6edgq9vk7GdG2sx12J6Gg@mail.gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAEUhbmVa8g-s0wD+EE6iZNXBfjD+M6edgq9vk7GdG2sx12J6Gg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,196 +98,261 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a very quick test that runs some commands in a Zephyr shell:
 
-  $ tests/venv/bin/avocado --show=app,console run -t os:zephyr tests/avocado
-  (2/2) tests/avocado/machine_aspeed.py:AST1030Machine.test_ast1030_zephyros_1_07:
-  console: *** Booting Zephyr OS build v00.01.07  ***
-  console: ast1030_evb demo
-  console: SOC: AST1030-A1
-  console: uart:~$ kernel stacks
-  console: 0x36910 wdt_background (real size 1024):	unused 988	usage 36 / 1024 (3 %)
-  console: 0x36ad8 shell_uart (real size 4096):	unused 3084	usage 1012 / 4096 (24 %)
-  console: 0x2edb8 ADC0       (real size 400):	unused 260	usage 140 / 400 (35 %)
-  console: 0x2f0f0 ADC1       (real size 400):	unused 260	usage 140 / 400 (35 %)
-  console: 0x3b098 sysworkq   (real size 1024):	unused 860	usage 164 / 1024 (16 %)
-  console: 0x36cc0 usbdworkq  (real size 1024):	unused 860	usage 164 / 1024 (16 %)
-  console: 0x36bd8 usbworkq   (real size 1024):	unused 860	usage 164 / 1024 (16 %)
-  console: 0x36a10 logging    (real size 768):	unused 548	usage 220 / 768 (28 %)
-  console: 0x36ef8 idle 00    (real size 320):	unused 268	usage 52 / 320 (16 %)
-  console: 0x47800 IRQ 00     (real size 2048):	unused 1504	usage 544 / 2048 (26 %)
-  console: uart:~$ otp info scu
-  console: SCU     BIT   reg_protect     Description
-  console: ____________________________________________________________________
-  console: 0x500   0x0   0x0             Disable ARM CM4 CPU boot (TXD5)
-  console: 0x500   0x1   0x0            /Reserved
-  console: 0x500   0x2   0x0            \ "
-  console: 0x500   0x3   0x0             Address offset of single chip ABR mode
-  console: 0x500   0x4   0x0            /Reserved
-  console: 0x500   0x5   0x0            | "
-  console: 0x500   0x6   0x0            | "
-  console: 0x500   0x7   0x0            | "
-  console: 0x500   0x8   0x0            | "
-  console: 0x500   0x9   0x0            | "
-  console: 0x500   0xA   0x0            | "
-  console: 0x500   0xB   0x0            | "
-  console: 0x500   0xC   0x0            | "
-  console: 0x500   0xD   0x0            | "
-  console: 0x500   0xE   0x0            | "
-  console: 0x500   0xF   0x0            | "
-  console: 0x500   0x10  0x0            \ "
-  console: 0x500   0x11  0x0             Disabl3 ARM JTAG debug
-  console: 0x500   0x12  0x0            /Reserved
-  console: 0x500   0x13  0x0            | "
-  console: 0x500   0x14  0x0            | "
-  console: 0x500   0x15  0x0            | "
-  console: 0x500   0x16  0x0            | "
-  console: 0x500   0x17  0x0            | "
-  console: 0x500   0x18  0x0            | "
-  console: 0x500   0x19  0x0            | "
-  console: 0x500   0x1A  0x0            | "
-  console: 0x500   0x1B  0x0            | "
-  console: 0x500   0x1C  0x0            | "
-  console: 0x500   0x1D  0x0            | "
-  console: 0x500   0x1E  0x0            | "
-  console: 0x500   0x1F  0x0            \ "
-  console: 0x510   0x0   0x0            /Reserved
-  console: 0x510   0x1   0x0            | "
-  console: 0x510   0x2   0x0            | "
-  console: 0x510   0x3   0x0            \ "
-  console: 0x510   0x4   0x0             Disable debug interfaces
-  console: 0x510   0x5   0x0            /Reserved
-  console: 0x510   0x6   0x0            | "
-  console: 0x510   0x7   0x0            \ "
-  console: 0x510   0x8   0x0             Enable boot from Uart5 by Pin Strap
-  console: 0x510   0x9   0x0            /Reserved
-  console: 0x510   0xA   0x0            \ "
-  console: 0x510   0xB   0x0             Enable boot SPI ABR
-  console: 0x510   0xC   0x0             Boot SPI ABR Mode
-  console: 0x510   0xD   0x0            /Boot SPI flash size
-  console: 0x510   0xE   0x0            | "
-  console: 0x510   0xF   0x0            \ "
-  console: 0x510   0x10  0x0            /Reserved
-  console: 0x510   0x11  0x0            | "
-  console: 0x510   0x12  0x0            | "
-  console: 0x510   0x13  0x0            | "
-  console: 0x510   0x14  0x0            | "
-  console: 0x510   0x15  0x0            \ "
-  console: 0x510   0x16  0x0             Enable boot SPI auxiliary control pins
-  console: 0x510   0x19  0x0            /Reserved
-  console: 0x510   0x1A  0x0            | "
-  console: 0x510   0x1B  0x0            | "
-  console: 0x510   0x1C  0x0            | "
-  console: 0x510   0x1D  0x0            | "
-  console: 0x510   0x1E  0x0            | "
-  console: 0x510   0x1F  0x0            \ "
-  console: 0x510   0x1E  0x0             Enable dedicate GPIO strap pins
-  console: 0x510   0x1F  0x0             Enable Secure Boot by Pin Strap
-  console: uart:~$ hwinfo devid
-  console: Length: 8
-  console: ID: 0x0000018000000180
-  console: uart:~$ crypto aes256_cbc_vault
-  console: aes256_cbc vault key 1
-  console: Was waiting for:
-  console: 6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a
-  console: ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51
-  console: 30 c8 1c 46 a3 5c e4 11 e5 fb c1 19 1a 0a 52 ef
-  console: f6 9f 24 45 df 4f 9b 17 ad 2b 41 7b e6 6c 37 10
-  console: But got:
-  console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  console: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  console: uart:~$ random get
-  console: 0x862460d
-  console: uart:~$ i2c scan I2C_0
-  console: 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
-  console: 00:             -- -- -- -- -- -- -- -- -- -- -- --
-  console: 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 50: 50 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-  console: 70: -- -- -- -- -- -- -- --
-  console: 1 devices found on I2C_0
-  console: uart:~$ kernel uptime
-  console: Uptime: 9897 ms
-  console: uart:~$ kernel reboot warm
-  console: *** Booting Zephyr OS build v00.01.07  ***
-  PASS (1.08 s)
 
-Ref: https://github.com/AspeedTech-BMC/zephyr/releases/download/v00.01.07/Aspeed_Zephy_SDK_User_Guide_v00.01.07.pdf
+On 12/30/22 06:05, Bin Meng wrote:
+> On Fri, Dec 30, 2022 at 2:47 AM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
+>> the same steps when '-kernel' is used:
+>>
+>> - execute load_kernel()
+>> - load init_rd()
+>> - write kernel_cmdline in the fdt
+>>
+>> Let's fold everything inside riscv_load_kernel() to avoid code
+>> repetition. Every other board that uses riscv_load_kernel() will have
+>> this same behavior, including boards that doesn't have a valid FDT, so
+>> we need to take care to not do FDT operations without checking it first.
+>>
+>> Since we're now doing way more than just loading the kernel, rename
+>> riscv_load_kernel() to riscv_load_kernel_and_initrd().
+>>
+>> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>> ---
+>>   hw/riscv/boot.c            | 27 +++++++++++++++++++++------
+>>   hw/riscv/microchip_pfsoc.c | 12 ++----------
+>>   hw/riscv/opentitan.c       |  2 +-
+>>   hw/riscv/sifive_e.c        |  3 ++-
+>>   hw/riscv/sifive_u.c        | 12 ++----------
+>>   hw/riscv/spike.c           | 14 +++-----------
+>>   hw/riscv/virt.c            | 12 ++----------
+>>   include/hw/riscv/boot.h    |  6 +++---
+>>   8 files changed, 36 insertions(+), 52 deletions(-)
+>>
+>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+>> index 5606ea6f43..d18262c302 100644
+>> --- a/hw/riscv/boot.c
+>> +++ b/hw/riscv/boot.c
+>> @@ -171,12 +171,13 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+>>       exit(1);
+>>   }
+>>
+>> -target_ulong riscv_load_kernel(MachineState *machine,
+>> -                               target_ulong kernel_start_addr,
+>> -                               symbol_fn_t sym_cb)
+>> +target_ulong riscv_load_kernel_and_initrd(MachineState *machine,
+>> +                                          target_ulong kernel_start_addr,
+>> +                                          symbol_fn_t sym_cb)
+> How about we keep the riscv_load_kernel() API, in case there is a need
+> for machines that just want to load kernel only?
+>
+> Then introduce a new API riscv_load_kernel_and_initrd() to do both
+> kernel and initrd loading?
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
----
- tests/avocado/machine_aspeed.py | 41 ++++++++++++++++++++++++++++++++-
- 1 file changed, 40 insertions(+), 1 deletion(-)
+What about an extra flag to riscv_load_kernel(), e.g:
 
-diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-index 1fc385e1c8..11f5b17eb9 100644
---- a/tests/avocado/machine_aspeed.py
-+++ b/tests/avocado/machine_aspeed.py
-@@ -22,10 +22,11 @@ class AST1030Machine(QemuSystemTest):
- 
-     timeout = 10
- 
--    def test_ast1030_zephyros(self):
-+    def test_ast1030_zephyros_1_04(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:ast1030-evb
-+        :avocado: tags=os:zephyr
-         """
-         tar_url = ('https://github.com/AspeedTech-BMC'
-                    '/zephyr/releases/download/v00.01.04/ast1030-evb-demo.zip')
-@@ -41,6 +42,44 @@ def test_ast1030_zephyros(self):
-         exec_command_and_wait_for_pattern(self, "help",
-                                           "Available commands")
- 
-+    def test_ast1030_zephyros_1_07(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:ast1030-evb
-+        :avocado: tags=os:zephyr
-+        """
-+        tar_url = ('https://github.com/AspeedTech-BMC'
-+                   '/zephyr/releases/download/v00.01.07/ast1030-evb-demo.zip')
-+        tar_hash = '40ac87eabdcd3b3454ce5aad11fedc72a33ecda2'
-+        tar_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-+        archive.extract(tar_path, self.workdir)
-+        kernel_file = self.workdir + "/ast1030-evb-demo/zephyr.bin"
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', kernel_file,
-+                         '-nographic')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, "Booting Zephyr OS")
-+        for shell_cmd in [
-+                'kernel stacks',
-+                'otp info conf',
-+                'otp info scu',
-+                'hwinfo devid',
-+                'crypto aes256_cbc_vault',
-+                'random get',
-+                'jtag JTAG1 sw_xfer high TMS',
-+                'adc ADC0 resolution 12',
-+                'adc ADC0 read 42',
-+                'adc ADC1 read 69',
-+                'i2c scan I2C_0',
-+                'i3c attach I3C_0',
-+                'hash test',
-+                'kernel uptime',
-+                'kernel reboot warm',
-+                'kernel uptime',
-+                'kernel reboot cold',
-+                'kernel uptime',
-+        ]: exec_command_and_wait_for_pattern(self, shell_cmd, "uart:~$")
-+
- class AST2x00Machine(QemuSystemTest):
- 
-     timeout = 90
--- 
-2.38.1
+riscv_load_kernel(MachineState *machine,  target_ulong kernel_start_addr,
+                                 bool load_initrd, symbol_fn_t sym_cb)
+
+
+And then machines that don't want to load initrd can opt out by using
+load_initrd = false. The name of the flag would also make our intentions with
+the API self explanatory (i.e. load_initrd makes load_kernel() loads initrd
+as well).
+
+
+Daniel
+
+>
+>>   {
+>>       const char *kernel_filename = machine->kernel_filename;
+>>       uint64_t kernel_load_base, kernel_entry;
+>> +    void *fdt = machine->fdt;
+>>
+>>       g_assert(kernel_filename != NULL);
+>>
+>> @@ -190,21 +191,35 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>>       if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+>>                            NULL, &kernel_load_base, NULL, NULL, 0,
+>>                            EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+>> -        return kernel_load_base;
+>> +        kernel_entry = kernel_load_base;
+>> +        goto out;
+>>       }
+>>
+>>       if (load_uimage_as(kernel_filename, &kernel_entry, NULL, NULL,
+>>                          NULL, NULL, NULL) > 0) {
+>> -        return kernel_entry;
+>> +        goto out;
+>>       }
+>>
+>>       if (load_image_targphys_as(kernel_filename, kernel_start_addr,
+>>                                  current_machine->ram_size, NULL) > 0) {
+>> -        return kernel_start_addr;
+>> +        kernel_entry = kernel_start_addr;
+>> +        goto out;
+>>       }
+>>
+>>       error_report("could not load kernel '%s'", kernel_filename);
+>>       exit(1);
+>> +
+>> +out:
+>> +    if (machine->initrd_filename) {
+>> +        riscv_load_initrd(machine, kernel_entry);
+>> +    }
+>> +
+>> +    if (fdt && machine->kernel_cmdline && *machine->kernel_cmdline) {
+>> +        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+>> +                                machine->kernel_cmdline);
+>> +    }
+>> +
+>> +    return kernel_entry;
+>>   }
+>>
+>>   void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
+>> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+>> index 82ae5e7023..b64631f166 100644
+>> --- a/hw/riscv/microchip_pfsoc.c
+>> +++ b/hw/riscv/microchip_pfsoc.c
+>> @@ -629,16 +629,8 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+>>           kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc.u_cpus,
+>>                                                            firmware_end_addr);
+>>
+>> -        kernel_entry = riscv_load_kernel(machine, kernel_start_addr, NULL);
+>> -
+>> -        if (machine->initrd_filename) {
+>> -            riscv_load_initrd(machine, kernel_entry);
+>> -        }
+>> -
+>> -        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
+>> -            qemu_fdt_setprop_string(machine->fdt, "/chosen",
+>> -                                    "bootargs", machine->kernel_cmdline);
+>> -        }
+>> +        kernel_entry = riscv_load_kernel_and_initrd(machine, kernel_start_addr,
+>> +                                                    NULL);
+>>
+>>           /* Compute the fdt load address in dram */
+>>           fdt_load_addr = riscv_load_fdt(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+>> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+>> index 64d5d435b9..0818d9610c 100644
+>> --- a/hw/riscv/opentitan.c
+>> +++ b/hw/riscv/opentitan.c
+>> @@ -101,7 +101,7 @@ static void opentitan_board_init(MachineState *machine)
+>>       }
+>>
+>>       if (machine->kernel_filename) {
+>> -        riscv_load_kernel(machine, memmap[IBEX_DEV_RAM].base, NULL);
+>> +        riscv_load_kernel_and_initrd(machine, memmap[IBEX_DEV_RAM].base, NULL);
+>>       }
+>>   }
+>>
+>> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+>> index 3e3f4b0088..e22628b623 100644
+>> --- a/hw/riscv/sifive_e.c
+>> +++ b/hw/riscv/sifive_e.c
+>> @@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machine)
+>>                             memmap[SIFIVE_E_DEV_MROM].base, &address_space_memory);
+>>
+>>       if (machine->kernel_filename) {
+>> -        riscv_load_kernel(machine, memmap[SIFIVE_E_DEV_DTIM].base, NULL);
+>> +        riscv_load_kernel_and_initrd(machine, memmap[SIFIVE_E_DEV_DTIM].base,
+>> +                                     NULL);
+>>       }
+>>   }
+>>
+>> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+>> index bac394c959..b6fb715a9f 100644
+>> --- a/hw/riscv/sifive_u.c
+>> +++ b/hw/riscv/sifive_u.c
+>> @@ -598,16 +598,8 @@ static void sifive_u_machine_init(MachineState *machine)
+>>           kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc.u_cpus,
+>>                                                            firmware_end_addr);
+>>
+>> -        kernel_entry = riscv_load_kernel(machine, kernel_start_addr, NULL);
+>> -
+>> -        if (machine->initrd_filename) {
+>> -            riscv_load_initrd(machine, kernel_entry);
+>> -        }
+>> -
+>> -        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
+>> -            qemu_fdt_setprop_string(machine->fdt, "/chosen", "bootargs",
+>> -                                    machine->kernel_cmdline);
+>> -        }
+>> +        kernel_entry = riscv_load_kernel_and_initrd(machine, kernel_start_addr,
+>> +                                                    NULL);
+>>       } else {
+>>          /*
+>>           * If dynamic firmware is used, it doesn't know where is the next mode
+>> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+>> index bff9475686..cccfeb4fce 100644
+>> --- a/hw/riscv/spike.c
+>> +++ b/hw/riscv/spike.c
+>> @@ -307,17 +307,9 @@ static void spike_board_init(MachineState *machine)
+>>           kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
+>>                                                            firmware_end_addr);
+>>
+>> -        kernel_entry = riscv_load_kernel(machine, kernel_start_addr,
+>> -                                         htif_symbol_callback);
+>> -
+>> -        if (machine->initrd_filename) {
+>> -            riscv_load_initrd(machine, kernel_entry);
+>> -        }
+>> -
+>> -        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
+>> -            qemu_fdt_setprop_string(machine->fdt, "/chosen", "bootargs",
+>> -                                    machine->kernel_cmdline);
+>> -        }
+>> +        kernel_entry = riscv_load_kernel_and_initrd(machine,
+>> +                                                    kernel_start_addr,
+>> +                                                    htif_symbol_callback);
+>>       } else {
+>>          /*
+>>           * If dynamic firmware is used, it doesn't know where is the next mode
+>> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+>> index c8e35f861e..eadf057940 100644
+>> --- a/hw/riscv/virt.c
+>> +++ b/hw/riscv/virt.c
+>> @@ -1281,16 +1281,8 @@ static void virt_machine_done(Notifier *notifier, void *data)
+>>           kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
+>>                                                            firmware_end_addr);
+>>
+>> -        kernel_entry = riscv_load_kernel(machine, kernel_start_addr, NULL);
+>> -
+>> -        if (machine->initrd_filename) {
+>> -            riscv_load_initrd(machine, kernel_entry);
+>> -        }
+>> -
+>> -        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
+>> -            qemu_fdt_setprop_string(machine->fdt, "/chosen", "bootargs",
+>> -                                    machine->kernel_cmdline);
+>> -        }
+>> +        kernel_entry = riscv_load_kernel_and_initrd(machine, kernel_start_addr,
+>> +                                                    NULL);
+>>       } else {
+>>          /*
+>>           * If dynamic firmware is used, it doesn't know where is the next mode
+>> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+>> index f94653a09b..16b86450d3 100644
+>> --- a/include/hw/riscv/boot.h
+>> +++ b/include/hw/riscv/boot.h
+>> @@ -43,9 +43,9 @@ char *riscv_find_firmware(const char *firmware_filename,
+>>   target_ulong riscv_load_firmware(const char *firmware_filename,
+>>                                    hwaddr firmware_load_addr,
+>>                                    symbol_fn_t sym_cb);
+>> -target_ulong riscv_load_kernel(MachineState *machine,
+>> -                               target_ulong firmware_end_addr,
+>> -                               symbol_fn_t sym_cb);
+>> +target_ulong riscv_load_kernel_and_initrd(MachineState *machine,
+>> +                                          target_ulong firmware_end_addr,
+>> +                                          symbol_fn_t sym_cb);
+>>   void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
+>>   uint64_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt);
+>>   void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
+>> --
+> Regards,
+> Bin
 
 
