@@ -2,76 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDC9659A7E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 17:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B74659AC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 18:03:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBIBI-0007lc-0m; Fri, 30 Dec 2022 11:24:28 -0500
+	id 1pBIme-0003jn-O6; Fri, 30 Dec 2022 12:03:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pBIBE-0007lT-Q9
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 11:24:25 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pBIBC-000279-I9
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 11:24:24 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id jn22so22289236plb.13
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 08:24:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=FCTZpRyPbBo9WmB6fAZaWQQBPoQpNkMwPxIK0D5EQOY=;
- b=ynjNAc+9bfxmaHb42t88LRE154CXSVXcgRdLHVDmFU4qc9Dj+bQFPsHU7vlpGcAWbs
- WPZffvY5JePTBo34/Ij1f6bweQ8tH1cFUmq+ZsMNTPnJcBFJ0iLe6eyF7jtlYLHmLltM
- vs55Y9bZ0Q4ESUNcjRzOFwih3JrCKWbKYq/gimB6KCHflXxaPAorhwmrVhBZvGnf5ltW
- dNK3s+KNpDD65puS0lJt0/mEYbCb0vuFKI3CeMPQj9dbNrcM6Sn12SO+ZcTu6m9JY+9L
- PBWHbZ/pcSc0gUdPn7eznkW0kvN6diFfBwd7Fj1Yp2PoalCk/j76VEzkVgGWpsAshwqT
- uEgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FCTZpRyPbBo9WmB6fAZaWQQBPoQpNkMwPxIK0D5EQOY=;
- b=DLs+B5R5RUbYYHggwaG5+r5xcUd0nPCOG84tAgtW81KOgBHi3R5Q4FdlpAqxVSnaVy
- GQ8xgnTz498TKPRL84XeKsHd1zulIaEne1F9cjr3ivdyTYrrVunay2DzobMhVSu305Q1
- gLkvyGXM0XRxYXzvAPkkw6nDO4RFfpuY16L/JwcfLe6lYP6/I4bmRzt0J1mML058ReyH
- lHxw3nwMDu2YxMR/l6oxACt0CQ5axdeZAOtDsKnpx8Ap6+FawpLgBPiJksqLbuPZYqCe
- bwu10Kj2UN6o12kI53rTTWC7RSaMlMDn7FFALeiNdjk5azUTZpbs9BxtkC/dMChAzNQY
- 0vTw==
-X-Gm-Message-State: AFqh2kq+0rHSZTL7CvjgCjwQzCYYeJUfAX6ap41y11slPSMNOpHJpZCd
- pZR1D8X2IXf25YfrSI75h+rJpFi0jXBEobFS
-X-Google-Smtp-Source: AMrXdXspKz0jEqvq+jwUIDjKbN/uuTPhqfLteo9pI/qW/pSrAQWoB4L0t5fKwlnkrmtX/YO4jP/OFw==
-X-Received: by 2002:a17:902:9b90:b0:192:8cd1:5e79 with SMTP id
- y16-20020a1709029b9000b001928cd15e79mr13586421plp.41.1672417460341; 
- Fri, 30 Dec 2022 08:24:20 -0800 (PST)
-Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id
- h15-20020a170902680f00b00179e1f08634sm7908521plk.222.2022.12.30.08.24.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Dec 2022 08:24:19 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
-Subject: [PATCH] target/microblaze: Add gdbstub xml
-Date: Fri, 30 Dec 2022 08:24:19 -0800
-Message-Id: <20221230162419.3106998-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pBImR-0003eH-Sm
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 12:02:53 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pBImM-0002fC-Vn
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 12:02:49 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BUG1sq0022497
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 17:01:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=JizdX/aXY8gCpotwGcBk12ZBymM6yxYnGxO/UDoDpFg=;
+ b=Dj/EFbEeZPCIHCIYL0wMK3MPHV2HaquzJ709LFoARFdm+SwYNuZBwJclYhHz7xGmuW01
+ VzkgB6vq3sk3OskhS7oC+cs0SW/vC+B9sWdQDOcWAr4+y9odU4lXOF+k6rbjnwKK7srM
+ 14+3h7Og0S5Xul7pbK0zqezfZz6FemgGx6+RzEJoiwUCR/WIUxYwLLnLt/JCAYZjK6Y1
+ Cc6uaLkjC3xqOJEJz/kSWvO+nhvsu+CgDHKKuLzpDgt56IBwyNjhR71csLWj/CMhbfz1
+ kDcxRBsJUlHUx5CiLvhtA9VIV30LLybSsa4fz/naPr14h66l/zdRFcrTj6QORzroXTgd Mw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt357gxge-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 17:01:42 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BUH0k4I016372
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 17:01:42 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt357gxfx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Dec 2022 17:01:42 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BUFiadp018345;
+ Fri, 30 Dec 2022 17:01:41 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
+ by ppma01wdc.us.ibm.com (PPS) with ESMTPS id 3mns282kd2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Dec 2022 17:01:41 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
+ [10.39.53.228])
+ by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BUH1e9K4850310
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 30 Dec 2022 17:01:40 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 32D935804B;
+ Fri, 30 Dec 2022 17:01:40 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6345958063;
+ Fri, 30 Dec 2022 17:01:39 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 30 Dec 2022 17:01:39 +0000 (GMT)
+Message-ID: <a36be6a2-38c0-4b65-20a8-5a9cacca7d71@linux.ibm.com>
+Date: Fri, 30 Dec 2022 12:01:38 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH v4 1/2] tpm: convert tpmdev options processing to new
+ visitor format
+Content-Language: en-US
+To: James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20221230152415.27375-1-jejb@linux.ibm.com>
+ <20221230152415.27375-2-jejb@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20221230152415.27375-2-jejb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: o-HLvbLCXfg4f2pSgnuj65a96AuS1dgc
+X-Proofpoint-ORIG-GUID: 41lJES5GkT_ggOESnWEyN7iJ6u-wjEs_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-30_11,2022-12-30_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
+ malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212300150
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,308 +118,432 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Mirroring the upstream gdb xml files, the two stack boundary
-registers are separated out.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-
-I did this thinking I would be fixing:
-
-  TEST    basic gdbstub support on microblaze
-  Truncated register 35 in remote 'g' packet
-  Traceback (most recent call last):
-    File "/home/rth/qemu/src/tests/tcg/multiarch/gdbstub/sha1.py",
-      line 71, in <module> if gdb.parse_and_eval('$pc') == 0:
-  gdb.error: No registers.
-
-but in the end it turned out that the gdb-multiarch supplied
-by ubuntu 22.04 simply doesn't support MicroBlaze, as can be
-seen with the "set architecture" command within gdb.
-
-(I built gdb from source, to try and debug why this still wasn't
-working, only to find that it did.  :-P)
-
-Alex, any way to modify our gdb test to fail gracefully here?
-
-Regardless, having proper xml for all of our targets seems
-like the correct way forward.
 
 
-r~
+On 12/30/22 10:24, James Bottomley wrote:
+> From: James Bottomley <James.Bottomley@HansenPartnership.com>
+> 
+> Instead of processing the tpmdev options using the old qemu options,
+> convert to the new visitor format which also allows the passing of
+> json on the command line.
+> 
+> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
+> 
+> ---
+> v4: add TpmConfiOptions
+> ---
+>   backends/tpm/tpm_emulator.c    | 24 ++++-----
+>   backends/tpm/tpm_passthrough.c | 27 +++-------
+>   include/sysemu/tpm.h           |  4 +-
+>   include/sysemu/tpm_backend.h   |  2 +-
+>   qapi/tpm.json                  | 19 +++++++
+>   softmmu/tpm.c                  | 90 ++++++++++++++--------------------
+>   softmmu/vl.c                   | 19 +------
+>   7 files changed, 76 insertions(+), 109 deletions(-)
+> 
+> diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
+> index 49cc3d749d..cb6bf9d7c2 100644
+> --- a/backends/tpm/tpm_emulator.c
+> +++ b/backends/tpm/tpm_emulator.c
+> @@ -584,33 +584,28 @@ err_exit:
+>       return -1;
+>   }
+>   
+> -static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, QemuOpts *opts)
+> +static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, TpmCreateOptions *opts)
+>   {
+> -    const char *value;
+>       Error *err = NULL;
+>       Chardev *dev;
+>   
+> -    value = qemu_opt_get(opts, "chardev");
+> -    if (!value) {
+> -        error_report("tpm-emulator: parameter 'chardev' is missing");
+> -        goto err;
+> -    }
+> +    tpm_emu->options = QAPI_CLONE(TPMEmulatorOptions, &opts->u.emulator);
+> +    tpm_emu->data_ioc = NULL;
+>   
+> -    dev = qemu_chr_find(value);
+> +    dev = qemu_chr_find(opts->u.emulator.chardev);
+>       if (!dev) {
+> -        error_report("tpm-emulator: tpm chardev '%s' not found", value);
+> +        error_report("tpm-emulator: tpm chardev '%s' not found",
+> +                opts->u.emulator.chardev);
+>           goto err;
+>       }
+>   
+>       if (!qemu_chr_fe_init(&tpm_emu->ctrl_chr, dev, &err)) {
+>           error_prepend(&err, "tpm-emulator: No valid chardev found at '%s':",
+> -                      value);
+> +                      opts->u.emulator.chardev);
+>           error_report_err(err);
+>           goto err;
+>       }
+>   
+> -    tpm_emu->options->chardev = g_strdup(value);
+> -
+>       if (tpm_emulator_prepare_data_fd(tpm_emu) < 0) {
+>           goto err;
+>       }
+> @@ -649,7 +644,7 @@ err:
+>       return -1;
+>   }
+>   
+> -static TPMBackend *tpm_emulator_create(QemuOpts *opts)
+> +static TPMBackend *tpm_emulator_create(TpmCreateOptions *opts)
+>   {
+>       TPMBackend *tb = TPM_BACKEND(object_new(TYPE_TPM_EMULATOR));
+>   
+> @@ -972,7 +967,6 @@ static void tpm_emulator_inst_init(Object *obj)
+>   
+>       trace_tpm_emulator_inst_init();
+>   
+> -    tpm_emu->options = g_new0(TPMEmulatorOptions, 1);
+>       tpm_emu->cur_locty_number = ~0;
+>       qemu_mutex_init(&tpm_emu->mutex);
+>       tpm_emu->vmstate =
+> @@ -990,7 +984,7 @@ static void tpm_emulator_shutdown(TPMEmulator *tpm_emu)
+>   {
+>       ptm_res res;
+>   
+> -    if (!tpm_emu->options->chardev) {
+> +    if (!tpm_emu->data_ioc) {
+>           /* was never properly initialized */
+>           return;
+>       }
+> diff --git a/backends/tpm/tpm_passthrough.c b/backends/tpm/tpm_passthrough.c
+> index 5a2f74db1b..f9771eaf1f 100644
+> --- a/backends/tpm/tpm_passthrough.c
+> +++ b/backends/tpm/tpm_passthrough.c
+> @@ -252,23 +252,11 @@ static int tpm_passthrough_open_sysfs_cancel(TPMPassthruState *tpm_pt)
+>   }
+>   
+>   static int
+> -tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, QemuOpts *opts)
+> +tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, TpmCreateOptions *opts)
+>   {
+> -    const char *value;
+> +    tpm_pt->options = QAPI_CLONE(TPMPassthroughOptions, &opts->u.passthrough);
+>   
+> -    value = qemu_opt_get(opts, "cancel-path");
+> -    if (value) {
+> -        tpm_pt->options->cancel_path = g_strdup(value);
+> -        tpm_pt->options->has_cancel_path = true;
+> -    }
+> -
+> -    value = qemu_opt_get(opts, "path");
+> -    if (value) {
+> -        tpm_pt->options->has_path = true;
+> -        tpm_pt->options->path = g_strdup(value);
+> -    }
+> -
+> -    tpm_pt->tpm_dev = value ? value : TPM_PASSTHROUGH_DEFAULT_DEVICE;
+> +    tpm_pt->tpm_dev = opts->u.passthrough.has_path ? opts->u.passthrough.path : TPM_PASSTHROUGH_DEFAULT_DEVICE;
+>       tpm_pt->tpm_fd = qemu_open_old(tpm_pt->tpm_dev, O_RDWR);
+>       if (tpm_pt->tpm_fd < 0) {
+>           error_report("Cannot access TPM device using '%s': %s",
+> @@ -290,11 +278,11 @@ tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, QemuOpts *opts)
+>       return 0;
+>   }
+>   
+> -static TPMBackend *tpm_passthrough_create(QemuOpts *opts)
+> +static TPMBackend *tpm_passthrough_create(TpmCreateOptions *tco)
+>   {
+>       Object *obj = object_new(TYPE_TPM_PASSTHROUGH);
+>   
+> -    if (tpm_passthrough_handle_device_opts(TPM_PASSTHROUGH(obj), opts)) {
+> +    if (tpm_passthrough_handle_device_opts(TPM_PASSTHROUGH(obj), tco)) {
+>           object_unref(obj);
+>           return NULL;
+>       }
+> @@ -321,8 +309,8 @@ static TpmTypeOptions *tpm_passthrough_get_tpm_options(TPMBackend *tb)
+>       TpmTypeOptions *options = g_new0(TpmTypeOptions, 1);
+>   
+>       options->type = TPM_TYPE_PASSTHROUGH;
+> -    options->u.passthrough.data = QAPI_CLONE(TPMPassthroughOptions,
+> -                                             TPM_PASSTHROUGH(tb)->options);
+> +
+> +    options->u.passthrough.data = QAPI_CLONE(TPMPassthroughOptions, TPM_PASSTHROUGH(tb)->options);
+>   
+>       return options;
+>   }
+> @@ -346,7 +334,6 @@ static void tpm_passthrough_inst_init(Object *obj)
+>   {
+>       TPMPassthruState *tpm_pt = TPM_PASSTHROUGH(obj);
+>   
+> -    tpm_pt->options = g_new0(TPMPassthroughOptions, 1);
+>       tpm_pt->tpm_fd = -1;
+>       tpm_pt->cancel_fd = -1;
+>   }
+> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
+> index fb40e30ff6..d00a833a21 100644
+> --- a/include/sysemu/tpm.h
+> +++ b/include/sysemu/tpm.h
+> @@ -17,8 +17,8 @@
+>   
+>   #ifdef CONFIG_TPM
+>   
+> -int tpm_config_parse(QemuOptsList *opts_list, const char *optarg);
+> -int tpm_init(void);
+> +void tpm_config_parse(const char *optarg);
+> +void tpm_init(void);
+>   void tpm_cleanup(void);
+>   
+>   typedef enum TPMVersion {
+> diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
+> index 8fd3269c11..846a9e39fa 100644
+> --- a/include/sysemu/tpm_backend.h
+> +++ b/include/sysemu/tpm_backend.h
+> @@ -57,7 +57,7 @@ struct TPMBackendClass {
+>       /* get a descriptive text of the backend to display to the user */
+>       const char *desc;
+>   
+> -    TPMBackend *(*create)(QemuOpts *opts);
+> +    TPMBackend *(*create)(TpmCreateOptions *tco);
+>   
+>       /* start up the TPM on the backend - optional */
+>       int (*startup_tpm)(TPMBackend *t, size_t buffersize);
+> diff --git a/qapi/tpm.json b/qapi/tpm.json
+> index 4e2ea9756a..2b491c28b4 100644
+> --- a/qapi/tpm.json
+> +++ b/qapi/tpm.json
+> @@ -134,6 +134,25 @@
+>               'emulator': 'TPMEmulatorOptionsWrapper' },
+>     'if': 'CONFIG_TPM' }
+>   
+> +##
+> +# @TpmCreateOptions:
+> +#
+> +# A union referencing different TPM backend types' configuration options
+> +#   without the wrapper to be usable by visitors.
+> +#
+> +# @type: - 'passthrough' The configuration options for the TPM passthrough type
+> +#        - 'emulator' The configuration options for TPM emulator backend type
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'union': 'TpmCreateOptions',
+> +  'base': { 'type': 'TpmType',
+> +            'id' : 'str' },
+> +  'discriminator': 'type',
+> +  'data': { 'passthrough' : 'TPMPassthroughOptions',
+> +            'emulator': 'TPMEmulatorOptions' },
+> +  'if': 'CONFIG_TPM' }
+> +
+>   ##
+>   # @TPMInfo:
+>   #
+> diff --git a/softmmu/tpm.c b/softmmu/tpm.c
+> index 578563f05a..699c46d3ae 100644
+> --- a/softmmu/tpm.c
+> +++ b/softmmu/tpm.c
+> @@ -17,14 +17,26 @@
+>   #include "qapi/error.h"
+>   #include "qapi/qapi-commands-tpm.h"
+>   #include "qapi/qmp/qerror.h"
+> +#include "qapi/qobject-input-visitor.h"
+> +#include "qapi/qapi-visit-tpm.h"
+>   #include "sysemu/tpm_backend.h"
+>   #include "sysemu/tpm.h"
+>   #include "qemu/config-file.h"
+>   #include "qemu/error-report.h"
+> +#include "qemu/help_option.h"
+>   
+>   static QLIST_HEAD(, TPMBackend) tpm_backends =
+>       QLIST_HEAD_INITIALIZER(tpm_backends);
+>   
+> +typedef struct TpmCreateOptionsQueueEntry {
+> +        TpmCreateOptions *tco;
+> +        QSIMPLEQ_ENTRY(TpmCreateOptionsQueueEntry) entry;
+> +} TpmCreateOptionsQueueEntry;
+> +
+> +typedef QSIMPLEQ_HEAD(, TpmCreateOptionsQueueEntry) TpmCreateOptionsQueue;
+> +
+> +static TpmCreateOptionsQueue tco_queue = QSIMPLEQ_HEAD_INITIALIZER(tco_queue);
+> +
+>   static const TPMBackendClass *
+>   tpm_be_find_by_type(enum TpmType type)
+>   {
+> @@ -84,63 +96,31 @@ TPMBackend *qemu_find_tpm_be(const char *id)
+>       return NULL;
+>   }
+>   
+> -static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
+> +static void tpm_init_tpmdev(TpmCreateOptions *tco)
+>   {
+> -    /*
+> -     * Use of error_report() in a function with an Error ** parameter
+> -     * is suspicious.  It is okay here.  The parameter only exists to
+> -     * make the function usable with qemu_opts_foreach().  It is not
+> -     * actually used.
+> -     */
+> -    const char *value;
+> -    const char *id;
+>       const TPMBackendClass *be;
+>       TPMBackend *drv;
+> -    Error *local_err = NULL;
+> -    int i;
+>   
+>       if (!QLIST_EMPTY(&tpm_backends)) {
+>           error_report("Only one TPM is allowed.");
+> -        return 1;
+> +        exit(1);
+>       }
+>   
+> -    id = qemu_opts_id(opts);
+> -    if (id == NULL) {
+> -        error_report(QERR_MISSING_PARAMETER, "id");
+> -        return 1;
+> -    }
+> -
+> -    value = qemu_opt_get(opts, "type");
+> -    if (!value) {
+> -        error_report(QERR_MISSING_PARAMETER, "type");
+> -        tpm_display_backend_drivers();
+> -        return 1;
+> -    }
+> -
+> -    i = qapi_enum_parse(&TpmType_lookup, value, -1, NULL);
+> -    be = i >= 0 ? tpm_be_find_by_type(i) : NULL;
+> +    be = tco->type >= 0 ? tpm_be_find_by_type(tco->type) : NULL;
+>       if (be == NULL) {
+>           error_report(QERR_INVALID_PARAMETER_VALUE,
+>                        "type", "a TPM backend type");
+>           tpm_display_backend_drivers();
+> -        return 1;
+> -    }
+> -
+> -    /* validate backend specific opts */
+> -    if (!qemu_opts_validate(opts, be->opts, &local_err)) {
+> -        error_report_err(local_err);
+> -        return 1;
+> +        exit(1);
+>       }
+>   
+> -    drv = be->create(opts);
+> +    drv = be->create(tco);
+>       if (!drv) {
+> -        return 1;
+> +        exit(1);
+>       }
+>   
+> -    drv->id = g_strdup(id);
+> +    drv->id = g_strdup(tco->id);
+>       QLIST_INSERT_HEAD(&tpm_backends, drv, list);
+> -
+> -    return 0;
+>   }
+>   
+>   /*
+> @@ -161,33 +141,35 @@ void tpm_cleanup(void)
+>    * Initialize the TPM. Process the tpmdev command line options describing the
+>    * TPM backend.
+>    */
+> -int tpm_init(void)
+> +void tpm_init(void)
+>   {
+> -    if (qemu_opts_foreach(qemu_find_opts("tpmdev"),
+> -                          tpm_init_tpmdev, NULL, NULL)) {
+> -        return -1;
+> -    }
+> +    while (!QSIMPLEQ_EMPTY(&tco_queue)) {
+> +        TpmCreateOptionsQueueEntry *tcoqe = QSIMPLEQ_FIRST(&tco_queue);
+>   
+> -    return 0;
+> +        QSIMPLEQ_REMOVE_HEAD(&tco_queue, entry);
+> +        tpm_init_tpmdev(tcoqe->tco);
+> +        g_free(tcoqe);
+> +    }
+>   }
+>   
+>   /*
+>    * Parse the TPM configuration options.
+>    * To display all available TPM backends the user may use '-tpmdev help'
+>    */
+> -int tpm_config_parse(QemuOptsList *opts_list, const char *optarg)
+> +void tpm_config_parse(const char *optarg)
+>   {
+> -    QemuOpts *opts;
+> +    Visitor *v;
+> +    TpmCreateOptionsQueueEntry *tcqe;
+>   
+> -    if (!strcmp(optarg, "help")) {
+> +    if (is_help_option(optarg)) {
+>           tpm_display_backend_drivers();
+> -        return -1;
+> -    }
+> -    opts = qemu_opts_parse_noisily(opts_list, optarg, true);
+> -    if (!opts) {
+> -        return -1;
+> +        return;
+>       }
+> -    return 0;
+> +    v = qobject_input_visitor_new_str(optarg, "type", &error_fatal);
+> +    tcqe = g_new(TpmCreateOptionsQueueEntry, 1);
+> +    visit_type_TpmCreateOptions(v, NULL, &tcqe->tco, &error_fatal);
+> +    visit_free(v);
+> +    QSIMPLEQ_INSERT_TAIL(&tco_queue, tcqe, entry);
+>   }
+>   
+>   /*
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 5115221efe..980f998c35 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -328,16 +328,6 @@ static QemuOptsList qemu_object_opts = {
+>       },
+>   };
+>   
+> -static QemuOptsList qemu_tpmdev_opts = {
+> -    .name = "tpmdev",
+> -    .implied_opt_name = "type",
+> -    .head = QTAILQ_HEAD_INITIALIZER(qemu_tpmdev_opts.head),
+> -    .desc = {
+> -        /* options are defined in the TPM backends */
+> -        { /* end of list */ }
+> -    },
+> -};
+> -
+>   static QemuOptsList qemu_overcommit_opts = {
+>       .name = "overcommit",
+>       .head = QTAILQ_HEAD_INITIALIZER(qemu_overcommit_opts.head),
+> @@ -1934,9 +1924,7 @@ static void qemu_create_late_backends(void)
+>   
+>       object_option_foreach_add(object_create_late);
+>   
+> -    if (tpm_init() < 0) {
+> -        exit(1);
+> -    }
+> +    tpm_init();
+>   
+>       qemu_opts_foreach(qemu_find_opts("mon"),
+>                         mon_init_func, NULL, &error_fatal);
+> @@ -2658,7 +2646,6 @@ void qemu_init(int argc, char **argv)
+>       qemu_add_opts(&qemu_boot_opts);
+>       qemu_add_opts(&qemu_add_fd_opts);
+>       qemu_add_opts(&qemu_object_opts);
+> -    qemu_add_opts(&qemu_tpmdev_opts);
+>       qemu_add_opts(&qemu_overcommit_opts);
+>       qemu_add_opts(&qemu_msg_opts);
+>       qemu_add_opts(&qemu_name_opts);
+> @@ -2906,9 +2893,7 @@ void qemu_init(int argc, char **argv)
+>                   break;
+>   #ifdef CONFIG_TPM
+>               case QEMU_OPTION_tpmdev:
+> -                if (tpm_config_parse(qemu_find_opts("tpmdev"), optarg) < 0) {
+> -                    exit(1);
+> -                }
+> +                tpm_config_parse(optarg);
 
-Cc: Alex Bennée <alex.bennee@linaro.org>
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
----
- configs/targets/microblaze-linux-user.mak   |  1 +
- configs/targets/microblaze-softmmu.mak      |  1 +
- configs/targets/microblazeel-linux-user.mak |  1 +
- configs/targets/microblazeel-softmmu.mak    |  1 +
- target/microblaze/cpu.h                     |  2 +
- target/microblaze/cpu.c                     |  7 ++-
- target/microblaze/gdbstub.c                 | 51 +++++++++++-----
- gdb-xml/microblaze-core.xml                 | 67 +++++++++++++++++++++
- gdb-xml/microblaze-stack-protect.xml        | 12 ++++
- 9 files changed, 128 insertions(+), 15 deletions(-)
- create mode 100644 gdb-xml/microblaze-core.xml
- create mode 100644 gdb-xml/microblaze-stack-protect.xml
+The patches don't apply to upstream's master.
 
-diff --git a/configs/targets/microblaze-linux-user.mak b/configs/targets/microblaze-linux-user.mak
-index 4249a37f65..0a2322c249 100644
---- a/configs/targets/microblaze-linux-user.mak
-+++ b/configs/targets/microblaze-linux-user.mak
-@@ -3,3 +3,4 @@ TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_BIG_ENDIAN=y
- TARGET_HAS_BFLT=y
-+TARGET_XML_FILES=gdb-xml/microblaze-core.xml gdb-xml/microblaze-stack-protect.xml
-diff --git a/configs/targets/microblaze-softmmu.mak b/configs/targets/microblaze-softmmu.mak
-index 8385e2d333..e84c0cc728 100644
---- a/configs/targets/microblaze-softmmu.mak
-+++ b/configs/targets/microblaze-softmmu.mak
-@@ -2,3 +2,4 @@ TARGET_ARCH=microblaze
- TARGET_BIG_ENDIAN=y
- TARGET_SUPPORTS_MTTCG=y
- TARGET_NEED_FDT=y
-+TARGET_XML_FILES=gdb-xml/microblaze-core.xml gdb-xml/microblaze-stack-protect.xml
-diff --git a/configs/targets/microblazeel-linux-user.mak b/configs/targets/microblazeel-linux-user.mak
-index d0e775d840..270743156a 100644
---- a/configs/targets/microblazeel-linux-user.mak
-+++ b/configs/targets/microblazeel-linux-user.mak
-@@ -2,3 +2,4 @@ TARGET_ARCH=microblaze
- TARGET_SYSTBL_ABI=common
- TARGET_SYSTBL=syscall.tbl
- TARGET_HAS_BFLT=y
-+TARGET_XML_FILES=gdb-xml/microblaze-core.xml gdb-xml/microblaze-stack-protect.xml
-diff --git a/configs/targets/microblazeel-softmmu.mak b/configs/targets/microblazeel-softmmu.mak
-index af40391f2f..9b688036bd 100644
---- a/configs/targets/microblazeel-softmmu.mak
-+++ b/configs/targets/microblazeel-softmmu.mak
-@@ -1,3 +1,4 @@
- TARGET_ARCH=microblaze
- TARGET_SUPPORTS_MTTCG=y
- TARGET_NEED_FDT=y
-+TARGET_XML_FILES=gdb-xml/microblaze-core.xml gdb-xml/microblaze-stack-protect.xml
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 1e84dd8f47..e541fbb0b3 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -367,6 +367,8 @@ hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
-                                         MemTxAttrs *attrs);
- int mb_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int mb_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-+int mb_cpu_gdb_read_stack_protect(CPUArchState *cpu, GByteArray *buf, int reg);
-+int mb_cpu_gdb_write_stack_protect(CPUArchState *cpu, uint8_t *buf, int reg);
- 
- static inline uint32_t mb_cpu_read_msr(const CPUMBState *env)
- {
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 817681f9b2..a2d2f5c340 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -28,6 +28,7 @@
- #include "qemu/module.h"
- #include "hw/qdev-properties.h"
- #include "exec/exec-all.h"
-+#include "exec/gdbstub.h"
- #include "fpu/softfloat-helpers.h"
- 
- static const struct {
-@@ -294,6 +295,9 @@ static void mb_cpu_initfn(Object *obj)
-     CPUMBState *env = &cpu->env;
- 
-     cpu_set_cpustate_pointers(cpu);
-+    gdb_register_coprocessor(CPU(cpu), mb_cpu_gdb_read_stack_protect,
-+                             mb_cpu_gdb_write_stack_protect, 2,
-+                             "microblaze-stack-protect.xml", 0);
- 
-     set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
- 
-@@ -422,7 +426,8 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
-     cc->sysemu_ops = &mb_sysemu_ops;
- #endif
-     device_class_set_props(dc, mb_properties);
--    cc->gdb_num_core_regs = 32 + 27;
-+    cc->gdb_num_core_regs = 32 + 25;
-+    cc->gdb_core_xml_file = "microblaze-core.xml";
- 
-     cc->disas_set_info = mb_disas_set_info;
-     cc->tcg_ops = &mb_tcg_ops;
-diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
-index 2e6e070051..8143fcae88 100644
---- a/target/microblaze/gdbstub.c
-+++ b/target/microblaze/gdbstub.c
-@@ -39,8 +39,11 @@ enum {
-     GDB_PVR0  = 32 + 6,
-     GDB_PVR11 = 32 + 17,
-     GDB_EDR   = 32 + 18,
--    GDB_SLR   = 32 + 25,
--    GDB_SHR   = 32 + 26,
-+};
-+
-+enum {
-+    GDB_SP_SHL,
-+    GDB_SP_SHR,
- };
- 
- int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-@@ -83,12 +86,6 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-     case GDB_EDR:
-         val = env->edr;
-         break;
--    case GDB_SLR:
--        val = env->slr;
--        break;
--    case GDB_SHR:
--        val = env->shr;
--        break;
-     default:
-         /* Other SRegs aren't modeled, so report a value of 0 */
-         val = 0;
-@@ -97,6 +94,23 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-     return gdb_get_reg32(mem_buf, val);
- }
- 
-+int mb_cpu_gdb_read_stack_protect(CPUMBState *env, GByteArray *mem_buf, int n)
-+{
-+    uint32_t val;
-+
-+    switch (n) {
-+    case GDB_SP_SHL:
-+        val = env->slr;
-+        break;
-+    case GDB_SP_SHR:
-+        val = env->shr;
-+        break;
-+    default:
-+        return 0;
-+    }
-+    return gdb_get_reg32(mem_buf, val);
-+}
-+
- int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
- {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-@@ -135,12 +149,21 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-     case GDB_EDR:
-         env->edr = tmp;
-         break;
--    case GDB_SLR:
--        env->slr = tmp;
--        break;
--    case GDB_SHR:
--        env->shr = tmp;
--        break;
-+    }
-+    return 4;
-+}
-+
-+int mb_cpu_gdb_write_stack_protect(CPUMBState *env, uint8_t *mem_buf, int n)
-+{
-+    switch (n) {
-+    case GDB_SP_SHL:
-+        env->slr = ldl_p(mem_buf);
-+        break;
-+    case GDB_SP_SHR:
-+        env->shr = ldl_p(mem_buf);
-+        break;
-+    default:
-+        return 0;
-     }
-     return 4;
- }
-diff --git a/gdb-xml/microblaze-core.xml b/gdb-xml/microblaze-core.xml
-new file mode 100644
-index 0000000000..becf77c89c
---- /dev/null
-+++ b/gdb-xml/microblaze-core.xml
-@@ -0,0 +1,67 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2008 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.microblaze.core">
-+  <reg name="r0" bitsize="32" regnum="0"/>
-+  <reg name="r1" bitsize="32" type="data_ptr"/>
-+  <reg name="r2" bitsize="32"/>
-+  <reg name="r3" bitsize="32"/>
-+  <reg name="r4" bitsize="32"/>
-+  <reg name="r5" bitsize="32"/>
-+  <reg name="r6" bitsize="32"/>
-+  <reg name="r7" bitsize="32"/>
-+  <reg name="r8" bitsize="32"/>
-+  <reg name="r9" bitsize="32"/>
-+  <reg name="r10" bitsize="32"/>
-+  <reg name="r11" bitsize="32"/>
-+  <reg name="r12" bitsize="32"/>
-+  <reg name="r13" bitsize="32"/>
-+  <reg name="r14" bitsize="32"/>
-+  <reg name="r15" bitsize="32"/>
-+  <reg name="r16" bitsize="32"/>
-+  <reg name="r17" bitsize="32"/>
-+  <reg name="r18" bitsize="32"/>
-+  <reg name="r19" bitsize="32"/>
-+  <reg name="r20" bitsize="32"/>
-+  <reg name="r21" bitsize="32"/>
-+  <reg name="r22" bitsize="32"/>
-+  <reg name="r23" bitsize="32"/>
-+  <reg name="r24" bitsize="32"/>
-+  <reg name="r25" bitsize="32"/>
-+  <reg name="r26" bitsize="32"/>
-+  <reg name="r27" bitsize="32"/>
-+  <reg name="r28" bitsize="32"/>
-+  <reg name="r29" bitsize="32"/>
-+  <reg name="r30" bitsize="32"/>
-+  <reg name="r31" bitsize="32"/>
-+  <reg name="rpc" bitsize="32" type="code_ptr"/>
-+  <reg name="rmsr" bitsize="32"/>
-+  <reg name="rear" bitsize="32"/>
-+  <reg name="resr" bitsize="32"/>
-+  <reg name="rfsr" bitsize="32"/>
-+  <reg name="rbtr" bitsize="32"/>
-+  <reg name="rpvr0" bitsize="32"/>
-+  <reg name="rpvr1" bitsize="32"/>
-+  <reg name="rpvr2" bitsize="32"/>
-+  <reg name="rpvr3" bitsize="32"/>
-+  <reg name="rpvr4" bitsize="32"/>
-+  <reg name="rpvr5" bitsize="32"/>
-+  <reg name="rpvr6" bitsize="32"/>
-+  <reg name="rpvr7" bitsize="32"/>
-+  <reg name="rpvr8" bitsize="32"/>
-+  <reg name="rpvr9" bitsize="32"/>
-+  <reg name="rpvr10" bitsize="32"/>
-+  <reg name="rpvr11" bitsize="32"/>
-+  <reg name="redr" bitsize="32"/>
-+  <reg name="rpid" bitsize="32"/>
-+  <reg name="rzpr" bitsize="32"/>
-+  <reg name="rtlbx" bitsize="32"/>
-+  <reg name="rtlbsx" bitsize="32"/>
-+  <reg name="rtlblo" bitsize="32"/>
-+  <reg name="rtlbhi" bitsize="32"/>
-+</feature>
-diff --git a/gdb-xml/microblaze-stack-protect.xml b/gdb-xml/microblaze-stack-protect.xml
-new file mode 100644
-index 0000000000..997301e8a2
---- /dev/null
-+++ b/gdb-xml/microblaze-stack-protect.xml
-@@ -0,0 +1,12 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2008 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.microblaze.stack-protect">
-+  <reg name="rslr" bitsize="32"/>
-+  <reg name="rshr" bitsize="32"/>
-+</feature>
--- 
-2.34.1
+This used to exit() on failure but doesn't do this anymore, though it probably should.
 
+
+    Stefan
+
+>                   break;
+>   #endif
+>               case QEMU_OPTION_mempath:
 
