@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F01A65987B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:56:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA11465989D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 14:19:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBEtG-0002Ii-IB; Fri, 30 Dec 2022 07:53:38 -0500
+	id 1pBFGc-0006PE-Ea; Fri, 30 Dec 2022 08:17:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEtD-0002DM-Go
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:53:35 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBFGa-0006P4-M3
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 08:17:44 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEtC-00063M-05
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:53:35 -0500
-Received: by mail-wr1-x433.google.com with SMTP id co23so19854768wrb.4
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 04:53:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBFGY-000447-UO
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 08:17:44 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ k22-20020a05600c1c9600b003d1ee3a6289so15180966wms.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 05:17:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=w15lGMK7vfjvgcyYsOSpW0zopNf8iBSn51jKli2B8qc=;
- b=t2HUwtTHWBG8I7aOnGpanz50uxd9vkX3al4xbFUZ0UXKcX3DSQ6BIktw8Cv0zWfScl
- 6qOKkV8j2I/YkYG1GavmWmaS5EWp+pc2qnrW2p6IJG8hN1w+fC6/klGdGQznUg9nPtyb
- At15r/DGBfdEgAsCPL2YhEtsY8pn4WlYhXntGbjjletpBF54zSFueK0/iZHOQiXoc1vp
- wYwmoomF1ppOgZuFxc7+9yMb2XNB0HmzzxvIFBTza2l2hIZY/1ybzsbXXoDiUTOnyTAB
- Zpxn4iF64h4vdn9gsQdSkBAAF5yDt6nPrkVJBI0yTZ7ZpibHgvRODqyIotAFQjeHPy8I
- d6Kw==
+ bh=0PjmwCjJKx5nW8Esm9OPt2gUAai0aLVNerT5iosmZv4=;
+ b=c7pxMJcR/+bLgC3zUHt6WNon5nhqmZyOU/4bO60IUZ+PXPNut2u9gGWA7AZQi5RUUq
+ diw/0X1DKG11uUdDB3rqjDx+S5R7JMMTRB7Kk94Ae1YsofYvnN1942zU79bgKmYdnITy
+ wny0lN2vmB89WNSXpwh4JQ2AkW+bhG6DSXR5spL0kW+pSIeWfwd7yOFatA+DWdaProBz
+ /gGIRG8p+CwpER0oDUYgcjKHVFPzmHgfvlhlFuzHEn1NGnQ1Y8u1faLokMyVx0Fyzfjn
+ 3Wzfr1uXopXLCPDNz1rOHPEhn7cxjuRc8oKxgWjPTuICrwhrnNTp5lfJgJzT0yvfyLzC
+ w8Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=w15lGMK7vfjvgcyYsOSpW0zopNf8iBSn51jKli2B8qc=;
- b=3xougwdmxXtE7m0pEL3eCZZ72U+kP+Vg3UVTscRYu2xFc4Gvqtj1CV67nzzuxXSCNd
- We1uD9jwpvYLV9Pt44oEeeK6hvwMeu8HqFNldmfZCO3NLgGE6Wqv+qeO+ykG5LdYrnTZ
- Su77gV/68Mv5KfKKEDLoQs0WHvw3lRYsviy8ewMwyQNrpHSIsN+Dw/mIgkx+JvFnm+HP
- w/BsThAIWsSVEz/kv7hC6vtye62alhd1z6WPdQYcwCBYeJESsxuNe5YxZghX+eRrZeSM
- AXP36RlGdHcrMGRDTE7awmS0CokrXerVfCtFjEsljFa2JkCLxEdcVwXbF/RROAM/X5P9
- TvUg==
-X-Gm-Message-State: AFqh2krcLDQ3UmT/EOWbb/AHDx33Tjg5K0M2YcTpLbzYOq1ZqOP9sedr
- KHvzQORpl1vfEzXNXG1nykTUTogIOJNcLXfz
-X-Google-Smtp-Source: AMrXdXtoySxPelT8wmHYG1//VUQ6GhBRhu8GvAsiY6mGPFOSf0QNavYWvIez0dT5Po6Pr/X1ukL9dA==
-X-Received: by 2002:a5d:4387:0:b0:26f:2fb:7f88 with SMTP id
- i7-20020a5d4387000000b0026f02fb7f88mr19455124wrq.33.1672404812390; 
- Fri, 30 Dec 2022 04:53:32 -0800 (PST)
+ bh=0PjmwCjJKx5nW8Esm9OPt2gUAai0aLVNerT5iosmZv4=;
+ b=0zhGvzk+k1CE7ZfXIw/TG2z9HDA0IUgo6v3px+7Gm996+fR7lexyv19z2jPk0yQd4h
+ qz0NtONA60PeV+28QM4DU8wlvX7YXE1u8V219lBX8WHFPiMKfqepEH9pliPytmsRC/wn
+ WVHdcPvhmU9NCFjSW/FY331Z76OHc46+6j1t8F4kN6fAlQ01+eNEcp+57Joq32844BCG
+ bPePH2vfcNenxttiuqVDvATcZwnv9xlyxfMRRkQpFWKi7gojcOtpSVaIflIxKAfwa+gk
+ j0FODqcWBZR98xmj3SIsF0A5DYh+uGZgg0MOE9YwfBVNVemGh7fkRsXNMsIO6yE75O2y
+ C3kQ==
+X-Gm-Message-State: AFqh2ko7dCD3ctoeLvKb2/loazFcNkkmJjIDZUg9Sc/BMC003J+k1Pj1
+ xuiFKy4KQf7IwDXHwzYpTmkFzQ==
+X-Google-Smtp-Source: AMrXdXvXQWuxfyXS9t/6jFgWut/UPrZHnUQBH6BgsYrB9CKkvq94wHiNpfQcLHLst/aF/tHJdCSYyg==
+X-Received: by 2002:a05:600c:4e04:b0:3d2:381f:2db5 with SMTP id
+ b4-20020a05600c4e0400b003d2381f2db5mr22111198wmq.22.1672406261175; 
+ Fri, 30 Dec 2022 05:17:41 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i1-20020adfb641000000b002425787c5easm20679342wre.96.2022.12.30.04.53.31
+ r13-20020a05600c458d00b003d34f170487sm41438530wmo.0.2022.12.30.05.17.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Dec 2022 04:53:32 -0800 (PST)
-Message-ID: <f30ad0ad-a16d-c48d-e555-cc22f75a9204@linaro.org>
-Date: Fri, 30 Dec 2022 13:53:31 +0100
+ Fri, 30 Dec 2022 05:17:40 -0800 (PST)
+Message-ID: <886a576c-d7d1-7b89-2859-146706116cab@linaro.org>
+Date: Fri, 30 Dec 2022 14:17:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v4 07/11] hw/riscv: write bootargs 'chosen' FDT after
- riscv_load_kernel()
+Subject: Re: [PULL 46/47] accel/tcg: Handle false negative lookup in
+ page_check_range
 Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng@tinylab.org>
-References: <20221229181135.270661-1-dbarboza@ventanamicro.com>
- <20221229181135.270661-8-dbarboza@ventanamicro.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221230000221.2764875-1-richard.henderson@linaro.org>
+ <20221230000221.2764875-47-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221229181135.270661-8-dbarboza@ventanamicro.com>
+In-Reply-To: <20221230000221.2764875-47-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -93,24 +91,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/12/22 19:11, Daniel Henrique Barboza wrote:
-> The sifive_u, spike and virt machines are writing the 'bootargs' FDT
-> node during their respective create_fdt().
+On 30/12/22 01:02, Richard Henderson wrote:
+> As in page_get_flags, we need to try again with the mmap
+> lock held if we fail a page lookup.
 > 
-> Given that bootargs is written only when '-append' is used, and this
-> option is only allowed with the '-kernel' option, which in turn is
-> already being check before executing riscv_load_kernel(), write
-> 'bootargs' in the same code path as riscv_load_kernel().
-> 
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> Reviewed-by: Bin Meng <bmeng@tinylab.org>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/riscv/sifive_u.c | 11 +++++------
->   hw/riscv/spike.c    |  9 +++++----
->   hw/riscv/virt.c     | 11 +++++------
->   3 files changed, 15 insertions(+), 16 deletions(-)
+>   accel/tcg/user-exec.c | 41 ++++++++++++++++++++++++++++++++++-------
+>   1 file changed, 34 insertions(+), 7 deletions(-)
+> 
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index 2c5c10d2e6..a8eb63ab96 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -525,6 +525,8 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+>   int page_check_range(target_ulong start, target_ulong len, int flags)
+>   {
+>       target_ulong last;
+> +    int locked;  /* tri-state: =0: unlocked, +1: global, -1: local */
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Thanks :)
 
 
