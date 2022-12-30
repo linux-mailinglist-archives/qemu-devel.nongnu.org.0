@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E918A6593CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A42165937F
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:03:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pB2rf-0003By-NS; Thu, 29 Dec 2022 19:03:11 -0500
+	id 1pB2rn-0003Cl-De; Thu, 29 Dec 2022 19:03:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2rX-00039M-2o
+ id 1pB2rX-00039K-1I
  for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:03:05 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2rR-0002kA-U0
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:03:02 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- w4-20020a17090ac98400b002186f5d7a4cso24408939pjt.0
+ id 1pB2rR-0002kL-UM
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:03:01 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ gv5-20020a17090b11c500b00223f01c73c3so19378291pjb.0
  for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:02:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CYhK4ojXwIJU9A+YUctfxLBE0VXin67Cl0AC2MvLIgU=;
- b=LHcqSbc5t/YjSs7lp/nxmz+S0qr6CtimWICXKT1xGRJLjkOyyhhyfy/yYH0jdOBWak
- XuXypT0uvZ4fqrz+AI+zX2vvsuAE8Sgf4iQoiLgX3g8oCvqc3DkOJB2dCif9Z+EKJeDH
- Lq0c/pEUYHRXPVZQ91Od3ZyKetJSUSysMzhBio3OnLPB1hwTTmubCDa/gWfS75Y5v3Ac
- mKbRItedGguxd7hCWpT/ma2AFmZx8ezC0bLbQcTDG8p1KjClsdxq7I3keamTueGfQJFH
- cs1tLN5g6/0iyDnZvVVjU8ZeLrkSQfOv+oaoVISBPoq5Tu82MRo11phYZj3aZHHQP5p/
- EjEw==
+ bh=BaPB+/r7pdsWWo3pTR8xHeofU+nBHm3R3MHr1eWnccc=;
+ b=R38RVJ9UgTcmn/qq/X4AKLsi/n6rvgDL1ugBcYrh3zjrise7UAkOICi8h45fnm2JG6
+ /BM7GFAJuPuWi8Hluo5wiqVjFAnFC79fg5ekPk+V6Gn9+Uk9YPcL9Bv1S+JdDXSQW6mo
+ /3gKeKhomBNvp/AM2NsqSpJizmsrZVXfrHEjbx/cpzQTzxtKh3UlUUVwZFKHcHUrnSD+
+ QCPE/D1qu4Ey7jOK2g+9ZOZ0l/le1OIwofCF8Kn4AmiwGogyHA/Wfw0EQH+morLtI9fp
+ ebknmHP+GYBhPiG8D2b+uy2PPvM5AMDGD4wSgJDiu6OqPvE7DCpRzVAVhlwMVBxOkpCR
+ T0mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CYhK4ojXwIJU9A+YUctfxLBE0VXin67Cl0AC2MvLIgU=;
- b=aseMyY00nzEvhOazJqzgI3uXUynHCFCSPjpU8AtvcZtLnF3Wnlp8q5C1c5Eb5pJGRW
- M8332ob9oWOPydrSPBtC60jf422bWV7zyL4TJwyQQMJZwY6hTH3JJBf7C8J7YUWALET0
- U9vrUV+hloBD1XNKmdMeGLE9mF8hDFO1SXiHVoolVD5Mdz+3nIvsApjvYl0woRYpCZC1
- adrDW1M+NqTX6eF4FLsio5U3UmZBHcJw1VrJBuHT8hbHWd0/Swa0ypJVyKM4ON9u1WpP
- iQDcl/Ke4L7MeQImuaOZC9aPYWBf+365Ijczuph6wOPz9cyiu3L2+VTqL39DwFXDnFkL
- rosg==
-X-Gm-Message-State: AFqh2krgAZjnI7ve0qSZLKuezbNLMBWGW46rJGzhl2ZGG1ftMXfvfcXn
- F6iQ3+q9RPgXk8ki2J6pecutiQHErzShzkRF
-X-Google-Smtp-Source: AMrXdXuJ4yZfvLCbL3pZUpUC1TvryNeae1tBsGhYPJsYVEyKrxqbObqgxQ3tuknqVjV1I8r6nr8vEQ==
-X-Received: by 2002:a17:902:8f87:b0:189:b36a:5448 with SMTP id
- z7-20020a1709028f8700b00189b36a5448mr33279774plo.44.1672358574970; 
- Thu, 29 Dec 2022 16:02:54 -0800 (PST)
+ bh=BaPB+/r7pdsWWo3pTR8xHeofU+nBHm3R3MHr1eWnccc=;
+ b=FxGnYVp/3zaZMOk2/NvAkrs1I1p2phDnzjxcYsdkg+3jspP9qDvHRQgJTAhaiECDjq
+ COcSYoz9XfhDZcQhzYPnGwZWfbhgFfc9Dc96PvGPXjsUWgegqHEFzLixNi8jjnzk+udP
+ Vxht1uOkopebp/w3rUl2WsdPxRXtxntALY9UGABG6Vygqfqqj+Bxdpe6sTmah0q8xiLd
+ NfIbQlqkfP1JXUZLud9D17MKTi3Nkb+vgOP9VBRtoISFCCngXteF5i7RIbI3zWksMkB5
+ 4EFBPcJ8ZpCq2PMoTZ8t6lWW29YULFQDl5ANhWeG2J4p3sf70RDD+3oZSTl6Piuk8Jl/
+ 0ZoA==
+X-Gm-Message-State: AFqh2krWEzJDa17JEVqAdpV48qe3z7PNCqD/nb/TeQI34264ANQeV+mE
+ 7skHJ4wmw0WMi9fWMiIMRuVzCyZJ1iAhwO3V
+X-Google-Smtp-Source: AMrXdXvInw5+8eBX8FiRUMTK0GrybmSFuJSjtGo5iPHBWNu0debMCDiQtPGO/dUssVx6nmbo1RHIXA==
+X-Received: by 2002:a17:903:442:b0:191:2c85:1371 with SMTP id
+ iw2-20020a170903044200b001912c851371mr26598748plb.18.1672358576078; 
+ Thu, 29 Dec 2022 16:02:56 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.54
+ j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 16:02:54 -0800 (PST)
+ Thu, 29 Dec 2022 16:02:55 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 35/47] tcg: Pass number of arguments to tcg_emit_op() /
- tcg_op_insert_*()
-Date: Thu, 29 Dec 2022 16:02:09 -0800
-Message-Id: <20221230000221.2764875-36-richard.henderson@linaro.org>
+Subject: [PULL 36/47] tcg: Vary the allocation size for TCGOp
+Date: Thu, 29 Dec 2022 16:02:10 -0800
+Message-Id: <20221230000221.2764875-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221230000221.2764875-1-richard.henderson@linaro.org>
 References: <20221230000221.2764875-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,305 +91,189 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+We have been allocating a worst case number of arguments
+to support calls.  Instead, allow the size to vary.
+By default leave space for 4 args, to maximize reuse,
+but allow calls to increase the number of args to 32.
 
-In order to have variable size allocated TCGOp, pass the number
-of arguments we use (and would allocate) up to tcg_op_alloc().
-
-This alters tcg_emit_op(), tcg_op_insert_before() and
-tcg_op_insert_after() prototypes.
-
-In tcg_op_alloc() ensure the number of arguments is in range.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[PMD: Extracted from bigger patch]
+[PMD: Split patch in two]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221218211832.73312-2-philmd@linaro.org>
+Message-Id: <20221218211832.73312-3-philmd@linaro.org>
 ---
- include/tcg/tcg-op.h   |  2 +-
- include/tcg/tcg.h      |  8 +++++---
- accel/tcg/plugin-gen.c |  5 ++++-
- tcg/optimize.c         |  4 ++--
- tcg/tcg-op-vec.c       |  8 ++++----
- tcg/tcg-op.c           | 12 ++++++------
- tcg/tcg.c              | 30 +++++++++++++++++-------------
- 7 files changed, 39 insertions(+), 30 deletions(-)
+ include/exec/helper-head.h |  2 --
+ include/tcg/tcg.h          | 46 +++++++++++++-------------------------
+ accel/tcg/plugin-gen.c     | 10 ++++-----
+ tcg/tcg.c                  | 35 +++++++++++++++++++++--------
+ 4 files changed, 47 insertions(+), 46 deletions(-)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 8176f194cb..79b1cf786f 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -818,7 +818,7 @@ static inline void tcg_gen_plugin_cb_start(unsigned from, unsigned type,
+diff --git a/include/exec/helper-head.h b/include/exec/helper-head.h
+index e242fed46e..8bdf0f6ea2 100644
+--- a/include/exec/helper-head.h
++++ b/include/exec/helper-head.h
+@@ -133,6 +133,4 @@
+ #define DEF_HELPER_7(name, ret, t1, t2, t3, t4, t5, t6, t7) \
+     DEF_HELPER_FLAGS_7(name, 0, ret, t1, t2, t3, t4, t5, t6, t7)
  
- static inline void tcg_gen_plugin_cb_end(void)
- {
--    tcg_emit_op(INDEX_op_plugin_cb_end);
-+    tcg_emit_op(INDEX_op_plugin_cb_end, 0);
- }
- 
- #if TARGET_LONG_BITS == 32
+-/* MAX_OPC_PARAM_IARGS must be set to n if last entry is DEF_HELPER_FLAGS_n. */
+-
+ #endif /* EXEC_HELPER_HEAD_H */
 diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 8bcd60d0ed..c55fa21a89 100644
+index c55fa21a89..d430ea10c8 100644
 --- a/include/tcg/tcg.h
 +++ b/include/tcg/tcg.h
-@@ -1014,10 +1014,12 @@ bool tcg_op_supported(TCGOpcode op);
+@@ -38,20 +38,6 @@
+ /* XXX: make safe guess about sizes */
+ #define MAX_OP_PER_INSTR 266
  
- void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args);
+-#if HOST_LONG_BITS == 32
+-#define MAX_OPC_PARAM_PER_ARG 2
+-#else
+-#define MAX_OPC_PARAM_PER_ARG 1
+-#endif
+-#define MAX_OPC_PARAM_IARGS 7
+-#define MAX_OPC_PARAM_OARGS 1
+-#define MAX_OPC_PARAM_ARGS (MAX_OPC_PARAM_IARGS + MAX_OPC_PARAM_OARGS)
+-
+-/* A Call op needs up to 4 + 2N parameters on 32-bit archs,
+- * and up to 4 + N parameters on 64-bit archs
+- * (N = number of input arguments + output arguments).  */
+-#define MAX_OPC_PARAM (4 + (MAX_OPC_PARAM_PER_ARG * MAX_OPC_PARAM_ARGS))
+-
+ #define CPU_TEMP_BUF_NLONGS 128
+ #define TCG_STATIC_FRAME_SIZE  (CPU_TEMP_BUF_NLONGS * sizeof(long))
  
--TCGOp *tcg_emit_op(TCGOpcode opc);
-+TCGOp *tcg_emit_op(TCGOpcode opc, unsigned nargs);
- void tcg_op_remove(TCGContext *s, TCGOp *op);
--TCGOp *tcg_op_insert_before(TCGContext *s, TCGOp *op, TCGOpcode opc);
--TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *op, TCGOpcode opc);
-+TCGOp *tcg_op_insert_before(TCGContext *s, TCGOp *op,
-+                            TCGOpcode opc, unsigned nargs);
-+TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *op,
-+                           TCGOpcode opc, unsigned nargs);
+@@ -493,34 +479,34 @@ typedef struct TCGTempSet {
+     unsigned long l[BITS_TO_LONGS(TCG_MAX_TEMPS)];
+ } TCGTempSet;
  
- /**
-  * tcg_remove_ops_after:
+-/* While we limit helpers to 6 arguments, for 32-bit hosts, with padding,
+-   this imples a max of 6*2 (64-bit in) + 2 (64-bit out) = 14 operands.
+-   There are never more than 2 outputs, which means that we can store all
+-   dead + sync data within 16 bits.  */
+-#define DEAD_ARG  4
+-#define SYNC_ARG  1
+-typedef uint16_t TCGLifeData;
++/*
++ * With 1 128-bit output, a 32-bit host requires 4 output parameters,
++ * which leaves a maximum of 28 other slots.  Which is enough for 7
++ * 128-bit operands.
++ */
++#define DEAD_ARG  (1 << 4)
++#define SYNC_ARG  (1 << 0)
++typedef uint32_t TCGLifeData;
+ 
+-/* The layout here is designed to avoid a bitfield crossing of
+-   a 32-bit boundary, which would cause GCC to add extra padding.  */
+ typedef struct TCGOp {
+-    TCGOpcode opc   : 8;        /*  8 */
++    TCGOpcode opc   : 8;
++    unsigned nargs  : 8;
+ 
+     /* Parameters for this opcode.  See below.  */
+-    unsigned param1 : 4;        /* 12 */
+-    unsigned param2 : 4;        /* 16 */
++    unsigned param1 : 8;
++    unsigned param2 : 8;
+ 
+     /* Lifetime data of the operands.  */
+-    unsigned life   : 16;       /* 32 */
++    TCGLifeData life;
+ 
+     /* Next and previous opcodes.  */
+     QTAILQ_ENTRY(TCGOp) link;
+ 
+-    /* Arguments for the opcode.  */
+-    TCGArg args[MAX_OPC_PARAM];
+-
+     /* Register preferences for the output(s).  */
+     TCGRegSet output_pref[2];
++
++    /* Arguments for the opcode.  */
++    TCGArg args[];
+ } TCGOp;
+ 
+ #define TCGOP_CALLI(X)    (X)->param1
 diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index a6aaacd053..62e775d34d 100644
+index 62e775d34d..c7d6514840 100644
 --- a/accel/tcg/plugin-gen.c
 +++ b/accel/tcg/plugin-gen.c
-@@ -258,10 +258,13 @@ static TCGOp *rm_ops(TCGOp *op)
+@@ -258,12 +258,12 @@ static TCGOp *rm_ops(TCGOp *op)
  
  static TCGOp *copy_op_nocheck(TCGOp **begin_op, TCGOp *op)
  {
-+    unsigned nargs = ARRAY_SIZE(op->args);
-+
-     *begin_op = QTAILQ_NEXT(*begin_op, link);
-     tcg_debug_assert(*begin_op);
--    op = tcg_op_insert_after(tcg_ctx, op, (*begin_op)->opc);
-+    op = tcg_op_insert_after(tcg_ctx, op, (*begin_op)->opc, nargs);
-     memcpy(op->args, (*begin_op)->args, sizeof(op->args));
-+
+-    unsigned nargs = ARRAY_SIZE(op->args);
++    TCGOp *old_op = QTAILQ_NEXT(*begin_op, link);
++    unsigned nargs = old_op->nargs;
+ 
+-    *begin_op = QTAILQ_NEXT(*begin_op, link);
+-    tcg_debug_assert(*begin_op);
+-    op = tcg_op_insert_after(tcg_ctx, op, (*begin_op)->opc, nargs);
+-    memcpy(op->args, (*begin_op)->args, sizeof(op->args));
++    *begin_op = old_op;
++    op = tcg_op_insert_after(tcg_ctx, op, old_op->opc, nargs);
++    memcpy(op->args, old_op->args, sizeof(op->args[0]) * nargs);
+ 
      return op;
  }
- 
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index ae081ab29c..1afd50175b 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -962,7 +962,7 @@ static bool fold_addsub2(OptContext *ctx, TCGOp *op, bool add)
-         rh = op->args[1];
- 
-         /* The proper opcode is supplied by tcg_opt_gen_mov. */
--        op2 = tcg_op_insert_before(ctx->tcg, op, 0);
-+        op2 = tcg_op_insert_before(ctx->tcg, op, 0, 2);
- 
-         tcg_opt_gen_movi(ctx, op, rl, al);
-         tcg_opt_gen_movi(ctx, op2, rh, ah);
-@@ -1613,7 +1613,7 @@ static bool fold_multiply2(OptContext *ctx, TCGOp *op)
-         rh = op->args[1];
- 
-         /* The proper opcode is supplied by tcg_opt_gen_mov. */
--        op2 = tcg_op_insert_before(ctx->tcg, op, 0);
-+        op2 = tcg_op_insert_before(ctx->tcg, op, 0, 2);
- 
-         tcg_opt_gen_movi(ctx, op, rl, l);
-         tcg_opt_gen_movi(ctx, op2, rh, h);
-diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-index 5bf100ea7d..966d41d65a 100644
---- a/tcg/tcg-op-vec.c
-+++ b/tcg/tcg-op-vec.c
-@@ -152,7 +152,7 @@ bool tcg_can_emit_vecop_list(const TCGOpcode *list,
- 
- void vec_gen_2(TCGOpcode opc, TCGType type, unsigned vece, TCGArg r, TCGArg a)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 2);
-     TCGOP_VECL(op) = type - TCG_TYPE_V64;
-     TCGOP_VECE(op) = vece;
-     op->args[0] = r;
-@@ -162,7 +162,7 @@ void vec_gen_2(TCGOpcode opc, TCGType type, unsigned vece, TCGArg r, TCGArg a)
- void vec_gen_3(TCGOpcode opc, TCGType type, unsigned vece,
-                TCGArg r, TCGArg a, TCGArg b)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 3);
-     TCGOP_VECL(op) = type - TCG_TYPE_V64;
-     TCGOP_VECE(op) = vece;
-     op->args[0] = r;
-@@ -173,7 +173,7 @@ void vec_gen_3(TCGOpcode opc, TCGType type, unsigned vece,
- void vec_gen_4(TCGOpcode opc, TCGType type, unsigned vece,
-                TCGArg r, TCGArg a, TCGArg b, TCGArg c)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 4);
-     TCGOP_VECL(op) = type - TCG_TYPE_V64;
-     TCGOP_VECE(op) = vece;
-     op->args[0] = r;
-@@ -185,7 +185,7 @@ void vec_gen_4(TCGOpcode opc, TCGType type, unsigned vece,
- static void vec_gen_6(TCGOpcode opc, TCGType type, unsigned vece, TCGArg r,
-                       TCGArg a, TCGArg b, TCGArg c, TCGArg d, TCGArg e)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 6);
-     TCGOP_VECL(op) = type - TCG_TYPE_V64;
-     TCGOP_VECE(op) = vece;
-     op->args[0] = r;
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 6168327030..cd1cd4e736 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -33,20 +33,20 @@
- 
- void tcg_gen_op1(TCGOpcode opc, TCGArg a1)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 1);
-     op->args[0] = a1;
- }
- 
- void tcg_gen_op2(TCGOpcode opc, TCGArg a1, TCGArg a2)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 2);
-     op->args[0] = a1;
-     op->args[1] = a2;
- }
- 
- void tcg_gen_op3(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 3);
-     op->args[0] = a1;
-     op->args[1] = a2;
-     op->args[2] = a3;
-@@ -54,7 +54,7 @@ void tcg_gen_op3(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3)
- 
- void tcg_gen_op4(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3, TCGArg a4)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 4);
-     op->args[0] = a1;
-     op->args[1] = a2;
-     op->args[2] = a3;
-@@ -64,7 +64,7 @@ void tcg_gen_op4(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3, TCGArg a4)
- void tcg_gen_op5(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3,
-                  TCGArg a4, TCGArg a5)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 5);
-     op->args[0] = a1;
-     op->args[1] = a2;
-     op->args[2] = a3;
-@@ -75,7 +75,7 @@ void tcg_gen_op5(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3,
- void tcg_gen_op6(TCGOpcode opc, TCGArg a1, TCGArg a2, TCGArg a3,
-                  TCGArg a4, TCGArg a5, TCGArg a6)
- {
--    TCGOp *op = tcg_emit_op(opc);
-+    TCGOp *op = tcg_emit_op(opc, 6);
-     op->args[0] = a1;
-     op->args[1] = a2;
-     op->args[2] = a3;
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index a5ecc92591..25c131fd77 100644
+index 25c131fd77..0fd41d5951 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -1479,7 +1479,7 @@ bool tcg_op_supported(TCGOpcode op)
-    and endian swap in tcg_reg_alloc_call(). */
- void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
- {
--    int i, real_args, nb_rets, pi;
-+    int i, real_args, nb_rets, pi, max_args;
-     unsigned typemask;
-     const TCGHelperInfo *info;
-     TCGOp *op;
-@@ -1513,7 +1513,8 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
+@@ -1513,7 +1513,12 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
          }
      }
  
--    op = tcg_emit_op(INDEX_op_call);
-+    max_args = ARRAY_SIZE(op->args);
-+    op = tcg_emit_op(INDEX_op_call, max_args);
+-    max_args = ARRAY_SIZE(op->args);
++    /*
++     * A Call op needs up to 4 + 2N parameters on 32-bit archs,
++     * and up to 4 + N parameters on 64-bit archs
++     * (N = number of input arguments + output arguments).
++     */
++    max_args = (64 / TCG_TARGET_REG_BITS) * nargs + 4;
+     op = tcg_emit_op(INDEX_op_call, max_args);
  
      pi = 0;
-     if (ret != NULL) {
-@@ -1590,7 +1591,7 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
- 
-     /* Make sure the fields didn't overflow.  */
-     tcg_debug_assert(TCGOP_CALLI(op) == real_args);
--    tcg_debug_assert(pi <= ARRAY_SIZE(op->args));
-+    tcg_debug_assert(pi <= max_args);
- 
-     if (TCG_TARGET_CALL_ARG_I32 == TCG_CALL_ARG_EXTEND) {
-         for (i = 0; i < nargs; ++i) {
-@@ -2294,11 +2295,12 @@ void tcg_remove_ops_after(TCGOp *op)
-     }
- }
- 
--static TCGOp *tcg_op_alloc(TCGOpcode opc)
-+static TCGOp *tcg_op_alloc(TCGOpcode opc, unsigned nargs)
+@@ -2298,19 +2303,31 @@ void tcg_remove_ops_after(TCGOp *op)
+ static TCGOp *tcg_op_alloc(TCGOpcode opc, unsigned nargs)
  {
      TCGContext *s = tcg_ctx;
-     TCGOp *op;
+-    TCGOp *op;
++    TCGOp *op = NULL;
  
-+    assert(nargs < ARRAY_SIZE(op->args));
-     if (likely(QTAILQ_EMPTY(&s->free_ops))) {
-         op = tcg_malloc(sizeof(TCGOp));
-     } else {
-@@ -2312,23 +2314,25 @@ static TCGOp *tcg_op_alloc(TCGOpcode opc)
+-    assert(nargs < ARRAY_SIZE(op->args));
+-    if (likely(QTAILQ_EMPTY(&s->free_ops))) {
+-        op = tcg_malloc(sizeof(TCGOp));
+-    } else {
+-        op = QTAILQ_FIRST(&s->free_ops);
+-        QTAILQ_REMOVE(&s->free_ops, op, link);
++    if (unlikely(!QTAILQ_EMPTY(&s->free_ops))) {
++        QTAILQ_FOREACH(op, &s->free_ops, link) {
++            if (nargs <= op->nargs) {
++                QTAILQ_REMOVE(&s->free_ops, op, link);
++                nargs = op->nargs;
++                goto found;
++            }
++        }
+     }
++
++    /* Most opcodes have 3 or 4 operands: reduce fragmentation. */
++    nargs = MAX(4, nargs);
++    op = tcg_malloc(sizeof(TCGOp) + sizeof(TCGArg) * nargs);
++
++ found:
+     memset(op, 0, offsetof(TCGOp, link));
+     op->opc = opc;
+-    s->nb_ops++;
++    op->nargs = nargs;
+ 
++    /* Check for bitfield overflow. */
++    tcg_debug_assert(op->nargs == nargs);
++
++    s->nb_ops++;
      return op;
  }
  
--TCGOp *tcg_emit_op(TCGOpcode opc)
-+TCGOp *tcg_emit_op(TCGOpcode opc, unsigned nargs)
- {
--    TCGOp *op = tcg_op_alloc(opc);
-+    TCGOp *op = tcg_op_alloc(opc, nargs);
-     QTAILQ_INSERT_TAIL(&tcg_ctx->ops, op, link);
-     return op;
- }
- 
--TCGOp *tcg_op_insert_before(TCGContext *s, TCGOp *old_op, TCGOpcode opc)
-+TCGOp *tcg_op_insert_before(TCGContext *s, TCGOp *old_op,
-+                            TCGOpcode opc, unsigned nargs)
- {
--    TCGOp *new_op = tcg_op_alloc(opc);
-+    TCGOp *new_op = tcg_op_alloc(opc, nargs);
-     QTAILQ_INSERT_BEFORE(old_op, new_op, link);
-     return new_op;
- }
- 
--TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *old_op, TCGOpcode opc)
-+TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *old_op,
-+                           TCGOpcode opc, unsigned nargs)
- {
--    TCGOp *new_op = tcg_op_alloc(opc);
-+    TCGOp *new_op = tcg_op_alloc(opc, nargs);
-     QTAILQ_INSERT_AFTER(&s->ops, old_op, new_op, link);
-     return new_op;
- }
-@@ -2937,7 +2941,7 @@ static bool liveness_pass_2(TCGContext *s)
-                     TCGOpcode lopc = (arg_ts->type == TCG_TYPE_I32
-                                       ? INDEX_op_ld_i32
-                                       : INDEX_op_ld_i64);
--                    TCGOp *lop = tcg_op_insert_before(s, op, lopc);
-+                    TCGOp *lop = tcg_op_insert_before(s, op, lopc, 3);
- 
-                     lop->args[0] = temp_arg(dir_ts);
-                     lop->args[1] = temp_arg(arg_ts->mem_base);
-@@ -3003,7 +3007,7 @@ static bool liveness_pass_2(TCGContext *s)
-                     TCGOpcode sopc = (arg_ts->type == TCG_TYPE_I32
-                                       ? INDEX_op_st_i32
-                                       : INDEX_op_st_i64);
--                    TCGOp *sop = tcg_op_insert_after(s, op, sopc);
-+                    TCGOp *sop = tcg_op_insert_after(s, op, sopc, 3);
-                     TCGTemp *out_ts = dir_ts;
- 
-                     if (IS_DEAD_ARG(0)) {
-@@ -3039,7 +3043,7 @@ static bool liveness_pass_2(TCGContext *s)
-                     TCGOpcode sopc = (arg_ts->type == TCG_TYPE_I32
-                                       ? INDEX_op_st_i32
-                                       : INDEX_op_st_i64);
--                    TCGOp *sop = tcg_op_insert_after(s, op, sopc);
-+                    TCGOp *sop = tcg_op_insert_after(s, op, sopc, 3);
- 
-                     sop->args[0] = temp_arg(dir_ts);
-                     sop->args[1] = temp_arg(arg_ts->mem_base);
 -- 
 2.34.1
 
