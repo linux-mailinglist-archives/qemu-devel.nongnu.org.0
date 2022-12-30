@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0E265938F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540BC659392
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 01:08:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pB2r8-000315-NL; Thu, 29 Dec 2022 19:02:38 -0500
+	id 1pB2r9-00031g-Pl; Thu, 29 Dec 2022 19:02:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2r6-0002zk-9e
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:36 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ id 1pB2r7-00030h-L8
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:37 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pB2r4-0002gZ-Ia
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:36 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- n65-20020a17090a2cc700b0021bc5ef7a14so20320249pjd.0
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:02:34 -0800 (PST)
+ id 1pB2r5-0002gz-Qg
+ for qemu-devel@nongnu.org; Thu, 29 Dec 2022 19:02:37 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id fy4so20830718pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 16:02:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yTAFA5u9VpP4tWGyC/Uni1rtwcEMMx/BI1MBDPeSpjQ=;
- b=Ux57F5sVqlCG8QYQDCHCLHXGC9OrJDcdjUG1Oly4PodSzKqDN7CQ3I0BKmzeLEYARC
- 3NRGBtvOHIkxuqewC/907+ssP1DfQQq7qRUmVYQsj6OUZ02Sm7R0Jtk8QNCt+4wK0tpC
- pocvlI2RUc3TQhaoByuaozEA+tVFb9X4rZguy1mtaj4hbty1ZwgjYL/bGtvIRFhETw4B
- Kbla5NTQGzYNL/Q6M8eL/HdChbaT6vCyDn6ixHt0V2/3TDGtLY0qZJT+GusoEmbFdIbw
- G4J3yvqe0doY/xe+yos49ND9yrnSJthbL+IaCguRV/x1wMkfaOYAavOVEd8ag+KSi3i6
- ukNg==
+ bh=vtHTxOsR6ht0+9SPiWHuqeFVG+XUj4+DdhfsvFYW/Qc=;
+ b=CuhoUqCNKff5g05AesnvhmC82N0vQzpitb3pRHJSXSO3hBBXvOP0eYYGv+HgpNfeCo
+ xJ1lFKkSbb9ow8bmoV68dQ5UHXuKMxsBn0ZJTwwc2ZONESqIbfFxZmctSe8MvxYYb9x9
+ waODVHF7gY/1PlcXEhY89PFnxMxHLgsvJUPh2QK1GbwQhtmPFdDfURfV3lAClK7tSOU8
+ vthdwe54NsFGEyGFbpRryFMp5Wrk0JmnXKQ7EGtj0Y905AprkiMhR0WwlXhHw0Vs7r25
+ qAvmyivXeAgvE/u7rAuHW7ZBaRxNuLlCI+WEPliiyCzFvIEB/pAN/oKBIsORsXGJ9um8
+ Za/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yTAFA5u9VpP4tWGyC/Uni1rtwcEMMx/BI1MBDPeSpjQ=;
- b=zawUmGx5SF+iFOSVY0Cpudb0m7FOUrLNmrjoh9M5ULteEAN6NKRxXPZicFptZadC4Z
- WrDyDncAwxjxRmajZS+ICaBlj2U3OGuHtFeUvwT+BQ1QnkWpbAm04JAV8Veihxlegb/a
- VbLE4qIQssyCAEiuKlpB8zIFX30uhoTMJSLikuFDUaez2B83Ogh5R6x2ZhG41EmYR4Qc
- iUWnJS8/uP64872QSfeg+HcsIsY0nB00dsui+7SAHdHB7p/PKn9WOMRfWcq/L8TrVhEY
- gYKCqmTurhk5iHp2bBTgkHiN2isfr/vV4Btw8rND7+Nj6oa6BLX++YYXUTj++bi7Y7wK
- /OyA==
-X-Gm-Message-State: AFqh2kpzp6xwyqaYP8/4UDD5UPim1BbS3twMRURp3ZWb9mg8zzhh+lI6
- 3a9nMjH+XVuF+pMfT1urgDsw2M7uwJLuljm9
-X-Google-Smtp-Source: AMrXdXs6CALUgcIePhqTYrbYl9HImaFL7hn6eh0wezcjRcberlwms4CQsY141GEuHcDizQ6L21imqQ==
-X-Received: by 2002:a17:902:b609:b0:192:4ed2:7509 with SMTP id
- b9-20020a170902b60900b001924ed27509mr31905401pls.15.1672358553306; 
- Thu, 29 Dec 2022 16:02:33 -0800 (PST)
+ bh=vtHTxOsR6ht0+9SPiWHuqeFVG+XUj4+DdhfsvFYW/Qc=;
+ b=vnzp33ofXBQ+IWxMk+5KZhGt6ghQ4kFCbtpvBh1q0PTuSVCIJjd0Ri952YCu+RMLVm
+ F+Bti8mnhNAF6fWGoE3KjbeUyJbEJJwC4AOT3U3ELH5yOvm4cUh3QmYiny0sGnw7CsDT
+ S+Qa9ssQtt3v+VaDcyNFT9J9kQzEtUB4Z8Pi2XHnRt3irvUuMJftWFO3yCabo3MKcV6X
+ YzZLXvzDyUsfyIPqLlAsziebW3+EIK7rhV2xRoQDQHWtv4IjbGehA7p7x415LR/j3nKc
+ a10AbVbTUVGejA3h34EjoJltxUcC1Qx4g6mKAYgkgbWsUUC2m2SWUDcfXfFqJItPAZI7
+ CY3Q==
+X-Gm-Message-State: AFqh2krZ8jslEGrsCeRq2/4dV/jxk/Ln8R/qzdSjmjvbD2ebVDawhWCd
+ SbRaWh/q65Sn4aPjSPo2bQXJZzRJRw9Z7PZP
+X-Google-Smtp-Source: AMrXdXsD4uenCT4WjV5ariakcogv6ryZqvKgWqJyE1X2iiMvqx+DzOUWLuVHkgAkkrHY3MCeUlqbKQ==
+X-Received: by 2002:a17:903:443:b0:189:c7e3:275f with SMTP id
+ iw3-20020a170903044300b00189c7e3275fmr31281668plb.38.1672358554257; 
+ Thu, 29 Dec 2022 16:02:34 -0800 (PST)
 Received: from stoup.. (76-14-210-194.or.wavecable.com. [76.14.210.194])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.32
+ j14-20020a170903028e00b00192849e1d0asm7343953plr.116.2022.12.29.16.02.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Dec 2022 16:02:32 -0800 (PST)
+ Thu, 29 Dec 2022 16:02:33 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 11/47] accel/tcg: Use QEMU_IOTHREAD_LOCK_GUARD in
- io_readx/io_writex
-Date: Thu, 29 Dec 2022 16:01:45 -0800
-Message-Id: <20221230000221.2764875-12-richard.henderson@linaro.org>
+Subject: [PULL 12/47] tcg: Tidy tcg_reg_alloc_op
+Date: Thu, 29 Dec 2022 16:01:46 -0800
+Message-Id: <20221230000221.2764875-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221230000221.2764875-1-richard.henderson@linaro.org>
 References: <20221230000221.2764875-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,88 +90,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Narrow the scope of the lock to the actual read/write,
-moving the cpu_transation_failed call outside the lock.
+Replace goto allocate_in_reg with a boolean.
+Remove o_preferred_regs which isn't used, except to copy.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 25 ++++++++-----------------
- 1 file changed, 8 insertions(+), 17 deletions(-)
+ tcg/tcg.c | 45 +++++++++++++++++++++------------------------
+ 1 file changed, 21 insertions(+), 24 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 03674d598f..4948729917 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1356,7 +1356,6 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBEntryFull *full,
-     MemoryRegionSection *section;
-     MemoryRegion *mr;
-     uint64_t val;
--    bool locked = false;
-     MemTxResult r;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index db64799e03..215ddf2db5 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3607,7 +3607,8 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
  
-     section = iotlb_to_section(cpu, full->xlat_section, full->attrs);
-@@ -1367,11 +1366,11 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBEntryFull *full,
-         cpu_io_recompile(cpu, retaddr);
-     }
+     /* satisfy input constraints */
+     for (k = 0; k < nb_iargs; k++) {
+-        TCGRegSet i_preferred_regs, o_preferred_regs;
++        TCGRegSet i_preferred_regs;
++        bool allocate_new_reg;
  
--    if (!qemu_mutex_iothread_locked()) {
--        qemu_mutex_lock_iothread();
--        locked = true;
-+    {
-+        QEMU_IOTHREAD_LOCK_GUARD();
-+        r = memory_region_dispatch_read(mr, mr_offset, &val, op, full->attrs);
-     }
--    r = memory_region_dispatch_read(mr, mr_offset, &val, op, full->attrs);
+         i = def->args_ct[nb_oargs + k].sort_index;
+         arg = op->args[i];
+@@ -3622,9 +3623,12 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+             continue;
+         }
+ 
+-        i_preferred_regs = o_preferred_regs = 0;
++        reg = ts->reg;
++        i_preferred_regs = 0;
++        allocate_new_reg = false;
 +
-     if (r != MEMTX_OK) {
-         hwaddr physaddr = mr_offset +
-             section->offset_within_address_space -
-@@ -1380,10 +1379,6 @@ static uint64_t io_readx(CPUArchState *env, CPUTLBEntryFull *full,
-         cpu_transaction_failed(cpu, physaddr, addr, memop_size(op), access_type,
-                                mmu_idx, full->attrs, r, retaddr);
-     }
--    if (locked) {
--        qemu_mutex_unlock_iothread();
--    }
+         if (arg_ct->ialias) {
+-            o_preferred_regs = op->output_pref[arg_ct->alias_index];
++            i_preferred_regs = op->output_pref[arg_ct->alias_index];
+ 
+             /*
+              * If the input is readonly, then it cannot also be an
+@@ -3633,30 +3637,23 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+              * register and move it.
+              */
+             if (temp_readonly(ts) || !IS_DEAD_ARG(i)) {
+-                goto allocate_in_reg;
++                allocate_new_reg = true;
++            } else if (ts->val_type == TEMP_VAL_REG) {
++                /*
++                 * Check if the current register has already been
++                 * allocated for another input.
++                 */
++                allocate_new_reg = tcg_regset_test_reg(i_allocated_regs, reg);
+             }
 -
-     return val;
- }
+-            /*
+-             * Check if the current register has already been allocated
+-             * for another input aliased to an output.
+-             */
+-            if (ts->val_type == TEMP_VAL_REG) {
+-                reg = ts->reg;
+-                for (int k2 = 0; k2 < k; k2++) {
+-                    int i2 = def->args_ct[nb_oargs + k2].sort_index;
+-                    if (def->args_ct[i2].ialias && reg == new_args[i2]) {
+-                        goto allocate_in_reg;
+-                    }
+-                }
+-            }
+-            i_preferred_regs = o_preferred_regs;
+         }
  
-@@ -1410,7 +1405,6 @@ static void io_writex(CPUArchState *env, CPUTLBEntryFull *full,
-     hwaddr mr_offset;
-     MemoryRegionSection *section;
-     MemoryRegion *mr;
--    bool locked = false;
-     MemTxResult r;
+-        temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
+-        reg = ts->reg;
++        if (!allocate_new_reg) {
++            temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
++            reg = ts->reg;
++            allocate_new_reg = !tcg_regset_test_reg(arg_ct->regs, reg);
++        }
  
-     section = iotlb_to_section(cpu, full->xlat_section, full->attrs);
-@@ -1427,11 +1421,11 @@ static void io_writex(CPUArchState *env, CPUTLBEntryFull *full,
-      */
-     save_iotlb_data(cpu, section, mr_offset);
- 
--    if (!qemu_mutex_iothread_locked()) {
--        qemu_mutex_lock_iothread();
--        locked = true;
-+    {
-+        QEMU_IOTHREAD_LOCK_GUARD();
-+        r = memory_region_dispatch_write(mr, mr_offset, val, op, full->attrs);
-     }
--    r = memory_region_dispatch_write(mr, mr_offset, val, op, full->attrs);
-+
-     if (r != MEMTX_OK) {
-         hwaddr physaddr = mr_offset +
-             section->offset_within_address_space -
-@@ -1441,9 +1435,6 @@ static void io_writex(CPUArchState *env, CPUTLBEntryFull *full,
-                                MMU_DATA_STORE, mmu_idx, full->attrs, r,
-                                retaddr);
-     }
--    if (locked) {
--        qemu_mutex_unlock_iothread();
--    }
- }
- 
- static inline target_ulong tlb_read_ofs(CPUTLBEntry *entry, size_t ofs)
+-        if (!tcg_regset_test_reg(arg_ct->regs, reg)) {
+- allocate_in_reg:
++        if (allocate_new_reg) {
+             /*
+              * Allocate a new register matching the constraint
+              * and move the temporary register into it.
+@@ -3664,7 +3661,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+             temp_load(s, ts, tcg_target_available_regs[ts->type],
+                       i_allocated_regs, 0);
+             reg = tcg_reg_alloc(s, arg_ct->regs, i_allocated_regs,
+-                                o_preferred_regs, ts->indirect_base);
++                                i_preferred_regs, ts->indirect_base);
+             if (!tcg_out_mov(s, ts->type, reg, ts->reg)) {
+                 /*
+                  * Cross register class move not supported.  Sync the
 -- 
 2.34.1
 
