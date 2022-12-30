@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DE0659710
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 11:01:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DC76597C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 12:37:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBCBH-0003k7-JV; Fri, 30 Dec 2022 05:00:03 -0500
+	id 1pBDfN-0006DU-Ho; Fri, 30 Dec 2022 06:35:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
- id 1pBCBE-0003ii-Q5
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 05:00:00 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhaotianrui@loongson.cn>) id 1pBCBC-0005Rs-Gd
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 05:00:00 -0500
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxB_GXtq5jcnYJAA--.20561S3;
- Fri, 30 Dec 2022 17:59:51 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxtOWWtq5jCSAQAA--.53838S5; 
- Fri, 30 Dec 2022 17:59:51 +0800 (CST)
-From: Tianrui Zhao <zhaotianrui@loongson.cn>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfL-0006BQ-Hd
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:11 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBDfJ-0003p5-Od
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 06:35:11 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ m26-20020a05600c3b1a00b003d9811fcaafso8482706wms.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 03:35:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NA/uioDCXzu43BeOx2mahIgOlYK6aPYVtQ1C36Sxbew=;
+ b=O5kAA7pjg2hunz7nv1eGONF5Jv0Pc3xZuvQI71yGgmQ0g82+hg/RQyGZ9xzej2GYRY
+ YkkFKcD4+BVNWiSmF0XCaTL+ofhInxlt73pzDBRmYLLZacewL92865m0L/Lcqul5nxK2
+ gKYHdsPNXfZlaosPbKQj+mtqEoeuy3DviFLpTcg6pi2CeVT2v6/RFVJxgNWXd8HDCuuT
+ PN08ihN/zS21FXlAM3A2643s4nqZA5QBfMj4sj2B0h7n5857dDTXyo0ohFc7LTgQHbXr
+ ZC1HUbOfyrag+H2QN2ksF0fLDSKdRlyNSd+/NPCdRh5C25rvj3olm1J8q9FbgdUTifoa
+ gpzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NA/uioDCXzu43BeOx2mahIgOlYK6aPYVtQ1C36Sxbew=;
+ b=2g8gA4wzUsq11cAICrOVrPYGQYiv0kryL7o6tU+Fh1ys5RPH8bb5u1+Lt/NgSD9bcl
+ 1mEZi3+qKmh9ynk92pw0+HClYJysFD2n8XSguSD3EjW3L4+8txsH7o83Jqt+tZLL4Q3R
+ CqQH5YnFCT6oQqT8vPQSBbOQmefAQyD+jub1VbzAXjOQawQ5B5T91e/nrzjLIDHsPK++
+ YyBaB+blP6DZU0PYVMxr/6BJO2BcWg5YxbqyGdTUJg1EBkcFI/kwm+oWxcxKQQZhR0sA
+ gSdOHTqhw7UlAOPzJ7+is6Fm/5DyWKdC3ZxSnHI9zStDTzklOe0Zx2hRyKYA7uQ0+RmD
+ okMg==
+X-Gm-Message-State: AFqh2kqrRF5IQIZP88JSsn358un3McoBellGfnEzQQzDinJ1N2l2X2Wa
+ ZwzbqLwYxZllqS6yfLlknr5WH+r7fuAIE75r
+X-Google-Smtp-Source: AMrXdXsBAxEDDuabYxlCe4gldkjCn2ow3zych+9uXkascxJBwTAaN8hHPlo6shQBz7vSqLKnYzBziA==
+X-Received: by 2002:a05:600c:4fcf:b0:3d1:d396:1ade with SMTP id
+ o15-20020a05600c4fcf00b003d1d3961ademr22305552wmq.9.1672400107810; 
+ Fri, 30 Dec 2022 03:35:07 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ k1-20020a5d5181000000b0024207478de3sm20190488wrv.93.2022.12.30.03.35.05
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 30 Dec 2022 03:35:07 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- philmd@linaro.org
-Subject: [PATCH v4 3/3] hw/intc/loongarch_pch: Change default irq number of
- pch irq controller
-Date: Fri, 30 Dec 2022 17:59:50 +0800
-Message-Id: <20221230095950.2217103-4-zhaotianrui@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20221230095950.2217103-1-zhaotianrui@loongson.cn>
-References: <20221230095950.2217103-1-zhaotianrui@loongson.cn>
+Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
+ Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+ Peter Delevoryas <peter@pjd.dev>, Steven Lee <steven_lee@aspeedtech.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Jamin Lin <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>,
+ Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>
+Subject: [PATCH v2 00/11] hw/arm/aspeed_ast10x0: Map more peripherals & few
+ more fixes
+Date: Fri, 30 Dec 2022 12:34:53 +0100
+Message-Id: <20221230113504.37032-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxtOWWtq5jCSAQAA--.53838S5
-X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxXr1UGF1UJr4rWFW3CrWfZrb_yoW5tr1kpF
- ZrCF9akF4kWrWUXr92v343Xwn7JFs3ury29F4a9Fy8Cr43JrykXw1kJw4DWFyUKws5Jryq
- qrZ5C3yYv3WUXaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
- CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
- zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
- 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
- aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
- Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY
- 6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6x
- AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
- 1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,97 +97,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Change the default irq number of pch pic to 32, so that the irq
-number of pch msi is 224(256 - 32), and move the 'PCH_PIC_IRQ_NUM'
-macro to pci-host/ls7a.h and add prefix 'VIRT' on it to keep standard
-format.
+Missing review: #3
 
-Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
+Since v1:
+- Fixed typo (Peter)
+- Link HACE with sram insted of secsram
+- Split patch #2 in 2, reworded it
+- Cover more WDT registers (new patch)
+
 ---
- hw/intc/loongarch_pch_pic.c         | 3 ++-
- hw/loongarch/virt.c                 | 2 +-
- include/hw/intc/loongarch_pch_msi.h | 6 +++---
- include/hw/intc/loongarch_pch_pic.h | 1 -
- include/hw/pci-host/ls7a.h          | 1 +
- 5 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
-index 1440195837..47fd5f20e0 100644
---- a/hw/intc/loongarch_pch_pic.c
-+++ b/hw/intc/loongarch_pch_pic.c
-@@ -8,6 +8,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "hw/loongarch/virt.h"
-+#include "hw/pci-host/ls7a.h"
- #include "hw/irq.h"
- #include "hw/intc/loongarch_pch_pic.h"
- #include "hw/qdev-properties.h"
-@@ -376,7 +377,7 @@ static void loongarch_pch_pic_realize(DeviceState *dev, Error **errp)
- {
-     LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(dev);
- 
--    if (!s->irq_num || s->irq_num  > PCH_PIC_IRQ_NUM) {
-+    if (!s->irq_num || s->irq_num  > VIRT_PCH_PIC_IRQ_NUM) {
-         error_setg(errp, "Invalid 'pic_irq_num'");
-         return;
-     }
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index a39704e1e7..8f3bb85d58 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -559,7 +559,7 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
-     }
- 
-     pch_pic = qdev_new(TYPE_LOONGARCH_PCH_PIC);
--    num = PCH_PIC_IRQ_NUM;
-+    num = VIRT_PCH_PIC_IRQ_NUM;
-     qdev_prop_set_uint32(pch_pic, "pch_pic_irq_num", num);
-     d = SYS_BUS_DEVICE(pch_pic);
-     sysbus_realize_and_unref(d, &error_fatal);
-diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
-index c5a52bc327..a1172f56ff 100644
---- a/include/hw/intc/loongarch_pch_msi.h
-+++ b/include/hw/intc/loongarch_pch_msi.h
-@@ -8,10 +8,10 @@
- #define TYPE_LOONGARCH_PCH_MSI "loongarch_pch_msi"
- OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHMSI, LOONGARCH_PCH_MSI)
- 
--/* Msi irq start start from 64 to 255 */
--#define PCH_MSI_IRQ_START   64
-+/* Msi irq start start from 32 to 255 */
-+#define PCH_MSI_IRQ_START   32
- #define PCH_MSI_IRQ_END     255
--#define PCH_MSI_IRQ_NUM     192
-+#define PCH_MSI_IRQ_NUM     224
- 
- struct LoongArchPCHMSI {
-     SysBusDevice parent_obj;
-diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
-index ba3a47fa88..4ea8808592 100644
---- a/include/hw/intc/loongarch_pch_pic.h
-+++ b/include/hw/intc/loongarch_pch_pic.h
-@@ -9,7 +9,6 @@
- #define PCH_PIC_NAME(name) TYPE_LOONGARCH_PCH_PIC#name
- OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHPIC, LOONGARCH_PCH_PIC)
- 
--#define PCH_PIC_IRQ_NUM                 64
- #define PCH_PIC_INT_ID_VAL              0x7000000UL
- #define PCH_PIC_INT_ID_VER              0x1UL
- 
-diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
-index 6443327bd7..8061c4bbbf 100644
---- a/include/hw/pci-host/ls7a.h
-+++ b/include/hw/pci-host/ls7a.h
-@@ -32,6 +32,7 @@
-  * 0 ~ 16 irqs used for non-pci device while 16 ~ 64 irqs
-  * used for pci device.
-  */
-+#define VIRT_PCH_PIC_IRQ_NUM     32
- #define PCH_PIC_IRQ_OFFSET       64
- #define VIRT_DEVICE_IRQS         16
- #define VIRT_UART_IRQ            (PCH_PIC_IRQ_OFFSET + 2)
+Trying to fix some bugs triggered running Zephyr.
+
+Still 2 bugs:
+
+1/
+uart:~$ sensor get SYSCLK
+[00:00:23.592,000] <err> os: ***** USAGE FAULT *****
+[00:00:23.593,000] <err> os:   Illegal use of the EPSR
+[00:00:23.593,000] <err> os: r0/a1:  0x00033448  r1/a2:  0x00000000  r2/a3:  0x00047f50
+[00:00:23.593,000] <err> os: r3/a4:  0x00000000 r12/ip:  0x00000000 r14/lr:  0x00000fbd
+[00:00:23.593,000] <err> os:  xpsr:  0x60000000
+[00:00:23.593,000] <err> os: Faulting instruction address (r15/pc): 0x00000000
+[00:00:23.593,000] <err> os: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0
+[00:00:23.594,000] <err> os: Current thread: 0x38248 (shell_uart)
+[00:00:23.601,000] <err> os: Halting system
+
+2/
+uart:~$ mcuboot
+[00:01:04.990,000] <err> os: ***** BUS FAULT *****
+[00:01:04.990,000] <err> os:   Instruction bus error
+[00:01:04.991,000] <err> os: r0/a1:  0x00000000  r1/a2:  0x000ffff0  r2/a3:  0x00047ef0
+[00:01:04.991,000] <err> os: r3/a4:  0x00000010 r12/ip:  0x6df7ecb5 r14/lr:  0x000188ed
+[00:01:04.991,000] <err> os:  xpsr:  0x61000000
+[00:01:04.991,000] <err> os: Faulting instruction address (r15/pc): 0x6df7ecb4
+[00:01:04.991,000] <err> os: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0
+[00:01:04.991,000] <err> os: Current thread: 0x38248 (shell_uart)
+[00:01:04.994,000] <err> os: Halting system
+
+----------------
+IN:
+PMSA MPU lookup for reading at 0x0001d400 mmu_idx 65 -> Hit (prot rwx)
+0x0001d5a2:  6869       ldr      r1, [r5, #4]
+0x0001d5a4:  4421       add      r1, r4
+0x0001d5a6:  6883       ldr      r3, [r0, #8]
+0x0001d5a8:  681c       ldr      r4, [r3]
+0x0001d5aa:  463a       mov      r2, r7
+0x0001d5ac:  4633       mov      r3, r6
+0x0001d5ae:  46a4       mov      ip, r4
+0x0001d5b0:  e8bd 41f0  pop.w    {r4, r5, r6, r7, r8, lr}
+0x0001d5b4:  4760       bx       ip
+
+PMSA MPU lookup for reading at 0x00000008 mmu_idx 65 -> Hit (prot rwx)
+PMSA MPU lookup for execute at 0x6df7ecb4 mmu_idx 65 -> Hit (prot rwx)
+Taking exception 3 [Prefetch Abort] on CPU 0
+...at fault address 0x6df7ecb4
+...with CFSR.IBUSERR
+PMSA MPU lookup for writing at 0x00047ec8 mmu_idx 65 -> Hit (prot rwx)
+PMSA MPU lookup for writing at 0x00047ecc mmu_idx 65 -> Hit (prot rwx)
+PMSA MPU lookup for writing at 0x00047ed0 mmu_idx 65 -> Hit (prot rwx)
+PMSA MPU lookup for writing at 0x00047ed4 mmu_idx 65 -> Hit (prot rwx)
+PMSA MPU lookup for writing at 0x00047ed8 mmu_idx 65 -> Hit (prot rwx)
+PMSA MPU lookup for writing at 0x00047edc mmu_idx 65 -> Hit (prot rwx)
+PMSA MPU lookup for writing at 0x00047ee0 mmu_idx 65 -> Hit (prot rwx)
+PMSA MPU lookup for writing at 0x00047ee4 mmu_idx 65 -> Hit (prot rwx)
+...taking pending nonsecure exception 5
+...loading from element 5 of non-secure vector table at 0x14
+...loaded new PC 0xa0cd
+----------------
+
+Philippe Mathieu-Daudé (11):
+  hw/watchdog/wdt_aspeed: Rename MMIO region size as 'iosize'
+  hw/watchdog/wdt_aspeed: Extend MMIO range to cover more registers
+  hw/watchdog/wdt_aspeed: Log unimplemented registers as UNIMP level
+  hw/arm/aspeed: Use the IEC binary prefix definitions
+  hw/misc/aspeed_hace: Do not crash if address_space_map() failed
+  hw/arm/aspeed_ast10x0: Add various unimplemented peripherals
+  hw/arm/aspeed_ast10x0: Map I3C peripheral
+  hw/arm/aspeed_ast10x0: Map the secure SRAM
+  hw/arm/aspeed_ast10x0: Map HACE peripheral
+  hw/arm/aspeed_ast10x0: Add TODO comment to use Cortex-M4F
+  tests/avocado: Test Aspeed Zephyr SDK v00.01.08 on AST1030 board
+
+ hw/arm/aspeed_ast10x0.c          | 84 ++++++++++++++++++++++++++++++--
+ hw/arm/aspeed_ast2600.c          |  5 +-
+ hw/arm/aspeed_soc.c              |  6 +--
+ hw/misc/aspeed_hace.c            | 21 +++++---
+ hw/watchdog/wdt_aspeed.c         | 24 +++++++--
+ include/hw/arm/aspeed_soc.h      | 14 ++++++
+ include/hw/watchdog/wdt_aspeed.h |  4 +-
+ tests/avocado/machine_aspeed.py  | 41 +++++++++++++++-
+ 8 files changed, 176 insertions(+), 23 deletions(-)
+
 -- 
-2.31.1
+2.38.1
 
 
