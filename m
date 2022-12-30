@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603D2659832
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:29:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC31D659820
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:23:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBEHl-0001i3-Ot; Fri, 30 Dec 2022 07:14:54 -0500
+	id 1pBEGD-0008EO-8M; Fri, 30 Dec 2022 07:13:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pBEG1-00083F-GT
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:05 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ <BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pBEFv-0007og-NW
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:59 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pBEFv-00052L-5w
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:05 -0500
+ <BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pBEFo-0004y7-Ra
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=LqJVNqTRKHPepO410m3NvzjSOyzXN5lfeKbPdF32rB8=; b=WUkYM7Axiqa3CMObMIbdP7R+pc
- sr35o7f5zec/Glkws8Z5FpyN1z2ftm4Cmm1GmpxmzHPbig2d9CE2KGeERxWcsmfqwt4xRnfX06DeU
- bSVptwk5k3mEIGhvIt9+rSsaBgaRUhZqVEoEJH3kEaomW4fjvQz7n+u5nVTsLMG2xvOjGqUiTuABC
- ddkMP7tQCqtRIhynclv46q7KZ/pgefGuiSbwnQupgeyXAhKTc0SJ2LtFNQapBAmG+lXl9t/Seggr8
- sOt93VB7y0PTlF3JUvnKMlwYOX91OUde6BUoTKZmuI4lfQB/x2D9Ao850GL281+JWi1U0K+UN/5Lf
- 2bGxOGhA==;
+ bh=kd6mo0e0s76+YxzY+/jef9iynUcXRlmAcVIUMMORSLE=; b=H5BWafs4DPca8OM19OdpCevLSq
+ lVaiUfoqtMsu1Ij/XZzDzlCit8utLdvwB/Ex0bbta56Y+Wh95hjfefteIOO+OBjJARUr9NgKmUbhP
+ q03Xp3jZ+7PT8eqfyObhnupyK6XS9B9vUaSH4XAopmwu65rLy5mOwviJ2qQysj88lH1uciqpDDdF/
+ cy8KsK1/PL6QSqQkSbXQ1VsJdrYW9o9fhbWjM4o1yNrHLBT9BSmM/cF3QH8KJUp2aYrELHc9YlsEz
+ V2B0ijhIvRdMWxXidL26zIIrzXTLfG8Aacu3Pf7Y7m74DZEXwzJ0djM63iUiX5yFRLaguEAKCy5P7
+ 5378JPng==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pBEFW-00Gpjp-31; Fri, 30 Dec 2022 12:12:43 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pBEFl-00Ac8h-Pk; Fri, 30 Dec 2022 12:12:50 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pBEFa-005O0m-HT; Fri, 30 Dec 2022 12:12:38 +0000
+ Hat Linux)) id 1pBEFa-005O0q-IN; Fri, 30 Dec 2022 12:12:38 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,20 +46,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [RFC PATCH v5 48/52] i386/xen: Reserve Xen special pages for console,
- xenstore rings
-Date: Fri, 30 Dec 2022 12:12:31 +0000
-Message-Id: <20221230121235.1282915-49-dwmw2@infradead.org>
+Subject: [RFC PATCH v5 49/52] i386/xen: handle HVMOP_get_param
+Date: Fri, 30 Dec 2022 12:12:32 +0000
+Message-Id: <20221230121235.1282915-50-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221230121235.1282915-1-dwmw2@infradead.org>
 References: <20221230121235.1282915-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -82,69 +81,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Joao Martins <joao.m.martins@oracle.com>
 
-Xen has eight frames at 0xfeff8000 for this; we only really need two for
-now and KVM puts the identity map at 0xfeffc000, so limit ourselves to
-four.
+Which is used to fetch xenstore PFN and port to be used
+by the guest. This is preallocated by the toolstack when
+guest will just read those and use it straight away.
 
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- include/sysemu/kvm_xen.h  |  8 ++++++++
- target/i386/kvm/xen-emu.c | 15 +++++++++++++++
- 2 files changed, 23 insertions(+)
+ target/i386/kvm/xen-emu.c | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
-index 4999a0cff4..6e374a06ee 100644
---- a/include/sysemu/kvm_xen.h
-+++ b/include/sysemu/kvm_xen.h
-@@ -25,4 +25,12 @@ uint16_t kvm_xen_get_gnttab_max_frames(void);
- #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
-                                  KVM_XEN_HVM_CONFIG_ ## cap))
- 
-+#define XEN_SPECIAL_AREA_ADDR 0xfeff8000UL
-+#define XEN_SPECIAL_AREA_SIZE 0x4000UL
-+
-+#define XEN_SPECIALPAGE_CONSOLE     0
-+#define XEN_SPECIALPAGE_XENSTORE    1
-+
-+#define XEN_SPECIAL_PFN(x) ((XEN_SPECIAL_AREA_ADDR >> TARGET_PAGE_BITS) + XEN_SPECIALPAGE_##x)
-+
- #endif /* QEMU_SYSEMU_KVM_XEN_H */
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 7f13ae6a8b..83ab96724e 100644
+index 83ab96724e..08db4c0d9b 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -24,6 +24,7 @@
- 
- #include "hw/pci/msi.h"
- #include "hw/i386/apic-msidef.h"
-+#include "hw/i386/e820_memory_layout.h"
- #include "hw/i386/kvm/xen_overlay.h"
- #include "hw/i386/kvm/xen_evtchn.h"
- #include "hw/i386/kvm/xen_gnttab.h"
-@@ -137,7 +138,21 @@ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
-         return ret;
-     }
- 
-+    /* If called a second time, don't repeat the rest of the setup. */
-+    if (s->xen_caps) {
-+        return 0;
-+    }
-+
-     s->xen_caps = xen_caps;
-+
-+    /* Tell fw_cfg to notify the BIOS to reserve the range. */
-+    ret = e820_add_entry(XEN_SPECIAL_AREA_ADDR, XEN_SPECIAL_AREA_SIZE,
-+                         E820_RESERVED);
-+    if (ret < 0) {
-+        fprintf(stderr, "e820_add_entry() table is full\n");
-+        return ret;
-+    }
-+
-     return 0;
+@@ -707,6 +707,42 @@ out:
+     return true;
  }
  
++static bool handle_get_param(struct kvm_xen_exit *exit, X86CPU *cpu,
++                             uint64_t arg)
++{
++    CPUState *cs = CPU(cpu);
++    struct xen_hvm_param hp;
++    int err = 0;
++
++    /* No need for 32/64 compat handling */
++    qemu_build_assert(sizeof(hp) == 16);
++
++    if (kvm_copy_from_gva(cs, arg, &hp, sizeof(hp))) {
++        err = -EFAULT;
++        goto out;
++    }
++
++    if (hp.domid != DOMID_SELF && hp.domid != xen_domid) {
++        err = -ESRCH;
++        goto out;
++    }
++
++    switch (hp.index) {
++    case HVM_PARAM_STORE_PFN:
++        hp.value = XEN_SPECIAL_PFN(XENSTORE);
++        break;
++    default:
++        return false;
++    }
++
++    if (kvm_copy_to_gva(cs, arg, &hp, sizeof(hp))) {
++        err = -EFAULT;
++    }
++out:
++    exit->u.hcall.result = err;
++    return true;
++}
++
+ static int kvm_xen_hcall_evtchn_upcall_vector(struct kvm_xen_exit *exit,
+                                               X86CPU *cpu, uint64_t arg)
+ {
+@@ -751,6 +787,9 @@ static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+     case HVMOP_set_param:
+         return handle_set_param(exit, cpu, arg);
+ 
++    case HVMOP_get_param:
++        return handle_get_param(exit, cpu, arg);
++
+     default:
+         return false;
+     }
 -- 
 2.35.3
 
