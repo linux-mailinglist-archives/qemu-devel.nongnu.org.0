@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC5565967F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 10:02:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB01365968E
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 10:09:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBBH9-0005AF-L2; Fri, 30 Dec 2022 04:02:03 -0500
+	id 1pBBLA-0006o0-S6; Fri, 30 Dec 2022 04:06:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pBBGz-00058c-Nn
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 04:01:59 -0500
-Received: from mailout04.t-online.de ([194.25.134.18])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pBBGx-00017s-Ko
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 04:01:53 -0500
-Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
- by mailout04.t-online.de (Postfix) with SMTP id 4D99014B17;
- Fri, 30 Dec 2022 10:01:48 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.21.92]) by fwd79.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pBBGt-1HyCqf0; Fri, 30 Dec 2022 10:01:48 +0100
-Message-ID: <fa8fbff9-5c8d-d8c8-ae87-01d235ad5f98@t-online.de>
-Date: Fri, 30 Dec 2022 10:01:47 +0100
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pBBL7-0006mF-0C; Fri, 30 Dec 2022 04:06:09 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pBBL1-0002tY-1A; Fri, 30 Dec 2022 04:06:08 -0500
+Received: by mail-ed1-x536.google.com with SMTP id i9so29724521edj.4;
+ Fri, 30 Dec 2022 01:06:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DCZmz2Zuj8kmhT/YOCtHqF0c18b39aX+GartBp26qCE=;
+ b=LU5M6ZeKLAs3lMvDwljxs+OzJW/VRChj4pb5n6k2EKJfPseU25tbFcwPEh8LjoD6Pw
+ MFxviNa4U9J8Smimr+TlzQaJLuTX142+QQvhYBJD1R09M/xSOK6mVF+YoH+FfHYTSB6R
+ KBdXG9bkSn8R1FxAWSf6VZbdMk6exO9iH2vpMuwUo2sl1JKm4qfVvsq0VfT/XDUqx7EY
+ lNDGAGyJaSlZ+dmunVIA4oQqnCSITw4iqTshMDE4CZ8Kv5184dnUWrYalqV9kt5QY+Li
+ TmQNhQiBg3WukDE3gO1Rek7N4UtQadvDHZy6DKiTYuMW3nuEgQ9lswYXX2JG8O1ySlxW
+ vg5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DCZmz2Zuj8kmhT/YOCtHqF0c18b39aX+GartBp26qCE=;
+ b=3Ins5sZqERrbRqx+aiLZs5jKSvBvKF6ITjfwtXIu1wt0FlDOIUTvOLmJcsjpj47Swa
+ O2hncGQC+u7OSV3/WMEkVvEIvYJLdZ16ZPbJVHndFd7tgXV7UP1wsNzs9E74SWRPwDZf
+ Bx25k2DRz4AwcTyT9wjg9WrKEhWzIJRmDluHrKEWORk7zrjbNNs+mhiWZPpqCnJA11pG
+ ePWZ353XwG6hQWXOOQGRMhy/l6IWbbxEFHd8AlPIStXnO6UYqqr8RGW5b77D2cahAXOQ
+ qyi4ywkAR1h5ZpGa6OXVP/QRUy7iyk5Lw8w0jfDz1vCEjJDYg9VMHTwYjZ5Pm94tC+5D
+ Puhg==
+X-Gm-Message-State: AFqh2kpGetdZ5OoAW2uqrL829ZXNvGUwkl25fRUbRwBsUquaESBKhopF
+ GnPcRiyFXjxW7oggGmtzBkxqPxim3wwBP4RJ9RQ=
+X-Google-Smtp-Source: AMrXdXsxB/lyPRYA7DEPWUYDtQebVMuojzzJoDBMorPVa2IExQEHkTwjUjQnHOCwqGJXJiTuNz3GYbaiSvXdDGiCnYc=
+X-Received: by 2002:aa7:cb52:0:b0:484:93ac:33a6 with SMTP id
+ w18-20020aa7cb52000000b0048493ac33a6mr1382866edt.81.1672391160864; Fri, 30
+ Dec 2022 01:06:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH 10/11] alsaaudio: change default playback settings
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
- <2230283.NDGgU1aIbp@silver>
- <a257ab88-a779-bb84-e96e-664a3434b417@t-online.de>
- <2081398.TCYG2cGmvX@silver>
-Content-Language: en-US
-In-Reply-To: <2081398.TCYG2cGmvX@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1672390908-0A697417-37D731C5/0/0 CLEAN NORMAL
-X-TOI-MSGID: f3db2c1c-c6da-4e26-958f-33bd7a18fba0
-Received-SPF: none client-ip=194.25.134.18; envelope-from=vr_qemu@t-online.de;
- helo=mailout04.t-online.de
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221229181135.270661-1-dbarboza@ventanamicro.com>
+ <20221229181135.270661-11-dbarboza@ventanamicro.com>
+In-Reply-To: <20221229181135.270661-11-dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 30 Dec 2022 17:05:50 +0800
+Message-ID: <CAEUhbmVa8g-s0wD+EE6iZNXBfjD+M6edgq9vk7GdG2sx12J6Gg@mail.gmail.com>
+Subject: Re: [PATCH v4 10/11] hw/riscv/boot.c: introduce
+ riscv_load_kernel_and_initrd()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,67 +86,279 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 28.12.22 um 14:52 schrieb Christian Schoenebeck:
-> On Monday, December 26, 2022 4:08:37 PM CET Volker Rümelin wrote:
->> Am 21.12.22 um 12:03 schrieb Christian Schoenebeck:
->>> On Sunday, December 18, 2022 6:15:38 PM CET Volker Rümelin wrote:
->>>> The currently used default playback settings in the ALSA audio
->>>> backend are a bit unfortunate. With a few emulated audio devices,
->>>> audio playback does not work properly. Here is a short part of
->>>> the debug log while audio is playing (elapsed time in seconds).
->>> Which emulated devices are these?
->> The hda device and sb16. When I wrote this patch two months ago ac97
->> also had occasional dropouts, but at the moment ac97 works without issues.
->>
->>>> audio: Elapsed since last alsa run (running): 0.046244
->>>> audio: Elapsed since last alsa run (running): 0.023137
->>>> audio: Elapsed since last alsa run (running): 0.023170
->>>> audio: Elapsed since last alsa run (running): 0.023650
->>>> audio: Elapsed since last alsa run (running): 0.060802
->>>> audio: Elapsed since last alsa run (running): 0.031931
->>>>
->>>> For some audio devices the time of more than 23ms between updates
->>>> is too long.
->>>>
->>>> Set the period time to 5.8ms so that the maximum time between
->>>> two updates typically does not exceed 11ms. This roughly matches
->>>> the 10ms period time when doing playback with the audio timer.
->>>> After this patch the debug log looks like this.
->>> And what about dynamically adapting that value instead of reducing period time
->>> for everyone by default?
->> It seems this would be only needed for the ALSA backend. All other
->> backends with the exception of OSS are fine with a 10ms period, and the
->> ALSA audio backend also uses 10ms with -audiodev
->> alsa,out.try-poll=off,in.try-poll=off.
-> OK, but all it would need was adjusting dev->timer_period appropriately either
-> in audio_validate_opts() [audio/audio.c, line 2126] to handle it generalized
-> or at the end of alsa_audio_init() [audio/alsaaudio.c, line 944] if
-> specifically for ALSA only, no?
+On Fri, Dec 30, 2022 at 2:47 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+> The microchip_icicle_kit, sifive_u, spike and virt boards are now doing
+> the same steps when '-kernel' is used:
+>
+> - execute load_kernel()
+> - load init_rd()
+> - write kernel_cmdline in the fdt
+>
+> Let's fold everything inside riscv_load_kernel() to avoid code
+> repetition. Every other board that uses riscv_load_kernel() will have
+> this same behavior, including boards that doesn't have a valid FDT, so
+> we need to take care to not do FDT operations without checking it first.
+>
+> Since we're now doing way more than just loading the kernel, rename
+> riscv_load_kernel() to riscv_load_kernel_and_initrd().
+>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  hw/riscv/boot.c            | 27 +++++++++++++++++++++------
+>  hw/riscv/microchip_pfsoc.c | 12 ++----------
+>  hw/riscv/opentitan.c       |  2 +-
+>  hw/riscv/sifive_e.c        |  3 ++-
+>  hw/riscv/sifive_u.c        | 12 ++----------
+>  hw/riscv/spike.c           | 14 +++-----------
+>  hw/riscv/virt.c            | 12 ++----------
+>  include/hw/riscv/boot.h    |  6 +++---
+>  8 files changed, 36 insertions(+), 52 deletions(-)
+>
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 5606ea6f43..d18262c302 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -171,12 +171,13 @@ target_ulong riscv_load_firmware(const char *firmwa=
+re_filename,
+>      exit(1);
+>  }
+>
+> -target_ulong riscv_load_kernel(MachineState *machine,
+> -                               target_ulong kernel_start_addr,
+> -                               symbol_fn_t sym_cb)
+> +target_ulong riscv_load_kernel_and_initrd(MachineState *machine,
+> +                                          target_ulong kernel_start_addr=
+,
+> +                                          symbol_fn_t sym_cb)
 
-I think this should be the other way around. If period-length wasn't 
-specified on the command line, it should be calculated from 
-timer-period. With timer based playback or recording, the guest should 
-be able to write or read new audio frames every timer-period 
-microseconds. To have a high probability that the guest can write or 
-read new frames every timer-period, the asynchronous updates of the 
-audio backend have to be faster than timer-period e.g. 75-80% of 
-timer-period. But that's a different patch.
+How about we keep the riscv_load_kernel() API, in case there is a need
+for machines that just want to load kernel only?
 
->>> 23ms is usually a good trade off between low latency, CPU load and potential
->>> for audio dropouts.
->> Quite often it's longer than 23ms. For the rest of the audio backends a
->> timer period of 10ms was selected as a good trade off between CPU load
->> and audio dropouts. But you are right, this patch increases the CPU load.
->>
->> On my system the CPU load is increased by 0.9%. This was measured with a
->> Linux guest using rhythmbox for audio playback. The guest was configured
->> to use pulseaudio as sound server. The measurement was done with top -b
->> -d 10 -n 14 over a period of two minutes. The first and last measurement
->> was dropped. The average QEMU CPU load was 10.7% with and 9.8% without
->> this patch.
->>
->> I would prefer a system with a 0.9% increased CPU load where audio just
->> works over a system where you have to fine tune audio parameters.
->>
+Then introduce a new API riscv_load_kernel_and_initrd() to do both
+kernel and initrd loading?
 
+>  {
+>      const char *kernel_filename =3D machine->kernel_filename;
+>      uint64_t kernel_load_base, kernel_entry;
+> +    void *fdt =3D machine->fdt;
+>
+>      g_assert(kernel_filename !=3D NULL);
+>
+> @@ -190,21 +191,35 @@ target_ulong riscv_load_kernel(MachineState *machin=
+e,
+>      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+>                           NULL, &kernel_load_base, NULL, NULL, 0,
+>                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+> -        return kernel_load_base;
+> +        kernel_entry =3D kernel_load_base;
+> +        goto out;
+>      }
+>
+>      if (load_uimage_as(kernel_filename, &kernel_entry, NULL, NULL,
+>                         NULL, NULL, NULL) > 0) {
+> -        return kernel_entry;
+> +        goto out;
+>      }
+>
+>      if (load_image_targphys_as(kernel_filename, kernel_start_addr,
+>                                 current_machine->ram_size, NULL) > 0) {
+> -        return kernel_start_addr;
+> +        kernel_entry =3D kernel_start_addr;
+> +        goto out;
+>      }
+>
+>      error_report("could not load kernel '%s'", kernel_filename);
+>      exit(1);
+> +
+> +out:
+> +    if (machine->initrd_filename) {
+> +        riscv_load_initrd(machine, kernel_entry);
+> +    }
+> +
+> +    if (fdt && machine->kernel_cmdline && *machine->kernel_cmdline) {
+> +        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+> +                                machine->kernel_cmdline);
+> +    }
+> +
+> +    return kernel_entry;
+>  }
+>
+>  void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index 82ae5e7023..b64631f166 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -629,16 +629,8 @@ static void microchip_icicle_kit_machine_init(Machin=
+eState *machine)
+>          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
+s,
+>                                                           firmware_end_ad=
+dr);
+>
+> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
+ULL);
+> -
+> -        if (machine->initrd_filename) {
+> -            riscv_load_initrd(machine, kernel_entry);
+> -        }
+> -
+> -        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
+> -            qemu_fdt_setprop_string(machine->fdt, "/chosen",
+> -                                    "bootargs", machine->kernel_cmdline)=
+;
+> -        }
+> +        kernel_entry =3D riscv_load_kernel_and_initrd(machine, kernel_st=
+art_addr,
+> +                                                    NULL);
+>
+>          /* Compute the fdt load address in dram */
+>          fdt_load_addr =3D riscv_load_fdt(memmap[MICROCHIP_PFSOC_DRAM_LO]=
+.base,
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 64d5d435b9..0818d9610c 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -101,7 +101,7 @@ static void opentitan_board_init(MachineState *machin=
+e)
+>      }
+>
+>      if (machine->kernel_filename) {
+> -        riscv_load_kernel(machine, memmap[IBEX_DEV_RAM].base, NULL);
+> +        riscv_load_kernel_and_initrd(machine, memmap[IBEX_DEV_RAM].base,=
+ NULL);
+>      }
+>  }
+>
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index 3e3f4b0088..e22628b623 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machi=
+ne)
+>                            memmap[SIFIVE_E_DEV_MROM].base, &address_space=
+_memory);
+>
+>      if (machine->kernel_filename) {
+> -        riscv_load_kernel(machine, memmap[SIFIVE_E_DEV_DTIM].base, NULL)=
+;
+> +        riscv_load_kernel_and_initrd(machine, memmap[SIFIVE_E_DEV_DTIM].=
+base,
+> +                                     NULL);
+>      }
+>  }
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index bac394c959..b6fb715a9f 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -598,16 +598,8 @@ static void sifive_u_machine_init(MachineState *mach=
+ine)
+>          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
+s,
+>                                                           firmware_end_ad=
+dr);
+>
+> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
+ULL);
+> -
+> -        if (machine->initrd_filename) {
+> -            riscv_load_initrd(machine, kernel_entry);
+> -        }
+> -
+> -        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
+> -            qemu_fdt_setprop_string(machine->fdt, "/chosen", "bootargs",
+> -                                    machine->kernel_cmdline);
+> -        }
+> +        kernel_entry =3D riscv_load_kernel_and_initrd(machine, kernel_st=
+art_addr,
+> +                                                    NULL);
+>      } else {
+>         /*
+>          * If dynamic firmware is used, it doesn't know where is the next=
+ mode
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index bff9475686..cccfeb4fce 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -307,17 +307,9 @@ static void spike_board_init(MachineState *machine)
+>          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
+>                                                           firmware_end_ad=
+dr);
+>
+> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr,
+> -                                         htif_symbol_callback);
+> -
+> -        if (machine->initrd_filename) {
+> -            riscv_load_initrd(machine, kernel_entry);
+> -        }
+> -
+> -        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
+> -            qemu_fdt_setprop_string(machine->fdt, "/chosen", "bootargs",
+> -                                    machine->kernel_cmdline);
+> -        }
+> +        kernel_entry =3D riscv_load_kernel_and_initrd(machine,
+> +                                                    kernel_start_addr,
+> +                                                    htif_symbol_callback=
+);
+>      } else {
+>         /*
+>          * If dynamic firmware is used, it doesn't know where is the next=
+ mode
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index c8e35f861e..eadf057940 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1281,16 +1281,8 @@ static void virt_machine_done(Notifier *notifier, =
+void *data)
+>          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
+>                                                           firmware_end_ad=
+dr);
+>
+> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
+ULL);
+> -
+> -        if (machine->initrd_filename) {
+> -            riscv_load_initrd(machine, kernel_entry);
+> -        }
+> -
+> -        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
+> -            qemu_fdt_setprop_string(machine->fdt, "/chosen", "bootargs",
+> -                                    machine->kernel_cmdline);
+> -        }
+> +        kernel_entry =3D riscv_load_kernel_and_initrd(machine, kernel_st=
+art_addr,
+> +                                                    NULL);
+>      } else {
+>         /*
+>          * If dynamic firmware is used, it doesn't know where is the next=
+ mode
+> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+> index f94653a09b..16b86450d3 100644
+> --- a/include/hw/riscv/boot.h
+> +++ b/include/hw/riscv/boot.h
+> @@ -43,9 +43,9 @@ char *riscv_find_firmware(const char *firmware_filename=
+,
+>  target_ulong riscv_load_firmware(const char *firmware_filename,
+>                                   hwaddr firmware_load_addr,
+>                                   symbol_fn_t sym_cb);
+> -target_ulong riscv_load_kernel(MachineState *machine,
+> -                               target_ulong firmware_end_addr,
+> -                               symbol_fn_t sym_cb);
+> +target_ulong riscv_load_kernel_and_initrd(MachineState *machine,
+> +                                          target_ulong firmware_end_addr=
+,
+> +                                          symbol_fn_t sym_cb);
+>  void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
+>  uint64_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt=
+);
+>  void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayStat=
+e *harts,
+> --
+
+Regards,
+Bin
 
