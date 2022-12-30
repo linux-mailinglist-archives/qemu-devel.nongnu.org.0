@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47ED6659851
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:41:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A66659867
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:45:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBETK-0004Ab-9S; Fri, 30 Dec 2022 07:26:50 -0500
+	id 1pBEYH-0004mz-QE; Fri, 30 Dec 2022 07:31:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pBET6-000454-Qr; Fri, 30 Dec 2022 07:26:38 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEY2-0004jV-Fe
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:31:44 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pBESz-0008F3-2q; Fri, 30 Dec 2022 07:26:31 -0500
-Received: by mail-ed1-x529.google.com with SMTP id d14so30264206edj.11;
- Fri, 30 Dec 2022 04:26:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xmdtYCtAP6i6jamsZTFaYC9wwLPKnCmxk9o1H6G0fWc=;
- b=eBb5RgvGO2LAFUqGNKizKUlwqypRHtipknsfI/fAr82X7mr4j9LyUtgFwFAvslhzY5
- wcQN/ft62oK37bgw8GS3hmeksVaHxXh5GNQ1UD0kLv3104bw2NF9CReKJfKigPz/DUsh
- 4zfcMPejRzoGezbSm5NkPP9bUpVeiFOSNN4TDPxVLUrbwRJ7MgqtR4siofKr5ZqLyLnG
- h40JUGvaFM/egnwxwW8aNBRJjCgLfngcymkhH0DnX+GZM/au2RBVzR8xqr+nJbwrzl+T
- 0rC0DaASsKJyD0Q9H2Bfh3HABasVjxZrYOPyhJGTVqXf8wqImjKNoU9B0XaHU65Ci/55
- Sz5Q==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBEY0-0001MW-71
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:31:41 -0500
+Received: by mail-wr1-x429.google.com with SMTP id w1so7676190wrt.8
+ for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 04:31:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oJzcBFzg7pIOQa/da8s6FCBWPV6la6FFq85YAwtjEko=;
+ b=Rkdy2g/t19ardE78uL2TaNMWOUNABfhpBxF+atSH8Y1Fkcaf6zsEUQW8ufdGBnq5Ky
+ zp6aRtBdZ+gkuImGv5w7q9lc8tisgvKzzNZPyqwMlBfgTPBEgWprKSoYhmi7urdjDOHr
+ omz0pyqhhYRhNkrTqZppOhoxOopcZb9vxGrCT5sXGonFwBU4i3O4H9qnHhZJFKiy/wCD
+ /UV7MuWPTJh3SQGFQkuzXvIPGb/BucSzwovcoGikB24afLz3bjcTRAyOG+qqMZjhqEiY
+ dlHX6G/ZVtTaFRGH6fFOXpW397gZGAs+lp7twH2u4W+PUTo12KnhO3DOyFwC6dmG27pd
+ R8CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xmdtYCtAP6i6jamsZTFaYC9wwLPKnCmxk9o1H6G0fWc=;
- b=q3y+E2b5cjafaDUQ7aq0T5Lm5ZdM440S4WiWdY0/DC+Gx2xWC0qQwn1BXUJ3Y705GS
- Xd3jHIkd/uyt/A64j48B8qEhabfjDgJYwx8kZpJW+ZPR/7ivTSnRvRGY8kRDQtKgHvRI
- ReCL3VS4JK7vALDxWyraPVimgdIfycSj++ye+GTayXph4SSnzdB0kCStXG2n6Pc0QZrb
- aTqwgmmcxEg0Hm3pG18Ek4pU+nWYy0CPEazupcQrdMCT0h93Ay9YiWItrhO3YNVnOaQT
- 7lUmmuz0c21+BIsfy8IGJC8V4DHx8xlH22yLn4RbQCotUPJCnktdKhXWNJLoGaCW4UFR
- rCCA==
-X-Gm-Message-State: AFqh2krOP7DfAMBuzioMgPZIz1sMtvjaiYbpOUQ72v55hfbSXZdk2R/p
- hmB18sQdo/PrdOTUVvAhofuM6C5nLFNBjGFdMXs=
-X-Google-Smtp-Source: AMrXdXsyUYWmTAF27lO4ZCUUVGYDAsnHl99/u1Gjm7CqMehfu0g1zTMC+7LebLuJowubiu722ieW+9SLHxnI5Z41qi0=
-X-Received: by 2002:a05:6402:1843:b0:46b:1d60:f60a with SMTP id
- v3-20020a056402184300b0046b1d60f60amr3589361edy.193.1672403185750; Fri, 30
- Dec 2022 04:26:25 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oJzcBFzg7pIOQa/da8s6FCBWPV6la6FFq85YAwtjEko=;
+ b=yl2eKMhePfJUY6JZxYevzSUhlkztTC9XELvml6Pxki62WSUECyh3K6RecmRhskApP3
+ RNPY78xajDZ78af4JgqSBxM7LZBXfu2xUGl+8wAChxk8j+kQ7l/UrX7zKj2CzfcyzpJW
+ 7o7iKTL/AtCt3GOiAyZ8nzeFa++29TiIGOiQvIOR1rIXgVXnJOYE/6hf03QU7pZTzwBI
+ U8rol8ERn7VdWfV7Iq66BjJlxprGDPOfQBiYMVPYQxkPi8hPHURSCgr1zuv8JtDkf+2r
+ POYCWTbDRHBcoTiZyRHO4t8/LkQ+1yqroHes9oDDqfgxFk3185IfKRQTYHXPNB90X//q
+ cu8g==
+X-Gm-Message-State: AFqh2kra7SLvrWd6zSD2JpgerZwUcYNyG68Plnnmz5y/LqQHy/CFQW14
+ vcF5WrzSvYX28LOO1F0ToUGpxETomdeQdj2U
+X-Google-Smtp-Source: AMrXdXt2VC9O0iPOsrq1HhzOy/l0i8go3r4fGaOQUcOfL74WYjUhDFw+hHV1oxoZGE0dyzmLgWtl6Q==
+X-Received: by 2002:a5d:6b87:0:b0:26f:8bfc:98ff with SMTP id
+ n7-20020a5d6b87000000b0026f8bfc98ffmr17077342wrx.38.1672403498306; 
+ Fri, 30 Dec 2022 04:31:38 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ ay19-20020a5d6f13000000b0022cdeba3f83sm1251568wrb.84.2022.12.30.04.31.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Dec 2022 04:31:37 -0800 (PST)
+Message-ID: <90de6d57-25e1-d20f-15e3-069e06ef2f00@linaro.org>
+Date: Fri, 30 Dec 2022 13:31:35 +0100
 MIME-Version: 1.0
-References: <20221229181135.270661-1-dbarboza@ventanamicro.com>
- <20221229181135.270661-11-dbarboza@ventanamicro.com>
- <CAEUhbmVa8g-s0wD+EE6iZNXBfjD+M6edgq9vk7GdG2sx12J6Gg@mail.gmail.com>
- <797aa177-bb3a-8333-7a2b-79ee799e2633@ventanamicro.com>
-In-Reply-To: <797aa177-bb3a-8333-7a2b-79ee799e2633@ventanamicro.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 30 Dec 2022 20:26:14 +0800
-Message-ID: <CAEUhbmXSk6j5sCoY8U6A3GLH2Gq7qHsNCk-bBfh9EqWE4jE_bQ@mail.gmail.com>
-Subject: Re: [PATCH v4 10/11] hw/riscv/boot.c: introduce
- riscv_load_kernel_and_initrd()
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 02/11] hw/watchdog/wdt_aspeed: Extend MMIO range to
+ cover more registers
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
+ Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+ Peter Delevoryas <peter@pjd.dev>, Steven Lee <steven_lee@aspeedtech.com>,
+ Jamin Lin <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>,
+ Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>
+References: <20221230113504.37032-1-philmd@linaro.org>
+ <20221230113504.37032-3-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221230113504.37032-3-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,83 +100,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 30, 2022 at 8:04 PM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
->
->
-> On 12/30/22 06:05, Bin Meng wrote:
-> > On Fri, Dec 30, 2022 at 2:47 AM Daniel Henrique Barboza
-> > <dbarboza@ventanamicro.com> wrote:
-> >> The microchip_icicle_kit, sifive_u, spike and virt boards are now doin=
-g
-> >> the same steps when '-kernel' is used:
-> >>
-> >> - execute load_kernel()
-> >> - load init_rd()
-> >> - write kernel_cmdline in the fdt
-> >>
-> >> Let's fold everything inside riscv_load_kernel() to avoid code
-> >> repetition. Every other board that uses riscv_load_kernel() will have
-> >> this same behavior, including boards that doesn't have a valid FDT, so
-> >> we need to take care to not do FDT operations without checking it firs=
-t.
-> >>
-> >> Since we're now doing way more than just loading the kernel, rename
-> >> riscv_load_kernel() to riscv_load_kernel_and_initrd().
-> >>
-> >> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> >> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> >> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> >> ---
-> >>   hw/riscv/boot.c            | 27 +++++++++++++++++++++------
-> >>   hw/riscv/microchip_pfsoc.c | 12 ++----------
-> >>   hw/riscv/opentitan.c       |  2 +-
-> >>   hw/riscv/sifive_e.c        |  3 ++-
-> >>   hw/riscv/sifive_u.c        | 12 ++----------
-> >>   hw/riscv/spike.c           | 14 +++-----------
-> >>   hw/riscv/virt.c            | 12 ++----------
-> >>   include/hw/riscv/boot.h    |  6 +++---
-> >>   8 files changed, 36 insertions(+), 52 deletions(-)
-> >>
-> >> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> >> index 5606ea6f43..d18262c302 100644
-> >> --- a/hw/riscv/boot.c
-> >> +++ b/hw/riscv/boot.c
-> >> @@ -171,12 +171,13 @@ target_ulong riscv_load_firmware(const char *fir=
-mware_filename,
-> >>       exit(1);
-> >>   }
-> >>
-> >> -target_ulong riscv_load_kernel(MachineState *machine,
-> >> -                               target_ulong kernel_start_addr,
-> >> -                               symbol_fn_t sym_cb)
-> >> +target_ulong riscv_load_kernel_and_initrd(MachineState *machine,
-> >> +                                          target_ulong kernel_start_a=
-ddr,
-> >> +                                          symbol_fn_t sym_cb)
-> > How about we keep the riscv_load_kernel() API, in case there is a need
-> > for machines that just want to load kernel only?
-> >
-> > Then introduce a new API riscv_load_kernel_and_initrd() to do both
-> > kernel and initrd loading?
->
-> What about an extra flag to riscv_load_kernel(), e.g:
->
-> riscv_load_kernel(MachineState *machine,  target_ulong kernel_start_addr,
->                                  bool load_initrd, symbol_fn_t sym_cb)
->
->
-> And then machines that don't want to load initrd can opt out by using
-> load_initrd =3D false. The name of the flag would also make our intention=
-s with
-> the API self explanatory (i.e. load_initrd makes load_kernel() loads init=
-rd
-> as well).
->
+On 30/12/22 12:34, Philippe Mathieu-Daudé wrote:
+> When booting the Zephyr demo in [1] we get:
+> 
+>    aspeed.io: unimplemented device write (size 4, offset 0x185128, value 0x030f1ff1) <--
+>    aspeed.io: unimplemented device write (size 4, offset 0x18512c, value 0x03fffff1)
+> 
+> This corresponds to this Zephyr code [2]:
+> 
+>    static int aspeed_wdt_init(const struct device *dev)
+>    {
+>      const struct aspeed_wdt_config *config = dev->config;
+>      struct aspeed_wdt_data *const data = dev->data;
+>      uint32_t reg_val;
+> 
+>      /* disable WDT by default */
+>      reg_val = sys_read32(config->ctrl_base + WDT_CTRL_REG);
+>      reg_val &= ~WDT_CTRL_ENABLE;
+>      sys_write32(reg_val, config->ctrl_base + WDT_CTRL_REG);
+> 
+>      sys_write32(data->rst_mask1,
+>                  config->ctrl_base + WDT_SW_RESET_MASK1_REG);   <------
+>      sys_write32(data->rst_mask2,
+>                  config->ctrl_base + WDT_SW_RESET_MASK2_REG);
+> 
+>      return 0;
+>    }
+> 
+> The register definitions are [3]:
+> 
+>    #define WDT_RELOAD_VAL_REG          0x0004
+>    #define WDT_RESTART_REG             0x0008
+>    #define WDT_CTRL_REG                0x000C
+>    #define WDT_TIMEOUT_STATUS_REG      0x0010
+>    #define WDT_TIMEOUT_STATUS_CLR_REG  0x0014
+>    #define WDT_RESET_MASK1_REG         0x001C
+>    #define WDT_RESET_MASK2_REG         0x0020
+>    #define WDT_SW_RESET_MASK1_REG      0x0028   <------
+>    #define WDT_SW_RESET_MASK2_REG      0x002C
+>    #define WDT_SW_RESET_CTRL_REG       0x0024
+> 
+> Currently QEMU only cover a MMIO region of size 0x20:
+> 
+>    #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
+> 
+> Change to map the whole 'iosize' which might be bigger, covering
+> the other registers. The MemoryRegionOps read/write handlers will
+> report the accesses as out-of-bounds guest-errors, but the next
+> commit will report them as unimplemented.
 
-That sounds like a good idea!
+I'll amend here for clarity:
 
-Regards,
-Bin
+---
+
+Memory layout before this change:
+
+   (qemu) info mtree -f
+     ...
+     000000007e785000-000000007e78501f (prio 0, i/o): aspeed.wdt
+     000000007e785020-000000007e78507f (prio -1000, i/o): aspeed.io 
+@0000000000185020
+     000000007e785080-000000007e78509f (prio 0, i/o): aspeed.wdt
+     000000007e7850a0-000000007e7850ff (prio -1000, i/o): aspeed.io 
+@00000000001850a0
+     000000007e785100-000000007e78511f (prio 0, i/o): aspeed.wdt
+     000000007e785120-000000007e78517f (prio -1000, i/o): aspeed.io 
+@0000000000185120
+     000000007e785180-000000007e78519f (prio 0, i/o): aspeed.wdt
+     000000007e7851a0-000000007e788fff (prio -1000, i/o): aspeed.io 
+@00000000001851a0
+
+After:
+
+   (qemu) info mtree -f
+     ...
+     000000007e785000-000000007e78507f (prio 0, i/o): aspeed.wdt
+     000000007e785080-000000007e7850ff (prio 0, i/o): aspeed.wdt
+     000000007e785100-000000007e78517f (prio 0, i/o): aspeed.wdt
+     000000007e785180-000000007e7851ff (prio 0, i/o): aspeed.wdt
+     000000007e785200-000000007e788fff (prio -1000, i/o): aspeed.io 
+@0000000000185200
+---
+
+> [1] https://github.com/AspeedTech-BMC/zephyr/releases/tag/v00.01.07
+> [2] https://github.com/AspeedTech-BMC/zephyr/commit/2e99f10ac27b
+> [3] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/drivers/watchdog/wdt_aspeed.c#L31
+> 
+> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/watchdog/wdt_aspeed.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+> index 958725a1b5..eefca31ae4 100644
+> --- a/hw/watchdog/wdt_aspeed.c
+> +++ b/hw/watchdog/wdt_aspeed.c
+> @@ -260,6 +260,7 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
+>   {
+>       SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+>       AspeedWDTState *s = ASPEED_WDT(dev);
+> +    AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(dev);
+>   
+>       assert(s->scu);
+>   
+> @@ -271,7 +272,7 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
+>       s->pclk_freq = PCLK_HZ;
+>   
+>       memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_wdt_ops, s,
+> -                          TYPE_ASPEED_WDT, ASPEED_WDT_REGS_MAX * 4);
+> +                          TYPE_ASPEED_WDT, awc->iosize);
+>       sysbus_init_mmio(sbd, &s->iomem);
+>   }
+>   
+
 
