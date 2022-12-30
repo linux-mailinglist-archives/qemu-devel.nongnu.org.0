@@ -2,106 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B74659AC9
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F2E659ACA
 	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 18:03:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBIme-0003jn-O6; Fri, 30 Dec 2022 12:03:04 -0500
+	id 1pBIm2-0003DP-3g; Fri, 30 Dec 2022 12:02:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pBImR-0003eH-Sm
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 12:02:53 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pBIls-00039g-Tj
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 12:02:18 -0500
+Received: from mail.skyhub.de ([5.9.137.197])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pBImM-0002fC-Vn
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 12:02:49 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BUG1sq0022497
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 17:01:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=JizdX/aXY8gCpotwGcBk12ZBymM6yxYnGxO/UDoDpFg=;
- b=Dj/EFbEeZPCIHCIYL0wMK3MPHV2HaquzJ709LFoARFdm+SwYNuZBwJclYhHz7xGmuW01
- VzkgB6vq3sk3OskhS7oC+cs0SW/vC+B9sWdQDOcWAr4+y9odU4lXOF+k6rbjnwKK7srM
- 14+3h7Og0S5Xul7pbK0zqezfZz6FemgGx6+RzEJoiwUCR/WIUxYwLLnLt/JCAYZjK6Y1
- Cc6uaLkjC3xqOJEJz/kSWvO+nhvsu+CgDHKKuLzpDgt56IBwyNjhR71csLWj/CMhbfz1
- kDcxRBsJUlHUx5CiLvhtA9VIV30LLybSsa4fz/naPr14h66l/zdRFcrTj6QORzroXTgd Mw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt357gxge-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 17:01:42 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BUH0k4I016372
- for <qemu-devel@nongnu.org>; Fri, 30 Dec 2022 17:01:42 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt357gxfx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Dec 2022 17:01:42 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BUFiadp018345;
- Fri, 30 Dec 2022 17:01:41 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
- by ppma01wdc.us.ibm.com (PPS) with ESMTPS id 3mns282kd2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Dec 2022 17:01:41 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
- [10.39.53.228])
- by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BUH1e9K4850310
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Dec 2022 17:01:40 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 32D935804B;
- Fri, 30 Dec 2022 17:01:40 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6345958063;
- Fri, 30 Dec 2022 17:01:39 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 30 Dec 2022 17:01:39 +0000 (GMT)
-Message-ID: <a36be6a2-38c0-4b65-20a8-5a9cacca7d71@linux.ibm.com>
-Date: Fri, 30 Dec 2022 12:01:38 -0500
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pBIlk-0002iU-1s
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 12:02:15 -0500
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6A0E21EC0354;
+ Fri, 30 Dec 2022 18:01:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1672419716;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=az0eqMcObaagwYoY8N4RiGpnzZ0HZwjbF/vFkgdYDtw=;
+ b=BGugnp4hTFqKue1bGCy+HOyMPvdXIJAqX+Cl9hlwJgoPDYbSMvhHXZVZkZwZvjC/AvJez7
+ UBYNN6PjaeQMCI1SbP/IOZesVDxGScT535IYgPeH8RgFpot5NQxUdJN52QMhx5MWvXX2j0
+ EvRyO0wx6PzPmf/GqE5Uf7PJgqLjw0I=
+Date: Fri, 30 Dec 2022 18:01:51 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>, pbonzini@redhat.com,
+ ebiggers@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org, ardb@kernel.org, kraxel@redhat.com,
+ philmd@linaro.org
+Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
+ setup_data
+Message-ID: <Y68Zf/MKmX3Rr18E@zn.tnic>
+References: <20221228143831.396245-1-Jason@zx2c4.com>
+ <6cab26b5-06ae-468d-ac79-ecdecb86ef07@linaro.org>
+ <Y6xvJheSYC83voCZ@zx2c4.com> <Y6x1knb8udpSyMSp@zx2c4.com>
+ <9188EEE9-2759-4389-B39E-0FEBBA3FA57D@zytor.com>
+ <Y6z765zHrQ6Rl/0o@zx2c4.com>
+ <AF921575-0968-434A-8B46-095B78C209C1@zytor.com>
+ <Y62MdawGaasXmoVL@zn.tnic> <Y68Js5b0jW/2nLU4@zx2c4.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH v4 1/2] tpm: convert tpmdev options processing to new
- visitor format
-Content-Language: en-US
-To: James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20221230152415.27375-1-jejb@linux.ibm.com>
- <20221230152415.27375-2-jejb@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20221230152415.27375-2-jejb@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: o-HLvbLCXfg4f2pSgnuj65a96AuS1dgc
-X-Proofpoint-ORIG-GUID: 41lJES5GkT_ggOESnWEyN7iJ6u-wjEs_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-30_11,2022-12-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- phishscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
- malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0 lowpriorityscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212300150
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y68Js5b0jW/2nLU4@zx2c4.com>
+Received-SPF: pass client-ip=5.9.137.197; envelope-from=bp@alien8.de;
+ helo=mail.skyhub.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,432 +74,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 12/30/22 10:24, James Bottomley wrote:
-> From: James Bottomley <James.Bottomley@HansenPartnership.com>
+On Fri, Dec 30, 2022 at 04:54:27PM +0100, Jason A. Donenfeld wrote:
+> > Right, with CONFIG_X86_VERBOSE_BOOTUP=y in a guest here, it says:
+> > 
+> > early console in extract_kernel
+> > input_data: 0x000000000be073a8
+> > input_len: 0x00000000008cfc43
+> > output: 0x0000000001000000
+> > output_len: 0x000000000b600a98
+> > kernel_total_size: 0x000000000ac26000
+> > needed_size: 0x000000000b800000
+> > trampoline_32bit: 0x000000000009d000
+> > 
+> > so that's a ~9M kernel which gets decompressed at 0x1000000 and the
+> > output len is, what, ~180M which looks like plenty to me...
 > 
-> Instead of processing the tpmdev options using the old qemu options,
-> convert to the new visitor format which also allows the passing of
-> json on the command line.
-> 
-> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
-> 
-> ---
-> v4: add TpmConfiOptions
-> ---
->   backends/tpm/tpm_emulator.c    | 24 ++++-----
->   backends/tpm/tpm_passthrough.c | 27 +++-------
->   include/sysemu/tpm.h           |  4 +-
->   include/sysemu/tpm_backend.h   |  2 +-
->   qapi/tpm.json                  | 19 +++++++
->   softmmu/tpm.c                  | 90 ++++++++++++++--------------------
->   softmmu/vl.c                   | 19 +------
->   7 files changed, 76 insertions(+), 109 deletions(-)
-> 
-> diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-> index 49cc3d749d..cb6bf9d7c2 100644
-> --- a/backends/tpm/tpm_emulator.c
-> +++ b/backends/tpm/tpm_emulator.c
-> @@ -584,33 +584,28 @@ err_exit:
->       return -1;
->   }
->   
-> -static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, QemuOpts *opts)
-> +static int tpm_emulator_handle_device_opts(TPMEmulator *tpm_emu, TpmCreateOptions *opts)
->   {
-> -    const char *value;
->       Error *err = NULL;
->       Chardev *dev;
->   
-> -    value = qemu_opt_get(opts, "chardev");
-> -    if (!value) {
-> -        error_report("tpm-emulator: parameter 'chardev' is missing");
-> -        goto err;
-> -    }
-> +    tpm_emu->options = QAPI_CLONE(TPMEmulatorOptions, &opts->u.emulator);
-> +    tpm_emu->data_ioc = NULL;
->   
-> -    dev = qemu_chr_find(value);
-> +    dev = qemu_chr_find(opts->u.emulator.chardev);
->       if (!dev) {
-> -        error_report("tpm-emulator: tpm chardev '%s' not found", value);
-> +        error_report("tpm-emulator: tpm chardev '%s' not found",
-> +                opts->u.emulator.chardev);
->           goto err;
->       }
->   
->       if (!qemu_chr_fe_init(&tpm_emu->ctrl_chr, dev, &err)) {
->           error_prepend(&err, "tpm-emulator: No valid chardev found at '%s':",
-> -                      value);
-> +                      opts->u.emulator.chardev);
->           error_report_err(err);
->           goto err;
->       }
->   
-> -    tpm_emu->options->chardev = g_strdup(value);
-> -
->       if (tpm_emulator_prepare_data_fd(tpm_emu) < 0) {
->           goto err;
->       }
-> @@ -649,7 +644,7 @@ err:
->       return -1;
->   }
->   
-> -static TPMBackend *tpm_emulator_create(QemuOpts *opts)
-> +static TPMBackend *tpm_emulator_create(TpmCreateOptions *opts)
->   {
->       TPMBackend *tb = TPM_BACKEND(object_new(TYPE_TPM_EMULATOR));
->   
-> @@ -972,7 +967,6 @@ static void tpm_emulator_inst_init(Object *obj)
->   
->       trace_tpm_emulator_inst_init();
->   
-> -    tpm_emu->options = g_new0(TPMEmulatorOptions, 1);
->       tpm_emu->cur_locty_number = ~0;
->       qemu_mutex_init(&tpm_emu->mutex);
->       tpm_emu->vmstate =
-> @@ -990,7 +984,7 @@ static void tpm_emulator_shutdown(TPMEmulator *tpm_emu)
->   {
->       ptm_res res;
->   
-> -    if (!tpm_emu->options->chardev) {
-> +    if (!tpm_emu->data_ioc) {
->           /* was never properly initialized */
->           return;
->       }
-> diff --git a/backends/tpm/tpm_passthrough.c b/backends/tpm/tpm_passthrough.c
-> index 5a2f74db1b..f9771eaf1f 100644
-> --- a/backends/tpm/tpm_passthrough.c
-> +++ b/backends/tpm/tpm_passthrough.c
-> @@ -252,23 +252,11 @@ static int tpm_passthrough_open_sysfs_cancel(TPMPassthruState *tpm_pt)
->   }
->   
->   static int
-> -tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, QemuOpts *opts)
-> +tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, TpmCreateOptions *opts)
->   {
-> -    const char *value;
-> +    tpm_pt->options = QAPI_CLONE(TPMPassthroughOptions, &opts->u.passthrough);
->   
-> -    value = qemu_opt_get(opts, "cancel-path");
-> -    if (value) {
-> -        tpm_pt->options->cancel_path = g_strdup(value);
-> -        tpm_pt->options->has_cancel_path = true;
-> -    }
-> -
-> -    value = qemu_opt_get(opts, "path");
-> -    if (value) {
-> -        tpm_pt->options->has_path = true;
-> -        tpm_pt->options->path = g_strdup(value);
-> -    }
-> -
-> -    tpm_pt->tpm_dev = value ? value : TPM_PASSTHROUGH_DEFAULT_DEVICE;
-> +    tpm_pt->tpm_dev = opts->u.passthrough.has_path ? opts->u.passthrough.path : TPM_PASSTHROUGH_DEFAULT_DEVICE;
->       tpm_pt->tpm_fd = qemu_open_old(tpm_pt->tpm_dev, O_RDWR);
->       if (tpm_pt->tpm_fd < 0) {
->           error_report("Cannot access TPM device using '%s': %s",
-> @@ -290,11 +278,11 @@ tpm_passthrough_handle_device_opts(TPMPassthruState *tpm_pt, QemuOpts *opts)
->       return 0;
->   }
->   
-> -static TPMBackend *tpm_passthrough_create(QemuOpts *opts)
-> +static TPMBackend *tpm_passthrough_create(TpmCreateOptions *tco)
->   {
->       Object *obj = object_new(TYPE_TPM_PASSTHROUGH);
->   
-> -    if (tpm_passthrough_handle_device_opts(TPM_PASSTHROUGH(obj), opts)) {
-> +    if (tpm_passthrough_handle_device_opts(TPM_PASSTHROUGH(obj), tco)) {
->           object_unref(obj);
->           return NULL;
->       }
-> @@ -321,8 +309,8 @@ static TpmTypeOptions *tpm_passthrough_get_tpm_options(TPMBackend *tb)
->       TpmTypeOptions *options = g_new0(TpmTypeOptions, 1);
->   
->       options->type = TPM_TYPE_PASSTHROUGH;
-> -    options->u.passthrough.data = QAPI_CLONE(TPMPassthroughOptions,
-> -                                             TPM_PASSTHROUGH(tb)->options);
-> +
-> +    options->u.passthrough.data = QAPI_CLONE(TPMPassthroughOptions, TPM_PASSTHROUGH(tb)->options);
->   
->       return options;
->   }
-> @@ -346,7 +334,6 @@ static void tpm_passthrough_inst_init(Object *obj)
->   {
->       TPMPassthruState *tpm_pt = TPM_PASSTHROUGH(obj);
->   
-> -    tpm_pt->options = g_new0(TPMPassthroughOptions, 1);
->       tpm_pt->tpm_fd = -1;
->       tpm_pt->cancel_fd = -1;
->   }
-> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-> index fb40e30ff6..d00a833a21 100644
-> --- a/include/sysemu/tpm.h
-> +++ b/include/sysemu/tpm.h
-> @@ -17,8 +17,8 @@
->   
->   #ifdef CONFIG_TPM
->   
-> -int tpm_config_parse(QemuOptsList *opts_list, const char *optarg);
-> -int tpm_init(void);
-> +void tpm_config_parse(const char *optarg);
-> +void tpm_init(void);
->   void tpm_cleanup(void);
->   
->   typedef enum TPMVersion {
-> diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
-> index 8fd3269c11..846a9e39fa 100644
-> --- a/include/sysemu/tpm_backend.h
-> +++ b/include/sysemu/tpm_backend.h
-> @@ -57,7 +57,7 @@ struct TPMBackendClass {
->       /* get a descriptive text of the backend to display to the user */
->       const char *desc;
->   
-> -    TPMBackend *(*create)(QemuOpts *opts);
-> +    TPMBackend *(*create)(TpmCreateOptions *tco);
->   
->       /* start up the TPM on the backend - optional */
->       int (*startup_tpm)(TPMBackend *t, size_t buffersize);
-> diff --git a/qapi/tpm.json b/qapi/tpm.json
-> index 4e2ea9756a..2b491c28b4 100644
-> --- a/qapi/tpm.json
-> +++ b/qapi/tpm.json
-> @@ -134,6 +134,25 @@
->               'emulator': 'TPMEmulatorOptionsWrapper' },
->     'if': 'CONFIG_TPM' }
->   
-> +##
-> +# @TpmCreateOptions:
-> +#
-> +# A union referencing different TPM backend types' configuration options
-> +#   without the wrapper to be usable by visitors.
-> +#
-> +# @type: - 'passthrough' The configuration options for the TPM passthrough type
-> +#        - 'emulator' The configuration options for TPM emulator backend type
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'union': 'TpmCreateOptions',
-> +  'base': { 'type': 'TpmType',
-> +            'id' : 'str' },
-> +  'discriminator': 'type',
-> +  'data': { 'passthrough' : 'TPMPassthroughOptions',
-> +            'emulator': 'TPMEmulatorOptions' },
-> +  'if': 'CONFIG_TPM' }
-> +
->   ##
->   # @TPMInfo:
->   #
-> diff --git a/softmmu/tpm.c b/softmmu/tpm.c
-> index 578563f05a..699c46d3ae 100644
-> --- a/softmmu/tpm.c
-> +++ b/softmmu/tpm.c
-> @@ -17,14 +17,26 @@
->   #include "qapi/error.h"
->   #include "qapi/qapi-commands-tpm.h"
->   #include "qapi/qmp/qerror.h"
-> +#include "qapi/qobject-input-visitor.h"
-> +#include "qapi/qapi-visit-tpm.h"
->   #include "sysemu/tpm_backend.h"
->   #include "sysemu/tpm.h"
->   #include "qemu/config-file.h"
->   #include "qemu/error-report.h"
-> +#include "qemu/help_option.h"
->   
->   static QLIST_HEAD(, TPMBackend) tpm_backends =
->       QLIST_HEAD_INITIALIZER(tpm_backends);
->   
-> +typedef struct TpmCreateOptionsQueueEntry {
-> +        TpmCreateOptions *tco;
-> +        QSIMPLEQ_ENTRY(TpmCreateOptionsQueueEntry) entry;
-> +} TpmCreateOptionsQueueEntry;
-> +
-> +typedef QSIMPLEQ_HEAD(, TpmCreateOptionsQueueEntry) TpmCreateOptionsQueue;
-> +
-> +static TpmCreateOptionsQueue tco_queue = QSIMPLEQ_HEAD_INITIALIZER(tco_queue);
-> +
->   static const TPMBackendClass *
->   tpm_be_find_by_type(enum TpmType type)
->   {
-> @@ -84,63 +96,31 @@ TPMBackend *qemu_find_tpm_be(const char *id)
->       return NULL;
->   }
->   
-> -static int tpm_init_tpmdev(void *dummy, QemuOpts *opts, Error **errp)
-> +static void tpm_init_tpmdev(TpmCreateOptions *tco)
->   {
-> -    /*
-> -     * Use of error_report() in a function with an Error ** parameter
-> -     * is suspicious.  It is okay here.  The parameter only exists to
-> -     * make the function usable with qemu_opts_foreach().  It is not
-> -     * actually used.
-> -     */
-> -    const char *value;
-> -    const char *id;
->       const TPMBackendClass *be;
->       TPMBackend *drv;
-> -    Error *local_err = NULL;
-> -    int i;
->   
->       if (!QLIST_EMPTY(&tpm_backends)) {
->           error_report("Only one TPM is allowed.");
-> -        return 1;
-> +        exit(1);
->       }
->   
-> -    id = qemu_opts_id(opts);
-> -    if (id == NULL) {
-> -        error_report(QERR_MISSING_PARAMETER, "id");
-> -        return 1;
-> -    }
-> -
-> -    value = qemu_opt_get(opts, "type");
-> -    if (!value) {
-> -        error_report(QERR_MISSING_PARAMETER, "type");
-> -        tpm_display_backend_drivers();
-> -        return 1;
-> -    }
-> -
-> -    i = qapi_enum_parse(&TpmType_lookup, value, -1, NULL);
-> -    be = i >= 0 ? tpm_be_find_by_type(i) : NULL;
-> +    be = tco->type >= 0 ? tpm_be_find_by_type(tco->type) : NULL;
->       if (be == NULL) {
->           error_report(QERR_INVALID_PARAMETER_VALUE,
->                        "type", "a TPM backend type");
->           tpm_display_backend_drivers();
-> -        return 1;
-> -    }
-> -
-> -    /* validate backend specific opts */
-> -    if (!qemu_opts_validate(opts, be->opts, &local_err)) {
-> -        error_report_err(local_err);
-> -        return 1;
-> +        exit(1);
->       }
->   
-> -    drv = be->create(opts);
-> +    drv = be->create(tco);
->       if (!drv) {
-> -        return 1;
-> +        exit(1);
->       }
->   
-> -    drv->id = g_strdup(id);
-> +    drv->id = g_strdup(tco->id);
->       QLIST_INSERT_HEAD(&tpm_backends, drv, list);
-> -
-> -    return 0;
->   }
->   
->   /*
-> @@ -161,33 +141,35 @@ void tpm_cleanup(void)
->    * Initialize the TPM. Process the tpmdev command line options describing the
->    * TPM backend.
->    */
-> -int tpm_init(void)
-> +void tpm_init(void)
->   {
-> -    if (qemu_opts_foreach(qemu_find_opts("tpmdev"),
-> -                          tpm_init_tpmdev, NULL, NULL)) {
-> -        return -1;
-> -    }
-> +    while (!QSIMPLEQ_EMPTY(&tco_queue)) {
-> +        TpmCreateOptionsQueueEntry *tcoqe = QSIMPLEQ_FIRST(&tco_queue);
->   
-> -    return 0;
-> +        QSIMPLEQ_REMOVE_HEAD(&tco_queue, entry);
-> +        tpm_init_tpmdev(tcoqe->tco);
-> +        g_free(tcoqe);
-> +    }
->   }
->   
->   /*
->    * Parse the TPM configuration options.
->    * To display all available TPM backends the user may use '-tpmdev help'
->    */
-> -int tpm_config_parse(QemuOptsList *opts_list, const char *optarg)
-> +void tpm_config_parse(const char *optarg)
->   {
-> -    QemuOpts *opts;
-> +    Visitor *v;
-> +    TpmCreateOptionsQueueEntry *tcqe;
->   
-> -    if (!strcmp(optarg, "help")) {
-> +    if (is_help_option(optarg)) {
->           tpm_display_backend_drivers();
-> -        return -1;
-> -    }
-> -    opts = qemu_opts_parse_noisily(opts_list, optarg, true);
-> -    if (!opts) {
-> -        return -1;
-> +        return;
->       }
-> -    return 0;
-> +    v = qobject_input_visitor_new_str(optarg, "type", &error_fatal);
-> +    tcqe = g_new(TpmCreateOptionsQueueEntry, 1);
-> +    visit_type_TpmCreateOptions(v, NULL, &tcqe->tco, &error_fatal);
-> +    visit_free(v);
-> +    QSIMPLEQ_INSERT_TAIL(&tco_queue, tcqe, entry);
->   }
->   
->   /*
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 5115221efe..980f998c35 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -328,16 +328,6 @@ static QemuOptsList qemu_object_opts = {
->       },
->   };
->   
-> -static QemuOptsList qemu_tpmdev_opts = {
-> -    .name = "tpmdev",
-> -    .implied_opt_name = "type",
-> -    .head = QTAILQ_HEAD_INITIALIZER(qemu_tpmdev_opts.head),
-> -    .desc = {
-> -        /* options are defined in the TPM backends */
-> -        { /* end of list */ }
-> -    },
-> -};
-> -
->   static QemuOptsList qemu_overcommit_opts = {
->       .name = "overcommit",
->       .head = QTAILQ_HEAD_INITIALIZER(qemu_overcommit_opts.head),
-> @@ -1934,9 +1924,7 @@ static void qemu_create_late_backends(void)
->   
->       object_option_foreach_add(object_create_late);
->   
-> -    if (tpm_init() < 0) {
-> -        exit(1);
-> -    }
-> +    tpm_init();
->   
->       qemu_opts_foreach(qemu_find_opts("mon"),
->                         mon_init_func, NULL, &error_fatal);
-> @@ -2658,7 +2646,6 @@ void qemu_init(int argc, char **argv)
->       qemu_add_opts(&qemu_boot_opts);
->       qemu_add_opts(&qemu_add_fd_opts);
->       qemu_add_opts(&qemu_object_opts);
-> -    qemu_add_opts(&qemu_tpmdev_opts);
->       qemu_add_opts(&qemu_overcommit_opts);
->       qemu_add_opts(&qemu_msg_opts);
->       qemu_add_opts(&qemu_name_opts);
-> @@ -2906,9 +2893,7 @@ void qemu_init(int argc, char **argv)
->                   break;
->   #ifdef CONFIG_TPM
->               case QEMU_OPTION_tpmdev:
-> -                if (tpm_config_parse(qemu_find_opts("tpmdev"), optarg) < 0) {
-> -                    exit(1);
-> -                }
-> +                tpm_config_parse(optarg);
+> I think you might have misunderstood the thread.
 
-The patches don't apply to upstream's master.
+Maybe...
 
-This used to exit() on failure but doesn't do this anymore, though it probably should.
+I've been trying to make sense of all the decompression dancing we're doing and
+the diagrams you've drawn and there's a comment over extract_kernel() which
+basically says that the compressed image is at the back of the memory buffer
 
+input_data: 0x000000000be073a8
 
-    Stefan
+and we decompress to a smaller address
 
->                   break;
->   #endif
->               case QEMU_OPTION_mempath:
+output: 0x0000000001000000
+
+And, it *looks* like setup_data is at an address somewhere >= 0x1000000 so when
+we start decompressing, we overwrite it.
+
+I guess extract_kernel() could also dump the setup_data addresses so that we can
+verify that...
+
+> First, to reproduce the bug that this patch fixes, you need a kernel with a
+> compressed size of around 16 megs, not 9.
+
+Not only that - you need setup_data to be placed somewhere just so that it gets
+overwritten during decompression. Also, see below.
+ 
+> Secondly, that crash is well understood and doesn't need to be reproduced;
+
+Is it?
+
+Where do you get the 0x100000 as the starting address of the kernel image?
+
+Because input_data above says that the input address is somewhere higher...
+
+Btw, here's an allyesconfig:
+
+early console in setup code
+No EFI environment detected.
+early console in extract_kernel
+input_data: 0x000000001bd003a8
+input_len: 0x000000000cde2963
+output: 0x0000000001000000
+output_len: 0x0000000027849d74
+kernel_total_size: 0x0000000025830000
+needed_size: 0x0000000027a00000
+trampoline_32bit: 0x000000000009d000
+Physical KASLR using RDRAND RDTSC...
+Virtual KASLR using RDRAND RDTSC...
+
+That kernel has compressed size of ~205M and the output buffer is of size ~632M.
+
+> this patch fixes it. Rather, the question now is how to improve this patch
+> to remove the 62 meg limit.
+
+Yeah, I'm wondering what that 62M limit is too, actually.
+
+But maybe I'm misunderstanding...
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 
