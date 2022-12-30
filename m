@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691DE659474
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 04:46:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B4F659598
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 08:09:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pB6KK-0006nM-Av; Thu, 29 Dec 2022 22:45:00 -0500
+	id 1pB9Ut-0005ZM-Oq; Fri, 30 Dec 2022 02:08:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pB6KH-0006nE-Io
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 22:44:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pB6KF-0002xL-Q5
- for qemu-devel@nongnu.org; Thu, 29 Dec 2022 22:44:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672371893;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=65zq9t45D+P0L1XiDPXRoKu8r3yu7NZCie+q3Oi+JXI=;
- b=QX8Sh26Zi9MGLpFd2m02fo4kCG/xP/MWIgnQsOGH9P7e0jX/zI2Qh9zI7r/E+r7JDYYlY7
- BjdaDzs0OfWU2+j7dtHbCjDMKGdtjM+y8ZtQLr4LHuKGeJQwJOI6hC6+gDzdsoIARM8Z5J
- 7tR+n9z9zcwmvunC5NOciaS1xqJgGNM=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-114-bHkrm6brPji8bjNYXAf5ew-1; Thu, 29 Dec 2022 22:44:51 -0500
-X-MC-Unique: bHkrm6brPji8bjNYXAf5ew-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-14261bd9123so9418244fac.21
- for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 19:44:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pB9Uo-0005Xl-5Z
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 02:08:02 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pB9Um-0007hS-CA
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 02:08:01 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ fm16-20020a05600c0c1000b003d96fb976efso12602930wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 29 Dec 2022 23:07:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/etFgTGUsqILty+ksbzAMhlux2U86WAmtzBthdTIKWU=;
+ b=cggPulInhfEQKrRgPXoIKy0+t/OYzPYRGsBj0CQ2hdLFoO3oQaye6UOTME+auiEwwY
+ 3YWZdqJlu/lsi19BeuC2udjUTG9VbWwBLCRGYgLkQ2IX7+rXy2X06Gl6cY13no16lt+M
+ hkCXvX0U+dWUOojhAq934B2hKRqdEXSKzWYKHh56La7mq9PrYYVIGQsONMgQF0BbLGOL
+ LpE0MVVea8hyZPc4ZE2j+Q2PsbEPsDlppBas5ITnNO5j6JJh+tG0Vm15YEbh4vqZOFFJ
+ tBHnRCww/4erT3Ay+L1Ry+J52ORGpt0nY8Awq+jUIEgM8AiTakvWJjNbtSZTmWdz3rK2
+ ILgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=65zq9t45D+P0L1XiDPXRoKu8r3yu7NZCie+q3Oi+JXI=;
- b=h1o3R+Ga9lAVGYMZB+n4yl6SS0f7T3B+RUKhLcZoOHarXmRvZZr5KbjdW2yPzwg70T
- h/1nBu1dNkoqAvGaH2z37LY0zeRC1yplWvBLOsaHzphI+8IgVGv/buBhDVSk1AWUJKNr
- enobTpLDM/F1Tt4O/iZ1LktRT8dC31lrmEQ0fPm7Y67twmMkrwS5YOhZS6whxeW0gx5a
- xbQWmI5nso7AXO5HNhBxwi3uUiKF9Iu7Xte51yjkE+5VGh+ZUtTZ4cSTR3JxlcdLsW9V
- 3egsLpsm6cYs8TbrqrIglpXsvebjJ623u6hMudaCa/cNXDcgR/cPwzVPZIkGMJ+qW51h
- xVvQ==
-X-Gm-Message-State: AFqh2krhbyXV34afA5ryDgJ4jFu2JNuyIIdCMOSeQgZw2uRk1hIs0wrK
- VlbNCxzPI03j1e/UB5HUK/KFMLGk+9sNInIZ7yXV3Lt1tll+CJLMYyEBSY/TooIgdMxJ7kwfAiZ
- WVNmep6N0BMhvxfC7NZuIPqX/x2acIq8=
-X-Received: by 2002:a05:6870:4413:b0:144:a97b:1ae2 with SMTP id
- u19-20020a056870441300b00144a97b1ae2mr1526377oah.35.1672371891223; 
- Thu, 29 Dec 2022 19:44:51 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuV3umf6dFHSGo8l2i1HZsfOf6WevaLLQ3EFc+mGX3Ldj/5+m/ECaxW+Cdj9Di8SwlcW3RuXKjoE4u3xzIT65U=
-X-Received: by 2002:a05:6870:4413:b0:144:a97b:1ae2 with SMTP id
- u19-20020a056870441300b00144a97b1ae2mr1526373oah.35.1672371891014; Thu, 29
- Dec 2022 19:44:51 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/etFgTGUsqILty+ksbzAMhlux2U86WAmtzBthdTIKWU=;
+ b=477Pr+erqwDRyCmZ7PhZEVlCUYFvtvIOGu9V3jUydIp8KgieUEcCvimy2yHcvL20Wk
+ 8amNIdyTZMrjfQeIKiMVGVjWiiYFxykAuReFX61EkSwQ0ps6jaizvAVeTVGigIPcXzAv
+ q86x2lD316l1dIgXteEJhVHNScCAB5hECnJyDG5AT4V688FKjAS+JhiomPWlZ+cw8nAQ
+ F+FM75EMUlD6CIUNpQblawhz4BhHHPzTJ1Q8qUqTRyhmT4K4Gh2kwrMzJ6eeG0Zaivn0
+ hyVbFGrk7HKJRE9UZ90ZvKqtPL2DakTtw2TaDgxVW4kD0Zss4oQV49ST6vuEyGXLahkB
+ 5iJA==
+X-Gm-Message-State: AFqh2kpfRHDU/lDcD7SjraeFFBDkl3a9LpFRSNZXbeu5heSMF7p9oGou
+ cyDtFAR1XwpOrfvoxwQOCfeb7A==
+X-Google-Smtp-Source: AMrXdXs3Uy7nI6WRK6voVTWtHFDI0qgDftktYByJ0uD2YTFztqmf6SArUH5fZvgUDdt4PInMA7eeRQ==
+X-Received: by 2002:a05:600c:4f55:b0:3d3:5166:2da4 with SMTP id
+ m21-20020a05600c4f5500b003d351662da4mr21766000wmq.8.1672384078503; 
+ Thu, 29 Dec 2022 23:07:58 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ l27-20020a05600c1d1b00b003cfd4e6400csm29632521wms.19.2022.12.29.23.07.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Dec 2022 23:07:58 -0800 (PST)
+Message-ID: <35b39b89-f2e0-3c57-3ecb-825b6b98e890@linaro.org>
+Date: Fri, 30 Dec 2022 08:07:55 +0100
 MIME-Version: 1.0
-References: <20221222114120.8790-1-sriram.yagnaraman@est.tech>
- <CACGkMEtFvmQ3th8TxApOuOtRVQz-7S7NZ-dFyOX73L1YS7Fh4g@mail.gmail.com>
- <DBBP189MB143342BF93DB130D8B9715EB95F39@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
-In-Reply-To: <DBBP189MB143342BF93DB130D8B9715EB95F39@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 30 Dec 2022 11:44:40 +0800
-Message-ID: <CACGkMEv1OKUtuJcCfFmbZyc1evAaZe_o=8VnqLAKFbXGzLk71Q@mail.gmail.com>
-Subject: Re: [PATCH 0/5] hw/net/igb: emulated network device with SR-IOV
-To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 4/9] hw/arm/aspeed_ast10x0: Map I3C peripheral
+To: Peter Delevoryas <peter@pjd.dev>
+Cc: qemu-devel@nongnu.org, Steven Lee <steven_lee@aspeedtech.com>,
+ Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Troy Lee <troy_lee@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Peter Delevoryas <pdel@fb.com>,
+ Jamin Lin <jamin_lin@aspeedtech.com>
+References: <20221229152325.32041-1-philmd@linaro.org>
+ <20221229152325.32041-5-philmd@linaro.org>
+ <Y638ocw5VdN5TeHK@pdel-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y638ocw5VdN5TeHK@pdel-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,89 +100,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Dec 30, 2022 at 3:17 AM Sriram Yagnaraman
-<sriram.yagnaraman@est.tech> wrote:
->
-> > -----Original Message-----
-> > From: Jason Wang <jasowang@redhat.com>
-> > Sent: Friday, 23 December 2022 04:24
-> > To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-> > Cc: qemu-devel@nongnu.org; Dmitry Fleytman
-> > <dmitry.fleytman@gmail.com>; Michael S . Tsirkin <mst@redhat.com>;
-> > Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > Subject: Re: [PATCH 0/5] hw/net/igb: emulated network device with SR-IOV
-> >
-> > On Thu, Dec 22, 2022 at 7:43 PM Sriram Yagnaraman
-> > <sriram.yagnaraman@est.tech> wrote:
-> > >
-> > > A new attempt at adding support for Intel 82576 Gigabit Ethernet
-> > > adapter with SR-IOV support.
-> > >
-> > > Start qemu with the following parameters.
-> > >    qemu-system-x86_64 -enable-kvm -M q35 \
-> > >    ...
-> > >    -device pcie-root-port,slot=3,id=pcie_port.3 \
-> > >    -netdev
-> > tap,id=net3,script=no,downscript=/tmp/rmtap,ifname=xcbr3_t2,queues=1 \
-> > >    -device igb,bus=pcie_port.3,netdev=net3,mac=00:00:00:01:03:02
-> > >
-> > > Load IGB/IGBVF modules if needed.
-> > > modprobe igb
-> > > modprobe igbvf
-> > >
-> > > Create VFs via /sys
-> > > ls /sys/bus/pci/devices/0000:01:00.0/
-> > > echo 2 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
-> > >
-> > > Sriram Yagnaraman (5):
-> > >   pcie: add helper function to get number of VFs
-> > >   hw/net/net_tx_pkt: helper function to get l2 hdr
-> > >   hw/net/igb: register definitions
-> > >   hw/net/igb: emulated intel IGB (82576EB) network device
-> > >   hw/net/igb: build support for igb/igbvf devices
-> >
-> > Haven't reviewed this series but I think we'd have two more things:
-> >
-> > 1) update the MAINTAINERS
-> Any suggestions on who should/will maintain this?
+On 29/12/22 21:46, Peter Delevoryas wrote:
+> On Thu, Dec 29, 2022 at 04:23:20PM +0100, Philippe Mathieu-Daudé wrote:
+>> Since I don't have access to the datasheet, the relevant
+>> values were found in:
+>> https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   hw/arm/aspeed_ast10x0.c | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
 
-I think you should be the best candidate for the maintainer :)
 
-(Btw, we have a lot of NIC without a maintainer which usually makes
-the review very slow).
+>> @@ -240,6 +244,18 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+>>           sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
+>>       }
+>>   
+>> +    /* I3C */
+>> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i3c), errp)) {
+>> +        return;
+>> +    }
+>> +    aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->i3c), 0, sc->memmap[ASPEED_DEV_I3C]);
+>> +    for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
+>> +        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->armv7m),
+>> +                                        sc->irqmap[ASPEED_DEV_I3C] + i);
+>> +        /* The AST1030 I2C controller has one IRQ per bus. */
+> 
+> Should this comment be I2C or I3C?
 
-Thanks
+Oops indeed, copy/paste leftover :)
 
->
-> > 2) a qtest for igb (having a qtest for sr-iov would be even better)
-> >
-> > Thanks
-> >
-> > >
-> > >  hw/i386/Kconfig             |    1 +
-> > >  hw/net/Kconfig              |    5 +
-> > >  hw/net/e1000_regs.h         |  357 +++-
-> > >  hw/net/e1000x_common.c      |   13 +
-> > >  hw/net/e1000x_common.h      |   28 +
-> > >  hw/net/igb.c                |  627 ++++++
-> > >  hw/net/igb.h                |  184 ++
-> > >  hw/net/igb_core.c           | 3782 +++++++++++++++++++++++++++++++++++
-> > >  hw/net/igb_core.h           |  216 ++
-> > >  hw/net/igbvf.c              |  262 +++
-> > >  hw/net/meson.build          |    2 +
-> > >  hw/net/net_tx_pkt.c         |   17 +-
-> > >  hw/net/net_tx_pkt.h         |    8 +
-> > >  hw/net/trace-events         |  190 ++
-> > >  hw/pci/pcie_sriov.c         |    6 +
-> > >  include/hw/pci/pcie_sriov.h |    5 +
-> > >  16 files changed, 5671 insertions(+), 32 deletions(-)  create mode
-> > > 100644 hw/net/igb.c  create mode 100644 hw/net/igb.h  create mode
-> > > 100644 hw/net/igb_core.c  create mode 100644 hw/net/igb_core.h  create
-> > > mode 100644 hw/net/igbvf.c
-> > >
-> > > --
-> > > 2.34.1
-> > >
->
+> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+
+Thanks!
 
 
