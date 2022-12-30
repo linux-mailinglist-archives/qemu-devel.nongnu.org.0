@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BC365980C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47ED6659851
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:41:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBEGH-0008F6-JR; Fri, 30 Dec 2022 07:13:22 -0500
+	id 1pBETK-0004Ab-9S; Fri, 30 Dec 2022 07:26:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pBEFw-0007pF-Cg
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:00 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pBEFo-0004xz-P8
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:13:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=5/H1fsvmStHJcLnzDUIPmmSt0HtlZCvWtceFmdi0i6Q=; b=HiuZHLKAd3c28R4AY2gscOA3z3
- hRq4VXQ8ZS0AW4Bk3XGq5T1nR3UFXB+Z7n8ZVwN/2l5Ic/nm8QeqtpUteupMaSChzukS8OJRevLVd
- X/rIxlpby7heUZJwWyIRLlVo37JzhQnFPwjGQPb1gFBCfTj/9cGYqLJRpSvbddvzjOlvHaEYJE5Kk
- FfeEQGKY8eWu7vSBAnQBEBslr2NhTK9jmh9gqR0kEqKcAM94FdJLbZzOWzF6ez+enXW4KqP8jwuFR
- Q6QpuBnT9PhkQRyh/BO9O54jXVWvm8IimIZEJgAcMF44fitqRg+T5PJwIIR1090haLlXA4gtCZlry
- LfwKd+cw==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pBEFl-00Ac8l-TO; Fri, 30 Dec 2022 12:12:50 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pBEFa-005O1E-Lz; Fri, 30 Dec 2022 12:12:38 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [RFC PATCH v5 52/52] hw/xen: Add basic ring handling to xenstore
-Date: Fri, 30 Dec 2022 12:12:35 +0000
-Message-Id: <20221230121235.1282915-53-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20221230121235.1282915-1-dwmw2@infradead.org>
-References: <20221230121235.1282915-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pBET6-000454-Qr; Fri, 30 Dec 2022 07:26:38 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pBESz-0008F3-2q; Fri, 30 Dec 2022 07:26:31 -0500
+Received: by mail-ed1-x529.google.com with SMTP id d14so30264206edj.11;
+ Fri, 30 Dec 2022 04:26:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xmdtYCtAP6i6jamsZTFaYC9wwLPKnCmxk9o1H6G0fWc=;
+ b=eBb5RgvGO2LAFUqGNKizKUlwqypRHtipknsfI/fAr82X7mr4j9LyUtgFwFAvslhzY5
+ wcQN/ft62oK37bgw8GS3hmeksVaHxXh5GNQ1UD0kLv3104bw2NF9CReKJfKigPz/DUsh
+ 4zfcMPejRzoGezbSm5NkPP9bUpVeiFOSNN4TDPxVLUrbwRJ7MgqtR4siofKr5ZqLyLnG
+ h40JUGvaFM/egnwxwW8aNBRJjCgLfngcymkhH0DnX+GZM/au2RBVzR8xqr+nJbwrzl+T
+ 0rC0DaASsKJyD0Q9H2Bfh3HABasVjxZrYOPyhJGTVqXf8wqImjKNoU9B0XaHU65Ci/55
+ Sz5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xmdtYCtAP6i6jamsZTFaYC9wwLPKnCmxk9o1H6G0fWc=;
+ b=q3y+E2b5cjafaDUQ7aq0T5Lm5ZdM440S4WiWdY0/DC+Gx2xWC0qQwn1BXUJ3Y705GS
+ Xd3jHIkd/uyt/A64j48B8qEhabfjDgJYwx8kZpJW+ZPR/7ivTSnRvRGY8kRDQtKgHvRI
+ ReCL3VS4JK7vALDxWyraPVimgdIfycSj++ye+GTayXph4SSnzdB0kCStXG2n6Pc0QZrb
+ aTqwgmmcxEg0Hm3pG18Ek4pU+nWYy0CPEazupcQrdMCT0h93Ay9YiWItrhO3YNVnOaQT
+ 7lUmmuz0c21+BIsfy8IGJC8V4DHx8xlH22yLn4RbQCotUPJCnktdKhXWNJLoGaCW4UFR
+ rCCA==
+X-Gm-Message-State: AFqh2krOP7DfAMBuzioMgPZIz1sMtvjaiYbpOUQ72v55hfbSXZdk2R/p
+ hmB18sQdo/PrdOTUVvAhofuM6C5nLFNBjGFdMXs=
+X-Google-Smtp-Source: AMrXdXsyUYWmTAF27lO4ZCUUVGYDAsnHl99/u1Gjm7CqMehfu0g1zTMC+7LebLuJowubiu722ieW+9SLHxnI5Z41qi0=
+X-Received: by 2002:a05:6402:1843:b0:46b:1d60:f60a with SMTP id
+ v3-20020a056402184300b0046b1d60f60amr3589361edy.193.1672403185750; Fri, 30
+ Dec 2022 04:26:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+1132f1bfe572585e6c7f+7068+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221229181135.270661-1-dbarboza@ventanamicro.com>
+ <20221229181135.270661-11-dbarboza@ventanamicro.com>
+ <CAEUhbmVa8g-s0wD+EE6iZNXBfjD+M6edgq9vk7GdG2sx12J6Gg@mail.gmail.com>
+ <797aa177-bb3a-8333-7a2b-79ee799e2633@ventanamicro.com>
+In-Reply-To: <797aa177-bb3a-8333-7a2b-79ee799e2633@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 30 Dec 2022 20:26:14 +0800
+Message-ID: <CAEUhbmXSk6j5sCoY8U6A3GLH2Gq7qHsNCk-bBfh9EqWE4jE_bQ@mail.gmail.com>
+Subject: Re: [PATCH v4 10/11] hw/riscv/boot.c: introduce
+ riscv_load_kernel_and_initrd()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,269 +88,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+On Fri, Dec 30, 2022 at 8:04 PM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+>
+>
+> On 12/30/22 06:05, Bin Meng wrote:
+> > On Fri, Dec 30, 2022 at 2:47 AM Daniel Henrique Barboza
+> > <dbarboza@ventanamicro.com> wrote:
+> >> The microchip_icicle_kit, sifive_u, spike and virt boards are now doin=
+g
+> >> the same steps when '-kernel' is used:
+> >>
+> >> - execute load_kernel()
+> >> - load init_rd()
+> >> - write kernel_cmdline in the fdt
+> >>
+> >> Let's fold everything inside riscv_load_kernel() to avoid code
+> >> repetition. Every other board that uses riscv_load_kernel() will have
+> >> this same behavior, including boards that doesn't have a valid FDT, so
+> >> we need to take care to not do FDT operations without checking it firs=
+t.
+> >>
+> >> Since we're now doing way more than just loading the kernel, rename
+> >> riscv_load_kernel() to riscv_load_kernel_and_initrd().
+> >>
+> >> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> >> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> >> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> >> ---
+> >>   hw/riscv/boot.c            | 27 +++++++++++++++++++++------
+> >>   hw/riscv/microchip_pfsoc.c | 12 ++----------
+> >>   hw/riscv/opentitan.c       |  2 +-
+> >>   hw/riscv/sifive_e.c        |  3 ++-
+> >>   hw/riscv/sifive_u.c        | 12 ++----------
+> >>   hw/riscv/spike.c           | 14 +++-----------
+> >>   hw/riscv/virt.c            | 12 ++----------
+> >>   include/hw/riscv/boot.h    |  6 +++---
+> >>   8 files changed, 36 insertions(+), 52 deletions(-)
+> >>
+> >> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> >> index 5606ea6f43..d18262c302 100644
+> >> --- a/hw/riscv/boot.c
+> >> +++ b/hw/riscv/boot.c
+> >> @@ -171,12 +171,13 @@ target_ulong riscv_load_firmware(const char *fir=
+mware_filename,
+> >>       exit(1);
+> >>   }
+> >>
+> >> -target_ulong riscv_load_kernel(MachineState *machine,
+> >> -                               target_ulong kernel_start_addr,
+> >> -                               symbol_fn_t sym_cb)
+> >> +target_ulong riscv_load_kernel_and_initrd(MachineState *machine,
+> >> +                                          target_ulong kernel_start_a=
+ddr,
+> >> +                                          symbol_fn_t sym_cb)
+> > How about we keep the riscv_load_kernel() API, in case there is a need
+> > for machines that just want to load kernel only?
+> >
+> > Then introduce a new API riscv_load_kernel_and_initrd() to do both
+> > kernel and initrd loading?
+>
+> What about an extra flag to riscv_load_kernel(), e.g:
+>
+> riscv_load_kernel(MachineState *machine,  target_ulong kernel_start_addr,
+>                                  bool load_initrd, symbol_fn_t sym_cb)
+>
+>
+> And then machines that don't want to load initrd can opt out by using
+> load_initrd =3D false. The name of the flag would also make our intention=
+s with
+> the API self explanatory (i.e. load_initrd makes load_kernel() loads init=
+rd
+> as well).
+>
 
-Extract requests, return ENOSYS to all of them. This is enough to allow
-older Linux guests to boot, as they need *something* back but it doesn't
-matter much what.
+That sounds like a good idea!
 
-In the first instance we're likely to wire this up over a UNIX socket to
-an actual xenstored implementation, but in the fullness of time it would
-be nice to have a fully single-tenant "virtual" xenstore within qemu.
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- hw/i386/kvm/xen_xenstore.c | 227 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 224 insertions(+), 3 deletions(-)
-
-diff --git a/hw/i386/kvm/xen_xenstore.c b/hw/i386/kvm/xen_xenstore.c
-index 63530059fa..219291866f 100644
---- a/hw/i386/kvm/xen_xenstore.c
-+++ b/hw/i386/kvm/xen_xenstore.c
-@@ -188,18 +188,239 @@ uint16_t xen_xenstore_get_port(void)
-     return s->guest_port;
- }
- 
-+static bool req_pending(XenXenstoreState *s)
-+{
-+    struct xsd_sockmsg *req = (struct xsd_sockmsg *)s->req_data;
-+
-+    return s->req_offset == XENSTORE_HEADER_SIZE + req->len;
-+}
-+
-+static void reset_req(XenXenstoreState *s)
-+{
-+    memset(s->req_data, 0, sizeof(s->req_data));
-+    s->req_offset = 0;
-+}
-+
-+static void reset_rsp(XenXenstoreState *s)
-+{
-+    s->rsp_pending = false;
-+
-+    memset(s->rsp_data, 0, sizeof(s->rsp_data));
-+    s->rsp_offset = 0;
-+}
-+
-+static void process_req(XenXenstoreState *s)
-+{
-+    struct xsd_sockmsg *req = (struct xsd_sockmsg *)s->req_data;
-+    struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
-+    const char enosys[] = "ENOSYS";
-+
-+    assert(req_pending(s));
-+	assert(!s->rsp_pending);
-+
-+    qemu_hexdump(stdout, "Xenstore req:", req, sizeof(req) + req->len);
-+
-+    rsp->type = XS_ERROR;
-+    rsp->req_id = req->req_id;
-+    rsp->tx_id = req->tx_id;
-+    rsp->len = sizeof(enosys);
-+    memcpy((void *)&rsp[1], enosys, sizeof(enosys));
-+
-+    qemu_hexdump(stdout, "XenStore rsp:", rsp, sizeof(rsp) + rsp->len);
-+
-+    s->rsp_pending = true;
-+    reset_req(s);
-+}
-+
-+static unsigned int copy_from_ring(XenXenstoreState *s, uint8_t *ptr, unsigned int len)
-+{
-+    if (!len)
-+        return 0;
-+
-+    XENSTORE_RING_IDX prod = qatomic_read(&s->xs->req_prod);
-+    XENSTORE_RING_IDX cons = qatomic_read(&s->xs->req_cons);
-+    unsigned int copied = 0;
-+
-+    smp_mb();
-+
-+    while (len) {
-+        unsigned int avail = prod - cons;
-+        unsigned int offset = MASK_XENSTORE_IDX(cons);
-+        unsigned int copylen = avail;
-+
-+        if (avail > XENSTORE_RING_SIZE) {
-+            error_report("XenStore ring handling error");
-+            s->fatal_error = true;
-+            break;
-+        } else if (avail == 0)
-+            break;
-+
-+        if (copylen > len) {
-+            copylen = len;
-+        }
-+        if (copylen > XENSTORE_RING_SIZE - offset) {
-+            copylen = XENSTORE_RING_SIZE - offset;
-+        }
-+
-+        memcpy(ptr, &s->xs->req[offset], copylen);
-+        copied += copylen;
-+
-+        ptr += copylen;
-+        len -= copylen;
-+
-+        cons += copylen;
-+    }
-+
-+    smp_mb();
-+
-+    qatomic_set(&s->xs->req_cons, cons);
-+
-+    return copied;
-+}
-+
-+static unsigned int copy_to_ring(XenXenstoreState *s, uint8_t *ptr, unsigned int len)
-+{
-+    if (!len)
-+        return 0;
-+
-+    XENSTORE_RING_IDX cons = qatomic_read(&s->xs->rsp_cons);
-+    XENSTORE_RING_IDX prod = qatomic_read(&s->xs->rsp_prod);
-+    unsigned int copied = 0;
-+
-+    smp_mb();
-+
-+    while (len) {
-+        unsigned int avail = cons + XENSTORE_RING_SIZE - prod;
-+        unsigned int offset = MASK_XENSTORE_IDX(prod);
-+        unsigned int copylen = len;
-+
-+        if (avail > XENSTORE_RING_SIZE) {
-+            error_report("XenStore ring handling error");
-+            s->fatal_error = true;
-+            break;
-+        } else if (avail == 0)
-+            break;
-+
-+        if (copylen > avail) {
-+            copylen = avail;
-+        }
-+        if (copylen > XENSTORE_RING_SIZE - offset) {
-+            copylen = XENSTORE_RING_SIZE - offset;
-+        }
-+
-+
-+        memcpy(&s->xs->rsp[offset], ptr, copylen);
-+        copied += copylen;
-+
-+        ptr += copylen;
-+        len -= copylen;
-+
-+        prod += copylen;
-+    }
-+
-+    smp_mb();
-+
-+    qatomic_set(&s->xs->rsp_prod, prod);
-+
-+    return copied;
-+}
-+
-+static unsigned int get_req(XenXenstoreState *s)
-+{
-+    unsigned int copied = 0;
-+
-+    if (s->fatal_error)
-+        return 0;
-+
-+    assert(!req_pending(s));
-+
-+    if (s->req_offset < XENSTORE_HEADER_SIZE) {
-+        void *ptr = s->req_data + s->req_offset;
-+        unsigned int len = XENSTORE_HEADER_SIZE;
-+        unsigned int copylen = copy_from_ring(s, ptr, len);
-+
-+        copied += copylen;
-+        s->req_offset += copylen;
-+    }
-+
-+    if (s->req_offset >= XENSTORE_HEADER_SIZE) {
-+        struct xsd_sockmsg *req = (struct xsd_sockmsg *)s->req_data;
-+
-+        if (req->len > (uint32_t)XENSTORE_PAYLOAD_MAX) {
-+            error_report("Illegal XenStore request");
-+            s->fatal_error = true;
-+            return 0;
-+        }
-+
-+        void *ptr = s->req_data + s->req_offset;
-+        unsigned int len = XENSTORE_HEADER_SIZE + req->len - s->req_offset;
-+        unsigned int copylen = copy_from_ring(s, ptr, len);
-+
-+        copied += copylen;
-+        s->req_offset += copylen;
-+    }
-+
-+    return copied;
-+}
-+
-+static unsigned int put_rsp(XenXenstoreState *s)
-+{
-+    if (s->fatal_error)
-+        return 0;
-+
-+    assert(s->rsp_pending);
-+
-+    struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
-+    assert(s->rsp_offset < XENSTORE_HEADER_SIZE + rsp->len);
-+
-+    void *ptr = s->rsp_data + s->rsp_offset;
-+    unsigned int len = XENSTORE_HEADER_SIZE + rsp->len - s->rsp_offset;
-+    unsigned int copylen = copy_to_ring(s, ptr, len);
-+
-+    s->rsp_offset += copylen;
-+
-+    /* Have we produced a complete response? */
-+    if (s->rsp_offset == XENSTORE_HEADER_SIZE + rsp->len)
-+        reset_rsp(s);
-+
-+    return copylen;
-+}
-+
- static void xen_xenstore_event(void *opaque)
- {
-     XenXenstoreState *s = opaque;
-     evtchn_port_t port = xen_be_evtchn_pending(s->eh);
-+    unsigned int copied_to, copied_from;
-+    bool processed, notify = false;
-+
-     if (port != s->be_port) {
-         return;
-     }
--    printf("xenstore event\n");
-+
-     /* We know this is a no-op. */
-     xen_be_evtchn_unmask(s->eh, port);
--    qemu_hexdump(stdout, "", s->xs, sizeof(*s->xs));
--    xen_be_evtchn_notify(s->eh, s->be_port);
-+
-+    do {
-+        copied_to = copied_from = 0;
-+        processed = false;
-+
-+        if (s->rsp_pending)
-+            copied_to = put_rsp(s);
-+
-+        if (!req_pending(s))
-+            copied_from = get_req(s);
-+
-+        if (req_pending(s) && !s->rsp_pending) {
-+            process_req(s);
-+            processed = true;
-+        }
-+
-+        notify |= copied_to || copied_from;
-+    } while (copied_to || copied_from || processed);
-+
-+    if (notify) {
-+        xen_be_evtchn_notify(s->eh, s->be_port);
-+    }
- }
- 
- static void alloc_guest_port(XenXenstoreState *s)
--- 
-2.35.3
-
+Regards,
+Bin
 
