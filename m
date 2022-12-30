@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85561659711
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B95659712
 	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 11:01:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBCBI-0003kw-Om; Fri, 30 Dec 2022 05:00:04 -0500
+	id 1pBCBI-0003kx-RF; Fri, 30 Dec 2022 05:00:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
- id 1pBCBF-0003j6-ID
+ id 1pBCBF-0003ik-04
  for qemu-devel@nongnu.org; Fri, 30 Dec 2022 05:00:01 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhaotianrui@loongson.cn>) id 1pBCBD-0005Rr-Az
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 05:00:01 -0500
+ (envelope-from <zhaotianrui@loongson.cn>) id 1pBCBC-0005Ru-Gg
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 05:00:00 -0500
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxuuiXtq5jbnYJAA--.1207S3;
+ by gateway (Coremail) with SMTP id _____8AxuuiXtq5jcHYJAA--.1209S3;
  Fri, 30 Dec 2022 17:59:51 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxtOWWtq5jCSAQAA--.53838S3; 
+ AQAAf8BxtOWWtq5jCSAQAA--.53838S4; 
  Fri, 30 Dec 2022 17:59:51 +0800 (CST)
 From: Tianrui Zhao <zhaotianrui@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  philmd@linaro.org
-Subject: [PATCH v4 1/3] hw/intc/loongarch_pch_msi: add irq number property
-Date: Fri, 30 Dec 2022 17:59:48 +0800
-Message-Id: <20221230095950.2217103-2-zhaotianrui@loongson.cn>
+Subject: [PATCH v4 2/3] hw/intc/loongarch_pch_pic: add irq number property
+Date: Fri, 30 Dec 2022 17:59:49 +0800
+Message-Id: <20221230095950.2217103-3-zhaotianrui@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221230095950.2217103-1-zhaotianrui@loongson.cn>
 References: <20221230095950.2217103-1-zhaotianrui@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxtOWWtq5jCSAQAA--.53838S3
+X-CM-TRANSID: AQAAf8BxtOWWtq5jCSAQAA--.53838S4
 X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3XF43WF48Wr1xGF4fur1Dtrb_yoW7GFy5pr
- WDuFy5tr48Gw4UuFZ3G347ur98JFn7GFyIvF43KryxCr4UAr90q3WkJ39rWF1UK3yrGryq
- v34kCa9rW3WUCaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3Ww13tFW8Ar45GF45tw4rAFb_yoW7AF4kpF
+ W7uFW3tF4kJr47Xrn7Z345uwn7JFs29ry29anIkryxCr1DJr98XF1kJw4DXF1UK395Jryq
+ qrZ5CayY93WUJaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
@@ -75,148 +75,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch adds irq number property for loongarch msi interrupt
-controller, and remove hard coding irq number macro.
+With loongarch 7A1000 manual, irq number supported can be set
+in PCH_PIC_INT_ID_HI register. This patch adds irq number property
+for loongarch_pch_pic, so that virt machine can set different
+irq number when pch_pic intc is added.
 
 Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
 ---
- hw/intc/loongarch_pch_msi.c         | 33 ++++++++++++++++++++++++++---
- hw/loongarch/virt.c                 | 13 +++++++-----
- include/hw/intc/loongarch_pch_msi.h |  3 ++-
- include/hw/pci-host/ls7a.h          |  1 -
- 4 files changed, 40 insertions(+), 10 deletions(-)
+ hw/intc/loongarch_pch_pic.c         | 33 +++++++++++++++++++++++++----
+ hw/loongarch/virt.c                 |  8 ++++---
+ include/hw/intc/loongarch_pch_pic.h |  5 ++---
+ 3 files changed, 36 insertions(+), 10 deletions(-)
 
-diff --git a/hw/intc/loongarch_pch_msi.c b/hw/intc/loongarch_pch_msi.c
-index b36d6d76e4..09d3890ade 100644
---- a/hw/intc/loongarch_pch_msi.c
-+++ b/hw/intc/loongarch_pch_msi.c
-@@ -32,7 +32,7 @@ static void loongarch_msi_mem_write(void *opaque, hwaddr addr,
-      */
-     irq_num = (val & 0xff) - s->irq_base;
-     trace_loongarch_msi_set_irq(irq_num);
--    assert(irq_num < PCH_MSI_IRQ_NUM);
-+    assert(irq_num < s->irq_num);
-     qemu_set_irq(s->pch_msi_irq[irq_num], 1);
+diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
+index 3380b09807..1440195837 100644
+--- a/hw/intc/loongarch_pch_pic.c
++++ b/hw/intc/loongarch_pch_pic.c
+@@ -10,8 +10,10 @@
+ #include "hw/loongarch/virt.h"
+ #include "hw/irq.h"
+ #include "hw/intc/loongarch_pch_pic.h"
++#include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
++#include "qapi/error.h"
+ 
+ static void pch_pic_update_irq(LoongArchPCHPIC *s, uint64_t mask, int level)
+ {
+@@ -40,7 +42,7 @@ static void pch_pic_irq_handler(void *opaque, int irq, int level)
+     LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(opaque);
+     uint64_t mask = 1ULL << irq;
+ 
+-    assert(irq < PCH_PIC_IRQ_NUM);
++    assert(irq < s->irq_num);
+     trace_loongarch_pch_pic_irq_handler(irq, level);
+ 
+     if (s->intedge & mask) {
+@@ -78,7 +80,12 @@ static uint64_t loongarch_pch_pic_low_readw(void *opaque, hwaddr addr,
+         val = PCH_PIC_INT_ID_VAL;
+         break;
+     case PCH_PIC_INT_ID_HI:
+-        val = PCH_PIC_INT_ID_NUM;
++        /*
++         * With 7A1000 manual
++         *   bit  0-15 pch irqchip version
++         *   bit 16-31 irq number supported with pch irqchip
++         */
++        val = PCH_PIC_INT_ID_VER + ((s->irq_num - 1) << 16);
+         break;
+     case PCH_PIC_INT_MASK_LO:
+         val = (uint32_t)s->int_mask;
+@@ -365,6 +372,19 @@ static void loongarch_pch_pic_reset(DeviceState *d)
+     s->int_polarity = 0x0;
  }
  
-@@ -49,6 +49,32 @@ static void pch_msi_irq_handler(void *opaque, int irq, int level)
-     qemu_set_irq(s->pch_msi_irq[irq], level);
- }
- 
-+static void loongarch_pch_msi_realize(DeviceState *dev, Error **errp)
++static void loongarch_pch_pic_realize(DeviceState *dev, Error **errp)
 +{
-+    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(dev);
++    LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(dev);
 +
-+    if (!s->irq_num || s->irq_num  > PCH_MSI_IRQ_NUM) {
-+        error_setg(errp, "Invalid 'msi_irq_num'");
++    if (!s->irq_num || s->irq_num  > PCH_PIC_IRQ_NUM) {
++        error_setg(errp, "Invalid 'pic_irq_num'");
 +        return;
 +    }
 +
-+    s->pch_msi_irq = g_new(qemu_irq, s->irq_num);
-+    if (!s->pch_msi_irq) {
-+        error_report("loongarch_pch_msi: fail to alloc memory");
-+        exit(1);
-+    }
-+
-+    qdev_init_gpio_out(dev, s->pch_msi_irq, s->irq_num);
-+    qdev_init_gpio_in(dev, pch_msi_irq_handler, s->irq_num);
++    qdev_init_gpio_out(dev, s->parent_irq, s->irq_num);
++    qdev_init_gpio_in(dev, pch_pic_irq_handler, s->irq_num);
 +}
 +
-+static void loongarch_pch_msi_unrealize(DeviceState *dev)
-+{
-+    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(dev);
-+
-+    g_free(s->pch_msi_irq);
-+}
-+
- static void loongarch_pch_msi_init(Object *obj)
+ static void loongarch_pch_pic_init(Object *obj)
  {
-     LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(obj);
-@@ -59,12 +85,11 @@ static void loongarch_pch_msi_init(Object *obj)
-     sysbus_init_mmio(sbd, &s->msi_mmio);
-     msi_nonbroken = true;
+     LoongArchPCHPIC *s = LOONGARCH_PCH_PIC(obj);
+@@ -382,10 +402,13 @@ static void loongarch_pch_pic_init(Object *obj)
+     sysbus_init_mmio(sbd, &s->iomem8);
+     sysbus_init_mmio(sbd, &s->iomem32_high);
  
--    qdev_init_gpio_out(DEVICE(obj), s->pch_msi_irq, PCH_MSI_IRQ_NUM);
--    qdev_init_gpio_in(DEVICE(obj), pch_msi_irq_handler, PCH_MSI_IRQ_NUM);
+-    qdev_init_gpio_out(DEVICE(obj), s->parent_irq, PCH_PIC_IRQ_NUM);
+-    qdev_init_gpio_in(DEVICE(obj), pch_pic_irq_handler, PCH_PIC_IRQ_NUM);
  }
  
- static Property loongarch_msi_properties[] = {
-     DEFINE_PROP_UINT32("msi_irq_base", LoongArchPCHMSI, irq_base, 0),
-+    DEFINE_PROP_UINT32("msi_irq_num",  LoongArchPCHMSI, irq_num, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -72,6 +97,8 @@ static void loongarch_pch_msi_class_init(ObjectClass *klass, void *data)
++static Property loongarch_pch_pic_properties[] = {
++    DEFINE_PROP_UINT32("pch_pic_irq_num",  LoongArchPCHPIC, irq_num, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static const VMStateDescription vmstate_loongarch_pch_pic = {
+     .name = TYPE_LOONGARCH_PCH_PIC,
+     .version_id = 1,
+@@ -411,8 +434,10 @@ static void loongarch_pch_pic_class_init(ObjectClass *klass, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(klass);
  
-+    dc->realize = loongarch_pch_msi_realize;
-+    dc->unrealize = loongarch_pch_msi_unrealize;
-     device_class_set_props(dc, loongarch_msi_properties);
++    dc->realize = loongarch_pch_pic_realize;
+     dc->reset = loongarch_pch_pic_reset;
+     dc->vmsd = &vmstate_loongarch_pch_pic;
++    device_class_set_props(dc, loongarch_pch_pic_properties);
  }
  
+ static const TypeInfo loongarch_pch_pic_info = {
 diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index 958be74fa1..1e58346aeb 100644
+index 1e58346aeb..a39704e1e7 100644
 --- a/hw/loongarch/virt.c
 +++ b/hw/loongarch/virt.c
-@@ -496,7 +496,7 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
-     LoongArchCPU *lacpu;
-     CPULoongArchState *env;
-     CPUState *cpu_state;
--    int cpu, pin, i;
-+    int cpu, pin, i, start, num;
+@@ -559,6 +559,8 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+     }
  
-     ipi = qdev_new(TYPE_LOONGARCH_IPI);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(ipi), &error_fatal);
-@@ -576,14 +576,17 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+     pch_pic = qdev_new(TYPE_LOONGARCH_PCH_PIC);
++    num = PCH_PIC_IRQ_NUM;
++    qdev_prop_set_uint32(pch_pic, "pch_pic_irq_num", num);
+     d = SYS_BUS_DEVICE(pch_pic);
+     sysbus_realize_and_unref(d, &error_fatal);
+     memory_region_add_subregion(get_system_memory(), VIRT_IOAPIC_REG_BASE,
+@@ -570,13 +572,13 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+                             VIRT_IOAPIC_REG_BASE + PCH_PIC_INT_STATUS_LO,
+                             sysbus_mmio_get_region(d, 2));
+ 
+-    /* Connect 64 pch_pic irqs to extioi */
+-    for (int i = 0; i < PCH_PIC_IRQ_NUM; i++) {
++    /* Connect pch_pic irqs to extioi */
++    for (int i = 0; i < num; i++) {
+         qdev_connect_gpio_out(DEVICE(d), i, qdev_get_gpio_in(extioi, i));
      }
  
      pch_msi = qdev_new(TYPE_LOONGARCH_PCH_MSI);
--    qdev_prop_set_uint32(pch_msi, "msi_irq_base", PCH_MSI_IRQ_START);
-+    start   =  PCH_PIC_IRQ_NUM;
-+    num = EXTIOI_IRQS - start;
-+    qdev_prop_set_uint32(pch_msi, "msi_irq_base", start);
-+    qdev_prop_set_uint32(pch_msi, "msi_irq_num", num);
-     d = SYS_BUS_DEVICE(pch_msi);
-     sysbus_realize_and_unref(d, &error_fatal);
-     sysbus_mmio_map(d, 0, VIRT_PCH_MSI_ADDR_LOW);
--    for (i = 0; i < PCH_MSI_IRQ_NUM; i++) {
--        /* Connect 192 pch_msi irqs to extioi */
-+    for (i = 0; i < num; i++) {
-+        /* Connect pch_msi irqs to extioi */
-         qdev_connect_gpio_out(DEVICE(d), i,
--                              qdev_get_gpio_in(extioi, i + PCH_MSI_IRQ_START));
-+                              qdev_get_gpio_in(extioi, i + start));
-     }
+-    start   =  PCH_PIC_IRQ_NUM;
++    start   =  num;
+     num = EXTIOI_IRQS - start;
+     qdev_prop_set_uint32(pch_msi, "msi_irq_base", start);
+     qdev_prop_set_uint32(pch_msi, "msi_irq_num", num);
+diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
+index 2d4aa9ed6f..ba3a47fa88 100644
+--- a/include/hw/intc/loongarch_pch_pic.h
++++ b/include/hw/intc/loongarch_pch_pic.h
+@@ -9,11 +9,9 @@
+ #define PCH_PIC_NAME(name) TYPE_LOONGARCH_PCH_PIC#name
+ OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHPIC, LOONGARCH_PCH_PIC)
  
-     loongarch_devices_init(pch_pic, lams);
-diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
-index 6d67560dea..c5a52bc327 100644
---- a/include/hw/intc/loongarch_pch_msi.h
-+++ b/include/hw/intc/loongarch_pch_msi.h
-@@ -15,8 +15,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHMSI, LOONGARCH_PCH_MSI)
+-#define PCH_PIC_IRQ_START               0
+-#define PCH_PIC_IRQ_END                 63
+ #define PCH_PIC_IRQ_NUM                 64
+ #define PCH_PIC_INT_ID_VAL              0x7000000UL
+-#define PCH_PIC_INT_ID_NUM              0x3f0001UL
++#define PCH_PIC_INT_ID_VER              0x1UL
  
- struct LoongArchPCHMSI {
-     SysBusDevice parent_obj;
--    qemu_irq pch_msi_irq[PCH_MSI_IRQ_NUM];
-+    qemu_irq *pch_msi_irq;
-     MemoryRegion msi_mmio;
-     /* irq base passed to upper extioi intc */
-     unsigned int irq_base;
-+    unsigned int irq_num;
+ #define PCH_PIC_INT_ID_LO               0x00
+ #define PCH_PIC_INT_ID_HI               0x04
+@@ -66,4 +64,5 @@ struct LoongArchPCHPIC {
+     MemoryRegion iomem32_low;
+     MemoryRegion iomem32_high;
+     MemoryRegion iomem8;
++    unsigned int  irq_num;
  };
-diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
-index df7fa55a30..6443327bd7 100644
---- a/include/hw/pci-host/ls7a.h
-+++ b/include/hw/pci-host/ls7a.h
-@@ -34,7 +34,6 @@
-  */
- #define PCH_PIC_IRQ_OFFSET       64
- #define VIRT_DEVICE_IRQS         16
--#define VIRT_PCI_IRQS            48
- #define VIRT_UART_IRQ            (PCH_PIC_IRQ_OFFSET + 2)
- #define VIRT_UART_BASE           0x1fe001e0
- #define VIRT_UART_SIZE           0X100
 -- 
 2.31.1
 
