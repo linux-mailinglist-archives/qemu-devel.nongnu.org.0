@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE150659826
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:25:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5705865981D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Dec 2022 13:21:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBEGK-0008ML-06; Fri, 30 Dec 2022 07:13:24 -0500
+	id 1pBEFx-0007nk-KD; Fri, 30 Dec 2022 07:13:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pBEFr-0007lD-Vh
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:56 -0500
+ id 1pBEFo-0007gH-Ve
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:53 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+3cbd6dee458626289faf+7068+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pBEFl-00050a-BT
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:55 -0500
+ id 1pBEFl-00050b-Bq
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 07:12:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=CU/MUPgLwwlHW7d/G35FwT4tMsj+fiVv1E9c4PqPQRI=; b=kchJkZ2Kfa3mJcJV1t0II2tY5N
- nbDvhhDuXr9vjJiJdY/2F0c1HbPr4TbWLt3WSNxDK/viKVvqzNB6W6OpzH1FFU+ctptFPs1d9rXhB
- 3dFGynkH7iP1rREEZXY8+XvkulZawxsyJH9TMrlmcUQLWnBKlO0+kDFMCLZNAYDDvXs7ijG2SrP0a
- bTYnG4hWyQEyYd5uxouxh4+kqfBf/3ZVzviyEnAavZWL2pZmGwTr+R3RiqkIORSSYapwBp7KkXCea
- V5pTGLKOeZAxceqvCaRy8x2x9riZakse6m63WIlX/X3mCx5KEgTSxNefaKWsi7zFzKaGmtXhiI2u0
- gSITDtQA==;
+ bh=dgEpppW4ephV2U2qgEC8oXmP9Tpt2RSFcsN+dNSD0eQ=; b=lhM/FKbiSSBvAFI3qWt/jSV1PG
+ rs5tWa68DiAsultF3uah2mRW3w0UPoZboh5Iwy8594ilfpFl/rho6716Qwe8EUNsNq/kIqBBf5eN5
+ Vd71FDTK1J36qJ+VCoSjq4fNJ2gfkxEy3pJcDgnW97uz25iDPoUwYGVOn174W27y4Ef/A1nJdi2Mq
+ 1DLYWk1+lBvw3NdMgnrgLjDp/P0VeBkGlQx/Or+TUx2xpCfYYVrMhgHhi04NNcuhGg6vsG7iBbwrZ
+ ajh1BCAYQFexUQ1RwXQ2sgAu/CIxj9ctcia2ufu38o96JczqhZ9/oahBwU5ySUpNcsmnf5NXnBX1+
+ Sa7HSB/Q==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pBEFV-00GpjT-2e; Fri, 30 Dec 2022 12:12:39 +0000
+ id 1pBEFV-00GpjU-2g; Fri, 30 Dec 2022 12:12:36 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pBEFZ-005Nvw-Dh; Fri, 30 Dec 2022 12:12:37 +0000
+ Hat Linux)) id 1pBEFZ-005Nw0-EZ; Fri, 30 Dec 2022 12:12:37 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
@@ -46,10 +46,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
-Subject: [RFC PATCH v5 12/52] i386/xen: implement HYPERVISOR_sched_op,
- SCHEDOP_shutdown
-Date: Fri, 30 Dec 2022 12:11:55 +0000
-Message-Id: <20221230121235.1282915-13-dwmw2@infradead.org>
+Subject: [RFC PATCH v5 13/52] i386/xen: Implement SCHEDOP_poll and
+ SCHEDOP_yield
+Date: Fri, 30 Dec 2022 12:11:56 +0000
+Message-Id: <20221230121235.1282915-14-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20221230121235.1282915-1-dwmw2@infradead.org>
 References: <20221230121235.1282915-1-dwmw2@infradead.org>
@@ -82,124 +82,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joao Martins <joao.m.martins@oracle.com>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-It allows to shutdown itself via hypercall with any of the 3 reasons:
-  1) self-reboot
-  2) shutdown
-  3) crash
+They both do the same thing and just call sched_yield. This is enough to
+stop the Linux guest panicking when running on a host kernel which doesn't
+intercept SCHEDOP_poll and lets it reach userspace.
 
-Implementing SCHEDOP_shutdown sub op let us handle crashes gracefully rather
-than leading to triple faults if it remains unimplemented.
-
-In addition, the SHUTDOWN_soft_reset reason is used for kexec, to reset
-Xen shared pages and other enlightenments and leave a clean slate for the
-new kernel without the hypervisor helpfully writing information at
-unexpected addresses.
-
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-[dwmw2: Ditch sched_op_compat which was never available for HVM guests,
-        Add SCHEDOP_soft_reset]
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- target/i386/kvm/xen-emu.c | 68 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+ target/i386/kvm/xen-emu.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 1dea6feb90..5f2b55ef10 100644
+index 5f2b55ef10..80005ea527 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -17,8 +17,10 @@
- #include "exec/address-spaces.h"
- #include "xen-emu.h"
- #include "trace.h"
-+#include "sysemu/runstate.h"
+@@ -227,6 +227,18 @@ static bool kvm_xen_hcall_sched_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+         err = schedop_shutdown(cs, arg);
+         break;
  
- #include "standard-headers/xen/version.h"
-+#include "standard-headers/xen/sched.h"
- 
- static int kvm_gva_rw(CPUState *cs, uint64_t gva, void *_buf, size_t sz,
-                       bool is_write)
-@@ -170,6 +172,69 @@ static bool kvm_xen_hcall_xen_version(struct kvm_xen_exit *exit, X86CPU *cpu,
-     return true;
- }
- 
-+static int kvm_xen_soft_reset(void)
-+{
-+    /* Nothing to reset... yet. */
-+    return 0;
-+}
-+
-+static int schedop_shutdown(CPUState *cs, uint64_t arg)
-+{
-+    struct sched_shutdown shutdown;
-+    int ret = 0;
-+
-+    /* No need for 32/64 compat handling */
-+    qemu_build_assert(sizeof(shutdown) == 4);
-+
-+    if (kvm_copy_from_gva(cs, arg, &shutdown, sizeof(shutdown))) {
-+        return -EFAULT;
-+    }
-+
-+    switch (shutdown.reason) {
-+    case SHUTDOWN_crash:
-+        cpu_dump_state(cs, stderr, CPU_DUMP_CODE);
-+        qemu_system_guest_panicked(NULL);
++    case SCHEDOP_poll:
++        /*
++         * Linux will panic if this doesn't work. Just yield; it's not
++         * worth overthinking it because wWith event channel handling
++         * in KVM, the kernel will intercept this and it will never
++         * reach QEMU anyway.
++         */
++    case SCHEDOP_yield:
++        sched_yield();
++        err = 0;
 +        break;
 +
-+    case SHUTDOWN_reboot:
-+        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-+        break;
-+
-+    case SHUTDOWN_poweroff:
-+        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+        break;
-+
-+    case SHUTDOWN_soft_reset:
-+        ret = kvm_xen_soft_reset();
-+        break;
-+
-+    default:
-+        ret = -EINVAL;
-+        break;
-+    }
-+
-+    return ret;
-+}
-+
-+static bool kvm_xen_hcall_sched_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-+                                   int cmd, uint64_t arg)
-+{
-+    CPUState *cs = CPU(cpu);
-+    int err = -ENOSYS;
-+
-+    switch (cmd) {
-+    case SCHEDOP_shutdown:
-+        err = schedop_shutdown(cs, arg);
-+        break;
-+
-+    default:
-+        return false;
-+    }
-+
-+    exit->u.hcall.result = err;
-+    return true;
-+}
-+
- static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
- {
-     uint16_t code = exit->u.hcall.input;
-@@ -180,6 +245,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+     default:
+         return false;
      }
- 
-     switch (code) {
-+    case __HYPERVISOR_sched_op:
-+        return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
-+                                      exit->u.hcall.params[1]);
-     case __HYPERVISOR_xen_version:
-         return kvm_xen_hcall_xen_version(exit, cpu, exit->u.hcall.params[0],
-                                          exit->u.hcall.params[1]);
 -- 
 2.35.3
 
