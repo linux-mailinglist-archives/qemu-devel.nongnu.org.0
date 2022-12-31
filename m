@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC92665A4B6
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 14:44:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE5465A4B7
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 14:44:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBc9h-0000AG-2B; Sat, 31 Dec 2022 08:44:09 -0500
+	id 1pBc9s-0000BV-NL; Sat, 31 Dec 2022 08:44:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBc9e-0000A6-Pz
- for qemu-devel@nongnu.org; Sat, 31 Dec 2022 08:44:06 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pBc9d-0006Kw-3M
- for qemu-devel@nongnu.org; Sat, 31 Dec 2022 08:44:06 -0500
-Received: by mail-wr1-x432.google.com with SMTP id y8so22410603wrl.13
- for <qemu-devel@nongnu.org>; Sat, 31 Dec 2022 05:44:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CN+DB5qaFYYEw8DQYsdst303hQ9tPrMxbKByi1m+4xg=;
- b=naEpZJwwLw1BxK1G1wG1S9qLh4pZQEyTxidrKLS6JEe3ZGeuwLrATYBCXlPpMmqVZb
- KqxTVnBvXpazZrNIRXGBbjbaMZ5oF7zoAqAs1HODWhicU84e9RFUN0CI27ZvGZGhJoI6
- qRTlUafaD91G2NUA2qjaU/aLxt4lAWLawwiJGdIBvxSYfLiP2u8eg0D/gBButQWzX7x4
- LFGoleCJSnQmMEw+nY/ako1M8AxPe3p8rN5HgBty2IIL3S6+mlxQIFVMOWB5l/GHzcuR
- UmeQs+frNArwAkPPBTwiXUssmxdeA/25jUYd5pLLawfCRBtnSXzJWValbi3aERYYTZX0
- LdIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CN+DB5qaFYYEw8DQYsdst303hQ9tPrMxbKByi1m+4xg=;
- b=RaTVH+O0zyuc7EEYQ37kWipwWkyhUsxZ88sehRaz46Dtg2uyfSI9FDiRuWda60hc2L
- qVomkadFOyFd8qIaCqKt/nkxTHsZfiRTquCKkSK8/PcFg4sEbPBSKPkfUKzf6jPR0Yzp
- 0+AhZMtqoTrG0GHjHfOpzoWOm0ce+KPwdKQv1iKi4c5FHWjZjh1f0TvpMNfhGYXJi3+M
- LvUwtIRebLEh63KhZ+l0wXHTU4OYpJqN3RvJhm6THCdT+FYnz5vW1/T1fK4B9vcM8eFs
- 4Bvbbq3YpOqXPVyWpuUmsSA712BCorNouF4GiH2DCJDonFlbHEbzSApVqIIc9tFhRDUl
- AnJg==
-X-Gm-Message-State: AFqh2krgfffde5L7mVtc3LP94U0VxsVCoIJ6z9R/pJBbiiuU62bSB2XP
- 0Wdzjqg40JebWV1loVzcDIqWGw==
-X-Google-Smtp-Source: AMrXdXv/Cn6TnWmstmZfBGc/o6if8HdD3pjUo1QPlJXnucFmGfcvQoWArN6YuIOI0vQJ/vJmdKSbQQ==
-X-Received: by 2002:adf:d4c7:0:b0:242:30c8:c368 with SMTP id
- w7-20020adfd4c7000000b0024230c8c368mr23586612wrk.14.1672494242738; 
- Sat, 31 Dec 2022 05:44:02 -0800 (PST)
-Received: from [192.168.115.175] (27.red-88-29-181.dynamicip.rima-tde.net.
- [88.29.181.27]) by smtp.gmail.com with ESMTPSA id
- r17-20020adfdc91000000b0027973315213sm18530660wrj.89.2022.12.31.05.44.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 31 Dec 2022 05:44:02 -0800 (PST)
-Message-ID: <65f602e2-9067-f1e7-0c94-430e2b75e182@linaro.org>
-Date: Sat, 31 Dec 2022 14:44:00 +0100
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hRBJ=45=zx2c4.com=Jason@kernel.org>)
+ id 1pBc9q-0000BB-LV
+ for qemu-devel@nongnu.org; Sat, 31 Dec 2022 08:44:18 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hRBJ=45=zx2c4.com=Jason@kernel.org>)
+ id 1pBc9o-0006Lk-T3
+ for qemu-devel@nongnu.org; Sat, 31 Dec 2022 08:44:18 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 13FC5B80764;
+ Sat, 31 Dec 2022 13:44:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72E8C433D2;
+ Sat, 31 Dec 2022 13:44:12 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="J0VgweoX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1672494251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=I3EXbAZF0ZkXHlsBF39+Z27ZqrvJyxmcMZ2q51Q1/4c=;
+ b=J0VgweoXjwAHO1a/91Zlb2Q+CTc5BruXxZkyPJ95acGGShgImBWr2aCaY/RCi5SD8viTvq
+ LdE+PDwk0i3w43Xxi5jTWdCEeb6b3w7kwWYTrKKjRX04gpQNloMEDNTB3etU5r3ClfF517
+ Mc7u19KscXmsJD4jqqCS+C6qcCw0i1c=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id dc77abb8
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Sat, 31 Dec 2022 13:44:11 +0000 (UTC)
+Date: Sat, 31 Dec 2022 14:44:08 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>, pbonzini@redhat.com,
+ ebiggers@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org, ardb@kernel.org, kraxel@redhat.com,
+ philmd@linaro.org
+Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
+ setup_data
+Message-ID: <Y7A8qP05B0YRbQIN@zx2c4.com>
+References: <AF921575-0968-434A-8B46-095B78C209C1@zytor.com>
+ <Y62MdawGaasXmoVL@zn.tnic> <Y68Js5b0jW/2nLU4@zx2c4.com>
+ <Y68Zf/MKmX3Rr18E@zn.tnic>
+ <CAHmME9oPUJemVRvO3HX0q4BJGTFuzbLYANeizuRcNq2=Ykk1Gg@mail.gmail.com>
+ <Y69B40T9kWfxZpmf@zn.tnic>
+ <E5D0A77E-5ABC-4978-9A66-37B60DA43869@zytor.com>
+ <Y69h6ur79SMhu61F@zx2c4.com>
+ <46466e54-25c3-3194-8546-a57cd4a80d9d@zytor.com>
+ <Y7A76+IBS4fnucrW@zn.tnic>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 2/3] hw/mips/malta: Set PIIX4 IRQ routes in embedded
- bootloader
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
-References: <20221027204720.33611-1-philmd@linaro.org>
- <20221027204720.33611-3-philmd@linaro.org>
- <9F566248-59DA-46E2-BD56-5DB98E9DB446@gmail.com>
- <2E4C442C-9057-4006-AE8D-123B513ED894@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <2E4C442C-9057-4006-AE8D-123B513ED894@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.153,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y7A76+IBS4fnucrW@zn.tnic>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=hRBJ=45=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,41 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 31/12/22 10:53, Bernhard Beschow wrote:
+On Sat, Dec 31, 2022 at 02:40:59PM +0100, Borislav Petkov wrote:
+> On Fri, Dec 30, 2022 at 05:06:55PM -0800, H. Peter Anvin wrote:
+> > This needs to be something like:
+> > 
+> > kernel_add_identity_map(sd_addr, sd_addr + sizeof(*sd));
+> > kernel_add_identity_map(sd_addr + sizeof(*sd),
+> > 	sd_addr + sizeof(*sd) + sd->len);
 > 
+> It still #PFs with that:
 > 
-> Am 21. November 2022 15:34:05 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
->>
->>
->> Am 27. Oktober 2022 20:47:19 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
->>> Linux kernel expects the northbridge & southbridge chipsets
->>> configured by the BIOS firmware. We emulate that by writing
->>> a tiny bootloader code in write_bootloader().
->>>
->>> Upon introduction in commit 5c2b87e34d ("PIIX4 support"),
->>> the PIIX4 configuration space included values specific to
->>> the Malta board.
->>>
->>> Set the Malta-specific IRQ routing values in the embedded
->>> bootloader, so the next commit can remove the Malta specific
->>> bits from the PIIX4 PCI-ISA bridge and make it generic
->>> (matching the real hardware).
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> ---
->>> FIXME: Missing the nanoMIPS counter-part!
->>
->> Who will be taking care of this? I have absolutely no clue how the write_bootloader functions work, so I don't see how to fix it.
+> (gdb) bt
+> #0  0xffffffff84738576 in native_halt () at ./arch/x86/include/asm/irqflags.h:57
+> #1  halt () at ./arch/x86/include/asm/irqflags.h:98
+> #2  early_fixup_exception (regs=regs@entry=0xffffffff84007dc8, trapnr=trapnr@entry=14) at arch/x86/mm/extable.c:340
+> #3  0xffffffff846ff465 in do_early_exception (regs=0xffffffff84007dc8, trapnr=14) at arch/x86/kernel/head64.c:424
+> #4  0xffffffff846ff14f in early_idt_handler_common () at arch/x86/kernel/head_64.S:483
+> #5  0xc149f9894908788d in ?? ()
+> #6  0xffffffffff2003fc in ?? ()
+> #7  0x0000000000000010 in fixed_percpu_data ()
+> #8  0xdffffc0000000000 in ?? ()
+> #9  0xffffffff84007ea8 in init_thread_union ()
+> #10 0xffffffffff20088d in ?? ()
+> #11 0x0000000000000000 in ?? ()
 > 
-> Ping
+> /me goes to dig more.
 
-This comment has been taken care of:
-https://lore.kernel.org/qemu-devel/a3c3f639-dbb1-88a7-43fe-547a234c5890@linaro.org/
+Are you using patch v1 minus the 62 MiB thing? If you haven't applied
+patch v1 and then removed the 62 MiB limitation in it, then you've
+misunderstood the conversation again.
 
-However while testing the MIPS pull request I prepared I
-found a bug in the GT64120 which I'm trying to fix since
-various days... Unfortunately your series depends on it,
-so this is a blocking issue. Sorry for this long delay...
+Please see my reproduction steps to Peter:
+https://lore.kernel.org/lkml/Y68K4mPuz6edQkCX@zx2c4.com/
 
-Phil.
+Jason
 
