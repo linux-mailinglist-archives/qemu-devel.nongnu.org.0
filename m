@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E00D65A62B
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 20:02:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7944765A6CA
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 21:11:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBh6I-0000fn-RU; Sat, 31 Dec 2022 14:00:58 -0500
+	id 1pBiAm-0000yX-Kf; Sat, 31 Dec 2022 15:09:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pBh6E-0000fW-7K
- for qemu-devel@nongnu.org; Sat, 31 Dec 2022 14:00:54 -0500
-Received: from mail.skyhub.de ([5.9.137.197])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pBh64-00064D-7L
- for qemu-devel@nongnu.org; Sat, 31 Dec 2022 14:00:54 -0500
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E73191EC04AD;
- Sat, 31 Dec 2022 20:00:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1672513234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=wtcKKnYS0ZHRn/fZeFnfnImCwHmhNYrXNEufS2qk2IY=;
- b=rEFqycmTC2OglrzR35Kb4FvOYMQmK/u+hjZ6Q5DeDghRR3Fkb9g8m7lrzZc5JZNaWOwBX/
- zD3l3yzMBfMonVKI8o0kPn9TcqZwlLgAZVF67+Hh4yOH01/7sXYXBMl/OE47/DJzISZO0c
- miXtD/9pE4oLWzklFvb4oXm4DJFs1MY=
-Date: Sat, 31 Dec 2022 20:00:29 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>, pbonzini@redhat.com,
- ebiggers@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, ardb@kernel.org, kraxel@redhat.com,
- philmd@linaro.org
-Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
- setup_data
-Message-ID: <Y7CGzde+qPB7YJP4@zn.tnic>
-References: <Y69B40T9kWfxZpmf@zn.tnic>
- <E5D0A77E-5ABC-4978-9A66-37B60DA43869@zytor.com>
- <Y69h6ur79SMhu61F@zx2c4.com>
- <46466e54-25c3-3194-8546-a57cd4a80d9d@zytor.com>
- <Y7A76+IBS4fnucrW@zn.tnic> <Y7A8qP05B0YRbQIN@zx2c4.com>
- <Y7A9nBud6UeH+wYd@zn.tnic> <Y7A+YELM7m5E2PUQ@zx2c4.com>
- <Y7BGIAL4z6o6FEI5@zn.tnic> <Y7B993P1+jYB/etX@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pBiAk-0000yA-4T
+ for qemu-devel@nongnu.org; Sat, 31 Dec 2022 15:09:38 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pBiAi-0006qX-Gr
+ for qemu-devel@nongnu.org; Sat, 31 Dec 2022 15:09:37 -0500
+Received: by mail-wm1-x331.google.com with SMTP id l26so16131657wme.5
+ for <qemu-devel@nongnu.org>; Sat, 31 Dec 2022 12:09:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YuKBpvNs9nb+EvWaUpqSWLsIQmwRATYjMAk+LY9mqfU=;
+ b=HcRHr7F+Jp/bytnZJ8G1Bpa0iQszrHVasJvUzDLu5Tv9pU7h9CBTTWwVaEmrD/H8JY
+ sCoGiYwaR9eC3S9OFb6RET06lqqTeBhAZKo4bDgUOWxOrUm2M0gHMJADY7ZuKEbl+ofC
+ 3PVjt/NJ0wApERpIcdonQxAQkEp1L/bgn+V5D0LtNb0a56B15Q8LU7YIv5ZHgKM3TZAi
+ fXnUGibv6q4PsiWFa4TA8CX5bcdeuMdCFHjd0u1xekU6biz5cyOA9GNP83jBckk1dL84
+ bucsG9YQ4jw/tm8cdvZRzloGzpa7Wv9VAZET8m3no7Jk/xehmK7u1RoojRIgnNUUQT6N
+ zY7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=YuKBpvNs9nb+EvWaUpqSWLsIQmwRATYjMAk+LY9mqfU=;
+ b=Lj2lgy1OZ1KPNZiC3Qs9PrClVKP6nGPTuY98ERjCsYdYPH3TzqKwtNS6k7vaqJWgbJ
+ mGRGrZT7tVvYzLtsPezq8LUh/sJHV9RDPyKX6LXHhfkbKRT3YJ++hn7xJF9BkhdoUwq0
+ T2GB1JaU4M9YAibq4wucS3F5oLf0F1WVIcsbgyy3ne5ckOumBOmRsl3excarPlO0Acnl
+ ioQkXQ+bq4PWOgXYaZIV+4PunVJFBeXurJ6N5FLvbdj1Zr8TPnur8Dg1zDlhI9lGlDTz
+ e/x2JztOav9MU3zdU7R+/dxbhJwLf6R22y6/73FSccnizhmY9jYi3L0niftMKPoaWWvd
+ VHMg==
+X-Gm-Message-State: AFqh2kokN80RKo0EtKdOqXPZMZ2Xmd+M4nJlVQZ4D5i5SUkX4DiokN8P
+ Pdaf6dngqj7VfZsONfE1GNA/nA==
+X-Google-Smtp-Source: AMrXdXsfWK9ph4QwyeCKCgHHaUHgAu4rSnSD80opJLvDGfB+brKU2+3TLzA3xxTqTA1gmzDhw9OCsA==
+X-Received: by 2002:a05:600c:34d4:b0:3cf:a39f:eb2a with SMTP id
+ d20-20020a05600c34d400b003cfa39feb2amr25427502wmq.11.1672517374457; 
+ Sat, 31 Dec 2022 12:09:34 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ g15-20020a05600c310f00b003b47e75b401sm40558204wmo.37.2022.12.31.12.09.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 31 Dec 2022 12:09:34 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8D91C1FFB7;
+ Sat, 31 Dec 2022 20:09:33 +0000 (GMT)
+References: <C2E99F08-5683-4332-B4F6-E3BACFAB6423@umich.edu>
+User-agent: mu4e 1.9.10; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Nada Lachtar <nlachtar@umich.edu>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: Question about TLBs
+Date: Sat, 31 Dec 2022 20:04:08 +0000
+In-reply-to: <C2E99F08-5683-4332-B4F6-E3BACFAB6423@umich.edu>
+Message-ID: <87zgb3qqrm.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y7B993P1+jYB/etX@zx2c4.com>
-Received-SPF: pass client-ip=5.9.137.197; envelope-from=bp@alien8.de;
- helo=mail.skyhub.de
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,36 +93,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Dec 31, 2022 at 07:22:47PM +0100, Jason A. Donenfeld wrote:
-> So with that understanding confirmed, I'm confused at your surprise that
-> hpa's unrelated fix to the different issue didn't fix this issue.
 
-No surprise there - I used a qemu variant without your patch to prevent the
-setup_data clobbering so hpa's fix can't help there.
+Nada Lachtar <nlachtar@umich.edu> writes:
 
-> But since the kernel doesn't do this now, and the 62MiB bug also seems
-> to apply to existing kernels, for the purposes of QEMU for now, I think
-> the v3 patch is probably best, since it'll handle existing kernels.
+> [[S/MIME Signed Part:Undecided]]
+> Hello,
+>
+> Does Qemu maintain two TLB for the x86_64 system (i.e iTLB and dTLB)?
+> If yes, can you please point me to how to access the dTLB and what
+> data structure maintains this information!
 
-Right, we can't fix all those guests which are out there.
+Qemu's internal softmmu TLB is unified and holds information for code
+loads, memory accesses and re-directions for io access. See CPUTLBEntry
+and CPUTLBEntryFull. They do not directly map onto any target specific
+structures (although targets can use TARGET_PAGE_ENTRY_EXTRA to store
+extra information in the table).
 
-> Alternatively, setup_data could be relocated, the boot param protocol
-> could be bumped, and then QEMU could conditionalized it's use of
-> setup_data based on that protocol version. That'd work, but seems a bit
-> more involved.
+These entries are filled by target specific code via
+cpu->cc->tcg_ops->tlb_fill() which in the x86 case takes you to
+x86_cpu_tlb_fill(). This is the code responsible to walking the target
+page tables and filling in the details of the mappings.
 
-I think this is at least worth considering because the kernel overwriting
-setup_data after having been told where that setup_data is located is not really
-nice.
+>
+> I would appreciate any help,
+>
+>
+> Thanks,
+>
+>
+>
+>
+> [[End of S/MIME Signed Part]]
 
-Well not explicitly at least - it gets the pointer to the first element and
-something needs to traverse that list to know which addresses are live. But
-still, that info is there so perhaps we need to take setup_data into
-consideration too before decompressing...
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
