@@ -2,105 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1A165A299
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 04:41:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3757165A356
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 10:21:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBSjM-00071p-QN; Fri, 30 Dec 2022 22:40:20 -0500
+	id 1pBY2E-0000Ui-Vx; Sat, 31 Dec 2022 04:20:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pBSjJ-00071P-4A
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 22:40:17 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1pBSjH-00010Z-2g
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 22:40:16 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2BUMBlvR010677
- for <qemu-devel@nongnu.org>; Sat, 31 Dec 2022 03:40:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=zUu8mXnCFRsZA2BA66O3mg1cGSmDVQXGiVIlgNqgxhk=;
- b=YQdPcHhj28oKaqFbnHe4RE1hd4sBKqpp15VTUMdKH5O9t/6IztuRaVPucwrD/zhvzQaq
- lIVYDqaPHp1ztrS6RQrkJrTRlAgRoAdrg1e5FdCi84xMkENoBm+rLpOVz571QSfzuaWH
- 86NQk2/uKSE6kUuekIBtY54x0LdzNLru77dld30UBFs8zRHJKdCq/AIaKt5rmnYfGjeA
- x+y3G0ZhCYn79QtR2yGGcao7mptzdqZngjk0RVYLac/yqnW8nyXC+i6hTl0N7vok0CG1
- h8DK7F3IlGdztocROR5p6B90SoYEvkO2JbsRnOad/lXDHmscxPLYwjQ/KEbGKLPdk7rA JQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt8jm3sqt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Sat, 31 Dec 2022 03:40:12 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BV3eBq5000980
- for <qemu-devel@nongnu.org>; Sat, 31 Dec 2022 03:40:11 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt8jm3sqe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 31 Dec 2022 03:40:11 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BV2sjqX025691;
- Sat, 31 Dec 2022 03:40:10 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
- by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3mtcq6r54h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 31 Dec 2022 03:40:10 +0000
-Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
- by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2BV3e8dk9306724
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 31 Dec 2022 03:40:09 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5A9C87805E;
- Sat, 31 Dec 2022 05:09:59 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 924537805C;
- Sat, 31 Dec 2022 05:09:58 +0000 (GMT)
-Received: from lingrow.int.hansenpartnership.com (unknown [9.211.136.248])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Sat, 31 Dec 2022 05:09:58 +0000 (GMT)
-Message-ID: <d64f8077dbe7ecddc225df62d746883ebc54928e.camel@linux.ibm.com>
-Subject: Re: [PATCH v4 1/2] tpm: convert tpmdev options processing to new
- visitor format
-From: James Bottomley <jejb@linux.ibm.com>
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: "Daniel P ." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-Date: Fri, 30 Dec 2022 22:40:05 -0500
-In-Reply-To: <a36be6a2-38c0-4b65-20a8-5a9cacca7d71@linux.ibm.com>
-References: <20221230152415.27375-1-jejb@linux.ibm.com>
- <20221230152415.27375-2-jejb@linux.ibm.com>
- <a36be6a2-38c0-4b65-20a8-5a9cacca7d71@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+ (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
+ id 1pBY24-0000Tx-JV
+ for qemu-devel@nongnu.org; Sat, 31 Dec 2022 04:20:00 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zongyuan.li@smartx.com>)
+ id 1pBY1z-0000hg-Ni
+ for qemu-devel@nongnu.org; Sat, 31 Dec 2022 04:20:00 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id e10so1579544pgc.9
+ for <qemu-devel@nongnu.org>; Sat, 31 Dec 2022 01:19:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=d54QAWn2+ELmbnntkRqAx/lPnsvepWPl/ohP35fLo3c=;
+ b=DA+wxJHB5R8VAAqUTKT+O/xwdxVMRbN+hvJ0WJRTU0PZEBkQTPr4f3jyPAABrZ3uJT
+ 1jdudHO9QTGQYvCtgWMJeZ31aya/Xevd6CkuXKh5E4iw0IZGGB67tTw//8YzLTxn/sQ1
+ 3P0u1xILoW/BdRA2ttLFpm/9krvH9BNJ92Jphwz6HNxKD7T2+EuhmFrzRgaUlksIc6sN
+ 6hk/AUwjHaOYb05S9OCdcCyNb1VKd//kJQDaDav3vB+4gJ1QWKBJyv9GNsbER1HLwSsr
+ EY+FNjq3yuQk+AfEUMG6fLCdtLRL1dVzVoOBm47EDvdxlbT3y1fHSWi95Cj+svch8k7E
+ GwOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d54QAWn2+ELmbnntkRqAx/lPnsvepWPl/ohP35fLo3c=;
+ b=8OMRlLnpqhwA6CHMTfMbCMO6l8myHv5tGvBdIyYXb8c+Pp9XPKrzPNhytAXpQbvKV9
+ QucAeQ628vXLAL37d3ueevn7ntBZcEd1Ip7nd8snURJO4tgdu1kNQkepaR9SK8tVn1D6
+ eb6fz9wni4cps7f8j9ygTHEBTE47NNuA5h0yHOLI5Dti9JvNNLkbgntEyclt3xtTP+HR
+ bbruhmA8bxv84GrWvFdowIbO48nzVitR9yaArTIJGis2S9D8mCJ4HioF1ml0HgzpjgQx
+ QGsJ/AWzI8bFtbl+I0kQ4rUARDSber5dBBUEU/Eyk4saCBTD/3unzrIdxc2ZzREDE1Vo
+ KycA==
+X-Gm-Message-State: AFqh2kpsv4AkbeW2TtZ+RYf1vhwIu/kNpywg8VOcgPxiJOOGC0cxJhUc
+ ZFDSIpfbTpZ4tL38hTaOkU0WEA==
+X-Google-Smtp-Source: AMrXdXtUFBOcM6/+6YmRhooT1aG5a/2m1AH/BbeoG7fhslrJROFc5AaUXkuslXtUBIf6OJuL0IS9dw==
+X-Received: by 2002:a05:6a00:288f:b0:581:fddb:749c with SMTP id
+ ch15-20020a056a00288f00b00581fddb749cmr4923494pfb.5.1672478391969; 
+ Sat, 31 Dec 2022 01:19:51 -0800 (PST)
+Received: from bunker.c0x0o.me ([154.202.60.25])
+ by smtp.gmail.com with ESMTPSA id
+ p5-20020a622905000000b005749f5d9d07sm15350265pfp.99.2022.12.31.01.19.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 31 Dec 2022 01:19:51 -0800 (PST)
+From: Zongyuan Li <zongyuan.li@smartx.com>
+To: Alessandro Di Federico <ale@rev.ng>, Anton Johansson <anjo@rev.ng>,
+ qemu-devel@nongnu.org
+Cc: Zongyuan Li <zongyuan.li@smartx.com>
+Subject: [PATCH 1/1] target/hexagon: work around unused variable in yyparser
+Date: Sat, 31 Dec 2022 17:19:35 +0800
+Message-Id: <20221231091935.152590-1-zongyuan.li@smartx.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: T1yBxQ10F-wKNgmQDwRbeacX7uLtiMp7
-X-Proofpoint-GUID: BsEodXkuMhBHduS-wfpNAHNsnSdHQDwB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-31_01,2022-12-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- bulkscore=0 priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0
- lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2212310031
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=zongyuan.li@smartx.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,39 +84,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 2022-12-30 at 12:01 -0500, Stefan Berger wrote:
-> On 12/30/22 10:24, James Bottomley wrote:
-[...]
-> > @@ -2906,9 +2893,7 @@ void qemu_init(int argc, char **argv)
-> >                   break;
-> >   #ifdef CONFIG_TPM
-> >               case QEMU_OPTION_tpmdev:
-> > -                if (tpm_config_parse(qemu_find_opts("tpmdev"),
-> > optarg) < 0) {
-> > -                    exit(1);
-> > -                }
-> > +                tpm_config_parse(optarg);
-> 
-> The patches don't apply to upstream's master.
+Variable 'yynerrs' is recognized as unused variable in clang15,
+which is auto-generated by bison in parser file, as long as user
+code doesn't access it in '.y'. This is already fixed in bison 8.2.
+But for user who use latest clang, a simple harmless code piece
+would fix this building error.
 
-I think it depends how you apply them.  If you use git, they do except
-a minor merge conflict in tpm_passthrough.c
+FYI: bison patch link
+https://mail.gnu.org/archive/html/bison-patches/2022-08/msg00006.html
 
-More seriously there's now a compile failure in tpm_mssim.c because of
-the lost has_X for X pointer options, but it's also easily fixable.
+Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
+---
+ target/hexagon/idef-parser/idef-parser.y | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> This used to exit() on failure but doesn't do this anymore, though it
-> probably should.
-
-Actually it still does.  I converted it to the standard &error_fatal
-way of doing this, which will cause an exit(1) if we get an error.  The
-error_fatal construct seems to have been done precisely to cure this
-type of return value threading.
-
-James
+diff --git a/target/hexagon/idef-parser/idef-parser.y b/target/hexagon/idef-parser/idef-parser.y
+index 8be44a0ad1..07aa105aa2 100644
+--- a/target/hexagon/idef-parser/idef-parser.y
++++ b/target/hexagon/idef-parser/idef-parser.y
+@@ -99,6 +99,9 @@
+ /* Input file containing the description of each hexagon instruction */
+ input : instructions
+       {
++          if (yynerrs != 0) {
++              YYABORT;
++          }
+           YYACCEPT;
+       }
+       ;
+-- 
+2.38.1
 
 
