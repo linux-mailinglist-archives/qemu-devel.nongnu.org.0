@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0C965A044
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 02:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C09365A065
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 02:16:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBQLG-0003e6-Nr; Fri, 30 Dec 2022 20:07:18 -0500
+	id 1pBQSu-0005tE-M4; Fri, 30 Dec 2022 20:15:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pBQLD-0003di-Gh
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 20:07:15 -0500
+ (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pBQSb-0005mf-VS
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 20:14:55 -0500
 Received: from [2607:7c80:54:3::138] (helo=mail.zytor.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pBQLB-0005hi-IP
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 20:07:15 -0500
+ (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pBQSZ-0007Qy-Ts
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 20:14:53 -0500
 Received: from [IPV6:2601:646:8600:40c1:5967:deb4:a714:2940]
  ([IPv6:2601:646:8600:40c1:5967:deb4:a714:2940])
  (authenticated bits=0)
- by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 2BV170UU1463000
+ by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 2BV1EVmS1463922
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Fri, 30 Dec 2022 17:07:01 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 2BV170UU1463000
+ Fri, 30 Dec 2022 17:14:32 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 2BV1EVmS1463922
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2022120601; t=1672448823;
- bh=u08p8tRZoIJ4p+ilvqUkzflwpfqtfcHjfr46xtIIqN4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=klQ791Lknjvg8C6br7VX3DtRnuY/spsJ6m5ccDf8RiJMLdEZIn4gbvrNf1vbZHcYf
- qkNzO2Q3QS/Snu5vC19/e2q8STbS6eDFZ2oo27TUacT+RkbL7k6E72WTsH8gZJ6pcu
- ag6Mz5Cfec2Oj6QiJXK705bGSgS4ZCvZ9IyJF9Zc0H4y2PIGjmfkIA31yyoYzQQy/s
- QzUdhVuv2vySfRcXPlcQjEnvPGkvWKxsDOfVI9TIlKXzTmHkPRO0jLboYRwO8tZCEr
- OMl6jMfUqXUyXx5KhvuhRSZtPoQIcED+tBFnc9XbjTlhQ+3yyaKJtw3tWrkeiVUm4E
- oJr3N2riwE94Q==
-Message-ID: <46466e54-25c3-3194-8546-a57cd4a80d9d@zytor.com>
-Date: Fri, 30 Dec 2022 17:06:55 -0800
+ s=2022120601; t=1672449273;
+ bh=p758Zgd+yGDuok+ksdSxE2idQGSI127bm719tcowUaE=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=G4LeLSN1au620qGat9Nr+WlKrYb7uSchs4cjj5ly0FiMkE05k6lizUbSIlwEBhEI7
+ w+kdSn+PABHB9xif38RY+Vt10NnD9unHylbnxZnZ87bqtWrwGBZxtAk0jS7Jn/WHzr
+ oc5/PdIRZ8o6PVFPfme08Ihme5BC2aHQftb1nYb6lVOECNg9d21n9nE7eJgw/in88R
+ FYfBTgAypVgCc1Fvqd2QayztYKT2cqjxFjY+fodRgQbu+B0C/jwmJj71Wl/2thAyQC
+ 2HncnwoI+KOaHMwZgSQ0rXJ86AQzrJ1MQRbmk4UOf+auLmv94S6xThtlWKI5pNiChR
+ 6CYFmtuhbDQpg==
+Message-ID: <7dc37024-5bdd-1206-020b-5072629b80dd@zytor.com>
+Date: Fri, 30 Dec 2022 17:14:26 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
 Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
  setup_data
 Content-Language: en-US
+From: "H. Peter Anvin" <hpa@zytor.com>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc: Borislav Petkov <bp@alien8.de>, pbonzini@redhat.com, ebiggers@kernel.org, 
  x86@kernel.org, linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
@@ -51,9 +52,8 @@ References: <Y6x1knb8udpSyMSp@zx2c4.com>
  <Y68Js5b0jW/2nLU4@zx2c4.com> <Y68Zf/MKmX3Rr18E@zn.tnic>
  <CAHmME9oPUJemVRvO3HX0q4BJGTFuzbLYANeizuRcNq2=Ykk1Gg@mail.gmail.com>
  <Y69B40T9kWfxZpmf@zn.tnic> <E5D0A77E-5ABC-4978-9A66-37B60DA43869@zytor.com>
- <Y69h6ur79SMhu61F@zx2c4.com>
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <Y69h6ur79SMhu61F@zx2c4.com>
+ <Y69h6ur79SMhu61F@zx2c4.com> <46466e54-25c3-3194-8546-a57cd4a80d9d@zytor.com>
+In-Reply-To: <46466e54-25c3-3194-8546-a57cd4a80d9d@zytor.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:7c80:54:3::138
@@ -82,52 +82,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 12/30/22 14:10, Jason A. Donenfeld wrote:
-> On Fri, Dec 30, 2022 at 01:58:39PM -0800, H. Peter Anvin wrote:
->> See the other thread fork. They have identified the problem already.
+On 12/30/22 17:06, H. Peter Anvin wrote
 > 
-> Not sure I follow. Is there another thread where somebody worked out why
-> this 62meg limit was happening?
-> 
-> Note that I sent v2/v3, to fix the original problem in a different way,
-> and if that looks good to the QEMU maintainers, then we can all be happy
-> with that. But I *haven't* addressed and still don't fully understand
-> why the 62meg limit applied to my v1 in the way it does. Did you find a
-> bug there to fix? If so, please do CC me.
+> TThe 62 MB limit mentioned in boot.rst is unrelated, and only applies to 
+> very, very old kernels that used INT 15h, AH=88h to probe memory.
 > 
 
-Yes, you yourself posted the problem:
-
-> Then build qemu. Run it with `-kernel bzImage`, based on the kernel
-> built with the .config I attached.
-> 
-> You'll see that the CPU triple faults when hitting this line:
-> 
->         sd = (struct setup_data *)boot_params->hdr.setup_data;
->         while (sd) {
->                 unsigned long sd_addr = (unsigned long)sd;
-> 
->                 kernel_add_identity_map(sd_addr, sd_addr + sizeof(*sd) + sd->len);  <----
->                 sd = (struct setup_data *)sd->next;
->         }
-> 
-> , because it dereferences *sd. This does not happen if the decompressed
-> size of the kernel is < 62 megs.
-> 
-> So that's the "big and pretty serious" bug that might be worthy of
-> investigation.
-
-This needs to be something like:
-
-kernel_add_identity_map(sd_addr, sd_addr + sizeof(*sd));
-kernel_add_identity_map(sd_addr + sizeof(*sd),
-	sd_addr + sizeof(*sd) + sd->len);
-
-
-TThe 62 MB limit mentioned in boot.rst is unrelated, and only applies to 
-very, very old kernels that used INT 15h, AH=88h to probe memory.
+I am 88% sure this was fixed long before setup_data was created, as it 
+was created originally to carry e820 info for more than 128(!) memory 
+segments. However, as we see here, it is never certain that bugs didn't 
+creep in in the meantime...
 
 	-hpa
+
 
