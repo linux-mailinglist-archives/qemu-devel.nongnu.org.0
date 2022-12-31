@@ -2,70 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C09365A065
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 02:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1A165A299
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Dec 2022 04:41:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pBQSu-0005tE-M4; Fri, 30 Dec 2022 20:15:12 -0500
+	id 1pBSjM-00071p-QN; Fri, 30 Dec 2022 22:40:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pBQSb-0005mf-VS
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 20:14:55 -0500
-Received: from [2607:7c80:54:3::138] (helo=mail.zytor.com)
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pBSjJ-00071P-4A
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 22:40:17 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pBQSZ-0007Qy-Ts
- for qemu-devel@nongnu.org; Fri, 30 Dec 2022 20:14:53 -0500
-Received: from [IPV6:2601:646:8600:40c1:5967:deb4:a714:2940]
- ([IPv6:2601:646:8600:40c1:5967:deb4:a714:2940])
- (authenticated bits=0)
- by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 2BV1EVmS1463922
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Fri, 30 Dec 2022 17:14:32 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 2BV1EVmS1463922
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2022120601; t=1672449273;
- bh=p758Zgd+yGDuok+ksdSxE2idQGSI127bm719tcowUaE=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=G4LeLSN1au620qGat9Nr+WlKrYb7uSchs4cjj5ly0FiMkE05k6lizUbSIlwEBhEI7
- w+kdSn+PABHB9xif38RY+Vt10NnD9unHylbnxZnZ87bqtWrwGBZxtAk0jS7Jn/WHzr
- oc5/PdIRZ8o6PVFPfme08Ihme5BC2aHQftb1nYb6lVOECNg9d21n9nE7eJgw/in88R
- FYfBTgAypVgCc1Fvqd2QayztYKT2cqjxFjY+fodRgQbu+B0C/jwmJj71Wl/2thAyQC
- 2HncnwoI+KOaHMwZgSQ0rXJ86AQzrJ1MQRbmk4UOf+auLmv94S6xThtlWKI5pNiChR
- 6CYFmtuhbDQpg==
-Message-ID: <7dc37024-5bdd-1206-020b-5072629b80dd@zytor.com>
-Date: Fri, 30 Dec 2022 17:14:26 -0800
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pBSjH-00010Z-2g
+ for qemu-devel@nongnu.org; Fri, 30 Dec 2022 22:40:16 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2BUMBlvR010677
+ for <qemu-devel@nongnu.org>; Sat, 31 Dec 2022 03:40:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=zUu8mXnCFRsZA2BA66O3mg1cGSmDVQXGiVIlgNqgxhk=;
+ b=YQdPcHhj28oKaqFbnHe4RE1hd4sBKqpp15VTUMdKH5O9t/6IztuRaVPucwrD/zhvzQaq
+ lIVYDqaPHp1ztrS6RQrkJrTRlAgRoAdrg1e5FdCi84xMkENoBm+rLpOVz571QSfzuaWH
+ 86NQk2/uKSE6kUuekIBtY54x0LdzNLru77dld30UBFs8zRHJKdCq/AIaKt5rmnYfGjeA
+ x+y3G0ZhCYn79QtR2yGGcao7mptzdqZngjk0RVYLac/yqnW8nyXC+i6hTl0N7vok0CG1
+ h8DK7F3IlGdztocROR5p6B90SoYEvkO2JbsRnOad/lXDHmscxPLYwjQ/KEbGKLPdk7rA JQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt8jm3sqt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Sat, 31 Dec 2022 03:40:12 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2BV3eBq5000980
+ for <qemu-devel@nongnu.org>; Sat, 31 Dec 2022 03:40:11 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3mt8jm3sqe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 31 Dec 2022 03:40:11 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 2BV2sjqX025691;
+ Sat, 31 Dec 2022 03:40:10 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
+ by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3mtcq6r54h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 31 Dec 2022 03:40:10 +0000
+Received: from b03ledav004.gho.boulder.ibm.com ([9.17.130.235])
+ by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2BV3e8dk9306724
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 31 Dec 2022 03:40:09 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5A9C87805E;
+ Sat, 31 Dec 2022 05:09:59 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 924537805C;
+ Sat, 31 Dec 2022 05:09:58 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.211.136.248])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Sat, 31 Dec 2022 05:09:58 +0000 (GMT)
+Message-ID: <d64f8077dbe7ecddc225df62d746883ebc54928e.camel@linux.ibm.com>
+Subject: Re: [PATCH v4 1/2] tpm: convert tpmdev options processing to new
+ visitor format
+From: James Bottomley <jejb@linux.ibm.com>
+To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: "Daniel P ." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>
+Date: Fri, 30 Dec 2022 22:40:05 -0500
+In-Reply-To: <a36be6a2-38c0-4b65-20a8-5a9cacca7d71@linux.ibm.com>
+References: <20221230152415.27375-1-jejb@linux.ibm.com>
+ <20221230152415.27375-2-jejb@linux.ibm.com>
+ <a36be6a2-38c0-4b65-20a8-5a9cacca7d71@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
- setup_data
-Content-Language: en-US
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Borislav Petkov <bp@alien8.de>, pbonzini@redhat.com, ebiggers@kernel.org, 
- x86@kernel.org, linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
- ardb@kernel.org, kraxel@redhat.com, philmd@linaro.org
-References: <Y6x1knb8udpSyMSp@zx2c4.com>
- <9188EEE9-2759-4389-B39E-0FEBBA3FA57D@zytor.com> <Y6z765zHrQ6Rl/0o@zx2c4.com>
- <AF921575-0968-434A-8B46-095B78C209C1@zytor.com> <Y62MdawGaasXmoVL@zn.tnic>
- <Y68Js5b0jW/2nLU4@zx2c4.com> <Y68Zf/MKmX3Rr18E@zn.tnic>
- <CAHmME9oPUJemVRvO3HX0q4BJGTFuzbLYANeizuRcNq2=Ykk1Gg@mail.gmail.com>
- <Y69B40T9kWfxZpmf@zn.tnic> <E5D0A77E-5ABC-4978-9A66-37B60DA43869@zytor.com>
- <Y69h6ur79SMhu61F@zx2c4.com> <46466e54-25c3-3194-8546-a57cd4a80d9d@zytor.com>
-In-Reply-To: <46466e54-25c3-3194-8546-a57cd4a80d9d@zytor.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:7c80:54:3::138
- (failed)
-Received-SPF: pass client-ip=2607:7c80:54:3::138; envelope-from=hpa@zytor.com;
- helo=mail.zytor.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: T1yBxQ10F-wKNgmQDwRbeacX7uLtiMp7
+X-Proofpoint-GUID: BsEodXkuMhBHduS-wfpNAHNsnSdHQDwB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-31_01,2022-12-30_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212310031
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.146,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,20 +113,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/30/22 17:06, H. Peter Anvin wrote
+On Fri, 2022-12-30 at 12:01 -0500, Stefan Berger wrote:
+> On 12/30/22 10:24, James Bottomley wrote:
+[...]
+> > @@ -2906,9 +2893,7 @@ void qemu_init(int argc, char **argv)
+> >                   break;
+> >   #ifdef CONFIG_TPM
+> >               case QEMU_OPTION_tpmdev:
+> > -                if (tpm_config_parse(qemu_find_opts("tpmdev"),
+> > optarg) < 0) {
+> > -                    exit(1);
+> > -                }
+> > +                tpm_config_parse(optarg);
 > 
-> TThe 62 MB limit mentioned in boot.rst is unrelated, and only applies to 
-> very, very old kernels that used INT 15h, AH=88h to probe memory.
-> 
+> The patches don't apply to upstream's master.
 
-I am 88% sure this was fixed long before setup_data was created, as it 
-was created originally to carry e820 info for more than 128(!) memory 
-segments. However, as we see here, it is never certain that bugs didn't 
-creep in in the meantime...
+I think it depends how you apply them.  If you use git, they do except
+a minor merge conflict in tpm_passthrough.c
 
-	-hpa
+More seriously there's now a compile failure in tpm_mssim.c because of
+the lost has_X for X pointer options, but it's also easily fixable.
+
+> This used to exit() on failure but doesn't do this anymore, though it
+> probably should.
+
+Actually it still does.  I converted it to the standard &error_fatal
+way of doing this, which will cause an exit(1) if we get an error.  The
+error_fatal construct seems to have been done precisely to cure this
+type of return value threading.
+
+James
 
 
