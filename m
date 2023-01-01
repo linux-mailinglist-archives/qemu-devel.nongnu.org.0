@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9078865ABB1
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Jan 2023 22:23:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1B665AC8A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 00:53:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pC5m4-0003TT-U5; Sun, 01 Jan 2023 16:21:45 -0500
+	id 1pC87u-000766-GH; Sun, 01 Jan 2023 18:52:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pC5m0-0003TD-Rn
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 16:21:42 -0500
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pC87s-00075y-GN
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 18:52:24 -0500
 Received: from sonic309-21.consmr.mail.gq1.yahoo.com ([98.137.65.147])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pC5lx-0008RS-Vd
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 16:21:40 -0500
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pC87q-00013Q-4D
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 18:52:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1672608092; bh=S30WlSSONBXrZ2BF/FPFcCpOU+QISMNJ7oj/4DgswUw=;
+ t=1672617138; bh=skwhbHUkGjznop/QWhj7GG069Cfw1vyGWz5DAdkodwY=;
  h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=Huz+R3UeJtZmUYPS++HCKp2ESoNmFKrmWAcdYeqlOq+dRVqpqkYdvgICTnBinTh/dRLch50n7vvbSkhd12SZmXpbS0c8T7LIbqW/ktfVg8+bXzjixBE6oqYDTA/IOss1pDkGI3dWZ3lM6kPwZicZsXDcewuJTv3F9NHbkhBBAq4XEuKrhyi9Po4ky6BSXMhS39sB1zVMJuTc2iBhhsUoWiZsy2ahpDYQBiiMzXRancv9G748+pecZ9crI99U8rSa21F/HQvA2vt83sry8DjGjUfRGuqbCoNxKY65TAzFD/WSQWlkhwlEHY+nUp8YwhlLd3jsiM9V7Wz/usxcabYL8A==
+ b=IEJMj5MNCJUJhzkSMnO2XnVNisG1L6mJlpp0C5gDVnxeviRF0kqvnRwxfJmLj+hC0QFBlbTcbeKhkqEkIp226t/XKrDoSsN3wDu5VrIXb2cUvH5a2Vcwyj8SgX05o06G9WgTnCGWI0B3TzLuSxxZwk5tlLxj2MD8skG8zP1PDa8RCqZpkemmac+B+Wu9oRwhBsYgBuhau0Vw0ts8RUB30xaVWBpukpOAHkMH7iXfYHs9kjWtitKFueQ/8ky0r1vX3pPMPTpu/lVuNMi4J9tT9ePilvZ0qBWVgrn6omTTOXDvowMCx2KPRenG/K1y8Lf/G56IZ06fgbJ16W2s9SgJgw==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1672608092; bh=r/yy/ZKK2KArZy546ewlwnBrVacT2a5OP52yPzVlDHf=;
+ t=1672617138; bh=Gm5Qal8G0/XjlI2GzUDH3lY8DeAqXwfGdjCP6FAlAGr=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=BZ8kVUKyjl0/D637pX9LdAwQLGWUyx1Q1Rya1KgL9hMZ2lzfN+ScNMcqRf0+KMnqrdF0RNmJE+Tion5D5o3fMFk3Jd9yzg/qU7HW7wL790Koq/QVmp5HvJpcX0dxoYCYsXSnSg7aW2poRvnqTVDho648mxNKq1y8z5vhg/45lAC/L4koJIM2lXNR/aWFU1WYJ433qOl6gkj1gNng54mXmVW7+LnNoE9kpaXSzWMlOCqr+Iwo1LS1DtDp0TcJLxJNuQCSaPHsmL/aHcSTi5S6FBvxulTKX3yKVnZOjZXUbGQP/xUJ6ax8sY2mMVGB8Mzmp62G2voIMd/rQsjSaMZc8w==
-X-YMail-OSG: BCDhSkMVM1mJ85S6opULzSNIPRuCztzSVruPbT59egn165AIS3i4QGYt35uPTCW
- IFT99kYLyRzdwTdlnXJBSdu2It0yYWn30BgoBX9eOATBQzzQw00KmDvoEUM1ws66tauVgglfktd1
- r0kOUE7DOiR2IjzZsD1GR_ECFHFZgUbtDj5WSz4p2zj_UWU3uVUhiHPAgY3QjoI9rtC2FLNR93am
- HT3wHtfk6GKw8Z1j1My01aYii8r87DXcE5EQjsFzkW6Tww_MAN5VauXBD5aevzoVnxWWQGszeujY
- RhU_B5oMVW5Nfh0F7TgpXwjK2CGb3W6fhbLn4cOMKqEq2_ivNBiM9SRCpYce4lS6IjntD6P7PaA9
- VX1KJuR7DdegHeawktOLhkkSUh6tyKTHE4wjskptrL3pDx1uK0Om0yrDBp9UjNw.Os2cWKreVWYp
- 0HZ66r8GpypWmMzwfcbjy4LFE3NmU821lW7q2m3yZm9d_zPI2p9gsgfqV5gCLoXgYk5CWYr_JHPz
- 94djlnqQg6WV8gykzmtdCDqIbJ1DR_WtqskzE5Kj8_vSqylU76TPOb90b3MEf2agpKCoJjamGEZp
- 0fNdOzocqgy7dpQ9yxdg2tyZ2EJxglsFEEqy763054_w9.Y2dOvDu.lQ21s4offltFJoVrpQdhsA
- wgAf4R7nKH2YPULO_KbPZFWzUMd0sbOZ.Maj5jYRI1FVEnYN4CXisDGZ_b7f5X.fM5tALYbHvrDu
- 7BPk93JqRZqvSF.Iy_oDD8CCfM6mS3gIQCWkzfCOtuwD.wsRs6QwLs3HwVxsWHLB2Hp2BHt81M9o
- xQleAZsfBsYfwxvISvluAxQLiNFGk8ObZhlWo5YHQBxOdsQeQNTpKlDrseyLDfsCxZjp5UDCD2ZE
- apRBWRistAxqb7fSXQYu00SaVvA22.6jOAdR_k.cZV05hiCCJquABK7fbq8cC0BdIQM1Cb9MAjOc
- Ie8KelimQWjpLNgXXyQNayPx20cxycoPFnVDLyWb5c1ejiTpsU0twNib5bkhwV3O.Y4HBYfJXuiW
- b5Xk6MILzaGpKWQXzp3ikPhZZ0_p9.0tpVIKOuSVb.88HKfml6ce_d6WbnEurcYx7g_46uHIW2ds
- creTYERfYLhlJYrVPZ_7lUdRuy6YQYADzatmuvunUQrUXJbHefe8lnYNLDcpjsFPrcQNWmoUfkk9
- wFHId_F3SFnNlU_P.lJ2tKVEGSYSa6cXFW4GmpvUEFYiTnWp3G8c2nGzrWY.2fODXt.TaqT7y3QU
- lgDexhh8zApNRgeVGttwNuhGrHS_NtRI4FDDjqBphr6DhULPZvaxkjoSRtsEU6wbgUpoEKN.PYPk
- qtScsOWYuq0UwCSSaj8PuqJ1oCgkbwvIGTNrPY27gFmPT.yDC1eHvftq_WbWyQMaEwe_BuS.D5VP
- DwNhMrVXDrQ6Ud6ITstP2DbaW46cTe6mZ3VmKxBEuO.QFGk45rHK1KENvG4JbbJIei4e2fIS0bOP
- 0qFVnPIvEMNwMr.WHY1UiMid4RfpcInzp_xGUCu3M7rcsN4BAwBMg0IffrYSLMpZXosmU8B3rCRf
- 5WEAu7NR5RZyoT8y_1dv.QUS_HnORYznYi90nZSAs4_VXnn5EJSUwfEA74qVBxmATzKqowxKBuks
- M9dGV3WuclyKjjgDDrtSqp6bjx4VW_H2_1MwIL5Edz49Xu5OgAZvsbuvmecEiuEe.eJ9gnJi0kfb
- r01pauFVeLNt5QyAR3l5_0KTsfManc_QvHFHtHn_3EWZNO1TfaCxWw4eFmGHxZKuAckbHGla45_2
- 9FUTfHHnlaEU6DaYvxPAg3dbemMOAIVrjGiJXnOmp9PFs6Lg.76ZO2QtSDf_I.1JrtWHajLWis9K
- 4eD8xPir6V8us9OVw1HjQ1lpTTtOTg4TfBQsMFZcJeMoRYpZwTGvthnHpHC_7jIy8act2pbb9gEq
- G92QNc9i5gLkgQVgFHMJEXFAJWI_lhp7aya9EW4gyIFNNZv8LQ9NzdjA9udyJqFgpbpEmV8g.0ho
- mn34igxj9coaUmrtMnSrOo5gRjOuj.3FH8L_wzhNtP.wc7UYvsCCouFMlPNgUzwlUV8ejC2tc.nh
- Rf2lNwl.YX4ipLaeOqmmwEkvG9.oEPGoyfPAUq49ZX1sfy12cl9UVoj_gSP7jtZEJYCWZ_gS0KTb
- nnAo7wYwNxh68MhnbZX_UR_DZCY9XBcyLYdmcHGgdbWVIz0eRjg4q6Jn1iIt8FJCVpTJlA_O.Zov
- Bgcc-
+ b=MLkLtG3fDe+9QkP7XrKUzDF3W5oo2DKdXEroHJibxjdodo3SkQwi9xe91r3zpalxKtTnTLCsR+r65qUkbkr98KJ8X7z/Ihs3hS4QMmqQgG+QAn6LIQPfJLm0CztXzNlBqnbbyr5A0IPaLjuN/vgxzM5ZZc5oV1ESWBf9bQB3I5j2AcAy7HKX/2yeBZjTE8xJtQNuWk4Moc5uleMlu0icTC6mTuG4L1bQxquvoitgpY3kZb06+ebAmMIInFu6wCY0qK0FU/+NatbUhzO52O5uIdDmHSdc6GhJx+a3Q9arQjH7zgdrMFhrrbg0RHcToW7bso8tZlF6vSAM41le0Ju2tw==
+X-YMail-OSG: XFe56mIVM1mvJtN9hySqOXDspxB_hs1PSyXIqthm1uK3iEFtNgI8dO.eX7Sh1E.
+ BJ1_4tOtjK7lE71x5m91dWrNder9ITw6LQQNWL1ZRh04Rkz6C9T5ZqdVzBRxGBUO8c9Bq5OBVHaG
+ v1nSCCYiBvXZen7Tv4KLZnEkZQfTBQ56Sk6eauPerh5Qh3wFR8eIJy4VHTPQjKljBFJ1S3.HIvC0
+ b6s4BfbDPWb5lQOLQ0veeAFWE6MCM9Jd8OTyofW4JOrT4E8yOAOoqwNfGm2sq_29hUFkBE9DYiuy
+ lepBR2MhcdMxJnXb4lJT6.GksxAcUKXabYXr8bzIGIIon6iWsmO9iKcB4pYR_9D_O1Gvkj4ZJRcy
+ cDxMQpvv657LI3SbOKsg3JkWEqkEjqxZvUDH8ZiGK0dXagy4DMkS3vdjlilpNp_nLUiolcyuTKjR
+ Y.MixgwpfhXp_AAumgfU_Wt5_LdAQuY6dz1jmDqz7XFt4y1XAhI39LsesNVCeVjhDT7hAAso5DrZ
+ jThaK6f8.d9wUCLgv91C37kWGpliHOrOhgEDf7NQoC8hpdmTMWxuuQ4YkDTVbHDojewOHVZ6Tidt
+ nUuANYHH1_OODqyUi5XlPs3BWwgt9f50ROmoarNuiVMUTqPhPeBL21V4bNFbNh2Br_bMNezBPGfo
+ iJ.mb7harPCtknUJmAZVDADeOVLSmEhJ7P_cjMha5vUTRID7Z9eNaTY6WYDVG_8mLAC7EM31Betd
+ KBTnqzCuvyBBviOTMg0Ieq3Na_mST1fyuSMFsWOufN2D38tWNjPB8EUZ4Je8JsFfwZ8gMHIcKNFv
+ kJwQFHUd80S7N5SIN3HQ739GVfL1PcYJhkH23wWlQiS6zYglydDMBMNzXkA4aY7KB0oz2mMZok9x
+ xiEnT66vM84_PW8FEFb9mG5eE.ZIYZXSDjG8lktttqJU_cZGuCGracGLXxPAfd6rwvkEh9fQMTDU
+ Q0T2XlpvVv749C1piJ2RvV1uoLbXh5rWDdM8xln.BSf_hl88FPrx8Ro5WYTfU5MNVcT5vJ33dkh3
+ ARL1pbX12SKD5bCvTfpUqTEEpBP2XF0w34jJ.9__K.7LYyVUv66eh3n3Tqtr3xemxj0CB4bGYNJe
+ LpPmOAvJ3HESwAQxkmjlI0F2VtJIH3vl8vWAhpLvKFJvHUzp9jciS7SZ6HdaMejHVhyEVseJ_A8B
+ ppi9ZzQ5dEgSHrpzptAWizANlnRW8sFB_lNZfKtYIDoWGtqA0d0YFCFtmhQlYmLtdvj1VoWoROeX
+ 2EWeSOGJMCW8HssHVG10qjOo6aVTmbdk6pfrjMJAzDPxDMwyhIev5OwnUpqlttBLrPi5oeDQ_HTA
+ xARzA5.jBSaMan00X944tSUVHqLS_h_Qi0SnVfpTEAfnXTWH6.gRT2DUJVSXWNEo_MRnipuHUzIi
+ PFze2H6K7kSxQIhFbynzFyZqFFHPbl5lWk3Dw703uq9c5z1kMBEAJuPFNDCFw.JiEjBQSdN0pwxH
+ OQNJLL85254cqjFaWLNEzFkbCy1UGOXCsVX3fancVFLTjtR5yjetxo6kEaECVnec4TVSR80ZUMHG
+ JY_t3GYE45lNfss1WXhoGd2etO9YphpQH01cWD4_XyNvFDu0hsyLtSGt._P1XizvV29ldZggSh5d
+ O7hR4CUw3k4mUbXjf8_yEu8ijJfc1cp7UZZNO.3ya4msXawCH3DBAKxlHTkJh.WLSginWznIhOcI
+ UAOnPePzjkVSUjsydCp3iKI51t54.BnU16MbcaR6dPlwIF4KJ91nOD8H4oKqDBDNX5fq8.rDWfzR
+ 2Wxq7NqKa8Mg5i32Kpy_ICSx0qC0w0WJkkQDx59YmEiF7Zv0KsSjCJCUTn55VDmvV2Bk7dhhwuLE
+ _AB6CseM_XTMQc65VW213Z8kD_6FD7ehL_00xRmHyWG6ejN.AqbKiucoRuprKE4fqbcGk0EWskfQ
+ DYa8EqRUdEu1r9aXvjauffxqzHIp.OH9VzYQeFP8Ub7I_qKK_69Z74XKm_8HYjacNW8l8aSSKXaG
+ P9TyD90AxMZkzfkRRbhyS7uyxQXuj_44oeTnkt7feAv_CopWlh8TzDqe05DUl4dD5G2An16DHqE0
+ M_tVkAgDQ4MdWGLGjsbRNWCGUI46gXip2VrPMSirQpEU9Ggrkk8k2OZQGSCGd7b4342UFBG3R.xk
+ DnEkFEFc1s3sfbz1tc20FUwoa6AMmpMV3REHRpT6towzQjbYC_E8w0KE4fEcz.W2cTrtHROSK.db
+ VoKP19swTfj0-
 X-Sonic-MF: <brchuckz@aim.com>
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic309.consmr.mail.gq1.yahoo.com with HTTP; Sun, 1 Jan 2023 21:21:32 +0000
-Received: by hermes--production-ne1-7b69748c4d-srx4j (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 7f437a9e58cf454b53c47f515b720546; 
- Sun, 01 Jan 2023 21:21:29 +0000 (UTC)
+ sonic309.consmr.mail.gq1.yahoo.com with HTTP; Sun, 1 Jan 2023 23:52:18 +0000
+Received: by hermes--production-bf1-5458f64d4-46wzk (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 0bf49e87fc25c8372e7b6d686a48fa29; 
+ Sun, 01 Jan 2023 23:52:15 +0000 (UTC)
 From: Chuck Zmudzinski <brchuckz@aol.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Stabellini <sstabellini@kernel.org>,
@@ -71,13 +71,13 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  xen-devel@lists.xenproject.org
-Subject: [PATCH v5] xen/pt: reserve PCI slot 2 for Intel igd-passthru
-Date: Sun,  1 Jan 2023 16:21:19 -0500
-Message-Id: <f600368591f6fafea4b00e1c5205782052e43ddb.1672605633.git.brchuckz@aol.com>
+Subject: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
+Date: Sun,  1 Jan 2023 18:52:03 -0500
+Message-Id: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-References: <f600368591f6fafea4b00e1c5205782052e43ddb.1672605633.git.brchuckz.ref@aol.com>
+References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
 Received-SPF: pass client-ip=98.137.65.147; envelope-from=brchuckz@aim.com;
  helo=sonic309-21.consmr.mail.gq1.yahoo.com
 X-Spam_score_int: -4
@@ -210,11 +210,24 @@ v5: The patch of xen_pt.c was re-worked to allow a more consistent test
 
     Rebase.
 
+v6: Fix logging by removing these lines from the move from xen_pt_realize
+    to xen_igd_clear_slot that was done in v5:
+
+    XEN_PT_LOG(d, "Assigning real physical device %02x:%02x.%d"
+               " to devfn 0x%x\n",
+               s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
+               s->dev.devfn);
+
+    This log needs to be in xen_pt_realize because s->dev.devfn is not
+    set yet in xen_igd_clear_slot.
+
+    Sorry for the extra noise.
+
  hw/i386/pc_piix.c    |  3 +++
- hw/xen/xen_pt.c      | 56 +++++++++++++++++++++++++++++++++-----------
- hw/xen/xen_pt.h      | 16 +++++++++++++
+ hw/xen/xen_pt.c      | 46 +++++++++++++++++++++++++++++++++++---------
+ hw/xen/xen_pt.h      | 16 +++++++++++++++
  hw/xen/xen_pt_stub.c |  4 ++++
- 4 files changed, 65 insertions(+), 14 deletions(-)
+ 4 files changed, 60 insertions(+), 9 deletions(-)
 
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
 index b48047f50c..bc5efa4f59 100644
@@ -231,18 +244,13 @@ index b48047f50c..bc5efa4f59 100644
  }
  #endif
 diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 0ec7e52183..7e54500b27 100644
+index 0ec7e52183..7fae1e7a6f 100644
 --- a/hw/xen/xen_pt.c
 +++ b/hw/xen/xen_pt.c
-@@ -775,20 +775,6 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
-     int pirq = XEN_PT_UNASSIGNED_PIRQ;
+@@ -780,15 +780,6 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
+                s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
+                s->dev.devfn);
  
-     /* register real device */
--    XEN_PT_LOG(d, "Assigning real physical device %02x:%02x.%d"
--               " to devfn 0x%x\n",
--               s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
--               s->dev.devfn);
--
 -    xen_host_pci_device_get(&s->real_device,
 -                            s->hostaddr.domain, s->hostaddr.bus,
 -                            s->hostaddr.slot, s->hostaddr.function,
@@ -255,7 +263,7 @@ index 0ec7e52183..7e54500b27 100644
      s->is_virtfn = s->real_device.is_virtfn;
      if (s->is_virtfn) {
          XEN_PT_LOG(d, "%04x:%02x:%02x.%d is a SR-IOV Virtual Function\n",
-@@ -950,11 +936,52 @@ static void xen_pci_passthrough_instance_init(Object *obj)
+@@ -950,11 +941,47 @@ static void xen_pci_passthrough_instance_init(Object *obj)
      PCI_DEVICE(obj)->cap_present |= QEMU_PCI_CAP_EXPRESS;
  }
  
@@ -272,11 +280,6 @@ index 0ec7e52183..7e54500b27 100644
 +    XenPCIPassthroughState *s = XEN_PT_DEVICE(pci_dev);
 +    XenPTDeviceClass *xpdc = XEN_PT_DEVICE_GET_CLASS(s);
 +    PCIBus *pci_bus = pci_get_bus(pci_dev);
-+
-+    XEN_PT_LOG(d, "Assigning real physical device %02x:%02x.%d"
-+               " to devfn 0x%x\n",
-+               s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
-+               s->dev.devfn);
 +
 +    xen_host_pci_device_get(&s->real_device,
 +                            s->hostaddr.domain, s->hostaddr.bus,
