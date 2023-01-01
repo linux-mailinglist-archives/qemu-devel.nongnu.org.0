@@ -2,76 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7917766C31B
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 16:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD05B66C36B
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Jan 2023 16:16:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHQyM-0008Ks-L1; Mon, 16 Jan 2023 10:00:30 -0500
+	id 1pHRCP-0003tC-9O; Mon, 16 Jan 2023 10:15:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pHQyB-0008HH-W2
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 10:00:25 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pHQyA-0003Q1-7c
- for qemu-devel@nongnu.org; Mon, 16 Jan 2023 10:00:19 -0500
-Received: by mail-pg1-x531.google.com with SMTP id 36so19817236pgp.10
- for <qemu-devel@nongnu.org>; Mon, 16 Jan 2023 07:00:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hRRcqk61d6KFVspK53ajSQf+t9MomagpjhOabMgzA9U=;
- b=GOGOShrXi5Jb48eKEj9oTZt4dh2D/i4quGL8g+otJgUqZWc/1B01sJGSyhWR3zyUoE
- iYxV3nyHisTTNo7LPoP2ExPYQX9qywl+OH9QYe9VcRTRrfpou6AelUlweFN2/zVL5eUC
- j9boibHiYZjjYv1fh8JgP83uIPs0opPuPhX7KhfU7GFVP+YH+ob/P3eoRo6vFU5NKjGn
- JtZNYkspnoOyPZN5J3Q7RW+QxVKSbfECDvsV77X1jsrLhVaoWcPVGrD49Ugf4AxOkPMv
- jmsObBmrpNaSFmh+8YXkL0cvHWcuehjcy4bG2ZWUaqv2zxzaqbO0Y9iN0uBLDY22NpUF
- aYrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hRRcqk61d6KFVspK53ajSQf+t9MomagpjhOabMgzA9U=;
- b=WsY77yctAfGWeByvTGAJeLnPo3QzansbX3tBVMhXCE9KWmisvnjHkrZjW6GU+EitGn
- hEjHhnckhhyuf96x/HTC1WJcI0vUIX4hboNPK0IndMmomKBq3UkEvkCCYiWoHMcLYjJb
- ACtS8MpVvJnvn/ME9G1WbviJROtmPIS0WLQFcMldyqNQ01PD9E+ePpIGWc7XeVrcqhlw
- lXXxKDLKhGT5ync1diTjVaoLwUXq5u4eUdTtl2PUP1Os5osN3gPFobFUYpDQ08773nB7
- Qlc+iDIaVLbZmwLEsOvhLUOy4X7ANB+YV7Kn4eWYPkpXxkqiWOFaAp7CoQG9Uj9uhZ6e
- WY2w==
-X-Gm-Message-State: AFqh2kplYrueOvRYlTruyPr/CUGnZJJmgM6LOOiuEzapBdUORXLIGXaD
- NJvdc2j2p95SEM3rDyQHpQgjXWbaC1mHiAQcJhPSvg==
-X-Google-Smtp-Source: AMrXdXt9/RkYJL5lBa4I07YYHV/SHeT9/pLDIX4KqxeIGmATlRSDyYmKn20h1Bb/WYvcBFz1Y7eEeyNEOF5BNz2AVhI=
-X-Received: by 2002:aa7:93c6:0:b0:58b:c7ef:25ca with SMTP id
- y6-20020aa793c6000000b0058bc7ef25camr587641pff.51.1673881216657; Mon, 16 Jan
- 2023 07:00:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yuanmh12@chinatelecom.cn>)
+ id 1pHOXK-0005K0-VY
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 07:24:26 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yuanmh12@chinatelecom.cn>) id 1pHOXF-00021b-Pn
+ for qemu-devel@nongnu.org; Mon, 16 Jan 2023 07:24:26 -0500
+HMM_SOURCE_IP: 172.18.0.188:52478.1774175160
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-10.133.8.70 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 5793E2800B6;
+ Mon, 16 Jan 2023 20:12:45 +0800 (CST)
+X-189-SAVE-TO-SEND: yuanmh12@chinatelecom.cn
+Received: from  ([10.133.8.70])
+ by app0023 with ESMTP id 2e299f7331444fabae4be7e33c3eb8d7 for
+ raphael.norwitz@nutanix.com; Mon, 16 Jan 2023 20:13:05 CST
+X-Transaction-ID: 2e299f7331444fabae4be7e33c3eb8d7
+X-Real-From: yuanmh12@chinatelecom.cn
+X-Receive-IP: 10.133.8.70
+X-MEDUSA-Status: 0
+From: Minghao Yuan <yuanmh12@chinatelecom.cn>
+To: raphael.norwitz@nutanix.com, swapnil.ingle@nutanix.com,
+ peter.turschm@nutanix.com
+Cc: mst@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH 1/1] vhost-user: Skip unnecessary duplicated
+ VHOST_USER_ADD/REM_MEM_REG requests
+Date: Mon,  2 Jan 2023 05:45:57 +0800
+Message-Id: <20230101214557.193768-1-yuanmh12@chinatelecom.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20230113154532.49979-1-philmd@linaro.org>
- <CAFEAcA9mKmOahpvVQUUwyxcbJE2aNeB+Y_a1brgnq1kPNtv_nQ@mail.gmail.com>
- <553a8707-417d-b692-1176-f2fbdd146961@linaro.org>
-In-Reply-To: <553a8707-417d-b692-1176-f2fbdd146961@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 16 Jan 2023 15:00:05 +0000
-Message-ID: <CAFEAcA-+Kr1qyWxLBZdevgPPP2y+za6Rsm-W92=3NkVV+47sYQ@mail.gmail.com>
-Subject: Re: [PULL 00/46] MIPS patches for 2023-01-13
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=yuanmh12@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: 15
+X-Spam_score: 1.5
+X-Spam_bar: +
+X-Spam_report: (1.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 16 Jan 2023 10:14:58 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,57 +66,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 13 Jan 2023 at 20:32, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> On 13/1/23 18:57, Peter Maydell wrote:
-> > On Fri, 13 Jan 2023 at 16:05, Philippe Mathieu-Daud=C3=A9 <philmd@linar=
-o.org> wrote:
-> >>
-> >> The following changes since commit 3db29dcac23da85486704ef9e7a8e7217f7=
-829cd:
-> >>
-> >>    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into st=
-aging (2023-01-12 13:51:36 +0000)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>    https://github.com/philmd/qemu.git tags/mips-20230113
-> >>
-> >> for you to fetch changes up to 4828656f65324249273ad2f2db80844ba90eeb9=
-b:
-> >>
-> >>    scripts/git.orderfile: Display MAINTAINERS changes first (2023-01-1=
-3 16:22:57 +0100)
-> >>
-> >> ----------------------------------------------------------------
-> >> MIPS patches queue
-> >>
-> >> Confronting my triskaidekaphobia, here goes
-> >> a bunch of cleanups from various people:
-> >>
-> >> - Improved GT64120 on big-endian hosts
-> >> - GT64120 north bridge and MC146818 RTC devices are now target indepen=
-dent
-> >> - Bonito64 north bridge converted to 3-phase reset API
-> >> - PCI refactors around PIIX devices
-> >> - Support for nanoMIPS in bootloader generator API
-> >> - New YAMON Malta Avocado test
-> >> - Removal of 'trap and emulate' KVM support
-> >> - System-specific QMP commands restricted to system emulation
-> >
-> > Hi; gpg says your key has expired -- which keyserver can
-> > I get an updated version from?
->
-> "the usuals"? :)
->
-> This time I set up an alarm to upload a renewed one before the
-> expiration date, and submitted it to pgp.mit.edu and keys.openpgp.org.
+The VHOST_USER_ADD/REM_MEM_REG requests should be categorized into
+non-vring specific messages, and should be sent only once.
 
-Applied, thanks.
+Signed-off-by: Minghao Yuan <yuanmh12@chinatelecom.cn>
+---
+ configure              | 2 +-
+ hw/virtio/vhost-user.c | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+diff --git a/configure b/configure
+index 9e407ce2e3..8b4deca342 100755
+--- a/configure
++++ b/configure
+@@ -1147,7 +1147,7 @@ cat > $TMPC << EOF
+ #  endif
+ # endif
+ #elif defined(__GNUC__) && defined(__GNUC_MINOR__)
+-# if __GNUC__ < 7 || (__GNUC__ == 7 && __GNUC_MINOR__ < 4)
++# if __GNUC__ < 7 || (__GNUC__ == 7 && __GNUC_MINOR__ < 3)
+ #  error You need at least GCC v7.4.0 to compile QEMU
+ # endif
+ #else
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index d9ce0501b2..3f2a8c3bdd 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -459,6 +459,8 @@ static bool vhost_user_one_time_request(VhostUserRequest request)
+     case VHOST_USER_SET_MEM_TABLE:
+     case VHOST_USER_GET_QUEUE_NUM:
+     case VHOST_USER_NET_SET_MTU:
++    case VHOST_USER_ADD_MEM_REG:
++    case VHOST_USER_REM_MEM_REG:
+         return true;
+     default:
+         return false;
+-- 
+2.27.0
 
--- PMM
 
