@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2256B65AA8A
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Jan 2023 17:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DCA565AABF
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Jan 2023 17:51:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pC12t-0007qt-17; Sun, 01 Jan 2023 11:18:47 -0500
+	id 1pC1Wx-0004pX-Tl; Sun, 01 Jan 2023 11:49:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanwj@mail.ustc.edu.cn>)
- id 1pC12q-0007qf-VT
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 11:18:44 -0500
-Received: from email6.ustc.edu.cn ([2001:da8:d800::8] helo=ustc.edu.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanwj@mail.ustc.edu.cn>) id 1pC12m-0005YZ-Kj
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 11:18:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Subject:
- In-Reply-To:References:Content-Type:MIME-Version:Message-ID;
- bh=i3C4EcsiTE4CXZkzNPCvMoEWsFPANSguxkeDDlzEDB0=; b=Td6pyrx5HAZWa
- 2FhZkMlbK4FxkqMKtwRhE0qF8oSkwPMGw0YibGLwJpjZgJUKMuoCSkfEICGM0BpI
- 0lkuPojzXPkbZlH1ibtK2hhcgu5uCfUkndWYa+sWCE8VJvqA98lomBxtBqRaWPCf
- 7E3Ekg4/jLcfVuPzqYIFB3KxSwYFbE=
-Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Mon, 2 Jan
- 2023 00:11:02 +0800 (GMT+08:00)
-X-Originating-IP: [120.204.77.150]
-Date: Mon, 2 Jan 2023 00:11:02 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: fanwj@mail.ustc.edu.cn
-To: qemu-devel@nongnu.org
-Subject: Recall: [PATCH] linux-user: fix bug about incorrect base addresss
- of idt and  gdt on i386 and x86_64
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20210401(c5ff3689) Copyright (c) 2002-2023 www.mailtech.cn ustccn
-In-Reply-To: <75da8346.1fd34.1856e0d08ef.Coremail.fanwj@mail.ustc.edu.cn>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pC1Wu-0004p9-Ag
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 11:49:48 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pC1Ws-0005sy-Iz
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 11:49:48 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so16436701wmb.2
+ for <qemu-devel@nongnu.org>; Sun, 01 Jan 2023 08:49:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=V4wAMamzw1T7dXA7nl9TBvbxKRDZH4oD3RLK+AmMPw0=;
+ b=z46kUZcFe4U8rLT1n4bdvAyBeawLs5lX+DmYK2wJLlbgK73YE31mMsOJB9XghGvHgN
+ o3nzG0WU1nxWpf+PatYBIgdARjb6sPtNQe6GRwbWXyInFuWKiEWfREMlIHksDVqovSiB
+ LYSFRL7sgFh4QAP2nOMUekvZ3oImMoFqPqHIoeQjGA7s+2nWYILAYtP+wG9OOPpyaw2w
+ 5DO4LRpcv98AI4KrYJiVhxBYtWvjBN80wxqqnywdMrri8eE3OhqrZaOstiyhXoWEGPP2
+ gmn5fPaHmE3xPha9sPHveHWs0zP3PC8PX69J1PFDUx7eBQX3lxb+fyZkYnvldxm2yhzm
+ BKbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=V4wAMamzw1T7dXA7nl9TBvbxKRDZH4oD3RLK+AmMPw0=;
+ b=SAcrXHc2VAsP4DP0PMOHsjxQj/irhDKobZ9XjJgPLuD701yLhB13yhLI/lfP1KUfbk
+ mpI4Y9LuNytHNOj8af2A3WBPpJGNSfWWyL4Atiu8ik3WasQfICQUjI0Sr3C5/royUjmG
+ vBSj9OsAGimYnMCJ2SC8xtxSOxHfbzKf1HP2+JYD8ewJR0uUmYw04qm0oeH4g1/IOdvq
+ aNUyu5urN5l1DWs905dDSx4HcDQtzgGrbif3TtMBA6uzFi+twQKzs9/qtP8iJ/7y4Wg8
+ zEGb4VPN4/8JzHV2uXzOaS65GtgM21W6lwUMYnFB685A7LR8bGw2sKZmpoP1Q5Le9nEk
+ pE7A==
+X-Gm-Message-State: AFqh2ko28WHLLttOntu+VSAno7Crb5rBs9eIn2mXA4Q2ulkniAzeGocD
+ p1toiv11JZmqgN5W1MMXiWitsQ==
+X-Google-Smtp-Source: AMrXdXs3VPbH9+mfSHRpIeXJDgy+OOd4mjXMNRz9KXOBSx9W9+dYNOlIal3WXKXejKEi56H98Kn9nQ==
+X-Received: by 2002:a05:600c:4191:b0:3d1:fcca:ce24 with SMTP id
+ p17-20020a05600c419100b003d1fccace24mr26429393wmh.32.1672591784231; 
+ Sun, 01 Jan 2023 08:49:44 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ n41-20020a05600c3ba900b003d358beab9dsm39298907wms.47.2023.01.01.08.49.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Jan 2023 08:49:43 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6EEB81FFB7;
+ Sun,  1 Jan 2023 16:49:43 +0000 (GMT)
 References: <75da8346.1fd34.1856e0d08ef.Coremail.fanwj@mail.ustc.edu.cn>
-X-SendMailWithSms: false
-Content-Type: multipart/alternative; 
- boundary="----=_Part_455486_1366332308.1672589462449"
+User-agent: mu4e 1.9.10; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: fanwj@mail.ustc.edu.cn
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] linux-user: fix bug about incorrect base addresss of
+ idt and  gdt on i386 and x86_64
+Date: Sun, 01 Jan 2023 16:46:50 +0000
+In-reply-to: <75da8346.1fd34.1856e0d08ef.Coremail.fanwj@mail.ustc.edu.cn>
+Message-ID: <87v8lqqjx4.fsf@linaro.org>
 MIME-Version: 1.0
-Message-ID: <54d8d67d.1fd59.1856e19cbb1.Coremail.fanwj@mail.ustc.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LkAmygDHm6yWsLFj49yGAA--.1W
-X-CM-SenderInfo: pidq4yo6pdxzwoxv3uoohg3hdfq/1tbiAQ4REFQhoPMeLgAks8
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=2001:da8:d800::8;
- envelope-from=fanwj@mail.ustc.edu.cn; helo=ustc.edu.cn
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HTML_MESSAGE=0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,103 +95,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-------=_Part_455486_1366332308.1672589462449
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
 
-VGhlIFBhdGNoIGhhcyBzb21lIHByb2JsZW0sIFBsZWFzZSBSRUNBTEwgaXQhCgoKLS0tLS3ljp/l
-p4vpgq7ku7YtLS0tLQrlj5Hku7bkuro6ZmFud2pAbWFpbC51c3RjLmVkdS5jbgrlj5HpgIHml7bp
-l7Q6MjAyMy0wMS0wMSAyMzo1NzowNiAo5pif5pyf5pelKQrmlLbku7bkuro6IHFlbXUtZGV2ZWxA
-bm9uZ251Lm9yZwrmioTpgIE6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZwrkuLvpopg6IFtQQVRDSF0g
-bGludXgtdXNlcjogZml4IGJ1ZyBhYm91dCBpbmNvcnJlY3QgYmFzZSBhZGRyZXNzcyBvZiBpZHQg
-YW5kIGdkdCBvbiBpMzg2IGFuZCB4ODZfNjQKCgpGcm9tIDQ2MDFhNjI0ZjQwYjJjODllN2RmMmRl
-YzFhZGZmYjRmNDMwOGJhMmQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCkZyb206IGZhbndlbmpp
-ZSA8ZmFud2pAbWFpbC51c3RjLmVkdS5jbj4KRGF0ZTogU3VuLCAxIEphbiAyMDIzIDIzOjEzOjM0
-ICswODAwClN1YmplY3Q6IFtQQVRDSF0gbGludXgtdXNlcjogZml4IGJ1ZyBhYm91dCBpbmNvcnJl
-Y3QgYmFzZSBhZGRyZXNzcyBvZiBpZHQgYW5kCiBnZHQgb24gaTM4NiBhbmQgeDg2XzY0CgoKUmVz
-b2x2ZXM6IGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2lzc3Vlcy8xNDA1
-ClNpZ25lZC1vZmYtYnk6IGZhbndlbmppZSA8ZmFud2pAbWFpbC51c3RjLmVkdS5jbj4KLS0tCiBs
-aW51eC11c2VyL21haW4uYyB8IDEzICsrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAxMyBp
-bnNlcnRpb25zKCspCgoKZGlmZiAtLWdpdCBhL2xpbnV4LXVzZXIvbWFpbi5jIGIvbGludXgtdXNl
-ci9tYWluLmMKaW5kZXggYTE3ZmVkMDQ1Yi4uNWQ2NzNjOTViMyAxMDA2NDQKLS0tIGEvbGludXgt
-dXNlci9tYWluLmMKKysrIGIvbGludXgtdXNlci9tYWluLmMKQEAgLTE3MSw2ICsxNzEsMTIgQEAg
-dm9pZCBmb3JrX2VuZChpbnQgY2hpbGQpCiAKIF9fdGhyZWFkIENQVVN0YXRlICp0aHJlYWRfY3B1
-OwogCisjaWYgZGVmaW5lZChUQVJHRVRfSTM4NikgfHwgZGVmaW5lZChUQVJHRVRfWDg2XzY0KQor
-I2luY2x1ZGUgPHN0ZGFsaWduLmg+CitfX3RocmVhZCBhbGlnbmFzKFRBUkdFVF9QQUdFX1NJWkUp
-IHN0YXRpYyB1aW50NjRfdCBnZHRfYmFzZVtUQVJHRVRfR0RUX0VOVFJJRVNdOworX190aHJlYWQg
-YWxpZ25hcyhUQVJHRVRfUEFHRV9TSVpFKSBzdGF0aWMgdWludDY0X3QgaWR0X2Jhc2VbVEFSR0VU
-X1BBR0VfU0laRSAvIHNpemVvZih1aW50NjRfdCldOworI2VuZGlmCisKIGJvb2wgcWVtdV9jcHVf
-aXNfc2VsZihDUFVTdGF0ZSAqY3B1KQogewogICAgIHJldHVybiB0aHJlYWRfY3B1ID09IGNwdTsK
-QEAgLTIzNSw2ICsyNDEsMTMgQEAgQ1BVQXJjaFN0YXRlICpjcHVfY29weShDUFVBcmNoU3RhdGUg
-KmVudikKICAgICBuZXdfY3B1LT50Y2dfY2ZsYWdzID0gY3B1LT50Y2dfY2ZsYWdzOwogICAgIG1l
-bWNweShuZXdfZW52LCBlbnYsIHNpemVvZihDUFVBcmNoU3RhdGUpKTsKIAorI2lmIGRlZmluZWQo
-VEFSR0VUX0kzODYpIHx8IGRlZmluZWQoVEFSR0VUX1g4Nl82NCkKKyAgICBtZW1jcHkoaWR0X2Jh
-c2UsICh2b2lkKiluZXdfZW52LT5pZHQuYmFzZSwgc2l6ZW9mKHVpbnQ2NF90KSAqIChuZXdfZW52
-LT5pZHQubGltaXQgKyAxKSk7CisgICAgbWVtY3B5KGdkdF9iYXNlLCAodm9pZCopbmV3X2Vudi0+
-Z2R0LmJhc2UsIHNpemVvZih1aW50NjRfdCkgKiBUQVJHRVRfR0RUX0VOVFJJRVMpOworICAgIG5l
-d19lbnYtPmlkdC5iYXNlID0gKHRhcmdldF91bG9uZylpZHRfYmFzZTsKKyAgICBuZXdfZW52LT5n
-ZHQuYmFzZSA9ICh0YXJnZXRfdWxvbmcpZ2R0X2Jhc2U7CisjZW5kaWYKKwogICAgIC8qIENsb25l
-IGFsbCBicmVhay93YXRjaHBvaW50cy4KICAgICAgICBOb3RlOiBPbmNlIHdlIHN1cHBvcnQgcHRy
-YWNlIHdpdGggaHctZGVidWcgcmVnaXN0ZXIgYWNjZXNzLCBtYWtlIHN1cmUKICAgICAgICBCUF9D
-UFUgYnJlYWsvd2F0Y2hwb2ludHMgYXJlIGhhbmRsZWQgY29ycmVjdGx5IG9uIGNsb25lLiAqLwot
-LSAKMi4zNC4xCgo=
-------=_Part_455486_1366332308.1672589462449
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
+fanwj@mail.ustc.edu.cn writes:
 
-VGhlIFBhdGNoIGhhcyBzb21lIHByb2JsZW0sIFBsZWFzZSBSRUNBTEwgaXQhPGJyPjxicj48YnI+
-PGJsb2NrcXVvdGUgbmFtZT0icmVwbHlDb250ZW50IiBjbGFzcz0iUmVmZXJlbmNlUXVvdGUiIHN0
-eWxlPSJwYWRkaW5nLWxlZnQ6NXB4O21hcmdpbi1sZWZ0OjVweDtib3JkZXItbGVmdDojYjZiNmI2
-IDJweCBzb2xpZDttYXJnaW4tcmlnaHQ6MCI+LS0tLS3ljp/lp4vpgq7ku7YtLS0tLTxicj4KPGI+
-5Y+R5Lu25Lq6OjwvYj48c3BhbiBpZD0icmNfZnJvbSI+ZmFud2pAbWFpbC51c3RjLmVkdS5jbjwv
-c3Bhbj48YnI+CjxiPuWPkemAgeaXtumXtDo8L2I+PHNwYW4gaWQ9InJjX3NlbnR0aW1lIj4yMDIz
-LTAxLTAxIDIzOjU3OjA2ICjmmJ/mnJ/ml6UpPC9zcGFuPjxicj4KPGI+5pS25Lu25Lq6OjwvYj4g
-cWVtdS1kZXZlbEBub25nbnUub3JnPGJyPgo8Yj7mioTpgIE6PC9iPiBxZW11LWRldmVsQG5vbmdu
-dS5vcmc8YnI+CjxiPuS4u+mimDo8L2I+IFtQQVRDSF0gbGludXgtdXNlcjogZml4IGJ1ZyBhYm91
-dCBpbmNvcnJlY3QgYmFzZSBhZGRyZXNzcyBvZiBpZHQgYW5kICBnZHQgb24gaTM4NiBhbmQgeDg2
-XzY0PGJyPjxicj48ZGl2PkZyb20gNDYwMWE2MjRmNDBiMmM4OWU3ZGYyZGVjMWFkZmZiNGY0MzA4
-YmEyZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDE8L2Rpdj48ZGl2PkZyb206IGZhbndlbmppZSAm
-bHQ7ZmFud2pAbWFpbC51c3RjLmVkdS5jbiZndDs8L2Rpdj48ZGl2PkRhdGU6IFN1biwgMSBKYW4g
-MjAyMyAyMzoxMzozNCArMDgwMDwvZGl2PjxkaXY+U3ViamVjdDogW1BBVENIXSBsaW51eC11c2Vy
-OiBmaXggYnVnIGFib3V0IGluY29ycmVjdCBiYXNlIGFkZHJlc3NzIG9mIGlkdCBhbmQ8L2Rpdj48
-ZGl2PiZuYnNwO2dkdCBvbiBpMzg2IGFuZCB4ODZfNjQ8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2
-PlJlc29sdmVzOiBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9pc3N1ZXMv
-MTQwNTwvZGl2PjxkaXY+U2lnbmVkLW9mZi1ieTogZmFud2VuamllICZsdDtmYW53akBtYWlsLnVz
-dGMuZWR1LmNuJmd0OzwvZGl2PjxkaXY+LS0tPC9kaXY+PGRpdj4mbmJzcDtsaW51eC11c2VyL21h
-aW4uYyB8IDEzICsrKysrKysrKysrKys8L2Rpdj48ZGl2PiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCAx
-MyBpbnNlcnRpb25zKCspPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5kaWZmIC0tZ2l0IGEvbGlu
-dXgtdXNlci9tYWluLmMgYi9saW51eC11c2VyL21haW4uYzwvZGl2PjxkaXY+aW5kZXggYTE3ZmVk
-MDQ1Yi4uNWQ2NzNjOTViMyAxMDA2NDQ8L2Rpdj48ZGl2Pi0tLSBhL2xpbnV4LXVzZXIvbWFpbi5j
-PC9kaXY+PGRpdj4rKysgYi9saW51eC11c2VyL21haW4uYzwvZGl2PjxkaXY+QEAgLTE3MSw2ICsx
-NzEsMTIgQEAgdm9pZCBmb3JrX2VuZChpbnQgY2hpbGQpPC9kaXY+PGRpdj4mbmJzcDs8L2Rpdj48
-ZGl2PiZuYnNwO19fdGhyZWFkIENQVVN0YXRlICp0aHJlYWRfY3B1OzwvZGl2PjxkaXY+Jm5ic3A7
-PC9kaXY+PGRpdj4rI2lmIGRlZmluZWQoVEFSR0VUX0kzODYpIHx8IGRlZmluZWQoVEFSR0VUX1g4
-Nl82NCk8L2Rpdj48ZGl2PisjaW5jbHVkZSAmbHQ7c3RkYWxpZ24uaCZndDs8L2Rpdj48ZGl2Pitf
-X3RocmVhZCBhbGlnbmFzKFRBUkdFVF9QQUdFX1NJWkUpIHN0YXRpYyB1aW50NjRfdCBnZHRfYmFz
-ZVtUQVJHRVRfR0RUX0VOVFJJRVNdOzwvZGl2PjxkaXY+K19fdGhyZWFkIGFsaWduYXMoVEFSR0VU
-X1BBR0VfU0laRSkgc3RhdGljIHVpbnQ2NF90IGlkdF9iYXNlW1RBUkdFVF9QQUdFX1NJWkUgLyBz
-aXplb2YodWludDY0X3QpXTs8L2Rpdj48ZGl2PisjZW5kaWY8L2Rpdj48ZGl2Pis8L2Rpdj48ZGl2
-PiZuYnNwO2Jvb2wgcWVtdV9jcHVfaXNfc2VsZihDUFVTdGF0ZSAqY3B1KTwvZGl2PjxkaXY+Jm5i
-c3A7ezwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyAmbmJzcDtyZXR1cm4gdGhyZWFkX2NwdSA9PSBj
-cHU7PC9kaXY+PGRpdj5AQCAtMjM1LDYgKzI0MSwxMyBAQCBDUFVBcmNoU3RhdGUgKmNwdV9jb3B5
-KENQVUFyY2hTdGF0ZSAqZW52KTwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyAmbmJzcDtuZXdfY3B1
-LSZndDt0Y2dfY2ZsYWdzID0gY3B1LSZndDt0Y2dfY2ZsYWdzOzwvZGl2PjxkaXY+Jm5ic3A7ICZu
-YnNwOyAmbmJzcDttZW1jcHkobmV3X2VudiwgZW52LCBzaXplb2YoQ1BVQXJjaFN0YXRlKSk7PC9k
-aXY+PGRpdj4mbmJzcDs8L2Rpdj48ZGl2PisjaWYgZGVmaW5lZChUQVJHRVRfSTM4NikgfHwgZGVm
-aW5lZChUQVJHRVRfWDg2XzY0KTwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgbWVtY3B5KGlkdF9i
-YXNlLCAodm9pZCopbmV3X2Vudi0mZ3Q7aWR0LmJhc2UsIHNpemVvZih1aW50NjRfdCkgKiAobmV3
-X2Vudi0mZ3Q7aWR0LmxpbWl0ICsgMSkpOzwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgbWVtY3B5
-KGdkdF9iYXNlLCAodm9pZCopbmV3X2Vudi0mZ3Q7Z2R0LmJhc2UsIHNpemVvZih1aW50NjRfdCkg
-KiBUQVJHRVRfR0RUX0VOVFJJRVMpOzwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgbmV3X2Vudi0m
-Z3Q7aWR0LmJhc2UgPSAodGFyZ2V0X3Vsb25nKWlkdF9iYXNlOzwvZGl2PjxkaXY+KyZuYnNwOyAm
-bmJzcDsgbmV3X2Vudi0mZ3Q7Z2R0LmJhc2UgPSAodGFyZ2V0X3Vsb25nKWdkdF9iYXNlOzwvZGl2
-PjxkaXY+KyNlbmRpZjwvZGl2PjxkaXY+KzwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyAmbmJzcDsv
-KiBDbG9uZSBhbGwgYnJlYWsvd2F0Y2hwb2ludHMuPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgTm90ZTogT25jZSB3ZSBzdXBwb3J0IHB0cmFjZSB3aXRoIGh3LWRlYnVnIHJl
-Z2lzdGVyIGFjY2VzcywgbWFrZSBzdXJlPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgQlBfQ1BVIGJyZWFrL3dhdGNocG9pbnRzIGFyZSBoYW5kbGVkIGNvcnJlY3RseSBvbiBj
-bG9uZS4gKi88L2Rpdj48ZGl2Pi0tJm5ic3A7PC9kaXY+PGRpdj4yLjM0LjE8L2Rpdj48ZGl2Pjxi
-cj48L2Rpdj48L2Jsb2NrcXVvdGU+
-------=_Part_455486_1366332308.1672589462449--
+> From 4601a624f40b2c89e7df2dec1adffb4f4308ba2d Mon Sep 17 00:00:00 2001
+> From: fanwenjie <fanwj@mail.ustc.edu.cn>
+> Date: Sun, 1 Jan 2023 23:13:34 +0800
+> Subject: [PATCH] linux-user: fix bug about incorrect base addresss of idt=
+ and
+>  gdt on i386 and x86_64
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1405
+> Signed-off-by: fanwenjie <fanwj@mail.ustc.edu.cn>
+> ---
+>  linux-user/main.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index a17fed045b..5d673c95b3 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -171,6 +171,12 @@ void fork_end(int child)
+>=20=20
+>  __thread CPUState *thread_cpu;
+>=20=20
+> +#if defined(TARGET_I386) || defined(TARGET_X86_64)
+> +#include <stdalign.h>
+> +__thread alignas(TARGET_PAGE_SIZE) static uint64_t gdt_base[TARGET_GDT_E=
+NTRIES];
+> +__thread alignas(TARGET_PAGE_SIZE) static uint64_t idt_base[TARGET_PAGE_=
+SIZE / sizeof(uint64_t)];
+> +#endif
+> +
+>  bool qemu_cpu_is_self(CPUState *cpu)
+>  {
+>      return thread_cpu =3D=3D cpu;
+> @@ -235,6 +241,13 @@ CPUArchState *cpu_copy(CPUArchState *env)
+>      new_cpu->tcg_cflags =3D cpu->tcg_cflags;
+>      memcpy(new_env, env, sizeof(CPUArchState));
+>=20=20
+> +#if defined(TARGET_I386) || defined(TARGET_X86_64)
+> +    memcpy(idt_base, (void*)new_env->idt.base, sizeof(uint64_t) * (new_e=
+nv->idt.limit + 1));
+> +    memcpy(gdt_base, (void*)new_env->gdt.base, sizeof(uint64_t) * TARGET=
+_GDT_ENTRIES);
+> +    new_env->idt.base =3D (target_ulong)idt_base;
+> +    new_env->gdt.base =3D (target_ulong)gdt_base;
+> +#endif
+> +
 
+This is the wrong place to copy target specific bits of code. I think
+this belongs with cpu_clone_regs_child and the gdt/idt structures in
+linux-user/i386/cpu_loop.c I think.
+
+>      /* Clone all break/watchpoints.
+>         Note: Once we support ptrace with hw-debug register access, make =
+sure
+>         BP_CPU break/watchpoints are handled correctly on clone. */
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
