@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157C065AC8D
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 01:05:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC3465ACB3
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 02:10:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pC8Io-0001xN-B8; Sun, 01 Jan 2023 19:03:42 -0500
+	id 1pC9JW-0005An-6i; Sun, 01 Jan 2023 20:08:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pC8Im-0001x0-84
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 19:03:40 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1pC9JU-0005AZ-9l
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 20:08:28 -0500
+Received: from mail-pl1-f180.google.com ([209.85.214.180])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pC8Ik-0002ju-Dd
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 19:03:39 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id m21so38034165edc.3
- for <qemu-devel@nongnu.org>; Sun, 01 Jan 2023 16:03:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4Q1HMYqIVWqPZ1HjOyr7OqWJyu4K30+ZY+3XeS42dsg=;
- b=GSdXSpW3IwCSJLOQAkkxOl2nGBAnYv0zoKmRCEvPj8/ErIUhGCfg8wURIC4PiZhzkA
- hVoeN9LS9qywq+oUzXI9Mp9AbVxDu1fOCbkTb7xNbrzXPCxfAKlSszhmUn6cV7E8VY3U
- EnbJkSuRX4En8zwcl2sPugIX9ioB7D5251O3xpyEHk/gFXO6ejIjcpgS9k4aT495ebVI
- BFuI3PwOLHxDQE11bQFOFVQWULSXM7vMu1sc1rEirrxWovL/KVbsdze57OF2+MvEpjKd
- H8Dz5k177ISqlMSw6u8yZRJayXuDqLciv7956kr/hLCxyQOzDoAkWoA3DYUJTFrQYpch
- 2Y6A==
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1pC9JS-0000We-Is
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 20:08:27 -0500
+Received: by mail-pl1-f180.google.com with SMTP id 17so28167223pll.0
+ for <qemu-devel@nongnu.org>; Sun, 01 Jan 2023 17:08:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4Q1HMYqIVWqPZ1HjOyr7OqWJyu4K30+ZY+3XeS42dsg=;
- b=r3WkdXV/jzwvG0cKfKzArnxZNRY54Ts3DhZMLygEaA8qjOdO5Wu3am5lgnloMOO2AU
- l/fnurO2ULtChHCrR2vzXzu5ybc89venu2ziY+7ZEY0N+W2+fMMpr17NyB1TsMGN59iQ
- qLhWQFv8kWc+DsiRoFguu1QkGlxPAVke82q8G6YV0PYlRTJCfn+0Ioq2Nb0GDehgonLo
- K2mxRRhWB8LxuX57ZdKJM5lvt3KXkevuCneaAYutZ55OEQ1LN0M0PxZwKsahdbJ4Z1aw
- KYyvDMZLE5DQWFOecQT0/bQ3PUf0oLv6yUUD2p7QfsMyyQp8ejUwYCxtkGvAs3717aW4
- vWpA==
-X-Gm-Message-State: AFqh2kouXPkz3Tpycz4fXbOGQE4V8rSFVgl8JEZ3fMEC/h5VMdxJPCRo
- rFKfInRsBthjaZvOw8pYdgA=
-X-Google-Smtp-Source: AMrXdXuzyG3RVXJmIu7RWHLHd2FVJC921aZmIIJoHih67C8m0iaM0O6NIHfQK14i1jI7d7DZTs1myA==
-X-Received: by 2002:a05:6402:1217:b0:461:e5d1:73c5 with SMTP id
- c23-20020a056402121700b00461e5d173c5mr30234852edw.32.1672617816399; 
- Sun, 01 Jan 2023 16:03:36 -0800 (PST)
-Received: from ?IPv6:::1?
- (p200300faaf0bb20048218d1b7e9d0fc3.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:4821:8d1b:7e9d:fc3])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IXAzYnsybSKtqz0ldd8h/jtRm84KA9pbk7CARh/8mEk=;
+ b=m+/HEH6fVI6wG3uVoI2qgZH9VeQ2TTn0HjQFUGNbQA6X654CLUJO/8DJU3UhSqQUE9
+ ERm+Qu8kBPHHtRetl3UN/O5KBbuz/ki2fVd0zrhsh1FTXcrq0nM82oXd6UtY6AQYGKSp
+ W80QhNnxQFfsWnGvSiR5/NH44abUe1z9zJdvB5O2FRKh21i0DuINupt4vDdFSMVLXiu1
+ 1bj2Ay2bZ6q5QvQZjwA7n0mv/blYMxjr//MS4cHHDYoqGizLeg+QMVw176Sb2JAeHC9i
+ HZ2bUV6we/jieYNjuGgcFFTBQxKGAsWFkniWXyXC4eVnWzx8+13EXWCiDc3qUdTUdP4Q
+ jGBQ==
+X-Gm-Message-State: AFqh2kpEG3ijGI/MhqlzBWJJXDkcdpr5a2+ODEJffz39ig7lWBYyZHlY
+ cMT0VxKe0/dMYsxZaTFaVqU/82lL1gty0w==
+X-Google-Smtp-Source: AMrXdXtef1lnanqWmfWazTWaKqRwOPN3GrMq76T81Snx8vwtLcjjLZ3jmjn0O0hpB8OfSSI2iqpqSA==
+X-Received: by 2002:a17:903:32ce:b0:192:8d15:350 with SMTP id
+ i14-20020a17090332ce00b001928d150350mr28335533plr.56.1672621704066; 
+ Sun, 01 Jan 2023 17:08:24 -0800 (PST)
+Received: from localhost.localdomain ([2601:642:4c02:19a7:6141:5cc4:4791:5601])
  by smtp.gmail.com with ESMTPSA id
- u24-20020aa7d0d8000000b0046776f98d0csm12070774edo.79.2023.01.01.16.03.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Jan 2023 16:03:36 -0800 (PST)
-Date: Mon, 02 Jan 2023 00:03:32 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, 
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_2/3=5D_hw/mips/malta=3A_Set_?=
- =?US-ASCII?Q?PIIX4_IRQ_routes_in_embedded_bootloader?=
-In-Reply-To: <65f602e2-9067-f1e7-0c94-430e2b75e182@linaro.org>
-References: <20221027204720.33611-1-philmd@linaro.org>
- <20221027204720.33611-3-philmd@linaro.org>
- <9F566248-59DA-46E2-BD56-5DB98E9DB446@gmail.com>
- <2E4C442C-9057-4006-AE8D-123B513ED894@gmail.com>
- <65f602e2-9067-f1e7-0c94-430e2b75e182@linaro.org>
-Message-ID: <ECE6DE21-1499-4BDF-A886-3FF4F36AF33F@gmail.com>
+ jd15-20020a170903260f00b00186b69157ecsm18719417plb.202.2023.01.01.17.08.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 01 Jan 2023 17:08:23 -0800 (PST)
+From: Joelle van Dyne <j@getutm.app>
+To: qemu-devel@nongnu.org
+Cc: Joelle van Dyne <j@getutm.app>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH] vmnet: stop recieving events when VM is stopped
+Date: Sun,  1 Jan 2023 17:08:21 -0800
+Message-Id: <20230102010821.5462-1-j@getutm.app>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.214.180; envelope-from=osy86dev@gmail.com;
+ helo=mail-pl1-f180.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,61 +78,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+When the VM is stopped using the HMP command "stop", soon the handler will
+stop reading from the vmnet interface. This causes a flood of
+`VMNET_INTERFACE_PACKETS_AVAILABLE` events to arrive and puts the host CPU
+at 100%. We fix this by removing the event handler from vmnet when the VM
+is no longer in a running state and restore it when we return to a running
+state.
 
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+---
+ net/vmnet_int.h    |  2 ++
+ net/vmnet-common.m | 48 +++++++++++++++++++++++++++++++++-------------
+ 2 files changed, 37 insertions(+), 13 deletions(-)
 
-Am 31=2E Dezember 2022 13:44:00 UTC schrieb "Philippe Mathieu-Daud=C3=A9" =
-<philmd@linaro=2Eorg>:
->On 31/12/22 10:53, Bernhard Beschow wrote:
->>=20
->>=20
->> Am 21=2E November 2022 15:34:05 UTC schrieb Bernhard Beschow <shentey@g=
-mail=2Ecom>:
->>>=20
->>>=20
->>> Am 27=2E Oktober 2022 20:47:19 UTC schrieb "Philippe Mathieu-Daud=C3=
-=A9" <philmd@linaro=2Eorg>:
->>>> Linux kernel expects the northbridge & southbridge chipsets
->>>> configured by the BIOS firmware=2E We emulate that by writing
->>>> a tiny bootloader code in write_bootloader()=2E
->>>>=20
->>>> Upon introduction in commit 5c2b87e34d ("PIIX4 support"),
->>>> the PIIX4 configuration space included values specific to
->>>> the Malta board=2E
->>>>=20
->>>> Set the Malta-specific IRQ routing values in the embedded
->>>> bootloader, so the next commit can remove the Malta specific
->>>> bits from the PIIX4 PCI-ISA bridge and make it generic
->>>> (matching the real hardware)=2E
->>>>=20
->>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
->>>> ---
->>>> FIXME: Missing the nanoMIPS counter-part!
->>>=20
->>> Who will be taking care of this? I have absolutely no clue how the wri=
-te_bootloader functions work, so I don't see how to fix it=2E
->>=20
->> Ping
->
->This comment has been taken care of:
->https://lore=2Ekernel=2Eorg/qemu-devel/a3c3f639-dbb1-88a7-43fe-547a234c58=
-90@linaro=2Eorg/
+diff --git a/net/vmnet_int.h b/net/vmnet_int.h
+index adf6e8c20d..ffba92108f 100644
+--- a/net/vmnet_int.h
++++ b/net/vmnet_int.h
+@@ -46,6 +46,8 @@ typedef struct VmnetState {
+     int packets_send_end_pos;
+ 
+     struct iovec iov_buf[VMNET_PACKETS_LIMIT];
++
++    VMChangeStateEntry *change;
+ } VmnetState;
+ 
+ const char *vmnet_status_map_str(vmnet_return_t status);
+diff --git a/net/vmnet-common.m b/net/vmnet-common.m
+index 2cb60b9ddd..2958283485 100644
+--- a/net/vmnet-common.m
++++ b/net/vmnet-common.m
+@@ -17,6 +17,7 @@
+ #include "clients.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
++#include "sysemu/runstate.h"
+ 
+ #include <vmnet/vmnet.h>
+ #include <dispatch/dispatch.h>
+@@ -242,6 +243,35 @@ static void vmnet_bufs_init(VmnetState *s)
+     }
+ }
+ 
++/**
++ * Called on state change to un-register/re-register handlers
++ */
++static void vmnet_vm_state_change_cb(void *opaque, bool running, RunState state)
++{
++    VmnetState *s = opaque;
++
++    if (running) {
++        vmnet_interface_set_event_callback(
++            s->vmnet_if,
++            VMNET_INTERFACE_PACKETS_AVAILABLE,
++            s->if_queue,
++            ^(interface_event_t event_id, xpc_object_t event) {
++                assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
++                /*
++                 * This function is being called from a non qemu thread, so
++                 * we only schedule a BH, and do the rest of the io completion
++                 * handling from vmnet_send_bh() which runs in a qemu context.
++                 */
++                qemu_bh_schedule(s->send_bh);
++            });
++    } else {
++        vmnet_interface_set_event_callback(
++            s->vmnet_if,
++            VMNET_INTERFACE_PACKETS_AVAILABLE,
++            NULL,
++            NULL);
++    }
++}
+ 
+ int vmnet_if_create(NetClientState *nc,
+                     xpc_object_t if_desc,
+@@ -329,19 +359,9 @@ int vmnet_if_create(NetClientState *nc,
+     s->packets_send_current_pos = 0;
+     s->packets_send_end_pos = 0;
+ 
+-    vmnet_interface_set_event_callback(
+-        s->vmnet_if,
+-        VMNET_INTERFACE_PACKETS_AVAILABLE,
+-        s->if_queue,
+-        ^(interface_event_t event_id, xpc_object_t event) {
+-            assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
+-            /*
+-             * This function is being called from a non qemu thread, so
+-             * we only schedule a BH, and do the rest of the io completion
+-             * handling from vmnet_send_bh() which runs in a qemu context.
+-             */
+-            qemu_bh_schedule(s->send_bh);
+-        });
++    vmnet_vm_state_change_cb(s, 1, RUN_STATE_RUNNING);
++
++    s->change = qemu_add_vm_change_state_handler(vmnet_vm_state_change_cb, s);
+ 
+     return 0;
+ }
+@@ -356,6 +376,8 @@ void vmnet_cleanup_common(NetClientState *nc)
+         return;
+     }
+ 
++    vmnet_vm_state_change_cb(s, 0, RUN_STATE_SHUTDOWN);
++    qemu_del_vm_change_state_handler(s->change);
+     if_stopped_sem = dispatch_semaphore_create(0);
+     vmnet_stop_interface(
+         s->vmnet_if,
+-- 
+2.28.0
 
-Ah, now I see where this is going=2E
-
->However while testing the MIPS pull request I prepared I
->found a bug in the GT64120 which I'm trying to fix since
->various days=2E=2E=2E Unfortunately your series depends on it,
->so this is a blocking issue=2E Sorry for this long delay=2E=2E=2E
-
-Don't worry=2E
-
-How can the bug be reproduced? Is there a test run in the CI? Note that I =
-get a 404 when trying to access https://gitlab=2Ecom/philmd/qemu/-/commits/=
-mips-testing/ =2E
-
-Best regards,
-Bernhard
-
->
->Phil=2E
 
