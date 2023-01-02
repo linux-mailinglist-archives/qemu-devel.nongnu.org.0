@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E3165ADF1
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 09:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D81265AEB2
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 10:34:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCFy7-0006cz-4D; Mon, 02 Jan 2023 03:14:51 -0500
+	id 1pCHBH-0002p0-6o; Mon, 02 Jan 2023 04:32:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1pCFy3-0006cq-FR
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 03:14:47 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1pCFy0-0001cg-4I
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 03:14:47 -0500
-HMM_SOURCE_IP: 172.18.0.188:46286.1392296297
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.98.189 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 2F22E2800BB;
- Mon,  2 Jan 2023 16:14:28 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([171.223.98.189])
- by app0023 with ESMTP id 5f33bcb7b60c4c65861961aecac547fc for
- qemu-devel@nongnu.org; Mon, 02 Jan 2023 16:14:32 CST
-X-Transaction-ID: 5f33bcb7b60c4c65861961aecac547fc
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 171.223.98.189
-X-MEDUSA-Status: 0
-Message-ID: <4cf93b7d-0f1c-424a-4224-fc8426a6dae8@chinatelecom.cn>
-Date: Mon, 2 Jan 2023 16:14:33 +0800
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1pCHBF-0002og-3q
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 04:32:29 -0500
+Received: from ams.source.kernel.org ([145.40.68.75])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1pCHBD-0006Qt-3k
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 04:32:28 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 115C5B80C87
+ for <qemu-devel@nongnu.org>; Mon,  2 Jan 2023 09:32:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799A0C43398
+ for <qemu-devel@nongnu.org>; Mon,  2 Jan 2023 09:32:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1672651936;
+ bh=Ry+t4NYxz2LnY50+lHocjvCB/yPTIKyyLB5poiRirY4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mXkQCAUXRpMx2BxXatIs9QzKh/4YtzXyuyea26MbEENziG7Yu6Lfk9u+w05FoNSfy
+ 1X6iZNd+HpzprTGn+7DA9Biey2i28aBtA4qNY1pSHk6y9WgQkjX8yhl6rjZ/WYvye8
+ gpz013krvFpoHqWDhUVl/DRzNBdHBiqGR2KRWjOrCABClrr74Sl/NGB4wwlBCeTjhl
+ ntCK9Sylg6yyVEJwtGY+poDlc5+oeII0Hx6zvCrcD7jjMTJkqy/yqlyFV0R7BVD5Ue
+ ZkK9UKpLVRFUyb4sSIkkSvKy9val09B183s7D6YATCtcmbGMZrv2PSq3eMyq4PopbV
+ xJ9gydXkCBqrQ==
+Received: by mail-lj1-f181.google.com with SMTP id u12so24885482ljj.11
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 01:32:16 -0800 (PST)
+X-Gm-Message-State: AFqh2ko9uv6td0caxPmP6/RHao10kqYDaUowKkk+MUuGBhlVQTPCXVxI
+ 2ipBb3FL3+5VXER7U8SF56aJVTAaCEb9Ew8sg88=
+X-Google-Smtp-Source: AMrXdXumaiU5c64MbvVjmQn+Emq3s+Anlwtq0//DHOL0975Aj9+8uS9+d4EPAXnlu81fcPtiuajpivRg/BklVkuooXI=
+X-Received: by 2002:a05:651c:1a25:b0:27f:5559:a998 with SMTP id
+ by37-20020a05651c1a2500b0027f5559a998mr1811588ljb.69.1672651934461; Mon, 02
+ Jan 2023 01:32:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH RESEND v3 00/10] migration: introduce dirtylimit capability
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <cover.1670087275.git.huangy81@chinatelecom.cn>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1670087275.git.huangy81@chinatelecom.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.802,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <Y7A76+IBS4fnucrW@zn.tnic> <Y7A8qP05B0YRbQIN@zx2c4.com>
+ <Y7A9nBud6UeH+wYd@zn.tnic> <Y7A+YELM7m5E2PUQ@zx2c4.com>
+ <Y7BGIAL4z6o6FEI5@zn.tnic>
+ <Y7B993P1+jYB/etX@zx2c4.com> <Y7CGzde+qPB7YJP4@zn.tnic>
+ <60566f8b-c90f-12e7-c13e-94e9829eee2d@zytor.com>
+ <8f072588-7d66-0932-7486-ed9159ae93ae@zytor.com> <Y7JzTh8JnMXM6ZPS@zn.tnic>
+ <Y7J3B50kn1kWrxlk@zn.tnic>
+In-Reply-To: <Y7J3B50kn1kWrxlk@zn.tnic>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Mon, 2 Jan 2023 10:32:03 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXHDw5p5yX25TnKiQ7sgqVbhEjB+=fu=7Oz67shQD-fL6Q@mail.gmail.com>
+Message-ID: <CAMj1kXHDw5p5yX25TnKiQ7sgqVbhEjB+=fu=7Oz67shQD-fL6Q@mail.gmail.com>
+Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
+ setup_data
+To: Borislav Petkov <bp@alien8.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ pbonzini@redhat.com, 
+ ebiggers@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org, 
+ qemu-devel@nongnu.org, kraxel@redhat.com, philmd@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=ardb@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,295 +86,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping,
+On Mon, 2 Jan 2023 at 07:17, Borislav Petkov <bp@alien8.de> wrote:
+>
+> On Mon, Jan 02, 2023 at 07:01:50AM +0100, Borislav Petkov wrote:
+> > On Sat, Dec 31, 2022 at 07:31:21PM -0800, H. Peter Anvin wrote:
+> > > It would probably be a good idea to add a "maximum physical address for
+> > > initrd/setup_data/cmdline" field to struct kernel_info, though. It appears
+> > > right now that those fields are being identity-mapped in the decompressor,
+> > > and that means that if 48-bit addressing is used, physical memory may extend
+> > > past the addressable range.
+> >
+> > Yeah, we will probably need that too.
+> >
+> > Btw, looka here - it can't get any more obvious than that after dumping
+> > setup_data too:
+> >
+> > early console in setup code
+> > early console in extract_kernel
+> > input_data: 0x00000000040f92bf
+> > input_len: 0x0000000000f1c325
+> > output: 0x0000000001000000
+> > output_len: 0x0000000003c5e7d8
+> > kernel_total_size: 0x0000000004428000
+> > needed_size: 0x0000000004600000
+> > boot_params->hdr.setup_data: 0x00000000010203b0
+> > trampoline_32bit: 0x000000000009d000
+> >
+> > Decompressing Linux... Parsing ELF... done.
+> > Booting the kernel.
+> > <EOF>
+> >
+> > Aligning them vertically:
+> >
+> > output:                               0x0000000001000000
+> > output_len:                   0x0000000003c5e7d8
+> > kernel_total_size:            0x0000000004428000
+> > needed_size:                  0x0000000004600000
+> > boot_params->hdr.setup_data:  0x00000000010203b0
+>
+> Ok, waait a minute:
+>
+> ============    ============
+> Field name:     pref_address
+> Type:           read (reloc)
+> Offset/size:    0x258/8
+> Protocol:       2.10+
+> ============    ============
+>
+>   This field, if nonzero, represents a preferred load address for the
+>   kernel.  A relocating bootloader should attempt to load at this
+>   address if possible.
+>
+>   A non-relocatable kernel will unconditionally move itself and to run
+>   at this address.
+>
+> so a kernel loader (qemu in this case) already knows where the kernel goes:
+>
+> boot_params->hdr.setup_data: 0x0000000001020450
+> boot_params->hdr.pref_address: 0x0000000001000000
+>                                 ^^^^^^^^^^^^^^^^^
+>
+> now, considering that same kernel loader (qemu) knows how big that kernel is:
+>
+> kernel_total_size: 0x0000000004428000
+>
+> should that loader *not* put anything that the kernel will use in the range
+>
+> pref_addr + kernel_total_size
+>
 
-Hi, David, how about the commit about live migration:
-[PATCH RESEND v3 08/10] migration: Implement dirty-limit convergence algo.
+This seems to be related to another issue that was discussed in the
+context of this change, but affecting EFI boot not legacy BIOS boot
+[0].
 
-在 2022/12/4 1:09, huangy81@chinatelecom.cn 写道:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> v3(resend):
-> - fix the syntax error of the topic.
-> 
-> v3:
-> This version make some modifications inspired by Peter and Markus
-> as following:
-> 1. Do the code clean up in [PATCH v2 02/11] suggested by Markus
-> 2. Replace the [PATCH v2 03/11] with a much simpler patch posted by
->     Peter to fix the following bug:
->     https://bugzilla.redhat.com/show_bug.cgi?id=2124756
-> 3. Fix the error path of migrate_params_check in [PATCH v2 04/11]
->     pointed out by Markus. Enrich the commit message to explain why
->     x-vcpu-dirty-limit-period an unstable parameter.
-> 4. Refactor the dirty-limit convergence algo in [PATCH v2 07/11]
->     suggested by Peter:
->     a. apply blk_mig_bulk_active check before enable dirty-limit
->     b. drop the unhelpful check function before enable dirty-limit
->     c. change the migration_cancel logic, just cancel dirty-limit
->        only if dirty-limit capability turned on.
->     d. abstract a code clean commit [PATCH v3 07/10] to adjust
->        the check order before enable auto-converge
-> 5. Change the name of observing indexes during dirty-limit live
->     migration to make them more easy-understanding. Use the
->     maximum throttle time of vpus as "dirty-limit-throttle-time-per-full"
-> 6. Fix some grammatical and spelling errors pointed out by Markus
->     and enrich the document about the dirty-limit live migration
->     observing indexes "dirty-limit-ring-full-time"
->     and "dirty-limit-throttle-time-per-full"
-> 7. Change the default value of x-vcpu-dirty-limit-period to 1000ms,
->     which is optimal value pointed out in cover letter in that
->     testing environment.
-> 8. Drop the 2 guestperf test commits [PATCH v2 10/11],
->     [PATCH v2 11/11] and post them with a standalone series in the
->     future.
-> 
-> Thanks Peter and Markus sincerely for the passionate, efficient
-> and careful comments and suggestions.
-> 
-> Please review.
-> 
-> Yong
-> 
-> v2:
-> This version make a little bit modifications comparing with
-> version 1 as following:
-> 1. fix the overflow issue reported by Peter Maydell
-> 2. add parameter check for hmp "set_vcpu_dirty_limit" command
-> 3. fix the racing issue between dirty ring reaper thread and
->     Qemu main thread.
-> 4. add migrate parameter check for x-vcpu-dirty-limit-period
->     and vcpu-dirty-limit.
-> 5. add the logic to forbid hmp/qmp commands set_vcpu_dirty_limit,
->     cancel_vcpu_dirty_limit during dirty-limit live migration when
->     implement dirty-limit convergence algo.
-> 6. add capability check to ensure auto-converge and dirty-limit
->     are mutually exclusive.
-> 7. pre-check if kvm dirty ring size is configured before setting
->     dirty-limit migrate parameter
-> 
-> A more comprehensive test was done comparing with version 1.
-> 
-> The following are test environment:
-> -------------------------------------------------------------
-> a. Host hardware info:
-> 
-> CPU:
-> Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
-> 
-> CPU(s):                          64
-> On-line CPU(s) list:             0-63
-> Thread(s) per core:              2
-> Core(s) per socket:              16
-> Socket(s):                       2
-> NUMA node(s):                    2
-> 
-> NUMA node0 CPU(s):               0-15,32-47
-> NUMA node1 CPU(s):               16-31,48-63
-> 
-> Memory:
-> Hynix  503Gi
-> 
-> Interface:
-> Intel Corporation Ethernet Connection X722 for 1GbE (rev 09)
-> Speed: 1000Mb/s
-> 
-> b. Host software info:
-> 
-> OS: ctyunos release 2
-> Kernel: 4.19.90-2102.2.0.0066.ctl2.x86_64
-> Libvirt baseline version:  libvirt-6.9.0
-> Qemu baseline version: qemu-5.0
-> 
-> c. vm scale
-> CPU: 4
-> Memory: 4G
-> -------------------------------------------------------------
-> 
-> All the supplementary test data shown as follows are basing on
-> above test environment.
-> 
-> In version 1, we post a test data from unixbench as follows:
-> 
-> $ taskset -c 8-15 ./Run -i 2 -c 8 {unixbench test item}
-> 
-> host cpu: Intel(R) Xeon(R) Platinum 8378A
-> host interface speed: 1000Mb/s
->    |---------------------+--------+------------+---------------|
->    | UnixBench test item | Normal | Dirtylimit | Auto-converge |
->    |---------------------+--------+------------+---------------|
->    | dhry2reg            | 32800  | 32786      | 25292         |
->    | whetstone-double    | 10326  | 10315      | 9847          |
->    | pipe                | 15442  | 15271      | 14506         |
->    | context1            | 7260   | 6235       | 4514          |
->    | spawn               | 3663   | 3317       | 3249          |
->    | syscall             | 4669   | 4667       | 3841          |
->    |---------------------+--------+------------+---------------|
-> 
-> In version 2, we post a supplementary test data that do not use
-> taskset and make the scenario more general, see as follows:
-> 
-> $ ./Run
-> 
-> per-vcpu data:
->    |---------------------+--------+------------+---------------|
->    | UnixBench test item | Normal | Dirtylimit | Auto-converge |
->    |---------------------+--------+------------+---------------|
->    | dhry2reg            | 2991   | 2902       | 1722          |
->    | whetstone-double    | 1018   | 1006       | 627           |
->    | Execl Throughput    | 955    | 320        | 660           |
->    | File Copy - 1       | 2362   | 805        | 1325          |
->    | File Copy - 2       | 1500   | 1406       | 643           |
->    | File Copy - 3       | 4778   | 2160       | 1047          |
->    | Pipe Throughput     | 1181   | 1170       | 842           |
->    | Context Switching   | 192    | 224        | 198           |
->    | Process Creation    | 490    | 145        | 95            |
->    | Shell Scripts - 1   | 1284   | 565        | 610           |
->    | Shell Scripts - 2   | 2368   | 900        | 1040          |
->    | System Call Overhead| 983    | 948        | 698           |
->    | Index Score         | 1263   | 815        | 600           |
->    |---------------------+--------+------------+---------------|
-> Note:
->    File Copy - 1: File Copy 1024 bufsize 2000 maxblocks
->    File Copy - 2: File Copy 256 bufsize 500 maxblocks
->    File Copy - 3: File Copy 4096 bufsize 8000 maxblocks
->    Shell Scripts - 1: Shell Scripts (1 concurrent)
->    Shell Scripts - 2: Shell Scripts (8 concurrent)
-> 
-> Basing on above data, we can draw a conclusion that dirty-limit
-> can hugely improve the system benchmark almost in every respect,
-> the "System Benchmarks Index Score" show it improve 35% performance
-> comparing with auto-converge during live migration.
-> 
-> 4-vcpu parallel data(we run a test vm with 4c4g-scale):
->    |---------------------+--------+------------+---------------|
->    | UnixBench test item | Normal | Dirtylimit | Auto-converge |
->    |---------------------+--------+------------+---------------|
->    | dhry2reg            | 7975   | 7146       | 5071          |
->    | whetstone-double    | 3982   | 3561       | 2124          |
->    | Execl Throughput    | 1882   | 1205       | 768           |
->    | File Copy - 1       | 1061   | 865        | 498           |
->    | File Copy - 2       | 676    | 491        | 519           |
->    | File Copy - 3       | 2260   | 923        | 1329          |
->    | Pipe Throughput     | 3026   | 3009       | 1616          |
->    | Context Switching   | 1219   | 1093       | 695           |
->    | Process Creation    | 947    | 307        | 446           |
->    | Shell Scripts - 1   | 2469   | 977        | 989           |
->    | Shell Scripts - 2   | 2667   | 1275       | 984           |
->    | System Call Overhead| 1592   | 1459       | 692           |
->    | Index Score         | 1976   | 1294       | 997           |
->    |---------------------+--------+------------+---------------|
-> 
-> For the parallel data, the "System Benchmarks Index Score" show it
-> also improve 29% performance.
-> 
-> In version 1, migration total time is shown as follows:
-> 
-> host cpu: Intel(R) Xeon(R) Platinum 8378A
-> host interface speed: 1000Mb/s
->    |-----------------------+----------------+-------------------|
->    | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
->    |-----------------------+----------------+-------------------|
->    | 60                    | 2014           | 2131              |
->    | 70                    | 5381           | 12590             |
->    | 90                    | 6037           | 33545             |
->    | 110                   | 7660           | [*]               |
->    |-----------------------+----------------+-------------------|
->    [*]: This case means migration is not convergent.
-> 
-> In version 2, we post more comprehensive migration total time test data
-> as follows:
-> 
-> we update N MB on 4 cpus and sleep S us every time 1 MB data was updated.
-> test twice in each condition, data is shown as follow:
-> 
->    |-----------+--------+--------+----------------+-------------------|
->    | ring size | N (MB) | S (us) | Dirtylimit(ms) | Auto-converge(ms) |
->    |-----------+--------+--------+----------------+-------------------|
->    | 1024      | 1024   | 1000   | 44951          | 191780            |
->    | 1024      | 1024   | 1000   | 44546          | 185341            |
->    | 1024      | 1024   | 500    | 46505          | 203545            |
->    | 1024      | 1024   | 500    | 45469          | 909945            |
->    | 1024      | 1024   | 0      | 61858          | [*]               |
->    | 1024      | 1024   | 0      | 57922          | [*]               |
->    | 1024      | 2048   | 0      | 91982          | [*]               |
->    | 1024      | 2048   | 0      | 90388          | [*]               |
->    | 2048      | 128    | 10000  | 14511          | 25971             |
->    | 2048      | 128    | 10000  | 13472          | 26294             |
->    | 2048      | 1024   | 10000  | 44244          | 26294             |
->    | 2048      | 1024   | 10000  | 45099          | 157701            |
->    | 2048      | 1024   | 500    | 51105          | [*]               |
->    | 2048      | 1024   | 500    | 49648          | [*]               |
->    | 2048      | 1024   | 0      | 229031         | [*]               |
->    | 2048      | 1024   | 0      | 154282         | [*]               |
->    |-----------+--------+--------+----------------+-------------------|
->    [*]: This case means migration is not convergent.
-> 
-> Not that the larger ring size is, the less sensitively dirty-limit responds,
-> so we should choose a optimal ring size base on the test data with different
-> scale vm.
-> 
-> We also test the effect of "x-vcpu-dirty-limit-period" parameter on
-> migration total time. test twice in each condition, data is shown
-> as follows:
-> 
->    |-----------+--------+--------+-------------+----------------------|
->    | ring size | N (MB) | S (us) | Period (ms) | migration total time |
->    |-----------+--------+--------+-------------+----------------------|
->    | 2048      | 1024   | 10000  | 100         | [*]                  |
->    | 2048      | 1024   | 10000  | 100         | [*]                  |
->    | 2048      | 1024   | 10000  | 300         | 156795               |
->    | 2048      | 1024   | 10000  | 300         | 118179               |
->    | 2048      | 1024   | 10000  | 500         | 44244                |
->    | 2048      | 1024   | 10000  | 500         | 45099                |
->    | 2048      | 1024   | 10000  | 700         | 41871                |
->    | 2048      | 1024   | 10000  | 700         | 42582                |
->    | 2048      | 1024   | 10000  | 1000        | 41430                |
->    | 2048      | 1024   | 10000  | 1000        | 40383                |
->    | 2048      | 1024   | 10000  | 1500        | 42030                |
->    | 2048      | 1024   | 10000  | 1500        | 42598                |
->    | 2048      | 1024   | 10000  | 2000        | 41694                |
->    | 2048      | 1024   | 10000  | 2000        | 42403                |
->    | 2048      | 1024   | 10000  | 3000        | 43538                |
->    | 2048      | 1024   | 10000  | 3000        | 43010                |
->    |-----------+--------+--------+-------------+----------------------|
-> 
-> It shows that x-vcpu-dirty-limit-period should be configured with 1000 ms
-> in above condition.
-> 
-> Please review, any comments and suggestions are very appreciated, thanks
-> 
-> Yong
-> 
-> Hyman Huang (9):
->    dirtylimit: Fix overflow when computing MB
->    softmmu/dirtylimit: Add parameter check for hmp "set_vcpu_dirty_limit"
->    qapi/migration: Introduce x-vcpu-dirty-limit-period parameter
->    qapi/migration: Introduce vcpu-dirty-limit parameters
->    migration: Introduce dirty-limit capability
->    migration: Refactor auto-converge capability logic
->    migration: Implement dirty-limit convergence algo
->    migration: Export dirty-limit time info for observation
->    tests: Add migration dirty-limit capability test
-> 
-> Peter Xu (1):
->    kvm: dirty-ring: Fix race with vcpu creation
-> 
->   accel/kvm/kvm-all.c          |   9 +++
->   include/sysemu/dirtylimit.h  |   2 +
->   migration/migration.c        |  87 ++++++++++++++++++++++++
->   migration/migration.h        |   1 +
->   migration/ram.c              |  63 ++++++++++++++----
->   migration/trace-events       |   1 +
->   monitor/hmp-cmds.c           |  26 ++++++++
->   qapi/migration.json          |  65 +++++++++++++++---
->   softmmu/dirtylimit.c         |  91 ++++++++++++++++++++++---
->   tests/qtest/migration-test.c | 154 +++++++++++++++++++++++++++++++++++++++++++
->   10 files changed, 467 insertions(+), 32 deletions(-)
-> 
+So, in a nutshell, we have the following pieces:
+- QEMU, which manages a directory of files and other data blobs, and
+exposes them via its fw_cfg interface.
+- SeaBIOS, which invokes the fw_cfg interface to load the 'kernel'
+blob at its preferred address
+- The boot code in the kernel, which interprets the various fields in
+the setup header to figure out where the compressed image lives etc
+
+So the problem here, which applies to SETUP_DTB as well as
+SETUP_RNG_SEED, is that the internal file representation of the kernel
+blob (which does not have an absolute address at this point, it's just
+a file in the fw_cfg filesystem) is augmented with:
+1) setup_data linked-list entries carrying absolute addresses that are
+assumed to be valid once SeaBIOS loads the file to memory
+2) DTB and/or RNG seed blobs appended to the compressed 'kernel' blob,
+but without updating that file's internal metadata
+
+Issue 1) is what broke EFI boot, given that EFI interprets the kernel
+blob as a PE/COFF image and hands it to the Loadimage() boot service,
+which has no awareness of boot_params or setup_data and so just
+ignores it and loads the image at an arbitrary address, resulting in
+setup_data absolute address values pointing to bogus places.
+
+It seems that now, we have another issue 2), where the fw_cfg view of
+the file size goes out of sync with the compressed image's own view of
+its size.
+
+As a fix for issue 1), we explored another solution, which was to
+allocate fixed areas in memory for the RNG seed, so that the absolute
+address added to setup_data is guaranteed to be correct regardless of
+where the compressed image is loaded, but that was shot down for other
+reasons, and we ended up enabling this feature only for legacy BIOS
+boot. But apparently, this approach has other issues so perhaps it is
+better to revisit that solution again.
+
+So instead of appending data to the compressed image and assuming that
+it will stay in place, create or extend a memory reservation
+elsewhere, and refer to its absolute address in setup_data.
 
 -- 
-Best regard
+Ard.
 
-Hyman Huang(黄勇)
+
+[0] https://lore.kernel.org/all/CAMj1kXFr6Bv4_G0-wCTu4fp_iCrG060NHJx_j2dbnyiFJKYYeQ@mail.gmail.com/
 
