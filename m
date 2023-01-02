@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC3465ACB3
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 02:10:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C620665ACEF
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 04:08:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pC9JW-0005An-6i; Sun, 01 Jan 2023 20:08:30 -0500
+	id 1pCB9w-0002cH-LK; Sun, 01 Jan 2023 22:06:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1pC9JU-0005AZ-9l
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 20:08:28 -0500
-Received: from mail-pl1-f180.google.com ([209.85.214.180])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1pC9JS-0000We-Is
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 20:08:27 -0500
-Received: by mail-pl1-f180.google.com with SMTP id 17so28167223pll.0
- for <qemu-devel@nongnu.org>; Sun, 01 Jan 2023 17:08:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IXAzYnsybSKtqz0ldd8h/jtRm84KA9pbk7CARh/8mEk=;
- b=m+/HEH6fVI6wG3uVoI2qgZH9VeQ2TTn0HjQFUGNbQA6X654CLUJO/8DJU3UhSqQUE9
- ERm+Qu8kBPHHtRetl3UN/O5KBbuz/ki2fVd0zrhsh1FTXcrq0nM82oXd6UtY6AQYGKSp
- W80QhNnxQFfsWnGvSiR5/NH44abUe1z9zJdvB5O2FRKh21i0DuINupt4vDdFSMVLXiu1
- 1bj2Ay2bZ6q5QvQZjwA7n0mv/blYMxjr//MS4cHHDYoqGizLeg+QMVw176Sb2JAeHC9i
- HZ2bUV6we/jieYNjuGgcFFTBQxKGAsWFkniWXyXC4eVnWzx8+13EXWCiDc3qUdTUdP4Q
- jGBQ==
-X-Gm-Message-State: AFqh2kpEG3ijGI/MhqlzBWJJXDkcdpr5a2+ODEJffz39ig7lWBYyZHlY
- cMT0VxKe0/dMYsxZaTFaVqU/82lL1gty0w==
-X-Google-Smtp-Source: AMrXdXtef1lnanqWmfWazTWaKqRwOPN3GrMq76T81Snx8vwtLcjjLZ3jmjn0O0hpB8OfSSI2iqpqSA==
-X-Received: by 2002:a17:903:32ce:b0:192:8d15:350 with SMTP id
- i14-20020a17090332ce00b001928d150350mr28335533plr.56.1672621704066; 
- Sun, 01 Jan 2023 17:08:24 -0800 (PST)
-Received: from localhost.localdomain ([2601:642:4c02:19a7:6141:5cc4:4791:5601])
- by smtp.gmail.com with ESMTPSA id
- jd15-20020a170903260f00b00186b69157ecsm18719417plb.202.2023.01.01.17.08.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Jan 2023 17:08:23 -0800 (PST)
-From: Joelle van Dyne <j@getutm.app>
+ (Exim 4.90_1) (envelope-from <fanwj@mail.ustc.edu.cn>)
+ id 1pCB9u-0002c9-C8
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 22:06:42 -0500
+Received: from email6.ustc.edu.cn ([2001:da8:d800::8] helo=ustc.edu.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanwj@mail.ustc.edu.cn>) id 1pCB9p-0006Sq-Ts
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 22:06:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+ Content-Type:MIME-Version:Message-ID; bh=ydPN67ZW7H4bXOmoYoB5A4x
+ ZK/joI5PaV2kcNeJxATE=; b=hUIi9ANHNhtmuvADPl9e5QBrffP6JwjeSyGhPRL
+ uVqKfu/SUrtEyqoQgG2FP9UfO/166emdMwlieKyoPrp2g2B7j2ICEthPPwVeBJef
+ HXc7LdWVLngbA4QKQjif9h/Y6tZrkv1Z/TBqwnprKBQ6zYV1PLqdFjGWSnlM1a0L
+ Xcao=
+Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Mon, 2 Jan
+ 2023 11:06:25 +0800 (GMT+08:00)
+X-Originating-IP: [120.204.77.150]
+Date: Mon, 2 Jan 2023 11:06:25 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: fanwj@mail.ustc.edu.cn
 To: qemu-devel@nongnu.org
-Cc: Joelle van Dyne <j@getutm.app>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] vmnet: stop recieving events when VM is stopped
-Date: Sun,  1 Jan 2023 17:08:21 -0800
-Message-Id: <20230102010821.5462-1-j@getutm.app>
-X-Mailer: git-send-email 2.28.0
+Cc: laurent@vivier.eu
+Subject: [PATCH] linux-user: fix bug about incorrect base addresss of idt
+ and  gdt on i386 and x86_64
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
+ 20210401(c5ff3689) Copyright (c) 2002-2023 www.mailtech.cn ustccn
+X-SendMailWithSms: false
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_458889_429345013.1672628785236"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.214.180; envelope-from=osy86dev@gmail.com;
- helo=mail-pl1-f180.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Message-ID: <2e1eee7a.20131.1857071d054.Coremail.fanwj@mail.ustc.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: LkAmygCXO6MxSrJjZLCJAA--.0W
+X-CM-SenderInfo: pidq4yo6pdxzwoxv3uoohg3hdfq/1tbiAQ4REFQhoPMeLgAzsr
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=2001:da8:d800::8;
+ envelope-from=fanwj@mail.ustc.edu.cn; helo=ustc.edu.cn
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HTML_MESSAGE=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,113 +71,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When the VM is stopped using the HMP command "stop", soon the handler will
-stop reading from the vmnet interface. This causes a flood of
-`VMNET_INTERFACE_PACKETS_AVAILABLE` events to arrive and puts the host CPU
-at 100%. We fix this by removing the event handler from vmnet when the VM
-is no longer in a running state and restore it when we return to a running
-state.
+------=_Part_458889_429345013.1672628785236
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Joelle van Dyne <j@getutm.app>
----
- net/vmnet_int.h    |  2 ++
- net/vmnet-common.m | 48 +++++++++++++++++++++++++++++++++-------------
- 2 files changed, 37 insertions(+), 13 deletions(-)
+RnJvbTogZmFud2VuamllIDxmYW53akBtYWlsLnVzdGMuZWR1LmNuPgoKCk9uIGxpbnV4IHVzZXIg
+bW9kZSwgQ1BVWDg2U3RhdGU6OmlkdDo6YmFzZSBhbmQgQ1BVWDg2U3RhdGU6OmdkdDo6YmFzZSBm
+cm9tIERpZmZlcmVudCBDUFVYODZTdGF0ZSBPYmplY3RzIGhhdmUgc2FtZSB2YWx1ZSwgSXQgaXMg
+aW5jb3JyZWN0ISBFdmVyeSBDUFVYODZTdGF0ZTo6aWR0OjpiYXNlIGFuZCBFdmVyeSBDUFVYODZT
+dGF0ZTo6Z2R0OjpiYXNlIE11c3QgcG9pbnRzIHRvIGluZGVwZW5kZW50IG1lbW9yeSBzcGFjZS4g
+IAoKClJlc29sdmVzOiBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9pc3N1
+ZXMvMTQwNQpTaWduZWQtb2ZmLWJ5OiBmYW53ZW5qaWUgPGZhbndqQG1haWwudXN0Yy5lZHUuY24+
+CgoKLS0tCiBsaW51eC11c2VyL2kzODYvY3B1X2xvb3AuYyB8IDEwICsrKysrKysrKysKIGxpbnV4
+LXVzZXIvbWFpbi5jICAgICAgICAgIHwgMTEgKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwg
+MjEgaW5zZXJ0aW9ucygrKQoKCmRpZmYgLS1naXQgYS9saW51eC11c2VyL2kzODYvY3B1X2xvb3Au
+YyBiL2xpbnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jCmluZGV4IDg2NTQxM2MwOGYuLjFmMjNiYzVl
+M2EgMTAwNjQ0Ci0tLSBhL2xpbnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jCisrKyBiL2xpbnV4LXVz
+ZXIvaTM4Ni9jcHVfbG9vcC5jCkBAIC0zMTQsOCArMzE0LDE4IEBAIHZvaWQgY3B1X2xvb3AoQ1BV
+WDg2U3RhdGUgKmVudikKICAgICB9CiB9CiAKK3N0YXRpYyB2b2lkIHRhcmdldF9jcHVfZnJlZSh2
+b2lkICpvYmopCit7CisgICAgQ1BVQXJjaFN0YXRlKiBlbnYgPSAoKENQVVN0YXRlKilvYmopLT5l
+bnZfcHRyOworICAgIHRhcmdldF9tdW5tYXAoZW52LT5pZHQuYmFzZSwgc2l6ZW9mKHVpbnQ2NF90
+KSAqIChlbnYtPmlkdC5saW1pdCArIDEpKTsKKyAgICB0YXJnZXRfbXVubWFwKGVudi0+Z2R0LmJh
+c2UsIHNpemVvZih1aW50NjRfdCkgKiBUQVJHRVRfR0RUX0VOVFJJRVMpOworICAgIGdfZnJlZShv
+YmopOworfQorCiB2b2lkIHRhcmdldF9jcHVfY29weV9yZWdzKENQVUFyY2hTdGF0ZSAqZW52LCBz
+dHJ1Y3QgdGFyZ2V0X3B0X3JlZ3MgKnJlZ3MpCiB7CisgICAgQ1BVU3RhdGUqIGNwdSA9IGVudl9j
+cHUoZW52KTsKKyAgICBPQkpFQ1QoY3B1KS0+ZnJlZSA9IHRhcmdldF9jcHVfZnJlZTsKICAgICBl
+bnYtPmNyWzBdID0gQ1IwX1BHX01BU0sgfCBDUjBfV1BfTUFTSyB8IENSMF9QRV9NQVNLOwogICAg
+IGVudi0+aGZsYWdzIHw9IEhGX1BFX01BU0sgfCBIRl9DUExfTUFTSzsKICAgICBpZiAoZW52LT5m
+ZWF0dXJlc1tGRUFUXzFfRURYXSAmIENQVUlEX1NTRSkgewpkaWZmIC0tZ2l0IGEvbGludXgtdXNl
+ci9tYWluLmMgYi9saW51eC11c2VyL21haW4uYwppbmRleCBhMTdmZWQwNDViLi4yMjc2MDQwNTQ4
+IDEwMDY0NAotLS0gYS9saW51eC11c2VyL21haW4uYworKysgYi9saW51eC11c2VyL21haW4uYwpA
+QCAtMjM0LDYgKzIzNCwxNyBAQCBDUFVBcmNoU3RhdGUgKmNwdV9jb3B5KENQVUFyY2hTdGF0ZSAq
+ZW52KQogCiAgICAgbmV3X2NwdS0+dGNnX2NmbGFncyA9IGNwdS0+dGNnX2NmbGFnczsKICAgICBt
+ZW1jcHkobmV3X2VudiwgZW52LCBzaXplb2YoQ1BVQXJjaFN0YXRlKSk7CisjaWYgZGVmaW5lZChU
+QVJHRVRfSTM4NikgfHwgZGVmaW5lZChUQVJHRVRfWDg2XzY0KQorICAgIG5ld19lbnYtPmdkdC5i
+YXNlID0gdGFyZ2V0X21tYXAoMCwgc2l6ZW9mKHVpbnQ2NF90KSAqIFRBUkdFVF9HRFRfRU5UUklF
+UywKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFBST1RfUkVBRHxQUk9UX1dS
+SVRFLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTUFQX0FOT05ZTU9VU3xN
+QVBfUFJJVkFURSwgLTEsIDApOworICAgIG5ld19lbnYtPmlkdC5iYXNlID0gdGFyZ2V0X21tYXAo
+MCwgc2l6ZW9mKHVpbnQ2NF90KSAqIChlbnYtPmlkdC5saW1pdCArIDEpLAorICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBQUk9UX1JFQUR8UFJPVF9XUklURSwKKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgTUFQX0FOT05ZTU9VU3xNQVBfUFJJVkFURSwgLTEsIDApOworICAg
+IG1lbWNweSgodm9pZCopbmV3X2Vudi0+Z2R0LmJhc2UsICh2b2lkKillbnYtPmdkdC5iYXNlLCBz
+aXplb2YodWludDY0X3QpICogVEFSR0VUX0dEVF9FTlRSSUVTKTsKKyAgICBtZW1jcHkoKHZvaWQq
+KW5ld19lbnYtPmlkdC5iYXNlLCAodm9pZCopZW52LT5pZHQuYmFzZSwgc2l6ZW9mKHVpbnQ2NF90
+KSAqIChlbnYtPmlkdC5saW1pdCArIDEpKTsKKyAgICBPQkpFQ1QobmV3X2NwdSktPmZyZWUgPSBP
+QkpFQ1QoY3B1KS0+ZnJlZTsKKyNlbmRpZgogCiAgICAgLyogQ2xvbmUgYWxsIGJyZWFrL3dhdGNo
+cG9pbnRzLgogICAgICAgIE5vdGU6IE9uY2Ugd2Ugc3VwcG9ydCBwdHJhY2Ugd2l0aCBody1kZWJ1
+ZyByZWdpc3RlciBhY2Nlc3MsIG1ha2Ugc3VyZQotLSAKMi4zNC4xCgoKCg==
+------=_Part_458889_429345013.1672628785236
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-diff --git a/net/vmnet_int.h b/net/vmnet_int.h
-index adf6e8c20d..ffba92108f 100644
---- a/net/vmnet_int.h
-+++ b/net/vmnet_int.h
-@@ -46,6 +46,8 @@ typedef struct VmnetState {
-     int packets_send_end_pos;
- 
-     struct iovec iov_buf[VMNET_PACKETS_LIMIT];
-+
-+    VMChangeStateEntry *change;
- } VmnetState;
- 
- const char *vmnet_status_map_str(vmnet_return_t status);
-diff --git a/net/vmnet-common.m b/net/vmnet-common.m
-index 2cb60b9ddd..2958283485 100644
---- a/net/vmnet-common.m
-+++ b/net/vmnet-common.m
-@@ -17,6 +17,7 @@
- #include "clients.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-+#include "sysemu/runstate.h"
- 
- #include <vmnet/vmnet.h>
- #include <dispatch/dispatch.h>
-@@ -242,6 +243,35 @@ static void vmnet_bufs_init(VmnetState *s)
-     }
- }
- 
-+/**
-+ * Called on state change to un-register/re-register handlers
-+ */
-+static void vmnet_vm_state_change_cb(void *opaque, bool running, RunState state)
-+{
-+    VmnetState *s = opaque;
-+
-+    if (running) {
-+        vmnet_interface_set_event_callback(
-+            s->vmnet_if,
-+            VMNET_INTERFACE_PACKETS_AVAILABLE,
-+            s->if_queue,
-+            ^(interface_event_t event_id, xpc_object_t event) {
-+                assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
-+                /*
-+                 * This function is being called from a non qemu thread, so
-+                 * we only schedule a BH, and do the rest of the io completion
-+                 * handling from vmnet_send_bh() which runs in a qemu context.
-+                 */
-+                qemu_bh_schedule(s->send_bh);
-+            });
-+    } else {
-+        vmnet_interface_set_event_callback(
-+            s->vmnet_if,
-+            VMNET_INTERFACE_PACKETS_AVAILABLE,
-+            NULL,
-+            NULL);
-+    }
-+}
- 
- int vmnet_if_create(NetClientState *nc,
-                     xpc_object_t if_desc,
-@@ -329,19 +359,9 @@ int vmnet_if_create(NetClientState *nc,
-     s->packets_send_current_pos = 0;
-     s->packets_send_end_pos = 0;
- 
--    vmnet_interface_set_event_callback(
--        s->vmnet_if,
--        VMNET_INTERFACE_PACKETS_AVAILABLE,
--        s->if_queue,
--        ^(interface_event_t event_id, xpc_object_t event) {
--            assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
--            /*
--             * This function is being called from a non qemu thread, so
--             * we only schedule a BH, and do the rest of the io completion
--             * handling from vmnet_send_bh() which runs in a qemu context.
--             */
--            qemu_bh_schedule(s->send_bh);
--        });
-+    vmnet_vm_state_change_cb(s, 1, RUN_STATE_RUNNING);
-+
-+    s->change = qemu_add_vm_change_state_handler(vmnet_vm_state_change_cb, s);
- 
-     return 0;
- }
-@@ -356,6 +376,8 @@ void vmnet_cleanup_common(NetClientState *nc)
-         return;
-     }
- 
-+    vmnet_vm_state_change_cb(s, 0, RUN_STATE_SHUTDOWN);
-+    qemu_del_vm_change_state_handler(s->change);
-     if_stopped_sem = dispatch_semaphore_create(0);
-     vmnet_stop_interface(
-         s->vmnet_if,
--- 
-2.28.0
+PGRpdj48ZGl2PkZyb206IGZhbndlbmppZSAmbHQ7ZmFud2pAbWFpbC51c3RjLmVkdS5jbiZndDs8
+L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pk9uIGxpbnV4IHVzZXIgbW9kZSwgQ1BVWDg2U3RhdGU6
+OmlkdDo6YmFzZSBhbmQgQ1BVWDg2U3RhdGU6OmdkdDo6YmFzZSBmcm9tIERpZmZlcmVudCBDUFVY
+ODZTdGF0ZSBPYmplY3RzIGhhdmUgc2FtZSB2YWx1ZSwgSXQgaXMgaW5jb3JyZWN0ISBFdmVyeSBD
+UFVYODZTdGF0ZTo6aWR0OjpiYXNlIGFuZCBFdmVyeSBDUFVYODZTdGF0ZTo6Z2R0OjpiYXNlIE11
+c3QgcG9pbnRzIHRvIGluZGVwZW5kZW50IG1lbW9yeSBzcGFjZS4mbmJzcDsmbmJzcDs8L2Rpdj48
+ZGl2Pjxicj48L2Rpdj48ZGl2PlJlc29sdmVzOiBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9q
+ZWN0L3FlbXUvLS9pc3N1ZXMvMTQwNTwvZGl2PjxkaXY+U2lnbmVkLW9mZi1ieTogZmFud2Vuamll
+ICZsdDtmYW53akBtYWlsLnVzdGMuZWR1LmNuJmd0OzwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+
+LS0tPC9kaXY+PGRpdj4mbmJzcDtsaW51eC11c2VyL2kzODYvY3B1X2xvb3AuYyB8IDEwICsrKysr
+KysrKys8L2Rpdj48ZGl2PiZuYnNwO2xpbnV4LXVzZXIvbWFpbi5jJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyB8IDExICsrKysrKysrKysrPC9kaXY+PGRpdj4mbmJzcDsyIGZpbGVz
+IGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyk8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PmRpZmYg
+LS1naXQgYS9saW51eC11c2VyL2kzODYvY3B1X2xvb3AuYyBiL2xpbnV4LXVzZXIvaTM4Ni9jcHVf
+bG9vcC5jPC9kaXY+PGRpdj5pbmRleCA4NjU0MTNjMDhmLi4xZjIzYmM1ZTNhIDEwMDY0NDwvZGl2
+PjxkaXY+LS0tIGEvbGludXgtdXNlci9pMzg2L2NwdV9sb29wLmM8L2Rpdj48ZGl2PisrKyBiL2xp
+bnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jPC9kaXY+PGRpdj5AQCAtMzE0LDggKzMxNCwxOCBAQCB2
+b2lkIGNwdV9sb29wKENQVVg4NlN0YXRlICplbnYpPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZu
+YnNwO308L2Rpdj48ZGl2PiZuYnNwO308L2Rpdj48ZGl2PiZuYnNwOzwvZGl2PjxkaXY+K3N0YXRp
+YyB2b2lkIHRhcmdldF9jcHVfZnJlZSh2b2lkICpvYmopPC9kaXY+PGRpdj4rezwvZGl2PjxkaXY+
+KyZuYnNwOyAmbmJzcDsgQ1BVQXJjaFN0YXRlKiBlbnYgPSAoKENQVVN0YXRlKilvYmopLSZndDtl
+bnZfcHRyOzwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgdGFyZ2V0X211bm1hcChlbnYtJmd0O2lk
+dC5iYXNlLCBzaXplb2YodWludDY0X3QpICogKGVudi0mZ3Q7aWR0LmxpbWl0ICsgMSkpOzwvZGl2
+PjxkaXY+KyZuYnNwOyAmbmJzcDsgdGFyZ2V0X211bm1hcChlbnYtJmd0O2dkdC5iYXNlLCBzaXpl
+b2YodWludDY0X3QpICogVEFSR0VUX0dEVF9FTlRSSUVTKTs8L2Rpdj48ZGl2PismbmJzcDsgJm5i
+c3A7IGdfZnJlZShvYmopOzwvZGl2PjxkaXY+K308L2Rpdj48ZGl2Pis8L2Rpdj48ZGl2PiZuYnNw
+O3ZvaWQgdGFyZ2V0X2NwdV9jb3B5X3JlZ3MoQ1BVQXJjaFN0YXRlICplbnYsIHN0cnVjdCB0YXJn
+ZXRfcHRfcmVncyAqcmVncyk8L2Rpdj48ZGl2PiZuYnNwO3s8L2Rpdj48ZGl2PismbmJzcDsgJm5i
+c3A7IENQVVN0YXRlKiBjcHUgPSBlbnZfY3B1KGVudik7PC9kaXY+PGRpdj4rJm5ic3A7ICZuYnNw
+OyBPQkpFQ1QoY3B1KS0mZ3Q7ZnJlZSA9IHRhcmdldF9jcHVfZnJlZTs8L2Rpdj48ZGl2PiZuYnNw
+OyAmbmJzcDsgJm5ic3A7ZW52LSZndDtjclswXSA9IENSMF9QR19NQVNLIHwgQ1IwX1dQX01BU0sg
+fCBDUjBfUEVfTUFTSzs8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgJm5ic3A7ZW52LSZndDtoZmxh
+Z3MgfD0gSEZfUEVfTUFTSyB8IEhGX0NQTF9NQVNLOzwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyAm
+bmJzcDtpZiAoZW52LSZndDtmZWF0dXJlc1tGRUFUXzFfRURYXSAmYW1wOyBDUFVJRF9TU0UpIHs8
+L2Rpdj48ZGl2PmRpZmYgLS1naXQgYS9saW51eC11c2VyL21haW4uYyBiL2xpbnV4LXVzZXIvbWFp
+bi5jPC9kaXY+PGRpdj5pbmRleCBhMTdmZWQwNDViLi4yMjc2MDQwNTQ4IDEwMDY0NDwvZGl2Pjxk
+aXY+LS0tIGEvbGludXgtdXNlci9tYWluLmM8L2Rpdj48ZGl2PisrKyBiL2xpbnV4LXVzZXIvbWFp
+bi5jPC9kaXY+PGRpdj5AQCAtMjM0LDYgKzIzNCwxNyBAQCBDUFVBcmNoU3RhdGUgKmNwdV9jb3B5
+KENQVUFyY2hTdGF0ZSAqZW52KTwvZGl2PjxkaXY+Jm5ic3A7PC9kaXY+PGRpdj4mbmJzcDsgJm5i
+c3A7ICZuYnNwO25ld19jcHUtJmd0O3RjZ19jZmxhZ3MgPSBjcHUtJmd0O3RjZ19jZmxhZ3M7PC9k
+aXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwO21lbWNweShuZXdfZW52LCBlbnYsIHNpemVvZihD
+UFVBcmNoU3RhdGUpKTs8L2Rpdj48ZGl2PisjaWYgZGVmaW5lZChUQVJHRVRfSTM4NikgfHwgZGVm
+aW5lZChUQVJHRVRfWDg2XzY0KTwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgbmV3X2Vudi0mZ3Q7
+Z2R0LmJhc2UgPSB0YXJnZXRfbW1hcCgwLCBzaXplb2YodWludDY0X3QpICogVEFSR0VUX0dEVF9F
+TlRSSUVTLDwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IFBST1RfUkVBRHxQUk9UX1dSSVRFLDwvZGl2
+PjxkaXY+KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7IE1BUF9BTk9OWU1PVVN8TUFQX1BSSVZBVEUsIC0xLCAwKTs8L2Rp
+dj48ZGl2PismbmJzcDsgJm5ic3A7IG5ld19lbnYtJmd0O2lkdC5iYXNlID0gdGFyZ2V0X21tYXAo
+MCwgc2l6ZW9mKHVpbnQ2NF90KSAqIChlbnYtJmd0O2lkdC5saW1pdCArIDEpLDwvZGl2PjxkaXY+
+KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBQ
+Uk9UX1JFQUR8UFJPVF9XUklURSw8L2Rpdj48ZGl2PismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgTUFQX0FOT05ZTU9VU3xNQVBfUFJJVkFURSwg
+LTEsIDApOzwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgbWVtY3B5KCh2b2lkKiluZXdfZW52LSZn
+dDtnZHQuYmFzZSwgKHZvaWQqKWVudi0mZ3Q7Z2R0LmJhc2UsIHNpemVvZih1aW50NjRfdCkgKiBU
+QVJHRVRfR0RUX0VOVFJJRVMpOzwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgbWVtY3B5KCh2b2lk
+KiluZXdfZW52LSZndDtpZHQuYmFzZSwgKHZvaWQqKWVudi0mZ3Q7aWR0LmJhc2UsIHNpemVvZih1
+aW50NjRfdCkgKiAoZW52LSZndDtpZHQubGltaXQgKyAxKSk7PC9kaXY+PGRpdj4rJm5ic3A7ICZu
+YnNwOyBPQkpFQ1QobmV3X2NwdSktJmd0O2ZyZWUgPSBPQkpFQ1QoY3B1KS0mZ3Q7ZnJlZTs8L2Rp
+dj48ZGl2PisjZW5kaWY8L2Rpdj48ZGl2PiZuYnNwOzwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyAm
+bmJzcDsvKiBDbG9uZSBhbGwgYnJlYWsvd2F0Y2hwb2ludHMuPC9kaXY+PGRpdj4mbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgTm90ZTogT25jZSB3ZSBzdXBwb3J0IHB0cmFjZSB3aXRoIGh3LWRl
+YnVnIHJlZ2lzdGVyIGFjY2VzcywgbWFrZSBzdXJlPC9kaXY+PGRpdj4tLSZuYnNwOzwvZGl2Pjxk
+aXY+Mi4zNC4xPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PC9kaXY+
+------=_Part_458889_429345013.1672628785236--
 
 
