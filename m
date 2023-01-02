@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7484865AFBB
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 11:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F2065B022
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 11:57:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCII0-0005rp-Oz; Mon, 02 Jan 2023 05:43:32 -0500
+	id 1pCITl-000879-Pf; Mon, 02 Jan 2023 05:55:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pCIHx-0005qL-Ep
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 05:43:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCITg-00086t-EL
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 05:55:36 -0500
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pCIHu-0001CO-Cp
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 05:43:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672656204;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5Gb3OBv8zRiDBF1PQdnBMksTrMqPnuXK+MHQAwH1Tts=;
- b=KSqKNS41H8GlVesN+10P5hpUyAmfVuIXM11uBRLndquzNh9R1P04mDf/8c6+Iu5N/JN1e0
- VTpUb7N0WZNIQJ2Ub13pcZzlhB/8acyy/YL0CQO4UrCmyEr8IPqnmxeM8q598jdFjsGLWK
- WJ8KA9iiM5AaGuqxbtmxd7UZPKmFv+U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-xPom7NgyO4ywvJgKbM2qeA-1; Mon, 02 Jan 2023 05:43:23 -0500
-X-MC-Unique: xPom7NgyO4ywvJgKbM2qeA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53A7E18E0921;
- Mon,  2 Jan 2023 10:43:23 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.238])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E14D22026D4B;
- Mon,  2 Jan 2023 10:43:22 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 99CD018003B9; Mon,  2 Jan 2023 11:43:21 +0100 (CET)
-Date: Mon, 2 Jan 2023 11:43:21 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Minglei Liu <minglei.liu@smartx.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] usbredir: Do not detach usb if backend chardev disconnect
-Message-ID: <20230102104321.4exv2ktr2cu2c7th@sirius.home.kraxel.org>
-References: <20221109115619.696826-1-minglei.liu@smartx.com>
- <CAP-5UDvpgzQ32fdvTk5t95L+KZh84DonUeRygbAobmjUh8JwVg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCITb-00031Q-D0
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 05:55:33 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.180])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2936A226A4;
+ Mon,  2 Jan 2023 10:55:25 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 2 Jan
+ 2023 11:55:24 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001321a1e2b-7ee1-4754-b4b9-dbed5726f8e6,
+ EB6D15DD045C308F841A27F8E66F545441276E15) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <8407bb7d-2297-058f-4ef3-d490ba85f985@kaod.org>
+Date: Mon, 2 Jan 2023 11:55:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 0/9] hw/arm/aspeed_ast10x0: Map more peripherals & few
+ more fixes
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-devel@nongnu.org>
+CC: Steven Lee <steven_lee@aspeedtech.com>, Peter Delevoryas <peter@pjd.dev>, 
+ Peter Delevoryas <pdel@meta.com>, <qemu-arm@nongnu.org>, Cleber Rosa
+ <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal
+ <bleal@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Troy
+ Lee <troy_lee@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
+ <joel@jms.id.au>, Peter Delevoryas <pdel@fb.com>, Jamin Lin
+ <jamin_lin@aspeedtech.com>
+References: <20221229152325.32041-1-philmd@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221229152325.32041-1-philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAP-5UDvpgzQ32fdvTk5t95L+KZh84DonUeRygbAobmjUh8JwVg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 83c2233d-2ca0-48d9-ba57-f60e5705adda
+X-Ovh-Tracer-Id: 13266760081395911553
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgddvudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleehhfdufeeuveejteduleeitdegvdekfedtffegkeekkedvteegudehtdejgfdtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpshhtvghvvghnpghlvggvsegrshhpvggvughtvggthhdrtghomhdpphgvthgvrhesphhjugdruggvvhdpphguvghlsehmvghtrgdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdptghrohhsrgesrhgvughhrghtrdgtohhmpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdroh
+ hrghdpsghlvggrlhesrhgvughhrghtrdgtohhmpdifrghinhgvrhhsmhesrhgvughhrghtrdgtohhmpdhtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhmpdgrnhgurhgvfiesrghjrdhiugdrrghupdhjohgvlhesjhhmshdrihgurdgruhdpphguvghlsehfsgdrtghomhdpjhgrmhhinhgplhhinhesrghsphgvvgguthgvtghhrdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.802,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,31 +81,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 22, 2022 at 09:21:25PM +0800, Minglei Liu wrote:
-> ping !
-> please review this patch : [PATCH] usbredir: Do not detach usb if backend
-> chardev disconnect - minglei.liu (kernel.org)
-> <https://lore.kernel.org/qemu-devel/20221109115619.696826-1-minglei.liu@smartx.com/>
+On 12/29/22 16:23, Philippe Mathieu-Daudé wrote:
+> Trying to fix some bugs triggered running Zephyr.
 > 
-> minglei.liu <minglei.liu@smartx.com> 于2022年11月9日周三 19:56写道：
+> Still 2 bugs:
 > 
-> > If the network between qemu and usbredirserver is temporarily disconnected,
-> > the USB device in the VM will be unplugged. If the reconnect parameter is
-> > configured for the backend chardev, the device will be reconnected later.
-> > But from the inside of the VM, this USB device has experienced unplug and
-> > re-plug, if the USB storage device has been mounted in the VM before,
-> > the drive letter will change after the device is re-plugged.
-> >
-> > So in this case, we no longer unplug the device, and operations to the USB
-> > is returned immediately at this point.
+> 1/
+> uart:~$ sensor get SYSCLK
+> [00:00:23.592,000] <err> os: ***** USAGE FAULT *****
+> [00:00:23.593,000] <err> os:   Illegal use of the EPSR
+> [00:00:23.593,000] <err> os: r0/a1:  0x00033448  r1/a2:  0x00000000  r2/a3:  0x00047f50
+> [00:00:23.593,000] <err> os: r3/a4:  0x00000000 r12/ip:  0x00000000 r14/lr:  0x00000fbd
+> [00:00:23.593,000] <err> os:  xpsr:  0x60000000
+> [00:00:23.593,000] <err> os: Faulting instruction address (r15/pc): 0x00000000
+> [00:00:23.593,000] <err> os: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0
+> [00:00:23.594,000] <err> os: Current thread: 0x38248 (shell_uart)
+> [00:00:23.601,000] <err> os: Halting system
+> 
+> 2/
+> uart:~$ mcuboot
+> [00:01:04.990,000] <err> os: ***** BUS FAULT *****
+> [00:01:04.990,000] <err> os:   Instruction bus error
+> [00:01:04.991,000] <err> os: r0/a1:  0x00000000  r1/a2:  0x000ffff0  r2/a3:  0x00047ef0
+> [00:01:04.991,000] <err> os: r3/a4:  0x00000010 r12/ip:  0x6df7ecb5 r14/lr:  0x000188ed
+> [00:01:04.991,000] <err> os:  xpsr:  0x61000000
+> [00:01:04.991,000] <err> os: Faulting instruction address (r15/pc): 0x6df7ecb4
+> [00:01:04.991,000] <err> os: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0
+> [00:01:04.991,000] <err> os: Current thread: 0x38248 (shell_uart)
+> [00:01:04.994,000] <err> os: Halting system
+> 
+> ----------------
+> IN:
+> PMSA MPU lookup for reading at 0x0001d400 mmu_idx 65 -> Hit (prot rwx)
+> 0x0001d5a2:  6869       ldr      r1, [r5, #4]
+> 0x0001d5a4:  4421       add      r1, r4
+> 0x0001d5a6:  6883       ldr      r3, [r0, #8]
+> 0x0001d5a8:  681c       ldr      r4, [r3]
+> 0x0001d5aa:  463a       mov      r2, r7
+> 0x0001d5ac:  4633       mov      r3, r6
+> 0x0001d5ae:  46a4       mov      ip, r4
+> 0x0001d5b0:  e8bd 41f0  pop.w    {r4, r5, r6, r7, r8, lr}
+> 0x0001d5b4:  4760       bx       ip
+> 
+> PMSA MPU lookup for reading at 0x00000008 mmu_idx 65 -> Hit (prot rwx)
+> PMSA MPU lookup for execute at 0x6df7ecb4 mmu_idx 65 -> Hit (prot rwx)
+> Taking exception 3 [Prefetch Abort] on CPU 0
+> ...at fault address 0x6df7ecb4
+> ...with CFSR.IBUSERR
+> PMSA MPU lookup for writing at 0x00047ec8 mmu_idx 65 -> Hit (prot rwx)
+> PMSA MPU lookup for writing at 0x00047ecc mmu_idx 65 -> Hit (prot rwx)
+> PMSA MPU lookup for writing at 0x00047ed0 mmu_idx 65 -> Hit (prot rwx)
+> PMSA MPU lookup for writing at 0x00047ed4 mmu_idx 65 -> Hit (prot rwx)
+> PMSA MPU lookup for writing at 0x00047ed8 mmu_idx 65 -> Hit (prot rwx)
+> PMSA MPU lookup for writing at 0x00047edc mmu_idx 65 -> Hit (prot rwx)
+> PMSA MPU lookup for writing at 0x00047ee0 mmu_idx 65 -> Hit (prot rwx)
+> PMSA MPU lookup for writing at 0x00047ee4 mmu_idx 65 -> Hit (prot rwx)
+> ...taking pending nonsecure exception 5
+> ...loading from element 5 of non-secure vector table at 0x14
+> ...loaded new PC 0xa0cd
+> ----------------
+> 
+> HACE isn't really functional there. I probably screwed smth while wiring
+> the peripheral. Not obvious without access to the datasheet.
 
-If you are lucky, and it also depends on the kind of device.
+The HACE logic is quite complex and the model might be a bit fragile for some
+modes. I think accumulation still has some problems.
 
-I don't think this is a safe thing to do in general.  You just don't
-know what state the usb device is in when you are re-connecting, and
-you also don't know whenever a re-connect will ever happen.
+Here are drivers for it :
 
-take care,
-  Gerd
+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/crypto/aspeed
+   https://github.com/openbmc/u-boot/blob/v2019.04-aspeed-openbmc/drivers/crypto/aspeed_hace_v1.c
+   https://github.com/openbmc/u-boot/blob/v2019.04-aspeed-openbmc/drivers/crypto/aspeed_hace.c
+
+Thanks,
+
+C.
+
+> 
+> Philippe Mathieu-Daudé (9):
+>    hw/watchdog/wdt_aspeed: Map the whole MMIO range
+>    hw/arm/aspeed: Use the IEC binary prefix definitions
+>    hw/arm/aspeed_ast10x0: Add various unimplemented peripherals
+>    hw/arm/aspeed_ast10x0: Map I3C peripheral
+>    hw/arm/aspeed_ast10x0: Map the secure SRAM
+>    hw/arm/aspeed_ast10x0: Map HACE peripheral
+>    hw/misc/aspeed_hace: Do not crash if address_space_map() failed
+>    hw/arm/aspeed_ast10x0: Add TODO comment to use Cortex-M4F
+>    tests/avocado: Test Aspeed Zephyr SDK v00.01.08 on AST1030 board
+> 
+>   hw/arm/aspeed_ast10x0.c          | 84 ++++++++++++++++++++++++++++++--
+>   hw/arm/aspeed_ast2600.c          |  5 +-
+>   hw/arm/aspeed_soc.c              |  6 +--
+>   hw/misc/aspeed_hace.c            | 21 +++++---
+>   hw/watchdog/wdt_aspeed.c         | 12 +++--
+>   include/hw/arm/aspeed_soc.h      | 14 ++++++
+>   include/hw/watchdog/wdt_aspeed.h |  2 +-
+>   tests/avocado/machine_aspeed.py  | 41 +++++++++++++++-
+>   8 files changed, 163 insertions(+), 22 deletions(-)
+> 
 
 
