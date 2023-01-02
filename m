@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5802A65B5FC
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 18:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DC865B60A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 18:43:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCOiw-0003xJ-LZ; Mon, 02 Jan 2023 12:35:46 -0500
+	id 1pCOpD-000603-Ms; Mon, 02 Jan 2023 12:42:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pCOit-0003wp-IO
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 12:35:43 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pCOir-0003Pk-QR
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 12:35:43 -0500
-Received: by mail-pl1-x634.google.com with SMTP id m4so30141577pls.4
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 09:35:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PG6Q93jXC3GYEY6lXhg4G/uyo4HR9OHX8753AsgnmWc=;
- b=R9WSLs0BPNSBUGUjj9vsXzOFgioEtl0WquHqzcCyC1sZKlid0uxnywwETgyyOOKEZX
- NZ4dnD5+cKC6g5A+WJS5B95CL/tCXZ8t3EYO56HHfxvZ32PadcoSxgt115vulswULt+4
- ThdaHl2ytvU3ZlpO2gFIb10qQClfD1e5KNdiw8g80C80YSXHoIixY4wMLd6tUh9SOBoj
- paPeKZOY+6UKRDx5kt2fSMZprnsC+Md9HKo+lLVExGOWQR4+clkdTMlia79rciDTvwzW
- QhYgeoeQdKGhhM9oGIvRFL+XzKE26xGqpbv1OCWIqJzxTnATJHkDYgMwDLs29p5k9ec7
- 9ABw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PG6Q93jXC3GYEY6lXhg4G/uyo4HR9OHX8753AsgnmWc=;
- b=fqPNJ76HYIaRcdRcu56EFXYJeuL806vBPjlsSKvguyxvFimjzBwhqSkU8fS0N7YK5T
- FCOeRQAyWXPL+GQ/99jmi4IC7lnkMpj92DYQdFC2jCxeGZWCNCfL7QycTYJJvOim3rp1
- CMpOFJPRjIgZKy8PDGkqZIBg3e2V9tsmpX+KnL8i4z8XqpVupj10AIPlri6ZVVLvBPnY
- BC6rStpCEwQQG0I9yuUx+Ut/WnSDqHlyUbkMG/kJaZ9P/2VbqgkmtM4jDfY0pkP8E8bU
- 5DhACKh2T4CppncrN4dzUG5c5sjwAIQ3qRp176HdowYWXaF7JBa2+wZkyHCeVQjTPNVL
- RuAw==
-X-Gm-Message-State: AFqh2krfFD2Cm75Agbv69YTAmliKjosYgsbZYIoWKNpjRQ1b7jdUC5x/
- RvTWYUAAFW/PkrU6ZZosgzZcfg==
-X-Google-Smtp-Source: AMrXdXs6Jnyl5yrRIMf/zbgkQZuhku4FiXNFnsJ5y+zjKR8C8fGQJiMqfdwejy0dBJwnJnHn19DYmw==
-X-Received: by 2002:a17:902:74ca:b0:186:af3d:dd6e with SMTP id
- f10-20020a17090274ca00b00186af3ddd6emr46226754plt.21.1672680938985; 
- Mon, 02 Jan 2023 09:35:38 -0800 (PST)
-Received: from ?IPV6:2601:1c0:5e81:b50:3bef:a25b:134f:781f?
- ([2601:1c0:5e81:b50:3bef:a25b:134f:781f])
- by smtp.gmail.com with ESMTPSA id
- z7-20020a170902d54700b00189e1522982sm9737737plf.168.2023.01.02.09.35.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Jan 2023 09:35:38 -0800 (PST)
-Message-ID: <06c9ed84-22f3-a423-52be-4e006f20cffc@linaro.org>
-Date: Mon, 2 Jan 2023 09:35:36 -0800
+ (Exim 4.90_1) (envelope-from <michael@walle.cc>)
+ id 1pCOpC-0005zj-1E; Mon, 02 Jan 2023 12:42:14 -0500
+Received: from 0001.3ffe.de ([2a01:4f8:c0c:9d57::1] helo=mail.3ffe.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <michael@walle.cc>)
+ id 1pCOp9-0004R6-GB; Mon, 02 Jan 2023 12:42:13 -0500
+Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.3ffe.de (Postfix) with ESMTPSA id D19FA89;
+ Mon,  2 Jan 2023 18:42:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2022082101; t=1672681323;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dAGldSwepF42UzBG1Yyku7wbbLVWS4S2qU8HG6n+MBA=;
+ b=i3DsUX6pObo3B6Zoma9Xg8uWoIDb1nncc2938aKTtbFbBwrSP1hUktqS89FYnGpKsvK9Q+
+ uyGUxf4FM/TyrG42uu0BbCHuftqjZjF0Vo0cPnwkLhzRV/i0+FqBmpIH66Fo5HFJ1W5Kxd
+ qWzdJzn2MpLkHYlL2DySOsXryXc+ptJgxnAulWQL8sjuttpDbnCtJmQppGKUAwXeXyPkTk
+ Ree4Zq+1RWWjY2AEriRzEvpy7qysIXr7mqs5Cn5RgKcdC0alUdnn3mmEpjyXqkOd2gWFMQ
+ XW5Vg2weOfrf2SHET1ybmeCqlyiCOo53T86ZPbGcv/NU/Lb5s+0+2DUdnrNLHw==
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 2/4] target/m68k: pass sign directly into make_quotient()
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20230101144339.60307-1-mark.cave-ayland@ilande.co.uk>
- <20230101144339.60307-3-mark.cave-ayland@ilande.co.uk>
- <0e418e12-2738-133e-e212-7c7dbbc241c8@vivier.eu>
- <8d716112-ea5b-d294-55bd-61798f12648b@linaro.org>
- <004c686f-b5ed-be4f-087d-2736bedd57b9@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <004c686f-b5ed-be4f-087d-2736bedd57b9@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Date: Mon, 02 Jan 2023 18:42:03 +0100
+From: Michael Walle <michael@walle.cc>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, Tudor Ambarus
+ <tudor.ambarus@linaro.org>, Ben Dooks <ben@fluff.org>, Alistair Francis
+ <alistair@alistair23.me>, Kevin Wolf <kwolf@redhat.com>, Hanna Reitz
+ <hreitz@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] m25p80: Add the is25wp256 SFPD table
+In-Reply-To: <20230102162308.GA1138622@roeck-us.net>
+References: <20221221122213.1458540-1-linux@roeck-us.net>
+ <2236d0ee-4fc6-5e2c-95b4-f97639e0955b@kaod.org>
+ <20221225121850.4bjnskmlhsot54cf@hetzy.fluff.org>
+ <b00bb842-a9e6-fa5c-94d9-876c241be600@linaro.org>
+ <c1f5c868-0006-bb28-af88-eddc5543068e@kaod.org>
+ <3044e0c174268312d0323d8f9ad43c68@walle.cc>
+ <20230102162308.GA1138622@roeck-us.net>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <50d8282e95bde199ad60411ddfa9b373@walle.cc>
+X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.142,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a01:4f8:c0c:9d57::1;
+ envelope-from=michael@walle.cc; helo=mail.3ffe.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,24 +80,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/2/23 02:10, Mark Cave-Ayland wrote:
->>> I think you need an "abs(floatx80_to_int32())" in both cases as you do in PATCH 4
->>
->> Or in fact
->>
->>      sign = extractFloatx80Sign(res);
->>      quot = floatx80_to_int32(floatx80_abs(res->d), status);
->>      make_quotient(env, sign, quot);
-> 
-> Thanks for the suggestion. Just out of curiosity, how does moving the abs to before the 
-> integer conversion make a difference here? Is it because floatx80_to_int32() can fail in 
-> some circumstances because of the sign of the result?
+Am 2023-01-02 17:23, schrieb Guenter Roeck:
+> On Mon, Jan 02, 2023 at 04:43:49PM +0100, Michael Walle wrote:
+>> Am 2023-01-02 14:53, schrieb Cédric Le Goater:
+>> > On 12/27/22 07:31, Tudor Ambarus wrote:
+>> > >
+>> > >
+>> > > On 25.12.2022 14:18, Ben Dooks wrote:
+>> > > > On Wed, Dec 21, 2022 at 06:36:02PM +0100, Cédric Le Goater wrote:
+>> > > > > On 12/21/22 13:22, Guenter Roeck wrote:
+>> > > > > > Generated from hardware using the following command and
+>> > > > > > then padding
+>> > > > > > with 0xff to fill out a power-of-2:
+>> > > > > >     xxd -p /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
+>> > > > > >
+>> > > > > > Cc: Michael Walle <michael@walle.cc>
+>> > > > > > Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
+>> > > > > > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>> > > > >
+>> > > > > Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>> > > >
+>> > > > If SFDP is a standard, couldn't we have an function to generate
+>> > > > it from
+>> > > > the flash parameters?
+>> > > >
+>> > >
+>> > > No, it's not practical as you have to specify all the flash parameters
+>> > > at flash declaration.
+>> >
+>> > Indeed and the definition of flash models in QEMU is far to cover all
+>> > the SFDP
+>> > features. The known_devices array of m25p80 would be huge ! However, we
+>> > could
+>> > generate some of the SFDP tables if no raw data is provided. It could be
+>> > useful
+>> > for testing drivers.
+>> 
+>> I don't think adding (incomplete) SFDP tables makes sense for any real
+>> devices. E.g. sometimes our linux driver will look at specific bits in
+>> SFDP to figure out what particular flash device is attached. For 
+>> example
+>> when there are different flashes with the same jedec id.
+>> 
+>> But since the last released kernel, we support a generic SFDP driver, 
+>> which
+>> is used when there is no matching driver for the flash's jedec id.
+>> Theoretically, you can build your own flash device (with a unique id) 
+>> and
+>> generate the sfdp tables for that one.
+>> 
+> How about older kernels versions ? Would those still support such 
+> (virtual ?)
+> flash devices ?
 
-It's a simple and operation on floats, instead of cmp+cmov on integers.
+No with older kernels you'd be out of luck. They will just print 
+"unknown flash
+id" and skip the device.
 
-I think it's a touch clearer as well, having just saved the fp sign, you discard it before 
-moving on to the next thing.
-
-
-r~
+-michael
 
