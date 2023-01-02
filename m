@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AE265B336
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 15:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF1365B37E
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 15:46:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCLU1-0003LU-Gf; Mon, 02 Jan 2023 09:08:10 -0500
+	id 1pCM3O-0000k2-7R; Mon, 02 Jan 2023 09:44:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCLTy-0003L3-Nu
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 09:08:06 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137])
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pCM3H-0000jW-K9
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 09:44:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCLTw-0003wp-7l
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 09:08:06 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.170])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CE1272054B;
- Mon,  2 Jan 2023 14:08:00 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 2 Jan
- 2023 15:08:00 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R0047daa91a4-7661-4660-b80a-1a15cbe774d9,
- EB6D15DD045C308F841A27F8E66F545441276E15) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <4a7c4d8d-ce68-9aae-a1be-9ea33313bbde@kaod.org>
-Date: Mon, 2 Jan 2023 15:07:54 +0100
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1pCM36-0001iP-1a
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 09:44:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672670662;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wO1z84+XEn3E7xKmLXcNMsvlf6CkK4s9VZgibUAdOUM=;
+ b=Jl6qFb51bkoeuu3eLqMZDwydT8d7XOgrOzTqzMIU6oS22I/tXPxiEB9YOZuJ4Tl/XmVDU6
+ qDQ2r79cIissvfUR7yG5rD9eFR+rT4idxHcpecP/dOmb0vvEW/kc6EEOhY51MozPhZqFZH
+ cBwTT784+28m84MDcHOMz6M+ukakrGA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-662-6MkKB1tRMESDZW6DlaXFDw-1; Mon, 02 Jan 2023 09:44:21 -0500
+X-MC-Unique: 6MkKB1tRMESDZW6DlaXFDw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ q10-20020a056402518a00b0048e5bc8cb74so1465802edd.5
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 06:44:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wO1z84+XEn3E7xKmLXcNMsvlf6CkK4s9VZgibUAdOUM=;
+ b=BL3jNSJ5mCDPiuNQAp3S77qj550PknhSTRg2oaNpISRS4SNTIfxRny/iefH+AnUSg9
+ lyYuCHk4edIEOmfYaclO1sK0HUxZB8cjlJF02ObrrliALGoiKNYTfbNKSiNfJ2b5Whzh
+ cCQtdZWRFiAaiFML2oxE3fIkIoLtvDbFHyMOCiSBO4O8Nqn413Osj3N3HF8gipaCc2GX
+ uEt96Hbgloerv7jU3alAPa0juzXZzhCiZBzspvCMoHzeX34S6v4uhlqSkcvVApMQ1qrB
+ zqlGOz74+6DCFycV5o/FAzFWK3JfQ75HDcE7+swLn3oTEzHpH3mx6puZUjRf/4aIlsRD
+ wCow==
+X-Gm-Message-State: AFqh2kpsl49mOHROGRsh2eVoLmVY+20x/BiUQW68hQWosBW/FHfxNEhS
+ dk+n9Hjj4d2rz6V7TO26S3tYLttuq8i3iGYQS/hZgFe0GgOKRjEl3OFLiR4dIv68tNPwuhD/OGO
+ KENYkFX80jyrVvcLVvyAIzNWaAI9pjKk=
+X-Received: by 2002:a17:907:1a56:b0:79a:101a:7e57 with SMTP id
+ mf22-20020a1709071a5600b0079a101a7e57mr4314350ejc.368.1672670658947; 
+ Mon, 02 Jan 2023 06:44:18 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuWiaXne48Rj/aljKxcR24fO9zgfGFGaaqsQraDAzVrlAT6e8SWdDoUydybkdRmkophAUUs5+4rW0+mHcM/riA=
+X-Received: by 2002:a17:907:1a56:b0:79a:101a:7e57 with SMTP id
+ mf22-20020a1709071a5600b0079a101a7e57mr4314347ejc.368.1672670658678; Mon, 02
+ Jan 2023 06:44:18 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 09/11] hw/arm/aspeed_ast10x0: Map HACE peripheral
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- <qemu-devel@nongnu.org>
-CC: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>, Beraldo
- Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Wainer dos
- Santos Moschetta <wainersm@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, Peter Delevoryas
- <peter@pjd.dev>, Steven Lee <steven_lee@aspeedtech.com>, Jamin Lin
- <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>, Peter Delevoryas
- <pdel@meta.com>, <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>
-References: <20221230113504.37032-1-philmd@linaro.org>
- <20221230113504.37032-10-philmd@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221230113504.37032-10-philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 45e1f2e7-a116-4550-b896-0f863c17557a
-X-Ovh-Tracer-Id: 16519203434175433604
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfefgkeetkeegleehueejgefhteekteelieduueffkeetgfekheeuffehveevkeejnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpjhhovghlsehjmhhsrdhiugdrrghupdhtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhmpdgslhgvrghlsehrvgguhhgrthdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdifrghinhgvrhhsmhesrhgvughhrghtrdgtohhmpdgrnhgurhgvfiesrghjrdhiugdrrghupdgthhhinhdqth
- hinhhgpghkuhhosegrshhpvggvughtvggthhdrtghomhdpphgvthgvrhesphhjugdruggvvhdpshhtvghvvghnpghlvggvsegrshhpvggvughtvggthhdrtghomhdpjhgrmhhinhgplhhinhesrghsphgvvgguthgvtghhrdgtohhmpdhpuggvlhesfhgsrdgtohhmpdhpuggvlhesmhgvthgrrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdgtrhhoshgrsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.142,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221114132206.97081-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20221114132206.97081-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 2 Jan 2023 18:44:07 +0400
+Message-ID: <CAMxuvazM5mRz4R9dRJTp6P0tdqTvsoHGaxdznZ-DsH_mQ=OaPQ@mail.gmail.com>
+Subject: Re: [PATCH] ccid-card-emulated: fix cast warning
+To: qemu-devel@nongnu.org
+Cc: kraxel@redhat.com
+Content-Type: multipart/alternative; boundary="0000000000006febd105f148fc20"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,156 +91,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/30/22 12:35, Philippe Mathieu-Daudé wrote:
-> Since I don't have access to the datasheet, the relevant
-> values were found in:
-> https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
-> 
-> Before on Zephyr:
-> 
->    uart:~$ hash test
->    sha256_test
->    tv[0]:hash_final error
->    sha384_test
->    tv[0]:hash_final error
->    sha512_test
->    tv[0]:hash_final error
->    [00:00:06.278,000] <err> hace_global: HACE poll timeout
->    [00:00:09.324,000] <err> hace_global: HACE poll timeout
->    [00:00:12.261,000] <err> hace_global: HACE poll timeout
-> 
->    uart:~$ crypto aes256_cbc_vault
->    aes256_cbc vault key 1
->    [00:00:06.699,000] <inf> hace_global: aspeed_crypto_session_setup
->    [00:00:06.699,000] <inf> hace_global: data->cmd: 1c2098
->    [00:00:06.699,000] <inf> hace_global: crypto_data_src: 93340
->    [00:00:06.699,000] <inf> hace_global: crypto_data_dst: 93348
->    [00:00:06.699,000] <inf> hace_global: crypto_ctx_base: 93300
->    [00:00:06.699,000] <inf> hace_global: crypto_data_len: 80000040
->    [00:00:06.699,000] <inf> hace_global: crypto_cmd_reg:  11c2098
->    [00:00:09.743,000] <inf> hace_global: HACE_STS: 0
->    [00:00:09.743,000] <err> hace_global: HACE poll timeout
->    [00:00:09.743,000] <err> crypto: CBC mode ENCRYPT - Failed
->    [00:00:09.743,000] <inf> hace_global: aspeed_crypto_session_free
->    uart:~$
-> 
-> After:
-> 
->    uart:~$ hash test
->    sha256_test
->    tv[0]:PASS
->    tv[1]:PASS
->    tv[2]:PASS
->    tv[3]:PASS
->    tv[4]:PASS
->    sha384_test
->    tv[0]:PASS
->    tv[1]:PASS
->    tv[2]:PASS
->    tv[3]:PASS
->    tv[4]:PASS
->    tv[5]:PASS
->    sha512_test
->    tv[0]:PASS
->    tv[1]:PASS
->    tv[2]:PASS
->    tv[3]:PASS
->    tv[4]:PASS
->    tv[5]:PASS
-> 
->    uart:~$ crypto aes256_cbc_vault
->    aes256_cbc vault key 1
->    Was waiting for:
->    6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a
->    ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51
->    30 c8 1c 46 a3 5c e4 11 e5 fb c1 19 1a 0a 52 ef
->    f6 9f 24 45 df 4f 9b 17 ad 2b 41 7b e6 6c 37 10
-> 
->     But got:
->    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+--0000000000006febd105f148fc20
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think the HACE model only supports hash for now.
+On Mon, Nov 14, 2022 at 5:22 PM <marcandre.lureau@redhat.com> wrote:
 
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> ../hw/usb/ccid-card-emulated.c: In function 'handle_apdu_thread':
+> ../hw/usb/ccid-card-emulated.c:251:24: error: cast from pointer to intege=
+r
+> of different size [-Werror=3Dpointer-to-int-cast]
+>   251 |                 assert((unsigned long)event > 1000);
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
 
-> 
->    [00:00:05.771,000] <inf> hace_global: aspeed_crypto_session_setup
->    [00:00:05.772,000] <inf> hace_global: data->cmd: 1c2098
->    [00:00:05.772,000] <inf> hace_global: crypto_data_src: 93340
->    [00:00:05.772,000] <inf> hace_global: crypto_data_dst: 93348
->    [00:00:05.772,000] <inf> hace_global: crypto_ctx_base: 93300
->    [00:00:05.772,000] <inf> hace_global: crypto_data_len: 80000040
->    [00:00:05.772,000] <inf> hace_global: crypto_cmd_reg:  11c2098
->    [00:00:05.772,000] <inf> hace_global: HACE_STS: 1000
->    [00:00:05.772,000] <inf> crypto: Output length (encryption): 80
->    [00:00:05.772,000] <inf> hace_global: aspeed_crypto_session_free
->    [00:00:05.772,000] <inf> hace_global: aspeed_crypto_session_setup
->    [00:00:05.772,000] <inf> hace_global: data->cmd: 1c2018
->    [00:00:05.772,000] <inf> hace_global: crypto_data_src: 93340
->    [00:00:05.772,000] <inf> hace_global: crypto_data_dst: 93348
->    [00:00:05.772,000] <inf> hace_global: crypto_ctx_base: 93300
->    [00:00:05.772,000] <inf> hace_global: crypto_data_len: 80000040
->    [00:00:05.772,000] <inf> hace_global: crypto_cmd_reg:  11c2018
->    [00:00:05.772,000] <inf> hace_global: HACE_STS: 1000
->    [00:00:05.772,000] <inf> crypto: Output length (decryption): 64
->    [00:00:05.772,000] <err> crypto: CBC mode DECRYPT - Mismatch between plaintext and decrypted cipher text
->    [00:00:05.774,000] <inf> hace_global: aspeed_crypto_session_free
->    uart:~$
-> 
-> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+ping
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
 
 > ---
->   hw/arm/aspeed_ast10x0.c | 15 +++++++++++++++
->   1 file changed, 15 insertions(+)
-> 
-> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-> index e74e2660ce..7a7443a95b 100644
-> --- a/hw/arm/aspeed_ast10x0.c
-> +++ b/hw/arm/aspeed_ast10x0.c
-> @@ -29,6 +29,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
->       [ASPEED_DEV_SPI1]      = 0x7E630000,
->       [ASPEED_DEV_SPI2]      = 0x7E640000,
->       [ASPEED_DEV_UDC]       = 0x7E6A2000,
-> +    [ASPEED_DEV_HACE]      = 0x7E6D0000,
->       [ASPEED_DEV_SCU]       = 0x7E6E2000,
->       [ASPEED_DEV_JTAG0]     = 0x7E6E4000,
->       [ASPEED_DEV_JTAG1]     = 0x7E6E4100,
-> @@ -166,6 +167,9 @@ static void aspeed_soc_ast1030_init(Object *obj)
->       snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
->       object_initialize_child(obj, "gpio", &s->gpio, typename);
->   
-> +    snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
-> +    object_initialize_child(obj, "hace", &s->hace, typename);
-> +
->       object_initialize_child(obj, "iomem", &s->iomem, TYPE_UNIMPLEMENTED_DEVICE);
->       object_initialize_child(obj, "sbc-unimplemented", &s->sbc_unimplemented,
->                               TYPE_UNIMPLEMENTED_DEVICE);
-> @@ -359,6 +363,17 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
->       }
->       aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->sbc), 0, sc->memmap[ASPEED_DEV_SBC]);
->   
-> +    /* HACE */
-> +    object_property_set_link(OBJECT(&s->hace), "dram", OBJECT(&s->sram),
-> +                             &error_abort);
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->hace), errp)) {
-> +        return;
-> +    }
-> +    aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->hace), 0,
-> +                    sc->memmap[ASPEED_DEV_HACE]);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
-> +                       aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
-> +
->       /* Watch dog */
->       for (i = 0; i < sc->wdts_num; i++) {
->           AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
+>  hw/usb/ccid-card-emulated.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
+> index ee41a81801..c328660075 100644
+> --- a/hw/usb/ccid-card-emulated.c
+> +++ b/hw/usb/ccid-card-emulated.c
+> @@ -248,7 +248,7 @@ static void *handle_apdu_thread(void* arg)
+>          WITH_QEMU_LOCK_GUARD(&card->vreader_mutex) {
+>              while (!QSIMPLEQ_EMPTY(&card->guest_apdu_list)) {
+>                  event =3D QSIMPLEQ_FIRST(&card->guest_apdu_list);
+> -                assert((unsigned long)event > 1000);
+> +                assert(event !=3D NULL);
+>                  QSIMPLEQ_REMOVE_HEAD(&card->guest_apdu_list, entry);
+>                  if (event->p.data.type !=3D EMUL_GUEST_APDU) {
+>                      DPRINTF(card, 1, "unexpected message in
+> handle_apdu_thread\n");
+> --
+> 2.38.1
+>
+>
+
+--0000000000006febd105f148fc20
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 14, 2022 at 5:22 PM &lt;<=
+a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fr=
+om: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
+m" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<br>
+../hw/usb/ccid-card-emulated.c: In function &#39;handle_apdu_thread&#39;:<b=
+r>
+../hw/usb/ccid-card-emulated.c:251:24: error: cast from pointer to integer =
+of different size [-Werror=3Dpointer-to-int-cast]<br>
+=C2=A0 251 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0a=
+ssert((unsigned long)event &gt; 1000);<br>
+<br>
+Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br></bl=
+ockquote><div><br></div><div>ping</div><div>=C2=A0<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0hw/usb/ccid-card-emulated.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c<br>
+index ee41a81801..c328660075 100644<br>
+--- a/hw/usb/ccid-card-emulated.c<br>
++++ b/hw/usb/ccid-card-emulated.c<br>
+@@ -248,7 +248,7 @@ static void *handle_apdu_thread(void* arg)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0WITH_QEMU_LOCK_GUARD(&amp;card-&gt;vreade=
+r_mutex) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0while (!QSIMPLEQ_EMPTY(&amp=
+;card-&gt;guest_apdu_list)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0event =3D QSI=
+MPLEQ_FIRST(&amp;card-&gt;guest_apdu_list);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert((unsigned l=
+ong)event &gt; 1000);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(event !=3D =
+NULL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QSIMPLEQ_REMO=
+VE_HEAD(&amp;card-&gt;guest_apdu_list, entry);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (event-&gt=
+;p.data.type !=3D EMUL_GUEST_APDU) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0DPRINTF(card, 1, &quot;unexpected message in handle_apdu_thread\n&quot;)=
+;<br>
+-- <br>
+2.38.1<br>
+<br>
+</blockquote></div></div>
+
+--0000000000006febd105f148fc20--
 
 
