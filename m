@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7FC65B187
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BFBC65B199
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:57:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCJNk-0007QF-AY; Mon, 02 Jan 2023 06:53:32 -0500
+	id 1pCJR5-0004xO-B4; Mon, 02 Jan 2023 06:56:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pCJNb-0007Mj-9n
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:53:24 -0500
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pCJQy-0004vY-Ee
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:56:55 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pCJNX-0002to-5B
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:53:22 -0500
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-14fb7fdb977so26792925fac.12
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:53:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pCJQw-0003tm-Ky
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:56:52 -0500
+Received: by mail-ej1-x631.google.com with SMTP id tz12so66156453ejc.9
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:56:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ygYKFtm4JblvuVb94d4UbKLw8e6RiEd3ydsV+Iaa5RQ=;
- b=CPRZFIaS+A0QBFBmt1DkhCuIQqoYAgh0GGzOUsLQX407yeH0UD6j0Y1AhiQpuCNkvN
- SjPGgtelJmf6fqTiqL2O6NXVS0+fVxw6/eHvs5BFu084j6EZChMXBLAVsa59Rqe4FV/A
- UaGAMEK5Na80LcxE7bCc+NNESDFtiYANvKGxf7QnfGJhVGteO44h1PKqzRhaheBmeT8I
- f+ZzwYehB+xkFNVwQOzLx59v8z0xZxc8gC2vCLOhqePQ0MuTCF2dfQtkMuNbipg2a1Y3
- o2MrIu1LVJTe/GBY4YV+QTzdhHhIGGN3oAOgadWg97AQ8ANeuiSOxDkHA26SNxcrNuEX
- H3IA==
+ bh=waf9CXgtnSCt92lFyIyJSXOBe/U9iZfW6IbZevKQrUU=;
+ b=Pn6tLn3rSoOb8faC82vpoD+cQnFGPo9SXVLI0onVunNA1Z6hglX2q/6hcsIuvXgH9a
+ DlTTIr2ISIDbrxh62v++Ob3yo21jd7PnTtv7Xxe9p3iJKwSy+Y1r8WdUWgsMCuFrHgU/
+ 1zZDwb+eKmCUusBKybANcM3vvR3U5+ldSaeptnNLzGV1AXSkU8hQOocic197m2ti+znY
+ Vhm8X+gpcigX2HkKNxArJOX7tCIk4N6XVqBON3IOsfAlg3uN19mCR++iO4lbazSfKOVv
+ ILPqdqtGa4R9oQ5N53z5Xa0Ds5f7OVtCHy/9Wiz/wj7oRd0qxy5gmUJ0jYQRPj3jeenO
+ dTfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ygYKFtm4JblvuVb94d4UbKLw8e6RiEd3ydsV+Iaa5RQ=;
- b=D7PHfkKKplw57Csy/jdug1tBOQgBXxdGPG9JKlp84BlPwtTVc1uIKEK32ydsxjxc4R
- 0EpvsvYFfx60mntYVwfaeycX2yCTvO0W94dfgJ7pF+/TkrxP2SEO3wFsrnd4Uf+2oHmL
- 3zEMlYnem6LQEYGxz85MzNVUTfGDBrZMPK7tWXRicNmmTExdSOX8C9Chxskgg0dmtAfy
- vuEuZBj8V4zyJprXQucuhFKnc5+pb0STqu7uMYCRmKsdPtDx0pPFdRs12D425r15xNXm
- Bx2DKwefhf0dq7CjLJDi3BQGyVtp7h/2tlbw6jvXriIN86I+357YQ833aLpVnEBZCyWd
- K3FA==
-X-Gm-Message-State: AFqh2koTEnGvrLPy7Xy9wy/4DgB53Dg2zFMcx6Vkl6DOpaeUzEOFNC+C
- DxB9caRD84xWepOq2Jk+jaN/dJl/16gYfWRH
-X-Google-Smtp-Source: AMrXdXuwPoBZb0xsu6qUoKu+6ehIhKZ+FO+Rp7f3ED7T1zXAl8lwX7VQn7idc2Rx7DtdilZ2tqE4Cw==
-X-Received: by 2002:a05:6870:f5a5:b0:14f:eb44:afd5 with SMTP id
- eh37-20020a056870f5a500b0014feb44afd5mr13840203oab.51.1672660397465; 
- Mon, 02 Jan 2023 03:53:17 -0800 (PST)
-Received: from grind.. ([191.17.222.139]) by smtp.gmail.com with ESMTPSA id
- l39-20020a05687106a700b0014fb4bdc746sm11354475oao.8.2023.01.02.03.53.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jan 2023 03:53:17 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bmeng@tinylab.org>
-Subject: [PATCH v5 11/11] hw/riscv/boot.c: make riscv_load_initrd() static
-Date: Mon,  2 Jan 2023 08:52:41 -0300
-Message-Id: <20230102115241.25733-12-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230102115241.25733-1-dbarboza@ventanamicro.com>
-References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
+ bh=waf9CXgtnSCt92lFyIyJSXOBe/U9iZfW6IbZevKQrUU=;
+ b=xkg5qTBr712dvPPAbepTPz9hpZ3qXQ4ESu2eADs0DEBKdLTmZT4vGJ9YOgmpP4eA5v
+ wkk3Y+3mRoZ3q0mdxX2Smyrrt/yPwkhmJuT6LQL2Nwiy+6ZbnGf3M4CSRQBM6iAjFIE7
+ g08nTOSM+j3WZTDkl3yZwbPEsfkPlvqIlt6V65Af/6LFLJIzgGGI0qncsxEdb3MHhvmK
+ uV/ZMs9eUtcVSOa1O4nUPeKI27KmJiikUa6sFOTiXFEaHRc8sb5OjC9AVKc1QuTcgsx+
+ ni0IobfAekf9UQK7z+i5vQHOh2u8KCbzM2TYyjVIz8bZUmmy51dcBZQTZB60f4YVxwiy
+ q93Q==
+X-Gm-Message-State: AFqh2kpFScoOyooc5dmUJOxYmqUalava4jXzgjkU96FA714LmmP3G31E
+ TXVNRPtqZO5ePYUVjlb7j69YhGraU2d7CHLPjZqq1tG93+ts2w==
+X-Google-Smtp-Source: AMrXdXsWXm+5QhQ6zomOUBpFiV0kPkMJDP8wTIEwWxFaPgBaFTvCkwPT6D8Kt7VYC6RghTg0VJI/msvTyXteaSQ+2OA=
+X-Received: by 2002:a05:651c:23a7:b0:27f:e6e7:4ece with SMTP id
+ bk39-20020a05651c23a700b0027fe6e74ecemr253880ljb.463.1672660598382; Mon, 02
+ Jan 2023 03:56:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x30.google.com
+References: <20221222073800.856970-1-pbonzini@redhat.com>
+In-Reply-To: <20221222073800.856970-1-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 2 Jan 2023 15:56:26 +0400
+Message-ID: <CAJ+F1CL-tVFb6z51k3OGT94XP5y4Axz9rpUF5w+PT_r5W_+4Lw@mail.gmail.com>
+Subject: Re: [PATCH] chardev: clean up chardev-parallel.c
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,128 +84,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The only remaining caller is riscv_load_kernel_and_initrd() which
-belongs to the same file.
+On Thu, Dec 22, 2022 at 11:42 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Replace HAVE_CHARDEV_PARPORT with a Meson conditional, remove unnecessary
+> defines, and close the file descriptor on FreeBSD/DragonFly.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  chardev/char-parallel.c | 15 ++-------------
+>  chardev/meson.build     |  5 ++++-
+>  include/qemu/osdep.h    |  5 -----
+>  3 files changed, 6 insertions(+), 19 deletions(-)
+>
+> diff --git a/chardev/char-parallel.c b/chardev/char-parallel.c
+> index 05e7efbd6ca9..a5164f975af3 100644
+> --- a/chardev/char-parallel.c
+> +++ b/chardev/char-parallel.c
+> @@ -238,7 +238,6 @@ static void qemu_chr_open_pp_fd(Chardev *chr,
+>  }
+>  #endif
+>
+> -#ifdef HAVE_CHARDEV_PARPORT
+>  static void qmp_chardev_open_parallel(Chardev *chr,
+>                                        ChardevBackend *backend,
+>                                        bool *be_opened,
+> @@ -276,29 +275,21 @@ static void char_parallel_class_init(ObjectClass *o=
+c, void *data)
+>
+>      cc->parse =3D qemu_chr_parse_parallel;
+>      cc->open =3D qmp_chardev_open_parallel;
+> -#if defined(__linux__)
+>      cc->chr_ioctl =3D pp_ioctl;
+> -#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || \
+> -    defined(__DragonFly__)
+> -    cc->chr_ioctl =3D pp_ioctl;
+> -#endif
+>  }
+>
+>  static void char_parallel_finalize(Object *obj)
+>  {
+> -#if defined(__linux__)
+>      Chardev *chr =3D CHARDEV(obj);
+>      ParallelChardev *drv =3D PARALLEL_CHARDEV(chr);
+>      int fd =3D drv->fd;
+>
+> +#if defined(__linux__)
+>      pp_hw_mode(drv, IEEE1284_MODE_COMPAT);
+>      ioctl(fd, PPRELEASE);
+> +#endif
+>      close(fd);
+>      qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
+> -#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || \
+> -    defined(__DragonFly__)
+> -    /* FIXME: close fd? */
+> -#endif
+>  }
+>
+>  static const TypeInfo char_parallel_type_info =3D {
+> @@ -315,5 +306,3 @@ static void register_types(void)
+>  }
+>
+>  type_init(register_types);
+> -
+> -#endif
+> diff --git a/chardev/meson.build b/chardev/meson.build
+> index 664f77b8879a..ceedb68d4f95 100644
+> --- a/chardev/meson.build
+> +++ b/chardev/meson.build
+> @@ -14,9 +14,12 @@ chardev_ss.add(files(
+>  ))
+>  chardev_ss.add(when: 'CONFIG_POSIX', if_true: [files(
+>    'char-fd.c',
+> -  'char-parallel.c',
+>    'char-pty.c',
+>  ), util])
+> +if targetos in ['linux', 'gnu/kfreebsd', 'freebsd', 'dragonfly']
+> +  'char-parallel.c',
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
----
- hw/riscv/boot.c         | 80 ++++++++++++++++++++---------------------
- include/hw/riscv/boot.h |  1 -
- 2 files changed, 40 insertions(+), 41 deletions(-)
+diff --git a/chardev/meson.build b/chardev/meson.build
+index ceedb68d4f..789b50056a 100644
+--- a/chardev/meson.build
++++ b/chardev/meson.build
+@@ -17,7 +17,7 @@ chardev_ss.add(when: 'CONFIG_POSIX', if_true: [files(
+   'char-pty.c',
+ ), util])
+ if targetos in ['linux', 'gnu/kfreebsd', 'freebsd', 'dragonfly']
+-  'char-parallel.c',
++  chardev_ss.add(files('char-parallel.c'))
+ endif
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 4888d5c1e0..e868fb6ade 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -173,6 +173,46 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
-     exit(1);
- }
- 
-+static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
-+{
-+    const char *filename = machine->initrd_filename;
-+    uint64_t mem_size = machine->ram_size;
-+    void *fdt = machine->fdt;
-+    hwaddr start, end;
-+    ssize_t size;
-+
-+    g_assert(filename != NULL);
-+
-+    /*
-+     * We want to put the initrd far enough into RAM that when the
-+     * kernel is uncompressed it will not clobber the initrd. However
-+     * on boards without much RAM we must ensure that we still leave
-+     * enough room for a decent sized initrd, and on boards with large
-+     * amounts of RAM we must avoid the initrd being so far up in RAM
-+     * that it is outside lowmem and inaccessible to the kernel.
-+     * So for boards with less  than 256MB of RAM we put the initrd
-+     * halfway into RAM, and for boards with 256MB of RAM or more we put
-+     * the initrd at 128MB.
-+     */
-+    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
-+
-+    size = load_ramdisk(filename, start, mem_size - start);
-+    if (size == -1) {
-+        size = load_image_targphys(filename, start, mem_size - start);
-+        if (size == -1) {
-+            error_report("could not load ramdisk '%s'", filename);
-+            exit(1);
-+        }
-+    }
-+
-+    /* Some RISC-V machines (e.g. opentitan) don't have a fdt. */
-+    if (fdt) {
-+        end = start + size;
-+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start", start);
-+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end", end);
-+    }
-+}
-+
- target_ulong riscv_load_kernel(MachineState *machine,
-                                target_ulong kernel_start_addr,
-                                bool load_initrd,
-@@ -225,46 +265,6 @@ out:
-     return kernel_entry;
- }
- 
--void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
--{
--    const char *filename = machine->initrd_filename;
--    uint64_t mem_size = machine->ram_size;
--    void *fdt = machine->fdt;
--    hwaddr start, end;
--    ssize_t size;
--
--    g_assert(filename != NULL);
--
--    /*
--     * We want to put the initrd far enough into RAM that when the
--     * kernel is uncompressed it will not clobber the initrd. However
--     * on boards without much RAM we must ensure that we still leave
--     * enough room for a decent sized initrd, and on boards with large
--     * amounts of RAM we must avoid the initrd being so far up in RAM
--     * that it is outside lowmem and inaccessible to the kernel.
--     * So for boards with less  than 256MB of RAM we put the initrd
--     * halfway into RAM, and for boards with 256MB of RAM or more we put
--     * the initrd at 128MB.
--     */
--    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
--
--    size = load_ramdisk(filename, start, mem_size - start);
--    if (size == -1) {
--        size = load_image_targphys(filename, start, mem_size - start);
--        if (size == -1) {
--            error_report("could not load ramdisk '%s'", filename);
--            exit(1);
--        }
--    }
--
--    /* Some RISC-V machines (e.g. opentitan) don't have a fdt. */
--    if (fdt) {
--        end = start + size;
--        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start", start);
--        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end", end);
--    }
--}
--
- uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
- {
-     uint64_t temp, fdt_addr;
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index c3de897371..cbd131bad7 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -47,7 +47,6 @@ target_ulong riscv_load_kernel(MachineState *machine,
-                                target_ulong firmware_end_addr,
-                                bool load_initrd,
-                                symbol_fn_t sym_cb);
--void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
- uint64_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt);
- void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
-                                hwaddr saddr,
--- 
-2.39.0
 
+With that:
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+Feel free to queue in the next build-sys/meson PR.
+
+thanks
+
+> +endif
+> +
+>  chardev_ss.add(when: 'CONFIG_WIN32', if_true: files(
+>    'char-console.c',
+>    'char-win-stdio.c',
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index b9c4307779c5..4886361be6a7 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -421,11 +421,6 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+>  #define HAVE_CHARDEV_SERIAL 1
+>  #endif
+>
+> -#if defined(__linux__) || defined(__FreeBSD__) ||               \
+> -    defined(__FreeBSD_kernel__) || defined(__DragonFly__)
+> -#define HAVE_CHARDEV_PARPORT 1
+> -#endif
+> -
+>  #if defined(__HAIKU__)
+>  #define SIGIO SIGPOLL
+>  #endif
+> --
+> 2.38.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
