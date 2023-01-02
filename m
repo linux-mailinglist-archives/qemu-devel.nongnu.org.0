@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8FD65B185
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4167265B189
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:54:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCJNB-0007EC-T2; Mon, 02 Jan 2023 06:52:57 -0500
+	id 1pCJNE-0007F2-Ib; Mon, 02 Jan 2023 06:53:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pCJN9-0007DY-OZ
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:52:55 -0500
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31])
+ id 1pCJNC-0007ET-7P
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:52:58 -0500
+Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pCJN7-0002uY-VV
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:52:55 -0500
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-150b06cb1aeso3859470fac.11
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:52:53 -0800 (PST)
+ id 1pCJNA-0002uz-M7
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:52:57 -0500
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-14fb3809eaeso27452690fac.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:52:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8tYhCgeu+CUPdU0tlNGR+x3OI3mYmG0ZDZI1kUqM/1s=;
- b=UdT6ilTSt972XE81gYaspt6L9Aw4du3Wot7oNrmNBiPh2CRo+Lb49xTG/jKAYT0i+o
- aONB4VNBwRd8NtSPswjQ0tCcbNZ1x4R+nJIBH0j5ZerV5LaSL9nr5QM4FGvCDo6+XcWj
- /gBWGL2lYuiLR3t3RMVuUTHxcdnIRucJUedPaW54XOsi/kEu12rQ0/SA3upz4D+sMjKF
- b2+txD923m+ryFDauxHm2Dfc4ZBxq3gh1HoBflCl/RdSk8veSB0roiIH4F+vd9rqs453
- 408w1fziScmJclRi7QxXAEDxsq9RG0WvVMs+9IXp9iTVlbGr2p8BY1Wo17dYGB9RYETl
- 5wwA==
+ bh=IU6x7WVTw6l9F2GnZ9QyTDYaXQmzpFAwXIcNmwcVoDs=;
+ b=KcGxxWGt0kgajXe04hoEALoyXpUhf1zbWurOwPWAu561KUEuA3I5BoUGoLT9pxR5K2
+ SLo4wSYqyAOMU16zB0gSnE6lze0o2QZW48nhSjj9BPn2TcNnJlzftWnZfYDzN2kb5Ca2
+ dp4Y9CNnmezs7DcmDnNBZEWIos4nD6lCwFDVoeP9iYp1EaaoqA4h3Zgikw/0nQz2J7Ad
+ JlgBMemK0azbsVqw0U/5jAZhGdVo9PQEqAOV74ZOxn91xnuoSdstPw9xZoOHSDo4lndS
+ 0PHXFGktLxm6oHP89w493tKSPfjYbMOKa81ai7xfKXXxftpHFfnx3sDfYQQdwesWY2pr
+ Si2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8tYhCgeu+CUPdU0tlNGR+x3OI3mYmG0ZDZI1kUqM/1s=;
- b=WTt66LZydG5sj9ZOoUR54bixxSTtyaFnUJNdLX8RsNIdS+4ILWrkp8qDJRK+QbeFy1
- ux1H/n9OTfkKh3bUyfrPja0saLxAgLW35EhrnXnj0oYNnamUZlCpxjuP3Q9fqhMLka1P
- dEGC6LM7rH9CR6q/fYz78IuKg6TQ7THccod7wWLo1dphNbjMsJvDEUlRTsKHMi+igysO
- s5g0iSmDPCiV6srBMwlMFhvWo/AKgiZZSS3OpwEKnoyfH9OSGmxB6VXI/lZxBpIEj5gY
- PACHL1BvSsXpz8JZzMMWuZ0C4HzMV8ldexftWVjsJT6RsI6EOBVLNnneRM+TkM3CxfIa
- tiKQ==
-X-Gm-Message-State: AFqh2kpkFFGpOIitYdrO1l9LT4gDe1KldfR9ixTZWG8NWwTq9K6OF9NY
- Izg2Px2xptctJK75RI984EZsk2o8AeGV4/ib
-X-Google-Smtp-Source: AMrXdXu7jwkKbzqaZ4NJ7RMjItpnBS69O3IKBMEGkTuNUe5iggof9qujNOzW9MxAgasW5UT5rbhH7Q==
-X-Received: by 2002:a05:6870:b6a7:b0:144:7395:2140 with SMTP id
- cy39-20020a056870b6a700b0014473952140mr22269021oab.35.1672660372462; 
- Mon, 02 Jan 2023 03:52:52 -0800 (PST)
+ bh=IU6x7WVTw6l9F2GnZ9QyTDYaXQmzpFAwXIcNmwcVoDs=;
+ b=zV6RsaB4xhI59MIC+519EiUiLSKjB46E7IZO0Ezzj8ZBmRd0Q0B/cMrww4ljZwOc/h
+ +Ar5WdxjUIbDLYq8F7Au3RSXbbwTFiZuAHSPOabCSwfzLcokXhnsBQNEEFm4K+QB4AJE
+ t4VveH2YNHZLsBalEM09iEAxdZL5ODv3tcMrjtbITntK6Sak2C1nGPF5+ug64+cxKP9w
+ BlejV8u3d2E1O9DbEvNN2RnD2WtirV2q4V6DZsG/p7Hno6WL5koIamO77vUflWhaNSJu
+ ++72E9lE78PYG8AWHnxr3PDSpMLxya5mdqQp/+K5Ww4i/2vMkJWTQQypt5Dv5gmaD+LJ
+ mnMw==
+X-Gm-Message-State: AFqh2ko2wJVIM8P+FPy3EYAaLs/JFesb2YegsBf1F/JXRNL54vXNWFQC
+ ++2Y8Ok1siVK65YeNVImzu8lhsYzd3XrRzbg
+X-Google-Smtp-Source: AMrXdXvJPOxxMD2bh6SWO6mwoBQnqxpRYNL9EVZ1Vkh5hqDQSn5f5T1ekXrdJ+EYvrT6p/PqBP3w5Q==
+X-Received: by 2002:a05:6870:7e02:b0:14f:eee9:d20a with SMTP id
+ wx2-20020a0568707e0200b0014feee9d20amr11072926oab.11.1672660375265; 
+ Mon, 02 Jan 2023 03:52:55 -0800 (PST)
 Received: from grind.. ([191.17.222.139]) by smtp.gmail.com with ESMTPSA id
- l39-20020a05687106a700b0014fb4bdc746sm11354475oao.8.2023.01.02.03.52.50
+ l39-20020a05687106a700b0014fb4bdc746sm11354475oao.8.2023.01.02.03.52.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jan 2023 03:52:52 -0800 (PST)
+ Mon, 02 Jan 2023 03:52:54 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Bin Meng <bin.meng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Bin Meng <bmeng@tinylab.org>
-Subject: [PATCH v5 02/11] hw/riscv/spike: use 'fdt' from MachineState
-Date: Mon,  2 Jan 2023 08:52:32 -0300
-Message-Id: <20230102115241.25733-3-dbarboza@ventanamicro.com>
+Subject: [PATCH v5 03/11] hw/riscv/sifive_u: use 'fdt' from MachineState
+Date: Mon,  2 Jan 2023 08:52:33 -0300
+Message-Id: <20230102115241.25733-4-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102115241.25733-1-dbarboza@ventanamicro.com>
 References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::31;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x31.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::33;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,74 +99,91 @@ The MachineState object provides a 'fdt' pointer that is already being
 used by other RISC-V machines, and it's also used by the 'dumpdtb' QMP
 command.
 
-Remove the 'fdt' pointer from SpikeState and use MachineState::fdt
+Remove the 'fdt' pointer from SiFiveUState and use MachineState::fdt
 instead.
 
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng@tinylab.org>
 ---
- hw/riscv/spike.c         | 12 +++++-------
- include/hw/riscv/spike.h |  2 --
- 2 files changed, 5 insertions(+), 9 deletions(-)
+ hw/riscv/sifive_u.c         | 15 ++++++---------
+ include/hw/riscv/sifive_u.h |  3 ---
+ 2 files changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 1679c325d5..25c5420ee6 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -53,6 +53,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
-                        bool is_32_bit, bool htif_custom_base)
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index a58ddb36ac..ddceb750ea 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -98,7 +98,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
  {
+     MachineState *ms = MACHINE(qdev_get_machine());
      void *fdt;
-+    int fdt_size;
-     uint64_t addr, size;
-     unsigned long clint_addr;
-     int cpu, socket;
-@@ -65,7 +66,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
-         "sifive,clint0", "riscv,clint0"
+-    int cpu;
++    int cpu, fdt_size;
+     uint32_t *cells;
+     char *nodename;
+     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
+@@ -112,14 +112,14 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
      };
  
--    fdt = s->fdt = create_device_tree(&s->fdt_size);
-+    fdt = mc->fdt = create_device_tree(&fdt_size);
-     if (!fdt) {
-         error_report("create_device_tree() failed");
-         exit(1);
-@@ -327,18 +328,15 @@ static void spike_board_init(MachineState *machine)
-         hwaddr end = riscv_load_initrd(machine->initrd_filename,
-                                        machine->ram_size, kernel_entry,
-                                        &start);
--        qemu_fdt_setprop_cell(s->fdt, "/chosen",
-+        qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-                               "linux,initrd-start", start);
--        qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-+        qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
-                               end);
-     }
+     if (ms->dtb) {
+-        fdt = s->fdt = load_device_tree(ms->dtb, &s->fdt_size);
++        fdt = ms->fdt = load_device_tree(ms->dtb, &fdt_size);
+         if (!fdt) {
+             error_report("load_device_tree() failed");
+             exit(1);
+         }
+         goto update_bootargs;
+     } else {
+-        fdt = s->fdt = create_device_tree(&s->fdt_size);
++        fdt = ms->fdt = create_device_tree(&fdt_size);
+         if (!fdt) {
+             error_report("create_device_tree() failed");
+             exit(1);
+@@ -612,9 +612,9 @@ static void sifive_u_machine_init(MachineState *machine)
+             hwaddr end = riscv_load_initrd(machine->initrd_filename,
+                                            machine->ram_size, kernel_entry,
+                                            &start);
+-            qemu_fdt_setprop_cell(s->fdt, "/chosen",
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+                                   "linux,initrd-start", start);
+-            qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
+                                   end);
+         }
+     } else {
+@@ -627,14 +627,11 @@ static void sifive_u_machine_init(MachineState *machine)
  
      /* Compute the fdt load address in dram */
-     fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
+     fdt_load_addr = riscv_load_fdt(memmap[SIFIVE_U_DEV_DRAM].base,
 -                                   machine->ram_size, s->fdt);
--
++                                   machine->ram_size, machine->fdt);
+     if (!riscv_is_32bit(&s->soc.u_cpus)) {
+         start_addr_hi32 = (uint64_t)start_addr >> 32;
+     }
+ 
 -    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
 -    machine->fdt = s->fdt;
-+                                   machine->ram_size, machine->fdt);
- 
-     /* load the reset vector */
-     riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base,
-diff --git a/include/hw/riscv/spike.h b/include/hw/riscv/spike.h
-index 73d69234de..d13a147942 100644
---- a/include/hw/riscv/spike.h
-+++ b/include/hw/riscv/spike.h
-@@ -37,8 +37,6 @@ struct SpikeState {
- 
+-
+     /* reset vector */
+     uint32_t reset_vec[12] = {
+         s->msel,                       /* MSEL pin state */
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index e680d61ece..4a8828a30e 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -67,9 +67,6 @@ typedef struct SiFiveUState {
      /*< public >*/
-     RISCVHartArrayState soc[SPIKE_SOCKETS_MAX];
+     SiFiveUSoCState soc;
+ 
 -    void *fdt;
 -    int fdt_size;
- };
- 
- enum {
+-
+     bool start_in_flash;
+     uint32_t msel;
+     uint32_t serial;
 -- 
 2.39.0
 
