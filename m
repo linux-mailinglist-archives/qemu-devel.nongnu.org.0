@@ -2,88 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7E165B50B
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 17:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239B565B54B
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 17:48:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCNan-0000v1-81; Mon, 02 Jan 2023 11:23:17 -0500
+	id 1pCNyH-0007Xm-Nq; Mon, 02 Jan 2023 11:47:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pCNak-0000uS-Gl; Mon, 02 Jan 2023 11:23:15 -0500
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCNyB-0007Wm-Bu
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 11:47:27 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pCNai-000060-RP; Mon, 02 Jan 2023 11:23:14 -0500
-Received: by mail-ot1-x331.google.com with SMTP id
- v15-20020a9d69cf000000b006709b5a534aso17673024oto.11; 
- Mon, 02 Jan 2023 08:23:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCNy7-0003ru-VF
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 11:47:25 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id u28so35687012edd.10
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 08:47:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xw/awmtsbscJrWkbPVgiQwZL6rCIZ0Qz3hQWSTzPGvk=;
- b=iYY/Ygu5jM8iMgQyjQt9ZiYl/esRVAaAzRwmgFKBcXAuLQI5/mJskF0LcKQjwxU/RV
- TfB8I4vnqHmHr6JP/kXszV4RxoTq2x4VYh7QstqhNruYZE3HhXHp7odHnCyMU0aJr1fS
- bFl5V8ZYhTVC3C6N8+0TeH+YnEdSxJGnAf8k8tRB9hIy6N+JtPvIUGKmt72TyFPki/kl
- XNgTimtzIWMDUQ9m2OQEr4E7LWrSPBl9qcl8PEX6CaeIsYwlHjUIRMBpCar/jUJErfKS
- MKy9gbp/9Rs/6YUfe4DQuaK1kT4sLn3MNteHNFQD6aCgxT5qXRxGUcRh2iFeGkwIwoq2
- Pm/g==
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ODEMB9gPUDbuZ1xctkKfrlGY2oDGSZHCvx04qGveYFI=;
+ b=N4Y9CsP5VU/yXL8TYMmQUR8Gbj0n5g6ub7+l8LI32SsRqcbZP6/iCxrNnQqJk441d1
+ LVYS115bIruJqWEnzdl1UdOosCellF1M88JyJql0ko1oObtdy8pMIhYZX9PWMCqRwmR7
+ 80qEuGpFHK7uoypWfr6Ym/O9k5hGxriCZbZ8XfKLfcpMdfrwCdGzWhNtvdDg3aa6G0Ys
+ 5rOtOvW5E6iawn26YVqgvUcmsiXBWxPEKnNMr+lvU58peSe4j8BJYYB0rUUwd4WD2PE6
+ WoJ58WmSjRfcM2jI1py16IGMlDLCV5PlYAUZuzbqUA7obogu9bi2u50JfOyzQueGYU4j
+ jpGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xw/awmtsbscJrWkbPVgiQwZL6rCIZ0Qz3hQWSTzPGvk=;
- b=HZdoUu41rWW7I3C3fAdlCR5swm/zjT3RavoZcbTX/ASirqDpZDd62/kFX1yjyVoPuk
- r9ND9GXRYCKd8LDBg4KNnGbm8xzjc+7k/szrrVraoVyI3RtFm0FwtNCOrcsWfyEIVVmp
- SFbjldB6xutReqHUTXd3GVNvrhoXAOQnxZkqvmmQ1cSeXhs1+sEFdI/rHoVakLQZSLbi
- PwaMVb8M7SsXy0zIcqdWV/35GRca8zr6JJoNs1Jz+l0G00ZbiHp65GV6EVJGUAwVPXkk
- DO6PJQapfKR1SpRk5Yk9y+Rmy6hcqv3q7IVOLj6im0vOKy1pbpg4MYt3Gb5yxYWEqEgw
- YeFw==
-X-Gm-Message-State: AFqh2kpOe63dMuHC50HYRUgayw4HCyGgEO52XgIJv7HstoSRFPM1XcUW
- k4PmG2XlbPnMfQoEg1KUlYc=
-X-Google-Smtp-Source: AMrXdXuh3OD4qcDL05KvKaHiGLFwy3yXLnrPKuccBwKfVG5/om8Q/R/KeQ1hFEMA51zhmup35tlnmA==
-X-Received: by 2002:a9d:7e8a:0:b0:670:9684:404c with SMTP id
- m10-20020a9d7e8a000000b006709684404cmr24734446otp.28.1672676590646; 
- Mon, 02 Jan 2023 08:23:10 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ODEMB9gPUDbuZ1xctkKfrlGY2oDGSZHCvx04qGveYFI=;
+ b=4zk1NRXdo5SHdZ6KGTTCVS6A8lMaXURkXwZ1hL7iLmVzveFSr4CeSbusFhdHlviggI
+ /CFLl/2S/MZfy5txqXF71TWTcs/GFwb0FZrq9gwyaAiBYvW2isbqXso939Hol040i2o/
+ Xr3zGh5XdPciXcSAv5BHxdxaLOihMAD8M4asv6t+DYI/sHNDXMjwgF/COSnTQzkxsfTz
+ JczpUliG/V2/BGNC9/6RJmhdKxAMtZecVkqeo1P85ZZDD/TMpUdktjzC7+MLQcN1C50y
+ u+plxCRddRwn6HP5xFSeDu7EK17acRm/I6sAatJXs8oEBnwvL5PGkjvJh1U5FqDkgYma
+ 5BOQ==
+X-Gm-Message-State: AFqh2kq7bTTig0mmWy5BM9uqn9lbdutVTYvwTWMzb9WBT2jjUEAUKoyZ
+ YEq+8qGZjSdYQzRQt9/K7sw=
+X-Google-Smtp-Source: AMrXdXscZCswf0vVSVPd4FxPxxzQXZgw3dCr9GQXnb5Pq0z0nKt20tPnZAZ5N7K5HY37J/kNhtgl/A==
+X-Received: by 2002:a05:6402:1298:b0:470:411f:3609 with SMTP id
+ w24-20020a056402129800b00470411f3609mr38120413edv.1.1672678041193; 
+ Mon, 02 Jan 2023 08:47:21 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb20015597579848d59e3.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:1559:7579:848d:59e3])
  by smtp.gmail.com with ESMTPSA id
- cp26-20020a056830661a00b0066da36d2c45sm13835470otb.22.2023.01.02.08.23.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jan 2023 08:23:09 -0800 (PST)
-Date: Mon, 2 Jan 2023 08:23:08 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Michael Walle <michael@walle.cc>
-Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>, Ben Dooks <ben@fluff.org>,
- Alistair Francis <alistair@alistair23.me>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH] m25p80: Add the is25wp256 SFPD table
-Message-ID: <20230102162308.GA1138622@roeck-us.net>
-References: <20221221122213.1458540-1-linux@roeck-us.net>
- <2236d0ee-4fc6-5e2c-95b4-f97639e0955b@kaod.org>
- <20221225121850.4bjnskmlhsot54cf@hetzy.fluff.org>
- <b00bb842-a9e6-fa5c-94d9-876c241be600@linaro.org>
- <c1f5c868-0006-bb28-af88-eddc5543068e@kaod.org>
- <3044e0c174268312d0323d8f9ad43c68@walle.cc>
+ co5-20020a0564020c0500b00483dd234ac6sm10457226edb.96.2023.01.02.08.47.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Jan 2023 08:47:20 -0800 (PST)
+Date: Mon, 02 Jan 2023 16:47:12 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+CC: Michael S Tsirkin <mst@redhat.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4=5D_hw/rtc/mc146818rtc=3A_Ma?=
+ =?US-ASCII?Q?ke_this_rtc_device_target_independent?=
+In-Reply-To: <1328eea1-437d-6c43-a542-9e1a4d1d751e@redhat.com>
+References: <20221229105848.147509-1-thuth@redhat.com>
+ <52276B51-B29A-47BD-B5A6-EA2E7A3E69CC@gmail.com>
+ <aa12364c-ff9b-3252-1fa0-7d72876b0796@redhat.com>
+ <1328eea1-437d-6c43-a542-9e1a4d1d751e@redhat.com>
+Message-ID: <BF0EC181-629C-4D5F-9D19-A0B861D0E835@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3044e0c174268312d0323d8f9ad43c68@walle.cc>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x331.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,54 +97,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 02, 2023 at 04:43:49PM +0100, Michael Walle wrote:
-> Am 2023-01-02 14:53, schrieb Cédric Le Goater:
-> > On 12/27/22 07:31, Tudor Ambarus wrote:
-> > > 
-> > > 
-> > > On 25.12.2022 14:18, Ben Dooks wrote:
-> > > > On Wed, Dec 21, 2022 at 06:36:02PM +0100, Cédric Le Goater wrote:
-> > > > > On 12/21/22 13:22, Guenter Roeck wrote:
-> > > > > > Generated from hardware using the following command and
-> > > > > > then padding
-> > > > > > with 0xff to fill out a power-of-2:
-> > > > > >     xxd -p /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
-> > > > > > 
-> > > > > > Cc: Michael Walle <michael@walle.cc>
-> > > > > > Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
-> > > > > > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> > > > > 
-> > > > > Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> > > > 
-> > > > If SFDP is a standard, couldn't we have an function to generate
-> > > > it from
-> > > > the flash parameters?
-> > > > 
-> > > 
-> > > No, it's not practical as you have to specify all the flash parameters
-> > > at flash declaration.
-> > 
-> > Indeed and the definition of flash models in QEMU is far to cover all
-> > the SFDP
-> > features. The known_devices array of m25p80 would be huge ! However, we
-> > could
-> > generate some of the SFDP tables if no raw data is provided. It could be
-> > useful
-> > for testing drivers.
-> 
-> I don't think adding (incomplete) SFDP tables makes sense for any real
-> devices. E.g. sometimes our linux driver will look at specific bits in
-> SFDP to figure out what particular flash device is attached. For example
-> when there are different flashes with the same jedec id.
-> 
-> But since the last released kernel, we support a generic SFDP driver, which
-> is used when there is no matching driver for the flash's jedec id.
-> Theoretically, you can build your own flash device (with a unique id) and
-> generate the sfdp tables for that one.
-> 
-How about older kernels versions ? Would those still support such (virtual ?)
-flash devices ?
 
-Thanks,
-Guenter
+
+Am 2=2E Januar 2023 16:09:08 UTC schrieb Thomas Huth <thuth@redhat=2Ecom>:
+>On 02/01/2023 14=2E36, Thomas Huth wrote:
+>> On 31/12/2022 00=2E45, Bernhard Beschow wrote:
+>>>=20
+>>> Am 29=2E Dezember 2022 10:58:48 UTC schrieb Thomas Huth <thuth@redhat=
+=2Ecom>:
+>[=2E=2E=2E]
+>>>> static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+>>>> {
+>>>> @@ -922,14 +911,15 @@ static void rtc_realizefn(DeviceState *dev, Err=
+or **errp)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 rtc_set_date_from_host(isadev);
+>>>>=20
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 switch (s->lost_tick_policy) {
+>>>> -#ifdef TARGET_I386
+>>>> -=C2=A0=C2=A0=C2=A0 case LOST_TICK_POLICY_SLEW:
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->coalesced_timer =3D
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 t=
+imer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>> -#endif
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 case LOST_TICK_POLICY_DISCARD:
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+>>>> +=C2=A0=C2=A0=C2=A0 case LOST_TICK_POLICY_SLEW:
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Slew tick policy is on=
+ly available on x86 */
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (arch_type =3D=3D QEMU=
+_ARCH_I386) {
+>>>=20
+>>> This reflects the intention much better than before, which is nice=2E
+>>>=20
+>>> How does `arch_type` play together with qemu-system-all? IIUC it shoul=
+d be possible to load all arch backends simultaneously while `arch_type` is=
+ an external symbol defined by each arch backend differently=2E So this see=
+ms to conflict=2E
+>>=20
+>> I assume that there still will be a main arch_type for the current sele=
+cted machine? =2E=2E=2E not sure how this will exactly work, though =2E=2E=
+=2E
+>>=20
+>>> Can we just add a property such as "slew-tick-policy-available" instea=
+d? It should default to false and all x86 machines would need to opt in exp=
+licitly=2E
+>>=20
+>> Sounds like a good idea, it's certainly better than checking arch_type =
+here =2E=2E=2E I'll give it a try, thanks!
+>
+>I've now had a look at this, and it's also getting ugly: Since the proper=
+ty has to be set before realize() is done, the setting of the property has =
+to be added to the mc146818_rtc_init() function=2E Thus this function would=
+ need a new parameter - and it then needs to be changed all over the place,=
+ i=2Ee=2E also for all the non-x86 machines, defeating the idea of a defaul=
+t value=2E=2E=2E
+>
+>Maybe it makes more sense to check for a TYPE_X86_MACHINE machine type in=
+stead?
+
+Maybe you could base your patch on https://lists=2Egnu=2Eorg/archive/html/=
+qemu-devel/2022-12/msg03795=2Ehtml ? This patch looks like it should get yo=
+u covered and is part of my PIIX consolidation series [1] which seems to be=
+ ready to be queued into Phil's mips-next tree=2E My series is currently ju=
+st blocked by a MIPS-related  regression=2E
+
+Best regards,
+Bernhard
+
+[1] https://lists=2Egnu=2Eorg/archive/html/qemu-devel/2022-12/msg03788=2Eh=
+tml
+
+>
+> Thomas
+>
 
