@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E0065B2BD
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 14:38:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD96865B2BE
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 14:38:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCL0b-0000es-7g; Mon, 02 Jan 2023 08:37:45 -0500
+	id 1pCL1D-0001aJ-0A; Mon, 02 Jan 2023 08:38:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCL0Z-0000cw-RK
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 08:37:43 -0500
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCL1A-0001V9-7t
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 08:38:20 -0500
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCL0X-00068y-7c
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 08:37:43 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.188])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2A6D620875;
- Mon,  2 Jan 2023 13:37:37 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCL18-0006Du-4U
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 08:38:19 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id BC3522CDC3;
+ Mon,  2 Jan 2023 13:38:15 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 2 Jan
- 2023 14:37:36 +0100
+ 2023 14:38:14 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-102R0042f8839be-0c79-4743-99ec-8b5746cca9d6,
+ (GARM-101G004c79f2384-0524-4375-b0ea-f07f75b5b60a,
  EB6D15DD045C308F841A27F8E66F545441276E15) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ab91bfcd-2f5e-9db5-db05-e100c2b95779@kaod.org>
-Date: Mon, 2 Jan 2023 14:37:35 +0100
+Message-ID: <78f03e54-597d-2ab5-6d81-36de0eb46332@kaod.org>
+Date: Mon, 2 Jan 2023 14:38:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v2 05/11] hw/misc/aspeed_hace: Do not crash if
- address_space_map() failed
+Subject: Re: [PATCH v2 06/11] hw/arm/aspeed_ast10x0: Add various unimplemented
+ peripherals
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  <qemu-devel@nongnu.org>
@@ -46,22 +46,22 @@ CC: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>, Beraldo
  <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>, Peter Delevoryas
  <pdel@meta.com>, <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 References: <20221230113504.37032-1-philmd@linaro.org>
- <20221230113504.37032-6-philmd@linaro.org>
+ <20221230113504.37032-7-philmd@linaro.org>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221230113504.37032-6-philmd@linaro.org>
+In-Reply-To: <20221230113504.37032-7-philmd@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: 1230aa90-b36a-40c2-8726-f95a187fc3fa
-X-Ovh-Tracer-Id: 16006074551864101764
+X-Ovh-Tracer-GUID: de304fec-42d9-43e3-9294-075bc18394cd
+X-Ovh-Tracer-Id: 16016770602621438852
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgdehhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhjohgvlhesjhhmshdrihgurdgruhdpthhrohihpghlvggvsegrshhpvggvughtvggthhdrtghomhdpsghlvggrlhesrhgvughhrghtrdgtohhmpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpfigrihhnvghrshhmsehrvgguhhgrthdrtghomhdprghnughrvgifsegrjhdrihgurdgruhdptghhihhnqdhtihhnghgpkhhuohesrghsphgvvgguthgvtghhrd
- gtohhmpdhpvghtvghrsehpjhgurdguvghvpdhsthgvvhgvnhgplhgvvgesrghsphgvvgguthgvtghhrdgtohhmpdhjrghmihhnpghlihhnsegrshhpvggvughtvggthhdrtghomhdpphguvghlsehfsgdrtghomhdpphguvghlsehmvghtrgdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdptghrohhsrgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgdehhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfefgkeetkeegleehueejgefhteekteelieduueffkeetgfekheeuffehveevkeejnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpjhhovghlsehjmhhsrdhiugdrrghupdhtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhmpdgslhgvrghlsehrvgguhhgrthdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdifrghinhgvrhhsmhesrhgvughhrghtrdgtohhmpdgrnhgurhgvfiesrghjrdhiugdrrghupdgthhhinhdqth
+ hinhhgpghkuhhosegrshhpvggvughtvggthhdrtghomhdpphgvthgvrhesphhjugdruggvvhdpshhtvghvvghnpghlvggvsegrshhpvggvughtvggthhdrtghomhdpjhgrmhhinhgplhhinhesrghsphgvvgguthgvtghhrdgtohhmpdhpuggvlhesfhgsrdgtohhmpdhpuggvlhesmhgvthgrrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdgtrhhoshgrsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo552.mail-out.ovh.net
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -84,43 +84,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/30/22 12:34, Philippe Mathieu-Daudé wrote:
-> address_space_map() can fail:
+> Based on booting Zephyr demo from [1] running QEMU with
+> '-d unimp' and checking missing devices in [2].
 > 
->    uart:~$ hash test
->    sha256_test
->    tv[0]:
->    Segmentation fault: 11
->    Thread 3 "qemu-system-arm" received signal SIGSEGV, Segmentation fault.
->    gen_acc_mode_iov (req_len=0x7ffff18b7778, id=<optimized out>, iov=0x7ffff18b7780, s=0x555556ce0bd0)
->        at ../hw/misc/aspeed_hace.c:171
->    171         if (has_padding(s, &iov[id], *req_len, &total_msg_len, &pad_offset)) {
->    (gdb) bt
->    #0  gen_acc_mode_iov (req_len=0x7ffff18b7778, id=<optimized out>, iov=0x7ffff18b7780, s=0x555556ce0bd0)
->        at ../hw/misc/aspeed_hace.c:171
->    #1  do_hash_operation (s=s@entry=0x555556ce0bd0, algo=3, sg_mode=sg_mode@entry=true, acc_mode=acc_mode@entry=true)
->        at ../hw/misc/aspeed_hace.c:224
->    #2  0x00005555559bdbb8 in aspeed_hace_write (opaque=<optimized out>, addr=12, data=262488, size=<optimized out>)
->        at ../hw/misc/aspeed_hace.c:358
-> 
-> This change doesn't fix much, but at least the guest
-> can't crash QEMU anymore. Instead it is still usable:
-> 
->    uart:~$ hash test
->    sha256_test
->    tv[0]:hash_final error
->    sha384_test
->    tv[0]:hash_final error
->    sha512_test
->    tv[0]:hash_final error
->    [00:00:06.278,000] <err> hace_global: HACE poll timeout
->    [00:00:09.324,000] <err> hace_global: HACE poll timeout
->    [00:00:12.261,000] <err> hace_global: HACE poll timeout
->    uart:~$
+> [1] https://github.com/AspeedTech-BMC/zephyr/releases/tag/v00.01.07
+> [2] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > Reviewed-by: Peter Delevoryas <peter@pjd.dev>
-
-This is a tough model. I am glad you are taking a look at it.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
@@ -128,56 +99,124 @@ Thanks,
 
 C.
 
+
 > ---
->   hw/misc/aspeed_hace.c | 21 +++++++++++++++------
->   1 file changed, 15 insertions(+), 6 deletions(-)
+>   hw/arm/aspeed_ast10x0.c     | 35 +++++++++++++++++++++++++++++++++++
+>   include/hw/arm/aspeed_soc.h | 11 +++++++++++
+>   2 files changed, 46 insertions(+)
 > 
-> diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
-> index ac21be306c..12a761f1f5 100644
-> --- a/hw/misc/aspeed_hace.c
-> +++ b/hw/misc/aspeed_hace.c
-> @@ -193,6 +193,7 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
->       size_t digest_len = 0;
->       int niov = 0;
->       int i;
-> +    void *haddr;
+> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+> index 3500294df7..d7dbc1a801 100644
+> --- a/hw/arm/aspeed_ast10x0.c
+> +++ b/hw/arm/aspeed_ast10x0.c
+> @@ -28,10 +28,15 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
+>       [ASPEED_DEV_FMC]       = 0x7E620000,
+>       [ASPEED_DEV_SPI1]      = 0x7E630000,
+>       [ASPEED_DEV_SPI2]      = 0x7E640000,
+> +    [ASPEED_DEV_UDC]       = 0x7E6A2000,
+>       [ASPEED_DEV_SCU]       = 0x7E6E2000,
+> +    [ASPEED_DEV_JTAG0]     = 0x7E6E4000,
+> +    [ASPEED_DEV_JTAG1]     = 0x7E6E4100,
+>       [ASPEED_DEV_ADC]       = 0x7E6E9000,
+> +    [ASPEED_DEV_ESPI]      = 0x7E6EE000,
+>       [ASPEED_DEV_SBC]       = 0x7E6F2000,
+>       [ASPEED_DEV_GPIO]      = 0x7E780000,
+> +    [ASPEED_DEV_SGPIOM]    = 0x7E780500,
+>       [ASPEED_DEV_TIMER1]    = 0x7E782000,
+>       [ASPEED_DEV_UART1]     = 0x7E783000,
+>       [ASPEED_DEV_UART2]     = 0x7E78D000,
+> @@ -79,12 +84,17 @@ static const int aspeed_soc_ast1030_irqmap[] = {
+>       [ASPEED_DEV_LPC]       = 35,
+>       [ASPEED_DEV_PECI]      = 38,
+>       [ASPEED_DEV_FMC]       = 39,
+> +    [ASPEED_DEV_ESPI]      = 42,
+>       [ASPEED_DEV_PWM]       = 44,
+>       [ASPEED_DEV_ADC]       = 46,
+>       [ASPEED_DEV_SPI1]      = 65,
+>       [ASPEED_DEV_SPI2]      = 66,
+>       [ASPEED_DEV_I2C]       = 110, /* 110 ~ 123 */
+>       [ASPEED_DEV_KCS]       = 138, /* 138 -> 142 */
+> +    [ASPEED_DEV_UDC]       = 9,
+> +    [ASPEED_DEV_SGPIOM]    = 51,
+> +    [ASPEED_DEV_JTAG0]     = 27,
+> +    [ASPEED_DEV_JTAG1]     = 53,
+>   };
 >   
->       if (sg_mode) {
->           uint32_t len = 0;
-> @@ -217,9 +218,13 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
->               addr &= SG_LIST_ADDR_MASK;
+>   static qemu_irq aspeed_soc_ast1030_get_irq(AspeedSoCState *s, int dev)
+> @@ -155,6 +165,15 @@ static void aspeed_soc_ast1030_init(Object *obj)
+>       object_initialize_child(obj, "iomem", &s->iomem, TYPE_UNIMPLEMENTED_DEVICE);
+>       object_initialize_child(obj, "sbc-unimplemented", &s->sbc_unimplemented,
+>                               TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "pwm", &s->pwm, TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "espi", &s->espi, TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "udc", &s->udc, TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "sgpiom", &s->sgpiom,
+> +                            TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "jtag[0]", &s->jtag[0],
+> +                            TYPE_UNIMPLEMENTED_DEVICE);
+> +    object_initialize_child(obj, "jtag[1]", &s->jtag[1],
+> +                            TYPE_UNIMPLEMENTED_DEVICE);
+>   }
 >   
->               plen = len & SG_LIST_LEN_MASK;
-> -            iov[i].iov_base = address_space_map(&s->dram_as, addr, &plen, false,
-> -                                                MEMTXATTRS_UNSPECIFIED);
-> -
-> +            haddr = address_space_map(&s->dram_as, addr, &plen, false,
-> +                                      MEMTXATTRS_UNSPECIFIED);
-> +            if (haddr == NULL) {
-> +                qemu_log_mask(LOG_GUEST_ERROR, "%s: qcrypto failed\n", __func__);
-> +                return;
-> +            }
-> +            iov[i].iov_base = haddr;
->               if (acc_mode) {
->                   niov = gen_acc_mode_iov(s, iov, i, &plen);
+>   static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+> @@ -337,6 +356,22 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+>                       sc->memmap[ASPEED_DEV_GPIO]);
+>       sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio), 0,
+>                          aspeed_soc_get_irq(s, ASPEED_DEV_GPIO));
+> +
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->pwm), "aspeed.pwm",
+> +                                  sc->memmap[ASPEED_DEV_PWM], 0x100);
+> +
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->espi), "aspeed.espi",
+> +                                  sc->memmap[ASPEED_DEV_ESPI], 0x800);
+> +
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->udc), "aspeed.udc",
+> +                                  sc->memmap[ASPEED_DEV_UDC], 0x1000);
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->sgpiom), "aspeed.sgpiom",
+> +                                  sc->memmap[ASPEED_DEV_SGPIOM], 0x100);
+> +
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->jtag[0]), "aspeed.jtag",
+> +                                  sc->memmap[ASPEED_DEV_JTAG0], 0x20);
+> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->jtag[1]), "aspeed.jtag",
+> +                                  sc->memmap[ASPEED_DEV_JTAG1], 0x20);
+>   }
 >   
-> @@ -230,10 +235,14 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
->       } else {
->           hwaddr len = s->regs[R_HASH_SRC_LEN];
+>   static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index 8389200b2d..9a5e3c0bac 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -44,6 +44,7 @@
+>   #define ASPEED_CPUS_NUM  2
+>   #define ASPEED_MACS_NUM  4
+>   #define ASPEED_UARTS_NUM 13
+> +#define ASPEED_JTAG_NUM  2
 >   
-> +        haddr = address_space_map(&s->dram_as, s->regs[R_HASH_SRC],
-> +                                  &len, false, MEMTXATTRS_UNSPECIFIED);
-> +        if (haddr == NULL) {
-> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: qcrypto failed\n", __func__);
-> +            return;
-> +        }
-> +        iov[0].iov_base = haddr;
->           iov[0].iov_len = len;
-> -        iov[0].iov_base = address_space_map(&s->dram_as, s->regs[R_HASH_SRC],
-> -                                            &len, false,
-> -                                            MEMTXATTRS_UNSPECIFIED);
->           i = 1;
+>   struct AspeedSoCState {
+>       /*< private >*/
+> @@ -87,6 +88,11 @@ struct AspeedSoCState {
+>       UnimplementedDeviceState video;
+>       UnimplementedDeviceState emmc_boot_controller;
+>       UnimplementedDeviceState dpmcu;
+> +    UnimplementedDeviceState pwm;
+> +    UnimplementedDeviceState espi;
+> +    UnimplementedDeviceState udc;
+> +    UnimplementedDeviceState sgpiom;
+> +    UnimplementedDeviceState jtag[ASPEED_JTAG_NUM];
+>   };
 >   
->           if (s->iov_count) {
+>   #define TYPE_ASPEED_SOC "aspeed-soc"
+> @@ -174,6 +180,11 @@ enum {
+>       ASPEED_DEV_DPMCU,
+>       ASPEED_DEV_DP,
+>       ASPEED_DEV_I3C,
+> +    ASPEED_DEV_ESPI,
+> +    ASPEED_DEV_UDC,
+> +    ASPEED_DEV_SGPIOM,
+> +    ASPEED_DEV_JTAG0,
+> +    ASPEED_DEV_JTAG1,
+>   };
+>   
+>   qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
 
 
