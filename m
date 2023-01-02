@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D81265AEB2
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 10:34:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D7C65AEDA
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 10:46:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCHBH-0002p0-6o; Mon, 02 Jan 2023 04:32:31 -0500
+	id 1pCHNY-00051K-SR; Mon, 02 Jan 2023 04:45:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1pCHBF-0002og-3q
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 04:32:29 -0500
-Received: from ams.source.kernel.org ([145.40.68.75])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1pCHBD-0006Qt-3k
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 04:32:28 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 115C5B80C87
- for <qemu-devel@nongnu.org>; Mon,  2 Jan 2023 09:32:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799A0C43398
- for <qemu-devel@nongnu.org>; Mon,  2 Jan 2023 09:32:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1672651936;
- bh=Ry+t4NYxz2LnY50+lHocjvCB/yPTIKyyLB5poiRirY4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=mXkQCAUXRpMx2BxXatIs9QzKh/4YtzXyuyea26MbEENziG7Yu6Lfk9u+w05FoNSfy
- 1X6iZNd+HpzprTGn+7DA9Biey2i28aBtA4qNY1pSHk6y9WgQkjX8yhl6rjZ/WYvye8
- gpz013krvFpoHqWDhUVl/DRzNBdHBiqGR2KRWjOrCABClrr74Sl/NGB4wwlBCeTjhl
- ntCK9Sylg6yyVEJwtGY+poDlc5+oeII0Hx6zvCrcD7jjMTJkqy/yqlyFV0R7BVD5Ue
- ZkK9UKpLVRFUyb4sSIkkSvKy9val09B183s7D6YATCtcmbGMZrv2PSq3eMyq4PopbV
- xJ9gydXkCBqrQ==
-Received: by mail-lj1-f181.google.com with SMTP id u12so24885482ljj.11
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 01:32:16 -0800 (PST)
-X-Gm-Message-State: AFqh2ko9uv6td0caxPmP6/RHao10kqYDaUowKkk+MUuGBhlVQTPCXVxI
- 2ipBb3FL3+5VXER7U8SF56aJVTAaCEb9Ew8sg88=
-X-Google-Smtp-Source: AMrXdXumaiU5c64MbvVjmQn+Emq3s+Anlwtq0//DHOL0975Aj9+8uS9+d4EPAXnlu81fcPtiuajpivRg/BklVkuooXI=
-X-Received: by 2002:a05:651c:1a25:b0:27f:5559:a998 with SMTP id
- by37-20020a05651c1a2500b0027f5559a998mr1811588ljb.69.1672651934461; Mon, 02
- Jan 2023 01:32:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <fanwj@mail.ustc.edu.cn>)
+ id 1pCHNS-000516-Hx
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 04:45:09 -0500
+Received: from email6.ustc.edu.cn ([2001:da8:d800::8] helo=ustc.edu.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanwj@mail.ustc.edu.cn>) id 1pCHNO-000050-12
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 04:45:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Subject:
+ Content-Type:MIME-Version:Message-ID; bh=emH/Z1Ok7nmH9kNpK5wVN6q
+ rAmY+tMS404YV7dgmiq0=; b=q2WK07JgiRxrwKminNSiLHnt7dQypqF3z77Cxzw
+ yik3mgbbmW8X3yDzMXgGrqQVV8lvlGBwqYOYNWDlb2sr/97blYI+xiRsazDPfue2
+ 3yqhc1ss8GedHdxX4uopUqzEO3nfDtQaQi26B4GB7X3YcoANXw5VyhzXnC7OZf1I
+ bqec=
+Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Mon, 2 Jan
+ 2023 17:44:49 +0800 (GMT+08:00)
+X-Originating-IP: [120.204.77.150]
+Date: Mon, 2 Jan 2023 17:44:49 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: fanwj@mail.ustc.edu.cn
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: fix bug about incorrect base addresss of idt
+ and gdt on i386 and x86_64
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
+ 20210401(c5ff3689) Copyright (c) 2002-2023 www.mailtech.cn ustccn
+X-SendMailWithSms: false
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_464412_1830862569.1672652689268"
 MIME-Version: 1.0
-References: <Y7A76+IBS4fnucrW@zn.tnic> <Y7A8qP05B0YRbQIN@zx2c4.com>
- <Y7A9nBud6UeH+wYd@zn.tnic> <Y7A+YELM7m5E2PUQ@zx2c4.com>
- <Y7BGIAL4z6o6FEI5@zn.tnic>
- <Y7B993P1+jYB/etX@zx2c4.com> <Y7CGzde+qPB7YJP4@zn.tnic>
- <60566f8b-c90f-12e7-c13e-94e9829eee2d@zytor.com>
- <8f072588-7d66-0932-7486-ed9159ae93ae@zytor.com> <Y7JzTh8JnMXM6ZPS@zn.tnic>
- <Y7J3B50kn1kWrxlk@zn.tnic>
-In-Reply-To: <Y7J3B50kn1kWrxlk@zn.tnic>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 2 Jan 2023 10:32:03 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXHDw5p5yX25TnKiQ7sgqVbhEjB+=fu=7Oz67shQD-fL6Q@mail.gmail.com>
-Message-ID: <CAMj1kXHDw5p5yX25TnKiQ7sgqVbhEjB+=fu=7Oz67shQD-fL6Q@mail.gmail.com>
-Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
- setup_data
-To: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- pbonzini@redhat.com, 
- ebiggers@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org, 
- qemu-devel@nongnu.org, kraxel@redhat.com, philmd@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=ardb@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Message-ID: <5c354035.20760.18571de8f74.Coremail.fanwj@mail.ustc.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: LkAmygAXGn6Rp7JjiPGLAA--.3W
+X-CM-SenderInfo: pidq4yo6pdxzwoxv3uoohg3hdfq/1tbiAQwTEFQhoPOJ6QAIsA
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=2001:da8:d800::8;
+ envelope-from=fanwj@mail.ustc.edu.cn; helo=ustc.edu.cn
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HTML_MESSAGE=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,121 +70,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2 Jan 2023 at 07:17, Borislav Petkov <bp@alien8.de> wrote:
->
-> On Mon, Jan 02, 2023 at 07:01:50AM +0100, Borislav Petkov wrote:
-> > On Sat, Dec 31, 2022 at 07:31:21PM -0800, H. Peter Anvin wrote:
-> > > It would probably be a good idea to add a "maximum physical address for
-> > > initrd/setup_data/cmdline" field to struct kernel_info, though. It appears
-> > > right now that those fields are being identity-mapped in the decompressor,
-> > > and that means that if 48-bit addressing is used, physical memory may extend
-> > > past the addressable range.
-> >
-> > Yeah, we will probably need that too.
-> >
-> > Btw, looka here - it can't get any more obvious than that after dumping
-> > setup_data too:
-> >
-> > early console in setup code
-> > early console in extract_kernel
-> > input_data: 0x00000000040f92bf
-> > input_len: 0x0000000000f1c325
-> > output: 0x0000000001000000
-> > output_len: 0x0000000003c5e7d8
-> > kernel_total_size: 0x0000000004428000
-> > needed_size: 0x0000000004600000
-> > boot_params->hdr.setup_data: 0x00000000010203b0
-> > trampoline_32bit: 0x000000000009d000
-> >
-> > Decompressing Linux... Parsing ELF... done.
-> > Booting the kernel.
-> > <EOF>
-> >
-> > Aligning them vertically:
-> >
-> > output:                               0x0000000001000000
-> > output_len:                   0x0000000003c5e7d8
-> > kernel_total_size:            0x0000000004428000
-> > needed_size:                  0x0000000004600000
-> > boot_params->hdr.setup_data:  0x00000000010203b0
->
-> Ok, waait a minute:
->
-> ============    ============
-> Field name:     pref_address
-> Type:           read (reloc)
-> Offset/size:    0x258/8
-> Protocol:       2.10+
-> ============    ============
->
->   This field, if nonzero, represents a preferred load address for the
->   kernel.  A relocating bootloader should attempt to load at this
->   address if possible.
->
->   A non-relocatable kernel will unconditionally move itself and to run
->   at this address.
->
-> so a kernel loader (qemu in this case) already knows where the kernel goes:
->
-> boot_params->hdr.setup_data: 0x0000000001020450
-> boot_params->hdr.pref_address: 0x0000000001000000
->                                 ^^^^^^^^^^^^^^^^^
->
-> now, considering that same kernel loader (qemu) knows how big that kernel is:
->
-> kernel_total_size: 0x0000000004428000
->
-> should that loader *not* put anything that the kernel will use in the range
->
-> pref_addr + kernel_total_size
->
+------=_Part_464412_1830862569.1672652689268
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-This seems to be related to another issue that was discussed in the
-context of this change, but affecting EFI boot not legacy BIOS boot
-[0].
+T24gbGludXggdXNlciBtb2RlLCBDUFVYODZTdGF0ZTo6aWR0OjpiYXNlIGFuZCBDUFVYODZTdGF0
+ZTo6Z2R0OjpiYXNlIGZyb20gRGlmZmVyZW50IENQVVg4NlN0YXRlIE9iamVjdHMgaGF2ZSBzYW1l
+IHZhbHVlLCBJdCBpcyBpbmNvcnJlY3QhIEV2ZXJ5IENQVVg4NlN0YXRlOjppZHQ6OmJhc2UgYW5k
+IEV2ZXJ5IENQVVg4NlN0YXRlOjpnZHQ6OmJhc2UgTXVzdCBwb2ludHMgdG8gaW5kZXBlbmRlbnQg
+bWVtb3J5IHNwYWNlLiBSZXNvbHZlczogaHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJvamVjdC9x
+ZW11Ly0vaXNzdWVzLzE0MDUgU2lnbmVkLW9mZi1ieTogZmFud2VuamllIC0tLSBsaW51eC11c2Vy
+L2kzODYvY3B1X2xvb3AuYyB8IDEwICsrKysrKysrKysgbGludXgtdXNlci9tYWluLmMgfCAxMSAr
+KysrKysrKysrKyAyIGZpbGVzIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKykgZGlmZiAtLWdpdCBh
+L2xpbnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jIGIvbGludXgtdXNlci9pMzg2L2NwdV9sb29wLmMg
+aW5kZXggODY1NDEzYzA4Zi4uMWYyM2JjNWUzYSAxMDA2NDQgLS0tIGEvbGludXgtdXNlci9pMzg2
+L2NwdV9sb29wLmMgKysrIGIvbGludXgtdXNlci9pMzg2L2NwdV9sb29wLmMgQEAgLTMxNCw4ICsz
+MTQsMTggQEAgdm9pZCBjcHVfbG9vcChDUFVYODZTdGF0ZSAqZW52KSB9IH0gK3N0YXRpYyB2b2lk
+IHRhcmdldF9jcHVfZnJlZSh2b2lkICpvYmopICt7ICsgQ1BVQXJjaFN0YXRlKiBlbnYgPSAoKENQ
+VVN0YXRlKilvYmopLT5lbnZfcHRyOyArIHRhcmdldF9tdW5tYXAoZW52LT5pZHQuYmFzZSwgc2l6
+ZW9mKHVpbnQ2NF90KSAqIChlbnYtPmlkdC5saW1pdCArIDEpKTsgKyB0YXJnZXRfbXVubWFwKGVu
+di0+Z2R0LmJhc2UsIHNpemVvZih1aW50NjRfdCkgKiBUQVJHRVRfR0RUX0VOVFJJRVMpOyArIGdf
+ZnJlZShvYmopOyArfSArIHZvaWQgdGFyZ2V0X2NwdV9jb3B5X3JlZ3MoQ1BVQXJjaFN0YXRlICpl
+bnYsIHN0cnVjdCB0YXJnZXRfcHRfcmVncyAqcmVncykgeyArIENQVVN0YXRlKiBjcHUgPSBlbnZf
+Y3B1KGVudik7ICsgT0JKRUNUKGNwdSktPmZyZWUgPSB0YXJnZXRfY3B1X2ZyZWU7IGVudi0+Y3Jb
+MF0gPSBDUjBfUEdfTUFTSyB8IENSMF9XUF9NQVNLIHwgQ1IwX1BFX01BU0s7IGVudi0+aGZsYWdz
+IHw9IEhGX1BFX01BU0sgfCBIRl9DUExfTUFTSzsgaWYgKGVudi0+ZmVhdHVyZXNbRkVBVF8xX0VE
+WF0gJiBDUFVJRF9TU0UpIHsgZGlmZiAtLWdpdCBhL2xpbnV4LXVzZXIvbWFpbi5jIGIvbGludXgt
+dXNlci9tYWluLmMgaW5kZXggYTE3ZmVkMDQ1Yi4uMjI3NjA0MDU0OCAxMDA2NDQgLS0tIGEvbGlu
+dXgtdXNlci9tYWluLmMgKysrIGIvbGludXgtdXNlci9tYWluLmMgQEAgLTIzNCw2ICsyMzQsMTcg
+QEAgQ1BVQXJjaFN0YXRlICpjcHVfY29weShDUFVBcmNoU3RhdGUgKmVudikgbmV3X2NwdS0+dGNn
+X2NmbGFncyA9IGNwdS0+dGNnX2NmbGFnczsgbWVtY3B5KG5ld19lbnYsIGVudiwgc2l6ZW9mKENQ
+VUFyY2hTdGF0ZSkpOyArI2lmIGRlZmluZWQoVEFSR0VUX0kzODYpIHx8IGRlZmluZWQoVEFSR0VU
+X1g4Nl82NCkgKyBuZXdfZW52LT5nZHQuYmFzZSA9IHRhcmdldF9tbWFwKDAsIHNpemVvZih1aW50
+NjRfdCkgKiBUQVJHRVRfR0RUX0VOVFJJRVMsICsgUFJPVF9SRUFEfFBST1RfV1JJVEUsICsgTUFQ
+X0FOT05ZTU9VU3xNQVBfUFJJVkFURSwgLTEsIDApOyArIG5ld19lbnYtPmlkdC5iYXNlID0gdGFy
+Z2V0X21tYXAoMCwgc2l6ZW9mKHVpbnQ2NF90KSAqIChlbnYtPmlkdC5saW1pdCArIDEpLCArIFBS
+T1RfUkVBRHxQUk9UX1dSSVRFLCArIE1BUF9BTk9OWU1PVVN8TUFQX1BSSVZBVEUsIC0xLCAwKTsg
+KyBtZW1jcHkoKHZvaWQqKW5ld19lbnYtPmdkdC5iYXNlLCAodm9pZCopZW52LT5nZHQuYmFzZSwg
+c2l6ZW9mKHVpbnQ2NF90KSAqIFRBUkdFVF9HRFRfRU5UUklFUyk7ICsgbWVtY3B5KCh2b2lkKilu
+ZXdfZW52LT5pZHQuYmFzZSwgKHZvaWQqKWVudi0+aWR0LmJhc2UsIHNpemVvZih1aW50NjRfdCkg
+KiAoZW52LT5pZHQubGltaXQgKyAxKSk7ICsgT0JKRUNUKG5ld19jcHUpLT5mcmVlID0gT0JKRUNU
+KGNwdSktPmZyZWU7ICsjZW5kaWYgLyogQ2xvbmUgYWxsIGJyZWFrL3dhdGNocG9pbnRzLiBOb3Rl
+OiBPbmNlIHdlIHN1cHBvcnQgcHRyYWNlIHdpdGggaHctZGVidWcgcmVnaXN0ZXIgYWNjZXNzLCBt
+YWtlIHN1cmUgLS0gMi4zNC4x
+------=_Part_464412_1830862569.1672652689268
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-So, in a nutshell, we have the following pieces:
-- QEMU, which manages a directory of files and other data blobs, and
-exposes them via its fw_cfg interface.
-- SeaBIOS, which invokes the fw_cfg interface to load the 'kernel'
-blob at its preferred address
-- The boot code in the kernel, which interprets the various fields in
-the setup header to figure out where the compressed image lives etc
+T24gbGludXggdXNlciBtb2RlLCBDUFVYODZTdGF0ZTo6aWR0OjpiYXNlIGFuZCBDUFVYODZTdGF0
+ZTo6Z2R0OjpiYXNlIGZyb20gRGlmZmVyZW50IENQVVg4NlN0YXRlIE9iamVjdHMgaGF2ZSBzYW1l
+IHZhbHVlLCBJdCBpcyBpbmNvcnJlY3QhIEV2ZXJ5IENQVVg4NlN0YXRlOjppZHQ6OmJhc2UgYW5k
+IEV2ZXJ5IENQVVg4NlN0YXRlOjpnZHQ6OmJhc2UgTXVzdCBwb2ludHMgdG8gaW5kZXBlbmRlbnQg
+bWVtb3J5IHNwYWNlLiAgCgpSZXNvbHZlczogaHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJvamVj
+dC9xZW11Ly0vaXNzdWVzLzE0MDUKU2lnbmVkLW9mZi1ieTogZmFud2VuamllIDxmYW53aj4KCi0t
+LQogbGludXgtdXNlci9pMzg2L2NwdV9sb29wLmMgfCAxMCArKysrKysrKysrCiBsaW51eC11c2Vy
+L21haW4uYyAgICAgICAgICB8IDExICsrKysrKysrKysrCiAyIGZpbGVzIGNoYW5nZWQsIDIxIGlu
+c2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9saW51eC11c2VyL2kzODYvY3B1X2xvb3AuYyBiL2xp
+bnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jCmluZGV4IDg2NTQxM2MwOGYuLjFmMjNiYzVlM2EgMTAw
+NjQ0Ci0tLSBhL2xpbnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jCisrKyBiL2xpbnV4LXVzZXIvaTM4
+Ni9jcHVfbG9vcC5jCkBAIC0zMTQsOCArMzE0LDE4IEBAIHZvaWQgY3B1X2xvb3AoQ1BVWDg2U3Rh
+dGUgKmVudikKICAgICB9CiB9CiAKK3N0YXRpYyB2b2lkIHRhcmdldF9jcHVfZnJlZSh2b2lkICpv
+YmopCit7CisgICAgQ1BVQXJjaFN0YXRlKiBlbnYgPSAoKENQVVN0YXRlKilvYmopLSZndDtlbnZf
+cHRyOworICAgIHRhcmdldF9tdW5tYXAoZW52LSZndDtpZHQuYmFzZSwgc2l6ZW9mKHVpbnQ2NF90
+KSAqIChlbnYtJmd0O2lkdC5saW1pdCArIDEpKTsKKyAgICB0YXJnZXRfbXVubWFwKGVudi0mZ3Q7
+Z2R0LmJhc2UsIHNpemVvZih1aW50NjRfdCkgKiBUQVJHRVRfR0RUX0VOVFJJRVMpOworICAgIGdf
+ZnJlZShvYmopOworfQorCiB2b2lkIHRhcmdldF9jcHVfY29weV9yZWdzKENQVUFyY2hTdGF0ZSAq
+ZW52LCBzdHJ1Y3QgdGFyZ2V0X3B0X3JlZ3MgKnJlZ3MpCiB7CisgICAgQ1BVU3RhdGUqIGNwdSA9
+IGVudl9jcHUoZW52KTsKKyAgICBPQkpFQ1QoY3B1KS0mZ3Q7ZnJlZSA9IHRhcmdldF9jcHVfZnJl
+ZTsKICAgICBlbnYtJmd0O2NyWzBdID0gQ1IwX1BHX01BU0sgfCBDUjBfV1BfTUFTSyB8IENSMF9Q
+RV9NQVNLOwogICAgIGVudi0mZ3Q7aGZsYWdzIHw9IEhGX1BFX01BU0sgfCBIRl9DUExfTUFTSzsK
+ICAgICBpZiAoZW52LSZndDtmZWF0dXJlc1tGRUFUXzFfRURYXSAmYW1wOyBDUFVJRF9TU0UpIHsK
+ZGlmZiAtLWdpdCBhL2xpbnV4LXVzZXIvbWFpbi5jIGIvbGludXgtdXNlci9tYWluLmMKaW5kZXgg
+YTE3ZmVkMDQ1Yi4uMjI3NjA0MDU0OCAxMDA2NDQKLS0tIGEvbGludXgtdXNlci9tYWluLmMKKysr
+IGIvbGludXgtdXNlci9tYWluLmMKQEAgLTIzNCw2ICsyMzQsMTcgQEAgQ1BVQXJjaFN0YXRlICpj
+cHVfY29weShDUFVBcmNoU3RhdGUgKmVudikKIAogICAgIG5ld19jcHUtJmd0O3RjZ19jZmxhZ3Mg
+PSBjcHUtJmd0O3RjZ19jZmxhZ3M7CiAgICAgbWVtY3B5KG5ld19lbnYsIGVudiwgc2l6ZW9mKENQ
+VUFyY2hTdGF0ZSkpOworI2lmIGRlZmluZWQoVEFSR0VUX0kzODYpIHx8IGRlZmluZWQoVEFSR0VU
+X1g4Nl82NCkKKyAgICBuZXdfZW52LSZndDtnZHQuYmFzZSA9IHRhcmdldF9tbWFwKDAsIHNpemVv
+Zih1aW50NjRfdCkgKiBUQVJHRVRfR0RUX0VOVFJJRVMsCisgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBQUk9UX1JFQUR8UFJPVF9XUklURSwKKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIE1BUF9BTk9OWU1PVVN8TUFQX1BSSVZBVEUsIC0xLCAwKTsKKyAgICBu
+ZXdfZW52LSZndDtpZHQuYmFzZSA9IHRhcmdldF9tbWFwKDAsIHNpemVvZih1aW50NjRfdCkgKiAo
+ZW52LSZndDtpZHQubGltaXQgKyAxKSwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+UFJPVF9SRUFEfFBST1RfV1JJVEUsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE1B
+UF9BTk9OWU1PVVN8TUFQX1BSSVZBVEUsIC0xLCAwKTsKKyAgICBtZW1jcHkoKHZvaWQqKW5ld19l
+bnYtJmd0O2dkdC5iYXNlLCAodm9pZCopZW52LSZndDtnZHQuYmFzZSwgc2l6ZW9mKHVpbnQ2NF90
+KSAqIFRBUkdFVF9HRFRfRU5UUklFUyk7CisgICAgbWVtY3B5KCh2b2lkKiluZXdfZW52LSZndDtp
+ZHQuYmFzZSwgKHZvaWQqKWVudi0mZ3Q7aWR0LmJhc2UsIHNpemVvZih1aW50NjRfdCkgKiAoZW52
+LSZndDtpZHQubGltaXQgKyAxKSk7CisgICAgT0JKRUNUKG5ld19jcHUpLSZndDtmcmVlID0gT0JK
+RUNUKGNwdSktJmd0O2ZyZWU7CisjZW5kaWYKIAogICAgIC8qIENsb25lIGFsbCBicmVhay93YXRj
+aHBvaW50cy4KICAgICAgICBOb3RlOiBPbmNlIHdlIHN1cHBvcnQgcHRyYWNlIHdpdGggaHctZGVi
+dWcgcmVnaXN0ZXIgYWNjZXNzLCBtYWtlIHN1cmUKLS0gCjIuMzQuMTwvZmFud2o+
+------=_Part_464412_1830862569.1672652689268--
 
-So the problem here, which applies to SETUP_DTB as well as
-SETUP_RNG_SEED, is that the internal file representation of the kernel
-blob (which does not have an absolute address at this point, it's just
-a file in the fw_cfg filesystem) is augmented with:
-1) setup_data linked-list entries carrying absolute addresses that are
-assumed to be valid once SeaBIOS loads the file to memory
-2) DTB and/or RNG seed blobs appended to the compressed 'kernel' blob,
-but without updating that file's internal metadata
-
-Issue 1) is what broke EFI boot, given that EFI interprets the kernel
-blob as a PE/COFF image and hands it to the Loadimage() boot service,
-which has no awareness of boot_params or setup_data and so just
-ignores it and loads the image at an arbitrary address, resulting in
-setup_data absolute address values pointing to bogus places.
-
-It seems that now, we have another issue 2), where the fw_cfg view of
-the file size goes out of sync with the compressed image's own view of
-its size.
-
-As a fix for issue 1), we explored another solution, which was to
-allocate fixed areas in memory for the RNG seed, so that the absolute
-address added to setup_data is guaranteed to be correct regardless of
-where the compressed image is loaded, but that was shot down for other
-reasons, and we ended up enabling this feature only for legacy BIOS
-boot. But apparently, this approach has other issues so perhaps it is
-better to revisit that solution again.
-
-So instead of appending data to the compressed image and assuming that
-it will stay in place, create or extend a memory reservation
-elsewhere, and refer to its absolute address in setup_data.
-
--- 
-Ard.
-
-
-[0] https://lore.kernel.org/all/CAMj1kXFr6Bv4_G0-wCTu4fp_iCrG060NHJx_j2dbnyiFJKYYeQ@mail.gmail.com/
 
