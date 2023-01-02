@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC7765B167
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:44:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E23165B183
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:53:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCJDH-0004p7-O9; Mon, 02 Jan 2023 06:42:43 -0500
+	id 1pCJN6-00076l-Fo; Mon, 02 Jan 2023 06:52:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pCJDG-0004oy-1o
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:42:42 -0500
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pCJN4-00074e-62
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:52:50 -0500
+Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pCJDE-0001f1-Bk
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:42:41 -0500
-Received: by mail-lj1-x230.google.com with SMTP id x37so21943925ljq.1
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:42:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q5k8lx/wBRwrEHPXb2Y7WGmdB9oPwuapV7VPFe0QVY4=;
- b=Cx5lXDUqN6oyEJfTTKC2hwA6rL2R3/dOJRUtlfFBw406DtljF5fLhHG/b3CTlpGB7Y
- IfpA96n077memOtGbKPgN4tKpHzIMrgD5BEdjKmH+4Pr6eo75Bq4OOgbslSdC3cMEGCV
- YX56feYJ4HIwduv/qwuYNmYn4wI1K5YyqUlH0EJ2WmOLZqFOqVX7Ke9FGedlHoQjzxkq
- FumwObjvqgmDPehqntrKrLyyAk8WI0oC8EIKaPZtxWIC23Kf/cCIN5FNcPSELG9yHfbV
- Zwl7jk7QLJw7GbyF5DphSxhPdEw0EW9ySCcolNv+6z4NgBF1zgvQONtj3bTdpzZrGUmP
- ZQhg==
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pCJN2-0002tq-C3
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:52:49 -0500
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-1322d768ba7so33431533fac.5
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:52:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=A7MfKIV6UJurYaYOAwW8AfZhVVvPn5Qy6LY3tqwPfbE=;
+ b=U9dqzFRe86AVgLeiieuAY2fsjYbvsI0GYCdYtDhxbixQhDAl6wJRkkcZYg8vl8lD8s
+ w+1RBY03kZf1K7utYWQOIiBVoJjqicuLR5zEAweIEoH7dy3xJ9zRxLck2HF4c0koHsQM
+ Aienc9vebh+8nlQKTZNigb4ZhLMJVOlupUBn4d7kxCeZ9uUSlG0MbM4pbBh+XGe0rJEt
+ vJgLMyLE4yk3WhOvykU+umzfUHqEG7oS8pD16nZGdQvhO28cXgp/3p78jvlO9QlC2zTW
+ hQY/r9h7J1CnOxarouzSA6gZ/+cPjip+xx2BFVES2g4/fIdBVKn4xR+PQbnx506jiHru
+ 3daw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Q5k8lx/wBRwrEHPXb2Y7WGmdB9oPwuapV7VPFe0QVY4=;
- b=zjcSYaJxGOT3BcDxf/sp7eZIja/8p8zfwp58rWhxSzL7P7aodwvAaRmR5tQ0yKzZcT
- ibyF0f/QhYaCjs7vXOVvqOT/NaBiZdE/ngFajzen6HFJ9N+h1KEa8rkR9h93OoPsqwwD
- BJDXNdFPbVUwUYsPQ5AoMWl6b7yZpvDhbF3R7NxeviIkdYQiHesfjYz0+/gECqlpM9E8
- 04S7j17ih6RPNClcsVpLnFDmZcHW0C6KXgdumMkCv8wPfeOiwM9lemnWNQuZc/JxpiAo
- FKm/b9+maci+BORamHi8CONCIZJA5+ugAXoKP7XRW9YbqGAahtUWV6ML7q9Dsm/I6dLZ
- Q5dw==
-X-Gm-Message-State: AFqh2kpMvuuh0wAazos21ZcMEffAhIfFlxkbV3U/fcv6aZ2b9QNVFHlX
- fZdWFsE/pz/AhlxX1NFG09hB1F5x20cZzg4lJEA=
-X-Google-Smtp-Source: AMrXdXvqYVRV73pulXuUGyB49w5bBgmsMCoQL06IVjrISDQZ63AdHPp1P4p6D8ctZDscsxuO7emPHVqV+r2hsL6tnAQ=
-X-Received: by 2002:a2e:9586:0:b0:27f:e145:bffe with SMTP id
- w6-20020a2e9586000000b0027fe145bffemr582412ljh.529.1672659758421; Mon, 02 Jan
- 2023 03:42:38 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=A7MfKIV6UJurYaYOAwW8AfZhVVvPn5Qy6LY3tqwPfbE=;
+ b=taYiNjwnb63/rgyFI4LDEoyHx0IDreyQTvZ7RGB4DrOAY+oUTRQHAhcNeFUu8xeFAP
+ cqDNzLYkGk/gsLIMyHJ0uZTz1MH9U2Y2AVbGZjKNC3Cydei6hSN0Mx752z/lGezvquh7
+ sP8FAeUp3H19xXKiO6f81eObKpfdcTz2xUO5lBOq7/2OV641Y2OTxiiAQq2ByPGAf7VP
+ LKUeh60VokT1wTgbT/73IAvBGOtol/GGy5fb75nuiFf0uqStZ74BGsp8+veGzgS1B1KN
+ baI95RZvwuxLsbWCP6SdlwQEEcompamrZrc1yc/167NpJuSC5xd4DvR+qLIvI0cDYocZ
+ A4YQ==
+X-Gm-Message-State: AFqh2kr3+MLUeAt1emSqqdKz4SZ76GCkOuI0L5ICfAU8gfR56BehI6un
+ ITWQErOcWKxqHsXyuM0kLzOLqPunBmnV8bIV
+X-Google-Smtp-Source: AMrXdXsxukA85VGjDG1DlsLz6tKrvhgvIZ/rLuzh5wmYMcJWDnkmtdJff08S72PDJ2uXshkzJv6vXg==
+X-Received: by 2002:a05:6870:2104:b0:150:432e:e2a7 with SMTP id
+ f4-20020a056870210400b00150432ee2a7mr10255861oae.55.1672660366606; 
+ Mon, 02 Jan 2023 03:52:46 -0800 (PST)
+Received: from grind.. ([191.17.222.139]) by smtp.gmail.com with ESMTPSA id
+ l39-20020a05687106a700b0014fb4bdc746sm11354475oao.8.2023.01.02.03.52.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Jan 2023 03:52:46 -0800 (PST)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Bin Meng <bin.meng@windriver.com>
+Subject: [PATCH v5 00/11] riscv: OpenSBI boot test and cleanups
+Date: Mon,  2 Jan 2023 08:52:30 -0300
+Message-Id: <20230102115241.25733-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20221230092758.281805-1-dengpc12@chinatelecom.cn>
- <20221230092758.281805-4-dengpc12@chinatelecom.cn>
-In-Reply-To: <20221230092758.281805-4-dengpc12@chinatelecom.cn>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 2 Jan 2023 15:42:26 +0400
-Message-ID: <CAJ+F1CK0DW+hr-7KkYt_E+qNRtPjaL3x_PwPZgT9tFS5nGB=Rw@mail.gmail.com>
-Subject: Re: [PATCH RFC 3/4] vdagent: add live migration support
-To: dengpc12@chinatelecom.cn
-Cc: qemu-devel@nongnu.org, huangy81@chinatelecom.cn, liuym16@chinatelecom.cn, 
- kraxel@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::230;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x230.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2f;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,103 +90,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+Hi,
+
+This new version is still rebased on top of [1]:
+
+"[PATCH v2 00/12] hw/riscv: Improve Spike HTIF emulation fidelity"
+
+from Bin Meng.
+
+The change from v4 is on patch 9 where we added an extra flag in
+riscv_load_kernel() to allow for boards that don't load initrd
+(e.g. opentitan and sifive_e) to opt out from loading it altogether.
+
+* Patch without reviews: 9
+
+Changes from v4:
+- patch 9:
+  - added a 'load_init' flag in riscv_load_kernel() to control whether
+    the function should execute riscv_load_initrd() or not
+v4 link: https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04652.html
+
+Changes from v3:
+- patch 1:
+  - fixed more instances of 'opensbi' and 'Opensbi' to 'OpenSBI'
+  - changed tests order
+- patch 4 (new):
+  - added a g_assert(filename) guard in riscv_load_initrd() and
+    riscv_load_kernel()
+v3 link: https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg04491.html 
+
+Changes from v2:
+- patch 1:
+  - reduced code repetition with a boot_opensbi() helper
+  - renamed 'opensbi' to 'OpenSBI' in the file header
+- patch 9:
+  - renamed riscv_load_kernel() to riscv_load_kernel_and_initrd()
+v2 link: https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg04466.html
 
 
-On Fri, Dec 30, 2022 at 6:49 PM <dengpc12@chinatelecom.cn> wrote:
->
-> From: "dengpc12@chinatelecom.cn" <dengpc12@chinatelecom.cn>
->
-> To support live migration, we made the following 2 modifications:
-> 1. save the caps field of VDAgentChardev.
-> 2. register vdagent to qemu-clipboard after
->    vm device state being reloaded during live migration.
->
-> Signed-off-by: dengpc12@chinatelecom.cn <dengpc12@chinatelecom.cn>
-> Signed-off-by: liuym16@chinatelecom.cn <liuym16@chinatelecom.cn>
-> ---
->  ui/trace-events |  1 +
->  ui/vdagent.c    | 28 ++++++++++++++++++++++++++++
->  2 files changed, 29 insertions(+)
->
-> diff --git a/ui/trace-events b/ui/trace-events
-> index 5e50b60da5..ccacd867d1 100644
-> --- a/ui/trace-events
-> +++ b/ui/trace-events
-> @@ -144,6 +144,7 @@ vdagent_cb_grab_discard(const char *name, int cur, in=
-t recv) "selection %s, cur:
->  vdagent_cb_grab_type(const char *name) "type %s"
->  vdagent_cb_serial_discard(uint32_t current, uint32_t received) "current=
-=3D%u, received=3D%u"
->  vdagent_recv_caps(uint32_t caps) "received caps %u"
-> +vdagent_migration_caps(uint32_t caps) "migrated caps %u"
->
->  # dbus.c
->  dbus_registered_listener(const char *bus_name) "peer %s"
-> diff --git a/ui/vdagent.c b/ui/vdagent.c
-> index 38061d5b38..1193abe348 100644
-> --- a/ui/vdagent.c
-> +++ b/ui/vdagent.c
-> @@ -6,6 +6,7 @@
->  #include "qemu/units.h"
->  #include "hw/qdev-core.h"
->  #include "migration/blocker.h"
-> +#include "migration/vmstate.h"
->  #include "ui/clipboard.h"
->  #include "ui/console.h"
->  #include "ui/input.h"
-> @@ -906,6 +907,31 @@ static void vdagent_chr_parse(QemuOpts *opts, Charde=
-vBackend *backend,
->
->  /* ------------------------------------------------------------------ */
->
-> +static int vdagent_post_load(void *opaque, int version_id)
-> +{
-> +    VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(opaque);
-> +
-> +    trace_vdagent_migration_caps(vd->caps);
-> +
-> +    if (vd->caps) {
-> +        vdagent_register_to_qemu_clipboard(vd);
-> +        qemu_input_handler_activate(vd->mouse_hs);
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static const VMStateDescription vmstate_vdagent =3D {
-> +    .name =3D "vdagent",
-> +    .version_id =3D 1,
-> +    .minimum_version_id =3D 1,
-> +    .post_load =3D vdagent_post_load,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_UINT32(caps, VDAgentChardev),
-
-You are missing a lot of states from VDAgentChardev. Most of the
-fields must be saved/restored.
-
-> +        VMSTATE_END_OF_LIST()
-> +    },
-> +};
-> +
->  static void vdagent_chr_class_init(ObjectClass *oc, void *data)
->  {
->      ChardevClass *cc =3D CHARDEV_CLASS(oc);
-> @@ -922,6 +948,8 @@ static void vdagent_chr_init(Object *obj)
->      VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);
->
->      buffer_init(&vd->outbuf, "vdagent-outbuf");
-> +
-> +    vmstate_register(NULL, 0, &vmstate_vdagent, vd);
->      error_setg(&vd->migration_blocker,
->                 "The vdagent chardev doesn't yet support migration");
->  }
-> --
-> 2.27.0
->
->
+Changes from v1:
+- patches were rebased with [1]
+- patches 13-15: removed
+  * will be re-sent in a follow-up series
+- patches 4-5: removed since they're picked by Bin in [1]
+- patch 1:
+  - added a 'skip' riscv32 spike test
+v1 link: https://mail.gnu.org/archive/html/qemu-devel/2022-12/msg03860.html
 
 
---
-Marc-Andr=C3=A9 Lureau
+Based-on: <20221227064812.1903326-1-bmeng@tinylab.org>
+
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>
+
+[1] https://patchwork.ozlabs.org/project/qemu-devel/list/?series=334352
+
+Daniel Henrique Barboza (11):
+  tests/avocado: add RISC-V OpenSBI boot test
+  hw/riscv/spike: use 'fdt' from MachineState
+  hw/riscv/sifive_u: use 'fdt' from MachineState
+  hw/riscv/boot.c: exit early if filename is NULL in load functions
+  hw/riscv/spike.c: load initrd right after riscv_load_kernel()
+  hw/riscv: write initrd 'chosen' FDT inside riscv_load_initrd()
+  hw/riscv: write bootargs 'chosen' FDT after riscv_load_kernel()
+  hw/riscv/boot.c: use MachineState in riscv_load_initrd()
+  hw/riscv/boot.c: use MachineState in riscv_load_kernel()
+  hw/riscv/boot.c: consolidate all kernel init in riscv_load_kernel()
+  hw/riscv/boot.c: make riscv_load_initrd() static
+
+ hw/riscv/boot.c                | 91 +++++++++++++++++++++++-----------
+ hw/riscv/microchip_pfsoc.c     | 20 +-------
+ hw/riscv/opentitan.c           |  3 +-
+ hw/riscv/sifive_e.c            |  4 +-
+ hw/riscv/sifive_u.c            | 32 +++---------
+ hw/riscv/spike.c               | 37 ++++----------
+ hw/riscv/virt.c                | 21 +-------
+ include/hw/riscv/boot.h        |  5 +-
+ include/hw/riscv/sifive_u.h    |  3 --
+ include/hw/riscv/spike.h       |  2 -
+ tests/avocado/riscv_opensbi.py | 65 ++++++++++++++++++++++++
+ 11 files changed, 150 insertions(+), 133 deletions(-)
+ create mode 100644 tests/avocado/riscv_opensbi.py
+
+-- 
+2.39.0
+
 
