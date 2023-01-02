@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D65665B19A
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6F665B188
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:54:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCJNH-0007G9-Fx; Mon, 02 Jan 2023 06:53:03 -0500
+	id 1pCJNJ-0007HY-JI; Mon, 02 Jan 2023 06:53:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pCJNE-0007Fe-UX
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:53:00 -0500
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
+ id 1pCJNH-0007Gf-L5
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:53:03 -0500
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pCJND-0002vW-Cl
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:53:00 -0500
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-144bd860fdbso33496992fac.0
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:52:59 -0800 (PST)
+ id 1pCJNG-0002vq-23
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:53:03 -0500
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-15085b8a2f7so8649230fac.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:53:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=P3cARjG1/wwT2hePMTnt8/W2vA3rPNVOtanqBwKMrFs=;
- b=pmfbqOZC6/jh2dRtZBXFkSR18HYOOBZAjCGIvUJSf/dGllvN8IAnchSYgZ2jtIq88W
- g6vQ0i38y02NAbl8KjZG2KD1u1hWxUtfG182aHkWnSLCLk7gx4rG3x8yi9XpoR9ZJG0r
- d17gablDCW9n0l+VETE1sGAJD15FixW1OvYnE5W7oMcPnmuZ+VOFJEoJoGMlgIwZR8g9
- NnwYNTc6PaWGPbElRkl1isq8mcVKe4gYUysBLgtrYmfgBCsBCAiYkaXLDqDIPCvguCVa
- OAG8QZAKsE4KU9ZV3HEV+YBpxxMgyBNPQS+S66TM9mFGw7HWThS1VUSYIjJ8Xq1g+LIm
- dZNA==
+ bh=F3Qf24Mcvdq7XC1RvlBaxtiPnO2W6AoSq8V10ISw/KM=;
+ b=EeQhZ54Sj521vNVYhwBVSyShyKOj7JdasAnK1tPHUyaVE91z5uDvu97ba5+LUakfwy
+ MI0iRbwgjydzF9xFYvwTVuDHaYI2qvKXHLnZe8ktkl76vbqOFNcxGkqTVYN7kGH7ctuL
+ GO2Zti3MGoTJdXwS3kR4CHU7BRmXFYyXtHxJl6T5YJ0/xv3BJEJWlR2CU1CQPbzKMAHU
+ VUvLc5Y9knkiqlrOtwlk+g+UT0sQZHpJdElvtN6FFtA5rI5QKm0DTP1YiDe0StlxLyxm
+ CRMOnoEQEd5x1BZeElBzDI5Bb0n9Gs1pKXHa8Apb6oRYn4Evu+qcVVlezAafyPwCtV27
+ f1Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=P3cARjG1/wwT2hePMTnt8/W2vA3rPNVOtanqBwKMrFs=;
- b=R0CkM9pX50JIAu6phKsnSheQZWstRMMGk3fJXncYFvblOzpTYjJ9GMz/Fg8WhDmhLg
- GDOQ5lX6U/mQLf+SZB43KxGHZYaOjVeoXSqhM1sU7DKB4oT7KwLBZdbd5Ozfb7+FHOmz
- DZRHU0SWDh5BKup/dtSgFbun0sXEYOtiNsSjP4tM8qfVzb795BLWJ93QwEx0EzmUtAYW
- sY8jlvvZ8mN/HGoxdR1um6qvQnbqKBQZNuWtewoSfRyh9+5suqqO2uk0OzoFOYqf8kKA
- EeyILM+uRfABVLWAQdphKofaLI8o4GZb1bh3FaNnJDwlcU7WXqw+4p/MWUkpvSDzJPQV
- FS6Q==
-X-Gm-Message-State: AFqh2kpyr8F312QNHMo67wvuM+smvBHHzej/DUzUHh1oRKp86HmFA3G3
- IRxysPQWTyt1m1phIm70yxWB3h5aZoVnEUFt
-X-Google-Smtp-Source: AMrXdXvzyxsNdC8fIt03RXPijjHzHCjxQACNpy8BM7CSCL9Rd6UcCzV14qqoZZ8Bcnw4hjyIjxI/3Q==
-X-Received: by 2002:a05:6870:578f:b0:14f:b93f:941a with SMTP id
- i15-20020a056870578f00b0014fb93f941amr12576540oap.50.1672660378072; 
- Mon, 02 Jan 2023 03:52:58 -0800 (PST)
+ bh=F3Qf24Mcvdq7XC1RvlBaxtiPnO2W6AoSq8V10ISw/KM=;
+ b=jEq/Xg69ExkJuBKKhuif+nPQeWFs4Bv/uVqgsibZTgE1/9GZnkEKdzDy3OSPo/HaPf
+ QuR8Sm0quY1EGk6zmFdh2ZYT86yvSmWP4JEVvXhKhg2s2kX2AIOHdsKyCCo6zfzf35LF
+ gaIkvnayLLRmdP1qSrDAQjmRV1uKFFV6f1nfMK6IqYV792/BERnzXhqdaZ4xaq/oGuRD
+ j/fKYJ5xrMnHMtq8oT8DEsNS+vlKLegU/VKi3AUZsuRJm9MAsgBrg1DYK+cBEvm4dfv4
+ C7GbNebsJ6BYNHaM4fxeV8clTrj/AIk7rYAdupxt/01Kbs8shDA+LlTDg5J2QIGfVpSQ
+ t7EQ==
+X-Gm-Message-State: AFqh2kpv98qSICaxfiibcCklyhbRWqO9OG29uCBCosa9AW/F52keP5qd
+ trmftKwePVUwzBDqHcyjwB87ZpAlWTUY6Rqc
+X-Google-Smtp-Source: AMrXdXtt3z3rvAE/YiM98OdbDq3r2NOlbmrCa9VsrptZFw1OxPiAs8Rb+MT1kMKM/9WqqXUOBZUaMA==
+X-Received: by 2002:a05:6870:fd84:b0:150:c2cf:8b52 with SMTP id
+ ma4-20020a056870fd8400b00150c2cf8b52mr698649oab.7.1672660380799; 
+ Mon, 02 Jan 2023 03:53:00 -0800 (PST)
 Received: from grind.. ([191.17.222.139]) by smtp.gmail.com with ESMTPSA id
- l39-20020a05687106a700b0014fb4bdc746sm11354475oao.8.2023.01.02.03.52.55
+ l39-20020a05687106a700b0014fb4bdc746sm11354475oao.8.2023.01.02.03.52.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jan 2023 03:52:57 -0800 (PST)
+ Mon, 02 Jan 2023 03:53:00 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v5 04/11] hw/riscv/boot.c: exit early if filename is NULL in
- load functions
-Date: Mon,  2 Jan 2023 08:52:34 -0300
-Message-Id: <20230102115241.25733-5-dbarboza@ventanamicro.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Bin Meng <bmeng@tinylab.org>
+Subject: [PATCH v5 05/11] hw/riscv/spike.c: load initrd right after
+ riscv_load_kernel()
+Date: Mon,  2 Jan 2023 08:52:35 -0300
+Message-Id: <20230102115241.25733-6-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102115241.25733-1-dbarboza@ventanamicro.com>
 References: <20230102115241.25733-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x30.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,51 +96,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-riscv_load_firmware(), riscv_load_initrd() and riscv_load_kernel() works
-under the assumption that a 'filename' parameter is always not NULL.
+This will make the code more in line with what the other boards are
+doing. We'll also avoid an extra check to machine->kernel_filename since
+we already checked that before executing riscv_load_kernel().
 
-This is currently the case since all callers of these functions are
-checking for NULL before calling them. Add an g_assert() to make sure
-that a NULL value in these cases are to be considered a bug.
-
-Suggested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
 ---
- hw/riscv/boot.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/riscv/spike.c | 31 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 98b80af51b..31aa3385a0 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -153,6 +153,8 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
-     uint64_t firmware_entry, firmware_end;
-     ssize_t firmware_size;
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 25c5420ee6..004dfb2d5b 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -302,6 +302,10 @@ static void spike_board_init(MachineState *machine)
+         g_free(firmware_name);
+     }
  
-+    g_assert(firmware_filename != NULL);
++    /* Create device tree */
++    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
++               riscv_is_32bit(&s->soc[0]), htif_custom_base);
 +
-     if (load_elf_ram_sym(firmware_filename, NULL, NULL, NULL,
-                          &firmware_entry, NULL, &firmware_end, NULL,
-                          0, EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-@@ -177,6 +179,8 @@ target_ulong riscv_load_kernel(const char *kernel_filename,
- {
-     uint64_t kernel_load_base, kernel_entry;
+     /* Load kernel */
+     if (machine->kernel_filename) {
+         kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
+@@ -310,6 +314,17 @@ static void spike_board_init(MachineState *machine)
+         kernel_entry = riscv_load_kernel(machine->kernel_filename,
+                                          kernel_start_addr,
+                                          htif_symbol_callback);
++
++        if (machine->initrd_filename) {
++            hwaddr start;
++            hwaddr end = riscv_load_initrd(machine->initrd_filename,
++                                           machine->ram_size, kernel_entry,
++                                           &start);
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
++                                  "linux,initrd-start", start);
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
++                                  end);
++        }
+     } else {
+        /*
+         * If dynamic firmware is used, it doesn't know where is the next mode
+@@ -318,22 +333,6 @@ static void spike_board_init(MachineState *machine)
+         kernel_entry = 0;
+     }
  
-+    g_assert(kernel_filename != NULL);
-+
-     /*
-      * NB: Use low address not ELF entry point to ensure that the fw_dynamic
-      * behaviour when loading an ELF matches the fw_payload, fw_jump and BBL
-@@ -209,6 +213,8 @@ hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
- {
-     ssize_t size;
- 
-+    g_assert(filename != NULL);
-+
-     /*
-      * We want to put the initrd far enough into RAM that when the
-      * kernel is uncompressed it will not clobber the initrd. However
+-    /* Create device tree */
+-    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+-               riscv_is_32bit(&s->soc[0]), htif_custom_base);
+-
+-    /* Load initrd */
+-    if (machine->kernel_filename && machine->initrd_filename) {
+-        hwaddr start;
+-        hwaddr end = riscv_load_initrd(machine->initrd_filename,
+-                                       machine->ram_size, kernel_entry,
+-                                       &start);
+-        qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+-                              "linux,initrd-start", start);
+-        qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
+-                              end);
+-    }
+-
+     /* Compute the fdt load address in dram */
+     fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
+                                    machine->ram_size, machine->fdt);
 -- 
 2.39.0
 
