@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E8065B129
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:30:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B16165B134
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:32:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCJ0h-00078U-QV; Mon, 02 Jan 2023 06:29:43 -0500
+	id 1pCJ2m-00017s-4o; Mon, 02 Jan 2023 06:31:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pCJ0f-00078I-Ql
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:29:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pCJ0e-00080i-7l
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:29:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672658979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KqnKwEYl8bSvsHZMLQ1pWuvrE1wRJieo2lU+F/vq3fo=;
- b=SRrTrY8KRopzTfUQpYuAtMGeU488ZUh/sTWv0Y6sEU3I3AbSoFqqhuiqV9MxKXDHe67+Oe
- sn9kx6nnxGjKYs2bxlAy1WqnOsdyEGOilzX3rpF8isUGuRlMs2X/3rASLXjLDMT0Z1gc/E
- m4kbTDUFr/A9q8Mm0GQJc3Pu4RDjBy8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-333-e7d-ya0uOeOENOWE7Yxv2Q-1; Mon, 02 Jan 2023 06:29:34 -0500
-X-MC-Unique: e7d-ya0uOeOENOWE7Yxv2Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3C633C0E205;
- Mon,  2 Jan 2023 11:29:33 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.193.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5833F40C2064;
- Mon,  2 Jan 2023 11:29:32 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Igor Mammedov <imammedo@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Chenyi Qiang <chenyi.qiang@intel.com>,
- Michal Privoznik <mprivozn@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [GIT PULL 4/4] hostmem: Honor multiple preferred nodes if possible
-Date: Mon,  2 Jan 2023 12:29:21 +0100
-Message-Id: <20230102112921.68077-5-david@redhat.com>
-In-Reply-To: <20230102112921.68077-1-david@redhat.com>
-References: <20230102112921.68077-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pCJ2E-0000yx-Ap
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:31:18 -0500
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pCJ2C-0008Va-Lt
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:31:18 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id j17so31728076lfr.3
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DGhUnhbZdGeV7JogcWlTisfELbm4hMV2t8h/xtjNBMc=;
+ b=UdHMiepUbvQANg9/S3aagxlCWTFc4xMF2Uy1NpEYx7CMhab5P5VIweftZIVWSVpAca
+ 0LTD5swLeKQw6dwxb8zwFmhlH4g771eAX0HGFVyp18I+jBQ81lpt8lt9uwHAOoBbeBQ6
+ 6Y/O4i5bdz/BgfyaU/1MqA1hg+JyNNm7jigpSLB7HXXAfVlVRHGAmeYgk4YFSMmlIPCO
+ kvVhC8AMEL9hc+P+8EKwF4KQGCc8w2fAX0FVcd5ixZD6SclKDiG5duwLSRXB7XwwF7uL
+ SNqWwQPC83O0HKEfbfWHg8cZp4cp15liZicXICiVdiZTtsZ/TAmlqZMpfD/eE54wsMSv
+ L18Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DGhUnhbZdGeV7JogcWlTisfELbm4hMV2t8h/xtjNBMc=;
+ b=AOXXPcgrBETeNyrl/hUSV2oSl19BMy2WiJP3KWzZhfQXqhLqDxQ32U4cxfaZ2nvb4j
+ 3b6DEWIwO1bJLpGDSGn6R1qXxU7Szy9f8w78FZc8E7PPA5NxCoy3Loh0wUYbbqEsvLW7
+ JkFwMBsfOkiBZgAbkwI1/O+/JG+ihqjCnQsv2qLE/nzmVPwVbBBW3XG3NMtB7Fbg/1gU
+ uQEZV51ZnbTpuw0YCKX72iv4c3rMWo2CxkoxGCRKKvThOaEUtpCxqLf607LfNrOVmwCi
+ 397p65OEaUPsq+wMm/PeK48VIvR1+bZ4ZqS7IW/dgHePS0hfzlhG1/diCU6+REHXCWDH
+ O3Pg==
+X-Gm-Message-State: AFqh2koQbpDbB0uB6/kB7hGK2s5s9PBMDAT8Z+XaV055kINsdUhSvS/s
+ MWMu7rt70iP+koJ69qAfEdmF63kxJkzUt5E4bSR/rqCfBUM=
+X-Google-Smtp-Source: AMrXdXt/yGKxLy0LyutYrtw4XNFRnZRfU2NfpZzwv4b/fUQXi4qe/lIU9eJFv7Vo4wf8dbUgQ6/NCa7QHAhXcrVNi28=
+X-Received: by 2002:a05:6512:36cf:b0:4cb:98e:8b9e with SMTP id
+ e15-20020a05651236cf00b004cb098e8b9emr2506482lfs.167.1672659074669; Mon, 02
+ Jan 2023 03:31:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221230092758.281805-1-dengpc12@chinatelecom.cn>
+ <20221230092758.281805-3-dengpc12@chinatelecom.cn>
+In-Reply-To: <20221230092758.281805-3-dengpc12@chinatelecom.cn>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 2 Jan 2023 15:31:03 +0400
+Message-ID: <CAJ+F1C+cyuX6kuXJnWHbU9zO7Lm=2eve1UDa5CuZxZJMcTxyjA@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/4] vdagent: refactor vdagent_chr_recv_caps function
+To: dengpc12@chinatelecom.cn
+Cc: qemu-devel@nongnu.org, huangy81@chinatelecom.cn, liuym16@chinatelecom.cn, 
+ kraxel@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,111 +86,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Michal Privoznik <mprivozn@redhat.com>
+On Fri, Dec 30, 2022 at 6:49 PM <dengpc12@chinatelecom.cn> wrote:
+>
+> From: "dengpc12@chinatelecom.cn" <dengpc12@chinatelecom.cn>
+>
+> Abstract vdagent registry logic into
+> vdagent_register_to_qemu_clipboard.
+>
+> Note that trace log of vdagent_recv_caps also be added.
+>
+> Signed-off-by: dengpc12@chinatelecom.cn <dengpc12@chinatelecom.cn>
+> Signed-off-by: liuym16@chinatelecom.cn <liuym16@chinatelecom.cn>
 
-If a memory-backend is configured with mode
-HOST_MEM_POLICY_PREFERRED then
-host_memory_backend_memory_complete() calls mbind() as:
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-  mbind(..., MPOL_PREFERRED, nodemask, ...);
+> ---
+>  ui/trace-events |  1 +
+>  ui/vdagent.c    | 20 +++++++++++++-------
+>  2 files changed, 14 insertions(+), 7 deletions(-)
+>
+> diff --git a/ui/trace-events b/ui/trace-events
+> index 977577fbba..5e50b60da5 100644
+> --- a/ui/trace-events
+> +++ b/ui/trace-events
+> @@ -143,6 +143,7 @@ vdagent_cb_grab_selection(const char *name) "selectio=
+n %s"
+>  vdagent_cb_grab_discard(const char *name, int cur, int recv) "selection =
+%s, cur:%d recv:%d"
+>  vdagent_cb_grab_type(const char *name) "type %s"
+>  vdagent_cb_serial_discard(uint32_t current, uint32_t received) "current=
+=3D%u, received=3D%u"
+> +vdagent_recv_caps(uint32_t caps) "received caps %u"
+>
+>  # dbus.c
+>  dbus_registered_listener(const char *bus_name) "peer %s"
+> diff --git a/ui/vdagent.c b/ui/vdagent.c
+> index 645383b4ec..38061d5b38 100644
+> --- a/ui/vdagent.c
+> +++ b/ui/vdagent.c
+> @@ -696,6 +696,16 @@ static void vdagent_chr_open(Chardev *chr,
+>      *be_opened =3D true;
+>  }
+>
+> +static void vdagent_register_to_qemu_clipboard(VDAgentChardev *vd)
+> +{
+> +    if (have_clipboard(vd) && vd->cbpeer.notifier.notify =3D=3D NULL) {
+> +        vd->cbpeer.name =3D "vdagent";
+> +        vd->cbpeer.notifier.notify =3D vdagent_clipboard_notify;
+> +        vd->cbpeer.request =3D vdagent_clipboard_request;
+> +        qemu_clipboard_peer_register(&vd->cbpeer);
+> +    }
+> +}
+> +
+>  static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *ms=
+g)
+>  {
+>      VDAgentAnnounceCapabilities *caps =3D (void *)msg->data;
+> @@ -720,14 +730,10 @@ static void vdagent_chr_recv_caps(VDAgentChardev *v=
+d, VDAgentMessage *msg)
+>          qemu_input_handler_activate(vd->mouse_hs);
+>      }
+>
+> -    memset(vd->last_serial, 0, sizeof(vd->last_serial));
+> +    trace_vdagent_recv_caps(vd->caps);
+>
+> -    if (have_clipboard(vd) && vd->cbpeer.notifier.notify =3D=3D NULL) {
+> -        vd->cbpeer.name =3D "vdagent";
+> -        vd->cbpeer.notifier.notify =3D vdagent_clipboard_notify;
+> -        vd->cbpeer.request =3D vdagent_clipboard_request;
+> -        qemu_clipboard_peer_register(&vd->cbpeer);
+> -    }
+> +    memset(vd->last_serial, 0, sizeof(vd->last_serial));
+> +    vdagent_register_to_qemu_clipboard(vd);
+>  }
+>
+>  static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *msg=
+)
+> --
+> 2.27.0
+>
+>
 
-Here, 'nodemask' is a bitmap of host NUMA nodes and corresponds
-to the .host-nodes attribute. Therefore, there can be multiple
-nodes specified. However, the documentation to MPOL_PREFERRED
-says:
 
-  MPOL_PREFERRED
-    This mode sets the preferred node for allocation. ...
-    If nodemask specifies more than one node ID, the first node
-    in the mask will be selected as the preferred node.
-
-Therefore, only the first node is honored and the rest is
-silently ignored. Well, with recent changes to the kernel and
-numactl we can do better.
-
-The Linux kernel added in v5.15 via commit cfcaa66f8032
-("mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY")
-support for MPOL_PREFERRED_MANY, which accepts multiple preferred
-NUMA nodes instead.
-
-Then, numa_has_preferred_many() API was introduced to numactl
-(v2.0.15~26) allowing applications to query kernel support.
-
-Wiring this all together, we can pass MPOL_PREFERRED_MANY to the
-mbind() call instead and stop ignoring multiple nodes, silently.
-
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-Message-Id: <a0b4adce1af5bd2344c2218eb4a04b3ff7bcfdb4.1671097918.git.mprivozn@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- backends/hostmem.c | 19 +++++++++++++++++--
- meson.build        |  5 +++++
- 2 files changed, 22 insertions(+), 2 deletions(-)
-
-diff --git a/backends/hostmem.c b/backends/hostmem.c
-index 8640294c10..747e7838c0 100644
---- a/backends/hostmem.c
-+++ b/backends/hostmem.c
-@@ -23,7 +23,12 @@
- 
- #ifdef CONFIG_NUMA
- #include <numaif.h>
-+#include <numa.h>
- QEMU_BUILD_BUG_ON(HOST_MEM_POLICY_DEFAULT != MPOL_DEFAULT);
-+/*
-+ * HOST_MEM_POLICY_PREFERRED may either translate to MPOL_PREFERRED or
-+ * MPOL_PREFERRED_MANY, see comments further below.
-+ */
- QEMU_BUILD_BUG_ON(HOST_MEM_POLICY_PREFERRED != MPOL_PREFERRED);
- QEMU_BUILD_BUG_ON(HOST_MEM_POLICY_BIND != MPOL_BIND);
- QEMU_BUILD_BUG_ON(HOST_MEM_POLICY_INTERLEAVE != MPOL_INTERLEAVE);
-@@ -346,6 +351,7 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
-          * before mbind(). note: MPOL_MF_STRICT is ignored on hugepages so
-          * this doesn't catch hugepage case. */
-         unsigned flags = MPOL_MF_STRICT | MPOL_MF_MOVE;
-+        int mode = backend->policy;
- 
-         /* check for invalid host-nodes and policies and give more verbose
-          * error messages than mbind(). */
-@@ -369,9 +375,18 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
-                BITS_TO_LONGS(MAX_NODES + 1) * sizeof(unsigned long));
-         assert(maxnode <= MAX_NODES);
- 
-+#ifdef HAVE_NUMA_HAS_PREFERRED_MANY
-+        if (mode == MPOL_PREFERRED && numa_has_preferred_many() > 0) {
-+            /*
-+             * Replace with MPOL_PREFERRED_MANY otherwise the mbind() below
-+             * silently picks the first node.
-+             */
-+            mode = MPOL_PREFERRED_MANY;
-+        }
-+#endif
-+
-         if (maxnode &&
--            mbind(ptr, sz, backend->policy, backend->host_nodes, maxnode + 1,
--                  flags)) {
-+            mbind(ptr, sz, mode, backend->host_nodes, maxnode + 1, flags)) {
-             if (backend->policy != MPOL_DEFAULT || errno != ENOSYS) {
-                 error_setg_errno(errp, errno,
-                                  "cannot bind memory to host NUMA nodes");
-diff --git a/meson.build b/meson.build
-index 4c6f8a674a..3f31db5963 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1858,6 +1858,11 @@ config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
- config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
- config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
- config_host_data.set('CONFIG_NUMA', numa.found())
-+if numa.found()
-+  config_host_data.set('HAVE_NUMA_HAS_PREFERRED_MANY',
-+                       cc.has_function('numa_has_preferred_many',
-+                                       dependencies: numa))
-+endif
- config_host_data.set('CONFIG_OPENGL', opengl.found())
- config_host_data.set('CONFIG_PROFILER', get_option('profiler'))
- config_host_data.set('CONFIG_RBD', rbd.found())
--- 
-2.39.0
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
