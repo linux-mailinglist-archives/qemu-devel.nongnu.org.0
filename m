@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B16165B134
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC7765B167
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 12:44:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCJ2m-00017s-4o; Mon, 02 Jan 2023 06:31:52 -0500
+	id 1pCJDH-0004p7-O9; Mon, 02 Jan 2023 06:42:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pCJ2E-0000yx-Ap
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:31:18 -0500
-Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e])
+ id 1pCJDG-0004oy-1o
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:42:42 -0500
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pCJ2C-0008Va-Lt
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:31:18 -0500
-Received: by mail-lf1-x12e.google.com with SMTP id j17so31728076lfr.3
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:31:16 -0800 (PST)
+ id 1pCJDE-0001f1-Bk
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 06:42:41 -0500
+Received: by mail-lj1-x230.google.com with SMTP id x37so21943925ljq.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 03:42:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DGhUnhbZdGeV7JogcWlTisfELbm4hMV2t8h/xtjNBMc=;
- b=UdHMiepUbvQANg9/S3aagxlCWTFc4xMF2Uy1NpEYx7CMhab5P5VIweftZIVWSVpAca
- 0LTD5swLeKQw6dwxb8zwFmhlH4g771eAX0HGFVyp18I+jBQ81lpt8lt9uwHAOoBbeBQ6
- 6Y/O4i5bdz/BgfyaU/1MqA1hg+JyNNm7jigpSLB7HXXAfVlVRHGAmeYgk4YFSMmlIPCO
- kvVhC8AMEL9hc+P+8EKwF4KQGCc8w2fAX0FVcd5ixZD6SclKDiG5duwLSRXB7XwwF7uL
- SNqWwQPC83O0HKEfbfWHg8cZp4cp15liZicXICiVdiZTtsZ/TAmlqZMpfD/eE54wsMSv
- L18Q==
+ bh=Q5k8lx/wBRwrEHPXb2Y7WGmdB9oPwuapV7VPFe0QVY4=;
+ b=Cx5lXDUqN6oyEJfTTKC2hwA6rL2R3/dOJRUtlfFBw406DtljF5fLhHG/b3CTlpGB7Y
+ IfpA96n077memOtGbKPgN4tKpHzIMrgD5BEdjKmH+4Pr6eo75Bq4OOgbslSdC3cMEGCV
+ YX56feYJ4HIwduv/qwuYNmYn4wI1K5YyqUlH0EJ2WmOLZqFOqVX7Ke9FGedlHoQjzxkq
+ FumwObjvqgmDPehqntrKrLyyAk8WI0oC8EIKaPZtxWIC23Kf/cCIN5FNcPSELG9yHfbV
+ Zwl7jk7QLJw7GbyF5DphSxhPdEw0EW9ySCcolNv+6z4NgBF1zgvQONtj3bTdpzZrGUmP
+ ZQhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DGhUnhbZdGeV7JogcWlTisfELbm4hMV2t8h/xtjNBMc=;
- b=AOXXPcgrBETeNyrl/hUSV2oSl19BMy2WiJP3KWzZhfQXqhLqDxQ32U4cxfaZ2nvb4j
- 3b6DEWIwO1bJLpGDSGn6R1qXxU7Szy9f8w78FZc8E7PPA5NxCoy3Loh0wUYbbqEsvLW7
- JkFwMBsfOkiBZgAbkwI1/O+/JG+ihqjCnQsv2qLE/nzmVPwVbBBW3XG3NMtB7Fbg/1gU
- uQEZV51ZnbTpuw0YCKX72iv4c3rMWo2CxkoxGCRKKvThOaEUtpCxqLf607LfNrOVmwCi
- 397p65OEaUPsq+wMm/PeK48VIvR1+bZ4ZqS7IW/dgHePS0hfzlhG1/diCU6+REHXCWDH
- O3Pg==
-X-Gm-Message-State: AFqh2koQbpDbB0uB6/kB7hGK2s5s9PBMDAT8Z+XaV055kINsdUhSvS/s
- MWMu7rt70iP+koJ69qAfEdmF63kxJkzUt5E4bSR/rqCfBUM=
-X-Google-Smtp-Source: AMrXdXt/yGKxLy0LyutYrtw4XNFRnZRfU2NfpZzwv4b/fUQXi4qe/lIU9eJFv7Vo4wf8dbUgQ6/NCa7QHAhXcrVNi28=
-X-Received: by 2002:a05:6512:36cf:b0:4cb:98e:8b9e with SMTP id
- e15-20020a05651236cf00b004cb098e8b9emr2506482lfs.167.1672659074669; Mon, 02
- Jan 2023 03:31:14 -0800 (PST)
+ bh=Q5k8lx/wBRwrEHPXb2Y7WGmdB9oPwuapV7VPFe0QVY4=;
+ b=zjcSYaJxGOT3BcDxf/sp7eZIja/8p8zfwp58rWhxSzL7P7aodwvAaRmR5tQ0yKzZcT
+ ibyF0f/QhYaCjs7vXOVvqOT/NaBiZdE/ngFajzen6HFJ9N+h1KEa8rkR9h93OoPsqwwD
+ BJDXNdFPbVUwUYsPQ5AoMWl6b7yZpvDhbF3R7NxeviIkdYQiHesfjYz0+/gECqlpM9E8
+ 04S7j17ih6RPNClcsVpLnFDmZcHW0C6KXgdumMkCv8wPfeOiwM9lemnWNQuZc/JxpiAo
+ FKm/b9+maci+BORamHi8CONCIZJA5+ugAXoKP7XRW9YbqGAahtUWV6ML7q9Dsm/I6dLZ
+ Q5dw==
+X-Gm-Message-State: AFqh2kpMvuuh0wAazos21ZcMEffAhIfFlxkbV3U/fcv6aZ2b9QNVFHlX
+ fZdWFsE/pz/AhlxX1NFG09hB1F5x20cZzg4lJEA=
+X-Google-Smtp-Source: AMrXdXvqYVRV73pulXuUGyB49w5bBgmsMCoQL06IVjrISDQZ63AdHPp1P4p6D8ctZDscsxuO7emPHVqV+r2hsL6tnAQ=
+X-Received: by 2002:a2e:9586:0:b0:27f:e145:bffe with SMTP id
+ w6-20020a2e9586000000b0027fe145bffemr582412ljh.529.1672659758421; Mon, 02 Jan
+ 2023 03:42:38 -0800 (PST)
 MIME-Version: 1.0
 References: <20221230092758.281805-1-dengpc12@chinatelecom.cn>
- <20221230092758.281805-3-dengpc12@chinatelecom.cn>
-In-Reply-To: <20221230092758.281805-3-dengpc12@chinatelecom.cn>
+ <20221230092758.281805-4-dengpc12@chinatelecom.cn>
+In-Reply-To: <20221230092758.281805-4-dengpc12@chinatelecom.cn>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 2 Jan 2023 15:31:03 +0400
-Message-ID: <CAJ+F1C+cyuX6kuXJnWHbU9zO7Lm=2eve1UDa5CuZxZJMcTxyjA@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/4] vdagent: refactor vdagent_chr_recv_caps function
+Date: Mon, 2 Jan 2023 15:42:26 +0400
+Message-ID: <CAJ+F1CK0DW+hr-7KkYt_E+qNRtPjaL3x_PwPZgT9tFS5nGB=Rw@mail.gmail.com>
+Subject: Re: [PATCH RFC 3/4] vdagent: add live migration support
 To: dengpc12@chinatelecom.cn
 Cc: qemu-devel@nongnu.org, huangy81@chinatelecom.cn, liuym16@chinatelecom.cn, 
  kraxel@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x230.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,88 +86,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi
+
+
 On Fri, Dec 30, 2022 at 6:49 PM <dengpc12@chinatelecom.cn> wrote:
 >
 > From: "dengpc12@chinatelecom.cn" <dengpc12@chinatelecom.cn>
 >
-> Abstract vdagent registry logic into
-> vdagent_register_to_qemu_clipboard.
->
-> Note that trace log of vdagent_recv_caps also be added.
+> To support live migration, we made the following 2 modifications:
+> 1. save the caps field of VDAgentChardev.
+> 2. register vdagent to qemu-clipboard after
+>    vm device state being reloaded during live migration.
 >
 > Signed-off-by: dengpc12@chinatelecom.cn <dengpc12@chinatelecom.cn>
 > Signed-off-by: liuym16@chinatelecom.cn <liuym16@chinatelecom.cn>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
 > ---
 >  ui/trace-events |  1 +
->  ui/vdagent.c    | 20 +++++++++++++-------
->  2 files changed, 14 insertions(+), 7 deletions(-)
+>  ui/vdagent.c    | 28 ++++++++++++++++++++++++++++
+>  2 files changed, 29 insertions(+)
 >
 > diff --git a/ui/trace-events b/ui/trace-events
-> index 977577fbba..5e50b60da5 100644
+> index 5e50b60da5..ccacd867d1 100644
 > --- a/ui/trace-events
 > +++ b/ui/trace-events
-> @@ -143,6 +143,7 @@ vdagent_cb_grab_selection(const char *name) "selectio=
-n %s"
->  vdagent_cb_grab_discard(const char *name, int cur, int recv) "selection =
-%s, cur:%d recv:%d"
+> @@ -144,6 +144,7 @@ vdagent_cb_grab_discard(const char *name, int cur, in=
+t recv) "selection %s, cur:
 >  vdagent_cb_grab_type(const char *name) "type %s"
 >  vdagent_cb_serial_discard(uint32_t current, uint32_t received) "current=
 =3D%u, received=3D%u"
-> +vdagent_recv_caps(uint32_t caps) "received caps %u"
+>  vdagent_recv_caps(uint32_t caps) "received caps %u"
+> +vdagent_migration_caps(uint32_t caps) "migrated caps %u"
 >
 >  # dbus.c
 >  dbus_registered_listener(const char *bus_name) "peer %s"
 > diff --git a/ui/vdagent.c b/ui/vdagent.c
-> index 645383b4ec..38061d5b38 100644
+> index 38061d5b38..1193abe348 100644
 > --- a/ui/vdagent.c
 > +++ b/ui/vdagent.c
-> @@ -696,6 +696,16 @@ static void vdagent_chr_open(Chardev *chr,
->      *be_opened =3D true;
->  }
+> @@ -6,6 +6,7 @@
+>  #include "qemu/units.h"
+>  #include "hw/qdev-core.h"
+>  #include "migration/blocker.h"
+> +#include "migration/vmstate.h"
+>  #include "ui/clipboard.h"
+>  #include "ui/console.h"
+>  #include "ui/input.h"
+> @@ -906,6 +907,31 @@ static void vdagent_chr_parse(QemuOpts *opts, Charde=
+vBackend *backend,
 >
-> +static void vdagent_register_to_qemu_clipboard(VDAgentChardev *vd)
+>  /* ------------------------------------------------------------------ */
+>
+> +static int vdagent_post_load(void *opaque, int version_id)
 > +{
-> +    if (have_clipboard(vd) && vd->cbpeer.notifier.notify =3D=3D NULL) {
-> +        vd->cbpeer.name =3D "vdagent";
-> +        vd->cbpeer.notifier.notify =3D vdagent_clipboard_notify;
-> +        vd->cbpeer.request =3D vdagent_clipboard_request;
-> +        qemu_clipboard_peer_register(&vd->cbpeer);
+> +    VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(opaque);
+> +
+> +    trace_vdagent_migration_caps(vd->caps);
+> +
+> +    if (vd->caps) {
+> +        vdagent_register_to_qemu_clipboard(vd);
+> +        qemu_input_handler_activate(vd->mouse_hs);
 > +    }
+> +
+> +    return 0;
 > +}
 > +
->  static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *ms=
-g)
+> +static const VMStateDescription vmstate_vdagent =3D {
+> +    .name =3D "vdagent",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .post_load =3D vdagent_post_load,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_UINT32(caps, VDAgentChardev),
+
+You are missing a lot of states from VDAgentChardev. Most of the
+fields must be saved/restored.
+
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
+> +
+>  static void vdagent_chr_class_init(ObjectClass *oc, void *data)
 >  {
->      VDAgentAnnounceCapabilities *caps =3D (void *)msg->data;
-> @@ -720,14 +730,10 @@ static void vdagent_chr_recv_caps(VDAgentChardev *v=
-d, VDAgentMessage *msg)
->          qemu_input_handler_activate(vd->mouse_hs);
->      }
+>      ChardevClass *cc =3D CHARDEV_CLASS(oc);
+> @@ -922,6 +948,8 @@ static void vdagent_chr_init(Object *obj)
+>      VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(obj);
 >
-> -    memset(vd->last_serial, 0, sizeof(vd->last_serial));
-> +    trace_vdagent_recv_caps(vd->caps);
->
-> -    if (have_clipboard(vd) && vd->cbpeer.notifier.notify =3D=3D NULL) {
-> -        vd->cbpeer.name =3D "vdagent";
-> -        vd->cbpeer.notifier.notify =3D vdagent_clipboard_notify;
-> -        vd->cbpeer.request =3D vdagent_clipboard_request;
-> -        qemu_clipboard_peer_register(&vd->cbpeer);
-> -    }
-> +    memset(vd->last_serial, 0, sizeof(vd->last_serial));
-> +    vdagent_register_to_qemu_clipboard(vd);
+>      buffer_init(&vd->outbuf, "vdagent-outbuf");
+> +
+> +    vmstate_register(NULL, 0, &vmstate_vdagent, vd);
+>      error_setg(&vd->migration_blocker,
+>                 "The vdagent chardev doesn't yet support migration");
 >  }
->
->  static void vdagent_chr_recv_msg(VDAgentChardev *vd, VDAgentMessage *msg=
-)
 > --
 > 2.27.0
 >
 >
 
 
---=20
+--
 Marc-Andr=C3=A9 Lureau
 
