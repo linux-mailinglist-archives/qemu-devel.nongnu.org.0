@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4F565B769
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 22:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6044D65B767
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 22:37:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCSTB-0008Fl-4m; Mon, 02 Jan 2023 16:35:45 -0500
+	id 1pCSTB-0008Fv-Rw; Mon, 02 Jan 2023 16:35:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCST8-0008Ey-Gh
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 16:35:42 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCST9-0008FO-Lv
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 16:35:43 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCST6-00059A-Sz
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 16:35:42 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id vm8so62327957ejc.2
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 13:35:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCST8-00059J-2W
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 16:35:43 -0500
+Received: by mail-ej1-x634.google.com with SMTP id t17so69193396eju.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 13:35:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AhjGz5k2CpbSc4H1yL5PDfOgeHeVz+Sw9cmuSS5IpyA=;
- b=owH/gHSxZpPPK6jvooYZ2wLT9TML1U3LOD629OCrtg+nERm71Dji9K6TNg3MbP6Idc
- qcr126FdTfRUKlWTIXTY+Bgh37w+XP8+KS1ONuTsaMPx8lC9OojQhW7i7hBUNA9igiqi
- 0v1xr7C4jQOwjzirYfnBq8TDN97Iw+0ano5/nh5z0xMU5V/R/iqLspeXW77ZBjfooiu3
- r8Xfxx73bxr97JwI5kDKQM/jYhKNXoAT2c00SH5ujp4Jzc+PhtRVm192H5TPW1zIPZvr
- TpLoG9qlpOhMEhPVkIGVXiyGOxzZUa63JMH+ChYMA8W8mWV7O3EAr+PNxZJ1Gd4R6rOu
- pYsA==
+ bh=gZDEL8s6HWwEfgKMeGlSAkqHU0n7hORkrqT7smSJTVY=;
+ b=GU3AYEhEt5HGHHUhKsuD0ojio6SvhzKD2dSKr64WYZjapbbSIsZnEZNRwIsilTaOUJ
+ iGTkrUbs+yhPQyQgY/ZZpAiFqB4ecrRyGNQlNB9jjQAFyfPYYKyIu3p+2LAHxwhgitUL
+ LedNWX6Boc+BkDPK3KEqCjyCurW61QmS5JrZOGNzDZwVGaY/3Bu50aDxQPLngHJylhPt
+ wdEtW5D2xVHw3Vu4PphFdbdzXJQQT1bvsQyyOKRq9fDe6W81Cvgzz2lFPFByXTJL5t4o
+ 5CQ8Qo1pNIhYYxhrzpL7P7fjIZnzuZrFuUzHvPYI6ubpnIrjO06SV/rS4zJP0QG7PcyB
+ Swaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AhjGz5k2CpbSc4H1yL5PDfOgeHeVz+Sw9cmuSS5IpyA=;
- b=xPtjFswaOGuByZcrO7eso2JTRX2vQl831vF0rKkVXWPrPHAHXU3vGuOJ2xYrcY1BlD
- zd23fOTNBN0rdSePBXr6LcixHap71Y7KVMasqgn5IC9xbZiHWrp7BliE6RHiWiAglbAT
- /aQggNmFm6Aiwj/l8GxXYXGq81KYXSXvjNkkT6ex3ezLyW5Pna6KuN7Ge6EWiQ9SFxH9
- viZYYv6IWoFtAlgKJ/UpQf5Wl1EeJVAGrjIZ/cGICX1U+O/0T6yb6kJeg5cZv+sm6u4Q
- kodn/AoUfOYa+wxDY8SWCkZ25EM+mXqFPRbw9pTYfGzuXeRAtqgw0mS3mMfOp9FBLPsv
- Z3dQ==
-X-Gm-Message-State: AFqh2kp2Rc5PnaoRHrRfxhA9TEAu5/TKKnt6gd65m+IkRArCHKaFCk6h
- Et11AjL5eXNLv7QVRUter/k7NSe8lLw=
-X-Google-Smtp-Source: AMrXdXsKw/KWvzmQ9hqdX4WTRGdsRsoTmLiF1urYt1nYchYGOMtg1bcydRX4/IC9k2BmIdSzSy2jZQ==
-X-Received: by 2002:a17:907:9625:b0:7ad:9455:d57d with SMTP id
- gb37-20020a170907962500b007ad9455d57dmr38487663ejc.74.1672695339125; 
- Mon, 02 Jan 2023 13:35:39 -0800 (PST)
+ bh=gZDEL8s6HWwEfgKMeGlSAkqHU0n7hORkrqT7smSJTVY=;
+ b=i5TGKR6rQcpRFa0sTBXUWpleapQiDCclIN4QowIm88E6Fvbyjhmu6G3Wy9p6nHh5He
+ w1pRYcykNhWolSJatdfv+4dFAuQl4ER8SS2EFcLrYullc9gmYNLjvWaqA4cEL99SYPIp
+ nqQzb9yutuoiYuh/CfIJQ6+cTgPQ2JB1iC+I/6h5usGQCbEY7iDRZZOwMRrVjmB5AS8O
+ q9b8QQG3ARrtPiRHGVX6s3D/QKzoFUyz45ejNKmMBTA4zqtVi1dftNk4TK1y+lm5wm6L
+ saGl9dDzpGGPuYZK1HKagEsfj3UlmpYmeIFcvnMAokhATNGM6LdTZPJsq/Tr7GBdkChY
+ 1QAQ==
+X-Gm-Message-State: AFqh2krdco1aZmRt2tVqhsMgJr3Gx3CzqORf3OlquIPuL8I1d2TYR3wE
+ zLBbK3rUXq/0qHVFmPe98CktiysD7dY=
+X-Google-Smtp-Source: AMrXdXtC/ibfuSlBrNsQnaQfyhwXLOGrgcrvGa+eum0cbe4JY/6WC6uF8ZpOR32bH9fWmLx0CvyqaQ==
+X-Received: by 2002:a17:906:a1d7:b0:815:8942:dde with SMTP id
+ bx23-20020a170906a1d700b0081589420ddemr45198684ejb.23.1672695340325; 
+ Mon, 02 Jan 2023 13:35:40 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- f11-20020a17090631cb00b0084c465709b7sm10583826ejf.74.2023.01.02.13.35.38
+ f11-20020a17090631cb00b0084c465709b7sm10583826ejf.74.2023.01.02.13.35.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jan 2023 13:35:38 -0800 (PST)
+ Mon, 02 Jan 2023 13:35:39 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Paul Durrant <paul@xen.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -67,17 +67,16 @@ Cc: Paul Durrant <paul@xen.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 1/6] include/hw/xen/xen: Make xen_piix3_set_irq() generic and
- rename it
-Date: Mon,  2 Jan 2023 22:34:59 +0100
-Message-Id: <20230102213504.14646-2-shentey@gmail.com>
+Subject: [PATCH 2/6] hw/isa/piix: Reuse piix3_realize() in piix3_xen_realize()
+Date: Mon,  2 Jan 2023 22:35:00 +0100
+Message-Id: <20230102213504.14646-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230102213504.14646-1-shentey@gmail.com>
 References: <20230102213504.14646-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,77 +99,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-xen_piix3_set_irq() hardcoded the number of PCI IRQ lines. Get it from
-the PCI bus instead.
+This is a preparational patch for the next one to make the following
+more obvious:
+
+First, pci_bus_irqs() is now called twice in case of Xen where the
+second call overrides the pci_set_irq_fn with the Xen variant.
+
+Second, pci_bus_set_route_irq_fn() is now also called in Xen mode.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/i386/xen/xen-hvm.c | 9 ++++++---
- hw/isa/piix.c         | 2 +-
- include/hw/xen/xen.h  | 2 +-
- stubs/xen-hw-stub.c   | 2 +-
- 4 files changed, 9 insertions(+), 6 deletions(-)
+ hw/isa/piix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index e4293d6d66..59e8246a48 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -142,10 +142,13 @@ int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
-     return irq_num + (PCI_SLOT(pci_dev->devfn) << 2);
- }
- 
--void xen_piix3_set_irq(void *opaque, int irq_num, int level)
-+void xen_intx_set_irq(void *opaque, int irq_num, int level)
- {
--    xen_set_pci_intx_level(xen_domid, 0, 0, irq_num >> 2,
--                           irq_num & 3, level);
-+    PCIDevice *pci_dev = opaque;
-+    PCIBus *pci_bus = pci_get_bus(pci_dev);
-+
-+    xen_set_pci_intx_level(xen_domid, 0, 0, irq_num / pci_bus->nirq,
-+                           irq_num % pci_bus->nirq, level);
- }
- 
- int xen_set_pci_link_route(uint8_t link, uint8_t irq)
 diff --git a/hw/isa/piix.c b/hw/isa/piix.c
-index ae8a27c53c..dc6014a4e4 100644
+index dc6014a4e4..a1281c2d77 100644
 --- a/hw/isa/piix.c
 +++ b/hw/isa/piix.c
-@@ -504,7 +504,7 @@ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
-      * connected to the IOAPIC directly.
-      * These additional routes can be discovered through ACPI.
-      */
--    pci_bus_irqs(pci_bus, xen_piix3_set_irq, piix3, XEN_PIIX_NUM_PIRQS);
-+    pci_bus_irqs(pci_bus, xen_intx_set_irq, piix3, XEN_PIIX_NUM_PIRQS);
- }
+@@ -493,7 +493,7 @@ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
+     PIIXState *piix3 = PIIX_PCI_DEVICE(dev);
+     PCIBus *pci_bus = pci_get_bus(dev);
  
- static void piix3_xen_class_init(ObjectClass *klass, void *data)
-diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
-index afdf9c436a..7c83ecf6b9 100644
---- a/include/hw/xen/xen.h
-+++ b/include/hw/xen/xen.h
-@@ -22,7 +22,7 @@ extern bool xen_domid_restrict;
- 
- int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num);
- int xen_set_pci_link_route(uint8_t link, uint8_t irq);
--void xen_piix3_set_irq(void *opaque, int irq_num, int level);
-+void xen_intx_set_irq(void *opaque, int irq_num, int level);
- void xen_hvm_inject_msi(uint64_t addr, uint32_t data);
- int xen_is_pirq_msi(uint32_t msi_data);
- 
-diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
-index 34a22f2ad7..7d7ffe83a9 100644
---- a/stubs/xen-hw-stub.c
-+++ b/stubs/xen-hw-stub.c
-@@ -15,7 +15,7 @@ int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
-     return -1;
- }
- 
--void xen_piix3_set_irq(void *opaque, int irq_num, int level)
-+void xen_intx_set_irq(void *opaque, int irq_num, int level)
- {
- }
- 
+-    pci_piix_realize(dev, TYPE_PIIX3_USB_UHCI, errp);
++    piix3_realize(dev, errp);
+     if (*errp) {
+         return;
+     }
 -- 
 2.39.0
 
