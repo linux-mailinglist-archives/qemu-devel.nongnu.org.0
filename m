@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CE465AD5C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 07:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B438D65AD6B
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 07:19:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCDuQ-0001RE-LW; Mon, 02 Jan 2023 01:02:54 -0500
+	id 1pCE93-0004Qa-AL; Mon, 02 Jan 2023 01:18:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pCDto-0001LU-Fo
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 01:02:19 -0500
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pCE8x-0004QF-I3
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 01:17:55 -0500
 Received: from mail.skyhub.de ([2a01:4f8:190:11c2::b:1457])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pCDtk-0004Pf-CR
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 01:02:15 -0500
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pCE8t-0007be-PR
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 01:17:54 -0500
 Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 471CD1EC0589;
- Mon,  2 Jan 2023 07:02:08 +0100 (CET)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 980FE1EC0589;
+ Mon,  2 Jan 2023 07:17:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1672639328;
+ t=1672640267;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=A5h3QieuYYzDOmoQcc1jOMq8HxvyiZWavNMk7yqAE4w=;
- b=RGoSnp0eXlRVYUC0SrfE1xiexYKt8xMKCv/nkL6NNJdjh3UGoyqOFoIzZ++A4AWOFbsQqd
- Ze5d8AOzno/wRzFC18rPxdTZ4NUxtZETYjXbgO7n7wLn9qFPUdHIB4hbiZY/cy7Ms8Ikx8
- nA0eG4icJt5H2GjDtnDw56Tj5xJ2wYI=
-Date: Mon, 2 Jan 2023 07:01:50 +0100
+ bh=FC+Jlf27xP9P9TCcinvw5bMB7xljXbe366COrIpKShs=;
+ b=iOYzgwCH74Wo/PifxKlDVns/9RXxKV13v0caAk6oZvfoZuqKXScowtozcnk1Xgw7eFGAmc
+ AGsHjUgpgFXJhBfaoPdsML6AxbeA6A8cnR96lc4GmCreLHjC+F/EhF4BYQba9zMHPRSgU/
+ WElLUAk63oHjC6cLSI2FeksenwmiG90=
+Date: Mon, 2 Jan 2023 07:17:43 +0100
 From: Borislav Petkov <bp@alien8.de>
 To: "H. Peter Anvin" <hpa@zytor.com>
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, pbonzini@redhat.com,
@@ -39,18 +39,18 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, pbonzini@redhat.com,
  philmd@linaro.org
 Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
  setup_data
-Message-ID: <Y7JzTh8JnMXM6ZPS@zn.tnic>
-References: <46466e54-25c3-3194-8546-a57cd4a80d9d@zytor.com>
- <Y7A76+IBS4fnucrW@zn.tnic> <Y7A8qP05B0YRbQIN@zx2c4.com>
+Message-ID: <Y7J3B50kn1kWrxlk@zn.tnic>
+References: <Y7A76+IBS4fnucrW@zn.tnic> <Y7A8qP05B0YRbQIN@zx2c4.com>
  <Y7A9nBud6UeH+wYd@zn.tnic> <Y7A+YELM7m5E2PUQ@zx2c4.com>
  <Y7BGIAL4z6o6FEI5@zn.tnic> <Y7B993P1+jYB/etX@zx2c4.com>
  <Y7CGzde+qPB7YJP4@zn.tnic>
  <60566f8b-c90f-12e7-c13e-94e9829eee2d@zytor.com>
  <8f072588-7d66-0932-7486-ed9159ae93ae@zytor.com>
+ <Y7JzTh8JnMXM6ZPS@zn.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8f072588-7d66-0932-7486-ed9159ae93ae@zytor.com>
+In-Reply-To: <Y7JzTh8JnMXM6ZPS@zn.tnic>
 Received-SPF: pass client-ip=2a01:4f8:190:11c2::b:1457;
  envelope-from=bp@alien8.de; helo=mail.skyhub.de
 X-Spam_score_int: -20
@@ -74,40 +74,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Dec 31, 2022 at 07:31:21PM -0800, H. Peter Anvin wrote:
-> It would probably be a good idea to add a "maximum physical address for
-> initrd/setup_data/cmdline" field to struct kernel_info, though. It appears
-> right now that those fields are being identity-mapped in the decompressor,
-> and that means that if 48-bit addressing is used, physical memory may extend
-> past the addressable range.
+On Mon, Jan 02, 2023 at 07:01:50AM +0100, Borislav Petkov wrote:
+> On Sat, Dec 31, 2022 at 07:31:21PM -0800, H. Peter Anvin wrote:
+> > It would probably be a good idea to add a "maximum physical address for
+> > initrd/setup_data/cmdline" field to struct kernel_info, though. It appears
+> > right now that those fields are being identity-mapped in the decompressor,
+> > and that means that if 48-bit addressing is used, physical memory may extend
+> > past the addressable range.
+> 
+> Yeah, we will probably need that too.
+> 
+> Btw, looka here - it can't get any more obvious than that after dumping
+> setup_data too:
+> 
+> early console in setup code
+> early console in extract_kernel
+> input_data: 0x00000000040f92bf
+> input_len: 0x0000000000f1c325
+> output: 0x0000000001000000
+> output_len: 0x0000000003c5e7d8
+> kernel_total_size: 0x0000000004428000
+> needed_size: 0x0000000004600000
+> boot_params->hdr.setup_data: 0x00000000010203b0
+> trampoline_32bit: 0x000000000009d000
+> 
+> Decompressing Linux... Parsing ELF... done.
+> Booting the kernel.
+> <EOF>
+> 
+> Aligning them vertically:
+> 
+> output:				0x0000000001000000
+> output_len:			0x0000000003c5e7d8
+> kernel_total_size:		0x0000000004428000
+> needed_size:			0x0000000004600000
+> boot_params->hdr.setup_data:	0x00000000010203b0
 
-Yeah, we will probably need that too.
+Ok, waait a minute:
 
-Btw, looka here - it can't get any more obvious than that after dumping
-setup_data too:
+============    ============
+Field name:     pref_address
+Type:           read (reloc)
+Offset/size:    0x258/8
+Protocol:       2.10+
+============    ============
 
-early console in setup code
-early console in extract_kernel
-input_data: 0x00000000040f92bf
-input_len: 0x0000000000f1c325
-output: 0x0000000001000000
-output_len: 0x0000000003c5e7d8
+  This field, if nonzero, represents a preferred load address for the
+  kernel.  A relocating bootloader should attempt to load at this
+  address if possible.
+
+  A non-relocatable kernel will unconditionally move itself and to run
+  at this address.
+
+so a kernel loader (qemu in this case) already knows where the kernel goes:
+
+boot_params->hdr.setup_data: 0x0000000001020450
+boot_params->hdr.pref_address: 0x0000000001000000
+				^^^^^^^^^^^^^^^^^
+
+now, considering that same kernel loader (qemu) knows how big that kernel is:
+
 kernel_total_size: 0x0000000004428000
-needed_size: 0x0000000004600000
-boot_params->hdr.setup_data: 0x00000000010203b0
-trampoline_32bit: 0x000000000009d000
 
-Decompressing Linux... Parsing ELF... done.
-Booting the kernel.
-<EOF>
+should that loader *not* put anything that the kernel will use in the range
 
-Aligning them vertically:
+pref_addr + kernel_total_size
 
-output:				0x0000000001000000
-output_len:			0x0000000003c5e7d8
-kernel_total_size:		0x0000000004428000
-needed_size:			0x0000000004600000
-boot_params->hdr.setup_data:	0x00000000010203b0
+?
 
 -- 
 Regards/Gruss,
