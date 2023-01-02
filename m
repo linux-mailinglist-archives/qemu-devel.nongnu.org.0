@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C620665ACEF
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 04:08:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6DC65AD55
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 06:52:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCB9w-0002cH-LK; Sun, 01 Jan 2023 22:06:44 -0500
+	id 1pCDit-0006PX-Nh; Mon, 02 Jan 2023 00:50:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanwj@mail.ustc.edu.cn>)
- id 1pCB9u-0002c9-C8
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 22:06:42 -0500
-Received: from email6.ustc.edu.cn ([2001:da8:d800::8] helo=ustc.edu.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanwj@mail.ustc.edu.cn>) id 1pCB9p-0006Sq-Ts
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 22:06:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
- Content-Type:MIME-Version:Message-ID; bh=ydPN67ZW7H4bXOmoYoB5A4x
- ZK/joI5PaV2kcNeJxATE=; b=hUIi9ANHNhtmuvADPl9e5QBrffP6JwjeSyGhPRL
- uVqKfu/SUrtEyqoQgG2FP9UfO/166emdMwlieKyoPrp2g2B7j2ICEthPPwVeBJef
- HXc7LdWVLngbA4QKQjif9h/Y6tZrkv1Z/TBqwnprKBQ6zYV1PLqdFjGWSnlM1a0L
- Xcao=
-Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Mon, 2 Jan
- 2023 11:06:25 +0800 (GMT+08:00)
-X-Originating-IP: [120.204.77.150]
-Date: Mon, 2 Jan 2023 11:06:25 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: fanwj@mail.ustc.edu.cn
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-Subject: [PATCH] linux-user: fix bug about incorrect base addresss of idt
- and  gdt on i386 and x86_64
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20210401(c5ff3689) Copyright (c) 2002-2023 www.mailtech.cn ustccn
-X-SendMailWithSms: false
-Content-Type: multipart/alternative; 
- boundary="----=_Part_458889_429345013.1672628785236"
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pCDip-0006P4-Bd
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 00:50:55 -0500
+Received: from mail.skyhub.de ([2a01:4f8:190:11c2::b:1457])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bp@alien8.de>) id 1pCDii-0001eE-6w
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 00:50:55 -0500
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 04F8C1EC04AD;
+ Mon,  2 Jan 2023 06:50:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1672638641;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=KNARFvNRF3/uNoEZNfyHRQ1mNp3FRIAd1Kh6JpigTAU=;
+ b=EwhAW3ZMQ5mHmamvxGQza8LDPgkAHg2W9i+6MiWrnI1SmyPZXvcR3V/wNJSjhdWFVEs9Eh
+ yON4gwl2XO/AnTuZ6o61SoQgppqUAbgm1nJbtaE5vfCCrKi9fbK2z7KkpP3HF2+ZlJ22t7
+ 9XgvfECl0k/BcwM98LAA/58G602g+8w=
+Date: Mon, 2 Jan 2023 06:50:35 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, pbonzini@redhat.com,
+ ebiggers@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org, ardb@kernel.org, kraxel@redhat.com,
+ philmd@linaro.org
+Subject: Re: [PATCH qemu] x86: don't let decompressed kernel image clobber
+ setup_data
+Message-ID: <Y7Jwq/TzywGtktJy@zn.tnic>
+References: <Y69h6ur79SMhu61F@zx2c4.com>
+ <46466e54-25c3-3194-8546-a57cd4a80d9d@zytor.com>
+ <Y7A76+IBS4fnucrW@zn.tnic> <Y7A8qP05B0YRbQIN@zx2c4.com>
+ <Y7A9nBud6UeH+wYd@zn.tnic> <Y7A+YELM7m5E2PUQ@zx2c4.com>
+ <Y7BGIAL4z6o6FEI5@zn.tnic> <Y7B993P1+jYB/etX@zx2c4.com>
+ <Y7CGzde+qPB7YJP4@zn.tnic>
+ <60566f8b-c90f-12e7-c13e-94e9829eee2d@zytor.com>
 MIME-Version: 1.0
-Message-ID: <2e1eee7a.20131.1857071d054.Coremail.fanwj@mail.ustc.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LkAmygCXO6MxSrJjZLCJAA--.0W
-X-CM-SenderInfo: pidq4yo6pdxzwoxv3uoohg3hdfq/1tbiAQ4REFQhoPMeLgAzsr
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=2001:da8:d800::8;
- envelope-from=fanwj@mail.ustc.edu.cn; helo=ustc.edu.cn
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HTML_MESSAGE=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <60566f8b-c90f-12e7-c13e-94e9829eee2d@zytor.com>
+Received-SPF: pass client-ip=2a01:4f8:190:11c2::b:1457;
+ envelope-from=bp@alien8.de; helo=mail.skyhub.de
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,126 +74,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-------=_Part_458889_429345013.1672628785236
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+On Sat, Dec 31, 2022 at 07:21:06PM -0800, H. Peter Anvin wrote:
+> As far as the decompression itself goes, it should only a problem if we are
+> using physical KASLR since otherwise the kernel has a guaranteed safe zone
+> already allocated by the boot loader. However, if physical KASLR is in use,
 
-RnJvbTogZmFud2VuamllIDxmYW53akBtYWlsLnVzdGMuZWR1LmNuPgoKCk9uIGxpbnV4IHVzZXIg
-bW9kZSwgQ1BVWDg2U3RhdGU6OmlkdDo6YmFzZSBhbmQgQ1BVWDg2U3RhdGU6OmdkdDo6YmFzZSBm
-cm9tIERpZmZlcmVudCBDUFVYODZTdGF0ZSBPYmplY3RzIGhhdmUgc2FtZSB2YWx1ZSwgSXQgaXMg
-aW5jb3JyZWN0ISBFdmVyeSBDUFVYODZTdGF0ZTo6aWR0OjpiYXNlIGFuZCBFdmVyeSBDUFVYODZT
-dGF0ZTo6Z2R0OjpiYXNlIE11c3QgcG9pbnRzIHRvIGluZGVwZW5kZW50IG1lbW9yeSBzcGFjZS4g
-IAoKClJlc29sdmVzOiBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9pc3N1
-ZXMvMTQwNQpTaWduZWQtb2ZmLWJ5OiBmYW53ZW5qaWUgPGZhbndqQG1haWwudXN0Yy5lZHUuY24+
-CgoKLS0tCiBsaW51eC11c2VyL2kzODYvY3B1X2xvb3AuYyB8IDEwICsrKysrKysrKysKIGxpbnV4
-LXVzZXIvbWFpbi5jICAgICAgICAgIHwgMTEgKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwg
-MjEgaW5zZXJ0aW9ucygrKQoKCmRpZmYgLS1naXQgYS9saW51eC11c2VyL2kzODYvY3B1X2xvb3Au
-YyBiL2xpbnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jCmluZGV4IDg2NTQxM2MwOGYuLjFmMjNiYzVl
-M2EgMTAwNjQ0Ci0tLSBhL2xpbnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jCisrKyBiL2xpbnV4LXVz
-ZXIvaTM4Ni9jcHVfbG9vcC5jCkBAIC0zMTQsOCArMzE0LDE4IEBAIHZvaWQgY3B1X2xvb3AoQ1BV
-WDg2U3RhdGUgKmVudikKICAgICB9CiB9CiAKK3N0YXRpYyB2b2lkIHRhcmdldF9jcHVfZnJlZSh2
-b2lkICpvYmopCit7CisgICAgQ1BVQXJjaFN0YXRlKiBlbnYgPSAoKENQVVN0YXRlKilvYmopLT5l
-bnZfcHRyOworICAgIHRhcmdldF9tdW5tYXAoZW52LT5pZHQuYmFzZSwgc2l6ZW9mKHVpbnQ2NF90
-KSAqIChlbnYtPmlkdC5saW1pdCArIDEpKTsKKyAgICB0YXJnZXRfbXVubWFwKGVudi0+Z2R0LmJh
-c2UsIHNpemVvZih1aW50NjRfdCkgKiBUQVJHRVRfR0RUX0VOVFJJRVMpOworICAgIGdfZnJlZShv
-YmopOworfQorCiB2b2lkIHRhcmdldF9jcHVfY29weV9yZWdzKENQVUFyY2hTdGF0ZSAqZW52LCBz
-dHJ1Y3QgdGFyZ2V0X3B0X3JlZ3MgKnJlZ3MpCiB7CisgICAgQ1BVU3RhdGUqIGNwdSA9IGVudl9j
-cHUoZW52KTsKKyAgICBPQkpFQ1QoY3B1KS0+ZnJlZSA9IHRhcmdldF9jcHVfZnJlZTsKICAgICBl
-bnYtPmNyWzBdID0gQ1IwX1BHX01BU0sgfCBDUjBfV1BfTUFTSyB8IENSMF9QRV9NQVNLOwogICAg
-IGVudi0+aGZsYWdzIHw9IEhGX1BFX01BU0sgfCBIRl9DUExfTUFTSzsKICAgICBpZiAoZW52LT5m
-ZWF0dXJlc1tGRUFUXzFfRURYXSAmIENQVUlEX1NTRSkgewpkaWZmIC0tZ2l0IGEvbGludXgtdXNl
-ci9tYWluLmMgYi9saW51eC11c2VyL21haW4uYwppbmRleCBhMTdmZWQwNDViLi4yMjc2MDQwNTQ4
-IDEwMDY0NAotLS0gYS9saW51eC11c2VyL21haW4uYworKysgYi9saW51eC11c2VyL21haW4uYwpA
-QCAtMjM0LDYgKzIzNCwxNyBAQCBDUFVBcmNoU3RhdGUgKmNwdV9jb3B5KENQVUFyY2hTdGF0ZSAq
-ZW52KQogCiAgICAgbmV3X2NwdS0+dGNnX2NmbGFncyA9IGNwdS0+dGNnX2NmbGFnczsKICAgICBt
-ZW1jcHkobmV3X2VudiwgZW52LCBzaXplb2YoQ1BVQXJjaFN0YXRlKSk7CisjaWYgZGVmaW5lZChU
-QVJHRVRfSTM4NikgfHwgZGVmaW5lZChUQVJHRVRfWDg2XzY0KQorICAgIG5ld19lbnYtPmdkdC5i
-YXNlID0gdGFyZ2V0X21tYXAoMCwgc2l6ZW9mKHVpbnQ2NF90KSAqIFRBUkdFVF9HRFRfRU5UUklF
-UywKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFBST1RfUkVBRHxQUk9UX1dS
-SVRFLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTUFQX0FOT05ZTU9VU3xN
-QVBfUFJJVkFURSwgLTEsIDApOworICAgIG5ld19lbnYtPmlkdC5iYXNlID0gdGFyZ2V0X21tYXAo
-MCwgc2l6ZW9mKHVpbnQ2NF90KSAqIChlbnYtPmlkdC5saW1pdCArIDEpLAorICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBQUk9UX1JFQUR8UFJPVF9XUklURSwKKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgTUFQX0FOT05ZTU9VU3xNQVBfUFJJVkFURSwgLTEsIDApOworICAg
-IG1lbWNweSgodm9pZCopbmV3X2Vudi0+Z2R0LmJhc2UsICh2b2lkKillbnYtPmdkdC5iYXNlLCBz
-aXplb2YodWludDY0X3QpICogVEFSR0VUX0dEVF9FTlRSSUVTKTsKKyAgICBtZW1jcHkoKHZvaWQq
-KW5ld19lbnYtPmlkdC5iYXNlLCAodm9pZCopZW52LT5pZHQuYmFzZSwgc2l6ZW9mKHVpbnQ2NF90
-KSAqIChlbnYtPmlkdC5saW1pdCArIDEpKTsKKyAgICBPQkpFQ1QobmV3X2NwdSktPmZyZWUgPSBP
-QkpFQ1QoY3B1KS0+ZnJlZTsKKyNlbmRpZgogCiAgICAgLyogQ2xvbmUgYWxsIGJyZWFrL3dhdGNo
-cG9pbnRzLgogICAgICAgIE5vdGU6IE9uY2Ugd2Ugc3VwcG9ydCBwdHJhY2Ugd2l0aCBody1kZWJ1
-ZyByZWdpc3RlciBhY2Nlc3MsIG1ha2Ugc3VyZQotLSAKMi4zNC4xCgoKCg==
-------=_Part_458889_429345013.1672628785236
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
+No KASLR in Jason's config AFAICT:
 
-PGRpdj48ZGl2PkZyb206IGZhbndlbmppZSAmbHQ7ZmFud2pAbWFpbC51c3RjLmVkdS5jbiZndDs8
-L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pk9uIGxpbnV4IHVzZXIgbW9kZSwgQ1BVWDg2U3RhdGU6
-OmlkdDo6YmFzZSBhbmQgQ1BVWDg2U3RhdGU6OmdkdDo6YmFzZSBmcm9tIERpZmZlcmVudCBDUFVY
-ODZTdGF0ZSBPYmplY3RzIGhhdmUgc2FtZSB2YWx1ZSwgSXQgaXMgaW5jb3JyZWN0ISBFdmVyeSBD
-UFVYODZTdGF0ZTo6aWR0OjpiYXNlIGFuZCBFdmVyeSBDUFVYODZTdGF0ZTo6Z2R0OjpiYXNlIE11
-c3QgcG9pbnRzIHRvIGluZGVwZW5kZW50IG1lbW9yeSBzcGFjZS4mbmJzcDsmbmJzcDs8L2Rpdj48
-ZGl2Pjxicj48L2Rpdj48ZGl2PlJlc29sdmVzOiBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9q
-ZWN0L3FlbXUvLS9pc3N1ZXMvMTQwNTwvZGl2PjxkaXY+U2lnbmVkLW9mZi1ieTogZmFud2Vuamll
-ICZsdDtmYW53akBtYWlsLnVzdGMuZWR1LmNuJmd0OzwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+
-LS0tPC9kaXY+PGRpdj4mbmJzcDtsaW51eC11c2VyL2kzODYvY3B1X2xvb3AuYyB8IDEwICsrKysr
-KysrKys8L2Rpdj48ZGl2PiZuYnNwO2xpbnV4LXVzZXIvbWFpbi5jJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyB8IDExICsrKysrKysrKysrPC9kaXY+PGRpdj4mbmJzcDsyIGZpbGVz
-IGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyk8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PmRpZmYg
-LS1naXQgYS9saW51eC11c2VyL2kzODYvY3B1X2xvb3AuYyBiL2xpbnV4LXVzZXIvaTM4Ni9jcHVf
-bG9vcC5jPC9kaXY+PGRpdj5pbmRleCA4NjU0MTNjMDhmLi4xZjIzYmM1ZTNhIDEwMDY0NDwvZGl2
-PjxkaXY+LS0tIGEvbGludXgtdXNlci9pMzg2L2NwdV9sb29wLmM8L2Rpdj48ZGl2PisrKyBiL2xp
-bnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jPC9kaXY+PGRpdj5AQCAtMzE0LDggKzMxNCwxOCBAQCB2
-b2lkIGNwdV9sb29wKENQVVg4NlN0YXRlICplbnYpPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZu
-YnNwO308L2Rpdj48ZGl2PiZuYnNwO308L2Rpdj48ZGl2PiZuYnNwOzwvZGl2PjxkaXY+K3N0YXRp
-YyB2b2lkIHRhcmdldF9jcHVfZnJlZSh2b2lkICpvYmopPC9kaXY+PGRpdj4rezwvZGl2PjxkaXY+
-KyZuYnNwOyAmbmJzcDsgQ1BVQXJjaFN0YXRlKiBlbnYgPSAoKENQVVN0YXRlKilvYmopLSZndDtl
-bnZfcHRyOzwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgdGFyZ2V0X211bm1hcChlbnYtJmd0O2lk
-dC5iYXNlLCBzaXplb2YodWludDY0X3QpICogKGVudi0mZ3Q7aWR0LmxpbWl0ICsgMSkpOzwvZGl2
-PjxkaXY+KyZuYnNwOyAmbmJzcDsgdGFyZ2V0X211bm1hcChlbnYtJmd0O2dkdC5iYXNlLCBzaXpl
-b2YodWludDY0X3QpICogVEFSR0VUX0dEVF9FTlRSSUVTKTs8L2Rpdj48ZGl2PismbmJzcDsgJm5i
-c3A7IGdfZnJlZShvYmopOzwvZGl2PjxkaXY+K308L2Rpdj48ZGl2Pis8L2Rpdj48ZGl2PiZuYnNw
-O3ZvaWQgdGFyZ2V0X2NwdV9jb3B5X3JlZ3MoQ1BVQXJjaFN0YXRlICplbnYsIHN0cnVjdCB0YXJn
-ZXRfcHRfcmVncyAqcmVncyk8L2Rpdj48ZGl2PiZuYnNwO3s8L2Rpdj48ZGl2PismbmJzcDsgJm5i
-c3A7IENQVVN0YXRlKiBjcHUgPSBlbnZfY3B1KGVudik7PC9kaXY+PGRpdj4rJm5ic3A7ICZuYnNw
-OyBPQkpFQ1QoY3B1KS0mZ3Q7ZnJlZSA9IHRhcmdldF9jcHVfZnJlZTs8L2Rpdj48ZGl2PiZuYnNw
-OyAmbmJzcDsgJm5ic3A7ZW52LSZndDtjclswXSA9IENSMF9QR19NQVNLIHwgQ1IwX1dQX01BU0sg
-fCBDUjBfUEVfTUFTSzs8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgJm5ic3A7ZW52LSZndDtoZmxh
-Z3MgfD0gSEZfUEVfTUFTSyB8IEhGX0NQTF9NQVNLOzwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyAm
-bmJzcDtpZiAoZW52LSZndDtmZWF0dXJlc1tGRUFUXzFfRURYXSAmYW1wOyBDUFVJRF9TU0UpIHs8
-L2Rpdj48ZGl2PmRpZmYgLS1naXQgYS9saW51eC11c2VyL21haW4uYyBiL2xpbnV4LXVzZXIvbWFp
-bi5jPC9kaXY+PGRpdj5pbmRleCBhMTdmZWQwNDViLi4yMjc2MDQwNTQ4IDEwMDY0NDwvZGl2Pjxk
-aXY+LS0tIGEvbGludXgtdXNlci9tYWluLmM8L2Rpdj48ZGl2PisrKyBiL2xpbnV4LXVzZXIvbWFp
-bi5jPC9kaXY+PGRpdj5AQCAtMjM0LDYgKzIzNCwxNyBAQCBDUFVBcmNoU3RhdGUgKmNwdV9jb3B5
-KENQVUFyY2hTdGF0ZSAqZW52KTwvZGl2PjxkaXY+Jm5ic3A7PC9kaXY+PGRpdj4mbmJzcDsgJm5i
-c3A7ICZuYnNwO25ld19jcHUtJmd0O3RjZ19jZmxhZ3MgPSBjcHUtJmd0O3RjZ19jZmxhZ3M7PC9k
-aXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwO21lbWNweShuZXdfZW52LCBlbnYsIHNpemVvZihD
-UFVBcmNoU3RhdGUpKTs8L2Rpdj48ZGl2PisjaWYgZGVmaW5lZChUQVJHRVRfSTM4NikgfHwgZGVm
-aW5lZChUQVJHRVRfWDg2XzY0KTwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgbmV3X2Vudi0mZ3Q7
-Z2R0LmJhc2UgPSB0YXJnZXRfbW1hcCgwLCBzaXplb2YodWludDY0X3QpICogVEFSR0VUX0dEVF9F
-TlRSSUVTLDwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IFBST1RfUkVBRHxQUk9UX1dSSVRFLDwvZGl2
-PjxkaXY+KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7IE1BUF9BTk9OWU1PVVN8TUFQX1BSSVZBVEUsIC0xLCAwKTs8L2Rp
-dj48ZGl2PismbmJzcDsgJm5ic3A7IG5ld19lbnYtJmd0O2lkdC5iYXNlID0gdGFyZ2V0X21tYXAo
-MCwgc2l6ZW9mKHVpbnQ2NF90KSAqIChlbnYtJmd0O2lkdC5saW1pdCArIDEpLDwvZGl2PjxkaXY+
-KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBQ
-Uk9UX1JFQUR8UFJPVF9XUklURSw8L2Rpdj48ZGl2PismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgTUFQX0FOT05ZTU9VU3xNQVBfUFJJVkFURSwg
-LTEsIDApOzwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgbWVtY3B5KCh2b2lkKiluZXdfZW52LSZn
-dDtnZHQuYmFzZSwgKHZvaWQqKWVudi0mZ3Q7Z2R0LmJhc2UsIHNpemVvZih1aW50NjRfdCkgKiBU
-QVJHRVRfR0RUX0VOVFJJRVMpOzwvZGl2PjxkaXY+KyZuYnNwOyAmbmJzcDsgbWVtY3B5KCh2b2lk
-KiluZXdfZW52LSZndDtpZHQuYmFzZSwgKHZvaWQqKWVudi0mZ3Q7aWR0LmJhc2UsIHNpemVvZih1
-aW50NjRfdCkgKiAoZW52LSZndDtpZHQubGltaXQgKyAxKSk7PC9kaXY+PGRpdj4rJm5ic3A7ICZu
-YnNwOyBPQkpFQ1QobmV3X2NwdSktJmd0O2ZyZWUgPSBPQkpFQ1QoY3B1KS0mZ3Q7ZnJlZTs8L2Rp
-dj48ZGl2PisjZW5kaWY8L2Rpdj48ZGl2PiZuYnNwOzwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyAm
-bmJzcDsvKiBDbG9uZSBhbGwgYnJlYWsvd2F0Y2hwb2ludHMuPC9kaXY+PGRpdj4mbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgTm90ZTogT25jZSB3ZSBzdXBwb3J0IHB0cmFjZSB3aXRoIGh3LWRl
-YnVnIHJlZ2lzdGVyIGFjY2VzcywgbWFrZSBzdXJlPC9kaXY+PGRpdj4tLSZuYnNwOzwvZGl2Pjxk
-aXY+Mi4zNC4xPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PC9kaXY+
-------=_Part_458889_429345013.1672628785236--
+$ grep RANDOMIZE .config
+CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
+CONFIG_HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET=y
+CONFIG_RANDOMIZE_KSTACK_OFFSET=y
+# CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT is not set
 
+> then the decompressor needs to know everything there is to know about the
+> memory map.
+
+Yeah, we do have that but as you folks establish later in the thread, those
+setup_data regions would need to be avoided too. ;-\
+ 
+> However, there also seems to be some kind of interaction with AMD SEV-SNP.
+> 
+> 
+> The bug appears to have been introduced by:
+> 
+> b57feed2cc2622ae14b2fa62f19e973e5e0a60cf
+> x86/compressed/64: Add identity mappings for setup_data entries
+> https://lore.kernel.org/r/TYCPR01MB694815CD815E98945F63C99183B49@TYCPR01MB6948.jpnprd01.prod.outlook.com
+> 
+> ... which was included in version 5.19, so it is relatively recent.
+
+Right. We need that for the CC blob:
+
+b190a043c49a ("x86/sev: Add SEV-SNP feature detection/setup")
+
+> For a small amount of setup_data, the solution of just putting it next to
+> the command line makes a lot of sense, and should be safe indefinitely.
+
+Ok.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 
