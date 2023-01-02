@@ -2,90 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF8C65B60D
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 18:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB3E65B610
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 18:54:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCOts-0007Pp-SH; Mon, 02 Jan 2023 12:47:04 -0500
+	id 1pCP02-0000fZ-DW; Mon, 02 Jan 2023 12:53:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pCOtq-0007PO-9g
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 12:47:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <SRS0=vkp6=47=kaod.org=clg@ozlabs.org>)
+ id 1pCOzq-0000f1-TI; Mon, 02 Jan 2023 12:53:16 -0500
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pCOtn-00057z-Bq
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 12:47:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672681617;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UEwMEVORwGQdUkaE8aygrUja5mjHxP1iCKWj4zKLawg=;
- b=b9j4b2WJh/hMUN9HVjw95rHqJFkAe0A9GUeWljyrD+0F5WyW3F6J9EW67bysgQtCvOy2pa
- wTDqmRAg3UlAzT/JF6j0ovYqoSm7L1ixlauWHEvxVvURagigSkfe+840IQsSwX9uuqhMnX
- c1iMy6PQY/ee9Ie7wuNPu63J7zxM+9I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-550-gLU5VoEGPjmxorBOctIMTA-1; Mon, 02 Jan 2023 12:46:55 -0500
-X-MC-Unique: gLU5VoEGPjmxorBOctIMTA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay32-20020a05600c1e2000b003d9730391b5so12844215wmb.5
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 09:46:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UEwMEVORwGQdUkaE8aygrUja5mjHxP1iCKWj4zKLawg=;
- b=VAAiuSqWMhRKqIby1HgOMcLYS1kuOXdKAZ2YBjJ3RPNWNx1Q4J/lDLS1bJVbvipAOk
- Rb3zjPzr/mlrtdxqSk9hZqpVu5M4nLQVtxnfEghowtDD2gamGLgWXNAC2Uq0B1GrdI9g
- p7bmLaTj1xMD4HDipN1wb3q1D7f/+BrUqbYruv2blB8gFzGfAEoiW1oSIS6AV8drtMOK
- UIfibDnNrtfDNfKu5GU8vrgCLPRrcjJz2LBEH6dGuVU/gHDrNtxyILNTvk/fgtVoPOKo
- pkXw2X6HoqSOaYgcWQhZPq5t27IK3WmGwEK7Q0F1q8gfzl/vJkwmbfuQ1t5bx7kmVcgR
- pzkQ==
-X-Gm-Message-State: AFqh2kpKwrTb9mRTcNhhD0dy7vVaHSuC9xuFSsS4ABXmuydyA+4b48aV
- JOjRJ76XLQ2hcq0OjJPm2tJ9/lizSt+L/68ZZ//o3700WfY+kTVV9yEyVTagFC6gh1jcXKnGB2H
- P20ARttPlS160iL8=
-X-Received: by 2002:adf:9dd1:0:b0:242:165c:95ed with SMTP id
- q17-20020adf9dd1000000b00242165c95edmr25290016wre.48.1672681614740; 
- Mon, 02 Jan 2023 09:46:54 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt0p5m4ylYbBESCUKrBIMR1ZDEWRey8pWymXQEuhRcdaKS8YrAUzdmCxicDkxYUA8Ea68YynA==
-X-Received: by 2002:adf:9dd1:0:b0:242:165c:95ed with SMTP id
- q17-20020adf9dd1000000b00242165c95edmr25290000wre.48.1672681614461; 
- Mon, 02 Jan 2023 09:46:54 -0800 (PST)
-Received: from redhat.com ([2.52.151.85]) by smtp.gmail.com with ESMTPSA id
- bo19-20020a056000069300b00294176c2c01sm7280930wrb.86.2023.01.02.09.46.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jan 2023 09:46:53 -0800 (PST)
-Date: Mon, 2 Jan 2023 12:46:49 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Chuck Zmudzinski <brchuckz@aol.com>
-Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paul Durrant <paul@xen.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- xen-devel@lists.xenproject.org, alex.williamson@redhat.com
-Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
-Message-ID: <20230102124605-mutt-send-email-mst@kernel.org>
-References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
- <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
+ (Exim 4.90_1) (envelope-from <SRS0=vkp6=47=kaod.org=clg@ozlabs.org>)
+ id 1pCOzo-0005ra-IU; Mon, 02 Jan 2023 12:53:14 -0500
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4Nm3P34rBFz4xP3;
+ Tue,  3 Jan 2023 04:52:55 +1100 (AEDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Nm3P20rVHz4xGM;
+ Tue,  3 Jan 2023 04:52:53 +1100 (AEDT)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH] target/arm: Allow users to set the number of VFP registers
+Date: Mon,  2 Jan 2023 18:52:45 +0100
+Message-Id: <20230102175245.1895037-1-clg@kaod.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=SRS0=vkp6=47=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,282 +62,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:
-> Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
-> as noted in docs/igd-assign.txt in the Qemu source code.
-> 
-> Currently, when the xl toolstack is used to configure a Xen HVM guest with
-> Intel IGD passthrough to the guest with the Qemu upstream device model,
-> a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
-> a different slot. This problem often prevents the guest from booting.
-> 
-> The only available workaround is not good: Configure Xen HVM guests to use
-> the old and no longer maintained Qemu traditional device model available
-> from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
-> 
-> To implement this feature in the Qemu upstream device model for Xen HVM
-> guests, introduce the following new functions, types, and macros:
-> 
-> * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
-> * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
-> * typedef XenPTQdevRealize function pointer
-> * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
-> * xen_igd_reserve_slot and xen_igd_clear_slot functions
-> 
-> The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
-> member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
-> the xl toolstack with the gfx_passthru option enabled, which sets the
-> igd-passthru=on option to Qemu for the Xen HVM machine type.
-> 
-> The new xen_igd_reserve_slot function also needs to be implemented in
-> hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
-> when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
-> in which case it does nothing.
-> 
-> The new xen_igd_clear_slot function overrides qdev->realize of the parent
-> PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
-> since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
-> created in hw/i386/pc_piix.c for the case when igd-passthru=on.
-> 
-> Move the call to xen_host_pci_device_get, and the associated error
-> handling, from xen_pt_realize to the new xen_igd_clear_slot function to
-> initialize the device class and vendor values which enables the checks for
-> the Intel IGD to succeed. The verification that the host device is an
-> Intel IGD to be passed through is done by checking the domain, bus, slot,
-> and function values as well as by checking that gfx_passthru is enabled,
-> the device class is VGA, and the device vendor in Intel.
-> 
-> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+Cortex A7 CPUs with an FPU implementing VFPv4 without NEON support
+have 16 64-bit FPU registers and not 32 registers. Let users set the
+number of VFP registers with a CPU property.
 
-I'm not sure why is the issue xen specific. Can you explain?
-Doesn't it affect kvm too?
+The primary use case of this property is for the Cortex A7 of the
+Aspeed AST2600 SoC.
 
-> ---
-> Notes that might be helpful to reviewers of patched code in hw/xen:
-> 
-> The new functions and types are based on recommendations from Qemu docs:
-> https://qemu.readthedocs.io/en/latest/devel/qom.html
-> 
-> Notes that might be helpful to reviewers of patched code in hw/i386:
-> 
-> The small patch to hw/i386/pc_piix.c is protected by CONFIG_XEN so it does
-> not affect builds that do not have CONFIG_XEN defined.
-> 
-> xen_igd_gfx_pt_enabled() in the patched hw/i386/pc_piix.c file is an
-> existing function that is only true when Qemu is built with
-> xen-pci-passthrough enabled and the administrator has configured the Xen
-> HVM guest with Qemu's igd-passthru=on option.
-> 
-> v2: Remove From: <email address> tag at top of commit message
-> 
-> v3: Changed the test for the Intel IGD in xen_igd_clear_slot:
-> 
->     if (is_igd_vga_passthrough(&s->real_device) &&
->         (s->real_device.vendor_id == PCI_VENDOR_ID_INTEL)) {
-> 
->     is changed to
-> 
->     if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
->         && (s->hostaddr.function == 0)) {
-> 
->     I hoped that I could use the test in v2, since it matches the
->     other tests for the Intel IGD in Qemu and Xen, but those tests
->     do not work because the necessary data structures are not set with
->     their values yet. So instead use the test that the administrator
->     has enabled gfx_passthru and the device address on the host is
->     02.0. This test does detect the Intel IGD correctly.
-> 
-> v4: Use brchuckz@aol.com instead of brchuckz@netscape.net for the author's
->     email address to match the address used by the same author in commits
->     be9c61da and c0e86b76
->     
->     Change variable for XEN_PT_DEVICE_CLASS: xptc changed to xpdc
-> 
-> v5: The patch of xen_pt.c was re-worked to allow a more consistent test
->     for the Intel IGD that uses the same criteria as in other places.
->     This involved moving the call to xen_host_pci_device_get from
->     xen_pt_realize to xen_igd_clear_slot and updating the checks for the
->     Intel IGD in xen_igd_clear_slot:
->     
->     if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
->         && (s->hostaddr.function == 0)) {
-> 
->     is changed to
-> 
->     if (is_igd_vga_passthrough(&s->real_device) &&
->         s->real_device.domain == 0 && s->real_device.bus == 0 &&
->         s->real_device.dev == 2 && s->real_device.func == 0 &&
->         s->real_device.vendor_id == PCI_VENDOR_ID_INTEL) {
-> 
->     Added an explanation for the move of xen_host_pci_device_get from
->     xen_pt_realize to xen_igd_clear_slot to the commit message.
-> 
->     Rebase.
-> 
-> v6: Fix logging by removing these lines from the move from xen_pt_realize
->     to xen_igd_clear_slot that was done in v5:
-> 
->     XEN_PT_LOG(d, "Assigning real physical device %02x:%02x.%d"
->                " to devfn 0x%x\n",
->                s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
->                s->dev.devfn);
-> 
->     This log needs to be in xen_pt_realize because s->dev.devfn is not
->     set yet in xen_igd_clear_slot.
-> 
->     Sorry for the extra noise.
-> 
->  hw/i386/pc_piix.c    |  3 +++
->  hw/xen/xen_pt.c      | 46 +++++++++++++++++++++++++++++++++++---------
->  hw/xen/xen_pt.h      | 16 +++++++++++++++
->  hw/xen/xen_pt_stub.c |  4 ++++
->  4 files changed, 60 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index b48047f50c..bc5efa4f59 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -405,6 +405,9 @@ static void pc_xen_hvm_init(MachineState *machine)
->      }
->  
->      pc_xen_hvm_init_pci(machine);
-> +    if (xen_igd_gfx_pt_enabled()) {
-> +        xen_igd_reserve_slot(pcms->bus);
-> +    }
->      pci_create_simple(pcms->bus, -1, "xen-platform");
->  }
->  #endif
-> diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-> index 0ec7e52183..7fae1e7a6f 100644
-> --- a/hw/xen/xen_pt.c
-> +++ b/hw/xen/xen_pt.c
-> @@ -780,15 +780,6 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
->                 s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
->                 s->dev.devfn);
->  
-> -    xen_host_pci_device_get(&s->real_device,
-> -                            s->hostaddr.domain, s->hostaddr.bus,
-> -                            s->hostaddr.slot, s->hostaddr.function,
-> -                            errp);
-> -    if (*errp) {
-> -        error_append_hint(errp, "Failed to \"open\" the real pci device");
-> -        return;
-> -    }
-> -
->      s->is_virtfn = s->real_device.is_virtfn;
->      if (s->is_virtfn) {
->          XEN_PT_LOG(d, "%04x:%02x:%02x.%d is a SR-IOV Virtual Function\n",
-> @@ -950,11 +941,47 @@ static void xen_pci_passthrough_instance_init(Object *obj)
->      PCI_DEVICE(obj)->cap_present |= QEMU_PCI_CAP_EXPRESS;
->  }
->  
-> +void xen_igd_reserve_slot(PCIBus *pci_bus)
-> +{
-> +    XEN_PT_LOG(0, "Reserving PCI slot 2 for IGD\n");
-> +    pci_bus->slot_reserved_mask |= XEN_PCI_IGD_SLOT_MASK;
-> +}
-> +
-> +static void xen_igd_clear_slot(DeviceState *qdev, Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +    PCIDevice *pci_dev = (PCIDevice *)qdev;
-> +    XenPCIPassthroughState *s = XEN_PT_DEVICE(pci_dev);
-> +    XenPTDeviceClass *xpdc = XEN_PT_DEVICE_GET_CLASS(s);
-> +    PCIBus *pci_bus = pci_get_bus(pci_dev);
-> +
-> +    xen_host_pci_device_get(&s->real_device,
-> +                            s->hostaddr.domain, s->hostaddr.bus,
-> +                            s->hostaddr.slot, s->hostaddr.function,
-> +                            errp);
-> +    if (*errp) {
-> +        error_append_hint(errp, "Failed to \"open\" the real pci device");
-> +        return;
-> +    }
-> +
-> +    if (is_igd_vga_passthrough(&s->real_device) &&
-> +        s->real_device.domain == 0 && s->real_device.bus == 0 &&
-> +        s->real_device.dev == 2 && s->real_device.func == 0 &&
-> +        s->real_device.vendor_id == PCI_VENDOR_ID_INTEL) {
-> +        pci_bus->slot_reserved_mask &= ~XEN_PCI_IGD_SLOT_MASK;
-> +        XEN_PT_LOG(pci_dev, "Intel IGD found, using slot 2\n");
-> +    }
-> +    xpdc->pci_qdev_realize(qdev, errp);
-> +}
-> +
->  static void xen_pci_passthrough_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->  
-> +    XenPTDeviceClass *xpdc = XEN_PT_DEVICE_CLASS(klass);
-> +    xpdc->pci_qdev_realize = dc->realize;
-> +    dc->realize = xen_igd_clear_slot;
->      k->realize = xen_pt_realize;
->      k->exit = xen_pt_unregister_device;
->      k->config_read = xen_pt_pci_read_config;
-> @@ -977,6 +1004,7 @@ static const TypeInfo xen_pci_passthrough_info = {
->      .instance_size = sizeof(XenPCIPassthroughState),
->      .instance_finalize = xen_pci_passthrough_finalize,
->      .class_init = xen_pci_passthrough_class_init,
-> +    .class_size = sizeof(XenPTDeviceClass),
->      .instance_init = xen_pci_passthrough_instance_init,
->      .interfaces = (InterfaceInfo[]) {
->          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-> diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
-> index e7c4316a7d..40b31b5263 100644
-> --- a/hw/xen/xen_pt.h
-> +++ b/hw/xen/xen_pt.h
-> @@ -3,6 +3,7 @@
->  
->  #include "hw/xen/xen_common.h"
->  #include "hw/pci/pci.h"
-> +#include "hw/pci/pci_bus.h"
->  #include "xen-host-pci-device.h"
->  #include "qom/object.h"
->  
-> @@ -41,7 +42,20 @@ typedef struct XenPTReg XenPTReg;
->  #define TYPE_XEN_PT_DEVICE "xen-pci-passthrough"
->  OBJECT_DECLARE_SIMPLE_TYPE(XenPCIPassthroughState, XEN_PT_DEVICE)
->  
-> +#define XEN_PT_DEVICE_CLASS(klass) \
-> +    OBJECT_CLASS_CHECK(XenPTDeviceClass, klass, TYPE_XEN_PT_DEVICE)
-> +#define XEN_PT_DEVICE_GET_CLASS(obj) \
-> +    OBJECT_GET_CLASS(XenPTDeviceClass, obj, TYPE_XEN_PT_DEVICE)
-> +
-> +typedef void (*XenPTQdevRealize)(DeviceState *qdev, Error **errp);
-> +
-> +typedef struct XenPTDeviceClass {
-> +    PCIDeviceClass parent_class;
-> +    XenPTQdevRealize pci_qdev_realize;
-> +} XenPTDeviceClass;
-> +
->  uint32_t igd_read_opregion(XenPCIPassthroughState *s);
-> +void xen_igd_reserve_slot(PCIBus *pci_bus);
->  void igd_write_opregion(XenPCIPassthroughState *s, uint32_t val);
->  void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
->                                             XenHostPCIDevice *dev);
-> @@ -76,6 +90,8 @@ typedef int (*xen_pt_conf_byte_read)
->  
->  #define XEN_PCI_INTEL_OPREGION 0xfc
->  
-> +#define XEN_PCI_IGD_SLOT_MASK 0x4UL /* Intel IGD slot_reserved_mask */
-> +
->  typedef enum {
->      XEN_PT_GRP_TYPE_HARDWIRED = 0,  /* 0 Hardwired reg group */
->      XEN_PT_GRP_TYPE_EMU,            /* emul reg group */
-> diff --git a/hw/xen/xen_pt_stub.c b/hw/xen/xen_pt_stub.c
-> index 2d8cac8d54..5c108446a8 100644
-> --- a/hw/xen/xen_pt_stub.c
-> +++ b/hw/xen/xen_pt_stub.c
-> @@ -20,3 +20,7 @@ void xen_igd_gfx_pt_set(bool value, Error **errp)
->          error_setg(errp, "Xen PCI passthrough support not built in");
->      }
->  }
-> +
-> +void xen_igd_reserve_slot(PCIBus *pci_bus)
-> +{
-> +}
-> -- 
-> 2.39.0
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ target/arm/cpu.h        |  2 ++
+ hw/arm/aspeed_ast2600.c |  2 ++
+ target/arm/cpu.c        | 14 ++++++++++++++
+ 3 files changed, 18 insertions(+)
+
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 2b4bd20f9d..55e2e9a584 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -897,6 +897,8 @@ struct ArchCPU {
+     bool has_pmu;
+     /* CPU has VFP */
+     bool has_vfp;
++    /* CPU has 32 VFP registers */
++    bool has_vfp_d32;
+     /* CPU has Neon */
+     bool has_neon;
+     /* CPU has M-profile DSP extension */
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index cd75465c2b..37f43b4165 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -309,6 +309,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+                                 &error_abort);
+         object_property_set_bool(OBJECT(&s->cpu[i]), "neon", false,
+                                 &error_abort);
++        object_property_set_bool(OBJECT(&s->cpu[i]), "vfp-d32", false,
++                                &error_abort);
+         object_property_set_link(OBJECT(&s->cpu[i]), "memory",
+                                  OBJECT(s->memory), &error_abort);
+ 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 2fa022f62b..27af57ea9a 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1258,6 +1258,9 @@ static Property arm_cpu_cfgend_property =
+ static Property arm_cpu_has_vfp_property =
+             DEFINE_PROP_BOOL("vfp", ARMCPU, has_vfp, true);
+ 
++static Property arm_cpu_has_vfp_d32_property =
++            DEFINE_PROP_BOOL("vfp-d32", ARMCPU, has_vfp_d32, true);
++
+ static Property arm_cpu_has_neon_property =
+             DEFINE_PROP_BOOL("neon", ARMCPU, has_neon, true);
+ 
+@@ -1384,8 +1387,11 @@ void arm_cpu_post_init(Object *obj)
+         ? cpu_isar_feature(aa64_fp_simd, cpu)
+         : cpu_isar_feature(aa32_vfp, cpu)) {
+         cpu->has_vfp = true;
++        cpu->has_vfp_d32 = true;
+         if (!kvm_enabled()) {
+             qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_property);
++            qdev_property_add_static(DEVICE(obj),
++                                     &arm_cpu_has_vfp_d32_property);
+         }
+     }
+ 
+@@ -1650,6 +1656,14 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    if (!cpu->has_vfp_d32) {
++        uint32_t u;
++
++        u = cpu->isar.mvfr0;
++        u = FIELD_DP32(u, MVFR0, SIMDREG, 1); /* 16 registers */
++        cpu->isar.mvfr0 = u;
++    }
++
+     if (!cpu->has_vfp) {
+         uint64_t t;
+         uint32_t u;
+-- 
+2.38.1
 
 
