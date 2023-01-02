@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1B665AC8A
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 00:53:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157C065AC8D
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 01:05:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pC87u-000766-GH; Sun, 01 Jan 2023 18:52:26 -0500
+	id 1pC8Io-0001xN-B8; Sun, 01 Jan 2023 19:03:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pC87s-00075y-GN
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 18:52:24 -0500
-Received: from sonic309-21.consmr.mail.gq1.yahoo.com ([98.137.65.147])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pC8Im-0001x0-84
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 19:03:40 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pC87q-00013Q-4D
- for qemu-devel@nongnu.org; Sun, 01 Jan 2023 18:52:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1672617138; bh=skwhbHUkGjznop/QWhj7GG069Cfw1vyGWz5DAdkodwY=;
- h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
- b=IEJMj5MNCJUJhzkSMnO2XnVNisG1L6mJlpp0C5gDVnxeviRF0kqvnRwxfJmLj+hC0QFBlbTcbeKhkqEkIp226t/XKrDoSsN3wDu5VrIXb2cUvH5a2Vcwyj8SgX05o06G9WgTnCGWI0B3TzLuSxxZwk5tlLxj2MD8skG8zP1PDa8RCqZpkemmac+B+Wu9oRwhBsYgBuhau0Vw0ts8RUB30xaVWBpukpOAHkMH7iXfYHs9kjWtitKFueQ/8ky0r1vX3pPMPTpu/lVuNMi4J9tT9ePilvZ0qBWVgrn6omTTOXDvowMCx2KPRenG/K1y8Lf/G56IZ06fgbJ16W2s9SgJgw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1672617138; bh=Gm5Qal8G0/XjlI2GzUDH3lY8DeAqXwfGdjCP6FAlAGr=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=MLkLtG3fDe+9QkP7XrKUzDF3W5oo2DKdXEroHJibxjdodo3SkQwi9xe91r3zpalxKtTnTLCsR+r65qUkbkr98KJ8X7z/Ihs3hS4QMmqQgG+QAn6LIQPfJLm0CztXzNlBqnbbyr5A0IPaLjuN/vgxzM5ZZc5oV1ESWBf9bQB3I5j2AcAy7HKX/2yeBZjTE8xJtQNuWk4Moc5uleMlu0icTC6mTuG4L1bQxquvoitgpY3kZb06+ebAmMIInFu6wCY0qK0FU/+NatbUhzO52O5uIdDmHSdc6GhJx+a3Q9arQjH7zgdrMFhrrbg0RHcToW7bso8tZlF6vSAM41le0Ju2tw==
-X-YMail-OSG: XFe56mIVM1mvJtN9hySqOXDspxB_hs1PSyXIqthm1uK3iEFtNgI8dO.eX7Sh1E.
- BJ1_4tOtjK7lE71x5m91dWrNder9ITw6LQQNWL1ZRh04Rkz6C9T5ZqdVzBRxGBUO8c9Bq5OBVHaG
- v1nSCCYiBvXZen7Tv4KLZnEkZQfTBQ56Sk6eauPerh5Qh3wFR8eIJy4VHTPQjKljBFJ1S3.HIvC0
- b6s4BfbDPWb5lQOLQ0veeAFWE6MCM9Jd8OTyofW4JOrT4E8yOAOoqwNfGm2sq_29hUFkBE9DYiuy
- lepBR2MhcdMxJnXb4lJT6.GksxAcUKXabYXr8bzIGIIon6iWsmO9iKcB4pYR_9D_O1Gvkj4ZJRcy
- cDxMQpvv657LI3SbOKsg3JkWEqkEjqxZvUDH8ZiGK0dXagy4DMkS3vdjlilpNp_nLUiolcyuTKjR
- Y.MixgwpfhXp_AAumgfU_Wt5_LdAQuY6dz1jmDqz7XFt4y1XAhI39LsesNVCeVjhDT7hAAso5DrZ
- jThaK6f8.d9wUCLgv91C37kWGpliHOrOhgEDf7NQoC8hpdmTMWxuuQ4YkDTVbHDojewOHVZ6Tidt
- nUuANYHH1_OODqyUi5XlPs3BWwgt9f50ROmoarNuiVMUTqPhPeBL21V4bNFbNh2Br_bMNezBPGfo
- iJ.mb7harPCtknUJmAZVDADeOVLSmEhJ7P_cjMha5vUTRID7Z9eNaTY6WYDVG_8mLAC7EM31Betd
- KBTnqzCuvyBBviOTMg0Ieq3Na_mST1fyuSMFsWOufN2D38tWNjPB8EUZ4Je8JsFfwZ8gMHIcKNFv
- kJwQFHUd80S7N5SIN3HQ739GVfL1PcYJhkH23wWlQiS6zYglydDMBMNzXkA4aY7KB0oz2mMZok9x
- xiEnT66vM84_PW8FEFb9mG5eE.ZIYZXSDjG8lktttqJU_cZGuCGracGLXxPAfd6rwvkEh9fQMTDU
- Q0T2XlpvVv749C1piJ2RvV1uoLbXh5rWDdM8xln.BSf_hl88FPrx8Ro5WYTfU5MNVcT5vJ33dkh3
- ARL1pbX12SKD5bCvTfpUqTEEpBP2XF0w34jJ.9__K.7LYyVUv66eh3n3Tqtr3xemxj0CB4bGYNJe
- LpPmOAvJ3HESwAQxkmjlI0F2VtJIH3vl8vWAhpLvKFJvHUzp9jciS7SZ6HdaMejHVhyEVseJ_A8B
- ppi9ZzQ5dEgSHrpzptAWizANlnRW8sFB_lNZfKtYIDoWGtqA0d0YFCFtmhQlYmLtdvj1VoWoROeX
- 2EWeSOGJMCW8HssHVG10qjOo6aVTmbdk6pfrjMJAzDPxDMwyhIev5OwnUpqlttBLrPi5oeDQ_HTA
- xARzA5.jBSaMan00X944tSUVHqLS_h_Qi0SnVfpTEAfnXTWH6.gRT2DUJVSXWNEo_MRnipuHUzIi
- PFze2H6K7kSxQIhFbynzFyZqFFHPbl5lWk3Dw703uq9c5z1kMBEAJuPFNDCFw.JiEjBQSdN0pwxH
- OQNJLL85254cqjFaWLNEzFkbCy1UGOXCsVX3fancVFLTjtR5yjetxo6kEaECVnec4TVSR80ZUMHG
- JY_t3GYE45lNfss1WXhoGd2etO9YphpQH01cWD4_XyNvFDu0hsyLtSGt._P1XizvV29ldZggSh5d
- O7hR4CUw3k4mUbXjf8_yEu8ijJfc1cp7UZZNO.3ya4msXawCH3DBAKxlHTkJh.WLSginWznIhOcI
- UAOnPePzjkVSUjsydCp3iKI51t54.BnU16MbcaR6dPlwIF4KJ91nOD8H4oKqDBDNX5fq8.rDWfzR
- 2Wxq7NqKa8Mg5i32Kpy_ICSx0qC0w0WJkkQDx59YmEiF7Zv0KsSjCJCUTn55VDmvV2Bk7dhhwuLE
- _AB6CseM_XTMQc65VW213Z8kD_6FD7ehL_00xRmHyWG6ejN.AqbKiucoRuprKE4fqbcGk0EWskfQ
- DYa8EqRUdEu1r9aXvjauffxqzHIp.OH9VzYQeFP8Ub7I_qKK_69Z74XKm_8HYjacNW8l8aSSKXaG
- P9TyD90AxMZkzfkRRbhyS7uyxQXuj_44oeTnkt7feAv_CopWlh8TzDqe05DUl4dD5G2An16DHqE0
- M_tVkAgDQ4MdWGLGjsbRNWCGUI46gXip2VrPMSirQpEU9Ggrkk8k2OZQGSCGd7b4342UFBG3R.xk
- DnEkFEFc1s3sfbz1tc20FUwoa6AMmpMV3REHRpT6towzQjbYC_E8w0KE4fEcz.W2cTrtHROSK.db
- VoKP19swTfj0-
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic309.consmr.mail.gq1.yahoo.com with HTTP; Sun, 1 Jan 2023 23:52:18 +0000
-Received: by hermes--production-bf1-5458f64d4-46wzk (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 0bf49e87fc25c8372e7b6d686a48fa29; 
- Sun, 01 Jan 2023 23:52:15 +0000 (UTC)
-From: Chuck Zmudzinski <brchuckz@aol.com>
-To: qemu-devel@nongnu.org
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- xen-devel@lists.xenproject.org
-Subject: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
-Date: Sun,  1 Jan 2023 18:52:03 -0500
-Message-Id: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
-X-Mailer: git-send-email 2.39.0
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pC8Ik-0002ju-Dd
+ for qemu-devel@nongnu.org; Sun, 01 Jan 2023 19:03:39 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id m21so38034165edc.3
+ for <qemu-devel@nongnu.org>; Sun, 01 Jan 2023 16:03:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4Q1HMYqIVWqPZ1HjOyr7OqWJyu4K30+ZY+3XeS42dsg=;
+ b=GSdXSpW3IwCSJLOQAkkxOl2nGBAnYv0zoKmRCEvPj8/ErIUhGCfg8wURIC4PiZhzkA
+ hVoeN9LS9qywq+oUzXI9Mp9AbVxDu1fOCbkTb7xNbrzXPCxfAKlSszhmUn6cV7E8VY3U
+ EnbJkSuRX4En8zwcl2sPugIX9ioB7D5251O3xpyEHk/gFXO6ejIjcpgS9k4aT495ebVI
+ BFuI3PwOLHxDQE11bQFOFVQWULSXM7vMu1sc1rEirrxWovL/KVbsdze57OF2+MvEpjKd
+ H8Dz5k177ISqlMSw6u8yZRJayXuDqLciv7956kr/hLCxyQOzDoAkWoA3DYUJTFrQYpch
+ 2Y6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4Q1HMYqIVWqPZ1HjOyr7OqWJyu4K30+ZY+3XeS42dsg=;
+ b=r3WkdXV/jzwvG0cKfKzArnxZNRY54Ts3DhZMLygEaA8qjOdO5Wu3am5lgnloMOO2AU
+ l/fnurO2ULtChHCrR2vzXzu5ybc89venu2ziY+7ZEY0N+W2+fMMpr17NyB1TsMGN59iQ
+ qLhWQFv8kWc+DsiRoFguu1QkGlxPAVke82q8G6YV0PYlRTJCfn+0Ioq2Nb0GDehgonLo
+ K2mxRRhWB8LxuX57ZdKJM5lvt3KXkevuCneaAYutZ55OEQ1LN0M0PxZwKsahdbJ4Z1aw
+ KYyvDMZLE5DQWFOecQT0/bQ3PUf0oLv6yUUD2p7QfsMyyQp8ejUwYCxtkGvAs3717aW4
+ vWpA==
+X-Gm-Message-State: AFqh2kouXPkz3Tpycz4fXbOGQE4V8rSFVgl8JEZ3fMEC/h5VMdxJPCRo
+ rFKfInRsBthjaZvOw8pYdgA=
+X-Google-Smtp-Source: AMrXdXuzyG3RVXJmIu7RWHLHd2FVJC921aZmIIJoHih67C8m0iaM0O6NIHfQK14i1jI7d7DZTs1myA==
+X-Received: by 2002:a05:6402:1217:b0:461:e5d1:73c5 with SMTP id
+ c23-20020a056402121700b00461e5d173c5mr30234852edw.32.1672617816399; 
+ Sun, 01 Jan 2023 16:03:36 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb20048218d1b7e9d0fc3.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:4821:8d1b:7e9d:fc3])
+ by smtp.gmail.com with ESMTPSA id
+ u24-20020aa7d0d8000000b0046776f98d0csm12070774edo.79.2023.01.01.16.03.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 01 Jan 2023 16:03:36 -0800 (PST)
+Date: Mon, 02 Jan 2023 00:03:32 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+CC: Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, 
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_2/3=5D_hw/mips/malta=3A_Set_?=
+ =?US-ASCII?Q?PIIX4_IRQ_routes_in_embedded_bootloader?=
+In-Reply-To: <65f602e2-9067-f1e7-0c94-430e2b75e182@linaro.org>
+References: <20221027204720.33611-1-philmd@linaro.org>
+ <20221027204720.33611-3-philmd@linaro.org>
+ <9F566248-59DA-46E2-BD56-5DB98E9DB446@gmail.com>
+ <2E4C442C-9057-4006-AE8D-123B513ED894@gmail.com>
+ <65f602e2-9067-f1e7-0c94-430e2b75e182@linaro.org>
+Message-ID: <ECE6DE21-1499-4BDF-A886-3FF4F36AF33F@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
-Received-SPF: pass client-ip=98.137.65.147; envelope-from=brchuckz@aim.com;
- helo=sonic309-21.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, FREEMAIL_REPLY=1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,277 +98,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
-as noted in docs/igd-assign.txt in the Qemu source code.
 
-Currently, when the xl toolstack is used to configure a Xen HVM guest with
-Intel IGD passthrough to the guest with the Qemu upstream device model,
-a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
-a different slot. This problem often prevents the guest from booting.
 
-The only available workaround is not good: Configure Xen HVM guests to use
-the old and no longer maintained Qemu traditional device model available
-from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
+Am 31=2E Dezember 2022 13:44:00 UTC schrieb "Philippe Mathieu-Daud=C3=A9" =
+<philmd@linaro=2Eorg>:
+>On 31/12/22 10:53, Bernhard Beschow wrote:
+>>=20
+>>=20
+>> Am 21=2E November 2022 15:34:05 UTC schrieb Bernhard Beschow <shentey@g=
+mail=2Ecom>:
+>>>=20
+>>>=20
+>>> Am 27=2E Oktober 2022 20:47:19 UTC schrieb "Philippe Mathieu-Daud=C3=
+=A9" <philmd@linaro=2Eorg>:
+>>>> Linux kernel expects the northbridge & southbridge chipsets
+>>>> configured by the BIOS firmware=2E We emulate that by writing
+>>>> a tiny bootloader code in write_bootloader()=2E
+>>>>=20
+>>>> Upon introduction in commit 5c2b87e34d ("PIIX4 support"),
+>>>> the PIIX4 configuration space included values specific to
+>>>> the Malta board=2E
+>>>>=20
+>>>> Set the Malta-specific IRQ routing values in the embedded
+>>>> bootloader, so the next commit can remove the Malta specific
+>>>> bits from the PIIX4 PCI-ISA bridge and make it generic
+>>>> (matching the real hardware)=2E
+>>>>=20
+>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>>>> ---
+>>>> FIXME: Missing the nanoMIPS counter-part!
+>>>=20
+>>> Who will be taking care of this? I have absolutely no clue how the wri=
+te_bootloader functions work, so I don't see how to fix it=2E
+>>=20
+>> Ping
+>
+>This comment has been taken care of:
+>https://lore=2Ekernel=2Eorg/qemu-devel/a3c3f639-dbb1-88a7-43fe-547a234c58=
+90@linaro=2Eorg/
 
-To implement this feature in the Qemu upstream device model for Xen HVM
-guests, introduce the following new functions, types, and macros:
+Ah, now I see where this is going=2E
 
-* XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
-* XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
-* typedef XenPTQdevRealize function pointer
-* XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
-* xen_igd_reserve_slot and xen_igd_clear_slot functions
+>However while testing the MIPS pull request I prepared I
+>found a bug in the GT64120 which I'm trying to fix since
+>various days=2E=2E=2E Unfortunately your series depends on it,
+>so this is a blocking issue=2E Sorry for this long delay=2E=2E=2E
 
-The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
-member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
-the xl toolstack with the gfx_passthru option enabled, which sets the
-igd-passthru=on option to Qemu for the Xen HVM machine type.
+Don't worry=2E
 
-The new xen_igd_reserve_slot function also needs to be implemented in
-hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
-when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
-in which case it does nothing.
+How can the bug be reproduced? Is there a test run in the CI? Note that I =
+get a 404 when trying to access https://gitlab=2Ecom/philmd/qemu/-/commits/=
+mips-testing/ =2E
 
-The new xen_igd_clear_slot function overrides qdev->realize of the parent
-PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
-since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
-created in hw/i386/pc_piix.c for the case when igd-passthru=on.
+Best regards,
+Bernhard
 
-Move the call to xen_host_pci_device_get, and the associated error
-handling, from xen_pt_realize to the new xen_igd_clear_slot function to
-initialize the device class and vendor values which enables the checks for
-the Intel IGD to succeed. The verification that the host device is an
-Intel IGD to be passed through is done by checking the domain, bus, slot,
-and function values as well as by checking that gfx_passthru is enabled,
-the device class is VGA, and the device vendor in Intel.
-
-Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
----
-Notes that might be helpful to reviewers of patched code in hw/xen:
-
-The new functions and types are based on recommendations from Qemu docs:
-https://qemu.readthedocs.io/en/latest/devel/qom.html
-
-Notes that might be helpful to reviewers of patched code in hw/i386:
-
-The small patch to hw/i386/pc_piix.c is protected by CONFIG_XEN so it does
-not affect builds that do not have CONFIG_XEN defined.
-
-xen_igd_gfx_pt_enabled() in the patched hw/i386/pc_piix.c file is an
-existing function that is only true when Qemu is built with
-xen-pci-passthrough enabled and the administrator has configured the Xen
-HVM guest with Qemu's igd-passthru=on option.
-
-v2: Remove From: <email address> tag at top of commit message
-
-v3: Changed the test for the Intel IGD in xen_igd_clear_slot:
-
-    if (is_igd_vga_passthrough(&s->real_device) &&
-        (s->real_device.vendor_id == PCI_VENDOR_ID_INTEL)) {
-
-    is changed to
-
-    if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
-        && (s->hostaddr.function == 0)) {
-
-    I hoped that I could use the test in v2, since it matches the
-    other tests for the Intel IGD in Qemu and Xen, but those tests
-    do not work because the necessary data structures are not set with
-    their values yet. So instead use the test that the administrator
-    has enabled gfx_passthru and the device address on the host is
-    02.0. This test does detect the Intel IGD correctly.
-
-v4: Use brchuckz@aol.com instead of brchuckz@netscape.net for the author's
-    email address to match the address used by the same author in commits
-    be9c61da and c0e86b76
-    
-    Change variable for XEN_PT_DEVICE_CLASS: xptc changed to xpdc
-
-v5: The patch of xen_pt.c was re-worked to allow a more consistent test
-    for the Intel IGD that uses the same criteria as in other places.
-    This involved moving the call to xen_host_pci_device_get from
-    xen_pt_realize to xen_igd_clear_slot and updating the checks for the
-    Intel IGD in xen_igd_clear_slot:
-    
-    if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
-        && (s->hostaddr.function == 0)) {
-
-    is changed to
-
-    if (is_igd_vga_passthrough(&s->real_device) &&
-        s->real_device.domain == 0 && s->real_device.bus == 0 &&
-        s->real_device.dev == 2 && s->real_device.func == 0 &&
-        s->real_device.vendor_id == PCI_VENDOR_ID_INTEL) {
-
-    Added an explanation for the move of xen_host_pci_device_get from
-    xen_pt_realize to xen_igd_clear_slot to the commit message.
-
-    Rebase.
-
-v6: Fix logging by removing these lines from the move from xen_pt_realize
-    to xen_igd_clear_slot that was done in v5:
-
-    XEN_PT_LOG(d, "Assigning real physical device %02x:%02x.%d"
-               " to devfn 0x%x\n",
-               s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
-               s->dev.devfn);
-
-    This log needs to be in xen_pt_realize because s->dev.devfn is not
-    set yet in xen_igd_clear_slot.
-
-    Sorry for the extra noise.
-
- hw/i386/pc_piix.c    |  3 +++
- hw/xen/xen_pt.c      | 46 +++++++++++++++++++++++++++++++++++---------
- hw/xen/xen_pt.h      | 16 +++++++++++++++
- hw/xen/xen_pt_stub.c |  4 ++++
- 4 files changed, 60 insertions(+), 9 deletions(-)
-
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index b48047f50c..bc5efa4f59 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -405,6 +405,9 @@ static void pc_xen_hvm_init(MachineState *machine)
-     }
- 
-     pc_xen_hvm_init_pci(machine);
-+    if (xen_igd_gfx_pt_enabled()) {
-+        xen_igd_reserve_slot(pcms->bus);
-+    }
-     pci_create_simple(pcms->bus, -1, "xen-platform");
- }
- #endif
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 0ec7e52183..7fae1e7a6f 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -780,15 +780,6 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
-                s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
-                s->dev.devfn);
- 
--    xen_host_pci_device_get(&s->real_device,
--                            s->hostaddr.domain, s->hostaddr.bus,
--                            s->hostaddr.slot, s->hostaddr.function,
--                            errp);
--    if (*errp) {
--        error_append_hint(errp, "Failed to \"open\" the real pci device");
--        return;
--    }
--
-     s->is_virtfn = s->real_device.is_virtfn;
-     if (s->is_virtfn) {
-         XEN_PT_LOG(d, "%04x:%02x:%02x.%d is a SR-IOV Virtual Function\n",
-@@ -950,11 +941,47 @@ static void xen_pci_passthrough_instance_init(Object *obj)
-     PCI_DEVICE(obj)->cap_present |= QEMU_PCI_CAP_EXPRESS;
- }
- 
-+void xen_igd_reserve_slot(PCIBus *pci_bus)
-+{
-+    XEN_PT_LOG(0, "Reserving PCI slot 2 for IGD\n");
-+    pci_bus->slot_reserved_mask |= XEN_PCI_IGD_SLOT_MASK;
-+}
-+
-+static void xen_igd_clear_slot(DeviceState *qdev, Error **errp)
-+{
-+    ERRP_GUARD();
-+    PCIDevice *pci_dev = (PCIDevice *)qdev;
-+    XenPCIPassthroughState *s = XEN_PT_DEVICE(pci_dev);
-+    XenPTDeviceClass *xpdc = XEN_PT_DEVICE_GET_CLASS(s);
-+    PCIBus *pci_bus = pci_get_bus(pci_dev);
-+
-+    xen_host_pci_device_get(&s->real_device,
-+                            s->hostaddr.domain, s->hostaddr.bus,
-+                            s->hostaddr.slot, s->hostaddr.function,
-+                            errp);
-+    if (*errp) {
-+        error_append_hint(errp, "Failed to \"open\" the real pci device");
-+        return;
-+    }
-+
-+    if (is_igd_vga_passthrough(&s->real_device) &&
-+        s->real_device.domain == 0 && s->real_device.bus == 0 &&
-+        s->real_device.dev == 2 && s->real_device.func == 0 &&
-+        s->real_device.vendor_id == PCI_VENDOR_ID_INTEL) {
-+        pci_bus->slot_reserved_mask &= ~XEN_PCI_IGD_SLOT_MASK;
-+        XEN_PT_LOG(pci_dev, "Intel IGD found, using slot 2\n");
-+    }
-+    xpdc->pci_qdev_realize(qdev, errp);
-+}
-+
- static void xen_pci_passthrough_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
- 
-+    XenPTDeviceClass *xpdc = XEN_PT_DEVICE_CLASS(klass);
-+    xpdc->pci_qdev_realize = dc->realize;
-+    dc->realize = xen_igd_clear_slot;
-     k->realize = xen_pt_realize;
-     k->exit = xen_pt_unregister_device;
-     k->config_read = xen_pt_pci_read_config;
-@@ -977,6 +1004,7 @@ static const TypeInfo xen_pci_passthrough_info = {
-     .instance_size = sizeof(XenPCIPassthroughState),
-     .instance_finalize = xen_pci_passthrough_finalize,
-     .class_init = xen_pci_passthrough_class_init,
-+    .class_size = sizeof(XenPTDeviceClass),
-     .instance_init = xen_pci_passthrough_instance_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
-index e7c4316a7d..40b31b5263 100644
---- a/hw/xen/xen_pt.h
-+++ b/hw/xen/xen_pt.h
-@@ -3,6 +3,7 @@
- 
- #include "hw/xen/xen_common.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/pci_bus.h"
- #include "xen-host-pci-device.h"
- #include "qom/object.h"
- 
-@@ -41,7 +42,20 @@ typedef struct XenPTReg XenPTReg;
- #define TYPE_XEN_PT_DEVICE "xen-pci-passthrough"
- OBJECT_DECLARE_SIMPLE_TYPE(XenPCIPassthroughState, XEN_PT_DEVICE)
- 
-+#define XEN_PT_DEVICE_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(XenPTDeviceClass, klass, TYPE_XEN_PT_DEVICE)
-+#define XEN_PT_DEVICE_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(XenPTDeviceClass, obj, TYPE_XEN_PT_DEVICE)
-+
-+typedef void (*XenPTQdevRealize)(DeviceState *qdev, Error **errp);
-+
-+typedef struct XenPTDeviceClass {
-+    PCIDeviceClass parent_class;
-+    XenPTQdevRealize pci_qdev_realize;
-+} XenPTDeviceClass;
-+
- uint32_t igd_read_opregion(XenPCIPassthroughState *s);
-+void xen_igd_reserve_slot(PCIBus *pci_bus);
- void igd_write_opregion(XenPCIPassthroughState *s, uint32_t val);
- void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
-                                            XenHostPCIDevice *dev);
-@@ -76,6 +90,8 @@ typedef int (*xen_pt_conf_byte_read)
- 
- #define XEN_PCI_INTEL_OPREGION 0xfc
- 
-+#define XEN_PCI_IGD_SLOT_MASK 0x4UL /* Intel IGD slot_reserved_mask */
-+
- typedef enum {
-     XEN_PT_GRP_TYPE_HARDWIRED = 0,  /* 0 Hardwired reg group */
-     XEN_PT_GRP_TYPE_EMU,            /* emul reg group */
-diff --git a/hw/xen/xen_pt_stub.c b/hw/xen/xen_pt_stub.c
-index 2d8cac8d54..5c108446a8 100644
---- a/hw/xen/xen_pt_stub.c
-+++ b/hw/xen/xen_pt_stub.c
-@@ -20,3 +20,7 @@ void xen_igd_gfx_pt_set(bool value, Error **errp)
-         error_setg(errp, "Xen PCI passthrough support not built in");
-     }
- }
-+
-+void xen_igd_reserve_slot(PCIBus *pci_bus)
-+{
-+}
--- 
-2.39.0
-
+>
+>Phil=2E
 
