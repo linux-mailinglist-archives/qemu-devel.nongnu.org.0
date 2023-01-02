@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C21365B2B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 14:37:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F8965B2BB
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 14:37:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCKyv-0007W9-67; Mon, 02 Jan 2023 08:36:01 -0500
+	id 1pCKzn-0008Bz-Jw; Mon, 02 Jan 2023 08:36:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pCKys-0007Ve-SC; Mon, 02 Jan 2023 08:35:58 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCKzl-00089d-A6
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 08:36:53 -0500
+Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1pCKyq-0005nX-PD; Mon, 02 Jan 2023 08:35:58 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.235])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6673C150560F0;
- Mon,  2 Jan 2023 14:35:51 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pCKzj-000617-2U
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 08:36:53 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.246])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 475E92CD67;
+ Mon,  2 Jan 2023 13:36:48 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 2 Jan
- 2023 14:35:50 +0100
+ 2023 14:36:47 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005aacd1b6e-11e8-41d4-ad12-1b23f5547c81,
+ (GARM-96R0010d53704b-dd8b-42ab-bcd4-c6b2b1babc15,
  EB6D15DD045C308F841A27F8E66F545441276E15) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <978c32d6-3e76-0a2c-fe47-169994b55541@kaod.org>
-Date: Mon, 2 Jan 2023 14:35:50 +0100
+Message-ID: <c574fc46-a5cc-846d-7dd9-ff7b52dab4b5@kaod.org>
+Date: Mon, 2 Jan 2023 14:36:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v2 03/11] hw/watchdog/wdt_aspeed: Log unimplemented
- registers as UNIMP level
+Subject: Re: [PATCH v2 04/11] hw/arm/aspeed: Use the IEC binary prefix
+ definitions
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  <qemu-devel@nongnu.org>
@@ -46,27 +46,28 @@ CC: Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>, Beraldo
  <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>, Peter Delevoryas
  <pdel@meta.com>, <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 References: <20221230113504.37032-1-philmd@linaro.org>
- <20221230113504.37032-4-philmd@linaro.org>
+ <20221230113504.37032-5-philmd@linaro.org>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221230113504.37032-4-philmd@linaro.org>
+In-Reply-To: <20221230113504.37032-5-philmd@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: 098b4b4e-3063-471d-afbb-ac2b9243ff08
-X-Ovh-Tracer-Id: 15976238204933409668
+X-Ovh-Tracer-GUID: f32aa98f-6556-419a-b67e-6db9c8524573
+X-Ovh-Tracer-Id: 15992282280746388356
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgdehhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfefgkeetkeegleehueejgefhteekteelieduueffkeetgfekheeuffehveevkeejnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpjhhovghlsehjmhhsrdhiugdrrghupdhtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhmpdgslhgvrghlsehrvgguhhgrthdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdifrghinhgvrhhsmhesrhgvughhrghtrdgtohhmpdgrnhgurhgvfiesrghjrdhiugdrrghupdgthhhinhdqth
- hinhhgpghkuhhosegrshhpvggvughtvggthhdrtghomhdpphgvthgvrhesphhjugdruggvvhdpshhtvghvvghnpghlvggvsegrshhpvggvughtvggthhdrtghomhdpjhgrmhhinhgplhhinhesrghsphgvvgguthgvtghhrdgtohhmpdhpuggvlhesfhgsrdgtohhmpdhpuggvlhesmhgvthgrrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdgtrhhoshgrsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgdehgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpjhhovghlsehjmhhsrdhiugdrrghupdhtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhmpdgslhgvrghlsehrvgguhhgrthdrtghomhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdifrghinhgvrhhsmhesrhgvughhrghtrdgtohhmpdgrnhgurhgvfiesrghjrdhiugdrrghupdgthhhinhdqthhinhhgpghkuhhosegrshhpvggvughtvggthhdrtg
+ homhdpphgvthgvrhesphhjugdruggvvhdpshhtvghvvghnpghlvggvsegrshhpvggvughtvggthhdrtghomhdpjhgrmhhinhgplhhinhesrghsphgvvgguthgvtghhrdgtohhmpdhpuggvlhesfhgsrdgtohhmpdhpuggvlhesmhgvthgrrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdgtrhhoshgrsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo552.mail-out.ovh.net
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
 X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.142,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,82 +84,86 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/30/22 12:34, Philippe Mathieu-Daudé wrote:
-> Add more Aspeed watchdog registers from [*].
-> 
-> Since guests can righteously access them, log the access at
-> 'unimplemented' level instead of 'guest-errors'.
-> 
-> [*] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/drivers/watchdog/wdt_aspeed.c#L31
+> IEC binary prefixes ease code review: the unit is explicit.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 
-LGTM.
-
-We need to decide how to address the #regs per soc. I would introduce a class
-attribute and define ASPEED_WDT_REGS_MAX as the maximum of all, or possibly
-allocate the regs array in the realize routine. This is a little more work.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
 
 C.
 
-
-
 > ---
->   hw/watchdog/wdt_aspeed.c         | 13 +++++++++++++
->   include/hw/watchdog/wdt_aspeed.h |  2 +-
->   2 files changed, 14 insertions(+), 1 deletion(-)
+>   hw/arm/aspeed_ast10x0.c | 3 ++-
+>   hw/arm/aspeed_ast2600.c | 3 ++-
+>   hw/arm/aspeed_soc.c     | 4 ++--
+>   3 files changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-> index eefca31ae4..d267aa185c 100644
-> --- a/hw/watchdog/wdt_aspeed.c
-> +++ b/hw/watchdog/wdt_aspeed.c
-> @@ -42,6 +42,11 @@
->   #define     WDT_PUSH_PULL_MAGIC         (0xA8 << 24)
->   #define     WDT_OPEN_DRAIN_MAGIC        (0x8A << 24)
->   #define WDT_RESET_MASK1                 (0x1c / 4)
-> +#define WDT_RESET_MASK2                 (0x20 / 4)
-> +
-> +#define WDT_SW_RESET_CTRL               (0x24 / 4)
-> +#define WDT_SW_RESET_MASK1              (0x28 / 4)
-> +#define WDT_SW_RESET_MASK2              (0x2c / 4)
+> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+> index 122b3fd3f3..3500294df7 100644
+> --- a/hw/arm/aspeed_ast10x0.c
+> +++ b/hw/arm/aspeed_ast10x0.c
+> @@ -10,6 +10,7 @@
+>    */
 >   
->   #define WDT_TIMEOUT_STATUS              (0x10 / 4)
->   #define WDT_TIMEOUT_CLEAR               (0x14 / 4)
-> @@ -83,6 +88,10 @@ static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned size)
->           return s->regs[WDT_RESET_MASK1];
->       case WDT_TIMEOUT_STATUS:
->       case WDT_TIMEOUT_CLEAR:
-> +    case WDT_RESET_MASK2:
-> +    case WDT_SW_RESET_CTRL:
-> +    case WDT_SW_RESET_MASK1:
-> +    case WDT_SW_RESET_MASK2:
->           qemu_log_mask(LOG_UNIMP,
->                         "%s: uninmplemented read at offset 0x%" HWADDR_PRIx "\n",
->                         __func__, offset);
-> @@ -190,6 +199,10 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
+>   #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>   #include "qapi/error.h"
+>   #include "exec/address-spaces.h"
+>   #include "sysemu/sysemu.h"
+> @@ -348,7 +349,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+>       sc->name = "ast1030-a1";
+>       sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
+>       sc->silicon_rev = AST1030_A1_SILICON_REV;
+> -    sc->sram_size = 0xc0000;
+> +    sc->sram_size = 768 * KiB;
+>       sc->spis_num = 2;
+>       sc->ehcis_num = 0;
+>       sc->wdts_num = 4;
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index a79e05ddbd..72df72a540 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -8,6 +8,7 @@
+>    */
 >   
->       case WDT_TIMEOUT_STATUS:
->       case WDT_TIMEOUT_CLEAR:
-> +    case WDT_RESET_MASK2:
-> +    case WDT_SW_RESET_CTRL:
-> +    case WDT_SW_RESET_MASK1:
-> +    case WDT_SW_RESET_MASK2:
->           qemu_log_mask(LOG_UNIMP,
->                         "%s: uninmplemented write at offset 0x%" HWADDR_PRIx "\n",
->                         __func__, offset);
-> diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-> index db91ee6b51..e90ef86651 100644
-> --- a/include/hw/watchdog/wdt_aspeed.h
-> +++ b/include/hw/watchdog/wdt_aspeed.h
-> @@ -21,7 +21,7 @@ OBJECT_DECLARE_TYPE(AspeedWDTState, AspeedWDTClass, ASPEED_WDT)
->   #define TYPE_ASPEED_2600_WDT TYPE_ASPEED_WDT "-ast2600"
->   #define TYPE_ASPEED_1030_WDT TYPE_ASPEED_WDT "-ast1030"
->   
-> -#define ASPEED_WDT_REGS_MAX        (0x20 / 4)
-> +#define ASPEED_WDT_REGS_MAX        (0x30 / 4)
->   
->   struct AspeedWDTState {
->       /*< private >*/
+>   #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>   #include "qapi/error.h"
+>   #include "hw/misc/unimp.h"
+>   #include "hw/arm/aspeed_soc.h"
+> @@ -619,7 +620,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+>       sc->name         = "ast2600-a3";
+>       sc->cpu_type     = ARM_CPU_TYPE_NAME("cortex-a7");
+>       sc->silicon_rev  = AST2600_A3_SILICON_REV;
+> -    sc->sram_size    = 0x16400;
+> +    sc->sram_size    = 89 * KiB;
+>       sc->spis_num     = 2;
+>       sc->ehcis_num    = 2;
+>       sc->wdts_num     = 4;
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index 2c0924d311..677342c9ed 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -517,7 +517,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass *oc, void *data)
+>       sc->name         = "ast2400-a1";
+>       sc->cpu_type     = ARM_CPU_TYPE_NAME("arm926");
+>       sc->silicon_rev  = AST2400_A1_SILICON_REV;
+> -    sc->sram_size    = 0x8000;
+> +    sc->sram_size    = 32 * KiB;
+>       sc->spis_num     = 1;
+>       sc->ehcis_num    = 1;
+>       sc->wdts_num     = 2;
+> @@ -544,7 +544,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass *oc, void *data)
+>       sc->name         = "ast2500-a1";
+>       sc->cpu_type     = ARM_CPU_TYPE_NAME("arm1176");
+>       sc->silicon_rev  = AST2500_A1_SILICON_REV;
+> -    sc->sram_size    = 0x9000;
+> +    sc->sram_size    = 36 * KiB;
+>       sc->spis_num     = 2;
+>       sc->ehcis_num    = 2;
+>       sc->wdts_num     = 3;
 
 
