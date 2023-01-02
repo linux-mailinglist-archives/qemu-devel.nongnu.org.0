@@ -2,89 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D381C65B6BC
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 19:51:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D6765B701
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Jan 2023 20:56:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCPsd-0002Wk-Kk; Mon, 02 Jan 2023 13:49:51 -0500
+	id 1pCQuD-00058K-D8; Mon, 02 Jan 2023 14:55:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pCPsb-0002W8-DQ; Mon, 02 Jan 2023 13:49:49 -0500
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1pCPsZ-0006Pt-LQ; Mon, 02 Jan 2023 13:49:49 -0500
-Received: by mail-oi1-x231.google.com with SMTP id n8so18759006oih.0;
- Mon, 02 Jan 2023 10:49:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9OxOWN0yUc3CnItuQ5PzUMy/WXtVKx/HlDwwS4NlTXc=;
- b=e2lhmD68/yTYiZW8hwZh3TPATTywaYmKpqjrwxJiGDkyxT9gOZIUkwUMqkqtwctf6n
- 9xQMAIyRKj45nTvB6LnDxqOulfUkxkSgd+2L0uGjEBoQ2pCZWxG0RlyOT3S1rz1qTVwg
- g6Ay3hiiX1Yut4I4XmsNDdpp0x44bywMPBkK3/iwFDRFEl9NOxjkKkOSuzDGLMpYD/ne
- mqapuiYz3yuhLlwtN9iXQe65CIAd6EhXD4N1XJl11H3eUkTwl1dZu4B4baqni1wPMTWz
- Hw9+NC2ALwnuIkmRZIdUGt8yOKqIqnj6DsMOonG+vT43EiEPCF9CuM4SO02eVnLZUw2e
- Q7TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9OxOWN0yUc3CnItuQ5PzUMy/WXtVKx/HlDwwS4NlTXc=;
- b=NGAvORnL0zuQKAVlUXNtNKjBHogud21X2dtu3vMfDwIa+S620fZS3jVQVNbPFfNEky
- iXgim0e3xoS3/LiZWTS4b72UwzHQ44/5yHO8I9tfo6kfHpvLU+HNSmSpaFMo0DR8w/sN
- 3f/lqyHSrmu/iaDfHZ85yRvNxoI/p4Rqi630jl0sqMQ9XfoKd4e4eqU1gKTEPQWo3+LU
- hKRL/iLMJnYe7t3v0SmjZKvQgeIJHMVTEfrmeHNGP1i+Prcs3IaibTuQ5MJURguDHzP+
- F3/DmdrjdxRo8WMZCrBMoJoXgvC4wHfs08ReHo9rCSK3wQ/nymYSiVGP9Nulp2y0C3sh
- 7Ylg==
-X-Gm-Message-State: AFqh2koc9xG/IyloEFOb/w9r5kCJcimjpb19038Z6+hgwoTBCB1uQzoQ
- b/Ac6f1eSAr3v2n9MX7OrJY=
-X-Google-Smtp-Source: AMrXdXso7eNPGn5l7gbYTPzCJncqSJJtFx0kMU699jwP97WrSFIJO63a/YvcNKrFnSKVFed6u1qxrw==
-X-Received: by 2002:a05:6808:28e:b0:35e:e530:a07b with SMTP id
- z14-20020a056808028e00b0035ee530a07bmr18026576oic.57.1672685385865; 
- Mon, 02 Jan 2023 10:49:45 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- d20-20020a056830139400b0066db09fb1b5sm13829149otq.66.2023.01.02.10.49.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Jan 2023 10:49:45 -0800 (PST)
-Date: Mon, 2 Jan 2023 10:49:43 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Michael Walle <michael@walle.cc>
-Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Tudor Ambarus <tudor.ambarus@linaro.org>, Ben Dooks <ben@fluff.org>,
- Alistair Francis <alistair@alistair23.me>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH] m25p80: Add the is25wp256 SFPD table
-Message-ID: <20230102184943.GA2553640@roeck-us.net>
-References: <20221221122213.1458540-1-linux@roeck-us.net>
- <2236d0ee-4fc6-5e2c-95b4-f97639e0955b@kaod.org>
- <20221225121850.4bjnskmlhsot54cf@hetzy.fluff.org>
- <b00bb842-a9e6-fa5c-94d9-876c241be600@linaro.org>
- <c1f5c868-0006-bb28-af88-eddc5543068e@kaod.org>
- <3044e0c174268312d0323d8f9ad43c68@walle.cc>
- <20230102162308.GA1138622@roeck-us.net>
- <50d8282e95bde199ad60411ddfa9b373@walle.cc>
+ (Exim 4.90_1) (envelope-from <jonathan.derrick@linux.dev>)
+ id 1pCQty-00051q-Rb
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 14:55:18 -0500
+Received: from resqmta-h1p-028595.sys.comcast.net ([2001:558:fd02:2446::3])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.derrick@linux.dev>)
+ id 1pCQtv-0007fl-Bl
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 14:55:17 -0500
+Received: from resomta-h1p-027919.sys.comcast.net ([96.102.179.208])
+ by resqmta-h1p-028595.sys.comcast.net with ESMTP
+ id CQ7SpTwt8wIZgCQtqp5vRl; Mon, 02 Jan 2023 19:55:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=comcastmailservice.net; s=20211018a; t=1672689310;
+ bh=FW/ZYtOUZHJawLgfZ2+QH+zeEZcYFnIh3zoqL62rdac=;
+ h=Received:Received:From:To:Subject:Date:Message-Id:MIME-Version:
+ Xfinity-Spam-Result;
+ b=p5YtqR7MAyKmvRBqGnBMmpAe/IAAPaa6Yl/oSYsL4tUmVaW2qMm0ko9NCo+xl2+ND
+ fZU7Ozyr8SyzydzwIouRakwIo4DFgdY2ueGwTIZqpaGcicJSijzbtiqv+Ik2qMdA/0
+ 4Rgr3Q6gAuIrO+/Vag+LxQPaDDsGgHIJZy8dTO+HYthd/Lp/Gw8DAzHpXE3Awkc8VQ
+ UWp15/JbRPfI717wb1cyEQ54PmcgSs8hIreX33WZyEDW1xocubSh7ZZVNOk5oa4LqU
+ Qv3Rb+O0NhLoDMhrxBhSjCRDmYFBGaJ58qCaAQlvLuhlMpqP8DtcWv40Qmv76+S3kv
+ T2ckaMxQ+40Kg==
+Received: from localhost.localdomain ([71.205.181.50])
+ by resomta-h1p-027919.sys.comcast.net with ESMTPA
+ id CQtMpowOQrMVsCQtRpVN5m; Mon, 02 Jan 2023 19:54:48 +0000
+X-Xfinity-VAAS: gggruggvucftvghtrhhoucdtuddrgedvhedrjedvgddufedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvehomhgtrghsthdqtfgvshhipdfqfgfvpdfpqffurfetoffkrfenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheplfhonhgrthhhrghnucffvghrrhhitghkuceojhhonhgrthhhrghnrdguvghrrhhitghksehlihhnuhigrdguvghvqeenucggtffrrghtthgvrhhnpedvtdejiefgueelteevudevhfdvjedvhfdtgfehjeeitdevueektdegtedttdehvdenucfkphepjedurddvtdehrddukedurdehtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopehlohgtrghlhhhoshhtrdhlohgtrghlughomhgrihhnpdhinhgvthepjedurddvtdehrddukedurdehtddpmhgrihhlfhhrohhmpehjohhnrghthhgrnhdruggvrhhrihgtkheslhhinhhugidruggvvhdpnhgspghrtghpthhtohepjedprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhrtghpthhtohepmhhitghhrggvlhdrkhhrohhprggtiigvkhesshholhhiughighhmrdgtohhmpdhrtghpthhtohepqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdprhgtphhtthhopehksghushgthheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepihhtshesihhrrhgvlhgvvhgrnhhtrdgukhdprhgtphhtthhopehkfiholhhfsehrvgguhhgrthdrtghomhdprhgtphhtthhopehhrhgvihhtiiesrhgvughhrghtrdgtohhm
+X-Xfinity-VMeta: sc=-100.00;st=legit
+From: Jonathan Derrick <jonathan.derrick@linux.dev>
+To: qemu-devel@nongnu.org
+Cc: Michael Kropaczek <michael.kropaczek@solidigm.com>, qemu-block@nongnu.org,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
+Subject: [PATCH v5 0/2] hw/nvme: Support for Namespaces Management from guest
+ OS
+Date: Mon,  2 Jan 2023 12:54:01 -0700
+Message-Id: <20230102195403.461-1-jonathan.derrick@linux.dev>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <50d8282e95bde199ad60411ddfa9b373@walle.cc>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=groeck7@gmail.com; helo=mail-oi1-x231.google.com
+Received-SPF: softfail client-ip=2001:558:fd02:2446::3;
+ envelope-from=jonathan.derrick@linux.dev;
+ helo=resqmta-h1p-028595.sys.comcast.net
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
 X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001, SPF_SOFTFAIL=0.665,
+ TVD_PH_BODY_ACCOUNTS_PRE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,69 +73,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 02, 2023 at 06:42:03PM +0100, Michael Walle wrote:
-> Am 2023-01-02 17:23, schrieb Guenter Roeck:
-> > On Mon, Jan 02, 2023 at 04:43:49PM +0100, Michael Walle wrote:
-> > > Am 2023-01-02 14:53, schrieb Cédric Le Goater:
-> > > > On 12/27/22 07:31, Tudor Ambarus wrote:
-> > > > >
-> > > > >
-> > > > > On 25.12.2022 14:18, Ben Dooks wrote:
-> > > > > > On Wed, Dec 21, 2022 at 06:36:02PM +0100, Cédric Le Goater wrote:
-> > > > > > > On 12/21/22 13:22, Guenter Roeck wrote:
-> > > > > > > > Generated from hardware using the following command and
-> > > > > > > > then padding
-> > > > > > > > with 0xff to fill out a power-of-2:
-> > > > > > > >     xxd -p /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
-> > > > > > > >
-> > > > > > > > Cc: Michael Walle <michael@walle.cc>
-> > > > > > > > Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
-> > > > > > > > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> > > > > > >
-> > > > > > > Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> > > > > >
-> > > > > > If SFDP is a standard, couldn't we have an function to generate
-> > > > > > it from
-> > > > > > the flash parameters?
-> > > > > >
-> > > > >
-> > > > > No, it's not practical as you have to specify all the flash parameters
-> > > > > at flash declaration.
-> > > >
-> > > > Indeed and the definition of flash models in QEMU is far to cover all
-> > > > the SFDP
-> > > > features. The known_devices array of m25p80 would be huge ! However, we
-> > > > could
-> > > > generate some of the SFDP tables if no raw data is provided. It could be
-> > > > useful
-> > > > for testing drivers.
-> > > 
-> > > I don't think adding (incomplete) SFDP tables makes sense for any real
-> > > devices. E.g. sometimes our linux driver will look at specific bits in
-> > > SFDP to figure out what particular flash device is attached. For
-> > > example
-> > > when there are different flashes with the same jedec id.
-> > > 
-> > > But since the last released kernel, we support a generic SFDP
-> > > driver, which
-> > > is used when there is no matching driver for the flash's jedec id.
-> > > Theoretically, you can build your own flash device (with a unique
-> > > id) and
-> > > generate the sfdp tables for that one.
-> > > 
-> > How about older kernels versions ? Would those still support such
-> > (virtual ?)
-> > flash devices ?
-> 
-> No with older kernels you'd be out of luck. They will just print "unknown
-> flash
-> id" and skip the device.
+From: Michael Kropaczek <michael.kropaczek@solidigm.com>
 
-That would mean that qemu versions including this change could no longer
-be used to test flash support on older kernel versions. That would be
-extremely undesirable. I'd rather live with the current code and still be
-able to test older kernels.
+Description:
 
-Thanks,
-Guenter
+Currently namespaces could be configured as follows:
+1. Legacy Namespace - just one namespace within Nvme controller's
+   where the back-end was specified for nvme device by -drive parameter
+   pointing directly to the image file.
+2. Additional Namespaces - specified by nvme-ns devices each having its
+   own back-end. To have multiple namespaces each needed to be specified
+   at Qemu's command line being associated with the most recently defined
+   nvme-bus from nvme device.
+   If a such additional namespace should be attached and/or detached by the
+   guest OS, nvme controller has to be linked with another device nvme-subsys.
+
+All that have a static nature, all need to be specified at the Qemu's 
+command line, all specified virtual nvme entities will be processed during
+Qemu's start-up then created and provided to the guest OS.
+
+To have a support for nvme create-ns and delete-ns commands with specified
+parameters a different approach is needed.
+Virtual devices representing namespaces need to be created and/or deleted 
+during Qemu's running session, at anytime. The back-end image sizes for a
+namespace must accommodate the payload size and size of metadata resulted
+from specified parameters. The total capacity of the nvme controller
+altogether with un-allocated capacity needs to be taken into account and
+updated according to nvme create-ns and delete-ns commands respectively.
+
+Here is the approach:
+The nvme device will get new parameter:
+ - auto-ns-path, which specifies the path to the storage area where back-end
+   image and necessary config files located stored.
+
+The virtual devices representing namespaces will be created dynamically during
+the Qemu running session following issuance of nvme create-ns and delete-ns
+commands from the guest OS. QOM classes and instances will be created utilizing
+existing configuration scheme used during Qemu's start-up. Back-end image files
+will be neither created nor deleted during Qemu's startup or running session.
+Instead a set of back-end image files and relevant config will be created by
+qemu-img tool with createns sub-command prior to Qemu's session.
+Required parameters are: -S serial number which must match serial parameter of
+qemu-system-xx -device nvme command line specification, -C total capacity, and
+optional -N that will set a maximal limit on number of allowed
+namespaces (default 256) which will be followed by path name pointing to
+storage location corresponding to auto-ns-path of qemu-system-xx -device nvme
+parameter.
+
+Those created back-end image files will be pre-loaded during Qemu's start-up
+and then during running Qemu's session will be associated or disassociated with
+QOM namespaces virtual instances, as a result of issuing nvme create-ns or
+delete-ns commands. The associated back-end image file for relevant namespace
+will be re-sized as follows: delete-ns command will truncate image file to the
+size of 0, whereas create-ns command will re-size the image file to the size
+provided by nvme create-ns command parameters. Truncating/re-sizing is a result
+of blk_truncate() API which utilizes co-routines and should not block Qemu main
+thread while scheduling AIO operations. It is assured that all settings will
+retain over Qemu's start-ups and shutdowns. The implementation makes it
+possible to combine the existing "Additional Namespace" implementation with the
+new "Managed Namespaces". Those will coexist with obvious restrictions, like
+both will share the same NsIds space, "static" namespaces cannot be deleted or
+if its NsId specified at Qemu's command line will conflicts with previously
+created one by nvme create-ns (and retained), this will lead to an abort of
+Qemu at its start up.
+
+More than one of NVMe controllers associated with NVMe subsystem are supported.
+This feature requires that parameters serial= and subsys= of additional
+controllers must match those of the primary controller and auto-ns-path=
+must not be specified.
+
+Michael Kropaczek (2):
+  hw/nvme: Support for Namespaces Management from guest OS - create-ns
+  hw/nvme: Support for Namespaces Management from guest OS - delete-ns
+
+ docs/system/devices/nvme.rst |  60 +++++-
+ hw/nvme/cfg_key_checker.c    |  51 +++++
+ hw/nvme/ctrl-cfg.c           | 219 +++++++++++++++++++++
+ hw/nvme/ctrl.c               | 311 ++++++++++++++++++++++++++++-
+ hw/nvme/meson.build          |   2 +-
+ hw/nvme/ns-backend.c         | 288 +++++++++++++++++++++++++++
+ hw/nvme/ns.c                 | 366 +++++++++++++++++++++++++++++++----
+ hw/nvme/nvme.h               |  32 ++-
+ hw/nvme/subsys.c             |  11 +-
+ hw/nvme/trace-events         |   3 +
+ include/block/nvme.h         |  31 +++
+ include/hw/nvme/ctrl-cfg.h   |  24 +++
+ include/hw/nvme/ns-cfg.h     |  28 +++
+ include/hw/nvme/nvme-cfg.h   | 168 ++++++++++++++++
+ qemu-img-cmds.hx             |   6 +
+ qemu-img.c                   | 132 +++++++++++++
+ 16 files changed, 1678 insertions(+), 54 deletions(-)
+ create mode 100644 hw/nvme/cfg_key_checker.c
+ create mode 100644 hw/nvme/ctrl-cfg.c
+ create mode 100644 hw/nvme/ns-backend.c
+ create mode 100644 include/hw/nvme/ctrl-cfg.h
+ create mode 100644 include/hw/nvme/ns-cfg.h
+ create mode 100644 include/hw/nvme/nvme-cfg.h
+
+-- 
+2.37.3
+
 
