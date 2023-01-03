@@ -2,83 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30ECA65BE66
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 11:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B7A65BE91
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 12:02:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCeq2-00067S-Go; Tue, 03 Jan 2023 05:48:10 -0500
+	id 1pCf2d-0001zr-8W; Tue, 03 Jan 2023 06:01:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pCeq0-00066m-9R
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 05:48:08 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pCepy-0001tO-Du
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 05:48:08 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id l26so20762775wme.5
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 02:48:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=OjsCgixJ853aLDT+sx3gTfL1hNKd5uADdfrKzgPAsPE=;
- b=VyXDnsn5mvf1+rWcbFVas3xTc0a1pR+PVfWWezJj8tqHvo/WMqkUwOlmtcoGRnW55x
- 6vuR1nMlmiCNjbl19h3oQevE0ueHi0Y917Swi7AbQud5dACOuJAkTsrU/eOOCOtQn65E
- xWQzdhpC1H6E1Z62ut/ZGmDEPvwHRcomV4ZLZuJAHDr9Cvav7qYRfVHacQDGr0eCieul
- NbmDsn9cBAy5j+v69k6kxRMdJ1Nyqfgm17aBr2f/t58mjaVbspzEg/w8zpuTQMBxPgWM
- FMPglY4cK+ZLhpkqLt4LUF9rLUhSMhrLZfhLBwe75YZomuooS4FQ+4jcqT45iykspxx4
- OtEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OjsCgixJ853aLDT+sx3gTfL1hNKd5uADdfrKzgPAsPE=;
- b=IeAh714Ct62MvZr3Tz1dYZDdYEVxsWmR9EPMbZX7zs9wkMLpqsXBqP4hQDHreQAejl
- 61qEShnJ8kurXb2O6c9ysmdaaPyEu8BwuMT1+mjhCaid19rBpNzy1ucEiS5Y557kQuCp
- LjoKwMRh/ltyLZQ+bNcjo6Z7AvzCNMMQm+NEH5MoFZOWF7e400OO+NNJ0k2Za2g+1tf7
- M+YQOwF8eeWtm29w3ekF6F8L7+CRRo3HP44b3tYhto1HvXg9baR3aFw1kmf0+31GzjLv
- njEQJs0Q8grz0MFYOilzA0ECMljTDmBH/9aPAiLSe2VLliGMqhW4DZtJH8Nq4O9856cc
- MLZA==
-X-Gm-Message-State: AFqh2kpbSN1VxuF8Apsy/w/DP/kzBOjFjQ0TAbmU/yP7kFkKxmEbPtaj
- vzflzHpBpM5iv3ikuRonBarp1w==
-X-Google-Smtp-Source: AMrXdXsT/Dj2DpR/hhLfyECPq8g4KlCopywqxXfA3dl1iemBXj2Ho/CUXKpf26Ur+/3nBtjRc5QoJA==
-X-Received: by 2002:a05:600c:3ca2:b0:3d9:a5a2:65fa with SMTP id
- bg34-20020a05600c3ca200b003d9a5a265famr9645115wmb.7.1672742884517; 
- Tue, 03 Jan 2023 02:48:04 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- i17-20020a05600c355100b003d9980c5e7asm22601397wmq.21.2023.01.03.02.48.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jan 2023 02:48:04 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A5CE61FFB7;
- Tue,  3 Jan 2023 10:48:03 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pCf2X-0001yx-8n
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 06:01:06 -0500
+Received: from mout.kundenserver.de ([212.227.126.135])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pCf2Q-0004DC-Pz
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 06:01:02 -0500
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MrPyJ-1oQBGN20iV-00oUIs; Tue, 03 Jan 2023 12:00:52 +0100
+From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Alessandro Di Federico <ale@rev.ng>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [RFC PATCH] docs: add some details about compilation units to coding
- style
-Date: Tue,  3 Jan 2023 10:47:58 +0000
-Message-Id: <20230103104758.767266-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PATCH v4] tests/qtest: netdev: test stream and dgram backends
+Date: Tue,  3 Jan 2023 12:00:49 +0100
+Message-Id: <20230103110049.120340-1-lvivier@redhat.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:EmCfyJKRl193PcsAZHD6S4fUizXFQUnaultOrYLfZcVAMBxYoTt
+ K49ePxytlRoKfqx/dT1s+YK9RImZsl5534sU9WJjt7vorzifqpdLqbORC2YvYcs7GokiIKW
+ eRuQ9VWKMt/OnmbHuwG09HvYzgDUIw3ClSXEnzQ33waFtanUIVZW89eopFBKvUj3D3TxY4C
+ BJVbleqyYSbbX5gJVjVbg==
+UI-OutboundReport: notjunk:1;M01:P0:fJUJNTEFkQc=;w0V7S3ZCWvfTVW0y/KHZBzDszu4
+ WHbTRIwHEb2/pPgAYiDRw85H9l10jRTYD099FudaD9lGVgICrzUBIOK7wQED77bpxmKAt4MUF
+ 2YYvxgkiC19pyZ3TOQklwD1LJSkPmkvxdEKFJN0QQb1zMalZmiXMzCxEkY+Z86qbch2VyklLL
+ c8z0O1aHRkyJv4a3dY/osePfbJt9jEExJGNGVoeWVlw33LTU0rCEpfRZ4HUNd4ynFImL8TED3
+ FjsW4wY84nJr1h+dWenwkdEXCU8SPhuVWo2tZITGu7z9cMU6lCGlmyY9wv+RBM2i4fjFwIQwE
+ SpfD+cVhBJZhKahkzhl8S1XIZeOQOcbbZg67YYcr7ZxuSPnH2Y0c4OGndR/Wq3VbRO9aQV2Rv
+ VVauKz4RUArjaVqgt/BYey0Tkrg7AY5rGssJ/W49FecMqKysdZtpESvlwGc6QBCQlxIuXx9AD
+ ZETrqo0Qo3DutNP5Olo4SNFOH65yCDTVTUn3booS/XKhbvkAgz3uzW1aAJWjSXn780+kYhse9
+ dnHWwFWKlTUvLbpD/NCyLptwlyYQxELU+pnk8skCtdY7YuuUc9L5sca7PBkVi3ntdK4dlwsS5
+ iXlXmVbRDtW7XdelBpN0LdJXA6QtO6s5XU53u7T/gesuXGUn/NThE7VdiIoM0aQ2NBv74hu1E
+ 7UFlU0fuiY1fiaYu/VItDU4kQ41K0wtJ1NrQNPMOdA==
+Received-SPF: permerror client-ip=212.227.126.135;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
+ SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,82 +72,494 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The build-system documentation remains the canonical description of
-how the whole build system goes together. However we should at least
-reference the fact that we use conditional compilation in the coding
-style document which I assume is the first document a potential
-contributor actually reads (if at all).
-
-[AJB: should we make more explicit reference to NEED_CPU?]
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-Cc: Alessandro Di Federico <ale@rev.ng>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- docs/devel/build-system.rst |  1 +
- docs/devel/style.rst        | 36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 1894721743..eb50578f8b 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -107,6 +107,7 @@ developers in checking for system features:
-    Run pkg-config passing it $ARGS. If QEMU is doing a static build,
-    then --static will be automatically added to $ARGS
+Notes:
+    v4:
+      - rework EXPECT_STATE()
+      - use g_dir_make_tmp()
+    
+    v3:
+    - Add "-M none" to avoid error:
+      "No machine specified, and there is no default"
+    
+    v2:
+    - Fix ipv6 free port allocation
+    - Check for IPv4, IPv6, AF_UNIX
+    - Use g_mkdtemp() rather than g_file_open_tmp()
+    - Use socketpair() in test_stream_fd()
+    
+    v1: compared to v14 of "qapi: net: add unix socket type support to netdev backend":
+    - use IP addresses 127.0.0.1 and ::1 rather than localhost
+
+ tests/qtest/meson.build     |   2 +
+ tests/qtest/netdev-socket.c | 434 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 436 insertions(+)
+ create mode 100644 tests/qtest/netdev-socket.c
+
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index f0ebb5fac603..d752304711e2 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -21,6 +21,7 @@ qtests_generic = [
+   'test-hmp',
+   'qos-test',
+   'readconfig-test',
++  'netdev-socket',
+ ]
+ if config_host.has_key('CONFIG_MODULES')
+   qtests_generic += [ 'modules-test' ]
+@@ -298,6 +299,7 @@ qtests = {
+   'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
++  'netdev-socket': files('netdev-socket.c', '../unit/socket-helpers.c'),
+ }
  
-+.. _meson:
- 
- Stage 2: Meson
- ==============
-diff --git a/docs/devel/style.rst b/docs/devel/style.rst
-index 7ddd42b6c2..36c7868854 100644
---- a/docs/devel/style.rst
-+++ b/docs/devel/style.rst
-@@ -607,6 +607,42 @@ are still some caveats to beware of
- QEMU Specific Idioms
- ********************
- 
-+Module and file layout
-+======================
+ gvnc = dependency('gvnc-1.0', required: false)
+diff --git a/tests/qtest/netdev-socket.c b/tests/qtest/netdev-socket.c
+new file mode 100644
+index 000000000000..96fc0aeba427
+--- /dev/null
++++ b/tests/qtest/netdev-socket.c
+@@ -0,0 +1,434 @@
++/*
++ * QTest testcase for netdev stream and dgram
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
-+The QEMU project is a large and complex one where individual files can
-+be re-built multiple times for various final binaries. This is often
-+accomplished through heavy use of #define values to control
-+conditional compilation. However care should be taken to avoid
-+introducing files that are compiled for every target for trivial
-+differences.
++#include "qemu/osdep.h"
++#include <glib/gstdio.h>
++#include "../unit/socket-helpers.h"
++#include "libqtest.h"
 +
-+Some general rules of thumb:
++#define CONNECTION_TIMEOUT    5
 +
-+  * CONFIG_* flags come from either host or target specific defines.
-+    You can see where they come from by comparing config-host.h and
-+    $TARGET-config.target.h
++#define EXPECT_STATE(q, e, t)                             \
++do {                                                      \
++    char *resp = NULL;                                    \
++    g_test_timer_start();                                 \
++    do {                                                  \
++        g_free(resp);                                     \
++        resp = qtest_hmp(q, "info network");              \
++        if (t) {                                          \
++            strrchr(resp, t)[0] = 0;                      \
++        }                                                 \
++        if (g_str_equal(resp, e)) {                       \
++            break;                                        \
++        }                                                 \
++    } while (g_test_timer_elapsed() < CONNECTION_TIMEOUT); \
++    g_assert_cmpstr(resp, ==, e);                         \
++    g_free(resp);                                         \
++} while (0)
 +
-+  * #ifdef CONFIG_USER_ONLY/CONFIG_SOFTMMU should only be added to
-+    files that already use them to compile multiple versions.
++static gchar *tmpdir;
 +
-+  * Try and avoid target_* specific typedefs in common code
++static int inet_get_free_port_socket_ipv4(int sock)
++{
++    struct sockaddr_in addr;
++    socklen_t len;
 +
-+See the build system :ref:`meson<meson>` documentation for the details of how
-+the various compilation units are handled.
++    memset(&addr, 0, sizeof(addr));
++    addr.sin_family = AF_INET;
++    addr.sin_addr.s_addr = INADDR_ANY;
++    addr.sin_port = 0;
++    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
++        return -1;
++    }
 +
-+"Templates" and generated code
-+==============================
++    len = sizeof(addr);
++    if (getsockname(sock,  (struct sockaddr *)&addr, &len) < 0) {
++        return -1;
++    }
 +
-+We make heavy use of C's macro facilities combined with multiple
-+inclusion to generate code. This tends to use header files (usually
-+with the .inc suffix) with different #define'd constants. While the
-+use of C11's _Generic keyword has improved things a bit this technique
-+is still best suited to repetitive boiler plate code. If more complex
-+code generation is required consider using a script to generate it,
-+see for example the decodetree and qapi header scripts.
++    return ntohs(addr.sin_port);
++}
++
++static int inet_get_free_port_socket_ipv6(int sock)
++{
++    struct sockaddr_in6 addr;
++    socklen_t len;
++
++    memset(&addr, 0, sizeof(addr));
++    addr.sin6_family = AF_INET6;
++    addr.sin6_addr = in6addr_any;
++    addr.sin6_port = 0;
++    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
++        return -1;
++    }
++
++    len = sizeof(addr);
++    if (getsockname(sock,  (struct sockaddr *)&addr, &len) < 0) {
++        return -1;
++    }
++
++    return ntohs(addr.sin6_port);
++}
++
++static int inet_get_free_port_multiple(int nb, int *port, bool ipv6)
++{
++    int sock[nb];
++    int i;
++
++    for (i = 0; i < nb; i++) {
++        sock[i] = socket(ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, 0);
++        if (sock[i] < 0) {
++            break;
++        }
++        port[i] = ipv6 ? inet_get_free_port_socket_ipv6(sock[i]) :
++                         inet_get_free_port_socket_ipv4(sock[i]);
++        if (port[i] == -1) {
++            break;
++        }
++    }
++
++    nb = i;
++    for (i = 0; i < nb; i++) {
++        closesocket(sock[i]);
++    }
++
++    return nb;
++}
++
++static int inet_get_free_port(bool ipv6)
++{
++    int nb, port;
++
++    nb = inet_get_free_port_multiple(1, &port, ipv6);
++    g_assert_cmpint(nb, ==, 1);
++
++    return port;
++}
++
++static void test_stream_inet_ipv4(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port;
++
++    port = inet_get_free_port(false);
++    qts0 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,id=st0,server=true,addr.type=inet,"
++                       "addr.ipv4=on,addr.ipv6=off,"
++                       "addr.host=127.0.0.1,addr.port=%d", port);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,server=false,id=st0,addr.type=inet,"
++                       "addr.ipv4=on,addr.ipv6=off,"
++                       "addr.host=127.0.0.1,addr.port=%d", port);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,tcp:127.0.0.1:%d\r\n",
++                             port);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    /* the port is unknown, check only the address */
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:127.0.0.1", ':');
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_inet_ipv6(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port;
++
++    port = inet_get_free_port(true);
++    qts0 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,id=st0,server=true,addr.type=inet,"
++                       "addr.ipv4=off,addr.ipv6=on,"
++                       "addr.host=::1,addr.port=%d", port);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,server=false,id=st0,addr.type=inet,"
++                       "addr.ipv4=off,addr.ipv6=on,"
++                       "addr.host=::1,addr.port=%d", port);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,tcp:::1:%d\r\n",
++                             port);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    /* the port is unknown, check only the address */
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:::1", ':');
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_unix(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path;
++
++    path = g_strconcat(tmpdir, "/stream_unix", NULL);
++
++    qts0 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,id=st0,server=true,"
++                       "addr.type=unix,addr.path=%s,",
++                       path);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,id=st0,server=false,"
++                       "addr.type=unix,addr.path=%s",
++                       path);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++    g_free(path);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_unix_abstract(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path;
++
++    path = g_strconcat(tmpdir, "/stream_unix_abstract", NULL);
++
++    qts0 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,id=st0,server=true,"
++                       "addr.type=unix,addr.path=%s,"
++                       "addr.abstract=on",
++                       path);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,id=st0,server=false,"
++                       "addr.type=unix,addr.path=%s,addr.abstract=on",
++                       path);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++    g_free(path);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_fd(void)
++{
++    QTestState *qts0, *qts1;
++    int sock[2];
++    int ret;
++
++    ret = socketpair(AF_LOCAL, SOCK_STREAM, 0, sock);
++    g_assert_true(ret == 0);
++
++    qts0 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,id=st0,addr.type=fd,addr.str=%d",
++                       sock[0]);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,unix:\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults -M none "
++                       "-netdev stream,id=st0,addr.type=fd,addr.str=%d",
++                       sock[1]);
++
++    EXPECT_STATE(qts1, "st0: index=0,type=stream,unix:\r\n", 0);
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,unix:\r\n", 0);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++
++    closesocket(sock[0]);
++    closesocket(sock[1]);
++}
++
++static void test_dgram_inet(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port[2];
++    int nb;
++
++    nb = inet_get_free_port_multiple(2, port, false);
++    g_assert_cmpint(nb, ==, 2);
++
++    qts0 = qtest_initf("-nodefaults -M none "
++                       "-netdev dgram,id=st0,"
++                       "local.type=inet,local.host=127.0.0.1,local.port=%d,"
++                       "remote.type=inet,remote.host=127.0.0.1,remote.port=%d",
++                        port[0], port[1]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,"
++                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
++                             port[0], port[1]);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults -M none "
++                       "-netdev dgram,id=st0,"
++                       "local.type=inet,local.host=127.0.0.1,local.port=%d,"
++                       "remote.type=inet,remote.host=127.0.0.1,remote.port=%d",
++                        port[1], port[0]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,"
++                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
++                             port[1], port[0]);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_dgram_mcast(void)
++{
++    QTestState *qts;
++
++    qts = qtest_initf("-nodefaults -M none "
++                      "-netdev dgram,id=st0,"
++                      "remote.type=inet,remote.host=230.0.0.1,remote.port=1234");
++
++    EXPECT_STATE(qts, "st0: index=0,type=dgram,mcast=230.0.0.1:1234\r\n", 0);
++
++    qtest_quit(qts);
++}
++
++static void test_dgram_unix(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path0, *path1;
++
++    path0 = g_strconcat(tmpdir, "/dgram_unix0", NULL);
++    path1 = g_strconcat(tmpdir, "/dgram_unix1", NULL);
++
++    qts0 = qtest_initf("-nodefaults -M none "
++                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
++                       "remote.type=unix,remote.path=%s",
++                       path0, path1);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
++                             path0, path1);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults -M none "
++                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
++                       "remote.type=unix,remote.path=%s",
++                       path1, path0);
 +
 +
- Error handling and reporting
- ============================
- 
++    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
++                             path1, path0);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    unlink(path0);
++    g_free(path0);
++    unlink(path1);
++    g_free(path1);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_dgram_fd(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int ret;
++    int sv[2];
++
++    ret = socketpair(PF_UNIX, SOCK_DGRAM, 0, sv);
++    g_assert_cmpint(ret, !=, -1);
++
++    qts0 = qtest_initf("-nodefaults -M none "
++                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
++                       sv[0]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[0]);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults -M none "
++                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
++                       sv[1]);
++
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[1]);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++
++    closesocket(sv[0]);
++    closesocket(sv[1]);
++}
++
++int main(int argc, char **argv)
++{
++    int ret;
++    bool has_ipv4, has_ipv6, has_afunix;
++    g_autoptr(GError) err = NULL;
++
++    g_test_init(&argc, &argv, NULL);
++
++    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
++        g_printerr("socket_check_protocol_support() failed\n");
++        goto end;
++    }
++
++    tmpdir = g_dir_make_tmp("netdev-socket.XXXXXX", &err);
++    if (tmpdir == NULL) {
++        g_error("Can't create temporary directory in %s: %s",
++                g_get_tmp_dir(), err->message);
++    }
++
++    if (has_ipv4) {
++        qtest_add_func("/netdev/stream/inet/ipv4", test_stream_inet_ipv4);
++        qtest_add_func("/netdev/dgram/inet", test_dgram_inet);
++        qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
++    }
++    if (has_ipv6) {
++        qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
++    }
++
++    socket_check_afunix_support(&has_afunix);
++    if (has_afunix) {
++        qtest_add_func("/netdev/dgram/unix", test_dgram_unix);
++        qtest_add_func("/netdev/stream/unix", test_stream_unix);
++        qtest_add_func("/netdev/stream/unix/abstract",
++                       test_stream_unix_abstract);
++        qtest_add_func("/netdev/stream/fd", test_stream_fd);
++        qtest_add_func("/netdev/dgram/fd", test_dgram_fd);
++    }
++
++end:
++    ret = g_test_run();
++
++    g_rmdir(tmpdir);
++    g_free(tmpdir);
++
++    return ret;
++}
 -- 
-2.34.1
+2.39.0
 
 
