@@ -2,77 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D0C65C639
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:27:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57AA65C692
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:41:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pClv9-0007Cl-RO; Tue, 03 Jan 2023 13:21:55 -0500
+	id 1pCmBo-0002Hm-VD; Tue, 03 Jan 2023 13:39:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pClv8-00078v-53
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:21:54 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pCmBk-0002Hd-Q6
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:39:04 -0500
+Received: from sonic309-21.consmr.mail.gq1.yahoo.com ([98.137.65.147])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pClv5-00069D-3J
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:21:53 -0500
-Received: by mail-pl1-x632.google.com with SMTP id 17so33540060pll.0
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 10:21:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XMnuA3U8qCvAAKV0fJRhlFvw2qzRYQPSD0W9z7bDfCw=;
- b=rf/6yAwyaIV9ejbFdL/RU7e0AwbhG4YprvfZ5feDR44T4XA85xPV8zmPXEy1UMYweS
- XwUrcCDK68VUqGon442qCYhstJdmOjSKMXp9wkoUbs3PIGr8RzMR9L5Mg+kBDBxsmqvR
- p3rgdPp6DPbUiEYlPiN8NDUwaJ+qG6bETMyNQQkYq/a8dzEmD/01R5vSo5mWeINbeveW
- BYx98DNq9HObpVz43L5ZzjXCTN2muDBUdnrk/7JgRMf+/8GZdvBJHDlHw2OcPHBHr4If
- GhPFmFQ1xublWqd5vTT6e/000177rticd9jqkn2j4VM1qysJJRjN8jkxQDlogyQQ3uX6
- nG5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XMnuA3U8qCvAAKV0fJRhlFvw2qzRYQPSD0W9z7bDfCw=;
- b=OTuTFRaz+OjgdCJq+p5Z0v9977pyOaAZKz2x4L/M5uM3cF0fKdGYamPhv2Cnx2CWpj
- N2UKslwlVBmrtwbpgP60JAnwcsHjKSW7/Yrs2gJsiaYfIyGmdqq4p4z+hKeBHeo4Inxh
- BTcVWS76UMn6gLEth52n5Vm6HEbRtm5l1lONTrdo67+wZ49tI47TvzHbvfoZRovlyuNy
- vr797NzRUhClfDlUrp22Uu26JWCkW0GThIxAPy0FxssmktGeg2pMraNNEsIKgrN5EYCQ
- FpaSW6c1Iaj5dxkMNRXIUUf6DC0AfJwo+rYeU4Aq8R/fcCb+UhnVIPY+lJhouX6uF6MQ
- 0Szg==
-X-Gm-Message-State: AFqh2krZYa6/X79uzlkOay5tE/RWeL+pG7EGRZQ08vzW1E+9BMpKfVCK
- 8/WwBbPUQWt5tsOzNSDoABQF3KIQTv5U4e/XpX8=
-X-Google-Smtp-Source: AMrXdXtJe9M7J3gyj7iVB6nDCjeXoepMIutI1BkUjqE3aoifyjjmwZtKz+VzhczMqFSdXGX8+W491A==
-X-Received: by 2002:a17:90a:d793:b0:219:1b52:859a with SMTP id
- z19-20020a17090ad79300b002191b52859amr48392950pju.10.1672770108788; 
- Tue, 03 Jan 2023 10:21:48 -0800 (PST)
-Received: from stoup.. ([2607:fb90:8060:51a2:184b:6e49:c396:be2])
- by smtp.gmail.com with ESMTPSA id
- f31-20020a17090a702200b00226463cd239sm7090698pjk.15.2023.01.03.10.21.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jan 2023 10:21:48 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
- armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
-Subject: [RFC PATCH 40/40] target/arm: Move "pmu" to class property
-Date: Tue,  3 Jan 2023 10:16:46 -0800
-Message-Id: <20230103181646.55711-41-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230103181646.55711-1-richard.henderson@linaro.org>
-References: <20230103181646.55711-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pCmBg-0000mQ-Eq
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:39:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1672771136; bh=jk/KLNiyy/FQvaIWK2eHg0WptgKxIBRh7IHFHEKYpQE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=hv7CP/giOX1qsGY0VIw1lh1/GYpUIzG/RE4PDQgN5oDHkURma2JkFbatER7UZo6h661DRV0dp/L4GMbmLRuMXCuEtuyt3RMJG7EWROoBbNHxnzMsZkJBLjm1aBJRfZKcypIkntELcAqUq/dxHgvYwE/v5onddTgU0Da3Lh27nqVKuJgTpy+DAL+5iE8vBhyBEe0wctaEG3Wl3+/HN/O1x9ifQd+O32FBoylMWYMkbzs9Rb4QzbqcS7traVjAX87v0yXvE+1jkUKSZkZVKK/C0kRYtCrj3hAQa4mEYtTePktIPWvuCYr/nezRBE5/DshfUxurZZhw+oru/GmFM79vRA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1672771136; bh=hRuGRUez3Oizt3ToDFhsg/1SZnSh4jC6hJlllWzQatj=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=IvaoES6iP1QGItnVNQAEOVWCUELU/Dgq6gEpPs2abS1gu2cTAJlZPHjbIi5RM/7/618RBrH8RCHC+6/elZLq1tBFBv3ug2KdCnSNrknqlN9AYOAZ/vFu5edtn4FtUvt243J+Y8r0KPuowkN2Ir50GG7nqktEAapa7il14xrma9z0936wSestfJzL6ILDKII+vgX0CMS7UlaHh0UZ+k5+5I6wnYSFM+4uw5vfWpDqS/Kgh+uYfRqnF1hxXL4zMRthKvLp0pnyVP6WwcJ1q59QFVmBOVPTqMA7WWLKQEslNb24yPVNro/Ud/pmRAciffLNn1bGi0SVLM8+2MyDefazBA==
+X-YMail-OSG: Pxqkev0VM1kZ9lcHp3BG8TNw_e4OtoPcljfhZXr9f.UAqZk_9eDy5yZKdcIVkat
+ e8rbybkHsnbzus0vOKoiBlRJ1TOHJU6URU7aenVuc9aawjXoGsMzYSRD.Tqjl8OdY14mlbKE7Uj1
+ 6i6eQqq8CMVTqINo0q7Pp3KYnBvdvRFOs3Gb99icY4PfZbTnLhV3NlyEY7NaKRAKokJqPutPotfz
+ qLAVSVYsqs.5MMLzcz8EIp6lestsZw5XGsbG_FhFST7FDHfR_A4At1NYxCsRQd43ythspegLc32N
+ eQoZleQrdgUvDxg1xmd0L8rCZpmn6NS4ADNK5qnJTYume4epZXbvOAjnRgiqukd1kkOJb4Ey6RE5
+ J6MGKuQVpHSuGhVXTXpJY6h8zV7y5EV3hhxNP9TAgn1LdrrOYNexkbbrcl9SUCK__GH_pYqNF8Wj
+ n22tmFEvARbDR_v7AMw4RVwf4stvoM0lYUen6KJSbD40Tg0SiPgdPDLbdOsvdJ_HdP4NJoR4EGz1
+ LYFSnnTvVp5utKncHJLBY5CS87bNaHiE.OxVWfu7kGO9rUFtAk2adia2HaFLwq67AxCQHr8FtBai
+ _TlmciLzTMwAmHpYikazEDtU48R65SIaougDhaYdtO.S4OKoKvM4Z0fqxWrLtluaFwbabdm1X9t.
+ 64VbVnqaqzejohCwuyq31dFojfAKYvNSlJhqMLMBKDokuaW5QRTyzxxj6qkPmHhiZ1j2jMSuxpK4
+ fD9aBZxlTto8sZclslhKRcfatKhbdDz3uiCkAVey.tHCuKHNzDgmLBRr7ZAr1Uu1jFmy8u87BeAr
+ diLKufT_vSVbGGABb49xpHkTVrCtXxNrrzScmJlzdd3BPbhjkAOM38.farQ3J3IhvCdl0nAUFbi_
+ 4S9SC6jSKlkTK.Pn0578mZLjH154133AKPpcxameaPBLM_RFJevXLWdoaDCtStimet5pWNRnIeaT
+ Z044PksPv.B1jo0W7zQi4zg6mGHVCu.asdiqKqDBE6ZajUVU9HfykIl.S5a.jdjGBbjCJSsOow7X
+ u0tZx8YyclHQrSN6rxKyTv5uzt9yQMVjuIZ0q0AAWf2EFxtOOAz5U7taRRY7ZUWAraCxFovKbQJL
+ S_Cyy5w1i0BBNj9kB0xMrtlkJcoPukOMVYJ_xZGdoT_4Kw7NADoY9AlOvkraqBzTZYO_eievY7Wc
+ UXCl2Ns4z6TjVYsYnhotJt1zxEGtN_KenBycSwcS0s6y46Wl0jRO3CKklDZzEWTkJ74aSisFrThe
+ gyjiGdlr4NiLGDlyfr2Jszz_5O37Ql6KQZkfl.QcvsmsiIt5VaJq2rPcRWGzccl6u4mwyr2p6go8
+ aXcjWVlD7NhuQ.XwdttT7Y3YMgzmM4do969H.qfLSd7KgZ7Hq8jDvnW5weEaat1bS_et7ISeRRy8
+ RGtJov3SiBPeVupZY.NAulXJjfirNjozS_hZPO6ax4LyO0DnCciELWuxJ80mYde2CyUwHLe0swOr
+ aFPGy7Rt8O2tJj.qEPljplt2wuGN3L5AG_nMCiZ0XrJTDIalwEAsXm9YCCGkGwlRFw9moriwRDkA
+ 3yd_uCxI2eRh7bwRq1xF8LqncVR6EhTTXBYUSStfHl39U.lTi.Q.1UdQZVQ_whhDdMmSnMZFm6lx
+ rMxS54DRavOwxm6nIha87._oytTKn1gACIpvi5A0H2V_x9zyUK7zodw67M31zywb.PzJQD4CC5tZ
+ XDZzqPP2V4FwneNvO0UH.eKjjq6CDlonYn.nsjhOgPi6La_2M_bIscIQPrIhIWM6aMu76T648yLg
+ ttuAcpvL3XcCjY0EE.e1JngxQcTlhZCLFqWhcacDak2W5CUAQSzLOU0dhOGKjbUV6EeIjp9UKRMq
+ G2tVWQRNOJJnRbGuNIKkduMaMzQx7k6cW9yqDzIdTytvyXeBjf8Malgf8k.T9txoreie9ftH02EL
+ HcIW.GZjvuc7e3XJS9EC7CW0A_EHaucrEa5XTaiPoB3l8hjFmy5EtQkrl2Cidx3eGCSTtnw.TmQQ
+ m.EPiBIgR1U8mQCjTAEaGEZWrcJNp0yuMJhbrFvEna9Wk_0s9P2LH.mOMp0BVgbC7D2sAIK827e8
+ gyROrL9kbLBU4GbH8yFSM0bQIkYaFk9ID3tQTkEpyn7G6pFhakrFhfhthhFfvz3D84ZhxsWKdQUr
+ EfY3wtOgAS91a4uIAwXCjrm.Qw6Sf5DQmNZgzYTE63jt.STtw0jhdWrCWPT5hGJIl6a98XCK5dIZ
+ VIzixOEE7GW1Leho-
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic309.consmr.mail.gq1.yahoo.com with HTTP; Tue, 3 Jan 2023 18:38:56 +0000
+Received: by hermes--production-ne1-7b69748c4d-ljcdv (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID e8d8eabb7d2095d26a89087287432376; 
+ Tue, 03 Jan 2023 18:38:52 +0000 (UTC)
+Message-ID: <c1532681-0a37-7812-84f6-fd1e5dd576c0@aol.com>
+Date: Tue, 3 Jan 2023 13:38:51 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ xen-devel@lists.xenproject.org, alex.williamson@redhat.com
+References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
+ <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
+ <20230102124605-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Chuck Zmudzinski <brchuckz@aol.com>
+In-Reply-To: <20230102124605-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.65.147; envelope-from=brchuckz@aim.com;
+ helo=sonic309-21.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.103,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,293 +110,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-With the movement of the property, we can remove the field
-from the cpu entirely, using only the class.
-Properly detect support in kvm_arm_get_host_cpu_features
-rather than adjust much later in kvm_arch_init_vcpu.
+On 1/2/2023 12:46 PM, Michael S. Tsirkin wrote:
+> On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:
+> > Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
+> > as noted in docs/igd-assign.txt in the Qemu source code.
+> > 
+> > Currently, when the xl toolstack is used to configure a Xen HVM guest with
+> > Intel IGD passthrough to the guest with the Qemu upstream device model,
+> > a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
+> > a different slot. This problem often prevents the guest from booting.
+> > 
+> > The only available workaround is not good: Configure Xen HVM guests to use
+> > the old and no longer maintained Qemu traditional device model available
+> > from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
+> > 
+> > To implement this feature in the Qemu upstream device model for Xen HVM
+> > guests, introduce the following new functions, types, and macros:
+> > 
+> > * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
+> > * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
+> > * typedef XenPTQdevRealize function pointer
+> > * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
+> > * xen_igd_reserve_slot and xen_igd_clear_slot functions
+> > 
+> > The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
+> > member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
+> > the xl toolstack with the gfx_passthru option enabled, which sets the
+> > igd-passthru=on option to Qemu for the Xen HVM machine type.
+> > 
+> > The new xen_igd_reserve_slot function also needs to be implemented in
+> > hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
+> > when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
+> > in which case it does nothing.
+> > 
+> > The new xen_igd_clear_slot function overrides qdev->realize of the parent
+> > PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
+> > since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
+> > created in hw/i386/pc_piix.c for the case when igd-passthru=on.
+> > 
+> > Move the call to xen_host_pci_device_get, and the associated error
+> > handling, from xen_pt_realize to the new xen_igd_clear_slot function to
+> > initialize the device class and vendor values which enables the checks for
+> > the Intel IGD to succeed. The verification that the host device is an
+> > Intel IGD to be passed through is done by checking the domain, bus, slot,
+> > and function values as well as by checking that gfx_passthru is enabled,
+> > the device class is VGA, and the device vendor in Intel.
+> > 
+> > Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+>
+> I'm not sure why is the issue xen specific. Can you explain?
+> Doesn't it affect kvm too?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu-qom.h |  2 ++
- target/arm/cpu.h     |  3 ---
- target/arm/kvm_arm.h | 13 ----------
- hw/arm/virt.c        | 12 +++++-----
- target/arm/cpu.c     | 57 ++++++++++++++++++++------------------------
- target/arm/kvm.c     | 24 +++++++++++--------
- 6 files changed, 48 insertions(+), 63 deletions(-)
+Yes, it does, and of course this only applies to using the igd in a
+guest in legacy mode as described in docs/igd-assign.txt.
 
-diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
-index 8f266baa26..0272e61c21 100644
---- a/target/arm/cpu-qom.h
-+++ b/target/arm/cpu-qom.h
-@@ -192,6 +192,8 @@ struct ARMCPUClass {
-     OnOffAuto has_vfp;
-     /* CPU has Neon */
-     OnOffAuto has_neon;
-+    /* CPU has PMU (Performance Monitor Unit) */
-+    OnOffAuto has_pmu;
- 
-     /* CPU has memory protection unit */
-     bool has_mpu;
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 1b181ecde4..dac72045d1 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -886,9 +886,6 @@ struct ArchCPU {
-     /* Current power state, access guarded by BQL */
-     ARMPSCIState power_state;
- 
--    /* CPU has PMU (Performance Monitor Unit) */
--    bool has_pmu;
--
-     /* PMSAv7 MPU number of supported regions */
-     uint32_t pmsav7_dregion;
-     /* v8M SAU number of supported regions */
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index d426e24c53..a958e071c1 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -177,14 +177,6 @@ void kvm_arm_steal_time_finalize(ARMCPU *cpu, Error **errp);
-  */
- bool kvm_arm_aarch32_supported(void);
- 
--/**
-- * kvm_arm_pmu_supported:
-- *
-- * Returns: true if KVM can enable the PMU
-- * and false otherwise.
-- */
--bool kvm_arm_pmu_supported(void);
--
- /**
-  * kvm_arm_sve_supported:
-  *
-@@ -229,11 +221,6 @@ static inline bool kvm_arm_aarch32_supported(void)
-     return false;
- }
- 
--static inline bool kvm_arm_pmu_supported(void)
--{
--    return false;
--}
--
- static inline bool kvm_arm_sve_supported(void)
- {
-     return false;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index c1cabe2413..38f89559ed 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -605,7 +605,6 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
-     MachineState *ms = MACHINE(vms);
- 
-     if (!arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
--        assert(!object_property_get_bool(OBJECT(armcpu), "pmu", NULL));
-         return;
-     }
- 
-@@ -1951,9 +1950,11 @@ static void virt_cpu_post_init(VirtMachineState *vms, MemoryRegion *sysmem)
-     int max_cpus = MACHINE(vms)->smp.max_cpus;
-     bool aarch64, pmu, steal_time;
-     CPUState *cpu;
-+    ObjectClass *cpu_class;
- 
-+    cpu_class = object_get_class(OBJECT(first_cpu));
-     aarch64 = object_property_get_bool(OBJECT(first_cpu), "aarch64", NULL);
--    pmu = object_property_get_bool(OBJECT(first_cpu), "pmu", NULL);
-+    pmu = class_property_get_bool(cpu_class, "pmu", NULL);
-     steal_time = object_property_get_bool(OBJECT(first_cpu),
-                                           "kvm-steal-time", NULL);
- 
-@@ -2043,6 +2044,9 @@ static void machvirt_init(MachineState *machine)
-     if (!vms->virt) {
-         class_property_set_bool(cpu_class, "has_el2", false, &error_abort);
-     }
-+    if (vmc->no_pmu) {
-+        class_property_set_bool(cpu_class, "pmu", false, &error_abort);
-+    }
- 
-     /*
-      * In accelerated mode, the memory map is computed earlier in kvm_type()
-@@ -2185,10 +2189,6 @@ static void machvirt_init(MachineState *machine)
-             object_property_set_bool(cpuobj, "kvm-steal-time", false, NULL);
-         }
- 
--        if (vmc->no_pmu && object_property_find(cpuobj, "pmu")) {
--            object_property_set_bool(cpuobj, "pmu", false, NULL);
--        }
--
-         if (vmc->no_tcg_lpa2 && object_property_find(cpuobj, "lpa2")) {
-             object_property_set_bool(cpuobj, "lpa2", false, NULL);
-         }
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index b984735793..c287b0bc89 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1279,29 +1279,6 @@ static void arm_cpu_initfn(Object *obj)
- static Property arm_cpu_reset_cbar_property =
-             DEFINE_PROP_UINT64("reset-cbar", ARMCPU, reset_cbar, 0);
- 
--static bool arm_get_pmu(Object *obj, Error **errp)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    return cpu->has_pmu;
--}
--
--static void arm_set_pmu(Object *obj, bool value, Error **errp)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    if (value) {
--        if (kvm_enabled() && !kvm_arm_pmu_supported()) {
--            error_setg(errp, "'pmu' feature not supported by KVM on this host");
--            return;
--        }
--        set_feature(&cpu->env, ARM_FEATURE_PMU);
--    } else {
--        unset_feature(&cpu->env, ARM_FEATURE_PMU);
--    }
--    cpu->has_pmu = value;
--}
--
- unsigned int gt_cntfrq_period_ns(ARMCPU *cpu)
- {
-     ARMCPUClass *acc = ARM_CPU_GET_CLASS(cpu);
-@@ -1357,11 +1334,6 @@ static void arm_cpu_post_init(Object *obj)
-     }
- #endif
- 
--    if (arm_feature(&cpu->env, ARM_FEATURE_PMU)) {
--        cpu->has_pmu = true;
--        object_property_add_bool(obj, "pmu", arm_get_pmu, arm_set_pmu);
--    }
--
-     if (arm_feature(&cpu->env, ARM_FEATURE_M_SECURITY)) {
-         object_property_add_link(obj, "idau", TYPE_IDAU_INTERFACE, &cpu->idau,
-                                  qdev_prop_allow_set_link_before_realize,
-@@ -1586,9 +1558,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    if (!cpu->has_pmu) {
--        unset_feature(env, ARM_FEATURE_PMU);
--    }
-     if (arm_feature(env, ARM_FEATURE_PMU)) {
-         pmu_init(cpu);
- 
-@@ -2163,6 +2132,13 @@ static void arm_cpu_leaf_class_init(ObjectClass *oc, void *data)
-                            arm_class_prop_set_auto_ofs,
-                            (void *)(uintptr_t)offsetof(ARMCPUClass, has_el3));
-     }
-+
-+    if (arm_class_feature(acc, ARM_FEATURE_PMU)) {
-+        class_property_add(oc, "pmu", "bool", NULL,
-+                           arm_class_prop_get_auto_ofs,
-+                           arm_class_prop_set_auto_ofs,
-+                           (void *)(uintptr_t)offsetof(ARMCPUClass, has_pmu));
-+    }
- #endif /* !CONFIG_USER_ONLY */
- 
-     /*
-@@ -2279,6 +2255,25 @@ static bool arm_cpu_class_late_init(ObjectClass *oc, Error **errp)
-     default:
-         g_assert_not_reached();
-     }
-+
-+    switch (acc->has_pmu) {
-+    case ON_OFF_AUTO_AUTO:
-+        acc->has_pmu = (arm_class_feature(acc, ARM_FEATURE_PMU)
-+                        ? ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF);
-+        break;
-+    case ON_OFF_AUTO_OFF:
-+        unset_class_feature(acc, ARM_FEATURE_PMU);
-+        break;
-+    case ON_OFF_AUTO_ON:
-+        if (!arm_class_feature(acc, ARM_FEATURE_PMU)) {
-+            error_setg(errp, "'pmu' feature not supported by %s on this host",
-+                       current_accel_name());
-+            return false;
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
- #endif /* !CONFIG_USER_ONLY */
- 
-     if (!arm_class_feature(acc, ARM_FEATURE_M)) {
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 85971df07c..0ae435addd 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -239,7 +239,13 @@ void kvm_arm_add_vcpu_properties(Object *obj)
-                                     "Set off to disable KVM steal time.");
- }
- 
--bool kvm_arm_pmu_supported(void)
-+/**
-+ * kvm_arm_pmu_supported:
-+ *
-+ * Returns: true if KVM can enable the PMU
-+ * and false otherwise.
-+ */
-+static bool kvm_arm_pmu_supported(void)
- {
-     return kvm_check_extension(kvm_state, KVM_CAP_ARM_PMU_V3);
- }
-@@ -1463,7 +1469,7 @@ void kvm_arm_pmu_init(CPUState *cs)
-         .attr = KVM_ARM_VCPU_PMU_V3_INIT,
-     };
- 
--    if (!ARM_CPU(cs)->has_pmu) {
-+    if (!arm_feature(&ARM_CPU(cs)->env, ARM_FEATURE_PMU)) {
-         return;
-     }
-     if (!kvm_arm_set_device_attr(cs, &attr, "PMU")) {
-@@ -1480,7 +1486,7 @@ void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
-         .attr = KVM_ARM_VCPU_PMU_V3_IRQ,
-     };
- 
--    if (!ARM_CPU(cs)->has_pmu) {
-+    if (!arm_feature(&ARM_CPU(cs)->env, ARM_FEATURE_PMU)) {
-         return;
-     }
-     if (!kvm_arm_set_device_attr(cs, &attr, "PMU")) {
-@@ -1594,6 +1600,9 @@ bool kvm_arm_get_host_cpu_features(ARMCPUClass *acc, Error **errp)
-     if (kvm_arm_pmu_supported()) {
-         init.features[0] |= 1 << KVM_ARM_VCPU_PMU_V3;
-         pmu_supported = true;
-+    } else {
-+        /* This was optimistically set in aarch64_host_class_init. */
-+        unset_class_feature(acc, ARM_FEATURE_PMU);
-     }
- 
-     if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) {
-@@ -1877,7 +1886,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
- {
-     int ret;
-     ARMCPU *cpu = ARM_CPU(cs);
--    CPUARMState *env = &cpu->env;
-     uint64_t psciver;
- 
-     if (cpu->kvm_target == QEMU_KVM_ARM_TARGET_NONE ||
-@@ -1900,13 +1908,9 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     if (!arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_EL1_32BIT;
-     }
--    if (!kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PMU_V3)) {
--        cpu->has_pmu = false;
--    }
--    if (cpu->has_pmu) {
-+    if (arm_feature(&cpu->env, ARM_FEATURE_PMU)) {
-+        assert(kvm_arm_pmu_supported());
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_PMU_V3;
--    } else {
--        env->features &= ~(1ULL << ARM_FEATURE_PMU);
-     }
-     if (cpu_isar_feature(aa64_sve, cpu)) {
-         assert(kvm_arm_sve_supported());
--- 
-2.34.1
+Searching the web, I found this successful report of legacy
+igd passthrough using kvm:
 
+https://www.reddit.com/r/VFIO/comments/i9dbyp/this_is_how_i_managed_to_passthrough_my_igd/
+
+That user posted the virtual machine xml on pastebin:
+
+https://pastebin.com/vYf3a1gz
+
+For reference, details of my configuration of legacy igd passthrough on
+xen are available on the xenproject wiki:
+
+https://wiki.xenproject.org/wiki/Xen_VGA_Passthrough_Tested_Adapters#Intel_display_adapters
+
+As I expected, with kvm, it is possible to specify the slot number
+of every pci device in the guest (as well as domain, bus, and function)
+in the xml configuration, but this is not easy to do with xen's
+xenlight (libxl) toolstack. That is why this patch is specific to xen.
+
+To further explain this:
+
+On xen, the xl.cfg guest configuration file does not allow the
+administrator to specify the slot number of the xen platform
+pci device, or of the emulated network device and disk controller,
+and one of these devices will grab slot 2 without this patch to
+qemu, making it impossible to have the passed through igd at
+slot 2 on xen without patching qemu.
+
+Another way to solve this problem on xen is to extend libxl so the
+administrator can specify the slot number of the emulated qemu
+pci devices, or possibly by using the xl.cfg
+device_model_args_hvm=[ "ARG", "ARG", ...] settings which might
+allow the administrator to control the slot number of the emulated
+qemu pci devices, and I tried that without success.
+
+This solution of patching qemu to reserve slot 2 for the intel igd when
+the qemu igd-passthru=on option for the xenfv machine type is set is
+a more simple solution to the problem on xen than trying to manually
+set all the slot numbers using the device_model_args_hvm option in
+xl.cfg.
+
+I think kvm users who desire this feature of legacy igd passthrough
+would benefit from something like the qemu igd-passthru=on option
+which, as far as I know, only applies to the xenfv machine type that is
+enabled with the gfx_passthru setting in the xl.cfg configuration file.
+Such an option for kvm could allow for qemu to take care of all the
+details of configuring the vm correctly for igd legacy passthrough
+on kvm instead of requiring the administrator to manually specify
+all the settings correctly in the xml configuration file.
+
+I think making igd legacy passthrough easier to configure on kvm
+would be a useful patch, but it is beyond the scope of what this patch
+is trying to accomplish.
+
+Chuck
 
