@@ -2,94 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83B865C232
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 15:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFC265C2A5
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 16:01:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCiZa-0004sb-91; Tue, 03 Jan 2023 09:47:26 -0500
+	id 1pCimI-0001pJ-8z; Tue, 03 Jan 2023 10:00:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pCiZF-0004q2-Dm
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 09:47:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pCiZ9-0003Af-TE
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 09:47:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672757219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xjB109TMCAKNrl0ugk0DuVn+T0Npf6q472zTyEumHR8=;
- b=dny1/37flm/jLGQB5NjyxNul+BBQv39l3qpoPL6cxvZ1HDp9372chsxh0JlN7MuJLIKTuG
- jjKHWiabfyRRvwnsLex059Ce2B6fLFujQkMO226lOc1XQIwFcwZQrB5ZCtr8AAl9PCBKVW
- lEvDORcL5uQV79YGpir2RteN4X7OmxI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-500-90tsffETM5uHNTDkYOTSAg-1; Tue, 03 Jan 2023 09:46:57 -0500
-X-MC-Unique: 90tsffETM5uHNTDkYOTSAg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i7-20020a05600c354700b003d62131fe46so20155233wmq.5
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 06:46:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCimG-0001ou-Io
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 10:00:32 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCimD-0005UM-Ve
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 10:00:31 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id fc4so74267684ejc.12
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 07:00:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BbiYA4syIWhtRduZhclaU1L2tgKhv+rXny697X1aCUs=;
+ b=NGBcWEJ60z4jAHr/GNrWWHcYaozJ4ix789xN/8inLaa0jHhLtY7g67jH54cKvgMQUd
+ tCY9zn+Ewx/EvGIfhQfHI24cG54Qd4m9d1GFNfqF3tYKH17uSHKzX8ItuBY2w1gISsbI
+ ldMqNqtHKeURkStBKIbs1cOFnXEXiJ4p2M/j2utlLcUYczkbJ6LKU0wZ38aNVOm1kVv8
+ KGbYY8V15MbMUDgRhuoG86bOe2YXcUhlZ5CraB+5c5nZyhw3Kc2MyfTPaZRgjRkBsUId
+ UFY3LJ3WS87NiZxkPFl0v5e+1Q8aF7NYcUWOvnwYwDH2G8nUgoyJTtLt+w9mo/MVi6Yy
+ renA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xjB109TMCAKNrl0ugk0DuVn+T0Npf6q472zTyEumHR8=;
- b=XUndOV5CQoyXHWCiYLccCWa+hOu1Mm89CTo2kwGVshOd8clTyPS0mqBosQTD+jXvYo
- V13RyXXGO4sy643rSGtUV9PI3D1LrlIX649oJCjf9jV0GuOeww6e06/6SfHe4dGv78YZ
- 4GpzIuyYRjUQFA3yS29LFcAW1/lHWapZ26Xayu0tZqm3h94JHOuVeuW3KjM+x8gwycXY
- 3uSqkCT5KElYoHjfQTvwXAYCfgj/kWu1iedhU0EbSp3pbRcKRM941DG8tCavUWeGfjpe
- xpxAwu/cP9Y5I1iHLGXnSkroYKl+qi/8Z8AnWSnrhXK0/TfOGsnBVOoeTpncfRLnWh5q
- ArNA==
-X-Gm-Message-State: AFqh2kqeWUmc3WkVIG0TXxW7iWsfhCF/J06cqaT/DxHFgk58pIVpTt9D
- MVZUIRb0IYVj7NCAcYK4LbfpKo9/apWQ4GWwDy8SYlQ2dnC2d/n9jgHkjLmJcz7OonKJq90CHPL
- l7LYVXjmrItjKVSI=
-X-Received: by 2002:a5d:6283:0:b0:278:806e:e8f8 with SMTP id
- k3-20020a5d6283000000b00278806ee8f8mr20194085wru.42.1672757216738; 
- Tue, 03 Jan 2023 06:46:56 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuS5DoKZXbM8Cl6qS8UJ4SrGdtNLbJ/rdZwyBwEI6+PTl5WP90c0wucw2vKMxeWkM7JwvY0tA==
-X-Received: by 2002:a5d:6283:0:b0:278:806e:e8f8 with SMTP id
- k3-20020a5d6283000000b00278806ee8f8mr20194073wru.42.1672757216528; 
- Tue, 03 Jan 2023 06:46:56 -0800 (PST)
-Received: from [192.168.100.30] ([82.142.8.70])
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BbiYA4syIWhtRduZhclaU1L2tgKhv+rXny697X1aCUs=;
+ b=73W2q4Plkt389UACwHAFEN0f/qtNNeBp2d8MaqtQf8QKVMxl0c7nwX0ugLB+Gbevm4
+ 5iESDFuAzeg8UiMs3hGX28cYedYLAVDftsDtYnJK0yzPDERvnu33V+6pa57jDWg76g9W
+ 15Q/557umnSVqpgb+cGJYk+IkBOOjnl2NlHckCM56/xRn1kTnWptqHNoVziY+52ff+Lq
+ nyU3o6mcFhtmq5MAeCuBtHKXjOv7fg5CMNOPY3XDBCD6pvxQtih8DBTsVruRv3Wxev+8
+ C8g74zCg1ahobeVbjkmpggB75XkX2+9OelBDSiB6VLWb3cpRQTWBxT5V1+w8OMaT/b76
+ CiDw==
+X-Gm-Message-State: AFqh2kqpDenx5LCKWkq3mgMtR4KfGXzGC/aXkZgpiH26QhvKtR5wS1y2
+ Vq8ULPqylbwohNDvEc6R64s=
+X-Google-Smtp-Source: AMrXdXu+CctIxDgJz9Gad0PoPYSOoCgBakqcElbnheU92TubV2WTmcN1YNgQ4Ilnk0EDDNqL0vvCOA==
+X-Received: by 2002:a17:907:a803:b0:7c3:15cc:76d0 with SMTP id
+ vo3-20020a170907a80300b007c315cc76d0mr45901128ejc.47.1672758026794; 
+ Tue, 03 Jan 2023 07:00:26 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb200a19ed0dad62e58f0.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:a19e:d0da:d62e:58f0])
  by smtp.gmail.com with ESMTPSA id
- c8-20020a5d4148000000b002428c4fb16asm31430922wrq.10.2023.01.03.06.46.55
+ kz5-20020a17090777c500b0084c62b7b7d8sm9683078ejc.187.2023.01.03.07.00.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jan 2023 06:46:56 -0800 (PST)
-Message-ID: <f59bd50b-abf7-88ae-7c09-e5c204e08e9a@redhat.com>
-Date: Tue, 3 Jan 2023 15:46:55 +0100
+ Tue, 03 Jan 2023 07:00:25 -0800 (PST)
+Date: Tue, 03 Jan 2023 15:00:17 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Michael S Tsirkin <mst@redhat.com>, qemu-devel@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_4/6=5D_hw/rtc/mc146818rtc=3A_Add_a_prope?=
+ =?US-ASCII?Q?rty_for_the_availability_of_the_slew_tick_policy?=
+In-Reply-To: <20230103084801.20437-5-thuth@redhat.com>
+References: <20230103084801.20437-1-thuth@redhat.com>
+ <20230103084801.20437-5-thuth@redhat.com>
+Message-ID: <6EF09153-9E74-4F20-9662-B80C494106D8@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v4] tests/qtest: netdev: test stream and dgram backends
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
-References: <20230103110049.120340-1-lvivier@redhat.com>
- <b9ebccdf-5cea-a051-46e9-f88a8c59a6ef@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <b9ebccdf-5cea-a051-46e9-f88a8c59a6ef@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.103, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,93 +100,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/23 15:08, Thomas Huth wrote:
-> On 03/01/2023 12.00, Laurent Vivier wrote:
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->> ---
->>
->> Notes:
->>      v4:
->>        - rework EXPECT_STATE()
->>        - use g_dir_make_tmp()
->>      v3:
->>      - Add "-M none" to avoid error:
->>        "No machine specified, and there is no default"
->>      v2:
->>      - Fix ipv6 free port allocation
->>      - Check for IPv4, IPv6, AF_UNIX
->>      - Use g_mkdtemp() rather than g_file_open_tmp()
->>      - Use socketpair() in test_stream_fd()
->>      v1: compared to v14 of "qapi: net: add unix socket type support to netdev backend":
->>      - use IP addresses 127.0.0.1 and ::1 rather than localhost
->>
->>   tests/qtest/meson.build     |   2 +
->>   tests/qtest/netdev-socket.c | 434 ++++++++++++++++++++++++++++++++++++
->>   2 files changed, 436 insertions(+)
->>   create mode 100644 tests/qtest/netdev-socket.c
-> [...]
->> +int main(int argc, char **argv)
->> +{
->> +    int ret;
->> +    bool has_ipv4, has_ipv6, has_afunix;
->> +    g_autoptr(GError) err = NULL;
->> +
->> +    g_test_init(&argc, &argv, NULL);
->> +
->> +    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
->> +        g_printerr("socket_check_protocol_support() failed\n");
->> +        goto end;
->> +    }
->> +
->> +    tmpdir = g_dir_make_tmp("netdev-socket.XXXXXX", &err);
->> +    if (tmpdir == NULL) {
->> +        g_error("Can't create temporary directory in %s: %s",
->> +                g_get_tmp_dir(), err->message);
-> 
-> Should there also be a "goto end" here?
 
-No, g_error() is fatal.
 
-https://docs.gtk.org/glib/func.error.html
+Am 3=2E Januar 2023 08:47:59 UTC schrieb Thomas Huth <thuth@redhat=2Ecom>:
+>We want to get rid of the "#ifdef TARGET_I386" statements in the mc146818
+>code, so we need a different way to decide whether the slew tick policy
+>is available or not=2E Introduce a new property "slew-tick-policy-availab=
+le"
+>which can be set by the machines that support this tick policy=2E
+>
+>Signed-off-by: Thomas Huth <thuth@redhat=2Ecom>
+>---
+> include/hw/rtc/mc146818rtc=2Eh |  1 +
+> hw/i386/pc_piix=2Ec            |  1 +
+> hw/isa/lpc_ich9=2Ec            |  1 +
+> hw/isa/piix3=2Ec               |  1 +
+> hw/rtc/mc146818rtc=2Ec         | 16 ++++++++++------
 
-> 
-> Apart from that:
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> 
+IIUC you might also need to inline mc146818_rtc_init() in i386/microvm=2Ec=
+ and activate the new property there as well=2E
 
-Thanks,
-Laurent
+Best regards,
+Bernhard
 
->> +    }
->> +
->> +    if (has_ipv4) {
->> +        qtest_add_func("/netdev/stream/inet/ipv4", test_stream_inet_ipv4);
->> +        qtest_add_func("/netdev/dgram/inet", test_dgram_inet);
->> +        qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
->> +    }
->> +    if (has_ipv6) {
->> +        qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
->> +    }
->> +
->> +    socket_check_afunix_support(&has_afunix);
->> +    if (has_afunix) {
->> +        qtest_add_func("/netdev/dgram/unix", test_dgram_unix);
->> +        qtest_add_func("/netdev/stream/unix", test_stream_unix);
->> +        qtest_add_func("/netdev/stream/unix/abstract",
->> +                       test_stream_unix_abstract);
->> +        qtest_add_func("/netdev/stream/fd", test_stream_fd);
->> +        qtest_add_func("/netdev/dgram/fd", test_dgram_fd);
->> +    }
->> +
->> +end:
->> +    ret = g_test_run();
->> +
->> +    g_rmdir(tmpdir);
->> +    g_free(tmpdir);
->> +
->> +    return ret;
->> +}
-> 
-
+> 5 files changed, 14 insertions(+), 6 deletions(-)
+>
+>diff --git a/include/hw/rtc/mc146818rtc=2Eh b/include/hw/rtc/mc146818rtc=
+=2Eh
+>index 1db0fcee92=2E=2E54af63d091 100644
+>--- a/include/hw/rtc/mc146818rtc=2Eh
+>+++ b/include/hw/rtc/mc146818rtc=2Eh
+>@@ -45,6 +45,7 @@ struct RTCState {
+>     QEMUTimer *coalesced_timer;
+>     Notifier clock_reset_notifier;
+>     LostTickPolicy lost_tick_policy;
+>+    bool slew_tick_policy_available;
+>     Notifier suspend_notifier;
+>     QLIST_ENTRY(RTCState) link;
+> };
+>diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
+>index bc9ea8cdae=2E=2E382c6add3b 100644
+>--- a/hw/i386/pc_piix=2Ec
+>+++ b/hw/i386/pc_piix=2Ec
+>@@ -233,6 +233,7 @@ static void pc_init1(MachineState *machine,
+>=20
+>         rtc_state =3D isa_new(TYPE_MC146818_RTC);
+>         qdev_prop_set_int32(DEVICE(rtc_state), "base_year", 2000);
+>+        qdev_prop_set_bit(DEVICE(rtc_state), "slew-tick-policy-available=
+", true);
+>         isa_realize_and_unref(rtc_state, isa_bus, &error_fatal);
+>=20
+>         i8257_dma_init(isa_bus, 0);
+>diff --git a/hw/isa/lpc_ich9=2Ec b/hw/isa/lpc_ich9=2Ec
+>index 498175c1cc=2E=2Eaeab4d8549 100644
+>--- a/hw/isa/lpc_ich9=2Ec
+>+++ b/hw/isa/lpc_ich9=2Ec
+>@@ -733,6 +733,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error **er=
+rp)
+>=20
+>     /* RTC */
+>     qdev_prop_set_int32(DEVICE(&lpc->rtc), "base_year", 2000);
+>+    qdev_prop_set_bit(DEVICE(&lpc->rtc), "slew-tick-policy-available", t=
+rue);
+>     if (!qdev_realize(DEVICE(&lpc->rtc), BUS(isa_bus), errp)) {
+>         return;
+>     }
+>diff --git a/hw/isa/piix3=2Ec b/hw/isa/piix3=2Ec
+>index c68e51ddad=2E=2E825b1cbee2 100644
+>--- a/hw/isa/piix3=2Ec
+>+++ b/hw/isa/piix3=2Ec
+>@@ -316,6 +316,7 @@ static void pci_piix3_realize(PCIDevice *dev, Error *=
+*errp)
+>=20
+>     /* RTC */
+>     qdev_prop_set_int32(DEVICE(&d->rtc), "base_year", 2000);
+>+    qdev_prop_set_bit(DEVICE(&d->rtc), "slew-tick-policy-available", tru=
+e);
+>     if (!qdev_realize(DEVICE(&d->rtc), BUS(isa_bus), errp)) {
+>         return;
+>     }
+>diff --git a/hw/rtc/mc146818rtc=2Ec b/hw/rtc/mc146818rtc=2Ec
+>index 947d68c257=2E=2E86381a74c3 100644
+>--- a/hw/rtc/mc146818rtc=2Ec
+>+++ b/hw/rtc/mc146818rtc=2Ec
+>@@ -922,14 +922,16 @@ static void rtc_realizefn(DeviceState *dev, Error *=
+*errp)
+>     rtc_set_date_from_host(isadev);
+>=20
+>     switch (s->lost_tick_policy) {
+>-#ifdef TARGET_I386
+>-    case LOST_TICK_POLICY_SLEW:
+>-        s->coalesced_timer =3D
+>-            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+>-        break;
+>-#endif
+>     case LOST_TICK_POLICY_DISCARD:
+>         break;
+>+    case LOST_TICK_POLICY_SLEW:
+>+#ifdef TARGET_I386
+>+        if (s->slew_tick_policy_available) {
+>+            s->coalesced_timer =3D timer_new_ns(rtc_clock, rtc_coalesced=
+_timer, s);
+>+            break;
+>+        }
+>+#endif
+>+        /* fallthrough */
+>     default:
+>         error_setg(errp, "Invalid lost tick policy=2E");
+>         return;
+>@@ -989,6 +991,8 @@ static Property mc146818rtc_properties[] =3D {
+>     DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
+>     DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
+>                                lost_tick_policy, LOST_TICK_POLICY_DISCAR=
+D),
+>+    DEFINE_PROP_BOOL("slew-tick-policy-available", RTCState,
+>+                     slew_tick_policy_available, false),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+>=20
 
