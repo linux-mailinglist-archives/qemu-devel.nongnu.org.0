@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB2F65C509
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 18:31:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7B865C50A
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 18:31:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCl7c-0007ud-8E; Tue, 03 Jan 2023 12:30:44 -0500
+	id 1pCl84-0008CP-H2; Tue, 03 Jan 2023 12:31:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pCl7V-0007uL-Hi
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:30:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pCl7T-0005gW-FE
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:30:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672767032;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xnN+lM99/xIuZx1saOzsPUZmKndocv4ngoFq8GetVzA=;
- b=FdsI9H81SB9Kk1stmsmiI/8mWx0I5nIU0FjAemyAOKxLiIJ6BX5kMTE358C5yCPej0bpvn
- /m15ZSjBCv5xIFv27KYJn9B7ARAqMUEZApi6QK5EGvA+kSZOYbHBQqSZNg9/2FattafgoH
- LGzgMM9hdBCPnQr8IbjyIETrYspstp0=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-605-slSnc3tFOpGsK8iEK5a_Gg-1; Tue, 03 Jan 2023 12:30:28 -0500
-X-MC-Unique: slSnc3tFOpGsK8iEK5a_Gg-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bm30-20020a05620a199e00b006ff813575b1so21428993qkb.16
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 09:30:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pCl82-00088W-DK
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:31:10 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pCl7x-0005mw-O9
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:31:10 -0500
+Received: by mail-pg1-x535.google.com with SMTP id r18so20560032pgr.12
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 09:31:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6mspDTMqDyAcT/WXDLvH/FVnkx8la3xOkvBw7xeySNY=;
+ b=WRsLZAkiO9BtELYaOXmUIASyjbk/vEpVHZQNRIlxAI9aT+5ADRDJIyA7SxO/hJQwIR
+ G8RsCsfNThrVYfnW3cLC1IcDEAAskO/Gfr24c3/gKPhRzi2Yifdi429FwEL3K9m0O7L3
+ 3KFUsCPsJV2GTf0SLv32IpX88CcH0kA0Hcrgeo6eIfyT+SN0b/rkMfso/8jQIU9quAPF
+ sJjlmDpPDq3qxzCzCtGhPjzqGD5g8qXJTQXIQcRUrha1UX5LiOV2BhA8rqxYVC57F1s+
+ oL9qf4vpP2jRJiLNDwdsRUS30GQd8LQ2zFA14EvnDd/4nbvQMffUvPCka5xk2QpKvIj0
+ h6Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xnN+lM99/xIuZx1saOzsPUZmKndocv4ngoFq8GetVzA=;
- b=pl57LjD6QiirVme7iqniIxvsdLIUZ+fIhBlh7lbNKvxtO+BiER66zyXt8cZ1svO8NM
- AN6zFN58YfEA4LqwFIacQOdb1pTwxc2AXUXXvyoKxX+/tTjjAgGEKoT+RBEByckind5z
- oDasJOTWdE4RIGfqvb/KufOXBQVOY20fyYJ31LUfJ2SHjadqIUwFNUeSgNUzdBsQ1IIr
- BXsFN/uAsmLCiHQtMS3jfnMfw8syo7vBPKPFfYj+xekGeqchy8QqjbFGn7YCyhHhsb4C
- 26jhobhhjfWiD/3Tngqn4YG/8eRyLVJ8b30Kp2h9eKYl2IHHkfeonT6vJyi3z57j0ndX
- 8RSQ==
-X-Gm-Message-State: AFqh2kqbr+HlhxrwSFEYN49H5RFr4niz4btldPIipbHDnpYjRMKGiGhN
- AgpDWTXrRiBp7P91KzANByGKQKyvuHmN0GRZ3v+MoL1boW5wx92wYZPxW7P+W0qPls9FeI/luHe
- uHA/aP9TAgw2Lv9g=
-X-Received: by 2002:ac8:5199:0:b0:3a4:ff03:f1ac with SMTP id
- c25-20020ac85199000000b003a4ff03f1acmr69444591qtn.6.1672767028177; 
- Tue, 03 Jan 2023 09:30:28 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtW0SyMWXc9Yz5JnXiaXR6aykl9H+KD9KBoC33DLz7mbwnb5VXWoxfIPB6CrGr6ojPAQO8M3g==
-X-Received: by 2002:ac8:5199:0:b0:3a4:ff03:f1ac with SMTP id
- c25-20020ac85199000000b003a4ff03f1acmr69444557qtn.6.1672767027867; 
- Tue, 03 Jan 2023 09:30:27 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-39-70-52-228-144.dsl.bell.ca.
- [70.52.228.144]) by smtp.gmail.com with ESMTPSA id
- f1-20020a05620a280100b006fa43e139b5sm22472925qkp.59.2023.01.03.09.30.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jan 2023 09:30:27 -0800 (PST)
-Date: Tue, 3 Jan 2023 12:30:26 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v3] intel-iommu: Document iova_tree
-Message-ID: <Y7RmMvRNFf+YYRyH@x1n>
-References: <20221206221348.396020-1-peterx@redhat.com>
- <CACGkMEtK8w2OkeZR=Ebp3t8t6bfaJusTRyC0eB3BGyA7KuX5-g@mail.gmail.com>
- <Y6XWy9XPHqhK8BMh@x1n>
- <CACGkMEu6OC7eCyR-ztBXGMe-mtWHfLMHPVJrGWO6Rpx3bHTCPQ@mail.gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6mspDTMqDyAcT/WXDLvH/FVnkx8la3xOkvBw7xeySNY=;
+ b=aTkAVb4uGxTSzazgBXW05lKAnpoE3Sxd5MnlpwcMJz/2oxsZ9e98AFklgxNzU2zr5a
+ HVBmIsjsUuKLYZMkheoU6h53bdslqkPSFFFRmtj5flN5HMoX3HT7IZjN8WwiuDMfI701
+ GUpQ2kArB6Z+WIeVWA+uV8CYsMK9DTgOu9/GUI1y2tzD8FU1c9dHqd3qFTWk3fIYs49f
+ vHNQqCAJ0cK1abmypz5PQre2Q4LbjLUBSNbjK+KDrTLYqLy4Fkhu7g2XTgkPMzXhHyI/
+ 3ASxM7KueXI49AWZxEn5UEOcWzue1dDJtu17WRlxJ3bIMmIprvrbtO3SHOIi0jwZK90K
+ erMA==
+X-Gm-Message-State: AFqh2koZXVmwFlG5at44En/qoAeG7p8Tu33NGp0VzSg5huE3iwoDLdN9
+ dEwnre3o47f4ZycTT3YJ8Ioy6qtA4duQKj4Feg7hPQ==
+X-Google-Smtp-Source: AMrXdXvoS0jao4+U8EpqvhciYrJItnM+VWP7paP+SJC2Kj1tSeNboGZNXA6tbJwH4O+603JtoTb42x7U85AGfah8zhI=
+X-Received: by 2002:a63:e20b:0:b0:479:18a:8359 with SMTP id
+ q11-20020a63e20b000000b00479018a8359mr2755159pgh.105.1672767064059; Tue, 03
+ Jan 2023 09:31:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CACGkMEu6OC7eCyR-ztBXGMe-mtWHfLMHPVJrGWO6Rpx3bHTCPQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230102104113.3438895-1-ale@rev.ng>
+ <CAJSP0QVbvgr6wHY9e6f7UgZ-vum5vGUNH+h0Lf93BpdEcFJf0A@mail.gmail.com>
+ <20230103162603.74f631aa@orange>
+ <CAJSP0QUd9Q25pT3OXst4V-1FKLo65jJnn-6-7d_O5hkPeJfPyw@mail.gmail.com>
+ <20230103171149.3bcf0526@orange>
+In-Reply-To: <20230103171149.3bcf0526@orange>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Jan 2023 17:30:52 +0000
+Message-ID: <CAFEAcA8XY0Ks1mxMasZ9U4m-CNPsuLFU+9ercmb10kscP3iYSw@mail.gmail.com>
+Subject: Re: [PATCH] Update scripts/meson-buildoptions.sh
+To: Alessandro Di Federico <ale@rev.ng>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org, 
+ Thomas Huth <thuth@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Anton Johansson <anjo@rev.ng>, 
+ philmd@linaro.org, bcain@quicinc.com, quic_mathbern@quicinc.com, 
+ stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,133 +90,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Dec 26, 2022 at 12:09:52PM +0800, Jason Wang wrote:
-> On Sat, Dec 24, 2022 at 12:26 AM Peter Xu <peterx@redhat.com> wrote:
-> >
-> > On Fri, Dec 23, 2022 at 03:48:01PM +0800, Jason Wang wrote:
-> > > On Wed, Dec 7, 2022 at 6:13 AM Peter Xu <peterx@redhat.com> wrote:
-> > > >
-> > > > It seems not super clear on when iova_tree is used, and why.  Add a rich
-> > > > comment above iova_tree to track why we needed the iova_tree, and when we
-> > > > need it.
-> > > >
-> > > > Also comment for the map/unmap messages, on how they're used and
-> > > > implications (e.g. unmap can be larger than the mapped ranges).
-> > > >
-> > > > Suggested-by: Jason Wang <jasowang@redhat.com>
-> > > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > > > ---
-> > > > v3:
-> > > > - Adjust according to Eric's comment
-> > > > ---
-> > > >  include/exec/memory.h         | 28 ++++++++++++++++++++++++++
-> > > >  include/hw/i386/intel_iommu.h | 38 ++++++++++++++++++++++++++++++++++-
-> > > >  2 files changed, 65 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/include/exec/memory.h b/include/exec/memory.h
-> > > > index 91f8a2395a..269ecb873b 100644
-> > > > --- a/include/exec/memory.h
-> > > > +++ b/include/exec/memory.h
-> > > > @@ -129,6 +129,34 @@ struct IOMMUTLBEntry {
-> > > >  /*
-> > > >   * Bitmap for different IOMMUNotifier capabilities. Each notifier can
-> > > >   * register with one or multiple IOMMU Notifier capability bit(s).
-> > > > + *
-> > > > + * Normally there're two use cases for the notifiers:
-> > > > + *
-> > > > + *   (1) When the device needs accurate synchronizations of the vIOMMU page
-> > > > + *       tables, it needs to register with both MAP|UNMAP notifies (which
-> > > > + *       is defined as IOMMU_NOTIFIER_IOTLB_EVENTS below).
-> > > > + *
-> > > > + *       Regarding to accurate synchronization, it's when the notified
-> > > > + *       device maintains a shadow page table and must be notified on each
-> > > > + *       guest MAP (page table entry creation) and UNMAP (invalidation)
-> > > > + *       events (e.g. VFIO). Both notifications must be accurate so that
-> > > > + *       the shadow page table is fully in sync with the guest view.
-> > > > + *
-> > > > + *   (2) When the device doesn't need accurate synchronizations of the
-> > > > + *       vIOMMU page tables, it needs to register only with UNMAP or
-> > > > + *       DEVIOTLB_UNMAP notifies.
-> > > > + *
-> > > > + *       It's when the device maintains a cache of IOMMU translations
-> > > > + *       (IOTLB) and is able to fill that cache by requesting translations
-> > > > + *       from the vIOMMU through a protocol similar to ATS (Address
-> > > > + *       Translation Service).
-> > > > + *
-> > > > + *       Note that in this mode the vIOMMU will not maintain a shadowed
-> > > > + *       page table for the address space, and the UNMAP messages can be
-> > > > + *       actually larger than the real invalidations (just like how the
-> > > > + *       Linux IOMMU driver normally works, where an invalidation can be
-> > > > + *       enlarged as long as it still covers the target range).  The IOMMU
-> > >
-> > > Just spot this when testing your fix for DSI:
-> > >
-> > >         assert(entry->iova >= notifier->start && entry_end <= notifier->end);
-> > >
-> > > Do we need to remove this (but it seems a partial revert of
-> > > 03c7140c1a0336af3d4fca768de791b9c0e2b128)?
-> >
-> > Replied in the othe thread.
-> >
-> > I assume this documentation patch is still correct, am I right?  It's
-> > talking about the possibility of enlarged invalidation range sent from the
-> > guest and vIOMMU.  That should still not be bigger than the registered
-> > range in iommu notifiers (even if bigger than the actual unmapped range).
-> 
-> Adding Eugenio.
-> 
-> So I think we need to evaluate the possible side effects to all the
-> current nmap notifiers. For example the vfio_iommu_map_notify().
-> 
-> And in another thread, if we crop the size, it basically means the
-> notifier itself will still assume the range is valid, which is not
-> what is documented in this patch.
-> 
-> What's more interesting I see smmu had:
-> 
-> /* Unmap the whole notifier's range */
-> static void smmu_unmap_notifier_range(IOMMUNotifier *n)
-> {
->     IOMMUTLBEvent event;
-> 
->     event.type = IOMMU_NOTIFIER_UNMAP;
->     event.entry.target_as = &address_space_memory;
->     event.entry.iova = n->start;
->     event.entry.perm = IOMMU_NONE;
->     event.entry.addr_mask = n->end - n->start;
-> 
->     memory_region_notify_iommu_one(n, &event);
-> }
-> 
-> So it looks to me it's more safe to do something similar for vtd first.
+On Tue, 3 Jan 2023 at 16:12, Alessandro Di Federico <ale@rev.ng> wrote:
+>
+> On Tue, 3 Jan 2023 10:51:36 -0500
+> Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> > QEMU's Makefile used to a use a technique where it generated
+> > "timestamp" files and used cmp(1) to check if rebuilding was
+> > necessary:
+> > 1. Always generate meson-buildoptions.sh-timestamp.
+>
+> `meson-buildoptions.sh-timestamp` would be the full expected output,
+> right? It's not just a date or something.
+> AFAIU that would make sure that if nothing changed in the output you
+> don't trigger other targets depending on `meson-buildoptions.sh`. It's
+> a solution for a different problem.
+>
+> The problem with always rebuilding `meson-buildoptions.sh` is that we
+> spend 1 extra second on every build, even those that doesn't need to
+> rebuild anything else.
+> Not unacceptable, but I think we should strive not to commit generated
+> files and move the file to the build directory, unless there's a reason
+> why this is not viable that I'm not seeing.
 
-Jason, could you elaborate more on this one?
+The other problem with this file is that it appears to
+be generated differently depending on the host distro
+(specifically the default value for the --libdir option).
+That also would seem to nudge towards "don't commit a
+generated file".
 
-Meanwhile, I don't immediately see what's the side effect you mentioned for
-vfio map events.  I thought any map event should always be in the notifier
-range anyway because map event only comes in page sizes and generated by
-vt-d page walkers (not guest driver, which is IIUC the only place where the
-range of invalidation can be enlarged).  So I don't expect any functional
-change to map events if we decide to crop the ranges unconditionally.  Did
-I miss anything?
-
-Thanks,
-
-> 
-> Btw, I forgot the reason why we need to crop the size in the case of
-> device IOTLB, Eguenio do you know that?
-> 
-> Thanks
-> 
-> >
-> > Thanks,
-> >
-> > --
-> > Peter Xu
-> >
-> 
-
--- 
-Peter Xu
-
+thanks
+-- PMM
 
