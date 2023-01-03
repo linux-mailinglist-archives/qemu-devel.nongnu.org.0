@@ -2,106 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D1965C35A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 16:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8131865C35C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 16:55:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCjam-0007x9-H3; Tue, 03 Jan 2023 10:52:44 -0500
+	id 1pCjcb-0000Qs-9A; Tue, 03 Jan 2023 10:54:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pCjak-0007wO-Cl; Tue, 03 Jan 2023 10:52:42 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pCjcY-0000Po-Na; Tue, 03 Jan 2023 10:54:34 -0500
+Received: from mail-bn1nam02on2052.outbound.protection.outlook.com
+ ([40.107.212.52] helo=NAM02-BN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pCjai-0005Xz-Dh; Tue, 03 Jan 2023 10:52:42 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 0D6613200344;
- Tue,  3 Jan 2023 10:52:36 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 03 Jan 2023 10:52:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1672761156; x=
- 1672847556; bh=nVOvuZSG+O1P8Gww1Hjj04lHV91IU6hC66vx/Sj4D0Q=; b=I
- vvS1EM15hteb9/owfJXy77HD7xwV68j8xzdAmkQPcB0Sfa+XpkFJrkR7PGh2grB/
- S/qF/hmNlAe9r61mJwdrjm+gYwUR4ExEVGk6JyeJAvIJLJMJixrMzhHOYIQwNCIc
- uumtvX+wC5hdfQN2pVielX8lVDzJNFc0K/XFsGmFjuzFosml5krDgMyuhCXaG5sL
- bD10hR/nUGQEYvXdsRZYISwuCHaHRazhfAfSa3Fv74kqocWECtXO5Ndu1gDimwXQ
- qrkZpRt9xjYKZv9EU2DnzFalw4LvkcNgPJGF4YrnftOQ+QseTMqIWnwK9XjZmcOi
- ZGek61nerBLlBVgnDdFLQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1672761156; x=
- 1672847556; bh=nVOvuZSG+O1P8Gww1Hjj04lHV91IU6hC66vx/Sj4D0Q=; b=k
- dsm+Q5pI6LSvHQQnv50S1N0McptkvjwHHjvzAf0aJSP1+xDpXWlEYNTca2mZEmB+
- c3z2oOgBLHa5DDKAax8JnXKFnh9FVG8wOuTZzquyqc9WxtvS0WLsmQLkQJ3EJJWX
- HHhj7KwrA05Tu26Q+pgq1FM1j1oc0MJKaGqCxrNfJmhbQFIIuTg60d3bTgZIEmeH
- SuNSLPi82Y4eod4hpexwGVEF/2JBHshYdQgHf6NPewW5BdeF1AVMP/RXZ3ZM1A9W
- ZSblo49yvlX5npN7vSpaBY74cX+Paxo7cvRWdAr0WfeMJLhCrcIH6F3xnHmQmxl9
- 6nib601Fh06K9P8eM1cZw==
-X-ME-Sender: <xms:RE-0YxEqBqQ_mw620KPla1CpiROUdd1M8SCjwsEYAqBTpwUyGWrErA>
- <xme:RE-0Y2VLDS4GHq4NsaXZXtxm7bdtmAKsuyq773JQEL-XMd1GHFqHsSAX1BpIL4Hnp
- b_7NZc1Khq5EkpPeZA>
-X-ME-Received: <xmr:RE-0YzIw4pvRdLvrybTGq2hmweyYrc4LyrjHIjrvPeC8xF1HSV1ySisPEqIhcJ2o5eKs1YBiQx-cQgUQxfsDsw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeeggdekudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgvthgv
- rhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrfgrth
- htvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefhhfff
- feeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepph
- gvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:RE-0Y3HdlqXoVF4RrTUhKn3iepULx5kQ6lghg2GH6UyfLNWGQlM1Tw>
- <xmx:RE-0Y3WTn2oG-llhDgATWIRN97_J3IgmMGIdwScqFo_QfT37LV-AFQ>
- <xmx:RE-0YyODL6sREf-cMCRCwoWTRa6Zsukhp-BOncGB7PdERjJC3JzKSg>
- <xmx:RE-0YwVgKrNf-5aA83bYK-QsJJfomL8oEUGk3s1w1ZV_RyzO37xlYw>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 Jan 2023 10:52:33 -0500 (EST)
-Date: Tue, 3 Jan 2023 07:52:32 -0800
-From: Peter Delevoryas <peter@pjd.dev>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: "Dong, Eddie" <eddie.dong@intel.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
- Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
- Steven Lee <steven_lee@aspeedtech.com>,
- Jamin Lin <jamin_lin@aspeedtech.com>,
- Peter Delevoryas <pdel@fb.com>, Peter Delevoryas <pdel@meta.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH v2 02/11] hw/watchdog/wdt_aspeed: Extend MMIO range to
- cover more registers
-Message-ID: <Y7RPQE15gcR1sFDb@pdel-mbp.dhcp.thefacebook.com>
-References: <20221230113504.37032-1-philmd@linaro.org>
- <20221230113504.37032-3-philmd@linaro.org>
- <BL0PR11MB30427F00C5A2058197E9B6488AF19@BL0PR11MB3042.namprd11.prod.outlook.com>
- <19cb9a03-c98e-cdff-1474-2db0c55ae971@kaod.org>
- <Y7RKWym8vuDKvUIr@pdel-mbp.dhcp.thefacebook.com>
- <96ac1ff1-7876-655a-d92e-9ec8870137a1@kaod.org>
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pCjcW-0005gj-KI; Tue, 03 Jan 2023 10:54:34 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EfObYCLcGAGc39V/wSR6V4kSmiEUXKwxq7YDu96CpYsU5fQYfSW1t7iszGUj4Fh5mhk1t6ERFG7romxF5wS7dqwemoId2193/gtBT8OZLurQOWK/lCxzuSv9s6jTQEDtk4RifHN18Ni7kx0Ho9BuRArMCJy3i4PFitVesPhBmgchYKjDKpafLZ+52eOYzdtfjzFWgb9c8LNY6/Q2yc6C3yQMdvGUEUzU5e3MECDAtMEosXcugrZplR1fT5d8uHKw5yo5S91/+FkTiO5L6qdQQMH0Hff5wTT8v1f3QOo5kRSr3q8Be7eaMegKjCNP/6cSSS2WOv4O5p7DaznHSzT1gQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=quKHM0ozdaL6lKLZ4Zlz5lGd4vHnqAmqjeZhNIpz6nw=;
+ b=aNDObOBcCoqz7INHFJNlThzAVVNyYR1JEanXyReD3y1ITpcOhfn9DFTJkm6+fvCoaALCOnMsyFcGGFAoo78c9H4qLWRAxTZCp6tabTIIMqpkhWHbe4dxs+Azr+SlSaOs0kxkVVed4xtzIlqrdODy/QBXSahwpdDRhIo/eJvUfIAtzg0/f2bgT3JWS+2pvYH+G5mz8qRE5KAQqrKmuB2nyscRdjM+UKjcOCb4pJupj0VmOd2VGLzptz++FDgAKLckxXb2rJb1YralWRk7JkQeb5qy8rUgYfplT0DjYUnMuCcsOG+b4qV53lGPgdARvaEnSDs+3QNgfP56o3Fu3Gw2/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=quKHM0ozdaL6lKLZ4Zlz5lGd4vHnqAmqjeZhNIpz6nw=;
+ b=hLCyZFaaokIBfY9mY6eJX22LraCgPangSN+jbkwXQ4hzvcpCczW8Qqa3psJz/CYPKZ+Zevt9Mqc/GARSY5lepqKbQjFOzrF3dOr5kGg4tgyomQHOl8xyGZ5/BbhIqqHxllALhDPlOuIYg9gw2vchas9VPZNChWtmKX6VjcKcUwmfzXUTla7LmebJxp5mnBGL7Wt0RjbB1O2SKqqx+Dg4/l5ZbA4KwY7z1GgAjIIZcM80m+hdG9A2oQus7S2SaBWE7ktjHtC39/CUvRnMWvNZJbYs04COVyju7zTmRN1J+adSqubKNWgZ/J+Y+dNbWr+CZ1Xfrm4Kr9P0wQzMOprWEw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
+ by SN7PR12MB6912.namprd12.prod.outlook.com (2603:10b6:806:26d::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Tue, 3 Jan
+ 2023 15:54:28 +0000
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::451d:1f37:aa83:f425]) by DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::451d:1f37:aa83:f425%6]) with mapi id 15.20.5944.019; Tue, 3 Jan 2023
+ 15:54:28 +0000
+Message-ID: <5cd2a6a8-ac23-b463-04d1-4213bbcad25c@nvidia.com>
+Date: Tue, 3 Jan 2023 17:54:17 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v5 04/14] vfio/migration: Fix NULL pointer dereference bug
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+References: <20221229110345.12480-1-avihaih@nvidia.com>
+ <20221229110345.12480-5-avihaih@nvidia.com> <Y7QN0fT6vI9AMU+3@work-vm>
+Content-Language: en-US
+From: Avihai Horon <avihaih@nvidia.com>
+In-Reply-To: <Y7QN0fT6vI9AMU+3@work-vm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0157.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:99::18) To DM6PR12MB5549.namprd12.prod.outlook.com
+ (2603:10b6:5:209::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <96ac1ff1-7876-655a-d92e-9ec8870137a1@kaod.org>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=peter@pjd.dev;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|SN7PR12MB6912:EE_
+X-MS-Office365-Filtering-Correlation-Id: ce01c424-2102-46af-b6cc-08daeda2cb91
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aNOum45P2oCLiojRaQLoDZIXmkAFm35d753rJU4+K/JUOF7VS+xdQohWfLYXLUjgbBJWbzWEbDkqglpWvys9P3faowqvaS5zayYu0gxVWEy5nzkTQ9rXHy7NJ2jCULIJqUZarA5zRim9fjSo/oT08eehl0/W4ECoNOM43xBzsTXJOqRIMCbiXS12xwJ4Z82Z9INbm28kL71FW6oJ1ttum12ZmGcRCY4gyPGRm1hZdNxdYV5R6lcBlWDWBeeBr4tEiWbmlST6c5bgH84Zsjx/ZotJ+sMre+RgMsiv7dxuDOyrFe2c5jkk/8RujXmjFviC10Eiu2Nl1tXNpF8xoxlYiEt+92eQsGpoZ2bquPJqhOdip/xLO2C4W3zCUQM1/owvf7kEpsakvKznIeRQDDTiLglHvHSYAtjR9E/srvGFqYJbT8PyCsV/PgdReE9JzsGAOwMHHgEPSwYRhnBmyU3w5H2x4FNXfapLDCRTbcfhHCnDjLeVnvT7GAg+8c4IRi6lRJ3sejuHPnAI4TZz7mK5Nb33I8/leTlMEz69F7SIINl8iq6FNtN5Eqz3YDZ8Je+4pYdBjI6tGOlokSJPZzJG9YH68IAb7HrXXmo+bBJ9zSxdvh9V8Lw4prKLKIy7qMtcI7ttfBLFcZGPJ9KIxkk42E5WK0nFMEzZqqM9LSH8kPCu2/I0ARfrxAJdfr8mc1hUu6t0DtICzGdoKjebiI+5C8yvvl3mFKYD/h056VkU2CuCRuOq+WeL7acnDju8LVuZGm34+yAnsfYJhhKlQLpH3g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(346002)(396003)(136003)(39860400002)(366004)(451199015)(2616005)(83380400001)(86362001)(31696002)(36756003)(38100700002)(54906003)(6916009)(2906002)(66476007)(316002)(7416002)(41300700001)(8936002)(66946007)(5660300002)(66556008)(8676002)(4326008)(186003)(26005)(53546011)(6486002)(478600001)(6512007)(6666004)(31686004)(6506007)(22166006)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MzA2TytMV29ZbDRsb0JPTjFFYUFENG9keFM5TmtmUTJMWG44NDlzRUN3djFL?=
+ =?utf-8?B?MGdsSURSN0lJbWNJNzFMeVBDQXJDZXFCSFNyU3B2UHhENmhMb0Jmc1A0d1d5?=
+ =?utf-8?B?OGpNNnBzemEwS1I4eC8xNGZ0SE4rMm1iTUc1Qyt6a29hK091cmMvbTlEaXJ2?=
+ =?utf-8?B?UUpWTnZrdWUyRzJoREFuTFJaZVdqUnE4dEU5Y3d1R0NSWmFNVmJ0N3pBQ3pK?=
+ =?utf-8?B?SlEwNU5wQ1hQVTNpK1BNR3RJSzNCTHpNTXRjSzNaWGRtMlpxbSt4U0puSDdE?=
+ =?utf-8?B?WUdNOHhXenBpRW9XRTNhZ0s5ejJTamZCb3hpeGZSQmQwREdSNGJLTDNyTEZl?=
+ =?utf-8?B?QjNoVW9MRnZ0VXlGUDZBREo4VHhaOEYwWFVZRmlTekhBWVhxNjBBTEVoVXl3?=
+ =?utf-8?B?VkJtbndTanErR0t5NDNCVkdVSjVqU3lQNGEvaWhoQUordU53UU9HbE02Nk90?=
+ =?utf-8?B?OS9ZSndGY3RqZTMrTVFrdUxET3l5b254SDNDd1d6a2tWVGtFVVUwckk4UjFO?=
+ =?utf-8?B?eEMwdWN6K1V4QXBFdkUyOWt6dW1aZjg5S0Uvd2QrU0J5WXViTnhyamppVysw?=
+ =?utf-8?B?emorMG9KamRpWjhoZmFnUlpYTXV5OG5zOHR3R1pZaStqZ0h1SVJVZGppU2J1?=
+ =?utf-8?B?b2dNdStEVWJUL3NFYjhNa1JhMnFMc2szdUtXSlJNeWZvSnZhTXVkZ20vU1c0?=
+ =?utf-8?B?Q09Qa29CTXhKSGFFc2pHZzM2cFdCaDQ5UGx5VXZLSkpGNC8xbHVpcmRVd2lJ?=
+ =?utf-8?B?dnRqcm5yZkh2dVFUZ2lIQ3V0b05MV1N6UUQwM2diWk9tcXBMVFM0RS9SVHl2?=
+ =?utf-8?B?dkM2a3R6OG81cXdLN3pLSEl2aXRyQnRScEFjTzZtUFZUbGRpZ1l0ZThBbVEz?=
+ =?utf-8?B?bjgyNk9JZXcwbXAyUUxFSEZocUE4VEhnWHlXSnVtZ1hBanpaa2FGL29oMFdY?=
+ =?utf-8?B?VS9rTFMyYXY2WUVBK2pPbDZ6QzBYN0swNEhOK2lSN3VLY3FBYmtNcnhYMFNB?=
+ =?utf-8?B?aTUreSszSk1ncWMwUUR0TlBtZVZIbzVlWlFRUEpkRGRiRXV6ZkRkK3J3RTIw?=
+ =?utf-8?B?YytqTEJIM09qUURvNTZOTzRpamI3VzVjeDJsN1hoYkJxbnBQRUFhZFA2UTNr?=
+ =?utf-8?B?SGZNcVB3NGtmeXp4dndZalVQQThEQWY2ZUwwV0szUHBoMFh1YXUzNXowN1ZN?=
+ =?utf-8?B?bUhpNXFkaXArMVArem1qM3dueHdXcmZMWWJnWkIrS2tEWE5kdWN6Y1I0Z1VU?=
+ =?utf-8?B?VDdseGJpZ0c2VldNSVhFdmk4bXczQzVhN1hLY2tqZExQdzZEOE9raGdGcG93?=
+ =?utf-8?B?VkIydkRSdWswMk16UTdkMGtXTzYwWmFRWld5b21QOVRMMFRvQkkrLzEvbGZG?=
+ =?utf-8?B?VVFjb2tWL3dFc3I3MXdiQjdlenJUSml5NjI3cnpsMzY4Z0RXSkE3eTJTSlZM?=
+ =?utf-8?B?TTN2cmpaQ2daVmVzOUNJc0ZNOEY3LzF1N0JSZERWRkhDdUNTWkN5TXZvd2xO?=
+ =?utf-8?B?MjUvTjRoNDdRbHpqYmFaN1I4bnNTWlAvZU15L3k4NUpwUkYybVIrZVJvS09n?=
+ =?utf-8?B?d3RhdjdKMzNqeE90K0xOZlZzRHp3dGc4MDNzVkNhS2UwUkNUSnV5Vm5KQUJ3?=
+ =?utf-8?B?WUVib0taVUw4Snkxb0dhcVN5d3ZzVytSK3dGWmgxcFlZVEZPWHcwWG8yV25p?=
+ =?utf-8?B?a1FRL29vK1dvbURuYjJyZ1R6N2diVnU5TjN5dkFrVUdFK1BEWkdyN2dJZ1Aw?=
+ =?utf-8?B?eHhBL1huQjFXYTRhRXFuNnRVUmE5dFhMLzRBZFJ5U3FQTkZRMUtWWW03QjhD?=
+ =?utf-8?B?RGEvczdHQzZDZ3VXWTdIZ2NsNlRRVzRBNUw0cjJxNVNsMVpkMFEwQ1k4SEti?=
+ =?utf-8?B?S2xFZkM0dDRQWDM2QzNmWjVzL3JRdG5ranFVTzBlNldyMEJSVmVqd0p2aHkx?=
+ =?utf-8?B?TSt5QWxDczRrNEJpVmVPKzg0cVhxSzh4UVZQSkVqZ3hXVUtKejR2V29CRU5o?=
+ =?utf-8?B?SG1tZnF1UWN4MnIvNlBDNDgxaVZYN2Z6VzhWSVY3S3NnVlU4L0VwaWdmZjhv?=
+ =?utf-8?B?MlZ2MG1sZHN1NVJxUVV0am8yS0JxL213L3oxOE9nSnpuTjIxRGFqUXlBMUJv?=
+ =?utf-8?Q?YzbSoNPxApsDz5pTWM45FvXYo?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce01c424-2102-46af-b6cc-08daeda2cb91
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 15:54:28.6061 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4pVyFIvOxOmIFyfQ4VeXinDnjdg40eo0Hl+7p7+Y26OYJ34ERdjSxVPpGNG4G0QyJobEvf7+KdPkay1gs5e+Kg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6912
+Received-SPF: permerror client-ip=40.107.212.52;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM02-BN1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.103, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,94 +158,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 03, 2023 at 04:48:14PM +0100, Cédric Le Goater wrote:
-> On 1/3/23 16:31, Peter Delevoryas wrote:
-> > On Mon, Jan 02, 2023 at 02:31:31PM +0100, Cédric Le Goater wrote:
-> > > On 12/31/22 23:52, Dong, Eddie wrote:
-> > > > > When booting the Zephyr demo in [1] we get:
-> > > > > 
-> > > > >     aspeed.io: unimplemented device write (size 4, offset 0x185128, value
-> > > > > 0x030f1ff1) <--
-> > > > >     aspeed.io: unimplemented device write (size 4, offset 0x18512c, value
-> > > > > 0x03fffff1)
-> > > > > 
-> > > > > This corresponds to this Zephyr code [2]:
-> > > > > 
-> > > > >     static int aspeed_wdt_init(const struct device *dev)
-> > > > >     {
-> > > > >       const struct aspeed_wdt_config *config = dev->config;
-> > > > >       struct aspeed_wdt_data *const data = dev->data;
-> > > > >       uint32_t reg_val;
-> > > > > 
-> > > > >       /* disable WDT by default */
-> > > > >       reg_val = sys_read32(config->ctrl_base + WDT_CTRL_REG);
-> > > > >       reg_val &= ~WDT_CTRL_ENABLE;
-> > > > >       sys_write32(reg_val, config->ctrl_base + WDT_CTRL_REG);
-> > > > > 
-> > > > >       sys_write32(data->rst_mask1,
-> > > > >                   config->ctrl_base + WDT_SW_RESET_MASK1_REG);   <------
-> > > > >       sys_write32(data->rst_mask2,
-> > > > >                   config->ctrl_base + WDT_SW_RESET_MASK2_REG);
-> > > > > 
-> > > > >       return 0;
-> > > > >     }
-> > > > > 
-> > > > > The register definitions are [3]:
-> > > > > 
-> > > > >     #define WDT_RELOAD_VAL_REG          0x0004
-> > > > >     #define WDT_RESTART_REG             0x0008
-> > > > >     #define WDT_CTRL_REG                0x000C
-> > > > >     #define WDT_TIMEOUT_STATUS_REG      0x0010
-> > > > >     #define WDT_TIMEOUT_STATUS_CLR_REG  0x0014
-> > > > >     #define WDT_RESET_MASK1_REG         0x001C
-> > > > >     #define WDT_RESET_MASK2_REG         0x0020
-> > > > >     #define WDT_SW_RESET_MASK1_REG      0x0028   <------
-> > > > >     #define WDT_SW_RESET_MASK2_REG      0x002C
-> > > > >     #define WDT_SW_RESET_CTRL_REG       0x0024
-> > > > > 
-> > > > > Currently QEMU only cover a MMIO region of size 0x20:
-> > > > > 
-> > > > >     #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
-> > > > > 
-> > > > > Change to map the whole 'iosize' which might be bigger, covering the other
-> > > > 
-> > > > The root cause is that ASPEED_WDT_REGS_MAX is too small, right?
-> > > > Probably the Qemu is emulating an old version of the hardware.
-> > > > 
-> > > > Given the meaning of ASPEED_WDT_REGS_MAX, it should be larger than iosize, not?
-> > > > Probably ASPEED_WDT_REGS_MAX should be per device type (aspeed_2400/2500),
-> > > 
-> > > yes. We would need a new class attribute for it. Please use these values, they
-> > > should be correct.
-> > > 
-> > >             #regs    iosize
-> > > 
-> > > AST2400   0x18/4      0x20
-> > > AST2500   0x20/4      0x20
-> > 
-> > I think only one additional register was added in the AST2500, bringing it to 0x1C.
-> 
-> yes.
-> 
-> > 
-> > > AST2600   0x30/4      0x40
-> > > AST1030   0x4C/4      0x80
-> > 
-> > I know the Zephyr driver for the AST1030 directly from Aspeed is claiming that
-> > the iosize is 0x80, but the datasheet I have says it's only 0x40. And, that the
-> > #regs would still just be 0x30/4. Afaik the AST2600 and AST1030 should have the
-> > exact same peripheral.
-> 
-> Hmm, I see 5 extra registers in the AST1030 SoC compared to the AST2600 SoC. All
-> related to write protection.
 
-Oh really? Hmmm ok, perhaps my datasheet is outdated then, I'm referencing
-AST1030 A0 v0.5 from Feb 2021, which might be outdated.
+On 03/01/2023 13:13, Dr. David Alan Gilbert wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> * Avihai Horon (avihaih@nvidia.com) wrote:
+>> As part of its error flow, vfio_vmstate_change() accesses
+>> MigrationState->to_dst_file without any checks. This can cause a NULL
+>> pointer dereference if the error flow is taken and
+>> MigrationState->to_dst_file is not set.
+>>
+>> For example, this can happen if VM is started or stopped not during
+>> migration and vfio_vmstate_change() error flow is taken, as
+>> MigrationState->to_dst_file is not set at that time.
+>>
+>> Fix it by checking that MigrationState->to_dst_file is set before using
+>> it.
+>>
+>> Fixes: 02a7e71b1e5b ("vfio: Add VM state change handler to know state of VM")
+>> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+>> Reviewed-by: Juan Quintela <quintela@redhat.com>
+>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> It might be worth posting this patch separately since it's a simple fix
+> and should go in sooner.
 
-Thanks, sorry for the confusion. Erg.
-Peter
+Sure, I will wait for Alex's feedback on the series and consider sending 
+it separately.
 
-> 
-> C.
-> 
+Thanks.
+
+> Dave
+>
+>> ---
+>>   hw/vfio/migration.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+>> index e1413ac90c..09fe7c1de2 100644
+>> --- a/hw/vfio/migration.c
+>> +++ b/hw/vfio/migration.c
+>> @@ -743,7 +743,9 @@ static void vfio_vmstate_change(void *opaque, bool running, RunState state)
+>>            */
+>>           error_report("%s: Failed to set device state 0x%x", vbasedev->name,
+>>                        (migration->device_state & mask) | value);
+>> -        qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
+>> +        if (migrate_get_current()->to_dst_file) {
+>> +            qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
+>> +        }
+>>       }
+>>       vbasedev->migration->vm_running = running;
+>>       trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
+>> --
+>> 2.26.3
+>>
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
 
