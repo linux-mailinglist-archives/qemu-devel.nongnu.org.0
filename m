@@ -2,103 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FEE65C502
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 18:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB2F65C509
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 18:31:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCl2v-0006NN-Tg; Tue, 03 Jan 2023 12:25:53 -0500
+	id 1pCl7c-0007ud-8E; Tue, 03 Jan 2023 12:30:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pCl2p-0006N7-Sx
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:25:48 -0500
-Received: from sonic305-20.consmr.mail.gq1.yahoo.com ([98.137.64.83])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pCl2m-0004o2-Uw
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:25:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1672766741; bh=BQrajt4wazRs/IHuCnNgKkNdztR9Jg2pmYu2J+B7rHE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
- b=MWkZBW23xhtaKL1h1Y0DanzZgzC9tYI/+m4L8tapKm3VckHEyr4IKBKbt2karoTLcVff2Rzi4Y5XNLNCb0bPm5I+ipKxq63QIYuHQbEGlxZ6ODcsmt+WA6z2clSqp73iNijF2uZjEdOOfjJo53wsQkAIWwKhpYFjyuCNrO9SyqAAl1SoBdpgAJSSmKRCFCcAz/91QXdhjtMO4aD05AV0jbdhtMuBxFwVCYQGwUefbBxB6fapNDZZJDoypx8Qys8rFkCCUkA62AXAei8GDiCDpfxTdubgFKOJfKSHYEZFqzb04k/Sx1upwmzdmSbnm2Hp6mHQV4hc1gmsV+jCs8NpUg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1672766741; bh=Q7Gnch2KYK2DKvvEQImsPlGPBX0A629TKeRg29/A8EE=;
- h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
- b=mof7SKRASPArXL2gtemBJPLd0mREs96QXV1acGqUuAHynSzRDGaw8Wu+EX7leobknIu7iKptkgx60XyiDLy1OPhgHAIjnPNDMNWGidPOd4yBAoG1Al0u/gojbvZGVe5R1Lya/ei+RnmXHiMlFCS0h3K13/XUrXBZdfKuRXEkXE3O35E5NXnmvzLfcd0baS06B102tjQPpyfiWI/dHTgVXZbyvTwBdkyb4YD0tjXXqG4HbUJTsAarKTd/BqQYuc+0P6NgweedkzHN5/DlJFbFz9bVhqqCpns2WgWH6HTf8tBMRqwx6sGC7sr7DKBHplQtcaR0bp1sByimvapXoqxsqg==
-X-YMail-OSG: ny44inEVM1l0o89yZjgXBU7LE7onIq0HkXAJb04On7SUMzGglQaXKHGEWbCdbXB
- pmtWDTz0hbtpwQwDQdKrNh39Zp5m.O4Fj8UzgRiJNrfoovSEieMGvk3PRI7G3OeyN1wf8dtCb2fU
- lIuCZdt_FzLFBPLLUQKK59mu6QyzsjiQ.MA2CL3GglAx.pHzyz1gcWtEF3E4A2WERHEiSN47ztBk
- vA_nx_mve0L1iBQviDPoysrv_Dv6A401Z8nWr08svddzs6_Lbc3pcpi5dSvqxavNRMcSCwLT6poG
- AP8fUICvBp50lOthZFFZwQT9ULK5rEKLCmhYLV2nEPEM4uKz2lYveZQqHEEj3Se9MCm0fnHQX.Av
- eWxHZi0ci1N63I0ZQpHBUrUiZ_Ja89TIIUj1IHi3fXG_ezTJAjAitU4dDn9DtPGwQzD6vpIwP2dw
- Mz1rM9mIMFjcEnTil.iLvPnDm27rD0FL8NU43hlzh7Rn3Cs8Vpg_brBeuqS4tLGq.T0XgmW_LUlj
- MevjUuIOwAkBlZ8WQuQrAww71HAQa_q.vTJmZbIu1W4Wg_Ap5WYnvl6iA.a4YWu5nl1O5.za1rX3
- 3JVeLg8e9wr2tPg4s_QOLwAQ4JyTLH_AH4mCZZEpycm_06_Lw.k4VaNKKziz1pOP4mFi8B8XIbgt
- nELLx6LD10127YlU9Kz.me5IiFC_YIY9c6HsK3.YiNVMVuN1QO8YELfEzOGiCjJ29E.FgOz9vPed
- QYiGVNmRS_WJAUzg.lUxZX_YW26wLaPeaw8.Rdn.x5oud2.cy7khkWsEr7os2WMeeKimm2ck4FYs
- AI7TbzN0qkHZ5seroGCG1CNnQU1gcgKw8SR449tFz4nhp5Bddsv7VL6P54ua8QrBoxFh28hhZgo1
- 84zal0QCIM6pbyIff8BL_zRFnbW56PZ2bHmLrUBoraOTaVcEY2p1WO0iE73_BBuSCSWHPOOhRG49
- 1ugaJ8SlzuHlnSGLcFGsHI1lEGwVwwcoqdYyHk4AbvqVtHhP1F7kml8h863Z7yrJIg3JInK.eb5a
- RMfNR9VhhyQDPVHbGL7SLhEx27Zdy6dVmGmv96OFZ29gdGXhOBGKuvmpiIOgBPxKe5WKKl3Mn6m_
- B8CosT0xV4IIk.Q2v1iGJSm0J7P881Eehr52j5K9QwkILs.9tvkeZJ8xwcOB53xoEEHUiCFNJdki
- 1L.Rx37MYVoMi1FLKWMoSdGjvaa2ffAfLsO8gtL2SujvwD6jiiJQss0.MYtLUI3MaxKUHwiw4V9v
- Q6UxoStJG_8xM_JZWD8vVxkPl6XGC_NWumKgLxTFHHXTR.45Fddbn.89QpWmAFLUeHr85dLo2VDu
- iz1KPlb8jKa5EoksQuGN2dHhBxqdhyLfgoACHqXeMzzWik65x51kBk9zSDNJee2IMP6upuDjt02_
- TO9owR24rQbCtO69dUSaizmN60t.16Yr3_iX92NOyQcrLhlD6CCgAvUYXKpSRBBoNSY26Q.oCjEx
- JcrZDLz0Akcy1PD.RUGB8ujrQaJSP6GMa1dMSm5r94wWzaXsY8a226lrtxxhjCvFfihStkYhfk1s
- _rlgw9ThgSZJinU2JZp1tEtglK.ZJwHrkKaf0Fk8IcannH5gJtR2lAPx_9Z2lvTRbj1DeiUQe8I5
- rGUnYmhKPYL7TLLzZjoQ_2aClfkGMQj5QHf57B7oTlWIX7k4TjpgfXduxedaXrr8CriQ993AgjdN
- BAVE.9._rB1T_pyKSznCLu1DnLcmko7VBnPRjF3jsMW_nWKeMPppVnytd56NF4yRAWJ35Tf1KCUZ
- jt046_JMEx1MpFLgf5QDmbZXH6kj8.H95aTch0Gg.UA0nXWUo5TTQLGAx6DpJ0HKtmn.WQehXQWv
- au0g7rUxzWEkHDVJrwGKKFspT8Xfw._VxuO1cqNzagTcIbI3KWHVrFj759GdWobklFaekSZQ8Jh_
- oztf0Nx7QIN2vk_KPhcQhHONf0tNJlpVcy9KZ97EQmpn4tLeLipY5cECcRpXk0cxUGb.a05t4OvI
- wk.Dy1tethPFxK.DsMSnkmepWfMc4Vi7uJeYastmy99mgOvSmAkN1WixcIEjCYgazYqG4eJ4nP.a
- rSEk8helJW93kYoS2hqPQoBHB4Q0ocIzic3jIEZ2mfmqvGCfGCk_B3Nuz1T7TWEwIHjlKtfvtgUA
- k8i2n6BqQ2XazK6JaY7DqSKtrd6xbIBKMdt6CvizK1vkCsjEL66UVJXyZPJg3rhYfI_rHcCZWZGD
- w1XDPplRRvqzeXI0s.GhMng--
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic305.consmr.mail.gq1.yahoo.com with HTTP; Tue, 3 Jan 2023 17:25:41 +0000
-Received: by hermes--production-ne1-7b69748c4d-7hwnr (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 82ee4ab4f4bd9b6bcc4691c031bc8c2e; 
- Tue, 03 Jan 2023 17:25:36 +0000 (UTC)
-Message-ID: <6360e4a1-dc2b-685e-5e19-62b92eec695b@aol.com>
-Date: Tue, 3 Jan 2023 12:25:35 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pCl7V-0007uL-Hi
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:30:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pCl7T-0005gW-FE
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:30:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672767032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xnN+lM99/xIuZx1saOzsPUZmKndocv4ngoFq8GetVzA=;
+ b=FdsI9H81SB9Kk1stmsmiI/8mWx0I5nIU0FjAemyAOKxLiIJ6BX5kMTE358C5yCPej0bpvn
+ /m15ZSjBCv5xIFv27KYJn9B7ARAqMUEZApi6QK5EGvA+kSZOYbHBQqSZNg9/2FattafgoH
+ LGzgMM9hdBCPnQr8IbjyIETrYspstp0=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-605-slSnc3tFOpGsK8iEK5a_Gg-1; Tue, 03 Jan 2023 12:30:28 -0500
+X-MC-Unique: slSnc3tFOpGsK8iEK5a_Gg-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ bm30-20020a05620a199e00b006ff813575b1so21428993qkb.16
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 09:30:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xnN+lM99/xIuZx1saOzsPUZmKndocv4ngoFq8GetVzA=;
+ b=pl57LjD6QiirVme7iqniIxvsdLIUZ+fIhBlh7lbNKvxtO+BiER66zyXt8cZ1svO8NM
+ AN6zFN58YfEA4LqwFIacQOdb1pTwxc2AXUXXvyoKxX+/tTjjAgGEKoT+RBEByckind5z
+ oDasJOTWdE4RIGfqvb/KufOXBQVOY20fyYJ31LUfJ2SHjadqIUwFNUeSgNUzdBsQ1IIr
+ BXsFN/uAsmLCiHQtMS3jfnMfw8syo7vBPKPFfYj+xekGeqchy8QqjbFGn7YCyhHhsb4C
+ 26jhobhhjfWiD/3Tngqn4YG/8eRyLVJ8b30Kp2h9eKYl2IHHkfeonT6vJyi3z57j0ndX
+ 8RSQ==
+X-Gm-Message-State: AFqh2kqbr+HlhxrwSFEYN49H5RFr4niz4btldPIipbHDnpYjRMKGiGhN
+ AgpDWTXrRiBp7P91KzANByGKQKyvuHmN0GRZ3v+MoL1boW5wx92wYZPxW7P+W0qPls9FeI/luHe
+ uHA/aP9TAgw2Lv9g=
+X-Received: by 2002:ac8:5199:0:b0:3a4:ff03:f1ac with SMTP id
+ c25-20020ac85199000000b003a4ff03f1acmr69444591qtn.6.1672767028177; 
+ Tue, 03 Jan 2023 09:30:28 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtW0SyMWXc9Yz5JnXiaXR6aykl9H+KD9KBoC33DLz7mbwnb5VXWoxfIPB6CrGr6ojPAQO8M3g==
+X-Received: by 2002:ac8:5199:0:b0:3a4:ff03:f1ac with SMTP id
+ c25-20020ac85199000000b003a4ff03f1acmr69444557qtn.6.1672767027867; 
+ Tue, 03 Jan 2023 09:30:27 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-39-70-52-228-144.dsl.bell.ca.
+ [70.52.228.144]) by smtp.gmail.com with ESMTPSA id
+ f1-20020a05620a280100b006fa43e139b5sm22472925qkp.59.2023.01.03.09.30.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jan 2023 09:30:27 -0800 (PST)
+Date: Tue, 3 Jan 2023 12:30:26 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v3] intel-iommu: Document iova_tree
+Message-ID: <Y7RmMvRNFf+YYRyH@x1n>
+References: <20221206221348.396020-1-peterx@redhat.com>
+ <CACGkMEtK8w2OkeZR=Ebp3t8t6bfaJusTRyC0eB3BGyA7KuX5-g@mail.gmail.com>
+ <Y6XWy9XPHqhK8BMh@x1n>
+ <CACGkMEu6OC7eCyR-ztBXGMe-mtWHfLMHPVJrGWO6Rpx3bHTCPQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
-To: Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost
- <eduardo@habkost.net>, xen-devel@lists.xenproject.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20230102213504.14646-1-shentey@gmail.com>
- <bd4daee7-09df-4bfa-3b96-713690be9f4e@aol.com>
- <0de699a7-98b8-e320-da4d-678d0f594213@linaro.org>
- <CAG4p6K7hcJ-47GvsEvmuBmdwP2LsEC4WLkw_t6ZfwhqakYUEyQ@mail.gmail.com>
-Content-Language: en-US
-From: Chuck Zmudzinski <brchuckz@aol.com>
-In-Reply-To: <CAG4p6K7hcJ-47GvsEvmuBmdwP2LsEC4WLkw_t6ZfwhqakYUEyQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.20982
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.64.83; envelope-from=brchuckz@aim.com;
- helo=sonic305-20.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.103,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CACGkMEu6OC7eCyR-ztBXGMe-mtWHfLMHPVJrGWO6Rpx3bHTCPQ@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,98 +100,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/2023 8:38 AM, Bernhard Beschow wrote:
->
->
-> On Tue, Jan 3, 2023 at 2:17 PM Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->
->     Hi Chuck,
->
->     On 3/1/23 04:15, Chuck Zmudzinski wrote:
->     > On 1/2/23 4:34 PM, Bernhard Beschow wrote:
->     >> This series first renders TYPE_PIIX3_XEN_DEVICE redundant and finally removes
->     >> it. The motivation is to 1/ decouple PIIX from Xen and 2/ to make Xen in the PC
->     >> machine agnostic to the precise southbridge being used. 2/ will become
->     >> particularily interesting once PIIX4 becomes usable in the PC machine, avoiding
->     >> the "Frankenstein" use of PIIX4_ACPI in PIIX3.
->     >>
->     >> Testing done:
->     >> None, because I don't know how to conduct this properly :(
->     >>
->     >> Based-on: <20221221170003.2929-1-shentey@gmail.com>
->     >>            "[PATCH v4 00/30] Consolidate PIIX south bridges"
->
->     This series is based on a previous series:
->     https://lore.kernel.org/qemu-devel/20221221170003.2929-1-shentey@gmail.com/
->     (which itself also is).
->
->     >> Bernhard Beschow (6):
->     >>    include/hw/xen/xen: Make xen_piix3_set_irq() generic and rename it
->     >>    hw/isa/piix: Reuse piix3_realize() in piix3_xen_realize()
->     >>    hw/isa/piix: Wire up Xen PCI IRQ handling outside of PIIX3
->     >>    hw/isa/piix: Avoid Xen-specific variant of piix_write_config()
->     >>    hw/isa/piix: Resolve redundant k->config_write assignments
->     >>    hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVICE
->     >>
->     >>   hw/i386/pc_piix.c             | 34 ++++++++++++++++--
->     >>   hw/i386/xen/xen-hvm.c         |  9 +++--
->     >>   hw/isa/piix.c                 | 66 +----------------------------------
->     >
->     > This file does not exist on the Qemu master branch.
->     > But hw/isa/piix3.c and hw/isa/piix4.c do exist.
->     >
->     > I tried renaming it from piix.c to piix3.c in the patch, but
->     > the patch set still does not apply cleanly on my tree.
->     >
->     > Is this patch set re-based against something other than
->     > the current master Qemu branch?
->     >
->     > I have a system that is suitable for testing this patch set, but
->     > I need guidance on how to apply it to the Qemu source tree.
->
->     You can ask Bernhard to publish a branch with the full work,
->
->
-> Hi Chuck,
->
-> ... or just visit https://patchew.org/QEMU/20230102213504.14646-1-shentey@gmail.com/ . There you'll find a git tag with a complete history and all instructions!
->
-> Thanks for giving my series a test ride!
->
-> Best regards,
-> Bernhard
->
->     or apply each series locally. I use the b4 tool for that:
->     https://b4.docs.kernel.org/en/latest/installing.html
->
->     i.e.:
->
->     $ git checkout -b shentey_work
->     $ b4 am 20221120150550.63059-1-shentey@gmail.com
->     $ git am
->     ./v2_20221120_shentey_decouple_intx_to_lnkx_routing_from_south_bridges.mbx
->     $ b4 am 20221221170003.2929-1-shentey@gmail.com
->     $ git am
->     ./v4_20221221_shentey_this_series_consolidates_the_implementations_of_the_piix3_and_piix4_south.mbx
->     $ b4 am 20230102213504.14646-1-shentey@gmail.com
->     $ git am ./20230102_shentey_resolve_type_piix3_xen_device.mbx
->
->     Now the branch 'shentey_work' contains all the patches and you can test.
->
->     Regards,
->
->     Phil.
->
+On Mon, Dec 26, 2022 at 12:09:52PM +0800, Jason Wang wrote:
+> On Sat, Dec 24, 2022 at 12:26 AM Peter Xu <peterx@redhat.com> wrote:
+> >
+> > On Fri, Dec 23, 2022 at 03:48:01PM +0800, Jason Wang wrote:
+> > > On Wed, Dec 7, 2022 at 6:13 AM Peter Xu <peterx@redhat.com> wrote:
+> > > >
+> > > > It seems not super clear on when iova_tree is used, and why.  Add a rich
+> > > > comment above iova_tree to track why we needed the iova_tree, and when we
+> > > > need it.
+> > > >
+> > > > Also comment for the map/unmap messages, on how they're used and
+> > > > implications (e.g. unmap can be larger than the mapped ranges).
+> > > >
+> > > > Suggested-by: Jason Wang <jasowang@redhat.com>
+> > > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > > ---
+> > > > v3:
+> > > > - Adjust according to Eric's comment
+> > > > ---
+> > > >  include/exec/memory.h         | 28 ++++++++++++++++++++++++++
+> > > >  include/hw/i386/intel_iommu.h | 38 ++++++++++++++++++++++++++++++++++-
+> > > >  2 files changed, 65 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/include/exec/memory.h b/include/exec/memory.h
+> > > > index 91f8a2395a..269ecb873b 100644
+> > > > --- a/include/exec/memory.h
+> > > > +++ b/include/exec/memory.h
+> > > > @@ -129,6 +129,34 @@ struct IOMMUTLBEntry {
+> > > >  /*
+> > > >   * Bitmap for different IOMMUNotifier capabilities. Each notifier can
+> > > >   * register with one or multiple IOMMU Notifier capability bit(s).
+> > > > + *
+> > > > + * Normally there're two use cases for the notifiers:
+> > > > + *
+> > > > + *   (1) When the device needs accurate synchronizations of the vIOMMU page
+> > > > + *       tables, it needs to register with both MAP|UNMAP notifies (which
+> > > > + *       is defined as IOMMU_NOTIFIER_IOTLB_EVENTS below).
+> > > > + *
+> > > > + *       Regarding to accurate synchronization, it's when the notified
+> > > > + *       device maintains a shadow page table and must be notified on each
+> > > > + *       guest MAP (page table entry creation) and UNMAP (invalidation)
+> > > > + *       events (e.g. VFIO). Both notifications must be accurate so that
+> > > > + *       the shadow page table is fully in sync with the guest view.
+> > > > + *
+> > > > + *   (2) When the device doesn't need accurate synchronizations of the
+> > > > + *       vIOMMU page tables, it needs to register only with UNMAP or
+> > > > + *       DEVIOTLB_UNMAP notifies.
+> > > > + *
+> > > > + *       It's when the device maintains a cache of IOMMU translations
+> > > > + *       (IOTLB) and is able to fill that cache by requesting translations
+> > > > + *       from the vIOMMU through a protocol similar to ATS (Address
+> > > > + *       Translation Service).
+> > > > + *
+> > > > + *       Note that in this mode the vIOMMU will not maintain a shadowed
+> > > > + *       page table for the address space, and the UNMAP messages can be
+> > > > + *       actually larger than the real invalidations (just like how the
+> > > > + *       Linux IOMMU driver normally works, where an invalidation can be
+> > > > + *       enlarged as long as it still covers the target range).  The IOMMU
+> > >
+> > > Just spot this when testing your fix for DSI:
+> > >
+> > >         assert(entry->iova >= notifier->start && entry_end <= notifier->end);
+> > >
+> > > Do we need to remove this (but it seems a partial revert of
+> > > 03c7140c1a0336af3d4fca768de791b9c0e2b128)?
+> >
+> > Replied in the othe thread.
+> >
+> > I assume this documentation patch is still correct, am I right?  It's
+> > talking about the possibility of enlarged invalidation range sent from the
+> > guest and vIOMMU.  That should still not be bigger than the registered
+> > range in iommu notifiers (even if bigger than the actual unmapped range).
+> 
+> Adding Eugenio.
+> 
+> So I think we need to evaluate the possible side effects to all the
+> current nmap notifiers. For example the vfio_iommu_map_notify().
+> 
+> And in another thread, if we crop the size, it basically means the
+> notifier itself will still assume the range is valid, which is not
+> what is documented in this patch.
+> 
+> What's more interesting I see smmu had:
+> 
+> /* Unmap the whole notifier's range */
+> static void smmu_unmap_notifier_range(IOMMUNotifier *n)
+> {
+>     IOMMUTLBEvent event;
+> 
+>     event.type = IOMMU_NOTIFIER_UNMAP;
+>     event.entry.target_as = &address_space_memory;
+>     event.entry.iova = n->start;
+>     event.entry.perm = IOMMU_NONE;
+>     event.entry.addr_mask = n->end - n->start;
+> 
+>     memory_region_notify_iommu_one(n, &event);
+> }
+> 
+> So it looks to me it's more safe to do something similar for vtd first.
 
-OK, I didn't see the "Consolidate PIIX south bridges" series is a
-prerequisite.
+Jason, could you elaborate more on this one?
 
-I will try it - it may take a couple of days because I need to test both
-patch series in my environment and I can only work on this in my spare
-time.
+Meanwhile, I don't immediately see what's the side effect you mentioned for
+vfio map events.  I thought any map event should always be in the notifier
+range anyway because map event only comes in page sizes and generated by
+vt-d page walkers (not guest driver, which is IIUC the only place where the
+range of invalidation can be enlarged).  So I don't expect any functional
+change to map events if we decide to crop the ranges unconditionally.  Did
+I miss anything?
 
-I will provide Tested-by tags to both series if successful. Otherwise,
-I will reply with an explanation of any problems.
+Thanks,
 
-Chuck
+> 
+> Btw, I forgot the reason why we need to crop the size in the case of
+> device IOTLB, Eguenio do you know that?
+> 
+> Thanks
+> 
+> >
+> > Thanks,
+> >
+> > --
+> > Peter Xu
+> >
+> 
+
+-- 
+Peter Xu
+
 
