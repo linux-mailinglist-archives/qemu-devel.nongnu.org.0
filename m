@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCA965C544
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 18:44:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1564165C577
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 18:55:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pClK6-000631-Jp; Tue, 03 Jan 2023 12:43:38 -0500
+	id 1pClUP-0001R9-J0; Tue, 03 Jan 2023 12:54:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pClK4-00062q-Jp
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:43:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pClK2-0007or-PM
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:43:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672767814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XzGix9yjaWAOavAy/R8E8rSqTk1Df8t3cTV/+/l1jE8=;
- b=HSOaXL7ZthzNgbuSon8/tGbSasqjj7NiNIJp33Asv9hH4cGeGmq4dIzut+sGYx6MTNf4CR
- zo0csR/gQPw6hQXzHPppwMUa0TQdbpN/HnUvR+Woy0uqiIFwvL08Rp6ngABnk/ajXVR/Jv
- jcI1orsYUvemd4UlyQ2fuhI79fYIqg4=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-563-Cq_6j-6rPbOV0Zs9JigaKg-1; Tue, 03 Jan 2023 12:43:30 -0500
-X-MC-Unique: Cq_6j-6rPbOV0Zs9JigaKg-1
-Received: by mail-qv1-f72.google.com with SMTP id
- mu2-20020a056214328200b00531cc0222faso2511119qvb.14
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 09:43:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pClUO-0001Qz-3x
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:54:16 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pClUM-0001OD-85
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:54:15 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ m26-20020a05600c3b1a00b003d9811fcaafso17573657wms.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 09:54:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s5w5A5rEq9urBUUy1QW4nV9xQwtpcXmHgkPhIlHxJ/c=;
+ b=X78/Z0lMDNgRqTZGSpSzOVeZIYFFiQNG3XIwAqXdodfeKVV/1Y2G/x58g4ue+cBYum
+ f4PAK/c9Q/ZmXGBUjCKEGjECxR1Nozc47IZnhO5HJFCohP1+/Z8S+Q0APCERq091YIlP
+ YuK1B8g986Bw/MZHbbir37TaqeTAv/cRPePCry3xJoZsujmk4ZJKPB2LsQWNvX8zXGhg
+ K1880X5v0/HxrjHkp3WOpYmmFeKpCdV9nq8eqMwmKCi13J8CcEih4+TAd0wA+regj7e1
+ RJzMp11l7B57aP78z1HNkunLAp+i0MAy1NpF3rF6Ezd5btsHUF6+wnxhrwUKVc7N/kgw
+ uEiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XzGix9yjaWAOavAy/R8E8rSqTk1Df8t3cTV/+/l1jE8=;
- b=zDZdsp9aHMik7IZwwMmsCV35y8da6BlkxwOpyNybZIh/cC5ZywOcoVVNw31KuLbwx/
- P24gOLBOKymn6E0EBs/bEWcwsR/HJiFngzDwLjWuSfUsH3t2KyYtRLuufP4BRLnUnn15
- 2Bxxh860y5Mq+cO48C6DI2BNNA2svqvqH729BfI2nMh+dj5RVX9pdHsR6zyB+N/XqSCR
- BPjZqWN2xhQCtOQM11p4BTg0TTMXGfnk1vFKNhOVDRIYkvkE6bikc0gqDmMMzkwhNPLK
- qqTZbGl/yb90J7qasaCZ2UKoM6qneY4PzGqlVKZ0G4XbfbDyJzsa3OHfUFan0WgcO2RR
- TTdA==
-X-Gm-Message-State: AFqh2kqxKDNy9KUyXlrpSrM36r5moVccE44ysv4nB3EDx3txtskJ3bjE
- 6+14r2TfzhfHJAky8HoO9OfhUmXVRemBEEhyuvTS6g6fliVBQwGZd5oSkihMw/QMNsuwGYwsWbh
- OjSyyAyCFTLBbWe4=
-X-Received: by 2002:ac8:470e:0:b0:3a7:ea9e:566d with SMTP id
- f14-20020ac8470e000000b003a7ea9e566dmr50140424qtp.65.1672767809638; 
- Tue, 03 Jan 2023 09:43:29 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt/TeqEIEVnpBcgQGc9woz0ZWflhl1tIQBie3OOfDTS1UxVpVhnF3E+XOlUmRDW88qY2CjDPw==
-X-Received: by 2002:ac8:470e:0:b0:3a7:ea9e:566d with SMTP id
- f14-20020ac8470e000000b003a7ea9e566dmr50140408qtp.65.1672767809434; 
- Tue, 03 Jan 2023 09:43:29 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-39-70-52-228-144.dsl.bell.ca.
- [70.52.228.144]) by smtp.gmail.com with ESMTPSA id
- c27-20020a05620a269b00b007054a238bf2sm5711222qkp.126.2023.01.03.09.43.28
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=s5w5A5rEq9urBUUy1QW4nV9xQwtpcXmHgkPhIlHxJ/c=;
+ b=BtpS3wqdGrHRNR+Ro7GJphuPVv6ucMqpNn7LN5xfvM47Kt/NS4j7JgCWu8G2f31rWe
+ 6tjn75xAR7CEPCOnezqibGFOSCiOR0etfJpqbZ0tnhfGV1LjosZsmsZqvdzdcJRYbxF6
+ 0C/K/m47WQBsvm3VJ0djm13cf8m2RSEjnvqP8kLmGRaXA9FWaUKi47qhD2ftUsu85j47
+ fnKKUU+Qp6AkgN9f7Kad/DdJvZHMZuIyFeE0vY7gVY/Bm284zWxWa8tjaR/VMqmvJI9E
+ moFlFLFRDHYIPsNFnTIMGjTaYh77d8DiMNE35L8H3wKK09cf3xqgU8u1d8gQwZqqOVwG
+ XoXQ==
+X-Gm-Message-State: AFqh2krpqWQnZoBmN70PWuPQYftq2obw+udZzj95bpkksidwqR0UeI7e
+ oClbvQqMbI4jkgsmrV/LaW7gIQ==
+X-Google-Smtp-Source: AMrXdXuOmT1mCWrD3WCO+ituptGdRI7f8rjrl5C8G9IiZJJDl8moLES6e2zlM/4iwZgoDOqYLzBulw==
+X-Received: by 2002:a1c:770b:0:b0:3cf:a18d:399c with SMTP id
+ t11-20020a1c770b000000b003cfa18d399cmr33623202wmi.1.1672768452540; 
+ Tue, 03 Jan 2023 09:54:12 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ b22-20020a05600c4e1600b003c6d21a19a0sm43405836wmq.29.2023.01.03.09.54.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jan 2023 09:43:28 -0800 (PST)
-Date: Tue, 3 Jan 2023 12:43:27 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Chuang Xu <xuchuangxclwt@bytedance.com>,
- qemu-devel <qemu-devel@nongnu.org>, David Gilbert <dgilbert@redhat.com>,
- "Quintela, Juan" <quintela@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- zhouyibo@bytedance.com
-Subject: Re: [RFC v4 2/3] memory: add depth assert in address_space_to_flatview
-Message-ID: <Y7RpPwGd0WvrENlz@x1n>
-References: <20221223142307.1614945-1-xuchuangxclwt@bytedance.com>
- <20221223142307.1614945-3-xuchuangxclwt@bytedance.com>
- <05c4cb9e-0f41-c60f-6a68-cf5050ad7a02@redhat.com>
- <Y6XPRD4fSucgWZfT@x1n>
- <CABgObfa=i=9CZRFyX_EXBOSW===iDhcZoDO8Ju64F-tHUAXdRA@mail.gmail.com>
+ Tue, 03 Jan 2023 09:54:12 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BE3471FFB7;
+ Tue,  3 Jan 2023 17:54:11 +0000 (GMT)
+References: <20221223172135.3450109-1-alex.bennee@linaro.org>
+ <CAFEAcA_4BWu79sK6_CVYjqpYumHoRHTxRJgyQKPiS1q3O_bf6Q@mail.gmail.com>
+User-agent: mu4e 1.9.11; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL v2 0/6] testing updates
+Date: Tue, 03 Jan 2023 17:47:29 +0000
+In-reply-to: <CAFEAcA_4BWu79sK6_CVYjqpYumHoRHTxRJgyQKPiS1q3O_bf6Q@mail.gmail.com>
+Message-ID: <874jt7qzb0.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CABgObfa=i=9CZRFyX_EXBOSW===iDhcZoDO8Ju64F-tHUAXdRA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,43 +95,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, Paolo,
 
-On Wed, Dec 28, 2022 at 09:27:50AM +0100, Paolo Bonzini wrote:
-> Il ven 23 dic 2022, 16:54 Peter Xu <peterx@redhat.com> ha scritto:
-> 
-> > > This is not valid because the transaction could happen in *another*
-> > thread.
-> > > In that case memory_region_transaction_depth() will be > 0, but RCU is
-> > > needed.
-> >
-> > Do you mean the code is wrong, or the comment?  Note that the code has
-> > checked rcu_read_locked() where introduced in patch 1, but maybe something
-> > else was missed?
-> >
-> 
-> The assertion is wrong. It will succeed even if RCU is unlocked in this
-> thread but a transaction is in progress in another thread.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-IIUC this is the case where the context:
+> On Fri, 23 Dec 2022 at 17:21, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f9=
+a0b:
+>>
+>>   Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu
+>> into staging (2022-12-21 18:08:09 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-231222-1
+>>
+>> for you to fetch changes up to 3b4f911921e4233df0ba78d4acd2077da0b144ef:
+>>
+>>   gitlab-ci: Disable docs and GUIs for the build-tci and
+>> build-tcg-disabled jobs (2022-12-23 15:17:13 +0000)
+>>
+>> ----------------------------------------------------------------
+>> testing updates:
+>>
+>>   - fix minor shell-ism that can break check-tcg
+>>   - turn off verbose logging on custom runners
+>>   - make configure echo call in CI
+>>   - fix unused variable in linux-test
+>>   - add binary compiler docker image for hexagon
+>>   - disable doc and gui builds for tci and disable-tcg builds
+>>
+>> ----------------------------------------------------------------
+>
+> The msys2-64bit job failed with a weird 'missing terminating "'
+> compiler error on ui/shader/texture-blit-vert.h:
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/3547023328
+>
+> as did msys2-32-bit:
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/3547023329
+>
+> Any idea? Is this just an existing error that's been masked
+> by the msys2 jobs consistently timing out before they get
+> to it ?
 
-  (1) doesn't have RCU read lock held, and,
-  (2) doesn't have BQL held.
+It ran fine when I pushed the branch:
 
-Is it safe at all to reference any flatview in such a context?  The thing
-is I think the flatview pointer can be freed anytime if both locks are not
-taken.
+  https://gitlab.com/stsquad/qemu/-/jobs/3519255299
 
-> Perhaps you can check (memory_region_transaction_depth() > 0 &&
-> !qemu_mutex_iothread_locked()) || rcu_read_locked() instead?
+but I can't see it building the object file ui_shader.c.obj in my build
+so I wonder if the builder has updated its development libraries since?
+I think it is a generated file.
 
-What if one thread calls address_space_to_flatview() with BQL held but not
-RCU read lock held?  I assume it's a legal operation, but it seems to be
-able to trigger the assert already?
+>
+> thanks
+> -- PMM
 
-Thanks,
 
--- 
-Peter Xu
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
