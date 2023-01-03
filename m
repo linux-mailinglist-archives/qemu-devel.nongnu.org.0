@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F2F65C5E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:16:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9931465C5EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:18:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCloz-0007iR-RR; Tue, 03 Jan 2023 13:15:33 -0500
+	id 1pClrJ-0008LD-9l; Tue, 03 Jan 2023 13:17:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pClox-0007fV-N6
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:15:31 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pClov-0004je-PV
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:15:31 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nmgl91x61z686w8;
- Wed,  4 Jan 2023 02:10:45 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 3 Jan
- 2023 18:15:25 +0000
-Date: Tue, 3 Jan 2023 18:15:24 +0000
-To: Gregory Price <gourry.memverge@gmail.com>
-CC: Gregory Price <gregory.price@memverge.com>, <qemu-devel@nongnu.org>,
- <linux-cxl@vger.kernel.org>, Alison Schofield <alison.schofield@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>, <a.manzanares@samsung.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <hchkuo@avery-design.com.tw>,
- <cbrowy@avery-design.com>, <ira.weiny@intel.com>
-Subject: Re: [RFC v4 3/3] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
- and Persistent)
-Message-ID: <20230103181524.00003e14@huawei.com>
-In-Reply-To: <CAD3UvdQ7nZab7Y+tbc1Ox-zqzse4C16dwv6qtOAgfe4dA6_crQ@mail.gmail.com>
-References: <20221128150157.97724-1-gregory.price@memverge.com>
- <20221128150157.97724-4-gregory.price@memverge.com>
- <20221219124211.000032b7@Huawei.com>
- <Y6CNcuIzUVmKL0SM@memverge.com>
- <20221219172502.00001338@Huawei.com>
- <Y6CloIiuruB/h7qp@memverge.com>
- <20221220153453.00000436@Huawei.com>
- <Y6IMoxKZOc7eUPCg@memverge.com>
- <20230103155629.00007466@Huawei.com>
- <CAD3UvdQ7nZab7Y+tbc1Ox-zqzse4C16dwv6qtOAgfe4dA6_crQ@mail.gmail.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pClqL-0008Fe-6o
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:17:19 -0500
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pClqI-00056j-8S
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:16:55 -0500
+Received: by mail-yb1-xb33.google.com with SMTP id v126so34041752ybv.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 10:16:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=S6gy49NRXRLFFE5s1na1TaFkAznzQHxJE+Ljk8WSLD4=;
+ b=ofgqJnSPThvRJ0JD31W6iKRL2F+GVKLzLgJ1s7Un4Lz9SQudO1EMa+sBPaigPUmFIc
+ LM3DIgLeQ9MMwLKH4gpTLwvdgMoHLzZ2gQqkHkuBSdTlQBq6Wc8LlxqWITRRIDZ3jgI5
+ s6YN+DlHGlNlWwKyczvSXZ8JQKgcnKbXhYbPgfbGhKBNL1u+DV8C5tWiYE7vq/te/Hem
+ eqQpZ6t8Fg6itFtWGovY22fMOEwcUYrL7Zr/V4Mv3qiH/pXw59gCW3qweGwNpWqVudG9
+ DNNyz6XZQizBVP11Nzfxu3cTNkTbz2apsnMdoU9i5ym6/RoksEWL26jQi2XpQzF9Ka0D
+ 0XNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S6gy49NRXRLFFE5s1na1TaFkAznzQHxJE+Ljk8WSLD4=;
+ b=hcSNzdNBtTVyr/JL/PjiORRCVfFRFHfPqbSAo58KjesEy8RvNmrkF37bqdJTP+nXCI
+ QprWJ5Y9pDWpIA9F3fQnNEJuSVU9meKBW9Qhn+vNhbPdQcqWlPpSAoSQXlGXczoqkUGw
+ w29jMPw68FQLDRuRQOsNOe/nP6nNBju5sfcKqbyFCXyBZX2JwLoTojmeTorZbIpEi9NW
+ 392sb79kMZO1NQiVC/c7nLibOw7UBZFEOaJkUsPXlcfI4kB+KyQpb7d28psJBaQ+DzCh
+ t8SHPJIyOl6By0ZMsUGJqGchQ8S4aWFR+iFbdRjJVYAUWqa9S5Zni/SO8+Sz5nqSJIIw
+ Y2cA==
+X-Gm-Message-State: AFqh2kozasITLCoS7O5cUBdj29rw99EOzo5chDwmwlNXMkIYe7QMOYR4
+ WpAVfLqJQkut4tottDutFNkRJmT0X1RNLyj+nhI=
+X-Google-Smtp-Source: AMrXdXsxVgWIQWHZtV38MARJ5lrc8k+Ipy6FcppYpnmxWjmKMq8Zuuv3zuAkB4dBgGiQO8BwU6oRAw==
+X-Received: by 2002:a25:6d06:0:b0:6f2:63ac:49bd with SMTP id
+ i6-20020a256d06000000b006f263ac49bdmr39943561ybc.38.1672769811811; 
+ Tue, 03 Jan 2023 10:16:51 -0800 (PST)
+Received: from stoup.. ([2607:fb90:8060:51a2:184b:6e49:c396:be2])
+ by smtp.gmail.com with ESMTPSA id
+ v2-20020a05620a440200b006fed2788751sm23042354qkp.76.2023.01.03.10.16.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jan 2023 10:16:51 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
+ armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
+Subject: [RFC PATCH 00/40] Toward class init of cpu features
+Date: Tue,  3 Jan 2023 10:16:06 -0800
+Message-Id: <20230103181646.55711-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=richard.henderson@linaro.org; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,126 +84,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 3 Jan 2023 11:02:31 -0500
-Gregory Price <gourry.memverge@gmail.com> wrote:
+The specific problem I'm trying to solve is the location and
+representation of the coprocessor register hash table for ARM cpus,
+but in the process affects how cpu initialization might be done for
+all targets.
 
-> The fine grained control would be a precursor to an emulated pooling
-> device.  If you can demonstrate it with a singleton attached device, you
-> could just implement an exclusivity table in a shared file, and set the
-> shared memory to a file backend as well.  Boom, shared memory pool across
-> qemu instances.
+At present, each cpu (for all targets) is initialized separately.
+For some, like ARM, we apply QOM properties and then build a hash
+table of all coprocessor regs that are valid for the cpu.  For others,
+like m68k and ppc, we build tables of all valid instructions
+(ppc is slowly moving away from constructed tables to decodetree,
+but the migration is not complete).
 
-For Dynamic capacity based pooling I agree, but a lot of work is needed to make that
-function correctly.  The partitioning support is a much nearer term target and
-there is no real need for them to look similar - on kernel side of things I'm
-not yet convinced it's even a sensible route to make them look similar as DCD
-is far less constrained than partitioning and expected usecases are probably
-entirely different.
+Importantly, this happens N times for smp system emulation, for each
+cpu instance, meaning we do N times the work on startup as necessary.
+For system emulation this isn't so bad, as N is generally small-ish,
+but it certainly could be improved.
 
-Hotplug based pooling (CXL 2.0 approach) is much simpler in OS because in that
-case we always get full blown hotplug events.
+More importantly, this happens for each thread in user-only emulation.
+This is much more significant because threads can be short-lived, and
+there can be many hundreds of them, each one performing what amounts
+to redundant initialization.
 
-Whilst I agree that pooling is interesting to emulate, my preference for initial
-case would be moving between virtual PCIe heirarchies attached to different
-root ports / host bridges on a single host.  That may be simpler to get going / test
-than multiple hosts.
+The "obvious" solution is to make better use of the cpu class object.
+Construct data structures once to be shared with all instances.
 
-Right now I'd just like a static device with mixture of pmem / volatile plus 2+
-HDM decoders and kernel support for that.
+The immediate problem encountered here is that of QOM properties,
+which are used to control how each object is configured.
 
-Jonathan
+The first couple of patches here create a new QOM "class property",
+which is sufficient to allow command-line parameters to find their
+way to the correct bit of code to interpret them.  (Pardon the
+roughness in these patches, RFC and all.)  The restriction I add 
+here is that all class properties must be applied before the first
+object is created, which gives for a definite point at which the
+properties must have be applied and we can construct data structures
+based on those values.
 
-> 
-> On Tue, Jan 3, 2023, 10:56 AM Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> wrote:
-> 
-> > On Tue, 20 Dec 2022 14:27:31 -0500
-> > Gregory Price <gregory.price@memverge.com> wrote:
-> >  
-> > > On Tue, Dec 20, 2022 at 03:34:53PM +0000, Jonathan Cameron wrote:  
-> > > > > However I don't think this is successful in creating the dax devices,
-> > > > > and therefore the reconfiguring into ram.  
-> > > >
-> > > > Sure. I only bothered testing the it in some dax modes rather than via  
-> > kmem.  
-> > > > It 'should' work but more testing needed there.
-> > > >
-> > > > However as you've noted, that only applies to the pmem regions at the  
-> > moment.  
-> > > > I wondered if you'd scripted the HDM decoder setup etc for test  
-> > purposes  
-> > > > (so what the driver will do). Alternative to that would be enabling  
-> > the driver  
-> > > > support. Not sure if anyone is looking at that yet. Final alternative  
-> > would  
-> > > > be to port the existing EDK2 based support to work on QEMU.  All non  
-> > trivial  
-> > > > jobs so may take a while,
-> > > >
-> > > > Jonathan  
-> > >
-> > > Also, I'm relatively new to this corner of the kernel (mm, regions, dax,
-> > > etc), so i need to spend a week or two with uninterrupted tinkering with
-> > > how adding new memory regions from these devices is actually "supposed
-> > > to work" in a dynamic-capacity world.
-> > >
-> > > At least in theory, the partitioning of persistent and volatile memory
-> > > regions on one of these type-3 devices should end up looking a bit like
-> > > dynamic capacity when doing runtime reconfiguring.
-> > >
-> > > For example, considering
-> > >
-> > > Device(512mb PMEM, 512 VMEM), I'd want, at least i think
-> > >
-> > > CMFW-Volatile:    max window size(1024mb) - Numa 2
-> > > CMFW-Persistent:  max window size(512mb)  - Numa 3
-> > >
-> > > Then we'd need the kernel support for
-> > >
-> > > 1) Online 2x256mb volatile regions in Numa 2
-> > > 2) Online 2x256mb persistent regions in Numa 3
-> > > 3) Offline persistent region (256mb:512mb)
-> > > 4) Reconfigure device to 256Pmem/768Volatile
-> > >    a) change decoders in device accordingly
-> > > 5) Online 1x256mb volatile region in Numa 2
-> > >
-> > > The question is whether you can do this without offlining the other
-> > > adjacent regions.  I just don't know enough about the region subsystem
-> > > to say what is "correct" behavior here.  
-> >
-> > Whilst you probably 'can' do fine grained offline / online (to some
-> > degree anyway) I'm not sure if people consider it an important
-> > usecase. If decoder reprogramming is involved things will get very fiddly
-> > so at least in first instance I'd advocate just ripping it all down and
-> > building up again.  Or in the simple case, just block attempts to
-> > reconfigure
-> > at the partitioning if either side is in use.
-> >  
-> > >
-> > > On the device side, I need to go look at the mailbox commands to go
-> > > about implementing the reconfiguration / decoder reprogramming.
-> > >
-> > > I guess the "decoder" reprogramming is essentially changing the
-> > > read/write commands to adjust based on v/pmem_active vs v/pmem_size?  
-> >
-> > Yup.  We also need multiple decoder support in general in QEMU.
-> > It's not that high on my list as my main focus this cycle is going
-> > to be on reducing the out of tree patch set by upstreaming stuff.
-> >  
-> > >
-> > > I suppose I can look at this chunk next.  
-> >
-> > Great.
-> >
-> > Jonathan
-> >
-> >
-> >  
-> 
+However, I wind up banging my head against the wall later, when it
+comes to the first qmp_query_cpu_model_expansion properties.  This
+wants to create an object, apply properties, and see what stuck.
+Adding a query of the class properties is fine, but I can't set any
+of them because of the object creation.  And if I tweak the location
+of the class property set vs the object create, that only allows the
+first such probe to succeed, because the second will still have had
+an object created.
+
+I can imagine a way out of this, e.g. by keeping a ref count of the
+number of instantiated objects, and allowing class properties to change 
+when that count is zero.  But it feels like I really should know what
+QMP is attempting to do here, rather than work around it blindly.
+
+
+r~
+
+
+Richard Henderson (40):
+  qdev: Don't always force the global property array non-null
+  qom: Introduce class_late_init
+  qom: Create class properties
+  target/arm: Remove aarch64_cpu_finalizefn
+  target/arm: Create arm_cpu_register_parent
+  target/arm: Remove AArch64CPUClass
+  target/arm: Create TYPE_ARM_V7M_CPU
+  target/arm: Pass ARMCPUClass to ARMCPUInfo.class_init
+  target/arm: Utilize arm-cpu instance_post_init hook
+  target/arm: Copy dtb_compatible from ARMCPUClass
+  target/arm: Copy features from ARMCPUClass
+  target/arm: Copy isar and friends from ARMCPUClass
+  hw/arm/bcm2836: Set mp-affinity property in realize
+  target/arm: Rename arm_cpu_mp_affinity
+  target/arm: Create arm_cpu_mp_affinity
+  target/arm: Represent the entire MPIDR_EL1
+  target/arm: Copy cp_regs from ARMCPUClass
+  target/arm: Create cpreg definition functions with GHashTable arg
+  target/arm: Move most cpu initialization to the class
+  target/arm: Merge kvm64.c with kvm.c
+  target/arm: Remove aarch64 check from aarch64_host_object_init
+  target/arm: Hoist feature and dtb_compatible from KVM, HVF
+  target/arm: Probe KVM host into ARMCPUClass
+  target/arm/hvf: Probe host into ARMCPUClass
+  target/arm/hvf: Use offsetof in hvf_arm_get_host_cpu_features
+  target/arm: Rename 'cpu' to 'acc' in class init functions
+  target/arm: Split out strongarm_class_init
+  target/arm: Split out xscale*_class_init
+  target/arm: Remove m-profile has_vfp and has_dsp properties
+  target/arm: Move feature bit propagation to class init
+  target/arm: Get and set class properties in the monitor
+  target/arm: Move "midr" to class property
+  target/arm: Move "cntfrq" to class property
+  target/arm: Move "reset-hivecs" to class property
+  target/arm: Move "has_el2" to class property
+  target/arm: Move "has_el3" to class property
+  target/arm: Move "cfgend" to class property
+  target/arm: Move "vfp" and "neon" to class properties
+  target/arm: Move "has-mpu" and "pmsav7-dregion" to class properties
+  target/arm: Move "pmu" to class property
+
+ hw/core/qdev-prop-internal.h |    2 +
+ include/hw/arm/armsse.h      |    3 +-
+ include/hw/arm/armv7m.h      |    2 -
+ include/qom/object.h         |   67 ++
+ include/qom/qom-qobject.h    |   28 +
+ target/arm/cpregs.h          |   33 +-
+ target/arm/cpu-qom.h         |  171 ++-
+ target/arm/cpu.h             |   89 +-
+ target/arm/hvf_arm.h         |    2 +-
+ target/arm/internals.h       |    6 +-
+ target/arm/kvm_arm.h         |  217 +---
+ hw/arm/allwinner-h3.c        |   14 +-
+ hw/arm/armsse.c              |   53 +-
+ hw/arm/armv7m.c              |   12 -
+ hw/arm/aspeed_ast2600.c      |    9 +-
+ hw/arm/bcm2836.c             |    7 +-
+ hw/arm/digic.c               |   11 +-
+ hw/arm/exynos4210.c          |   18 +-
+ hw/arm/integratorcp.c        |   12 +-
+ hw/arm/musca.c               |   14 +-
+ hw/arm/npcm7xx.c             |   16 +-
+ hw/arm/realview.c            |   20 +-
+ hw/arm/sbsa-ref.c            |    2 +-
+ hw/arm/versatilepb.c         |   12 +-
+ hw/arm/vexpress.c            |   19 +-
+ hw/arm/virt-acpi-build.c     |    2 +-
+ hw/arm/virt.c                |   47 +-
+ hw/arm/xilinx_zynq.c         |   15 +-
+ hw/arm/xlnx-versal-virt.c    |    3 +-
+ hw/arm/xlnx-zynqmp.c         |   17 +-
+ hw/core/cpu-common.c         |   61 +-
+ hw/core/qdev-properties.c    |   79 +-
+ hw/core/qdev.c               |    2 +
+ hw/cpu/a15mpcore.c           |   14 +-
+ hw/cpu/a9mpcore.c            |    6 +-
+ hw/intc/armv7m_nvic.c        |    2 +-
+ hw/misc/xlnx-versal-crl.c    |    4 +-
+ qom/object.c                 |  249 ++++-
+ qom/object_interfaces.c      |   13 +
+ qom/qom-qmp-cmds.c           |   37 +
+ target/arm/arm-powerctl.c    |    2 +-
+ target/arm/cpu.c             | 1195 +++++++++++---------
+ target/arm/cpu64.c           | 1014 +++++++++--------
+ target/arm/cpu_tcg.c         | 1486 +++++++++++++------------
+ target/arm/helper.c          |   96 +-
+ target/arm/hvf/hvf.c         |   94 +-
+ target/arm/kvm.c             | 2006 +++++++++++++++++++++++++++++++---
+ target/arm/kvm64.c           | 1632 ---------------------------
+ target/arm/monitor.c         |   21 +-
+ target/arm/psci.c            |    2 +-
+ target/arm/meson.build       |    2 +-
+ 51 files changed, 4765 insertions(+), 4175 deletions(-)
+ delete mode 100644 target/arm/kvm64.c
+
+-- 
+2.34.1
 
 
