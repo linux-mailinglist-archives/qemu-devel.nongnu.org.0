@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9D965C0FA
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 14:39:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C22D65C116
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 14:47:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pChVb-0000rp-LG; Tue, 03 Jan 2023 08:39:15 -0500
+	id 1pChcY-0003j1-1R; Tue, 03 Jan 2023 08:46:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pChVL-0000oV-ON
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 08:39:07 -0500
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pChcV-0003iD-E3
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 08:46:23 -0500
+Received: from mail-vk1-xa36.google.com ([2607:f8b0:4864:20::a36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pChVI-00070V-LC
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 08:38:59 -0500
-Received: by mail-vs1-xe32.google.com with SMTP id m129so25919537vsc.11
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 05:38:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pChcS-0008GT-Jx
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 08:46:23 -0500
+Received: by mail-vk1-xa36.google.com with SMTP id z190so11075006vka.4
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 05:46:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/LsA1hPZM5dA9H27C/BbcFIU066UnS0soamgpDeqDB8=;
- b=ZaZolHmVwQMCjQ/Vy+OT863+IagRBZtKYtxqP3l9IxNNTOJsCBPgAs1G92xOvTOSUZ
- y8iZSDODB5uwW1ulxWbMpK4ol3HPNUWJu8JS5Q6gt+AEKz9RB74lqsTvlTK+SA59hIeB
- oMpRhIHM83rJdrzSVIzUYnmcg+9X/X1KTm2k7qKSpuqQro1aQ7KaqnFwXvPKX8p1XCrn
- nxWmuWxbx1zhsNMZMCgSnyvc1gx8kMpaTKB8NiGcGA6OyymHpd6Tv/l1kr8kjWL/Ptpg
- fFd7fsYZdSwP3yGVIzNbt/aAYEMBqr3dy/eYewuHRZX0yFVVwJtWPpjPxu20HW1P8lXT
- GYwQ==
+ bh=9inCaSxilZkSj+JdkoJw6psT8jgIImgwj0nohq0lo4c=;
+ b=kPwXLVyv2ZwEGhkBM+y7n5NlITGX0wd3hIemqcVPNFxe8WOPaElB5LsHlFoOYcVujd
+ ZVmiDf6MqCaFwJyalFbomYELBwkH4QTqt0ZBH185P+qb6PknMNLimzEAKLeudnEGkGur
+ XwsqidenZ41UJ9KQNbqR63n3CDkOckv+KaJ2Oz4jPcYGwya7myanfdsCEF8Aw24LGeJ3
+ EoyGERboO+gKlDVD14I0c7UxlEIYhGKakY8YRVtVyZVblGjROg4qQlJrcK40D+UA+lAP
+ cFTWEUsujkg284buZPqXosYu6oq6wdRnMlZTM1K6nHmeUnsoc1/9J7HwOsg35MS/ZvPY
+ TJ6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=/LsA1hPZM5dA9H27C/BbcFIU066UnS0soamgpDeqDB8=;
- b=J+OSaAQQcpzM7ivN9DF+27vVuY+lCKmLM3CMEFOydb07fbOQNkCsdE9MEjoPfr4vfB
- JJIDQ1yqzLssaqTAC1Le77Mn1Oa7hBCavzjMexl43dMYbUVvyIGnz+bVB2dBfv/ecIwy
- CN3mwKAj/GJnu1vnrdP1rc+VkpX+U18DVda43hxlG1PIyQKON0XLmqyrux8gxCYlMeTv
- Djedd0PvOO8YOEOKDeZyxpRiW+4v7uF8xg1btt9pEFyOdmHm3y7oRWaH8WL5rYQU/hvU
- eTmT3ggppqFq4QZmcOvHUK4rZF4Cz17rlzSqLZ8k+7IToPAWennRzJUpFErdH3umjBo3
- yBcA==
-X-Gm-Message-State: AFqh2kqGbSaRLByOxLii3h6J0WWxpGav6/UoMOaE/S2sF8ApWp47aMwi
- rxIfw4zPFFpuYrzZafelsAEnsjR4CmSqeuM0Nxw=
-X-Google-Smtp-Source: AMrXdXsKnsuze9zgtzTt/vE0gzVOeHDaiKZOvCtvg2WBe8lWBDodUYclv5LABCoqB6l+X/uAVhfC0lKwpOH5KleJtnI=
-X-Received: by 2002:a67:f9d8:0:b0:3ce:82f7:5f41 with SMTP id
- c24-20020a67f9d8000000b003ce82f75f41mr1139409vsq.2.1672753134937; Tue, 03 Jan
- 2023 05:38:54 -0800 (PST)
+ bh=9inCaSxilZkSj+JdkoJw6psT8jgIImgwj0nohq0lo4c=;
+ b=bGn2DhC/+USAQKnONuWVYo8ohpST02UsxAwK7AiIwZNZE9L8cezkbQX86EPLy7hXAi
+ bCgnSmltIlSdpv7Wh/zmMv1kf0E7jh4k4QWgk/9nfnposm4d+NNaj0vGuaLBcLjVf3nm
+ U+X+YP5vUURKUPd6KGW1MjDicNYAgY+xi9HGP1TW33jKWMuSHuS1CTaHnUkO4x853aZW
+ XSvquZJQ2in7KVUc4UZK0X6o1d3qYdaQZSKZp3PM7rhvRsuelOr5kcsk7DKzGp2MoKr+
+ qnmsiJlrIJxBMaO3VgOEbkSDi9HCQ1U91/qJQBp91+2O0u+d1iQUzNhLt/BhzHl0Hyy8
+ thPQ==
+X-Gm-Message-State: AFqh2kp4YovYQe30Fwu9jafZ3sPwqy47+9rGylq1g5CLbQxIipjIEl1X
+ k5zhxg+yfQznn0XilOdkqEjH73JbRvW2OA6e/Pk=
+X-Google-Smtp-Source: AMrXdXs+fSNwR7JpYce7UTWmF4IF+ceupPTYnF0nmX++r/t8aH9vwlIVmDAyGVSI8L4YicX9cq1DIvFvcXVxq89DMmM=
+X-Received: by 2002:a1f:c703:0:b0:3d5:5abd:2a61 with SMTP id
+ x3-20020a1fc703000000b003d55abd2a61mr2996474vkf.27.1672753579266; Tue, 03 Jan
+ 2023 05:46:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20230102213504.14646-1-shentey@gmail.com>
- <bd4daee7-09df-4bfa-3b96-713690be9f4e@aol.com>
- <0de699a7-98b8-e320-da4d-678d0f594213@linaro.org>
-In-Reply-To: <0de699a7-98b8-e320-da4d-678d0f594213@linaro.org>
+References: <20230103084801.20437-1-thuth@redhat.com>
+ <20230103084801.20437-5-thuth@redhat.com>
+ <CAG4p6K7qqWZO9esJeuhAUh=EBDu_B=Y5PgS8_6okzyMiTV1oDQ@mail.gmail.com>
+In-Reply-To: <CAG4p6K7qqWZO9esJeuhAUh=EBDu_B=Y5PgS8_6okzyMiTV1oDQ@mail.gmail.com>
 From: Bernhard Beschow <shentey@gmail.com>
-Date: Tue, 3 Jan 2023 14:38:40 +0100
-Message-ID: <CAG4p6K7hcJ-47GvsEvmuBmdwP2LsEC4WLkw_t6ZfwhqakYUEyQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Chuck Zmudzinski <brchuckz@aol.com>, qemu-devel@nongnu.org,
- Paul Durrant <paul@xen.org>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, 
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, 
- xen-devel@lists.xenproject.org,
+Date: Tue, 3 Jan 2023 14:46:04 +0100
+Message-ID: <CAG4p6K7f==1iOvBcvjz3pjCLP_+MtUxEqCSkTu9Dp0chR1AnUw@mail.gmail.com>
+Subject: Re: [PATCH 4/6] hw/rtc/mc146818rtc: Add a property for the
+ availability of the slew tick policy
+To: Thomas Huth <thuth@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Michael S Tsirkin <mst@redhat.com>,
+ qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, 
  =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000067a9ab05f15c3005"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
- envelope-from=shentey@gmail.com; helo=mail-vs1-xe32.google.com
+ Aurelien Jarno <aurelien@aurel32.net>
+Content-Type: multipart/alternative; boundary="000000000000e398b305f15c4aab"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a36;
+ envelope-from=shentey@gmail.com; helo=mail-vk1-xa36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,211 +91,364 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000067a9ab05f15c3005
+--000000000000e398b305f15c4aab
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 3, 2023 at 2:17 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
-rg>
-wrote:
+On Tue, Jan 3, 2023 at 2:32 PM Bernhard Beschow <shentey@gmail.com> wrote:
 
-> Hi Chuck,
 >
-> On 3/1/23 04:15, Chuck Zmudzinski wrote:
-> > On 1/2/23 4:34=E2=80=AFPM, Bernhard Beschow wrote:
-> >> This series first renders TYPE_PIIX3_XEN_DEVICE redundant and finally
-> removes
-> >> it. The motivation is to 1/ decouple PIIX from Xen and 2/ to make Xen
-> in the PC
-> >> machine agnostic to the precise southbridge being used. 2/ will become
-> >> particularily interesting once PIIX4 becomes usable in the PC machine,
-> avoiding
-> >> the "Frankenstein" use of PIIX4_ACPI in PIIX3.
-> >>
-> >> Testing done:
-> >> None, because I don't know how to conduct this properly :(
-> >>
-> >> Based-on: <20221221170003.2929-1-shentey@gmail.com>
-> >>            "[PATCH v4 00/30] Consolidate PIIX south bridges"
 >
-> This series is based on a previous series:
-> https://lore.kernel.org/qemu-devel/20221221170003.2929-1-shentey@gmail.co=
-m/
-> (which itself also is).
+> On Tue, Jan 3, 2023 at 9:48 AM Thomas Huth <thuth@redhat.com> wrote:
 >
-> >> Bernhard Beschow (6):
-> >>    include/hw/xen/xen: Make xen_piix3_set_irq() generic and rename it
-> >>    hw/isa/piix: Reuse piix3_realize() in piix3_xen_realize()
-> >>    hw/isa/piix: Wire up Xen PCI IRQ handling outside of PIIX3
-> >>    hw/isa/piix: Avoid Xen-specific variant of piix_write_config()
-> >>    hw/isa/piix: Resolve redundant k->config_write assignments
-> >>    hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVICE
-> >>
-> >>   hw/i386/pc_piix.c             | 34 ++++++++++++++++--
-> >>   hw/i386/xen/xen-hvm.c         |  9 +++--
-> >>   hw/isa/piix.c                 | 66 +--------------------------------=
---
-> >
-> > This file does not exist on the Qemu master branch.
-> > But hw/isa/piix3.c and hw/isa/piix4.c do exist.
-> >
-> > I tried renaming it from piix.c to piix3.c in the patch, but
-> > the patch set still does not apply cleanly on my tree.
-> >
-> > Is this patch set re-based against something other than
-> > the current master Qemu branch?
-> >
-> > I have a system that is suitable for testing this patch set, but
-> > I need guidance on how to apply it to the Qemu source tree.
+>> We want to get rid of the "#ifdef TARGET_I386" statements in the mc146818
+>> code, so we need a different way to decide whether the slew tick policy
+>> is available or not. Introduce a new property "slew-tick-policy-available"
+>> which can be set by the machines that support this tick policy.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  include/hw/rtc/mc146818rtc.h |  1 +
+>>  hw/i386/pc_piix.c            |  1 +
+>>  hw/isa/lpc_ich9.c            |  1 +
+>>  hw/isa/piix3.c               |  1 +
+>>  hw/rtc/mc146818rtc.c         | 16 ++++++++++------
+>>  5 files changed, 14 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+>> index 1db0fcee92..54af63d091 100644
+>> --- a/include/hw/rtc/mc146818rtc.h
+>> +++ b/include/hw/rtc/mc146818rtc.h
+>> @@ -45,6 +45,7 @@ struct RTCState {
+>>      QEMUTimer *coalesced_timer;
+>>      Notifier clock_reset_notifier;
+>>      LostTickPolicy lost_tick_policy;
+>> +    bool slew_tick_policy_available;
+>>      Notifier suspend_notifier;
+>>      QLIST_ENTRY(RTCState) link;
+>>  };
+>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+>> index bc9ea8cdae..382c6add3b 100644
+>> --- a/hw/i386/pc_piix.c
+>> +++ b/hw/i386/pc_piix.c
+>> @@ -233,6 +233,7 @@ static void pc_init1(MachineState *machine,
+>>
+>>          rtc_state = isa_new(TYPE_MC146818_RTC);
+>>          qdev_prop_set_int32(DEVICE(rtc_state), "base_year", 2000);
+>> +        qdev_prop_set_bit(DEVICE(rtc_state),
+>> "slew-tick-policy-available", true);
+>>          isa_realize_and_unref(rtc_state, isa_bus, &error_fatal);
+>>
+>>          i8257_dma_init(isa_bus, 0);
+>> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+>> index 498175c1cc..aeab4d8549 100644
+>> --- a/hw/isa/lpc_ich9.c
+>> +++ b/hw/isa/lpc_ich9.c
+>> @@ -733,6 +733,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error
+>> **errp)
+>>
+>>      /* RTC */
+>>      qdev_prop_set_int32(DEVICE(&lpc->rtc), "base_year", 2000);
+>> +    qdev_prop_set_bit(DEVICE(&lpc->rtc), "slew-tick-policy-available",
+>> true);
+>>
 >
-> You can ask Bernhard to publish a branch with the full work,
+> In order to not bake in machine-specific assumptions in the device model
+> I'd move this assignment to pc_q35.c (see below).
+>
+>      if (!qdev_realize(DEVICE(&lpc->rtc), BUS(isa_bus), errp)) {
+>>          return;
+>>      }
+>> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+>> index c68e51ddad..825b1cbee2 100644
+>> --- a/hw/isa/piix3.c
+>> +++ b/hw/isa/piix3.c
+>> @@ -316,6 +316,7 @@ static void pci_piix3_realize(PCIDevice *dev, Error
+>> **errp)
+>>
+>>      /* RTC */
+>>      qdev_prop_set_int32(DEVICE(&d->rtc), "base_year", 2000);
+>> +    qdev_prop_set_bit(DEVICE(&d->rtc), "slew-tick-policy-available",
+>> true);
+>>
+>      if (!qdev_realize(DEVICE(&d->rtc), BUS(isa_bus), errp)) {
+>>          return;
+>>      }
+>>
+>
+> This section will be reused for PIIX4 in my PIIX consolidation series.
+> PIIX4 is used in Malta where we want the property to be false. What you
+> could do instead is to set the property between creation and realization of
+> TYPE_PIIX3_DEVICE in pc_piix.c. There is also a patch in my PIIX
+> consolidation series you could take advantage of:
+>   https://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg03792.html
 >
 
-Hi Chuck,
-
-... or just visit
-https://patchew.org/QEMU/20230102213504.14646-1-shentey@gmail.com/ . There
-you'll find a git tag with a complete history and all instructions!
-
-Thanks for giving my series a test ride!
+Perhaps it'd make sense to upstream part of my PIIX consolidation series up
+to and including
+https://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg03804.html to
+avoid merge conflicts? This part should not be blocked by MIPS and could
+release Phil from some pressure. Since that series also depends on
+https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03310.html it
+could be upstreamed already as well.
 
 Best regards,
 Bernhard
 
-or apply each series locally. I use the b4 tool for that:
-> https://b4.docs.kernel.org/en/latest/installing.html
+Having applied the patch, you can then move the assignment to rtc_state
+> between pci_new_multifunction() and pci_realize_and_unref() and set the
+> property like so:
 >
-> i.e.:
+> https://github.com/shentok/qemu/commit/2277b0abab6bc514824cd7dd76a1476485d67f50
+> .
+> There, you could even just set the property to true if kvm_enabled() but
+> we may need a deprecation period for this. Does it make sense to add a
+> deprecation message now?
 >
-> $ git checkout -b shentey_work
-> $ b4 am 20221120150550.63059-1-shentey@gmail.com
-> $ git am
-> ./v2_20221120_shentey_decouple_intx_to_lnkx_routing_from_south_bridges.mb=
-x
-> $ b4 am 20221221170003.2929-1-shentey@gmail.com
-> $ git am
+> Moreover, setting the property in pc_piix would also just work with other
+> south bridges such as VT82Cxx which I've also got working with the PC
+> machine!
+> https://github.com/shentok/qemu/tree/pc-via
 >
-> ./v4_20221221_shentey_this_series_consolidates_the_implementations_of_the=
-_piix3_and_piix4_south.mbx
-> $ b4 am 20230102213504.14646-1-shentey@gmail.com
-> $ git am ./20230102_shentey_resolve_type_piix3_xen_device.mbx
+> Best regards,
+> Bernhard
 >
-> Now the branch 'shentey_work' contains all the patches and you can test.
->
-> Regards,
->
-> Phil.
->
+> > diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+>>
+>> index 947d68c257..86381a74c3 100644
+>> --- a/hw/rtc/mc146818rtc.c
+>> +++ b/hw/rtc/mc146818rtc.c
+>> @@ -922,14 +922,16 @@ static void rtc_realizefn(DeviceState *dev, Error
+>> **errp)
+>>      rtc_set_date_from_host(isadev);
+>>
+>>      switch (s->lost_tick_policy) {
+>> -#ifdef TARGET_I386
+>> -    case LOST_TICK_POLICY_SLEW:
+>> -        s->coalesced_timer =
+>> -            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
+>> -        break;
+>> -#endif
+>>      case LOST_TICK_POLICY_DISCARD:
+>>          break;
+>> +    case LOST_TICK_POLICY_SLEW:
+>> +#ifdef TARGET_I386
+>> +        if (s->slew_tick_policy_available) {
+>> +            s->coalesced_timer = timer_new_ns(rtc_clock,
+>> rtc_coalesced_timer, s);
+>> +            break;
+>> +        }
+>> +#endif
+>> +        /* fallthrough */
+>>      default:
+>>          error_setg(errp, "Invalid lost tick policy.");
+>>          return;
+>> @@ -989,6 +991,8 @@ static Property mc146818rtc_properties[] = {
+>>      DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
+>>      DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
+>>                                 lost_tick_policy,
+>> LOST_TICK_POLICY_DISCARD),
+>> +    DEFINE_PROP_BOOL("slew-tick-policy-available", RTCState,
+>> +                     slew_tick_policy_available, false),
+>>      DEFINE_PROP_END_OF_LIST(),
+>>  };
+>>
+>> --
+>> 2.31.1
+>>
+>>
 
---00000000000067a9ab05f15c3005
+--000000000000e398b305f15c4aab
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 3, 2023 at 2:17 PM Philip=
-pe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@linar=
-o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Hi Chuck,<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 3, 2023 at 2:32 PM Bernha=
+rd Beschow &lt;<a href=3D"mailto:shentey@gmail.com">shentey@gmail.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
+ir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 3, 2023 at 9:48 AM Thomas Huth =
+&lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_blank">thuth@redhat.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">W=
+e want to get rid of the &quot;#ifdef TARGET_I386&quot; statements in the m=
+c146818<br>
+code, so we need a different way to decide whether the slew tick policy<br>
+is available or not. Introduce a new property &quot;slew-tick-policy-availa=
+ble&quot;<br>
+which can be set by the machines that support this tick policy.<br>
 <br>
-On 3/1/23 04:15, Chuck Zmudzinski wrote:<br>
-&gt; On 1/2/23 4:34=E2=80=AFPM, Bernhard Beschow wrote:<br>
-&gt;&gt; This series first renders TYPE_PIIX3_XEN_DEVICE redundant and fina=
-lly removes<br>
-&gt;&gt; it. The motivation is to 1/ decouple PIIX from Xen and 2/ to make =
-Xen in the PC<br>
-&gt;&gt; machine agnostic to the precise southbridge being used. 2/ will be=
-come<br>
-&gt;&gt; particularily interesting once PIIX4 becomes usable in the PC mach=
-ine, avoiding<br>
-&gt;&gt; the &quot;Frankenstein&quot; use of PIIX4_ACPI in PIIX3.<br>
-&gt;&gt;<br>
-&gt;&gt; Testing done:<br>
-&gt;&gt; None, because I don&#39;t know how to conduct this properly :(<br>
-&gt;&gt;<br>
-&gt;&gt; Based-on: &lt;<a href=3D"mailto:20221221170003.2929-1-shentey@gmai=
-l.com" target=3D"_blank">20221221170003.2929-1-shentey@gmail.com</a>&gt;<br=
+Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
+=3D"_blank">thuth@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0include/hw/rtc/mc146818rtc.h |=C2=A0 1 +<br>
+=C2=A0hw/i386/pc_piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 =
++<br>
+=C2=A0hw/isa/lpc_ich9.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 =
++<br>
+=C2=A0hw/isa/piix3.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 1 +<br>
+=C2=A0hw/rtc/mc146818rtc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 16 ++++++++++=
+------<br>
+=C2=A05 files changed, 14 insertions(+), 6 deletions(-)<br>
+<br>
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h<br=
 >
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;[PATCH v4 00/30] Co=
-nsolidate PIIX south bridges&quot;<br>
+index 1db0fcee92..54af63d091 100644<br>
+--- a/include/hw/rtc/mc146818rtc.h<br>
++++ b/include/hw/rtc/mc146818rtc.h<br>
+@@ -45,6 +45,7 @@ struct RTCState {<br>
+=C2=A0 =C2=A0 =C2=A0QEMUTimer *coalesced_timer;<br>
+=C2=A0 =C2=A0 =C2=A0Notifier clock_reset_notifier;<br>
+=C2=A0 =C2=A0 =C2=A0LostTickPolicy lost_tick_policy;<br>
++=C2=A0 =C2=A0 bool slew_tick_policy_available;<br>
+=C2=A0 =C2=A0 =C2=A0Notifier suspend_notifier;<br>
+=C2=A0 =C2=A0 =C2=A0QLIST_ENTRY(RTCState) link;<br>
+=C2=A0};<br>
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c<br>
+index bc9ea8cdae..382c6add3b 100644<br>
+--- a/hw/i386/pc_piix.c<br>
++++ b/hw/i386/pc_piix.c<br>
+@@ -233,6 +233,7 @@ static void pc_init1(MachineState *machine,<br>
 <br>
-This series is based on a previous series:<br>
-<a href=3D"https://lore.kernel.org/qemu-devel/20221221170003.2929-1-shentey=
-@gmail.com/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.org/q=
-emu-devel/20221221170003.2929-1-shentey@gmail.com/</a><br>
-(which itself also is).<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rtc_state =3D isa_new(TYPE_MC146818_RTC);=
 <br>
-&gt;&gt; Bernhard Beschow (6):<br>
-&gt;&gt;=C2=A0 =C2=A0 include/hw/xen/xen: Make xen_piix3_set_irq() generic =
-and rename it<br>
-&gt;&gt;=C2=A0 =C2=A0 hw/isa/piix: Reuse piix3_realize() in piix3_xen_reali=
-ze()<br>
-&gt;&gt;=C2=A0 =C2=A0 hw/isa/piix: Wire up Xen PCI IRQ handling outside of =
-PIIX3<br>
-&gt;&gt;=C2=A0 =C2=A0 hw/isa/piix: Avoid Xen-specific variant of piix_write=
-_config()<br>
-&gt;&gt;=C2=A0 =C2=A0 hw/isa/piix: Resolve redundant k-&gt;config_write ass=
-ignments<br>
-&gt;&gt;=C2=A0 =C2=A0 hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVICE<=
-br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0hw/i386/pc_piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 34 ++++++++++++++++--<br>
-&gt;&gt;=C2=A0 =C2=A0hw/i386/xen/xen-hvm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 9 +++--<br>
-&gt;&gt;=C2=A0 =C2=A0hw/isa/piix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0| 66 +----------------------------------<br>
-&gt; <br>
-&gt; This file does not exist on the Qemu master branch.<br>
-&gt; But hw/isa/piix3.c and hw/isa/piix4.c do exist.<br>
-&gt; <br>
-&gt; I tried renaming it from piix.c to piix3.c in the patch, but<br>
-&gt; the patch set still does not apply cleanly on my tree.<br>
-&gt; <br>
-&gt; Is this patch set re-based against something other than<br>
-&gt; the current master Qemu branch?<br>
-&gt; <br>
-&gt; I have a system that is suitable for testing this patch set, but<br>
-&gt; I need guidance on how to apply it to the Qemu source tree.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_prop_set_int32(DEVICE(rtc_state), &q=
+uot;base_year&quot;, 2000);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_prop_set_bit(DEVICE(rtc_state), &quot;sle=
+w-tick-policy-available&quot;, true);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0isa_realize_and_unref(rtc_state, isa_bus,=
+ &amp;error_fatal);<br>
 <br>
-You can ask Bernhard to publish a branch with the full work,<br></blockquot=
-e><div><br></div><div>Hi Chuck,</div><div><br></div><div>... or just visit =
-<a href=3D"https://patchew.org/QEMU/20230102213504.14646-1-shentey@gmail.co=
-m/">https://patchew.org/QEMU/20230102213504.14646-1-shentey@gmail.com/</a> =
-. There you&#39;ll find a git tag with a complete history and all instructi=
-ons!</div><div><br></div><div>Thanks for giving my series a test ride!</div=
-><div><br></div><div>Best regards,</div><div>Bernhard</div><div><br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-or apply each series locally. I use the b4 tool for that:<br>
-<a href=3D"https://b4.docs.kernel.org/en/latest/installing.html" rel=3D"nor=
-eferrer" target=3D"_blank">https://b4.docs.kernel.org/en/latest/installing.=
-html</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i8257_dma_init(isa_bus, 0);<br>
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c<br>
+index 498175c1cc..aeab4d8549 100644<br>
+--- a/hw/isa/lpc_ich9.c<br>
++++ b/hw/isa/lpc_ich9.c<br>
+@@ -733,6 +733,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp=
+)<br>
 <br>
-i.e.:<br>
+=C2=A0 =C2=A0 =C2=A0/* RTC */<br>
+=C2=A0 =C2=A0 =C2=A0qdev_prop_set_int32(DEVICE(&amp;lpc-&gt;rtc), &quot;bas=
+e_year&quot;, 2000);<br>
++=C2=A0 =C2=A0 qdev_prop_set_bit(DEVICE(&amp;lpc-&gt;rtc), &quot;slew-tick-=
+policy-available&quot;, true);<br></blockquote><div><br></div><div>In order=
+ to not bake in machine-specific assumptions in the device model I&#39;d mo=
+ve this assignment to pc_q35.c (see below).</div><div><br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0if (!qdev_realize(DEVICE(&amp;lpc-&gt;rtc), BUS(isa_bus=
+), errp)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c<br>
+index c68e51ddad..825b1cbee2 100644<br>
+--- a/hw/isa/piix3.c<br>
++++ b/hw/isa/piix3.c<br>
+@@ -316,6 +316,7 @@ static void pci_piix3_realize(PCIDevice *dev, Error **e=
+rrp)<br>
 <br>
-$ git checkout -b shentey_work<br>
-$ b4 am <a href=3D"mailto:20221120150550.63059-1-shentey@gmail.com" target=
-=3D"_blank">20221120150550.63059-1-shentey@gmail.com</a><br>
-$ git am <br>
-./v2_20221120_shentey_decouple_intx_to_lnkx_routing_from_south_bridges.mbx<=
-br>
-$ b4 am <a href=3D"mailto:20221221170003.2929-1-shentey@gmail.com" target=
-=3D"_blank">20221221170003.2929-1-shentey@gmail.com</a><br>
-$ git am <br>
-./v4_20221221_shentey_this_series_consolidates_the_implementations_of_the_p=
-iix3_and_piix4_south.mbx<br>
-$ b4 am <a href=3D"mailto:20230102213504.14646-1-shentey@gmail.com" target=
-=3D"_blank">20230102213504.14646-1-shentey@gmail.com</a><br>
-$ git am ./20230102_shentey_resolve_type_piix3_xen_device.mbx<br>
+=C2=A0 =C2=A0 =C2=A0/* RTC */<br>
+=C2=A0 =C2=A0 =C2=A0qdev_prop_set_int32(DEVICE(&amp;d-&gt;rtc), &quot;base_=
+year&quot;, 2000);<br>
++=C2=A0 =C2=A0 qdev_prop_set_bit(DEVICE(&amp;d-&gt;rtc), &quot;slew-tick-po=
+licy-available&quot;, true); <br></blockquote><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0if (!qdev_realize(DEVICE(&amp;d-&gt;rtc), BUS(isa_bus),=
+ errp)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br></blockquote><div><br></div><div>This section will=
+ be reused for PIIX4 in my PIIX consolidation series. PIIX4 is used in Malt=
+a where  we want the property to be false. What you could do instead is to =
+set the property between creation and realization of TYPE_PIIX3_DEVICE in p=
+c_piix.c. There is also a patch in my PIIX consolidation series you could t=
+ake advantage of:<br></div><div>=C2=A0 <a href=3D"https://lists.nongnu.org/=
+archive/html/qemu-devel/2022-12/msg03792.html" target=3D"_blank">https://li=
+sts.nongnu.org/archive/html/qemu-devel/2022-12/msg03792.html</a></div></div=
+></div></blockquote><div><br></div><div>Perhaps it&#39;d make sense to upst=
+ream part of my PIIX consolidation series up to and  including <a href=3D"h=
+ttps://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg03804.html">http=
+s://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg03804.html</a> to a=
+void merge conflicts? This part should not be blocked by MIPS and could rel=
+ease Phil from some pressure. Since that series also depends on <a href=3D"=
+https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03310.html">htt=
+ps://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg03310.html</a> it =
+could be upstreamed already as well.</div><div><br></div><div>Best regards,=
+</div><div>Bernhard<br></div><div><br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div>Having =
+applied the patch, you can then move the assignment to rtc_state between<sp=
+an style=3D"white-space:pre-wrap"> pci_new_multifunction() and pci_realize_=
+and_unref() and set the property like so:</span></div><div><span style=3D"w=
+hite-space:pre-wrap">  <a href=3D"https://github.com/shentok/qemu/commit/22=
+77b0abab6bc514824cd7dd76a1476485d67f50" target=3D"_blank">https://github.co=
+m/shentok/qemu/commit/2277b0abab6bc514824cd7dd76a1476485d67f50</a> .</span>=
+</div><div><span style=3D"white-space:pre-wrap">There, you could even just =
+set the property to true if kvm_enabled() but we may need a deprecation per=
+iod for this. Does it make sense to add a deprecation message now?</span></=
+div><div><span style=3D"white-space:pre-wrap"><br></span></div><div><span s=
+tyle=3D"white-space:pre-wrap">Moreover, setting the property in pc_piix wou=
+ld also just work with other south bridges such as VT82Cxx which I&#39;ve a=
+lso got working with the PC machine!</span></div><div><span style=3D"white-=
+space:pre-wrap">  <a href=3D"https://github.com/shentok/qemu/tree/pc-via" t=
+arget=3D"_blank">https://github.com/shentok/qemu/tree/pc-via</a></span></di=
+v><div><span style=3D"white-space:pre-wrap"><br></span></div><div><span sty=
+le=3D"white-space:pre-wrap">Best regards,</span></div><div><span style=3D"w=
+hite-space:pre-wrap">Bernhard<br></span></div><div><span style=3D"white-spa=
+ce:pre-wrap"><br></span></div>&gt; diff --git a/hw/rtc/mc146818rtc.c b/hw/r=
+tc/mc146818rtc.c<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+index 947d68c257..86381a74c3 100644<br>
+--- a/hw/rtc/mc146818rtc.c<br>
++++ b/hw/rtc/mc146818rtc.c<br>
+@@ -922,14 +922,16 @@ static void rtc_realizefn(DeviceState *dev, Error **e=
+rrp)<br>
+=C2=A0 =C2=A0 =C2=A0rtc_set_date_from_host(isadev);<br>
 <br>
-Now the branch &#39;shentey_work&#39; contains all the patches and you can =
-test.<br>
+=C2=A0 =C2=A0 =C2=A0switch (s-&gt;lost_tick_policy) {<br>
+-#ifdef TARGET_I386<br>
+-=C2=A0 =C2=A0 case LOST_TICK_POLICY_SLEW:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;coalesced_timer =3D<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 timer_new_ns(rtc_clock, rtc_coal=
+esced_timer, s);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-#endif<br>
+=C2=A0 =C2=A0 =C2=A0case LOST_TICK_POLICY_DISCARD:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 case LOST_TICK_POLICY_SLEW:<br>
++#ifdef TARGET_I386<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;slew_tick_policy_available) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;coalesced_timer =3D timer_=
+new_ns(rtc_clock, rtc_coalesced_timer, s);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++#endif<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fallthrough */<br>
+=C2=A0 =C2=A0 =C2=A0default:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;Invalid lost tick =
+policy.&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+@@ -989,6 +991,8 @@ static Property mc146818rtc_properties[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT8(&quot;irq&quot;, RTCState, isairq, RT=
+C_ISA_IRQ),<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_LOSTTICKPOLICY(&quot;lost_tick_policy&quot;=
+, RTCState,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lost_tick_policy, LOST_TICK_POLICY_D=
+ISCARD),<br>
++=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;slew-tick-policy-available&quot;, RTC=
+State,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0slew_tick_policy_available, false),<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_END_OF_LIST(),<br>
+=C2=A0};<br>
 <br>
-Regards,<br>
+-- <br>
+2.31.1<br>
 <br>
-Phil.<br>
+</blockquote></div></div>
 </blockquote></div></div>
 
---00000000000067a9ab05f15c3005--
+--000000000000e398b305f15c4aab--
 
