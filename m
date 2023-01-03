@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6B565C634
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:27:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF33465C5F8
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:20:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCls4-0000z3-8u; Tue, 03 Jan 2023 13:18:44 -0500
+	id 1pCls6-00018S-UT; Tue, 03 Jan 2023 13:18:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pClrt-0000ud-QG
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:18:34 -0500
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
+ id 1pClrx-0000zC-1h
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:18:43 -0500
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pClrr-0005Gi-ST
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:18:33 -0500
-Received: by mail-vs1-xe30.google.com with SMTP id i188so32589073vsi.8
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 10:18:31 -0800 (PST)
+ id 1pClru-0005O6-SD
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:18:36 -0500
+Received: by mail-qv1-xf2b.google.com with SMTP id w10so18876850qvn.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 10:18:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aEB0nGrFaxYSQkHhsFi8mtdM2L5qlb+qHO4UJ4164dk=;
- b=TlypqxXaZZJ22Jk4QzZikCffd42datcqaIAYF1XoajbPDRBi3nNePrFAAuSxUxGvEr
- fD4j34mc3Sge2aRiDz2GAKeu1/BtMOHKhW5lrudrlK+5Ugf7uOcOL/qqYGgX4V2ZV3Ux
- Ni+ruI57MQf4iUH7pu3tHryl/6I1j5g2+Um4eNRHlPp40kL9yI0KmvAlyEHsEdRp6vsn
- ot8Bnd0jXhG2kuxmSmNRqeWkG3ppb6a7zwkA+DUzPRSS9OT4QwR0mOIhK25knWZY5pRh
- hj8l6U+iA5UMoD1aD2CHtOpupBkSGJVa5ivnt5wAkr8hq37siRadBnI9jC7ahIYQWFal
- nhLA==
+ bh=iCYu68/AsQJDDTxu6B7ticUbbeKteDS0WJXiIHlsiNQ=;
+ b=NYRXx+bKAavGLJtXYqPL295Qczs1qTCu7ZNqpKMLQxdW/RJEr4x2wCEhaHsRBZuYeg
+ huKAwEWNGXopTc8xBfJBw9Mq76j0cMtnK6O7R2082rKu/SM3fHPcV6W+GZCQkOmyGIrw
+ pADwrEu6lY1oJ+kYtYlQQC0fX5DgJuK7FdLOL55Kd5StdkpCOfwFNAIB8vxk5httWbj5
+ HLocVczpJNREcFNuPvEH02wk+eajFHIv9r1YY055Kn3GvefTJaiHViBRlQ9z4hqLrj3/
+ MHY6HniQyiBYwN7u3pN8fNz87BcMdVWXiZIaUJxGG1aGLIouWbNJzNj+xNjm/5vMG4bJ
+ yXVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aEB0nGrFaxYSQkHhsFi8mtdM2L5qlb+qHO4UJ4164dk=;
- b=LPHiyq+Aiehq7zeRdbdJzx3ZMmPySl2J2rwK386hvA/p4FRfjIdr7s9FL1DnN3sMfr
- 5EGjWVeZTwa58sG6KRwFEzKLncK8dwSR5riCS818yl5WfMcbsYHNf/FnUwLemnl4XxG8
- UvIZYiBdsenJciMP7duP/4BITJ38sopF7DY2xiyRYb3hHLGwchpp3AAu0fWkjQy56Yd3
- D3+O3LzNUK+MmDezkCF2rVdgVefkizVqCgyiePM/05rP1Bv3F/qxPWTtZktSP+Gjl39Z
- +eaTw9wwXb+TUhoYEDfHoWbvohi7ZXbtiJF1yurfZTpqXuFfZwz9iKs4M8UA8R14jCRm
- Y/XQ==
-X-Gm-Message-State: AFqh2kqKWoGmGxIUAxVjuvbgv9dKjdlm2CZaQHa3RnKn3WfwUWBIRprr
- Z7RshGXKpTMUrc6OtmNT4L3cRMwdGRXXFWyAiHg=
-X-Google-Smtp-Source: AMrXdXsUZaLwJr4wPxysXLfW45Km+04SFLWPItor2IUxtdBcKn/kR+A/dHbIT1g0O5ajBMw69UgvMQ==
-X-Received: by 2002:a67:f70b:0:b0:3b5:1986:1914 with SMTP id
- m11-20020a67f70b000000b003b519861914mr23886333vso.17.1672769911029; 
- Tue, 03 Jan 2023 10:18:31 -0800 (PST)
+ bh=iCYu68/AsQJDDTxu6B7ticUbbeKteDS0WJXiIHlsiNQ=;
+ b=VDs19D00UwWbtWNNt2ID++Jbw4q9mOZgC6/VitXAgJpaWXXzimmcLLFBGzBiV1ipDx
+ /2sMxE01Wj1QSoKY7v7WYkf2GozmnwmN2dBKuwG63Z14mk07vvhiJLR9cYSJ1tZnlOOW
+ sWaVbTZbi7h+TFZlyIMT+73rodOoc7wljSa5Q9StRkq9eEf4xJIX2MuAtYJuwL8E3HHP
+ G5ZxfCbzkibww9PgA6Q8BaTG5t4aGYxPBVj8p+vEVlerwzP5zCKd/Q+QS/brdB4anQM6
+ dKPLq14y1qK+JC8Sgtl4X1LvA1+vrsG/vWcMddwTNSfTvsTMNp+YXE4mDGGmtsIPiKZo
+ i24w==
+X-Gm-Message-State: AFqh2kqNfy5D8dRrDbvdVubNT3PPaqCFrrZqd5jnRYeaykDCw7CIw3Ru
+ KnlwNM1idS/vnDuVi6EzCl8H7zyw84nHyHoqxLA=
+X-Google-Smtp-Source: AMrXdXtB0l/eDLAXgfSGO4ftU7VVtsSq/F8JGP56Ski3RNJRSRhJRepW8DZBW6BSXW/efmmbYhl34g==
+X-Received: by 2002:a05:6214:4947:b0:52e:6f33:ec2 with SMTP id
+ pe7-20020a056214494700b0052e6f330ec2mr53876174qvb.31.1672769913849; 
+ Tue, 03 Jan 2023 10:18:33 -0800 (PST)
 Received: from stoup.. ([2607:fb90:8060:51a2:184b:6e49:c396:be2])
  by smtp.gmail.com with ESMTPSA id
- v2-20020a05620a440200b006fed2788751sm23042354qkp.76.2023.01.03.10.18.28
+ v2-20020a05620a440200b006fed2788751sm23042354qkp.76.2023.01.03.10.18.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jan 2023 10:18:30 -0800 (PST)
+ Tue, 03 Jan 2023 10:18:33 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
  armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
-Subject: [RFC PATCH 34/40] target/arm: Move "reset-hivecs" to class property
-Date: Tue,  3 Jan 2023 10:16:40 -0800
-Message-Id: <20230103181646.55711-35-richard.henderson@linaro.org>
+Subject: [RFC PATCH 35/40] target/arm: Move "has_el2" to class property
+Date: Tue,  3 Jan 2023 10:16:41 -0800
+Message-Id: <20230103181646.55711-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230103181646.55711-1-richard.henderson@linaro.org>
 References: <20230103181646.55711-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
- envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,231 +90,367 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Remove the reset_hivecs variable entirely and create
-property accessor functions that directly read/write
-a bit of the reset value of SCTLR.
+With the movement of the property, we can remove the field from the
+cpu entirely, using only the class.  However, late initialization
+of the "max" cpu, due to its interaction with "host", means that we
+cannot leave the class property undefined when EL2 is not supported.
+Adjust the class field to OnOffAuto and generate an error if enabled
+when not supported.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h     |  1 -
- hw/arm/digic.c       | 11 ++++-----
- hw/arm/npcm7xx.c     |  9 ++++----
- hw/arm/xlnx-zynqmp.c | 11 +++++----
- target/arm/cpu.c     | 55 +++++++++++++++++++++++++++++++++-----------
- 5 files changed, 59 insertions(+), 28 deletions(-)
+ target/arm/cpu-qom.h  |  4 +++
+ target/arm/cpu.h      |  3 --
+ hw/arm/allwinner-h3.c |  9 ++++--
+ hw/arm/vexpress.c     | 10 +++---
+ hw/arm/virt.c         | 22 ++++++++-----
+ hw/arm/xlnx-zynqmp.c  |  3 +-
+ hw/cpu/a15mpcore.c    |  9 +++---
+ target/arm/cpu.c      | 74 ++++++++++++++++++++++++++++++++++++-------
+ 8 files changed, 98 insertions(+), 36 deletions(-)
 
+diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+index 2d6fa38a30..fceb557a4d 100644
+--- a/target/arm/cpu-qom.h
++++ b/target/arm/cpu-qom.h
+@@ -22,6 +22,7 @@
+ 
+ #include "hw/core/cpu.h"
+ #include "qom/object.h"
++#include "qapi/qapi-types-common.h"
+ 
+ struct arm_boot_info;
+ 
+@@ -182,6 +183,9 @@ struct ARMCPUClass {
+      * QEMU_KVM_ARM_TARGET_NONE if the kernel doesn't support this CPU type.
+      */
+     uint32_t kvm_target;
++
++    /* CPU has virtualization extension */
++    OnOffAuto has_el2;
+ };
+ 
+ static inline int arm_class_feature(ARMCPUClass *acc, int feature)
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e425846007..c0baec37d7 100644
+index c0baec37d7..3888cdafdf 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -973,7 +973,6 @@ struct ArchCPU {
-     uint64_t ccsidr[16];
-     uint64_t reset_cbar;
-     uint32_t reset_auxcr;
--    bool reset_hivecs;
+@@ -25,7 +25,6 @@
+ #include "hw/registerfields.h"
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+-#include "qapi/qapi-types-common.h"
  
+ /* ARM processors have a weak memory model */
+ #define TCG_GUEST_DEFAULT_MO      (0)
+@@ -887,8 +886,6 @@ struct ArchCPU {
+     /* Current power state, access guarded by BQL */
+     ARMPSCIState power_state;
+ 
+-    /* CPU has virtualization extension */
+-    bool has_el2;
+     /* CPU has security extension */
+     bool has_el3;
+     /* CPU has PMU (Performance Monitor Unit) */
+diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+index 308ed15552..07484b9f97 100644
+--- a/hw/arm/allwinner-h3.c
++++ b/hw/arm/allwinner-h3.c
+@@ -188,12 +188,16 @@ void allwinner_h3_bootrom_setup(AwH3State *s, BlockBackend *blk)
+ static void allwinner_h3_init(Object *obj)
+ {
+     AwH3State *s = AW_H3(obj);
++    const char *cpu_type = ARM_CPU_TYPE_NAME("cortex-a7");
++    ObjectClass *cpu_class = object_class_by_name(cpu_type);
+ 
+     s->memmap = allwinner_h3_memmap;
+ 
++    /* ??? This is the default for A7. */
++    class_property_set_bool(cpu_class, "has_el2", true, &error_abort);
++
+     for (int i = 0; i < AW_H3_NUM_CPUS; i++) {
+-        object_initialize_child(obj, "cpu[*]", &s->cpus[i],
+-                                ARM_CPU_TYPE_NAME("cortex-a7"));
++        object_initialize_child(obj, "cpu[*]", &s->cpus[i], cpu_type);
+     }
+ 
+     object_initialize_child(obj, "gic", &s->gic, TYPE_ARM_GIC);
+@@ -244,7 +248,6 @@ static void allwinner_h3_realize(DeviceState *dev, Error **errp)
+ 
+         /* All exception levels required */
+         qdev_prop_set_bit(DEVICE(&s->cpus[i]), "has_el3", true);
+-        qdev_prop_set_bit(DEVICE(&s->cpus[i]), "has_el2", true);
+ 
+         /* Mark realized */
+         qdev_realize(DEVICE(&s->cpus[i]), NULL, &error_fatal);
+diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
+index e1d1983ae6..211daa8fde 100644
+--- a/hw/arm/vexpress.c
++++ b/hw/arm/vexpress.c
+@@ -208,6 +208,11 @@ static void init_cpus(MachineState *ms, const char *cpu_type,
+     SysBusDevice *busdev;
+     int n;
+     unsigned int smp_cpus = ms->smp.cpus;
++    ObjectClass *cpu_class = object_class_by_name(cpu_type);
++
++    if (!virt) {
++        class_property_set_bool(cpu_class, "has_el2", false, NULL);
++    }
+ 
+     /* Create the actual CPUs */
+     for (n = 0; n < smp_cpus; n++) {
+@@ -216,11 +221,6 @@ static void init_cpus(MachineState *ms, const char *cpu_type,
+         if (!secure) {
+             object_property_set_bool(cpuobj, "has_el3", false, NULL);
+         }
+-        if (!virt) {
+-            if (object_property_find(cpuobj, "has_el2")) {
+-                object_property_set_bool(cpuobj, "has_el2", false, NULL);
+-            }
+-        }
+ 
+         if (object_property_find(cpuobj, "reset-cbar")) {
+             object_property_set_int(cpuobj, "reset-cbar", periphbase,
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index aed86997c0..dd02e42f97 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2018,6 +2018,7 @@ static void machvirt_init(MachineState *machine)
+     MemoryRegion *secure_sysmem = NULL;
+     MemoryRegion *tag_sysmem = NULL;
+     MemoryRegion *secure_tag_sysmem = NULL;
++    ObjectClass *cpu_class;
+     int n, virt_max_cpus;
+     bool firmware_loaded;
+     bool aarch64 = true;
+@@ -2032,6 +2033,16 @@ static void machvirt_init(MachineState *machine)
+ 
+     possible_cpus = mc->possible_cpu_arch_ids(machine);
+ 
++    assert(possible_cpus->len == max_cpus);
++    for (n = 0; n < max_cpus; n++) {
++        assert(strcmp(machine->cpu_type, possible_cpus->cpus[n].type) == 0);
++    }
++
++    cpu_class = object_class_by_name(machine->cpu_type);
++    if (!vms->virt) {
++        class_property_set_bool(cpu_class, "has_el2", false, &error_abort);
++    }
++
      /*
-      * Intermediate values used during property parsing.
-diff --git a/hw/arm/digic.c b/hw/arm/digic.c
-index 6df5547977..fed5d38695 100644
---- a/hw/arm/digic.c
-+++ b/hw/arm/digic.c
-@@ -34,9 +34,13 @@
- static void digic_init(Object *obj)
- {
-     DigicState *s = DIGIC(obj);
-+    const char *cpu_type = ARM_CPU_TYPE_NAME("arm946");
-+    ObjectClass *cpu_class = object_class_by_name(cpu_type);
-     int i;
+      * In accelerated mode, the memory map is computed earlier in kvm_type()
+      * to create a VM with the right number of IPA bits.
+@@ -2046,7 +2057,7 @@ static void machvirt_init(MachineState *machine)
+          * we are about to deal with. Once this is done, get rid of
+          * the object.
+          */
+-        cpuobj = object_new(possible_cpus->cpus[0].type);
++        cpuobj = object_new_with_class(cpu_class);
+         armcpu = ARM_CPU(cpuobj);
  
--    object_initialize_child(obj, "cpu", &s->cpu, ARM_CPU_TYPE_NAME("arm946"));
-+    class_property_set_bool(cpu_class, "reset-hivecs", true, &error_abort);
-+
-+    object_initialize_child(obj, "cpu", &s->cpu, cpu_type);
+         pa_bits = arm_pamax(armcpu);
+@@ -2143,8 +2154,7 @@ static void machvirt_init(MachineState *machine)
  
-     for (i = 0; i < DIGIC4_NB_TIMERS; i++) {
-         g_autofree char *name = g_strdup_printf("timer[%d]", i);
-@@ -52,11 +56,6 @@ static void digic_realize(DeviceState *dev, Error **errp)
-     SysBusDevice *sbd;
-     int i;
+     create_fdt(vms);
  
--    if (!object_property_set_bool(OBJECT(&s->cpu), "reset-hivecs", true,
--                                  errp)) {
--        return;
--    }
+-    assert(possible_cpus->len == max_cpus);
+-    for (n = 0; n < possible_cpus->len; n++) {
++    for (n = 0; n < max_cpus; n++) {
+         Object *cpuobj;
+         CPUState *cs;
+ 
+@@ -2152,7 +2162,7 @@ static void machvirt_init(MachineState *machine)
+             break;
+         }
+ 
+-        cpuobj = object_new(possible_cpus->cpus[n].type);
++        cpuobj = object_new_with_class(cpu_class);
+         object_property_set_int(cpuobj, "mp-affinity",
+                                 possible_cpus->cpus[n].arch_id, NULL);
+ 
+@@ -2168,10 +2178,6 @@ static void machvirt_init(MachineState *machine)
+             object_property_set_bool(cpuobj, "has_el3", false, NULL);
+         }
+ 
+-        if (!vms->virt && object_property_find(cpuobj, "has_el2")) {
+-            object_property_set_bool(cpuobj, "has_el2", false, NULL);
+-        }
 -
-     if (!qdev_realize(DEVICE(&s->cpu), NULL, errp)) {
-         return;
-     }
-diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-index 41124b7444..97ac4ac7e9 100644
---- a/hw/arm/npcm7xx.c
-+++ b/hw/arm/npcm7xx.c
-@@ -390,11 +390,14 @@ static qemu_irq npcm7xx_irq(NPCM7xxState *s, int n)
- static void npcm7xx_init(Object *obj)
- {
-     NPCM7xxState *s = NPCM7XX(obj);
-+    const char *cpu_type = ARM_CPU_TYPE_NAME("cortex-a9");
-+    ObjectClass *cpu_class = object_class_by_name(cpu_type);
-     int i;
- 
-+    class_property_set_bool(cpu_class, "reset-hivecs", true, &error_abort);
-+
-     for (i = 0; i < NPCM7XX_MAX_NUM_CPUS; i++) {
--        object_initialize_child(obj, "cpu[*]", &s->cpu[i],
--                                ARM_CPU_TYPE_NAME("cortex-a9"));
-+        object_initialize_child(obj, "cpu[*]", &s->cpu[i], cpu_type);
-     }
- 
-     object_initialize_child(obj, "a9mpcore", &s->a9mpcore, TYPE_A9MPCORE_PRIV);
-@@ -466,8 +469,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-                                 &error_abort);
-         object_property_set_int(OBJECT(&s->cpu[i]), "reset-cbar",
-                                 NPCM7XX_GIC_CPU_IF_ADDR, &error_abort);
--        object_property_set_bool(OBJECT(&s->cpu[i]), "reset-hivecs", true,
--                                 &error_abort);
- 
-         /* Disable security extensions. */
-         object_property_set_bool(OBJECT(&s->cpu[i]), "has_el3", false,
+         if (vmc->kvm_no_adjvtime &&
+             object_property_find(cpuobj, "kvm-no-adjvtime")) {
+             object_property_set_bool(cpuobj, "kvm-no-adjvtime", true, NULL);
 diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 335cfc417d..13ab999eb8 100644
+index 13ab999eb8..17bad9b4ed 100644
 --- a/hw/arm/xlnx-zynqmp.c
 +++ b/hw/arm/xlnx-zynqmp.c
-@@ -243,8 +243,6 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, XlnxZynqMPState *s,
-             s->boot_cpu_ptr = &s->rpu_cpu[i];
-         }
+@@ -385,6 +385,7 @@ static void xlnx_zynqmp_init(Object *obj)
+     cpu_type = ARM_CPU_TYPE_NAME("cortex-a53");
+     cpu_class = object_class_by_name(cpu_type);
+     class_property_set_bool(cpu_class, "reset-hivecs", true, &error_abort);
++    class_property_set_bool(cpu_class, "has_el2", s->virt, &error_abort);
  
--        object_property_set_bool(OBJECT(&s->rpu_cpu[i]), "reset-hivecs", true,
--                                 &error_abort);
-         if (!qdev_realize(DEVICE(&s->rpu_cpu[i]), NULL, errp)) {
-             return;
-         }
-@@ -375,6 +373,8 @@ static void xlnx_zynqmp_init(Object *obj)
- {
-     MachineState *ms = MACHINE(qdev_get_machine());
-     XlnxZynqMPState *s = XLNX_ZYNQMP(obj);
-+    const char *cpu_type;
-+    ObjectClass *cpu_class;
-     int i;
-     int num_apus = MIN(ms->smp.cpus, XLNX_ZYNQMP_NUM_APU_CPUS);
- 
-@@ -382,10 +382,13 @@ static void xlnx_zynqmp_init(Object *obj)
-                             TYPE_CPU_CLUSTER);
-     qdev_prop_set_uint32(DEVICE(&s->apu_cluster), "cluster-id", 0);
- 
-+    cpu_type = ARM_CPU_TYPE_NAME("cortex-a53");
-+    cpu_class = object_class_by_name(cpu_type);
-+    class_property_set_bool(cpu_class, "reset-hivecs", true, &error_abort);
-+
      for (i = 0; i < num_apus; i++) {
          object_initialize_child(OBJECT(&s->apu_cluster), "apu-cpu[*]",
--                                &s->apu_cpu[i],
--                                ARM_CPU_TYPE_NAME("cortex-a53"));
-+                                &s->apu_cpu[i], cpu_type);
+@@ -529,8 +530,6 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+ 
+         object_property_set_bool(OBJECT(&s->apu_cpu[i]), "has_el3", s->secure,
+                                  NULL);
+-        object_property_set_bool(OBJECT(&s->apu_cpu[i]), "has_el2", s->virt,
+-                                 NULL);
+         object_property_set_int(OBJECT(&s->apu_cpu[i]), "reset-cbar",
+                                 GIC_BASE_ADDR, &error_abort);
+         object_property_set_int(OBJECT(&s->apu_cpu[i]), "core-count",
+diff --git a/hw/cpu/a15mpcore.c b/hw/cpu/a15mpcore.c
+index 774ca9987a..6329d25f68 100644
+--- a/hw/cpu/a15mpcore.c
++++ b/hw/cpu/a15mpcore.c
+@@ -55,7 +55,6 @@ static void a15mp_priv_realize(DeviceState *dev, Error **errp)
+     int i;
+     bool has_el3;
+     bool has_el2 = false;
+-    Object *cpuobj;
+ 
+     gicdev = DEVICE(&s->gic);
+     qdev_prop_set_uint32(gicdev, "num-cpu", s->num_cpu);
+@@ -65,13 +64,15 @@ static void a15mp_priv_realize(DeviceState *dev, Error **errp)
+         /* Make the GIC's TZ support match the CPUs. We assume that
+          * either all the CPUs have TZ, or none do.
+          */
+-        cpuobj = OBJECT(qemu_get_cpu(0));
++        Object *cpuobj = OBJECT(qemu_get_cpu(0));
++        ObjectClass *cpucls = object_get_class(cpuobj);
++
+         has_el3 = object_property_find(cpuobj, "has_el3") &&
+             object_property_get_bool(cpuobj, "has_el3", &error_abort);
+         qdev_prop_set_bit(gicdev, "has-security-extensions", has_el3);
++
+         /* Similarly for virtualization support */
+-        has_el2 = object_property_find(cpuobj, "has_el2") &&
+-            object_property_get_bool(cpuobj, "has_el2", &error_abort);
++        has_el2 = class_property_get_bool(cpucls, "has_el2", NULL);
+         qdev_prop_set_bit(gicdev, "has-virtualization-extensions", has_el2);
      }
  
-     object_initialize_child(obj, "gic", &s->gic, gic_class_name());
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index bc4a052e4c..032a2cc00a 100644
+index 032a2cc00a..db996d8c3a 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -1280,9 +1280,6 @@ static void arm_cpu_initfn(Object *obj)
- static Property arm_cpu_reset_cbar_property =
+@@ -1281,9 +1281,6 @@ static Property arm_cpu_reset_cbar_property =
              DEFINE_PROP_UINT64("reset-cbar", ARMCPU, reset_cbar, 0);
  
--static Property arm_cpu_reset_hivecs_property =
--            DEFINE_PROP_BOOL("reset-hivecs", ARMCPU, reset_hivecs, false);
--
  #ifndef CONFIG_USER_ONLY
- static Property arm_cpu_has_el2_property =
-             DEFINE_PROP_BOOL("has_el2", ARMCPU, has_el2, true);
-@@ -1375,10 +1372,6 @@ static void arm_cpu_post_init(Object *obj)
-         qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_cbar_property);
+-static Property arm_cpu_has_el2_property =
+-            DEFINE_PROP_BOOL("has_el2", ARMCPU, has_el2, true);
+-
+ static Property arm_cpu_has_el3_property =
+             DEFINE_PROP_BOOL("has_el3", ARMCPU, has_el3, true);
+ #endif
+@@ -1391,10 +1388,6 @@ static void arm_cpu_post_init(Object *obj)
+                                  qdev_prop_allow_set_link_before_realize,
+                                  OBJ_PROP_LINK_STRONG);
+     }
+-
+-    if (arm_feature(&cpu->env, ARM_FEATURE_EL2)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el2_property);
+-    }
+ #endif
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_PMU)) {
+@@ -1818,10 +1811,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+                                            ID_AA64PFR0, EL3, 0);
      }
  
--    if (!arm_feature(&cpu->env, ARM_FEATURE_M)) {
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_hivecs_property);
+-    if (!cpu->has_el2) {
+-        unset_feature(env, ARM_FEATURE_EL2);
 -    }
 -
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         object_property_add_uint64_ptr(obj, "rvbar",
-                                        &cpu->rvbar_prop,
-@@ -1801,10 +1794,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
+     if (!cpu->has_pmu) {
+         unset_feature(env, ARM_FEATURE_PMU);
      }
- 
--    if (cpu->reset_hivecs) {
--            cpu->reset_sctlr |= (1 << 13);
--    }
--
-     if (cpu->cfgend) {
-         if (arm_feature(&cpu->env, ARM_FEATURE_V7)) {
-             cpu->reset_sctlr |= SCTLR_EE;
-@@ -2169,6 +2158,39 @@ static bool arm_class_prop_uint64_ofs(ObjectClass *oc, Visitor *v,
-     return visit_type_uint64(v, name, ptr, errp);
+@@ -2159,6 +2148,34 @@ static bool arm_class_prop_uint64_ofs(ObjectClass *oc, Visitor *v,
  }
  
-+#ifndef CONFIG_USER_ONLY
-+static bool arm_class_prop_set_sctlrbit(ObjectClass *oc, Visitor *v,
+ #ifndef CONFIG_USER_ONLY
++static bool arm_class_prop_get_auto_ofs(ObjectClass *oc, Visitor *v,
 +                                        const char *name, void *opaque,
 +                                        Error **errp)
 +{
 +    ARMCPUClass *acc = ARM_CPU_CLASS(oc);
-+    uint32_t mask = (uintptr_t)opaque;
-+    bool val;
-+
-+    if (!visit_type_bool(v, name, &val, errp)) {
-+        return false;
-+    }
-+
-+    if (val) {
-+        acc->reset_sctlr |= mask;
-+    } else {
-+        acc->reset_sctlr &= ~mask;
-+    }
-+    return true;
-+}
-+
-+static bool arm_class_prop_get_sctlrbit(ObjectClass *oc, Visitor *v,
-+                                        const char *name, void *opaque,
-+                                        Error **errp)
-+{
-+    ARMCPUClass *acc = ARM_CPU_CLASS(oc);
-+    uint32_t mask = (uintptr_t)opaque;
-+    bool val = acc->reset_sctlr & mask;
++    uintptr_t ofs = (uintptr_t)opaque;
++    OnOffAuto *ptr = (void *)acc + ofs;
++    bool val = *ptr == ON_OFF_AUTO_ON;
 +
 +    return visit_type_bool(v, name, &val, errp);
 +}
-+#endif /* !CONFIG_USER_ONLY */
 +
- static void arm_cpu_class_init(ObjectClass *oc, void *data)
- {
-     ARMCPUClass *acc = ARM_CPU_CLASS(oc);
-@@ -2305,7 +2327,14 @@ static void arm_cpu_leaf_class_init(ObjectClass *oc, void *data)
-                            (void *)(uintptr_t)
-                            offsetof(ARMCPUClass, gt_cntfrq_hz));
-     }
--#endif /* CONFIG_USER_ONLY */
++static bool arm_class_prop_set_auto_ofs(ObjectClass *oc, Visitor *v,
++                                        const char *name, void *opaque,
++                                        Error **errp)
++{
++    ARMCPUClass *acc = ARM_CPU_CLASS(oc);
++    uintptr_t ofs = (uintptr_t)opaque;
++    OnOffAuto *ptr = (void *)acc + ofs;
++    bool val;
 +
-+    if (!arm_class_feature(acc, ARM_FEATURE_M)) {
-+        class_property_add(oc, "reset-hivecs", "bool", NULL,
-+                           arm_class_prop_get_sctlrbit,
-+                           arm_class_prop_set_sctlrbit,
-+                           (void *)((uintptr_t)1 << 13));
++    if (visit_type_bool(v, name, &val, errp)) {
++        *ptr = val ? ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
++        return true;
 +    }
-+#endif /* !CONFIG_USER_ONLY */
++    return false;
++}
++
+ static bool arm_class_prop_set_sctlrbit(ObjectClass *oc, Visitor *v,
+                                         const char *name, void *opaque,
+                                         Error **errp)
+@@ -2334,6 +2351,19 @@ static void arm_cpu_leaf_class_init(ObjectClass *oc, void *data)
+                            arm_class_prop_set_sctlrbit,
+                            (void *)((uintptr_t)1 << 13));
+     }
++
++    /*
++     * With v8, we cannot yet tell if EL[23] are available, because
++     * we do not yet know if we're using tcg or host acceleration.
++     * We will reject incorrect settings during class_late_init.
++     */
++    if (arm_class_feature(acc, ARM_FEATURE_EL2) ||
++        arm_class_feature(acc, ARM_FEATURE_V8)) {
++        class_property_add(oc, "has_el2", "bool", NULL,
++                           arm_class_prop_get_auto_ofs,
++                           arm_class_prop_set_auto_ofs,
++                           (void *)(uintptr_t)offsetof(ARMCPUClass, has_el2));
++    }
+ #endif /* !CONFIG_USER_ONLY */
  }
  
- static bool arm_cpu_class_late_init(ObjectClass *oc, Error **errp)
-@@ -2324,7 +2353,7 @@ static bool arm_cpu_class_late_init(ObjectClass *oc, Error **errp)
+@@ -2353,6 +2383,28 @@ static bool arm_cpu_class_late_init(ObjectClass *oc, Error **errp)
          error_setg(errp, "Invalid CNTFRQ: %"PRId64"Hz", acc->gt_cntfrq_hz);
          return false;
      }
--#endif /* CONFIG_USER_ONLY */
-+#endif /* !CONFIG_USER_ONLY */
++
++    switch (acc->has_el2) {
++    case ON_OFF_AUTO_AUTO:
++        acc->has_el2 = (arm_class_feature(acc, ARM_FEATURE_EL2)
++                        ? ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF);
++        break;
++    case ON_OFF_AUTO_OFF:
++        unset_class_feature(acc, ARM_FEATURE_EL2);
++        acc->isar.id_pfr1 = FIELD_DP32(acc->isar.id_pfr1, ID_PFR1,
++                                       VIRTUALIZATION, 0);
++        acc->isar.id_aa64pfr0 = FIELD_DP64(acc->isar.id_aa64pfr0,
++                                           ID_AA64PFR0, EL2, 0);
++        break;
++    case ON_OFF_AUTO_ON:
++        if (!arm_class_feature(acc, ARM_FEATURE_EL2)) {
++            error_setg(errp, "CPU does not support EL2");
++            return false;
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
+ #endif /* !CONFIG_USER_ONLY */
  
      /* Run some consistency checks for TCG. */
-     if (tcg_enabled()) {
 -- 
 2.34.1
 
