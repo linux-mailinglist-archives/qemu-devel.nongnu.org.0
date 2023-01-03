@@ -2,100 +2,185 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0EC065B9A5
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 04:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B02765B9B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 04:34:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCXlu-0001Zg-7U; Mon, 02 Jan 2023 22:15:26 -0500
+	id 1pCY3Q-0006Cd-Sz; Mon, 02 Jan 2023 22:33:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pCXlq-0001ZN-I3
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 22:15:23 -0500
-Received: from sonic310-22.consmr.mail.gq1.yahoo.com ([98.137.69.148])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pCXln-0005YY-Lv
- for qemu-devel@nongnu.org; Mon, 02 Jan 2023 22:15:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1672715715; bh=mUvEtjv/I8yLh91vV87I0a3FTB0JyYixbRRmZITWn+U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
- b=Rszazt7e+Bzxyiv4od/qkS3bXTWNb/x02M884X0I00UJRm8xuIFfAhFKBVAlLdSqEqSXZsjFWsuSwCWHgZO2Zqmq0C3v6YfbR/OanmRrYcTIMM55BhpdsXpFxDvjp3RuhLnZF85P5Lx6nO4R3AvpF7rMynXKT6RLCKEtYr5qLo8WLwFZpDkXfTpfinnGHIpl8GsiOmZQkDE2sxiN8Lvbkr/y+Y4mS1h4iw8bov6tANc8v3+sRRlI9YXCJxTn8Ip4DetYzW4fiKwIy8yT/LO/ZeVCgEVvUBM5/cYANcrBvJZb/mFtih5QF6JzpOmsbyHbMfiQIOEcpO7HlQ08pl0u1A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1672715715; bh=lYJfJoQuxGxXFN6h0u7dbEyN70Bc3LSevVyoVriBqCD=;
- h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
- b=sehfmdw8c2IZH7yxVsapPdyC5oZk8E9C8HG+RZlHweyTRT01NJXlGl1iSkBcdmKNSAvEE/1ffIB0aIHVFuf766DnCOnlbVQZPa40CKhW6Ej8xZHlok+XK5Wh3Etcf4lOTUMQlIsHpDym9nK6BCeIOhX70DK+orIkPdY1Fx82vY+fCRzaFzX/Jvz4D5y+Xc+mwvKd/3PP89Dnsp948+ybPy2HtCV0WJGsX8ARvxzpCrseLx3nHig1Kg898sWGib66rqMseYrfb5GQrzI5ew4OWat4mBItgYYoBggl3G40JmfQaWF/hk3KcR0HNcxqF8eKDhfZ/IJY2h2wWBrkkiOK2Q==
-X-YMail-OSG: lCVByNUVM1n9wslqYSg4OXTvsdTRZ9_iuMTmzMW9dTREhHpL_UOylw05Cz7exkl
- Z5ljYFmVFCILlOFzUUr52ffQahGqKRKFSW_e.1IxBKheaSe..uR.mCsgd4Zzwbmj.gFsBav0HFj.
- dKStrESxn_aXF8JxMNE1d8Wxhsdmu8VENtmyq6g6T_Z88.RsjV8B9cXf..gvYgzqskiCNfPyrWgd
- GTGH_JGI0ZeVIiczSvmIrZnEc.2enwHsdFntOagaU3KPKalav98xS6M36QDnT20djOsRM.Ggt19H
- njBeoFSAXTGwE6yrODnAH6DcHRz0HUa_It3aQwqQ30GBhxHPktU5jHnjJUMXIlOUeOUdfy3_1TlW
- LR09f.yR1smbw8x7B.k02yzzO..7FQ_NZDfberb74CivbkqvqznI3CQUVcbGnOWhcmqss7kBu3S.
- 2bCyKfPJIJw4etb9dv3sp.88kg2QORspv3HQ_Aln_cHonT0XT9yk8bzhQ2rOU5SOCFQMoZGgC_PE
- 3CR_mAgs1_5g0qSd4ldP3Q3bj0NRcPy.n115m52vgTaghoM5GUKEbR9mvhK8BraD0ifqnrFL_kz.
- XCYPbCdMSM2DO2mOVDyRySzh4PLDLr7a07LXhmdHhOgSiK45BmqAvWcOOeRc.4VT0TAd79kqfU5.
- IcziZdxEcHsasp8rapBpIGkJ.GZAkGVhejkDvr16X4ceNSvIIhmoAWPzIZQtmDlmbeP9lXCvE4Pv
- CxqJHTIe1ocQoQbjhQ.jeIJcPyFNBXOVpiHeV4rVHLSIJjRzWJ8OZy.4SbiILz35xcATpdRLkOvZ
- Bxj9p81S.HztznklXUHBuYjFPg3RaEI_bWETggJ8OEnOgRdJhFh2ZvfVFJV9d7MzvYXdjmhPlfjJ
- 655osScA4NmCcn9YBEFecN82TIKxFTnzFh_fJwjPZrkNsiOcF_oHp_a7_he4OxcDXZ9Dk0s9oRHb
- 1DfyjPX7.qCSc7kK9bEE.ckWXkQE9JxHYFsPBzrL8PDgnTLB3Oq.1WRxeloHpPirqi_UkAUB7oO9
- FwHrcew9dluUAKfNnhG_8.utzChEsv2jhocIU5cyu6.C8qsGOZKKSU0j5ctTtJKnvH_iV9aW2j9Y
- ijOu4CK_B2KEYCyHp1AqekyWvvKRbpgEQsD6aUkA_hX.hhaS14H5FgNID20.DXw1dRiHys2cKBiu
- _2iluXRh_Xwuw1yumac92P3.TSNgfj6sPnMTg.tSKHYOJB.48WjdgHEk4OMTXh9W_FotUqHzPMng
- KdFKoV8s7yxGnC5BNlhKugrbvJhqrhpTV5skZBG.tR54LjQ.O8HbwHNE33p4fBIy.ctdRXVlyykr
- pyXmz4bn377tu0Pd2Te53a.MK72k6R.QYv7vwGDoxsQWDuwU6kQIPAOCb2gOyADp7Lr76eVN6Q9O
- ZvsVjbUw1qLUAHGZDa1.SISq47XkkBGKEP6c0_6ssR8DTBx84xxt8miA8WS_9ub.LxLjmQq6HT5L
- yDK8ljvXxbS5PpM1AOU.CMDQ3dUrOINXyPYW4NcRlcbqTob3LwJ2BrShjvRFNjYVHWKpw_sLokX5
- fWDVGxmfmZVkdZDBYtWJsNaOFcpviFO3cVu75eYRtwcHs8nvRNWW05zNEZ5PirJ3R3Y2QzuHt7n4
- uDxgBxWMemJfV6s5zzH95.iVKZR5saoT1WBWJpwGjyqhgjkEA7mFSbfkbbYJD0T3XCZ.HFRO9WX5
- fXtTXwOvXRvM3Dcj9tuq_2.Fs2hB3B5Vd1K0DCo6Cyp5rlpLC1zEA8S3Sk8wVDavi91C63GBCZj2
- _gIwiN6RJrwvEZTetXmpyjB34RP9mRaoUsgEJsju.M288S4RdsTye_yXLGKpfqh7EvOLpzZlle.l
- Pv55CFZs3ch8jkYkYvOkmZO4RSmPQ8kwjVO6RzPDczr_JjzLYFm0dh3BAnmxpPC7qkV0lnkgki7.
- cwViyU4OCEfAOky1t4gr8fTVE2S_DAT_fatW4C_DH5XKrDevZ7q67pAw2LQZZUubwYhcc71BrgKI
- 0I4LWAplQzaZOUZNW8kU76eyEsYaacFsCEiNKQ2O_kU_uoZ0B89NoTzZRkIIO_RnrK6PUdTlrC9X
- r5lw7ebYBEk1eUDBfU6K9bDu6gvbhlz0bxGoo7PLgMlj7gB389sIKtgUYylENK.orwl7pd5jFLOF
- 6i.s13qkMAAQFHwDiUyk3O.xqoTFRFFuTYkrgW2HvQs92ylDoYy24Jvv8nBd8ExGljETdrUM5dqV
- tEqm5pDVYa7cAvIlC1Q_m78E-
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic310.consmr.mail.gq1.yahoo.com with HTTP; Tue, 3 Jan 2023 03:15:15 +0000
-Received: by hermes--production-ne1-7b69748c4d-8kjnk (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID a4e7c13e8efaf23c69e74dbbd036ec23; 
- Tue, 03 Jan 2023 03:15:09 +0000 (UTC)
-Message-ID: <bd4daee7-09df-4bfa-3b96-713690be9f4e@aol.com>
-Date: Mon, 2 Jan 2023 22:15:04 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1pCY3O-0006C8-8E
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 22:33:30 -0500
+Received: from mga01.intel.com ([192.55.52.88])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1pCY3L-0008E1-Rn
+ for qemu-devel@nongnu.org; Mon, 02 Jan 2023 22:33:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1672716807; x=1704252807;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=LatRCUBthXhJ+o+53LiWlHn6mK7KBbJO6MDf7+3N06c=;
+ b=MKo78Kb3itdiLr1DTuVBMk2QwWv1FrQG6TeriQedZW9eWTHk2EtbV3Gk
+ p0OGezyuIZTxckWxIEnTeVzPZUoqWmBpzKmbWB2oNtP4N8X7MRxGgF+VD
+ p97J1f5jXVkP/wdv3okqM9P+QxPTIoBYCmHqxnNn+nBcJrp4IHw03pv06
+ QFfz49UIjf1GzAh77rXNjuLnwJ4hCdYsaf9/AGJUhuQoPgQT0FLlkpysh
+ qqQ6hXUmflXXjoCp+JULXtk0wjmxpw/aEnScbIgxKu1kcEs6ttxNZxHxE
+ 2T3VmaJ9PKBrVBYUWYZy+rNglRSARQVfkc3DB3dEBdl+brfcXHKh7VGpw g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="348796293"
+X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; d="scan'208";a="348796293"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2023 19:33:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10578"; a="828721606"
+X-IronPort-AV: E=Sophos;i="5.96,295,1665471600"; d="scan'208";a="828721606"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga005.jf.intel.com with ESMTP; 02 Jan 2023 19:33:18 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 2 Jan 2023 19:33:18 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Mon, 2 Jan 2023 19:33:18 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Mon, 2 Jan 2023 19:33:09 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IdwrJpqXuM6rbJ8mitVGy2jz8J5n2BTDpHh1nUFB7kAqi2p93D12NLG4TzDky8txew+IziroGlc2A4LCAwasGGxU/DAhOMrTUfdLljm3TnRWa9/sFf2TIfchN3FVLwqUmXj9TKcBQXSOJJT/b69lZ2gUuiw5ivX0CEvxWomCQQwANiQt6FKLgAUsFayj8dcB27tHlNlDy7O3DFQWDBpkRjK3tThBvCmkhqVxLuCAQmqEfbyR5jDszKJ30WT/9NsMxWHNRUyFcNvSoUS7/SrbIzvNUMljOl8fHLN2sfydTIlpGJ0y418pKRGtCImJQGrP7nSVUbW3Bb9W6Q74USh5cQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LatRCUBthXhJ+o+53LiWlHn6mK7KBbJO6MDf7+3N06c=;
+ b=Cng5JrNyeBMvDOYo5ETM+EzPIjX+Km9o2fThzaRMPEk1wy2LKWxA9LshxUMGujDSOQfHs0vHew0+tYnD6MVlzrfOD272JN9ZMaC8rDm9CyfFnnvhfEx5w4o1+Ro+WRjYBPdZFRSPe3CHXJWsE0H2P9hx91EDFHSRF0iT5d5rmUNkhJChIVkGiVSOBcdL3yxRUj+PEGAkQndhShFZxmhljzliVbUqb+Eik7KL8E+g7KLnKBj7/VN07/RjLjD90SnuTsPXnbi76qRvkTVkXmL2Xgoo80cCr5QoFKSzuFaqVRvEJoJVnWG3eqQqKsdzRQHJ+JSwuoisO3KmVW7ECIjTZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DS0PR11MB6373.namprd11.prod.outlook.com (2603:10b6:8:cb::20) by
+ IA1PR11MB6420.namprd11.prod.outlook.com (2603:10b6:208:3a8::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5944.19; Tue, 3 Jan 2023 03:32:53 +0000
+Received: from DS0PR11MB6373.namprd11.prod.outlook.com
+ ([fe80::97ed:f538:dc6a:a9c4]) by DS0PR11MB6373.namprd11.prod.outlook.com
+ ([fe80::97ed:f538:dc6a:a9c4%6]) with mapi id 15.20.5944.019; Tue, 3 Jan 2023
+ 03:32:53 +0000
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>, "Qiang, Chenyi"
+ <chenyi.qiang@intel.com>
+CC: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "linux-arch@vger.kernel.org"
+ <linux-arch@vger.kernel.org>, "linux-api@vger.kernel.org"
+ <linux-api@vger.kernel.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ "Christopherson,, Sean" <seanjc@google.com>, Vitaly Kuznetsov
+ <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim Mattson
+ <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi
+ <naoya.horiguchi@nec.com>, Miaohe Lin <linmiaohe@huawei.com>,
+ "x86@kernel.org" <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>, "Hugh
+ Dickins" <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J . Bruce
+ Fields" <bfields@fieldses.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>, Steven Price
+ <steven.price@arm.com>, "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
+ <kirill.shutemov@linux.intel.com>, "Lutomirski, Andy" <luto@kernel.org>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>, "Hansen, Dave"
+ <dave.hansen@intel.com>, "ak@linux.intel.com" <ak@linux.intel.com>,
+ "david@redhat.com" <david@redhat.com>, "aarcange@redhat.com"
+ <aarcange@redhat.com>, "ddutile@redhat.com" <ddutile@redhat.com>,
+ "dhildenb@redhat.com" <dhildenb@redhat.com>, Quentin Perret
+ <qperret@google.com>, "tabba@google.com" <tabba@google.com>, Michael Roth
+ <michael.roth@amd.com>, "Hocko, Michal" <mhocko@suse.com>
+Subject: RE: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Thread-Topic: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
+Thread-Index: AQHZBhXu7Ax4+tqGyUuhRxsCPgD73q6DIGyAgAj77wCAAAbkkA==
+Date: Tue, 3 Jan 2023 03:32:53 +0000
+Message-ID: <DS0PR11MB63738AE206ADE5EB00D8838BDCF49@DS0PR11MB6373.namprd11.prod.outlook.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
+ <1c9bbaa5-eea3-351e-d6a0-cfbc32115c82@intel.com>
+ <20230103013948.GA2178318@chaop.bj.intel.com>
+In-Reply-To: <20230103013948.GA2178318@chaop.bj.intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Paul Durrant <paul@xen.org>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, xen-devel@lists.xenproject.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20230102213504.14646-1-shentey@gmail.com>
-From: Chuck Zmudzinski <brchuckz@aol.com>
-In-Reply-To: <20230102213504.14646-1-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.20982
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.69.148; envelope-from=brchuckz@aim.com;
- helo=sonic310-22.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.142,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR11MB6373:EE_|IA1PR11MB6420:EE_
+x-ms-office365-filtering-correlation-id: 9892dbcc-5ac8-41c4-27df-08daed3b326d
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0+KLpaMrR6owufWhxcR+8lZt59GtjmLOmwiVbCBBEYU9soEWVbHA2yvSqLl5bGa3A5tT54E8b876zTSgPWYlEbH2EwEpdlZP/hYj9PAhYe7BwI6EBS6iyUUOXW04pXWi52lE0kYDRw4hX0yK66ZBIZ3pJl0gEQ9FK1+Z2xBtEyxeUdjr1JQGr4FHOnfXrcTbtNkSFQ7Uet/5/41WMKbAkMqTpOne5gFwBp0LK1WYK7NSClEFz9pBndS56O5WotKc6D4Su91DwcTXteEn/mnbha6jCdxHrJRhoI0s4wn6Ul/MR5/P24QGzE3GFFCpzbkPeNx3h1T7WuYbUAI/yKRBKN9YQ8wimNi6igO0nmWfZDX6M1DdObfj8iTfTvWT9EUZG+uvKItDhjmphzwA01BDAwdXe+3uRhdki3jJy5B6JbxRPZgKuBktd/HAmaOKTo1QT1gQNa5CNOmffqTdi6yi/10VFUWbBm/yVAO7D9l2QA+/jB09OkEb7XItPxjFN8c3cWcSRPLm6RNCVu3Cz4MeJtYZSky0pKUt27ZkyI3R+PYscBJ4T7LgE+0ZWI44GqNDNTKRSG6aTRuATfCK/zMeSalNxIXxh06iJGWUjgwMDSysUNKTB0MC2pbS4ETt1iEIcxQHLKoT8XUy94KonAGChYigS7/ryfkrgBiMTUL3BecZ2Vo3p8S5JLNsST7K6Iwl4/A5NFdAk4GirlFRSe+0DOyBkxePsQ+xtMljAxrxgtg=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB6373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(136003)(396003)(346002)(376002)(366004)(451199015)(55016003)(33656002)(64756008)(8676002)(66476007)(41300700001)(66946007)(4326008)(66446008)(66556008)(7406005)(7416002)(52536014)(76116006)(5660300002)(8936002)(478600001)(26005)(71200400001)(53546011)(186003)(6506007)(7696005)(110136005)(316002)(9686003)(6636002)(38070700005)(54906003)(86362001)(82960400001)(2906002)(122000001)(38100700002)(22166006);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0euRj0C0gwYDf1F/xYNYAMOR5qffSfECF+y/peU6UVAfIobbvlRj4BGHCUte?=
+ =?us-ascii?Q?r5ZXwa/tC1R0p4/G1NuUSSMuptirSyY1fGke2752HxpH9b25br/rcRVoDfEB?=
+ =?us-ascii?Q?vc/pPiYN3IUpK0ttH2IIiIgPnMaLfTY80+kZgF3pC9h34BjPiAy7fKTujbdd?=
+ =?us-ascii?Q?qxi7F/SVJWOysan9dnug52oH8kE5i6+Nlw+FZwKumu+dh3240nNJuRxPXrZ8?=
+ =?us-ascii?Q?8+r3hMEYj4sxIH3/LldX8bwjScUKq1cC761ij4KmZmjqCO4YqCQk/CR/yYHF?=
+ =?us-ascii?Q?IMF0N2slwWbI6ZyLCr5FhIiq4wepz4iVCygpJbf1s8U/jeBSAHk7GHEjQzFU?=
+ =?us-ascii?Q?nlV4mon0cCeryiTOt/InJDnIL9SJ+6MXKtSTnBiDzT1J5voQYP/6akDt1PSL?=
+ =?us-ascii?Q?BKjgQf3udwM+LOxKngrJpB1PN9YzdndFa6eNk7QIECywDICtYAWZxeucwEYi?=
+ =?us-ascii?Q?nFeqOLwv/yspqJfOAQl9Jegd8A+DFW3EXM9dFDDvD2KfTFr85zw1dd5c0P8A?=
+ =?us-ascii?Q?sR8HI9ZglttSEJ4ogQSZDfojtcs8ABKCErcO/H9DAamLgSM7rz8l40WMzOOH?=
+ =?us-ascii?Q?0F8D7OHhG53fnLf0TL2ATO/z/Zz5JyZMUktYsjPzxcD0HKADaEwZbtwJBQYJ?=
+ =?us-ascii?Q?bdsJi7zKtILd2+MWyVp6HgohTX9MbPE26L3ej2jbuAWz4v8psQbqMuxF0OhX?=
+ =?us-ascii?Q?YvwYrvav1jIPYHHuI60A75Yp4BuSYCOf7RHE2bsalalUTzqqo4OvGX2gsCDe?=
+ =?us-ascii?Q?jL//+JMZ8mucpJBramwGvywvuI33z21Qhgi1ZhyG98IGmald+DJrInOwZkTz?=
+ =?us-ascii?Q?+bj6ynmbDGdk4qOACOB+p0hxm9KYDRg+M4HkRhzwIUxPn9/O8aiXPSqHNqUi?=
+ =?us-ascii?Q?4sDTrRNOqyOAJi/Vf6+SL21jj+Lw0rA+evz0MJ5+3j/vzsATj4YphfTQq1ft?=
+ =?us-ascii?Q?EkmaLBIgxRF9RZCIXGdaCikUYmyl/by1W+gnNFnVWpcJmSR1kTGCemO1hM+R?=
+ =?us-ascii?Q?zriZ/L0GTDnyiMU3fes6QSv8z4gTZb/gWG9M4S6PxcnBiqGF1I2pGhrpT1g5?=
+ =?us-ascii?Q?0ma5cyOBC0UzN4bz5fh/GlLgrogA3Y8yWBSKe71dRud+nuxz3GUcfUFLWMCV?=
+ =?us-ascii?Q?1qT71KhgvikU699+5HoqxWjs6ReWAaX0dwyj4Q+DgCn2UETwb2mQg+RcD1wb?=
+ =?us-ascii?Q?FREJwcBr5mujLyxfhBJpSK6uIcqGUmrFbdBGPVshq6G+ujyF9ig6epXs+10M?=
+ =?us-ascii?Q?2Bx5VsMvB7Jrbj4H4REngPguRv8nI9hAAZTiAADzvxSkxwx6lAmXz6WdD2Sm?=
+ =?us-ascii?Q?Lbe4aSRJiaMOtrHZDfUoJ3OEAJev2dIueoe7fhM5s6UUkE9zgWPYBmjsxzR8?=
+ =?us-ascii?Q?s58lDn+13A1HvXKNXb0wUrxlWIAQOgRpPtQ7dlsxGAxTH3R5ipar/Iln/oNG?=
+ =?us-ascii?Q?9xpgQYUPWKf0HOxkAKtjIXrUXIRhqX0t5PViURjQAHwnuUGaVRjpEQWXFgly?=
+ =?us-ascii?Q?78D+A7n+dODdzed4Qm24gxnVoT/gAxS/EWwgcShLNw5W27kjJlNs+zZl4ler?=
+ =?us-ascii?Q?NFJYDazcX68InRNxlmpHNdNkBh/vfWRMOiALVprs?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9892dbcc-5ac8-41c4-27df-08daed3b326d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jan 2023 03:32:53.0901 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: An4kFQjQKfSwR+EaL9uksgjxgsiXQbUhfGm1APkx92jw1MVtvSJ2RhCTYCSsLuxsO9fyThEfaBe3pboD2E0AGg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6420
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=wei.w.wang@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,51 +196,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/2/23 4:34 PM, Bernhard Beschow wrote:
-> This series first renders TYPE_PIIX3_XEN_DEVICE redundant and finally removes
-> it. The motivation is to 1/ decouple PIIX from Xen and 2/ to make Xen in the PC
-> machine agnostic to the precise southbridge being used. 2/ will become
-> particularily interesting once PIIX4 becomes usable in the PC machine, avoiding
-> the "Frankenstein" use of PIIX4_ACPI in PIIX3.
->
-> Testing done:
-> None, because I don't know how to conduct this properly :(
->
-> Based-on: <20221221170003.2929-1-shentey@gmail.com>
->           "[PATCH v4 00/30] Consolidate PIIX south bridges"
->
-> Bernhard Beschow (6):
->   include/hw/xen/xen: Make xen_piix3_set_irq() generic and rename it
->   hw/isa/piix: Reuse piix3_realize() in piix3_xen_realize()
->   hw/isa/piix: Wire up Xen PCI IRQ handling outside of PIIX3
->   hw/isa/piix: Avoid Xen-specific variant of piix_write_config()
->   hw/isa/piix: Resolve redundant k->config_write assignments
->   hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVICE
->
->  hw/i386/pc_piix.c             | 34 ++++++++++++++++--
->  hw/i386/xen/xen-hvm.c         |  9 +++--
->  hw/isa/piix.c                 | 66 +----------------------------------
+On Tuesday, January 3, 2023 9:40 AM, Chao Peng wrote:
+> > Because guest memory defaults to private, and now this patch stores
+> > the attributes with KVM_MEMORY_ATTRIBUTE_PRIVATE instead of
+> _SHARED,
+> > it would bring more KVM_EXIT_MEMORY_FAULT exits at the beginning of
+> > boot time. Maybe it can be optimized somehow in other places? e.g. set
+> > mem attr in advance.
+>=20
+> KVM defaults to 'shared' because this ioctl can also be potentially used =
+by
+> normal VMs and 'shared' sounds a value meaningful for both normal VMs and
+> confidential VMs.=20
 
-This file does not exist on the Qemu master branch.
-But hw/isa/piix3.c and hw/isa/piix4.c do exist.
+Do you mean a normal VM could have pages marked private? What's the usage?
+(If all the pages are just marked shared for normal VMs, then why do we nee=
+d it)
 
-I tried renaming it from piix.c to piix3.c in the patch, but
-the patch set still does not apply cleanly on my tree.
+> As for more KVM_EXIT_MEMORY_FAULT exits during the
+> booting time, yes, setting all memory to 'private' for confidential VMs t=
+hrough
+> this ioctl in userspace before guest launch is an approach for KVM usersp=
+ace to
+> 'override' the KVM default and reduce the number of implicit conversions.
 
-Is this patch set re-based against something other than
-the current master Qemu branch?
-
-I have a system that is suitable for testing this patch set, but
-I need guidance on how to apply it to the Qemu source tree.
-
-Thanks,
-
-Chuck Zmudzinski
-
->  include/hw/southbridge/piix.h |  1 -
->  include/hw/xen/xen.h          |  2 +-
->  stubs/xen-hw-stub.c           |  2 +-
->  6 files changed, 40 insertions(+), 74 deletions(-)
->
-
+Most pages of a confidential VM are likely to be private pages. It seems mo=
+re efficient
+(and not difficult to check vm_type) to have KVM defaults to "private" for =
+confidential VMs
+and defaults to "shared" for normal VMs.
 
