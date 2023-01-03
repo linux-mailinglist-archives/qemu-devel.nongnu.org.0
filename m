@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA3865C632
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:27:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E98965C5F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:19:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pClrj-0000UH-Kg; Tue, 03 Jan 2023 13:18:23 -0500
+	id 1pClrk-0000Vj-6X; Tue, 03 Jan 2023 13:18:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pClrZ-00006z-Cz
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:18:14 -0500
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f])
+ id 1pClrc-0000Aw-53
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:18:16 -0500
+Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pClrX-0005Jk-UU
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:18:13 -0500
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-466c5fb1c39so435156267b3.10
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 10:18:11 -0800 (PST)
+ id 1pClra-0005Gi-D0
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:18:15 -0500
+Received: by mail-vs1-xe30.google.com with SMTP id i188so32588136vsi.8
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 10:18:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LAidI3WiD+zjwr6by+YYhTTuNMWH39p6ritGq9qXxUI=;
- b=kCyD9Mi7i/IPif+tk7C0ea2vhfSsSePSMQ4VpxXUYxNopCBXGFWj6wF5br+VwXgWRp
- 946e35stI1DLZwbf/SmOxDQDG408CLuwchnMbi6q5FEUecaYh6B2ORZdj32IxghzuRVj
- cdeyyE7nZF2RY9ZRxEVcdaOhCKRgt2iwNGGUHiAzXQlZMX6DJzs9dAc9eFS4EpHRdGg5
- fePN6MENJ7JKNXUq0zHuCVo/fmPonCWKrY15pUWcMpkhLWHsnDyl9163VrvnSt9O9jvp
- uiXhP/LbxKOPmnMy2DuWevNsxikttSw5Rvl0qkVQXECyJmUGmzdJcS6P2D9uq37dw1D3
- Llmg==
+ bh=E2/QSQpKB1Wxz1OwWrj4zfmK4ONtqzkfez0TTluzjsI=;
+ b=UQgK1skC3e4rFb4PCxuSHjLP8wiDvcqTC38RJMIDB9R/01AcJPJw7DfBdVqpCbsvD/
+ lywseIev8sJ1KXqKBkSoSp549UTWXDL/02YH6nzg64/MfhsBDYXthdzMovclf9o/OCdQ
+ BpDCCG1ekKhSXAtZDZs8g9V2kgwA+B+G4iivVsEVQWrW0Xl7FWuzFbZuEWzLqePtMbOy
+ qV5oD3tDy6FX+ZtPFqRHaXBss0Q+NzWwVZBHxhar6PTRbM9ECubwEL5wZ13mYWTHlyTv
+ w9VBMIolcngD1ltRyu2j5dJIE59KoIglX9b3yxgV12uVmSfRxJQo7+eJAzeEbglC/jwM
+ fJjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LAidI3WiD+zjwr6by+YYhTTuNMWH39p6ritGq9qXxUI=;
- b=g1wtnEcPRy4kigDA/Ady7K9ZoqVKPnYunqTGSia3MYOavmIGAN3XSMm9ezo9PyCCD7
- ULNcxmr1kPwuD87u+0geLvV+YtCZ20HeeNgRUJ4+AUn4QHrjEVvdbHrMkAvMGA+NC40y
- FeUfHo6C9xsP5zX+KQFUwAbw8vLndIBHp4bWBGDu96qCJQzjfJT40igI6XTK6o+CQ5TW
- zHrEUrs2e37K4uYtgnHQIsXZ+dYv3GaV7PdJMjRJHk/Obx9q3vEbuaEAS4wgS4CyCFmc
- TSMvgV1R3ToOEuI+Rm9fEdvqK3jRepRrDt4CMhckLqTBVjaoYQ9Qb0ubTxQUhtUsBfb7
- oU2g==
-X-Gm-Message-State: AFqh2kpnHPZZQr+N146ZrAf8ZCet4AyogBIa+NNQsyBwvk9EgvA2u9gA
- rvOzbbEWKqim8Cf7PNvPl6R/yZoc0gMqfEA6rvg=
-X-Google-Smtp-Source: AMrXdXtqL/AIft81E1rhze0dCIIutyTgvgMZ+FqJ1O3aUeDFnXDQQNwTruAg6vhE6ZrIyPriC3hYgQ==
-X-Received: by 2002:a81:1e4a:0:b0:48f:a921:40eb with SMTP id
- e71-20020a811e4a000000b0048fa92140ebmr16168277ywe.35.1672769890698; 
- Tue, 03 Jan 2023 10:18:10 -0800 (PST)
+ bh=E2/QSQpKB1Wxz1OwWrj4zfmK4ONtqzkfez0TTluzjsI=;
+ b=kWc/ZG/zbA0BACJd1A6mKxc2QlyXjbBInwaLkP8ng3h+L7fczMSvPjcgiHYsMRVz+D
+ lK5khw0Zx9DkL7D6YHyNw8nDYVtGmxtLAzHjaRghdv+6iA6MGumGzIo9yTj5RDVFpt7s
+ ISuwSTvMoxPcTkFWBz5pOfBmNx/3EEfXlQsc96vn2091zZxfeLmdpBNBDMC0T2JFi2sJ
+ eziKOPJCaijgT9x59dQ8cQXzV19gUVBRv/qCN9xdTBJsIjXZd5UVbZmZWg4blHpwrdnI
+ Ol2i6wSELkiWEn+rPoX/6wwI9k43kyKb8O+CGZAA9+6HMrrkUU17RFXvCsf4BmDR3lEG
+ M2og==
+X-Gm-Message-State: AFqh2kqf5W3V74PZH7lmMtuQy5D8VVbz17LL6VZqcQeWBJ3xCOBlKfPx
+ Ta+l0KE15H5vY6RszNN0sbBTS8yKoq9Zy7dcg4A=
+X-Google-Smtp-Source: AMrXdXtW8C9DLhWFhlG3kL7oCTQFTiCi22iccxXUJWwAIhdhlJDGUzwBIA4AX8GLuuwlbGx8tTIvLw==
+X-Received: by 2002:a05:6102:3e18:b0:3c5:ec9a:9348 with SMTP id
+ j24-20020a0561023e1800b003c5ec9a9348mr18321561vsv.20.1672769893723; 
+ Tue, 03 Jan 2023 10:18:13 -0800 (PST)
 Received: from stoup.. ([2607:fb90:8060:51a2:184b:6e49:c396:be2])
  by smtp.gmail.com with ESMTPSA id
- v2-20020a05620a440200b006fed2788751sm23042354qkp.76.2023.01.03.10.18.08
+ v2-20020a05620a440200b006fed2788751sm23042354qkp.76.2023.01.03.10.18.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jan 2023 10:18:10 -0800 (PST)
+ Tue, 03 Jan 2023 10:18:13 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
  armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
-Subject: [RFC PATCH 27/40] target/arm: Split out strongarm_class_init
-Date: Tue,  3 Jan 2023 10:16:33 -0800
-Message-Id: <20230103181646.55711-28-richard.henderson@linaro.org>
+Subject: [RFC PATCH 28/40] target/arm: Split out xscale*_class_init
+Date: Tue,  3 Jan 2023 10:16:34 -0800
+Message-Id: <20230103181646.55711-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230103181646.55711-1-richard.henderson@linaro.org>
 References: <20230103181646.55711-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=richard.henderson@linaro.org; helo=mail-yw1-x112f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
+ envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,49 +90,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use an intermediate function to share code between
-sa1100_class_init and sa1110_class_init.
+Use two intermediate functions to share code between
+the 13 variants of pxa*_class_init.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu_tcg.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ target/arm/cpu_tcg.c | 81 +++++++++++++-------------------------------
+ 1 file changed, 23 insertions(+), 58 deletions(-)
 
 diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 1ef825b39e..c6d50f326e 100644
+index c6d50f326e..a3b6940040 100644
 --- a/target/arm/cpu_tcg.c
 +++ b/target/arm/cpu_tcg.c
-@@ -837,21 +837,24 @@ static void ti925t_class_init(ARMCPUClass *acc)
-     acc->reset_sctlr = 0x00000070;
+@@ -857,120 +857,85 @@ static void sa1110_class_init(ARMCPUClass *acc)
+     acc->midr = 0x6901B119;
  }
  
--static void sa1100_class_init(ARMCPUClass *acc)
-+static void strongarm_class_init(ARMCPUClass *acc)
+-static void pxa250_class_init(ARMCPUClass *acc)
++static void xscale_class_init(ARMCPUClass *acc)
  {
--    acc->dtb_compatible = "intel,sa1100";
-     set_class_feature(acc, ARM_FEATURE_STRONGARM);
-     set_class_feature(acc, ARM_FEATURE_DUMMY_C15_REGS);
--    acc->midr = 0x4401A11B;
-     acc->reset_sctlr = 0x00000070;
+     acc->dtb_compatible = "marvell,xscale";
+     set_class_feature(acc, ARM_FEATURE_V5);
+     set_class_feature(acc, ARM_FEATURE_XSCALE);
+-    acc->midr = 0x69052100;
+     acc->ctr = 0xd172172;
+     acc->reset_sctlr = 0x00000078;
  }
  
-+static void sa1100_class_init(ARMCPUClass *acc)
++static void pxa250_class_init(ARMCPUClass *acc)
 +{
-+    strongarm_class_init(acc);
-+    acc->dtb_compatible = "intel,sa1100";
-+    acc->midr = 0x4401A11B;
++    xscale_class_init(acc);
++    acc->midr = 0x69052100;
 +}
 +
- static void sa1110_class_init(ARMCPUClass *acc)
+ static void pxa255_class_init(ARMCPUClass *acc)
  {
--    set_class_feature(acc, ARM_FEATURE_STRONGARM);
--    set_class_feature(acc, ARM_FEATURE_DUMMY_C15_REGS);
-+    strongarm_class_init(acc);
-     acc->midr = 0x6901B119;
--    acc->reset_sctlr = 0x00000070;
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
++    xscale_class_init(acc);
+     acc->midr = 0x69052d00;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
  }
  
- static void pxa250_class_init(ARMCPUClass *acc)
+ static void pxa260_class_init(ARMCPUClass *acc)
+ {
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
++    xscale_class_init(acc);
+     acc->midr = 0x69052903;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
+ }
+ 
+ static void pxa261_class_init(ARMCPUClass *acc)
+ {
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
++    xscale_class_init(acc);
+     acc->midr = 0x69052d05;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
+ }
+ 
+ static void pxa262_class_init(ARMCPUClass *acc)
+ {
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
++    xscale_class_init(acc);
+     acc->midr = 0x69052d06;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
++}
++
++static void xscale_iwmmxt_class_init(ARMCPUClass *acc)
++{
++    xscale_class_init(acc);
++    set_class_feature(acc, ARM_FEATURE_IWMMXT);
+ }
+ 
+ static void pxa270a0_class_init(ARMCPUClass *acc)
+ {
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
+-    set_class_feature(acc, ARM_FEATURE_IWMMXT);
++    xscale_iwmmxt_class_init(acc);
+     acc->midr = 0x69054110;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
+ }
+ 
+ static void pxa270a1_class_init(ARMCPUClass *acc)
+ {
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
+-    set_class_feature(acc, ARM_FEATURE_IWMMXT);
++    xscale_iwmmxt_class_init(acc);
+     acc->midr = 0x69054111;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
+ }
+ 
+ static void pxa270b0_class_init(ARMCPUClass *acc)
+ {
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
+-    set_class_feature(acc, ARM_FEATURE_IWMMXT);
++    xscale_iwmmxt_class_init(acc);
+     acc->midr = 0x69054112;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
+ }
+ 
+ static void pxa270b1_class_init(ARMCPUClass *acc)
+ {
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
+-    set_class_feature(acc, ARM_FEATURE_IWMMXT);
++    xscale_iwmmxt_class_init(acc);
+     acc->midr = 0x69054113;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
+ }
+ 
+ static void pxa270c0_class_init(ARMCPUClass *acc)
+ {
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
+-    set_class_feature(acc, ARM_FEATURE_IWMMXT);
++    xscale_iwmmxt_class_init(acc);
+     acc->midr = 0x69054114;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
+ }
+ 
+ static void pxa270c5_class_init(ARMCPUClass *acc)
+ {
+-    acc->dtb_compatible = "marvell,xscale";
+-    set_class_feature(acc, ARM_FEATURE_V5);
+-    set_class_feature(acc, ARM_FEATURE_XSCALE);
+-    set_class_feature(acc, ARM_FEATURE_IWMMXT);
++    xscale_iwmmxt_class_init(acc);
+     acc->midr = 0x69054117;
+-    acc->ctr = 0xd172172;
+-    acc->reset_sctlr = 0x00000078;
+ }
+ 
+ #ifdef CONFIG_TCG
 -- 
 2.34.1
 
