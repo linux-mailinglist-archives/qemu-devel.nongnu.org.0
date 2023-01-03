@@ -2,88 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFC265C2A5
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 16:01:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1907E65C2DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 16:17:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCimI-0001pJ-8z; Tue, 03 Jan 2023 10:00:34 -0500
+	id 1pCj1g-0005RP-BS; Tue, 03 Jan 2023 10:16:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCimG-0001ou-Io
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 10:00:32 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCimD-0005UM-Ve
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 10:00:31 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id fc4so74267684ejc.12
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 07:00:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BbiYA4syIWhtRduZhclaU1L2tgKhv+rXny697X1aCUs=;
- b=NGBcWEJ60z4jAHr/GNrWWHcYaozJ4ix789xN/8inLaa0jHhLtY7g67jH54cKvgMQUd
- tCY9zn+Ewx/EvGIfhQfHI24cG54Qd4m9d1GFNfqF3tYKH17uSHKzX8ItuBY2w1gISsbI
- ldMqNqtHKeURkStBKIbs1cOFnXEXiJ4p2M/j2utlLcUYczkbJ6LKU0wZ38aNVOm1kVv8
- KGbYY8V15MbMUDgRhuoG86bOe2YXcUhlZ5CraB+5c5nZyhw3Kc2MyfTPaZRgjRkBsUId
- UFY3LJ3WS87NiZxkPFl0v5e+1Q8aF7NYcUWOvnwYwDH2G8nUgoyJTtLt+w9mo/MVi6Yy
- renA==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pCj1Q-0005JJ-Aw
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 10:16:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pCj1M-00082e-RS
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 10:16:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672758966;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3C3N3hWqoUvt4wQQ24fzp8QfU4qA5jURytjfdBX+cwQ=;
+ b=ViaUEycebbNsQyPtrw6ejFNZSN8OSNTAWOo9EUv599P33N1PTellujKoSu0i2Lz37y5pni
+ hjqYSaoh4Q7PFKzJ3bf/bAELjGBdC+AjX73Ea1bMul5PJF5k387r6VJbibwBc6Al6QRWn1
+ 7MRMZgnChNhgpgr6DF6MXXD/NYYAuKA=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-546-vGVGbbo9ON6mRAwp7M5B2g-1; Tue, 03 Jan 2023 10:14:59 -0500
+X-MC-Unique: vGVGbbo9ON6mRAwp7M5B2g-1
+Received: by mail-io1-f72.google.com with SMTP id
+ e15-20020a056602158f00b006e01d8fa493so8448368iow.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 07:14:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BbiYA4syIWhtRduZhclaU1L2tgKhv+rXny697X1aCUs=;
- b=73W2q4Plkt389UACwHAFEN0f/qtNNeBp2d8MaqtQf8QKVMxl0c7nwX0ugLB+Gbevm4
- 5iESDFuAzeg8UiMs3hGX28cYedYLAVDftsDtYnJK0yzPDERvnu33V+6pa57jDWg76g9W
- 15Q/557umnSVqpgb+cGJYk+IkBOOjnl2NlHckCM56/xRn1kTnWptqHNoVziY+52ff+Lq
- nyU3o6mcFhtmq5MAeCuBtHKXjOv7fg5CMNOPY3XDBCD6pvxQtih8DBTsVruRv3Wxev+8
- C8g74zCg1ahobeVbjkmpggB75XkX2+9OelBDSiB6VLWb3cpRQTWBxT5V1+w8OMaT/b76
- CiDw==
-X-Gm-Message-State: AFqh2kqpDenx5LCKWkq3mgMtR4KfGXzGC/aXkZgpiH26QhvKtR5wS1y2
- Vq8ULPqylbwohNDvEc6R64s=
-X-Google-Smtp-Source: AMrXdXu+CctIxDgJz9Gad0PoPYSOoCgBakqcElbnheU92TubV2WTmcN1YNgQ4Ilnk0EDDNqL0vvCOA==
-X-Received: by 2002:a17:907:a803:b0:7c3:15cc:76d0 with SMTP id
- vo3-20020a170907a80300b007c315cc76d0mr45901128ejc.47.1672758026794; 
- Tue, 03 Jan 2023 07:00:26 -0800 (PST)
-Received: from ?IPv6:::1?
- (p200300faaf0bb200a19ed0dad62e58f0.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:a19e:d0da:d62e:58f0])
- by smtp.gmail.com with ESMTPSA id
- kz5-20020a17090777c500b0084c62b7b7d8sm9683078ejc.187.2023.01.03.07.00.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jan 2023 07:00:25 -0800 (PST)
-Date: Tue, 03 Jan 2023 15:00:17 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Michael S Tsirkin <mst@redhat.com>, qemu-devel@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_4/6=5D_hw/rtc/mc146818rtc=3A_Add_a_prope?=
- =?US-ASCII?Q?rty_for_the_availability_of_the_slew_tick_policy?=
-In-Reply-To: <20230103084801.20437-5-thuth@redhat.com>
-References: <20230103084801.20437-1-thuth@redhat.com>
- <20230103084801.20437-5-thuth@redhat.com>
-Message-ID: <6EF09153-9E74-4F20-9662-B80C494106D8@gmail.com>
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3C3N3hWqoUvt4wQQ24fzp8QfU4qA5jURytjfdBX+cwQ=;
+ b=XRe/GYS9g4ABdBtB6Fwn8K29u0ja6fYG6iKpHOrI5DSboAACxQswGs744d3oQYjvcK
+ 3890nOGp9NVJuDL4lk+LyFAFR67sOLCIDO8RYS+Auwcrdj26K9welEMOOHLU5S7qL5tU
+ W0Pmlh3umlLAU2FvwckbJfrre71qWcKwMoGFxp6/8gZqGjZbRO2DrPQltrYVB28/UAhA
+ 67AISpUNirdoxdTSbe44ZE1T5Y5fQhtdW7afYzWYGdxkCLw4vbZQjpCmyXbrg3iRuhc8
+ MJan+2qmg8Oesyu8rzXYA8IrPryq6la/zuIps4wJmdoJxZ7WKygZDeUkjVqT3feRTiXN
+ yqIA==
+X-Gm-Message-State: AFqh2koEWtxkQ7sPqjdOuWOpk1usBH4dS6ZTk2eEEBHxfr8Z3WGZfsT2
+ bsTVj8aVizy7qx2ulRN79Hnqe6S/6z9ZU39HIhEDp3e9CJ9NVvuk1dYbYTJUvc9nckCoqaGIzb/
+ GVv/uJQgBKwPdoFk=
+X-Received: by 2002:a92:b745:0:b0:304:c04b:c184 with SMTP id
+ c5-20020a92b745000000b00304c04bc184mr30283018ilm.28.1672758899078; 
+ Tue, 03 Jan 2023 07:14:59 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXv34XF6KPgrepazk8naDtFk/N6HqJkq8zkS1urCN22H3/wO2mCbFnxpkHrBAKNgBTuqKEFBxA==
+X-Received: by 2002:a92:b745:0:b0:304:c04b:c184 with SMTP id
+ c5-20020a92b745000000b00304c04bc184mr30283006ilm.28.1672758898748; 
+ Tue, 03 Jan 2023 07:14:58 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ v17-20020a02b091000000b00356738a2aa2sm9895119jah.55.2023.01.03.07.14.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jan 2023 07:14:57 -0800 (PST)
+Date: Tue, 3 Jan 2023 08:14:56 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Chuck Zmudzinski <brchuckz@netscape.net>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, Stefano
+ Stabellini <sstabellini@kernel.org>, Anthony Perard
+ <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
+Message-ID: <20230103081456.1d676b8e.alex.williamson@redhat.com>
+In-Reply-To: <c21e933f-0539-9ffb-b2f8-f8e1a279b16f@netscape.net>
+References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
+ <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
+ <20230102124605-mutt-send-email-mst@kernel.org>
+ <c21e933f-0539-9ffb-b2f8-f8e1a279b16f@netscape.net>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,122 +107,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, 2 Jan 2023 18:10:24 -0500
+Chuck Zmudzinski <brchuckz@netscape.net> wrote:
 
+> On 1/2/23 12:46 PM, Michael S. Tsirkin wrote:
+> > On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:  
+> > > Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
+> > > as noted in docs/igd-assign.txt in the Qemu source code.
+> > > 
+> > > Currently, when the xl toolstack is used to configure a Xen HVM guest with
+> > > Intel IGD passthrough to the guest with the Qemu upstream device model,
+> > > a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
+> > > a different slot. This problem often prevents the guest from booting.
+> > > 
+> > > The only available workaround is not good: Configure Xen HVM guests to use
+> > > the old and no longer maintained Qemu traditional device model available
+> > > from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
+> > > 
+> > > To implement this feature in the Qemu upstream device model for Xen HVM
+> > > guests, introduce the following new functions, types, and macros:
+> > > 
+> > > * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
+> > > * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
+> > > * typedef XenPTQdevRealize function pointer
+> > > * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
+> > > * xen_igd_reserve_slot and xen_igd_clear_slot functions
+> > > 
+> > > The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
+> > > member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
+> > > the xl toolstack with the gfx_passthru option enabled, which sets the
+> > > igd-passthru=on option to Qemu for the Xen HVM machine type.
+> > > 
+> > > The new xen_igd_reserve_slot function also needs to be implemented in
+> > > hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
+> > > when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
+> > > in which case it does nothing.
+> > > 
+> > > The new xen_igd_clear_slot function overrides qdev->realize of the parent
+> > > PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
+> > > since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
+> > > created in hw/i386/pc_piix.c for the case when igd-passthru=on.
+> > > 
+> > > Move the call to xen_host_pci_device_get, and the associated error
+> > > handling, from xen_pt_realize to the new xen_igd_clear_slot function to
+> > > initialize the device class and vendor values which enables the checks for
+> > > the Intel IGD to succeed. The verification that the host device is an
+> > > Intel IGD to be passed through is done by checking the domain, bus, slot,
+> > > and function values as well as by checking that gfx_passthru is enabled,
+> > > the device class is VGA, and the device vendor in Intel.
+> > > 
+> > > Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>  
+> >
+> > I'm not sure why is the issue xen specific. Can you explain?
+> > Doesn't it affect kvm too?  
+> 
+> Recall from docs/igd-assign.txt that there are two modes for
+> igd passthrough: legacy and upt, and the igd needs to be
+> at slot 2 only when using legacy mode which gives one
+> single guest exclusive access to the Intel igd.
+> 
+> It's only xen specific insofar as xen does not have support
+> for the upt mode so xen must use legacy mode which
+> requires the igd to be at slot 2. I am not an expert with
 
-Am 3=2E Januar 2023 08:47:59 UTC schrieb Thomas Huth <thuth@redhat=2Ecom>:
->We want to get rid of the "#ifdef TARGET_I386" statements in the mc146818
->code, so we need a different way to decide whether the slew tick policy
->is available or not=2E Introduce a new property "slew-tick-policy-availab=
-le"
->which can be set by the machines that support this tick policy=2E
->
->Signed-off-by: Thomas Huth <thuth@redhat=2Ecom>
->---
-> include/hw/rtc/mc146818rtc=2Eh |  1 +
-> hw/i386/pc_piix=2Ec            |  1 +
-> hw/isa/lpc_ich9=2Ec            |  1 +
-> hw/isa/piix3=2Ec               |  1 +
-> hw/rtc/mc146818rtc=2Ec         | 16 ++++++++++------
+UPT mode never fully materialized for direct assignment, the folks at
+Intel championing this scenario left.
 
-IIUC you might also need to inline mc146818_rtc_init() in i386/microvm=2Ec=
- and activate the new property there as well=2E
+> kvm, but if I understand correctly, with kvm one can use
+> the upt mode with the Intel i915 kvmgt kernel module
+> and in that case the guest will see a virtual Intel gpu
+> that can be at any arbitrary slot when using kvmgt, and
+> also, in that case, more than one guest can access the
+> igd through the kvmgt kernel module.
 
-Best regards,
-Bernhard
+This is true, IIRC an Intel vGPU does not need to be in slot 2.
 
-> 5 files changed, 14 insertions(+), 6 deletions(-)
->
->diff --git a/include/hw/rtc/mc146818rtc=2Eh b/include/hw/rtc/mc146818rtc=
-=2Eh
->index 1db0fcee92=2E=2E54af63d091 100644
->--- a/include/hw/rtc/mc146818rtc=2Eh
->+++ b/include/hw/rtc/mc146818rtc=2Eh
->@@ -45,6 +45,7 @@ struct RTCState {
->     QEMUTimer *coalesced_timer;
->     Notifier clock_reset_notifier;
->     LostTickPolicy lost_tick_policy;
->+    bool slew_tick_policy_available;
->     Notifier suspend_notifier;
->     QLIST_ENTRY(RTCState) link;
-> };
->diff --git a/hw/i386/pc_piix=2Ec b/hw/i386/pc_piix=2Ec
->index bc9ea8cdae=2E=2E382c6add3b 100644
->--- a/hw/i386/pc_piix=2Ec
->+++ b/hw/i386/pc_piix=2Ec
->@@ -233,6 +233,7 @@ static void pc_init1(MachineState *machine,
->=20
->         rtc_state =3D isa_new(TYPE_MC146818_RTC);
->         qdev_prop_set_int32(DEVICE(rtc_state), "base_year", 2000);
->+        qdev_prop_set_bit(DEVICE(rtc_state), "slew-tick-policy-available=
-", true);
->         isa_realize_and_unref(rtc_state, isa_bus, &error_fatal);
->=20
->         i8257_dma_init(isa_bus, 0);
->diff --git a/hw/isa/lpc_ich9=2Ec b/hw/isa/lpc_ich9=2Ec
->index 498175c1cc=2E=2Eaeab4d8549 100644
->--- a/hw/isa/lpc_ich9=2Ec
->+++ b/hw/isa/lpc_ich9=2Ec
->@@ -733,6 +733,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error **er=
-rp)
->=20
->     /* RTC */
->     qdev_prop_set_int32(DEVICE(&lpc->rtc), "base_year", 2000);
->+    qdev_prop_set_bit(DEVICE(&lpc->rtc), "slew-tick-policy-available", t=
-rue);
->     if (!qdev_realize(DEVICE(&lpc->rtc), BUS(isa_bus), errp)) {
->         return;
->     }
->diff --git a/hw/isa/piix3=2Ec b/hw/isa/piix3=2Ec
->index c68e51ddad=2E=2E825b1cbee2 100644
->--- a/hw/isa/piix3=2Ec
->+++ b/hw/isa/piix3=2Ec
->@@ -316,6 +316,7 @@ static void pci_piix3_realize(PCIDevice *dev, Error *=
-*errp)
->=20
->     /* RTC */
->     qdev_prop_set_int32(DEVICE(&d->rtc), "base_year", 2000);
->+    qdev_prop_set_bit(DEVICE(&d->rtc), "slew-tick-policy-available", tru=
-e);
->     if (!qdev_realize(DEVICE(&d->rtc), BUS(isa_bus), errp)) {
->         return;
->     }
->diff --git a/hw/rtc/mc146818rtc=2Ec b/hw/rtc/mc146818rtc=2Ec
->index 947d68c257=2E=2E86381a74c3 100644
->--- a/hw/rtc/mc146818rtc=2Ec
->+++ b/hw/rtc/mc146818rtc=2Ec
->@@ -922,14 +922,16 @@ static void rtc_realizefn(DeviceState *dev, Error *=
-*errp)
->     rtc_set_date_from_host(isadev);
->=20
->     switch (s->lost_tick_policy) {
->-#ifdef TARGET_I386
->-    case LOST_TICK_POLICY_SLEW:
->-        s->coalesced_timer =3D
->-            timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
->-        break;
->-#endif
->     case LOST_TICK_POLICY_DISCARD:
->         break;
->+    case LOST_TICK_POLICY_SLEW:
->+#ifdef TARGET_I386
->+        if (s->slew_tick_policy_available) {
->+            s->coalesced_timer =3D timer_new_ns(rtc_clock, rtc_coalesced=
-_timer, s);
->+            break;
->+        }
->+#endif
->+        /* fallthrough */
->     default:
->         error_setg(errp, "Invalid lost tick policy=2E");
->         return;
->@@ -989,6 +991,8 @@ static Property mc146818rtc_properties[] =3D {
->     DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
->     DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
->                                lost_tick_policy, LOST_TICK_POLICY_DISCAR=
-D),
->+    DEFINE_PROP_BOOL("slew-tick-policy-available", RTCState,
->+                     slew_tick_policy_available, false),
->     DEFINE_PROP_END_OF_LIST(),
-> };
->=20
+> Again, I am not an expert and do not have as much
+> experience with kvm, but if I understand correctly it is
+> possible to use the legacy mode with kvm and I think you
+> are correct that if one uses kvm in legacy mode and without
+> using the Intel i915 kvmgt kernel module, then it would be
+> necessary to reserve slot 2 for the igd on kvm.
+
+It's necessary to configure the assigned IGD at slot 2 to make it
+functional, yes, but I don't really understand this notion of
+"reserving" slot 2.  If something occupies address 00:02.0 in the
+config, it's the user's or management tool's responsibility to move it
+to make this configuration functional.  Why does QEMU need to play a
+part in reserving this bus address.  IGD devices are not generally
+hot-pluggable either, so it doesn't seem we need to reserve an address
+in case an IGD device is added dynamically later.
+ 
+> Your question makes me curious, and I have not been able
+> to determine if anyone has tried igd passthrough using
+> legacy mode on kvm with recent versions of linux and qemu.
+
+Yes, it works.
+
+> I will try reproducing the problem on kvm in legacy mode with
+> current versions of linux and qemu and report my findings.
+> With kvm, there might be enough flexibility to specify the
+> slot number for every pci device in the guest. Such a
+
+I think this is always the recommendation, libvirt will do this by
+default in order to make sure the configuration is reproducible.  This
+is what we generally rely on for kvm/vfio IGD assignment to place the
+GPU at the correct address.
+
+> capability is not available using the xenlight toolstack
+> for managing xen guests, so I have been using this patch
+> to ensure that the Intel igd is at slot 2 with xen guests
+> created by the xenlight toolstack.
+
+Seems like a deficiency in xenlight.  I'm not sure why QEMU should take
+on this burden to support support tool stacks that lack such basic
+features.
+ 
+> The patch as is will only fix the problem on xen, so if the
+> problem exists on kvm also, I agree that the patch should
+> be modified to also fix it on kvm.
+
+AFAICT, it's not a problem on kvm/vfio because we generally make use of
+invocations that specify bus addresses for each device by default,
+making this a configuration requirement for the user or management tool
+stack.  Thanks,
+
+Alex
+
 
