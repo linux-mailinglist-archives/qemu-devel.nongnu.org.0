@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3435E65C001
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 13:39:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D2C65C00E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 13:43:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCgZL-0001Ya-Oc; Tue, 03 Jan 2023 07:39:10 -0500
+	id 1pCgco-0002ku-1Q; Tue, 03 Jan 2023 07:42:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pCgZ1-0001V3-KW
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 07:38:43 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pCgcf-0002jZ-Sa
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 07:42:29 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pCgYy-00040w-4n
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 07:38:42 -0500
-Received: by mail-wr1-x434.google.com with SMTP id t15so20436104wro.9
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 04:38:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pCgce-0004p2-8p
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 07:42:29 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ ay2-20020a05600c1e0200b003d22e3e796dso23026968wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 04:42:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=N0BfHbJ7SLn7gor5eQatMKlsPcWuEKBGWiLRqR7D8JU=;
- b=ANJ+75NTcgVcplOl4BG5640EFT5bAwcLuhKar8t1unlWkU9SVz9WxOBm/TcsytyFKs
- rKgs2pYzNhBz1HlWskO9Y3SCdRgMRQbdXwlmFzO5Kj/++0cnbOZclvRsuFpQtibgGrrB
- 5OB4qebMSR0MtlsfDiPQ8SpKHLfDIq4Lr2UxMtDZSb/qnKTpjNDLnP3+2vcQP46foRp7
- WUnLtUpWTEFBgbNXbFP8UQtJBll+EDO31Ixi/t5FbC0l/UJTDewIU6PAMORWW1PsfLSf
- MdxrE0TkVSzxinAZmOLgoaCQsxNoPVt/2/BkbQejtyGuVx6PnTEKesAEUmt8YHWX+/v4
- mFzw==
+ bh=KoZ1cN36t7x1aEHQTkdCdbzlR6kvEEEvvwkaHyKlcgk=;
+ b=sK4nogXsG9XyMDRLamR69lh0AlzZ2aEl0jU1o0VxWd5lsVpki+Bqc9pQcIwwmOIAhm
+ 1bW4Ij8cgBKOVwK4X4u/VFQQ8tGPIGExm0z1xrIjG1W8AxeTYfDk5v0gVojpEUioMD7k
+ TE4xNhnrGrtWRMiawmu4ujSI3nTmr79pL9PG/IA+QjPU3+V+1sbNbBm58nU8QwGLPNkr
+ OrRKri1WibKJXmr1CPRdwzB+AcOp4L0ePfQa0E7rS0eCz80iJAOvwV91TgnTQWgb0kuj
+ ldiRZ/C6pzhYcSLJNoYgpjXhQHLKev/+StNYTQYSpA3nUcY+oLvD3CJ338BFEDWCd8g/
+ Ks8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N0BfHbJ7SLn7gor5eQatMKlsPcWuEKBGWiLRqR7D8JU=;
- b=Q3K/wX+aLSZYkORXPNo5cfCM7DuwTYjXWLYXPlCUe+/ZHzpSBveoBKeDPyhpoS3wgq
- yVGg6cuYRU9NFuQQKN4AaDqK7DywzRA447Seew/SHXuGEsOX3OW3Kqa+/6AJnDJQPULK
- 5IJoOSyWFqTgNyh/Oif/E4/4IWAk25spkS/K+Q0QTHdbbSy11RBlz/yttwVjQ4B9xphV
- DLCEQkuTNYUhHpagxGCcRmWGUeL/tFCTML6TIQBr/+s99Q3YNSrGYuvZGMSVpIoJGj92
- 12LO5z4rAqWRJmPfQ0js7FjrPBy+0ytFB2tx5SSTMFYIgMnlz3en9HVMS/0m13y2xAK3
- 7nKA==
-X-Gm-Message-State: AFqh2krjVpcqO8GioSCMnxqJw9Nw5w632EktOr3Hv5XhvZteG43ZptLa
- 5NF6uy3eFamO5woq8kWaFHgPwg==
-X-Google-Smtp-Source: AMrXdXvlKNbSJ0++qDW1wr5QXwlQ+1djA9G91HET/RIV1ZmpSWk6oRNwyK8mQzpBNrAGH8IpEas2aA==
-X-Received: by 2002:a05:6000:1c05:b0:261:d8be:3046 with SMTP id
- ba5-20020a0560001c0500b00261d8be3046mr29094901wrb.0.1672749516835; 
- Tue, 03 Jan 2023 04:38:36 -0800 (PST)
+ bh=KoZ1cN36t7x1aEHQTkdCdbzlR6kvEEEvvwkaHyKlcgk=;
+ b=5Tsi76eER+IcTyjvoRaru5VNpUz/OGsJTFEC7Ib/s6q1HDBlDI2Yg3wsHqAsUG8nNI
+ uUmgdnD0f7GS4Pn9xzD22G7WBk/IzX0t++EaYa78aMYqqAlrlD9U2uuUFM2lmGvYVdqc
+ YGlTcEZB2U2emZTaJ7bQ4B5XMBWLUTPXg4X12KzpYr6wrooXl4SFlIgsGscHXk7JhCJc
+ xagM2M0wAZmCmvbvPnSNB8ZTCmk6khKjW8wpQlBBDfYvKH6NLYgMkBPHCwORItTTxxdG
+ Yw1TQjgfkTTYUYbi7EVKxhYeZ7+TFtgK407HGUa5LmGWmPCrb7hJcp39Hacpcpz5hjvB
+ zpZg==
+X-Gm-Message-State: AFqh2kq0FvCeK5uDYMR//fm5o0LwVkjGDAqEzvZWBG6ek/U2BCyaMiXn
+ qCCFUBrmKQzLquBP19VtZEz+zg==
+X-Google-Smtp-Source: AMrXdXtejiNfPS2Lb/TDiM8BrLQkx7Fc7gBPTW23ESU7IngSCG5R2eEf5bDmwWtO4N1b65tdRui8Og==
+X-Received: by 2002:a05:600c:3589:b0:3d0:6c60:b4d1 with SMTP id
+ p9-20020a05600c358900b003d06c60b4d1mr38186049wmq.6.1672749746890; 
+ Tue, 03 Jan 2023 04:42:26 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o15-20020a5d684f000000b00286ad197346sm18091163wrw.70.2023.01.03.04.38.35
+ l27-20020a05600c1d1b00b003cfd4e6400csm45707865wms.19.2023.01.03.04.42.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jan 2023 04:38:36 -0800 (PST)
-Message-ID: <9cd0e326-21d4-6722-3408-5644fd01eb40@linaro.org>
-Date: Tue, 3 Jan 2023 13:38:34 +0100
+ Tue, 03 Jan 2023 04:42:26 -0800 (PST)
+Message-ID: <5f0e1f03-abcc-f193-3b9e-8bfc3133bebf@linaro.org>
+Date: Tue, 3 Jan 2023 13:42:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 04/10] tests/docker: fix a win32 error due to portability
+Subject: Re: [PATCH 07/10] qmp: 'add_client' actually expects sockets
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
@@ -68,13 +69,13 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <20230103110814.3726795-1-marcandre.lureau@redhat.com>
- <20230103110814.3726795-5-marcandre.lureau@redhat.com>
+ <20230103110814.3726795-8-marcandre.lureau@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230103110814.3726795-5-marcandre.lureau@redhat.com>
+In-Reply-To: <20230103110814.3726795-8-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -100,16 +101,23 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 3/1/23 12:08, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> docker.py is run during configure, and produces an error: No module
-> named 'pwd'.
+> Whether it is SPICE, VNC, D-Bus, or the socket chardev, they all
+> actually expect a socket kind or will fail in different ways at runtime.
 > 
-> Use a more portable and recommended alternative to lookup the user
-> "login name".
+> Throw an error early if the given 'add_client' fd is not a socket, and
+> close it to avoid leaks.
+> 
+> This allows to replace the close() call with a more correct & portable
+> closesocket() version.
+> 
+> (this will allow importing sockets on Windows with a specialized command
+> in the following patch, while keeping the remaining monitor associated
+> sockets/add_client code & usage untouched)
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   tests/docker/docker.py | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   monitor/qmp-cmds.c | 19 +++++++++++++------
+>   1 file changed, 13 insertions(+), 6 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
