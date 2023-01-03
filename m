@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15AA465BEB1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 12:11:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8C365BEB4
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 12:11:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCfA5-0005OY-Eh; Tue, 03 Jan 2023 06:08:53 -0500
+	id 1pCfA8-0005SQ-1L; Tue, 03 Jan 2023 06:08:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pCfA3-0005MW-Kk
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 06:08:51 -0500
+ id 1pCfA5-0005QD-Tf
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 06:08:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pCfA1-0005Ed-Ss
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 06:08:51 -0500
+ id 1pCfA4-0005En-Bt
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 06:08:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672744129;
+ s=mimecast20190719; t=1672744131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RKOpCRi1MkWMPwp2hM/J/4sn8JPl8vtlh2CrbCGGR+s=;
- b=UB3CLOX46+fAVikBBDv3OcMOCnU1UXPsndkg02+7dTZ7L3A1NKN/7aBUHk3xIRlq00JhlY
- g7hDFXmKIcG5hDpQPoUYeECVBmDCIIxkutv1cIFznOpHP+AffRn74BsrN1gmy/nrb9LZru
- KSj6ZYUbl3BjGs2xmNY6ydBwz0IWD2o=
+ bh=0PreR5Ei6Fw8qP9AzrblH/jDo7Gi98t8fcPxixkCwUo=;
+ b=UpWkjTwf2fsfmi5cbfG6dE/pUCnCGoBYvlH3smCM0aD4SnRtV2EZdIMGckdWHjPxYIV4Gk
+ kaw0n9UBZhmO1owf2JYti91Gku0ZtgkGX4BkzAmxtb/9YYdhYLB168bHCVh542Er4B4ZPH
+ Yl71XLqZd3fRHBzsduQD8HHnW2rjIhc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-126-Hob5w8fiM5Snjlhakr6p6A-1; Tue, 03 Jan 2023 06:08:46 -0500
-X-MC-Unique: Hob5w8fiM5Snjlhakr6p6A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-214-iSX3FzyIODiCMXX-eesPow-1; Tue, 03 Jan 2023 06:08:50 -0500
+X-MC-Unique: iSX3FzyIODiCMXX-eesPow-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C39BC1C05EAC;
- Tue,  3 Jan 2023 11:08:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E46BC3806713;
+ Tue,  3 Jan 2023 11:08:49 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55DA9C15BA0;
- Tue,  3 Jan 2023 11:08:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28658140EBF4;
+ Tue,  3 Jan 2023 11:08:48 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
@@ -54,15 +54,15 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH 06/10] osdep: implement qemu_socketpair() for win32
-Date: Tue,  3 Jan 2023 15:08:10 +0400
-Message-Id: <20230103110814.3726795-7-marcandre.lureau@redhat.com>
+Subject: [PATCH 07/10] qmp: 'add_client' actually expects sockets
+Date: Tue,  3 Jan 2023 15:08:11 +0400
+Message-Id: <20230103110814.3726795-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20230103110814.3726795-1-marcandre.lureau@redhat.com>
 References: <20230103110814.3726795-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -90,160 +90,92 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Manually implement a socketpair() function, using UNIX sockets and
-simple peer credential checking.
+Whether it is SPICE, VNC, D-Bus, or the socket chardev, they all
+actually expect a socket kind or will fail in different ways at runtime.
 
-QEMU doesn't make much use of socketpair, beside vhost-user which is not
-available for win32 at this point. However, I intend to use it for
-writing some new portable tests.
+Throw an error early if the given 'add_client' fd is not a socket, and
+close it to avoid leaks.
+
+This allows to replace the close() call with a more correct & portable
+closesocket() version.
+
+(this will allow importing sockets on Windows with a specialized command
+in the following patch, while keeping the remaining monitor associated
+sockets/add_client code & usage untouched)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/qemu/sockets.h |   2 -
- util/oslib-win32.c     | 110 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 110 insertions(+), 2 deletions(-)
+ monitor/qmp-cmds.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 2b0698a7c9..d935fd80da 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -15,7 +15,6 @@ int inet_aton(const char *cp, struct in_addr *ia);
- bool fd_is_socket(int fd);
- int qemu_socket(int domain, int type, int protocol);
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 2932b3f3a5..c491eb262b 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -20,6 +20,7 @@
+ #include "sysemu/sysemu.h"
+ #include "qemu/config-file.h"
+ #include "qemu/uuid.h"
++#include "qemu/sockets.h"
+ #include "chardev/char.h"
+ #include "ui/qemu-spice.h"
+ #include "ui/console.h"
+@@ -248,16 +249,22 @@ void qmp_add_client(const char *protocol, const char *fdname,
+         return;
+     }
  
--#ifndef WIN32
- /**
-  * qemu_socketpair:
-  * @domain: specifies a communication domain, such as PF_UNIX
-@@ -30,7 +29,6 @@ int qemu_socket(int domain, int type, int protocol);
-  * Return 0 on success.
-  */
- int qemu_socketpair(int domain, int type, int protocol, int sv[2]);
--#endif
++    if (!fd_is_socket(fd)) {
++        error_setg(errp, "add_client expects a socket");
++        close(fd);
++        return;
++    }
++
+     if (strcmp(protocol, "spice") == 0) {
+         if (!qemu_using_spice(errp)) {
+-            close(fd);
++            closesocket(fd);
+             return;
+         }
+         skipauth = has_skipauth ? skipauth : false;
+         tls = has_tls ? tls : false;
+         if (qemu_spice.display_add_client(fd, skipauth, tls) < 0) {
+             error_setg(errp, "spice failed to add client");
+-            close(fd);
++            closesocket(fd);
+         }
+         return;
+ #ifdef CONFIG_VNC
+@@ -269,11 +276,11 @@ void qmp_add_client(const char *protocol, const char *fdname,
+ #ifdef CONFIG_DBUS_DISPLAY
+     } else if (strcmp(protocol, "@dbus-display") == 0) {
+         if (!qemu_using_dbus_display(errp)) {
+-            close(fd);
++            closesocket(fd);
+             return;
+         }
+         if (!qemu_dbus_display.add_client(fd, errp)) {
+-            close(fd);
++            closesocket(fd);
+             return;
+         }
+         return;
+@@ -281,14 +288,14 @@ void qmp_add_client(const char *protocol, const char *fdname,
+     } else if ((s = qemu_chr_find(protocol)) != NULL) {
+         if (qemu_chr_add_client(s, fd) < 0) {
+             error_setg(errp, "failed to add client");
+-            close(fd);
++            closesocket(fd);
+             return;
+         }
+         return;
+     }
  
- int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
- /*
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 07ade41800..a7b0d8491e 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -496,6 +496,116 @@ ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
-     return ret;
+     error_setg(errp, "protocol '%s' is invalid", protocol);
+-    close(fd);
++    closesocket(fd);
  }
  
-+int qemu_socketpair(int domain, int type, int protocol, int sv[2])
-+{
-+    struct sockaddr_un addr = {
-+        0,
-+    };
-+    socklen_t socklen;
-+    SOCKET listener = INVALID_SOCKET;
-+    SOCKET client = INVALID_SOCKET;
-+    SOCKET server = INVALID_SOCKET;
-+    g_autofree char *path = NULL;
-+    int tmpfd;
-+    u_long arg, br;
-+    int ret = -1;
-+
-+    g_return_val_if_fail(sv != NULL, -1);
-+
-+    addr.sun_family = AF_UNIX;
-+    socklen = sizeof(addr);
-+
-+    tmpfd = g_file_open_tmp(NULL, &path, NULL);
-+    if (tmpfd == -1) {
-+        WSASetLastError(WSAEACCES);
-+        goto out;
-+    }
-+
-+    close(tmpfd);
-+
-+    if (strlen(path) >= sizeof(addr.sun_path)) {
-+        WSASetLastError(WSAEACCES);
-+        goto out;
-+    }
-+
-+    strncpy(addr.sun_path, path, sizeof(addr.sun_path) - 1);
-+
-+    listener = socket(domain, type, protocol);
-+    if (listener == INVALID_SOCKET) {
-+        goto out;
-+    }
-+
-+    if (DeleteFile(path) == 0 && GetLastError() != ERROR_FILE_NOT_FOUND) {
-+        WSASetLastError(WSAEACCES);
-+        goto out;
-+    }
-+    g_clear_pointer(&path, g_free);
-+
-+    if (bind(listener, (struct sockaddr *)&addr, socklen) == SOCKET_ERROR) {
-+        goto out;
-+    }
-+
-+    if (listen(listener, 1) == SOCKET_ERROR) {
-+        goto out;
-+    }
-+
-+    client = socket(domain, type, protocol);
-+    if (client == INVALID_SOCKET) {
-+        goto out;
-+    }
-+
-+    arg = 1;
-+    if (ioctlsocket(client, FIONBIO, &arg) == SOCKET_ERROR) {
-+        goto out;
-+    }
-+
-+    if (connect(client, (struct sockaddr *)&addr, socklen) == SOCKET_ERROR &&
-+        WSAGetLastError() != WSAEWOULDBLOCK) {
-+        goto out;
-+    }
-+
-+    server = accept(listener, NULL, NULL);
-+    if (server == INVALID_SOCKET) {
-+        goto out;
-+    }
-+
-+    arg = 0;
-+    if (ioctlsocket(client, FIONBIO, &arg) == SOCKET_ERROR) {
-+        goto out;
-+    }
-+
-+    if (WSAIoctl(server, SIO_AF_UNIX_GETPEERPID, NULL, 0U, &arg, sizeof(arg),
-+                 &br, NULL, NULL) == SOCKET_ERROR ||
-+        arg != GetCurrentProcessId()) {
-+        WSASetLastError(WSAEACCES);
-+        goto out;
-+    }
-+
-+    sv[0] = server;
-+    server = INVALID_SOCKET;
-+    sv[1] = client;
-+    client = INVALID_SOCKET;
-+    ret = 0;
-+
-+out:
-+    if (ret == -1) {
-+        errno = socket_error();
-+    }
-+    if (listener != INVALID_SOCKET) {
-+        closesocket(listener);
-+    }
-+    if (client != INVALID_SOCKET) {
-+        closesocket(client);
-+    }
-+    if (server != INVALID_SOCKET) {
-+        closesocket(server);
-+    }
-+    if (path) {
-+        DeleteFile(path);
-+    }
-+    return ret;
-+}
-+
- bool qemu_write_pidfile(const char *filename, Error **errp)
- {
-     char buffer[128];
+ 
 -- 
 2.39.0
 
