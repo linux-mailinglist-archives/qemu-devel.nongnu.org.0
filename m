@@ -2,51 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EF065C53C
+	by mail.lfdr.de (Postfix) with ESMTPS id CE40365C53D
 	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 18:43:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pClIg-0004I7-Pz; Tue, 03 Jan 2023 12:42:10 -0500
+	id 1pClHx-00044D-NF; Tue, 03 Jan 2023 12:41:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pClId-0004HE-PF
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:42:07 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pClIb-0007gM-EO
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:42:07 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id ED21F748139;
- Tue,  3 Jan 2023 18:39:44 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B0493748132; Tue,  3 Jan 2023 18:39:44 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id AE45274633D;
- Tue,  3 Jan 2023 18:39:44 +0100 (CET)
-Date: Tue, 3 Jan 2023 18:39:44 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH] hw/pci: Display correct size for unmapped BARs in HMP
- 'info pci'
-In-Reply-To: <20230103164825.95329-1-philmd@linaro.org>
-Message-ID: <6bb76a1c-475e-1fe4-a7b6-8317a4388afd@eik.bme.hu>
-References: <20230103164825.95329-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pClHw-00042l-3g
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:41:24 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pClHu-0007YL-Cc
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 12:41:23 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id 17so33413780pll.0
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 09:41:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=EeSiNLZ9AMf8Y3T9zWy+2/VWs5tl2a2H2uzQHAfk1l4=;
+ b=t2PX6naKRa6O8WJuSc1k3RsgQ0QvIqp4pyx1iC3ps3SjGJUUx+dtSmqvmpW3XDJWiY
+ F7IORNY0QCNXAFVB37obzHJi6eqmhaSD2OqrjNDYuNue2napN6bJQjgbj9dD0BQb+vne
+ SpEg5q27M5+sdRYZaF44X8Dtnk0m+yjGgxVyOsfoNrvh++ZYeCKCiEDMz3aB7P4QEFk3
+ kVmpKwv4lq2J45pDZ36hJHsA7RSIaUsMOVkmYkNbLvIHz2GZZ131dbf/J9UZhbxIDH96
+ KuUZmUs4jixKsTUw4GqeJKz1jTAGBCp3XvZ4+A/HV6sMYOwLGGtkbrdj/AfcDlXFD7dI
+ VykA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EeSiNLZ9AMf8Y3T9zWy+2/VWs5tl2a2H2uzQHAfk1l4=;
+ b=wxVrl65BdjPgTdUBcdUmIBppjfvVM9IbQ9fjYgOskbviYdMNiiswVC6oVBTkpXvlRv
+ BLX93ZiE+jNtqc08EAaMBqwkA6hW8LpMw3uaCBmjQ07JV7iqEK/VQ0w58jc4cH8g2V8W
+ c79pYiuFls2/fG4+ccs8pY/EVhw8FN1VXzgopNbnorq4qfC/odQyV7pqIH5z6cPmT1iG
+ nOgxHs1HGbdbfgzkBGFZsP8ppfriOy+jZ7Zs0rGEDZ4wQRaudu52DsGGESgsc4O8j93T
+ 2IvNMyudZ+qIbh6/24CZ0MFhJAPWeb3nU3ixP3I4RHP9EevOfxK+BjD+JFZuqP46p7fi
+ N+JA==
+X-Gm-Message-State: AFqh2kq9d9nXTXiDg9ByHfsc5PUPbT0+w0zoFkjIAVfbVOO9Z/ciwb5z
+ vJhR8vCfsB1N6J2P/wo76jdlewPO9vbfYyv2kWWkAw==
+X-Google-Smtp-Source: AMrXdXs/XhyrUbKkxGVfcdGc0Tipq6R6Mcw1ykT1B/gmlmPtkWzV7/mwGA1BvYGErUhC1g8eWTNQ5SgIJq+0A6GLK6I=
+X-Received: by 2002:a17:903:268c:b0:192:8d9e:d70a with SMTP id
+ jf12-20020a170903268c00b001928d9ed70amr1877030plb.19.1672767680497; Tue, 03
+ Jan 2023 09:41:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-379608505-1672767584=:38261"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221223085047.94832-1-agraf@csgraf.de>
+In-Reply-To: <20221223085047.94832-1-agraf@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Jan 2023 17:41:09 +0000
+Message-ID: <CAFEAcA-1PUCFZPAF25uy1VqjgciKXiYmfW-89q6QqKhf1io7Lw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] hw/intc/arm_gicv3: Bump ITT entry size to 16
+To: Alexander Graf <agraf@csgraf.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, 
+ Shashi Mallela <shashi.mallela@linaro.org>, Eric Auger <eric.auger@redhat.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,104 +88,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, 23 Dec 2022 at 08:50, Alexander Graf <agraf@csgraf.de> wrote:
+>
+> While trying to make Windows work with GICv3 emulation, I stumbled over
+> the fact that it only supports ITT entry sizes that are power of 2 sized.
+>
+> While the spec allows arbitrary sizes, in practice hardware will always
+> expose power of 2 sizes and so this limitation is not really a problem
+> in real world scenarios. However, we only expose a 12 byte ITT entry size
+> which makes Windows blue screen on boot.
+>
+> The easy way to get around that problem is to bump the size to 16. That
+> is a power of 2, basically is what hardware would expose given the amount
+> of bits we need per entry and doesn't break any existing scenarios. To
+> play it safe, this patch set only bumps them on newer machine types.
 
---3866299591-379608505-1672767584=:38261
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+This is a Windows bug and should IMHO be fixed in that guest OS.
+Changing the ITT entry size of QEMU's implementation introduces
+an unnecessary incompatibility in migration and wastes memory
+(we're already a bit unnecessarily profligate with ITT entries
+compared to real hardware).
 
-On Tue, 3 Jan 2023, Philippe Mathieu-Daudé wrote:
-> When a BAR is not mapped, the displayed size is shifted by 1 byte:
->
->  (qemu) info pci
->    ...
->    Bus  0, device  11, function 0:
->      Ethernet controller: PCI device 1022:2000
->        PCI subsystem 0000:0000
->        IRQ 10, pin A
->        BAR0: I/O at 0xffffffffffffffff [0x001e].
->        BAR1: 32 bit memory at 0xffffffffffffffff [0x0000001e].   <===
->        BAR6: 32 bit memory at 0xffffffffffffffff [0x0003fffe].   <===
->        id ""
->    Bus  0, device  18, function 0:
->      VGA controller: PCI device 1013:00b8
->        PCI subsystem 1af4:1100
->        BAR0: 32 bit prefetchable memory at 0x10000000 [0x11ffffff].
->        BAR1: 32 bit memory at 0x12050000 [0x12050fff].
->        BAR6: 32 bit memory at 0xffffffffffffffff [0x0000fffe].   <===
->        id ""
->
-> Only substract this byte when the BAR is mapped to display
-> the correct size:
->
->  (qemu) info pci
->    ...
->    Bus  0, device  11, function 0:
->      Ethernet controller: PCI device 1022:2000
->        PCI subsystem 0000:0000
->        IRQ 10, pin A
->        BAR0: I/O at 0xffffffffffffffff [0x001f].
->        BAR1: 32 bit memory at 0xffffffffffffffff [0x0000001f].   <===
->        BAR6: 32 bit memory at 0xffffffffffffffff [0x0003ffff].   <===
->        id ""
->    Bus  0, device  18, function 0:
->      VGA controller: PCI device 1013:00b8
->        PCI subsystem 1af4:1100
->        BAR0: 32 bit prefetchable memory at 0x10000000 [0x11ffffff].
->        BAR1: 32 bit memory at 0x12050000 [0x12050fff].
->        BAR6: 32 bit memory at 0xffffffffffffffff [0x0000ffff].   <===
->        id ""
->
-> Fixes: 0ac32c8375 ("PCI interrupt support - 'info pci' monitor command")
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
-> hw/pci/pci-hmp-cmds.c | 6 ++++--
-> 1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/pci/pci-hmp-cmds.c b/hw/pci/pci-hmp-cmds.c
-> index fb7591d6ab..8cfa5f9cd1 100644
-> --- a/hw/pci/pci-hmp-cmds.c
-> +++ b/hw/pci/pci-hmp-cmds.c
-> @@ -75,22 +75,24 @@ static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
->
->     for (region = dev->regions; region; region = region->next) {
->         uint64_t addr, size;
-> +        bool mapped;
->
->         addr = region->value->address;
->         size = region->value->size;
-
-As size is not used for anything else, you could adjust the value here 
-once either as
-
-size = region->value->size - (addr != -1 ? 1 : 0);
-
-or in an if then you don't need the bool and tweak the value when 
-printing. This looks simpler to me.
-
-Regards,
-BALATON Zoltan
-
-> +        mapped = addr != -1;
->
->         monitor_printf(mon, "      BAR%" PRId64 ": ", region->value->bar);
->
->         if (!strcmp(region->value->type, "io")) {
->             monitor_printf(mon, "I/O at 0x%04" PRIx64
->                                 " [0x%04" PRIx64 "].\n",
-> -                           addr, addr + size - 1);
-> +                           addr, addr + size + (mapped ? -1 : 0));
->         } else {
->             monitor_printf(mon, "%d bit%s memory at 0x%08" PRIx64
->                                " [0x%08" PRIx64 "].\n",
->                            region->value->mem_type_64 ? 64 : 32,
->                            region->value->prefetch ? " prefetchable" : "",
-> -                           addr, addr + size - 1);
-> +                           addr, addr + size + (mapped ? -1 : 0));
->         }
->     }
->
->
---3866299591-379608505-1672767584=:38261--
+thanks
+-- PMM
 
