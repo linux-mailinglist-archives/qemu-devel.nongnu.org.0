@@ -2,55 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AEA365C5B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:09:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C06D65C5D7
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:14:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pClhG-0005MQ-RV; Tue, 03 Jan 2023 13:07:34 -0500
+	id 1pClmn-0006ci-9t; Tue, 03 Jan 2023 13:13:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pClhE-0005M1-4i
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:07:32 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pClmj-0006cM-8Y
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:13:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pClhB-0003bB-AA
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:07:31 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NmgYr3g6Yz6801v;
- Wed,  4 Jan 2023 02:02:40 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 3 Jan
- 2023 18:07:20 +0000
-Date: Tue, 3 Jan 2023 18:07:19 +0000
-To: Ira Weiny <ira.weiny@intel.com>
-CC: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>, Peter Maydell
- <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 8/8] hw/cxl/events: Add in inject general media event
-Message-ID: <20230103180719.00006437@huawei.com>
-In-Reply-To: <20221221-ira-cxl-events-2022-11-17-v2-8-2ce2ecc06219@intel.com>
-References: <20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com>
- <20221221-ira-cxl-events-2022-11-17-v2-8-2ce2ecc06219@intel.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pClmf-0004K3-Ag
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:13:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672769587;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mw0XeCEHuAaNxYRamfAKyrWYjVqg5Q1qmefKc7WXZ/k=;
+ b=WlfONK0tCfL7M0XvzfuCegDf6u37bDlaZYYLotf8ezwStPpl2zfhwSOQBlp+RXW43bF0ma
+ mNeUCSqFIWCit9c7Dkaf/br1Yo3LsiFL4J6m1oCWt3vvzxKlm9TB3gMjs1evl/P3GulSgE
+ W3UedLNX4j1PqhpR+ofu27Q+s5aeZJ8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-318-cy4T9Q5APvuKWBlCl59HYg-1; Tue, 03 Jan 2023 13:13:06 -0500
+X-MC-Unique: cy4T9Q5APvuKWBlCl59HYg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n18-20020a05600c4f9200b003d993e08485so9507960wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 10:13:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mw0XeCEHuAaNxYRamfAKyrWYjVqg5Q1qmefKc7WXZ/k=;
+ b=om+9wI1WbwrztS48zCi42mh8yUguziE4BGgnWlMYt+aGM4Jzg0siemZGT9D1uAeRhO
+ 0CcEux4v68821Rl1M5jIYzHJRVGqfXbF41M7uNzpCKYG/+0jk8ONcucgWM+mGCvn7hAX
+ SNLqSTNnhRADQQqwYc4eDBmfFxPzFZ0VUxytmQhmEKZTDFkQKyjadL6PZhs/0IpRaGWA
+ +n4q+LdANv4wPoJN/FFMXlAIiZ2iRhedfnlKcLwHeBznUz9D/O2O4H9lLeWdWM0IY57q
+ uIFvkmMMNZGHOFEHKoA0VmwuqkEBoOynJAqy0ujVqFVYVkQzbRHBwoLEDmrK+qOSBZtp
+ J3mA==
+X-Gm-Message-State: AFqh2kovfeJWYZyZHubltkz1yO7NjijjHSuioJUME2nRtoTW/jf2Npmn
+ 8/0txp9GkYGE2jBRZUwv6AIjbFbdtgsvWJxz1VF6UYqEb9fLPRy0GBiACs4Noqjdfy+09O53ixs
+ Z2bblKjUzoXhRB9o=
+X-Received: by 2002:a05:600c:4e14:b0:3c6:c6c9:d75e with SMTP id
+ b20-20020a05600c4e1400b003c6c6c9d75emr39380408wmq.0.1672769585407; 
+ Tue, 03 Jan 2023 10:13:05 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtMQEIt2AHE/w8AV972vYJxOpvs/iRLmwJkR8lNvhJaEUsGUjsuPAGRvYY6wtbTkQR5GZm9iw==
+X-Received: by 2002:a05:600c:4e14:b0:3c6:c6c9:d75e with SMTP id
+ b20-20020a05600c4e1400b003c6c6c9d75emr39380379wmq.0.1672769585052; 
+ Tue, 03 Jan 2023 10:13:05 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ n1-20020a05600c4f8100b003d96b8e9bcasm46690271wmq.32.2023.01.03.10.13.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jan 2023 10:13:04 -0800 (PST)
+Date: Tue, 3 Jan 2023 18:13:02 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Durrant <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>
+Subject: Re: [RFC PATCH v5 21/52] i386/xen: handle VCPUOP_register_vcpu_info
+Message-ID: <Y7RwLhtR7lQiCsQ5@work-vm>
+References: <20221230121235.1282915-1-dwmw2@infradead.org>
+ <20221230121235.1282915-22-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221230121235.1282915-22-dwmw2@infradead.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,309 +104,373 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 21 Dec 2022 20:24:38 -0800
-Ira Weiny <ira.weiny@intel.com> wrote:
-
-> To facilitate testing provide a QMP command to inject a general media
-> event.  The event can be added to the log specified.
->=20
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-
-Hi Ira,
-
-Suggestion inline on how to more neatly handle optional arguments using
-QMPs inbuilt handling.  Short version is stick a * in front of the
-argument name in the json and you get a bonus parameter in the callback
-bool has_<name> which lets you identify if it is provided or not.
-
-Jonathan
-
->=20
+* David Woodhouse (dwmw2@infradead.org) wrote:
+> From: Joao Martins <joao.m.martins@oracle.com>
+> 
+> Handle the hypercall to set a per vcpu info, and also wire up the default
+> vcpu_info in the shared_info page for the first 32 vCPUs.
+> 
+> To avoid deadlock within KVM a vCPU thread must set its *own* vcpu_info
+> rather than it being set from the context in which the hypercall is
+> invoked.
+> 
+> Add the vcpu_info (and default) GPA to the vmstate_x86_cpu for migration,
+> and restore it in kvm_arch_put_registers() appropriately.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
-> Changes from RFC:
-> 	Add all fields for this event
-> 	irq happens automatically when log transitions from 0 to 1
-> ---
->  hw/mem/cxl_type3.c          | 93 +++++++++++++++++++++++++++++++++++++++=
-++++++
->  hw/mem/cxl_type3_stubs.c    |  8 ++++
->  include/hw/cxl/cxl_events.h | 20 ++++++++++
->  qapi/cxl.json               | 25 ++++++++++++
->  4 files changed, 146 insertions(+)
->=20
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index a43949cab120..bedd09e500ba 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -916,6 +916,99 @@ static CXLPoisonList *get_poison_list(CXLType3Dev *c=
-t3d)
->      return &ct3d->poison_list;
->  }
-> =20
-> +static void cxl_assign_event_header(struct cxl_event_record_hdr *hdr,
-> +                                    QemuUUID *uuid, uint8_t flags,
-> +                                    uint8_t length)
-> +{
-> +    hdr->flags[0] =3D flags;
-> +    hdr->length =3D length;
-> +    memcpy(&hdr->id, uuid, sizeof(hdr->id));
-> +    hdr->timestamp =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +}
-> +
-> +QemuUUID gen_media_uuid =3D {
-> +    .data =3D UUID(0xfbcd0a77, 0xc260, 0x417f,
-> +                 0x85, 0xa9, 0x08, 0x8b, 0x16, 0x21, 0xeb, 0xa6),
-> +};
-> +
-> +#define CXL_GMER_VALID_CHANNEL                          BIT(0)
-> +#define CXL_GMER_VALID_RANK                             BIT(1)
-> +#define CXL_GMER_VALID_DEVICE                           BIT(2)
-> +#define CXL_GMER_VALID_COMPONENT                        BIT(3)
-> +
-> +/*
-> + * For channel, rank, and device; any value inside of the fields valid r=
-ange
-> + * will flag that field to be valid.  IE pass -1 to mark the field inval=
-id.
-> + *
-> + * Component ID is device specific.  Define this as a string.
-> + */
-> +void qmp_cxl_inject_gen_media_event(const char *path, uint8_t log,
-> +                                    uint8_t flags, uint64_t physaddr,
-> +                                    uint8_t descriptor, uint8_t type,
-> +                                    uint8_t transaction_type,
-> +                                    int16_t channel, int16_t rank,
-> +                                    int32_t device,
-> +                                    const char *component_id,
-> +                                    Error **errp)
-> +{
-> +    Object *obj =3D object_resolve_path(path, NULL);
-> +    struct cxl_event_gen_media gem;
-> +    struct cxl_event_record_hdr *hdr =3D &gem.hdr;
-> +    CXLDeviceState *cxlds;
-> +    CXLType3Dev *ct3d;
-> +    uint16_t valid_flags =3D 0;
-> +
-> +    if (log >=3D CXL_EVENT_TYPE_MAX) {
-> +        error_setg(errp, "Invalid log type: %d", log);
-> +        return;
+>  target/i386/cpu.h            |   2 +
+>  target/i386/kvm/kvm.c        |  17 ++++
+>  target/i386/kvm/trace-events |   1 +
+>  target/i386/kvm/xen-emu.c    | 152 ++++++++++++++++++++++++++++++++++-
+>  target/i386/kvm/xen-emu.h    |   2 +
+>  target/i386/machine.c        |  19 +++++
+>  6 files changed, 190 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index c6c57baed5..109b2e5669 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1788,6 +1788,8 @@ typedef struct CPUArchState {
+>  #endif
+>  #if defined(CONFIG_KVM)
+>      struct kvm_nested_state *nested_state;
+> +    uint64_t xen_vcpu_info_gpa;
+> +    uint64_t xen_vcpu_info_default_gpa;
+>  #endif
+>  #if defined(CONFIG_HVF)
+>      HVFX86LazyFlags hvf_lflags;
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index f365e56fcc..52d69e87e7 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -4734,6 +4734,15 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
+>          kvm_arch_set_tsc_khz(cpu);
+>      }
+>  
+> +#ifdef CONFIG_XEN_EMU
+> +    if (xen_mode == XEN_EMULATE && level == KVM_PUT_FULL_STATE) {
+> +        ret = kvm_put_xen_state(cpu);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
 > +    }
-> +    if (!obj) {
-> +        error_setg(errp, "Unable to resolve path");
-> +        return;
+> +#endif
+> +
+>      ret = kvm_getput_regs(x86_cpu, 1);
+>      if (ret < 0) {
+>          return ret;
+> @@ -4833,6 +4842,14 @@ int kvm_arch_get_registers(CPUState *cs)
+>      if (ret < 0) {
+>          goto out;
+>      }
+> +#ifdef CONFIG_XEN_EMU
+> +    if (xen_mode == XEN_EMULATE) {
+> +        ret = kvm_get_xen_state(cs);
+> +        if (ret < 0) {
+> +            goto out;
+> +        }
 > +    }
-> +    if (!object_dynamic_cast(obj, TYPE_CXL_TYPE3)) {
-> +        error_setg(errp, "Path does not point to a CXL type 3 device");
-> +    }
-> +    ct3d =3D CXL_TYPE3(obj);
-> +    cxlds =3D &ct3d->cxl_dstate;
-> +
-> +    memset(&gem, 0, sizeof(gem));
-> +    cxl_assign_event_header(hdr, &gen_media_uuid, flags,
-> +                            sizeof(struct cxl_event_gen_media));
-> +
-> +    gem.phys_addr =3D physaddr;
-> +    gem.descriptor =3D descriptor;
-> +    gem.type =3D type;
-> +    gem.transaction_type =3D transaction_type;
-> +
-> +    if (0 <=3D channel && channel <=3D 0xFF) {
-> +        gem.channel =3D channel;
-> +        valid_flags |=3D CXL_GMER_VALID_CHANNEL;
-> +    }
-> +
-> +    if (0 <=3D rank && rank <=3D 0xFF) {
-> +        gem.rank =3D rank;
-> +        valid_flags |=3D CXL_GMER_VALID_RANK;
-> +    }
-> +
-> +    if (0 <=3D device && device <=3D 0xFFFFFF) {
-> +        st24_le_p(gem.device, device);
-> +        valid_flags |=3D CXL_GMER_VALID_DEVICE;
-> +    }
-> +
-> +    if (component_id && strcmp(component_id, "")) {
-> +        strncpy((char *)gem.component_id, component_id,
-> +                sizeof(gem.component_id) - 1);
-> +        valid_flags |=3D CXL_GMER_VALID_COMPONENT;
-> +    }
-> +
-> +    stw_le_p(gem.validity_flags, valid_flags);
-> +
-> +    if (cxl_event_insert(cxlds, log, (struct cxl_event_record_raw *)&gem=
-)) {
-> +        cxl_event_irq_assert(ct3d);
-> +    }
-> +}
-> +
->  void qmp_cxl_inject_poison(const char *path, uint64_t start, uint64_t le=
-ngth,
->                             Error **errp)
+> +#endif
+>      ret = 0;
+>   out:
+>      cpu_sync_bndcs_hflags(&cpu->env);
+> diff --git a/target/i386/kvm/trace-events b/target/i386/kvm/trace-events
+> index 0a47c26e80..14e54dfca5 100644
+> --- a/target/i386/kvm/trace-events
+> +++ b/target/i386/kvm/trace-events
+> @@ -9,3 +9,4 @@ kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
+>  # xen-emu.c
+>  kvm_xen_hypercall(int cpu, uint8_t cpl, uint64_t input, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t ret) "xen_hypercall: cpu %d cpl %d input %" PRIu64 " a0 0x%" PRIx64 " a1 0x%" PRIx64 " a2 0x%" PRIx64" ret 0x%" PRIx64
+>  kvm_xen_set_shared_info(uint64_t gfn) "shared info at gfn 0x%" PRIx64
+> +kvm_xen_set_vcpu_attr(int cpu, int type, uint64_t gpa) "vcpu attr cpu %d type %d gpa 0x%" PRIx64
+> diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
+> index 0e9ae481d8..aa06588c07 100644
+> --- a/target/i386/kvm/xen-emu.c
+> +++ b/target/i386/kvm/xen-emu.c
+> @@ -120,6 +120,8 @@ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
+>  
+>  int kvm_xen_init_vcpu(CPUState *cs)
 >  {
-> diff --git a/hw/mem/cxl_type3_stubs.c b/hw/mem/cxl_type3_stubs.c
-> index f2c9f48f4010..62f04d487031 100644
-> --- a/hw/mem/cxl_type3_stubs.c
-> +++ b/hw/mem/cxl_type3_stubs.c
-> @@ -2,6 +2,14 @@
->  #include "qemu/osdep.h"
->  #include "qapi/qapi-commands-cxl.h"
-> =20
-> +void qmp_cxl_inject_gen_media_event(const char *path, uint8_t log,
-> +                                    uint8_t flags, uint64_t physaddr,
-> +                                    uint8_t descriptor, uint8_t type,
-> +                                    uint8_t transaction_type,
-> +                                    int16_t channel, int16_t rank,
-> +                                    int32_t device,
-> +                                    char *component_id,
-> +                                    Error **errp) {}
->  void qmp_cxl_inject_poison(const char *path, uint64_t start, uint64_t le=
-ngth,
->                             Error **errp) {}
->  void qmp_cxl_inject_uncorrectable_error(const char *path,
-> diff --git a/include/hw/cxl/cxl_events.h b/include/hw/cxl/cxl_events.h
-> index 2df40720320a..3175e9d9866d 100644
-> --- a/include/hw/cxl/cxl_events.h
-> +++ b/include/hw/cxl/cxl_events.h
-> @@ -103,4 +103,24 @@ struct cxl_event_interrupt_policy {
->  /* DCD is optional but other fields are not */
->  #define CXL_EVENT_INT_SETTING_MIN_LEN 4
-> =20
-> +/*
-> + * General Media Event Record
-> + * CXL rev 3.0 Section 8.2.9.2.1.1; Table 8-43
-> + */
-> +#define CXL_EVENT_GEN_MED_COMP_ID_SIZE  0x10
-> +#define CXL_EVENT_GEN_MED_RES_SIZE      0x2e
-> +struct cxl_event_gen_media {
-> +    struct cxl_event_record_hdr hdr;
-> +    uint64_t phys_addr;
-> +    uint8_t descriptor;
-> +    uint8_t type;
-> +    uint8_t transaction_type;
-> +    uint8_t validity_flags[2];
-> +    uint8_t channel;
-> +    uint8_t rank;
-> +    uint8_t device[3];
-> +    uint8_t component_id[CXL_EVENT_GEN_MED_COMP_ID_SIZE];
-> +    uint8_t reserved[CXL_EVENT_GEN_MED_RES_SIZE];
-> +} QEMU_PACKED;
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    CPUX86State *env = &cpu->env;
+>      int err;
+>  
+>      /*
+> @@ -143,6 +145,9 @@ int kvm_xen_init_vcpu(CPUState *cs)
+>          }
+>      }
+>  
+> +    env->xen_vcpu_info_gpa = INVALID_GPA;
+> +    env->xen_vcpu_info_default_gpa = INVALID_GPA;
 > +
->  #endif /* CXL_EVENTS_H */
-> diff --git a/qapi/cxl.json b/qapi/cxl.json
-> index b4836bb87f53..56e85a28d7e0 100644
-> --- a/qapi/cxl.json
-> +++ b/qapi/cxl.json
-> @@ -5,6 +5,31 @@
->  # =3D CXL devices
->  ##
-> =20
-> +##
-> +# @cxl-inject-gen-media-event:
-> +#
-> +# @path: CXL type 3 device canonical QOM path
-> +#
-> +# @log: Event Log to add the event to
-> +# @flags: header flags
-> +# @physaddr: Physical Address
-> +# @descriptor: Descriptor
-> +# @type: Type
-> +# @transactiontype: Transaction Type
-> +# @channel: Channel
-> +# @rank: Rank
-> +# @device: Device
-> +# @componentid: Device specific string
-> +#
-> +##
-> +{ 'command': 'cxl-inject-gen-media-event',
-> +  'data': { 'path': 'str', 'log': 'uint8', 'flags': 'uint8',
-> +            'physaddr': 'uint64', 'descriptor': 'uint8',
-> +            'type': 'uint8', 'transactiontype': 'uint8',
-> +            'channel': 'int16', 'rank': 'int16',
-> +            'device': 'int32', 'componentid': 'str'
-> +            }}
-
-=46rom an interface cleanliness point of view I'd rather see
-all the optional fields as optional.  That's done by marking them
-with a * so
-'*channel': 'int16'
-
-Then the signature of the related qmp_cxl_inject_gen_media_event
-gains a boolean has_channel parameter (before channel)
-
-Those booleans can be used to set the flags etc.
-
-Very lightly tested:=20
-
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 4660a44ef8..cb9bb0b166 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -1203,8 +1203,9 @@ void qmp_cxl_inject_gen_media_event(const char *path,=
- uint8_t log,
-                                     uint8_t flags, uint64_t physaddr,
-                                     uint8_t descriptor, uint8_t type,
-                                     uint8_t transaction_type,
--                                    int16_t channel, int16_t rank,
--                                    int32_t device,
-+                                    bool has_channel, uint8_t channel,
-+                                    bool has_rank, uint8_t rank,
-+                                    bool has_device, uint32_t device,
-                                     const char *component_id,
-                                     Error **errp)
- {
-@@ -1238,22 +1239,22 @@ void qmp_cxl_inject_gen_media_event(const char *pat=
-h, uint8_t log,
-     gem.type =3D type;
-     gem.transaction_type =3D transaction_type;
-
--    if (0 <=3D channel && channel <=3D 0xFF) {
-+    if (has_channel) {
-         gem.channel =3D channel;
-         valid_flags |=3D CXL_GMER_VALID_CHANNEL;
-     }
-
--    if (0 <=3D rank && rank <=3D 0xFF) {
-+    if (has_rank) {
-         gem.rank =3D rank;
-         valid_flags |=3D CXL_GMER_VALID_RANK;
-     }
-
--    if (0 <=3D device && device <=3D 0xFFFFFF) {
-+    if (has_device) {
-         st24_le_p(gem.device, device);
-         valid_flags |=3D CXL_GMER_VALID_DEVICE;
-     }
-
--    if (component_id && strcmp(component_id, "")) {
-+    if (component_id) {
-        strncpy((char *)gem.component_id, component_id,
-                 sizeof(gem.component_id) - 1);
-         valid_flags |=3D CXL_GMER_VALID_COMPONENT;
-diff --git a/qapi/cxl.json b/qapi/cxl.json
-index 56e85a28d7..085f82e7da 100644
---- a/qapi/cxl.json
-+++ b/qapi/cxl.json
-@@ -26,8 +26,8 @@
-   'data': { 'path': 'str', 'log': 'uint8', 'flags': 'uint8',
-             'physaddr': 'uint64', 'descriptor': 'uint8',
-             'type': 'uint8', 'transactiontype': 'uint8',
--            'channel': 'int16', 'rank': 'int16',
--            'device': 'int32', 'componentid': 'str'
-+            '*channel': 'uint8', '*rank': 'uint8',
-+            '*device': 'uint32', '*componentid': 'str'
-             }}
-
- ##
-
+>      return 0;
+>  }
+>  
+> @@ -188,10 +193,58 @@ static bool kvm_xen_hcall_xen_version(struct kvm_xen_exit *exit, X86CPU *cpu,
+>      return true;
+>  }
+>  
+> +static int kvm_xen_set_vcpu_attr(CPUState *cs, uint16_t type, uint64_t gpa)
+> +{
+> +    struct kvm_xen_vcpu_attr xhsi;
 > +
->  ##
->  # @cxl-inject-poison:
->  #
->=20
+> +    xhsi.type = type;
+> +    xhsi.u.gpa = gpa;
+> +
+> +    trace_kvm_xen_set_vcpu_attr(cs->cpu_index, type, gpa);
+> +
+> +    return kvm_vcpu_ioctl(cs, KVM_XEN_VCPU_SET_ATTR, &xhsi);
+> +}
+> +
+> +static void do_set_vcpu_info_default_gpa(CPUState *cs, run_on_cpu_data data)
+> +{
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    CPUX86State *env = &cpu->env;
+> +
+> +    env->xen_vcpu_info_default_gpa = data.host_ulong;
+> +
+> +    /* Changing the default does nothing if a vcpu_info was explicitly set. */
+> +    if (env->xen_vcpu_info_gpa == INVALID_GPA) {
+> +        kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO,
+> +                              env->xen_vcpu_info_default_gpa);
+> +    }
+> +}
+> +
+> +static void do_set_vcpu_info_gpa(CPUState *cs, run_on_cpu_data data)
+> +{
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    CPUX86State *env = &cpu->env;
+> +
+> +    env->xen_vcpu_info_gpa = data.host_ulong;
+> +
+> +    kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO,
+> +                          env->xen_vcpu_info_gpa);
+> +}
+> +
+> +static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
+> +{
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    CPUX86State *env = &cpu->env;
+> +
+> +    env->xen_vcpu_info_gpa = INVALID_GPA;
+> +    env->xen_vcpu_info_default_gpa = INVALID_GPA;
+> +
+> +    kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, INVALID_GPA);
+> +}
+> +
+>  static int xen_set_shared_info(uint64_t gfn)
+>  {
+>      uint64_t gpa = gfn << TARGET_PAGE_BITS;
+> -    int err;
+> +    int i, err;
+>  
+>      /*
+>       * The xen_overlay device tells KVM about it too, since it had to
+> @@ -206,6 +259,15 @@ static int xen_set_shared_info(uint64_t gfn)
+>  
+>      trace_kvm_xen_set_shared_info(gfn);
+>  
+> +    for (i = 0; i < XEN_LEGACY_MAX_VCPUS; i++) {
+> +        CPUState *cpu = qemu_get_cpu(i);
+> +        if (cpu) {
+> +            async_run_on_cpu(cpu, do_set_vcpu_info_default_gpa,
+> +                             RUN_ON_CPU_HOST_ULONG(gpa));
+> +        }
+> +        gpa += sizeof(vcpu_info_t);
+> +    }
+> +
+>      return err;
+>  }
+>  
+> @@ -363,15 +425,43 @@ static bool kvm_xen_hcall_hvm_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+>      }
+>  }
+>  
+> +static int vcpuop_register_vcpu_info(CPUState *cs, CPUState *target,
+> +                                     uint64_t arg)
+> +{
+> +    struct vcpu_register_vcpu_info rvi;
+> +    uint64_t gpa;
+> +
+> +    /* No need for 32/64 compat handling */
+> +    qemu_build_assert(sizeof(rvi) == 16);
+> +    qemu_build_assert(sizeof(struct vcpu_info) == 64);
+> +
+> +    if (!target) {
+> +        return -ENOENT;
+> +    }
+> +
+> +    if (kvm_copy_from_gva(cs, arg, &rvi, sizeof(rvi))) {
+> +        return -EFAULT;
+> +    }
+> +
+> +    if (rvi.offset > TARGET_PAGE_SIZE - sizeof(struct vcpu_info)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    gpa = ((rvi.mfn << TARGET_PAGE_BITS) + rvi.offset);
+> +    async_run_on_cpu(target, do_set_vcpu_info_gpa, RUN_ON_CPU_HOST_ULONG(gpa));
+> +    return 0;
+> +}
+> +
+>  static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+>                                    int cmd, int vcpu_id, uint64_t arg)
+>  {
+> +    CPUState *dest = qemu_get_cpu(vcpu_id);
+> +    CPUState *cs = CPU(cpu);
+>      int err;
+>  
+>      switch (cmd) {
+>      case VCPUOP_register_vcpu_info:
+> -        /* no vcpu info placement for now */
+> -        err = -ENOSYS;
+> +        err = vcpuop_register_vcpu_info(cs, dest, arg);
+>          break;
+>  
+>      default:
+> @@ -384,8 +474,13 @@ static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+>  
+>  static int kvm_xen_soft_reset(void)
+>  {
+> +    CPUState *cpu;
+>      int err;
+>  
+> +    CPU_FOREACH(cpu) {
+> +        async_run_on_cpu(cpu, do_vcpu_soft_reset, RUN_ON_CPU_NULL);
+> +    }
+> +
+>      err = xen_overlay_map_shinfo_page(INVALID_GFN);
+>      if (err) {
+>          return err;
+> @@ -531,3 +626,54 @@ int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+>                              exit->u.hcall.result);
+>      return 0;
+>  }
+> +
+> +int kvm_put_xen_state(CPUState *cs)
+> +{
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    CPUX86State *env = &cpu->env;
+> +    uint64_t gpa;
+> +    int ret;
+> +
+> +    gpa = env->xen_vcpu_info_gpa;
+> +    if (gpa == INVALID_GPA) {
+> +        gpa = env->xen_vcpu_info_default_gpa;
+> +    }
+> +
+> +    if (gpa != INVALID_GPA) {
+> +        ret = kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO, gpa);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +int kvm_get_xen_state(CPUState *cs)
+> +{
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    CPUX86State *env = &cpu->env;
+> +    uint64_t gpa;
+> +
+> +    /*
+> +     * The kernel does not mark vcpu_info as dirty when it delivers interrupts
+> +     * to it. It's up to userspace to *assume* that any page shared thus is
+> +     * always considered dirty. The shared_info page is different since it's
+> +     * an overlay and migrated separately anyway.
+> +     */
+> +    gpa = env->xen_vcpu_info_gpa;
+> +    if (gpa == INVALID_GPA) {
+> +        gpa = env->xen_vcpu_info_default_gpa;
+> +    }
+> +    if (gpa != INVALID_GPA) {
+> +        MemoryRegionSection mrs = memory_region_find(get_system_memory(),
+> +                                                     gpa,
+> +                                                     sizeof(struct vcpu_info));
+> +        if (mrs.mr && mrs.size >= sizeof(struct vcpu_info)) {
+> +            memory_region_set_dirty(mrs.mr, mrs.offset_within_region,
+> +                                    sizeof(struct vcpu_info));
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> diff --git a/target/i386/kvm/xen-emu.h b/target/i386/kvm/xen-emu.h
+> index 21faf6bf38..452605699a 100644
+> --- a/target/i386/kvm/xen-emu.h
+> +++ b/target/i386/kvm/xen-emu.h
+> @@ -26,5 +26,7 @@
+>  int kvm_xen_init(KVMState *s, uint32_t hypercall_msr);
+>  int kvm_xen_init_vcpu(CPUState *cs);
+>  int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit);
+> +int kvm_put_xen_state(CPUState *cs);
+> +int kvm_get_xen_state(CPUState *cs);
+>  
+>  #endif /* QEMU_I386_KVM_XEN_EMU_H */
+> diff --git a/target/i386/machine.c b/target/i386/machine.c
+> index 310b125235..1215e616c8 100644
+> --- a/target/i386/machine.c
+> +++ b/target/i386/machine.c
+> @@ -6,8 +6,10 @@
+>  #include "kvm/hyperv.h"
+>  #include "hw/i386/x86.h"
+>  #include "kvm/kvm_i386.h"
+> +#include "hw/xen/xen.h"
+>  
+>  #include "sysemu/kvm.h"
+> +#include "sysemu/kvm_xen.h"
+>  #include "sysemu/tcg.h"
+>  
+>  #include "qemu/error-report.h"
+> @@ -1257,6 +1259,22 @@ static const VMStateDescription vmstate_nested_state = {
+>      }
+>  };
+>  
+> +static bool xen_vcpu_needed(void *opaque)
+> +{
+> +    return (xen_mode == XEN_EMULATE);
+> +}
+> +
+> +static const VMStateDescription vmstate_xen_vcpu = {
+> +    .name = "cpu/xen_vcpu",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = xen_vcpu_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT64(env.xen_vcpu_info_gpa, X86CPU),
+> +        VMSTATE_UINT64(env.xen_vcpu_info_default_gpa, X86CPU),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+>  #endif
+>  
+>  static bool mcg_ext_ctl_needed(void *opaque)
+> @@ -1716,6 +1734,7 @@ const VMStateDescription vmstate_x86_cpu = {
+>  #endif
+>  #ifdef CONFIG_KVM
+>          &vmstate_nested_state,
+> +        &vmstate_xen_vcpu,
+
+Yep, that shoudln't break anything as long as xen_vcpu_needed is false,
+so yeh, OK from migration.
+
+Dave
+
+>  #endif
+>          &vmstate_msr_tsx_ctrl,
+>          &vmstate_msr_intel_sgx,
+> -- 
+> 2.35.3
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
