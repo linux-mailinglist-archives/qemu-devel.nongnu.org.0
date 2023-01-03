@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F3B65BA9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 07:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9271165BC76
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 09:49:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCaaU-0002z3-IQ; Tue, 03 Jan 2023 01:15:50 -0500
+	id 1pCcyF-0001ai-5X; Tue, 03 Jan 2023 03:48:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pCaaS-0002wu-8x
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 01:15:48 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pCaaP-0007xY-FT
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 01:15:47 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- hd14-20020a17090b458e00b0021909875bccso27030663pjb.1
- for <qemu-devel@nongnu.org>; Mon, 02 Jan 2023 22:15:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=0KX/1327QMdN1zrEIpKsgdsU0YAE5QrjJdBguxXe9V4=;
- b=IzMnK2awvyVhZikC6xm7CKTEh22gq/t6U/XGY9VrMdmimj//Ef6389hBv55G+LV50n
- VAITtwrwnZjnqutUGj6Gu/WSl0LXDLIHsECYgehJGoNJXkCmCJVO7HPrkna9/uNtJbwv
- Yg6QY16X/BgiQ0OLRy02rK72YFtRabClpUtX/4MieHDO8HwATFPHCRI+tE0VS6Zbae+1
- xrpnCOkPfUgNdBMCpRsQvz0r8RcPxfwRAuvuS9aEs6aki27yBot99iXvNKzu84TrjWqF
- 7KFYA3gv0ta4HY01zr47nT3Y/qEcDrZma2Z9L94k/k4f4GCrpfz6zrF/g16AZSnSWBKo
- /OSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0KX/1327QMdN1zrEIpKsgdsU0YAE5QrjJdBguxXe9V4=;
- b=JcRYv+5nOiVNOdChQRXteo3PxzLy9coOsqaZXGKTg1sfv3j8beM9DpqfVOUnJ+aPby
- meu8VuaPE4CuJj+V/4a07sCzRJxHK/xPAxfZt+XTEL4fh8AB1zRlPlZNMnOAUzrVltHN
- oIhYEhKS3bALeTyawa3RqrSuCkL6nyvneq8endpBEeeqAqYwsPjai39tl8iBgjXHQxMw
- SCCcBclfpUgNX1aviQs5KUmz3TL+bTZ8wF5iO3Zj6nPDNcSaeuFJ1hwhqf4eM4YKrSvr
- IKFJCVz/yc9XNQfPSzmMNCy9yPk8frTbu+xMm5cDwAo2oPMXhDUEgaHuiQyYaCEReNVX
- BY2g==
-X-Gm-Message-State: AFqh2kqdngirm1MHc/RxZ8NEkfoJoAGNW9JgCNNU3BjpCzJIvgTxjCV9
- Lwf3dsQXfutYkZN75a6RxTVgaA==
-X-Google-Smtp-Source: AMrXdXsNqmcWX7vQws/ifci5hdWOiVZIVLc0jnHa8yPi/EW3xF7tPPF0UDeDX6ebaW/w8shPpjgFQw==
-X-Received: by 2002:a05:6a21:2d09:b0:a4:aa40:2253 with SMTP id
- tw9-20020a056a212d0900b000a4aa402253mr51969562pzb.21.1672726519016; 
- Mon, 02 Jan 2023 22:15:19 -0800 (PST)
-Received: from [10.3.43.196] ([61.213.176.12])
- by smtp.gmail.com with ESMTPSA id
- 123-20020a621881000000b00528a097aeffsm19480711pfy.118.2023.01.02.22.15.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Jan 2023 22:15:18 -0800 (PST)
-Message-ID: <2e1c1254-2753-3c1c-8650-7b3b3d009b68@bytedance.com>
-Date: Tue, 3 Jan 2023 14:14:05 +0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCcxx-0001a4-Ej
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 03:48:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCcxv-0007W4-HD
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 03:48:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1672735689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lCEN2lclBRpsaywoPFnQwitttG1Ntc8Fo6YYIGiO+hE=;
+ b=ecre1ytVHa/zYWSvqfROnSYMgekIyIn+QJD0tscwZe6oLGif9eqCc3Zk4fPP+FBjDpnb89
+ 0JDOFZXRxKpG4f/FigYUT9PIRSAaqoVQdnHIiu/IwZCP3lmqgkNmPopGN+1lw48jc3NG3q
+ wADn+yMTxP3MdS9AZq+n8b/qGlyaxiQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-94-dL1-5sYDOj-jGas_nybV7Q-1; Tue, 03 Jan 2023 03:48:07 -0500
+X-MC-Unique: dL1-5sYDOj-jGas_nybV7Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C78A380673B;
+ Tue,  3 Jan 2023 08:48:07 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9714400D752;
+ Tue,  3 Jan 2023 08:48:03 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Michael S Tsirkin <mst@redhat.com>,
+ qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
+Subject: [PATCH 0/6] mc146818rtc related clean-ups and improvements
+Date: Tue,  3 Jan 2023 09:47:55 +0100
+Message-Id: <20230103084801.20437-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: PING: [for-8.0 v2 00/11] Refactor cryptodev
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: armbru@redhat.com, michael.roth@amd.com
-Cc: arei.gonglei@huawei.com, dgilbert@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, eblake@redhat.com,
- pbonzini@redhat.com, qemu-devel@nongnu.org
-References: <20221122140756.686982-1-pizhenwei@bytedance.com>
- <20221220103602-mutt-send-email-mst@kernel.org>
- <5823a483-9189-4e81-42f7-12579995bcfe@bytedance.com>
-Content-Language: en-US
-In-Reply-To: <5823a483-9189-4e81-42f7-12579995bcfe@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,84 +80,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, Markus & Michael
+This patch series is a follow-up of my previous patch
+"[PATCH v4] hw/rtc/mc146818rtc: Make this rtc device target independent".
+It has now been split into multiple patches to ease the review, and some
+further patches have been added on top.
 
-Could you please take a look at the changes of QAPI part?
+The basic idea is to change hw/rtc/mc146818rtc.c into target independent
+code so that the file only has to be compiled once instead of multiple
+times (and that it can be used in a qemu-system-all binary once we get
+there).
 
-On 12/22/22 10:04, zhenwei pi wrote:
-> 
-> 
-> On 12/20/22 23:36, Michael S. Tsirkin wrote:
->> On Tue, Nov 22, 2022 at 10:07:45PM +0800, zhenwei pi wrote:
->>> v1 -> v2:
->>> - fix coding style and use 'g_strjoin()' instead of 'char services[128]'
->>>    (suggested by Dr. David Alan Gilbert)
->>> - wrapper function 'cryptodev_backend_account' to record statistics, and
->>>    allocate sym_stat/asym_stat in cryptodev base class. see patch:
->>>    'cryptodev: Support statistics'.
->>> - add more arguments into struct CryptoDevBackendOpInfo, then
->>>    cryptodev_backend_crypto_operation() uses *op_info only.
->>> - support cryptodev QoS settings(BPS&OPS), both QEMU command line and 
->>> QMP
->>>    command works fine.
->>> - add myself as the maintainer for cryptodev.
->>>
->>> v1:
->>> - introduce cryptodev.json to describe the attributes of crypto 
->>> device, then
->>>    drop duplicated type declare, remove some virtio related dependence.
->>> - add statistics: OPS and bandwidth.
->>> - add QMP command: query-cryptodev
->>> - add HMP info command: cryptodev
->>> - misc fix: detect akcipher capability instead of exposing akcipher 
->>> service
->>>    unconditionally.
->>
->>
->> Can we get ACK on QAPI things please?
->> Thanks!
->>
-> 
-> Hi, Markus & Michael
-> 
-> Could you please review the changes of QAPI part?
-> 
->>> Zhenwei Pi (11):
->>>    cryptodev: Introduce cryptodev.json
->>>    cryptodev: Remove 'name' & 'model' fields
->>>    cryptodev: Introduce cryptodev alg type in QAPI
->>>    cryptodev: Introduce server type in QAPI
->>>    cryptodev: Introduce 'query-cryptodev' QMP command
->>>    cryptodev: Support statistics
->>>    cryptodev-builtin: Detect akcipher capability
->>>    hmp: add cryptodev info command
->>>    cryptodev: Use CryptoDevBackendOpInfo for operation
->>>    cryptodev: support QoS
->>>    MAINTAINERS: add myself as the maintainer for cryptodev
->>>
->>>   MAINTAINERS                     |   2 +
->>>   backends/cryptodev-builtin.c    |  42 +++--
->>>   backends/cryptodev-lkcf.c       |  19 +-
->>>   backends/cryptodev-vhost-user.c |  13 +-
->>>   backends/cryptodev-vhost.c      |   4 +-
->>>   backends/cryptodev.c            | 295 +++++++++++++++++++++++++++++---
->>>   hmp-commands-info.hx            |  14 ++
->>>   hw/virtio/virtio-crypto.c       |  48 ++++--
->>>   include/monitor/hmp.h           |   1 +
->>>   include/sysemu/cryptodev.h      |  94 +++++-----
->>>   monitor/hmp-cmds.c              |  36 ++++
->>>   qapi/cryptodev.json             | 144 ++++++++++++++++
->>>   qapi/meson.build                |   1 +
->>>   qapi/qapi-schema.json           |   1 +
->>>   qapi/qom.json                   |   8 +-
->>>   15 files changed, 604 insertions(+), 118 deletions(-)
->>>   create mode 100644 qapi/cryptodev.json
->>>
->>> -- 
->>> 2.20.1
->>
-> 
+First two patches are from Bernhard - clean-ups that will help to
+make it easier to introduce a new "slew-tick-policy-available" property
+later.
+
+The third patch extracts some functions from the APIC code that will be
+required for linking when the mc146818rtc becomes target-independent.
+
+The fourth patch introduces the new "slew-tick-policy-available" property
+that can be used to decide whether the slew-tick policy is available or
+not once the "#ifdef TARGET..." stuff got removed.
+
+The fifth patch then removes the "#ifdef TARGET" switches and turns
+the mc146818rtc code into a target-independent file.
+
+The sixth patch just fixes a small cosmetic nit that I discovered along
+the way: On systems without mc146818, the "-rtc driftfix=slew" simply
+got ignored silently. We should at least emit a warning in this case.
+
+Bernhard Beschow (2):
+  hw/i386/pc: Create RTC controllers in south bridges
+  hw/i386/pc: No need for rtc_state to be an out-parameter
+
+Thomas Huth (4):
+  hw/intc: Extract the IRQ counting functions into a separate file
+  hw/rtc/mc146818rtc: Add a property for the availability of the slew
+    tick policy
+  hw/rtc/mc146818rtc: Make the mc146818 RTC device target independent
+  softmmu/rtc: Emit warning when using driftfix=slew on systems without
+    mc146818
+
+ include/hw/i386/apic.h          |  2 --
+ include/hw/i386/apic_internal.h |  1 -
+ include/hw/i386/ich9.h          |  2 ++
+ include/hw/i386/pc.h            |  2 +-
+ include/hw/intc/kvm_irqcount.h  | 10 +++++++
+ include/hw/rtc/mc146818rtc.h    |  2 ++
+ include/hw/southbridge/piix.h   |  3 ++
+ hw/i386/kvm/i8259.c             |  4 +--
+ hw/i386/kvm/ioapic.c            |  4 +--
+ hw/i386/pc.c                    | 16 +++++++++--
+ hw/i386/pc_piix.c               | 11 +++++++-
+ hw/i386/pc_q35.c                |  3 +-
+ hw/intc/apic.c                  |  3 +-
+ hw/intc/apic_common.c           | 30 ++------------------
+ hw/intc/kvm_irqcount.c          | 49 +++++++++++++++++++++++++++++++++
+ hw/isa/lpc_ich9.c               |  9 ++++++
+ hw/isa/piix3.c                  | 16 +++++++++++
+ hw/rtc/mc146818rtc.c            | 33 ++++++++--------------
+ softmmu/rtc.c                   |  6 +++-
+ hw/intc/meson.build             |  6 ++++
+ hw/intc/trace-events            |  9 +++---
+ hw/isa/Kconfig                  |  2 ++
+ hw/rtc/meson.build              |  3 +-
+ 23 files changed, 156 insertions(+), 70 deletions(-)
+ create mode 100644 include/hw/intc/kvm_irqcount.h
+ create mode 100644 hw/intc/kvm_irqcount.c
 
 -- 
-zhenwei pi
+2.31.1
+
 
