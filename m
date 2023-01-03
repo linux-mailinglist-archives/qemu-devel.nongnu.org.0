@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE7C65C5EE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:18:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1805865C609
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 19:24:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pClrY-0008Th-Ew; Tue, 03 Jan 2023 13:18:14 -0500
+	id 1pClrg-0000Iy-Bk; Tue, 03 Jan 2023 13:18:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pClqw-0008Iw-V0
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:17:41 -0500
-Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a])
+ id 1pClr1-0008Ju-Kk
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:17:42 -0500
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pClqu-0005EO-M6
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:17:33 -0500
-Received: by mail-vk1-xa2a.google.com with SMTP id n205so8663272vkf.13
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 10:17:32 -0800 (PST)
+ id 1pClqz-0005Eh-FL
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 13:17:39 -0500
+Received: by mail-yb1-xb30.google.com with SMTP id 83so33160867yba.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 10:17:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JCltR3KinAgd2uF6C+01owj+mYF2uDzhF9nMarGDJGo=;
- b=X+zQqDX8Ddq0L+t7pqSYvm/voixbduZ09pXLbG4XglTYcHqYH+l12o/qSO6g3BvQ0M
- /z+nHnsNsXUDRFWu0jmfmI3jGeeobFTekNN7lb/083UHOTkNF9ffEq6z4wVVPL9Bts34
- xILEFR208pJs92Jjz1Ncd8ja6azjJBZDS8hd9BfbuNq0czdB9F2PycjobOZYX6EuBqpu
- uGa/p4/EI8KWU2UjawKsvKnUgRYx2Msg+zO7saYf3KOTulzBoRc4N0Fv+XFPmNHkO/S8
- Fcn2hpV9LwvgpmOKN2mRZPtxblliaSmkb3HsKxYradx5g9J2zaSZe7k6A2gbkA503hWJ
- fLVA==
+ bh=Pmw60XZJkaURtg8eJBBrSmnGqjJDvsMLyRzbxcUBtvE=;
+ b=Qm55UOU3asWzTW1uAeuDFLJAey3+MCRxPgz3tOWphd4E8Yn//csomMhEWg4IZh7hRm
+ Emi3ONbuuxcMAB+cW/WBptTH9FWB9ZH2ru3yICeQnm35Srzn2NlE1bBB85hHPJ1hYHmp
+ F85LtQREfUXnKbODl7WsKw47zADZXOzuxA36s5hCNYGnASYfddDd6wnI9+7GoR/3Sybb
+ rAnJ/a1NmULm1FyeRcr/wr7p0e85+NKuwPhFvY59qX324bsYJ9xMPwWcEsM8Wf6YeK1H
+ Lin4825lvPzq55S8ilc/LOSLxfxa80mkPgrwbQgv9TrN2n/FXN8/TNWtgJk6w86hEglf
+ fwBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JCltR3KinAgd2uF6C+01owj+mYF2uDzhF9nMarGDJGo=;
- b=BX0pyBn671RBBXsURQX0zHY2nXC7sXAi0KYXS+ssxO9tGKLPN27gG7Qz7SYbRPuA6W
- iECWLJbWW0UKoL7DUTjtysbR0R3DqzuWXFJ4/4QLbLFX/yHbQCUfR/3E8OBBAGBfvfUk
- GZlFbEQjjeziqfKubuecL4mwBDvRpzth4+jg9RVyS1//f+4Y1yPtYVYfZFVcS4M1ER7q
- jFZwjtQHLJLQwxq/mpunQc9x9QyIhdAah4b0/Ldaa9AWlG4+IOJMmc+LgQ5UZMjgDdfj
- ceCT2I5bIUHSt3iSy0QS7iGFx6fpsTy20eSA++q8oVNLIqX0NvSLrMa2ZCCEI57oFqna
- kkHw==
-X-Gm-Message-State: AFqh2kr0jXDY7I8dEYMX+LjZ5bC0fu5t+AUnyocvV51DcwwEJV4CLrdm
- 9w5vc37LKhJHeBNSe5Wr0+90khQoZhiaZcRRoIw=
-X-Google-Smtp-Source: AMrXdXsWBFc1Aweg6OJd1TXb6zz3+Gbld47xhGsnINX5LGQmfP8X2FrCrd10Rutx5Dx4j4dLXC7bIw==
-X-Received: by 2002:a1f:3141:0:b0:3d1:b994:7c61 with SMTP id
- x62-20020a1f3141000000b003d1b9947c61mr18269237vkx.8.1672769851796; 
- Tue, 03 Jan 2023 10:17:31 -0800 (PST)
+ bh=Pmw60XZJkaURtg8eJBBrSmnGqjJDvsMLyRzbxcUBtvE=;
+ b=toxWunf2iWnT+Gbo2I57JoaqzTSdjwzUToZ1TcudD4KAyRffitiVP7u9WUv58kX7wo
+ mOF9vv/3yb4ZkPlm5Bprh1gNlUyNfc+6ST5W6IND7uh2YClmczT0grHOnUfS8IICwhAe
+ KCi3x24LUCDvBQH2NTMXQxWVRHxI4QpdOrQzug91wYvkHnTUlBfcCFNlmunvZ4i/oWW3
+ t5zgp6GaoawoX1yi8/+mBJL2us5tD3ipuWGs0fTu9BeuYAQ00qtsRyR48jHU+7O8XDd9
+ uIr2TtJ9Hy0zu4cX8zhxlSU9+KgX1D9Y0ltpAgPiu4oCfrGhCWwSOEXihBVodTyLX6X1
+ dO9A==
+X-Gm-Message-State: AFqh2kqukfD6JSiyj9no6jKXNju3kybsknu6L7TS/hZhwq1uG9QJvGEt
+ wMbC9jGE6a83MJdSAtCG7zSHMAxLZ89HgaG7XwA=
+X-Google-Smtp-Source: AMrXdXs3vEnJ2CWolHHXlNrYLqKi8DUdUUtW7kt4NKjNcrjNKS39jAcOPWnmyjCRlkqqWPduByuSwg==
+X-Received: by 2002:a25:bd0c:0:b0:767:b792:2a7e with SMTP id
+ f12-20020a25bd0c000000b00767b7922a7emr35097941ybk.26.1672769854620; 
+ Tue, 03 Jan 2023 10:17:34 -0800 (PST)
 Received: from stoup.. ([2607:fb90:8060:51a2:184b:6e49:c396:be2])
  by smtp.gmail.com with ESMTPSA id
- v2-20020a05620a440200b006fed2788751sm23042354qkp.76.2023.01.03.10.17.29
+ v2-20020a05620a440200b006fed2788751sm23042354qkp.76.2023.01.03.10.17.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jan 2023 10:17:31 -0800 (PST)
+ Tue, 03 Jan 2023 10:17:34 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net,
  armbru@redhat.com, ajones@ventanamicro.com, alex.bennee@linaro.org
-Subject: [RFC PATCH 14/40] target/arm: Rename arm_cpu_mp_affinity
-Date: Tue,  3 Jan 2023 10:16:20 -0800
-Message-Id: <20230103181646.55711-15-richard.henderson@linaro.org>
+Subject: [RFC PATCH 15/40] target/arm: Create arm_cpu_mp_affinity
+Date: Tue,  3 Jan 2023 10:16:21 -0800
+Message-Id: <20230103181646.55711-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230103181646.55711-1-richard.henderson@linaro.org>
 References: <20230103181646.55711-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2a;
- envelope-from=richard.henderson@linaro.org; helo=mail-vk1-xa2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=richard.henderson@linaro.org; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,94 +90,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Rename to arm_build_mp_affinity.  This frees up the name for
-other usage, and emphasizes that the cpu object is not involved.
+Wrapper to return the mp affinity bits from the cpu.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h  | 2 +-
- hw/arm/npcm7xx.c  | 2 +-
- hw/arm/sbsa-ref.c | 2 +-
- hw/arm/virt.c     | 2 +-
- target/arm/cpu.c  | 6 +++---
- 5 files changed, 7 insertions(+), 7 deletions(-)
+ target/arm/cpu.h          | 5 +++++
+ hw/arm/virt-acpi-build.c  | 2 +-
+ hw/arm/virt.c             | 6 +++---
+ hw/arm/xlnx-versal-virt.c | 3 ++-
+ hw/misc/xlnx-versal-crl.c | 4 ++--
+ target/arm/arm-powerctl.c | 2 +-
+ target/arm/hvf/hvf.c      | 4 ++--
+ target/arm/psci.c         | 2 +-
+ 8 files changed, 17 insertions(+), 11 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 2d9bddf197..dd72519fda 100644
+index dd72519fda..499d2a6028 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -1037,7 +1037,7 @@ struct ArchCPU {
+@@ -1039,6 +1039,11 @@ unsigned int gt_cntfrq_period_ns(ARMCPU *cpu);
  
- unsigned int gt_cntfrq_period_ns(ARMCPU *cpu);
+ uint64_t arm_build_mp_affinity(int idx, uint8_t clustersz);
  
--uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz);
-+uint64_t arm_build_mp_affinity(int idx, uint8_t clustersz);
- 
++static inline uint64_t arm_cpu_mp_affinity(ARMCPU *cpu)
++{
++    return cpu->mp_affinity;
++}
++
  #ifndef CONFIG_USER_ONLY
  extern const VMStateDescription vmstate_arm_cpu;
-diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-index d85cc02765..41124b7444 100644
---- a/hw/arm/npcm7xx.c
-+++ b/hw/arm/npcm7xx.c
-@@ -462,7 +462,7 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-     /* CPUs */
-     for (i = 0; i < nc->num_cpus; i++) {
-         object_property_set_int(OBJECT(&s->cpu[i]), "mp-affinity",
--                                arm_cpu_mp_affinity(i, NPCM7XX_MAX_NUM_CPUS),
-+                                arm_build_mp_affinity(i, NPCM7XX_MAX_NUM_CPUS),
-                                 &error_abort);
-         object_property_set_int(OBJECT(&s->cpu[i]), "reset-cbar",
-                                 NPCM7XX_GIC_CPU_IF_ADDR, &error_abort);
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 4bb444684f..06fd4b6fb0 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -165,7 +165,7 @@ static bool cpu_type_valid(const char *cpu)
- static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
- {
-     uint8_t clustersz = ARM_DEFAULT_CPUS_PER_CLUSTER;
--    return arm_cpu_mp_affinity(idx, clustersz);
-+    return arm_build_mp_affinity(idx, clustersz);
- }
  
- /*
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 4156111d49..40fa3faf47 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -759,7 +759,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+         build_append_int_noprefix(table_data, vgic_interrupt, 4);
+         build_append_int_noprefix(table_data, 0, 8);    /* GICR Base Address*/
+         /* MPIDR */
+-        build_append_int_noprefix(table_data, armcpu->mp_affinity, 8);
++        build_append_int_noprefix(table_data, arm_cpu_mp_affinity(armcpu), 8);
+         /* Processor Power Efficiency Class */
+         build_append_int_noprefix(table_data, 0, 1);
+         /* Reserved */
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ea2413a0ba..3642604dea 100644
+index 3642604dea..aed86997c0 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -1700,7 +1700,7 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
-             clustersz = GICV3_TARGETLIST_BITS;
+@@ -391,7 +391,7 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+     for (cpu = 0; cpu < smp_cpus; cpu++) {
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(cpu));
+ 
+-        if (armcpu->mp_affinity & ARM_AFF3_MASK) {
++        if (arm_cpu_mp_affinity(armcpu) & ARM_AFF3_MASK) {
+             addr_cells = 2;
+             break;
+         }
+@@ -418,10 +418,10 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+ 
+         if (addr_cells == 2) {
+             qemu_fdt_setprop_u64(ms->fdt, nodename, "reg",
+-                                 armcpu->mp_affinity);
++                                 arm_cpu_mp_affinity(armcpu));
+         } else {
+             qemu_fdt_setprop_cell(ms->fdt, nodename, "reg",
+-                                  armcpu->mp_affinity);
++                                  arm_cpu_mp_affinity(armcpu));
+         }
+ 
+         if (ms->possible_cpus->cpus[cs->cpu_index].props.has_node_id) {
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 37fc9b919c..50d983c239 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -104,7 +104,8 @@ static void fdt_add_cpu_nodes(VersalVirt *s, uint32_t psci_conduit)
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
+ 
+         qemu_fdt_add_subnode(s->fdt, name);
+-        qemu_fdt_setprop_cell(s->fdt, name, "reg", armcpu->mp_affinity);
++        qemu_fdt_setprop_cell(s->fdt, name, "reg",
++                              arm_cpu_mp_affinity(armcpu));
+         if (psci_conduit != QEMU_PSCI_CONDUIT_DISABLED) {
+             qemu_fdt_setprop_string(s->fdt, name, "enable-method", "psci");
+         }
+diff --git a/hw/misc/xlnx-versal-crl.c b/hw/misc/xlnx-versal-crl.c
+index 767106b7a3..267aa55106 100644
+--- a/hw/misc/xlnx-versal-crl.c
++++ b/hw/misc/xlnx-versal-crl.c
+@@ -67,9 +67,9 @@ static void crl_reset_cpu(XlnxVersalCRL *s, ARMCPU *armcpu,
+                           bool rst_old, bool rst_new)
+ {
+     if (rst_new) {
+-        arm_set_cpu_off(armcpu->mp_affinity);
++        arm_set_cpu_off(arm_cpu_mp_affinity(armcpu));
+     } else {
+-        arm_set_cpu_on_and_reset(armcpu->mp_affinity);
++        arm_set_cpu_on_and_reset(arm_cpu_mp_affinity(armcpu));
+     }
+ }
+ 
+diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
+index b75f813b40..5a6dfdfb83 100644
+--- a/target/arm/arm-powerctl.c
++++ b/target/arm/arm-powerctl.c
+@@ -36,7 +36,7 @@ CPUState *arm_get_cpu_by_id(uint64_t id)
+     CPU_FOREACH(cpu) {
+         ARMCPU *armcpu = ARM_CPU(cpu);
+ 
+-        if (armcpu->mp_affinity == id) {
++        if (arm_cpu_mp_affinity(armcpu) == id) {
+             return cpu;
          }
      }
--    return arm_cpu_mp_affinity(idx, clustersz);
-+    return arm_build_mp_affinity(idx, clustersz);
- }
+diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+index 060aa0ccf4..e0ba91f5c6 100644
+--- a/target/arm/hvf/hvf.c
++++ b/target/arm/hvf/hvf.c
+@@ -645,7 +645,7 @@ static void hvf_raise_exception(CPUState *cpu, uint32_t excp,
  
- static inline bool *virt_get_high_memmap_enabled(VirtMachineState *vms,
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 8463c45d87..a104a77165 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1171,7 +1171,7 @@ static void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     }
- }
- 
--uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
-+uint64_t arm_build_mp_affinity(int idx, uint8_t clustersz)
+ static void hvf_psci_cpu_off(ARMCPU *arm_cpu)
  {
-     uint32_t Aff1 = idx / clustersz;
-     uint32_t Aff0 = idx % clustersz;
-@@ -1927,8 +1927,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-      * so these bits always RAZ.
-      */
-     if (cpu->mp_affinity == ARM64_AFFINITY_INVALID) {
--        cpu->mp_affinity = arm_cpu_mp_affinity(cs->cpu_index,
--                                               ARM_DEFAULT_CPUS_PER_CLUSTER);
-+        cpu->mp_affinity = arm_build_mp_affinity(cs->cpu_index,
-+                                                 ARM_DEFAULT_CPUS_PER_CLUSTER);
-     }
+-    int32_t ret = arm_set_cpu_off(arm_cpu->mp_affinity);
++    int32_t ret = arm_set_cpu_off(arm_cpu_mp_affinity(arm_cpu));
+     assert(ret == QEMU_ARM_POWERCTL_RET_SUCCESS);
+ }
  
-     if (cpu->reset_hivecs) {
+@@ -674,7 +674,7 @@ static bool hvf_handle_psci_call(CPUState *cpu)
+     int32_t ret = 0;
+ 
+     trace_hvf_psci_call(param[0], param[1], param[2], param[3],
+-                        arm_cpu->mp_affinity);
++                        arm_cpu_mp_affinity(arm_cpu));
+ 
+     switch (param[0]) {
+     case QEMU_PSCI_0_2_FN_PSCI_VERSION:
+diff --git a/target/arm/psci.c b/target/arm/psci.c
+index 6c1239bb96..b49d406e39 100644
+--- a/target/arm/psci.c
++++ b/target/arm/psci.c
+@@ -215,7 +215,7 @@ err:
+     return;
+ 
+ cpu_off:
+-    ret = arm_set_cpu_off(cpu->mp_affinity);
++    ret = arm_set_cpu_off(arm_cpu_mp_affinity(cpu));
+     /* notreached */
+     /* sanity check in case something failed */
+     assert(ret == QEMU_ARM_POWERCTL_RET_SUCCESS);
 -- 
 2.34.1
 
