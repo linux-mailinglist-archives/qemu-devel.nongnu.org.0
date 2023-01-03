@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138BD65BFAA
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 13:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4A765BFB0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 13:13:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCg7w-0000lr-9w; Tue, 03 Jan 2023 07:10:44 -0500
+	id 1pCg8n-0001FY-Au; Tue, 03 Jan 2023 07:11:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCg7u-0000la-2M
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 07:10:42 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCg8O-00014B-7h
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 07:11:18 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCg7s-000838-II
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 07:10:41 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCg8K-00085a-V5
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 07:11:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672747839;
+ s=mimecast20190719; t=1672747868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dk0zIfE1rr1oDEzDNVDwKPigK+zN3/cNJR4/t16GaH8=;
- b=RWZoNP5sAmHNS+91KSvItSc7JWBk7A/QzDTL+XgrxD5o5+OPTogfLblrs3yXZI1zhFFd49
- ijVYo7kQNaon1dqS6MFKrn2Q1ZDn8OyS8HBhyNFO4kEKIwsQt6/is8NIl+/M1ICNTyeflP
- FDtYnvWt/Eda5kiDlBRaMnm/VocrXvo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6MlcNMagkqKTumgj4yXnaV/ZnGeNh7qZIvG4dtHPE0I=;
+ b=XcWMe+ZvvR/LOnrws1Xp4P8dWzaXcUsZY4mGlQei3ClEfYk5+BaREGf//5KSgN9Gd5xqim
+ 9VA3kb5bWs6CTVjStezcNyNXaJIkQRn6KXeKvRuznWqkQZvkjkkkgpc5AZ/IFLTpOjxwTT
+ G67aY/5sWhPRyuzDADRvom2DXSVcxS0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-608-mtMGtWa_OG69qlh722ltOA-1; Tue, 03 Jan 2023 07:10:38 -0500
-X-MC-Unique: mtMGtWa_OG69qlh722ltOA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay32-20020a05600c1e2000b003d9730391b5so13853933wmb.5
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 04:10:38 -0800 (PST)
+ us-mta-78-Alb9D2SaOFaAKV9XZvJ5JQ-1; Tue, 03 Jan 2023 07:11:06 -0500
+X-MC-Unique: Alb9D2SaOFaAKV9XZvJ5JQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m8-20020a05600c3b0800b003d96bdce12fso14682079wms.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 04:11:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Dk0zIfE1rr1oDEzDNVDwKPigK+zN3/cNJR4/t16GaH8=;
- b=R2oAwo1MemT/re4/aJsta0uRe788XAlmk27SuHKICazpYlAkGOjb4Zyl7OdDrqVen1
- UxEW2t9swb02dwXa3PdSGxYS1pov8WfO8X/1bwWMSySmaXvd9+AP6PL9CwdKaQt+Vl4j
- VF7qvCG8cBDVg2OQivJWpy0DF1z1L4fBF3N6eoCHEj+6VFjOHwxfrh/fgQQeEcr8yUyt
- rjIyLGCXePhCubYRaBVDSubIANJKlep9X/zhEkM3b4UH7D0w8apEU+sqWFcaUnBoDUU1
- vm0NyVXilYE4IAGlwuPySPpJa+vMNk5Xyheyf6M7vQRGVRB3b1Or3pHIGUfs9ZxIdQcq
- VH0A==
-X-Gm-Message-State: AFqh2kq14AZx0UIBpxm/wrRtf5EZtkxSdvKs0d8/gZmVdo5FdJ48pvQ9
- 70IBAx73FrOMHd+xJuXb3f02gyEcHj1wywKdXtucBsN5O7Ouk6OhOwM64QEuoVIAGFYONUYLy/y
- fnfQE4i9BMbJAWhk=
-X-Received: by 2002:a05:600c:21cc:b0:3d5:79bb:d7da with SMTP id
- x12-20020a05600c21cc00b003d579bbd7damr31033842wmj.18.1672747837351; 
- Tue, 03 Jan 2023 04:10:37 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv6Ti9c7+gP2TsA6oqLxI6Za0F3WrNuarwUZ6E7N/QavxBi8i+b14NYQh+Eqc3Tj0fqBL5i8A==
-X-Received: by 2002:a05:600c:21cc:b0:3d5:79bb:d7da with SMTP id
- x12-20020a05600c21cc00b003d579bbd7damr31033820wmj.18.1672747837113; 
- Tue, 03 Jan 2023 04:10:37 -0800 (PST)
+ bh=6MlcNMagkqKTumgj4yXnaV/ZnGeNh7qZIvG4dtHPE0I=;
+ b=N94YSUVQhUIlDSqyyN5uxQQfSmrgUkQ0KGBU8cUBS3iNfzVlzU9dkV00MoPEZEg2+b
+ Ts/ByKQbe2hBwnoZYypZQa9T8gl7cDAVVV+ewwamzfTqHJTt2dx95aPQ84wHysAO9cVC
+ eVxF3ZlMbV4EixrjJh9ODwLrNLBNOXctHJhymUTSFs1Cyjd3x4kY1G50vUdxhQc2nPod
+ VjuytYMFUNZrL/W/DWyg2YmVxb6ExeUnPDfeShLub8UXpgoda57zEt7FULlDRLcwFi70
+ 1eEszeX0ISPyOjyEKeWFARPmotFNObq+jiFdDXvZuO4N3hJUZVbzAwBWfsDoVW2kqhlx
+ LGpg==
+X-Gm-Message-State: AFqh2kroIuniSIPzZQi3ntEvfvyIXcg2y+klP450i+lLfWZ8Z99VN00P
+ DYj6bDgKTs6fD9qth+a45ig6VGDJAlwmTUO8tCmC/hHF2T/FxDsdfloDEADxCtQ7EAyw3qjcwak
+ 77d8kWo6HTcaYj90=
+X-Received: by 2002:a05:600c:540c:b0:3d9:922b:b148 with SMTP id
+ he12-20020a05600c540c00b003d9922bb148mr17778361wmb.27.1672747865711; 
+ Tue, 03 Jan 2023 04:11:05 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXstf37YOsiT1wAVsQskcucgxP9jIXutiX20Mgf8NxmDQEkzn/UbD5wUmRszNXQQTq926u7m5g==
+X-Received: by 2002:a05:600c:540c:b0:3d9:922b:b148 with SMTP id
+ he12-20020a05600c540c00b003d9922bb148mr17778339wmb.27.1672747865540; 
+ Tue, 03 Jan 2023 04:11:05 -0800 (PST)
 Received: from [192.168.0.5] (ip-109-43-177-55.web.vodafone.de.
  [109.43.177.55]) by smtp.gmail.com with ESMTPSA id
- u13-20020a05600c19cd00b003d1d5a83b2esm49160625wmq.35.2023.01.03.04.10.35
+ w12-20020a05600c474c00b003d04e4ed873sm31355028wmo.22.2023.01.03.04.11.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jan 2023 04:10:36 -0800 (PST)
-Message-ID: <aab357ff-605b-3d79-9c67-a15a2868ef54@redhat.com>
-Date: Tue, 3 Jan 2023 13:10:34 +0100
+ Tue, 03 Jan 2023 04:11:04 -0800 (PST)
+Message-ID: <4ca22b73-7549-0013-0f22-90fbce5f27e8@redhat.com>
+Date: Tue, 3 Jan 2023 13:11:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 09/10] libqtest: make qtest_qmp_add_client work on win32
+Subject: Re: [PATCH 10/10] qtest: enable vnc-display test on win32
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
@@ -79,9 +79,9 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <20230103110814.3726795-1-marcandre.lureau@redhat.com>
- <20230103110814.3726795-10-marcandre.lureau@redhat.com>
+ <20230103110814.3726795-11-marcandre.lureau@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230103110814.3726795-10-marcandre.lureau@redhat.com>
+In-Reply-To: <20230103110814.3726795-11-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -111,15 +111,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 03/01/2023 12.08, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Use the "get-win32-socket" function to pass an opened socket to QEMU,
-> instead of using "getfd", which relies on socket ancillary FD message
-> passing.
+> Now that qtest_qmp_add_client() works on win32, we can enable the VNC
+> test.
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   tests/qtest/libqtest.h |  5 ++---
->   tests/qtest/libqtest.c | 16 ++++++++++++++--
->   2 files changed, 16 insertions(+), 5 deletions(-)
+>   tests/qtest/vnc-display-test.c | 5 -----
+>   1 file changed, 5 deletions(-)
+> 
+> diff --git a/tests/qtest/vnc-display-test.c b/tests/qtest/vnc-display-test.c
+> index e2a9d682bb..2997edc6ec 100644
+> --- a/tests/qtest/vnc-display-test.c
+> +++ b/tests/qtest/vnc-display-test.c
+> @@ -34,10 +34,6 @@ static void on_vnc_auth_failure(VncConnection *self,
+>   static bool
+>   test_setup(Test *test)
+>   {
+> -#ifdef WIN32
+> -    g_test_skip("Not supported on Windows yet");
+> -    return false;
+> -#else
+>       int pair[2];
+>   
+>       test->qts = qtest_init("-vnc none -name vnc-test");
+> @@ -56,7 +52,6 @@ test_setup(Test *test)
+>   
+>       test->loop = g_main_loop_new(NULL, FALSE);
+>       return true;
+> -#endif
+>   }
+>   
+>   static void
 
 Acked-by: Thomas Huth <thuth@redhat.com>
 
