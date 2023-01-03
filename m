@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A81665BE0E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 11:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30ECA65BE66
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 11:50:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCeYK-0001vr-DG; Tue, 03 Jan 2023 05:29:52 -0500
+	id 1pCeq2-00067S-Go; Tue, 03 Jan 2023 05:48:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCeYI-0001vi-9Z
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 05:29:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCeYG-0006qd-7N
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 05:29:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672741786;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1EXvEA+hvtzpZm0x8QHEqT6HwFVlwrDvPHIhXRu1Rmk=;
- b=KelpQYBWBVbluoRwBF3gM73Bfs9kOq8XKxtQ4tDMnEZGrCtVMaOAUcpyoQ9NdQUuxrmQo0
- acMnVCd4oIgqBzCRtMD76+PnBsEmQbZP4SvrKYzICV9syRRteggMjtsoPgo917diRuxU2D
- 5gxBx21lZ30xJusB2yK36FZdHVv2WqQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-353-ft2YQ3PTMza2ckTjDFkw1g-1; Tue, 03 Jan 2023 05:29:45 -0500
-X-MC-Unique: ft2YQ3PTMza2ckTjDFkw1g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u15-20020adfa18f000000b00286c5df5f35so1748326wru.22
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 02:29:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pCeq0-00066m-9R
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 05:48:08 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pCepy-0001tO-Du
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 05:48:08 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id l26so20762775wme.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 02:48:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OjsCgixJ853aLDT+sx3gTfL1hNKd5uADdfrKzgPAsPE=;
+ b=VyXDnsn5mvf1+rWcbFVas3xTc0a1pR+PVfWWezJj8tqHvo/WMqkUwOlmtcoGRnW55x
+ 6vuR1nMlmiCNjbl19h3oQevE0ueHi0Y917Swi7AbQud5dACOuJAkTsrU/eOOCOtQn65E
+ xWQzdhpC1H6E1Z62ut/ZGmDEPvwHRcomV4ZLZuJAHDr9Cvav7qYRfVHacQDGr0eCieul
+ NbmDsn9cBAy5j+v69k6kxRMdJ1Nyqfgm17aBr2f/t58mjaVbspzEg/w8zpuTQMBxPgWM
+ FMPglY4cK+ZLhpkqLt4LUF9rLUhSMhrLZfhLBwe75YZomuooS4FQ+4jcqT45iykspxx4
+ OtEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1EXvEA+hvtzpZm0x8QHEqT6HwFVlwrDvPHIhXRu1Rmk=;
- b=EzPkhkKzVyuypVf7JxM8zTEZM0ydu2hzX2RiM2sn6A/TNlgQpmZHVz0zqWbZwMoAnR
- pM8pxGocDqqXNG6wSd2aA/N2ILoAGxxLZmK3AnzA4JH6Ccy13I62lXAvHT/pDZKDbZ8+
- r5SyWye4YyHrG7MvqO/6eUKQzKuEsATZjL9DMqfDoK3/rJ4yOtAkoyB8CzZPJ22BvK3r
- dEtLvvqLKi8NQrY5u2M2wCvawbZZ2L1YgacPgX7IYelCWn1eBFg0atBsEvJzSJCGrX8N
- NYK69MHGBu6C0bkKsdXKbyiwrHPBUIEaH7TkMkphenL2IQQlzittyp/iPbdnK87BbAu5
- maAg==
-X-Gm-Message-State: AFqh2krLPFrikdvtlG2OKaM6cLtxvvPAoAj+xYh7QtJjIBQv16AAa4go
- /EgoK8Z04v/1iSRQHwHNnnuCJZpk2ZAJto5msyMPPsVhGIAjEqUtlupKNDlUzSr+GEJShWdu7Ie
- ktS89V2oAdEjCtck=
-X-Received: by 2002:a05:600c:a4d:b0:3cf:6e78:e2ca with SMTP id
- c13-20020a05600c0a4d00b003cf6e78e2camr34173885wmq.5.1672741784438; 
- Tue, 03 Jan 2023 02:29:44 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtfzg/ihwwXpapJK7QKxhH4jrwcclFYmgAn5USS/d55qyH9bG6kbkTSFDl+OGzzVO538IOwgg==
-X-Received: by 2002:a05:600c:a4d:b0:3cf:6e78:e2ca with SMTP id
- c13-20020a05600c0a4d00b003cf6e78e2camr34173878wmq.5.1672741784240; 
- Tue, 03 Jan 2023 02:29:44 -0800 (PST)
-Received: from [192.168.0.5] (ip-109-43-177-55.web.vodafone.de.
- [109.43.177.55]) by smtp.gmail.com with ESMTPSA id
- n41-20020a05600c3ba900b003d358beab9dsm45919113wms.47.2023.01.03.02.29.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Jan 2023 02:29:41 -0800 (PST)
-Message-ID: <35f6af53-3071-6f26-9038-218a2aae1728@redhat.com>
-Date: Tue, 3 Jan 2023 11:29:38 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OjsCgixJ853aLDT+sx3gTfL1hNKd5uADdfrKzgPAsPE=;
+ b=IeAh714Ct62MvZr3Tz1dYZDdYEVxsWmR9EPMbZX7zs9wkMLpqsXBqP4hQDHreQAejl
+ 61qEShnJ8kurXb2O6c9ysmdaaPyEu8BwuMT1+mjhCaid19rBpNzy1ucEiS5Y557kQuCp
+ LjoKwMRh/ltyLZQ+bNcjo6Z7AvzCNMMQm+NEH5MoFZOWF7e400OO+NNJ0k2Za2g+1tf7
+ M+YQOwF8eeWtm29w3ekF6F8L7+CRRo3HP44b3tYhto1HvXg9baR3aFw1kmf0+31GzjLv
+ njEQJs0Q8grz0MFYOilzA0ECMljTDmBH/9aPAiLSe2VLliGMqhW4DZtJH8Nq4O9856cc
+ MLZA==
+X-Gm-Message-State: AFqh2kpbSN1VxuF8Apsy/w/DP/kzBOjFjQ0TAbmU/yP7kFkKxmEbPtaj
+ vzflzHpBpM5iv3ikuRonBarp1w==
+X-Google-Smtp-Source: AMrXdXsT/Dj2DpR/hhLfyECPq8g4KlCopywqxXfA3dl1iemBXj2Ho/CUXKpf26Ur+/3nBtjRc5QoJA==
+X-Received: by 2002:a05:600c:3ca2:b0:3d9:a5a2:65fa with SMTP id
+ bg34-20020a05600c3ca200b003d9a5a265famr9645115wmb.7.1672742884517; 
+ Tue, 03 Jan 2023 02:48:04 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ i17-20020a05600c355100b003d9980c5e7asm22601397wmq.21.2023.01.03.02.48.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Jan 2023 02:48:04 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A5CE61FFB7;
+ Tue,  3 Jan 2023 10:48:03 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Alessandro Di Federico <ale@rev.ng>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [RFC PATCH] docs: add some details about compilation units to coding
+ style
+Date: Tue,  3 Jan 2023 10:47:58 +0000
+Message-Id: <20230103104758.767266-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Bin Meng <bin.meng@windriver.com>
-References: <CAFEAcA_FuURPMDso7+ws0fe33mm+9aAHGByc65YbbN6dEuZWMA@mail.gmail.com>
- <ae141ea8-8bfa-b941-b4aa-80bf1b5150b9@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: can we reduce the time taken for the msys2 jobs?
-In-Reply-To: <ae141ea8-8bfa-b941-b4aa-80bf1b5150b9@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.142, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,50 +94,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/12/2022 17.23, Philippe Mathieu-Daudé wrote:
-> On 16/12/22 15:55, Peter Maydell wrote:
->> The msys2-32bit job currently seems to run into the 70 minute CI timeout
->> quite frequently. This successful pass took 61 minutes:
->> https://gitlab.com/qemu-project/qemu/-/jobs/3479763757
->> so I don't think it's a "time limit is fine but job has intermittent
->> hang" situation.
->>
->> msys2-64bit also is quite close to the timeout, eg this job
->> https://gitlab.com/qemu-project/qemu/-/jobs/3482192864
->> took 61 minutes.
-> 
-> The 64-bit variant is building WHPX.
-> 
->> Can we cut down or split up these CI jobs?
+The build-system documentation remains the canonical description of
+how the whole build system goes together. However we should at least
+reference the fact that we use conditional compilation in the coding
+style document which I assume is the first document a potential
+contributor actually reads (if at all).
 
-The Windows jobs are terribly slow, yes, and we've discussed that a couple 
-of times before with no satisfying solution, e.g.:
+[AJB: should we make more explicit reference to NEED_CPU?]
 
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+Cc: Alessandro Di Federico <ale@rev.ng>
+---
+ docs/devel/build-system.rst |  1 +
+ docs/devel/style.rst        | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 1894721743..eb50578f8b 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -107,6 +107,7 @@ developers in checking for system features:
+    Run pkg-config passing it $ARGS. If QEMU is doing a static build,
+    then --static will be automatically added to $ARGS
  
-https://lore.kernel.org/qemu-devel/e80726cc-633d-435c-7a2a-5cae43624282@redhat.com/
-
-... so we currently settled on not running the qtests in the 64-bit job 
-since that would take too long.
-
-I also don't have a real good idea how to improve the situation ... we could 
-switch to even simpler targets (e.g. s390x-softmmu should compile faster and 
-run less tests than ppc64-softmmu, I think), or would it be still OK to bump 
-the timeout to 80 minutes here? (90 minutes, like it has been discussed last 
-year is already very borderline, but I think 80 minutes might still be OK, 
-especially since those jobs don't wait for another job from the container 
-stage?)
-
-> We can add --disable-tools to the slower.
-
-For the 32-bit job, this would further decrease the test scope ... should be 
-OK as a last resort, I guess.
-
-> What I don't understand is why the docker image is rebuilt, it should
-> be pulled from the registry.
-
-I think those Windows jobs are still quite a bit special ... e.g. until some 
-months ago, the "timeout" setting was also not working at all IIRC.
-
-  Thomas
++.. _meson:
+ 
+ Stage 2: Meson
+ ==============
+diff --git a/docs/devel/style.rst b/docs/devel/style.rst
+index 7ddd42b6c2..36c7868854 100644
+--- a/docs/devel/style.rst
++++ b/docs/devel/style.rst
+@@ -607,6 +607,42 @@ are still some caveats to beware of
+ QEMU Specific Idioms
+ ********************
+ 
++Module and file layout
++======================
++
++The QEMU project is a large and complex one where individual files can
++be re-built multiple times for various final binaries. This is often
++accomplished through heavy use of #define values to control
++conditional compilation. However care should be taken to avoid
++introducing files that are compiled for every target for trivial
++differences.
++
++Some general rules of thumb:
++
++  * CONFIG_* flags come from either host or target specific defines.
++    You can see where they come from by comparing config-host.h and
++    $TARGET-config.target.h
++
++  * #ifdef CONFIG_USER_ONLY/CONFIG_SOFTMMU should only be added to
++    files that already use them to compile multiple versions.
++
++  * Try and avoid target_* specific typedefs in common code
++
++See the build system :ref:`meson<meson>` documentation for the details of how
++the various compilation units are handled.
++
++"Templates" and generated code
++==============================
++
++We make heavy use of C's macro facilities combined with multiple
++inclusion to generate code. This tends to use header files (usually
++with the .inc suffix) with different #define'd constants. While the
++use of C11's _Generic keyword has improved things a bit this technique
++is still best suited to repetitive boiler plate code. If more complex
++code generation is required consider using a script to generate it,
++see for example the decodetree and qapi header scripts.
++
++
+ Error handling and reporting
+ ============================
+ 
+-- 
+2.34.1
 
 
