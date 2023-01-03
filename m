@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA83765BC7A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 09:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2A265BC7C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Jan 2023 09:51:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCcya-0001de-Uj; Tue, 03 Jan 2023 03:48:52 -0500
+	id 1pCcyd-0001dz-7S; Tue, 03 Jan 2023 03:48:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCcyD-0001bF-MC
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 03:48:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCcyH-0001bY-Bk
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 03:48:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCcyC-0007XA-0h
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 03:48:29 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCcyF-0007XP-4F
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 03:48:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672735707;
+ s=mimecast20190719; t=1672735710;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wr/ztDqaZEjIYIMtFBFgRuGPJsaGNHHvqse+3TfFIpg=;
- b=h7oFI2p6nPSWEc/uGm+mFyFlumr2f4yuF8Hep6omyvTjcRWptE9R1ynVlJLkqXoiIHQS3G
- N9sGkp55XTUqZ8HKdzma5zLnX9aFJguQJOHfEAdtVNcTPap7TLE1tdK+3YGRzN9WMXUjT3
- +reqHyjqNXvoDbiNws+hw4C1xmo1mI8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JP8yvFnO+sMzdcLZ770nqwSJNaTq4oXE344WoEOJ8oM=;
+ b=KXHC+I7q2s0UNe1S0+ACviBH9sdTqPmEPfid9tyJ9hkcW4FiwYtgacffM43U6W+6euzBPx
+ VKdx8eqnW/CFBfAiU0vVatcRdkNma4/+aPIn3/4sLssNXBShFZJJCm8ngymSNHTJRj+CGR
+ IY2Xra+XVYp485/Jb74TbjRjpcs9C0s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-c2uOpbbnMCu4a9eRNORw4Q-1; Tue, 03 Jan 2023 03:48:23 -0500
-X-MC-Unique: c2uOpbbnMCu4a9eRNORw4Q-1
+ us-mta-428-luR7oqgnPb2m6Q4vk_UfGA-1; Tue, 03 Jan 2023 03:48:27 -0500
+X-MC-Unique: luR7oqgnPb2m6Q4vk_UfGA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E8223C0D841;
- Tue,  3 Jan 2023 08:48:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F2F185A588;
+ Tue,  3 Jan 2023 08:48:26 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A41C40C1141;
- Tue,  3 Jan 2023 08:48:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C8EA400D752;
+ Tue,  3 Jan 2023 08:48:23 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Michael S Tsirkin <mst@redhat.com>,
  qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
@@ -51,16 +51,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Aurelien Jarno <aurelien@aurel32.net>
-Subject: [PATCH 5/6] hw/rtc/mc146818rtc: Make the mc146818 RTC device target
- independent
-Date: Tue,  3 Jan 2023 09:48:00 +0100
-Message-Id: <20230103084801.20437-6-thuth@redhat.com>
+Subject: [PATCH 6/6] softmmu/rtc: Emit warning when using driftfix=slew on
+ systems without mc146818
+Date: Tue,  3 Jan 2023 09:48:01 +0100
+Message-Id: <20230103084801.20437-7-thuth@redhat.com>
 In-Reply-To: <20230103084801.20437-1-thuth@redhat.com>
 References: <20230103084801.20437-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,103 +84,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The only reason for this code being target dependent was the IRQ-counting
-related code in rtc_policy_slew_deliver_irq(). Since these functions have
-been moved into a new, separate file (kvm_irqcount.c) which is now always
-compiled and linked if either APIC or the mc146818 device are required,
-and since we've got a new mechanism for deciding whether the slew tick
-policy is available now (via the "slew-tick-policy-available" property),
-we can get rid of the #ifdef TARGET_I386 switches in mc146818rtc.c and
-declare it in the softmmu_ss instead of specific_ss, so that the code only
-gets compiled once for all targets.
+The 'slew' lost tick policy is only available on systems with a mc146818
+RTC. On other systems, "-rtc driftfix=slew" is currently silently ignored.
+Let's emit at least a warning in this case to make the users aware that
+there is something wrong in their command line settings.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/hw/rtc/mc146818rtc.h |  1 +
- hw/rtc/mc146818rtc.c         | 15 +--------------
- hw/rtc/meson.build           |  3 +--
- 3 files changed, 3 insertions(+), 16 deletions(-)
+ softmmu/rtc.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 54af63d091..9d15d70da8 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -56,5 +56,6 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
-                              qemu_irq intercept_irq);
- void rtc_set_memory(ISADevice *dev, int addr, int val);
- int rtc_get_memory(ISADevice *dev, int addr);
-+void qmp_rtc_reset_reinjection(Error **errp);
+diff --git a/softmmu/rtc.c b/softmmu/rtc.c
+index 7e2956f81e..f7114bed7d 100644
+--- a/softmmu/rtc.c
++++ b/softmmu/rtc.c
+@@ -33,6 +33,7 @@
+ #include "sysemu/replay.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/rtc.h"
++#include "hw/rtc/mc146818rtc.h"
  
- #endif /* HW_RTC_MC146818RTC_H */
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index 86381a74c3..4497ddf024 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -45,10 +45,6 @@
- #include "qapi/visitor.h"
- #include "hw/rtc/mc146818rtc_regs.h"
- 
--#ifdef TARGET_I386
--#include "qapi/qapi-commands-misc-target.h"
--#endif
--
- //#define DEBUG_CMOS
- //#define DEBUG_COALESCED
- 
-@@ -112,7 +108,6 @@ static void rtc_coalesced_timer_update(RTCState *s)
- static QLIST_HEAD(, RTCState) rtc_devices =
-     QLIST_HEAD_INITIALIZER(rtc_devices);
- 
--#ifdef TARGET_I386
- void qmp_rtc_reset_reinjection(Error **errp)
- {
-     RTCState *s;
-@@ -124,6 +119,7 @@ void qmp_rtc_reset_reinjection(Error **errp)
- 
- static bool rtc_policy_slew_deliver_irq(RTCState *s)
- {
-+    assert(s->slew_tick_policy_available);
-     kvm_reset_irq_delivered();
-     qemu_irq_raise(s->irq);
-     return kvm_get_irq_delivered();
-@@ -145,13 +141,6 @@ static void rtc_coalesced_timer(void *opaque)
- 
-     rtc_coalesced_timer_update(s);
- }
--#else
--static bool rtc_policy_slew_deliver_irq(RTCState *s)
--{
--    assert(0);
--    return false;
--}
--#endif
- 
- static uint32_t rtc_periodic_clock_ticks(RTCState *s)
- {
-@@ -925,12 +914,10 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
-     case LOST_TICK_POLICY_DISCARD:
-         break;
-     case LOST_TICK_POLICY_SLEW:
--#ifdef TARGET_I386
-         if (s->slew_tick_policy_available) {
-             s->coalesced_timer = timer_new_ns(rtc_clock, rtc_coalesced_timer, s);
-             break;
-         }
--#endif
-         /* fallthrough */
-     default:
-         error_setg(errp, "Invalid lost tick policy.");
-diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
-index dc33973384..34a4d316fa 100644
---- a/hw/rtc/meson.build
-+++ b/hw/rtc/meson.build
-@@ -13,5 +13,4 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
--
--specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
-+softmmu_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
+ static enum {
+     RTC_BASE_UTC,
+@@ -177,10 +178,13 @@ void configure_rtc(QemuOpts *opts)
+     value = qemu_opt_get(opts, "driftfix");
+     if (value) {
+         if (!strcmp(value, "slew")) {
+-            object_register_sugar_prop("mc146818rtc",
++            object_register_sugar_prop(TYPE_MC146818_RTC,
+                                        "lost_tick_policy",
+                                        "slew",
+                                        false);
++            if (!object_class_by_name(TYPE_MC146818_RTC)) {
++                warn_report("driftfix 'slew' is not available with this machine");
++            }
+         } else if (!strcmp(value, "none")) {
+             /* discard is default */
+         } else {
 -- 
 2.31.1
 
