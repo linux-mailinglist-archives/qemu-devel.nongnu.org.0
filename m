@@ -2,116 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13CD65CA38
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 00:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB1765CA3F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 00:13:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCqMq-0007jO-Ht; Tue, 03 Jan 2023 18:06:48 -0500
+	id 1pCqSs-0000Pn-Pm; Tue, 03 Jan 2023 18:13:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pCqMo-0007jB-BV
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 18:06:46 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCqSq-0000PZ-KQ
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 18:13:00 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pCqMl-0005v4-Lr
- for qemu-devel@nongnu.org; Tue, 03 Jan 2023 18:06:46 -0500
-Received: by mail-pl1-x633.google.com with SMTP id n4so34237161plp.1
- for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 15:06:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=wms9vJRG39Hnpaj8L9AdTUEiKoOujl8Zc1PlfJpuAvc=;
- b=h9725tfa5hdVaq1HRKMg38pT3bnSdsZu1gYJxnR5d5+gbg52PuYQIv5wBFlDJhO9bS
- mI84Q+hhI20dHQcSkgxSkQf4wP4qmQP1LNIFkAq/VomPx4jdE8OPYacqy/eeBE+fylf/
- swL/aH5bYQ07AmejSAYJHcZh07QDgP5xrRt6bm8Q1etUwfrKAFos+bdLOE5+JE6PBi3U
- sFDQ9Dps9Lxs/yyXs3jQijpfnjXJqK66rKL3UJSPZwrJDKJketPNn4qX/18FtXZzHbno
- RPLBoKWopziiN34rcQN0qmYINuJwWj5jMTrSB3yTnXpqqbcBJ6htLtlQbhw4piMR+QeH
- MFPQ==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pCqSo-0006as-Ez
+ for qemu-devel@nongnu.org; Tue, 03 Jan 2023 18:13:00 -0500
+Received: by mail-wr1-x432.google.com with SMTP id bn26so11865529wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 03 Jan 2023 15:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7+qafBATEoa+2wTKgOzGNp070b+aJSvCBksgwfL9zmI=;
+ b=FfjpMyyhXfBZThxZeYGQQO7vyOLV9v0CEBG6dVn0ZgBxugLJMWJFd+HsU69RlII0C5
+ /NLql6fmLqkER/sYBYysomuni9ejwEf7pxSGpAaLjsF7eIsaeBgxI1z74MJkrgXL2kup
+ nCuuYp4mXX+BAmgm7SJnSWiNnYy1w7RUz530xYxJMgmpoH8y3sHa1My98uOYcLgv7QnL
+ xlHE4D85uwdfL1i7el8H9LOGgF+r9iZrSVpxLUQpOXnc36chinVi9laOaZdgnkTVpro0
+ ck9PK0oPV359foRYgxXgeM46zviSi6e0Qi7JAOcLHC6FAfFdoQHJMEmicC2WMdlMwzGD
+ k7bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wms9vJRG39Hnpaj8L9AdTUEiKoOujl8Zc1PlfJpuAvc=;
- b=fx4RoHfr0xyJ66xQrsunqt6yF4LP991zRPTaEXffgmJPdhSb7Sccx+CWSXiT5uJpMc
- L8AhUdGCrFoTL8S8KPpFlFMP7wqfNpnpMZWXyiIMt2a/Fe2o6gPrrjr51PoC/F2ciK27
- 3gM5NVg3q2JeAr9R12IVTOUdk5dRjHP87AZc2Ckb6AVK9jJYSaBzFERMEA+vO8Mc4TUB
- 4HrMsKxQiOWqdILzVBcRgIT4ctWYFprdEL+m8ZEu6grAmb5ySvmovoPBp7Cl8LFuZ0Lq
- RLdnbvWeNOT+C6S8RLNra4XA5sI4CzGdLAmreLdv6ZwI/qj9M/hsPQn/CJ4qTts5xOUZ
- i6fQ==
-X-Gm-Message-State: AFqh2krXIVxXZFAlJwEAnXOEpnMw5CJ26qaKR9Zm0YgpatfOZXYuTEka
- PY+3AoxNNcGmP33mBoqX97DWhA==
-X-Google-Smtp-Source: AMrXdXv0hPqADj10or2SDVYag+quux5jra8KVSiEDlbg50PLMvdP+6Y7KrZdfBMvhypOkMi3Sz3H1g==
-X-Received: by 2002:a05:6a20:2a9f:b0:a4:efde:2ed8 with SMTP id
- v31-20020a056a202a9f00b000a4efde2ed8mr5044243pzh.0.1672787201272; 
- Tue, 03 Jan 2023 15:06:41 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- b27-20020aa7951b000000b00580c8a15d13sm19479380pfp.11.2023.01.03.15.06.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Jan 2023 15:06:40 -0800 (PST)
-Date: Tue, 3 Jan 2023 23:06:37 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: "Wang, Wei W" <wei.w.wang@intel.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>,
- "Qiang, Chenyi" <chenyi.qiang@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, "x86@kernel.org" <x86@kernel.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- "Lutomirski, Andy" <luto@kernel.org>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- "Hansen, Dave" <dave.hansen@intel.com>,
- "ak@linux.intel.com" <ak@linux.intel.com>,
- "david@redhat.com" <david@redhat.com>,
- "aarcange@redhat.com" <aarcange@redhat.com>,
- "ddutile@redhat.com" <ddutile@redhat.com>,
- "dhildenb@redhat.com" <dhildenb@redhat.com>,
- Quentin Perret <qperret@google.com>, "tabba@google.com" <tabba@google.com>,
- Michael Roth <michael.roth@amd.com>, "Hocko, Michal" <mhocko@suse.com>
-Subject: Re: [PATCH v10 2/9] KVM: Introduce per-page memory attributes
-Message-ID: <Y7S0/VYsy4aWjfQ+@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-3-chao.p.peng@linux.intel.com>
- <1c9bbaa5-eea3-351e-d6a0-cfbc32115c82@intel.com>
- <20230103013948.GA2178318@chaop.bj.intel.com>
- <DS0PR11MB63738AE206ADE5EB00D8838BDCF49@DS0PR11MB6373.namprd11.prod.outlook.com>
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7+qafBATEoa+2wTKgOzGNp070b+aJSvCBksgwfL9zmI=;
+ b=ZBMyi0ZAQKRe/9QSp5klfBvjUnNngKJSD1EYkQth+yyoFFYoSCGZKeKfg5So0LmmM1
+ HYFpUGozmm1aKwEgSdMayisA4KBJiP+Ka+InH75gIFLzAf3qESgBKik8+OIHiEbNgJxZ
+ n0TpSPVbAp4GNOTYrX/1r6BlXCAovgliSUDy+02b1L1/A0scWMxGs9YpX7fh1dDzvDZw
+ XcQpfOqybjvR2LAl+PbY9TN+P1rEonZU3uirBb1XR/AZ1OVZACIlA6Sh0LI03u5R5uVY
+ nFdHgD862wNNYHSMsJ24QlbA+7x2OeF1830Ln+65ajrJJ+r/wUsa78aTdxBZfiMmLIC/
+ pyyQ==
+X-Gm-Message-State: AFqh2kqd3sZpi3QIjnjFYi7SHQ01+3GErqyIGr0EIwTodign/KQ7LtA/
+ d/EizUlN4gvhyMeWJb1AW5Q=
+X-Google-Smtp-Source: AMrXdXv5WbayTDQhnHzoCHddCGvxv2hlBPr+kTrTQpT4lKo5mnbVdopIJ2APRWebmxbsRfsVjBUHYg==
+X-Received: by 2002:a5d:42cc:0:b0:28a:326d:1d11 with SMTP id
+ t12-20020a5d42cc000000b0028a326d1d11mr14209407wrr.53.1672787576887; 
+ Tue, 03 Jan 2023 15:12:56 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb20094284aaccacb64e1.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:9428:4aac:cacb:64e1])
+ by smtp.gmail.com with ESMTPSA id
+ a18-20020a5d4d52000000b0028df2d57204sm16840020wru.81.2023.01.03.15.12.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Jan 2023 15:12:56 -0800 (PST)
+Date: Tue, 03 Jan 2023 23:12:48 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Chuck Zmudzinski <brchuckz@aol.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, 
+ xen-devel@lists.xenproject.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
+In-Reply-To: <6360e4a1-dc2b-685e-5e19-62b92eec695b@aol.com>
+References: <20230102213504.14646-1-shentey@gmail.com>
+ <bd4daee7-09df-4bfa-3b96-713690be9f4e@aol.com>
+ <0de699a7-98b8-e320-da4d-678d0f594213@linaro.org>
+ <CAG4p6K7hcJ-47GvsEvmuBmdwP2LsEC4WLkw_t6ZfwhqakYUEyQ@mail.gmail.com>
+ <6360e4a1-dc2b-685e-5e19-62b92eec695b@aol.com>
+Message-ID: <DD07C54B-F562-42B6-A6CD-824670514248@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DS0PR11MB63738AE206ADE5EB00D8838BDCF49@DS0PR11MB6373.namprd11.prod.outlook.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=seanjc@google.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -127,55 +104,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 03, 2023, Wang, Wei W wrote:
-> On Tuesday, January 3, 2023 9:40 AM, Chao Peng wrote:
-> > > Because guest memory defaults to private, and now this patch stores
-> > > the attributes with KVM_MEMORY_ATTRIBUTE_PRIVATE instead of
-> > _SHARED,
-> > > it would bring more KVM_EXIT_MEMORY_FAULT exits at the beginning of
-> > > boot time. Maybe it can be optimized somehow in other places? e.g. set
-> > > mem attr in advance.
-> > 
-> > KVM defaults to 'shared' because this ioctl can also be potentially used by
-> > normal VMs and 'shared' sounds a value meaningful for both normal VMs and
-> > confidential VMs. 
-> 
-> Do you mean a normal VM could have pages marked private? What's the usage?
-> (If all the pages are just marked shared for normal VMs, then why do we need it)
 
-No, there are potential use cases for per-page attribute/permissions, e.g. to
-make select pages read-only, exec-only, no-exec, etc...
 
-> > As for more KVM_EXIT_MEMORY_FAULT exits during the
-> > booting time, yes, setting all memory to 'private' for confidential VMs through
-> > this ioctl in userspace before guest launch is an approach for KVM userspace to
-> > 'override' the KVM default and reduce the number of implicit conversions.
-> 
-> Most pages of a confidential VM are likely to be private pages. It seems more efficient
-> (and not difficult to check vm_type) to have KVM defaults to "private" for confidential VMs
-> and defaults to "shared" for normal VMs.
+Am 3=2E Januar 2023 17:25:35 UTC schrieb Chuck Zmudzinski <brchuckz@aol=2E=
+com>:
+>On 1/3/2023 8:38 AM, Bernhard Beschow wrote:
+>>
+>>
+>> On Tue, Jan 3, 2023 at 2:17 PM Philippe Mathieu-Daud=C3=A9 <philmd@lina=
+ro=2Eorg> wrote:
+>>
+>>     Hi Chuck,
+>>
+>>     On 3/1/23 04:15, Chuck Zmudzinski wrote:
+>>     > On 1/2/23 4:34=E2=80=AFPM, Bernhard Beschow wrote:
+>>     >> This series first renders TYPE_PIIX3_XEN_DEVICE redundant and fi=
+nally removes
+>>     >> it=2E The motivation is to 1/ decouple PIIX from Xen and 2/ to m=
+ake Xen in the PC
+>>     >> machine agnostic to the precise southbridge being used=2E 2/ wil=
+l become
+>>     >> particularily interesting once PIIX4 becomes usable in the PC ma=
+chine, avoiding
+>>     >> the "Frankenstein" use of PIIX4_ACPI in PIIX3=2E
+>>     >>
+>>     >> Testing done:
+>>     >> None, because I don't know how to conduct this properly :(
+>>     >>
+>>     >> Based-on: <20221221170003=2E2929-1-shentey@gmail=2Ecom>
+>>     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "[PATCH v4 00/30] Conso=
+lidate PIIX south bridges"
+>>
+>>     This series is based on a previous series:
+>>     https://lore=2Ekernel=2Eorg/qemu-devel/20221221170003=2E2929-1-shen=
+tey@gmail=2Ecom/
+>>     (which itself also is)=2E
+>>
+>>     >> Bernhard Beschow (6):
+>>     >>=C2=A0 =C2=A0 include/hw/xen/xen: Make xen_piix3_set_irq() generi=
+c and rename it
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Reuse piix3_realize() in piix3_xen_rea=
+lize()
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Wire up Xen PCI IRQ handling outside o=
+f PIIX3
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Avoid Xen-specific variant of piix_wri=
+te_config()
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Resolve redundant k->config_write assi=
+gnments
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVIC=
+E
+>>     >>
+>>     >>=C2=A0 =C2=A0hw/i386/pc_piix=2Ec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 34 ++++++++++++++++--
+>>     >>=C2=A0 =C2=A0hw/i386/xen/xen-hvm=2Ec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 9 +++--
+>>     >>=C2=A0 =C2=A0hw/isa/piix=2Ec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| 66 +----------------------------------
+>>     >
+>>     > This file does not exist on the Qemu master branch=2E
+>>     > But hw/isa/piix3=2Ec and hw/isa/piix4=2Ec do exist=2E
+>>     >
+>>     > I tried renaming it from piix=2Ec to piix3=2Ec in the patch, but
+>>     > the patch set still does not apply cleanly on my tree=2E
+>>     >
+>>     > Is this patch set re-based against something other than
+>>     > the current master Qemu branch?
+>>     >
+>>     > I have a system that is suitable for testing this patch set, but
+>>     > I need guidance on how to apply it to the Qemu source tree=2E
+>>
+>>     You can ask Bernhard to publish a branch with the full work,
+>>
+>>
+>> Hi Chuck,
+>>
+>> =2E=2E=2E or just visit https://patchew=2Eorg/QEMU/20230102213504=2E146=
+46-1-shentey@gmail=2Ecom/ =2E There you'll find a git tag with a complete h=
+istory and all instructions!
+>>
+>> Thanks for giving my series a test ride!
+>>
+>> Best regards,
+>> Bernhard
+>>
+>>     or apply each series locally=2E I use the b4 tool for that:
+>>     https://b4=2Edocs=2Ekernel=2Eorg/en/latest/installing=2Ehtml
+>>
+>>     i=2Ee=2E:
+>>
+>>     $ git checkout -b shentey_work
+>>     $ b4 am 20221120150550=2E63059-1-shentey@gmail=2Ecom
+>>     $ git am
+>>     =2E/v2_20221120_shentey_decouple_intx_to_lnkx_routing_from_south_br=
+idges=2Embx
+>>     $ b4 am 20221221170003=2E2929-1-shentey@gmail=2Ecom
+>>     $ git am
+>>     =2E/v4_20221221_shentey_this_series_consolidates_the_implementation=
+s_of_the_piix3_and_piix4_south=2Embx
+>>     $ b4 am 20230102213504=2E14646-1-shentey@gmail=2Ecom
+>>     $ git am =2E/20230102_shentey_resolve_type_piix3_xen_device=2Embx
+>>
+>>     Now the branch 'shentey_work' contains all the patches and you can =
+test=2E
+>>
+>>     Regards,
+>>
+>>     Phil=2E
+>>
+>
+>OK, I didn't see the "Consolidate PIIX south bridges" series is a
+>prerequisite=2E
+>
+>I will try it - it may take a couple of days because I need to test both
+>patch series in my environment and I can only work on this in my spare
+>time=2E
+>
+>I will provide Tested-by tags to both series if successful=2E Otherwise,
+>I will reply with an explanation of any problems=2E
 
-If done right, the default shouldn't matter all that much for efficiency.  KVM
-needs to be able to effeciently track large ranges regardless of the default,
-otherwise the memory overhead and the presumably cost of lookups will be painful.
-E.g. converting a 1GiB chunk to shared should ideally require one entry, not 256k
-entries.
+Sounds good! You don't need to test the prerequisite though since it is al=
+ready reviewed=2E It would be completely sufficient if you could test this =
+series to fill in the gap for my limited Xen knowledge -- thanks!
 
-Looks like that behavior was changed in v8 in response to feedback[*] that doing
-xa_store_range() on a subset of an existing range (entry) would overwrite the
-entire existing range (entry), not just the smaller subset.  xa_store_range() does
-appear to be too simplistic for this use case, but looking at __filemap_add_folio(),
-splitting an existing entry isn't super complex.
+Best regards,
+Bernhard
 
-Using xa_store() for the very initial implementation is ok, and probably a good
-idea since it's more obviously correct and will give us a bisection point.  But
-we definitely want a more performant implementation sooner than later.  The hardest
-part will likely be merging existing entries, but that can be done separately too,
-and is probably lower priority.
-
-E.g. (1) use xa_store() and always track at 4KiB granularity, (2) support storing
-metadata in multi-index entries, and finally (3) support merging adjacent entries
-with identical values.
-
-[*] https://lore.kernel.org/all/CAGtprH9xyw6bt4=RBWF6-v2CSpabOCpKq5rPz+e-9co7EisoVQ@mail.gmail.com
+>
+>Chuck
 
