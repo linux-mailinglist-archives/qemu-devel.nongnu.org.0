@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B7D65D22C
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3D065D22B
 	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 13:15:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD2eg-0002bd-8a; Wed, 04 Jan 2023 07:14:02 -0500
+	id 1pD2ek-0002cf-52; Wed, 04 Jan 2023 07:14:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pD2ed-0002ab-W7
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:14:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pD2eb-0005KJ-S8
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:13:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672834436;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ApWHVRgr7ojdZmOlPtiuphY1qtafEMz8GZdE2L1wyZ8=;
- b=iw5+k4XfuXFkAqbeIsL7VLBrVYO0C0E5S5cUhwTPQHgO7J4KIkrWrmhSNSE0GoMfx6caUh
- Ip/pCUpqTTT/pK4FkYyG6XKZYh8e27oqb4RuvPC+90tRlMZA8GwyiCA9OqqQJaIpH4LKsW
- kvBY2XRZsDcnJOBuF6cqR4al4zOUjyI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-488-Uy28uKNVNWaiCgTj6zAz4Q-1; Wed, 04 Jan 2023 07:13:53 -0500
-X-MC-Unique: Uy28uKNVNWaiCgTj6zAz4Q-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B6892A5954A;
- Wed,  4 Jan 2023 12:13:53 +0000 (UTC)
-Received: from [10.39.192.86] (unknown [10.39.192.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A677A49BB6A;
- Wed,  4 Jan 2023 12:13:50 +0000 (UTC)
-Message-ID: <bd2b574f-a485-fcb6-2617-2cc3cc1d87c2@redhat.com>
-Date: Wed, 4 Jan 2023 13:13:49 +0100
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD2eh-0002c2-Pj
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:14:03 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pD2ef-0005L6-M5
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:14:03 -0500
+Received: by mail-wm1-x336.google.com with SMTP id ay40so25431665wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 04:14:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tp0OYuN+hFp93UNubvtXVhop92O4XSYXyFAqRN3asxg=;
+ b=bUjggjXm/ZKd2AdcPuoyYtGHQkJlJsoQhispfOfu6iis4HsJgusAR6+OaYyUeOFW/C
+ ZXSbcyXa9RNXynpta1alP+kbX7N8M/3V2pAioMbthnKQc0qd/JUjpPLtFoBAjuRnSKdr
+ qsihK5gCrYrl1NtVf98bO7tXADzeAw42JsNFo0K4SyG0NuS/ho3OSZs4h1bQNPsC2X3J
+ ZH4dOO8tzOHxo0/3eVhOlr4y8Rvo87UoJIwsxwv55ykT53pD1pGl5CYdvgcKDBfSXO1D
+ ZcJkLbeBpOHsl3EE/hYpAJWXISJ3cVGD+lZG7pr8Kt5bMq7ftvzQS9Bg6EM3uZYdz9yu
+ 794w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tp0OYuN+hFp93UNubvtXVhop92O4XSYXyFAqRN3asxg=;
+ b=H/+yy0eNvIBsIn6a00NJnyLKMWJ0TohDZUCoxYiN7IsADoxOsc95BjXa3HJeTpfNkE
+ iwXqpkT0Db43LcuDEP7vNdsH3QlaflPJDYQT8mhDJ4L9Te6mncnK/gu8jdByXPX1i47x
+ hgjudf7gSZH5mn/vn2oao+fTs1IvG2zH5ETIhZFudVSLKeBf5d1HSmjiwHr209O9f5CN
+ NP5L8LoHtNRsDpTF83Ss+N2BRSBhGegPqyr5df7PbfD6nBWX2rV4ms6caExrGAeya6IF
+ 2+2wLLdbxbEKeFXTukPdLc3aG+x73xq4FaVgawGNle/Ly1sYcWAwSZu+jFtL53F2/6Wv
+ onrA==
+X-Gm-Message-State: AFqh2koBtnIPZnGRE19RmgdxBV3q1JJjlwQBjZtobdtt6SWPAW+lyU7v
+ DkJUKkLsGygZqwwOVjITQqU=
+X-Google-Smtp-Source: AMrXdXsxsodApwN0IFQ7MnSFd/e8HkT0U6Gmn6hEN4OSkztIw+emGuCdlBq9EcIRLyPspNRRIEuLBA==
+X-Received: by 2002:a05:600c:5c8:b0:3d1:4145:b3b with SMTP id
+ p8-20020a05600c05c800b003d141450b3bmr34663011wmd.9.1672834440070; 
+ Wed, 04 Jan 2023 04:14:00 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb20064d0d42b6b29c193.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:64d0:d42b:6b29:c193])
+ by smtp.gmail.com with ESMTPSA id
+ bg24-20020a05600c3c9800b003cfa3a12660sm2320766wmb.1.2023.01.04.04.13.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Jan 2023 04:13:59 -0800 (PST)
+Date: Wed, 04 Jan 2023 12:13:54 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Chuck Zmudzinski <brchuckz@aol.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, 
+ xen-devel@lists.xenproject.org,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
+In-Reply-To: <aed4f2c1-83f7-163a-fb44-f284376668dc@aol.com>
+References: <20230102213504.14646-1-shentey@gmail.com>
+ <bd4daee7-09df-4bfa-3b96-713690be9f4e@aol.com>
+ <0de699a7-98b8-e320-da4d-678d0f594213@linaro.org>
+ <CAG4p6K7hcJ-47GvsEvmuBmdwP2LsEC4WLkw_t6ZfwhqakYUEyQ@mail.gmail.com>
+ <aed4f2c1-83f7-163a-fb44-f284376668dc@aol.com>
+Message-ID: <AB058B2A-406E-487B-A1BA-74416C310B7A@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
- legacy reg block
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu devel list <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Ard Biesheuvel <ardb@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org
-References: <20230104090138.214862-1-lersek@redhat.com>
- <20230104113546.0f483ec4@imammedo.users.ipa.redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-In-Reply-To: <20230104113546.0f483ec4@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=shentey@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,184 +104,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/4/23 11:35, Igor Mammedov wrote:
-> On Wed,  4 Jan 2023 10:01:38 +0100
-> Laszlo Ersek <lersek@redhat.com> wrote:
-> 
->> The modern ACPI CPU hotplug interface was introduced in the following
->> series (aa1dd39ca307..679dd1a957df), released in v2.7.0:
->>
->>   1  abd49bc2ed2f docs: update ACPI CPU hotplug spec with new protocol
->>   2  16bcab97eb9f pc: piix4/ich9: add 'cpu-hotplug-legacy' property
->>   3  5e1b5d93887b acpi: cpuhp: add CPU devices AML with _STA method
->>   4  ac35f13ba8f8 pc: acpi: introduce AcpiDeviceIfClass.madt_cpu hook
->>   5  d2238cb6781d acpi: cpuhp: implement hot-add parts of CPU hotplug
->>                   interface
->>   6  8872c25a26cc acpi: cpuhp: implement hot-remove parts of CPU hotplug
->>                   interface
->>   7  76623d00ae57 acpi: cpuhp: add cpu._OST handling
->>   8  679dd1a957df pc: use new CPU hotplug interface since 2.7 machine type
->>
->> Before patch#1, "docs/specs/acpi_cpu_hotplug.txt" only specified 1-byte
->> accesses for the hotplug register block.  Patch#1 preserved the same
->> restriction for the legacy register block, but:
->>
->> - it specified DWORD accesses for some of the modern registers,
->>
->> - in particular, the switch from the legacy block to the modern block
->>   would require a DWORD write to the *legacy* block.
->>
->> The latter functionality was then implemented in cpu_status_write()
->> [hw/acpi/cpu_hotplug.c], in patch#8.
->>
->> Unfortunately, all DWORD accesses depended on a dormant bug: the one
->> introced in earlier commit a014ed07bd5a ("memory: accept mismatching sizes
->> in memory_region_access_valid", 2013-05-29); first released in v1.6.0.
->> Due to commit a014ed07bd5a, the DWORD accesses to the *legacy* CPU hotplug
->> register block would work in spite of the above series *not* relaxing
->> "valid.max_access_size = 1" in "hw/acpi/cpu_hotplug.c":
->>
->>> static const MemoryRegionOps AcpiCpuHotplug_ops = {
->>>     .read = cpu_status_read,
->>>     .write = cpu_status_write,
->>>     .endianness = DEVICE_LITTLE_ENDIAN,
->>>     .valid = {
->>>         .min_access_size = 1,
->>>         .max_access_size = 1,
->>>     },
->>> };  
->>
->> Later, in commits e6d0c3ce6895 ("acpi: cpuhp: introduce 'Command data 2'
->> field", 2020-01-22) and ae340aa3d256 ("acpi: cpuhp: spec: add typical
->> usecases", 2020-01-22), first released in v5.0.0, the modern CPU hotplug
->> interface (including the documentation) was extended with another DWORD
->> *read* access, namely to the "Command data 2" register, which would be
->> important for the guest to confirm whether it managed to switch the
->> register block from legacy to modern.
->>
->> This functionality too silently depended on the bug from commit
->> a014ed07bd5a.
->>
->> In commit 5d971f9e6725 ('memory: Revert "memory: accept mismatching sizes
->> in memory_region_access_valid"', 2020-06-26), first released in v5.1.0,
->> the bug from commit a014ed07bd5a was fixed (the commit was reverted).
->> That swiftly exposed the bug in "AcpiCpuHotplug_ops", still present from
->> the v2.7.0 series quoted at the top -- namely the fact that
->> "valid.max_access_size = 1" didn't match what the guest was supposed to
->> do, according to the spec ("docs/specs/acpi_cpu_hotplug.txt").
->>
->> The symptom is that the "modern interface negotiation protocol"
->> described in commit ae340aa3d256:
->>
->>> +      Use following steps to detect and enable modern CPU hotplug interface:
->>> +        1. Store 0x0 to the 'CPU selector' register,
->>> +           attempting to switch to modern mode
->>> +        2. Store 0x0 to the 'CPU selector' register,
->>> +           to ensure valid selector value
->>> +        3. Store 0x0 to the 'Command field' register,
->>> +        4. Read the 'Command data 2' register.
->>> +           If read value is 0x0, the modern interface is enabled.
->>> +           Otherwise legacy or no CPU hotplug interface available  
->>
->> falls apart for the guest: steps 1 and 2 are lost, because they are DWORD
->> writes; so no switching happens.  Step 3 (a single-byte write) is not
->> lost, but it has no effect; see the condition in cpu_status_write() in
->> patch#8.  And step 4 *misleads* the guest into thinking that the switch
->> worked: the DWORD read is lost again -- it returns zero to the guest
->> without ever reaching the device model, so the guest never learns the
->> switch didn't work.
->>
->> This means that guest behavior centered on the "Command data 2" register
->> worked *only* in the v5.0.0 release; it got effectively regressed in
->> v5.1.0.
->>
->> To make things *even more* complicated, the breakage was (and remains, as
->> of today) visible with TCG acceleration only.  Commit 5d971f9e6725 makes
->> no difference with KVM acceleration -- the DWORD accesses still work,
->> despite "valid.max_access_size = 1".
->>
->> As commit 5d971f9e6725 suggests, fix the problem by raising
->> "valid.max_access_size" to 4 -- the spec now clearly instructs the guest
->> to perform DWORD accesses to the legacy register block too, for enabling
->> (and verifying!) the modern block.  In order to keep compatibility for the
->> device model implementation though, set "impl.max_access_size = 1", so
->> that wide accesses be split before they reach the legacy read/write
->> handlers, like they always have been on KVM, and like they were on TCG
->> before 5d971f9e6725 (v5.1.0).
->>
->> Tested with:
->>
->> - OVMF IA32 + qemu-system-i386, CPU hotplug/hot-unplug with SMM,
->>   intermixed with ACPI S3 suspend/resume, using KVM accel
->>   (regression-test);
->>
->> - OVMF IA32X64 + qemu-system-x86_64, CPU hotplug/hot-unplug with SMM,
->>   intermixed with ACPI S3 suspend/resume, using KVM accel
->>   (regression-test);
->>
->> - OVMF IA32 + qemu-system-i386, SMM enabled, using TCG accel; verified the
->>   register block switch and the present/possible CPU counting through the
->>   modern hotplug interface, during OVMF boot (bugfix test);
-> 
-> 
->> - I do not have any testcase (guest payload) for regression-testing CPU
->>   hotplug through the *legacy* CPU hotplug register block.
 
-> I've checked it with old Seabios (that had it's own ACPI tables) (taken from 1.6 QEMU branch),  
-> it works fine in TCG and KVM mode.
-> 
-> Tested-by: Igor Mammedov <imammedo@redhat.com>
 
-Awesome, thank you!
-Laszlo
+Am 4=2E Januar 2023 08:18:59 UTC schrieb Chuck Zmudzinski <brchuckz@aol=2E=
+com>:
+>On 1/3/2023 8:38 AM, Bernhard Beschow wrote:
+>>
+>>
+>> On Tue, Jan 3, 2023 at 2:17 PM Philippe Mathieu-Daud=C3=A9 <philmd@lina=
+ro=2Eorg> wrote:
+>>
+>>     Hi Chuck,
+>>
+>>     On 3/1/23 04:15, Chuck Zmudzinski wrote:
+>>     > On 1/2/23 4:34=E2=80=AFPM, Bernhard Beschow wrote:
+>>     >> This series first renders TYPE_PIIX3_XEN_DEVICE redundant and fi=
+nally removes
+>>     >> it=2E The motivation is to 1/ decouple PIIX from Xen and 2/ to m=
+ake Xen in the PC
+>>     >> machine agnostic to the precise southbridge being used=2E 2/ wil=
+l become
+>>     >> particularily interesting once PIIX4 becomes usable in the PC ma=
+chine, avoiding
+>>     >> the "Frankenstein" use of PIIX4_ACPI in PIIX3=2E
+>>     >>
+>>     >> Testing done:
+>>     >> None, because I don't know how to conduct this properly :(
+>>     >>
+>>     >> Based-on: <20221221170003=2E2929-1-shentey@gmail=2Ecom>
+>>     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "[PATCH v4 00/30] Conso=
+lidate PIIX south bridges"
+>>
+>>     This series is based on a previous series:
+>>     https://lore=2Ekernel=2Eorg/qemu-devel/20221221170003=2E2929-1-shen=
+tey@gmail=2Ecom/
+>>     (which itself also is)=2E
+>>
+>>     >> Bernhard Beschow (6):
+>>     >>=C2=A0 =C2=A0 include/hw/xen/xen: Make xen_piix3_set_irq() generi=
+c and rename it
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Reuse piix3_realize() in piix3_xen_rea=
+lize()
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Wire up Xen PCI IRQ handling outside o=
+f PIIX3
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Avoid Xen-specific variant of piix_wri=
+te_config()
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Resolve redundant k->config_write assi=
+gnments
+>>     >>=C2=A0 =C2=A0 hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVIC=
+E
+>>     >>
+>>     >>=C2=A0 =C2=A0hw/i386/pc_piix=2Ec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 34 ++++++++++++++++--
+>>     >>=C2=A0 =C2=A0hw/i386/xen/xen-hvm=2Ec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 9 +++--
+>>     >>=C2=A0 =C2=A0hw/isa/piix=2Ec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| 66 +----------------------------------
+>>     >
+>>     > This file does not exist on the Qemu master branch=2E
+>>     > But hw/isa/piix3=2Ec and hw/isa/piix4=2Ec do exist=2E
+>>     >
+>>     > I tried renaming it from piix=2Ec to piix3=2Ec in the patch, but
+>>     > the patch set still does not apply cleanly on my tree=2E
+>>     >
+>>     > Is this patch set re-based against something other than
+>>     > the current master Qemu branch?
+>>     >
+>>     > I have a system that is suitable for testing this patch set, but
+>>     > I need guidance on how to apply it to the Qemu source tree=2E
+>>
+>>     You can ask Bernhard to publish a branch with the full work,
+>>
+>>
+>> Hi Chuck,
+>>
+>> =2E=2E=2E or just visit https://patchew=2Eorg/QEMU/20230102213504=2E146=
+46-1-shentey@gmail=2Ecom/ =2E There you'll find a git tag with a complete h=
+istory and all instructions!
+>>
+>> Thanks for giving my series a test ride!
+>>
+>> Best regards,
+>> Bernhard
+>>
+>>     or apply each series locally=2E I use the b4 tool for that:
+>>     https://b4=2Edocs=2Ekernel=2Eorg/en/latest/installing=2Ehtml
+>>
+>>     i=2Ee=2E:
+>>
+>>     $ git checkout -b shentey_work
+>>     $ b4 am 20221120150550=2E63059-1-shentey@gmail=2Ecom
+>>     $ git am
+>>     =2E/v2_20221120_shentey_decouple_intx_to_lnkx_routing_from_south_br=
+idges=2Embx
+>>     $ b4 am 20221221170003=2E2929-1-shentey@gmail=2Ecom
+>>     $ git am
+>>     =2E/v4_20221221_shentey_this_series_consolidates_the_implementation=
+s_of_the_piix3_and_piix4_south=2Embx
+>>     $ b4 am 20230102213504=2E14646-1-shentey@gmail=2Ecom
+>>     $ git am =2E/20230102_shentey_resolve_type_piix3_xen_device=2Embx
+>>
+>>     Now the branch 'shentey_work' contains all the patches and you can =
+test=2E
+>>
+>>     Regards,
+>>
+>>     Phil=2E
+>>
+>
+>Hi Phil and Bernard,
+>
+>I tried applying these 3 patch series on top of the current qemu
+>master branch=2E
+>
+>Unfortunately, I saw a regression, so I can't give a tested-by tag yet=2E
 
-> 
->>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Ani Sinha <ani@anisinha.ca>
->> Cc: Ard Biesheuvel <ardb@kernel.org>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Cc: qemu-stable@nongnu.org
->> Ref: "IO port write width clamping differs between TCG and KVM"
->> Link: http://mid.mail-archive.com/aaedee84-d3ed-a4f9-21e7-d221a28d1683@redhat.com
->> Link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg00199.html
->> Reported-by: Ard Biesheuvel <ardb@kernel.org>
->> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
->> ---
->>
->> Notes:
->>     This should be applied to:
->>     
->>     - stable-5.2 (new branch)
->>     
->>     - stable-6.2 (new branch)
->>     
->>     - stable-7.2 (new branch)
->>     
->>     whichever is still considered maintained, as there is currently *no*
->>     public QEMU release in which the modern CPU hotplug register block
->>     works, when using TCG acceleration.  v5.0.0 works, but that minor
->>     release has been obsoleted by v5.2.0, which does not work.
->>
->>  hw/acpi/cpu_hotplug.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
->> index 53654f863830..ff14c3f4106f 100644
->> --- a/hw/acpi/cpu_hotplug.c
->> +++ b/hw/acpi/cpu_hotplug.c
->> @@ -52,6 +52,9 @@ static const MemoryRegionOps AcpiCpuHotplug_ops = {
->>      .endianness = DEVICE_LITTLE_ENDIAN,
->>      .valid = {
->>          .min_access_size = 1,
->> +        .max_access_size = 4,
->> +    },
->> +    .impl = {
->>          .max_access_size = 1,
->>      },
->>  };
-> 
+Hi Chuck,
 
+Thanks for your valuable test report! I think the culprit may be commit ht=
+tps://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2023-01/msg00102=2Ehtml =
+where now 128 PIRQs are considered rather than four=2E I'll revisit my seri=
+es and will prepare a v2 in the next days=2E I think there is no need for f=
+urther testing v1=2E
+
+Thanks,
+Bernhard
+
+>
+>Here are the details of the testing I did so far:
+>
+>Xen only needs one target, the i386-softmmu target which creates
+>the qemu-system-i386 binary that Xen uses for its device model=2E
+>That target compiled and linked with no problems with these 3
+>patch series applied on top of qemu master=2E I didn't try building
+>any other targets=2E
+>
+>My tests used the xenfv machine type with the xen platform
+>pci device, which is ordinarily called a xen hvm guest with xen
+>paravirtualized network and block device drivers=2E It is based on the
+>i440fx machine type and so emulates piix3=2E I tested the xen
+>hvm guests with two different configurations as described below=2E
+>
+>I tested both Linux and Windows guests, with mixed results=2E With the
+>current Qemu master (commit 222059a0fccf4 without the 3 patch
+>series applied), all tested guest configurations work normally for both
+>Linux and Windows guests=2E
+>
+>With these 3 patch series applied on top of the qemu master branch,
+>which tries to consolidate piix3 and piix4 and resolve the xen piix3
+>device that my guests use, I unfortunately got a regression=2E
+>
+>The regression occurred with a configuration that uses the qemu
+>bochs stdvga graphics device with a vnc display, and the qemu
+>usb-tablet device to emulate the mouse and keyboard=2E After applying
+>the 3 patch series, the emulated mouse is not working at all for Linux
+>guests=2E It works for Windows guests, but the mouse pointer in the
+>guest does not follow the mouse pointer in the vnc window as closely
+>as it does without the 3 patch series=2E So this is the bad news of a
+>regression introduced somewhere in these 3 patch series=2E
+>
+>The good news is that by using guests in a configuration that does
+>not use the qemu usb-tablet device or the bochs stdvga device but
+>instead uses a real passed through usb3 controller with a real usb
+>mouse and a real usb keyboard connected, and also the real sound
+>card and vga device passed through and a 1920x1080 HDMI monitor,
+>there is no regression introduced by the 3 patch series and both Linux
+>and Windows guests in that configuration work perfectly=2E
+>
+>My next test will be to test Bernhard's published git tag without
+>trying to merge the 3 patch series into master and see if that also
+>has the regression=2E I also will double check that I didn't make
+>any mistakes in merging the 3 patch series by creating the shentey_work
+>branch with b4 and git as Phil described and compare that to my
+>working tree=2E
+>
+>I also will try testing only the first series, then the first series and =
+the
+>second series, to try to determine in which of the 3 series the regressio=
+n
+>is introduced=2E
+>
+>Best regards,
+>
+>Chuck
 
