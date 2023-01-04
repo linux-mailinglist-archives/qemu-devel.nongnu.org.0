@@ -2,66 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7E865CEFA
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 10:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FCF65CF75
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 10:21:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pCzfI-0001pt-Ll; Wed, 04 Jan 2023 04:02:28 -0500
+	id 1pCzwa-0004ih-4T; Wed, 04 Jan 2023 04:20:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pCzeg-0001fm-OY
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 04:02:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCzwY-0004iV-6i
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 04:20:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pCzed-0004Tk-CD
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 04:01:49 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pCzwW-0006bI-5u
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 04:20:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672822906;
+ s=mimecast20190719; t=1672824014;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=PtXQt8fHpP9QIgXI7NhbnMh9O2n6C34iqo1ru8YHwK0=;
- b=Bp0K/UpTEtGwEN9pMv+9mUOrUCGmdXO4W4K5RQYoxRB7Q6h75+Hp64IB+uTeZJDU23I6Qo
- dXA8S+4vJBesBX2k1KFr74c2wGhrzrTOtyGGJi/AjVr6cCW68rLLE3eOBfRB82vz/n58ow
- HhAEbOcuUj8vZH+eM7vZa+eVHTdUjfQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-127--UmjJPDsM6K0Lg0SmU8E_Q-1; Wed, 04 Jan 2023 04:01:43 -0500
-X-MC-Unique: -UmjJPDsM6K0Lg0SmU8E_Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3E401C07582;
- Wed,  4 Jan 2023 09:01:42 +0000 (UTC)
-Received: from lacos-laptop-9.usersys.redhat.com (unknown [10.39.192.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96ED151E5;
- Wed,  4 Jan 2023 09:01:40 +0000 (UTC)
-From: Laszlo Ersek <lersek@redhat.com>
-To: qemu devel list <qemu-devel@nongnu.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Ard Biesheuvel <ardb@kernel.org>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org
-Subject: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
- legacy reg block
-Date: Wed,  4 Jan 2023 10:01:38 +0100
-Message-Id: <20230104090138.214862-1-lersek@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oVQuKPhYmaaQZTqXDtqQjW51Ra5K/2R5OeGVYC4DU/I=;
+ b=B7Kh92LClXDyy1aKUXh+2YclWAqUQPJ9/8vbXTTPgEPL7Cc5tFHxL9V8Neruu4QKnDzCbm
+ GG9fqRfCL9SVpHWeDNewd0JD+t0deOPOGy5a9p1FWDNJxmCUEPg+FA4D6qxTJY/y4m1EMb
+ j4UZ/43ZrGwM/+NhfwqVsCgaP1IC2C8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-428-Th0JtaIGPeerI1pCwTDhgA-1; Wed, 04 Jan 2023 04:20:13 -0500
+X-MC-Unique: Th0JtaIGPeerI1pCwTDhgA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ c66-20020a1c3545000000b003d355c13229so21489123wma.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 01:20:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oVQuKPhYmaaQZTqXDtqQjW51Ra5K/2R5OeGVYC4DU/I=;
+ b=ilD6K8ffHn1KyD9BL0wBaRS8axlIxGvTmrmFFb7A77kXE1eRNn3irYceAXqRZ1XzuR
+ JSG1mobHmO0Akk8SuMV1ntNGAX7g87APRJkSiKW1lWhVrsrxkXJHA+aNtdomDSSHzW76
+ TKusd0v838JkFq+iGOEk4pJ5qPPx/WuAkp4BIuqxBJEaxt5Nmk/Kn5Aqw1dw78RAQor+
+ +YS7dACkDaMfm3Nf3+VHv0GTN2PZV0dad6hhnjyioWu/Y+D8PFwG+JvSpiLJ0NMezJua
+ zx4XQ5ZAh5e/3Sev5oFWXu5/KMng45cjUN7R5elpjpjEk3ir4YyycX7q5j2oXNTMYeZ9
+ Ah4Q==
+X-Gm-Message-State: AFqh2kpLcYU8FL4sJhPwBqA77IhJXKrcKqonQfzH6Hpk77kJm3/p89DN
+ G+xN0kXGCPLtHBjreB6W3Z/EjQuD31w92nZFDaAh5ztZy6SIxuHS0GgA7fmW1qdAEdE2Bzr74SQ
+ 3hsz6LGzFQx7oMGM=
+X-Received: by 2002:a7b:c3d2:0:b0:3c6:e62e:2e72 with SMTP id
+ t18-20020a7bc3d2000000b003c6e62e2e72mr33711232wmj.13.1672824012709; 
+ Wed, 04 Jan 2023 01:20:12 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsI2CSPwk+bsckVRirTAZaoakv4D9TPtElB++kwHDhMtZS747As3VLpVGwsGNW+gjC+CicnJQ==
+X-Received: by 2002:a7b:c3d2:0:b0:3c6:e62e:2e72 with SMTP id
+ t18-20020a7bc3d2000000b003c6e62e2e72mr33711218wmj.13.1672824012488; 
+ Wed, 04 Jan 2023 01:20:12 -0800 (PST)
+Received: from [192.168.0.5] (ip-109-43-176-239.web.vodafone.de.
+ [109.43.176.239]) by smtp.gmail.com with ESMTPSA id
+ x7-20020a05600c188700b003d9aa76dc6asm17937194wmp.0.2023.01.04.01.20.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Jan 2023 01:20:11 -0800 (PST)
+Message-ID: <5f487941-0a4f-1f99-a281-8cf004c80662@redhat.com>
+Date: Wed, 4 Jan 2023 10:20:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PULL v2 00/45] riscv-to-apply queue
+Content-Language: en-US
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221221224022.425831-1-alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HEXHASH_WORD=1, MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ NICE_REPLY_A=-3.103, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,129 +100,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-VGhlIG1vZGVybiBBQ1BJIENQVSBob3RwbHVnIGludGVyZmFjZSB3YXMgaW50cm9kdWNlZCBpbiB0
-aGUgZm9sbG93aW5nCnNlcmllcyAoYWExZGQzOWNhMzA3Li42NzlkZDFhOTU3ZGYpLCByZWxlYXNl
-ZCBpbiB2Mi43LjA6CgogIDEgIGFiZDQ5YmMyZWQyZiBkb2NzOiB1cGRhdGUgQUNQSSBDUFUgaG90
-cGx1ZyBzcGVjIHdpdGggbmV3IHByb3RvY29sCiAgMiAgMTZiY2FiOTdlYjlmIHBjOiBwaWl4NC9p
-Y2g5OiBhZGQgJ2NwdS1ob3RwbHVnLWxlZ2FjeScgcHJvcGVydHkKICAzICA1ZTFiNWQ5Mzg4N2Ig
-YWNwaTogY3B1aHA6IGFkZCBDUFUgZGV2aWNlcyBBTUwgd2l0aCBfU1RBIG1ldGhvZAogIDQgIGFj
-MzVmMTNiYThmOCBwYzogYWNwaTogaW50cm9kdWNlIEFjcGlEZXZpY2VJZkNsYXNzLm1hZHRfY3B1
-IGhvb2sKICA1ICBkMjIzOGNiNjc4MWQgYWNwaTogY3B1aHA6IGltcGxlbWVudCBob3QtYWRkIHBh
-cnRzIG9mIENQVSBob3RwbHVnCiAgICAgICAgICAgICAgICAgIGludGVyZmFjZQogIDYgIDg4NzJj
-MjVhMjZjYyBhY3BpOiBjcHVocDogaW1wbGVtZW50IGhvdC1yZW1vdmUgcGFydHMgb2YgQ1BVIGhv
-dHBsdWcKICAgICAgICAgICAgICAgICAgaW50ZXJmYWNlCiAgNyAgNzY2MjNkMDBhZTU3IGFjcGk6
-IGNwdWhwOiBhZGQgY3B1Ll9PU1QgaGFuZGxpbmcKICA4ICA2NzlkZDFhOTU3ZGYgcGM6IHVzZSBu
-ZXcgQ1BVIGhvdHBsdWcgaW50ZXJmYWNlIHNpbmNlIDIuNyBtYWNoaW5lIHR5cGUKCkJlZm9yZSBw
-YXRjaCMxLCAiZG9jcy9zcGVjcy9hY3BpX2NwdV9ob3RwbHVnLnR4dCIgb25seSBzcGVjaWZpZWQg
-MS1ieXRlCmFjY2Vzc2VzIGZvciB0aGUgaG90cGx1ZyByZWdpc3RlciBibG9jay4gIFBhdGNoIzEg
-cHJlc2VydmVkIHRoZSBzYW1lCnJlc3RyaWN0aW9uIGZvciB0aGUgbGVnYWN5IHJlZ2lzdGVyIGJs
-b2NrLCBidXQ6CgotIGl0IHNwZWNpZmllZCBEV09SRCBhY2Nlc3NlcyBmb3Igc29tZSBvZiB0aGUg
-bW9kZXJuIHJlZ2lzdGVycywKCi0gaW4gcGFydGljdWxhciwgdGhlIHN3aXRjaCBmcm9tIHRoZSBs
-ZWdhY3kgYmxvY2sgdG8gdGhlIG1vZGVybiBibG9jawogIHdvdWxkIHJlcXVpcmUgYSBEV09SRCB3
-cml0ZSB0byB0aGUgKmxlZ2FjeSogYmxvY2suCgpUaGUgbGF0dGVyIGZ1bmN0aW9uYWxpdHkgd2Fz
-IHRoZW4gaW1wbGVtZW50ZWQgaW4gY3B1X3N0YXR1c193cml0ZSgpCltody9hY3BpL2NwdV9ob3Rw
-bHVnLmNdLCBpbiBwYXRjaCM4LgoKVW5mb3J0dW5hdGVseSwgYWxsIERXT1JEIGFjY2Vzc2VzIGRl
-cGVuZGVkIG9uIGEgZG9ybWFudCBidWc6IHRoZSBvbmUKaW50cm9jZWQgaW4gZWFybGllciBjb21t
-aXQgYTAxNGVkMDdiZDVhICgibWVtb3J5OiBhY2NlcHQgbWlzbWF0Y2hpbmcgc2l6ZXMKaW4gbWVt
-b3J5X3JlZ2lvbl9hY2Nlc3NfdmFsaWQiLCAyMDEzLTA1LTI5KTsgZmlyc3QgcmVsZWFzZWQgaW4g
-djEuNi4wLgpEdWUgdG8gY29tbWl0IGEwMTRlZDA3YmQ1YSwgdGhlIERXT1JEIGFjY2Vzc2VzIHRv
-IHRoZSAqbGVnYWN5KiBDUFUgaG90cGx1ZwpyZWdpc3RlciBibG9jayB3b3VsZCB3b3JrIGluIHNw
-aXRlIG9mIHRoZSBhYm92ZSBzZXJpZXMgKm5vdCogcmVsYXhpbmcKInZhbGlkLm1heF9hY2Nlc3Nf
-c2l6ZSA9IDEiIGluICJody9hY3BpL2NwdV9ob3RwbHVnLmMiOgoKPiBzdGF0aWMgY29uc3QgTWVt
-b3J5UmVnaW9uT3BzIEFjcGlDcHVIb3RwbHVnX29wcyA9IHsKPiAgICAgLnJlYWQgPSBjcHVfc3Rh
-dHVzX3JlYWQsCj4gICAgIC53cml0ZSA9IGNwdV9zdGF0dXNfd3JpdGUsCj4gICAgIC5lbmRpYW5u
-ZXNzID0gREVWSUNFX0xJVFRMRV9FTkRJQU4sCj4gICAgIC52YWxpZCA9IHsKPiAgICAgICAgIC5t
-aW5fYWNjZXNzX3NpemUgPSAxLAo+ICAgICAgICAgLm1heF9hY2Nlc3Nfc2l6ZSA9IDEsCj4gICAg
-IH0sCj4gfTsKCkxhdGVyLCBpbiBjb21taXRzIGU2ZDBjM2NlNjg5NSAoImFjcGk6IGNwdWhwOiBp
-bnRyb2R1Y2UgJ0NvbW1hbmQgZGF0YSAyJwpmaWVsZCIsIDIwMjAtMDEtMjIpIGFuZCBhZTM0MGFh
-M2QyNTYgKCJhY3BpOiBjcHVocDogc3BlYzogYWRkIHR5cGljYWwKdXNlY2FzZXMiLCAyMDIwLTAx
-LTIyKSwgZmlyc3QgcmVsZWFzZWQgaW4gdjUuMC4wLCB0aGUgbW9kZXJuIENQVSBob3RwbHVnCmlu
-dGVyZmFjZSAoaW5jbHVkaW5nIHRoZSBkb2N1bWVudGF0aW9uKSB3YXMgZXh0ZW5kZWQgd2l0aCBh
-bm90aGVyIERXT1JECipyZWFkKiBhY2Nlc3MsIG5hbWVseSB0byB0aGUgIkNvbW1hbmQgZGF0YSAy
-IiByZWdpc3Rlciwgd2hpY2ggd291bGQgYmUKaW1wb3J0YW50IGZvciB0aGUgZ3Vlc3QgdG8gY29u
-ZmlybSB3aGV0aGVyIGl0IG1hbmFnZWQgdG8gc3dpdGNoIHRoZQpyZWdpc3RlciBibG9jayBmcm9t
-IGxlZ2FjeSB0byBtb2Rlcm4uCgpUaGlzIGZ1bmN0aW9uYWxpdHkgdG9vIHNpbGVudGx5IGRlcGVu
-ZGVkIG9uIHRoZSBidWcgZnJvbSBjb21taXQKYTAxNGVkMDdiZDVhLgoKSW4gY29tbWl0IDVkOTcx
-ZjllNjcyNSAoJ21lbW9yeTogUmV2ZXJ0ICJtZW1vcnk6IGFjY2VwdCBtaXNtYXRjaGluZyBzaXpl
-cwppbiBtZW1vcnlfcmVnaW9uX2FjY2Vzc192YWxpZCInLCAyMDIwLTA2LTI2KSwgZmlyc3QgcmVs
-ZWFzZWQgaW4gdjUuMS4wLAp0aGUgYnVnIGZyb20gY29tbWl0IGEwMTRlZDA3YmQ1YSB3YXMgZml4
-ZWQgKHRoZSBjb21taXQgd2FzIHJldmVydGVkKS4KVGhhdCBzd2lmdGx5IGV4cG9zZWQgdGhlIGJ1
-ZyBpbiAiQWNwaUNwdUhvdHBsdWdfb3BzIiwgc3RpbGwgcHJlc2VudCBmcm9tCnRoZSB2Mi43LjAg
-c2VyaWVzIHF1b3RlZCBhdCB0aGUgdG9wIC0tIG5hbWVseSB0aGUgZmFjdCB0aGF0CiJ2YWxpZC5t
-YXhfYWNjZXNzX3NpemUgPSAxIiBkaWRuJ3QgbWF0Y2ggd2hhdCB0aGUgZ3Vlc3Qgd2FzIHN1cHBv
-c2VkIHRvCmRvLCBhY2NvcmRpbmcgdG8gdGhlIHNwZWMgKCJkb2NzL3NwZWNzL2FjcGlfY3B1X2hv
-dHBsdWcudHh0IikuCgpUaGUgc3ltcHRvbSBpcyB0aGF0IHRoZSAibW9kZXJuIGludGVyZmFjZSBu
-ZWdvdGlhdGlvbiBwcm90b2NvbCIKZGVzY3JpYmVkIGluIGNvbW1pdCBhZTM0MGFhM2QyNTY6Cgo+
-ICsgICAgICBVc2UgZm9sbG93aW5nIHN0ZXBzIHRvIGRldGVjdCBhbmQgZW5hYmxlIG1vZGVybiBD
-UFUgaG90cGx1ZyBpbnRlcmZhY2U6Cj4gKyAgICAgICAgMS4gU3RvcmUgMHgwIHRvIHRoZSAnQ1BV
-IHNlbGVjdG9yJyByZWdpc3RlciwKPiArICAgICAgICAgICBhdHRlbXB0aW5nIHRvIHN3aXRjaCB0
-byBtb2Rlcm4gbW9kZQo+ICsgICAgICAgIDIuIFN0b3JlIDB4MCB0byB0aGUgJ0NQVSBzZWxlY3Rv
-cicgcmVnaXN0ZXIsCj4gKyAgICAgICAgICAgdG8gZW5zdXJlIHZhbGlkIHNlbGVjdG9yIHZhbHVl
-Cj4gKyAgICAgICAgMy4gU3RvcmUgMHgwIHRvIHRoZSAnQ29tbWFuZCBmaWVsZCcgcmVnaXN0ZXIs
-Cj4gKyAgICAgICAgNC4gUmVhZCB0aGUgJ0NvbW1hbmQgZGF0YSAyJyByZWdpc3Rlci4KPiArICAg
-ICAgICAgICBJZiByZWFkIHZhbHVlIGlzIDB4MCwgdGhlIG1vZGVybiBpbnRlcmZhY2UgaXMgZW5h
-YmxlZC4KPiArICAgICAgICAgICBPdGhlcndpc2UgbGVnYWN5IG9yIG5vIENQVSBob3RwbHVnIGlu
-dGVyZmFjZSBhdmFpbGFibGUKCmZhbGxzIGFwYXJ0IGZvciB0aGUgZ3Vlc3Q6IHN0ZXBzIDEgYW5k
-IDIgYXJlIGxvc3QsIGJlY2F1c2UgdGhleSBhcmUgRFdPUkQKd3JpdGVzOyBzbyBubyBzd2l0Y2hp
-bmcgaGFwcGVucy4gIFN0ZXAgMyAoYSBzaW5nbGUtYnl0ZSB3cml0ZSkgaXMgbm90Cmxvc3QsIGJ1
-dCBpdCBoYXMgbm8gZWZmZWN0OyBzZWUgdGhlIGNvbmRpdGlvbiBpbiBjcHVfc3RhdHVzX3dyaXRl
-KCkgaW4KcGF0Y2gjOC4gIEFuZCBzdGVwIDQgKm1pc2xlYWRzKiB0aGUgZ3Vlc3QgaW50byB0aGlu
-a2luZyB0aGF0IHRoZSBzd2l0Y2gKd29ya2VkOiB0aGUgRFdPUkQgcmVhZCBpcyBsb3N0IGFnYWlu
-IC0tIGl0IHJldHVybnMgemVybyB0byB0aGUgZ3Vlc3QKd2l0aG91dCBldmVyIHJlYWNoaW5nIHRo
-ZSBkZXZpY2UgbW9kZWwsIHNvIHRoZSBndWVzdCBuZXZlciBsZWFybnMgdGhlCnN3aXRjaCBkaWRu
-J3Qgd29yay4KClRoaXMgbWVhbnMgdGhhdCBndWVzdCBiZWhhdmlvciBjZW50ZXJlZCBvbiB0aGUg
-IkNvbW1hbmQgZGF0YSAyIiByZWdpc3Rlcgp3b3JrZWQgKm9ubHkqIGluIHRoZSB2NS4wLjAgcmVs
-ZWFzZTsgaXQgZ290IGVmZmVjdGl2ZWx5IHJlZ3Jlc3NlZCBpbgp2NS4xLjAuCgpUbyBtYWtlIHRo
-aW5ncyAqZXZlbiBtb3JlKiBjb21wbGljYXRlZCwgdGhlIGJyZWFrYWdlIHdhcyAoYW5kIHJlbWFp
-bnMsIGFzCm9mIHRvZGF5KSB2aXNpYmxlIHdpdGggVENHIGFjY2VsZXJhdGlvbiBvbmx5LiAgQ29t
-bWl0IDVkOTcxZjllNjcyNSBtYWtlcwpubyBkaWZmZXJlbmNlIHdpdGggS1ZNIGFjY2VsZXJhdGlv
-biAtLSB0aGUgRFdPUkQgYWNjZXNzZXMgc3RpbGwgd29yaywKZGVzcGl0ZSAidmFsaWQubWF4X2Fj
-Y2Vzc19zaXplID0gMSIuCgpBcyBjb21taXQgNWQ5NzFmOWU2NzI1IHN1Z2dlc3RzLCBmaXggdGhl
-IHByb2JsZW0gYnkgcmFpc2luZwoidmFsaWQubWF4X2FjY2Vzc19zaXplIiB0byA0IC0tIHRoZSBz
-cGVjIG5vdyBjbGVhcmx5IGluc3RydWN0cyB0aGUgZ3Vlc3QKdG8gcGVyZm9ybSBEV09SRCBhY2Nl
-c3NlcyB0byB0aGUgbGVnYWN5IHJlZ2lzdGVyIGJsb2NrIHRvbywgZm9yIGVuYWJsaW5nCihhbmQg
-dmVyaWZ5aW5nISkgdGhlIG1vZGVybiBibG9jay4gIEluIG9yZGVyIHRvIGtlZXAgY29tcGF0aWJp
-bGl0eSBmb3IgdGhlCmRldmljZSBtb2RlbCBpbXBsZW1lbnRhdGlvbiB0aG91Z2gsIHNldCAiaW1w
-bC5tYXhfYWNjZXNzX3NpemUgPSAxIiwgc28KdGhhdCB3aWRlIGFjY2Vzc2VzIGJlIHNwbGl0IGJl
-Zm9yZSB0aGV5IHJlYWNoIHRoZSBsZWdhY3kgcmVhZC93cml0ZQpoYW5kbGVycywgbGlrZSB0aGV5
-IGFsd2F5cyBoYXZlIGJlZW4gb24gS1ZNLCBhbmQgbGlrZSB0aGV5IHdlcmUgb24gVENHCmJlZm9y
-ZSA1ZDk3MWY5ZTY3MjUgKHY1LjEuMCkuCgpUZXN0ZWQgd2l0aDoKCi0gT1ZNRiBJQTMyICsgcWVt
-dS1zeXN0ZW0taTM4NiwgQ1BVIGhvdHBsdWcvaG90LXVucGx1ZyB3aXRoIFNNTSwKICBpbnRlcm1p
-eGVkIHdpdGggQUNQSSBTMyBzdXNwZW5kL3Jlc3VtZSwgdXNpbmcgS1ZNIGFjY2VsCiAgKHJlZ3Jl
-c3Npb24tdGVzdCk7CgotIE9WTUYgSUEzMlg2NCArIHFlbXUtc3lzdGVtLXg4Nl82NCwgQ1BVIGhv
-dHBsdWcvaG90LXVucGx1ZyB3aXRoIFNNTSwKICBpbnRlcm1peGVkIHdpdGggQUNQSSBTMyBzdXNw
-ZW5kL3Jlc3VtZSwgdXNpbmcgS1ZNIGFjY2VsCiAgKHJlZ3Jlc3Npb24tdGVzdCk7CgotIE9WTUYg
-SUEzMiArIHFlbXUtc3lzdGVtLWkzODYsIFNNTSBlbmFibGVkLCB1c2luZyBUQ0cgYWNjZWw7IHZl
-cmlmaWVkIHRoZQogIHJlZ2lzdGVyIGJsb2NrIHN3aXRjaCBhbmQgdGhlIHByZXNlbnQvcG9zc2li
-bGUgQ1BVIGNvdW50aW5nIHRocm91Z2ggdGhlCiAgbW9kZXJuIGhvdHBsdWcgaW50ZXJmYWNlLCBk
-dXJpbmcgT1ZNRiBib290IChidWdmaXggdGVzdCk7CgotIEkgZG8gbm90IGhhdmUgYW55IHRlc3Rj
-YXNlIChndWVzdCBwYXlsb2FkKSBmb3IgcmVncmVzc2lvbi10ZXN0aW5nIENQVQogIGhvdHBsdWcg
-dGhyb3VnaCB0aGUgKmxlZ2FjeSogQ1BVIGhvdHBsdWcgcmVnaXN0ZXIgYmxvY2suCgpDYzogIk1p
-Y2hhZWwgUy4gVHNpcmtpbiIgPG1zdEByZWRoYXQuY29tPgpDYzogQW5pIFNpbmhhIDxhbmlAYW5p
-c2luaGEuY2E+CkNjOiBBcmQgQmllc2hldXZlbCA8YXJkYkBrZXJuZWwub3JnPgpDYzogSWdvciBN
-YW1tZWRvdiA8aW1hbW1lZG9AcmVkaGF0LmNvbT4KQ2M6IFBhb2xvIEJvbnppbmkgPHBib256aW5p
-QHJlZGhhdC5jb20+CkNjOiBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+
-CkNjOiBxZW11LXN0YWJsZUBub25nbnUub3JnClJlZjogIklPIHBvcnQgd3JpdGUgd2lkdGggY2xh
-bXBpbmcgZGlmZmVycyBiZXR3ZWVuIFRDRyBhbmQgS1ZNIgpMaW5rOiBodHRwOi8vbWlkLm1haWwt
-YXJjaGl2ZS5jb20vYWFlZGVlODQtZDNlZC1hNGY5LTIxZTctZDIyMWEyOGQxNjgzQHJlZGhhdC5j
-b20KTGluazogaHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIw
-MjMtMDEvbXNnMDAxOTkuaHRtbApSZXBvcnRlZC1ieTogQXJkIEJpZXNoZXV2ZWwgPGFyZGJAa2Vy
-bmVsLm9yZz4KU2lnbmVkLW9mZi1ieTogTGFzemxvIEVyc2VrIDxsZXJzZWtAcmVkaGF0LmNvbT4K
-LS0tCgpOb3RlczoKICAgIFRoaXMgc2hvdWxkIGJlIGFwcGxpZWQgdG86CiAgICAKICAgIC0gc3Rh
-YmxlLTUuMiAobmV3IGJyYW5jaCkKICAgIAogICAgLSBzdGFibGUtNi4yIChuZXcgYnJhbmNoKQog
-ICAgCiAgICAtIHN0YWJsZS03LjIgKG5ldyBicmFuY2gpCiAgICAKICAgIHdoaWNoZXZlciBpcyBz
-dGlsbCBjb25zaWRlcmVkIG1haW50YWluZWQsIGFzIHRoZXJlIGlzIGN1cnJlbnRseSAqbm8qCiAg
-ICBwdWJsaWMgUUVNVSByZWxlYXNlIGluIHdoaWNoIHRoZSBtb2Rlcm4gQ1BVIGhvdHBsdWcgcmVn
-aXN0ZXIgYmxvY2sKICAgIHdvcmtzLCB3aGVuIHVzaW5nIFRDRyBhY2NlbGVyYXRpb24uICB2NS4w
-LjAgd29ya3MsIGJ1dCB0aGF0IG1pbm9yCiAgICByZWxlYXNlIGhhcyBiZWVuIG9ic29sZXRlZCBi
-eSB2NS4yLjAsIHdoaWNoIGRvZXMgbm90IHdvcmsuCgogaHcvYWNwaS9jcHVfaG90cGx1Zy5jIHwg
-MyArKysKIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9ody9h
-Y3BpL2NwdV9ob3RwbHVnLmMgYi9ody9hY3BpL2NwdV9ob3RwbHVnLmMKaW5kZXggNTM2NTRmODYz
-ODMwLi5mZjE0YzNmNDEwNmYgMTAwNjQ0Ci0tLSBhL2h3L2FjcGkvY3B1X2hvdHBsdWcuYworKysg
-Yi9ody9hY3BpL2NwdV9ob3RwbHVnLmMKQEAgLTUyLDYgKzUyLDkgQEAgc3RhdGljIGNvbnN0IE1l
-bW9yeVJlZ2lvbk9wcyBBY3BpQ3B1SG90cGx1Z19vcHMgPSB7CiAgICAgLmVuZGlhbm5lc3MgPSBE
-RVZJQ0VfTElUVExFX0VORElBTiwKICAgICAudmFsaWQgPSB7CiAgICAgICAgIC5taW5fYWNjZXNz
-X3NpemUgPSAxLAorICAgICAgICAubWF4X2FjY2Vzc19zaXplID0gNCwKKyAgICB9LAorICAgIC5p
-bXBsID0gewogICAgICAgICAubWF4X2FjY2Vzc19zaXplID0gMSwKICAgICB9LAogfTsK
+On 21/12/2022 23.39, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
+> 
+> The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f9a0b:
+> 
+>    Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu into staging (2022-12-21 18:08:09 +0000)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20221222-1
+> 
+> for you to fetch changes up to 71a9bc59728a054036f3db7dd82dab8f8bd2baf9:
+> 
+>    hw/intc: sifive_plic: Fix the pending register range check (2022-12-22 08:36:30 +1000)
+> 
+> ----------------------------------------------------------------
+> First RISC-V PR for QEMU 8.0
+> 
+> * Fix PMP propagation for tlb
+> * Collection of bug fixes
+> * Add the `FIELDx_1CLEAR()` macro
+> * Bump the OpenTitan supported version
+> * Add smstateen support
+> * Support native debug icount trigger
+> * Remove the redundant ipi-id property in the virt machine
+> * Support cache-related PMU events in virtual mode
+> * Add some missing PolarFire SoC io regions
+> * Fix mret exception cause when no pmp rule is configured
+> * Fix bug where disabling compressed instructions would crash QEMU
+> * Add Zawrs ISA extension support
+> * A range of code refactoring and cleanups
+> 
+> ----------------------------------------------------------------
+> Anup Patel (1):
+>        target/riscv: Typo fix in sstc() predicate
+> 
+> Atish Patra (1):
+>        hw/riscv: virt: Remove the redundant ipi-id property
+> 
+> Bin Meng (20):
+>        target/riscv: Add some comments for sstatus CSR in riscv_cpu_dump_state()
+>        target/riscv: Fix mret exception cause when no pmp rule is configured
+>        target/riscv: Simplify helper_sret() a little bit
+>        target/riscv: Clear mstatus.MPRV when leaving M-mode for priv spec 1.12+
+>        hw/riscv: Select MSI_NONBROKEN in SIFIVE_PLIC
+>        hw/intc: Select MSI_NONBROKEN in RISC-V AIA interrupt controllers
+>        hw/riscv: Fix opentitan dependency to SIFIVE_PLIC
+>        hw/riscv: Sort machines Kconfig options in alphabetical order
+>        hw/riscv: spike: Remove misleading comments
+>        hw/intc: sifive_plic: Drop PLICMode_H
+>        hw/intc: sifive_plic: Improve robustness of the PLIC config parser
+>        hw/intc: sifive_plic: Use error_setg() to propagate the error up via errp in sifive_plic_realize()
+>        hw/intc: sifive_plic: Update "num-sources" property default value
+>        hw/riscv: microchip_pfsoc: Fix the number of interrupt sources of PLIC
+>        hw/riscv: sifive_e: Fix the number of interrupt sources of PLIC
+>        hw/riscv: sifive_u: Avoid using magic number for "riscv, ndev"
+>        hw/riscv: virt: Fix the value of "riscv, ndev" in the dtb
+>        hw/intc: sifive_plic: Change "priority-base" to start from interrupt source 0
+>        hw/riscv: opentitan: Drop "hartid-base" and "priority-base" initialization
+>        hw/intc: sifive_plic: Fix the pending register range check
+> 
+> Christoph Muellner (1):
+>        RISC-V: Add Zawrs ISA extension support
+> 
+> Conor Dooley (3):
+>        hw/misc: pfsoc: add fabric clocks to ioscb
+>        hw/riscv: pfsoc: add missing FICs as unimplemented
+>        hw/{misc, riscv}: pfsoc: add system controller as unimplemented
+> 
+> Frédéric Pétrot (1):
+>        hw/intc: sifive_plic: Renumber the S irqs for numa support
+> 
+> Jim Shu (2):
+>        target/riscv: support cache-related PMU events in virtual mode
+>        hw/intc: sifive_plic: fix out-of-bound access of source_priority array
+> 
+> LIU Zhiwei (5):
+>        target/riscv: Fix PMP propagation for tlb
+>        target/riscv: Add itrigger support when icount is not enabled
+>        target/riscv: Add itrigger support when icount is enabled
+>        target/riscv: Enable native debug itrigger
+>        target/riscv: Add itrigger_enabled field to CPURISCVState
+> 
+> Mayuresh Chitale (3):
+>        target/riscv: Add smstateen support
+>        target/riscv: smstateen check for h/s/envcfg
+>        target/riscv: generate virtual instruction exception
+> 
+> Richard Henderson (4):
+>        tcg/riscv: Fix range matched by TCG_CT_CONST_M12
+>        tcg/riscv: Fix reg overlap case in tcg_out_addsub2
+>        tcg/riscv: Fix base register for user-only qemu_ld/st
+>        target/riscv: Set pc_succ_insn for !rvc illegal insn
+> 
+> Wilfred Mallawa (4):
+>        hw/registerfields: add `FIELDx_1CLEAR()` macro
+>        hw/ssi/ibex_spi: implement `FIELD32_1CLEAR` macro
+>        hw/riscv/opentitan: bump opentitan
+>        hw/riscv/opentitan: add aon_timer base unimpl
+> 
+>   include/hw/intc/sifive_plic.h                  |   1 -
+>   include/hw/misc/mchp_pfsoc_ioscb.h             |   4 +
+>   include/hw/misc/mchp_pfsoc_sysreg.h            |   1 +
+>   include/hw/registerfields.h                    |  22 ++
+>   include/hw/riscv/microchip_pfsoc.h             |   7 +-
+>   include/hw/riscv/opentitan.h                   |  10 +-
+>   include/hw/riscv/shakti_c.h                    |   2 +-
+>   include/hw/riscv/sifive_e.h                    |   9 +-
+>   include/hw/riscv/sifive_u.h                    |   2 +-
+>   include/hw/riscv/virt.h                        |   8 +-
+>   target/riscv/cpu.h                             |  10 +
+>   target/riscv/cpu_bits.h                        |  37 +++
+>   target/riscv/debug.h                           |  13 +
+>   target/riscv/helper.h                          |   2 +
+>   target/riscv/pmp.h                             |   6 +-
+>   target/riscv/insn32.decode                     |   4 +
+>   hw/intc/sifive_plic.c                          |  66 +++--
+>   hw/misc/mchp_pfsoc_ioscb.c                     |  78 ++++-
+>   hw/misc/mchp_pfsoc_sysreg.c                    |  18 +-
+>   hw/riscv/microchip_pfsoc.c                     | 121 ++++----
+>   hw/riscv/opentitan.c                           |  26 +-
+>   hw/riscv/sifive_u.c                            |   3 +-
+>   hw/riscv/spike.c                               |   1 -
+>   hw/riscv/virt.c                                |   7 +-
+>   hw/ssi/ibex_spi_host.c                         |  21 +-
+
+FYI, this seems to cause problems in the MSYS2 Cirrus-CI job:
+
+  https://cirrus-ci.com/task/6444497832247296?logs=main#L2159
+
+  Thomas
 
 
