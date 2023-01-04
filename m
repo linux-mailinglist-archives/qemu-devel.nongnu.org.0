@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B718465E048
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8DB65E041
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 23:54:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pDCLy-00026e-Tr; Wed, 04 Jan 2023 17:35:22 -0500
+	id 1pDCMl-0002SV-UR; Wed, 04 Jan 2023 17:36:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDCLr-00025X-6H
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:35:17 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDCMP-0002RR-Ln
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:35:55 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDCLo-00056s-RG
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:35:14 -0500
-Received: by mail-ej1-x631.google.com with SMTP id tz12so86121537ejc.9
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:35:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pDCMN-0005Ad-Nz
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 17:35:49 -0500
+Received: by mail-ej1-x634.google.com with SMTP id fy8so22101044ejc.13
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 14:35:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YLCdzstc6Zlv2b8ffgqTCfh63gR16uK1if4Ir20SGyw=;
- b=oLRRiJkEMDZMLdoSSGmyl774jkUdHj7KXA4FKmO1Qpy018zranziroO62gTaOTqIYR
- HifPB/dmTa53V1Jw9oU5rA8Q9DzHHSELJ8LaV5mtk3A4ZHubRU8rivE9wwX8SXQsRbiC
- iEKquh5xpKI77TW/c5wBBrMd6fU9AW6AYGIbPeOlmnNkL9Su7O9/tMt3lrqEjpDTzC+O
- 6/c7Xv2y5CRCLEsn7zpffACUla9aPjKZNG997as9XJCLlciHTIV7P9QOHq4rZbnm9135
- OBb+rrQ0Szxz6n+CZq0pfkTJEhEA/EXA9yL67ikQpePrIk+8Pks8Nau1is+OKOduGfkm
- YwCQ==
+ bh=9D9ufjFO5ErkH2AbAYOcVhRTOeT61tLIfkXN1tOblOs=;
+ b=qv7p6hbUZqhwy3iQDuhw5Zh/OaU+jdEqOBkCsMH4ACc+FvjAC91j7cExF3wcIjxTj/
+ P5Af9RwADSEA4/2xj9jtn/bp4tinOssr7+eXzK5rb5W23ksxutq2KGWCOV8Vx0xUBEIj
+ 3SDQr6m6fnxHqGsFHN4hmyUPzpeyrvMBIGoy8RJkUKrdu3Dlse6HMVzuWofLbywDG8w7
+ Yh0M2kZfJ6Hbhlrvq9jKxqEIEnU2CxVdRasynMZS6octhZaF3M72EbUgEIdGnHxJ5c16
+ Zgdizvrjpo+H4Q9780RNeX85HvoeAzJ5ShUyofin14VywCadZG8+7SGyzKC6eUot9hS0
+ mg6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YLCdzstc6Zlv2b8ffgqTCfh63gR16uK1if4Ir20SGyw=;
- b=dwkx85CXqvhq3QxaPoQYW9FV4+YOKe6m5aXE9Ck3so/9eEGFhrP1QmovMExwAWHKu2
- RLidVy6oFh6nKxIzT0qIMYPz1LUmRgX3u8RoVt6I0NV+cpOiidM6/w/53t6Rd6hjg0qp
- qn6ak97uZPqCT1w5ecmoRyRKEu7T7qDrfPa39O2HSFKKuc93u+iPUbQPdc8b2AW/N6M5
- Dx/fnh9s8jlEATr1pO2inJRC7dihvpCZkP7dqMVM4AecV5pHIYpdTawLR0bsScfLaxXZ
- gqZCOxtRNqZD6WuAkbUszt3cp5EtmFxKLqpt2rkJcB8Rjz1uyYMSN2LxiR9eEojytjUV
- HI1w==
-X-Gm-Message-State: AFqh2kqjgWEGdI6jZmwroA24CoXaxnCmLfhDOKpnUuLnirm1z0OMTxE4
- eQ4HaSe2+6vFo+OuC9yXOuVpKA==
-X-Google-Smtp-Source: AMrXdXvO0W1QjvIGDH23S9VCvV1atucqqCQEFMdTyx3rSvLd6e9U15/NdGHKoMN0G5ZsYCzuUOF8Vg==
-X-Received: by 2002:a17:907:8c82:b0:7c0:f7b2:b19a with SMTP id
- td2-20020a1709078c8200b007c0f7b2b19amr45770602ejc.27.1672871710088; 
- Wed, 04 Jan 2023 14:35:10 -0800 (PST)
+ bh=9D9ufjFO5ErkH2AbAYOcVhRTOeT61tLIfkXN1tOblOs=;
+ b=IIQJywD1dfKGlH6w48Ut4Yw6jTah7w4wvKiIj20D0IAerygY/rnPYF2+YUaXa2JrXf
+ ANDXSCD+GBmDiBnFv1E2v90sG3ZHhHg+BA1w5dh3Z9cg5fLt1FH1Np55qb9JMHoBkCy9
+ UDOUEjweprCfwiq+IhrcTUhSnuksv3ISTQlwUO2ErnN3ZX6divhEi5JaTaTIAVW2h6XA
+ 1YclSa5AsRVB8iucy8e7RQBR5FLyvcUAj+klJ08bpaLbk1UcN1L6tVsjJY4Nxp5RZPKQ
+ b6HEYrHP3InnTH7avapcAYANefUrEiJPCRRt7WhzF2PNTaD2bGViouJZLMwkJ6Ignda5
+ EmLQ==
+X-Gm-Message-State: AFqh2krP1MdxnTIaMolfwcVQ0hgdj3Fmic36Tjc4g+MX01cpFMXOHW6z
+ y3fsPBtASDr5ej8eXx7LjCgqoQ==
+X-Google-Smtp-Source: AMrXdXsQ3IhtNb5cG1wk60QS7wd3RDWh6fd1SXn/KbYkoE54jRIhMPY1SXG2MimpwT8M9GQLVoAtyg==
+X-Received: by 2002:a17:907:86a6:b0:7c0:fd1a:79f0 with SMTP id
+ qa38-20020a17090786a600b007c0fd1a79f0mr59371406ejc.21.1672871746219; 
+ Wed, 04 Jan 2023 14:35:46 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- k8-20020a17090632c800b007c0f2c4cdffsm15736530ejk.44.2023.01.04.14.35.08
+ q19-20020a17090676d300b008072c925e4csm15659503ejn.21.2023.01.04.14.35.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 14:35:09 -0800 (PST)
-Message-ID: <081e95c1-d601-4ed5-678a-e6a828d6ea46@linaro.org>
-Date: Wed, 4 Jan 2023 23:35:07 +0100
+ Wed, 04 Jan 2023 14:35:45 -0800 (PST)
+Message-ID: <405dc396-7b7e-842a-2b94-6b26df1aa564@linaro.org>
+Date: Wed, 4 Jan 2023 23:35:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 1/6] hw/arm/aspeed: Fix smpboot[] on big-endian hosts
+Subject: Re: [PATCH v2 6/6] hw/isa/piix: Resolve redundant
+ TYPE_PIIX3_XEN_DEVICE
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- Tyrone Ting <kfting@nuvoton.com>
-References: <20221222215549.86872-1-philmd@linaro.org>
- <20221222215549.86872-2-philmd@linaro.org>
- <CAFEAcA9KD8WwPTKVQQUfAZxaqA=ASweZtJ=sAV0Vd8TkpqDBOw@mail.gmail.com>
- <8fa1d7b7-babc-eca8-bbd9-4707ada2f49f@kaod.org>
+To: Chuck Zmudzinski <brchuckz@aol.com>, Bernhard Beschow
+ <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+References: <20230104144437.27479-1-shentey@gmail.com>
+ <20230104144437.27479-7-shentey@gmail.com>
+ <30ed41ab-f7c9-15fb-8f4b-b2742b1d4188@aol.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <8fa1d7b7-babc-eca8-bbd9-4707ada2f49f@kaod.org>
+In-Reply-To: <30ed41ab-f7c9-15fb-8f4b-b2742b1d4188@aol.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -99,62 +101,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Cédric,
-
-On 4/1/23 09:43, Cédric Le Goater wrote:
-> On 1/3/23 18:33, Peter Maydell wrote:
-
->> Can we use the write_bootloader() function, which handles the
->> endianness question correctly and is how other boards do the
->> "put a little lump of code into the guest" job ?
+On 4/1/23 17:42, Chuck Zmudzinski wrote:
+> On 1/4/23 9:44 AM, Bernhard Beschow wrote:
+>> During the last patches, TYPE_PIIX3_XEN_DEVICE turned into a clone of
+>> TYPE_PIIX3_DEVICE. Remove this redundancy.
+>>
+>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>> ---
+>>   hw/i386/pc_piix.c             |  4 +---
+>>   hw/isa/piix.c                 | 20 --------------------
+>>   include/hw/southbridge/piix.h |  1 -
+>>   3 files changed, 1 insertion(+), 24 deletions(-)
+>>
+>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+>> index 5738d9cdca..6b8de3d59d 100644
+>> --- a/hw/i386/pc_piix.c
+>> +++ b/hw/i386/pc_piix.c
+>> @@ -235,8 +235,6 @@ static void pc_init1(MachineState *machine,
+>>       if (pcmc->pci_enabled) {
+>>           DeviceState *dev;
+>>           PCIDevice *pci_dev;
+>> -        const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
+>> -                                         : TYPE_PIIX3_DEVICE;
+>>           int i;
+>>   
+>>           pci_bus = i440fx_init(pci_type,
+>> @@ -250,7 +248,7 @@ static void pc_init1(MachineState *machine,
+>>                                          : pci_slot_get_pirq);
+>>           pcms->bus = pci_bus;
+>>   
+>> -        pci_dev = pci_new_multifunction(-1, true, type);
+>> +        pci_dev = pci_new_multifunction(-1, true, TYPE_PIIX3_DEVICE);
+>>           object_property_set_bool(OBJECT(pci_dev), "has-usb",
+>>                                    machine_usb(machine), &error_abort);
+>>           object_property_set_bool(OBJECT(pci_dev), "has-acpi",
+>> diff --git a/hw/isa/piix.c b/hw/isa/piix.c
+>> index 98e9b12661..e4587352c9 100644
+>> --- a/hw/isa/piix.c
+>> +++ b/hw/isa/piix.c
+>> @@ -33,7 +33,6 @@
+>>   #include "hw/qdev-properties.h"
+>>   #include "hw/ide/piix.h"
+>>   #include "hw/isa/isa.h"
+>> -#include "hw/xen/xen.h"
+>>   #include "sysemu/runstate.h"
+>>   #include "migration/vmstate.h"
+>>   #include "hw/acpi/acpi_aml_interface.h"
+>> @@ -465,24 +464,6 @@ static const TypeInfo piix3_info = {
+>>       .class_init    = piix3_class_init,
+>>   };
+>>   
+>> -static void piix3_xen_class_init(ObjectClass *klass, void *data)
+>> -{
+>> -    DeviceClass *dc = DEVICE_CLASS(klass);
+>> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>> -
+>> -    k->realize = piix3_realize;
+>> -    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
+>> -    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
+>> -    dc->vmsd = &vmstate_piix3;
+>> -}
+>> -
+>> -static const TypeInfo piix3_xen_info = {
+>> -    .name          = TYPE_PIIX3_XEN_DEVICE,
+>> -    .parent        = TYPE_PIIX_PCI_DEVICE,
+>> -    .instance_init = piix3_init,
+>> -    .class_init    = piix3_xen_class_init,
+>> -};
+>> -
+>>   static void piix4_realize(PCIDevice *dev, Error **errp)
+>>   {
+>>       ERRP_GUARD();
+>> @@ -534,7 +515,6 @@ static void piix3_register_types(void)
+>>   {
+>>       type_register_static(&piix_pci_type_info);
+>>       type_register_static(&piix3_info);
+>> -    type_register_static(&piix3_xen_info);
+>>       type_register_static(&piix4_info);
+>>   }
+>>   
+>> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+>> index 65ad8569da..b1fc94a742 100644
+>> --- a/include/hw/southbridge/piix.h
+>> +++ b/include/hw/southbridge/piix.h
+>> @@ -77,7 +77,6 @@ struct PIIXState {
+>>   OBJECT_DECLARE_SIMPLE_TYPE(PIIXState, PIIX_PCI_DEVICE)
+>>   
+>>   #define TYPE_PIIX3_DEVICE "PIIX3"
+>> -#define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+>>   #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+>>   
+>>   #endif
 > 
-> Yes. See below.
 > 
-> May be we could change write_bootloader a little to handle an empty
-> fixupcontext.
+> This fixes the regression with the emulated usb tablet device that I reported in v1 here:
 > 
-> Thanks,
+> https://lore.kernel.org/qemu-devel/aed4f2c1-83f7-163a-fb44-f284376668dc@aol.com/
 > 
-> C.
+> I tested this patch again with all the prerequisites and now with v2 there are no regressions.
 > 
->  From 671d43faa7e14b896855403feb0afd777350cb0a Mon Sep 17 00:00:00 2001
-> From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-> Date: Wed, 4 Jan 2023 09:30:28 +0100
-> Subject: [PATCH] hw/arm/boot: Export write_bootloader for Aspeed machines
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=UTF-8
-> Content-Transfer-Encoding: 8bit
-> 
-> AST2600 Aspeed machines have an home made boot loader for secondaries.
-> Instead, use the internal ARM boot loader.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   include/hw/arm/boot.h | 24 ++++++++++++++++++++++++
->   hw/arm/aspeed.c       | 42 ++++++++++++++++++++++--------------------
->   hw/arm/boot.c         | 34 +++++++---------------------------
->   3 files changed, 53 insertions(+), 47 deletions(-)
-[...]
+> Tested-by: Chuck Zmudzinski <brchuckz@aol.com>
 
-I'm getting:
+(IIUC Chuck meant to send this tag to the cover letter)
 
-Applying: hw/arm/boot: Export write_bootloader for Aspeed machines
-error: patch failed: include/hw/arm/boot.h:183
-error: include/hw/arm/boot.h: patch does not apply
-error: patch failed: hw/arm/aspeed.c:201
-error: hw/arm/aspeed.c: patch does not apply
-error: patch failed: hw/arm/boot.c:59
-error: hw/arm/boot.c: patch does not apply
-Patch failed at 0001 hw/arm/boot: Export write_bootloader for Aspeed 
-machines
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
-
-What is your base commit? Can you post a normal patch?
-
-Thanks,
-
-Phil.
 
