@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84A3465D299
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 13:28:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78BD65D2A6
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 13:29:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD2rm-0007IQ-1N; Wed, 04 Jan 2023 07:27:34 -0500
+	id 1pD2tR-00088u-BP; Wed, 04 Jan 2023 07:29:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD2rk-0007I3-7s
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:27:32 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1pD2tP-00088X-LL
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:29:15 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD2ri-0002sn-6v
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:27:31 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- fm16-20020a05600c0c1000b003d96fb976efso24076143wmb.3
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 04:27:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1pD2tN-00048S-Qs
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:29:15 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id z16so16292026wrw.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 04:29:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hLzdyhgVTM88j5OJjrDPGLWa67LwfAhsawd7HzxbNvk=;
- b=TOysUlZy+FrrQfNAnCAh7AVgK4nyg9mgvTtBWgEk4eOiho7e04HUNQnQCjcQjDZA5h
- 2VxIfpx3/4xC7GCWhkooBsS4ITWNIgMCystJjrs6rn+jLixca+Yj/k53G2esFutmMzI1
- wwn9BigwJnruIElNH07oZHu3VLjvrSKa1sIiz8C3h9+nGg4C6ycXwuKaWtoDDiYxgo32
- XU0sKqN+vPIIeGXtQUihJIvj7oIZYa3L3oTF6/ubcSI5M/vi8h+XTVsYJHyhee7QYiSn
- S4SEWoSFAkVi2Od+5S1utw1GmxOJK/jDv7//ZKUnC7uUOnE2hUtyj7UBa6XoSMh9L/nx
- EAcw==
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=oz4Z0GianJo8e5hN+RgPZ5WTzImFj0aP/gupTzPHLpY=;
+ b=jsIx9UWqWfi2+JJ42KOb7TtjNQSLFhCgJ2GjJHJZ2b35Lfj1/EouUJL3PshSmrUlpU
+ /hXZ14OVNaCjjRThlh6MTXzyL3gTLR7SlyRVrVOCrGiDcSr5GuKi7DhePL8ii2mhFZCu
+ rReFMM5rj1BSSvvJp+QFbIC3OCC/0u1gblSc5lCrF9J5Xfwg0MVRFedHvmSol06C8qNq
+ YoNXqup6HNnUGKVcvZa3GJr21Fz/ToFtHIqVYeh2kOTSKNdtSlv/aEiDsh2/zx6K1Rzt
+ OdrF/PRX8Zp2LR6aJZEm1j9bjLeEfwEjNDJHjkqUnxWRsTPLzB8Lb8nNIqN7SqCzgfrI
+ VnGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hLzdyhgVTM88j5OJjrDPGLWa67LwfAhsawd7HzxbNvk=;
- b=sPLqewMNDR1GOXt5zyrf3+JeMPhQ38ltyxU0QtM3VzIHpldHEBKkBvBgSbSyEJikXF
- XIsMddr4Nrf2orOi6Khe7gYY0PBV51PKYTHrLCpdzsjy4NjprP+BYsDfDmlp5TfXLVQv
- ePa4DvpPHhaJNAkDEIbDeNrZ5Bv637LL/BV7zdV4bzhGUUAWzonzTPiTmLA06p8MRU2H
- /Vpq7wmI/MbQ8c3UvEhqkqDQzjnfN3XXKP3I0uvykYXJp7TtKSrAuD1B/75G6eCTLHdL
- mWNyhQviJzN41qyWEqPdvKZUgY2ffCN8TAzKDJEr/TeK3YG/BGVYg5hFQsFpcY1nurYb
- vG8A==
-X-Gm-Message-State: AFqh2krK1ZT2s2DKqZqrSnkG4tMlWLC0zAyMnv+iSw3Ejz8qDxWfxQh3
- 5KUfEs1UxHt0icY1+9P778bk9gz60mfpygLR
-X-Google-Smtp-Source: AMrXdXufeIryv/+wmOhoHiLlF7VyA1zwsEqZrw3UqxtqWxQVxu7Ataw4ysNVLY0iZbrku9dbnV3Egg==
-X-Received: by 2002:a05:600c:1c9d:b0:3d1:f3eb:c718 with SMTP id
- k29-20020a05600c1c9d00b003d1f3ebc718mr41805642wms.19.1672835248583; 
- Wed, 04 Jan 2023 04:27:28 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- ay39-20020a05600c1e2700b003cfa80443a0sm45476460wmb.35.2023.01.04.04.27.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 04:27:28 -0800 (PST)
-Message-ID: <f6d28df9-8103-7b2d-c766-5f830a04375b@linaro.org>
-Date: Wed, 4 Jan 2023 13:27:26 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oz4Z0GianJo8e5hN+RgPZ5WTzImFj0aP/gupTzPHLpY=;
+ b=jaQwf4/SFpqvLsD9GalmvR+3JwNm6IQtAQ1hfigkcwQUaL2j4DacTz6YPv549IdPKH
+ ggRCpY4M2WJYKAxxrUUnWj6QBJKPJOg7OT0HDHggTemQz0e/8Q0KMnkPAPOOXWy0wcuw
+ Or+ulj8ez/6q0TnnztF8B2kqrujrkjEOimf7vRC6RYHNpRKxJA24KyM1l04saMIPf22j
+ ZLaZeYjUtaZDay3TX+OOFv3kLMSqB+b0OqhBun7RIg91T4AWA9jIcx/vhS02QlUqAV3n
+ +CaKD5YtzG93POWReqwvrxib9N3Vd9hxr3GfiNMeCz/xy5jT53wDgYCiheVWPc/yzzEe
+ rhtg==
+X-Gm-Message-State: AFqh2kqLzZY9Oti7EU4uDSAwQqzQDuSkkmO4QAN68LpIS1vHG2qoMu+U
+ +ZZMuKQ+k1Yn0z+P5cQDLmhSzg==
+X-Google-Smtp-Source: AMrXdXuRJ2I7m0cXeiwrgVgxlrxcUeqj5bUVBLkw/wsEh7BFz4UFuRp/bg0Qs+1+bfoaZZVAWKFIQQ==
+X-Received: by 2002:a5d:4e83:0:b0:29f:b589:157c with SMTP id
+ e3-20020a5d4e83000000b0029fb589157cmr3347883wru.5.1672835351865; 
+ Wed, 04 Jan 2023 04:29:11 -0800 (PST)
+Received: from myrica (054592b0.skybroadband.com. [5.69.146.176])
+ by smtp.gmail.com with ESMTPSA id
+ d17-20020adffd91000000b002882600e8a0sm19431617wrr.12.2023.01.04.04.29.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Jan 2023 04:29:11 -0800 (PST)
+Date: Wed, 4 Jan 2023 12:29:10 +0000
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org
+Subject: Re: [PATCH] hw/arm/smmuv3: Add GBPA register
+Message-ID: <Y7VxFpoTjwNaolTG@myrica>
+References: <20221219125720.1369027-1-smostafa@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
- legacy reg block
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: Laszlo Ersek <lersek@redhat.com>, qemu devel list
- <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Ard Biesheuvel <ardb@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, qemu-stable@nongnu.org,
- Zhu Guihua <zhugh.fnst@cn.fujitsu.com>, Gu Zheng <guz.fnst@cn.fujitsu.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>
-References: <20230104090138.214862-1-lersek@redhat.com>
- <e81f78e2-301e-d920-cd03-6e17c591d677@linaro.org>
- <20230104113822.35d23254@imammedo.users.ipa.redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230104113822.35d23254@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221219125720.1369027-1-smostafa@google.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,31 +89,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/1/23 11:38, Igor Mammedov wrote:
-> On Wed, 4 Jan 2023 10:34:09 +0100
-> Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
-> 
->> On 4/1/23 10:01, Laszlo Ersek wrote:
-> [...]
->>> diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
->>> index 53654f863830..ff14c3f4106f 100644
->>> --- a/hw/acpi/cpu_hotplug.c
->>> +++ b/hw/acpi/cpu_hotplug.c
->>> @@ -52,6 +52,9 @@ static const MemoryRegionOps AcpiCpuHotplug_ops = {
->>>        .endianness = DEVICE_LITTLE_ENDIAN,
->>>        .valid = {
->>>            .min_access_size = 1,
->>> +        .max_access_size = 4,
->>> +    },
->>> +    .impl = {
->>>            .max_access_size = 1,
->>
->> Arguably:
->> Fixes: b8622725cf ("acpi_piix4: Add infrastructure to send CPU hot-plug
->> GPE to guest")
-> 
-> nope, this one is correct, as legacy interface used 1 byte access only
+Hi Mostafa,
 
-Yes, Laszlo explained elsewhere in the thread.
+On Mon, Dec 19, 2022 at 12:57:20PM +0000, Mostafa Saleh wrote:
+> GBPA register can be used to globally abort all
+> transactions.
+> 
+> Only UPDATE and ABORT bits are considered in this patch.
 
+That's fair, although it effectively implements all bits since
+smmuv3_translate() ignores memory attributes anyway
+
+> 
+> It is described in the SMMU manual in "6.3.14 SMMU_GBPA".
+> ABORT reset value is IMPLEMENTATION DEFINED, it is chosen to
+> be zero(Do not abort incoming transactions).
+> 
+> Signed-off-by: Mostafa Saleh <smostafa@google.com>
+> ---
+>  hw/arm/smmuv3-internal.h |  4 ++++
+>  hw/arm/smmuv3.c          | 14 ++++++++++++++
+>  include/hw/arm/smmuv3.h  |  1 +
+>  3 files changed, 19 insertions(+)
+> 
+> diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
+> index bce161870f..71f70141e8 100644
+> --- a/hw/arm/smmuv3-internal.h
+> +++ b/hw/arm/smmuv3-internal.h
+> @@ -79,6 +79,10 @@ REG32(CR0ACK,              0x24)
+>  REG32(CR1,                 0x28)
+>  REG32(CR2,                 0x2c)
+>  REG32(STATUSR,             0x40)
+> +REG32(GBPA,                0x44)
+> +    FIELD(GBPA, ABORT,        20, 1)
+> +    FIELD(GBPA, UPDATE,       31, 1)
+> +
+>  REG32(IRQ_CTRL,            0x50)
+>      FIELD(IRQ_CTRL, GERROR_IRQEN,        0, 1)
+>      FIELD(IRQ_CTRL, PRI_IRQEN,           1, 1)
+> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+> index 955b89c8d5..2843bc3da9 100644
+> --- a/hw/arm/smmuv3.c
+> +++ b/hw/arm/smmuv3.c
+> @@ -285,6 +285,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
+>      s->gerror = 0;
+>      s->gerrorn = 0;
+>      s->statusr = 0;
+> +    s->gbpa = 0;
+>  }
+>  
+>  static int smmu_get_ste(SMMUv3State *s, dma_addr_t addr, STE *buf,
+> @@ -663,6 +664,11 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+>          goto epilogue;
+>      }
+>  
+> +    if (FIELD_EX32(s->gbpa, GBPA, ABORT)) {
+> +        status = SMMU_TRANS_ABORT;
+> +        goto epilogue;
+> +    }
+> +
+
+GBPA is only taken into account when SMMU_CR0.SMMUEN is 0 (6.3.9.6 SMMUEN)
+
+>      cfg = smmuv3_get_config(sdev, &event);
+>      if (!cfg) {
+>          status = SMMU_TRANS_ERROR;
+> @@ -1170,6 +1176,10 @@ static MemTxResult smmu_writel(SMMUv3State *s, hwaddr offset,
+>      case A_GERROR_IRQ_CFG2:
+>          s->gerror_irq_cfg2 = data;
+>          return MEMTX_OK;
+> +    case A_GBPA:
+> +        /* Ignore update bit as write is synchronous. */
+
+We could also ignore a write that has Update=0, since that's required for
+SMMUv3.2+ implementations (6.3.14.1 Update procedure)
+
+> +        s->gbpa = data & ~R_GBPA_UPDATE_MASK;
+
+Do we need to synchronize with concurrent transactions here?
+I couldn't find if QEMU already serializes MMIO writes and IOMMU
+translation.
+
+"Transactions arriving at the SMMU after completion of a GPBA update are
+guaranteed to take the new attributes written." The guest tests completion
+by reading the Update bit:
+
+	vCPU (host CPU 0)		Device thread (host CPU 1)
+
+	(a) read GBPA.abort = 1
+	(b) write GBPA.{update,abort} = {1,0}
+	(c) read GBPA.update = 0
+	(d) launch DMA			(e) execute DMA
+					(f) translation must read GBPA.abort = 0
+
+I guess memory barriers after (b) and before (f) would ensure that. But I
+wonder if SMMUEN also needs additional synchronization, and in that case a
+rwlock would probably be simpler.
+
+Thanks,
+Jean
+
+> +        return MEMTX_OK;
+>      case A_STRTAB_BASE: /* 64b */
+>          s->strtab_base = deposit64(s->strtab_base, 0, 32, data);
+>          return MEMTX_OK;
+> @@ -1318,6 +1328,9 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
+>      case A_STATUSR:
+>          *data = s->statusr;
+>          return MEMTX_OK;
+> +    case A_GBPA:
+> +        *data = s->gbpa;
+> +        return MEMTX_OK;
+>      case A_IRQ_CTRL:
+>      case A_IRQ_CTRL_ACK:
+>          *data = s->irq_ctrl;
+> @@ -1495,6 +1508,7 @@ static const VMStateDescription vmstate_smmuv3 = {
+>          VMSTATE_UINT32_ARRAY(cr, SMMUv3State, 3),
+>          VMSTATE_UINT32(cr0ack, SMMUv3State),
+>          VMSTATE_UINT32(statusr, SMMUv3State),
+> +        VMSTATE_UINT32(gbpa, SMMUv3State),
+>          VMSTATE_UINT32(irq_ctrl, SMMUv3State),
+>          VMSTATE_UINT32(gerror, SMMUv3State),
+>          VMSTATE_UINT32(gerrorn, SMMUv3State),
+> diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
+> index f1921fdf9e..9899fa1860 100644
+> --- a/include/hw/arm/smmuv3.h
+> +++ b/include/hw/arm/smmuv3.h
+> @@ -46,6 +46,7 @@ struct SMMUv3State {
+>      uint32_t cr[3];
+>      uint32_t cr0ack;
+>      uint32_t statusr;
+> +    uint32_t gbpa;
+>      uint32_t irq_ctrl;
+>      uint32_t gerror;
+>      uint32_t gerrorn;
+> -- 
+> 2.39.0.314.g84b9a713c41-goog
+> 
+> 
 
