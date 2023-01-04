@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D965665DC59
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 19:49:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B38E765DC6B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 19:58:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD8oP-0002vz-Tj; Wed, 04 Jan 2023 13:48:30 -0500
+	id 1pD8wm-0004Xu-JI; Wed, 04 Jan 2023 13:57:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD8oJ-0002vj-R6
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 13:48:24 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pD8wi-0004Xb-BG
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 13:57:04 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pD8oI-00079m-3B
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 13:48:23 -0500
-Received: by mail-ej1-x633.google.com with SMTP id vm8so77912325ejc.2
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 10:48:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pD8wg-0002k6-Gq
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 13:57:03 -0500
+Received: by mail-pl1-x636.google.com with SMTP id b2so36765269pld.7
+ for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 10:57:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FVquXEatkjsnt7/WWB3T+s6lCdXnkT97jqT/BXU5H7A=;
- b=zw2gd8LZo8cOpCZglRMftk6BEyJasva6EP/VBZSAXcv9OKOjH6N5pZmQws6Ilaec2r
- rxXBXUYdnR1hcB2O2ot+/iyc8XC8nfpuzUBB+5mzocUghZoJvzHGGKd4gezz20bRA00L
- ZPqt2BQcinhISzbDcrGVqFZJ8KKcWNoNxKTW3IS4d8ksDwLdFQ+eRXI0CMTEHZos7nJW
- 4wydv+J9HUuKhWtC897qN0xbqsbEYNknTQabNmAjuz+S+rKwR+popxvD3jm/yuHfhFWy
- AMpN+CKtEkpMqQsePykDGSf1bAcgQeFDhx2wYgqLqJO+TotxLXqAY8bJmXoFBYAfllnv
- FiTQ==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=foAxF6mYacFRcXDpBZFah23kAfpjDxnhS/VvzIS8RvA=;
+ b=DogwnE6SuOXruivn6wC1fHqCVf/SXe7ZFUKpUFM+P/bZBaEpXAJGoKWp2WYjRZxu/I
+ O+V8UWMvn3wrfwKD4143enKXke+sW5iVM3f7Hw0E+sILIVK6/OAGGXuDsj+M7G7euMsq
+ JYlO+lsf6uqEaKTjTp1w8727JRa2vtP73TSKPBPj5+/Xx2/KZugXN9F87nYvgXGAgNXf
+ zeqNJnwSFYosEKXKNfPI4iac8DCo5CrIQn7UYBQ2MBf90CFAGD1yuKtHIRMxsvwjFXTp
+ xIYFnzZ3ruHQEJvVbK570UfdsWIOvMob6gwm+drDwvz/DZEqdlKi5OW9TuU0Iwdqbw94
+ lubA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FVquXEatkjsnt7/WWB3T+s6lCdXnkT97jqT/BXU5H7A=;
- b=OIIh3NNNnz9eJlfSDWY9yS4OiQnPmlzqLC/TwFYNL6g1fwG/uhSIYxO/j1s3/jL/OH
- L7glouYQbWewL4Zc3/b5rBvGj/F4xg+0R9YnoDMfJWzZxwJeZknISdVxNukQt9C3VLSL
- Gxzm/HNaa5p0/w+prv5Gni0d0R608bgu7qe0g/74gEwF6pBJQQ0QwqdoXjKPLsd9kttQ
- CO0Ijjr3deXcBZyxHNDNEE2UjoHOFe0A4owEqpaEQQ1MoeVTICeDu7K7wkiqvvC18fwP
- iMsXJ+QoIK1Hbz6ehF0dH9qSAx3s2VXEX+4cMqM005ywa5nH06u5harDa6IYFQ8Qmr9N
- 2Mkg==
-X-Gm-Message-State: AFqh2kog46AdOArwkH0T2kVkU+UoXyNoUFq/NKsy7S0i2vMpzWNZAa3l
- zU6J1sdO5mCvjE1dqb3WIS3ZPA==
-X-Google-Smtp-Source: AMrXdXtYAXbVIrEFvTkHu0Nr5M4bnN/BQvUtskqbL1WpwJ+T9PNcK0ZQpANoPO0mI9+9TvUnAkcmxg==
-X-Received: by 2002:a17:907:c68a:b0:84c:e9c4:5751 with SMTP id
- ue10-20020a170907c68a00b0084ce9c45751mr6014067ejc.74.1672858100076; 
- Wed, 04 Jan 2023 10:48:20 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- i16-20020a170906115000b008373f9ea148sm15616785eja.71.2023.01.04.10.48.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Jan 2023 10:48:19 -0800 (PST)
-Message-ID: <be75758a-2547-d1ef-223e-157f3aa28b23@linaro.org>
-Date: Wed, 4 Jan 2023 19:48:17 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=foAxF6mYacFRcXDpBZFah23kAfpjDxnhS/VvzIS8RvA=;
+ b=4Tu5bD7QDC1AAOgsqEYnKTDQY2ketlecpIuwafuBwjhioQSIHfWCVCl/XubBrzTxd0
+ y9Qqcu/kwc2XLEjoNFjQzSH3TQi/NLct+JOH2jAr7+dK2U5pTPlv56wvO3lFPw7jJl+u
+ GL/TEgQAG/KfOVh1/dhWCn+P1joqLpf/FiDHn/BbHZqUNJI1WYqWEgikmKrcjyocuEwS
+ LenHzh3ubG/D7HzUmhR5Mx1O5aZ86t6rmZN4jEg44B+MMpeOJyHIa8sdBst+wkUpSnRq
+ tuO6ZefknQfX0P42Y6hUN6F9UFmINZJw+EeSmI+wxfNMgutylXf/ltPNwC/gNTO+ga8H
+ vQ2Q==
+X-Gm-Message-State: AFqh2kqS598fyGivck95OT/jLlkNmbqusJ9+qNuAabOvhomYObU/2Z8q
+ MJUXtQpcFR5vYih0jEoSJARzCTEVmBNJ90f4+P0bQw==
+X-Google-Smtp-Source: AMrXdXsvN6N/k22W1GQut9nBbvq2zqSXCzWBjF5+CxUQvfsE1ENCQdnOPcZutip6+lEbLuXEz91lEbLQsERpFhXLgLo=
+X-Received: by 2002:a17:902:9890:b0:189:b0a3:cf4a with SMTP id
+ s16-20020a170902989000b00189b0a3cf4amr2226532plp.60.1672858620881; Wed, 04
+ Jan 2023 10:57:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 6/6] hw/isa/piix: Resolve redundant
- TYPE_PIIX3_XEN_DEVICE
-Content-Language: en-US
-To: Chuck Zmudzinski <brchuckz@aol.com>, Bernhard Beschow
- <shentey@gmail.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Durrant <paul@xen.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>
-References: <20230104144437.27479-1-shentey@gmail.com>
- <20230104144437.27479-7-shentey@gmail.com>
- <1c2e0780-e5fb-1321-0d84-b0591db9fec7@linaro.org>
- <f596a7c1-10d0-3743-fe0b-d42003cf7440@aol.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <f596a7c1-10d0-3743-fe0b-d42003cf7440@aol.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.708,
+References: <20221223172135.3450109-1-alex.bennee@linaro.org>
+In-Reply-To: <20221223172135.3450109-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 4 Jan 2023 18:56:49 +0000
+Message-ID: <CAFEAcA-HBkV-OnYSef_LoVyUpBKh=p6q9Gb_fNvk5TLqsPrO6A@mail.gmail.com>
+Subject: Re: [PULL v2 0/6] testing updates
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,106 +84,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/1/23 18:54, Chuck Zmudzinski wrote:
-> On 1/4/23 10:35 AM, Philippe Mathieu-Daudé wrote:
->> +Markus/Thomas
->>
->> On 4/1/23 15:44, Bernhard Beschow wrote:
->>> During the last patches, TYPE_PIIX3_XEN_DEVICE turned into a clone of
->>> TYPE_PIIX3_DEVICE. Remove this redundancy.
->>>
->>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>> ---
->>>    hw/i386/pc_piix.c             |  4 +---
->>>    hw/isa/piix.c                 | 20 --------------------
->>>    include/hw/southbridge/piix.h |  1 -
->>>    3 files changed, 1 insertion(+), 24 deletions(-)
->>>
->>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->>> index 5738d9cdca..6b8de3d59d 100644
->>> --- a/hw/i386/pc_piix.c
->>> +++ b/hw/i386/pc_piix.c
->>> @@ -235,8 +235,6 @@ static void pc_init1(MachineState *machine,
->>>        if (pcmc->pci_enabled) {
->>>            DeviceState *dev;
->>>            PCIDevice *pci_dev;
->>> -        const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
->>> -                                         : TYPE_PIIX3_DEVICE;
->>>            int i;
->>>    
->>>            pci_bus = i440fx_init(pci_type,
->>> @@ -250,7 +248,7 @@ static void pc_init1(MachineState *machine,
->>>                                           : pci_slot_get_pirq);
->>>            pcms->bus = pci_bus;
->>>    
->>> -        pci_dev = pci_new_multifunction(-1, true, type);
->>> +        pci_dev = pci_new_multifunction(-1, true, TYPE_PIIX3_DEVICE);
->>>            object_property_set_bool(OBJECT(pci_dev), "has-usb",
->>>                                     machine_usb(machine), &error_abort);
->>>            object_property_set_bool(OBJECT(pci_dev), "has-acpi",
->>> diff --git a/hw/isa/piix.c b/hw/isa/piix.c
->>> index 98e9b12661..e4587352c9 100644
->>> --- a/hw/isa/piix.c
->>> +++ b/hw/isa/piix.c
->>> @@ -33,7 +33,6 @@
->>>    #include "hw/qdev-properties.h"
->>>    #include "hw/ide/piix.h"
->>>    #include "hw/isa/isa.h"
->>> -#include "hw/xen/xen.h"
->>>    #include "sysemu/runstate.h"
->>>    #include "migration/vmstate.h"
->>>    #include "hw/acpi/acpi_aml_interface.h"
->>> @@ -465,24 +464,6 @@ static const TypeInfo piix3_info = {
->>>        .class_init    = piix3_class_init,
->>>    };
->>>    
->>> -static void piix3_xen_class_init(ObjectClass *klass, void *data)
->>> -{
->>> -    DeviceClass *dc = DEVICE_CLASS(klass);
->>> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->>> -
->>> -    k->realize = piix3_realize;
->>> -    /* 82371SB PIIX3 PCI-to-ISA bridge (Step A1) */
->>> -    k->device_id = PCI_DEVICE_ID_INTEL_82371SB_0;
->>> -    dc->vmsd = &vmstate_piix3;
->>
->> IIUC, since this device is user-creatable, we can't simply remove it
->> without going thru the deprecation process. Alternatively we could
->> add a type alias:
->>
->> -- >8 --
->> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
->> index 4b0ef65780..d94f7ea369 100644
->> --- a/softmmu/qdev-monitor.c
->> +++ b/softmmu/qdev-monitor.c
->> @@ -64,6 +64,7 @@ typedef struct QDevAlias
->>                                  QEMU_ARCH_LOONGARCH)
->>    #define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
->>    #define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
->> +#define QEMU_ARCH_XEN (QEMU_ARCH_ARM | QEMU_ARCH_I386)
->>
->>    /* Please keep this table sorted by typename. */
->>    static const QDevAlias qdev_alias_table[] = {
->> @@ -111,6 +112,7 @@ static const QDevAlias qdev_alias_table[] = {
->>        { "virtio-tablet-device", "virtio-tablet", QEMU_ARCH_VIRTIO_MMIO },
->>        { "virtio-tablet-ccw", "virtio-tablet", QEMU_ARCH_VIRTIO_CCW },
->>        { "virtio-tablet-pci", "virtio-tablet", QEMU_ARCH_VIRTIO_PCI },
->> +    { "PIIX3", "PIIX3-xen", QEMU_ARCH_XEN },
-> 
-> Hi Bernhard,
-> 
-> Can you comment if this should be:
-> 
-> +    { "PIIX", "PIIX3-xen", QEMU_ARCH_XEN },
-> 
-> instead? IIUC, the patch series also removed PIIX3 and PIIX4 and
-> replaced them with PIIX. Or am I not understanding correctly?
+On Fri, 23 Dec 2022 at 17:21, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> The following changes since commit 222059a0fccf4af3be776fe35a5ea2d6a68f9a=
+0b:
+>
+>   Merge tag 'pull-ppc-20221221' of https://gitlab.com/danielhb/qemu into =
+staging (2022-12-21 18:08:09 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-231222-1
+>
+> for you to fetch changes up to 3b4f911921e4233df0ba78d4acd2077da0b144ef:
+>
+>   gitlab-ci: Disable docs and GUIs for the build-tci and build-tcg-disabl=
+ed jobs (2022-12-23 15:17:13 +0000)
+>
+> ----------------------------------------------------------------
+> testing updates:
+>
+>   - fix minor shell-ism that can break check-tcg
+>   - turn off verbose logging on custom runners
+>   - make configure echo call in CI
+>   - fix unused variable in linux-test
+>   - add binary compiler docker image for hexagon
+>   - disable doc and gui builds for tci and disable-tcg builds
+>
 
-There is a confusion in QEMU between PCI bridges, the first PCI
-function they implement, and the other PCI functions.
+Applied, thanks.
 
-Here TYPE_PIIX3_DEVICE means for "PCI function part of the PIIX
-south bridge chipset, which expose a PCI-to-ISA bridge". A better
-name could be TYPE_PIIX3_ISA_PCI_DEVICE. Unfortunately this
-device is named "PIIX3" with no indication of ISA bridge.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
