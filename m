@@ -2,62 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1777E65D315
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 13:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414C565D3E8
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 14:12:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD3Eu-00020m-Rs; Wed, 04 Jan 2023 07:51:28 -0500
+	id 1pD3YL-0002k7-2p; Wed, 04 Jan 2023 08:11:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <val15032008@mail.ru>)
- id 1pD3Es-0001zv-Lf
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:51:26 -0500
-Received: from smtp39.i.mail.ru ([95.163.41.80])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <val15032008@mail.ru>)
- id 1pD3Eq-0004o1-FT
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 07:51:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Message-Id:Content-Type:MIME-Version:To:From:Subject:Date:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=ZgGfAOeUe+P4KJyrqF+GxN3ne8Se7FPvJrn1968xMXg=; 
- t=1672836684;x=1672926684; 
- b=q1ftUWs8dsFJLzpySjU4b846YAD0XsdUJCjxWK8fKjp09DAOzm5BLklS3WhhDEVqv8iSS/tYxV9dfKnuHxmARVeiJ6uA2zjnvOafjaT4iSGomROj9IcSGHNz1KLtD23RWdlB9J9WyGTHaBCJSLHeB5ypS1ekKAkbgjcNCVyuYC7T7QnZNlomr3ViNPyerrmahawognf0uXM2c/Vs2MUukKWhmcycdlqyW7nBLtPOZUnvW03gPbtEK2kv3yOWQYpYMQVQU0FQxZoWGGNCwvzAuePrJfy6X+9HsRoXGx5ajCXiedaHShyYxOG1yFoZFrrXipCkQL3zHz6y8RliXThjtA==;
-Received: by smtp39.i.mail.ru with esmtpa (envelope-from <val15032008@mail.ru>)
- id 1pD3El-008ehM-8p; Wed, 04 Jan 2023 15:51:19 +0300
-SavedFromEmail: val15032008@mail.ru
-Date: Wed, 04 Jan 2023 15:51:07 +0300
-Subject: [PATCH] A little fix for configure script
-Importance: normal
-From: =?UTF-8?B?0JLQsNC70LXQvdGC0LjQvQ==?= <val15032008@mail.ru>
-To: qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pD3YI-0002hX-Kn
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:11:30 -0500
+Received: from sonic316-54.consmr.mail.gq1.yahoo.com ([98.137.69.30])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pD3YD-0006Pl-IH
+ for qemu-devel@nongnu.org; Wed, 04 Jan 2023 08:11:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1672837882; bh=9KFOB9JL9CLZbbSE/mPnz5kluCg2oPK3oquc5XsZ7fw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=Z4wUGpXg9lLdhSQCcDPDA6OZ6NhRx03NFdWfYG03mAK0xqRfXLOB/hOM2hjF0xe8yd0LQH9mYzWFlxdnLpMHS4PjBYlq0kaFUUbuBVMgrmUn8Nyt08HVsX96Szk+VLgiI71X2Qq9bUCHimXdXWK+C07g1apX8DCE2pVcrzEFb8yAyPhE41HiXctuV7ec4ENvvbe0rBnRb48rv8ZzK8BCxQm7C+xdvDXk8idqsHJQnKeTz2Dy/a6enTZCuLo5Pt/zASfVtfU7tKqQg5erj2sxiQfKBL7SEXpANc9IwPejBZ9t63cgvAmvaD5fkuJMeS4IzB70yVeK+5ZlJopYCQ184w==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1672837882; bh=NiaQdQUKSXqj+/3FoQox87OgVYUchmxnGWiebKNaBbT=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=ij+iOgayTlmgInCanbFFrLJKs8XttBMJo7nZNtVgxapvaicNQ+WmRicwxdnaTJfcZdbKfRIy1ORkkoVDR17X1iurZwKzIZgBcupGw6DgNfNNyhdMlAUgLd3eUWqPdeljEvqZ6r8qmGA/Y6pmTGsW2fP7+XdXKqcAQM83hkLMNGPaPxMYk3R0u6KkaI4IWDTsBGb7+SWsz7aAvgSajI1HpwkLFjWk3Am/ZDp34YdohzMrHG22j2bEVeAnGlKGn6FBVepLjUgyaD9waIrMlYmlnLhKzmby03fWz7v/xchBFgc7e8OvlbXeaHPXATvhNr/lsPYnSRp+o6Sj+WcqF7NvHQ==
+X-YMail-OSG: n1H3IGsVM1loDdT7ZhBKWbz4cuAZ.SQTUKrfCLV3b66hcka0Wr5vXQs0K7G2O4a
+ Pv3SQUoN110Ab4muX1TA0xNP0vjRa.a5ncz89pv5MU5JZwATM6urstOsUHcchhqRYh0P8M4oPZeQ
+ XUodIbreLkjgp3nATolbTgX_9IQX6ZKeDnv5f9zUCXEQyoqYUoC4uwLYz9JgoTTWAwMOeiqsrU2P
+ O8FHKEvXm6ezl7mJjUHZ5DNaABq1tsla1IxTYH3_4FX2er5vRhpYpjq6kopMyvTJGt5g.b_2EKfx
+ Z56Qe1D40a_IPjqKfRLPwddcidkHlFHU0OF4EfpG7h1PvNYJECSEwawqCwkQ_Bwzf6fJNTeLfv2x
+ FgvVJA6_y9yXhS6AuK6KS_AwelVo2YSr2MItKQGHl39gj8lSYg7v8gC2yPxIPHtucvnOZ5mO9ewX
+ ztXJLxo2WUkFg3xTA7F4Pa2fAZ8rFeVW63ACln1X_x98Jy4NZLcmsTDX8KrS85D.Adr3964bcolZ
+ 0uH9mT6LHItN_Qb3vKlhRds5bYwgbfMvrx78QCKHT5IbnIV57ncmN1h4YKqpL.LkjCBUVJxdeLJq
+ Vqx9bZv0BQl74Y_M9KKH0B7EQdhX54LcC.ESRtZHuC0nK44sSqK.BLWPnPYVo.lM5hZIgwZjd234
+ NExT6Mt1kQ4C.WEWvkhV2c8fOVg9qMItdZuzfoaT0tCPh8ZVZur6ESsKYruP3dqEEPy8iRTETLiC
+ 5CoQ9oweZhpPoclg4OejckehtSeK6r5iVYy70XVcNgHLsNgmdBwhtSG8ldRdCdGLpiheUPf3IhXP
+ EpJOoTkNTwfGaH2Gpng.hQ1JITaCyv906CZlGLttyCddtgku4UD9UbD97VNEp4Eaols6O84xgyB7
+ GMSGFqjr3xzFGw.ADJn1NnHXB4_8a.rMv.6C.YkjaAbN4u34qr7ZStcrO0QdKV9Aya0w4GMRuVJ4
+ BPHFB5nITpreOTrezrOzxNKIAvlk_smur7OtMPr263JDsl.EayZBcedMsQTF5ulux6maH8EZeGBo
+ xcqX_qhaEsVZeVHtrk5W1SPzIOzyWqOU9PdtTxxXUbsyTyTIqPQZLfkvUq5lROtP3dcO87I5Vlvz
+ IowI3ZEgl5e90cwl1mpsXSfLzYsd7M6S0yR3rl6OTLNkx8f0opeOy84_aZnx1k.qtPE9vikA8v3E
+ Y2l6Fx927_OcOC1GVG.XhG3jJLq2hjBbxVAO.zLwhOZHEKbmIZl6E.QISDMxyjxFL6535NPJ9yzU
+ UE80GzbJ3pbjnHRK0OMlxDyFdi9yX.5zpKrz1RZyvwzWFlBNY5dXIP91RR1jxgGGFx9JRPF3G5.B
+ atmfH3u7DY2DxlyqeAjUCHuZUfo34g3Ts64wCBOdAnVuNRzjTiSFgkKkoatEmZEc1_2NTKd3Fp20
+ 6v70bJPDB_GwzrsycSug6wQrtVCnDmjNmoEiKaQcXk88KQBVO1UkerMbNun2iHwi5C_RTBzjtj8b
+ FLZaHCX6Dgua19BJvvFWXlgI2w.LWZU4Ru533E703a8z3okxeCkh_KTVnsmBAeN0CZYIpOxDEACw
+ CKkJ0LAfJWA.yJCdMDkXklm82Wm_luHu7MPGZ04Fvmgd4tRx3mvHsAOV5FQfwPjiFCIcXajc0Xbf
+ xF9r20rVlbZaIo6lDNzRb8cyjntoucLuVMrtg7Ncy1J1QzYW0nEoXlIoQ2U2vWZ3mVx2PxxGqgwY
+ Ogdm0A100uX1R4hwVSxj2jmC.gDBp6ekwxAzCCf5hbCqKwYOpc1zCLf0Ksd6QuvQrnuu8R4DMvxY
+ 55.fuzprOyNLCaxO5vj4WHmQr6HMA3fqGvZgOILONvBSBVN3P1B2dx1ZkRwJXrWIldV4h29WV3HG
+ NbSVjhaueaHiAN3OB2_.JIqa_0J7tGFnbQVWOPfXJtOcSmuaHuQHTzda3He1oCmttJ5abz6u8qxQ
+ NGWCc1jOhS6PU6Js55BS7VtJKR0KpNjBLBUYeBNUOX18OPiV_jfg1aln8DNIAzVanXikm.P5ORLC
+ wyO0gpzGYTgFjwLFhg2UodfOHX9WDGLEIy6Sy53euhHfP4bRqTKiXfWIuEtKobIhf67npHixRiQ_
+ 5xBoIW4GJ6fQLCMPqnminlF0ALGUSqSwiMubqRfJV9wCIMhRGoRBxxHY2tKpcxCGeHrKGTFq5FBw
+ uoQERC7qiyAiKFFarQc6tbRDes5jQv_2lxPn58JdHVgp1N8ObbmRfdwLHceQllHgYw8prmUHOFgb
+ gfMHBTfGjIPcouIdEkUbefA--
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic316.consmr.mail.gq1.yahoo.com with HTTP; Wed, 4 Jan 2023 13:11:22 +0000
+Received: by hermes--production-ne1-7b69748c4d-dzr9v (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 5f71576bf612bcab338a616d92656601; 
+ Wed, 04 Jan 2023 13:11:19 +0000 (UTC)
+Message-ID: <00094755-ca61-372d-0bcf-540fe2798f5c@aol.com>
+Date: Wed, 4 Jan 2023 08:11:16 -0500
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="--_com.samsung.android.email_64218186536130"
-Message-Id: <E1pD3El-008ehM-8p.val15032008-mail-ru@smtp39.i.mail.ru>
-Authentication-Results: smtp39.i.mail.ru;
- auth=pass smtp.auth=val15032008@mail.ru
- smtp.mailfrom=val15032008@mail.ru
-X-Mailru-Src: smtp
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD90D1502B3BE350FE44BC24A9F8A7FC58A4C1C09CC36F4444C00894C459B0CD1B9F0D9F0951A9FF50B9E7B7CBC76B4BD802E48468A245D5155DFD01B7CA0B1DCD2
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE79145AB6E9E75F07EEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063799A9E55CA76E18AB8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D842C434B9938D221E4983823F44683F636F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE77E7E81EEA8A9722B8941B15DA834481FA18204E546F3947CFA486DC37A503D0BF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F790063753799C84284E2F659FA2833FD35BB23DF004C90652538430302FCEF25BFAB3454AD6D5ED66289B5278DA827A17800CE70598843C927FC57AD32BA5DBAC0009BE395957E7521B51C20BC6067A898B09E4090A508E0FED629923F8577A6DFFEA7CFDDE6B248FE68657CD04E86FAF290E2DB606B96278B59C421DD303D21008E29813377AFFFEAFD269176DF2183F8FC7C0406C186E56A1B26068655334FD4449CB9ECD01F8117BC8BEAAAE862A0553A3920E30A4C9C8E338DA6612E8C8BA7F080843847C11F186F3C59DAA53EE0834AAEE
-X-C1DE0DAB: 0D63561A33F958A52C6F53A40482A1F79854580F7DDFC651C016D9F1C59C77364EAF44D9B582CE87C8A4C02DF684249C2E763F503762DF50CDF8CD44312C514A
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34728AF701C68E45393A4B4266F0A243B177D1233B010660FB7D1FA18FD3C83F3DD5D33051B61AEC4D1D7E09C32AA3244C79D1E8C09769856CFE1384C90C7074678894E9C85370243E729B2BEF169E0186
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojX5KWaha+dWgUUpmRncKtAw==
-X-Mailru-Sender: 49D287FBCBBF3A5C427969859E461D72853A35DE8CEBE1910927CD9953DD12BD764D153756FB6E96C1E3555AB67B8B67C77752E0C033A69ED43EDA0029E7C34DC286A2F9E57D1634B4A721A3011E896F
-X-Mras: Ok
-Received-SPF: pass client-ip=95.163.41.80; envelope-from=val15032008@mail.ru;
- helo=smtp39.i.mail.ru
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_VALIDITY_RPBL=1.31, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 0/6] Resolve TYPE_PIIX3_XEN_DEVICE
+To: Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost
+ <eduardo@habkost.net>, xen-devel@lists.xenproject.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230102213504.14646-1-shentey@gmail.com>
+ <bd4daee7-09df-4bfa-3b96-713690be9f4e@aol.com>
+ <0de699a7-98b8-e320-da4d-678d0f594213@linaro.org>
+ <CAG4p6K7hcJ-47GvsEvmuBmdwP2LsEC4WLkw_t6ZfwhqakYUEyQ@mail.gmail.com>
+ <aed4f2c1-83f7-163a-fb44-f284376668dc@aol.com>
+ <AB058B2A-406E-487B-A1BA-74416C310B7A@gmail.com>
+Content-Language: en-US
+From: Chuck Zmudzinski <brchuckz@aol.com>
+In-Reply-To: <AB058B2A-406E-487B-A1BA-74416C310B7A@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.20982
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.69.30; envelope-from=brchuckz@aim.com;
+ helo=sonic316-54.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.708,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,40 +117,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-----_com.samsung.android.email_64218186536130
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+On 1/4/2023 7:13 AM, Bernhard Beschow wrote:
+> Am 4. Januar 2023 08:18:59 UTC schrieb Chuck Zmudzinski <brchuckz@aol.com>:
+> >On 1/3/2023 8:38 AM, Bernhard Beschow wrote:
+> >>
+> >>
+> >> On Tue, Jan 3, 2023 at 2:17 PM Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+> >>
+> >>     Hi Chuck,
+> >>
+> >>     On 3/1/23 04:15, Chuck Zmudzinski wrote:
+> >>     > On 1/2/23 4:34 PM, Bernhard Beschow wrote:
+> >>     >> This series first renders TYPE_PIIX3_XEN_DEVICE redundant and finally removes
+> >>     >> it. The motivation is to 1/ decouple PIIX from Xen and 2/ to make Xen in the PC
+> >>     >> machine agnostic to the precise southbridge being used. 2/ will become
+> >>     >> particularily interesting once PIIX4 becomes usable in the PC machine, avoiding
+> >>     >> the "Frankenstein" use of PIIX4_ACPI in PIIX3.
+> >>     >>
+> >>     >> Testing done:
+> >>     >> None, because I don't know how to conduct this properly :(
+> >>     >>
+> >>     >> Based-on: <20221221170003.2929-1-shentey@gmail.com>
+> >>     >>            "[PATCH v4 00/30] Consolidate PIIX south bridges"
+> >>
+> >>     This series is based on a previous series:
+> >>     https://lore.kernel.org/qemu-devel/20221221170003.2929-1-shentey@gmail.com/
+> >>     (which itself also is).
+> >>
+> >>     >> Bernhard Beschow (6):
+> >>     >>    include/hw/xen/xen: Make xen_piix3_set_irq() generic and rename it
+> >>     >>    hw/isa/piix: Reuse piix3_realize() in piix3_xen_realize()
+> >>     >>    hw/isa/piix: Wire up Xen PCI IRQ handling outside of PIIX3
+> >>     >>    hw/isa/piix: Avoid Xen-specific variant of piix_write_config()
+> >>     >>    hw/isa/piix: Resolve redundant k->config_write assignments
+> >>     >>    hw/isa/piix: Resolve redundant TYPE_PIIX3_XEN_DEVICE
+> >>     >>
+> >>     >>   hw/i386/pc_piix.c             | 34 ++++++++++++++++--
+> >>     >>   hw/i386/xen/xen-hvm.c         |  9 +++--
+> >>     >>   hw/isa/piix.c                 | 66 +----------------------------------
+> >>     >
+> >>     > This file does not exist on the Qemu master branch.
+> >>     > But hw/isa/piix3.c and hw/isa/piix4.c do exist.
+> >>     >
+> >>     > I tried renaming it from piix.c to piix3.c in the patch, but
+> >>     > the patch set still does not apply cleanly on my tree.
+> >>     >
+> >>     > Is this patch set re-based against something other than
+> >>     > the current master Qemu branch?
+> >>     >
+> >>     > I have a system that is suitable for testing this patch set, but
+> >>     > I need guidance on how to apply it to the Qemu source tree.
+> >>
+> >>     You can ask Bernhard to publish a branch with the full work,
+> >>
+> >>
+> >> Hi Chuck,
+> >>
+> >> ... or just visit https://patchew.org/QEMU/20230102213504.14646-1-shentey@gmail.com/ . There you'll find a git tag with a complete history and all instructions!
+> >>
+> >> Thanks for giving my series a test ride!
+> >>
+> >> Best regards,
+> >> Bernhard
+> >>
+> >>     or apply each series locally. I use the b4 tool for that:
+> >>     https://b4.docs.kernel.org/en/latest/installing.html
+> >>
+> >>     i.e.:
+> >>
+> >>     $ git checkout -b shentey_work
+> >>     $ b4 am 20221120150550.63059-1-shentey@gmail.com
+> >>     $ git am
+> >>     ./v2_20221120_shentey_decouple_intx_to_lnkx_routing_from_south_bridges.mbx
+> >>     $ b4 am 20221221170003.2929-1-shentey@gmail.com
+> >>     $ git am
+> >>     ./v4_20221221_shentey_this_series_consolidates_the_implementations_of_the_piix3_and_piix4_south.mbx
+> >>     $ b4 am 20230102213504.14646-1-shentey@gmail.com
+> >>     $ git am ./20230102_shentey_resolve_type_piix3_xen_device.mbx
+> >>
+> >>     Now the branch 'shentey_work' contains all the patches and you can test.
+> >>
+> >>     Regards,
+> >>
+> >>     Phil.
+> >>
+> >
+> >Hi Phil and Bernard,
+> >
+> >I tried applying these 3 patch series on top of the current qemu
+> >master branch.
+> >
+> >Unfortunately, I saw a regression, so I can't give a tested-by tag yet.
+>
+> Hi Chuck,
+>
+> Thanks for your valuable test report! I think the culprit may be commit https://lists.nongnu.org/archive/html/qemu-devel/2023-01/msg00102.html where now 128 PIRQs are considered rather than four. I'll revisit my series and will prepare a v2 in the next days. I think there is no need for further testing v1.
+>
+> Thanks,
+> Bernhard
 
-SGVsbG8hwqBTY3JpcHQgImNvbmZpZ3VyZSIgdXNlcyAicGtnLWNvbmZpZyIgZGlyZWN0bHkgKGF0
-IGxpbmUgMjQyMCksIHdoaWNoIGFsd2F5cyB0YWtlcyBHTElCX1ZFUlNJT04gZnJvbSBob3N0IHN5
-c3RlbS7CoEluIGNhc2Ugb2YgY3Jvc3MtY29tcGlsYXRpb24sIGl0IHNob3VsZCB1c2UgIiRwa2df
-Y29uZmlnIiwgdG8gdGFrZSBHTElCX1ZFUlNJT04gb2YgY3Jvc3MtY29tcGlsZWQgZ2xpYiAoYXMg
-aXQgaXMgdXNlZCBlYXJsaWVyIGF0IGxpbmUgMTQ3NikuU28sIHRoZSBsaW5lOmVjaG8gIkdMSUJf
-VkVSU0lPTj0kKHBrZy1jb25maWcgLS1tb2R2ZXJzaW9uIGdsaWItMi4wKSIgPj4gJGNvbmZpZ19o
-b3N0X21ha3Nob3VsZCBiZTplY2hvICJHTElCX1ZFUlNJT049JCgkcGtnX2NvbmZpZyAtLW1vZHZl
-cnNpb24gZ2xpYi0yLjApIiA+PiAkY29uZmlnX2hvc3RfbWFrV2l0aCBiZXN0IHJlZ2FyZHMsVmFs
-ZW50aW5lLg==
+Hi Bernhard,
 
-----_com.samsung.android.email_64218186536130
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+Thanks for letting me know I do not need to test v1 further. I agree the
+symptoms are that it is an IRQ problem - it looks like IRQs associated with
+the emulated usb tablet device are not making it to the guest with the
+patched v1 piix device on xen.
 
-PGh0bWw+PGhlYWQ+PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0
-L2h0bWw7IGNoYXJzZXQ9VVRGLTgiPjwvaGVhZD48Ym9keSBkaXI9ImF1dG8iPjxkaXYgZGlyPSJh
-dXRvIj5IZWxsbyEmbmJzcDs8L2Rpdj5TY3JpcHQgImNvbmZpZ3VyZSIgdXNlcyAicGtnLWNvbmZp
-ZyIgZGlyZWN0bHkgKGF0IGxpbmUgMjQyMCksIHdoaWNoIGFsd2F5cyB0YWtlcyBHTElCX1ZFUlNJ
-T04gZnJvbSBob3N0IHN5c3RlbS4mbmJzcDs8ZGl2IGRpcj0iYXV0byI+SW4gY2FzZSBvZiBjcm9z
-cy1jb21waWxhdGlvbiwgaXQgc2hvdWxkIHVzZSAiJHBrZ19jb25maWciLCB0byB0YWtlIEdMSUJf
-VkVSU0lPTiBvZiBjcm9zcy1jb21waWxlZCBnbGliIChhcyBpdCBpcyB1c2VkIGVhcmxpZXIgYXQg
-bGluZSAxNDc2KS48ZGl2IGRpcj0iYXV0byI+PGJyPjwvZGl2PjxkaXYgZGlyPSJhdXRvIj5Tbywg
-dGhlIGxpbmU6PC9kaXY+PGRpdiBkaXI9ImF1dG8iPmVjaG8gIkdMSUJfVkVSU0lPTj0kKHBrZy1j
-b25maWcgLS1tb2R2ZXJzaW9uIGdsaWItMi4wKSIgJmd0OyZndDsgJGNvbmZpZ19ob3N0X21hazwv
-ZGl2PjxkaXYgZGlyPSJhdXRvIj5zaG91bGQgYmU6PC9kaXY+PGRpdiBkaXI9ImF1dG8iPmVjaG8g
-IkdMSUJfVkVSU0lPTj0kKCRwa2dfY29uZmlnIC0tbW9kdmVyc2lvbiBnbGliLTIuMCkiICZndDsm
-Z3Q7ICRjb25maWdfaG9zdF9tYWs8L2Rpdj48ZGl2IGRpcj0iYXV0byI+PGJyPjwvZGl2PjxkaXYg
-ZGlyPSJhdXRvIj5XaXRoIGJlc3QgcmVnYXJkcyw8L2Rpdj48ZGl2IGRpcj0iYXV0byI+VmFsZW50
-aW5lLjwvZGl2PjwvZGl2PjwvYm9keT48L2h0bWw+
+I will be looking for your v2 in coming days and try it out also!
 
-----_com.samsung.android.email_64218186536130--
+Best regards,
+
+Chuck
+
+>
+> >
+> >Here are the details of the testing I did so far:
+> >
+> >Xen only needs one target, the i386-softmmu target which creates
+> >the qemu-system-i386 binary that Xen uses for its device model.
+> >That target compiled and linked with no problems with these 3
+> >patch series applied on top of qemu master. I didn't try building
+> >any other targets.
+> >
+> >My tests used the xenfv machine type with the xen platform
+> >pci device, which is ordinarily called a xen hvm guest with xen
+> >paravirtualized network and block device drivers. It is based on the
+> >i440fx machine type and so emulates piix3. I tested the xen
+> >hvm guests with two different configurations as described below.
+> >
+> >I tested both Linux and Windows guests, with mixed results. With the
+> >current Qemu master (commit 222059a0fccf4 without the 3 patch
+> >series applied), all tested guest configurations work normally for both
+> >Linux and Windows guests.
+> >
+> >With these 3 patch series applied on top of the qemu master branch,
+> >which tries to consolidate piix3 and piix4 and resolve the xen piix3
+> >device that my guests use, I unfortunately got a regression.
+> >
+> >The regression occurred with a configuration that uses the qemu
+> >bochs stdvga graphics device with a vnc display, and the qemu
+> >usb-tablet device to emulate the mouse and keyboard. After applying
+> >the 3 patch series, the emulated mouse is not working at all for Linux
+> >guests. It works for Windows guests, but the mouse pointer in the
+> >guest does not follow the mouse pointer in the vnc window as closely
+> >as it does without the 3 patch series. So this is the bad news of a
+> >regression introduced somewhere in these 3 patch series.
+> >
+> >The good news is that by using guests in a configuration that does
+> >not use the qemu usb-tablet device or the bochs stdvga device but
+> >instead uses a real passed through usb3 controller with a real usb
+> >mouse and a real usb keyboard connected, and also the real sound
+> >card and vga device passed through and a 1920x1080 HDMI monitor,
+> >there is no regression introduced by the 3 patch series and both Linux
+> >and Windows guests in that configuration work perfectly.
+> >
+> >My next test will be to test Bernhard's published git tag without
+> >trying to merge the 3 patch series into master and see if that also
+> >has the regression. I also will double check that I didn't make
+> >any mistakes in merging the 3 patch series by creating the shentey_work
+> >branch with b4 and git as Phil described and compare that to my
+> >working tree.
+> >
+> >I also will try testing only the first series, then the first series and the
+> >second series, to try to determine in which of the 3 series the regression
+> >is introduced.
+> >
+> >Best regards,
+> >
+> >Chuck
 
 
