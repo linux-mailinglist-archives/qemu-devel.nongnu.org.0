@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCC365D1CE
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 12:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881AD65D1D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 12:52:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD2Ix-0007So-6l; Wed, 04 Jan 2023 06:51:35 -0500
+	id 1pD2Iy-0007UF-3z; Wed, 04 Jan 2023 06:51:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=6L6x=5B=kaod.org=clg@ozlabs.org>)
- id 1pD2Iv-0007Rj-KY; Wed, 04 Jan 2023 06:51:33 -0500
+ id 1pD2Iw-0007S8-4X; Wed, 04 Jan 2023 06:51:34 -0500
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=6L6x=5B=kaod.org=clg@ozlabs.org>)
- id 1pD2It-0002Oz-LZ; Wed, 04 Jan 2023 06:51:33 -0500
+ id 1pD2Iu-0002PF-DV; Wed, 04 Jan 2023 06:51:33 -0500
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4Nn7Gy30ZQz4xyY;
- Wed,  4 Jan 2023 22:51:22 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4Nn7H32JpWz4y0Q;
+ Wed,  4 Jan 2023 22:51:27 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Nn7Gt5ttKz4y0B;
- Wed,  4 Jan 2023 22:51:18 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Nn7Gy6Zy1z4y0B;
+ Wed,  4 Jan 2023 22:51:22 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
@@ -33,11 +33,18 @@ Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
  Eric Farman <farman@linux.ibm.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 0/5] s390x/pv: Improve protected VM support
-Date: Wed,  4 Jan 2023 12:51:06 +0100
-Message-Id: <20230104115111.3240594-1-clg@kaod.org>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>
+Subject: [PATCH 1/5] confidential guest support: Introduce a 'check' class
+ handler
+Date: Wed,  4 Jan 2023 12:51:07 +0100
+Message-Id: <20230104115111.3240594-2-clg@kaod.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230104115111.3240594-1-clg@kaod.org>
+References: <20230104115111.3240594-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,28 +71,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
+From: Cédric Le Goater <clg@redhat.com>
 
-Here is a little series improving error reporting of protected VMs.
+Some machines have specific requirements to activate confidential
+guest support. Add a class handler to the confidential guest support
+interface to let the arch implementation perform extra checks.
 
-Thanks,
+Cc: Eduardo Habkost <eduardo@habkost.net>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: "Philippe Mathieu-Daudé" <philmd@linaro.org>
+Cc: Yanan Wang <wangyanan55@huawei.com>
+Signed-off-by: Cédric Le Goater <clg@redhat.com>
+---
+ include/exec/confidential-guest-support.h |  4 +++-
+ hw/core/machine.c                         | 11 ++++++-----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-C.
-
-Cédric Le Goater (5):
-  confidential guest support: Introduce a 'check' class handler
-  s390x/pv: Implement CGS check handler
-  s390x/pv: Check for support on the host
-  s390x/pv: Introduce a s390_pv_check() helper for runtime
-  s390x/pv: Move check on hugepage under s390_pv_guest_check()
-
- include/exec/confidential-guest-support.h |  4 +-
- include/hw/s390x/pv.h                     |  2 +
- hw/core/machine.c                         | 11 ++--
- hw/s390x/pv.c                             | 70 +++++++++++++++++++++++
- target/s390x/diag.c                       |  6 +-
- 5 files changed, 84 insertions(+), 9 deletions(-)
-
+diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
+index ba2dd4b5df..9e6d362b26 100644
+--- a/include/exec/confidential-guest-support.h
++++ b/include/exec/confidential-guest-support.h
+@@ -23,7 +23,8 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
+-OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
++OBJECT_DECLARE_TYPE(ConfidentialGuestSupport, ConfidentialGuestSupportClass,
++                    CONFIDENTIAL_GUEST_SUPPORT)
+ 
+ struct ConfidentialGuestSupport {
+     Object parent;
+@@ -55,6 +56,7 @@ struct ConfidentialGuestSupport {
+ 
+ typedef struct ConfidentialGuestSupportClass {
+     ObjectClass parent;
++    bool (*check)(const Object *obj, Error **errp);
+ } ConfidentialGuestSupportClass;
+ 
+ #endif /* !CONFIG_USER_ONLY */
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index f589b92909..bab43cd675 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -502,11 +502,12 @@ static void machine_check_confidential_guest_support(const Object *obj,
+                                                      Object *new_target,
+                                                      Error **errp)
+ {
+-    /*
+-     * So far the only constraint is that the target has the
+-     * TYPE_CONFIDENTIAL_GUEST_SUPPORT interface, and that's checked
+-     * by the QOM core
+-     */
++    ConfidentialGuestSupportClass *cgsc =
++        CONFIDENTIAL_GUEST_SUPPORT_GET_CLASS(new_target);
++
++    if (cgsc->check) {
++        cgsc->check(obj, errp);
++    }
+ }
+ 
+ static bool machine_get_nvdimm(Object *obj, Error **errp)
 -- 
 2.38.1
 
