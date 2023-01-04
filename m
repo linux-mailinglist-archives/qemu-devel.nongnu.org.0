@@ -2,108 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA1C65DD16
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 20:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7689265DD4E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Jan 2023 20:57:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pD9jy-0001En-83; Wed, 04 Jan 2023 14:47:58 -0500
+	id 1pD9sM-0003lj-MV; Wed, 04 Jan 2023 14:56:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pD9jJ-0001C2-Mb
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 14:47:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pD9jE-0003l6-KQ
- for qemu-devel@nongnu.org; Wed, 04 Jan 2023 14:47:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1672861622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6QXOEovurLwLNIz+FnppUbIJfgyjk9M5XlA8eSDuCrU=;
- b=bOROpirOTfEFQ8A/CrJV8F3pKLGf5WqadCoNUxFnvqrUYL98MmHJ3MG7pXEKXLQrrLa1QZ
- sC1pFDF4/6YN2NARc3v5UV8RDyMTZpYgrL2NUdu0RmjUqHgr7e3VD0LuQDcH35k9CCMvcY
- ouGY7RmP5/1Kxir3k1JkMhE2KkJ+8ug=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-AkZppJktOYuNDcijdWmFtA-1; Wed, 04 Jan 2023 14:47:01 -0500
-X-MC-Unique: AkZppJktOYuNDcijdWmFtA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- q19-20020a1cf313000000b003d96c95e2f9so6966366wmq.2
- for <qemu-devel@nongnu.org>; Wed, 04 Jan 2023 11:47:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pD9sI-0003lE-QG; Wed, 04 Jan 2023 14:56:35 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pD9sG-0002I3-UQ; Wed, 04 Jan 2023 14:56:34 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id u28so45291172edd.10;
+ Wed, 04 Jan 2023 11:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=o1cNgh+oEb7j4+VtR9v/7Wy8rtubQctBMEJVkqzQFWs=;
+ b=lEF6DV0Xh2gKRvQUk0dFT+fJyZb6JSXNNDmX5FT3I3vqptd/J/YOSSWDrbeKjI4okH
+ yF+5lG8tS9GSKL/VPXOB11kMU7oQQoAWIMNg9BFbmtf/xEl5X2Be7AvjRjkg8hr1t76a
+ 5q2pIf66txu6Ox6DHag67/8bQ65+sy70KW7hdCbQ+rs5n0/+F2adN7+zR7r0MNQPFQoO
+ qRVNUc+5l/A35P3DqpoISLiNlAQTlWcH9eLhex0hSRSXB1xkeFlaPI36UdFoTLqZemBV
+ 11Wj9bKg9bngni8LHs53cdGbrdVOPsnoqkL6U+oXwlRZmGZBeKJRSNf8SM5908+L7gpc
+ Pl/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6QXOEovurLwLNIz+FnppUbIJfgyjk9M5XlA8eSDuCrU=;
- b=oVfP9uhLAaFVysjT6aPpihAvVKIJxya8IpoONUckIyxG3RhmDDSLGR6xnTtfJObC6t
- EJeQyySbb1ab/ciqOitYZny1vpm+IVsHu3dHKsCiUrJfUsnOZkkBTY5IOfGS+FM79DUc
- IJXlk7QwDglbId8LG5lxOi6q1l69fjep5xqL6M1ocp9AQktrcDlvAH08iWvVUFrWPxwx
- XUVj4X6EXeFd95ooqBGOYPbJSJvxdwSAiNSqR26KHEhe655qIHnHbUOwFzV4e3EQeoAl
- neR/tuXOZd5r3e5orQXHp3oJIR6JHY/v9WKII00vQFTS41oo9x9e9EibZ7GNlomr6QVt
- WJ5Q==
-X-Gm-Message-State: AFqh2kpsgi3zJjRrwV5Jl6dsAk9ix/M5qFowSC8Lt0sX28AVwolLIFx1
- uWDpwfVdK59fUfWS9eX7jcdevhYw2E2r5Caxb/3Zea4hMFlFuF/NAKesQzacvOCI5SJIDxn8MLc
- URs3IVXkluMXbKU4=
-X-Received: by 2002:a05:600c:4191:b0:3d1:fcca:ce24 with SMTP id
- p17-20020a05600c419100b003d1fccace24mr33592859wmh.32.1672861620145; 
- Wed, 04 Jan 2023 11:47:00 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt2IDKCOAndi+PoVcK0qTiAwfAqGYMJPzp7glXtRb4nxvriYq01FutSchTWhSgLZ0xQbbf1Wg==
-X-Received: by 2002:a05:600c:4191:b0:3d1:fcca:ce24 with SMTP id
- p17-20020a05600c419100b003d1fccace24mr33592836wmh.32.1672861619972; 
- Wed, 04 Jan 2023 11:46:59 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- p19-20020a1c5453000000b003d2157627a8sm50343697wmi.47.2023.01.04.11.46.58
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=o1cNgh+oEb7j4+VtR9v/7Wy8rtubQctBMEJVkqzQFWs=;
+ b=T0//i9+spS4agFJOS0IbHpO5al3NEAIF+UBFue4Ufbn0O1MX0V3wEHhW4XIlQWHxO1
+ gn9Towkh2GZ8qLDHKfWw3z8O05Wc2n5KzFyap9BNiZI+Lp6fyWjmF0BbFT5fiqftHMud
+ zUf5ktNKXW5GJvRMccnjUa9VdUp9UqzgxY11BTusSQbPpJV01Mhb0DoHsd+Lx150NODL
+ dUweiW6snHsnI4FnUkzxjGjlWwk8lzGpE6K6jtQlBrYbh+qFU12T/Y7N3/glChKoI+y+
+ rTfGenNBvX8N9nqx4eiHtd7YrPRsLmMaAl4SpZglTmfcJ4pszKvyFwy8/7bK/5CPAKDx
+ m1bA==
+X-Gm-Message-State: AFqh2kqGLGFkZf7HqdCIrApJ2ACnU6EA2GhFaaEpxIorWO9rBg55XU18
+ yBCmobOvzNPl2LrZbsvRy3U=
+X-Google-Smtp-Source: AMrXdXtLd7joQUx4B7jofmHLazU2cOI7ktRQjHvxG6sHBGcwao88df3E9uVda+YQlfiOG7ugFHvLrQ==
+X-Received: by 2002:a05:6402:12d4:b0:45c:835c:c6d3 with SMTP id
+ k20-20020a05640212d400b0045c835cc6d3mr40691369edx.4.1672862191020; 
+ Wed, 04 Jan 2023 11:56:31 -0800 (PST)
+Received: from osoxes.fritz.box (pd95ed71f.dip0.t-ipconnect.de.
+ [217.94.215.31]) by smtp.gmail.com with ESMTPSA id
+ o17-20020aa7dd51000000b00484cd57920asm12000089edw.11.2023.01.04.11.56.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Jan 2023 11:46:59 -0800 (PST)
-Date: Wed, 4 Jan 2023 19:46:56 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- xen-devel@lists.xenproject.org, Laurent Vivier <lvivier@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- virtio-fs@redhat.com, Michael Roth <michael.roth@amd.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, Paul Durrant <paul@xen.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Greg Kurz <groug@kaod.org>,
- Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 3/6] tools/virtiofsd: add G_GNUC_PRINTF for logging
- functions
-Message-ID: <Y7XXsHEqgTG9Ani6@work-vm>
-References: <20221219130205.687815-1-berrange@redhat.com>
- <20221219130205.687815-4-berrange@redhat.com>
+ Wed, 04 Jan 2023 11:56:30 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: shentey@gmail.com
+Cc: ani@anisinha.ca, aurelien@aurel32.net, eduardo@habkost.net,
+ f4bug@amsat.org, hpoussin@reactos.org, imammedo@redhat.com,
+ jiaxun.yang@flygoat.com, jsnow@redhat.com, kraxel@redhat.com,
+ marcel.apfelbaum@gmail.com, mst@redhat.com, pbonzini@redhat.com,
+ philmd@linaro.org, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ richard.henderson@linaro.org
+Subject: [PATCH] hw/core: Introduce proxy-pic
+Date: Wed,  4 Jan 2023 20:53:51 +0100
+Message-Id: <20230104195351.3418-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221221170003.2929-13-shentey@gmail.com>
+References: <20221221170003.2929-13-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221219130205.687815-4-berrange@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,71 +92,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Having a proxy PIC allows for ISA PICs to be created and wired up in
+southbridges. This is especially useful for PIIX3 for two reasons:
+First, the southbridge doesn't need to care about the virtualization
+technology used (KVM, TCG, Xen) due to in-IRQs (where devices get
+attached) and out-IRQs (which will trigger the IRQs of the respective
+virtualization technology) are separated. Second, since the in-IRQs are
+populated with fully initialized qemu_irq's, they can already be wired
+up inside PIIX3.
 
-Yes, although I'm a little surprised this hasn't thrown up any warnings.
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20221022150508.26830-15-shentey@gmail.com>
+---
+Changes since v4:
+* Change license to GPL-2.0-or-later and use SPDX-License-Identifier
+* Fix typo in commit message
+---
+ include/hw/core/proxy-pic.h | 38 ++++++++++++++++++++++++++
+ hw/core/proxy-pic.c         | 54 +++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                 |  2 ++
+ hw/core/Kconfig             |  3 +++
+ hw/core/meson.build         |  1 +
+ 5 files changed, 98 insertions(+)
+ create mode 100644 include/hw/core/proxy-pic.h
+ create mode 100644 hw/core/proxy-pic.c
 
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  tools/virtiofsd/fuse_log.c       | 1 +
->  tools/virtiofsd/fuse_log.h       | 6 ++++--
->  tools/virtiofsd/passthrough_ll.c | 1 +
->  3 files changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/fuse_log.c b/tools/virtiofsd/fuse_log.c
-> index 745d88cd2a..2de3f48ee7 100644
-> --- a/tools/virtiofsd/fuse_log.c
-> +++ b/tools/virtiofsd/fuse_log.c
-> @@ -12,6 +12,7 @@
->  #include "fuse_log.h"
->  
->  
-> +G_GNUC_PRINTF(2, 0)
->  static void default_log_func(__attribute__((unused)) enum fuse_log_level level,
->                               const char *fmt, va_list ap)
->  {
-> diff --git a/tools/virtiofsd/fuse_log.h b/tools/virtiofsd/fuse_log.h
-> index 8d7091bd4d..e5c2967ab9 100644
-> --- a/tools/virtiofsd/fuse_log.h
-> +++ b/tools/virtiofsd/fuse_log.h
-> @@ -45,7 +45,8 @@ enum fuse_log_level {
->   * @param ap format string arguments
->   */
->  typedef void (*fuse_log_func_t)(enum fuse_log_level level, const char *fmt,
-> -                                va_list ap);
-> +                                va_list ap)
-> +    G_GNUC_PRINTF(2, 0);
->  
->  /**
->   * Install a custom log handler function.
-> @@ -68,6 +69,7 @@ void fuse_set_log_func(fuse_log_func_t func);
->   * @param level severity level (FUSE_LOG_ERR, FUSE_LOG_DEBUG, etc)
->   * @param fmt sprintf-style format string including newline
->   */
-> -void fuse_log(enum fuse_log_level level, const char *fmt, ...);
-> +void fuse_log(enum fuse_log_level level, const char *fmt, ...)
-> +    G_GNUC_PRINTF(2, 3);
->  
->  #endif /* FUSE_LOG_H_ */
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 20f0f41f99..40ea2ed27f 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -4182,6 +4182,7 @@ static void setup_nofile_rlimit(unsigned long rlimit_nofile)
->      }
->  }
->  
-> +G_GNUC_PRINTF(2, 0)
->  static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
->  {
->      g_autofree char *localfmt = NULL;
-> -- 
-> 2.38.1
-> 
+diff --git a/include/hw/core/proxy-pic.h b/include/hw/core/proxy-pic.h
+new file mode 100644
+index 0000000000..32bc7936bd
+--- /dev/null
++++ b/include/hw/core/proxy-pic.h
+@@ -0,0 +1,38 @@
++/*
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * Proxy interrupt controller device.
++ *
++ * Copyright (c) 2022 Bernhard Beschow <shentey@gmail.com>
++ */
++
++#ifndef HW_PROXY_PIC_H
++#define HW_PROXY_PIC_H
++
++#include "hw/qdev-core.h"
++#include "qom/object.h"
++#include "hw/irq.h"
++
++#define TYPE_PROXY_PIC "proxy-pic"
++OBJECT_DECLARE_SIMPLE_TYPE(ProxyPICState, PROXY_PIC)
++
++#define MAX_PROXY_PIC_LINES 16
++
++/**
++ * This is a simple device which has 16 pairs of GPIO input and output lines.
++ * Any change on an input line is forwarded to the respective output.
++ *
++ * QEMU interface:
++ *  + 16 unnamed GPIO inputs: the input lines
++ *  + 16 unnamed GPIO outputs: the output lines
++ */
++struct ProxyPICState {
++    /*< private >*/
++    struct DeviceState parent_obj;
++    /*< public >*/
++
++    qemu_irq in_irqs[MAX_PROXY_PIC_LINES];
++    qemu_irq out_irqs[MAX_PROXY_PIC_LINES];
++};
++
++#endif /* HW_PROXY_PIC_H */
+diff --git a/hw/core/proxy-pic.c b/hw/core/proxy-pic.c
+new file mode 100644
+index 0000000000..40fd70b9e2
+--- /dev/null
++++ b/hw/core/proxy-pic.c
+@@ -0,0 +1,54 @@
++/*
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * Proxy interrupt controller device.
++ *
++ * Copyright (c) 2022 Bernhard Beschow <shentey@gmail.com>
++ */
++
++#include "qemu/osdep.h"
++#include "hw/core/proxy-pic.h"
++
++static void proxy_pic_set_irq(void *opaque, int irq, int level)
++{
++    ProxyPICState *s = opaque;
++
++    qemu_set_irq(s->out_irqs[irq], level);
++}
++
++static void proxy_pic_realize(DeviceState *dev, Error **errp)
++{
++    ProxyPICState *s = PROXY_PIC(dev);
++
++    qdev_init_gpio_in(DEVICE(s), proxy_pic_set_irq, MAX_PROXY_PIC_LINES);
++    qdev_init_gpio_out(DEVICE(s), s->out_irqs, MAX_PROXY_PIC_LINES);
++
++    for (int i = 0; i < MAX_PROXY_PIC_LINES; ++i) {
++        s->in_irqs[i] = qdev_get_gpio_in(DEVICE(s), i);
++    }
++}
++
++static void proxy_pic_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    /* No state to reset or migrate */
++    dc->realize = proxy_pic_realize;
++
++    /* Reason: Needs to be wired up to work */
++    dc->user_creatable = false;
++}
++
++static const TypeInfo proxy_pic_info = {
++    .name          = TYPE_PROXY_PIC,
++    .parent        = TYPE_DEVICE,
++    .instance_size = sizeof(ProxyPICState),
++    .class_init = proxy_pic_class_init,
++};
++
++static void split_irq_register_types(void)
++{
++    type_register_static(&proxy_pic_info);
++}
++
++type_init(split_irq_register_types)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7a40d4d865..295a76bfbd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1674,6 +1674,7 @@ S: Supported
+ F: hw/char/debugcon.c
+ F: hw/char/parallel*
+ F: hw/char/serial*
++F: hw/core/proxy-pic.c
+ F: hw/dma/i8257*
+ F: hw/i2c/pm_smbus.c
+ F: hw/input/pckbd.c
+@@ -1690,6 +1691,7 @@ F: hw/watchdog/wdt_ib700.c
+ F: hw/watchdog/wdt_i6300esb.c
+ F: include/hw/display/vga.h
+ F: include/hw/char/parallel.h
++F: include/hw/core/proxy-pic.h
+ F: include/hw/dma/i8257.h
+ F: include/hw/i2c/pm_smbus.h
+ F: include/hw/input/i8042.h
+diff --git a/hw/core/Kconfig b/hw/core/Kconfig
+index 9397503656..a7224f4ca0 100644
+--- a/hw/core/Kconfig
++++ b/hw/core/Kconfig
+@@ -22,6 +22,9 @@ config OR_IRQ
+ config PLATFORM_BUS
+     bool
+ 
++config PROXY_PIC
++    bool
++
+ config REGISTER
+     bool
+ 
+diff --git a/hw/core/meson.build b/hw/core/meson.build
+index 7a4d02b6c0..e86aef6ec3 100644
+--- a/hw/core/meson.build
++++ b/hw/core/meson.build
+@@ -30,6 +30,7 @@ softmmu_ss.add(when: ['CONFIG_GUEST_LOADER', fdt], if_true: files('guest-loader.
+ softmmu_ss.add(when: 'CONFIG_OR_IRQ', if_true: files('or-irq.c'))
+ softmmu_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true: files('platform-bus.c'))
+ softmmu_ss.add(when: 'CONFIG_PTIMER', if_true: files('ptimer.c'))
++softmmu_ss.add(when: 'CONFIG_PROXY_PIC', if_true: files('proxy-pic.c'))
+ softmmu_ss.add(when: 'CONFIG_REGISTER', if_true: files('register.c'))
+ softmmu_ss.add(when: 'CONFIG_SPLIT_IRQ', if_true: files('split-irq.c'))
+ softmmu_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('stream.c'))
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.39.0
 
 
